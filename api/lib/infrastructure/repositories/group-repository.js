@@ -2,18 +2,12 @@ const Group = require('../../domain/models/Group');
 const { knex } = require('../bookshelf');
 
 async function findByCampaignId(campaignId) {
-  const groups = await knex('campaigns')
-    .where({ 'campaigns.id': campaignId })
-    .select('group')
-    .groupBy('group')
-    .join('campaign-participations', 'campaigns.id', 'campaign-participations.campaignId')
-    .join('organization-learners', function () {
-      this.on('organization-learners.userId', '=', 'campaign-participations.userId').andOn(
-        'organization-learners.organizationId',
-        '=',
-        'campaigns.organizationId'
-      );
-    });
+  const groups = await knex('organization-learners')
+    .where({ campaignId })
+    .distinct('group')
+    .whereNotNull('group')
+    .orderBy('group', 'asc')
+    .join('campaign-participations', 'organization-learners.id', 'campaign-participations.organizationLearnerId');
 
   return groups.map(({ group }) => _toDomain(group));
 }

@@ -43,11 +43,7 @@ function _buildPaginationQuery(queryBuilder, campaignId, filters) {
     .select('campaign-participations.id')
     .from('campaign-participations')
     .join('campaigns', 'campaigns.id', 'campaign-participations.campaignId')
-    .leftJoin('organization-learners', function () {
-      this.on({ 'campaign-participations.userId': 'organization-learners.userId' }).andOn({
-        'campaigns.organizationId': 'organization-learners.organizationId',
-      });
-    })
+    .join('organization-learners', 'organization-learners.id', 'campaign-participations.organizationLearnerId')
     .where('campaign-participations.campaignId', '=', campaignId)
     .where('campaign-participations.isImproved', '=', false)
     .modify(_filterByDivisions, filters)

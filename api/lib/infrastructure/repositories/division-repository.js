@@ -2,18 +2,12 @@ const Division = require('../../domain/models/Division');
 const { knex } = require('../bookshelf');
 
 async function findByCampaignId(campaignId) {
-  const divisions = await knex('campaigns')
-    .where({ 'campaigns.id ': campaignId })
-    .select('division')
-    .groupBy('division')
-    .join('campaign-participations', 'campaigns.id', 'campaign-participations.campaignId')
-    .innerJoin('organization-learners', function () {
-      this.on('organization-learners.userId', '=', 'campaign-participations.userId').andOn(
-        'organization-learners.organizationId',
-        '=',
-        'campaigns.organizationId'
-      );
-    });
+  const divisions = await knex('organization-learners')
+    .where({ campaignId })
+    .whereNotNull('division')
+    .distinct('division')
+    .orderBy('division', 'asc')
+    .join('campaign-participations', 'organization-learners.id', 'campaign-participations.organizationLearnerId');
 
   return divisions.map(({ division }) => _toDomain(division));
 }
