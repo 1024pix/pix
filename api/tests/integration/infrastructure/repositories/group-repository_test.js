@@ -8,11 +8,11 @@ describe('Integration | Repository | Group', function () {
       const group2 = 'L2';
       const campaign = databaseBuilder.factory.buildCampaign();
 
-      databaseBuilder.factory.buildCampaignParticipationWithSchoolingRegistration(
+      databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
         { organizationId: campaign.organizationId, group: group1 },
         { campaignId: campaign.id }
       );
-      databaseBuilder.factory.buildCampaignParticipationWithSchoolingRegistration(
+      databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
         { organizationId: campaign.organizationId, group: group2 },
         { campaignId: campaign.id }
       );
@@ -28,11 +28,11 @@ describe('Integration | Repository | Group', function () {
         const group = 'AB5';
         const campaign = databaseBuilder.factory.buildCampaign();
 
-        databaseBuilder.factory.buildCampaignParticipationWithSchoolingRegistration(
+        databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
           { organizationId: campaign.organizationId, group: group },
           { campaignId: campaign.id }
         );
-        databaseBuilder.factory.buildCampaignParticipationWithSchoolingRegistration(
+        databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
           { organizationId: campaign.organizationId, group: group },
           { campaignId: campaign.id }
         );
@@ -49,7 +49,7 @@ describe('Integration | Repository | Group', function () {
         const group = null;
         const campaign = databaseBuilder.factory.buildCampaign();
 
-        databaseBuilder.factory.buildCampaignParticipationWithSchoolingRegistration(
+        databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
           { organizationId: campaign.organizationId, group: group },
           { campaignId: campaign.id }
         );
@@ -66,7 +66,7 @@ describe('Integration | Repository | Group', function () {
         const group = 'AB5';
         const campaign = databaseBuilder.factory.buildCampaign();
 
-        databaseBuilder.factory.buildCampaignParticipationWithSchoolingRegistration(
+        databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
           { organizationId: campaign.organizationId, group: group },
           { campaignId: campaign.id, deletedAt: new Date() }
         );

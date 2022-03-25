@@ -15,7 +15,7 @@ describe('Integration | Repository | Campaign Participation Info', function () {
 
         campaign1 = databaseBuilder.factory.buildCampaign({ type: Campaign.types.ASSESSMENT });
 
-        campaignParticipation1 = databaseBuilder.factory.buildCampaignParticipationWithSchoolingRegistration(
+        campaignParticipation1 = databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
           {
             firstName: 'First',
             lastName: 'Last',
@@ -97,7 +97,7 @@ describe('Integration | Repository | Campaign Participation Info', function () {
         const user1Id = databaseBuilder.factory.buildUser().id;
         const user2Id = databaseBuilder.factory.buildUser().id;
 
-        campaignParticipation1 = databaseBuilder.factory.buildCampaignParticipationWithSchoolingRegistration(
+        campaignParticipation1 = databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
           { firstName: 'The', lastName: 'Narrator', division: null, group: null },
           {
             campaignId: campaign.id,
@@ -112,7 +112,7 @@ describe('Integration | Repository | Campaign Participation Info', function () {
           state: 'started',
         });
 
-        campaignParticipation2 = databaseBuilder.factory.buildCampaignParticipationWithSchoolingRegistration(
+        campaignParticipation2 = databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
           { firstName: 'Tyler', lastName: 'Durden', division: null, group: null },
           {
             campaignId: campaign.id,
@@ -180,7 +180,7 @@ describe('Integration | Repository | Campaign Participation Info', function () {
 
         const userId = databaseBuilder.factory.buildUser().id;
 
-        campaignParticipation = databaseBuilder.factory.buildCampaignParticipationWithSchoolingRegistration(
+        campaignParticipation = databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
           { firstName: 'The', lastName: 'Narrator', division: null, group: null },
           {
             campaignId: campaign.id,

@@ -3,7 +3,7 @@ const buildUser = require('./build-user');
 const databaseBuffer = require('../database-buffer');
 const _ = require('lodash');
 
-module.exports = function buildSchoolingRegistrationWithUser({
+module.exports = function buildOrganizationLearnerWithUser({
   id = databaseBuffer.getNextId(),
   firstName = 'first-name',
   preferredLastName = 'pref-last-name',

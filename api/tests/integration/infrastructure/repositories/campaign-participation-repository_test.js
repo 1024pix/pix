@@ -363,7 +363,7 @@ describe('Integration | Repository | Campaign Participation', function () {
       campaign1 = databaseBuilder.factory.buildCampaign({ organizationId, type: Campaign.types.PROFILES_COLLECTION });
       campaign2 = databaseBuilder.factory.buildCampaign({ organizationId, type: Campaign.types.PROFILES_COLLECTION });
 
-      campaignParticipation1 = databaseBuilder.factory.buildCampaignParticipationWithSchoolingRegistration(
+      campaignParticipation1 = databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
         { organizationId, firstName: 'Hubert', lastName: 'Parterre', division: '6emeD' },
         {
           campaignId: campaign1.id,

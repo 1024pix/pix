@@ -133,7 +133,7 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-c
         });
 
         schoolingRegistration = { firstName: '@Jean', lastName: '=Bono' };
-        campaignParticipation = databaseBuilder.factory.buildCampaignParticipationWithSchoolingRegistration(
+        campaignParticipation = databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
           schoolingRegistration,
           {
             createdAt,
