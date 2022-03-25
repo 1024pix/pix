@@ -25,6 +25,7 @@ module.exports = {
       .join('campaigns', 'campaigns.id', 'campaignId')
       .where({ userId })
       .whereNull('deletedAt')
+      .whereNull('archivedAt')
       .andWhere({ status: TO_SHARE })
       .andWhere({ 'campaigns.type': Campaign.types.PROFILES_COLLECTION })
       .orderBy('campaign-participations.createdAt', 'desc')
