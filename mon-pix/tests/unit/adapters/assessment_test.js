@@ -1,6 +1,5 @@
 import { describe, it } from 'mocha';
 import { expect } from 'chai';
-import sinon from 'sinon';
 import { setupTest } from 'ember-mocha';
 
 describe('Unit | Adapters | assessment', function () {
@@ -10,7 +9,6 @@ describe('Unit | Adapters | assessment', function () {
 
   beforeEach(function () {
     adapter = this.owner.lookup('adapter:assessment');
-    adapter.ajax = sinon.stub().resolves();
   });
 
   describe('#urlForUpdateRecord', () => {
