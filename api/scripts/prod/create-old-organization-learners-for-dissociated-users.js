@@ -30,12 +30,19 @@ async function createOldOrganizationLearnersForDissociatedUsers(concurrency = 1,
 }
 
 async function _createOldOrganizationLearnersForDissociatedUsers(participation) {
-  await knex('organization-learners').insert({
-    firstName: participation.firstName,
-    lastName: participation.lastName,
-    userId: participation.userId,
-    organizationId: participation.organizationId,
-  });
+  const [organizationLearnerId] = await knex('organization-learners')
+    .insert({
+      firstName: participation.firstName,
+      lastName: participation.lastName,
+      userId: participation.userId,
+      organizationId: participation.organizationId,
+    })
+    .returning('id');
+  await _updateCampaignParticipationWithOrganizationLearnerId(participation, organizationLearnerId);
+}
+
+function _updateCampaignParticipationWithOrganizationLearnerId(participation, organizationLearnerId) {
+  return knex('campaign-participations').update({ organizationLearnerId }).where('id', participation.id);
 }
 
 module.exports = createOldOrganizationLearnersForDissociatedUsers;
