@@ -106,9 +106,9 @@ When(`je clique sur le bouton pour finaliser la session`, () => {
 When('je vois une modale qui me signale {int} oubli(s) de case Écran de fin test', (endTestForgottenCount) => {
   cy.get('.pix-modal__container').should('exist');
   if(endTestForgottenCount === 0) {
-    cy.get('div.app-modal-body__warning p').should('have.length', 1);
-  } else {
     cy.get('div.app-modal-body__warning p').should('have.length', 2);
+  } else {
+    cy.get('div.app-modal-body__warning p').should('have.length', 3);
     cy.get('.app-modal-body__contextual').contains(`La case "Écran de fin du test vu" n'est pas cochée pour ${endTestForgottenCount} candidat(s)`);
   }
 });
