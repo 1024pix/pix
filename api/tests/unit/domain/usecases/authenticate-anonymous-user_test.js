@@ -1,5 +1,4 @@
 const { catchErr, expect, sinon } = require('../../../test-helper');
-const User = require('../../../../lib/domain/models/User');
 const { UserCantBeCreatedError } = require('../../../../lib/domain/errors');
 
 const authenticateAnonymousUser = require('../../../../lib/domain/usecases/authenticate-anonymous-user');
@@ -8,7 +7,7 @@ describe('Unit | UseCase | authenticate-anonymous-user', function () {
   let campaignCode;
   let lang;
   let campaignToJoinRepository;
-  let userRepository;
+  let userToCreateRepository;
   let tokenService;
 
   beforeEach(function () {
@@ -17,7 +16,7 @@ describe('Unit | UseCase | authenticate-anonymous-user', function () {
     campaignToJoinRepository = {
       getByCode: sinon.stub(),
     };
-    userRepository = {
+    userToCreateRepository = {
       create: sinon.stub(),
     };
     tokenService = {
@@ -28,23 +27,29 @@ describe('Unit | UseCase | authenticate-anonymous-user', function () {
 
   it('should create an anonymous user', async function () {
     // given
-    const expectedUser = new User({
-      firstName: '',
-      lastName: '',
-      cgu: false,
-      mustValidateTermsOfService: false,
-      isAnonymous: true,
-      lang: lang,
-    });
-    userRepository.create.resolves({ id: 1 });
+    userToCreateRepository.create.resolves({ id: 1 });
     tokenService.createAccessTokenFromUser.returns({ accessToken: 'access-token', expirationDelaySeconds: 123 });
 
     // when
-    await authenticateAnonymousUser({ campaignCode, lang, campaignToJoinRepository, userRepository, tokenService });
+    await authenticateAnonymousUser({
+      campaignCode,
+      lang,
+      campaignToJoinRepository,
+      userToCreateRepository,
+      tokenService,
+    });
 
     // then
+    const expectedUser = {
+      firstName: '',
+      lastName: '',
+      cgu: false,
+      isAnonymous: true,
+      lang: lang,
+      hasSeenAssessmentInstructions: false,
+    };
     expect(campaignToJoinRepository.getByCode).to.have.been.calledWith(campaignCode);
-    expect(userRepository.create).to.have.been.calledWith({ user: expectedUser });
+    expect(userToCreateRepository.create).to.have.been.calledWithMatch({ user: expectedUser });
   });
 
   it('should create and return an access token', async function () {
@@ -52,7 +57,7 @@ describe('Unit | UseCase | authenticate-anonymous-user', function () {
     const userId = 1;
     const accessToken = 'access.token';
 
-    userRepository.create.resolves({ id: userId });
+    userToCreateRepository.create.resolves({ id: userId });
     tokenService.createAccessTokenFromUser
       .withArgs(userId, 'pix')
       .returns({ accessToken, expirationDelaySeconds: 1000 });
@@ -61,7 +66,7 @@ describe('Unit | UseCase | authenticate-anonymous-user', function () {
     const result = await authenticateAnonymousUser({
       campaignCode,
       campaignToJoinRepository,
-      userRepository,
+      userToCreateRepository,
       tokenService,
     });
 
@@ -74,14 +79,14 @@ describe('Unit | UseCase | authenticate-anonymous-user', function () {
     const userId = 1;
     campaignCode = 'RANDOM123';
 
-    userRepository.create.resolves({ id: userId });
+    userToCreateRepository.create.resolves({ id: userId });
     campaignToJoinRepository.getByCode.withArgs(campaignCode).resolves({ isSimplifiedAccess: false });
 
     // when
     const actualError = await catchErr(authenticateAnonymousUser)({
       campaignCode,
       campaignToJoinRepository,
-      userRepository,
+      userToCreateRepository,
       tokenService,
     });
 

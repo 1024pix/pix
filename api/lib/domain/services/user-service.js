@@ -1,6 +1,7 @@
 const DomainTransaction = require('../../infrastructure/DomainTransaction');
 
 const AuthenticationMethod = require('../../domain/models/AuthenticationMethod');
+const UserToCreate = require('../models/UserToCreate');
 
 function _buildPasswordAuthenticationMethod({ userId, hashedPassword }) {
   return new AuthenticationMethod({
@@ -25,11 +26,17 @@ function _buildGARAuthenticationMethod({ externalIdentifier, user }) {
   });
 }
 
-async function createUserWithPassword({ user, hashedPassword, userRepository, authenticationMethodRepository }) {
+async function createUserWithPassword({
+  user,
+  hashedPassword,
+  userToCreateRepository,
+  authenticationMethodRepository,
+}) {
   let savedUser;
+  const userToAdd = UserToCreate.create(user);
 
   await DomainTransaction.execute(async (domainTransaction) => {
-    savedUser = await userRepository.create({ user, domainTransaction });
+    savedUser = await userToCreateRepository.create({ user: userToAdd, domainTransaction });
 
     const authenticationMethod = _buildPasswordAuthenticationMethod({
       userId: savedUser.id,
@@ -69,13 +76,15 @@ async function createAndReconcileUserToSchoolingRegistration({
   user,
   authenticationMethodRepository,
   schoolingRegistrationRepository,
-  userRepository,
+  userToCreateRepository,
 }) {
+  const userToAdd = UserToCreate.create(user);
+
   return DomainTransaction.execute(async (domainTransaction) => {
     let authenticationMethod;
 
-    const createdUser = await userRepository.create({
-      user,
+    const createdUser = await userToCreateRepository.create({
+      user: userToAdd,
       domainTransaction,
     });
 

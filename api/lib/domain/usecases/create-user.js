@@ -63,6 +63,7 @@ module.exports = async function createUser({
   authenticationMethodRepository,
   campaignRepository,
   userRepository,
+  userToCreateRepository,
   encryptionService,
   mailService,
   userService,
@@ -84,7 +85,7 @@ module.exports = async function createUser({
     const savedUser = await userService.createUserWithPassword({
       user,
       hashedPassword,
-      userRepository,
+      userToCreateRepository,
       authenticationMethodRepository,
     });
 

@@ -116,6 +116,7 @@ module.exports = async function createAndReconcileUserToSchoolingRegistration({
   campaignRepository,
   schoolingRegistrationRepository,
   userRepository,
+  userToCreateRepository,
   encryptionService,
   mailService,
   obfuscationService,
@@ -161,7 +162,7 @@ module.exports = async function createAndReconcileUserToSchoolingRegistration({
     user: domainUser,
     authenticationMethodRepository,
     schoolingRegistrationRepository,
-    userRepository,
+    userToCreateRepository,
   });
 
   const createdUser = await userRepository.get(userId);
