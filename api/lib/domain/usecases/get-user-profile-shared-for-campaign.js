@@ -1,7 +1,4 @@
-const _ = require('lodash');
-
-const Scorecard = require('../models/Scorecard');
-const SharedProfileForCampaign = require('../models/SharedProfileForCampaign');
+const SharedProfileForCampaign = require('../read-models/SharedProfileForCampaign');
 const { NoCampaignParticipationForUserAndCampaign } = require('../errors');
 
 module.exports = async function getUserProfileSharedForCampaign({
@@ -23,33 +20,27 @@ module.exports = async function getUserProfileSharedForCampaign({
     throw new NoCampaignParticipationForUserAndCampaign();
   }
 
-  const { multipleSendings: campaignAllowsRetry } = await campaignRepository.get(campaignId);
-  const isRegistrationActive = await schoolingRegistrationRepository.isActive({ campaignId, userId });
-  const [knowledgeElementsGroupedByCompetenceId, competencesWithArea] = await Promise.all([
-    knowledgeElementRepository.findUniqByUserIdGroupedByCompetenceId({
+  const [
+    { multipleSendings: campaignAllowsRetry },
+    isRegistrationActive,
+    competencesWithArea,
+    knowledgeElementsGroupedByCompetenceId,
+  ] = await Promise.all([
+    campaignRepository.get(campaignId),
+    schoolingRegistrationRepository.isActive({ campaignId, userId }),
+    competenceRepository.listPixCompetencesOnly({ locale }),
+    await knowledgeElementRepository.findUniqByUserIdGroupedByCompetenceId({
       userId,
       limitDate: campaignParticipation.sharedAt,
     }),
-    competenceRepository.listPixCompetencesOnly({ locale }),
   ]);
 
-  const scorecards = _.map(competencesWithArea, (competence) => {
-    const competenceId = competence.id;
-    const knowledgeElements = knowledgeElementsGroupedByCompetenceId[competenceId];
-
-    return Scorecard.buildFrom({
-      userId,
-      knowledgeElements,
-      competence,
-    });
-  });
-
   return new SharedProfileForCampaign({
-    id: campaignParticipation.id,
-    sharedAt: campaignParticipation.sharedAt,
-    pixScore: campaignParticipation.pixScore,
+    campaignParticipation,
     campaignAllowsRetry,
     isRegistrationActive,
-    scorecards,
+    competencesWithArea,
+    knowledgeElementsGroupedByCompetenceId,
+    userId,
   });
 };
