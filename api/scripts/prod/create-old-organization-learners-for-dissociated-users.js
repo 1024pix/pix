@@ -36,6 +36,7 @@ async function _createOldOrganizationLearnersForDissociatedUsers(participation) 
       lastName: participation.lastName,
       userId: participation.userId,
       organizationId: participation.organizationId,
+      isDisabled: true,
     })
     .returning('id');
   await _updateCampaignParticipationWithOrganizationLearnerId(participation, organizationLearnerId);
