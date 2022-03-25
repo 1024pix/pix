@@ -55,7 +55,7 @@
         width: 248px;
       }
 
-      input[type="radio"] {
+      input[type='radio'] {
         height: 20px;
         width: 20px;
       }
@@ -67,6 +67,20 @@
 
       &-double {
         width: 248px;
+      }
+
+      &__tooltip {
+        display: flex;
+        flex-wrap: wrap;
+
+        .pix-tooltip {
+          padding-left: 5px;
+          cursor: help;
+        }
+
+        .pix-tooltip__content--wide {
+          width: 600px;
+        }
       }
 
       .complementary-certifications-checkbox-list {
