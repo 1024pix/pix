@@ -11,186 +11,50 @@ module('Unit | Model | certification', function (hooks) {
     store = this.owner.lookup('service:store');
   });
 
-  module('#cleaCertificationStatusLabel', function () {
-    const cleaStatusesAndExpectedLabel = new Map([
-      [ACQUIRED, 'Validée'],
-      [REJECTED, 'Rejetée'],
-      [NOT_TAKEN, 'Non passée'],
-    ]);
-    cleaStatusesAndExpectedLabel.forEach((expectedLabel, cleaStatus) => {
-      module(`when cleaCertificationStatus is ${cleaStatus}`, function () {
-        test(`cleaCertificationStatusLabel should be ${expectedLabel}`, function (assert) {
-          // given
-          const certification = store.createRecord('certification', {
-            cleaCertificationStatus: cleaStatus,
-          });
+  const certificationStatusesAndExpectedLabel = new Map([
+    [ACQUIRED, 'Validée'],
+    [REJECTED, 'Rejetée'],
+  ]);
 
-          // when
-          const label = certification.cleaCertificationStatusLabel;
-
-          // then
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line qunit/no-assert-equal
-          assert.equal(label, expectedLabel);
-        });
-      });
-    });
-  });
-
-  module('#pixPlusDroitMaitreCertificationStatusLabel', function () {
-    const pixPlusDroitMaitreStatusesAndExpectedLabel = new Map([
-      [ACQUIRED, 'Validée'],
-      [REJECTED, 'Rejetée'],
-      [NOT_TAKEN, 'Non passée'],
-    ]);
-    pixPlusDroitMaitreStatusesAndExpectedLabel.forEach((expectedLabel, pixPlusDroitMaitreCertificationStatus) => {
-      module(`when pixPlusDroitMaitreCertificationStatus is ${pixPlusDroitMaitreCertificationStatus}`, function () {
-        test(`pixPlusDroitMaitreCertificationStatusLabel should be ${expectedLabel}`, function (assert) {
-          // given
-          const certification = store.createRecord('certification', {
-            pixPlusDroitMaitreCertificationStatus: pixPlusDroitMaitreCertificationStatus,
-          });
-
-          // when
-          const label = certification.pixPlusDroitMaitreCertificationStatusLabel;
-
-          // then
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line qunit/no-assert-equal
-          assert.equal(label, expectedLabel);
-        });
-      });
-    });
-  });
-
-  module('#pixPlusDroitExpertCertificationStatusLabel', function () {
-    const pixPlusDroitExpertStatusesAndExpectedLabel = new Map([
-      [ACQUIRED, 'Validée'],
-      [REJECTED, 'Rejetée'],
-      [NOT_TAKEN, 'Non passée'],
-    ]);
-    pixPlusDroitExpertStatusesAndExpectedLabel.forEach((expectedLabel, pixPlusDroitExpertCertificationStatus) => {
-      module(`when pixPlusDroitExpertCertificationStatus is ${pixPlusDroitExpertCertificationStatus}`, function () {
-        test(`pixPlusDroitMaitreCertificationStatusLabel should be ${expectedLabel}`, function (assert) {
-          // given
-          const certification = store.createRecord('certification', {
-            pixPlusDroitExpertCertificationStatus: pixPlusDroitExpertCertificationStatus,
-          });
-
-          // when
-          const label = certification.pixPlusDroitExpertCertificationStatusLabel;
-
-          // then
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line qunit/no-assert-equal
-          assert.equal(label, expectedLabel);
-        });
-      });
-    });
-  });
-
-  module('#pixPlusEduInitieCertificationStatusLabel', function () {
-    const pixPlusEduInitieStatusesAndExpectedLabel = new Map([
-      [ACQUIRED, 'Validée'],
-      [REJECTED, 'Rejetée'],
-      [NOT_TAKEN, 'Non passée'],
-    ]);
-    pixPlusEduInitieStatusesAndExpectedLabel.forEach((expectedLabel, pixPlusEduInitieCertificationStatus) => {
-      module(`when pixPlusEduInitieCertificationStatusLabel is ${pixPlusEduInitieCertificationStatus}`, function () {
-        test(`pixPlusEduInitieCertificationStatusLabel should be ${expectedLabel}`, function (assert) {
-          // given
-          const certification = store.createRecord('certification', {
-            pixPlusEduInitieCertificationStatus,
-          });
-
-          // when
-          const label = certification.pixPlusEduInitieCertificationStatusLabel;
-
-          // then
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line qunit/no-assert-equal
-          assert.equal(label, expectedLabel);
-        });
-      });
-    });
-  });
-
-  module('#pixPlusEduConfirmeCertificationStatusLabel', function () {
-    const pixPlusEduConfirmeStatusesAndExpectedLabel = new Map([
-      [ACQUIRED, 'Validée'],
-      [REJECTED, 'Rejetée'],
-      [NOT_TAKEN, 'Non passée'],
-    ]);
-    pixPlusEduConfirmeStatusesAndExpectedLabel.forEach((expectedLabel, pixPlusEduConfirmeCertificationStatus) => {
-      module(
-        `when pixPlusEduConfirmeCertificationStatusLabel is ${pixPlusEduConfirmeCertificationStatus}`,
-        function () {
-          test(`pixPlusEduConfirmeCertificationStatusLabel should be ${expectedLabel}`, function (assert) {
+  [
+    { domainName: 'cleaCertificationStatus', displayName: 'cleaCertificationStatusLabel' },
+    { domainName: 'pixPlusDroitMaitreCertificationStatus', displayName: 'pixPlusDroitMaitreCertificationStatusLabel' },
+    { domainName: 'pixPlusDroitExpertCertificationStatus', displayName: 'pixPlusDroitExpertCertificationStatusLabel' },
+    { domainName: 'pixPlusEduInitieCertificationStatus', displayName: 'pixPlusEduInitieCertificationStatusLabel' },
+    { domainName: 'pixPlusEduAvanceCertificationStatus', displayName: 'pixPlusEduAvanceCertificationStatusLabel' },
+    { domainName: 'pixPlusEduExpertCertificationStatus', displayName: 'pixPlusEduExpertCertificationStatusLabel' },
+    { domainName: 'pixPlusEduConfirmeCertificationStatus', displayName: 'pixPlusEduConfirmeCertificationStatusLabel' },
+  ].forEach(function ({ domainName, displayName }) {
+    module(`#${domainName}`, function () {
+      certificationStatusesAndExpectedLabel.forEach((expectedLabel, status) => {
+        module(`when ${displayName} is ${status}`, function () {
+          test(`${domainName} should be ${expectedLabel}`, function (assert) {
             // given
             const certification = store.createRecord('certification', {
-              pixPlusEduConfirmeCertificationStatus,
+              [domainName]: status,
             });
 
             // when
-            const label = certification.pixPlusEduConfirmeCertificationStatusLabel;
+            const label = certification[displayName];
 
             // then
-            // TODO: Fix this the next time the file is edited.
-            // eslint-disable-next-line qunit/no-assert-equal
-            assert.equal(label, expectedLabel);
+            assert.strictEqual(label, expectedLabel);
           });
-        }
-      );
-    });
-  });
-
-  module('#pixPlusEduAvanceCertificationStatusLabel', function () {
-    const pixPlusEduAvanceStatusesAndExpectedLabel = new Map([
-      [ACQUIRED, 'Validée'],
-      [REJECTED, 'Rejetée'],
-      [NOT_TAKEN, 'Non passée'],
-    ]);
-    pixPlusEduAvanceStatusesAndExpectedLabel.forEach((expectedLabel, pixPlusEduAvanceCertificationStatus) => {
-      module(`when pixPlusEduAvanceCertificationStatusLabel is ${pixPlusEduAvanceCertificationStatus}`, function () {
-        test(`pixPlusEduAvanceCertificationStatusLabel should be ${expectedLabel}`, function (assert) {
-          // given
-          const certification = store.createRecord('certification', {
-            pixPlusEduAvanceCertificationStatus,
-          });
-
-          // when
-          const label = certification.pixPlusEduAvanceCertificationStatusLabel;
-
-          // then
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line qunit/no-assert-equal
-          assert.equal(label, expectedLabel);
         });
       });
-    });
-  });
 
-  module('#pixPlusEduExpertCertificationStatusLabel', function () {
-    const pixPlusEduExpertStatusesAndExpectedLabel = new Map([
-      [ACQUIRED, 'Validée'],
-      [REJECTED, 'Rejetée'],
-      [NOT_TAKEN, 'Non passée'],
-    ]);
-    pixPlusEduExpertStatusesAndExpectedLabel.forEach((expectedLabel, pixPlusEduExpertCertificationStatus) => {
-      module(`when pixPlusEduExpertCertificationStatusLabel is ${pixPlusEduExpertCertificationStatus}`, function () {
-        test(`pixPlusEduExpertCertificationStatusLabel should be ${expectedLabel}`, function (assert) {
+      module(`when ${domainName} is not passed`, function () {
+        test(`${domainName} should be hidden`, function (assert) {
           // given
           const certification = store.createRecord('certification', {
-            pixPlusEduExpertCertificationStatus,
+            [domainName]: NOT_TAKEN,
           });
 
           // when
-          const label = certification.pixPlusEduExpertCertificationStatusLabel;
+          const label = certification[displayName];
 
           // then
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line qunit/no-assert-equal
-          assert.equal(label, expectedLabel);
+          assert.false(Boolean(label));
         });
       });
     });
@@ -207,9 +71,7 @@ module('Unit | Model | certification', function (hooks) {
       const isPublishedLabel = certification.publishedText;
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(isPublishedLabel, 'Oui');
+      assert.strictEqual(isPublishedLabel, 'Oui');
     });
 
     test('it should return "non" when isPublished is false', function (assert) {
@@ -222,9 +84,7 @@ module('Unit | Model | certification', function (hooks) {
       const isPublishedLabel = certification.publishedText;
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(isPublishedLabel, 'Non');
+      assert.strictEqual(isPublishedLabel, 'Non');
     });
   });
 
@@ -375,9 +235,7 @@ module('Unit | Model | certification', function (hooks) {
       const juryCertificationSummary = store.createRecord('certification', { completedAt: null });
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(juryCertificationSummary.completionDate, null);
+      assert.strictEqual(juryCertificationSummary.completionDate, null);
     });
 
     test('it should a formatted date when completedAt is defined', function (assert) {
@@ -385,9 +243,7 @@ module('Unit | Model | certification', function (hooks) {
       const juryCertificationSummary = store.createRecord('certification', { completedAt: '2021-06-30 15:10:45' });
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(juryCertificationSummary.completionDate, '30/06/2021, 15:10:45');
+      assert.strictEqual(juryCertificationSummary.completionDate, '30/06/2021, 15:10:45');
     });
   });
 

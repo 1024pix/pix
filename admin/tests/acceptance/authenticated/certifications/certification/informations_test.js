@@ -63,6 +63,24 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
     assert.dom(screen.getByText('Code INSEE de naissance : 99217')).exists();
     assert.dom(screen.getByText('Code postal de naissance :')).exists();
     assert.dom(screen.getByText('Pays de naissance : JAPON')).exists();
+  });
+
+  test('it displays validated partner certifications', async function (assert) {
+    //given
+    certification.update({
+      cleaCertificationStatus: 'acquired',
+      pixPlusDroitMaitreCertificationStatus: 'acquired',
+      pixPlusDroitExpertCertificationStatus: 'acquired',
+      pixPlusEduInitieCertificationStatus: 'acquired',
+      pixPlusEduConfirmeCertificationStatus: 'acquired',
+      pixPlusEduAvanceCertificationStatus: 'acquired',
+      pixPlusEduExpertCertificationStatus: 'acquired',
+    });
+
+    // when
+    const screen = await visitScreen(`/certifications/${certification.id}`);
+
+    // then
     assert.dom(screen.getByText('Certification CléA numérique :')).exists();
     assert.dom(screen.getByText('Certification Pix+ Droit Maître :')).exists();
     assert.dom(screen.getByText('Certification Pix+ Droit Expert :')).exists();
@@ -70,7 +88,58 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
     assert.dom(screen.getByText('Certification Pix+ Édu Confirmé :')).exists();
     assert.dom(screen.getByText('Certification Pix+ Édu Avancé :')).exists();
     assert.dom(screen.getByText('Certification Pix+ Édu Expert :')).exists();
-    assert.strictEqual(screen.getAllByText('Non passée').length, 7);
+    assert.strictEqual(screen.getAllByText('Validée').length, 7);
+  });
+
+  test('it displays rejected partner certifications', async function (assert) {
+    // given
+    certification.update({
+      cleaCertificationStatus: 'rejected',
+      pixPlusDroitMaitreCertificationStatus: 'rejected',
+      pixPlusDroitExpertCertificationStatus: 'rejected',
+      pixPlusEduInitieCertificationStatus: 'rejected',
+      pixPlusEduConfirmeCertificationStatus: 'rejected',
+      pixPlusEduAvanceCertificationStatus: 'rejected',
+      pixPlusEduExpertCertificationStatus: 'rejected',
+    });
+
+    // when
+    const screen = await visitScreen(`/certifications/${certification.id}`);
+
+    // then
+    assert.dom(screen.getByText('Certification CléA numérique :')).exists();
+    assert.dom(screen.getByText('Certification Pix+ Droit Maître :')).exists();
+    assert.dom(screen.getByText('Certification Pix+ Droit Expert :')).exists();
+    assert.dom(screen.getByText('Certification Pix+ Édu Initié (entrée dans le métier) :')).exists();
+    assert.dom(screen.getByText('Certification Pix+ Édu Confirmé :')).exists();
+    assert.dom(screen.getByText('Certification Pix+ Édu Avancé :')).exists();
+    assert.dom(screen.getByText('Certification Pix+ Édu Expert :')).exists();
+    assert.strictEqual(screen.getAllByText('Rejetée').length, 7);
+  });
+
+  test('it does not display not passed partner certifications', async function (assert) {
+    // given
+    certification.update({
+      cleaCertificationStatus: 'not_taken',
+      pixPlusDroitMaitreCertificationStatus: 'not_taken',
+      pixPlusDroitExpertCertificationStatus: 'not_taken',
+      pixPlusEduInitieCertificationStatus: 'not_taken',
+      pixPlusEduConfirmeCertificationStatus: 'not_taken',
+      pixPlusEduAvanceCertificationStatus: 'not_taken',
+      pixPlusEduExpertCertificationStatus: 'not_taken',
+    });
+
+    // when
+    const screen = await visitScreen(`/certifications/${certification.id}`);
+
+    // then
+    assert.dom(screen.queryByLabelText('Certification CléA numérique :')).doesNotExist();
+    assert.dom(screen.queryByLabelText('Certification Pix+ Droit Maître :')).doesNotExist();
+    assert.dom(screen.queryByLabelText('Certification Pix+ Droit Expert :')).doesNotExist();
+    assert.dom(screen.queryByLabelText('Certification Pix+ Édu Initié (entrée dans le métier) :')).doesNotExist();
+    assert.dom(screen.queryByLabelText('Certification Pix+ Édu Confirmé :')).doesNotExist();
+    assert.dom(screen.queryByLabelText('Certification Pix+ Édu Avancé :')).doesNotExist();
+    assert.dom(screen.queryByLabelText('Certification Pix+ Édu Expert :')).doesNotExist();
   });
 
   module('Candidate information edition', function () {
