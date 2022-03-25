@@ -2,7 +2,6 @@ const { sinon, expect, domainBuilder, hFake } = require('../../../test-helper');
 
 const User = require('../../../../lib/domain/models/User');
 const AuthenticationMethod = require('../../../../lib/domain/models/AuthenticationMethod');
-const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
 const queryParamsUtils = require('../../../../lib/infrastructure/utils/query-params-utils');
 const encryptionService = require('../../../../lib/domain/services/encryption-service');
 const mailService = require('../../../../lib/domain/services/mail-service');
@@ -37,7 +36,6 @@ describe('Unit | Controller | user-controller', function () {
     beforeEach(function () {
       sinon.stub(userSerializer, 'deserialize').returns(deserializedUser);
       sinon.stub(userSerializer, 'serialize');
-      sinon.stub(userRepository, 'create').resolves(savedUser);
       sinon.stub(validationErrorSerializer, 'serialize');
       sinon.stub(encryptionService, 'hashPassword');
       sinon.stub(mailService, 'sendAccountCreationEmail');
@@ -45,27 +43,28 @@ describe('Unit | Controller | user-controller', function () {
     });
 
     describe('when request is valid', function () {
-      const request = {
-        payload: {
-          data: {
-            attributes: {
-              'first-name': 'John',
-              'last-name': 'DoDoe',
-              email: 'john.dodoe@example.net',
-              cgu: true,
-              password,
-            },
-          },
-        },
-      };
-
       it('should return a serialized user and a 201 status code', async function () {
         // given
         const expectedSerializedUser = { message: 'serialized user' };
         userSerializer.serialize.returns(expectedSerializedUser);
 
         // when
-        const response = await userController.save(request, hFake);
+        const response = await userController.save(
+          {
+            payload: {
+              data: {
+                attributes: {
+                  'first-name': 'John',
+                  'last-name': 'DoDoe',
+                  email: 'john.dodoe@example.net',
+                  cgu: true,
+                  password,
+                },
+              },
+            },
+          },
+          hFake
+        );
 
         // then
         expect(userSerializer.serialize).to.have.been.calledWith(savedUser);
@@ -83,7 +82,22 @@ describe('Unit | Controller | user-controller', function () {
         };
 
         // when
-        await userController.save(request, hFake);
+        await userController.save(
+          {
+            payload: {
+              data: {
+                attributes: {
+                  'first-name': 'John',
+                  'last-name': 'DoDoe',
+                  email: 'john.dodoe@example.net',
+                  cgu: true,
+                  password,
+                },
+              },
+            },
+          },
+          hFake
+        );
 
         // then
         expect(usecases.createUser).to.have.been.calledWith(useCaseParameters);

@@ -32,8 +32,8 @@ describe('Integration | Application | Users | Routes', function () {
 
     context('when user create account before joining campaign', function () {
       it('should return HTTP 201', async function () {
-        // given
-        const payload = {
+        // given / when
+        const response = await httpTestServer.request('POST', '/api/users', {
           data: {
             attributes: {
               'first-name': 'marine',
@@ -53,12 +53,7 @@ describe('Integration | Application | Users | Routes', function () {
           meta: {
             'campaign-code': 'TRWYWV411',
           },
-        };
-
-        const url = '/api/users';
-
-        // when
-        const response = await httpTestServer.request('POST', url, payload);
+        });
 
         // then
         expect(response.statusCode).to.equal(201);

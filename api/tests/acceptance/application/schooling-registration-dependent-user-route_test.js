@@ -27,7 +27,6 @@ describe('Acceptance | Route | Schooling-registration-dependent-user', function 
         nationalStudentId: 'salut',
       });
       campaign = databaseBuilder.factory.buildCampaign({ organizationId: organization.id });
-
       await databaseBuilder.commit();
     });
 
