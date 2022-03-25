@@ -4,7 +4,7 @@ const pick = require('lodash/pick');
 
 describe('Integration | Scripts | create-old-organization-learners-for-dissociated-users', function () {
   describe('#createOldOrganizationLearnersForDissociatedUsers', function () {
-    it('should create a new organizationLearner', async function () {
+    it('should create a new organizationLearner with disabled status', async function () {
       const user = databaseBuilder.factory.buildUser({ firstName: 'Henri', lastName: 'Golo' });
       const campaign = databaseBuilder.factory.buildCampaign();
       const organizationLearnerId = databaseBuilder.factory.buildSchoolingRegistration().id;
@@ -29,7 +29,7 @@ describe('Integration | Scripts | create-old-organization-learners-for-dissociat
       //then
       expect(organizationLearners.length).to.equal(2);
       const organizationLearnersToCheck = organizationLearners.map((organizationLearner) =>
-        pick(organizationLearner, ['userId', 'firstName', 'lastName', 'organizationId'])
+        pick(organizationLearner, ['userId', 'firstName', 'lastName', 'organizationId', 'isDisabled'])
       );
       expect(organizationLearnersToCheck).to.deep.include.members([
         {
@@ -37,6 +37,7 @@ describe('Integration | Scripts | create-old-organization-learners-for-dissociat
           firstName: user.firstName,
           lastName: user.lastName,
           organizationId: campaign.organizationId,
+          isDisabled: true,
         },
       ]);
     });
