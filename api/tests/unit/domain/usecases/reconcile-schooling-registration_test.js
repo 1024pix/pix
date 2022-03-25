@@ -6,6 +6,7 @@ const {
   CampaignCodeError,
   NotFoundError,
   SchoolingRegistrationAlreadyLinkedToUserError,
+  UserShouldNotBeReconciledOnAnotherAccountError,
 } = require('../../../../lib/domain/errors');
 
 describe('Unit | UseCase | reconcile-schooling-registration', function () {
@@ -36,6 +37,7 @@ describe('Unit | UseCase | reconcile-schooling-registration', function () {
     schoolingRegistrationRepository = {
       reconcileUserToSchoolingRegistration: sinon.stub(),
       findOneByUserIdAndOrganizationId: sinon.stub(),
+      findByUserId: sinon.stub(),
     };
     userReconciliationService = {
       findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser: sinon.stub(),
@@ -153,6 +155,176 @@ describe('Unit | UseCase | reconcile-schooling-registration', function () {
     });
   });
 
+  context('When student is trying to be reconciled on an account', function () {
+    context('When the national student ids are different', function () {
+      context('When birthdays are identical', function () {
+        it('should reconcile accounts', async function () {
+          // given
+          const currentOrganization = 5;
+          const previousOrganization = 4;
+          const reconciliationInfo = {
+            id: 1,
+            firstName: 'Guy',
+            lastName: 'Tar',
+            birthdate: '07/12/1996',
+          };
+
+          const campaign = domainBuilder.buildCampaign();
+          const currentSchoolingRegistration = domainBuilder.buildSchoolingRegistration({
+            id: 7,
+            birthdate: '07/12/1996',
+            nationalStudentId: 'currentINE',
+            organizationId: currentOrganization,
+          });
+          const previousSchoolingRegistration = domainBuilder.buildSchoolingRegistration({
+            id: 6,
+            userId: reconciliationInfo.id,
+            birthdate: '07/12/1996',
+            nationalStudentId: 'oldINE',
+            organizationId: previousOrganization,
+          });
+
+          campaignRepository.getByCode.resolves(campaign);
+          userReconciliationService.findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser.resolves(
+            currentSchoolingRegistration
+          );
+          userReconciliationService.checkIfStudentHasAnAlreadyReconciledAccount.resolves();
+          schoolingRegistrationRepository.findOneByUserIdAndOrganizationId.resolves();
+          schoolingRegistrationRepository.findByUserId
+            .withArgs({ userId: 1 })
+            .resolves([previousSchoolingRegistration]);
+          schoolingRegistrationRepository.reconcileUserToSchoolingRegistration.resolves(currentSchoolingRegistration);
+
+          // when
+          await usecases.reconcileSchoolingRegistration({
+            reconciliationInfo,
+            withReconciliation: true,
+            campaignCode,
+            campaignRepository,
+            userReconciliationService,
+            schoolingRegistrationRepository,
+          });
+
+          // then
+          expect(
+            schoolingRegistrationRepository.reconcileUserToSchoolingRegistration
+          ).to.have.been.calledOnceWithExactly({
+            userId: reconciliationInfo.id,
+            schoolingRegistrationId: currentSchoolingRegistration.id,
+          });
+        });
+      });
+
+      context('When birthdays are different', function () {
+        it('should throw UserShouldNotBeReconciledOnAnotherAccountError error', async function () {
+          // given
+          const currentOrganization = 5;
+          const previousOrganization = 4;
+          const reconciliationInfo = {
+            id: 1,
+            firstName: 'Guy',
+            lastName: 'Tar',
+            birthdate: '07/12/1996',
+          };
+
+          const campaign = domainBuilder.buildCampaign();
+          const currentSchoolingRegistration = domainBuilder.buildSchoolingRegistration({
+            id: 7,
+            birthdate: '08/10/1980',
+            nationalStudentId: 'currentINE',
+            organizationId: currentOrganization,
+          });
+          const previousSchoolingRegistration = domainBuilder.buildSchoolingRegistration({
+            id: 6,
+            userId: reconciliationInfo.id,
+            birthdate: '07/12/1996',
+            nationalStudentId: 'oldINE',
+            organizationId: previousOrganization,
+          });
+
+          campaignRepository.getByCode.resolves(campaign);
+          userReconciliationService.findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser.resolves(
+            currentSchoolingRegistration
+          );
+          userReconciliationService.checkIfStudentHasAnAlreadyReconciledAccount.resolves();
+          schoolingRegistrationRepository.findOneByUserIdAndOrganizationId.resolves();
+          schoolingRegistrationRepository.findByUserId
+            .withArgs({ userId: 1 })
+            .resolves([previousSchoolingRegistration]);
+
+          // when
+          const error = await catchErr(usecases.reconcileSchoolingRegistration)({
+            reconciliationInfo,
+            withReconciliation: true,
+            campaignCode,
+            campaignRepository,
+            userReconciliationService,
+            schoolingRegistrationRepository,
+          });
+
+          // then
+          expect(error).to.be.instanceOf(UserShouldNotBeReconciledOnAnotherAccountError);
+        });
+      });
+    });
+
+    context('When the national student ids are identical', function () {
+      it('should reconcile accounts', async function () {
+        // given
+        const currentOrganization = 5;
+        const previousOrganization = 4;
+        const reconciliationInfo = {
+          id: 1,
+          firstName: 'Guy',
+          lastName: 'Tar',
+          birthdate: '07/12/1996',
+        };
+
+        const campaign = domainBuilder.buildCampaign();
+        const currentSchoolingRegistration = domainBuilder.buildSchoolingRegistration({
+          id: 7,
+          birthdate: '07/12/1996',
+          nationalStudentId: 'similarINE',
+          organizationId: currentOrganization,
+        });
+        const previousSchoolingRegistration = domainBuilder.buildSchoolingRegistration({
+          id: 6,
+          userId: reconciliationInfo.id,
+          birthdate: '07/12/1980',
+          nationalStudentId: 'similarINE',
+          organizationId: previousOrganization,
+        });
+
+        campaignRepository.getByCode.resolves(campaign);
+        userReconciliationService.findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser.resolves(
+          currentSchoolingRegistration
+        );
+        userReconciliationService.checkIfStudentHasAnAlreadyReconciledAccount.resolves();
+        schoolingRegistrationRepository.findOneByUserIdAndOrganizationId.resolves();
+        schoolingRegistrationRepository.findByUserId.withArgs({ userId: 1 }).resolves([previousSchoolingRegistration]);
+        schoolingRegistrationRepository.reconcileUserToSchoolingRegistration.resolves(currentSchoolingRegistration);
+
+        // when
+        await usecases.reconcileSchoolingRegistration({
+          reconciliationInfo,
+          withReconciliation: true,
+          campaignCode,
+          campaignRepository,
+          userReconciliationService,
+          schoolingRegistrationRepository,
+        });
+
+        // then
+        expect(schoolingRegistrationRepository.reconcileUserToSchoolingRegistration).to.have.been.calledOnceWithExactly(
+          {
+            userId: reconciliationInfo.id,
+            schoolingRegistrationId: currentSchoolingRegistration.id,
+          }
+        );
+      });
+    });
+  });
+
   context('When one schoolingRegistration matched on names', function () {
     it('should associate user with schoolingRegistration', async function () {
       // given
@@ -173,6 +345,7 @@ describe('Unit | UseCase | reconcile-schooling-registration', function () {
           schoolingRegistrationId,
         })
         .resolves(schoolingRegistration);
+      schoolingRegistrationRepository.findByUserId.resolves([schoolingRegistration]);
 
       // when
       const result = await usecases.reconcileSchoolingRegistration({
@@ -203,6 +376,7 @@ describe('Unit | UseCase | reconcile-schooling-registration', function () {
       userReconciliationService.findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser.resolves(
         schoolingRegistration
       );
+      schoolingRegistrationRepository.findByUserId.resolves([schoolingRegistration]);
       userReconciliationService.checkIfStudentHasAnAlreadyReconciledAccount.resolves();
 
       // when

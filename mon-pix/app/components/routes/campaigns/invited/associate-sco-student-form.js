@@ -78,6 +78,9 @@ export default class AssociateScoStudentForm extends Component {
           this.displayInformationModal = true;
           this.session.set('data.expectedUserId', error.meta.userId);
         }
+      } else if (error.status === '422' && error.code === 'ACCOUNT_SEEMS_TO_BELONGS_TO_ANOTHER_USER') {
+        this.reconciliationError = error;
+        this.displayInformationModal = true;
       } else if (error.status === '404') {
         this.errorMessage = this.intl.t('pages.join.sco.error-not-found', { htmlSafe: true });
       } else if (error.status === '400') {

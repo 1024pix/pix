@@ -20,6 +20,7 @@ const {
   CandidateNotAuthorizedToResumeCertificationTestError,
   UncancellableOrganizationInvitationError,
   SchoolingRegistrationCannotBeDissociatedError,
+  UserShouldNotBeReconciledOnAnotherAccountError,
 } = require('../../../lib/domain/errors');
 const HttpErrors = require('../../../lib/application/http-errors.js');
 
@@ -364,6 +365,21 @@ describe('Unit | Application | ErrorManager', function () {
 
       // then
       expect(HttpErrors.UnprocessableEntityError).to.have.been.calledWithExactly(error.message);
+    });
+
+    it('should instantiate UnprocessableEntityError when UserShouldNotBeReconciledOnAnotherAccountError', async function () {
+      // given
+      const code = 'ACCOUNT_SEEMS_TO_BELONGS_TO_ANOTHER_USER';
+      const meta = { shortCode: 'R90' };
+      const error = new UserShouldNotBeReconciledOnAnotherAccountError({ code, meta });
+      sinon.stub(HttpErrors, 'UnprocessableEntityError');
+      const params = { request: {}, h: hFake, error };
+
+      // when
+      await handle(params.request, params.h, params.error);
+
+      // then
+      expect(HttpErrors.UnprocessableEntityError).to.have.been.calledWithExactly(error.message, error.code, error.meta);
     });
 
     it('should instantiate PreconditionFailedError when SchoolingRegistrationCannotBeDissociatedError', async function () {
