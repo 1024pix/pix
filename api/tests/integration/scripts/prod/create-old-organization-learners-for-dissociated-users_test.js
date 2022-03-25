@@ -3,6 +3,11 @@ const createOldOrganizationLearnersForDissociatedUsers = require('../../../../sc
 const pick = require('lodash/pick');
 
 describe('Integration | Scripts | create-old-organization-learners-for-dissociated-users', function () {
+  afterEach(async function () {
+    await knex('campaign-participations').delete();
+    await knex('organization-learners').delete();
+  });
+
   describe('#createOldOrganizationLearnersForDissociatedUsers', function () {
     it('should create a new organizationLearner with disabled status', async function () {
       const user = databaseBuilder.factory.buildUser({ firstName: 'Henri', lastName: 'Golo' });
@@ -40,6 +45,46 @@ describe('Integration | Scripts | create-old-organization-learners-for-dissociat
           isDisabled: true,
         },
       ]);
+    });
+
+    it('should create a new organizationLearner for both old participations', async function () {
+      const user = databaseBuilder.factory.buildUser();
+      const campaign1 = databaseBuilder.factory.buildCampaign();
+      const organizationLearnerId = databaseBuilder.factory.buildSchoolingRegistration().id;
+      databaseBuilder.factory.buildCampaignParticipation({
+        userId: user.id,
+        campaignId: campaign1.id,
+        schoolingRegistrationId: organizationLearnerId,
+        createdAt: new Date('2020-01-01'),
+      });
+      databaseBuilder.factory.buildCampaignParticipation({
+        campaignId: campaign1.id,
+        schoolingRegistrationId: organizationLearnerId,
+        createdAt: new Date(),
+      });
+
+      const campaign2 = databaseBuilder.factory.buildCampaign();
+      const organizationLearnerId2 = databaseBuilder.factory.buildSchoolingRegistration().id;
+      databaseBuilder.factory.buildCampaignParticipation({
+        userId: user.id,
+        campaignId: campaign2.id,
+        schoolingRegistrationId: organizationLearnerId2,
+        createdAt: new Date('2020-01-01'),
+      });
+      databaseBuilder.factory.buildCampaignParticipation({
+        campaignId: campaign2.id,
+        schoolingRegistrationId: organizationLearnerId2,
+        createdAt: new Date(),
+      });
+
+      await databaseBuilder.commit();
+
+      //when
+      await createOldOrganizationLearnersForDissociatedUsers(1, false);
+      const organizationLearners = await knex('organization-learners');
+
+      //then
+      expect(organizationLearners.length).to.equal(4);
     });
 
     it('should create a new organizationLearner for old campaign participation only', async function () {

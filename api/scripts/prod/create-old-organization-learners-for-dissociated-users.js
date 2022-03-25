@@ -1,10 +1,10 @@
 // Usage: node create-old-organization-learners-for-dissociated-users.js
 
-require('dotenv').config({ path: `${__dirname}/../../.env` });
-
 const { knex } = require('../../db/knex-database-connection');
 const bluebird = require('bluebird');
+const DomainTransaction = require('../../lib/infrastructure/DomainTransaction');
 
+let count;
 let total;
 let logEnable;
 
@@ -23,27 +23,45 @@ async function createOldOrganizationLearnersForDissociatedUsers(concurrency = 1,
     .where({ 'cp1.deletedAt': null, 'cp2.deletedAt': null })
     .whereRaw('cp1."createdAt" < cp2."createdAt"');
 
+  count = 0;
   total = campaignParticipations.length;
   _log(`Participations à traiter : ${total}`);
 
-  await bluebird.map(campaignParticipations, _createOldOrganizationLearnersForDissociatedUsers, { concurrency });
+  await bluebird.map(campaignParticipations, _createOldOrganizationLearnerForDissociatedUser, { concurrency });
 }
 
-async function _createOldOrganizationLearnersForDissociatedUsers(participation) {
-  const [organizationLearnerId] = await knex('organization-learners')
-    .insert({
-      firstName: participation.firstName,
-      lastName: participation.lastName,
-      userId: participation.userId,
-      organizationId: participation.organizationId,
-      isDisabled: true,
-    })
-    .returning('id');
-  await _updateCampaignParticipationWithOrganizationLearnerId(participation, organizationLearnerId);
+async function _createOldOrganizationLearnerForDissociatedUser(participation) {
+  await DomainTransaction.execute(async (domainTransaction) => {
+    const [organizationLearnerId] = await domainTransaction
+      .knexTransaction('organization-learners')
+      .insert({
+        firstName: participation.firstName,
+        lastName: participation.lastName,
+        userId: participation.userId,
+        organizationId: participation.organizationId,
+        isDisabled: true,
+      })
+      .returning('id');
+    await _updateCampaignParticipationWithOrganizationLearnerId(
+      participation,
+      organizationLearnerId,
+      domainTransaction
+    );
+  });
+
+  count++;
+  _log(`${count} / ${total}`);
 }
 
-function _updateCampaignParticipationWithOrganizationLearnerId(participation, organizationLearnerId) {
-  return knex('campaign-participations').update({ organizationLearnerId }).where('id', participation.id);
+function _updateCampaignParticipationWithOrganizationLearnerId(
+  participation,
+  organizationLearnerId,
+  domainTransaction
+) {
+  return domainTransaction
+    .knexTransaction('campaign-participations')
+    .update({ organizationLearnerId })
+    .where('id', participation.id);
 }
 
 module.exports = createOldOrganizationLearnersForDissociatedUsers;
