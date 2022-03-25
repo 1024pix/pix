@@ -246,6 +246,14 @@ class UserNotAuthorizedToGenerateUsernamePasswordError extends DomainError {
   }
 }
 
+class UserShouldNotBeReconciledOnAnotherAccountError extends DomainError {
+  constructor({ message = "Cet utilisateur n'est pas autorisé à se réconcilier avec ce compte", code, meta }) {
+    super(message);
+    this.code = code;
+    this.meta = meta;
+  }
+}
+
 class CertificationCourseUpdateError extends DomainError {
   constructor(message = 'Échec lors la création ou de la mise à jour du test de certification.') {
     super(message);
@@ -1216,6 +1224,7 @@ module.exports = {
   UserNotMemberOfOrganizationError,
   UserOrgaSettingsCreationError,
   UserShouldChangePasswordError,
+  UserShouldNotBeReconciledOnAnotherAccountError,
   WrongDateFormatError,
   YamlParsingError,
 };

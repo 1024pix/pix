@@ -1,5 +1,10 @@
-const { CampaignCodeError, SchoolingRegistrationAlreadyLinkedToUserError } = require('../errors');
+const {
+  CampaignCodeError,
+  SchoolingRegistrationAlreadyLinkedToUserError,
+  UserShouldNotBeReconciledOnAnotherAccountError,
+} = require('../errors');
 const { STUDENT_RECONCILIATION_ERRORS } = require('../constants');
+const isEmpty = require('lodash/isEmpty');
 
 module.exports = async function reconcileSchoolingRegistration({
   campaignCode,
@@ -17,7 +22,7 @@ module.exports = async function reconcileSchoolingRegistration({
     throw new CampaignCodeError();
   }
 
-  const matchedSchoolingRegistration =
+  const schoolingRegistrationOfUserAccessingCampaign =
     await userReconciliationService.findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser({
       organizationId: campaign.organizationId,
       reconciliationInfo,
@@ -25,7 +30,7 @@ module.exports = async function reconcileSchoolingRegistration({
     });
 
   await userReconciliationService.checkIfStudentHasAnAlreadyReconciledAccount(
-    matchedSchoolingRegistration,
+    schoolingRegistrationOfUserAccessingCampaign,
     userRepository,
     obfuscationService,
     studentRepository
@@ -37,10 +42,16 @@ module.exports = async function reconcileSchoolingRegistration({
     schoolingRegistrationRepository
   );
 
+  await _checkIfUserIsConnectedOnAnotherAccount({
+    schoolingRegistrationOfUserAccessingCampaign,
+    authenticatedUserId: reconciliationInfo.id,
+    schoolingRegistrationRepository,
+  });
+
   if (withReconciliation) {
     return schoolingRegistrationRepository.reconcileUserToSchoolingRegistration({
       userId: reconciliationInfo.id,
-      schoolingRegistrationId: matchedSchoolingRegistration.id,
+      schoolingRegistrationId: schoolingRegistrationOfUserAccessingCampaign.id,
     });
   }
 };
@@ -62,5 +73,39 @@ async function _checkIfAnotherStudentIsAlreadyReconciledWithTheSameOrganizationA
       shortCode: error.shortCode,
     };
     throw new SchoolingRegistrationAlreadyLinkedToUserError(detail, error.code, meta);
+  }
+}
+
+async function _checkIfUserIsConnectedOnAnotherAccount({
+  schoolingRegistrationOfUserAccessingCampaign,
+  authenticatedUserId,
+  schoolingRegistrationRepository,
+}) {
+  const loggedAccountSchoolingRegistrationReconciled = await schoolingRegistrationRepository.findByUserId({
+    userId: authenticatedUserId,
+  });
+
+  if (isEmpty(loggedAccountSchoolingRegistrationReconciled)) {
+    return;
+  }
+
+  const isUserNationalStudentIdDifferentFromLoggedAccount = loggedAccountSchoolingRegistrationReconciled.every(
+    (schoolingRegistration) =>
+      schoolingRegistration.nationalStudentId !== schoolingRegistrationOfUserAccessingCampaign.nationalStudentId
+  );
+
+  if (isUserNationalStudentIdDifferentFromLoggedAccount) {
+    const isUserBirthdayDifferentFromLoggedAccount = loggedAccountSchoolingRegistrationReconciled.every(
+      (schoolingRegistration) =>
+        schoolingRegistration.birthdate !== schoolingRegistrationOfUserAccessingCampaign.birthdate
+    );
+
+    if (isUserBirthdayDifferentFromLoggedAccount) {
+      const error = STUDENT_RECONCILIATION_ERRORS.RECONCILIATION.ACCOUNT_BELONGING_TO_ANOTHER_USER;
+      const meta = {
+        shortCode: error.shortCode,
+      };
+      throw new UserShouldNotBeReconciledOnAnotherAccountError({ code: error.code, meta });
+    }
   }
 }

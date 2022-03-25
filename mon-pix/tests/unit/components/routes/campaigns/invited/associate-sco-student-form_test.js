@@ -227,6 +227,22 @@ describe('Unit | Component | routes/campaigns/invited/associate-sco-student-form
           expect(component.errorMessage.string).to.equal(expectedErrorMessage);
         });
       });
+
+      describe('When user is trying to reconcile on another account', () => {
+        it('should open information modal and set reconciliationError', async function () {
+          // given
+          const error = { status: '422', code: 'ACCOUNT_SEEMS_TO_BELONGS_TO_ANOTHER_USER' };
+
+          onSubmitStub.rejects({ errors: [error] });
+
+          // when
+          await component.actions.submit.call(component, attributes);
+
+          // then
+          expect(component.displayInformationModal).to.be.true;
+          expect(component.reconciliationError).to.equal(error);
+        });
+      });
     });
   });
 
