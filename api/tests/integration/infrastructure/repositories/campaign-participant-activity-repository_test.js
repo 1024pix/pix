@@ -260,6 +260,7 @@ describe('Integration | Repository | Campaign Participant activity', function ()
         const participation = { campaignId: campaign.id };
         databaseBuilder.factory.buildCampaignParticipation(participation);
         databaseBuilder.factory.buildCampaignParticipation(participation);
+        databaseBuilder.factory.buildCampaignParticipation({ ...participation, deletedAt: new Date() });
 
         await databaseBuilder.commit();
       });

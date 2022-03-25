@@ -60,6 +60,24 @@ describe('Integration | Repository | Division', function () {
         expect(divisions).to.deep.equal([]);
       });
     });
+
+    context('when participation is deleted', function () {
+      it('should not return the division of the deleted campaignParticipation', async function () {
+        const division = '5eme1';
+        const campaign = databaseBuilder.factory.buildCampaign();
+
+        databaseBuilder.factory.buildCampaignParticipationWithSchoolingRegistration(
+          { organizationId: campaign.organizationId, division: division },
+          { campaignId: campaign.id, deletedAt: '2020-01-22' }
+        );
+
+        await databaseBuilder.commit();
+
+        const divisions = await divisionRepository.findByCampaignId(campaign.id);
+
+        expect(divisions).to.deep.equal([]);
+      });
+    });
   });
 
   describe('#findByOrganizationIdForCurrentSchoolYear', function () {
