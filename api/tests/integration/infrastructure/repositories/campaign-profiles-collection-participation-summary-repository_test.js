@@ -54,14 +54,14 @@ describe('Integration | Repository | Campaign Profiles Collection Participation 
     it('should return participants data summary only for the given campaign id', async function () {
       // given
       const campaignParticipation1 = { campaignId };
-      databaseBuilder.factory.buildCampaignParticipationWithSchoolingRegistration(
+      databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
         { firstName: 'Lise', lastName: 'Quesnel' },
         campaignParticipation1,
         false
       );
       const campaignId2 = databaseBuilder.factory.buildCampaign().id;
       const campaignParticipation2 = { campaignId: campaignId2 };
-      databaseBuilder.factory.buildCampaignParticipationWithSchoolingRegistration(
+      databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
         { firstName: 'Benjamin', lastName: 'Petetot' },
         campaignParticipation2,
         false
@@ -81,22 +81,22 @@ describe('Integration | Repository | Campaign Profiles Collection Participation 
     it('should return participants data summary ordered by last name then first name asc from schooling-registration', async function () {
       // given
       const campaignParticipation = { campaignId };
-      databaseBuilder.factory.buildCampaignParticipationWithSchoolingRegistration(
+      databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
         { firstName: 'Jaja', lastName: 'Le raplapla', organizationId },
         campaignParticipation,
         false
       );
-      databaseBuilder.factory.buildCampaignParticipationWithSchoolingRegistration(
+      databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
         { firstName: 'Jiji', lastName: 'Le riquiqui', organizationId },
         campaignParticipation,
         false
       );
-      databaseBuilder.factory.buildCampaignParticipationWithSchoolingRegistration(
+      databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
         { firstName: 'Jojo', lastName: 'Le rococo', organizationId },
         campaignParticipation,
         false
       );
-      databaseBuilder.factory.buildCampaignParticipationWithSchoolingRegistration(
+      databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
         { firstName: 'Juju', lastName: 'Le riquiqui', organizationId },
         campaignParticipation,
         false
@@ -119,7 +119,7 @@ describe('Integration | Repository | Campaign Profiles Collection Participation 
       beforeEach(async function () {
         const createdAt = new Date('2018-04-06T10:00:00Z');
         const participationData = { campaignId, isShared: true, sharedAt, participantExternalId: 'JeBu', pixScore: 46 };
-        campaignParticipation = databaseBuilder.factory.buildCampaignParticipationWithSchoolingRegistration(
+        campaignParticipation = databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
           { firstName: 'Jérémy', lastName: 'bugietta', organizationId },
           participationData,
           false

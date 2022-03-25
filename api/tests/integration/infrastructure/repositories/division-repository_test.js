@@ -8,11 +8,11 @@ describe('Integration | Repository | Division', function () {
       const division2 = '3emeA';
       const campaign = databaseBuilder.factory.buildCampaign();
 
-      databaseBuilder.factory.buildCampaignParticipationWithSchoolingRegistration(
+      databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
         { organizationId: campaign.organizationId, division: division1 },
         { campaignId: campaign.id }
       );
-      databaseBuilder.factory.buildCampaignParticipationWithSchoolingRegistration(
+      databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
         { organizationId: campaign.organizationId, division: division2 },
         { campaignId: campaign.id }
       );
@@ -28,11 +28,11 @@ describe('Integration | Repository | Division', function () {
         const division = '5eme1';
         const campaign = databaseBuilder.factory.buildCampaign();
 
-        databaseBuilder.factory.buildCampaignParticipationWithSchoolingRegistration(
+        databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
           { organizationId: campaign.organizationId, division: division },
           { campaignId: campaign.id }
         );
-        databaseBuilder.factory.buildCampaignParticipationWithSchoolingRegistration(
+        databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
           { organizationId: campaign.organizationId, division: division },
           { campaignId: campaign.id }
         );
@@ -49,7 +49,7 @@ describe('Integration | Repository | Division', function () {
         const division = null;
         const campaign = databaseBuilder.factory.buildCampaign();
 
-        databaseBuilder.factory.buildCampaignParticipationWithSchoolingRegistration(
+        databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
           { organizationId: campaign.organizationId, division: division },
           { campaignId: campaign.id }
         );
@@ -66,7 +66,7 @@ describe('Integration | Repository | Division', function () {
         const division = '5eme1';
         const campaign = databaseBuilder.factory.buildCampaign();
 
-        databaseBuilder.factory.buildCampaignParticipationWithSchoolingRegistration(
+        databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
           { organizationId: campaign.organizationId, division: division },
           { campaignId: campaign.id, deletedAt: '2020-01-22' }
         );

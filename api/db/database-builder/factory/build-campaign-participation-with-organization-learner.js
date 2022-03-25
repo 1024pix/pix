@@ -1,9 +1,9 @@
 const buildAssessment = require('./build-assessment');
 const buildCampaignParticipation = require('./build-campaign-participation');
-const buildSchoolingRegistrationWithUser = require('./build-schooling-registration-with-user');
+const buildOrganizationLearnerWithUser = require('./build-organization-learner-with-user');
 
-module.exports = (schoolingRegistration, campaignParticipation, withAssessment) => {
-  const { userId, id: schoolingRegistrationId } = buildSchoolingRegistrationWithUser(schoolingRegistration);
+module.exports = (organizationLearner, campaignParticipation, withAssessment) => {
+  const { userId, id: schoolingRegistrationId } = buildOrganizationLearnerWithUser(organizationLearner);
   const campaignParticipationCreated = buildCampaignParticipation({
     userId,
     schoolingRegistrationId,
