@@ -26,7 +26,7 @@ url.pathname = '/postgres';
 
 PgClient.getClient(url.href).then(async (client) => {
   try {
-    await client.query_and_log(`DROP DATABASE ${DB_TO_DELETE_NAME};`);
+    await client.query_and_log(`DROP DATABASE ${DB_TO_DELETE_NAME} WITH (FORCE);`);
     logger.info('Database dropped');
     await client.end();
     process.exit(0);
