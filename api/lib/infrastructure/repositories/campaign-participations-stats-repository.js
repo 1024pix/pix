@@ -28,7 +28,7 @@ async function _getCumulativeParticipationCountsByDay(campaignId, column) {
     `
     SELECT CAST(:column: AS DATE) AS "day", SUM(COUNT(*)) OVER (ORDER BY CAST(:column: AS DATE)) AS "count"
     FROM "campaign-participations"
-    WHERE "campaignId" = :campaignId AND :column: IS NOT NULL AND "isImproved" = false
+    WHERE "campaignId" = :campaignId AND :column: IS NOT NULL AND "isImproved" = false AND "deletedAt" is null
     GROUP BY "day"`,
     { column, campaignId }
   );

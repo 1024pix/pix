@@ -950,10 +950,20 @@ describe('Integration | Repository | Campaign Participation', function () {
         expect(result).to.deep.equal({ started: 0, completed: 0, shared: 0 });
       });
 
+      it("should not count any participation regardless of it's status when participation is deleted ", async function () {
+        databaseBuilder.factory.buildCampaignParticipation({ campaignId, status: SHARED, deletedAt: '2022-03-17' });
+        databaseBuilder.factory.buildCampaignParticipation({ campaignId, status: TO_SHARE, deletedAt: '2022-03-17' });
+        databaseBuilder.factory.buildCampaignParticipation({ campaignId, status: STARTED, deletedAt: '2022-03-17' });
+        await databaseBuilder.commit();
+
+        const result = await campaignParticipationRepository.countParticipationsByStatus(campaignId, campaignType);
+
+        expect(result).to.deep.equal({ started: 0, completed: 0, shared: 0 });
+      });
+
       describe('Count shared Participation', function () {
         it('counts participations shared', async function () {
-          databaseBuilder.factory.buildCampaignParticipation();
-          databaseBuilder.factory.buildCampaignParticipation({ campaignId });
+          databaseBuilder.factory.buildCampaignParticipation({ campaignId, status: SHARED });
           await databaseBuilder.commit();
 
           const result = await campaignParticipationRepository.countParticipationsByStatus(campaignId, campaignType);
@@ -1060,10 +1070,19 @@ describe('Integration | Repository | Campaign Participation', function () {
         expect(result).to.deep.equal({ completed: 0, shared: 0 });
       });
 
+      it("should not count any participation regardless of it's status when participation is deleted ", async function () {
+        databaseBuilder.factory.buildCampaignParticipation({ campaignId, status: SHARED, deletedAt: '2022-03-17' });
+        databaseBuilder.factory.buildCampaignParticipation({ campaignId, status: TO_SHARE, deletedAt: '2022-03-17' });
+        await databaseBuilder.commit();
+
+        const result = await campaignParticipationRepository.countParticipationsByStatus(campaignId, campaignType);
+
+        expect(result).to.deep.equal({ completed: 0, shared: 0 });
+      });
+
       describe('Count shared Participation', function () {
         it('counts participations shared', async function () {
-          databaseBuilder.factory.buildCampaignParticipation();
-          databaseBuilder.factory.buildCampaignParticipation({ campaignId });
+          databaseBuilder.factory.buildCampaignParticipation({ campaignId, status: SHARED });
           await databaseBuilder.commit();
 
           const result = await campaignParticipationRepository.countParticipationsByStatus(campaignId, campaignType);

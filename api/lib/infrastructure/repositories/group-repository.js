@@ -4,6 +4,7 @@ const { knex } = require('../bookshelf');
 async function findByCampaignId(campaignId) {
   const groups = await knex('organization-learners')
     .where({ campaignId })
+    .where({ 'campaign-participations.deletedAt': null })
     .distinct('group')
     .whereNotNull('group')
     .orderBy('group', 'asc')

@@ -5,6 +5,7 @@ async function findByCampaignId(campaignId) {
   const divisions = await knex('organization-learners')
     .where({ campaignId })
     .whereNotNull('division')
+    .where({ 'campaign-participations.deletedAt': null })
     .distinct('division')
     .orderBy('division', 'asc')
     .join('campaign-participations', 'organization-learners.id', 'campaign-participations.organizationLearnerId');
