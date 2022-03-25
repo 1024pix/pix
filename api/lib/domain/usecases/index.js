@@ -141,6 +141,7 @@ const dependencies = {
   userEmailRepository: require('../../infrastructure/repositories/user-email-repository'),
   userOrgaSettingsRepository: require('../../infrastructure/repositories/user-orga-settings-repository'),
   userReconciliationService: require('../services/user-reconciliation-service'),
+  userToCreateRepository: require('../../infrastructure/repositories/user-to-create-repository'),
   userRepository: require('../../infrastructure/repositories/user-repository'),
   userService: require('../../domain/services/user-service'),
   userTutorialRepository: require('../../infrastructure/repositories/user-tutorial-repository'),
