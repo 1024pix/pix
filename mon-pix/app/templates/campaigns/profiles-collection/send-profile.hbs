@@ -4,58 +4,13 @@
 <div class="background-banner-wrapper">
   <div class="background-banner"></div>
   <div class="rounded-panel rounded-panel--strong rounded-panel--over-background-banner send-profile-header">
-
-    <div class="send-profile-header__announcement">
-      {{#if this.isDisabled}}
-        <img
-          class="send-profile-header__image"
-          src="{{rootURL}}/images/illustrations/fat-bee.svg"
-          alt={{t "pages.profile-already-shared.first-title"}}
-        />
-        <p class="send-profile-disabled-share__text">
-          {{t "pages.send-profile.disabled-share" htmlSafe=true}}
-        </p>
-        <LinkTo @route="index" class="send-profile-disabled-share__back-to-home link">
-          {{t "pages.send-profile.form.continue"}}
-        </LinkTo>
-      {{else}}
-        <h1 class="send-profile-header__title">
-          {{t "pages.send-profile.first-title"}}
-        </h1>
-        <p class="send-profile-header__instruction">
-          {{t "pages.send-profile.instructions" htmlSafe=true}}
-        </p>
-      {{/if}}
-    </div>
-
-    {{#unless this.isDisabled}}
-      <ProfileSharingForm
-        @sendProfile={{action "sendProfile"}}
-        @campaignParticipation={{this.model.campaignParticipation}}
-        @campaign={{this.model.campaign}}
-        @errorMessage={{this.errorMessage}}
-      />
-    {{/unless}}
-
-    <div class="send-profile-header__profile send-profile-header__profile--with-border-bottom">
-      <HexagonScore @pixScore={{this.model.user.profile.pixScore}} />
-      <div class="send-profile-header__profile__cards">
-        <ProfileScorecards
-          @interactive={{false}}
-          class="send-profile-header__profile__cards"
-          @areasCode={{this.model.user.profile.areasCode}}
-          @scorecards={{this.model.user.profile.scorecards}}
-        />
-      </div>
-    </div>
-
-    {{#unless this.isDisabled}}
-      <ProfileSharingForm
-        @sendProfile={{action "sendProfile"}}
-        @campaignParticipation={{this.model.campaignParticipation}}
-        @campaign={{this.model.campaign}}
-        @errorMessage={{this.errorMessage}}
-      />
-    {{/unless}}
+    <Routes::Campaigns::ProfilesCollection::SendProfile
+      @isDisabled={{this.isDisabled}}
+      @user={{this.model.user}}
+      @campaignParticipation={{this.model.campaignParticipation}}
+      @campaign={{this.model.campaign}}
+      @sendProfile={{this.sendProfile}}
+      @errorMessage={{this.errorMessage}}
+    />
   </div>
 </div>
