@@ -112,21 +112,16 @@ describe('Unit | Service | user-service', function () {
   });
 
   describe('#createAndReconcileUserToSchoolingRegistration', function () {
-    const samlId = 'ABCD';
-
-    beforeEach(async function () {
-      user = domainBuilder.buildUser();
-      authenticationMethod = domainBuilder.buildAuthenticationMethod.withGarAsIdentityProvider({
+    it('should call user and authenticationMethod create and function, and schoolingRegistration update function', async function () {
+      // given
+      const samlId = 'ABCD';
+      const user = domainBuilder.buildUser();
+      const authenticationMethod = domainBuilder.buildAuthenticationMethod.withGarAsIdentityProvider({
         externalIdentifier: samlId,
         userId: user.id,
       });
-    });
-
-    it('should call user and authenticationMethod create and function, and schoolingRegistration update function', async function () {
-      // given
       const schoolingRegistrationId = 1;
       userRepository.create.resolves(user);
-
       const expectedAuthenticationMethod = omit(authenticationMethod, ['id', 'createdAt', 'updatedAt']);
 
       // when
