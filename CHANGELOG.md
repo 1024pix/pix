@@ -1,5 +1,27 @@
 # Pix Changelog
 
+## v3.191.0 (28/03/2022)
+
+
+### :rocket: Amélioration
+- [#4218](https://github.com/1024pix/pix/pull/4218) [FEATURE] Ajout d'un script permettant de remplir la colonne skillId dans la table `user-saved-tutorials` (PIX-4383).
+- [#4226](https://github.com/1024pix/pix/pull/4226) [FEATURE] Mettre à jour les catégories de signalements lors de la finalisation (PIX-4608).
+- [#4242](https://github.com/1024pix/pix/pull/4242) [FEATURE] Valider ou neutraliser automatiquement une réponse à une question focus si un signalement existe (PIX-4403)
+- [#4227](https://github.com/1024pix/pix/pull/4227) [FEATURE] Clarifier la formulation lors de la finalisation de session (PIX-4546).
+- [#4241](https://github.com/1024pix/pix/pull/4241) [FEATURE] Cacher le bandeau d'envoi de profil si la campagne est archivée (PIX-4596).
+- [#4219](https://github.com/1024pix/pix/pull/4219) [FEATURE] Empêcher la réconciliation de deux personnes différentes sur un même compte (PIX-1398).
+- [#4216](https://github.com/1024pix/pix/pull/4216) [FEATURE] Ne plus afficher les participations supprimées dans l'onglet activités dans PixOrga (PIX-4573).
+- [#4225](https://github.com/1024pix/pix/pull/4225) [FEATURE] Ne pas pouvoir repasser une collecte de profil à envoi multiple supprimé (PIX-4444)
+- [#4224](https://github.com/1024pix/pix/pull/4224) [FEATURE] N'afficher que les certifications complementaires passées par le candidat (PIX-4510)
+- [#4228](https://github.com/1024pix/pix/pull/4228) [FEATURE] Ajoute une tooltip d'info tarification pour la modal d'ajout de candidat (PIX-4605)
+
+### :building_construction: Tech
+- [#4127](https://github.com/1024pix/pix/pull/4127) [TECH] Migrer la colonne Answer.id de INTEGER en BIG INTEGER (Partie 2)
+- [#4247](https://github.com/1024pix/pix/pull/4247) [TECH] Utiliser PixPagination sur les tutos v2 (PIX-4613)
+- [#4232](https://github.com/1024pix/pix/pull/4232) [TECH] Monter pix-ui en v13 sur mon-pix (PIX-4615)
+- [#4108](https://github.com/1024pix/pix/pull/4108) [TECH] Migrer la colonne Answer.id de INTEGER en BIG INTEGER (Partie 1)
+- [#4238](https://github.com/1024pix/pix/pull/4238) [TECH] Refacto du usecase send-sco-invitation (PIX-4632).
+
 ## v3.190.0 (24/03/2022)
 
 
