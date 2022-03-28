@@ -114,8 +114,10 @@ describe('Unit | Service | user-service', function () {
   describe('#createAndReconcileUserToSchoolingRegistration', function () {
     it('should call user and authenticationMethod create and function, and schoolingRegistration update function', async function () {
       // given
-      const samlId = 'ABCD';
-      const user = domainBuilder.buildUser();
+      const user = domainBuilder.buildUser({
+        firstName: 'Mnémosyne',
+        lastName: 'Pachidermata',
+      });
       const schoolingRegistrationId = 1;
       userRepository.create.resolves(user);
 
@@ -131,10 +133,6 @@ describe('Unit | Service | user-service', function () {
       await transactionToBeExecuted(domainTransaction);
 
       // then
-      const authenticationMethod = domainBuilder.buildAuthenticationMethod.withGarAsIdentityProvider({
-        externalIdentifier: samlId,
-        userId: user.id,
-      });
       expect(userRepository.create).to.have.been.calledWithMatch({
         user,
       });
