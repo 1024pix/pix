@@ -1,7 +1,7 @@
 {{#if @model}}
   <div class="user-tutorials-content-v2__container">
     <Tutorials::Cards @tutorials={{@model}} />
-    <Tutorials::PaginationControl @pagination={{@model.meta}} />
+    <PixPagination @pagination={{@model.meta}} @pageOptions={{this.pageOptions}} />
   </div>
 {{else}}
   <Tutorials::SavedEmpty />
