@@ -27,7 +27,7 @@ describe('Integration | Infrastructure | Repositories | clea-certification-resul
           // given
           databaseBuilder.factory.buildBadge({ key: PIX_EMPLOI_CLEA });
           const certificationCourseId = databaseBuilder.factory.buildCertificationCourse().id;
-          databaseBuilder.factory.buildPartnerCertification({
+          databaseBuilder.factory.buildComplementaryCertificationCourseResult({
             certificationCourseId,
             partnerKey: PIX_EMPLOI_CLEA,
             acquired: true,
@@ -48,7 +48,7 @@ describe('Integration | Infrastructure | Repositories | clea-certification-resul
             // given
             databaseBuilder.factory.buildBadge({ key: PIX_EMPLOI_CLEA });
             const certificationCourseId = databaseBuilder.factory.buildCertificationCourse().id;
-            databaseBuilder.factory.buildPartnerCertification({
+            databaseBuilder.factory.buildComplementaryCertificationCourseResult({
               certificationCourseId,
               partnerKey: PIX_EMPLOI_CLEA,
               acquired: false,
@@ -71,7 +71,7 @@ describe('Integration | Infrastructure | Repositories | clea-certification-resul
           // given
           databaseBuilder.factory.buildBadge({ key: PIX_EMPLOI_CLEA_V2 });
           const certificationCourseId = databaseBuilder.factory.buildCertificationCourse().id;
-          databaseBuilder.factory.buildPartnerCertification({
+          databaseBuilder.factory.buildComplementaryCertificationCourseResult({
             certificationCourseId,
             partnerKey: PIX_EMPLOI_CLEA_V2,
             acquired: true,
@@ -92,7 +92,7 @@ describe('Integration | Infrastructure | Repositories | clea-certification-resul
             // given
             databaseBuilder.factory.buildBadge({ key: PIX_EMPLOI_CLEA_V2 });
             const certificationCourseId = databaseBuilder.factory.buildCertificationCourse().id;
-            databaseBuilder.factory.buildPartnerCertification({
+            databaseBuilder.factory.buildComplementaryCertificationCourseResult({
               certificationCourseId,
               partnerKey: PIX_EMPLOI_CLEA_V2,
               acquired: false,

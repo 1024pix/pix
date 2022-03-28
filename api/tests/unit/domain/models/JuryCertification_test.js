@@ -51,15 +51,15 @@ describe('Unit | Domain | Models | JuryCertification', function () {
         isCancelled: false,
       };
       const certificationIssueReports = [certificationIssueReport];
-      const partnerCertifications = [
-        domainBuilder.buildPartnerCertification({ partnerKey: PIX_EMPLOI_CLEA, acquired: true }),
+      const complementaryCertificationCourseResults = [
+        domainBuilder.buildComplementaryCertificationCourseResult({ partnerKey: PIX_EMPLOI_CLEA, acquired: true }),
       ];
 
       // when
       const juryCertification = JuryCertification.from({
         juryCertificationDTO,
         certificationIssueReports,
-        partnerCertifications,
+        complementaryCertificationCourseResults,
       });
 
       // then
@@ -96,7 +96,7 @@ describe('Unit | Domain | Models | JuryCertification', function () {
         commentForJury: 'ça va',
         competenceMarks: [expectedCompetenceMark],
         certificationIssueReports,
-        partnerCertifications,
+        complementaryCertificationCourseResults,
       });
       expect(juryCertification).to.deepEqualInstance(expectedJuryCertification);
     });
@@ -114,7 +114,7 @@ describe('Unit | Domain | Models | JuryCertification', function () {
         const juryCertification = JuryCertification.from({
           juryCertificationDTO,
           certificationIssueReports: [],
-          partnerCertifications: [],
+          complementaryCertificationCourseResults: [],
         });
 
         // then
@@ -133,7 +133,7 @@ describe('Unit | Domain | Models | JuryCertification', function () {
         const juryCertification = JuryCertification.from({
           juryCertificationDTO,
           certificationIssueReports: [],
-          partnerCertifications: [],
+          complementaryCertificationCourseResults: [],
         });
 
         // then

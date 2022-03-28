@@ -47,7 +47,7 @@ module.exports = {
 
     const exists = await knex
       .select('*')
-      .from('partner-certifications')
+      .from('complementary-certification-course-results')
       .where({
         certificationCourseId: partnerCertificationScoring.certificationCourseId,
         partnerKey: partnerCertificationScoring.partnerKey,

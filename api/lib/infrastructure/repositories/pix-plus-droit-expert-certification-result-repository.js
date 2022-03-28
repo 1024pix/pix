@@ -6,7 +6,7 @@ module.exports = {
   async get({ certificationCourseId }) {
     const result = await knex
       .select('acquired')
-      .from('partner-certifications')
+      .from('complementary-certification-course-results')
       .where({ certificationCourseId, partnerKey: PIX_DROIT_EXPERT_CERTIF })
       .first();
 

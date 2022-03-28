@@ -133,7 +133,7 @@ describe('Unit | Controller | certification-course-controller', function () {
         commentForJury: 'comment jury',
         competenceMarks: [],
         certificationIssueReports: [],
-        partnerCertifications: [],
+        complementaryCertificationCourseResults: [],
       });
       sinon.stub(usecases, 'getJuryCertification').withArgs({ certificationCourseId }).resolves(juryCertification);
 

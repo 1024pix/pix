@@ -30,9 +30,9 @@ module.exports = {
     }
 
     const competenceTree = await competenceTreeRepository.get();
-    const acquiredPartnerCertifications = await _getAcquiredPartnerCertification(certificationCourseDTO.id);
+    const acquiredComplementaryCertifications = await _getAcquiredPartnerCertification(certificationCourseDTO.id);
 
-    return _toDomain(certificationCourseDTO, competenceTree, acquiredPartnerCertifications);
+    return _toDomain(certificationCourseDTO, competenceTree, acquiredComplementaryCertifications);
   },
 
   async findByDivisionForScoIsManagingStudentsOrganization({ organizationId, division }) {
@@ -146,18 +146,18 @@ async function _getAcquiredPartnerCertification(certificationCourseId) {
     PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
     PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
   ];
-  const partnerCertifications = await knex
+  const complementaryCertificationCourseResults = await knex
     .select('partnerKey', 'temporaryPartnerKey')
-    .from('partner-certifications')
+    .from('complementary-certification-course-results')
     .where({ certificationCourseId, acquired: true })
     .where(function () {
       this.whereIn('partnerKey', handledBadgeKeys).orWhereIn('temporaryPartnerKey', handledBadgeKeys);
     });
 
-  return partnerCertifications;
+  return complementaryCertificationCourseResults;
 }
 
-function _toDomain(certificationCourseDTO, competenceTree, acquiredPartnerCertifications) {
+function _toDomain(certificationCourseDTO, competenceTree, acquiredComplementaryCertifications) {
   const competenceMarks = _.compact(certificationCourseDTO.competenceMarks).map(
     (competenceMark) => new CompetenceMark({ ...competenceMark })
   );
@@ -172,6 +172,6 @@ function _toDomain(certificationCourseDTO, competenceTree, acquiredPartnerCertif
   return new CertificationAttestation({
     ...certificationCourseDTO,
     resultCompetenceTree,
-    acquiredPartnerCertifications,
+    acquiredComplementaryCertifications,
   });
 }

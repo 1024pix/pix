@@ -2,7 +2,7 @@ const databaseBuffer = require('../database-buffer');
 const buildCertificationCourse = require('./build-certification-course');
 const _ = require('lodash');
 
-module.exports = function buildPartnerCertification({
+module.exports = function buildComplementaryCertificationCourseResult({
   certificationCourseId,
   partnerKey,
   temporaryPartnerKey,
@@ -10,7 +10,7 @@ module.exports = function buildPartnerCertification({
 }) {
   certificationCourseId = _.isUndefined(certificationCourseId) ? buildCertificationCourse().id : certificationCourseId;
   return databaseBuffer.objectsToInsert.push({
-    tableName: 'partner-certifications',
+    tableName: 'complementary-certification-course-results',
     values: { certificationCourseId, partnerKey, temporaryPartnerKey, acquired },
   });
 };

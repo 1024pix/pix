@@ -2,7 +2,7 @@ const _ = require('lodash');
 const { knex } = require('../bookshelf');
 const JuryCertificationSummary = require('../../domain/read-models/JuryCertificationSummary');
 const CertificationIssueReport = require('../../domain/models/CertificationIssueReport');
-const PartnerCertification = require('../../domain/models/PartnerCertification');
+const ComplementaryCertificationCourseResult = require('../../domain/models/ComplementaryCertificationCourseResult');
 const Assessment = require('../../domain/models/Assessment');
 
 module.exports = {
@@ -22,15 +22,15 @@ module.exports = {
           )
           .select(
             knex.raw(
-              `json_agg("partner-certifications".*) over (partition by "certification-courses".id) as "partnerCertifications"`
+              `json_agg("complementary-certification-course-results".*) over (partition by "certification-courses".id) as "complementaryCertificationCourseResults"`
             )
           )
           .from('certification-courses')
           .leftJoin('assessments', 'assessments.certificationCourseId', 'certification-courses.id')
           .leftJoin('assessment-results', 'assessment-results.assessmentId', 'assessments.id')
           .leftJoin(
-            'partner-certifications',
-            'partner-certifications.certificationCourseId',
+            'complementary-certification-course-results',
+            'complementary-certification-course-results.certificationCourseId',
             'certification-courses.id'
           )
           .where('certification-courses.sessionId', sessionId);
@@ -77,9 +77,9 @@ function _toDomain(juryCertificationSummaryDTO) {
     }
   );
 
-  const partnerCertifications = _.compact(juryCertificationSummaryDTO.partnerCertifications).map(
-    PartnerCertification.from
-  );
+  const complementaryCertificationCourseResults = _.compact(
+    juryCertificationSummaryDTO.complementaryCertificationCourseResults
+  ).map(ComplementaryCertificationCourseResult.from);
 
   return new JuryCertificationSummary({
     ...juryCertificationSummaryDTO,
@@ -87,6 +87,6 @@ function _toDomain(juryCertificationSummaryDTO) {
     isCourseCancelled: juryCertificationSummaryDTO.isCancelled,
     isEndedBySupervisor: juryCertificationSummaryDTO.assessmentState === Assessment.states.ENDED_BY_SUPERVISOR,
     certificationIssueReports,
-    partnerCertifications,
+    complementaryCertificationCourseResults,
   });
 }

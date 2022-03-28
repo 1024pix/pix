@@ -104,7 +104,7 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
         pixScore: 0,
         commentForOrganization: 'Un commentaire orga 2',
         competencesWithMark: [],
-        partnerCertifications: [],
+        complementaryCertificationCourseResults: [],
       });
       const expectedSecondCertificationResult = domainBuilder.buildCertificationResult({
         id: certificationCourseId3,
@@ -119,7 +119,7 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
         pixScore: null,
         commentForOrganization: null,
         competencesWithMark: [],
-        partnerCertifications: [],
+        complementaryCertificationCourseResults: [],
       });
       const expectedThirdCertificationResult = domainBuilder.buildCertificationResult({
         id: certificationCourseId1,
@@ -144,7 +144,7 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
             assessmentResultId: assessmentResultId1,
           }),
         ],
-        partnerCertifications: [],
+        complementaryCertificationCourseResults: [],
       });
       expect(certificationResults).to.deepEqualArray([
         expectedFirstCertificationResult,
@@ -243,7 +243,7 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
         const sessionId = databaseBuilder.factory.buildSession().id;
         const certificationCourseId = await _buildCertificationResultInSession(sessionId);
         databaseBuilder.factory.buildBadge({ key: testCase.badgeKey });
-        databaseBuilder.factory.buildPartnerCertification({
+        databaseBuilder.factory.buildComplementaryCertificationCourseResult({
           certificationCourseId,
           partnerKey: testCase.badgeKey,
           acquired: true,
@@ -376,7 +376,7 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
         pixScore: 0,
         commentForOrganization: 'Un commentaire orga 2',
         competencesWithMark: [],
-        partnerCertifications: [],
+        complementaryCertificationCourseResults: [],
       });
       const expectedSecondCertificationResult = domainBuilder.buildCertificationResult({
         id: certificationCourseId3,
@@ -391,7 +391,7 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
         pixScore: null,
         commentForOrganization: null,
         competencesWithMark: [],
-        partnerCertifications: [],
+        complementaryCertificationCourseResults: [],
       });
       const expectedThirdCertificationResult = domainBuilder.buildCertificationResult({
         id: certificationCourseId1,
@@ -416,7 +416,7 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
             assessmentResultId: assessmentResultId1,
           }),
         ],
-        partnerCertifications: [],
+        complementaryCertificationCourseResults: [],
       });
       expect(certificationResults).to.deepEqualArray([
         expectedFirstCertificationResult,
@@ -522,7 +522,7 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
           sessionId
         );
         databaseBuilder.factory.buildBadge({ key: testCase.badgeKey });
-        databaseBuilder.factory.buildPartnerCertification({
+        databaseBuilder.factory.buildComplementaryCertificationCourseResult({
           certificationCourseId,
           partnerKey: testCase.badgeKey,
           acquired: true,

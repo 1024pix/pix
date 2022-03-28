@@ -117,7 +117,7 @@ describe('Integration | Repository | Badge', function () {
     await knex('skill-sets').delete();
     await knex('badge-criteria').delete();
     await knex('badge-acquisitions').delete();
-    await knex('partner-certifications').delete();
+    await knex('complementary-certification-course-results').delete();
     await knex('complementary-certification-badges').delete();
     await knex('badges').delete();
   });
@@ -581,7 +581,7 @@ describe('Integration | Repository | Badge', function () {
       it('should return true', async function () {
         // given
         const badge = databaseBuilder.factory.buildBadge();
-        databaseBuilder.factory.buildPartnerCertification({ partnerKey: badge.key });
+        databaseBuilder.factory.buildComplementaryCertificationCourseResult({ partnerKey: badge.key });
         await databaseBuilder.commit();
 
         // when
@@ -596,7 +596,7 @@ describe('Integration | Repository | Badge', function () {
       it('should return true', async function () {
         // given
         const badge = databaseBuilder.factory.buildBadge();
-        databaseBuilder.factory.buildPartnerCertification({ partnerKey: badge.key });
+        databaseBuilder.factory.buildComplementaryCertificationCourseResult({ partnerKey: badge.key });
         databaseBuilder.factory.buildComplementaryCertificationBadge({
           complementaryCertificationId: null,
           badgeId: badge.id,
@@ -611,7 +611,7 @@ describe('Integration | Repository | Badge', function () {
       });
     });
 
-    describe('when the badge is present in both complementary-certification-badges and partner-certifications', function () {
+    describe('when the badge is present in both complementary-certification-badges and complementary-certification-course-results', function () {
       it('should return true', async function () {
         // given
         const badgeId = databaseBuilder.factory.buildBadge().id;

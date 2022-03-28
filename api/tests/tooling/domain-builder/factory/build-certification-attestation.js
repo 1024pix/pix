@@ -14,7 +14,7 @@ module.exports = function buildCertificationAttestation({
   pixScore = 123,
   maxReachableLevelOnCertificationDate = 5,
   verificationCode = 'P-SOMECODE',
-  acquiredPartnerCertifications = [],
+  acquiredComplementaryCertifications = [],
   resultCompetenceTree = null,
 } = {}) {
   return new CertificationAttestation({
@@ -31,7 +31,7 @@ module.exports = function buildCertificationAttestation({
     pixScore,
     maxReachableLevelOnCertificationDate,
     verificationCode,
-    acquiredPartnerCertifications,
+    acquiredComplementaryCertifications,
     resultCompetenceTree,
   });
 };

@@ -111,7 +111,7 @@ describe('Integration | Infrastructure | Repository | Jury Certification', funct
         commentForJury: 'Un commentaire jury',
         competenceMarks: [expectedCompetenceMark],
         certificationIssueReports: [],
-        partnerCertifications: [],
+        complementaryCertificationCourseResults: [],
       });
       expect(juryCertification).to.deepEqualInstance(expectedJuryCertification);
     });
@@ -175,7 +175,7 @@ describe('Integration | Infrastructure | Repository | Jury Certification', funct
         // given
         await _buildJuryCertification(1);
         databaseBuilder.factory.buildBadge({ key: partnerKey });
-        databaseBuilder.factory.buildPartnerCertification({
+        databaseBuilder.factory.buildComplementaryCertificationCourseResult({
           certificationCourseId: 1,
           partnerKey,
           acquired: true,

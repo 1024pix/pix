@@ -38,7 +38,7 @@ describe('Acceptance | API | Certifications', function () {
       emitter: 'PIX-ALGO',
       status: 'validated',
     });
-    databaseBuilder.factory.buildPartnerCertification({
+    databaseBuilder.factory.buildComplementaryCertificationCourseResult({
       certificationCourseId: certificationCourse.id,
       partnerKey: badge.key,
     });
@@ -198,7 +198,7 @@ describe('Acceptance | API | Certifications', function () {
         area_code: '1',
         competence_code: '1.1',
         assessmentResultId: assessmentResult.id,
-        acquiredPartnerCertifications: [badge.key],
+        acquiredComplementaryCertifications: [badge.key],
       });
       return databaseBuilder.commit();
     });
@@ -352,7 +352,7 @@ describe('Acceptance | API | Certifications', function () {
         area_code: '1',
         competence_code: '1.1',
         assessmentResultId: assessmentResult.id,
-        acquiredPartnerCertifications: [badge.key],
+        acquiredComplementaryCertifications: [badge.key],
       });
       return databaseBuilder.commit();
     });
@@ -523,7 +523,7 @@ describe('Acceptance | API | Certifications', function () {
         area_code: '1',
         competence_code: '1.1',
         assessmentResultId: assessmentResult.id,
-        acquiredPartnerCertifications: [badge.key],
+        acquiredComplementaryCertifications: [badge.key],
       });
       return databaseBuilder.commit();
     });
