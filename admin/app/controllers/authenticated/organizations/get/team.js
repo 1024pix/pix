@@ -22,6 +22,7 @@ export default class GetTeamController extends Controller {
   pendingFilters = {};
 
   @service notifications;
+  @service store;
 
   updateFilters() {
     // eslint-disable-next-line ember/classic-decorator-no-classic-methods
