@@ -1,0 +1,111 @@
+<form class="form create-target-profile">
+
+  <section class="form-section">
+    <Card class="create-target-profile__card" @title="1. Information sur le profil cible">
+      <PixInput
+        class="form-field"
+        @id="targetProfileName"
+        @label="Nom (obligatoire) : "
+        required={{true}}
+        aria-required={{true}}
+        {{on "change" this.updateTargetProfileName}}
+      />
+      <div class="form-field form-group">
+        <PixSelect
+          class="form-control"
+          @id="targetProfileCategory"
+          @label="Catégorie :"
+          @onChange={{this.onCategoryChange}}
+          @selectedOption={{@targetProfile.category}}
+          @options={{this.optionsList}}
+          @emptyOptionLabel={{"-"}}
+          @emptyOptionNotSelectable={{true}}
+          required={{true}}
+          aria-required={{true}}
+        />
+      </div>
+
+      <div class="form-field form-group create-target-profile__checkbox-container">
+        <label class="create-target-profile__is-public-label" for="isPublic">Public : </label>
+        <div class="create-target-profile__is-public-checkbox">
+          <Input
+            class="form-control create-target-profile__checkbox"
+            @type="checkbox"
+            @checked={{@targetProfile.isPublic}}
+            id="isPublic"
+          />
+          <p class="create-target-profile__checkbox-label">Un profil cible marqué comme public sera affecté à toutes les
+            organisations.</p>
+        </div>
+      </div>
+
+      <div class="form-field form-group">
+        <PixInput
+          @id="organizationId"
+          @label="Identifiant de l'organisation de référence : "
+          @errorMessage=""
+          required={{true}}
+          aria-required={{true}}
+          placeholder="7777"
+          {{on "change" this.updateOwnerOrganizationId}}
+        />
+      </div>
+    </Card>
+
+    <Card class="create-target-profile__card" @title="2. Sélection des sujets">
+      <div class="create-target-profile__inline-layout">
+        <label for="framework-list" class="create-target-profile__multi-select-label">Référentiel :</label>
+        <PixMultiSelect
+          class="create-target-profile__multi-select"
+          @id="framework-list"
+          @isSearchable={{true}}
+          @showOptionsOnInput={{true}}
+          @onSelect={{this.selectFramework}}
+          @emptyMessage={{"Pas de résultat"}}
+          @selected={{this.selectedFrameworkIds}}
+          @options={{@frameworkOptions}}
+          as |option|
+        >
+          {{option.label}}
+        </PixMultiSelect>
+      </div>
+    </Card>
+    <TargetProfiles::ListTubes @orderedAreasBySelectedFrameworks={{@orderedAreasBySelectedFrameworks}} />
+    <Card class="create-target-profile__card" @title="3. Personnalisation">
+      <PixInput
+        @id="imageUrl"
+        class="input-url"
+        @label="Lien de l'image du profil cible : "
+        @information="L'url à saisir doit être celle d'OVH. Veuillez
+          vous rapprocher des équipes tech et produit pour la réalisation de celle-ci."
+        {{on "change" this.updateImageUrl}}
+      />
+      <div class="form-group">
+        <label class="textarea-label" for="description">Description : </label>
+        <PixTextarea
+          class="form-control"
+          @id="description"
+          @maxlength="500"
+          rows="4"
+          @value={{@targetProfile.description}}
+        />
+      </div>
+
+      <div class="form-group">
+        <label class="textarea-label" for="comment">Commentaire (usage interne) : </label>
+        <PixTextarea class="form-control" id="comment" @maxlength="500" rows="4" @value={{@targetProfile.comment}} />
+      </div>
+    </Card>
+  </section>
+  <section class="form-section form-actions form-section--actions">
+    <PixButton
+      @backgroundColor="transparent-light"
+      @isBorderVisible={{true}}
+      @size="big"
+      @triggerAction={{@onCancel}}
+    >Annuler</PixButton>
+    <PixButton @backgroundColor="green" @size="big" @type="submit" @isDisabled={{@isDisabled}}>
+      Créer le profil cible
+    </PixButton>
+  </section>
+</form>
