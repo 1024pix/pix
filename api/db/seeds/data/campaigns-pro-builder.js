@@ -298,6 +298,34 @@ __Plus d'infos :)__
     customLandingPageText: null,
     createdAt: new Date('2020-01-04'),
   });
+
+  databaseBuilder.factory.buildCampaign({
+    id: 25,
+    name: 'Pro - Campagne de collecte de profils - Participation supprimée',
+    code: 'PROCOLSUP',
+    type: 'PROFILES_COLLECTION',
+    organizationId: PRO_COMPANY_ID,
+    creatorId: 2,
+    ownerId: 2,
+    idPixLabel: null,
+    title: null,
+    customLandingPageText: null,
+    createdAt: new Date('2021-01-01'),
+  });
+
+  databaseBuilder.factory.buildCampaign({
+    id: 26,
+    name: 'Pro - Campagne de collecte de profils - Envois Multiples - Participation supprimée',
+    code: 'PROCOMUSU',
+    type: 'PROFILES_COLLECTION',
+    organizationId: PRO_COMPANY_ID,
+    creatorId: 2,
+    ownerId: 2,
+    idPixLabel: null,
+    title: null,
+    customLandingPageText: null,
+    createdAt: new Date('2021-01-02'),
+  });
 }
 
 function _buildParticipations({ databaseBuilder }) {
@@ -395,6 +423,10 @@ function _buildProfilesCollectionParticipations({ databaseBuilder, users }) {
   userIdsShared.forEach((user) => participateToProfilesCollectionCampaign({ databaseBuilder, campaignId: 18, user, schoolingRegistrationId: user.id, status: SHARED }));
   userIdsNotShared.forEach((user) => participateToProfilesCollectionCampaign({ databaseBuilder, campaignId: 18, user, schoolingRegistrationId: user.id, status: TO_SHARE, isImprovingOldParticipation: true }));
   [certifRegularUser1, certifRegularUser2, certifRegularUser3, certifRegularUser4, certifRegularUser5].forEach((user) => participateToProfilesCollectionCampaign({ databaseBuilder, campaignId: 18, user, schoolingRegistrationId: user.id, status: SHARED, isImprovingOldParticipation: true }));
+
+  //deleted participations
+  participateToProfilesCollectionCampaign({ databaseBuilder, campaignId: 25, user: users[0], schoolingRegistrationId: users[0].id, status: TO_SHARE, deleted: true });
+  participateToProfilesCollectionCampaign({ databaseBuilder, campaignId: 26, user: users[0], schoolingRegistrationId: users[0].id, status: TO_SHARE, deleted: true });
 }
 
 function _buildMedNumAssessmentParticipations({ databaseBuilder }) {

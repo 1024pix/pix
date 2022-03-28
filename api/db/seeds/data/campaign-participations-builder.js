@@ -126,9 +126,11 @@ function participateToAssessmentCampaign({ databaseBuilder, campaignId, user, sc
   return campaignParticipationId;
 }
 
-function participateToProfilesCollectionCampaign({ databaseBuilder, campaignId, user, schoolingRegistrationId, status, isImprovingOldParticipation = false }) {
+function participateToProfilesCollectionCampaign({ databaseBuilder, campaignId, user, schoolingRegistrationId, status, isImprovingOldParticipation = false, deleted = false }) {
   const today = new Date();
   const sharedAt = status === SHARED ? today : null;
+  const deletedAt = deleted ? today : null;
+  const deletedBy = deleted ? PIX_MASTER_ID : null;
 
   const { id: userId } = user;
   databaseBuilder.factory.buildCampaignParticipation({
@@ -139,6 +141,8 @@ function participateToProfilesCollectionCampaign({ databaseBuilder, campaignId, 
     status,
     createdAt: user.createdAt,
     sharedAt,
+    deletedAt,
+    deletedBy,
   });
 
   if (isImprovingOldParticipation) {
