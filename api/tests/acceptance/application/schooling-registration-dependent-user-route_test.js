@@ -149,9 +149,9 @@ describe('Acceptance | Route | Schooling-registration-dependent-user', function 
       });
 
       context('when username is already taken', function () {
-        it.only('should respond with a 422 - Unprocessable entity', async function () {
+        it('should respond with a 422 - Unprocessable entity', async function () {
           // given
-          const username = 'rgpd.please1234';
+          const username = 'angie.go1234';
           databaseBuilder.factory.buildUser({ username });
           await databaseBuilder.commit();
 
@@ -175,7 +175,6 @@ describe('Acceptance | Route | Schooling-registration-dependent-user', function 
           });
 
           // then
-          console.log(response);
           expect(response.statusCode).to.equal(422);
           expect(response.result.errors[0].detail).to.equal(
             'Cet identifiant n’est plus disponible, merci de recharger la page.'
