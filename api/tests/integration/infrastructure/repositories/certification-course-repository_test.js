@@ -180,7 +180,7 @@ describe('Integration | Repository | Certification Course', function () {
           },
         ],
         (acquiredPartnerCertification) =>
-          databaseBuilder.factory.buildPartnerCertification(acquiredPartnerCertification)
+          databaseBuilder.factory.buildComplementaryCertificationCourseResult(acquiredPartnerCertification)
       );
       databaseBuilder.factory.buildCertificationIssueReport({
         certificationCourseId: expectedCertificationCourse.id,

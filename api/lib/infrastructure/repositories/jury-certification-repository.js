@@ -3,7 +3,7 @@ const { NotFoundError } = require('../../domain/errors');
 const _ = require('lodash');
 const JuryCertification = require('../../domain/models/JuryCertification');
 const CertificationIssueReport = require('../../domain/models/CertificationIssueReport');
-const PartnerCertification = require('../../domain/models/PartnerCertification');
+const ComplementaryCertificationCourseResult = require('../../domain/models/ComplementaryCertificationCourseResult');
 
 module.exports = {
   async get(certificationCourseId) {
@@ -49,14 +49,18 @@ function _selectJuryCertifications() {
       commentForOrganization: 'assessment-results.commentForOrganization',
       commentForJury: 'assessment-results.commentForJury',
       competenceMarks: knex.raw('json_agg("competence-marks".* ORDER BY "competence-marks"."competence_code" asc)'),
-      partnerCertifications: knex.raw('json_agg("partner-certifications".*)'),
+      complementaryCertificationCourseResults: knex.raw('json_agg("complementary-certification-course-results".*)'),
     })
     .from('certification-courses')
     .join('assessments', 'assessments.certificationCourseId', 'certification-courses.id')
     .leftJoin('assessment-results', 'assessment-results.assessmentId', 'assessments.id')
     .modify(_filterMostRecentAssessmentResult)
     .leftJoin('competence-marks', 'competence-marks.assessmentResultId', 'assessment-results.id')
-    .leftJoin('partner-certifications', 'partner-certifications.certificationCourseId', 'certification-courses.id')
+    .leftJoin(
+      'complementary-certification-course-results',
+      'complementary-certification-course-results.certificationCourseId',
+      'certification-courses.id'
+    )
     .groupBy('certification-courses.id', 'assessments.id', 'assessment-results.id');
 }
 
@@ -85,11 +89,13 @@ async function _toDomainWithComplementaryCertifications({ juryCertificationDTO, 
       })
   );
 
-  const partnerCertifications = _.compact(juryCertificationDTO.partnerCertifications).map(PartnerCertification.from);
+  const complementaryCertificationCourseResults = _.compact(
+    juryCertificationDTO.complementaryCertificationCourseResults
+  ).map(ComplementaryCertificationCourseResult.from);
 
   return JuryCertification.from({
     juryCertificationDTO,
     certificationIssueReports,
-    partnerCertifications,
+    complementaryCertificationCourseResults,
   });
 }

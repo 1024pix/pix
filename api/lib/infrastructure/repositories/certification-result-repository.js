@@ -59,16 +59,16 @@ function _selectCertificationResults() {
     )
     .select(
       knex.raw(`
-        json_agg("partner-certifications".*) as "partnerCertifications"`)
+        json_agg("complementary-certification-course-results".*) as "complementaryCertificationCourseResults"`)
     )
     .from('certification-courses')
     .join('assessments', 'assessments.certificationCourseId', 'certification-courses.id')
     .leftJoin('assessment-results', 'assessment-results.assessmentId', 'assessments.id')
     .modify(_filterMostRecentAssessmentResult)
     .leftJoin('competence-marks', 'competence-marks.assessmentResultId', 'assessment-results.id')
-    .leftJoin('partner-certifications', function () {
-      this.on('partner-certifications.certificationCourseId', '=', 'certification-courses.id').onIn(
-        'partner-certifications.partnerKey',
+    .leftJoin('complementary-certification-course-results', function () {
+      this.on('complementary-certification-course-results.certificationCourseId', '=', 'certification-courses.id').onIn(
+        'complementary-certification-course-results.partnerKey',
         [
           PIX_EMPLOI_CLEA,
           PIX_EMPLOI_CLEA_V2,

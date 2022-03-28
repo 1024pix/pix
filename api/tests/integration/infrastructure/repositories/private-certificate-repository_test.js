@@ -304,7 +304,7 @@ describe('Integration | Infrastructure | Repository | Private Certificate', func
       }).id;
       databaseBuilder.factory.buildAssessment({ certificationCourseId: certificateId });
       databaseBuilder.factory.buildBadge({ key: PIX_EMPLOI_CLEA });
-      databaseBuilder.factory.buildPartnerCertification({
+      databaseBuilder.factory.buildComplementaryCertificationCourseResult({
         certificationCourseId: certificateId,
         partnerKey: PIX_EMPLOI_CLEA,
         acquired: true,
@@ -349,7 +349,7 @@ describe('Integration | Infrastructure | Repository | Private Certificate', func
       const { certificateId } = await _buildValidPrivateCertificate(privateCertificateData);
 
       databaseBuilder.factory.buildBadge({ key: PIX_EMPLOI_CLEA_V2 });
-      databaseBuilder.factory.buildPartnerCertification({
+      databaseBuilder.factory.buildComplementaryCertificationCourseResult({
         certificationCourseId: certificateId,
         partnerKey: PIX_EMPLOI_CLEA_V2,
         acquired: true,
@@ -824,7 +824,7 @@ describe('Integration | Infrastructure | Repository | Private Certificate', func
       }).id;
       databaseBuilder.factory.buildAssessment({ certificationCourseId: certificateId });
       databaseBuilder.factory.buildBadge({ key: PIX_EMPLOI_CLEA });
-      databaseBuilder.factory.buildPartnerCertification({
+      databaseBuilder.factory.buildComplementaryCertificationCourseResult({
         certificationCourseId: certificateId,
         partnerKey: PIX_EMPLOI_CLEA,
         acquired: true,
@@ -920,7 +920,7 @@ async function _buildValidPrivateCertificateWithAcquiredAndNotAcquiredBadges({
 
   acquiredBadges?.forEach((badgeKey) => {
     databaseBuilder.factory.buildBadge({ key: badgeKey });
-    databaseBuilder.factory.buildPartnerCertification({
+    databaseBuilder.factory.buildComplementaryCertificationCourseResult({
       certificationCourseId: certificateId,
       partnerKey: badgeKey,
       acquired: true,
@@ -928,7 +928,7 @@ async function _buildValidPrivateCertificateWithAcquiredAndNotAcquiredBadges({
   });
   temporaryAcquiredBadges?.forEach((badgeKey) => {
     databaseBuilder.factory.buildBadge({ key: badgeKey });
-    databaseBuilder.factory.buildPartnerCertification({
+    databaseBuilder.factory.buildComplementaryCertificationCourseResult({
       certificationCourseId: certificateId,
       temporaryPartnerKey: badgeKey,
       acquired: true,
@@ -937,7 +937,7 @@ async function _buildValidPrivateCertificateWithAcquiredAndNotAcquiredBadges({
 
   notAcquiredBadges.forEach((badgeKey) => {
     databaseBuilder.factory.buildBadge({ key: badgeKey });
-    databaseBuilder.factory.buildPartnerCertification({
+    databaseBuilder.factory.buildComplementaryCertificationCourseResult({
       certificationCourseId: certificateId,
       partnerKey: badgeKey,
       acquired: false,

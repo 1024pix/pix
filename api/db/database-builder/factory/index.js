@@ -22,7 +22,7 @@ module.exports = {
   buildCertificationCenter: require('./build-certification-center'),
   buildCertificationCenterMembership: require('./build-certification-center-membership'),
   buildCertificationChallenge: require('./build-certification-challenge'),
-  buildPartnerCertification: require('./build-partner-certification'),
+  buildComplementaryCertificationCourseResult: require('./build-complementary-certification-course-result'),
   buildCertificationCourse: require('./build-certification-course'),
   buildCertificationCpfCity: require('./build-certification-cpf-city'),
   buildCertificationIssueReport: require('./build-certification-issue-report'),

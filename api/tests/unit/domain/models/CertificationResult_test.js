@@ -49,7 +49,7 @@ describe('Unit | Domain | Models | CertificationResult', function () {
             competenceId: 'recComp23',
           },
         ],
-        partnerCertifications: [],
+        complementaryCertificationCourseResults: [],
       };
     });
 
@@ -100,7 +100,7 @@ describe('Unit | Domain | Models | CertificationResult', function () {
             assessmentResultId: 753,
           }),
         ],
-        partnerCertifications: [],
+        complementaryCertificationCourseResults: [],
       });
       expect(certificationResult).to.deepEqualInstance(expectedCertificationResult);
     });
@@ -374,7 +374,9 @@ describe('Unit | Domain | Models | CertificationResult', function () {
         it(`returns true when ${partnerKey} certification has been taken in the certification`, async function () {
           // given
           const certificationResult = domainBuilder.buildCertificationResult({
-            partnerCertifications: [domainBuilder.buildPartnerCertification({ partnerKey })],
+            complementaryCertificationCourseResults: [
+              domainBuilder.buildComplementaryCertificationCourseResult({ partnerKey }),
+            ],
           });
 
           // when
@@ -387,7 +389,7 @@ describe('Unit | Domain | Models | CertificationResult', function () {
         it(`returns false when ${partnerKey} certification has not been taken in the certification`, async function () {
           // given
           const certificationResult = domainBuilder.buildCertificationResult({
-            partnerCertifications: [],
+            complementaryCertificationCourseResults: [],
           });
 
           // when
@@ -419,7 +421,9 @@ describe('Unit | Domain | Models | CertificationResult', function () {
         it(`returns true when ${partnerKey} certification has been acquired`, async function () {
           // given
           const certificationResult = domainBuilder.buildCertificationResult({
-            partnerCertifications: [domainBuilder.buildPartnerCertification({ partnerKey, acquired: true })],
+            complementaryCertificationCourseResults: [
+              domainBuilder.buildComplementaryCertificationCourseResult({ partnerKey, acquired: true }),
+            ],
           });
 
           // when
@@ -432,7 +436,9 @@ describe('Unit | Domain | Models | CertificationResult', function () {
         it(`returns false when ${partnerKey} certification has not been acquired`, async function () {
           // given
           const certificationResult = domainBuilder.buildCertificationResult({
-            partnerCertifications: [domainBuilder.buildPartnerCertification({ partnerKey, acquired: false })],
+            complementaryCertificationCourseResults: [
+              domainBuilder.buildComplementaryCertificationCourseResult({ partnerKey, acquired: false }),
+            ],
           });
           // when
           const hasAcquired = certificationResult[method]();

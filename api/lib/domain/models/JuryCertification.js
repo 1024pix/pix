@@ -16,7 +16,7 @@ const status = {
   CANCELLED: 'cancelled',
 };
 
-const partnerCertificationStatus = {
+const complementaryCertificationStatus = {
   ACQUIRED: 'acquired',
   REJECTED: 'rejected',
   NOT_TAKEN: 'not_taken',
@@ -47,7 +47,7 @@ class JuryCertification {
     commentForOrganization,
     commentForJury,
     certificationIssueReports,
-    partnerCertifications,
+    complementaryCertificationCourseResults,
   }) {
     this.certificationCourseId = certificationCourseId;
     this.sessionId = sessionId;
@@ -72,10 +72,10 @@ class JuryCertification {
     this.commentForOrganization = commentForOrganization;
     this.commentForJury = commentForJury;
     this.certificationIssueReports = certificationIssueReports;
-    this.partnerCertifications = partnerCertifications;
+    this.complementaryCertificationCourseResults = complementaryCertificationCourseResults;
   }
 
-  static from({ juryCertificationDTO, certificationIssueReports, partnerCertifications }) {
+  static from({ juryCertificationDTO, certificationIssueReports, complementaryCertificationCourseResults }) {
     const competenceMarkDTOs = _.compact(juryCertificationDTO.competenceMarks).map(
       (competenceMarkDTO) =>
         new CompetenceMark({
@@ -107,49 +107,51 @@ class JuryCertification {
       commentForOrganization: juryCertificationDTO.commentForOrganization,
       commentForJury: juryCertificationDTO.commentForJury,
       certificationIssueReports,
-      partnerCertifications,
+      complementaryCertificationCourseResults,
     });
   }
 
   getCleaCertificationStatus() {
-    return this._getStatusFromPartnerCertification([PIX_EMPLOI_CLEA, PIX_EMPLOI_CLEA_V2]);
+    return this._getStatusFromComplementaryCertification([PIX_EMPLOI_CLEA, PIX_EMPLOI_CLEA_V2]);
   }
 
   getPixPlusDroitMaitreCertificationStatus() {
-    return this._getStatusFromPartnerCertification([PIX_DROIT_MAITRE_CERTIF]);
+    return this._getStatusFromComplementaryCertification([PIX_DROIT_MAITRE_CERTIF]);
   }
 
   getPixPlusDroitExpertCertificationStatus() {
-    return this._getStatusFromPartnerCertification([PIX_DROIT_EXPERT_CERTIF]);
+    return this._getStatusFromComplementaryCertification([PIX_DROIT_EXPERT_CERTIF]);
   }
 
   getPixPlusEduInitieCertificationStatus() {
-    return this._getStatusFromPartnerCertification([PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE]);
+    return this._getStatusFromComplementaryCertification([PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE]);
   }
 
   getPixPlusEduConfirmeCertificationStatus() {
-    return this._getStatusFromPartnerCertification([
+    return this._getStatusFromComplementaryCertification([
       PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME,
       PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME,
     ]);
   }
 
   getPixPlusEduAvanceCertificationStatus() {
-    return this._getStatusFromPartnerCertification([PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE]);
+    return this._getStatusFromComplementaryCertification([PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE]);
   }
 
   getPixPlusEduExpertCertificationStatus() {
-    return this._getStatusFromPartnerCertification([PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT]);
+    return this._getStatusFromComplementaryCertification([PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT]);
   }
 
-  _getStatusFromPartnerCertification(partnerCertificationKeys) {
-    const partnerCertification = this.partnerCertifications.find(({ partnerKey }) =>
-      partnerCertificationKeys.includes(partnerKey)
+  _getStatusFromComplementaryCertification(complementaryCertificationKeys) {
+    const complementaryCertificationCourseResult = this.complementaryCertificationCourseResults.find(({ partnerKey }) =>
+      complementaryCertificationKeys.includes(partnerKey)
     );
-    if (!partnerCertification) {
-      return partnerCertificationStatus.NOT_TAKEN;
+    if (!complementaryCertificationCourseResult) {
+      return complementaryCertificationStatus.NOT_TAKEN;
     }
-    return partnerCertification.acquired ? partnerCertificationStatus.ACQUIRED : partnerCertificationStatus.REJECTED;
+    return complementaryCertificationCourseResult.acquired
+      ? complementaryCertificationStatus.ACQUIRED
+      : complementaryCertificationStatus.REJECTED;
   }
 }
 
