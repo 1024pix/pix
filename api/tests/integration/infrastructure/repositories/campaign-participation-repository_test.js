@@ -357,9 +357,10 @@ describe('Integration | Repository | Campaign Participation', function () {
     let campaign1;
     let campaign2;
     let campaignParticipation1;
+    let organizationId;
 
     beforeEach(async function () {
-      const organizationId = databaseBuilder.factory.buildOrganization().id;
+      organizationId = databaseBuilder.factory.buildOrganization().id;
       campaign1 = databaseBuilder.factory.buildCampaign({ organizationId, type: Campaign.types.PROFILES_COLLECTION });
       campaign2 = databaseBuilder.factory.buildCampaign({ organizationId, type: Campaign.types.PROFILES_COLLECTION });
 
@@ -379,6 +380,38 @@ describe('Integration | Repository | Campaign Participation', function () {
     it('should return the campaign-participation linked to the given campaign', async function () {
       // given
       const campaignId = campaign1.id;
+
+      // when
+      const participationResultDatas =
+        await campaignParticipationRepository.findProfilesCollectionResultDataByCampaignId(campaignId);
+
+      // then
+      const attributes = participationResultDatas.map((participationResultData) =>
+        _.pick(participationResultData, ['id', 'isShared', 'sharedAt', 'participantExternalId', 'userId'])
+      );
+      expect(attributes).to.deep.equal([
+        {
+          id: campaignParticipation1.id,
+          isShared: true,
+          sharedAt: campaignParticipation1.sharedAt,
+          participantExternalId: campaignParticipation1.participantExternalId,
+          userId: campaignParticipation1.userId,
+        },
+      ]);
+    });
+
+    it('should not return the deleted campaign-participation linked to the given campaign', async function () {
+      // given
+      const campaignId = campaign1.id;
+      databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
+        { organizationId, firstName: 'Piere', lastName: 'Pi air', division: '6emeD' },
+        {
+          campaignId: campaign1.id,
+          createdAt: new Date('2017-03-15T14:59:35Z'),
+          deletedAt: new Date(),
+        }
+      );
+      await databaseBuilder.commit();
 
       // when
       const participationResultDatas =
