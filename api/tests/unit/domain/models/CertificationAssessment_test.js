@@ -2,6 +2,7 @@ const _ = require('lodash');
 const CertificationAssessment = require('../../../../lib/domain/models/CertificationAssessment');
 const AnswerStatus = require('../../../../lib/domain/models/AnswerStatus');
 const NeutralizationAttempt = require('../../../../lib/domain/models/NeutralizationAttempt');
+const CertificationAnswerStatusChangeAttempt = require('../../../../lib/domain/models/CertificationAnswerStatusChangeAttempt');
 const { expect, domainBuilder } = require('../../../test-helper');
 const {
   ObjectValidationError,
@@ -635,7 +636,7 @@ describe('Unit | Domain | Models | CertificationAssessment', function () {
       const recId = certificationAssessment.getChallengeRecIdByQuestionNumber(2);
 
       // then
-      expect(recId).to.equal(null);
+      expect(recId).to.be.undefined;
     });
   });
 
@@ -740,6 +741,167 @@ describe('Unit | Domain | Models | CertificationAssessment', function () {
           (certificationChallenge) => certificationChallenge.challengeId === 'rec789'
         ).isNeutralized
       ).to.be.false;
+    });
+  });
+
+  describe('#getAnswerByQuestionNumber', function () {
+    it('should return the answer by question number', function () {
+      // given
+      const certificationAssessment = domainBuilder.buildCertificationAssessment({
+        certificationChallenges: [
+          domainBuilder.buildCertificationChallengeWithType({
+            challengeId: 'rec123',
+          }),
+          domainBuilder.buildCertificationChallengeWithType({
+            challengeId: 'rec456',
+          }),
+          domainBuilder.buildCertificationChallengeWithType({
+            challengeId: 'rec789',
+          }),
+        ],
+        certificationAnswersByDate: [
+          domainBuilder.buildAnswer({
+            challengeId: 'rec123',
+          }),
+          domainBuilder.buildAnswer({
+            challengeId: 'rec456',
+          }),
+          domainBuilder.buildAnswer({
+            challengeId: 'rec789',
+          }),
+        ],
+      });
+
+      // when
+      const certificationAssessmentAnswer = certificationAssessment.getAnswerByQuestionNumber(2);
+
+      // then
+      expect(certificationAssessmentAnswer).to.deep.equal(
+        domainBuilder.buildAnswer({
+          challengeId: 'rec456',
+        })
+      );
+    });
+
+    it('should return undefined when there is no such question', function () {
+      // given
+      const answer = domainBuilder.buildAnswer({
+        challengeId: 'rec123',
+      });
+      const certificationAssessment = domainBuilder.buildCertificationAssessment({
+        certificationChallenges: [
+          domainBuilder.buildCertificationChallengeWithType({
+            challengeId: 'rec123',
+          }),
+        ],
+        certificationAnswersByDate: [answer],
+      });
+
+      // when
+      const certificationAssessmentAnswer = certificationAssessment.getAnswerByQuestionNumber(3);
+
+      // then
+      expect(certificationAssessmentAnswer).to.be.undefined;
+    });
+  });
+
+  describe('#validateAnswerByNumberIfFocusedOut', function () {
+    context('when question number does not exist', function () {
+      it('should return a failed CertificationAnswerStatusChangeAttempt', function () {
+        // given
+        const certificationAssessment = domainBuilder.buildCertificationAssessment({
+          certificationChallenges: [
+            domainBuilder.buildCertificationChallengeWithType({
+              challengeId: 'rec123',
+            }),
+          ],
+          certificationAnswersByDate: [
+            domainBuilder.buildAnswer({
+              challengeId: 'rec123',
+              result: AnswerStatus.FOCUSEDOUT,
+            }),
+          ],
+        });
+
+        // when
+        const changeAttempt = certificationAssessment.validateAnswerByNumberIfFocusedOut(3);
+
+        // then
+        expect(changeAttempt).to.deep.equal(CertificationAnswerStatusChangeAttempt.failed(3));
+      });
+    });
+
+    context('when the answer is focused out', function () {
+      it('should validate it', function () {
+        // given
+        const certificationAssessment = domainBuilder.buildCertificationAssessment({
+          certificationChallenges: [
+            domainBuilder.buildCertificationChallengeWithType({
+              challengeId: 'rec123',
+            }),
+          ],
+          certificationAnswersByDate: [
+            domainBuilder.buildAnswer({
+              challengeId: 'rec123',
+              result: AnswerStatus.FOCUSEDOUT,
+            }),
+          ],
+        });
+
+        // when
+        certificationAssessment.validateAnswerByNumberIfFocusedOut(1);
+
+        // then
+        expect(certificationAssessment.certificationAnswersByDate[0].result).to.deep.equal(AnswerStatus.OK);
+      });
+
+      it('should return a changed CertificationAnswerStatusChangeAttempt', function () {
+        // given
+        const certificationAssessment = domainBuilder.buildCertificationAssessment({
+          certificationChallenges: [
+            domainBuilder.buildCertificationChallengeWithType({
+              challengeId: 'rec123',
+            }),
+          ],
+          certificationAnswersByDate: [
+            domainBuilder.buildAnswer({
+              challengeId: 'rec123',
+              result: AnswerStatus.FOCUSEDOUT,
+            }),
+          ],
+        });
+
+        // when
+        const changeAttempt = certificationAssessment.validateAnswerByNumberIfFocusedOut(1);
+
+        // then
+        expect(changeAttempt).to.deep.equal(CertificationAnswerStatusChangeAttempt.changed(1));
+      });
+    });
+
+    context('when the answer is not focused out', function () {
+      it('should return a skipped CertificationAnswerStatusChangeAttempt', function () {
+        // given
+        const certificationAssessment = domainBuilder.buildCertificationAssessment({
+          certificationChallenges: [
+            domainBuilder.buildCertificationChallengeWithType({
+              challengeId: 'rec123',
+            }),
+          ],
+          certificationAnswersByDate: [
+            domainBuilder.buildAnswer({
+              challengeId: 'rec123',
+              result: AnswerStatus.KO,
+            }),
+          ],
+        });
+
+        // when
+        const changeAttempt = certificationAssessment.validateAnswerByNumberIfFocusedOut(1);
+
+        // then
+        expect(changeAttempt).to.deep.equal(CertificationAnswerStatusChangeAttempt.skipped(1));
+      });
     });
   });
 });

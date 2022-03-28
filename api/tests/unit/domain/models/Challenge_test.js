@@ -144,4 +144,22 @@ describe('Unit | Domain | Models | Challenge', function () {
       expect(challenge.hasAtLeastOneAttachment()).to.be.false;
     });
   });
+
+  describe('#isFocused', function () {
+    it('returns true when focused is true', function () {
+      // given
+      const challenge = domainBuilder.buildChallenge({ focused: true });
+
+      // when then
+      expect(challenge.isFocused()).to.be.true;
+    });
+
+    it('returns false when focused is false', function () {
+      // given
+      const challenge = domainBuilder.buildChallenge({ focused: false });
+
+      // when then
+      expect(challenge.isFocused()).to.be.false;
+    });
+  });
 });

@@ -115,6 +115,10 @@ class Challenge {
     return Array.isArray(this.attachments) && this.attachments.length > 0;
   }
 
+  isFocused() {
+    return this.focused;
+  }
+
   static createValidatorForChallengeType({ challengeType, solution }) {
     switch (challengeType) {
       case ChallengeType.QCU:

@@ -13,6 +13,7 @@ const {
   neutralizeIfEmbedStrategy,
   neutralizeIfAttachmentStrategy,
   neutralizeIfTimedChallengeStrategy,
+  neutralizeOrValidateIfFocusedChallengeStrategy,
   doNotResolveStrategy,
 } = require('../../../../lib/domain/models/CertificationIssueReportResolutionStrategies');
 
@@ -1250,6 +1251,302 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
     });
   });
 
+  context('#NEUTRALIZE_OR_VALIDATE_IF_FOCUSED_CHALLENGE', function () {
+    context('when challenge is focused', function () {
+      context('when answer has been focused out', function () {
+        it('resolved successfully', async function () {
+          // given
+          const certificationChallenge = domainBuilder.buildCertificationChallengeWithType();
+          const certificationAnswer = domainBuilder.buildAnswer.focusedOut({
+            challengeId: certificationChallenge.challengeId,
+          });
+          const certificationAssessment = domainBuilder.buildCertificationAssessment({
+            certificationChallenges: [certificationChallenge],
+            certificationAnswersByDate: [certificationAnswer],
+          });
+          const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
+            subcategory: CertificationIssueReportSubcategories.UNINTENTIONAL_FOCUS_OUT,
+            category: CertificationIssueReportCategories.IN_CHALLENGE,
+            questionNumber: 1,
+          });
+          const focusedChallenge = domainBuilder.buildChallenge({ focused: true });
+          const certificationIssueReportRepository = {
+            save: sinon.stub(),
+          };
+          const challengeRepository = {
+            get: sinon.stub().resolves(focusedChallenge),
+          };
+
+          // when
+          const resolutionAttempt = await neutralizeOrValidateIfFocusedChallengeStrategy({
+            certificationIssueReport,
+            certificationAssessment,
+            certificationIssueReportRepository,
+            challengeRepository,
+          });
+
+          // then
+          expect(resolutionAttempt).to.deep.deepEqualInstance(
+            CertificationIssueReportResolutionAttempt.resolvedWithEffect()
+          );
+        });
+
+        it('resolves the issue report', async function () {
+          // given
+          const certificationChallenge = domainBuilder.buildCertificationChallengeWithType();
+          const certificationAnswer = domainBuilder.buildAnswer.skipped({
+            challengeId: certificationChallenge.challengeId,
+          });
+          const certificationAssessment = domainBuilder.buildCertificationAssessment({
+            certificationChallenges: [certificationChallenge],
+            certificationAnswersByDate: [certificationAnswer],
+          });
+          const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
+            subcategory: CertificationIssueReportSubcategories.UNINTENTIONAL_FOCUS_OUT,
+            category: CertificationIssueReportCategories.IN_CHALLENGE,
+            questionNumber: 1,
+          });
+
+          const focusedChallenge = domainBuilder.buildChallenge({
+            focused: true,
+          });
+
+          const certificationIssueReportRepository = {
+            save: sinon.stub(),
+          };
+
+          const challengeRepository = {
+            get: sinon.stub().resolves(focusedChallenge),
+          };
+
+          // when
+          await neutralizeOrValidateIfFocusedChallengeStrategy({
+            certificationIssueReport,
+            certificationAssessment,
+            certificationIssueReportRepository,
+            challengeRepository,
+          });
+
+          // then
+          expect(certificationIssueReport.isResolved()).to.be.true;
+          expect(certificationIssueReport.resolution).to.equal('Cette question a été neutralisée automatiquement');
+          expect(certificationIssueReportRepository.save).to.have.been.calledOnceWithExactly(certificationIssueReport);
+        });
+      });
+
+      context('when answer has been skipped', function () {
+        it('resolved successfully', async function () {
+          // given
+          const certificationChallenge = domainBuilder.buildCertificationChallengeWithType();
+          const certificationAnswer = domainBuilder.buildAnswer.focusedOut({
+            challengeId: certificationChallenge.challengeId,
+          });
+          const certificationAssessment = domainBuilder.buildCertificationAssessment({
+            certificationChallenges: [certificationChallenge],
+            certificationAnswersByDate: [certificationAnswer],
+          });
+          const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
+            subcategory: CertificationIssueReportSubcategories.UNINTENTIONAL_FOCUS_OUT,
+            category: CertificationIssueReportCategories.IN_CHALLENGE,
+            questionNumber: 1,
+          });
+          const focusedChallenge = domainBuilder.buildChallenge({ focused: true });
+          const certificationIssueReportRepository = {
+            save: sinon.stub(),
+          };
+          const challengeRepository = {
+            get: sinon.stub().resolves(focusedChallenge),
+          };
+
+          // when
+          const resolutionAttempt = await neutralizeOrValidateIfFocusedChallengeStrategy({
+            certificationIssueReport,
+            certificationAssessment,
+            certificationIssueReportRepository,
+            challengeRepository,
+          });
+
+          // then
+          expect(resolutionAttempt).to.deep.deepEqualInstance(
+            CertificationIssueReportResolutionAttempt.resolvedWithEffect()
+          );
+        });
+
+        it('resolves the issue report', async function () {
+          // given
+          const certificationChallenge = domainBuilder.buildCertificationChallengeWithType();
+          const certificationAnswer = domainBuilder.buildAnswer.focusedOut({
+            challengeId: certificationChallenge.challengeId,
+          });
+          const certificationAssessment = domainBuilder.buildCertificationAssessment({
+            certificationChallenges: [certificationChallenge],
+            certificationAnswersByDate: [certificationAnswer],
+          });
+          const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
+            subcategory: CertificationIssueReportSubcategories.UNINTENTIONAL_FOCUS_OUT,
+            category: CertificationIssueReportCategories.IN_CHALLENGE,
+            questionNumber: 1,
+          });
+
+          const focusedChallenge = domainBuilder.buildChallenge({
+            focused: true,
+          });
+
+          const certificationIssueReportRepository = {
+            save: sinon.stub(),
+          };
+
+          const challengeRepository = {
+            get: sinon.stub().resolves(focusedChallenge),
+          };
+
+          // when
+          await neutralizeOrValidateIfFocusedChallengeStrategy({
+            certificationIssueReport,
+            certificationAssessment,
+            certificationIssueReportRepository,
+            challengeRepository,
+          });
+
+          // then
+          expect(certificationIssueReport.isResolved()).to.be.true;
+          expect(certificationIssueReport.resolution).to.equal('Cette réponse a été acceptée automatiquement');
+          expect(certificationIssueReportRepository.save).to.have.been.calledOnceWithExactly(certificationIssueReport);
+        });
+      });
+    });
+
+    context('the challenge does not contain the question designated by the question number', function () {
+      it('returns a successful resolution attempt without effect', async function () {
+        // given
+        const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
+          subcategory: CertificationIssueReportSubcategories.UNINTENTIONAL_FOCUS_OUT,
+          category: CertificationIssueReportCategories.IN_CHALLENGE,
+          questionNumber: 1,
+        });
+        const certificationIssueReportRepository = {
+          save: () => {},
+        };
+        const certificationAssessment = domainBuilder.buildCertificationAssessment({
+          certificationChallenges: [domainBuilder.buildCertificationChallengeWithType()],
+          certificationAnswersByDate: [],
+        });
+
+        // when
+        const neutralizationOrValidationAttempt = await neutralizeOrValidateIfFocusedChallengeStrategy({
+          certificationIssueReport,
+          certificationAssessment,
+          certificationIssueReportRepository,
+        });
+
+        // then
+        expect(neutralizationOrValidationAttempt).to.deepEqualInstance(
+          CertificationIssueReportResolutionAttempt.resolvedWithoutEffect()
+        );
+      });
+
+      it('resolves the certification issue report anyway', async function () {
+        // given
+        const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
+          subcategory: CertificationIssueReportSubcategories.UNINTENTIONAL_FOCUS_OUT,
+          category: CertificationIssueReportCategories.IN_CHALLENGE,
+          questionNumber: 1,
+        });
+        const certificationIssueReportRepository = {
+          save: sinon.stub(),
+        };
+        const certificationAssessment = domainBuilder.buildCertificationAssessment({
+          certificationChallenges: [domainBuilder.buildCertificationChallengeWithType()],
+          certificationAnswersByDate: [],
+        });
+
+        // when
+        await neutralizeOrValidateIfFocusedChallengeStrategy({
+          certificationIssueReport,
+          certificationAssessment,
+          certificationIssueReportRepository,
+        });
+
+        // then
+        expect(certificationIssueReport.isResolved()).to.be.true;
+        expect(certificationIssueReport.resolution).to.equal(`Aucune question ne correspond au numéro 1`);
+        expect(certificationIssueReportRepository.save).to.have.been.calledOnceWithExactly(certificationIssueReport);
+      });
+    });
+
+    context('When challenge is not focused', function () {
+      it('returns a successful resolution without effect', async function () {
+        // given
+        const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
+          subcategory: CertificationIssueReportSubcategories.UNINTENTIONAL_FOCUS_OUT,
+          category: CertificationIssueReportCategories.IN_CHALLENGE,
+          questionNumber: 1,
+        });
+        const notFocusedChallenge = domainBuilder.buildChallenge({ focused: false });
+        const certificationIssueReportRepository = {
+          save: () => {},
+        };
+        const challengeRepository = {
+          get: sinon.stub().resolves(notFocusedChallenge),
+        };
+        const certificationChallenge = domainBuilder.buildCertificationChallengeWithType();
+        const certificationAssessment = domainBuilder.buildCertificationAssessment({
+          certificationChallenges: [certificationChallenge],
+          certificationAnswersByDate: [domainBuilder.buildAnswer({ challengeId: certificationChallenge.challengeId })],
+        });
+
+        // when
+        const neutralizationOrValidationAttempt = await neutralizeOrValidateIfFocusedChallengeStrategy({
+          certificationIssueReport,
+          certificationAssessment,
+          certificationIssueReportRepository,
+          challengeRepository,
+        });
+
+        // then
+        expect(neutralizationOrValidationAttempt).to.deepEqualInstance(
+          CertificationIssueReportResolutionAttempt.resolvedWithoutEffect()
+        );
+      });
+
+      it('resolves the certification issue report anyway', async function () {
+        // given
+        const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
+          subcategory: CertificationIssueReportSubcategories.UNINTENTIONAL_FOCUS_OUT,
+          category: CertificationIssueReportCategories.IN_CHALLENGE,
+          questionNumber: 1,
+        });
+        const notFocusedChallenge = domainBuilder.buildChallenge({ focused: false });
+        const certificationIssueReportRepository = {
+          save: sinon.stub(),
+        };
+        const challengeRepository = {
+          get: sinon.stub().resolves(notFocusedChallenge),
+        };
+        const certificationChallenge = domainBuilder.buildCertificationChallengeWithType();
+        const certificationAssessment = domainBuilder.buildCertificationAssessment({
+          certificationChallenges: [certificationChallenge],
+          certificationAnswersByDate: [domainBuilder.buildAnswer({ challengeId: certificationChallenge.challengeId })],
+        });
+
+        // when
+        await neutralizeOrValidateIfFocusedChallengeStrategy({
+          certificationIssueReport,
+          certificationAssessment,
+          certificationIssueReportRepository,
+          challengeRepository,
+        });
+
+        // then
+        expect(certificationIssueReport.isResolved()).to.be.true;
+        expect(certificationIssueReport.resolution).to.equal(
+          "Cette question n' a pas été neutralisée car ce n'est pas une question focus"
+        );
+        expect(certificationIssueReportRepository.save).to.have.been.calledOnceWithExactly(certificationIssueReport);
+      });
+    });
+  });
+
   context('#DO_NOT_RESOLVE', function () {
     it('returns an unresolved resolution attempt', async function () {
       // given
@@ -1371,6 +1668,12 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
         // eslint-disable-next-line mocha/no-setup-in-describe
         subCategoryToBeResolved: CertificationIssueReportSubcategories.OTHER,
         strategyToBeApplied: 'doNotResolve',
+      },
+
+      {
+        // eslint-disable-next-line mocha/no-setup-in-describe
+        subCategoryToBeResolved: CertificationIssueReportSubcategories.UNINTENTIONAL_FOCUS_OUT,
+        strategyToBeApplied: 'neutralizeOrValidateIfFocusedChallenge',
       },
     ].forEach(({ subCategoryToBeResolved, strategyToBeApplied }) => {
       it(`apply strategy "${strategyToBeApplied}" when resolving issue report of subcategory "${subCategoryToBeResolved}"`, async function () {
