@@ -24,7 +24,7 @@ describe('Acceptance | User-tutorials-v2 | Recommended', function () {
       await visit('/mes-tutos-v2/recommandes');
       expect(findAll('.tutorial-card-v2')).to.exist;
       expect(findAll('.tutorial-card-v2')).to.be.lengthOf(10);
-      expect(find('.page-navigation .page-number').textContent).to.contain('Page 1 / 10');
+      expect(find('.pix-pagination__navigation').textContent).to.contain('Page 1 / 10');
     });
   });
 });
