@@ -113,6 +113,7 @@ const subcategoryCodeImpactful = [
   CertificationIssueReportSubcategories.OTHER,
   CertificationIssueReportSubcategories.EXTRA_TIME_EXCEEDED,
   CertificationIssueReportSubcategories.SOFTWARE_NOT_WORKING,
+  CertificationIssueReportSubcategories.UNINTENTIONAL_FOCUS_OUT,
 ];
 
 const deprecatedSubcategories = [

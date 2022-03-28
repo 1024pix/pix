@@ -420,6 +420,12 @@ describe('Unit | Domain | Models | CertificationIssueReport', function () {
             subcategory: 'SOFTWARE_NOT_WORKING',
             questionNumber: 42,
           },
+          {
+            certificationCourseId: 42,
+            category: 'IN_CHALLENGE',
+            subcategory: 'UNINTENTIONAL_FOCUS_OUT',
+            questionNumber: 42,
+          },
           { certificationCourseId: 42, category: 'TECHNICAL_PROBLEM', description: 'toto' },
         ].forEach((certificationIssueReportDTO) => {
           it(`for ${certificationIssueReportDTO.category} ${
