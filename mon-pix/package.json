@@ -43,6 +43,7 @@
     "@ember/jquery": "^2.0.0",
     "@ember/optional-features": "^2.0.0",
     "@ember/render-modifiers": "^1.0.2",
+    "@formatjs/intl": "^2.1.1",
     "@formatjs/intl-getcanonicallocales": "^1.7.3",
     "@formatjs/intl-locale": "^2.4.36",
     "@formatjs/intl-pluralrules": "^4.1.2",
