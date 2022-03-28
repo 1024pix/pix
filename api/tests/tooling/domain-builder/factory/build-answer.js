@@ -112,4 +112,27 @@ buildAnswer.skipped = function ({
   });
 };
 
+buildAnswer.focusedOut = function ({
+  id = 123,
+  resultDetails = null,
+  timeout = null,
+  value = '1',
+  assessmentId = 456,
+  challengeId = 'recChallenge123',
+  timeSpent = 20,
+  isFocusedOut = false,
+} = {}) {
+  return buildAnswer({
+    id,
+    result: AnswerStatus.FOCUSEDOUT,
+    resultDetails,
+    timeout,
+    value,
+    assessmentId,
+    challengeId,
+    timeSpent,
+    isFocusedOut,
+  });
+};
+
 module.exports = buildAnswer;

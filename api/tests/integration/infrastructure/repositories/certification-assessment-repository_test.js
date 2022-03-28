@@ -3,6 +3,7 @@ const { NotFoundError } = require('../../../../lib/domain/errors');
 const certificationAssessmentRepository = require('../../../../lib/infrastructure/repositories/certification-assessment-repository');
 const CertificationAssessment = require('../../../../lib/domain/models/CertificationAssessment');
 const Challenge = require('../../../../lib/domain/models/Challenge');
+const AnswerStatus = require('../../../../lib/domain/models/AnswerStatus');
 const _ = require('lodash');
 
 describe('Integration | Infrastructure | Repositories | certification-assessment-repository', function () {
@@ -341,6 +342,54 @@ describe('Integration | Infrastructure | Repositories | certification-assessment
       const persistedCertificationAssessment = await certificationAssessmentRepository.get(certificationAssessmentId);
       expect(persistedCertificationAssessment.certificationChallenges[0].hasBeenSkippedAutomatically).to.be.false;
       expect(persistedCertificationAssessment.certificationChallenges[1].hasBeenSkippedAutomatically).to.be.true;
+    });
+
+    it('persists the mutation of focused out answers', async function () {
+      // given
+      const dbf = databaseBuilder.factory;
+      const userId = dbf.buildUser().id;
+      const certificationCourseId = dbf.buildCertificationCourse({ userId }).id;
+      const certificationAssessmentId = dbf.buildAssessment({
+        userId,
+        certificationCourseId,
+      }).id;
+      const certificationChallenge1RecId = 'rec1234';
+      const certificationChallenge2RecId = 'rec567';
+
+      dbf.buildAnswer({
+        assessmentId: certificationAssessmentId,
+        challengeId: certificationChallenge1RecId,
+        result: 'focusedOut',
+        createdAt: new Date('2022-01-01'),
+      });
+      dbf.buildCertificationChallenge({
+        challengeId: certificationChallenge1RecId,
+        courseId: certificationCourseId,
+      });
+      dbf.buildAnswer({
+        assessmentId: certificationAssessmentId,
+        challengeId: certificationChallenge2RecId,
+        result: 'aband',
+        createdAt: new Date('2022-01-02'),
+      });
+      dbf.buildCertificationChallenge({
+        challengeId: certificationChallenge2RecId,
+        courseId: certificationCourseId,
+      });
+
+      await databaseBuilder.commit();
+      const certificationAssessmentToBeSaved = await certificationAssessmentRepository.get(certificationAssessmentId);
+
+      certificationAssessmentToBeSaved.validateAnswerByNumberIfFocusedOut(1);
+      certificationAssessmentToBeSaved.validateAnswerByNumberIfFocusedOut(2);
+
+      // when
+      await certificationAssessmentRepository.save(certificationAssessmentToBeSaved);
+
+      // then
+      const persistedCertificationAssessment = await certificationAssessmentRepository.get(certificationAssessmentId);
+      expect(persistedCertificationAssessment.certificationAnswersByDate[0].result).to.deep.equal(AnswerStatus.OK);
+      expect(persistedCertificationAssessment.certificationAnswersByDate[1].result).to.deep.equal(AnswerStatus.SKIPPED);
     });
   });
 });

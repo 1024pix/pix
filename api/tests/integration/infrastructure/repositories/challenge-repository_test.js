@@ -13,7 +13,7 @@ describe('Integration | Repository | challenge-repository', function () {
 
       const learningContent = {
         skills: [{ ...skill, status: 'actif' }],
-        challenges: [{ ...challenge, skillId: 'recSkill1', alpha: 0, delta: 0 }],
+        challenges: [{ ...challenge, skillId: 'recSkill1', alpha: 0, delta: 0, focusable: false }],
       };
 
       mockLearningContent(learningContent);
@@ -381,7 +381,7 @@ describe('Integration | Repository | challenge-repository', function () {
       const learningContent = {
         skills: [{ ...skill, status: 'actif' }],
         challenges: [
-          { ...challenge1, skillId: 'recSkill1', alpha: 0, delta: 0 },
+          { ...challenge1, skillId: 'recSkill1', alpha: 0, delta: 0, focusable: false },
           { ...challenge2, skillId: 'recSkill1' },
           { ...challenge3, skillId: 'recSkill1' },
         ],
@@ -431,7 +431,7 @@ describe('Integration | Repository | challenge-repository', function () {
       const learningContent = {
         skills: [{ ...skill, status: 'actif' }],
         challenges: [
-          { ...challenge1, skillId: 'recSkill1', alpha: 0, delta: 0 },
+          { ...challenge1, skillId: 'recSkill1', alpha: 0, delta: 0, focusable: false },
           { ...challenge2, skillId: 'recSkill1' },
           { ...challenge3, skillId: 'recSkill1' },
           { ...challenge4, skillId: 'recSkill1' },

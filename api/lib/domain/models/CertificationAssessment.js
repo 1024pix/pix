@@ -4,6 +4,7 @@ const _ = require('lodash');
 const { ChallengeToBeNeutralizedNotFoundError, ChallengeToBeDeneutralizedNotFoundError } = require('../errors');
 const AnswerStatus = require('./AnswerStatus');
 const NeutralizationAttempt = require('./NeutralizationAttempt');
+const CertificationAnswerStatusChangeAttempt = require('./CertificationAnswerStatusChangeAttempt');
 
 const states = {
   COMPLETED: 'completed',
@@ -52,6 +53,10 @@ class CertificationAssessment {
     return _.find(this.certificationChallenges, { challengeId }) || null;
   }
 
+  getAnswerByQuestionNumber(questionNumber) {
+    return this.certificationAnswersByDate[questionNumber - 1];
+  }
+
   neutralizeChallengeByRecId(recId) {
     const challengeToBeNeutralized = _.find(this.certificationChallenges, { challengeId: recId });
     if (challengeToBeNeutralized) {
@@ -62,7 +67,7 @@ class CertificationAssessment {
   }
 
   neutralizeChallengeByNumberIfKoOrSkippedOrPartially(questionNumber) {
-    const toBeNeutralizedChallengeAnswer = this.certificationAnswersByDate[questionNumber - 1];
+    const toBeNeutralizedChallengeAnswer = this.getAnswerByQuestionNumber(questionNumber);
     if (!toBeNeutralizedChallengeAnswer) {
       return NeutralizationAttempt.failure(questionNumber);
     }
@@ -85,6 +90,20 @@ class CertificationAssessment {
     } else {
       throw new ChallengeToBeDeneutralizedNotFoundError();
     }
+  }
+
+  validateAnswerByNumberIfFocusedOut(questionNumber) {
+    const challengeAnswer = this.getAnswerByQuestionNumber(questionNumber);
+    if (!challengeAnswer) {
+      return CertificationAnswerStatusChangeAttempt.failed(questionNumber);
+    }
+
+    if (challengeAnswer.result.isFOCUSEDOUT()) {
+      challengeAnswer.result = AnswerStatus.OK;
+      return CertificationAnswerStatusChangeAttempt.changed(questionNumber);
+    }
+
+    return CertificationAnswerStatusChangeAttempt.skipped(questionNumber);
   }
 
   listCertifiableBadgePixPlusKeysTaken() {
@@ -112,7 +131,7 @@ class CertificationAssessment {
   }
 
   getChallengeRecIdByQuestionNumber(questionNumber) {
-    return this.certificationAnswersByDate[questionNumber - 1]?.challengeId || null;
+    return this.getAnswerByQuestionNumber(questionNumber)?.challengeId;
   }
 
   skipUnansweredChallenges() {

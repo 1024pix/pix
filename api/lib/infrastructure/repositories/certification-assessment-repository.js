@@ -110,5 +110,10 @@ module.exports = {
         .where({ id: challenge.id })
         .update(_.pick(challenge, ['isNeutralized', 'hasBeenSkippedAutomatically']));
     }
+    for (const answer of certificationAssessment.certificationAnswersByDate) {
+      await knex('answers')
+        .where({ id: answer.id })
+        .update({ result: answerStatusDatabaseAdapter.toSQLString(answer.result) });
+    }
   },
 };

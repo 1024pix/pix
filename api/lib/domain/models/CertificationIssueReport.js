@@ -55,7 +55,8 @@ const categoryInChallengeJoiSchema = Joi.object({
       CertificationIssueReportSubcategories.WEBSITE_BLOCKED,
       CertificationIssueReportSubcategories.OTHER,
       CertificationIssueReportSubcategories.EXTRA_TIME_EXCEEDED,
-      CertificationIssueReportSubcategories.SOFTWARE_NOT_WORKING
+      CertificationIssueReportSubcategories.SOFTWARE_NOT_WORKING,
+      CertificationIssueReportSubcategories.UNINTENTIONAL_FOCUS_OUT
     ),
 });
 
