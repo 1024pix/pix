@@ -19,7 +19,7 @@ module.exports = {
           .from('campaign-participations')
           .join('assessments', 'campaign-participations.id', 'assessments.campaignParticipationId')
           .join('organization-learners', 'organization-learners.id', 'campaign-participations.organizationLearnerId')
-          .where({ campaignId: campaignId, isImproved: false });
+          .where({ campaignId, isImproved: false, deletedAt: null });
       })
       .from('campaignParticipationWithUserAndRankedAssessment')
       .where({ rank: 1 });

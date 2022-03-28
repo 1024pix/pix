@@ -60,7 +60,7 @@ module.exports = {
         ])
           .from('campaign-participations')
           .join('organization-learners', 'organization-learners.id', 'campaign-participations.organizationLearnerId')
-          .where({ campaignId, isImproved: false });
+          .where({ campaignId, isImproved: false, deletedAt: null });
       })
       .from('campaignParticipationWithUser');
 
