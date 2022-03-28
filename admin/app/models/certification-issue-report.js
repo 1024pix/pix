@@ -63,34 +63,6 @@ export const subcategoryToLabel = {
     "Le logiciel installé sur l'ordinateur n'a pas fonctionné",
 };
 
-export const categoryToCode = {
-  [certificationIssueReportCategories.CANDIDATE_INFORMATIONS_CHANGES]: 'C1-C2',
-  [certificationIssueReportCategories.LATE_OR_LEAVING]: 'C3-C4',
-  [certificationIssueReportCategories.CONNECTION_OR_END_SCREEN]: 'C5',
-  [certificationIssueReportCategories.FRAUD]: 'C6',
-  [certificationIssueReportCategories.NON_BLOCKING_TECHNICAL_ISSUE]: 'C7',
-  [certificationIssueReportCategories.NON_BLOCKING_CANDIDATE_ISSUE]: 'C8',
-  [certificationIssueReportCategories.IN_CHALLENGE]: 'E1-E9',
-  [certificationIssueReportCategories.TECHNICAL_PROBLEM]: 'A1',
-  [certificationIssueReportCategories.OTHER]: 'A2',
-};
-
-export const subcategoryToCode = {
-  [certificationIssueReportSubcategories.NAME_OR_BIRTHDATE]: 'C1',
-  [certificationIssueReportSubcategories.EXTRA_TIME_PERCENTAGE]: 'C2',
-  [certificationIssueReportSubcategories.LEFT_EXAM_ROOM]: 'C3',
-  [certificationIssueReportSubcategories.SIGNATURE_ISSUE]: 'C4',
-  [certificationIssueReportSubcategories.IMAGE_NOT_DISPLAYING]: 'E1',
-  [certificationIssueReportSubcategories.EMBED_NOT_WORKING]: 'E2',
-  [certificationIssueReportSubcategories.FILE_NOT_OPENING]: 'E3',
-  [certificationIssueReportSubcategories.WEBSITE_UNAVAILABLE]: 'E4',
-  [certificationIssueReportSubcategories.WEBSITE_BLOCKED]: 'E5',
-  [certificationIssueReportSubcategories.LINK_NOT_WORKING]: 'E6',
-  [certificationIssueReportSubcategories.OTHER]: 'E7',
-  [certificationIssueReportSubcategories.EXTRA_TIME_EXCEEDED]: 'E8',
-  [certificationIssueReportSubcategories.SOFTWARE_NOT_WORKING]: 'E9',
-};
-
 export const subcategoryToTextareaLabel = {
   [certificationIssueReportSubcategories.LEFT_EXAM_ROOM]: 'Précisez et indiquez l’heure de sortie',
   [certificationIssueReportSubcategories.SIGNATURE_ISSUE]: 'Précisez',
@@ -115,14 +87,6 @@ export default class CertificationIssueReportModel extends Model {
 
   get subcategoryLabel() {
     return this.subcategory ? subcategoryToLabel[this.subcategory] : '';
-  }
-
-  get categoryCode() {
-    return categoryToCode[this.category];
-  }
-
-  get subcategoryCode() {
-    return subcategoryToCode[this.subcategory];
   }
 
   get isResolved() {
