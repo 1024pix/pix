@@ -116,17 +116,12 @@ describe('Unit | Service | user-service', function () {
       // given
       const samlId = 'ABCD';
       const user = domainBuilder.buildUser();
-      const authenticationMethod = domainBuilder.buildAuthenticationMethod.withGarAsIdentityProvider({
-        externalIdentifier: samlId,
-        userId: user.id,
-      });
       const schoolingRegistrationId = 1;
       userRepository.create.resolves(user);
-      const expectedAuthenticationMethod = omit(authenticationMethod, ['id', 'createdAt', 'updatedAt']);
 
       // when
       await userService.createAndReconcileUserToSchoolingRegistration({
-        samlId,
+        samlId: 'SAML_ID',
         schoolingRegistrationId,
         user,
         authenticationMethodRepository,
@@ -136,11 +131,22 @@ describe('Unit | Service | user-service', function () {
       await transactionToBeExecuted(domainTransaction);
 
       // then
+      const authenticationMethod = domainBuilder.buildAuthenticationMethod.withGarAsIdentityProvider({
+        externalIdentifier: samlId,
+        userId: user.id,
+      });
       expect(userRepository.create).to.have.been.calledWithMatch({
         user,
       });
       expect(authenticationMethodRepository.create).to.have.been.calledWithMatch({
-        authenticationMethod: expectedAuthenticationMethod,
+        authenticationMethod: {
+          externalIdentifier: 'SAML_ID',
+          userId: user.id,
+          authenticationComplement: {
+            firstName: 'Mnémosyne',
+            lastName: 'Pachidermata',
+          },
+        },
       });
       expect(schoolingRegistrationRepository.updateUserIdWhereNull).to.have.been.calledWithMatch({
         schoolingRegistrationId,
