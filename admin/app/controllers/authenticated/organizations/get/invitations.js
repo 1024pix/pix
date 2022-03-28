@@ -9,6 +9,7 @@ export default class InvitationsController extends Controller {
   @tracked userEmailToInviteError;
   @tracked email = null;
   @service notifications;
+  @service store;
 
   @action
   async createOrganizationInvitation(lang, role) {

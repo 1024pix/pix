@@ -6,6 +6,7 @@ import get from 'lodash/get';
 
 export default class SessionToBePublishedController extends Controller {
   @service notifications;
+  @service store;
   @tracked shouldShowModal = false;
 
   @action

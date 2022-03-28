@@ -8,6 +8,7 @@ import { action, computed } from '@ember/object';
 
 export default class ListController extends Controller {
   @service notifications;
+  @service store;
 
   @tracked displayConfirm = false;
   @tracked confirmMessage = null;
