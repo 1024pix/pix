@@ -1,0 +1,52 @@
+<div class="send-profile-header__announcement">
+  {{#if @isDisabled}}
+    <img
+      class="send-profile-header__image"
+      src="{{rootURL}}/images/illustrations/fat-bee.svg"
+      alt={{t "pages.profile-already-shared.first-title"}}
+    />
+    <p class="send-profile-disabled-share__text">
+      {{t "pages.send-profile.disabled-share" htmlSafe=true}}
+    </p>
+    <LinkTo @route="index" class="send-profile-disabled-share__back-to-home link">
+      {{t "pages.send-profile.form.continue"}}
+    </LinkTo>
+  {{else}}
+    <h1 class="send-profile-header__title">
+      {{t "pages.send-profile.first-title"}}
+    </h1>
+    <p class="send-profile-header__instruction">
+      {{t "pages.send-profile.instructions" htmlSafe=true}}
+    </p>
+  {{/if}}
+</div>
+
+{{#unless @isDisabled}}
+  <ProfileSharingForm
+    @sendProfile={{@sendProfile}}
+    @campaignParticipation={{@campaignParticipation}}
+    @campaign={{@campaign}}
+    @errorMessage={{@errorMessage}}
+  />
+{{/unless}}
+
+<div class="send-profile-header__profile send-profile-header__profile--with-border-bottom">
+  <HexagonScore @pixScore={{@user.profile.pixScore}} />
+  <div class="send-profile-header__profile__cards">
+    <ProfileScorecards
+      @interactive={{false}}
+      class="send-profile-header__profile__cards"
+      @areasCode={{@user.profile.areasCode}}
+      @scorecards={{@user.profile.scorecards}}
+    />
+  </div>
+</div>
+
+{{#unless @isDisabled}}
+  <ProfileSharingForm
+    @sendProfile={{@sendProfile}}
+    @campaignParticipation={{@campaignParticipation}}
+    @campaign={{@campaign}}
+    @errorMessage={{@errorMessage}}
+  />
+{{/unless}}
