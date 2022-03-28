@@ -12,4 +12,4 @@ function _createTemporaryStorage() {
   }
 }
 
-module.exports = _createTemporaryStorage();
+module.exports = _createTemporaryStorage(); // export an instance of RedisTemporaryStorage or InMemoryTemporaryStorage (not a function)
