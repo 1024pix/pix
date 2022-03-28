@@ -1,0 +1,127 @@
+.select-tube-table {
+
+  .is-responsive {
+    color: $green;
+  }
+
+  .not-responsive {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: $red;
+  }
+
+  table {
+    color: $grey-70;
+  }
+
+  th {
+    font-weight: 500;
+    color: $grey-100;
+
+    p {
+      margin-bottom: 0.5rem;
+    }
+  }
+
+  th,
+  td {
+    vertical-align: middle;
+
+    .icon-container {
+      display: inline-block;
+      position: relative;
+
+      &:first-child {
+        margin-right: 0.5rem;
+      }
+    }
+  }
+
+  td.table__column--center,
+  th.table__column--center {
+    text-align: center;
+  }
+
+  thead {
+    background: $grey-10;
+  }
+
+  .pix-select {
+
+    select {
+      width: 100%;
+    }
+  }
+}
+
+.area-border-container {
+  position: relative;
+  box-shadow: 0 4px 8px rgba(7, 20, 46, 0.08);
+
+  .area-border {
+    position: absolute;
+    width: 4px;
+    border-radius: 2px;
+    height: calc(100% - 24px);
+    top: 12px;
+    left: 1rem;
+    z-index: 2;
+    background-color: $dark-blue-pro;
+
+    &.jaffa {
+      background-color: $information-light;
+    }
+
+    &.emerald {
+      background-color: $content-light;
+    }
+
+    &.cerulean {
+      background-color: $communication-light;
+    }
+
+    &.wild-strawberry {
+      background-color: $security-light;
+    }
+
+    &.butterfly-bush {
+      background-color: $environment-light;
+    }
+  }
+}
+
+.pix-collapsible__content {
+  padding: 0;
+}
+
+.list-competences {
+
+  &.pix-collapsible__title {
+    align-items: center;
+    font-family: $font-open-sans;
+    font-size: 1.3rem;
+    font-weight: 500;
+    position: relative;
+    padding-left: 2rem;
+    background-color: $white;
+
+    &:hover {
+      background-color: $grey-10;
+    }
+  }
+
+  & + .pix-collapsible__content {
+    padding: 0 0 1rem 2rem;
+    cursor: auto;
+  }
+}
+
+.list-tube-container {
+
+  .pix-collapsible {
+    box-shadow: none;
+    border-radius: 0;
+  }
+}
