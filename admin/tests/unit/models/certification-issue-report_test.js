@@ -9,8 +9,6 @@ import {
   certificationIssueReportSubcategories,
   categoryToLabel,
   subcategoryToLabel,
-  categoryToCode,
-  subcategoryToCode,
 } from 'pix-admin/models/certification-issue-report';
 import sinon from 'sinon';
 
@@ -18,7 +16,7 @@ module('Unit | Model | certification issue report', function (hooks) {
   setupTest(hooks);
 
   test('it should return the right label for the category', function (assert) {
-    assert.expect(7);
+    assert.expect(9);
     // given
     const store = this.owner.lookup('service:store');
 
@@ -44,36 +42,6 @@ module('Unit | Model | certification issue report', function (hooks) {
     // when / then
     for (const model of models) {
       assert.strictEqual(model.subcategoryLabel, subcategoryToLabel[model.subcategory]);
-    }
-  });
-
-  test('it should return the right code for the category', function (assert) {
-    assert.expect(7);
-    // given
-    const store = this.owner.lookup('service:store');
-
-    const models = map(certificationIssueReportCategories, (category) => {
-      return run(() => store.createRecord('certification-issue-report', { category }));
-    });
-
-    // when / then
-    for (const model of models) {
-      assert.strictEqual(model.categoryCode, categoryToCode[model.category]);
-    }
-  });
-
-  test('it should return the right code for the subcategory', function (assert) {
-    assert.expect(13);
-    // given
-    const store = this.owner.lookup('service:store');
-
-    const models = map(certificationIssueReportSubcategories, (subcategory) => {
-      return run(() => store.createRecord('certification-issue-report', { subcategory }));
-    });
-
-    // when / then
-    for (const model of models) {
-      assert.strictEqual(model.subcategoryCode, subcategoryToCode[model.subcategory]);
     }
   });
 

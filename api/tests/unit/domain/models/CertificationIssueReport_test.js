@@ -3,9 +3,12 @@ const CertificationIssueReport = require('../../../../lib/domain/models/Certific
 const {
   CertificationIssueReportCategories,
   CertificationIssueReportSubcategories,
-  DeprecatedCertificationIssueReportCategory,
 } = require('../../../../lib/domain/models/CertificationIssueReportCategory');
-const { InvalidCertificationIssueReportForSaving } = require('../../../../lib/domain/errors');
+const {
+  InvalidCertificationIssueReportForSaving,
+  DeprecatedCertificationIssueReportSubcategoryError,
+  DeprecatedCertificationIssueReportCategoryError,
+} = require('../../../../lib/domain/errors');
 
 const MISSING_VALUE = null;
 const EMPTY_VALUE = '';
@@ -44,6 +47,81 @@ describe('Unit | Domain | Models | CertificationIssueReport', function () {
       // eslint-disable-next-line mocha/no-setup-in-describe
       [MISSING_VALUE, EMPTY_VALUE, UNDEFINED_VALUE].forEach((emptyValue) => {
         it(`should create an OTHER CertificationIssueReport when subcategory is empty with value ${emptyValue}`, function () {
+          // when
+          expect(
+            CertificationIssueReport.create({ ...certificationIssueReportDTO, subcategory: emptyValue })
+          ).to.be.an.instanceOf(CertificationIssueReport);
+        });
+      });
+    });
+    context('CATEGORY: NON_BLOCKING_TECHNICAL_ISSUE', function () {
+      let certificationIssueReportDTO;
+
+      beforeEach(function () {
+        certificationIssueReportDTO = {
+          certificationCourseId: 123,
+          category: CertificationIssueReportCategories.NON_BLOCKING_TECHNICAL_ISSUE,
+          description: 'Une description obligatoire',
+        };
+      });
+
+      it('should create a NON_BLOCKING_TECHNICAL_ISSUE CertificationIssueReport', function () {
+        expect(CertificationIssueReport.create(certificationIssueReportDTO)).to.be.an.instanceOf(
+          CertificationIssueReport
+        );
+      });
+
+      // eslint-disable-next-line mocha/no-setup-in-describe
+      [MISSING_VALUE, EMPTY_VALUE, UNDEFINED_VALUE, WHITESPACES_VALUE].forEach((emptyValue) => {
+        it(`should throw an InvalidCertificationIssueReportForSaving when description is of value ${emptyValue}`, function () {
+          // when
+          expect(() =>
+            CertificationIssueReport.create({ ...certificationIssueReportDTO, description: emptyValue })
+          ).to.throw(InvalidCertificationIssueReportForSaving);
+        });
+      });
+
+      // eslint-disable-next-line mocha/no-setup-in-describe
+      [MISSING_VALUE, EMPTY_VALUE, UNDEFINED_VALUE].forEach((emptyValue) => {
+        it(`should create a NON_BLOCKING_TECHNICAL_ISSUE CertificationIssueReport when subcategory is empty with value ${emptyValue}`, function () {
+          // when
+          expect(
+            CertificationIssueReport.create({ ...certificationIssueReportDTO, subcategory: emptyValue })
+          ).to.be.an.instanceOf(CertificationIssueReport);
+        });
+      });
+    });
+
+    context('CATEGORY: NON_BLOCKING_CANDIDATE_ISSUE', function () {
+      let certificationIssueReportDTO;
+
+      beforeEach(function () {
+        certificationIssueReportDTO = {
+          certificationCourseId: 123,
+          category: CertificationIssueReportCategories.NON_BLOCKING_CANDIDATE_ISSUE,
+          description: 'Une description obligatoire',
+        };
+      });
+
+      it('should create a NON_BLOCKING_CANDIDATE_ISSUE CertificationIssueReport', function () {
+        expect(CertificationIssueReport.create(certificationIssueReportDTO)).to.be.an.instanceOf(
+          CertificationIssueReport
+        );
+      });
+
+      // eslint-disable-next-line mocha/no-setup-in-describe
+      [MISSING_VALUE, EMPTY_VALUE, UNDEFINED_VALUE, WHITESPACES_VALUE].forEach((emptyValue) => {
+        it(`should throw an InvalidCertificationIssueReportForSaving when description is of value "${emptyValue}"`, function () {
+          // when
+          expect(() =>
+            CertificationIssueReport.create({ ...certificationIssueReportDTO, description: emptyValue })
+          ).to.throw(InvalidCertificationIssueReportForSaving);
+        });
+      });
+
+      // eslint-disable-next-line mocha/no-setup-in-describe
+      [MISSING_VALUE, EMPTY_VALUE, UNDEFINED_VALUE].forEach((emptyValue) => {
+        it(`should create a NON_BLOCKING_CANDIDATE_ISSUE CertificationIssueReport when subcategory is empty with value "${emptyValue}"`, function () {
           // when
           expect(
             CertificationIssueReport.create({ ...certificationIssueReportDTO, subcategory: emptyValue })
@@ -219,7 +297,7 @@ describe('Unit | Domain | Models | CertificationIssueReport', function () {
               });
 
             // then
-            expect(createIssueReport).to.throw(DeprecatedCertificationIssueReportCategory);
+            expect(createIssueReport).to.throw(DeprecatedCertificationIssueReportSubcategoryError);
           });
         } else {
           it(`should throw an InvalidCertificationIssueReportForSaving when subcategory is ${subcategory}`, function () {
@@ -278,9 +356,9 @@ describe('Unit | Domain | Models | CertificationIssueReport', function () {
         };
       });
 
-      it('should create an TECHNICAL_PROBLEM CertificationIssueReport', function () {
-        expect(CertificationIssueReport.create(certificationIssueReportDTO)).to.be.an.instanceOf(
-          CertificationIssueReport
+      it('should throw DeprecatedCertificationIssueReportCategoryError error', function () {
+        expect(() => CertificationIssueReport.create(certificationIssueReportDTO)).to.throw(
+          DeprecatedCertificationIssueReportCategoryError
         );
       });
 
@@ -291,16 +369,6 @@ describe('Unit | Domain | Models | CertificationIssueReport', function () {
           expect(() =>
             CertificationIssueReport.create({ ...certificationIssueReportDTO, description: emptyValue })
           ).to.throw(InvalidCertificationIssueReportForSaving);
-        });
-      });
-
-      // eslint-disable-next-line mocha/no-setup-in-describe
-      [MISSING_VALUE, EMPTY_VALUE, UNDEFINED_VALUE].forEach((emptyValue) => {
-        it(`should create an TECHNICAL_PROBLEM CertificationIssueReport when subcategory is empty with value ${emptyValue}`, function () {
-          // when
-          expect(
-            CertificationIssueReport.create({ ...certificationIssueReportDTO, subcategory: emptyValue })
-          ).to.be.an.instanceOf(CertificationIssueReport);
         });
       });
     });

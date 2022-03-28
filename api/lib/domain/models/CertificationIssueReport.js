@@ -1,7 +1,8 @@
 const Joi = require('joi');
 const {
   InvalidCertificationIssueReportForSaving,
-  DeprecatedCertificationIssueReportSubcategory,
+  DeprecatedCertificationIssueReportCategoryError,
+  DeprecatedCertificationIssueReportSubcategoryError,
 } = require('../errors');
 const {
   CertificationIssueReportCategories,
@@ -11,6 +12,18 @@ const {
 const categoryOtherJoiSchema = Joi.object({
   certificationCourseId: Joi.number().required().empty(null),
   category: Joi.string().required().valid(CertificationIssueReportCategories.OTHER),
+  description: Joi.string().trim().required(),
+});
+
+const categoryNonBlockingTechnicalIssueJoiSchema = Joi.object({
+  certificationCourseId: Joi.number().required().empty(null),
+  category: Joi.string().required().valid(CertificationIssueReportCategories.NON_BLOCKING_TECHNICAL_ISSUE),
+  description: Joi.string().trim().required(),
+});
+
+const categoryNonBlockingCandidateIssueJoiSchema = Joi.object({
+  certificationCourseId: Joi.number().required().empty(null),
+  category: Joi.string().required().valid(CertificationIssueReportCategories.NON_BLOCKING_CANDIDATE_ISSUE),
   description: Joi.string().trim().required(),
 });
 
@@ -77,6 +90,8 @@ const categorySchemas = {
   [CertificationIssueReportCategories.CANDIDATE_INFORMATIONS_CHANGES]: categoryCandidateInformationChangesJoiSchema,
   [CertificationIssueReportCategories.IN_CHALLENGE]: categoryInChallengeJoiSchema,
   [CertificationIssueReportCategories.FRAUD]: categoryFraudJoiSchema,
+  [CertificationIssueReportCategories.NON_BLOCKING_CANDIDATE_ISSUE]: categoryNonBlockingCandidateIssueJoiSchema,
+  [CertificationIssueReportCategories.NON_BLOCKING_TECHNICAL_ISSUE]: categoryNonBlockingTechnicalIssueJoiSchema,
   [CertificationIssueReportCategories.TECHNICAL_PROBLEM]: categoryTechnicalProblemJoiSchema,
 };
 
@@ -105,6 +120,8 @@ const deprecatedSubcategories = [
   CertificationIssueReportSubcategories.OTHER,
 ];
 
+const deprecatedCategories = [CertificationIssueReportCategories.TECHNICAL_PROBLEM];
+
 class CertificationIssueReport {
   constructor({
     id,
@@ -127,9 +144,12 @@ class CertificationIssueReport {
     this.isImpactful = _isImpactful({ category, subcategory });
 
     if (
-      [CertificationIssueReportCategories.CONNECTION_OR_END_SCREEN, CertificationIssueReportCategories.OTHER].includes(
-        this.category
-      )
+      [
+        CertificationIssueReportCategories.CONNECTION_OR_END_SCREEN,
+        CertificationIssueReportCategories.OTHER,
+        CertificationIssueReportCategories.NON_BLOCKING_CANDIDATE_ISSUE,
+        CertificationIssueReportCategories.NON_BLOCKING_TECHNICAL_ISSUE,
+      ].includes(this.category)
     ) {
       this.subcategory = null;
     }
@@ -169,8 +189,12 @@ class CertificationIssueReport {
       throw new InvalidCertificationIssueReportForSaving(error);
     }
 
+    if (_isCategoryDeprecated(this.category)) {
+      throw new DeprecatedCertificationIssueReportCategoryError();
+    }
+
     if (_isSubcategoryDeprecated(this.subcategory)) {
-      throw new DeprecatedCertificationIssueReportSubcategory();
+      throw new DeprecatedCertificationIssueReportSubcategoryError();
     }
   }
 
@@ -188,6 +212,10 @@ module.exports = CertificationIssueReport;
 
 function _isImpactful({ category, subcategory }) {
   return categoryCodeImpactful.includes(category) || subcategoryCodeImpactful.includes(subcategory);
+}
+
+function _isCategoryDeprecated(category) {
+  return deprecatedCategories.includes(category);
 }
 
 function _isSubcategoryDeprecated(subcategory) {

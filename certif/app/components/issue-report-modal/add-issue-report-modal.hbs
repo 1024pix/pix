@@ -33,8 +33,14 @@
           @maxlength={{@maxlength}}
         />
 
-        <IssueReportModal::TechnicalProblemCertificationIssueReportFields
-          @technicalProblemCategory={{this.technicalProblemCategory}}
+        <IssueReportModal::NonBlockingTechnicalIssueCertificationIssueReportFields
+          @nonBlockingTechnicalIssueCategory={{this.nonBlockingTechnicalIssueCategory}}
+          @toggleOnCategory={{this.toggleOnCategory}}
+          @maxlength={{@maxlength}}
+        />
+
+        <IssueReportModal::NonBlockingCandidateIssueCertificationIssueReportFields
+          @nonBlockingCandidateIssueCategory={{this.nonBlockingCandidateIssueCategory}}
           @toggleOnCategory={{this.toggleOnCategory}}
           @maxlength={{@maxlength}}
         />

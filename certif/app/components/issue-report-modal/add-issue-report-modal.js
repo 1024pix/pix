@@ -122,8 +122,11 @@ export default class AddIssueReportModal extends Component {
   @tracked fraudCategory = new RadioButtonCategory({
     name: certificationIssueReportCategories.FRAUD,
   });
-  @tracked technicalProblemCategory = new RadioButtonCategoryWithDescription({
-    name: certificationIssueReportCategories.TECHNICAL_PROBLEM,
+  @tracked nonBlockingTechnicalIssueCategory = new RadioButtonCategoryWithDescription({
+    name: certificationIssueReportCategories.NON_BLOCKING_TECHNICAL_ISSUE,
+  });
+  @tracked nonBlockingCandidateIssueCategory = new RadioButtonCategoryWithDescription({
+    name: certificationIssueReportCategories.NON_BLOCKING_CANDIDATE_ISSUE,
   });
   categories = [
     this.otherCategory,
@@ -131,7 +134,8 @@ export default class AddIssueReportModal extends Component {
     this.candidateInformationChangeCategory,
     this.inChallengeCategory,
     this.fraudCategory,
-    this.technicalProblemCategory,
+    this.nonBlockingTechnicalIssueCategory,
+    this.nonBlockingCandidateIssueCategory,
   ];
 
   @tracked showCategoryMissingError = false;
