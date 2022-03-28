@@ -26,7 +26,6 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
     pix: 8,
   };
   const answerRepository = {
-    findByChallengeAndAssessment: () => undefined,
     saveWithKnowledgeElements: () => undefined,
   };
   const assessmentRepository = { get: () => undefined };
@@ -49,7 +48,6 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
   let dependencies;
 
   beforeEach(function () {
-    sinon.stub(answerRepository, 'findByChallengeAndAssessment');
     sinon.stub(answerRepository, 'saveWithKnowledgeElements');
     sinon.stub(assessmentRepository, 'get');
     sinon.stub(challengeRepository, 'get');
@@ -98,9 +96,6 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
       assessment.type = Assessment.types.CERTIFICATION;
       assessment.lastChallengeId = 'anotherChallenge';
       assessmentRepository.get.resolves(assessment);
-      answerRepository.findByChallengeAndAssessment
-        .withArgs({ assessmentId: assessment.id, challengeId: challenge.id })
-        .resolves(true);
     });
 
     it('should fail because Challenge Not Asked', async function () {
@@ -121,9 +116,6 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
       // given
       assessment.state = Assessment.states.ENDED_BY_SUPERVISOR;
       assessmentRepository.get.resolves(assessment);
-      answerRepository.findByChallengeAndAssessment
-        .withArgs({ assessmentId: assessment.id, challengeId: challenge.id })
-        .resolves(true);
 
       // when
       const error = await catchErr(correctAnswerThenUpdateAssessment)({
@@ -800,9 +792,6 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
       });
       assessment.type = Assessment.types.CERTIFICATION;
       assessmentRepository.get.resolves(assessment);
-      answerRepository.findByChallengeAndAssessment
-        .withArgs({ assessmentId: assessment.id, challengeId: challenge.id })
-        .resolves(true);
       answerSaved = domainBuilder.buildAnswer(answer);
       answerSaved.timeSpent = 5;
       answerRepository.saveWithKnowledgeElements.resolves(answerSaved);
@@ -827,9 +816,6 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
         });
         assessment.type = Assessment.types.PREVIEW;
         assessmentRepository.get.resolves(assessment);
-        answerRepository.findByChallengeAndAssessment
-          .withArgs({ assessmentId: assessment.id, challengeId: challenge.id })
-          .resolves(true);
         answerSaved = domainBuilder.buildAnswer(answer);
         answerRepository.saveWithKnowledgeElements.resolves(answerSaved);
 
@@ -863,12 +849,9 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
       assessment = domainBuilder.buildAssessment({
         userId,
         lastQuestionDate: new Date('2021-03-11T11:00:00Z'),
+        type: Assessment.types.CERTIFICATION,
       });
-      assessment.type = Assessment.types.CERTIFICATION;
       assessmentRepository.get.resolves(assessment);
-      answerRepository.findByChallengeAndAssessment
-        .withArgs({ assessmentId: assessment.id, challengeId: nonFocusedChallenge.id })
-        .resolves(true);
       answerSaved = domainBuilder.buildAnswer(focusedOutAnswer);
       answerRepository.saveWithKnowledgeElements.resolves(answerSaved);
     });
