@@ -128,7 +128,7 @@ describe('Integration | Repository | Campaign Assessment Participation Result Li
       beforeEach(async function () {
         campaign = databaseBuilder.factory.buildAssessmentCampaignForSkills({}, [{ id: 'Skill1' }]);
 
-        databaseBuilder.factory.buildCampaignParticipationWithSchoolingRegistration(
+        databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
           {
             firstName: 'Joe',
             lastName: 'Le taxi',
@@ -285,22 +285,22 @@ describe('Integration | Repository | Campaign Assessment Participation Result Li
         const organizationId = databaseBuilder.factory.buildOrganization().id;
         campaign = databaseBuilder.factory.buildAssessmentCampaignForSkills({ organizationId }, [{ id: 'Skill1' }]);
         const campaignParticipation = { campaignId: campaign.id };
-        databaseBuilder.factory.buildCampaignParticipationWithSchoolingRegistration(
+        databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
           { firstName: 'Jaja', lastName: 'Le raplapla', organizationId },
           campaignParticipation,
           true
         );
-        databaseBuilder.factory.buildCampaignParticipationWithSchoolingRegistration(
+        databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
           { firstName: 'Jiji', lastName: 'Le riquiqui', organizationId },
           campaignParticipation,
           true
         );
-        databaseBuilder.factory.buildCampaignParticipationWithSchoolingRegistration(
+        databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
           { firstName: 'Jojo', lastName: 'le rococo', organizationId },
           campaignParticipation,
           true
         );
-        databaseBuilder.factory.buildCampaignParticipationWithSchoolingRegistration(
+        databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
           { firstName: 'juju', lastName: 'Le riquiqui', organizationId },
           campaignParticipation,
           true

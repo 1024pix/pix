@@ -118,22 +118,22 @@ describe('Integration | Repository | Campaign Participant activity', function ()
         const organizationId = databaseBuilder.factory.buildOrganization().id;
         campaign = databaseBuilder.factory.buildCampaign({ organizationId });
         const campaignParticipation = { campaignId: campaign.id };
-        databaseBuilder.factory.buildCampaignParticipationWithSchoolingRegistration(
+        databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
           { firstName: 'Jaja', lastName: 'Le raplapla', organizationId },
           campaignParticipation,
           true
         );
-        databaseBuilder.factory.buildCampaignParticipationWithSchoolingRegistration(
+        databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
           { firstName: 'jiji', lastName: 'Le riquiqui', organizationId },
           campaignParticipation,
           true
         );
-        databaseBuilder.factory.buildCampaignParticipationWithSchoolingRegistration(
+        databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
           { firstName: 'Jojo', lastName: 'Le rococo', organizationId },
           campaignParticipation,
           true
         );
-        databaseBuilder.factory.buildCampaignParticipationWithSchoolingRegistration(
+        databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
           { firstName: 'Juju', lastName: 'Le riquiqui', organizationId },
           campaignParticipation,
           true
@@ -154,17 +154,17 @@ describe('Integration | Repository | Campaign Participant activity', function ()
     context('when there is a filter on division', function () {
       it('returns participants which have the correct division', async function () {
         campaign = databaseBuilder.factory.buildCampaign();
-        databaseBuilder.factory.buildCampaignParticipationWithSchoolingRegistration(
+        databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
           { organizationId: campaign.organizationId, division: 'Good Guys Team' },
           { participantExternalId: 'The good', campaignId: campaign.id }
         );
 
-        databaseBuilder.factory.buildCampaignParticipationWithSchoolingRegistration(
+        databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
           { organizationId: campaign.organizationId, division: 'Bad Guys Team' },
           { participantExternalId: 'The bad', campaignId: campaign.id }
         );
 
-        databaseBuilder.factory.buildCampaignParticipationWithSchoolingRegistration(
+        databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
           { organizationId: campaign.organizationId, division: 'Ugly Guys Team' },
           { participantExternalId: 'The ugly', campaignId: campaign.id }
         );
@@ -190,12 +190,12 @@ describe('Integration | Repository | Campaign Participant activity', function ()
       it('returns participants which have the correct status', async function () {
         campaign = databaseBuilder.factory.buildCampaign({});
 
-        databaseBuilder.factory.buildCampaignParticipationWithSchoolingRegistration(
+        databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
           { organizationId: campaign.organizationId },
           { participantExternalId: 'The good', campaignId: campaign.id, status: STARTED }
         );
 
-        databaseBuilder.factory.buildCampaignParticipationWithSchoolingRegistration(
+        databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
           { organizationId: campaign.organizationId },
           { participantExternalId: 'The bad', campaignId: campaign.id, status: TO_SHARE }
         );
@@ -221,17 +221,17 @@ describe('Integration | Repository | Campaign Participant activity', function ()
       it('returns participants which have the correct group', async function () {
         campaign = databaseBuilder.factory.buildCampaign();
 
-        databaseBuilder.factory.buildCampaignParticipationWithSchoolingRegistration(
+        databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
           { organizationId: campaign.organizationId, group: 'L1' },
           { participantExternalId: 'The good', campaignId: campaign.id }
         );
 
-        databaseBuilder.factory.buildCampaignParticipationWithSchoolingRegistration(
+        databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
           { organizationId: campaign.organizationId, group: 'T1' },
           { participantExternalId: 'The bad', campaignId: campaign.id, status: 'STARTED' }
         );
 
-        databaseBuilder.factory.buildCampaignParticipationWithSchoolingRegistration(
+        databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
           { organizationId: campaign.organizationId, group: 'T2' },
           { participantExternalId: 'The ugly', campaignId: campaign.id, status: 'STARTED' }
         );

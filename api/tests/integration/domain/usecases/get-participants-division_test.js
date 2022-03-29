@@ -8,7 +8,7 @@ describe('Integration | UseCase | get-participants-division', function () {
       const division = '3emeA';
       const campaign = databaseBuilder.factory.buildCampaign();
       const user = databaseBuilder.factory.buildUser.withMembership({ organizationId: campaign.organizationId });
-      databaseBuilder.factory.buildCampaignParticipationWithSchoolingRegistration(
+      databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
         { organizationId: campaign.organizationId, division: division },
         { campaignId: campaign.id }
       );
@@ -25,7 +25,7 @@ describe('Integration | UseCase | get-participants-division', function () {
       const division = '3emeA';
       const campaign = databaseBuilder.factory.buildCampaign();
       const user = databaseBuilder.factory.buildUser();
-      databaseBuilder.factory.buildCampaignParticipationWithSchoolingRegistration(
+      databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
         { organizationId: campaign.organizationId, division: division },
         { campaignId: campaign.id }
       );

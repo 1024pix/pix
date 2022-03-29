@@ -15,7 +15,7 @@ describe('Integration | Repository | Campaign Participation Info', function () {
 
         campaign1 = databaseBuilder.factory.buildCampaign({ type: Campaign.types.ASSESSMENT });
 
-        campaignParticipation1 = databaseBuilder.factory.buildCampaignParticipationWithSchoolingRegistration(
+        campaignParticipation1 = databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
           {
             firstName: 'First',
             lastName: 'Last',
@@ -96,8 +96,9 @@ describe('Integration | Repository | Campaign Participation Info', function () {
 
         const user1Id = databaseBuilder.factory.buildUser().id;
         const user2Id = databaseBuilder.factory.buildUser().id;
+        const user3Id = databaseBuilder.factory.buildUser().id;
 
-        campaignParticipation1 = databaseBuilder.factory.buildCampaignParticipationWithSchoolingRegistration(
+        campaignParticipation1 = databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
           { firstName: 'The', lastName: 'Narrator', division: null, group: null },
           {
             campaignId: campaign.id,
@@ -112,7 +113,7 @@ describe('Integration | Repository | Campaign Participation Info', function () {
           state: 'started',
         });
 
-        campaignParticipation2 = databaseBuilder.factory.buildCampaignParticipationWithSchoolingRegistration(
+        campaignParticipation2 = databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
           { firstName: 'Tyler', lastName: 'Durden', division: null, group: null },
           {
             campaignId: campaign.id,
@@ -128,10 +129,27 @@ describe('Integration | Repository | Campaign Participation Info', function () {
           state: 'completed',
         });
 
+        const campaignParticipation3 = databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
+          { firstName: 'Kiri', lastName: 'Kou', division: null, group: null },
+          {
+            campaignId: campaign.id,
+            userId: user3Id,
+            status: STARTED,
+            sharedAt: null,
+            deletedAt: new Date(),
+          }
+        );
+
+        databaseBuilder.factory.buildAssessment({
+          campaignParticipationId: campaignParticipation3.id,
+          userId: user1Id,
+          state: 'started',
+        });
+
         await databaseBuilder.commit();
       });
 
-      it('should return all the campaign-participation', async function () {
+      it('should return all non deleted campaign-participation', async function () {
         // when
         const campaignParticipationInfos = await campaignParticipationInfoRepository.findByCampaignId(campaign.id);
         const campaignParticipationInfosOrdered = campaignParticipationInfos.sort((a, b) => a.lastName < b.lastName);
@@ -180,7 +198,7 @@ describe('Integration | Repository | Campaign Participation Info', function () {
 
         const userId = databaseBuilder.factory.buildUser().id;
 
-        campaignParticipation = databaseBuilder.factory.buildCampaignParticipationWithSchoolingRegistration(
+        campaignParticipation = databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
           { firstName: 'The', lastName: 'Narrator', division: null, group: null },
           {
             campaignId: campaign.id,

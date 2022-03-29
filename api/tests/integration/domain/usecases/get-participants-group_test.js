@@ -8,7 +8,7 @@ describe('Integration | UseCase | get-participants-group', function () {
       const group = 'AB1';
       const campaign = databaseBuilder.factory.buildCampaign();
       const user = databaseBuilder.factory.buildUser.withMembership({ organizationId: campaign.organizationId });
-      databaseBuilder.factory.buildCampaignParticipationWithSchoolingRegistration(
+      databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
         { organizationId: campaign.organizationId, group: group },
         { campaignId: campaign.id }
       );
@@ -25,7 +25,7 @@ describe('Integration | UseCase | get-participants-group', function () {
       const group = 'LB2';
       const campaign = databaseBuilder.factory.buildCampaign();
       const user = databaseBuilder.factory.buildUser();
-      databaseBuilder.factory.buildCampaignParticipationWithSchoolingRegistration(
+      databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
         { organizationId: campaign.organizationId, group: group },
         { campaignId: campaign.id }
       );

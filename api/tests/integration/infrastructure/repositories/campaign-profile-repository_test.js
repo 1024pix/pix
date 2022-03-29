@@ -84,7 +84,7 @@ describe('Integration | Repository | CampaignProfileRepository', function () {
       it('return the first name and last name of the schooling registration', async function () {
         const organizationId = databaseBuilder.factory.buildOrganization().id;
         const campaignId = databaseBuilder.factory.buildCampaign({ organizationId }).id;
-        const campaignParticipationId = databaseBuilder.factory.buildCampaignParticipationWithSchoolingRegistration(
+        const campaignParticipationId = databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
           { firstName: 'Greg', lastName: 'Duboire', organizationId },
           { campaignId }
         ).id;
@@ -104,11 +104,10 @@ describe('Integration | Repository | CampaignProfileRepository', function () {
         const oldOrganizationId = databaseBuilder.factory.buildOrganization().id;
         const organizationId = databaseBuilder.factory.buildOrganization().id;
         const campaignId = databaseBuilder.factory.buildCampaign({ organizationId }).id;
-        const campaignParticipationCreated =
-          databaseBuilder.factory.buildCampaignParticipationWithSchoolingRegistration(
-            { firstName: 'Greg', lastName: 'Duboire', organizationId },
-            { campaignId }
-          );
+        const campaignParticipationCreated = databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
+          { firstName: 'Greg', lastName: 'Duboire', organizationId },
+          { campaignId }
+        );
         databaseBuilder.factory.buildSchoolingRegistration({
           firstName: 'Gregoire',
           lastName: 'Dub',
