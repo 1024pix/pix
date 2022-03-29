@@ -101,7 +101,7 @@ describe('Integration | Repository | Campaign-Management', function () {
       });
     });
 
-    describe('When there are participation', function () {
+    describe('When there are participations', function () {
       context('when campaign type is ASSESSMENT', function () {
         it('should return total and shared participations count', async function () {
           //given
@@ -130,30 +130,84 @@ describe('Integration | Repository | Campaign-Management', function () {
           expect(result.sharedParticipationsCount).to.equal(1);
         });
 
-        context('when campaign type is PROFILES_COLLECTION', function () {
-          it('should return total and shared participations count', async function () {
-            //given
-            const userId = databaseBuilder.factory.buildUser().id;
-            const organization = databaseBuilder.factory.buildOrganization({});
-            const campaign = databaseBuilder.factory.buildCampaign({
-              creatorId: userId,
-              organizationId: organization.id,
-              type: Campaign.types.PROFILES_COLLECTION,
-            });
+        it('should not count neither total nor shared participations for deleted participations', async function () {
+          //given
+          const campaign = databaseBuilder.factory.buildCampaign({ type: Campaign.types.ASSESSMENT });
 
-            databaseBuilder.factory.buildCampaignParticipation({
-              campaignId: campaign.id,
-              status: SHARED,
-            });
-
-            await databaseBuilder.commit();
-
-            // when
-            const result = await campaignManagementRepository.get(campaign.id);
-
-            expect(result.totalParticipationsCount).to.equal(1);
-            expect(result.sharedParticipationsCount).to.equal(1);
+          databaseBuilder.factory.buildCampaignParticipation({
+            campaignId: campaign.id,
+            status: STARTED,
+            deletedAt: new Date(),
           });
+
+          databaseBuilder.factory.buildCampaignParticipation({
+            campaignId: campaign.id,
+            status: TO_SHARE,
+            deletedAt: new Date(),
+          });
+
+          databaseBuilder.factory.buildCampaignParticipation({
+            campaignId: campaign.id,
+            status: SHARED,
+            deletedAt: new Date(),
+          });
+
+          await databaseBuilder.commit();
+          // when
+          const result = await campaignManagementRepository.get(campaign.id);
+
+          expect(result.totalParticipationsCount).to.equal(0);
+          expect(result.sharedParticipationsCount).to.equal(0);
+        });
+      });
+      context('when campaign type is PROFILES_COLLECTION', function () {
+        it('should return total and shared participations count', async function () {
+          //given
+          const userId = databaseBuilder.factory.buildUser().id;
+          const organization = databaseBuilder.factory.buildOrganization({});
+          const campaign = databaseBuilder.factory.buildCampaign({
+            creatorId: userId,
+            organizationId: organization.id,
+            type: Campaign.types.PROFILES_COLLECTION,
+          });
+
+          databaseBuilder.factory.buildCampaignParticipation({
+            campaignId: campaign.id,
+            status: SHARED,
+          });
+
+          await databaseBuilder.commit();
+
+          // when
+          const result = await campaignManagementRepository.get(campaign.id);
+
+          expect(result.totalParticipationsCount).to.equal(1);
+          expect(result.sharedParticipationsCount).to.equal(1);
+        });
+
+        it('should not count neither total nor shared participations for deleted participations', async function () {
+          //given
+          const userId = databaseBuilder.factory.buildUser().id;
+          const organization = databaseBuilder.factory.buildOrganization({});
+          const campaign = databaseBuilder.factory.buildCampaign({
+            creatorId: userId,
+            organizationId: organization.id,
+            type: Campaign.types.PROFILES_COLLECTION,
+          });
+
+          databaseBuilder.factory.buildCampaignParticipation({
+            campaignId: campaign.id,
+            status: SHARED,
+            deletedAt: new Date(),
+          });
+
+          await databaseBuilder.commit();
+
+          // when
+          const result = await campaignManagementRepository.get(campaign.id);
+
+          expect(result.totalParticipationsCount).to.equal(0);
+          expect(result.sharedParticipationsCount).to.equal(0);
         });
       });
     });

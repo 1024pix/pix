@@ -99,6 +99,7 @@ async function _countParticipationsByStatus(campaignId, campaignType) {
       knex.raw(`sum(case when status = ? then 1 else 0 end) as started`, STARTED),
     ])
     .where({ campaignId, isImproved: false })
+    .whereNull('campaign-participations.deletedAt')
     .groupBy('campaignId')
     .first();
 
