@@ -143,5 +143,167 @@ describe('Integration | Scripts | create-old-organization-learners-for-dissociat
       //then
       expect(campaignParticipation.organizationLearnerId).to.equal(recentCampaignParticipation.schoolingRegistrationId);
     });
+
+    it('should not create organizationLearner if old participation is improved', async function () {
+      const user = databaseBuilder.factory.buildUser();
+      const campaign = databaseBuilder.factory.buildCampaign();
+      const organizationLearnerId = databaseBuilder.factory.buildSchoolingRegistration().id;
+      databaseBuilder.factory.buildCampaignParticipation({
+        userId: user.id,
+        campaignId: campaign.id,
+        schoolingRegistrationId: organizationLearnerId,
+        createdAt: new Date('2020-01-01'),
+        isImproved: true,
+      });
+      databaseBuilder.factory.buildCampaignParticipation({
+        campaignId: campaign.id,
+        schoolingRegistrationId: organizationLearnerId,
+        createdAt: new Date(),
+      });
+
+      await databaseBuilder.commit();
+
+      //when
+      await createOldOrganizationLearnersForDissociatedUsers(1, false);
+      const organizationLearners = await knex('organization-learners');
+
+      //then
+      expect(organizationLearners.length).to.equal(1);
+    });
+
+    it('should not create organizationLearner if new participation is improved', async function () {
+      const user = databaseBuilder.factory.buildUser();
+      const campaign = databaseBuilder.factory.buildCampaign();
+      const organizationLearnerId = databaseBuilder.factory.buildSchoolingRegistration().id;
+      databaseBuilder.factory.buildCampaignParticipation({
+        userId: user.id,
+        campaignId: campaign.id,
+        schoolingRegistrationId: organizationLearnerId,
+        createdAt: new Date('2020-01-01'),
+      });
+      databaseBuilder.factory.buildCampaignParticipation({
+        campaignId: campaign.id,
+        schoolingRegistrationId: organizationLearnerId,
+        createdAt: new Date(),
+        isImproved: true,
+      });
+
+      await databaseBuilder.commit();
+
+      //when
+      await createOldOrganizationLearnersForDissociatedUsers(1, false);
+      const organizationLearners = await knex('organization-learners');
+
+      //then
+      expect(organizationLearners.length).to.equal(1);
+    });
+
+    it('should not create organizationLearner if old participation is deleted', async function () {
+      const user = databaseBuilder.factory.buildUser();
+      const campaign = databaseBuilder.factory.buildCampaign();
+      const organizationLearnerId = databaseBuilder.factory.buildSchoolingRegistration().id;
+      databaseBuilder.factory.buildCampaignParticipation({
+        userId: user.id,
+        campaignId: campaign.id,
+        schoolingRegistrationId: organizationLearnerId,
+        createdAt: new Date('2020-01-01'),
+        deletedAt: new Date(),
+      });
+      databaseBuilder.factory.buildCampaignParticipation({
+        campaignId: campaign.id,
+        schoolingRegistrationId: organizationLearnerId,
+        createdAt: new Date(),
+      });
+
+      await databaseBuilder.commit();
+
+      //when
+      await createOldOrganizationLearnersForDissociatedUsers(1, false);
+      const organizationLearners = await knex('organization-learners');
+
+      //then
+      expect(organizationLearners.length).to.equal(1);
+    });
+
+    it('should not create organizationLearner if new participation is deleted', async function () {
+      const user = databaseBuilder.factory.buildUser();
+      const campaign = databaseBuilder.factory.buildCampaign();
+      const organizationLearnerId = databaseBuilder.factory.buildSchoolingRegistration().id;
+      databaseBuilder.factory.buildCampaignParticipation({
+        userId: user.id,
+        campaignId: campaign.id,
+        schoolingRegistrationId: organizationLearnerId,
+        createdAt: new Date('2020-01-01'),
+      });
+      databaseBuilder.factory.buildCampaignParticipation({
+        campaignId: campaign.id,
+        schoolingRegistrationId: organizationLearnerId,
+        createdAt: new Date(),
+        deletedAt: new Date(),
+      });
+
+      await databaseBuilder.commit();
+
+      //when
+      await createOldOrganizationLearnersForDissociatedUsers(1, false);
+      const organizationLearners = await knex('organization-learners');
+
+      //then
+      expect(organizationLearners.length).to.equal(1);
+    });
+
+    it('should not create organizationLearner if both participations have already their own', async function () {
+      const user = databaseBuilder.factory.buildUser();
+      const campaign = databaseBuilder.factory.buildCampaign();
+      const organizationLearnerId1 = databaseBuilder.factory.buildSchoolingRegistration().id;
+      const organizationLearnerId2 = databaseBuilder.factory.buildSchoolingRegistration().id;
+      databaseBuilder.factory.buildCampaignParticipation({
+        userId: user.id,
+        campaignId: campaign.id,
+        schoolingRegistrationId: organizationLearnerId1,
+        createdAt: new Date('2020-01-01'),
+      });
+      databaseBuilder.factory.buildCampaignParticipation({
+        campaignId: campaign.id,
+        schoolingRegistrationId: organizationLearnerId2,
+        createdAt: new Date(),
+      });
+
+      await databaseBuilder.commit();
+
+      //when
+      await createOldOrganizationLearnersForDissociatedUsers(1, false);
+      const organizationLearners = await knex('organization-learners');
+
+      //then
+      expect(organizationLearners.length).to.equal(2);
+    });
+
+    it('should not create organizationLearner if participations are in different campaigns', async function () {
+      const user = databaseBuilder.factory.buildUser();
+      const campaignId1 = databaseBuilder.factory.buildCampaign().id;
+      const campaignId2 = databaseBuilder.factory.buildCampaign().id;
+      const organizationLearnerId = databaseBuilder.factory.buildSchoolingRegistration().id;
+      databaseBuilder.factory.buildCampaignParticipation({
+        userId: user.id,
+        campaignId: campaignId1,
+        schoolingRegistrationId: organizationLearnerId,
+        createdAt: new Date('2020-01-01'),
+      });
+      databaseBuilder.factory.buildCampaignParticipation({
+        campaignId: campaignId2,
+        schoolingRegistrationId: organizationLearnerId,
+        createdAt: new Date(),
+      });
+
+      await databaseBuilder.commit();
+
+      //when
+      await createOldOrganizationLearnersForDissociatedUsers(1, false);
+      const organizationLearners = await knex('organization-learners');
+
+      //then
+      expect(organizationLearners.length).to.equal(1);
+    });
   });
 });
