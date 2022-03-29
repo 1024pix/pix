@@ -1,3 +1,4 @@
+{{! template-lint-disable no-invalid-interactive }}
 {{#each @orderedAreasBySelectedFrameworks as |area|}}
   <div class="area-border-container">
     <div class="area-border {{area.color}}"></div>
@@ -54,58 +55,14 @@
                             </label>
                           </th>
                         {{/if}}
-                        <td>
-                          <Input
-                            {{on "input" (fn this.updateSelectedTubes tube.id)}}
-                            data-thematic={{thematic.id}}
-                            data-competenceId={{competence.id}}
-                            data-tube={{tube.id}}
-                            id="tube-{{tube.id}}"
-                            @type="checkbox"
-                          />
-                          <label for="tube-{{tube.id}}">
-                            {{tube.practicalTitle}}
-                            :
-                            {{tube.practicalDescription}}
-                          </label>
-                        </td>
-                        <td class="table__column--center">
-                          <PixSelect
-                            id="select-level-tube-{{tube.id}}"
-                            @options={{this.levelOptions}}
-                            @onChange={{fn this.setLevelTube tube.id}}
-                            @selectedOption={{8}}
-                          />
-                          <label for="select-level-tube-{{tube.id}}" class="sr-only">Séléction du niveau du sujet</label>
-                        </td>
-                        <td class="table__column--center">
-                          <div
-                            class="icon-container"
-                            aria-label="{{if
-                              tube.mobile
-                              'pages.preselect-target-profile.table.is-responsive'
-                              'pages.preselect-target-profile.table.not-responsive'
-                            }}"
-                          >
-                            <FaIcon @icon="mobile-alt" class="fa-2x {{if tube.mobile 'is-responsive'}}" />
-                            {{#unless tube.mobile}}
-                              <FaIcon @icon="slash" class="fa-2x not-responsive" />
-                            {{/unless}}
-                          </div>
-                          <div
-                            class="icon-container"
-                            aria-label="{{if
-                              tube.tablet
-                              'pages.preselect-target-profile.table.is-responsive'
-                              'pages.preselect-target-profile.table.not-responsive'
-                            }}"
-                          >
-                            <FaIcon @icon="tablet-alt" class="fa-2x {{if tube.tablet 'is-responsive'}}" />
-                            {{#unless tube.tablet}}
-                              <FaIcon @icon="slash" class="fa-2x not-responsive" />
-                            {{/unless}}
-                          </div>
-                        </td>
+                        <TargetProfiles::TubeCells
+                          @competence={{competence}}
+                          @thematic={{thematic}}
+                          @tube={{tube}}
+                          @updateSelectedTubes={{this.updateSelectedTubes}}
+                          @setLevelTube={{this.setLevelTube}}
+                          @tubesSelected={{this.tubesSelected}}
+                        />
                       </tr>
                     {{/each}}
                   {{/each}}
