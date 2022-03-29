@@ -17,7 +17,7 @@
   <PixSelect
     id="select-level-tube-{{@tube.id}}"
     @options={{this.levelOptions}}
-    @onChange={{fn @setLevelTube @tube.id}}
+    @onChange={{this.setLevelTube}}
     @selectedOption={{8}}
     disabled={{this.isNotSelected}}
   />

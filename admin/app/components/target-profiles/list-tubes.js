@@ -85,34 +85,42 @@ export default class ListTubes extends Component {
     this._toggleCheckboxCompetenceByElement(tube);
 
     if (tube.checked) {
-      this.tubesSelected.pushObject(tubeId);
+      const level = this._getSelectedTubeLevel(tubeId);
+      this.tubesSelected.pushObject({ id: tubeId, level });
     } else {
-      this.tubesSelected.removeObject(tubeId);
+      this.tubesSelected = this.tubesSelected.filter((tubeSelected) => {
+        return tubeSelected.id !== tubeId;
+      });
     }
+  }
+
+  _getSelectedTubeLevel(tubeId) {
+    const selectLevel = document.getElementById(`select-level-tube-${tubeId}`);
+    return selectLevel.value;
   }
 
   @action
   updateSelectedThematic(thematicId, event) {
     const thematic = event.currentTarget;
     const tubes = document.querySelectorAll(`[data-thematic="${thematicId}"]`);
-    const uniqueTubesSelected = new Set(this.tubesSelected);
+    const uniqueTubesSelected = new Set(this.tubesSelected.map(JSON.stringify));
     this._toggleCheckboxCompetenceByElement(thematic);
 
     if (thematic.checked) {
       for (let i = 0; i < tubes.length; i++) {
         const tubeId = tubes[i].getAttribute('data-tube');
         tubes[i].checked = true;
-        uniqueTubesSelected.add(tubeId);
+        uniqueTubesSelected.add(JSON.stringify({ id: tubeId, level: this._getSelectedTubeLevel(tubeId) }));
       }
     } else {
       for (let i = 0; i < tubes.length; i++) {
         const tubeId = tubes[i].getAttribute('data-tube');
         tubes[i].checked = false;
-        uniqueTubesSelected.delete(tubeId);
+        uniqueTubesSelected.delete(JSON.stringify({ id: tubeId, level: this._getSelectedTubeLevel(tubeId) }));
       }
     }
 
-    this.tubesSelected = A([...new Set(uniqueTubesSelected)]);
+    this.tubesSelected = A([...new Set(uniqueTubesSelected)].map(JSON.parse));
   }
 
   @action
@@ -140,7 +148,12 @@ export default class ListTubes extends Component {
   }
 
   @action
-  setLevelTube(tubeId) {
-    console.log(tubeId);
+  setLevelTube(tubeId, level) {
+    this.tubesSelected.map((tubeSelected) => {
+      if (tubeSelected.id === tubeId) {
+        tubeSelected.level = level;
+      }
+      return tubeSelected;
+    });
   }
 }

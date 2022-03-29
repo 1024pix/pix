@@ -55,7 +55,7 @@ module('Integration | Component | targetProfiles:tubeCells', function (hooks) {
 
   test('it should not disable level select is tubes is selected', async function (assert) {
     // given
-    this.set('tubesSelected', ['tubeId1']);
+    this.set('tubesSelected', [{ id: 'tubeId1' }]);
 
     // when
     await render(
