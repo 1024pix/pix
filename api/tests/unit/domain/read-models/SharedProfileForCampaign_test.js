@@ -23,7 +23,10 @@ describe('Unit | Domain | Models | SharedProfileForCampaign', function () {
           },
         });
 
-        expect(sharedProfileForCampaign.scorecards).to.deep.equal([expectedScorecard]);
+        expect(sharedProfileForCampaign.scorecards[0]).to.deep.include({
+          id: expectedScorecard.id,
+          name: expectedScorecard.name,
+        });
       });
     });
 
