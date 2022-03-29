@@ -1,9 +1,8 @@
 const SchoolingRegistration = require('../../../domain/models/SchoolingRegistration');
 const { checkValidation } = require('../../../domain/validators/schooling-registration-validator');
-const { checkValidationUnicity } = require('../../../domain/validators/schooling-registration-set-validator');
 
 const { CsvRegistrationParser } = require('./csv-registration-parser');
-const { CsvImportError } = require('../../../../lib/domain/errors');
+const { CsvImportError, DomainError } = require('../../../../lib/domain/errors');
 const SchoolingRegistrationColumns = require('./schooling-registration-columns');
 
 const ERRORS = {
@@ -19,6 +18,7 @@ const sexPossibleValues = {
 class SchoolingRegistrationSet {
   constructor() {
     this.registrations = [];
+    this.existingNationalStudentIds = [];
   }
 
   addRegistration(registrationAttributes) {
@@ -26,7 +26,8 @@ class SchoolingRegistrationSet {
     const transformedAttributes = this._transform(registrationAttributes);
     const registration = new SchoolingRegistration(transformedAttributes);
     this.registrations.push(registration);
-    checkValidationUnicity(this);
+
+    this._checkRegistrationsUnicity(registration);
   }
 
   _transform(registrationAttributes) {
@@ -45,6 +46,20 @@ class SchoolingRegistrationSet {
       nationalStudentId: nationalIdentifier,
       sex,
     };
+  }
+
+  _checkRegistrationsUnicity(registration) {
+    // we removed JOI unicity validation (uniq)
+    // because it took too much time (2h30  for 10000 registrations)
+    // we did the same validation but manually
+    if (this.existingNationalStudentIds.includes(registration.nationalStudentId)) {
+      const err = new DomainError();
+      err.key = 'nationalIdentifier';
+      err.why = 'uniqueness';
+
+      throw err;
+    }
+    this.existingNationalStudentIds.push(registration.nationalStudentId);
   }
 }
 
