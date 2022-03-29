@@ -2066,17 +2066,17 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
           // given
           organizationId = databaseBuilder.factory.buildOrganization().id;
 
-          databaseBuilder.factory.buildSchoolingRegistrationWithUser({
+          databaseBuilder.factory.buildOrganizationLearnerWithUser({
             organizationId,
             lastName: 'Rambo',
             user: { email: 'john@rambo.com', username: null },
           });
-          databaseBuilder.factory.buildSchoolingRegistrationWithUser({
+          databaseBuilder.factory.buildOrganizationLearnerWithUser({
             organizationId,
             lastName: 'Willis',
             user: { email: null, username: 'willy' },
           });
-          const schoolingRegistrationOfUserWithSamlId = databaseBuilder.factory.buildSchoolingRegistrationWithUser({
+          const schoolingRegistrationOfUserWithSamlId = databaseBuilder.factory.buildOrganizationLearnerWithUser({
             organizationId,
             lastName: 'Norris',
             user: { email: null, username: null },
@@ -2085,7 +2085,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
             externalIdentifier: 'chucky',
             userId: schoolingRegistrationOfUserWithSamlId.userId,
           });
-          databaseBuilder.factory.buildSchoolingRegistrationWithUser({
+          databaseBuilder.factory.buildOrganizationLearnerWithUser({
             organizationId,
             lastName: 'Lee',
             user: { email: null, username: null },
