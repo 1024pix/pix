@@ -1,5 +1,6 @@
 const _ = require('lodash');
 const { normalize } = require('../utils/string-utils');
+const logger = require('../../infrastructure/logger');
 const CertificationCandidateBookshelf = require('../orm-models/CertificationCandidate');
 const bookshelfToDomainConverter = require('../../infrastructure/utils/bookshelf-to-domain-converter');
 const { PGSQL_UNIQUE_CONSTRAINT_VIOLATION_ERROR } = require('../../../db/pgsql-errors');
@@ -67,6 +68,7 @@ module.exports = {
 
       return new CertificationCandidate(addedCertificationCandidate);
     } catch (error) {
+      logger.error(error);
       throw new CertificationCandidateCreationOrUpdateError(
         'An error occurred while saving the certification candidate in a session'
       );
