@@ -4,7 +4,10 @@ import hbs from 'htmlbars-inline-precompile';
 import { clickByName } from '@1024pix/ember-testing-library';
 import { setupRenderingTest } from 'ember-qunit';
 
-module('Integration | Component | targetProfiles:listTubes', function (hooks) {
+import moment from 'moment';
+import sinon from 'sinon';
+
+module('Integration | Component | tube:list', function (hooks) {
   setupRenderingTest(hooks);
   let orderedAreasBySelectedFrameworks;
 
@@ -12,7 +15,7 @@ module('Integration | Component | targetProfiles:listTubes', function (hooks) {
     const tubes1 = [
       {
         id: 'tubeId1',
-        practicalTitle: 'Tube 1',
+        practicalTitle: 'Titre 1',
         practicalDescription: 'Description 1',
       },
       {
