@@ -59,7 +59,7 @@ export const categoryToCode = {
   [certificationIssueReportCategories.FRAUD]: 'C6',
   [certificationIssueReportCategories.NON_BLOCKING_TECHNICAL_ISSUE]: 'C7',
   [certificationIssueReportCategories.NON_BLOCKING_CANDIDATE_ISSUE]: 'C8',
-  [certificationIssueReportCategories.IN_CHALLENGE]: 'E1-E9',
+  [certificationIssueReportCategories.IN_CHALLENGE]: 'E1-E10',
   [certificationIssueReportCategories.OTHER]: 'A2',
 };
 
