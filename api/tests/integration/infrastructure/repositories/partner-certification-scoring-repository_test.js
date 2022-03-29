@@ -7,6 +7,7 @@ const {
   mockLearningContent,
   catchErr,
 } = require('../../../test-helper');
+const omit = require('lodash/omit');
 const partnerCertificationScoringRepository = require('../../../../lib/infrastructure/repositories/partner-certification-scoring-repository');
 const skillRepository = require('../../../../lib/infrastructure/repositories/skill-repository');
 const Badge = require('../../../../lib/domain/models/Badge');
@@ -14,10 +15,12 @@ const { NotEligibleCandidateError } = require('../../../../lib/domain/errors');
 
 describe('Integration | Repository | Partner Certification Scoring', function () {
   const COMPLEMENTARY_CERTIFICATION_COURSE_RESULTS_TABLE_NAME = 'complementary-certification-course-results';
+  const COMPLEMENTARY_CERTIFICATION_COURSES_TABLE_NAME = 'complementary-certification-courses';
 
   describe('#save', function () {
     afterEach(async function () {
       await knex(COMPLEMENTARY_CERTIFICATION_COURSE_RESULTS_TABLE_NAME).delete();
+      await knex(COMPLEMENTARY_CERTIFICATION_COURSES_TABLE_NAME).delete();
       await knex('certification-courses').delete();
       await knex('badges').delete();
     });
@@ -25,6 +28,9 @@ describe('Integration | Repository | Partner Certification Scoring', function ()
     it('should insert the complementary certification course results in db if it does not already exists by partnerKey', async function () {
       // given
       const certificationCourseId = databaseBuilder.factory.buildCertificationCourse().id;
+      const complementaryCertificationCourseId = databaseBuilder.factory.buildComplementaryCertificationCourse({
+        certificationCourseId,
+      }).id;
       const partnerCertificationScoring = domainBuilder.buildCleaCertificationScoring({
         certificationCourseId,
       });
@@ -36,15 +42,20 @@ describe('Integration | Repository | Partner Certification Scoring', function ()
       await partnerCertificationScoringRepository.save({ partnerCertificationScoring });
 
       // then
-      const partnerCertificationSaved = await knex(COMPLEMENTARY_CERTIFICATION_COURSE_RESULTS_TABLE_NAME).select();
-      expect(partnerCertificationSaved).to.deep.equal([
-        {
-          certificationCourseId: partnerCertificationScoring.certificationCourseId,
-          partnerKey: partnerCertificationScoring.partnerKey,
-          acquired: true,
-          temporaryPartnerKey: null,
-        },
-      ]);
+      const complementaryCertificationCourseResultSaved = await knex(
+        COMPLEMENTARY_CERTIFICATION_COURSE_RESULTS_TABLE_NAME
+      ).select();
+      expect(complementaryCertificationCourseResultSaved).to.have.length(1);
+      const complementaryCertificationCourseResultSavedWithoutId = omit(
+        complementaryCertificationCourseResultSaved[0],
+        'id'
+      );
+      expect(complementaryCertificationCourseResultSavedWithoutId).to.deep.equal({
+        complementaryCertificationCourseId,
+        partnerKey: partnerCertificationScoring.partnerKey,
+        acquired: true,
+        temporaryPartnerKey: null,
+      });
     });
 
     it('should update the existing complementary certification course results if it exists by partnerKey', async function () {
@@ -54,8 +65,13 @@ describe('Integration | Repository | Partner Certification Scoring', function ()
         certificationCourseId,
       });
       databaseBuilder.factory.buildBadge({ key: partnerCertificationScoring.partnerKey });
+      const complementaryCertificationCourseId = databaseBuilder.factory.buildComplementaryCertificationCourse({
+        id: 998,
+        certificationCourseId,
+      }).id;
+
       databaseBuilder.factory.buildComplementaryCertificationCourseResult({
-        certificationCourseId: partnerCertificationScoring.certificationCourseId,
+        complementaryCertificationCourseId,
         partnerKey: partnerCertificationScoring.partnerKey,
       });
       await databaseBuilder.commit();
@@ -67,10 +83,16 @@ describe('Integration | Repository | Partner Certification Scoring', function ()
       // then
       const complementaryCertificationCourseResultSaved = await knex(
         COMPLEMENTARY_CERTIFICATION_COURSE_RESULTS_TABLE_NAME
-      ).select();
-      expect(complementaryCertificationCourseResultSaved).to.have.length(1);
-      expect(complementaryCertificationCourseResultSaved[0]).to.deep.equal({
-        certificationCourseId: partnerCertificationScoring.certificationCourseId,
+      )
+        .select()
+        .first();
+
+      const complementaryCertificationCourseResultSavedWithoutId = omit(
+        complementaryCertificationCourseResultSaved,
+        'id'
+      );
+      expect(complementaryCertificationCourseResultSavedWithoutId).to.deep.equal({
+        complementaryCertificationCourseId,
         partnerKey: partnerCertificationScoring.partnerKey,
         acquired: false,
         temporaryPartnerKey: null,
@@ -80,6 +102,9 @@ describe('Integration | Repository | Partner Certification Scoring', function ()
     it('should insert the complementary certification course results in db if it does not already exists by temporaryPartnerKey', async function () {
       // given
       const certificationCourseId = databaseBuilder.factory.buildCertificationCourse().id;
+      const complementaryCertificationCourseId = databaseBuilder.factory.buildComplementaryCertificationCourse({
+        certificationCourseId,
+      }).id;
       const partnerCertificationScoring = domainBuilder.buildPixPlusEduCertificationScoring({
         certificationCourseId,
       });
@@ -95,8 +120,12 @@ describe('Integration | Repository | Partner Certification Scoring', function ()
         COMPLEMENTARY_CERTIFICATION_COURSE_RESULTS_TABLE_NAME
       ).select();
       expect(complementaryCertificationCourseResultSaved).to.have.length(1);
-      expect(complementaryCertificationCourseResultSaved[0]).to.deep.equal({
-        certificationCourseId: partnerCertificationScoring.certificationCourseId,
+      const complementaryCertificationCourseResultSavedWithoutId = omit(
+        complementaryCertificationCourseResultSaved[0],
+        'id'
+      );
+      expect(complementaryCertificationCourseResultSavedWithoutId).to.deep.equal({
+        complementaryCertificationCourseId,
         partnerKey: null,
         acquired: true,
         temporaryPartnerKey: partnerCertificationScoring.temporaryPartnerKey,
@@ -106,12 +135,17 @@ describe('Integration | Repository | Partner Certification Scoring', function ()
     it('should update the existing complementary certification course results if it exists by temporaryPartnerKey', async function () {
       // given
       const certificationCourseId = databaseBuilder.factory.buildCertificationCourse().id;
+
       const partnerCertificationScoring = domainBuilder.buildPixPlusEduCertificationScoring({
         certificationCourseId,
       });
       databaseBuilder.factory.buildBadge({ key: partnerCertificationScoring.temporaryPartnerKey });
+      const complementaryCertificationCourseId = databaseBuilder.factory.buildComplementaryCertificationCourse({
+        id: 998,
+        certificationCourseId,
+      }).id;
       databaseBuilder.factory.buildComplementaryCertificationCourseResult({
-        certificationCourseId: partnerCertificationScoring.certificationCourseId,
+        complementaryCertificationCourseId,
         temporaryPartnerKey: partnerCertificationScoring.temporaryPartnerKey,
       });
       await databaseBuilder.commit();
@@ -125,8 +159,12 @@ describe('Integration | Repository | Partner Certification Scoring', function ()
         COMPLEMENTARY_CERTIFICATION_COURSE_RESULTS_TABLE_NAME
       ).select();
       expect(complementaryCertificationCourseResultSaved).to.have.length(1);
-      expect(complementaryCertificationCourseResultSaved[0]).to.deep.equal({
-        certificationCourseId: partnerCertificationScoring.certificationCourseId,
+      const complementaryCertificationCourseResultSavedWithoutId = omit(
+        complementaryCertificationCourseResultSaved[0],
+        'id'
+      );
+      expect(complementaryCertificationCourseResultSavedWithoutId).to.deep.equal({
+        complementaryCertificationCourseId,
         partnerKey: null,
         acquired: false,
         temporaryPartnerKey: partnerCertificationScoring.temporaryPartnerKey,

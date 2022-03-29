@@ -243,8 +243,9 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
         const sessionId = databaseBuilder.factory.buildSession().id;
         const certificationCourseId = await _buildCertificationResultInSession(sessionId);
         databaseBuilder.factory.buildBadge({ key: testCase.badgeKey });
+        databaseBuilder.factory.buildComplementaryCertificationCourse({ id: 998, certificationCourseId });
         databaseBuilder.factory.buildComplementaryCertificationCourseResult({
-          certificationCourseId,
+          complementaryCertificationCourseId: 998,
           partnerKey: testCase.badgeKey,
           acquired: true,
         });
@@ -522,8 +523,9 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
           sessionId
         );
         databaseBuilder.factory.buildBadge({ key: testCase.badgeKey });
+        databaseBuilder.factory.buildComplementaryCertificationCourse({ id: 998, certificationCourseId });
         databaseBuilder.factory.buildComplementaryCertificationCourseResult({
-          certificationCourseId,
+          complementaryCertificationCourseId: 998,
           partnerKey: testCase.badgeKey,
           acquired: true,
         });

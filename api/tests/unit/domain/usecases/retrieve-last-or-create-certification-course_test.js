@@ -506,6 +506,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                           ComplementaryCertificationCourse.fromComplementaryCertificationId(
                             complementaryCertificationPixPlusDroit.id
                           );
+
                         const certificationCourseToSave = CertificationCourse.from({
                           certificationCandidate: foundCertificationCandidate,
                           challenges: [challenge1, challenge2, challengePlus1, challengePlus2, challengePlus3],
@@ -520,6 +521,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                         savedCertificationCourse._complementaryCertificationCourses = [
                           {
                             ...complementaryCertificationCourse,
+                            id: 99,
                             certificationCourseId: savedCertificationCourse.getId(),
                           },
                         ];
@@ -553,6 +555,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                         // then
                         expect(result.certificationCourse._complementaryCertificationCourses).to.deep.equal([
                           {
+                            id: 99,
                             certificationCourseId: savedCertificationCourse.getId(),
                             complementaryCertificationId: complementaryCertificationPixPlusDroit.id,
                           },
@@ -1341,6 +1344,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                       savedCertificationCourse._complementaryCertificationCourses = [
                         {
                           ...complementaryCertificationCourse,
+                          id: 99,
                           certificationCourseId: savedCertificationCourse.getId(),
                         },
                       ];
@@ -1381,6 +1385,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
 
                       expect(result.certificationCourse._complementaryCertificationCourses).to.deep.equal([
                         {
+                          id: 99,
                           certificationCourseId: result.certificationCourse.getId(),
                           complementaryCertificationId: complementaryCertificationCleA.id,
                         },

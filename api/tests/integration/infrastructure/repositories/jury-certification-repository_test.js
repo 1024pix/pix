@@ -175,8 +175,12 @@ describe('Integration | Infrastructure | Repository | Jury Certification', funct
         // given
         await _buildJuryCertification(1);
         databaseBuilder.factory.buildBadge({ key: partnerKey });
-        databaseBuilder.factory.buildComplementaryCertificationCourseResult({
+        databaseBuilder.factory.buildComplementaryCertificationCourse({
+          id: 111,
           certificationCourseId: 1,
+        });
+        databaseBuilder.factory.buildComplementaryCertificationCourseResult({
+          complementaryCertificationCourseId: 111,
           partnerKey,
           acquired: true,
         });

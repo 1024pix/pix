@@ -1,5 +1,6 @@
 class ComplementaryCertificationCourse {
-  constructor({ complementaryCertificationId, certificationCourseId }) {
+  constructor({ id, complementaryCertificationId, certificationCourseId }) {
+    this.id = id;
     this.complementaryCertificationId = complementaryCertificationId;
     this.certificationCourseId = certificationCourseId;
   }

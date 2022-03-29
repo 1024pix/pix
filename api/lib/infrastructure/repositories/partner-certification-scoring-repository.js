@@ -1,7 +1,7 @@
 const _ = require('lodash');
 const { knex } = require('../bookshelf');
 const DomainTransaction = require('../DomainTransaction');
-const PartnerCertificationBookshelf = require('../orm-models/PartnerCertification');
+const ComplementaryCertificationCourseResultBookshelf = require('../orm-models/ComplementaryCertificationCourseResult');
 const CleaCertificationScoring = require('../../domain/models/CleaCertificationScoring');
 const CompetenceMark = require('../../domain/models/CompetenceMark');
 const Badge = require('../../domain/models/Badge');
@@ -38,35 +38,40 @@ module.exports = {
   },
 
   async save({ partnerCertificationScoring, domainTransaction = DomainTransaction.emptyTransaction() }) {
-    const partnerCertificationToSave = new PartnerCertificationBookshelf(
+    const { id: complementaryCertificationCourseId } = await knex
+      .select('id')
+      .from('complementary-certification-courses')
+      .where({
+        certificationCourseId: partnerCertificationScoring.certificationCourseId,
+      })
+      .first();
+
+    const partnerCertificationToSave = new ComplementaryCertificationCourseResultBookshelf(
       _adaptModelToDB({
         ...partnerCertificationScoring,
+        complementaryCertificationCourseId,
         acquired: partnerCertificationScoring.isAcquired(),
       })
     );
 
-    const exists = await knex
-      .select('*')
+    const complementaryCertificationCourseResult = await knex
+      .select('id')
       .from('complementary-certification-course-results')
       .where({
-        certificationCourseId: partnerCertificationScoring.certificationCourseId,
+        complementaryCertificationCourseId,
         partnerKey: partnerCertificationScoring.partnerKey,
       })
       .orWhere({
-        certificationCourseId: partnerCertificationScoring.certificationCourseId,
+        complementaryCertificationCourseId,
         temporaryPartnerKey: partnerCertificationScoring.temporaryPartnerKey,
       })
       .first();
 
-    if (exists) {
+    if (complementaryCertificationCourseResult) {
       return partnerCertificationToSave
         .query(function (qb) {
           qb.where({
-            certificationCourseId: partnerCertificationScoring.certificationCourseId,
-            partnerKey: partnerCertificationScoring.partnerKey,
-          }).orWhere({
-            certificationCourseId: partnerCertificationScoring.certificationCourseId,
-            temporaryPartnerKey: partnerCertificationScoring.temporaryPartnerKey,
+            id: complementaryCertificationCourseResult.id,
           });
         })
         .save(null, { transacting: domainTransaction.knexTransaction, method: 'update' });
@@ -76,8 +81,8 @@ module.exports = {
   },
 };
 
-function _adaptModelToDB({ certificationCourseId, partnerKey, temporaryPartnerKey, acquired }) {
-  return { certificationCourseId, partnerKey, temporaryPartnerKey, acquired };
+function _adaptModelToDB({ complementaryCertificationCourseId, partnerKey, temporaryPartnerKey, acquired }) {
+  return { complementaryCertificationCourseId, partnerKey, temporaryPartnerKey, acquired };
 }
 
 async function _getAcquiredCleaBadgeKey(userId, certificationCourseId, domainTransaction) {
