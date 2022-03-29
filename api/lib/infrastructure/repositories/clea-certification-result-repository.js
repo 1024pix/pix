@@ -7,6 +7,11 @@ module.exports = {
     const result = await knex
       .select('acquired')
       .from('complementary-certification-course-results')
+      .innerJoin(
+        'complementary-certification-courses',
+        'complementary-certification-courses.id',
+        'complementary-certification-course-results.complementaryCertificationCourseId'
+      )
       .where({ certificationCourseId })
       .whereIn('partnerKey', [PIX_EMPLOI_CLEA, PIX_EMPLOI_CLEA_V2])
       .first();

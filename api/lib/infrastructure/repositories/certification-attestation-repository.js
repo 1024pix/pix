@@ -149,6 +149,11 @@ async function _getAcquiredPartnerCertification(certificationCourseId) {
   const complementaryCertificationCourseResults = await knex
     .select('partnerKey', 'temporaryPartnerKey')
     .from('complementary-certification-course-results')
+    .innerJoin(
+      'complementary-certification-courses',
+      'complementary-certification-courses.id',
+      'complementary-certification-course-results.complementaryCertificationCourseId'
+    )
     .where({ certificationCourseId, acquired: true })
     .where(function () {
       this.whereIn('partnerKey', handledBadgeKeys).orWhereIn('temporaryPartnerKey', handledBadgeKeys);

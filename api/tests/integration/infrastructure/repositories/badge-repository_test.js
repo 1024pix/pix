@@ -577,7 +577,7 @@ describe('Integration | Repository | Badge', function () {
       });
     });
 
-    describe('when the badge is present in partner-certification', function () {
+    describe('when the badge is present in ComplementaryCertificationCourseResults', function () {
       it('should return true', async function () {
         // given
         const badge = databaseBuilder.factory.buildBadge();

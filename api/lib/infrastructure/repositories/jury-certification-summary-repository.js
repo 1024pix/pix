@@ -29,10 +29,16 @@ module.exports = {
           .leftJoin('assessments', 'assessments.certificationCourseId', 'certification-courses.id')
           .leftJoin('assessment-results', 'assessment-results.assessmentId', 'assessments.id')
           .leftJoin(
-            'complementary-certification-course-results',
-            'complementary-certification-course-results.certificationCourseId',
+            'complementary-certification-courses',
+            'complementary-certification-courses.certificationCourseId',
             'certification-courses.id'
           )
+          .leftJoin(
+            'complementary-certification-course-results',
+            'complementary-certification-course-results.complementaryCertificationCourseId',
+            'complementary-certification-courses.id'
+          )
+
           .where('certification-courses.sessionId', sessionId);
       })
       .select('*')

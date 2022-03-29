@@ -38,8 +38,12 @@ describe('Acceptance | API | Certifications', function () {
       emitter: 'PIX-ALGO',
       status: 'validated',
     });
-    databaseBuilder.factory.buildComplementaryCertificationCourseResult({
+    const { id } = databaseBuilder.factory.buildComplementaryCertificationCourse({
       certificationCourseId: certificationCourse.id,
+      name: 'patisseries au fruits',
+    });
+    databaseBuilder.factory.buildComplementaryCertificationCourseResult({
+      complementaryCertificationCourseId: id,
       partnerKey: badge.key,
     });
 

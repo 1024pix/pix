@@ -28,8 +28,9 @@ describe('Integration | Infrastructure | Repositories | pix-plus-droit-expert-ce
           // given
           databaseBuilder.factory.buildBadge({ key: PIX_DROIT_EXPERT_CERTIF });
           const certificationCourseId = databaseBuilder.factory.buildCertificationCourse().id;
+          databaseBuilder.factory.buildComplementaryCertificationCourse({ id: 998, certificationCourseId });
           databaseBuilder.factory.buildComplementaryCertificationCourseResult({
-            certificationCourseId,
+            complementaryCertificationCourseId: 998,
             partnerKey: PIX_DROIT_EXPERT_CERTIF,
             acquired: true,
           });
@@ -55,8 +56,9 @@ describe('Integration | Infrastructure | Repositories | pix-plus-droit-expert-ce
           // given
           databaseBuilder.factory.buildBadge({ key: PIX_DROIT_EXPERT_CERTIF });
           const certificationCourseId = databaseBuilder.factory.buildCertificationCourse().id;
+          databaseBuilder.factory.buildComplementaryCertificationCourse({ id: 998, certificationCourseId });
           databaseBuilder.factory.buildComplementaryCertificationCourseResult({
-            certificationCourseId,
+            complementaryCertificationCourseId: 998,
             partnerKey: PIX_DROIT_EXPERT_CERTIF,
             acquired: false,
           });

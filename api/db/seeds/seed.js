@@ -11,8 +11,8 @@ const { campaignsScoBuilder } = require('./data/campaigns-sco-builder');
 const { certificationCandidatesBuilder } = require('./data/certification/certification-candidates-builder');
 const { badgeAcquisitionBuilder } = require('./data/certification/badge-acquisition-builder');
 const {
-  complementaryCertificationCourseResultBuilder,
-} = require('./data/certification/complementary-certification-course-result-builder');
+  complementaryCertificationCourseResultsBuilder,
+} = require('./data/certification/complementary-certification-course-results-builder');
 const { certificationCentersBuilder } = require('./data/certification/certification-centers-builder');
 const { certificationCoursesBuilder } = require('./data/certification/certification-courses-builder');
 const certificationScoresBuilder = require('./data/certification/certification-scores-builder');
@@ -68,7 +68,7 @@ exports.seed = async (knex) => {
   certificationCoursesBuilder({ databaseBuilder });
   certificationScoresBuilder({ databaseBuilder });
   badgeAcquisitionBuilder({ databaseBuilder });
-  complementaryCertificationCourseResultBuilder({ databaseBuilder });
+  complementaryCertificationCourseResultsBuilder({ databaseBuilder });
   certificationCpfCountryBuilder({ databaseBuilder });
   certificationCpfCityBuilder({ databaseBuilder });
 

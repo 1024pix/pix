@@ -112,6 +112,11 @@ async function _getCleaCertificationResult(certificationCourseId) {
   const result = await knex
     .select('acquired')
     .from('complementary-certification-course-results')
+    .innerJoin(
+      'complementary-certification-courses',
+      'complementary-certification-courses.id',
+      'complementary-certification-course-results.complementaryCertificationCourseId'
+    )
     .where({ certificationCourseId })
     .whereIn('partnerKey', [PIX_EMPLOI_CLEA, PIX_EMPLOI_CLEA_V2])
     .first();
@@ -135,6 +140,11 @@ async function _getCertifiedBadgeImages(certificationCourseId) {
   const results = await knex
     .select('partnerKey', 'temporaryPartnerKey')
     .from('complementary-certification-course-results')
+    .innerJoin(
+      'complementary-certification-courses',
+      'complementary-certification-courses.id',
+      'complementary-certification-course-results.complementaryCertificationCourseId'
+    )
     .where({ certificationCourseId, acquired: true })
     .where(function () {
       this.whereIn('partnerKey', handledBadgeKeys).orWhereIn('temporaryPartnerKey', handledBadgeKeys);

@@ -57,9 +57,14 @@ function _selectJuryCertifications() {
     .modify(_filterMostRecentAssessmentResult)
     .leftJoin('competence-marks', 'competence-marks.assessmentResultId', 'assessment-results.id')
     .leftJoin(
-      'complementary-certification-course-results',
-      'complementary-certification-course-results.certificationCourseId',
+      'complementary-certification-courses',
+      'complementary-certification-courses.certificationCourseId',
       'certification-courses.id'
+    )
+    .leftJoin(
+      'complementary-certification-course-results',
+      'complementary-certification-course-results.complementaryCertificationCourseId',
+      'complementary-certification-courses.id'
     )
     .groupBy('certification-courses.id', 'assessments.id', 'assessment-results.id');
 }

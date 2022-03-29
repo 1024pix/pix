@@ -66,21 +66,27 @@ function _selectCertificationResults() {
     .leftJoin('assessment-results', 'assessment-results.assessmentId', 'assessments.id')
     .modify(_filterMostRecentAssessmentResult)
     .leftJoin('competence-marks', 'competence-marks.assessmentResultId', 'assessment-results.id')
+    .leftJoin(
+      'complementary-certification-courses',
+      'complementary-certification-courses.certificationCourseId',
+      'certification-courses.id'
+    )
     .leftJoin('complementary-certification-course-results', function () {
-      this.on('complementary-certification-course-results.certificationCourseId', '=', 'certification-courses.id').onIn(
-        'complementary-certification-course-results.partnerKey',
-        [
-          PIX_EMPLOI_CLEA,
-          PIX_EMPLOI_CLEA_V2,
-          PIX_DROIT_MAITRE_CERTIF,
-          PIX_DROIT_EXPERT_CERTIF,
-          PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
-          PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME,
-          PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME,
-          PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
-          PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
-        ]
-      );
+      this.on(
+        'complementary-certification-course-results.complementaryCertificationCourseId',
+        '=',
+        'complementary-certification-courses.id'
+      ).onIn('complementary-certification-course-results.partnerKey', [
+        PIX_EMPLOI_CLEA,
+        PIX_EMPLOI_CLEA_V2,
+        PIX_DROIT_MAITRE_CERTIF,
+        PIX_DROIT_EXPERT_CERTIF,
+        PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
+        PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME,
+        PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME,
+        PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
+        PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
+      ]);
     })
     .groupBy('certification-courses.id', 'assessments.id', 'assessment-results.id')
     .where('certification-courses.isPublished', true);

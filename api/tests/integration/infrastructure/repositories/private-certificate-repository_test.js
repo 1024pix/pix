@@ -304,8 +304,9 @@ describe('Integration | Infrastructure | Repository | Private Certificate', func
       }).id;
       databaseBuilder.factory.buildAssessment({ certificationCourseId: certificateId });
       databaseBuilder.factory.buildBadge({ key: PIX_EMPLOI_CLEA });
+      databaseBuilder.factory.buildComplementaryCertificationCourse({ id: 998, certificationCourseId: certificateId });
       databaseBuilder.factory.buildComplementaryCertificationCourseResult({
-        certificationCourseId: certificateId,
+        complementaryCertificationCourseId: 998,
         partnerKey: PIX_EMPLOI_CLEA,
         acquired: true,
       });
@@ -349,8 +350,9 @@ describe('Integration | Infrastructure | Repository | Private Certificate', func
       const { certificateId } = await _buildValidPrivateCertificate(privateCertificateData);
 
       databaseBuilder.factory.buildBadge({ key: PIX_EMPLOI_CLEA_V2 });
+      databaseBuilder.factory.buildComplementaryCertificationCourse({ id: 998, certificationCourseId: certificateId });
       databaseBuilder.factory.buildComplementaryCertificationCourseResult({
-        certificationCourseId: certificateId,
+        complementaryCertificationCourseId: 998,
         partnerKey: PIX_EMPLOI_CLEA_V2,
         acquired: true,
       });
@@ -824,8 +826,9 @@ describe('Integration | Infrastructure | Repository | Private Certificate', func
       }).id;
       databaseBuilder.factory.buildAssessment({ certificationCourseId: certificateId });
       databaseBuilder.factory.buildBadge({ key: PIX_EMPLOI_CLEA });
+      databaseBuilder.factory.buildComplementaryCertificationCourse({ id: 998, certificationCourseId: certificateId });
       databaseBuilder.factory.buildComplementaryCertificationCourseResult({
-        certificationCourseId: certificateId,
+        complementaryCertificationCourseId: 998,
         partnerKey: PIX_EMPLOI_CLEA,
         acquired: true,
       });
@@ -920,16 +923,22 @@ async function _buildValidPrivateCertificateWithAcquiredAndNotAcquiredBadges({
 
   acquiredBadges?.forEach((badgeKey) => {
     databaseBuilder.factory.buildBadge({ key: badgeKey });
-    databaseBuilder.factory.buildComplementaryCertificationCourseResult({
+    const { id: complementaryCertificationCourseId } = databaseBuilder.factory.buildComplementaryCertificationCourse({
       certificationCourseId: certificateId,
+    });
+    databaseBuilder.factory.buildComplementaryCertificationCourseResult({
+      complementaryCertificationCourseId,
       partnerKey: badgeKey,
       acquired: true,
     });
   });
   temporaryAcquiredBadges?.forEach((badgeKey) => {
     databaseBuilder.factory.buildBadge({ key: badgeKey });
-    databaseBuilder.factory.buildComplementaryCertificationCourseResult({
+    const { id: complementaryCertificationCourseId } = databaseBuilder.factory.buildComplementaryCertificationCourse({
       certificationCourseId: certificateId,
+    });
+    databaseBuilder.factory.buildComplementaryCertificationCourseResult({
+      complementaryCertificationCourseId,
       temporaryPartnerKey: badgeKey,
       acquired: true,
     });
@@ -937,8 +946,11 @@ async function _buildValidPrivateCertificateWithAcquiredAndNotAcquiredBadges({
 
   notAcquiredBadges.forEach((badgeKey) => {
     databaseBuilder.factory.buildBadge({ key: badgeKey });
-    databaseBuilder.factory.buildComplementaryCertificationCourseResult({
+    const { id: complementaryCertificationCourseId } = databaseBuilder.factory.buildComplementaryCertificationCourse({
       certificationCourseId: certificateId,
+    });
+    databaseBuilder.factory.buildComplementaryCertificationCourseResult({
+      complementaryCertificationCourseId,
       partnerKey: badgeKey,
       acquired: false,
     });
