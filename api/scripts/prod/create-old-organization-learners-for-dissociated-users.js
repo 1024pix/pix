@@ -32,16 +32,7 @@ async function createOldOrganizationLearnersForDissociatedUsers(concurrency = 1,
 
 async function _createOldOrganizationLearnerForDissociatedUser(participation) {
   await DomainTransaction.execute(async (domainTransaction) => {
-    const [organizationLearnerId] = await domainTransaction
-      .knexTransaction('organization-learners')
-      .insert({
-        firstName: participation.firstName,
-        lastName: participation.lastName,
-        userId: participation.userId,
-        organizationId: participation.organizationId,
-        isDisabled: true,
-      })
-      .returning('id');
+    const organizationLearnerId = await _insertOldOrganizationLearner(domainTransaction, participation);
     await _updateCampaignParticipationWithOrganizationLearnerId(
       participation,
       organizationLearnerId,
@@ -51,6 +42,20 @@ async function _createOldOrganizationLearnerForDissociatedUser(participation) {
 
   count++;
   _log(`${count} / ${total}`);
+}
+
+async function _insertOldOrganizationLearner(domainTransaction, participation) {
+  const [organizationLearnerId] = await domainTransaction
+    .knexTransaction('organization-learners')
+    .insert({
+      firstName: participation.firstName,
+      lastName: participation.lastName,
+      userId: participation.userId,
+      organizationId: participation.organizationId,
+      isDisabled: true,
+    })
+    .returning('id');
+  return organizationLearnerId;
 }
 
 function _updateCampaignParticipationWithOrganizationLearnerId(
