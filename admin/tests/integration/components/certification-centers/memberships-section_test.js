@@ -36,12 +36,12 @@ module('Integration | Component | certification-centers/memberships-section', fu
 
     // then
     assert.dom(screen.getByLabelText('Membre')).exists();
-    assert.dom('[data-test-membership-id]').hasText(certificationCenterMembership.id.toString());
-    assert.dom('[data-test-user-id]').hasText(user.id.toString());
-    assert.dom('[data-test-user-first-name]').hasText(user.firstName);
-    assert.dom('[data-test-user-last-name]').hasText(user.lastName);
-    assert.dom('[data-test-user-email]').hasText(user.email);
-    assert.dom('[data-test-membership-created-at]').hasText(expectedDate);
+    assert.dom(screen.getByText(certificationCenterMembership.id.toString())).exists();
+    assert.dom(screen.getByText(user.id.toString())).exists();
+    assert.dom(screen.getByText(user.firstName)).exists();
+    assert.dom(screen.getByText(user.lastName)).exists();
+    assert.dom(screen.getByText(user.email)).exists();
+    assert.dom(screen.getByText(expectedDate)).exists();
   });
 
   test('it should display a list of certification center memberships', async function (assert) {
@@ -78,11 +78,11 @@ module('Integration | Component | certification-centers/memberships-section', fu
     this.set('disableCertificationCenterMembership', sinon.stub());
 
     // when
-    await render(
+    const screen = await render(
       hbs`<CertificationCenters::MembershipsSection @disableCertificationCenterMembership={{this.disableCertificationCenterMembership}} />`
     );
 
     // then
-    assert.dom('[data-test-empty-message]').hasText('Aucun résultat');
+    assert.dom(screen.getByText('Aucun résultat')).exists();
   });
 });

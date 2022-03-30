@@ -23,12 +23,12 @@
           <tbody>
             {{#each @certificationCenterMemberships as |certificationCenterMembership|}}
               <tr aria-label="Membre">
-                <td data-test-membership-id>{{certificationCenterMembership.id}}</td>
-                <td data-test-user-id>{{certificationCenterMembership.user.id}}</td>
-                <td data-test-user-first-name>{{certificationCenterMembership.user.firstName}}</td>
-                <td data-test-user-last-name>{{certificationCenterMembership.user.lastName}}</td>
-                <td data-test-user-email>{{certificationCenterMembership.user.email}}</td>
-                <td data-test-membership-created-at>
+                <td>{{certificationCenterMembership.id}}</td>
+                <td>{{certificationCenterMembership.user.id}}</td>
+                <td>{{certificationCenterMembership.user.firstName}}</td>
+                <td>{{certificationCenterMembership.user.lastName}}</td>
+                <td>{{certificationCenterMembership.user.email}}</td>
+                <td>
                   {{moment-format certificationCenterMembership.createdAt "DD-MM-YYYY - HH:mm:ss"}}
                 </td>
                 <td>
@@ -48,7 +48,7 @@
       </table>
 
       {{#unless @certificationCenterMemberships}}
-        <div class="table__empty content-text" data-test-empty-message>Aucun résultat</div>
+        <div class="table__empty content-text">Aucun résultat</div>
       {{/unless}}
     </div>
   </div>
