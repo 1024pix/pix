@@ -1,7 +1,7 @@
 const CertificationCourse = require('../models/CertificationCourse');
 const Assessment = require('../models/Assessment');
 const ComplementaryCertificationCourse = require('../models/ComplementaryCertificationCourse');
-const { PIX_PLUS_DROIT, CLEA } = require('../models/ComplementaryCertification');
+const { PIX_PLUS_DROIT, CLEA, PIX_PLUS_EDU } = require('../models/ComplementaryCertification');
 const {
   UserNotAuthorizedToCertifyError,
   NotFoundError,
@@ -184,6 +184,12 @@ async function _startNewCertification({
       locale
     );
     challengesForCertification.push(...certificationChallengesForPixEdu);
+    if (certificationChallengesForPixEdu.length) {
+      const pixEduComplementaryCertification = complementaryCertifications.find((comp) => comp.name === PIX_PLUS_EDU);
+      if (pixEduComplementaryCertification) {
+        complementaryCertificationIds.push(pixEduComplementaryCertification.id);
+      }
+    }
   }
 
   return _createCertificationCourse({
