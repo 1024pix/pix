@@ -42,7 +42,7 @@
     "@1024pix/pix-ui": "^13.3.4",
     "@ember/jquery": "^2.0.0",
     "@ember/optional-features": "^2.0.0",
-    "@ember/render-modifiers": "^1.0.2",
+    "@ember/render-modifiers": "^2.0.4",
     "@formatjs/intl": "^2.1.1",
     "@formatjs/intl-getcanonicallocales": "^1.7.3",
     "@formatjs/intl-locale": "^2.4.36",
