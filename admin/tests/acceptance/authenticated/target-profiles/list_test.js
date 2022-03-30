@@ -43,10 +43,10 @@ module('Acceptance | Target Profiles | List', function (hooks) {
       server.createList('target-profile', 12);
 
       // when
-      await visit('/target-profiles/list');
+      const screen = await visitScreen('/target-profiles/list');
 
       // then
-      assert.dom('[aria-label="Profil cible"]').exists({ count: 12 });
+      assert.strictEqual(screen.getAllByLabelText('Profil cible').length, 12);
     });
 
     module('when filters are used', function (hooks) {

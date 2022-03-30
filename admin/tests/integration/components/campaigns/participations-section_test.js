@@ -22,10 +22,10 @@ module('Integration | Component | Campaigns | participations-section', function 
     participations.meta = { rowCount: 2 };
 
     // when
-    await render(hbs`<Campaigns::ParticipationsSection @participations={{participations}}/>`);
+    const screen = await render(hbs`<Campaigns::ParticipationsSection @participations={{participations}}/>`);
 
     // then
-    assert.dom('[aria-label="participation"]').exists({ count: 2 });
+    assert.strictEqual(screen.getAllByLabelText('participation').length, 2);
   });
 
   test('it should display participantExternalId column if idPixLabel is set', async function (assert) {

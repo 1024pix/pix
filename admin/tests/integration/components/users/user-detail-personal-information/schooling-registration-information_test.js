@@ -101,12 +101,12 @@ module(
       });
 
       // when
-      await render(
+      const screen = await render(
         hbs`<Users::UserDetailPersonalInformation::SchoolingRegistrationInformation @user={{this.user}} @toggleDisplayDissociateModal={{this.toggleDisplayDissociateModal}} />`
       );
 
       // then
-      assert.dom('[aria-label="Inscription activée"]').exists();
+      assert.dom(screen.getByLabelText('Inscription activée')).exists();
     });
 
     test('should display schooling registration as inactive', async function (assert) {
@@ -117,12 +117,12 @@ module(
       });
 
       // when
-      await render(
+      const screen = await render(
         hbs`<Users::UserDetailPersonalInformation::SchoolingRegistrationInformation @user={{this.user}} @toggleDisplayDissociateModal={{this.toggleDisplayDissociateModal}} />`
       );
 
       // then
-      assert.dom('[aria-label="Inscription désactivée"]').exists();
+      assert.dom(screen.getByLabelText('Inscription désactivée')).exists();
     });
 
     test('should be able to dissociate user if it is enabled', async function (assert) {

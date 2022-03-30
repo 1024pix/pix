@@ -76,10 +76,10 @@ module('Integration | Component | organizations/campaigns-section', function (ho
       this.set('campaigns', campaigns);
 
       // when
-      await render(hbs`<Organizations::CampaignsSection @campaigns={{ campaigns }}/>`);
+      const screen = await render(hbs`<Organizations::CampaignsSection @campaigns={{ campaigns }}/>`);
 
       // then
-      assert.dom('[aria-label="campagne"]').exists({ count: 2 });
+      assert.strictEqual(screen.getAllByLabelText('campagne').length, 2);
     });
 
     test('it should display information of each campaigns', async function (assert) {

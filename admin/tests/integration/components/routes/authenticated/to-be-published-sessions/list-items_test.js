@@ -1,7 +1,7 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { click } from '@ember/test-helpers';
-import { render } from '@1024pix/ember-testing-library';
+import { render, clickByName } from '@1024pix/ember-testing-library';
 import hbs from 'htmlbars-inline-precompile';
 import sinon from 'sinon';
 
@@ -73,7 +73,7 @@ module('Integration | Component | routes/authenticated/to-be-published-sessions 
     );
 
     // when
-    await click('[aria-label="Publier la session numéro 1"]');
+    await clickByName('Publier la session numéro 1');
 
     // then
     assert.dom(screen.getByText('Souhaitez-vous publier la session ?')).exists();
@@ -93,7 +93,7 @@ module('Integration | Component | routes/authenticated/to-be-published-sessions 
     await render(
       hbs`<ToBePublishedSessions::ListItems @toBePublishedSessions={{this.toBePublishedSessions}} @publishSession={{this.publishSession}}/>`
     );
-    await click('[aria-label="Publier la session numéro 1"]');
+    await clickByName('Publier la session numéro 1');
 
     // when
     await click('.btn-primary');

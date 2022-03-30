@@ -42,7 +42,7 @@ module('Integration | Component | member-item', function (hooks) {
 
       // then
       assert.dom(screen.getByRole('button', { name: 'Enregistrer' })).exists();
-      assert.dom('button[aria-label="Annuler"]').exists();
+      assert.dom(screen.getByLabelText('Annuler')).exists();
     });
 
     test('it should display the options when select is open', async function (assert) {

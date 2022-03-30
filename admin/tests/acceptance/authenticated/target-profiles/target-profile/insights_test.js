@@ -138,14 +138,14 @@ module('Acceptance | Target Profiles | Target Profile | Insights', function (hoo
 
     test('should remove one line of a new stage', async function (assert) {
       // when
-      await visit(`/target-profiles/${targetProfile.id}/insights`);
+      const screen = await visitScreen(`/target-profiles/${targetProfile.id}/insights`);
       const stageCount = findAll('.insights__section:nth-child(2) tbody tr').length;
       // TODO: Fix this the next time the file is edited.
       // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(stageCount, 1);
       await click("button[data-test='Nouveau palier']");
       await click("button[data-test='Nouveau palier']");
-      await click("button[aria-label='Supprimer palier']");
+      await click(screen.getAllByLabelText('Supprimer palier')[1]);
 
       // then
       const newStageCount = findAll('.insights__section:nth-child(2) tbody tr').length;
