@@ -119,7 +119,6 @@
       class="stages-new-stage pix-button__secondary"
       @backgroundColor="transparent-light"
       @isBorderVisible={{true}}
-      data-test="Nouveau palier"
       @triggerAction={{this.addStage}}
     >
       <FaIcon @icon="plus" />Nouveau palier
@@ -128,17 +127,15 @@
     {{#if this.hasNewStage}}
       <div class="stages-actions form-actions">
         <PixButton
-          data-test="form-action-cancel"
           @backgroundColor="transparent-light"
           @isBorderVisible={{true}}
           @triggerAction={{this.cancelStagesCreation}}
-        >Annuler</PixButton>
-        <PixButton
-          data-test="form-action-submit"
-          type="submit"
-          @backgroundColor="green"
-          @triggerAction={{this.createStages}}
-        >Enregistrer</PixButton>
+        >
+          Annuler
+        </PixButton>
+        <PixButton type="submit" @backgroundColor="green" @triggerAction={{this.createStages}}>
+          Enregistrer
+        </PixButton>
       </div>
     {{/if}}
   </form>
