@@ -30,10 +30,10 @@ module('Integration | Component | users | user-detail-personal-information', fun
         this.set('user', { schoolingRegistrations: [{ id: 1 }, { id: 2 }] });
 
         // when
-        await render(hbs`<Users::UserDetailPersonalInformation @user={{this.user}}/>`);
+        const screen = await render(hbs`<Users::UserDetailPersonalInformation @user={{this.user}}/>`);
 
         // then
-        assert.dom('tr[aria-label="Inscription"]').exists({ count: 2 });
+        assert.strictEqual(screen.getAllByLabelText('Inscription').length, 2);
       });
 
       module('Display the schooling registrations status', function () {
@@ -42,10 +42,10 @@ module('Integration | Component | users | user-detail-personal-information', fun
           this.set('user', { schoolingRegistrations: [{ id: 1, isDisabled: false }] });
 
           // when
-          await render(hbs`<Users::UserDetailPersonalInformation @user={{this.user}}/>`);
+          const screen = await render(hbs`<Users::UserDetailPersonalInformation @user={{this.user}}/>`);
 
           // then
-          assert.dom('[aria-label="Inscription activée"]').exists();
+          assert.dom(screen.getByLabelText('Inscription activée')).exists();
         });
 
         test('Should display a red cross on the table when "isDisabled= true"', async function (assert) {
@@ -53,10 +53,10 @@ module('Integration | Component | users | user-detail-personal-information', fun
           this.set('user', { schoolingRegistrations: [{ id: 1, isDisabled: true }] });
 
           // when
-          await render(hbs`<Users::UserDetailPersonalInformation @user={{this.user}}/>`);
+          const screen = await render(hbs`<Users::UserDetailPersonalInformation @user={{this.user}}/>`);
 
           // then
-          assert.dom('[aria-label="Inscription désactivée"]').exists();
+          assert.dom(screen.getByLabelText('Inscription désactivée')).exists();
         });
       });
     });

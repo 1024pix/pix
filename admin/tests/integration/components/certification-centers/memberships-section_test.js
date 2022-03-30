@@ -1,8 +1,7 @@
 import moment from 'moment';
-
+import { render } from '@1024pix/ember-testing-library';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
 import sinon from 'sinon';
@@ -29,14 +28,14 @@ module('Integration | Component | certification-centers/memberships-section', fu
     const expectedDate = moment(certificationCenterMembership.createdAt).format('DD-MM-YYYY - HH:mm:ss');
 
     // when
-    await render(
+    const screen = await render(
       hbs`<CertificationCenters::MembershipsSection
         @certificationCenterMemberships={{certificationCenterMemberships}}
         @disableCertificationCenterMembership={{this.disableCertificationCenterMembership}} />`
     );
 
     // then
-    assert.dom('[aria-label="Membre"]').exists();
+    assert.dom(screen.getByLabelText('Membre')).exists();
     assert.dom('[data-test-membership-id]').hasText(certificationCenterMembership.id.toString());
     assert.dom('[data-test-user-id]').hasText(user.id.toString());
     assert.dom('[data-test-user-first-name]').hasText(user.firstName);
@@ -64,14 +63,14 @@ module('Integration | Component | certification-centers/memberships-section', fu
     this.set('disableCertificationCenterMembership', sinon.stub());
 
     // when
-    await render(
+    const screen = await render(
       hbs`<CertificationCenters::MembershipsSection
         @certificationCenterMemberships={{certificationCenterMemberships}}
         @disableCertificationCenterMembership={{this.disableCertificationCenterMembership}} />`
     );
 
     // then
-    assert.dom('[aria-label="Membre"]').exists({ count: 2 });
+    assert.strictEqual(screen.getAllByLabelText('Membre').length, 2);
   });
 
   test('it should display a message when there is no membership', async function (assert) {

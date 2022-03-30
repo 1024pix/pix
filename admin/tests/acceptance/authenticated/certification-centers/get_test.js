@@ -1,6 +1,6 @@
 import moment from 'moment';
 import { module, test } from 'qunit';
-import { click, currentURL, find, findAll, triggerEvent, visit } from '@ember/test-helpers';
+import { click, currentURL, findAll, triggerEvent, visit } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { visit as visitScreen, fillByLabel, clickByName } from '@1024pix/ember-testing-library';
@@ -105,7 +105,7 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
     const certificationCenterMembership1 = server.create('certification-center-membership', {
       createdAt: new Date('2018-02-15T05:06:07Z'),
       certificationCenter,
-      user: server.create('user'),
+      user: server.create('user', { id: 900 }),
     });
     server.create('certification-center-membership', {
       createdAt: new Date('2019-02-15T05:06:07Z'),
@@ -118,10 +118,9 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
     const screen = await visitScreen(`/certification-centers/${certificationCenter.id}`);
 
     // then
-    assert.dom('[aria-label="Membre"]').exists({ count: 2 });
-
-    assert.dom('[aria-label="Membre"]:first-child td:nth-child(2)').hasText(certificationCenterMembership1.user.id);
-
+    assert.strictEqual(screen.getAllByLabelText('Membre').length, 2);
+    assert.dom(screen.getAllByLabelText('Membre')[0]).containsText(certificationCenterMembership1.user.id);
+    assert.dom(screen.getByText(certificationCenterMembership1.user.id)).exists();
     assert.dom(screen.getByText(certificationCenterMembership1.user.firstName)).exists();
     assert.dom(screen.getByText(certificationCenterMembership1.user.lastName)).exists();
     assert.dom(screen.getByText(certificationCenterMembership1.user.email)).exists();
@@ -169,7 +168,7 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
 
       // then
       assert.dom(screen.getByText('Ajouter un membre')).exists();
-      assert.dom('[aria-label="Adresse e-mail du nouveau membre"]').exists();
+      assert.dom(screen.getByLabelText('Adresse e-mail du nouveau membre')).exists();
       assert.dom(screen.getByText('Valider')).exists();
       assert.dom('.error').notExists;
     });
@@ -303,7 +302,7 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
       assert.dom(screen.getByRole('heading', { name: 'nouveau nom' })).exists();
       assert.dom(screen.getByText('Établissement supérieur')).exists();
       assert.dom(screen.getByText('nouvel identifiant externe')).exists();
-      assert.strictEqual(find('span[aria-label="Espace surveillant"]').textContent, 'oui');
+      assert.dom(screen.getByLabelText('Espace surveillant')).hasText('oui');
     });
 
     test('should display a success notification when the certification has been successfully updated', async function (assert) {

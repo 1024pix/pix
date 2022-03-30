@@ -89,7 +89,7 @@ module('Acceptance | authenticated/sessions/list/to be published', function (hoo
         sessionTime,
       });
       const screen = await visitScreen(SESSIONS_TO_BE_PUBLISHED_LIST_PAGE);
-      await click('[aria-label="Publier la session numéro 2"]');
+      await clickByName('Publier la session numéro 2');
 
       // when
       await click('.modal-footer .btn-primary');

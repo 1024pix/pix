@@ -73,8 +73,8 @@ module('Acceptance | Session List', function (hooks) {
       module('when selecting a different page', function () {
         test('it should display the second page of finalized sessions', async function (assert) {
           // when
-          await visit('/sessions/list');
-          await click('[aria-label="Aller à la page suivante"]');
+          const screen = await visitScreen('/sessions/list');
+          await click(screen.getByLabelText('Aller à la page suivante'));
 
           // then
           assert.dom('select#pageSize').hasValue('10');

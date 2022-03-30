@@ -45,12 +45,12 @@ module('Integration | Component | routes/authenticated/target-profiles | list-it
     this.targetProfiles = targetProfiles;
 
     // when
-    await render(
+    const screen = await render(
       hbs`<TargetProfiles::ListItems @targetProfiles={{this.targetProfiles}} @triggerFiltering={{this.triggerFiltering}} @goToTargetProfilePage={{this.goToTargetProfilePage}} />`
     );
 
     // then
-    assert.dom('[aria-label="Profil cible"]').exists({ count: 2 });
+    assert.strictEqual(screen.getAllByLabelText('Profil cible').length, 2);
   });
 
   test('it should display target profile data', async function (assert) {
@@ -62,13 +62,13 @@ module('Integration | Component | routes/authenticated/target-profiles | list-it
     this.targetProfiles = targetProfiles;
 
     // when
-    await render(
+    const screen = await render(
       hbs`<TargetProfiles::ListItems @targetProfiles={{this.targetProfiles}} @triggerFiltering={{this.triggerFiltering}} @goToTargetProfilePage={{this.goToTargetProfilePage}}/>`
     );
 
     // then
-    assert.dom('[aria-label="Profil cible"]').containsText(123);
-    assert.dom('[aria-label="Profil cible"]').containsText('Profile Cible 1');
+    assert.dom(screen.getByLabelText('Profil cible')).containsText(123);
+    assert.dom(screen.getByLabelText('Profil cible')).containsText('Profile Cible 1');
   });
 
   test('it should display target profile status as "Obsolète" when target profile is outdated', async function (assert) {
