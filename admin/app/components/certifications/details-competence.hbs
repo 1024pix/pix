@@ -8,6 +8,7 @@
           <div class="col">
             <div class="progress">
               <div
+                aria-label="Jauge de compétences positionnées"
                 class="progress-bar"
                 role="progressbar"
                 aria-valuenow="{{@competence.positionedLevel}}"
@@ -24,7 +25,7 @@
           <div class="col">
             <div class="progress">
               <div
-                data-test-id="progress-bar-competence-level-certificate"
+                aria-label="Jauge de compétences certifiées"
                 class="progress-bar certificate"
                 role="progressbar"
                 aria-valuenow="{{@competence.obtainedLevel}}"
@@ -42,7 +43,7 @@
             <div class="col">
               <div class="progress">
                 <div
-                  data-test-id="jury-competence-level"
+                  aria-label="Jauge de compétences corrigées"
                   class="progress-bar jury"
                   role="progressbar"
                   aria-valuenow="{{this.competenceJury.level}}"

@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render } from '@ember/test-helpers';
+import { render } from '@1024pix/ember-testing-library';
 import hbs from 'htmlbars-inline-precompile';
 import { resolve } from 'rsvp';
 
@@ -62,15 +62,15 @@ module('Integration | Component | certifications/details-competence', function (
     this.set('externalAction', resolve());
 
     // when
-    await render(
+    const screen = await render(
       hbs`<Certifications::DetailsCompetence @competence={{competenceData}} rate={{60}} juryRate={{70}} @onUpdateRate={{externalAction}} />`
     );
 
     // then
-    assert.dom('[data-test-id="jury-competence-level"]').exists();
-    assert.dom('[data-test-id="jury-competence-level"]').hasText('2');
+    assert.strictEqual(screen.getAllByRole('progressbar').length, 3);
+    assert.dom(screen.getByLabelText('Jauge de compétences corrigées')).hasText('2');
     assert.dom('.jury.competence-score').exists();
     assert.dom('.jury.competence-score').hasText('18 Pix');
-    assert.dom('[data-test-id="progress-bar-competence-level-certificate"]').hasText('-1');
+    assert.dom(screen.getByLabelText('Jauge de compétences certifiées')).hasText('-1');
   });
 });
