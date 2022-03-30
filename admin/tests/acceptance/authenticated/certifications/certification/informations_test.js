@@ -630,7 +630,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
 
         // then
         assert.dom(screen.getByText('Validée')).exists();
-        assert.dom(screen.getByText('Annuler la certification')).exists();
+        assert.dom(screen.getByRole('button', { name: 'Annuler la certification' })).exists();
       });
 
       test('should cancel the certification when confirming action in the confirmation popup', async function (assert) {
@@ -643,7 +643,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
 
         // then
         assert.dom(screen.getByText('Annulée')).exists();
-        assert.dom(screen.getByText('Désannuler la certification')).exists();
+        assert.dom(screen.getByRole('button', { name: 'Désannuler la certification' })).exists();
       });
     });
 
@@ -679,7 +679,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
 
         // then
         assert.dom(screen.getByText('Annulée')).exists();
-        assert.dom(screen.getByText('Désannuler la certification')).exists();
+        assert.dom(screen.getByRole('button', { name: 'Désannuler la certification' })).exists();
       });
 
       test('should uncancel the certification when confirming action in the confirmation popup', async function (assert) {
@@ -692,7 +692,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
 
         // then
         assert.dom(screen.getByText('Validée')).exists();
-        assert.dom(screen.getByText('Annuler la certification')).exists();
+        assert.dom(screen.getByRole('button', { name: 'Annuler la certification' })).exists();
       });
     });
   });
