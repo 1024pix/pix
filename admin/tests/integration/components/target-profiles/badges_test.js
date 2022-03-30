@@ -43,7 +43,7 @@ module('Integration | Component | TargetProfiles::Badges', function (hooks) {
     assert.dom(screen.getByText('My title')).exists();
     assert.dom(screen.getByText('My message')).exists();
     assert.dom(screen.getByText('Voir détail')).exists();
-    assert.notContains('Aucun résultat thématique associé');
+    assert.dom(screen.queryByText('Aucun résultat thématique associé')).doesNotExist();
   });
 
   test('it should display a message when empty', async function (assert) {

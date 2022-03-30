@@ -135,7 +135,7 @@ module('Acceptance | User details personal information', function (hooks) {
 
       // then
       assert.deepEqual(currentURL(), `/users/${user.id}`);
-      assert.notContains('Organisation_to_dissociate_of');
+      assert.dom(screen.queryByText('Organisation_to_dissociate_of')).doesNotExist();
     });
   });
 
@@ -151,7 +151,7 @@ module('Acceptance | User details personal information', function (hooks) {
 
       // then
       assert.dom(screen.getByLabelText("L'utilisateur n'a pas de méthode de connexion avec adresse e-mail")).exists();
-      assert.notContains('Supprimer');
+      assert.dom(screen.queryByText('Supprimer')).doesNotExist();
     });
   });
 });

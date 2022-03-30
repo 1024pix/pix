@@ -146,11 +146,11 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
     });
 
     // when
-    await visit(`/certification-centers/${certificationCenter.id}`);
+    const screen = await visitScreen(`/certification-centers/${certificationCenter.id}`);
     await clickByName('Désactiver');
 
     // then
-    assert.notContains('Lili');
+    assert.dom(screen.queryByText('Lili')).doesNotExist();
   });
 
   module('To add certification center membership', function () {

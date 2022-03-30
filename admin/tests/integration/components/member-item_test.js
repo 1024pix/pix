@@ -64,7 +64,9 @@ module('Integration | Component | member-item', function (hooks) {
     test('it should update role on save', async function (assert) {
       // given
       this.updateMembership = sinon.spy();
-      await render(hbs`<MemberItem @membership={{this.membership}} @updateMembership={{this.updateMembership}} />`);
+      const screen = await render(
+        hbs`<MemberItem @membership={{this.membership}} @updateMembership={{this.updateMembership}} />`
+      );
       await clickByName('Modifier le rôle');
 
       // when
@@ -72,7 +74,7 @@ module('Integration | Component | member-item', function (hooks) {
       await clickByName('Enregistrer');
 
       // then
-      assert.notContains('Enregistrer');
+      assert.dom(screen.queryByText('Enregistrer')).doesNotExist();
       // TODO: Fix this the next time the file is edited.
       // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(this.membership.organizationRole, 'MEMBER');
@@ -93,7 +95,7 @@ module('Integration | Component | member-item', function (hooks) {
 
       // then
       assert.dom(screen.getByText('Administrateur')).exists();
-      assert.notContains('Enregistrer');
+      assert.dom(screen.queryByText('Enregistrer')).doesNotExist();
       assert.notOk(this.updateMembership.called);
     });
   });

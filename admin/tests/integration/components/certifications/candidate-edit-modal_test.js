@@ -38,12 +38,12 @@ module('Integration | Component | certifications/candidate-edit-modal', function
       this.countries = [];
 
       // when
-      await render(
+      const screen = await render(
         hbs`<Certifications::CandidateEditModal @isDisplayed={{false}} @candidate={{candidate}} @countries={{countries}} />`
       );
 
       // then
-      assert.notContains('Editer les informations du candidat');
+      assert.dom(screen.queryByText('Editer les informations du candidat')).doesNotExist();
     });
   });
 
@@ -558,8 +558,8 @@ module('Integration | Component | certifications/candidate-edit-modal', function
         await fillByLabel('Pays de naissance', '99101');
 
         // then
-        assert.notContains('* Code Insee de naissance');
-        assert.notContains('* Code postal de naissance');
+        assert.dom(screen.queryByText('* Code Insee de naissance')).doesNotExist();
+        assert.dom(screen.queryByText('* Code postal de naissance')).doesNotExist();
         assert.dom(screen.getByLabelText('* Commune de naissance')).exists();
       });
     });
@@ -588,8 +588,8 @@ module('Integration | Component | certifications/candidate-edit-modal', function
 
         // then
         assert.dom(screen.getByLabelText('* Code Insee de naissance')).exists();
-        assert.notContains('* Code postal de naissance');
-        assert.notContains('* Commune de naissance');
+        assert.dom(screen.queryByText('* Code postal de naissance')).doesNotExist();
+        assert.dom(screen.queryByText('* Commune de naissance')).doesNotExist();
       });
     });
 
@@ -616,7 +616,7 @@ module('Integration | Component | certifications/candidate-edit-modal', function
         await click('#postal-code-choice');
 
         // then
-        assert.notContains('Code INSEE de naissance');
+        assert.dom(screen.queryByText('Code INSEE de naissance')).doesNotExist();
         assert.dom(screen.getByLabelText('* Code postal de naissance')).exists();
         assert.dom(screen.getByLabelText('* Commune de naissance')).exists();
       });

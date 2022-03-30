@@ -29,7 +29,7 @@ module('Integration | Component | modal', function (hooks) {
       // given
       this.set('title', 'Mon titre');
 
-      await render(
+      const screen = await render(
         hbs`<Modal::Dialog @display={{display}} @title={{title}} @additionalContainerClass={{additionalContainerClass}}>Mon contenu</Modal::Dialog>`
       );
 
@@ -37,7 +37,7 @@ module('Integration | Component | modal', function (hooks) {
       this.set('display', false);
 
       // then
-      assert.notContains('Mon titre');
+      assert.dom(screen.queryByText('Mon titre')).doesNotExist();
     });
 
     test('should call close method when user clicks on close button', async function (assert) {

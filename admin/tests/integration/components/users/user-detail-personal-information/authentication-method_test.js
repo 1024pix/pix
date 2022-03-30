@@ -105,13 +105,13 @@ module('Integration | Component | users | user-detail-personal-information/authe
           this.set('user', { hasOnlyOneAuthenticationMethod: true, hasPixAuthenticationMethod: true });
 
           // when
-          await render(hbs`
+          const screen = await render(hbs`
           <Users::UserDetailPersonalInformation::AuthenticationMethod
             @user={{this.user}}
           />`);
 
           // then
-          assert.notContains('Ajouter une adresse e-mail');
+          assert.dom(screen.queryByText('Ajouter une adresse e-mail')).doesNotExist();
         });
       });
     });

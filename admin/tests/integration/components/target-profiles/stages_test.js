@@ -56,7 +56,7 @@ module('Integration | Component | TargetProfiles::Stages', function (hooks) {
     // TODO: Fix this the next time the file is edited.
     // eslint-disable-next-line qunit/no-assert-equal
     assert.equal(find('tbody tr td:nth-child(8)').textContent.trim(), 'Voir détail');
-    assert.notContains('Aucun résultat thématique associé');
+    assert.dom(screen.queryByText('Aucun résultat thématique associé')).doesNotExist();
   });
 
   test('it should display a message when empty', async function (assert) {

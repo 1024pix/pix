@@ -79,12 +79,14 @@ module('Acceptance | authenticated/sessions/session/informations', function (hoo
             });
 
             // when
-            await visit('/sessions/6');
+            const screen = await visitScreen('/sessions/6');
             await clickByName('Supprimer');
             await clickByName('Confirmer');
 
             // then
-            assert.notContains("Le surveillant prétend qu'une météorite est tombée sur le centre.");
+            assert
+              .dom(screen.queryByText("Le surveillant prétend qu'une météorite est tombée sur le centre."))
+              .doesNotExist();
           });
         });
 

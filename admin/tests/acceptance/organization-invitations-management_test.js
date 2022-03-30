@@ -72,7 +72,7 @@ module('Acceptance | organization invitations management', function (hooks) {
       await clickByText('Inviter');
 
       // then
-      assert.notContains(moment(now).format('DD/MM/YYYY [-] HH:mm'));
+      assert.dom(screen.queryByText(moment(now).format('DD/MM/YYYY [-] HH:mm'))).doesNotExist();
       assert.dom(screen.getByText('Une erreur s’est produite, veuillez réessayer.')).exists();
     });
   });

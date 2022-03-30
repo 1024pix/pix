@@ -151,14 +151,14 @@ module('Integration | Component | users | user-detail-personal-information', fun
       });
       this.set('user', user);
 
-      await render(hbs`<Users::UserDetailPersonalInformation @user={{this.user}}/>`);
+      const screen = await render(hbs`<Users::UserDetailPersonalInformation @user={{this.user}}/>`);
       await clickByName('Dissocier');
 
       // when
       await clickByName('Annuler');
 
       // then
-      assert.notContains('Confirmer la dissociation');
+      assert.dom(screen.queryByText('Confirmer la dissociation')).doesNotExist();
       assert.notOk(destroyRecordStub.called);
     });
 

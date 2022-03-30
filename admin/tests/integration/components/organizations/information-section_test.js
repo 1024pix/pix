@@ -327,7 +327,7 @@ module('Integration | Component | organizations/information-section', function (
       // then
       assert.dom('.organization__name').hasText('new name');
       assert.dom(screen.getByText('new externalId')).exists();
-      assert.notContains('Département : ');
+      assert.dom(screen.queryByText('Département : ')).doesNotExist();
       assert.dom(screen.getByText('50')).exists();
       assert.dom('.organization__isManagingStudents').hasText('Oui');
       assert.dom(screen.getByText('https://pix.fr/')).exists();
