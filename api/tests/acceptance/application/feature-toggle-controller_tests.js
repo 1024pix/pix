@@ -22,7 +22,6 @@ describe('Acceptance | Controller | feature-toggle-controller', function () {
           id: '0',
           attributes: {
             'is-certification-billing-enabled': false,
-            'is-email-validation-enabled': false,
             'is-new-tutorials-page-enabled': false,
           },
           type: 'feature-toggles',
