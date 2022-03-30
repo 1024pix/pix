@@ -58,7 +58,7 @@
     "chai": "^4.3.6",
     "chai-dom": "^1.9.0",
     "dayjs": "^1.11.0",
-    "dotenv": "^10.0.0",
+    "dotenv": "^16.0.0",
     "ember-api-actions": "^0.2.9",
     "ember-auto-import": "^1.12.0",
     "ember-burger-menu": "^3.3.4",
