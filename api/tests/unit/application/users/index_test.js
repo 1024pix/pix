@@ -537,7 +537,6 @@ describe('Unit | Router | user-router', function () {
       sinon
         .stub(securityPreHandlers, 'checkRequestedUserIsAuthenticatedUser')
         .callsFake((request, h) => h.response(true));
-      sinon.stub(featureToggles, 'checkIfEmailValidationIsEnabled').resolves(true);
       sinon.stub(userController, 'sendVerificationCode').callsFake((request, h) => h.response({}).code(204));
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -663,7 +662,6 @@ describe('Unit | Router | user-router', function () {
   describe('POST /api/users/{id}/update-email', function () {
     it('should return 403 if requested user is not the same as authenticated user', async function () {
       // given
-      sinon.stub(featureToggles, 'checkIfEmailValidationIsEnabled').resolves(true);
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
 
@@ -684,33 +682,6 @@ describe('Unit | Router | user-router', function () {
       // then
       expect(result.statusCode).to.equal(403);
       expect(result.result.errors[0].detail).to.equal('Missing or insufficient permissions.');
-    });
-
-    it('should return 404 if FT_VALIDATE_EMAIL is not enabled', async function () {
-      // given
-      sinon
-        .stub(securityPreHandlers, 'checkRequestedUserIsAuthenticatedUser')
-        .callsFake((request, h) => h.response(true));
-      const httpTestServer = new HttpTestServer();
-      await httpTestServer.register(moduleUnderTest);
-
-      const url = '/api/users/1/update-email';
-
-      const payload = {
-        data: {
-          type: 'email-verification-codes',
-          attributes: {
-            code: '999999',
-          },
-        },
-      };
-
-      // when
-      const result = await httpTestServer.request('POST', url, payload);
-
-      // then
-      expect(result.statusCode).to.equal(404);
-      expect(result.result.errors[0].detail).to.equal('Cette route est désactivée');
     });
 
     it('should return 422 when code is not valid', async function () {
