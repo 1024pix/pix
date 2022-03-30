@@ -39,6 +39,21 @@ class PoleEmploiAuthenticationComplement {
   }
 }
 
+class GARAuthenticationComplement {
+  constructor({ firstName, lastName } = {}) {
+    this.firstName = firstName;
+    this.lastName = lastName;
+
+    validateEntity(
+      Joi.object({
+        firstName: Joi.string().required(),
+        lastName: Joi.string().required(),
+      }),
+      this
+    );
+  }
+}
+
 const validationSchema = Joi.object({
   id: Joi.number().optional(),
   identityProvider: Joi.string()
@@ -97,4 +112,5 @@ class AuthenticationMethod {
 AuthenticationMethod.identityProviders = identityProviders;
 AuthenticationMethod.PixAuthenticationComplement = PixAuthenticationComplement;
 AuthenticationMethod.PoleEmploiAuthenticationComplement = PoleEmploiAuthenticationComplement;
+AuthenticationMethod.GARAuthenticationComplement = GARAuthenticationComplement;
 module.exports = AuthenticationMethod;
