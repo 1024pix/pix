@@ -16,12 +16,12 @@ describe('Integration | Scripts | create-old-organization-learners-for-dissociat
       databaseBuilder.factory.buildCampaignParticipation({
         userId: user.id,
         campaignId: campaign.id,
-        schoolingRegistrationId: organizationLearnerId,
+        organizationLearnerId,
         createdAt: new Date('2020-01-01'),
       });
       databaseBuilder.factory.buildCampaignParticipation({
         campaignId: campaign.id,
-        schoolingRegistrationId: organizationLearnerId,
+        organizationLearnerId,
         createdAt: new Date(),
       });
 
@@ -54,12 +54,12 @@ describe('Integration | Scripts | create-old-organization-learners-for-dissociat
       databaseBuilder.factory.buildCampaignParticipation({
         userId: user.id,
         campaignId: campaign1.id,
-        schoolingRegistrationId: organizationLearnerId,
+        organizationLearnerId,
         createdAt: new Date('2020-01-01'),
       });
       databaseBuilder.factory.buildCampaignParticipation({
         campaignId: campaign1.id,
-        schoolingRegistrationId: organizationLearnerId,
+        organizationLearnerId,
         createdAt: new Date(),
       });
 
@@ -68,12 +68,12 @@ describe('Integration | Scripts | create-old-organization-learners-for-dissociat
       databaseBuilder.factory.buildCampaignParticipation({
         userId: user.id,
         campaignId: campaign2.id,
-        schoolingRegistrationId: organizationLearnerId2,
+        organizationLearnerId: organizationLearnerId2,
         createdAt: new Date('2020-01-01'),
       });
       databaseBuilder.factory.buildCampaignParticipation({
         campaignId: campaign2.id,
-        schoolingRegistrationId: organizationLearnerId2,
+        organizationLearnerId: organizationLearnerId2,
         createdAt: new Date(),
       });
 
@@ -94,12 +94,12 @@ describe('Integration | Scripts | create-old-organization-learners-for-dissociat
       const oldCampaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
         userId: user.id,
         campaignId: campaign.id,
-        schoolingRegistrationId: organizationLearnerId,
+        organizationLearnerId,
         createdAt: new Date('2020-01-01'),
       });
       databaseBuilder.factory.buildCampaignParticipation({
         campaignId: campaign.id,
-        schoolingRegistrationId: organizationLearnerId,
+        organizationLearnerId,
         createdAt: new Date(),
       });
 
@@ -123,12 +123,12 @@ describe('Integration | Scripts | create-old-organization-learners-for-dissociat
       databaseBuilder.factory.buildCampaignParticipation({
         userId: user.id,
         campaignId: campaign.id,
-        schoolingRegistrationId: organizationLearnerId,
+        organizationLearnerId,
         createdAt: new Date('2020-01-01'),
       });
       const recentCampaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
         campaignId: campaign.id,
-        schoolingRegistrationId: organizationLearnerId,
+        organizationLearnerId,
         createdAt: new Date(),
       });
 
@@ -141,7 +141,7 @@ describe('Integration | Scripts | create-old-organization-learners-for-dissociat
       });
 
       //then
-      expect(campaignParticipation.organizationLearnerId).to.equal(recentCampaignParticipation.schoolingRegistrationId);
+      expect(campaignParticipation.organizationLearnerId).to.equal(recentCampaignParticipation.organizationLearnerId);
     });
 
     it('should not create organizationLearner if old participation is improved', async function () {
@@ -151,13 +151,13 @@ describe('Integration | Scripts | create-old-organization-learners-for-dissociat
       databaseBuilder.factory.buildCampaignParticipation({
         userId: user.id,
         campaignId: campaign.id,
-        schoolingRegistrationId: organizationLearnerId,
+        organizationLearnerId,
         createdAt: new Date('2020-01-01'),
         isImproved: true,
       });
       databaseBuilder.factory.buildCampaignParticipation({
         campaignId: campaign.id,
-        schoolingRegistrationId: organizationLearnerId,
+        organizationLearnerId,
         createdAt: new Date(),
       });
 
@@ -178,12 +178,12 @@ describe('Integration | Scripts | create-old-organization-learners-for-dissociat
       databaseBuilder.factory.buildCampaignParticipation({
         userId: user.id,
         campaignId: campaign.id,
-        schoolingRegistrationId: organizationLearnerId,
+        organizationLearnerId,
         createdAt: new Date('2020-01-01'),
       });
       databaseBuilder.factory.buildCampaignParticipation({
         campaignId: campaign.id,
-        schoolingRegistrationId: organizationLearnerId,
+        organizationLearnerId,
         createdAt: new Date(),
         isImproved: true,
       });
@@ -205,13 +205,13 @@ describe('Integration | Scripts | create-old-organization-learners-for-dissociat
       databaseBuilder.factory.buildCampaignParticipation({
         userId: user.id,
         campaignId: campaign.id,
-        schoolingRegistrationId: organizationLearnerId,
+        organizationLearnerId,
         createdAt: new Date('2020-01-01'),
         deletedAt: new Date(),
       });
       databaseBuilder.factory.buildCampaignParticipation({
         campaignId: campaign.id,
-        schoolingRegistrationId: organizationLearnerId,
+        organizationLearnerId,
         createdAt: new Date(),
       });
 
@@ -232,12 +232,12 @@ describe('Integration | Scripts | create-old-organization-learners-for-dissociat
       databaseBuilder.factory.buildCampaignParticipation({
         userId: user.id,
         campaignId: campaign.id,
-        schoolingRegistrationId: organizationLearnerId,
+        organizationLearnerId,
         createdAt: new Date('2020-01-01'),
       });
       databaseBuilder.factory.buildCampaignParticipation({
         campaignId: campaign.id,
-        schoolingRegistrationId: organizationLearnerId,
+        organizationLearnerId,
         createdAt: new Date(),
         deletedAt: new Date(),
       });
@@ -260,12 +260,12 @@ describe('Integration | Scripts | create-old-organization-learners-for-dissociat
       databaseBuilder.factory.buildCampaignParticipation({
         userId: user.id,
         campaignId: campaign.id,
-        schoolingRegistrationId: organizationLearnerId1,
+        organizationLearnerId: organizationLearnerId1,
         createdAt: new Date('2020-01-01'),
       });
       databaseBuilder.factory.buildCampaignParticipation({
         campaignId: campaign.id,
-        schoolingRegistrationId: organizationLearnerId2,
+        organizationLearnerId: organizationLearnerId2,
         createdAt: new Date(),
       });
 
@@ -287,12 +287,12 @@ describe('Integration | Scripts | create-old-organization-learners-for-dissociat
       databaseBuilder.factory.buildCampaignParticipation({
         userId: user.id,
         campaignId: campaignId1,
-        schoolingRegistrationId: organizationLearnerId,
+        organizationLearnerId,
         createdAt: new Date('2020-01-01'),
       });
       databaseBuilder.factory.buildCampaignParticipation({
         campaignId: campaignId2,
-        schoolingRegistrationId: organizationLearnerId,
+        organizationLearnerId,
         createdAt: new Date(),
       });
 

@@ -234,7 +234,7 @@ describe('Integration | Repository | Campaign Assessment Participation', functio
         campaignId = databaseBuilder.factory.buildAssessmentCampaignForSkills({ organizationId }, [skill]).id;
         const userId = databaseBuilder.factory.buildUser().id;
 
-        const schoolingRegistrationId = databaseBuilder.factory.buildOrganizationLearner({
+        const organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner({
           organizationId,
           userId,
           firstName: 'John',
@@ -243,7 +243,7 @@ describe('Integration | Repository | Campaign Assessment Participation', functio
         campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({
           campaignId,
           userId,
-          schoolingRegistrationId,
+          organizationLearnerId,
           sharedAt: new Date('2020-12-12'),
         }).id;
 

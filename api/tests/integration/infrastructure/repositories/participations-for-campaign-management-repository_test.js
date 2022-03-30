@@ -40,13 +40,13 @@ describe('Integration | Repository | Participations-For-Campaign-Management', fu
         const organizationLearner = databaseBuilder.factory.buildOrganizationLearner();
         const campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
           campaignId,
-          schoolingRegistrationId: organizationLearner.id,
+          organizationLearnerId: organizationLearner.id,
           participantExternalId: 'special',
         });
         const otherCampaignId = databaseBuilder.factory.buildCampaign().id;
         databaseBuilder.factory.buildCampaignParticipation({
           campaignId: otherCampaignId,
-          schoolingRegistrationId: organizationLearner.id,
+          organizationLearnerId: organizationLearner.id,
         });
         await databaseBuilder.commit();
 
@@ -72,7 +72,7 @@ describe('Integration | Repository | Participations-For-Campaign-Management', fu
         });
         const campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
           campaignId,
-          schoolingRegistrationId: organizationLearner.id,
+          organizationLearnerId: organizationLearner.id,
         });
         await databaseBuilder.commit();
 
@@ -104,7 +104,7 @@ describe('Integration | Repository | Participations-For-Campaign-Management', fu
         }).id;
         databaseBuilder.factory.buildCampaignParticipation({
           campaignId,
-          schoolingRegistrationId: organizationLearnerId1,
+          organizationLearnerId: organizationLearnerId1,
           participantExternalId: '2',
         });
         const organizationLearnerId2 = databaseBuilder.factory.buildOrganizationLearner({
@@ -113,7 +113,7 @@ describe('Integration | Repository | Participations-For-Campaign-Management', fu
         }).id;
         databaseBuilder.factory.buildCampaignParticipation({
           campaignId,
-          schoolingRegistrationId: organizationLearnerId2,
+          organizationLearnerId: organizationLearnerId2,
           participantExternalId: '3',
         });
         const organizationLearnerId3 = databaseBuilder.factory.buildOrganizationLearner({
@@ -122,7 +122,7 @@ describe('Integration | Repository | Participations-For-Campaign-Management', fu
         }).id;
         databaseBuilder.factory.buildCampaignParticipation({
           campaignId,
-          schoolingRegistrationId: organizationLearnerId3,
+          organizationLearnerId: organizationLearnerId3,
           participantExternalId: '1',
         });
 

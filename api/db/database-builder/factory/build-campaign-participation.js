@@ -13,7 +13,7 @@ module.exports = function buildCampaignParticipation({
   createdAt = new Date('2020-01-01'),
   sharedAt = new Date('2020-01-02'),
   userId,
-  schoolingRegistrationId,
+  organizationLearnerId,
   participantExternalId = 'participantExternalId',
   validatedSkillsCount,
   masteryRate,
@@ -24,9 +24,7 @@ module.exports = function buildCampaignParticipation({
   deletedBy = null,
 } = {}) {
   userId = _.isUndefined(userId) ? buildUser().id : userId;
-  schoolingRegistrationId = _.isUndefined(schoolingRegistrationId)
-    ? buildOrganizationLearner().id
-    : schoolingRegistrationId;
+  organizationLearnerId = _.isUndefined(organizationLearnerId) ? buildOrganizationLearner().id : organizationLearnerId;
   campaignId = _.isUndefined(campaignId) ? buildCampaign().id : campaignId;
   const isShared = status === SHARED;
   sharedAt = isShared ? sharedAt : null;
@@ -35,7 +33,7 @@ module.exports = function buildCampaignParticipation({
     id,
     campaignId,
     userId,
-    organizationLearnerId: schoolingRegistrationId,
+    organizationLearnerId,
     createdAt,
     sharedAt,
     participantExternalId,
@@ -56,7 +54,7 @@ module.exports = function buildCampaignParticipation({
     id,
     campaignId,
     userId,
-    schoolingRegistrationId,
+    organizationLearnerId,
     createdAt,
     sharedAt,
     participantExternalId,
