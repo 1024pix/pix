@@ -10,9 +10,7 @@ describe('Unit | Service | feature-toggles', function () {
   setupTest();
 
   describe('feature toggles are loaded', function () {
-    const featureToggles = Object.create({
-      isEmailValidationEnabled: false,
-    });
+    const featureToggles = Object.create({});
 
     let storeStub;
 

@@ -1,7 +1,6 @@
 const { expect, HttpTestServer, sinon } = require('../../../test-helper');
 
 const securityPreHandlers = require('../../../../lib/application/security-pre-handlers');
-const featureToggles = require('../../../../lib/application/preHandlers/feature-toggles');
 const userVerification = require('../../../../lib/application/preHandlers/user-existence-verification');
 const userController = require('../../../../lib/application/users/user-controller');
 const moduleUnderTest = require('../../../../lib/application/users');

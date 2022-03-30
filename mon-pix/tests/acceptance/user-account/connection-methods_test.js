@@ -116,61 +116,31 @@ describe('Acceptance | user-account | connection-methods', function () {
       expect(contains(this.intl.t('pages.user-account.connexion-methods.email'))).to.exist;
     });
 
-    context('email validation is toggled off', function () {
-      it('should be able to edit the email using the old form', async function () {
-        // given
-        const user = server.create('user', 'withEmail');
-        server.create('authentication-method', 'withPixIdentityProvider', { user });
-        await authenticateByEmail(user);
-        const newEmail = 'new-email@example.net';
-        await visit('/mon-compte/methodes-de-connexion');
+    it('should be able to edit the email, enter the code received, and be successfully redirected to account page', async function () {
+      // given
+      const user = server.create('user', 'withEmail');
+      server.create('authentication-method', 'withPixIdentityProvider', { user });
+      await authenticateByEmail(user);
+      const newEmail = 'new-email@example.net';
+      await visit('/mon-compte/methodes-de-connexion');
 
-        // when
-        await clickByLabel(this.intl.t('pages.user-account.connexion-methods.edit-button'));
-        await fillInByLabel(this.intl.t('pages.user-account.account-update-email.fields.new-email.label'), newEmail);
-        await fillInByLabel(
-          this.intl.t('pages.user-account.account-update-email.fields.new-email-confirmation.label'),
-          newEmail
-        );
-        await fillInByLabel(
-          this.intl.t('pages.user-account.account-update-email.fields.password.label'),
-          user.password
-        );
-        await clickByLabel(this.intl.t('pages.user-account.account-update-email.save-button'));
+      // when
+      await clickByLabel(this.intl.t('pages.user-account.connexion-methods.edit-button'));
+      await fillInByLabel(
+        this.intl.t('pages.user-account.account-update-email-with-validation.fields.new-email.label'),
+        newEmail
+      );
+      await fillInByLabel(
+        this.intl.t('pages.user-account.account-update-email-with-validation.fields.password.label'),
+        user.password
+      );
+      await clickByLabel(this.intl.t('pages.user-account.account-update-email-with-validation.save-button'));
+      await triggerEvent('#code-input-1', 'paste', { clipboardData: { getData: () => '123456' } });
 
-        // then
-        expect(user.email).to.equal(newEmail);
-      });
-    });
-
-    context('email validation is toggled on', function () {
-      it('should be able to edit the email, enter the code received, and be successfully redirected to account page', async function () {
-        // given
-        const user = server.create('user', 'withEmail');
-        server.create('authentication-method', 'withPixIdentityProvider', { user });
-        server.create('feature-toggle', { id: 0, isEmailValidationEnabled: true });
-        await authenticateByEmail(user);
-        const newEmail = 'new-email@example.net';
-        await visit('/mon-compte/methodes-de-connexion');
-
-        // when
-        await clickByLabel(this.intl.t('pages.user-account.connexion-methods.edit-button'));
-        await fillInByLabel(
-          this.intl.t('pages.user-account.account-update-email-with-validation.fields.new-email.label'),
-          newEmail
-        );
-        await fillInByLabel(
-          this.intl.t('pages.user-account.account-update-email-with-validation.fields.password.label'),
-          user.password
-        );
-        await clickByLabel(this.intl.t('pages.user-account.account-update-email-with-validation.save-button'));
-        await triggerEvent('#code-input-1', 'paste', { clipboardData: { getData: () => '123456' } });
-
-        // then
-        expect(contains(this.intl.t('pages.user-account.connexion-methods.email'))).to.exist;
-        expect(contains(this.intl.t('pages.user-account.email-verification.update-successful'))).to.exist;
-        expect(contains(newEmail)).to.exist;
-      });
+      // then
+      expect(contains(this.intl.t('pages.user-account.connexion-methods.email'))).to.exist;
+      expect(contains(this.intl.t('pages.user-account.email-verification.update-successful'))).to.exist;
+      expect(contains(newEmail)).to.exist;
     });
   });
 });
