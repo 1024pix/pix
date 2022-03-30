@@ -975,7 +975,7 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
       const learningContentObjects = learningContentBuilder.buildLearningContent(minimalLearningContent);
       mockLearningContent(learningContentObjects);
       databaseBuilder.factory.buildOrganization({ id: 123, type: 'SCO', isManagingStudents: true });
-      const schoolingRegistrationId = databaseBuilder.factory.buildSchoolingRegistration({
+      const schoolingRegistrationId = databaseBuilder.factory.buildOrganizationLearner({
         organizationId: 123,
         division: '3emeb',
       }).id;
@@ -1310,7 +1310,7 @@ async function _linkCertificationAttestationToOrganization({
 }) {
   const srId =
     schoolingRegistrationId ||
-    databaseBuilder.factory.buildSchoolingRegistration({
+    databaseBuilder.factory.buildOrganizationLearner({
       organizationId,
       userId: certificationAttestationData.userId,
       division,

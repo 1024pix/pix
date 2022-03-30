@@ -9,21 +9,21 @@ describe('Integration | Infrastructure | Repository | student-repository', funct
       const firstAccount = databaseBuilder.factory.buildUser();
       databaseBuilder.factory.buildCertificationCourse({ userId: firstAccount.id });
       databaseBuilder.factory.buildCertificationCourse({ userId: firstAccount.id });
-      databaseBuilder.factory.buildSchoolingRegistration({
+      databaseBuilder.factory.buildOrganizationLearner({
         userId: firstAccount.id,
         nationalStudentId: firstNationalStudentId,
       });
 
       const secondAccount = databaseBuilder.factory.buildUser();
       databaseBuilder.factory.buildCertificationCourse({ userId: secondAccount.id });
-      databaseBuilder.factory.buildSchoolingRegistration({
+      databaseBuilder.factory.buildOrganizationLearner({
         userId: secondAccount.id,
         nationalStudentId: firstNationalStudentId,
       });
 
       const secondNationalStudentId = '567891234CD';
       const thirdAccount = databaseBuilder.factory.buildUser();
-      databaseBuilder.factory.buildSchoolingRegistration({
+      databaseBuilder.factory.buildOrganizationLearner({
         userId: thirdAccount.id,
         nationalStudentId: secondNationalStudentId,
       });
@@ -60,7 +60,7 @@ describe('Integration | Infrastructure | Repository | student-repository', funct
       const account = databaseBuilder.factory.buildUser();
       databaseBuilder.factory.buildCertificationCourse({ userId: account.id });
       databaseBuilder.factory.buildCertificationCourse({ userId: account.id });
-      databaseBuilder.factory.buildSchoolingRegistration({ userId: account.id, nationalStudentId: nationalStudentId });
+      databaseBuilder.factory.buildOrganizationLearner({ userId: account.id, nationalStudentId: nationalStudentId });
 
       await databaseBuilder.commit();
 

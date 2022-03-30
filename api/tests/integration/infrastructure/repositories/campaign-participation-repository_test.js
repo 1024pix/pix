@@ -333,7 +333,7 @@ describe('Integration | Repository | Campaign Participation', function () {
 
     it('save the change of schoolingRegistrationId', async function () {
       const campaignParticipationId = 12;
-      const schoolingRegistrationId = databaseBuilder.factory.buildSchoolingRegistration().id;
+      const schoolingRegistrationId = databaseBuilder.factory.buildOrganizationLearner().id;
       databaseBuilder.factory.buildCampaignParticipation({
         id: campaignParticipationId,
         schoolingRegistrationId: null,
@@ -462,11 +462,11 @@ describe('Integration | Repository | Campaign Participation', function () {
         const otherOrganizationId = databaseBuilder.factory.buildOrganization().id;
         campaign = databaseBuilder.factory.buildCampaign({ organizationId });
         otherCampaign = databaseBuilder.factory.buildCampaign({ organizationId });
-        const schoolingRegistrationId = databaseBuilder.factory.buildSchoolingRegistration({
+        const schoolingRegistrationId = databaseBuilder.factory.buildOrganizationLearner({
           organizationId,
           division: '3eme',
         }).id;
-        const otherSchoolingRegistrationId = databaseBuilder.factory.buildSchoolingRegistration({
+        const otherSchoolingRegistrationId = databaseBuilder.factory.buildOrganizationLearner({
           organizationId: otherOrganizationId,
           division: '2nd',
         }).id;

@@ -85,7 +85,7 @@ function _buildMiddleSchools({ databaseBuilder }) {
   });
 
   // schooling registration not associated yet
-  databaseBuilder.factory.buildSchoolingRegistration({
+  databaseBuilder.factory.buildOrganizationLearner({
     firstName: 'First',
     lastName: 'Last',
     birthdate: '2010-10-10',
@@ -97,7 +97,7 @@ function _buildMiddleSchools({ databaseBuilder }) {
   });
 
   // schooling registration not associated yet
-  databaseBuilder.factory.buildSchoolingRegistration({
+  databaseBuilder.factory.buildOrganizationLearner({
     firstName: 'Prenom',
     lastName: 'Nom',
     birthdate: '2009-09-09',
@@ -118,7 +118,7 @@ function _buildMiddleSchools({ databaseBuilder }) {
     cgu: false,
   });
 
-  databaseBuilder.factory.buildSchoolingRegistration({
+  databaseBuilder.factory.buildOrganizationLearner({
     id: SCO_FRENCH_USER_ID,
     firstName: userWithUsername.firstName,
     lastName: userWithUsername.lastName,
@@ -141,7 +141,7 @@ function _buildMiddleSchools({ databaseBuilder }) {
     cgu: false,
   });
 
-  databaseBuilder.factory.buildSchoolingRegistration({
+  databaseBuilder.factory.buildOrganizationLearner({
     id: SCO_FOREIGNER_USER_ID,
     firstName: userWithEmailAndUsername.firstName,
     lastName: userWithEmailAndUsername.lastName,
@@ -164,7 +164,7 @@ function _buildMiddleSchools({ databaseBuilder }) {
     cgu: false,
   });
 
-  databaseBuilder.factory.buildSchoolingRegistration({
+  databaseBuilder.factory.buildOrganizationLearner({
     firstName: userWithEmail.firstName,
     lastName: userWithEmail.lastName,
     birthdate: '2002-01-07',
@@ -185,7 +185,7 @@ function _buildMiddleSchools({ databaseBuilder }) {
     cgu: true,
   });
 
-  databaseBuilder.factory.buildSchoolingRegistration({
+  databaseBuilder.factory.buildOrganizationLearner({
     id: SCO_STUDENT_ID,
     firstName: userCertifWithEmail.firstName,
     lastName: userCertifWithEmail.lastName,
@@ -211,7 +211,7 @@ function _buildMiddleSchools({ databaseBuilder }) {
     userId: userWithGAR.id,
   });
 
-  databaseBuilder.factory.buildSchoolingRegistration({
+  databaseBuilder.factory.buildOrganizationLearner({
     firstName: userWithGAR.firstName,
     lastName: userWithGAR.lastName,
     birthdate: '2002-01-07',
@@ -232,7 +232,7 @@ function _buildMiddleSchools({ databaseBuilder }) {
     cgu: false,
   });
 
-  databaseBuilder.factory.buildSchoolingRegistration({
+  databaseBuilder.factory.buildOrganizationLearner({
     id: SCO_DISABLED_USER_ID,
     firstName: studentDisabled.firstName,
     lastName: studentDisabled.lastName,
@@ -255,7 +255,7 @@ function _buildMiddleSchools({ databaseBuilder }) {
     emailConfirmedAt: new Date(),
   });
 
-  databaseBuilder.factory.buildSchoolingRegistration({
+  databaseBuilder.factory.buildOrganizationLearner({
     firstName: userWhoHasLeftSCO.firstName,
     lastName: userWhoHasLeftSCO.lastName,
     birthdate: '2000-01-01',
@@ -310,7 +310,7 @@ function _buildHighSchools({ databaseBuilder }) {
   });
 
   // schooling registration also associated in another organization
-  databaseBuilder.factory.buildSchoolingRegistration({
+  databaseBuilder.factory.buildOrganizationLearner({
     userId: SCO_FOREIGNER_USER_ID,
     firstName: 'Same Blue Ivy',
     lastName: 'Same Carter',
@@ -323,7 +323,7 @@ function _buildHighSchools({ databaseBuilder }) {
   });
 
   // schooling registration associated in another organization but not associated yet
-  databaseBuilder.factory.buildSchoolingRegistration({
+  databaseBuilder.factory.buildOrganizationLearner({
     userId: null,
     firstName: 'Same George',
     lastName: 'Same De Cambridge',
@@ -342,7 +342,7 @@ function _buildHighSchools({ databaseBuilder }) {
     email: 'sister@example.net',
     rawPassword: DEFAULT_PASSWORD,
   });
-  databaseBuilder.factory.buildSchoolingRegistration({
+  databaseBuilder.factory.buildOrganizationLearner({
     firstName: 'Sister',
     lastName: 'Big',
     birthdate: '2008-02-01',
@@ -352,7 +352,7 @@ function _buildHighSchools({ databaseBuilder }) {
     userId: bigSister.id,
     nationalStudentId: '987654321EE',
   });
-  databaseBuilder.factory.buildSchoolingRegistration({
+  databaseBuilder.factory.buildOrganizationLearner({
     firstName: 'Brother',
     lastName: 'Little',
     birthdate: '2010-10-10',

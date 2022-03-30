@@ -58,9 +58,9 @@ describe('Integration | UseCases | updateUserDetailsForAdministration', function
   it('should update user and return it with its schooling registrations', async function () {
     // given
     let organizationId = databaseBuilder.factory.buildOrganization({ type: 'SCO' }).id;
-    databaseBuilder.factory.buildSchoolingRegistration({ id: 1, userId, organizationId });
+    databaseBuilder.factory.buildOrganizationLearner({ id: 1, userId, organizationId });
     organizationId = databaseBuilder.factory.buildOrganization({ type: 'SCO' }).id;
-    databaseBuilder.factory.buildSchoolingRegistration({ id: 2, userId, organizationId });
+    databaseBuilder.factory.buildOrganizationLearner({ id: 2, userId, organizationId });
     await databaseBuilder.commit();
     const userDetailsForAdministration = { email: 'partial@example.net' };
 

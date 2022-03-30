@@ -514,8 +514,8 @@ describe('Integration | Repository | CertificationCandidate', function () {
           sessionId,
         };
 
-        databaseBuilder.factory.buildSchoolingRegistration({ id: 666 });
-        databaseBuilder.factory.buildSchoolingRegistration({ id: 777 });
+        databaseBuilder.factory.buildOrganizationLearner({ id: 666 });
+        databaseBuilder.factory.buildOrganizationLearner({ id: 777 });
 
         const certificationCandidates1 = databaseBuilder.factory.buildCertificationCandidate({
           ...commonCandidateInfo,

@@ -187,7 +187,7 @@ describe('Integration | Infrastructure | Repository | account-recovery-demand-re
     it('should persist the account recovery demand', async function () {
       // given
       const user = databaseBuilder.factory.buildUser();
-      const schoolingRegistrationId = databaseBuilder.factory.buildSchoolingRegistration({ userId: user.id }).id;
+      const schoolingRegistrationId = databaseBuilder.factory.buildOrganizationLearner({ userId: user.id }).id;
       await databaseBuilder.commit();
 
       const userId = user.id;

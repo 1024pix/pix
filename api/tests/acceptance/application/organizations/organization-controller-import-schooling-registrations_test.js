@@ -134,7 +134,7 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
 
       context('when schoolingRegistrations have been already imported, and the file is well formatted', function () {
         beforeEach(async function () {
-          databaseBuilder.factory.buildSchoolingRegistration({ nationalStudentId: '0000000001Y', organizationId });
+          databaseBuilder.factory.buildOrganizationLearner({ nationalStudentId: '0000000001Y', organizationId });
           await databaseBuilder.commit();
 
           const buffer = iconv.encode(
@@ -320,7 +320,7 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
         beforeEach(async function () {
           // given
           const otherOrganizationId = databaseBuilder.factory.buildOrganization().id;
-          databaseBuilder.factory.buildSchoolingRegistration({
+          databaseBuilder.factory.buildOrganizationLearner({
             nationalStudentId: '00000000124',
             organizationId: otherOrganizationId,
           });
@@ -522,13 +522,13 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
 
           options.payload = bufferWithMalformedStudent;
 
-          databaseBuilder.factory.buildSchoolingRegistration({
+          databaseBuilder.factory.buildOrganizationLearner({
             lastName: 'LALOUX',
             firstName: 'RENE',
             nationalStudentId: '123',
             organizationId,
           });
-          databaseBuilder.factory.buildSchoolingRegistration({
+          databaseBuilder.factory.buildOrganizationLearner({
             lastName: 'UEMATSU',
             firstName: 'NOBUO',
             nationalStudentId: '456',
@@ -633,13 +633,13 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
 
           options.payload = buffer;
 
-          databaseBuilder.factory.buildSchoolingRegistration({
+          databaseBuilder.factory.buildOrganizationLearner({
             lastName: 'LALOUX',
             firstName: 'RENE',
             nationalStudentId: '456',
             organizationId,
           });
-          databaseBuilder.factory.buildSchoolingRegistration({
+          databaseBuilder.factory.buildOrganizationLearner({
             lastName: 'UEMATSU',
             firstName: 'NOBUO',
             nationalStudentId: '789',
@@ -751,7 +751,7 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
 
           options.payload = buffer;
 
-          databaseBuilder.factory.buildSchoolingRegistration({
+          databaseBuilder.factory.buildOrganizationLearner({
             lastName: 'LALOUX',
             firstName: 'RENE',
             nationalStudentId: '789',

@@ -36,7 +36,7 @@ describe('Acceptance | Application | organization-controller-replace-higher-scho
           userId: connectedUser.id,
           organizationRole: Membership.roles.ADMIN,
         });
-        databaseBuilder.factory.buildSchoolingRegistration({
+        databaseBuilder.factory.buildOrganizationLearner({
           id: 1,
           organizationId: organization.id,
           isDisabled: false,

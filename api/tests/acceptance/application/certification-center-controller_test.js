@@ -708,7 +708,7 @@ describe('Acceptance | API | Certification Center', function () {
   function _buildSchoolingRegistrations(organization, ...students) {
     const AFTER_BEGINNING_OF_THE_2020_SCHOOL_YEAR = '2020-10-15';
     return students.map((student) =>
-      databaseBuilder.factory.buildSchoolingRegistration({
+      databaseBuilder.factory.buildOrganizationLearner({
         organizationId: organization.id,
         ...student,
         updatedAt: AFTER_BEGINNING_OF_THE_2020_SCHOOL_YEAR,

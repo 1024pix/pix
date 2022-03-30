@@ -16,12 +16,12 @@ describe('Acceptance | Route | Schooling-registration-dependent-user', function 
   describe('POST /api/schooling-registration-dependent-users', function () {
     let organization;
     let campaign;
-    let schoolingRegistration;
+    let organizationLearner;
 
     beforeEach(async function () {
       // given
       organization = databaseBuilder.factory.buildOrganization();
-      schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({
+      organizationLearner = databaseBuilder.factory.buildOrganizationLearner({
         organizationId: organization.id,
         userId: null,
         nationalStudentId: 'salut',
@@ -40,9 +40,9 @@ describe('Acceptance | Route | Schooling-registration-dependent-user', function 
             data: {
               attributes: {
                 'campaign-code': campaign.code,
-                'first-name': schoolingRegistration.firstName,
-                'last-name': schoolingRegistration.lastName,
-                birthdate: schoolingRegistration.birthdate,
+                'first-name': organizationLearner.firstName,
+                'last-name': organizationLearner.lastName,
+                birthdate: organizationLearner.birthdate,
                 password: 'P@ssw0rd',
                 email: 'angie@example.net',
                 'with-username': false,
@@ -59,7 +59,7 @@ describe('Acceptance | Route | Schooling-registration-dependent-user', function 
         it('should respond with a 409 - Conflict', async function () {
           // given
           const userId = databaseBuilder.factory.buildUser().id;
-          const schoolingRegistrationAlreadyLinked = databaseBuilder.factory.buildSchoolingRegistration({
+          const organizationLearnerAlreadyLinked = databaseBuilder.factory.buildOrganizationLearner({
             firstName: 'josé',
             lastName: 'bové',
             birthdate: '2020-01-01',
@@ -77,9 +77,9 @@ describe('Acceptance | Route | Schooling-registration-dependent-user', function 
               data: {
                 attributes: {
                   'campaign-code': campaign.code,
-                  'first-name': schoolingRegistrationAlreadyLinked.firstName,
-                  'last-name': schoolingRegistrationAlreadyLinked.lastName,
-                  birthdate: schoolingRegistrationAlreadyLinked.birthdate,
+                  'first-name': organizationLearnerAlreadyLinked.firstName,
+                  'last-name': organizationLearnerAlreadyLinked.lastName,
+                  birthdate: organizationLearnerAlreadyLinked.birthdate,
                   password: 'P@ssw0rd',
                   email: 'angie@example.net',
                   'with-username': false,
@@ -106,9 +106,9 @@ describe('Acceptance | Route | Schooling-registration-dependent-user', function 
               data: {
                 attributes: {
                   'campaign-code': campaign.code,
-                  'first-name': schoolingRegistration.firstName,
-                  'last-name': schoolingRegistration.lastName,
-                  birthdate: schoolingRegistration.birthdate,
+                  'first-name': organizationLearner.firstName,
+                  'last-name': organizationLearner.lastName,
+                  birthdate: organizationLearner.birthdate,
                   password: 'P@ssw0rd',
                   email: 'not valid email',
                   'with-username': false,
@@ -133,9 +133,9 @@ describe('Acceptance | Route | Schooling-registration-dependent-user', function 
             data: {
               attributes: {
                 'campaign-code': campaign.code,
-                'first-name': schoolingRegistration.firstName,
-                'last-name': schoolingRegistration.lastName,
-                birthdate: schoolingRegistration.birthdate,
+                'first-name': organizationLearner.firstName,
+                'last-name': organizationLearner.lastName,
+                birthdate: organizationLearner.birthdate,
                 password: 'P@ssw0rd',
                 username: 'angie.go1234',
                 'with-username': true,
@@ -163,9 +163,9 @@ describe('Acceptance | Route | Schooling-registration-dependent-user', function 
               data: {
                 attributes: {
                   'campaign-code': campaign.code,
-                  'first-name': schoolingRegistration.firstName,
-                  'last-name': schoolingRegistration.lastName,
-                  birthdate: schoolingRegistration.birthdate,
+                  'first-name': organizationLearner.firstName,
+                  'last-name': organizationLearner.lastName,
+                  birthdate: organizationLearner.birthdate,
                   password: 'P@ssw0rd',
                   username,
                   'with-username': true,
@@ -186,7 +186,7 @@ describe('Acceptance | Route | Schooling-registration-dependent-user', function 
 
   describe('POST /api/schooling-registration-dependent-users/generate-username-password', function () {
     let organizationId;
-    let schoolingRegistrationId;
+    let organizationLearnerId;
     let options;
 
     beforeEach(async function () {
@@ -198,7 +198,7 @@ describe('Acceptance | Route | Schooling-registration-dependent-user', function 
         username: null,
       }).id;
       databaseBuilder.factory.buildMembership({ organizationId, userId });
-      schoolingRegistrationId = databaseBuilder.factory.buildSchoolingRegistration({
+      organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner({
         organizationId,
         userId,
       }).id;
@@ -213,7 +213,7 @@ describe('Acceptance | Route | Schooling-registration-dependent-user', function 
           data: {
             attributes: {
               'organization-id': organizationId,
-              'schooling-registration-id': schoolingRegistrationId,
+              'schooling-registration-id': organizationLearnerId,
             },
           },
         },
@@ -230,7 +230,7 @@ describe('Acceptance | Route | Schooling-registration-dependent-user', function 
 
     it('should return a 404 status when schoolingRegistration does not exist', async function () {
       // given
-      options.payload.data.attributes['schooling-registration-id'] = schoolingRegistrationId + 1;
+      options.payload.data.attributes['schooling-registration-id'] = organizationLearnerId + 1;
 
       // when
       const response = await server.inject(options);
@@ -241,11 +241,11 @@ describe('Acceptance | Route | Schooling-registration-dependent-user', function 
 
     it("should return a 404 status when schoolingRegistration's userId does not exist", async function () {
       // given
-      const schoolingRegistrationId = databaseBuilder.factory.buildSchoolingRegistration({
+      const organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner({
         organizationId,
         userId: null,
       }).id;
-      options.payload.data.attributes['schooling-registration-id'] = schoolingRegistrationId;
+      options.payload.data.attributes['schooling-registration-id'] = organizationLearnerId;
 
       await databaseBuilder.commit();
 
@@ -259,7 +259,7 @@ describe('Acceptance | Route | Schooling-registration-dependent-user', function 
     it('should return a 403 status when student does not belong to the same organization as schoolingRegistration', async function () {
       // given
       options.payload.data.attributes['organization-id'] = organizationId + 1;
-      options.payload.data.attributes['schooling-registration-id'] = schoolingRegistrationId;
+      options.payload.data.attributes['schooling-registration-id'] = organizationLearnerId;
 
       // when
       const response = await server.inject(options);
@@ -271,12 +271,12 @@ describe('Acceptance | Route | Schooling-registration-dependent-user', function 
     it('should return a 403 status when user does not belong to the same organization as schoolingRegistration', async function () {
       // given
       const wrongOrganization = databaseBuilder.factory.buildOrganization();
-      const schoolingRegistrationWithWrongOrganization = databaseBuilder.factory.buildSchoolingRegistration({
+      const organizationLearnerWithWrongOrganization = databaseBuilder.factory.buildOrganizationLearner({
         organizationId: wrongOrganization.id,
       });
       await databaseBuilder.commit();
 
-      options.payload.data.attributes['schooling-registration-id'] = schoolingRegistrationWithWrongOrganization.id;
+      options.payload.data.attributes['schooling-registration-id'] = organizationLearnerWithWrongOrganization.id;
       options.payload.data.attributes['organization-id'] = wrongOrganization.id;
 
       // when
@@ -316,11 +316,11 @@ describe('Acceptance | Route | Schooling-registration-dependent-user', function 
     it('should return a 200 status after having successfully updated the password', async function () {
       // given
       const userId = databaseBuilder.factory.buildUser.withRawPassword().id;
-      const schoolingRegistrationId = databaseBuilder.factory.buildSchoolingRegistration({
+      const organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner({
         organizationId,
         userId,
       }).id;
-      options.payload.data.attributes['schooling-registration-id'] = schoolingRegistrationId;
+      options.payload.data.attributes['schooling-registration-id'] = organizationLearnerId;
 
       await databaseBuilder.commit();
 
@@ -344,11 +344,11 @@ describe('Acceptance | Route | Schooling-registration-dependent-user', function 
 
     it("should return a 404 status when schoolingRegistration's userId does not exist", async function () {
       // given
-      const schoolingRegistrationId = databaseBuilder.factory.buildSchoolingRegistration({
+      const organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner({
         organizationId,
         userId: null,
       }).id;
-      options.payload.data.attributes['schooling-registration-id'] = schoolingRegistrationId;
+      options.payload.data.attributes['schooling-registration-id'] = organizationLearnerId;
 
       await databaseBuilder.commit();
 
@@ -362,12 +362,12 @@ describe('Acceptance | Route | Schooling-registration-dependent-user', function 
     it('should return a 403 status when user does not belong to the same organization as schoolingRegistration', async function () {
       // given
       const wrongOrganization = databaseBuilder.factory.buildOrganization();
-      const schoolingRegistrationWithWrongOrganization = databaseBuilder.factory.buildSchoolingRegistration({
+      const organizationLearnerWithWrongOrganization = databaseBuilder.factory.buildOrganizationLearner({
         organizationId: wrongOrganization.id,
       });
       await databaseBuilder.commit();
 
-      options.payload.data.attributes['schooling-registration-id'] = schoolingRegistrationWithWrongOrganization.id;
+      options.payload.data.attributes['schooling-registration-id'] = organizationLearnerWithWrongOrganization.id;
 
       // when
       const response = await server.inject(options);
@@ -401,14 +401,14 @@ describe('Acceptance | Route | Schooling-registration-dependent-user', function 
         id: 2,
         name: 'Super Collège Hollywoodien',
       });
-      databaseBuilder.factory.buildSchoolingRegistration({
+      databaseBuilder.factory.buildOrganizationLearner({
         userId: user.id,
         ...studentInformation,
         nationalStudentId: studentInformation.ineIna,
         organizationId: organization.id,
         updatedAt: new Date('2005-01-01T15:00:00Z'),
       });
-      databaseBuilder.factory.buildSchoolingRegistration({
+      databaseBuilder.factory.buildOrganizationLearner({
         userId: user.id,
         ...studentInformation,
         nationalStudentId: studentInformation.ineIna,

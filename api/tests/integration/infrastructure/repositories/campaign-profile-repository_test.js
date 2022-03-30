@@ -104,11 +104,12 @@ describe('Integration | Repository | CampaignProfileRepository', function () {
         const oldOrganizationId = databaseBuilder.factory.buildOrganization().id;
         const organizationId = databaseBuilder.factory.buildOrganization().id;
         const campaignId = databaseBuilder.factory.buildCampaign({ organizationId }).id;
-        const campaignParticipationCreated = databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
-          { firstName: 'Greg', lastName: 'Duboire', organizationId },
-          { campaignId }
-        );
-        databaseBuilder.factory.buildSchoolingRegistration({
+        const campaignParticipationCreated =
+          databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
+            { firstName: 'Greg', lastName: 'Duboire', organizationId },
+            { campaignId }
+          );
+        databaseBuilder.factory.buildOrganizationLearner({
           firstName: 'Gregoire',
           lastName: 'Dub',
           organizationId: oldOrganizationId,

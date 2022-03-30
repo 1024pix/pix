@@ -1,5 +1,5 @@
 const databaseBuffer = require('../database-buffer');
-const buildSchoolingRegistration = require('./build-schooling-registration');
+const buildOrganizationLearner = require('./build-organization-learner');
 const buildUser = require('./build-user');
 
 module.exports = function buildAccountRecoveryDemand({
@@ -30,7 +30,7 @@ module.exports = function buildAccountRecoveryDemand({
     schoolingRegistrationAttributes = { userId, firstName, lastName, nationalStudentId: '123456789JJ' };
   }
   const actualSchoolingRegistrationId =
-    schoolingRegistrationId || buildSchoolingRegistration(schoolingRegistrationAttributes).id;
+    schoolingRegistrationId || buildOrganizationLearner(schoolingRegistrationAttributes).id;
   const actualUserId = userId || user.id;
 
   const values = {

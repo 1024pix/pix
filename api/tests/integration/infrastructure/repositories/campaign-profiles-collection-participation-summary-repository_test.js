@@ -224,36 +224,36 @@ describe('Integration | Repository | Campaign Profiles Collection Participation 
 
     describe('when there is a filter on division', function () {
       beforeEach(async function () {
-        const { id: schoolingRegistrationId1 } = databaseBuilder.factory.buildSchoolingRegistration({
+        const { id: organizationLearnerId1 } = databaseBuilder.factory.buildOrganizationLearner({
           organizationId,
           division: 'Barry',
         });
         const participation1 = {
           participantExternalId: "Can't get Enough Of Your Love, Baby",
           campaignId,
-          schoolingRegistrationId: schoolingRegistrationId1,
+          schoolingRegistrationId: organizationLearnerId1,
         };
         databaseBuilder.factory.buildCampaignParticipation(participation1);
 
-        const { id: schoolingRegistrationId2 } = databaseBuilder.factory.buildSchoolingRegistration({
+        const { id: organizationLearnerId2 } = databaseBuilder.factory.buildOrganizationLearner({
           organizationId,
           division: 'White',
         });
         const participation2 = {
           participantExternalId: "You're The First, The last, My Everything",
           campaignId,
-          schoolingRegistrationId: schoolingRegistrationId2,
+          schoolingRegistrationId: organizationLearnerId2,
         };
         databaseBuilder.factory.buildCampaignParticipation(participation2);
 
-        const { id: schoolingRegistrationId3 } = databaseBuilder.factory.buildSchoolingRegistration({
+        const { id: organizationLearnerId3 } = databaseBuilder.factory.buildOrganizationLearner({
           organizationId,
           division: 'Marvin Gaye',
         });
         const participation3 = {
           participantExternalId: "Ain't No Mountain High Enough",
           campaignId,
-          schoolingRegistrationId: schoolingRegistrationId3,
+          schoolingRegistrationId: organizationLearnerId3,
         };
         databaseBuilder.factory.buildCampaignParticipation(participation3);
 
@@ -280,36 +280,36 @@ describe('Integration | Repository | Campaign Profiles Collection Participation 
 
     describe('when there is a filter on group', function () {
       beforeEach(async function () {
-        const { id: schoolingRegistrationId1 } = databaseBuilder.factory.buildSchoolingRegistration({
+        const { id: organizationLearnerId1 } = databaseBuilder.factory.buildOrganizationLearner({
           organizationId,
           group: 'Barry',
         });
         const participation1 = {
           participantExternalId: "Can't get Enough Of Your Love, Baby",
           campaignId,
-          schoolingRegistrationId: schoolingRegistrationId1,
+          schoolingRegistrationId: organizationLearnerId1,
         };
         databaseBuilder.factory.buildCampaignParticipation(participation1);
 
-        const { id: schoolingRegistrationId2 } = databaseBuilder.factory.buildSchoolingRegistration({
+        const { id: organizationLearnerId2 } = databaseBuilder.factory.buildOrganizationLearner({
           organizationId,
           group: 'White',
         });
         const participation2 = {
           participantExternalId: "You're The First, The last, My Everything",
           campaignId,
-          schoolingRegistrationId: schoolingRegistrationId2,
+          schoolingRegistrationId: organizationLearnerId2,
         };
         databaseBuilder.factory.buildCampaignParticipation(participation2);
 
-        const { id: schoolingRegistrationId3 } = databaseBuilder.factory.buildSchoolingRegistration({
+        const { id: organizationLearnerId3 } = databaseBuilder.factory.buildOrganizationLearner({
           organizationId,
           group: 'Marvin Gaye',
         });
         const participation3 = {
           participantExternalId: "Ain't No Mountain High Enough",
           campaignId,
-          schoolingRegistrationId: schoolingRegistrationId3,
+          schoolingRegistrationId: organizationLearnerId3,
         };
         databaseBuilder.factory.buildCampaignParticipation(participation3);
 

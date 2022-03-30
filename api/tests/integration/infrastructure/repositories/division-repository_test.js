@@ -85,27 +85,27 @@ describe('Integration | Repository | Division', function () {
       // given
       const organization = databaseBuilder.factory.buildOrganization();
 
-      databaseBuilder.factory.buildSchoolingRegistration({
+      databaseBuilder.factory.buildOrganizationLearner({
         organizationId: organization.id,
         division: '5A',
       });
-      databaseBuilder.factory.buildSchoolingRegistration({
+      databaseBuilder.factory.buildOrganizationLearner({
         organizationId: organization.id,
         division: '_3A',
       });
-      databaseBuilder.factory.buildSchoolingRegistration({
+      databaseBuilder.factory.buildOrganizationLearner({
         organizationId: organization.id,
         division: '3A',
       });
-      databaseBuilder.factory.buildSchoolingRegistration({
+      databaseBuilder.factory.buildOrganizationLearner({
         organizationId: organization.id,
         division: 'T2',
       });
-      databaseBuilder.factory.buildSchoolingRegistration({
+      databaseBuilder.factory.buildOrganizationLearner({
         organizationId: organization.id,
         division: 't1',
       });
-      databaseBuilder.factory.buildSchoolingRegistration({
+      databaseBuilder.factory.buildOrganizationLearner({
         organizationId: organization.id,
         division: 't1',
       });
@@ -131,11 +131,11 @@ describe('Integration | Repository | Division', function () {
     it('should return list of divisions from the given organization', async function () {
       const organization = databaseBuilder.factory.buildOrganization();
 
-      databaseBuilder.factory.buildSchoolingRegistration({
+      databaseBuilder.factory.buildOrganizationLearner({
         organizationId: organization.id,
         division: '5A',
       });
-      databaseBuilder.factory.buildSchoolingRegistration({
+      databaseBuilder.factory.buildOrganizationLearner({
         division: '5B',
       });
 
@@ -151,12 +151,12 @@ describe('Integration | Repository | Division', function () {
     it('should omit divisions for schooling registration disabled', async function () {
       const organization = databaseBuilder.factory.buildOrganization();
 
-      databaseBuilder.factory.buildSchoolingRegistration({
+      databaseBuilder.factory.buildOrganizationLearner({
         organizationId: organization.id,
         division: '5A',
         isDisabled: false,
       });
-      databaseBuilder.factory.buildSchoolingRegistration({
+      databaseBuilder.factory.buildOrganizationLearner({
         organizationId: organization.id,
         division: '5B',
         isDisabled: true,
@@ -174,7 +174,7 @@ describe('Integration | Repository | Division', function () {
     it('returns nothing if the schooling registration has no division', async function () {
       const organization = databaseBuilder.factory.buildOrganization();
 
-      databaseBuilder.factory.buildSchoolingRegistration({
+      databaseBuilder.factory.buildOrganizationLearner({
         organizationId: organization.id,
         division: null,
         isDisabled: false,
