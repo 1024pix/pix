@@ -95,7 +95,7 @@ module('Acceptance | Target Profiles | Target Profile | Insights', function (hoo
       // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(stageCount, 1);
 
-      assert.notContains('Enregistrer');
+      assert.dom(screen.queryByText('Enregistrer')).doesNotExist();
 
       await click("button[data-test='Nouveau palier']");
 
@@ -111,7 +111,7 @@ module('Acceptance | Target Profiles | Target Profile | Insights', function (hoo
       fillIn('.insights__section:nth-child(2) tbody tr td:nth-child(5) input', 'My stage message');
 
       await click('button[data-test="form-action-submit"]');
-      assert.notContains('Enregistrer');
+      assert.dom(screen.queryByText('Enregistrer')).doesNotExist();
 
       const newStageCount = findAll('.insights__section:nth-child(2) tbody tr').length;
       // TODO: Fix this the next time the file is edited.

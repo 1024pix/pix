@@ -30,7 +30,7 @@ module('Acceptance | authenticated/users | authentication-method', function (hoo
       await clickByName("Enregistrer l'adresse e-mail");
 
       // then
-      assert.notContains('Nouvelle adresse e-mail');
+      assert.dom(screen.queryByText('Nouvelle adresse e-mail')).doesNotExist();
       assert.dom(
         screen.getByText(`nouvel-email@example.net a bien été rajouté aux méthodes de connexion de l'utilisateur`)
       );

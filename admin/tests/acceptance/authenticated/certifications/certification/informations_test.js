@@ -210,7 +210,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
 
         test('should close the modal', async function (assert) {
           // given
-          await visit('/certifications/123');
+          const screen = await visitScreen('/certifications/123');
           await clickByName('Modifier les informations du candidat');
 
           // when
@@ -219,7 +219,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
           await clickByName('Enregistrer');
 
           // then
-          assert.notContains('Editer les informations du candidat');
+          assert.dom(screen.queryByText('Editer les informations du candidat')).doesNotExist();
         });
       });
 
@@ -339,10 +339,10 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
       certification.update({ certificationIssueReports: [] });
 
       // when
-      await visit('/certifications/123');
+      const screen = await visitScreen('/certifications/123');
 
       // then
-      assert.notContains('Signalements');
+      assert.dom(screen.queryByText('Signalements')).doesNotExist();
     });
 
     test('should render the "Signalements" section when certification has issue reports', async function (assert) {
@@ -421,7 +421,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
           )
         )
         .exists();
-      assert.notContains('Signalement(s) non impactant(s)');
+      assert.dom(screen.queryByText('Signalement(s) non impactant(s)')).doesNotExist();
     });
 
     test('should hide "Signalement(s) impactant(s)" sub-section when no impactful issue reports exist', async function (assert) {
@@ -446,7 +446,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
           )
         )
         .exists();
-      assert.notContains('Signalement(s) impactant(s)');
+      assert.dom(screen.queryByText('Signalement(s) impactant(s)')).doesNotExist();
     });
 
     module('Impactful issue reports resolution', function () {

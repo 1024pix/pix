@@ -72,12 +72,12 @@ module('Integration | Component | certifications/list', function (hooks) {
       this.certifications = [juryCertificationSummaryProcessed];
 
       // when
-      await render(
+      const screen = await render(
         hbs`<Certifications::List @certifications={{certifications}} @displayHasSeenEndTestScreenColumn={{false}}/>`
       );
 
       // then
-      assert.notContains('Ecran de fin de test vu');
+      assert.dom(screen.queryByText('Ecran de fin de test vu')).doesNotExist();
     });
   });
 });

@@ -153,12 +153,12 @@ module(
       });
 
       // when
-      await render(
+      const screen = await render(
         hbs`<Users::UserDetailPersonalInformation::SchoolingRegistrationInformation @user={{this.user}} @toggleDisplayDissociateModal={{this.toggleDisplayDissociateModal}} />`
       );
 
       // then
-      assert.notContains('Dissocier');
+      assert.dom(screen.queryByText('Dissocier')).doesNotExist();
     });
   }
 );

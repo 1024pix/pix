@@ -96,7 +96,7 @@ module('Acceptance | authenticated/sessions/list/to be published', function (hoo
 
       // then
       _assertFirstSessionIsDisplayed(assert, screen);
-      _assertSecondSessionIsNotDisplayed(assert);
+      _assertSecondSessionIsNotDisplayed(assert, screen);
     });
 
     test('it should publish a batch of sessions', async function (assert) {
@@ -127,9 +127,9 @@ module('Acceptance | authenticated/sessions/list/to be published', function (hoo
       await click('.modal-footer .btn-primary');
 
       // then
-      _assertPublishAllSessionsButtonHidden(assert);
+      _assertPublishAllSessionsButtonHidden(assert, screen);
       _assertNoSessionInList(assert, screen);
-      _assertConfirmModalIsClosed(assert);
+      _assertConfirmModalIsClosed(assert, screen);
     });
   });
 });
@@ -151,18 +151,18 @@ function _assertFirstSessionIsDisplayed(assert, screen) {
   assert.dom(screen.getByText('Centre SCO des Anne-Étoiles')).exists();
 }
 
-function _assertSecondSessionIsNotDisplayed(assert) {
-  assert.notContains('Centre SUP et rieur');
+function _assertSecondSessionIsNotDisplayed(assert, screen) {
+  assert.dom(screen.queryByRole('heading', { name: 'Centre SUP et rieur' })).doesNotExist();
 }
 
-function _assertPublishAllSessionsButtonHidden(assert) {
-  assert.notContains('Publier toutes les sessions');
+function _assertPublishAllSessionsButtonHidden(assert, screen) {
+  assert.dom(screen.queryByRole('button', { name: 'Publier toutes les sessions' })).doesNotExist();
 }
 
 function _assertNoSessionInList(assert, screen) {
   assert.dom(screen.getByText('Aucun résultat')).exists();
 }
 
-function _assertConfirmModalIsClosed(assert) {
-  assert.notContains('Merci de confirmer');
+function _assertConfirmModalIsClosed(assert, screen) {
+  assert.dom(screen.queryByRole('heading', { name: 'Merci de confirmer' })).doesNotExist();
 }
