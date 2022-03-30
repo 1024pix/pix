@@ -346,6 +346,16 @@ describe('Acceptance | Controller | user-tutorial-controller', function () {
           skillId: 'recSkill3',
         });
 
+        const tutorialEvaluationId = databaseBuilder.factory.buildTutorialEvaluation({
+          userId,
+          tutorialId: 'tuto1',
+        }).id;
+        const userSavedTutorialId = databaseBuilder.factory.buildUserSavedTutorial({
+          userId,
+          tutorialId: 'tuto1',
+          skillId: 'recSkill1',
+        }).id;
+
         await databaseBuilder.commit();
 
         const expectedUserTutorials = [
@@ -358,6 +368,20 @@ describe('Acceptance | Controller | user-tutorial-controller', function () {
               title: 'tuto1',
             },
             id: 'tuto1',
+            relationships: {
+              'tutorial-evaluation': {
+                data: {
+                  id: `${tutorialEvaluationId}`,
+                  type: 'tutorialEvaluation',
+                },
+              },
+              'user-tutorial': {
+                data: {
+                  id: `${userSavedTutorialId}`,
+                  type: 'user-tutorial',
+                },
+              },
+            },
             type: 'tutorials',
           },
           {
@@ -369,6 +393,14 @@ describe('Acceptance | Controller | user-tutorial-controller', function () {
               title: 'tuto2',
             },
             id: 'tuto2',
+            relationships: {
+              'tutorial-evaluation': {
+                data: null,
+              },
+              'user-tutorial': {
+                data: null,
+              },
+            },
             type: 'tutorials',
           },
           {
@@ -380,6 +412,14 @@ describe('Acceptance | Controller | user-tutorial-controller', function () {
               title: 'tuto4',
             },
             id: 'tuto4',
+            relationships: {
+              'tutorial-evaluation': {
+                data: null,
+              },
+              'user-tutorial': {
+                data: null,
+              },
+            },
             type: 'tutorials',
           },
         ];
@@ -438,6 +478,14 @@ describe('Acceptance | Controller | user-tutorial-controller', function () {
               title: 'tuto1',
             },
             id: 'tuto1',
+            relationships: {
+              'tutorial-evaluation': {
+                data: null,
+              },
+              'user-tutorial': {
+                data: null,
+              },
+            },
             type: 'tutorials',
           },
           {
@@ -449,6 +497,14 @@ describe('Acceptance | Controller | user-tutorial-controller', function () {
               title: 'tuto2',
             },
             id: 'tuto2',
+            relationships: {
+              'tutorial-evaluation': {
+                data: null,
+              },
+              'user-tutorial': {
+                data: null,
+              },
+            },
             type: 'tutorials',
           },
         ];
@@ -588,6 +644,9 @@ describe('Acceptance | Controller | user-tutorial-controller', function () {
             },
             relationships: {
               'user-tutorial': { data: { id: '101', type: 'user-tutorial' } },
+              'tutorial-evaluation': {
+                data: null,
+              },
             },
             id: 'tuto1',
             type: 'tutorials',
@@ -633,6 +692,9 @@ describe('Acceptance | Controller | user-tutorial-controller', function () {
             },
             relationships: {
               'user-tutorial': { data: { id: '101', type: 'user-tutorial' } },
+              'tutorial-evaluation': {
+                data: null,
+              },
             },
             id: 'tuto1',
             type: 'tutorials',
@@ -647,6 +709,9 @@ describe('Acceptance | Controller | user-tutorial-controller', function () {
             },
             relationships: {
               'user-tutorial': { data: { id: '102', type: 'user-tutorial' } },
+              'tutorial-evaluation': {
+                data: null,
+              },
             },
             id: 'tuto2',
             type: 'tutorials',
