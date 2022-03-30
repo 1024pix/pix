@@ -7,9 +7,7 @@ const DomainTransaction = require('../../../../lib/infrastructure/DomainTransact
 const userService = require('../../../../lib/domain/services/user-service');
 
 describe('Unit | Service | user-service', function () {
-  // TODO: Fix this the next time the file is edited.
-  // eslint-disable-next-line mocha/no-setup-in-describe
-  const domainTransaction = Symbol('domain transaction');
+  let domainTransaction;
   const hashedPassword = 'ABCD1234';
 
   let user;
@@ -21,6 +19,8 @@ describe('Unit | Service | user-service', function () {
   let userRepository;
 
   beforeEach(function () {
+    domainTransaction = Symbol('domain transaction');
+
     userRepository = {
       create: sinon.stub(),
       updateUsername: sinon.stub(),
@@ -112,26 +112,18 @@ describe('Unit | Service | user-service', function () {
   });
 
   describe('#createAndReconcileUserToSchoolingRegistration', function () {
-    const samlId = 'ABCD';
-
-    beforeEach(async function () {
-      user = domainBuilder.buildUser();
-      authenticationMethod = domainBuilder.buildAuthenticationMethod.withGarAsIdentityProvider({
-        externalIdentifier: samlId,
-        userId: user.id,
-      });
-    });
-
     it('should call user and authenticationMethod create and function, and schoolingRegistration update function', async function () {
       // given
+      const user = domainBuilder.buildUser({
+        firstName: 'Mnémosyne',
+        lastName: 'Pachidermata',
+      });
       const schoolingRegistrationId = 1;
       userRepository.create.resolves(user);
 
-      const expectedAuthenticationMethod = omit(authenticationMethod, ['id', 'createdAt', 'updatedAt']);
-
       // when
       await userService.createAndReconcileUserToSchoolingRegistration({
-        samlId,
+        samlId: 'SAML_ID',
         schoolingRegistrationId,
         user,
         authenticationMethodRepository,
@@ -145,7 +137,14 @@ describe('Unit | Service | user-service', function () {
         user,
       });
       expect(authenticationMethodRepository.create).to.have.been.calledWithMatch({
-        authenticationMethod: expectedAuthenticationMethod,
+        authenticationMethod: {
+          externalIdentifier: 'SAML_ID',
+          userId: user.id,
+          authenticationComplement: {
+            firstName: 'Mnémosyne',
+            lastName: 'Pachidermata',
+          },
+        },
       });
       expect(schoolingRegistrationRepository.updateUserIdWhereNull).to.have.been.calledWithMatch({
         schoolingRegistrationId,

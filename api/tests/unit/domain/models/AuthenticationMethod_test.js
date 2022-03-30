@@ -232,5 +232,55 @@ describe('Unit | Domain | Models | AuthenticationMethod', function () {
         ).to.throw(ObjectValidationError);
       });
     });
+
+    context('GARAuthenticationComplement', function () {
+      it('should successfully instantiate object when passing all valid arguments', function () {
+        expect(
+          () =>
+            new AuthenticationMethod.GARAuthenticationComplement({
+              firstName: 'Margaret',
+              lastName: 'Remington',
+            })
+        ).not.to.throw(ObjectValidationError);
+      });
+
+      it('should throw an ObjectValidationError when firstName is not a string', function () {
+        expect(
+          () =>
+            new AuthenticationMethod.GARAuthenticationComplement({
+              lastName: 'Remington',
+              firstName: 1234,
+            })
+        ).to.throw(ObjectValidationError);
+      });
+
+      it('should throw an ObjectValidationError when firstName is missing', function () {
+        expect(
+          () =>
+            new AuthenticationMethod.GARAuthenticationComplement({
+              lastName: 'Remington',
+            })
+        ).to.throw(ObjectValidationError);
+      });
+
+      it('should throw an ObjectValidationError when lastName is not a string', function () {
+        expect(
+          () =>
+            new AuthenticationMethod.GARAuthenticationComplement({
+              firstName: 'Margaret',
+              lastName: 4567,
+            })
+        ).to.throw(ObjectValidationError);
+      });
+
+      it('should throw an ObjectValidationError when lastName is missing', function () {
+        expect(
+          () =>
+            new AuthenticationMethod.GARAuthenticationComplement({
+              firstName: 'Margaret',
+            })
+        ).to.throw(ObjectValidationError);
+      });
+    });
   });
 });

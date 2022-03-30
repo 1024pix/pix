@@ -13,12 +13,15 @@ function _buildPasswordAuthenticationMethod({ userId, hashedPassword }) {
   });
 }
 
-function _buildGARAuthenticationMethod({ externalIdentifier, userId }) {
+function _buildGARAuthenticationMethod({ externalIdentifier, user }) {
   return new AuthenticationMethod({
     externalIdentifier,
     identityProvider: AuthenticationMethod.identityProviders.GAR,
-    userId,
-    authenticationComplement: null,
+    userId: user.id,
+    authenticationComplement: new AuthenticationMethod.GARAuthenticationComplement({
+      firstName: user.firstName,
+      lastName: user.lastName,
+    }),
   });
 }
 
@@ -79,7 +82,7 @@ async function createAndReconcileUserToSchoolingRegistration({
     if (samlId) {
       authenticationMethod = _buildGARAuthenticationMethod({
         externalIdentifier: samlId,
-        userId: createdUser.id,
+        user: createdUser,
       });
     } else {
       authenticationMethod = _buildPasswordAuthenticationMethod({
