@@ -284,8 +284,8 @@ function _createCertificationCandidatesScoForSession(sessionId) {
       },
     ],
     (candidate) => {
-      const schoolingRegistrationId = databaseBuilder.factory.buildOrganizationLearner(candidate).id;
-      databaseBuilder.factory.buildCertificationCandidate({ ...candidate, schoolingRegistrationId });
+      const organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner(candidate).id;
+      databaseBuilder.factory.buildCertificationCandidate({ ...candidate, organizationLearnerId });
     }
   );
 }

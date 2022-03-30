@@ -23,19 +23,25 @@ describe('Integration | Repository | SCOCertificationCandidate', function () {
       const organizationLearnerId2 = databaseBuilder.factory.buildOrganizationLearner().id;
       const scoCandidateAlreadySaved1 = databaseBuilder.factory.buildCertificationCandidate({
         sessionId,
-        schoolingRegistrationId: organizationLearnerId1,
+        organizationLearnerId: organizationLearnerId1,
       });
       const scoCandidateAlreadySaved2 = databaseBuilder.factory.buildCertificationCandidate({
         sessionId,
-        schoolingRegistrationId: organizationLearnerId2,
+        organizationLearnerId: organizationLearnerId2,
       });
       const organizationLearnerId3 = databaseBuilder.factory.buildOrganizationLearner().id;
       const organizationLearnerId4 = databaseBuilder.factory.buildOrganizationLearner().id;
       await databaseBuilder.commit();
 
       const scoCandidates = [
-        domainBuilder.buildSCOCertificationCandidate(scoCandidateAlreadySaved1),
-        domainBuilder.buildSCOCertificationCandidate(scoCandidateAlreadySaved2),
+        domainBuilder.buildSCOCertificationCandidate({
+          ...scoCandidateAlreadySaved1,
+          schoolingRegistrationId: scoCandidateAlreadySaved1.organizationLearnerId,
+        }),
+        domainBuilder.buildSCOCertificationCandidate({
+          ...scoCandidateAlreadySaved2,
+          schoolingRegistrationId: scoCandidateAlreadySaved2.organizationLearnerId,
+        }),
         domainBuilder.buildSCOCertificationCandidate({
           id: null,
           firstName: 'Bobby',
@@ -93,13 +99,13 @@ describe('Integration | Repository | SCOCertificationCandidate', function () {
       const sessionId = databaseBuilder.factory.buildSession().id;
       const anOrganizationId = databaseBuilder.factory.buildOrganization().id;
       const anotherOrganizationId = databaseBuilder.factory.buildOrganization().id;
-      const schoolingRegistrationId = databaseBuilder.factory.buildOrganizationLearner({
+      const organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner({
         organizationId: anOrganizationId,
         division: '3ème A',
       }).id;
       databaseBuilder.factory.buildCertificationCandidate({
         sessionId,
-        schoolingRegistrationId,
+        organizationLearnerId,
       });
       await databaseBuilder.commit();
 
@@ -124,7 +130,7 @@ describe('Integration | Repository | SCOCertificationCandidate', function () {
       }).id;
       const nonDisabledCandidateId = databaseBuilder.factory.buildCertificationCandidate({
         sessionId,
-        schoolingRegistrationId: nonDisabledOrganizationLearnerId,
+        organizationLearnerId: nonDisabledOrganizationLearnerId,
       }).id;
 
       const disabledOrganizationLearnerId = databaseBuilder.factory.buildOrganizationLearner({
@@ -134,7 +140,7 @@ describe('Integration | Repository | SCOCertificationCandidate', function () {
       }).id;
       databaseBuilder.factory.buildCertificationCandidate({
         sessionId,
-        schoolingRegistrationId: disabledOrganizationLearnerId,
+        organizationLearnerId: disabledOrganizationLearnerId,
       }).id;
       await databaseBuilder.commit();
 
@@ -162,11 +168,11 @@ describe('Integration | Repository | SCOCertificationCandidate', function () {
       }).id;
       const candidateId = databaseBuilder.factory.buildCertificationCandidate({
         sessionId,
-        schoolingRegistrationId: aOrganizationLearnerId,
+        organizationLearnerId: aOrganizationLearnerId,
       }).id;
       databaseBuilder.factory.buildCertificationCandidate({
         sessionId,
-        schoolingRegistrationId: anotherOrganizationLearnerId,
+        organizationLearnerId: anotherOrganizationLearnerId,
       }).id;
       await databaseBuilder.commit();
 
