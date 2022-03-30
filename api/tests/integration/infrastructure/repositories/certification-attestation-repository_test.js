@@ -975,7 +975,7 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
       const learningContentObjects = learningContentBuilder.buildLearningContent(minimalLearningContent);
       mockLearningContent(learningContentObjects);
       databaseBuilder.factory.buildOrganization({ id: 123, type: 'SCO', isManagingStudents: true });
-      const schoolingRegistrationId = databaseBuilder.factory.buildOrganizationLearner({
+      const organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner({
         organizationId: 123,
         division: '3emeb',
       }).id;
@@ -1021,12 +1021,12 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
       await _linkCertificationAttestationToOrganization({
         certificationAttestationData: certificationAttestationDataOldest,
         organizationId: 123,
-        schoolingRegistrationId,
+        organizationLearnerId,
       });
       await _linkCertificationAttestationToOrganization({
         certificationAttestationData: certificationAttestationDataNewest,
         organizationId: 123,
-        schoolingRegistrationId,
+        organizationLearnerId,
       });
 
       // when
@@ -1305,11 +1305,11 @@ async function _linkCertificationAttestationToOrganization({
   certificationAttestationData,
   organizationId,
   division,
-  schoolingRegistrationId = null,
+  organizationLearnerId = null,
   isDisabled = false,
 }) {
   const srId =
-    schoolingRegistrationId ||
+    organizationLearnerId ||
     databaseBuilder.factory.buildOrganizationLearner({
       organizationId,
       userId: certificationAttestationData.userId,
@@ -1319,7 +1319,7 @@ async function _linkCertificationAttestationToOrganization({
   databaseBuilder.factory.buildCertificationCandidate({
     userId: certificationAttestationData.userId,
     sessionId: certificationAttestationData.sessionId,
-    schoolingRegistrationId: srId,
+    organizationLearnerId: srId,
   });
   await databaseBuilder.commit();
 }

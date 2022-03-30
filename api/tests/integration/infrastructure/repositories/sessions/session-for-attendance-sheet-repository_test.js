@@ -98,19 +98,19 @@ describe('Integration | Repository | Session-for-attendance-sheet', function () 
           lastName: 'Jackson',
           firstName: 'Michael',
           sessionId: session.id,
-          schoolingRegistrationId: schoolingRegistration1.id,
+          organizationLearnerId: schoolingRegistration1.id,
         });
         const candidate2 = databaseBuilder.factory.buildCertificationCandidate({
           lastName: 'Stardust',
           firstName: 'Ziggy',
           sessionId: session.id,
-          schoolingRegistrationId: schoolingRegistration2.id,
+          organizationLearnerId: schoolingRegistration2.id,
         });
         const candidate3 = databaseBuilder.factory.buildCertificationCandidate({
           lastName: 'Jackson',
           firstName: 'Janet',
           sessionId: session.id,
-          schoolingRegistrationId: schoolingRegistration3.id,
+          organizationLearnerId: schoolingRegistration3.id,
         });
         await databaseBuilder.commit();
 

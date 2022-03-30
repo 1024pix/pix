@@ -1497,12 +1497,12 @@ describe('Acceptance | Application | organization-controller', function () {
         organizationRole: Membership.roles.ADMIN,
       });
 
-      const schoolingRegistration = databaseBuilder.factory.buildOrganizationLearner({
+      const organizationLearner = databaseBuilder.factory.buildOrganizationLearner({
         organizationId: organization.id,
         division: 'aDivision',
       });
       const candidate = databaseBuilder.factory.buildCertificationCandidate({
-        schoolingRegistrationId: schoolingRegistration.id,
+        organizationLearnerId: organizationLearner.id,
       });
       const certificationCourse = databaseBuilder.factory.buildCertificationCourse({
         userId: candidate.userId,
@@ -1561,14 +1561,14 @@ describe('Acceptance | Application | organization-controller', function () {
       });
 
       const student = databaseBuilder.factory.buildUser.withRawPassword();
-      const schoolingRegistration = databaseBuilder.factory.buildOrganizationLearner({
+      const organizationLearner = databaseBuilder.factory.buildOrganizationLearner({
         organizationId: organization.id,
         division: 'aDivision',
         userId: student.id,
       });
 
       const candidate = databaseBuilder.factory.buildCertificationCandidate({
-        schoolingRegistrationId: schoolingRegistration.id,
+        organizationLearnerId: organizationLearner.id,
         userId: student.id,
       });
 
