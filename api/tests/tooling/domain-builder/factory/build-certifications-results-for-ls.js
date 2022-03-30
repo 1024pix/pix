@@ -12,7 +12,7 @@ function buildUser() {
 }
 
 function buildSchoolingRegistration({ userId, organizationId, isDisabled }) {
-  return databaseBuilder.factory.buildSchoolingRegistration({ userId, organizationId, isDisabled });
+  return databaseBuilder.factory.buildOrganizationLearner({ userId, organizationId, isDisabled });
 }
 
 function _createCertificationCenter() {

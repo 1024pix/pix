@@ -121,7 +121,7 @@ describe('Integration | Repository | ParticipantResultRepository', function () {
       it('returns true when there is a schooling-registration active and all other conditions are filled', async function () {
         const { id: userId } = databaseBuilder.factory.buildUser();
         const { id: organizationId } = databaseBuilder.factory.buildOrganization();
-        databaseBuilder.factory.buildSchoolingRegistration({ userId, organizationId });
+        databaseBuilder.factory.buildOrganizationLearner({ userId, organizationId });
         const { id: campaignId } = databaseBuilder.factory.buildCampaign({
           organizationId,
           targetProfileId,
@@ -176,7 +176,7 @@ describe('Integration | Repository | ParticipantResultRepository', function () {
           userId,
           campaignId,
         });
-        databaseBuilder.factory.buildSchoolingRegistration({ organizationId, userId, isDisabled: true });
+        databaseBuilder.factory.buildOrganizationLearner({ organizationId, userId, isDisabled: true });
         databaseBuilder.factory.buildAssessment({ campaignParticipationId, userId });
         await databaseBuilder.commit();
 
@@ -197,7 +197,7 @@ describe('Integration | Repository | ParticipantResultRepository', function () {
           multipleSendings: true,
         }).id;
         const userId = databaseBuilder.factory.buildUser().id;
-        databaseBuilder.factory.buildSchoolingRegistration({ userId, organizationId, isDisabled: true });
+        databaseBuilder.factory.buildOrganizationLearner({ userId, organizationId, isDisabled: true });
         const campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({
           userId,
           campaignId,
@@ -206,7 +206,7 @@ describe('Integration | Repository | ParticipantResultRepository', function () {
         databaseBuilder.factory.buildAssessment({ campaignParticipationId, userId });
 
         const otherUserId = databaseBuilder.factory.buildUser().id;
-        databaseBuilder.factory.buildSchoolingRegistration({ userId: otherUserId, organizationId, isDisabled: false });
+        databaseBuilder.factory.buildOrganizationLearner({ userId: otherUserId, organizationId, isDisabled: false });
         const otherCampaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({
           userId: otherUserId,
           campaignId,
@@ -226,7 +226,7 @@ describe('Integration | Repository | ParticipantResultRepository', function () {
       it('takes into account only schooling registration for the given campaignId', async function () {
         const userId = databaseBuilder.factory.buildUser().id;
         const organizationId = databaseBuilder.factory.buildOrganization().id;
-        databaseBuilder.factory.buildSchoolingRegistration({ userId, organizationId, isDisabled: true });
+        databaseBuilder.factory.buildOrganizationLearner({ userId, organizationId, isDisabled: true });
         const campaignId = databaseBuilder.factory.buildCampaign({
           organizationId,
           targetProfileId,
@@ -240,7 +240,7 @@ describe('Integration | Repository | ParticipantResultRepository', function () {
         databaseBuilder.factory.buildAssessment({ campaignParticipationId, userId });
 
         const otherOrganizationId = databaseBuilder.factory.buildOrganization().id;
-        databaseBuilder.factory.buildSchoolingRegistration({
+        databaseBuilder.factory.buildOrganizationLearner({
           userId,
           organizationId: otherOrganizationId,
           isDisabled: false,

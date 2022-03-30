@@ -1,11 +1,11 @@
 const buildAssessment = require('./build-assessment');
 const buildUser = require('./build-user');
 const buildCampaignParticipation = require('./build-campaign-participation');
-const buildSchoolingRegistration = require('./build-schooling-registration');
+const buildOrganizationLearner = require('./build-organization-learner');
 
 module.exports = function buildAssessmentFromParticipation(campaignParticipation, schoolingRegistration, user) {
   const userId = buildUser(user).id;
-  const schoolingRegistrationId = buildSchoolingRegistration(schoolingRegistration).id;
+  const schoolingRegistrationId = buildOrganizationLearner(schoolingRegistration).id;
   const campaignParticipationId = buildCampaignParticipation({
     ...campaignParticipation,
     userId,

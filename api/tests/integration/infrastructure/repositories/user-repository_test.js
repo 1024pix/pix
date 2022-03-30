@@ -620,13 +620,13 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
         // given
         const userInDB = databaseBuilder.factory.buildUser(userToInsert);
         const firstOrganizationInDB = databaseBuilder.factory.buildOrganization();
-        const firstSchoolingRegistrationInDB = databaseBuilder.factory.buildSchoolingRegistration({
+        const firstSchoolingRegistrationInDB = databaseBuilder.factory.buildOrganizationLearner({
           id: 1,
           userId: userInDB.id,
           organizationId: firstOrganizationInDB.id,
         });
         const secondOrganizationInDB = databaseBuilder.factory.buildOrganization();
-        const secondSchoolingRegistrationInDB = databaseBuilder.factory.buildSchoolingRegistration({
+        const secondSchoolingRegistrationInDB = databaseBuilder.factory.buildOrganizationLearner({
           id: 2,
           userId: userInDB.id,
           organizationId: secondOrganizationInDB.id,

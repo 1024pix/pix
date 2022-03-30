@@ -55,7 +55,7 @@ describe('Integration | UseCase | find-paginated-campaign-participants-activitie
       const participation1 = { participantExternalId: 'Yubaba', campaignId };
       const participant1 = { firstName: 'Chihiro', lastName: 'Ogino', division: '6eme' };
       databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(participant1, participation1);
-      databaseBuilder.factory.buildSchoolingRegistration({ userId: participant1.id, organizationId });
+      databaseBuilder.factory.buildOrganizationLearner({ userId: participant1.id, organizationId });
 
       const participation2 = { participantExternalId: 'Meï', campaignId };
       const participant2 = { firstName: 'Tonari', lastName: 'No Totoro', division: '5eme' };

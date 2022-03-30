@@ -234,7 +234,7 @@ describe('Integration | Repository | Campaign Assessment Participation', functio
         campaignId = databaseBuilder.factory.buildAssessmentCampaignForSkills({ organizationId }, [skill]).id;
         const userId = databaseBuilder.factory.buildUser().id;
 
-        const schoolingRegistrationId = databaseBuilder.factory.buildSchoolingRegistration({
+        const schoolingRegistrationId = databaseBuilder.factory.buildOrganizationLearner({
           organizationId,
           userId,
           firstName: 'John',
@@ -254,7 +254,7 @@ describe('Integration | Repository | Campaign Assessment Participation', functio
           state: Assessment.states.COMPLETED,
         });
 
-        databaseBuilder.factory.buildSchoolingRegistration({
+        databaseBuilder.factory.buildOrganizationLearner({
           organizationId: otherOrganizationId,
           userId,
           firstName: 'Jane',

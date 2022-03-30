@@ -91,9 +91,9 @@ describe('Integration | Repository | Session-for-attendance-sheet', function () 
           time: '12:00:00',
         });
 
-        const schoolingRegistration1 = databaseBuilder.factory.buildSchoolingRegistration({ division: '3b' });
-        const schoolingRegistration2 = databaseBuilder.factory.buildSchoolingRegistration({ division: '3a' });
-        const schoolingRegistration3 = databaseBuilder.factory.buildSchoolingRegistration({ division: '2c' });
+        const schoolingRegistration1 = databaseBuilder.factory.buildOrganizationLearner({ division: '3b' });
+        const schoolingRegistration2 = databaseBuilder.factory.buildOrganizationLearner({ division: '3a' });
+        const schoolingRegistration3 = databaseBuilder.factory.buildOrganizationLearner({ division: '2c' });
         const candidate1 = databaseBuilder.factory.buildCertificationCandidate({
           lastName: 'Jackson',
           firstName: 'Michael',

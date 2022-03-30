@@ -1,6 +1,6 @@
 const buildCampaign = require('./build-campaign');
 const buildUser = require('./build-user');
-const buildSchoolingRegistration = require('./build-schooling-registration');
+const buildOrganizationLearner = require('./build-organization-learner');
 const databaseBuffer = require('../database-buffer');
 const CampaignParticipationStatuses = require('../../../lib/domain/models/CampaignParticipationStatuses');
 const _ = require('lodash');
@@ -25,7 +25,7 @@ module.exports = function buildCampaignParticipation({
 } = {}) {
   userId = _.isUndefined(userId) ? buildUser().id : userId;
   schoolingRegistrationId = _.isUndefined(schoolingRegistrationId)
-    ? buildSchoolingRegistration().id
+    ? buildOrganizationLearner().id
     : schoolingRegistrationId;
   campaignId = _.isUndefined(campaignId) ? buildCampaign().id : campaignId;
   const isShared = status === SHARED;

@@ -139,12 +139,12 @@ describe('Integration | Domain | Services | user-service', function () {
   describe('#createAndReconcileUserToSchoolingRegistration', function () {
     let organizationId;
     let samlId;
-    let schoolingRegistrationId;
+    let organizationLearnerId;
 
     beforeEach(async function () {
       user = domainBuilder.buildUser();
       organizationId = databaseBuilder.factory.buildOrganization().id;
-      schoolingRegistrationId = databaseBuilder.factory.buildSchoolingRegistration({
+      organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner({
         userId: null,
       }).id;
 
@@ -163,7 +163,7 @@ describe('Integration | Domain | Services | user-service', function () {
         const updatedUserId = await userService.createAndReconcileUserToSchoolingRegistration({
           hashedPassword,
           samlId,
-          schoolingRegistrationId,
+          schoolingRegistrationId: organizationLearnerId,
           user,
           authenticationMethodRepository,
           schoolingRegistrationRepository,
@@ -171,7 +171,7 @@ describe('Integration | Domain | Services | user-service', function () {
         });
 
         // then
-        const foundSchoolingRegistration = await schoolingRegistrationRepository.get(schoolingRegistrationId);
+        const foundSchoolingRegistration = await schoolingRegistrationRepository.get(organizationLearnerId);
         expect(updatedUserId).to.equal(foundSchoolingRegistration.userId);
       });
 
@@ -179,18 +179,18 @@ describe('Integration | Domain | Services | user-service', function () {
         // given
         await knex('organization-learners')
           .update({ updatedAt: new Date('2019-01-01') })
-          .where({ id: schoolingRegistrationId });
+          .where({ id: organizationLearnerId });
         const { updatedAt: beforeUpdatedAt } = await knex
           .select('updatedAt')
           .from('organization-learners')
-          .where({ id: schoolingRegistrationId })
+          .where({ id: organizationLearnerId })
           .first();
 
         // when
         await userService.createAndReconcileUserToSchoolingRegistration({
           hashedPassword,
           samlId,
-          schoolingRegistrationId,
+          schoolingRegistrationId: organizationLearnerId,
           user,
           authenticationMethodRepository,
           schoolingRegistrationRepository,
@@ -201,7 +201,7 @@ describe('Integration | Domain | Services | user-service', function () {
         const { updatedAt: afterUpdatedAt } = await knex
           .select('updatedAt')
           .from('organization-learners')
-          .where({ id: schoolingRegistrationId })
+          .where({ id: organizationLearnerId })
           .first();
         expect(afterUpdatedAt).to.be.above(beforeUpdatedAt);
       });
@@ -215,7 +215,7 @@ describe('Integration | Domain | Services | user-service', function () {
           const result = await userService.createAndReconcileUserToSchoolingRegistration({
             hashedPassword,
             samlId,
-            schoolingRegistrationId,
+            schoolingRegistrationId: organizationLearnerId,
             user,
             authenticationMethodRepository,
             schoolingRegistrationRepository,
@@ -237,7 +237,7 @@ describe('Integration | Domain | Services | user-service', function () {
       it('should rollback after association fails', async function () {
         // given
         const userId = databaseBuilder.factory.buildUser().id;
-        schoolingRegistrationId = databaseBuilder.factory.buildSchoolingRegistration({
+        organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner({
           userId,
           organizationId,
         }).id;
@@ -247,7 +247,7 @@ describe('Integration | Domain | Services | user-service', function () {
         const error = await catchErr(userService.createAndReconcileUserToSchoolingRegistration)({
           hashedPassword,
           samlId,
-          schoolingRegistrationId,
+          schoolingRegistrationId: organizationLearnerId,
           user,
           authenticationMethodRepository,
           schoolingRegistrationRepository,
@@ -256,7 +256,7 @@ describe('Integration | Domain | Services | user-service', function () {
 
         // then
         expect(error).to.be.instanceOf(SchoolingRegistrationNotFound);
-        const foundSchoolingRegistrations = await knex('organization-learners').where('id', schoolingRegistrationId);
+        const foundSchoolingRegistrations = await knex('organization-learners').where('id', organizationLearnerId);
         expect(foundSchoolingRegistrations[0].userId).to.equal(userId);
         const foundUser = await knex('users').where({ email: user.email });
         expect(foundUser).to.have.lengthOf(0);

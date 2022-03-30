@@ -200,7 +200,7 @@ describe('Integration | Infrastructure | Repository | Prescriber', function () {
           const organizationId = databaseBuilder.factory.buildOrganization().id;
           databaseBuilder.factory.buildMembership({ userId, organizationId });
           databaseBuilder.factory.buildUserOrgaSettings({ userId, currentOrganizationId: organizationId });
-          databaseBuilder.factory.buildSchoolingRegistration({ organizationId, createdAt: new Date('2020-08-17') });
+          databaseBuilder.factory.buildOrganizationLearner({ organizationId, createdAt: new Date('2020-08-17') });
           await databaseBuilder.commit();
 
           // when
@@ -228,7 +228,7 @@ describe('Integration | Infrastructure | Repository | Prescriber', function () {
           const organizationId = databaseBuilder.factory.buildOrganization().id;
           databaseBuilder.factory.buildMembership({ userId, organizationId });
           databaseBuilder.factory.buildUserOrgaSettings({ userId, currentOrganizationId: organizationId });
-          databaseBuilder.factory.buildSchoolingRegistration({ organizationId });
+          databaseBuilder.factory.buildOrganizationLearner({ organizationId });
           await databaseBuilder.commit();
 
           // when
@@ -256,7 +256,7 @@ describe('Integration | Infrastructure | Repository | Prescriber', function () {
           const organizationId = databaseBuilder.factory.buildOrganization().id;
           databaseBuilder.factory.buildMembership({ userId, organizationId });
           databaseBuilder.factory.buildUserOrgaSettings({ userId, currentOrganizationId: organizationId });
-          databaseBuilder.factory.buildSchoolingRegistration({ organizationId, createdAt: new Date('2020-08-17') });
+          databaseBuilder.factory.buildOrganizationLearner({ organizationId, createdAt: new Date('2020-08-17') });
           await databaseBuilder.commit();
 
           // when
@@ -272,7 +272,7 @@ describe('Integration | Infrastructure | Repository | Prescriber', function () {
           const organizationId = databaseBuilder.factory.buildOrganization().id;
           databaseBuilder.factory.buildMembership({ userId, organizationId });
           databaseBuilder.factory.buildUserOrgaSettings({ userId, currentOrganizationId: organizationId });
-          databaseBuilder.factory.buildSchoolingRegistration({ organizationId, createdAt: new Date('2020-07-17') });
+          databaseBuilder.factory.buildOrganizationLearner({ organizationId, createdAt: new Date('2020-07-17') });
           await databaseBuilder.commit();
 
           // when
@@ -299,7 +299,7 @@ describe('Integration | Infrastructure | Repository | Prescriber', function () {
           const userId = databaseBuilder.factory.buildUser().id;
           const organizationId = databaseBuilder.factory.buildOrganization().id;
           databaseBuilder.factory.buildMembership({ userId, organizationId });
-          databaseBuilder.factory.buildSchoolingRegistration({ organizationId, createdAt: new Date('2020-08-17') });
+          databaseBuilder.factory.buildOrganizationLearner({ organizationId, createdAt: new Date('2020-08-17') });
           await databaseBuilder.commit();
 
           // when
@@ -314,7 +314,7 @@ describe('Integration | Infrastructure | Repository | Prescriber', function () {
           const userId = databaseBuilder.factory.buildUser().id;
           const organizationId = databaseBuilder.factory.buildOrganization().id;
           databaseBuilder.factory.buildMembership({ userId, organizationId });
-          databaseBuilder.factory.buildSchoolingRegistration({ organizationId, createdAt: new Date('2020-07-17') });
+          databaseBuilder.factory.buildOrganizationLearner({ organizationId, createdAt: new Date('2020-07-17') });
           await databaseBuilder.commit();
 
           // when
