@@ -20,7 +20,7 @@ describe('Unit | Domain | Events | handle-pix-plus-droit-certifications-scoring'
     partnerCertificationScoringRepository.save = sinon.stub();
     certificationAssessmentRepository.getByCertificationCourseId = sinon.stub();
     assessmentResultRepository.getByCertificationCourseId = sinon.stub();
-    complementaryCertificationCourseRepository.hasComplementaryCertification = sinon.stub();
+    complementaryCertificationCourseRepository.getComplementaryCertificationCourseId = sinon.stub();
   });
 
   it('fails when event is not of correct type', async function () {
@@ -60,7 +60,7 @@ describe('Unit | Domain | Events | handle-pix-plus-droit-certifications-scoring'
         .withArgs({ certificationCourseId: 123 })
         .resolves(certificationAssessment);
 
-      complementaryCertificationCourseRepository.hasComplementaryCertification
+      complementaryCertificationCourseRepository.getComplementaryCertificationCourseId
         .withArgs({
           certificationCourseId: 123,
           complementaryCertificationName: PIX_PLUS_DROIT,
@@ -99,12 +99,12 @@ describe('Unit | Domain | Events | handle-pix-plus-droit-certifications-scoring'
         .withArgs({ certificationCourseId: 123 })
         .resolves(certificationAssessment);
 
-      complementaryCertificationCourseRepository.hasComplementaryCertification
+      complementaryCertificationCourseRepository.getComplementaryCertificationCourseId
         .withArgs({
           certificationCourseId: 123,
           complementaryCertificationName: PIX_PLUS_DROIT,
         })
-        .resolves(true);
+        .resolves(999);
 
       assessmentResultRepository.getByCertificationCourseId
         .withArgs({ certificationCourseId: 123 })
@@ -115,6 +115,7 @@ describe('Unit | Domain | Events | handle-pix-plus-droit-certifications-scoring'
 
       // then
       const expectedPartnerCertificationScoring = domainBuilder.buildPixPlusDroitCertificationScoring({
+        complementaryCertificationCourseId: 999,
         certificationCourseId: 123,
         certifiableBadgeKey: PIX_DROIT_MAITRE_CERTIF,
         reproducibilityRate: domainBuilder.buildReproducibilityRate({ value: 100 }),
@@ -132,7 +133,6 @@ describe('Unit | Domain | Events | handle-pix-plus-droit-certifications-scoring'
       certificationCourseId: 123,
       userId: 456,
     });
-
     const certificationAssessment = domainBuilder.buildCertificationAssessment({
       certificationCourseId: 123,
       userId: 456,
@@ -167,6 +167,7 @@ describe('Unit | Domain | Events | handle-pix-plus-droit-certifications-scoring'
         certificationCourseId: 123,
         userId: 456,
       });
+      const complementaryCertificationCourseId = 999;
       const certificationChallenge = domainBuilder.buildCertificationChallengeWithType({
         challengeId: 'chal1',
         certifiableBadgeKey: PIX_DROIT_MAITRE_CERTIF,
@@ -185,18 +186,19 @@ describe('Unit | Domain | Events | handle-pix-plus-droit-certifications-scoring'
       assessmentResultRepository.getByCertificationCourseId
         .withArgs({ certificationCourseId: 123 })
         .resolves(domainBuilder.buildAssessmentResult.rejected());
-      complementaryCertificationCourseRepository.hasComplementaryCertification
+      complementaryCertificationCourseRepository.getComplementaryCertificationCourseId
         .withArgs({
           certificationCourseId: 123,
           complementaryCertificationName: PIX_PLUS_DROIT,
         })
-        .resolves(true);
+        .resolves(complementaryCertificationCourseId);
 
       // when
       await handlePixPlusDroitCertificationsScoring({ event, ...dependencies });
 
       // then
       const expectedPartnerCertificationScoring = domainBuilder.buildPixPlusDroitCertificationScoring({
+        complementaryCertificationCourseId,
         certificationCourseId: 123,
         certifiableBadgeKey: PIX_DROIT_MAITRE_CERTIF,
         reproducibilityRate: domainBuilder.buildReproducibilityRate({ value: 100 }),
@@ -238,18 +240,19 @@ describe('Unit | Domain | Events | handle-pix-plus-droit-certifications-scoring'
       assessmentResultRepository.getByCertificationCourseId
         .withArgs({ certificationCourseId: 123 })
         .resolves(domainBuilder.buildAssessmentResult.validated());
-      complementaryCertificationCourseRepository.hasComplementaryCertification
+      complementaryCertificationCourseRepository.getComplementaryCertificationCourseId
         .withArgs({
           certificationCourseId: 123,
           complementaryCertificationName: PIX_PLUS_DROIT,
         })
-        .resolves(true);
+        .resolves(999);
 
       // when
       await handlePixPlusDroitCertificationsScoring({ event, ...dependencies });
 
       // then
       const expectedPartnerCertificationScoring = domainBuilder.buildPixPlusDroitCertificationScoring({
+        complementaryCertificationCourseId: 999,
         certificationCourseId: 123,
         certifiableBadgeKey: PIX_DROIT_MAITRE_CERTIF,
         reproducibilityRate: domainBuilder.buildReproducibilityRate({ value: 50 }),
@@ -290,18 +293,19 @@ describe('Unit | Domain | Events | handle-pix-plus-droit-certifications-scoring'
       assessmentResultRepository.getByCertificationCourseId
         .withArgs({ certificationCourseId: 123 })
         .resolves(domainBuilder.buildAssessmentResult.validated());
-      complementaryCertificationCourseRepository.hasComplementaryCertification
+      complementaryCertificationCourseRepository.getComplementaryCertificationCourseId
         .withArgs({
           certificationCourseId: 123,
           complementaryCertificationName: PIX_PLUS_DROIT,
         })
-        .resolves(true);
+        .resolves(999);
 
       // when
       await handlePixPlusDroitCertificationsScoring({ event, ...dependencies });
 
       // then
       const expectedPartnerCertificationScoring = domainBuilder.buildPixPlusDroitCertificationScoring({
+        complementaryCertificationCourseId: 999,
         certificationCourseId: 123,
         certifiableBadgeKey: PIX_DROIT_MAITRE_CERTIF,
         reproducibilityRate: domainBuilder.buildReproducibilityRate({ value: 100 }),

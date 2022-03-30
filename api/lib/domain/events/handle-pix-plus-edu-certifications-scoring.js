@@ -1,5 +1,4 @@
 const { checkEventTypes } = require('./check-event-types');
-const bluebird = require('bluebird');
 const CertificationScoringCompleted = require('./CertificationScoringCompleted');
 const CertificationRescoringCompleted = require('./CertificationRescoringCompleted');
 const PixPlusEduCertificationScoring = require('../models/PixPlusEduCertificationScoring');
@@ -12,10 +11,11 @@ const {
   PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
   PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
 } = require('../models/Badge').keys;
+const { PIX_PLUS_EDU } = require('../models/ComplementaryCertification');
 
 const eventTypes = [CertificationScoringCompleted, CertificationRescoringCompleted];
 
-async function _isAllowedToBeScored({ certifiableBadgeKey }) {
+function _isAllowedToBeScored(certifiableBadgeKey) {
   return [
     PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
     PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME,
@@ -25,12 +25,8 @@ async function _isAllowedToBeScored({ certifiableBadgeKey }) {
   ].includes(certifiableBadgeKey);
 }
 
-async function _allowedToBeScoredBadgeKeys({ certifiableBadgeKeys }) {
-  return bluebird.filter(certifiableBadgeKeys, async (certifiableBadgeKey) =>
-    _isAllowedToBeScored({
-      certifiableBadgeKey,
-    })
-  );
+function _allowedToBeScoredBadgeKeys({ certifiableBadgeKeys }) {
+  return certifiableBadgeKeys.filter(_isAllowedToBeScored);
 }
 
 async function handlePixPlusEduCertificationsScoring({
@@ -38,21 +34,33 @@ async function handlePixPlusEduCertificationsScoring({
   assessmentResultRepository,
   certificationAssessmentRepository,
   partnerCertificationScoringRepository,
+  complementaryCertificationCourseRepository,
 }) {
   checkEventTypes(event, eventTypes);
   const certificationCourseId = event.certificationCourseId;
+  const complementaryCertificationCourseId =
+    await complementaryCertificationCourseRepository.getComplementaryCertificationCourseId({
+      certificationCourseId,
+      complementaryCertificationName: PIX_PLUS_EDU,
+    });
+  if (!complementaryCertificationCourseId) {
+    return;
+  }
+
   const certificationAssessment = await certificationAssessmentRepository.getByCertificationCourseId({
     certificationCourseId,
   });
   const certifiableBadgeKeys = certificationAssessment.listCertifiableBadgePixPlusKeysTaken();
-  const allowedToBeScoredBadgeKeys = await _allowedToBeScoredBadgeKeys({
+  const allowedToBeScoredBadgeKeys = _allowedToBeScoredBadgeKeys({
     certifiableBadgeKeys,
   });
+
   for (const certifiableBadgeKey of allowedToBeScoredBadgeKeys) {
     const { certificationChallenges: pixPlusChallenges, certificationAnswers: pixPlusAnswers } =
       certificationAssessment.findAnswersAndChallengesForCertifiableBadgeKey(certifiableBadgeKey);
     const assessmentResult = await assessmentResultRepository.getByCertificationCourseId({ certificationCourseId });
     const pixPlusEduCertificationScoring = _buildPixPlusEduCertificationScoring(
+      complementaryCertificationCourseId,
       certificationCourseId,
       pixPlusChallenges,
       pixPlusAnswers,
@@ -64,6 +72,7 @@ async function handlePixPlusEduCertificationsScoring({
 }
 
 function _buildPixPlusEduCertificationScoring(
+  complementaryCertificationCourseId,
   certificationCourseId,
   challenges,
   answers,
@@ -76,6 +85,7 @@ function _buildPixPlusEduCertificationScoring(
     numberOfCorrectAnswers: answerCollection.numberOfCorrectAnswers(),
   });
   return new PixPlusEduCertificationScoring({
+    complementaryCertificationCourseId,
     certificationCourseId,
     reproducibilityRate,
     certifiableBadgeKey,
