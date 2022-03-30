@@ -3,10 +3,10 @@ const buildCampaignParticipation = require('./build-campaign-participation');
 const buildOrganizationLearnerWithUser = require('./build-organization-learner-with-user');
 
 module.exports = (organizationLearner, campaignParticipation, withAssessment) => {
-  const { userId, id: schoolingRegistrationId } = buildOrganizationLearnerWithUser(organizationLearner);
+  const { userId, id: organizationLearnerId } = buildOrganizationLearnerWithUser(organizationLearner);
   const campaignParticipationCreated = buildCampaignParticipation({
     userId,
-    schoolingRegistrationId,
+    organizationLearnerId,
     ...campaignParticipation,
   });
   if (withAssessment) {
