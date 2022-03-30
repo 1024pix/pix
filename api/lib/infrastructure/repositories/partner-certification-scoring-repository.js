@@ -8,6 +8,7 @@ const Badge = require('../../domain/models/Badge');
 
 module.exports = {
   async buildCleaCertificationScoring({
+    complementaryCertificationCourseId,
     certificationCourseId,
     userId,
     reproducibilityRate,
@@ -17,7 +18,7 @@ module.exports = {
     const cleaBadgeKey = await _getAcquiredCleaBadgeKey(userId, certificationCourseId, domainTransaction);
     const hasAcquiredBadge = Boolean(cleaBadgeKey);
     if (!hasAcquiredBadge) {
-      return CleaCertificationScoring.buildNotEligible({ certificationCourseId });
+      return CleaCertificationScoring.buildNotEligible({ complementaryCertificationCourseId, certificationCourseId });
     }
     const cleaSkills = await _getCleaSkills(cleaBadgeKey, skillRepository);
     const expectedPixByCompetenceForClea = _getexpectedPixByCompetenceForClea(cleaSkills);
@@ -28,6 +29,7 @@ module.exports = {
     });
 
     return new CleaCertificationScoring({
+      complementaryCertificationCourseId,
       certificationCourseId,
       hasAcquiredBadge,
       cleaCompetenceMarks,
@@ -38,18 +40,10 @@ module.exports = {
   },
 
   async save({ partnerCertificationScoring, domainTransaction = DomainTransaction.emptyTransaction() }) {
-    const { id: complementaryCertificationCourseId } = await knex
-      .select('id')
-      .from('complementary-certification-courses')
-      .where({
-        certificationCourseId: partnerCertificationScoring.certificationCourseId,
-      })
-      .first();
-
     const partnerCertificationToSave = new ComplementaryCertificationCourseResultBookshelf(
       _adaptModelToDB({
         ...partnerCertificationScoring,
-        complementaryCertificationCourseId,
+        complementaryCertificationCourseId: partnerCertificationScoring.complementaryCertificationCourseId,
         acquired: partnerCertificationScoring.isAcquired(),
       })
     );
@@ -58,11 +52,11 @@ module.exports = {
       .select('id')
       .from('complementary-certification-course-results')
       .where({
-        complementaryCertificationCourseId,
+        complementaryCertificationCourseId: partnerCertificationScoring.complementaryCertificationCourseId,
         partnerKey: partnerCertificationScoring.partnerKey,
       })
       .orWhere({
-        complementaryCertificationCourseId,
+        complementaryCertificationCourseId: partnerCertificationScoring.complementaryCertificationCourseId,
         temporaryPartnerKey: partnerCertificationScoring.temporaryPartnerKey,
       })
       .first();

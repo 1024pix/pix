@@ -2,6 +2,7 @@ const CleaCertificationScoring = require('./../../../../lib/domain/models/CleaCe
 const buildCompetenceMark = require('./build-competence-mark');
 
 module.exports = function buildCleaCertificationScoring({
+  complementaryCertificationCourseId = 99,
   certificationCourseId = 42,
   hasAcquiredBadge = true,
   isBadgeAcquisitionStillValid = true,
@@ -11,6 +12,7 @@ module.exports = function buildCleaCertificationScoring({
   cleaBadgeKey = 'some-clea_key',
 } = {}) {
   return new CleaCertificationScoring({
+    complementaryCertificationCourseId,
     certificationCourseId,
     hasAcquiredBadge,
     isBadgeAcquisitionStillValid,

@@ -1,3 +1,4 @@
+const { PIX_PLUS_EDU } = require('../../../../lib/domain/models/ComplementaryCertification');
 const { catchErr, expect, sinon, domainBuilder } = require('../../../test-helper');
 const { handlePixPlusEduCertificationsScoring } = require('../../../../lib/domain/events')._forTestOnly.handlers;
 const { PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME } = require('../../../../lib/domain/models/Badge').keys;
@@ -6,17 +7,20 @@ describe('Unit | Domain | Events | handle-pix-plus-edu-certifications-scoring', 
   const certificationAssessmentRepository = {};
   const partnerCertificationScoringRepository = {};
   const assessmentResultRepository = {};
+  const complementaryCertificationCourseRepository = {};
 
   const dependencies = {
     certificationAssessmentRepository,
     partnerCertificationScoringRepository,
     assessmentResultRepository,
+    complementaryCertificationCourseRepository,
   };
 
   beforeEach(function () {
     partnerCertificationScoringRepository.save = sinon.stub();
     certificationAssessmentRepository.getByCertificationCourseId = sinon.stub();
     assessmentResultRepository.getByCertificationCourseId = sinon.stub();
+    complementaryCertificationCourseRepository.getComplementaryCertificationCourseId = sinon.stub();
   });
 
   it('fails when event is not of correct type', async function () {
@@ -59,11 +63,19 @@ describe('Unit | Domain | Events | handle-pix-plus-edu-certifications-scoring', 
       .withArgs({ certificationCourseId: 123 })
       .resolves(domainBuilder.buildAssessmentResult());
 
+    complementaryCertificationCourseRepository.getComplementaryCertificationCourseId
+      .withArgs({
+        certificationCourseId: 123,
+        complementaryCertificationName: PIX_PLUS_EDU,
+      })
+      .resolves(999);
+
     // when
     await handlePixPlusEduCertificationsScoring({ event, ...dependencies });
 
     // then
     const expectedPartnerCertificationScoring = domainBuilder.buildPixPlusEduCertificationScoring({
+      complementaryCertificationCourseId: 999,
       certificationCourseId: 123,
       certifiableBadgeKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME,
       reproducibilityRate: domainBuilder.buildReproducibilityRate({ value: 100 }),
@@ -96,6 +108,12 @@ describe('Unit | Domain | Events | handle-pix-plus-edu-certifications-scoring', 
     certificationAssessmentRepository.getByCertificationCourseId
       .withArgs({ certificationCourseId: 123 })
       .resolves(certificationAssessment);
+    complementaryCertificationCourseRepository.getComplementaryCertificationCourseId
+      .withArgs({
+        certificationCourseId: 123,
+        complementaryCertificationName: PIX_PLUS_EDU,
+      })
+      .resolves(999);
 
     // when
     await handlePixPlusEduCertificationsScoring({ event, ...dependencies });
@@ -129,12 +147,19 @@ describe('Unit | Domain | Events | handle-pix-plus-edu-certifications-scoring', 
       assessmentResultRepository.getByCertificationCourseId
         .withArgs({ certificationCourseId: 123 })
         .resolves(domainBuilder.buildAssessmentResult.rejected());
+      complementaryCertificationCourseRepository.getComplementaryCertificationCourseId
+        .withArgs({
+          certificationCourseId: 123,
+          complementaryCertificationName: PIX_PLUS_EDU,
+        })
+        .resolves(999);
 
       // when
       await handlePixPlusEduCertificationsScoring({ event, ...dependencies });
 
       // then
       const expectedPartnerCertificationScoring = domainBuilder.buildPixPlusEduCertificationScoring({
+        complementaryCertificationCourseId: 999,
         certificationCourseId: 123,
         certifiableBadgeKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME,
         reproducibilityRate: domainBuilder.buildReproducibilityRate({ value: 100 }),
@@ -176,12 +201,19 @@ describe('Unit | Domain | Events | handle-pix-plus-edu-certifications-scoring', 
       assessmentResultRepository.getByCertificationCourseId
         .withArgs({ certificationCourseId: 123 })
         .resolves(domainBuilder.buildAssessmentResult.validated());
+      complementaryCertificationCourseRepository.getComplementaryCertificationCourseId
+        .withArgs({
+          certificationCourseId: 123,
+          complementaryCertificationName: PIX_PLUS_EDU,
+        })
+        .resolves(999);
 
       // when
       await handlePixPlusEduCertificationsScoring({ event, ...dependencies });
 
       // then
       const expectedPartnerCertificationScoring = domainBuilder.buildPixPlusEduCertificationScoring({
+        complementaryCertificationCourseId: 999,
         certificationCourseId: 123,
         certifiableBadgeKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME,
         reproducibilityRate: domainBuilder.buildReproducibilityRate({ value: 50 }),
@@ -222,12 +254,19 @@ describe('Unit | Domain | Events | handle-pix-plus-edu-certifications-scoring', 
       assessmentResultRepository.getByCertificationCourseId
         .withArgs({ certificationCourseId: 123 })
         .resolves(domainBuilder.buildAssessmentResult.validated());
+      complementaryCertificationCourseRepository.getComplementaryCertificationCourseId
+        .withArgs({
+          certificationCourseId: 123,
+          complementaryCertificationName: PIX_PLUS_EDU,
+        })
+        .resolves(999);
 
       // when
       await handlePixPlusEduCertificationsScoring({ event, ...dependencies });
 
       // then
       const expectedPartnerCertificationScoring = domainBuilder.buildPixPlusEduCertificationScoring({
+        complementaryCertificationCourseId: 999,
         certificationCourseId: 123,
         certifiableBadgeKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME,
         reproducibilityRate: domainBuilder.buildReproducibilityRate({ value: 100 }),

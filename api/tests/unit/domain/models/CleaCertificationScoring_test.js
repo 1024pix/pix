@@ -10,6 +10,7 @@ describe('Unit | Domain | Models | CleaCertificationScoring', function () {
     let validArguments;
     beforeEach(function () {
       validArguments = {
+        complementaryCertificationCourseId: 999,
         certificationCourseId: 123,
         cleaBadgeKey: 'partnerKey',
         hasAcquiredBadge: true,
@@ -69,6 +70,7 @@ describe('Unit | Domain | Models | CleaCertificationScoring', function () {
     it('should build a not eligible CleaCertificationScoring', async function () {
       // when
       const notEligibleCleaCertificationScoring = CleaCertificationScoring.buildNotEligible({
+        complementaryCertificationCourseId: 999,
         certificationCourseId: 123,
       });
 
@@ -336,8 +338,9 @@ function _buildCleaCertificationScoring({
   expectedPixByCompetenceForClea = { competence1: 1 },
 }) {
   const certificationCourseId = 42;
-
+  const complementaryCertificationCourseId = 999;
   return new CleaCertificationScoring({
+    complementaryCertificationCourseId,
     certificationCourseId,
     hasAcquiredBadge: withBadge,
     reproducibilityRate,

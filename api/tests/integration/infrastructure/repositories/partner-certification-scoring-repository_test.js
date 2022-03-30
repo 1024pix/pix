@@ -32,6 +32,7 @@ describe('Integration | Repository | Partner Certification Scoring', function ()
         certificationCourseId,
       }).id;
       const partnerCertificationScoring = domainBuilder.buildCleaCertificationScoring({
+        complementaryCertificationCourseId,
         certificationCourseId,
       });
       databaseBuilder.factory.buildBadge({ key: partnerCertificationScoring.partnerKey });
@@ -61,14 +62,15 @@ describe('Integration | Repository | Partner Certification Scoring', function ()
     it('should update the existing complementary certification course results if it exists by partnerKey', async function () {
       // given
       const certificationCourseId = databaseBuilder.factory.buildCertificationCourse().id;
-      const partnerCertificationScoring = domainBuilder.buildCleaCertificationScoring({
-        certificationCourseId,
-      });
-      databaseBuilder.factory.buildBadge({ key: partnerCertificationScoring.partnerKey });
       const complementaryCertificationCourseId = databaseBuilder.factory.buildComplementaryCertificationCourse({
         id: 998,
         certificationCourseId,
       }).id;
+      const partnerCertificationScoring = domainBuilder.buildCleaCertificationScoring({
+        complementaryCertificationCourseId,
+        certificationCourseId,
+      });
+      databaseBuilder.factory.buildBadge({ key: partnerCertificationScoring.partnerKey });
 
       databaseBuilder.factory.buildComplementaryCertificationCourseResult({
         complementaryCertificationCourseId,
@@ -106,6 +108,7 @@ describe('Integration | Repository | Partner Certification Scoring', function ()
         certificationCourseId,
       }).id;
       const partnerCertificationScoring = domainBuilder.buildPixPlusEduCertificationScoring({
+        complementaryCertificationCourseId,
         certificationCourseId,
       });
       databaseBuilder.factory.buildBadge({ key: partnerCertificationScoring.temporaryPartnerKey });
@@ -136,14 +139,15 @@ describe('Integration | Repository | Partner Certification Scoring', function ()
       // given
       const certificationCourseId = databaseBuilder.factory.buildCertificationCourse().id;
 
-      const partnerCertificationScoring = domainBuilder.buildPixPlusEduCertificationScoring({
-        certificationCourseId,
-      });
-      databaseBuilder.factory.buildBadge({ key: partnerCertificationScoring.temporaryPartnerKey });
       const complementaryCertificationCourseId = databaseBuilder.factory.buildComplementaryCertificationCourse({
         id: 998,
         certificationCourseId,
       }).id;
+      const partnerCertificationScoring = domainBuilder.buildPixPlusEduCertificationScoring({
+        complementaryCertificationCourseId,
+        certificationCourseId,
+      });
+      databaseBuilder.factory.buildBadge({ key: partnerCertificationScoring.temporaryPartnerKey });
       databaseBuilder.factory.buildComplementaryCertificationCourseResult({
         complementaryCertificationCourseId,
         temporaryPartnerKey: partnerCertificationScoring.temporaryPartnerKey,
@@ -181,7 +185,12 @@ describe('Integration | Repository | Partner Certification Scoring', function ()
         mockLearningContent(learningContent);
         const userId = databaseBuilder.factory.buildUser().id;
         const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({ userId }).id;
+        const complementaryCertificationCourseId = databaseBuilder.factory.buildComplementaryCertificationCourse({
+          id: 998,
+          certificationCourseId,
+        }).id;
         const cleaCertificationScoring = await partnerCertificationScoringRepository.buildCleaCertificationScoring({
+          complementaryCertificationCourseId,
           certificationCourseId,
           userId,
           reproducibilityRate: 75,
@@ -205,6 +214,10 @@ describe('Integration | Repository | Partner Certification Scoring', function ()
             userId,
             createdAt: new Date('2020-01-01'),
           }).id;
+          const complementaryCertificationCourseId = databaseBuilder.factory.buildComplementaryCertificationCourse({
+            id: 998,
+            certificationCourseId,
+          }).id;
           const badgeId = databaseBuilder.factory.buildBadge({ key: Badge.keys.PIX_EMPLOI_CLEA }).id;
           databaseBuilder.factory.buildBadgeAcquisition({ userId, badgeId, createdAt: new Date('2021-06-06') });
           await databaseBuilder.commit();
@@ -212,6 +225,7 @@ describe('Integration | Repository | Partner Certification Scoring', function ()
           const learningContent = { skills: [skill] };
           mockLearningContent(learningContent);
           const cleaCertificationScoring = await partnerCertificationScoringRepository.buildCleaCertificationScoring({
+            complementaryCertificationCourseId,
             certificationCourseId,
             userId,
             reproducibilityRate: 75,
@@ -230,12 +244,17 @@ describe('Integration | Repository | Partner Certification Scoring', function ()
         let userId;
         let badgeId;
         let certificationCourseId;
+        let complementaryCertificationCourseId;
 
         beforeEach(function () {
           userId = databaseBuilder.factory.buildUser().id;
           certificationCourseId = databaseBuilder.factory.buildCertificationCourse({
             userId,
             createdAt: new Date('2021-04-04'),
+          }).id;
+          complementaryCertificationCourseId = databaseBuilder.factory.buildComplementaryCertificationCourse({
+            id: 998,
+            certificationCourseId,
           }).id;
           badgeId = databaseBuilder.factory.buildBadge({ key: Badge.keys.PIX_EMPLOI_CLEA }).id;
           databaseBuilder.factory.buildBadgeAcquisition({ userId, badgeId, createdAt: new Date('2000-01-01') });
@@ -251,6 +270,7 @@ describe('Integration | Repository | Partner Certification Scoring', function ()
 
             // when
             const cleaCertificationScoring = await partnerCertificationScoringRepository.buildCleaCertificationScoring({
+              complementaryCertificationCourseId,
               certificationCourseId,
               userId,
               reproducibilityRate: 10,
@@ -271,6 +291,7 @@ describe('Integration | Repository | Partner Certification Scoring', function ()
 
             // when
             const cleaCertificationScoring = await partnerCertificationScoringRepository.buildCleaCertificationScoring({
+              complementaryCertificationCourseId,
               certificationCourseId,
               userId,
               reproducibilityRate: 95,
@@ -343,6 +364,7 @@ describe('Integration | Repository | Partner Certification Scoring', function ()
               // when
               const cleaCertificationScoring =
                 await partnerCertificationScoringRepository.buildCleaCertificationScoring({
+                  complementaryCertificationCourseId,
                   certificationCourseId,
                   userId,
                   reproducibilityRate: 60,
@@ -410,6 +432,7 @@ describe('Integration | Repository | Partner Certification Scoring', function ()
               // when
               const cleaCertificationScoring =
                 await partnerCertificationScoringRepository.buildCleaCertificationScoring({
+                  complementaryCertificationCourseId,
                   certificationCourseId,
                   userId,
                   reproducibilityRate: 60,
@@ -493,6 +516,7 @@ describe('Integration | Repository | Partner Certification Scoring', function ()
 
             // when
             const cleaCertificationScoring = await partnerCertificationScoringRepository.buildCleaCertificationScoring({
+              complementaryCertificationCourseId,
               certificationCourseId,
               userId,
               reproducibilityRate: 60,
