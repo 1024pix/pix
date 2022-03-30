@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render } from '@ember/test-helpers';
+import { render } from '@1024pix/ember-testing-library';
 import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
 import { selectChoose } from 'ember-power-select/test-support/helpers';
@@ -16,12 +16,15 @@ module('Integration | Component | organizations/form', function (hooks) {
 
   test('it renders', async function (assert) {
     // when
-    await render(
+    const screen = await render(
       hbs`<Organizations::Form @organization={{this.organization}} @onSubmit={{action onSubmit}} @onCancel={{action onCancel}} />`
     );
 
     // then
-    assert.dom('[data-test-id="organization-form"]').exists();
+    assert.dom(screen.getByRole('textbox', { name: 'Nom :' })).exists();
+    assert.dom(screen.getByRole('textbox', { name: 'Lien vers la documentation :' })).exists();
+    assert.dom(screen.getByRole('button', { name: 'Annuler' })).exists();
+    assert.dom(screen.getByRole('button', { name: 'Ajouter' })).exists();
   });
 
   module('#selectOrganizationType', function () {
