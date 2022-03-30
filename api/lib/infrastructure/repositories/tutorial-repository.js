@@ -56,7 +56,17 @@ module.exports = {
 
     const tutorialsIds = skills.flatMap((skill) => skill.tutorialIds);
 
-    return _findByRecordIds({ ids: tutorialsIds, locale });
+    const [tutorials, userTutorials, tutorialEvaluations] = await Promise.all([
+      _findByRecordIds({ ids: tutorialsIds, locale }),
+      userTutorialRepository.find({ userId }),
+      tutorialEvaluationRepository.find({ userId }),
+    ]);
+
+    return tutorials.map((tutorial) => {
+      const userTutorial = userTutorials.find(({ tutorialId }) => tutorialId === tutorial.id);
+      const tutorialEvaluation = tutorialEvaluations.find(({ tutorialId }) => tutorialId === tutorial.id);
+      return new TutorialForUser({ ...tutorial, userTutorial, tutorialEvaluation });
+    });
   },
 };
 
