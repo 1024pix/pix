@@ -1,16 +1,9 @@
 <div class="user-account__connection-methods">
   {{#if this.isEmailEditionMode}}
-    {{#if this.featureToggles.featureToggles.isEmailValidationEnabled}}
-      <UserAccount::UpdateEmailWithValidation
-        @disableEmailEditionMode={{this.disableEmailEditionMode}}
-        @displayEmailUpdateMessage={{this.displayEmailUpdateMessage}}
-      />
-    {{else}}
-      <UserAccount::UpdateEmail
-        @saveNewEmail={{this.saveNewEmail}}
-        @disableEmailEditionMode={{this.disableEmailEditionMode}}
-      />
-    {{/if}}
+    <UserAccount::UpdateEmailWithValidation
+      @disableEmailEditionMode={{this.disableEmailEditionMode}}
+      @displayEmailUpdateMessage={{this.displayEmailUpdateMessage}}
+    />
   {{else}}
     {{#if this.shouldShowPixAuthenticationMethod}}
       {{#if this.shouldShowEmail}}
