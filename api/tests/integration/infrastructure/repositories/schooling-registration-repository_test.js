@@ -2072,14 +2072,14 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
             lastName: 'Willis',
             user: { email: null, username: 'willy' },
           });
-          const schoolingRegistrationOfUserWithSamlId = databaseBuilder.factory.buildOrganizationLearnerWithUser({
+          const organizationLearnerOfUserWithSamlId = databaseBuilder.factory.buildOrganizationLearnerWithUser({
             organizationId,
             lastName: 'Norris',
             user: { email: null, username: null },
           });
           databaseBuilder.factory.buildAuthenticationMethod.withGarAsIdentityProvider({
             externalIdentifier: 'chucky',
-            userId: schoolingRegistrationOfUserWithSamlId.userId,
+            userId: organizationLearnerOfUserWithSamlId.userId,
           });
           databaseBuilder.factory.buildOrganizationLearnerWithUser({
             organizationId,
