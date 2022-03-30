@@ -221,7 +221,7 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-c
           participantExternalId: '+Mon mail pro',
           campaignId: campaign.id,
           userId: participant.id,
-          schoolingRegistrationId: organizationLearner.id,
+          organizationLearnerId: organizationLearner.id,
           pixScore: 52,
         });
 
@@ -303,7 +303,7 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-c
           participantExternalId: '+Mon mail pro',
           campaignId: campaign.id,
           userId: participant.id,
-          schoolingRegistrationId: organizationLearner.id,
+          organizationLearnerId: organizationLearner.id,
           pixScore: 52,
         });
 

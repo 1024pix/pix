@@ -89,7 +89,7 @@ function _buildAssessmentAndAnswer({ databaseBuilder, userId, campaignParticipat
   });
 }
 
-function participateToAssessmentCampaign({ databaseBuilder, campaignId, user, schoolingRegistrationId, status, isImprovingOldParticipation = false, deleted = false }) {
+function participateToAssessmentCampaign({ databaseBuilder, campaignId, user, organizationLearnerId, status, isImprovingOldParticipation = false, deleted = false }) {
   const today = new Date();
   const sharedAt = status === SHARED ? today : null;
   const deletedAt = deleted ? today : null;
@@ -99,7 +99,7 @@ function participateToAssessmentCampaign({ databaseBuilder, campaignId, user, sc
   const { id: campaignParticipationId } = databaseBuilder.factory.buildCampaignParticipation({
     campaignId,
     userId,
-    schoolingRegistrationId,
+    organizationLearnerId,
     participantExternalId: userId,
     createdAt: user.createdAt,
     status,
@@ -114,7 +114,7 @@ function participateToAssessmentCampaign({ databaseBuilder, campaignId, user, sc
     const { id: oldCampaignParticipationId } = databaseBuilder.factory.buildCampaignParticipation({
       campaignId,
       userId,
-      schoolingRegistrationId,
+      organizationLearnerId,
       participantExternalId: userId,
       status: SHARED,
       createdAt: user.createdAt,
@@ -126,7 +126,7 @@ function participateToAssessmentCampaign({ databaseBuilder, campaignId, user, sc
   return campaignParticipationId;
 }
 
-function participateToProfilesCollectionCampaign({ databaseBuilder, campaignId, user, schoolingRegistrationId, status, isImprovingOldParticipation = false, deleted = false }) {
+function participateToProfilesCollectionCampaign({ databaseBuilder, campaignId, user, organizationLearnerId, status, isImprovingOldParticipation = false, deleted = false }) {
   const today = new Date();
   const sharedAt = status === SHARED ? today : null;
   const deletedAt = deleted ? today : null;
@@ -136,7 +136,7 @@ function participateToProfilesCollectionCampaign({ databaseBuilder, campaignId, 
   databaseBuilder.factory.buildCampaignParticipation({
     campaignId,
     userId,
-    schoolingRegistrationId,
+    organizationLearnerId,
     participantExternalId: userId,
     status,
     createdAt: user.createdAt,
@@ -149,7 +149,7 @@ function participateToProfilesCollectionCampaign({ databaseBuilder, campaignId, 
     databaseBuilder.factory.buildCampaignParticipation({
       campaignId,
       userId,
-      schoolingRegistrationId,
+      organizationLearnerId,
       participantExternalId: userId,
       status: SHARED,
       createdAt: user.createdAt,

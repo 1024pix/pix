@@ -333,23 +333,23 @@ describe('Integration | Repository | Campaign Participation', function () {
 
     it('save the change of schoolingRegistrationId', async function () {
       const campaignParticipationId = 12;
-      const schoolingRegistrationId = databaseBuilder.factory.buildOrganizationLearner().id;
+      const organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner().id;
       databaseBuilder.factory.buildCampaignParticipation({
         id: campaignParticipationId,
-        schoolingRegistrationId: null,
+        organizationLearnerId: null,
       });
 
       await databaseBuilder.commit();
 
       await campaignParticipationRepository.update({
         id: campaignParticipationId,
-        schoolingRegistrationId,
+        schoolingRegistrationId: organizationLearnerId,
       });
       const campaignParticipation = await knex('campaign-participations')
         .where({ id: campaignParticipationId })
         .first();
 
-      expect(campaignParticipation.organizationLearnerId).to.equals(schoolingRegistrationId);
+      expect(campaignParticipation.organizationLearnerId).to.equals(organizationLearnerId);
     });
   });
 
@@ -462,22 +462,22 @@ describe('Integration | Repository | Campaign Participation', function () {
         const otherOrganizationId = databaseBuilder.factory.buildOrganization().id;
         campaign = databaseBuilder.factory.buildCampaign({ organizationId });
         otherCampaign = databaseBuilder.factory.buildCampaign({ organizationId });
-        const schoolingRegistrationId = databaseBuilder.factory.buildOrganizationLearner({
+        const organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner({
           organizationId,
           division: '3eme',
         }).id;
-        const otherSchoolingRegistrationId = databaseBuilder.factory.buildOrganizationLearner({
+        const otherOrganizationLearnerId = databaseBuilder.factory.buildOrganizationLearner({
           organizationId: otherOrganizationId,
           division: '2nd',
         }).id;
-        databaseBuilder.factory.buildCampaignParticipation({ campaignId: campaign.id, schoolingRegistrationId }).id;
+        databaseBuilder.factory.buildCampaignParticipation({ campaignId: campaign.id, organizationLearnerId }).id;
         databaseBuilder.factory.buildCampaignParticipation({
           campaignId: otherCampaign.id,
-          schoolingRegistrationId,
+          organizationLearnerId,
         }).id;
         databaseBuilder.factory.buildCampaignParticipation({
           campaignId: otherCampaign.id,
-          schoolingRegistrationId: otherSchoolingRegistrationId,
+          organizationLearnerId: otherOrganizationLearnerId,
         }).id;
 
         await databaseBuilder.commit();

@@ -231,7 +231,7 @@ describe('Integration | Repository | Campaign Profiles Collection Participation 
         const participation1 = {
           participantExternalId: "Can't get Enough Of Your Love, Baby",
           campaignId,
-          schoolingRegistrationId: organizationLearnerId1,
+          organizationLearnerId: organizationLearnerId1,
         };
         databaseBuilder.factory.buildCampaignParticipation(participation1);
 
@@ -242,7 +242,7 @@ describe('Integration | Repository | Campaign Profiles Collection Participation 
         const participation2 = {
           participantExternalId: "You're The First, The last, My Everything",
           campaignId,
-          schoolingRegistrationId: organizationLearnerId2,
+          organizationLearnerId: organizationLearnerId2,
         };
         databaseBuilder.factory.buildCampaignParticipation(participation2);
 
@@ -253,7 +253,7 @@ describe('Integration | Repository | Campaign Profiles Collection Participation 
         const participation3 = {
           participantExternalId: "Ain't No Mountain High Enough",
           campaignId,
-          schoolingRegistrationId: organizationLearnerId3,
+          organizationLearnerId: organizationLearnerId3,
         };
         databaseBuilder.factory.buildCampaignParticipation(participation3);
 
@@ -287,7 +287,7 @@ describe('Integration | Repository | Campaign Profiles Collection Participation 
         const participation1 = {
           participantExternalId: "Can't get Enough Of Your Love, Baby",
           campaignId,
-          schoolingRegistrationId: organizationLearnerId1,
+          organizationLearnerId: organizationLearnerId1,
         };
         databaseBuilder.factory.buildCampaignParticipation(participation1);
 
@@ -298,7 +298,7 @@ describe('Integration | Repository | Campaign Profiles Collection Participation 
         const participation2 = {
           participantExternalId: "You're The First, The last, My Everything",
           campaignId,
-          schoolingRegistrationId: organizationLearnerId2,
+          organizationLearnerId: organizationLearnerId2,
         };
         databaseBuilder.factory.buildCampaignParticipation(participation2);
 
@@ -309,7 +309,7 @@ describe('Integration | Repository | Campaign Profiles Collection Participation 
         const participation3 = {
           participantExternalId: "Ain't No Mountain High Enough",
           campaignId,
-          schoolingRegistrationId: organizationLearnerId3,
+          organizationLearnerId: organizationLearnerId3,
         };
         databaseBuilder.factory.buildCampaignParticipation(participation3);
 
