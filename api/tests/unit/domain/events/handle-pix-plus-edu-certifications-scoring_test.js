@@ -35,91 +35,93 @@ describe('Unit | Domain | Events | handle-pix-plus-edu-certifications-scoring', 
       'event must be one of types CertificationScoringCompleted, CertificationRescoringCompleted'
     );
   });
-
-  it('should score Pix+ Édu certifications', async function () {
-    // given
-    const event = domainBuilder.buildCertificationScoringCompletedEvent({
-      certificationCourseId: 123,
-      userId: 456,
-    });
-
-    const certificationAssessment = domainBuilder.buildCertificationAssessment({
-      certificationCourseId: 123,
-      userId: 456,
-      createdAt: new Date('2020-01-01'),
-      certificationChallenges: [
-        domainBuilder.buildCertificationChallengeWithType({
-          certifiableBadgeKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME,
-          challengeId: 'chal1',
-        }),
-      ],
-      certificationAnswersByDate: [domainBuilder.buildAnswer.ok({ challengeId: 'chal1' })],
-    });
-    certificationAssessmentRepository.getByCertificationCourseId
-      .withArgs({ certificationCourseId: 123 })
-      .resolves(certificationAssessment);
-
-    assessmentResultRepository.getByCertificationCourseId
-      .withArgs({ certificationCourseId: 123 })
-      .resolves(domainBuilder.buildAssessmentResult());
-
-    complementaryCertificationCourseRepository.getComplementaryCertificationCourseId
-      .withArgs({
+  describe('when the assessment has a Pix+ Edu challenge', function () {
+    it('should score Pix+ Édu certifications', async function () {
+      // given
+      const event = domainBuilder.buildCertificationScoringCompletedEvent({
         certificationCourseId: 123,
-        complementaryCertificationName: PIX_PLUS_EDU,
-      })
-      .resolves(999);
+        userId: 456,
+      });
 
-    // when
-    await handlePixPlusEduCertificationsScoring({ event, ...dependencies });
+      const certificationAssessment = domainBuilder.buildCertificationAssessment({
+        certificationCourseId: 123,
+        userId: 456,
+        createdAt: new Date('2020-01-01'),
+        certificationChallenges: [
+          domainBuilder.buildCertificationChallengeWithType({
+            certifiableBadgeKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME,
+            challengeId: 'chal1',
+          }),
+        ],
+        certificationAnswersByDate: [domainBuilder.buildAnswer.ok({ challengeId: 'chal1' })],
+      });
+      certificationAssessmentRepository.getByCertificationCourseId
+        .withArgs({ certificationCourseId: 123 })
+        .resolves(certificationAssessment);
 
-    // then
-    const expectedPartnerCertificationScoring = domainBuilder.buildPixPlusEduCertificationScoring({
-      complementaryCertificationCourseId: 999,
-      certificationCourseId: 123,
-      certifiableBadgeKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME,
-      reproducibilityRate: domainBuilder.buildReproducibilityRate({ value: 100 }),
-      hasAcquiredPixCertification: true,
-    });
-    expect(partnerCertificationScoringRepository.save).to.have.been.calledWithExactly({
-      partnerCertificationScoring: expectedPartnerCertificationScoring,
+      assessmentResultRepository.getByCertificationCourseId
+        .withArgs({ certificationCourseId: 123 })
+        .resolves(domainBuilder.buildAssessmentResult());
+
+      complementaryCertificationCourseRepository.getComplementaryCertificationCourseId
+        .withArgs({
+          certificationCourseId: 123,
+          complementaryCertificationName: PIX_PLUS_EDU,
+        })
+        .resolves(999);
+
+      // when
+      await handlePixPlusEduCertificationsScoring({ event, ...dependencies });
+
+      // then
+      const expectedPartnerCertificationScoring = domainBuilder.buildPixPlusEduCertificationScoring({
+        complementaryCertificationCourseId: 999,
+        certificationCourseId: 123,
+        certifiableBadgeKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME,
+        reproducibilityRate: domainBuilder.buildReproducibilityRate({ value: 100 }),
+        hasAcquiredPixCertification: true,
+      });
+      expect(partnerCertificationScoringRepository.save).to.have.been.calledWithExactly({
+        partnerCertificationScoring: expectedPartnerCertificationScoring,
+      });
     });
   });
-
-  it('should only score Pix+ Edu certifications', async function () {
-    // given
-    const event = domainBuilder.buildCertificationScoringCompletedEvent({
-      certificationCourseId: 123,
-      userId: 456,
-    });
-
-    const certificationAssessment = domainBuilder.buildCertificationAssessment({
-      certificationCourseId: 123,
-      userId: 456,
-      createdAt: new Date('2020-01-01'),
-      certificationChallenges: [
-        domainBuilder.buildCertificationChallengeWithType({
-          certifiableBadgeKey: 'TOTO',
-          challengeId: 'chal1',
-        }),
-      ],
-      certificationAnswersByDate: [domainBuilder.buildCertificationChallengeWithType({ challengeId: 'chal1' })],
-    });
-    certificationAssessmentRepository.getByCertificationCourseId
-      .withArgs({ certificationCourseId: 123 })
-      .resolves(certificationAssessment);
-    complementaryCertificationCourseRepository.getComplementaryCertificationCourseId
-      .withArgs({
+  describe('when the assessment has no Pix+ Edu challenge', function () {
+    it('should not score Pix+ Edu certifications', async function () {
+      // given
+      const event = domainBuilder.buildCertificationScoringCompletedEvent({
         certificationCourseId: 123,
-        complementaryCertificationName: PIX_PLUS_EDU,
-      })
-      .resolves(999);
+        userId: 456,
+      });
 
-    // when
-    await handlePixPlusEduCertificationsScoring({ event, ...dependencies });
+      const certificationAssessment = domainBuilder.buildCertificationAssessment({
+        certificationCourseId: 123,
+        userId: 456,
+        createdAt: new Date('2020-01-01'),
+        certificationChallenges: [
+          domainBuilder.buildCertificationChallengeWithType({
+            certifiableBadgeKey: 'TOTO',
+            challengeId: 'chal1',
+          }),
+        ],
+        certificationAnswersByDate: [domainBuilder.buildCertificationChallengeWithType({ challengeId: 'chal1' })],
+      });
+      certificationAssessmentRepository.getByCertificationCourseId
+        .withArgs({ certificationCourseId: 123 })
+        .resolves(certificationAssessment);
+      complementaryCertificationCourseRepository.getComplementaryCertificationCourseId
+        .withArgs({
+          certificationCourseId: 123,
+          complementaryCertificationName: PIX_PLUS_EDU,
+        })
+        .resolves(999);
 
-    // then
-    expect(partnerCertificationScoringRepository.save).to.not.have.been.called;
+      // when
+      await handlePixPlusEduCertificationsScoring({ event, ...dependencies });
+
+      // then
+      expect(partnerCertificationScoringRepository.save).to.not.have.been.called;
+    });
   });
 
   context('scoring', function () {
