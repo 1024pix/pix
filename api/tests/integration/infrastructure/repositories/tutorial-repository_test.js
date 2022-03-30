@@ -3,7 +3,7 @@ const { expect, mockLearningContent, databaseBuilder, catchErr, domainBuilder } 
 const Tutorial = require('../../../../lib/domain/models/Tutorial');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 const tutorialRepository = require('../../../../lib/infrastructure/repositories/tutorial-repository');
-const TutorialWithUserSavedTutorial = require('../../../../lib/domain/models/TutorialWithUserSavedTutorial');
+const TutorialForUser = require('../../../../lib/domain/read-models/TutorialForUser');
 const UserSavedTutorial = require('../../../../lib/domain/models/UserSavedTutorial');
 const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
 const { ENGLISH_SPOKEN } = require('../../../../lib/domain/constants').LOCALE;
@@ -157,7 +157,7 @@ describe('Integration | Repository | tutorial-repository', function () {
 
         // then
         expect(tutorialWithUserSavedTutorial).to.have.length(1);
-        expect(tutorialWithUserSavedTutorial[0]).to.be.instanceOf(TutorialWithUserSavedTutorial);
+        expect(tutorialWithUserSavedTutorial[0]).to.be.instanceOf(TutorialForUser);
         expect(tutorialWithUserSavedTutorial[0].userTutorial).to.be.instanceOf(UserSavedTutorial);
         expect(tutorialWithUserSavedTutorial[0].userTutorial.userId).to.equal(userId);
       });
