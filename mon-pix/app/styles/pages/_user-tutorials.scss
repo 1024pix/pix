@@ -58,7 +58,7 @@
   padding-bottom: 16px;
 
   @include device-is('desktop') {
-    max-width: 1320px;
+    max-width: 1280px;
     padding: 0 20px 16px 20px;
     margin: 0 auto;
   }
@@ -103,7 +103,7 @@
     padding: 0 20px;
 
     @include device-is('desktop') {
-      max-width: 1320px;
+      max-width: 1280px;
     }
   }
 
