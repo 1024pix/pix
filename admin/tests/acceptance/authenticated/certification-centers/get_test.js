@@ -1,6 +1,6 @@
 import moment from 'moment';
 import { module, test } from 'qunit';
-import { click, currentURL, findAll, triggerEvent, visit } from '@ember/test-helpers';
+import { click, currentURL, triggerEvent, visit } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { visit as visitScreen, fillByLabel, clickByName } from '@1024pix/ember-testing-library';
@@ -243,7 +243,7 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
         type: 'SCO',
       });
       const email = 'test@example.net';
-      await visit(`/certification-centers/${certificationCenter.id}`);
+      const screen = await visitScreen(`/certification-centers/${certificationCenter.id}`);
       await fillByLabel('Adresse e-mail du nouveau membre', email);
       await triggerEvent('#userEmailToAdd', 'focusout');
 
@@ -251,8 +251,8 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
       await click('button[data-test-add-membership]');
 
       // then
-      const foundElement = findAll('td[data-test-user-email]').find((element) => element.innerText.includes(email));
-      assert.ok(foundElement);
+      assert.dom(screen.getByLabelText('Membre')).exists();
+      assert.dom(screen.getByText('test@example.net')).exists();
     });
   });
 
