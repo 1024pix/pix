@@ -27,6 +27,10 @@
 
   &__main {
     grid-area: main;
+
+    .dashboard-banner {
+      display: none;
+    }
   }
 
   &__certif {
