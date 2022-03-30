@@ -1,5 +1,5 @@
 import { click, currentURL, fillIn, findAll, visit } from '@ember/test-helpers';
-import { visit as visitScreen } from '@1024pix/ember-testing-library';
+import { visit as visitScreen, clickByName } from '@1024pix/ember-testing-library';
 import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { module, test } from 'qunit';
@@ -60,7 +60,7 @@ module('Acceptance | Target Profiles | Target Profile | Insights', function (hoo
       await visit(`/target-profiles/${targetProfile.id}/badges/new`);
 
       // when
-      await click('[data-test="badge-form-cancel-button"]');
+      await clickByName('Annuler');
 
       // then
       // TODO: Fix this the next time the file is edited.
@@ -77,7 +77,7 @@ module('Acceptance | Target Profiles | Target Profile | Insights', function (hoo
       await fillIn('input#image-name', 'nom_de_limage');
       await fillIn('input#alt-message', 'texte alternatif à l‘image');
       await fillIn('input#campaignParticipationThreshold', '65');
-      await click('[data-test="badge-form-submit-button"]');
+      await clickByName('Créer le badge');
 
       // then
       // TODO: Fix this the next time the file is edited.
@@ -97,7 +97,7 @@ module('Acceptance | Target Profiles | Target Profile | Insights', function (hoo
 
       assert.dom(screen.queryByText('Enregistrer')).doesNotExist();
 
-      await click("button[data-test='Nouveau palier']");
+      await clickByName('Nouveau palier');
 
       assert.dom(screen.getByRole('button', { name: 'Enregistrer' })).exists();
       assert.dom(screen.getByRole('button', { name: 'Annuler' })).exists();
@@ -110,7 +110,7 @@ module('Acceptance | Target Profiles | Target Profile | Insights', function (hoo
       fillIn('.insights__section:nth-child(2) tbody tr td:nth-child(4) input', 'My stage title');
       fillIn('.insights__section:nth-child(2) tbody tr td:nth-child(5) input', 'My stage message');
 
-      await click('button[data-test="form-action-submit"]');
+      await clickByName('Enregistrer');
       assert.dom(screen.queryByText('Enregistrer')).doesNotExist();
 
       const newStageCount = findAll('.insights__section:nth-child(2) tbody tr').length;
@@ -126,8 +126,8 @@ module('Acceptance | Target Profiles | Target Profile | Insights', function (hoo
       // TODO: Fix this the next time the file is edited.
       // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(stageCount, 1);
-      await click("button[data-test='Nouveau palier']");
-      await click('button[data-test="form-action-cancel"]');
+      await clickByName('Nouveau palier');
+      await clickByName('Annuler');
 
       // then
       const newStageCount = findAll('.insights__section:nth-child(2) tbody tr').length;
@@ -143,8 +143,8 @@ module('Acceptance | Target Profiles | Target Profile | Insights', function (hoo
       // TODO: Fix this the next time the file is edited.
       // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(stageCount, 1);
-      await click("button[data-test='Nouveau palier']");
-      await click("button[data-test='Nouveau palier']");
+      await clickByName('Nouveau palier');
+      await clickByName('Nouveau palier');
       await click(screen.getAllByLabelText('Supprimer palier')[1]);
 
       // then
