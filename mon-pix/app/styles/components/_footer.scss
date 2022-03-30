@@ -3,12 +3,12 @@
 }
 
 .footer {
-  padding: 18px 16px;
+  padding: 20px 0;
 
   &__container {
     display: flex;
     flex-direction: column;
-    padding-top: 24px;
+    padding: 24px 20px 0;
     max-width: 1280px;
     width: 100%;
     margin: auto;
