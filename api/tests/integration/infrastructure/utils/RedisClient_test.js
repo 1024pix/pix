@@ -11,7 +11,7 @@ describe('Integration | Infrastructure | Utils | RedisClient', function () {
       const redisClient = new RedisClient(process.env.REDIS_TEST_URL);
 
       // when
-      redisClient.set(key, 'value');
+      await redisClient.set(key, 'value');
       const value = await redisClient.get(key);
 
       // then
@@ -22,8 +22,8 @@ describe('Integration | Infrastructure | Utils | RedisClient', function () {
       // given
       const redisClient1 = new RedisClient(process.env.REDIS_URL, { prefix: 'test1' });
       const redisClient2 = new RedisClient(process.env.REDIS_URL, { prefix: 'test2' });
-      redisClient1.set('key', 'value1');
-      redisClient2.set('key', 'value2');
+      await redisClient1.set('key', 'value1');
+      await redisClient2.set('key', 'value2');
 
       // when / then
       expect(await redisClient1.get('key')).to.equal('value1');
@@ -32,12 +32,13 @@ describe('Integration | Infrastructure | Utils | RedisClient', function () {
 
     it('should allow retrieve without prefix a value with a prefix', async function () {
       // given
+      const value = new Date().toISOString();
       const redisClientWithoutPrefix = new RedisClient(process.env.REDIS_URL);
-      const redisClientWithPrefix = new RedisClient(process.env.REDIS_URL, { prefix: 'with-prefix' });
-      redisClientWithoutPrefix.set('key', 'value');
+      const redisClientWithPrefix = new RedisClient(process.env.REDIS_URL, { prefix: 'client-prefix:' });
+      await redisClientWithoutPrefix.set('key', value);
 
       // when / then
-      expect(await redisClientWithPrefix.get('key')).to.equal('value');
+      expect(await redisClientWithPrefix.get('storage-prefix:key')).to.equal(value);
     });
   }
 });
