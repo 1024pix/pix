@@ -2,13 +2,11 @@ const { sinon, expect, domainBuilder } = require('../../../test-helper');
 const findPaginatedSavedTutorials = require('../../../../lib/domain/usecases/find-paginated-saved-tutorials');
 
 describe('Unit | UseCase | find-paginated-saved-tutorials', function () {
-  let tutorialEvaluationRepository;
   let tutorialRepository;
   const userId = 'userId';
 
   context('when there is no tutorial saved by current user', function () {
     beforeEach(function () {
-      tutorialEvaluationRepository = { find: sinon.spy(async () => []) };
       tutorialRepository = {
         findPaginatedForCurrentUser: sinon.spy(async () => ({
           models: [],
@@ -30,7 +28,7 @@ describe('Unit | UseCase | find-paginated-saved-tutorials', function () {
       };
 
       // When
-      await findPaginatedSavedTutorials({ tutorialEvaluationRepository, tutorialRepository, userId, page });
+      await findPaginatedSavedTutorials({ tutorialRepository, userId, page });
 
       // Then
       expect(tutorialRepository.findPaginatedForCurrentUser).to.have.been.calledWith({ userId, page });
@@ -52,7 +50,6 @@ describe('Unit | UseCase | find-paginated-saved-tutorials', function () {
 
       // When
       const paginatedSavedTutorials = await findPaginatedSavedTutorials({
-        tutorialEvaluationRepository,
         tutorialRepository,
         userId,
         page,
@@ -67,7 +64,6 @@ describe('Unit | UseCase | find-paginated-saved-tutorials', function () {
     it('should return paginated tutorial with user-tutorials', async function () {
       // Given
       const tutorialWithUserSavedTutorial = domainBuilder.buildTutorialForUser();
-      tutorialEvaluationRepository = { find: sinon.spy(async () => []) };
       tutorialRepository = {
         findPaginatedForCurrentUser: sinon.spy(async () => ({
           models: [tutorialWithUserSavedTutorial],
@@ -94,7 +90,6 @@ describe('Unit | UseCase | find-paginated-saved-tutorials', function () {
 
       // When
       const paginatedSavedTutorials = await findPaginatedSavedTutorials({
-        tutorialEvaluationRepository,
         tutorialRepository,
         userId,
         page,
@@ -104,60 +99,6 @@ describe('Unit | UseCase | find-paginated-saved-tutorials', function () {
       expect(paginatedSavedTutorials).to.deep.equal({
         results: [tutorialWithUserSavedTutorial],
         meta: expectedPagination,
-      });
-    });
-
-    context('when user has evaluated a tutorial', function () {
-      it('should return tutorial with user-tutorials', async function () {
-        // Given
-        const tutorialWithUserSavedTutorial = domainBuilder.buildTutorialForUser();
-        const tutorialEvaluation = {
-          id: 123,
-          userId: tutorialWithUserSavedTutorial.userTutorial.userId,
-          tutorialId: tutorialWithUserSavedTutorial.id,
-        };
-        tutorialEvaluationRepository = { find: sinon.spy(async () => [tutorialEvaluation]) };
-        tutorialRepository = {
-          findPaginatedForCurrentUser: sinon.spy(async () => ({
-            models: [tutorialWithUserSavedTutorial],
-            meta: {
-              page: 1,
-              pageSize: 2,
-              rowCount: 1,
-              pageCount: 1,
-            },
-          })),
-        };
-
-        const page = {
-          number: 1,
-          size: 2,
-        };
-
-        const expectedPagination = {
-          page: 1,
-          pageSize: 2,
-          rowCount: 1,
-          pageCount: 1,
-        };
-
-        const expectedSavedTutorialWithUserTutorial = {
-          ...tutorialWithUserSavedTutorial,
-          tutorialEvaluation,
-        };
-        // When
-        const paginatedSavedTutorials = await findPaginatedSavedTutorials({
-          tutorialEvaluationRepository,
-          tutorialRepository,
-          userId,
-          page,
-        });
-
-        // Then
-        expect(paginatedSavedTutorials).to.deep.equal({
-          results: [expectedSavedTutorialWithUserTutorial],
-          meta: expectedPagination,
-        });
       });
     });
   });
