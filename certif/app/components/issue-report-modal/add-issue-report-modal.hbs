@@ -27,12 +27,6 @@
           @toggleOnCategory={{this.toggleOnCategory}}
         />
 
-        <IssueReportModal::InChallengeCertificationIssueReportFields
-          @inChallengeCategory={{this.inChallengeCategory}}
-          @toggleOnCategory={{this.toggleOnCategory}}
-          @maxlength={{@maxlength}}
-        />
-
         <IssueReportModal::NonBlockingTechnicalIssueCertificationIssueReportFields
           @nonBlockingTechnicalIssueCategory={{this.nonBlockingTechnicalIssueCategory}}
           @toggleOnCategory={{this.toggleOnCategory}}
@@ -41,6 +35,12 @@
 
         <IssueReportModal::NonBlockingCandidateIssueCertificationIssueReportFields
           @nonBlockingCandidateIssueCategory={{this.nonBlockingCandidateIssueCategory}}
+          @toggleOnCategory={{this.toggleOnCategory}}
+          @maxlength={{@maxlength}}
+        />
+
+        <IssueReportModal::InChallengeCertificationIssueReportFields
+          @inChallengeCategory={{this.inChallengeCategory}}
           @toggleOnCategory={{this.toggleOnCategory}}
           @maxlength={{@maxlength}}
         />
