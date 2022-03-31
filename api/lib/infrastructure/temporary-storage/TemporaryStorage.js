@@ -26,12 +26,8 @@ class TemporaryStorage {
         return key;
       },
 
-      async get(key) {
-        const result = await storage.get(prefix + key);
-        if (result) {
-          return result;
-        }
-        return await storage.get(key);
+      get(key) {
+        return storage.get(prefix + key);
       },
 
       delete(key) {

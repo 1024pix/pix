@@ -81,20 +81,5 @@ describe('Unit | Infrastructure | temporary-storage | TemporaryStorage', functio
       expect(store['a-prefix:' + randomKey]).to.exist;
       expect(await storage.get(randomKey)).to.equal('random-key-value');
     });
-
-    it('should allow retrieve without prefix a value with a prefix', async function () {
-      // given
-      const store = {};
-      class TestStorage extends TemporaryStorage {
-        async get(key) {
-          return store[key];
-        }
-      }
-      const storage = new TestStorage().withPrefix('a-prefix:');
-      store['a-key'] = 'a-value';
-
-      // when & then
-      expect(await storage.get('a-key')).to.equal('a-value');
-    });
   });
 });
