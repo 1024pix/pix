@@ -146,7 +146,7 @@ module('Acceptance | User details personal information', function (hooks) {
       const screen = await visitScreen(`/users/${user.id}`);
 
       // when
-      await click('button[data-test-remove-email]');
+      await click(screen.getAllByRole('button', { name: 'Supprimer' })[0]);
       await clickByName('Oui, je supprime');
 
       // then

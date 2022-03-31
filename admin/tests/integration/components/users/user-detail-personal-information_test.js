@@ -209,7 +209,7 @@ module('Integration | Component | users | user-detail-personal-information', fun
       const screen = await render(hbs`<Users::UserDetailPersonalInformation @user={{this.user}}/>`);
 
       // when
-      await click('button[data-test-remove-email]');
+      await clickByName('Supprimer');
 
       // then
       assert.dom(screen.getByText('Confirmer la suppression')).exists();
@@ -229,7 +229,7 @@ module('Integration | Component | users | user-detail-personal-information', fun
 
       this.set('user', user);
       await render(hbs`<Users::UserDetailPersonalInformation @user={{this.user}}/>`);
-      await click('button[data-test-remove-email]');
+      await clickByName('Supprimer');
 
       // when
       await click('.modal-dialog .btn-secondary');
@@ -257,7 +257,7 @@ module('Integration | Component | users | user-detail-personal-information', fun
         await render(
           hbs`<Users::UserDetailPersonalInformation @user={{this.user}} @removeAuthenticationMethod={{this.removeAuthenticationMethod}}/>`
         );
-        await click('button[data-test-remove-email]');
+        await clickByName('Supprimer');
 
         // when
         await click('.modal-dialog .btn-primary');
@@ -292,7 +292,7 @@ module('Integration | Component | users | user-detail-personal-information', fun
         await render(
           hbs`<Users::UserDetailPersonalInformation @user={{this.user}} @removeAuthenticationMethod={{this.removeAuthenticationMethod}}/>`
         );
-        await click('button[data-test-remove-email]');
+        await clickByName('Supprimer');
 
         // when
         await click('.modal-dialog .btn-primary');
