@@ -104,9 +104,7 @@ module('Acceptance | Organizations | Memberships management', function (hooks) {
       await clickByName('Ajouter un membre');
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(this.element.querySelectorAll('div[data-test-id="member-list"] table > tbody > tr').length, 1);
+      assert.strictEqual(screen.getAllByLabelText('Membre').length, 1);
       assert.dom(screen.getByText('Denise')).exists();
       assert.dom('#userEmailToAdd').hasValue('denise@example.com');
     });
@@ -125,9 +123,7 @@ module('Acceptance | Organizations | Memberships management', function (hooks) {
       await clickByName('Ajouter un membre');
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(this.element.querySelectorAll('div[data-test-id="member-list"] table > tbody > tr').length, 1);
+      assert.strictEqual(screen.getAllByLabelText('Membre').length, 1);
       assert.dom(screen.getByText('Erica')).exists();
       assert.dom('#userEmailToAdd').hasValue('unexisting@example.com');
     });
