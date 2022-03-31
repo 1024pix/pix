@@ -24,8 +24,10 @@ module.exports = {
 
   async findPaginatedForCurrentUser({ userId, page }) {
     const { models: userTutorials, meta } = await userTutorialRepository.findPaginated({ userId, page });
-    const tutorials = await tutorialDatasource.findByRecordIds(userTutorials.map(({ tutorialId }) => tutorialId));
-    const tutorialEvaluations = await tutorialEvaluationRepository.find({ userId });
+    const [tutorials, tutorialEvaluations] = await Promise.all([
+      tutorialDatasource.findByRecordIds(userTutorials.map(({ tutorialId }) => tutorialId)),
+      tutorialEvaluationRepository.find({ userId }),
+    ]);
 
     const tutorialsForUser = tutorials.map((tutorial) => {
       const userTutorial = userTutorials.find(({ tutorialId }) => tutorialId === tutorial.id);
