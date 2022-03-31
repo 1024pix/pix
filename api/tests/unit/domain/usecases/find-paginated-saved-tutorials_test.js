@@ -66,7 +66,7 @@ describe('Unit | UseCase | find-paginated-saved-tutorials', function () {
   context('when there is one tutorial saved by current user', function () {
     it('should return paginated tutorial with user-tutorials', async function () {
       // Given
-      const tutorialWithUserSavedTutorial = domainBuilder.buildTutorialWithUserSavedTutorial();
+      const tutorialWithUserSavedTutorial = domainBuilder.buildTutorialForUser();
       tutorialEvaluationRepository = { find: sinon.spy(async () => []) };
       tutorialRepository = {
         findPaginatedWithUserTutorialForCurrentUser: sinon.spy(async () => ({
@@ -110,7 +110,7 @@ describe('Unit | UseCase | find-paginated-saved-tutorials', function () {
     context('when user has evaluated a tutorial', function () {
       it('should return tutorial with user-tutorials', async function () {
         // Given
-        const tutorialWithUserSavedTutorial = domainBuilder.buildTutorialWithUserSavedTutorial();
+        const tutorialWithUserSavedTutorial = domainBuilder.buildTutorialForUser();
         const tutorialEvaluation = {
           id: 123,
           userId: tutorialWithUserSavedTutorial.userTutorial.userId,

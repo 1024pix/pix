@@ -3,7 +3,7 @@ const { expect, mockLearningContent, databaseBuilder, catchErr, domainBuilder } 
 const Tutorial = require('../../../../lib/domain/models/Tutorial');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 const tutorialRepository = require('../../../../lib/infrastructure/repositories/tutorial-repository');
-const TutorialWithUserSavedTutorial = require('../../../../lib/domain/models/TutorialWithUserSavedTutorial');
+const TutorialForUser = require('../../../../lib/domain/read-models/TutorialForUser');
 const UserSavedTutorial = require('../../../../lib/domain/models/UserSavedTutorial');
 const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
 const { ENGLISH_SPOKEN } = require('../../../../lib/domain/constants').LOCALE;
@@ -157,7 +157,7 @@ describe('Integration | Repository | tutorial-repository', function () {
 
         // then
         expect(tutorialWithUserSavedTutorial).to.have.length(1);
-        expect(tutorialWithUserSavedTutorial[0]).to.be.instanceOf(TutorialWithUserSavedTutorial);
+        expect(tutorialWithUserSavedTutorial[0]).to.be.instanceOf(TutorialForUser);
         expect(tutorialWithUserSavedTutorial[0].userTutorial).to.be.instanceOf(UserSavedTutorial);
         expect(tutorialWithUserSavedTutorial[0].userTutorial.userId).to.equal(userId);
       });
@@ -553,6 +553,7 @@ describe('Integration | Repository | tutorial-repository', function () {
           tutorials: [
             {
               id: 'tuto4',
+              locale: 'fr-fr',
             },
           ],
           skills: [
@@ -569,6 +570,64 @@ describe('Integration | Repository | tutorial-repository', function () {
 
         // then
         expect(results).to.deep.equal([]);
+      });
+    });
+
+    describe('when there are associated tutorial evaluations and saved tutorials', function () {
+      it('should return both information', async function () {
+        // given
+        databaseBuilder.factory.buildKnowledgeElement({
+          skillId: 'recSkill3',
+          userId,
+          status: KnowledgeElement.StatusType.INVALIDATED,
+          source: KnowledgeElement.SourceType.DIRECT,
+        });
+        const userSavedTutorialId = databaseBuilder.factory.buildUserSavedTutorial({
+          userId,
+          tutorialId: 'tuto4',
+          skillId: 'recSkill3',
+        }).id;
+        const tutorialEvaluationId = databaseBuilder.factory.buildTutorialEvaluation({
+          tutorialId: 'tuto4',
+          userId,
+        }).id;
+        await databaseBuilder.commit();
+
+        mockLearningContent({
+          tutorials: [
+            {
+              id: 'tuto4',
+              locale: 'fr-fr',
+            },
+          ],
+          skills: [
+            {
+              id: 'recSkill3',
+              tutorialIds: ['tuto4'],
+              status: 'actif',
+            },
+          ],
+        });
+
+        // when
+        const results = await tutorialRepository.findRecommendedByUserId({ userId });
+
+        // then
+        expect(results.map((tutorial) => tutorial.tutorialEvaluation)).to.exactlyContain([
+          {
+            id: tutorialEvaluationId,
+            userId,
+            tutorialId: 'tuto4',
+          },
+        ]);
+        expect(results.map((tutorial) => tutorial.userTutorial)).to.exactlyContain([
+          {
+            id: userSavedTutorialId,
+            userId,
+            skillId: 'recSkill3',
+            tutorialId: 'tuto4',
+          },
+        ]);
       });
     });
   });

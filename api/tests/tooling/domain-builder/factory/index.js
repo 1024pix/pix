@@ -113,7 +113,7 @@ module.exports = {
   buildThematic: require('./build-thematic'),
   buildTube: require('./build-tube'),
   buildTutorial: require('./build-tutorial'),
-  buildTutorialWithUserSavedTutorial: require('./build-tutorial-with-user-saved-tutorial'),
+  buildTutorialForUser: require('./build-tutorial-for-user'),
   buildUser: require('./build-user'),
   buildUserCompetence: require('./build-user-competence'),
   buildUserDetailsForAdmin: require('./build-user-details-for-admin'),
