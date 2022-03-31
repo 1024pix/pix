@@ -1,6 +1,6 @@
 import moment from 'moment';
 import { module, test } from 'qunit';
-import { click, currentURL, triggerEvent, visit } from '@ember/test-helpers';
+import { currentURL, triggerEvent, visit } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { visit as visitScreen, fillByLabel, clickByName } from '@1024pix/ember-testing-library';
@@ -183,14 +183,14 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
         type: 'SCO',
       });
       const spacesEmail = ' ';
-      await visit(`/certification-centers/${certificationCenter.id}`);
+      const screen = await visitScreen(`/certification-centers/${certificationCenter.id}`);
 
       // when
       await fillByLabel('Adresse e-mail du nouveau membre', spacesEmail);
       await triggerEvent('#userEmailToAdd', 'focusout');
 
       // then
-      assert.dom('button[data-test-add-membership]').hasAttribute('disabled');
+      assert.dom(screen.getByRole('button', { name: 'Ajouter le membre' })).hasAttribute('disabled');
     });
 
     test('should display error message and disable button if email is invalid', async function (assert) {
@@ -210,7 +210,7 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
 
       // then
       assert.dom(screen.getByText("L'adresse e-mail saisie n'est pas valide.")).exists();
-      assert.dom('button[data-test-add-membership]').hasAttribute('disabled');
+      assert.dom(screen.getByRole('button', { name: 'Ajouter le membre' })).hasAttribute('disabled');
     });
 
     test('should enable button and not display error message if email is valid', async function (assert) {
@@ -222,14 +222,14 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
         externalId: 'ABCDEF',
         type: 'SCO',
       });
-      await visit(`/certification-centers/${certificationCenter.id}`);
+      const screen = await visitScreen(`/certification-centers/${certificationCenter.id}`);
 
       // when
       await fillByLabel('Adresse e-mail du nouveau membre', 'test@example.net');
       await triggerEvent('#userEmailToAdd', 'focusout');
 
       // then
-      assert.dom('button[data-test-add-membership]').hasNoAttribute('disabled');
+      assert.dom(screen.getByRole('button', { name: 'Ajouter le membre' })).hasNoAttribute('disabled');
       assert.dom('.error').notExists;
     });
 
@@ -248,7 +248,7 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
       await triggerEvent('#userEmailToAdd', 'focusout');
 
       // when
-      await click('button[data-test-add-membership]');
+      await clickByName('Ajouter le membre');
 
       // then
       assert.dom(screen.getByLabelText('Membre')).exists();
