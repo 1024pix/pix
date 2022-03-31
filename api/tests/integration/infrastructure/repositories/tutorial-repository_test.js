@@ -384,7 +384,7 @@ describe('Integration | Repository | tutorial-repository', function () {
     });
   });
 
-  describe('#findRecommendedByUserId', function () {
+  describe('#findPaginatedRecommendedByUserId', function () {
     let userId;
 
     beforeEach(async function () {
@@ -416,7 +416,7 @@ describe('Integration | Repository | tutorial-repository', function () {
         });
 
         // when
-        const results = await tutorialRepository.findRecommendedByUserId({ userId });
+        const { results } = await tutorialRepository.findPaginatedRecommendedByUserId({ userId });
 
         // then
         expect(results).to.deep.equal([]);
@@ -454,7 +454,7 @@ describe('Integration | Repository | tutorial-repository', function () {
         });
 
         // when
-        const results = await tutorialRepository.findRecommendedByUserId({ userId });
+        const { results } = await tutorialRepository.findPaginatedRecommendedByUserId({ userId });
 
         // then
         expect(results).to.deep.equal([]);
@@ -506,7 +506,7 @@ describe('Integration | Repository | tutorial-repository', function () {
         });
 
         // when
-        const results = await tutorialRepository.findRecommendedByUserId({ userId });
+        const { results } = await tutorialRepository.findPaginatedRecommendedByUserId({ userId });
 
         // then
         expect(results.map((tutorial) => tutorial.id)).to.exactlyContain(['tuto2', 'tuto1', 'tuto5']);
@@ -557,7 +557,7 @@ describe('Integration | Repository | tutorial-repository', function () {
         });
 
         // when
-        const results = await tutorialRepository.findRecommendedByUserId({ userId, locale });
+        const { results } = await tutorialRepository.findPaginatedRecommendedByUserId({ userId, locale });
 
         // then
         expect(results.map((tutorial) => tutorial.id)).to.exactlyContain(['tuto2', 'tuto1']);
@@ -591,7 +591,7 @@ describe('Integration | Repository | tutorial-repository', function () {
         });
 
         // when
-        const results = await tutorialRepository.findRecommendedByUserId({ userId });
+        const { results } = await tutorialRepository.findPaginatedRecommendedByUserId({ userId });
 
         // then
         expect(results).to.deep.equal([]);
@@ -635,7 +635,7 @@ describe('Integration | Repository | tutorial-repository', function () {
         });
 
         // when
-        const results = await tutorialRepository.findRecommendedByUserId({ userId });
+        const { results } = await tutorialRepository.findPaginatedRecommendedByUserId({ userId });
 
         // then
         expect(results.map((tutorial) => tutorial.tutorialEvaluation)).to.exactlyContain([
@@ -653,6 +653,56 @@ describe('Integration | Repository | tutorial-repository', function () {
             tutorialId: 'tuto4',
           },
         ]);
+      });
+    });
+
+    context('when tutorials amount exceed page size', function () {
+      it('should return page size number of tutorials', async function () {
+        // given
+        const page = { number: 2, size: 2 };
+        databaseBuilder.factory.buildKnowledgeElement({
+          skillId: 'recSkill3',
+          userId,
+          status: KnowledgeElement.StatusType.INVALIDATED,
+          source: KnowledgeElement.SourceType.DIRECT,
+        });
+        await databaseBuilder.commit();
+
+        mockLearningContent({
+          tutorials: [
+            {
+              id: 'tuto4',
+              locale: 'fr-fr',
+            },
+            {
+              id: 'tuto5',
+              locale: 'fr-fr',
+            },
+            {
+              id: 'tuto6',
+              locale: 'fr-fr',
+            },
+          ],
+          skills: [
+            {
+              id: 'recSkill3',
+              tutorialIds: ['tuto4', 'tuto5', 'tuto6'],
+              status: 'actif',
+            },
+          ],
+        });
+        const expectedPagination = { page: 2, pageSize: 2, pageCount: 2, rowCount: 3 };
+        await databaseBuilder.commit();
+
+        // when
+        const { results: foundTutorials, pagination } = await tutorialRepository.findPaginatedRecommendedByUserId({
+          userId,
+          page,
+        });
+
+        // then
+        expect(foundTutorials).to.have.lengthOf(1);
+        expect(pagination).to.include(expectedPagination);
       });
     });
   });
