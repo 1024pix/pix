@@ -22,7 +22,7 @@ module.exports = async function updateLastQuestionState({
 
     const assessment = await assessmentRepository.get(assessmentId, domainTransaction);
     if (challengeId !== assessment.lastChallengeId) {
-      logger.warn('Trying to focusOut a past challenge', {
+      logger.warn('An event has been received on a answer that has already been answered', {
         challengeId,
         assessmentId,
       });
