@@ -20,6 +20,7 @@ export default class InChallengeCertificationIssueReportFields extends Component
     'WEBSITE_BLOCKED',
     'EXTRA_TIME_EXCEEDED',
     'SOFTWARE_NOT_WORKING',
+    'UNINTENTIONAL_FOCUS_OUT',
   ].map((subcategoryKey) => {
     const subcategory = certificationIssueReportSubcategories[subcategoryKey];
     return {
