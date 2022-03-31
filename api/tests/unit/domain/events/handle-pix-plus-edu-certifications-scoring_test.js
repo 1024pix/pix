@@ -76,7 +76,6 @@ describe('Unit | Domain | Events | handle-pix-plus-edu-certifications-scoring', 
       // then
       const expectedPartnerCertificationScoring = domainBuilder.buildPixPlusEduCertificationScoring({
         complementaryCertificationCourseId: 999,
-        certificationCourseId: 123,
         certifiableBadgeKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME,
         reproducibilityRate: domainBuilder.buildReproducibilityRate({ value: 100 }),
         hasAcquiredPixCertification: true,
@@ -162,7 +161,6 @@ describe('Unit | Domain | Events | handle-pix-plus-edu-certifications-scoring', 
       // then
       const expectedPartnerCertificationScoring = domainBuilder.buildPixPlusEduCertificationScoring({
         complementaryCertificationCourseId: 999,
-        certificationCourseId: 123,
         certifiableBadgeKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME,
         reproducibilityRate: domainBuilder.buildReproducibilityRate({ value: 100 }),
         hasAcquiredPixCertification: false,
@@ -216,7 +214,6 @@ describe('Unit | Domain | Events | handle-pix-plus-edu-certifications-scoring', 
       // then
       const expectedPartnerCertificationScoring = domainBuilder.buildPixPlusEduCertificationScoring({
         complementaryCertificationCourseId: 999,
-        certificationCourseId: 123,
         certifiableBadgeKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME,
         reproducibilityRate: domainBuilder.buildReproducibilityRate({ value: 50 }),
         hasAcquiredPixCertification: true,
@@ -269,7 +266,6 @@ describe('Unit | Domain | Events | handle-pix-plus-edu-certifications-scoring', 
       // then
       const expectedPartnerCertificationScoring = domainBuilder.buildPixPlusEduCertificationScoring({
         complementaryCertificationCourseId: 999,
-        certificationCourseId: 123,
         certifiableBadgeKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME,
         reproducibilityRate: domainBuilder.buildReproducibilityRate({ value: 100 }),
         hasAcquiredPixCertification: true,

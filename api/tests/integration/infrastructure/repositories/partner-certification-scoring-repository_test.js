@@ -109,7 +109,6 @@ describe('Integration | Repository | Partner Certification Scoring', function ()
       }).id;
       const partnerCertificationScoring = domainBuilder.buildPixPlusEduCertificationScoring({
         complementaryCertificationCourseId,
-        certificationCourseId,
       });
       databaseBuilder.factory.buildBadge({ key: partnerCertificationScoring.temporaryPartnerKey });
       await databaseBuilder.commit();
@@ -145,7 +144,6 @@ describe('Integration | Repository | Partner Certification Scoring', function ()
       }).id;
       const partnerCertificationScoring = domainBuilder.buildPixPlusEduCertificationScoring({
         complementaryCertificationCourseId,
-        certificationCourseId,
       });
       databaseBuilder.factory.buildBadge({ key: partnerCertificationScoring.temporaryPartnerKey });
       databaseBuilder.factory.buildComplementaryCertificationCourseResult({

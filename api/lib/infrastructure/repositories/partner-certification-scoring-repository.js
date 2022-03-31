@@ -18,7 +18,7 @@ module.exports = {
     const cleaBadgeKey = await _getAcquiredCleaBadgeKey(userId, certificationCourseId, domainTransaction);
     const hasAcquiredBadge = Boolean(cleaBadgeKey);
     if (!hasAcquiredBadge) {
-      return CleaCertificationScoring.buildNotEligible({ complementaryCertificationCourseId, certificationCourseId });
+      return CleaCertificationScoring.buildNotEligible({ complementaryCertificationCourseId });
     }
     const cleaSkills = await _getCleaSkills(cleaBadgeKey, skillRepository);
     const expectedPixByCompetenceForClea = _getexpectedPixByCompetenceForClea(cleaSkills);
@@ -30,7 +30,6 @@ module.exports = {
 
     return new CleaCertificationScoring({
       complementaryCertificationCourseId,
-      certificationCourseId,
       hasAcquiredBadge,
       cleaCompetenceMarks,
       expectedPixByCompetenceForClea,

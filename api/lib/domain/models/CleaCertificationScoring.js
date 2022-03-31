@@ -39,7 +39,6 @@ function _hasNotMinimumReproducibilityRateToBeCertified(reproducibilityRate) {
 class CleaCertificationScoring extends PartnerCertificationScoring {
   constructor({
     complementaryCertificationCourseId,
-    certificationCourseId,
     hasAcquiredBadge,
     reproducibilityRate,
     cleaCompetenceMarks,
@@ -49,7 +48,6 @@ class CleaCertificationScoring extends PartnerCertificationScoring {
   } = {}) {
     super({
       complementaryCertificationCourseId,
-      certificationCourseId,
       partnerKey: cleaBadgeKey,
     });
 
@@ -70,10 +68,9 @@ class CleaCertificationScoring extends PartnerCertificationScoring {
     validateEntity(schema, this);
   }
 
-  static buildNotEligible({ complementaryCertificationCourseId, certificationCourseId }) {
+  static buildNotEligible({ complementaryCertificationCourseId }) {
     return new CleaCertificationScoring({
       complementaryCertificationCourseId,
-      certificationCourseId,
       hasAcquiredBadge: false,
       isBadgeAcquisitionStillValid: false,
       cleaCompetenceMarks: [],
