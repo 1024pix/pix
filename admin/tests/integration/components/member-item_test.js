@@ -1,9 +1,8 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { click } from '@ember/test-helpers';
-import { clickByName, render } from '@1024pix/ember-testing-library';
+import { clickByName, render, selectByLabelAndOption } from '@1024pix/ember-testing-library';
 import hbs from 'htmlbars-inline-precompile';
-import { selectChoose } from 'ember-power-select/test-support/helpers';
 import EmberObject from '@ember/object';
 import sinon from 'sinon';
 
@@ -51,10 +50,9 @@ module('Integration | Component | member-item', function (hooks) {
       const screen = await render(
         hbs`<MemberItem @membership={{this.membership}} @updateMembership={{this.updateMembership}} />`
       );
-      await clickByName('Modifier le rôle');
 
       // when
-      await click('.ember-power-select-trigger');
+      await clickByName('Modifier le rôle');
 
       // then
       assert.dom(screen.getByText('Membre')).exists();
@@ -70,7 +68,7 @@ module('Integration | Component | member-item', function (hooks) {
       await clickByName('Modifier le rôle');
 
       // when
-      await selectChoose('[data-test-id="editable-cell"]', 'Membre');
+      await selectByLabelAndOption('Sélectionner un rôle', 'MEMBER');
       await clickByName('Enregistrer');
 
       // then
@@ -90,7 +88,7 @@ module('Integration | Component | member-item', function (hooks) {
       await clickByName('Modifier le rôle');
 
       // when
-      await selectChoose('[data-test-id="editable-cell"]', 'Membre');
+      await selectByLabelAndOption('Sélectionner un rôle', 'MEMBER');
       await clickByName('Annuler');
 
       // then

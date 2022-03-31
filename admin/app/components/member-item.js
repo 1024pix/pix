@@ -22,8 +22,8 @@ export default class MemberItem extends Component {
   }
 
   @action
-  setRoleSelection(selected) {
-    this.selectedNewRole = selected;
+  setRoleSelection(event) {
+    this.selectedNewRole = event.target.value;
     this.isEditionMode = true;
   }
 
@@ -31,8 +31,7 @@ export default class MemberItem extends Component {
   updateRoleOfMember() {
     this.isEditionMode = false;
     if (!this.selectedNewRole) return false;
-
-    this.args.membership.organizationRole = this.selectedNewRole.value;
+    this.args.membership.organizationRole = this.selectedNewRole;
     return this.args.updateMembership(this.args.membership);
   }
 
