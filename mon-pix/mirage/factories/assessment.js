@@ -42,8 +42,4 @@ export default Factory.extend({
   withCurrentChallengeTimeout: trait({
     lastQuestionState: 'timeout',
   }),
-
-  withCurrentChallengeUnfocus: trait({
-    lastQuestionState: 'focusedout',
-  }),
 });

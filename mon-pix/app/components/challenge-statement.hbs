@@ -12,9 +12,7 @@
         <div class="sr-only">{{t "pages.challenge.statement.sr-only.alternative-instruction"}}</div>
       {{/if}}
 
-      {{#if this.isFocusedChallengeToggleEnabled}}
-        <Challenge::Statement::Tooltip @challenge={{@challenge}} />
-      {{/if}}
+      <Challenge::Statement::Tooltip @challenge={{@challenge}} />
     </div>
   {{/if}}
 

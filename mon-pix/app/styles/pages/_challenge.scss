@@ -15,18 +15,6 @@
     margin-bottom: 30px;
   }
 
-  &__focused-out-overlay {
-    position: fixed;
-    display: block;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.5);
-  }
-
   &__feedback {
     z-index: 1;
     margin-bottom: 20px;
@@ -68,33 +56,6 @@
         padding: 24px 98px;
       }
     }
-  }
-}
-
-.challenge-info-alert {
-  font-family: $font-roboto;
-
-  &__icon {
-    height: 55px;
-    width: 49px;
-    margin-bottom: 8px;
-    background-image: url('/images/focused-challenge-info-alert-icon.svg');
-  }
-
-  &__title {
-    font-size: 1.125rem;
-    font-weight: $font-medium;
-    letter-spacing: 0.011rem;
-    line-height: 1.625rem;
-    margin: auto 0 7px 0;
-  }
-
-  &__subtitle {
-    font-size: 0.875rem;
-    font-weight: $font-light;
-    letter-spacing: 0.009rem;
-    line-height: 1.375rem;
-    margin: 0;
   }
 }
 

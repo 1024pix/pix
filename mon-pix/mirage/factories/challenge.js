@@ -143,8 +143,4 @@ export default Factory.extend({
     embedTitle: faker.random.words(),
     embedHeight: '100',
   }),
-
-  withFocused: trait({
-    focused: true,
-  }),
 });

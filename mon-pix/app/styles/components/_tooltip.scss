@@ -19,10 +19,6 @@
       height: 80px;
     }
 
-    &--focused {
-      background-image: url('/images/tag-focused-challenge.svg');
-    }
-
     &--regular {
       background-image: url('/images/tag-regular-challenge.svg');
     }
@@ -89,10 +85,6 @@
     font-family: $font-roboto;
     font-size: 1.125rem;
     font-weight: $font-medium;
-
-    &--focused {
-      font-weight: $font-bold;
-    }
   }
 
   &__text {

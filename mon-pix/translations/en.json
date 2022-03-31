@@ -366,9 +366,7 @@
     "challenge": {
       "title": {
         "default": "Free Mode - Question {stepNumber} of {totalChallengeNumber}",
-        "timed-out": "Timed out - Question {stepNumber} of {totalChallengeNumber}",
-        "focused": "Focus Mode - Question {stepNumber} of {totalChallengeNumber}",
-        "focused-out": "Failed - Focus Mode - Question {stepNumber} of {totalChallengeNumber}"
+        "timed-out": "Timed out - Question {stepNumber} of {totalChallengeNumber}"
       },
       "actions": {
         "continue": "Continue",
@@ -496,16 +494,6 @@
       "illustration": {
         "placeholder": "Image loading"
       },
-      "is-focused-challenge": {
-        "info-alert": {
-          "title": "Answer this question without searching the internet or using any piece of software.",
-          "subtitle": "If you switch pages or tabs during a certification test, you answer will not be validated."
-        }
-      },
-      "has-focused-out-of-window": {
-        "certification": "We have detected a page switch. Your answer will not be validated.'<br>'If you have been forced to change pages, please inform your invigilator and answer the question in their presence.",
-        "default": "We have detected a page switch.'<br>'During a certification test, your answer would not be validated."
-      },
       "parts": {
         "answer-input": "Your answer",
         "answer-instructions": {
@@ -548,10 +536,6 @@
         "tooltip": {
           "aria-label": "Show question's warning",
           "close": "Ok, got it",
-          "focused": {
-            "content": "<p class=\"tooltip-tag-information__title--focused\">Stay on this page to answer!</p> Do not use the internet or any application to answer. Any activity outside this zone will be detected.",
-            "title": "Focus Mode"
-          },
           "other": {
             "content": "To answer this question, feel free to search the internet or use an external application.",
             "title": "Free Mode"
@@ -630,10 +614,6 @@
         "partially": {
           "title": "You gave an incomplete answer",
           "tooltip": "Incomplete answer"
-        },
-        "focusedOut": {
-          "title": "You lost focus",
-          "tooltip": "Question focused out"
         },
         "timedout": {
           "title": "You've run out of time",

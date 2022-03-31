@@ -18,10 +18,6 @@ export default class ChallengeStatement extends Component {
     this._initialiseDefaultAttachment();
   }
 
-  get isFocusedChallengeToggleEnabled() {
-    return ENV.APP.FT_FOCUS_CHALLENGE_ENABLED;
-  }
-
   get challengeInstruction() {
     const instruction = this.args.challenge.instruction;
     return instruction ? this._formatLink(instruction) : null;

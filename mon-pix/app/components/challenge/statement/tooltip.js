@@ -12,15 +12,8 @@ export default class Tooltip extends Component {
     this._showTooltip();
   }
 
-  get isFocusedChallenge() {
-    return this.args.challenge.focused;
-  }
-
   _showTooltip() {
-    if (
-      (this.isFocusedChallenge && this._hasUserNotSeenFocusedChallengeTooltip()) ||
-      (!this.isFocusedChallenge && this._hasUserNotSeenOtherChallengesTooltip())
-    ) {
+    if (this._hasUserNotSeenOtherChallengesTooltip()) {
       this.shouldDisplayTooltip = true;
     } else {
       this.shouldDisplayTooltip = false;
@@ -29,9 +22,7 @@ export default class Tooltip extends Component {
 
   @action
   displayTooltip(value) {
-    if (this.isFocusedChallenge && this._hasUserSeenFocusedChallengeTooltip()) {
-      this.shouldDisplayTooltip = value;
-    } else if (!this.isFocusedChallenge && this._hasUserSeenOtherChallengesTooltip()) {
+    if (this._hasUserSeenOtherChallengesTooltip()) {
       this.shouldDisplayTooltip = value;
     } else if (!this._isUserConnected()) {
       this.shouldDisplayTooltip = value;
@@ -39,20 +30,10 @@ export default class Tooltip extends Component {
   }
 
   get shouldDisplayButton() {
-    if (this.isFocusedChallenge && this._hasUserNotSeenFocusedChallengeTooltip()) {
-      return true;
-    } else if (!this.isFocusedChallenge && this._hasUserNotSeenOtherChallengesTooltip()) {
+    if (this._hasUserNotSeenOtherChallengesTooltip()) {
       return true;
     }
     return false;
-  }
-
-  _hasUserSeenFocusedChallengeTooltip() {
-    return this._isUserConnected() && this.currentUser.user.hasSeenFocusedChallengeTooltip;
-  }
-
-  _hasUserNotSeenFocusedChallengeTooltip() {
-    return this._isUserConnected() && !this.currentUser.user.hasSeenFocusedChallengeTooltip;
   }
 
   _hasUserSeenOtherChallengesTooltip() {
@@ -76,9 +57,7 @@ export default class Tooltip extends Component {
   async _rememberUserHasSeenChallengeTooltip() {
     if (!this.currentUser.user) return;
 
-    if (this.args.challenge.focused && !this.currentUser.user.hasSeenFocusedChallengeTooltip) {
-      await this.currentUser.user.save({ adapterOptions: { tooltipChallengeType: 'focused' } });
-    } else if (!this.args.challenge.focused && !this.currentUser.user.hasSeenOtherChallengesTooltip) {
+    if (!this.currentUser.user.hasSeenOtherChallengesTooltip) {
       await this.currentUser.user.save({ adapterOptions: { tooltipChallengeType: 'other' } });
     }
   }

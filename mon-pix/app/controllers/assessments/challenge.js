@@ -5,8 +5,6 @@ import progressInAssessment from 'mon-pix/utils/progress-in-assessment';
 import { action } from '@ember/object';
 const defaultPageTitle = 'pages.challenge.title.default';
 const timedOutPageTitle = 'pages.challenge.title.timed-out';
-const focusedPageTitle = 'pages.challenge.title.focused';
-const focusedOutPageTitle = 'pages.challenge.title.focused-out';
 import isInteger from 'lodash/isInteger';
 
 export default class ChallengeController extends Controller {
@@ -17,8 +15,6 @@ export default class ChallengeController extends Controller {
   @tracked newLevel = null;
   @tracked competenceLeveled = null;
   @tracked challengeTitle = defaultPageTitle;
-  @tracked hasFocusedOutOfChallenge = false;
-  @tracked hasFocusedOutOfWindow = this.model.assessment.hasFocusedOutChallenge;
   @tracked hasUserConfirmedWarning = false;
 
   get showLevelup() {
@@ -32,45 +28,9 @@ export default class ChallengeController extends Controller {
     );
     const totalChallengeNumber = progressInAssessment.getMaxStepsNumber(this.model.assessment);
 
-    const title = this.model.challenge.focused ? this._focusedPageTitle() : this.challengeTitle;
+    const title = this.challengeTitle;
 
     return this.intl.t(title, { stepNumber, totalChallengeNumber });
-  }
-
-  _focusedPageTitle() {
-    if (this.model.assessment.isCertification && this.hasFocusedOutOfWindow) {
-      return focusedOutPageTitle;
-    }
-    return focusedPageTitle;
-  }
-
-  get isFocusedChallengeAndUserHasFocusedOutOfChallenge() {
-    return this.model.challenge.focused && this.hasFocusedOutOfChallenge && !this.model.answer;
-  }
-
-  get couldDisplayInfoAlert() {
-    return (
-      !this.hasFocusedOutOfWindow &&
-      !this.model.answer &&
-      this.model.challenge.focused &&
-      !this.model.assessment.hasFocusedOutChallenge
-    );
-  }
-
-  get displayInfoAlertForFocusOut() {
-    return this.hasFocusedOutOfChallenge && this.couldDisplayInfoAlert;
-  }
-
-  @action
-  setFocusedOutOfChallenge(value) {
-    this.hasFocusedOutOfChallenge = value;
-  }
-
-  @action
-  async focusedOutOfWindow() {
-    this.hasFocusedOutOfWindow = true;
-    this.model.assessment.lastQuestionState = 'focusedout';
-    await this.model.assessment.save({ adapterOptions: { updateLastQuestionState: true } });
   }
 
   @action
@@ -83,21 +43,17 @@ export default class ChallengeController extends Controller {
   _resetNonContextualChallengeInfo() {
     this.challengeTitle = defaultPageTitle;
     this.hasUserConfirmedWarning = false;
-    this.hasFocusedOutOfChallenge = false;
   }
 
   @action
   resetAllChallengeInfo() {
     this._resetNonContextualChallengeInfo();
-    this.hasFocusedOutOfWindow = false;
     this.model.assessment.lastQuestionState = 'asked';
   }
 
   @action
   resetChallengeInfoOnResume() {
     this._resetNonContextualChallengeInfo();
-    // Keep focused out of window state
-    this.hasFocusedOutOfWindow = this.model.assessment.hasFocusedOutChallenge;
   }
 
   get displayHomeLink() {

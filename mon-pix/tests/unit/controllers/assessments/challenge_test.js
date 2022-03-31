@@ -26,9 +26,7 @@ describe('Unit | Controller | Assessments | Challenge', function () {
       controller.model = {
         assessment: {},
         answer: null,
-        challenge: {
-          focused: false,
-        },
+        challenge: {},
       };
       sinon.stub(progressInAssessment, 'getCurrentStepNumber').returns(2);
       sinon.stub(progressInAssessment, 'getMaxStepsNumber').returns(5);
@@ -38,25 +36,6 @@ describe('Unit | Controller | Assessments | Challenge', function () {
 
       // then
       sinon.assert.calledWith(intl.t, 'pages.challenge.title.default', { stepNumber: 2, totalChallengeNumber: 5 });
-    });
-
-    it('should return focused title when challenge is focused', function () {
-      // given
-      controller.model = {
-        assessment: {},
-        answer: null,
-        challenge: {
-          focused: true,
-        },
-      };
-      sinon.stub(progressInAssessment, 'getCurrentStepNumber').returns(2);
-      sinon.stub(progressInAssessment, 'getMaxStepsNumber').returns(5);
-
-      // when
-      controller.pageTitle;
-
-      // then
-      sinon.assert.calledWith(intl.t, 'pages.challenge.title.focused', { stepNumber: 2, totalChallengeNumber: 5 });
     });
   });
 
@@ -111,7 +90,7 @@ describe('Unit | Controller | Assessments | Challenge', function () {
   });
 
   describe('#displayChallenge', function () {
-    context('when challenge is not focused and has no timer', function () {
+    context('when challenge has no timer', function () {
       [
         { answer: undefined, hasUserConfirmedWarning: false, expectedResult: true },
         { answer: 'banana', hasUserConfirmedWarning: false, expectedResult: true },
@@ -126,7 +105,6 @@ describe('Unit | Controller | Assessments | Challenge', function () {
           const challenge = {
             id: 'rec_123',
             timer: undefined,
-            focused: false,
           };
 
           const answer = data.answer;

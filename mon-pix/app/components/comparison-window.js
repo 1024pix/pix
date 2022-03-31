@@ -8,7 +8,6 @@ const TEXT_FOR_RESULT = {
   aband: { status: 'aband' },
   partially: { status: 'partially' },
   timedout: { status: 'timedout' },
-  focusedOut: { status: 'ko' },
   okAutoReply: { status: 'ok' },
   koAutoReply: { status: 'ko' },
   abandAutoReply: { status: 'aband' },

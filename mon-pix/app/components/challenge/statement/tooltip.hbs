@@ -1,4 +1,4 @@
-<div class="tooltip__tag tooltip__tag{{if this.isFocusedChallenge "--focused" "--regular"}}">
+<div class="tooltip__tag tooltip__tag--regular">
   <button
     type="button"
     aria-controls="tooltip-tag-info"
@@ -18,24 +18,11 @@
     {{on "focusout" (fn this.displayTooltip false)}}
   >
     <h3 class="tooltip-tag-information__title">
-      {{t
-        (if
-          this.isFocusedChallenge
-          "pages.challenge.statement.tooltip.focused.title"
-          "pages.challenge.statement.tooltip.other.title"
-        )
-      }}
+      {{t "pages.challenge.statement.tooltip.other.title"}}
     </h3>
 
     <p class="tooltip-tag-information__text">
-      {{t
-        (if
-          this.isFocusedChallenge
-          "pages.challenge.statement.tooltip.focused.content"
-          "pages.challenge.statement.tooltip.other.content"
-        )
-        htmlSafe=true
-      }}
+      {{t "pages.challenge.statement.tooltip.other.content" htmlSafe=true}}
     </p>
     {{#if this.shouldDisplayButton}}
       <PixButton class="tooltip-tag-information__button" @size="small" @triggerAction={{this.confirmInformationIsRead}}>

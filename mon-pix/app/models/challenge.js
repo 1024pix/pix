@@ -24,7 +24,6 @@ export default class Challenge extends Model {
   @attr('number') timer;
   @attr('string') type;
   @attr('boolean') autoReply;
-  @attr('boolean') focused;
 
   // includes
   @belongsTo('answer') answer;

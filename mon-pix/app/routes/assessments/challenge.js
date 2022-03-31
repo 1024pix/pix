@@ -33,9 +33,6 @@ export default class ChallengeRoute extends Route {
       });
     }
 
-    // WORKAROUND for PIX-4471 (wrongly displayed focusedout message)
-    if (assessment.lastQuestionState === 'focusedout') await assessment.reload();
-
     return RSVP.hash({
       assessment,
       challenge,
@@ -73,12 +70,11 @@ export default class ChallengeRoute extends Route {
   }
 
   @action
-  async saveAnswerAndNavigate(challenge, assessment, answerValue, answerTimeout, answerFocusedOut) {
+  async saveAnswerAndNavigate(challenge, assessment, answerValue, answerTimeout) {
     const answer = this._findOrCreateAnswer(challenge, assessment);
     answer.setProperties({
       value: answerValue.trim(),
       timeout: answerTimeout,
-      focusedOut: answerFocusedOut,
     });
 
     try {

@@ -24,9 +24,7 @@ describe('Integration | Component | ChallengeStatement', function () {
 
   beforeEach(function () {
     class currentUser extends Service {
-      user = {
-        hasSeenFocusedChallengeTooltip: false,
-      };
+      user = {};
     }
     this.owner.unregister('service:currentUser');
     this.owner.register('service:currentUser', currentUser);
@@ -54,29 +52,12 @@ describe('Integration | Component | ChallengeStatement', function () {
       expect(find('.challenge-statement-instruction__text').textContent.trim()).to.equal('La consigne de mon test');
     });
 
-    it('should render a tag for focused challenge with tooltip', async function () {
-      // given
-      addAssessmentToContext(this, { id: '267845' });
-      addChallengeToContext(this, {
-        instruction: 'La consigne de mon test',
-        id: 'rec_challenge',
-        focused: true,
-      });
-
-      // when
-      await renderChallengeStatement(this);
-
-      // then
-      expect(find('.tooltip__tag')).to.exist;
-    });
-
     it('should render a tag for other challenge with tooltip', async function () {
       // given
       addAssessmentToContext(this, { id: '267845' });
       addChallengeToContext(this, {
         instruction: 'La consigne de mon test',
         id: 'rec_challenge',
-        focused: false,
       });
 
       // when
@@ -116,32 +97,13 @@ describe('Integration | Component | ChallengeStatement', function () {
       expect(linkCount).to.equal(2);
     });
 
-    it('should display a specific style', async function () {
+    it('should display challenges', async function () {
       // given
       addAssessmentToContext(this, { id: '267845' });
       addChallengeToContext(this, {
         instruction: 'La consigne de mon test',
         id: 'rec_challenge',
         type: 'QROC',
-        focused: true,
-      });
-
-      // when
-      await renderChallengeStatement(this);
-
-      // then
-      expect(find('.tooltip__tag--focused')).to.exist;
-      expect(find('.tooltip__tag--regular')).to.not.exist;
-    });
-
-    it('should not display focused challenges specific style', async function () {
-      // given
-      addAssessmentToContext(this, { id: '267845' });
-      addChallengeToContext(this, {
-        instruction: 'La consigne de mon test',
-        id: 'rec_challenge',
-        type: 'QROC',
-        focused: false,
       });
 
       // when
@@ -149,7 +111,6 @@ describe('Integration | Component | ChallengeStatement', function () {
 
       // then
       expect(find('.tooltip__tag--regular')).to.exist;
-      expect(find('.tooltip__tag--focused')).to.not.exist;
     });
 
     it('should have a screen reader only warning if challenge has an embed', async function () {

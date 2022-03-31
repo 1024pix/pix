@@ -1,27 +1,6 @@
 {{page-title this.pageTitle}}
 
-{{#if this.couldDisplayInfoAlert}}
-  <div
-    class="challenge__info-alert challenge__info-alert--hide challenge__info-alert--could-show"
-    tabindex="0"
-    role="alert"
-    aria-live="assertive"
-  >
-    <div class="challenge-info-alert__icon"></div>
-    <p class="challenge-info-alert__title">
-      {{t "pages.challenge.is-focused-challenge.info-alert.title"}}
-    </p>
-    <p class="challenge-info-alert__subtitle">
-      {{t "pages.challenge.is-focused-challenge.info-alert.subtitle"}}
-    </p>
-  </div>
-{{/if}}
-
 <div class="background-banner-wrapper challenge">
-  {{#if this.isFocusedChallengeAndUserHasFocusedOutOfChallenge}}
-    <div class="challenge__focused-out-overlay"></div>
-  {{/if}}
-
   <div class="challenge__banner">
     {{#if @model.assessment.isCertification}}
       <CertificationBanner
@@ -53,11 +32,6 @@
         @resetChallengeInfoOnResume={{this.resetChallengeInfoOnResume}}
         @answerValidated={{route-action "saveAnswerAndNavigate"}}
         @resumeAssessment={{route-action "resumeAssessment"}}
-        @onFocusIntoChallenge={{fn this.setFocusedOutOfChallenge false}}
-        @onFocusOutOfChallenge={{fn this.setFocusedOutOfChallenge true}}
-        @onFocusOutOfWindow={{this.focusedOutOfWindow}}
-        @hasFocusedOutOfWindow={{this.hasFocusedOutOfWindow}}
-        @isFocusedChallengeAndUserHasFocusedOutOfChallenge={{this.isFocusedChallengeAndUserHasFocusedOutOfChallenge}}
       />
     {{/if}}
   </main>
@@ -65,24 +39,6 @@
   <div class="challenge__feedback" role="complementary">
     <FeedbackPanel @assessment={{@model.assessment}} @challenge={{@model.challenge}} />
   </div>
-  {{#if @model.challenge.focused}}
-    <div
-      class="challenge__info-alert challenge__info-alert--hide
-        {{if this.displayInfoAlertForFocusOut "challenge__info-alert--show"}}
-        {{if this.couldDisplayInfoAlert "challenge__info-alert--could-show"}}"
-      tabindex="0"
-      role="alert"
-      aria-live="assertive"
-    >
-      <div class="challenge-info-alert__icon"></div>
-      <p class="challenge-info-alert__title">
-        {{t "pages.challenge.is-focused-challenge.info-alert.title"}}
-      </p>
-      <p class="challenge-info-alert__subtitle">
-        {{t "pages.challenge.is-focused-challenge.info-alert.subtitle"}}
-      </p>
-    </div>
-  {{/if}}
 </div>
 
 {{#if this.showLevelup}}

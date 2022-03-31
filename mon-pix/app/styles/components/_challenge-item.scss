@@ -1,11 +1,5 @@
 .challenge-item {
   border: 3px solid transparent;
-
-  &--focused {
-    border: 3px dashed $grey-70;
-    border-radius: 10px;
-    z-index: 1;
-  }
 }
 
 .challenge-response {

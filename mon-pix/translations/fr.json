@@ -366,9 +366,7 @@
     "challenge": {
       "title": {
         "default": "Mode libre - Question {stepNumber} sur {totalChallengeNumber}",
-        "timed-out": "Temps écoulé - Question {stepNumber} sur {totalChallengeNumber}",
-        "focused": "Mode focus - Question {stepNumber} sur {totalChallengeNumber}",
-        "focused-out": "Échoué - Mode focus - Question {stepNumber} sur {totalChallengeNumber}"
+        "timed-out": "Temps écoulé - Question {stepNumber} sur {totalChallengeNumber}"
       },
       "actions": {
         "continue": "Poursuivre",
@@ -496,16 +494,6 @@
       "illustration": {
         "placeholder": "Chargement de l'image en cours"
       },
-      "is-focused-challenge": {
-        "info-alert": {
-          "title": "Répondez à cette question sans chercher sur internet ni utiliser de logiciels.",
-          "subtitle": "En certification, si vous changez de page, votre réponse ne sera pas validée."
-        }
-      },
-      "has-focused-out-of-window": {
-        "certification": "Nous avons détecté un changement de page. Votre réponse sera comptée comme fausse.'<br>'Si vous avez été contraint de changer de page, prévenez votre surveillant et répondez à la question en sa présence.",
-        "default": "Nous avons détecté un changement de page.'<br>'En certification, votre réponse ne serait pas validée."
-      },
       "parts": {
         "answer-input": "Votre réponse",
         "answer-instructions": {
@@ -548,10 +536,6 @@
         "tooltip": {
           "aria-label": "Afficher l'indication sur l'épreuve.",
           "close": "J'ai compris",
-          "focused": {
-            "content": "<p class=\"tooltip-tag-information__title--focused\">Restez sur cette page pour répondre !</p> N'utilisez pas internet ou une application pour répondre. Toute activité en dehors de la zone est détectée.",
-            "title": "Mode Focus"
-          },
           "other": {
             "content": "Vous êtes libre d’utiliser internet ou des applications pour répondre à cette question.",
             "title": "Mode Libre"
@@ -614,10 +598,6 @@
         "ko": {
           "title": "Vous n’avez pas la bonne réponse",
           "tooltip": "Réponse incorrecte"
-        },
-        "focusedOut": {
-          "title": "Vous êtes sorti de l'épreuve",
-          "tooltip": "Épreuve échouée"
         },
         "koAutoReply": {
           "title": "Vous n’avez pas réussi l’épreuve",
