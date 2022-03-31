@@ -156,7 +156,7 @@ module('Acceptance | Session pages', function (hooks) {
 
     module('Certifications tab', function () {
       module('Certification section', function () {
-        test('it shows certifications informations', async function (assert) {
+        test('it shows certifications information', async function (assert) {
           // given
           const juryCertificationSummary = server.create('jury-certification-summary', {
             firstName: 'Anne',
@@ -169,14 +169,9 @@ module('Acceptance | Session pages', function (hooks) {
           const screen = await visitScreen('/sessions/1/certifications');
 
           // then
-          const circle = document.querySelector(
-            '[data-test-id="certification-list"] tbody tr td:last-child div svg circle'
-          );
           assert.dom(screen.getByText(juryCertificationSummary.firstName)).exists();
           assert.dom(screen.getByText(juryCertificationSummary.lastName)).exists();
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line qunit/no-assert-equal
-          assert.equal(circle.attributes.fill.value, '#39B97A');
+          assert.dom(screen.getByRole('img', { name: 'Certification publiée' })).exists();
         });
       });
     });
