@@ -153,7 +153,10 @@ exports.register = async (server) => {
           },
         },
         handler: assessmentController.updateLastChallengeState,
-        notes: ["- Modifie l'état de la dernière question posée\n" + "- L'état doit être indiqué en paramètres."],
+        notes: [
+          '- Sauvegarde la dernière question posée, ainsi que son état\n' +
+            "- L'état doit être indiqué en paramètre, et la question optionnellement dans le payload.",
+        ],
         tags: ['api', 'assessments'],
       },
     },
