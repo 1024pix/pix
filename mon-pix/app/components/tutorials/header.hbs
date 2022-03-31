@@ -6,21 +6,11 @@
     </p>
 
     <div class="user-tutorials-banner-v2__filters">
-      <PixButtonLink
-        @route="user-tutorials-v2.recommended"
-        @shape="rounded"
-        class="user-tutorials-banner-v2-filters__button"
-        @backgroundColor="grey"
-      >
+      <PixButtonLink @route="user-tutorials-v2.recommended" @shape="rounded" @backgroundColor={{this.isRecommended}}>
         {{t "pages.user-tutorials-v2.recommended"}}
       </PixButtonLink>
 
-      <PixButtonLink
-        @route="user-tutorials-v2.saved"
-        @shape="rounded"
-        class="user-tutorials-banner-v2-filters__button"
-        @backgroundColor="grey"
-      >
+      <PixButtonLink @route="user-tutorials-v2.saved" @shape="rounded" @backgroundColor={{this.isSaved}}>
         {{t "pages.user-tutorials-v2.saved"}}
       </PixButtonLink>
     </div>
