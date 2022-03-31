@@ -8,6 +8,7 @@ const TutorialForUser = require('../../domain/read-models/TutorialForUser');
 const { FRENCH_FRANCE } = require('../../domain/constants').LOCALE;
 const knowledgeElementRepository = require('./knowledge-element-repository');
 const skillRepository = require('./skill-repository');
+const paginateModule = require('../utils/paginate');
 
 module.exports = {
   async findByRecordIdsForCurrentUser({ ids, userId, locale }) {
@@ -50,7 +51,7 @@ module.exports = {
     return _.map(tutorialData, _toDomain);
   },
 
-  async findRecommendedByUserId({ userId, locale = FRENCH_FRANCE } = {}) {
+  async findPaginatedRecommendedByUserId({ userId, page, locale = FRENCH_FRANCE } = {}) {
     const invalidatedKnowledgeElements = await knowledgeElementRepository.findInvalidatedAndDirectByUserId(userId);
     const skills = await skillRepository.findOperativeByIds(invalidatedKnowledgeElements.map(({ skillId }) => skillId));
 
@@ -62,7 +63,8 @@ module.exports = {
       tutorialEvaluationRepository.find({ userId }),
     ]);
 
-    return _toTutorialsForUser({ tutorials, tutorialEvaluations, userTutorials });
+    const tutorialsForUser = _toTutorialsForUser({ tutorials, tutorialEvaluations, userTutorials });
+    return paginateModule.paginate(tutorialsForUser, page);
   },
 };
 
