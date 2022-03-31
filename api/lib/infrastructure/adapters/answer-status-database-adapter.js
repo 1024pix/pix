@@ -4,7 +4,6 @@ const UNIMPLEMENTED = 'unimplemented';
 const TIMEDOUT = 'timedout';
 const PARTIALLY = 'partially';
 const SKIPPED = 'aband';
-const FOCUSEDOUT = 'focusedOut';
 const OK = 'ok';
 const KO = 'ko';
 
@@ -27,8 +26,6 @@ module.exports = {
       return PARTIALLY;
     } else if (answerStatus.isTIMEDOUT()) {
       return TIMEDOUT;
-    } else if (answerStatus.isFOCUSEDOUT()) {
-      return FOCUSEDOUT;
     } else {
       return UNIMPLEMENTED;
     }
@@ -45,8 +42,6 @@ module.exports = {
       return AnswerStatus.TIMEDOUT;
     } else if (answerStatusString === SKIPPED) {
       return AnswerStatus.SKIPPED;
-    } else if (answerStatusString === FOCUSEDOUT) {
-      return AnswerStatus.FOCUSEDOUT;
     } else if (answerStatusString === UNIMPLEMENTED) {
       return AnswerStatus.UNIMPLEMENTED;
     }

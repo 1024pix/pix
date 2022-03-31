@@ -139,7 +139,7 @@ exports.register = async (server) => {
         validate: {
           params: Joi.object({
             id: identifiersType.assessmentId,
-            state: Joi.string().valid('asked', 'timeout', 'focusedout'),
+            state: Joi.string().valid('asked', 'timeout'),
           }),
         },
         handler: assessmentController.updateLastChallengeState,

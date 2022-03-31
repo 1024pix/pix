@@ -29,12 +29,6 @@ describe('AnswerStatusJsonApiAdapter', function () {
       expect(result).to.equals('timedout');
     });
 
-    it('should convert AnswerStatus.FOCUSEDOUT to "focusedOut"', function () {
-      const answerStatus = AnswerStatus.FOCUSEDOUT;
-      const result = AnswerStatusJsonApiAdapter.adapt(answerStatus);
-      expect(result).to.equals('focusedOut');
-    });
-
     it('should convert AnswerStatus.SKIPPED to "aband"', function () {
       const answerStatus = AnswerStatus.SKIPPED;
       const result = AnswerStatusJsonApiAdapter.adapt(answerStatus);

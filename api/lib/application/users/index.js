@@ -542,7 +542,7 @@ exports.register = async function (server) {
         validate: {
           params: Joi.object({
             id: identifiersType.userId,
-            challengeType: Joi.string().valid('focused', 'other'),
+            challengeType: Joi.string().valid('other'),
           }),
         },
         handler: userController.rememberUserHasSeenChallengeTooltip,

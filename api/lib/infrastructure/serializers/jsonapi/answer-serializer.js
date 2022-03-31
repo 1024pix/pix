@@ -44,7 +44,6 @@ module.exports = {
       result: null,
       resultDetails: null,
       timeout: payload.data.attributes.timeout,
-      isFocusedOut: payload.data.attributes['focused-out'],
       assessmentId: payload.data.relationships.assessment.data.id,
       challengeId: payload.data.relationships.challenge.data.id,
     });

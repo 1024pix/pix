@@ -381,24 +381,6 @@ describe('Unit | Controller | user-controller', function () {
       sinon.stub(userSerializer, 'serialize');
     });
 
-    it('should remember user has seen focused challenge tooltip', async function () {
-      // given
-      challengeType = 'focused';
-      request = {
-        auth: { credentials: { userId } },
-        params: { id: userId, challengeType },
-      };
-
-      usecases.rememberUserHasSeenChallengeTooltip.withArgs({ userId, challengeType }).resolves({});
-      userSerializer.serialize.withArgs({}).returns('ok');
-
-      // when
-      const response = await userController.rememberUserHasSeenChallengeTooltip(request);
-
-      // then
-      expect(response).to.be.equal('ok');
-    });
-
     it('should remember user has seen other challenges tooltip', async function () {
       // given
       challengeType = 'other';

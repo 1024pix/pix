@@ -34,7 +34,6 @@ const methods = {
 const statesOfLastQuestion = {
   ASKED: 'asked',
   TIMEOUT: 'timeout',
-  FOCUSEDOUT: 'focusedout',
 };
 
 class Assessment {

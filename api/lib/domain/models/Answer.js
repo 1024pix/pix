@@ -2,24 +2,12 @@ const AnswerStatus = require('./AnswerStatus');
 const _ = require('lodash');
 
 class Answer {
-  constructor({
-    id,
-    result,
-    resultDetails,
-    timeout,
-    isFocusedOut,
-    value,
-    levelup,
-    assessmentId,
-    challengeId,
-    timeSpent,
-  } = {}) {
+  constructor({ id, result, resultDetails, timeout, value, levelup, assessmentId, challengeId, timeSpent } = {}) {
     this.id = id;
     // XXX result property should not be auto-created from result to an AnswerStatus Object
     this.result = AnswerStatus.from(result);
     this.resultDetails = resultDetails;
     this.timeout = timeout;
-    this.isFocusedOut = isFocusedOut || this.result.isFOCUSEDOUT();
     this.value = value;
     this.levelup = levelup;
     this.assessmentId = assessmentId;

@@ -2,7 +2,6 @@ const OK = 'ok';
 const KO = 'ko';
 const SKIPPED = 'aband';
 const TIMEDOUT = 'timedout';
-const FOCUSEDOUT = 'focusedOut';
 const PARTIALLY = 'partially';
 const UNIMPLEMENTED = 'unimplemented';
 
@@ -29,9 +28,6 @@ class AnswerStatus {
   isTIMEDOUT() {
     return this.status === TIMEDOUT;
   }
-  isFOCUSEDOUT() {
-    return this.status === FOCUSEDOUT;
-  }
   isPARTIALLY() {
     return this.status === PARTIALLY;
   }
@@ -51,9 +47,6 @@ class AnswerStatus {
   }
   static get TIMEDOUT() {
     return new AnswerStatus({ status: TIMEDOUT });
-  }
-  static get FOCUSEDOUT() {
-    return new AnswerStatus({ status: FOCUSEDOUT });
   }
   static get PARTIALLY() {
     return new AnswerStatus({ status: PARTIALLY });
@@ -77,9 +70,6 @@ class AnswerStatus {
   }
   static isPARTIALLY(otherResult) {
     return AnswerStatus.from(otherResult).isPARTIALLY();
-  }
-  static isFOCUSEDOUT(otherResult) {
-    return AnswerStatus.from(otherResult).isFOCUSEDOUT();
   }
 
   /* PRIVATE */

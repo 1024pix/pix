@@ -29,7 +29,6 @@ module.exports = {
         'hasSeenAssessmentInstructions',
         'isCertifiable',
         'hasSeenNewDashboardInfo',
-        'hasSeenFocusedChallengeTooltip',
         'hasSeenOtherChallengesTooltip',
       ],
       memberships: {

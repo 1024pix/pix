@@ -466,7 +466,6 @@ describe('Unit | Domain | Events | handle-auto-jury', function () {
             result: 'ok',
             resultDetails: null,
             timeout: null,
-            focusedOut: false,
             value: '1',
             levelup: undefined,
             assessmentId: 456,

@@ -7,7 +7,7 @@ const answerStatusDatabaseAdapter = require('../adapters/answer-status-database-
 
 function _adaptAnswerToDb(answer) {
   return {
-    ..._.pick(answer, ['value', 'timeout', 'challengeId', 'assessmentId', 'timeSpent', 'isFocusedOut']),
+    ..._.pick(answer, ['value', 'timeout', 'challengeId', 'assessmentId', 'timeSpent']),
     result: answerStatusDatabaseAdapter.toSQLString(answer.result),
     resultDetails: jsYaml.dump(answer.resultDetails),
   };

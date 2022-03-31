@@ -10,7 +10,6 @@ function buildAnswer({
   assessmentId = 456,
   challengeId = 'recChallenge123',
   timeSpent = 20,
-  isFocusedOut = false,
 } = {}) {
   return new Answer({
     id,
@@ -21,7 +20,6 @@ function buildAnswer({
     assessmentId,
     challengeId,
     timeSpent,
-    isFocusedOut,
   });
 }
 
@@ -31,7 +29,6 @@ buildAnswer.uncorrected = function ({
   assessmentId = 456,
   challengeId = 'recChallenge123',
   timeSpent = 10,
-  isFocusedOut = false,
 } = {}) {
   return new Answer({
     timeout,
@@ -39,7 +36,6 @@ buildAnswer.uncorrected = function ({
     assessmentId,
     challengeId,
     timeSpent,
-    isFocusedOut,
   });
 };
 
@@ -51,7 +47,6 @@ buildAnswer.ok = function ({
   assessmentId = 456,
   challengeId = 'recChallenge123',
   timeSpent = 20,
-  isFocusedOut = false,
 } = {}) {
   return buildAnswer({
     id,
@@ -62,7 +57,6 @@ buildAnswer.ok = function ({
     assessmentId,
     challengeId,
     timeSpent,
-    isFocusedOut,
   });
 };
 
@@ -74,7 +68,6 @@ buildAnswer.ko = function ({
   assessmentId = 456,
   challengeId = 'recChallenge123',
   timeSpent = 20,
-  isFocusedOut = false,
 } = {}) {
   return buildAnswer({
     id,
@@ -85,7 +78,6 @@ buildAnswer.ko = function ({
     assessmentId,
     challengeId,
     timeSpent,
-    isFocusedOut,
   });
 };
 
@@ -97,7 +89,6 @@ buildAnswer.skipped = function ({
   assessmentId = 456,
   challengeId = 'recChallenge123',
   timeSpent = 20,
-  isFocusedOut = false,
 } = {}) {
   return buildAnswer({
     id,
@@ -108,7 +99,6 @@ buildAnswer.skipped = function ({
     assessmentId,
     challengeId,
     timeSpent,
-    isFocusedOut,
   });
 };
 

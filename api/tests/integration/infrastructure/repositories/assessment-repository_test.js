@@ -560,7 +560,6 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
       const lastChallengeId = 'recLastChallenge';
       const assessment = databaseBuilder.factory.buildAssessment({
         lastChallengeId: 'recPreviousChallenge',
-        lastQuestionState: 'focusedout',
       });
       await databaseBuilder.commit();
 

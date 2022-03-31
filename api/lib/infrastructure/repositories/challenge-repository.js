@@ -129,7 +129,6 @@ function _toDomain({ challengeDataObject, skillDataObject }) {
     format: challengeDataObject.format,
     locales: challengeDataObject.locales,
     autoReply: challengeDataObject.autoReply,
-    focused: challengeDataObject.focusable,
     discriminant: challengeDataObject.alpha,
     difficulty: challengeDataObject.delta,
     responsive: challengeDataObject.responsive,

@@ -39,7 +39,6 @@ class Challenge {
    * @param format
    * @param locales
    * @param autoReply
-   * @param focused
    * @param discriminant
    * @param difficulty
    * @param responsive
@@ -66,7 +65,6 @@ class Challenge {
     skill,
     validator,
     competenceId,
-    focused,
     discriminant,
     difficulty,
     responsive,
@@ -92,7 +90,6 @@ class Challenge {
     this.skill = skill;
     this.validator = validator;
     this.competenceId = competenceId;
-    this.focused = focused;
     this.discriminant = discriminant;
     this.difficulty = difficulty;
     this.responsive = responsive;

@@ -276,9 +276,6 @@ module.exports = {
 
   async updateHasSeenChallengeTooltip({ userId, challengeType }) {
     const user = await BookshelfUser.where({ id: userId }).fetch({ require: false });
-    if (challengeType === 'focused') {
-      await user.save({ hasSeenFocusedChallengeTooltip: true }, { patch: true, method: 'update' });
-    }
     if (challengeType === 'other') {
       await user.save({ hasSeenOtherChallengesTooltip: true }, { patch: true, method: 'update' });
     }

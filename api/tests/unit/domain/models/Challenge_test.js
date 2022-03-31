@@ -37,7 +37,6 @@ describe('Unit | Domain | Models | Challenge', function () {
         locales: ['fr'],
         autoReply: true,
         alternativeInstruction: 'Pour aider les personnes ne pouvant voir ou afficher les instructions',
-        focused: false,
         discriminant: 0.75,
         difficulty: -0.23,
         responsive: 'Smartphone',

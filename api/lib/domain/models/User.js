@@ -18,7 +18,6 @@ class User {
     lastPixCertifTermsOfServiceValidatedAt,
     hasSeenAssessmentInstructions,
     hasSeenNewDashboardInfo,
-    hasSeenFocusedChallengeTooltip,
     hasSeenOtherChallengesTooltip,
     mustValidateTermsOfService,
     lang,
@@ -47,7 +46,6 @@ class User {
     this.hasSeenAssessmentInstructions = hasSeenAssessmentInstructions;
     this.hasSeenOtherChallengesTooltip = hasSeenOtherChallengesTooltip;
     this.hasSeenNewDashboardInfo = hasSeenNewDashboardInfo;
-    this.hasSeenFocusedChallengeTooltip = hasSeenFocusedChallengeTooltip;
     this.knowledgeElements = knowledgeElements;
     this.lang = lang;
     this.isAnonymous = isAnonymous;

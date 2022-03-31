@@ -35,12 +35,6 @@ describe('AnswerStatusDatabaseAdapter', function () {
       expect(result).to.equals('aband');
     });
 
-    it('should convert AnswerStatus.FOCUSEDOUT to "focusedOut"', function () {
-      const answerStatus = AnswerStatus.FOCUSEDOUT;
-      const result = AnswerStatusDatabaseAdapter.adapt(answerStatus);
-      expect(result).to.equals('focusedOut');
-    });
-
     it('should convert AnswerStatus.UNIMPLEMENTED to "unimplemented"', function () {
       const answerStatus = AnswerStatus.UNIMPLEMENTED;
       const result = AnswerStatusDatabaseAdapter.adapt(answerStatus);
@@ -71,12 +65,6 @@ describe('AnswerStatusDatabaseAdapter', function () {
       const answerStatus = AnswerStatus.TIMEDOUT;
       const result = AnswerStatusDatabaseAdapter.toSQLString(answerStatus);
       expect(result).to.equals('timedout');
-    });
-
-    it('should convert AnswerStatus.FOCUSEDOUT to "focusedOut"', function () {
-      const answerStatus = AnswerStatus.FOCUSEDOUT;
-      const result = AnswerStatusDatabaseAdapter.toSQLString(answerStatus);
-      expect(result).to.equals('focusedOut');
     });
 
     it('should convert AnswerStatus.SKIPPED to "aband"', function () {
@@ -115,12 +103,6 @@ describe('AnswerStatusDatabaseAdapter', function () {
       const answerStatusString = 'timedout';
       const result = AnswerStatusDatabaseAdapter.fromSQLString(answerStatusString);
       expect(result.isTIMEDOUT()).to.be.true;
-    });
-
-    it('should convert "focusedOut" to AnswerStatus.FOCUSEDOUT', function () {
-      const answerStatusString = 'focusedOut';
-      const result = AnswerStatusDatabaseAdapter.fromSQLString(answerStatusString);
-      expect(result.isFOCUSEDOUT()).to.be.true;
     });
 
     it('should convert "aband" to AnswerStatus.SKIPPED', function () {
