@@ -1,6 +1,7 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, click, fillIn } from '@ember/test-helpers';
+import { click } from '@ember/test-helpers';
+import { render, fillByLabel } from '@1024pix/ember-testing-library';
 import hbs from 'htmlbars-inline-precompile';
 import Service from '@ember/service';
 import { reject } from 'rsvp';
@@ -14,11 +15,11 @@ module('Integration | Component | login-form', function (hooks) {
 
   test('it renders', async function (assert) {
     // when
-    await render(hbs`<LoginForm />`);
+    const screen = await render(hbs`<LoginForm />`);
 
     // then
-    assert.dom('input[data-test-id="login-form-field-identification"]').exists();
-    assert.dom('input[data-test-id="login-form-field-password"]').exists();
+    assert.dom(screen.getByRole('textbox', { name: 'Adresse e-mail' })).exists();
+    assert.dom(screen.getByLabelText('Mot de passe')).exists();
   });
 
   test('should hide error message by default', async function (assert) {
@@ -58,8 +59,8 @@ module('Integration | Component | login-form', function (hooks) {
       await render(hbs`<LoginForm />`);
 
       // when
-      await fillIn('#identification', 'pix@example.net');
-      await fillIn('#password', 'JeMeLoggue1024');
+      await fillByLabel('Adresse e-mail', 'pix@example.net');
+      await fillByLabel('Mot de passe', 'JeMeLoggue1024');
       await click('button.login-form__button');
 
       // then
@@ -84,8 +85,8 @@ module('Integration | Component | login-form', function (hooks) {
       await render(hbs`<LoginForm />`);
 
       // when
-      await fillIn('#identification', 'pix@');
-      await fillIn('#password', 'JeMeLoggue1024');
+      await fillByLabel('Adresse e-mail', 'pix@');
+      await fillByLabel('Mot de passe', 'JeMeLoggue1024');
       await click('button.login-form__button');
 
       // then
@@ -103,8 +104,8 @@ module('Integration | Component | login-form', function (hooks) {
       await render(hbs`<LoginForm />`);
 
       // when
-      await fillIn('#identification', 'pix@example.net');
-      await fillIn('#password', 'JeMeLoggue1024');
+      await fillByLabel('Adresse e-mail', 'pix@example.net');
+      await fillByLabel('Mot de passe', 'JeMeLoggue1024');
       await click('button.login-form__button');
 
       // then
@@ -129,8 +130,8 @@ module('Integration | Component | login-form', function (hooks) {
       await render(hbs`<LoginForm />`);
 
       // when
-      await fillIn('#identification', 'pix@example.com');
-      await fillIn('#password', 'JeMeLoggue1024');
+      await fillByLabel('Adresse e-mail', 'pix@example.net');
+      await fillByLabel('Mot de passe', 'JeMeLoggue1024');
       await click('button.login-form__button');
 
       // then
@@ -148,8 +149,8 @@ module('Integration | Component | login-form', function (hooks) {
       await render(hbs`<LoginForm />`);
 
       // when
-      await fillIn('#identification', 'pix@example.com');
-      await fillIn('#password', 'JeMeLoggue1024');
+      await fillByLabel('Adresse e-mail', 'pix@example.net');
+      await fillByLabel('Mot de passe', 'JeMeLoggue1024');
       await click('button.login-form__button');
 
       // then

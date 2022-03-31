@@ -8,10 +8,9 @@
 
   <div class="login-form__control">
     <Input
-      id="identification"
-      data-test-id="login-form-field-identification"
       class="login-form__field"
-      placeholder="Enter Login"
+      placeholder="Adresse e-mail"
+      aria-label="Adresse e-mail"
       required="true"
       @value={{this.email}}
       autocomplete="true"
@@ -20,10 +19,9 @@
 
   <div class="login-form__control">
     <Input
-      id="password"
-      data-test-id="login-form-field-password"
       class="login-form__field"
-      placeholder="Enter Password"
+      placeholder="Mot de passe"
+      aria-label="Mot de passe"
       required="true"
       @type="password"
       @value={{this.password}}
