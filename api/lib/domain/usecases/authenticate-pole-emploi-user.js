@@ -6,7 +6,6 @@ const logger = require('../../infrastructure/logger');
 
 module.exports = async function authenticatePoleEmploiUser({
   authenticatedUserId,
-  clientId,
   code,
   redirectUri,
   stateReceived,
@@ -22,7 +21,7 @@ module.exports = async function authenticatePoleEmploiUser({
     throw new UnexpectedPoleEmploiStateError();
   }
 
-  const poleEmploiTokens = await authenticationService.exchangePoleEmploiCodeForTokens({ code, clientId, redirectUri });
+  const poleEmploiTokens = await authenticationService.exchangePoleEmploiCodeForTokens({ code, redirectUri });
 
   const userInfo = await authenticationService.getPoleEmploiUserInfo(poleEmploiTokens.idToken);
 

@@ -90,7 +90,7 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', function () {
   });
 
   context('When user has an account', function () {
-    it('should call authenticate pole emploi user with code, redirectUri and clientId parameters', async function () {
+    it('should call authenticate pole emploi user with code and redirectUri parameters', async function () {
       // given
       _fakePoleEmploiAPI({ authenticationService });
       tokenService.createAccessTokenForPoleEmploi.returns('access-token');
@@ -114,7 +114,6 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', function () {
       expect(authenticationService.exchangePoleEmploiCodeForTokens).to.have.been.calledWith({
         code: 'code',
         redirectUri: 'redirectUri',
-        clientId: 'clientId',
       });
     });
 

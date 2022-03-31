@@ -23,12 +23,12 @@ async function getUserByUsernameAndPassword({ username, password, userRepository
   return foundUser;
 }
 
-async function exchangePoleEmploiCodeForTokens({ code, clientId, redirectUri }) {
+async function exchangePoleEmploiCodeForTokens({ code, redirectUri }) {
   const data = {
     client_secret: settings.poleEmploi.clientSecret,
     grant_type: 'authorization_code',
     code,
-    client_id: clientId,
+    client_id: settings.poleEmploi.clientId,
     redirect_uri: redirectUri,
   };
 

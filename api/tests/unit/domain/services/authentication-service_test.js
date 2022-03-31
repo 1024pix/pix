@@ -131,13 +131,9 @@ describe('Unit | Domain | Services | authentication-service', function () {
 
     it('should return access token, id token and validity period', async function () {
       // given
-      const code = 'code';
-      const clientId = 'clientId';
-      const redirectUri = 'redirectUri';
-
-      const expectedUrl = settings.poleEmploi.tokenUrl;
-      const expectedData = `client_secret=${settings.poleEmploi.clientSecret}&grant_type=authorization_code&code=${code}&client_id=${clientId}&redirect_uri=${redirectUri}`;
-      const expectedHeaders = { 'content-type': 'application/x-www-form-urlencoded' };
+      sinon.stub(settings.poleEmploi, 'clientId').value('PE_CLIENT_ID');
+      sinon.stub(settings.poleEmploi, 'tokenUrl').value('http://paul-emploi.net/api/token');
+      sinon.stub(settings.poleEmploi, 'clientSecret').value('PE_CLIENT_SECRET');
 
       const poleEmploiTokens = new PoleEmploiTokens({
         accessToken: 'accessToken',
@@ -158,11 +154,17 @@ describe('Unit | Domain | Services | authentication-service', function () {
       httpAgent.post.resolves(response);
 
       // when
-      const result = await authenticationService.exchangePoleEmploiCodeForTokens({ code, clientId, redirectUri });
+      const result = await authenticationService.exchangePoleEmploiCodeForTokens({
+        code: 'AUTH_CODE',
+        redirectUri: 'pix.net/connexion-paul-emploi',
+      });
 
       // then
+      const expectedData = `client_secret=PE_CLIENT_SECRET&grant_type=authorization_code&code=AUTH_CODE&client_id=PE_CLIENT_ID&redirect_uri=pix.net%2Fconnexion-paul-emploi`;
+      const expectedHeaders = { 'content-type': 'application/x-www-form-urlencoded' };
+
       expect(httpAgent.post).to.have.been.calledWith({
-        url: expectedUrl,
+        url: 'http://paul-emploi.net/api/token',
         payload: expectedData,
         headers: expectedHeaders,
       });
@@ -191,7 +193,11 @@ describe('Unit | Domain | Services | authentication-service', function () {
         httpAgent.post.resolves(response);
 
         // when
-        const error = await catchErr(authenticationService.exchangePoleEmploiCodeForTokens)({ code, clientId, redirectUri });
+        const error = await catchErr(authenticationService.exchangePoleEmploiCodeForTokens)({
+          code,
+          clientId,
+          redirectUri,
+        });
 
         // then
         expect(error).to.be.an.instanceOf(GeneratePoleEmploiTokensError);

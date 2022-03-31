@@ -108,7 +108,6 @@ describe('Unit | Application | Controller | Authentication', function () {
 
   describe('#authenticatePoleEmploiUser', function () {
     const code = 'ABCD';
-    const client_id = 'CLIENT_ID';
     const redirect_uri = 'http://redirectUri.fr';
     const state_sent = 'state';
     const state_received = 'state';
@@ -127,7 +126,6 @@ describe('Unit | Application | Controller | Authentication', function () {
       request = {
         payload: {
           code,
-          client_id,
           redirect_uri,
           state_sent,
           state_received,
@@ -142,7 +140,6 @@ describe('Unit | Application | Controller | Authentication', function () {
       usecases.authenticatePoleEmploiUser.resolves({ pixAccessToken, poleEmploiTokens });
       const expectedParameters = {
         authenticatedUserId: undefined,
-        clientId: client_id,
         code,
         redirectUri: redirect_uri,
         stateReceived: state_received,
