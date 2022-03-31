@@ -2,19 +2,20 @@
 <td>{{@membership.user.firstName}}</td>
 <td>{{@membership.user.lastName}}</td>
 <td>{{@membership.user.email}}</td>
-<td data-test-id="editable-cell">
+<td>
   {{#if this.isEditionMode}}
-    <PowerSelect
-      @options={{this.organizationRoles}}
-      @selected={{this.selectedNewRole}}
-      @searchEnabled={{false}}
+    <PixSelect
       @onChange={{this.setRoleSelection}}
-      @placeholder="Sélectionner"
+      @options={{this.organizationRoles}}
+      placeholder="Sélectionner"
       aria-label="Sélectionner un rôle"
+      @isSearchable={{false}}
+      @emptyOptionNotSelectable={{true}}
+      @emptyOptionLabel=""
       as |role|
     >
       {{role.label}}
-    </PowerSelect>
+    </PixSelect>
   {{else}}
     {{@membership.displayedOrganizationRole}}
   {{/if}}
