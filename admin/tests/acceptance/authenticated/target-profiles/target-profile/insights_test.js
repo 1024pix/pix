@@ -48,7 +48,7 @@ module('Acceptance | Target Profiles | Target Profile | Insights', function (hoo
     test('should redirect to badge creation page on link click', async function (assert) {
       await visit(`/target-profiles/${targetProfile.id}/insights`);
 
-      await click('[data-test="badges-creation-redirect"]');
+      await clickByName('Nouveau résultat thématique');
 
       // TODO: Fix this the next time the file is edited.
       // eslint-disable-next-line qunit/no-assert-equal
