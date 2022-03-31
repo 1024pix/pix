@@ -22,6 +22,7 @@ export const certificationIssueReportSubcategories = {
   WEBSITE_BLOCKED: 'WEBSITE_BLOCKED',
   EXTRA_TIME_EXCEEDED: 'EXTRA_TIME_EXCEEDED',
   SOFTWARE_NOT_WORKING: 'SOFTWARE_NOT_WORKING',
+  UNINTENTIONAL_FOCUS_OUT: 'UNINTENTIONAL_FOCUS_OUT',
 };
 
 export const categoryToLabel = {
@@ -51,6 +52,8 @@ export const subcategoryToLabel = {
     "Le candidat bénéficie d'un temps majoré et n'a pas pu répondre à la question dans le temps imparti",
   [certificationIssueReportSubcategories.SOFTWARE_NOT_WORKING]:
     "Le logiciel installé sur l'ordinateur n'a pas fonctionné",
+  [certificationIssueReportSubcategories.UNINTENTIONAL_FOCUS_OUT]:
+    'Le candidat a été contraint de cliquer en dehors du cadre autorisé pour une question en mode focus',
 };
 
 export const categoryToCode = {
@@ -59,8 +62,7 @@ export const categoryToCode = {
   [certificationIssueReportCategories.FRAUD]: 'C6',
   [certificationIssueReportCategories.NON_BLOCKING_TECHNICAL_ISSUE]: 'C7',
   [certificationIssueReportCategories.NON_BLOCKING_CANDIDATE_ISSUE]: 'C8',
-  [certificationIssueReportCategories.IN_CHALLENGE]: 'E1-E9',
-  [certificationIssueReportCategories.TECHNICAL_PROBLEM]: 'A1',
+  [certificationIssueReportCategories.IN_CHALLENGE]: 'E1-E10',
   [certificationIssueReportCategories.OTHER]: 'A2',
 };
 
@@ -76,6 +78,7 @@ export const subcategoryToCode = {
   [certificationIssueReportSubcategories.WEBSITE_BLOCKED]: 'E5',
   [certificationIssueReportSubcategories.EXTRA_TIME_EXCEEDED]: 'E8',
   [certificationIssueReportSubcategories.SOFTWARE_NOT_WORKING]: 'E9',
+  [certificationIssueReportSubcategories.UNINTENTIONAL_FOCUS_OUT]: 'E10',
 };
 
 export const subcategoryToTextareaLabel = {

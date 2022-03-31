@@ -31,7 +31,8 @@ module('Unit | Model | certification issue report', function (hooks) {
   });
 
   test('it should return the right label for the subcategory', function (assert) {
-    assert.expect(11);
+    const expectedAssertNumber = 12;
+    assert.expect(expectedAssertNumber);
     // given
     const store = this.owner.lookup('service:store');
 
@@ -61,7 +62,8 @@ module('Unit | Model | certification issue report', function (hooks) {
   });
 
   test('it should return the right code for the subcategory', function (assert) {
-    assert.expect(11);
+    const expectedAssertNumber = 12;
+    assert.expect(expectedAssertNumber);
     // given
     const store = this.owner.lookup('service:store');
 

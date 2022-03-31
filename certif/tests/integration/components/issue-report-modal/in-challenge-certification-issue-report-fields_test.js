@@ -95,5 +95,10 @@ module('Integration | Component | in-challenge-certification-issue-report-fields
         subcategoryToLabel[certificationIssueReportSubcategories.SOFTWARE_NOT_WORKING]
       }`
     );
+    assert.contains(
+      `${subcategoryToCode[certificationIssueReportSubcategories.UNINTENTIONAL_FOCUS_OUT]} ${
+        subcategoryToLabel[certificationIssueReportSubcategories.UNINTENTIONAL_FOCUS_OUT]
+      }`
+    );
   });
 });
