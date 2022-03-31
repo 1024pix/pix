@@ -71,7 +71,6 @@ describe('Unit | Domain | Models | CleaCertificationScoring', function () {
       // when
       const notEligibleCleaCertificationScoring = CleaCertificationScoring.buildNotEligible({
         complementaryCertificationCourseId: 999,
-        certificationCourseId: 123,
       });
 
       // then

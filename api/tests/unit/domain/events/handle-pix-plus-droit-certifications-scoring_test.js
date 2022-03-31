@@ -116,7 +116,6 @@ describe('Unit | Domain | Events | handle-pix-plus-droit-certifications-scoring'
       // then
       const expectedPartnerCertificationScoring = domainBuilder.buildPixPlusDroitCertificationScoring({
         complementaryCertificationCourseId: 999,
-        certificationCourseId: 123,
         certifiableBadgeKey: PIX_DROIT_MAITRE_CERTIF,
         reproducibilityRate: domainBuilder.buildReproducibilityRate({ value: 100 }),
         hasAcquiredPixCertification: true,
@@ -199,7 +198,6 @@ describe('Unit | Domain | Events | handle-pix-plus-droit-certifications-scoring'
       // then
       const expectedPartnerCertificationScoring = domainBuilder.buildPixPlusDroitCertificationScoring({
         complementaryCertificationCourseId,
-        certificationCourseId: 123,
         certifiableBadgeKey: PIX_DROIT_MAITRE_CERTIF,
         reproducibilityRate: domainBuilder.buildReproducibilityRate({ value: 100 }),
         hasAcquiredPixCertification: false,
@@ -253,7 +251,6 @@ describe('Unit | Domain | Events | handle-pix-plus-droit-certifications-scoring'
       // then
       const expectedPartnerCertificationScoring = domainBuilder.buildPixPlusDroitCertificationScoring({
         complementaryCertificationCourseId: 999,
-        certificationCourseId: 123,
         certifiableBadgeKey: PIX_DROIT_MAITRE_CERTIF,
         reproducibilityRate: domainBuilder.buildReproducibilityRate({ value: 50 }),
         hasAcquiredPixCertification: true,
@@ -306,7 +303,6 @@ describe('Unit | Domain | Events | handle-pix-plus-droit-certifications-scoring'
       // then
       const expectedPartnerCertificationScoring = domainBuilder.buildPixPlusDroitCertificationScoring({
         complementaryCertificationCourseId: 999,
-        certificationCourseId: 123,
         certifiableBadgeKey: PIX_DROIT_MAITRE_CERTIF,
         reproducibilityRate: domainBuilder.buildReproducibilityRate({ value: 100 }),
         hasAcquiredPixCertification: true,

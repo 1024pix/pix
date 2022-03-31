@@ -61,7 +61,6 @@ async function handlePixPlusEduCertificationsScoring({
     const assessmentResult = await assessmentResultRepository.getByCertificationCourseId({ certificationCourseId });
     const pixPlusEduCertificationScoring = _buildPixPlusEduCertificationScoring(
       complementaryCertificationCourseId,
-      certificationCourseId,
       pixPlusChallenges,
       pixPlusAnswers,
       certifiableBadgeKey,
@@ -73,7 +72,6 @@ async function handlePixPlusEduCertificationsScoring({
 
 function _buildPixPlusEduCertificationScoring(
   complementaryCertificationCourseId,
-  certificationCourseId,
   challenges,
   answers,
   certifiableBadgeKey,
@@ -86,7 +84,6 @@ function _buildPixPlusEduCertificationScoring(
   });
   return new PixPlusEduCertificationScoring({
     complementaryCertificationCourseId,
-    certificationCourseId,
     reproducibilityRate,
     certifiableBadgeKey,
     hasAcquiredPixCertification: assessmentResult.isValidated(),

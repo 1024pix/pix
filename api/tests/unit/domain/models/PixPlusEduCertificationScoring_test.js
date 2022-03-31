@@ -10,7 +10,6 @@ describe('Unit | Domain | Models | PixPlusEduCertificationScoring', function () 
       // when
       const pixPlusEduCertificationScoring = new PixPlusEduCertificationScoring({
         complementaryCertificationCourseId: 99,
-        certificationCourseId: 1,
         certifiableBadgeKey: 'BADGE',
         reproducibilityRate,
         hasAcquiredPixCertification: false,
