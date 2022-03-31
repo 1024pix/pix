@@ -1,5 +1,29 @@
 # Pix Changelog
 
+## v3.192.0 (31/03/2022)
+
+
+### :rocket: Amélioration
+- [#4252](https://github.com/1024pix/pix/pull/4252) [FEATURE] Ajouter une sous-catégorie de signalement spécifique aux épreuves focus dans Pix Certif (PIX-4609)
+- [#4229](https://github.com/1024pix/pix/pull/4229) [FEATURE] Enregistrer le prénom et nom reçu du GAR lors de l'inscription à Pix App (PIX-4518).
+- [#4246](https://github.com/1024pix/pix/pull/4246) [FEATURE] Ne pas compter les participations supprimées dans les chiffres d'une campagne dans PixAdmin (PIX-4595).
+- [#4243](https://github.com/1024pix/pix/pull/4243) [FEATURE] Retirer les participations supprimées d'une campagne lors de l'export CSV (PIX-4574).
+
+### :building_construction: Tech
+- [#4260](https://github.com/1024pix/pix/pull/4260) [TECH] Retirer le support d'Internet Explorer dans Pix App, Pix Orga, Pix Certif et Pix Admin (PIX-4678)
+- [#4266](https://github.com/1024pix/pix/pull/4266) [TECH] Amélioration des traductions UK de la page tutos recommandés.
+- [#4261](https://github.com/1024pix/pix/pull/4261) [TECH] Supprimer les styles customs sur les boutons "Recommandés"&"Enregistrés" (Pix-4653)
+- [#4264](https://github.com/1024pix/pix/pull/4264) [TECH] Suppression du style du composant de pagination sur mon-pix.
+- [#4262](https://github.com/1024pix/pix/pull/4262) [TECH] Résoudre les tests flakys sur Pix Admin.
+
+### :bug: Correction
+- [#4258](https://github.com/1024pix/pix/pull/4258) [BUGFIX] Alignement des containers de pix-app (PIX-4679).
+- [#4253](https://github.com/1024pix/pix/pull/4253) [BUGFIX] L'import CSV d'élèves prend trop de temps pour s'executer (PIX-4603).
+- [#4256](https://github.com/1024pix/pix/pull/4256) [BUGFIX] Suppression d'une bannière non nécessaire en mobile sur le dashboard (PIX-4675).
+
+### :coffee: Autre
+- [#4249](https://github.com/1024pix/pix/pull/4249) [BUG] Corrige un test instable sur le modèle SharedProfileForCampaign.
+
 ## v3.191.0 (28/03/2022)
 
 
