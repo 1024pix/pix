@@ -5,12 +5,11 @@ module.exports = async function findPaginatedSavedTutorials({
   page,
 } = {}) {
   const tutorialEvaluations = await tutorialEvaluationRepository.find({ userId });
-  const { models: tutorialWithUserSavedTutorial, meta } =
-    await tutorialRepository.findPaginatedWithUserTutorialForCurrentUser({
-      userId,
-      page,
-    });
-  const savedTutorials = tutorialWithUserSavedTutorial.map(_setTutorialEvaluation(tutorialEvaluations));
+  const { models: tutorials, meta } = await tutorialRepository.findPaginatedForCurrentUser({
+    userId,
+    page,
+  });
+  const savedTutorials = tutorials.map(_setTutorialEvaluation(tutorialEvaluations));
   return {
     results: savedTutorials,
     meta,
@@ -18,13 +17,13 @@ module.exports = async function findPaginatedSavedTutorials({
 };
 
 function _setTutorialEvaluation(tutorialEvaluations) {
-  return (tutorialWithUserSavedTutorial) => {
+  return (tutorial) => {
     const tutorialEvaluation = tutorialEvaluations.find(
-      (tutorialEvaluation) => tutorialEvaluation.tutorialId === tutorialWithUserSavedTutorial.id
+      (tutorialEvaluation) => tutorialEvaluation.tutorialId === tutorial.id
     );
-    if (!tutorialEvaluation) return tutorialWithUserSavedTutorial;
+    if (!tutorialEvaluation) return tutorial;
     return {
-      ...tutorialWithUserSavedTutorial,
+      ...tutorial,
       tutorialEvaluation,
     };
   };

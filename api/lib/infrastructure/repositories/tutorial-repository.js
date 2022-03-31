@@ -22,7 +22,7 @@ module.exports = {
     return _findByRecordIds({ ids });
   },
 
-  async findPaginatedWithUserTutorialForCurrentUser({ userId, page }) {
+  async findPaginatedForCurrentUser({ userId, page }) {
     const { models: userTutorials, meta } = await userTutorialRepository.findPaginated({ userId, page });
     const tutorials = await tutorialDatasource.findByRecordIds(userTutorials.map(({ tutorialId }) => tutorialId));
     const tutorialEvaluations = await tutorialEvaluationRepository.find({ userId });

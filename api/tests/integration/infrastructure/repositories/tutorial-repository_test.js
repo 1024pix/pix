@@ -131,11 +131,13 @@ describe('Integration | Repository | tutorial-repository', function () {
     });
   });
 
-  describe('#findPaginatedWithUserTutorialForCurrentUser', function () {
+  describe('#findPaginatedForCurrentUser', function () {
     let userId;
+
     beforeEach(function () {
       userId = databaseBuilder.factory.buildUser().id;
     });
+
     context('when user has saved tutorials', function () {
       it('should return tutorial with user tutorial belonging to given user', async function () {
         // given
@@ -150,7 +152,7 @@ describe('Integration | Repository | tutorial-repository', function () {
         await databaseBuilder.commit();
 
         // when
-        const { models: tutorialsForUser } = await tutorialRepository.findPaginatedWithUserTutorialForCurrentUser({
+        const { models: tutorialsForUser } = await tutorialRepository.findPaginatedForCurrentUser({
           userId,
         });
 
@@ -176,7 +178,7 @@ describe('Integration | Repository | tutorial-repository', function () {
           await databaseBuilder.commit();
 
           // when
-          const { models: tutorialsForUser } = await tutorialRepository.findPaginatedWithUserTutorialForCurrentUser({
+          const { models: tutorialsForUser } = await tutorialRepository.findPaginatedForCurrentUser({
             userId,
           });
 
@@ -190,7 +192,7 @@ describe('Integration | Repository | tutorial-repository', function () {
       it('should return an empty list', async function () {
         mockLearningContent({ tutorials: [] });
 
-        const { models: tutorialsForUser } = await tutorialRepository.findPaginatedWithUserTutorialForCurrentUser({
+        const { models: tutorialsForUser } = await tutorialRepository.findPaginatedForCurrentUser({
           userId,
         });
 
@@ -205,7 +207,7 @@ describe('Integration | Repository | tutorial-repository', function () {
         databaseBuilder.factory.buildUserSavedTutorial({ tutorialId: 'recTutorial', userId });
         await databaseBuilder.commit();
 
-        const { models: tutorialsForUser } = await tutorialRepository.findPaginatedWithUserTutorialForCurrentUser({
+        const { models: tutorialsForUser } = await tutorialRepository.findPaginatedForCurrentUser({
           userId,
         });
 
@@ -232,8 +234,10 @@ describe('Integration | Repository | tutorial-repository', function () {
         await databaseBuilder.commit();
 
         // when
-        const { models: foundTutorials, meta: pagination } =
-          await tutorialRepository.findPaginatedWithUserTutorialForCurrentUser({ userId, page });
+        const { models: foundTutorials, meta: pagination } = await tutorialRepository.findPaginatedForCurrentUser({
+          userId,
+          page,
+        });
 
         // then
         expect(foundTutorials).to.have.lengthOf(2);
