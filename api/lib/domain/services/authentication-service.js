@@ -23,7 +23,7 @@ async function getUserByUsernameAndPassword({ username, password, userRepository
   return foundUser;
 }
 
-async function generatePoleEmploiTokens({ code, clientId, redirectUri }) {
+async function exchangePoleEmploiCodeForTokens({ code, clientId, redirectUri }) {
   const data = {
     client_secret: settings.poleEmploi.clientSecret,
     grant_type: 'authorization_code',
@@ -78,7 +78,7 @@ function _getErrorMessage(data) {
 }
 
 module.exports = {
-  generatePoleEmploiTokens,
+  exchangePoleEmploiCodeForTokens,
   getPoleEmploiUserInfo,
   getUserByUsernameAndPassword,
 };

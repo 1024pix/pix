@@ -124,7 +124,7 @@ describe('Unit | Domain | Services | authentication-service', function () {
     });
   });
 
-  describe('#generatePoleEmploiTokens', function () {
+  describe('#exchangePoleEmploiCodeForTokens', function () {
     beforeEach(function () {
       sinon.stub(httpAgent, 'post');
     });
@@ -158,7 +158,7 @@ describe('Unit | Domain | Services | authentication-service', function () {
       httpAgent.post.resolves(response);
 
       // when
-      const result = await authenticationService.generatePoleEmploiTokens({ code, clientId, redirectUri });
+      const result = await authenticationService.exchangePoleEmploiCodeForTokens({ code, clientId, redirectUri });
 
       // then
       expect(httpAgent.post).to.have.been.calledWith({
@@ -191,7 +191,7 @@ describe('Unit | Domain | Services | authentication-service', function () {
         httpAgent.post.resolves(response);
 
         // when
-        const error = await catchErr(authenticationService.generatePoleEmploiTokens)({ code, clientId, redirectUri });
+        const error = await catchErr(authenticationService.exchangePoleEmploiCodeForTokens)({ code, clientId, redirectUri });
 
         // then
         expect(error).to.be.an.instanceOf(GeneratePoleEmploiTokensError);
