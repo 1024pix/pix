@@ -4,10 +4,21 @@ import { setupApplicationTest } from 'ember-qunit';
 import { createAuthenticateSession } from 'pix-admin/tests/helpers/test-init';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import moment from 'moment';
+import sinon from 'sinon';
 
 module('Acceptance | organization invitations management', function (hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
+
+  const now = new Date('2019-01-01T05:06:07Z');
+
+  hooks.beforeEach(function () {
+    sinon.stub(Date, 'now').returns(now);
+  });
+
+  hooks.afterEach(function () {
+    sinon.restore();
+  });
 
   test('should display invitations tab', async function (assert) {
     // given
@@ -28,7 +39,6 @@ module('Acceptance | organization invitations management', function (hooks) {
       const user = server.create('user');
       const organization = this.server.create('organization');
       await createAuthenticateSession({ userId: user.id });
-      const now = new Date();
 
       // when
       const screen = await visit(`/organizations/${organization.id}/invitations`);
@@ -48,7 +58,6 @@ module('Acceptance | organization invitations management', function (hooks) {
       const user = server.create('user');
       const organization = this.server.create('organization');
       await createAuthenticateSession({ userId: user.id });
-      const now = new Date();
 
       this.server.post(
         '/admin/organizations/:id/invitations',
