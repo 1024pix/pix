@@ -65,7 +65,7 @@ describe('Unit | UseCase | update-last-question-state', function () {
       lastQuestionState = Assessment.statesOfLastQuestion.FOCUSEDOUT;
     });
 
-    it('should early return when no challengeId is provided', async function () {
+    it('should return early when challengeId is not provided', async function () {
       // Given
       challengeRepository.get.withArgs(notFocusedChallengeId, domainTransaction).resolves(notFocusedChallenge);
 
@@ -103,7 +103,7 @@ describe('Unit | UseCase | update-last-question-state', function () {
     });
 
     context('when challenge is focused', function () {
-      it('should early return if the challenge id is different from assessment.lastChallengeId', async function () {
+      it('should return early if the provided challenge id differs from assessment.lastChallengeId in repository', async function () {
         // Given
         challengeRepository.get.withArgs(focusedChallengeId, domainTransaction).resolves(focusedChallenge);
 
