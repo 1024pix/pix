@@ -10,7 +10,7 @@ describe('Unit | UseCase | find-paginated-saved-tutorials', function () {
     beforeEach(function () {
       tutorialEvaluationRepository = { find: sinon.spy(async () => []) };
       tutorialRepository = {
-        findPaginatedWithUserTutorialForCurrentUser: sinon.spy(async () => ({
+        findPaginatedForCurrentUser: sinon.spy(async () => ({
           models: [],
           meta: {
             page: 1,
@@ -33,7 +33,7 @@ describe('Unit | UseCase | find-paginated-saved-tutorials', function () {
       await findPaginatedSavedTutorials({ tutorialEvaluationRepository, tutorialRepository, userId, page });
 
       // Then
-      expect(tutorialRepository.findPaginatedWithUserTutorialForCurrentUser).to.have.been.calledWith({ userId, page });
+      expect(tutorialRepository.findPaginatedForCurrentUser).to.have.been.calledWith({ userId, page });
     });
 
     it('should return an empty array', async function () {
@@ -69,7 +69,7 @@ describe('Unit | UseCase | find-paginated-saved-tutorials', function () {
       const tutorialWithUserSavedTutorial = domainBuilder.buildTutorialForUser();
       tutorialEvaluationRepository = { find: sinon.spy(async () => []) };
       tutorialRepository = {
-        findPaginatedWithUserTutorialForCurrentUser: sinon.spy(async () => ({
+        findPaginatedForCurrentUser: sinon.spy(async () => ({
           models: [tutorialWithUserSavedTutorial],
           meta: {
             page: 1,
@@ -118,7 +118,7 @@ describe('Unit | UseCase | find-paginated-saved-tutorials', function () {
         };
         tutorialEvaluationRepository = { find: sinon.spy(async () => [tutorialEvaluation]) };
         tutorialRepository = {
-          findPaginatedWithUserTutorialForCurrentUser: sinon.spy(async () => ({
+          findPaginatedForCurrentUser: sinon.spy(async () => ({
             models: [tutorialWithUserSavedTutorial],
             meta: {
               page: 1,
