@@ -4,7 +4,7 @@ const userTutorialRepository = require('./user-tutorial-repository');
 const tutorialEvaluationRepository = require('./tutorial-evaluation-repository');
 const tutorialDatasource = require('../datasources/learning-content/tutorial-datasource');
 const { NotFoundError } = require('../../domain/errors');
-const TutorialWithUserSavedTutorial = require('../../domain/models/TutorialWithUserSavedTutorial');
+const TutorialForUser = require('../../domain/read-models/TutorialForUser');
 const { FRENCH_FRANCE } = require('../../domain/constants').LOCALE;
 const knowledgeElementRepository = require('./knowledge-element-repository');
 const skillRepository = require('./skill-repository');
@@ -28,7 +28,7 @@ module.exports = {
 
     const tutorialsWithUserSavedTutorial = tutorials.map((tutorial) => {
       const userTutorial = userTutorials.find(({ tutorialId }) => tutorialId === tutorial.id);
-      return new TutorialWithUserSavedTutorial({ ...tutorial, userTutorial });
+      return new TutorialForUser({ ...tutorial, userTutorial });
     });
 
     return { models: tutorialsWithUserSavedTutorial, meta };
@@ -56,7 +56,17 @@ module.exports = {
 
     const tutorialsIds = skills.flatMap((skill) => skill.tutorialIds);
 
-    return _findByRecordIds({ ids: tutorialsIds, locale });
+    const [tutorials, userTutorials, tutorialEvaluations] = await Promise.all([
+      _findByRecordIds({ ids: tutorialsIds, locale }),
+      userTutorialRepository.find({ userId }),
+      tutorialEvaluationRepository.find({ userId }),
+    ]);
+
+    return tutorials.map((tutorial) => {
+      const userTutorial = userTutorials.find(({ tutorialId }) => tutorialId === tutorial.id);
+      const tutorialEvaluation = tutorialEvaluations.find(({ tutorialId }) => tutorialId === tutorial.id);
+      return new TutorialForUser({ ...tutorial, userTutorial, tutorialEvaluation });
+    });
   },
 };
 
