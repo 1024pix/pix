@@ -29,12 +29,7 @@ module.exports = {
       tutorialEvaluationRepository.find({ userId }),
     ]);
 
-    const tutorialsForUser = tutorials.map((tutorial) => {
-      const userTutorial = userTutorials.find(({ tutorialId }) => tutorialId === tutorial.id);
-      const tutorialEvaluation = tutorialEvaluations.find(({ tutorialId }) => tutorialId === tutorial.id);
-
-      return new TutorialForUser({ ...tutorial, userTutorial, tutorialEvaluation });
-    });
+    const tutorialsForUser = _toTutorialsForUser({ tutorials, tutorialEvaluations, userTutorials });
 
     return { models: tutorialsForUser, meta };
   },
@@ -67,11 +62,7 @@ module.exports = {
       tutorialEvaluationRepository.find({ userId }),
     ]);
 
-    return tutorials.map((tutorial) => {
-      const userTutorial = userTutorials.find(({ tutorialId }) => tutorialId === tutorial.id);
-      const tutorialEvaluation = tutorialEvaluations.find(({ tutorialId }) => tutorialId === tutorial.id);
-      return new TutorialForUser({ ...tutorial, userTutorial, tutorialEvaluation });
-    });
+    return _toTutorialsForUser({ tutorials, tutorialEvaluations, userTutorials });
   },
 };
 
@@ -83,6 +74,14 @@ function _toDomain(tutorialData) {
     link: tutorialData.link,
     source: tutorialData.source,
     title: tutorialData.title,
+  });
+}
+
+function _toTutorialsForUser({ tutorials, tutorialEvaluations, userTutorials }) {
+  return tutorials.map((tutorial) => {
+    const userTutorial = userTutorials.find(({ tutorialId }) => tutorialId === tutorial.id);
+    const tutorialEvaluation = tutorialEvaluations.find(({ tutorialId }) => tutorialId === tutorial.id);
+    return new TutorialForUser({ ...tutorial, userTutorial, tutorialEvaluation });
   });
 }
 
