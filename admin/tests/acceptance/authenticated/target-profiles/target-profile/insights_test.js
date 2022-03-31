@@ -24,11 +24,11 @@ module('Acceptance | Target Profiles | Target Profile | Insights', function (hoo
   });
 
   test('should list badges and stages', async function (assert) {
-    await visit(`/target-profiles/${targetProfile.id}/insights`);
+    const screen = await visitScreen(`/target-profiles/${targetProfile.id}/insights`);
 
-    assert.dom('[data-test="badges-table"] tbody tr').exists({ count: 2 });
-    assert.dom('[data-test="badges-table"] tbody').containsText('My badge');
-    assert.dom('[data-test="badges-table"] tbody').containsText('My badge 2');
+    assert.strictEqual(screen.getAllByLabelText('Badge').length, 2);
+    assert.dom(screen.getByText('My badge')).exists();
+    assert.dom(screen.getByText('My badge 2')).exists();
 
     assert.dom('.stages-table tbody tr').exists({ count: 1 });
     assert.dom('.stages-table tbody').containsText('My stage');
