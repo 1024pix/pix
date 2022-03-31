@@ -1507,7 +1507,7 @@
       },
       "recommended-empty": {
         "title": "{firstName}, find your favorite tutorials here",
-        "description": "In order to recommend you the tutorials adapted to your level, you have to start a skill test.",
+        "description": "To get tutorials recommendations adapted to your level, you must start a test.",
         "link": "Let's go"
       }
     }
