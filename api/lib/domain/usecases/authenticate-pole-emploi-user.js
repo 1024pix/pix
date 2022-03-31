@@ -22,7 +22,7 @@ module.exports = async function authenticatePoleEmploiUser({
     throw new UnexpectedPoleEmploiStateError();
   }
 
-  const poleEmploiTokens = await authenticationService.generatePoleEmploiTokens({ code, clientId, redirectUri });
+  const poleEmploiTokens = await authenticationService.exchangePoleEmploiCodeForTokens({ code, clientId, redirectUri });
 
   const userInfo = await authenticationService.getPoleEmploiUserInfo(poleEmploiTokens.idToken);
 

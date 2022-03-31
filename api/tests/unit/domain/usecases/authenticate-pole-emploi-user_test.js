@@ -26,7 +26,7 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', function () {
     clock = sinon.useFakeTimers(Date.now());
 
     authenticationService = {
-      generatePoleEmploiTokens: sinon.stub(),
+      exchangePoleEmploiCodeForTokens: sinon.stub(),
       getPoleEmploiUserInfo: sinon.stub(),
     };
 
@@ -111,7 +111,7 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', function () {
       });
 
       // then
-      expect(authenticationService.generatePoleEmploiTokens).to.have.been.calledWith({
+      expect(authenticationService.exchangePoleEmploiCodeForTokens).to.have.been.calledWith({
         code: 'code',
         redirectUri: 'redirectUri',
         clientId: 'clientId',
@@ -465,7 +465,7 @@ function _fakePoleEmploiAPI({ authenticationService }) {
     externalIdentityId: '094b83ac-2e20-4aa8-b438-0bc91748e4a6',
   };
 
-  authenticationService.generatePoleEmploiTokens.resolves(poleEmploiTokens);
+  authenticationService.exchangePoleEmploiCodeForTokens.resolves(poleEmploiTokens);
   authenticationService.getPoleEmploiUserInfo.resolves(userInfo);
 
   return { poleEmploiTokens };
