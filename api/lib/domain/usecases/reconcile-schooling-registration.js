@@ -81,24 +81,31 @@ async function _checkIfUserIsConnectedOnAnotherAccount({
   authenticatedUserId,
   schoolingRegistrationRepository,
 }) {
-  const loggedAccountSchoolingRegistrationReconciled = await schoolingRegistrationRepository.findByUserId({
+  const loggedAccountReconciledSchoolingRegistrations = await schoolingRegistrationRepository.findByUserId({
     userId: authenticatedUserId,
   });
 
-  if (isEmpty(loggedAccountSchoolingRegistrationReconciled)) {
+  const loggedAccountReconciledSchoolingRegistrationsWithoutNullNationalStudentIds =
+    loggedAccountReconciledSchoolingRegistrations.filter(
+      (schoolingRegistration) => !!schoolingRegistration.nationalStudentId
+    );
+
+  if (isEmpty(loggedAccountReconciledSchoolingRegistrationsWithoutNullNationalStudentIds)) {
     return;
   }
 
-  const isUserNationalStudentIdDifferentFromLoggedAccount = loggedAccountSchoolingRegistrationReconciled.every(
-    (schoolingRegistration) =>
-      schoolingRegistration.nationalStudentId !== schoolingRegistrationOfUserAccessingCampaign.nationalStudentId
-  );
+  const isUserNationalStudentIdDifferentFromLoggedAccount =
+    loggedAccountReconciledSchoolingRegistrationsWithoutNullNationalStudentIds.every(
+      (schoolingRegistration) =>
+        schoolingRegistration.nationalStudentId !== schoolingRegistrationOfUserAccessingCampaign.nationalStudentId
+    );
 
   if (isUserNationalStudentIdDifferentFromLoggedAccount) {
-    const isUserBirthdayDifferentFromLoggedAccount = loggedAccountSchoolingRegistrationReconciled.every(
-      (schoolingRegistration) =>
-        schoolingRegistration.birthdate !== schoolingRegistrationOfUserAccessingCampaign.birthdate
-    );
+    const isUserBirthdayDifferentFromLoggedAccount =
+      loggedAccountReconciledSchoolingRegistrationsWithoutNullNationalStudentIds.every(
+        (schoolingRegistration) =>
+          schoolingRegistration.birthdate !== schoolingRegistrationOfUserAccessingCampaign.birthdate
+      );
 
     if (isUserBirthdayDifferentFromLoggedAccount) {
       const error = STUDENT_RECONCILIATION_ERRORS.RECONCILIATION.ACCOUNT_BELONGING_TO_ANOTHER_USER;
