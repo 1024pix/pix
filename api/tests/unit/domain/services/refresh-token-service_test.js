@@ -1,9 +1,9 @@
 const { expect, sinon, catchErr } = require('../../../test-helper');
 const settings = require('../../../../lib/config');
-const temporaryStorage = require('../../../../lib/infrastructure/temporary-storage');
 const tokenService = require('../../../../lib/domain/services/token-service');
 const refreshTokenService = require('../../../../lib/domain/services/refresh-token-service');
 const { UnauthorizedError } = require('../../../../lib/application/http-errors');
+const temporaryStorage = refreshTokenService.temporaryStorageForTests;
 
 describe('Unit | Domain | Service | Refresh Token Service', function () {
   describe('#createRefreshTokenFromUserId', function () {
@@ -19,7 +19,10 @@ describe('Unit | Domain | Service | Refresh Token Service', function () {
       };
       const expirationDelaySeconds = settings.authentication.refreshTokenLifespanMs / 1000;
 
-      sinon.stub(temporaryStorage, 'save').withArgs({ value, expirationDelaySeconds }).resolves(validRefreshToken);
+      sinon
+        .stub(temporaryStorage, 'save')
+        .withArgs(sinon.match({ key: sinon.match(/^[-0-9a-f]+$/), value, expirationDelaySeconds }))
+        .resolves(validRefreshToken);
 
       // when
       const result = await refreshTokenService.createRefreshTokenFromUserId({ userId, source });

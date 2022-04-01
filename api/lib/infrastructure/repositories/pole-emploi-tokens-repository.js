@@ -1,6 +1,5 @@
 const settings = require('../../config');
-
-const temporaryStorage = require('../temporary-storage');
+const temporaryStorage = require('../temporary-storage').withPrefix('pole-emploi-tokens:');
 
 const EXPIRATION_DELAY_SECONDS = settings.poleEmploi.temporaryStorage.expirationDelaySeconds;
 

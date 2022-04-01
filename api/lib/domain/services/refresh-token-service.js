@@ -1,11 +1,14 @@
 const settings = require('../../config');
-const temporaryStorage = require('../../infrastructure/temporary-storage');
 const tokenService = require('./token-service');
 const { UnauthorizedError } = require('../../application/http-errors');
+const temporaryStorage = require('../../infrastructure/temporary-storage').withPrefix('refresh-tokens:');
+const { v4: uuidv4 } = require('uuid');
 
 async function createRefreshTokenFromUserId({ userId, source }) {
   const expirationDelaySeconds = settings.authentication.refreshTokenLifespanMs / 1000;
+  const token = uuidv4();
   return await temporaryStorage.save({
+    key: token,
     value: { type: 'refresh_token', userId, source },
     expirationDelaySeconds,
   });
@@ -25,4 +28,6 @@ module.exports = {
   createRefreshTokenFromUserId,
   createAccessTokenFromRefreshToken,
   revokeRefreshToken,
+
+  temporaryStorageForTests: temporaryStorage,
 };
