@@ -1,6 +1,5 @@
 const Joi = require('joi');
 const XRegExp = require('xregexp');
-const featureToggles = require('../preHandlers/feature-toggles');
 const securityPreHandlers = require('../security-pre-handlers');
 const userController = require('./user-controller');
 const { sendJsonApiError, BadRequestError } = require('../http-errors');
@@ -310,10 +309,6 @@ exports.register = async function (server) {
           {
             method: securityPreHandlers.checkRequestedUserIsAuthenticatedUser,
             assign: 'requestedUserIsAuthenticatedUser',
-          },
-          {
-            method: featureToggles.checkIfEmailValidationIsEnabled,
-            assign: 'isEmailValidationEnabled',
           },
         ],
         handler: userController.updateUserEmailWithValidation,
@@ -749,10 +744,6 @@ exports.register = async function (server) {
           {
             method: securityPreHandlers.checkRequestedUserIsAuthenticatedUser,
             assign: 'requestedUserIsAuthenticatedUser',
-          },
-          {
-            method: featureToggles.checkIfEmailValidationIsEnabled,
-            assign: 'isEmailValidationEnabled',
           },
         ],
         handler: userController.sendVerificationCode,
