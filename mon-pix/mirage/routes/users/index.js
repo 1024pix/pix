@@ -37,16 +37,6 @@ export default function index(config) {
     return schema.authenticationMethods.where({ userId: request.params.id });
   });
 
-  config.patch('/users/:id/email', (schema, request) => {
-    const body = JSON.parse(request.requestBody);
-    const user = schema.users.find(request.params.id);
-    if (user.password !== body.data.attributes.password) {
-      return new Response(400);
-    }
-    user.update({ email: body.data.attributes.email });
-    return new Response(204);
-  });
-
   config.patch('/users/:id/password-update', (schema, request) => {
     const body = JSON.parse(request.requestBody);
     const user = schema.users.find(request.params.id);
