@@ -45,6 +45,7 @@ function _getParticipations(qb, campaignId, targetProfile, filters) {
     .where('campaign-participations.campaignId', '=', campaignId)
     .where('campaign-participations.status', '=', SHARED)
     .where('campaign-participations.isImproved', '=', false)
+    .where('campaign-participations.deletedAt', 'IS', null)
     .modify(_filterByDivisions, filters)
     .modify(_filterByGroups, filters)
     .modify(_addAcquiredBadgeids, filters)
