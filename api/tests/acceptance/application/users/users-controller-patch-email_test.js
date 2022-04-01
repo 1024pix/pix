@@ -1,6 +1,5 @@
-const { expect, databaseBuilder, generateValidRequestAuthorizationHeader, sinon } = require('../../../test-helper');
+const { expect, databaseBuilder, generateValidRequestAuthorizationHeader } = require('../../../test-helper');
 const createServer = require('../../../../server');
-const mailer = require('../../../../lib/infrastructure/mailers/mailer');
 
 describe('Acceptance | Controller | users-controller', function () {
   let server;
@@ -25,7 +24,6 @@ describe('Acceptance | Controller | users-controller', function () {
       context('user is valid', function () {
         let response;
         beforeEach(async function () {
-          sinon.stub(mailer, 'sendEmail');
           // given
           const options = {
             method: 'PATCH',
@@ -49,11 +47,6 @@ describe('Acceptance | Controller | users-controller', function () {
         it('should return status 204 with user', async function () {
           // then
           expect(response.statusCode).to.equal(204);
-        });
-
-        it('should notify user by email', async function () {
-          // then
-          expect(mailer.sendEmail).to.have.been.called;
         });
       });
 
