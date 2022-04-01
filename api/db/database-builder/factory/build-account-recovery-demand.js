@@ -7,7 +7,7 @@ module.exports = function buildAccountRecoveryDemand({
   userId,
   firstName,
   lastName,
-  schoolingRegistrationId,
+  organizationLearnerId,
   oldEmail,
   newEmail = 'philipe@example.net',
   temporaryKey = 'OWIxZGViNGQtM2I3ZC00YmFkLTliZGQtMmIwZDdiM2RjYjZk',
@@ -15,28 +15,28 @@ module.exports = function buildAccountRecoveryDemand({
   createdAt = new Date(),
   updatedAt = new Date(),
 } = {}) {
-  let schoolingRegistrationAttributes;
+  let organizationLearnerAttributes;
   let user;
 
   if (!userId) {
     user = buildUser();
-    schoolingRegistrationAttributes = {
+    organizationLearnerAttributes = {
       userId: user.id,
       firstName: user.firstName,
       lastName: user.lastName,
       nationalStudentId: '123456789JJ',
     };
   } else {
-    schoolingRegistrationAttributes = { userId, firstName, lastName, nationalStudentId: '123456789JJ' };
+    organizationLearnerAttributes = { userId, firstName, lastName, nationalStudentId: '123456789JJ' };
   }
-  const actualSchoolingRegistrationId =
-    schoolingRegistrationId || buildOrganizationLearner(schoolingRegistrationAttributes).id;
+  const actualOrganizationLearnerId =
+    organizationLearnerId || buildOrganizationLearner(organizationLearnerAttributes).id;
   const actualUserId = userId || user.id;
 
   const values = {
     id,
     userId: actualUserId,
-    organizationLearnerId: actualSchoolingRegistrationId,
+    organizationLearnerId: actualOrganizationLearnerId,
     oldEmail,
     newEmail,
     temporaryKey,
@@ -53,7 +53,7 @@ module.exports = function buildAccountRecoveryDemand({
   return {
     id,
     userId: actualUserId,
-    schoolingRegistrationId: actualSchoolingRegistrationId,
+    organizationLearnerId: actualOrganizationLearnerId,
     oldEmail,
     newEmail,
     temporaryKey,
