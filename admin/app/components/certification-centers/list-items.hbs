@@ -52,11 +52,7 @@
         {{#each @certificationCenters as |certificationCenter|}}
           <tr aria-label="Centre de certification">
             <td class="table__column table__column--id">
-              <LinkTo
-                @route="authenticated.certification-centers.get"
-                @model={{certificationCenter.id}}
-                data-test-certification={{certificationCenter.id}}
-              >
+              <LinkTo @route="authenticated.certification-centers.get" @model={{certificationCenter.id}}>
                 {{certificationCenter.id}}
               </LinkTo>
             </td>

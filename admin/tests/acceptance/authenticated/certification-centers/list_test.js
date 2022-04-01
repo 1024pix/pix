@@ -1,5 +1,6 @@
 import { module, test } from 'qunit';
-import { click, currentURL, visit } from '@ember/test-helpers';
+import { click, currentURL } from '@ember/test-helpers';
+import { visit } from '@1024pix/ember-testing-library';
 import { setupApplicationTest } from 'ember-qunit';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
@@ -65,10 +66,10 @@ module('Acceptance | Certification Centers | List', function (hooks) {
     test('should go to certification center page when line is clicked', async function (assert) {
       // given
       server.createList('certification-center', 1);
-      await visit('/certification-centers/list');
+      const screen = await visit('/certification-centers/list');
 
       // when
-      await click('[data-test-certification="1"]');
+      await click(screen.getByRole('link', { name: '1' }));
 
       // then
       // TODO: Fix this the next time the file is edited.
