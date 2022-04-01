@@ -137,15 +137,10 @@
 
     </Modal::Body>
     <Modal::Footer>
-      <PixButton
-        @size="small"
-        @backgroundColor="transparent-light"
-        @triggerAction={{this.onCancelButtonsClicked}}
-        data-test-id="close-certification-candidate-edition-modal"
-      >
+      <PixButton @size="small" @backgroundColor="transparent-light" @triggerAction={{this.onCancelButtonsClicked}}>
         Annuler
       </PixButton>
-      <PixButton @size="small" @type="submit" data-test-id="close-certification-candidate-edition-modal">
+      <PixButton @size="small" @type="submit">
         Enregistrer
       </PixButton>
     </Modal::Footer>
