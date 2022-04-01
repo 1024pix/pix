@@ -50,23 +50,6 @@ module.exports = {
     return userDetailsForAdminSerializer.serialize(userDetailsForAdmin);
   },
 
-  async updateEmail(request, h) {
-    const userId = request.params.id;
-    const authenticatedUserId = request.auth.credentials.userId;
-    const { email, password } = request.payload.data.attributes;
-    const locale = extractLocaleFromRequest(request);
-
-    await usecases.updateUserEmail({
-      email,
-      userId,
-      authenticatedUserId,
-      password,
-      locale,
-    });
-
-    return h.response({}).code(204);
-  },
-
   async updatePassword(request) {
     const userId = request.params.id;
     const password = request.payload.data.attributes.password;

@@ -267,41 +267,6 @@ exports.register = async function (server) {
       },
     },
     {
-      method: 'PATCH',
-      path: '/api/users/{id}/email',
-      config: {
-        pre: [
-          {
-            method: securityPreHandlers.checkRequestedUserIsAuthenticatedUser,
-            assign: 'requestedUserIsAuthenticatedUser',
-          },
-        ],
-        handler: userController.updateEmail,
-        validate: {
-          params: Joi.object({
-            id: identifiersType.userId,
-          }),
-          options: {
-            allowUnknown: true,
-          },
-          payload: Joi.object({
-            data: {
-              type: Joi.string().valid('users').required(),
-              attributes: {
-                email: Joi.string().email().required(),
-                password: Joi.string().required(),
-              },
-            },
-          }),
-          failAction: (request, h, error) => {
-            return EntityValidationError.fromJoiErrors(error.details);
-          },
-        },
-        notes: ["- Met à jour l'email d'un utilisateur identifié par son id"],
-        tags: ['api', 'user'],
-      },
-    },
-    {
       method: 'POST',
       path: '/api/users/{id}/update-email',
       config: {
