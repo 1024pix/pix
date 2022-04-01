@@ -1,5 +1,6 @@
 import { module, test } from 'qunit';
-import { currentURL, visit, click } from '@ember/test-helpers';
+import { currentURL, click } from '@ember/test-helpers';
+import { visit } from '@1024pix/ember-testing-library';
 import { setupApplicationTest } from 'ember-qunit';
 import { createAuthenticateSession } from 'pix-admin/tests/helpers/test-init';
 
@@ -81,10 +82,10 @@ module('Acceptance | Organizations | List', function (hooks) {
     test('it should redirect to organization details on click', async function (assert) {
       // given
       server.create('organization', { id: 1 });
-      await visit('/organizations/list');
+      const screen = await visit('/organizations/list');
 
       // when
-      await click('[data-test-orga="1"]');
+      await click(screen.getByRole('link', { name: '1' }));
 
       // then
       // TODO: Fix this the next time the file is edited.
