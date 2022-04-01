@@ -17,13 +17,16 @@ describe('Unit | Service | user-service', function () {
   let authenticationMethodRepository;
   let schoolingRegistrationRepository;
   let userRepository;
+  let userToCreateRepository;
 
   beforeEach(function () {
     domainTransaction = Symbol('domain transaction');
 
     userRepository = {
-      create: sinon.stub(),
       updateUsername: sinon.stub(),
+    };
+    userToCreateRepository = {
+      create: sinon.stub(),
     };
     authenticationMethodRepository = {
       create: sinon.stub(),
@@ -36,7 +39,7 @@ describe('Unit | Service | user-service', function () {
 
     authenticationMethodRepository.create.resolves();
     schoolingRegistrationRepository.updateUserIdWhereNull.resolves();
-    userRepository.create.resolves();
+    userToCreateRepository.create.resolves();
 
     sinon.stub(DomainTransaction, 'execute').callsFake((lambda) => {
       transactionToBeExecuted = lambda;
@@ -44,17 +47,14 @@ describe('Unit | Service | user-service', function () {
   });
 
   describe('#createUserWithPassword', function () {
-    beforeEach(function () {
-      user = domainBuilder.buildUser();
-      authenticationMethod = domainBuilder.buildAuthenticationMethod.withPixAsIdentityProviderAndHashedPassword({
+    it('should call user and authenticationMethod create functions ', async function () {
+      // given
+      const user = domainBuilder.buildUser();
+      const authenticationMethod = domainBuilder.buildAuthenticationMethod.withPixAsIdentityProviderAndHashedPassword({
         userId: user.id,
         hashedPassword,
       });
-    });
-
-    it('should call user and authenticationMethod create functions ', async function () {
-      // given
-      userRepository.create.resolves(user);
+      userToCreateRepository.create.resolves(user);
       const expectedAuthenticationMethod = omit(authenticationMethod, ['id', 'createdAt', 'updatedAt']);
 
       //when
@@ -62,12 +62,13 @@ describe('Unit | Service | user-service', function () {
         user,
         hashedPassword,
         userRepository,
+        userToCreateRepository,
         authenticationMethodRepository,
       });
       await transactionToBeExecuted(domainTransaction);
 
       // then
-      expect(userRepository.create).to.have.been.calledWithMatch({ user });
+      expect(userToCreateRepository.create).to.have.been.calledOnce;
       expect(authenticationMethodRepository.create).to.have.been.calledWithMatch({
         authenticationMethod: expectedAuthenticationMethod,
       });
@@ -119,7 +120,7 @@ describe('Unit | Service | user-service', function () {
         lastName: 'Pachidermata',
       });
       const schoolingRegistrationId = 1;
-      userRepository.create.resolves(user);
+      userToCreateRepository.create.resolves(user);
 
       // when
       await userService.createAndReconcileUserToSchoolingRegistration({
@@ -127,15 +128,13 @@ describe('Unit | Service | user-service', function () {
         schoolingRegistrationId,
         user,
         authenticationMethodRepository,
-        userRepository,
+        userToCreateRepository,
         schoolingRegistrationRepository,
       });
       await transactionToBeExecuted(domainTransaction);
 
       // then
-      expect(userRepository.create).to.have.been.calledWithMatch({
-        user,
-      });
+      expect(userToCreateRepository.create).to.have.been.calledOnce;
       expect(authenticationMethodRepository.create).to.have.been.calledWithMatch({
         authenticationMethod: {
           externalIdentifier: 'SAML_ID',

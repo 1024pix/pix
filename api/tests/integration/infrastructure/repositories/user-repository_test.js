@@ -3,7 +3,7 @@ const map = require('lodash/map');
 const times = require('lodash/times');
 const pick = require('lodash/pick');
 
-const { expect, knex, databaseBuilder, domainBuilder, catchErr, sinon } = require('../../../test-helper');
+const { expect, knex, databaseBuilder, catchErr, sinon } = require('../../../test-helper');
 
 const {
   AlreadyExistingEntityError,
@@ -673,51 +673,6 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
         // then
         expect(userDetailsForAdmin.authenticationMethods.length).to.equal(2);
       });
-    });
-  });
-
-  describe('#create', function () {
-    afterEach(async function () {
-      await knex('users').delete();
-    });
-
-    it('should save the user', async function () {
-      // given
-      const email = 'my-email-to-save@example.net';
-      const user = domainBuilder.buildUser({
-        firstName: 'laura',
-        lastName: 'lune',
-        email: email,
-        cgu: true,
-      });
-
-      // when
-      await userRepository.create({ user });
-
-      // then
-      const usersSaved = await knex('users').select();
-      expect(usersSaved).to.have.lengthOf(1);
-    });
-
-    it('should return a Domain User object', async function () {
-      // given
-      const email = 'my-email-to-save@example.net';
-      const user = domainBuilder.buildUser({
-        firstName: 'laura',
-        lastName: 'lune',
-        email: email,
-        cgu: true,
-      });
-
-      // when
-      const userSaved = await userRepository.create({ user });
-
-      // then
-      expect(userSaved).to.be.an.instanceOf(User);
-      expect(userSaved.firstName).to.equal(user.firstName);
-      expect(userSaved.lastName).to.equal(user.lastName);
-      expect(userSaved.email).to.equal(user.email);
-      expect(userSaved.cgu).to.equal(user.cgu);
     });
   });
 
