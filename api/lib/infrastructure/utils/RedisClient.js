@@ -25,10 +25,15 @@ module.exports = class RedisClient {
     );
 
     this.set = promisify(this._wrapWithPrefix(this._client.set)).bind(this._client);
-    this.del = promisify(this._wrapWithPrefix(this._client.del)).bind(this._client);
     this.ping = promisify(this._client.ping).bind(this._client);
     this.flushall = promisify(this._client.flushall).bind(this._client);
     this.lockDisposer = this._clientWithLock.disposer.bind(this._clientWithLock);
+  }
+
+  async del(key, ...args) {
+    await promisify(this._client.del).call(this._client, this._prefix + key, ...args);
+    // TODO: this should be useless after 7 days in production
+    await promisify(this._client.del).call(this._client, key.replace(/^.*:/, ''), ...args);
   }
 
   async get(key, ...args) {
