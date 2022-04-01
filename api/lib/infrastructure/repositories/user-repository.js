@@ -1,4 +1,3 @@
-const omit = require('lodash/omit');
 const moment = require('moment');
 const { knex } = require('../../../db/knex-database-connection');
 
@@ -172,13 +171,6 @@ module.exports = {
       });
     }).fetch({ require: false, withRelated: 'authenticationMethods' });
     return bookshelfUser ? _toDomain(bookshelfUser) : null;
-  },
-
-  create({ user, domainTransaction = DomainTransaction.emptyTransaction() }) {
-    const userToCreate = _adaptModelToDb(user);
-    return new BookshelfUser(userToCreate)
-      .save(null, { transacting: domainTransaction.knexTransaction })
-      .then((bookshelfUser) => _toDomain(bookshelfUser));
   },
 
   updateWithEmailConfirmed({
@@ -567,21 +559,4 @@ function _setSearchFiltersForQueryBuilder(filter, qb) {
   if (email) {
     qb.whereRaw('email LIKE ?', `%${email.toLowerCase()}%`);
   }
-}
-
-function _adaptModelToDb(user) {
-  const userToBeSaved = omit(user, [
-    'id',
-    'campaignParticipations',
-    'pixRoles',
-    'memberships',
-    'certificationCenterMemberships',
-    'pixScore',
-    'knowledgeElements',
-    'scorecards',
-    'userOrgaSettings',
-    'authenticationMethods',
-  ]);
-
-  return userToBeSaved;
 }

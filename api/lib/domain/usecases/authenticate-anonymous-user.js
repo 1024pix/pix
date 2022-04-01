@@ -1,11 +1,11 @@
-const User = require('../models/User');
 const { UserCantBeCreatedError } = require('../errors');
+const UserToCreate = require('../models/UserToCreate');
 
 module.exports = async function authenticateAnonymousUser({
   campaignCode,
   lang = 'fr',
   campaignToJoinRepository,
-  userRepository,
+  userToCreateRepository,
   tokenService,
 }) {
   const campaign = await campaignToJoinRepository.getByCode(campaignCode);
@@ -13,16 +13,8 @@ module.exports = async function authenticateAnonymousUser({
     throw new UserCantBeCreatedError();
   }
 
-  const newUser = await userRepository.create({
-    user: new User({
-      firstName: '',
-      lastName: '',
-      cgu: false,
-      mustValidateTermsOfService: false,
-      isAnonymous: true,
-      lang,
-    }),
-  });
+  const userToAdd = UserToCreate.createAnonymous({ lang });
+  const newUser = await userToCreateRepository.create({ user: userToAdd });
 
   const accessToken = tokenService.createAccessTokenFromUser(newUser.id, 'pix').accessToken;
   return accessToken;

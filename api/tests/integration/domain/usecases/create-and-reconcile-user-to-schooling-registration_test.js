@@ -6,6 +6,7 @@ const authenticationMethodRepository = require('../../../../lib/infrastructure/r
 const campaignRepository = require('../../../../lib/infrastructure/repositories/campaign-repository');
 const schoolingRegistrationRepository = require('../../../../lib/infrastructure/repositories/schooling-registration-repository');
 const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
+const userToCreateRepository = require('../../../../lib/infrastructure/repositories/user-to-create-repository');
 
 const encryptionService = require('../../../../lib/domain/services/encryption-service');
 const mailService = require('../../../../lib/domain/services/mail-service');
@@ -251,14 +252,6 @@ describe('Integration | UseCases | create-and-reconcile-user-to-schooling-regist
           const email = 'user@organization.org';
           userAttributes.email = email;
 
-          const expectedUser = {
-            firstName: userAttributes.firstName,
-            lastName: userAttributes.lastName,
-            email,
-            username: null,
-            cgu: false,
-          };
-
           // when
           const result = await createAndReconcileUserToSchoolingRegistration({
             campaignCode,
@@ -269,6 +262,7 @@ describe('Integration | UseCases | create-and-reconcile-user-to-schooling-regist
             campaignRepository,
             schoolingRegistrationRepository,
             userRepository,
+            userToCreateRepository,
             encryptionService,
             mailService,
             obfuscationService,
@@ -277,7 +271,13 @@ describe('Integration | UseCases | create-and-reconcile-user-to-schooling-regist
           });
 
           // then
-          expect(pick(result, pickUserAttributes)).to.deep.equal(expectedUser);
+          expect(pick(result, pickUserAttributes)).to.deep.equal({
+            firstName: userAttributes.firstName,
+            lastName: userAttributes.lastName,
+            email,
+            username: null,
+            cgu: false,
+          });
         });
       });
     });
@@ -368,6 +368,7 @@ describe('Integration | UseCases | create-and-reconcile-user-to-schooling-regist
             campaignRepository,
             schoolingRegistrationRepository,
             userRepository,
+            userToCreateRepository,
             encryptionService,
             mailService,
             obfuscationService,

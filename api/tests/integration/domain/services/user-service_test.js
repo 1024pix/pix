@@ -5,6 +5,7 @@ const { catchErr, domainBuilder, databaseBuilder, expect, knex } = require('../.
 const authenticationMethodRepository = require('../../../../lib/infrastructure/repositories/authentication-method-repository');
 const schoolingRegistrationRepository = require('../../../../lib/infrastructure/repositories/schooling-registration-repository');
 const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
+const userToCreateRepository = require('../../../../lib/infrastructure/repositories/user-to-create-repository');
 
 const AuthenticationMethod = require('../../../../lib/domain/models/AuthenticationMethod');
 const { SchoolingRegistrationNotFound } = require('../../../../lib/domain/errors');
@@ -44,6 +45,7 @@ describe('Integration | Domain | Services | user-service', function () {
         user,
         hashedPassword,
         userRepository,
+        userToCreateRepository,
         authenticationMethodRepository,
       });
 
@@ -165,7 +167,7 @@ describe('Integration | Domain | Services | user-service', function () {
           user,
           authenticationMethodRepository,
           schoolingRegistrationRepository,
-          userRepository,
+          userToCreateRepository,
         });
 
         // then
@@ -192,7 +194,7 @@ describe('Integration | Domain | Services | user-service', function () {
           user,
           authenticationMethodRepository,
           schoolingRegistrationRepository,
-          userRepository,
+          userToCreateRepository,
         });
 
         // then
@@ -217,7 +219,7 @@ describe('Integration | Domain | Services | user-service', function () {
             user,
             authenticationMethodRepository,
             schoolingRegistrationRepository,
-            userRepository,
+            userToCreateRepository,
           });
 
           // then
@@ -249,7 +251,7 @@ describe('Integration | Domain | Services | user-service', function () {
           user,
           authenticationMethodRepository,
           schoolingRegistrationRepository,
-          userRepository,
+          userToCreateRepository,
         });
 
         // then

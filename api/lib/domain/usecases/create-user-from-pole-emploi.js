@@ -1,5 +1,5 @@
 const moment = require('moment');
-const User = require('../models/User');
+const UserToCreate = require('../models/UserToCreate');
 const AuthenticationMethod = require('../models/AuthenticationMethod');
 const DomainTransaction = require('../../infrastructure/DomainTransaction');
 const { InvalidExternalAPIResponseError, AuthenticationKeyForPoleEmploiTokenExpired } = require('../errors');
@@ -9,7 +9,7 @@ module.exports = async function createUserFromPoleEmploi({
   authenticationKey,
   authenticationMethodRepository,
   poleEmploiTokensRepository,
-  userRepository,
+  userToCreateRepository,
   authenticationService,
 }) {
   const poleEmploiTokens = await poleEmploiTokensRepository.getByKey(authenticationKey);
@@ -35,16 +35,14 @@ module.exports = async function createUserFromPoleEmploi({
     };
   }
 
-  const user = new User({
+  const user = UserToCreate.createFromPoleEmploi({
     firstName: userInfo.firstName,
     lastName: userInfo.lastName,
-    cgu: true,
-    lastTermsOfServiceValidatedAt: new Date(),
   });
 
   let createdUserId = null;
   await DomainTransaction.execute(async (domainTransaction) => {
-    createdUserId = (await userRepository.create({ user, domainTransaction })).id;
+    createdUserId = (await userToCreateRepository.create({ user, domainTransaction })).id;
 
     const authenticationMethod = new AuthenticationMethod({
       identityProvider: AuthenticationMethod.identityProviders.POLE_EMPLOI,

@@ -21,6 +21,7 @@ describe('Unit | UseCase | create-user', function () {
   let campaignCode;
   let authenticationMethodRepository;
   let userRepository;
+  let userToCreateRepository;
   let campaignRepository;
   let encryptionService;
   let mailService;
@@ -30,6 +31,8 @@ describe('Unit | UseCase | create-user', function () {
     authenticationMethodRepository = {};
     userRepository = {
       checkIfEmailIsAvailable: sinon.stub(),
+    };
+    userToCreateRepository = {
       create: sinon.stub(),
     };
     campaignRepository = {
@@ -50,7 +53,7 @@ describe('Unit | UseCase | create-user', function () {
     sinon.stub(passwordValidator, 'validate');
 
     userRepository.checkIfEmailIsAvailable.resolves();
-    userRepository.create.resolves(savedUser);
+    userToCreateRepository.create.resolves(savedUser);
 
     userValidator.validate.returns();
     passwordValidator.validate.returns();
@@ -76,6 +79,7 @@ describe('Unit | UseCase | create-user', function () {
         authenticationMethodRepository,
         campaignRepository,
         userRepository,
+        userToCreateRepository,
         encryptionService,
         mailService,
         userService,
@@ -95,6 +99,7 @@ describe('Unit | UseCase | create-user', function () {
         authenticationMethodRepository,
         campaignRepository,
         userRepository,
+        userToCreateRepository,
         encryptionService,
         mailService,
         userService,
@@ -114,6 +119,7 @@ describe('Unit | UseCase | create-user', function () {
         authenticationMethodRepository,
         campaignRepository,
         userRepository,
+        userToCreateRepository,
         encryptionService,
         mailService,
         userService,
@@ -147,6 +153,7 @@ describe('Unit | UseCase | create-user', function () {
           authenticationMethodRepository,
           campaignRepository,
           userRepository,
+          userToCreateRepository,
           encryptionService,
           mailService,
           userService,
@@ -185,6 +192,7 @@ describe('Unit | UseCase | create-user', function () {
           authenticationMethodRepository,
           campaignRepository,
           userRepository,
+          userToCreateRepository,
           encryptionService,
           mailService,
           userService,
@@ -225,6 +233,7 @@ describe('Unit | UseCase | create-user', function () {
           authenticationMethodRepository,
           campaignRepository,
           userRepository,
+          userToCreateRepository,
           encryptionService,
           mailService,
           userService,
@@ -253,6 +262,7 @@ describe('Unit | UseCase | create-user', function () {
           authenticationMethodRepository,
           campaignRepository,
           userRepository,
+          userToCreateRepository,
           encryptionService,
           mailService,
           userService,
@@ -280,6 +290,7 @@ describe('Unit | UseCase | create-user', function () {
           authenticationMethodRepository,
           campaignRepository,
           userRepository,
+          userToCreateRepository,
           encryptionService,
           mailService,
           userService,
@@ -327,6 +338,7 @@ describe('Unit | UseCase | create-user', function () {
           authenticationMethodRepository,
           campaignRepository,
           userRepository,
+          userToCreateRepository,
           encryptionService,
           mailService,
           userService,
@@ -349,6 +361,7 @@ describe('Unit | UseCase | create-user', function () {
           authenticationMethodRepository,
           campaignRepository,
           userRepository,
+          userToCreateRepository,
           encryptionService,
           mailService,
           userService,
@@ -368,6 +381,7 @@ describe('Unit | UseCase | create-user', function () {
           authenticationMethodRepository,
           campaignRepository,
           userRepository,
+          userToCreateRepository,
           encryptionService,
           mailService,
           userService,
@@ -377,7 +391,7 @@ describe('Unit | UseCase | create-user', function () {
         expect(userService.createUserWithPassword).to.have.been.calledWith({
           user,
           hashedPassword,
-          userRepository,
+          userToCreateRepository,
           authenticationMethodRepository,
         });
       });
@@ -400,6 +414,7 @@ describe('Unit | UseCase | create-user', function () {
           authenticationMethodRepository,
           campaignRepository,
           userRepository,
+          userToCreateRepository,
           encryptionService,
           mailService,
           userService,
@@ -425,6 +440,7 @@ describe('Unit | UseCase | create-user', function () {
             authenticationMethodRepository,
             campaignRepository,
             userRepository,
+            userToCreateRepository,
             encryptionService,
             mailService,
             userService,
@@ -456,6 +472,7 @@ describe('Unit | UseCase | create-user', function () {
             authenticationMethodRepository,
             campaignRepository,
             userRepository,
+            userToCreateRepository,
             encryptionService,
             mailService,
             userService,
@@ -481,6 +498,7 @@ describe('Unit | UseCase | create-user', function () {
         authenticationMethodRepository,
         campaignRepository,
         userRepository,
+        userToCreateRepository,
         encryptionService,
         mailService,
         userService,

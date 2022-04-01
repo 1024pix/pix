@@ -14,6 +14,7 @@ module.exports = async function createUserAndReconcileToSchoolingRegistrationFro
   authenticationMethodRepository,
   campaignRepository,
   userRepository,
+  userToCreateRepository,
   schoolingRegistrationRepository,
   studentRepository,
 }) {
@@ -71,7 +72,7 @@ module.exports = async function createUserAndReconcileToSchoolingRegistrationFro
         samlId: externalUser.samlId,
         authenticationMethodRepository,
         schoolingRegistrationRepository,
-        userRepository,
+        userToCreateRepository,
       });
     }
   } catch (error) {

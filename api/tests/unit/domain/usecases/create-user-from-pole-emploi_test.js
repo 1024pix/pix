@@ -6,7 +6,6 @@ const DomainTransaction = require('../../../../lib/infrastructure/DomainTransact
 
 const AuthenticationMethod = require('../../../../lib/domain/models/AuthenticationMethod');
 const PoleEmploiTokens = require('../../../../lib/domain/models/PoleEmploiTokens');
-const User = require('../../../../lib/domain/models/User');
 
 const {
   InvalidExternalAPIResponseError,
@@ -24,7 +23,7 @@ describe('Unit | UseCase | create-user-from-pole-emploi', function () {
   let clock;
   let authenticationMethodRepository;
   let poleEmploiTokensRepository;
-  let userRepository;
+  let userToCreateRepository;
   let authenticationService;
 
   const now = new Date('2021-01-02');
@@ -45,7 +44,7 @@ describe('Unit | UseCase | create-user-from-pole-emploi', function () {
       getByKey: sinon.stub(),
     };
 
-    userRepository = {
+    userToCreateRepository = {
       findByPoleEmploiExternalIdentifier: sinon.stub(),
       create: sinon.stub(),
     };
@@ -69,7 +68,7 @@ describe('Unit | UseCase | create-user-from-pole-emploi', function () {
       authenticationKey,
       authenticationMethodRepository,
       poleEmploiTokensRepository,
-      userRepository,
+      userToCreateRepository,
       authenticationService,
     });
 
@@ -106,14 +105,7 @@ describe('Unit | UseCase | create-user-from-pole-emploi', function () {
         })
         .resolves(null);
 
-      userRepository.create.resolves({ id: userId });
-
-      const expectedUser = new User({
-        firstName: decodedUserInfo.firstName,
-        lastName: decodedUserInfo.lastName,
-        cgu: true,
-        lastTermsOfServiceValidatedAt: now,
-      });
+      userToCreateRepository.create.resolves({ id: userId });
 
       const expectedAuthenticationMethod = new AuthenticationMethod({
         identityProvider: AuthenticationMethod.identityProviders.POLE_EMPLOI,
@@ -131,12 +123,18 @@ describe('Unit | UseCase | create-user-from-pole-emploi', function () {
         authenticationKey,
         authenticationMethodRepository,
         poleEmploiTokensRepository,
-        userRepository,
+        userToCreateRepository,
         authenticationService,
       });
 
       // then
-      expect(userRepository.create).to.have.been.calledWithMatch({
+      const expectedUser = {
+        firstName: decodedUserInfo.firstName,
+        lastName: decodedUserInfo.lastName,
+        cgu: true,
+        lastTermsOfServiceValidatedAt: now,
+      };
+      expect(userToCreateRepository.create).to.have.been.calledWithMatch({
         user: expectedUser,
         domainTransaction,
       });
@@ -175,7 +173,7 @@ describe('Unit | UseCase | create-user-from-pole-emploi', function () {
         authenticationKey,
         authenticationMethodRepository,
         poleEmploiTokensRepository,
-        userRepository,
+        userToCreateRepository,
         authenticationService,
       });
 
@@ -223,12 +221,12 @@ describe('Unit | UseCase | create-user-from-pole-emploi', function () {
         authenticationKey,
         authenticationMethodRepository,
         poleEmploiTokensRepository,
-        userRepository,
+        userToCreateRepository,
         authenticationService,
       });
 
       // then
-      expect(userRepository.create).to.not.have.been.called;
+      expect(userToCreateRepository.create).to.not.have.been.called;
       expect(authenticationMethodRepository.create).to.not.have.been.called;
       expect(response.userId).to.equal(userId);
       expect(response.idToken).to.equal(poleEmploiTokens.idToken);

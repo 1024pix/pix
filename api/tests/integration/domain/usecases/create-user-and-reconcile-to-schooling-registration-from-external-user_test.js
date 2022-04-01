@@ -3,6 +3,7 @@ const { catchErr, databaseBuilder, expect, knex } = require('../../../test-helpe
 const campaignRepository = require('../../../../lib/infrastructure/repositories/campaign-repository');
 const schoolingRegistrationRepository = require('../../../../lib/infrastructure/repositories/schooling-registration-repository');
 const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
+const userToCreateRepository = require('../../../../lib/infrastructure/repositories/user-to-create-repository');
 const studentRepository = require('../../../../lib/infrastructure/repositories/student-repository');
 const authenticationMethodRepository = require('../../../../lib/infrastructure/repositories/authentication-method-repository');
 
@@ -201,6 +202,7 @@ describe('Integration | UseCases | create-user-and-reconcile-to-schooling-regist
         schoolingRegistrationRepository,
         studentRepository,
         userRepository,
+        userToCreateRepository,
       });
 
       // then
