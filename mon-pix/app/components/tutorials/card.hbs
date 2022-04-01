@@ -22,8 +22,13 @@
       {{moment-duration @tutorial.duration}}
     </p>
     <div class="tutorial-card-v2-content__actions">
-      <button class="tutorial-card-v2-content-actions__save" type="button">
-        <FaIcon @prefix="fas" @icon="bookmark" />
+      <button
+        class="tutorial-card-v2-content-actions__save"
+        type="button"
+        {{on "click" this.toggleSaveTutorial}}
+        disabled={{this.isSaveButtonDisabled}}
+      >
+        <FaIcon @prefix={{if this.isSaved "fas" "far"}} @icon="bookmark" />
         {{this.buttonLabel}}
       </button>
       <button
