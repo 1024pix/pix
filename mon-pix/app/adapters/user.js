@@ -68,11 +68,6 @@ export default class User extends ApplicationAdapter {
       return url + `/password-update?temporary-key=${encodeURIComponent(temporaryKey)}`;
     }
 
-    if (adapterOptions && adapterOptions.updateEmail) {
-      delete adapterOptions.updatePassword;
-      return url + '/email';
-    }
-
     return url;
   }
 }

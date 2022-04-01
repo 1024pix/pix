@@ -45,13 +45,4 @@ export default class ConnectionMethodsController extends Controller {
   displayEmailUpdateMessage() {
     this.showEmailUpdatedMessage = true;
   }
-
-  @action
-  async saveNewEmail(newEmail, password) {
-    this.model.user.email = newEmail.trim().toLowerCase();
-    this.model.user.password = password;
-    await this.model.user.save({ adapterOptions: { updateEmail: true } });
-    this.model.user.password = null;
-    this.disableEmailEditionMode();
-  }
 }

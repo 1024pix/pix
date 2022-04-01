@@ -383,7 +383,6 @@ module.exports = injectDependencies(
     updateTargetProfile: require('./update-target-profile'),
     updateUserForAccountRecovery: require('./account-recovery/update-user-for-account-recovery'),
     updateUserDetailsForAdministration: require('./update-user-details-for-administration'),
-    updateUserEmail: require('./update-user-email'),
     updateUserEmailWithValidation: require('./update-user-email-with-validation'),
     updateUserPassword: require('./update-user-password'),
   },

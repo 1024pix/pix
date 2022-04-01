@@ -18,7 +18,6 @@ const HELPDESK_FRENCH_FRANCE = 'https://support.pix.fr';
 const HELPDESK_ENGLISH_SPOKEN = 'https://support.pix.org/en/support/home';
 const HELPDESK_FRENCH_SPOKEN = 'https://support.pix.org';
 
-const EMAIL_CHANGE_TAG = 'EMAIL_CHANGE';
 const EMAIL_VERIFICATION_CODE_TAG = 'EMAIL_VERIFICATION_CODE';
 const SCO_ACCOUNT_RECOVERY_TAG = 'SCO_ACCOUNT_RECOVERY';
 
@@ -266,47 +265,6 @@ function sendScoOrganizationInvitationEmail({
   });
 }
 
-function notifyEmailChange({ email, locale }) {
-  const options = {
-    from: EMAIL_ADDRESS_NO_RESPONSE,
-    fromName: PIX_NAME_FR,
-    to: email,
-    template: mailer.emailChangeTemplateId,
-    tags: [EMAIL_CHANGE_TAG],
-  };
-
-  if (locale === FRENCH_SPOKEN) {
-    options.subject = frTranslations['email-change-email'].subject;
-
-    options.variables = {
-      homeName: `pix${settings.domain.tldOrg}`,
-      homeUrl: `${settings.domain.pix + settings.domain.tldOrg}/fr/`,
-      displayNationalLogo: false,
-      ...frTranslations['email-change-email'].body,
-    };
-  } else if (locale === FRENCH_FRANCE) {
-    options.subject = frTranslations['email-change-email'].subject;
-
-    options.variables = {
-      homeName: `pix${settings.domain.tldFr}`,
-      homeUrl: `${settings.domain.pix + settings.domain.tldFr}`,
-      displayNationalLogo: true,
-      ...frTranslations['email-change-email'].body,
-    };
-  } else if (locale === ENGLISH_SPOKEN) {
-    options.subject = enTranslations['email-change-email'].subject;
-
-    options.variables = {
-      homeName: `pix${settings.domain.tldOrg}`,
-      homeUrl: `${settings.domain.pix + settings.domain.tldOrg}/en-gb/`,
-      displayNationalLogo: false,
-      ...enTranslations['email-change-email'].body,
-    };
-  }
-
-  return mailer.sendEmail(options);
-}
-
 function sendAccountRecoveryEmail({ email, firstName, temporaryKey }) {
   const pixName = PIX_NAME_FR;
   const redirectionUrl = `${settings.domain.pixApp + settings.domain.tldFr}/recuperer-mon-compte/${temporaryKey}`;
@@ -380,5 +338,4 @@ module.exports = {
   sendScoOrganizationInvitationEmail,
   sendResetPasswordDemandEmail,
   sendVerificationCodeEmail,
-  notifyEmailChange,
 };
