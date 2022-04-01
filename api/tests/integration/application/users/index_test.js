@@ -225,45 +225,6 @@ describe('Integration | Application | Users | Routes', function () {
     });
   });
 
-  describe('PATCH /api/users/{id}/email', function () {
-    const url = '/api/users/1/email';
-
-    it('should return 422 if email is invalid', async function () {
-      // given
-      const payload = {
-        data: {
-          type: 'users',
-          attributes: {
-            email: 'not_an_email',
-          },
-        },
-      };
-
-      // when
-      const response = await httpTestServer.request(methodPATCH, url, payload);
-
-      // then
-      expect(response.statusCode).to.equal(422);
-    });
-
-    it('should return 422 if type attribute is missing', async function () {
-      // given
-      const payload = {
-        data: {
-          attributes: {
-            email: 'user@example.net',
-          },
-        },
-      };
-
-      // when
-      const response = await httpTestServer.request(methodPATCH, url, payload);
-
-      // then
-      expect(response.statusCode).to.equal(422);
-    });
-  });
-
   describe('PATCH /api/users/{id}/has-seen-challenge-tooltip/{challengeType}', function () {
     it('should return 400 - Bad request when challengeType is not valid', async function () {
       // given

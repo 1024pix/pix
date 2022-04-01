@@ -115,19 +115,6 @@
     }
   },
   "current-lang": "en",
-  "email-change-email": {
-    "body": {
-      "context": "You’ve recently changed your email address.",
-      "doNotAnswer": "This is an automated email message, please do not reply.",
-      "greeting": "Hi,",
-      "loginEmail": "You can now log in using the following email address:",
-      "moreOn": "More on",
-      "noPasswordChanged": "Your password remains the same.",
-      "pixPresentation": "Pix is the online service to assess, develop and certify your digital skills.",
-      "signing": "— The Pix Team"
-    },
-    "subject": "Email change confirmation"
-  },
   "verification-code-email": {
     "subject": "Your Pix code is {{ code }}",
     "body": {

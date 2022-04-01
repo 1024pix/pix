@@ -127,19 +127,6 @@
     }
   },
   "current-lang": "fr",
-  "email-change-email": {
-    "body": {
-      "context": "Vous avez récemment modifié votre adresse email.",
-      "doNotAnswer": "Ceci est un e-mail automatique, merci de ne pas y répondre",
-      "greeting": "Bonjour,",
-      "loginEmail": "Vous pouvez maintenant vous connecter avec l’adresse suivante :",
-      "moreOn": "En savoir plus sur",
-      "noPasswordChanged": "Votre mot de passe reste inchangé.",
-      "pixPresentation": "Pix est le service public en ligne pour évaluer, développer et certifier ses compétences numériques.",
-      "signing": "— L'équipe Pix"
-    },
-    "subject": "Vous avez changé votre adresse e-mail"
-  },
   "verification-code-email": {
     "subject": "Votre code Pix est {{ code }}",
     "body": {

@@ -85,15 +85,6 @@ describe('Unit | Adapters | user', function () {
       // then
       expect(url.endsWith('/users/123/lang/en')).to.be.true;
     });
-
-    it('should redirect to email when updateEmail adapter option is include', async function () {
-      // when
-      const options = { adapterOptions: { updateEmail: true, newPassword: 'NeWPa$$word' } };
-      const url = await adapter.urlForUpdateRecord(123, 'user', options);
-
-      // then
-      expect(url.endsWith('/users/123/email')).to.be.true;
-    });
   });
 
   describe('#createRecord', () => {
