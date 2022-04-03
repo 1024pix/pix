@@ -9,6 +9,10 @@ module.exports = function buildParticipationForCampaignManagement({
   status = CampaignParticipationStatuses.TO_SHARE,
   createdAt = new Date(),
   sharedAt = null,
+  deletedAt = null,
+  deletedBy = null,
+  deletedByFirstName = null,
+  deletedByLastName = null,
 } = {}) {
   return new ParticipationForCampaignManagement({
     id,
@@ -18,5 +22,9 @@ module.exports = function buildParticipationForCampaignManagement({
     status,
     createdAt,
     sharedAt,
+    deletedAt,
+    deletedBy,
+    deletedByFirstName,
+    deletedByLastName,
   });
 };

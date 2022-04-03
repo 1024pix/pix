@@ -14,8 +14,13 @@ module.exports = {
         status: 'campaign-participations.status',
         createdAt: 'campaign-participations.createdAt',
         sharedAt: 'campaign-participations.sharedAt',
+        deletedAt: 'campaign-participations.deletedAt',
+        deletedBy: 'users.id',
+        deletedByFirstName: 'users.firstName',
+        deletedByLastName: 'users.lastName',
       })
       .join('organization-learners', 'organization-learners.id', 'campaign-participations.organizationLearnerId')
+      .leftJoin('users', 'users.id', 'campaign-participations.deletedBy')
       .where('campaignId', campaignId)
       .orderBy(['lastName', 'firstName'], ['asc', 'asc']);
 
