@@ -74,6 +74,22 @@ module('Integration | Component | Campaigns | participation-row', function (hook
       // then
       assert.dom(screen.getByText('01/01/2020')).exists();
     });
+
+    test('it should display deletedByFullName and deletedAt if participation is deleted', async function (assert) {
+      // given
+      const participation = EmberObject.create({
+        deletedAt: new Date('2022-01-01'),
+        deletedByFullName: 'le coupable',
+      });
+      this.set('participation', participation);
+
+      // when
+      const screen = await render(hbs`<Campaigns::ParticipationRow @participation={{participation}}/>`);
+
+      // then
+      assert.dom(screen.getByText('01/01/2022 par')).exists();
+      assert.dom(screen.getByRole('link', { name: 'le coupable' })).exists();
+    });
   }),
     module("when editing participant's external id", function (hooks) {
       hooks.beforeEach(async function () {

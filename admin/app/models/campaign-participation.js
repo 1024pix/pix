@@ -13,6 +13,9 @@ export default class CampaignParticipation extends Model {
   @attr('string') status;
   @attr('date') createdAt;
   @attr('date') sharedAt;
+  @attr('date') deletedAt;
+  @attr deletedBy;
+  @attr('string') deletedByFullName;
 
   get displayedStatus() {
     return campaignParticipationStatuses[this.status];

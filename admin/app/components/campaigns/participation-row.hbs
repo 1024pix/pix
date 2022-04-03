@@ -21,6 +21,17 @@
 <td>
   {{if @participation.sharedAt (moment-format @participation.sharedAt "DD/MM/YYYY") "-"}}
 </td>
+{{#if @participation.deletedAt}}
+  <td>
+    {{moment-format @participation.deletedAt "DD/MM/YYYY"}}
+    par
+    <LinkTo @route="authenticated.users.get" @model={{@participation.deletedBy}}>
+      {{@participation.deletedByFullName}}
+    </LinkTo>
+  </td>
+{{else}}
+  <td>-</td>
+{{/if}}
 {{#if @idPixLabel}}
   <td>
     <div class="participation-item-actions">
