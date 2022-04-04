@@ -7,6 +7,7 @@ jobs:
   transition-issue:
     name: Transition Issue
     runs-on: ubuntu-latest
+    if: github.repository == '1024pix/pix'
     steps:
       - name: Login
         uses: atlassian/gajira-login@master
@@ -30,6 +31,10 @@ jobs:
           issue: ${{ steps.find.outputs.issue }}
           transition: "Move to 'Deployed in Integration'"
 
+ notify-team:
+    name: Notify team on config file changed
+    runs-on: ubuntu-latest
+    steps:
       - name: Notify team on config file change
         uses: 1024pix/notify-team-on-config-file-change@v1.0.2
         with:

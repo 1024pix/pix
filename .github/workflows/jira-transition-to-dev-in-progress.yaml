@@ -7,6 +7,7 @@ jobs:
   transition-issue:
     name: Transition Issue
     runs-on: ubuntu-latest
+    if: github.repository == '1024pix/pix'
     steps:
       - name: Login
         uses: atlassian/gajira-login@master
