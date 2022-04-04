@@ -1,11 +1,11 @@
 import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
 
-import { v4 } from 'uuid';
 import get from 'lodash/get';
 import ENV from 'mon-pix/config/environment';
+import fetch from 'fetch';
 
-const { host, clientId, authEndpoint } = ENV.poleEmploi;
+const { authEndpoint } = ENV.poleEmploi;
 
 export default class LoginPeRoute extends Route {
   @service session;
@@ -65,14 +65,7 @@ export default class LoginPeRoute extends Route {
     }
   }
 
-  _handleRedirectRequest() {
-    const scope = `application_${clientId}%20api_peconnect-individuv1%20openid%20profile%20serviceDigitauxExposition%20api_peconnect-servicesdigitauxv1`;
-
-    const state = v4();
-    const nonce = v4();
-
-    this.session.set('data.state', state);
-
+  async _handleRedirectRequest() {
     /**
      * Store the `attemptedTransition` in the localstorage so when the user returns after
      * the login he can be sent to the initial destination.
@@ -92,19 +85,12 @@ export default class LoginPeRoute extends Route {
       this.session.set('data.nextURL', url);
     }
 
-    const search = [
-      `client_id=${clientId}`,
-      `redirect_uri=${this.redirectUri}`,
-      'response_type=code',
-      `state=${state}`,
-      `scope=${scope}`,
-      `nonce=${nonce}`,
-    ]
-      .filter(Boolean)
-      .join('&');
-
-    const updatedAuthEndpoint = `${authEndpoint}?realm=%2Findividu`;
-
-    this.location.replace(`${host}${updatedAuthEndpoint}&${search}`);
+    const response = await fetch(
+      `${ENV.APP.API_HOST}/api/pole-emploi/auth-url?redirect_uri=${encodeURIComponent(this.redirectUri)}`
+    );
+    const { redirectTarget, state, nonce } = await response.json();
+    this.session.set('data.state', state);
+    this.session.set('data.nonce', nonce);
+    this.location.replace(redirectTarget);
   }
 }
