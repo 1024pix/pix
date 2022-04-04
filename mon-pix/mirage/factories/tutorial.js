@@ -1,4 +1,4 @@
-import { Factory } from 'ember-cli-mirage';
+import { Factory, trait } from 'ember-cli-mirage';
 import faker from 'faker';
 
 export default Factory.extend({
@@ -17,4 +17,10 @@ export default Factory.extend({
   title() {
     return faker.random.word();
   },
+
+  withUserTutorial: trait({
+    afterCreate(tutorial, server) {
+      server.schema.create('user-tutorial', { tutorial });
+    },
+  }),
 });
