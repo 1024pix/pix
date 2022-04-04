@@ -27,6 +27,7 @@
       <CertificationBanner
         @certificationNumber={{@model.assessment.certificationNumber}}
         @certification={{@model.assessment.certificationCourse}}
+        @shouldBlurBanner={{this.shouldBlurBanner}}
       />
     {{else}}
       <AssessmentBanner @title={{@model.assessment.title}} @displayHomeLink={{this.displayHomeLink}} />
@@ -34,12 +35,22 @@
   </div>
 
   <main class="challenge__content rounded-panel--over-background-banner">
-    <ProgressBar @assessment={{@model.assessment}} @currentChallengeNumber={{@model.currentChallengeNumber}} />
+    <ProgressBar
+      @assessment={{@model.assessment}}
+      @currentChallengeNumber={{@model.currentChallengeNumber}}
+      @shouldBlurProgressBar={{this.shouldBlurBanner}}
+    />
 
     {{#if this.displayTimedChallengeInstructions}}
       <TimedChallengeInstructions
         @hasUserConfirmedWarning={{this.setUserConfirmation}}
         @time={{@model.challenge.timer}}
+      />
+    {{/if}}
+
+    {{#if this.displayFocusedCertificationChallengeWarning}}
+      <FocusedCertificationChallengeInstructions
+        @hasUserConfirmedWarning={{this.setUserFocusCertificationChallengeConfirmation}}
       />
     {{/if}}
 
@@ -61,10 +72,12 @@
       />
     {{/if}}
   </main>
+  {{#if this.displayChallenge}}
+    <div class="challenge__feedback" role="complementary">
+      <FeedbackPanel @assessment={{@model.assessment}} @challenge={{@model.challenge}} />
+    </div>
+  {{/if}}
 
-  <div class="challenge__feedback" role="complementary">
-    <FeedbackPanel @assessment={{@model.assessment}} @challenge={{@model.challenge}} />
-  </div>
   {{#if @model.challenge.focused}}
     <div
       class="challenge__info-alert challenge__info-alert--hide
