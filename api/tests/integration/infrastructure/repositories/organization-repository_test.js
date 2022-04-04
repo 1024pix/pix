@@ -236,10 +236,8 @@ describe('Integration | Repository | Organization', function () {
 
   describe('#getIdByCertificationCenterId', function () {
     let organizations;
-    let organization;
-    let certificationCenterId;
 
-    beforeEach(async function () {
+    beforeEach(function () {
       organizations = _.map(
         [
           { id: 1, type: 'SCO', name: 'organization 1', externalId: '1234567' },
@@ -251,33 +249,29 @@ describe('Integration | Repository | Organization', function () {
         }
       );
 
-      organization = organizations[1];
+      databaseBuilder.factory.buildCertificationCenter({
+        id: 10,
+        externalId: '1234568',
+      });
 
-      certificationCenterId = databaseBuilder.factory.buildCertificationCenter({
-        externalId: organization.externalId,
-      }).id;
-
-      await databaseBuilder.commit();
+      return databaseBuilder.commit();
     });
 
     it('should return the id of the organization given the certification center id', async function () {
       // when
-      const organisationId = await organizationRepository.getIdByCertificationCenterId(certificationCenterId);
+      const organisationId = await organizationRepository.getIdByCertificationCenterId(10);
 
       // then
-      expect(organisationId).to.equal(organization.id);
+      expect(organisationId).to.equal(2);
     });
 
     it('should throw an error if the id does not match an certification center with organization ', async function () {
-      // given
-      const wrongCertificationCenterId = '666';
-
       // when
-      const error = await catchErr(organizationRepository.getIdByCertificationCenterId)(wrongCertificationCenterId);
+      const error = await catchErr(organizationRepository.getIdByCertificationCenterId)(123456);
 
       // then
       expect(error).to.be.instanceOf(NotFoundError);
-      expect(error.message).to.equal('Not found organization for certification center id 666');
+      expect(error.message).to.equal('Not found organization for certification center id 123456');
     });
   });
 
