@@ -138,7 +138,7 @@ describe('Integration | UseCases | getAttendanceSheet', function () {
 
       beforeEach(async function () {
         const certificationCenterName = 'Centre de certification';
-        databaseBuilder.factory.buildOrganization({ externalId: 'EXT1234', isManagingStudents: true });
+        databaseBuilder.factory.buildOrganization({ type: 'SCO', externalId: 'EXT1234', isManagingStudents: true });
         certificationCenterId = databaseBuilder.factory.buildCertificationCenter({
           name: certificationCenterName,
           type: 'SCO',
@@ -195,7 +195,7 @@ describe('Integration | UseCases | getAttendanceSheet', function () {
 
       beforeEach(async function () {
         const certificationCenterName = 'Centre de certification';
-        databaseBuilder.factory.buildOrganization({ externalId: 'EXT1234', isManagingStudents: true });
+        databaseBuilder.factory.buildOrganization({ type: 'SCO', externalId: 'EXT1234', isManagingStudents: true });
         certificationCenterId = databaseBuilder.factory.buildCertificationCenter({
           name: certificationCenterName,
           type: 'SCO',
