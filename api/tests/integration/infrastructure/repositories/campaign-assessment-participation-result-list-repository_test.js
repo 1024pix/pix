@@ -233,6 +233,47 @@ describe('Integration | Repository | Campaign Assessment Participation Result Li
       });
     });
 
+    context('when there is a participation deleted', function () {
+      beforeEach(async function () {
+        const { id: userId } = databaseBuilder.factory.buildUser();
+        campaign = databaseBuilder.factory.buildAssessmentCampaignForSkills({}, [{ id: 'Skill1' }]);
+
+        databaseBuilder.factory.buildAssessmentFromParticipation({
+          campaignId: campaign.id,
+          deletedAt: new Date('2022-03-31'),
+          deletedBy: userId,
+        });
+        await databaseBuilder.commit();
+
+        const learningContent = [
+          {
+            id: 'recArea1',
+            competences: [
+              {
+                id: 'recCompetence1',
+                tubes: [
+                  {
+                    id: 'recTube1',
+                    skills: [{ id: 'Skill1', name: '@Acquis1', challenges: [] }],
+                  },
+                ],
+              },
+            ],
+          },
+        ];
+        const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
+        mockLearningContent(learningContentObjects);
+      });
+
+      it('does not return deleted participations', async function () {
+        const { participations } = await campaignAssessmentParticipationResultListRepository.findPaginatedByCampaignId({
+          campaignId: campaign.id,
+        });
+
+        expect(participations).to.be.empty;
+      });
+    });
+
     context('masteryRate', function () {
       beforeEach(async function () {
         campaign = databaseBuilder.factory.buildAssessmentCampaignForSkills({}, [
