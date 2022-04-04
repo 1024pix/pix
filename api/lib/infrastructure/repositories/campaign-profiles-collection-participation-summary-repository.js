@@ -25,6 +25,7 @@ const CampaignProfilesCollectionParticipationSummaryRepository = {
       .join('organization-learners', 'organization-learners.id', 'campaign-participations.organizationLearnerId')
       .where('campaign-participations.campaignId', '=', campaignId)
       .where('campaign-participations.isImproved', '=', false)
+      .where('campaign-participations.deletedAt', 'IS', null)
       .whereRaw('"campaign-participations"."sharedAt" IS NOT NULL')
       .orderByRaw('?? ASC, ?? ASC', ['lowerLastName', 'lowerFirstName'])
       .modify(_filterQuery, filters);

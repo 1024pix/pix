@@ -113,6 +113,30 @@ describe('Integration | Repository | Campaign Profiles Collection Participation 
       expect(names).exactlyContainInOrder(['Jaja', 'Jiji', 'Juju', 'Jojo']);
     });
 
+    describe('when there is a participation deleted', function () {
+      it('does not return deleted participation', async function () {
+        const { id: userId } = databaseBuilder.factory.buildUser();
+        const participationData = {
+          campaignId,
+          isShared: true,
+          sharedAt,
+          participantExternalId: 'JeBu',
+          pixScore: 46,
+          deletedAt: new Date('2020-03-30'),
+          deletedBy: userId,
+        };
+        databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner({}, participationData, false);
+
+        await databaseBuilder.commit();
+
+        const results = await campaignProfilesCollectionParticipationSummaryRepository.findPaginatedByCampaignId(
+          campaignId
+        );
+
+        expect(results.data).to.be.empty;
+      });
+    });
+
     describe('when a participant has shared the participation to the campaign', function () {
       let campaignParticipation;
 
