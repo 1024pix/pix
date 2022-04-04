@@ -1,5 +1,18 @@
 # Pix Changelog
 
+## v3.193.0 (04/04/2022)
+
+
+### :rocket: Amélioration
+- [#4265](https://github.com/1024pix/pix/pull/4265) [FEATURE] Modifier l'ordre d'affichage des signalements sur la page de finalisation de session (PIX-4676)
+- [#4255](https://github.com/1024pix/pix/pull/4255) [FEATURE] Permettre l'évaluation d'un tutoriel (V2) (PIX-4599).
+
+### :building_construction: Tech
+- [#4236](https://github.com/1024pix/pix/pull/4236) [TECH] Ne pas logguer les usernames lors de la création d'un compte via la réconciliation (PIX-4630)
+- [#4240](https://github.com/1024pix/pix/pull/4240) [TECH] Créer des ségrégations pour les usages de redis (PIX-4635)
+- [#4274](https://github.com/1024pix/pix/pull/4274) [TECH] Supprimer la route inutilisée qui met à jour l'adresse e-mail sans validation sur Pix App (PIX-4686).
+- [#4254](https://github.com/1024pix/pix/pull/4254) [TECH] Supprimer le feature toggle FT_VALIDATE_EMAIL (PIX-3532)
+
 ## v3.192.0 (31/03/2022)
 
 
