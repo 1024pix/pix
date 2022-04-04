@@ -235,29 +235,30 @@ describe('Integration | Repository | Organization', function () {
   });
 
   describe('#getIdByCertificationCenterId', function () {
-    let organizations;
-
     beforeEach(function () {
-      organizations = _.map(
+      _.map(
         [
           { id: 1, type: 'SCO', name: 'organization 1', externalId: '1234567' },
           { id: 2, type: 'SCO', name: 'organization 2', externalId: '1234568' },
-          { id: 3, type: 'SCO', name: 'organization 3', externalId: '1234569' },
+          { id: 3, type: 'SUP', name: 'organization 3', externalId: '1234568' },
+          { id: 4, type: 'SCO', name: 'organization 4', externalId: '1234569' },
+          { id: 5, type: 'SCO', name: 'organization 5', externalId: '1234569' },
         ],
         (organization) => {
-          return databaseBuilder.factory.buildOrganization(organization);
+          databaseBuilder.factory.buildOrganization(organization);
         }
       );
 
       databaseBuilder.factory.buildCertificationCenter({
         id: 10,
         externalId: '1234568',
+        type: 'SCO',
       });
 
       return databaseBuilder.commit();
     });
 
-    it('should return the id of the organization given the certification center id', async function () {
+    it('should return the id of the organization given the certification center id matching the same type', async function () {
       // when
       const organisationId = await organizationRepository.getIdByCertificationCenterId(10);
 
@@ -265,7 +266,7 @@ describe('Integration | Repository | Organization', function () {
       expect(organisationId).to.equal(2);
     });
 
-    it('should throw an error if the id does not match an certification center with organization ', async function () {
+    it('should throw an error if the id does not match a certification center with organization', async function () {
       // when
       const error = await catchErr(organizationRepository.getIdByCertificationCenterId)(123456);
 
