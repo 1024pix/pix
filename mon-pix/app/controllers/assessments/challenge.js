@@ -14,12 +14,14 @@ export default class ChallengeController extends Controller {
   @service intl;
   @service store;
   @service currentUser;
+  @service focusedCertificationChallengesManager;
+
   @tracked newLevel = null;
   @tracked competenceLeveled = null;
   @tracked challengeTitle = defaultPageTitle;
   @tracked hasFocusedOutOfChallenge = false;
   @tracked hasFocusedOutOfWindow = this.model.assessment.hasFocusedOutChallenge;
-  @tracked hasUserConfirmedWarning = false;
+  @tracked hasUserConfirmedTimedChallengeWarning = false;
 
   get showLevelup() {
     return this.model.assessment.showLevelup && this.newLevel;
@@ -61,6 +63,14 @@ export default class ChallengeController extends Controller {
     return this.hasFocusedOutOfChallenge && this.couldDisplayInfoAlert;
   }
 
+  get displayFocusedCertificationChallengeWarning() {
+    return this.isFocusedCertificationChallengeWithoutAnswer && !this.hasConfirmedFocusScreenForCurrentChallenge;
+  }
+
+  get shouldBlurBanner() {
+    return this.model.challenge.focused && !this.hasConfirmedFocusScreenForCurrentChallenge;
+  }
+
   @action
   setFocusedOutOfChallenge(value) {
     this.hasFocusedOutOfChallenge = value;
@@ -78,6 +88,17 @@ export default class ChallengeController extends Controller {
     });
   }
 
+  get isFocusedCertificationChallengeWithoutAnswer() {
+    return this._isFocusedCertificationChallenge && !this.model.answer;
+  }
+
+  get hasConfirmedFocusScreenForCurrentChallenge() {
+    const challengeId = this.model.challenge.id;
+    const hasUserConfirmedFocusChallenge = this.focusedCertificationChallengesManager.has(challengeId);
+
+    return hasUserConfirmedFocusChallenge;
+  }
+
   @action
   async timeoutChallenge() {
     this.challengeTitle = timedOutPageTitle;
@@ -87,7 +108,7 @@ export default class ChallengeController extends Controller {
 
   _resetNonContextualChallengeInfo() {
     this.challengeTitle = defaultPageTitle;
-    this.hasUserConfirmedWarning = false;
+    this.hasUserConfirmedTimedChallengeWarning = false;
     this.hasFocusedOutOfChallenge = false;
   }
 
@@ -110,12 +131,20 @@ export default class ChallengeController extends Controller {
   }
 
   get displayChallenge() {
-    if (!this._isTimedChallenge) {
+    if (this._hasAlreadyAnswered()) {
+      return true;
+    }
+
+    if (!this._isTimedChallenge && !this._isFocusedCertificationChallenge) {
       return true;
     }
 
     if (this._isTimedChallenge) {
-      if (this.hasUserConfirmedWarning || this.model.answer || this.model.assessment.hasTimeoutChallenge) return true;
+      if (this.hasUserConfirmedTimedChallengeWarning || this.model.assessment.hasTimeoutChallenge) return true;
+    }
+
+    if (this._isFocusedCertificationChallenge) {
+      if (this._hasCertificationCandidateConfirmedFocusWarningScreen()) return true;
     }
 
     return false;
@@ -125,9 +154,19 @@ export default class ChallengeController extends Controller {
     return isInteger(this.model.challenge.timer);
   }
 
+  get _isFocusedCertificationChallenge() {
+    return this.model.assessment.isCertification && this.model.challenge.focused;
+  }
+
+  @action
+  setUserFocusCertificationChallengeConfirmation() {
+    const challengeId = this.model.challenge.id;
+    this.focusedCertificationChallengesManager.add(challengeId);
+  }
+
   @action
   setUserConfirmation() {
-    this.hasUserConfirmedWarning = true;
+    this.hasUserConfirmedTimedChallengeWarning = true;
   }
 
   get isTimedChallengeWithoutAnswer() {
@@ -136,7 +175,17 @@ export default class ChallengeController extends Controller {
 
   get displayTimedChallengeInstructions() {
     return (
-      this.isTimedChallengeWithoutAnswer && !this.hasUserConfirmedWarning && !this.model.assessment.hasTimeoutChallenge
+      this.isTimedChallengeWithoutAnswer &&
+      !this.hasUserConfirmedTimedChallengeWarning &&
+      !this.model.assessment.hasTimeoutChallenge
     );
+  }
+
+  _hasCertificationCandidateConfirmedFocusWarningScreen() {
+    return this.model.assessment.isCertification && this.hasConfirmedFocusScreenForCurrentChallenge;
+  }
+
+  _hasAlreadyAnswered() {
+    return this.model.answer;
   }
 }

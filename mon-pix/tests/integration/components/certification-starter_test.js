@@ -198,7 +198,17 @@ describe('Integration | Component | certification-starter', function () {
           class StoreStubService extends Service {
             createRecord = createRecordStub;
           }
+
+          const clearStub = sinon.stub();
+          class FocusedCertificationChallengeManagerStubService extends Service {
+            clear = clearStub;
+          }
+
           this.owner.register('service:store', StoreStubService);
+          this.owner.register(
+            'service:focused-certification-challenges-manager',
+            FocusedCertificationChallengeManagerStubService
+          );
           const certificationCourse = {
             id: 456,
             save: sinon.stub(),
@@ -221,6 +231,7 @@ describe('Integration | Component | certification-starter', function () {
             sessionId: 123,
           });
           sinon.assert.calledOnce(certificationCourse.save);
+          sinon.assert.calledOnce(clearStub);
           sinon.assert.calledWithExactly(replaceWithStub, 'certifications.resume', 456);
         });
       });

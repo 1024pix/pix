@@ -781,6 +781,11 @@
       },
       "first-title": "Before starting"
     },
+    "focused-certification-challenge-instructions": {
+      "action": "I'm ready",
+      "title": "Focus mode",
+      "description": "For the next question, you will not be allowed to leave the page."
+    },
     "join": {
       "title": "Join",
       "button": "Let's go!",
