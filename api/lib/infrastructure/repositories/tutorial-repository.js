@@ -8,6 +8,7 @@ const TutorialForUser = require('../../domain/read-models/TutorialForUser');
 const { FRENCH_FRANCE } = require('../../domain/constants').LOCALE;
 const knowledgeElementRepository = require('./knowledge-element-repository');
 const skillRepository = require('./skill-repository');
+const paginateModule = require('../utils/paginate');
 
 module.exports = {
   async findByRecordIdsForCurrentUser({ ids, userId, locale }) {
@@ -22,16 +23,16 @@ module.exports = {
     return _findByRecordIds({ ids });
   },
 
-  async findPaginatedWithUserTutorialForCurrentUser({ userId, page }) {
+  async findPaginatedForCurrentUser({ userId, page }) {
     const { models: userTutorials, meta } = await userTutorialRepository.findPaginated({ userId, page });
-    const tutorials = await tutorialDatasource.findByRecordIds(userTutorials.map(({ tutorialId }) => tutorialId));
+    const [tutorials, tutorialEvaluations] = await Promise.all([
+      tutorialDatasource.findByRecordIds(userTutorials.map(({ tutorialId }) => tutorialId)),
+      tutorialEvaluationRepository.find({ userId }),
+    ]);
 
-    const tutorialsWithUserSavedTutorial = tutorials.map((tutorial) => {
-      const userTutorial = userTutorials.find(({ tutorialId }) => tutorialId === tutorial.id);
-      return new TutorialForUser({ ...tutorial, userTutorial });
-    });
+    const tutorialsForUser = _toTutorialsForUser({ tutorials, tutorialEvaluations, userTutorials });
 
-    return { models: tutorialsWithUserSavedTutorial, meta };
+    return { models: tutorialsForUser, meta };
   },
 
   async get(id) {
@@ -50,7 +51,7 @@ module.exports = {
     return _.map(tutorialData, _toDomain);
   },
 
-  async findRecommendedByUserId({ userId, locale = FRENCH_FRANCE } = {}) {
+  async findPaginatedRecommendedByUserId({ userId, page, locale = FRENCH_FRANCE } = {}) {
     const invalidatedKnowledgeElements = await knowledgeElementRepository.findInvalidatedAndDirectByUserId(userId);
     const skills = await skillRepository.findOperativeByIds(invalidatedKnowledgeElements.map(({ skillId }) => skillId));
 
@@ -62,11 +63,8 @@ module.exports = {
       tutorialEvaluationRepository.find({ userId }),
     ]);
 
-    return tutorials.map((tutorial) => {
-      const userTutorial = userTutorials.find(({ tutorialId }) => tutorialId === tutorial.id);
-      const tutorialEvaluation = tutorialEvaluations.find(({ tutorialId }) => tutorialId === tutorial.id);
-      return new TutorialForUser({ ...tutorial, userTutorial, tutorialEvaluation });
-    });
+    const tutorialsForUser = _toTutorialsForUser({ tutorials, tutorialEvaluations, userTutorials });
+    return paginateModule.paginate(tutorialsForUser, page);
   },
 };
 
@@ -78,6 +76,14 @@ function _toDomain(tutorialData) {
     link: tutorialData.link,
     source: tutorialData.source,
     title: tutorialData.title,
+  });
+}
+
+function _toTutorialsForUser({ tutorials, tutorialEvaluations, userTutorials }) {
+  return tutorials.map((tutorial) => {
+    const userTutorial = userTutorials.find(({ tutorialId }) => tutorialId === tutorial.id);
+    const tutorialEvaluation = tutorialEvaluations.find(({ tutorialId }) => tutorialId === tutorial.id);
+    return new TutorialForUser({ ...tutorial, userTutorial, tutorialEvaluation });
   });
 }
 
