@@ -164,11 +164,11 @@ module.exports = {
     }
   },
 
-  async updateLastQuestionState({ id, lastQuestionState }) {
+  async updateLastQuestionState({ id, lastQuestionState, domainTransaction }) {
     try {
       await BookshelfAssessment.where({ id }).save(
         { lastQuestionState },
-        { require: true, patch: true, method: 'update' }
+        { require: true, patch: true, method: 'update', transacting: domainTransaction.knexTransaction }
       );
     } catch (err) {
       if (err instanceof BookshelfAssessment.NoRowsUpdatedError) {

@@ -141,9 +141,22 @@ exports.register = async (server) => {
             id: identifiersType.assessmentId,
             state: Joi.string().valid('asked', 'timeout', 'focusedout'),
           }),
+          payload: Joi.object({
+            data: Joi.object({
+              attributes: Joi.object({
+                'challenge-id': Joi.string().allow(null),
+              }),
+            }),
+          }),
+          options: {
+            allowUnknown: true,
+          },
         },
         handler: assessmentController.updateLastChallengeState,
-        notes: ["- Modifie l'état de la dernière question posée\n" + "- L'état doit être indiqué en paramètres."],
+        notes: [
+          '- Sauvegarde la dernière question posée, ainsi que son état\n' +
+            "- L'état doit être indiqué en paramètre, et la question optionnellement dans le payload.",
+        ],
         tags: ['api', 'assessments'],
       },
     },
