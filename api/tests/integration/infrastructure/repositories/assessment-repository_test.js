@@ -600,7 +600,9 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
       const lastQuestionState = 'timeout';
 
       // when
-      await assessmentRepository.updateLastQuestionState({ id: assessment.id, lastQuestionState });
+      await DomainTransaction.execute(async (domainTransaction) => {
+        await assessmentRepository.updateLastQuestionState({ id: assessment.id, lastQuestionState, domainTransaction });
+      });
 
       // then
       const assessmentsInDb = await knex('assessments').where('id', assessment.id).first('lastQuestionState');
@@ -610,11 +612,15 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
     context('when assessment does not exist', function () {
       it('should return null', async function () {
         const notExistingAssessmentId = 1;
+        let result;
 
         // when
-        const result = await assessmentRepository.updateLastQuestionState({
-          id: notExistingAssessmentId,
-          lastQuestionState: 'timeout',
+        await DomainTransaction.execute(async (domainTransaction) => {
+          result = await assessmentRepository.updateLastQuestionState({
+            id: notExistingAssessmentId,
+            lastQuestionState: 'timeout',
+            domainTransaction,
+          });
         });
 
         // then
