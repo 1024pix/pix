@@ -26,7 +26,8 @@ url.pathname = '/postgres';
 
 PgClient.getClient(url.href).then(async (client) => {
   try {
-    await client.query_and_log(`DROP DATABASE ${DB_TO_DELETE_NAME} WITH (FORCE);`);
+    const WITH_FORCE = _withForceOption();
+    await client.query_and_log(`DROP DATABASE ${DB_TO_DELETE_NAME}${WITH_FORCE};`);
     logger.info('Database dropped');
     await client.end();
     process.exit(0);
@@ -38,3 +39,7 @@ PgClient.getClient(url.href).then(async (client) => {
     }
   }
 });
+
+function _withForceOption() {
+  return process.env.FORCE_DROP_DATABASE === 'true' ? ' WITH (FORCE)' : '';
+}
