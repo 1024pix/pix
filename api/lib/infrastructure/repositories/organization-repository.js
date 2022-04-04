@@ -132,7 +132,12 @@ module.exports = {
     const organizationIds = await knex
       .pluck('organizations.id')
       .from('organizations')
-      .join('certification-centers', 'certification-centers.externalId', 'organizations.externalId')
+      .innerJoin('certification-centers', function () {
+        this.on('certification-centers.externalId', 'organizations.externalId').andOn(
+          'certification-centers.type',
+          'organizations.type'
+        );
+      })
       .where('certification-centers.id', certificationCenterId);
 
     if (organizationIds.length !== 1)
