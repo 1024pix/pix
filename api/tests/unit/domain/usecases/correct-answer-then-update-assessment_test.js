@@ -26,7 +26,6 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
     pix: 8,
   };
   const answerRepository = {
-    findByChallengeAndAssessment: () => undefined,
     saveWithKnowledgeElements: () => undefined,
   };
   const assessmentRepository = { get: () => undefined };
@@ -49,7 +48,6 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
   let dependencies;
 
   beforeEach(function () {
-    sinon.stub(answerRepository, 'findByChallengeAndAssessment');
     sinon.stub(answerRepository, 'saveWithKnowledgeElements');
     sinon.stub(assessmentRepository, 'get');
     sinon.stub(challengeRepository, 'get');
@@ -98,9 +96,6 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
       assessment.type = Assessment.types.CERTIFICATION;
       assessment.lastChallengeId = 'anotherChallenge';
       assessmentRepository.get.resolves(assessment);
-      answerRepository.findByChallengeAndAssessment
-        .withArgs({ assessmentId: assessment.id, challengeId: challenge.id })
-        .resolves(true);
     });
 
     it('should fail because Challenge Not Asked', async function () {
@@ -121,9 +116,6 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
       // given
       assessment.state = Assessment.states.ENDED_BY_SUPERVISOR;
       assessmentRepository.get.resolves(assessment);
-      answerRepository.findByChallengeAndAssessment
-        .withArgs({ assessmentId: assessment.id, challengeId: challenge.id })
-        .resolves(true);
 
       // when
       const error = await catchErr(correctAnswerThenUpdateAssessment)({
@@ -800,9 +792,6 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
       });
       assessment.type = Assessment.types.CERTIFICATION;
       assessmentRepository.get.resolves(assessment);
-      answerRepository.findByChallengeAndAssessment
-        .withArgs({ assessmentId: assessment.id, challengeId: challenge.id })
-        .resolves(true);
       answerSaved = domainBuilder.buildAnswer(answer);
       answerSaved.timeSpent = 5;
       answerRepository.saveWithKnowledgeElements.resolves(answerSaved);
@@ -827,9 +816,6 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
         });
         assessment.type = Assessment.types.PREVIEW;
         assessmentRepository.get.resolves(assessment);
-        answerRepository.findByChallengeAndAssessment
-          .withArgs({ assessmentId: assessment.id, challengeId: challenge.id })
-          .resolves(true);
         answerSaved = domainBuilder.buildAnswer(answer);
         answerRepository.saveWithKnowledgeElements.resolves(answerSaved);
 
@@ -843,6 +829,44 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
         expectedAnswer.timeSpent = 0;
         expect(answerRepository.saveWithKnowledgeElements).to.be.calledWith(expectedAnswer);
       });
+    });
+  });
+
+  context('when the challenge is not focused', function () {
+    let focusedOutAnswer;
+    let assessment;
+    let answerSaved;
+
+    beforeEach(function () {
+      // Given
+      focusedOutAnswer = domainBuilder.buildAnswer({ isFocusedOut: true });
+      const nonFocusedChallenge = domainBuilder.buildChallenge({
+        id: focusedOutAnswer.challengeId,
+        validator,
+        focused: false,
+      });
+      challengeRepository.get.resolves(nonFocusedChallenge);
+      assessment = domainBuilder.buildAssessment({
+        userId,
+        lastQuestionDate: new Date('2021-03-11T11:00:00Z'),
+        type: Assessment.types.CERTIFICATION,
+      });
+      assessmentRepository.get.resolves(assessment);
+      answerSaved = domainBuilder.buildAnswer(focusedOutAnswer);
+      answerRepository.saveWithKnowledgeElements.resolves(answerSaved);
+    });
+
+    it('should not return focused out answer', async function () {
+      // When
+      const { result } = await correctAnswerThenUpdateAssessment({
+        answer: focusedOutAnswer,
+        userId,
+        ...dependencies,
+      });
+
+      // Then
+      expect(result).not.to.equal(AnswerStatus.FOCUSEDOUT);
+      expect(result).to.deep.equal(AnswerStatus.OK);
     });
   });
 });

@@ -1,3 +1,4 @@
+const logger = require('../../infrastructure/logger');
 const Answer = require('./Answer');
 const AnswerStatus = require('./AnswerStatus');
 
@@ -9,7 +10,7 @@ class Examiner {
     this.validator = validator;
   }
 
-  evaluate({ answer, challengeFormat, isCertificationEvaluation }) {
+  evaluate({ answer, challengeFormat, isFocusedChallenge, isCertificationEvaluation }) {
     const correctedAnswer = new Answer(answer);
 
     if (answer.value === Answer.FAKE_VALUE_FOR_SKIPPED_QUESTIONS) {
@@ -29,7 +30,14 @@ class Examiner {
       correctedAnswer.result = AnswerStatus.TIMEDOUT;
     }
 
-    if (isCorrectAnswer && answer.isFocusedOut && isCertificationEvaluation) {
+    // Temporary log to find out focusedout answers that should not occur
+    if (!isFocusedChallenge && answer.isFocusedOut) {
+      logger.warn('A non focused challenge received a focused out answer', {
+        answerId: answer.id,
+      });
+    }
+
+    if (isCorrectAnswer && isFocusedChallenge && answer.isFocusedOut && isCertificationEvaluation) {
       correctedAnswer.result = AnswerStatus.FOCUSEDOUT;
     }
 
