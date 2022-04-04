@@ -129,14 +129,15 @@ module.exports = {
   },
 
   async getIdByCertificationCenterId(certificationCenterId) {
-    const bookshelfOrganization = await BookshelfOrganization.query((qb) => {
-      qb.join('certification-centers', 'certification-centers.externalId', 'organizations.externalId');
-      qb.where('certification-centers.id', '=', certificationCenterId);
-    }).fetch({ require: false, columns: ['organizations.id'] });
+    const organizationIds = await knex
+      .pluck('organizations.id')
+      .from('organizations')
+      .join('certification-centers', 'certification-centers.externalId', 'organizations.externalId')
+      .where('certification-centers.id', certificationCenterId);
 
-    const id = _.get(bookshelfOrganization, 'attributes.id');
-    if (id) return id;
-    throw new NotFoundError(`Not found organization for certification center id ${certificationCenterId}`);
+    if (organizationIds.length !== 1)
+      throw new NotFoundError(`Not found organization for certification center id ${certificationCenterId}`);
+    return organizationIds[0];
   },
 
   async getScoOrganizationByExternalId(externalId) {
