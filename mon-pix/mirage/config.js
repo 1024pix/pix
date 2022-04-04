@@ -23,6 +23,7 @@ import loadSchoolingRegistrationDependentUserRoutes from './routes/schooling-reg
 import loadAccountRecoveryRoutes from './routes/account-recovery/index';
 import loadUserRoutes from './routes/users/index';
 import putSaveTutorial from './routes/put-save-tutorial';
+import deleteUserTutorial from './routes/delete-user-tutorial';
 import putTutorialEvaluation from './routes/put-tutorial-evaluation';
 import postPoleEmploiUser from './routes/post-pole-emploi-user';
 import postSharedCertifications from './routes/post-shared-certifications';
@@ -73,6 +74,7 @@ export default function () {
   this.post('/expired-password-updates', postExpiredPasswordUpdates);
 
   this.put('/users/tutorials/:tutorialId', putSaveTutorial);
+  this.del('/users/tutorials/:tutorialId', deleteUserTutorial);
   this.put('/users/tutorials/:tutorialId/evaluate', putTutorialEvaluation);
 
   this.post('/pole-emploi/users', postPoleEmploiUser);

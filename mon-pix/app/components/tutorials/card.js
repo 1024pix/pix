@@ -38,13 +38,13 @@ export default class Card extends Component {
   @action
   async toggleSaveTutorial() {
     if (this.isSaved) {
-      await this.removeTutorial();
+      await this._removeTutorial();
     } else {
-      await this.saveTutorial();
+      await this._saveTutorial();
     }
   }
 
-  async saveTutorial() {
+  async _saveTutorial() {
     this.savingStatus = buttonStatusTypes.pending;
     try {
       const userTutorial = this.store.createRecord('userTutorial', { tutorial: this.args.tutorial });
@@ -55,10 +55,11 @@ export default class Card extends Component {
     }
   }
 
-  async removeTutorial() {
+  async _removeTutorial() {
     this.savingStatus = buttonStatusTypes.pending;
     try {
       await this.args.tutorial.userTutorial.destroyRecord({ adapterOptions: { tutorialId: this.args.tutorial.id } });
+      await this.args.tutorial.unloadRecord();
       this.savingStatus = buttonStatusTypes.unrecorded;
     } catch (e) {
       this.savingStatus = buttonStatusTypes.recorded;
