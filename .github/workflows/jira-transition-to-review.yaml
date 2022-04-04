@@ -9,6 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     if: >
       contains(github.event.pull_request.labels.*.name, ':eyes: Tech Review Needed')
+      and github.repository == '1024pix/pix'
     steps:
       - name: Login
         uses: atlassian/gajira-login@master
