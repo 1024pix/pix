@@ -1,5 +1,15 @@
 # Pix Changelog
 
+## v3.193.1 (04/04/2022)
+
+
+### :rocket: Amélioration
+- [#4244](https://github.com/1024pix/pix/pull/4244) [FEATURE] Voir un écran intermédiaire avant de débuter une épreuve focus, le retour (Pix-4623)
+
+### :bug: Correction
+- [#4239](https://github.com/1024pix/pix/pull/4239) [BUGFIX] Mise à jour ou non du lastQuestionState de l'assessment en fonction du challengeId (PIX-4628).
+- [#4235](https://github.com/1024pix/pix/pull/4235) [BUGFIX] Ne pas enregistrer des réponses focusedOut sur des épreuves non focused (PIX-4627)
+
 ## v3.193.0 (04/04/2022)
 
 
