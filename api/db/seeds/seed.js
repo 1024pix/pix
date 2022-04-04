@@ -35,7 +35,7 @@ const {
 } = require('../../scripts/prod/generate-knowledge-element-snapshots-for-campaigns');
 const computeParticipationsResults = require('../../scripts/prod/compute-participation-results');
 
-const poleEmploisSendingsBuilder = require('./data/pole-emploi-sendings-builder');
+const poleEmploiSendingsBuilder = require('./data/pole-emploi-sendings-builder');
 const SEQUENCE_RESTART_AT_NUMBER = 10000;
 
 exports.seed = async (knex) => {
@@ -82,7 +82,7 @@ exports.seed = async (knex) => {
   buildPixAileProfile({ databaseBuilder });
 
   // Création d'envois pole emploi
-  poleEmploisSendingsBuilder({ databaseBuilder });
+  poleEmploiSendingsBuilder({ databaseBuilder });
 
   await databaseBuilder.commit();
   await alterSequenceIfPG(knex);
