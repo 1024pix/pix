@@ -75,7 +75,12 @@ async function _findAllowedCertificationCenterAccesses(certificationCenterIds) {
       ),
     })
     .from('certification-centers')
-    .leftJoin('organizations', 'organizations.externalId', 'certification-centers.externalId')
+    .leftJoin('organizations', function () {
+      this.on('organizations.externalId', 'certification-centers.externalId').andOn(
+        'organizations.type',
+        'certification-centers.type'
+      );
+    })
     .leftJoin('organization-tags', 'organization-tags.organizationId', 'organizations.id')
     .leftJoin('tags', 'tags.id', 'organization-tags.tagId')
     .leftJoin(
