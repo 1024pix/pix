@@ -18,9 +18,8 @@ module.exports = async function getExternalAuthenticationRedirectionUrl({
     const token = tokenService.createAccessTokenForSaml(user.id);
     await userRepository.updateLastLoggedAt({ userId: user.id });
     return `/?token=${encodeURIComponent(token)}&user-id=${user.id}`;
-  } else {
-    const externalUserToken = tokenService.createIdTokenForUserReconciliation(externalUser);
-
-    return `/campagnes?externalUser=${encodeURIComponent(externalUserToken)}`;
   }
+
+  const externalUserToken = tokenService.createIdTokenForUserReconciliation(externalUser);
+  return `/campagnes?externalUser=${encodeURIComponent(externalUserToken)}`;
 };
