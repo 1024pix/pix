@@ -29,4 +29,5 @@ start();
 
 afterEach(() => {
   sessionStorage.clear();
+  window.localStorage.removeItem('hasConfirmedFocusChallengeScreen');
 });
