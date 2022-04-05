@@ -16,18 +16,6 @@
 
 .tutorial-card-v2-content {
 
-  &__skill {
-    margin: 0 0 16px 0;
-    width: 100%;
-    color: $grey-50;
-    font-family: $font-roboto;
-    font-size: 0.813rem;
-    font-weight: normal;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
-  }
-
   &__link {
     display: -webkit-box;
     margin-bottom: 4px;
