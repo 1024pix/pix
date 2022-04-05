@@ -7,17 +7,16 @@
 - [#4283](https://github.com/1024pix/pix/pull/4283) [FEATURE] Mise à jour du texte de la bannière SCO dans PixCertif (PIX-4690)
 - [#4248](https://github.com/1024pix/pix/pull/4248) [FEATURE] Faire apparaitre les signalements de focus out sur la page de détails d'une certification sur Pix Admin (PIX-4405).
 - [#4245](https://github.com/1024pix/pix/pull/4245) [FEATURE] Création de prescrits pour les anciennes participations des utilisateurs dissociés(PIX-4484)
+- [#4272](https://github.com/1024pix/pix/pull/4272) [FEATURE] Ne pas afficher les participations supprimées dans les résultats de campagnes (PIX-4575).
 
 ### :building_construction: Tech
 - [#4270](https://github.com/1024pix/pix/pull/4270) [TECH] Renommage des database-builders et attributs de ceux-ci pour les appeler `organization-learners` (PIX-4610).
 - [#4197](https://github.com/1024pix/pix/pull/4197) [TECH] Nettoyage des erreurs sur les fonctions vides.
 - [#4278](https://github.com/1024pix/pix/pull/4278) [TECH] Conditionner l'execution des jobs JIRA à la présence de la variable JIRA_URL
+- [#4268](https://github.com/1024pix/pix/pull/4268) [TECH] Unifier la création des read-models TutorialForUser.
 
 ### :bug: Correction
 - [#4275](https://github.com/1024pix/pix/pull/4275) [BUGFIX] Permettre la réconciliation si l'INE est vide (PIX-4685).
-
-### :coffee: Autre
-- [#4286](https://github.com/1024pix/pix/pull/4286) [HOTFIX] Merge du Hotfix 3.193.2
 
 ## v3.193.2 (04/04/2022)
 
