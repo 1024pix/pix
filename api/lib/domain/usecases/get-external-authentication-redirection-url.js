@@ -5,7 +5,6 @@ module.exports = async function getExternalAuthenticationRedirectionUrl({
   settings,
 }) {
   const { attributeMapping } = settings.saml;
-
   const externalUser = {
     firstName: userAttributes[attributeMapping.firstName],
     lastName: userAttributes[attributeMapping.lastName],
@@ -13,13 +12,20 @@ module.exports = async function getExternalAuthenticationRedirectionUrl({
   };
 
   const user = await userRepository.getBySamlId(externalUser.samlId);
-
   if (user) {
-    const token = tokenService.createAccessTokenForSaml(user.id);
-    await userRepository.updateLastLoggedAt({ userId: user.id });
-    return `/?token=${encodeURIComponent(token)}&user-id=${user.id}`;
+    return await _getUrlWithAccessToken({ user, tokenService, userRepository });
   }
 
+  return _getUrlForReconciliationPage({ tokenService, externalUser });
+};
+
+async function _getUrlWithAccessToken({ user, tokenService, userRepository }) {
+  const token = tokenService.createAccessTokenForSaml(user.id);
+  await userRepository.updateLastLoggedAt({ userId: user.id });
+  return `/?token=${encodeURIComponent(token)}&user-id=${user.id}`;
+}
+
+function _getUrlForReconciliationPage({ tokenService, externalUser }) {
   const externalUserToken = tokenService.createIdTokenForUserReconciliation(externalUser);
   return `/campagnes?externalUser=${encodeURIComponent(externalUserToken)}`;
-};
+}
