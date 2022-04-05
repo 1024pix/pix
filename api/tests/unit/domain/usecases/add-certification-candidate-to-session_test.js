@@ -35,7 +35,7 @@ describe('Unit | UseCase | add-certification-candidate-to-session', function () 
     it('should throw an CertificationCandidateAddError error', async function () {
       // given
       sessionRepository.isSco.resolves(false);
-      const certificationCandidate = domainBuilder.buildCertificationCandidate({
+      const certificationCandidate = domainBuilder.buildCertificationCandidate.pro({
         birthdate: 'WrongDateFormat',
         sessionId: null,
       });
@@ -62,8 +62,10 @@ describe('Unit | UseCase | add-certification-candidate-to-session', function () 
     context('when a candidate already exists in session with personal info', function () {
       it('should throw an CertificationCandidateByPersonalInfoTooManyMatchesError', async function () {
         // given
-        sessionRepository.isSco.resolves(false);
-        const certificationCandidate = domainBuilder.buildCertificationCandidate({ sessionId: null });
+        sessionRepository.isSco.resolves(true);
+        const certificationCandidate = domainBuilder.buildCertificationCandidate({
+          sessionId: null,
+        });
         certificationCandidateRepository.findBySessionIdAndPersonalInfo.resolves(['one match']);
 
         // when
@@ -97,7 +99,7 @@ describe('Unit | UseCase | add-certification-candidate-to-session', function () 
           domainBuilder.buildComplementaryCertification(),
           domainBuilder.buildComplementaryCertification(),
         ];
-        const certificationCandidate = domainBuilder.buildCertificationCandidate({
+        const certificationCandidate = domainBuilder.buildCertificationCandidate.pro({
           sessionId: null,
           complementaryCertifications,
         });
@@ -133,7 +135,9 @@ describe('Unit | UseCase | add-certification-candidate-to-session', function () 
       it('should return the certification candidate updated with sessionId', async function () {
         //given
         sessionRepository.isSco.resolves(false);
-        const certificationCandidate = domainBuilder.buildCertificationCandidate({ sessionId: null });
+        const certificationCandidate = domainBuilder.buildCertificationCandidate.pro({
+          sessionId: null,
+        });
         const cpfBirthInformationValidation = CpfBirthInformationValidation.success({
           birthCountry: 'COUNTRY',
           birthINSEECode: 'INSEE_CODE',
@@ -164,7 +168,9 @@ describe('Unit | UseCase | add-certification-candidate-to-session', function () 
       it('should validate the certification candidate', async function () {
         // given
         sessionRepository.isSco.resolves(false);
-        const certificationCandidate = domainBuilder.buildCertificationCandidate({ sessionId: null });
+        const certificationCandidate = domainBuilder.buildCertificationCandidate.pro({
+          sessionId: null,
+        });
         certificationCandidate.validate = sinon.stub();
         const cpfBirthInformationValidation = CpfBirthInformationValidation.success({
           birthCountry: 'COUNTRY',
@@ -197,7 +203,7 @@ describe('Unit | UseCase | add-certification-candidate-to-session', function () 
         it('should throw a CpfBirthInformationValidationError', async function () {
           // given
           sessionRepository.isSco.resolves(false);
-          const certificationCandidate = domainBuilder.buildCertificationCandidate({
+          const certificationCandidate = domainBuilder.buildCertificationCandidate.pro({
             sessionId: null,
             complementaryCertifications: [],
           });

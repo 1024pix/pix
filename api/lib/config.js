@@ -168,7 +168,6 @@ module.exports = (function () {
     },
 
     featureToggles: {
-      isCertificationBillingEnabled: isFeatureEnabled(process.env.FT_CERTIFICATION_BILLING),
       isNewTutorialsPageEnabled: isFeatureEnabled(process.env.FT_NEW_TUTORIALS_PAGE),
     },
 
