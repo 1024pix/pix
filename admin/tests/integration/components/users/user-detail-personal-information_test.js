@@ -1,6 +1,5 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { click } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import EmberObject from '@ember/object';
 import Service from '@ember/service';
@@ -83,7 +82,9 @@ module('Integration | Component | users | user-detail-personal-information', fun
       await clickByName('Anonymiser cet utilisateur');
 
       // then
-      assert.dom('.modal-dialog').exists();
+      assert.dom(screen.getByRole('heading', { name: 'Merci de confirmer' })).exists();
+      assert.dom(screen.getByRole('button', { name: 'Annuler' })).exists();
+      assert.dom(screen.getByRole('button', { name: 'Confirmer' })).exists();
       assert
         .dom(screen.getByText('Êtes-vous sûr de vouloir anonymiser cet utilisateur ? Ceci n’est pas réversible.'))
         .exists();
@@ -92,14 +93,16 @@ module('Integration | Component | users | user-detail-personal-information', fun
     test('should close the modal to cancel action', async function (assert) {
       // given
       this.set('user', user);
-      await render(hbs`<Users::UserDetailPersonalInformation @user={{this.user}}/>`);
+      const screen = await render(hbs`<Users::UserDetailPersonalInformation @user={{this.user}}/>`);
       await clickByName('Anonymiser cet utilisateur');
 
       // when
-      await click('.modal-dialog .btn-secondary');
+      await clickByName('Annuler');
 
       // then
-      assert.dom('.modal-dialog').doesNotExist();
+      assert.dom(screen.queryByRole('heading', { name: 'Merci de confirmer' })).doesNotExist();
+      assert.dom(screen.queryByRole('button', { name: 'Confirmer' })).doesNotExist();
+      assert.dom(screen.queryByRole('button', { name: 'Annuler' })).doesNotExist();
     });
   });
 
@@ -158,7 +161,7 @@ module('Integration | Component | users | user-detail-personal-information', fun
       await clickByName('Annuler');
 
       // then
-      assert.dom(screen.queryByText('Confirmer la dissociation')).doesNotExist();
+      assert.dom(screen.queryByRole('heading', { name: 'Confirmer la dissociation' })).doesNotExist();
       assert.notOk(destroyRecordStub.called);
     });
 
@@ -228,14 +231,16 @@ module('Integration | Component | users | user-detail-personal-information', fun
       });
 
       this.set('user', user);
-      await render(hbs`<Users::UserDetailPersonalInformation @user={{this.user}}/>`);
+      const screen = await render(hbs`<Users::UserDetailPersonalInformation @user={{this.user}}/>`);
       await clickByName('Supprimer');
 
       // when
-      await click('.modal-dialog .btn-secondary');
+      await clickByName('Annuler');
 
       // then
-      assert.dom('.modal-dialog').doesNotExist();
+      assert.dom(screen.queryByRole('heading', { name: 'Confirmer la suppression' })).doesNotExist();
+      assert.dom(screen.queryByRole('button', { name: 'Oui, je supprime' })).doesNotExist();
+      assert.dom(screen.queryByRole('button', { name: 'Annuler' })).doesNotExist();
     });
 
     module('when the administrator confirm the removal', function () {
@@ -254,17 +259,19 @@ module('Integration | Component | users | user-detail-personal-information', fun
         const removeAuthenticationMethodStub = sinon.stub();
         this.set('removeAuthenticationMethod', removeAuthenticationMethodStub);
 
-        await render(
+        const screen = await render(
           hbs`<Users::UserDetailPersonalInformation @user={{this.user}} @removeAuthenticationMethod={{this.removeAuthenticationMethod}}/>`
         );
         await clickByName('Supprimer');
 
         // when
-        await click('.modal-dialog .btn-primary');
+        await clickByName('Oui, je supprime');
 
         // then
         assert.ok(removeAuthenticationMethodStub.called);
-        assert.dom('.modal-dialog').doesNotExist();
+        assert.dom(screen.queryByRole('heading', { name: 'Merci de confirmer' })).doesNotExist();
+        assert.dom(screen.queryByRole('button', { name: 'Annuler' })).doesNotExist();
+        assert.dom(screen.queryByRole('button', { name: 'Confirmer' })).doesNotExist();
       });
 
       test('should display an error message when the administrator try to remove the last authentication method', async function (assert) {
@@ -289,20 +296,22 @@ module('Integration | Component | users | user-detail-personal-information', fun
 
         removeAuthenticationMethodStub.rejects({ errors: [{ status: '403' }] });
 
-        await render(
+        const screen = await render(
           hbs`<Users::UserDetailPersonalInformation @user={{this.user}} @removeAuthenticationMethod={{this.removeAuthenticationMethod}}/>`
         );
         await clickByName('Supprimer');
 
         // when
-        await click('.modal-dialog .btn-primary');
+        await clickByName('Oui, je supprime');
 
         // then
         sinon.assert.calledWith(
           notificationErrorStub,
           'Vous ne pouvez pas supprimer la dernière méthode de connexion de cet utilisateur'
         );
-        assert.dom('.modal-dialog').doesNotExist();
+        assert.dom(screen.queryByRole('heading', { name: 'Merci de confirmer' })).doesNotExist();
+        assert.dom(screen.queryByRole('button', { name: 'Annuler' })).doesNotExist();
+        assert.dom(screen.queryByRole('button', { name: 'Confirmer' })).doesNotExist();
       });
     });
   });

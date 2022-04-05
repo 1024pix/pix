@@ -79,10 +79,6 @@ module('Integration | Component | TargetProfiles::Badges', function (hooks) {
       });
       badge.destroyRecord = sinon.stub();
       this.set('badges', [badge]);
-
-      // when
-      await render(hbs`<TargetProfiles::Badges @badges={{this.badges}} />`);
-      await clickByName('Supprimer');
     });
 
     test('should open confirm modal', async function (assert) {
@@ -91,8 +87,7 @@ module('Integration | Component | TargetProfiles::Badges', function (hooks) {
       await clickByName('Supprimer');
 
       // then
-      assert.dom('.modal-dialog').exists();
-      assert.dom(screen.getByText("Suppression d'un résultat thématique")).exists();
+      assert.dom(screen.getByRole('heading', { name: "Suppression d'un résultat thématique" })).exists();
       assert
         .dom(
           screen.getByText(
@@ -104,15 +99,27 @@ module('Integration | Component | TargetProfiles::Badges', function (hooks) {
 
     test('should close confirm modal on click on cancel', async function (assert) {
       // when
-      await click('.modal-footer > button.btn-secondary');
+      const screen = await render(hbs`<TargetProfiles::Badges @badges={{this.badges}} />`);
+      await clickByName('Supprimer');
+      await clickByName('Annuler');
 
       // then
-      assert.dom('.modal-dialog').doesNotExist();
+      assert.dom(screen.queryByRole('heading', { name: "Suppression d'un résultat thématique" })).doesNotExist();
+      assert.dom(screen.queryByRole('button', { name: 'Annuler' })).doesNotExist();
+      assert
+        .dom(
+          screen.queryByText(
+            "Êtes-vous sûr de vouloir supprimer ce résultat thématique ? (Uniquement si le RT n'a pas encore été assigné)"
+          )
+        )
+        .doesNotExist();
     });
 
     test('should delete the badge on confirmation click', async function (assert) {
       // when
-      await click('.modal-footer > button.btn-primary');
+      const screen = await render(hbs`<TargetProfiles::Badges @badges={{this.badges}} />`);
+      await clickByName('Supprimer');
+      await click(screen.getAllByRole('button', { name: 'Supprimer' })[1]);
 
       // then
       assert.ok(badge.destroyRecord.called);

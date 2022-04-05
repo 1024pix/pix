@@ -14,23 +14,27 @@ module('Integration | Component | confirm-popup', function (hooks) {
 
   test('should open confirm', async function (assert) {
     // given & when
-    await render(hbs`<ConfirmPopup @show={{this.display}} />`);
+    const screen = await render(hbs`<ConfirmPopup @show={{this.display}} />`);
 
     // then
-    assert.dom('.modal-dialog').exists();
+    assert.dom(screen.getByRole('heading', { name: 'Merci de confirmer' })).exists();
+    assert.dom(screen.getByRole('button', { name: 'Annuler' })).exists();
+    assert.dom(screen.getByRole('button', { name: 'Confirmer' })).exists();
   });
 
   test('should call cancel action on click on cancel button', async function (assert) {
     // given
     this.cancel = sinon.stub();
-    await render(hbs`<ConfirmPopup @show={{this.display}} @cancel={{this.cancel}} />`);
+    const screen = await render(hbs`<ConfirmPopup @show={{this.display}} @cancel={{this.cancel}} />`);
 
     // when
     await click('button.btn-secondary');
 
     // then
     assert.ok(this.cancel.called);
-    assert.dom('.modal-dialog').doesNotExist();
+    assert.dom(screen.queryByRole('heading', { name: 'Merci de confirmer' })).doesNotExist();
+    assert.dom(screen.queryByRole('button', { name: 'Annuler' })).doesNotExist();
+    assert.dom(screen.queryByRole('button', { name: 'Confirmer' })).doesNotExist();
   });
 
   test('should call confirm action on click on confirm button', async function (assert) {
