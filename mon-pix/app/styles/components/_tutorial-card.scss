@@ -7,12 +7,6 @@
   padding: 16px;
   gap: 12px;
 
-  &__domain-border {
-    width: 3px;
-    background: $yellow;
-    border-radius: 2px;
-  }
-
   &__content {
     flex: 1;
     display: flex;
