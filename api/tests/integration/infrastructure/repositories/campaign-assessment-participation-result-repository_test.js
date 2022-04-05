@@ -1,7 +1,8 @@
-const { expect, databaseBuilder, mockLearningContent, knex } = require('../../../test-helper');
+const { expect, databaseBuilder, mockLearningContent, knex, catchErr } = require('../../../test-helper');
 const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
 const campaignAssessmentParticipationResultRepository = require('../../../../lib/infrastructure/repositories/campaign-assessment-participation-result-repository');
 const { ENGLISH_SPOKEN, FRENCH_SPOKEN } = require('../../../../lib/domain/constants').LOCALE;
+const { NotFoundError } = require('../../../../lib/domain/errors');
 
 describe('Integration | Repository | Campaign Assessment Participation Result', function () {
   describe('#getByCampaignIdAndCampaignParticipationId', function () {
@@ -215,6 +216,39 @@ describe('Integration | Repository | Campaign Assessment Participation Result', 
           });
 
         expect(campaignAssessmentParticipationResult.competenceResults[0].name).to.equal('Compétence 1');
+      });
+    });
+
+    context('When something is wrong with a campaign participations', function () {
+      it('throws a NotFoundError when no existing campaign participation', async function () {
+        campaignId = databaseBuilder.factory.buildCampaign({ type: 'ASSESSMENT', targetProfileId }).id;
+
+        await databaseBuilder.commit();
+
+        const error = await catchErr(
+          campaignAssessmentParticipationResultRepository.getByCampaignIdAndCampaignParticipationId
+        )({ campaignId, campaignParticipationId: 77777 });
+
+        //then
+        expect(error).to.be.instanceof(NotFoundError);
+      });
+
+      it('throws a NotFoundError when campaign participation is deleted', async function () {
+        campaignId = databaseBuilder.factory.buildCampaign({ type: 'ASSESSMENT', targetProfileId }).id;
+        campaignParticipationId = databaseBuilder.factory.buildAssessmentFromParticipation({
+          sharedAt: null,
+          deletedAt: new Date('2022-01-01'),
+          campaignId,
+        }).campaignParticipationId;
+
+        await databaseBuilder.commit();
+
+        const error = await catchErr(
+          campaignAssessmentParticipationResultRepository.getByCampaignIdAndCampaignParticipationId
+        )({ campaignId, campaignParticipationId });
+
+        //then
+        expect(error).to.be.instanceof(NotFoundError);
       });
     });
   });
