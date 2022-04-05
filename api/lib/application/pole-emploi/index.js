@@ -15,6 +15,15 @@ exports.register = async function (server) {
       },
     },
     {
+      method: 'POST',
+      path: '/api/pole-emplois/users',
+      config: {
+        auth: false,
+        handler: poleEmploiController.createUser,
+        tags: ['api'],
+      },
+    },
+    {
       method: 'GET',
       path: '/api/pole-emploi/envois',
       config: {
