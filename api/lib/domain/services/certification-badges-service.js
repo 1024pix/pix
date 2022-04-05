@@ -8,6 +8,7 @@ const badgeCriteriaService = require('../../domain/services/badge-criteria-servi
 const { PIX_DROIT_MAITRE_CERTIF, PIX_DROIT_EXPERT_CERTIF, PIX_EMPLOI_CLEA, PIX_EMPLOI_CLEA_V2 } =
   require('../../domain/models/Badge').keys;
 const PixEdu2ndDegreBadgeAcquisitionOrderer = require('../models/PixEdu2ndDegreBadgeAcquisitionOrderer');
+const PixEdu1erDegreBadgeAcquisitionOrderer = require('../models/PixEdu1erDegreBadgeAcquisitionOrderer');
 
 module.exports = {
   async findStillValidBadgeAcquisitions({ userId, domainTransaction }) {
@@ -63,8 +64,9 @@ module.exports = {
 };
 
 function _keepHighestBadgeWithinPlusCertifications(certifiableBadgeAcquisitions) {
-  const highestBadgeWithinDroit = _keepHighestBadgeWithinDroitCertification(certifiableBadgeAcquisitions);
-  return _keepHighestBadgeWithinEdu2ndDegreCertification(highestBadgeWithinDroit);
+  let highestBadges = _keepHighestBadgeWithinDroitCertification(certifiableBadgeAcquisitions);
+  highestBadges = _keepHighestBadgeWithinEdu2ndDegreCertification(highestBadges);
+  return _keepHighestBadgeWithinEdu1erDegreCertification(highestBadges);
 }
 
 function _keepHighestBadgeWithinDroitCertification(certifiableBadgeAcquisitions) {
@@ -88,4 +90,16 @@ function _keepHighestBadgeWithinEdu2ndDegreCertification(certifiableBadgeAcquisi
     badgesAcquisitions: pixEdu2ndDegreBadgeAcquisitions,
   });
   return [...nonPixEdu2ndDegreBadgeAcquisitions, pixEduBadgeAcquisitionOrderer.getHighestBadge()];
+}
+
+function _keepHighestBadgeWithinEdu1erDegreCertification(certifiableBadgeAcquisitions) {
+  const [pixEdu1erDegreBadgeAcquisitions, nonPixEdu1erDegreBadgeAcquisitions] = _.partition(
+    certifiableBadgeAcquisitions,
+    (badgeAcquisition) => badgeAcquisition.isPixEdu1erDegre()
+  );
+  if (pixEdu1erDegreBadgeAcquisitions.length === 0) return nonPixEdu1erDegreBadgeAcquisitions;
+  const pixEduBadgeAcquisitionOrderer = new PixEdu1erDegreBadgeAcquisitionOrderer({
+    badgesAcquisitions: pixEdu1erDegreBadgeAcquisitions,
+  });
+  return [...nonPixEdu1erDegreBadgeAcquisitions, pixEduBadgeAcquisitionOrderer.getHighestBadge()];
 }
