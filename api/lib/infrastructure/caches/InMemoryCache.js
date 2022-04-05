@@ -41,7 +41,9 @@ class InMemoryCache extends Cache {
 
   async _chainPromise(fn) {
     const queuedPromise = this._queue.then(fn);
-    this._queue = queuedPromise.catch(() => {});
+    this._queue = queuedPromise.catch(() => {
+      return;
+    });
     return queuedPromise;
   }
 

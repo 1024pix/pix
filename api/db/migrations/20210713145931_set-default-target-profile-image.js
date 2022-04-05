@@ -5,7 +5,9 @@ exports.up = async function (knex) {
   await updateWithDefaultImageUrl(knex);
 };
 
-exports.down = function () {};
+exports.down = function () {
+  return;
+};
 
 async function updateWithDefaultImageUrl(knex) {
   await knex(TABLE_NAME).whereNull('imageUrl').update({

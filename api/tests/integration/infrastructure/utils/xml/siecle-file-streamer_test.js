@@ -25,7 +25,9 @@ describe('SiecleFileStreamer', function () {
             streamer.perform,
             streamer
           )((saxStream, resolve) => {
-            saxStream.on('data', () => {});
+            saxStream.on('data', () => {
+              return;
+            });
             saxStream.on('end', resolve);
           });
 
@@ -55,7 +57,9 @@ describe('SiecleFileStreamer', function () {
             streamer.perform,
             streamer
           )((saxStream, resolve) => {
-            saxStream.on('data', () => {});
+            saxStream.on('data', () => {
+              return;
+            });
             saxStream.on('end', resolve);
           });
 
@@ -138,7 +142,9 @@ describe('SiecleFileStreamer', function () {
             streamer.perform,
             streamer
           )((saxStream, resolve) => {
-            saxStream.on('data', () => {});
+            saxStream.on('data', () => {
+              return;
+            });
             saxStream.on('end', resolve);
           });
 

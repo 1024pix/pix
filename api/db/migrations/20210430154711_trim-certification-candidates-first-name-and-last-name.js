@@ -8,4 +8,6 @@ exports.up = function (knex) {
   );
 };
 
-exports.down = function (_) {};
+exports.down = function () {
+  return;
+};

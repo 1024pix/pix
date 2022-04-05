@@ -7,7 +7,9 @@ describe('Unit | Infrastructure | Caches | Cache', function () {
   describe('#get', function () {
     it('should reject an error (because this class actually mocks an interface)', function () {
       // when
-      const result = cacheInstance.get('some-key', () => {});
+      const result = cacheInstance.get('some-key', () => {
+        return;
+      });
 
       // then
       expect(result).to.be.rejected;
