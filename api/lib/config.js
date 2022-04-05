@@ -195,6 +195,7 @@ module.exports = (function () {
       tokenUrl: process.env.POLE_EMPLOI_TOKEN_URL,
       sendingUrl: process.env.POLE_EMPLOI_SENDING_URL,
       userInfoUrl: process.env.POLE_EMPLOI_USER_INFO_URL,
+      authUrl: process.env.POLE_EMPLOI_AUTHENTICATION_URL,
       temporaryStorage: {
         expirationDelaySeconds:
           parseInt(process.env.POLE_EMPLOI_TEMPORARY_STORAGE_EXPIRATION_DELAY_SECONDS, 10) || 1140,
@@ -278,10 +279,12 @@ module.exports = (function () {
 
     config.temporaryKey.secret = 'test-jwt-key';
 
+    config.poleEmploi.clientId = 'PIX_POLE_EMPLOI_CLIENT_ID';
     config.poleEmploi.clientSecret = 'PIX_POLE_EMPLOI_CLIENT_SECRET';
     config.poleEmploi.tokenUrl = 'http://tokenUrl.fr';
     config.poleEmploi.sendingUrl = 'http://sendingUrl.fr';
     config.poleEmploi.userInfoUrl = 'http://userInfoUrl.fr';
+    config.poleEmploi.authUrl = 'http://authurl.fr';
 
     config.saml.accessTokenLifespanMs = 1000;
 
