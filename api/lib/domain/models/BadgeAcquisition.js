@@ -25,7 +25,7 @@ class BadgeAcquisition {
     return [PIX_DROIT_MAITRE_CERTIF, PIX_DROIT_EXPERT_CERTIF].includes(this.badgeKey);
   }
 
-  isPixEdu() {
+  isPixEdu2ndDegre() {
     return [
       PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
       PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME,

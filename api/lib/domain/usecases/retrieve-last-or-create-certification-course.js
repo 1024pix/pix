@@ -175,7 +175,7 @@ async function _startNewCertification({
   }
 
   const pixEduBadgeAcquisition = highestCertifiableBadgeAcquisitions.find((badgeAcquisition) =>
-    badgeAcquisition.isPixEdu()
+    badgeAcquisition.isPixEdu2ndDegre()
   );
   if (pixEduBadgeAcquisition) {
     const certificationChallengesForPixEdu = await certificationChallengesService.pickCertificationChallengesForPixPlus(
