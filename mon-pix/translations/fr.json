@@ -784,7 +784,7 @@
     "focused-certification-challenge-instructions": {
       "action": "Je suis prêt",
       "title": "Mode focus",
-      "description": "Pour la prochaine question, vous ne serez pas autorisé à sortir de la page."
+      "description": "Pour la ou les prochaines questions, vous ne serez pas autorisé à sortir de la page."
     },
     "join": {
       "title": "Rejoindre",
