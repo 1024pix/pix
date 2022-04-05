@@ -24,11 +24,11 @@ describe('Unit | Domain | Models | PixEdu2ndDegreBadgeAcquisitionOrderer', funct
       it('should return the PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT badge acquisition', function () {
         // given
         const badgesAcquisitions = [
-          domainBuilder.buildBadgeAcquisition.forPixEduFormationInitiale2ndDegreAutonome(),
-          domainBuilder.buildBadgeAcquisition.forPixEduFormationInitiale2ndDegreAvance(),
+          domainBuilder.buildBadgeAcquisition.forPixEduFormationInitiale2ndDegreInitie(),
+          domainBuilder.buildBadgeAcquisition.forPixEduFormationInitiale2ndDegreConfirme(),
+          domainBuilder.buildBadgeAcquisition.forPixEduFormationContinue2ndDegreConfirme(),
           domainBuilder.buildBadgeAcquisition.forPixEduFormationContinue2ndDegreAvance(),
           domainBuilder.buildBadgeAcquisition.forPixEduFormationContinue2ndDegreExpert(),
-          domainBuilder.buildBadgeAcquisition.forPixEduFormationContinue2ndDegreFormateur(),
         ];
         const pixEdu2ndDegreBadgeAcquisitionOrderer = new PixEdu2ndDegreBadgeAcquisitionOrderer({ badgesAcquisitions });
 
@@ -37,7 +37,7 @@ describe('Unit | Domain | Models | PixEdu2ndDegreBadgeAcquisitionOrderer', funct
 
         // then
         expect(highestBadge).to.deep.equal(
-          domainBuilder.buildBadgeAcquisition.forPixEduFormationContinue2ndDegreFormateur()
+          domainBuilder.buildBadgeAcquisition.forPixEduFormationContinue2ndDegreExpert()
         );
       });
     });
@@ -47,10 +47,10 @@ describe('Unit | Domain | Models | PixEdu2ndDegreBadgeAcquisitionOrderer', funct
         it('should return the PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE badge acquisition', function () {
           // given
           const badgesAcquisitions = [
-            domainBuilder.buildBadgeAcquisition.forPixEduFormationInitiale2ndDegreAutonome(),
-            domainBuilder.buildBadgeAcquisition.forPixEduFormationInitiale2ndDegreAvance(),
+            domainBuilder.buildBadgeAcquisition.forPixEduFormationInitiale2ndDegreInitie(),
+            domainBuilder.buildBadgeAcquisition.forPixEduFormationInitiale2ndDegreConfirme(),
+            domainBuilder.buildBadgeAcquisition.forPixEduFormationContinue2ndDegreConfirme(),
             domainBuilder.buildBadgeAcquisition.forPixEduFormationContinue2ndDegreAvance(),
-            domainBuilder.buildBadgeAcquisition.forPixEduFormationContinue2ndDegreExpert(),
           ];
           const pixEdu2ndDegreBadgeAcquisitionOrderer = new PixEdu2ndDegreBadgeAcquisitionOrderer({
             badgesAcquisitions,
@@ -61,7 +61,7 @@ describe('Unit | Domain | Models | PixEdu2ndDegreBadgeAcquisitionOrderer', funct
 
           // then
           expect(highestBadge).to.deep.equal(
-            domainBuilder.buildBadgeAcquisition.forPixEduFormationContinue2ndDegreExpert()
+            domainBuilder.buildBadgeAcquisition.forPixEduFormationContinue2ndDegreAvance()
           );
         });
       });
@@ -71,9 +71,9 @@ describe('Unit | Domain | Models | PixEdu2ndDegreBadgeAcquisitionOrderer', funct
           it('should return the PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME badge acquisition', function () {
             // given
             const badgesAcquisitions = [
-              domainBuilder.buildBadgeAcquisition.forPixEduFormationInitiale2ndDegreAutonome(),
-              domainBuilder.buildBadgeAcquisition.forPixEduFormationInitiale2ndDegreAvance(),
-              domainBuilder.buildBadgeAcquisition.forPixEduFormationContinue2ndDegreAvance(),
+              domainBuilder.buildBadgeAcquisition.forPixEduFormationInitiale2ndDegreInitie(),
+              domainBuilder.buildBadgeAcquisition.forPixEduFormationInitiale2ndDegreConfirme(),
+              domainBuilder.buildBadgeAcquisition.forPixEduFormationContinue2ndDegreConfirme(),
             ];
             const pixEdu2ndDegreBadgeAcquisitionOrderer = new PixEdu2ndDegreBadgeAcquisitionOrderer({
               badgesAcquisitions,
@@ -84,7 +84,7 @@ describe('Unit | Domain | Models | PixEdu2ndDegreBadgeAcquisitionOrderer', funct
 
             // then
             expect(highestBadge).to.deep.equal(
-              domainBuilder.buildBadgeAcquisition.forPixEduFormationContinue2ndDegreAvance()
+              domainBuilder.buildBadgeAcquisition.forPixEduFormationContinue2ndDegreConfirme()
             );
           });
         });
@@ -94,8 +94,8 @@ describe('Unit | Domain | Models | PixEdu2ndDegreBadgeAcquisitionOrderer', funct
             it('should return the PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_AVANCE badge acquisition', function () {
               // given
               const badgesAcquisitions = [
-                domainBuilder.buildBadgeAcquisition.forPixEduFormationInitiale2ndDegreAutonome(),
-                domainBuilder.buildBadgeAcquisition.forPixEduFormationInitiale2ndDegreAvance(),
+                domainBuilder.buildBadgeAcquisition.forPixEduFormationInitiale2ndDegreInitie(),
+                domainBuilder.buildBadgeAcquisition.forPixEduFormationInitiale2ndDegreConfirme(),
               ];
               const pixEdu2ndDegreBadgeAcquisitionOrderer = new PixEdu2ndDegreBadgeAcquisitionOrderer({
                 badgesAcquisitions,
@@ -106,7 +106,7 @@ describe('Unit | Domain | Models | PixEdu2ndDegreBadgeAcquisitionOrderer', funct
 
               // then
               expect(highestBadge).to.deep.equal(
-                domainBuilder.buildBadgeAcquisition.forPixEduFormationInitiale2ndDegreAvance()
+                domainBuilder.buildBadgeAcquisition.forPixEduFormationInitiale2ndDegreConfirme()
               );
             });
           });
@@ -115,7 +115,7 @@ describe('Unit | Domain | Models | PixEdu2ndDegreBadgeAcquisitionOrderer', funct
               it('should return the PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE badge acquisition', function () {
                 // given
                 const badgesAcquisitions = [
-                  domainBuilder.buildBadgeAcquisition.forPixEduFormationInitiale2ndDegreAutonome(),
+                  domainBuilder.buildBadgeAcquisition.forPixEduFormationInitiale2ndDegreInitie(),
                 ];
                 const pixEdu2ndDegreBadgeAcquisitionOrderer = new PixEdu2ndDegreBadgeAcquisitionOrderer({
                   badgesAcquisitions,
@@ -126,7 +126,7 @@ describe('Unit | Domain | Models | PixEdu2ndDegreBadgeAcquisitionOrderer', funct
 
                 // then
                 expect(highestBadge).to.deep.equal(
-                  domainBuilder.buildBadgeAcquisition.forPixEduFormationInitiale2ndDegreAutonome()
+                  domainBuilder.buildBadgeAcquisition.forPixEduFormationInitiale2ndDegreInitie()
                 );
               });
             });
