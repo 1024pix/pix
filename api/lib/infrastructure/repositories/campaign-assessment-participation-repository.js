@@ -40,6 +40,7 @@ async function _fetchCampaignAssessmentAttributesFromCampaignParticipation(campa
         .join('organization-learners', 'organization-learners.id', 'campaign-participations.organizationLearnerId')
         .where({
           'campaign-participations.id': campaignParticipationId,
+          'campaign-participations.deletedAt': null,
         });
     })
     .from('campaignAssessmentParticipation')
