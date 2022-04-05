@@ -7,6 +7,11 @@ const {
   PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME,
   PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
   PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
+  PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_INITIE,
+  PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_CONFIRME,
+  PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_CONFIRME,
+  PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE,
+  PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT,
 } = require('../../../../lib/domain/models/Badge').keys;
 
 describe('Unit | Domain | Models | BadgeAcquisition', function () {
@@ -86,6 +91,43 @@ describe('Unit | Domain | Models | BadgeAcquisition', function () {
 
       // when
       const isPixEdu = badgeAcquisition.isPixEdu2ndDegre();
+
+      // then
+      expect(isPixEdu).to.be.false;
+    });
+  });
+
+  describe('#isPixEdu1erDegre', function () {
+    // eslint-disable-next-line mocha/no-setup-in-describe
+    [
+      PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_INITIE,
+      PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_CONFIRME,
+      PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_CONFIRME,
+      PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE,
+      PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT,
+    ].forEach((badgeKey) => {
+      it(`should return true for badge ${badgeKey}`, function () {
+        // given
+        const badgeAcquisition = domainBuilder.buildBadgeAcquisition({
+          badge: domainBuilder.buildBadge({ key: badgeKey }),
+        });
+
+        // when
+        const isPixEdu = badgeAcquisition.isPixEdu1erDegre();
+
+        // then
+        expect(isPixEdu).to.be.true;
+      });
+    });
+
+    it('should return false otherwise', function () {
+      // given
+      const badgeAcquisition = domainBuilder.buildBadgeAcquisition({
+        badge: domainBuilder.buildBadge({ key: 'NOT_PIX_EDU' }),
+      });
+
+      // when
+      const isPixEdu = badgeAcquisition.isPixEdu1erDegre();
 
       // then
       expect(isPixEdu).to.be.false;
