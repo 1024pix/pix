@@ -26,15 +26,17 @@
         id="organizationTypeSelector"
         class="form-field__select {{if @organization.errors.type " is-invalid" ""}} organization-form__select-type"
       >
-        <PowerSelect
-          @options={{this.organizationTypes}}
-          @searchEnabled={{false}}
-          @selected={{this.selectedOrganizationType}}
+        <PixSelect
           @onChange={{this.selectOrganizationType}}
+          @options={{this.organizationTypes}}
+          @isSearchable={{false}}
+          aria-label="Sélectionner un type d'organisation"
+          @emptyOptionNotSelectable={{true}}
+          @emptyOptionLabel=""
           as |organizationType|
         >
           {{organizationType.label}}
-        </PowerSelect>
+        </PixSelect>
       </div>
       {{#each @organization.errors.type as |error|}}
         <div class="form-field__error">

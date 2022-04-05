@@ -1,9 +1,8 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render } from '@1024pix/ember-testing-library';
+import { render, selectByLabelAndOption } from '@1024pix/ember-testing-library';
 import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
-import { selectChoose } from 'ember-power-select/test-support/helpers';
 
 module('Integration | Component | organizations/form', function (hooks) {
   setupRenderingTest(hooks);
@@ -23,6 +22,7 @@ module('Integration | Component | organizations/form', function (hooks) {
     // then
     assert.dom(screen.getByRole('textbox', { name: 'Nom :' })).exists();
     assert.dom(screen.getByRole('textbox', { name: 'Lien vers la documentation :' })).exists();
+    assert.dom(screen.getByRole('combobox', { name: "Sélectionner un type d'organisation" })).exists();
     assert.dom(screen.getByRole('button', { name: 'Annuler' })).exists();
     assert.dom(screen.getByRole('button', { name: 'Ajouter' })).exists();
   });
@@ -30,18 +30,18 @@ module('Integration | Component | organizations/form', function (hooks) {
   module('#selectOrganizationType', function () {
     test('should update attribute organization.type', async function (assert) {
       // given
-      await render(
+      const screen = await render(
         hbs`<Organizations::Form @organization={{this.organization}} @onSubmit={{action onSubmit}} @onCancel={{action onCancel}} />`
       );
 
       // when
-      await selectChoose('#organizationTypeSelector', 'Établissement scolaire');
+      await selectByLabelAndOption("Sélectionner un type d'organisation", 'SCO');
 
       // then
       // TODO: Fix this the next time the file is edited.
       // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(this.organization.type, 'SCO');
-      assert.dom('.ember-power-select-selected-item').hasText('Établissement scolaire');
+      assert.dom(screen.getByText('Établissement scolaire')).exists();
     });
   });
 });
