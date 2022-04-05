@@ -31,7 +31,7 @@ describe('Integration | Infrastructure | Repository | account-recovery-demand-re
           const {
             id: demandId,
             userId,
-            schoolingRegistrationId,
+            organizationLearnerId,
             createdAt,
           } = await databaseBuilder.factory.buildAccountRecoveryDemand({ email, temporaryKey, used: true });
           await databaseBuilder.factory.buildAccountRecoveryDemand({ email, used: false });
@@ -40,7 +40,7 @@ describe('Integration | Infrastructure | Repository | account-recovery-demand-re
             id: demandId,
             userId,
             oldEmail: null,
-            schoolingRegistrationId,
+            schoolingRegistrationId: organizationLearnerId,
             newEmail: 'philipe@example.net',
             temporaryKey: 'someTemporaryKey',
             used: true,
@@ -62,7 +62,7 @@ describe('Integration | Infrastructure | Repository | account-recovery-demand-re
           const {
             id: demandId,
             userId,
-            schoolingRegistrationId,
+            organizationLearnerId,
             createdAt,
           } = await databaseBuilder.factory.buildAccountRecoveryDemand({ email, temporaryKey, used: false });
           await databaseBuilder.factory.buildAccountRecoveryDemand({ email, used: false });
@@ -71,7 +71,7 @@ describe('Integration | Infrastructure | Repository | account-recovery-demand-re
             id: demandId,
             userId,
             oldEmail: null,
-            schoolingRegistrationId,
+            schoolingRegistrationId: organizationLearnerId,
             newEmail: 'philipe@example.net',
             temporaryKey: 'someTemporaryKey',
             used: false,
@@ -106,12 +106,12 @@ describe('Integration | Infrastructure | Repository | account-recovery-demand-re
         // given
         databaseBuilder.factory.buildAccountRecoveryDemand();
         const expectedUser = databaseBuilder.factory.buildUser();
-        const firstAccounRecoveryDemand = databaseBuilder.factory.buildAccountRecoveryDemand({
+        const firstAccountRecoveryDemand = databaseBuilder.factory.buildAccountRecoveryDemand({
           userId: expectedUser.id,
           temporaryKey: 'temporaryKey1',
           oldEmail: null,
         });
-        const secondAccounRecoveryDemand = databaseBuilder.factory.buildAccountRecoveryDemand({
+        const secondAccountRecoveryDemand = databaseBuilder.factory.buildAccountRecoveryDemand({
           userId: expectedUser.id,
           used: true,
           temporaryKey: 'temporaryKey2',
@@ -125,8 +125,22 @@ describe('Integration | Infrastructure | Repository | account-recovery-demand-re
 
         // then
         expect(result).to.be.deep.equal([
-          omit(firstAccounRecoveryDemand, 'updatedAt'),
-          omit(secondAccounRecoveryDemand, 'updatedAt'),
+          omit(
+            {
+              ...firstAccountRecoveryDemand,
+              schoolingRegistrationId: firstAccountRecoveryDemand.organizationLearnerId,
+            },
+            'updatedAt',
+            'organizationLearnerId'
+          ),
+          omit(
+            {
+              ...secondAccountRecoveryDemand,
+              schoolingRegistrationId: secondAccountRecoveryDemand.organizationLearnerId,
+            },
+            'updatedAt',
+            'organizationLearnerId'
+          ),
         ]);
       });
     });
@@ -187,7 +201,7 @@ describe('Integration | Infrastructure | Repository | account-recovery-demand-re
     it('should persist the account recovery demand', async function () {
       // given
       const user = databaseBuilder.factory.buildUser();
-      const schoolingRegistrationId = databaseBuilder.factory.buildSchoolingRegistration({ userId: user.id }).id;
+      const organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner({ userId: user.id }).id;
       await databaseBuilder.commit();
 
       const userId = user.id;
@@ -197,7 +211,7 @@ describe('Integration | Infrastructure | Repository | account-recovery-demand-re
       const temporaryKey = '123456789AZERTYUIO';
       const accountRecoveryDemandAttributes = {
         userId,
-        schoolingRegistrationId,
+        schoolingRegistrationId: organizationLearnerId,
         newEmail,
         oldEmail,
         used,

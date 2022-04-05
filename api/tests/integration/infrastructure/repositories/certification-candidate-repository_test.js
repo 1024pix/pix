@@ -514,16 +514,16 @@ describe('Integration | Repository | CertificationCandidate', function () {
           sessionId,
         };
 
-        databaseBuilder.factory.buildSchoolingRegistration({ id: 666 });
-        databaseBuilder.factory.buildSchoolingRegistration({ id: 777 });
+        databaseBuilder.factory.buildOrganizationLearner({ id: 666 });
+        databaseBuilder.factory.buildOrganizationLearner({ id: 777 });
 
         const certificationCandidates1 = databaseBuilder.factory.buildCertificationCandidate({
           ...commonCandidateInfo,
-          schoolingRegistrationId: 777,
+          organizationLearnerId: 777,
         });
         const certificationCandidates2 = databaseBuilder.factory.buildCertificationCandidate({
           ...commonCandidateInfo,
-          schoolingRegistrationId: 666,
+          organizationLearnerId: 666,
         });
 
         await databaseBuilder.commit();
@@ -541,8 +541,8 @@ describe('Integration | Repository | CertificationCandidate', function () {
           actualCandidates[0].schoolingRegistrationId,
           actualCandidates[1].schoolingRegistrationId,
         ]).to.have.members([
-          certificationCandidates1.schoolingRegistrationId,
-          certificationCandidates2.schoolingRegistrationId,
+          certificationCandidates1.organizationLearnerId,
+          certificationCandidates2.organizationLearnerId,
         ]);
         expect(actualCandidates[0].id).to.not.equal(actualCandidates[1].id);
       });

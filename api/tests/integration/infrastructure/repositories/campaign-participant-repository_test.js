@@ -125,13 +125,13 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
       it('create a campaign participation linked to this schooling registration', async function () {
         //GIVEN
         const campaign = databaseBuilder.factory.buildCampaign({ idPixLabel: null });
-        const schoolingRegistrationId = databaseBuilder.factory.buildSchoolingRegistration().id;
+        const organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner().id;
         await databaseBuilder.commit();
 
         const campaignToStartParticipation = new CampaignToStartParticipation(campaign);
         const campaignParticipant = new CampaignParticipant({
           campaignToStartParticipation,
-          schoolingRegistrationId,
+          schoolingRegistrationId: organizationLearnerId,
           userIdentity,
           previousCampaignParticipation: null,
         });
@@ -145,7 +145,7 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
 
         //THEN
         const campaignParticipation = await knex('campaign-participations').select('organizationLearnerId').first();
-        expect(campaignParticipation.organizationLearnerId).to.equal(schoolingRegistrationId);
+        expect(campaignParticipation.organizationLearnerId).to.equal(organizationLearnerId);
       });
     });
 
@@ -172,11 +172,11 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
         });
 
         //THEN
-        const schoolingRegistration = await knex('organization-learners')
+        const organizationLearner = await knex('organization-learners')
           .select('firstName', 'lastName', 'userId', 'organizationId')
           .first();
 
-        expect(schoolingRegistration).to.deep.equal({
+        expect(organizationLearner).to.deep.equal({
           firstName: userIdentity.firstName,
           lastName: userIdentity.lastName,
           organizationId: campaignToStartParticipation.organizationId,
@@ -206,8 +206,8 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
 
         //THEN
         const campaignParticipation = await knex('campaign-participations').select('organizationLearnerId').first();
-        const schoolingRegistration = await knex('organization-learners').select('id').first();
-        expect(campaignParticipation.organizationLearnerId).to.equal(schoolingRegistration.id);
+        const organizationLearner = await knex('organization-learners').select('id').first();
+        expect(campaignParticipation.organizationLearnerId).to.equal(organizationLearner.id);
       });
     });
 
@@ -533,7 +533,7 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
       it('find the schoolingRegistrationId', async function () {
         const campaignToStartParticipation = buildCampaignWithCompleteTargetProfile({ organizationId });
         const { id: userId } = databaseBuilder.factory.buildUser();
-        const { id: schoolingRegistrationId } = databaseBuilder.factory.buildSchoolingRegistration({
+        const { id: organizationLearnerId } = databaseBuilder.factory.buildOrganizationLearner({
           userId,
           organizationId,
         });
@@ -548,13 +548,13 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
           });
         });
 
-        expect(campaignParticipant.schoolingRegistrationId).to.equal(schoolingRegistrationId);
+        expect(campaignParticipant.schoolingRegistrationId).to.equal(organizationLearnerId);
       });
 
       it('find only schoolingRegistration that are not disabled', async function () {
         const campaignToStartParticipation = buildCampaignWithCompleteTargetProfile({ organizationId });
         const { id: userId } = databaseBuilder.factory.buildUser();
-        databaseBuilder.factory.buildSchoolingRegistration({
+        databaseBuilder.factory.buildOrganizationLearner({
           userId,
           organizationId,
           isDisabled: true,
@@ -579,10 +579,10 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
         it('find the schoolingRegistrationId for the correct organization', async function () {
           const campaignToStartParticipation = buildCampaignWithCompleteTargetProfile({ organizationId });
           const { id: userId } = databaseBuilder.factory.buildUser();
-          databaseBuilder.factory.buildSchoolingRegistration({
+          databaseBuilder.factory.buildOrganizationLearner({
             userId,
           });
-          const { id: schoolingRegistrationId } = databaseBuilder.factory.buildSchoolingRegistration({
+          const { id: organizationLearnerId } = databaseBuilder.factory.buildOrganizationLearner({
             userId,
             organizationId,
           });
@@ -597,7 +597,7 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
             });
           });
 
-          expect(campaignParticipant.schoolingRegistrationId).to.equal(schoolingRegistrationId);
+          expect(campaignParticipant.schoolingRegistrationId).to.equal(organizationLearnerId);
         });
       });
 
@@ -605,10 +605,10 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
         it('find the schoolingRegistrationId for the correct user', async function () {
           const campaignToStartParticipation = buildCampaignWithCompleteTargetProfile({ organizationId });
           const { id: userId } = databaseBuilder.factory.buildUser();
-          databaseBuilder.factory.buildSchoolingRegistration({
+          databaseBuilder.factory.buildOrganizationLearner({
             organizationId,
           });
-          const { id: schoolingRegistrationId } = databaseBuilder.factory.buildSchoolingRegistration({
+          const { id: organizationLearnerId } = databaseBuilder.factory.buildOrganizationLearner({
             userId,
             organizationId,
           });
@@ -623,7 +623,7 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
             });
           });
 
-          expect(campaignParticipant.schoolingRegistrationId).to.equal(schoolingRegistrationId);
+          expect(campaignParticipant.schoolingRegistrationId).to.equal(organizationLearnerId);
         });
       });
     });

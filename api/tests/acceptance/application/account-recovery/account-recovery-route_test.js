@@ -37,14 +37,14 @@ describe('Acceptance | Route | Account-recovery', function () {
         id: 2,
         name: 'Super Collège Hollywoodien',
       });
-      databaseBuilder.factory.buildSchoolingRegistration({
+      databaseBuilder.factory.buildOrganizationLearner({
         userId: user.id,
         ...studentInformation,
         nationalStudentId: studentInformation.ineIna.toUpperCase(),
         organizationId: organization.id,
         updatedAt: new Date('2005-01-01T15:00:00Z'),
       });
-      databaseBuilder.factory.buildSchoolingRegistration({
+      databaseBuilder.factory.buildOrganizationLearner({
         userId: user.id,
         ...studentInformation,
         nationalStudentId: studentInformation.ineIna.toUpperCase(),

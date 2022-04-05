@@ -49,7 +49,7 @@ function organizationsSupBuilder({ databaseBuilder }) {
   });
 
   // student not associated
-  databaseBuilder.factory.buildSchoolingRegistration({
+  databaseBuilder.factory.buildOrganizationLearner({
     firstName: 'Studentsup',
     lastName: 'Free',
     birthdate: '2010-10-10',
@@ -60,7 +60,7 @@ function organizationsSupBuilder({ databaseBuilder }) {
     division: null,
   });
 
-  databaseBuilder.factory.buildSchoolingRegistration({
+  databaseBuilder.factory.buildOrganizationLearner({
     firstName: 'Studentsup',
     lastName: 'Free2',
     birthdate: '2009-09-09',
@@ -81,7 +81,7 @@ function organizationsSupBuilder({ databaseBuilder }) {
     cgu: false,
   });
 
-  databaseBuilder.factory.buildSchoolingRegistration({
+  databaseBuilder.factory.buildOrganizationLearner({
     id: SUP_STUDENT_ASSOCIATED_ID,
     firstName: studentAssociated.firstName,
     lastName: studentAssociated.lastName,
@@ -103,7 +103,7 @@ function organizationsSupBuilder({ databaseBuilder }) {
     cgu: false,
   });
 
-  databaseBuilder.factory.buildSchoolingRegistration({
+  databaseBuilder.factory.buildOrganizationLearner({
     id: SUP_STUDENT_DISABLED_ID,
     firstName: studentDisabled.firstName,
     lastName: studentDisabled.lastName,

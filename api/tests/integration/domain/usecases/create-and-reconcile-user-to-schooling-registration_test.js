@@ -30,7 +30,7 @@ describe('Integration | UseCases | create-and-reconcile-user-to-schooling-regist
   let campaignCode;
   let organizationId;
   let password;
-  let schoolingRegistration;
+  let organizationLearner;
   let userAttributes;
 
   context('When there is no campaign with the given code', function () {
@@ -112,14 +112,14 @@ describe('Integration | UseCases | create-and-reconcile-user-to-schooling-regist
       it('should nor create nor associate schoolingRegistration', async function () {
         // given
         const userId = databaseBuilder.factory.buildUser().id;
-        schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({
+        organizationLearner = databaseBuilder.factory.buildOrganizationLearner({
           organizationId,
           userId,
         });
         userAttributes = {
-          firstName: schoolingRegistration.firstName,
-          lastName: schoolingRegistration.lastName,
-          birthdate: schoolingRegistration.birthdate,
+          firstName: organizationLearner.firstName,
+          lastName: organizationLearner.lastName,
+          birthdate: organizationLearner.birthdate,
         };
 
         await databaseBuilder.commit();
@@ -150,14 +150,14 @@ describe('Integration | UseCases | create-and-reconcile-user-to-schooling-regist
       beforeEach(async function () {
         password = 'Password123';
 
-        schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({
+        organizationLearner = databaseBuilder.factory.buildOrganizationLearner({
           organizationId,
           userId: null,
         });
         userAttributes = {
-          firstName: schoolingRegistration.firstName,
-          lastName: schoolingRegistration.lastName,
-          birthdate: schoolingRegistration.birthdate,
+          firstName: organizationLearner.firstName,
+          lastName: organizationLearner.lastName,
+          birthdate: organizationLearner.birthdate,
           email: '',
         };
 
@@ -286,14 +286,14 @@ describe('Integration | UseCases | create-and-reconcile-user-to-schooling-regist
       beforeEach(async function () {
         password = 'Password123';
 
-        schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({
+        organizationLearner = databaseBuilder.factory.buildOrganizationLearner({
           organizationId,
           userId: null,
         });
         userAttributes = {
-          firstName: schoolingRegistration.firstName,
-          lastName: schoolingRegistration.lastName,
-          birthdate: schoolingRegistration.birthdate,
+          firstName: organizationLearner.firstName,
+          lastName: organizationLearner.lastName,
+          birthdate: organizationLearner.birthdate,
           withUsername: true,
         };
 
@@ -347,7 +347,7 @@ describe('Integration | UseCases | create-and-reconcile-user-to-schooling-regist
         it('should create user and associate schoolingRegistration', async function () {
           // given
           const username =
-            schoolingRegistration.firstName.toLowerCase() + '.' + schoolingRegistration.lastName.toLowerCase() + '0112';
+            organizationLearner.firstName.toLowerCase() + '.' + organizationLearner.lastName.toLowerCase() + '0112';
           userAttributes.username = username;
 
           const expectedUser = {

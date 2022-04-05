@@ -85,27 +85,27 @@ describe('Integration | Repository | Group', function () {
       // given
       const organization = databaseBuilder.factory.buildOrganization();
 
-      databaseBuilder.factory.buildSchoolingRegistration({
+      databaseBuilder.factory.buildOrganizationLearner({
         organizationId: organization.id,
         group: '5A',
       });
-      databaseBuilder.factory.buildSchoolingRegistration({
+      databaseBuilder.factory.buildOrganizationLearner({
         organizationId: organization.id,
         group: '_3A',
       });
-      databaseBuilder.factory.buildSchoolingRegistration({
+      databaseBuilder.factory.buildOrganizationLearner({
         organizationId: organization.id,
         group: '3A',
       });
-      databaseBuilder.factory.buildSchoolingRegistration({
+      databaseBuilder.factory.buildOrganizationLearner({
         organizationId: organization.id,
         group: 'T2',
       });
-      databaseBuilder.factory.buildSchoolingRegistration({
+      databaseBuilder.factory.buildOrganizationLearner({
         organizationId: organization.id,
         group: 't1',
       });
-      databaseBuilder.factory.buildSchoolingRegistration({
+      databaseBuilder.factory.buildOrganizationLearner({
         organizationId: organization.id,
         group: 't1',
       });
@@ -125,11 +125,11 @@ describe('Integration | Repository | Group', function () {
     it('should return list of groups from the given organization', async function () {
       const organization = databaseBuilder.factory.buildOrganization();
 
-      databaseBuilder.factory.buildSchoolingRegistration({
+      databaseBuilder.factory.buildOrganizationLearner({
         organizationId: organization.id,
         group: '5A',
       });
-      databaseBuilder.factory.buildSchoolingRegistration({
+      databaseBuilder.factory.buildOrganizationLearner({
         group: '5B',
       });
 
@@ -145,12 +145,12 @@ describe('Integration | Repository | Group', function () {
     it('should omit groups for schooling registration disabled', async function () {
       const organization = databaseBuilder.factory.buildOrganization();
 
-      databaseBuilder.factory.buildSchoolingRegistration({
+      databaseBuilder.factory.buildOrganizationLearner({
         organizationId: organization.id,
         group: '5A',
         isDisabled: false,
       });
-      databaseBuilder.factory.buildSchoolingRegistration({
+      databaseBuilder.factory.buildOrganizationLearner({
         organizationId: organization.id,
         group: '5B',
         isDisabled: true,
@@ -168,7 +168,7 @@ describe('Integration | Repository | Group', function () {
     it('returns nothing if the schooling registration has no group', async function () {
       const organization = databaseBuilder.factory.buildOrganization();
 
-      databaseBuilder.factory.buildSchoolingRegistration({
+      databaseBuilder.factory.buildOrganizationLearner({
         organizationId: organization.id,
         group: null,
         isDisabled: false,

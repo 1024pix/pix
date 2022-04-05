@@ -50,7 +50,7 @@ describe('Integration | UseCase | ImportHigherSchoolingRegistration', function (
         const encodedInput = iconv.encode(input, 'utf8');
 
         const organization = databaseBuilder.factory.buildOrganization();
-        databaseBuilder.factory.buildSchoolingRegistration({
+        databaseBuilder.factory.buildOrganizationLearner({
           organizationId: organization.id,
           studentNumber: '123456',
           firstName: 'Beatrix',

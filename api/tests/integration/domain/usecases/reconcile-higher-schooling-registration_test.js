@@ -51,7 +51,7 @@ describe('Integration | UseCases | reconcile-higher-schooling-registration', fun
             lastName: 'lastname',
             birthdate: '2008-01-01',
           };
-          databaseBuilder.factory.buildSchoolingRegistration({ studentNumber: '123', userId: null, organizationId });
+          databaseBuilder.factory.buildOrganizationLearner({ studentNumber: '123', userId: null, organizationId });
           await databaseBuilder.commit();
 
           // when
@@ -81,7 +81,7 @@ describe('Integration | UseCases | reconcile-higher-schooling-registration', fun
             lastName: 'lastname',
             birthdate: '2008-01-01',
           };
-          databaseBuilder.factory.buildSchoolingRegistration({
+          databaseBuilder.factory.buildOrganizationLearner({
             ...reconciliationInfo,
             firstName: 'first name',
             userId: null,
@@ -117,7 +117,7 @@ describe('Integration | UseCases | reconcile-higher-schooling-registration', fun
             birthdate: '2008-01-01',
           };
           const otherUserId = databaseBuilder.factory.buildUser().id;
-          databaseBuilder.factory.buildSchoolingRegistration({
+          databaseBuilder.factory.buildOrganizationLearner({
             ...reconciliationInfo,
             userId: otherUserId,
             organizationId,

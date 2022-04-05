@@ -12,16 +12,16 @@ describe('Integration | Scripts | create-old-organization-learners-for-dissociat
     it('should create a new organizationLearner with disabled status', async function () {
       const user = databaseBuilder.factory.buildUser({ firstName: 'Henri', lastName: 'Golo' });
       const campaign = databaseBuilder.factory.buildCampaign();
-      const organizationLearnerId = databaseBuilder.factory.buildSchoolingRegistration().id;
+      const organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner().id;
       databaseBuilder.factory.buildCampaignParticipation({
         userId: user.id,
         campaignId: campaign.id,
-        schoolingRegistrationId: organizationLearnerId,
+        organizationLearnerId,
         createdAt: new Date('2020-01-01'),
       });
       databaseBuilder.factory.buildCampaignParticipation({
         campaignId: campaign.id,
-        schoolingRegistrationId: organizationLearnerId,
+        organizationLearnerId,
         createdAt: new Date(),
       });
 
@@ -50,30 +50,30 @@ describe('Integration | Scripts | create-old-organization-learners-for-dissociat
     it('should create a new organizationLearner for both old participations', async function () {
       const user = databaseBuilder.factory.buildUser();
       const campaign1 = databaseBuilder.factory.buildCampaign();
-      const organizationLearnerId = databaseBuilder.factory.buildSchoolingRegistration().id;
+      const organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner().id;
       databaseBuilder.factory.buildCampaignParticipation({
         userId: user.id,
         campaignId: campaign1.id,
-        schoolingRegistrationId: organizationLearnerId,
+        organizationLearnerId,
         createdAt: new Date('2020-01-01'),
       });
       databaseBuilder.factory.buildCampaignParticipation({
         campaignId: campaign1.id,
-        schoolingRegistrationId: organizationLearnerId,
+        organizationLearnerId,
         createdAt: new Date(),
       });
 
       const campaign2 = databaseBuilder.factory.buildCampaign();
-      const organizationLearnerId2 = databaseBuilder.factory.buildSchoolingRegistration().id;
+      const organizationLearnerId2 = databaseBuilder.factory.buildOrganizationLearner().id;
       databaseBuilder.factory.buildCampaignParticipation({
         userId: user.id,
         campaignId: campaign2.id,
-        schoolingRegistrationId: organizationLearnerId2,
+        organizationLearnerId: organizationLearnerId2,
         createdAt: new Date('2020-01-01'),
       });
       databaseBuilder.factory.buildCampaignParticipation({
         campaignId: campaign2.id,
-        schoolingRegistrationId: organizationLearnerId2,
+        organizationLearnerId: organizationLearnerId2,
         createdAt: new Date(),
       });
 
@@ -90,16 +90,16 @@ describe('Integration | Scripts | create-old-organization-learners-for-dissociat
     it('should create a new organizationLearner for old campaign participation only', async function () {
       const user = databaseBuilder.factory.buildUser();
       const campaign = databaseBuilder.factory.buildCampaign();
-      const organizationLearnerId = databaseBuilder.factory.buildSchoolingRegistration().id;
+      const organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner().id;
       const oldCampaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
         userId: user.id,
         campaignId: campaign.id,
-        schoolingRegistrationId: organizationLearnerId,
+        organizationLearnerId,
         createdAt: new Date('2020-01-01'),
       });
       databaseBuilder.factory.buildCampaignParticipation({
         campaignId: campaign.id,
-        schoolingRegistrationId: organizationLearnerId,
+        organizationLearnerId,
         createdAt: new Date(),
       });
 
@@ -119,16 +119,16 @@ describe('Integration | Scripts | create-old-organization-learners-for-dissociat
     it('should not update with new organizationLearnerId all participations', async function () {
       const user = databaseBuilder.factory.buildUser();
       const campaign = databaseBuilder.factory.buildCampaign();
-      const organizationLearnerId = databaseBuilder.factory.buildSchoolingRegistration().id;
+      const organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner().id;
       databaseBuilder.factory.buildCampaignParticipation({
         userId: user.id,
         campaignId: campaign.id,
-        schoolingRegistrationId: organizationLearnerId,
+        organizationLearnerId,
         createdAt: new Date('2020-01-01'),
       });
       const recentCampaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
         campaignId: campaign.id,
-        schoolingRegistrationId: organizationLearnerId,
+        organizationLearnerId,
         createdAt: new Date(),
       });
 
@@ -141,23 +141,23 @@ describe('Integration | Scripts | create-old-organization-learners-for-dissociat
       });
 
       //then
-      expect(campaignParticipation.organizationLearnerId).to.equal(recentCampaignParticipation.schoolingRegistrationId);
+      expect(campaignParticipation.organizationLearnerId).to.equal(recentCampaignParticipation.organizationLearnerId);
     });
 
     it('should not create organizationLearner if old participation is improved', async function () {
       const user = databaseBuilder.factory.buildUser();
       const campaign = databaseBuilder.factory.buildCampaign();
-      const organizationLearnerId = databaseBuilder.factory.buildSchoolingRegistration().id;
+      const organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner().id;
       databaseBuilder.factory.buildCampaignParticipation({
         userId: user.id,
         campaignId: campaign.id,
-        schoolingRegistrationId: organizationLearnerId,
+        organizationLearnerId,
         createdAt: new Date('2020-01-01'),
         isImproved: true,
       });
       databaseBuilder.factory.buildCampaignParticipation({
         campaignId: campaign.id,
-        schoolingRegistrationId: organizationLearnerId,
+        organizationLearnerId,
         createdAt: new Date(),
       });
 
@@ -174,16 +174,16 @@ describe('Integration | Scripts | create-old-organization-learners-for-dissociat
     it('should not create organizationLearner if new participation is improved', async function () {
       const user = databaseBuilder.factory.buildUser();
       const campaign = databaseBuilder.factory.buildCampaign();
-      const organizationLearnerId = databaseBuilder.factory.buildSchoolingRegistration().id;
+      const organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner().id;
       databaseBuilder.factory.buildCampaignParticipation({
         userId: user.id,
         campaignId: campaign.id,
-        schoolingRegistrationId: organizationLearnerId,
+        organizationLearnerId,
         createdAt: new Date('2020-01-01'),
       });
       databaseBuilder.factory.buildCampaignParticipation({
         campaignId: campaign.id,
-        schoolingRegistrationId: organizationLearnerId,
+        organizationLearnerId,
         createdAt: new Date(),
         isImproved: true,
       });
@@ -201,17 +201,17 @@ describe('Integration | Scripts | create-old-organization-learners-for-dissociat
     it('should not create organizationLearner if old participation is deleted', async function () {
       const user = databaseBuilder.factory.buildUser();
       const campaign = databaseBuilder.factory.buildCampaign();
-      const organizationLearnerId = databaseBuilder.factory.buildSchoolingRegistration().id;
+      const organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner().id;
       databaseBuilder.factory.buildCampaignParticipation({
         userId: user.id,
         campaignId: campaign.id,
-        schoolingRegistrationId: organizationLearnerId,
+        organizationLearnerId,
         createdAt: new Date('2020-01-01'),
         deletedAt: new Date(),
       });
       databaseBuilder.factory.buildCampaignParticipation({
         campaignId: campaign.id,
-        schoolingRegistrationId: organizationLearnerId,
+        organizationLearnerId,
         createdAt: new Date(),
       });
 
@@ -228,16 +228,16 @@ describe('Integration | Scripts | create-old-organization-learners-for-dissociat
     it('should not create organizationLearner if new participation is deleted', async function () {
       const user = databaseBuilder.factory.buildUser();
       const campaign = databaseBuilder.factory.buildCampaign();
-      const organizationLearnerId = databaseBuilder.factory.buildSchoolingRegistration().id;
+      const organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner().id;
       databaseBuilder.factory.buildCampaignParticipation({
         userId: user.id,
         campaignId: campaign.id,
-        schoolingRegistrationId: organizationLearnerId,
+        organizationLearnerId,
         createdAt: new Date('2020-01-01'),
       });
       databaseBuilder.factory.buildCampaignParticipation({
         campaignId: campaign.id,
-        schoolingRegistrationId: organizationLearnerId,
+        organizationLearnerId,
         createdAt: new Date(),
         deletedAt: new Date(),
       });
@@ -255,17 +255,17 @@ describe('Integration | Scripts | create-old-organization-learners-for-dissociat
     it('should not create organizationLearner if both participations have already their own', async function () {
       const user = databaseBuilder.factory.buildUser();
       const campaign = databaseBuilder.factory.buildCampaign();
-      const organizationLearnerId1 = databaseBuilder.factory.buildSchoolingRegistration().id;
-      const organizationLearnerId2 = databaseBuilder.factory.buildSchoolingRegistration().id;
+      const organizationLearnerId1 = databaseBuilder.factory.buildOrganizationLearner().id;
+      const organizationLearnerId2 = databaseBuilder.factory.buildOrganizationLearner().id;
       databaseBuilder.factory.buildCampaignParticipation({
         userId: user.id,
         campaignId: campaign.id,
-        schoolingRegistrationId: organizationLearnerId1,
+        organizationLearnerId: organizationLearnerId1,
         createdAt: new Date('2020-01-01'),
       });
       databaseBuilder.factory.buildCampaignParticipation({
         campaignId: campaign.id,
-        schoolingRegistrationId: organizationLearnerId2,
+        organizationLearnerId: organizationLearnerId2,
         createdAt: new Date(),
       });
 
@@ -283,16 +283,16 @@ describe('Integration | Scripts | create-old-organization-learners-for-dissociat
       const user = databaseBuilder.factory.buildUser();
       const campaignId1 = databaseBuilder.factory.buildCampaign().id;
       const campaignId2 = databaseBuilder.factory.buildCampaign().id;
-      const organizationLearnerId = databaseBuilder.factory.buildSchoolingRegistration().id;
+      const organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner().id;
       databaseBuilder.factory.buildCampaignParticipation({
         userId: user.id,
         campaignId: campaignId1,
-        schoolingRegistrationId: organizationLearnerId,
+        organizationLearnerId,
         createdAt: new Date('2020-01-01'),
       });
       databaseBuilder.factory.buildCampaignParticipation({
         campaignId: campaignId2,
-        schoolingRegistrationId: organizationLearnerId,
+        organizationLearnerId,
         createdAt: new Date(),
       });
 

@@ -68,7 +68,7 @@ describe('Acceptance | Controller | session-controller-enroll-students-to-sessio
 
     context('when user is authenticated', function () {
       let sessionId;
-      let student;
+      let organizationLearner;
       let country;
       const birthCityCode = 'Detroit313';
       const FRANCE_INSEE_CODE = '99100';
@@ -93,7 +93,7 @@ describe('Acceptance | Controller | session-controller-enroll-students-to-sessio
           originalName: 'FRANCE',
         });
 
-        student = databaseBuilder.factory.buildSchoolingRegistration({
+        organizationLearner = databaseBuilder.factory.buildOrganizationLearner({
           organizationId,
           birthCityCode,
           birthCountryCode: FRANCE_SCHOOLING_REGISTRATION_INSEE_CODE,
@@ -103,7 +103,7 @@ describe('Acceptance | Controller | session-controller-enroll-students-to-sessio
         payload = {
           data: {
             attributes: {
-              'student-ids': [student.id],
+              'student-ids': [organizationLearner.id],
             },
           },
         };
@@ -127,12 +127,12 @@ describe('Acceptance | Controller | session-controller-enroll-students-to-sessio
               attributes: {
                 'billing-mode': '',
                 'prepayment-code': null,
-                'birth-city': student.birthCity,
-                birthdate: student.birthdate,
-                'first-name': student.firstName,
+                'birth-city': organizationLearner.birthCity,
+                birthdate: organizationLearner.birthdate,
+                'first-name': organizationLearner.firstName,
                 'birth-country': country.commonName,
                 'is-linked': false,
-                'last-name': student.lastName,
+                'last-name': organizationLearner.lastName,
                 'birth-province-code': null,
                 'birth-insee-code': birthCityCode,
                 'birth-postal-code': null,
@@ -140,7 +140,7 @@ describe('Acceptance | Controller | session-controller-enroll-students-to-sessio
                 'external-id': null,
                 'extra-time-percentage': null,
                 'result-recipient-email': null,
-                'schooling-registration-id': student.id,
+                'schooling-registration-id': organizationLearner.id,
                 sex: 'M',
                 'complementary-certifications': [],
               },

@@ -108,7 +108,7 @@ describe('Integration | Repository | CampaignProfileRepository', function () {
           { firstName: 'Greg', lastName: 'Duboire', organizationId },
           { campaignId }
         );
-        databaseBuilder.factory.buildSchoolingRegistration({
+        databaseBuilder.factory.buildOrganizationLearner({
           firstName: 'Gregoire',
           lastName: 'Dub',
           organizationId: oldOrganizationId,
