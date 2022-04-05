@@ -189,32 +189,41 @@ describe('Integration | Component | certification-starter', function () {
       context('when the creation of certification course is successful', function () {
         it('should redirect to certifications.resume', async function () {
           // given
-          const replaceWithStub = sinon.stub();
-          class RouterStubService extends Service {
-            replaceWith = replaceWithStub;
-          }
-          this.owner.register('service:router', RouterStubService);
-          const createRecordStub = sinon.stub();
-          class StoreStubService extends Service {
-            createRecord = createRecordStub;
-          }
 
-          const clearStub = sinon.stub();
-          class FocusedCertificationChallengeManagerStubService extends Service {
-            clear = clearStub;
-          }
-
-          this.owner.register('service:store', StoreStubService);
-          this.owner.register(
-            'service:focused-certification-challenges-manager',
-            FocusedCertificationChallengeManagerStubService
-          );
           const certificationCourse = {
             id: 456,
             save: sinon.stub(),
             deleteRecord: sinon.stub(),
           };
+
+          const replaceWithStub = sinon.stub();
+
+          class RouterServiceStub extends Service {
+            replaceWith = replaceWithStub;
+          }
+
+          this.owner.register('service:router', RouterServiceStub);
+
+          const createRecordStub = sinon.stub();
+
+          class StoreServiceStub extends Service {
+            createRecord = createRecordStub;
+          }
+
+          this.owner.register('service:store', StoreServiceStub);
           createRecordStub.returns(certificationCourse);
+
+          const resetStub = sinon.stub();
+
+          class FocusedCertificationChallengeWarningManagerStub extends Service {
+            reset = resetStub;
+          }
+
+          this.owner.register(
+            'service:focused-certification-challenge-warning-manager',
+            FocusedCertificationChallengeWarningManagerStub
+          );
+
           this.set('certificationCandidateSubscription', { sessionId: 123 });
           await render(
             hbs`<CertificationStarter @certificationCandidateSubscription={{this.certificationCandidateSubscription}}/>`
@@ -231,7 +240,7 @@ describe('Integration | Component | certification-starter', function () {
             sessionId: 123,
           });
           sinon.assert.calledOnce(certificationCourse.save);
-          sinon.assert.calledOnce(clearStub);
+          sinon.assert.calledOnce(resetStub);
           sinon.assert.calledWithExactly(replaceWithStub, 'certifications.resume', 456);
         });
       });
@@ -240,14 +249,18 @@ describe('Integration | Component | certification-starter', function () {
         it('should display the appropriate error message when error status is 404', async function () {
           // given
           const replaceWithStub = sinon.stub();
-          class RouterStubService extends Service {
+
+          class RouterServiceStub extends Service {
             replaceWith = replaceWithStub;
           }
-          this.owner.register('service:router', RouterStubService);
+
+          this.owner.register('service:router', RouterServiceStub);
           const createRecordStub = sinon.stub();
+
           class StoreStubService extends Service {
             createRecord = createRecordStub;
           }
+
           this.owner.register('service:store', StoreStubService);
           const certificationCourse = {
             id: 123,
@@ -272,14 +285,18 @@ describe('Integration | Component | certification-starter', function () {
         it('should display the appropriate error message when error status is 412', async function () {
           // given
           const replaceWithStub = sinon.stub();
-          class RouterStubService extends Service {
+
+          class RouterServiceStub extends Service {
             replaceWith = replaceWithStub;
           }
-          this.owner.register('service:router', RouterStubService);
+
+          this.owner.register('service:router', RouterServiceStub);
           const createRecordStub = sinon.stub();
+
           class StoreStubService extends Service {
             createRecord = createRecordStub;
           }
+
           this.owner.register('service:store', StoreStubService);
           const certificationCourse = {
             id: 123,
@@ -304,14 +321,18 @@ describe('Integration | Component | certification-starter', function () {
         it('should display the appropriate error message when error status is 403', async function () {
           // given
           const replaceWithStub = sinon.stub();
-          class RouterStubService extends Service {
+
+          class RouterServiceStub extends Service {
             replaceWith = replaceWithStub;
           }
-          this.owner.register('service:router', RouterStubService);
+
+          this.owner.register('service:router', RouterServiceStub);
           const createRecordStub = sinon.stub();
+
           class StoreStubService extends Service {
             createRecord = createRecordStub;
           }
+
           this.owner.register('service:store', StoreStubService);
           const certificationCourse = {
             id: 123,
@@ -338,14 +359,18 @@ describe('Integration | Component | certification-starter', function () {
         it('should display a generic error message when error status unknown', async function () {
           // given
           const replaceWithStub = sinon.stub();
-          class RouterStubService extends Service {
+
+          class RouterServiceStub extends Service {
             replaceWith = replaceWithStub;
           }
-          this.owner.register('service:router', RouterStubService);
+
+          this.owner.register('service:router', RouterServiceStub);
           const createRecordStub = sinon.stub();
+
           class StoreStubService extends Service {
             createRecord = createRecordStub;
           }
+
           this.owner.register('service:store', StoreStubService);
           const certificationCourse = {
             id: 123,

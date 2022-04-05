@@ -136,11 +136,11 @@ describe('Unit | Controller | Assessments | Challenge', function () {
 
         it(`should be ${data.expectedResult} when ${_hasUserConfirmedCertificationFocusWarning}, ${_hasAnswer}`, function () {
           // given
-          const focusedCertificationChallengeManager = this.owner.lookup(
-            'service:focused-certification-challenges-manager'
+          const focusedCertificationChallengeWarningManager = this.owner.lookup(
+            'service:focused-certification-challenge-warning-manager'
           );
           sinon
-            .stub(focusedCertificationChallengeManager, 'has')
+            .stub(focusedCertificationChallengeWarningManager, 'hasConfirmed')
             .returns(data.hasUserConfirmedCertificationFocusWarning);
 
           const challenge = {

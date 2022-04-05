@@ -14,7 +14,7 @@ export default class ChallengeController extends Controller {
   @service intl;
   @service store;
   @service currentUser;
-  @service focusedCertificationChallengesManager;
+  @service focusedCertificationChallengeWarningManager;
 
   @tracked newLevel = null;
   @tracked competenceLeveled = null;
@@ -64,11 +64,11 @@ export default class ChallengeController extends Controller {
   }
 
   get displayFocusedCertificationChallengeWarning() {
-    return this.isFocusedCertificationChallengeWithoutAnswer && !this.hasConfirmedFocusScreenForCurrentChallenge;
+    return this.isFocusedCertificationChallengeWithoutAnswer && !this.hasConfirmedFocusChallengeWarningScreen;
   }
 
   get shouldBlurBanner() {
-    return this.model.challenge.focused && !this.hasConfirmedFocusScreenForCurrentChallenge;
+    return this.model.challenge.focused && !this.hasConfirmedFocusChallengeWarningScreen;
   }
 
   @action
@@ -96,6 +96,11 @@ export default class ChallengeController extends Controller {
     const challengeId = this.model.challenge.id;
     const hasUserConfirmedFocusChallenge = this.focusedCertificationChallengesManager.has(challengeId);
 
+    return hasUserConfirmedFocusChallenge;
+  }
+
+  get hasConfirmedFocusChallengeWarningScreen() {
+    const hasUserConfirmedFocusChallenge = this.focusedCertificationChallengeWarningManager.hasConfirmed();
     return hasUserConfirmedFocusChallenge;
   }
 
@@ -131,11 +136,11 @@ export default class ChallengeController extends Controller {
   }
 
   get displayChallenge() {
-    if (this._hasAlreadyAnswered()) {
-      return true;
+    if (!this._isFocusedCertificationChallenge) {
+      this.focusedCertificationChallengeWarningManager.reset();
     }
 
-    if (!this._isTimedChallenge && !this._isFocusedCertificationChallenge) {
+    if (this._hasAlreadyAnswered()) {
       return true;
     }
 
@@ -145,6 +150,10 @@ export default class ChallengeController extends Controller {
 
     if (this._isFocusedCertificationChallenge) {
       if (this._hasCertificationCandidateConfirmedFocusWarningScreen()) return true;
+    }
+
+    if (!this._isFocusedCertificationChallenge && !this._isTimedChallenge) {
+      return true;
     }
 
     return false;
@@ -160,12 +169,11 @@ export default class ChallengeController extends Controller {
 
   @action
   setUserFocusCertificationChallengeConfirmation() {
-    const challengeId = this.model.challenge.id;
-    this.focusedCertificationChallengesManager.add(challengeId);
+    this.focusedCertificationChallengeWarningManager.setToConfirmed();
   }
 
   @action
-  setUserConfirmation() {
+  setUserTimedChallengeConfirmation() {
     this.hasUserConfirmedTimedChallengeWarning = true;
   }
 
@@ -182,7 +190,7 @@ export default class ChallengeController extends Controller {
   }
 
   _hasCertificationCandidateConfirmedFocusWarningScreen() {
-    return this.model.assessment.isCertification && this.hasConfirmedFocusScreenForCurrentChallenge;
+    return this.model.assessment.isCertification && this.hasConfirmedFocusChallengeWarningScreen;
   }
 
   _hasAlreadyAnswered() {

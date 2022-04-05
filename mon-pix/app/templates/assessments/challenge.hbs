@@ -43,7 +43,7 @@
 
     {{#if this.displayTimedChallengeInstructions}}
       <TimedChallengeInstructions
-        @hasUserConfirmedWarning={{this.setUserConfirmation}}
+        @hasUserConfirmedWarning={{this.setUserTimedChallengeConfirmation}}
         @time={{@model.challenge.timer}}
       />
     {{/if}}
