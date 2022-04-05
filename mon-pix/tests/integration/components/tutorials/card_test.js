@@ -25,9 +25,6 @@ describe('Integration | Component | Tutorials | Card', function () {
     // then
     expect(find('.tutorial-card-v2')).to.exist;
     expect(find('.tutorial-card-v2__content')).to.exist;
-    expect(find('.tutorial-card-v2-content__skill'))
-      .to.have.property('textContent')
-      .that.contains("Mener une recherche et une veille d'information");
     expect(find('.tutorial-card-v2-content__link')).to.have.property('textContent').that.contains('Mon super tutoriel');
     expect(find('.tutorial-card-v2-content__link')).to.have.property('href').that.equals('https://exemple.net/');
     expect(find('.tutorial-card-v2-content__details'))
