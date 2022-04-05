@@ -1,5 +1,11 @@
 # Pix Changelog
 
+## v3.193.2 (04/04/2022)
+
+
+### :bug: Correction
+- [#4281](https://github.com/1024pix/pix/pull/4281) [TECH] Ajouter le support d'Internet Explorer dans Pix App, Pix Orga, Pix Certif et Pix Admin (PIX-4719)
+
 ## v3.193.1 (04/04/2022)
 
 
