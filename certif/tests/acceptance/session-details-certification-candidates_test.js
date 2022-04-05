@@ -320,7 +320,6 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
           module('when shouldDisplayPaymentOptions is true', function () {
             test('it should add a new candidate with billing information', async function (assert) {
               // given
-              server.create('feature-toggle', { id: 0, isCertificationBillingEnabled: true });
               allowedCertificationCenterAccess.update({ type: 'SUP' });
 
               const screen = await visitScreen(`/sessions/${session.id}/candidats`);
@@ -359,6 +358,7 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
     await fillIn(screen.getByLabelText('Identifiant externe'), '44AA3355');
     await fillIn(screen.getByLabelText('* Code INSEE de naissance'), '75100');
     await fillIn(screen.getByLabelText('Temps majoré (%)'), '20');
+    await fillIn(screen.getByLabelText('* Tarification part Pix'), 'FREE');
     await fillIn(
       screen.getByLabelText('E-mail du destinataire des résultats (formateur, enseignant...)'),
       'guybrush.threepwood@example.net'

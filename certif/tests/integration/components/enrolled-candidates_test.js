@@ -128,7 +128,7 @@ module('Integration | Component | enrolled-candidates', function (hooks) {
       .hasClass(DELETE_BUTTON_SELECTOR);
   });
 
-  module('when feature toggle FT_CERTIFICATION_BILLING is enabled and certification center is not SCO', function () {
+  module('when certification center is not SCO', function () {
     test('it displays candidate billing information', async function (assert) {
       // given
       this.set('shouldDisplayPaymentOptions', true);
@@ -154,35 +154,6 @@ module('Integration | Component | enrolled-candidates', function (hooks) {
       // then
       assert.dom(screen.queryByRole('columnheader', { name: 'Tarification part Pix' })).exists();
       assert.dom(screen.getByRole('cell', { name: 'Prepayée CODE01' })).exists();
-    });
-  });
-
-  module('when feature toggle FT_CERTIFICATION_BILLING is not enabled or certification center is SCO', function () {
-    test('it does not display candidate billing information', async function (assert) {
-      // given
-      this.set('shouldDisplayPaymentOptions', false);
-      const candidate = _buildCertificationCandidate({
-        billingMode: 'Prepayée',
-        prepaymentCode: 'CODE01',
-      });
-
-      const certificationCandidate = store.createRecord('certification-candidate', candidate);
-
-      this.set('certificationCandidates', [certificationCandidate]);
-
-      // when
-      const screen = await renderScreen(hbs`
-          <EnrolledCandidates
-            @sessionId="1"
-            @certificationCandidates={{certificationCandidates}}
-            @shouldDisplayPaymentOptions={{shouldDisplayPaymentOptions}}
-            >
-          </EnrolledCandidates>
-        `);
-
-      // then
-      assert.dom(screen.queryByRole('columnheader', { name: 'Tarification part Pix' })).doesNotExist();
-      assert.dom(screen.queryByRole('cell', { name: 'Prepayée CODE01' })).doesNotExist();
     });
   });
 
