@@ -25,7 +25,7 @@ describe('Acceptance | Controller | session-controller-post-certification-candid
     let certificationCpfCity;
 
     beforeEach(function () {
-      certificationCandidate = domainBuilder.buildCertificationCandidate({
+      certificationCandidate = domainBuilder.buildCertificationCandidate.pro({
         birthCountry: 'FRANCE',
         birthINSEECode: '75115',
         birthPostalCode: null,
@@ -81,6 +81,7 @@ describe('Acceptance | Controller | session-controller-post-certification-candid
             'has-seen-end-test-screen': certificationCandidate.hasSeenEndTestScreen,
             'birth-insee-code': certificationCandidate.birthINSEECode,
             'birth-postal-code': null,
+            'billing-mode': 'FREE',
             sex: certificationCandidate.sex,
             'complementary-certifications': [
               { id: complementaryCertification1Id, name: 'Certif complémentaire 1' },
@@ -128,7 +129,7 @@ describe('Acceptance | Controller | session-controller-post-certification-candid
           'birth-city': certificationCpfCity.name,
           'birth-country': certificationCpfCountry.commonName,
           'birth-province-code': null,
-          'billing-mode': '',
+          'billing-mode': 'Gratuite',
           'prepayment-code': null,
           'result-recipient-email': certificationCandidate.resultRecipientEmail,
           email: certificationCandidate.email,
