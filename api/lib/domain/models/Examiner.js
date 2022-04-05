@@ -32,9 +32,15 @@ class Examiner {
 
     // Temporary log to find out focusedout answers that should not occur
     if (!isFocusedChallenge && answer.isFocusedOut) {
-      logger.warn('A non focused challenge received a focused out answer', {
-        answerId: answer.id,
-      });
+      logger.warn(
+        {
+          subject: 'focusOut',
+          challengeFormat,
+          challengeId: answer.challengeId,
+          assessmentId: answer.assessmentId,
+        },
+        'A non focused challenge received a focused out answer'
+      );
     }
 
     if (isCorrectAnswer && isFocusedChallenge && answer.isFocusedOut && isCertificationEvaluation) {
