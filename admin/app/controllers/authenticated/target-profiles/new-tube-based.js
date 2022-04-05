@@ -18,21 +18,11 @@ export default class NewController extends Controller {
   @tracked targetProfile = this.model.targetProfile;
   @tracked frameworks = this.model.frameworks;
   @tracked selectedFrameworkIds = [];
+  @tracked areasState = [];
 
   get frameworkOptions() {
     return this.frameworks.map((framework) => {
       return { label: framework.name, value: framework.id };
-    });
-  }
-
-  get orderedAreasBySelectedFrameworks() {
-    if (!this.model.areasBySelectedFrameworks) return [];
-
-    const areas = this.model.areasBySelectedFrameworks.reduce((accu, areas) => {
-      return [...accu, ...areas.toArray()];
-    }, []);
-    return areas.sort((area1, area2) => {
-      return area1.code - area2.code;
     });
   }
 
