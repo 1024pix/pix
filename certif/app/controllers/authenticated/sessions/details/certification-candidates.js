@@ -47,9 +47,7 @@ export default class CertificationCandidatesController extends Controller {
   }
 
   get shouldDisplayPaymentOptions() {
-    return (
-      this._currentCertificationCenterIsNotSco() && this.featureToggles.featureToggles.isCertificationBillingEnabled
-    );
+    return this._currentCertificationCenterIsNotSco();
   }
 
   _currentCertificationCenterIsNotSco() {

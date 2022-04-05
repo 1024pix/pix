@@ -32,7 +32,7 @@ describe('Unit | UseCase | add-certification-candidate-to-session', function () 
   });
 
   context('when certification candidate does not pass JOI validation', function () {
-    it('should throw an CertificationCandidateAddError error', async function () {
+    it('should throw a CertificationCandidateAddError error', async function () {
       // given
       sessionRepository.isSco.resolves(false);
       const certificationCandidate = domainBuilder.buildCertificationCandidate.pro({

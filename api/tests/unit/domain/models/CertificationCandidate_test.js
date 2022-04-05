@@ -248,7 +248,7 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
 
       // eslint-disable-next-line mocha/no-setup-in-describe
       ['FREE', 'PAID', 'PREPAID'].forEach((billingMode) => {
-        it(`should not throw if billing mode is expected value ${billingMode}`, async function () {
+        it(`should not throw if billing mode is an expected value ${billingMode}`, async function () {
           // given
           const certificationCandidate = domainBuilder.buildCertificationCandidate({
             billingMode,
