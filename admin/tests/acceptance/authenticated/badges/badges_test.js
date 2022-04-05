@@ -1,4 +1,3 @@
-import { find } from '@ember/test-helpers';
 import { visit } from '@1024pix/ember-testing-library';
 import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
@@ -49,8 +48,7 @@ module('Acceptance | authenticated/badges/badge', function (hooks) {
     const screen = await visit(`/badges/${badge.id}`);
 
     // then
-    const badgeElement = find('.page-section__details');
-    assert.ok(badgeElement.textContent.match(badge.title));
+    assert.dom(screen.getByText('Nom du badge : My badge', { exact: false })).exists();
     assert.dom(screen.getByText('20%')).exists();
     assert.dom(screen.getByText('Internet for dummies')).exists();
     assert.dom(screen.getByText('AG2R.svg', { exact: false })).exists();
