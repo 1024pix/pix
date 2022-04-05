@@ -5,6 +5,7 @@ const getExternalAuthenticationRedirectionUrl = require('../../../../lib/domain/
 describe('Unit | UseCase | get-external-authentication-redirection-url', function () {
   let userRepository;
   let tokenService;
+  let samlSettings;
 
   beforeEach(function () {
     userRepository = {
@@ -16,6 +17,16 @@ describe('Unit | UseCase | get-external-authentication-redirection-url', functio
       createIdTokenForUserReconciliation: sinon.stub(),
       createAccessTokenForSaml: sinon.stub(),
     };
+
+    samlSettings = {
+      saml: {
+        attributeMapping: {
+          samlId: 'IDO',
+          firstName: 'PRE',
+          lastName: 'NOM',
+        },
+      },
+    };
   });
 
   context('when user does not exist in database yet', function () {
@@ -26,15 +37,6 @@ describe('Unit | UseCase | get-external-authentication-redirection-url', functio
         NOM: 'Lopez',
         PRE: 'Adèle',
       };
-      const settings = {
-        saml: {
-          attributeMapping: {
-            samlId: 'IDO',
-            firstName: 'PRE',
-            lastName: 'NOM',
-          },
-        },
-      };
 
       tokenService.createIdTokenForUserReconciliation.returns('external-user-token');
       userRepository.getBySamlId.resolves(null);
@@ -44,7 +46,7 @@ describe('Unit | UseCase | get-external-authentication-redirection-url', functio
         userAttributes,
         userRepository,
         tokenService,
-        settings,
+        settings: samlSettings,
       });
 
       // then
@@ -59,15 +61,6 @@ describe('Unit | UseCase | get-external-authentication-redirection-url', functio
         IDO: 'saml-id-for-adele',
         NOM: 'Lopez',
         PRE: 'Adèle',
-      };
-      const settings = {
-        saml: {
-          attributeMapping: {
-            samlId: 'IDO',
-            firstName: 'PRE',
-            lastName: 'NOM',
-          },
-        },
       };
       const expectedUser = new User({
         id: 1,
@@ -84,7 +77,7 @@ describe('Unit | UseCase | get-external-authentication-redirection-url', functio
         userAttributes,
         userRepository,
         tokenService,
-        settings,
+        settings: samlSettings,
       });
 
       // then
@@ -99,22 +92,18 @@ describe('Unit | UseCase | get-external-authentication-redirection-url', functio
         NOM: 'Lopez',
         PRE: 'Adèle',
       };
-      const settings = {
-        saml: {
-          attributeMapping: {
-            samlId: 'IDO',
-            firstName: 'PRE',
-            lastName: 'NOM',
-          },
-        },
-      };
       const user = domainBuilder.buildUser({ id: 777 });
 
       userRepository.getBySamlId.resolves(user);
       tokenService.createIdTokenForUserReconciliation.returns('external-user-token');
 
       // when
-      await getExternalAuthenticationRedirectionUrl({ userAttributes, userRepository, tokenService, settings });
+      await getExternalAuthenticationRedirectionUrl({
+        userAttributes,
+        userRepository,
+        tokenService,
+        settings: samlSettings,
+      });
 
       // then
       expect(userRepository.updateLastLoggedAt).to.have.been.calledWith({ userId: 777 });
