@@ -24,7 +24,6 @@ describe('Integration | Component | Tutorials | Card', function () {
 
     // then
     expect(find('.tutorial-card-v2')).to.exist;
-    expect(find('.tutorial-card-v2__domain-border')).to.exist;
     expect(find('.tutorial-card-v2__content')).to.exist;
     expect(find('.tutorial-card-v2-content__skill'))
       .to.have.property('textContent')
