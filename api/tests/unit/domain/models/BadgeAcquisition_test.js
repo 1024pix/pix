@@ -55,7 +55,7 @@ describe('Unit | Domain | Models | BadgeAcquisition', function () {
     });
   });
 
-  describe('#isPixEdu', function () {
+  describe('#isPixEdu2ndDegre', function () {
     // eslint-disable-next-line mocha/no-setup-in-describe
     [
       PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
@@ -71,7 +71,7 @@ describe('Unit | Domain | Models | BadgeAcquisition', function () {
         });
 
         // when
-        const isPixEdu = badgeAcquisition.isPixEdu();
+        const isPixEdu = badgeAcquisition.isPixEdu2ndDegre();
 
         // then
         expect(isPixEdu).to.be.true;
@@ -85,7 +85,7 @@ describe('Unit | Domain | Models | BadgeAcquisition', function () {
       });
 
       // when
-      const isPixEdu = badgeAcquisition.isPixEdu();
+      const isPixEdu = badgeAcquisition.isPixEdu2ndDegre();
 
       // then
       expect(isPixEdu).to.be.false;
