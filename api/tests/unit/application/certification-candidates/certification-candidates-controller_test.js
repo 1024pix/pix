@@ -66,8 +66,6 @@ describe('Unit | Controller | certifications-candidate-controller', function () 
 describe('#endAssessmentBySupervisor', function () {
   const certificationCandidateId = 2;
 
-  beforeEach(function () {});
-
   it('should call the endAssessmentBySupervisor use case', async function () {
     // given
     sinon.stub(usecases, 'endAssessmentBySupervisor');

@@ -3,8 +3,6 @@ const abortCertificationCourse = require('../../../../lib/domain/usecases/abort-
 const certificationCourseRepository = require('../../../../lib/infrastructure/repositories/certification-course-repository');
 
 describe('Integration | UseCase | abort-certification-course', function () {
-  beforeEach(function () {});
-
   context('when abort reason is valid', function () {
     it('should update the certificationCourse with a reason', async function () {
       // given
