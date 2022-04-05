@@ -110,32 +110,38 @@ module('Integration | Component | member-item', function (hooks) {
       await clickByName('Désactiver');
 
       // then
-      assert.dom('.modal-dialog').exists();
-      assert.dom(screen.getByText("Désactivation d'un membre")).exists();
+      assert.dom(screen.getByRole('heading', { name: "Désactivation d'un membre" })).exists();
+      assert.dom(screen.getByRole('button', { name: 'Annuler' })).exists();
       assert.dom(screen.getByText('Etes-vous sûr de vouloir désactiver ce membre de cette équipe ?')).exists();
     });
 
     test('should close confirm modal on click on cancel', async function (assert) {
       // given
       this.disableMembership = sinon.spy();
-      await render(hbs`<MemberItem @membership={{this.membership}} @disableMembership={{this.disableMembership}} />`);
+      const screen = await render(
+        hbs`<MemberItem @membership={{this.membership}} @disableMembership={{this.disableMembership}} />`
+      );
       await clickByName('Désactiver');
 
       // when
-      await click('.modal-footer > button.btn-secondary');
+      await clickByName('Annuler');
 
       // then
-      assert.dom('.modal-dialog').doesNotExist();
+      assert.dom(screen.queryByRole('heading', { name: "Désactivation d'un membre" })).doesNotExist();
+      assert.dom(screen.queryByRole('button', { name: 'Annuler' })).doesNotExist();
     });
 
     test('should disable membership on click on confirm', async function (assert) {
       // given
       this.disableMembership = sinon.spy();
-      await render(hbs`<MemberItem @membership={{this.membership}} @disableMembership={{this.disableMembership}} />`);
+      const screen = await render(
+        hbs`<MemberItem @membership={{this.membership}} @disableMembership={{this.disableMembership}} />`
+      );
+
       await clickByName('Désactiver');
 
       // when
-      await click('.modal-footer > button.btn-primary');
+      await click(screen.queryAllByRole('button', { name: 'Désactiver' })[1]);
 
       // then
       assert.ok(this.disableMembership.called);

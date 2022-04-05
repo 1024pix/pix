@@ -161,7 +161,8 @@ module('Acceptance | Organizations | Memberships management', function (hooks) {
       // given / when
       const screen = await visitScreen(`/organizations/${organization.id}/team`);
       await clickByName('Désactiver');
-      await click('.modal-footer > button.btn-primary');
+
+      await click(screen.getAllByRole('button', { name: 'Désactiver' })[1]);
 
       // then
       assert.dom(screen.getByText('Le membre a été désactivé avec succès.')).exists();

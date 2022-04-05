@@ -1,5 +1,5 @@
 import { module, test } from 'qunit';
-import { visit, currentURL, click } from '@ember/test-helpers';
+import { visit, currentURL } from '@ember/test-helpers';
 import { visit as visitScreen } from '@1024pix/ember-testing-library';
 import { setupApplicationTest } from 'ember-qunit';
 import { createAuthenticateSession } from 'pix-admin/tests/helpers/test-init';
@@ -92,7 +92,7 @@ module('Acceptance | authenticated/sessions/list/to be published', function (hoo
       await clickByName('Publier la session numéro 2');
 
       // when
-      await click('.modal-footer .btn-primary');
+      await clickByName('Confirmer');
 
       // then
       _assertFirstSessionIsDisplayed(assert, screen);
@@ -124,7 +124,7 @@ module('Acceptance | authenticated/sessions/list/to be published', function (hoo
       await clickByName('Publier toutes les sessions');
 
       // when
-      await click('.modal-footer .btn-primary');
+      await clickByName('Confirmer');
 
       // then
       _assertPublishAllSessionsButtonHidden(assert, screen);
