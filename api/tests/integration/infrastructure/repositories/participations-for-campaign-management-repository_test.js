@@ -37,16 +37,16 @@ describe('Integration | Repository | Participations-For-Campaign-Management', fu
     context('when the given campaign has participations', function () {
       it('should return only participations for given campaign', async function () {
         // given
-        const schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration();
+        const organizationLearner = databaseBuilder.factory.buildOrganizationLearner();
         const campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
           campaignId,
-          schoolingRegistrationId: schoolingRegistration.id,
+          organizationLearnerId: organizationLearner.id,
           participantExternalId: 'special',
         });
         const otherCampaignId = databaseBuilder.factory.buildCampaign().id;
         databaseBuilder.factory.buildCampaignParticipation({
           campaignId: otherCampaignId,
-          schoolingRegistrationId: schoolingRegistration.id,
+          organizationLearnerId: organizationLearner.id,
         });
         await databaseBuilder.commit();
 
@@ -66,13 +66,13 @@ describe('Integration | Repository | Participations-For-Campaign-Management', fu
 
       it('should return participations with all attributes', async function () {
         // given
-        const schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({
+        const organizationLearner = databaseBuilder.factory.buildOrganizationLearner({
           lastName: 'King',
           firstName: 'Arthur',
         });
         const campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
           campaignId,
-          schoolingRegistrationId: schoolingRegistration.id,
+          organizationLearnerId: organizationLearner.id,
         });
         await databaseBuilder.commit();
 
@@ -87,8 +87,8 @@ describe('Integration | Repository | Participations-For-Campaign-Management', fu
         expect(participationsForCampaignManagement[0]).to.be.instanceOf(ParticipationForCampaignManagement);
         expect(participationsForCampaignManagement[0]).to.deep.equal({
           id: campaignParticipation.id,
-          lastName: schoolingRegistration.lastName,
-          firstName: schoolingRegistration.firstName,
+          lastName: organizationLearner.lastName,
+          firstName: organizationLearner.firstName,
           participantExternalId: campaignParticipation.participantExternalId,
           status: campaignParticipation.status,
           createdAt: campaignParticipation.createdAt,
@@ -98,31 +98,31 @@ describe('Integration | Repository | Participations-For-Campaign-Management', fu
 
       it('should sort participations by ascending lastName and then ascending firstName', async function () {
         // given
-        const schoolingRegistrationId1 = databaseBuilder.factory.buildSchoolingRegistration({
+        const organizationLearnerId1 = databaseBuilder.factory.buildOrganizationLearner({
           lastName: 'Baobab',
           firstName: 'Anatole',
         }).id;
         databaseBuilder.factory.buildCampaignParticipation({
           campaignId,
-          schoolingRegistrationId: schoolingRegistrationId1,
+          organizationLearnerId: organizationLearnerId1,
           participantExternalId: '2',
         });
-        const schoolingRegistrationId2 = databaseBuilder.factory.buildSchoolingRegistration({
+        const organizationLearnerId2 = databaseBuilder.factory.buildOrganizationLearner({
           lastName: 'Baobab',
           firstName: 'Bernard',
         }).id;
         databaseBuilder.factory.buildCampaignParticipation({
           campaignId,
-          schoolingRegistrationId: schoolingRegistrationId2,
+          organizationLearnerId: organizationLearnerId2,
           participantExternalId: '3',
         });
-        const schoolingRegistrationId3 = databaseBuilder.factory.buildSchoolingRegistration({
+        const organizationLearnerId3 = databaseBuilder.factory.buildOrganizationLearner({
           lastName: 'Athele',
           firstName: 'Peu importe',
         }).id;
         databaseBuilder.factory.buildCampaignParticipation({
           campaignId,
-          schoolingRegistrationId: schoolingRegistrationId3,
+          organizationLearnerId: organizationLearnerId3,
           participantExternalId: '1',
         });
 

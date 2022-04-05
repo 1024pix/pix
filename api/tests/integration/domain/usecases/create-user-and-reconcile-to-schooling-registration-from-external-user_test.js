@@ -178,19 +178,19 @@ describe('Integration | UseCases | create-user-and-reconcile-to-schooling-regist
 
     it('should create the external user, reconcile it and create GAR authentication method', async function () {
       // given
-      const schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({
+      const organizationLearner = databaseBuilder.factory.buildOrganizationLearner({
         firstName,
         lastName,
         organizationId,
       });
-      schoolingRegistration.userId = undefined;
+      organizationLearner.userId = undefined;
       await databaseBuilder.commit();
 
       const usersBefore = await knex('users');
 
       // when
       await createUserAndReconcileToSchoolingRegistrationByExternalUser({
-        birthdate: schoolingRegistration.birthdate,
+        birthdate: organizationLearner.birthdate,
         campaignCode,
         campaignRepository,
         token,
@@ -218,7 +218,7 @@ describe('Integration | UseCases | create-user-and-reconcile-to-schooling-regist
       function () {
         it('should throw a SchoolingRegistrationAlreadyLinkedToUserError', async function () {
           // given
-          const schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({
+          const organizationLearner = databaseBuilder.factory.buildOrganizationLearner({
             firstName,
             lastName,
             organizationId,
@@ -227,7 +227,7 @@ describe('Integration | UseCases | create-user-and-reconcile-to-schooling-regist
 
           // when
           const error = await catchErr(createUserAndReconcileToSchoolingRegistrationByExternalUser)({
-            birthdate: schoolingRegistration.birthdate,
+            birthdate: organizationLearner.birthdate,
             campaignCode,
             token,
             obfuscationService,
@@ -250,7 +250,7 @@ describe('Integration | UseCases | create-user-and-reconcile-to-schooling-regist
         context('When reconciled in other organization', function () {
           it('should update existing account with the new samlId', async function () {
             // given
-            const schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({
+            const organizationLearner = databaseBuilder.factory.buildOrganizationLearner({
               firstName,
               lastName,
               organizationId,
@@ -259,7 +259,7 @@ describe('Integration | UseCases | create-user-and-reconcile-to-schooling-regist
             const otherAccount = databaseBuilder.factory.buildUser({
               firstName: firstName,
               lastName: lastName,
-              birthdate: schoolingRegistration.birthdate,
+              birthdate: organizationLearner.birthdate,
             });
             databaseBuilder.factory.buildAuthenticationMethod.withGarAsIdentityProvider({
               externalIdentifier: '12345678',
@@ -267,22 +267,22 @@ describe('Integration | UseCases | create-user-and-reconcile-to-schooling-regist
             });
 
             const otherOrganization = databaseBuilder.factory.buildOrganization({ type: 'SCO' });
-            databaseBuilder.factory.buildSchoolingRegistration({
+            databaseBuilder.factory.buildOrganizationLearner({
               organizationId: otherOrganization.id,
-              firstName: schoolingRegistration.firstName,
-              lastName: schoolingRegistration.lastName,
-              birthdate: schoolingRegistration.birthdate,
-              nationalStudentId: schoolingRegistration.nationalStudentId,
+              firstName: organizationLearner.firstName,
+              lastName: organizationLearner.lastName,
+              birthdate: organizationLearner.birthdate,
+              nationalStudentId: organizationLearner.nationalStudentId,
               userId: otherAccount.id,
             });
-            schoolingRegistration.userId = undefined;
+            organizationLearner.userId = undefined;
             await databaseBuilder.commit();
 
             // when
             await createUserAndReconcileToSchoolingRegistrationByExternalUser({
               campaignCode,
               token,
-              birthdate: schoolingRegistration.birthdate,
+              birthdate: organizationLearner.birthdate,
               obfuscationService,
               tokenService,
               userReconciliationService,
@@ -294,10 +294,10 @@ describe('Integration | UseCases | create-user-and-reconcile-to-schooling-regist
             });
 
             // then
-            const schoolingRegistrationInDB = await knex('organization-learners').where({
-              id: schoolingRegistration.id,
+            const organizationLearnerInDB = await knex('organization-learners').where({
+              id: organizationLearner.id,
             });
-            expect(schoolingRegistrationInDB[0].userId).to.equal(otherAccount.id);
+            expect(organizationLearnerInDB[0].userId).to.equal(otherAccount.id);
 
             const authenticationMethodInDB = await knex('authentication-methods').where({
               identityProvider: AuthenticationMethod.identityProviders.GAR,
@@ -321,7 +321,7 @@ describe('Integration | UseCases | create-user-and-reconcile-to-schooling-regist
               userId: otherAccount.id,
             });
 
-            const schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({
+            const organizationLearner = databaseBuilder.factory.buildOrganizationLearner({
               firstName,
               lastName,
               birthdate,
@@ -335,7 +335,7 @@ describe('Integration | UseCases | create-user-and-reconcile-to-schooling-regist
             await createUserAndReconcileToSchoolingRegistrationByExternalUser({
               campaignCode,
               token,
-              birthdate: schoolingRegistration.birthdate,
+              birthdate: organizationLearner.birthdate,
               obfuscationService,
               tokenService,
               userReconciliationService,
@@ -347,10 +347,10 @@ describe('Integration | UseCases | create-user-and-reconcile-to-schooling-regist
             });
 
             // then
-            const schoolingRegistrationInDB = await knex('organization-learners').where({
-              id: schoolingRegistration.id,
+            const organizationLearnerInDB = await knex('organization-learners').where({
+              id: organizationLearner.id,
             });
-            expect(schoolingRegistrationInDB[0].userId).to.equal(otherAccount.id);
+            expect(organizationLearnerInDB[0].userId).to.equal(otherAccount.id);
 
             const authenticationMethodInDB = await knex('authentication-methods').where({
               identityProvider: AuthenticationMethod.identityProviders.GAR,
@@ -365,12 +365,12 @@ describe('Integration | UseCases | create-user-and-reconcile-to-schooling-regist
     context('When the external user is already created', function () {
       it('should not create again the user', async function () {
         // given
-        const schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({
+        const organizationLearner = databaseBuilder.factory.buildOrganizationLearner({
           firstName,
           lastName,
           organizationId,
         });
-        schoolingRegistration.userId = undefined;
+        organizationLearner.userId = undefined;
         const alreadyCreatedUser = databaseBuilder.factory.buildUser({ firstName, lastName });
         databaseBuilder.factory.buildAuthenticationMethod.withGarAsIdentityProvider({
           externalIdentifier: samlId,
@@ -381,7 +381,7 @@ describe('Integration | UseCases | create-user-and-reconcile-to-schooling-regist
 
         // when
         await createUserAndReconcileToSchoolingRegistrationByExternalUser({
-          birthdate: schoolingRegistration.birthdate,
+          birthdate: organizationLearner.birthdate,
           campaignCode,
           token,
           obfuscationService,

@@ -22,7 +22,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
     let organization;
     let campaign;
     let options;
-    let schoolingRegistration;
+    let organizationLearner;
     let user;
 
     beforeEach(async function () {
@@ -36,7 +36,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
 
       user = databaseBuilder.factory.buildUser();
       organization = databaseBuilder.factory.buildOrganization({ type: 'SCO' });
-      schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({
+      organizationLearner = databaseBuilder.factory.buildOrganizationLearner({
         firstName: 'france',
         lastName: 'gall',
         birthdate: '2001-01-01',
@@ -56,9 +56,9 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
         options.payload.data = {
           attributes: {
             'campaign-code': campaign.code,
-            'first-name': schoolingRegistration.firstName,
-            'last-name': schoolingRegistration.lastName,
-            birthdate: schoolingRegistration.birthdate,
+            'first-name': organizationLearner.firstName,
+            'last-name': organizationLearner.lastName,
+            birthdate: organizationLearner.birthdate,
           },
         };
         options.url += '?withReconciliation=true';
@@ -77,11 +77,11 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
             username: null,
             email: 'john.harry@example.net',
           });
-          const schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({
+          const organizationLearner = databaseBuilder.factory.buildOrganizationLearner({
             organizationId: organization.id,
             userId: null,
           });
-          schoolingRegistration.userId = userWithEmailOnly.id;
+          organizationLearner.userId = userWithEmailOnly.id;
           await databaseBuilder.commit();
 
           const expectedResponse = {
@@ -96,9 +96,9 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
           options.payload.data = {
             attributes: {
               'campaign-code': campaign.code,
-              'first-name': schoolingRegistration.firstName,
-              'last-name': schoolingRegistration.lastName,
-              birthdate: schoolingRegistration.birthdate,
+              'first-name': organizationLearner.firstName,
+              'last-name': organizationLearner.lastName,
+              birthdate: organizationLearner.birthdate,
             },
           };
 
@@ -116,11 +116,11 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
             username: 'john.harry0702',
             email: null,
           });
-          const schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({
+          const organizationLearner = databaseBuilder.factory.buildOrganizationLearner({
             organizationId: organization.id,
             userId: null,
           });
-          schoolingRegistration.userId = userWithUsernameOnly.id;
+          organizationLearner.userId = userWithUsernameOnly.id;
           await databaseBuilder.commit();
 
           const expectedResponse = {
@@ -135,9 +135,9 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
           options.payload.data = {
             attributes: {
               'campaign-code': campaign.code,
-              'first-name': schoolingRegistration.firstName,
-              'last-name': schoolingRegistration.lastName,
-              birthdate: schoolingRegistration.birthdate,
+              'first-name': organizationLearner.firstName,
+              'last-name': organizationLearner.lastName,
+              birthdate: organizationLearner.birthdate,
             },
           };
 
@@ -160,11 +160,11 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
             userId: userWithSamlOnly.id,
           });
 
-          const schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({
+          const organizationLearner = databaseBuilder.factory.buildOrganizationLearner({
             organizationId: organization.id,
             userId: null,
           });
-          schoolingRegistration.userId = userWithSamlOnly.id;
+          organizationLearner.userId = userWithSamlOnly.id;
           await databaseBuilder.commit();
 
           const expectedResponse = {
@@ -179,9 +179,9 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
           options.payload.data = {
             attributes: {
               'campaign-code': campaign.code,
-              'first-name': schoolingRegistration.firstName,
-              'last-name': schoolingRegistration.lastName,
-              birthdate: schoolingRegistration.birthdate,
+              'first-name': organizationLearner.firstName,
+              'last-name': organizationLearner.lastName,
+              birthdate: organizationLearner.birthdate,
             },
           };
 
@@ -206,12 +206,12 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
             userId: userWithSamlIdOnly.id,
           });
 
-          const otherSchoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration();
-          otherSchoolingRegistration.nationalStudentId = schoolingRegistration.nationalStudentId;
-          otherSchoolingRegistration.birthdate = schoolingRegistration.birthdate;
-          otherSchoolingRegistration.firstName = schoolingRegistration.firstName;
-          otherSchoolingRegistration.lastName = schoolingRegistration.lastName;
-          otherSchoolingRegistration.userId = userWithSamlIdOnly.id;
+          const otherOrganizationLearner = databaseBuilder.factory.buildOrganizationLearner();
+          otherOrganizationLearner.nationalStudentId = organizationLearner.nationalStudentId;
+          otherOrganizationLearner.birthdate = organizationLearner.birthdate;
+          otherOrganizationLearner.firstName = organizationLearner.firstName;
+          otherOrganizationLearner.lastName = organizationLearner.lastName;
+          otherOrganizationLearner.userId = userWithSamlIdOnly.id;
           await databaseBuilder.commit();
 
           const expectedResponse = {
@@ -226,9 +226,9 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
           options.payload.data = {
             attributes: {
               'campaign-code': campaign.code,
-              'first-name': schoolingRegistration.firstName,
-              'last-name': schoolingRegistration.lastName,
-              birthdate: schoolingRegistration.birthdate,
+              'first-name': organizationLearner.firstName,
+              'last-name': organizationLearner.lastName,
+              birthdate: organizationLearner.birthdate,
             },
           };
 
@@ -246,12 +246,12 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
             username: null,
             email: 'john.harry@example.net',
           });
-          const otherSchoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration();
-          otherSchoolingRegistration.nationalStudentId = schoolingRegistration.nationalStudentId;
-          otherSchoolingRegistration.birthdate = schoolingRegistration.birthdate;
-          otherSchoolingRegistration.firstName = schoolingRegistration.firstName;
-          otherSchoolingRegistration.lastName = schoolingRegistration.lastName;
-          otherSchoolingRegistration.userId = userWithEmailOnly.id;
+          const otherOrganizationLearner = databaseBuilder.factory.buildOrganizationLearner();
+          otherOrganizationLearner.nationalStudentId = organizationLearner.nationalStudentId;
+          otherOrganizationLearner.birthdate = organizationLearner.birthdate;
+          otherOrganizationLearner.firstName = organizationLearner.firstName;
+          otherOrganizationLearner.lastName = organizationLearner.lastName;
+          otherOrganizationLearner.userId = userWithEmailOnly.id;
 
           await databaseBuilder.commit();
 
@@ -267,9 +267,9 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
           options.payload.data = {
             attributes: {
               'campaign-code': campaign.code,
-              'first-name': schoolingRegistration.firstName,
-              'last-name': schoolingRegistration.lastName,
-              birthdate: schoolingRegistration.birthdate,
+              'first-name': organizationLearner.firstName,
+              'last-name': organizationLearner.lastName,
+              birthdate: organizationLearner.birthdate,
             },
           };
 
@@ -288,12 +288,12 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
             username: 'john.harry0702',
           });
 
-          const otherSchoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration();
-          otherSchoolingRegistration.nationalStudentId = schoolingRegistration.nationalStudentId;
-          otherSchoolingRegistration.birthdate = schoolingRegistration.birthdate;
-          otherSchoolingRegistration.firstName = schoolingRegistration.firstName;
-          otherSchoolingRegistration.lastName = schoolingRegistration.lastName;
-          otherSchoolingRegistration.userId = userWithUsernameOnly.id;
+          const otherOrganizationLearner = databaseBuilder.factory.buildOrganizationLearner();
+          otherOrganizationLearner.nationalStudentId = organizationLearner.nationalStudentId;
+          otherOrganizationLearner.birthdate = organizationLearner.birthdate;
+          otherOrganizationLearner.firstName = organizationLearner.firstName;
+          otherOrganizationLearner.lastName = organizationLearner.lastName;
+          otherOrganizationLearner.userId = userWithUsernameOnly.id;
           await databaseBuilder.commit();
 
           const expectedResponse = {
@@ -308,9 +308,9 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
           options.payload.data = {
             attributes: {
               'campaign-code': campaign.code,
-              'first-name': schoolingRegistration.firstName,
-              'last-name': schoolingRegistration.lastName,
-              birthdate: schoolingRegistration.birthdate,
+              'first-name': organizationLearner.firstName,
+              'last-name': organizationLearner.lastName,
+              birthdate: organizationLearner.birthdate,
             },
           };
 
@@ -334,8 +334,8 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
               data: {
                 attributes: {
                   'campaign-code': campaign.code,
-                  'first-name': schoolingRegistration.firstName,
-                  'last-name': schoolingRegistration.lastName,
+                  'first-name': organizationLearner.firstName,
+                  'last-name': organizationLearner.lastName,
                   birthdate: '1990-03-01',
                 },
               },
@@ -364,7 +364,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
                   'campaign-code': campaign.code,
                   'first-name': 'wrong firstName',
                   'last-name': 'wrong lastName',
-                  birthdate: schoolingRegistration.birthdate,
+                  birthdate: organizationLearner.birthdate,
                 },
               },
             },
@@ -404,8 +404,8 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
                 attributes: {
                   'campaign-code': campaign.code,
                   'first-name': ' ',
-                  'last-name': schoolingRegistration.lastName,
-                  birthdate: schoolingRegistration.birthdate,
+                  'last-name': organizationLearner.lastName,
+                  birthdate: organizationLearner.birthdate,
                 },
               },
             },
@@ -426,9 +426,9 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
           options.payload.data = {
             attributes: {
               'campaign-code': campaign.code,
-              'first-name': schoolingRegistration.firstName,
-              'last-name': schoolingRegistration.lastName,
-              birthdate: schoolingRegistration.birthdate,
+              'first-name': organizationLearner.firstName,
+              'last-name': organizationLearner.lastName,
+              birthdate: organizationLearner.birthdate,
             },
           };
           options.url += '?withReconciliation=false';
@@ -440,9 +440,9 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
           expect(response.statusCode).to.equal(204);
           const schoolingRegistrationInDB = await knex('organization-learners')
             .where({
-              firstName: schoolingRegistration.firstName,
-              lastName: schoolingRegistration.lastName,
-              birthdate: schoolingRegistration.birthdate,
+              firstName: organizationLearner.firstName,
+              lastName: organizationLearner.lastName,
+              birthdate: organizationLearner.birthdate,
             })
             .select();
           expect(schoolingRegistrationInDB.userId).to.be.undefined;
@@ -464,7 +464,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
               birthdate: '2008-02-01',
               email: 'emmy.barbier@example.net',
             });
-            databaseBuilder.factory.buildSchoolingRegistration({
+            databaseBuilder.factory.buildOrganizationLearner({
               firstName: 'Emmy',
               lastName: 'Barbier',
               birthdate: '2008-02-01',
@@ -473,7 +473,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
               userId: bigSisterAccount.id,
             });
 
-            const littleBrother = databaseBuilder.factory.buildSchoolingRegistration({
+            const littleBrother = databaseBuilder.factory.buildOrganizationLearner({
               firstName: 'Nicolas',
               lastName: 'Barbier',
               birthdate: '2010-02-01',
@@ -521,7 +521,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
     let organization;
     let campaign;
     let options;
-    let schoolingRegistration;
+    let organizationLearner;
 
     beforeEach(async function () {
       // given
@@ -533,7 +533,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
       };
 
       organization = databaseBuilder.factory.buildOrganization({ identityProvider: 'SCO' });
-      schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({
+      organizationLearner = databaseBuilder.factory.buildOrganizationLearner({
         firstName: 'josé',
         lastName: 'bové',
         birthdate: '2020-01-01',
@@ -553,8 +553,8 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
       it('should return an 200 status after having successfully created the user and associated it to schoolingRegistration', async function () {
         // given
         const externalUser = {
-          lastName: schoolingRegistration.lastName,
-          firstName: schoolingRegistration.firstName,
+          lastName: organizationLearner.lastName,
+          firstName: organizationLearner.firstName,
           samlId: '123456789',
         };
         const idTokenForExternalUser = generateIdTokenForExternalUser(externalUser);
@@ -563,7 +563,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
           attributes: {
             'campaign-code': campaign.code,
             'external-user-token': idTokenForExternalUser,
-            birthdate: schoolingRegistration.birthdate,
+            birthdate: organizationLearner.birthdate,
             'access-token': null,
           },
         };
@@ -579,9 +579,9 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
         it('should replace the existing user samlId already reconciled in the other organization with the authenticated user samlId', async function () {
           // given
           const user = databaseBuilder.factory.buildUser({
-            firstName: schoolingRegistration.firstName,
-            lastName: schoolingRegistration.lastName,
-            birthdate: schoolingRegistration.birthdate,
+            firstName: organizationLearner.firstName,
+            lastName: organizationLearner.lastName,
+            birthdate: organizationLearner.birthdate,
           });
           databaseBuilder.factory.buildAuthenticationMethod.withGarAsIdentityProvider({
             externalIdentifier: '12345678',
@@ -589,19 +589,19 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
           });
 
           const otherOrganization = databaseBuilder.factory.buildOrganization({ type: 'SCO' });
-          databaseBuilder.factory.buildSchoolingRegistration({
+          databaseBuilder.factory.buildOrganizationLearner({
             organizationId: otherOrganization.id,
-            firstName: schoolingRegistration.firstName,
-            lastName: schoolingRegistration.lastName,
-            birthdate: schoolingRegistration.birthdate,
-            nationalStudentId: schoolingRegistration.nationalStudentId,
+            firstName: organizationLearner.firstName,
+            lastName: organizationLearner.lastName,
+            birthdate: organizationLearner.birthdate,
+            nationalStudentId: organizationLearner.nationalStudentId,
             userId: user.id,
           });
           await databaseBuilder.commit();
 
           const externalUser = {
-            lastName: schoolingRegistration.lastName,
-            firstName: schoolingRegistration.firstName,
+            lastName: organizationLearner.lastName,
+            firstName: organizationLearner.firstName,
             samlId: '9876654321',
           };
           const idTokenForExternalUser = generateIdTokenForExternalUser(externalUser);
@@ -610,7 +610,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
             attributes: {
               'campaign-code': campaign.code,
               'external-user-token': idTokenForExternalUser,
-              birthdate: schoolingRegistration.birthdate,
+              birthdate: organizationLearner.birthdate,
               'access-token': null,
             },
           };
@@ -637,7 +637,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
             userId: userWithSamlIdOnly.id,
           });
 
-          const schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({
+          const organizationLearner = databaseBuilder.factory.buildOrganizationLearner({
             organizationId: organization.id,
             userId: userWithSamlIdOnly.id,
             firstName: userWithSamlIdOnly.firstName,
@@ -647,8 +647,8 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
           await databaseBuilder.commit();
 
           const externalUser = {
-            lastName: schoolingRegistration.lastName,
-            firstName: schoolingRegistration.firstName,
+            lastName: organizationLearner.lastName,
+            firstName: organizationLearner.firstName,
             samlId: '9876654321',
           };
           const idTokenForExternalUser = generateIdTokenForExternalUser(externalUser);
@@ -657,7 +657,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
             attributes: {
               'campaign-code': campaign.code,
               'external-user-token': idTokenForExternalUser,
-              birthdate: schoolingRegistration.birthdate,
+              birthdate: organizationLearner.birthdate,
               'access-token': null,
             },
           };
@@ -686,7 +686,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
             attributes: {
               'campaign-code': campaign.code,
               'external-user-token': invalidIdToken,
-              birthdate: schoolingRegistration.birthdate,
+              birthdate: organizationLearner.birthdate,
               'access-token': null,
             },
           };
@@ -720,7 +720,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
       user = databaseBuilder.factory.buildUser();
       organization = databaseBuilder.factory.buildOrganization();
       campaign = databaseBuilder.factory.buildCampaign({ organizationId: organization.id });
-      databaseBuilder.factory.buildSchoolingRegistration({
+      databaseBuilder.factory.buildOrganizationLearner({
         organizationId: organization.id,
         userId: null,
         nationalStudentId,
@@ -731,7 +731,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
 
     it('should return an 200 status after having successfully associated user to schoolingRegistration', async function () {
       // given
-      databaseBuilder.factory.buildSchoolingRegistration({ userId: user.id, nationalStudentId });
+      databaseBuilder.factory.buildOrganizationLearner({ userId: user.id, nationalStudentId });
       await databaseBuilder.commit();
 
       options.headers.authorization = generateValidRequestAuthorizationHeader(user.id);
@@ -799,7 +799,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
       user = databaseBuilder.factory.buildUser();
       organization = databaseBuilder.factory.buildOrganization();
       campaign = databaseBuilder.factory.buildCampaign({ organizationId: organization.id });
-      databaseBuilder.factory.buildSchoolingRegistration({
+      databaseBuilder.factory.buildOrganizationLearner({
         firstName: 'Jean',
         lastName: 'Michel',
         birthdate: new Date('2010-01-01'),
@@ -836,14 +836,14 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
     let options;
     let user;
     let organization;
-    let schoolingRegistration;
+    let organizationLearner;
     let campaignCode;
 
     beforeEach(async function () {
       organization = databaseBuilder.factory.buildOrganization({ isManagingStudents: true });
       campaignCode = databaseBuilder.factory.buildCampaign({ organizationId: organization.id, code: 'YUTR789' }).code;
       user = databaseBuilder.factory.buildUser();
-      schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({
+      organizationLearner = databaseBuilder.factory.buildOrganizationLearner({
         firstName: 'josé',
         lastName: 'bové',
         birthdate: '2020-01-01',
@@ -891,9 +891,9 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
 
         // then
         expect(response.statusCode).to.equal(200);
-        expect(response.result.data.attributes['first-name']).to.deep.equal(schoolingRegistration.firstName);
-        expect(response.result.data.attributes['last-name']).to.deep.equal(schoolingRegistration.lastName);
-        expect(response.result.data.attributes['birthdate']).to.deep.equal(schoolingRegistration.birthdate);
+        expect(response.result.data.attributes['first-name']).to.deep.equal(organizationLearner.firstName);
+        expect(response.result.data.attributes['last-name']).to.deep.equal(organizationLearner.lastName);
+        expect(response.result.data.attributes['birthdate']).to.deep.equal(organizationLearner.birthdate);
       });
     });
 
@@ -944,7 +944,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
     let options;
     let user;
     let organization;
-    let schoolingRegistration;
+    let organizationLearner;
     let campaignCode;
 
     beforeEach(async function () {
@@ -956,7 +956,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
         organizationId: organization.id,
       }).code;
       user = databaseBuilder.factory.buildUser();
-      schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({
+      organizationLearner = databaseBuilder.factory.buildOrganizationLearner({
         organizationId: organization.id,
         firstName: user.firstName,
         lastName: user.lastName,
@@ -973,9 +973,9 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
           data: {
             attributes: {
               'campaign-code': campaignCode,
-              'first-name': schoolingRegistration.firstName,
-              'last-name': schoolingRegistration.lastName,
-              birthdate: schoolingRegistration.birthdate,
+              'first-name': organizationLearner.firstName,
+              'last-name': organizationLearner.lastName,
+              birthdate: organizationLearner.birthdate,
             },
           },
         },
@@ -1030,7 +1030,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
             username: null,
             email: 'john.harry@example.net',
           });
-          const schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({
+          const organizationLearner = databaseBuilder.factory.buildOrganizationLearner({
             organizationId: organization.id,
             userId: userWithEmailOnly.id,
           });
@@ -1048,9 +1048,9 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
           options.payload.data = {
             attributes: {
               'campaign-code': campaignCode,
-              'first-name': schoolingRegistration.firstName,
-              'last-name': schoolingRegistration.lastName,
-              birthdate: schoolingRegistration.birthdate,
+              'first-name': organizationLearner.firstName,
+              'last-name': organizationLearner.lastName,
+              birthdate: organizationLearner.birthdate,
             },
           };
 
@@ -1068,7 +1068,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
             username: 'john.harry0702',
             email: null,
           });
-          const schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({
+          const organizationLearner = databaseBuilder.factory.buildOrganizationLearner({
             organizationId: organization.id,
             userId: userWithUsernameOnly.id,
           });
@@ -1086,9 +1086,9 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
           options.payload.data = {
             attributes: {
               'campaign-code': campaignCode,
-              'first-name': schoolingRegistration.firstName,
-              'last-name': schoolingRegistration.lastName,
-              birthdate: schoolingRegistration.birthdate,
+              'first-name': organizationLearner.firstName,
+              'last-name': organizationLearner.lastName,
+              birthdate: organizationLearner.birthdate,
             },
           };
 
@@ -1111,7 +1111,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
             userId: userWithEmailOnly.id,
           });
 
-          const schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({
+          const organizationLearner = databaseBuilder.factory.buildOrganizationLearner({
             firstName: 'Sam',
             lastName: 'Lebrave',
             birthdate: '2015-10-10',
@@ -1119,7 +1119,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
             organizationId: organization.id,
             userId: null,
           });
-          schoolingRegistration.userId = userWithEmailOnly.id;
+          organizationLearner.userId = userWithEmailOnly.id;
           await databaseBuilder.commit();
 
           const expectedResponse = {
@@ -1134,9 +1134,9 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
           options.payload.data = {
             attributes: {
               'campaign-code': campaignCode,
-              'first-name': schoolingRegistration.firstName,
-              'last-name': schoolingRegistration.lastName,
-              birthdate: schoolingRegistration.birthdate,
+              'first-name': organizationLearner.firstName,
+              'last-name': organizationLearner.lastName,
+              birthdate: organizationLearner.birthdate,
             },
           };
 
@@ -1152,7 +1152,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
       context('when schoolingRegistration is already associated in others organizations', function () {
         it('should respond with a 409 - Conflict', async function () {
           // given
-          const schoolingRegistrationAlreadyMatched = databaseBuilder.factory.buildSchoolingRegistration({
+          const organizationLearnerAlreadyMatched = databaseBuilder.factory.buildOrganizationLearner({
             birthdate: '2005-05-15',
             firstName: user.firstName,
             lastName: user.lastName,
@@ -1162,9 +1162,9 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
           });
           await databaseBuilder.commit();
 
-          options.payload.data.attributes['first-name'] = schoolingRegistrationAlreadyMatched.firstName;
-          options.payload.data.attributes['last-name'] = schoolingRegistrationAlreadyMatched.lastName;
-          options.payload.data.attributes.birthdate = schoolingRegistrationAlreadyMatched.birthdate;
+          options.payload.data.attributes['first-name'] = organizationLearnerAlreadyMatched.firstName;
+          options.payload.data.attributes['last-name'] = organizationLearnerAlreadyMatched.lastName;
+          options.payload.data.attributes.birthdate = organizationLearnerAlreadyMatched.birthdate;
 
           // when
           const response = await server.inject(options);
@@ -1182,11 +1182,11 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
             username: null,
             email: 'john.harry@example.net',
           });
-          databaseBuilder.factory.buildSchoolingRegistration({
-            nationalStudentId: schoolingRegistration.nationalStudentId,
-            birthdate: schoolingRegistration.birthdate,
-            firstName: schoolingRegistration.firstName,
-            lastName: schoolingRegistration.lastName,
+          databaseBuilder.factory.buildOrganizationLearner({
+            nationalStudentId: organizationLearner.nationalStudentId,
+            birthdate: organizationLearner.birthdate,
+            firstName: organizationLearner.firstName,
+            lastName: organizationLearner.lastName,
             userId: userWithEmailOnly.id,
           });
           await databaseBuilder.commit();
@@ -1203,9 +1203,9 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
           options.payload.data = {
             attributes: {
               'campaign-code': campaignCode,
-              'first-name': schoolingRegistration.firstName,
-              'last-name': schoolingRegistration.lastName,
-              birthdate: schoolingRegistration.birthdate,
+              'first-name': organizationLearner.firstName,
+              'last-name': organizationLearner.lastName,
+              birthdate: organizationLearner.birthdate,
             },
           };
 
@@ -1223,11 +1223,11 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
             username: 'john.harry0702',
             email: null,
           });
-          databaseBuilder.factory.buildSchoolingRegistration({
-            nationalStudentId: schoolingRegistration.nationalStudentId,
-            birthdate: schoolingRegistration.birthdate,
-            firstName: schoolingRegistration.firstName,
-            lastName: schoolingRegistration.lastName,
+          databaseBuilder.factory.buildOrganizationLearner({
+            nationalStudentId: organizationLearner.nationalStudentId,
+            birthdate: organizationLearner.birthdate,
+            firstName: organizationLearner.firstName,
+            lastName: organizationLearner.lastName,
             userId: userWithUsernameOnly.id,
           });
           await databaseBuilder.commit();
@@ -1244,9 +1244,9 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
           options.payload.data = {
             attributes: {
               'campaign-code': campaignCode,
-              'first-name': schoolingRegistration.firstName,
-              'last-name': schoolingRegistration.lastName,
-              birthdate: schoolingRegistration.birthdate,
+              'first-name': organizationLearner.firstName,
+              'last-name': organizationLearner.lastName,
+              birthdate: organizationLearner.birthdate,
             },
           };
 
@@ -1269,11 +1269,11 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
             userId: userWithSamlIdOnly.id,
           });
 
-          databaseBuilder.factory.buildSchoolingRegistration({
-            nationalStudentId: schoolingRegistration.nationalStudentId,
-            birthdate: schoolingRegistration.birthdate,
-            firstName: schoolingRegistration.firstName,
-            lastName: schoolingRegistration.lastName,
+          databaseBuilder.factory.buildOrganizationLearner({
+            nationalStudentId: organizationLearner.nationalStudentId,
+            birthdate: organizationLearner.birthdate,
+            firstName: organizationLearner.firstName,
+            lastName: organizationLearner.lastName,
             userId: userWithSamlIdOnly.id,
           });
           await databaseBuilder.commit();
@@ -1290,9 +1290,9 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
           options.payload.data = {
             attributes: {
               'campaign-code': campaignCode,
-              'first-name': schoolingRegistration.firstName,
-              'last-name': schoolingRegistration.lastName,
-              birthdate: schoolingRegistration.birthdate,
+              'first-name': organizationLearner.firstName,
+              'last-name': organizationLearner.lastName,
+              birthdate: organizationLearner.birthdate,
             },
           };
 
@@ -1326,13 +1326,13 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
         const organizationId = databaseBuilder.factory.buildOrganization({ isManagingStudents: true }).id;
         const pixMaster = await insertUserWithRolePixMaster();
         const userId = databaseBuilder.factory.buildUser().id;
-        const schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({ organizationId, userId });
+        const organizationLearner = databaseBuilder.factory.buildOrganizationLearner({ organizationId, userId });
 
         await databaseBuilder.commit();
 
         const options = {
           method: 'DELETE',
-          url: `/api/schooling-registration-user-associations/${schoolingRegistration.id}`,
+          url: `/api/schooling-registration-user-associations/${organizationLearner.id}`,
           headers: {
             authorization: generateValidRequestAuthorizationHeader(pixMaster.id),
           },
@@ -1348,7 +1348,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
   describe('PATCH /api/organizations/organizationId/schooling-registration-user-associations/schoolingRegistrationId', function () {
     let organizationId;
     const studentNumber = '54321';
-    let schoolingRegistrationId;
+    let organizationLearnerId;
     let authorizationToken;
 
     beforeEach(async function () {
@@ -1356,7 +1356,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
 
       const user = databaseBuilder.factory.buildUser();
       authorizationToken = generateValidRequestAuthorizationHeader(user.id);
-      schoolingRegistrationId = databaseBuilder.factory.buildSchoolingRegistration({ organizationId }).id;
+      organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner({ organizationId }).id;
       databaseBuilder.factory.buildMembership({
         organizationId,
         userId: user.id,
@@ -1369,7 +1369,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
       it('should return an HTTP response with status code 204', async function () {
         const options = {
           method: 'PATCH',
-          url: `/api/organizations/${organizationId}/schooling-registration-user-associations/${schoolingRegistrationId}`,
+          url: `/api/organizations/${organizationId}/schooling-registration-user-associations/${organizationLearnerId}`,
           headers: {
             authorization: authorizationToken,
           },

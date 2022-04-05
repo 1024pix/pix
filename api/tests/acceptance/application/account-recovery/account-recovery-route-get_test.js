@@ -10,10 +10,10 @@ describe('Acceptance | Application | Account-Recovery | Routes', function () {
       const newEmail = 'newEmail@example.net';
       const firstName = 'Gertrude';
       databaseBuilder.factory.buildUser.withRawPassword({ id: userId });
-      const { id: schoolingRegistrationId } = databaseBuilder.factory.buildSchoolingRegistration({ userId, firstName });
+      const { id: organizationLearnerId } = databaseBuilder.factory.buildOrganizationLearner({ userId, firstName });
       const { id } = databaseBuilder.factory.buildAccountRecoveryDemand({
         userId,
-        schoolingRegistrationId,
+        organizationLearnerId,
         temporaryKey,
         newEmail,
         used: false,

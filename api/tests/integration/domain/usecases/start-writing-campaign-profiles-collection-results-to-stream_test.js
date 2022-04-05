@@ -16,7 +16,7 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-c
     let organization;
     let user;
     let participant;
-    let schoolingRegistration;
+    let organizationLearner;
     let campaign;
     let campaignParticipation;
     let writableStream;
@@ -132,9 +132,9 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-c
           title: null,
         });
 
-        schoolingRegistration = { firstName: '@Jean', lastName: '=Bono' };
+        organizationLearner = { firstName: '@Jean', lastName: '=Bono' };
         campaignParticipation = databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
-          schoolingRegistration,
+          organizationLearner,
           {
             createdAt,
             sharedAt: new Date('2019-03-01T23:04:05Z'),
@@ -155,8 +155,8 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-c
           `"${organization.name}";` +
           `${campaign.id};` +
           `"'${campaign.name}";` +
-          `"'${schoolingRegistration.lastName}";` +
-          `"'${schoolingRegistration.firstName}";` +
+          `"'${organizationLearner.lastName}";` +
+          `"'${organizationLearner.firstName}";` +
           `"'${campaignParticipation.participantExternalId}";` +
           '"Oui";' +
           '2019-03-01;' +
@@ -197,7 +197,7 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-c
         organization = databaseBuilder.factory.buildOrganization({ type: 'SCO', isManagingStudents: true });
         databaseBuilder.factory.buildMembership({ userId: user.id, organizationId: organization.id });
 
-        schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({
+        organizationLearner = databaseBuilder.factory.buildOrganizationLearner({
           userId: participant.id,
           firstName: '@Jean',
           lastName: '=Bono',
@@ -221,7 +221,7 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-c
           participantExternalId: '+Mon mail pro',
           campaignId: campaign.id,
           userId: participant.id,
-          schoolingRegistrationId: schoolingRegistration.id,
+          organizationLearnerId: organizationLearner.id,
           pixScore: 52,
         });
 
@@ -235,9 +235,9 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-c
           `"${organization.name}";` +
           `${campaign.id};` +
           `"'${campaign.name}";` +
-          `"'${schoolingRegistration.lastName}";` +
-          `"'${schoolingRegistration.firstName}";` +
-          `"${schoolingRegistration.division}";` +
+          `"'${organizationLearner.lastName}";` +
+          `"'${organizationLearner.firstName}";` +
+          `"${organizationLearner.division}";` +
           `"'${campaignParticipation.participantExternalId}";` +
           '"Oui";' +
           '2019-03-01;' +
@@ -278,7 +278,7 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-c
         organization = databaseBuilder.factory.buildOrganization({ type: 'SUP', isManagingStudents: true });
         databaseBuilder.factory.buildMembership({ userId: user.id, organizationId: organization.id });
 
-        schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({
+        organizationLearner = databaseBuilder.factory.buildOrganizationLearner({
           userId: participant.id,
           studentNumber: '12345A',
           firstName: '@Jean',
@@ -303,7 +303,7 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-c
           participantExternalId: '+Mon mail pro',
           campaignId: campaign.id,
           userId: participant.id,
-          schoolingRegistrationId: schoolingRegistration.id,
+          organizationLearnerId: organizationLearner.id,
           pixScore: 52,
         });
 
@@ -317,10 +317,10 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-c
           `"${organization.name}";` +
           `${campaign.id};` +
           `"'${campaign.name}";` +
-          `"'${schoolingRegistration.lastName}";` +
-          `"'${schoolingRegistration.firstName}";` +
-          `"'${schoolingRegistration.group}";` +
-          `"${schoolingRegistration.studentNumber}";` +
+          `"'${organizationLearner.lastName}";` +
+          `"'${organizationLearner.firstName}";` +
+          `"'${organizationLearner.group}";` +
+          `"${organizationLearner.studentNumber}";` +
           `"'${campaignParticipation.participantExternalId}";` +
           '"Oui";' +
           '2019-03-01;' +

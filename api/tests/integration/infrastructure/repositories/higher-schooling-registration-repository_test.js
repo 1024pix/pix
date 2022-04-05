@@ -5,11 +5,11 @@ const SchoolingRegistration = require('../../../../lib/domain/models/SchoolingRe
 describe('Integration | Infrastructure | Repository | higher-schooling-registration-repository', function () {
   describe('#findOneByStudentNumber', function () {
     let organization;
-    let schoolingRegistration;
+    let organizationLearner;
 
     beforeEach(async function () {
       organization = databaseBuilder.factory.buildOrganization();
-      schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({
+      organizationLearner = databaseBuilder.factory.buildOrganizationLearner({
         organizationId: organization.id,
         studentNumber: '123A',
       });
@@ -24,7 +24,7 @@ describe('Integration | Infrastructure | Repository | higher-schooling-registrat
       });
 
       // then
-      expect(result.id).to.deep.equal(schoolingRegistration.id);
+      expect(result.id).to.deep.equal(organizationLearner.id);
     });
 
     it('should return empty array when there is no schooling-registrations with the given student number', async function () {
@@ -62,7 +62,7 @@ describe('Integration | Infrastructure | Repository | higher-schooling-registrat
 
     context('When there is no registered schooling registrations', function () {
       beforeEach(async function () {
-        databaseBuilder.factory.buildSchoolingRegistration({ organizationId, studentNumber, birthdate });
+        databaseBuilder.factory.buildOrganizationLearner({ organizationId, studentNumber, birthdate });
         await databaseBuilder.commit();
       });
 
@@ -81,7 +81,7 @@ describe('Integration | Infrastructure | Repository | higher-schooling-registrat
 
     context('When there is no active registered schooling registrations', function () {
       beforeEach(async function () {
-        databaseBuilder.factory.buildSchoolingRegistration({
+        databaseBuilder.factory.buildOrganizationLearner({
           organizationId,
           studentNumber,
           birthdate,
@@ -106,7 +106,7 @@ describe('Integration | Infrastructure | Repository | higher-schooling-registrat
     context('When there is no schooling registrations for the organization', function () {
       beforeEach(async function () {
         const otherOrganizationId = databaseBuilder.factory.buildOrganization().id;
-        databaseBuilder.factory.buildSchoolingRegistration({
+        databaseBuilder.factory.buildOrganizationLearner({
           organizationId: otherOrganizationId,
           studentNumber,
           birthdate,
@@ -129,7 +129,7 @@ describe('Integration | Infrastructure | Repository | higher-schooling-registrat
 
     context('When there is no schooling registrations with given student number', function () {
       beforeEach(async function () {
-        databaseBuilder.factory.buildSchoolingRegistration({ organizationId, studentNumber: '999', birthdate });
+        databaseBuilder.factory.buildOrganizationLearner({ organizationId, studentNumber: '999', birthdate });
         await databaseBuilder.commit();
       });
 
@@ -148,7 +148,7 @@ describe('Integration | Infrastructure | Repository | higher-schooling-registrat
 
     context('When there is no schooling registrations with given birthdate', function () {
       beforeEach(async function () {
-        databaseBuilder.factory.buildSchoolingRegistration({ organizationId, studentNumber, birthdate: '2000-03-30' });
+        databaseBuilder.factory.buildOrganizationLearner({ organizationId, studentNumber, birthdate: '2000-03-30' });
         await databaseBuilder.commit();
       });
 
@@ -166,9 +166,9 @@ describe('Integration | Infrastructure | Repository | higher-schooling-registrat
     });
 
     context('When there is a matching schooling registrations with student number and birthdate', function () {
-      let expectedSchoolingRegistrationId;
+      let expectedOrganizationLearnerId;
       beforeEach(async function () {
-        expectedSchoolingRegistrationId = databaseBuilder.factory.buildSchoolingRegistration({
+        expectedOrganizationLearnerId = databaseBuilder.factory.buildOrganizationLearner({
           organizationId,
           studentNumber,
           birthdate,
@@ -186,7 +186,7 @@ describe('Integration | Infrastructure | Repository | higher-schooling-registrat
 
         // then
         expect(schoolingRegistration).to.be.an.instanceOf(SchoolingRegistration);
-        expect(schoolingRegistration.id).to.equal(expectedSchoolingRegistrationId);
+        expect(schoolingRegistration.id).to.equal(expectedOrganizationLearnerId);
       });
     });
   });
@@ -194,13 +194,13 @@ describe('Integration | Infrastructure | Repository | higher-schooling-registrat
   describe('#updateStudentNumber', function () {
     it('should update the student number', async function () {
       // given
-      const id = databaseBuilder.factory.buildSchoolingRegistration({ studentNumber: 12345 }).id;
+      const id = databaseBuilder.factory.buildOrganizationLearner({ studentNumber: 12345 }).id;
       await databaseBuilder.commit();
 
       // when
       await higherSchoolingRegistrationRepository.updateStudentNumber(id, 54321);
-      const [schoolingRegistration] = await knex.select('studentNumber').from('organization-learners').where({ id });
-      expect(schoolingRegistration.studentNumber).to.equal('54321');
+      const [organizationLearner] = await knex.select('studentNumber').from('organization-learners').where({ id });
+      expect(organizationLearner.studentNumber).to.equal('54321');
     });
   });
 
@@ -254,7 +254,7 @@ describe('Integration | Infrastructure | Repository | higher-schooling-registrat
             birthdate: '1990-07-01',
           });
 
-          databaseBuilder.factory.buildSchoolingRegistration({
+          databaseBuilder.factory.buildOrganizationLearner({
             organizationId: organization.id,
             studentNumber: '4',
             updatedAt: new Date('2000-01-01'),
@@ -281,7 +281,7 @@ describe('Integration | Infrastructure | Repository | higher-schooling-registrat
         function () {
           it('enables the schooling-registrations', async function () {
             const organization = databaseBuilder.factory.buildOrganization();
-            databaseBuilder.factory.buildSchoolingRegistration({
+            databaseBuilder.factory.buildOrganizationLearner({
               organizationId: organization.id,
               studentNumber: '4',
               isDisabled: true,
@@ -309,7 +309,7 @@ describe('Integration | Infrastructure | Repository | higher-schooling-registrat
         it('creates the schooling-registrations', async function () {
           const organization1 = databaseBuilder.factory.buildOrganization();
           const organization2 = databaseBuilder.factory.buildOrganization();
-          databaseBuilder.factory.buildSchoolingRegistration({ organizationId: organization1.id, studentNumber: '4' });
+          databaseBuilder.factory.buildOrganizationLearner({ organizationId: organization1.id, studentNumber: '4' });
           await databaseBuilder.commit();
 
           const higherSchoolingRegistration = domainBuilder.buildHigherSchoolingRegistration({
@@ -383,7 +383,7 @@ describe('Integration | Infrastructure | Repository | higher-schooling-registrat
             birthdate: '1990-07-01',
           });
 
-          databaseBuilder.factory.buildSchoolingRegistration({
+          databaseBuilder.factory.buildOrganizationLearner({
             organizationId: organization.id,
             studentNumber: '4',
             updatedAt: new Date('2000-01-01'),
@@ -411,7 +411,7 @@ describe('Integration | Infrastructure | Repository | higher-schooling-registrat
       function () {
         it('enables the schooling-registrations', async function () {
           const organization = databaseBuilder.factory.buildOrganization();
-          databaseBuilder.factory.buildSchoolingRegistration({
+          databaseBuilder.factory.buildOrganizationLearner({
             organizationId: organization.id,
             studentNumber: '4',
             isDisabled: true,
@@ -439,7 +439,7 @@ describe('Integration | Infrastructure | Repository | higher-schooling-registrat
       it('creates the schooling-registrations', async function () {
         const organization1 = databaseBuilder.factory.buildOrganization();
         const organization2 = databaseBuilder.factory.buildOrganization();
-        databaseBuilder.factory.buildSchoolingRegistration({ organizationId: organization1.id, studentNumber: '4' });
+        databaseBuilder.factory.buildOrganizationLearner({ organizationId: organization1.id, studentNumber: '4' });
         await databaseBuilder.commit();
 
         const higherSchoolingRegistration = domainBuilder.buildHigherSchoolingRegistration({
@@ -468,7 +468,7 @@ describe('Integration | Infrastructure | Repository | higher-schooling-registrat
       function () {
         it('disables the schooling-registrations', async function () {
           const organization = databaseBuilder.factory.buildOrganization();
-          databaseBuilder.factory.buildSchoolingRegistration({
+          databaseBuilder.factory.buildOrganizationLearner({
             organizationId: organization.id,
             studentNumber: '4',
             isDisabled: false,
@@ -496,7 +496,7 @@ describe('Integration | Infrastructure | Repository | higher-schooling-registrat
     context('when there is a problem', function () {
       it('does not create registrations and does not change existing registrations', async function () {
         const organization = databaseBuilder.factory.buildOrganization();
-        databaseBuilder.factory.buildSchoolingRegistration({
+        databaseBuilder.factory.buildOrganizationLearner({
           organizationId: organization.id,
           studentNumber: '4',
           isDisabled: false,

@@ -256,7 +256,7 @@ describe('Integration | Repository | Campaign Participation Info', function () {
         campaign = databaseBuilder.factory.buildCampaign({ type: Campaign.types.ASSESSMENT });
 
         const userId = databaseBuilder.factory.buildUser().id;
-        const schoolingRegistrationId = databaseBuilder.factory.buildSchoolingRegistration({
+        const organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner({
           firstName: 'The',
           lastName: 'Narrator',
           division: null,
@@ -266,7 +266,7 @@ describe('Integration | Repository | Campaign Participation Info', function () {
         campaignParticipation1 = databaseBuilder.factory.buildCampaignParticipation({
           campaignId: campaign.id,
           userId,
-          schoolingRegistrationId,
+          organizationLearnerId,
           sharedAt: new Date(),
           isImproved: true,
         });
@@ -274,7 +274,7 @@ describe('Integration | Repository | Campaign Participation Info', function () {
         campaignParticipation2 = databaseBuilder.factory.buildCampaignParticipation({
           campaignId: campaign.id,
           userId,
-          schoolingRegistrationId,
+          organizationLearnerId,
           sharedAt: new Date(),
           isImproved: false,
         });
@@ -326,13 +326,13 @@ describe('Integration | Repository | Campaign Participation Info', function () {
         const organizationId = databaseBuilder.factory.buildOrganization().id;
         const userId = databaseBuilder.factory.buildUser().id;
         campaign = databaseBuilder.factory.buildCampaign({ organizationId });
-        const schoolingRegistrationId = databaseBuilder.factory.buildSchoolingRegistration({
+        const organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner({
           organizationId,
           userId,
           firstName: 'John',
           lastName: 'Doe',
         }).id;
-        databaseBuilder.factory.buildSchoolingRegistration({
+        databaseBuilder.factory.buildOrganizationLearner({
           organizationId: otherOrganizationId,
           userId,
           firstName: 'Jane',
@@ -341,7 +341,7 @@ describe('Integration | Repository | Campaign Participation Info', function () {
         const campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({
           campaignId: campaign.id,
           userId,
-          schoolingRegistrationId,
+          organizationLearnerId,
         }).id;
         databaseBuilder.factory.buildAssessment({ campaignParticipationId, userId });
 
@@ -358,12 +358,12 @@ describe('Integration | Repository | Campaign Participation Info', function () {
     });
 
     context("when the participant has a schooling registration for the campaign's organization", function () {
-      let schoolingRegistration;
+      let organizationLearner;
       let campaign;
       beforeEach(async function () {
         const userId = databaseBuilder.factory.buildUser().id;
         campaign = databaseBuilder.factory.buildCampaign();
-        schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({
+        organizationLearner = databaseBuilder.factory.buildOrganizationLearner({
           organizationId: campaign.organizationId,
           userId,
           studentNumber: 'Pipon et Jambon',
@@ -373,11 +373,11 @@ describe('Integration | Repository | Campaign Participation Info', function () {
         const campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({
           campaignId: campaign.id,
           userId,
-          schoolingRegistrationId: schoolingRegistration.id,
+          organizationLearnerId: organizationLearner.id,
         }).id;
         databaseBuilder.factory.buildAssessment({ campaignParticipationId, userId, state: 'started' });
 
-        databaseBuilder.factory.buildSchoolingRegistration({
+        databaseBuilder.factory.buildOrganizationLearner({
           userId,
           studentNumber: 'Yippee Ki Yay',
         });
@@ -390,7 +390,7 @@ describe('Integration | Repository | Campaign Participation Info', function () {
         const campaignParticipationInfos = await campaignParticipationInfoRepository.findByCampaignId(campaign.id);
 
         // then
-        expect(campaignParticipationInfos[0].studentNumber).to.equal(schoolingRegistration.studentNumber);
+        expect(campaignParticipationInfos[0].studentNumber).to.equal(organizationLearner.studentNumber);
       });
 
       it('should return the first name and last of the schooling registration associated to the given organization', async function () {
@@ -398,8 +398,8 @@ describe('Integration | Repository | Campaign Participation Info', function () {
         const campaignParticipationInfos = await campaignParticipationInfoRepository.findByCampaignId(campaign.id);
 
         // then
-        expect(campaignParticipationInfos[0].participantFirstName).to.equal(schoolingRegistration.firstName);
-        expect(campaignParticipationInfos[0].participantLastName).to.equal(schoolingRegistration.lastName);
+        expect(campaignParticipationInfos[0].participantFirstName).to.equal(organizationLearner.firstName);
+        expect(campaignParticipationInfos[0].participantLastName).to.equal(organizationLearner.lastName);
       });
 
       it('should return the division', async function () {
@@ -407,7 +407,7 @@ describe('Integration | Repository | Campaign Participation Info', function () {
         const campaignParticipationInfos = await campaignParticipationInfoRepository.findByCampaignId(campaign.id);
 
         // then
-        expect(campaignParticipationInfos[0].division).to.equal(schoolingRegistration.division);
+        expect(campaignParticipationInfos[0].division).to.equal(organizationLearner.division);
       });
 
       it('should return the group', async function () {
@@ -415,7 +415,7 @@ describe('Integration | Repository | Campaign Participation Info', function () {
         const campaignParticipationInfos = await campaignParticipationInfoRepository.findByCampaignId(campaign.id);
 
         // then
-        expect(campaignParticipationInfos[0].group).to.equal(schoolingRegistration.group);
+        expect(campaignParticipationInfos[0].group).to.equal(organizationLearner.group);
       });
     });
   });
