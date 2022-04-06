@@ -73,7 +73,7 @@ export default function () {
 
   this.put('/users/tutorials/:tutorialId/evaluate', putTutorialEvaluation);
 
-  this.post('/pole-emplois/users', postPoleEmploiUser);
+  this.post('/pole-emploi/users', postPoleEmploiUser);
 
   this.get('/feature-toggles', getFeatureToggles);
 

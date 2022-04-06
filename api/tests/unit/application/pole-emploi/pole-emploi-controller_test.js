@@ -1,11 +1,11 @@
 const { expect, sinon, hFake } = require('../../../test-helper');
 
-const poleEmploiController = require('../../../../lib/application/pole-emplois/pole-emploi-controller');
+const poleEmploiController = require('../../../../lib/application/pole-emploi/pole-emploi-controller');
 const usecases = require('../../../../lib/domain/usecases');
 const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
 const tokenService = require('../../../../lib/domain/services/token-service');
 
-describe('Unit | Controller | pole-emplois-controller', function () {
+describe('Unit | Controller | pole-emploi-controller', function () {
   describe('#getSendings', function () {
     context('when there is a cursor in the url', function () {
       it('should return the pole emploi sending', async function () {

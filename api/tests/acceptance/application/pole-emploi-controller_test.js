@@ -26,7 +26,7 @@ describe('Acceptance | API | Pole Emploi Controller', function () {
     server = await createServer();
   });
 
-  describe('POST /api/pole-emplois/users?authentication-key=key', function () {
+  describe('POST /api/pole-emploi/users?authentication-key=key', function () {
     const firstName = 'firstName';
     const lastName = 'lastName';
     const externalIdentifier = 'idIdentiteExterne';
@@ -58,7 +58,7 @@ describe('Acceptance | API | Pole Emploi Controller', function () {
 
       const request = {
         method: 'POST',
-        url: `/api/pole-emplois/users?authentication-key=${userAuthenticationKey}`,
+        url: `/api/pole-emploi/users?authentication-key=${userAuthenticationKey}`,
       };
 
       // when
