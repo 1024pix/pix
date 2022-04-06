@@ -3,6 +3,9 @@ const participationsForCampaignManagementRepository = require('../../../../lib/i
 const _ = require('lodash');
 const ParticipationForCampaignManagement = require('../../../../lib/domain/models/ParticipationForCampaignManagement');
 const { NotFoundError } = require('../../../../lib/domain/errors');
+const CampaignParticipationStatuses = require('../../../../lib/domain/models/CampaignParticipationStatuses');
+
+const { SHARED } = CampaignParticipationStatuses;
 
 describe('Integration | Repository | Participations-For-Campaign-Management', function () {
   describe('#findPaginatedParticipationsForCampaignManagement', function () {
@@ -66,14 +69,17 @@ describe('Integration | Repository | Participations-For-Campaign-Management', fu
 
       it('should return participations with all attributes', async function () {
         // given
-        const organizationLearner = databaseBuilder.factory.buildOrganizationLearner({
-          lastName: 'King',
-          firstName: 'Arthur',
-        });
-        const campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
-          campaignId,
-          organizationLearnerId: organizationLearner.id,
-        });
+        const campaignParticipation = databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
+          { lastName: 'King', firstName: 'Arthur' },
+          {
+            campaignId,
+            participantExternalId: '123',
+            status: SHARED,
+            createdAt: new Date('2010-10-10'),
+            sharedAt: new Date('2010-10-11'),
+          }
+        );
+
         await databaseBuilder.commit();
 
         // when
@@ -87,12 +93,56 @@ describe('Integration | Repository | Participations-For-Campaign-Management', fu
         expect(participationsForCampaignManagement[0]).to.be.instanceOf(ParticipationForCampaignManagement);
         expect(participationsForCampaignManagement[0]).to.deep.equal({
           id: campaignParticipation.id,
-          lastName: organizationLearner.lastName,
-          firstName: organizationLearner.firstName,
+          lastName: 'King',
+          firstName: 'Arthur',
           participantExternalId: campaignParticipation.participantExternalId,
           status: campaignParticipation.status,
           createdAt: campaignParticipation.createdAt,
           sharedAt: campaignParticipation.sharedAt,
+          deletedAt: null,
+          deletedBy: null,
+        });
+      });
+
+      context('When a participation is deleted', function () {
+        it('should return participation with deletion attributes', async function () {
+          // given
+          const deletingUser = databaseBuilder.factory.buildUser({ id: 666, firstName: 'The', lastName: 'Terminator' });
+          const campaignParticipation = databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
+            { lastName: 'King', firstName: 'Arthur' },
+            {
+              campaignId,
+              participantExternalId: '1234',
+              status: SHARED,
+              createdAt: new Date('2010-10-10'),
+              sharedAt: new Date('2010-10-11'),
+              deletedAt: new Date('2010-10-12'),
+              deletedBy: deletingUser.id,
+            }
+          );
+
+          await databaseBuilder.commit();
+
+          // when
+          const { models: participationsForCampaignManagement } =
+            await participationsForCampaignManagementRepository.findPaginatedParticipationsForCampaignManagement({
+              campaignId,
+              page,
+            });
+
+          // then
+          expect(participationsForCampaignManagement[0]).to.deep.equal({
+            id: campaignParticipation.id,
+            lastName: 'King',
+            firstName: 'Arthur',
+            participantExternalId: campaignParticipation.participantExternalId,
+            status: campaignParticipation.status,
+            createdAt: campaignParticipation.createdAt,
+            sharedAt: campaignParticipation.sharedAt,
+            deletedAt: campaignParticipation.deletedAt,
+            deletedBy: campaignParticipation.deletedBy,
+            deletedByFullName: 'The Terminator',
+          });
         });
       });
 
