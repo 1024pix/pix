@@ -20,13 +20,13 @@ describe('Unit | Component | Tutorial | card item', function () {
     component.intl = intl;
   });
 
-  describe('#isEvaluateButtonDisabled', function () {
+  describe('#isTutorialEvaluated', function () {
     it('should return false when the tutorial has not already been evaluated', function () {
       // given
       component.evaluationStatus = 'unrecorded';
 
       // when
-      const result = component.isEvaluateButtonDisabled;
+      const result = component.isTutorialEvaluated;
 
       // then
       expect(result).to.equal(false);
@@ -37,7 +37,7 @@ describe('Unit | Component | Tutorial | card item', function () {
       component.evaluationStatus = 'recorded';
 
       // when
-      const result = component.isEvaluateButtonDisabled;
+      const result = component.isTutorialEvaluated;
 
       // then
       expect(result).to.equal(true);
@@ -48,7 +48,7 @@ describe('Unit | Component | Tutorial | card item', function () {
       component.evaluationStatus = 'pending';
 
       // when
-      const result = component.isEvaluateButtonDisabled;
+      const result = component.isTutorialEvaluated;
 
       // then
       expect(result).to.equal(true);

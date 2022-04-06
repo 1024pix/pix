@@ -21,9 +21,9 @@
         class="tutorial-card-v2-content-actions__evaluate"
         type="button"
         {{on "click" this.evaluateTutorial}}
-        disabled={{this.isEvaluateButtonDisabled}}
+        disabled={{this.isTutorialEvaluated}}
       >
-        <FaIcon @prefix="fas" @icon="thumbs-up" />
+        <FaIcon @prefix={{if this.isTutorialEvaluated "fas" "far"}} @icon="thumbs-up" />
       </button>
       <button class="tutorial-card-v2-content-actions__save" type="button">
         <FaIcon @prefix="fas" @icon="bookmark" />

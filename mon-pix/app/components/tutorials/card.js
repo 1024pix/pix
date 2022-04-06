@@ -27,7 +27,7 @@ export default class Card extends Component {
     return this.savingStatus === buttonStatusTypes.recorded;
   }
 
-  get isEvaluateButtonDisabled() {
+  get isTutorialEvaluated() {
     return this.evaluationStatus !== buttonStatusTypes.unrecorded;
   }
 
