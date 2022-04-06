@@ -113,7 +113,7 @@ function certificationCandidatesBuilder({ databaseBuilder }) {
   });
 
   // A candidate that has started the session
-  const userId = databaseBuilder.factory.buildUser().id;
+  const userId = databaseBuilder.factory.buildUser.withRawPassword().id;
   const candidateWithStartedTest = {
     firstName: 'Jean-Pierre',
     lastName: 'Acommencé',
