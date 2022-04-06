@@ -329,5 +329,30 @@ describe('Integration | Repository | CampaignProfileRepository', function () {
         expect(error.message).to.equal(`There is no campaign participation with the id "${campaignParticipationId}"`);
       });
     });
+
+    context('when the campaign-participation is deleted with the given id for the given campaign', function () {
+      beforeEach(function () {
+        mockLearningContent({ areas: [], competences: [], skills: [] });
+      });
+
+      it('throws a NotFoundError error', async function () {
+        const campaignId = databaseBuilder.factory.buildCampaign().id;
+
+        const campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({
+          campaignId,
+          deletedAt: new Date('2022-01-01'),
+        }).id;
+
+        await databaseBuilder.commit();
+        const error = await catchErr(CampaignProfileRepository.findProfile)({
+          campaignId,
+          campaignParticipationId,
+          locale,
+        });
+
+        expect(error).to.be.an.instanceof(NotFoundError);
+        expect(error.message).to.equal(`There is no campaign participation with the id "${campaignParticipationId}"`);
+      });
+    });
   });
 });
