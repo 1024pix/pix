@@ -72,3 +72,23 @@
     margin-top: 0;
   }
 }
+
+.send-profile-disabled-share {
+
+  &__text {
+    font-size: 1.375rem;
+    max-width: 640px;
+    margin: 30px auto 60px;
+    font-family: $font-open-sans;
+    font-weight: $font-light;
+    color: $grey-35;
+    text-align: center;
+  }
+
+  &__back-to-home {
+    font-size: 1rem;
+    font-weight: $font-bold;
+    font-family: $font-open-sans;
+    text-align: center;
+  }
+}
