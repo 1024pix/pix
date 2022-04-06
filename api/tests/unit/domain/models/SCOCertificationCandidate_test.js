@@ -10,7 +10,7 @@ describe('Unit | Domain | Models | SCO Certification Candidate', function () {
       lastName: 'Ishii',
       birthdate: '2010-01-01',
       sex: 'F',
-      birthINSEECode: '75001',
+      birthINSEECode: '75101',
       sessionId: 123,
       schoolingRegistrationId: 456,
     };
