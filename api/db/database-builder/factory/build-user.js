@@ -14,12 +14,13 @@ const buildMembership = require('./build-membership');
 const buildCertificationCenter = require('./build-certification-center');
 const buildCertificationCenterMembership = require('./build-certification-center-membership');
 
+const { DEFAULT_PASSWORD } = require('../../seeds/data/users-builder');
 const PIX_MASTER_ROLE_ID = 1;
 
 function _buildPixAuthenticationMethod({
   id = databaseBuffer.getNextId(),
   userId,
-  rawPassword = 'Password123',
+  rawPassword = DEFAULT_PASSWORD,
   shouldChangePassword,
   createdAt,
   updatedAt,
@@ -116,7 +117,7 @@ buildUser.withRawPassword = function buildUserWithRawPassword({
   hasSeenAssessmentInstructions = false,
   createdAt = new Date(),
   updatedAt = new Date(),
-  rawPassword = 'Password123',
+  rawPassword = DEFAULT_PASSWORD,
   shouldChangePassword = false,
 } = {}) {
   email = isUndefined(email) ? `${firstName}.${lastName}${id}@example.net`.toLowerCase() : email || null;
@@ -173,7 +174,7 @@ buildUser.withPixRolePixMaster = function buildUserWithPixRolePixMaster({
   createdAt = new Date(),
   updatedAt = new Date(),
 
-  rawPassword = 'Password123',
+  rawPassword = DEFAULT_PASSWORD,
   shouldChangePassword = false,
 } = {}) {
   email = isUndefined(email) ? `${firstName}.${lastName}${id}@example.net`.toLowerCase() : email || null;
@@ -230,7 +231,7 @@ buildUser.withMembership = function buildUserWithMemberships({
   updatedAt = new Date(),
   organizationRole = Membership.roles.ADMIN,
   organizationId = null,
-  rawPassword = 'Password123',
+  rawPassword = DEFAULT_PASSWORD,
   shouldChangePassword = false,
 } = {}) {
   email = isUndefined(email) ? `${firstName}.${lastName}${id}@example.net`.toLowerCase() : email || null;
