@@ -18,15 +18,6 @@
     </p>
     <div class="tutorial-card-v2-content__actions">
       <button
-        class="tutorial-card-v2-content-actions__save"
-        type="button"
-        {{on "click" this.toggleSaveTutorial}}
-        disabled={{this.isSaveButtonDisabled}}
-      >
-        <FaIcon @prefix={{if this.isSaved "fas" "far"}} @icon="bookmark" />
-        {{this.buttonLabel}}
-      </button>
-      <button
         class="tutorial-card-v2-content-actions__evaluate"
         type="button"
         {{on "click" this.evaluateTutorial}}
@@ -34,6 +25,10 @@
       >
         <FaIcon @prefix="fas" @icon="thumbs-up" />
         {{t "pages.user-tutorials.list.tutorial.actions.evaluate.label"}}
+      </button>
+      <button class="tutorial-card-v2-content-actions__save" type="button">
+        <FaIcon @prefix="fas" @icon="bookmark" />
+        {{this.buttonLabel}}
       </button>
     </div>
   </div>
