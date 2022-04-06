@@ -1109,4 +1109,52 @@ describe('Integration | Repository | AuthenticationMethod', function () {
       expect(authenticationMethodUpdated[0].updatedAt).to.deep.equal(now);
     });
   });
+
+  describe('#update', function () {
+    let clock;
+
+    afterEach(async function () {
+      clock.restore();
+    });
+
+    it('should update authentication method complement', async function () {
+      // given
+      const now = new Date('2022-03-15');
+      clock = sinon.useFakeTimers(now);
+
+      const userId = databaseBuilder.factory.buildUser().id;
+      const authenticationMethod = databaseBuilder.factory.buildAuthenticationMethod.withGarAsIdentityProvider({
+        userId,
+        updatedAt: '2018-01-01',
+      });
+      const otherAuthenticationMethod =
+        databaseBuilder.factory.buildAuthenticationMethod.withPixAsIdentityProviderAndPassword({
+          userId,
+          updatedAt: '2018-01-01',
+        });
+      await databaseBuilder.commit();
+
+      authenticationMethod.authenticationComplement = new AuthenticationMethod.GARAuthenticationComplement({
+        firstName: 'Saml',
+        lastName: 'Jackson',
+      });
+
+      // when
+      await authenticationMethodRepository.update(authenticationMethod);
+
+      // then
+      const updatedAuthenticationMethod = await knex('authentication-methods')
+        .select()
+        .where({ id: authenticationMethod.id })
+        .first();
+      expect(updatedAuthenticationMethod.authenticationComplement.firstName).to.equal('Saml');
+      expect(updatedAuthenticationMethod.authenticationComplement.lastName).to.equal('Jackson');
+      expect(updatedAuthenticationMethod.updatedAt).to.deep.equal(new Date('2022-03-15'));
+      const untouchedAuthenticationMethod = await knex('authentication-methods')
+        .select()
+        .where({ id: otherAuthenticationMethod.id })
+        .first();
+      expect(untouchedAuthenticationMethod.updatedAt).to.deep.equal(new Date('2018-01-01'));
+    });
+  });
 });
