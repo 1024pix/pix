@@ -113,11 +113,12 @@
     grid-auto-rows: min-content;
     row-gap: 16px;
     width: 100%;
+    margin-bottom: 32px;
 
     @include device-is('desktop') {
       grid-template-columns: 1fr 1fr;
       column-gap: 24px;
-      margin: 0 auto;
+      margin: 0 auto 32px auto;
     }
   }
 
