@@ -49,6 +49,11 @@ class Examiner {
       );
     }
 
+    // Consider user has focused out if at least one of the following is true :
+    //   - assessment has recorded a focusedout event
+    //   - answer.isFocusedOut is true
+    answer.isFocusedOut = answer.isFocusedOut || hasLastQuestionBeenFocusedOut;
+
     // Temporary log to find out focusedout answers that should not occur
     if (!isFocusedChallenge && answer.isFocusedOut) {
       logger.warn(
@@ -64,6 +69,7 @@ class Examiner {
 
     if (isCorrectAnswer && isFocusedChallenge && answer.isFocusedOut && isCertificationEvaluation) {
       correctedAnswer.result = AnswerStatus.FOCUSEDOUT;
+      correctedAnswer.isFocusedOut = true;
     }
 
     return correctedAnswer;
