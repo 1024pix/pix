@@ -7,6 +7,15 @@ exports.register = async function (server) {
   server.route([
     {
       method: 'POST',
+      path: '/api/pole-emploi/users',
+      config: {
+        auth: false,
+        handler: poleEmploiController.createUser,
+        tags: ['api'],
+      },
+    },
+    {
+      method: 'POST',
       path: '/api/pole-emplois/users',
       config: {
         auth: false,
@@ -64,4 +73,4 @@ exports.register = async function (server) {
   ]);
 };
 
-exports.name = 'pole-emplois-api';
+exports.name = 'pole-emploi-api';

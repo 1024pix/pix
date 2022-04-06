@@ -1,7 +1,7 @@
 const _ = require('lodash');
 const { POLE_EMPLOI_CAMPAIGN_ID } = require('./campaigns-pro-builder');
 
-module.exports = function poleEmploisSendingsBuilder({ databaseBuilder }) {
+module.exports = function poleEmploiSendingsBuilder({ databaseBuilder }) {
   const _generateStatus = () => {
     const possibleChoices = [{ isSuccessful: true, responseCode: '200' }, { isSuccessful: false, responseCode: '400' }];
     return _.sample(possibleChoices);
