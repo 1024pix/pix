@@ -33,12 +33,17 @@ describe('Unit | Controller | campaigns/profiles-collection/send-profile', funct
 
   describe('#isDisabled', function () {
     it('should return false if campaignParticipation is not deleted and campaign is not archived', function () {
+      // given
+      controller.model.campaignParticipation.deletedAt = null;
+      controller.model.campaign.isArchived = false;
+
       // then
       expect(controller.isDisabled).to.equal(false);
     });
     it('should return true if campaignParticipation is deleted', function () {
       // given
       controller.model.campaignParticipation.deletedAt = new Date();
+      controller.model.campaign.isArchived = false;
 
       // then
       expect(controller.isDisabled).to.equal(true);
@@ -46,6 +51,7 @@ describe('Unit | Controller | campaigns/profiles-collection/send-profile', funct
     it('should return true if campaign is archived', function () {
       // given
       controller.model.campaign.isArchived = true;
+      controller.model.campaignParticipation.deletedAt = null;
 
       // then
       expect(controller.isDisabled).to.equal(true);
