@@ -140,7 +140,11 @@
               <h4 class="tube__title">{{tube.practicalTitle}}</h4>
               <div class="tube__content">
                 {{#each tube.tutorials as |tutorial|}}
-                  <TutorialItem @tutorial={{tutorial}} />
+                  {{#if this.areNewTutorialsEnabled}}
+                    <Tutorials::Card @tutorial={{tutorial}} />
+                  {{else}}
+                    <TutorialItem @tutorial={{tutorial}} />
+                  {{/if}}
                 {{/each}}
               </div>
             </div>
