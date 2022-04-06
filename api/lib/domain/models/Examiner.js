@@ -10,7 +10,7 @@ class Examiner {
     this.validator = validator;
   }
 
-  evaluate({ answer, challengeFormat, isFocusedChallenge, isCertificationEvaluation }) {
+  evaluate({ answer, challengeFormat, isFocusedChallenge, isCertificationEvaluation, hasLastQuestionBeenFocusedOut }) {
     const correctedAnswer = new Answer(answer);
 
     if (answer.value === Answer.FAKE_VALUE_FOR_SKIPPED_QUESTIONS) {
@@ -28,6 +28,25 @@ class Examiner {
 
     if (isCorrectAnswer && answer.hasTimedOut) {
       correctedAnswer.result = AnswerStatus.TIMEDOUT;
+    }
+
+    // Temporary log to find out synchronization problems
+    // between PATCH /focusedout and POST /answers
+    if (
+      (answer.isFocusedOut && !hasLastQuestionBeenFocusedOut) ||
+      (!answer.isFocusedOut && hasLastQuestionBeenFocusedOut)
+    ) {
+      logger.warn(
+        {
+          subject: 'focusOut',
+          challengeFormat,
+          challengeId: answer.challengeId,
+          assessmentId: answer.assessmentId,
+        },
+        `Received an answer whose isFocusedOut is %s whereas a %s focusedout event has already been received`,
+        answer.isFocusedOut,
+        hasLastQuestionBeenFocusedOut ? 'a' : 'no'
+      );
     }
 
     // Temporary log to find out focusedout answers that should not occur
