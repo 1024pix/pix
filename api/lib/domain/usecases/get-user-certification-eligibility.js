@@ -8,6 +8,11 @@ const {
   PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME,
   PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
   PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
+  PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_INITIE,
+  PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_CONFIRME,
+  PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_CONFIRME,
+  PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE,
+  PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT,
 } = require('../models/Badge').keys;
 
 module.exports = async function getUserCertificationEligibility({
@@ -78,20 +83,28 @@ async function _computePixPlusCertificationEligibility({
   const pixPlusDroitExpertBadgeAcquisition = _.find(stillValidCertifiableBadgeAcquisitions, {
     badgeKey: PIX_DROIT_EXPERT_CERTIF,
   });
-  const pixPlusEduInitieBadgeAcquisition = _.find(stillValidCertifiableBadgeAcquisitions, {
-    badgeKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
-  });
-  const pixPlusEduConfirmeBadgeAcquisition = _.find(stillValidCertifiableBadgeAcquisitions, (badgeAcquisition) => {
-    return (
-      badgeAcquisition.badgeKey === PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME ||
-      badgeAcquisition.badgeKey === PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME
+  const pixPlusEduInitieBadgeAcquisition = _.find(stillValidCertifiableBadgeAcquisitions, ({ badgeKey }) => {
+    return [PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE, PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_INITIE].includes(
+      badgeKey
     );
   });
-  const pixPlusEduAvanceBadgeAcquisition = _.find(stillValidCertifiableBadgeAcquisitions, {
-    badgeKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
+  const pixPlusEduConfirmeBadgeAcquisition = _.find(stillValidCertifiableBadgeAcquisitions, ({ badgeKey }) => {
+    return [
+      PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME,
+      PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME,
+      PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_CONFIRME,
+      PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_CONFIRME,
+    ].includes(badgeKey);
   });
-  const pixPlusEduExpertBadgeAcquisition = _.find(stillValidCertifiableBadgeAcquisitions, {
-    badgeKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
+  const pixPlusEduAvanceBadgeAcquisition = _.find(stillValidCertifiableBadgeAcquisitions, ({ badgeKey }) => {
+    return [PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE, PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE].includes(
+      badgeKey
+    );
+  });
+  const pixPlusEduExpertBadgeAcquisition = _.find(stillValidCertifiableBadgeAcquisitions, ({ badgeKey }) => {
+    return [PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT, PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT].includes(
+      badgeKey
+    );
   });
 
   const pixPlusDroitMaitreCertificationEligible = Boolean(pixPlusDroitMaitreBadgeAcquisition);
