@@ -103,6 +103,7 @@ describe('Acceptance | Controller | GET /user/id/campaign-participations', funct
                 'is-shared': true,
                 'participant-external-id': campaignParticipation2.participantExternalId,
                 'shared-at': campaignParticipation2.sharedAt,
+                'deleted-at': campaignParticipation2.deletedAt,
                 'created-at': campaignParticipation2.createdAt,
               },
               relationships: {
@@ -123,6 +124,7 @@ describe('Acceptance | Controller | GET /user/id/campaign-participations', funct
                 'is-shared': true,
                 'participant-external-id': campaignParticipation3.participantExternalId,
                 'shared-at': campaignParticipation3.sharedAt,
+                'deleted-at': campaignParticipation3.deletedAt,
                 'created-at': campaignParticipation3.createdAt,
               },
               relationships: {
@@ -138,6 +140,7 @@ describe('Acceptance | Controller | GET /user/id/campaign-participations', funct
                 'is-shared': false,
                 'participant-external-id': campaignParticipation1.participantExternalId,
                 'shared-at': campaignParticipation1.sharedAt,
+                'deleted-at': campaignParticipation1.deletedAt,
                 'created-at': campaignParticipation1.createdAt,
               },
               relationships: {
