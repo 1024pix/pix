@@ -55,6 +55,41 @@ describe('Unit | Component | Tutorial | card item', function () {
     });
   });
 
+  describe('#isTutorialSaved', function () {
+    it('should return false when the tutorial has not already been saved', function () {
+      // given
+      component.evaluationStatus = 'unrecorded';
+
+      // when
+      const result = component.isTutorialSaved;
+
+      // then
+      expect(result).to.equal(false);
+    });
+
+    it('should return true when the tutorial has already been saved', function () {
+      // given
+      component.evaluationStatus = 'recorded';
+
+      // when
+      const result = component.isTutorialSaved;
+
+      // then
+      expect(result).to.equal(true);
+    });
+
+    it('should return true when saving is in progress', function () {
+      // given
+      component.evaluationStatus = 'pending';
+
+      // when
+      const result = component.isTutorialSaved;
+
+      // then
+      expect(result).to.equal(true);
+    });
+  });
+
   describe('#isSaved', function () {
     it('should return false when the tutorial has not already been saved', function () {
       // when

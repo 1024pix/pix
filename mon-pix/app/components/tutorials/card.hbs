@@ -25,8 +25,8 @@
       >
         <FaIcon @prefix={{if this.isTutorialEvaluated "fas" "far"}} @icon="thumbs-up" />
       </button>
-      <button class="tutorial-card-v2-content-actions__save" type="button">
-        <FaIcon @prefix="fas" @icon="bookmark" />
+      <button class="tutorial-card-v2-content-actions__save" type="button" {{on "click" this.toggleSaveTutorial}}>
+        <FaIcon @prefix={{if this.isTutorialSaved "fas" "far"}} @icon="bookmark" />
       </button>
     </div>
   </div>
