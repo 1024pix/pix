@@ -9,6 +9,10 @@ describe('Unit | Serializer | JSONAPI | participation-for-campaign-management-se
         id: 123,
         createdAt: new Date('2020-10-10'),
         sharedAt: new Date('2020-10-11'),
+        deletedAt: new Date('2020-10-12'),
+        deletedBy: 666,
+        deletedByFirstName: 'King',
+        deletedByLastName: 'Cong',
       });
 
       // when
@@ -27,6 +31,9 @@ describe('Unit | Serializer | JSONAPI | participation-for-campaign-management-se
               status: participationForCampaignManagement.status,
               'created-at': participationForCampaignManagement.createdAt,
               'shared-at': participationForCampaignManagement.sharedAt,
+              'deleted-at': participationForCampaignManagement.deletedAt,
+              'deleted-by': participationForCampaignManagement.deletedBy,
+              'deleted-by-full-name': participationForCampaignManagement.deletedByFullName,
             },
           },
         ],
