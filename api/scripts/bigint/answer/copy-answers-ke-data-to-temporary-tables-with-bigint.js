@@ -38,7 +38,7 @@ const isLaunchedFromCommandLine = require.main === module;
 
 async function main() {
   try {
-    logger.debug('Start script... ');
+    logger.info(`Start script ${__filename}... `);
     await copyAnswerKeDataToTemporaryTables();
     logger.debug('End script: copy done successfully.');
   } catch (error) {
