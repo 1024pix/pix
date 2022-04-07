@@ -12,7 +12,7 @@ const schoolingRegistrationRepository = require('../../../../lib/infrastructure/
 describe('Unit | UseCase | find-association-between-user-and-schooling-registration', function () {
   let schoolingRegistrationReceivedStub;
   let getCampaignStub;
-  let schoolingRegistration;
+  let organizationLearner;
   let organization;
   let userId;
   let campaign;
@@ -21,7 +21,7 @@ describe('Unit | UseCase | find-association-between-user-and-schooling-registrat
     userId = domainBuilder.buildUser().id;
     organization = domainBuilder.buildOrganization();
     campaign = domainBuilder.buildCampaign({ organization });
-    schoolingRegistration = domainBuilder.buildSchoolingRegistration({ organization, userId });
+    organizationLearner = domainBuilder.buildOrganizationLearner({ organization, userId });
     getCampaignStub = sinon.stub(campaignRepository, 'getByCode').throws('unexpected call');
     schoolingRegistrationReceivedStub = sinon
       .stub(schoolingRegistrationRepository, 'findOneByUserIdAndOrganizationId')
@@ -50,7 +50,7 @@ describe('Unit | UseCase | find-association-between-user-and-schooling-registrat
       getCampaignStub.withArgs(campaign.code).resolves(campaign);
       schoolingRegistrationReceivedStub
         .withArgs({ userId, organizationId: organization.id })
-        .resolves(schoolingRegistration);
+        .resolves(organizationLearner);
 
       // when
       const result = await usecases.findAssociationBetweenUserAndSchoolingRegistration({
@@ -60,7 +60,7 @@ describe('Unit | UseCase | find-association-between-user-and-schooling-registrat
       });
 
       // then
-      expect(result).to.be.deep.equal(schoolingRegistration);
+      expect(result).to.be.deep.equal(organizationLearner);
       expect(result).to.be.instanceof(SchoolingRegistration);
     });
   });
@@ -86,7 +86,7 @@ describe('Unit | UseCase | find-association-between-user-and-schooling-registrat
   describe('There is a disabled schoolingRegistration linked to the given userId', function () {
     it('should throw an error', async function () {
       // given
-      const disabledSchoolingRegistration = domainBuilder.buildSchoolingRegistration({
+      const disabledOrganizationLearner = domainBuilder.buildOrganizationLearner({
         organization,
         userId,
         isDisabled: true,
@@ -94,7 +94,7 @@ describe('Unit | UseCase | find-association-between-user-and-schooling-registrat
       getCampaignStub.withArgs(campaign.code).resolves(campaign);
       schoolingRegistrationReceivedStub
         .withArgs({ userId, organizationId: organization.id })
-        .resolves(disabledSchoolingRegistration);
+        .resolves(disabledOrganizationLearner);
 
       // when
       const result = await catchErr(usecases.findAssociationBetweenUserAndSchoolingRegistration)({

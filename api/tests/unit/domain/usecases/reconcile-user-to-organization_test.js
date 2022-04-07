@@ -10,18 +10,18 @@ describe('Unit | UseCase | reconcile-user-to-organization', function () {
   let campaignCode;
   let findByUserIdStub;
   let getCampaignStub;
-  let schoolingRegistration;
+  let organizationLearner;
   let userId;
   const organizationId = 1;
-  const schoolingRegistrationId = 1;
+  const organizationLearnerId = 1;
   const nationalStudentId = '123456789AZ';
 
   beforeEach(function () {
     campaignCode = 'ABCD12';
     userId = domainBuilder.buildUser().id;
-    schoolingRegistration = domainBuilder.buildSchoolingRegistration({
+    organizationLearner = domainBuilder.buildOrganizationLearner({
       organizationId,
-      id: schoolingRegistrationId,
+      id: organizationLearnerId,
       nationalStudentId,
     });
 
@@ -73,7 +73,7 @@ describe('Unit | UseCase | reconcile-user-to-organization', function () {
   context('When no schoolingRegistration is found by organizationId', function () {
     it('should throw a UserCouldNotBeReconcile error', async function () {
       // given
-      findByUserIdStub.resolves([schoolingRegistration]);
+      findByUserIdStub.resolves([organizationLearner]);
       reconcileUserByNationalStudentIdAndOrganizationIdStub.throws(new UserCouldNotBeReconciledError());
 
       // when
@@ -91,7 +91,7 @@ describe('Unit | UseCase | reconcile-user-to-organization', function () {
   context('When no schoolingRegistration is found by nationalStudentId', function () {
     it('should throw a UserCouldNotBeReconcile error', async function () {
       // given
-      findByUserIdStub.resolves([schoolingRegistration]);
+      findByUserIdStub.resolves([organizationLearner]);
       reconcileUserByNationalStudentIdAndOrganizationIdStub.throws(new UserCouldNotBeReconciledError());
 
       // when
@@ -109,18 +109,18 @@ describe('Unit | UseCase | reconcile-user-to-organization', function () {
   context('When schoolingRegistration is found', function () {
     it('should use nationalStudentId of more recent schoolingRegistration', async function () {
       // given
-      const schoolingRegistrationInOtherOrganization = domainBuilder.buildSchoolingRegistration({
+      const schoolingRegistrationInOtherOrganization = domainBuilder.buildOrganizationLearner({
         userId,
         updatedAt: '2020-07-10',
       });
-      const mostRecentSchoolinRegistrationInOtherOrganization = domainBuilder.buildSchoolingRegistration({
+      const mostRecentOrganizationLearnerInOtherOrganization = domainBuilder.buildOrganizationLearner({
         userId,
         nationalStudentId,
         updatedAt: '2020-07-20',
       });
       findByUserIdStub.resolves([
         schoolingRegistrationInOtherOrganization,
-        mostRecentSchoolinRegistrationInOtherOrganization,
+        mostRecentOrganizationLearnerInOtherOrganization,
       ]);
       reconcileUserByNationalStudentIdAndOrganizationIdStub
         .withArgs({
@@ -128,7 +128,7 @@ describe('Unit | UseCase | reconcile-user-to-organization', function () {
           nationalStudentId,
           organizationId,
         })
-        .resolves(schoolingRegistration);
+        .resolves(organizationLearner);
 
       // when
       const result = await usecases.reconcileUserToOrganization({
@@ -138,7 +138,7 @@ describe('Unit | UseCase | reconcile-user-to-organization', function () {
 
       // then
       expect(result).to.be.instanceOf(SchoolingRegistration);
-      expect(result).to.be.equal(schoolingRegistration);
+      expect(result).to.be.equal(organizationLearner);
     });
   });
 });

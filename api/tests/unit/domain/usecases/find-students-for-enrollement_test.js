@@ -64,9 +64,9 @@ describe('Unit | UseCase | find-students-for-enrollment', function () {
     it('should return all students, enrolled or enrollable, regarding a session', async function () {
       // given
       const sessionId = 3;
-      const enrolledStudent = domainBuilder.buildSchoolingRegistration({ id: 10, organization, division: '3A' });
+      const enrolledStudent = domainBuilder.buildOrganizationLearner({ id: 10, organization, division: '3A' });
       const enrollableStudents = _.times(5, (iteration) =>
-        domainBuilder.buildSchoolingRegistration({ id: iteration, organization })
+        domainBuilder.buildOrganizationLearner({ id: iteration, organization })
       );
       const certificationCandidates = [
         domainBuilder.buildCertificationCandidate({ sessionId, schoolingRegistrationId: enrolledStudent.id }),

@@ -1,7 +1,7 @@
 const SchoolingRegistration = require('../../../../lib/domain/models/SchoolingRegistration');
 const buildOrganization = require('./build-organization');
 
-function buildSchoolingRegistration({
+function buildOrganizationLearner({
   id = 123,
   organization = buildOrganization({ isManagingStudents: true }),
   lastName = 'India',
@@ -47,4 +47,4 @@ function buildSchoolingRegistration({
   });
 }
 
-module.exports = buildSchoolingRegistration;
+module.exports = buildOrganizationLearner;
