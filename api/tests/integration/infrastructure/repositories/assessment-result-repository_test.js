@@ -161,6 +161,7 @@ describe('Integration | Repository | AssessmentResult', function () {
         const assessmentResultDTO = {
           id: 123,
           pixScore: 500,
+          reproducibilityRate: 25.99,
           status: AssessmentResult.status.VALIDATED,
           emitter: 'PIX_ALGO',
           commentForJury: 'Un commentaire pour le jury',
@@ -191,6 +192,7 @@ describe('Integration | Repository | AssessmentResult', function () {
           commentForJury: assessmentResultDTO.commentForJury,
           juryId: assessmentResultDTO.juryId,
           pixScore: assessmentResultDTO.pixScore,
+          reproducibilityRate: assessmentResultDTO.reproducibilityRate,
           createdAt: assessmentResultDTO.createdAt,
           emitter: assessmentResultDTO.emitter,
           competenceMarks: [
