@@ -40,13 +40,13 @@ describe('Integration | UseCase | get-user-details-for-admin', function () {
     const expectedUserDetailsForAdmin = domainBuilder.buildUserDetailsForAdmin({
       ...userInDB,
       schoolingRegistrations: [
-        domainBuilder.buildSchoolingRegistrationForAdmin({
+        domainBuilder.buildOrganizationLearnerForAdmin({
           ...firstOrganizationLearnerInDB,
           organizationId: firstOrganizationInDB.id,
           organizationName: firstOrganizationInDB.name,
           organizationIsManagingStudents: firstOrganizationInDB.isManagingStudents,
         }),
-        domainBuilder.buildSchoolingRegistrationForAdmin({
+        domainBuilder.buildOrganizationLearnerForAdmin({
           ...secondOrganizationLearnerInDB,
           organizationId: secondOrganizationInDB.id,
           organizationName: secondOrganizationInDB.name,
