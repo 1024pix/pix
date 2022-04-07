@@ -89,64 +89,112 @@ describe('Integration | Repository | AssessmentResult', function () {
   });
 
   describe('#findLatestLevelAndPixScoreByAssessmentId', function () {
-    let assessmentWithResultsId;
-    let assessmentWithoutResultsId;
-    const expectedAssessmentResultLevel = 3;
-    const expectedAssessmentResultPixScore = 10;
-    const expectedAssessmentResultWithinLimitDateLevel = 4;
-    const expectedAssessmentResultWithinLimitDatePixScore = 20;
+    context('when assessment has one assessment result', function () {
+      it('should return the level and pixScore', async function () {
+        // given
+        databaseBuilder.factory.buildAssessment({ id: 1 });
+        databaseBuilder.factory.buildAssessmentResult({
+          assessmentId: 1,
+          level: 5,
+          pixScore: 9000,
+        });
+        databaseBuilder.factory.buildAssessmentResult({ level: 4, pixScore: 55, commentForJury: 'noise data' });
+        await databaseBuilder.commit();
 
-    beforeEach(function () {
-      assessmentWithResultsId = databaseBuilder.factory.buildAssessment().id;
-      assessmentWithoutResultsId = databaseBuilder.factory.buildAssessment().id;
-      databaseBuilder.factory.buildAssessmentResult({
-        assessmentId: assessmentWithResultsId,
-        createdAt: new Date('2019-02-01T00:00:00Z'),
-        level: expectedAssessmentResultLevel,
-        pixScore: expectedAssessmentResultPixScore,
-      }).id;
-      databaseBuilder.factory.buildAssessmentResult({
-        assessmentId: assessmentWithResultsId,
-        createdAt: new Date('2019-01-01T00:00:00Z'),
-        level: expectedAssessmentResultWithinLimitDateLevel,
-        pixScore: expectedAssessmentResultWithinLimitDatePixScore,
-      }).id;
+        // when
+        const { level, pixScore } = await assessmentResultRepository.findLatestLevelAndPixScoreByAssessmentId({
+          assessmentId: 1,
+        });
 
-      return databaseBuilder.commit();
-    });
-
-    it('should return the most recent assessment result level and pixScore when assessment has some', async function () {
-      // when
-      const { level, pixScore } = await assessmentResultRepository.findLatestLevelAndPixScoreByAssessmentId({
-        assessmentId: assessmentWithResultsId,
+        // then
+        expect(level).to.equal(5);
+        expect(pixScore).to.equal(9000);
       });
-
-      // then
-      expect(level).to.equal(expectedAssessmentResultLevel);
-      expect(pixScore).to.equal(expectedAssessmentResultPixScore);
     });
+    context('when certification course has several assessment results', function () {
+      it('should return the level and pixScore of the latest assessment result', async function () {
+        // given
+        databaseBuilder.factory.buildAssessment({ id: 1 });
+        databaseBuilder.factory.buildAssessmentResult({
+          assessmentId: 1,
+          level: 5,
+          pixScore: 9000,
+          createdAt: new Date('2021-10-29T03:06:00Z'),
+        });
+        databaseBuilder.factory.buildAssessmentResult({
+          assessmentId: 1,
+          level: 3,
+          pixScore: 8999,
+          createdAt: new Date('2022-05-05T03:06:00Z'),
+        });
+        await databaseBuilder.commit();
 
-    it('should return the most recent assessment result level and pixScore within limit date when assessment has some', async function () {
-      // when
-      const { level, pixScore } = await assessmentResultRepository.findLatestLevelAndPixScoreByAssessmentId({
-        assessmentId: assessmentWithResultsId,
-        limitDate: new Date('2019-01-05T00:00:00Z'),
+        // when
+        const { level, pixScore } = await assessmentResultRepository.findLatestLevelAndPixScoreByAssessmentId({
+          assessmentId: 1,
+        });
+
+        // then
+        expect(level).to.equal(3);
+        expect(pixScore).to.equal(8999);
       });
-
-      // then
-      expect(level).to.equal(expectedAssessmentResultWithinLimitDateLevel);
-      expect(pixScore).to.equal(expectedAssessmentResultWithinLimitDatePixScore);
     });
+    context('when a limit date is specified', function () {
+      it('should return the level and pixScore of the latest assessment result before that date', async function () {
+        // given
+        databaseBuilder.factory.buildAssessment({ id: 1 });
+        databaseBuilder.factory.buildAssessmentResult({
+          assessmentId: 1,
+          level: 5,
+          pixScore: 9000,
+          createdAt: new Date('2021-10-29T03:06:00Z'),
+        });
+        databaseBuilder.factory.buildAssessmentResult({
+          assessmentId: 1,
+          level: 3,
+          pixScore: 8999,
+          createdAt: new Date('2022-05-05T03:06:00Z'),
+        });
+        databaseBuilder.factory.buildAssessmentResult({
+          assessmentId: 1,
+          level: 1,
+          pixScore: 8,
+          createdAt: new Date('2021-12-31T03:06:00Z'),
+        });
+        await databaseBuilder.commit();
 
-    it('should return null when assessment has no results', async function () {
-      // when
-      const { level, pixScore } = await assessmentResultRepository.findLatestLevelAndPixScoreByAssessmentId({
-        assessmentId: assessmentWithoutResultsId,
+        // when
+        const { level, pixScore } = await assessmentResultRepository.findLatestLevelAndPixScoreByAssessmentId({
+          assessmentId: 1,
+          limitDate: new Date('2022-01-01T03:06:00Z'),
+        });
+
+        // then
+        expect(level).to.equal(1);
+        expect(pixScore).to.equal(8);
       });
+    });
+    context('when assessment has no assessment-result', function () {
+      it('should return 0 as level and pixScore', async function () {
+        // given
+        databaseBuilder.factory.buildAssessment({ id: 1 });
+        databaseBuilder.factory.buildAssessment({ id: 2 });
+        databaseBuilder.factory.buildAssessmentResult({
+          assessmentId: 2,
+          level: 5,
+          pixScore: 9000,
+        });
+        await databaseBuilder.commit();
 
-      // then
-      expect(level).to.equal(0);
-      expect(pixScore).to.equal(0);
+        // when
+        const { level, pixScore } = await assessmentResultRepository.findLatestLevelAndPixScoreByAssessmentId({
+          assessmentId: 1,
+        });
+
+        // then
+        expect(level).to.equal(0);
+        expect(pixScore).to.equal(0);
+      });
     });
   });
 
