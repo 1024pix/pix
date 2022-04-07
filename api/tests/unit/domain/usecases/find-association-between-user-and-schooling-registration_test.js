@@ -1,6 +1,6 @@
 const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper');
 const usecases = require('../../../../lib/domain/usecases');
-const SchoolingRegistration = require('../../../../lib/domain/models/SchoolingRegistration');
+const OrganizationLearner = require('../../../../lib/domain/models/OrganizationLearner');
 const {
   CampaignCodeError,
   UserNotAuthorizedToAccessEntityError,
@@ -45,7 +45,7 @@ describe('Unit | UseCase | find-association-between-user-and-schooling-registrat
       expect(schoolingRegistrationReceivedStub).to.have.been.calledOnce;
     });
 
-    it('should return the schoolingRegistration', async function () {
+    it('should return the OrganizationLearner', async function () {
       // given
       getCampaignStub.withArgs(campaign.code).resolves(campaign);
       schoolingRegistrationReceivedStub
@@ -61,7 +61,7 @@ describe('Unit | UseCase | find-association-between-user-and-schooling-registrat
 
       // then
       expect(result).to.be.deep.equal(organizationLearner);
-      expect(result).to.be.instanceof(SchoolingRegistration);
+      expect(result).to.be.instanceof(OrganizationLearner);
     });
   });
 

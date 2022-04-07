@@ -2,7 +2,7 @@ const { expect } = require('../../test-helper');
 const { SCO_MIDDLE_SCHOOL_ID } = require('../../../db/seeds/data/organizations-sco-builder');
 
 const { knex } = require('../../../lib/infrastructure/bookshelf');
-const BookshelfSchoolingRegistration = require('../../../lib/infrastructure/orm-models/SchoolingRegistration');
+const BookshelfOrganizationLearner = require('../../../lib/infrastructure/orm-models/OrganizationLearner');
 const { databaseBuilder } = require('../../test-helper');
 
 const {
@@ -46,7 +46,7 @@ describe('Acceptance | Scripts | add-many-divisions-and-students-to-sco-organiza
 });
 
 function _getNumberOfSchoolingRegistrations() {
-  return BookshelfSchoolingRegistration.count().then((number) => parseInt(number, 10));
+  return BookshelfOrganizationLearner.count().then((number) => parseInt(number, 10));
 }
 
 function _getDistinctDivisions() {

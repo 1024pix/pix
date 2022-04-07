@@ -1,6 +1,6 @@
 const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper');
 const usecases = require('../../../../lib/domain/usecases');
-const SchoolingRegistration = require('../../../../lib/domain/models/SchoolingRegistration');
+const OrganizationLearner = require('../../../../lib/domain/models/OrganizationLearner');
 const campaignRepository = require('../../../../lib/infrastructure/repositories/campaign-repository');
 const schoolingRegistrationRepository = require('../../../../lib/infrastructure/repositories/schooling-registration-repository');
 const { CampaignCodeError, UserCouldNotBeReconciledError } = require('../../../../lib/domain/errors');
@@ -137,7 +137,7 @@ describe('Unit | UseCase | reconcile-user-to-organization', function () {
       });
 
       // then
-      expect(result).to.be.instanceOf(SchoolingRegistration);
+      expect(result).to.be.instanceOf(OrganizationLearner);
       expect(result).to.be.equal(organizationLearner);
     });
   });

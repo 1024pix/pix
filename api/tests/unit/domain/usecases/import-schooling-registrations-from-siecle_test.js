@@ -3,7 +3,7 @@ const importSchoolingRegistrationsFromSIECLEFormat = require('../../../../lib/do
 const { FileValidationError, SiecleXmlImportError } = require('../../../../lib/domain/errors');
 const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
 
-const SchoolingRegistration = require('../../../../lib/domain/models/SchoolingRegistration');
+const OrganizationLearner = require('../../../../lib/domain/models/OrganizationLearner');
 
 const fs = require('fs').promises;
 
@@ -57,7 +57,7 @@ describe('Unit | UseCase | import-schooling-registrations-from-siecle', function
         const organization = Symbol('organization');
         organizationRepositoryStub.get.withArgs(organizationId).resolves(organization);
 
-        const schoolingRegistration1 = new SchoolingRegistration({
+        const schoolingRegistration1 = new OrganizationLearner({
           id: undefined,
           nationalStudentId: '123F',
           firstName: 'Beatrix',
@@ -74,7 +74,7 @@ describe('Unit | UseCase | import-schooling-registrations-from-siecle', function
           division: 'Division 1',
           organizationId,
         });
-        const schoolingRegistration2 = new SchoolingRegistration({
+        const schoolingRegistration2 = new OrganizationLearner({
           id: undefined,
           nationalStudentId: '456F',
           firstName: 'O-Ren',
