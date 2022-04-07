@@ -1,5 +1,22 @@
 # Pix Changelog
 
+## v3.195.0 (07/04/2022)
+
+
+### :rocket: Amélioration
+- [#4292](https://github.com/1024pix/pix/pull/4292) [FEATURE] Monter la version de Pix-ui pour utiliser les modifications de Pix-pagination (PIX-4721).
+- [#4273](https://github.com/1024pix/pix/pull/4273) [FEATURE] Enregistrement de tuto sur les cards V2 (PIX-4598)
+- [#4277](https://github.com/1024pix/pix/pull/4277) [FEATURE] Afficher les participations supprimées dans la liste des participations d'une campagne Pix Admin (Pix 4576).
+- [#4201](https://github.com/1024pix/pix/pull/4201) [FEATURE] Ne pas pouvoir partager son profil si une participation a été supprimée (PIX-4443).
+- [#4276](https://github.com/1024pix/pix/pull/4276) [FEATURE] Afficher une seule fois un message d'avertissement lorsque plusieurs épreuves focus se suivent (PIX-4617)
+
+### :building_construction: Tech
+- [#4257](https://github.com/1024pix/pix/pull/4257) [TECH] Ajouter un lien entre partnerCertification et complementaryCertificationCourse (PIX-4652)
+- [#4280](https://github.com/1024pix/pix/pull/4280) [TECH] Mettre fin aux connexions existantes lors de la suppression du schéma de BDD (PIX-4714)
+- [#4282](https://github.com/1024pix/pix/pull/4282) [TECH] Enlever le "s" de "pole-emplois"
+- [#4287](https://github.com/1024pix/pix/pull/4287) [TECH] Ajoute des détails dans les logs des focusOut (PIX-4722)
+- [#4263](https://github.com/1024pix/pix/pull/4263) [TECH] Monter de versions des packages de Mon Pix. 
+
 ## v3.194.0 (05/04/2022)
 
 
