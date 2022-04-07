@@ -10,10 +10,7 @@ const CompetenceMark = require('../../domain/models/CompetenceMark');
 function _toDomain({ assessmentResultDTO, competencesMarksDTO }) {
   const competenceMarks = competencesMarksDTO.map((competenceMark) => new CompetenceMark(competenceMark));
 
-  // TODO : Aceol ! You can do better than this !
-  const cleanReproducibilityRate = assessmentResultDTO.reproducibilityRate
-    ? _.toNumber(assessmentResultDTO.reproducibilityRate)
-    : null;
+  const reproducibilityRateAsNumber = _.toNumber(assessmentResultDTO.reproducibilityRate) ?? null;
   return new AssessmentResult({
     id: assessmentResultDTO.id,
     assessmentId: assessmentResultDTO.assessmentId,
@@ -25,7 +22,7 @@ function _toDomain({ assessmentResultDTO, competencesMarksDTO }) {
     emitter: assessmentResultDTO.emitter,
     juryId: assessmentResultDTO.juryId,
     pixScore: assessmentResultDTO.pixScore,
-    reproducibilityRate: cleanReproducibilityRate,
+    reproducibilityRate: reproducibilityRateAsNumber,
     competenceMarks: competenceMarks,
   });
 }
@@ -63,7 +60,12 @@ module.exports = {
         assessmentId,
       }).save(null, { require: true, transacting: domainTransaction.knexTransaction });
 
-      return bookshelfToDomainConverter.buildDomainObject(BookshelfAssessmentResult, savedAssessmentResultBookshelf);
+      const savedAssessmentResult = bookshelfToDomainConverter.buildDomainObject(
+        BookshelfAssessmentResult,
+        savedAssessmentResultBookshelf
+      );
+      savedAssessmentResult.reproducibilityRate = _.toNumber(savedAssessmentResult.reproducibilityRate) ?? null;
+      return savedAssessmentResult;
     } catch (error) {
       throw new AssessmentResultNotCreatedError();
     }
