@@ -1,4 +1,4 @@
-const SchoolingRegistration = require('../../../../lib/domain/models/SchoolingRegistration');
+const OrganizationLearner = require('../../../../lib/domain/models/OrganizationLearner');
 const buildOrganization = require('./build-organization');
 
 function buildOrganizationLearner({
@@ -23,7 +23,7 @@ function buildOrganizationLearner({
   isDisabled = false,
   updatedAt = new Date('2020-01-01'),
 } = {}) {
-  return new SchoolingRegistration({
+  return new OrganizationLearner({
     id,
     lastName,
     preferredLastName,

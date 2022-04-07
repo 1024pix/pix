@@ -1,6 +1,6 @@
 const { expect, databaseBuilder, knex, domainBuilder } = require('../../../test-helper');
 const higherSchoolingRegistrationRepository = require('../../../../lib/infrastructure/repositories/higher-schooling-registration-repository');
-const SchoolingRegistration = require('../../../../lib/domain/models/SchoolingRegistration');
+const OrganizationLearner = require('../../../../lib/domain/models/OrganizationLearner');
 
 describe('Integration | Infrastructure | Repository | higher-schooling-registration-repository', function () {
   describe('#findOneByStudentNumber', function () {
@@ -185,7 +185,7 @@ describe('Integration | Infrastructure | Repository | higher-schooling-registrat
         });
 
         // then
-        expect(schoolingRegistration).to.be.an.instanceOf(SchoolingRegistration);
+        expect(schoolingRegistration).to.be.an.instanceOf(OrganizationLearner);
         expect(schoolingRegistration.id).to.equal(expectedOrganizationLearnerId);
       });
     });

@@ -1,6 +1,6 @@
 const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper');
 const usecases = require('../../../../lib/domain/usecases');
-const SchoolingRegistration = require('../../../../lib/domain/models/SchoolingRegistration');
+const OrganizationLearner = require('../../../../lib/domain/models/OrganizationLearner');
 
 const {
   CampaignCodeError,
@@ -538,7 +538,7 @@ describe('Unit | UseCase | reconcile-schooling-registration', function () {
       });
 
       // then
-      expect(result).to.be.instanceOf(SchoolingRegistration);
+      expect(result).to.be.instanceOf(OrganizationLearner);
       expect(result.userId).to.be.equal(user.id);
     });
   });

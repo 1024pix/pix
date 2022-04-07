@@ -3,7 +3,7 @@ const Bookshelf = require('../bookshelf');
 require('./User');
 require('./Organization');
 
-const modelName = 'SchoolingRegistration';
+const modelName = 'OrganizationLearner';
 
 module.exports = Bookshelf.model(
   modelName,

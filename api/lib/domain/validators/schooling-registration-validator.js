@@ -1,8 +1,8 @@
 const Joi = require('joi').extend(require('@joi/date'));
 const { EntityValidationError } = require('../errors');
-const SchoolingRegistration = require('../models/SchoolingRegistration');
+const OrganizationLearner = require('../models/OrganizationLearner');
 
-const { STUDENT, APPRENTICE } = SchoolingRegistration.STATUS;
+const { STUDENT, APPRENTICE } = OrganizationLearner.STATUS;
 const validationConfiguration = { allowUnknown: true };
 const MAX_LENGTH = 255;
 const CITY_CODE_LENGTH = 5;

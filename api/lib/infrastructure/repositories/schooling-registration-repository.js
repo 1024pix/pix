@@ -10,19 +10,19 @@ const {
 
 const UserWithSchoolingRegistration = require('../../domain/models/UserWithSchoolingRegistration');
 const AuthenticationMethod = require('../../domain/models/AuthenticationMethod');
-const SchoolingRegistration = require('../../domain/models/SchoolingRegistration');
+const OrganizationLearner = require('../../domain/models/OrganizationLearner');
 const SchoolingRegistrationForAdmin = require('../../domain/read-models/SchoolingRegistrationForAdmin');
 const studentRepository = require('./student-repository');
 
 const Bookshelf = require('../bookshelf');
 const { knex } = require('../../../db/knex-database-connection');
-const BookshelfSchoolingRegistration = require('../orm-models/SchoolingRegistration');
+const BookshelfOrganizationLearner = require('../orm-models/OrganizationLearner');
 
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
 const DomainTransaction = require('../DomainTransaction');
 
-function _toUserWithSchoolingRegistrationDTO(BookshelfSchoolingRegistration) {
-  const rawUserWithSchoolingRegistration = BookshelfSchoolingRegistration.toJSON();
+function _toUserWithSchoolingRegistrationDTO(BookshelfOrganizationLearner) {
+  const rawUserWithSchoolingRegistration = BookshelfOrganizationLearner.toJSON();
 
   return new UserWithSchoolingRegistration({
     ...rawUserWithSchoolingRegistration,
@@ -79,9 +79,9 @@ function _canReconcile(existingSchoolingRegistrations, student) {
 
 module.exports = {
   findByIds({ ids }) {
-    const schoolingRegistrations = BookshelfSchoolingRegistration.where('id', 'in', ids).fetchAll();
+    const organizationLearners = BookshelfOrganizationLearner.where('id', 'in', ids).fetchAll();
 
-    return bookshelfToDomainConverter.buildDomainObjects(BookshelfSchoolingRegistration, schoolingRegistrations);
+    return bookshelfToDomainConverter.buildDomainObjects(BookshelfOrganizationLearner, organizationLearners);
   },
 
   findByOrganizationId({ organizationId }, transaction = DomainTransaction.emptyTransaction()) {
@@ -89,14 +89,14 @@ module.exports = {
     return knexConn('organization-learners')
       .where({ organizationId })
       .orderByRaw('LOWER("lastName") ASC, LOWER("firstName") ASC')
-      .then((schoolingRegistrations) =>
-        schoolingRegistrations.map((schoolingRegistration) => new SchoolingRegistration(schoolingRegistration))
+      .then((organizationLearners) =>
+        organizationLearners.map((organizationLearner) => new OrganizationLearner(organizationLearner))
       );
   },
 
   async findByOrganizationIdAndUpdatedAtOrderByDivision({ organizationId, page, filter }) {
     const BEGINNING_OF_THE_2020_SCHOOL_YEAR = '2020-08-15';
-    const query = BookshelfSchoolingRegistration.where((qb) => {
+    const query = BookshelfOrganizationLearner.where((qb) => {
       qb.where({ organizationId });
       qb.where('updatedAt', '>', BEGINNING_OF_THE_2020_SCHOOL_YEAR);
       qb.where('isDisabled', false);
@@ -115,15 +115,15 @@ module.exports = {
     const { models, pagination } = await query;
 
     return {
-      data: bookshelfToDomainConverter.buildDomainObjects(BookshelfSchoolingRegistration, models),
+      data: bookshelfToDomainConverter.buildDomainObjects(BookshelfOrganizationLearner, models),
       pagination,
     };
   },
 
   async findByUserId({ userId }) {
-    const schoolingRegistrations = await BookshelfSchoolingRegistration.where({ userId }).orderBy('id').fetchAll();
+    const organizationLearners = await BookshelfOrganizationLearner.where({ userId }).orderBy('id').fetchAll();
 
-    return bookshelfToDomainConverter.buildDomainObjects(BookshelfSchoolingRegistration, schoolingRegistrations);
+    return bookshelfToDomainConverter.buildDomainObjects(BookshelfOrganizationLearner, organizationLearners);
   },
 
   async isSchoolingRegistrationIdLinkedToUserAndSCOOrganization({ userId, schoolingRegistrationId }) {
@@ -143,32 +143,32 @@ module.exports = {
       .update({ isDisabled: true, updatedAt: knexConn.raw('CURRENT_TIMESTAMP') });
   },
 
-  async addOrUpdateOrganizationSchoolingRegistrations(schoolingRegistrationDatas, organizationId, domainTransaction) {
+  async addOrUpdateOrganizationSchoolingRegistrations(organizationLearnerDatas, organizationId, domainTransaction) {
     const knexConn = domainTransaction.knexTransaction;
-    const schoolingRegistrationsFromFile = schoolingRegistrationDatas.map(
-      (schoolingRegistrationData) =>
-        new SchoolingRegistration({
-          ...schoolingRegistrationData,
+    const organizationLearnersFromFile = organizationLearnerDatas.map(
+      (organizationLearnerData) =>
+        new OrganizationLearner({
+          ...organizationLearnerData,
           organizationId,
         })
     );
-    const existingSchoolingRegistrations = await this.findByOrganizationId({ organizationId }, domainTransaction);
+    const existingOrganizationLearners = await this.findByOrganizationId({ organizationId }, domainTransaction);
 
-    const reconciledSchoolingRegistrationsToImport = await this._reconcileSchoolingRegistrations(
-      schoolingRegistrationsFromFile,
-      existingSchoolingRegistrations,
+    const reconciledOrganizationLearnersToImport = await this._reconcileSchoolingRegistrations(
+      organizationLearnersFromFile,
+      existingOrganizationLearners,
       domainTransaction
     );
 
     try {
-      const schoolingRegistrationsToSave = reconciledSchoolingRegistrationsToImport.map((schoolingRegistration) => ({
-        ..._.omit(schoolingRegistration, ['id', 'createdAt']),
+      const organizationLearnersToSave = reconciledOrganizationLearnersToImport.map((organizationLearner) => ({
+        ..._.omit(organizationLearner, ['id', 'createdAt']),
         updatedAt: knexConn.raw('CURRENT_TIMESTAMP'),
         isDisabled: false,
       }));
 
       await knexConn('organization-learners')
-        .insert(schoolingRegistrationsToSave)
+        .insert(organizationLearnersToSave)
         .onConflict(['organizationId', 'nationalStudentId'])
         .merge();
     } catch (err) {
@@ -207,18 +207,18 @@ module.exports = {
   },
 
   async findByOrganizationIdAndBirthdate({ organizationId, birthdate }) {
-    const schoolingRegistrations = await BookshelfSchoolingRegistration.query((qb) => {
+    const organizationLearners = await BookshelfOrganizationLearner.query((qb) => {
       qb.where('organizationId', organizationId);
       qb.where('birthdate', birthdate);
       qb.where('isDisabled', false);
     }).fetchAll();
 
-    return bookshelfToDomainConverter.buildDomainObjects(BookshelfSchoolingRegistration, schoolingRegistrations);
+    return bookshelfToDomainConverter.buildDomainObjects(BookshelfOrganizationLearner, organizationLearners);
   },
 
   async reconcileUserToSchoolingRegistration({ userId, schoolingRegistrationId }) {
     try {
-      const schoolingRegistration = await BookshelfSchoolingRegistration.where({ id: schoolingRegistrationId })
+      const organizationLearner = await BookshelfOrganizationLearner.where({ id: schoolingRegistrationId })
         .where('isDisabled', false)
         .save(
           { userId },
@@ -226,7 +226,7 @@ module.exports = {
             patch: true,
           }
         );
-      return bookshelfToDomainConverter.buildDomainObject(BookshelfSchoolingRegistration, schoolingRegistration);
+      return bookshelfToDomainConverter.buildDomainObject(BookshelfOrganizationLearner, organizationLearner);
     } catch (error) {
       throw new UserCouldNotBeReconciledError();
     }
@@ -234,12 +234,12 @@ module.exports = {
 
   async reconcileUserByNationalStudentIdAndOrganizationId({ nationalStudentId, userId, organizationId }) {
     try {
-      const schoolingRegistration = await BookshelfSchoolingRegistration.where({
+      const organizationLearner = await BookshelfOrganizationLearner.where({
         organizationId,
         nationalStudentId,
         isDisabled: false,
       }).save({ userId }, { patch: true });
-      return bookshelfToDomainConverter.buildDomainObject(BookshelfSchoolingRegistration, schoolingRegistration);
+      return bookshelfToDomainConverter.buildDomainObject(BookshelfOrganizationLearner, organizationLearner);
     } catch (error) {
       throw new UserCouldNotBeReconciledError();
     }
@@ -271,8 +271,8 @@ module.exports = {
     return new SchoolingRegistrationForAdmin(schoolingRegistration);
   },
 
-  async dissociateUserFromSchoolingRegistration(schoolingRegistrationId) {
-    await BookshelfSchoolingRegistration.where({ id: schoolingRegistrationId }).save(
+  async dissociateUserFromSchoolingRegistration(organizationLearnerId) {
+    await BookshelfOrganizationLearner.where({ id: organizationLearnerId }).save(
       { userId: null },
       {
         patch: true,
@@ -285,23 +285,23 @@ module.exports = {
     organizationId,
     domainTransaction = DomainTransaction.emptyTransaction(),
   }) {
-    const schoolingRegistration = await knex('organization-learners')
+    const organizationLearner = await knex('organization-learners')
       .transacting(domainTransaction)
       .first('*')
       .where({ userId, organizationId });
-    if (!schoolingRegistration) return null;
-    return new SchoolingRegistration(schoolingRegistration);
+    if (!organizationLearner) return null;
+    return new OrganizationLearner(organizationLearner);
   },
 
-  get(schoolingRegistrationId) {
-    return BookshelfSchoolingRegistration.where({ id: schoolingRegistrationId })
+  get(organizationLearnerId) {
+    return BookshelfOrganizationLearner.where({ id: organizationLearnerId })
       .fetch()
-      .then((schoolingRegistration) =>
-        bookshelfToDomainConverter.buildDomainObject(BookshelfSchoolingRegistration, schoolingRegistration)
+      .then((organizationLearner) =>
+        bookshelfToDomainConverter.buildDomainObject(BookshelfOrganizationLearner, organizationLearner)
       )
       .catch((err) => {
-        if (err instanceof BookshelfSchoolingRegistration.NotFoundError) {
-          throw new NotFoundError(`Student not found for ID ${schoolingRegistrationId}`);
+        if (err instanceof BookshelfOrganizationLearner.NotFoundError) {
+          throw new NotFoundError(`Student not found for ID ${organizationLearnerId}`);
         }
         throw err;
       });
@@ -324,7 +324,7 @@ module.exports = {
   },
 
   async findPaginatedFilteredSchoolingRegistrations({ organizationId, filter, page = {} }) {
-    const { models, pagination } = await BookshelfSchoolingRegistration.where({ organizationId })
+    const { models, pagination } = await BookshelfOrganizationLearner.where({ organizationId })
       .query((qb) => {
         qb.select(
           'organization-learners.id',
@@ -364,7 +364,7 @@ module.exports = {
   },
 
   updateUserIdWhereNull({ schoolingRegistrationId, userId, domainTransaction = DomainTransaction.emptyTransaction() }) {
-    return BookshelfSchoolingRegistration.where({ id: schoolingRegistrationId, userId: null })
+    return BookshelfOrganizationLearner.where({ id: schoolingRegistrationId, userId: null })
       .save(
         { userId },
         {
@@ -373,11 +373,11 @@ module.exports = {
           method: 'update',
         }
       )
-      .then((schoolingRegistration) =>
-        bookshelfToDomainConverter.buildDomainObject(BookshelfSchoolingRegistration, schoolingRegistration)
+      .then((organizationLearner) =>
+        bookshelfToDomainConverter.buildDomainObject(BookshelfOrganizationLearner, organizationLearner)
       )
       .catch((err) => {
-        if (err instanceof BookshelfSchoolingRegistration.NoRowsUpdatedError) {
+        if (err instanceof BookshelfOrganizationLearner.NoRowsUpdatedError) {
           throw new SchoolingRegistrationNotFound(
             `SchoolingRegistration not found for ID ${schoolingRegistrationId} and user ID null.`
           );

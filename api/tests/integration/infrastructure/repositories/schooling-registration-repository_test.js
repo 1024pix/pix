@@ -2,7 +2,7 @@ const _ = require('lodash');
 
 const { expect, domainBuilder, databaseBuilder, knex, catchErr } = require('../../../test-helper');
 
-const SchoolingRegistration = require('../../../../lib/domain/models/SchoolingRegistration');
+const OrganizationLearner = require('../../../../lib/domain/models/OrganizationLearner');
 const UserWithSchoolingRegistration = require('../../../../lib/domain/models/UserWithSchoolingRegistration');
 const SchoolingRegistrationForAdmin = require('../../../../lib/domain/read-models/SchoolingRegistrationForAdmin');
 
@@ -31,7 +31,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
 
       // then
       const anySchoolingRegistration = schoolingRegistrationsResult[0];
-      expect(anySchoolingRegistration).to.be.an.instanceOf(SchoolingRegistration);
+      expect(anySchoolingRegistration).to.be.an.instanceOf(OrganizationLearner);
       expect(anySchoolingRegistration.firstName).to.equal(organizationLearner1.firstName);
       expect(anySchoolingRegistration.lastName).to.equal(organizationLearner1.lastName);
       expect(anySchoolingRegistration.birthdate).to.deep.equal(organizationLearner1.birthdate);
@@ -57,7 +57,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
   });
 
   describe('#findByOrganizationId', function () {
-    it('should return instances of SchoolingRegistration', async function () {
+    it('should return instances of OrganizationLearner', async function () {
       // given
       const organization = databaseBuilder.factory.buildOrganization();
       const organizationLearner = databaseBuilder.factory.buildOrganizationLearner({
@@ -74,7 +74,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
 
       // then
       const anySchoolingRegistration = schoolingRegistrations[0];
-      expect(anySchoolingRegistration).to.be.an.instanceOf(SchoolingRegistration);
+      expect(anySchoolingRegistration).to.be.an.instanceOf(OrganizationLearner);
 
       expect(anySchoolingRegistration.firstName).to.equal(organizationLearner.firstName);
       expect(anySchoolingRegistration.lastName).to.equal(organizationLearner.lastName);
@@ -166,7 +166,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
   describe('#findByOrganizationIdAndUpdatedAtOrderByDivision', function () {
     const AFTER_BEGINNING_OF_THE_2020_SCHOOL_YEAR = '2020-10-15';
 
-    it('should return instances of SchoolingRegistration', async function () {
+    it('should return instances of OrganizationLearner', async function () {
       // given
       const organization = databaseBuilder.factory.buildOrganization();
       const organizationLearner = databaseBuilder.factory.buildOrganizationLearner({
@@ -449,7 +449,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
   });
 
   describe('#findByUserId', function () {
-    it('should return instances of SchoolingRegistration', async function () {
+    it('should return instances of OrganizationLearner', async function () {
       // given
       const organization = databaseBuilder.factory.buildOrganization();
       const userId = databaseBuilder.factory.buildUser().id;
@@ -465,7 +465,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
 
       // then
       const anySchoolingRegistration = schoolingRegistrations[0];
-      expect(anySchoolingRegistration).to.be.an.instanceOf(SchoolingRegistration);
+      expect(anySchoolingRegistration).to.be.an.instanceOf(OrganizationLearner);
 
       expect(anySchoolingRegistration.firstName).to.equal(organizationLearner.firstName);
       expect(anySchoolingRegistration.lastName).to.equal(organizationLearner.lastName);
@@ -626,7 +626,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
         organizationId = databaseBuilder.factory.buildOrganization().id;
         await databaseBuilder.commit();
 
-        schoolingRegistration_1 = new SchoolingRegistration({
+        schoolingRegistration_1 = new OrganizationLearner({
           lastName: 'Pipeau',
           preferredLastName: 'Toto',
           firstName: 'Corinne',
@@ -700,7 +700,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
 
         beforeEach(function () {
           // given
-          schoolingRegistration_1_updated = new SchoolingRegistration({
+          schoolingRegistration_1_updated = new OrganizationLearner({
             firstName: 'Boba',
             lastName: 'Fett',
             birthdate: '1986-01-05',
@@ -759,7 +759,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
 
           await databaseBuilder.commit();
 
-          schoolingRegistration_1_updated = new SchoolingRegistration({
+          schoolingRegistration_1_updated = new OrganizationLearner({
             firstName: 'Lili',
             lastName: organizationLearner_1.lastName,
             birthdate: organizationLearner_1.birthdate,
@@ -969,7 +969,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
         nationalStudentId = organizationLearnerInOtherOrganization.nationalStudentId;
         await databaseBuilder.commit();
 
-        schoolingRegistrationFromFile = new SchoolingRegistration({
+        schoolingRegistrationFromFile = new OrganizationLearner({
           firstName: 'Lucy',
           lastName: 'Handmade',
           birthdate: '1990-12-31',
@@ -1078,7 +1078,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
         });
         await databaseBuilder.commit();
 
-        schoolingRegistrationUpdated = new SchoolingRegistration({
+        schoolingRegistrationUpdated = new OrganizationLearner({
           firstName: 'Lucy',
           lastName: 'Handmade',
           birthdate: '1990-12-31',
@@ -1086,7 +1086,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
           organizationId,
         });
 
-        schoolingRegistrationToCreate = new SchoolingRegistration({
+        schoolingRegistrationToCreate = new OrganizationLearner({
           firstName: 'Harry',
           lastName: 'Covert',
           birthdate: '1990-01-01',
@@ -1132,7 +1132,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
         organizationId = databaseBuilder.factory.buildOrganization().id;
         await databaseBuilder.commit();
 
-        schoolingRegistration_1 = new SchoolingRegistration({
+        schoolingRegistration_1 = new OrganizationLearner({
           firstName: 'Lucy',
           lastName: 'Handmade',
           birthdate: '1990-12-31',
@@ -1140,7 +1140,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
           organizationId,
         });
 
-        schoolingRegistration_2 = new SchoolingRegistration({
+        schoolingRegistration_2 = new OrganizationLearner({
           firstName: 'Harry',
           lastName: 'Covert',
           birthdate: '1990-01-01',
@@ -1206,7 +1206,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
           .where({ id: organizationLearnerId })
           .first();
 
-        const schoolingRegistration_updated = new SchoolingRegistration({
+        const schoolingRegistration_updated = new OrganizationLearner({
           ...baseOrganizationLearner,
           firstName: 'Lili',
         });
@@ -1235,7 +1235,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
       it('should rollback', async function () {
         // given
         const organizationId = databaseBuilder.factory.buildOrganization().id;
-        const schoolingRegistration = new SchoolingRegistration({ organizationId });
+        const schoolingRegistration = new OrganizationLearner({ organizationId });
 
         // when
         await catchErr(async () => {
@@ -1400,7 +1400,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
       });
 
       // then
-      expect(schoolingRegistrationPatched).to.be.instanceof(SchoolingRegistration);
+      expect(schoolingRegistrationPatched).to.be.instanceof(OrganizationLearner);
       expect(schoolingRegistrationPatched.userId).to.equal(user.id);
     });
 
@@ -1484,7 +1484,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
           });
 
         // then
-        expect(schoolingRegistrationPatched).to.be.instanceof(SchoolingRegistration);
+        expect(schoolingRegistrationPatched).to.be.instanceof(OrganizationLearner);
         expect(schoolingRegistrationPatched.userId).to.equal(user.id);
       });
 
@@ -1577,7 +1577,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
       return databaseBuilder.commit();
     });
 
-    it('should return instance of SchoolingRegistration linked to the given userId and organizationId', async function () {
+    it('should return instance of OrganizationLearner linked to the given userId and organizationId', async function () {
       // when
       const schoolingRegistration = await schoolingRegistrationRepository.findOneByUserIdAndOrganizationId({
         userId,
@@ -1585,7 +1585,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
       });
 
       // then
-      expect(schoolingRegistration).to.be.an.instanceOf(SchoolingRegistration);
+      expect(schoolingRegistration).to.be.an.instanceOf(OrganizationLearner);
       expect(schoolingRegistration.userId).to.equal(userId);
     });
 
@@ -1628,12 +1628,12 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
       return databaseBuilder.commit();
     });
 
-    it('should return an instance of SchoolingRegistration', async function () {
+    it('should return an instance of OrganizationLearner', async function () {
       // when
       const schoolingRegistration = await schoolingRegistrationRepository.get(organizationLearnerId);
 
       // then
-      expect(schoolingRegistration).to.be.an.instanceOf(SchoolingRegistration);
+      expect(schoolingRegistration).to.be.an.instanceOf(OrganizationLearner);
       expect(schoolingRegistration.id).to.equal(organizationLearnerId);
     });
 
