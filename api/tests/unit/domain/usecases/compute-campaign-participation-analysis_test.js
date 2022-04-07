@@ -1,6 +1,9 @@
 const { expect, sinon, catchErr, domainBuilder } = require('../../../test-helper');
 const { computeCampaignParticipationAnalysis } = require('../../../../lib/domain/usecases');
-const { UserNotAuthorizedToAccessEntityError } = require('../../../../lib/domain/errors');
+const {
+  UserNotAuthorizedToAccessEntityError,
+  CampaignParticipationDeletedError,
+} = require('../../../../lib/domain/errors');
 const CampaignParticipationStatuses = require('../../../../lib/domain/models/CampaignParticipationStatuses');
 const { FRENCH_SPOKEN } = require('../../../../lib/domain/constants').LOCALE;
 
@@ -62,6 +65,36 @@ describe('Unit | UseCase | compute-campaign-participation-analysis', function ()
 
         // then
         expect(actualCampaignParticipationAnalysis).to.deep.equal(campaignParticipationAnalysis);
+      });
+    });
+
+    context('Participation is deleted', function () {
+      it('should throw a CampaignParticipationDeletedError', async function () {
+        // given
+        const campaign = domainBuilder.buildCampaign({ id: campaignId });
+        campaignParticipation = domainBuilder.buildCampaignParticipation({
+          campaign,
+          deletedAt: new Date('2022-01-01'),
+          userId,
+        });
+
+        campaignParticipationRepository.get.withArgs(campaignParticipationId).resolves(campaignParticipation);
+        campaignRepository.checkIfUserOrganizationHasAccessToCampaign.withArgs(campaignId, userId).resolves(true);
+
+        // when
+        const error = await catchErr(computeCampaignParticipationAnalysis)({
+          userId,
+          campaignParticipationId,
+          campaignRepository,
+          campaignAnalysisRepository,
+          campaignParticipationRepository,
+          targetProfileWithLearningContentRepository,
+          tutorialRepository,
+          locale,
+        });
+
+        // then
+        expect(error).to.be.instanceOf(CampaignParticipationDeletedError);
       });
     });
 
