@@ -104,6 +104,7 @@ function _createAssessmentResult({
 }) {
   const assessmentResult = AssessmentResult.buildStandardAssessmentResult({
     pixScore: certificationAssessmentScore.nbPix,
+    reproducibilityRate: certificationAssessmentScore.getPercentageCorrectAnswers(),
     status: certificationAssessmentScore.status,
     assessmentId: certificationAssessment.id,
     emitter: EMITTER,

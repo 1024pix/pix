@@ -169,11 +169,9 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
       const assessmentResultId = 99;
       let certificationCourse;
       let assessmentResult;
-      let competenceMarkData1;
-      let competenceMarkData2;
+      let competenceMark1;
+      let competenceMark2;
       let savedAssessmentResult;
-      let nbPix;
-      let status;
       let certificationAssessmentScore;
 
       beforeEach(function () {
@@ -182,17 +180,15 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
           completedAt: null,
         });
         assessmentResult = Symbol('AssessmentResult');
-        competenceMarkData1 = domainBuilder.buildCompetenceMark({ assessmentResultId });
-        competenceMarkData2 = domainBuilder.buildCompetenceMark({ assessmentResultId });
+        competenceMark1 = domainBuilder.buildCompetenceMark({ assessmentResultId, score: 5 });
+        competenceMark2 = domainBuilder.buildCompetenceMark({ assessmentResultId, score: 4 });
         savedAssessmentResult = { id: assessmentResultId };
-        nbPix = Symbol('nbPix');
-        status = Symbol('status');
-        certificationAssessmentScore = {
-          nbPix,
-          status,
-          competenceMarks: [competenceMarkData1, competenceMarkData2],
+        certificationAssessmentScore = domainBuilder.buildCertificationAssessmentScore({
+          nbPix: 9,
+          status: AssessmentResult.status.VALIDATED,
+          competenceMarks: [competenceMark1, competenceMark2],
           percentageCorrectAnswers: 80,
-        };
+        });
 
         sinon.stub(AssessmentResult, 'buildStandardAssessmentResult').returns(assessmentResult);
         assessmentResultRepository.save.resolves(savedAssessmentResult);
@@ -218,6 +214,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', function () {
         // then
         expect(AssessmentResult.buildStandardAssessmentResult).to.have.been.calledWithExactly({
           pixScore: certificationAssessmentScore.nbPix,
+          reproducibilityRate: certificationAssessmentScore.percentageCorrectAnswers,
           status: certificationAssessmentScore.status,
           assessmentId: certificationAssessment.id,
           emitter: 'PIX-ALGO',
