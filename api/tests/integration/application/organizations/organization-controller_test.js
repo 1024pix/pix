@@ -158,7 +158,7 @@ describe('Integration | Application | Organizations | organization-controller', 
     context('Success cases', function () {
       it('should return an HTTP response with status code 200', async function () {
         // given
-        const studentWithUserInfo = domainBuilder.buildUserWithSchoolingRegistration();
+        const studentWithUserInfo = domainBuilder.buildUserWithOrganizationLearner();
         usecases.findPaginatedFilteredSchoolingRegistrations.resolves({ data: [studentWithUserInfo] });
         securityPreHandlers.checkUserBelongsToOrganizationManagingStudents.returns(true);
 
@@ -171,7 +171,7 @@ describe('Integration | Application | Organizations | organization-controller', 
 
       it('should return an HTTP response formatted as JSON:API', async function () {
         // given
-        const studentWithUserInfo = domainBuilder.buildUserWithSchoolingRegistration();
+        const studentWithUserInfo = domainBuilder.buildUserWithOrganizationLearner();
         usecases.findPaginatedFilteredSchoolingRegistrations.resolves({ data: [studentWithUserInfo] });
         securityPreHandlers.checkUserBelongsToOrganizationManagingStudents.returns(true);
 
