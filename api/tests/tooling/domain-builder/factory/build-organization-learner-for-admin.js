@@ -1,6 +1,6 @@
 const SchoolingRegistrationForAdmin = require('../../../../lib/domain/read-models/SchoolingRegistrationForAdmin');
 
-module.exports = function buildSchoolingRegistrationForAdmin({
+module.exports = function buildOrganizationLearnerForAdmin({
   id = 123,
   firstName = 'Super',
   lastName = 'Yvette',
