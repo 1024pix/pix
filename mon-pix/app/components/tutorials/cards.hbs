@@ -1,5 +1,5 @@
 <div class="user-tutorials-content-v2__cards">
   {{#each @tutorials as |tutorial|}}
-    <Tutorials::Card @tutorial={{tutorial}} />
+    <Tutorials::Card @tutorial={{tutorial}} @afterRemove={{@afterRemove}} />
   {{/each}}
 </div>
