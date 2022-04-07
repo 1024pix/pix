@@ -84,7 +84,6 @@
     "ember-qunit": "^4.6.0",
     "ember-resolver": "^8.0.2",
     "ember-simple-auth": "^3.1.0",
-    "ember-sinon": "^5.0.0",
     "ember-source": "^3.26.1",
     "ember-template-lint": "^3.7.0",
     "ember-template-lint-plugin-prettier": "^2.0.1",
@@ -105,7 +104,7 @@
     "prettier": "^2.4.0",
     "query-string": "^7.0.0",
     "qunit-dom": "^1.6.0",
-    "sass": "^1.32.8"
-  },
-  "dependencies": {}
+    "sass": "^1.32.8",
+    "sinon": "^13.0.1"
+  }
 }
