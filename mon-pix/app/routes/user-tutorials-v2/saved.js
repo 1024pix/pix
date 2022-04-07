@@ -1,5 +1,7 @@
 import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
+import { action } from '@ember/object';
+
 export default class UserTutorialsSavedRoute extends Route {
   @service featureToggles;
   @service router;
@@ -31,5 +33,10 @@ export default class UserTutorialsSavedRoute extends Route {
     if (isExiting) {
       controller.set('pageNumber', null);
     }
+  }
+
+  @action
+  refreshModel() {
+    this.refresh();
   }
 }
