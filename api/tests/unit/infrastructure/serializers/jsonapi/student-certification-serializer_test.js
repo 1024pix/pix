@@ -6,7 +6,7 @@ describe('Unit | Serializer | JSONAPI | student-certification-serializer', funct
   describe('#serialize', function () {
     it('should convert a StudentEnrollmentReadmodel model object into JSON API data', function () {
       // given
-      const student = domainBuilder.buildSchoolingRegistration();
+      const student = domainBuilder.buildOrganizationLearner();
       const studentEnrollmentReadmodel = new StudentForEnrollment({
         ...student,
         isEnrolled: true,

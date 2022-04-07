@@ -10,7 +10,7 @@ const {
 
 describe('Unit | UseCase | generate-username', function () {
   const organizationId = 1;
-  const schoolingRegistrationId = 1;
+  const organizationLearnerId = 1;
 
   let campaignRepository;
   let userRepository;
@@ -22,12 +22,12 @@ describe('Unit | UseCase | generate-username', function () {
 
   let campaignCode;
   let studentInformation;
-  let schoolingRegistration;
+  let organizationLearner;
 
   beforeEach(function () {
     campaignCode = 'RESTRICTD';
 
-    schoolingRegistration = domainBuilder.buildSchoolingRegistration({ organizationId, id: schoolingRegistrationId });
+    organizationLearner = domainBuilder.buildOrganizationLearner({ organizationId, id: organizationLearnerId });
     studentInformation = {
       id: 1,
       firstName: 'Joe',
@@ -108,9 +108,9 @@ describe('Unit | UseCase | generate-username', function () {
   context('When no schoolingRegistration found matching with firstname and lastname', function () {
     it('should throw a SchoolingRegistrationNotFound error', async function () {
       // given
-      schoolingRegistrationRepository.findByOrganizationIdAndBirthdate.resolves([schoolingRegistration]);
+      schoolingRegistrationRepository.findByOrganizationIdAndBirthdate.resolves([organizationLearner]);
       userReconciliationService.findMatchingCandidateIdForGivenUser
-        .withArgs([schoolingRegistration], studentInformation)
+        .withArgs([organizationLearner], studentInformation)
         .resolves();
 
       // when
@@ -134,13 +134,13 @@ describe('Unit | UseCase | generate-username', function () {
   context('When student is already reconciled in the same organization', function () {
     it('should return a SchoolingRegistrationAlreadyLinkedToUser error', async function () {
       // given
-      schoolingRegistration.userId = studentInformation.id;
-      schoolingRegistration.firstName = studentInformation.firstName;
-      schoolingRegistration.lastName = studentInformation.lastName;
+      organizationLearner.userId = studentInformation.id;
+      organizationLearner.firstName = studentInformation.firstName;
+      organizationLearner.lastName = studentInformation.lastName;
       const exceptedErrorMessage = 'Un compte existe déjà pour l‘élève dans le même établissement.';
 
-      schoolingRegistrationRepository.findByOrganizationIdAndBirthdate.resolves([schoolingRegistration]);
-      userReconciliationService.findMatchingCandidateIdForGivenUser.resolves(schoolingRegistration.id);
+      schoolingRegistrationRepository.findByOrganizationIdAndBirthdate.resolves([organizationLearner]);
+      userReconciliationService.findMatchingCandidateIdForGivenUser.resolves(organizationLearner.id);
       userRepository.getForObfuscation.resolves();
       obfuscationService.getUserAuthenticationMethodWithObfuscation.resolves({
         authenticatedBy: 'email',
@@ -168,11 +168,11 @@ describe('Unit | UseCase | generate-username', function () {
   context('When student is already reconciled in others organizations', function () {
     it('should return a SchoolingRegistrationAlreadyLinkedToUser error', async function () {
       // given
-      schoolingRegistration.firstName = studentInformation.firstName;
-      schoolingRegistration.lastName = studentInformation.lastName;
+      organizationLearner.firstName = studentInformation.firstName;
+      organizationLearner.lastName = studentInformation.lastName;
       const exceptedErrorMessage = 'Un compte existe déjà pour l‘élève dans un autre établissement.';
-      schoolingRegistrationRepository.findByOrganizationIdAndBirthdate.resolves([schoolingRegistration]);
-      userReconciliationService.findMatchingCandidateIdForGivenUser.resolves(schoolingRegistration.id);
+      schoolingRegistrationRepository.findByOrganizationIdAndBirthdate.resolves([organizationLearner]);
+      userReconciliationService.findMatchingCandidateIdForGivenUser.resolves(organizationLearner.id);
       const student = new Student({ account: { userId: studentInformation.id } });
       studentRepository.getReconciledStudentByNationalStudentId.resolves(student);
       userRepository.getForObfuscation.resolves();
@@ -202,13 +202,13 @@ describe('Unit | UseCase | generate-username', function () {
   context('When schoolingRegistration matched and student is not already reconciled', function () {
     it('should call createUsernameByUser with student information from database', async function () {
       // given
-      schoolingRegistrationRepository.findByOrganizationIdAndBirthdate.resolves([schoolingRegistration]);
-      userReconciliationService.findMatchingCandidateIdForGivenUser.resolves(schoolingRegistration.id);
+      schoolingRegistrationRepository.findByOrganizationIdAndBirthdate.resolves([organizationLearner]);
+      userReconciliationService.findMatchingCandidateIdForGivenUser.resolves(organizationLearner.id);
 
       studentInformation = {
-        firstName: schoolingRegistration.firstName,
-        lastName: schoolingRegistration.lastName,
-        birthdate: schoolingRegistration.birthdate,
+        firstName: organizationLearner.firstName,
+        lastName: organizationLearner.lastName,
+        birthdate: organizationLearner.birthdate,
       };
 
       // when

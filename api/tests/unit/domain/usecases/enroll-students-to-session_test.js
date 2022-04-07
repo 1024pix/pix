@@ -15,15 +15,15 @@ describe('Unit | UseCase | enroll-students-to-session', function () {
       const referentId = Symbol('a referent id');
 
       const studentIds = [1, 2, 3];
-      const { organizationForReferent, schoolingRegistrations } =
-        _buildMatchingReferentOrganisationAndSchoolingRegistrations(studentIds);
+      const { organizationForReferent, organizationLearners } =
+        _buildMatchingReferentOrganisationAndOrganizationLearners(studentIds);
 
       const country = domainBuilder.buildCountry({
         code: '99100',
         name: 'FRANCE',
       });
 
-      const expectedCertificationCandidates = schoolingRegistrations.map((sr) => {
+      const expectedCertificationCandidates = organizationLearners.map((sr) => {
         return new SCOCertificationCandidate({
           firstName: sr.firstName,
           lastName: sr.lastName,
@@ -41,7 +41,7 @@ describe('Unit | UseCase | enroll-students-to-session', function () {
       const schoolingRegistrationRepository = { findByIds: sinon.stub() };
       const countryRepository = { findAll: sinon.stub() };
       countryRepository.findAll.resolves([country]);
-      schoolingRegistrationRepository.findByIds.withArgs({ ids: studentIds }).resolves(schoolingRegistrations);
+      schoolingRegistrationRepository.findByIds.withArgs({ ids: studentIds }).resolves(organizationLearners);
       const sessionRepository = { get: sinon.stub() };
       sessionRepository.get.withArgs(sessionId).resolves(session);
       const certificationCenterMembershipRepository = { findByUserId: sinon.stub() };
@@ -86,7 +86,7 @@ describe('Unit | UseCase | enroll-students-to-session', function () {
         name: 'FRANCE',
       });
 
-      const schoolingRegistration = domainBuilder.buildSchoolingRegistration({
+      const organizationLearner = domainBuilder.buildOrganizationLearner({
         id: 1,
         firstName: 'Sarah Michelle ',
         lastName: ' Gellar',
@@ -99,11 +99,11 @@ describe('Unit | UseCase | enroll-students-to-session', function () {
       const expectedCertificationCandidate = new SCOCertificationCandidate({
         firstName: 'Sarah Michelle',
         lastName: 'Gellar',
-        birthdate: schoolingRegistration.birthdate,
-        sex: schoolingRegistration.sex,
-        birthINSEECode: schoolingRegistration.birthCityCode,
+        birthdate: organizationLearner.birthdate,
+        sex: organizationLearner.sex,
+        birthINSEECode: organizationLearner.birthCityCode,
         birthCountry: country.name,
-        birthCity: schoolingRegistration.birthCity,
+        birthCity: organizationLearner.birthCity,
         sessionId: sessionId,
         schoolingRegistrationId: 1,
       });
@@ -112,7 +112,7 @@ describe('Unit | UseCase | enroll-students-to-session', function () {
       const schoolingRegistrationRepository = { findByIds: sinon.stub() };
       const countryRepository = { findAll: sinon.stub() };
       countryRepository.findAll.resolves([country]);
-      schoolingRegistrationRepository.findByIds.withArgs({ ids: [1] }).resolves([schoolingRegistration]);
+      schoolingRegistrationRepository.findByIds.withArgs({ ids: [1] }).resolves([organizationLearner]);
       const sessionRepository = { get: sinon.stub() };
       sessionRepository.get.withArgs(sessionId).resolves(session);
       const certificationCenterMembershipRepository = { findByUserId: sinon.stub() };
@@ -150,11 +150,11 @@ describe('Unit | UseCase | enroll-students-to-session', function () {
       const referentId = Symbol('an unauthorized referent id');
 
       const studentIds = [1, 2, 3];
-      const { organizationForReferent, schoolingRegistrations } =
-        _buildNonMatchingReferentOrganisationAndSchoolingRegistrations(studentIds);
+      const { organizationForReferent, organizationLearners } =
+        _buildNonMatchingReferentOrganisationAndOrganizationLearners(studentIds);
 
       const schoolingRegistrationRepository = { findByIds: sinon.stub() };
-      schoolingRegistrationRepository.findByIds.withArgs({ ids: studentIds }).resolves(schoolingRegistrations);
+      schoolingRegistrationRepository.findByIds.withArgs({ ids: studentIds }).resolves(organizationLearners);
       const sessionRepository = { get: sinon.stub() };
       sessionRepository.get.withArgs(session.id).resolves(session);
       const certificationCenterMembershipRepository = { findByUserId: sinon.stub() };
@@ -216,8 +216,8 @@ describe('Unit | UseCase | enroll-students-to-session', function () {
       const referentId = Symbol('a referent id');
 
       const studentIds = [1, 2, 3];
-      const { organizationForReferent, schoolingRegistrations } =
-        _buildMatchingReferentOrganisationAndSchoolingRegistrations(studentIds);
+      const { organizationForReferent, organizationLearners } =
+        _buildMatchingReferentOrganisationAndOrganizationLearners(studentIds);
 
       const country = domainBuilder.buildCountry({
         code: '99A07',
@@ -226,7 +226,7 @@ describe('Unit | UseCase | enroll-students-to-session', function () {
 
       const scoCertificationCandidateRepository = new InMemorySCOCertificationCandidateRepository();
       const schoolingRegistrationRepository = { findByIds: sinon.stub() };
-      schoolingRegistrationRepository.findByIds.withArgs({ ids: studentIds }).resolves(schoolingRegistrations);
+      schoolingRegistrationRepository.findByIds.withArgs({ ids: studentIds }).resolves(organizationLearners);
       const countryRepository = { findAll: sinon.stub() };
       countryRepository.findAll.resolves([country]);
       const sessionRepository = { get: sinon.stub() };
@@ -255,7 +255,7 @@ describe('Unit | UseCase | enroll-students-to-session', function () {
 
       // then
       expect(error).to.be.an.instanceOf(UnknownCountryForStudentEnrollmentError);
-      expect(error.message).to.contains(`${schoolingRegistrations[0].firstName} ${schoolingRegistrations[0].lastName}`);
+      expect(error.message).to.contains(`${organizationLearners[0].firstName} ${organizationLearners[0].lastName}`);
     });
 
     it('does nothing if no student ids is given as input', async function () {
@@ -264,8 +264,8 @@ describe('Unit | UseCase | enroll-students-to-session', function () {
       const sessionId = session.id;
       const studentIds = [];
       const referentId = Symbol('a referent id');
-      const { organizationForReferent, schoolingRegistrations } =
-        _buildMatchingReferentOrganisationAndSchoolingRegistrations(studentIds);
+      const { organizationForReferent, organizationLearners } =
+        _buildMatchingReferentOrganisationAndOrganizationLearners(studentIds);
       const country = domainBuilder.buildCountry({
         code: '99100',
         name: 'FRANCE',
@@ -275,7 +275,7 @@ describe('Unit | UseCase | enroll-students-to-session', function () {
       const schoolingRegistrationRepository = { findByIds: sinon.stub() };
       const countryRepository = { findAll: sinon.stub() };
       countryRepository.findAll.resolves([country]);
-      schoolingRegistrationRepository.findByIds.withArgs({ ids: studentIds }).resolves(schoolingRegistrations);
+      schoolingRegistrationRepository.findByIds.withArgs({ ids: studentIds }).resolves(organizationLearners);
       const sessionRepository = { get: sinon.stub() };
       sessionRepository.get.withArgs(sessionId).resolves(session);
       const certificationCenterMembershipRepository = { findByUserId: sinon.stub() };
@@ -333,26 +333,26 @@ function _buildNonMatchingSessionAndCertificationCenterMembership() {
   return { session, certificationCenterMemberships: [certificationCenterMembership] };
 }
 
-function _buildMatchingReferentOrganisationAndSchoolingRegistrations(studentIds) {
+function _buildMatchingReferentOrganisationAndOrganizationLearners(studentIds) {
   const organizationForReferent = domainBuilder.buildOrganization();
-  const schoolingRegistrations = studentIds.map((id) => {
-    return domainBuilder.buildSchoolingRegistration({
+  const organizationLearners = studentIds.map((id) => {
+    return domainBuilder.buildOrganizationLearner({
       id,
       organization: organizationForReferent,
     });
   });
 
-  return { organizationForReferent, schoolingRegistrations };
+  return { organizationForReferent, organizationLearners };
 }
 
-function _buildNonMatchingReferentOrganisationAndSchoolingRegistrations(studentIds) {
+function _buildNonMatchingReferentOrganisationAndOrganizationLearners(studentIds) {
   const organizationForStudents = domainBuilder.buildOrganization({ id: 123 });
-  const schoolingRegistrations = studentIds.map((id) => {
-    return domainBuilder.buildSchoolingRegistration({ id, organization: organizationForStudents });
+  const organizationLearners = studentIds.map((id) => {
+    return domainBuilder.buildOrganizationLearner({ id, organization: organizationForStudents });
   });
 
   const organizationForReferent = domainBuilder.buildOrganization({ id: 456 });
-  return { organizationForReferent, schoolingRegistrations };
+  return { organizationForReferent, organizationLearners };
 }
 
 class InMemorySCOCertificationCandidateRepository {

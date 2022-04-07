@@ -34,12 +34,9 @@ describe('Integration | Application | Schooling-registration-user-association | 
     };
 
     context('Success cases', function () {
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line mocha/no-setup-in-describe
-      const student = domainBuilder.buildSchoolingRegistration();
-
       it('should return an HTTP response with status code 200', async function () {
         // given
+        const student = domainBuilder.buildOrganizationLearner();
         usecases.generateUsername.resolves([student]);
 
         // when

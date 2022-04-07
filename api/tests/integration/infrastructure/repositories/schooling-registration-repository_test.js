@@ -190,11 +190,11 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
         });
 
       // then
-      const expectedSchoolingRegistration = domainBuilder.buildSchoolingRegistration({
+      const expectedOrganizationLearner = domainBuilder.buildOrganizationLearner({
         ...organizationLearner,
         organization,
       });
-      expect(paginatedSchoolingRegistrations.data[0]).to.deepEqualInstance(expectedSchoolingRegistration);
+      expect(paginatedSchoolingRegistrations.data[0]).to.deepEqualInstance(expectedOrganizationLearner);
     });
 
     it('should return all the schoolingRegistrations for a given organization ID', async function () {
@@ -231,17 +231,17 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
         });
 
       // then
-      const expectedSchoolingRegistration_1 = domainBuilder.buildSchoolingRegistration({
+      const expectedOrganizationLearner_1 = domainBuilder.buildOrganizationLearner({
         ...organizationLearner_1,
         organization: organization_1,
       });
-      const expectedSchoolingRegistration_2 = domainBuilder.buildSchoolingRegistration({
+      const expectedOrganizationLearner_2 = domainBuilder.buildOrganizationLearner({
         ...organizationLearner_2,
         organization: organization_1,
       });
       expect(schoolingRegistrations.data).to.deepEqualArray([
-        expectedSchoolingRegistration_1,
-        expectedSchoolingRegistration_2,
+        expectedOrganizationLearner_1,
+        expectedOrganizationLearner_2,
       ]);
     });
 
@@ -277,11 +277,11 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
         });
 
       // then
-      const expectedNotDisabledSchoolingRegistration = domainBuilder.buildSchoolingRegistration({
+      const expectedNotDisabledOrganizationLearner = domainBuilder.buildOrganizationLearner({
         ...notDisabledOrganizationLearner,
         organization,
       });
-      expect(schoolingRegistrations.data).to.deepEqualArray([expectedNotDisabledSchoolingRegistration]);
+      expect(schoolingRegistrations.data).to.deepEqualArray([expectedNotDisabledOrganizationLearner]);
     });
 
     it('should order schoolingRegistrations by division and last name and then first name with no sensitive case', async function () {
@@ -341,37 +341,37 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
         });
 
       // then
-      const expectedSchoolingRegistration3ABA = domainBuilder.buildSchoolingRegistration({
+      const expectedOrganizationLearner3ABA = domainBuilder.buildOrganizationLearner({
         ...organizationLearner3ABA,
         organization,
       });
-      const expectedSchoolingRegistration3ABB = domainBuilder.buildSchoolingRegistration({
+      const expectedOrganizationLearner3ABB = domainBuilder.buildOrganizationLearner({
         ...organizationLearner3ABB,
         organization,
       });
-      const expectedSchoolingRegistration3B = domainBuilder.buildSchoolingRegistration({
+      const expectedOrganizationLearner3B = domainBuilder.buildOrganizationLearner({
         ...organizationLearner3B,
         organization,
       });
-      const expectedSchoolingRegistrationT1CA = domainBuilder.buildSchoolingRegistration({
+      const expectedOrganizationLearnerT1CA = domainBuilder.buildOrganizationLearner({
         ...organizationLearnerT1CA,
         organization,
       });
-      const expectedSchoolingRegistrationT1CB = domainBuilder.buildSchoolingRegistration({
+      const expectedOrganizationLearnerT1CB = domainBuilder.buildOrganizationLearner({
         ...organizationLearnerT1CB,
         organization,
       });
-      const expectedSchoolingRegistrationT2 = domainBuilder.buildSchoolingRegistration({
+      const expectedOrganizationLearnerT2 = domainBuilder.buildOrganizationLearner({
         ...organizationLearnerT2,
         organization,
       });
       expect(schoolingRegistrations.data).to.deepEqualArray([
-        expectedSchoolingRegistration3ABA,
-        expectedSchoolingRegistration3ABB,
-        expectedSchoolingRegistration3B,
-        expectedSchoolingRegistrationT1CA,
-        expectedSchoolingRegistrationT1CB,
-        expectedSchoolingRegistrationT2,
+        expectedOrganizationLearner3ABA,
+        expectedOrganizationLearner3ABB,
+        expectedOrganizationLearner3B,
+        expectedOrganizationLearnerT1CA,
+        expectedOrganizationLearnerT1CB,
+        expectedOrganizationLearnerT2,
       ]);
     });
 
@@ -407,11 +407,11 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
         });
 
       // then
-      const expectedSchoolingRegistrationInPage1 = domainBuilder.buildSchoolingRegistration({
+      const expectedOrganizationLearnerInPage1 = domainBuilder.buildOrganizationLearner({
         ...organizationLearner3B,
         organization,
       });
-      expect(schoolingRegistrations.data).to.deepEqualArray([expectedSchoolingRegistrationInPage1]);
+      expect(schoolingRegistrations.data).to.deepEqualArray([expectedOrganizationLearnerInPage1]);
     });
 
     it('should filter out students registered after August 15, 2020', async function () {
@@ -440,11 +440,11 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
         });
 
       // then
-      const expectedEarlierSchoolingRegistration = domainBuilder.buildSchoolingRegistration({
+      const expectedEarlierOrganizationLearner = domainBuilder.buildOrganizationLearner({
         ...earlierOrganizationLearner,
         organization,
       });
-      expect(schoolingRegistrations.data).to.deepEqualArray([expectedEarlierSchoolingRegistration]);
+      expect(schoolingRegistrations.data).to.deepEqualArray([expectedEarlierOrganizationLearner]);
     });
   });
 
@@ -858,10 +858,10 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
         await databaseBuilder.commit();
 
         // when
-        const schoolingRegistration = domainBuilder.buildSchoolingRegistration({ nationalStudentId: 'INE1' });
+        const organizationLearner = domainBuilder.buildOrganizationLearner({ nationalStudentId: 'INE1' });
         await DomainTransaction.execute((domainTransaction) => {
           return schoolingRegistrationRepository.addOrUpdateOrganizationSchoolingRegistrations(
-            [schoolingRegistration],
+            [organizationLearner],
             organizationId,
             domainTransaction
           );
@@ -895,10 +895,10 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
         await databaseBuilder.commit();
 
         // when
-        const schoolingRegistration = domainBuilder.buildSchoolingRegistration({ nationalStudentId: 'INE1' });
+        const organizationLearner = domainBuilder.buildOrganizationLearner({ nationalStudentId: 'INE1' });
         await DomainTransaction.execute((domainTransaction) => {
           return schoolingRegistrationRepository.addOrUpdateOrganizationSchoolingRegistrations(
-            [schoolingRegistration],
+            [organizationLearner],
             organizationId,
             domainTransaction
           );
@@ -928,11 +928,11 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
         await databaseBuilder.commit();
 
         // when
-        const schoolingRegistration1 = domainBuilder.buildSchoolingRegistration({ nationalStudentId: 'INE1' });
-        const schoolingRegistration2 = domainBuilder.buildSchoolingRegistration({ nationalStudentId: 'INE2' });
+        const organizationLearner1 = domainBuilder.buildOrganizationLearner({ nationalStudentId: 'INE1' });
+        const organizationLearner2 = domainBuilder.buildOrganizationLearner({ nationalStudentId: 'INE2' });
         await DomainTransaction.execute((domainTransaction) => {
           return schoolingRegistrationRepository.addOrUpdateOrganizationSchoolingRegistrations(
-            [schoolingRegistration1, schoolingRegistration2],
+            [organizationLearner1, organizationLearner2],
             organizationId,
             domainTransaction
           );

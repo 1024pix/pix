@@ -360,13 +360,13 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candida
           context('when no other candidates is already linked to that user', function () {
             it('should create a link between the candidate and the user and return an event to notify it, ', async function () {
               // given
-              const schoolingRegistration = domainBuilder.buildSchoolingRegistration();
+              const organizationLearner = domainBuilder.buildOrganizationLearner();
               const certificationCandidate = domainBuilder.buildCertificationCandidate({
                 userId: null,
                 firstName,
                 lastName,
                 birthdate,
-                schoolingRegistrationId: schoolingRegistration.id,
+                schoolingRegistrationId: organizationLearner.id,
               });
               const certificationCandidateRepository = _buildFakeCertificationCandidateRepository()
                 .withFindBySessionIdAndPersonalInfo({
@@ -434,7 +434,7 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candida
               });
               expect(
                 schoolingRegistrationRepository.isSchoolingRegistrationIdLinkedToUserAndSCOOrganization
-              ).to.have.been.calledWith({ userId, schoolingRegistrationId: schoolingRegistration.id });
+              ).to.have.been.calledWith({ userId, schoolingRegistrationId: organizationLearner.id });
               expect(event).to.be.instanceOf(UserLinkedToCertificationCandidate);
             });
           });
@@ -442,13 +442,13 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candida
           context('when another candidates is already linked to that user', function () {
             it('throws UserAlreadyLinkedToCandidateInSessionError', async function () {
               // given
-              const schoolingRegistration = domainBuilder.buildSchoolingRegistration();
+              const organizationLearner = domainBuilder.buildOrganizationLearner();
               const certificationCandidate = domainBuilder.buildCertificationCandidate({
                 userId: null,
                 firstName,
                 lastName,
                 birthdate,
-                schoolingRegistrationId: schoolingRegistration.id,
+                schoolingRegistrationId: organizationLearner.id,
               });
               const certificationCandidateRepository = _buildFakeCertificationCandidateRepository()
                 .withFindBySessionIdAndPersonalInfo({
@@ -512,7 +512,7 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candida
               // then
               expect(
                 schoolingRegistrationRepository.isSchoolingRegistrationIdLinkedToUserAndSCOOrganization
-              ).to.have.been.calledWith({ userId, schoolingRegistrationId: schoolingRegistration.id });
+              ).to.have.been.calledWith({ userId, schoolingRegistrationId: organizationLearner.id });
               expect(error).to.be.an.instanceof(UserAlreadyLinkedToCandidateInSessionError);
             });
           });
