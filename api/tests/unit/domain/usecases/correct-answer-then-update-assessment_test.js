@@ -869,4 +869,70 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
       expect(result).to.deep.equal(AnswerStatus.OK);
     });
   });
+
+  context('when the challenge is focused in certification', function () {
+    let answer;
+    let assessment;
+
+    beforeEach(function () {
+      // Given
+      answer = domainBuilder.buildAnswer({});
+      const nonFocusedChallenge = domainBuilder.buildChallenge({
+        id: answer.challengeId,
+        validator,
+        focused: true,
+      });
+      challengeRepository.get.resolves(nonFocusedChallenge);
+      assessment = domainBuilder.buildAssessment({
+        userId,
+        lastQuestionDate: new Date('2021-03-11T11:00:00Z'),
+        type: Assessment.types.CERTIFICATION,
+      });
+      assessmentRepository.get.resolves(assessment);
+    });
+
+    /* eslint-disable mocha/no-setup-in-describe */
+    [
+      {
+        isFocusedOut: true,
+        lastQuestionState: 'focusedout',
+        expected: { result: AnswerStatus.FOCUSEDOUT, isFocusedOut: true },
+      },
+      {
+        isFocusedOut: false,
+        lastQuestionState: 'asked',
+        expected: { result: AnswerStatus.OK, isFocusedOut: false },
+      },
+      {
+        isFocusedOut: false,
+        lastQuestionState: 'focusedout',
+        expected: { result: AnswerStatus.FOCUSEDOUT, isFocusedOut: true },
+      },
+      {
+        isFocusedOut: true,
+        lastQuestionState: 'asked',
+        expected: { result: AnswerStatus.FOCUSEDOUT, isFocusedOut: true },
+      },
+    ].forEach(({ isFocusedOut, lastQuestionState, expected }) => {
+      context(`when answer.isFocusedOut=${isFocusedOut} and lastQuestionState=${lastQuestionState}`, function () {
+        it(`should return result=${expected.result.status} and isFocusedOut=${expected.isFocusedOut}`, async function () {
+          // Given
+          answer.isFocusedOut = isFocusedOut;
+          assessment.lastQuestionState = lastQuestionState;
+          answerRepository.saveWithKnowledgeElements = (_) => _;
+
+          // When
+          const correctedAnswer = await correctAnswerThenUpdateAssessment({
+            answer: answer,
+            userId,
+            ...dependencies,
+          });
+
+          // Then
+          expect(correctedAnswer).to.deep.contain(expected);
+        });
+      });
+    });
+    /* eslint-enable mocha/no-setup-in-describe */
+  });
 });

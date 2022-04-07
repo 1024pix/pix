@@ -109,6 +109,7 @@ function _evaluateAnswer({ challenge, answer, assessment }) {
     answer,
     challengeFormat: challenge.format,
     isFocusedChallenge: challenge.focused,
+    hasLastQuestionBeenFocusedOut: assessment.hasLastQuestionBeenFocusedOut,
     isCertificationEvaluation: assessment.isCertification(),
   });
 }

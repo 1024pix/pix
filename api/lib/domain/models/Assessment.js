@@ -145,6 +145,10 @@ class Assessment {
     return challenges[Math.abs(hashInt(this.id)) % challenges.length];
   }
 
+  get hasLastQuestionBeenFocusedOut() {
+    return this.lastQuestionState === Assessment.statesOfLastQuestion.FOCUSEDOUT;
+  }
+
   static computeMethodFromType(type) {
     switch (type) {
       case Assessment.types.CERTIFICATION:
