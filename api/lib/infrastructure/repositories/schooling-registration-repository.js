@@ -11,7 +11,7 @@ const {
 const UserWithSchoolingRegistration = require('../../domain/models/UserWithSchoolingRegistration');
 const AuthenticationMethod = require('../../domain/models/AuthenticationMethod');
 const OrganizationLearner = require('../../domain/models/OrganizationLearner');
-const SchoolingRegistrationForAdmin = require('../../domain/read-models/SchoolingRegistrationForAdmin');
+const OrganizationLearnerForAdmin = require('../../domain/read-models/OrganizationLearnerForAdmin');
 const studentRepository = require('./student-repository');
 
 const Bookshelf = require('../bookshelf');
@@ -245,8 +245,8 @@ module.exports = {
     }
   },
 
-  async getSchoolingRegistrationForAdmin(schoolingRegistrationId) {
-    const schoolingRegistration = await knex('organization-learners')
+  async getSchoolingRegistrationForAdmin(organizationLearnerId) {
+    const organizationLearner = await knex('organization-learners')
       .select(
         'organization-learners.id as id',
         'firstName',
@@ -262,13 +262,13 @@ module.exports = {
         'organizations.isManagingStudents as organizationIsManagingStudents'
       )
       .innerJoin('organizations', 'organizations.id', 'organization-learners.organizationId')
-      .where({ 'organization-learners.id': schoolingRegistrationId })
+      .where({ 'organization-learners.id': organizationLearnerId })
       .first();
 
-    if (!schoolingRegistration) {
-      throw new NotFoundError(`Schooling registration not found for ID ${schoolingRegistrationId}`);
+    if (!organizationLearner) {
+      throw new NotFoundError(`Schooling registration not found for ID ${organizationLearnerId}`);
     }
-    return new SchoolingRegistrationForAdmin(schoolingRegistration);
+    return new OrganizationLearnerForAdmin(organizationLearner);
   },
 
   async dissociateUserFromSchoolingRegistration(organizationLearnerId) {

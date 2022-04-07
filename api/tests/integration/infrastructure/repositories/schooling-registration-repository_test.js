@@ -4,7 +4,7 @@ const { expect, domainBuilder, databaseBuilder, knex, catchErr } = require('../.
 
 const OrganizationLearner = require('../../../../lib/domain/models/OrganizationLearner');
 const UserWithSchoolingRegistration = require('../../../../lib/domain/models/UserWithSchoolingRegistration');
-const SchoolingRegistrationForAdmin = require('../../../../lib/domain/read-models/SchoolingRegistrationForAdmin');
+const OrganizationLearnerForAdmin = require('../../../../lib/domain/read-models/OrganizationLearnerForAdmin');
 
 const {
   NotFoundError,
@@ -1657,14 +1657,14 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
       return databaseBuilder.commit();
     });
 
-    it('should return an instance of SchoolingRegistrationForAdmin', async function () {
+    it('should return an instance of OrganizationLearnerForAdmin', async function () {
       // when
       const schoolingRegistration = await schoolingRegistrationRepository.getSchoolingRegistrationForAdmin(
         organizationLearnerId
       );
 
       // then
-      expect(schoolingRegistration).to.be.an.instanceOf(SchoolingRegistrationForAdmin);
+      expect(schoolingRegistration).to.be.an.instanceOf(OrganizationLearnerForAdmin);
       expect(schoolingRegistration.id).to.equal(organizationLearnerId);
     });
 
