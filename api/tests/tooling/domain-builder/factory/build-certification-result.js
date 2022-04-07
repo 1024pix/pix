@@ -13,7 +13,7 @@ const buildCertificationResult = function ({
   pixScore = 0,
   commentForOrganization = 'comment organization',
   competencesWithMark = [],
-  partnerCertifications = [],
+  complementaryCertificationCourseResults = [],
 } = {}) {
   return new CertificationResult({
     id,
@@ -28,7 +28,7 @@ const buildCertificationResult = function ({
     pixScore,
     commentForOrganization,
     competencesWithMark,
-    partnerCertifications,
+    complementaryCertificationCourseResults,
   });
 };
 
@@ -44,7 +44,7 @@ buildCertificationResult.validated = function ({
   pixScore,
   commentForOrganization,
   competencesWithMark,
-  partnerCertifications,
+  complementaryCertificationCourseResults,
 }) {
   return buildCertificationResult({
     id,
@@ -59,7 +59,7 @@ buildCertificationResult.validated = function ({
     pixScore,
     commentForOrganization,
     competencesWithMark,
-    partnerCertifications,
+    complementaryCertificationCourseResults,
   });
 };
 
@@ -75,7 +75,7 @@ buildCertificationResult.rejected = function ({
   pixScore,
   commentForOrganization,
   competencesWithMark,
-  partnerCertifications,
+  complementaryCertificationCourseResults,
 }) {
   return buildCertificationResult({
     id,
@@ -90,7 +90,7 @@ buildCertificationResult.rejected = function ({
     pixScore,
     commentForOrganization,
     competencesWithMark,
-    partnerCertifications,
+    complementaryCertificationCourseResults,
   });
 };
 
@@ -106,7 +106,7 @@ buildCertificationResult.cancelled = function ({
   pixScore,
   commentForOrganization,
   competencesWithMark,
-  partnerCertifications,
+  complementaryCertificationCourseResults,
 }) {
   return buildCertificationResult({
     id,
@@ -121,7 +121,7 @@ buildCertificationResult.cancelled = function ({
     pixScore,
     commentForOrganization,
     competencesWithMark,
-    partnerCertifications,
+    complementaryCertificationCourseResults,
   });
 };
 
@@ -137,7 +137,7 @@ buildCertificationResult.error = function ({
   pixScore,
   commentForOrganization,
   competencesWithMark,
-  partnerCertifications,
+  complementaryCertificationCourseResults,
 }) {
   return buildCertificationResult({
     id,
@@ -152,7 +152,7 @@ buildCertificationResult.error = function ({
     pixScore,
     commentForOrganization,
     competencesWithMark,
-    partnerCertifications,
+    complementaryCertificationCourseResults,
   });
 };
 

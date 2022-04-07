@@ -3,12 +3,12 @@ const { validateEntity } = require('../validators/entity-validator');
 const { NotImplementedError } = require('../errors');
 
 class PartnerCertificationScoring {
-  constructor({ certificationCourseId, partnerKey, temporaryPartnerKey = null } = {}) {
-    this.certificationCourseId = certificationCourseId;
+  constructor({ complementaryCertificationCourseId, partnerKey, temporaryPartnerKey = null } = {}) {
+    this.complementaryCertificationCourseId = complementaryCertificationCourseId;
     this.partnerKey = partnerKey;
     this.temporaryPartnerKey = temporaryPartnerKey;
     const schema = Joi.object({
-      certificationCourseId: Joi.number().integer().required(),
+      complementaryCertificationCourseId: Joi.number().integer().required(),
       partnerKey: Joi.string().allow(null).required(),
       temporaryPartnerKey: Joi.string().allow(null).required(),
     });

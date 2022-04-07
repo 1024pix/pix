@@ -52,12 +52,14 @@ module.exports = {
   },
 
   async isRelatedToCertification(badgeId, { knexTransaction } = DomainTransaction.emptyTransaction()) {
-    const partnerCertificationBadge = await (knexTransaction ?? knex)('partner-certifications')
+    const complementaryCertificationCourseResultBadge = await (knexTransaction ?? knex)(
+      'complementary-certification-course-results'
+    )
       .join('badges', 'partnerKey', 'key')
       .where('badges.id', badgeId)
       .first();
     const complementaryCertificationBadge = await knex('complementary-certification-badges').where({ badgeId }).first();
-    return !!(partnerCertificationBadge || complementaryCertificationBadge);
+    return !!(complementaryCertificationCourseResultBadge || complementaryCertificationBadge);
   },
 
   async get(id) {

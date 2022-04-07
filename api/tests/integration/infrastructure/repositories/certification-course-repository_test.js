@@ -63,7 +63,7 @@ describe('Integration | Repository | Certification Course', function () {
 
       const [savedComplementaryCertificationCourse] =
         retrievedCertificationCourse.toDTO().complementaryCertificationCourses;
-      expect(_.omit(savedComplementaryCertificationCourse, ['createdAt'])).to.deep.equal({
+      expect(_.omit(savedComplementaryCertificationCourse, ['createdAt', 'id'])).to.deep.equal({
         complementaryCertificationId,
         certificationCourseId: savedCertificationCourse.getId(),
       });
@@ -180,7 +180,7 @@ describe('Integration | Repository | Certification Course', function () {
           },
         ],
         (acquiredPartnerCertification) =>
-          databaseBuilder.factory.buildPartnerCertification(acquiredPartnerCertification)
+          databaseBuilder.factory.buildComplementaryCertificationCourseResult(acquiredPartnerCertification)
       );
       databaseBuilder.factory.buildCertificationIssueReport({
         certificationCourseId: expectedCertificationCourse.id,

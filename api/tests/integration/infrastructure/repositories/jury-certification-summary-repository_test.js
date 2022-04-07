@@ -102,7 +102,7 @@ describe('Integration | Repository | JuryCertificationSummary', function () {
               resolution: null,
             }),
           ],
-          partnerCertifications: [],
+          complementaryCertificationCourseResults: [],
         });
         expect(juryCertificationSummaries).to.have.length(3);
         expect(juryCertificationSummaries[0]).to.deepEqualInstance(expectedJuryCertificationSummary);
@@ -278,8 +278,9 @@ describe('Integration | Repository | JuryCertificationSummary', function () {
           const sessionId = dbf.buildSession().id;
           const certificationCourseId = dbf.buildCertificationCourse({ sessionId }).id;
           dbf.buildBadge({ key: partnerKey });
-          dbf.buildPartnerCertification({
-            certificationCourseId,
+          dbf.buildComplementaryCertificationCourse({ id: 998, certificationCourseId });
+          dbf.buildComplementaryCertificationCourseResult({
+            complementaryCertificationCourseId: 998,
             partnerKey,
             acquired: true,
           });
@@ -299,8 +300,9 @@ describe('Integration | Repository | JuryCertificationSummary', function () {
           const sessionId = dbf.buildSession().id;
           const certificationCourseId = dbf.buildCertificationCourse({ sessionId }).id;
           dbf.buildBadge({ key: partnerKey });
-          dbf.buildPartnerCertification({
-            certificationCourseId,
+          dbf.buildComplementaryCertificationCourse({ id: 998, certificationCourseId });
+          dbf.buildComplementaryCertificationCourseResult({
+            complementaryCertificationCourseId: 998,
             partnerKey,
             acquired: false,
           });

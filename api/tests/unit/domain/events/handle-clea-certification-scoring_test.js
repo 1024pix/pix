@@ -39,7 +39,7 @@ describe('Unit | Domain | Events | handle-clea-certification-scoring', function 
       getCreationDate: sinon.stub(),
     };
 
-    complementaryCertificationCourseRepository = { hasComplementaryCertification: sinon.stub() };
+    complementaryCertificationCourseRepository = { getComplementaryCertificationCourseId: sinon.stub() };
   });
 
   context('check event', function () {
@@ -110,11 +110,13 @@ describe('Unit | Domain | Events | handle-clea-certification-scoring', function 
           // given
           const userId = 1234;
           const certificationCourseId = 4567;
+          const complementaryCertificationCourseId = 999;
           const knowledgeElements = [
             domainBuilder.buildKnowledgeElement({ userId }),
             domainBuilder.buildKnowledgeElement({ userId }),
           ];
           const cleaCertificationScoring = domainBuilder.buildCleaCertificationScoring({
+            complementaryCertificationCourseId,
             reproducibilityRate: 85,
             hasAcquiredBadge: true,
           });
@@ -130,6 +132,7 @@ describe('Unit | Domain | Events | handle-clea-certification-scoring', function 
 
           partnerCertificationScoringRepository.buildCleaCertificationScoring
             .withArgs({
+              complementaryCertificationCourseId,
               certificationCourseId,
               userId,
               reproducibilityRate: 85,
@@ -150,12 +153,12 @@ describe('Unit | Domain | Events | handle-clea-certification-scoring', function 
             .withArgs({ knowledgeElements, targetProfile, badge })
             .returns(true);
 
-          complementaryCertificationCourseRepository.hasComplementaryCertification
+          complementaryCertificationCourseRepository.getComplementaryCertificationCourseId
             .withArgs({
               certificationCourseId,
               complementaryCertificationName: CLEA,
             })
-            .resolves(true);
+            .resolves(complementaryCertificationCourseId);
 
           // when
           await handleCleaCertificationScoring({
@@ -181,12 +184,12 @@ describe('Unit | Domain | Events | handle-clea-certification-scoring', function 
           // given
           const userId = 1234;
           const certificationCourseId = 4567;
-          complementaryCertificationCourseRepository.hasComplementaryCertification
+          complementaryCertificationCourseRepository.getComplementaryCertificationCourseId
             .withArgs({
               certificationCourseId,
               complementaryCertificationName: CLEA,
             })
-            .resolves(false);
+            .resolves(undefined);
 
           const event = new CertificationScoringCompleted({
             certificationCourseId,
@@ -219,11 +222,13 @@ describe('Unit | Domain | Events | handle-clea-certification-scoring', function 
           // given
           const userId = 1234;
           const certificationCourseId = 4567;
+          const complementaryCertificationCourseId = 999;
           const knowledgeElements = [
             domainBuilder.buildKnowledgeElement({ userId }),
             domainBuilder.buildKnowledgeElement({ userId }),
           ];
           const cleaCertificationScoring = domainBuilder.buildCleaCertificationScoring({
+            complementaryCertificationCourseId,
             reproducibilityRate: 85,
             hasAcquiredBadge: true,
           });
@@ -239,6 +244,7 @@ describe('Unit | Domain | Events | handle-clea-certification-scoring', function 
 
           partnerCertificationScoringRepository.buildCleaCertificationScoring
             .withArgs({
+              complementaryCertificationCourseId,
               certificationCourseId,
               userId,
               reproducibilityRate: 85,
@@ -259,12 +265,12 @@ describe('Unit | Domain | Events | handle-clea-certification-scoring', function 
             .withArgs({ knowledgeElements, targetProfile, badge })
             .returns(true);
 
-          complementaryCertificationCourseRepository.hasComplementaryCertification
+          complementaryCertificationCourseRepository.getComplementaryCertificationCourseId
             .withArgs({
               certificationCourseId,
               complementaryCertificationName: CLEA,
             })
-            .resolves(true);
+            .resolves(complementaryCertificationCourseId);
 
           // when
           await handleCleaCertificationScoring({
@@ -290,12 +296,12 @@ describe('Unit | Domain | Events | handle-clea-certification-scoring', function 
           // given
           const userId = 1234;
           const certificationCourseId = 4567;
-          complementaryCertificationCourseRepository.hasComplementaryCertification
+          complementaryCertificationCourseRepository.getComplementaryCertificationCourseId
             .withArgs({
               certificationCourseId,
               complementaryCertificationName: CLEA,
             })
-            .resolves(false);
+            .resolves(undefined);
 
           const event = new CertificationRescoringCompleted({
             certificationCourseId,

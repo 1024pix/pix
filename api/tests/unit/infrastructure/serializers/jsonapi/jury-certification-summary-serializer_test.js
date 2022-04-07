@@ -27,10 +27,13 @@ describe('Unit | Serializer | JSONAPI | jury-certification-summary-serializer', 
         certificationIssueReports: [issueReport],
         hasSeenEndTestScreen: false,
         isFlaggedAborted: false,
-        partnerCertifications: [
-          domainBuilder.buildPartnerCertification({ partnerKey: PIX_EMPLOI_CLEA, acquired: true }),
-          domainBuilder.buildPartnerCertification({ partnerKey: PIX_DROIT_MAITRE_CERTIF, acquired: false }),
-          domainBuilder.buildPartnerCertification({
+        complementaryCertificationCourseResults: [
+          domainBuilder.buildComplementaryCertificationCourseResult({ partnerKey: PIX_EMPLOI_CLEA, acquired: true }),
+          domainBuilder.buildComplementaryCertificationCourseResult({
+            partnerKey: PIX_DROIT_MAITRE_CERTIF,
+            acquired: false,
+          }),
+          domainBuilder.buildComplementaryCertificationCourseResult({
             partnerKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
             acquired: true,
           }),

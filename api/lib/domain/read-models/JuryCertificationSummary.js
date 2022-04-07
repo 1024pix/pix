@@ -15,7 +15,7 @@ const STARTED = 'started';
 const CANCELLED = 'cancelled';
 const ENDED_BY_SUPERVISOR = 'endedBySupervisor';
 
-const partnerCertificationStatus = {
+const complementaryCertificationStatus = {
   ACQUIRED: 'acquired',
   REJECTED: 'rejected',
   NOT_TAKEN: 'not_taken',
@@ -35,7 +35,7 @@ class JuryCertificationSummary {
     isCourseCancelled,
     isEndedBySupervisor,
     hasSeenEndTestScreen,
-    partnerCertifications,
+    complementaryCertificationCourseResults,
     certificationIssueReports,
   } = {}) {
     this.id = id;
@@ -44,7 +44,7 @@ class JuryCertificationSummary {
     this.status = _getStatus(status, isCourseCancelled, isEndedBySupervisor);
     this.pixScore = pixScore;
     this.isFlaggedAborted = Boolean(abortReason) && !completedAt;
-    this.partnerCertifications = partnerCertifications;
+    this.complementaryCertificationCourseResults = complementaryCertificationCourseResults;
     this.createdAt = createdAt;
     this.completedAt = completedAt;
     this.isPublished = isPublished;
@@ -65,44 +65,46 @@ class JuryCertificationSummary {
   }
 
   getCleaCertificationStatus() {
-    return this._getStatusFromPartnerCertification([PIX_EMPLOI_CLEA, PIX_EMPLOI_CLEA_V2]);
+    return this._getStatusFromComplementaryCertification([PIX_EMPLOI_CLEA, PIX_EMPLOI_CLEA_V2]);
   }
 
   getPixPlusDroitMaitreCertificationStatus() {
-    return this._getStatusFromPartnerCertification([PIX_DROIT_MAITRE_CERTIF]);
+    return this._getStatusFromComplementaryCertification([PIX_DROIT_MAITRE_CERTIF]);
   }
 
   getPixPlusDroitExpertCertificationStatus() {
-    return this._getStatusFromPartnerCertification([PIX_DROIT_EXPERT_CERTIF]);
+    return this._getStatusFromComplementaryCertification([PIX_DROIT_EXPERT_CERTIF]);
   }
 
   getPixPlusEduInitieCertificationStatus() {
-    return this._getStatusFromPartnerCertification([PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE]);
+    return this._getStatusFromComplementaryCertification([PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE]);
   }
 
   getPixPlusEduConfirmeCertificationStatus() {
-    return this._getStatusFromPartnerCertification([
+    return this._getStatusFromComplementaryCertification([
       PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME,
       PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME,
     ]);
   }
 
   getPixPlusEduAvanceCertificationStatus() {
-    return this._getStatusFromPartnerCertification([PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE]);
+    return this._getStatusFromComplementaryCertification([PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE]);
   }
 
   getPixPlusEduExpertCertificationStatus() {
-    return this._getStatusFromPartnerCertification([PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT]);
+    return this._getStatusFromComplementaryCertification([PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT]);
   }
 
-  _getStatusFromPartnerCertification(partnerCertificationKeys) {
-    const partnerCertification = this.partnerCertifications.find(({ partnerKey }) =>
-      partnerCertificationKeys.includes(partnerKey)
+  _getStatusFromComplementaryCertification(complementaryCertificationKeys) {
+    const complementaryCertificationCourseResult = this.complementaryCertificationCourseResults.find(({ partnerKey }) =>
+      complementaryCertificationKeys.includes(partnerKey)
     );
-    if (!partnerCertification) {
-      return partnerCertificationStatus.NOT_TAKEN;
+    if (!complementaryCertificationCourseResult) {
+      return complementaryCertificationStatus.NOT_TAKEN;
     }
-    return partnerCertification.acquired ? partnerCertificationStatus.ACQUIRED : partnerCertificationStatus.REJECTED;
+    return complementaryCertificationCourseResult.acquired
+      ? complementaryCertificationStatus.ACQUIRED
+      : complementaryCertificationStatus.REJECTED;
   }
 }
 

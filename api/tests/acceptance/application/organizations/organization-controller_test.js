@@ -1598,7 +1598,7 @@ describe('Acceptance | Application | organization-controller', function () {
         area_code: '1',
         competence_code: '1.3',
         assessmentResultId: assessmentResult.id,
-        acquiredPartnerCertifications: [badge.key],
+        acquiredComplementaryCertifications: [badge.key],
       });
 
       await databaseBuilder.commit();

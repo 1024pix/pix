@@ -7,6 +7,7 @@ describe('Unit | Domain | Models | PartnerCertificationScoring', function () {
     let validArguments;
     beforeEach(function () {
       validArguments = {
+        complementaryCertificationCourseId: 999,
         certificationCourseId: 123,
         partnerKey: 'partnerKey',
       };
@@ -17,11 +18,11 @@ describe('Unit | Domain | Models | PartnerCertificationScoring', function () {
       expect(() => new PartnerCertificationScoring(validArguments)).not.to.throw(ObjectValidationError);
     });
 
-    it('should throw an ObjectValidationError when certificationCourseId is not valid', function () {
+    it('should throw an ObjectValidationError when complementaryCertificationCourseId is not valid', function () {
       // when
-      expect(() => new PartnerCertificationScoring({ ...validArguments, certificationCourseId: 'coucou' })).to.throw(
-        ObjectValidationError
-      );
+      expect(
+        () => new PartnerCertificationScoring({ ...validArguments, complementaryCertificationCourseId: 'coucou' })
+      ).to.throw(ObjectValidationError);
     });
 
     it('should not throw an ObjectValidationError when partnerKey is null', function () {
