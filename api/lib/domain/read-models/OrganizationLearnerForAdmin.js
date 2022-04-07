@@ -16,7 +16,7 @@ const validationSchema = Joi.object({
   canBeDissociated: Joi.boolean().required(),
 });
 
-class SchoolingRegistrationForAdmin {
+class OrganizationLearnerForAdmin {
   constructor({
     id,
     firstName,
@@ -48,4 +48,4 @@ class SchoolingRegistrationForAdmin {
   }
 }
 
-module.exports = SchoolingRegistrationForAdmin;
+module.exports = OrganizationLearnerForAdmin;

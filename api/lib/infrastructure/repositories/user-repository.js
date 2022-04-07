@@ -20,7 +20,7 @@ const Membership = require('../../domain/models/Membership');
 const CertificationCenter = require('../../domain/models/CertificationCenter');
 const CertificationCenterMembership = require('../../domain/models/CertificationCenterMembership');
 const Organization = require('../../domain/models/Organization');
-const SchoolingRegistrationForAdmin = require('../../domain/read-models/SchoolingRegistrationForAdmin');
+const OrganizationLearnerForAdmin = require('../../domain/read-models/OrganizationLearnerForAdmin');
 const AuthenticationMethod = require('../../domain/models/AuthenticationMethod');
 
 const PIX_MASTER_ROLE_ID = 1;
@@ -407,29 +407,29 @@ function _toUserDetailsForAdminDomain(bookshelfUser) {
     cgu: rawUserDetailsForAdmin.cgu,
     pixOrgaTermsOfServiceAccepted: rawUserDetailsForAdmin.pixOrgaTermsOfServiceAccepted,
     pixCertifTermsOfServiceAccepted: rawUserDetailsForAdmin.pixCertifTermsOfServiceAccepted,
-    schoolingRegistrations: _toSchoolingRegistrationsForAdmin(rawUserDetailsForAdmin.schoolingRegistrations),
+    schoolingRegistrations: _toOrganizationLearnersForAdmin(rawUserDetailsForAdmin.schoolingRegistrations),
     authenticationMethods: rawUserDetailsForAdmin.authenticationMethods,
   });
 }
 
-function _toSchoolingRegistrationsForAdmin(schoolingRegistrations) {
-  if (!schoolingRegistrations) {
+function _toOrganizationLearnersForAdmin(organizationLearners) {
+  if (!organizationLearners) {
     return [];
   }
-  return schoolingRegistrations.map((schoolingRegistration) => {
-    return new SchoolingRegistrationForAdmin({
-      id: schoolingRegistration.id,
-      firstName: schoolingRegistration.firstName,
-      lastName: schoolingRegistration.lastName,
-      birthdate: schoolingRegistration.birthdate,
-      division: schoolingRegistration.division,
-      group: schoolingRegistration.group,
-      organizationId: schoolingRegistration.organization.id,
-      organizationName: schoolingRegistration.organization.name,
-      createdAt: schoolingRegistration.createdAt,
-      updatedAt: schoolingRegistration.updatedAt,
-      isDisabled: schoolingRegistration.isDisabled,
-      organizationIsManagingStudents: schoolingRegistration.organization.isManagingStudents,
+  return organizationLearners.map((organizationLearner) => {
+    return new OrganizationLearnerForAdmin({
+      id: organizationLearner.id,
+      firstName: organizationLearner.firstName,
+      lastName: organizationLearner.lastName,
+      birthdate: organizationLearner.birthdate,
+      division: organizationLearner.division,
+      group: organizationLearner.group,
+      organizationId: organizationLearner.organization.id,
+      organizationName: organizationLearner.organization.name,
+      createdAt: organizationLearner.createdAt,
+      updatedAt: organizationLearner.updatedAt,
+      isDisabled: organizationLearner.isDisabled,
+      organizationIsManagingStudents: organizationLearner.organization.isManagingStudents,
     });
   });
 }
