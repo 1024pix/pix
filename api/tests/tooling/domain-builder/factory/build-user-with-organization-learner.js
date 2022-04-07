@@ -1,6 +1,6 @@
 const UserWithSchoolingRegistration = require('../../../../lib/domain/models/UserWithSchoolingRegistration');
 
-module.exports = function buildUserWithSchoolingRegistration({
+module.exports = function buildUserWithOrganizationLearner({
   lastName = 'jeanne',
   firstName = 'serge',
   birthdate = '2001-05-07',
