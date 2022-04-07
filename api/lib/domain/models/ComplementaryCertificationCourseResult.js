@@ -1,4 +1,4 @@
-class PartnerCertification {
+class ComplementaryCertificationCourseResult {
   constructor({ certificationCourseId, partnerKey, acquired } = {}) {
     this.certificationCourseId = certificationCourseId;
     this.partnerKey = partnerKey;
@@ -6,8 +6,8 @@ class PartnerCertification {
   }
 
   static from({ certificationCourseId, partnerKey, acquired }) {
-    return new PartnerCertification({ certificationCourseId, partnerKey, acquired });
+    return new ComplementaryCertificationCourseResult({ certificationCourseId, partnerKey, acquired });
   }
 }
 
-module.exports = PartnerCertification;
+module.exports = ComplementaryCertificationCourseResult;

@@ -547,7 +547,7 @@ describe('Integration | Infrastructure | Repository | Shareable Certificate', fu
 
         const otherCertificateId = databaseBuilder.factory.buildCertificationCourse().id;
         databaseBuilder.factory.buildBadge({ key: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE });
-        databaseBuilder.factory.buildPartnerCertification({
+        databaseBuilder.factory.buildComplementaryCertificationCourseResult({
           certificationCourseId: otherCertificateId,
           temporaryPartnerKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
           acquired: true,
@@ -648,16 +648,22 @@ async function _buildValidShareableCertificateWithAcquiredAndNotAcquiredBadges({
 
   [...acquiredBadges, 'should_be_ignored'].forEach((badgeKey) => {
     databaseBuilder.factory.buildBadge({ key: badgeKey });
-    databaseBuilder.factory.buildPartnerCertification({
+    const { id: complementaryCertificationCourseId } = databaseBuilder.factory.buildComplementaryCertificationCourse({
       certificationCourseId: certificateId,
+    });
+    databaseBuilder.factory.buildComplementaryCertificationCourseResult({
+      complementaryCertificationCourseId,
       partnerKey: badgeKey,
       acquired: true,
     });
   });
   temporaryAcquiredBadges?.forEach((badgeKey) => {
     databaseBuilder.factory.buildBadge({ key: badgeKey });
-    databaseBuilder.factory.buildPartnerCertification({
+    const { id: complementaryCertificationCourseId } = databaseBuilder.factory.buildComplementaryCertificationCourse({
       certificationCourseId: certificateId,
+    });
+    databaseBuilder.factory.buildComplementaryCertificationCourseResult({
+      complementaryCertificationCourseId,
       temporaryPartnerKey: badgeKey,
       acquired: true,
     });
@@ -665,8 +671,11 @@ async function _buildValidShareableCertificateWithAcquiredAndNotAcquiredBadges({
 
   notAcquiredBadges.forEach((badgeKey) => {
     databaseBuilder.factory.buildBadge({ key: badgeKey });
-    databaseBuilder.factory.buildPartnerCertification({
+    const { id: complementaryCertificationCourseId } = databaseBuilder.factory.buildComplementaryCertificationCourse({
       certificationCourseId: certificateId,
+    });
+    databaseBuilder.factory.buildComplementaryCertificationCourseResult({
+      complementaryCertificationCourseId,
       partnerKey: badgeKey,
       acquired: false,
     });

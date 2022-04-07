@@ -42,7 +42,7 @@ describe('Integration | Infrastructure | Utils | csv | certification-results', f
           pixScore: 55,
           commentForOrganization: 'RAS',
           competencesWithMark: competencesWithMark1,
-          partnerCertifications: [],
+          complementaryCertificationCourseResults: [],
         });
         const certifResult2 = domainBuilder.buildCertificationResult.rejected({
           id: 456,
@@ -55,7 +55,7 @@ describe('Integration | Infrastructure | Utils | csv | certification-results', f
           pixScore: 66,
           commentForOrganization: null,
           competencesWithMark: competencesWithMark2,
-          partnerCertifications: [],
+          complementaryCertificationCourseResults: [],
         });
         const certificationResults = [certifResult1, certifResult2];
 
@@ -91,7 +91,7 @@ describe('Integration | Infrastructure | Utils | csv | certification-results', f
           pixScore: 55,
           commentForOrganization: 'RAS',
           competencesWithMark: competencesWithMark,
-          partnerCertifications: [],
+          complementaryCertificationCourseResults: [],
         });
 
         const certificationResults = [certifResult];
@@ -127,7 +127,7 @@ describe('Integration | Infrastructure | Utils | csv | certification-results', f
           pixScore: 55,
           commentForOrganization: 'RAS',
           competencesWithMark: competencesWithMark,
-          partnerCertifications: [],
+          complementaryCertificationCourseResults: [],
         });
 
         const certificationResults = [certifResult];
@@ -179,7 +179,9 @@ describe('Integration | Infrastructure | Utils | csv | certification-results', f
             pixScore: 55,
             commentForOrganization: 'RAS',
             competencesWithMark: competencesWithMark,
-            partnerCertifications: [domainBuilder.buildPartnerCertification({ partnerKey, acquired: true })],
+            complementaryCertificationCourseResults: [
+              domainBuilder.buildComplementaryCertificationCourseResult({ partnerKey, acquired: true }),
+            ],
           });
 
           const certificationResults = [certifResult];
@@ -213,7 +215,9 @@ describe('Integration | Infrastructure | Utils | csv | certification-results', f
             pixScore: 55,
             commentForOrganization: 'RAS',
             competencesWithMark: competencesWithMark,
-            partnerCertifications: [domainBuilder.buildPartnerCertification({ partnerKey, acquired: true })],
+            complementaryCertificationCourseResults: [
+              domainBuilder.buildComplementaryCertificationCourseResult({ partnerKey, acquired: true }),
+            ],
           });
 
           const certificationResults = [certifResult];
@@ -250,23 +254,29 @@ describe('Integration | Infrastructure | Utils | csv | certification-results', f
           pixScore: 55,
           commentForOrganization: 'RAS',
           competencesWithMark: competencesWithMark,
-          partnerCertifications: [
-            domainBuilder.buildPartnerCertification({ partnerKey: PIX_EMPLOI_CLEA, acquired: true }),
-            domainBuilder.buildPartnerCertification({ partnerKey: PIX_DROIT_MAITRE_CERTIF, acquired: false }),
-            domainBuilder.buildPartnerCertification({ partnerKey: PIX_DROIT_EXPERT_CERTIF, acquired: true }),
-            domainBuilder.buildPartnerCertification({
+          complementaryCertificationCourseResults: [
+            domainBuilder.buildComplementaryCertificationCourseResult({ partnerKey: PIX_EMPLOI_CLEA, acquired: true }),
+            domainBuilder.buildComplementaryCertificationCourseResult({
+              partnerKey: PIX_DROIT_MAITRE_CERTIF,
+              acquired: false,
+            }),
+            domainBuilder.buildComplementaryCertificationCourseResult({
+              partnerKey: PIX_DROIT_EXPERT_CERTIF,
+              acquired: true,
+            }),
+            domainBuilder.buildComplementaryCertificationCourseResult({
               partnerKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
               acquired: true,
             }),
-            domainBuilder.buildPartnerCertification({
+            domainBuilder.buildComplementaryCertificationCourseResult({
               partnerKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME,
               acquired: false,
             }),
-            domainBuilder.buildPartnerCertification({
+            domainBuilder.buildComplementaryCertificationCourseResult({
               partnerKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
               acquired: true,
             }),
-            domainBuilder.buildPartnerCertification({
+            domainBuilder.buildComplementaryCertificationCourseResult({
               partnerKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
               acquired: false,
             }),
@@ -316,7 +326,7 @@ describe('Integration | Infrastructure | Utils | csv | certification-results', f
           commentForOrganization: 'RAS',
           competencesWithMark: competencesWithMark1,
           sessionId: 777,
-          partnerCertifications: [],
+          complementaryCertificationCourseResults: [],
         });
         const certifResult2 = domainBuilder.buildCertificationResult.rejected({
           id: 456,
@@ -330,7 +340,7 @@ describe('Integration | Infrastructure | Utils | csv | certification-results', f
           sessionId: 777,
           commentForOrganization: null,
           competencesWithMark: competencesWithMark2,
-          partnerCertifications: [],
+          complementaryCertificationCourseResults: [],
         });
         const certificationResults = [certifResult1, certifResult2];
 
@@ -366,7 +376,7 @@ describe('Integration | Infrastructure | Utils | csv | certification-results', f
           sessionId: 777,
           commentForOrganization: 'RAS',
           competencesWithMark: competencesWithMark,
-          partnerCertifications: [],
+          complementaryCertificationCourseResults: [],
         });
 
         const certificationResults = [certifResult];

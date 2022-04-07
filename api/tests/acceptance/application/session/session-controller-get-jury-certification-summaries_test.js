@@ -1,6 +1,7 @@
 const { expect, databaseBuilder, generateValidRequestAuthorizationHeader } = require('../../../test-helper');
 const createServer = require('../../../../server');
 const Badge = require('../../../../lib/domain/models/Badge');
+const { CLEA } = require('../../../../lib/domain/models/ComplementaryCertification');
 
 describe('Acceptance | Controller | session-controller-get-jury-certification-summaries', function () {
   let server;
@@ -56,7 +57,12 @@ describe('Acceptance | Controller | session-controller-get-jury-certification-su
         const badge = dbf.buildBadge({ key: Badge.keys.PIX_EMPLOI_CLEA });
 
         certif1 = dbf.buildCertificationCourse({ sessionId, lastName: 'AAA' });
-        dbf.buildPartnerCertification({ certificationCourseId: certif1.id, partnerKey: badge.key, acquired: true });
+        const { id } = dbf.buildComplementaryCertificationCourse({ certificationCourseId: certif1.id, name: CLEA });
+        dbf.buildComplementaryCertificationCourseResult({
+          complementaryCertificationCourseId: id,
+          partnerKey: badge.key,
+          acquired: true,
+        });
         const assessmentId1 = dbf.buildAssessment({ certificationCourseId: certif1.id }).id;
         asr1 = dbf.buildAssessmentResult({ assessmentId: assessmentId1, createdAt: new Date('2018-04-15T00:00:00Z') });
 

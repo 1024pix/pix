@@ -1,10 +1,10 @@
 const { knex } = require('../bookshelf');
 
 module.exports = {
-  async hasComplementaryCertification({ certificationCourseId, complementaryCertificationName }) {
+  async getComplementaryCertificationCourseId({ certificationCourseId, complementaryCertificationName }) {
     const result = await knex
       .from('complementary-certification-courses')
-      .select(1)
+      .select('complementary-certification-courses.id')
       .innerJoin(
         'complementary-certifications',
         'complementary-certifications.id',
@@ -13,6 +13,6 @@ module.exports = {
       .where({ certificationCourseId, name: complementaryCertificationName })
       .first();
 
-    return Boolean(result);
+    return result?.id;
   },
 };

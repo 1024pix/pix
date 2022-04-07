@@ -63,7 +63,7 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
         deliveredAt: new Date('2021-05-05'),
         certificationCenter: 'Centre des poules bien dodues',
         pixScore: 51,
-        acquiredPartnerCertifications: [],
+        acquiredComplementaryCertifications: [],
         sessionId: 789,
       };
       await _buildIncomplete(certificationAttestationData);
@@ -92,7 +92,7 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
         deliveredAt: new Date('2021-05-05'),
         certificationCenter: 'Centre des poules bien dodues',
         pixScore: 51,
-        acquiredPartnerCertifications: [],
+        acquiredComplementaryCertifications: [],
         sessionId: 789,
       };
       await _buildCancelled(certificationAttestationData);
@@ -121,7 +121,7 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
         deliveredAt: new Date('2021-05-05'),
         certificationCenter: 'Centre des poules bien dodues',
         pixScore: 51,
-        acquiredPartnerCertifications: [],
+        acquiredComplementaryCertifications: [],
         sessionId: 789,
       };
       await _buildValidCertificationAttestation(certificationAttestationData);
@@ -150,7 +150,7 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
         deliveredAt: new Date('2021-05-05'),
         certificationCenter: 'Centre des poules bien dodues',
         pixScore: 51,
-        acquiredPartnerCertifications: [],
+        acquiredComplementaryCertifications: [],
         sessionId: 789,
       };
       await _buildRejected(certificationAttestationData);
@@ -183,7 +183,7 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
         deliveredAt: new Date('2021-05-05'),
         certificationCenter: 'Centre des poules bien dodues',
         pixScore: 51,
-        acquiredPartnerCertifications: [],
+        acquiredComplementaryCertifications: [],
         sessionId: 789,
       };
       await _buildValidCertificationAttestation(certificationAttestationData);
@@ -216,7 +216,7 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
         deliveredAt: new Date('2021-05-05'),
         certificationCenter: 'Centre des poules bien dodues',
         pixScore: 51,
-        acquiredPartnerCertifications: [],
+        acquiredComplementaryCertifications: [],
         sessionId: 789,
       };
 
@@ -296,7 +296,7 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
         deliveredAt: new Date('2021-05-05'),
         certificationCenter: 'Centre des poules bien dodues',
         pixScore: 51,
-        acquiredPartnerCertifications: [],
+        acquiredComplementaryCertifications: [],
         sessionId: 789,
       };
       await _buildValidCertificationAttestationWithSeveralResults(certificationAttestationData);
@@ -345,19 +345,23 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
             deliveredAt: new Date('2021-05-05'),
             certificationCenter: 'Centre des poules bien dodues',
             pixScore: 51,
-            acquiredPartnerCertifications: [{ partnerKey: badgeKey, temporaryPartnerKey: null }],
+            acquiredComplementaryCertifications: [{ partnerKey: badgeKey, temporaryPartnerKey: null }],
             sessionId: 789,
           };
           await _buildValidCertificationAttestation(certificationAttestationData);
           databaseBuilder.factory.buildBadge({ key: badgeKey });
           databaseBuilder.factory.buildBadge({ key: 'some-other-badge-e' });
-          databaseBuilder.factory.buildPartnerCertification({
+          databaseBuilder.factory.buildComplementaryCertificationCourse({
+            id: 998,
             certificationCourseId: 123,
+          });
+          databaseBuilder.factory.buildComplementaryCertificationCourseResult({
+            complementaryCertificationCourseId: 998,
             partnerKey: badgeKey,
             acquired: true,
           });
-          databaseBuilder.factory.buildPartnerCertification({
-            certificationCourseId: 123,
+          databaseBuilder.factory.buildComplementaryCertificationCourseResult({
+            complementaryCertificationCourseId: 998,
             partnerKey: 'some-other-badge-e',
             acquired: true,
           });
@@ -382,11 +386,11 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
         mockLearningContent(learningContentObjects);
         const certificationAttestationData = {
           id: 123,
-          acquiredPartnerCertifications: [{ partnerKey: PIX_DROIT_EXPERT_CERTIF, temporaryPartnerKey: null }],
+          acquiredComplementaryCertifications: [{ partnerKey: PIX_DROIT_EXPERT_CERTIF, temporaryPartnerKey: null }],
         };
         const certificationAttestationData2 = {
           id: 124,
-          acquiredPartnerCertifications: [
+          acquiredComplementaryCertifications: [
             { partnerKey: null, temporaryPartnerKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE },
           ],
         };
@@ -395,14 +399,23 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
         await _buildValidCertificationAttestation(certificationAttestationData);
         await _buildValidCertificationAttestation(certificationAttestationData2);
 
-        databaseBuilder.factory.buildPartnerCertification({
+        databaseBuilder.factory.buildComplementaryCertificationCourse({
+          id: 998,
           certificationCourseId: 123,
+        });
+
+        databaseBuilder.factory.buildComplementaryCertificationCourseResult({
+          complementaryCertificationCourseId: 998,
           partnerKey: PIX_DROIT_EXPERT_CERTIF,
           acquired: true,
         });
 
-        databaseBuilder.factory.buildPartnerCertification({
+        databaseBuilder.factory.buildComplementaryCertificationCourse({
+          id: 999,
           certificationCourseId: 124,
+        });
+        databaseBuilder.factory.buildComplementaryCertificationCourseResult({
+          complementaryCertificationCourseId: 999,
           temporaryPartnerKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
           acquired: true,
         });
@@ -412,7 +425,7 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
         const certificationAttestation = await certificationAttestationRepository.get(123);
 
         // then
-        expect(certificationAttestation.acquiredPartnerCertifications).to.deep.equals([
+        expect(certificationAttestation.acquiredComplementaryCertifications).to.deep.equals([
           { partnerKey: PIX_DROIT_EXPERT_CERTIF, temporaryPartnerKey: null },
         ]);
       });
@@ -436,7 +449,7 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
         deliveredAt: new Date('2021-05-05'),
         certificationCenter: 'Centre des poules bien dodues',
         pixScore: 51,
-        acquiredPartnerCertifications: [{ partnerKey: PIX_DROIT_MAITRE_CERTIF, temporaryPartnerKey: null }],
+        acquiredComplementaryCertifications: [{ partnerKey: PIX_DROIT_MAITRE_CERTIF, temporaryPartnerKey: null }],
         sessionId: 789,
       };
       await _buildValidCertificationAttestation(certificationAttestationData);
@@ -1276,8 +1289,12 @@ async function _buildValidCertificationAttestationWithSeveralResults(certificati
 async function _buildCleaResult({ certificationCourseId, acquired, cleaBadgeKey }) {
   databaseBuilder.factory.buildBadge({ key: cleaBadgeKey });
   databaseBuilder.factory.buildBadge({ key: 'some-other-badge-c' });
-  databaseBuilder.factory.buildPartnerCertification({ certificationCourseId, partnerKey: cleaBadgeKey, acquired });
-  databaseBuilder.factory.buildPartnerCertification({
+  databaseBuilder.factory.buildComplementaryCertificationCourseResult({
+    certificationCourseId,
+    partnerKey: cleaBadgeKey,
+    acquired,
+  });
+  databaseBuilder.factory.buildComplementaryCertificationCourseResult({
     certificationCourseId,
     partnerKey: 'some-other-badge-c',
     acquired: true,
@@ -1288,13 +1305,17 @@ async function _buildCleaResult({ certificationCourseId, acquired, cleaBadgeKey 
 async function _buildPixPlusDroitMaitreResult({ certificationCourseId, acquired }) {
   databaseBuilder.factory.buildBadge({ key: PIX_DROIT_MAITRE_CERTIF });
   databaseBuilder.factory.buildBadge({ key: 'some-other-badge-m' });
-  databaseBuilder.factory.buildPartnerCertification({
+  databaseBuilder.factory.buildComplementaryCertificationCourse({
+    id: 998,
     certificationCourseId,
+  });
+  databaseBuilder.factory.buildComplementaryCertificationCourseResult({
+    complementaryCertificationCourseId: 998,
     partnerKey: PIX_DROIT_MAITRE_CERTIF,
     acquired,
   });
-  databaseBuilder.factory.buildPartnerCertification({
-    certificationCourseId,
+  databaseBuilder.factory.buildComplementaryCertificationCourseResult({
+    complementaryCertificationCourseId: 998,
     partnerKey: 'some-other-badge-m',
     acquired: true,
   });

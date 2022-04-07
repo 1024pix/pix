@@ -19,6 +19,7 @@ const AGRI_SCO_MANAGING_STUDENT_ID = 9;
 const AGRI_SCO_MANAGING_STUDENT_NAME = 'Centre AGRI des Anne-Etoiles';
 const CLEA_COMPLEMENTARY_CERTIFICATION_ID = 52;
 const PIX_DROIT_COMPLEMENTARY_CERTIFICATION_ID = 53;
+const PIX_EDU_COMPLEMENTARY_CERTIFICATION_ID = 54;
 
 const { PIX_EMPLOI_CLEA_BADGE_ID, PIX_DROIT_MAITRE_BADGE_ID, PIX_DROIT_EXPERT_BADGE_ID } = require('../badges-builder');
 
@@ -36,6 +37,12 @@ function certificationCentersBuilder({ databaseBuilder }) {
     name: 'Pix+ Droit',
     id: PIX_DROIT_COMPLEMENTARY_CERTIFICATION_ID,
   });
+
+  databaseBuilder.factory.buildComplementaryCertification({
+    name: 'Pix+ Édu',
+    id: PIX_EDU_COMPLEMENTARY_CERTIFICATION_ID,
+  });
+
   databaseBuilder.factory.buildComplementaryCertificationBadge({
     badgeId: PIX_DROIT_MAITRE_BADGE_ID,
     complementaryCertificationId: PIX_DROIT_COMPLEMENTARY_CERTIFICATION_ID,

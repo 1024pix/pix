@@ -43,14 +43,20 @@ describe('Unit | Serializer | JSONAPI | jury-certification-serializer', function
         commentForJury: 'ça va',
         competenceMarks,
         certificationIssueReports,
-        partnerCertifications: [
-          domainBuilder.buildPartnerCertification({ partnerKey: PIX_DROIT_MAITRE_CERTIF, acquired: true }),
-          domainBuilder.buildPartnerCertification({ partnerKey: PIX_DROIT_EXPERT_CERTIF, acquired: false }),
-          domainBuilder.buildPartnerCertification({
+        complementaryCertificationCourseResults: [
+          domainBuilder.buildComplementaryCertificationCourseResult({
+            partnerKey: PIX_DROIT_MAITRE_CERTIF,
+            acquired: true,
+          }),
+          domainBuilder.buildComplementaryCertificationCourseResult({
+            partnerKey: PIX_DROIT_EXPERT_CERTIF,
+            acquired: false,
+          }),
+          domainBuilder.buildComplementaryCertificationCourseResult({
             partnerKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME,
             acquired: true,
           }),
-          domainBuilder.buildPartnerCertification({
+          domainBuilder.buildComplementaryCertificationCourseResult({
             partnerKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
             acquired: false,
           }),

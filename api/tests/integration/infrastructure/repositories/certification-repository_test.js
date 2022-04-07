@@ -51,7 +51,7 @@ describe('Integration | Repository | Certification ', function () {
   });
 
   afterEach(async function () {
-    await knex('partner-certifications').delete();
+    await knex('complementary-certification-course-results').delete();
     await knex('assessment-results').delete();
     await knex('assessments').delete();
     await knex('certification-courses').delete();

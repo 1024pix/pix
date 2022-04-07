@@ -1,9 +1,14 @@
 const PartnerCertificationScoring = require('./PartnerCertificationScoring');
 
 class PixPlusEduCertificationScoring extends PartnerCertificationScoring {
-  constructor({ certificationCourseId, certifiableBadgeKey, reproducibilityRate, hasAcquiredPixCertification } = {}) {
+  constructor({
+    complementaryCertificationCourseId,
+    certifiableBadgeKey,
+    reproducibilityRate,
+    hasAcquiredPixCertification,
+  } = {}) {
     super({
-      certificationCourseId,
+      complementaryCertificationCourseId,
       partnerKey: null,
       temporaryPartnerKey: certifiableBadgeKey,
     });

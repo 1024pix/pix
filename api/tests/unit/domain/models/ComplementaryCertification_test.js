@@ -57,4 +57,32 @@ describe('Unit | Domain | Models | ComplementaryCertification', function () {
       expect(isPixPlusDroit).to.be.false;
     });
   });
+
+  describe('#isPixPlusEdu', function () {
+    it('should return true id name equals Pix+ Édu', function () {
+      // given
+      const complementaryCertification = domainBuilder.buildComplementaryCertification({
+        name: ComplementaryCertification.PIX_PLUS_EDU,
+      });
+
+      // when
+      const isPixPlusEdu = complementaryCertification.isPixPlusEdu();
+
+      // then
+      expect(isPixPlusEdu).to.be.true;
+    });
+
+    it('should return false otherwise', function () {
+      // given
+      const complementaryCertification = domainBuilder.buildComplementaryCertification({
+        name: 'Not pix+ Édu',
+      });
+
+      // when
+      const isPixPlusEdu = complementaryCertification.isPixPlusEdu();
+
+      // then
+      expect(isPixPlusEdu).to.be.false;
+    });
+  });
 });
