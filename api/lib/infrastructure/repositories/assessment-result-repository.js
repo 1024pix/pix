@@ -10,6 +10,10 @@ const CompetenceMark = require('../../domain/models/CompetenceMark');
 function _toDomain({ assessmentResultDTO, competencesMarksDTO }) {
   const competenceMarks = competencesMarksDTO.map((competenceMark) => new CompetenceMark(competenceMark));
 
+  // TODO : Aceol ! You can do better than this !
+  const cleanReproducibilityRate = assessmentResultDTO.reproducibilityRate
+    ? _.toNumber(assessmentResultDTO.reproducibilityRate)
+    : null;
   return new AssessmentResult({
     id: assessmentResultDTO.id,
     assessmentId: assessmentResultDTO.assessmentId,
@@ -21,6 +25,7 @@ function _toDomain({ assessmentResultDTO, competencesMarksDTO }) {
     emitter: assessmentResultDTO.emitter,
     juryId: assessmentResultDTO.juryId,
     pixScore: assessmentResultDTO.pixScore,
+    reproducibilityRate: cleanReproducibilityRate,
     competenceMarks: competenceMarks,
   });
 }
@@ -29,6 +34,7 @@ module.exports = {
   async save(
     {
       pixScore,
+      reproducibilityRate,
       status,
       emitter,
       commentForJury,
@@ -46,6 +52,7 @@ module.exports = {
     try {
       const savedAssessmentResultBookshelf = await new BookshelfAssessmentResult({
         pixScore,
+        reproducibilityRate,
         status,
         emitter,
         commentForJury,
