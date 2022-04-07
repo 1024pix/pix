@@ -34,6 +34,7 @@ const schema = Joi.object({
   POLE_EMPLOI_TOKEN_URL: Joi.string().uri().optional(),
   POLE_EMPLOI_SENDING_URL: Joi.string().uri().optional(),
   CONTAINER_VERSION: Joi.string().optional(),
+  FORCE_DROP_DATABASE: Joi.string().optional().valid('true', 'false'),
 }).options({ allowUnknown: true });
 
 const validateEnvironmentVariables = function () {
