@@ -84,6 +84,25 @@ exports.register = async function (server) {
       },
     },
     {
+      method: 'DELETE',
+      path: '/api/campaigns/{id}/campaign-participations/{campaignParticipationId}',
+      config: {
+        pre: [{ method: securityPreHandlers.checkAuthorizationToManageCampaign }],
+        validate: {
+          params: Joi.object({
+            id: identifiersType.campaignId,
+            campaignParticipationId: identifiersType.campaignParticipationId,
+          }),
+        },
+        handler: campaignParticipationController.deleteParticipation,
+        notes: [
+          "- **Cette route est restreinte aux utilisateurs authentifiés, administrateurs de l'espace Pix Orga ou gestionnaire de la campagne**\n" +
+            '-Permet de supprimer une campaigne participation',
+        ],
+        tags: ['api', 'campaign-participation'],
+      },
+    },
+    {
       method: 'GET',
       path: '/api/campaigns/{campaignId}/profiles-collection-participations/{campaignParticipationId}',
       config: {
