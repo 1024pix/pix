@@ -1,12 +1,12 @@
 const { expect } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/user-with-schooling-registration-serializer');
-const UserWithSchoolingRegistration = require('../../../../../lib/domain/models/UserWithSchoolingRegistration');
+const UserWithOrganizationLearner = require('../../../../../lib/domain/models/UserWithOrganizationLearner');
 
 describe('Unit | Serializer | JSONAPI | UserWithSchoolingRegistration-serializer', function () {
   describe('#serialize', function () {
-    it('should convert a UserWithSchoolingRegistration model object into JSON API data', function () {
+    it('should convert a UserWithOrganizationLearner model object into JSON API data', function () {
       // given
-      const userWithSchoolingRegistration = new UserWithSchoolingRegistration({
+      const userWithOrganizationLearner = new UserWithOrganizationLearner({
         id: 5,
         firstName: 'John',
         lastName: 'Doe',
@@ -20,30 +20,30 @@ describe('Unit | Serializer | JSONAPI | UserWithSchoolingRegistration-serializer
         group: 'AB1',
       });
 
-      const expectedSerializedUserWithSchoolingRegistration = {
+      const expectedSerializedUserWithOrganizationLearner = {
         data: {
           type: 'students',
           id: '5',
           attributes: {
-            'first-name': userWithSchoolingRegistration.firstName,
-            'last-name': userWithSchoolingRegistration.lastName,
-            birthdate: userWithSchoolingRegistration.birthdate,
-            username: userWithSchoolingRegistration.username,
-            'user-id': userWithSchoolingRegistration.userId,
-            email: userWithSchoolingRegistration.email,
+            'first-name': userWithOrganizationLearner.firstName,
+            'last-name': userWithOrganizationLearner.lastName,
+            birthdate: userWithOrganizationLearner.birthdate,
+            username: userWithOrganizationLearner.username,
+            'user-id': userWithOrganizationLearner.userId,
+            email: userWithOrganizationLearner.email,
             'is-authenticated-from-gar': false,
-            'student-number': userWithSchoolingRegistration.studentNumber,
-            division: userWithSchoolingRegistration.division,
-            group: userWithSchoolingRegistration.group,
+            'student-number': userWithOrganizationLearner.studentNumber,
+            division: userWithOrganizationLearner.division,
+            group: userWithOrganizationLearner.group,
           },
         },
       };
 
       // when
-      const json = serializer.serialize(userWithSchoolingRegistration);
+      const json = serializer.serialize(userWithOrganizationLearner);
 
       // then
-      expect(json).to.deep.equal(expectedSerializedUserWithSchoolingRegistration);
+      expect(json).to.deep.equal(expectedSerializedUserWithOrganizationLearner);
     });
   });
 });
