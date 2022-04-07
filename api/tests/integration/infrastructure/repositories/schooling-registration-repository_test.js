@@ -3,7 +3,7 @@ const _ = require('lodash');
 const { expect, domainBuilder, databaseBuilder, knex, catchErr } = require('../../../test-helper');
 
 const OrganizationLearner = require('../../../../lib/domain/models/OrganizationLearner');
-const UserWithSchoolingRegistration = require('../../../../lib/domain/models/UserWithSchoolingRegistration');
+const UserWithOrganizationLearner = require('../../../../lib/domain/models/UserWithOrganizationLearner');
 const OrganizationLearnerForAdmin = require('../../../../lib/domain/read-models/OrganizationLearnerForAdmin');
 
 const {
@@ -1772,7 +1772,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
   });
 
   describe('#findPaginatedFilteredSchoolingRegistrations', function () {
-    it('should return instances of UserWithSchoolingRegistration', async function () {
+    it('should return instances of UserWithOrganizationLearner', async function () {
       // given
       const organization = databaseBuilder.factory.buildOrganization();
       databaseBuilder.factory.buildOrganizationLearner({
@@ -1787,10 +1787,10 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
       });
 
       // then
-      expect(data[0]).to.be.an.instanceOf(UserWithSchoolingRegistration);
+      expect(data[0]).to.be.an.instanceOf(UserWithOrganizationLearner);
     });
 
-    it('should return all the UserWithSchoolingRegistration for a given organization ID', async function () {
+    it('should return all the UserWithOrganizationLearner for a given organization ID', async function () {
       // given
       const organization_1 = databaseBuilder.factory.buildOrganization();
       const organization_2 = databaseBuilder.factory.buildOrganization();
@@ -2172,7 +2172,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
           organizationId: organization.id,
           userId: user.id,
         });
-        const expectedUserWithSchoolingRegistration = new UserWithSchoolingRegistration({
+        const expectedUserWithOrganizationLearner = new UserWithOrganizationLearner({
           id: organizationLearner.id,
           firstName: organizationLearner.firstName,
           lastName: organizationLearner.lastName,
@@ -2194,7 +2194,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
         });
 
         // then
-        expect(data[0]).to.deep.equal(expectedUserWithSchoolingRegistration);
+        expect(data[0]).to.deep.equal(expectedUserWithOrganizationLearner);
       });
     });
 
@@ -2215,7 +2215,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
           organizationId: organization.id,
           userId: user.id,
         });
-        const expectedUserWithSchoolingRegistration = new UserWithSchoolingRegistration({
+        const expectedUserWithOrganizationLearner = new UserWithOrganizationLearner({
           id: organizationLearner.id,
           firstName: organizationLearner.firstName,
           lastName: organizationLearner.lastName,
@@ -2237,7 +2237,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
         });
 
         // then
-        expect(data[0]).to.deep.equal(expectedUserWithSchoolingRegistration);
+        expect(data[0]).to.deep.equal(expectedUserWithOrganizationLearner);
       });
     });
 
@@ -2250,7 +2250,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
           userId: null,
         });
 
-        const expectedUserWithSchoolingRegistration = new UserWithSchoolingRegistration({
+        const expectedUserWithOrganizationLearner = new UserWithOrganizationLearner({
           id: organizationLearner.id,
           firstName: organizationLearner.firstName,
           lastName: organizationLearner.lastName,
@@ -2272,7 +2272,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
         });
 
         // then
-        expect(data[0]).to.deep.equal(expectedUserWithSchoolingRegistration);
+        expect(data[0]).to.deep.equal(expectedUserWithOrganizationLearner);
       });
     });
   });

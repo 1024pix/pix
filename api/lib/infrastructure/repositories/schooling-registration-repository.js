@@ -8,7 +8,7 @@ const {
   UserNotFoundError,
 } = require('../../domain/errors');
 
-const UserWithSchoolingRegistration = require('../../domain/models/UserWithSchoolingRegistration');
+const UserWithOrganizationLearner = require('../../domain/models/UserWithOrganizationLearner');
 const AuthenticationMethod = require('../../domain/models/AuthenticationMethod');
 const OrganizationLearner = require('../../domain/models/OrganizationLearner');
 const OrganizationLearnerForAdmin = require('../../domain/read-models/OrganizationLearnerForAdmin');
@@ -21,12 +21,12 @@ const BookshelfOrganizationLearner = require('../orm-models/OrganizationLearner'
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
 const DomainTransaction = require('../DomainTransaction');
 
-function _toUserWithSchoolingRegistrationDTO(BookshelfOrganizationLearner) {
-  const rawUserWithSchoolingRegistration = BookshelfOrganizationLearner.toJSON();
+function _toUserWithOrganizationLearnerDTO(BookshelfOrganizationLearner) {
+  const rawUserWithOrganizationLearner = BookshelfOrganizationLearner.toJSON();
 
-  return new UserWithSchoolingRegistration({
-    ...rawUserWithSchoolingRegistration,
-    isAuthenticatedFromGAR: !!rawUserWithSchoolingRegistration.samlId,
+  return new UserWithOrganizationLearner({
+    ...rawUserWithOrganizationLearner,
+    isAuthenticatedFromGAR: !!rawUserWithOrganizationLearner.samlId,
   });
 }
 
@@ -358,7 +358,7 @@ module.exports = {
       });
 
     return {
-      data: models.map(_toUserWithSchoolingRegistrationDTO),
+      data: models.map(_toUserWithOrganizationLearnerDTO),
       pagination,
     };
   },
