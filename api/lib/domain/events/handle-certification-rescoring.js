@@ -105,6 +105,7 @@ async function _saveAssessmentResult(
   if (!certificationAssessmentScore.hasEnoughNonNeutralizedChallengesToBeTrusted) {
     assessmentResult = AssessmentResult.buildNotTrustableAssessmentResult({
       pixScore: certificationAssessmentScore.nbPix,
+      reproducibilityRate: certificationAssessmentScore.getPercentageCorrectAnswers(),
       status: certificationAssessmentScore.status,
       assessmentId: certificationAssessment.id,
       emitter: EMITTER,
@@ -113,6 +114,7 @@ async function _saveAssessmentResult(
   } else {
     assessmentResult = AssessmentResult.buildStandardAssessmentResult({
       pixScore: certificationAssessmentScore.nbPix,
+      reproducibilityRate: certificationAssessmentScore.getPercentageCorrectAnswers(),
       status: certificationAssessmentScore.status,
       assessmentId: certificationAssessment.id,
       emitter: EMITTER,
