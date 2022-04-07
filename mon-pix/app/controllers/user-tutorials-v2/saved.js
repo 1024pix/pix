@@ -1,4 +1,5 @@
 import Controller from '@ember/controller';
+import { action } from '@ember/object';
 
 export default class SavedController extends Controller {
   pageOptions = [
@@ -8,7 +9,8 @@ export default class SavedController extends Controller {
     { label: '100', value: 100 },
   ];
 
-  unloadRecord(tutorial) {
-    return tutorial.unloadRecord();
+  @action
+  refresh() {
+    this.send('refreshModel');
   }
 }

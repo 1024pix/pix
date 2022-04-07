@@ -1,6 +1,6 @@
 {{#if @model}}
   <div class="user-tutorials-content-v2__container">
-    <Tutorials::Cards @tutorials={{@model}} @afterRemove={{this.unloadRecord}} />
+    <Tutorials::Cards @tutorials={{@model}} @afterRemove={{this.refresh}} />
     <PixPagination @pagination={{@model.meta}} @pageOptions={{this.pageOptions}} />
   </div>
 {{else}}
