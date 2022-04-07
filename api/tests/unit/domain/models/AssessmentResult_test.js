@@ -26,6 +26,7 @@ describe('Unit | Domain | Models | AssessmentResult', function () {
         commentForJury: 'message for jury',
         status: AssessmentResult.status.ERROR,
         pixScore: 0,
+        reproducibilityRate: 0,
         competenceMarks: [],
       });
       expectedAssessmentResult.id = undefined;
@@ -41,6 +42,7 @@ describe('Unit | Domain | Models | AssessmentResult', function () {
       // when
       const actualAssessmentResult = AssessmentResult.buildStandardAssessmentResult({
         pixScore: 55,
+        reproducibilityRate: 90,
         status: AssessmentResult.status.VALIDATED,
         assessmentId: 123,
         juryId: 456,
@@ -55,6 +57,7 @@ describe('Unit | Domain | Models | AssessmentResult', function () {
         commentForJury: 'Computed',
         status: AssessmentResult.status.VALIDATED,
         pixScore: 55,
+        reproducibilityRate: 90,
         competenceMarks: [],
       });
       expectedAssessmentResult.id = undefined;
@@ -70,6 +73,7 @@ describe('Unit | Domain | Models | AssessmentResult', function () {
       // when
       const actualAssessmentResult = AssessmentResult.buildNotTrustableAssessmentResult({
         pixScore: 55,
+        reproducibilityRate: 50.25,
         status: AssessmentResult.status.VALIDATED,
         assessmentId: 123,
         juryId: 456,
@@ -84,6 +88,7 @@ describe('Unit | Domain | Models | AssessmentResult', function () {
         commentForJury: 'Computed',
         status: AssessmentResult.status.VALIDATED,
         pixScore: 55,
+        reproducibilityRate: 50.25,
         competenceMarks: [],
         commentForCandidate:
           'Un ou plusieurs problème(s) technique(s), signalé(s) à votre surveillant pendant la session de certification' +
@@ -122,6 +127,7 @@ describe('Unit | Domain | Models | AssessmentResult', function () {
       expectedAssessmentResult.emitter = undefined;
       expectedAssessmentResult.juryId = undefined;
       expectedAssessmentResult.pixScore = undefined;
+      expectedAssessmentResult.reproducibilityRate = undefined;
       expect(actualAssessmentResult).to.deepEqualInstance(expectedAssessmentResult);
     });
   });
