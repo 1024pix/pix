@@ -8,8 +8,8 @@ export default class Card extends Component {
   @service intl;
   @service store;
 
-  @tracked savingStatus = buttonStatusTypes.unrecorded;
-  @tracked evaluationStatus = buttonStatusTypes.unrecorded;
+  @tracked savingStatus;
+  @tracked evaluationStatus;
 
   constructor(owner, args) {
     super(owner, args);
@@ -23,15 +23,54 @@ export default class Card extends Component {
       : this.intl.t('pages.user-tutorials.list.tutorial.actions.save.label');
   }
 
+  get isSaved() {
+    return this.savingStatus === buttonStatusTypes.recorded;
+  }
+
   get isEvaluateButtonDisabled() {
     return this.evaluationStatus !== buttonStatusTypes.unrecorded;
+  }
+
+  get isSaveButtonDisabled() {
+    return this.savingStatus === buttonStatusTypes.pending;
+  }
+
+  @action
+  async toggleSaveTutorial() {
+    if (this.isSaved) {
+      await this._removeTutorial();
+    } else {
+      await this._saveTutorial();
+    }
+  }
+
+  async _saveTutorial() {
+    this.savingStatus = buttonStatusTypes.pending;
+    try {
+      const userTutorial = this.store.createRecord('userTutorial', { tutorial: this.args.tutorial });
+      await userTutorial.save({ adapterOptions: { tutorialId: this.args.tutorial.id } });
+      this.savingStatus = buttonStatusTypes.recorded;
+    } catch (e) {
+      this.savingStatus = buttonStatusTypes.unrecorded;
+    }
+  }
+
+  async _removeTutorial() {
+    this.savingStatus = buttonStatusTypes.pending;
+    try {
+      await this.args.tutorial.userTutorial.destroyRecord({ adapterOptions: { tutorialId: this.args.tutorial.id } });
+      await this.args.tutorial.unloadRecord();
+      this.savingStatus = buttonStatusTypes.unrecorded;
+    } catch (e) {
+      this.savingStatus = buttonStatusTypes.recorded;
+    }
   }
 
   @action
   async evaluateTutorial() {
     this.evaluationStatus = buttonStatusTypes.pending;
-    const tutorialEvaluation = this.store.createRecord('tutorialEvaluation', { tutorial: this.args.tutorial });
     try {
+      const tutorialEvaluation = this.store.createRecord('tutorialEvaluation', { tutorial: this.args.tutorial });
       await tutorialEvaluation.save({ adapterOptions: { tutorialId: this.args.tutorial.id } });
       this.evaluationStatus = buttonStatusTypes.recorded;
     } catch (e) {
