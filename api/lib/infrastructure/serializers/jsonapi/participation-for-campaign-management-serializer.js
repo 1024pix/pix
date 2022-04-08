@@ -6,6 +6,8 @@ module.exports = {
       attributes: [
         'lastName',
         'firstName',
+        'userId',
+        'userFullName',
         'participantExternalId',
         'status',
         'createdAt',

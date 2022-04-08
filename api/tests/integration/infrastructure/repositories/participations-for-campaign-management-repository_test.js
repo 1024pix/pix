@@ -69,16 +69,20 @@ describe('Integration | Repository | Participations-For-Campaign-Management', fu
 
       it('should return participations with all attributes', async function () {
         // given
-        const campaignParticipation = databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
-          { lastName: 'King', firstName: 'Arthur' },
-          {
-            campaignId,
-            participantExternalId: '123',
-            status: SHARED,
-            createdAt: new Date('2010-10-10'),
-            sharedAt: new Date('2010-10-11'),
-          }
-        );
+        const organizationLearner = databaseBuilder.factory.buildOrganizationLearner({
+          lastName: 'King',
+          firstName: 'Arthur',
+        });
+        const user = databaseBuilder.factory.buildUser({ firstName: 'Ar', lastName: 'Thur' });
+        const campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
+          campaignId,
+          userId: user.id,
+          organizationLearnerId: organizationLearner.id,
+          participantExternalId: '123',
+          status: SHARED,
+          createdAt: new Date('2010-10-10'),
+          sharedAt: new Date('2010-10-11'),
+        });
 
         await databaseBuilder.commit();
 
@@ -91,16 +95,16 @@ describe('Integration | Repository | Participations-For-Campaign-Management', fu
 
         // then
         expect(participationsForCampaignManagement[0]).to.be.instanceOf(ParticipationForCampaignManagement);
-        expect(participationsForCampaignManagement[0]).to.deep.equal({
+        expect(participationsForCampaignManagement[0]).to.deep.includes({
           id: campaignParticipation.id,
           lastName: 'King',
           firstName: 'Arthur',
+          userId: campaignParticipation.userId,
+          userFullName: 'Ar Thur',
           participantExternalId: campaignParticipation.participantExternalId,
           status: campaignParticipation.status,
           createdAt: campaignParticipation.createdAt,
           sharedAt: campaignParticipation.sharedAt,
-          deletedAt: null,
-          deletedBy: null,
         });
       });
 
@@ -109,13 +113,9 @@ describe('Integration | Repository | Participations-For-Campaign-Management', fu
           // given
           const deletingUser = databaseBuilder.factory.buildUser({ id: 666, firstName: 'The', lastName: 'Terminator' });
           const campaignParticipation = databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
-            { lastName: 'King', firstName: 'Arthur' },
+            {},
             {
               campaignId,
-              participantExternalId: '1234',
-              status: SHARED,
-              createdAt: new Date('2010-10-10'),
-              sharedAt: new Date('2010-10-11'),
               deletedAt: new Date('2010-10-12'),
               deletedBy: deletingUser.id,
             }
@@ -131,14 +131,7 @@ describe('Integration | Repository | Participations-For-Campaign-Management', fu
             });
 
           // then
-          expect(participationsForCampaignManagement[0]).to.deep.equal({
-            id: campaignParticipation.id,
-            lastName: 'King',
-            firstName: 'Arthur',
-            participantExternalId: campaignParticipation.participantExternalId,
-            status: campaignParticipation.status,
-            createdAt: campaignParticipation.createdAt,
-            sharedAt: campaignParticipation.sharedAt,
+          expect(participationsForCampaignManagement[0]).to.deep.includes({
             deletedAt: campaignParticipation.deletedAt,
             deletedBy: campaignParticipation.deletedBy,
             deletedByFullName: 'The Terminator',
