@@ -1,6 +1,5 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { click } from '@ember/test-helpers';
 import { clickByName, render, selectByLabelAndOption } from '@1024pix/ember-testing-library';
 import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
@@ -25,7 +24,7 @@ module('Integration | Component | member-item', function (hooks) {
     assert.dom(screen.getByText('jojo@lagringue.fr')).exists();
     assert.dom(screen.getByText('Administrateur')).exists();
     assert.dom(screen.getByRole('button', { name: 'Modifier le rôle' })).exists();
-    assert.dom(screen.getByRole('button', { name: 'Désactiver' })).exists();
+    assert.dom(screen.getByRole('button', { name: 'Désactiver le membre' })).exists();
   });
 
   module("when editing organization's role", function () {
@@ -107,7 +106,7 @@ module('Integration | Component | member-item', function (hooks) {
       );
 
       // when
-      await clickByName('Désactiver');
+      await clickByName('Désactiver le membre');
 
       // then
       assert.dom(screen.getByRole('heading', { name: "Désactivation d'un membre" })).exists();
@@ -121,7 +120,7 @@ module('Integration | Component | member-item', function (hooks) {
       const screen = await render(
         hbs`<MemberItem @membership={{this.membership}} @disableMembership={{this.disableMembership}} />`
       );
-      await clickByName('Désactiver');
+      await clickByName('Désactiver le membre');
 
       // when
       await clickByName('Annuler');
@@ -134,14 +133,12 @@ module('Integration | Component | member-item', function (hooks) {
     test('should disable membership on click on confirm', async function (assert) {
       // given
       this.disableMembership = sinon.spy();
-      const screen = await render(
-        hbs`<MemberItem @membership={{this.membership}} @disableMembership={{this.disableMembership}} />`
-      );
+      await render(hbs`<MemberItem @membership={{this.membership}} @disableMembership={{this.disableMembership}} />`);
 
-      await clickByName('Désactiver');
+      await clickByName('Désactiver le membre');
 
       // when
-      await click(screen.queryAllByRole('button', { name: 'Désactiver' })[1]);
+      await clickByName('Confirmer');
 
       // then
       assert.ok(this.disableMembership.called);

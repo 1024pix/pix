@@ -1,5 +1,5 @@
 import { module, test } from 'qunit';
-import { click, currentURL, fillIn } from '@ember/test-helpers';
+import { currentURL, fillIn } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { createAuthenticateSession } from 'pix-admin/tests/helpers/test-init';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
@@ -158,11 +158,12 @@ module('Acceptance | Organizations | Memberships management', function (hooks) {
     });
 
     test('should deactivate a member', async function (assert) {
-      // given / when
+      // given
       const screen = await visit(`/organizations/${organization.id}/team`);
-      await clickByName('Désactiver');
+      await clickByName('Désactiver le membre');
 
-      await click(screen.getAllByRole('button', { name: 'Désactiver' })[1]);
+      // when
+      await clickByName('Confirmer');
 
       // then
       assert.dom(screen.getByText('Le membre a été désactivé avec succès.')).exists();
