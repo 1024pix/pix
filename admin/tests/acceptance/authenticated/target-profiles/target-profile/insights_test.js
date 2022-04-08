@@ -13,6 +13,7 @@ module('Acceptance | Target Profiles | Target Profile | Insights', function (hoo
   let targetProfile;
 
   hooks.beforeEach(async function () {
+    // given
     currentUser = server.create('user');
     await createAuthenticateSession({ userId: currentUser.id });
 
@@ -24,32 +25,38 @@ module('Acceptance | Target Profiles | Target Profile | Insights', function (hoo
   });
 
   test('should list badges and stages', async function (assert) {
+    // when
     const screen = await visit(`/target-profiles/${targetProfile.id}/insights`);
 
-    assert.strictEqual(screen.getAllByLabelText('Badge').length, 2);
-    assert.dom(screen.getByText('My badge')).exists();
-    assert.dom(screen.getByText('My badge 2')).exists();
-
+    // then
+    assert.dom(screen.getByLabelText('Informations du badge My badge')).exists();
+    assert.dom(screen.getByLabelText('Informations du badge My badge 2')).exists();
     assert.dom('.stages-table tbody tr').exists({ count: 1 });
     assert.dom('.stages-table tbody').containsText('My stage');
   });
 
   module('badges', function () {
     test('should be able to see the details of a badge', async function (assert) {
+      // given
       await visit(`/target-profiles/${targetProfile.id}/insights`);
 
+      // when
       await click('.insights__section:nth-child(1) a');
 
+      //then
       // TODO: Fix this the next time the file is edited.
       // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(currentURL(), '/badges/100');
     });
 
     test('should redirect to badge creation page on link click', async function (assert) {
+      // given
       await visit(`/target-profiles/${targetProfile.id}/insights`);
 
+      // when
       await clickByName('Nouveau résultat thématique');
 
+      // then
       // TODO: Fix this the next time the file is edited.
       // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(currentURL(), `/target-profiles/${targetProfile.id}/badges/new`);
