@@ -35,7 +35,7 @@ module('Acceptance | Campaign Participations', function (hooks) {
 
       // then
       assert.strictEqual(currentURL(), '/campaigns/1/participations');
-      assert.dom(screen.getByText('Georgette')).exists();
+      assert.dom(screen.getByText('Georgette Frimousse')).exists();
     });
   });
 });

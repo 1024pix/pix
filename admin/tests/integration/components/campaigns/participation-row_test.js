@@ -10,11 +10,12 @@ module('Integration | Component | Campaigns | participation-row', function (hook
   setupRenderingTest(hooks);
 
   module('Display information', function () {
-    test('it should display firstName, lastName and createdAt', async function (assert) {
+    test('it should display names and createdAt', async function (assert) {
       // given
       const participation = EmberObject.create({
         firstName: 'Jean',
         lastName: 'Claude',
+        userFullName: 'Jean-Claude Gangan',
         createdAt: new Date('2020-01-01'),
       });
       this.set('participation', participation);
@@ -23,8 +24,8 @@ module('Integration | Component | Campaigns | participation-row', function (hook
       const screen = await render(hbs`<Campaigns::ParticipationRow @participation={{participation}}/>`);
 
       // then
-      assert.dom(screen.getByText('Jean')).exists();
-      assert.dom(screen.getByText('Claude')).exists();
+      assert.dom(screen.getByText('Jean Claude')).exists();
+      assert.dom(screen.getByRole('link', { name: 'Jean-Claude Gangan' })).exists();
       assert.dom(screen.getByText('01/01/2020')).exists();
     });
 
