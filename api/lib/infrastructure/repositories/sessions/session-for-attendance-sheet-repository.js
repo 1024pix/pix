@@ -31,7 +31,12 @@ module.exports = {
       })
       .from('sessions')
       .join('certification-centers', 'certification-centers.id', 'sessions.certificationCenterId')
-      .leftJoin('organizations', 'organizations.externalId', 'certification-centers.externalId')
+      .leftJoin('organizations', function () {
+        this.on('organizations.externalId', 'certification-centers.externalId').andOn(
+          'organizations.type',
+          'certification-centers.type'
+        );
+      })
       .leftJoin('certification-candidates', 'certification-candidates.sessionId', 'sessions.id')
       .leftJoin('organization-learners', 'organization-learners.id', 'certification-candidates.organizationLearnerId')
       .groupBy('sessions.id', 'certification-centers.id', 'organizations.id')
