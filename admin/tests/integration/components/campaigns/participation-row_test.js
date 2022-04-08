@@ -93,96 +93,97 @@ module('Integration | Component | Campaigns | participation-row', function (hook
       assert.dom(screen.getByText('01/01/2022 par')).exists();
       assert.dom(screen.getByRole('link', { name: 'le coupable' })).exists();
     });
-  }),
-    module("when editing participant's external id", function (hooks) {
-      hooks.beforeEach(async function () {
-        // given
-        const participation = EmberObject.create({
-          participantExternalId: '123',
-        });
-        this.participation = participation;
-        this.idPixLabel = 'identifiant';
-        this.updateParticipantExternalId = sinon.spy();
+  });
+
+  module("when editing participant's external id", function (hooks) {
+    hooks.beforeEach(async function () {
+      // given
+      const participation = EmberObject.create({
+        participantExternalId: '123',
       });
-
-      test('it should display save and cancel button', async function (assert) {
-        // when
-        const screen = await render(
-          hbs`<Campaigns::ParticipationRow @participation={{this.participation}} @idPixLabel={{this.idPixLabel}} @updateParticipantExternalId={{this.updateParticipantExternalId}} />`
-        );
-        await clickByName('Modifier');
-
-        // then
-        assert.dom(screen.getByRole('button', { name: 'Enregistrer' })).exists();
-        assert.dom(screen.getByRole('button', { name: 'Annuler' })).exists();
-      });
-
-      test('it should update participantExternalId on save', async function (assert) {
-        // given
-        const screen = await render(
-          hbs`<Campaigns::ParticipationRow @participation={{this.participation}} @idPixLabel={{this.idPixLabel}} @updateParticipantExternalId={{this.updateParticipantExternalId}} />`
-        );
-        await clickByName('Modifier');
-
-        // when
-        await fillIn('#participantExternalId', '4567890');
-        await clickByName('Enregistrer');
-
-        // then
-        assert.dom(screen.queryByText('Enregistrer')).doesNotExist();
-        assert.strictEqual(this.participation.participantExternalId, '4567890');
-        assert.ok(this.updateParticipantExternalId.called);
-      });
-
-      test('it should update participantExternalId with null if participantExternalId only  has blank space', async function (assert) {
-        // given
-        const screen = await render(
-          hbs`<Campaigns::ParticipationRow @participation={{this.participation}} @idPixLabel={{this.idPixLabel}} @updateParticipantExternalId={{this.updateParticipantExternalId}} />`
-        );
-        await clickByName('Modifier');
-
-        // when
-        await fillIn('#participantExternalId', '    ');
-        await clickByName('Enregistrer');
-
-        // then
-        assert.dom(screen.queryByText('Enregistrer')).doesNotExist();
-        assert.strictEqual(this.participation.participantExternalId, null);
-        assert.ok(this.updateParticipantExternalId.called);
-      });
-
-      test('it should update participantExternalId with null if participantExternalId is empty', async function (assert) {
-        // given
-        const screen = await render(
-          hbs`<Campaigns::ParticipationRow @participation={{this.participation}} @idPixLabel={{this.idPixLabel}} @updateParticipantExternalId={{this.updateParticipantExternalId}} />`
-        );
-        await clickByName('Modifier');
-
-        // when
-        await fillIn('#participantExternalId', '');
-        await clickByName('Enregistrer');
-
-        // then
-        assert.dom(screen.queryByText('Enregistrer')).doesNotExist();
-        assert.strictEqual(this.participation.participantExternalId, null);
-        assert.ok(this.updateParticipantExternalId.called);
-      });
-
-      test('it should not update participantExternalId on cancel', async function (assert) {
-        // given
-        const screen = await render(
-          hbs`<Campaigns::ParticipationRow @participation={{this.participation}} @idPixLabel={{this.idPixLabel}} @updateParticipantExternalId={{this.updateParticipantExternalId}} />`
-        );
-        await clickByName('Modifier');
-
-        // when
-        await fillIn('#participantExternalId', '4567890');
-        await clickByName('Annuler');
-
-        // then
-        assert.dom(screen.queryByText('Enregistrer')).doesNotExist();
-        assert.strictEqual(this.participation.participantExternalId, '123');
-        assert.notOk(this.updateParticipantExternalId.called);
-      });
+      this.participation = participation;
+      this.idPixLabel = 'identifiant';
+      this.updateParticipantExternalId = sinon.spy();
     });
+
+    test('it should display save and cancel button', async function (assert) {
+      // when
+      const screen = await render(
+        hbs`<Campaigns::ParticipationRow @participation={{this.participation}} @idPixLabel={{this.idPixLabel}} @updateParticipantExternalId={{this.updateParticipantExternalId}} />`
+      );
+      await clickByName('Modifier');
+
+      // then
+      assert.dom(screen.getByRole('button', { name: 'Enregistrer' })).exists();
+      assert.dom(screen.getByRole('button', { name: 'Annuler' })).exists();
+    });
+
+    test('it should update participantExternalId on save', async function (assert) {
+      // given
+      const screen = await render(
+        hbs`<Campaigns::ParticipationRow @participation={{this.participation}} @idPixLabel={{this.idPixLabel}} @updateParticipantExternalId={{this.updateParticipantExternalId}} />`
+      );
+      await clickByName('Modifier');
+
+      // when
+      await fillIn('#participantExternalId', '4567890');
+      await clickByName('Enregistrer');
+
+      // then
+      assert.dom(screen.queryByText('Enregistrer')).doesNotExist();
+      assert.strictEqual(this.participation.participantExternalId, '4567890');
+      assert.ok(this.updateParticipantExternalId.called);
+    });
+
+    test('it should update participantExternalId with null if participantExternalId only  has blank space', async function (assert) {
+      // given
+      const screen = await render(
+        hbs`<Campaigns::ParticipationRow @participation={{this.participation}} @idPixLabel={{this.idPixLabel}} @updateParticipantExternalId={{this.updateParticipantExternalId}} />`
+      );
+      await clickByName('Modifier');
+
+      // when
+      await fillIn('#participantExternalId', '    ');
+      await clickByName('Enregistrer');
+
+      // then
+      assert.dom(screen.queryByText('Enregistrer')).doesNotExist();
+      assert.strictEqual(this.participation.participantExternalId, null);
+      assert.ok(this.updateParticipantExternalId.called);
+    });
+
+    test('it should update participantExternalId with null if participantExternalId is empty', async function (assert) {
+      // given
+      const screen = await render(
+        hbs`<Campaigns::ParticipationRow @participation={{this.participation}} @idPixLabel={{this.idPixLabel}} @updateParticipantExternalId={{this.updateParticipantExternalId}} />`
+      );
+      await clickByName('Modifier');
+
+      // when
+      await fillIn('#participantExternalId', '');
+      await clickByName('Enregistrer');
+
+      // then
+      assert.dom(screen.queryByText('Enregistrer')).doesNotExist();
+      assert.strictEqual(this.participation.participantExternalId, null);
+      assert.ok(this.updateParticipantExternalId.called);
+    });
+
+    test('it should not update participantExternalId on cancel', async function (assert) {
+      // given
+      const screen = await render(
+        hbs`<Campaigns::ParticipationRow @participation={{this.participation}} @idPixLabel={{this.idPixLabel}} @updateParticipantExternalId={{this.updateParticipantExternalId}} />`
+      );
+      await clickByName('Modifier');
+
+      // when
+      await fillIn('#participantExternalId', '4567890');
+      await clickByName('Annuler');
+
+      // then
+      assert.dom(screen.queryByText('Enregistrer')).doesNotExist();
+      assert.strictEqual(this.participation.participantExternalId, '123');
+      assert.notOk(this.updateParticipantExternalId.called);
+    });
+  });
 });
