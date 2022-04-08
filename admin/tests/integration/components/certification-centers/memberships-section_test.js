@@ -1,8 +1,7 @@
 import moment from 'moment';
-
+import { render } from '@1024pix/ember-testing-library';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
 import sinon from 'sinon';
@@ -29,20 +28,21 @@ module('Integration | Component | certification-centers/memberships-section', fu
     const expectedDate = moment(certificationCenterMembership.createdAt).format('DD-MM-YYYY - HH:mm:ss');
 
     // when
-    await render(
+    const screen = await render(
       hbs`<CertificationCenters::MembershipsSection
         @certificationCenterMemberships={{certificationCenterMemberships}}
         @disableCertificationCenterMembership={{this.disableCertificationCenterMembership}} />`
     );
 
     // then
-    assert.dom('[aria-label="Membre"]').exists();
-    assert.dom('[data-test-membership-id]').hasText(certificationCenterMembership.id.toString());
-    assert.dom('[data-test-user-id]').hasText(user.id.toString());
-    assert.dom('[data-test-user-first-name]').hasText(user.firstName);
-    assert.dom('[data-test-user-last-name]').hasText(user.lastName);
-    assert.dom('[data-test-user-email]').hasText(user.email);
-    assert.dom('[data-test-membership-created-at]').hasText(expectedDate);
+    assert.dom(screen.getByLabelText('Informations du membre Jojo La Gringue')).containsText(user.id);
+    assert.dom(screen.getByLabelText('Informations du membre Jojo La Gringue')).containsText(user.email);
+    assert.dom(screen.getByLabelText('Informations du membre Jojo La Gringue')).containsText(user.firstName);
+    assert.dom(screen.getByLabelText('Informations du membre Jojo La Gringue')).containsText(user.lastName);
+    assert.dom(screen.getByLabelText('Informations du membre Jojo La Gringue')).containsText(expectedDate);
+    assert
+      .dom(screen.getByLabelText('Informations du membre Jojo La Gringue'))
+      .containsText(certificationCenterMembership.id);
   });
 
   test('it should display a list of certification center memberships', async function (assert) {
@@ -64,14 +64,15 @@ module('Integration | Component | certification-centers/memberships-section', fu
     this.set('disableCertificationCenterMembership', sinon.stub());
 
     // when
-    await render(
+    const screen = await render(
       hbs`<CertificationCenters::MembershipsSection
         @certificationCenterMemberships={{certificationCenterMemberships}}
         @disableCertificationCenterMembership={{this.disableCertificationCenterMembership}} />`
     );
 
     // then
-    assert.dom('[aria-label="Membre"]').exists({ count: 2 });
+    assert.dom(screen.getByLabelText('Informations du membre Jojo La Gringue')).exists();
+    assert.dom(screen.getByLabelText('Informations du membre Froufrou Le froussard')).exists();
   });
 
   test('it should display a message when there is no membership', async function (assert) {
@@ -79,11 +80,11 @@ module('Integration | Component | certification-centers/memberships-section', fu
     this.set('disableCertificationCenterMembership', sinon.stub());
 
     // when
-    await render(
+    const screen = await render(
       hbs`<CertificationCenters::MembershipsSection @disableCertificationCenterMembership={{this.disableCertificationCenterMembership}} />`
     );
 
     // then
-    assert.dom('[data-test-empty-message]').hasText('Aucun résultat');
+    assert.dom(screen.getByText('Aucun résultat')).exists();
   });
 });

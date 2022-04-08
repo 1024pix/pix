@@ -1,10 +1,9 @@
 import { module, test } from 'qunit';
-import { click, currentURL, visit, fillIn } from '@ember/test-helpers';
+import { currentURL, fillIn } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { createAuthenticateSession } from 'pix-admin/tests/helpers/test-init';
-import { selectChoose } from 'ember-power-select/test-support/helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
-import { visit as visitScreen, clickByName } from '@1024pix/ember-testing-library';
+import { visit, clickByName, selectByLabelAndOption } from '@1024pix/ember-testing-library';
 
 module('Acceptance | Organizations | Memberships management', function (hooks) {
   setupApplicationTest(hooks);
@@ -72,7 +71,7 @@ module('Acceptance | Organizations | Memberships management', function (hooks) {
       this.server.create('user', { firstName: 'John', lastName: 'Doe', email: 'user@example.com' });
 
       // when
-      const screen = await visitScreen(`/organizations/${organization.id}`);
+      const screen = await visit(`/organizations/${organization.id}`);
       await fillIn(
         screen.getByRole('textbox', { name: "Adresse e-mail de l'utilisateur à ajouter" }),
         'user@example.com'
@@ -96,7 +95,7 @@ module('Acceptance | Organizations | Memberships management', function (hooks) {
       this.server.create('membership', { user, organization });
 
       // when
-      const screen = await visitScreen(`/organizations/${organization.id}`);
+      const screen = await visit(`/organizations/${organization.id}`);
       await fillIn(
         screen.getByRole('textbox', { name: "Adresse e-mail de l'utilisateur à ajouter" }),
         'denise@example.com'
@@ -104,9 +103,7 @@ module('Acceptance | Organizations | Memberships management', function (hooks) {
       await clickByName('Ajouter un membre');
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(this.element.querySelectorAll('div[data-test-id="member-list"] table > tbody > tr').length, 1);
+      assert.strictEqual(screen.getAllByLabelText('Membre').length, 1);
       assert.dom(screen.getByText('Denise')).exists();
       assert.dom('#userEmailToAdd').hasValue('denise@example.com');
     });
@@ -117,7 +114,7 @@ module('Acceptance | Organizations | Memberships management', function (hooks) {
       this.server.create('membership', { user, organization });
 
       // when
-      const screen = await visitScreen(`/organizations/${organization.id}`);
+      const screen = await visit(`/organizations/${organization.id}`);
       await fillIn(
         screen.getByRole('textbox', { name: "Adresse e-mail de l'utilisateur à ajouter" }),
         'unexisting@example.com'
@@ -125,9 +122,7 @@ module('Acceptance | Organizations | Memberships management', function (hooks) {
       await clickByName('Ajouter un membre');
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(this.element.querySelectorAll('div[data-test-id="member-list"] table > tbody > tr').length, 1);
+      assert.strictEqual(screen.getAllByLabelText('Membre').length, 1);
       assert.dom(screen.getByText('Erica')).exists();
       assert.dom('#userEmailToAdd').hasValue('unexisting@example.com');
     });
@@ -143,9 +138,9 @@ module('Acceptance | Organizations | Memberships management', function (hooks) {
 
     test("should update member's role", async function (assert) {
       // given / when
-      const screen = await visitScreen(`/organizations/${organization.id}/team`);
+      const screen = await visit(`/organizations/${organization.id}/team`);
       await clickByName('Modifier le rôle');
-      await selectChoose('[data-test-id="editable-cell"]', 'Membre');
+      await selectByLabelAndOption('Sélectionner un rôle', 'MEMBER');
       await clickByName('Enregistrer');
 
       // then
@@ -163,10 +158,12 @@ module('Acceptance | Organizations | Memberships management', function (hooks) {
     });
 
     test('should deactivate a member', async function (assert) {
-      // given / when
-      const screen = await visitScreen(`/organizations/${organization.id}/team`);
-      await clickByName('Désactiver');
-      await click('.modal-footer > button.btn-primary');
+      // given
+      const screen = await visit(`/organizations/${organization.id}/team`);
+      await clickByName('Désactiver le membre');
+
+      // when
+      await clickByName('Confirmer');
 
       // then
       assert.dom(screen.getByText('Le membre a été désactivé avec succès.')).exists();

@@ -43,7 +43,6 @@ module('Acceptance | organization invitations management', function (hooks) {
       // when
       const screen = await visit(`/organizations/${organization.id}/invitations`);
       await fillByLabel('Adresse e-mail du membre à inviter', 'user@example.com');
-      this.element.querySelectorAll('.c-notification').forEach((element) => element.remove());
 
       await clickByText('Inviter');
 
@@ -67,12 +66,11 @@ module('Acceptance | organization invitations management', function (hooks) {
       // when
       const screen = await visit(`/organizations/${organization.id}/invitations`);
       await fillByLabel('Adresse e-mail du membre à inviter', 'user@example.com');
-      this.element.querySelectorAll('.c-notification').forEach((element) => element.remove());
 
       await clickByText('Inviter');
 
       // then
-      assert.notContains(moment(now).format('DD/MM/YYYY [-] HH:mm'));
+      assert.dom(screen.queryByText(moment(now).format('DD/MM/YYYY [-] HH:mm'))).doesNotExist();
       assert.dom(screen.getByText('Une erreur s’est produite, veuillez réessayer.')).exists();
     });
   });

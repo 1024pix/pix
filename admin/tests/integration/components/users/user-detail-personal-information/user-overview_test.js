@@ -202,11 +202,11 @@ module('Integration | Component | users | user-detail-personal-information/user-
         this.set('user', user);
 
         // when
-        await render(hbs`<Users::UserDetailPersonalInformation::UserOverview @user={{this.user}}/>`);
+        const screen = await render(hbs`<Users::UserDetailPersonalInformation::UserOverview @user={{this.user}}/>`);
         await clickByName('Modifier');
 
         // then
-        assert.notContains('Identifiant :');
+        assert.dom(screen.queryByText('Identifiant :')).doesNotExist();
       });
     });
 
@@ -260,11 +260,11 @@ module('Integration | Component | users | user-detail-personal-information/user-
         this.set('user', user);
 
         // when
-        await render(hbs`<Users::UserDetailPersonalInformation::UserOverview @user={{this.user}} />`);
+        const screen = await render(hbs`<Users::UserDetailPersonalInformation::UserOverview @user={{this.user}} />`);
         await clickByName('Modifier');
 
         // then
-        assert.notContains('Adresse e-mail :');
+        assert.dom(screen.queryByText('Adresse e-mail :')).doesNotExist();
       });
     });
 
@@ -273,12 +273,12 @@ module('Integration | Component | users | user-detail-personal-information/user-
       this.set('user', user);
 
       // when
-      await render(hbs`<Users::UserDetailPersonalInformation::UserOverview @user={{this.user}}/>`);
+      const screen = await render(hbs`<Users::UserDetailPersonalInformation::UserOverview @user={{this.user}}/>`);
       await clickByName('Modifier');
 
       // then
-      assert.notContains('CGU Pix Orga validé :');
-      assert.notContains('CGU Pix Certif validé :');
+      assert.dom(screen.queryByText('CGU Pix Orga validé :')).doesNotExist();
+      assert.dom(screen.queryByText('CGU Pix Certif validé :')).doesNotExist();
     });
   });
 });

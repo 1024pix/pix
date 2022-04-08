@@ -98,7 +98,7 @@ export default function () {
     const params = JSON.parse(request.requestBody);
     const { email } = params;
     const certificationCenter = schema.certificationCenters.findBy({ id: certificationCenterId });
-    const user = schema.users.create({ email });
+    const user = schema.users.create({ email, firstName: 'Jacques', lastName: 'Use' });
 
     return schema.certificationCenterMemberships.create({
       certificationCenter,

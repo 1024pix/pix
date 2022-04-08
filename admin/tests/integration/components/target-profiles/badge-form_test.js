@@ -1,6 +1,7 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { click, render, fillIn } from '@ember/test-helpers';
+import { click, fillIn } from '@ember/test-helpers';
+import { render } from '@1024pix/ember-testing-library';
 import hbs from 'htmlbars-inline-precompile';
 import sinon from 'sinon';
 
@@ -33,11 +34,11 @@ module('Integration | Component | TargetProfiles::BadgeForm', function (hooks) {
 
   test('it should display form actions', async function (assert) {
     // when
-    await render(hbs`<TargetProfiles::BadgeForm />`);
+    const screen = await render(hbs`<TargetProfiles::BadgeForm />`);
 
     // then
-    assert.dom('a[data-test="badge-form-cancel-button"]').exists();
-    assert.dom('button[data-test="badge-form-submit-button"]').exists();
+    assert.dom(screen.getByRole('button', { name: 'Créer le badge' })).exists();
+    assert.dom(screen.getByText('Annuler')).exists();
   });
 
   module('#createBadge', function () {
@@ -50,7 +51,7 @@ module('Integration | Component | TargetProfiles::BadgeForm', function (hooks) {
       store.createRecord = createRecordStub;
       this.targetProfileId = 123;
 
-      await render(hbs`<TargetProfiles::BadgeForm @targetProfileId={{targetProfileId}} />`);
+      const screen = await render(hbs`<TargetProfiles::BadgeForm @targetProfileId={{targetProfileId}} />`);
 
       // when
       await fillIn('input#badge-key', 'clé_du_badge');
@@ -60,7 +61,7 @@ module('Integration | Component | TargetProfiles::BadgeForm', function (hooks) {
       await fillIn('input#skillSetName', 'skill-set-name');
       await fillIn('#skillSetSkills', 'skillSetId1,skillSetId2');
       await fillIn('#campaignParticipationThreshold', '50');
-      await click('button[data-test="badge-form-submit-button"]');
+      await click(screen.getByRole('button', { name: 'Créer le badge' }));
 
       // then
       sinon.assert.calledWith(createRecordStub, 'badge', {

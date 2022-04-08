@@ -1,6 +1,6 @@
 <div class="content-text content-text--small">
   {{#if this.hasBadges}}
-    <table class="table-admin" data-test="badges-table">
+    <table class="table-admin">
       <thead>
         <tr>
           <th class="table__column table__column--id">ID</th>
@@ -23,7 +23,7 @@
             <td>
               <Common::TickOrCross @isTrue={{badge.isAlwaysVisible}} />
             </td>
-            <td class="badges-table__actions">
+            <td aria-label="Informations du badge {{badge.title}}" class="badges-table__actions">
               <PixButtonLink
                 @backgroundColor="transparent-light"
                 @isBorderVisible={{true}}
@@ -53,7 +53,7 @@
 <ConfirmPopup
   @message="Êtes-vous sûr de vouloir supprimer ce résultat thématique ? (Uniquement si le RT n'a pas encore été assigné)"
   @title="Suppression d'un résultat thématique"
-  @submitTitle="Supprimer"
+  @submitTitle="Confirmer"
   @confirm={{fn this.deleteBadge this.badgeIdToDelete}}
   @cancel={{this.toggleDisplayConfirm}}
   @show={{this.displayConfirm}}

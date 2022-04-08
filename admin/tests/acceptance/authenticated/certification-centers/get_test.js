@@ -1,9 +1,8 @@
-import moment from 'moment';
 import { module, test } from 'qunit';
-import { click, currentURL, find, findAll, triggerEvent, visit } from '@ember/test-helpers';
+import { currentURL, triggerEvent } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
-import { visit as visitScreen, fillByLabel, clickByName } from '@1024pix/ember-testing-library';
+import { visit, fillByLabel, clickByName } from '@1024pix/ember-testing-library';
 import { createAuthenticateSession } from '../../../helpers/test-init';
 
 module('Acceptance | authenticated/certification-centers/get', function (hooks) {
@@ -40,7 +39,7 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
     });
 
     // when
-    const screen = await visitScreen(`/certification-centers/${certificationCenter.id}`);
+    const screen = await visit(`/certification-centers/${certificationCenter.id}`);
 
     // then
     assert.dom(screen.getByRole('heading', { name: 'Center 1' })).exists();
@@ -62,7 +61,7 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
     });
 
     // when
-    const screen = await visitScreen(`/certification-centers/${certificationCenter.id}`);
+    const screen = await visit(`/certification-centers/${certificationCenter.id}`);
 
     // then
     assert.dom(screen.getByText('Pix+Edu')).exists();
@@ -85,7 +84,7 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
     server.create('habilitation', { name: 'Pix+Autre' });
 
     // when
-    const screen = await visitScreen(`/certification-centers/${certificationCenter.id}`);
+    const screen = await visit(`/certification-centers/${certificationCenter.id}`);
 
     // then
     assert.dom(screen.getByLabelText('Habilité pour Pix+Edu')).exists();
@@ -102,30 +101,21 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
       externalId: 'ABCDEF',
       type: 'SCO',
     });
-    const certificationCenterMembership1 = server.create('certification-center-membership', {
-      createdAt: new Date('2018-02-15T05:06:07Z'),
+    server.create('certification-center-membership', {
       certificationCenter,
-      user: server.create('user'),
+      user: server.create('user', { firstName: 'Eric', lastName: 'Hochet' }),
     });
     server.create('certification-center-membership', {
-      createdAt: new Date('2019-02-15T05:06:07Z'),
       certificationCenter,
-      user: server.create('user'),
+      user: server.create('user', { firstName: 'Gilles', lastName: 'Parbal' }),
     });
-    const expectedDate1 = moment(certificationCenterMembership1.createdAt).format('DD-MM-YYYY - HH:mm:ss');
 
     // when
-    const screen = await visitScreen(`/certification-centers/${certificationCenter.id}`);
+    const screen = await visit(`/certification-centers/${certificationCenter.id}`);
 
     // then
-    assert.dom('[aria-label="Membre"]').exists({ count: 2 });
-
-    assert.dom('[aria-label="Membre"]:first-child td:nth-child(2)').hasText(certificationCenterMembership1.user.id);
-
-    assert.dom(screen.getByText(certificationCenterMembership1.user.firstName)).exists();
-    assert.dom(screen.getByText(certificationCenterMembership1.user.lastName)).exists();
-    assert.dom(screen.getByText(certificationCenterMembership1.user.email)).exists();
-    assert.dom(screen.getByText(expectedDate1)).exists();
+    assert.dom(screen.getByLabelText('Informations du membre Gilles Parbal')).exists();
+    assert.dom(screen.getByLabelText('Informations du membre Eric Hochet')).exists();
   });
 
   test('should be possible to desactive a certification center membership', async function (assert) {
@@ -146,11 +136,11 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
     });
 
     // when
-    await visit(`/certification-centers/${certificationCenter.id}`);
+    const screen = await visit(`/certification-centers/${certificationCenter.id}`);
     await clickByName('Désactiver');
 
     // then
-    assert.notContains('Lili');
+    assert.dom(screen.queryByText('Lili')).doesNotExist();
   });
 
   module('To add certification center membership', function () {
@@ -165,11 +155,11 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
       });
 
       // when
-      const screen = await visitScreen(`/certification-centers/${certificationCenter.id}`);
+      const screen = await visit(`/certification-centers/${certificationCenter.id}`);
 
       // then
       assert.dom(screen.getByText('Ajouter un membre')).exists();
-      assert.dom('[aria-label="Adresse e-mail du nouveau membre"]').exists();
+      assert.dom(screen.getByLabelText('Adresse e-mail du nouveau membre')).exists();
       assert.dom(screen.getByText('Valider')).exists();
       assert.dom('.error').notExists;
     });
@@ -184,14 +174,14 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
         type: 'SCO',
       });
       const spacesEmail = ' ';
-      await visit(`/certification-centers/${certificationCenter.id}`);
+      const screen = await visit(`/certification-centers/${certificationCenter.id}`);
 
       // when
       await fillByLabel('Adresse e-mail du nouveau membre', spacesEmail);
       await triggerEvent('#userEmailToAdd', 'focusout');
 
       // then
-      assert.dom('button[data-test-add-membership]').hasAttribute('disabled');
+      assert.dom(screen.getByRole('button', { name: 'Ajouter le membre' })).hasAttribute('disabled');
     });
 
     test('should display error message and disable button if email is invalid', async function (assert) {
@@ -203,7 +193,7 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
         externalId: 'ABCDEF',
         type: 'SCO',
       });
-      const screen = await visitScreen(`/certification-centers/${certificationCenter.id}`);
+      const screen = await visit(`/certification-centers/${certificationCenter.id}`);
 
       // when
       await fillByLabel('Adresse e-mail du nouveau membre', 'an invalid email');
@@ -211,7 +201,7 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
 
       // then
       assert.dom(screen.getByText("L'adresse e-mail saisie n'est pas valide.")).exists();
-      assert.dom('button[data-test-add-membership]').hasAttribute('disabled');
+      assert.dom(screen.getByRole('button', { name: 'Ajouter le membre' })).hasAttribute('disabled');
     });
 
     test('should enable button and not display error message if email is valid', async function (assert) {
@@ -223,14 +213,14 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
         externalId: 'ABCDEF',
         type: 'SCO',
       });
-      await visit(`/certification-centers/${certificationCenter.id}`);
+      const screen = await visit(`/certification-centers/${certificationCenter.id}`);
 
       // when
       await fillByLabel('Adresse e-mail du nouveau membre', 'test@example.net');
       await triggerEvent('#userEmailToAdd', 'focusout');
 
       // then
-      assert.dom('button[data-test-add-membership]').hasNoAttribute('disabled');
+      assert.dom(screen.getByRole('button', { name: 'Ajouter le membre' })).hasNoAttribute('disabled');
       assert.dom('.error').notExists;
     });
 
@@ -244,16 +234,16 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
         type: 'SCO',
       });
       const email = 'test@example.net';
-      await visit(`/certification-centers/${certificationCenter.id}`);
+      const screen = await visit(`/certification-centers/${certificationCenter.id}`);
       await fillByLabel('Adresse e-mail du nouveau membre', email);
       await triggerEvent('#userEmailToAdd', 'focusout');
 
       // when
-      await click('button[data-test-add-membership]');
+      await clickByName('Ajouter le membre');
 
       // then
-      const foundElement = findAll('td[data-test-user-email]').find((element) => element.innerText.includes(email));
-      assert.ok(foundElement);
+      assert.dom(screen.getByLabelText('Informations du membre Jacques Use')).exists();
+      assert.dom(screen.getByText('test@example.net')).exists();
     });
   });
 
@@ -267,7 +257,7 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
         externalId: 'ABCDEF',
         type: 'SCO',
       });
-      const screen = await visitScreen(`/certification-centers/${certificationCenter.id}`);
+      const screen = await visit(`/certification-centers/${certificationCenter.id}`);
 
       // when
       await clickByName('Editer');
@@ -287,7 +277,7 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
         type: 'SCO',
         isSupervisorAccessEnabled: false,
       });
-      const screen = await visitScreen(`/certification-centers/${certificationCenter.id}`);
+      const screen = await visit(`/certification-centers/${certificationCenter.id}`);
       await clickByName('Editer');
       this.server.patch(`/certification-centers/${certificationCenter.id}`, () => new Response({}), 204);
 
@@ -303,7 +293,7 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
       assert.dom(screen.getByRole('heading', { name: 'nouveau nom' })).exists();
       assert.dom(screen.getByText('Établissement supérieur')).exists();
       assert.dom(screen.getByText('nouvel identifiant externe')).exists();
-      assert.strictEqual(find('span[aria-label="Espace surveillant"]').textContent, 'oui');
+      assert.dom(screen.getByLabelText('Espace surveillant')).hasText('oui');
     });
 
     test('should display a success notification when the certification has been successfully updated', async function (assert) {
@@ -318,7 +308,7 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
       server.create('habilitation', { name: 'Pix+Surf' });
       server.create('habilitation', { name: 'Pix+Autre' });
 
-      const screen = await visitScreen(`/certification-centers/${certificationCenter.id}`);
+      const screen = await visit(`/certification-centers/${certificationCenter.id}`);
       await clickByName('Editer');
       this.server.patch(`/certification-centers/${certificationCenter.id}`, () => new Response({}), 204);
 
@@ -345,7 +335,7 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
         type: 'SCO',
       });
       this.server.patch(`/certification-centers/${certificationCenter.id}`, () => new Response({}), 422);
-      const screen = await visitScreen(`/certification-centers/${certificationCenter.id}`);
+      const screen = await visit(`/certification-centers/${certificationCenter.id}`);
       await clickByName('Editer');
 
       // when

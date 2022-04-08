@@ -1,9 +1,7 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { click } from '@ember/test-helpers';
-import { clickByName, render } from '@1024pix/ember-testing-library';
+import { clickByName, render, selectByLabelAndOption } from '@1024pix/ember-testing-library';
 import hbs from 'htmlbars-inline-precompile';
-import { selectChoose } from 'ember-power-select/test-support/helpers';
 import EmberObject from '@ember/object';
 import sinon from 'sinon';
 
@@ -26,7 +24,7 @@ module('Integration | Component | member-item', function (hooks) {
     assert.dom(screen.getByText('jojo@lagringue.fr')).exists();
     assert.dom(screen.getByText('Administrateur')).exists();
     assert.dom(screen.getByRole('button', { name: 'Modifier le rôle' })).exists();
-    assert.dom(screen.getByRole('button', { name: 'Désactiver' })).exists();
+    assert.dom(screen.getByRole('button', { name: 'Désactiver le membre' })).exists();
   });
 
   module("when editing organization's role", function () {
@@ -42,7 +40,7 @@ module('Integration | Component | member-item', function (hooks) {
 
       // then
       assert.dom(screen.getByRole('button', { name: 'Enregistrer' })).exists();
-      assert.dom('button[aria-label="Annuler"]').exists();
+      assert.dom(screen.getByLabelText('Annuler')).exists();
     });
 
     test('it should display the options when select is open', async function (assert) {
@@ -51,10 +49,9 @@ module('Integration | Component | member-item', function (hooks) {
       const screen = await render(
         hbs`<MemberItem @membership={{this.membership}} @updateMembership={{this.updateMembership}} />`
       );
-      await clickByName('Modifier le rôle');
 
       // when
-      await click('.ember-power-select-trigger');
+      await clickByName('Modifier le rôle');
 
       // then
       assert.dom(screen.getByText('Membre')).exists();
@@ -64,15 +61,17 @@ module('Integration | Component | member-item', function (hooks) {
     test('it should update role on save', async function (assert) {
       // given
       this.updateMembership = sinon.spy();
-      await render(hbs`<MemberItem @membership={{this.membership}} @updateMembership={{this.updateMembership}} />`);
+      const screen = await render(
+        hbs`<MemberItem @membership={{this.membership}} @updateMembership={{this.updateMembership}} />`
+      );
       await clickByName('Modifier le rôle');
 
       // when
-      await selectChoose('[data-test-id="editable-cell"]', 'Membre');
+      await selectByLabelAndOption('Sélectionner un rôle', 'MEMBER');
       await clickByName('Enregistrer');
 
       // then
-      assert.notContains('Enregistrer');
+      assert.dom(screen.queryByText('Enregistrer')).doesNotExist();
       // TODO: Fix this the next time the file is edited.
       // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(this.membership.organizationRole, 'MEMBER');
@@ -88,12 +87,12 @@ module('Integration | Component | member-item', function (hooks) {
       await clickByName('Modifier le rôle');
 
       // when
-      await selectChoose('[data-test-id="editable-cell"]', 'Membre');
+      await selectByLabelAndOption('Sélectionner un rôle', 'MEMBER');
       await clickByName('Annuler');
 
       // then
       assert.dom(screen.getByText('Administrateur')).exists();
-      assert.notContains('Enregistrer');
+      assert.dom(screen.queryByText('Enregistrer')).doesNotExist();
       assert.notOk(this.updateMembership.called);
     });
   });
@@ -107,35 +106,39 @@ module('Integration | Component | member-item', function (hooks) {
       );
 
       // when
-      await clickByName('Désactiver');
+      await clickByName('Désactiver le membre');
 
       // then
-      assert.dom('.modal-dialog').exists();
-      assert.dom(screen.getByText("Désactivation d'un membre")).exists();
+      assert.dom(screen.getByRole('heading', { name: "Désactivation d'un membre" })).exists();
+      assert.dom(screen.getByRole('button', { name: 'Annuler' })).exists();
       assert.dom(screen.getByText('Etes-vous sûr de vouloir désactiver ce membre de cette équipe ?')).exists();
     });
 
     test('should close confirm modal on click on cancel', async function (assert) {
       // given
       this.disableMembership = sinon.spy();
-      await render(hbs`<MemberItem @membership={{this.membership}} @disableMembership={{this.disableMembership}} />`);
-      await clickByName('Désactiver');
+      const screen = await render(
+        hbs`<MemberItem @membership={{this.membership}} @disableMembership={{this.disableMembership}} />`
+      );
+      await clickByName('Désactiver le membre');
 
       // when
-      await click('.modal-footer > button.btn-secondary');
+      await clickByName('Annuler');
 
       // then
-      assert.dom('.modal-dialog').doesNotExist();
+      assert.dom(screen.queryByRole('heading', { name: "Désactivation d'un membre" })).doesNotExist();
+      assert.dom(screen.queryByRole('button', { name: 'Annuler' })).doesNotExist();
     });
 
     test('should disable membership on click on confirm', async function (assert) {
       // given
       this.disableMembership = sinon.spy();
       await render(hbs`<MemberItem @membership={{this.membership}} @disableMembership={{this.disableMembership}} />`);
-      await clickByName('Désactiver');
+
+      await clickByName('Désactiver le membre');
 
       // when
-      await click('.modal-footer > button.btn-primary');
+      await clickByName('Confirmer');
 
       // then
       assert.ok(this.disableMembership.called);

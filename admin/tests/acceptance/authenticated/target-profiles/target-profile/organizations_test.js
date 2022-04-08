@@ -1,5 +1,4 @@
-import { visit } from '@ember/test-helpers';
-import { fillByLabel, clickByName, visit as visitScreen } from '@1024pix/ember-testing-library';
+import { fillByLabel, clickByName, visit } from '@1024pix/ember-testing-library';
 import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { module, test } from 'qunit';
@@ -26,7 +25,7 @@ module('Acceptance | Target Profiles | Target Profile | Organizations', function
     });
 
     test('should list organizations', async function (assert) {
-      const screen = await visitScreen(`/target-profiles/${targetProfile.id}/organizations`);
+      const screen = await visit(`/target-profiles/${targetProfile.id}/organizations`);
 
       assert.dom(screen.getByText('My organization')).exists();
       assert.dom(screen.getByText('My other organization')).exists();
@@ -34,20 +33,20 @@ module('Acceptance | Target Profiles | Target Profile | Organizations', function
   });
 
   test('should be able to add new organization to the target profile', async function (assert) {
-    await visit(`/target-profiles/${targetProfile.id}/organizations`);
+    const screen = await visit(`/target-profiles/${targetProfile.id}/organizations`);
 
     await fillByLabel('Rattacher une ou plusieurs organisation(s)', '42');
     await clickByName('Valider le rattachement');
 
-    assert.dom('[aria-label="Organisation"]').includesText('42');
+    assert.dom(screen.getByLabelText('Organisation')).includesText('42');
   });
 
   test('should be able to attach an organization with given target profile', async function (assert) {
-    await visit(`/target-profiles/${targetProfile.id}/organizations`);
+    const screen = await visit(`/target-profiles/${targetProfile.id}/organizations`);
 
     await fillByLabel("Rattacher les organisations d'un profil cible existant", '43');
     await clickByName('Valider le rattachement à partir de ce profil cible');
 
-    assert.dom('[aria-label="Organisation"]').includesText('Organization for target profile 43');
+    assert.dom(screen.getByLabelText('Organisation')).includesText('Organization for target profile 43');
   });
 });

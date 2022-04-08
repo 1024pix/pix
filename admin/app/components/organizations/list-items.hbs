@@ -53,11 +53,7 @@
           {{#each @organizations as |organization|}}
             <tr aria-label="Organisation">
               <td class="table__column table__column--id">
-                <LinkTo
-                  @route="authenticated.organizations.get"
-                  @model={{organization.id}}
-                  data-test-orga={{organization.id}}
-                >
+                <LinkTo @route="authenticated.organizations.get" @model={{organization.id}}>
                   {{organization.id}}
                 </LinkTo>
               </td>

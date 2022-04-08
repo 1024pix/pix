@@ -1,7 +1,7 @@
 import { module, test } from 'qunit';
-import { currentURL, visit } from '@ember/test-helpers';
+import { currentURL } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
-import { clickByName, visit as visitScreen } from '@1024pix/ember-testing-library';
+import { clickByName, visit } from '@1024pix/ember-testing-library';
 import { createAuthenticateSession } from 'pix-admin/tests/helpers/test-init';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
@@ -43,10 +43,10 @@ module('Acceptance | Target Profiles | List', function (hooks) {
       server.createList('target-profile', 12);
 
       // when
-      await visit('/target-profiles/list');
+      const screen = await visit('/target-profiles/list');
 
       // then
-      assert.dom('[aria-label="Profil cible"]').exists({ count: 12 });
+      assert.strictEqual(screen.getAllByLabelText('Profil cible').length, 12);
     });
 
     module('when filters are used', function (hooks) {
@@ -86,7 +86,7 @@ module('Acceptance | Target Profiles | List', function (hooks) {
         tubes: [tube],
         skills: [skill],
       });
-      const screen = await visitScreen('/target-profiles/list');
+      const screen = await visit('/target-profiles/list');
 
       // when
       await clickByName('Profil Cible');

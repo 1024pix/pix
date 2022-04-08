@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
-import { currentURL, visit, click, fillIn } from '@ember/test-helpers';
-import { visit as visitScreen } from '@1024pix/ember-testing-library';
+import { currentURL, click, fillIn } from '@ember/test-helpers';
+import { visit } from '@1024pix/ember-testing-library';
 import { setupApplicationTest } from 'ember-qunit';
 import { createAuthenticateSession } from 'pix-admin/tests/helpers/test-init';
 
@@ -43,7 +43,7 @@ module('Acceptance | Session List', function (hooks) {
       server.createList('with-required-action-session', 10);
 
       // when
-      const screen = await visitScreen('/sessions/list');
+      const screen = await visit('/sessions/list');
 
       // then
       // TODO: Fix this the next time the file is edited.
@@ -73,8 +73,8 @@ module('Acceptance | Session List', function (hooks) {
       module('when selecting a different page', function () {
         test('it should display the second page of finalized sessions', async function (assert) {
           // when
-          await visit('/sessions/list');
-          await click('[aria-label="Aller à la page suivante"]');
+          const screen = await visit('/sessions/list');
+          await click(screen.getByLabelText('Aller à la page suivante'));
 
           // then
           assert.dom('select#pageSize').hasValue('10');

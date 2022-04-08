@@ -97,12 +97,12 @@ module('Integration | Component | TargetProfiles::Organizations', function (hook
     this.organizations = [];
 
     // when
-    await render(
+    const screen = await render(
       hbs`<TargetProfiles::Organizations @organizations={{this.organizations}} @goToOrganizationPage={{this.goToOrganizationPage}} @triggerFiltering={{this.triggerFiltering}} />`
     );
 
     // then
-    assert.dom('[aria-label="Valider le rattachement"]').isDisabled();
-    assert.dom('[aria-label="Valider le rattachement à partir de ce profil cible"]').isDisabled();
+    assert.dom(screen.getByLabelText('Valider le rattachement')).isDisabled();
+    assert.dom(screen.getByLabelText('Valider le rattachement à partir de ce profil cible')).isDisabled();
   });
 });

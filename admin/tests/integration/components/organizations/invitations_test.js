@@ -37,7 +37,7 @@ module('Integration | Component | organization-invitations', function (hooks) {
     assert.dom(screen.getByText('Membre')).exists();
     assert.dom(screen.getByText('Administrateur')).exists();
     assert.dom(screen.getByText('-')).exists();
-    assert.notContains('Aucune invitation en attente');
+    assert.dom(screen.queryByText('Aucune invitation en attente')).doesNotExist();
   });
 
   test('it should display a message when there is no invitations', async function (assert) {
