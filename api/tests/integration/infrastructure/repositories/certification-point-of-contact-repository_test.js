@@ -1,5 +1,6 @@
 const { databaseBuilder, expect, domainBuilder, catchErr } = require('../../../test-helper');
 const CertificationCenter = require('../../../../lib/domain/models/CertificationCenter');
+const Organization = require('../../../../lib/domain/models/Organization');
 const certificationPointOfContactRepository = require('../../../../lib/infrastructure/repositories/certification-point-of-contact-repository');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 
@@ -40,58 +41,69 @@ describe('Integration | Repository | CertificationPointOfContact', function () {
       });
       expect(expectedCertificationPointOfContact).to.deepEqualInstance(certificationPointOfContact);
     });
+    context(
+      'when the certification center is related to an organization of the same type that manages students',
+      function () {
+        it('should return CertificationPointOfContact with isRelatedOrganizationManagingStudents as true', async function () {
+          // given
+          databaseBuilder.factory.buildCertificationCenter({
+            id: 123,
+            name: 'Centre des papys gâteux',
+            type: CertificationCenter.types.PRO,
+            externalId: 'ABC123',
+          });
+          databaseBuilder.factory.buildOrganization({
+            id: 222,
+            externalId: 'ABC123',
+            isManagingStudents: false,
+            type: Organization.types.SUP,
+          });
+          databaseBuilder.factory.buildOrganization({
+            id: 753,
+            externalId: 'ABC123',
+            isManagingStudents: true,
+            type: Organization.types.PRO,
+          });
+          databaseBuilder.factory.buildUser({
+            id: 456,
+            firstName: 'Jean',
+            lastName: 'Acajou',
+            email: 'jean.acajou@example.net',
+            pixCertifTermsOfServiceAccepted: true,
+          });
+          databaseBuilder.factory.buildCertificationCenterMembership({
+            certificationCenterId: 123,
+            userId: 456,
+          });
+          await databaseBuilder.commit();
 
-    it('should return CertificationPointOfContact with isRelatedOrganizationManagingStudents as true when the certification center is related to an organization that manages students', async function () {
-      // given
-      databaseBuilder.factory.buildCertificationCenter({
-        id: 123,
-        name: 'Centre des papys gâteux',
-        type: CertificationCenter.types.PRO,
-        externalId: 'ABC123',
-      });
-      databaseBuilder.factory.buildOrganization({
-        id: 753,
-        externalId: 'ABC123',
-        isManagingStudents: true,
-      });
-      databaseBuilder.factory.buildUser({
-        id: 456,
-        firstName: 'Jean',
-        lastName: 'Acajou',
-        email: 'jean.acajou@example.net',
-        pixCertifTermsOfServiceAccepted: true,
-      });
-      databaseBuilder.factory.buildCertificationCenterMembership({
-        certificationCenterId: 123,
-        userId: 456,
-      });
-      await databaseBuilder.commit();
+          // when
+          const certificationPointOfContact = await certificationPointOfContactRepository.get(456);
 
-      // when
-      const certificationPointOfContact = await certificationPointOfContactRepository.get(456);
+          // then
+          const expectedAllowedCertificationCenterAccess = domainBuilder.buildAllowedCertificationCenterAccess({
+            id: 123,
+            name: 'Centre des papys gâteux',
+            externalId: 'ABC123',
+            type: CertificationCenter.types.PRO,
+            isRelatedToManagingStudentsOrganization: true,
+            relatedOrganizationTags: [],
+            habilitations: [],
+          });
+          const expectedCertificationPointOfContact = domainBuilder.buildCertificationPointOfContact({
+            id: 456,
+            firstName: 'Jean',
+            lastName: 'Acajou',
+            email: 'jean.acajou@example.net',
+            pixCertifTermsOfServiceAccepted: true,
+            allowedCertificationCenterAccesses: [expectedAllowedCertificationCenterAccess],
+          });
+          expect(expectedCertificationPointOfContact).to.deepEqualInstance(certificationPointOfContact);
+        });
+      }
+    );
 
-      // then
-      const expectedAllowedCertificationCenterAccess = domainBuilder.buildAllowedCertificationCenterAccess({
-        id: 123,
-        name: 'Centre des papys gâteux',
-        externalId: 'ABC123',
-        type: CertificationCenter.types.PRO,
-        isRelatedToManagingStudentsOrganization: true,
-        relatedOrganizationTags: [],
-        habilitations: [],
-      });
-      const expectedCertificationPointOfContact = domainBuilder.buildCertificationPointOfContact({
-        id: 456,
-        firstName: 'Jean',
-        lastName: 'Acajou',
-        email: 'jean.acajou@example.net',
-        pixCertifTermsOfServiceAccepted: true,
-        allowedCertificationCenterAccesses: [expectedAllowedCertificationCenterAccess],
-      });
-      expect(expectedCertificationPointOfContact).to.deepEqualInstance(certificationPointOfContact);
-    });
-
-    describe('when user is linked to many certification centers', function () {
+    context('when user is linked to many certification centers', function () {
       it('should return actives and allowed certification center accesses of the CertificationPointOfContact', async function () {
         // given
         const now = new Date();
@@ -110,6 +122,7 @@ describe('Integration | Repository | CertificationPointOfContact', function () {
         databaseBuilder.factory.buildOrganization({
           externalId: 'Centre2',
           isManagingStudents: true,
+          type: Organization.types.PRO,
         });
         databaseBuilder.factory.buildCertificationCenter({
           id: 3,
@@ -121,6 +134,7 @@ describe('Integration | Repository | CertificationPointOfContact', function () {
           id: 3,
           externalId: 'Centre3',
           isManagingStudents: false,
+          type: Organization.types.SUP,
         });
         databaseBuilder.factory.buildTag({ id: 3, name: 'premier tag' });
         databaseBuilder.factory.buildOrganizationTag({ organizationId: 3, tagId: 3 });
@@ -134,6 +148,7 @@ describe('Integration | Repository | CertificationPointOfContact', function () {
           id: 4,
           externalId: 'Centre4',
           isManagingStudents: false,
+          type: Organization.types.SCO,
         });
         databaseBuilder.factory.buildTag({ id: 4, name: 'deuxieme tag' });
         databaseBuilder.factory.buildTag({ id: 5, name: 'troisieme tag' });

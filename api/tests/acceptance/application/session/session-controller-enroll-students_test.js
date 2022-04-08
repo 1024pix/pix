@@ -79,7 +79,9 @@ describe('Acceptance | Controller | session-controller-enroll-students-to-sessio
       });
 
       beforeEach(async function () {
-        const { id: certificationCenterId, externalId } = databaseBuilder.factory.buildCertificationCenter();
+        const { id: certificationCenterId, externalId } = databaseBuilder.factory.buildCertificationCenter({
+          type: 'SCO',
+        });
 
         sessionId = databaseBuilder.factory.buildSession({ certificationCenterId }).id;
         const { id: organizationId } = databaseBuilder.factory.buildOrganization({

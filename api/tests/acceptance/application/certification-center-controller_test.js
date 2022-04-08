@@ -321,7 +321,7 @@ describe('Acceptance | API | Certification Center', function () {
       // given
       const externalId = 'anExternalId';
       const { certificationCenter, user } = _buildUserWithCertificationCenterMemberShip(externalId);
-      const organization = databaseBuilder.factory.buildOrganization({ externalId });
+      const organization = databaseBuilder.factory.buildOrganization({ externalId, type: 'SCO' });
 
       _buildSchoolingRegistrations(
         organization,
@@ -397,7 +397,7 @@ describe('Acceptance | API | Certification Center', function () {
       it('should return the schooling registrations asked', async function () {
         // given
         const { certificationCenter, user } = _buildUserWithCertificationCenterMemberShip(externalId);
-        const organization = databaseBuilder.factory.buildOrganization({ externalId });
+        const organization = databaseBuilder.factory.buildOrganization({ type: 'SCO', externalId });
         const session = databaseBuilder.factory.buildSession({ certificationCenterId: certificationCenter.id });
         _buildSchoolingRegistrations(
           organization,
@@ -720,6 +720,7 @@ describe('Acceptance | API | Certification Center', function () {
     const user = databaseBuilder.factory.buildUser({});
     const certificationCenter = databaseBuilder.factory.buildCertificationCenter({
       externalId: certificationCenterExternalId,
+      type: 'SCO',
     });
     databaseBuilder.factory.buildCertificationCenterMembership({
       certificationCenterId: certificationCenter.id,
