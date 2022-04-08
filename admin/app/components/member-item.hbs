@@ -64,7 +64,7 @@
         @triggerAction={{this.toggleDisplayConfirm}}
         class="member-item-actions__button"
       >
-        <FaIcon @icon="trash" />Désactiver
+        <FaIcon @icon="trash" />Désactiver le membre
       </PixButton>
     {{/if}}
   </div>
@@ -73,7 +73,7 @@
 <ConfirmPopup
   @message="Etes-vous sûr de vouloir désactiver ce membre de cette équipe ?"
   @title="Désactivation d'un membre"
-  @submitTitle="Désactiver"
+  @submitTitle="Confirmer"
   @confirm={{this.disableMembership}}
   @cancel={{this.toggleDisplayConfirm}}
   @show={{this.displayConfirm}}

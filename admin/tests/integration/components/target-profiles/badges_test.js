@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { click, find } from '@ember/test-helpers';
+import { find } from '@ember/test-helpers';
 import { clickByName, render } from '@1024pix/ember-testing-library';
 import EmberObject from '@ember/object';
 import hbs from 'htmlbars-inline-precompile';
@@ -117,9 +117,9 @@ module('Integration | Component | TargetProfiles::Badges', function (hooks) {
 
     test('should delete the badge on confirmation click', async function (assert) {
       // when
-      const screen = await render(hbs`<TargetProfiles::Badges @badges={{this.badges}} />`);
+      await render(hbs`<TargetProfiles::Badges @badges={{this.badges}} />`);
       await clickByName('Supprimer');
-      await click(screen.getAllByRole('button', { name: 'Supprimer' })[1]);
+      await clickByName('Confirmer');
 
       // then
       assert.ok(badge.destroyRecord.called);
