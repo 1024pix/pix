@@ -5,6 +5,7 @@ import EmberObject from '@ember/object';
 import { find, findAll, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
+import Service from '@ember/service';
 
 describe('Integration | Component | scorecard-details', function () {
   setupIntlRenderingTest();
@@ -261,6 +262,12 @@ describe('Integration | Component | scorecard-details', function () {
       context('and the user has some tutorials', async function () {
         it('should display the tutorial section and the related tutorials', async function () {
           // given
+          class FeatureTogglesService extends Service {
+            featureToggles = {
+              isNewTutorialsPageEnabled: false,
+            };
+          }
+          this.owner.register('service:featureToggles', FeatureTogglesService);
           const tuto1 = EmberObject.create({
             title: 'Tuto 1.1',
             tubeName: '@first_tube',
@@ -297,6 +304,54 @@ describe('Integration | Component | scorecard-details', function () {
           expect(find('.tutorials')).to.exist;
           expect(findAll('.tube')).to.have.lengthOf(2);
           expect(findAll('.tutorial-item')).to.have.lengthOf(3);
+        });
+
+        context('when newTutorials FT is enabled', function () {
+          it('should display the tutorial section and related tutorials', async function () {
+            // given
+            class FeatureTogglesService extends Service {
+              featureToggles = {
+                isNewTutorialsPageEnabled: true,
+              };
+            }
+            this.owner.register('service:featureToggles', FeatureTogglesService);
+            const tuto1 = EmberObject.create({
+              title: 'Tuto 1.1',
+              tubeName: '@first_tube',
+              tubePracticalTitle: 'Practical Title',
+              duration: '00:15:10',
+            });
+            const tuto2 = EmberObject.create({
+              title: 'Tuto 2.1',
+              tubeName: '@second_tube',
+              tubePracticalTitle: 'Practical Title',
+              duration: '00:04:00',
+            });
+            const tuto3 = EmberObject.create({
+              title: 'Tuto 2.2',
+              tubeName: '@second_tube',
+              tubePracticalTitle: 'Practical Title',
+              duration: '00:04:00',
+            });
+
+            const tutorials = A([tuto1, tuto2, tuto3]);
+
+            const scorecard = EmberObject.create({
+              competenceId: 1,
+              isStarted: true,
+              tutorials,
+            });
+
+            this.set('scorecard', scorecard);
+
+            // when
+            await render(hbs`<ScorecardDetails @scorecard={{this.scorecard}} />`);
+
+            // then
+            expect(find('.tutorials')).to.exist;
+            expect(findAll('.tube')).to.have.lengthOf(2);
+            expect(findAll('.tutorial-card-v2')).to.have.lengthOf(3);
+          });
         });
       });
     });
