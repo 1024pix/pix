@@ -10,6 +10,8 @@ const {
   CERTIF_FAILURE_USER_ID,
   CERTIF_EDU_FORMATION_INITIALE_2ND_DEGRE_USER_ID,
   CERTIF_EDU_FORMATION_CONTINUE_2ND_DEGRE_USER_ID,
+  CERTIF_EDU_FORMATION_INITIALE_1ER_DEGRE_USER_ID,
+  CERTIF_EDU_FORMATION_CONTINUE_1ER_DEGRE_USER_ID,
 } = require('./users');
 
 function badgeAcquisitionBuilder({ databaseBuilder }) {
@@ -22,6 +24,14 @@ function badgeAcquisitionBuilder({ databaseBuilder }) {
   });
   databaseBuilder.factory.buildBadgeAcquisition({
     userId: CERTIF_EDU_FORMATION_CONTINUE_2ND_DEGRE_USER_ID,
+    badgeId: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE_BADGE_ID,
+  });
+  databaseBuilder.factory.buildBadgeAcquisition({
+    userId: CERTIF_EDU_FORMATION_INITIALE_1ER_DEGRE_USER_ID,
+    badgeId: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME_BADGE_ID,
+  });
+  databaseBuilder.factory.buildBadgeAcquisition({
+    userId: CERTIF_EDU_FORMATION_CONTINUE_1ER_DEGRE_USER_ID,
     badgeId: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE_BADGE_ID,
   });
 }
