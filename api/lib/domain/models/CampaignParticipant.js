@@ -6,12 +6,12 @@ const couldNotJoinCampaignErrorMessage = "Vous n'êtes pas autorisé à rejoindr
 const couldNotImproveCampaignErrorMessage = 'Vous ne pouvez pas repasser la campagne';
 
 class CampaignParticipant {
-  constructor({ campaignToStartParticipation, schoolingRegistrationId, userIdentity, previousCampaignParticipation }) {
+  constructor({ campaignToStartParticipation, organizationLearner, userIdentity, previousCampaignParticipation }) {
     this.campaignToStartParticipation = campaignToStartParticipation;
-    this.schoolingRegistrationId = schoolingRegistrationId;
+    this.organizationLearnerId = organizationLearner?.id;
     this.userIdentity = userIdentity;
     this.previousCampaignParticipation = previousCampaignParticipation;
-    this.schoolingRegistration = null;
+    this.organizationLearnerHasParticipated = organizationLearner.hasParticipated;
   }
 
   start({ participantExternalId }) {
@@ -25,8 +25,8 @@ class CampaignParticipant {
       this.previousCampaignParticipation.isImproved = true;
     }
 
-    if (this._shouldBecomeTrainee()) {
-      this.schoolingRegistration = new OrganizationLearner({
+    if (this._shouldCreateOrganizationLearner()) {
+      this.organizationLearner = new OrganizationLearner({
         userId: this.userIdentity.id,
         organizationId: this.campaignToStartParticipation.organizationId,
         firstName: this.userIdentity.firstName,
@@ -45,13 +45,13 @@ class CampaignParticipant {
     this.campaignParticipation = CampaignParticipation.start({
       campaign: this.campaignToStartParticipation,
       userId: this.userIdentity.id,
-      schoolingRegistrationId: this.schoolingRegistrationId,
+      schoolingRegistrationId: this.organizationLearnerId,
       participantExternalId: participantExternalIdToUse,
     });
   }
 
-  _shouldBecomeTrainee() {
-    return !this.campaignToStartParticipation.isRestricted && !this.schoolingRegistrationId;
+  _shouldCreateOrganizationLearner() {
+    return !this.campaignToStartParticipation.isRestricted && !this.organizationLearnerId;
   }
 
   _checkCanParticipateToCampaign(participantExternalId) {
@@ -59,7 +59,7 @@ class CampaignParticipant {
       throw new ForbiddenAccess(couldNotJoinCampaignErrorMessage);
     }
 
-    if (this.campaignToStartParticipation.isRestricted && !this.schoolingRegistrationId) {
+    if (this.campaignToStartParticipation.isRestricted && !this.organizationLearnerId) {
       throw new ForbiddenAccess(couldNotJoinCampaignErrorMessage);
     }
 
@@ -89,6 +89,10 @@ class CampaignParticipant {
           },
         ],
       });
+    }
+
+    if (this.organizationLearnerHasParticipated) {
+      throw new AlreadyExistingCampaignParticipationError('ORGANIZATION_LEARNER_HAS_ALREADY_PARTICIPATED');
     }
   }
 
