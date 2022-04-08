@@ -7,7 +7,7 @@ const buildCertificationCandidate = function ({
   lastName = 'Ivy',
   sex = 'F',
   birthPostalCode = '75001',
-  birthINSEECode = '75001',
+  birthINSEECode = '75101',
   birthCity = 'Perpignan',
   birthProvinceCode = '66',
   birthCountry = 'France',
@@ -51,12 +51,52 @@ const buildCertificationCandidate = function ({
   });
 };
 
+buildCertificationCandidate.pro = function ({
+  firstName = 'Poison',
+  lastName = 'Ivy',
+  sex = 'F',
+  birthPostalCode = '75001',
+  birthINSEECode = '75101',
+  birthCity = 'Perpignan',
+  birthProvinceCode = '66',
+  birthCountry = 'France',
+  email = 'poison.ivy@example.net',
+  resultRecipientEmail = 'napoleon@example.net',
+  birthdate = '1990-05-06',
+  extraTimePercentage = 0.3,
+  externalId = 'externalId',
+  authorizedToStart = false,
+  sessionId = 456,
+  complementaryCertifications = [],
+  billingMode = 'FREE',
+}) {
+  return new CertificationCandidate({
+    firstName,
+    lastName,
+    sex,
+    birthPostalCode,
+    birthINSEECode,
+    birthCity,
+    birthProvinceCode,
+    birthCountry,
+    email,
+    resultRecipientEmail,
+    birthdate,
+    sessionId,
+    externalId,
+    extraTimePercentage,
+    authorizedToStart,
+    complementaryCertifications,
+    billingMode,
+  });
+};
+
 buildCertificationCandidate.notPersisted = function ({
   firstName = 'Poison',
   lastName = 'Ivy',
   sex = 'F',
   birthPostalCode = '75001',
-  birthINSEECode = '75001',
+  birthINSEECode = '75101',
   birthCity = 'Perpignan',
   birthProvinceCode = '66',
   birthCountry = 'France',

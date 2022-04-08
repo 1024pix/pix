@@ -3,7 +3,7 @@ const _ = require('lodash');
 const moment = require('moment');
 moment.suppressDeprecationWarnings = true;
 
-const { expect, catchErr, sinon } = require('../../../../test-helper');
+const { expect, catchErr } = require('../../../../test-helper');
 const { UnprocessableEntityError } = require('../../../../../lib/application/http-errors');
 
 const {
@@ -16,7 +16,6 @@ const {
   validateOdsHeaders,
   getSheetDataRowsFromOdsBuffer,
 } = require('../../../../../lib/infrastructure/utils/ods/read-ods-utils');
-const { featureToggles } = require('../../../../../lib/config');
 
 describe('Integration | Infrastructure | Utils | Ods | read-ods-utils', function () {
   const GET_CONTENT_ODS_FILE_PATH = `${__dirname}/files/get-content-xml_test.ods`;
@@ -244,9 +243,9 @@ describe('Integration | Infrastructure | Utils | Ods | read-ods-utils', function
 
     it('should read range rows and get the appropriate headers', async function () {
       // given
-      sinon.stub(featureToggles, 'isCertificationBillingEnabled').value(false);
       const expectedHeaders = getTransformationStructsForPixCertifCandidatesImport({
         complementaryCertifications: [],
+        isSco: true,
       }).headers;
 
       // when
