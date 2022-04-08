@@ -22,7 +22,13 @@
         {{#if @certificationCenterMemberships}}
           <tbody>
             {{#each @certificationCenterMemberships as |certificationCenterMembership|}}
-              <tr aria-label="Membre">
+              <tr
+                aria-label="
+                  Informations du membre
+                  {{certificationCenterMembership.user.firstName}}
+                  {{certificationCenterMembership.user.lastName}}
+                "
+              >
                 <td>{{certificationCenterMembership.id}}</td>
                 <td>{{certificationCenterMembership.user.id}}</td>
                 <td>{{certificationCenterMembership.user.firstName}}</td>
