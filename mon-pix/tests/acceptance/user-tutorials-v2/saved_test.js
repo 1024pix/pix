@@ -2,7 +2,7 @@ import { describe, it } from 'mocha';
 import { expect } from 'chai';
 import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
-import { visit, click, find, findAll } from '@ember/test-helpers';
+import { visit, find, findAll, click } from '@ember/test-helpers';
 import { authenticateByEmail } from '../../helpers/authentication';
 
 describe('Acceptance | User-tutorials-v2 | Saved', function () {
@@ -32,6 +32,7 @@ describe('Acceptance | User-tutorials-v2 | Saved', function () {
         // given
         const numberOfTutorials = 10;
         await server.db.tutorials.remove();
+        await server.db.userTutorials.remove();
         server.createList('tutorial', numberOfTutorials, 'withUserTutorial');
         await visit('/mes-tutos-v2/enregistres');
 
