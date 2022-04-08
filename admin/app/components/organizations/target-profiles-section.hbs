@@ -3,11 +3,7 @@
     <h2 class="page-section__title">Rattacher un ou plusieurs profil(s) cible(s)</h2>
   </header>
   <div class="organization__forms-section">
-    <form
-      aria-label="Rattacher un ou plusieurs profil(s) cible(s)"
-      class="organization__sub-form form"
-      {{on "submit" this.attachTargetProfiles}}
-    >
+    <form class="organization__sub-form form" {{on "submit" this.attachTargetProfiles}}>
       <Input
         aria-label="ID du ou des profil(s) cible(s)"
         @value={{this.targetProfilesToAttach}}

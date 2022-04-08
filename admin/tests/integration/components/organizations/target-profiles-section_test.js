@@ -1,7 +1,7 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, fillIn } from '@ember/test-helpers';
-import { clickByName } from '@1024pix/ember-testing-library';
+import { render } from '@ember/test-helpers';
+import { clickByName, fillByLabel } from '@1024pix/ember-testing-library';
 import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
 import sinon from 'sinon';
@@ -36,7 +36,7 @@ module('Integration | Component | organizations/target-profiles-section', functi
 
     // when
     await render(hbs`<Organizations::TargetProfilesSection @organization={{organization}} />`);
-    await fillIn('[aria-label="ID du ou des profil(s) cible(s)"]', '1');
+    await fillByLabel('ID du ou des profil(s) cible(s)', '1');
     await clickByName('Valider');
 
     // then

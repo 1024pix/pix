@@ -7,7 +7,7 @@
   <caption class="authentication-method__caption">Méthodes de connexion</caption>
 
   <tbody>
-    <tr data-test-email>
+    <tr>
       <td class="authentication-method__name-column">Adresse e-mail</td>
       <td>
         {{#if @user.hasEmailAuthenticationMethod}}
@@ -31,7 +31,6 @@
             @size="small"
             @backgroundColor="red"
             @triggerAction={{fn @toggleDisplayRemoveAuthenticationMethodModal "EMAIL"}}
-            data-test-remove-email
           >Supprimer</PixButton>
         {{/if}}
         {{#if @user.isAllowedToAddEmailAuthenticationMethod}}
@@ -40,7 +39,7 @@
       </td>
     </tr>
 
-    <tr data-test-username>
+    <tr>
       <td class="authentication-method__name-column">Identifiant</td>
       <td>
         {{#if @user.hasUsernameAuthenticationMethod}}
@@ -64,13 +63,12 @@
             @size="small"
             @backgroundColor="red"
             @triggerAction={{fn @toggleDisplayRemoveAuthenticationMethodModal "USERNAME"}}
-            data-test-remove-username
           >Supprimer</PixButton>
         {{/if}}
       </td>
     </tr>
 
-    <tr data-test-pole-emploi>
+    <tr>
       <td class="authentication-method__name-column">Pôle emploi</td>
       <td>
         {{#if @user.hasPoleEmploiAuthenticationMethod}}
@@ -94,7 +92,6 @@
             @size="small"
             @backgroundColor="red"
             @triggerAction={{fn @toggleDisplayRemoveAuthenticationMethodModal "POLE_EMPLOI"}}
-            data-test-remove-pole-emploi
           >Supprimer</PixButton>
         {{/if}}
       </td>
@@ -107,7 +104,7 @@
       </td>
     </tr>
 
-    <tr data-test-gar>
+    <tr>
       <td class="authentication-method__name-column">Médiacentre</td>
       <td>
         {{#if @user.hasGarAuthenticationMethod}}
@@ -131,7 +128,6 @@
             @size="small"
             @backgroundColor="red"
             @triggerAction={{fn @toggleDisplayRemoveAuthenticationMethodModal "GAR"}}
-            data-test-remove-mediacentre
           >Supprimer</PixButton>
         {{/if}}
       </td>

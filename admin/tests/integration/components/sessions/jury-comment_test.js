@@ -248,10 +248,16 @@ module('Integration | Component | Sessions::JuryComment', function (hooks) {
 
             // then
             assert.ok(this.onDeleteButtonClicked.calledOnce);
-            assert.notContains('Voulez-vous vraiment supprimer le commentaire de Frederic Brown ?');
-            assert.notContains(
-              'Le dernier homme sur la Terre était assis tout seul dans une pièce. Il y eut un coup à la porte…'
-            );
+            assert
+              .dom(screen.queryByText('Voulez-vous vraiment supprimer le commentaire de Frederic Brown ?'))
+              .doesNotExist();
+            assert
+              .dom(
+                screen.queryByText(
+                  'Le dernier homme sur la Terre était assis tout seul dans une pièce. Il y eut un coup à la porte…'
+                )
+              )
+              .doesNotExist();
             assert.dom(screen.getByRole('button', { name: 'Enregistrer' })).exists();
           });
         });
@@ -316,7 +322,9 @@ module('Integration | Component | Sessions::JuryComment', function (hooks) {
 
           // then
           assert.ok(this.onDeleteButtonClicked.notCalled);
-          assert.notContains('Voulez-vous vraiment supprimer le commentaire de Frederic Brown ?');
+          assert
+            .dom(screen.queryByText('Voulez-vous vraiment supprimer le commentaire de Frederic Brown ?'))
+            .doesNotExist();
           assert
             .dom(
               screen.getByText(

@@ -1,6 +1,5 @@
 import { action } from '@ember/object';
 import Component from '@glimmer/component';
-import { tracked } from '@glimmer/tracking';
 
 export default class OrganizationForm extends Component {
   organizationTypes = [
@@ -9,11 +8,8 @@ export default class OrganizationForm extends Component {
     { value: 'SUP', label: 'Établissement supérieur' },
   ];
 
-  @tracked selectedOrganizationType;
-
   @action
-  selectOrganizationType(organizationType) {
-    this.selectedOrganizationType = organizationType;
-    this.args.organization.type = organizationType.value;
+  selectOrganizationType(event) {
+    this.args.organization.type = event.target.value;
   }
 }

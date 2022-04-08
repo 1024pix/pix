@@ -1,6 +1,5 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { find } from '@ember/test-helpers';
 import { render } from '@1024pix/ember-testing-library';
 import { run } from '@ember/runloop';
 import hbs from 'htmlbars-inline-precompile';
@@ -156,9 +155,9 @@ module('Integration | Component | certifications/certified-profile', function (h
       );
 
       // then
-      const iconSkill1 = find('[aria-label="skill1"]').getAttribute('data-icon');
-      const iconSkill2 = find('[aria-label="skill2"]').getAttribute('data-icon');
       assert.dom(screen.getByText('tube1')).exists();
+      const iconSkill1 = screen.getByLabelText('skill1').getAttribute('data-icon');
+      const iconSkill2 = screen.getByLabelText('skill2').getAttribute('data-icon');
       // TODO: Fix this the next time the file is edited.
       // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(iconSkill1, 'check-double');

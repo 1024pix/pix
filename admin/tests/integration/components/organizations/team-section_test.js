@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render } from '@ember/test-helpers';
+import { render } from '@1024pix/ember-testing-library';
 import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
 
@@ -28,7 +28,7 @@ module('Integration | Component | organization-team-section', function (hooks) {
     memberships.meta = { rowCount: 2 };
 
     // when
-    await render(hbs`<Organizations::TeamSection
+    const screen = await render(hbs`<Organizations::TeamSection
       @memberships={{memberships}}
       @addMembership={{noop}}
       @createOrganizationInvitation={{noop}}
@@ -36,6 +36,6 @@ module('Integration | Component | organization-team-section', function (hooks) {
       @selectRoleForSearch={{noop}}/>`);
 
     // then
-    assert.dom('[aria-label="Membre"]').exists({ count: 2 });
+    assert.strictEqual(screen.getAllByLabelText('Membre').length, 2);
   });
 });

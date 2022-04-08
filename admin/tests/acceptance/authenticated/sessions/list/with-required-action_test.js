@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
-import { visit, currentURL, click } from '@ember/test-helpers';
-import { visit as visitScreen } from '@1024pix/ember-testing-library';
+import { currentURL, click } from '@ember/test-helpers';
+import { visit } from '@1024pix/ember-testing-library';
 import { setupApplicationTest } from 'ember-qunit';
 import { createAuthenticateSession } from 'pix-admin/tests/helpers/test-init';
 
@@ -61,7 +61,7 @@ module('Acceptance | authenticated/sessions/list/with required action', function
       });
 
       // when
-      const screen = await visitScreen('/sessions/list/with-required-action');
+      const screen = await visit('/sessions/list/with-required-action');
 
       // then
       _assertSession1InformationsAreDisplayed(assert, screen);
@@ -90,7 +90,7 @@ module('Acceptance | authenticated/sessions/list/with required action', function
           sessionTime,
           assignedCertificationOfficerName: 'Officer2',
         });
-        const screen = await visitScreen('/sessions/list/with-required-action');
+        const screen = await visit('/sessions/list/with-required-action');
 
         // when
         await click('.x-toggle-btn');

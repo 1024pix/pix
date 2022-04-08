@@ -38,10 +38,12 @@ module('Integration | Component | Campaigns | participation-row', function (hook
       this.set('idPixLabel', null);
 
       // when
-      await render(hbs`<Campaigns::ParticipationRow @participation={{participation}} @idPixLabel={{idPixLabel}}/>`);
+      const screen = await render(
+        hbs`<Campaigns::ParticipationRow @participation={{participation}} @idPixLabel={{idPixLabel}}/>`
+      );
 
       // then
-      assert.notContains('123');
+      assert.dom(screen.queryByText('123')).doesNotExist();
     });
 
     test('it should display participantExternalId if idPixLabel is set', async function (assert) {
@@ -116,7 +118,7 @@ module('Integration | Component | Campaigns | participation-row', function (hook
 
       test('it should update participantExternalId on save', async function (assert) {
         // given
-        await render(
+        const screen = await render(
           hbs`<Campaigns::ParticipationRow @participation={{this.participation}} @idPixLabel={{this.idPixLabel}} @updateParticipantExternalId={{this.updateParticipantExternalId}} />`
         );
         await clickByName('Modifier');
@@ -126,14 +128,14 @@ module('Integration | Component | Campaigns | participation-row', function (hook
         await clickByName('Enregistrer');
 
         // then
-        assert.notContains('Enregistrer');
+        assert.dom(screen.queryByText('Enregistrer')).doesNotExist();
         assert.strictEqual(this.participation.participantExternalId, '4567890');
         assert.ok(this.updateParticipantExternalId.called);
       });
 
       test('it should update participantExternalId with null if participantExternalId only  has blank space', async function (assert) {
         // given
-        await render(
+        const screen = await render(
           hbs`<Campaigns::ParticipationRow @participation={{this.participation}} @idPixLabel={{this.idPixLabel}} @updateParticipantExternalId={{this.updateParticipantExternalId}} />`
         );
         await clickByName('Modifier');
@@ -143,14 +145,14 @@ module('Integration | Component | Campaigns | participation-row', function (hook
         await clickByName('Enregistrer');
 
         // then
-        assert.notContains('Enregistrer');
+        assert.dom(screen.queryByText('Enregistrer')).doesNotExist();
         assert.strictEqual(this.participation.participantExternalId, null);
         assert.ok(this.updateParticipantExternalId.called);
       });
 
       test('it should update participantExternalId with null if participantExternalId is empty', async function (assert) {
         // given
-        await render(
+        const screen = await render(
           hbs`<Campaigns::ParticipationRow @participation={{this.participation}} @idPixLabel={{this.idPixLabel}} @updateParticipantExternalId={{this.updateParticipantExternalId}} />`
         );
         await clickByName('Modifier');
@@ -160,14 +162,14 @@ module('Integration | Component | Campaigns | participation-row', function (hook
         await clickByName('Enregistrer');
 
         // then
-        assert.notContains('Enregistrer');
+        assert.dom(screen.queryByText('Enregistrer')).doesNotExist();
         assert.strictEqual(this.participation.participantExternalId, null);
         assert.ok(this.updateParticipantExternalId.called);
       });
 
       test('it should not update participantExternalId on cancel', async function (assert) {
         // given
-        await render(
+        const screen = await render(
           hbs`<Campaigns::ParticipationRow @participation={{this.participation}} @idPixLabel={{this.idPixLabel}} @updateParticipantExternalId={{this.updateParticipantExternalId}} />`
         );
         await clickByName('Modifier');
@@ -177,7 +179,7 @@ module('Integration | Component | Campaigns | participation-row', function (hook
         await clickByName('Annuler');
 
         // then
-        assert.notContains('Enregistrer');
+        assert.dom(screen.queryByText('Enregistrer')).doesNotExist();
         assert.strictEqual(this.participation.participantExternalId, '123');
         assert.notOk(this.updateParticipantExternalId.called);
       });

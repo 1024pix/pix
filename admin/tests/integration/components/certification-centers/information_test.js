@@ -100,9 +100,9 @@ module('Integration | Component | certification-centers/information', function (
 
     // then
     assert.dom(screen.getByText('Editer les informations')).exists();
-    assert.notContains('Annuler');
-    assert.notContains('Enregistrer');
-    assert.notContains('Nom du centre');
+    assert.dom(screen.queryByText('Annuler')).doesNotExist();
+    assert.dom(screen.queryByText('Enregistrer')).doesNotExist();
+    assert.dom(screen.queryByText('Nom du centre')).doesNotExist();
   });
 
   test('it exits edition mode when click on Cancel button', async function (assert) {
@@ -126,9 +126,9 @@ module('Integration | Component | certification-centers/information', function (
 
     // then
     assert.dom(screen.getByText('Editer les informations')).exists();
-    assert.notContains('Annuler');
-    assert.notContains('Enregistrer');
-    assert.notContains('Nom du centre');
+    assert.dom(screen.queryByText('Annuler')).doesNotExist();
+    assert.dom(screen.queryByText('Enregistrer')).doesNotExist();
+    assert.dom(screen.queryByText('Nom du centre')).doesNotExist();
   });
 
   test('it renders the certification center information component in edit mode', async function (assert) {

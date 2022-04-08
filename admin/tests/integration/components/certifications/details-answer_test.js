@@ -154,14 +154,14 @@ module('Integration | Component | certifications/details-answer', function (hook
     });
 
     // when
-    await render(hbs`<Certifications::DetailsAnswer @answer={{answer}} />`);
+    const screen = await render(hbs`<Certifications::DetailsAnswer @answer={{answer}} />`);
 
-    // Then
-    assert.dom('[data-test-link-preview]').hasText('Preview');
+    // then
     assert
-      .dom('[data-test-link-preview]')
+      .dom(screen.getByRole('link', { name: 'Preview' }))
       .hasAttribute('href', 'https://app.recette.pix.fr/challenges/rec1234/preview');
-    assert.dom('[data-test-link-info]').hasText('Info');
-    assert.dom('[data-test-link-info]').hasAttribute('href', 'https://editor.pix.fr/#/challenge/rec1234');
+    assert
+      .dom(screen.getByRole('link', { name: 'Info' }))
+      .hasAttribute('href', 'https://editor.pix.fr/#/challenge/rec1234');
   });
 });

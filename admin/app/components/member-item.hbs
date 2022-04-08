@@ -2,19 +2,20 @@
 <td>{{@membership.user.firstName}}</td>
 <td>{{@membership.user.lastName}}</td>
 <td>{{@membership.user.email}}</td>
-<td data-test-id="editable-cell">
+<td>
   {{#if this.isEditionMode}}
-    <PowerSelect
-      @options={{this.organizationRoles}}
-      @selected={{this.selectedNewRole}}
-      @searchEnabled={{false}}
+    <PixSelect
       @onChange={{this.setRoleSelection}}
-      @placeholder="Sélectionner"
+      @options={{this.organizationRoles}}
+      placeholder="Sélectionner"
       aria-label="Sélectionner un rôle"
+      @isSearchable={{false}}
+      @emptyOptionNotSelectable={{true}}
+      @emptyOptionLabel=""
       as |role|
     >
       {{role.label}}
-    </PowerSelect>
+    </PixSelect>
   {{else}}
     {{@membership.displayedOrganizationRole}}
   {{/if}}
@@ -63,7 +64,7 @@
         @triggerAction={{this.toggleDisplayConfirm}}
         class="member-item-actions__button"
       >
-        <FaIcon @icon="trash" />Désactiver
+        <FaIcon @icon="trash" />Désactiver le membre
       </PixButton>
     {{/if}}
   </div>
@@ -72,7 +73,7 @@
 <ConfirmPopup
   @message="Etes-vous sûr de vouloir désactiver ce membre de cette équipe ?"
   @title="Désactivation d'un membre"
-  @submitTitle="Désactiver"
+  @submitTitle="Confirmer"
   @confirm={{this.disableMembership}}
   @cancel={{this.toggleDisplayConfirm}}
   @show={{this.displayConfirm}}
