@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
-import { visit, currentURL } from '@ember/test-helpers';
-import { fillByLabel, clickByName, visit as visitScreen } from '@1024pix/ember-testing-library';
+import { currentURL } from '@ember/test-helpers';
+import { fillByLabel, clickByName, visit } from '@1024pix/ember-testing-library';
 import { setupApplicationTest } from 'ember-qunit';
 import { createAuthenticateSession } from 'pix-admin/tests/helpers/test-init';
 
@@ -56,7 +56,7 @@ module('Acceptance | authenticated/sessions/session/informations', function (hoo
         });
 
         // when
-        const screen = await visitScreen('/sessions/3');
+        const screen = await visit('/sessions/3');
 
         // then
         assert.dom(screen.getByText("Commentaire de l'équipe Certification")).exists();
@@ -79,7 +79,7 @@ module('Acceptance | authenticated/sessions/session/informations', function (hoo
             });
 
             // when
-            const screen = await visitScreen('/sessions/6');
+            const screen = await visit('/sessions/6');
             await clickByName('Supprimer');
             await clickByName('Confirmer');
 
@@ -113,7 +113,7 @@ module('Acceptance | authenticated/sessions/session/informations', function (hoo
             );
 
             // when
-            const screen = await visitScreen('/sessions/6');
+            const screen = await visit('/sessions/6');
             await clickByName('Supprimer');
             await clickByName('Confirmer');
 
@@ -132,7 +132,7 @@ module('Acceptance | authenticated/sessions/session/informations', function (hoo
           server.create('session', { id: '4', juryComment: null, juryCommentedAt: null, juryCommentAuthor: null });
 
           // when
-          const screen = await visitScreen('/sessions/4');
+          const screen = await visit('/sessions/4');
           await fillByLabel(
             'Texte du commentaire',
             "Le surveillant prétend qu'une météorite est tombée sur le centre."
@@ -157,7 +157,7 @@ module('Acceptance | authenticated/sessions/session/informations', function (hoo
           );
 
           // when
-          const screen = await visitScreen('/sessions/5');
+          const screen = await visit('/sessions/5');
           await fillByLabel(
             'Texte du commentaire',
             "Le surveillant prétend qu'une météorite est tombée sur le centre."

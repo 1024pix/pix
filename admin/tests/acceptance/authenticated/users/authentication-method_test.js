@@ -2,7 +2,7 @@ import { module, test } from 'qunit';
 import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { createAuthenticateSession } from '../../../helpers/test-init';
-import { fillByLabel, clickByName, visit as visitScreen } from '@1024pix/ember-testing-library';
+import { fillByLabel, clickByName, visit } from '@1024pix/ember-testing-library';
 
 module('Acceptance | authenticated/users | authentication-method', function (hooks) {
   setupApplicationTest(hooks);
@@ -24,7 +24,7 @@ module('Acceptance | authenticated/users | authentication-method', function (hoo
       });
 
       // when
-      const screen = await visitScreen(`/users/${userToAddNewEmail.id}`);
+      const screen = await visit(`/users/${userToAddNewEmail.id}`);
       await clickByName('Ajouter une adresse e-mail');
       await fillByLabel('Nouvelle adresse e-mail', 'nouvel-email@example.net');
       await clickByName("Enregistrer l'adresse e-mail");
@@ -53,7 +53,7 @@ module('Acceptance | authenticated/users | authentication-method', function (hoo
       server.create('user', { email: 'nouvel-email@example.net' });
 
       // when
-      const screen = await visitScreen(`/users/${userToAddNewEmail.id}`);
+      const screen = await visit(`/users/${userToAddNewEmail.id}`);
       await clickByName('Ajouter une adresse e-mail');
       await fillByLabel('Nouvelle adresse e-mail', 'nouvel-email@example.net');
       await clickByName("Enregistrer l'adresse e-mail");
@@ -79,7 +79,7 @@ module('Acceptance | authenticated/users | authentication-method', function (hoo
       });
 
       // when
-      const screen = await visitScreen(`/users/${user.id}`);
+      const screen = await visit(`/users/${user.id}`);
       await clickByName('Déplacer cette méthode de connexion');
       await fillByLabel("Id de l'utilisateur à qui vous souhaitez ajouter la méthode de connexion", 1);
       await clickByName('Valider le déplacement');
@@ -110,7 +110,7 @@ module('Acceptance | authenticated/users | authentication-method', function (hoo
       });
 
       // when
-      const screen = await visitScreen(`/users/${user.id}`);
+      const screen = await visit(`/users/${user.id}`);
 
       await clickByName('Déplacer cette méthode de connexion');
       await fillByLabel("Id de l'utilisateur à qui vous souhaitez ajouter la méthode de connexion", 1);

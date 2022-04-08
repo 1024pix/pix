@@ -1,9 +1,9 @@
 import { module, test } from 'qunit';
-import { click, currentURL, visit, fillIn } from '@ember/test-helpers';
+import { click, currentURL, fillIn } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { createAuthenticateSession } from 'pix-admin/tests/helpers/test-init';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
-import { visit as visitScreen, clickByName, selectByLabelAndOption } from '@1024pix/ember-testing-library';
+import { visit, clickByName, selectByLabelAndOption } from '@1024pix/ember-testing-library';
 
 module('Acceptance | Organizations | Memberships management', function (hooks) {
   setupApplicationTest(hooks);
@@ -71,7 +71,7 @@ module('Acceptance | Organizations | Memberships management', function (hooks) {
       this.server.create('user', { firstName: 'John', lastName: 'Doe', email: 'user@example.com' });
 
       // when
-      const screen = await visitScreen(`/organizations/${organization.id}`);
+      const screen = await visit(`/organizations/${organization.id}`);
       await fillIn(
         screen.getByRole('textbox', { name: "Adresse e-mail de l'utilisateur à ajouter" }),
         'user@example.com'
@@ -95,7 +95,7 @@ module('Acceptance | Organizations | Memberships management', function (hooks) {
       this.server.create('membership', { user, organization });
 
       // when
-      const screen = await visitScreen(`/organizations/${organization.id}`);
+      const screen = await visit(`/organizations/${organization.id}`);
       await fillIn(
         screen.getByRole('textbox', { name: "Adresse e-mail de l'utilisateur à ajouter" }),
         'denise@example.com'
@@ -114,7 +114,7 @@ module('Acceptance | Organizations | Memberships management', function (hooks) {
       this.server.create('membership', { user, organization });
 
       // when
-      const screen = await visitScreen(`/organizations/${organization.id}`);
+      const screen = await visit(`/organizations/${organization.id}`);
       await fillIn(
         screen.getByRole('textbox', { name: "Adresse e-mail de l'utilisateur à ajouter" }),
         'unexisting@example.com'
@@ -138,7 +138,7 @@ module('Acceptance | Organizations | Memberships management', function (hooks) {
 
     test("should update member's role", async function (assert) {
       // given / when
-      const screen = await visitScreen(`/organizations/${organization.id}/team`);
+      const screen = await visit(`/organizations/${organization.id}/team`);
       await clickByName('Modifier le rôle');
       await selectByLabelAndOption('Sélectionner un rôle', 'MEMBER');
       await clickByName('Enregistrer');
@@ -159,7 +159,7 @@ module('Acceptance | Organizations | Memberships management', function (hooks) {
 
     test('should deactivate a member', async function (assert) {
       // given / when
-      const screen = await visitScreen(`/organizations/${organization.id}/team`);
+      const screen = await visit(`/organizations/${organization.id}/team`);
       await clickByName('Désactiver');
 
       await click(screen.getAllByRole('button', { name: 'Désactiver' })[1]);

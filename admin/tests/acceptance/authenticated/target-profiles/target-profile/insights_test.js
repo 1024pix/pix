@@ -1,5 +1,5 @@
-import { click, currentURL, fillIn, findAll, visit } from '@ember/test-helpers';
-import { visit as visitScreen, clickByName } from '@1024pix/ember-testing-library';
+import { click, currentURL, fillIn, findAll } from '@ember/test-helpers';
+import { visit, clickByName } from '@1024pix/ember-testing-library';
 import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { module, test } from 'qunit';
@@ -24,7 +24,7 @@ module('Acceptance | Target Profiles | Target Profile | Insights', function (hoo
   });
 
   test('should list badges and stages', async function (assert) {
-    const screen = await visitScreen(`/target-profiles/${targetProfile.id}/insights`);
+    const screen = await visit(`/target-profiles/${targetProfile.id}/insights`);
 
     assert.strictEqual(screen.getAllByLabelText('Badge').length, 2);
     assert.dom(screen.getByText('My badge')).exists();
@@ -88,7 +88,7 @@ module('Acceptance | Target Profiles | Target Profile | Insights', function (hoo
 
   module('stages', function () {
     test('should be able to add a new stage', async function (assert) {
-      const screen = await visitScreen(`/target-profiles/${targetProfile.id}/insights`);
+      const screen = await visit(`/target-profiles/${targetProfile.id}/insights`);
 
       const stageCount = findAll('.insights__section:nth-child(2) tbody tr').length;
       // TODO: Fix this the next time the file is edited.
@@ -138,7 +138,7 @@ module('Acceptance | Target Profiles | Target Profile | Insights', function (hoo
 
     test('should remove one line of a new stage', async function (assert) {
       // when
-      const screen = await visitScreen(`/target-profiles/${targetProfile.id}/insights`);
+      const screen = await visit(`/target-profiles/${targetProfile.id}/insights`);
       const stageCount = findAll('.insights__section:nth-child(2) tbody tr').length;
       // TODO: Fix this the next time the file is edited.
       // eslint-disable-next-line qunit/no-assert-equal

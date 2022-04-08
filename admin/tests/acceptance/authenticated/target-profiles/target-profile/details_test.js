@@ -1,5 +1,5 @@
-import { click, currentURL, visit } from '@ember/test-helpers';
-import { fillByLabel, clickByName, visit as visitScreen } from '@1024pix/ember-testing-library';
+import { click, currentURL } from '@ember/test-helpers';
+import { fillByLabel, clickByName, visit } from '@1024pix/ember-testing-library';
 import { module, test } from 'qunit';
 import { createAuthenticateSession } from 'pix-admin/tests/helpers/test-init';
 import { setupApplicationTest } from 'ember-qunit';
@@ -54,7 +54,7 @@ module('Acceptance | Target Profiles | Target Profile | Details', function (hook
       });
 
       // when
-      const screen = await visitScreen('/target-profiles/1');
+      const screen = await visit('/target-profiles/1');
 
       // then
       assert.dom(screen.getByRole('heading', { name: 'Profil Cible Fantastix' })).exists();
@@ -85,7 +85,7 @@ module('Acceptance | Target Profiles | Target Profile | Details', function (hook
       });
 
       // when
-      const screen = await visitScreen('/target-profiles/1');
+      const screen = await visit('/target-profiles/1');
 
       // then
       assert.dom(screen.getByText('Competence 1')).exists();
@@ -112,7 +112,7 @@ module('Acceptance | Target Profiles | Target Profile | Details', function (hook
       server.create('target-profile', { id: 1, name: 'Profil Cible' });
 
       // when
-      const screen = await visitScreen('/target-profiles/1/organizations');
+      const screen = await visit('/target-profiles/1/organizations');
 
       // then
       assert.dom(screen.getByText('Fantastix')).exists();
@@ -131,7 +131,7 @@ module('Acceptance | Target Profiles | Target Profile | Details', function (hook
       });
 
       // when
-      const screen = await visitScreen('/target-profiles/1');
+      const screen = await visit('/target-profiles/1');
       await clickByName('Editer');
 
       // then
@@ -149,7 +149,7 @@ module('Acceptance | Target Profiles | Target Profile | Details', function (hook
       });
 
       // when
-      const screen = await visitScreen('/target-profiles/1');
+      const screen = await visit('/target-profiles/1');
       await clickByName('Marquer comme obsolète');
 
       await clickByName('Oui, marquer comme obsolète');
@@ -169,7 +169,7 @@ module('Acceptance | Target Profiles | Target Profile | Details', function (hook
       });
 
       // when
-      const screen = await visitScreen('/target-profiles/1');
+      const screen = await visit('/target-profiles/1');
       await clickByName('Marquer comme obsolète');
 
       await clickByName('Non, annuler');
@@ -190,7 +190,7 @@ module('Acceptance | Target Profiles | Target Profile | Details', function (hook
       });
 
       // when
-      const screen = await visitScreen('/target-profiles/1');
+      const screen = await visit('/target-profiles/1');
       await clickByName('Editer');
       await fillByLabel('* Nom', 'Profil Cible Fantastix Edited');
       await clickByName('Enregistrer');
@@ -212,7 +212,7 @@ module('Acceptance | Target Profiles | Target Profile | Details', function (hook
       });
 
       // when
-      const screen = await visitScreen('/target-profiles/1');
+      const screen = await visit('/target-profiles/1');
       await clickByName('Editer');
       await fillByLabel('Catégorie :', 'CUSTOM');
       await clickByName('Enregistrer');
@@ -232,7 +232,7 @@ module('Acceptance | Target Profiles | Target Profile | Details', function (hook
       });
 
       // when
-      const screen = await visitScreen('/target-profiles/1');
+      const screen = await visit('/target-profiles/1');
       await clickByName('Marquer comme accès simplifié');
       await clickByName('Oui, marquer comme accès simplifié');
 
@@ -251,7 +251,7 @@ module('Acceptance | Target Profiles | Target Profile | Details', function (hook
         });
 
         // when
-        const screen = await visitScreen('/target-profiles/1');
+        const screen = await visit('/target-profiles/1');
 
         // then
         assert.dom(screen.queryByLabelText('Marquer comme accès simplifié')).doesNotExist();

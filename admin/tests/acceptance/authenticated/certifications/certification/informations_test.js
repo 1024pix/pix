@@ -1,7 +1,7 @@
 import { module, test } from 'qunit';
 import { setupApplicationTest } from 'ember-qunit';
-import { click, currentURL, visit } from '@ember/test-helpers';
-import { fillByLabel, clickByName, visit as visitScreen } from '@1024pix/ember-testing-library';
+import { click, currentURL } from '@ember/test-helpers';
+import { fillByLabel, clickByName, visit } from '@1024pix/ember-testing-library';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { createAuthenticateSession } from 'pix-admin/tests/helpers/test-init';
 
@@ -52,7 +52,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
 
   test('it displays candidate information', async function (assert) {
     // when
-    const screen = await visitScreen(`/certifications/${certification.id}`);
+    const screen = await visit(`/certifications/${certification.id}`);
 
     // then
     assert.dom(screen.getByText('Prénom : Bora Horza')).exists();
@@ -78,7 +78,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
     });
 
     // when
-    const screen = await visitScreen(`/certifications/${certification.id}`);
+    const screen = await visit(`/certifications/${certification.id}`);
 
     // then
     assert.dom(screen.getByText('Certification CléA numérique :')).exists();
@@ -104,7 +104,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
     });
 
     // when
-    const screen = await visitScreen(`/certifications/${certification.id}`);
+    const screen = await visit(`/certifications/${certification.id}`);
 
     // then
     assert.dom(screen.getByText('Certification CléA numérique :')).exists();
@@ -130,7 +130,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
     });
 
     // when
-    const screen = await visitScreen(`/certifications/${certification.id}`);
+    const screen = await visit(`/certifications/${certification.id}`);
 
     // then
     assert.dom(screen.queryByLabelText('Certification CléA numérique :')).doesNotExist();
@@ -163,7 +163,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
         });
 
         // when
-        const screen = await visitScreen('/certifications/456');
+        const screen = await visit('/certifications/456');
 
         // then
         assert.dom(screen.getByText('Voir avec PO/Dev pour modifier les infos candidat.')).exists();
@@ -175,7 +175,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
       module('when editing candidate information succeeds', function () {
         test('should save the candidate information data when modifying them', async function (assert) {
           // given
-          const screen = await visitScreen('/certifications/123');
+          const screen = await visit('/certifications/123');
           await clickByName('Modifier les informations du candidat');
 
           // when
@@ -196,7 +196,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
 
         test('should display a success notification', async function (assert) {
           // given
-          const screen = await visitScreen('/certifications/123');
+          const screen = await visit('/certifications/123');
           await clickByName('Modifier les informations du candidat');
 
           // when
@@ -210,7 +210,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
 
         test('should close the modal', async function (assert) {
           // given
-          const screen = await visitScreen('/certifications/123');
+          const screen = await visit('/certifications/123');
           await clickByName('Modifier les informations du candidat');
 
           // when
@@ -233,7 +233,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
             }),
             422
           );
-          const screen = await visitScreen(`/certifications/${certification.id}`);
+          const screen = await visit(`/certifications/${certification.id}`);
           await clickByName('Modifier les informations du candidat');
           await fillByLabel('* Nom de famille', 'Summers');
 
@@ -253,7 +253,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
             }),
             422
           );
-          const screen = await visitScreen(`/certifications/${certification.id}`);
+          const screen = await visit(`/certifications/${certification.id}`);
           await clickByName('Modifier les informations du candidat');
           await fillByLabel('* Nom de famille', 'Summers');
 
@@ -273,7 +273,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
             }),
             422
           );
-          const screen = await visitScreen(`/certifications/${certification.id}`);
+          const screen = await visit(`/certifications/${certification.id}`);
           await clickByName('Modifier les informations du candidat');
           await fillByLabel('* Nom de famille', 'Summers');
           await clickByName('Enregistrer');
@@ -299,7 +299,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
     module('when candidate results edit button is clicked', function () {
       test('it disables candidate informations edit button', async function (assert) {
         // when
-        const screen = await visitScreen(`/certifications/${certification.id}`);
+        const screen = await visit(`/certifications/${certification.id}`);
         await clickByName('Modifier les résultats du candidat');
 
         // then
@@ -310,7 +310,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
     module('when candidate results form cancel button is clicked', function () {
       test('it re-enables candidate informations edit button', async function (assert) {
         // when
-        const screen = await visitScreen(`/certifications/${certification.id}`);
+        const screen = await visit(`/certifications/${certification.id}`);
         await clickByName('Modifier les résultats du candidat');
         await clickByName('Annuler la modification des résultats du candidat');
 
@@ -322,7 +322,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
     module('when candidate results form is submitted', function () {
       test('it also re-enables candidate informations edit button', async function (assert) {
         // when
-        const screen = await visitScreen(`/certifications/${certification.id}`);
+        const screen = await visit(`/certifications/${certification.id}`);
         await clickByName('Modifier les résultats du candidat');
         await clickByName('Enregistrer les résultats du candidat');
         await clickByName('Confirmer');
@@ -339,7 +339,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
       certification.update({ certificationIssueReports: [] });
 
       // when
-      const screen = await visitScreen('/certifications/123');
+      const screen = await visit('/certifications/123');
 
       // then
       assert.dom(screen.queryByText('Signalements')).doesNotExist();
@@ -355,7 +355,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
       certification.update({ certificationIssueReports: [certificationIssueReport] });
 
       // when
-      const screen = await visitScreen('/certifications/123');
+      const screen = await visit('/certifications/123');
 
       // then
       assert.dom(screen.getByText('Signalements')).exists();
@@ -379,7 +379,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
       });
 
       // when
-      const screen = await visitScreen('/certifications/123');
+      const screen = await visit('/certifications/123');
 
       // then
       assert.dom(screen.getByText('1 Signalement(s) impactant(s)')).exists();
@@ -410,7 +410,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
       certification.update({ certificationIssueReports: [certificationIssueReportImpactful] });
 
       // when
-      const screen = await visitScreen('/certifications/123');
+      const screen = await visit('/certifications/123');
 
       // then
       assert.dom(screen.getByText('1 Signalement(s) impactant(s)')).exists();
@@ -435,7 +435,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
       certification.update({ certificationIssueReports: [certificationIssueReportNonImpactful] });
 
       // when
-      const screen = await visitScreen('/certifications/123');
+      const screen = await visit('/certifications/123');
 
       // then
       assert.dom(screen.getByText('1 Signalement(s) non impactant(s)')).exists();
@@ -511,7 +511,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
                   204
                 );
 
-                const screen = await visitScreen(`/certifications/${certification.id}`);
+                const screen = await visit(`/certifications/${certification.id}`);
                 await click(screen.getAllByRole('button', { name: 'Résoudre le signalement' }).at(0));
                 await fillByLabel('Résolution', 'Fraude');
 
@@ -540,7 +540,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
                 500
               );
 
-              const screen = await visitScreen(`/certifications/${certification.id}`);
+              const screen = await visit(`/certifications/${certification.id}`);
 
               await click(screen.getAllByRole('button', { name: 'Résoudre le signalement' }).at(0));
               await fillByLabel('Résolution', 'Fraude');
@@ -570,7 +570,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
         certification.update({ certificationIssueReports: [certificationIssueReport] });
 
         // when
-        const screen = await visitScreen('/certifications/123');
+        const screen = await visit('/certifications/123');
 
         // then
         assert
@@ -605,7 +605,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
 
       test('should display confirmation popup for cancellation when certification is not yet cancelled and cancellation button is clicked', async function (assert) {
         // given
-        const screen = await visitScreen(`/certifications/${certification.id}`);
+        const screen = await visit(`/certifications/${certification.id}`);
 
         // when
         await clickByName('Annuler la certification');
@@ -622,7 +622,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
 
       test('should not cancel the certification when aborting action in the confirmation popup', async function (assert) {
         // given
-        const screen = await visitScreen(`/certifications/${certification.id}`);
+        const screen = await visit(`/certifications/${certification.id}`);
         await clickByName('Annuler la certification');
 
         // when
@@ -635,7 +635,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
 
       test('should cancel the certification when confirming action in the confirmation popup', async function (assert) {
         // given
-        const screen = await visitScreen(`/certifications/${certification.id}`);
+        const screen = await visit(`/certifications/${certification.id}`);
         await clickByName('Annuler la certification');
 
         // when
@@ -654,7 +654,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
 
       test('should display confirmation popup for uncancellation when certification is cancelled and uncancellation button is clicked', async function (assert) {
         // given
-        const screen = await visitScreen(`/certifications/${certification.id}`);
+        const screen = await visit(`/certifications/${certification.id}`);
 
         // when
         await clickByName('Désannuler la certification');
@@ -671,7 +671,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
 
       test('should not uncancel the certification when aborting action in the confirmation popup', async function (assert) {
         // given
-        const screen = await visitScreen(`/certifications/${certification.id}`);
+        const screen = await visit(`/certifications/${certification.id}`);
         await clickByName('Désannuler la certification');
 
         // when
@@ -684,7 +684,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
 
       test('should uncancel the certification when confirming action in the confirmation popup', async function (assert) {
         // given
-        const screen = await visitScreen(`/certifications/${certification.id}`);
+        const screen = await visit(`/certifications/${certification.id}`);
         await clickByName('Désannuler la certification');
 
         // when
