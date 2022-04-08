@@ -13,6 +13,8 @@ const CERTIF_DROIT_USER5_ID = 111;
 const CERTIF_REGULAR_USER_WITH_TIMED_CHALLENGE_ID = 112;
 const CERTIF_EDU_FORMATION_INITIALE_2ND_DEGRE_USER_ID = 113;
 const CERTIF_EDU_FORMATION_CONTINUE_2ND_DEGRE_USER_ID = 114;
+const CERTIF_EDU_FORMATION_INITIALE_1ER_DEGRE_USER_ID = 115;
+const CERTIF_EDU_FORMATION_CONTINUE_1ER_DEGRE_USER_ID = 116;
 const { DEFAULT_PASSWORD } = require('../users-builder');
 
 const { SCO_STUDENT_ID } = require('../organizations-sco-builder');
@@ -152,6 +154,24 @@ function certificationUsersBuilder({ databaseBuilder }) {
     rawPassword: DEFAULT_PASSWORD,
     cgu: true,
   });
+
+  databaseBuilder.factory.buildUser.withRawPassword({
+    id: CERTIF_EDU_FORMATION_INITIALE_1ER_DEGRE_USER_ID,
+    firstName: 'AnneCertifEdu',
+    lastName: 'Formation Initiale 1er Degré',
+    email: 'certifedu.1er.initiale@example.net',
+    rawPassword: DEFAULT_PASSWORD,
+    cgu: true,
+  });
+
+  databaseBuilder.factory.buildUser.withRawPassword({
+    id: CERTIF_EDU_FORMATION_CONTINUE_1ER_DEGRE_USER_ID,
+    firstName: 'AnneCertifEdu',
+    lastName: 'Formation Continue 1er Degré',
+    email: 'certifedu.1er.continue@example.net',
+    rawPassword: DEFAULT_PASSWORD,
+    cgu: true,
+  });
 }
 
 module.exports = {
@@ -172,4 +192,6 @@ module.exports = {
   CERTIF_REGULAR_USER_WITH_TIMED_CHALLENGE_ID,
   CERTIF_EDU_FORMATION_INITIALE_2ND_DEGRE_USER_ID,
   CERTIF_EDU_FORMATION_CONTINUE_2ND_DEGRE_USER_ID,
+  CERTIF_EDU_FORMATION_INITIALE_1ER_DEGRE_USER_ID,
+  CERTIF_EDU_FORMATION_CONTINUE_1ER_DEGRE_USER_ID,
 };
