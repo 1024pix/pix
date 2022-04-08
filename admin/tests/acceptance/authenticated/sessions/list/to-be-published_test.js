@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
-import { visit, currentURL } from '@ember/test-helpers';
-import { visit as visitScreen } from '@1024pix/ember-testing-library';
+import { currentURL } from '@ember/test-helpers';
+import { visit } from '@1024pix/ember-testing-library';
 import { setupApplicationTest } from 'ember-qunit';
 import { createAuthenticateSession } from 'pix-admin/tests/helpers/test-init';
 import { clickByName } from '@1024pix/ember-testing-library';
@@ -61,7 +61,7 @@ module('Acceptance | authenticated/sessions/list/to be published', function (hoo
       });
 
       // when
-      const screen = await visitScreen(SESSIONS_TO_BE_PUBLISHED_LIST_PAGE);
+      const screen = await visit(SESSIONS_TO_BE_PUBLISHED_LIST_PAGE);
 
       // then
       _assertSessionInformationsAreDisplayed(assert, screen);
@@ -88,7 +88,7 @@ module('Acceptance | authenticated/sessions/list/to be published', function (hoo
         sessionDate,
         sessionTime,
       });
-      const screen = await visitScreen(SESSIONS_TO_BE_PUBLISHED_LIST_PAGE);
+      const screen = await visit(SESSIONS_TO_BE_PUBLISHED_LIST_PAGE);
       await clickByName('Publier la session numéro 2');
 
       // when
@@ -120,7 +120,7 @@ module('Acceptance | authenticated/sessions/list/to be published', function (hoo
         sessionTime,
       });
 
-      const screen = await visitScreen(SESSIONS_TO_BE_PUBLISHED_LIST_PAGE);
+      const screen = await visit(SESSIONS_TO_BE_PUBLISHED_LIST_PAGE);
       await clickByName('Publier toutes les sessions');
 
       // when

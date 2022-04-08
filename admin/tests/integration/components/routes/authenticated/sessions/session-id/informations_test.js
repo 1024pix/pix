@@ -1,8 +1,8 @@
 import { module, test } from 'qunit';
 import { setupApplicationTest } from 'ember-qunit';
-import { visit, currentURL, find } from '@ember/test-helpers';
+import { currentURL, find } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
-import { visit as visitScreen } from '@1024pix/ember-testing-library';
+import { visit } from '@1024pix/ember-testing-library';
 import { statusToDisplayName } from 'pix-admin/models/session';
 import { createAuthenticateSession } from 'pix-admin/tests/helpers/test-init';
 
@@ -116,7 +116,7 @@ module('Integration | Component | routes/authenticated/sessions/session | inform
         session.update({ hasSupervisorAccess: true });
 
         // when
-        const screen = await visitScreen(`/sessions/${session.id}`);
+        const screen = await visit(`/sessions/${session.id}`);
 
         // when
         assert.dom(screen.queryByText("Nombre d'écrans de fin de test non renseignés")).doesNotExist();

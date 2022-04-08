@@ -1,7 +1,7 @@
 import { module, test } from 'qunit';
 import { click, currentURL, fillIn } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
-import { visit as visitScreen } from '@1024pix/ember-testing-library';
+import { visit } from '@1024pix/ember-testing-library';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
@@ -30,7 +30,7 @@ module('Acceptance | Certification Centers | Form', function (hooks) {
     });
 
     // when
-    const screen = await visitScreen('/certification-centers/new');
+    const screen = await visit('/certification-centers/new');
 
     await fillIn(screen.getByRole('textbox', { name: 'Nom du centre' }), name);
     await fillIn(screen.getByRole('combobox', { name: "Type d'établissement" }), type.value);

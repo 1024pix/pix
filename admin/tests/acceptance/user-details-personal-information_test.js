@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
-import { click, currentURL, visit } from '@ember/test-helpers';
-import { fillByLabel, clickByName, visit as visitScreen } from '@1024pix/ember-testing-library';
+import { click, currentURL } from '@ember/test-helpers';
+import { fillByLabel, clickByName, visit } from '@1024pix/ember-testing-library';
 import { setupApplicationTest } from 'ember-qunit';
 import { createAuthenticateSession } from 'pix-admin/tests/helpers/test-init';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
@@ -41,7 +41,7 @@ module('Acceptance | User details personal information', function (hooks) {
     test('should update user firstName, lastName and email', async function (assert) {
       // given
       const user = await buildAndAuthenticateUser(this.server, { email: 'john.harry@example.net', username: null });
-      const screen = await visitScreen(`/users/${user.id}`);
+      const screen = await visit(`/users/${user.id}`);
       await clickByName('Modifier');
 
       // when
@@ -60,7 +60,7 @@ module('Acceptance | User details personal information', function (hooks) {
     test('should update user firstName, lastName and username', async function (assert) {
       // given
       const user = await buildAndAuthenticateUser(this.server, { email: null, username: 'john.harry0101' });
-      const screen = await visitScreen(`/users/${user.id}`);
+      const screen = await visit(`/users/${user.id}`);
       await clickByName('Modifier');
 
       // when
@@ -96,7 +96,7 @@ module('Acceptance | User details personal information', function (hooks) {
         authenticationMethods: [pixAuthenticationMethod, garAuthenticationMethod],
       });
 
-      const screen = await visitScreen(`/users/${userToAnonymise.id}`);
+      const screen = await visit(`/users/${userToAnonymise.id}`);
       await clickByName('Anonymiser cet utilisateur');
 
       // when
@@ -127,7 +127,7 @@ module('Acceptance | User details personal information', function (hooks) {
       user.schoolingRegistrations.models.push(schoolingRegistrationToDissociate);
       user.save();
 
-      const screen = await visitScreen(`/users/${user.id}`);
+      const screen = await visit(`/users/${user.id}`);
       await click(screen.getByRole('button', { name: 'Dissocier' }));
 
       // when
@@ -143,7 +143,7 @@ module('Acceptance | User details personal information', function (hooks) {
     test('should not display remove link and display unchecked icon', async function (assert) {
       // given
       const user = await buildAndAuthenticateUser(this.server, { email: 'john.harry@example.net', username: null });
-      const screen = await visitScreen(`/users/${user.id}`);
+      const screen = await visit(`/users/${user.id}`);
 
       // when
       await click(screen.getAllByRole('button', { name: 'Supprimer' })[0]);

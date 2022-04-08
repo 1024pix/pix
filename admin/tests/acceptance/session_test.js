@@ -1,8 +1,8 @@
 import { module, test } from 'qunit';
-import { click, currentURL, visit } from '@ember/test-helpers';
+import { click, currentURL } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { FINALIZED } from 'pix-admin/models/session';
-import { clickByName, fillByLabel, visit as visitScreen } from '@1024pix/ember-testing-library';
+import { clickByName, fillByLabel, visit } from '@1024pix/ember-testing-library';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import sinon from 'sinon';
 import { createAuthenticateSession } from 'pix-admin/tests/helpers/test-init';
@@ -56,7 +56,7 @@ module('Acceptance | Session pages', function (hooks) {
       module('Search section', function () {
         test('it should show a header with title and sessionId search', async function (assert) {
           // when
-          const screen = await visitScreen('/sessions/1');
+          const screen = await visit('/sessions/1');
 
           // then
           assert.dom(screen.getByRole('heading', { name: 'Sessions de certification' })).exists();
@@ -65,7 +65,7 @@ module('Acceptance | Session pages', function (hooks) {
 
         test('it loads new session when user give a new sessionId', async function (assert) {
           // when
-          const screen = await visitScreen('/sessions/1');
+          const screen = await visit('/sessions/1');
           await fillByLabel('Rechercher une session avec un identifiant', '2');
           await clickByName('Informations');
 
@@ -81,7 +81,7 @@ module('Acceptance | Session pages', function (hooks) {
       module('Tabs section', function () {
         test('tab "Informations" is clickable', async function (assert) {
           // when
-          const screen = await visitScreen('/sessions/1');
+          const screen = await visit('/sessions/1');
           await clickByName('Informations');
 
           // then
@@ -93,7 +93,7 @@ module('Acceptance | Session pages', function (hooks) {
 
         test('tab "Certifications" is clickable', async function (assert) {
           // when
-          const screen = await visitScreen('/sessions/1');
+          const screen = await visit('/sessions/1');
           await click(screen.getAllByRole('link', { name: 'Certifications' })[1]);
 
           // then
@@ -107,7 +107,7 @@ module('Acceptance | Session pages', function (hooks) {
       module('Informations section', function () {
         test('it shows session information', async function (assert) {
           // when
-          const screen = await visitScreen('/sessions/1');
+          const screen = await visit('/sessions/1');
 
           // then
           assert.dom(screen.getByRole('link', { name: session.certificationCenterName })).exists();
@@ -132,7 +132,7 @@ module('Acceptance | Session pages', function (hooks) {
       module('Buttons section', function () {
         test('it shows all buttons', async function (assert) {
           // when
-          const screen = await visitScreen('/sessions/1');
+          const screen = await visit('/sessions/1');
 
           // then
           assert.dom(screen.getByText("M'assigner la session")).exists();
@@ -170,7 +170,7 @@ module('Acceptance | Session pages', function (hooks) {
           session.update({ juryCertificationSummaries: [juryCertificationSummary] });
 
           // when
-          const screen = await visitScreen('/sessions/1/certifications');
+          const screen = await visit('/sessions/1/certifications');
 
           // then
           assert.dom(screen.getByText(juryCertificationSummary.firstName)).exists();
