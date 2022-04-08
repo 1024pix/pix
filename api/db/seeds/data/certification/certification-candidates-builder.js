@@ -258,6 +258,7 @@ function certificationCandidatesBuilder({ databaseBuilder }) {
     lastName: 'Spears',
     sessionId,
     userId: null,
+    billingMode: BILLING_MODES.FREE,
   });
 }
 

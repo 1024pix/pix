@@ -1,7 +1,6 @@
 const _ = require('lodash');
 const { convertDateValue } = require('../../utils/date-utils');
 const { CLEA, PIX_PLUS_DROIT } = require('../../../domain/models/ComplementaryCertification');
-const { featureToggles } = require('../../../config');
 
 // These are transformation structures. They provide all the necessary info
 // on how to transform cell values in an attendance sheet into a target JS object.
@@ -82,7 +81,7 @@ function getTransformationStructsForPixCertifCandidatesImport({ complementaryCer
 
   _includeComplementaryCertificationColumns(complementaryCertifications, transformationStruct);
 
-  if (featureToggles.isCertificationBillingEnabled && !isSco) {
+  if (!isSco) {
     _includeBillingColumns(transformationStruct);
   }
 

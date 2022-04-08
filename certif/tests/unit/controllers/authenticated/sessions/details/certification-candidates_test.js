@@ -65,22 +65,8 @@ module('Unit | Controller | authenticated/sessions/details/certification-candida
   });
 
   module('#get shouldDisplayPaymentOptions', function () {
-    test('should return false if feature toggle is false and center is not sco', function (assert) {
+    test('should return false if center is sco', function (assert) {
       // given
-      _stubFeatureToggle(this, 'isCertificationBillingEnabled', false);
-      _stubCurrentCenter(this, store, { type: 'PRO' });
-      const controller = this.owner.lookup('controller:authenticated/sessions/details/certification-candidates');
-
-      // when
-      const shouldDisplayPaymentOptions = controller.shouldDisplayPaymentOptions;
-
-      // then
-      assert.false(shouldDisplayPaymentOptions);
-    });
-
-    test('should return false if feature toggle is true and center is sco', function (assert) {
-      // given
-      _stubFeatureToggle(this, 'isCertificationBillingEnabled', true);
       _stubCurrentCenter(this, store, { type: 'SCO' });
       const controller = this.owner.lookup('controller:authenticated/sessions/details/certification-candidates');
 
@@ -91,9 +77,8 @@ module('Unit | Controller | authenticated/sessions/details/certification-candida
       assert.false(shouldDisplayPaymentOptions);
     });
 
-    test('should return true if feature toggle is true and center is not SCO', function (assert) {
+    test('should return true if center is not SCO', function (assert) {
       // given
-      _stubFeatureToggle(this, 'isCertificationBillingEnabled', true);
       _stubCurrentCenter(this, store, { type: 'PRO' });
       const controller = this.owner.lookup('controller:authenticated/sessions/details/certification-candidates');
 
@@ -105,15 +90,6 @@ module('Unit | Controller | authenticated/sessions/details/certification-candida
     });
   });
 });
-
-function _stubFeatureToggle(controller, featureToggleName, featureToggleValue) {
-  const featureToggles = {};
-  featureToggles[featureToggleName] = featureToggleValue;
-  class FeatureTogglesStub extends Service {
-    featureToggles = featureToggles;
-  }
-  controller.owner.register('service:feature-toggles', FeatureTogglesStub);
-}
 
 function _stubCurrentCenter(controller, store, properties) {
   const currentAllowedCertificationCenterAccess = store.createRecord('allowed-certification-center-access', {

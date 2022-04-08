@@ -1,6 +1,5 @@
 const writeOdsUtils = require('../../utils/ods/write-ods-utils');
 const readOdsUtils = require('../../utils/ods/read-ods-utils');
-const { featureToggles } = require('../../../../lib/config');
 const {
   EXTRA_EMPTY_CANDIDATE_ROWS,
   IMPORT_CANDIDATES_TEMPLATE_VALUES,
@@ -51,7 +50,7 @@ function _addSession(odsBuilder, session) {
 }
 
 function _addColumns({ odsBuilder, certificationCenterHabilitations, isScoCertificationCenter }) {
-  if (featureToggles.isCertificationBillingEnabled && !isScoCertificationCenter) {
+  if (!isScoCertificationCenter) {
     odsBuilder
       .withTooltipOnCell({
         targetCellAddress: "'Liste des candidats'.O13",
