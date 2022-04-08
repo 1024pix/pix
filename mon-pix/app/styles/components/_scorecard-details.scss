@@ -34,6 +34,13 @@
     color: $grey-90;
     margin-bottom: 24px;
   }
+
+  &__content {
+
+    > .tutorial-card-v2 {
+      margin-bottom: 16px;
+    }
+  }
 }
 
 .scorecard-details {
