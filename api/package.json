@@ -138,6 +138,9 @@
     "test:lint": "npm test && npm run lint"
   },
   "nodemonConfig": {
-    "signal": "SIGTERM"
+    "signal": "SIGTERM",
+    "watch": ["lib", "bin/www", "server.js", "package.json", "db", "translations"],
+    "ignore": ["db/seeds", "db/migrations", "db/database-builder"],
+    "ext": "js"
   }
 }
