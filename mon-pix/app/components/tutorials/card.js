@@ -59,11 +59,11 @@ export default class Card extends Component {
     this.savingStatus = buttonStatusTypes.pending;
     try {
       await this.args.tutorial.userTutorial.destroyRecord({ adapterOptions: { tutorialId: this.args.tutorial.id } });
-      await this.args.tutorial.unloadRecord();
       this.savingStatus = buttonStatusTypes.unrecorded;
     } catch (e) {
       this.savingStatus = buttonStatusTypes.recorded;
     }
+    await this.args.afterRemove?.();
   }
 
   @action
