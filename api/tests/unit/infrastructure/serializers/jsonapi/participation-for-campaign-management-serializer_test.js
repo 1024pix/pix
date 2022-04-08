@@ -27,6 +27,8 @@ describe('Unit | Serializer | JSONAPI | participation-for-campaign-management-se
             attributes: {
               'last-name': participationForCampaignManagement.lastName,
               'first-name': participationForCampaignManagement.firstName,
+              'user-id': participationForCampaignManagement.userId,
+              'user-full-name': participationForCampaignManagement.userFullName,
               'participant-external-id': participationForCampaignManagement.participantExternalId,
               status: participationForCampaignManagement.status,
               'created-at': participationForCampaignManagement.createdAt,

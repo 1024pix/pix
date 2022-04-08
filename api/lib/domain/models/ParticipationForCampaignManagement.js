@@ -3,6 +3,9 @@ class ParticipationForCampaignManagement {
     id,
     lastName,
     firstName,
+    userId,
+    userFirstName,
+    userLastName,
     participantExternalId,
     status,
     createdAt,
@@ -15,6 +18,8 @@ class ParticipationForCampaignManagement {
     this.id = id;
     this.lastName = lastName;
     this.firstName = firstName;
+    this.userId = userId;
+    this.userFullName = userFirstName + ' ' + userLastName;
     this.participantExternalId = participantExternalId;
     this.status = status;
     this.createdAt = createdAt;
