@@ -1,4 +1,3 @@
-import moment from 'moment';
 import { module, test } from 'qunit';
 import { currentURL, triggerEvent, visit } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
@@ -102,29 +101,21 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
       externalId: 'ABCDEF',
       type: 'SCO',
     });
-    const certificationCenterMembership1 = server.create('certification-center-membership', {
-      createdAt: new Date('2018-02-15T05:06:07Z'),
+    server.create('certification-center-membership', {
       certificationCenter,
-      user: server.create('user', { id: 900 }),
+      user: server.create('user', { firstName: 'Eric', lastName: 'Hochet' }),
     });
     server.create('certification-center-membership', {
-      createdAt: new Date('2019-02-15T05:06:07Z'),
       certificationCenter,
-      user: server.create('user'),
+      user: server.create('user', { firstName: 'Gilles', lastName: 'Parbal' }),
     });
-    const expectedDate1 = moment(certificationCenterMembership1.createdAt).format('DD-MM-YYYY - HH:mm:ss');
 
     // when
     const screen = await visitScreen(`/certification-centers/${certificationCenter.id}`);
 
     // then
-    assert.strictEqual(screen.getAllByLabelText('Membre').length, 2);
-    assert.dom(screen.getAllByLabelText('Membre')[0]).containsText(certificationCenterMembership1.user.id);
-    assert.dom(screen.getByText(certificationCenterMembership1.user.id)).exists();
-    assert.dom(screen.getByText(certificationCenterMembership1.user.firstName)).exists();
-    assert.dom(screen.getByText(certificationCenterMembership1.user.lastName)).exists();
-    assert.dom(screen.getByText(certificationCenterMembership1.user.email)).exists();
-    assert.dom(screen.getByText(expectedDate1)).exists();
+    assert.dom(screen.getByLabelText('Informations du membre Gilles Parbal')).exists();
+    assert.dom(screen.getByLabelText('Informations du membre Eric Hochet')).exists();
   });
 
   test('should be possible to desactive a certification center membership', async function (assert) {
@@ -251,7 +242,7 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
       await clickByName('Ajouter le membre');
 
       // then
-      assert.dom(screen.getByLabelText('Membre')).exists();
+      assert.dom(screen.getByLabelText('Informations du membre Jacques Use')).exists();
       assert.dom(screen.getByText('test@example.net')).exists();
     });
   });

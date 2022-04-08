@@ -35,13 +35,14 @@ module('Integration | Component | certification-centers/memberships-section', fu
     );
 
     // then
-    assert.dom(screen.getByLabelText('Membre')).exists();
-    assert.dom(screen.getByText(certificationCenterMembership.id.toString())).exists();
-    assert.dom(screen.getByText(user.id.toString())).exists();
-    assert.dom(screen.getByText(user.firstName)).exists();
-    assert.dom(screen.getByText(user.lastName)).exists();
-    assert.dom(screen.getByText(user.email)).exists();
-    assert.dom(screen.getByText(expectedDate)).exists();
+    assert.dom(screen.getByLabelText('Informations du membre Jojo La Gringue')).containsText(user.id);
+    assert.dom(screen.getByLabelText('Informations du membre Jojo La Gringue')).containsText(user.email);
+    assert.dom(screen.getByLabelText('Informations du membre Jojo La Gringue')).containsText(user.firstName);
+    assert.dom(screen.getByLabelText('Informations du membre Jojo La Gringue')).containsText(user.lastName);
+    assert.dom(screen.getByLabelText('Informations du membre Jojo La Gringue')).containsText(expectedDate);
+    assert
+      .dom(screen.getByLabelText('Informations du membre Jojo La Gringue'))
+      .containsText(certificationCenterMembership.id);
   });
 
   test('it should display a list of certification center memberships', async function (assert) {
@@ -70,7 +71,8 @@ module('Integration | Component | certification-centers/memberships-section', fu
     );
 
     // then
-    assert.strictEqual(screen.getAllByLabelText('Membre').length, 2);
+    assert.dom(screen.getByLabelText('Informations du membre Jojo La Gringue')).exists();
+    assert.dom(screen.getByLabelText('Informations du membre Froufrou Le froussard')).exists();
   });
 
   test('it should display a message when there is no membership', async function (assert) {
