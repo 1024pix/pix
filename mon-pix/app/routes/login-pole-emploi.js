@@ -42,7 +42,7 @@ export default class LoginPoleEmploiRoute extends Route {
 
   afterModel({ shouldValidateCgu, authenticationKey } = {}) {
     if (shouldValidateCgu && authenticationKey) {
-      return this.replaceWith('terms-of-service-pe', { queryParams: { authenticationKey } });
+      return this.replaceWith('terms-of-service-pole-emploi', { queryParams: { authenticationKey } });
     }
   }
 

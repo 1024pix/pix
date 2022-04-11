@@ -187,7 +187,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
 
               // when
               await click('#pix-cgu');
-              await clickByLabel(this.intl.t('pages.terms-of-service-pe.form.button'));
+              await clickByLabel(this.intl.t('pages.terms-of-service-pole-emploi.form.button'));
 
               // then
               expect(currentURL()).to.equal(`/campagnes/${campaign.code}/prescrit/eleve`);
