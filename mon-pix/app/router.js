@@ -107,7 +107,7 @@ Router.map(function () {
   });
 
   this.route('terms-of-service', { path: '/cgu' });
-  this.route('login-pe', { path: '/connexion-pole-emploi' });
+  this.route('login-pole-emploi', { path: '/connexion-pole-emploi' });
   this.route('terms-of-service-pe', { path: '/cgu-pole-emploi' });
 
   this.route('sitemap', { path: '/plan-du-site' });

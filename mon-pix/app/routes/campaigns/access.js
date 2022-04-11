@@ -18,7 +18,7 @@ export default class AccessRoute extends Route.extend(SecuredRouteMixin) {
 
     if (this._shouldVisitPoleEmploiLoginPage(campaign)) {
       this.session.set('attemptedTransition', transition);
-      return this.replaceWith('login-pe');
+      return this.replaceWith('login-pole-emploi');
     } else if (this._shouldLoginToAccessSCORestrictedCampaign(campaign)) {
       this.authenticationRoute = 'campaigns.join.student-sco';
     } else if (this._shouldJoinFromMediacentre(campaign)) {
