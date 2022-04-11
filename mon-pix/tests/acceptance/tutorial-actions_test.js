@@ -49,7 +49,7 @@ describe('Acceptance | Tutorial | Actions', function () {
         await click('.tutorial-card-v2-content-actions__save');
 
         // then
-        expect(find('.tutorial-card-v2-content-actions__save').textContent).to.include('Retirer');
+        expect(find('.tutorial-card-v2-content-actions__save').attributes['aria-label'].value).to.include('Retirer');
       });
     });
   });
