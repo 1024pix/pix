@@ -1631,7 +1631,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                     const challengePlus3 = domainBuilder.buildChallenge({ id: 'challenge-pixplus2' });
 
                     const pixEduBadgeAcquisition =
-                      domainBuilder.buildBadgeAcquisition.forPixEduFormationInitiale2ndDegreAvance();
+                      domainBuilder.buildBadgeAcquisition.forPixEduFormationInitiale2ndDegreConfirme();
                     certificationBadgesService.findStillValidBadgeAcquisitions
                       .withArgs({ userId: 2, domainTransaction })
                       .resolves([pixEduBadgeAcquisition]);
@@ -1736,14 +1736,14 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                     const challengeEdu1 = domainBuilder.buildChallenge({ id: 'challenge-pix-edu1' });
                     const challengeEdu2 = domainBuilder.buildChallenge({ id: 'challenge-pix-edu2' });
 
-                    const pixEduFormationContinueFormateurBadgeAcquisition =
-                      domainBuilder.buildBadgeAcquisition.forPixEduFormationContinue2ndDegreFormateur();
+                    const pixEduFormationContinueExpertBadgeAcquisition =
+                      domainBuilder.buildBadgeAcquisition.forPixEduFormationContinue2ndDegreExpert();
                     certificationBadgesService.findStillValidBadgeAcquisitions
                       .withArgs({ userId: 2, domainTransaction })
-                      .resolves([pixEduFormationContinueFormateurBadgeAcquisition]);
+                      .resolves([pixEduFormationContinueExpertBadgeAcquisition]);
 
                     certificationChallengesService.pickCertificationChallengesForPixPlus
-                      .withArgs(pixEduFormationContinueFormateurBadgeAcquisition.badge, 2)
+                      .withArgs(pixEduFormationContinueExpertBadgeAcquisition.badge, 2)
                       .resolves([challengeEdu1, challengeEdu2]);
 
                     const certificationCourseToSave = CertificationCourse.from({

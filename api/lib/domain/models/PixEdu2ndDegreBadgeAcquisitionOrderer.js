@@ -6,35 +6,36 @@ const {
   PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
 } = require('./Badge').keys;
 
-class PixEduBadgeAcquisitionOrderer {
+class PixEdu2ndDegreBadgeAcquisitionOrderer {
   constructor({ badgesAcquisitions } = {}) {
     this.badgesAcquisitions = badgesAcquisitions;
   }
 
   getHighestBadge() {
-    const formateurFormationContinueBadgeAcquisition = this.badgesAcquisitions.find(
+    const expertFormationContinueBadgeAcquisition = this.badgesAcquisitions.find(
       (badgesAcquisition) => badgesAcquisition.badgeKey === PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT
     );
-    const expertFormationContinueBadgeAcquisition = this.badgesAcquisitions.find(
+    const avanceFormationContinueBadgeAcquisition = this.badgesAcquisitions.find(
       (badgesAcquisition) => badgesAcquisition.badgeKey === PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE
     );
-    const avanceFormationContinueBadgeAcquisition = this.badgesAcquisitions.find(
+    const confirmeFormationContinueBadgeAcquisition = this.badgesAcquisitions.find(
       (badgesAcquisition) => badgesAcquisition.badgeKey === PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME
     );
-    const avanceFormationInitialeBadgeAcquisition = this.badgesAcquisitions.find(
+    const confirmeFormationInitialeBadgeAcquisition = this.badgesAcquisitions.find(
       (badgesAcquisition) => badgesAcquisition.badgeKey === PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME
     );
-    const autonomeFormationInitialeBadgeAcquisition = this.badgesAcquisitions.find(
+    const initieFormationInitialeBadgeAcquisition = this.badgesAcquisitions.find(
       (badgesAcquisition) => badgesAcquisition.badgeKey === PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE
     );
     return (
-      formateurFormationContinueBadgeAcquisition ||
       expertFormationContinueBadgeAcquisition ||
       avanceFormationContinueBadgeAcquisition ||
-      avanceFormationInitialeBadgeAcquisition ||
-      autonomeFormationInitialeBadgeAcquisition
+      confirmeFormationContinueBadgeAcquisition ||
+      confirmeFormationInitialeBadgeAcquisition ||
+      initieFormationInitialeBadgeAcquisition ||
+      null
     );
   }
 }
 
-module.exports = PixEduBadgeAcquisitionOrderer;
+module.exports = PixEdu2ndDegreBadgeAcquisitionOrderer;

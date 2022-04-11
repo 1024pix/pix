@@ -12,6 +12,11 @@ const PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME_BADGE_ID = 120;
 const PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME_BADGE_ID = 121;
 const PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE_BADGE_ID = 122;
 const PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT_BADGE_ID = 123;
+const PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_INITIE_BADGE_ID = 124;
+const PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_CONFIRME_BADGE_ID = 125;
+const PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_CONFIRME_BADGE_ID = 126;
+const PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE_BADGE_ID = 127;
+const PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT_BADGE_ID = 128;
 
 const BadgeCriterion = require('../../../lib/domain/models/BadgeCriterion');
 const Badge = require('../../../lib/domain/models/Badge');
@@ -25,6 +30,8 @@ const {
   TARGET_PROFILE_PIX_DROIT_ID,
   TARGET_PROFILE_PIX_EDU_FORMATION_INITIALE_2ND_DEGRE,
   TARGET_PROFILE_PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE,
+  TARGET_PROFILE_PIX_EDU_FORMATION_INITIALE_1ER_DEGRE,
+  TARGET_PROFILE_PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE,
 } = require('./target-profiles-builder');
 
 function badgesBuilder({ databaseBuilder }) {
@@ -473,7 +480,7 @@ function _createPixEduBadges(databaseBuilder) {
     'skill2ifeuYKWvCIdqe',
   ];
 
-  const pixEduFormationInitialeInitieBadge = databaseBuilder.factory.buildBadge({
+  const pixEduFormationInitiale2ndDegreInitieBadge = databaseBuilder.factory.buildBadge({
     id: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE_BADGE_ID,
     altMessage: 'Vous avez validé le badge Pix+ Édu 2nd degré - Initié (entrée dans le métier)',
     title: 'Pix+ Édu 2nd degré - Initié (entrée dans le métier)',
@@ -483,26 +490,55 @@ function _createPixEduBadges(databaseBuilder) {
     isCertifiable: true,
     targetProfileId: TARGET_PROFILE_PIX_EDU_FORMATION_INITIALE_2ND_DEGRE,
   });
-  const [domain1EntreeMetierSkillSetId, domain2EntreeMetierSkillSetId] = _associatePixEduFormationInitialeSkillSets(
+  const [domain1Initie2ndDegreSkillSetId, domain2Initie2ndDegreSkillSetId] = _associatePixEduFormationInitialeSkillSets(
     databaseBuilder,
     skillIdsForPixEduDomain1,
     skillIdsForPixEduDomain2,
-    pixEduFormationInitialeInitieBadge,
+    pixEduFormationInitiale2ndDegreInitieBadge,
   );
   databaseBuilder.factory.buildBadgeCriterion({
     scope: BadgeCriterion.SCOPES.SKILL_SET,
     threshold: 40,
-    badgeId: pixEduFormationInitialeInitieBadge.id,
-    skillSetIds: [domain1EntreeMetierSkillSetId],
+    badgeId: pixEduFormationInitiale2ndDegreInitieBadge.id,
+    skillSetIds: [domain1Initie2ndDegreSkillSetId],
   });
   databaseBuilder.factory.buildBadgeCriterion({
     scope: BadgeCriterion.SCOPES.SKILL_SET,
     threshold: 40,
-    badgeId: pixEduFormationInitialeInitieBadge.id,
-    skillSetIds: [domain2EntreeMetierSkillSetId],
+    badgeId: pixEduFormationInitiale2ndDegreInitieBadge.id,
+    skillSetIds: [domain2Initie2ndDegreSkillSetId],
   });
 
-  const pixEduFormationInitialeConfirmeBadge = databaseBuilder.factory.buildBadge({
+  const pixEduFormationInitiale1erDegreInitieBadge = databaseBuilder.factory.buildBadge({
+    id: PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_INITIE_BADGE_ID,
+    altMessage: 'Vous avez validé le badge Pix+ Édu 1er degré - Initié (entrée dans le métier)',
+    title: 'Pix+ Édu 1er degré - Initié (entrée dans le métier)',
+    imageUrl: 'https://images.pix.fr/badges/Pix_plus_Edu-1-Initie.svg',
+    key: 'PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_INITIE',
+    message: 'avez validé le badge Pix+ Édu 1er degré - Initié (entrée dans le métier)',
+    isCertifiable: true,
+    targetProfileId: TARGET_PROFILE_PIX_EDU_FORMATION_INITIALE_1ER_DEGRE,
+  });
+  const [domain1Initie1SkillSetId, domain2Initie1erDegreSkillSetId] = _associatePixEduFormationInitialeSkillSets(
+    databaseBuilder,
+    skillIdsForPixEduDomain1,
+    skillIdsForPixEduDomain2,
+    pixEduFormationInitiale1erDegreInitieBadge,
+  );
+  databaseBuilder.factory.buildBadgeCriterion({
+    scope: BadgeCriterion.SCOPES.SKILL_SET,
+    threshold: 40,
+    badgeId: pixEduFormationInitiale1erDegreInitieBadge.id,
+    skillSetIds: [domain1Initie1SkillSetId],
+  });
+  databaseBuilder.factory.buildBadgeCriterion({
+    scope: BadgeCriterion.SCOPES.SKILL_SET,
+    threshold: 40,
+    badgeId: pixEduFormationInitiale1erDegreInitieBadge.id,
+    skillSetIds: [domain2Initie1erDegreSkillSetId],
+  });
+
+  const pixEduFormationInitiale2ndDegreConfirmeBadge = databaseBuilder.factory.buildBadge({
     id: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME_BADGE_ID,
     altMessage: 'Vous avez validé le badge Pix+ Édu 2nd degré - Confirmé',
     title: 'Pix+ Édu 2nd degré - Confirmé',
@@ -512,26 +548,55 @@ function _createPixEduBadges(databaseBuilder) {
     isCertifiable: true,
     targetProfileId: TARGET_PROFILE_PIX_EDU_FORMATION_INITIALE_2ND_DEGRE,
   });
-  const [domain1InitieSkillSetId, domain2InitieSkillSetId] = _associatePixEduFormationInitialeSkillSets(
+  const [domain1Confirme2ndDegreSkillSetId, domain2Confirme2ndDegreSkillSetId] = _associatePixEduFormationInitialeSkillSets(
     databaseBuilder,
     skillIdsForPixEduDomain1,
     skillIdsForPixEduDomain2,
-    pixEduFormationInitialeConfirmeBadge,
+    pixEduFormationInitiale2ndDegreConfirmeBadge,
   );
   databaseBuilder.factory.buildBadgeCriterion({
     scope: BadgeCriterion.SCOPES.SKILL_SET,
     threshold: 60,
-    badgeId: pixEduFormationInitialeConfirmeBadge.id,
-    skillSetIds: [domain1InitieSkillSetId],
+    badgeId: pixEduFormationInitiale2ndDegreConfirmeBadge.id,
+    skillSetIds: [domain1Confirme2ndDegreSkillSetId],
   });
   databaseBuilder.factory.buildBadgeCriterion({
     scope: BadgeCriterion.SCOPES.SKILL_SET,
     threshold: 60,
-    badgeId: pixEduFormationInitialeConfirmeBadge.id,
-    skillSetIds: [domain2InitieSkillSetId],
+    badgeId: pixEduFormationInitiale2ndDegreConfirmeBadge.id,
+    skillSetIds: [domain2Confirme2ndDegreSkillSetId],
   });
 
-  const pixEduFormationContinueConfirmeBadge = databaseBuilder.factory.buildBadge({
+  const pixEduFormationInitiale1erDegreConfirmeBadge = databaseBuilder.factory.buildBadge({
+    id: PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_CONFIRME_BADGE_ID,
+    altMessage: 'Vous avez validé le badge Pix+ Édu 1er degré - Confirmé',
+    title: 'Pix+ Édu 2nd degré - Confirmé',
+    imageUrl: 'https://images.pix.fr/badges/Pix_plus_Edu-2-Confirme.svg',
+    key: 'PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_CONFIRME',
+    message: 'avez validé le badge Pix+ Édu 1er degré - Confirmé',
+    isCertifiable: true,
+    targetProfileId: TARGET_PROFILE_PIX_EDU_FORMATION_INITIALE_1ER_DEGRE,
+  });
+  const [domain1Confirme1erDegreSkillSetId, domain2Confirme1erDegreSkillSetId] = _associatePixEduFormationInitialeSkillSets(
+    databaseBuilder,
+    skillIdsForPixEduDomain1,
+    skillIdsForPixEduDomain2,
+    pixEduFormationInitiale1erDegreConfirmeBadge,
+  );
+  databaseBuilder.factory.buildBadgeCriterion({
+    scope: BadgeCriterion.SCOPES.SKILL_SET,
+    threshold: 60,
+    badgeId: pixEduFormationInitiale1erDegreConfirmeBadge.id,
+    skillSetIds: [domain1Confirme1erDegreSkillSetId],
+  });
+  databaseBuilder.factory.buildBadgeCriterion({
+    scope: BadgeCriterion.SCOPES.SKILL_SET,
+    threshold: 60,
+    badgeId: pixEduFormationInitiale1erDegreConfirmeBadge.id,
+    skillSetIds: [domain2Confirme1erDegreSkillSetId],
+  });
+
+  const pixEduFormationContinue2ndDegreConfirmeBadge = databaseBuilder.factory.buildBadge({
     id: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME_BADGE_ID,
     altMessage: 'Vous avez validé le badge Pix+ Édu 2nd degré - Confirmé',
     title: 'Pix+ Édu 2nd degré - Confirmé',
@@ -541,19 +606,41 @@ function _createPixEduBadges(databaseBuilder) {
     isCertifiable: true,
     targetProfileId: TARGET_PROFILE_PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE,
   });
-  const [domain3InitieSkillSetId] = _associatePixEduFormationContinueSkillSets(
+  const [domain3Confirme2ndDegreSkillSetId] = _associatePixEduFormationContinueSkillSets(
     databaseBuilder,
     skillIdsForPixEduDomain3,
-    pixEduFormationContinueConfirmeBadge,
+    pixEduFormationContinue2ndDegreConfirmeBadge,
   );
   databaseBuilder.factory.buildBadgeCriterion({
     scope: BadgeCriterion.SCOPES.SKILL_SET,
     threshold: 40,
-    badgeId: pixEduFormationContinueConfirmeBadge.id,
-    skillSetIds: [domain3InitieSkillSetId],
+    badgeId: pixEduFormationContinue2ndDegreConfirmeBadge.id,
+    skillSetIds: [domain3Confirme2ndDegreSkillSetId],
   });
 
-  const pixEduFormationContinueAvanceBadge = databaseBuilder.factory.buildBadge({
+  const pixEduFormationContinue1erDegreConfirmeBadge = databaseBuilder.factory.buildBadge({
+    id: PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_CONFIRME_BADGE_ID,
+    altMessage: 'Vous avez validé le badge Pix+ Édu 1er degré - Confirmé',
+    title: 'Pix+ Édu 1er degré - Confirmé',
+    imageUrl: 'https://images.pix.fr/badges/Pix_plus_Edu-2-Confirme.svg',
+    key: 'PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_CONFIRME',
+    message: 'avez validé le badge Pix+ Édu 1er degré - Confirmé',
+    isCertifiable: true,
+    targetProfileId: TARGET_PROFILE_PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE,
+  });
+  const [domain3Confirme1erDegreSkillSetId] = _associatePixEduFormationContinueSkillSets(
+    databaseBuilder,
+    skillIdsForPixEduDomain3,
+    pixEduFormationContinue1erDegreConfirmeBadge,
+  );
+  databaseBuilder.factory.buildBadgeCriterion({
+    scope: BadgeCriterion.SCOPES.SKILL_SET,
+    threshold: 40,
+    badgeId: pixEduFormationContinue1erDegreConfirmeBadge.id,
+    skillSetIds: [domain3Confirme1erDegreSkillSetId],
+  });
+
+  const pixEduFormationContinue2ndDegreAvanceBadge = databaseBuilder.factory.buildBadge({
     id: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE_BADGE_ID,
     altMessage: 'Vous avez validé le badge Pix+ Édu 2nd degré - Avancé',
     title: 'Pix+ Édu 2nd degré - Avancé',
@@ -563,19 +650,41 @@ function _createPixEduBadges(databaseBuilder) {
     isCertifiable: true,
     targetProfileId: TARGET_PROFILE_PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE,
   });
-  const [domain3MaitreSkillSetId] = _associatePixEduFormationContinueSkillSets(
+  const [domain3Avance2ndDegreSkillSetId] = _associatePixEduFormationContinueSkillSets(
     databaseBuilder,
     skillIdsForPixEduDomain3,
-    pixEduFormationContinueAvanceBadge,
+    pixEduFormationContinue2ndDegreAvanceBadge,
   );
   databaseBuilder.factory.buildBadgeCriterion({
     scope: BadgeCriterion.SCOPES.SKILL_SET,
     threshold: 60,
-    badgeId: pixEduFormationContinueAvanceBadge.id,
-    skillSetIds: [domain3MaitreSkillSetId],
+    badgeId: pixEduFormationContinue2ndDegreAvanceBadge.id,
+    skillSetIds: [domain3Avance2ndDegreSkillSetId],
   });
 
-  const pixEduFormationContinueExpertBadge = databaseBuilder.factory.buildBadge({
+  const pixEduFormationContinue1erDegreAvanceBadge = databaseBuilder.factory.buildBadge({
+    id: PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE_BADGE_ID,
+    altMessage: 'Vous avez validé le badge Pix+ Édu 1er degré - Avancé',
+    title: 'Pix+ Édu 1er degré - Avancé',
+    imageUrl: 'https://images.pix.fr/badges/Pix_plus_Edu-3-Avance.svg',
+    key: 'PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE',
+    message: 'avez validé le badge Pix+ Édu 1er degré - Avancé',
+    isCertifiable: true,
+    targetProfileId: TARGET_PROFILE_PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE,
+  });
+  const [domain3Avance1erDegreSkillSetId] = _associatePixEduFormationContinueSkillSets(
+    databaseBuilder,
+    skillIdsForPixEduDomain3,
+    pixEduFormationContinue1erDegreAvanceBadge,
+  );
+  databaseBuilder.factory.buildBadgeCriterion({
+    scope: BadgeCriterion.SCOPES.SKILL_SET,
+    threshold: 60,
+    badgeId: pixEduFormationContinue1erDegreAvanceBadge.id,
+    skillSetIds: [domain3Avance1erDegreSkillSetId],
+  });
+
+  const pixEduFormationContinue2ndDegreExpertBadge = databaseBuilder.factory.buildBadge({
     id: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT_BADGE_ID,
     altMessage: 'Vous avez validé le badge Pix+ Édu 2nd degré - Expert',
     title: 'Pix+ Édu 2nd degré - Expert',
@@ -585,16 +694,38 @@ function _createPixEduBadges(databaseBuilder) {
     isCertifiable: true,
     targetProfileId: TARGET_PROFILE_PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE,
   });
-  const [domain3ExpertSkillSetId] = _associatePixEduFormationContinueSkillSets(
+  const [domain3Expert2ndDegreSkillSetId] = _associatePixEduFormationContinueSkillSets(
     databaseBuilder,
     skillIdsForPixEduDomain3,
-    pixEduFormationContinueExpertBadge,
+    pixEduFormationContinue2ndDegreExpertBadge,
   );
   databaseBuilder.factory.buildBadgeCriterion({
     scope: BadgeCriterion.SCOPES.SKILL_SET,
     threshold: 80,
-    badgeId: pixEduFormationContinueExpertBadge.id,
-    skillSetIds: [domain3ExpertSkillSetId],
+    badgeId: pixEduFormationContinue2ndDegreExpertBadge.id,
+    skillSetIds: [domain3Expert2ndDegreSkillSetId],
+  });
+
+  const pixEduFormationContinue1erDegreExpertBadge = databaseBuilder.factory.buildBadge({
+    id: PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT_BADGE_ID,
+    altMessage: 'Vous avez validé le badge Pix+ Édu 1er degré - Expert',
+    title: 'Pix+ Édu 1er degré - Expert',
+    imageUrl: 'https://images.pix.fr/badges/Pix_plus_Edu-4-Expert.svg',
+    key: 'PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT',
+    message: 'avez validé le badge Pix+ Édu 1er degré - Expert',
+    isCertifiable: true,
+    targetProfileId: TARGET_PROFILE_PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE,
+  });
+  const [domain3Expert1erDegreSkillSetId] = _associatePixEduFormationContinueSkillSets(
+    databaseBuilder,
+    skillIdsForPixEduDomain3,
+    pixEduFormationContinue1erDegreExpertBadge,
+  );
+  databaseBuilder.factory.buildBadgeCriterion({
+    scope: BadgeCriterion.SCOPES.SKILL_SET,
+    threshold: 80,
+    badgeId: pixEduFormationContinue1erDegreExpertBadge.id,
+    skillSetIds: [domain3Expert1erDegreSkillSetId],
   });
 }
 
