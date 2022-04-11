@@ -313,6 +313,62 @@ describe('Integration | Repository | AuthenticationMethod', function () {
       // then
       expect(authenticationMethodsByUserIdAndIdentityProvider).to.be.null;
     });
+
+    describe('when Pix is the authentication provider', function () {
+      it('brings along a Pix authentication complement', async function () {
+        // given
+        const user = databaseBuilder.factory.buildUser();
+        databaseBuilder.factory.buildAuthenticationMethod.withPixAsIdentityProviderAndHashedPassword({
+          userId: user.id,
+          hashedPassword: 'H4SHED',
+          shouldChangePassword: false,
+        });
+        await databaseBuilder.commit();
+
+        // when
+        const pixAuthenticationMethod = await authenticationMethodRepository.findOneByUserIdAndIdentityProvider({
+          userId: user.id,
+          identityProvider: AuthenticationMethod.identityProviders.PIX,
+        });
+
+        // then
+        expect(pixAuthenticationMethod.authenticationComplement).to.deep.equal(
+          new AuthenticationMethod.PixAuthenticationComplement({
+            password: 'H4SHED',
+            shouldChangePassword: false,
+          })
+        );
+      });
+    });
+
+    describe('when Pole Emploi is the authentication provider', function () {
+      it('brings along a Pole Emploi authentication complement', async function () {
+        // given
+        const user = databaseBuilder.factory.buildUser();
+        databaseBuilder.factory.buildAuthenticationMethod.withPoleEmploiAsIdentityProvider({
+          userId: user.id,
+          accessToken: 'AGENCENATIONALEPOURLEMPLOI',
+          refreshToken: 'FRANCETRAVAIL',
+          expiredDate: new Date('2021-01-01'),
+        });
+        await databaseBuilder.commit();
+
+        // when
+        const pixAuthenticationMethod = await authenticationMethodRepository.findOneByUserIdAndIdentityProvider({
+          userId: user.id,
+          identityProvider: AuthenticationMethod.identityProviders.POLE_EMPLOI,
+        });
+
+        // then
+        expect(pixAuthenticationMethod.authenticationComplement).to.deep.equal(
+          new AuthenticationMethod.PoleEmploiAuthenticationComplement({
+            accessToken: 'AGENCENATIONALEPOURLEMPLOI',
+            refreshToken: 'FRANCETRAVAIL',
+            expiredDate: '2021-01-01T00:00:00.000Z',
+          })
+        );
+      });
+    });
   });
 
   describe('#findOneByExternalIdentifierAndIdentityProvider', function () {
