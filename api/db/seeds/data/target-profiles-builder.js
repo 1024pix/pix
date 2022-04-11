@@ -340,7 +340,7 @@ function _buildTargetProfilePixEduFormationInitiale1erDegre(databaseBuilder) {
   ];
 
   [...skillIdsForPixEduDomain1, ...skillIdsForPixEduDomain2].forEach((skillId) => {
-    databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: TARGET_PROFILE_PIX_EDU_FORMATION_INITIALE_2ND_DEGRE, skillId });
+    databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: TARGET_PROFILE_PIX_EDU_FORMATION_INITIALE_1ER_DEGRE, skillId });
   });
 }
 
@@ -392,7 +392,7 @@ function _buildTargetProfilePixEduFormationContinue1erDegre(databaseBuilder) {
   ];
 
   skillIdsForPixEduDomain3.forEach((skillId) => {
-    databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: TARGET_PROFILE_PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE, skillId });
+    databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: TARGET_PROFILE_PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE, skillId });
   });
 }
 
