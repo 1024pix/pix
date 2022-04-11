@@ -58,7 +58,7 @@ describe('Unit | Component | Tutorial | card item', function () {
   describe('#isTutorialSaved', function () {
     it('should return false when the tutorial has not already been saved', function () {
       // given
-      component.evaluationStatus = 'unrecorded';
+      component.savingStatus = 'unrecorded';
 
       // when
       const result = component.isTutorialSaved;
@@ -69,7 +69,7 @@ describe('Unit | Component | Tutorial | card item', function () {
 
     it('should return true when the tutorial has already been saved', function () {
       // given
-      component.evaluationStatus = 'recorded';
+      component.savingStatus = 'recorded';
 
       // when
       const result = component.isTutorialSaved;
@@ -80,7 +80,7 @@ describe('Unit | Component | Tutorial | card item', function () {
 
     it('should return true when saving is in progress', function () {
       // given
-      component.evaluationStatus = 'pending';
+      component.savingStatus = 'pending';
 
       // when
       const result = component.isTutorialSaved;
