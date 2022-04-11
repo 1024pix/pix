@@ -65,6 +65,8 @@ module.exports = {
           `An authentication method already exists for the user ID ${authenticationMethod.userId} and the externalIdentifier ${authenticationMethod.externalIdentifier}.`
         );
       }
+
+      throw err;
     }
   },
 
