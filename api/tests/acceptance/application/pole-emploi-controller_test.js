@@ -210,4 +210,40 @@ describe('Acceptance | API | Pole Emploi Controller', function () {
       });
     });
   });
+
+  describe('GET /api/pole-emploi/auth-url', function () {
+    context('When the request returns 200', function () {
+      it('should return the url of authentication', async function () {
+        // when
+        const response = await server.inject({
+          method: 'GET',
+          url: `/api/pole-emploi/auth-url?redirect_uri=${encodeURIComponent(
+            'http://app.pix.fr/connexion-pole-emploi'
+          )}`,
+        });
+
+        // then
+        function _checkIfValidUUID(str) {
+          const regexExp = /^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$/gi;
+          return regexExp.test(str);
+        }
+
+        expect(response.statusCode).to.equal(200);
+        expect(_checkIfValidUUID(response.result.state)).to.be.true;
+        expect(_checkIfValidUUID(response.result.nonce)).to.be.true;
+
+        const redirectTargetUrl = new URL(response.result.redirectTarget);
+
+        expect(redirectTargetUrl.origin).to.equal('http://authurl.fr');
+        expect(redirectTargetUrl.pathname).to.equal('/connexion/oauth2/authorize');
+        expect(redirectTargetUrl.searchParams.get('redirect_uri')).to.equal('http://app.pix.fr/connexion-pole-emploi');
+        expect(redirectTargetUrl.searchParams.get('client_id')).to.equal('PIX_POLE_EMPLOI_CLIENT_ID');
+        expect(redirectTargetUrl.searchParams.get('response_type')).to.equal('code');
+        expect(redirectTargetUrl.searchParams.get('realm')).to.equal('/individu');
+        expect(redirectTargetUrl.searchParams.get('scope')).to.equal(
+          'application_PIX_POLE_EMPLOI_CLIENT_ID api_peconnect-individuv1 openid profile serviceDigitauxExposition api_peconnect-servicesdigitauxv1'
+        );
+      });
+    });
+  });
 });

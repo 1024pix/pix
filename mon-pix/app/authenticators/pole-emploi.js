@@ -9,7 +9,7 @@ import { decodeToken } from 'mon-pix/helpers/jwt';
 import ENV from 'mon-pix/config/environment';
 import fetch from 'fetch';
 
-const { host, clientId, afterLogoutUri, endSessionEndpoint } = ENV.poleEmploi;
+const { host, afterLogoutUri, endSessionEndpoint } = ENV.poleEmploi;
 
 export default class PoleEmploiAuthenticator extends BaseAuthenticator {
   @service session;
@@ -31,7 +31,6 @@ export default class PoleEmploiAuthenticator extends BaseAuthenticator {
       serverTokenEndpoint = `${ENV.APP.API_HOST}/api/pole-emploi/token`;
       const bodyObject = {
         code,
-        client_id: clientId,
         redirect_uri: redirectUri,
         state_sent: this.session.data.state,
         state_received: state,

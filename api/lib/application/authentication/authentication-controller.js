@@ -70,17 +70,10 @@ module.exports = {
 
   async authenticatePoleEmploiUser(request) {
     const authenticatedUserId = get(request.auth, 'credentials.userId');
-    const {
-      code,
-      client_id: clientId,
-      redirect_uri: redirectUri,
-      state_sent: stateSent,
-      state_received: stateReceived,
-    } = request.payload;
+    const { code, redirect_uri: redirectUri, state_sent: stateSent, state_received: stateReceived } = request.payload;
 
     const result = await usecases.authenticatePoleEmploiUser({
       authenticatedUserId,
-      clientId,
       code,
       redirectUri,
       stateReceived,

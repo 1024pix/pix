@@ -277,7 +277,6 @@ describe('Integration | Application | Route | AuthenticationRouter', function ()
     const headers = {};
 
     const code = 'ABCD';
-    const client_id = 'CLIENT_ID';
     const redirect_uri = 'http://redirectUri.fr';
     const state_sent = 'state_sent';
     const state_received = 'state_received';
@@ -289,7 +288,6 @@ describe('Integration | Application | Route | AuthenticationRouter', function ()
 
       payload = querystring.stringify({
         code,
-        client_id,
         redirect_uri,
         state_sent,
         state_received,
@@ -329,21 +327,6 @@ describe('Integration | Application | Route | AuthenticationRouter', function ()
     it('should return 400 when code is missing', async function () {
       // given
       payload = querystring.stringify({
-        client_id,
-        redirect_uri,
-      });
-
-      // when
-      const response = await server.inject({ method, url, payload, auth: null, headers });
-
-      // then
-      expect(response.statusCode).to.equal(400);
-    });
-
-    it('should return 400 when client_id is missing', async function () {
-      // given
-      payload = querystring.stringify({
-        code,
         redirect_uri,
       });
 
@@ -358,7 +341,6 @@ describe('Integration | Application | Route | AuthenticationRouter', function ()
       // given
       payload = querystring.stringify({
         code,
-        client_id,
       });
 
       // when

@@ -10,6 +10,7 @@ const PoleEmploiTokens = require('../models/PoleEmploiTokens');
 
 const encryptionService = require('./encryption-service');
 const tokenService = require('./token-service');
+const { v4: uuidv4 } = require('uuid');
 
 async function getUserByUsernameAndPassword({ username, password, userRepository }) {
   const foundUser = await userRepository.getByUsernameOrEmailWithRolesAndPassword(username);
@@ -23,12 +24,12 @@ async function getUserByUsernameAndPassword({ username, password, userRepository
   return foundUser;
 }
 
-async function generatePoleEmploiTokens({ code, clientId, redirectUri }) {
+async function exchangePoleEmploiCodeForTokens({ code, redirectUri }) {
   const data = {
     client_secret: settings.poleEmploi.clientSecret,
     grant_type: 'authorization_code',
     code,
-    client_id: clientId,
+    client_id: settings.poleEmploi.clientId,
     redirect_uri: redirectUri,
   };
 
@@ -64,6 +65,29 @@ async function getPoleEmploiUserInfo(idToken) {
   };
 }
 
+function getPoleEmploiAuthUrl({ redirectUri }) {
+  const redirectTarget = new URL(`${settings.poleEmploi.authUrl}/connexion/oauth2/authorize`);
+  const state = uuidv4();
+  const nonce = uuidv4();
+  const clientId = settings.poleEmploi.clientId;
+  const params = [
+    { key: 'state', value: state },
+    { key: 'nonce', value: nonce },
+    { key: 'realm', value: '/individu' },
+    { key: 'client_id', value: clientId },
+    { key: 'redirect_uri', value: redirectUri },
+    { key: 'response_type', value: 'code' },
+    {
+      key: 'scope',
+      value: `application_${clientId} api_peconnect-individuv1 openid profile serviceDigitauxExposition api_peconnect-servicesdigitauxv1`,
+    },
+  ];
+
+  params.forEach(({ key, value }) => redirectTarget.searchParams.append(key, value));
+
+  return { redirectTarget: redirectTarget.toString(), state, nonce };
+}
+
 function _getErrorMessage(data) {
   let message;
 
@@ -78,7 +102,8 @@ function _getErrorMessage(data) {
 }
 
 module.exports = {
-  generatePoleEmploiTokens,
+  exchangePoleEmploiCodeForTokens,
   getPoleEmploiUserInfo,
+  getPoleEmploiAuthUrl,
   getUserByUsernameAndPassword,
 };
