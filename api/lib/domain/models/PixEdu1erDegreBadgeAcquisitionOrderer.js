@@ -32,7 +32,8 @@ class PixEdu1erDegreBadgeAcquisitionOrderer {
       avanceFormationContinueBadgeAcquisition ||
       confirmeFormationContinueBadgeAcquisition ||
       confirmeFormationInitialeBadgeAcquisition ||
-      initieFormationInitialeBadgeAcquisition
+      initieFormationInitialeBadgeAcquisition ||
+      null
     );
   }
 }

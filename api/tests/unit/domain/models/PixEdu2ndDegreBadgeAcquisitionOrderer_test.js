@@ -16,7 +16,7 @@ describe('Unit | Domain | Models | PixEdu2ndDegreBadgeAcquisitionOrderer', funct
         const highestBadge = pixEdu2ndDegreBadgeAcquisitionOrderer.getHighestBadge();
 
         // then
-        expect(highestBadge).to.be.undefined;
+        expect(highestBadge).to.be.null;
       });
     });
 
