@@ -33,7 +33,6 @@ describe('Integration | Repository | AuthenticationMethod', function () {
           userId,
         });
         delete authenticationMethod.id;
-        authenticationMethod.authenticationComplement = undefined;
 
         // when
         const savedAuthenticationMethod = await authenticationMethodRepository.create({ authenticationMethod });
@@ -282,7 +281,6 @@ describe('Integration | Repository | AuthenticationMethod', function () {
         id: 123,
         userId,
       });
-      garAuthenticationMethod.authenticationComplement = undefined;
       databaseBuilder.factory.buildAuthenticationMethod.withGarAsIdentityProvider(garAuthenticationMethod);
       await databaseBuilder.commit();
 
@@ -369,6 +367,33 @@ describe('Integration | Repository | AuthenticationMethod', function () {
         );
       });
     });
+
+    describe('when GAR is the authentication provider', function () {
+      it('brings along a GAR authentication complement', async function () {
+        // given
+        const user = databaseBuilder.factory.buildUser();
+        databaseBuilder.factory.buildAuthenticationMethod.withGarAsIdentityProvider({
+          userId: user.id,
+          userFirstName: 'Katie',
+          userLastName: 'McGuffin',
+        });
+        await databaseBuilder.commit();
+
+        // when
+        const garAuthenticationMethod = await authenticationMethodRepository.findOneByUserIdAndIdentityProvider({
+          userId: user.id,
+          identityProvider: AuthenticationMethod.identityProviders.GAR,
+        });
+
+        // then
+        expect(garAuthenticationMethod.authenticationComplement).to.deep.equal(
+          new AuthenticationMethod.GARAuthenticationComplement({
+            firstName: 'Katie',
+            lastName: 'McGuffin',
+          })
+        );
+      });
+    });
   });
 
   describe('#findOneByExternalIdentifierAndIdentityProvider', function () {
@@ -381,7 +406,6 @@ describe('Integration | Repository | AuthenticationMethod', function () {
         externalIdentifier,
         userId,
       });
-      authenticationMethod.authenticationComplement = undefined;
       databaseBuilder.factory.buildAuthenticationMethod.withGarAsIdentityProvider(authenticationMethod);
       databaseBuilder.factory.buildAuthenticationMethod.withGarAsIdentityProvider({
         externalIdentifier: 'another_sub',
@@ -421,7 +445,6 @@ describe('Integration | Repository | AuthenticationMethod', function () {
           externalIdentifier: 'old_value',
           userId,
         });
-        authenticationMethod.authenticationComplement = undefined;
         databaseBuilder.factory.buildAuthenticationMethod.withGarAsIdentityProvider(authenticationMethod);
         await databaseBuilder.commit();
 
@@ -446,7 +469,6 @@ describe('Integration | Repository | AuthenticationMethod', function () {
           externalIdentifier: 'old_value',
           userId,
         });
-        authenticationMethod.authenticationComplement = undefined;
         databaseBuilder.factory.buildAuthenticationMethod.withGarAsIdentityProvider(authenticationMethod);
         await databaseBuilder.commit();
 
@@ -923,7 +945,6 @@ describe('Integration | Repository | AuthenticationMethod', function () {
         externalIdentifier: 'externalIdentifier',
         userId,
       });
-      secondAuthenticationMethod.authenticationComplement = undefined;
       databaseBuilder.factory.buildAuthenticationMethod.withGarAsIdentityProvider(secondAuthenticationMethod);
       const firstAuthenticationMethod =
         domainBuilder.buildAuthenticationMethod.withPixAsIdentityProviderAndHashedPassword({
