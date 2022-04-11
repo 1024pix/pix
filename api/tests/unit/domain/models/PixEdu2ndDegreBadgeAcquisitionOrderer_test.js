@@ -36,7 +36,7 @@ describe('Unit | Domain | Models | PixEdu2ndDegreBadgeAcquisitionOrderer', funct
         const highestBadge = pixEdu2ndDegreBadgeAcquisitionOrderer.getHighestBadge();
 
         // then
-        expect(highestBadge).to.deep.equal(
+        expect(highestBadge).to.deepEqualInstance(
           domainBuilder.buildBadgeAcquisition.forPixEduFormationContinue2ndDegreExpert()
         );
       });
@@ -60,7 +60,7 @@ describe('Unit | Domain | Models | PixEdu2ndDegreBadgeAcquisitionOrderer', funct
           const highestBadge = pixEdu2ndDegreBadgeAcquisitionOrderer.getHighestBadge();
 
           // then
-          expect(highestBadge).to.deep.equal(
+          expect(highestBadge).to.deepEqualInstance(
             domainBuilder.buildBadgeAcquisition.forPixEduFormationContinue2ndDegreAvance()
           );
         });
@@ -83,7 +83,7 @@ describe('Unit | Domain | Models | PixEdu2ndDegreBadgeAcquisitionOrderer', funct
             const highestBadge = pixEdu2ndDegreBadgeAcquisitionOrderer.getHighestBadge();
 
             // then
-            expect(highestBadge).to.deep.equal(
+            expect(highestBadge).to.deepEqualInstance(
               domainBuilder.buildBadgeAcquisition.forPixEduFormationContinue2ndDegreConfirme()
             );
           });
@@ -105,7 +105,7 @@ describe('Unit | Domain | Models | PixEdu2ndDegreBadgeAcquisitionOrderer', funct
               const highestBadge = pixEdu2ndDegreBadgeAcquisitionOrderer.getHighestBadge();
 
               // then
-              expect(highestBadge).to.deep.equal(
+              expect(highestBadge).to.deepEqualInstance(
                 domainBuilder.buildBadgeAcquisition.forPixEduFormationInitiale2ndDegreConfirme()
               );
             });
@@ -125,7 +125,7 @@ describe('Unit | Domain | Models | PixEdu2ndDegreBadgeAcquisitionOrderer', funct
                 const highestBadge = pixEdu2ndDegreBadgeAcquisitionOrderer.getHighestBadge();
 
                 // then
-                expect(highestBadge).to.deep.equal(
+                expect(highestBadge).to.deepEqualInstance(
                   domainBuilder.buildBadgeAcquisition.forPixEduFormationInitiale2ndDegreInitie()
                 );
               });
