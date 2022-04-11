@@ -11,6 +11,8 @@ buildAuthenticationMethod.withGarAsIdentityProvider = function ({
   identityProvider = AuthenticationMethod.identityProviders.GAR,
   externalIdentifier = 'externalId',
   userId,
+  userFirstName = 'Margotte',
+  userLastName = 'Saint-James',
   createdAt = new Date('2020-01-01'),
   updatedAt = new Date('2020-01-02'),
 } = {}) {
@@ -20,7 +22,10 @@ buildAuthenticationMethod.withGarAsIdentityProvider = function ({
     id,
     identityProvider,
     externalIdentifier,
-    authenticationComplement: undefined,
+    authenticationComplement: {
+      firstName: userFirstName,
+      lastName: userLastName,
+    },
     userId,
     createdAt,
     updatedAt,
