@@ -323,7 +323,6 @@ describe('Acceptance | Controller | authentication-controller', function () {
           },
           payload: querystring.stringify({
             code: 'code',
-            client_id: 'client_id',
             redirect_uri: 'redirect_uri',
             state_sent: 'a_state',
             state_received: 'another_state',
@@ -372,7 +371,6 @@ describe('Acceptance | Controller | authentication-controller', function () {
             },
             payload: querystring.stringify({
               code: 'code',
-              client_id: 'client_id',
               redirect_uri: 'redirect_uri',
               state_sent: 'state',
               state_received: 'state',
@@ -413,7 +411,6 @@ describe('Acceptance | Controller | authentication-controller', function () {
             },
             payload: querystring.stringify({
               code: 'code',
-              client_id: 'client_id',
               redirect_uri: 'redirect_uri',
               state_sent: 'state',
               state_received: 'state',
@@ -454,7 +451,6 @@ describe('Acceptance | Controller | authentication-controller', function () {
             },
             payload: querystring.stringify({
               code: 'code',
-              client_id: 'client_id',
               redirect_uri: 'redirect_uri',
               state_sent: 'state',
               state_received: 'state',
@@ -503,7 +499,6 @@ describe('Acceptance | Controller | authentication-controller', function () {
             },
             payload: querystring.stringify({
               code: 'code',
-              client_id: 'client_id',
               redirect_uri: 'redirect_uri',
               state_sent: 'state',
               state_received: 'state',
@@ -562,7 +557,6 @@ describe('Acceptance | Controller | authentication-controller', function () {
             },
             payload: querystring.stringify({
               code: 'code',
-              client_id: 'client_id',
               redirect_uri: 'redirect_uri',
               state_sent: 'state',
               state_received: 'state',
@@ -626,7 +620,6 @@ describe('Acceptance | Controller | authentication-controller', function () {
             },
             payload: querystring.stringify({
               code: 'code',
-              client_id: 'client_id',
               redirect_uri: 'redirect_uri',
               state_sent: 'state',
               state_received: 'state',
@@ -681,7 +674,6 @@ describe('Acceptance | Controller | authentication-controller', function () {
             },
             payload: querystring.stringify({
               code: 'code',
-              client_id: 'client_id',
               redirect_uri: 'redirect_uri',
               state_sent: 'state',
               state_received: 'state',
@@ -737,7 +729,6 @@ describe('Acceptance | Controller | authentication-controller', function () {
             },
             payload: querystring.stringify({
               code: 'code',
-              client_id: 'client_id',
               redirect_uri: 'redirect_uri',
               state_sent: 'state',
               state_received: 'state',
@@ -793,7 +784,6 @@ describe('Acceptance | Controller | authentication-controller', function () {
             },
             payload: querystring.stringify({
               code: 'code',
-              client_id: 'client_id',
               redirect_uri: 'redirect_uri',
               state_sent: 'state',
               state_received: 'state',
@@ -850,7 +840,6 @@ describe('Acceptance | Controller | authentication-controller', function () {
             },
             payload: querystring.stringify({
               code: 'code',
-              client_id: 'client_id',
               redirect_uri: 'redirect_uri',
               state_sent: 'state',
               state_received: 'state',
@@ -893,7 +882,6 @@ describe('Acceptance | Controller | authentication-controller', function () {
           },
           payload: querystring.stringify({
             code: 'code',
-            client_id: 'client_id',
             redirect_uri: 'redirect_uri',
             state_sent: 'state',
             state_received: 'state',
@@ -938,7 +926,6 @@ describe('Acceptance | Controller | authentication-controller', function () {
           },
           payload: querystring.stringify({
             code: 'code',
-            client_id: 'client_id',
             redirect_uri: 'redirect_uri',
             state_sent: 'state',
             state_received: 'state',
@@ -988,7 +975,6 @@ describe('Acceptance | Controller | authentication-controller', function () {
           },
           payload: querystring.stringify({
             code: 'code',
-            client_id: 'client_id',
             redirect_uri: 'redirect_uri',
             state_sent: 'state',
             state_received: 'state',

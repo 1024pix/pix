@@ -1,6 +1,7 @@
 const usecases = require('../../domain/usecases');
 const tokenService = require('../../domain/services/token-service');
 const userRepository = require('../../infrastructure/repositories/user-repository');
+const authenticationService = require('../../../lib/domain/services/authentication-service');
 
 module.exports = {
   async createUser(request, h) {
@@ -23,6 +24,13 @@ module.exports = {
     const filters = _extractFilters(request);
     const { sendings, link } = await usecases.getPoleEmploiSendings({ cursor, filters });
     return h.response(sendings).header('link', link).code(200);
+  },
+
+  async getAuthUrl(request, h) {
+    const result = authenticationService.getPoleEmploiAuthUrl({
+      redirectUri: request.query['redirect_uri'],
+    });
+    return h.response(result).code(200);
   },
 };
 

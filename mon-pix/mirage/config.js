@@ -86,4 +86,13 @@ export default function () {
   this.get('/certification-candidates/:id/subscriptions', getCertificationCandidatesSubscriptions);
 
   this.get('/certification-courses/:id');
+
+  this.get('/pole-emploi/auth-url', (schema, request) => {
+    const redirectUri = request.queryParams.redirect_uri;
+    return {
+      redirectTarget: `https://pole-emploi/connexion/oauth2/authorize?redirect_uri=${redirectUri}`,
+      state: 'a8a3344f-6d7c-469d-9f84-bdd791e04fdf',
+      nonce: '555c86fe-ed0a-4a80-80f3-45b1f7c2df8c',
+    };
+  });
 }
