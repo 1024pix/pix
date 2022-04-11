@@ -45,5 +45,32 @@ describe('Integration | Infrastructure | Utils | RedisClient', function () {
       await redisClient1.del('key');
       await redisClient2.del('key');
     });
+
+    it('should allow retrieve without prefix a value with a prefix', async function () {
+      // given
+      const value = new Date().toISOString();
+      const redisClientWithoutPrefix = new RedisClient(process.env.REDIS_URL);
+      const redisClientWithPrefix = new RedisClient(process.env.REDIS_URL, { prefix: 'client-prefix:' });
+      await redisClientWithoutPrefix.set('key', value);
+
+      // when / then
+      expect(await redisClientWithPrefix.get('storage-prefix:key')).to.equal(value);
+      await redisClientWithPrefix.del('storage-prefix:key');
+    });
+
+    it('should allow delete a value without prefix', async function () {
+      // given
+      const value = new Date().toISOString();
+      const redisClientWithoutPrefix = new RedisClient(process.env.REDIS_URL);
+      const redisClientWithPrefix = new RedisClient(process.env.REDIS_URL, { prefix: 'client-prefix:' });
+      await redisClientWithoutPrefix.set('key', value);
+
+      // when
+      await redisClientWithPrefix.del('storage-prefix:key');
+
+      // then
+      expect(await redisClientWithPrefix.get('storage-prefix:key')).to.be.null;
+      await redisClientWithPrefix.del('storage-prefix:key');
+    });
   }
 });
