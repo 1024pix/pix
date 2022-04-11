@@ -7,7 +7,7 @@ import fetch from 'fetch';
 
 const { authEndpoint } = ENV.poleEmploi;
 
-export default class LoginPeRoute extends Route {
+export default class LoginPoleEmploiRoute extends Route {
   @service session;
   @service router;
   @service location;
