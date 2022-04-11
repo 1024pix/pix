@@ -1,5 +1,4 @@
 const usecases = require('../../domain/usecases');
-const events = require('../../domain/events');
 const serializer = require('../../infrastructure/serializers/jsonapi/competence-evaluation-serializer');
 const DomainTransaction = require('../../infrastructure/DomainTransaction');
 
@@ -27,7 +26,6 @@ module.exports = {
         userId,
         domainTransaction,
       });
-      await events.eventDispatcher.dispatch(domainTransaction, competenceEvaluation);
       return competenceEvaluation;
     });
 
