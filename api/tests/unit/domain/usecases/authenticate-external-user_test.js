@@ -8,7 +8,6 @@ const {
   PasswordNotMatching,
   UserShouldChangePasswordError,
   UnexpectedUserAccountError,
-  InvalidExternalUserTokenError,
   UserAlreadyExistsWithAuthenticationMethodError,
 } = require('../../../../lib/domain/errors');
 const AuthenticationMethod = require('../../../../lib/domain/models/AuthenticationMethod');
@@ -159,34 +158,6 @@ describe('Unit | Application | UseCase | authenticate-external-user', function (
     });
 
     context('when adding GAR authentication method', function () {
-      it('should throw an error if external user token is invalid', async function () {
-        // given
-        const password = 'Azerty123*';
-        const user = createUserWithValidCredentials({
-          password,
-          authenticationService,
-          userRepository,
-        });
-
-        const invalidExternalUserToken = 'INVALID_EXTERNAL_USER_TOKEN';
-        tokenService.extractExternalUserFromIdToken.withArgs(invalidExternalUserToken).returns(null);
-
-        // when
-        const error = await catchErr(authenticateExternalUser)({
-          username: user.email,
-          password,
-          externalUserToken: invalidExternalUserToken,
-          expectedUserId: user.id,
-          tokenService,
-          authenticationService,
-          authenticationMethodRepository,
-          userRepository,
-        });
-
-        // then
-        expect(error).to.be.instanceOf(InvalidExternalUserTokenError);
-      });
-
       it('should throw an error if user from external user token is not the same as found user from credentials', async function () {
         // given
         const password = 'Azerty123*';
