@@ -147,7 +147,7 @@ async function _getAcquiredPartnerCertification(certificationCourseId) {
     PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
   ];
   const complementaryCertificationCourseResults = await knex
-    .select('partnerKey', 'temporaryPartnerKey')
+    .select('partnerKey', 'source')
     .from('complementary-certification-course-results')
     .innerJoin(
       'complementary-certification-courses',
@@ -156,7 +156,7 @@ async function _getAcquiredPartnerCertification(certificationCourseId) {
     )
     .where({ certificationCourseId, acquired: true })
     .where(function () {
-      this.whereIn('partnerKey', handledBadgeKeys).orWhereIn('temporaryPartnerKey', handledBadgeKeys);
+      this.whereIn('partnerKey', handledBadgeKeys);
     });
 
   return complementaryCertificationCourseResults;

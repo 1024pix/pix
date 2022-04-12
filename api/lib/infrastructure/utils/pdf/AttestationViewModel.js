@@ -109,9 +109,9 @@ class AttestationViewModel {
     let pixPlusEduTemporaryBadgeMessage;
     if (certificate.getAcquiredPixPlusEduCertification()) {
       hasAcquiredPixPlusEduCertification = true;
-      const { partnerKey, temporaryPartnerKey } = certificate.getAcquiredPixPlusEduCertification();
-      pixPlusEduCertificationImagePath = getImagePathByBadgeKey(partnerKey || temporaryPartnerKey);
-      if (temporaryPartnerKey && !partnerKey) {
+      const { partnerKey, source } = certificate.getAcquiredPixPlusEduCertification();
+      pixPlusEduCertificationImagePath = getImagePathByBadgeKey(partnerKey);
+      if (source === 'PIX') {
         pixPlusEduTemporaryBadgeMessage = toArrayOfFixedLengthStringsConservingWords(
           `Vous avez obtenu le niveau “${certificate.getPixPlusEduBadgeDisplayName()}” dans le cadre du volet 1 de la certification Pix+Édu. Votre niveau final sera déterminé à l’issue du volet 2`,
           45

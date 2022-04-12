@@ -67,11 +67,11 @@ class CertificationAttestation {
 
   getAcquiredPixPlusEduCertification() {
     return (
-      this._findByPartnerKeyOrTemporaryPartnerKey(PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE) ||
-      this._findByPartnerKeyOrTemporaryPartnerKey(PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME) ||
-      this._findByPartnerKeyOrTemporaryPartnerKey(PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME) ||
-      this._findByPartnerKeyOrTemporaryPartnerKey(PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE) ||
-      this._findByPartnerKeyOrTemporaryPartnerKey(PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT)
+      this._findByPartnerKey(PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE) ||
+      this._findByPartnerKey(PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME) ||
+      this._findByPartnerKey(PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME) ||
+      this._findByPartnerKey(PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE) ||
+      this._findByPartnerKey(PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT)
     );
   }
 
@@ -81,33 +81,21 @@ class CertificationAttestation {
       return null;
     }
 
-    const { partnerKey, temporaryPartnerKey } = acquiredPixPlusEduCertification;
-    if (
-      partnerKey === PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE ||
-      temporaryPartnerKey === PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE
-    ) {
+    const { partnerKey } = acquiredPixPlusEduCertification;
+    if (partnerKey === PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE) {
       return 'Initié (entrée dans le métier)';
     }
     if (
       [PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME, PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME].includes(
         partnerKey
-      ) ||
-      [PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME, PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME].includes(
-        temporaryPartnerKey
       )
     ) {
       return 'Confirmé';
     }
-    if (
-      partnerKey === PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE ||
-      temporaryPartnerKey === PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE
-    ) {
+    if (partnerKey === PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE) {
       return 'Avancé';
     }
-    if (
-      partnerKey === PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT ||
-      temporaryPartnerKey === PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT
-    ) {
+    if (partnerKey === PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT) {
       return 'Expert';
     }
   }
@@ -116,10 +104,8 @@ class CertificationAttestation {
     return this.acquiredComplementaryCertifications.length > 0;
   }
 
-  _findByPartnerKeyOrTemporaryPartnerKey(key) {
-    return this.acquiredComplementaryCertifications.find(
-      ({ partnerKey, temporaryPartnerKey }) => partnerKey === key || temporaryPartnerKey === key
-    );
+  _findByPartnerKey(key) {
+    return this.acquiredComplementaryCertifications.find(({ partnerKey }) => partnerKey === key);
   }
 }
 

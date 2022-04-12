@@ -56,7 +56,7 @@ describe('Integration | Infrastructure | Utils | Pdf | Certification Attestation
       firstName: 'Jean',
       lastName: 'Bon',
       resultCompetenceTree,
-      acquiredComplementaryCertifications: [{ temporaryPartnerKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE }],
+      acquiredComplementaryCertifications: [{ partnerKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE, source: 'PIX' }],
     });
     const referencePdfPath = __dirname + '/certification-attestation-pdf_test_full_edu_temporary.pdf';
 
@@ -83,7 +83,9 @@ describe('Integration | Infrastructure | Utils | Pdf | Certification Attestation
       firstName: 'Jean',
       lastName: 'Bon',
       resultCompetenceTree,
-      acquiredComplementaryCertifications: [{ partnerKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE }],
+      acquiredComplementaryCertifications: [
+        { partnerKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE, source: 'EXTERNAL' },
+      ],
     });
     const referencePdfPath = __dirname + '/certification-attestation-pdf_test_full_edu.pdf';
 

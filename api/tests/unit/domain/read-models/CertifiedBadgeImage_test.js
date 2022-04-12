@@ -89,9 +89,10 @@ describe('Unit | Domain | Models | CertifiedBadgeImage', function () {
     context('when badge is temporary', function () {
       const badges = { ...pixPlusEdu2ndDegreBadgesInfos, ...pixPlusEdu1erDegreBadgesInfos };
       for (const badgeKey in badges) {
-        it(`returns temporary badge image for temporary partner key ${badgeKey}`, function () {
+        it(`returns temporary badge image for "PIX" source ${badgeKey}`, function () {
           // when
-          const result = CertifiedBadgeImage.fromPartnerKey(null, badgeKey);
+          const source = 'PIX';
+          const result = CertifiedBadgeImage.fromPartnerKey(badgeKey, source);
 
           // then
           const { path, levelName } = badges[badgeKey];

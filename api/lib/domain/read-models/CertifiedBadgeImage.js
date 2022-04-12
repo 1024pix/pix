@@ -27,9 +27,9 @@ class CertifiedBadgeImage {
     });
   }
 
-  static fromPartnerKey(partnerKey, temporaryPartnerKey) {
-    const badgeKey = partnerKey || temporaryPartnerKey;
-    const isTemporaryBadge = !partnerKey;
+  static fromPartnerKey(partnerKey, source) {
+    const badgeKey = partnerKey;
+    const isTemporaryBadge = source === 'PIX' && _isPartnerKeyInPixEduBadges(partnerKey);
 
     if (badgeKey === PIX_DROIT_MAITRE_CERTIF) {
       return CertifiedBadgeImage.finalFromPath('https://images.pix.fr/badges-certifies/pix-droit/maitre.svg');
@@ -107,6 +107,21 @@ class CertifiedBadgeImage {
       });
     }
   }
+}
+
+function _isPartnerKeyInPixEduBadges(partnerKey) {
+  return [
+    PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
+    PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME,
+    PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME,
+    PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
+    PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
+    PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_INITIE,
+    PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_CONFIRME,
+    PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_CONFIRME,
+    PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE,
+    PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT,
+  ].includes(partnerKey);
 }
 
 module.exports = CertifiedBadgeImage;

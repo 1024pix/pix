@@ -124,7 +124,7 @@ async function _getCertifiedBadgeImages(certificationCourseId) {
     PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT,
   ];
   const results = await knex
-    .select('partnerKey', 'temporaryPartnerKey')
+    .select('partnerKey', 'source')
     .from('complementary-certification-course-results')
     .innerJoin(
       'complementary-certification-courses',
@@ -133,14 +133,10 @@ async function _getCertifiedBadgeImages(certificationCourseId) {
     )
     .where({ certificationCourseId, acquired: true })
     .where(function () {
-      this.whereIn('partnerKey', handledBadgeKeys).orWhereIn('temporaryPartnerKey', handledBadgeKeys);
+      this.whereIn('partnerKey', handledBadgeKeys);
     })
     .orderBy('partnerKey');
-  return _.compact(
-    _.map(results, ({ partnerKey, temporaryPartnerKey }) =>
-      CertifiedBadgeImage.fromPartnerKey(partnerKey, temporaryPartnerKey)
-    )
-  );
+  return _.compact(_.map(results, ({ partnerKey, source }) => CertifiedBadgeImage.fromPartnerKey(partnerKey, source)));
 }
 
 function _toDomain(shareableCertificateDTO, competenceTree, cleaCertificationResult, certifiedBadgeImages) {
