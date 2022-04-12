@@ -39,6 +39,7 @@ async function _fetchCampaignProfileAttributesFromCampaignParticipation(campaign
         .where({
           campaignId,
           'campaign-participations.id': campaignParticipationId,
+          'campaign-participations.deletedAt': null,
         });
     })
     .from('campaignProfile');

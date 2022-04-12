@@ -1,4 +1,4 @@
-const { UserNotAuthorizedToAccessEntityError } = require('../errors');
+const { UserNotAuthorizedToAccessEntityError, CampaignParticipationDeletedError } = require('../errors');
 
 module.exports = async function computeCampaignParticipationAnalysis({
   userId,
@@ -16,6 +16,10 @@ module.exports = async function computeCampaignParticipationAnalysis({
 
   if (!hasUserAccessToResult) {
     throw new UserNotAuthorizedToAccessEntityError('User does not have access to this campaign');
+  }
+
+  if (campaignParticipation.deletedAt !== null) {
+    throw new CampaignParticipationDeletedError('Cannot access deleted campaign participation');
   }
 
   if (!campaignParticipation.isShared) {
