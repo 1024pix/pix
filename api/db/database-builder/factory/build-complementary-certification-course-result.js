@@ -7,7 +7,7 @@ const _ = require('lodash');
 module.exports = function buildComplementaryCertificationCourseResult({
   complementaryCertificationCourseId,
   partnerKey,
-  temporaryPartnerKey,
+  source = 'PIX',
   acquired = true,
 }) {
   complementaryCertificationCourseId = _.isUndefined(complementaryCertificationCourseId)
@@ -15,7 +15,7 @@ module.exports = function buildComplementaryCertificationCourseResult({
     : complementaryCertificationCourseId;
   return databaseBuffer.objectsToInsert.push({
     tableName: 'complementary-certification-course-results',
-    values: { complementaryCertificationCourseId, partnerKey, temporaryPartnerKey, acquired },
+    values: { complementaryCertificationCourseId, partnerKey, source, acquired },
   });
 };
 

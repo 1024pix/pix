@@ -120,14 +120,14 @@ describe('Unit | Domain | Models | CertificationAttestation', function () {
       it(`should return the acquired ${badgeKey} badge`, function () {
         // given
         const certificationAttestation = domainBuilder.buildCertificationAttestation({
-          acquiredComplementaryCertifications: [{ partnerKey: 'OTHER_BADGE' }, { temporaryPartnerKey: badgeKey }],
+          acquiredComplementaryCertifications: [{ partnerKey: 'OTHER_BADGE' }, { partnerKey: badgeKey, source: 'PIX' }],
         });
 
         // when
         const acquiredPixPlusEduCertification = certificationAttestation.getAcquiredPixPlusEduCertification();
 
         // expect
-        expect(acquiredPixPlusEduCertification).to.deep.equal({ temporaryPartnerKey: badgeKey });
+        expect(acquiredPixPlusEduCertification).to.deep.equal({ partnerKey: badgeKey, source: 'PIX' });
       });
     });
 

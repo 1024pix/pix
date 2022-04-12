@@ -345,7 +345,7 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
             deliveredAt: new Date('2021-05-05'),
             certificationCenter: 'Centre des poules bien dodues',
             pixScore: 51,
-            acquiredComplementaryCertifications: [{ partnerKey: badgeKey, temporaryPartnerKey: null }],
+            acquiredComplementaryCertifications: [{ partnerKey: badgeKey, source: 'PIX' }],
             sessionId: 789,
           };
           await _buildValidCertificationAttestation(certificationAttestationData);
@@ -386,12 +386,12 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
         mockLearningContent(learningContentObjects);
         const certificationAttestationData = {
           id: 123,
-          acquiredComplementaryCertifications: [{ partnerKey: PIX_DROIT_EXPERT_CERTIF, temporaryPartnerKey: null }],
+          acquiredComplementaryCertifications: [{ partnerKey: PIX_DROIT_EXPERT_CERTIF, source: 'PIX' }],
         };
         const certificationAttestationData2 = {
           id: 124,
           acquiredComplementaryCertifications: [
-            { partnerKey: null, temporaryPartnerKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE },
+            { partnerKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE, source: 'PIX' },
           ],
         };
         databaseBuilder.factory.buildBadge({ key: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE });
@@ -416,7 +416,8 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
         });
         databaseBuilder.factory.buildComplementaryCertificationCourseResult({
           complementaryCertificationCourseId: 999,
-          temporaryPartnerKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
+          partnerKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
+          source: 'PIX',
           acquired: true,
         });
         await databaseBuilder.commit();
@@ -426,7 +427,7 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
 
         // then
         expect(certificationAttestation.acquiredComplementaryCertifications).to.deep.equals([
-          { partnerKey: PIX_DROIT_EXPERT_CERTIF, temporaryPartnerKey: null },
+          { partnerKey: PIX_DROIT_EXPERT_CERTIF, source: 'PIX' },
         ]);
       });
     });
@@ -449,7 +450,7 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
         deliveredAt: new Date('2021-05-05'),
         certificationCenter: 'Centre des poules bien dodues',
         pixScore: 51,
-        acquiredComplementaryCertifications: [{ partnerKey: PIX_DROIT_MAITRE_CERTIF, temporaryPartnerKey: null }],
+        acquiredComplementaryCertifications: [{ partnerKey: PIX_DROIT_MAITRE_CERTIF, source: 'PIX' }],
         sessionId: 789,
       };
       await _buildValidCertificationAttestation(certificationAttestationData);
