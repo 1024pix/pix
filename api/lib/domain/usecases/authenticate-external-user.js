@@ -4,7 +4,6 @@ const {
   PasswordNotMatching,
   UserShouldChangePasswordError,
   UnexpectedUserAccountError,
-  InvalidExternalUserTokenError,
   UserAlreadyExistsWithAuthenticationMethodError,
 } = require('../errors');
 
@@ -70,14 +69,7 @@ async function _addGarAuthenticationMethod({
   authenticationMethodRepository,
   userRepository,
 }) {
-  const tokenData = await tokenService.extractExternalUserFromIdToken(externalUserToken);
-  if (!tokenData) {
-    throw new InvalidExternalUserTokenError(
-      'Une erreur est survenue. Veuillez réessayer de vous connecter depuis le médiacentre.'
-    );
-  }
-  const { samlId, firstName, lastName } = tokenData;
-
+  const { samlId, firstName, lastName } = await tokenService.extractExternalUserFromIdToken(externalUserToken);
   await _checkIfSamlIdIsNotReconciledWithAnotherUser({ samlId, userId, userRepository });
 
   const garAuthenticationMethod = new AuthenticationMethod({
