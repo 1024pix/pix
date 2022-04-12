@@ -2,34 +2,40 @@
 
 <div class="certifications-page">
   <h1 class="page__title page-title">{{t "pages.certifications.title"}}</h1>
-  <p class="certifications-page__text">
-    {{t "pages.certifications.description" htmlSafe=true}}
-  </p>
+  {{#if this.hasImportedStudents}}
+    <p class="certifications-page__text">
+      {{t "pages.certifications.description" htmlSafe=true}}
+    </p>
 
-  <form class="certifications-page__action" {{on "submit" this.downloadSessionResultFile}}>
-    <label for="certifications-page-action__select">{{t "pages.certifications.select-label"}}</label>
-    <PixSelect
-      id="certifications-page-action__select"
-      @options={{@model.options}}
-      @selectedOption={{this.selectedDivision}}
-      @onChange={{this.onSelectDivision}}
-      @isSearchable={{true}}
-      @isValidationActive={{true}}
-      placeholder={{this.firstTwoDivisions}}
-      required={{true}}
-    />
-    <PixButton @type="submit" id="download_results" @size="small">
-      {{t "pages.certifications.download-button"}}
-    </PixButton>
-    <PixButton @triggerAction={{this.downloadAttestation}} id="download_attestations" @size="small">
-      {{t "pages.certifications.download-attestations-button"}}
-    </PixButton>
-  </form>
+    <form class="certifications-page__action" {{on "submit" this.downloadSessionResultFile}}>
+      <label for="certifications-page-action__select">{{t "pages.certifications.select-label"}}</label>
+      <PixSelect
+        id="certifications-page-action__select"
+        @options={{@model.options}}
+        @selectedOption={{this.selectedDivision}}
+        @onChange={{this.onSelectDivision}}
+        @isSearchable={{true}}
+        @isValidationActive={{true}}
+        placeholder={{this.firstTwoDivisions}}
+        required={{true}}
+      />
+      <PixButton @type="submit" id="download_results" @size="small">
+        {{t "pages.certifications.download-button"}}
+      </PixButton>
+      <PixButton @triggerAction={{this.downloadAttestation}} id="download_attestations" @size="small">
+        {{t "pages.certifications.download-attestations-button"}}
+      </PixButton>
+    </form>
 
-  <PixMessage @withIcon={{true}}>
-    {{t "pages.certifications.documentation-link-notice"}}
-    <a href={{t "pages.certifications.documentation-link"}} target="_blank" rel="noopener noreferrer">{{t
-        "pages.certifications.documentation-link-label"
-      }}</a>
-  </PixMessage>
+    <PixMessage @withIcon={{true}}>
+      {{t "pages.certifications.documentation-link-notice"}}
+      <a href={{t "pages.certifications.documentation-link"}} target="_blank" rel="noopener noreferrer">{{t
+          "pages.certifications.documentation-link-label"
+        }}</a>
+    </PixMessage>
+  {{else}}
+    <p class="certifications-page__text">
+      {{t "pages.certifications.no-students-imported-yet" htmlSafe=true}}
+    </p>
+  {{/if}}
 </div>
