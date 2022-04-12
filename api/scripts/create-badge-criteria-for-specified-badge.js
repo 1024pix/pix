@@ -36,7 +36,12 @@ async function main() {
   console.log('Saving badge criteria... ');
   return DomainTransaction.execute(async (domainTransaction) => {
     await Promise.all(
-      jsonFile.criteria.map((badgeCriterion) => badgeCriteriaRepository.save({ badgeCriterion }, domainTransaction))
+      jsonFile.criteria.map((badgeCriterion) =>
+        badgeCriteriaRepository.save(
+          { badgeCriterion: { ...badgeCriterion, badgeId: jsonFile.badgeId } },
+          domainTransaction
+        )
+      )
     );
   });
   console.log('ok');
