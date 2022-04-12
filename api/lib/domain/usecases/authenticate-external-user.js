@@ -70,12 +70,13 @@ async function _addGarAuthenticationMethod({
   authenticationMethodRepository,
   userRepository,
 }) {
-  const samlId = tokenService.extractSamlId(externalUserToken);
-  if (!samlId) {
+  const tokenData = await tokenService.extractExternalUserFromIdToken(externalUserToken);
+  if (!tokenData) {
     throw new InvalidExternalUserTokenError(
       'Une erreur est survenue. Veuillez réessayer de vous connecter depuis le médiacentre.'
     );
   }
+  const { samlId, firstName, lastName } = tokenData;
 
   await _checkIfSamlIdIsNotReconciledWithAnotherUser({ samlId, userId, userRepository });
 
@@ -83,6 +84,10 @@ async function _addGarAuthenticationMethod({
     identityProvider: AuthenticationMethod.identityProviders.GAR,
     externalIdentifier: samlId,
     userId,
+    authenticationComplement: new AuthenticationMethod.GARAuthenticationComplement({
+      firstName,
+      lastName,
+    }),
   });
   await authenticationMethodRepository.create({ authenticationMethod: garAuthenticationMethod });
 }

@@ -274,6 +274,10 @@ describe('Acceptance | Controller | authentication-controller', function () {
           externalIdentifier: 'SAMLJACKSONID',
         });
         expect(authenticationMethods.length).to.equal(1);
+        expect(authenticationMethods[0].authenticationComplement).to.deep.equal({
+          firstName: 'saml',
+          lastName: 'jackson',
+        });
       });
     });
   });
