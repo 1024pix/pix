@@ -71,7 +71,7 @@ describe('Unit | Service | sco-account-recovery-service', function () {
           birthdate: '2004-05-07',
         };
 
-        const schoolingRegistration = domainBuilder.buildSchoolingRegistration({
+        const organizationLearner = domainBuilder.buildOrganizationLearner({
           userId: undefined,
           birthdate: studentInformation.birthdate,
           nationalStudentId: studentInformation.ineIna,
@@ -79,7 +79,7 @@ describe('Unit | Service | sco-account-recovery-service', function () {
 
         schoolingRegistrationRepository.getLatestSchoolingRegistration
           .withArgs({ nationalStudentId: studentInformation.ineIna, birthdate: studentInformation.birthdate })
-          .resolves(schoolingRegistration);
+          .resolves(organizationLearner);
 
         // when
         const error = await catchErr(retrieveSchoolingRegistration)({
@@ -114,7 +114,7 @@ describe('Unit | Service | sco-account-recovery-service', function () {
           });
           const firstOrganization = domainBuilder.buildOrganization({ id: 8, name: 'Collège Beauxbâtons' });
           const secondOrganization = domainBuilder.buildOrganization({ id: 7, name: 'Lycée Poudlard' });
-          const firstSchoolingRegistration = domainBuilder.buildSchoolingRegistration({
+          const firstOrganizationLearner = domainBuilder.buildOrganizationLearner({
             id: 2,
             userId: expectedUser.id,
             organization: firstOrganization,
@@ -122,7 +122,7 @@ describe('Unit | Service | sco-account-recovery-service', function () {
             ...studentInformation,
             nationalStudentId: studentInformation.inaIna,
           });
-          const lastSchoolingRegistration = domainBuilder.buildSchoolingRegistration({
+          const lastSchoolingRegistration = domainBuilder.buildOrganizationLearner({
             id: 3,
             userId: expectedUser.id,
             organization: secondOrganization,
@@ -148,7 +148,7 @@ describe('Unit | Service | sco-account-recovery-service', function () {
 
           schoolingRegistrationRepository.findByUserId
             .withArgs({ userId: expectedUser.id })
-            .resolves([firstSchoolingRegistration, lastSchoolingRegistration]);
+            .resolves([firstOrganizationLearner, lastSchoolingRegistration]);
 
           accountRecoveryDemandRepository.findByUserId.withArgs(expectedUser.id).resolves([accountRecoveryDemand]);
 
@@ -195,13 +195,13 @@ describe('Unit | Service | sco-account-recovery-service', function () {
             email: 'nanou.monchose@example.net',
           });
 
-          const firstSchoolingRegistration = domainBuilder.buildSchoolingRegistration({
+          const firstOrganizationLearner = domainBuilder.buildOrganizationLearner({
             id: 6,
             userId: user.id,
             ...studentInformation,
             nationalStudentId: studentInformation.ineIna,
           });
-          const secondSchoolingRegistration = domainBuilder.buildSchoolingRegistration({
+          const secondOrganizationLearner = domainBuilder.buildOrganizationLearner({
             id: 9,
             userId: user.id,
             nationalStudentId: '111111111AA',
@@ -211,23 +211,23 @@ describe('Unit | Service | sco-account-recovery-service', function () {
           });
           const accountRecoveryDemand = domainBuilder.buildAccountRecoveryDemand({
             userId: user.id,
-            schoolingRegistrationId: secondSchoolingRegistration.id,
+            schoolingRegistrationId: secondOrganizationLearner.id,
           });
 
           schoolingRegistrationRepository.getLatestSchoolingRegistration
             .withArgs({ birthdate: studentInformation.birthdate, nationalStudentId: studentInformation.ineIna })
-            .resolves(firstSchoolingRegistration);
+            .resolves(firstOrganizationLearner);
 
           userReconciliationService.findMatchingCandidateIdForGivenUser
-            .withArgs([firstSchoolingRegistration], {
+            .withArgs([firstOrganizationLearner], {
               firstName: studentInformation.firstName,
               lastName: studentInformation.lastName,
             })
-            .resolves(firstSchoolingRegistration.id);
+            .resolves(firstOrganizationLearner.id);
 
           schoolingRegistrationRepository.findByUserId
             .withArgs({ userId: user.id })
-            .resolves([firstSchoolingRegistration, secondSchoolingRegistration]);
+            .resolves([firstOrganizationLearner, secondOrganizationLearner]);
 
           accountRecoveryDemandRepository.findByUserId.withArgs(user.id).resolves([accountRecoveryDemand]);
 
@@ -264,7 +264,7 @@ describe('Unit | Service | sco-account-recovery-service', function () {
           email: 'nanou.monchose@example.net',
         });
         const organization = domainBuilder.buildOrganization({ id: 8, name: 'Collège Beauxbâtons' });
-        const schoolingRegistration = domainBuilder.buildSchoolingRegistration({
+        const organizationLearner = domainBuilder.buildOrganizationLearner({
           id: 2,
           userId: expectedUser.id,
           organization: organization,
@@ -275,23 +275,23 @@ describe('Unit | Service | sco-account-recovery-service', function () {
         });
         const accountRecoveryDemand = domainBuilder.buildAccountRecoveryDemand({
           userId: expectedUser.id,
-          schoolingRegistrationId: schoolingRegistration.id,
+          schoolingRegistrationId: organizationLearner.id,
         });
 
         schoolingRegistrationRepository.getLatestSchoolingRegistration
           .withArgs({ birthdate: studentInformation.birthdate, nationalStudentId: studentInformation.ineIna })
-          .resolves(schoolingRegistration);
+          .resolves(organizationLearner);
 
         userReconciliationService.findMatchingCandidateIdForGivenUser
-          .withArgs([schoolingRegistration], {
+          .withArgs([organizationLearner], {
             firstName: studentInformation.firstName,
             lastName: studentInformation.lastName,
           })
-          .resolves(schoolingRegistration.id);
+          .resolves(organizationLearner.id);
 
         schoolingRegistrationRepository.findByUserId
           .withArgs({ userId: expectedUser.id })
-          .resolves([schoolingRegistration]);
+          .resolves([organizationLearner]);
 
         accountRecoveryDemandRepository.findByUserId.withArgs(expectedUser.id).resolves([accountRecoveryDemand]);
 
@@ -330,7 +330,7 @@ describe('Unit | Service | sco-account-recovery-service', function () {
           birthdate: '2004-05-07',
         };
 
-        const schoolingRegistration = domainBuilder.buildSchoolingRegistration({
+        const organizationLearner = domainBuilder.buildOrganizationLearner({
           userId: 1,
           firstName: 'John',
           lastName: studentInformation.lastName,
@@ -340,10 +340,10 @@ describe('Unit | Service | sco-account-recovery-service', function () {
 
         schoolingRegistrationRepository.getLatestSchoolingRegistration
           .withArgs({ birthdate: studentInformation.birthdate, nationalStudentId: studentInformation.ineIna })
-          .resolves(schoolingRegistration);
+          .resolves(organizationLearner);
 
         userReconciliationService.findMatchingCandidateIdForGivenUser
-          .withArgs([schoolingRegistration], {
+          .withArgs([organizationLearner], {
             firstName: studentInformation.firstName,
             lastName: studentInformation.lastName,
           })
@@ -380,7 +380,7 @@ describe('Unit | Service | sco-account-recovery-service', function () {
           email: 'nanou.monchose@example.net',
         });
         const organization = domainBuilder.buildOrganization({ id: 8, name: 'Collège Beauxbâtons' });
-        const schoolingRegistration = domainBuilder.buildSchoolingRegistration({
+        const organizationLearner = domainBuilder.buildOrganizationLearner({
           id: 2,
           userId: expectedUser.id,
           organization: organization,
@@ -391,28 +391,28 @@ describe('Unit | Service | sco-account-recovery-service', function () {
         });
         const accountRecoveryDemandNotUsed = domainBuilder.buildAccountRecoveryDemand({
           userId: expectedUser.id,
-          schoolingRegistrationId: schoolingRegistration.id,
+          schoolingRegistrationId: organizationLearner.id,
         });
         const accountRecoveryDemandUsed = domainBuilder.buildAccountRecoveryDemand({
           userId: expectedUser.id,
-          schoolingRegistrationId: schoolingRegistration.id,
+          schoolingRegistrationId: organizationLearner.id,
           used: true,
         });
 
         schoolingRegistrationRepository.getLatestSchoolingRegistration
           .withArgs({ birthdate: studentInformation.birthdate, nationalStudentId: studentInformation.ineIna })
-          .resolves(schoolingRegistration);
+          .resolves(organizationLearner);
 
         userReconciliationService.findMatchingCandidateIdForGivenUser
-          .withArgs([schoolingRegistration], {
+          .withArgs([organizationLearner], {
             firstName: studentInformation.firstName,
             lastName: studentInformation.lastName,
           })
-          .resolves(schoolingRegistration.id);
+          .resolves(organizationLearner.id);
 
         schoolingRegistrationRepository.findByUserId
           .withArgs({ userId: expectedUser.id })
-          .resolves([schoolingRegistration]);
+          .resolves([organizationLearner]);
         userRepository.get.withArgs(expectedUser.id).resolves(expectedUser);
 
         accountRecoveryDemandRepository.findByUserId

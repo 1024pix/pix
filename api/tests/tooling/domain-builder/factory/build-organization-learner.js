@@ -1,7 +1,7 @@
-const SchoolingRegistration = require('../../../../lib/domain/models/SchoolingRegistration');
+const OrganizationLearner = require('../../../../lib/domain/models/OrganizationLearner');
 const buildOrganization = require('./build-organization');
 
-function buildSchoolingRegistration({
+function buildOrganizationLearner({
   id = 123,
   organization = buildOrganization({ isManagingStudents: true }),
   lastName = 'India',
@@ -23,7 +23,7 @@ function buildSchoolingRegistration({
   isDisabled = false,
   updatedAt = new Date('2020-01-01'),
 } = {}) {
-  return new SchoolingRegistration({
+  return new OrganizationLearner({
     id,
     lastName,
     preferredLastName,
@@ -47,4 +47,4 @@ function buildSchoolingRegistration({
   });
 }
 
-module.exports = buildSchoolingRegistration;
+module.exports = buildOrganizationLearner;

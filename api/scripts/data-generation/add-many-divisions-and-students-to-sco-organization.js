@@ -1,12 +1,12 @@
 const _ = require('lodash');
 const randomString = require('randomstring');
-const SchoolingRegistration = require('../../lib/domain/models/SchoolingRegistration');
+const OrganizationLearner = require('../../lib/domain/models/OrganizationLearner');
 const { SchoolingRegistrationsCouldNotBeSavedError } = require('../../lib/domain/errors');
 const { knex } = require('../../lib/infrastructure/bookshelf');
 
 function _buildSchoolingRegistration(division, organizationId, iteration) {
   const birthdates = ['2001-01-05', '2002-11-15', '1995-06-25'];
-  return new SchoolingRegistration({
+  return new OrganizationLearner({
     firstName: `someFirstName${iteration}`,
     lastName: `someLastName${iteration}`,
     birthdate: birthdates[_.random(0, 2)],

@@ -7,7 +7,7 @@ describe('Unit | Controller | certifications-center-controller', function () {
   describe('#getStudents', function () {
     it('should return a paginated serialized list of students', async function () {
       // given
-      const student = domainBuilder.buildSchoolingRegistration({ division: '3A' });
+      const student = domainBuilder.buildOrganizationLearner({ division: '3A' });
 
       const request = {
         auth: {

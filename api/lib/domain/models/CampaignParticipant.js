@@ -1,7 +1,7 @@
 const { EntityValidationError, ForbiddenAccess, AlreadyExistingCampaignParticipationError } = require('../errors');
 const CampaignParticipation = require('./CampaignParticipation');
 const Assessment = require('./Assessment');
-const SchoolingRegistration = require('./SchoolingRegistration');
+const OrganizationLearner = require('./OrganizationLearner');
 const couldNotJoinCampaignErrorMessage = "Vous n'êtes pas autorisé à rejoindre la campagne";
 const couldNotImproveCampaignErrorMessage = 'Vous ne pouvez pas repasser la campagne';
 
@@ -26,7 +26,7 @@ class CampaignParticipant {
     }
 
     if (this._shouldBecomeTrainee()) {
-      this.schoolingRegistration = new SchoolingRegistration({
+      this.schoolingRegistration = new OrganizationLearner({
         userId: this.userIdentity.id,
         organizationId: this.campaignToStartParticipation.organizationId,
         firstName: this.userIdentity.firstName,

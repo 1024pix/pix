@@ -1,4 +1,4 @@
-class UserWithSchoolingRegistration {
+class UserWithOrganizationLearner {
   constructor({
     id,
     lastName,
@@ -28,4 +28,4 @@ class UserWithSchoolingRegistration {
   }
 }
 
-module.exports = UserWithSchoolingRegistration;
+module.exports = UserWithOrganizationLearner;

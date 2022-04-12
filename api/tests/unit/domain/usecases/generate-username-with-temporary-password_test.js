@@ -21,8 +21,8 @@ describe('Unit | UseCase | generate-username-with-temporary-password', function 
   const expectedPassword = 'Pix12345';
   const hashedPassword = 'ABC';
 
-  let schoolingRegistration;
-  let schoolingRegistrationId;
+  let organizationLearner;
+  let organizationLearnerId;
 
   let passwordGenerator;
   let encryptionService;
@@ -34,10 +34,10 @@ describe('Unit | UseCase | generate-username-with-temporary-password', function 
   let schoolingRegistrationRepository;
 
   beforeEach(function () {
-    schoolingRegistration = domainBuilder.buildSchoolingRegistration({
+    organizationLearner = domainBuilder.buildOrganizationLearner({
       organization,
     });
-    schoolingRegistrationId = schoolingRegistration.id;
+    organizationLearnerId = organizationLearner.id;
 
     passwordGenerator = {
       generateSimplePassword: sinon.stub().returns(expectedPassword),
@@ -64,14 +64,14 @@ describe('Unit | UseCase | generate-username-with-temporary-password', function 
       get: sinon.stub(),
     };
 
-    schoolingRegistrationRepository.get.resolves(schoolingRegistration);
+    schoolingRegistrationRepository.get.resolves(organizationLearner);
     userRepository.get.resolves(userRelatedToStudent);
   });
 
   it('should generate username and temporary password', async function () {
     // when
     const result = await generateUsernameWithTemporaryPassword({
-      schoolingRegistrationId,
+      schoolingRegistrationId: organizationLearnerId,
       organizationId,
       passwordGenerator,
       encryptionService,
@@ -89,11 +89,11 @@ describe('Unit | UseCase | generate-username-with-temporary-password', function 
 
   it('should throw an error when student has not access to the organization', async function () {
     // given
-    schoolingRegistration.organizationId = 99;
+    organizationLearner.organizationId = 99;
 
     // when
     const error = await catchErr(generateUsernameWithTemporaryPassword)({
-      schoolingRegistrationId,
+      schoolingRegistrationId: organizationLearnerId,
       organizationId,
       passwordGenerator,
       encryptionService,
@@ -107,7 +107,7 @@ describe('Unit | UseCase | generate-username-with-temporary-password', function 
     // then
     expect(error).to.be.instanceof(UserNotAuthorizedToGenerateUsernamePasswordError);
     expect(error.message).to.be.equal(
-      `L'élève avec l'INE ${schoolingRegistration.nationalStudentId} n'appartient pas à l'organisation.`
+      `L'élève avec l'INE ${organizationLearner.nationalStudentId} n'appartient pas à l'organisation.`
     );
   });
 
@@ -118,7 +118,7 @@ describe('Unit | UseCase | generate-username-with-temporary-password', function 
 
     // when
     const error = await catchErr(generateUsernameWithTemporaryPassword)({
-      schoolingRegistrationId,
+      schoolingRegistrationId: organizationLearnerId,
       organizationId,
       passwordGenerator,
       encryptionService,
@@ -143,7 +143,7 @@ describe('Unit | UseCase | generate-username-with-temporary-password', function 
     let userWithEmail;
     let organization;
     let organizationId;
-    let schoolingRegistration;
+    let organizationLearner;
 
     beforeEach(function () {
       userWithEmail = domainBuilder.buildUser({
@@ -153,13 +153,13 @@ describe('Unit | UseCase | generate-username-with-temporary-password', function 
       organization = userWithEmail.memberships[0].organization;
       organizationId = userWithEmail.memberships[0].organization.id;
 
-      schoolingRegistration = domainBuilder.buildSchoolingRegistration({
+      organizationLearner = domainBuilder.buildOrganizationLearner({
         organization,
       });
 
       userReconciliationService.createUsernameByUser.resolves(username);
 
-      schoolingRegistrationRepository.get.resolves(schoolingRegistration);
+      schoolingRegistrationRepository.get.resolves(organizationLearner);
       userRepository.get.resolves(userWithEmail);
       userRepository.addUsername.resolves({ ...userWithEmail, username });
 
@@ -169,7 +169,7 @@ describe('Unit | UseCase | generate-username-with-temporary-password', function 
     it('should return an username', async function () {
       // when
       const result = await generateUsernameWithTemporaryPassword({
-        schoolingRegistrationId: schoolingRegistration.id,
+        schoolingRegistrationId: organizationLearner.id,
         organizationId,
         passwordGenerator,
         encryptionService,

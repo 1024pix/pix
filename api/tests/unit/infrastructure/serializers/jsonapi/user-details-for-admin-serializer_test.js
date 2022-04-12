@@ -6,7 +6,7 @@ describe('Unit | Serializer | JSONAPI | user-details-for-admin-serializer', func
     it('should serialize user details for Pix Admin', function () {
       // given
       const modelObject = domainBuilder.buildUserDetailsForAdmin({
-        schoolingRegistrations: [domainBuilder.buildSchoolingRegistrationForAdmin()],
+        schoolingRegistrations: [domainBuilder.buildOrganizationLearnerForAdmin()],
         authenticationMethods: [{ id: 1, identityProvider: 'PIX' }],
       });
 
