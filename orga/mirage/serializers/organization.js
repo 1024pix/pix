@@ -21,6 +21,9 @@ export default JSONAPISerializer.extend({
       groups: {
         related: `/api/organizations/${organization.id}/groups`,
       },
+      divisions: {
+        related: `/api/organizations/${organization.id}/divisions`,
+      },
     };
   },
 });
