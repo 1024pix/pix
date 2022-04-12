@@ -62,6 +62,7 @@ import { buildSupervisorAccess } from './build-supervisor-access.js';
 import { buildTag } from './build-tag.js';
 import { buildTargetProfile } from './build-target-profile.js';
 import { buildTargetProfileSkill } from './build-target-profile-skill.js';
+import { buildUserSettings } from './build-user-settings.js';
 import { buildTargetProfileShare } from './build-target-profile-share.js';
 import { buildTargetProfileTraining } from './build-target-profile-training.js';
 import { buildTargetProfileTube } from './build-target-profile-tube.js';
@@ -154,6 +155,7 @@ export {
   buildUserLogin,
   buildUserOrgaSettings,
   buildUserSavedTutorial,
+  buildUserSettings,
   buildUserRecommendedTraining,
   campaignParticipationOverviewFactory,
   knowledgeElementSnapshotFactory,

@@ -167,6 +167,7 @@ import * as tutorialEvaluationRepository from '../../infrastructure/repositories
 import * as tutorialRepository from '../../infrastructure/repositories/tutorial-repository.js';
 import * as userEmailRepository from '../../infrastructure/repositories/user-email-repository.js';
 import * as userLoginRepository from '../../infrastructure/repositories/user-login-repository.js';
+import * as userSettingsRepository from '../../infrastructure/repositories/user-settings-repository.js';
 import * as userOrgaSettingsRepository from '../../infrastructure/repositories/user-orga-settings-repository.js';
 import * as userRecommendedTrainingRepository from '../../infrastructure/repositories/user-recommended-training-repository.js';
 import * as userReconciliationService from '../services/user-reconciliation-service.js';
@@ -418,6 +419,7 @@ import { getUserCampaignParticipationToCampaign } from './get-user-campaign-part
 import { getUserCertificationEligibility } from './get-user-certification-eligibility.js';
 import { getUserDetailsForAdmin } from './get-user-details-for-admin.js';
 import { getUserProfile } from './get-user-profile.js';
+import { getUserSettings } from './get-user-settings.js';
 import { getUserProfileSharedForCampaign } from './get-user-profile-shared-for-campaign.js';
 import { handleBadgeAcquisition } from './handle-badge-acquisition.js';
 import { handleTrainingRecommendation } from './handle-training-recommendation.js';
@@ -485,6 +487,7 @@ import { updateTraining } from './update-training.js';
 import { updateUserDetailsForAdministration } from './update-user-details-for-administration.js';
 import { updateUserEmailWithValidation } from './update-user-email-with-validation.js';
 import { updateUserForAccountRecovery } from './account-recovery/update-user-for-account-recovery.js';
+import { updateUserColor } from './update-user-color.js';
 import { updateUserPassword } from './update-user-password.js';
 import { validateSessions } from './sessions-mass-import/validate-sessions.js';
 import { getOrganizationDetails } from './organizations-administration/get-organization-details.js';
@@ -682,6 +685,7 @@ const dependencies = {
   userToCreateRepository,
   userRepository,
   userService,
+  userSettingsRepository,
   userSavedTutorialRepository,
   verifyCertificateCodeService,
   organizationInvitationService,
@@ -920,6 +924,7 @@ const usecasesWithoutInjectedDependencies = {
   getUserDetailsForAdmin,
   getUserProfile,
   getUserProfileSharedForCampaign,
+  getUserSettings,
   handleBadgeAcquisition,
   handleTrainingRecommendation,
   importCertificationCandidatesFromCandidatesImportSheet,
@@ -988,6 +993,7 @@ const usecasesWithoutInjectedDependencies = {
   updateUserEmailWithValidation,
   updateUserForAccountRecovery,
   updateUserPassword,
+  updateUserColor,
   validateSessions,
 };
 

@@ -58,6 +58,7 @@ import * as tutorialEvaluations from './application/tutorial-evaluations/index.j
 import * as userOrgaSettings from './application/user-orga-settings/index.js';
 import * as userTutorials from './application/user-tutorials/index.js';
 import * as users from './application/users/index.js';
+import * as userSettings from './application/user-settings/index.js';
 
 const routes = [
   accountRecovery,
@@ -119,6 +120,7 @@ const routes = [
   userOrgaSettings,
   userTutorials,
   users,
+  userSettings,
 ];
 
 export { routes };

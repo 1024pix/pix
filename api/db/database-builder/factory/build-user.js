@@ -174,6 +174,14 @@ buildUser.withRawPassword = function buildUserWithRawPassword({
     values,
   });
 
+  databaseBuffer.pushInsertable({
+    tableName: 'user-settings',
+    values: {
+      id: databaseBuffer.getNextId(),
+      userId: user.id,
+    },
+  });
+
   _buildPixAuthenticationMethod({
     userId: user.id,
     rawPassword,
