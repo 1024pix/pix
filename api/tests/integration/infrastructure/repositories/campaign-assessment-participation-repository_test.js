@@ -1,9 +1,10 @@
-const { expect, databaseBuilder, mockLearningContent, knex } = require('../../../test-helper');
+const { expect, databaseBuilder, mockLearningContent, knex, catchErr } = require('../../../test-helper');
 const Assessment = require('../../../../lib/domain/models/Assessment');
 const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
 const CampaignAssessmentParticipation = require('../../../../lib/domain/read-models/CampaignAssessmentParticipation');
 const campaignAssessmentParticipationRepository = require('../../../../lib/infrastructure/repositories/campaign-assessment-participation-repository');
 const CampaignParticipationStatuses = require('../../../../lib/domain/models/CampaignParticipationStatuses');
+const { NotFoundError } = require('../../../../lib/domain/errors');
 
 const { STARTED } = CampaignParticipationStatuses;
 
@@ -273,6 +274,46 @@ describe('Integration | Repository | Campaign Assessment Participation', functio
 
         expect(campaignAssessmentParticipation.firstName).to.equal('John');
         expect(campaignAssessmentParticipation.lastName).to.equal('Doe');
+      });
+    });
+
+    context('When something is wrong with a campaign participations', function () {
+      it('throw a NotFoundError when campaign participation does not exist', async function () {
+        const skill1 = { id: 'skill1', status: 'actif' };
+        mockLearningContent({ skills: [skill1] });
+
+        campaignId = databaseBuilder.factory.buildAssessmentCampaign({}, [skill1]).id;
+
+        await databaseBuilder.commit();
+
+        const error = await catchErr(
+          campaignAssessmentParticipationRepository.getByCampaignIdAndCampaignParticipationId
+        )({ campaignId, campaignParticipationId: 77777 });
+
+        //then
+        expect(error).to.be.instanceof(NotFoundError);
+      });
+
+      it('throw a NotFoundError when campaign participation is deleted', async function () {
+        const skill1 = { id: 'skill1', status: 'actif' };
+        mockLearningContent({ skills: [skill1] });
+
+        campaignId = databaseBuilder.factory.buildAssessmentCampaign({}, [skill1]).id;
+        campaignParticipationId = databaseBuilder.factory.buildAssessmentFromParticipation({
+          status: STARTED,
+          sharedAt: null,
+          deletedAt: new Date('2022-01-01'),
+          campaignId,
+        }).campaignParticipationId;
+
+        await databaseBuilder.commit();
+
+        const error = await catchErr(
+          campaignAssessmentParticipationRepository.getByCampaignIdAndCampaignParticipationId
+        )({ campaignId, campaignParticipationId });
+
+        //then
+        expect(error).to.be.instanceof(NotFoundError);
       });
     });
   });
