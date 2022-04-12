@@ -12,9 +12,7 @@ export default class AuthenticatedCertificationsRoute extends Route {
 
   async model() {
     const divisions = await this.currentUser.organization.divisions;
-
     const options = divisions.map(({ name }) => ({ label: name, value: name }));
-
     return { options };
   }
 }
