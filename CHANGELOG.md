@@ -1,5 +1,30 @@
 # Pix Changelog
 
+## v3.196.0 (12/04/2022)
+
+
+### :rocket: Amélioration
+- [#4290](https://github.com/1024pix/pix/pull/4290) [FEATURE] Ne pas afficher les pages Analyses/Résultats d'une participation supprimée (Pix-4689)
+- [#4305](https://github.com/1024pix/pix/pull/4305) [FEATURE] Afficher la certificabilité d'un candidat pour une certification Pix+ Édu de 1er degré (PIX-4750).
+- [#4299](https://github.com/1024pix/pix/pull/4299) [FEATURE] Empêcher la suppression des cartes sur la page recommandés (PIX-4736).
+- [#4295](https://github.com/1024pix/pix/pull/4295) [FEATURE] Utiliser la nouvelle card des tutoriels pour le détails des compétences (PIX-4600).
+- [#4288](https://github.com/1024pix/pix/pull/4288) [FEATURE] Amélioration du design des cartes de tutos (PIX-4337).
+
+### :building_construction: Tech
+- [#4303](https://github.com/1024pix/pix/pull/4303) [TECH] Limiter les watchers nodemon (PIX-4745)
+- [#4267](https://github.com/1024pix/pix/pull/4267) [TECH] Stocker le clientId du parcours Pôle Emploi uniquement dans l'API (PIX-4682).
+- [#4306](https://github.com/1024pix/pix/pull/4306) [TECH] Disposer d'un mot de passe par défaut sur les données de seed.
+- [#4251](https://github.com/1024pix/pix/pull/4251) [TECH] Tracer la cause de l'erreur si la création d'un candidat échoue (PIX-4663).
+- [#4298](https://github.com/1024pix/pix/pull/4298) [TECH] Remplacer la dépendance `ember-sinon` par `sinon`.
+- [#4259](https://github.com/1024pix/pix/pull/4259) [TECH] Nettoyage des tests de Pix Admin avec Testing Library (partie 2) (PIX-4672).
+- [#4285](https://github.com/1024pix/pix/pull/4285) [TECH] supprimer le toggle FT_CERTIFICATION_BILLING (PIX-4521)
+- [#4294](https://github.com/1024pix/pix/pull/4294) [TECH] Ajouter un index manquant sur la table knowledge-elements concernant la colonne "assessmentid".
+
+### :bug: Correction
+- [#4304](https://github.com/1024pix/pix/pull/4304) [BUGFIX] Pagination des tutoriels : Gérer la suppression d'une page
+- [#4284](https://github.com/1024pix/pix/pull/4284) [BUGFIX] Un membre d’espace Pix Certif ne voit pas la liste de ses candidats en prescription de certification SCO (PIX-4316)
+- [#4293](https://github.com/1024pix/pix/pull/4293) [BUGFIX] Considérer les réponses comme "focusedout" si il y a eu un évènement "focusedout" (PIX-4723)
+
 ## v3.195.0 (07/04/2022)
 
 
