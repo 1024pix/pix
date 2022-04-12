@@ -10,17 +10,21 @@ module.exports = {
         id: 'campaign-participations.id',
         lastName: 'organization-learners.lastName',
         firstName: 'organization-learners.firstName',
+        userId: 'users.id',
+        userFirstName: 'users.firstName',
+        userLastName: 'users.lastName',
         participantExternalId: 'campaign-participations.participantExternalId',
         status: 'campaign-participations.status',
         createdAt: 'campaign-participations.createdAt',
         sharedAt: 'campaign-participations.sharedAt',
         deletedAt: 'campaign-participations.deletedAt',
-        deletedBy: 'users.id',
-        deletedByFirstName: 'users.firstName',
-        deletedByLastName: 'users.lastName',
+        deletedBy: 'deletedByUsers.id',
+        deletedByFirstName: 'deletedByUsers.firstName',
+        deletedByLastName: 'deletedByUsers.lastName',
       })
       .join('organization-learners', 'organization-learners.id', 'campaign-participations.organizationLearnerId')
-      .leftJoin('users', 'users.id', 'campaign-participations.deletedBy')
+      .leftJoin('users as deletedByUsers', 'deletedByUsers.id', 'campaign-participations.deletedBy')
+      .innerJoin('users', 'users.id', 'campaign-participations.userId')
       .where('campaignId', campaignId)
       .orderBy(['lastName', 'firstName'], ['asc', 'asc']);
 

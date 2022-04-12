@@ -1,5 +1,9 @@
-<td>{{@participation.lastName}}</td>
-<td>{{@participation.firstName}}</td>
+<td>{{@participation.firstName}} {{@participation.lastName}}</td>
+<td>
+  <LinkTo @route="authenticated.users.get" @model={{@participation.userId}}>
+    {{@participation.userFullName}}
+  </LinkTo>
+</td>
 {{#if @idPixLabel}}
   <td>
     {{#if this.isEditionMode}}
