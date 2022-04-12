@@ -44,7 +44,6 @@ async function main() {
       )
     );
   });
-  console.log('ok');
 }
 
 async function checkBadgeExistence(badgeId) {
