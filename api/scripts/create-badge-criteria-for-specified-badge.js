@@ -1,6 +1,10 @@
 ('use strict');
+const Joi = require('joi');
 const { NotFoundError } = require('../lib/domain/errors');
+const BadgeCriterion = require('../lib/domain/models/BadgeCriterion');
 const badgeRepository = require('../lib/infrastructure/repositories/badge-repository');
+const badgeCriteriaRepository = require('../lib/infrastructure/repositories/badge-criteria-repository');
+const DomainTransaction = require('../lib/infrastructure/DomainTransaction');
 
 async function main() {
   console.log('Starting creating badge');
@@ -12,6 +16,19 @@ async function main() {
   console.log('ok');
 
   await checkBadgeExistence(jsonFile.badgeId);
+  console.log('Badge exists');
+
+  checkCriteriaFormat(jsonFile.criteria);
+  console.log('BadgeCriteria schema ok');
+
+  console.log('Creating badge criteria... ');
+  console.log('Saving badge criteria... ');
+  return DomainTransaction.execute(async (domainTransaction) => {
+    await Promise.all(
+      jsonFile.criteria.map((badgeCriterion) => badgeCriteriaRepository.save({ badgeCriterion }, domainTransaction))
+    );
+  });
+  console.log('ok');
 }
 
 async function checkBadgeExistence(badgeId) {
@@ -20,6 +37,31 @@ async function checkBadgeExistence(badgeId) {
   } catch (error) {
     throw new NotFoundError(`Badge ${badgeId} not found`);
   }
+}
+
+function checkCriteriaFormat(criteria) {
+  const badgeCriterionSchema = Joi.object({
+    threshold: Joi.number().min(0).max(100),
+    scope: Joi.string().valid('CampaignParticipation', 'SkillSet'),
+    skillSetIds: Joi.array().items(Joi.number()).min(1).allow(null),
+  });
+
+  criteria.forEach((badgeCriterion) => {
+    const { error } = badgeCriterionSchema.validate(badgeCriterion);
+    if (error) {
+      throw error;
+    }
+    if (
+      badgeCriterion.scope === BadgeCriterion.SCOPES.CAMPAIGN_PARTICIPATION &&
+      badgeCriterion.skillSetIds?.length > 0
+    ) {
+      throw new Error('Badge criterion is invalid : SkillSetIds provided for CampaignParticipation scope');
+    }
+
+    if (badgeCriterion.scope === BadgeCriterion.SCOPES.SKILL_SET && !badgeCriterion.skillSetIds) {
+      throw new Error('Badge criterion is invalid : SkillSetIds should be provided for SkillSet scope');
+    }
+  });
 }
 
 if (require.main === module) {
@@ -32,4 +74,4 @@ if (require.main === module) {
   );
 }
 
-module.exports = { checkBadgeExistence };
+module.exports = { checkBadgeExistence, checkCriteriaFormat };
