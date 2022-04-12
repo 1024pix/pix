@@ -1,6 +1,6 @@
-const UserWithSchoolingRegistration = require('../../../../lib/domain/models/UserWithSchoolingRegistration');
+const UserWithOrganizationLearner = require('../../../../lib/domain/models/UserWithOrganizationLearner');
 
-module.exports = function buildUserWithSchoolingRegistration({
+module.exports = function buildUserWithOrganizationLearner({
   lastName = 'jeanne',
   firstName = 'serge',
   birthdate = '2001-05-07',
@@ -8,7 +8,7 @@ module.exports = function buildUserWithSchoolingRegistration({
   email = this.lastName + this.firstName + '@example.net',
   isAuthenticatedFromGAR = false,
 } = {}) {
-  return new UserWithSchoolingRegistration({
+  return new UserWithOrganizationLearner({
     lastName,
     firstName,
     birthdate,

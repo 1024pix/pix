@@ -7,7 +7,7 @@ require('./KnowledgeElement');
 require('./Membership');
 require('./CertificationCenterMembership');
 require('./UserOrgaSettings');
-require('./SchoolingRegistration');
+require('./OrganizationLearner');
 require('./AuthenticationMethod');
 
 const modelName = 'User';
@@ -43,7 +43,7 @@ module.exports = Bookshelf.model(
     },
 
     schoolingRegistrations() {
-      return this.hasMany('SchoolingRegistration', 'userId');
+      return this.hasMany('OrganizationLearner', 'userId');
     },
 
     authenticationMethods() {

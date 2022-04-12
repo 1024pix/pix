@@ -37,13 +37,13 @@ describe('Unit | UseCase | create-user-and-reconcile-to-schooling-registration-f
     it('should save last login date', async function () {
       // given
       const user = domainBuilder.buildUser();
-      const schoolingRegistration = domainBuilder.buildSchoolingRegistration(user);
+      const organizationLearner = domainBuilder.buildOrganizationLearner(user);
       const externalUser = { firstName: user.firstName, lastName: user.lastName, samlId: '123' };
 
       campaignRepository.getByCode.resolves('ABCDE');
       tokenService.extractExternalUserFromIdToken.resolves(externalUser);
       userReconciliationService.findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser.resolves(
-        schoolingRegistration
+        organizationLearner
       );
       userRepository.getBySamlId.resolves(user);
 
@@ -70,14 +70,14 @@ describe('Unit | UseCase | create-user-and-reconcile-to-schooling-registration-f
     it('should return an access token', async function () {
       // given
       const user = domainBuilder.buildUser();
-      const schoolingRegistration = domainBuilder.buildSchoolingRegistration(user);
+      const organizationLearner = domainBuilder.buildOrganizationLearner(user);
       const externalUser = { firstName: user.firstName, lastName: user.lastName, samlId: '123' };
       const token = Symbol('token');
 
       campaignRepository.getByCode.resolves('ABCDE');
       tokenService.extractExternalUserFromIdToken.resolves(externalUser);
       userReconciliationService.findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser.resolves(
-        schoolingRegistration
+        organizationLearner
       );
       userRepository.getBySamlId.resolves(user);
       tokenService.createAccessTokenForSaml.withArgs(user.id).resolves(token);
@@ -107,13 +107,13 @@ describe('Unit | UseCase | create-user-and-reconcile-to-schooling-registration-f
     it('should save last login date', async function () {
       // given
       const user = domainBuilder.buildUser();
-      const schoolingRegistration = domainBuilder.buildSchoolingRegistration(user);
+      const organizationLearner = domainBuilder.buildOrganizationLearner(user);
       const externalUser = { firstName: user.firstName, lastName: user.lastName, samlId: '123' };
 
       campaignRepository.getByCode.resolves('ABCDE');
       tokenService.extractExternalUserFromIdToken.resolves(externalUser);
       userReconciliationService.findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser.resolves(
-        schoolingRegistration
+        organizationLearner
       );
       userRepository.getBySamlId.resolves(null);
       userService.createAndReconcileUserToSchoolingRegistration.resolves(user.id);
@@ -141,14 +141,14 @@ describe('Unit | UseCase | create-user-and-reconcile-to-schooling-registration-f
     it('should return an access token', async function () {
       // given
       const user = domainBuilder.buildUser();
-      const schoolingRegistration = domainBuilder.buildSchoolingRegistration(user);
+      const organizationLearner = domainBuilder.buildOrganizationLearner(user);
       const externalUser = { firstName: user.firstName, lastName: user.lastName, samlId: '123' };
       const token = Symbol('token');
 
       campaignRepository.getByCode.resolves('ABCDE');
       tokenService.extractExternalUserFromIdToken.resolves(externalUser);
       userReconciliationService.findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser.resolves(
-        schoolingRegistration
+        organizationLearner
       );
       userRepository.getBySamlId.resolves(null);
       userService.createAndReconcileUserToSchoolingRegistration.resolves(user.id);

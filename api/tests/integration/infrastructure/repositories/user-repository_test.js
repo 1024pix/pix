@@ -19,7 +19,7 @@ const Membership = require('../../../../lib/domain/models/Membership');
 const CertificationCenter = require('../../../../lib/domain/models/CertificationCenter');
 const CertificationCenterMembership = require('../../../../lib/domain/models/CertificationCenterMembership');
 const Organization = require('../../../../lib/domain/models/Organization');
-const SchoolingRegistrationForAdmin = require('../../../../lib/domain/read-models/SchoolingRegistrationForAdmin');
+const OrganizationLearnerForAdmin = require('../../../../lib/domain/read-models/OrganizationLearnerForAdmin');
 
 const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
 const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
@@ -639,7 +639,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
         // then
         expect(userDetailsForAdmin.schoolingRegistrations.length).to.equal(2);
         const schoolingRegistrations = userDetailsForAdmin.schoolingRegistrations;
-        expect(schoolingRegistrations[0]).to.be.instanceOf(SchoolingRegistrationForAdmin);
+        expect(schoolingRegistrations[0]).to.be.instanceOf(OrganizationLearnerForAdmin);
 
         const expectedSchoolingRegistrations = [
           {

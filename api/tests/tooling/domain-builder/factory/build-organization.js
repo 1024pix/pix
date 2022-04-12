@@ -1,5 +1,5 @@
 const Organization = require('../../../../lib/domain/models/Organization');
-const SchoolingRegistration = require('../../../../lib/domain/models/SchoolingRegistration');
+const OrganizationLearner = require('../../../../lib/domain/models/OrganizationLearner');
 
 function _buildSchoolingRegistration({
   id = 1,
@@ -8,7 +8,7 @@ function _buildSchoolingRegistration({
   birthdate = '2001-01-01',
   organization = null,
 } = {}) {
-  return new SchoolingRegistration({ id, lastName, firstName, birthdate, organization });
+  return new OrganizationLearner({ id, lastName, firstName, birthdate, organization });
 }
 
 function buildOrganization({

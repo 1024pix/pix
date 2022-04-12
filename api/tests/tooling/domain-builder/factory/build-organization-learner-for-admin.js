@@ -1,6 +1,6 @@
-const SchoolingRegistrationForAdmin = require('../../../../lib/domain/read-models/SchoolingRegistrationForAdmin');
+const OrganizationLearnerForAdmin = require('../../../../lib/domain/read-models/OrganizationLearnerForAdmin');
 
-module.exports = function buildSchoolingRegistrationForAdmin({
+module.exports = function buildOrganizationLearnerForAdmin({
   id = 123,
   firstName = 'Super',
   lastName = 'Yvette',
@@ -14,7 +14,7 @@ module.exports = function buildSchoolingRegistrationForAdmin({
   isDisabled = false,
   organizationIsManagingStudents = true,
 } = {}) {
-  return new SchoolingRegistrationForAdmin({
+  return new OrganizationLearnerForAdmin({
     id,
     firstName,
     lastName,

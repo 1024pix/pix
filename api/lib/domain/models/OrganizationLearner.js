@@ -2,7 +2,7 @@ const STATUS = {
   STUDENT: 'ST',
   APPRENTICE: 'AP',
 };
-class SchoolingRegistration {
+class OrganizationLearner {
   constructor({
     id,
     lastName,
@@ -48,6 +48,6 @@ class SchoolingRegistration {
   }
 }
 
-SchoolingRegistration.STATUS = STATUS;
+OrganizationLearner.STATUS = STATUS;
 
-module.exports = SchoolingRegistration;
+module.exports = OrganizationLearner;

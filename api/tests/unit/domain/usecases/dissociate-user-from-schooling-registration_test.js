@@ -4,14 +4,14 @@ const { SchoolingRegistrationCannotBeDissociatedError } = require('../../../../l
 
 describe('Unit | UseCase | dissociate-user-from-schooling-registration', function () {
   const organizationId = 1;
-  const schoolingRegistrationId = 2;
+  const organizationLearnerId = 2;
 
   let schoolingRegistrationRepositoryStub;
 
   beforeEach(function () {
-    domainBuilder.buildSchoolingRegistration({
+    domainBuilder.buildOrganizationLearner({
       organization: { id: organizationId },
-      id: schoolingRegistrationId,
+      id: organizationLearnerId,
     });
 
     schoolingRegistrationRepositoryStub = {
@@ -26,13 +26,13 @@ describe('Unit | UseCase | dissociate-user-from-schooling-registration', functio
 
     // when
     await usecases.dissociateUserFromSchoolingRegistration({
-      schoolingRegistrationId,
+      schoolingRegistrationId: organizationLearnerId,
       schoolingRegistrationRepository: schoolingRegistrationRepositoryStub,
     });
 
     // then
     expect(schoolingRegistrationRepositoryStub.dissociateUserFromSchoolingRegistration).to.be.have.been.calledWith(
-      schoolingRegistrationId
+      organizationLearnerId
     );
   });
 
@@ -42,7 +42,7 @@ describe('Unit | UseCase | dissociate-user-from-schooling-registration', functio
 
     // when
     const error = await catchErr(usecases.dissociateUserFromSchoolingRegistration)({
-      schoolingRegistrationId,
+      schoolingRegistrationId: organizationLearnerId,
       schoolingRegistrationRepository: schoolingRegistrationRepositoryStub,
     });
 

@@ -637,7 +637,7 @@ describe('Unit | Application | Organizations | organization-controller', functio
       sinon.stub(usecases, 'findPaginatedFilteredSchoolingRegistrations');
       sinon.stub(userWithSchoolingRegistrationSerializer, 'serialize');
 
-      studentWithUserInfo = domainBuilder.buildUserWithSchoolingRegistration();
+      studentWithUserInfo = domainBuilder.buildUserWithOrganizationLearner();
       serializedStudentsWithUsersInfos = {
         data: [
           {

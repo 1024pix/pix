@@ -172,7 +172,7 @@ describe('Unit | UseCase | update-user-details-for-administration', function () 
     };
     const expectedUserDetailsForAdmin = domainBuilder.buildUserDetailsForAdmin({
       ...attributesToUpdate,
-      schoolingRegistrations: [domainBuilder.buildSchoolingRegistrationForAdmin()],
+      schoolingRegistrations: [domainBuilder.buildOrganizationLearnerForAdmin()],
     });
     const user = domainBuilder.buildUser({ username, email: 'another@email.net' });
 

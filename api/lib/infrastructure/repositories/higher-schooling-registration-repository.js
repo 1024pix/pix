@@ -1,7 +1,7 @@
 const _ = require('lodash');
 const { SchoolingRegistrationsCouldNotBeSavedError } = require('../../domain/errors');
 const { knex } = require('../bookshelf');
-const BookshelfSchoolingRegistration = require('../orm-models/SchoolingRegistration');
+const BookshelfOrganizationLearner = require('../orm-models/OrganizationLearner');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
 
 const ATTRIBUTES_TO_SAVE = [
@@ -23,7 +23,7 @@ const ATTRIBUTES_TO_SAVE = [
 
 module.exports = {
   async updateStudentNumber(studentId, studentNumber) {
-    await BookshelfSchoolingRegistration.where('id', studentId).save(
+    await BookshelfOrganizationLearner.where('id', studentId).save(
       { studentNumber },
       {
         patch: true,
@@ -32,23 +32,23 @@ module.exports = {
   },
 
   async findOneByStudentNumberAndBirthdate({ organizationId, studentNumber, birthdate }) {
-    const schoolingRegistration = await BookshelfSchoolingRegistration.query((qb) => {
+    const organizationLearner = await BookshelfOrganizationLearner.query((qb) => {
       qb.where('organizationId', organizationId);
       qb.where('birthdate', birthdate);
       qb.where('isDisabled', false);
       qb.whereRaw('LOWER(?)=LOWER(??)', [studentNumber, 'studentNumber']);
     }).fetch({ require: false });
 
-    return bookshelfToDomainConverter.buildDomainObject(BookshelfSchoolingRegistration, schoolingRegistration);
+    return bookshelfToDomainConverter.buildDomainObject(BookshelfOrganizationLearner, organizationLearner);
   },
 
   async findOneByStudentNumber({ organizationId, studentNumber }) {
-    const schoolingRegistration = await BookshelfSchoolingRegistration.query((qb) => {
+    const organizationLearner = await BookshelfOrganizationLearner.query((qb) => {
       qb.where('organizationId', organizationId);
       qb.whereRaw('LOWER(?)=LOWER(??)', [studentNumber, 'studentNumber']);
     }).fetch({ require: false });
 
-    return bookshelfToDomainConverter.buildDomainObject(BookshelfSchoolingRegistration, schoolingRegistration);
+    return bookshelfToDomainConverter.buildDomainObject(BookshelfOrganizationLearner, organizationLearner);
   },
 
   async addStudents(higherSchoolingRegistrations) {
