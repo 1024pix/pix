@@ -9,6 +9,8 @@ export const campaignParticipationStatuses = {
 export default class CampaignParticipation extends Model {
   @attr('string') firstName;
   @attr('string') lastName;
+  @attr userId;
+  @attr('string') userFullName;
   @attr('string') participantExternalId;
   @attr('string') status;
   @attr('date') createdAt;
