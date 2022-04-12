@@ -23,7 +23,7 @@ describe('Unit | Application | UseCase | authenticate-external-user', function (
   beforeEach(function () {
     tokenService = {
       createAccessTokenForSaml: sinon.stub(),
-      extractSamlId: sinon.stub(),
+      extractExternalUserFromIdToken: sinon.stub(),
     };
     authenticationService = {
       getUserByUsernameAndPassword: sinon.stub(),
@@ -169,7 +169,7 @@ describe('Unit | Application | UseCase | authenticate-external-user', function (
         });
 
         const invalidExternalUserToken = 'INVALID_EXTERNAL_USER_TOKEN';
-        tokenService.extractSamlId.withArgs(invalidExternalUserToken).returns(null);
+        tokenService.extractExternalUserFromIdToken.withArgs(invalidExternalUserToken).returns(null);
 
         // when
         const error = await catchErr(authenticateExternalUser)({
@@ -198,7 +198,7 @@ describe('Unit | Application | UseCase | authenticate-external-user', function (
 
         const externalUserToken = 'EXTERNAL_USER_TOKEN';
         const samlId = 'samlId';
-        tokenService.extractSamlId.withArgs(externalUserToken).returns(samlId);
+        tokenService.extractExternalUserFromIdToken.withArgs(externalUserToken).returns({ samlId });
 
         const userFromExternalUserToken = domainBuilder.buildUser({ id: userFromCredentials.id + 1 });
         userRepository.getBySamlId.withArgs(samlId).resolves(userFromExternalUserToken);
@@ -234,6 +234,8 @@ describe('Unit | Application | UseCase | authenticate-external-user', function (
           user,
           externalUserToken,
           samlId,
+          firstName: 'Hervé',
+          lastName: 'Le Terrier',
           tokenService,
           userRepository,
           authenticationMethodRepository,
@@ -256,6 +258,10 @@ describe('Unit | Application | UseCase | authenticate-external-user', function (
           identityProvider: AuthenticationMethod.identityProviders.GAR,
           externalIdentifier: samlId,
           userId: user.id,
+          authenticationComplement: new AuthenticationMethod.GARAuthenticationComplement({
+            firstName: 'Hervé',
+            lastName: 'Le Terrier',
+          }),
         });
         expect(authenticationMethodRepository.create).to.have.been.calledWith({
           authenticationMethod: expectedAuthenticationMethod,
@@ -279,6 +285,8 @@ describe('Unit | Application | UseCase | authenticate-external-user', function (
           user,
           externalUserToken,
           samlId: externalIdentifier,
+          firstName: 'Monique',
+          lastName: 'Samoëns',
           tokenService,
           userRepository,
           authenticationMethodRepository,
@@ -301,6 +309,10 @@ describe('Unit | Application | UseCase | authenticate-external-user', function (
           identityProvider: AuthenticationMethod.identityProviders.GAR,
           externalIdentifier,
           userId: user.id,
+          authenticationComplement: new AuthenticationMethod.GARAuthenticationComplement({
+            firstName: 'Monique',
+            lastName: 'Samoëns',
+          }),
         });
         expect(authenticationMethodRepository.create).to.have.been.calledWith({
           authenticationMethod: expectedAuthenticationMethod,
@@ -454,8 +466,10 @@ function _stubToEnableAddGarAuthenticationMethod({
   tokenService,
   userRepository,
   authenticationMethodRepository,
+  firstName = 'Hervé',
+  lastName = 'Le Terrier',
 }) {
-  tokenService.extractSamlId.withArgs(externalUserToken).returns(samlId);
+  tokenService.extractExternalUserFromIdToken.withArgs(externalUserToken).returns({ samlId, firstName, lastName });
   userRepository.getBySamlId.withArgs(samlId).resolves(user);
   authenticationMethodRepository.create.resolves();
 }
