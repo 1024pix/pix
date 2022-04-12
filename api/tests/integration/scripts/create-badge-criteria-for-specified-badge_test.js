@@ -2,6 +2,7 @@ const { expect, catchErr, databaseBuilder } = require('../../test-helper');
 const {
   checkBadgeExistence,
   checkCriteriaFormat,
+  checkSkillSetIds,
 } = require('../../../scripts/create-badge-criteria-for-specified-badge.js');
 const BadgeCriterion = require('../../../lib/domain/models/BadgeCriterion');
 
@@ -121,6 +122,41 @@ describe('Integration | Scripts | create-badge-criteria-for-specified-badge', fu
             'Badge criterion is invalid : SkillSetIds should be provided for SkillSet scope'
           );
         });
+      });
+    });
+  });
+
+  describe('#checkSkillSetIds', function () {
+    context('when all skillSetIds exist', function () {
+      it('should not throw an error', async function () {
+        // given
+        const skillSetIds = [
+          databaseBuilder.factory.buildSkillSet().id,
+          databaseBuilder.factory.buildSkillSet().id,
+          databaseBuilder.factory.buildSkillSet().id,
+        ];
+        await databaseBuilder.commit();
+
+        // when & then
+        expect(await checkSkillSetIds(skillSetIds)).not.to.throw;
+      });
+    });
+
+    context('when there is at least one skillSetId that does not exist', function () {
+      it('should throw an error', async function () {
+        // given
+        const skillSetIds = [
+          databaseBuilder.factory.buildSkillSet().id,
+          databaseBuilder.factory.buildSkillSet().id,
+          '1233',
+        ];
+        await databaseBuilder.commit();
+
+        // when
+        const error = await catchErr(checkSkillSetIds)(skillSetIds);
+
+        expect(error).to.be.instanceof(Error);
+        expect(error.message).to.be.equal('At least one skillSetId does not exist');
       });
     });
   });

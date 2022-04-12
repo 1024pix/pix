@@ -5,6 +5,7 @@ const BadgeCriterion = require('../lib/domain/models/BadgeCriterion');
 const badgeRepository = require('../lib/infrastructure/repositories/badge-repository');
 const badgeCriteriaRepository = require('../lib/infrastructure/repositories/badge-criteria-repository');
 const DomainTransaction = require('../lib/infrastructure/DomainTransaction');
+const { knex } = require('../db/knex-database-connection');
 
 async function main() {
   console.log('Starting creating badge');
@@ -20,6 +21,16 @@ async function main() {
 
   checkCriteriaFormat(jsonFile.criteria);
   console.log('BadgeCriteria schema ok');
+
+  console.log('Check skillSet');
+  await Promise.all(
+    jsonFile.criteria.map((badgeCriterion) => {
+      if (badgeCriterion.skillSetIds) {
+        checkSkillSetIds(badgeCriterion.skillSetIds);
+      }
+    })
+  );
+  console.log('Check skillSet ok');
 
   console.log('Creating badge criteria... ');
   console.log('Saving badge criteria... ');
@@ -64,6 +75,13 @@ function checkCriteriaFormat(criteria) {
   });
 }
 
+async function checkSkillSetIds(skillSetIds) {
+  const [{ count }] = await knex('skill-sets').count('*').whereIn('id', skillSetIds);
+  if (count !== skillSetIds.length) {
+    throw new Error('At least one skillSetId does not exist');
+  }
+}
+
 if (require.main === module) {
   main().then(
     () => process.exit(0),
@@ -74,4 +92,4 @@ if (require.main === module) {
   );
 }
 
-module.exports = { checkBadgeExistence, checkCriteriaFormat };
+module.exports = { checkBadgeExistence, checkCriteriaFormat, checkSkillSetIds };
