@@ -363,6 +363,16 @@ describe('Integration | Repository | Badge', function () {
       expect(myBadge.badgeCriteria.length).to.equal(1);
       expect(myBadge.skillSets.length).to.equal(1);
     });
+
+    describe('when badge does not exist', function () {
+      it('should throw an error', async function () {
+        const notExistingBadgeId = 123;
+
+        const error = await catchErr(badgeRepository.get)(notExistingBadgeId);
+
+        expect(error).to.be.instanceOf(Error);
+      });
+    });
   });
 
   describe('#getByKey', function () {
