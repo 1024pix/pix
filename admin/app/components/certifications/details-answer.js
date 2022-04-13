@@ -29,7 +29,7 @@ export default class CertificationDetailsAnswer extends Component {
   }
 
   get resultClass() {
-    return this.hasJuryResult ? 'answer-result jury' : 'answer-result';
+    return this.hasJuryResult ? 'jury' : null;
   }
 
   get linkToChallengePreviewInPixApp() {
@@ -41,10 +41,10 @@ export default class CertificationDetailsAnswer extends Component {
   }
 
   @action
-  selectOption(selected) {
+  selectOption(event) {
     const answer = this.args.answer;
     const answerResult = this._answerResultValue();
-    const newResult = this.getOption(selected.value);
+    const newResult = this.getOption(event.target.value);
     answer.jury = answerResult.value !== newResult.value ? newResult.value : null;
     this.selectedOption = newResult ?? answerResult;
     this.hasJuryResult = !!newResult;
