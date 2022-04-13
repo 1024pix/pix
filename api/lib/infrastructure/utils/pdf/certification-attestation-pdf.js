@@ -80,7 +80,8 @@ async function _embedImages(pdfDocument, viewModels) {
 
   if (viewModelsWithCleaCertification.length > 0) {
     const cleaCertificationImagePath = viewModelsWithCleaCertification[0].cleaCertificationImagePath;
-    const image = await _embedCleaCertificationImage(pdfDocument, cleaCertificationImagePath);
+    const { width, height } = complementaryCertificationImagesCoords.clea;
+    const image = await _embedCertificationImage(pdfDocument, cleaCertificationImagePath, width, height);
     embeddedImages[cleaCertificationImagePath] = image;
   }
 
@@ -93,8 +94,9 @@ async function _embedImages(pdfDocument, viewModels) {
       .map('pixPlusDroitCertificationImagePath')
       .uniq()
       .value();
+    const { width, height } = complementaryCertificationImagesCoords.droit;
     for (const path of singleImagePaths) {
-      const image = await _embedPixPlusDroitCertificationImage(pdfDocument, path);
+      const image = await _embedCertificationImage(pdfDocument, path, width, height);
       embeddedImages[path] = image;
     }
   }
@@ -108,46 +110,22 @@ async function _embedImages(pdfDocument, viewModels) {
       .map('pixPlusEduCertificationImagePath')
       .uniq()
       .value();
+    const { width, height } = complementaryCertificationImagesCoords.edu;
     for (const path of singleImagePaths) {
-      embeddedImages[path] = await _embedPixPlusEduCertificationImage(pdfDocument, path);
+      embeddedImages[path] = await _embedCertificationImage(pdfDocument, path, width, height);
     }
   }
   return embeddedImages;
 }
 
-async function _embedCleaCertificationImage(pdfDocument, cleaCertificationImagePath) {
-  const coords = complementaryCertificationImagesCoords.clea;
-  const pngBuffer = await sharp(cleaCertificationImagePath)
-    .resize(coords.width, coords.height, {
+async function _embedCertificationImage(pdfDocument, certificationImagePath, width, height) {
+  const pngBuffer = await sharp(certificationImagePath)
+    .resize(width, height, {
       fit: 'inside',
     })
     .sharpen()
     .toBuffer();
-  const pngImage = await pdfDocument.embedPng(pngBuffer);
-  return pngImage;
-}
-
-async function _embedPixPlusDroitCertificationImage(pdfDocument, pixPlusDroitCertificationImagePath) {
-  const coords = complementaryCertificationImagesCoords.droit;
-  const pngBuffer = await sharp(pixPlusDroitCertificationImagePath)
-    .resize(coords.width, coords.height, {
-      fit: 'inside',
-    })
-    .sharpen()
-    .toBuffer();
-  const pngImage = await pdfDocument.embedPng(pngBuffer);
-  return pngImage;
-}
-
-async function _embedPixPlusEduCertificationImage(pdfDocument, pixPlusEduCertificationImagePath) {
-  const coords = complementaryCertificationImagesCoords.edu;
-  const pngBuffer = await sharp(pixPlusEduCertificationImagePath)
-    .resize(coords.width, coords.height, {
-      fit: 'inside',
-    })
-    .sharpen()
-    .toBuffer();
-  return await pdfDocument.embedPng(pngBuffer);
+  return pdfDocument.embedPng(pngBuffer);
 }
 
 async function _embedTemplatePagesIntoDocument(viewModels, dirname, pdfDocument) {
