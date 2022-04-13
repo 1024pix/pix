@@ -35,9 +35,7 @@ function _findFromPixFramework(tubeDatas, pixCompetences) {
 }
 
 async function _findActive(tubesFromPixFramework) {
-  const skillsByTube = await bluebird.mapSeries(tubesFromPixFramework, ({ id }) =>
-    skillDatasource.findActiveByTubeId(id)
-  );
+  const skillsByTube = await bluebird.map(tubesFromPixFramework, ({ id }) => skillDatasource.findActiveByTubeId(id));
 
   const activeTubes = skillsByTube.reduce((accumulator, activeSkills) => {
     if (activeSkills.length > 0) {

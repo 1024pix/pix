@@ -11,21 +11,21 @@ module.exports = async function getFrameworkAreas({
 }) {
   const areasWithCompetences = await areaRepository.findByFrameworkId(frameworkId);
 
-  const competences = areasWithCompetences.map((area) => area.competences).flat();
+  const competences = areasWithCompetences.flatMap((area) => area.competences);
 
-  let thematics = await bluebird.mapSeries(competences, ({ id }) => {
+  let thematics = await bluebird.map(competences, ({ id }) => {
     return thematicRepository.findByCompetenceId(id);
   });
   thematics = thematics.flat();
 
-  let tubes = await bluebird.mapSeries(thematics, ({ tubeIds }) => {
+  let tubes = await bluebird.map(thematics, ({ tubeIds }) => {
     return tubeRepository.findActiveByRecordIds(tubeIds);
   });
   tubes = tubes.flat();
 
-  const tubesWithResponsiveStatus = await bluebird.mapSeries(tubes, async (tube) => {
+  const tubesWithResponsiveStatus = await bluebird.map(tubes, async (tube) => {
     const skills = skillRepository.findActiveByTubeId(tube.id);
-    let validatedChallenges = await bluebird.mapSeries(skills, ({ id }) => {
+    let validatedChallenges = await bluebird.map(skills, ({ id }) => {
       return challengeRepository.findValidatedPrototypeBySkillId(id);
     });
     validatedChallenges = validatedChallenges.flat();
