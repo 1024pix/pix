@@ -81,7 +81,7 @@ module.exports = {
 
     await knex('organization-invitations')
       .where({ organizationId: id, status: OrganizationInvitation.StatusType.PENDING })
-      .update({ status: OrganizationInvitation.StatusType.CANCELLED });
+      .update({ status: OrganizationInvitation.StatusType.CANCELLED, updatedAt: archiveDate });
 
     await knex('campaigns').where({ organizationId: id, archivedAt: null }).update({ archivedAt: archiveDate });
 
