@@ -31,8 +31,6 @@ module.exports = {
           assessment.course = { id: currentAssessment.courseId };
         }
 
-        assessment.title = currentAssessment.title;
-
         return assessment;
       },
       attributes: [
