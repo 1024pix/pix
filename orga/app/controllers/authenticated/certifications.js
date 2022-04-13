@@ -12,6 +12,10 @@ export default class AuthenticatedCertificationsController extends Controller {
 
   @tracked selectedDivision = '';
 
+  get hasDivisions() {
+    return this.model.options.length !== 0;
+  }
+
   @action
   onSelectDivision(event) {
     this.selectedDivision = event.target.value;

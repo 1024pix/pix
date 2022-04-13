@@ -549,6 +549,7 @@
         "no-results": "No certification results for the class {selectedDivision}.",
         "no-certificates": "No certificates for the class {selectedDivision}."
       },
+      "no-students-imported-yet": "In this tab, you will find the certification results and certificates of the students. You will first need to import the students database of your school.",
       "select-label": "Class"
     },
     "login": {
