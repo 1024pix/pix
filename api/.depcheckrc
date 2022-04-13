@@ -1,4 +1,4 @@
-ignores: ["bookshelf-validate", "mocha-junit-reporter", "eslint-plugin-mocha", "eslint-plugin-yml", "pino-pretty"]
+ignores: ["bookshelf-validate", "mocha-junit-reporter", "eslint-plugin-mocha", "eslint-plugin-yml", "pino-pretty","@tsconfig/node16"]
 
 # "bookshelf-validate" is used in ./lib/infrastructure/bookshelf.js
 # code => bookshelf.plugin('bookshelf-validate',

@@ -1,0 +1,20 @@
+{
+  "extends": "@tsconfig/node16/tsconfig.json",
+  "ts-node": {
+    "files": true,
+    "compilerOptions": {
+      "outDir": "./dist",
+      "allowJs": true,
+      "resolveJsonModule": true,
+      "strict": false,
+      "noImplicitAny": true,
+      "noImplicitReturns": true
+    },
+    "include": [
+      "./lib/**/*",
+      "./bin/**/*",
+      "./translations/**/*",
+      "./server"
+    ]
+  }
+}
