@@ -7,8 +7,25 @@ const badgeCriteriaRepository = require('../lib/infrastructure/repositories/badg
 const DomainTransaction = require('../lib/infrastructure/DomainTransaction');
 const { knex } = require('../db/knex-database-connection');
 
+// Usage: node scripts/create-badge-criteria-for-specified-badge path/data.json
+// data.json
+// {
+//   "badgeId": 112,
+//   "criteria": [
+//     {
+//       "threshold": 23,
+//       "scope": "CampaignParticipation",
+//       "skillSetIds": null
+//     },
+//     {
+//       "threshold": 26,
+//       "scope": "SkillSet",
+//       "skillSetIds": [100683, 100687]
+//     }
+//   ]
+// }
 async function main() {
-  console.log('Starting creating badge');
+  console.log('Starting creating badge criteria');
 
   const filePath = process.argv[2];
 
