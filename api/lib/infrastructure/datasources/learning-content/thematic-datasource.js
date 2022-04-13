@@ -3,8 +3,8 @@ const datasource = require('./datasource');
 module.exports = datasource.extend({
   modelName: 'thematics',
 
-  async findByCompetenceId(competenceId) {
+  async findByCompetenceIds(competenceIds) {
     const thematics = await this.list();
-    return thematics.filter((thematic) => thematic.competenceId === competenceId);
+    return thematics.filter((thematic) => competenceIds.includes(thematic.competenceId));
   },
 });

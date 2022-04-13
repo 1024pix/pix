@@ -1,10 +1,6 @@
-const _ = require('lodash');
-const bluebird = require('bluebird');
-
 module.exports = async function getFrameworkAreas({
   frameworkId,
   challengeRepository,
-  skillRepository,
   tubeRepository,
   thematicRepository,
   areaRepository,
@@ -13,34 +9,30 @@ module.exports = async function getFrameworkAreas({
 
   const competences = areasWithCompetences.flatMap((area) => area.competences);
 
-  let thematics = await bluebird.map(competences, ({ id }) => {
-    return thematicRepository.findByCompetenceId(id);
-  });
-  thematics = thematics.flat();
+  const competenceIds = competences.map(({ id: competenceId }) => competenceId);
+  const thematics = await thematicRepository.findByCompetenceIds(competenceIds);
 
-  let tubes = await bluebird.map(thematics, ({ tubeIds }) => {
-    return tubeRepository.findActiveByRecordIds(tubeIds);
-  });
-  tubes = tubes.flat();
+  const tubeIds = thematics.flatMap((thematic) => thematic.tubeIds);
+  const tubes = await tubeRepository.findActiveByRecordIds(tubeIds);
 
-  const tubesWithResponsiveStatus = await bluebird.map(tubes, async (tube) => {
-    const skills = skillRepository.findActiveByTubeId(tube.id);
-    let validatedChallenges = await bluebird.map(skills, ({ id }) => {
-      return challengeRepository.findValidatedPrototypeBySkillId(id);
+  const validatedChallenges = await challengeRepository.findValidatedPrototype();
+
+  const tubesWithResponsiveStatus = tubes.map((tube) => {
+    const tubeChallenges = validatedChallenges.filter((challenge) => {
+      return challenge.skill.tubeId === tube.id;
     });
-    validatedChallenges = validatedChallenges.flat();
-
-    tube.mobile = _isResponsiveForMobile(validatedChallenges);
-    tube.tablet = _isResponsiveForTablet(validatedChallenges);
+    tube.mobile = _isResponsiveForMobile(tubeChallenges);
+    tube.tablet = _isResponsiveForTablet(tubeChallenges);
     return tube;
   });
+
   return { areas: areasWithCompetences, thematics, tubes: tubesWithResponsiveStatus };
 };
 
 function _isResponsiveForMobile(challenges) {
   return (
     challenges.length > 0 &&
-    _.every(challenges, (challenge) => {
+    challenges.every((challenge) => {
       return challenge.responsive?.includes('Smartphone');
     })
   );
@@ -49,7 +41,7 @@ function _isResponsiveForMobile(challenges) {
 function _isResponsiveForTablet(challenges) {
   return (
     challenges.length > 0 &&
-    _.every(challenges, (challenge) => {
+    challenges.every((challenge) => {
       return challenge.responsive?.includes('Tablette');
     })
   );

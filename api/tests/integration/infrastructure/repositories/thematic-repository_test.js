@@ -24,13 +24,15 @@ describe('Integration | Repository | thematic-repository', function () {
 
   describe('#findByCompetenceId', function () {
     it('should return thematics of a competence', async function () {
+      const competenceId = 'competence0';
+
       // given
       const thematic0 = {
         id: 'recThematic0',
         name: 'thematic0',
         index: 1,
         tubeIds: ['recTube0'],
-        competenceId: 'competence0',
+        competenceId,
       };
 
       const thematic1 = {
@@ -38,7 +40,7 @@ describe('Integration | Repository | thematic-repository', function () {
         name: 'thematic1',
         index: 1,
         tubeIds: ['recTube1'],
-        competenceId: 'competence0',
+        competenceId,
       };
 
       const thematics = [
@@ -57,12 +59,10 @@ describe('Integration | Repository | thematic-repository', function () {
         thematics,
       };
 
-      const competenceId = 'competence0';
-
       mockLearningContent(learningContent);
 
       // when
-      const foundThematics = await thematicRepository.findByCompetenceId(competenceId);
+      const foundThematics = await thematicRepository.findByCompetenceIds([competenceId]);
 
       // then
       expect(foundThematics).to.have.lengthOf(2);
