@@ -33,7 +33,6 @@ describe('Integration | Repository | AuthenticationMethod', function () {
           userId,
         });
         delete authenticationMethod.id;
-        authenticationMethod.authenticationComplement = undefined;
 
         // when
         const savedAuthenticationMethod = await authenticationMethodRepository.create({ authenticationMethod });
@@ -282,7 +281,6 @@ describe('Integration | Repository | AuthenticationMethod', function () {
         id: 123,
         userId,
       });
-      garAuthenticationMethod.authenticationComplement = undefined;
       databaseBuilder.factory.buildAuthenticationMethod.withGarAsIdentityProvider(garAuthenticationMethod);
       await databaseBuilder.commit();
 
@@ -313,6 +311,89 @@ describe('Integration | Repository | AuthenticationMethod', function () {
       // then
       expect(authenticationMethodsByUserIdAndIdentityProvider).to.be.null;
     });
+
+    describe('when Pix is the authentication provider', function () {
+      it('brings along a Pix authentication complement', async function () {
+        // given
+        const user = databaseBuilder.factory.buildUser();
+        databaseBuilder.factory.buildAuthenticationMethod.withPixAsIdentityProviderAndHashedPassword({
+          userId: user.id,
+          hashedPassword: 'H4SHED',
+          shouldChangePassword: false,
+        });
+        await databaseBuilder.commit();
+
+        // when
+        const pixAuthenticationMethod = await authenticationMethodRepository.findOneByUserIdAndIdentityProvider({
+          userId: user.id,
+          identityProvider: AuthenticationMethod.identityProviders.PIX,
+        });
+
+        // then
+        expect(pixAuthenticationMethod.authenticationComplement).to.deep.equal(
+          new AuthenticationMethod.PixAuthenticationComplement({
+            password: 'H4SHED',
+            shouldChangePassword: false,
+          })
+        );
+      });
+    });
+
+    describe('when Pole Emploi is the authentication provider', function () {
+      it('brings along a Pole Emploi authentication complement', async function () {
+        // given
+        const user = databaseBuilder.factory.buildUser();
+        databaseBuilder.factory.buildAuthenticationMethod.withPoleEmploiAsIdentityProvider({
+          userId: user.id,
+          accessToken: 'AGENCENATIONALEPOURLEMPLOI',
+          refreshToken: 'FRANCETRAVAIL',
+          expiredDate: new Date('2021-01-01'),
+        });
+        await databaseBuilder.commit();
+
+        // when
+        const pixAuthenticationMethod = await authenticationMethodRepository.findOneByUserIdAndIdentityProvider({
+          userId: user.id,
+          identityProvider: AuthenticationMethod.identityProviders.POLE_EMPLOI,
+        });
+
+        // then
+        expect(pixAuthenticationMethod.authenticationComplement).to.deep.equal(
+          new AuthenticationMethod.PoleEmploiAuthenticationComplement({
+            accessToken: 'AGENCENATIONALEPOURLEMPLOI',
+            refreshToken: 'FRANCETRAVAIL',
+            expiredDate: '2021-01-01T00:00:00.000Z',
+          })
+        );
+      });
+    });
+
+    describe('when GAR is the authentication provider', function () {
+      it('brings along a GAR authentication complement', async function () {
+        // given
+        const user = databaseBuilder.factory.buildUser();
+        databaseBuilder.factory.buildAuthenticationMethod.withGarAsIdentityProvider({
+          userId: user.id,
+          userFirstName: 'Katie',
+          userLastName: 'McGuffin',
+        });
+        await databaseBuilder.commit();
+
+        // when
+        const garAuthenticationMethod = await authenticationMethodRepository.findOneByUserIdAndIdentityProvider({
+          userId: user.id,
+          identityProvider: AuthenticationMethod.identityProviders.GAR,
+        });
+
+        // then
+        expect(garAuthenticationMethod.authenticationComplement).to.deep.equal(
+          new AuthenticationMethod.GARAuthenticationComplement({
+            firstName: 'Katie',
+            lastName: 'McGuffin',
+          })
+        );
+      });
+    });
   });
 
   describe('#findOneByExternalIdentifierAndIdentityProvider', function () {
@@ -325,7 +406,6 @@ describe('Integration | Repository | AuthenticationMethod', function () {
         externalIdentifier,
         userId,
       });
-      authenticationMethod.authenticationComplement = undefined;
       databaseBuilder.factory.buildAuthenticationMethod.withGarAsIdentityProvider(authenticationMethod);
       databaseBuilder.factory.buildAuthenticationMethod.withGarAsIdentityProvider({
         externalIdentifier: 'another_sub',
@@ -365,7 +445,6 @@ describe('Integration | Repository | AuthenticationMethod', function () {
           externalIdentifier: 'old_value',
           userId,
         });
-        authenticationMethod.authenticationComplement = undefined;
         databaseBuilder.factory.buildAuthenticationMethod.withGarAsIdentityProvider(authenticationMethod);
         await databaseBuilder.commit();
 
@@ -390,7 +469,6 @@ describe('Integration | Repository | AuthenticationMethod', function () {
           externalIdentifier: 'old_value',
           userId,
         });
-        authenticationMethod.authenticationComplement = undefined;
         databaseBuilder.factory.buildAuthenticationMethod.withGarAsIdentityProvider(authenticationMethod);
         await databaseBuilder.commit();
 
@@ -867,7 +945,6 @@ describe('Integration | Repository | AuthenticationMethod', function () {
         externalIdentifier: 'externalIdentifier',
         userId,
       });
-      secondAuthenticationMethod.authenticationComplement = undefined;
       databaseBuilder.factory.buildAuthenticationMethod.withGarAsIdentityProvider(secondAuthenticationMethod);
       const firstAuthenticationMethod =
         domainBuilder.buildAuthenticationMethod.withPixAsIdentityProviderAndHashedPassword({
@@ -1030,6 +1107,54 @@ describe('Integration | Repository | AuthenticationMethod', function () {
       const authenticationMethodUpdated = await knex('authentication-methods').select();
       expect(authenticationMethodUpdated[0].userId).to.equal(targetUserId);
       expect(authenticationMethodUpdated[0].updatedAt).to.deep.equal(now);
+    });
+  });
+
+  describe('#update', function () {
+    let clock;
+
+    afterEach(async function () {
+      clock.restore();
+    });
+
+    it('should update authentication method complement', async function () {
+      // given
+      const now = new Date('2022-03-15');
+      clock = sinon.useFakeTimers(now);
+
+      const userId = databaseBuilder.factory.buildUser().id;
+      const authenticationMethod = databaseBuilder.factory.buildAuthenticationMethod.withGarAsIdentityProvider({
+        userId,
+        updatedAt: '2018-01-01',
+      });
+      const otherAuthenticationMethod =
+        databaseBuilder.factory.buildAuthenticationMethod.withPixAsIdentityProviderAndPassword({
+          userId,
+          updatedAt: '2018-01-01',
+        });
+      await databaseBuilder.commit();
+
+      authenticationMethod.authenticationComplement = new AuthenticationMethod.GARAuthenticationComplement({
+        firstName: 'Saml',
+        lastName: 'Jackson',
+      });
+
+      // when
+      await authenticationMethodRepository.update(authenticationMethod);
+
+      // then
+      const updatedAuthenticationMethod = await knex('authentication-methods')
+        .select()
+        .where({ id: authenticationMethod.id })
+        .first();
+      expect(updatedAuthenticationMethod.authenticationComplement.firstName).to.equal('Saml');
+      expect(updatedAuthenticationMethod.authenticationComplement.lastName).to.equal('Jackson');
+      expect(updatedAuthenticationMethod.updatedAt).to.deep.equal(new Date('2022-03-15'));
+      const untouchedAuthenticationMethod = await knex('authentication-methods')
+        .select()
+        .where({ id: otherAuthenticationMethod.id })
+        .first();
+      expect(untouchedAuthenticationMethod.updatedAt).to.deep.equal(new Date('2018-01-01'));
     });
   });
 });

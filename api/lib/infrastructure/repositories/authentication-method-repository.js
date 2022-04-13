@@ -31,6 +31,15 @@ function _toAuthenticationComplement(identityProvider, bookshelfAuthenticationCo
     return new AuthenticationMethod.PoleEmploiAuthenticationComplement(bookshelfAuthenticationComplement);
   }
 
+  if (identityProvider === AuthenticationMethod.identityProviders.GAR) {
+    const methodWasCreatedWithoutUserFirstAndLastName = bookshelfAuthenticationComplement === null;
+    if (methodWasCreatedWithoutUserFirstAndLastName) {
+      return undefined;
+    }
+
+    return new AuthenticationMethod.GARAuthenticationComplement(bookshelfAuthenticationComplement);
+  }
+
   return undefined;
 }
 
@@ -65,6 +74,8 @@ module.exports = {
           `An authentication method already exists for the user ID ${authenticationMethod.userId} and the externalIdentifier ${authenticationMethod.externalIdentifier}.`
         );
       }
+
+      throw err;
     }
   },
 
@@ -258,5 +269,9 @@ module.exports = {
     await knex(AUTHENTICATION_METHODS_TABLE)
       .where({ userId: originUserId, identityProvider })
       .update({ userId: targetUserId, updatedAt: new Date() });
+  },
+
+  async update({ id, authenticationComplement }) {
+    await knex(AUTHENTICATION_METHODS_TABLE).where({ id }).update({ authenticationComplement, updatedAt: new Date() });
   },
 };
