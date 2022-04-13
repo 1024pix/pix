@@ -1,9 +1,8 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render } from '@1024pix/ember-testing-library';
+import { render, selectByLabelAndOption } from '@1024pix/ember-testing-library';
 import hbs from 'htmlbars-inline-precompile';
 import { resolve } from 'rsvp';
-import { selectChoose } from 'ember-power-select/test-support/helpers';
 
 module('Integration | Component | certifications/details-answer', function (hooks) {
   setupRenderingTest(hooks);
@@ -30,7 +29,7 @@ module('Integration | Component | certifications/details-answer', function (hook
     );
 
     // then
-    assert.dom(screen.getByText('Succès partiel')).exists();
+    assert.dom(screen.getByRole('combobox', { name: 'Sélectionner un résultat' })).containsText('Succès partiel');
   });
 
   test('init answer displayed status with neutralized label when challenge is neutralized', async function (assert) {
@@ -46,7 +45,7 @@ module('Integration | Component | certifications/details-answer', function (hook
     );
 
     // then
-    assert.dom(screen.getByText('Neutralisée')).exists();
+    assert.dom(screen.getByRole('combobox', { name: 'Sélectionner un résultat' })).containsText('Neutralisée');
   });
 
   test('info are correctly displayed', async function (assert) {
@@ -66,7 +65,7 @@ module('Integration | Component | certifications/details-answer', function (hook
     assert.dom(screen.getByText('@skill6')).exists();
     assert.dom(screen.getByText('rec1234')).exists();
     assert.dom(screen.getByText('coucou')).exists();
-    assert.dom(screen.getByText('Succès partiel')).exists();
+    assert.dom(screen.getByRole('combobox', { name: 'Sélectionner un résultat' })).containsText('Succès partiel');
   });
 
   module('when chalenge has been skipped automatically', function () {
@@ -91,7 +90,7 @@ module('Integration | Component | certifications/details-answer', function (hook
       assert.dom(screen.getByText('@skill6')).exists();
       assert.dom(screen.getByText('rec1234')).exists();
       assert.dom(screen.getByText('coucou')).exists();
-      assert.dom(screen.getByText('Abandon')).exists();
+      assert.dom(screen.getByRole('combobox', { name: 'Sélectionner un résultat' })).containsText('Abandon');
     });
   });
 
@@ -101,13 +100,14 @@ module('Integration | Component | certifications/details-answer', function (hook
       answer: answerData,
       onUpdateRate: () => {},
     });
-    await render(hbs`<Certifications::DetailsAnswer @answer={{answer}} @onUpdateRate={{onUpdateRate}} />`);
-
+    const screen = await render(
+      hbs`<Certifications::DetailsAnswer @answer={{answer}} @onUpdateRate={{onUpdateRate}} />`
+    );
     // when
-    await selectChoose('.answer-result', 'Succès');
+    await selectByLabelAndOption('Sélectionner un résultat', 'ok');
 
     // then
-    assert.dom('.answer-result').hasClass('jury');
+    assert.dom(screen.getByRole('combobox', { name: 'Sélectionner un résultat' })).hasAttribute('class', 'jury');
   });
 
   test('update rate function is called when answer is modified and jury is set', async function (assert) {
@@ -126,7 +126,7 @@ module('Integration | Component | certifications/details-answer', function (hook
     await render(hbs`<Certifications::DetailsAnswer @answer={{answer}} @onUpdateRate={{onUpdateRate}} />`);
 
     // when
-    await selectChoose('.answer-result', 'Succès');
+    await selectByLabelAndOption('Sélectionner un résultat', 'ok');
   });
 
   test('jury is set back to false when answer is set to default value', async function (assert) {
@@ -138,10 +138,10 @@ module('Integration | Component | certifications/details-answer', function (hook
     await render(hbs`<Certifications::DetailsAnswer @answer={{answer}} @onUpdateRate={{onUpdateRate}} />`);
 
     // when
-    await selectChoose('.answer-result', 'Succès');
-    await selectChoose('.answer-result', 'Succès partiel');
+    await selectByLabelAndOption('Sélectionner un résultat', 'ok');
+    await selectByLabelAndOption('Sélectionner un résultat', 'partially');
 
-    // Then
+    // then
     // TODO: Fix this the next time the file is edited.
     // eslint-disable-next-line qunit/no-assert-equal
     assert.equal(answerData.jury, null);

@@ -18,4 +18,9 @@
     padding: 11px 32px;
     font-family: $font-roboto;
   }
+
+  &-footer {
+    display: flex;
+    justify-content: center;
+  }
 }
