@@ -14,6 +14,12 @@ const fonts = {
   robotoMonoRegular: 'RobotoMono-Regular.ttf',
 };
 
+const complementaryCertificationImagesCoords = {
+  clea: { width: 80, height: 100 },
+  droit: { width: 100, height: 120 },
+  edu: { width: 80, height: 90 },
+};
+
 const templates = {
   withoutComplementaryCertifications: 'withoutComplementaryCertifications',
   withComplementaryCertifications: 'withComplementaryCertifications',
@@ -110,8 +116,9 @@ async function _embedImages(pdfDocument, viewModels) {
 }
 
 async function _embedCleaCertificationImage(pdfDocument, cleaCertificationImagePath) {
+  const coords = complementaryCertificationImagesCoords.clea;
   const pngBuffer = await sharp(cleaCertificationImagePath)
-    .resize(80, 100, {
+    .resize(coords.width, coords.height, {
       fit: 'inside',
     })
     .sharpen()
@@ -121,8 +128,9 @@ async function _embedCleaCertificationImage(pdfDocument, cleaCertificationImageP
 }
 
 async function _embedPixPlusDroitCertificationImage(pdfDocument, pixPlusDroitCertificationImagePath) {
+  const coords = complementaryCertificationImagesCoords.droit;
   const pngBuffer = await sharp(pixPlusDroitCertificationImagePath)
-    .resize(100, 120, {
+    .resize(coords.width, coords.height, {
       fit: 'inside',
     })
     .sharpen()
@@ -132,8 +140,9 @@ async function _embedPixPlusDroitCertificationImage(pdfDocument, pixPlusDroitCer
 }
 
 async function _embedPixPlusEduCertificationImage(pdfDocument, pixPlusEduCertificationImagePath) {
+  const coords = complementaryCertificationImagesCoords.edu;
   const pngBuffer = await sharp(pixPlusEduCertificationImagePath)
-    .resize(80, 90, {
+    .resize(coords.width, coords.height, {
       fit: 'inside',
     })
     .sharpen()
