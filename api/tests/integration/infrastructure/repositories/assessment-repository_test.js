@@ -15,7 +15,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
     return knex('assessments').delete();
   });
 
-  describe('#getWithAnswersAndCampaignParticipation', function () {
+  describe('#getWithAnswers', function () {
     let assessmentId;
 
     context('when the assessment exists', function () {
@@ -49,7 +49,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
 
       it('should return the assessment with the answers sorted by creation date ', async function () {
         // when
-        const assessment = await assessmentRepository.getWithAnswersAndCampaignParticipation(assessmentId);
+        const assessment = await assessmentRepository.getWithAnswers(assessmentId);
 
         // then
         expect(assessment).to.be.an.instanceOf(Assessment);
@@ -68,7 +68,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
     context('when the assessment does not exist', function () {
       it('should return null', async function () {
         // when
-        const assessment = await assessmentRepository.getWithAnswersAndCampaignParticipation(245);
+        const assessment = await assessmentRepository.getWithAnswers(245);
 
         // then
         expect(assessment).to.equal(null);
