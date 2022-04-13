@@ -176,12 +176,12 @@ module('Integration | Component | users | user-detail-personal-information/user-
       this.set('user', user);
 
       // when
-      await render(hbs`<Users::UserDetailPersonalInformation::UserOverview @user={{this.user}}/>`);
+      const screen = await render(hbs`<Users::UserDetailPersonalInformation::UserOverview @user={{this.user}}/>`);
       await clickByName('Modifier');
 
       // then
-      assert.dom('.user-edit-form__first-name').hasValue(this.user.firstName);
-      assert.dom('.user-edit-form__last-name').hasValue(this.user.lastName);
+      assert.dom(screen.getByRole('textbox', { name: 'Prénom :' })).hasValue(this.user.firstName);
+      assert.dom(screen.getByRole('textbox', { name: 'Nom :' })).hasValue(this.user.lastName);
     });
 
     module('when user has an email only', function () {
@@ -190,11 +190,11 @@ module('Integration | Component | users | user-detail-personal-information/user-
         this.set('user', user);
 
         // when
-        await render(hbs`<Users::UserDetailPersonalInformation::UserOverview @user={{this.user}}/>`);
+        const screen = await render(hbs`<Users::UserDetailPersonalInformation::UserOverview @user={{this.user}}/>`);
         await clickByName('Modifier');
 
         // then
-        assert.dom('.user-edit-form__email').hasValue(this.user.email);
+        assert.dom(screen.getByRole('textbox', { name: 'Adresse e-mail :' })).hasValue(this.user.email);
       });
 
       test('should not display username in edit mode', async function (assert) {
@@ -206,7 +206,7 @@ module('Integration | Component | users | user-detail-personal-information/user-
         await clickByName('Modifier');
 
         // then
-        assert.dom(screen.queryByText('Identifiant :')).doesNotExist();
+        assert.dom(screen.queryByRole('textbox', { name: 'Identifiant :' })).doesNotExist();
       });
     });
 
@@ -222,11 +222,11 @@ module('Integration | Component | users | user-detail-personal-information/user-
         this.set('user', user);
 
         // when
-        await render(hbs`<Users::UserDetailPersonalInformation::UserOverview @user={{this.user}} />`);
+        const screen = await render(hbs`<Users::UserDetailPersonalInformation::UserOverview @user={{this.user}} />`);
         await clickByName('Modifier');
 
         // then
-        assert.dom('.user-edit-form__username').hasValue(this.user.username);
+        assert.dom(screen.getByRole('textbox', { name: 'Identifiant :' })).hasValue(this.user.username);
       });
 
       test('should display email', async function (assert) {
@@ -244,7 +244,7 @@ module('Integration | Component | users | user-detail-personal-information/user-
         await clickByName('Modifier');
 
         // then
-        assert.dom(screen.getByText('Adresse e-mail :')).exists();
+        assert.dom(screen.getByRole('textbox', { name: 'Adresse e-mail :' })).exists();
       });
     });
 
@@ -264,7 +264,7 @@ module('Integration | Component | users | user-detail-personal-information/user-
         await clickByName('Modifier');
 
         // then
-        assert.dom(screen.queryByText('Adresse e-mail :')).doesNotExist();
+        assert.dom(screen.queryByRole('textbox', { name: 'Adresse e-mail :' })).doesNotExist();
       });
     });
 
