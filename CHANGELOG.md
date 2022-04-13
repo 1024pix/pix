@@ -6,12 +6,15 @@
 ### :rocket: Amélioration
 - [#4322](https://github.com/1024pix/pix/pull/4322) [FEATURE] Afficher un message spécifique dans PixOrga lorsque l'utilisateur se rend sur l'onglet Certifications et que l'établissement n'a pas encore importé d'élèves (PIX-2294)
 - [#4291](https://github.com/1024pix/pix/pull/4291) [FEATURE] Enregistrer ou mettre à jour le prénom et nom reçu du GAR lors de la connexion (PIX-4656)
+- [#4321](https://github.com/1024pix/pix/pull/4321) [FEATURE] Création de plusieurs lots d'acquis via un script pour le badge Cléa (PIX-4749).
+- [#4310](https://github.com/1024pix/pix/pull/4310) [FEATURE] Proposer des épreuves et scorer une certification Pix+ Édu de 1er degré (PIX-4754).
+- [#4302](https://github.com/1024pix/pix/pull/4302) [FEATURE] Mettre à jour les images des badges pour Pix+ Édu 2nd degré dans le certificat pdf (PIX-4743)
+- [#4313](https://github.com/1024pix/pix/pull/4313) [FEATURE] Ajout d'un texte RGPD dans la liste des participations d'une campagne dans pix admin (PIX-4651).
+- [#4307](https://github.com/1024pix/pix/pull/4307) [FEATURE] Afficher les informations du compte utilisateur dans le tableau des participations d'une campagne de Pix Admin (PIX-4752).
 
 ### :building_construction: Tech
-- [#4325](https://github.com/1024pix/pix/pull/4325) [TECH]  Fixer la vulnérabilité critique de la dépendance minimist
-
-### :coffee: Autre
-- [#4327](https://github.com/1024pix/pix/pull/4327) [HOTFIX] Correction du nom d'index de Knowledge-elements (PIX-4784)
+- [#4325](https://github.com/1024pix/pix/pull/4325) [TECH] Fixer la vulnérabilité critique de la dépendance minimist
+- [#4306](https://github.com/1024pix/pix/pull/4301) [TECH] Renommage des schooling-registrations en `organization-learners` dans les modèles du domaine (PIX-4687).
 
 ## v3.196.1 (12/04/2022)
 
