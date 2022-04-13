@@ -1,5 +1,11 @@
 # Pix Changelog
 
+## v3.196.1 (12/04/2022)
+
+
+### :bug: Correction
+- [#4327](https://github.com/1024pix/pix/pull/4327) [HOTFIX] Correction du nom d'index de Knowledge-elements (PIX-4784)
+
 ## v3.196.0 (12/04/2022)
 
 
