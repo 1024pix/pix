@@ -134,8 +134,9 @@ describe('Unit | UseCase | get-framework-areas', function () {
     {
       challengeResult: [
         {
-          id: 'challengeId2',
-          skill: { tubeId: 'tubeId1' },
+          id: 'challengeId1',
+          responsive: 'Tablette/Smartphone',
+          skill: { tubeId: 'tubeId2' },
         },
       ],
       expectedResult: {
@@ -144,26 +145,31 @@ describe('Unit | UseCase | get-framework-areas', function () {
       },
     },
   ].forEach(({ challengeResult, expectedResult }) => {
-    context(`when challenges have responsive=${challengeResult.map(({ responsive }) => `${responsive}`)}`, function () {
-      it(`should return a tube with mobile=${expectedResult.mobile} and tablet=${expectedResult.tablet}`, async function () {
-        // given
-        challengeRepository = {
-          findValidatedPrototype: sinon.stub().resolves(challengeResult),
-        };
+    context(
+      `when challenges have responsive=${challengeResult.map(
+        ({ responsive }) => `${responsive}`
+      )} and tubeId=${challengeResult.map(({ skill: { tubeId } }) => tubeId)}`,
+      function () {
+        it(`should return a tube with mobile=${expectedResult.mobile} and tablet=${expectedResult.tablet}`, async function () {
+          // given
+          challengeRepository = {
+            findValidatedPrototype: sinon.stub().resolves(challengeResult),
+          };
 
-        // when
-        const { tubes } = await usecases.getFrameworkAreas({
-          challengeRepository,
-          tubeRepository,
-          thematicRepository,
-          areaRepository,
+          // when
+          const { tubes } = await usecases.getFrameworkAreas({
+            challengeRepository,
+            tubeRepository,
+            thematicRepository,
+            areaRepository,
+          });
+
+          // then
+          expect(tubes[0].mobile).to.equal(expectedResult.mobile);
+          expect(tubes[0].tablet).to.equal(expectedResult.tablet);
         });
-
-        // then
-        expect(tubes[0].mobile).to.equal(expectedResult.mobile);
-        expect(tubes[0].tablet).to.equal(expectedResult.tablet);
-      });
-    });
+      }
+    );
   });
   /* eslint-enable mocha/no-setup-in-describe */
 });
