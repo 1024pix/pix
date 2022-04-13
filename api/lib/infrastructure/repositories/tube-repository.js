@@ -34,19 +34,11 @@ function _findFromPixFramework(tubeDatas, pixCompetences) {
   });
 }
 
-async function _findActive(tubesFromPixFramework) {
-  const skillsByTube = await bluebird.map(tubesFromPixFramework, ({ id }) => skillDatasource.findActiveByTubeId(id));
-
-  const activeTubes = skillsByTube.reduce((accumulator, activeSkills) => {
-    if (activeSkills.length > 0) {
-      const tube = tubesFromPixFramework.find((tubeFromPixFramework) => {
-        return tubeFromPixFramework.id === activeSkills[0].tubeId;
-      });
-      accumulator.push(tube);
-    }
-    return accumulator;
-  }, []);
-  return activeTubes;
+async function _findActive(tubes) {
+  return bluebird.filter(tubes, async ({ id: tubeId }) => {
+    const activeSkills = await skillDatasource.findActiveByTubeId(tubeId);
+    return activeSkills.length > 0;
+  });
 }
 
 module.exports = {

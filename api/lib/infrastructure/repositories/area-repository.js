@@ -26,7 +26,7 @@ async function listWithPixCompetencesOnly({ locale } = {}) {
   return _.filter(areas, ({ competences }) => !_.isEmpty(competences));
 }
 
-async function findByFrameworkId(frameworkId) {
+async function findByFrameworkIdWithCompetences(frameworkId) {
   const areaDatas = await areaDatasource.findByFrameworkId(frameworkId);
   const areas = areaDatas.map(_toDomain);
   const competences = await competenceRepository.list();
@@ -39,5 +39,5 @@ async function findByFrameworkId(frameworkId) {
 module.exports = {
   list,
   listWithPixCompetencesOnly,
-  findByFrameworkId,
+  findByFrameworkIdWithCompetences,
 };

@@ -31,7 +31,7 @@ describe('Unit | UseCase | get-framework-areas', function () {
     };
 
     areaRepository = {
-      findByFrameworkId: sinon.stub().resolves().returns(expectedAreasResult),
+      findByFrameworkIdWithCompetences: sinon.stub().resolves().returns(expectedAreasResult),
     };
   });
 
@@ -52,10 +52,10 @@ describe('Unit | UseCase | get-framework-areas', function () {
     expect(challengeRepository.findValidatedPrototype).to.have.been.called;
     expect(tubeRepository.findActiveByRecordIds).to.have.been.called;
     expect(thematicRepository.findByCompetenceIds).to.have.been.called;
-    expect(areaRepository.findByFrameworkId).to.have.been.called;
+    expect(areaRepository.findByFrameworkIdWithCompetences).to.have.been.called;
   });
 
-  // eslint-disable-next-line mocha/no-setup-in-describe
+  /* eslint-disable mocha/no-setup-in-describe */
   [
     {
       challengeResult: [
@@ -144,23 +144,26 @@ describe('Unit | UseCase | get-framework-areas', function () {
       },
     },
   ].forEach(({ challengeResult, expectedResult }) => {
-    it(`should get list of tube with responsive status when its challenges have responsive status=${challengeResult.responsive}`, async function () {
-      // given
-      challengeRepository = {
-        findValidatedPrototype: sinon.stub().resolves(challengeResult),
-      };
+    context(`when challenges have responsive=${challengeResult.map(({ responsive }) => `${responsive}`)}`, function () {
+      it(`should return a tube with mobile=${expectedResult.mobile} and tablet=${expectedResult.tablet}`, async function () {
+        // given
+        challengeRepository = {
+          findValidatedPrototype: sinon.stub().resolves(challengeResult),
+        };
 
-      // when
-      const { tubes } = await usecases.getFrameworkAreas({
-        challengeRepository,
-        tubeRepository,
-        thematicRepository,
-        areaRepository,
+        // when
+        const { tubes } = await usecases.getFrameworkAreas({
+          challengeRepository,
+          tubeRepository,
+          thematicRepository,
+          areaRepository,
+        });
+
+        // then
+        expect(tubes[0].mobile).to.equal(expectedResult.mobile);
+        expect(tubes[0].tablet).to.equal(expectedResult.tablet);
       });
-
-      // then
-      expect(tubes[0].mobile).to.equal(expectedResult.mobile);
-      expect(tubes[0].tablet).to.equal(expectedResult.tablet);
     });
   });
+  /* eslint-enable mocha/no-setup-in-describe */
 });
