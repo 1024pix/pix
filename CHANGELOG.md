@@ -1,5 +1,18 @@
 # Pix Changelog
 
+## v3.197.0 (13/04/2022)
+
+
+### :rocket: Amélioration
+- [#4322](https://github.com/1024pix/pix/pull/4322) [FEATURE] Afficher un message spécifique dans PixOrga lorsque l'utilisateur se rend sur l'onglet Certifications et que l'établissement n'a pas encore importé d'élèves (PIX-2294)
+- [#4291](https://github.com/1024pix/pix/pull/4291) [FEATURE] Enregistrer ou mettre à jour le prénom et nom reçu du GAR lors de la connexion (PIX-4656)
+
+### :building_construction: Tech
+- [#4325](https://github.com/1024pix/pix/pull/4325) [TECH]  Fixer la vulnérabilité critique de la dépendance minimist
+
+### :coffee: Autre
+- [#4327](https://github.com/1024pix/pix/pull/4327) [HOTFIX] Correction du nom d'index de Knowledge-elements (PIX-4784)
+
 ## v3.196.1 (12/04/2022)
 
 
