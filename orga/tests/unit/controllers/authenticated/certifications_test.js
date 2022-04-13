@@ -6,7 +6,7 @@ import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 module('Unit | Controller | authenticated/certifications', function (hooks) {
   setupIntlRenderingTest(hooks);
 
-  module('#get hasImportedStudents', function () {
+  module('#get hasDivisions', function () {
     test('should return true when organization has divisions', async function (assert) {
       // given
       const controller = this.owner.lookup('controller:authenticated/certifications');
@@ -16,10 +16,10 @@ module('Unit | Controller | authenticated/certifications', function (hooks) {
       };
 
       // when
-      const hasImportedStudents = controller.hasImportedStudents;
+      const hasDivisions = controller.hasDivisions;
 
       // then
-      assert.true(hasImportedStudents);
+      assert.true(hasDivisions);
     });
 
     test("should return false when organization doesn't have divisions", async function (assert) {
@@ -31,10 +31,10 @@ module('Unit | Controller | authenticated/certifications', function (hooks) {
       };
 
       // when
-      const hasImportedStudents = controller.hasImportedStudents;
+      const hasDivisions = controller.hasDivisions;
 
       // then
-      assert.false(hasImportedStudents);
+      assert.false(hasDivisions);
     });
   });
 
