@@ -3,11 +3,13 @@ const frameworkDatasource = require('../datasources/learning-content/framework-d
 
 async function list() {
   const frameworkDataObjects = await frameworkDatasource.list();
-  return frameworkDataObjects.map((frameworkDataObject) => {
-    return new Framework({
-      id: frameworkDataObject.id,
-      name: frameworkDataObject.name,
-    });
+  return frameworkDataObjects.map(_toDomain);
+}
+
+function _toDomain(frameworkData) {
+  return new Framework({
+    id: frameworkData.id,
+    name: frameworkData.name,
   });
 }
 

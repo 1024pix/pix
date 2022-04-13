@@ -5,7 +5,7 @@ module.exports = async function getFrameworkAreas({
   thematicRepository,
   areaRepository,
 }) {
-  const areasWithCompetences = await areaRepository.findByFrameworkId(frameworkId);
+  const areasWithCompetences = await areaRepository.findByFrameworkIdWithCompetences(frameworkId);
 
   const competences = areasWithCompetences.flatMap((area) => area.competences);
 
@@ -21,28 +21,27 @@ module.exports = async function getFrameworkAreas({
     const tubeChallenges = validatedChallenges.filter((challenge) => {
       return challenge.skill.tubeId === tube.id;
     });
-    tube.mobile = _isResponsiveForMobile(tubeChallenges);
-    tube.tablet = _isResponsiveForTablet(tubeChallenges);
+    tube.mobile = _areChallengesMobileResponsive(tubeChallenges);
+    tube.tablet = _areChallengesTabletResponsive(tubeChallenges);
     return tube;
   });
 
   return { areas: areasWithCompetences, thematics, tubes: tubesWithResponsiveStatus };
 };
 
-function _isResponsiveForMobile(challenges) {
-  return (
-    challenges.length > 0 &&
-    challenges.every((challenge) => {
-      return challenge.responsive?.includes('Smartphone');
-    })
-  );
+function _areChallengesMobileResponsive(challenges) {
+  return _areChallengesResponsive(challenges, 'Smartphone');
 }
 
-function _isResponsiveForTablet(challenges) {
+function _areChallengesTabletResponsive(challenges) {
+  return _areChallengesResponsive(challenges, 'Tablet');
+}
+
+function _areChallengesResponsive(challenges, type) {
   return (
     challenges.length > 0 &&
     challenges.every((challenge) => {
-      return challenge.responsive?.includes('Tablette');
+      return challenge.responsive?.includes(type);
     })
   );
 }

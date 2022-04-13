@@ -10,7 +10,7 @@ describe('Unit | UseCase | get-frameworks', function () {
     };
   });
 
-  it('should call frameworksRepository.list', async function () {
+  it('should call frameworkRepository.list', async function () {
     // when
     await usecases.getFrameworks({
       frameworkRepository,

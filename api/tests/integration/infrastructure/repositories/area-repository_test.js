@@ -152,7 +152,7 @@ describe('Integration | Repository | area-repository', function () {
     });
   });
 
-  describe('#findByFrameworkId', function () {
+  describe('#findByFrameworkIdWithCompetences', function () {
     const area0 = {
       id: 'recArea0',
       code: 'area0code',
@@ -190,7 +190,7 @@ describe('Integration | Repository | area-repository', function () {
 
     it('should return a list of areas from the proper framework', async function () {
       // when
-      const areas = await areaRepository.findByFrameworkId('framework1');
+      const areas = await areaRepository.findByFrameworkIdWithCompetences('framework1');
 
       // then
       expect(areas).to.have.lengthOf(1);

@@ -2,11 +2,6 @@ const { Serializer } = require('jsonapi-serializer');
 
 module.exports = {
   serialize(framework) {
-    framework.thematics.forEach((thematic) => {
-      thematic.tubes = framework.tubes.filter(({ id }) => {
-        return thematic.tubeIds.includes(id);
-      });
-    });
     return new Serializer('area', {
       ref: 'id',
       attributes: ['code', 'title', 'color', 'competences'],
@@ -31,9 +26,21 @@ module.exports = {
 
       transform(area) {
         area.competences.forEach((competence) => {
-          competence.thematics = framework.thematics.filter((thematic) => {
-            return competence.thematicIds.includes(thematic.id) && thematic.tubes.length > 0;
-          });
+          competence.thematics = framework.thematics
+            .filter((thematic) => {
+              return competence.thematicIds.includes(thematic.id);
+            })
+            .map((thematic) => {
+              return {
+                ...thematic,
+                tubes: framework.tubes.filter(({ id }) => {
+                  return thematic.tubeIds.includes(id);
+                }),
+              };
+            })
+            .filter((thematic) => {
+              return thematic.tubes.length > 0;
+            });
         });
         return area;
       },
