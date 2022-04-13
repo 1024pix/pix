@@ -1,5 +1,6 @@
 import { module, test } from 'qunit';
-import { currentURL, visit } from '@ember/test-helpers';
+import { currentURL } from '@ember/test-helpers';
+import { visit } from '@1024pix/ember-testing-library';
 import { setupApplicationTest } from 'ember-qunit';
 import { createAuthenticateSession } from 'pix-admin/tests/helpers/test-init';
 
@@ -39,15 +40,14 @@ module('Acceptance | User List', function (hooks) {
 
     test('it should not list the users at loading page', async function (assert) {
       // when
-      await visit('/users/list');
+      const screen = await visit('/users/list');
 
       // then
-      assert.dom('.table-admin tbody tr').doesNotExist();
+      assert.dom(screen.getByText('Aucun résultat')).exists();
     });
 
     test('it should display the current filter when users are filtered', async function (assert) {
       // given
-      const expectedUsersCount = 1;
       const result = {
         data: [
           {
@@ -65,10 +65,11 @@ module('Acceptance | User List', function (hooks) {
       this.server.get('/users', () => result);
 
       // when
-      await visit('/users/list?email=example.net');
+      const screen = await visit('/users/list?email=example.net');
 
       // then
-      assert.dom('.table-admin tbody tr').exists({ count: expectedUsersCount });
+      assert.dom(screen.getByLabelText("Informations de l'utilisateur Pix Aile")).containsText('userpix1@example.net');
+      assert.strictEqual(screen.queryAllByLabelText("Informations de l'utilisateur", { exact: false }).length, 1);
     });
   });
 });
