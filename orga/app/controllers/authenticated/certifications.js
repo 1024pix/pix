@@ -12,7 +12,7 @@ export default class AuthenticatedCertificationsController extends Controller {
 
   @tracked selectedDivision = '';
 
-  get hasImportedStudents() {
+  get hasDivisions() {
     return this.model.options.length !== 0;
   }
 
