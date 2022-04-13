@@ -1,11 +1,9 @@
 {{page-title this.pageTitle replace=true}}
 <div class="page__title finalize">
   <div class="finalize__title">
-    <PixReturnTo
-      @route="authenticated.sessions.details"
-      @model={{this.session.id}}
-      class="session-details-content__return-button"
-    />
+    <PixReturnTo @route="authenticated.sessions.details" @model={{this.session.id}}>
+      Retour à la session
+    </PixReturnTo>
     <h1 class="page-title">Finaliser la session {{this.session.id}}</h1>
   </div>
   <div class="finalize__subtitle">

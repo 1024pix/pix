@@ -2,7 +2,7 @@ import { module, test } from 'qunit';
 import { click, currentURL } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { authenticateSession } from '../helpers/test-init';
-import { visit } from '@1024pix/ember-testing-library';
+import { visit as visitScreen, visit } from '@1024pix/ember-testing-library';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
@@ -69,13 +69,11 @@ module('Acceptance | Session Details', function (hooks) {
 
     test('it should redirect to session list on click on return button', async function (assert) {
       // when
-      await visit(`/sessions/${session.id}`);
-      await click('.session-details-content__return-button');
+      const screen = await visitScreen(`/sessions/${session.id}`);
+      await click(screen.getByRole('link', { name: 'Retour à la liste des sessions' }));
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(currentURL(), '/sessions/liste');
+      assert.deepEqual(currentURL(), '/sessions/liste');
     });
 
     test('it should show the number of candidates on tab', async function (assert) {

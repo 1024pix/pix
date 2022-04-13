@@ -14,9 +14,11 @@
 }
 
 .session-details-header {
+
   &__title {
     display: flex;
-    align-items: center;
+    flex-direction: column;
+    align-items: flex-start;
     min-width: 300px;
   }
 
@@ -28,6 +30,7 @@
 }
 
 .session-details-header-datetime {
+
   &__date {
     padding-right: 40px;
     margin-right: 40px;
@@ -125,6 +128,7 @@ $details-content-margin: 8px;
 }
 
 .session-details {
+
   &__controls {
     display: flex;
     justify-content: space-between;

@@ -60,7 +60,7 @@ When('je remplis le formulaire de création de session de certification', () => 
 });
 
 When(`je clique sur le bouton de retour de la page de détails d'une session`, () => {
-  cy.get('.session-details-content__return-button').click();
+  cy.contains('Retour à la liste des sessions').click();
 });
 
 When('je clique sur la session de certification dont la salle est {string}', (roomLabel) => {
