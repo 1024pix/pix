@@ -6,6 +6,38 @@ import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 module('Unit | Controller | authenticated/certifications', function (hooks) {
   setupIntlRenderingTest(hooks);
 
+  module('#get hasDivisions', function () {
+    test('should return true when organization has divisions', async function (assert) {
+      // given
+      const controller = this.owner.lookup('controller:authenticated/certifications');
+
+      controller.model = {
+        options: [{ label: '3èmeA', value: '3èmeA' }],
+      };
+
+      // when
+      const hasDivisions = controller.hasDivisions;
+
+      // then
+      assert.true(hasDivisions);
+    });
+
+    test("should return false when organization doesn't have divisions", async function (assert) {
+      // given
+      const controller = this.owner.lookup('controller:authenticated/certifications');
+
+      controller.model = {
+        options: [],
+      };
+
+      // when
+      const hasDivisions = controller.hasDivisions;
+
+      // then
+      assert.false(hasDivisions);
+    });
+  });
+
   module('#onSelectDivision', function () {
     test('should change the value of the selected division', async function (assert) {
       // given
