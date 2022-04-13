@@ -64,14 +64,15 @@ describe('Integration | Infrastructure | Utils | Ods | read-ods-utils', function
     ];
 
     context('when the buffer is invalid', function () {
-      it('should throw a UnprocessableEntityError', async function () {
+      it.only('should throw a UnprocessableEntityError', async function () {
         // given
-        const alteredBuffer = Buffer.from(_.map(odsBuffer, (value) => value + 1));
+        const alteredBuffer = Buffer.from(_.map(odsBuffer, (value) => value + 'a'));
 
         // when
         const result = await catchErr(extractTableDataFromOdsFile)({
           odsBuffer: alteredBuffer,
         });
+        console.log("🚀 ~ file: read-ods-utils_test.js ~ line 75 ~ result ~ result", result)
 
         // then
         expect(result).to.be.instanceof(UnprocessableEntityError);
