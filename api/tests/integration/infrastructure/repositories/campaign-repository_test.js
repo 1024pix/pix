@@ -340,4 +340,58 @@ describe('Integration | Repository | Campaign', function () {
       expect(campaignIsArchived).to.be.false;
     });
   });
+
+  describe('#getCampaignTitleByCampaignParticipationId', function () {
+    it('should return campaign title when campaign has one', async function () {
+      // given
+      const campaignId = databaseBuilder.factory.buildCampaign({ title: 'Parcours trop bien' }).id;
+      const campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({ campaignId }).id;
+      await databaseBuilder.commit();
+
+      // when
+      const title = await campaignRepository.getCampaignTitleByCampaignParticipationId(campaignParticipationId);
+
+      // then
+      expect(title).to.equal('Parcours trop bien');
+    });
+
+    it('should return null when campaign has no title', async function () {
+      // given
+      const campaignId = databaseBuilder.factory.buildCampaign({ title: null }).id;
+      const campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({ campaignId }).id;
+      await databaseBuilder.commit();
+
+      // when
+      const title = await campaignRepository.getCampaignTitleByCampaignParticipationId(campaignParticipationId);
+
+      // then
+      expect(title).to.be.null;
+    });
+
+    it('should return null when campaignParticipationId does not exist', async function () {
+      // when
+      const title = await campaignRepository.getCampaignTitleByCampaignParticipationId(123);
+
+      // then
+      expect(title).to.be.null;
+    });
+
+    it('should return the title from the given campaignParticipationId', async function () {
+      // given
+      const campaignId = databaseBuilder.factory.buildCampaign({ title: 'Parcours trop bien' }).id;
+      databaseBuilder.factory.buildCampaignParticipation({ campaignId });
+
+      const otherCampaignId = databaseBuilder.factory.buildCampaign({ title: 'Autre' }).id;
+      const otherCampaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({
+        campaignId: otherCampaignId,
+      }).id;
+      await databaseBuilder.commit();
+
+      // when
+      const title = await campaignRepository.getCampaignTitleByCampaignParticipationId(otherCampaignParticipationId);
+
+      // then
+      expect(title).to.equal('Autre');
+    });
+  });
 });

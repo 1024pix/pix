@@ -2,6 +2,7 @@ const _ = require('lodash');
 const BookshelfCampaign = require('../orm-models/Campaign');
 const { NotFoundError } = require('../../domain/errors');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
+const { knex } = require('../../../db/knex-database-connection');
 
 module.exports = {
   isCodeAvailable(code) {
@@ -81,5 +82,16 @@ module.exports = {
 
     const campaign = bookshelfToDomainConverter.buildDomainObject(BookshelfCampaign, bookshelfCampaign);
     return campaign.isArchived();
+  },
+
+  async getCampaignTitleByCampaignParticipationId(campaignParticipationId) {
+    const campaign = await knex('campaigns')
+      .select('title')
+      .join('campaign-participations', 'campaign-participations.campaignId', 'campaigns.id')
+      .where({ 'campaign-participations.id': campaignParticipationId })
+      .first();
+
+    if (!campaign) return null;
+    return campaign.title;
   },
 };

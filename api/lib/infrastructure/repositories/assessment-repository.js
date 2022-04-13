@@ -7,7 +7,7 @@ const { NotFoundError } = require('../../domain/errors');
 const { knex } = require('../bookshelf');
 
 module.exports = {
-  async getWithAnswersAndCampaignParticipation(id) {
+  async getWithAnswers(id) {
     const bookshelfAssessment = await BookshelfAssessment.where('id', id).fetch({
       require: false,
       withRelated: [
@@ -16,8 +16,6 @@ module.exports = {
             query.orderBy('createdAt', 'ASC');
           },
         },
-        'campaignParticipation',
-        'campaignParticipation.campaign',
       ],
     });
 
