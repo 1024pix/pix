@@ -7,7 +7,7 @@ import fetch from 'fetch';
 
 const { authEndpoint } = ENV.poleEmploi;
 
-export default class LoginPeRoute extends Route {
+export default class LoginPoleEmploiRoute extends Route {
   @service session;
   @service router;
   @service location;
@@ -42,7 +42,7 @@ export default class LoginPeRoute extends Route {
 
   afterModel({ shouldValidateCgu, authenticationKey } = {}) {
     if (shouldValidateCgu && authenticationKey) {
-      return this.replaceWith('terms-of-service-pe', { queryParams: { authenticationKey } });
+      return this.replaceWith('terms-of-service-pole-emploi', { queryParams: { authenticationKey } });
     }
   }
 

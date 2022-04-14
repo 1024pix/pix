@@ -53,7 +53,7 @@ describe('Unit | Route | Access', function () {
     });
 
     context('when campaign belongs to pole emploi and user is not connected with pole emploi', function () {
-      it('should override authentication route with login-pe', async function () {
+      it('should override authentication route with login-pole-emploi', async function () {
         // given
         route.session.data.externalUser = 'some external user';
         campaign.organizationIsPoleEmploi = true;
@@ -62,7 +62,7 @@ describe('Unit | Route | Access', function () {
         await route.beforeModel({ from: 'campaigns.campaign-landing-page' });
 
         // then
-        sinon.assert.calledWith(route.replaceWith, 'login-pe');
+        sinon.assert.calledWith(route.replaceWith, 'login-pole-emploi');
       });
     });
 

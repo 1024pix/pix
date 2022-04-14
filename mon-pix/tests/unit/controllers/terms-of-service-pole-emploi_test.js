@@ -3,13 +3,13 @@ import { describe, it, beforeEach } from 'mocha';
 import { setupTest } from 'ember-mocha';
 import sinon from 'sinon';
 
-describe('Unit | Controller | terms-of-service-pe', function () {
+describe('Unit | Controller | terms-of-service-pole-emploi', function () {
   setupTest();
   let controller;
 
   describe('#action submit', function () {
     beforeEach(function () {
-      controller = this.owner.lookup('controller:terms-of-service-pe');
+      controller = this.owner.lookup('controller:terms-of-service-pole-emploi');
       controller.session = {
         authenticate: sinon.stub(),
       };
