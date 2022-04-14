@@ -4,18 +4,32 @@ import { inject as service } from '@ember/service';
 import { optionsCategoryList } from '../../models/target-profile';
 import { tracked } from '@glimmer/tracking';
 
-export default class UpdateTargetProfile extends Component {
+export default class CreateTargetProfileFromTubeBased extends Component {
   @service router;
   @service notifications;
 
-  @tracked selectedFrameworkIds = this.args.selectedFrameworkIds;
+  @tracked selectedFrameworkIds;
 
-  constructor() {
-    super(...arguments);
-    this.optionsList = optionsCategoryList;
-    const pixFramework = this.args.frameworkOptions.find((framework) => framework.label === 'Pix');
-    this.selectedFrameworkIds.push(pixFramework.value);
-    this.router.replaceWith({ queryParams: { selectedFrameworkIds: [pixFramework.value] } });
+  constructor(...args) {
+    super(...args);
+    const pixFramework = this.args.frameworks.find((framework) => framework.name === 'Pix');
+    if (pixFramework) {
+      this.selectedFrameworkIds = [pixFramework.id];
+    }
+  }
+
+  get frameworkOptions() {
+    return this.args.frameworks.map((framework) => {
+      return { label: framework.name, value: framework.id };
+    });
+  }
+
+  get selectedFrameworks() {
+    return this.args.frameworks.filter((framework) => this.selectedFrameworkIds.includes(framework.id));
+  }
+
+  get categoryOptions() {
+    return optionsCategoryList;
   }
 
   @action
@@ -39,8 +53,7 @@ export default class UpdateTargetProfile extends Component {
   }
 
   @action
-  async selectFramework(frameworks) {
-    this.selectedFrameworkIds = frameworks;
-    this.router.replaceWith({ queryParams: { selectedFrameworkIds: frameworks } });
+  setSelectedFrameworkIds(frameworkIds) {
+    this.selectedFrameworkIds = frameworkIds;
   }
 }

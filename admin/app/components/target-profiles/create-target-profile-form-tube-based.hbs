@@ -17,7 +17,7 @@
           @label="Catégorie :"
           @onChange={{this.onCategoryChange}}
           @selectedOption={{@targetProfile.category}}
-          @options={{this.optionsList}}
+          @options={{this.categoryOptions}}
           @emptyOptionLabel={{"-"}}
           @emptyOptionNotSelectable={{true}}
           required={{true}}
@@ -60,17 +60,19 @@
           @id="framework-list"
           @isSearchable={{true}}
           @showOptionsOnInput={{true}}
-          @onSelect={{this.selectFramework}}
+          @onSelect={{this.setSelectedFrameworkIds}}
           @emptyMessage={{"Pas de résultat"}}
           @selected={{this.selectedFrameworkIds}}
-          @options={{@frameworkOptions}}
+          @options={{this.frameworkOptions}}
           as |option|
         >
           {{option.label}}
         </PixMultiSelect>
       </div>
     </Card>
-    <TargetProfiles::ListTubes @orderedAreasBySelectedFrameworks={{@orderedAreasBySelectedFrameworks}} />
+
+    <TargetProfiles::ListTubes @selectedFrameworks={{this.selectedFrameworks}} />
+
     <Card class="create-target-profile__card" @title="3. Personnalisation">
       <PixInput
         @id="imageUrl"

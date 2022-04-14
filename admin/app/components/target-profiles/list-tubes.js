@@ -4,6 +4,7 @@ import { A as EmberArray } from '@ember/array';
 import Component from '@glimmer/component';
 
 export default class ListTubes extends Component {
+  @tracked areas;
   @tracked tubesSelected = EmberArray();
 
   get haveNoTubeSelected() {
@@ -12,6 +13,20 @@ export default class ListTubes extends Component {
 
   get numberOfTubesSelected() {
     return this.tubesSelected.length;
+  }
+
+  @action
+  async refreshAreas() {
+    const selectedFrameworksAreas = await Promise.all(
+      this.args.selectedFrameworks.map(async (framework) => {
+        const frameworkAreas = await framework.areas;
+        return frameworkAreas.toArray();
+      })
+    );
+
+    this.areas = selectedFrameworksAreas.flat().sort((area1, area2) => {
+      return area1.code - area2.code;
+    });
   }
 
   @action
