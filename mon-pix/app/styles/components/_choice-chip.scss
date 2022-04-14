@@ -1,10 +1,10 @@
-.chips-choice {
-  $blue-alert-light: #DCF1FF;
-  $blue-alert-dark: #0D25B3;
+$blue-alert-light: #DCF1FF;
+$blue-alert-dark: #0D25B3;
 
+.choice-chip {
   border-radius: 50px;
   font-size: 0.875rem;
-  font-weight: 500;
+  font-weight: $font-medium;
   white-space: nowrap;
   letter-spacing: 0.028rem;
   cursor: pointer;
@@ -20,13 +20,6 @@
   &--active {
     background: $blue-alert-light;
     color: $blue-alert-dark;
-    pointer-events: none;
-  }
-
-  &--disabled {
-    background: $grey-10;
-    color: $grey-30;
-    pointer-events: none;
   }
 
   &:hover {
@@ -39,6 +32,6 @@
     box-shadow: 0 0 0 2px $blue-zodiac;
     border-color: $white;
     outline: none;
-    color: white;
+    color: $white;
   }
 }
