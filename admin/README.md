@@ -1,6 +1,6 @@
 # Pix Admin
 
-Interface d'administration pour les *Pix Masters*.   
+Interface d'administration pour les membres de Pix.   
 
 ## Prérequis
 
@@ -38,6 +38,6 @@ Accédez à l'application d'intégration via l'URL : [https://integration.admin.
 
 ## Production
 
-L'application est automatiquement déployée sur l'environnement de production dès qu'un commit est poussé sur la branche `master`.
+L'application est automatiquement déployée sur l'environnement de production dès qu'un commit est poussé sur la branche `dev`.
 
 Accédez à l'application de production via l'URL : [https://admin.pix.fr](https://admin.pix.fr).

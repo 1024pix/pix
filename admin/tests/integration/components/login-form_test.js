@@ -8,7 +8,7 @@ import { reject } from 'rsvp';
 import ENV from 'pix-admin/config/environment';
 import sinon from 'sinon';
 
-const NOT_PIXMASTER_MSG = "Vous n'avez pas les droits pour vous connecter.";
+const NOT_SUPER_ADMIN_MSG = "Vous n'avez pas les droits pour vous connecter.";
 
 module('Integration | Component | login-form', function (hooks) {
   setupRenderingTest(hooks);
@@ -97,7 +97,7 @@ module('Integration | Component | login-form', function (hooks) {
     test('should display good error message when an error 403 occurred', async function (assert) {
       // given
       const errorResponse = {
-        responseJSON: { errors: [{ status: ENV.APP.API_ERROR_MESSAGES.FORBIDDEN, detail: NOT_PIXMASTER_MSG }] },
+        responseJSON: { errors: [{ status: ENV.APP.API_ERROR_MESSAGES.FORBIDDEN, detail: NOT_SUPER_ADMIN_MSG }] },
       };
       sessionStub.authenticate = () => reject(errorResponse);
 
@@ -110,7 +110,7 @@ module('Integration | Component | login-form', function (hooks) {
 
       // then
       assert.dom('p.login-form__error').exists();
-      assert.dom('p.login-form__error').hasText(NOT_PIXMASTER_MSG);
+      assert.dom('p.login-form__error').hasText(NOT_SUPER_ADMIN_MSG);
     });
 
     test('should display good error message when an 500 error occurred', async function (assert) {
