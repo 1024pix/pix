@@ -25,6 +25,7 @@ import loadUserRoutes from './routes/users/index';
 import putSaveTutorial from './routes/put-save-tutorial';
 import deleteUserTutorial from './routes/delete-user-tutorial';
 import putTutorialEvaluation from './routes/put-tutorial-evaluation';
+import postCnavUser from './routes/post-cnav-user';
 import postPoleEmploiUser from './routes/post-pole-emploi-user';
 import postSharedCertifications from './routes/post-shared-certifications';
 import loadUserTutorialsRoutes from './routes/get-user-tutorials';
@@ -79,6 +80,8 @@ export default function () {
 
   this.post('/pole-emploi/users', postPoleEmploiUser);
 
+  this.post('/cnav/users', postCnavUser);
+
   this.get('/feature-toggles', getFeatureToggles);
 
   this.post('/shared-certifications', postSharedCertifications);
@@ -91,6 +94,15 @@ export default function () {
     const redirectUri = request.queryParams.redirect_uri;
     return {
       redirectTarget: `https://pole-emploi/connexion/oauth2/authorize?redirect_uri=${redirectUri}`,
+      state: 'a8a3344f-6d7c-469d-9f84-bdd791e04fdf',
+      nonce: '555c86fe-ed0a-4a80-80f3-45b1f7c2df8c',
+    };
+  });
+
+  this.get('/cnav/auth-url', (schema, request) => {
+    const redirectUri = request.queryParams.redirect_uri;
+    return {
+      redirectTarget: `https://cnav/connexion/oauth2/authorize?redirect_uri=${redirectUri}`,
       state: 'a8a3344f-6d7c-469d-9f84-bdd791e04fdf',
       nonce: '555c86fe-ed0a-4a80-80f3-45b1f7c2df8c',
     };

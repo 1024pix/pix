@@ -1317,9 +1317,19 @@
       "form": {
         "button": "Je continue",
         "error-message": "Vous devez accepter les conditions d’utilisation de Pix.",
-        "expired-authentication-key": "Votre demande d'authentification a expirée, merci de renouveler votre connexion en cliquant sur le boutton retour"
+        "expired-authentication-key": "Votre demande d'authentification a expiré, merci de renouveler votre connexion en cliquant sur le bouton retour"
       },
       "message": "Votre compte Pix est sur le point d’être créé à partir des éléments transmis par Pôle Emploi."
+    },
+    "terms-of-service-cnav": {
+      "title": "Conditions d'utilisation",
+      "cgu": "J'accepte les '<a href=\"https://pix.fr/conditions-generales-d-utilisation\" class=\"link\" target=\"_blank\">'conditions d'utilisation'</a> et la '<a href=\"https://pix.fr/politique-protection-donnees-personnelles-app\" class=\"link\" target=\"_blank\">politique de confidentialité'</a> de Pix'",
+      "form": {
+        "button": "Je continue",
+        "error-message": "Vous devez accepter les conditions d’utilisation de Pix.",
+        "expired-authentication-key": "Votre demande d'authentification a expiré, merci de renouveler votre connexion en cliquant sur le bouton retour"
+      },
+      "message": "Votre compte Pix est sur le point d’être créé à partir des éléments transmis par la CNAV."
     },
     "timed-challenge-instructions": {
       "action": "Commencer",
@@ -1430,7 +1440,8 @@
         "authentication-methods": {
           "label": "Connexion externe",
           "gar": "via ENT/Mediacentre",
-          "pole-emploi": "via Pôle Emploi"
+          "pole-emploi": "via Pôle Emploi",
+          "cnav": "via Cnav"
         }
       },
       "email-verification": {

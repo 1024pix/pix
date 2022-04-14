@@ -110,4 +110,25 @@ describe('Unit | Controller | user-account | connection-methods', function () {
       expect(controller.shouldShowPoleEmploiAuthenticationMethod).to.be.true;
     });
   });
+
+  context('#shouldShowCnavAuthenticationMethod', function () {
+    it('should display cnav authentication method', function () {
+      // given & when
+      const controller = this.owner.lookup('controller:user-account/connection-methods');
+      const authenticationMethods = [
+        EmberObject.create({
+          identityProvider: 'CNAV',
+          isCnavIdentityProvider: true,
+        }),
+      ];
+      const model = {
+        user: {},
+        authenticationMethods,
+      };
+      controller.set('model', model);
+
+      // then
+      expect(controller.shouldShowCnavAuthenticationMethod).to.be.true;
+    });
+  });
 });

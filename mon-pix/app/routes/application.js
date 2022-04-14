@@ -80,6 +80,9 @@ export default Route.extend(ApplicationRouteMixin, {
     if (nextURL && get(this.session, 'data.authenticated.source') === 'pole_emploi_connect') {
       this.session.set('data.nextURL', undefined);
       this.replaceWith(nextURL);
+    } else if (nextURL && get(this.session, 'data.authenticated.source') === 'cnav') {
+      this.session.set('data.nextURL', undefined);
+      this.replaceWith(nextURL);
     } else {
       _super.call(this, ...arguments);
     }

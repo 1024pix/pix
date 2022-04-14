@@ -4,6 +4,7 @@ import ENV from 'mon-pix/config/environment';
 
 const AUTHENTICATED_SOURCE_FROM_MEDIACENTRE = ENV.APP.AUTHENTICATED_SOURCE_FROM_MEDIACENTRE;
 const AUTHENTICATED_SOURCE_FROM_POLE_EMPLOI = ENV.APP.AUTHENTICATED_SOURCE_FROM_POLE_EMPLOI;
+const AUTHENTICATED_SOURCE_FROM_CNAV = ENV.APP.AUTHENTICATED_SOURCE_FROM_CNAV;
 
 export default class LogoutRoute extends Route {
   @service session;
@@ -25,6 +26,8 @@ export default class LogoutRoute extends Route {
     if (this.source === AUTHENTICATED_SOURCE_FROM_MEDIACENTRE) {
       return this._redirectToDisconnectedPage();
     } else if (this.source !== AUTHENTICATED_SOURCE_FROM_POLE_EMPLOI) {
+      return this._redirectToHome();
+    } else if (this.source !== AUTHENTICATED_SOURCE_FROM_CNAV) {
       return this._redirectToHome();
     }
   }

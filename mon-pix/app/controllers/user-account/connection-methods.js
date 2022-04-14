@@ -31,6 +31,10 @@ export default class ConnectionMethodsController extends Controller {
     );
   }
 
+  get shouldShowCnavAuthenticationMethod() {
+    return this.model.authenticationMethods.any((authenticationMethod) => authenticationMethod.isCnavIdentityProvider);
+  }
+
   @action
   enableEmailEditionMode() {
     this.isEmailEditionMode = true;

@@ -49,6 +49,24 @@ export default function index(config) {
     };
   });
 
+  config.post('/cnav/token', (schema, request) => {
+    if (!request.requestHeaders.Authorization) {
+      return new Response(401, {}, { errors: [{ code: 'SHOULD_VALIDATE_CGU', meta: { authenticationKey: 'key' } }] });
+    }
+
+    const createdUser = schema.users.create({
+      firstName: 'Cnav',
+      lastName: 'Igation',
+    });
+
+    return {
+      access_token:
+        'aaa.' + btoa(`{"user_id":${createdUser.id},"source":"cnav","iat":1545321469,"exp":4702193958}`) + '.bbb',
+      id_token: 'id_token',
+      user_id: createdUser.id,
+    };
+  });
+
   config.post('/token/anonymous', (schema) => {
     const createdUser = schema.users.create({
       firstName: '',
