@@ -4,14 +4,12 @@
     {{t "common.form.mandatory-fields"}}
   </p>
   <div class="form__field">
-    <label class="label" for="campaign-name">
-      <abbr title={{t "common.form.mandatory-fields-title"}} class="mandatory-mark" aria-hidden="true">*</abbr>
-      {{t "pages.campaign-modification.campaign-name"}}
-    </label>
     <PixInput
       @id="campaign-name"
       @name="campaign-name"
-      class="form-control"
+      @label={{t "pages.campaign-modification.campaign-name"}}
+      @requiredLabel={{t "common.form.mandatory-fields-title"}}
+      class="input"
       maxlength="255"
       aria-required={{true}}
       required={{true}}
