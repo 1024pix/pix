@@ -11,12 +11,9 @@
   }
 
   &__details {
-    overflow: hidden;
 
-    p {
-      white-space: nowrap;
-      text-overflow: ellipsis;
-      overflow: hidden;
+    ul {
+      padding: 0;
     }
 
     .form-actions {

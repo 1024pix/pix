@@ -10,14 +10,17 @@ module('Integration | Component | organizations/information-section', function (
 
   test('it renders', async function (assert) {
     // given
-    this.organization = EmberObject.create({ type: 'SUP', isManagingStudents: false });
+    this.organization = EmberObject.create({ type: 'SUP', isManagingStudents: false, name: 'SUPer Orga' });
 
     // when
     const screen = await render(hbs`<Organizations::InformationSection @organization={{this.organization}} />`);
 
     // then
     assert.dom(screen.queryByText('Archivée le')).doesNotExist();
-    assert.dom('.organization__information').exists();
+    assert.dom(screen.getByRole('heading', { name: 'SUPer Orga' })).exists();
+    assert.dom(screen.getByText('Type : SUP')).exists();
+    assert.dom(screen.getByRole('button', { name: 'Éditer' })).exists();
+    assert.dom(screen.getByRole('button', { name: "Archiver l'organisation" })).exists();
   });
 
   test('it should display credit', async function (assert) {
@@ -29,7 +32,7 @@ module('Integration | Component | organizations/information-section', function (
     const screen = await render(hbs`<Organizations::InformationSection @organization={{this.organization}} />`);
 
     // then
-    assert.dom(screen.getByText('350')).exists();
+    assert.dom(screen.getByText('Crédits : 350')).exists();
   });
 
   module('Displaying whether or not the items of this campaign will be exported in results', function () {
@@ -39,10 +42,10 @@ module('Integration | Component | organizations/information-section', function (
       this.set('organization', organization);
 
       // when
-      await render(hbs`<Organizations::InformationSection @organization={{this.organization}} />`);
+      const screen = await render(hbs`<Organizations::InformationSection @organization={{this.organization}} />`);
 
       // then
-      assert.dom('.organization__showSkills').hasText('Oui');
+      assert.dom(screen.getByText("Affichage des acquis dans l'export de résultats : Oui")).exists();
     });
 
     test("it should display 'Non' when showskills set to false", async function (assert) {
@@ -51,10 +54,10 @@ module('Integration | Component | organizations/information-section', function (
       this.set('organization', organization);
 
       // when
-      await render(hbs`<Organizations::InformationSection @organization={{this.organization}} />`);
+      const screen = await render(hbs`<Organizations::InformationSection @organization={{this.organization}} />`);
 
       // then
-      assert.dom('.organization__showSkills').hasText('Non');
+      assert.dom(screen.getByText("Affichage des acquis dans l'export de résultats : Non")).exists();
     });
   });
 
@@ -79,7 +82,7 @@ module('Integration | Component | organizations/information-section', function (
     const screen = await render(hbs`<Organizations::InformationSection @organization={{this.organization}} />`);
 
     // then
-    assert.dom(screen.getByText('Lien vers la documentation : Non spécifié', { exact: false })).exists();
+    assert.dom(screen.getByText('Lien vers la documentation : Non spécifié')).exists();
   });
 
   test('it should display tags', async function (assert) {
@@ -298,12 +301,12 @@ module('Integration | Component | organizations/information-section', function (
       await clickByName('Annuler');
 
       // then
-      assert.dom(screen.getByText(organization.name)).exists();
-      assert.dom(screen.getByText(organization.externalId)).exists();
-      assert.dom(screen.getByText(organization.provinceCode)).exists();
-      assert.dom('.organization__isManagingStudents').hasText('Non');
-      assert.dom(screen.getByText(organization.documentationUrl)).exists();
-      assert.dom('.organization__showSkills').hasText('Non');
+      assert.dom(screen.getByRole('heading', { name: organization.name })).exists();
+      assert.dom(screen.getByText(`Identifiant externe : ${organization.externalId}`)).exists();
+      assert.dom(screen.getByText(`Département : ${organization.provinceCode}`)).exists();
+      assert.dom(screen.getByRole('link', { name: organization.documentationUrl })).exists();
+      assert.dom(screen.getByText(`Gestion d’élèves/étudiants : Non`)).exists();
+      assert.dom(screen.getByText("Affichage des acquis dans l'export de résultats : Non")).exists();
     });
 
     test('it should submit the form if there is no error', async function (assert) {
@@ -325,12 +328,12 @@ module('Integration | Component | organizations/information-section', function (
       await clickByName('Enregistrer');
 
       // then
-      assert.dom('.organization__name').hasText('new name');
-      assert.dom(screen.getByText('new externalId')).exists();
+      assert.dom(screen.getByRole('heading', { name: 'new name' })).exists();
+      assert.dom(screen.getByText('Identifiant externe : new externalId')).exists();
       assert.dom(screen.queryByText('Département : ')).doesNotExist();
-      assert.dom(screen.getByText('50')).exists();
-      assert.dom('.organization__isManagingStudents').hasText('Oui');
-      assert.dom(screen.getByText('https://pix.fr/')).exists();
+      assert.dom(screen.getByText('Crédits : 50')).exists();
+      assert.dom(screen.getByText(`Gestion d’élèves/étudiants : Oui`)).exists();
+      assert.dom(screen.getByRole('link', { name: 'https://pix.fr/' })).exists();
     });
   });
 
@@ -339,22 +342,14 @@ module('Integration | Component | organizations/information-section', function (
       this.organization = EmberObject.create({ type: 'SCO', isOrganizationSCO: true, isManagingStudents: true });
     });
 
-    test('it should display if it is managing students', async function (assert) {
-      // when
-      await render(hbs`<Organizations::InformationSection @organization={{this.organization}} />`);
-
-      // then
-      assert.dom('.organization__isManagingStudents').exists();
-    });
-
     test('it should display "Oui" if it is managing students', async function (assert) {
       // given
       this.organization.isManagingStudents = true;
 
       // when
-      await render(hbs`<Organizations::InformationSection @organization={{this.organization}} />`);
+      const screen = await render(hbs`<Organizations::InformationSection @organization={{this.organization}} />`);
 
-      assert.dom('.organization__isManagingStudents').hasText('Oui');
+      assert.dom(screen.getByText(`Gestion d’élèves/étudiants : Oui`)).exists();
     });
 
     test('it should display "Non" if managing students is false', async function (assert) {
@@ -362,10 +357,10 @@ module('Integration | Component | organizations/information-section', function (
       this.organization.isManagingStudents = false;
 
       // when
-      await render(hbs`<Organizations::InformationSection @organization={{this.organization}} />`);
+      const screen = await render(hbs`<Organizations::InformationSection @organization={{this.organization}} />`);
 
       // then
-      assert.dom('.organization__isManagingStudents').hasText('Non');
+      assert.dom(screen.getByText(`Gestion d’élèves/étudiants : Non`)).exists();
     });
   });
 
