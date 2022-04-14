@@ -8,11 +8,9 @@
 <main class="page-body">
   <section class="page-section">
     <TargetProfiles::CreateTargetProfileFormTubeBased
-      @targetProfile={{this.targetProfile}}
-      @orderedAreasBySelectedFrameworks={{this.areasState}}
+      @frameworks={{@model.frameworks}}
+      @targetProfile={{@model.targetProfile}}
       @onCancel={{this.goBackToTargetProfileList}}
-      @frameworkOptions={{this.frameworkOptions}}
-      @selectedFrameworkIds={{this.selectedFrameworkIds}}
     />
   </section>
 </main>

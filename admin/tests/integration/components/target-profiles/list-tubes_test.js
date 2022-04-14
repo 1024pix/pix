@@ -4,18 +4,15 @@ import hbs from 'htmlbars-inline-precompile';
 import { clickByName } from '@1024pix/ember-testing-library';
 import { setupRenderingTest } from 'ember-qunit';
 
-import moment from 'moment';
-import sinon from 'sinon';
-
 module('Integration | Component | tube:list', function (hooks) {
   setupRenderingTest(hooks);
-  let orderedAreasBySelectedFrameworks;
+  let selectedFrameworks;
 
   hooks.beforeEach(() => {
     const tubes1 = [
       {
         id: 'tubeId1',
-        practicalTitle: 'Titre 1',
+        practicalTitle: 'Tube 1',
         practicalDescription: 'Description 1',
       },
       {
@@ -48,7 +45,7 @@ module('Integration | Component | tube:list', function (hooks) {
         },
       },
     ];
-    orderedAreasBySelectedFrameworks = [
+    const areas = [
       {
         title: 'Titre domaine',
         code: 1,
@@ -57,16 +54,15 @@ module('Integration | Component | tube:list', function (hooks) {
         },
       },
     ];
+    selectedFrameworks = [{ areas: areas }];
   });
 
   test('it should display a list of tubes', async function (assert) {
     // given
-    this.set('orderedAreasBySelectedFrameworks', orderedAreasBySelectedFrameworks);
+    this.set('selectedFrameworks', selectedFrameworks);
 
     // when
-    await render(
-      hbs`<TargetProfiles::ListTubes @orderedAreasBySelectedFrameworks={{this.orderedAreasBySelectedFrameworks}}/>`
-    );
+    await render(hbs`<TargetProfiles::ListTubes @selectedFrameworks={{this.selectedFrameworks}}/>`);
 
     // then
     assert.dom('.row-tube').exists({ count: 3 });
@@ -77,12 +73,10 @@ module('Integration | Component | tube:list', function (hooks) {
 
   test('it should check the tubes if selected', async function (assert) {
     // given
-    this.set('orderedAreasBySelectedFrameworks', orderedAreasBySelectedFrameworks);
+    this.set('selectedFrameworks', selectedFrameworks);
 
     // when
-    await render(
-      hbs`<TargetProfiles::ListTubes @orderedAreasBySelectedFrameworks={{this.orderedAreasBySelectedFrameworks}}/>`
-    );
+    await render(hbs`<TargetProfiles::ListTubes @selectedFrameworks={{this.selectedFrameworks}}/>`);
     const tube1 = document.getElementById('tube-tubeId1');
 
     await clickByName('1 · Titre domaine');
@@ -95,12 +89,10 @@ module('Integration | Component | tube:list', function (hooks) {
 
   test('Should check all tubes corresponding to the thematics if a thematic is selected', async function (assert) {
     // given
-    this.set('orderedAreasBySelectedFrameworks', orderedAreasBySelectedFrameworks);
+    this.set('selectedFrameworks', selectedFrameworks);
 
     // when
-    await render(
-      hbs`<TargetProfiles::ListTubes @orderedAreasBySelectedFrameworks={{this.orderedAreasBySelectedFrameworks}}/>`
-    );
+    await render(hbs`<TargetProfiles::ListTubes @selectedFrameworks={{this.selectedFrameworks}}/>`);
     const tube1 = document.getElementById('tube-tubeId1');
     const tube2 = document.getElementById('tube-tubeId2');
     const competence = document.getElementById('competence-competenceId');
@@ -116,18 +108,16 @@ module('Integration | Component | tube:list', function (hooks) {
 
   test('Should check the thematic if all corresponding tubes are selected', async function (assert) {
     // given
-    this.set('orderedAreasBySelectedFrameworks', orderedAreasBySelectedFrameworks);
+    this.set('selectedFrameworks', selectedFrameworks);
 
     // when
-    await render(
-      hbs`<TargetProfiles::ListTubes @orderedAreasBySelectedFrameworks={{this.orderedAreasBySelectedFrameworks}}/>`
-    );
+    await render(hbs`<TargetProfiles::ListTubes @selectedFrameworks={{this.selectedFrameworks}}/>`);
     const thematic = document.getElementById('thematic-thematicId1');
     const competence = document.getElementById('competence-competenceId');
     await clickByName('1 · Titre domaine');
     await clickByName('1 Titre competence');
-    await clickByName('Titre 1 : Description 1');
-    await clickByName('Titre 2 : Description 2');
+    await clickByName('Tube 1 : Description 1');
+    await clickByName('Tube 2 : Description 2');
 
     // then
     assert.dom(thematic).isChecked();
@@ -136,12 +126,10 @@ module('Integration | Component | tube:list', function (hooks) {
 
   test('Should indeterminate the thematic if not all of corresponding tubes are selected', async function (assert) {
     // given
-    this.set('orderedAreasBySelectedFrameworks', orderedAreasBySelectedFrameworks);
+    this.set('selectedFrameworks', selectedFrameworks);
 
     // when
-    await render(
-      hbs`<TargetProfiles::ListTubes @orderedAreasBySelectedFrameworks={{this.orderedAreasBySelectedFrameworks}}/>`
-    );
+    await render(hbs`<TargetProfiles::ListTubes @selectedFrameworks={{this.selectedFrameworks}}/>`);
     const thematic = document.getElementById('thematic-thematicId1');
     const competence = document.getElementById('competence-competenceId');
     await clickByName('1 · Titre domaine');
@@ -155,12 +143,10 @@ module('Integration | Component | tube:list', function (hooks) {
 
   test('Should check the competence if all corresponding thematics are selected', async function (assert) {
     // given
-    this.set('orderedAreasBySelectedFrameworks', orderedAreasBySelectedFrameworks);
+    this.set('selectedFrameworks', selectedFrameworks);
 
     // when
-    await render(
-      hbs`<TargetProfiles::ListTubes @orderedAreasBySelectedFrameworks={{this.orderedAreasBySelectedFrameworks}}/>`
-    );
+    await render(hbs`<TargetProfiles::ListTubes @selectedFrameworks={{this.selectedFrameworks}}/>`);
     const competence = document.getElementById('competence-competenceId');
     await clickByName('1 · Titre domaine');
     await clickByName('1 Titre competence');
@@ -173,12 +159,10 @@ module('Integration | Component | tube:list', function (hooks) {
 
   test('Should check the thematics and tubes if competence is selected', async function (assert) {
     // given
-    this.set('orderedAreasBySelectedFrameworks', orderedAreasBySelectedFrameworks);
+    this.set('selectedFrameworks', selectedFrameworks);
 
     // when
-    await render(
-      hbs`<TargetProfiles::ListTubes @orderedAreasBySelectedFrameworks={{this.orderedAreasBySelectedFrameworks}}/>`
-    );
+    await render(hbs`<TargetProfiles::ListTubes @selectedFrameworks={{this.selectedFrameworks}}/>`);
     const thematic1 = document.getElementById('thematic-thematicId1');
     const thematic2 = document.getElementById('thematic-thematicId2');
     const tube1 = document.getElementById('tube-tubeId1');

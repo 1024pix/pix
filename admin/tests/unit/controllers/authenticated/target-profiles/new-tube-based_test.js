@@ -12,32 +12,15 @@ module('Unit | Controller | authenticated/target-profiles/new-tube-based', funct
   });
 
   module('#goBackToTargetProfileList', function () {
-    test('should delete record and go back target profile list page', async function (assert) {
+    test('should delete record and go back to target profile list page', async function (assert) {
       controller.store.deleteRecord = sinon.stub();
-      controller.transitionToRoute = sinon.stub();
+      controller.router.transitionTo = sinon.stub();
       controller.model = { targetProfile: Symbol('targetProfile') };
 
       controller.goBackToTargetProfileList();
 
       assert.ok(controller.store.deleteRecord.calledWith(controller.model.targetProfile));
-      assert.ok(controller.transitionToRoute.calledWith('authenticated.target-profiles.list'));
-    });
-  });
-
-  module('#frameworkOptions', function () {
-    test('it should return a framework list as multiselect option data', async function (assert) {
-      controller.frameworks = [
-        { name: 'framework1', id: 'id1' },
-        { name: 'framework2', id: 'id2' },
-      ];
-
-      // when
-      const result = controller.frameworkOptions;
-
-      assert.deepEqual(result, [
-        { label: 'framework1', value: 'id1' },
-        { label: 'framework2', value: 'id2' },
-      ]);
+      assert.ok(controller.router.transitionTo.calledWith('authenticated.target-profiles.list'));
     });
   });
 });

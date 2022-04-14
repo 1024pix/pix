@@ -1,80 +1,81 @@
 {{! template-lint-disable no-invalid-interactive }}
-{{#each @orderedAreasBySelectedFrameworks as |area|}}
-  <div class="area-border-container">
-    <div class="area-border {{area.color}}"></div>
-    <PixCollapsible @title="{{area.code}} · {{area.title}}" class="{{area.color}} list-competences">
-      {{#each area.sortedCompetences as |competence|}}
-        <div class="list-tube-container">
-          <PixCollapsible @title="{{competence.index}} {{competence.name}}">
-            <div class="panel">
-              <table class="table content-text content-text--small select-tube-table">
-                <caption class="sr-only">Sélection des sujets</caption>
-                <thead>
-                  <tr>
-                    <Table::Header @size="medium" scope="col">
-                      <label>
-                        <Input
-                          @type="checkbox"
-                          {{on "input" (fn this.updateSelectedCompetence competence.id)}}
-                          id="competence-{{competence.id}}"
-                        />
-                        Thématiques
-                      </label>
-                    </Table::Header>
-                    <Table::Header @size="wide" scope="col">
-                      <p>Sujets</p>
-                    </Table::Header>
-                    <Table::Header @size="small" scope="col">
-                      <p>Niveau</p>
-                    </Table::Header>
-                    <Table::Header @size="medium" @align="center" scope="col">
-                      <p>Compatibilité</p>
-                    </Table::Header>
-                  </tr>
-                </thead>
+<div {{did-insert this.refreshAreas}} {{did-update this.refreshAreas @selectedFrameworks}}>
+  {{#each this.areas as |area|}}
+    <div class="area-border-container">
+      <div class="area-border {{area.color}}"></div>
+      <PixCollapsible @title="{{area.code}} · {{area.title}}" class="{{area.color}} list-competences">
+        {{#each area.sortedCompetences as |competence|}}
+          <div class="list-tube-container">
+            <PixCollapsible @title="{{competence.index}} {{competence.name}}">
+              <div class="panel">
+                <table class="table content-text content-text--small select-tube-table">
+                  <caption class="sr-only">Sélection des sujets</caption>
+                  <thead>
+                    <tr>
+                      <Table::Header @size="medium" scope="col">
+                        <label>
+                          <Input
+                            @type="checkbox"
+                            {{on "input" (fn this.updateSelectedCompetence competence.id)}}
+                            id="competence-{{competence.id}}"
+                          />
+                          Thématiques
+                        </label>
+                      </Table::Header>
+                      <Table::Header @size="wide" scope="col">
+                        <p>Sujets</p>
+                      </Table::Header>
+                      <Table::Header @size="small" scope="col">
+                        <p>Niveau</p>
+                      </Table::Header>
+                      <Table::Header @size="medium" @align="center" scope="col">
+                        <p>Compatibilité</p>
+                      </Table::Header>
+                    </tr>
+                  </thead>
 
-                <tbody>
-                  {{#each competence.sortedThematics as |thematic|}}
-                    {{#each thematic.tubes as |tube index|}}
-                      <tr {{on "click" this.toggleTubeInput}} class="row-tube" aria-label="Sujet">
-                        {{#if (eq index 0)}}
-                          <th
-                            class="th--clickable"
-                            rowspan={{thematic.tubes.length}}
-                            {{on "click" this.toggleThematicInput}}
-                          >
-                            <label>
-                              <Input
-                                {{on "input" (fn this.updateSelectedThematic thematic.id)}}
-                                data-competence={{competence.id}}
-                                data-thematicId={{thematic.id}}
-                                id="thematic-{{thematic.id}}"
-                                @type="checkbox"
-                              />
-                              {{thematic.name}}
-                            </label>
-                          </th>
-                        {{/if}}
-                        <TargetProfiles::TubeCells
-                          @competence={{competence}}
-                          @thematic={{thematic}}
-                          @tube={{tube}}
-                          @updateSelectedTubes={{this.updateSelectedTubes}}
-                          @setLevelTube={{this.setLevelTube}}
-                          @tubesSelected={{this.tubesSelected}}
-                        />
-                      </tr>
+                  <tbody>
+                    {{#each competence.sortedThematics as |thematic|}}
+                      {{#each thematic.tubes as |tube index|}}
+                        <tr {{on "click" this.toggleTubeInput}} class="row-tube" aria-label="Sujet">
+                          {{#if (eq index 0)}}
+                            <th
+                              class="th--clickable"
+                              rowspan={{thematic.tubes.length}}
+                              {{on "click" this.toggleThematicInput}}
+                            >
+                              <label>
+                                <Input
+                                  {{on "input" (fn this.updateSelectedThematic thematic.id)}}
+                                  data-competence={{competence.id}}
+                                  data-thematicId={{thematic.id}}
+                                  id="thematic-{{thematic.id}}"
+                                  @type="checkbox"
+                                />
+                                {{thematic.name}}
+                              </label>
+                            </th>
+                          {{/if}}
+                          <TargetProfiles::TubeCells
+                            @competence={{competence}}
+                            @thematic={{thematic}}
+                            @tube={{tube}}
+                            @updateSelectedTubes={{this.updateSelectedTubes}}
+                            @setLevelTube={{this.setLevelTube}}
+                            @tubesSelected={{this.tubesSelected}}
+                          />
+                        </tr>
+                      {{/each}}
                     {{/each}}
-                  {{/each}}
-                </tbody>
-              </table>
-            </div>
-          </PixCollapsible>
-        </div>
-      {{/each}}
-    </PixCollapsible>
-  </div>
-
-{{else}}
-  Aucun référentiel de sélectionné
-{{/each}}
+                  </tbody>
+                </table>
+              </div>
+            </PixCollapsible>
+          </div>
+        {{/each}}
+      </PixCollapsible>
+    </div>
+  {{else}}
+    Aucun référentiel de sélectionné
+  {{/each}}
+</div>
