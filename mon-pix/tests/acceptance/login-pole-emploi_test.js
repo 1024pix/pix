@@ -12,7 +12,7 @@ describe('Acceptance | Route | Login pe', function () {
 
   it('should redirect to Pole Emploi login page', async function () {
     // given
-    const route = this.owner.lookup('route:login-pe');
+    const route = this.owner.lookup('route:login-pole-emploi');
 
     route.location = { replace: sinon.stub() };
 

@@ -1,5 +1,5 @@
 {{! template-lint-disable no-implicit-this no-unknown-arguments-for-builtin-components }}
-{{page-title (t "pages.terms-of-service-pe.title")}}
+{{page-title (t "pages.terms-of-service-pole-emploi.title")}}
 <div class="terms-of-service-page">
   <div class="terms-of-service-form">
 
@@ -9,10 +9,10 @@
       </a>
     </div>
 
-    <h2 class="terms-of-service-form__title">{{t "pages.terms-of-service-pe.title"}}</h2>
+    <h2 class="terms-of-service-form__title">{{t "pages.terms-of-service-pole-emploi.title"}}</h2>
 
     <div class="terms-of-service-form__description">
-      {{t "pages.terms-of-service-pe.message"}}
+      {{t "pages.terms-of-service-pole-emploi.message"}}
     </div>
 
     <div class="terms-of-service-form__conditions">
@@ -23,12 +23,12 @@
           class="terms-of-service-form-conditions__check"
           @checked={{this.isTermsOfServiceValidated}}
         />
-        {{t "pages.terms-of-service-pe.cgu" htmlSafe=true}}
+        {{t "pages.terms-of-service-pole-emploi.cgu" htmlSafe=true}}
 
       </label>
       {{#if this.showErrorTermsOfServiceNotSelected}}
         <div class="terms-of-service-form-conditions__validation-error">
-          {{t "pages.terms-of-service-pe.form.error-message"}}
+          {{t "pages.terms-of-service-pole-emploi.form.error-message"}}
         </div>
       {{/if}}
     </div>
@@ -37,11 +37,11 @@
       <LinkTo @route="logout" class="button button--white">{{t "common.actions.back"}}</LinkTo>
       {{#if this.showErrorTermsOfServiceExpiredAuthenticatedKey}}
         <div class="terms-of-service-form-conditions__validation-error">{{t
-            "pages.terms-of-service-pe.form.expired-authentication-key"
+            "pages.terms-of-service-pole-emploi.form.expired-authentication-key"
           }}</div>
       {{else}}
         <PixButton @type="submit" @triggerAction={{this.submit}} class="terms-of-service-form-actions__submit">
-          {{t "pages.terms-of-service-pe.form.button"}}
+          {{t "pages.terms-of-service-pole-emploi.form.button"}}
         </PixButton>
       {{/if}}
     </div>
