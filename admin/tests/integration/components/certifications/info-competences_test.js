@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render } from '@ember/test-helpers';
+import { render } from '@1024pix/ember-testing-library';
 import hbs from 'htmlbars-inline-precompile';
 
 module('Integration | Component | certifications/competence-list', function (hooks) {
@@ -10,17 +10,17 @@ module('Integration | Component | certifications/competence-list', function (hoo
     // given
     this.set('competences', [
       { index: '1.1', score: '30', level: '3' },
-      { index: '2.1', score: '30', level: '3' },
-      { index: '5.2', score: '30', level: '3' },
+      { index: '2.1', score: '20', level: '2' },
+      { index: '5.2', score: '10', level: '1' },
     ]);
 
     // when
-    await render(hbs`<Certifications::CompetenceList @competences={{this.competences}} />`);
+    const screen = await render(hbs`<Certifications::CompetenceList @competences={{this.competences}} />`);
 
     // then
-    assert.dom('.certification-info-competence-index').exists({ count: 3 });
-    assert.dom('.certification-info-competence-level').exists({ count: 3 });
-    assert.dom('.certification-info-competence-score').exists({ count: 3 });
+    assert.dom(screen.getByLabelText('Informations de la compétence 1.1')).exists();
+    assert.dom(screen.getByLabelText('Informations de la compétence 2.1')).exists();
+    assert.dom(screen.getByLabelText('Informations de la compétence 5.2')).exists();
   });
 
   test('it should display competence index, score and level', async function (assert) {
@@ -28,12 +28,11 @@ module('Integration | Component | certifications/competence-list', function (hoo
     this.set('competences', [{ index: '1.1', score: '30', level: '3' }]);
 
     // when
-    await render(hbs`<Certifications::CompetenceList @competences={{this.competences}} />`);
+    const screen = await render(hbs`<Certifications::CompetenceList @competences={{this.competences}} />`);
 
     // then
-    assert.dom('.certification-info-competence-index').hasText('1.1');
-    assert.dom('.certification-info-competence-level').hasText('Niveau : 3');
-    assert.dom('.certification-info-competence-score').hasText('30 Pix');
+    assert.dom(screen.getByLabelText('Informations de la compétence 1.1')).containsText('30 Pix');
+    assert.dom(screen.getByLabelText('Informations de la compétence 1.1')).containsText('Niveau : 3');
   });
 
   test('it should display 16 entries in edition mode', async function (assert) {
@@ -45,10 +44,12 @@ module('Integration | Component | certifications/competence-list', function (hoo
     ]);
 
     // when
-    await render(hbs`<Certifications::CompetenceList @competences={{this.competences}} @edition=true />`);
+    const screen = await render(
+      hbs`<Certifications::CompetenceList @competences={{this.competences}} @edition=true />`
+    );
 
     // then
-    assert.dom('.certification-info-field').exists({ count: 16 });
+    assert.strictEqual(screen.getAllByLabelText('Informations de la compétence', { exact: false }).length, 16);
   });
 
   test('it should display competence levels and scores at the right places in edition mode', async function (assert) {
@@ -56,18 +57,22 @@ module('Integration | Component | certifications/competence-list', function (hoo
     this.set('competences', [
       { index: '1.1', score: '30', level: '3' },
       { index: '2.1', score: '16', level: '2' },
-      { index: '5.2', score: '42', level: '5' },
+      { index: '2.2', score: '42', level: '5' },
     ]);
 
     // when
-    await render(hbs`<Certifications::CompetenceList @competences={{this.competences}} @edition=true />`);
+    const screen = await render(
+      hbs`<Certifications::CompetenceList @competences={{this.competences}} @edition=true />`
+    );
 
     // then
-    assert.dom('#certification-info-score_0').hasValue('30');
-    assert.dom('#certification-info-level_0').hasValue('3');
-    assert.dom('#certification-info-score_3').hasValue('16');
-    assert.dom('#certification-info-level_3').hasValue('2');
-    assert.dom('#certification-info-score_15').hasValue('42');
-    assert.dom('#certification-info-level_15').hasValue('5');
+    assert.dom(screen.getByRole('textbox', { name: '1.1' })).hasValue('30');
+    assert.dom(screen.getByRole('textbox', { name: '2.1' })).hasValue('16');
+    assert.dom(screen.getByRole('textbox', { name: '2.2' })).hasValue('42');
+
+    const certificationInfoLevelInputs = screen.getAllByRole('textbox', { name: 'Niveau :' });
+    assert.dom(certificationInfoLevelInputs[0]).hasValue('3');
+    assert.dom(certificationInfoLevelInputs[3]).hasValue('2');
+    assert.dom(certificationInfoLevelInputs[4]).hasValue('5');
   });
 });
