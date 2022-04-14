@@ -1,41 +1,8 @@
-const { expect, sinon, domainBuilder } = require('../../../test-helper');
-const BookshelfAssessmentResults = require('../../../../lib/infrastructure/orm-models/AssessmentResult');
+const { expect, domainBuilder } = require('../../../test-helper');
 const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult');
 const Assessment = require('../../../../lib/domain/models/Assessment');
 
-describe('Unit | Domain | Models | BookshelfAssessmentResult', function () {
-  describe('validation', function () {
-    let rawData;
-
-    beforeEach(function () {
-      rawData = {
-        emitter: '',
-        status: null,
-      };
-    });
-
-    describe('the status field', function () {
-      it('should only accept specific values', function () {
-        // given
-        rawData.status = 'not_a_correct_status';
-        const certification = new BookshelfAssessmentResults(rawData);
-
-        // when
-        const promise = certification.save();
-
-        // then
-        return promise
-          .then(() => {
-            sinon.assert.fail('Cannot succeed');
-          })
-          .catch((err) => {
-            const status = err.data['status'];
-            expect(status).to.exist.and.to.deep.equal(["Le status de la certification n'est pas valide"]);
-          });
-      });
-    });
-  });
-
+describe('Unit | Domain | Models | AssessmentResult', function () {
   describe('#buildAlgoErrorResult', function () {
     it('should return an algo error AssessmentResult', function () {
       // given
@@ -59,6 +26,7 @@ describe('Unit | Domain | Models | BookshelfAssessmentResult', function () {
         commentForJury: 'message for jury',
         status: AssessmentResult.status.ERROR,
         pixScore: 0,
+        reproducibilityRate: 0,
         competenceMarks: [],
       });
       expectedAssessmentResult.id = undefined;
@@ -74,6 +42,7 @@ describe('Unit | Domain | Models | BookshelfAssessmentResult', function () {
       // when
       const actualAssessmentResult = AssessmentResult.buildStandardAssessmentResult({
         pixScore: 55,
+        reproducibilityRate: 90,
         status: AssessmentResult.status.VALIDATED,
         assessmentId: 123,
         juryId: 456,
@@ -88,6 +57,7 @@ describe('Unit | Domain | Models | BookshelfAssessmentResult', function () {
         commentForJury: 'Computed',
         status: AssessmentResult.status.VALIDATED,
         pixScore: 55,
+        reproducibilityRate: 90,
         competenceMarks: [],
       });
       expectedAssessmentResult.id = undefined;
@@ -103,6 +73,7 @@ describe('Unit | Domain | Models | BookshelfAssessmentResult', function () {
       // when
       const actualAssessmentResult = AssessmentResult.buildNotTrustableAssessmentResult({
         pixScore: 55,
+        reproducibilityRate: 50.25,
         status: AssessmentResult.status.VALIDATED,
         assessmentId: 123,
         juryId: 456,
@@ -117,6 +88,7 @@ describe('Unit | Domain | Models | BookshelfAssessmentResult', function () {
         commentForJury: 'Computed',
         status: AssessmentResult.status.VALIDATED,
         pixScore: 55,
+        reproducibilityRate: 50.25,
         competenceMarks: [],
         commentForCandidate:
           'Un ou plusieurs problème(s) technique(s), signalé(s) à votre surveillant pendant la session de certification' +
@@ -155,6 +127,7 @@ describe('Unit | Domain | Models | BookshelfAssessmentResult', function () {
       expectedAssessmentResult.emitter = undefined;
       expectedAssessmentResult.juryId = undefined;
       expectedAssessmentResult.pixScore = undefined;
+      expectedAssessmentResult.reproducibilityRate = undefined;
       expect(actualAssessmentResult).to.deepEqualInstance(expectedAssessmentResult);
     });
   });
