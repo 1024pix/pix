@@ -4,6 +4,7 @@ const { NotFoundError } = require('../lib/domain/errors');
 const BadgeCriterion = require('../lib/domain/models/BadgeCriterion');
 const badgeRepository = require('../lib/infrastructure/repositories/badge-repository');
 const badgeCriteriaRepository = require('../lib/infrastructure/repositories/badge-criteria-repository');
+const skillSetRepository = require('../lib/infrastructure/repositories/skill-set-repository');
 const DomainTransaction = require('../lib/infrastructure/DomainTransaction');
 const { knex } = require('../db/knex-database-connection');
 
@@ -51,14 +52,16 @@ async function main() {
 
   console.log('Creating badge criteria... ');
   console.log('Saving badge criteria... ');
+  const newBadgeId = jsonFile.badgeId;
   return DomainTransaction.execute(async (domainTransaction) => {
     await Promise.all(
-      jsonFile.criteria.map((badgeCriterion) =>
-        badgeCriteriaRepository.save(
-          { badgeCriterion: { ...badgeCriterion, badgeId: jsonFile.badgeId } },
+      jsonFile.criteria.map(async (badgeCriterion) => {
+        const newSkillSetIds = await copySkillSets({ skillSetIds: badgeCriterion.skillSetIds, newBadgeId });
+        return badgeCriteriaRepository.save(
+          { badgeCriterion: { ...badgeCriterion, skillSetIds: newSkillSetIds, badgeId: newBadgeId } },
           domainTransaction
-        )
-      )
+        );
+      })
     );
   });
 }
@@ -103,6 +106,16 @@ async function checkSkillSetIds(skillSetIds) {
   }
 }
 
+async function copySkillSets({ skillSetIds, newBadgeId }) {
+  const skillSets = await knex('skill-sets').select('name', 'skillIds').whereIn('id', skillSetIds);
+  return Promise.all(
+    skillSets.map(async (skillSet) => {
+      const savedSkillSet = await skillSetRepository.save({ skillSet: { ...skillSet, badgeId: newBadgeId } });
+      return savedSkillSet.id;
+    })
+  );
+}
+
 if (require.main === module) {
   main().then(
     () => process.exit(0),
@@ -113,4 +126,4 @@ if (require.main === module) {
   );
 }
 
-module.exports = { checkBadgeExistence, checkCriteriaFormat, checkSkillSetIds };
+module.exports = { checkBadgeExistence, checkCriteriaFormat, checkSkillSetIds, copySkillSets };
