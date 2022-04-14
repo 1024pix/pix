@@ -52,15 +52,10 @@ async function main() {
 
   console.log('Creating badge criteria... ');
   console.log('Saving badge criteria... ');
-  const newBadgeId = jsonFile.badgeId;
   return DomainTransaction.execute(async (domainTransaction) => {
     await Promise.all(
       jsonFile.criteria.map(async (badgeCriterion) => {
-        const newSkillSetIds = await copySkillSets({ skillSetIds: badgeCriterion.skillSetIds, newBadgeId });
-        return badgeCriteriaRepository.save(
-          { badgeCriterion: { ...badgeCriterion, skillSetIds: newSkillSetIds, badgeId: newBadgeId } },
-          domainTransaction
-        );
+        return _createBadgeCriterion({ ...badgeCriterion, badgeId: jsonFile.badgeId }, domainTransaction);
       })
     );
   });
@@ -104,6 +99,17 @@ async function checkSkillSetIds(skillSetIds) {
   if (count !== skillSetIds.length) {
     throw new Error('At least one skillSetId does not exist');
   }
+}
+
+async function _createBadgeCriterion(badgeCriterion, domainTransaction) {
+  const newSkillSetIds = await copySkillSets({
+    skillSetIds: badgeCriterion.skillSetIds,
+    newBadgeId: badgeCriterion.badgeId,
+  });
+  return badgeCriteriaRepository.save(
+    { badgeCriterion: { ...badgeCriterion, skillSetIds: newSkillSetIds } },
+    domainTransaction
+  );
 }
 
 async function copySkillSets({ skillSetIds, newBadgeId }) {
