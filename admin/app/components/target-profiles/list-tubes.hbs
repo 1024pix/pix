@@ -39,22 +39,12 @@
                       {{#each thematic.tubes as |tube index|}}
                         <tr {{on "click" this.toggleTubeInput}} class="row-tube" aria-label="Sujet">
                           {{#if (eq index 0)}}
-                            <th
-                              class="th--clickable"
-                              rowspan={{thematic.tubes.length}}
-                              {{on "click" this.toggleThematicInput}}
-                            >
-                              <label>
-                                <Input
-                                  {{on "input" (fn this.updateSelectedThematic thematic.id)}}
-                                  data-competence={{competence.id}}
-                                  data-thematicId={{thematic.id}}
-                                  id="thematic-{{thematic.id}}"
-                                  @type="checkbox"
-                                />
-                                {{thematic.name}}
-                              </label>
-                            </th>
+                            <TargetProfiles::ThematicCell
+                              @updateSelectedThematic={{this.updateSelectedThematic}}
+                              @competence={{competence}}
+                              @thematic={{thematic}}
+                              @toggleThematicInput={{this.toggleThematicInput}}
+                            />
                           {{/if}}
                           <TargetProfiles::TubeCells
                             @competence={{competence}}

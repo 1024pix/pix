@@ -24,14 +24,14 @@
   <label for="select-level-tube-{{@tube.id}}" class="sr-only">Sélection du niveau du sujet</label>
 </td>
 <td class="table__column--center">
-  <div class="icon-container" aria-label="{{if @tube.mobile 'compatible mobile' 'incompatible mobile'}}">
-    <FaIcon @icon="mobile-alt" class="fa-2x {{if @tube.mobile 'is-responsive'}}" />
+  <div class="icon-container" aria-label="{{if @tube.mobile "compatible mobile" "incompatible mobile"}}">
+    <FaIcon @icon="mobile-alt" class="fa-2x {{if @tube.mobile "is-responsive"}}" />
     {{#unless @tube.mobile}}
       <FaIcon @icon="slash" class="fa-2x not-responsive" />
     {{/unless}}
   </div>
-  <div class="icon-container" aria-label="{{if @tube.tablet 'compatible tablette' 'incompatible tablette'}}">
-    <FaIcon @icon="tablet-alt" class="fa-2x {{if @tube.tablet 'is-responsive'}}" />
+  <div class="icon-container" aria-label="{{if @tube.tablet "compatible tablette" "incompatible tablette"}}">
+    <FaIcon @icon="tablet-alt" class="fa-2x {{if @tube.tablet "is-responsive"}}" />
     {{#unless @tube.tablet}}
       <FaIcon @icon="slash" class="fa-2x not-responsive" />
     {{/unless}}

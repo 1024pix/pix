@@ -1,0 +1,13 @@
+{{! template-lint-disable no-invalid-interactive }}
+<th class="th--clickable" rowspan={{@thematic.tubes.length}} {{on "click" @toggleThematicInput}}>
+  <label>
+    <Input
+      {{on "input" (fn @updateSelectedThematic @thematic.id)}}
+      data-competence={{@competence.id}}
+      data-thematicId={{@thematic.id}}
+      id="thematic-{{@thematic.id}}"
+      @type="checkbox"
+    />
+    {{@thematic.name}}
+  </label>
+</th>
