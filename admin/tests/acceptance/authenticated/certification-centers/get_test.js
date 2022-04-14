@@ -158,10 +158,9 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
       const screen = await visit(`/certification-centers/${certificationCenter.id}`);
 
       // then
-      assert.dom(screen.getByText('Ajouter un membre')).exists();
-      assert.dom(screen.getByLabelText('Adresse e-mail du nouveau membre')).exists();
-      assert.dom(screen.getByText('Valider')).exists();
-      assert.dom('.error').notExists;
+      assert.dom(screen.getByRole('heading', { name: 'Ajouter un membre' })).exists();
+      assert.dom(screen.getByRole('textbox', { name: 'Adresse e-mail du nouveau membre' })).exists();
+      assert.dom(screen.getByRole('button', { name: 'Ajouter le membre' })).exists();
     });
 
     test('should disable button if email is empty or contains spaces', async function (assert) {
@@ -221,7 +220,7 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
 
       // then
       assert.dom(screen.getByRole('button', { name: 'Ajouter le membre' })).hasNoAttribute('disabled');
-      assert.dom('.error').notExists;
+      assert.dom(screen.queryByText("L'adresse e-mail saisie n'est pas valide.")).doesNotExist();
     });
 
     test('should display new certification-center-membership', async function (assert) {

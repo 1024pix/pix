@@ -1,8 +1,9 @@
 import { module, test } from 'qunit';
-import { click, currentURL, visit } from '@ember/test-helpers';
+import { currentURL } from '@ember/test-helpers';
+import { visit, clickByName } from '@1024pix/ember-testing-library';
 import { setupApplicationTest } from 'ember-qunit';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
-import { FINALIZED, statusToDisplayName } from 'pix-admin/models/session';
+import { FINALIZED } from 'pix-admin/models/session';
 
 import { createAuthenticateSession } from 'pix-admin/tests/helpers/test-init';
 
@@ -28,13 +29,6 @@ module('Acceptance | Session page', function (hooks) {
   });
 
   module('Rendering', function (hooks) {
-    const STATUS_SECTION = 9;
-    const FINALISATION_DATE_SECTION = 10;
-    const SENT_TO_PRESCRIPTEUR_DATE_SECTION = 11;
-    const LABEL_ROW_INDEX = 1;
-    const VALUE_ROW_INDEX = 2;
-    const SEND_TO_PRESCRIPTEUR_BUTTON_INDEX = 3;
-
     hooks.beforeEach(async function () {
       await visitSessionsPage();
     });
@@ -43,27 +37,21 @@ module('Acceptance | Session page', function (hooks) {
       const session = this.server.create('session');
 
       // when
-      await visit(`/sessions/${session.id}`);
+      const screen = await visit(`/sessions/${session.id}`);
       assert.dom('div.session-info__details').exists();
-      assert.dom(`.row:nth-child(${FINALISATION_DATE_SECTION}) .col:nth-child(${LABEL_ROW_INDEX})`).doesNotExist();
+      assert.dom(screen.queryByText('Date de finalisation :')).doesNotExist();
     });
 
-    test('Should have "Date de finalisation" and "Date d\'envoi au prescripteur" section', async function (assert) {
+    test('Should have "Date de finalisation" section', async function (assert) {
       const finalizedDate = new Date('2019-03-10T01:03:04Z');
       const session = this.server.create('session', { status: FINALIZED, finalizedAt: finalizedDate });
 
       // when
-      await visit(`/sessions/${session.id}`);
+      const screen = await visit(`/sessions/${session.id}`);
+
       assert.dom('div.session-info__details').exists();
-      assert
-        .dom(`.row:nth-child(${STATUS_SECTION}) .col:nth-child(${VALUE_ROW_INDEX})`)
-        .containsText(statusToDisplayName[FINALIZED]);
-      assert
-        .dom(`.row:nth-child(${FINALISATION_DATE_SECTION}) .col:nth-child(${VALUE_ROW_INDEX})`)
-        .containsText('10/03/2019');
-      assert
-        .dom(`.row:nth-child(${SENT_TO_PRESCRIPTEUR_DATE_SECTION}) .col:nth-child(${VALUE_ROW_INDEX})`)
-        .doesNotExist();
+      assert.dom(screen.getByText('Date de finalisation :')).exists();
+      assert.dom(screen.getByText('10/03/2019')).exists();
     });
 
     test('Should remove "Résultats transmis au prescripteur" button', async function (assert) {
@@ -72,10 +60,10 @@ module('Acceptance | Session page', function (hooks) {
         finalizedAt: new Date('2019-03-10T01:03:04Z'),
       });
       // when
-      await visit(`/sessions/${session.id}`);
-      await click(`.session-info__actions button:nth-child(${SEND_TO_PRESCRIPTEUR_BUTTON_INDEX})`);
+      const screen = await visit(`/sessions/${session.id}`);
+      await clickByName('Résultats transmis au prescripteur');
 
-      assert.dom(`.session-info__actions button:nth-child(${SEND_TO_PRESCRIPTEUR_BUTTON_INDEX})`).doesNotExist();
+      assert.dom(screen.queryByRole('button', { name: 'Résultats transmis au prescripteur' })).doesNotExist();
     });
   });
 

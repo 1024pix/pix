@@ -34,12 +34,14 @@ module('Integration | Component | certifications/details-competence', function (
     this.set('externalAction', () => resolve());
 
     // when
-    await render(
+    const screen = await render(
       hbs`<Certifications::DetailsCompetence @competence={{competenceData}} rate={{60}} @juryRate={{false}} @onUpdateRate={{externalAction}}/>`
     );
 
     // then
-    assert.dom('.certification-details-competence').exists();
+    assert.dom(screen.getByText('1.1 Une compétence')).exists();
+    assert.dom(screen.getByLabelText('Jauge de compétences positionnées')).exists();
+    assert.dom(screen.getByLabelText('Jauge de compétences certifiées')).exists();
   });
 
   test('it should not render jury values when no jury values are set', async function (assert) {
@@ -48,12 +50,12 @@ module('Integration | Component | certifications/details-competence', function (
     this.set('externalAction', () => resolve());
 
     // when
-    await render(
+    const screen = await render(
       hbs`<Certifications::DetailsCompetence @competence={{competenceData}} rate={{60}} @juryRate={{false}} @onUpdateRate={{externalAction}}/>`
     );
 
     // then
-    assert.dom('.jury').doesNotExist();
+    assert.dom(screen.queryByRole('progressbar', { name: 'Jauge de compétences corrigées' })).doesNotExist();
   });
 
   test('it should render jury values when these values are set', async function (assert) {
@@ -67,10 +69,9 @@ module('Integration | Component | certifications/details-competence', function (
     );
 
     // then
-    assert.strictEqual(screen.getAllByRole('progressbar').length, 3);
-    assert.dom(screen.getByLabelText('Jauge de compétences corrigées')).hasText('2');
-    assert.dom('.jury.competence-score').exists();
-    assert.dom('.jury.competence-score').hasText('18 Pix');
-    assert.dom(screen.getByLabelText('Jauge de compétences certifiées')).hasText('-1');
+    assert.dom(screen.getByRole('progressbar', { name: 'Jauge de compétences corrigées' })).hasText('2');
+    assert.dom(screen.getByRole('progressbar', { name: 'Jauge de compétences certifiées' })).hasText('-1');
+    assert.dom(screen.getByRole('progressbar', { name: 'Jauge de compétences positionnées' })).hasText('3');
+    assert.dom(screen.getByText('18 Pix')).exists();
   });
 });
