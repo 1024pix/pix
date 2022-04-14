@@ -265,6 +265,32 @@ describe('Acceptance | Displaying a challenge of any type', () => {
             expect(find('[data-test="default-focused-out-error-message"]')).to.exist;
           });
         });
+
+        describe('when user has focused out of the window, leaves the challenge and goes to another assessment', function () {
+          it('should not display a warning alert saying it has been focused out', async function () {
+            // given
+            const user = server.create('user', 'withEmail', {
+              hasSeenFocusedChallengeTooltip: true,
+            });
+            await authenticateByEmail(user);
+            const assessment1 = server.create(
+              'assessment',
+              'ofCompetenceEvaluationType',
+              'withCurrentChallengeUnfocus'
+            );
+            const assessment2 = server.create('assessment', 'ofCompetenceEvaluationType');
+            server.create('challenge', 'forCompetenceEvaluation', data.challengeType, 'withFocused');
+            await visit(`/assessments/${assessment1.id}/challenges/0`);
+
+            // when
+            await triggerEvent(document, 'focusedout');
+            await click('.assessment-banner__home-link');
+            await visit(`/assessments/${assessment2.id}/challenges/0`);
+
+            // then
+            expect(find('[data-test="default-focused-out-error-message"]')).not.to.exist;
+          });
+        });
       });
 
       [
