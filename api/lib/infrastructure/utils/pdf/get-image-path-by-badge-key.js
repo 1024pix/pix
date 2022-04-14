@@ -11,13 +11,13 @@ const {
   PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
 } = require('../../../domain/models/Badge').keys;
 
-const macaronCleaPath = `${__dirname}/files/macaron_clea.png`;
-const macaronPixPlusDroitMaitrePath = `${__dirname}/files/macaron_maitre.png`;
-const macaronPixPlusDroitExpertPath = `${__dirname}/files/macaron_expert.png`;
-const macaronPixPlusEduInitiePath = `${__dirname}/files/macaron_edu_initie.png`;
-const macaronPixPlusEduConfirmePath = `${__dirname}/files/macaron_edu_confirme.png`;
-const macaronPixPlusEduAvancePath = `${__dirname}/files/macaron_edu_avance.png`;
-const macaronPixPlusEduExpertPath = `${__dirname}/files/macaron_edu_expert.png`;
+const macaronCleaPath = `${__dirname}/files/macaron_clea.pdf`;
+const macaronPixPlusDroitMaitrePath = `${__dirname}/files/macaron_droit_maitre.pdf`;
+const macaronPixPlusDroitExpertPath = `${__dirname}/files/macaron_droit_expert.pdf`;
+const macaronPixPlusEduInitiePath = `${__dirname}/files/macaron_edu_2nd_initie.pdf`;
+const macaronPixPlusEduConfirmePath = `${__dirname}/files/macaron_edu_2nd_confirme.pdf`;
+const macaronPixPlusEduAvancePath = `${__dirname}/files/macaron_edu_2nd_avance.pdf`;
+const macaronPixPlusEduExpertPath = `${__dirname}/files/macaron_edu_2nd_expert.pdf`;
 
 module.exports = function getImagePathByBadgeKey(badgeKey) {
   if ([PIX_EMPLOI_CLEA_V1, PIX_EMPLOI_CLEA_V2, PIX_EMPLOI_CLEA_V3].includes(badgeKey)) {
