@@ -95,7 +95,7 @@ async function _findAllowedCertificationCenterAccesses(certificationCenterIds) {
     )
     .whereIn('certification-centers.id', certificationCenterIds)
     .orderBy('certification-centers.id')
-    .groupByRaw('1, 2, 3, 4, 5');
+    .groupByRaw('1, 2, 3, 4, 5, 6');
 
   return _.map(allowedCertificationCenterAccessDTOs, (allowedCertificationCenterAccessDTO) => {
     return new AllowedCertificationCenterAccess({
@@ -103,16 +103,19 @@ async function _findAllowedCertificationCenterAccesses(certificationCenterIds) {
       isRelatedToManagingStudentsOrganization: Boolean(
         allowedCertificationCenterAccessDTO.isRelatedToManagingStudentsOrganization
       ),
-      relatedOrganizationTags: _cleanEmptyTags(allowedCertificationCenterAccessDTO),
-      habilitations: _cleanEmptyHabilitations(allowedCertificationCenterAccessDTO),
+      relatedOrganizationTags: _cleanTags(allowedCertificationCenterAccessDTO),
+      habilitations: _cleanHabilitations(allowedCertificationCenterAccessDTO),
     });
   });
 
-  function _cleanEmptyTags(allowedCertificationCenterAccessDTO) {
-    return _.compact(allowedCertificationCenterAccessDTO.tags);
+  function _cleanTags(allowedCertificationCenterAccessDTO) {
+    return _(allowedCertificationCenterAccessDTO.tags).compact().uniq().value();
   }
 
-  function _cleanEmptyHabilitations(allowedCertificationCenterAccessDTO) {
-    return allowedCertificationCenterAccessDTO.habilitations.filter((habilitation) => Boolean(habilitation.id));
+  function _cleanHabilitations(allowedCertificationCenterAccessDTO) {
+    return _(allowedCertificationCenterAccessDTO.habilitations)
+      .filter((habilitation) => Boolean(habilitation.id))
+      .uniqBy('id')
+      .value();
   }
 }

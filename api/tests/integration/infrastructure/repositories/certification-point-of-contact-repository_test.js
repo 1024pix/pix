@@ -311,5 +311,90 @@ describe('Integration | Repository | CertificationPointOfContact', function () {
       });
       expect(certificationPointOfContact).to.deepEqualInstance(expectedCertificationPointOfContact);
     });
+
+    context(
+      'when user is linked to a certification center that has habilitations and is associated with an organization with tags',
+      function () {
+        it('should return the certification point of contact with tags and habilitations', async function () {
+          // given
+          databaseBuilder.factory.buildComplementaryCertification({ id: 1, name: 'Certif comp 1' });
+          databaseBuilder.factory.buildComplementaryCertification({ id: 2, name: 'Certif comp 2' });
+          databaseBuilder.factory.buildCertificationCenter({
+            id: 1,
+            name: 'Centre de certif',
+            type: CertificationCenter.types.PRO,
+            externalId: 'Centre1',
+          });
+          databaseBuilder.factory.buildComplementaryCertificationHabilitation({
+            certificationCenterId: 1,
+            complementaryCertificationId: 1,
+          });
+          databaseBuilder.factory.buildComplementaryCertificationHabilitation({
+            certificationCenterId: 1,
+            complementaryCertificationId: 2,
+          });
+          databaseBuilder.factory.buildOrganization({
+            id: 10,
+            externalId: 'Centre1',
+            isManagingStudents: false,
+            type: Organization.types.PRO,
+          });
+          databaseBuilder.factory.buildTag({
+            id: 66,
+            name: 'tag1',
+          });
+          databaseBuilder.factory.buildTag({
+            id: 67,
+            name: 'tag2',
+          });
+          databaseBuilder.factory.buildOrganizationTag({
+            organizationId: 10,
+            tagId: 66,
+          });
+          databaseBuilder.factory.buildOrganizationTag({
+            organizationId: 10,
+            tagId: 67,
+          });
+          databaseBuilder.factory.buildUser({
+            id: 123,
+            firstName: 'Jean',
+            lastName: 'Acajou',
+            email: 'jean.acajou@example.net',
+            pixCertifTermsOfServiceAccepted: true,
+          });
+          databaseBuilder.factory.buildCertificationCenterMembership({
+            certificationCenterId: 1,
+            userId: 123,
+          });
+          await databaseBuilder.commit();
+
+          // when
+          const certificationPointOfContact = await certificationPointOfContactRepository.get(123);
+
+          // then
+          const expectedAllowedCertificationCenterAccess = domainBuilder.buildAllowedCertificationCenterAccess({
+            id: 1,
+            name: 'Centre de certif',
+            externalId: 'Centre1',
+            type: CertificationCenter.types.PRO,
+            isRelatedToManagingStudentsOrganization: false,
+            relatedOrganizationTags: ['tag1', 'tag2'],
+            habilitations: [
+              { id: 1, name: 'Certif comp 1' },
+              { id: 2, name: 'Certif comp 2' },
+            ],
+          });
+          const expectedCertificationPointOfContact = domainBuilder.buildCertificationPointOfContact({
+            id: 123,
+            firstName: 'Jean',
+            lastName: 'Acajou',
+            email: 'jean.acajou@example.net',
+            pixCertifTermsOfServiceAccepted: true,
+            allowedCertificationCenterAccesses: [expectedAllowedCertificationCenterAccess],
+          });
+          expect(certificationPointOfContact).to.deepEqualInstance(expectedCertificationPointOfContact);
+        });
+      }
+    );
   });
 });
