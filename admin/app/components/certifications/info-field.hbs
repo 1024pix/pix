@@ -1,7 +1,7 @@
 {{#if @edition}}
   <div class="row form-group certification-info-field edited">
     <label
-      for={{@id}}
+      for={{@fieldId}}
       class="col-form-label certification-info-field__label--editing
         {{if @isTextarea "certification-info-field__label--large"}}
         {{if @suffix "certification-info-field__label--small"}}"
@@ -33,19 +33,21 @@
   </div>
 {{else}}
   <div class="row certification-info-field">
-    <div class="certification-info-field__label">{{@label}}</div>
-    <div class="certification-info-value {{@class}}">
+    <p>
+      {{@label}}
       {{#if @linkRoute}}
         <LinkTo @route={{@linkRoute}} @model={{@value}}>
           {{this.valueWithSuffix}}
         </LinkTo>
       {{else}}
-        {{#if @isDate}}
-          {{moment-format @value "DD/MM/YYYY" allow-empty=true}}
-        {{else}}
-          {{if this.valueWithSuffix this.valueWithSuffix " - "}}
-        {{/if}}
+        <span class={{@class}}>
+          {{#if @isDate}}
+            {{moment-format @value "DD/MM/YYYY" allow-empty=true}}
+          {{else}}
+            {{if this.valueWithSuffix this.valueWithSuffix " - "}}
+          {{/if}}
+        </span>
       {{/if}}
-    </div>
+    </p>
   </div>
 {{/if}}

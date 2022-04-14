@@ -1,6 +1,5 @@
 .certification-info-field {
   padding: 0 15px;
-  align-items: center;
 
   &__label {
     margin-right: 5px;
@@ -16,6 +15,10 @@
     &--small {
       max-width: 54px;
     }
+  }
+
+  p {
+    margin: 0;
   }
 
   textarea {
