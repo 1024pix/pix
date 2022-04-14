@@ -1,0 +1,44 @@
+.chips-choice {
+  $blue-alert-light: #DCF1FF;
+  $blue-alert-dark: #0D25B3;
+
+  border-radius: 50px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  white-space: nowrap;
+  letter-spacing: 0.028rem;
+  cursor: pointer;
+  background: $grey-10;
+  border: 2px solid transparent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+  padding: 6px 16px;
+  color: $grey-50;
+
+  &--active {
+    background: $blue-alert-light;
+    color: $blue-alert-dark;
+    pointer-events: none;
+  }
+
+  &--disabled {
+    background: $grey-10;
+    color: $grey-30;
+    pointer-events: none;
+  }
+
+  &:hover {
+    background: $grey-20;
+    color: $grey-90;
+  }
+
+  &:focus-visible {
+    background-color: $blue-zodiac;
+    box-shadow: 0 0 0 2px $blue-zodiac;
+    border-color: $white;
+    outline: none;
+    color: white;
+  }
+}
