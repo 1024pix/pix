@@ -61,10 +61,13 @@ module('Integration | Component | UpdateStage', function (hooks) {
 
   test('it should display an error text when the title has more than 255 characters', async function (assert) {
     // when
-    await render(hbs`<Stages::UpdateStage @model={{this.stage}} @toggleEditMode={{this.toggleEditMode}} />`);
+    const screen = await render(
+      hbs`<Stages::UpdateStage @model={{this.stage}} @toggleEditMode={{this.toggleEditMode}} />`
+    );
     await fillIn('#prescriberTitle', 'a'.repeat(256));
+
     // then
-    assert.dom('.form-field__error').exists();
+    assert.dom(screen.getByText('La longueur du nom ne doit pas excéder 255 caractères')).exists();
   });
 
   test('it should call updateStage when form is valid', async function (assert) {

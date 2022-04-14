@@ -1,6 +1,5 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { find } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import { render } from '@1024pix/ember-testing-library';
 
@@ -70,13 +69,13 @@ module('Integration | Component | users | user-detail-personal-information/authe
         this.set('user', { hasOnlyOneAuthenticationMethod: true });
 
         // when
-        await render(hbs`
+        const screen = await render(hbs`
         <Users::UserDetailPersonalInformation::AuthenticationMethod
           @user={{this.user}}
         />`);
 
         // then
-        assert.notOk(find('.user-authentication-method__remove-button'));
+        assert.dom(screen.queryByRole('button', { name: 'Supprimer' })).doesNotExist();
       });
 
       module('When user does not have pix authentication method', function () {
@@ -111,7 +110,7 @@ module('Integration | Component | users | user-detail-personal-information/authe
           />`);
 
           // then
-          assert.dom(screen.queryByText('Ajouter une adresse e-mail')).doesNotExist();
+          assert.dom(screen.queryByRole('button', { name: 'Ajouter une adresse e-mail' })).doesNotExist();
         });
       });
     });

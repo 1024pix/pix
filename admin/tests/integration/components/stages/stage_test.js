@@ -36,9 +36,11 @@ module('Integration | Component | Stages::Stage', function (hooks) {
     );
 
     //then
-    assert.dom('button').exists();
     assert.dom(screen.getByRole('button', { name: 'Editer' })).exists();
-    assert.dom('.page-section__details').exists();
+    assert.dom(screen.getByText('ID : 34', { exact: false })).exists();
+    assert.dom(screen.getByText('Seuil : 60', { exact: false })).exists();
+    assert.dom(screen.getByText('Titre : palier 3', { exact: false })).exists();
+    assert.dom(screen.getByText('Message : mon message', { exact: false })).exists();
   });
 
   test('should call toggleEditMode function when the edit button is clicked', async function (assert) {
@@ -48,6 +50,7 @@ module('Integration | Component | Stages::Stage', function (hooks) {
     );
 
     await click('button');
+
     //then
     assert.ok(toggleEditMode.called);
   });
@@ -64,6 +67,6 @@ module('Integration | Component | Stages::Stage', function (hooks) {
     //then
     assert.dom(screen.getByRole('button', { name: 'Annuler' })).exists();
     assert.dom(screen.getByRole('button', { name: 'Enregistrer' })).exists();
-    assert.dom(screen.getByText('Titre pour le prescripteur')).exists();
+    assert.dom(screen.getByRole('textbox', { name: 'Titre pour le prescripteur' })).exists();
   });
 });
