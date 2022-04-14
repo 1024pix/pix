@@ -197,17 +197,26 @@ describe('Integration | Repository | Organization-for-admin', function () {
         organizationId,
         status: pendingStatus,
       });
-      const cancelledInvitations = await knex('organization-invitations').where({
+      expect(pendingInvitations).to.have.lengthOf(0);
+
+      const allCancelledInvitations = await knex('organization-invitations').where({
         organizationId,
         status: cancelledStatus,
       });
+      expect(allCancelledInvitations).to.have.lengthOf(3);
+
+      const newlyCancelledInvitations = await knex('organization-invitations').where({
+        organizationId,
+        status: cancelledStatus,
+        updatedAt: now,
+      });
+      expect(newlyCancelledInvitations).to.have.lengthOf(2);
+
       const acceptedInvitations = await knex('organization-invitations').where({
         organizationId,
         status: acceptedStatus,
       });
-      expect(pendingInvitations).to.have.lengthOf(0);
       expect(acceptedInvitations).to.have.lengthOf(1);
-      expect(cancelledInvitations).to.have.lengthOf(3);
     });
 
     it('should archive active campaigns of a given organization', async function () {
