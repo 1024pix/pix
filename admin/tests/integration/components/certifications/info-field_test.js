@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render } from '@ember/test-helpers';
+import { render } from '@1024pix/ember-testing-library';
 import hbs from 'htmlbars-inline-precompile';
 import { resolve } from 'rsvp';
 
@@ -9,94 +9,95 @@ module('Integration | Component | certifications/info-field', function (hooks) {
 
   module('[Consultation mode]', function () {
     test('it should be in "consultation (read only) mode" by default when @edition (optional) argument is not provided', async function (assert) {
-      // When
-      await render(hbs`<Certifications::InfoField @label='Field label:' @value='field_value' />`);
+      // given & when
+      const screen = await render(hbs`<Certifications::InfoField @label='Field label:' @value='field_value' />`);
 
-      // Then
-      assert.dom('.certification-info-field').doesNotHaveClass('edited');
+      // then
+      assert.dom(screen.queryByRole('textbox', { name: 'Field label:' })).doesNotExist();
     });
 
     test('it should render label and field value', async function (assert) {
-      // When
-      await render(hbs`<Certifications::InfoField @label='Field label:' @value='field_value' />`);
+      // given & when
+      const screen = await render(hbs`<Certifications::InfoField @label='Session:' @value='commencé' />`);
 
-      // Then
-      assert.dom('.certification-info-field .certification-info-field__label').hasText('Field label:');
-      assert.dom('.certification-info-field .certification-info-value').hasText('field_value');
+      // then
+      assert.dom(screen.getByText('Session:')).containsText('commencé');
     });
 
     test('it should render field value with suffix when @suffix (optional) argument is provided', async function (assert) {
-      // When
-      await render(hbs`<Certifications::InfoField @label='Field label:' @value='field_value' @suffix='unit(s)' />`);
+      // given & when
+      const screen = await render(
+        hbs`<Certifications::InfoField @label='Session:' @value='commencé' @suffix='unit(s)' />`
+      );
 
-      // Then
-      assert.dom('.certification-info-field .certification-info-value').hasText('field_value unit(s)');
+      // then
+      assert.dom(screen.getByText('Session:')).containsText('commencé unit(s)');
     });
 
     test('it should format value as date with format "DD/MM/YYYY" when @isDate (optional) argument is set to "true"', async function (assert) {
-      // Given
+      // given
       this.set('value', new Date('1961-08-04'));
 
-      // When
-      await render(hbs`<Certifications::InfoField @label='Birth date:' @value={{this.value}} @isDate=true />`);
+      // when
+      const screen = await render(
+        hbs`<Certifications::InfoField @label='Date de naissance:' @value={{this.value}} @isDate=true />`
+      );
 
-      // Then
-      assert.dom('.certification-info-field .certification-info-value').hasText('04/08/1961');
+      // then
+      assert.dom(screen.getByText('Date de naissance:')).containsText('04/08/1961');
     });
 
     test('it should display value as link when @linkRoute (optional) argument is provided', async function (assert) {
-      // Given
-      this.setProperties({
-        label: 'Field label:',
-        value: 'field_value',
-      });
-
-      // When
-      await render(
+      // given & when
+      const screen = await render(
         hbs`<Certifications::InfoField @label='Session:' @value=1234 @linkRoute="authenticated.sessions.session" />`
       );
 
-      // Then
-      assert.dom('.certification-info-field .certification-info-value').hasText('1234');
+      // then
+      assert.dom(screen.getByText('Session:')).containsText('1234');
+      assert.dom(screen.getByRole('link', { name: '1234' })).exists();
     });
   });
 
   module('[Edition mode]', function () {
     test('it should be in "edition (writable) mode" when @edition (optional) argument is set to "true"', async function (assert) {
-      // When
-      await render(hbs`<Certifications::InfoField @label='Field label:' @value='field_value' @edition=true />`);
+      // given & when
+      const screen = await render(
+        hbs`<Certifications::InfoField @label='Publiée :' @value='oui' @edition=true @fieldId="certification-publication" />`
+      );
 
-      // Then
-      assert.dom('.certification-info-field').hasClass('edited');
+      // then
+      assert.dom(screen.getByRole('textbox', { name: 'Publiée :' })).exists();
     });
 
     test('it should display field value with suffix when @suffix (optional) argument is provided', async function (assert) {
-      // When
-      await render(
+      // given & when
+      const screen = await render(
         hbs`<Certifications::InfoField @label='Field label:' @value='field_value' @suffix='unit(s)' @edition=true />`
       );
 
-      // Then
-      assert.dom('.certification-info-field__suffix').hasText('unit(s)');
+      // then
+      assert.dom(screen.getByText('unit(s)')).exists();
     });
 
     test('it should render a flatpickr when @isDate (optional) argument is set to "true"', async function (assert) {
-      // Given
+      // given
       this.setProperties({
         value: new Date('2019-02-18'),
         onUpdateCertificationBirthdate: () => resolve(),
       });
 
-      // When
-      await render(hbs`<Certifications::InfoField
-            @label='Birth date:'
+      // when
+      const screen = await render(hbs`<Certifications::InfoField
+            @label='Date de naissance:'
+            @fieldId="certification-birthdate"
             @value={{this.value}}
             @edition=true
             @isDate=true
             @onUpdateCertificationBirthdate={{this.onUpdateCertificationBirthdate}} />`);
 
-      // Then
-      assert.dom('.ember-flatpickr-input').exists();
+      // then
+      assert.dom(screen.getByRole('textbox', { name: 'Date de naissance:' })).exists();
     });
   });
 });
