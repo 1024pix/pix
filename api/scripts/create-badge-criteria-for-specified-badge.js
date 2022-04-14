@@ -4,6 +4,7 @@ const { NotFoundError } = require('../lib/domain/errors');
 const BadgeCriterion = require('../lib/domain/models/BadgeCriterion');
 const badgeRepository = require('../lib/infrastructure/repositories/badge-repository');
 const badgeCriteriaRepository = require('../lib/infrastructure/repositories/badge-criteria-repository');
+const skillSetRepository = require('../lib/infrastructure/repositories/skill-set-repository');
 const DomainTransaction = require('../lib/infrastructure/DomainTransaction');
 const { knex } = require('../db/knex-database-connection');
 
@@ -53,12 +54,9 @@ async function main() {
   console.log('Saving badge criteria... ');
   return DomainTransaction.execute(async (domainTransaction) => {
     await Promise.all(
-      jsonFile.criteria.map((badgeCriterion) =>
-        badgeCriteriaRepository.save(
-          { badgeCriterion: { ...badgeCriterion, badgeId: jsonFile.badgeId } },
-          domainTransaction
-        )
-      )
+      jsonFile.criteria.map(async (badgeCriterion) => {
+        return _createBadgeCriterion({ ...badgeCriterion, badgeId: jsonFile.badgeId }, domainTransaction);
+      })
     );
   });
 }
@@ -103,6 +101,27 @@ async function checkSkillSetIds(skillSetIds) {
   }
 }
 
+async function _createBadgeCriterion(badgeCriterion, domainTransaction) {
+  const newSkillSetIds = await copySkillSets({
+    skillSetIds: badgeCriterion.skillSetIds,
+    newBadgeId: badgeCriterion.badgeId,
+  });
+  return badgeCriteriaRepository.save(
+    { badgeCriterion: { ...badgeCriterion, skillSetIds: newSkillSetIds } },
+    domainTransaction
+  );
+}
+
+async function copySkillSets({ skillSetIds, newBadgeId }) {
+  const skillSets = await knex('skill-sets').select('name', 'skillIds').whereIn('id', skillSetIds);
+  return Promise.all(
+    skillSets.map(async (skillSet) => {
+      const savedSkillSet = await skillSetRepository.save({ skillSet: { ...skillSet, badgeId: newBadgeId } });
+      return savedSkillSet.id;
+    })
+  );
+}
+
 if (require.main === module) {
   main().then(
     () => process.exit(0),
@@ -113,4 +132,4 @@ if (require.main === module) {
   );
 }
 
-module.exports = { checkBadgeExistence, checkCriteriaFormat, checkSkillSetIds };
+module.exports = { checkBadgeExistence, checkCriteriaFormat, checkSkillSetIds, copySkillSets };

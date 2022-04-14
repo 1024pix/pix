@@ -1,8 +1,9 @@
-const { expect, catchErr, databaseBuilder } = require('../../test-helper');
+const { expect, catchErr, databaseBuilder, knex } = require('../../test-helper');
 const {
   checkBadgeExistence,
   checkCriteriaFormat,
   checkSkillSetIds,
+  copySkillSets,
 } = require('../../../scripts/create-badge-criteria-for-specified-badge.js');
 const BadgeCriterion = require('../../../lib/domain/models/BadgeCriterion');
 
@@ -158,6 +159,36 @@ describe('Integration | Scripts | create-badge-criteria-for-specified-badge', fu
         expect(error).to.be.instanceof(Error);
         expect(error.message).to.be.equal('At least one skillSetId does not exist');
       });
+    });
+  });
+
+  describe('#copySkillSets', function () {
+    it('should create a copy of the existing skillSets with the new badgeId', async function () {
+      // given
+      const oldBadgeId = databaseBuilder.factory.buildBadge({ key: 'OLD' }).id;
+      const newBadgeId = databaseBuilder.factory.buildBadge({ key: 'NEW' }).id;
+      const skillSet1 = databaseBuilder.factory.buildSkillSet({
+        badgeId: oldBadgeId,
+        skillIds: ['skillABC123', 'skillDEF456'],
+      });
+      const skillSet2 = databaseBuilder.factory.buildSkillSet({
+        badgeId: oldBadgeId,
+        skillIds: ['skillHIJ789', 'skillKLM123'],
+      });
+      const skillSetIds = [skillSet1.id, skillSet2.id];
+      await databaseBuilder.commit();
+
+      // when
+      const newSkillSetIds = await copySkillSets({ skillSetIds, newBadgeId });
+
+      // then
+      expect(newSkillSetIds).to.have.lengthOf(2);
+
+      const [newSkillSet1, newSkillSet2] = await knex('skill-sets').whereIn('id', newSkillSetIds);
+      expect(newSkillSet1.skillIds).to.deep.equal(skillSet1.skillIds);
+      expect(newSkillSet1.badgeId).to.equal(newBadgeId);
+      expect(newSkillSet2.skillIds).to.deep.equal(skillSet2.skillIds);
+      expect(newSkillSet2.badgeId).to.equal(newBadgeId);
     });
   });
 });
