@@ -3,9 +3,9 @@
     <div class="organization__logo">
       <figure class="organization__logo-figure">
         {{#if @organization.logoUrl}}
-          <img src={{@organization.logoUrl}} alt={{@organization.name}} />
+          <img src={{@organization.logoUrl}} alt="" role="presentation" />
         {{else}}
-          <img src="{{this.rootURL}}/logo-placeholder.png" alt="placeholder" />
+          <img src="{{this.rootURL}}/logo-placeholder.png" alt="" role="presentation" />
         {{/if}}
 
         <FileUpload @name="logo" @accept="image/*" @onfileadd={{this.updateLogo}} />
@@ -177,56 +177,44 @@
 
         <div class="organization-information-section__content">
           <div class="organization-information-section__details">
-            <p>
-              Type :
-              <span>{{@organization.type}}</span><br />
+            <ul>
+              <li>Type : {{@organization.type}}</li>
               {{#if @organization.externalId}}
-                Identifiant externe :
-                <span>{{@organization.externalId}}</span><br />
+                <li>Identifiant externe : {{@organization.externalId}}</li>
               {{/if}}
               {{#if @organization.provinceCode}}
-                Département :
-                <span>{{@organization.provinceCode}}</span><br />
+                <li>Département : {{@organization.provinceCode}}</li>
               {{/if}}
               {{#if (or @organization.isOrganizationSCO @organization.isOrganizationSUP)}}
-                Gestion d’élèves/étudiants :
-                <span class="organization__isManagingStudents">{{if
-                    @organization.isManagingStudents
-                    "Oui"
-                    "Non"
-                  }}</span><br />
+                <li>Gestion d’élèves/étudiants : {{if @organization.isManagingStudents "Oui" "Non"}}</li>
               {{/if}}
-              Adresse e-mail d'activation SCO :
-              <span class="organization'__email">{{@organization.email}}</span><br />
-              Affichage des acquis dans l'export de résultats :
-              <span class="organization__showSkills">{{if @organization.showSkills "Oui" "Non"}}</span><br />
-              Affichage du Net Promoter Score :
-              <span>{{if @organization.showNPS "Oui" "Non"}}</span><br />
-              Lien vers le formulaire du Net Promoter Score :
-              {{#if @organization.formNPSUrl}}
-                <a
-                  href="{{@organization.formNPSUrl}}"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >{{@organization.formNPSUrl}}</a>
-              {{else}}
-                Non spécifié
-              {{/if}}
-              <br />
-              Crédits :
-              <span>{{@organization.credit}}</span>
-              <br />
-              Lien vers la documentation :
-              {{#if @organization.documentationUrl}}
-                <a
-                  href="{{@organization.documentationUrl}}"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >{{@organization.documentationUrl}}</a>
-              {{else}}
-                Non spécifié
-              {{/if}}
-            </p>
+              <li>Adresse e-mail d'activation SCO : {{@organization.email}}</li>
+              <li>Affichage des acquis dans l'export de résultats : {{if @organization.showSkills "Oui" "Non"}}</li>
+              <li>Affichage du Net Promoter Score : {{if @organization.showNPS "Oui" "Non"}}</li>
+              <li>Lien vers le formulaire du Net Promoter Score :
+                {{#if @organization.formNPSUrl}}
+                  <a
+                    href="{{@organization.formNPSUrl}}"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >{{@organization.formNPSUrl}}</a>
+                {{else}}
+                  Non spécifié
+                {{/if}}
+              </li>
+              <li>Crédits : {{@organization.credit}}</li>
+              <li>Lien vers la documentation :
+                {{#if @organization.documentationUrl}}
+                  <a
+                    href="{{@organization.documentationUrl}}"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >{{@organization.documentationUrl}}</a>
+                {{else}}
+                  Non spécifié
+                {{/if}}
+              </li>
+            </ul>
             <div class="form-actions">
               <PixButton
                 @backgroundColor="transparent-light"
