@@ -7,6 +7,7 @@ const _ = require('lodash');
 module.exports = function buildAssessmentResult({
   id = databaseBuffer.getNextId(),
   pixScore = 456,
+  reproducibilityRate = null,
   level = null,
   status = AssessmentResult.status.VALIDATED,
   emitter = 'PIX_ALGO',
@@ -23,6 +24,7 @@ module.exports = function buildAssessmentResult({
   const values = {
     id,
     pixScore,
+    reproducibilityRate,
     level,
     status,
     emitter,
