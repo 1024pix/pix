@@ -1,0 +1,10 @@
+[
+  {
+    "id": 1,
+    "userId": 2,
+    "role": "SUPER_ADMIN",
+    "createdAt": "2019-04-21T06:00:00Z",
+    "updatedAt": null,
+    "disabledAt": null
+  }
+]
