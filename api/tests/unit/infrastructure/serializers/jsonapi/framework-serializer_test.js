@@ -12,8 +12,30 @@ describe('Unit | Serializer | JSONAPI | framework-serializer', function () {
 
       const expectedSerializedResult = {
         data: [
-          { type: 'frameworks', id: 'frameworkId1', attributes: { name: 'frameworkName1' } },
-          { type: 'frameworks', id: 'frameworkId2', attributes: { name: 'frameworkName2' } },
+          {
+            type: 'frameworks',
+            id: 'frameworkId1',
+            attributes: { name: 'frameworkName1' },
+            relationships: {
+              areas: {
+                links: {
+                  related: '/api/frameworks/frameworkId1/areas',
+                },
+              },
+            },
+          },
+          {
+            type: 'frameworks',
+            id: 'frameworkId2',
+            attributes: { name: 'frameworkName2' },
+            relationships: {
+              areas: {
+                links: {
+                  related: '/api/frameworks/frameworkId2/areas',
+                },
+              },
+            },
+          },
         ],
       };
 
