@@ -2,7 +2,6 @@ import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@1024pix/ember-testing-library';
 import hbs from 'htmlbars-inline-precompile';
-import { resolve } from 'rsvp';
 
 module('Integration | Component | certifications/info-field', function (hooks) {
   setupRenderingTest(hooks);
@@ -78,26 +77,6 @@ module('Integration | Component | certifications/info-field', function (hooks) {
 
       // then
       assert.dom(screen.getByText('unit(s)')).exists();
-    });
-
-    test('it should render a flatpickr when @isDate (optional) argument is set to "true"', async function (assert) {
-      // given
-      this.setProperties({
-        value: new Date('2019-02-18'),
-        onUpdateCertificationBirthdate: () => resolve(),
-      });
-
-      // when
-      const screen = await render(hbs`<Certifications::InfoField
-            @label='Date de naissance:'
-            @fieldId="certification-birthdate"
-            @value={{this.value}}
-            @edition=true
-            @isDate=true
-            @onUpdateCertificationBirthdate={{this.onUpdateCertificationBirthdate}} />`);
-
-      // then
-      assert.dom(screen.getByRole('textbox', { name: 'Date de naissance:' })).exists();
     });
   });
 });
