@@ -81,6 +81,8 @@
     "@ls-lint/ls-lint": "^1.11.0",
     "@tsconfig/node16": "^1.0.2",
     "@types/node": "^17.0.23",
+    "@typescript-eslint/eslint-plugin": "^5.19.0",
+    "@typescript-eslint/parser": "^5.19.0",
     "chai": "^4.3.6",
     "chai-as-promised": "^7.1.1",
     "chai-sorted": "^0.2.0",
