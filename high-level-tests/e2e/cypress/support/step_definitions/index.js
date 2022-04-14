@@ -10,15 +10,10 @@ Given('les données de test sont chargées', () => {
   cy.task('db:fixture', 'campaigns');
   cy.task('db:fixture', 'organization-learners');
   cy.task('db:fixture', 'campaign-participations');
-  cy.task('db:fixture', 'certification-centers');
-  cy.task('db:fixture', 'sessions');
-  cy.task('db:fixture', 'certification-courses');
   cy.task('db:fixture', 'assessments');
   cy.task('db:fixture', 'answers');
   cy.task('db:fixture', 'knowledge-elements');
   cy.task('db:fixture', 'users_pix_roles');
-  cy.task('db:fixture', 'certification-center-memberships');
-  cy.task('db:fixture', 'certification-candidates');
 });
 
 Given('tous les comptes sont créés', () => {
@@ -32,10 +27,6 @@ Given('je vais sur Pix', () => {
 
 Given('je vais sur Pix Orga', () => {
   cy.visitOrga('/');
-});
-
-Given('je vais sur Pix Certif', () => {
-  cy.visitCertif('/');
 });
 
 Given('je vais sur la page {string}', (pathname) => {
@@ -60,11 +51,7 @@ Given('je suis connecté à Pix Orga', () => {
   cy.loginOrga('daenerys.targaryen@pix.fr', 'pix123');
 });
 
-Given('je suis connecté à Pix Certif avec le mail {string}', (email) => {
-  cy.loginCertif(email, 'pix123');
-});
-
-Given('je suis connecté à Pix en tant qu\'administrateur', () => {
+Given("je suis connecté à Pix en tant qu'administrateur", () => {
   cy.loginAdmin('samwell.tarly@pix.fr', 'pix123');
 });
 
@@ -81,7 +68,9 @@ When(`je saisis {string} dans le champ {string}`, (value, label) => {
 });
 
 When(`je sélectionne {string} dans le champ {string}`, (value, label) => {
-  cy.contains(label).parent().within(() => cy.get('select').select(value));
+  cy.contains(label)
+    .parent()
+    .within(() => cy.get('select').select(value));
 });
 
 Then(`la page {string} est correctement affichée`, (pageName) => {
@@ -89,5 +78,7 @@ Then(`la page {string} est correctement affichée`, (pageName) => {
 });
 
 Then(`je vois {string} comme {string}`, (value, label) => {
-  cy.contains(label).parent().within(() => cy.contains(value));
+  cy.contains(label)
+    .parent()
+    .within(() => cy.contains(value));
 });
