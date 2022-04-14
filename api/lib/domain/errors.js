@@ -186,6 +186,13 @@ class AuthenticationKeyForPoleEmploiTokenExpired extends DomainError {
     super(message);
   }
 }
+
+class AuthenticationKeyForCnavTokenExpired extends DomainError {
+  constructor(message = 'This authentication key for cnav token has expired.') {
+    super(message);
+  }
+}
+
 class AccountRecoveryDemandExpired extends DomainError {
   constructor(message = 'This account recovery demand has expired.') {
     super(message);
@@ -970,6 +977,14 @@ class GeneratePoleEmploiTokensError extends DomainError {
   }
 }
 
+class GenerateCnavTokensError extends DomainError {
+  constructor(message, status) {
+    super(message);
+    this.status = parseInt(status, 10);
+    this.title = 'Cnav tokens generation fails.';
+  }
+}
+
 class InvalidMembershipOrganizationRoleError extends DomainError {
   constructor(message = 'Le rôle du membre est invalide.') {
     super(message);
@@ -983,6 +998,12 @@ class TooManyRows extends DomainError {
 }
 
 class UnexpectedPoleEmploiStateError extends DomainError {
+  constructor(message = 'La valeur du paramètre state reçu ne correspond pas à celui envoyé.') {
+    super(message);
+  }
+}
+
+class UnexpectedCnavStateError extends DomainError {
   constructor(message = 'La valeur du paramètre state reçu ne correspond pas à celui envoyé.') {
     super(message);
   }
@@ -1158,6 +1179,7 @@ module.exports = {
   FileValidationError,
   ForbiddenAccess,
   GeneratePoleEmploiTokensError,
+  GenerateCnavTokensError,
   ImproveCompetenceEvaluationForbiddenError,
   InvalidCertificationCandidate,
   InvalidCertificationReportForFinalization,
@@ -1213,6 +1235,7 @@ module.exports = {
   TargetProfileCannotBeCreated,
   TooManyRows,
   UnexpectedPoleEmploiStateError,
+  UnexpectedCnavStateError,
   UnexpectedUserAccountError,
   UserAccountNotFoundForPoleEmploiError,
   UnknownCountryForStudentEnrollmentError,
@@ -1240,4 +1263,5 @@ module.exports = {
   UserShouldNotBeReconciledOnAnotherAccountError,
   WrongDateFormatError,
   YamlParsingError,
+  AuthenticationKeyForCnavTokenExpired,
 };

@@ -206,6 +206,41 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
         return expect(foundUser).to.be.null;
       });
     });
+
+    describe('#findByCnavExternalIdentifier', function () {
+      const externalIdentityId = 'external-identity-id';
+
+      let userInDb;
+
+      beforeEach(async function () {
+        userInDb = databaseBuilder.factory.buildUser();
+        databaseBuilder.factory.buildAuthenticationMethod.withCnavAsIdentityProvider({
+          externalIdentifier: externalIdentityId,
+          userId: userInDb.id,
+        });
+        await databaseBuilder.commit();
+      });
+
+      it('should return user informations for the given external identity id', async function () {
+        // when
+        const foundUser = await userRepository.findByCnavExternalIdentifier(externalIdentityId);
+
+        // then
+        expect(foundUser).to.be.an.instanceof(User);
+        expect(foundUser.id).to.equal(userInDb.id);
+      });
+
+      it('should return undefined when no user was found with this external identity id', async function () {
+        // given
+        const badId = 'not-exist-external-identity-id';
+
+        // when
+        const foundUser = await userRepository.findByCnavExternalIdentifier(badId);
+
+        // then
+        return expect(foundUser).to.be.null;
+      });
+    });
   });
 
   describe('#getForObfuscation', function () {

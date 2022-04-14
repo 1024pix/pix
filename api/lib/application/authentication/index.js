@@ -175,6 +175,30 @@ exports.register = async (server) => {
         tags: ['api', 'Pôle emploi'],
       },
     },
+    {
+      method: 'POST',
+      path: '/api/cnav/token',
+      config: {
+        auth: { mode: 'optional' },
+        payload: {
+          allow: 'application/x-www-form-urlencoded',
+        },
+        validate: {
+          payload: Joi.object().required().keys({
+            code: Joi.string().required(),
+            redirect_uri: Joi.string().required(),
+            state_sent: Joi.string().required(),
+            state_received: Joi.string().required(),
+          }),
+        },
+        handler: AuthenticationController.authenticateCnavUser,
+        notes: [
+          "- Cette route permet de récupérer l'ID Token d'un utilisateur provenant de la CNAV.\n" +
+            "- Elle retournera également un access token Pix correspondant à l'utilisateur.",
+        ],
+        tags: ['api', 'CNAV'],
+      },
+    },
   ]);
 };
 

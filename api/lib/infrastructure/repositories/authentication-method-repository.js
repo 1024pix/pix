@@ -8,7 +8,8 @@ const AuthenticationMethod = require('../../domain/models/AuthenticationMethod')
 function _toDomain(authenticationMethodDTO) {
   const externalIdentifier =
     authenticationMethodDTO.identityProvider === AuthenticationMethod.identityProviders.GAR ||
-    authenticationMethodDTO.identityProvider === AuthenticationMethod.identityProviders.POLE_EMPLOI
+    authenticationMethodDTO.identityProvider === AuthenticationMethod.identityProviders.POLE_EMPLOI ||
+    authenticationMethodDTO.identityProvider === AuthenticationMethod.identityProviders.CNAV
       ? authenticationMethodDTO.externalIdentifier
       : undefined;
   const authenticationComplement = _toAuthenticationComplement(
@@ -38,6 +39,10 @@ function _toAuthenticationComplement(identityProvider, bookshelfAuthenticationCo
     }
 
     return new AuthenticationMethod.GARAuthenticationComplement(bookshelfAuthenticationComplement);
+  }
+
+  if (identityProvider === AuthenticationMethod.identityProviders.CNAV) {
+    return new AuthenticationMethod.CnavAuthenticationComplement(bookshelfAuthenticationComplement);
   }
 
   return undefined;
@@ -260,6 +265,20 @@ module.exports = {
     if (!authenticationMethodDTO) {
       throw new AuthenticationMethodNotFoundError(
         `No rows updated for authentication method of type ${AuthenticationMethod.identityProviders.POLE_EMPLOI} for user ${userId}.`
+      );
+    }
+    return _toDomain(authenticationMethodDTO);
+  },
+
+  async updateCnavAuthenticationComplementByUserId({ authenticationComplement, userId }) {
+    const [authenticationMethodDTO] = await knex(AUTHENTICATION_METHODS_TABLE)
+      .where({ userId, identityProvider: AuthenticationMethod.identityProviders.CNAV })
+      .update({ authenticationComplement, updatedAt: new Date() })
+      .returning(COLUMNS);
+
+    if (!authenticationMethodDTO) {
+      throw new AuthenticationMethodNotFoundError(
+        `No rows updated for authentication method of type ${AuthenticationMethod.identityProviders.CNAV} for user ${userId}.`
       );
     }
     return _toDomain(authenticationMethodDTO);

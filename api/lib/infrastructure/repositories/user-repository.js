@@ -366,6 +366,17 @@ module.exports = {
     return bookshelfUser ? _toDomain(bookshelfUser) : null;
   },
 
+  async findByCnavExternalIdentifier(externalIdentityId) {
+    const bookshelfUser = await BookshelfUser.query((qb) => {
+      qb.innerJoin('authentication-methods', function () {
+        this.on('users.id', 'authentication-methods.userId')
+          .andOnVal('authentication-methods.identityProvider', AuthenticationMethod.identityProviders.CNAV)
+          .andOnVal('authentication-methods.externalIdentifier', externalIdentityId);
+      });
+    }).fetch({ require: false, withRelated: 'authenticationMethods' });
+    return bookshelfUser ? _toDomain(bookshelfUser) : null;
+  },
+
   async findAnotherUserByEmail(userId, email) {
     return BookshelfUser.where('id', '!=', userId)
       .where({ email: email.toLowerCase() })
@@ -492,6 +503,12 @@ function _getAuthenticationComplementAndExternalIdentifier(authenticationMethodB
     externalIdentifier = undefined;
   } else if (identityProvider === AuthenticationMethod.identityProviders.POLE_EMPLOI) {
     authenticationComplement = new AuthenticationMethod.PoleEmploiAuthenticationComplement({
+      accessToken: authenticationComplement.accessToken,
+      refreshToken: authenticationComplement.refreshToken,
+      expiredDate: authenticationComplement.expiredDate,
+    });
+  } else if (identityProvider === AuthenticationMethod.identityProviders.CNAV) {
+    authenticationComplement = new AuthenticationMethod.CnavAuthenticationComplement({
       accessToken: authenticationComplement.accessToken,
       refreshToken: authenticationComplement.refreshToken,
       expiredDate: authenticationComplement.expiredDate,

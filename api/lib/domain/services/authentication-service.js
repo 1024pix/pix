@@ -4,9 +4,10 @@ const get = require('lodash/get');
 const settings = require('../../config');
 const httpAgent = require('../../infrastructure/http/http-agent');
 
-const { GeneratePoleEmploiTokensError } = require('../errors');
+const { GeneratePoleEmploiTokensError, GenerateCnavTokensError } = require('../errors');
 
 const PoleEmploiTokens = require('../models/PoleEmploiTokens');
+const CnavTokens = require('../models/CnavTokens');
 
 const encryptionService = require('./encryption-service');
 const tokenService = require('./token-service');
@@ -52,6 +53,34 @@ async function exchangePoleEmploiCodeForTokens({ code, redirectUri }) {
   });
 }
 
+async function exchangeCnavCodeForTokens({ code, redirectUri }) {
+  const data = {
+    client_secret: settings.cnav.clientSecret,
+    grant_type: 'authorization_code',
+    code,
+    client_id: settings.cnav.clientId,
+    redirect_uri: redirectUri,
+  };
+
+  const tokensResponse = await httpAgent.post({
+    url: settings.cnav.tokenUrl,
+    payload: querystring.stringify(data),
+    headers: { 'content-type': 'application/x-www-form-urlencoded' },
+  });
+
+  if (!tokensResponse.isSuccessful) {
+    const errorMessage = _getErrorMessage(tokensResponse.data);
+    throw new GenerateCnavTokensError(errorMessage, tokensResponse.code);
+  }
+
+  return new CnavTokens({
+    accessToken: tokensResponse.data['access_token'],
+    idToken: tokensResponse.data['id_token'],
+    expiresIn: tokensResponse.data['expires_in'],
+    refreshToken: tokensResponse.data['refresh_token'],
+  });
+}
+
 async function getPoleEmploiUserInfo(idToken) {
   const { given_name, family_name, nonce, idIdentiteExterne } = await tokenService.extractPayloadFromPoleEmploiIdToken(
     idToken
@@ -61,6 +90,17 @@ async function getPoleEmploiUserInfo(idToken) {
     firstName: given_name,
     lastName: family_name,
     externalIdentityId: idIdentiteExterne,
+    nonce,
+  };
+}
+
+async function getCnavUserInfo(idToken) {
+  const { given_name, family_name, nonce, sub } = await tokenService.extractClaimsFromCnavIdToken(idToken);
+
+  return {
+    firstName: given_name,
+    lastName: family_name,
+    externalIdentityId: sub,
     nonce,
   };
 }
@@ -88,6 +128,28 @@ function getPoleEmploiAuthUrl({ redirectUri }) {
   return { redirectTarget: redirectTarget.toString(), state, nonce };
 }
 
+function getCnavAuthUrl({ redirectUri }) {
+  const redirectTarget = new URL(settings.cnav.authUrl);
+  const state = uuidv4();
+  const nonce = uuidv4();
+  const clientId = settings.cnav.clientId;
+  const params = [
+    { key: 'state', value: state },
+    { key: 'nonce', value: nonce },
+    { key: 'client_id', value: clientId },
+    { key: 'redirect_uri', value: redirectUri },
+    { key: 'response_type', value: 'code' },
+    {
+      key: 'scope',
+      value: 'openid profile',
+    },
+  ];
+
+  params.forEach(({ key, value }) => redirectTarget.searchParams.append(key, value));
+
+  return { redirectTarget: redirectTarget.toString(), state, nonce };
+}
+
 function _getErrorMessage(data) {
   let message;
 
@@ -106,4 +168,7 @@ module.exports = {
   getPoleEmploiUserInfo,
   getPoleEmploiAuthUrl,
   getUserByUsernameAndPassword,
+  getCnavAuthUrl,
+  getCnavUserInfo,
+  exchangeCnavCodeForTokens,
 };

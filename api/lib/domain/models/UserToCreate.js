@@ -56,6 +56,17 @@ class UserToCreate {
     });
   }
 
+  static createFromCnav(user) {
+    const now = new Date();
+    return new UserToCreate({
+      ...user,
+      cgu: true,
+      lastTermsOfServiceValidatedAt: now,
+      createdAt: now,
+      updatedAt: now,
+    });
+  }
+
   static createAnonymous(user) {
     const now = new Date();
     return new UserToCreate({

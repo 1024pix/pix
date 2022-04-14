@@ -93,6 +93,31 @@ module.exports = {
     }
   },
 
+  async authenticateCnavUser(request) {
+    const authenticatedUserId = get(request.auth, 'credentials.userId');
+    const { code, redirect_uri: redirectUri, state_sent: stateSent, state_received: stateReceived } = request.payload;
+
+    const result = await usecases.authenticateCnavUser({
+      authenticatedUserId,
+      code,
+      redirectUri,
+      stateReceived,
+      stateSent,
+    });
+
+    if (result.pixAccessToken && result.cnavTokens) {
+      return {
+        access_token: result.pixAccessToken,
+        id_token: result.cnavTokens.idToken,
+      };
+    } else {
+      const message = "L'utilisateur n'a pas de compte Pix";
+      const responseCode = 'SHOULD_VALIDATE_CGU';
+      const meta = { authenticationKey: result.authenticationKey };
+      throw new UnauthorizedError(message, responseCode, meta);
+    }
+  },
+
   async authenticateAnonymousUser(request, h) {
     const { campaign_code: campaignCode, lang } = request.payload;
     const accessToken = await usecases.authenticateAnonymousUser({ campaignCode, lang });

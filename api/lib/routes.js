@@ -33,6 +33,7 @@ module.exports = [
   require('./application/organizations'),
   require('./application/passwords'),
   require('./application/pole-emploi'),
+  require('./application/cnav'),
   require('./application/prescribers'),
   require('./application/progressions'),
   require('./application/saml'),

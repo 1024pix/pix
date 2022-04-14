@@ -64,6 +64,24 @@ describe('Unit | Domain | Models | UserToCreate', function () {
     });
   });
 
+  describe('#createFromCnav', function () {
+    it('should create a user from cnav', function () {
+      // given
+      const now = new Date('2022-04-01');
+      const clock = sinon.useFakeTimers({ now });
+
+      // when
+      const user = UserToCreate.createFromCnav({ email: '  anneMAIL@example.net ' });
+
+      // then
+      expect(user.cgu).to.equal(true);
+      expect(user.lastTermsOfServiceValidatedAt).to.deep.equal(now);
+      expect(user.updatedAt).to.deep.equal(now);
+      expect(user.createdAt).to.deep.equal(now);
+      clock.restore();
+    });
+  });
+
   describe('#createAnonymous', function () {
     it('should create an anonymous user', function () {
       // given

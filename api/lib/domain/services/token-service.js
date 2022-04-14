@@ -24,6 +24,11 @@ function createAccessTokenForPoleEmploi(userId) {
   return _createAccessToken({ userId, source: 'pole_emploi_connect', expirationDelaySeconds });
 }
 
+function createAccessTokenForCnav(userId) {
+  const expirationDelaySeconds = settings.cnav.accessTokenLifespanMs / 1000;
+  return _createAccessToken({ userId, source: 'cnav', expirationDelaySeconds });
+}
+
 function createAccessTokenForSaml(userId) {
   const expirationDelaySeconds = settings.saml.accessTokenLifespanMs / 1000;
   return _createAccessToken({ userId, source: 'external', expirationDelaySeconds });
@@ -188,6 +193,11 @@ async function extractPayloadFromPoleEmploiIdToken(idToken) {
   return { given_name, family_name, nonce, idIdentiteExterne };
 }
 
+async function extractClaimsFromCnavIdToken(idToken) {
+  const { given_name, family_name, nonce, sub } = await jsonwebtoken.decode(idToken);
+  return { given_name, family_name, nonce, sub };
+}
+
 module.exports = {
   createAccessTokenFromUser,
   createAccessTokenForPoleEmploi,
@@ -201,6 +211,7 @@ module.exports = {
   getDecodedToken,
   extractExternalUserFromIdToken,
   extractPayloadFromPoleEmploiIdToken,
+  extractClaimsFromCnavIdToken,
   extractResultRecipientEmailAndSessionId,
   extractSamlId,
   extractSessionId,
@@ -208,4 +219,5 @@ module.exports = {
   extractUserId,
   extractClientId,
   extractUserIdForCampaignResults,
+  createAccessTokenForCnav,
 };

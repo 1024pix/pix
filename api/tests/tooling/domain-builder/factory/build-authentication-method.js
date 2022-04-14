@@ -119,4 +119,31 @@ buildAuthenticationMethod.withPoleEmploiAsIdentityProvider = function ({
   });
 };
 
+buildAuthenticationMethod.withCnavAsIdentityProvider = function ({
+  id,
+  externalIdentifier = `externalId${id}`,
+  accessToken = 'ABC456789',
+  refreshToken = 'ZFGEADZA789',
+  expiredDate = new Date('2022-01-01'),
+  userId,
+  createdAt = new Date('2020-01-01'),
+  updatedAt = new Date('2020-02-01'),
+} = {}) {
+  userId = isUndefined(userId) ? _buildUser().id : userId;
+
+  return new AuthenticationMethod({
+    id,
+    identityProvider: AuthenticationMethod.identityProviders.CNAV,
+    authenticationComplement: new AuthenticationMethod.CnavAuthenticationComplement({
+      accessToken,
+      refreshToken,
+      expiredDate,
+    }),
+    externalIdentifier,
+    userId,
+    createdAt,
+    updatedAt,
+  });
+};
+
 module.exports = buildAuthenticationMethod;

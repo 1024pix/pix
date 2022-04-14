@@ -2,6 +2,7 @@ const { sinon, expect, catchErr, hFake } = require('../../../test-helper');
 const tokenService = require('../../../../lib/domain/services/token-service');
 const usecases = require('../../../../lib/domain/usecases');
 const PoleEmploiTokens = require('../../../../lib/domain/models/PoleEmploiTokens');
+const CnavTokens = require('../../../../lib/domain/models/CnavTokens');
 
 const { UnauthorizedError } = require('../../../../lib/application/http-errors');
 
@@ -178,6 +179,87 @@ describe('Unit | Application | Controller | Authentication', function () {
 
       // when
       const error = await catchErr(authenticationController.authenticatePoleEmploiUser)(request, hFake);
+
+      // then
+      expect(error).to.be.an.instanceOf(UnauthorizedError);
+      expect(error.message).to.equal(expectedErrorMessage);
+      expect(error.code).to.equal(expectedResponseCode);
+      expect(error.meta).to.deep.equal(expectedMeta);
+    });
+  });
+
+  describe('#authenticateCnavUser', function () {
+    const code = 'ABCD';
+    const redirect_uri = 'http://redirectUri.fr';
+    const state_sent = 'state';
+    const state_received = 'state';
+
+    const pixAccessToken = 'pixAccessToken';
+    const cnavTokens = new CnavTokens({
+      accessToken: 'cnavAccessToken',
+      expiresIn: 60,
+      idToken: 'idToken',
+      refreshToken: 'refreshToken',
+    });
+
+    let request;
+
+    beforeEach(function () {
+      request = {
+        payload: {
+          code,
+          redirect_uri,
+          state_sent,
+          state_received,
+        },
+      };
+
+      sinon.stub(usecases, 'authenticateCnavUser');
+    });
+
+    it('should call usecase with payload parameters', async function () {
+      // given
+      usecases.authenticateCnavUser.resolves({ pixAccessToken, cnavTokens });
+      const expectedParameters = {
+        authenticatedUserId: undefined,
+        code,
+        redirectUri: redirect_uri,
+        stateReceived: state_received,
+        stateSent: state_sent,
+      };
+
+      // when
+      await authenticationController.authenticateCnavUser(request, hFake);
+
+      // then
+      expect(usecases.authenticateCnavUser).to.have.been.calledWith(expectedParameters);
+    });
+
+    it('should return PIX access token and Pole emploi ID token', async function () {
+      // given
+      usecases.authenticateCnavUser.resolves({ pixAccessToken, cnavTokens });
+      const expectedResult = {
+        access_token: pixAccessToken,
+        id_token: cnavTokens.idToken,
+      };
+
+      // when
+      const response = await authenticationController.authenticateCnavUser(request, hFake);
+
+      // then
+      expect(response).to.deep.equal(expectedResult);
+    });
+
+    it('should return UnauthorizedError if pixAccessToken is not exist', async function () {
+      // given
+      const authenticationKey = 'aaa-bbb-ccc';
+      usecases.authenticateCnavUser.resolves({ authenticationKey });
+      const expectedErrorMessage = "L'utilisateur n'a pas de compte Pix";
+      const expectedResponseCode = 'SHOULD_VALIDATE_CGU';
+      const expectedMeta = { authenticationKey };
+
+      // when
+      const error = await catchErr(authenticationController.authenticateCnavUser)(request, hFake);
 
       // then
       expect(error).to.be.an.instanceOf(UnauthorizedError);

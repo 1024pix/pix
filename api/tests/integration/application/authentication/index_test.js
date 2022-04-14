@@ -21,6 +21,7 @@ describe('Integration | Application | Route | AuthenticationRouter', function ()
     sinon
       .stub(authenticationController, 'authenticatePoleEmploiUser')
       .callsFake((request, h) => h.response('ok').code(200));
+    sinon.stub(authenticationController, 'authenticateCnavUser').callsFake((request, h) => h.response('ok').code(200));
     sinon
       .stub(authenticationController, 'authenticateAnonymousUser')
       .callsFake((request, h) => h.response('ok').code(200));
@@ -274,6 +275,86 @@ describe('Integration | Application | Route | AuthenticationRouter', function ()
   describe('POST /api/pole-emploi/token', function () {
     const method = 'POST';
     const url = '/api/pole-emploi/token';
+    const headers = {};
+
+    const code = 'ABCD';
+    const redirect_uri = 'http://redirectUri.fr';
+    const state_sent = 'state_sent';
+    const state_received = 'state_received';
+
+    let payload;
+
+    beforeEach(function () {
+      headers['content-type'] = 'application/x-www-form-urlencoded';
+
+      payload = querystring.stringify({
+        code,
+        redirect_uri,
+        state_sent,
+        state_received,
+      });
+    });
+
+    it('should return a response with HTTP status code 200', async function () {
+      // when
+      const response = await server.inject({ method, url, payload, auth: null, headers });
+
+      // then
+      expect(response.statusCode).to.equal(200);
+    });
+
+    it('should return 415 when headers content-type is wrong', async function () {
+      // given
+      headers['content-type'] = 'application/json';
+
+      // when
+      const response = await server.inject({ method, url, payload, auth: null, headers });
+
+      // then
+      expect(response.statusCode).to.equal(415);
+    });
+
+    it('should return 400 when payload is missing', async function () {
+      // given
+      payload = undefined;
+
+      // when
+      const response = await server.inject({ method, url, payload, auth: null, headers });
+
+      // then
+      expect(response.statusCode).to.equal(400);
+    });
+
+    it('should return 400 when code is missing', async function () {
+      // given
+      payload = querystring.stringify({
+        redirect_uri,
+      });
+
+      // when
+      const response = await server.inject({ method, url, payload, auth: null, headers });
+
+      // then
+      expect(response.statusCode).to.equal(400);
+    });
+
+    it('should return 400 when redirect_uri is missing', async function () {
+      // given
+      payload = querystring.stringify({
+        code,
+      });
+
+      // when
+      const response = await server.inject({ method, url, payload, auth: null, headers });
+
+      // then
+      expect(response.statusCode).to.equal(400);
+    });
+  });
+
+  describe('POST /api/cnav/token', function () {
+    const method = 'POST';
+    const url = '/api/cnav/token';
     const headers = {};
 
     const code = 'ABCD';
