@@ -8,7 +8,6 @@ const {
   PasswordNotMatching,
   UserShouldChangePasswordError,
   UnexpectedUserAccountError,
-  InvalidExternalUserTokenError,
   UserAlreadyExistsWithAuthenticationMethodError,
 } = require('../../../../lib/domain/errors');
 const AuthenticationMethod = require('../../../../lib/domain/models/AuthenticationMethod');
@@ -23,7 +22,7 @@ describe('Unit | Application | UseCase | authenticate-external-user', function (
   beforeEach(function () {
     tokenService = {
       createAccessTokenForSaml: sinon.stub(),
-      extractSamlId: sinon.stub(),
+      extractExternalUserFromIdToken: sinon.stub(),
     };
     authenticationService = {
       getUserByUsernameAndPassword: sinon.stub(),
@@ -159,34 +158,6 @@ describe('Unit | Application | UseCase | authenticate-external-user', function (
     });
 
     context('when adding GAR authentication method', function () {
-      it('should throw an error if external user token is invalid', async function () {
-        // given
-        const password = 'Azerty123*';
-        const user = createUserWithValidCredentials({
-          password,
-          authenticationService,
-          userRepository,
-        });
-
-        const invalidExternalUserToken = 'INVALID_EXTERNAL_USER_TOKEN';
-        tokenService.extractSamlId.withArgs(invalidExternalUserToken).returns(null);
-
-        // when
-        const error = await catchErr(authenticateExternalUser)({
-          username: user.email,
-          password,
-          externalUserToken: invalidExternalUserToken,
-          expectedUserId: user.id,
-          tokenService,
-          authenticationService,
-          authenticationMethodRepository,
-          userRepository,
-        });
-
-        // then
-        expect(error).to.be.instanceOf(InvalidExternalUserTokenError);
-      });
-
       it('should throw an error if user from external user token is not the same as found user from credentials', async function () {
         // given
         const password = 'Azerty123*';
@@ -198,7 +169,7 @@ describe('Unit | Application | UseCase | authenticate-external-user', function (
 
         const externalUserToken = 'EXTERNAL_USER_TOKEN';
         const samlId = 'samlId';
-        tokenService.extractSamlId.withArgs(externalUserToken).returns(samlId);
+        tokenService.extractExternalUserFromIdToken.withArgs(externalUserToken).returns({ samlId });
 
         const userFromExternalUserToken = domainBuilder.buildUser({ id: userFromCredentials.id + 1 });
         userRepository.getBySamlId.withArgs(samlId).resolves(userFromExternalUserToken);
@@ -234,6 +205,8 @@ describe('Unit | Application | UseCase | authenticate-external-user', function (
           user,
           externalUserToken,
           samlId,
+          firstName: 'Hervé',
+          lastName: 'Le Terrier',
           tokenService,
           userRepository,
           authenticationMethodRepository,
@@ -256,6 +229,10 @@ describe('Unit | Application | UseCase | authenticate-external-user', function (
           identityProvider: AuthenticationMethod.identityProviders.GAR,
           externalIdentifier: samlId,
           userId: user.id,
+          authenticationComplement: new AuthenticationMethod.GARAuthenticationComplement({
+            firstName: 'Hervé',
+            lastName: 'Le Terrier',
+          }),
         });
         expect(authenticationMethodRepository.create).to.have.been.calledWith({
           authenticationMethod: expectedAuthenticationMethod,
@@ -279,6 +256,8 @@ describe('Unit | Application | UseCase | authenticate-external-user', function (
           user,
           externalUserToken,
           samlId: externalIdentifier,
+          firstName: 'Monique',
+          lastName: 'Samoëns',
           tokenService,
           userRepository,
           authenticationMethodRepository,
@@ -301,6 +280,10 @@ describe('Unit | Application | UseCase | authenticate-external-user', function (
           identityProvider: AuthenticationMethod.identityProviders.GAR,
           externalIdentifier,
           userId: user.id,
+          authenticationComplement: new AuthenticationMethod.GARAuthenticationComplement({
+            firstName: 'Monique',
+            lastName: 'Samoëns',
+          }),
         });
         expect(authenticationMethodRepository.create).to.have.been.calledWith({
           authenticationMethod: expectedAuthenticationMethod,
@@ -454,8 +437,10 @@ function _stubToEnableAddGarAuthenticationMethod({
   tokenService,
   userRepository,
   authenticationMethodRepository,
+  firstName = 'Hervé',
+  lastName = 'Le Terrier',
 }) {
-  tokenService.extractSamlId.withArgs(externalUserToken).returns(samlId);
+  tokenService.extractExternalUserFromIdToken.withArgs(externalUserToken).returns({ samlId, firstName, lastName });
   userRepository.getBySamlId.withArgs(samlId).resolves(user);
   authenticationMethodRepository.create.resolves();
 }
