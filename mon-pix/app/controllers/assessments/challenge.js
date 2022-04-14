@@ -20,11 +20,14 @@ export default class ChallengeController extends Controller {
   @tracked competenceLeveled = null;
   @tracked challengeTitle = defaultPageTitle;
   @tracked hasFocusedOutOfChallenge = false;
-  @tracked hasFocusedOutOfWindow = this.model.assessment.hasFocusedOutChallenge;
   @tracked hasUserConfirmedTimedChallengeWarning = false;
 
   get showLevelup() {
     return this.model.assessment.showLevelup && this.newLevel;
+  }
+
+  get hasFocusedOutOfWindow() {
+    return this.model.assessment.hasFocusedOutChallenge;
   }
 
   get pageTitle() {
@@ -78,7 +81,6 @@ export default class ChallengeController extends Controller {
 
   @action
   async focusedOutOfWindow() {
-    this.hasFocusedOutOfWindow = true;
     this.model.assessment.lastQuestionState = 'focusedout';
     await this.model.assessment.save({
       adapterOptions: {
@@ -120,15 +122,12 @@ export default class ChallengeController extends Controller {
   @action
   resetAllChallengeInfo() {
     this._resetNonContextualChallengeInfo();
-    this.hasFocusedOutOfWindow = false;
     this.model.assessment.lastQuestionState = 'asked';
   }
 
   @action
   resetChallengeInfoOnResume() {
     this._resetNonContextualChallengeInfo();
-    // Keep focused out of window state
-    this.hasFocusedOutOfWindow = this.model.assessment.hasFocusedOutChallenge;
   }
 
   get displayHomeLink() {

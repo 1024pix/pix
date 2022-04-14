@@ -121,7 +121,6 @@ export default class ChallengeRoute extends Route {
   resetController(controller, isExiting) {
     if (isExiting) {
       controller.set('hasFocusedOutOfChallenge', false);
-      controller.set('hasFocusedOutOfWindow', false);
     }
   }
 }
