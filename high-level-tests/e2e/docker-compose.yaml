@@ -24,7 +24,6 @@ services:
     depends_on:
       - orga
       - monpix
-      - certif
 
   orga:
     container_name: pix-e2e-orga
@@ -34,17 +33,6 @@ services:
     volumes:
       - ../..:/code
     working_dir: /code/orga
-    depends_on:
-      - api
-
-  certif:
-    container_name: pix-e2e-certif
-    user: node
-    image: node:14.16.0
-    command: npx ember serve --proxy http://api:3000
-    volumes:
-      - ../..:/code
-    working_dir: /code/certif
     depends_on:
       - api
 
