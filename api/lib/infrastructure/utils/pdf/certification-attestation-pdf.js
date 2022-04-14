@@ -2,7 +2,6 @@ const { PDFDocument, rgb } = require('pdf-lib');
 const { readFile } = require('fs/promises');
 const pdfLibFontkit = require('@pdf-lib/fontkit');
 const moment = require('moment');
-const sharp = require('sharp');
 const _ = require('lodash');
 
 const AttestationViewModel = require('./AttestationViewModel');
@@ -12,12 +11,6 @@ const fonts = {
   openSansSemiBold: 'OpenSans-SemiBold.ttf',
   robotoMedium: 'Roboto-Medium.ttf',
   robotoMonoRegular: 'RobotoMono-Regular.ttf',
-};
-
-const complementaryCertificationImagesCoords = {
-  clea: { width: 80, height: 100 },
-  droit: { width: 100, height: 120 },
-  edu: { width: 80, height: 90 },
 };
 
 const templates = {
@@ -80,8 +73,7 @@ async function _embedImages(pdfDocument, viewModels) {
 
   if (viewModelsWithCleaCertification.length > 0) {
     const cleaCertificationImagePath = viewModelsWithCleaCertification[0].cleaCertificationImagePath;
-    const { width, height } = complementaryCertificationImagesCoords.clea;
-    const image = await _embedCertificationImage(pdfDocument, cleaCertificationImagePath, width, height);
+    const image = await _embedCertificationImage(pdfDocument, cleaCertificationImagePath);
     embeddedImages[cleaCertificationImagePath] = image;
   }
 
@@ -94,9 +86,8 @@ async function _embedImages(pdfDocument, viewModels) {
       .map('pixPlusDroitCertificationImagePath')
       .uniq()
       .value();
-    const { width, height } = complementaryCertificationImagesCoords.droit;
     for (const path of singleImagePaths) {
-      const image = await _embedCertificationImage(pdfDocument, path, width, height);
+      const image = await _embedCertificationImage(pdfDocument, path);
       embeddedImages[path] = image;
     }
   }
@@ -110,22 +101,17 @@ async function _embedImages(pdfDocument, viewModels) {
       .map('pixPlusEduCertificationImagePath')
       .uniq()
       .value();
-    const { width, height } = complementaryCertificationImagesCoords.edu;
     for (const path of singleImagePaths) {
-      embeddedImages[path] = await _embedCertificationImage(pdfDocument, path, width, height);
+      embeddedImages[path] = await _embedCertificationImage(pdfDocument, path);
     }
   }
   return embeddedImages;
 }
 
-async function _embedCertificationImage(pdfDocument, certificationImagePath, width, height) {
-  const pngBuffer = await sharp(certificationImagePath)
-    .resize(width, height, {
-      fit: 'inside',
-    })
-    .sharpen()
-    .toBuffer();
-  return pdfDocument.embedPng(pngBuffer);
+async function _embedCertificationImage(pdfDocument, certificationImagePath) {
+  const pngBuffer = await readFile(certificationImagePath);
+  const [page] = await pdfDocument.embedPdf(pngBuffer);
+  return page;
 }
 
 async function _embedTemplatePagesIntoDocument(viewModels, dirname, pdfDocument) {
@@ -289,23 +275,27 @@ function _renderPixPlusCertificationCertification(viewModel, page, embeddedImage
   let yCoordinate = 385;
 
   if (viewModel.shouldDisplayCleaCertification()) {
-    yCoordinate = 290;
+    yCoordinate = 280;
   }
 
   if (viewModel.shouldDisplayPixPlusDroitCertification()) {
-    const pngImage = embeddedImages[viewModel.pixPlusDroitCertificationImagePath];
-    page.drawImage(pngImage, {
-      x: 390,
+    const pdfImage = embeddedImages[viewModel.pixPlusDroitCertificationImagePath];
+    page.drawPage(pdfImage, {
+      x: 397,
       y: yCoordinate,
+      width: 85,
+      height: 111,
     });
     yCoordinate -= 100;
   }
 
   if (viewModel.shouldDisplayPixPlusEduCertification()) {
-    const pngImage = embeddedImages[viewModel.pixPlusEduCertificationImagePath];
-    page.drawImage(pngImage, {
+    const pdfImage = embeddedImages[viewModel.pixPlusEduCertificationImagePath];
+    page.drawPage(pdfImage, {
       x: 400,
       y: yCoordinate,
+      width: 80,
+      height: 89,
     });
     yCoordinate -= 15;
 
@@ -324,10 +314,12 @@ function _renderPixPlusCertificationCertification(viewModel, page, embeddedImage
 
 function _renderCleaCertification(viewModel, page, embeddedImages) {
   if (viewModel.shouldDisplayCleaCertification()) {
-    const pngImage = embeddedImages[viewModel.cleaCertificationImagePath];
-    page.drawImage(pngImage, {
+    const pdfImage = embeddedImages[viewModel.cleaCertificationImagePath];
+    page.drawPage(pdfImage, {
       x: 400,
       y: 400,
+      width: 80,
+      height: 84,
     });
   }
 }
