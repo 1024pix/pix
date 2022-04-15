@@ -1,5 +1,25 @@
 # Pix Changelog
 
+## v3.198.0 (15/04/2022)
+
+
+### :rocket: Amélioration
+- [#4328](https://github.com/1024pix/pix/pull/4328) [FEATURE] Afficher les macarons Pix+ Édu de 1er degré dans le certificat et certificat partagé dans Pix App (PIX-4768).
+- [#4319](https://github.com/1024pix/pix/pull/4319) [FEATURE] Enregistrer le prénom et nom reçu du GAR lors du rajout de la connexion GAR à un utilisateur existant (PIX-4770)
+
+### :building_construction: Tech
+- [#4334](https://github.com/1024pix/pix/pull/4334) [TECH] Mise à jour de Pix UI dans Pix Orga (PIX-4791).
+- [#4311](https://github.com/1024pix/pix/pull/4311) [TECH] Renommer les "pe" en "pole-emploi"
+- [#4300](https://github.com/1024pix/pix/pull/4300) [TECH] Stocker le taux de repro d'un parcours de certification (PIX-4757)
+- [#4312](https://github.com/1024pix/pix/pull/4312) [TECH] Supprimer le support des clés sans préfixe dans redis (PIX-4693)
+
+### :bug: Correction
+- [#4332](https://github.com/1024pix/pix/pull/4332) [BUGFIX] Copier les skill-sets pour les utiliser dans un autre badge dans le script de création de badge-criteria (PIX-4789).
+- [#4323](https://github.com/1024pix/pix/pull/4323) [BUGFIX] Fixer la valeur de `updatedAt` des invitations quand on archive une organisation (PIX-4780).
+
+### :coffee: Autre
+- [#4317](https://github.com/1024pix/pix/pull/4317) [A11Y] Ajouter un texte aux boutons de retour sur Pix Certif (PIX-4773).
+
 ## v3.197.0 (13/04/2022)
 
 
