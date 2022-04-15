@@ -37,11 +37,22 @@ export default class TubesSelectionTube extends Component {
     },
   ];
 
-  get isNotSelected() {
-    const tubeId = this.args.tube.id;
-    const tubesSelected = this.args.tubesSelected;
+  get state() {
+    const checked = this.args.tubesSelected.some((selectedTube) => selectedTube.id === this.args.tube.id);
+    return checked ? 'checked' : 'unchecked';
+  }
 
-    return !tubesSelected.find((tube) => tube.id === tubeId);
+  get checked() {
+    return this.state === 'checked';
+  }
+
+  @action
+  onChange(event) {
+    if (event.target.checked) {
+      this.args.checkTube(this.args.tube);
+    } else {
+      this.args.uncheckTube(this.args.tube);
+    }
   }
 
   @action

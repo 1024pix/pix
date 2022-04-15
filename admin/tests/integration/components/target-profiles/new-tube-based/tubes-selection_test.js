@@ -1,5 +1,5 @@
 import { module, test } from 'qunit';
-import { render } from '@ember/test-helpers';
+import { render } from '@1024pix/ember-testing-library';
 import hbs from 'htmlbars-inline-precompile';
 import { clickByName } from '@1024pix/ember-testing-library';
 import { setupRenderingTest } from 'ember-qunit';
@@ -43,6 +43,7 @@ module('Integration | Component | targetProfiles::NewTubeBased::TubesSelection',
         get sortedThematics() {
           return thematics;
         },
+        thematics,
       },
     ];
     const areas = [
@@ -54,7 +55,7 @@ module('Integration | Component | targetProfiles::NewTubeBased::TubesSelection',
         },
       },
     ];
-    selectedFrameworks = [{ areas: areas }];
+    selectedFrameworks = [{ areas }];
   });
 
   test('it should display a list of tubes', async function (assert) {
@@ -66,9 +67,9 @@ module('Integration | Component | targetProfiles::NewTubeBased::TubesSelection',
 
     // then
     assert.dom('.row-tube').exists({ count: 3 });
-    assert.dom(this.element.querySelector('[for="tube-tubeId1"]')).hasText('Tube 1 : Description 1');
-    assert.dom(this.element.querySelector('[for="tube-tubeId2"]')).hasText('Tube 2 : Description 2');
-    assert.dom(this.element.querySelector('[for="tube-tubeId3"]')).hasText('Tube 3 : Description 3');
+    assert.dom('[data-test=label-tube-tubeId1]').hasText('Tube 1 : Description 1');
+    assert.dom('[data-test=label-tube-tubeId2]').hasText('Tube 2 : Description 2');
+    assert.dom('[data-test=label-tube-tubeId3]').hasText('Tube 3 : Description 3');
   });
 
   test('it should check the tubes if selected', async function (assert) {

@@ -8,10 +8,10 @@
           <tr>
             <Table::Header @size="medium" scope="col">
               <label>
-                <Input
-                  @type="checkbox"
-                  {{on "input" (fn @updateSelectedCompetence @competence.id)}}
+                <TargetProfiles::NewTubeBased::Checkbox
                   id="competence-{{@competence.id}}"
+                  @state={{this.state}}
+                  {{on "change" this.onChange}}
                 />
                 Thématiques
               </label>
@@ -34,19 +34,18 @@
               <tr {{on "click" @toggleTubeInput}} class="row-tube" aria-label="Sujet">
                 {{#if (eq index 0)}}
                   <TargetProfiles::NewTubeBased::TubesSelectionThematic
-                    @updateSelectedThematic={{@updateSelectedThematic}}
-                    @competence={{@competence}}
                     @thematic={{thematic}}
-                    @toggleThematicInput={{@toggleThematicInput}}
+                    @tubesSelected={{@tubesSelected}}
+                    @checkTube={{@checkTube}}
+                    @uncheckTube={{@uncheckTube}}
                   />
                 {{/if}}
                 <TargetProfiles::NewTubeBased::TubesSelectionTube
-                  @competence={{@competence}}
-                  @thematic={{thematic}}
                   @tube={{tube}}
-                  @updateSelectedTubes={{@updateSelectedTubes}}
                   @setLevelTube={{@setLevelTube}}
                   @tubesSelected={{@tubesSelected}}
+                  @checkTube={{@checkTube}}
+                  @uncheckTube={{@uncheckTube}}
                 />
               </tr>
             {{/each}}

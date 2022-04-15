@@ -1,12 +1,10 @@
 {{! template-lint-disable no-invalid-interactive }}
-<th class="th--clickable" rowspan={{@thematic.tubes.length}} {{on "click" @toggleThematicInput}}>
+<th class="th--clickable" rowspan={{@thematic.tubes.length}} {{on "click" this.toggle}}>
   <label>
-    <Input
-      {{on "input" (fn @updateSelectedThematic @thematic.id)}}
-      data-competence={{@competence.id}}
-      data-thematicId={{@thematic.id}}
+    <TargetProfiles::NewTubeBased::Checkbox
       id="thematic-{{@thematic.id}}"
-      @type="checkbox"
+      @state={{this.state}}
+      {{on "change" this.onChange}}
     />
     {{@thematic.name}}
   </label>

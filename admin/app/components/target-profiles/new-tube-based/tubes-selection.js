@@ -30,6 +30,23 @@ export default class TubesSelection extends Component {
   }
 
   @action
+  checkTube(tube) {
+    if (this.tubesSelected.some((selectedTube) => selectedTube.id === tube.id)) {
+      return;
+    }
+    this.tubesSelected.pushObject({ id: tube.id, level: 'Illimité' }); // FIXME level
+  }
+
+  @action
+  uncheckTube(tube) {
+    const index = this.tubesSelected.findIndex((selectedTube) => selectedTube.id === tube.id);
+    if (index === -1) {
+      return;
+    }
+    this.tubesSelected.removeAt(index);
+  }
+
+  @action
   toggleTubeInput(event) {
     const checkbox = event.currentTarget.querySelector('[data-tube]');
     if (event.target.nodeName === 'TD') {
