@@ -1,6 +1,7 @@
 const { expect, domainBuilder } = require('../../../test-helper');
 
 const User = require('../../../../lib/domain/models/User');
+const PixAdminRole = require('../../../../lib/domain/models/PixAdminRole');
 
 describe('Unit | Domain | Models | User', function () {
   describe('constructor', function () {
@@ -47,11 +48,11 @@ describe('Unit | Domain | Models | User', function () {
       };
     });
 
-    it('should be true if user has role SUPER_ADMIN', function () {
+    it('should be true if user has role Super Admin', function () {
       // given
       userRawDetails.pixAdminRoles = [
         {
-          role: 'SUPER_ADMIN',
+          role: PixAdminRole.roles.SUPER_ADMIN,
         },
       ];
       const user = new User(userRawDetails);

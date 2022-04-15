@@ -1,5 +1,6 @@
 const _ = require('lodash');
 const AuthenticationMethod = require('./AuthenticationMethod');
+const PixAdminRole = require('./PixAdminRole');
 
 class User {
   constructor({
@@ -61,7 +62,7 @@ class User {
   }
 
   get hasRoleSuperAdmin() {
-    return !!this.pixAdminRoles.find(({ role }) => role === 'SUPER_ADMIN');
+    return !!this.pixAdminRoles.find(({ role }) => role === PixAdminRole.roles.SUPER_ADMIN);
   }
 
   get shouldChangePassword() {
