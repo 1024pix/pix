@@ -14,6 +14,8 @@ export default class NewCertificationCandidateModal extends Component {
   @tracked selectedCountryInseeCode = FRANCE_INSEE_CODE;
   @tracked maskedBirthdate;
 
+  @tracked isLoading = false;
+
   focus(element) {
     element.focus();
   }
@@ -71,7 +73,12 @@ export default class NewCertificationCandidateModal extends Component {
   @action
   async onFormSubmit(event) {
     event.preventDefault();
-    await this.args.saveCandidate(this.args.candidateData);
+    this.isLoading = true;
+    try {
+      await this.args.saveCandidate(this.args.candidateData);
+    } finally {
+      this.isLoading = false;
+    }
   }
 
   get isBirthGeoCodeRequired() {
