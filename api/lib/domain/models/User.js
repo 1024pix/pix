@@ -25,7 +25,7 @@ class User {
     isAnonymous,
     memberships = [],
     certificationCenterMemberships = [],
-    pixRoles = [],
+    pixAdminRoles = [],
     pixScore,
     scorecards = [],
     campaignParticipations = [],
@@ -51,7 +51,7 @@ class User {
     this.knowledgeElements = knowledgeElements;
     this.lang = lang;
     this.isAnonymous = isAnonymous;
-    this.pixRoles = pixRoles;
+    this.pixAdminRoles = pixAdminRoles;
     this.pixScore = pixScore;
     this.memberships = memberships;
     this.certificationCenterMemberships = certificationCenterMemberships;
@@ -61,7 +61,7 @@ class User {
   }
 
   get hasRolePixMaster() {
-    return !!this.pixRoles.find((pixRole) => pixRole.name === 'PIX_MASTER');
+    return !!this.pixAdminRoles.find(({ role }) => role === 'SUPER_ADMIN');
   }
 
   get shouldChangePassword() {

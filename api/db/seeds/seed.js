@@ -27,7 +27,7 @@ const { badgesBuilder } = require('./data/badges-builder');
 const tagsBuilder = require('./data/tags-builder');
 const { targetProfilesBuilder } = require('./data/target-profiles-builder');
 const { usersBuilder } = require('./data/users-builder');
-const usersPixRolesBuilder = require('./data/users_pix_roles-builder');
+const pixAdminRolesBuilder = require('./data/pix-admin-roles-builder');
 const stagesBuilder = require('./data/stages-builder');
 const { certificationCpfCountryBuilder } = require('./data/certification/certification-cpf-country-builder');
 const { certificationCpfCityBuilder } = require('./data/certification/certification-cpf-city-builder');
@@ -45,7 +45,7 @@ exports.seed = async (knex) => {
 
   // Users
   usersBuilder({ databaseBuilder });
-  usersPixRolesBuilder({ databaseBuilder });
+  pixAdminRolesBuilder({ databaseBuilder });
 
   // Organizations
   tagsBuilder({ databaseBuilder });

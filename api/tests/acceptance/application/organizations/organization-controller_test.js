@@ -75,22 +75,21 @@ describe('Acceptance | Application | organization-controller', function () {
 
       it('should save the Pix Master userId creating the Organization', async function () {
         // given
-        const PIX_MASTER_ROLE_ID = 1;
-        const pixMasterUserId = databaseBuilder.factory.buildUser().id;
-        databaseBuilder.factory.buildUserPixRole({
-          userId: pixMasterUserId,
-          pixRoleId: PIX_MASTER_ROLE_ID,
+        const superAdminUserId = databaseBuilder.factory.buildUser().id;
+        databaseBuilder.factory.buildPixAdminRole({
+          userId: superAdminUserId,
+          role: 'SUPER_ADMIN',
         });
         await databaseBuilder.commit();
 
-        options.headers.authorization = generateValidRequestAuthorizationHeader(pixMasterUserId);
+        options.headers.authorization = generateValidRequestAuthorizationHeader(superAdminUserId);
 
         // when
         const response = await server.inject(options);
 
         // then
         const createdOrganization = response.result.data.attributes;
-        expect(createdOrganization['created-by']).to.equal(pixMasterUserId);
+        expect(createdOrganization['created-by']).to.equal(superAdminUserId);
       });
     });
 

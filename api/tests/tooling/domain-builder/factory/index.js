@@ -82,7 +82,6 @@ module.exports = {
   buildPixPlusDroitCertificationResult: require('./build-pix-plus-droit-certification-result'),
   buildPixPlusDroitCertificationScoring: require('./build-pix-plus-droit-certification-scoring'),
   buildPixPlusEduCertificationScoring: require('./build-pix-plus-edu-certification-scoring'),
-  buildPixRole: require('./build-pix-role'),
   buildPlacementProfile: require('./build-placement-profile'),
   buildPoleEmploiSending: require('./build-pole-emploi-sending'),
   buildPrescriber: require('./build-prescriber'),

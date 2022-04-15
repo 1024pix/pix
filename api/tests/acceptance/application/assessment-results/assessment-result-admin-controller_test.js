@@ -77,7 +77,7 @@ describe('Acceptance | Controller | assessment-results-controller', function () 
       await knex('assessment-results').delete();
       await knex('assessments').delete();
       await knex('certification-courses').delete();
-      await knex('users_pix_roles').delete();
+      await knex('pix-admin-roles').delete();
       await knex('users').delete();
     });
 

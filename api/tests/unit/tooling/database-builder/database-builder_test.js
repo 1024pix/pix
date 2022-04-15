@@ -137,7 +137,6 @@ describe('Unit | Tooling | DatabaseBuilder | database-builder', function () {
           { table_name: 'table2' },
           { table_name: 'knex_migrations' },
           { table_name: 'knex_migrations_lock' },
-          { table_name: 'pix_roles' },
         ],
       });
       knex.raw.onCall(1).resolves();

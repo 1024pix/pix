@@ -43,15 +43,15 @@ describe('Unit | Domain | Models | User', function () {
         email: 'email@example.net',
         password: 'pix123',
         cgu: true,
-        pixRoles: [],
+        pixAdminRoles: [],
       };
     });
 
-    it('should be true if user has role PixMaster ', function () {
+    it('should be true if user has role SUPER_ADMIN', function () {
       // given
-      userRawDetails.pixRoles = [
+      userRawDetails.pixAdminRoles = [
         {
-          name: 'PIX_MASTER',
+          role: 'SUPER_ADMIN',
         },
       ];
       const user = new User(userRawDetails);
@@ -63,9 +63,9 @@ describe('Unit | Domain | Models | User', function () {
       expect(hasRole).to.be.true;
     });
 
-    it('should be false if user has not role PixMaster ', function () {
+    it('should be false if user has notrole SUPER_ADMIN ', function () {
       // given
-      userRawDetails.pixRoles = [];
+      userRawDetails.pixAdminRoles = [];
 
       const user = new User(userRawDetails);
 

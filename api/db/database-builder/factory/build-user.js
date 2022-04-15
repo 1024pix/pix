@@ -8,14 +8,13 @@ const Membership = require('../../../lib/domain/models/Membership');
 
 const encrypt = require('../../../lib/domain/services/encryption-service');
 
-const buildUserPixRole = require('./build-user-pix-role');
+const buildPixAdminRole = require('./build-pix-admin-role');
 const buildOrganization = require('./build-organization');
 const buildMembership = require('./build-membership');
 const buildCertificationCenter = require('./build-certification-center');
 const buildCertificationCenterMembership = require('./build-certification-center-membership');
 
 const { DEFAULT_PASSWORD } = require('../../seeds/data/users-builder');
-const PIX_MASTER_ROLE_ID = 1;
 
 function _buildPixAuthenticationMethod({
   id = databaseBuffer.getNextId(),
@@ -208,7 +207,7 @@ buildUser.withPixRolePixMaster = function buildUserWithPixRolePixMaster({
     updatedAt,
   });
 
-  buildUserPixRole({ userId: user.id, pixRoleId: PIX_MASTER_ROLE_ID });
+  buildPixAdminRole({ userId: user.id, role: 'SUPER_ADMIN' });
 
   return user;
 };
