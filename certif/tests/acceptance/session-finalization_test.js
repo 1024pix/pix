@@ -3,7 +3,7 @@ import { click, currentURL, fillIn } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { authenticateSession } from '../helpers/test-init';
 import clickByLabel from '../helpers/extended-ember-test-helpers/click-by-label';
-import { visit } from '@1024pix/ember-testing-library';
+import { visit as visitScreen, visit } from '@1024pix/ember-testing-library';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
@@ -88,6 +88,15 @@ module('Acceptance | Session Finalization', function (hooks) {
 
       // then
       assert.dom(screen.queryByText('Écran de fin du test vu')).exists();
+    });
+
+    test('it should redirect to session details on click on return button', async function (assert) {
+      // when
+      const screen = await visitScreen(`/sessions/${session.id}/finalisation`);
+      await click(screen.getByRole('link', { name: 'Retour à la session' }));
+
+      // then
+      assert.deepEqual(currentURL(), `/sessions/${session.id}`);
     });
 
     module('When certificationPointOfContact click on "Finaliser" button', function () {

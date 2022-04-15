@@ -2,7 +2,9 @@
 <div class="session-details-page">
   <div class="page__title session-details__header">
     <div class="session-details-header__title">
-      <PixReturnTo @route="authenticated.sessions.list" class="session-details-content__return-button" />
+      <PixReturnTo @route="authenticated.sessions.list">
+        Retour à la liste des sessions
+      </PixReturnTo>
       <h1 class="page-title">Session {{this.session.id}}</h1>
     </div>
 

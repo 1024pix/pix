@@ -51,6 +51,15 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
       await authenticateSession(certificationPointOfContact.id);
     });
 
+    test('it should redirect from candidates to session list on click on return button', async function (assert) {
+      // when
+      const screen = await visitScreen(`/sessions/${session.id}/candidats`);
+      await click(screen.getByRole('link', { name: 'Retour à la liste des sessions' }));
+
+      // then
+      assert.deepEqual(currentURL(), '/sessions/liste');
+    });
+
     module('when current certification center is blocked', function () {
       test('should redirect to espace-ferme URL', async function (assert) {
         // given
