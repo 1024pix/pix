@@ -4,7 +4,7 @@ import hbs from 'htmlbars-inline-precompile';
 import { clickByName } from '@1024pix/ember-testing-library';
 import { setupRenderingTest } from 'ember-qunit';
 
-module('Integration | Component | tube:list', function (hooks) {
+module('Integration | Component | targetProfiles::NewTubeBased::TubesSelection', function (hooks) {
   setupRenderingTest(hooks);
   let selectedFrameworks;
 
@@ -62,7 +62,7 @@ module('Integration | Component | tube:list', function (hooks) {
     this.set('selectedFrameworks', selectedFrameworks);
 
     // when
-    await render(hbs`<TargetProfiles::ListTubes @selectedFrameworks={{this.selectedFrameworks}}/>`);
+    await render(hbs`<TargetProfiles::NewTubeBased::TubesSelection @selectedFrameworks={{this.selectedFrameworks}}/>`);
 
     // then
     assert.dom('.row-tube').exists({ count: 3 });
@@ -76,7 +76,7 @@ module('Integration | Component | tube:list', function (hooks) {
     this.set('selectedFrameworks', selectedFrameworks);
 
     // when
-    await render(hbs`<TargetProfiles::ListTubes @selectedFrameworks={{this.selectedFrameworks}}/>`);
+    await render(hbs`<TargetProfiles::NewTubeBased::TubesSelection @selectedFrameworks={{this.selectedFrameworks}}/>`);
     const tube1 = document.getElementById('tube-tubeId1');
 
     await clickByName('1 · Titre domaine');
@@ -92,7 +92,7 @@ module('Integration | Component | tube:list', function (hooks) {
     this.set('selectedFrameworks', selectedFrameworks);
 
     // when
-    await render(hbs`<TargetProfiles::ListTubes @selectedFrameworks={{this.selectedFrameworks}}/>`);
+    await render(hbs`<TargetProfiles::NewTubeBased::TubesSelection @selectedFrameworks={{this.selectedFrameworks}}/>`);
     const tube1 = document.getElementById('tube-tubeId1');
     const tube2 = document.getElementById('tube-tubeId2');
     const competence = document.getElementById('competence-competenceId');
@@ -111,7 +111,7 @@ module('Integration | Component | tube:list', function (hooks) {
     this.set('selectedFrameworks', selectedFrameworks);
 
     // when
-    await render(hbs`<TargetProfiles::ListTubes @selectedFrameworks={{this.selectedFrameworks}}/>`);
+    await render(hbs`<TargetProfiles::NewTubeBased::TubesSelection @selectedFrameworks={{this.selectedFrameworks}}/>`);
     const thematic = document.getElementById('thematic-thematicId1');
     const competence = document.getElementById('competence-competenceId');
     await clickByName('1 · Titre domaine');
@@ -129,7 +129,7 @@ module('Integration | Component | tube:list', function (hooks) {
     this.set('selectedFrameworks', selectedFrameworks);
 
     // when
-    await render(hbs`<TargetProfiles::ListTubes @selectedFrameworks={{this.selectedFrameworks}}/>`);
+    await render(hbs`<TargetProfiles::NewTubeBased::TubesSelection @selectedFrameworks={{this.selectedFrameworks}}/>`);
     const thematic = document.getElementById('thematic-thematicId1');
     const competence = document.getElementById('competence-competenceId');
     await clickByName('1 · Titre domaine');
@@ -146,7 +146,7 @@ module('Integration | Component | tube:list', function (hooks) {
     this.set('selectedFrameworks', selectedFrameworks);
 
     // when
-    await render(hbs`<TargetProfiles::ListTubes @selectedFrameworks={{this.selectedFrameworks}}/>`);
+    await render(hbs`<TargetProfiles::NewTubeBased::TubesSelection @selectedFrameworks={{this.selectedFrameworks}}/>`);
     const competence = document.getElementById('competence-competenceId');
     await clickByName('1 · Titre domaine');
     await clickByName('1 Titre competence');
@@ -162,7 +162,7 @@ module('Integration | Component | tube:list', function (hooks) {
     this.set('selectedFrameworks', selectedFrameworks);
 
     // when
-    await render(hbs`<TargetProfiles::ListTubes @selectedFrameworks={{this.selectedFrameworks}}/>`);
+    await render(hbs`<TargetProfiles::NewTubeBased::TubesSelection @selectedFrameworks={{this.selectedFrameworks}}/>`);
     const thematic1 = document.getElementById('thematic-thematicId1');
     const thematic2 = document.getElementById('thematic-thematicId2');
     const tube1 = document.getElementById('tube-tubeId1');

@@ -5,7 +5,7 @@
       <div class="area-border {{area.color}}"></div>
       <PixCollapsible @title="{{area.code}} · {{area.title}}" class="{{area.color}} list-competences">
         {{#each area.sortedCompetences as |competence|}}
-          <TargetProfiles::Competence
+          <TargetProfiles::NewTubeBased::TubesSelectionCompetence
             @competence={{competence}}
             @updateSelectedCompetence={{this.updateSelectedCompetence}}
             @toggleTubeInput={{this.toggleTubeInput}}
