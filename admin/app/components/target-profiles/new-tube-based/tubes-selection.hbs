@@ -7,13 +7,11 @@
         {{#each area.sortedCompetences as |competence|}}
           <TargetProfiles::NewTubeBased::TubesSelectionCompetence
             @competence={{competence}}
-            @updateSelectedCompetence={{this.updateSelectedCompetence}}
             @toggleTubeInput={{this.toggleTubeInput}}
-            @updateSelectedThematic={{this.updateSelectedThematic}}
-            @toggleThematicInput={{this.toggleThematicInput}}
-            @updateSelectedTubes={{this.updateSelectedTubes}}
             @setLevelTube={{this.setLevelTube}}
             @tubesSelected={{this.tubesSelected}}
+            @checkTube={{this.checkTube}}
+            @uncheckTube={{this.uncheckTube}}
           />
         {{/each}}
       </PixCollapsible>

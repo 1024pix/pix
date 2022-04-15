@@ -1,12 +1,9 @@
 <td>
-  <label>
-    <Input
-      {{on "input" (fn @updateSelectedTubes @tube.id)}}
-      data-thematic={{@thematic.id}}
-      data-competenceId={{@competence.id}}
-      data-tube={{@tube.id}}
+  <label data-test="label-tube-{{@tube.id}}">
+    <TargetProfiles::NewTubeBased::Checkbox
       id="tube-{{@tube.id}}"
-      @type="checkbox"
+      @state={{this.state}}
+      {{on "change" this.onChange}}
     />
     {{@tube.practicalTitle}}
     :
@@ -19,7 +16,7 @@
     @options={{this.levelOptions}}
     @onChange={{this.setLevelTube}}
     @selectedOption={{8}}
-    disabled={{this.isNotSelected}}
+    disabled={{not this.checked}}
   />
   <label for="select-level-tube-{{@tube.id}}" class="sr-only">Sélection du niveau du sujet</label>
 </td>
