@@ -31,7 +31,7 @@ describe('Integration | Infrastructure | Utils | Pdf | Certification Attestation
       resultCompetenceTree,
       certifiedBadges: [{ partnerKey: PIX_EMPLOI_CLEA_V3 }, { partnerKey: PIX_DROIT_MAITRE_CERTIF }],
     });
-    const referencePdfPath = __dirname + '/certification-attestation-pdf_test_full.pdf';
+    const referencePdfPath = 'certification-attestation-pdf_test_full.pdf';
 
     // when
     const { buffer } = await getCertificationAttestationsPdfBuffer({
@@ -39,13 +39,13 @@ describe('Integration | Infrastructure | Utils | Pdf | Certification Attestation
       creationDate: new Date('2021-01-01'),
     });
 
-    // Note: to update the reference pdf, you can run the test with the following lines.
-    //
-    // const { writeFile } = require('fs/promises');
-    // await writeFile(referencePdfPath, buffer);
+    await _writeFile(buffer, referencePdfPath);
 
     // then
-    expect(await isSameBinary(referencePdfPath, buffer)).to.be.true;
+    expect(
+      await isSameBinary(`${__dirname}/${referencePdfPath}`, buffer),
+      referencePdfPath + ' is not generated as expected'
+    ).to.be.true;
   });
 
   it('should generate full attestation with Pix+ Édu temporary badge', async function () {
@@ -58,7 +58,7 @@ describe('Integration | Infrastructure | Utils | Pdf | Certification Attestation
       resultCompetenceTree,
       certifiedBadges: [{ partnerKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE, isTemporaryBadge: true }],
     });
-    const referencePdfPath = __dirname + '/certification-attestation-pdf_test_full_edu_temporary.pdf';
+    const referencePdfPath = 'certification-attestation-pdf_test_full_edu_temporary.pdf';
 
     // when
     const { buffer } = await getCertificationAttestationsPdfBuffer({
@@ -66,13 +66,13 @@ describe('Integration | Infrastructure | Utils | Pdf | Certification Attestation
       creationDate: new Date('2021-01-01'),
     });
 
-    // Note: to update the reference pdf, you can run the test with the following lines.
-    //
-    // const { writeFile } = require('fs/promises');
-    // await writeFile(referencePdfPath, buffer);
+    await _writeFile(buffer, referencePdfPath);
 
     // then
-    expect(await isSameBinary(referencePdfPath, buffer)).to.be.true;
+    expect(
+      await isSameBinary(`${__dirname}/${referencePdfPath}`, buffer),
+      referencePdfPath + ' is not generated as expected'
+    ).to.be.true;
   });
 
   it('should generate full attestation with Pix+ Édu definitive badge', async function () {
@@ -85,7 +85,7 @@ describe('Integration | Infrastructure | Utils | Pdf | Certification Attestation
       resultCompetenceTree,
       certifiedBadges: [{ partnerKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE, isTemporaryBadge: false }],
     });
-    const referencePdfPath = __dirname + '/certification-attestation-pdf_test_full_edu.pdf';
+    const referencePdfPath = 'certification-attestation-pdf_test_full_edu.pdf';
 
     // when
     const { buffer } = await getCertificationAttestationsPdfBuffer({
@@ -93,13 +93,13 @@ describe('Integration | Infrastructure | Utils | Pdf | Certification Attestation
       creationDate: new Date('2021-01-01'),
     });
 
-    // Note: to update the reference pdf, you can run the test with the following lines.
-    //
-    // const { writeFile } = require('fs/promises');
-    // await writeFile(referencePdfPath, buffer);
+    await _writeFile(buffer, referencePdfPath);
 
     // then
-    expect(await isSameBinary(referencePdfPath, buffer)).to.be.true;
+    expect(
+      await isSameBinary(`${__dirname}/${referencePdfPath}`, buffer),
+      referencePdfPath + ' is not generated as expected'
+    ).to.be.true;
   });
 
   it('should generate a page per certificate', async function () {
@@ -128,7 +128,7 @@ describe('Integration | Infrastructure | Utils | Pdf | Certification Attestation
       pixPlusDroitCertificationImagePath: null,
       certifiedBadges: [],
     });
-    const referencePdfPath = __dirname + '/certification-attestation-pdf_several_pages.pdf';
+    const referencePdfPath = 'certification-attestation-pdf_several_pages.pdf';
 
     // when
     const { buffer } = await getCertificationAttestationsPdfBuffer({
@@ -140,15 +140,23 @@ describe('Integration | Infrastructure | Utils | Pdf | Certification Attestation
       creationDate: new Date('2021-01-01'),
     });
 
-    // Note: to update the reference pdf, you can run the test with the followling lines.
-    //
-    // const { writeFile } = require('fs/promises');
-    // await writeFile(referencePdfPath, buffer);
+    await _writeFile(buffer, referencePdfPath);
 
     // then
-    expect(await isSameBinary(referencePdfPath, buffer)).to.be.true;
+    expect(
+      await isSameBinary(`${__dirname}/${referencePdfPath}`, buffer),
+      referencePdfPath + ' is not generated as expected'
+    ).to.be.true;
   });
 });
+
+async function _writeFile(buffer, outputFilename, dryRun = true) {
+  // Note: to update the reference pdf, set dryRun to false.
+  if (!dryRun) {
+    const { writeFile } = require('fs/promises');
+    await writeFile(`${__dirname}/${outputFilename}`, buffer);
+  }
+}
 
 // Warning: call _restorePdfLib() when finished /!\
 function _makePdfLibPredictable() {
