@@ -1,5 +1,4 @@
 const { sinon, expect, domainBuilder, hFake } = require('../../../test-helper');
-
 const campaignParticipationController = require('../../../../lib/application/campaign-participations/campaign-participation-controller');
 const campaignAnalysisSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/campaign-analysis-serializer');
 const campaignAssessmentParticipationResultSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/campaign-assessment-participation-result-serializer');
@@ -16,6 +15,7 @@ const monitoringTools = require('../../../../lib/infrastructure/monitoring-tools
 
 describe('Unit | Application | Controller | Campaign-Participation', function () {
   describe('#shareCampaignResult', function () {
+    let domainTransaction;
     const userId = 1;
     const request = {
       params: {
@@ -33,10 +33,14 @@ describe('Unit | Application | Controller | Campaign-Participation', function ()
 
     beforeEach(function () {
       sinon.stub(usecases, 'shareCampaignResult');
+      sinon.stub(events.eventBus, 'publish');
       sinon.stub(requestResponseUtils, 'extractUserIdFromRequest').returns(userId);
       sinon.stub(monitoringTools, 'logErrorWithCorrelationIds');
+      domainTransaction = {
+        knexTransaction: Symbol('transaction'),
+      };
       sinon.stub(DomainTransaction, 'execute').callsFake((callback) => {
-        return callback();
+        return callback(domainTransaction);
       });
     });
 
@@ -58,6 +62,22 @@ describe('Unit | Application | Controller | Campaign-Participation', function ()
       // given
       const campaignParticipationResultsSharedEvent = new CampaignParticipationResultsShared();
       usecases.shareCampaignResult.resolves(campaignParticipationResultsSharedEvent);
+
+      // when
+      await campaignParticipationController.shareCampaignResult(request, hFake);
+
+      // then
+      expect(events.eventBus.publish).to.have.been.calledWith(
+        campaignParticipationResultsSharedEvent,
+        domainTransaction
+      );
+    });
+
+    it('publish the campaign participation results shared event', async function () {
+      // given
+      const campaignParticipationResultsSharedEvent = new CampaignParticipationResultsShared();
+      usecases.shareCampaignResult.resolves(campaignParticipationResultsSharedEvent);
+
       sinon.stub(events.eventDispatcher, 'dispatch');
       events.eventDispatcher.dispatch.resolves();
 

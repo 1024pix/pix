@@ -1,7 +1,6 @@
 const monitoringTools = require('../../infrastructure/monitoring-tools');
 const usecases = require('../../domain/usecases');
 const events = require('../../domain/events');
-
 const queryParamsUtils = require('../../infrastructure/utils/query-params-utils');
 const campaignParticipationSerializer = require('../../infrastructure/serializers/jsonapi/campaign-participation-serializer');
 const campaignAnalysisSerializer = require('../../infrastructure/serializers/jsonapi/campaign-analysis-serializer');
@@ -35,14 +34,15 @@ module.exports = {
     const userId = request.auth.credentials.userId;
     const campaignParticipationId = request.params.id;
 
-    const event = await DomainTransaction.execute((domainTransaction) => {
-      return usecases.shareCampaignResult({
+    const event = await DomainTransaction.execute(async (domainTransaction) => {
+      const event = await usecases.shareCampaignResult({
         userId,
         campaignParticipationId,
         domainTransaction,
       });
+      await events.eventBus.publish(event, domainTransaction);
+      return event;
     });
-
     events.eventDispatcher
       .dispatch(event)
       .catch((error) => monitoringTools.logErrorWithCorrelationIds({ message: error }));
