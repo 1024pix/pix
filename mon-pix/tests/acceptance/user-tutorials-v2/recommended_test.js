@@ -38,7 +38,7 @@ describe('Acceptance | User-tutorials-v2 | Recommended', function () {
         await visit('/mes-tutos-v2/recommandes');
 
         // when
-        await click(find('.tutorial-card-v2-content-actions__save'));
+        await click(find('[aria-label="Donner mon avis sur ce tuto"]'));
 
         // then
         expect(findAll('.tutorial-card-v2')).to.be.lengthOf(1);
