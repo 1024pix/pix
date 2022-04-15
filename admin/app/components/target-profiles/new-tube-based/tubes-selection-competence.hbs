@@ -1,4 +1,3 @@
-{{! template-lint-disable no-invalid-interactive }}
 <div class="competence-container">
   <PixCollapsible @title="{{@competence.index}} {{@competence.name}}">
     <div class="panel">
@@ -31,7 +30,7 @@
         <tbody>
           {{#each @competence.sortedThematics as |thematic|}}
             {{#each thematic.tubes as |tube index|}}
-              <tr {{on "click" @toggleTubeInput}} class="row-tube" aria-label="Sujet">
+              <tr class="row-tube" aria-label="Sujet">
                 {{#if (eq index 0)}}
                   <TargetProfiles::NewTubeBased::TubesSelectionThematic
                     @thematic={{thematic}}

@@ -25,15 +25,6 @@ export default class TubesSelectionThematic extends Component {
     }
   }
 
-  @action
-  toggle() {
-    if (this.state === 'checked') {
-      this.uncheck();
-    } else {
-      this.check();
-    }
-  }
-
   check() {
     this.args.thematic.tubes.forEach((tube) => {
       this.args.checkTube(tube);

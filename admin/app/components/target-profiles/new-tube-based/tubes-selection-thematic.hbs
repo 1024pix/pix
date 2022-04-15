@@ -1,5 +1,4 @@
-{{! template-lint-disable no-invalid-interactive }}
-<th class="th--clickable" rowspan={{@thematic.tubes.length}} {{on "click" this.toggle}}>
+<th rowspan={{@thematic.tubes.length}}>
   <label>
     <TargetProfiles::NewTubeBased::Checkbox
       id="thematic-{{@thematic.id}}"

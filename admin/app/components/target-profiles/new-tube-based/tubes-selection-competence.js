@@ -32,15 +32,6 @@ export default class TubesSelectionCompetence extends Component {
     }
   }
 
-  @action
-  toggle() {
-    if (this.state === 'checked') {
-      this.uncheck();
-    } else {
-      this.check();
-    }
-  }
-
   check() {
     this.args.competence.thematics.forEach((thematic) => {
       thematic.tubes.forEach((tube) => {

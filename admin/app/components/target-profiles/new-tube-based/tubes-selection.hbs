@@ -1,4 +1,3 @@
-{{! template-lint-disable no-invalid-interactive }}
 <div {{did-insert this.refreshAreas}} {{did-update this.refreshAreas @selectedFrameworks}}>
   {{#each this.areas as |area|}}
     <div class="area-border-container">
@@ -7,7 +6,6 @@
         {{#each area.sortedCompetences as |competence|}}
           <TargetProfiles::NewTubeBased::TubesSelectionCompetence
             @competence={{competence}}
-            @toggleTubeInput={{this.toggleTubeInput}}
             @setLevelTube={{this.setLevelTube}}
             @tubesSelected={{this.tubesSelected}}
             @checkTube={{this.checkTube}}
