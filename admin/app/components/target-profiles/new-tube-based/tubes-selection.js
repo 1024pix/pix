@@ -3,7 +3,7 @@ import { tracked } from '@glimmer/tracking';
 import { A as EmberArray } from '@ember/array';
 import Component from '@glimmer/component';
 
-export default class ListTubes extends Component {
+export default class TubesSelection extends Component {
   @tracked areas;
   @tracked tubesSelected = EmberArray();
 

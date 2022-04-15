@@ -1,7 +1,7 @@
 import { action } from '@ember/object';
 import Component from '@glimmer/component';
 import { inject as service } from '@ember/service';
-import { optionsCategoryList } from '../../models/target-profile';
+import { optionsCategoryList } from '../../../models/target-profile';
 import { tracked } from '@glimmer/tracking';
 
 export default class CreateTargetProfileFromTubeBased extends Component {

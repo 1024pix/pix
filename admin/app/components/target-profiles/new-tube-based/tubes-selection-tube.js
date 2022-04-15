@@ -1,7 +1,7 @@
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
 
-export default class TubeCells extends Component {
+export default class TubesSelectionTube extends Component {
   levelOptions = [
     {
       value: 1,

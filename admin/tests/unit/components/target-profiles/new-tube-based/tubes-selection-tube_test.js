@@ -2,15 +2,15 @@ import { module, test } from 'qunit';
 import sinon from 'sinon';
 import { setupTest } from 'ember-qunit';
 
-import createComponent from '../../../helpers/create-glimmer-component';
+import createComponent from '../../../../helpers/create-glimmer-component';
 
-module('Unit | Controller | authenticated/target-profiles/tube-cells', function (hooks) {
+module('Unit | Controller | authenticated/target-profiles/new-tube-based/tubes-selection-tube', function (hooks) {
   setupTest(hooks);
 
   let component;
 
   hooks.beforeEach(function () {
-    component = createComponent('component:target-profiles/tube-cells');
+    component = createComponent('component:target-profiles/new-tube-based/tubes-selection-tube');
   });
   module('#setLevelTube', function () {
     test('it should set a level on tube', function (assert) {

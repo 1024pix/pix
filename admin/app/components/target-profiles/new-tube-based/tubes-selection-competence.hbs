@@ -33,14 +33,14 @@
             {{#each thematic.tubes as |tube index|}}
               <tr {{on "click" @toggleTubeInput}} class="row-tube" aria-label="Sujet">
                 {{#if (eq index 0)}}
-                  <TargetProfiles::ThematicCell
+                  <TargetProfiles::NewTubeBased::TubesSelectionThematic
                     @updateSelectedThematic={{@updateSelectedThematic}}
                     @competence={{@competence}}
                     @thematic={{thematic}}
                     @toggleThematicInput={{@toggleThematicInput}}
                   />
                 {{/if}}
-                <TargetProfiles::TubeCells
+                <TargetProfiles::NewTubeBased::TubesSelectionTube
                   @competence={{@competence}}
                   @thematic={{thematic}}
                   @tube={{tube}}
