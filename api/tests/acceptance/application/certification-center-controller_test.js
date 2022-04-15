@@ -4,7 +4,7 @@ const {
   databaseBuilder,
   expect,
   generateValidRequestAuthorizationHeader,
-  insertUserWithRolePixMaster,
+  insertUserWithRoleSuperAdmin,
   knex,
 } = require('../../test-helper');
 
@@ -15,7 +15,7 @@ describe('Acceptance | API | Certification Center', function () {
 
   beforeEach(async function () {
     server = await createServer();
-    await insertUserWithRolePixMaster();
+    await insertUserWithRoleSuperAdmin();
   });
 
   describe('GET /api/certification-centers', function () {
@@ -26,7 +26,7 @@ describe('Acceptance | API | Certification Center', function () {
       };
     });
 
-    context('when user is Pix Master', function () {
+    context('when user is Super Admin', function () {
       beforeEach(function () {
         request.headers = { authorization: generateValidRequestAuthorizationHeader() };
       });
@@ -133,7 +133,7 @@ describe('Acceptance | API | Certification Center', function () {
       });
     });
 
-    context('when user is not PixMaster', function () {
+    context('when user is not SuperAdmin', function () {
       beforeEach(function () {
         request.headers = { authorization: generateValidRequestAuthorizationHeader(1111) };
       });
@@ -194,7 +194,7 @@ describe('Acceptance | API | Certification Center', function () {
       await knex('certification-centers').delete();
     });
 
-    context('when user is Pix Master', function () {
+    context('when user is Super Admin', function () {
       beforeEach(function () {
         request.headers = { authorization: generateValidRequestAuthorizationHeader() };
       });
@@ -218,7 +218,7 @@ describe('Acceptance | API | Certification Center', function () {
       });
     });
 
-    context('when user is not PixMaster', function () {
+    context('when user is not SuperAdmin', function () {
       beforeEach(function () {
         request.headers = { authorization: generateValidRequestAuthorizationHeader(1111) };
       });
@@ -255,7 +255,7 @@ describe('Acceptance | API | Certification Center', function () {
       };
     });
 
-    context('when user is Pix Master', function () {
+    context('when user is Super Admin', function () {
       beforeEach(function () {
         request.headers = { authorization: generateValidRequestAuthorizationHeader() };
       });
@@ -291,7 +291,7 @@ describe('Acceptance | API | Certification Center', function () {
       });
     });
 
-    context('when user is not PixMaster', function () {
+    context('when user is not SuperAdmin', function () {
       beforeEach(function () {
         request.headers = { authorization: generateValidRequestAuthorizationHeader(1111) };
       });
@@ -631,7 +631,7 @@ describe('Acceptance | API | Certification Center', function () {
       expect(response.statusCode).to.equal(201);
     });
 
-    context('when user is not PixMaster', function () {
+    context('when user is not SuperAdmin', function () {
       it('should return 403 HTTP status code ', async function () {
         // given
         request.headers.authorization = generateValidRequestAuthorizationHeader(1111);

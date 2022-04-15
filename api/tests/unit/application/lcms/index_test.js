@@ -10,7 +10,7 @@ describe('Unit | Router | lcms-router', function () {
   let httpTestServer;
 
   beforeEach(function () {
-    sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
+    sinon.stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin').callsFake((request, h) => h.response(true));
     sinon.stub(lcmsController, 'createRelease').callsFake((request, h) => h.response().code(204));
 
     httpTestServer = new HttpTestServer();

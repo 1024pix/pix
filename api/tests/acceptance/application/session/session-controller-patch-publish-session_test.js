@@ -10,7 +10,7 @@ describe('PATCH /api/admin/sessions/:id/publish', function () {
     server = await createServer();
   });
 
-  context('when user does not have the role PIX MASTER', function () {
+  context('when user does not have the role Super Admin', function () {
     beforeEach(function () {
       userId = databaseBuilder.factory.buildUser().id;
       return databaseBuilder.commit();
@@ -29,10 +29,10 @@ describe('PATCH /api/admin/sessions/:id/publish', function () {
     });
   });
 
-  context('when user has role PixMaster', function () {
+  context('when user has role Super Admin', function () {
     beforeEach(function () {
       // given
-      userId = databaseBuilder.factory.buildUser.withPixRolePixMaster().id;
+      userId = databaseBuilder.factory.buildUser.withRoleSuperAdmin().id;
       options.headers = { authorization: generateValidRequestAuthorizationHeader(userId) };
       return databaseBuilder.commit();
     });

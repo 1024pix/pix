@@ -6,11 +6,11 @@ const moduleUnderTest = require('../../../../lib/application/certifications');
 
 describe('Unit | Application | Certification | Routes', function () {
   context('POST /api/admin/certification/neutralize-challenge', function () {
-    it('rejects access if the logged user is not a Pix Master', async function () {
+    it('rejects access if the logged user is not a Super Admin', async function () {
       // given
       sinon.stub(certificationController, 'neutralizeChallenge').returns('ok');
-      sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster');
-      securityPreHandlers.checkUserHasRolePixMaster.callsFake((request, h) => h.response().code(403).takeover());
+      sinon.stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin');
+      securityPreHandlers.checkUserHasRoleSuperAdmin.callsFake((request, h) => h.response().code(403).takeover());
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
       const payload = {
@@ -32,8 +32,8 @@ describe('Unit | Application | Certification | Routes', function () {
     it('checks that a valid certification-course id is given', async function () {
       // given
       sinon.stub(certificationController, 'neutralizeChallenge').returns('ok');
-      sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster');
-      securityPreHandlers.checkUserHasRolePixMaster.callsFake((request, h) => h.response(true));
+      sinon.stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin');
+      securityPreHandlers.checkUserHasRoleSuperAdmin.callsFake((request, h) => h.response(true));
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
       const payload = {
@@ -55,8 +55,8 @@ describe('Unit | Application | Certification | Routes', function () {
     it('checks that a challenge recId is given', async function () {
       // given
       sinon.stub(certificationController, 'neutralizeChallenge').returns('ok');
-      sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster');
-      securityPreHandlers.checkUserHasRolePixMaster.callsFake((request, h) => h.response(true));
+      sinon.stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin');
+      securityPreHandlers.checkUserHasRoleSuperAdmin.callsFake((request, h) => h.response(true));
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
       const payload = {
@@ -77,11 +77,11 @@ describe('Unit | Application | Certification | Routes', function () {
   });
 
   context('POST /api/admin/certification/deneutralize-challenge', function () {
-    it('rejects access if the logged user is not a Pix Master', async function () {
+    it('rejects access if the logged user is not a Super Admin', async function () {
       // given
       sinon.stub(certificationController, 'deneutralizeChallenge').returns('ok');
-      sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster');
-      securityPreHandlers.checkUserHasRolePixMaster.callsFake((request, h) => h.response().code(403).takeover());
+      sinon.stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin');
+      securityPreHandlers.checkUserHasRoleSuperAdmin.callsFake((request, h) => h.response().code(403).takeover());
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
       const payload = {
@@ -103,8 +103,8 @@ describe('Unit | Application | Certification | Routes', function () {
     it('checks that a valid certification-course id is given', async function () {
       // given
       sinon.stub(certificationController, 'deneutralizeChallenge').returns('ok');
-      sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster');
-      securityPreHandlers.checkUserHasRolePixMaster.callsFake((request, h) => h.response(true));
+      sinon.stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin');
+      securityPreHandlers.checkUserHasRoleSuperAdmin.callsFake((request, h) => h.response(true));
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
       const payload = {
@@ -126,8 +126,8 @@ describe('Unit | Application | Certification | Routes', function () {
     it('checks that a challenge recId is given', async function () {
       // given
       sinon.stub(certificationController, 'deneutralizeChallenge').returns('ok');
-      sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster');
-      securityPreHandlers.checkUserHasRolePixMaster.callsFake((request, h) => h.response(true));
+      sinon.stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin');
+      securityPreHandlers.checkUserHasRoleSuperAdmin.callsFake((request, h) => h.response(true));
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
       const payload = {

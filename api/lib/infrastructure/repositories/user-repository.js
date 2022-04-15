@@ -242,7 +242,7 @@ module.exports = {
     }
   },
 
-  async isPixMaster(id) {
+  async isSuperAdmin(id) {
     const user = await knex('pix-admin-roles').where({ userId: id, role: 'SUPER_ADMIN' }).first();
     return Boolean(user);
   },

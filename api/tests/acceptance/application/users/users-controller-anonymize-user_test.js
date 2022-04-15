@@ -2,7 +2,7 @@ const {
   databaseBuilder,
   expect,
   generateValidRequestAuthorizationHeader,
-  insertUserWithRolePixMaster,
+  insertUserWithRoleSuperAdmin,
 } = require('../../../test-helper');
 const createServer = require('../../../../server');
 
@@ -12,12 +12,12 @@ describe('Acceptance | Controller | users-controller-anonymize-user', function (
       // given
       const server = await createServer();
       const user = databaseBuilder.factory.buildUser.withRawPassword();
-      const pixMaster = await insertUserWithRolePixMaster();
+      const superAdmin = await insertUserWithRoleSuperAdmin();
       const options = {
         method: 'POST',
         url: `/api/admin/users/${user.id}/anonymize`,
         payload: {},
-        headers: { authorization: generateValidRequestAuthorizationHeader(pixMaster.id) },
+        headers: { authorization: generateValidRequestAuthorizationHeader(superAdmin.id) },
       };
       await databaseBuilder.commit();
 

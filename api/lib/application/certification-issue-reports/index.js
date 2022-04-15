@@ -38,14 +38,14 @@ exports.register = async (server) => {
         },
         pre: [
           {
-            method: securityPreHandlers.checkUserHasRolePixMaster,
-            assign: 'hasRolePixMaster',
+            method: securityPreHandlers.checkUserHasRoleSuperAdmin,
+            assign: 'hasRoleSuperAdmin',
           },
         ],
         handler: certificationIssueReportController.manuallyResolve,
         tags: ['api', 'certification-issue-reports'],
         notes: [
-          '- **Cette route est restreinte aux utilisateurs PiXMaster authentifiés**\n',
+          '- **Cette route est restreinte aux utilisateurs Super Admin authentifiés**\n',
           '- Elle permet de résoudre manuellement un signalement',
         ],
       },

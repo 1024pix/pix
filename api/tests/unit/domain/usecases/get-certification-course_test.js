@@ -16,7 +16,7 @@ describe('Unit | UseCase | get-certification-course', function () {
       get: sinon.stub(),
     };
     userRepository = {
-      isPixMaster: sinon.stub(),
+      isSuperAdmin: sinon.stub(),
     };
   });
 
@@ -36,15 +36,15 @@ describe('Unit | UseCase | get-certification-course', function () {
     expect(actualCertificationCourse.getId()).to.equal(certificationCourse.getId());
   });
 
-  it('should get the certificationCourse when the user id does not match the certification course user id but is pix master', async function () {
+  it('should get the certificationCourse when the user id does not match the certification course user id but is Super Admin', async function () {
     // given
     certificationCourseRepository.get.withArgs(certificationCourse.getId()).resolves(certificationCourse);
-    userRepository.isPixMaster.withArgs('pix_master_user_id').resolves(true);
+    userRepository.isSuperAdmin.withArgs('super_admin_user_id').resolves(true);
 
     // when
     const actualCertificationCourse = await getCertificationCourse({
       certificationCourseId: certificationCourse.getId(),
-      userId: 'pix_master_user_id',
+      userId: 'super_admin_user_id',
       certificationCourseRepository,
       userRepository,
     });
@@ -53,10 +53,10 @@ describe('Unit | UseCase | get-certification-course', function () {
     expect(actualCertificationCourse.getId()).to.equal(certificationCourse.getId());
   });
 
-  it('should throw an error when the certification course is not linked to the user passed in parameter and user is not pix master', function () {
+  it('should throw an error when the certification course is not linked to the user passed in parameter and user is not Super Admin', function () {
     // given
     certificationCourseRepository.get.withArgs(certificationCourse.getId()).resolves(certificationCourse);
-    userRepository.isPixMaster.withArgs('other_user_id').resolves(false);
+    userRepository.isSuperAdmin.withArgs('other_user_id').resolves(false);
 
     // when
     const promise = getCertificationCourse({

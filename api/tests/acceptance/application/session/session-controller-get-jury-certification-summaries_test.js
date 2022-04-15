@@ -19,7 +19,7 @@ describe('Acceptance | Controller | session-controller-get-jury-certification-su
       return databaseBuilder.commit();
     });
 
-    context('when user has not the role PixMaster', function () {
+    context('when user has not the role Super Admin', function () {
       let userId;
 
       beforeEach(function () {
@@ -41,8 +41,8 @@ describe('Acceptance | Controller | session-controller-get-jury-certification-su
       });
     });
 
-    context('when user has role PixMaster', function () {
-      let pixMasterId;
+    context('when user has role Super Admin', function () {
+      let superAdminId;
       let certif1;
       let certif2;
       let asr1;
@@ -52,7 +52,7 @@ describe('Acceptance | Controller | session-controller-get-jury-certification-su
 
       beforeEach(function () {
         const dbf = databaseBuilder.factory;
-        pixMasterId = dbf.buildUser.withPixRolePixMaster().id;
+        superAdminId = dbf.buildUser.withRoleSuperAdmin().id;
         sessionId = dbf.buildSession().id;
         const badge = dbf.buildBadge({ key: Badge.keys.PIX_EMPLOI_CLEA_V3 });
 
@@ -116,7 +116,7 @@ describe('Acceptance | Controller | session-controller-get-jury-certification-su
           method: 'GET',
           url: `/api/admin/sessions/${sessionId}/jury-certification-summaries`,
           payload: {},
-          headers: { authorization: generateValidRequestAuthorizationHeader(pixMasterId) },
+          headers: { authorization: generateValidRequestAuthorizationHeader(superAdminId) },
         };
 
         return databaseBuilder.commit();

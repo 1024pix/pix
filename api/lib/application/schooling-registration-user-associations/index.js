@@ -190,8 +190,8 @@ exports.register = async function (server) {
       config: {
         pre: [
           {
-            method: securityPreHandlers.checkUserHasRolePixMaster,
-            assign: 'hasRolePixMaster',
+            method: securityPreHandlers.checkUserHasRoleSuperAdmin,
+            assign: 'hasRoleSuperAdmin',
           },
         ],
         handler: schoolingRegistrationUserAssociationController.dissociate,
@@ -201,7 +201,7 @@ exports.register = async function (server) {
           }),
         },
         notes: [
-          '- **Cette route est restreinte aux utilisateurs authentifiés avec le rôle Pix Master**\n' +
+          '- **Cette route est restreinte aux utilisateurs authentifiés avec le rôle Super Admin**\n' +
             '- Elle dissocie un utilisateur d’une inscription d’élève',
         ],
         tags: ['api', 'schoolingRegistrationUserAssociation'],

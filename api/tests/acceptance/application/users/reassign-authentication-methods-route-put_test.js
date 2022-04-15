@@ -2,7 +2,7 @@ const {
   databaseBuilder,
   expect,
   generateValidRequestAuthorizationHeader,
-  insertUserWithRolePixMaster,
+  insertUserWithRoleSuperAdmin,
 } = require('../../../test-helper');
 const createServer = require('../../../../server');
 const AuthenticationMethod = require('../../../../lib/domain/models/AuthenticationMethod');
@@ -10,11 +10,11 @@ const AuthenticationMethod = require('../../../../lib/domain/models/Authenticati
 describe('Acceptance | Route | Users', function () {
   describe('POST /api/admin/users/{userId}/authentication-methods/{authenticationMethodId}', function () {
     let server;
-    let pixMaster;
+    let superAdmin;
 
     beforeEach(async function () {
       server = await createServer();
-      pixMaster = await insertUserWithRolePixMaster();
+      superAdmin = await insertUserWithRoleSuperAdmin();
     });
 
     it('should return 204 HTTP status code', async function () {
@@ -31,7 +31,7 @@ describe('Acceptance | Route | Users', function () {
         method: 'POST',
         url: `/api/admin/users/${originUserId}/authentication-methods/${authenticationMethodId}`,
         headers: {
-          authorization: generateValidRequestAuthorizationHeader(pixMaster.id),
+          authorization: generateValidRequestAuthorizationHeader(superAdmin.id),
         },
         payload: {
           data: {
@@ -67,7 +67,7 @@ describe('Acceptance | Route | Users', function () {
         method: 'POST',
         url: `/api/admin/users/${originUserId}/authentication-methods/${authenticationMethodId}`,
         headers: {
-          authorization: generateValidRequestAuthorizationHeader(pixMaster.id),
+          authorization: generateValidRequestAuthorizationHeader(superAdmin.id),
         },
         payload: {
           data: {

@@ -52,7 +52,7 @@ describe('Unit | Application | Router | campaign-participation-router ', functio
   describe('PATCH /api/admin/update-participant-external-id', function () {
     it('should exist', async function () {
       // given
-      sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
+      sinon.stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin').callsFake((request, h) => h.response(true));
       sinon
         .stub(campaignParticipationController, 'updateParticipantExternalId')
         .callsFake((request, h) => h.response('ok').code(204));

@@ -8,7 +8,7 @@ describe('Unit | Router | cache-router', function () {
   describe('PATCH /api/cache/{model}/{id}', function () {
     it('should exist', async function () {
       //given
-      sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
+      sinon.stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin').callsFake((request, h) => h.response(true));
       sinon.stub(cacheController, 'refreshCacheEntry').callsFake((request, h) => h.response().code(204));
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -26,7 +26,7 @@ describe('Unit | Router | cache-router', function () {
   describe('PATCH /api/cache', function () {
     it('should exist', async function () {
       //given
-      sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
+      sinon.stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin').callsFake((request, h) => h.response(true));
       sinon.stub(cacheController, 'refreshCacheEntries').callsFake((request, h) => h.response().code(204));
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);

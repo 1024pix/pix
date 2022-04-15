@@ -2,7 +2,7 @@ const {
   expect,
   databaseBuilder,
   generateValidRequestAuthorizationHeader,
-  insertUserWithRolePixMaster,
+  insertUserWithRoleSuperAdmin,
   knex,
 } = require('../../../test-helper');
 
@@ -15,7 +15,7 @@ describe('Acceptance | Controller | users-controller-update-user-details-for-adm
 
   beforeEach(async function () {
     server = await createServer();
-    user = await insertUserWithRolePixMaster();
+    user = await insertUserWithRoleSuperAdmin();
   });
 
   describe('Error case', function () {

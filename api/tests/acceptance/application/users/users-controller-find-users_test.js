@@ -8,9 +8,9 @@ describe('Acceptance | users-controller-find-users', function () {
   beforeEach(async function () {
     server = await createServer();
 
-    const userPixMasterId = databaseBuilder.factory.buildUser.withPixRolePixMaster({
-      firstName: 'PixMaster_firstName',
-      lastName: 'PixMaster_lastName',
+    const userSuperAdminId = databaseBuilder.factory.buildUser.withRoleSuperAdmin({
+      firstName: 'SuperAdmin_firstName',
+      lastName: 'SuperAdmin_lastName',
     }).id;
 
     databaseBuilder.factory.buildUser({
@@ -23,7 +23,7 @@ describe('Acceptance | users-controller-find-users', function () {
     options = {
       method: 'GET',
       url: '/api/users',
-      headers: { authorization: generateValidRequestAuthorizationHeader(userPixMasterId) },
+      headers: { authorization: generateValidRequestAuthorizationHeader(userSuperAdminId) },
     };
 
     await databaseBuilder.commit();
@@ -44,10 +44,10 @@ describe('Acceptance | users-controller-find-users', function () {
         });
       });
 
-      it('should respond with a 403 - forbidden access - if user has not role PIX_MASTER', function () {
+      it('should respond with a 403 - forbidden access - if user has not role Super Admin', function () {
         // given
-        const nonPixMAsterUserId = 9999;
-        options.headers.authorization = generateValidRequestAuthorizationHeader(nonPixMAsterUserId);
+        const nonSuperAdminUserId = 9999;
+        options.headers.authorization = generateValidRequestAuthorizationHeader(nonSuperAdminUserId);
 
         // when
         const promise = server.inject(options);

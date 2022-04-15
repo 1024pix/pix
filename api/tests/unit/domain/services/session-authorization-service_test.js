@@ -13,7 +13,7 @@ describe('Unit | Service | SessionAuthorizationService', function () {
     });
 
     beforeEach(function () {
-      sinon.stub(userRepository, 'isPixMaster');
+      sinon.stub(userRepository, 'isSuperAdmin');
       sinon.stub(sessionRepository, 'doesUserHaveCertificationCenterMembershipForSession');
     });
 
@@ -37,10 +37,10 @@ describe('Unit | Service | SessionAuthorizationService', function () {
           .returns(false);
       });
 
-      context('when user is PixMaster', function () {
+      context('when user is SuperAdmin', function () {
         it('should return true', async function () {
           // given
-          userRepository.isPixMaster.withArgs(userId).resolves(true);
+          userRepository.isSuperAdmin.withArgs(userId).resolves(true);
 
           // when
           const isAuthorized = await sessionAuthorizationService.isAuthorizedToAccessSession({ userId, sessionId });
@@ -50,10 +50,10 @@ describe('Unit | Service | SessionAuthorizationService', function () {
         });
       });
 
-      context('when user is not PixMaster', function () {
+      context('when user is not SuperAdmin', function () {
         it('should return false', async function () {
           // given
-          userRepository.isPixMaster.withArgs(userId).resolves(false);
+          userRepository.isSuperAdmin.withArgs(userId).resolves(false);
 
           // when
           const isAuthorized = await sessionAuthorizationService.isAuthorizedToAccessSession({ userId, sessionId });

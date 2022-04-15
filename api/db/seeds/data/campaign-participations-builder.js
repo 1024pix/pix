@@ -2,7 +2,7 @@ const _ = require('lodash');
 const Assessment = require('../../../lib/domain/models/Assessment');
 const CampaignParticipationStatuses = require('../../../lib/domain/models/CampaignParticipationStatuses');
 const KnowledgeElement = require('../../../lib/domain/models/KnowledgeElement');
-const { PIX_MASTER_ID } = require('./users-builder');
+const { PIX_SUPER_ADMIN_ID } = require('./users-builder');
 
 const { SHARED, STARTED } = CampaignParticipationStatuses;
 
@@ -93,7 +93,7 @@ function participateToAssessmentCampaign({ databaseBuilder, campaignId, user, or
   const today = new Date();
   const sharedAt = status === SHARED ? today : null;
   const deletedAt = deleted ? today : null;
-  const deletedBy = deleted ? PIX_MASTER_ID : null;
+  const deletedBy = deleted ? PIX_SUPER_ADMIN_ID : null;
 
   const { id: userId } = user;
   const { id: campaignParticipationId } = databaseBuilder.factory.buildCampaignParticipation({
@@ -130,7 +130,7 @@ function participateToProfilesCollectionCampaign({ databaseBuilder, campaignId, 
   const today = new Date();
   const sharedAt = status === SHARED ? today : null;
   const deletedAt = deleted ? today : null;
-  const deletedBy = deleted ? PIX_MASTER_ID : null;
+  const deletedBy = deleted ? PIX_SUPER_ADMIN_ID : null;
 
   const { id: userId } = user;
   databaseBuilder.factory.buildCampaignParticipation({

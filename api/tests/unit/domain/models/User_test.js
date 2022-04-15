@@ -32,7 +32,7 @@ describe('Unit | Domain | Models | User', function () {
     });
   });
 
-  describe('the attribute "hasRolePixMaster"', function () {
+  describe('the attribute "hasRoleSuperAdmin"', function () {
     let userRawDetails;
 
     beforeEach(function () {
@@ -57,7 +57,7 @@ describe('Unit | Domain | Models | User', function () {
       const user = new User(userRawDetails);
 
       // when
-      const hasRole = user.hasRolePixMaster;
+      const hasRole = user.hasRoleSuperAdmin;
 
       // then
       expect(hasRole).to.be.true;
@@ -70,7 +70,7 @@ describe('Unit | Domain | Models | User', function () {
       const user = new User(userRawDetails);
 
       // when
-      const hasRole = user.hasRolePixMaster;
+      const hasRole = user.hasRoleSuperAdmin;
 
       // then
       expect(hasRole).to.be.false;

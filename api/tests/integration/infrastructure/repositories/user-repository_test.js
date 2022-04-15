@@ -1193,32 +1193,32 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
     });
   });
 
-  describe('#isPixMaster', function () {
-    context('when user is pix master', function () {
+  describe('#isSuperAdmin', function () {
+    context('when user is Super Admin', function () {
       it('should return true', async function () {
         // given
-        const userId = databaseBuilder.factory.buildUser.withPixRolePixMaster().id;
+        const userId = databaseBuilder.factory.buildUser.withRoleSuperAdmin().id;
         await databaseBuilder.commit();
 
         // when
-        const isPixMaster = await userRepository.isPixMaster(userId);
+        const isSuperAdmin = await userRepository.isSuperAdmin(userId);
 
         // then
-        expect(isPixMaster).to.be.true;
+        expect(isSuperAdmin).to.be.true;
       });
     });
 
-    context('when user is not pix master', function () {
+    context('when user is not Super Admin', function () {
       it('should return false', async function () {
         // given
         const userId = databaseBuilder.factory.buildUser().id;
         await databaseBuilder.commit();
 
         // when
-        const isPixMaster = await userRepository.isPixMaster(userId);
+        const isSuperAdmin = await userRepository.isSuperAdmin(userId);
 
         // then
-        expect(isPixMaster).to.be.false;
+        expect(isSuperAdmin).to.be.false;
       });
     });
   });

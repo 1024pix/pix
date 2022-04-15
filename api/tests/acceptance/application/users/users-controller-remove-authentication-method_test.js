@@ -2,7 +2,7 @@ const {
   databaseBuilder,
   expect,
   generateValidRequestAuthorizationHeader,
-  insertUserWithRolePixMaster,
+  insertUserWithRoleSuperAdmin,
   knex,
 } = require('../../../test-helper');
 const createServer = require('../../../../server');
@@ -21,7 +21,7 @@ describe('Acceptance | Controller | users-controller-remove-authentication-metho
     });
     databaseBuilder.factory.buildAuthenticationMethod.withGarAsIdentityProvider({ userId: user.id });
 
-    const pixMaster = await insertUserWithRolePixMaster();
+    const superAdmin = await insertUserWithRoleSuperAdmin();
     options = {
       method: 'POST',
       url: `/api/admin/users/${user.id}/remove-authentication`,
@@ -32,7 +32,7 @@ describe('Acceptance | Controller | users-controller-remove-authentication-metho
           },
         },
       },
-      headers: { authorization: generateValidRequestAuthorizationHeader(pixMaster.id) },
+      headers: { authorization: generateValidRequestAuthorizationHeader(superAdmin.id) },
     };
     return databaseBuilder.commit();
   });

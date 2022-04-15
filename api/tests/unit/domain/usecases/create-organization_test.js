@@ -39,8 +39,8 @@ describe('Unit | UseCase | create-organization', function () {
 
     it('should create a new Organization Entity with Pix Master userId', async function () {
       // given
-      const pixMasterUserId = 10;
-      const createdBy = pixMasterUserId;
+      const superAdminUserId = 10;
+      const createdBy = superAdminUserId;
       const expectedOrganization = new Organization({
         createdBy,
         name,

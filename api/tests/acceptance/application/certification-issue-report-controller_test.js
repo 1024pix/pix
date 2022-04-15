@@ -2,7 +2,7 @@ const {
   expect,
   databaseBuilder,
   generateValidRequestAuthorizationHeader,
-  insertUserWithRolePixMaster,
+  insertUserWithRoleSuperAdmin,
   knex,
 } = require('../../test-helper');
 const createServer = require('../../../server');
@@ -42,7 +42,7 @@ describe('Acceptance | Controller | certification-issue-report-controller', func
       // given
       const server = await createServer();
       const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
-      const pixMaster = await insertUserWithRolePixMaster();
+      const superAdmin = await insertUserWithRoleSuperAdmin();
       const sessionId = databaseBuilder.factory.buildSession({ certificationCenterId }).id;
       const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({ sessionId }).id;
       const certificationIssueReportId = databaseBuilder.factory.buildCertificationIssueReport({
@@ -54,7 +54,7 @@ describe('Acceptance | Controller | certification-issue-report-controller', func
         method: 'PATCH',
         url: `/api/certification-issue-reports/${certificationIssueReportId}`,
         headers: {
-          authorization: generateValidRequestAuthorizationHeader(pixMaster.id),
+          authorization: generateValidRequestAuthorizationHeader(superAdmin.id),
         },
         payload: {
           data: {
