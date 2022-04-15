@@ -1,5 +1,5 @@
 const { knex } = require('../tests/test-helper');
-const UserSavedTutorial = require('../lib/domain/models/UserSavedTutorial');
+const { UserSavedTutorial } = require('../lib/domain/models/UserSavedTutorial');
 const UserSavedTutorialWithTutorial = require('../lib/domain/models/UserSavedTutorialWithTutorial');
 const knowledgeElementRepository = require('../lib/infrastructure/repositories/knowledge-element-repository');
 const tutorialDatasource = require('../lib/infrastructure/datasources/learning-content/tutorial-datasource');

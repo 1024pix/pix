@@ -46,3 +46,6 @@ overrides:
       project: ./tsconfig.json
     plugins:
       - '@typescript-eslint'
+    rules:
+      "@typescript-eslint/no-unsafe-return": "warn"
+      "@typescript-eslint/explicit-function-return-type": "error"

@@ -1,4 +1,4 @@
-const UserSavedTutorial = require('../../../../lib/domain/models/UserSavedTutorial');
+const { UserSavedTutorial } = require('../../../../lib/domain/models/UserSavedTutorial');
 
 module.exports = function buildUserSavedTutorial({
   id = 111,
