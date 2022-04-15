@@ -90,6 +90,7 @@ const dependencies = {
   organizationMemberIdentityRepository: require('../../infrastructure/repositories/organization-member-identity-repository'),
   organizationForAdminRepository: require('../../infrastructure/repositories/organization-for-admin-repository'),
   organizationRepository: require('../../infrastructure/repositories/organization-repository'),
+  organizationPlaceRepository: require('../../infrastructure/repositories/organizations/organization-place-repository'),
   organizationInvitationRepository: require('../../infrastructure/repositories/organization-invitation-repository'),
   organizationInvitedUserRepository: require('../../infrastructure/repositories/organization-invited-user-repository'),
   organizationTagRepository: require('../../infrastructure/repositories/organization-tag-repository'),
