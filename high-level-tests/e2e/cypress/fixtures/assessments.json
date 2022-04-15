@@ -26,19 +26,5 @@
     "state": "completed",
     "type": "CAMPAIGN",
     "userId": 5
-  },
-  {
-    "id": 5,
-    "certificationCourseId": 1,
-    "state": "completed",
-    "type": "CERTIFICATION",
-    "userId": 1
-  },
-  {
-    "id": 6,
-    "certificationCourseId": 2,
-    "state": "completed",
-    "type": "CERTIFICATION",
-    "userId": 2
   }
 ]

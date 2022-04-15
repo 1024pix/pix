@@ -2,8 +2,7 @@
   "baseUrl": "http://localhost:4200",
   "env": {
     "API_URL": "http://localhost:3000",
-    "ORGA_URL": "http://localhost:4201",
-    "CERTIF_URL": "http://localhost:4203"
+    "ORGA_URL": "http://localhost:4201"
   },
   "video": false,
   "blockHosts": ["*stats.pix.fr*", "*analytics.pix.fr*"],

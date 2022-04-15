@@ -298,21 +298,6 @@ jobs:
           command: npm ci
 
       - run:
-          working_directory: ~/pix/certif
-          command: cat package*.json > cachekey
-
-      - restore_cache:
-          keys:
-            - v7-certif-npm-{{ checksum "~/pix/certif/cachekey" }}
-
-      - run:
-          name: Install Pix Certif
-          environment:
-            JOBS: 2
-          working_directory: ~/pix/certif
-          command: npm ci
-
-      - run:
           name: Start Pix API
           working_directory: ~/pix/api
           environment:
@@ -333,14 +318,6 @@ jobs:
           working_directory: ~/pix/orga
           environment:
             JOBS: 2
-          background: true
-          command: npm start
-
-      - run:
-          name: Start Pix Certif
-          working_directory: ~/pix/certif
-          environment:
-            JOBS: 1
           background: true
           command: npm start
 
