@@ -45,14 +45,6 @@
     "cgu": true
   },
   {
-    "id": 7,
-    "firstName": "Certif",
-    "lastName": "Pro",
-    "email": "certif.pro@example.net",
-    "cgu": true,
-    "pixCertifTermsOfServiceAccepted": true
-  },
-  {
     "id": 8,
     "firstName": "Tommen",
     "lastName": "Baratheon",
@@ -73,14 +65,6 @@
     "email": "aemon.targaryen@pix.fr",
     "cgu": true,
     "pixOrgaTermsOfServiceAccepted": true
-  },
-  {
-    "id": 11,
-    "firstName": "Certif",
-    "lastName": "Sup",
-    "email": "certif.sup@example.net",
-    "cgu": true,
-    "pixCertifTermsOfServiceAccepted": true
   },
   {
     "id": 12,
