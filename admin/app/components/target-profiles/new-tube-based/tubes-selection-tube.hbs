@@ -1,13 +1,13 @@
 <td>
-  <Input
-    {{on "input" (fn @updateSelectedTubes @tube.id)}}
-    data-thematic={{@thematic.id}}
-    data-competenceId={{@competence.id}}
-    data-tube={{@tube.id}}
-    id="tube-{{@tube.id}}"
-    @type="checkbox"
-  />
-  <label for="tube-{{@tube.id}}">
+  <label>
+    <Input
+      {{on "input" (fn @updateSelectedTubes @tube.id)}}
+      data-thematic={{@thematic.id}}
+      data-competenceId={{@competence.id}}
+      data-tube={{@tube.id}}
+      id="tube-{{@tube.id}}"
+      @type="checkbox"
+    />
     {{@tube.practicalTitle}}
     :
     {{@tube.practicalDescription}}
