@@ -2,7 +2,7 @@ const {
   expect,
   generateValidRequestAuthorizationHeader,
   databaseBuilder,
-  insertUserWithRolePixMaster,
+  insertUserWithRoleSuperAdmin,
 } = require('../../../test-helper');
 const createServer = require('../../../../server');
 
@@ -10,7 +10,7 @@ describe('Acceptance | Controller | finalized-session-controller-find-finalized-
   describe('GET /api/admin/sessions/with-required-action', function () {
     context('When user is authorized', function () {
       it('should return a 200 status code response with JSON API serialized', async function () {
-        await insertUserWithRolePixMaster();
+        await insertUserWithRoleSuperAdmin();
 
         databaseBuilder.factory.buildSession({ id: 121 });
         databaseBuilder.factory.buildSession({ id: 333 });

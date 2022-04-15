@@ -153,7 +153,7 @@ describe('Unit | Application | Router | campaign-router ', function () {
   describe('PATCH /api/admin/campaigns/{id}', function () {
     it('should return 204', async function () {
       // given
-      sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').returns(true);
+      sinon.stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin').returns(true);
       sinon
         .stub(campaignManagementController, 'updateCampaignDetailsManagement')
         .callsFake((request, h) => h.response('ok').code(204));
@@ -257,7 +257,7 @@ describe('Unit | Application | Router | campaign-router ', function () {
     it('should return 403 when unauthorized', async function () {
       // given
       sinon
-        .stub(securityPreHandlers, 'checkUserHasRolePixMaster')
+        .stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin')
         .callsFake((request, h) => h.response().code(403).takeover());
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -287,7 +287,7 @@ describe('Unit | Application | Router | campaign-router ', function () {
   describe('GET /api/admin/campaigns/{id}', function () {
     it('should return 200', async function () {
       // given
-      sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').returns(true);
+      sinon.stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin').returns(true);
       sinon
         .stub(campaignManagementController, 'getCampaignDetails')
         .callsFake((request, h) => h.response('ok').code(200));
@@ -316,7 +316,7 @@ describe('Unit | Application | Router | campaign-router ', function () {
     it('should return 403 when unauthorized', async function () {
       // given
       sinon
-        .stub(securityPreHandlers, 'checkUserHasRolePixMaster')
+        .stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin')
         .callsFake((request, h) => h.response().code(403).takeover());
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -332,7 +332,7 @@ describe('Unit | Application | Router | campaign-router ', function () {
   describe('GET /api/admin/campaigns/{id}/participations', function () {
     it('should return 200', async function () {
       // given
-      sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').returns(true);
+      sinon.stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin').returns(true);
       sinon
         .stub(campaignManagementController, 'findPaginatedParticipationsForCampaignManagement')
         .callsFake((request, h) => h.response('ok').code(200));
@@ -361,7 +361,7 @@ describe('Unit | Application | Router | campaign-router ', function () {
     it('should return 403 when unauthorized', async function () {
       // given
       sinon
-        .stub(securityPreHandlers, 'checkUserHasRolePixMaster')
+        .stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin')
         .callsFake((request, h) => h.response().code(403).takeover());
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);

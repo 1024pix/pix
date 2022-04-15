@@ -12,7 +12,7 @@ describe('Integration | UseCases | create-organization', function () {
 
   it('should create and return an Organization', async function () {
     // given
-    const pixMasterUserId = databaseBuilder.factory.buildUser().id;
+    const superAdminUserId = databaseBuilder.factory.buildUser().id;
     await databaseBuilder.commit();
 
     const externalId = 'externalId';
@@ -23,7 +23,7 @@ describe('Integration | UseCases | create-organization', function () {
 
     // when
     const result = await createOrganization({
-      createdBy: pixMasterUserId,
+      createdBy: superAdminUserId,
       externalId,
       documentationUrl,
       name,
@@ -34,7 +34,7 @@ describe('Integration | UseCases | create-organization', function () {
 
     // then
     expect(result).to.be.instanceOf(Organization);
-    expect(result.createdBy).to.be.equal(pixMasterUserId);
+    expect(result.createdBy).to.be.equal(superAdminUserId);
     expect(result.externalId).to.be.equal(externalId);
     expect(result.name).to.be.equal(name);
     expect(result.provinceCode).to.be.equal(provinceCode);

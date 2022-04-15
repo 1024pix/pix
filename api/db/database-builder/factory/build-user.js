@@ -156,7 +156,7 @@ buildUser.withRawPassword = function buildUserWithRawPassword({
   return user;
 };
 
-buildUser.withPixRolePixMaster = function buildUserWithPixRolePixMaster({
+buildUser.withRoleSuperAdmin = function buildUserWithRoleSuperAdmin({
   id = databaseBuffer.getNextId(),
   firstName = 'Billy',
   lastName = 'TheKid',

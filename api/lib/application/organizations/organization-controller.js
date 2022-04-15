@@ -43,10 +43,10 @@ module.exports = {
       'documentation-url': documentationUrl,
     } = request.payload.data.attributes;
 
-    const pixMasterUserId = extractUserIdFromRequest(request);
+    const superAdminUserId = extractUserIdFromRequest(request);
     return usecases
       .createOrganization({
-        createdBy: pixMasterUserId,
+        createdBy: superAdminUserId,
         name,
         type,
         externalId,

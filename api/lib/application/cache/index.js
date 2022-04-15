@@ -9,14 +9,14 @@ exports.register = async function (server) {
       config: {
         pre: [
           {
-            method: securityPreHandlers.checkUserHasRolePixMaster,
-            assign: 'hasRolePixMaster',
+            method: securityPreHandlers.checkUserHasRoleSuperAdmin,
+            assign: 'hasRoleSuperAdmin',
           },
         ],
         handler: CacheController.refreshCacheEntry,
         tags: ['api', 'cache'],
         notes: [
-          'Cette route est restreinte aux utilisateurs authentifiés avec le rôle Pix Master',
+          'Cette route est restreinte aux utilisateurs authentifiés avec le rôle Super Admin',
           'Elle permet de mettre à jour une entrée du cache de l’application\n' +
             'Attention : pour un état cohérent des objets stockés en cache, utiliser PATCH /api/cache',
         ],
@@ -28,14 +28,14 @@ exports.register = async function (server) {
       config: {
         pre: [
           {
-            method: securityPreHandlers.checkUserHasRolePixMaster,
-            assign: 'hasRolePixMaster',
+            method: securityPreHandlers.checkUserHasRoleSuperAdmin,
+            assign: 'hasRoleSuperAdmin',
           },
         ],
         handler: CacheController.refreshCacheEntries,
         tags: ['api', 'cache'],
         notes: [
-          'Cette route est restreinte aux utilisateurs authentifiés avec le rôle Pix Master',
+          'Cette route est restreinte aux utilisateurs authentifiés avec le rôle Super Admin',
           'Elle permet de précharger les entrées du cache de l’application (les requêtes les plus longues)',
         ],
       },

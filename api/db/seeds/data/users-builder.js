@@ -1,4 +1,4 @@
-const PIX_MASTER_ID = 199;
+const PIX_SUPER_ADMIN_ID = 199;
 const DEFAULT_PASSWORD = 'pix123';
 
 function usersBuilder({ databaseBuilder }) {
@@ -13,10 +13,10 @@ function usersBuilder({ databaseBuilder }) {
   });
 
   databaseBuilder.factory.buildUser.withRawPassword({
-    id: PIX_MASTER_ID,
-    firstName: 'Pix',
-    lastName: 'Master',
-    email: 'pixmaster@example.net',
+    id: PIX_SUPER_ADMIN_ID,
+    firstName: 'Super',
+    lastName: 'Admin',
+    email: 'superadmin@example.net',
     rawPassword: DEFAULT_PASSWORD,
     cgu: true,
   });
@@ -91,6 +91,6 @@ function usersBuilder({ databaseBuilder }) {
 
 module.exports = {
   usersBuilder,
-  PIX_MASTER_ID,
+  PIX_SUPER_ADMIN_ID,
   DEFAULT_PASSWORD,
 };

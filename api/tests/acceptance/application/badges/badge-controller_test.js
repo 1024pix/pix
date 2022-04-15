@@ -3,7 +3,7 @@ const {
   expect,
   databaseBuilder,
   generateValidRequestAuthorizationHeader,
-  insertUserWithRolePixMaster,
+  insertUserWithRoleSuperAdmin,
   learningContentBuilder,
   mockLearningContent,
   knex,
@@ -18,7 +18,7 @@ describe('Acceptance | API | Badges', function () {
 
   describe('GET /api/admin/badges/{id}', function () {
     beforeEach(async function () {
-      userId = (await insertUserWithRolePixMaster()).id;
+      userId = (await insertUserWithRoleSuperAdmin()).id;
 
       const learningContent = [
         {
@@ -227,7 +227,7 @@ describe('Acceptance | API | Badges', function () {
 
   describe('PATCH /api/admin/badges/{id}', function () {
     beforeEach(async function () {
-      userId = (await insertUserWithRolePixMaster()).id;
+      userId = (await insertUserWithRoleSuperAdmin()).id;
 
       badge = databaseBuilder.factory.buildBadge({
         id: 1,
@@ -294,7 +294,7 @@ describe('Acceptance | API | Badges', function () {
 
   describe('DELETE /api/admin/badges/{id}', function () {
     beforeEach(async function () {
-      userId = (await insertUserWithRolePixMaster()).id;
+      userId = (await insertUserWithRoleSuperAdmin()).id;
     });
 
     afterEach(async function () {

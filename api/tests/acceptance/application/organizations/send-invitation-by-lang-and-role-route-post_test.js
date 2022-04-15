@@ -3,7 +3,7 @@ const {
   expect,
   knex,
   generateValidRequestAuthorizationHeader,
-  insertUserWithRolePixMaster,
+  insertUserWithRoleSuperAdmin,
 } = require('../../../test-helper');
 const createServer = require('../../../../server');
 const Membership = require('../../../../lib/domain/models/Membership');
@@ -18,7 +18,7 @@ describe('Acceptance | Route | Organizations', function () {
       // given
       const server = await createServer();
 
-      const pixMaster = await insertUserWithRolePixMaster();
+      const superAdmin = await insertUserWithRoleSuperAdmin();
       const organization = databaseBuilder.factory.buildOrganization();
 
       const payload = {
@@ -37,7 +37,7 @@ describe('Acceptance | Route | Organizations', function () {
         url: `/api/admin/organizations/${organization.id}/invitations`,
         payload,
         headers: {
-          authorization: generateValidRequestAuthorizationHeader(pixMaster.id),
+          authorization: generateValidRequestAuthorizationHeader(superAdmin.id),
         },
       };
 

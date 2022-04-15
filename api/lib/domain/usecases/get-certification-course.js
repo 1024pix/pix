@@ -8,8 +8,8 @@ module.exports = async function getCertificationCourse({
 }) {
   const certificationCourse = await certificationCourseRepository.get(certificationCourseId);
   if (!certificationCourse.doesBelongTo(userId)) {
-    const userIsPixMaster = await userRepository.isPixMaster(userId);
-    if (!userIsPixMaster) {
+    const userIsSuperAdmin = await userRepository.isSuperAdmin(userId);
+    if (!userIsSuperAdmin) {
       throw new UserNotAuthorizedToGetCertificationCoursesError();
     }
   }

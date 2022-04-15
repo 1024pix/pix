@@ -19,7 +19,7 @@ describe('Acceptance | Controller | membership-controller', function () {
     beforeEach(async function () {
       organizationId = databaseBuilder.factory.buildOrganization().id;
       userId = databaseBuilder.factory.buildUser().id;
-      const adminUserId = databaseBuilder.factory.buildUser.withPixRolePixMaster().id;
+      const adminUserId = databaseBuilder.factory.buildUser.withRoleSuperAdmin().id;
       await databaseBuilder.commit();
 
       options = {

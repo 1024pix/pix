@@ -60,7 +60,7 @@ class User {
     this.authenticationMethods = authenticationMethods;
   }
 
-  get hasRolePixMaster() {
+  get hasRoleSuperAdmin() {
     return !!this.pixAdminRoles.find(({ role }) => role === 'SUPER_ADMIN');
   }
 

@@ -11,15 +11,15 @@ describe('Unit | UseCase | archive-organization', function () {
     const now = new Date('2022-02-22');
     const clock = sinon.useFakeTimers(now);
     const organizationId = 1;
-    const pixMasterUser = domainBuilder.buildUser({
+    const superAdminUser = domainBuilder.buildUser({
       id: 123,
       firstName: 'Clémen',
       lastName: 'Tine',
     });
     const expectedArchivedOrganization = domainBuilder.buildOrganizationForAdmin({
       archivedAt: now,
-      archivistFirstName: pixMasterUser.firstName,
-      archivistLastName: pixMasterUser.lastName,
+      archivistFirstName: superAdminUser.firstName,
+      archivistLastName: superAdminUser.lastName,
     });
 
     organizationForAdminRepository.archive.resolves();
@@ -28,14 +28,14 @@ describe('Unit | UseCase | archive-organization', function () {
     // when
     const archivedOrganizationForAdmin = await archiveOrganization({
       organizationId,
-      userId: pixMasterUser.id,
+      userId: superAdminUser.id,
       organizationForAdminRepository,
     });
 
     // then
     expect(organizationForAdminRepository.archive).to.have.been.calledWith({
       id: organizationId,
-      archivedBy: pixMasterUser.id,
+      archivedBy: superAdminUser.id,
     });
     expect(organizationForAdminRepository.get).to.have.been.calledWith(organizationId);
     expect(archivedOrganizationForAdmin).to.deep.equal(expectedArchivedOrganization);

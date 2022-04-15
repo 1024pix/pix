@@ -170,7 +170,7 @@ describe('Unit | Router | certification-center-router', function () {
 
     it('should exist', async function () {
       //given
-      sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').returns(true);
+      sinon.stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin').returns(true);
       sinon
         .stub(certificationCenterController, 'findCertificationCenterMembershipsByCertificationCenter')
         .returns('ok');
@@ -207,7 +207,7 @@ describe('Unit | Router | certification-center-router', function () {
 
     it('should return CREATED (200) when everything does as expected', async function () {
       //given
-      sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').returns(true);
+      sinon.stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin').returns(true);
       sinon.stub(certificationCenterController, 'createCertificationCenterMembershipByEmail').returns('ok');
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -219,10 +219,10 @@ describe('Unit | Router | certification-center-router', function () {
       expect(result.statusCode).to.equal(200);
     });
 
-    it('should reject an user without PixMaster role', async function () {
+    it('should reject an user without SuperAdmin role', async function () {
       // given
       sinon
-        .stub(securityPreHandlers, 'checkUserHasRolePixMaster')
+        .stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin')
         .callsFake((request, h) => h.response().code(403).takeover());
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);

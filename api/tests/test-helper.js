@@ -59,8 +59,8 @@ function generateIdTokenForExternalUser(externalUser) {
   return tokenService.createIdTokenForUserReconciliation(externalUser);
 }
 
-async function insertUserWithRolePixMaster() {
-  const user = databaseBuilder.factory.buildUser.withPixRolePixMaster({
+async function insertUserWithRoleSuperAdmin() {
+  const user = databaseBuilder.factory.buildUser.withRoleSuperAdmin({
     id: 1234,
     firstName: 'Super',
     lastName: 'Papa',
@@ -220,7 +220,7 @@ module.exports = {
   hFake,
   HttpTestServer: require('./tooling/server/http-test-server'),
   insertOrganizationUserWithRoleAdmin,
-  insertUserWithRolePixMaster,
+  insertUserWithRoleSuperAdmin,
   knex,
   nock,
   sinon,
