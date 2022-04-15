@@ -4,7 +4,11 @@
       <h3 class="learning-more-panel__hint-title"><span>{{t "pages.learning-more.title"}}</span></h3>
       <div class="learning-more-panel__list-container">
         {{#each @learningMoreTutorials as |learningMoreTutorial|}}
-          <TutorialItem @tutorial={{learningMoreTutorial}} />
+          {{#if this.areNewTutorialsEnabled}}
+            <Tutorials::Card @tutorial={{learningMoreTutorial}} />
+          {{else}}
+            <TutorialItem @tutorial={{learningMoreTutorial}} />
+          {{/if}}
         {{/each}}
         <div class="learning-more-panel__tutorial-info">{{t "pages.learning-more.info"}}</div>
       </div>
