@@ -31,25 +31,25 @@ describe('Acceptance | Tutorial | Actions', function () {
     it('should display tutorial item in competence page with actions', async function () {
       // then
       expect(find('.tutorial-card-v2')).to.exist;
-      expect(find('.tutorial-card-v2-content-actions__save')).to.exist;
-      expect(find('.tutorial-card-v2-content-actions__evaluate')).to.exist;
+      expect(find('[aria-label="Donner mon avis sur ce tuto"]')).to.exist;
+      expect(find('[aria-label="Enregistrer"]')).to.exist;
     });
 
     it('should disable evaluate action on click', async function () {
       // when
-      await click('.tutorial-card-v2-content-actions__evaluate');
+      await click('[aria-label="Donner mon avis sur ce tuto"]');
 
       // then
-      expect(find('.tutorial-card-v2-content-actions__evaluate').disabled).to.be.true;
+      expect(find('[aria-label="Tuto utile"]').disabled).to.be.true;
     });
 
     describe('when save action is clicked', function () {
       it('should display remove action button', async function () {
         // when
-        await click('.tutorial-card-v2-content-actions__save');
+        await click('[aria-label="Enregistrer"]');
 
         // then
-        expect(find('.tutorial-card-v2-content-actions__save').attributes['aria-label'].value).to.include('Retirer');
+        expect(find('[aria-label="Retirer"]')).to.exist;
       });
     });
   });

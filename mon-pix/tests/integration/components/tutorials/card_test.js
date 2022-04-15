@@ -33,6 +33,7 @@ describe('Integration | Component | Tutorials | Card', function () {
       .and.contains('vidéo')
       .and.contains('une minute');
     expect(find('.tutorial-card-v2-content__actions')).to.exist;
-    expect(find('.tutorial-card-v2-content-actions__evaluate')).to.exist;
+    expect(find('[aria-label="Tuto utile"]')).to.exist;
+    expect(find('[aria-label="Retirer"]')).to.exist;
   });
 });

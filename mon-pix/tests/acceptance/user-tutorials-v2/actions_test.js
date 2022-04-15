@@ -20,9 +20,9 @@ describe('Acceptance | User-tutorials-v2 | Actions', function () {
     it('should disable evaluate action on click', async function () {
       await visit('/mes-tutos-v2/recommandes');
 
-      await click('.tutorial-card-v2-content-actions__evaluate');
+      await click(find('[aria-label="Donner mon avis sur ce tuto"]'));
 
-      expect(find('.tutorial-card-v2-content-actions__evaluate').disabled).to.be.true;
+      expect(find('[aria-label="Tuto utile"]').disabled).to.be.true;
     });
   });
 });
