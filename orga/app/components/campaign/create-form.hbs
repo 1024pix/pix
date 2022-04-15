@@ -5,13 +5,11 @@
   </p>
 
   <div class="form__field">
-    <label class="label" for="campaign-name">
-      <abbr title={{t "common.form.mandatory-fields-title"}} class="mandatory-mark" aria-hidden="true">*</abbr>
-      {{t "pages.campaign-creation.name.label"}}
-    </label>
     <PixInput
       @id="campaign-name"
       @name="campaign-name"
+      @label={{t "pages.campaign-creation.name.label"}}
+      @requiredLabel={{t "common.form.mandatory-fields-title"}}
       type="text"
       class="input"
       maxlength="255"
