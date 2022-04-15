@@ -1,0 +1,58 @@
+{{! template-lint-disable no-invalid-interactive }}
+<div class="competence-container">
+  <PixCollapsible @title="{{@competence.index}} {{@competence.name}}">
+    <div class="panel">
+      <table class="table content-text content-text--small select-tube-table">
+        <caption class="sr-only">Sélection des sujets</caption>
+        <thead>
+          <tr>
+            <Table::Header @size="medium" scope="col">
+              <label>
+                <Input
+                  @type="checkbox"
+                  {{on "input" (fn @updateSelectedCompetence @competence.id)}}
+                  id="competence-{{@competence.id}}"
+                />
+                Thématiques
+              </label>
+            </Table::Header>
+            <Table::Header @size="wide" scope="col">
+              <p>Sujets</p>
+            </Table::Header>
+            <Table::Header @size="small" scope="col">
+              <p>Niveau</p>
+            </Table::Header>
+            <Table::Header @size="medium" @align="center" scope="col">
+              <p>Compatibilité</p>
+            </Table::Header>
+          </tr>
+        </thead>
+
+        <tbody>
+          {{#each @competence.sortedThematics as |thematic|}}
+            {{#each thematic.tubes as |tube index|}}
+              <tr {{on "click" @toggleTubeInput}} class="row-tube" aria-label="Sujet">
+                {{#if (eq index 0)}}
+                  <TargetProfiles::ThematicCell
+                    @updateSelectedThematic={{@updateSelectedThematic}}
+                    @competence={{@competence}}
+                    @thematic={{thematic}}
+                    @toggleThematicInput={{@toggleThematicInput}}
+                  />
+                {{/if}}
+                <TargetProfiles::TubeCells
+                  @competence={{@competence}}
+                  @thematic={{thematic}}
+                  @tube={{tube}}
+                  @updateSelectedTubes={{@updateSelectedTubes}}
+                  @setLevelTube={{@setLevelTube}}
+                  @tubesSelected={{@tubesSelected}}
+                />
+              </tr>
+            {{/each}}
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
+  </PixCollapsible>
+</div>
