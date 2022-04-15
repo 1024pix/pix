@@ -15,7 +15,7 @@ describe('Acceptance | Controller | users-controller', function () {
 
   afterEach(async function () {
     await knex('authentication-methods').delete();
-    await knex('users_pix_roles').delete();
+    await knex('pix-admin-roles').delete();
     await knex('sessions').delete();
     await knex('users').delete();
   });

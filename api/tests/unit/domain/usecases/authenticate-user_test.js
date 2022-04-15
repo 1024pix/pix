@@ -150,7 +150,7 @@ describe('Unit | Application | UseCase | authenticate-user', function () {
     it('should rejects an error when scope is pix-admin and user has not pix master role', async function () {
       // given
       const scope = appMessages.PIX_ADMIN.SCOPE;
-      const user = new User({ email: userEmail, pixRoles: [] });
+      const user = new User({ email: userEmail, pixAdminRoles: [] });
       authenticationService.getUserByUsernameAndPassword.resolves(user);
 
       const expectedErrorMessage = appMessages.PIX_ADMIN.NOT_PIXMASTER_MSG;

@@ -1,10 +1,9 @@
 const Bookshelf = require('../bookshelf');
-const BookshelfPixRole = require('./PixRole');
-const BookshelfUserPixRole = require('./UserPixRole');
 
 require('./Assessment');
 require('./KnowledgeElement');
 require('./Membership');
+require('./PixAdminRole');
 require('./CertificationCenterMembership');
 require('./UserOrgaSettings');
 require('./OrganizationLearner');
@@ -26,8 +25,8 @@ module.exports = Bookshelf.model(
       return this.hasMany('KnowledgeElement', 'userId');
     },
 
-    pixRoles() {
-      return this.belongsToMany(BookshelfPixRole).through(BookshelfUserPixRole);
+    pixAdminRoles() {
+      return this.hasMany('PixAdminRole', 'userId');
     },
 
     memberships() {
