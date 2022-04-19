@@ -46,7 +46,7 @@ module.exports = function (environment) {
       afterLogoutUri: process.env.POLE_EMPLOI_AFTER_LOGOUT_URI,
       endSessionEndpoint: '/compte/deconnexion',
       expiresIn: 60000, // Short expire time (60s) for testing purpose,
-      host: process.env.POLE_EMPLOI_AUTHENTICATION_URL,
+      host: process.env.POLE_EMPLOI_AUTHENTICATION_BASE_URL,
     },
 
     APP: {
