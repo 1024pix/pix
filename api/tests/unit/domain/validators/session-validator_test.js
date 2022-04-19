@@ -32,7 +32,7 @@ describe('Unit | Domain | Validators | session-validator', function () {
           const expectedErrors = [
             {
               attribute: 'address',
-              message: 'Veuillez donner un nom de site.',
+              message: 'Veuillez indiquer un nom de site.',
             },
           ];
           session.address = MISSING_VALUE;
@@ -54,7 +54,7 @@ describe('Unit | Domain | Validators | session-validator', function () {
           const expectedErrors = [
             {
               attribute: 'room',
-              message: 'Veuillez donner un nom de salle.',
+              message: 'Veuillez indiquer un nom de salle.',
             },
           ];
           session.room = MISSING_VALUE;
