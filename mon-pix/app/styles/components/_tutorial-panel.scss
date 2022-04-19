@@ -31,6 +31,10 @@
 .tutorial-panel__tutorials-container {
   display: flex;
   flex-direction: column;
+
+  & .tutorial-card-v2 {
+    margin-bottom: 16px;
+  }
 }
 
 .tutorial-panel__tutorial-info {
