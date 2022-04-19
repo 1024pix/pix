@@ -2,11 +2,20 @@ import Service from '@ember/service';
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
-import { find, render } from '@ember/test-helpers';
+import { find, findAll, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
 describe('Integration | Component | tutorial panel', function () {
   setupIntlRenderingTest();
+
+  beforeEach(function () {
+    class FeatureTogglesService extends Service {
+      featureToggles = {
+        isNewTutorialsPageEnabled: false,
+      };
+    }
+    this.owner.register('service:featureToggles', FeatureTogglesService);
+  });
 
   context('when the result is not ok', function () {
     context('and a hint is present', function () {
@@ -65,6 +74,24 @@ describe('Integration | Component | tutorial panel', function () {
           expect(find('.tutorial-content__duration')).to.exist;
           expect(find('.tutorial-content-actions__save')).to.exist;
           expect(find('.tutorial-content-actions__evaluate')).to.exist;
+        });
+
+        context('when newTutorials FT is enabled', function () {
+          it('should display a list of new tutorial cards', async function () {
+            // given
+            class FeatureTogglesService extends Service {
+              featureToggles = {
+                isNewTutorialsPageEnabled: true,
+              };
+            }
+            this.owner.register('service:featureToggles', FeatureTogglesService);
+
+            // when
+            await render(hbs`<TutorialPanel @hint={{this.hint}} @tutorials={{this.tutorials}} />`);
+
+            // then
+            expect(findAll('.tutorial-card-v2')).to.have.lengthOf(1);
+          });
         });
       });
 
