@@ -1,6 +1,9 @@
 import Component from '@glimmer/component';
+import { inject as service } from '@ember/service';
 
 export default class TutorialPanel extends Component {
+  @service featureToggles;
+
   get shouldDisplayHintOrTuto() {
     const tutorials = this.args.tutorials || [];
     const hint = this.args.hint || [];
@@ -20,5 +23,9 @@ export default class TutorialPanel extends Component {
 
   get limitedTutorials() {
     return this.args.tutorials.slice(0, 3);
+  }
+
+  get areNewTutorialsEnabled() {
+    return this.featureToggles.featureToggles.isNewTutorialsPageEnabled;
   }
 }

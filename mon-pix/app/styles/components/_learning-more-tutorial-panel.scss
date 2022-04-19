@@ -11,6 +11,10 @@
   @include device-is('desktop') {
     margin: 25px 40px;
   }
+
+  & .tutorial-card-v2 {
+    margin-bottom: 16px;
+  }
 }
 
 .learning-more-panel__hint-title {
