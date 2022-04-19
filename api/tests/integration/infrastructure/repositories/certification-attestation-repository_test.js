@@ -63,7 +63,7 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
         deliveredAt: new Date('2021-05-05'),
         certificationCenter: 'Centre des poules bien dodues',
         pixScore: 51,
-        acquiredComplementaryCertifications: [],
+        certifiedBadges: [],
         sessionId: 789,
       };
       await _buildIncomplete(certificationAttestationData);
@@ -92,7 +92,7 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
         deliveredAt: new Date('2021-05-05'),
         certificationCenter: 'Centre des poules bien dodues',
         pixScore: 51,
-        acquiredComplementaryCertifications: [],
+        certifiedBadges: [],
         sessionId: 789,
       };
       await _buildCancelled(certificationAttestationData);
@@ -121,7 +121,7 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
         deliveredAt: new Date('2021-05-05'),
         certificationCenter: 'Centre des poules bien dodues',
         pixScore: 51,
-        acquiredComplementaryCertifications: [],
+        certifiedBadges: [],
         sessionId: 789,
       };
       await _buildValidCertificationAttestation(certificationAttestationData);
@@ -150,7 +150,7 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
         deliveredAt: new Date('2021-05-05'),
         certificationCenter: 'Centre des poules bien dodues',
         pixScore: 51,
-        acquiredComplementaryCertifications: [],
+        certifiedBadges: [],
         sessionId: 789,
       };
       await _buildRejected(certificationAttestationData);
@@ -183,7 +183,7 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
         deliveredAt: new Date('2021-05-05'),
         certificationCenter: 'Centre des poules bien dodues',
         pixScore: 51,
-        acquiredComplementaryCertifications: [],
+        certifiedBadges: [],
         sessionId: 789,
       };
       await _buildValidCertificationAttestation(certificationAttestationData);
@@ -216,7 +216,7 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
         deliveredAt: new Date('2021-05-05'),
         certificationCenter: 'Centre des poules bien dodues',
         pixScore: 51,
-        acquiredComplementaryCertifications: [],
+        certifiedBadges: [],
         sessionId: 789,
       };
 
@@ -296,7 +296,7 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
         deliveredAt: new Date('2021-05-05'),
         certificationCenter: 'Centre des poules bien dodues',
         pixScore: 51,
-        acquiredComplementaryCertifications: [],
+        certifiedBadges: [],
         sessionId: 789,
       };
       await _buildValidCertificationAttestationWithSeveralResults(certificationAttestationData);
@@ -317,17 +317,17 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
     context('acquired certifiable badges', function () {
       // eslint-disable-next-line mocha/no-setup-in-describe
       [
-        PIX_EMPLOI_CLEA,
-        PIX_EMPLOI_CLEA_V2,
-        PIX_DROIT_EXPERT_CERTIF,
-        PIX_DROIT_MAITRE_CERTIF,
-        PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
-        PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME,
-        PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME,
-        PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
-        PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
-      ].forEach((badgeKey) => {
-        it(`should get the certified badge ${badgeKey} when acquired`, async function () {
+        { partnerKey: PIX_EMPLOI_CLEA, isTemporaryBadge: false },
+        { partnerKey: PIX_EMPLOI_CLEA_V2, isTemporaryBadge: false },
+        { partnerKey: PIX_DROIT_EXPERT_CERTIF, isTemporaryBadge: false },
+        { partnerKey: PIX_DROIT_MAITRE_CERTIF, isTemporaryBadge: false },
+        { partnerKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE, isTemporaryBadge: true },
+        { partnerKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME, isTemporaryBadge: true },
+        { partnerKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME, isTemporaryBadge: true },
+        { partnerKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE, isTemporaryBadge: true },
+        { partnerKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT, isTemporaryBadge: true },
+      ].forEach(({ partnerKey, isTemporaryBadge }) => {
+        it(`should get the certified badge ${partnerKey} when acquired`, async function () {
           // given
           const learningContentObjects = learningContentBuilder.buildLearningContent(minimalLearningContent);
           mockLearningContent(learningContentObjects);
@@ -345,11 +345,11 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
             deliveredAt: new Date('2021-05-05'),
             certificationCenter: 'Centre des poules bien dodues',
             pixScore: 51,
-            acquiredComplementaryCertifications: [{ partnerKey: badgeKey, source: 'PIX' }],
+            certifiedBadges: [{ partnerKey, isTemporaryBadge }],
             sessionId: 789,
           };
           await _buildValidCertificationAttestation(certificationAttestationData);
-          databaseBuilder.factory.buildBadge({ key: badgeKey });
+          databaseBuilder.factory.buildBadge({ key: partnerKey });
           databaseBuilder.factory.buildBadge({ key: 'some-other-badge-e' });
           databaseBuilder.factory.buildComplementaryCertificationCourse({
             id: 998,
@@ -357,7 +357,7 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
           });
           databaseBuilder.factory.buildComplementaryCertificationCourseResult({
             complementaryCertificationCourseId: 998,
-            partnerKey: badgeKey,
+            partnerKey,
             acquired: true,
           });
           databaseBuilder.factory.buildComplementaryCertificationCourseResult({
@@ -386,13 +386,11 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
         mockLearningContent(learningContentObjects);
         const certificationAttestationData = {
           id: 123,
-          acquiredComplementaryCertifications: [{ partnerKey: PIX_DROIT_EXPERT_CERTIF, source: 'PIX' }],
+          certifiedBadges: [{ partnerKey: PIX_DROIT_EXPERT_CERTIF, isTemporaryBadge: false }],
         };
         const certificationAttestationData2 = {
           id: 124,
-          acquiredComplementaryCertifications: [
-            { partnerKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE, source: 'PIX' },
-          ],
+          certifiedBadges: [{ partnerKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE, isTemporaryBadge: false }],
         };
         databaseBuilder.factory.buildBadge({ key: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE });
         databaseBuilder.factory.buildBadge({ key: PIX_DROIT_EXPERT_CERTIF });
@@ -426,8 +424,8 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
         const certificationAttestation = await certificationAttestationRepository.get(123);
 
         // then
-        expect(certificationAttestation.acquiredComplementaryCertifications).to.deep.equals([
-          { partnerKey: PIX_DROIT_EXPERT_CERTIF, source: 'PIX' },
+        expect(certificationAttestation.certifiedBadges).to.deep.equals([
+          { partnerKey: PIX_DROIT_EXPERT_CERTIF, isTemporaryBadge: false },
         ]);
       });
     });
@@ -450,7 +448,7 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
         deliveredAt: new Date('2021-05-05'),
         certificationCenter: 'Centre des poules bien dodues',
         pixScore: 51,
-        acquiredComplementaryCertifications: [{ partnerKey: PIX_DROIT_MAITRE_CERTIF, source: 'PIX' }],
+        certifiedBadges: [{ partnerKey: PIX_DROIT_MAITRE_CERTIF, isTemporaryBadge: false }],
         sessionId: 789,
       };
       await _buildValidCertificationAttestation(certificationAttestationData);

@@ -30,7 +30,7 @@ describe('Unit | Domain | Models | CertificationAttestation', function () {
     it('should return the acquired PIX_EMPLOI_CLEA badge', function () {
       // given
       const certificationAttestation = domainBuilder.buildCertificationAttestation({
-        acquiredComplementaryCertifications: [{ partnerKey: 'OTHER_BADGE' }, { partnerKey: PIX_EMPLOI_CLEA }],
+        certifiedBadges: [{ partnerKey: 'OTHER_BADGE' }, { partnerKey: PIX_EMPLOI_CLEA }],
       });
 
       // when
@@ -43,7 +43,7 @@ describe('Unit | Domain | Models | CertificationAttestation', function () {
     it('should return the acquired PIX_EMPLOI_CLEA_V2 badge', function () {
       // given
       const certificationAttestation = domainBuilder.buildCertificationAttestation({
-        acquiredComplementaryCertifications: [{ partnerKey: 'OTHER_BADGE' }, { partnerKey: PIX_EMPLOI_CLEA_V2 }],
+        certifiedBadges: [{ partnerKey: 'OTHER_BADGE' }, { partnerKey: PIX_EMPLOI_CLEA_V2 }],
       });
 
       // when
@@ -56,7 +56,7 @@ describe('Unit | Domain | Models | CertificationAttestation', function () {
     it('should return undefined if no clea badge has been acquired', function () {
       // given
       const certificationAttestation = domainBuilder.buildCertificationAttestation({
-        acquiredComplementaryCertifications: [{ partnerKey: 'OTHER_BADGE_1' }, { partnerKey: 'OTHER_BADGE_2' }],
+        certifiedBadges: [{ partnerKey: 'OTHER_BADGE_1' }, { partnerKey: 'OTHER_BADGE_2' }],
       });
 
       // when
@@ -71,7 +71,7 @@ describe('Unit | Domain | Models | CertificationAttestation', function () {
     it('should return the acquired PIX_DROIT_MAITRE_CERTIF badge', function () {
       // given
       const certificationAttestation = domainBuilder.buildCertificationAttestation({
-        acquiredComplementaryCertifications: [{ partnerKey: 'OTHER_BADGE' }, { partnerKey: PIX_DROIT_MAITRE_CERTIF }],
+        certifiedBadges: [{ partnerKey: 'OTHER_BADGE' }, { partnerKey: PIX_DROIT_MAITRE_CERTIF }],
       });
 
       // when
@@ -84,7 +84,7 @@ describe('Unit | Domain | Models | CertificationAttestation', function () {
     it('should return the acquired PIX_DROIT_EXPERT_CERTIF badge', function () {
       // given
       const certificationAttestation = domainBuilder.buildCertificationAttestation({
-        acquiredComplementaryCertifications: [{ partnerKey: 'OTHER_BADGE' }, { partnerKey: PIX_DROIT_EXPERT_CERTIF }],
+        certifiedBadges: [{ partnerKey: 'OTHER_BADGE' }, { partnerKey: PIX_DROIT_EXPERT_CERTIF }],
       });
 
       // when
@@ -97,7 +97,7 @@ describe('Unit | Domain | Models | CertificationAttestation', function () {
     it('should return undefined if no Pix+ Droit badge has been acquired', function () {
       // given
       const certificationAttestation = domainBuilder.buildCertificationAttestation({
-        acquiredComplementaryCertifications: [{ partnerKey: 'OTHER_BADGE_1' }, { partnerKey: 'OTHER_BADGE_2' }],
+        certifiedBadges: [{ partnerKey: 'OTHER_BADGE_1' }, { partnerKey: 'OTHER_BADGE_2' }],
       });
 
       // when
@@ -120,7 +120,7 @@ describe('Unit | Domain | Models | CertificationAttestation', function () {
       it(`should return the acquired ${badgeKey} badge`, function () {
         // given
         const certificationAttestation = domainBuilder.buildCertificationAttestation({
-          acquiredComplementaryCertifications: [{ partnerKey: 'OTHER_BADGE' }, { partnerKey: badgeKey, source: 'PIX' }],
+          certifiedBadges: [{ partnerKey: 'OTHER_BADGE' }, { partnerKey: badgeKey, source: 'PIX' }],
         });
 
         // when
@@ -134,7 +134,7 @@ describe('Unit | Domain | Models | CertificationAttestation', function () {
     it('should return undefined if no Pix+ Edu badge has been acquired', function () {
       // given
       const certificationAttestation = domainBuilder.buildCertificationAttestation({
-        acquiredComplementaryCertifications: ['OTHER_BADGE_1', 'OTHER_BADGE_2'],
+        certifiedBadges: ['OTHER_BADGE_1', 'OTHER_BADGE_2'],
       });
 
       // when
@@ -160,7 +160,7 @@ describe('Unit | Domain | Models | CertificationAttestation', function () {
       it(`should return ${expectedDisplayName} for badge key ${badgeKey}`, function () {
         // given
         const certificationAttestation = domainBuilder.buildCertificationAttestation({
-          acquiredComplementaryCertifications: [{ partnerKey: badgeKey }],
+          certifiedBadges: [{ partnerKey: badgeKey }],
         });
 
         // when
@@ -176,7 +176,7 @@ describe('Unit | Domain | Models | CertificationAttestation', function () {
     it('should return true if certified badge images for attestation is not empty', function () {
       // given
       const certificationAttestation = domainBuilder.buildCertificationAttestation({
-        acquiredComplementaryCertifications: [PIX_EMPLOI_CLEA],
+        certifiedBadges: [PIX_EMPLOI_CLEA],
       });
 
       // when
@@ -190,7 +190,7 @@ describe('Unit | Domain | Models | CertificationAttestation', function () {
     it('should return false if certified badge images for attestation is empty', function () {
       // given
       const certificationAttestation = domainBuilder.buildCertificationAttestation({
-        acquiredComplementaryCertifications: [],
+        certifiedBadges: [],
       });
 
       // when

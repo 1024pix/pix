@@ -23,6 +23,8 @@ const {
 const { NotFoundError } = require('../../../lib/domain/errors');
 const competenceTreeRepository = require('./competence-tree-repository');
 const ResultCompetenceTree = require('../../domain/models/ResultCompetenceTree');
+const ComplementaryCertificationCourseResult = require('../../domain/models/ComplementaryCertificationCourseResult');
+const CertifiedBadges = require('../../domain/read-models/CertifiedBadges');
 
 module.exports = {
   async getByVerificationCode(verificationCode) {
@@ -124,7 +126,7 @@ async function _getCertifiedBadgeImages(certificationCourseId) {
     PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT,
   ];
   const results = await knex
-    .select('partnerKey', 'source')
+    .select('complementary-certification-course-results.*')
     .from('complementary-certification-course-results')
     .innerJoin(
       'complementary-certification-courses',
@@ -136,7 +138,25 @@ async function _getCertifiedBadgeImages(certificationCourseId) {
       this.whereIn('partnerKey', handledBadgeKeys);
     })
     .orderBy('partnerKey');
-  return _.compact(_.map(results, ({ partnerKey, source }) => CertifiedBadgeImage.fromPartnerKey(partnerKey, source)));
+
+  const complementaryCertificationCourseResults = results.map(
+    ({ partnerKey, complementaryCertificationCourseId, acquired, source }) =>
+      ComplementaryCertificationCourseResult.from({
+        certificationCourseId,
+        complementaryCertificationCourseId,
+        partnerKey,
+        acquired,
+        source,
+      })
+  );
+
+  const certifiedBadgesDTO = new CertifiedBadges({ complementaryCertificationCourseResults }).getCertifiedBadgesDTO();
+
+  return _.compact(
+    _.map(certifiedBadgesDTO, ({ partnerKey, isTemporaryBadge }) =>
+      CertifiedBadgeImage.fromPartnerKey(partnerKey, isTemporaryBadge)
+    )
+  );
 }
 
 function _toDomain(shareableCertificateDTO, competenceTree, cleaCertificationResult, certifiedBadgeImages) {
