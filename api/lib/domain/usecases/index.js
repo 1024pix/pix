@@ -1,5 +1,6 @@
 const dependencies = {
   accountRecoveryDemandRepository: require('../../infrastructure/repositories/account-recovery-demand-repository'),
+  adminMemberRepository: require('../../infrastructure/repositories/admin-member-repository'),
   algorithmDataFetcherService: require('../../domain/services/algorithm-methods/data-fetcher'),
   answerRepository: require('../../infrastructure/repositories/answer-repository'),
   areaRepository: require('../../infrastructure/repositories/area-repository'),
