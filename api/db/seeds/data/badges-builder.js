@@ -21,8 +21,8 @@ const PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT_BADGE_ID = 128;
 const BadgeCriterion = require('../../../lib/domain/models/BadgeCriterion');
 const Badge = require('../../../lib/domain/models/Badge');
 const {
-  skillIdsForSkillSetsV1,
-  skillIdsForSkillSetsV2,
+  targetProfileSkillIdsForCleaBadgeV1,
+  targetProfileSkillIdsForCleaBadgeV2,
   TARGET_PROFILE_STAGES_BADGES_ID,
   TARGET_PROFILE_ONE_COMPETENCE_ID,
   TARGET_PROFILE_PIX_EMPLOI_CLEA_ID,
@@ -35,49 +35,52 @@ const {
 } = require('./target-profiles-builder');
 
 function badgesBuilder({ databaseBuilder }) {
-  _createPixEmploiCleaBadge(databaseBuilder);
   _createBasicsBadge(databaseBuilder);
   _createToolsBadge(databaseBuilder);
   _createManipBadge(databaseBuilder);
   _createProfessionalBasicsBadge(databaseBuilder);
   _createProfessionalToolsBadge(databaseBuilder);
   _createPixDroitBadge(databaseBuilder);
+  _createPixEmploiCleaBadgeV1(databaseBuilder);
   _createPixEmploiCleaBadgeV2(databaseBuilder);
   _createPixEduBadges(databaseBuilder);
 }
 
-function _createPixEmploiCleaBadge(databaseBuilder) {
+function _createPixEmploiCleaBadge({ databaseBuilder, id, key, targetProfileId, skillIdsForSkillSets }) {
   const badge = databaseBuilder.factory.buildBadge({
-    id: PIX_EMPLOI_CLEA_BADGE_ID,
+    id,
     altMessage: 'Vous avez validé le badge Pix Emploi.',
     title: 'Pix Emploi - Clea',
     imageUrl: 'https://images.pix.fr/badges/Pix-emploi.svg',
-    key: Badge.keys.PIX_EMPLOI_CLEA,
+    key,
     message:
       'Bravo ! Vous maîtrisez les compétences indispensables pour utiliser le numérique en milieu professionnel. ' +
       'Pour valoriser vos compétences avec une double certification Pix-CléA numérique, renseignez-vous auprès de votre conseiller ou de votre formateur.',
-    targetProfileId: TARGET_PROFILE_PIX_EMPLOI_CLEA_ID,
+    targetProfileId,
   });
 
-  const skillSetsIds = _associateSkillSets(databaseBuilder, skillIdsForSkillSetsV1, badge);
+  const skillSetsIds = _associateSkillSets(databaseBuilder, skillIdsForSkillSets, badge);
   _associateBadgeCriteria(databaseBuilder, badge, skillSetsIds);
 }
 
-function _createPixEmploiCleaBadgeV2(databaseBuilder) {
-  const badge = databaseBuilder.factory.buildBadge({
-    id: PIX_EMPLOI_CLEA_BADGE_ID_V2,
-    altMessage: 'PIX_EMPLOI_CLEA_V2',
-    title: 'Prêt pour le CléA numérique',
-    imageUrl: 'https://images.pix.fr/badges/Pix-emploi.svg',
-    key: Badge.keys.PIX_EMPLOI_CLEA_V2,
-    message:
-      'Bravo ! Vous maîtrisez les compétences indispensables pour utiliser le numérique en milieu professionnel. ' +
-      'Pour valoriser vos compétences avec une double certification Pix-CléA numérique, renseignez-vous auprès de votre conseiller ou de votre formateur.',
-    targetProfileId: TARGET_PROFILE_PIX_EMPLOI_CLEA_ID_V2,
+function _createPixEmploiCleaBadgeV1(databaseBuilder) {
+  return _createPixEmploiCleaBadge({
+    databaseBuilder,
+    id: PIX_EMPLOI_CLEA_BADGE_ID,
+    key: Badge.keys.PIX_EMPLOI_CLEA,
+    targetProfileId: TARGET_PROFILE_PIX_EMPLOI_CLEA_ID,
+    skillIdsForSkillSets: targetProfileSkillIdsForCleaBadgeV1,
   });
+}
 
-  const skillSetsIds = _associateSkillSets(databaseBuilder, skillIdsForSkillSetsV2, badge);
-  _associateBadgeCriteria(databaseBuilder, badge, skillSetsIds);
+function _createPixEmploiCleaBadgeV2(databaseBuilder) {
+  return _createPixEmploiCleaBadge({
+    databaseBuilder,
+    id: PIX_EMPLOI_CLEA_BADGE_ID_V2,
+    key: Badge.keys.PIX_EMPLOI_CLEA_V2,
+    targetProfileId: TARGET_PROFILE_PIX_EMPLOI_CLEA_ID_V2,
+    skillIdsForSkillSets: targetProfileSkillIdsForCleaBadgeV2,
+  });
 }
 
 function _createBasicsBadge(databaseBuilder) {
