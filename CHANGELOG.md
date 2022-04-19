@@ -1,5 +1,19 @@
 # Pix Changelog
 
+## v3.199.0 (19/04/2022)
+
+
+### :rocket: Amélioration
+- [#4342](https://github.com/1024pix/pix/pull/4342) [FEATURE] Harmoniser les messages d'erreur lors de la création d'une session (PIX-4809).
+- [#4340](https://github.com/1024pix/pix/pull/4340) [FEATURE] Ajout des nouvelles cartes tutos sur les pages checkpoint (PIX-4601).
+
+### :building_construction: Tech
+- [#4336](https://github.com/1024pix/pix/pull/4336) [TECH] Retirer les tests de bout en bout sur PixCertif (PIX-4796)
+
+### :bug: Correction
+- [#4330](https://github.com/1024pix/pix/pull/4330) [BUGFIX] Ne pas afficher le message d'alerte de sortie de focus lorsque l'user reprend un nouvel assessment (PIX-4787).
+- [#4337](https://github.com/1024pix/pix/pull/4337) [BUGFIX] Un utilisateur pouvait voir plusieurs fois la même habilitation à cocher lors d'une inscription de candidat en certification (PIX-4797)
+
 ## v3.198.0 (15/04/2022)
 
 
