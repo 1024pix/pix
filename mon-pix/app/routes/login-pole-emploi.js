@@ -5,8 +5,6 @@ import get from 'lodash/get';
 import ENV from 'mon-pix/config/environment';
 import fetch from 'fetch';
 
-const { authEndpoint } = ENV.poleEmploi;
-
 export default class LoginPoleEmploiRoute extends Route {
   @service session;
   @service router;
@@ -19,10 +17,6 @@ export default class LoginPoleEmploiRoute extends Route {
   }
 
   beforeModel(transition) {
-    if (!authEndpoint) {
-      throw new Error('There is no authEndpoint configured.');
-    }
-
     const queryParams = transition.to ? transition.to.queryParams : transition.queryParams;
     if (!queryParams.code && queryParams.error) {
       return this.replaceWith('login');

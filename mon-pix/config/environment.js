@@ -44,7 +44,6 @@ module.exports = function (environment) {
 
     poleEmploi: {
       afterLogoutUri: process.env.POLE_EMPLOI_AFTER_LOGOUT_URI,
-      authEndpoint: '/connexion/oauth2/authorize',
       endSessionEndpoint: '/compte/deconnexion',
       expiresIn: 60000, // Short expire time (60s) for testing purpose,
       host: process.env.POLE_EMPLOI_AUTHENTICATION_URL,
