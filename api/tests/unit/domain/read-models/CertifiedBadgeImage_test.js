@@ -73,11 +73,16 @@ const pixPlusEdu1erDegreBadgesInfos = {
 describe('Unit | Domain | Models | CertifiedBadgeImage', function () {
   describe('#fromPartnerKey', function () {
     context('when badge is final', function () {
-      const badges = { ...pixPlusDroitBadgesInfos, ...pixPlusEdu2ndDegreBadgesInfos, ...pixPlusEdu1erDegreBadgesInfos };
+      const badges = {
+        ...pixPlusDroitBadgesInfos,
+        ...pixPlusEdu2ndDegreBadgesInfos,
+        ...pixPlusEdu1erDegreBadgesInfos,
+      };
       for (const badgeKey in badges) {
         it(`returns final badge image for partner key ${badgeKey}`, function () {
           // when
-          const result = CertifiedBadgeImage.fromPartnerKey(badgeKey);
+          const isTemporaryBadge = false;
+          const result = CertifiedBadgeImage.fromPartnerKey(badgeKey, isTemporaryBadge);
 
           // then
           const { path, levelName } = badges[badgeKey];
@@ -91,8 +96,8 @@ describe('Unit | Domain | Models | CertifiedBadgeImage', function () {
       for (const badgeKey in badges) {
         it(`returns temporary badge image for "PIX" source ${badgeKey}`, function () {
           // when
-          const source = 'PIX';
-          const result = CertifiedBadgeImage.fromPartnerKey(badgeKey, source);
+          const isTemporaryBadge = true;
+          const result = CertifiedBadgeImage.fromPartnerKey(badgeKey, isTemporaryBadge);
 
           // then
           const { path, levelName } = badges[badgeKey];

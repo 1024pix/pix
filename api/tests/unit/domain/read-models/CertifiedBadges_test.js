@@ -19,7 +19,7 @@ const {
 } = require('../../../../lib/domain/models/Badge').keys;
 
 describe('Unit | Domain | Read-models | CertifiedBadges', function () {
-  describe('#getCertifiedBadges', function () {
+  describe('#getCertifiedBadgesDTO', function () {
     context('when badge is not "PIX_EDU', function () {
       // eslint-disable-next-line mocha/no-setup-in-describe
       [PIX_DROIT_EXPERT_CERTIF, PIX_DROIT_MAITRE_CERTIF, PIX_EMPLOI_CLEA, PIX_EMPLOI_CLEA_V2].forEach((partnerKey) => {
@@ -33,12 +33,12 @@ describe('Unit | Domain | Read-models | CertifiedBadges', function () {
           ];
 
           // when
-          const certifiedBadges = new CertifiedBadges({
+          const certifiedBadgesDTO = new CertifiedBadges({
             complementaryCertificationCourseResults,
-          }).getCertifiedBadges();
+          }).getCertifiedBadgesDTO();
 
           // then
-          expect(certifiedBadges).to.deepEqualArray([
+          expect(certifiedBadgesDTO).to.deepEqualArray([
             {
               partnerKey,
               isTemporaryBadge: false,
@@ -72,12 +72,12 @@ describe('Unit | Domain | Read-models | CertifiedBadges', function () {
             ];
 
             // when
-            const certifiedBadges = new CertifiedBadges({
+            const certifiedBadgesDTO = new CertifiedBadges({
               complementaryCertificationCourseResults,
-            }).getCertifiedBadges();
+            }).getCertifiedBadgesDTO();
 
             // then
-            expect(certifiedBadges).to.deepEqualArray([
+            expect(certifiedBadgesDTO).to.deepEqualArray([
               {
                 partnerKey,
                 isTemporaryBadge: true,
@@ -103,12 +103,12 @@ describe('Unit | Domain | Read-models | CertifiedBadges', function () {
             ];
 
             // when
-            const certifiedBadges = new CertifiedBadges({
+            const certifiedBadgesDTO = new CertifiedBadges({
               complementaryCertificationCourseResults,
-            }).getCertifiedBadges();
+            }).getCertifiedBadgesDTO();
 
             // then
-            expect(certifiedBadges).to.deepEqualArray([
+            expect(certifiedBadgesDTO).to.deepEqualArray([
               {
                 partnerKey,
                 isTemporaryBadge: false,
@@ -227,12 +227,12 @@ describe('Unit | Domain | Read-models | CertifiedBadges', function () {
           ];
 
           // when
-          const certifiedBadges = new CertifiedBadges({
+          const certifiedBadgesDTO = new CertifiedBadges({
             complementaryCertificationCourseResults,
-          }).getCertifiedBadges();
+          }).getCertifiedBadgesDTO();
 
           // then
-          expect(certifiedBadges).to.deepEqualArray([
+          expect(certifiedBadgesDTO).to.deepEqualArray([
             {
               partnerKey: expectedLowestBadge,
               isTemporaryBadge: false,

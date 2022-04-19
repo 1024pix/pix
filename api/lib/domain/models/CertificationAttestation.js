@@ -26,7 +26,7 @@ class CertificationAttestation {
     deliveredAt,
     certificationCenter,
     pixScore,
-    acquiredComplementaryCertifications,
+    certifiedBadges,
     resultCompetenceTree = null,
     verificationCode,
     maxReachableLevelOnCertificationDate,
@@ -42,7 +42,7 @@ class CertificationAttestation {
     this.deliveredAt = deliveredAt;
     this.certificationCenter = certificationCenter;
     this.pixScore = pixScore;
-    this.acquiredComplementaryCertifications = acquiredComplementaryCertifications;
+    this.certifiedBadges = certifiedBadges;
     this.resultCompetenceTree = resultCompetenceTree;
     this.verificationCode = verificationCode;
     this.maxReachableLevelOnCertificationDate = maxReachableLevelOnCertificationDate;
@@ -54,13 +54,13 @@ class CertificationAttestation {
   }
 
   getAcquiredCleaCertification() {
-    return this.acquiredComplementaryCertifications.find(
+    return this.certifiedBadges.find(
       ({ partnerKey }) => partnerKey === PIX_EMPLOI_CLEA || partnerKey === PIX_EMPLOI_CLEA_V2
     )?.partnerKey;
   }
 
   getAcquiredPixPlusDroitCertification() {
-    return this.acquiredComplementaryCertifications.find(
+    return this.certifiedBadges.find(
       ({ partnerKey }) => partnerKey === PIX_DROIT_MAITRE_CERTIF || partnerKey === PIX_DROIT_EXPERT_CERTIF
     )?.partnerKey;
   }
@@ -101,11 +101,11 @@ class CertificationAttestation {
   }
 
   hasAcquiredAnyComplementaryCertifications() {
-    return this.acquiredComplementaryCertifications.length > 0;
+    return this.certifiedBadges.length > 0;
   }
 
   _findByPartnerKey(key) {
-    return this.acquiredComplementaryCertifications.find(({ partnerKey }) => partnerKey === key);
+    return this.certifiedBadges.find(({ partnerKey }) => partnerKey === key);
   }
 }
 
