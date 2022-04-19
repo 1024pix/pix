@@ -5,8 +5,9 @@ const CleaCertificationResult = require('../../../lib/domain/models/CleaCertific
 const CertifiedBadgeImage = require('../../../lib/domain/read-models/CertifiedBadgeImage');
 const CertifiedBadges = require('../../../lib/domain/read-models/CertifiedBadges');
 const {
-  PIX_EMPLOI_CLEA,
+  PIX_EMPLOI_CLEA_V1,
   PIX_EMPLOI_CLEA_V2,
+  PIX_EMPLOI_CLEA_V3,
   PIX_DROIT_MAITRE_CERTIF,
   PIX_DROIT_EXPERT_CERTIF,
   PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
@@ -125,7 +126,7 @@ async function _getCleaCertificationResult(certificationCourseId) {
       'complementary-certification-course-results.complementaryCertificationCourseId'
     )
     .where({ certificationCourseId })
-    .whereIn('partnerKey', [PIX_EMPLOI_CLEA, PIX_EMPLOI_CLEA_V2])
+    .whereIn('partnerKey', [PIX_EMPLOI_CLEA_V1, PIX_EMPLOI_CLEA_V2, PIX_EMPLOI_CLEA_V3])
     .first();
 
   if (!result) {

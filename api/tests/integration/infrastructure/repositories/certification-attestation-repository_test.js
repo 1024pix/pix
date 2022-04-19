@@ -10,8 +10,9 @@ const { NotFoundError } = require('../../../../lib/domain/errors');
 const CertificationAttestation = require('../../../../lib/domain/models/CertificationAttestation');
 const _ = require('lodash');
 const {
-  PIX_EMPLOI_CLEA,
+  PIX_EMPLOI_CLEA_V1,
   PIX_EMPLOI_CLEA_V2,
+  PIX_EMPLOI_CLEA_V3,
   PIX_DROIT_MAITRE_CERTIF,
   PIX_DROIT_EXPERT_CERTIF,
   PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
@@ -317,8 +318,9 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
     context('acquired certifiable badges', function () {
       // eslint-disable-next-line mocha/no-setup-in-describe
       [
-        { partnerKey: PIX_EMPLOI_CLEA, isTemporaryBadge: false },
+        { partnerKey: PIX_EMPLOI_CLEA_V1, isTemporaryBadge: false },
         { partnerKey: PIX_EMPLOI_CLEA_V2, isTemporaryBadge: false },
+        { partnerKey: PIX_EMPLOI_CLEA_V3, isTemporaryBadge: false },
         { partnerKey: PIX_DROIT_EXPERT_CERTIF, isTemporaryBadge: false },
         { partnerKey: PIX_DROIT_MAITRE_CERTIF, isTemporaryBadge: false },
         { partnerKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE, isTemporaryBadge: true },
@@ -452,7 +454,7 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
         sessionId: 789,
       };
       await _buildValidCertificationAttestation(certificationAttestationData);
-      await _buildCleaResult({ certificationCourseId: 123, acquired: false, cleaBadgeKey: PIX_EMPLOI_CLEA });
+      await _buildCleaResult({ certificationCourseId: 123, acquired: false, cleaBadgeKey: PIX_EMPLOI_CLEA_V1 });
       await _buildPixPlusDroitMaitreResult({ certificationCourseId: 123, acquired: true });
 
       // when

@@ -1,6 +1,7 @@
 const {
-  PIX_EMPLOI_CLEA,
+  PIX_EMPLOI_CLEA_V1,
   PIX_EMPLOI_CLEA_V2,
+  PIX_EMPLOI_CLEA_V3,
   PIX_DROIT_MAITRE_CERTIF,
   PIX_DROIT_EXPERT_CERTIF,
   PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
@@ -19,7 +20,7 @@ const macaronPixPlusEduAvancePath = `${__dirname}/files/macaron_edu_avance.png`;
 const macaronPixPlusEduExpertPath = `${__dirname}/files/macaron_edu_expert.png`;
 
 module.exports = function getImagePathByBadgeKey(badgeKey) {
-  if ([PIX_EMPLOI_CLEA, PIX_EMPLOI_CLEA_V2].includes(badgeKey)) {
+  if ([PIX_EMPLOI_CLEA_V1, PIX_EMPLOI_CLEA_V2, PIX_EMPLOI_CLEA_V3].includes(badgeKey)) {
     return macaronCleaPath;
   }
   if (badgeKey === PIX_DROIT_MAITRE_CERTIF) {

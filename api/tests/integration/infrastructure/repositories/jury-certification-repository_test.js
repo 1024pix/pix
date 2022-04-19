@@ -2,8 +2,9 @@ const { expect, databaseBuilder, domainBuilder, catchErr } = require('../../../t
 const { NotFoundError } = require('../../../../lib/domain/errors');
 const juryCertificationRepository = require('../../../../lib/infrastructure/repositories/jury-certification-repository');
 const {
-  PIX_EMPLOI_CLEA,
+  PIX_EMPLOI_CLEA_V1,
   PIX_EMPLOI_CLEA_V2,
+  PIX_EMPLOI_CLEA_V3,
   PIX_DROIT_MAITRE_CERTIF,
   PIX_DROIT_EXPERT_CERTIF,
   PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
@@ -158,8 +159,9 @@ describe('Integration | Infrastructure | Repository | Jury Certification', funct
 
     // eslint-disable-next-line mocha/no-setup-in-describe
     [
-      { partnerKey: PIX_EMPLOI_CLEA, method: 'getCleaCertificationStatus' },
+      { partnerKey: PIX_EMPLOI_CLEA_V1, method: 'getCleaCertificationStatus' },
       { partnerKey: PIX_EMPLOI_CLEA_V2, method: 'getCleaCertificationStatus' },
+      { partnerKey: PIX_EMPLOI_CLEA_V3, method: 'getCleaCertificationStatus' },
       { partnerKey: PIX_DROIT_MAITRE_CERTIF, method: 'getPixPlusDroitMaitreCertificationStatus' },
       { partnerKey: PIX_DROIT_EXPERT_CERTIF, method: 'getPixPlusDroitExpertCertificationStatus' },
       { partnerKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE, method: 'getPixPlusEduInitieCertificationStatus' },

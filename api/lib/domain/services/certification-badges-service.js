@@ -5,7 +5,7 @@ const badgeRepository = require('../../infrastructure/repositories/badge-reposit
 const knowledgeElementRepository = require('../../infrastructure/repositories/knowledge-element-repository');
 const targetProfileRepository = require('../../infrastructure/repositories/target-profile-repository');
 const badgeCriteriaService = require('../../domain/services/badge-criteria-service');
-const { PIX_DROIT_MAITRE_CERTIF, PIX_DROIT_EXPERT_CERTIF, PIX_EMPLOI_CLEA, PIX_EMPLOI_CLEA_V2 } =
+const { PIX_DROIT_MAITRE_CERTIF, PIX_DROIT_EXPERT_CERTIF, PIX_EMPLOI_CLEA_V1, PIX_EMPLOI_CLEA_V2, PIX_EMPLOI_CLEA_V3 } =
   require('../../domain/models/Badge').keys;
 const PixEdu2ndDegreBadgeAcquisitionOrderer = require('../models/PixEdu2ndDegreBadgeAcquisitionOrderer');
 const PixEdu1erDegreBadgeAcquisitionOrderer = require('../models/PixEdu1erDegreBadgeAcquisitionOrderer');
@@ -37,18 +37,28 @@ module.exports = {
   },
 
   async hasStillValidCleaBadgeAcquisition({ userId }) {
-    let cleaBadgeKey = PIX_EMPLOI_CLEA;
+    let cleaBadgeKey = PIX_EMPLOI_CLEA_V1;
+    let hasAcquiredCleaBadgeV2, hasAcquiredCleaBadgeV3;
     const hasAcquiredCleaBadgeV1 = await badgeAcquisitionRepository.hasAcquiredBadge({
-      badgeKey: PIX_EMPLOI_CLEA,
+      badgeKey: PIX_EMPLOI_CLEA_V1,
       userId,
     });
+
     if (!hasAcquiredCleaBadgeV1) {
       cleaBadgeKey = PIX_EMPLOI_CLEA_V2;
-      const hasAcquiredCleaBadgeV2 = await badgeAcquisitionRepository.hasAcquiredBadge({
+      hasAcquiredCleaBadgeV2 = await badgeAcquisitionRepository.hasAcquiredBadge({
         badgeKey: PIX_EMPLOI_CLEA_V2,
         userId,
       });
-      if (!hasAcquiredCleaBadgeV2) return false;
+    }
+
+    if (!hasAcquiredCleaBadgeV1 && !hasAcquiredCleaBadgeV2) {
+      cleaBadgeKey = PIX_EMPLOI_CLEA_V3;
+      hasAcquiredCleaBadgeV3 = await badgeAcquisitionRepository.hasAcquiredBadge({
+        badgeKey: PIX_EMPLOI_CLEA_V3,
+        userId,
+      });
+      if (!hasAcquiredCleaBadgeV3) return false;
     }
 
     const badge = await badgeRepository.getByKey(cleaBadgeKey);

@@ -10,8 +10,9 @@ const { NotFoundError } = require('../../../../lib/domain/errors');
 const privateCertificateRepository = require('../../../../lib/infrastructure/repositories/private-certificate-repository');
 const PrivateCertificate = require('../../../../lib/domain/models/PrivateCertificate');
 const {
-  PIX_EMPLOI_CLEA,
+  PIX_EMPLOI_CLEA_V1,
   PIX_EMPLOI_CLEA_V2,
+  PIX_EMPLOI_CLEA_V3,
   PIX_DROIT_MAITRE_CERTIF,
   PIX_DROIT_EXPERT_CERTIF,
   PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
@@ -303,11 +304,11 @@ describe('Integration | Infrastructure | Repository | Private Certificate', func
         userId,
       }).id;
       databaseBuilder.factory.buildAssessment({ certificationCourseId: certificateId });
-      databaseBuilder.factory.buildBadge({ key: PIX_EMPLOI_CLEA });
+      databaseBuilder.factory.buildBadge({ key: PIX_EMPLOI_CLEA_V1 });
       databaseBuilder.factory.buildComplementaryCertificationCourse({ id: 998, certificationCourseId: certificateId });
       databaseBuilder.factory.buildComplementaryCertificationCourseResult({
         complementaryCertificationCourseId: 998,
-        partnerKey: PIX_EMPLOI_CLEA,
+        partnerKey: PIX_EMPLOI_CLEA_V1,
         acquired: true,
       });
       await databaseBuilder.commit();
@@ -354,6 +355,52 @@ describe('Integration | Infrastructure | Repository | Private Certificate', func
       databaseBuilder.factory.buildComplementaryCertificationCourseResult({
         complementaryCertificationCourseId: 998,
         partnerKey: PIX_EMPLOI_CLEA_V2,
+        acquired: true,
+      });
+      await databaseBuilder.commit();
+
+      // when
+      const privateCertificate = await privateCertificateRepository.get(certificateId);
+
+      // then
+      const expectedPrivateCertificate = domainBuilder.buildPrivateCertificate.validated({
+        id: certificateId,
+        ...privateCertificateData,
+      });
+      expect(_.omit(privateCertificate, ['resultCompetenceTree'])).to.deep.equal(
+        _.omit(expectedPrivateCertificate, ['resultCompetenceTree'])
+      );
+    });
+
+    it('should get the clea certification result if taken with badge V3', async function () {
+      // given
+      const learningContentObjects = learningContentBuilder.buildLearningContent(minimalLearningContent);
+      mockLearningContent(learningContentObjects);
+      const userId = databaseBuilder.factory.buildUser().id;
+      const privateCertificateData = {
+        firstName: 'Sarah Michelle',
+        lastName: 'Gellar',
+        birthdate: '1977-04-14',
+        birthplace: 'Saint-Ouen',
+        isPublished: true,
+        userId,
+        date: new Date('2020-01-01'),
+        verificationCode: 'ABCDE-F',
+        maxReachableLevelOnCertificationDate: 5,
+        deliveredAt: new Date('2021-05-05'),
+        certificationCenter: 'Centre des poules bien dodues',
+        pixScore: null,
+        commentForCandidate: null,
+        cleaCertificationResult: domainBuilder.buildCleaCertificationResult.acquired(),
+      };
+
+      const { certificateId } = await _buildValidPrivateCertificate(privateCertificateData);
+
+      databaseBuilder.factory.buildBadge({ key: PIX_EMPLOI_CLEA_V3 });
+      databaseBuilder.factory.buildComplementaryCertificationCourse({ id: 998, certificationCourseId: certificateId });
+      databaseBuilder.factory.buildComplementaryCertificationCourseResult({
+        complementaryCertificationCourseId: 998,
+        partnerKey: PIX_EMPLOI_CLEA_V3,
         acquired: true,
       });
       await databaseBuilder.commit();
@@ -825,11 +872,11 @@ describe('Integration | Infrastructure | Repository | Private Certificate', func
         userId,
       }).id;
       databaseBuilder.factory.buildAssessment({ certificationCourseId: certificateId });
-      databaseBuilder.factory.buildBadge({ key: PIX_EMPLOI_CLEA });
+      databaseBuilder.factory.buildBadge({ key: PIX_EMPLOI_CLEA_V1 });
       databaseBuilder.factory.buildComplementaryCertificationCourse({ id: 998, certificationCourseId: certificateId });
       databaseBuilder.factory.buildComplementaryCertificationCourseResult({
         complementaryCertificationCourseId: 998,
-        partnerKey: PIX_EMPLOI_CLEA,
+        partnerKey: PIX_EMPLOI_CLEA_V1,
         acquired: true,
       });
       await databaseBuilder.commit();

@@ -4,8 +4,9 @@ const { expect, domainBuilder } = require('../../../test-helper');
 const {
   PIX_DROIT_MAITRE_CERTIF,
   PIX_DROIT_EXPERT_CERTIF,
-  PIX_EMPLOI_CLEA,
+  PIX_EMPLOI_CLEA_V1,
   PIX_EMPLOI_CLEA_V2,
+  PIX_EMPLOI_CLEA_V3,
   PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
   PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME,
   PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME,
@@ -22,7 +23,13 @@ describe('Unit | Domain | Read-models | CertifiedBadges', function () {
   describe('#getCertifiedBadgesDTO', function () {
     context('when badge is not "PIX_EDU', function () {
       // eslint-disable-next-line mocha/no-setup-in-describe
-      [PIX_DROIT_EXPERT_CERTIF, PIX_DROIT_MAITRE_CERTIF, PIX_EMPLOI_CLEA, PIX_EMPLOI_CLEA_V2].forEach((partnerKey) => {
+      [
+        PIX_DROIT_EXPERT_CERTIF,
+        PIX_DROIT_MAITRE_CERTIF,
+        PIX_EMPLOI_CLEA_V1,
+        PIX_EMPLOI_CLEA_V2,
+        PIX_EMPLOI_CLEA_V3,
+      ].forEach((partnerKey) => {
         it(`returns a non temporary badge for ${partnerKey}`, function () {
           // given
           const complementaryCertificationCourseResults = [

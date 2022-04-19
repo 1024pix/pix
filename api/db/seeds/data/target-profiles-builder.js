@@ -102,6 +102,7 @@ const skillIdsForSkillSet3 = [
 ];
 const skillIdsForSkillSet3_V1_only = ['rec6IWrDOSaoX4aLn', 'recZnnTU4WUP6KwwX'];
 const skillIdsForSkillSet3_V2_only = ['recqSPZiRJYzfCDaS', 'recRAXPXVL2cMh5b5'];
+const skillIdsForSkillSet3_V3_only = ['recqSPZiRJYzfCDaS', 'recRAXPXVL2cMh5b5'];
 
 const skillIdsForSkillSet4 = [
   'recTIddrkopID28Ep',
@@ -140,6 +141,7 @@ const skillIdsForSkillSet4 = [
 ];
 const skillIdsForSkillSet4_V1_only = ['recAzV1ljhCdjrasn', 'recx7WnZJCXVgCvN4'];
 const skillIdsForSkillSet4_V2_only = ['rec1XTXVEkhBVKPLW', 'rec2gXP40kiwxd0Kc'];
+const skillIdsForSkillSet4_V3_only = ['rec1XTXVEkhBVKPLW', 'rec2gXP40kiwxd0Kc'];
 
 const targetProfileSkillIdsForCleaBadgeV1 = [
   skillIdsForSkillSet1,
@@ -159,6 +161,14 @@ const targetProfileSkillIdsForCleaBadgeV2 = [
   skillIdsForSkillSet4_V2_only,
 ];
 
+const targetProfileSkillIdsForCleaBadgeV3 = [
+  skillIdsForSkillSet1,
+  skillIdsForSkillSet2,
+  skillIdsForSkillSet3,
+  skillIdsForSkillSet3_V3_only,
+  skillIdsForSkillSet4,
+  skillIdsForSkillSet4_V3_only,
+];
 const TARGET_PROFILE_PIC_DIAG_INITIAL_ID = 1;
 const TARGET_PROFILE_ONE_COMPETENCE_ID = 2;
 const TARGET_PROFILE_STAGES_BADGES_ID = 3;
@@ -170,14 +180,16 @@ const TARGET_PROFILE_PIX_EDU_FORMATION_INITIALE_2ND_DEGRE = 8;
 const TARGET_PROFILE_PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE = 9;
 const TARGET_PROFILE_PIX_EDU_FORMATION_INITIALE_1ER_DEGRE = 10;
 const TARGET_PROFILE_PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE = 11;
+const TARGET_PROFILE_PIX_EMPLOI_CLEA_ID_V3 = 12;
 
 function targetProfilesBuilder({ databaseBuilder }) {
   _buildTargetProfilePICDiagnosticInitial(databaseBuilder);
   _buildTargetProfileOneCompetence(databaseBuilder);
   _buildTargetProfileWithStagesAndBadges(databaseBuilder);
   _buildTargetProfileWithSimplifiedAccess(databaseBuilder);
-  _buildTargetProfilePixEmploiClea(databaseBuilder);
+  _buildTargetProfilePixEmploiCleaV1(databaseBuilder);
   _buildTargetProfilePixEmploiCleaV2(databaseBuilder);
+  _buildTargetProfilePixEmploiCleaV3(databaseBuilder);
   _buildTargetProfilePixDroit(databaseBuilder);
   _buildTargetProfilePixEduFormationInitiale2ndDegre(databaseBuilder);
   _buildTargetProfilePixEduFormationInitiale1erDegre(databaseBuilder);
@@ -366,31 +378,43 @@ function _buildTargetProfileWithSimplifiedAccess(databaseBuilder) {
   });
 }
 
-function _buildTargetProfilePixEmploiClea(databaseBuilder) {
+function _buildTargetProfilePixEmploiClea({ databaseBuilder, id, name, targetProfileSkillIdsForCleaBadge }) {
   databaseBuilder.factory.buildTargetProfile({
-    id: TARGET_PROFILE_PIX_EMPLOI_CLEA_ID,
-    name: 'Pix emploi - Parcours complet',
+    id,
+    name,
     isPublic: false,
     category: 'CUSTOM',
     ownerOrganizationId: PRO_POLE_EMPLOI_ID,
   });
 
-  targetProfileSkillIdsForCleaBadgeV1.flatMap(identity).forEach((skillId) => {
-    databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: TARGET_PROFILE_PIX_EMPLOI_CLEA_ID, skillId });
+  targetProfileSkillIdsForCleaBadge.flatMap(identity).forEach((skillId) => {
+    databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: id, skillId });
+  });
+}
+function _buildTargetProfilePixEmploiCleaV1(databaseBuilder) {
+  return _buildTargetProfilePixEmploiClea({
+    databaseBuilder,
+    id: TARGET_PROFILE_PIX_EMPLOI_CLEA_ID,
+    name: 'Pix emploi - Parcours complet',
+    targetProfileSkillIdsForCleaBadge: targetProfileSkillIdsForCleaBadgeV1,
   });
 }
 
 function _buildTargetProfilePixEmploiCleaV2(databaseBuilder) {
-  databaseBuilder.factory.buildTargetProfile({
+  return _buildTargetProfilePixEmploiClea({
+    databaseBuilder,
     id: TARGET_PROFILE_PIX_EMPLOI_CLEA_ID_V2,
     name: 'Parcours complet CléA numérique (2021)',
-    isPublic: false,
-    category: 'CUSTOM',
-    ownerOrganizationId: PRO_POLE_EMPLOI_ID,
+    targetProfileSkillIdsForCleaBadge: targetProfileSkillIdsForCleaBadgeV2,
   });
+}
 
-  targetProfileSkillIdsForCleaBadgeV2.flatMap(identity).forEach((skillId) => {
-    databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: TARGET_PROFILE_PIX_EMPLOI_CLEA_ID_V2, skillId });
+function _buildTargetProfilePixEmploiCleaV3(databaseBuilder) {
+  return _buildTargetProfilePixEmploiClea({
+    databaseBuilder,
+    id: TARGET_PROFILE_PIX_EMPLOI_CLEA_ID_V3,
+    name: 'Parcours complet CléA numérique (2022)',
+    targetProfileSkillIdsForCleaBadge: targetProfileSkillIdsForCleaBadgeV3,
   });
 }
 
@@ -827,6 +851,7 @@ module.exports = {
   TARGET_PROFILE_SIMPLIFIED_ACCESS_ID,
   TARGET_PROFILE_PIX_EMPLOI_CLEA_ID,
   TARGET_PROFILE_PIX_EMPLOI_CLEA_ID_V2,
+  TARGET_PROFILE_PIX_EMPLOI_CLEA_ID_V3,
   TARGET_PROFILE_PIX_DROIT_ID,
   TARGET_PROFILE_PIX_EDU_FORMATION_INITIALE_2ND_DEGRE,
   TARGET_PROFILE_PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE,
@@ -834,4 +859,5 @@ module.exports = {
   TARGET_PROFILE_PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE,
   targetProfileSkillIdsForCleaBadgeV1,
   targetProfileSkillIdsForCleaBadgeV2,
+  targetProfileSkillIdsForCleaBadgeV3,
 };
