@@ -81,7 +81,11 @@ async function _getAcquiredCleaBadgeKey(userId, certificationCourseId, domainTra
     .innerJoin('badges', 'badges.id', 'badgeId')
     .innerJoin('certification-courses', 'certification-courses.userId', 'badge-acquisitions.userId')
     .where('badge-acquisitions.userId', userId)
-    .whereIn('badges.key', [Badge.keys.PIX_EMPLOI_CLEA, Badge.keys.PIX_EMPLOI_CLEA_V2])
+    .whereIn('badges.key', [
+      Badge.keys.PIX_EMPLOI_CLEA_V1,
+      Badge.keys.PIX_EMPLOI_CLEA_V2,
+      Badge.keys.PIX_EMPLOI_CLEA_V3,
+    ])
     .where('certification-courses.id', certificationCourseId)
     .where('badge-acquisitions.createdAt', '<', knex.ref('certification-courses.createdAt'))
     .orderBy('badge-acquisitions.createdAt', 'DESC');

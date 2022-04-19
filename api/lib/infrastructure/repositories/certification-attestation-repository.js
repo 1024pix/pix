@@ -2,8 +2,9 @@ const _ = require('lodash');
 const { knex } = require('../../../db/knex-database-connection');
 const CertificationAttestation = require('../../domain/models/CertificationAttestation');
 const {
-  PIX_EMPLOI_CLEA,
+  PIX_EMPLOI_CLEA_V1,
   PIX_EMPLOI_CLEA_V2,
+  PIX_EMPLOI_CLEA_V3,
   PIX_DROIT_MAITRE_CERTIF,
   PIX_DROIT_EXPERT_CERTIF,
   PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
@@ -138,8 +139,9 @@ function _filterMostRecentCertificationCoursePerSchoolingRegistration(DTOs) {
 
 async function _getAcquiredPartnerCertification(certificationCourseId) {
   const handledBadgeKeys = [
-    PIX_EMPLOI_CLEA,
+    PIX_EMPLOI_CLEA_V1,
     PIX_EMPLOI_CLEA_V2,
+    PIX_EMPLOI_CLEA_V3,
     PIX_DROIT_EXPERT_CERTIF,
     PIX_DROIT_MAITRE_CERTIF,
     PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,

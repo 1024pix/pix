@@ -4,7 +4,7 @@ const {
   getCertificationAttestationsPdfBuffer,
 } = require('../../../../../lib/infrastructure/utils/pdf/certification-attestation-pdf');
 const {
-  PIX_EMPLOI_CLEA,
+  PIX_EMPLOI_CLEA_V3,
   PIX_DROIT_MAITRE_CERTIF,
   PIX_DROIT_EXPERT_CERTIF,
   PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
@@ -29,7 +29,7 @@ describe('Integration | Infrastructure | Utils | Pdf | Certification Attestation
       firstName: 'Jean',
       lastName: 'Bon',
       resultCompetenceTree,
-      certifiedBadges: [{ partnerKey: PIX_EMPLOI_CLEA }, { partnerKey: PIX_DROIT_MAITRE_CERTIF }],
+      certifiedBadges: [{ partnerKey: PIX_EMPLOI_CLEA_V3 }, { partnerKey: PIX_DROIT_MAITRE_CERTIF }],
     });
     const referencePdfPath = __dirname + '/certification-attestation-pdf_test_full.pdf';
 
@@ -110,14 +110,14 @@ describe('Integration | Infrastructure | Utils | Pdf | Certification Attestation
       firstName: 'Jean',
       lastName: 'Bon',
       resultCompetenceTree,
-      certifiedBadges: [{ partnerKey: PIX_EMPLOI_CLEA }, { partnerKey: PIX_DROIT_MAITRE_CERTIF }],
+      certifiedBadges: [{ partnerKey: PIX_EMPLOI_CLEA_V3 }, { partnerKey: PIX_DROIT_MAITRE_CERTIF }],
     });
     const certificateWithCleaAndPixPlusDroitExpert = domainBuilder.buildCertificationAttestation({
       id: 2,
       firstName: 'Harry',
       lastName: 'Covert',
       resultCompetenceTree,
-      certifiedBadges: [{ partnerKey: PIX_EMPLOI_CLEA }, { partnerKey: PIX_DROIT_EXPERT_CERTIF }],
+      certifiedBadges: [{ partnerKey: PIX_EMPLOI_CLEA_V3 }, { partnerKey: PIX_DROIT_EXPERT_CERTIF }],
     });
     const certificateWithoutCleaNorPixPlusDroit = domainBuilder.buildCertificationAttestation({
       ...certificateWithCleaAndPixPlusDroitMaitre,

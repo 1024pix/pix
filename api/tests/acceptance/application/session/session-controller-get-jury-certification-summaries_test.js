@@ -54,7 +54,7 @@ describe('Acceptance | Controller | session-controller-get-jury-certification-su
         const dbf = databaseBuilder.factory;
         pixMasterId = dbf.buildUser.withPixRolePixMaster().id;
         sessionId = dbf.buildSession().id;
-        const badge = dbf.buildBadge({ key: Badge.keys.PIX_EMPLOI_CLEA });
+        const badge = dbf.buildBadge({ key: Badge.keys.PIX_EMPLOI_CLEA_V3 });
 
         certif1 = dbf.buildCertificationCourse({ sessionId, lastName: 'AAA' });
         const { id } = dbf.buildComplementaryCertificationCourse({ certificationCourseId: certif1.id, name: CLEA });
