@@ -9,7 +9,8 @@ module('Integration | Component | member-item', function (hooks) {
   setupRenderingTest(hooks);
 
   hooks.beforeEach(function () {
-    const user = EmberObject.create({ firstName: 'Jojo', lastName: 'La Gringue', email: 'jojo@lagringue.fr' });
+    const user = EmberObject.create({ id: 123, firstName: 'Jojo', lastName: 'La Gringue', email: 'jojo@lagringue.fr' });
+
     this.membership = EmberObject.create({ id: 1, user, displayedOrganizationRole: 'Administrateur' });
   });
 
@@ -18,13 +19,13 @@ module('Integration | Component | member-item', function (hooks) {
     const screen = await render(hbs`<MemberItem @membership={{this.membership}} />`);
 
     // then
-    assert.dom(screen.getByText('1')).exists();
+    assert.dom(screen.getByText('123')).exists();
     assert.dom(screen.getByText('Jojo')).exists();
     assert.dom(screen.getByText('La Gringue')).exists();
     assert.dom(screen.getByText('jojo@lagringue.fr')).exists();
     assert.dom(screen.getByText('Administrateur')).exists();
     assert.dom(screen.getByRole('button', { name: 'Modifier le rôle' })).exists();
-    assert.dom(screen.getByRole('button', { name: 'Désactiver le membre' })).exists();
+    assert.dom(screen.getByRole('button', { name: 'Désactiver' })).exists();
   });
 
   module("when editing organization's role", function () {
@@ -106,7 +107,7 @@ module('Integration | Component | member-item', function (hooks) {
       );
 
       // when
-      await clickByName('Désactiver le membre');
+      await clickByName('Désactiver');
 
       // then
       assert.dom(screen.getByRole('heading', { name: "Désactivation d'un membre" })).exists();
@@ -120,7 +121,7 @@ module('Integration | Component | member-item', function (hooks) {
       const screen = await render(
         hbs`<MemberItem @membership={{this.membership}} @disableMembership={{this.disableMembership}} />`
       );
-      await clickByName('Désactiver le membre');
+      await clickByName('Désactiver');
 
       // when
       await clickByName('Annuler');
@@ -135,7 +136,7 @@ module('Integration | Component | member-item', function (hooks) {
       this.disableMembership = sinon.spy();
       await render(hbs`<MemberItem @membership={{this.membership}} @disableMembership={{this.disableMembership}} />`);
 
-      await clickByName('Désactiver le membre');
+      await clickByName('Désactiver');
 
       // when
       await clickByName('Confirmer');
