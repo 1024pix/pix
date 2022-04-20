@@ -44,7 +44,7 @@ describe('Unit | Application | Certifications Issue Report | Route', function ()
       });
     });
 
-    context('when user is not pixmaster', function () {
+    context('when user is not Super Admin', function () {
       it('should throw 403', async function () {
         // given
         sinon.stub(certificationIssueReportController, 'manuallyResolve').callsFake((_, h) => h.response().code(204));

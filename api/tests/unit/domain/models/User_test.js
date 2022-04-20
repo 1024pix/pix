@@ -64,7 +64,7 @@ describe('Unit | Domain | Models | User', function () {
       expect(hasRole).to.be.true;
     });
 
-    it('should be false if user has notrole SUPER_ADMIN ', function () {
+    it('should be false if user has not role SUPER_ADMIN ', function () {
       // given
       userRawDetails.pixAdminRoles = [];
 

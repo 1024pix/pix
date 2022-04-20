@@ -101,7 +101,7 @@ function certificationSessionsBuilder({ databaseBuilder }) {
     publishedAt: null,
     date, time,
     finalizedAt: new Date('2020-05-05T15:00:34Z'),
-    assignedCertificationOfficerName: 'Pix Master',
+    assignedCertificationOfficerName: 'Super Admin',
   });
 
   databaseBuilder.factory.buildSession({
