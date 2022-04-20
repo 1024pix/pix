@@ -16,9 +16,7 @@ module('Acceptance | Organizations | List', function (hooks) {
       await visit('/organizations/list');
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(currentURL(), '/login');
+      assert.strictEqual(currentURL(), '/login');
     });
   });
 
@@ -33,9 +31,7 @@ module('Acceptance | Organizations | List', function (hooks) {
       await visit('/organizations/list');
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(currentURL(), '/organizations/list');
+      assert.strictEqual(currentURL(), '/organizations/list');
     });
 
     test('it should list the organizations', async function (assert) {
@@ -88,9 +84,7 @@ module('Acceptance | Organizations | List', function (hooks) {
       await click(screen.getByRole('link', { name: '1' }));
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(currentURL(), '/organizations/1/team');
+      assert.strictEqual(currentURL(), '/organizations/1/team');
     });
   });
 });
