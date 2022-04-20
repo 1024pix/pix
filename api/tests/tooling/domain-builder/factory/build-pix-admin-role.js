@@ -2,7 +2,7 @@ const PixAdminRole = require('../../../../lib/domain/models/PixAdminRole');
 
 module.exports = function buildPixAdminRole({
   id = 1,
-  userId,
+  userId = 123,
   role = PixAdminRole.roles.SUPER_ADMIN,
   createdAt = new Date(2022, 4, 11),
   updatedAt,
