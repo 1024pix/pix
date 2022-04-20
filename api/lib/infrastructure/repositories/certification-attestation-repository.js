@@ -17,6 +17,8 @@ const { NotFoundError } = require('../../../lib/domain/errors');
 const competenceTreeRepository = require('./competence-tree-repository');
 const ResultCompetenceTree = require('../../domain/models/ResultCompetenceTree');
 const CompetenceMark = require('../../domain/models/CompetenceMark');
+const ComplementaryCertificationCourseResult = require('../../domain/models/ComplementaryCertificationCourseResult');
+const CertifiedBadges = require('../../domain/read-models/CertifiedBadges');
 
 module.exports = {
   async get(id) {
@@ -147,7 +149,7 @@ async function _getAcquiredPartnerCertification(certificationCourseId) {
     PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
   ];
   const complementaryCertificationCourseResults = await knex
-    .select('partnerKey', 'temporaryPartnerKey')
+    .select('complementary-certification-course-results.*')
     .from('complementary-certification-course-results')
     .innerJoin(
       'complementary-certification-courses',
@@ -156,10 +158,10 @@ async function _getAcquiredPartnerCertification(certificationCourseId) {
     )
     .where({ certificationCourseId, acquired: true })
     .where(function () {
-      this.whereIn('partnerKey', handledBadgeKeys).orWhereIn('temporaryPartnerKey', handledBadgeKeys);
+      this.whereIn('partnerKey', handledBadgeKeys);
     });
 
-  return complementaryCertificationCourseResults;
+  return complementaryCertificationCourseResults.map(ComplementaryCertificationCourseResult.from);
 }
 
 function _toDomain(certificationCourseDTO, competenceTree, acquiredComplementaryCertifications) {
@@ -174,9 +176,13 @@ function _toDomain(certificationCourseDTO, competenceTree, acquiredComplementary
     assessmentResultId: certificationCourseDTO.assessmentResultId,
   });
 
+  const certifiedBadgesDTO = new CertifiedBadges({
+    complementaryCertificationCourseResults: acquiredComplementaryCertifications,
+  }).getCertifiedBadgesDTO();
+
   return new CertificationAttestation({
     ...certificationCourseDTO,
     resultCompetenceTree,
-    acquiredComplementaryCertifications,
+    certifiedBadges: certifiedBadgesDTO,
   });
 }

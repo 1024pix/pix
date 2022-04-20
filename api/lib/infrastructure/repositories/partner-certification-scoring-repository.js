@@ -42,6 +42,7 @@ module.exports = {
     const partnerCertificationToSave = new ComplementaryCertificationCourseResultBookshelf(
       _adaptModelToDB({
         ...partnerCertificationScoring,
+        source: 'PIX',
         complementaryCertificationCourseId: partnerCertificationScoring.complementaryCertificationCourseId,
         acquired: partnerCertificationScoring.isAcquired(),
       })
@@ -53,10 +54,6 @@ module.exports = {
       .where({
         complementaryCertificationCourseId: partnerCertificationScoring.complementaryCertificationCourseId,
         partnerKey: partnerCertificationScoring.partnerKey,
-      })
-      .orWhere({
-        complementaryCertificationCourseId: partnerCertificationScoring.complementaryCertificationCourseId,
-        temporaryPartnerKey: partnerCertificationScoring.temporaryPartnerKey,
       })
       .first();
 
@@ -74,8 +71,8 @@ module.exports = {
   },
 };
 
-function _adaptModelToDB({ complementaryCertificationCourseId, partnerKey, temporaryPartnerKey, acquired }) {
-  return { complementaryCertificationCourseId, partnerKey, temporaryPartnerKey, acquired };
+function _adaptModelToDB({ complementaryCertificationCourseId, partnerKey, source, acquired }) {
+  return { complementaryCertificationCourseId, partnerKey, source, acquired };
 }
 
 async function _getAcquiredCleaBadgeKey(userId, certificationCourseId, domainTransaction) {

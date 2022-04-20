@@ -9,8 +9,8 @@ class PixPlusEduCertificationScoring extends PartnerCertificationScoring {
   } = {}) {
     super({
       complementaryCertificationCourseId,
-      partnerKey: null,
-      temporaryPartnerKey: certifiableBadgeKey,
+      partnerKey: certifiableBadgeKey,
+      source: 'PIX',
     });
 
     this.reproducibilityRate = reproducibilityRate;

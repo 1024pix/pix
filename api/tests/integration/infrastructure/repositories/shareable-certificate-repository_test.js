@@ -549,8 +549,9 @@ describe('Integration | Infrastructure | Repository | Shareable Certificate', fu
         databaseBuilder.factory.buildBadge({ key: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE });
         databaseBuilder.factory.buildComplementaryCertificationCourseResult({
           certificationCourseId: otherCertificateId,
-          temporaryPartnerKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
+          partnerKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
           acquired: true,
+          source: 'PIX',
         });
         await databaseBuilder.commit();
 
@@ -664,8 +665,9 @@ async function _buildValidShareableCertificateWithAcquiredAndNotAcquiredBadges({
     });
     databaseBuilder.factory.buildComplementaryCertificationCourseResult({
       complementaryCertificationCourseId,
-      temporaryPartnerKey: badgeKey,
+      partnerKey: badgeKey,
       acquired: true,
+      source: 'PIX',
     });
   });
 

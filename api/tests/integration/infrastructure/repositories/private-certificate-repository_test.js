@@ -939,8 +939,9 @@ async function _buildValidPrivateCertificateWithAcquiredAndNotAcquiredBadges({
     });
     databaseBuilder.factory.buildComplementaryCertificationCourseResult({
       complementaryCertificationCourseId,
-      temporaryPartnerKey: badgeKey,
+      partnerKey: badgeKey,
       acquired: true,
+      source: 'PIX',
     });
   });
 
