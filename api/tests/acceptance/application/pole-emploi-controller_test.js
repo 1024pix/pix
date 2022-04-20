@@ -235,7 +235,6 @@ describe('Acceptance | API | Pole Emploi Controller', function () {
         const redirectTargetUrl = new URL(response.result.redirectTarget);
 
         expect(redirectTargetUrl.origin).to.equal('http://authurl.fr');
-        expect(redirectTargetUrl.pathname).to.equal('/connexion/oauth2/authorize');
         expect(redirectTargetUrl.searchParams.get('redirect_uri')).to.equal('http://app.pix.fr/connexion-pole-emploi');
         expect(redirectTargetUrl.searchParams.get('client_id')).to.equal('PIX_POLE_EMPLOI_CLIENT_ID');
         expect(redirectTargetUrl.searchParams.get('response_type')).to.equal('code');
