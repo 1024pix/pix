@@ -1,4 +1,6 @@
-<td>{{@membership.id}}</td>
+<td><LinkTo @route="authenticated.users.get" @model={{@membership.user}}>
+    {{@membership.user.id}}
+  </LinkTo></td>
 <td>{{@membership.user.firstName}}</td>
 <td>{{@membership.user.lastName}}</td>
 <td>{{@membership.user.email}}</td>
@@ -64,7 +66,7 @@
         @triggerAction={{this.toggleDisplayConfirm}}
         class="member-item-actions__button"
       >
-        <FaIcon @icon="trash" />Désactiver le membre
+        <FaIcon @icon="trash" />Désactiver
       </PixButton>
     {{/if}}
   </div>
