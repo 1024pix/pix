@@ -27,9 +27,8 @@ class CertifiedBadgeImage {
     });
   }
 
-  static fromPartnerKey(partnerKey, temporaryPartnerKey) {
-    const badgeKey = partnerKey || temporaryPartnerKey;
-    const isTemporaryBadge = !partnerKey;
+  static fromPartnerKey(partnerKey, isTemporaryBadge) {
+    const badgeKey = partnerKey;
 
     if (badgeKey === PIX_DROIT_MAITRE_CERTIF) {
       return CertifiedBadgeImage.finalFromPath('https://images.pix.fr/badges-certifies/pix-droit/maitre.svg');

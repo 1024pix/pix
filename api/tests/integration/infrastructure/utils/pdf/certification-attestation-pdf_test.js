@@ -29,7 +29,7 @@ describe('Integration | Infrastructure | Utils | Pdf | Certification Attestation
       firstName: 'Jean',
       lastName: 'Bon',
       resultCompetenceTree,
-      acquiredComplementaryCertifications: [{ partnerKey: PIX_EMPLOI_CLEA }, { partnerKey: PIX_DROIT_MAITRE_CERTIF }],
+      certifiedBadges: [{ partnerKey: PIX_EMPLOI_CLEA }, { partnerKey: PIX_DROIT_MAITRE_CERTIF }],
     });
     const referencePdfPath = __dirname + '/certification-attestation-pdf_test_full.pdf';
 
@@ -56,7 +56,7 @@ describe('Integration | Infrastructure | Utils | Pdf | Certification Attestation
       firstName: 'Jean',
       lastName: 'Bon',
       resultCompetenceTree,
-      acquiredComplementaryCertifications: [{ temporaryPartnerKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE }],
+      certifiedBadges: [{ partnerKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE, isTemporaryBadge: true }],
     });
     const referencePdfPath = __dirname + '/certification-attestation-pdf_test_full_edu_temporary.pdf';
 
@@ -83,7 +83,7 @@ describe('Integration | Infrastructure | Utils | Pdf | Certification Attestation
       firstName: 'Jean',
       lastName: 'Bon',
       resultCompetenceTree,
-      acquiredComplementaryCertifications: [{ partnerKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE }],
+      certifiedBadges: [{ partnerKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE, isTemporaryBadge: false }],
     });
     const referencePdfPath = __dirname + '/certification-attestation-pdf_test_full_edu.pdf';
 
@@ -110,14 +110,14 @@ describe('Integration | Infrastructure | Utils | Pdf | Certification Attestation
       firstName: 'Jean',
       lastName: 'Bon',
       resultCompetenceTree,
-      acquiredComplementaryCertifications: [{ partnerKey: PIX_EMPLOI_CLEA }, { partnerKey: PIX_DROIT_MAITRE_CERTIF }],
+      certifiedBadges: [{ partnerKey: PIX_EMPLOI_CLEA }, { partnerKey: PIX_DROIT_MAITRE_CERTIF }],
     });
     const certificateWithCleaAndPixPlusDroitExpert = domainBuilder.buildCertificationAttestation({
       id: 2,
       firstName: 'Harry',
       lastName: 'Covert',
       resultCompetenceTree,
-      acquiredComplementaryCertifications: [{ partnerKey: PIX_EMPLOI_CLEA }, { partnerKey: PIX_DROIT_EXPERT_CERTIF }],
+      certifiedBadges: [{ partnerKey: PIX_EMPLOI_CLEA }, { partnerKey: PIX_DROIT_EXPERT_CERTIF }],
     });
     const certificateWithoutCleaNorPixPlusDroit = domainBuilder.buildCertificationAttestation({
       ...certificateWithCleaAndPixPlusDroitMaitre,
@@ -126,7 +126,7 @@ describe('Integration | Infrastructure | Utils | Pdf | Certification Attestation
       lastName: 'Decaffé',
       cleaCertificationImagePath: null,
       pixPlusDroitCertificationImagePath: null,
-      acquiredComplementaryCertifications: [],
+      certifiedBadges: [],
     });
     const referencePdfPath = __dirname + '/certification-attestation-pdf_several_pages.pdf';
 

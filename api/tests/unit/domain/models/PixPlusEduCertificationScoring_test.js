@@ -3,7 +3,7 @@ const PixPlusEduCertificationScoring = require('../../../../lib/domain/models/Pi
 
 describe('Unit | Domain | Models | PixPlusEduCertificationScoring', function () {
   context('#constructor', function () {
-    it('set partnerKey and temporaryPartnerKey', function () {
+    it('set partnerKey and source', function () {
       // given
       const reproducibilityRate = domainBuilder.buildReproducibilityRate({ value: 71 });
 
@@ -16,8 +16,8 @@ describe('Unit | Domain | Models | PixPlusEduCertificationScoring', function () 
       });
 
       // then
-      expect(pixPlusEduCertificationScoring.temporaryPartnerKey).to.equal('BADGE');
-      expect(pixPlusEduCertificationScoring.partnerKey).to.be.null;
+      expect(pixPlusEduCertificationScoring.source).to.equal('PIX');
+      expect(pixPlusEduCertificationScoring.partnerKey).to.equal('BADGE');
     });
   });
   context('#isAcquired', function () {
