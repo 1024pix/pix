@@ -305,6 +305,7 @@ module.exports = injectDependencies(
     getOrganizationInvitation: require('./get-organization-invitation'),
     getParticipantsDivision: require('./get-participants-division'),
     getParticipantsGroup: require('./get-participants-group'),
+    getAdminMembers: require('./get-admin-members'),
     getPoleEmploiSendings: require('./get-pole-emploi-sendings'),
     getPrescriber: require('./get-prescriber'),
     getPrivateCertificate: require('./certificate/get-private-certificate'),
