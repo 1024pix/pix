@@ -66,7 +66,7 @@ async function getPoleEmploiUserInfo(idToken) {
 }
 
 function getPoleEmploiAuthUrl({ redirectUri }) {
-  const redirectTarget = new URL(`${settings.poleEmploi.authUrl}/connexion/oauth2/authorize`);
+  const redirectTarget = new URL(`${settings.poleEmploi.authUrl}`);
   const state = uuidv4();
   const nonce = uuidv4();
   const clientId = settings.poleEmploi.clientId;
