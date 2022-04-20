@@ -25,7 +25,7 @@ module('Integration | Component | member-item', function (hooks) {
     assert.dom(screen.getByText('jojo@lagringue.fr')).exists();
     assert.dom(screen.getByText('Administrateur')).exists();
     assert.dom(screen.getByRole('button', { name: 'Modifier le rôle' })).exists();
-    assert.dom(screen.getByRole('button', { name: 'Désactiver' })).exists();
+    assert.dom(screen.getByRole('button', { name: 'Désactiver le membre' })).exists();
   });
 
   module("when editing organization's role", function () {
@@ -73,9 +73,7 @@ module('Integration | Component | member-item', function (hooks) {
 
       // then
       assert.dom(screen.queryByText('Enregistrer')).doesNotExist();
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(this.membership.organizationRole, 'MEMBER');
+      assert.strictEqual(this.membership.organizationRole, 'MEMBER');
       assert.ok(this.updateMembership.called);
     });
 
@@ -107,7 +105,7 @@ module('Integration | Component | member-item', function (hooks) {
       );
 
       // when
-      await clickByName('Désactiver');
+      await clickByName('Désactiver le membre');
 
       // then
       assert.dom(screen.getByRole('heading', { name: "Désactivation d'un membre" })).exists();
@@ -121,7 +119,7 @@ module('Integration | Component | member-item', function (hooks) {
       const screen = await render(
         hbs`<MemberItem @membership={{this.membership}} @disableMembership={{this.disableMembership}} />`
       );
-      await clickByName('Désactiver');
+      await clickByName('Désactiver le membre');
 
       // when
       await clickByName('Annuler');
@@ -136,7 +134,7 @@ module('Integration | Component | member-item', function (hooks) {
       this.disableMembership = sinon.spy();
       await render(hbs`<MemberItem @membership={{this.membership}} @disableMembership={{this.disableMembership}} />`);
 
-      await clickByName('Désactiver');
+      await clickByName('Désactiver le membre');
 
       // when
       await clickByName('Confirmer');

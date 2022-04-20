@@ -45,30 +45,26 @@
         </PixButton>
       </div>
     {{else}}
-      {{#if @membership.isSaving}}
-        <PixButton @isDisabled={{true}} @size="small" class="member-item-actions__button">
-          <FaIcon @icon="edit" />Modifier le rôle
-        </PixButton>
-      {{else}}
-        <PixButton @triggerAction={{this.editRoleOfMember}} @size="small" class="member-item-actions__button">
-          <FaIcon @icon="edit" />Modifier le rôle
-        </PixButton>
-      {{/if}}
-    {{/if}}
-    {{#if @membership.isSaving}}
-      <PixButton @size="small" @backgroundColor="red" @isDisabled={{true}} class="member-item-actions__button">
-        <FaIcon @icon="trash" />Désactiver
-      </PixButton>
-    {{else}}
       <PixButton
+        @isDisabled={{@membership.isSaving}}
         @size="small"
-        @backgroundColor="red"
-        @triggerAction={{this.toggleDisplayConfirm}}
         class="member-item-actions__button"
+        aria-label="Modifier le rôle"
+        @triggerAction={{this.editRoleOfMember}}
       >
-        <FaIcon @icon="trash" />Désactiver
+        <FaIcon @icon="edit" />Modifier le rôle
       </PixButton>
     {{/if}}
+    <PixButton
+      @size="small"
+      @backgroundColor="red"
+      @isDisabled={{@membership.isSaving}}
+      class="member-item-actions__button"
+      aria-label="Désactiver le membre"
+      @triggerAction={{this.toggleDisplayConfirm}}
+    >
+      <FaIcon @icon="trash" />Désactiver
+    </PixButton>
   </div>
 </td>
 
