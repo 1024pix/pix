@@ -1,5 +1,4 @@
 const usecases = require('../../domain/usecases');
-const tokenService = require('../../domain/services/token-service');
 const userRepository = require('../../infrastructure/repositories/user-repository');
 const cnavAuthenticationService = require('../../../lib/domain/services/cnav-authentication-service');
 
@@ -9,7 +8,7 @@ module.exports = {
 
     const { userId, idToken } = await usecases.createUserFromCnav({ authenticationKey });
 
-    const accessToken = tokenService.createAccessTokenForCnav(userId);
+    const accessToken = cnavAuthenticationService.createAccessToken(userId);
     await userRepository.updateLastLoggedAt({ userId });
 
     const response = {

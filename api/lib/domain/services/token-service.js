@@ -19,11 +19,6 @@ function createAccessTokenFromUser(userId, source) {
   return { accessToken, expirationDelaySeconds };
 }
 
-function createAccessTokenForCnav(userId) {
-  const expirationDelaySeconds = settings.cnav.accessTokenLifespanMs / 1000;
-  return _createAccessToken({ userId, source: 'cnav', expirationDelaySeconds });
-}
-
 function createAccessTokenForSaml(userId) {
   const expirationDelaySeconds = settings.saml.accessTokenLifespanMs / 1000;
   return _createAccessToken({ userId, source: 'external', expirationDelaySeconds });
@@ -213,5 +208,4 @@ module.exports = {
   extractUserId,
   extractClientId,
   extractUserIdForCampaignResults,
-  createAccessTokenForCnav,
 };

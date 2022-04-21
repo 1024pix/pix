@@ -6,9 +6,9 @@ const CnavTokens = require('../../../../lib/domain/models/CnavTokens');
 
 const settings = require('../../../../lib/config');
 const httpAgent = require('../../../../lib/infrastructure/http/http-agent');
+const jsonwebtoken = require('jsonwebtoken');
 
 const tokenService = require('../../../../lib/domain/services/token-service');
-
 const cnavAuthenticationService = require('../../../../lib/domain/services/cnav-authentication-service');
 
 describe('Unit | Domain | Services | cnav-authentication-service', function () {
@@ -123,6 +123,26 @@ describe('Unit | Domain | Services | cnav-authentication-service', function () {
 
       // then
       expect(result).to.deep.equal(expectedResult);
+    });
+  });
+
+  describe('#createAccessToken', function () {
+    it('should create access token with user id and source', function () {
+      // given
+      const userId = 123;
+      settings.authentication.secret = 'a secret';
+      settings.cnav.accessTokenLifespanMs = 1000;
+      const accessToken = 'valid access token';
+      const firstParameter = { user_id: userId, source: 'cnav' };
+      const secondParameter = 'a secret';
+      const thirdParameter = { expiresIn: 1 };
+      sinon.stub(jsonwebtoken, 'sign').withArgs(firstParameter, secondParameter, thirdParameter).returns(accessToken);
+
+      // when
+      const result = cnavAuthenticationService.createAccessToken(userId);
+
+      // then
+      expect(result).to.be.deep.equal(accessToken);
     });
   });
 });

@@ -3,7 +3,7 @@ const { expect, sinon, hFake } = require('../../../test-helper');
 const cnavController = require('../../../../lib/application/cnav/cnav-controller');
 const usecases = require('../../../../lib/domain/usecases');
 const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
-const tokenService = require('../../../../lib/domain/services/token-service');
+const cnavAuthenticationService = require('../../../../lib/domain/services/cnav-authentication-service');
 
 describe('Unit | Controller | cnav-controller', function () {
   describe('#createUser', function () {
@@ -12,7 +12,7 @@ describe('Unit | Controller | cnav-controller', function () {
       const request = { query: { 'authentication-key': 'abcde' } };
       const userId = 7;
       sinon.stub(usecases, 'createUserFromCnav').resolves({ userId, idToken: 1 });
-      sinon.stub(tokenService, 'createAccessTokenForCnav').resolves('an access token');
+      sinon.stub(cnavAuthenticationService, 'createAccessToken').resolves('an access token');
       sinon.stub(userRepository, 'updateLastLoggedAt');
 
       // when
@@ -30,7 +30,7 @@ describe('Unit | Controller | cnav-controller', function () {
       const accessToken = 'access.token';
       sinon.stub(usecases, 'createUserFromCnav').withArgs({ authenticationKey: 'abcde' }).resolves({ userId, idToken });
       sinon.stub(userRepository, 'updateLastLoggedAt');
-      sinon.stub(tokenService, 'createAccessTokenForCnav').withArgs(userId).returns(accessToken);
+      sinon.stub(cnavAuthenticationService, 'createAccessToken').withArgs(userId).returns(accessToken);
 
       // when
       const result = await cnavController.createUser(request, hFake);

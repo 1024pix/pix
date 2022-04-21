@@ -1,3 +1,4 @@
+const jsonwebtoken = require('jsonwebtoken');
 const get = require('lodash/get');
 const settings = require('../../config');
 const { v4: uuidv4 } = require('uuid');
@@ -81,8 +82,20 @@ function _getErrorMessage(data) {
   return message.trim();
 }
 
+function _createAccessToken({ userId, source, expirationDelaySeconds }) {
+  return jsonwebtoken.sign({ user_id: userId, source }, settings.authentication.secret, {
+    expiresIn: expirationDelaySeconds,
+  });
+}
+
+function createAccessToken(userId) {
+  const expirationDelaySeconds = settings.cnav.accessTokenLifespanMs / 1000;
+  return _createAccessToken({ userId, source: 'cnav', expirationDelaySeconds });
+}
+
 module.exports = {
   getAuthUrl,
   getUserInfo,
   exchangeCodeForTokens,
+  createAccessToken,
 };

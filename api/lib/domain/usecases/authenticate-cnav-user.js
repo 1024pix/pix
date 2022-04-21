@@ -11,7 +11,6 @@ module.exports = async function authenticateCnavUser({
   stateReceived,
   stateSent,
   cnavAuthenticationService,
-  tokenService,
   authenticationMethodRepository,
   cnavTokensRepository,
   userRepository,
@@ -39,7 +38,7 @@ module.exports = async function authenticateCnavUser({
       authenticationComplement,
       authenticationMethodRepository,
       userRepository,
-      tokenService,
+      cnavAuthenticationService,
     });
   } else {
     const user = await userRepository.findByCnavExternalIdentifier(userInfo.externalIdentityId);
@@ -55,7 +54,7 @@ module.exports = async function authenticateCnavUser({
         authenticationComplement,
         authenticationMethodRepository,
         userRepository,
-        tokenService,
+        cnavAuthenticationService,
       });
     }
   }
@@ -81,7 +80,7 @@ async function _getPixAccessTokenFromAlreadyAuthenticatedPixUser({
   authenticationComplement,
   authenticationMethodRepository,
   userRepository,
-  tokenService,
+  cnavAuthenticationService,
 }) {
   const authenticationMethod = await authenticationMethodRepository.findOneByUserIdAndIdentityProvider({
     userId: authenticatedUserId,
@@ -105,7 +104,7 @@ async function _getPixAccessTokenFromAlreadyAuthenticatedPixUser({
     });
     await authenticationMethodRepository.create({ authenticationMethod });
   }
-  const pixAccessToken = tokenService.createAccessTokenForCnav(authenticatedUserId);
+  const pixAccessToken = cnavAuthenticationService.createAccessToken(authenticatedUserId);
   await userRepository.updateLastLoggedAt({ userId: authenticatedUserId });
   return pixAccessToken;
 }
@@ -115,13 +114,13 @@ async function _getPixAccessTokenFromCnavUser({
   authenticationComplement,
   authenticationMethodRepository,
   userRepository,
-  tokenService,
+  cnavAuthenticationService,
 }) {
   await authenticationMethodRepository.updateCnavAuthenticationComplementByUserId({
     authenticationComplement,
     userId: user.id,
   });
-  const pixAccessToken = tokenService.createAccessTokenForCnav(user.id);
+  const pixAccessToken = cnavAuthenticationService.createAccessToken(user.id);
 
   await userRepository.updateLastLoggedAt({ userId: user.id });
   return pixAccessToken;
