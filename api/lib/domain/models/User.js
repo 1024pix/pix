@@ -1,5 +1,6 @@
 const _ = require('lodash');
 const AuthenticationMethod = require('./AuthenticationMethod');
+const PixAdminRole = require('./PixAdminRole');
 
 class User {
   constructor({
@@ -25,7 +26,7 @@ class User {
     isAnonymous,
     memberships = [],
     certificationCenterMemberships = [],
-    pixRoles = [],
+    pixAdminRoles = [],
     pixScore,
     scorecards = [],
     campaignParticipations = [],
@@ -51,7 +52,7 @@ class User {
     this.knowledgeElements = knowledgeElements;
     this.lang = lang;
     this.isAnonymous = isAnonymous;
-    this.pixRoles = pixRoles;
+    this.pixAdminRoles = pixAdminRoles;
     this.pixScore = pixScore;
     this.memberships = memberships;
     this.certificationCenterMemberships = certificationCenterMemberships;
@@ -60,8 +61,8 @@ class User {
     this.authenticationMethods = authenticationMethods;
   }
 
-  get hasRolePixMaster() {
-    return !!this.pixRoles.find((pixRole) => pixRole.name === 'PIX_MASTER');
+  get hasRoleSuperAdmin() {
+    return !!this.pixAdminRoles.find(({ role }) => role === PixAdminRole.roles.SUPER_ADMIN);
   }
 
   get shouldChangePassword() {

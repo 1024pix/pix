@@ -8,7 +8,7 @@ const {
   databaseBuilder,
   mockLearningContent,
   generateValidRequestAuthorizationHeader,
-  insertUserWithRolePixMaster,
+  insertUserWithRoleSuperAdmin,
 } = require('../../../test-helper');
 
 const createServer = require('../../../../server');
@@ -17,13 +17,14 @@ const Membership = require('../../../../lib/domain/models/Membership');
 const OrganizationInvitation = require('../../../../lib/domain/models/OrganizationInvitation');
 const Assessment = require('../../../../lib/domain/models/Assessment');
 const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult');
+const PixAdminRole = require('../../../../lib/domain/models/PixAdminRole');
 
 describe('Acceptance | Application | organization-controller', function () {
   let server;
 
   beforeEach(async function () {
     server = await createServer();
-    await insertUserWithRolePixMaster();
+    await insertUserWithRoleSuperAdmin();
   });
 
   describe('POST /api/organizations', function () {
@@ -73,24 +74,23 @@ describe('Acceptance | Application | organization-controller', function () {
         expect(createdOrganization['documentation-url']).to.equal('https://kingArthur.com');
       });
 
-      it('should save the Pix Master userId creating the Organization', async function () {
+      it('should save the Super Admin userId creating the Organization', async function () {
         // given
-        const PIX_MASTER_ROLE_ID = 1;
-        const pixMasterUserId = databaseBuilder.factory.buildUser().id;
-        databaseBuilder.factory.buildUserPixRole({
-          userId: pixMasterUserId,
-          pixRoleId: PIX_MASTER_ROLE_ID,
+        const superAdminUserId = databaseBuilder.factory.buildUser().id;
+        databaseBuilder.factory.buildPixAdminRole({
+          userId: superAdminUserId,
+          role: PixAdminRole.roles.SUPER_ADMIN,
         });
         await databaseBuilder.commit();
 
-        options.headers.authorization = generateValidRequestAuthorizationHeader(pixMasterUserId);
+        options.headers.authorization = generateValidRequestAuthorizationHeader(superAdminUserId);
 
         // when
         const response = await server.inject(options);
 
         // then
         const createdOrganization = response.result.data.attributes;
-        expect(createdOrganization['created-by']).to.equal(pixMasterUserId);
+        expect(createdOrganization['created-by']).to.equal(superAdminUserId);
       });
     });
 
@@ -138,10 +138,10 @@ describe('Acceptance | Application | organization-controller', function () {
         });
       });
 
-      it('should respond with a 403 - forbidden access - if user has not role PIX_MASTER', function () {
+      it('should respond with a 403 - forbidden access - if user has not role Super Admin', function () {
         // given
-        const nonPixMAsterUserId = 9999;
-        options.headers.authorization = generateValidRequestAuthorizationHeader(nonPixMAsterUserId);
+        const nonSuperAdminUserId = 9999;
+        options.headers.authorization = generateValidRequestAuthorizationHeader(nonSuperAdminUserId);
 
         // when
         const promise = server.inject(options);
@@ -244,9 +244,9 @@ describe('Acceptance | Application | organization-controller', function () {
         expect(response.statusCode).to.equal(401);
       });
 
-      it('should respond with a 403 - forbidden access - if user has not role PIX_MASTER', async function () {
+      it('should respond with a 403 - forbidden access - if user has not role Super Admin', async function () {
         // given
-        const nonPixMAsterUserId = 9999;
+        const nonSuperAdminUserId = 9999;
         const organization = databaseBuilder.factory.buildOrganization();
         await databaseBuilder.commit();
         const payload = {
@@ -265,7 +265,7 @@ describe('Acceptance | Application | organization-controller', function () {
           method: 'PATCH',
           url: `/api/organizations/${organization.id}`,
           payload,
-          headers: { authorization: generateValidRequestAuthorizationHeader(nonPixMAsterUserId) },
+          headers: { authorization: generateValidRequestAuthorizationHeader(nonSuperAdminUserId) },
         };
 
         // when
@@ -284,7 +284,7 @@ describe('Acceptance | Application | organization-controller', function () {
     beforeEach(async function () {
       server = await createServer();
 
-      const userPixMaster = databaseBuilder.factory.buildUser.withPixRolePixMaster();
+      const userSuperAdmin = databaseBuilder.factory.buildUser.withRoleSuperAdmin();
 
       databaseBuilder.factory.buildOrganization({
         name: 'The name of the organization',
@@ -301,7 +301,7 @@ describe('Acceptance | Application | organization-controller', function () {
         method: 'GET',
         url: '/api/organizations',
         payload: {},
-        headers: { authorization: generateValidRequestAuthorizationHeader(userPixMaster.id) },
+        headers: { authorization: generateValidRequestAuthorizationHeader(userSuperAdmin.id) },
       };
 
       return databaseBuilder.commit();
@@ -319,10 +319,10 @@ describe('Acceptance | Application | organization-controller', function () {
         expect(response.statusCode).to.equal(401);
       });
 
-      it('should respond with a 403 - forbidden access - if user has not role PIX_MASTER', async function () {
+      it('should respond with a 403 - forbidden access - if user has not role Super Admin', async function () {
         // given
-        const nonPixMasterUserId = 9999;
-        options.headers.authorization = generateValidRequestAuthorizationHeader(nonPixMasterUserId);
+        const nonSuperAdminUserId = 9999;
+        options.headers.authorization = generateValidRequestAuthorizationHeader(nonSuperAdminUserId);
 
         // when
         const response = await server.inject(options);
@@ -590,11 +590,11 @@ describe('Acceptance | Application | organization-controller', function () {
   });
 
   describe('GET /api/organizations/{id}', function () {
-    let pixMasterUserId;
+    let superAdminUserId;
 
     context('Expected output', function () {
       beforeEach(async function () {
-        pixMasterUserId = databaseBuilder.factory.buildUser.withPixRolePixMaster().id;
+        superAdminUserId = databaseBuilder.factory.buildUser.withRoleSuperAdmin().id;
 
         await databaseBuilder.commit();
       });
@@ -615,7 +615,7 @@ describe('Acceptance | Application | organization-controller', function () {
           isManagingStudents: true,
           credit: 666,
           email: 'sco.generic.account@example.net',
-          createdBy: pixMasterUserId,
+          createdBy: superAdminUserId,
           documentationUrl: 'https://pix.fr/',
           archivedBy: archivist.id,
           archivedAt,
@@ -635,7 +635,7 @@ describe('Acceptance | Application | organization-controller', function () {
               'is-managing-students': organization.isManagingStudents,
               credit: organization.credit,
               email: organization.email,
-              'created-by': pixMasterUserId,
+              'created-by': superAdminUserId,
               'documentation-url': organization.documentationUrl,
               'show-nps': organization.showNPS,
               'form-nps-url': organization.formNPSUrl,
@@ -687,7 +687,7 @@ describe('Acceptance | Application | organization-controller', function () {
         const response = await server.inject({
           method: 'GET',
           url: `/api/organizations/${organization.id}`,
-          headers: { authorization: generateValidRequestAuthorizationHeader(pixMasterUserId) },
+          headers: { authorization: generateValidRequestAuthorizationHeader(superAdminUserId) },
         });
 
         // then
@@ -699,7 +699,7 @@ describe('Acceptance | Application | organization-controller', function () {
         const promise = server.inject({
           method: 'GET',
           url: `/api/organizations/999`,
-          headers: { authorization: generateValidRequestAuthorizationHeader(pixMasterUserId) },
+          headers: { authorization: generateValidRequestAuthorizationHeader(superAdminUserId) },
         });
 
         // then
@@ -732,15 +732,15 @@ describe('Acceptance | Application | organization-controller', function () {
         });
       });
 
-      it('should respond with a 403 - forbidden access - if user has not role PIX_MASTER', function () {
+      it('should respond with a 403 - forbidden access - if user has not role Super Admin', function () {
         // given
-        const nonPixMAsterUserId = 9999;
+        const nonSuperAdminUserId = 9999;
 
         // when
         const promise = server.inject({
           method: 'GET',
           url: `/api/organizations/999`,
-          headers: { authorization: generateValidRequestAuthorizationHeader(nonPixMAsterUserId) },
+          headers: { authorization: generateValidRequestAuthorizationHeader(nonSuperAdminUserId) },
         });
 
         // then
@@ -756,12 +756,12 @@ describe('Acceptance | Application | organization-controller', function () {
     let options;
 
     beforeEach(async function () {
-      const userPixMaster = databaseBuilder.factory.buildUser.withPixRolePixMaster();
+      const userSuperAdmin = databaseBuilder.factory.buildUser.withRoleSuperAdmin();
       organization = databaseBuilder.factory.buildOrganization();
       options = {
         method: 'GET',
         url: `/api/organizations/${organization.id}/memberships`,
-        headers: { authorization: generateValidRequestAuthorizationHeader(userPixMaster.id) },
+        headers: { authorization: generateValidRequestAuthorizationHeader(userSuperAdmin.id) },
       };
     });
 
@@ -840,7 +840,7 @@ describe('Acceptance | Application | organization-controller', function () {
         expect(response.statusCode).to.equal(401);
       });
 
-      it('should respond with a 403 - forbidden access - if user is not in organization nor is PIXMASTER', async function () {
+      it('should respond with a 403 - forbidden access - if user is not in organization nor is SUPERADMIN', async function () {
         // given
         const otherOrganizationId = databaseBuilder.factory.buildOrganization().id;
         const userId = databaseBuilder.factory.buildUser().id;
@@ -1240,9 +1240,9 @@ describe('Acceptance | Application | organization-controller', function () {
 
       it('should respond with a 403 - forbidden access - if user is not ADMIN in organization', async function () {
         // given
-        const nonPixMasterUserId = databaseBuilder.factory.buildUser().id;
+        const nonSuperAdminUserId = databaseBuilder.factory.buildUser().id;
         await databaseBuilder.commit();
-        options.headers.authorization = generateValidRequestAuthorizationHeader(nonPixMasterUserId);
+        options.headers.authorization = generateValidRequestAuthorizationHeader(nonSuperAdminUserId);
 
         // when
         const response = await server.inject(options);
@@ -1256,7 +1256,7 @@ describe('Acceptance | Application | organization-controller', function () {
   describe('POST /api/admin/organizations/{id}/archive', function () {
     it('should return the archived organization', async function () {
       // given
-      const adminUser = databaseBuilder.factory.buildUser.withPixRolePixMaster();
+      const adminUser = databaseBuilder.factory.buildUser.withRoleSuperAdmin();
       const organizationId = databaseBuilder.factory.buildOrganization().id;
       databaseBuilder.factory.buildOrganization({ id: 2 });
 
@@ -1369,7 +1369,7 @@ describe('Acceptance | Application | organization-controller', function () {
     let targetProfileId2;
 
     beforeEach(async function () {
-      userId = databaseBuilder.factory.buildUser.withPixRolePixMaster().id;
+      userId = databaseBuilder.factory.buildUser.withRoleSuperAdmin().id;
       organizationId = databaseBuilder.factory.buildOrganization().id;
       targetProfileId1 = databaseBuilder.factory.buildTargetProfile().id;
       targetProfileId2 = databaseBuilder.factory.buildTargetProfile().id;

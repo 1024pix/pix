@@ -8,7 +8,7 @@ describe('Integration | Repository | Organization-for-admin', function () {
   describe('#get', function () {
     it('should return a organization for admin by provided id', async function () {
       // given
-      const pixMasterUserId = databaseBuilder.factory.buildUser().id;
+      const superAdminUserId = databaseBuilder.factory.buildUser().id;
 
       const insertedOrganization = databaseBuilder.factory.buildOrganization({
         type: 'SCO',
@@ -20,7 +20,7 @@ describe('Integration | Repository | Organization-for-admin', function () {
         isManagingStudents: 'true',
         email: 'sco.generic.account@example.net',
         documentationUrl: 'https://pix.fr/',
-        createdBy: pixMasterUserId,
+        createdBy: superAdminUserId,
         showNPS: true,
         formNPSUrl: 'https://pix.fr/',
         showSkills: false,
@@ -100,7 +100,7 @@ describe('Integration | Repository | Organization-for-admin', function () {
     describe('when the organization is archived', function () {
       it('should return its archived details', async function () {
         // given
-        const pixMasterUser = databaseBuilder.factory.buildUser();
+        const superAdminUser = databaseBuilder.factory.buildUser();
         const archivist = databaseBuilder.factory.buildUser();
         const archivedAt = new Date('2022-02-02');
 
@@ -114,7 +114,7 @@ describe('Integration | Repository | Organization-for-admin', function () {
           isManagingStudents: 'true',
           email: 'sco.generic.account@example.net',
           documentationUrl: 'https://pix.fr/',
-          createdBy: pixMasterUser.id,
+          createdBy: superAdminUser.id,
           showNPS: true,
           formNPSUrl: 'https://pix.fr/',
           showSkills: false,
@@ -170,7 +170,7 @@ describe('Integration | Repository | Organization-for-admin', function () {
 
     it('should cancel all pending invitations of a given organization', async function () {
       // given
-      const pixMasterUserId = databaseBuilder.factory.buildUser.withPixRolePixMaster().id;
+      const superAdminUserId = databaseBuilder.factory.buildUser.withRoleSuperAdmin().id;
       const pendingStatus = OrganizationInvitation.StatusType.PENDING;
       const cancelledStatus = OrganizationInvitation.StatusType.CANCELLED;
       const acceptedStatus = OrganizationInvitation.StatusType.ACCEPTED;
@@ -190,7 +190,7 @@ describe('Integration | Repository | Organization-for-admin', function () {
       await databaseBuilder.commit();
 
       // when
-      await organizationForAdminRepository.archive({ id: organizationId, archivedBy: pixMasterUserId });
+      await organizationForAdminRepository.archive({ id: organizationId, archivedBy: superAdminUserId });
 
       // then
       const pendingInvitations = await knex('organization-invitations').where({
@@ -221,7 +221,7 @@ describe('Integration | Repository | Organization-for-admin', function () {
 
     it('should archive active campaigns of a given organization', async function () {
       // given
-      const pixMasterUserId = databaseBuilder.factory.buildUser.withPixRolePixMaster().id;
+      const superAdminUserId = databaseBuilder.factory.buildUser.withRoleSuperAdmin().id;
       const previousDate = new Date('2021-01-01');
       const organizationId = 1;
       databaseBuilder.factory.buildOrganization({ id: organizationId });
@@ -233,7 +233,7 @@ describe('Integration | Repository | Organization-for-admin', function () {
       await databaseBuilder.commit();
 
       // when
-      await organizationForAdminRepository.archive({ id: organizationId, archivedBy: pixMasterUserId });
+      await organizationForAdminRepository.archive({ id: organizationId, archivedBy: superAdminUserId });
 
       // then
       const activeCampaigns = await knex('campaigns').where({
@@ -250,7 +250,7 @@ describe('Integration | Repository | Organization-for-admin', function () {
 
     it('should disable active members of a given organization', async function () {
       // given
-      const pixMasterUserId = databaseBuilder.factory.buildUser.withPixRolePixMaster().id;
+      const superAdminUserId = databaseBuilder.factory.buildUser.withRoleSuperAdmin().id;
       const previousDate = new Date('2021-01-01');
       const organizationId = 1;
       databaseBuilder.factory.buildOrganization({ id: organizationId });
@@ -265,7 +265,7 @@ describe('Integration | Repository | Organization-for-admin', function () {
       await databaseBuilder.commit();
 
       // when
-      await organizationForAdminRepository.archive({ id: organizationId, archivedBy: pixMasterUserId });
+      await organizationForAdminRepository.archive({ id: organizationId, archivedBy: superAdminUserId });
 
       // then
       const activeMembers = await knex('memberships').where({ disabledAt: null });
@@ -283,16 +283,16 @@ describe('Integration | Repository | Organization-for-admin', function () {
       const organizationId = 1;
       databaseBuilder.factory.buildOrganization({ id: organizationId });
       databaseBuilder.factory.buildOrganization({ id: 2 });
-      const pixMasterUserId = databaseBuilder.factory.buildUser.withPixRolePixMaster().id;
+      const superAdminUserId = databaseBuilder.factory.buildUser.withRoleSuperAdmin().id;
 
       await databaseBuilder.commit();
 
       // when
-      await organizationForAdminRepository.archive({ id: organizationId, archivedBy: pixMasterUserId });
+      await organizationForAdminRepository.archive({ id: organizationId, archivedBy: superAdminUserId });
 
       // then
       const archivedOrganization = await knex('organizations').where({ id: organizationId }).first();
-      expect(archivedOrganization.archivedBy).to.equal(pixMasterUserId);
+      expect(archivedOrganization.archivedBy).to.equal(superAdminUserId);
       expect(archivedOrganization.archivedAt).to.deep.equal(now);
 
       const organizations = await knex('organizations').where({ archivedBy: null });

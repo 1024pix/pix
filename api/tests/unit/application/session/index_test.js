@@ -35,7 +35,7 @@ describe('Unit | Application | Sessions | Routes', function () {
   describe('GET /api/admin/sessions/{id}', function () {
     it('should exist', async function () {
       // given
-      sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
+      sinon.stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin').callsFake((request, h) => h.response(true));
       sinon.stub(sessionController, 'getJurySession').returns('ok');
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -51,7 +51,7 @@ describe('Unit | Application | Sessions | Routes', function () {
   describe('GET /api/admin/sessions', function () {
     it('should exist', async function () {
       // given
-      sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
+      sinon.stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin').callsFake((request, h) => h.response(true));
       sinon.stub(sessionController, 'findPaginatedFilteredJurySessions').returns('ok');
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -234,7 +234,7 @@ describe('Unit | Application | Sessions | Routes', function () {
   describe('GET /api/admin/sessions/{id}/jury-certification-summaries', function () {
     it('should exist', async function () {
       // given
-      sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
+      sinon.stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin').callsFake((request, h) => h.response(true));
       sinon.stub(sessionController, 'getJuryCertificationSummaries').returns('ok');
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -281,7 +281,7 @@ describe('Unit | Application | Sessions | Routes', function () {
   describe('PATCH /api/admin/sessions/{id}/publish', function () {
     it('should exist', async function () {
       // given
-      sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
+      sinon.stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin').callsFake((request, h) => h.response(true));
       sinon.stub(sessionController, 'publish').returns('ok');
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -305,7 +305,7 @@ describe('Unit | Application | Sessions | Routes', function () {
   describe('PATCH /api/admin/sessions/{id}/unpublish', function () {
     it('should exist', async function () {
       // given
-      sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
+      sinon.stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin').callsFake((request, h) => h.response(true));
       sinon.stub(sessionController, 'unpublish').returns('ok');
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -327,10 +327,10 @@ describe('Unit | Application | Sessions | Routes', function () {
   });
 
   describe('POST /api/admin/sessions/publish-in-batch', function () {
-    it('is protected by a prehandler checking the Pix Master role', async function () {
+    it('is protected by a prehandler checking the SUPER_ADMIN role', async function () {
       // given
       sinon
-        .stub(securityPreHandlers, 'checkUserHasRolePixMaster')
+        .stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin')
         .callsFake((request, h) => h.response().code(403).takeover());
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -352,7 +352,7 @@ describe('Unit | Application | Sessions | Routes', function () {
 
     it('should succeed with valid session ids', async function () {
       // given
-      sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
+      sinon.stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin').callsFake((request, h) => h.response(true));
       sinon.stub(sessionController, 'publishInBatch').returns('ok');
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -396,7 +396,7 @@ describe('Unit | Application | Sessions | Routes', function () {
   describe('PUT /api/admin/sessions/{id}/results-sent-to-prescriber', function () {
     it('should exist', async function () {
       // when
-      sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
+      sinon.stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin').callsFake((request, h) => h.response(true));
       sinon.stub(sessionController, 'flagResultsAsSentToPrescriber').returns('ok');
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -425,7 +425,7 @@ describe('Unit | Application | Sessions | Routes', function () {
   describe('PATCH /api/admin/sessions/{id}/certification-officer-assignment', function () {
     it('should exist', async function () {
       // given
-      sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
+      sinon.stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin').callsFake((request, h) => h.response(true));
       sinon.stub(sessionController, 'assignCertificationOfficer').returns('ok');
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -614,7 +614,7 @@ describe('Unit | Application | Sessions | Routes', function () {
   describe('GET /api/admin/sessions/to-publish', function () {
     it('exists', async function () {
       // given
-      sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
+      sinon.stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin').callsFake((request, h) => h.response(true));
       sinon.stub(finalizedSessionController, 'findFinalizedSessionsToPublish').returns('ok');
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -625,10 +625,10 @@ describe('Unit | Application | Sessions | Routes', function () {
       // then
       expect(response.statusCode).to.equal(200);
     });
-    it('is protected by a prehandler checking the Pix Master role', async function () {
+    it('is protected by a prehandler checking the SUPER_ADMIN role', async function () {
       // given
       sinon
-        .stub(securityPreHandlers, 'checkUserHasRolePixMaster')
+        .stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin')
         .callsFake((request, h) => h.response().code(403).takeover());
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -644,7 +644,7 @@ describe('Unit | Application | Sessions | Routes', function () {
   describe('GET /api/admin/sessions/with-required-action', function () {
     it('exists', async function () {
       // given
-      sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
+      sinon.stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin').callsFake((request, h) => h.response(true));
       sinon.stub(finalizedSessionController, 'findFinalizedSessionsWithRequiredAction').returns('ok');
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -656,10 +656,10 @@ describe('Unit | Application | Sessions | Routes', function () {
       expect(response.statusCode).to.equal(200);
     });
 
-    it('is protected by a prehandler checking the Pix Master role', async function () {
+    it('is protected by a prehandler checking the SUPER_ADMIN role', async function () {
       // given
       sinon
-        .stub(securityPreHandlers, 'checkUserHasRolePixMaster')
+        .stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin')
         .callsFake((request, h) => h.response().code(403).takeover());
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -675,7 +675,7 @@ describe('Unit | Application | Sessions | Routes', function () {
   describe('PUT /api/admin/sessions/{id}/comment', function () {
     it('should exist', async function () {
       // given
-      sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
+      sinon.stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin').callsFake((request, h) => h.response(true));
       sinon.stub(sessionController, 'commentAsJury').returns('ok');
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -687,10 +687,10 @@ describe('Unit | Application | Sessions | Routes', function () {
       expect(response.statusCode).to.equal(200);
     });
 
-    it('is protected by a prehandler checking the Pix Master role', async function () {
+    it('is protected by a prehandler checking the SUPER_ADMIN role', async function () {
       // given
       sinon
-        .stub(securityPreHandlers, 'checkUserHasRolePixMaster')
+        .stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin')
         .callsFake((request, h) => h.response().code(403).takeover());
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -704,9 +704,9 @@ describe('Unit | Application | Sessions | Routes', function () {
   });
 
   describe('DELETE /api/admin/sessions/{id}/comment', function () {
-    it('should call appropriate use case and ensure user has the Pix Master role', async function () {
+    it('should call appropriate use case and ensure user has the SUPER_ADMIN role', async function () {
       // given
-      sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
+      sinon.stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin').callsFake((request, h) => h.response(true));
       sinon.stub(sessionController, 'deleteJuryComment').returns('ok');
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -715,7 +715,7 @@ describe('Unit | Application | Sessions | Routes', function () {
       await httpTestServer.request('DELETE', '/api/admin/sessions/1/comment');
 
       // then
-      expect(securityPreHandlers.checkUserHasRolePixMaster).to.be.calledOnce;
+      expect(securityPreHandlers.checkUserHasRoleSuperAdmin).to.be.calledOnce;
       expect(sessionController.deleteJuryComment).to.be.calledOnce;
     });
   });

@@ -2,7 +2,7 @@ const {
   expect,
   databaseBuilder,
   generateValidRequestAuthorizationHeader,
-  insertUserWithRolePixMaster,
+  insertUserWithRoleSuperAdmin,
 } = require('../../../test-helper');
 const createServer = require('../../../../server');
 
@@ -11,7 +11,7 @@ describe('Acceptance | Controller | sessions-controller', function () {
     it('should respond with 204', async function () {
       // given
       const server = await createServer();
-      await insertUserWithRolePixMaster();
+      await insertUserWithRoleSuperAdmin();
       const session = databaseBuilder.factory.buildSession();
       await databaseBuilder.commit();
       const options = {

@@ -9,7 +9,7 @@ describe('Integration | Application | Prescribers | Routes', function () {
   const method = 'GET';
 
   beforeEach(async function () {
-    sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster');
+    sinon.stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin');
     sinon.stub(securityPreHandlers, 'checkRequestedUserIsAuthenticatedUser');
 
     sinon.stub(prescriberController, 'get').returns('ok');

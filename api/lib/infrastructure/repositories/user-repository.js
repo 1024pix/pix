@@ -15,15 +15,13 @@ const {
 
 const User = require('../../domain/models/User');
 const UserDetailsForAdmin = require('../../domain/models/UserDetailsForAdmin');
-const PixRole = require('../../domain/models/PixRole');
 const Membership = require('../../domain/models/Membership');
 const CertificationCenter = require('../../domain/models/CertificationCenter');
 const CertificationCenterMembership = require('../../domain/models/CertificationCenterMembership');
 const Organization = require('../../domain/models/Organization');
 const OrganizationLearnerForAdmin = require('../../domain/read-models/OrganizationLearnerForAdmin');
 const AuthenticationMethod = require('../../domain/models/AuthenticationMethod');
-
-const PIX_MASTER_ROLE_ID = 1;
+const PixAdminRole = require('../../domain/models/PixAdminRole');
 
 module.exports = {
   getByEmail(email) {
@@ -50,7 +48,7 @@ module.exports = {
           { memberships: (qb) => qb.where({ disabledAt: null }) },
           { certificationCenterMemberships: (qb) => qb.where({ disabledAt: null }) },
           'memberships.organization',
-          'pixRoles',
+          'pixAdminRoles',
           'certificationCenterMemberships.certificationCenter',
           { authenticationMethods: (qb) => qb.where({ identityProvider: 'PIX' }) },
         ],
@@ -244,13 +242,8 @@ module.exports = {
     }
   },
 
-  async isPixMaster(id) {
-    const user = await BookshelfUser.where({ 'users.id': id, 'users_pix_roles.user_id': id })
-      .query((qb) => {
-        qb.innerJoin('users_pix_roles', 'users_pix_roles.user_id', 'users.id');
-        qb.where({ 'users_pix_roles.pix_role_id': PIX_MASTER_ROLE_ID });
-      })
-      .fetch({ require: false, columns: 'users.id' });
+  async isSuperAdmin(id) {
+    const user = await knex('pix-admin-roles').where({ userId: id, role: PixAdminRole.roles.SUPER_ADMIN }).first();
     return Boolean(user);
   },
 
@@ -472,11 +465,15 @@ function _toMembershipsDomain(membershipsBookshelf) {
   });
 }
 
-function _toPixRolesDomain(pixRolesBookshelf) {
-  return pixRolesBookshelf.map((pixRoleBookshelf) => {
-    return new PixRole({
-      id: pixRoleBookshelf.get('id'),
-      name: pixRoleBookshelf.get('name'),
+function _toPixAdminRolesDomain(pixAdminRolesBookshelf) {
+  return pixAdminRolesBookshelf.map((pixAdminRoleBookshelf) => {
+    return new PixAdminRole({
+      id: pixAdminRoleBookshelf.get('id'),
+      role: pixAdminRoleBookshelf.get('role'),
+      userId: pixAdminRoleBookshelf.get('userId'),
+      createdAt: pixAdminRoleBookshelf.get('createdAt'),
+      updatedAt: pixAdminRoleBookshelf.get('updatedAt'),
+      disabledAt: pixAdminRoleBookshelf.get('disabledAt'),
     });
   });
 }
@@ -541,7 +538,7 @@ function _toDomain(userBookshelf) {
     certificationCenterMemberships: _toCertificationCenterMembershipsDomain(
       userBookshelf.related('certificationCenterMemberships')
     ),
-    pixRoles: _toPixRolesDomain(userBookshelf.related('pixRoles')),
+    pixAdminRoles: _toPixAdminRolesDomain(userBookshelf.related('pixAdminRoles')),
     hasSeenAssessmentInstructions: Boolean(userBookshelf.get('hasSeenAssessmentInstructions')),
     authenticationMethods: _toAuthenticationMethodsDomain(userBookshelf.related('authenticationMethods')),
   });

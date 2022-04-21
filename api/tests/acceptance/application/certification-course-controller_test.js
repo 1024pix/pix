@@ -5,7 +5,7 @@ const {
   learningContentBuilder,
   mockLearningContent,
   generateValidRequestAuthorizationHeader,
-  insertUserWithRolePixMaster,
+  insertUserWithRoleSuperAdmin,
 } = require('../../test-helper');
 const createServer = require('../../../server');
 const { CertificationIssueReportCategories } = require('../../../lib/domain/models/CertificationIssueReportCategory');
@@ -23,7 +23,7 @@ describe('Acceptance | API | Certification Course', function () {
     context('when certification match an existing scoring rule', function () {
       it('Should respond with a status 200', async function () {
         // given
-        await insertUserWithRolePixMaster();
+        await insertUserWithRoleSuperAdmin();
         const options = {
           method: 'GET',
           url: '/api/admin/certifications/1234/details',
@@ -86,7 +86,7 @@ describe('Acceptance | API | Certification Course', function () {
     context('when certification does not match an existing scoring rule', function () {
       it('Should respond with a status 400', async function () {
         // given
-        await insertUserWithRolePixMaster();
+        await insertUserWithRoleSuperAdmin();
         const options = {
           method: 'GET',
           url: '/api/admin/certifications/1234/details',
@@ -199,7 +199,7 @@ describe('Acceptance | API | Certification Course', function () {
         commentForJury: 'comment jury',
         status: 'rejected',
       });
-      const user = await insertUserWithRolePixMaster();
+      const user = await insertUserWithRoleSuperAdmin();
       await databaseBuilder.commit();
       const options = {
         method: 'GET',
@@ -257,7 +257,7 @@ describe('Acceptance | API | Certification Course', function () {
   });
 
   describe('PATCH /api/certification-courses/{id}', function () {
-    context('When the user does not have role pixmaster', function () {
+    context('When the user does not have role Super Admin', function () {
       it('should return 403 HTTP status code', async function () {
         const options = {
           headers: { authorization: generateValidRequestAuthorizationHeader() },
@@ -274,12 +274,12 @@ describe('Acceptance | API | Certification Course', function () {
       });
     });
 
-    context('When the user does have role pixmaster', function () {
+    context('When the user does have role Super Admin', function () {
       let options;
       let certificationCourseId;
 
       beforeEach(async function () {
-        await insertUserWithRolePixMaster();
+        await insertUserWithRoleSuperAdmin();
         databaseBuilder.factory.buildCertificationCpfCountry({
           code: '99100',
           commonName: 'FRANCE',
@@ -801,7 +801,7 @@ describe('Acceptance | API | Certification Course', function () {
         url: '/api/admin/certification-courses/123/cancel',
         headers: { authorization: generateValidRequestAuthorizationHeader() },
       };
-      await insertUserWithRolePixMaster();
+      await insertUserWithRoleSuperAdmin();
       await databaseBuilder.commit();
 
       // when
@@ -821,7 +821,7 @@ describe('Acceptance | API | Certification Course', function () {
         url: '/api/admin/certification-courses/123/uncancel',
         headers: { authorization: generateValidRequestAuthorizationHeader() },
       };
-      await insertUserWithRolePixMaster();
+      await insertUserWithRoleSuperAdmin();
       await databaseBuilder.commit();
 
       // when

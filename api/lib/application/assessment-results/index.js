@@ -9,8 +9,8 @@ exports.register = async (server) => {
       config: {
         pre: [
           {
-            method: securityPreHandlers.checkUserHasRolePixMaster,
-            assign: 'hasRolePixMaster',
+            method: securityPreHandlers.checkUserHasRoleSuperAdmin,
+            assign: 'hasRoleSuperAdmin',
           },
         ],
         handler: AssessmentResultController.save,

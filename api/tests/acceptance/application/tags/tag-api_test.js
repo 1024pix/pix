@@ -1,7 +1,7 @@
 const {
   expect,
   generateValidRequestAuthorizationHeader,
-  insertUserWithRolePixMaster,
+  insertUserWithRoleSuperAdmin,
   databaseBuilder,
   knex,
 } = require('../../../test-helper');
@@ -20,7 +20,7 @@ describe('Acceptance | Route | tag-router', function () {
       const server = await createServer();
       await databaseBuilder.commit();
 
-      const userId = (await insertUserWithRolePixMaster()).id;
+      const userId = (await insertUserWithRoleSuperAdmin()).id;
 
       // when
       const response = await server.inject({
@@ -43,7 +43,7 @@ describe('Acceptance | Route | tag-router', function () {
       expect(response.result.data.attributes.name).to.deep.equal(tagName);
     });
 
-    it('should return 403 HTTP status code when the user authenticated is not PixMaster', async function () {
+    it('should return 403 HTTP status code when the user authenticated is not SuperAdmin', async function () {
       // given
       const server = await createServer();
       const userId = databaseBuilder.factory.buildUser().id;
@@ -79,7 +79,7 @@ describe('Acceptance | Route | tag-router', function () {
       const tag2 = databaseBuilder.factory.buildTag({ name: 'TAG2' });
       await databaseBuilder.commit();
 
-      const userId = (await insertUserWithRolePixMaster()).id;
+      const userId = (await insertUserWithRoleSuperAdmin()).id;
 
       const options = {
         method: 'GET',
@@ -112,7 +112,7 @@ describe('Acceptance | Route | tag-router', function () {
       expect(response.result.data).to.deep.equal(expectedTags);
     });
 
-    it('should return 403 HTTP status code when the user authenticated is not PixMaster', async function () {
+    it('should return 403 HTTP status code when the user authenticated is not SuperAdmin', async function () {
       // given
       const server = await createServer();
       const userId = databaseBuilder.factory.buildUser().id;

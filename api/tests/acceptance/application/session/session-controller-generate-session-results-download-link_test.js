@@ -2,7 +2,7 @@ const {
   expect,
   databaseBuilder,
   generateValidRequestAuthorizationHeader,
-  insertUserWithRolePixMaster,
+  insertUserWithRoleSuperAdmin,
 } = require('../../../test-helper');
 const createServer = require('../../../../server');
 
@@ -18,11 +18,11 @@ describe('Acceptance | Controller | session-controller-generate-session-results-
 
   beforeEach(async function () {
     server = await createServer();
-    await insertUserWithRolePixMaster();
+    await insertUserWithRoleSuperAdmin();
   });
 
   describe('GET /api/admin/sessions/{id}/generate-results-download-link', function () {
-    context('when user is Pix Master', function () {
+    context('when user is Super Admin', function () {
       it('should return a 200 status code response', async function () {
         databaseBuilder.factory.buildSession({ id: sessionId });
         await databaseBuilder.commit();
@@ -36,7 +36,7 @@ describe('Acceptance | Controller | session-controller-generate-session-results-
       });
     });
 
-    context('when user is not PixMaster', function () {
+    context('when user is not SuperAdmin', function () {
       it('should return 403 HTTP status code', async function () {
         // when
         options.headers = { authorization: generateValidRequestAuthorizationHeader(1111) };

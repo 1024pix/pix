@@ -67,12 +67,12 @@ describe('Unit | Application | Organizations | organization-controller', functio
         // given
         usecases.createOrganization.resolves();
 
-        const pixMasterUserId = 10;
+        const superAdminUserId = 10;
         const organizationToCreate = domainBuilder.buildOrganization();
 
         const request = {
           headers: {
-            authorization: generateValidRequestAuthorizationHeader(pixMasterUserId),
+            authorization: generateValidRequestAuthorizationHeader(superAdminUserId),
           },
           payload: {
             data: {
@@ -94,7 +94,7 @@ describe('Unit | Application | Organizations | organization-controller', functio
 
         // then
         expect(usecases.createOrganization).to.have.been.calledWith({
-          createdBy: pixMasterUserId,
+          createdBy: superAdminUserId,
           email: organizationToCreate.email,
           name: organizationToCreate.name,
           type: organizationToCreate.type,

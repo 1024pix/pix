@@ -5,7 +5,7 @@ const securityPreHandlers = require('../../../../lib/application/security-pre-ha
 
 describe('Unit | Application | Router | complementary-certifications-router', function () {
   describe('GET /api/habilitations', function () {
-    it('should return 403 HTTP status code when the user authenticated is not PixMaster', async function () {
+    it('should return 403 HTTP status code when the user authenticated is not SuperAdmin', async function () {
       // given
       sinon
         .stub(securityPreHandlers, 'checkUserIsAdminInOrganization')

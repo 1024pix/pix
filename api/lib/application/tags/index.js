@@ -10,8 +10,8 @@ exports.register = async (server) => {
       config: {
         pre: [
           {
-            method: securityPreHandlers.checkUserHasRolePixMaster,
-            assign: 'hasRolePixMaster',
+            method: securityPreHandlers.checkUserHasRoleSuperAdmin,
+            assign: 'hasRoleSuperAdmin',
           },
         ],
         validate: {
@@ -30,7 +30,7 @@ exports.register = async (server) => {
         handler: tagController.create,
         tags: ['api', 'tags'],
         notes: [
-          '- **Cette route est restreinte aux utilisateurs authentifiés avec le rôle Pix Master**\n' +
+          '- **Cette route est restreinte aux utilisateurs authentifiés avec le rôle Super Admin**\n' +
             '- Elle permet de créer un tag',
         ],
       },
@@ -41,13 +41,13 @@ exports.register = async (server) => {
       config: {
         pre: [
           {
-            method: securityPreHandlers.checkUserHasRolePixMaster,
-            assign: 'hasRolePixMaster',
+            method: securityPreHandlers.checkUserHasRoleSuperAdmin,
+            assign: 'hasRoleSuperAdmin',
           },
         ],
         handler: tagController.findAllTags,
         notes: [
-          '- **Cette route est restreinte aux utilisateurs authentifiés avec le rôle Pix Master**\n' +
+          '- **Cette route est restreinte aux utilisateurs authentifiés avec le rôle Super Admin**\n' +
             '- Renvoie tous les tags.',
         ],
         tags: ['api', 'tags'],

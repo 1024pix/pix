@@ -84,8 +84,8 @@ exports.register = async function (server) {
         },
         pre: [
           {
-            method: securityPreHandlers.checkUserHasRolePixMaster,
-            assign: 'hasRolePixMaster',
+            method: securityPreHandlers.checkUserHasRoleSuperAdmin,
+            assign: 'hasRoleSuperAdmin',
           },
         ],
         handler: certificationController.neutralizeChallenge,
@@ -108,8 +108,8 @@ exports.register = async function (server) {
         },
         pre: [
           {
-            method: securityPreHandlers.checkUserHasRolePixMaster,
-            assign: 'hasRolePixMaster',
+            method: securityPreHandlers.checkUserHasRoleSuperAdmin,
+            assign: 'hasRoleSuperAdmin',
           },
         ],
         handler: certificationController.deneutralizeChallenge,

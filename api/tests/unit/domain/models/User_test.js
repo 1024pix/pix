@@ -1,6 +1,7 @@
 const { expect, domainBuilder } = require('../../../test-helper');
 
 const User = require('../../../../lib/domain/models/User');
+const PixAdminRole = require('../../../../lib/domain/models/PixAdminRole');
 
 describe('Unit | Domain | Models | User', function () {
   describe('constructor', function () {
@@ -32,7 +33,7 @@ describe('Unit | Domain | Models | User', function () {
     });
   });
 
-  describe('the attribute "hasRolePixMaster"', function () {
+  describe('the attribute "hasRoleSuperAdmin"', function () {
     let userRawDetails;
 
     beforeEach(function () {
@@ -43,34 +44,34 @@ describe('Unit | Domain | Models | User', function () {
         email: 'email@example.net',
         password: 'pix123',
         cgu: true,
-        pixRoles: [],
+        pixAdminRoles: [],
       };
     });
 
-    it('should be true if user has role PixMaster ', function () {
+    it('should be true if user has role Super Admin', function () {
       // given
-      userRawDetails.pixRoles = [
+      userRawDetails.pixAdminRoles = [
         {
-          name: 'PIX_MASTER',
+          role: PixAdminRole.roles.SUPER_ADMIN,
         },
       ];
       const user = new User(userRawDetails);
 
       // when
-      const hasRole = user.hasRolePixMaster;
+      const hasRole = user.hasRoleSuperAdmin;
 
       // then
       expect(hasRole).to.be.true;
     });
 
-    it('should be false if user has not role PixMaster ', function () {
+    it('should be false if user has not role SUPER_ADMIN ', function () {
       // given
-      userRawDetails.pixRoles = [];
+      userRawDetails.pixAdminRoles = [];
 
       const user = new User(userRawDetails);
 
       // when
-      const hasRole = user.hasRolePixMaster;
+      const hasRole = user.hasRoleSuperAdmin;
 
       // then
       expect(hasRole).to.be.false;

@@ -4,7 +4,7 @@ const {
   knex,
   mockLearningContent,
   learningContentBuilder,
-  insertUserWithRolePixMaster,
+  insertUserWithRoleSuperAdmin,
   generateValidRequestAuthorizationHeader,
 } = require('../../../test-helper');
 const createServer = require('../../../../server');
@@ -54,7 +54,7 @@ describe('Acceptance | API | assessment-controller-get-challenge-answer-for-pix-
     let userId;
 
     beforeEach(async function () {
-      const user = await insertUserWithRolePixMaster();
+      const user = await insertUserWithRoleSuperAdmin();
       userId = user.id;
       assessmentId = databaseBuilder.factory.buildAssessment({
         state: Assessment.states.STARTED,
@@ -111,7 +111,7 @@ describe('Acceptance | API | assessment-controller-get-challenge-answer-for-pix-
       });
     });
 
-    context('When the user does not have role pixmaster', function () {
+    context('When the user does not have role Super Admin', function () {
       it('should return 403 HTTP status code', async function () {
         const userId = 456;
         options = {

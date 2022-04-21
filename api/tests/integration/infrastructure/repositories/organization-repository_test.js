@@ -141,7 +141,7 @@ describe('Integration | Repository | Organization', function () {
     describe('success management', function () {
       it('should return a organization by provided id', async function () {
         // given
-        const pixMasterUserId = databaseBuilder.factory.buildUser().id;
+        const superAdminUserId = databaseBuilder.factory.buildUser().id;
 
         const insertedOrganization = databaseBuilder.factory.buildOrganization({
           type: 'SCO',
@@ -153,7 +153,7 @@ describe('Integration | Repository | Organization', function () {
           isManagingStudents: 'true',
           email: 'sco.generic.account@example.net',
           documentationUrl: 'https://pix.fr/',
-          createdBy: pixMasterUserId,
+          createdBy: superAdminUserId,
           showNPS: true,
           formNPSUrl: 'https://pix.fr/',
           showSkills: false,

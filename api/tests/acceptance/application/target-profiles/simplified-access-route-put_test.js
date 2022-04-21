@@ -1,7 +1,7 @@
 const {
   databaseBuilder,
   expect,
-  insertUserWithRolePixMaster,
+  insertUserWithRoleSuperAdmin,
   generateValidRequestAuthorizationHeader,
 } = require('../../../test-helper');
 const createServer = require('../../../../server');
@@ -12,7 +12,7 @@ describe('Acceptance | Route | Target-profiles', function () {
       // given
       const server = await createServer();
 
-      const pixMaster = await insertUserWithRolePixMaster();
+      const superAdmin = await insertUserWithRoleSuperAdmin();
       const targetProfile = databaseBuilder.factory.buildTargetProfile({ isSimplifiedAccess: false });
       await databaseBuilder.commit();
 
@@ -20,7 +20,7 @@ describe('Acceptance | Route | Target-profiles', function () {
         method: 'PUT',
         url: `/api/admin/target-profiles/${targetProfile.id}/simplified-access`,
         headers: {
-          authorization: generateValidRequestAuthorizationHeader(pixMaster.id),
+          authorization: generateValidRequestAuthorizationHeader(superAdmin.id),
         },
       };
 

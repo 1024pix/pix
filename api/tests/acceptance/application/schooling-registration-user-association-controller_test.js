@@ -1,7 +1,7 @@
 const {
   databaseBuilder,
   expect,
-  insertUserWithRolePixMaster,
+  insertUserWithRoleSuperAdmin,
   generateValidRequestAuthorizationHeader,
   generateIdTokenForExternalUser,
   knex,
@@ -1321,10 +1321,10 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
   });
 
   describe('DELETE /api/schooling-registration-user-associations', function () {
-    context('When user has the role pixMaster and schooling registration can be dissociated', function () {
+    context('When user has therole SUPER_ADMIN and schooling registration can be dissociated', function () {
       it('should return an 204 status after having successfully dissociated user from schoolingRegistration', async function () {
         const organizationId = databaseBuilder.factory.buildOrganization({ isManagingStudents: true }).id;
-        const pixMaster = await insertUserWithRolePixMaster();
+        const superAdmin = await insertUserWithRoleSuperAdmin();
         const userId = databaseBuilder.factory.buildUser().id;
         const organizationLearner = databaseBuilder.factory.buildOrganizationLearner({ organizationId, userId });
 
@@ -1334,7 +1334,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
           method: 'DELETE',
           url: `/api/schooling-registration-user-associations/${organizationLearner.id}`,
           headers: {
-            authorization: generateValidRequestAuthorizationHeader(pixMaster.id),
+            authorization: generateValidRequestAuthorizationHeader(superAdmin.id),
           },
         };
 

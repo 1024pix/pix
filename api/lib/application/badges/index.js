@@ -11,8 +11,8 @@ exports.register = async function (server) {
       config: {
         pre: [
           {
-            method: securityPreHandlers.checkUserHasRolePixMaster,
-            assign: 'hasRolePixMaster',
+            method: securityPreHandlers.checkUserHasRoleSuperAdmin,
+            assign: 'hasRoleSuperAdmin',
           },
         ],
         validate: {
@@ -23,7 +23,7 @@ exports.register = async function (server) {
         handler: badgesController.getBadge,
         tags: ['api', 'badges'],
         notes: [
-          '- **Cette route est restreinte aux utilisateurs authentifiés avec le rôle Pix Master**\n' +
+          '- **Cette route est restreinte aux utilisateurs authentifiés avec le rôle Super Admin**\n' +
             '- Elle permet de récupérer un résultat thématique.',
         ],
       },
@@ -34,8 +34,8 @@ exports.register = async function (server) {
       config: {
         pre: [
           {
-            method: securityPreHandlers.checkUserHasRolePixMaster,
-            assign: 'hasRolePixMaster',
+            method: securityPreHandlers.checkUserHasRoleSuperAdmin,
+            assign: 'hasRoleSuperAdmin',
           },
         ],
         validate: {
@@ -66,7 +66,7 @@ exports.register = async function (server) {
         handler: badgesController.updateBadge,
         tags: ['api', 'badges'],
         notes: [
-          '- **Cette route est restreinte aux utilisateurs authentifiés avec le rôle Pix Master**\n' +
+          '- **Cette route est restreinte aux utilisateurs authentifiés avec le rôle Super Admin**\n' +
             '- Elle permet de modifier un résultat thématique.',
         ],
       },
@@ -77,8 +77,8 @@ exports.register = async function (server) {
       config: {
         pre: [
           {
-            method: securityPreHandlers.checkUserHasRolePixMaster,
-            assign: 'hasRolePixMaster',
+            method: securityPreHandlers.checkUserHasRoleSuperAdmin,
+            assign: 'hasRoleSuperAdmin',
           },
         ],
         validate: {
@@ -89,7 +89,7 @@ exports.register = async function (server) {
         handler: badgesController.deleteUnassociatedBadge,
         tags: ['api', 'badges'],
         notes: [
-          '- **Cette route est restreinte aux utilisateurs authentifiés avec le rôle Pix Master**\n' +
+          '- **Cette route est restreinte aux utilisateurs authentifiés avec le rôle Super Admin**\n' +
             '- Elle permet de supprimer un résultat thématique non assigné.',
         ],
       },

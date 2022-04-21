@@ -12,7 +12,7 @@ describe('Acceptance | API | Campaign Management Controller', function () {
     it('should return the campaign details', async function () {
       // given
       const campaign = databaseBuilder.factory.buildCampaign();
-      const user = databaseBuilder.factory.buildUser.withPixRolePixMaster();
+      const user = databaseBuilder.factory.buildUser.withRoleSuperAdmin();
       await databaseBuilder.commit();
 
       // when
@@ -33,7 +33,7 @@ describe('Acceptance | API | Campaign Management Controller', function () {
       // given
       const campaign = databaseBuilder.factory.buildCampaign();
       const campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({ campaignId: campaign.id });
-      const user = databaseBuilder.factory.buildUser.withPixRolePixMaster();
+      const user = databaseBuilder.factory.buildUser.withRoleSuperAdmin();
       await databaseBuilder.commit();
 
       // when
@@ -53,7 +53,7 @@ describe('Acceptance | API | Campaign Management Controller', function () {
     it('should return the updated campaign', async function () {
       // given
       const campaign = databaseBuilder.factory.buildCampaign({ name: 'odlName', multipleSendings: false });
-      const user = databaseBuilder.factory.buildUser.withPixRolePixMaster();
+      const user = databaseBuilder.factory.buildUser.withRoleSuperAdmin();
       await databaseBuilder.commit();
 
       // when

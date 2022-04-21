@@ -2,7 +2,7 @@ const {
   expect,
   databaseBuilder,
   generateValidRequestAuthorizationHeader,
-  insertUserWithRolePixMaster,
+  insertUserWithRoleSuperAdmin,
 } = require('../../../test-helper');
 const createServer = require('../../../../server');
 
@@ -11,7 +11,7 @@ describe('Acceptance | Controller | session-controller-get-jury-session', functi
 
   beforeEach(async function () {
     server = await createServer();
-    await insertUserWithRolePixMaster();
+    await insertUserWithRoleSuperAdmin();
   });
 
   describe('GET /api/admin/sessions/{id}', function () {
@@ -39,7 +39,7 @@ describe('Acceptance | Controller | session-controller-get-jury-session', functi
       return databaseBuilder.commit();
     });
 
-    context('when user is Pix Master', function () {
+    context('when user is Super Admin', function () {
       beforeEach(function () {
         options.headers = { authorization: generateValidRequestAuthorizationHeader() };
       });
@@ -81,7 +81,7 @@ describe('Acceptance | Controller | session-controller-get-jury-session', functi
       });
     });
 
-    context('when user is not PixMaster', function () {
+    context('when user is not SuperAdmin', function () {
       beforeEach(function () {
         options.headers = { authorization: generateValidRequestAuthorizationHeader(1111) };
       });

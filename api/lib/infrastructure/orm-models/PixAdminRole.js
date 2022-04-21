@@ -1,20 +1,16 @@
 const Bookshelf = require('../bookshelf');
 const BookshelfUser = require('./User');
-const BookshelfPixRole = require('./PixRole');
 
-const modelName = 'UserPixRole';
+const modelName = 'PixAdminRole';
 
 module.exports = Bookshelf.model(
   modelName,
   {
-    tableName: 'users_pix_roles',
+    tableName: 'pix-admin-roles',
+    hasTimestamps: ['createdAt', 'updatedAt', 'disabledAt'],
 
     user() {
       return this.belongsTo(BookshelfUser);
-    },
-
-    pixRole() {
-      return this.belongsTo(BookshelfPixRole);
     },
   },
   {

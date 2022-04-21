@@ -1,19 +1,19 @@
 const { expect, sinon } = require('../../../test-helper');
-const useCase = require('../../../../lib/application/usecases/checkUserHasRolePixMaster');
+const useCase = require('../../../../lib/application/usecases/checkUserHasRoleSuperAdmin');
 const tokenService = require('../../../../lib/domain/services/token-service');
 const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
 
-describe('Unit | Application | Use Case | CheckUserHasRolePixMaster', function () {
+describe('Unit | Application | Use Case | checkUserHasRoleSuperAdmin', function () {
   const accessToken = 'jwt.access.token';
 
   beforeEach(function () {
     sinon.stub(tokenService, 'extractUserId').resolves();
-    sinon.stub(userRepository, 'isPixMaster');
+    sinon.stub(userRepository, 'isSuperAdmin');
   });
 
-  it('should resolve true when the user (designed by the access_token via its userId) has role PIX_MASTER', function () {
+  it('should resolve true when the user (designed by the access_token via its userId) has role Super Admin', function () {
     // given
-    userRepository.isPixMaster.resolves(true);
+    userRepository.isSuperAdmin.resolves(true);
 
     // when
     const promise = useCase.execute(accessToken);
@@ -24,9 +24,9 @@ describe('Unit | Application | Use Case | CheckUserHasRolePixMaster', function (
     });
   });
 
-  it('should resolve false when the user (designed by the access_token via its userId) has not role PIX_MASTER', function () {
+  it('should resolve false when the user (designed by the access_token via its userId) has not role Super Admin', function () {
     // given
-    userRepository.isPixMaster.resolves(false);
+    userRepository.isSuperAdmin.resolves(false);
 
     // when
     const promise = useCase.execute(accessToken);
