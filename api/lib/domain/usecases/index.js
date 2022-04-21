@@ -360,6 +360,7 @@ module.exports = injectDependencies(
     retrieveLastOrCreateCertificationCourse: require('./retrieve-last-or-create-certification-course'),
     revokeRefreshToken: require('./revoke-refresh-token'),
     saveCertificationIssueReport: require('./save-certification-issue-report'),
+    saveJuryComplementaryCertificationCourseResult: require('./save-jury-complementary-certification-course-result'),
     sendEmailForAccountRecovery: require('./account-recovery/send-email-for-account-recovery'),
     sendScoInvitation: require('./send-sco-invitation'),
     sendVerificationCode: require('./send-verification-code'),
