@@ -168,14 +168,16 @@ describe('Integration | Scripts | create-badge-criteria-for-specified-badge', fu
       const oldBadgeId = databaseBuilder.factory.buildBadge({ key: 'OLD' }).id;
       const newBadgeId = databaseBuilder.factory.buildBadge({ key: 'NEW' }).id;
       const skillSet1 = databaseBuilder.factory.buildSkillSet({
+        id: 123,
         badgeId: oldBadgeId,
         skillIds: ['skillABC123', 'skillDEF456'],
       });
       const skillSet2 = databaseBuilder.factory.buildSkillSet({
+        id: 456,
         badgeId: oldBadgeId,
         skillIds: ['skillHIJ789', 'skillKLM123'],
       });
-      const skillSetIds = [skillSet1.id, skillSet2.id];
+      const skillSetIds = [123, 456];
       await databaseBuilder.commit();
 
       // when
@@ -184,7 +186,7 @@ describe('Integration | Scripts | create-badge-criteria-for-specified-badge', fu
       // then
       expect(newSkillSetIds).to.have.lengthOf(2);
 
-      const [newSkillSet1, newSkillSet2] = await knex('skill-sets').whereIn('id', newSkillSetIds);
+      const [newSkillSet1, newSkillSet2] = await knex('skill-sets').whereIn('id', newSkillSetIds).orderBy('id');
       expect(newSkillSet1.skillIds).to.deep.equal(skillSet1.skillIds);
       expect(newSkillSet1.badgeId).to.equal(newBadgeId);
       expect(newSkillSet2.skillIds).to.deep.equal(skillSet2.skillIds);
