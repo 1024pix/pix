@@ -23,6 +23,7 @@
         type="button"
         {{on "click" this.evaluateTutorial}}
         disabled={{this.isTutorialEvaluated}}
+        aria-disabled="{{this.isTutorialEvaluated}}"
       >
         <FaIcon class="pix-action-chip__icon" @prefix={{if this.isTutorialEvaluated "fas" "far"}} @icon="thumbs-up" />
       </button>
@@ -32,6 +33,7 @@
         type="button"
         {{on "click" this.toggleSaveTutorial}}
         disabled={{this.isSaveButtonDisabled}}
+        aria-disabled="{{this.isSaveButtonDisabled}}"
       >
         <FaIcon class="pix-action-chip__icon" @prefix={{if this.isTutorialSaved "fas" "far"}} @icon="bookmark" />
       </button>
