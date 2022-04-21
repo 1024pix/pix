@@ -11,7 +11,6 @@ module.exports = async function authenticatePoleEmploiUser({
   stateReceived,
   stateSent,
   poleEmploiAuthenticationService,
-  tokenService,
   authenticationMethodRepository,
   poleEmploiTokensRepository,
   userRepository,
@@ -40,7 +39,7 @@ module.exports = async function authenticatePoleEmploiUser({
       authenticationComplement,
       authenticationMethodRepository,
       userRepository,
-      tokenService,
+      poleEmploiAuthenticationService,
     });
   } else {
     const user = await userRepository.findByPoleEmploiExternalIdentifier(userInfo.externalIdentityId);
@@ -56,7 +55,7 @@ module.exports = async function authenticatePoleEmploiUser({
         authenticationComplement,
         authenticationMethodRepository,
         userRepository,
-        tokenService,
+        poleEmploiAuthenticationService,
       });
     }
   }
@@ -82,7 +81,7 @@ async function _getPixAccessTokenFromAlreadyAuthenticatedPixUser({
   authenticationComplement,
   authenticationMethodRepository,
   userRepository,
-  tokenService,
+  poleEmploiAuthenticationService,
 }) {
   const authenticationMethod = await authenticationMethodRepository.findOneByUserIdAndIdentityProvider({
     userId: authenticatedUserId,
@@ -106,7 +105,7 @@ async function _getPixAccessTokenFromAlreadyAuthenticatedPixUser({
     });
     await authenticationMethodRepository.create({ authenticationMethod });
   }
-  const pixAccessToken = tokenService.createAccessTokenForPoleEmploi(authenticatedUserId);
+  const pixAccessToken = poleEmploiAuthenticationService.createAccessToken(authenticatedUserId);
   await userRepository.updateLastLoggedAt({ userId: authenticatedUserId });
   return pixAccessToken;
 }
@@ -116,13 +115,13 @@ async function _getPixAccessTokenFromPoleEmploiUser({
   authenticationComplement,
   authenticationMethodRepository,
   userRepository,
-  tokenService,
+  poleEmploiAuthenticationService,
 }) {
   await authenticationMethodRepository.updatePoleEmploiAuthenticationComplementByUserId({
     authenticationComplement,
     userId: user.id,
   });
-  const pixAccessToken = tokenService.createAccessTokenForPoleEmploi(user.id);
+  const pixAccessToken = poleEmploiAuthenticationService.createAccessToken(user.id);
 
   await userRepository.updateLastLoggedAt({ userId: user.id });
   return pixAccessToken;

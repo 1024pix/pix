@@ -6,6 +6,7 @@ const PoleEmploiTokens = require('../models/PoleEmploiTokens');
 const tokenService = require('./token-service');
 const { v4: uuidv4 } = require('uuid');
 const get = require('lodash/get');
+const jsonwebtoken = require('jsonwebtoken');
 
 async function exchangeCodeForTokens({ code, redirectUri }) {
   const data = {
@@ -71,6 +72,14 @@ function getAuthUrl({ redirectUri }) {
   return { redirectTarget: redirectTarget.toString(), state, nonce };
 }
 
+function createAccessToken(userId) {
+  const expirationDelaySeconds = settings.poleEmploi.accessTokenLifespanMs / 1000;
+
+  return jsonwebtoken.sign({ user_id: userId, source: 'pole_emploi_connect' }, settings.authentication.secret, {
+    expiresIn: expirationDelaySeconds,
+  });
+}
+
 function _getErrorMessage(data) {
   let message;
 
@@ -88,4 +97,5 @@ module.exports = {
   exchangeCodeForTokens,
   getUserInfo,
   getAuthUrl,
+  createAccessToken,
 };

@@ -19,11 +19,6 @@ function createAccessTokenFromUser(userId, source) {
   return { accessToken, expirationDelaySeconds };
 }
 
-function createAccessTokenForPoleEmploi(userId) {
-  const expirationDelaySeconds = settings.poleEmploi.accessTokenLifespanMs / 1000;
-  return _createAccessToken({ userId, source: 'pole_emploi_connect', expirationDelaySeconds });
-}
-
 function createAccessTokenForCnav(userId) {
   const expirationDelaySeconds = settings.cnav.accessTokenLifespanMs / 1000;
   return _createAccessToken({ userId, source: 'cnav', expirationDelaySeconds });
@@ -200,7 +195,6 @@ async function extractClaimsFromCnavIdToken(idToken) {
 
 module.exports = {
   createAccessTokenFromUser,
-  createAccessTokenForPoleEmploi,
   createAccessTokenForSaml,
   createAccessTokenFromApplication,
   createTokenForCampaignResults,

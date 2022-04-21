@@ -10,6 +10,7 @@ const httpAgent = require('../../../../lib/infrastructure/http/http-agent');
 const tokenService = require('../../../../lib/domain/services/token-service');
 
 const poleEmploiAuthenticationService = require('../../../../lib/domain/services/pole-emploi-authentication-service');
+const jsonwebtoken = require('jsonwebtoken');
 
 describe('Unit | Domain | Services | pole-emploi-authentication-service', function () {
   describe('#exchangeCodeForTokens', function () {
@@ -123,6 +124,26 @@ describe('Unit | Domain | Services | pole-emploi-authentication-service', functi
 
       // then
       expect(result).to.deep.equal(expectedResult);
+    });
+  });
+
+  describe('#createAccessToken', function () {
+    it('should create access token with user id and source', function () {
+      // given
+      const userId = 123;
+      settings.authentication.secret = 'a secret';
+      settings.poleEmploi.accessTokenLifespanMs = 1000;
+      const accessToken = 'valid access token';
+      const firstParameter = { user_id: userId, source: 'pole_emploi_connect' };
+      const secondParameter = 'a secret';
+      const thirdParameter = { expiresIn: 1 };
+      sinon.stub(jsonwebtoken, 'sign').withArgs(firstParameter, secondParameter, thirdParameter).returns(accessToken);
+
+      // when
+      const result = poleEmploiAuthenticationService.createAccessToken(userId);
+
+      // then
+      expect(result).to.be.deep.equal(accessToken);
     });
   });
 });
