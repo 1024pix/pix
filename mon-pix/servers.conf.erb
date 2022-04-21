@@ -9,7 +9,11 @@ log_format keyvalue
   ' duration=${request_time}s'
   ' bytes=$bytes_sent'
   ' referer="$http_referer"'
-  ' user_agent="$http_user_agent"';
+  ' user_agent="$http_user_agent"'
+  ' bln_ja3="$http_bln_ssl_ja3_hash"'
+  ' bln_fate="$http_bln_request_fate"'
+  ' bln_fate_action="$http_bln_request_fate_action"'
+  ' bln_debug_path="$http_bln_debug_path"';
 
 # In order to avoid logging access twice per request
 # it is necessary to turn off the top-level (e.g. http) buildpack default access_log
