@@ -18,22 +18,21 @@
     </p>
     <div class="tutorial-card-v2-content__actions">
       <button
-        class="tutorial-card-v2-content-actions__save"
-        type="button"
-        {{on "click" this.toggleSaveTutorial}}
-        disabled={{this.isSaveButtonDisabled}}
-      >
-        <FaIcon @prefix={{if this.isSaved "fas" "far"}} @icon="bookmark" />
-        {{this.buttonLabel}}
-      </button>
-      <button
-        class="tutorial-card-v2-content-actions__evaluate"
+        class="pix-action-chip {{if this.isTutorialEvaluated "pix-action-chip--selected"}}"
+        aria-label={{this.evaluateLabel}}
         type="button"
         {{on "click" this.evaluateTutorial}}
-        disabled={{this.isEvaluateButtonDisabled}}
+        disabled={{this.isTutorialEvaluated}}
       >
-        <FaIcon @prefix="fas" @icon="thumbs-up" />
-        {{t "pages.user-tutorials.list.tutorial.actions.evaluate.label"}}
+        <FaIcon class="pix-action-chip__icon" @prefix={{if this.isTutorialEvaluated "fas" "far"}} @icon="thumbs-up" />
+      </button>
+      <button
+        class="pix-action-chip {{if this.isTutorialSaved "pix-action-chip--selected"}}"
+        aria-label={{this.saveLabel}}
+        type="button"
+        {{on "click" this.toggleSaveTutorial}}
+      >
+        <FaIcon class="pix-action-chip__icon" @prefix={{if this.isTutorialSaved "fas" "far"}} @icon="bookmark" />
       </button>
     </div>
   </div>

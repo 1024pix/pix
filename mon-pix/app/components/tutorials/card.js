@@ -17,18 +17,28 @@ export default class Card extends Component {
     this.evaluationStatus = args.tutorial.isEvaluated ? buttonStatusTypes.recorded : buttonStatusTypes.unrecorded;
   }
 
-  get buttonLabel() {
+  get saveLabel() {
     return this.savingStatus === buttonStatusTypes.recorded
       ? this.intl.t('pages.user-tutorials.list.tutorial.actions.remove.label')
       : this.intl.t('pages.user-tutorials.list.tutorial.actions.save.label');
+  }
+
+  get evaluateLabel() {
+    return this.evaluationStatus === buttonStatusTypes.recorded
+      ? this.intl.t('pages.user-tutorials.list.tutorial.actions.evaluate.label')
+      : this.intl.t('pages.user-tutorials.list.tutorial.actions.evaluate.extra-information');
   }
 
   get isSaved() {
     return this.savingStatus === buttonStatusTypes.recorded;
   }
 
-  get isEvaluateButtonDisabled() {
+  get isTutorialEvaluated() {
     return this.evaluationStatus !== buttonStatusTypes.unrecorded;
+  }
+
+  get isTutorialSaved() {
+    return this.savingStatus !== buttonStatusTypes.unrecorded;
   }
 
   get isSaveButtonDisabled() {

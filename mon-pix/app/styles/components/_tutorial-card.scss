@@ -46,6 +46,7 @@
   }
 
   &__actions {
+    justify-content: space-between;
     align-items: end;
     display: flex;
     flex: 1;
@@ -53,32 +54,69 @@
   }
 }
 
-.tutorial-card-v2-content-actions {
+.pix-action-chip {
+  $dark-blue: #2044DC;
 
-  &__save,
-  &__evaluate {
-    font-size: 0.813rem;
-    font-weight: $font-medium;
+  width: 36px;
+  height: 36px;
+  background: $white;
+  border-radius: 50%;
+  border: 1px solid $grey-10;
+  text-align: center;
+
+  &__icon {
+    left: calc(50% - 20px / 2);
+    top: 0%;
+    bottom: 0%;
     color: $grey-50;
-    letter-spacing: 0.028rem;
-    background: transparent;
-    border: none;
-    padding: 0;
-    display: block;
+    font-size: 18px;
+  }
 
-    svg {
-      margin-right: 4px;
+  &:hover {
+    cursor: pointer;
+    border: 1.4px solid $grey-50;
+    background: $grey-10;
+  }
+
+  &:disabled {
+    cursor: initial;
+    pointer-events: none;
+  }
+
+  &--selected {
+    border-color: $blue;
+
+    .pix-action-chip__icon {
+      color: $blue;
     }
 
     &:hover {
-      filter: brightness(70%);
-      cursor: pointer;
+      border-color: $dark-blue;
+
+      .pix-action-chip__icon {
+        color: $dark-blue;
+      }
     }
 
-    &:disabled {
-      color: $grey-30;
-      filter: brightness(90%);
-      cursor: auto;
+    &:focus-visible {
+      background-color: $blue;
+      box-shadow: 0 0 0 3px $blue;
+      border-color: $white;
+
+      .pix-action-chip__icon {
+        color: $white;
+      }
+    }
+  }
+
+  &:not(.pix-action-chip--selected):focus-visible {
+    background-color: $grey-60;
+    box-shadow: 0 0 0 3px $grey-60;
+    border-color: $white;
+    outline: none;
+
+    .pix-action-chip__icon {
+      color: $white;
     }
   }
 }
