@@ -82,6 +82,7 @@ describe('Unit | UseCase | create-pro-organizations-with-tags', function () {
 
       // then
       expect(error).to.be.an.instanceOf(OrganizationAlreadyExistError);
+      expect(error.message).to.equal('Les organisations avec les externalIds suivants existent déjà : externalId');
     });
   });
 
