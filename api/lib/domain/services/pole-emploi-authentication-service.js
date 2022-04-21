@@ -3,7 +3,6 @@ const httpAgent = require('../../infrastructure/http/http-agent');
 const querystring = require('querystring');
 const { GeneratePoleEmploiTokensError } = require('../errors');
 const PoleEmploiTokens = require('../models/PoleEmploiTokens');
-const tokenService = require('./token-service');
 const { v4: uuidv4 } = require('uuid');
 const get = require('lodash/get');
 const jsonwebtoken = require('jsonwebtoken');
@@ -37,9 +36,7 @@ async function exchangeCodeForTokens({ code, redirectUri }) {
 }
 
 async function getUserInfo(idToken) {
-  const { given_name, family_name, nonce, idIdentiteExterne } = await tokenService.extractPayloadFromPoleEmploiIdToken(
-    idToken
-  );
+  const { given_name, family_name, nonce, idIdentiteExterne } = await _extractPayloadFromIdToken(idToken);
 
   return {
     firstName: given_name,
@@ -91,6 +88,11 @@ function _getErrorMessage(data) {
     message = `${error} ${error_description}`;
   }
   return message.trim();
+}
+
+async function _extractPayloadFromIdToken(idToken) {
+  const { given_name, family_name, nonce, idIdentiteExterne } = await jsonwebtoken.decode(idToken);
+  return { given_name, family_name, nonce, idIdentiteExterne };
 }
 
 module.exports = {
