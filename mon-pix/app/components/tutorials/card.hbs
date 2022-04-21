@@ -31,6 +31,7 @@
         aria-label={{this.saveLabel}}
         type="button"
         {{on "click" this.toggleSaveTutorial}}
+        disabled={{this.isSaveButtonDisabled}}
       >
         <FaIcon class="pix-action-chip__icon" @prefix={{if this.isTutorialSaved "fas" "far"}} @icon="bookmark" />
       </button>
