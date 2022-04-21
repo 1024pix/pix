@@ -147,6 +147,28 @@ describe('Integration | Application | Organizations | Routes', function () {
     });
   });
 
+  describe('GET /api/admin/organizations/:id/places', function () {
+    it('should call the controller to archive the organization', async function () {
+      // given
+      const method = 'GET';
+      const url = '/api/admin/organizations/1/places';
+
+      sinon.stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin').callsFake((request, h) => h.response(true));
+      sinon
+        .stub(organizationController, 'findOrganizationPlaces')
+        .callsFake((request, h) => h.response('ok').code(200));
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      // when
+      const response = await httpTestServer.request(method, url);
+
+      // then
+      expect(response.statusCode).to.equal(200);
+      expect(organizationController.findOrganizationPlaces).to.have.been.calledOnce;
+    });
+  });
+
   describe('POST /api/organizations/:id/invitations', function () {
     it('should call the organization controller to send invitations', async function () {
       // given
