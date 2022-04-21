@@ -2,7 +2,6 @@ const jsonwebtoken = require('jsonwebtoken');
 const get = require('lodash/get');
 const settings = require('../../config');
 const { v4: uuidv4 } = require('uuid');
-const tokenService = require('./token-service');
 const httpAgent = require('../../infrastructure/http/http-agent');
 const querystring = require('querystring');
 const { GenerateCnavTokensError } = require('../errors');
@@ -37,7 +36,7 @@ async function exchangeCodeForTokens({ code, redirectUri }) {
 }
 
 async function getUserInfo(idToken) {
-  const { given_name, family_name, nonce, sub } = await tokenService.extractClaimsFromCnavIdToken(idToken);
+  const { given_name, family_name, nonce, sub } = await _extractClaimsFromIdToken(idToken);
 
   return {
     firstName: given_name,
@@ -91,6 +90,11 @@ function _createAccessToken({ userId, source, expirationDelaySeconds }) {
 function createAccessToken(userId) {
   const expirationDelaySeconds = settings.cnav.accessTokenLifespanMs / 1000;
   return _createAccessToken({ userId, source: 'cnav', expirationDelaySeconds });
+}
+
+async function _extractClaimsFromIdToken(idToken) {
+  const { given_name, family_name, nonce, sub } = await jsonwebtoken.decode(idToken);
+  return { given_name, family_name, nonce, sub };
 }
 
 module.exports = {

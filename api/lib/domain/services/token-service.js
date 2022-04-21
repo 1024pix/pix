@@ -178,11 +178,6 @@ async function extractExternalUserFromIdToken(token) {
   };
 }
 
-async function extractClaimsFromCnavIdToken(idToken) {
-  const { given_name, family_name, nonce, sub } = await jsonwebtoken.decode(idToken);
-  return { given_name, family_name, nonce, sub };
-}
-
 module.exports = {
   createAccessTokenFromUser,
   createAccessTokenForSaml,
@@ -194,7 +189,6 @@ module.exports = {
   decodeIfValid,
   getDecodedToken,
   extractExternalUserFromIdToken,
-  extractClaimsFromCnavIdToken,
   extractResultRecipientEmailAndSessionId,
   extractSamlId,
   extractSessionId,
