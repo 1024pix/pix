@@ -2,8 +2,9 @@ const _ = require('lodash');
 const CompetenceMark = require('./CompetenceMark');
 const ComplementaryCertificationCourseResult = require('./ComplementaryCertificationCourseResult');
 const {
-  PIX_EMPLOI_CLEA,
+  PIX_EMPLOI_CLEA_V1,
   PIX_EMPLOI_CLEA_V2,
+  PIX_EMPLOI_CLEA_V3,
   PIX_DROIT_MAITRE_CERTIF,
   PIX_DROIT_EXPERT_CERTIF,
   PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
@@ -114,13 +115,13 @@ class CertificationResult {
 
   hasTakenClea() {
     return this.complementaryCertificationCourseResults.some(({ partnerKey }) =>
-      [PIX_EMPLOI_CLEA, PIX_EMPLOI_CLEA_V2].includes(partnerKey)
+      [PIX_EMPLOI_CLEA_V1, PIX_EMPLOI_CLEA_V2, PIX_EMPLOI_CLEA_V3].includes(partnerKey)
     );
   }
 
   hasAcquiredClea() {
     const cleaComplementaryCertificationCourseResult = this.complementaryCertificationCourseResults.find(
-      ({ partnerKey }) => [PIX_EMPLOI_CLEA, PIX_EMPLOI_CLEA_V2].includes(partnerKey)
+      ({ partnerKey }) => [PIX_EMPLOI_CLEA_V1, PIX_EMPLOI_CLEA_V2, PIX_EMPLOI_CLEA_V3].includes(partnerKey)
     );
     return Boolean(cleaComplementaryCertificationCourseResult?.acquired);
   }

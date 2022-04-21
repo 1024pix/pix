@@ -9,8 +9,9 @@ const {
 const { NotFoundError } = require('../../../../lib/domain/errors');
 const shareableCertificateRepository = require('../../../../lib/infrastructure/repositories/shareable-certificate-repository');
 const {
-  PIX_EMPLOI_CLEA,
+  PIX_EMPLOI_CLEA_V1,
   PIX_EMPLOI_CLEA_V2,
+  PIX_EMPLOI_CLEA_V3,
   PIX_DROIT_MAITRE_CERTIF,
   PIX_DROIT_EXPERT_CERTIF,
   PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
@@ -355,7 +356,7 @@ describe('Integration | Infrastructure | Repository | Shareable Certificate', fu
 
       const { certificateId } = await _buildValidShareableCertificateWithAcquiredAndNotAcquiredBadges({
         shareableCertificateData,
-        acquiredBadges: [PIX_EMPLOI_CLEA],
+        acquiredBadges: [PIX_EMPLOI_CLEA_V1],
         notAcquiredBadges: [],
       });
 
@@ -396,6 +397,46 @@ describe('Integration | Infrastructure | Repository | Shareable Certificate', fu
       const { certificateId } = await _buildValidShareableCertificateWithAcquiredAndNotAcquiredBadges({
         shareableCertificateData,
         acquiredBadges: [PIX_EMPLOI_CLEA_V2],
+        notAcquiredBadges: [],
+      });
+
+      // when
+      const shareableCertificate = await shareableCertificateRepository.getByVerificationCode('P-SOMECODE');
+
+      // then
+      const expectedShareableCertificate = domainBuilder.buildShareableCertificate({
+        id: certificateId,
+        ...shareableCertificateData,
+      });
+      expect(shareableCertificate).to.deepEqualInstanceOmitting(expectedShareableCertificate, ['resultCompetenceTree']);
+    });
+
+    it('should get the clea certification result if taken with badge V3', async function () {
+      // given
+      const learningContentObjects = learningContentBuilder.buildLearningContent(minimalLearningContent);
+      mockLearningContent(learningContentObjects);
+
+      const userId = databaseBuilder.factory.buildUser().id;
+      const shareableCertificateData = {
+        id: 123,
+        firstName: 'Sarah Michelle',
+        lastName: 'Gellar',
+        birthdate: '1977-04-14',
+        birthplace: 'Saint-Ouen',
+        isPublished: true,
+        userId,
+        date: new Date('2020-01-01'),
+        verificationCode: 'P-SOMECODE',
+        maxReachableLevelOnCertificationDate: 5,
+        deliveredAt: new Date('2021-05-05'),
+        certificationCenter: 'Centre des poules bien dodues',
+        pixScore: 51,
+        cleaCertificationResult: domainBuilder.buildCleaCertificationResult.acquired(),
+      };
+
+      const { certificateId } = await _buildValidShareableCertificateWithAcquiredAndNotAcquiredBadges({
+        shareableCertificateData,
+        acquiredBadges: [PIX_EMPLOI_CLEA_V3],
         notAcquiredBadges: [],
       });
 

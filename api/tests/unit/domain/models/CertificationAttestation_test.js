@@ -1,7 +1,8 @@
 const { expect, domainBuilder } = require('../../../test-helper');
 const {
-  PIX_EMPLOI_CLEA,
+  PIX_EMPLOI_CLEA_V1,
   PIX_EMPLOI_CLEA_V2,
+  PIX_EMPLOI_CLEA_V3,
   PIX_DROIT_MAITRE_CERTIF,
   PIX_DROIT_EXPERT_CERTIF,
   PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
@@ -27,17 +28,17 @@ describe('Unit | Domain | Models | CertificationAttestation', function () {
   });
 
   context('#getAcquiredCleaCertification', function () {
-    it('should return the acquired PIX_EMPLOI_CLEA badge', function () {
+    it('should return the acquired PIX_EMPLOI_CLEA_V1 badge', function () {
       // given
       const certificationAttestation = domainBuilder.buildCertificationAttestation({
-        certifiedBadges: [{ partnerKey: 'OTHER_BADGE' }, { partnerKey: PIX_EMPLOI_CLEA }],
+        certifiedBadges: [{ partnerKey: 'OTHER_BADGE' }, { partnerKey: PIX_EMPLOI_CLEA_V1 }],
       });
 
       // when
       const acquiredCleaCertification = certificationAttestation.getAcquiredCleaCertification();
 
       // expect
-      expect(acquiredCleaCertification).to.deep.equal(PIX_EMPLOI_CLEA);
+      expect(acquiredCleaCertification).to.deep.equal(PIX_EMPLOI_CLEA_V1);
     });
 
     it('should return the acquired PIX_EMPLOI_CLEA_V2 badge', function () {
@@ -51,6 +52,19 @@ describe('Unit | Domain | Models | CertificationAttestation', function () {
 
       // expect
       expect(acquiredCleaCertification).to.deep.equal(PIX_EMPLOI_CLEA_V2);
+    });
+
+    it('should return the acquired PIX_EMPLOI_CLEA_V3 badge', function () {
+      // given
+      const certificationAttestation = domainBuilder.buildCertificationAttestation({
+        certifiedBadges: [{ partnerKey: 'OTHER_BADGE' }, { partnerKey: PIX_EMPLOI_CLEA_V3 }],
+      });
+
+      // when
+      const acquiredCleaCertification = certificationAttestation.getAcquiredCleaCertification();
+
+      // expect
+      expect(acquiredCleaCertification).to.deep.equal(PIX_EMPLOI_CLEA_V3);
     });
 
     it('should return undefined if no clea badge has been acquired', function () {
@@ -173,19 +187,33 @@ describe('Unit | Domain | Models | CertificationAttestation', function () {
   });
 
   context('#hasAcquiredAnyComplementaryCertifications', function () {
-    it('should return true if certified badge images for attestation is not empty', function () {
-      // given
-      const certificationAttestation = domainBuilder.buildCertificationAttestation({
-        certifiedBadges: [PIX_EMPLOI_CLEA],
-      });
+    // eslint-disable-next-line mocha/no-setup-in-describe
+    [
+      PIX_EMPLOI_CLEA_V1,
+      PIX_EMPLOI_CLEA_V2,
+      PIX_EMPLOI_CLEA_V3,
+      PIX_DROIT_MAITRE_CERTIF,
+      PIX_DROIT_EXPERT_CERTIF,
+      PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
+      PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME,
+      PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME,
+      PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
+      PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
+    ].forEach((key) =>
+      it('should return true if certified badge images for attestation is not empty', function () {
+        // given
+        const certificationAttestation = domainBuilder.buildCertificationAttestation({
+          certifiedBadges: [key],
+        });
 
-      // when
-      const hasAcquiredAnyComplementaryCertifications =
-        certificationAttestation.hasAcquiredAnyComplementaryCertifications();
+        // when
+        const hasAcquiredAnyComplementaryCertifications =
+          certificationAttestation.hasAcquiredAnyComplementaryCertifications();
 
-      // expect
-      expect(hasAcquiredAnyComplementaryCertifications).to.be.true;
-    });
+        // expect
+        expect(hasAcquiredAnyComplementaryCertifications).to.be.true;
+      })
+    );
 
     it('should return false if certified badge images for attestation is empty', function () {
       // given

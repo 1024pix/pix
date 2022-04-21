@@ -2,8 +2,9 @@ const { expect, databaseBuilder, domainBuilder } = require('../../../test-helper
 const certificationResultRepository = require('../../../../lib/infrastructure/repositories/certification-result-repository');
 const CertificationResult = require('../../../../lib/domain/models/CertificationResult');
 const {
-  PIX_EMPLOI_CLEA,
+  PIX_EMPLOI_CLEA_V1,
   PIX_EMPLOI_CLEA_V2,
+  PIX_EMPLOI_CLEA_V3,
   PIX_DROIT_MAITRE_CERTIF,
   PIX_DROIT_EXPERT_CERTIF,
   PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
@@ -196,10 +197,19 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
 
     // eslint-disable-next-line mocha/no-setup-in-describe
     [
-      { complementaryCertificationName: 'CléA V1', badgeKey: PIX_EMPLOI_CLEA, validationFunction: 'hasAcquiredClea' },
+      {
+        complementaryCertificationName: 'CléA V1',
+        badgeKey: PIX_EMPLOI_CLEA_V1,
+        validationFunction: 'hasAcquiredClea',
+      },
       {
         complementaryCertificationName: 'CléA V2',
         badgeKey: PIX_EMPLOI_CLEA_V2,
+        validationFunction: 'hasAcquiredClea',
+      },
+      {
+        complementaryCertificationName: 'CléA V3',
+        badgeKey: PIX_EMPLOI_CLEA_V3,
         validationFunction: 'hasAcquiredClea',
       },
       {
@@ -474,10 +484,19 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
 
     // eslint-disable-next-line mocha/no-setup-in-describe
     [
-      { complementaryCertificationName: 'CléA V1', badgeKey: PIX_EMPLOI_CLEA, validationFunction: 'hasAcquiredClea' },
+      {
+        complementaryCertificationName: 'CléA V1',
+        badgeKey: PIX_EMPLOI_CLEA_V1,
+        validationFunction: 'hasAcquiredClea',
+      },
       {
         complementaryCertificationName: 'CléA V2',
         badgeKey: PIX_EMPLOI_CLEA_V2,
+        validationFunction: 'hasAcquiredClea',
+      },
+      {
+        complementaryCertificationName: 'CléA V3',
+        badgeKey: PIX_EMPLOI_CLEA_V3,
         validationFunction: 'hasAcquiredClea',
       },
       {

@@ -1,8 +1,9 @@
 const CertificationResult = require('../../../../lib/domain/models/CertificationResult');
 const { expect, domainBuilder } = require('../../../test-helper');
 const {
-  PIX_EMPLOI_CLEA,
+  PIX_EMPLOI_CLEA_V1,
   PIX_EMPLOI_CLEA_V2,
+  PIX_EMPLOI_CLEA_V3,
   PIX_DROIT_MAITRE_CERTIF,
   PIX_DROIT_EXPERT_CERTIF,
   PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
@@ -357,7 +358,7 @@ describe('Unit | Domain | Models | CertificationResult', function () {
 
   // eslint-disable-next-line mocha/no-setup-in-describe
   [
-    { method: 'hasTakenClea', partnerKeys: [PIX_EMPLOI_CLEA, PIX_EMPLOI_CLEA_V2] },
+    { method: 'hasTakenClea', partnerKeys: [PIX_EMPLOI_CLEA_V1, PIX_EMPLOI_CLEA_V2, PIX_EMPLOI_CLEA_V3] },
     { method: 'hasTakenPixPlusDroitMaitre', partnerKeys: [PIX_DROIT_MAITRE_CERTIF] },
     { method: 'hasTakenPixPlusDroitExpert', partnerKeys: [PIX_DROIT_EXPERT_CERTIF] },
     { method: 'hasTakenPixPlusEduInitie', partnerKeys: [PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE] },
@@ -404,7 +405,7 @@ describe('Unit | Domain | Models | CertificationResult', function () {
 
   // eslint-disable-next-line mocha/no-setup-in-describe
   [
-    { method: 'hasAcquiredClea', partnerKeys: [PIX_EMPLOI_CLEA, PIX_EMPLOI_CLEA_V2] },
+    { method: 'hasAcquiredClea', partnerKeys: [PIX_EMPLOI_CLEA_V1, PIX_EMPLOI_CLEA_V2, PIX_EMPLOI_CLEA_V3] },
     { method: 'hasAcquiredPixPlusDroitMaitre', partnerKeys: [PIX_DROIT_MAITRE_CERTIF] },
     { method: 'hasAcquiredPixPlusDroitExpert', partnerKeys: [PIX_DROIT_EXPERT_CERTIF] },
     { method: 'hasAcquiredPixPlusEduInitie', partnerKeys: [PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE] },
