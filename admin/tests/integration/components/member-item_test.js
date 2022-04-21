@@ -9,7 +9,8 @@ module('Integration | Component | member-item', function (hooks) {
   setupRenderingTest(hooks);
 
   hooks.beforeEach(function () {
-    const user = EmberObject.create({ firstName: 'Jojo', lastName: 'La Gringue', email: 'jojo@lagringue.fr' });
+    const user = EmberObject.create({ id: 123, firstName: 'Jojo', lastName: 'La Gringue', email: 'jojo@lagringue.fr' });
+
     this.membership = EmberObject.create({ id: 1, user, displayedOrganizationRole: 'Administrateur' });
   });
 
@@ -18,7 +19,7 @@ module('Integration | Component | member-item', function (hooks) {
     const screen = await render(hbs`<MemberItem @membership={{this.membership}} />`);
 
     // then
-    assert.dom(screen.getByText('1')).exists();
+    assert.dom(screen.getByText('123')).exists();
     assert.dom(screen.getByText('Jojo')).exists();
     assert.dom(screen.getByText('La Gringue')).exists();
     assert.dom(screen.getByText('jojo@lagringue.fr')).exists();
@@ -72,9 +73,7 @@ module('Integration | Component | member-item', function (hooks) {
 
       // then
       assert.dom(screen.queryByText('Enregistrer')).doesNotExist();
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(this.membership.organizationRole, 'MEMBER');
+      assert.strictEqual(this.membership.organizationRole, 'MEMBER');
       assert.ok(this.updateMembership.called);
     });
 
