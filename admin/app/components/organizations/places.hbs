@@ -1,0 +1,48 @@
+<section class="page-section">
+  <header class="page-section__header">
+    <h2 class="page-section__title">Historique des lots</h2>
+  </header>
+  {{#if @places}}
+    <table
+      class="table-admin"
+      summary="Affichage des lots de place disponible triés par ordre anti-chronologique d'activation puis d'expiration"
+    >
+      <thead>
+        <tr>
+          <th scope="col">Nombre</th>
+          <th scope="col">Catégorie</th>
+          <th scope="col">Date d'activation</th>
+          <th scope="col">Statut</th>
+          <th scope="col">Référence</th>
+          <th scope="col">Créé par</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each @places as |place|}}
+          <tr aria-label="Lot de Places">
+            <td class="td--bold">{{place.count}}</td>
+            <td class="td--bold" scope="row">{{place.categoryLabel}}</td>
+            <td>
+              Du:
+              {{moment-format place.activationDate "DD/MM/YYYY"}}
+              {{#if place.hasExpiredDate}}
+                <br />
+                Au:
+                {{moment-format place.expiredDate "DD/MM/YYYY"}}
+              {{/if}}
+            </td>
+            <td class="table__column table__column--center">
+              <PixTag @color={{if (eq place.status "ACTIVE") "blue" "grey"}}>{{place.displayStatus}}</PixTag>
+            </td>
+            <td>{{place.reference}}</td>
+            <td>{{place.creatorFullName}}</td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  {{/if}}
+
+  {{#unless @places}}
+    <div class="table-admin-empty">Aucun lot de places saisi</div>
+  {{/unless}}
+</section>

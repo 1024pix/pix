@@ -37,6 +37,10 @@ th {
   text-overflow: ellipsis;
 }
 
+td.td--bold {
+  font-weight: $font-medium;
+}
+
 .table__column {
   width: 16%;
 
