@@ -10,7 +10,7 @@ module.exports = async function authenticateCnavUser({
   redirectUri,
   stateReceived,
   stateSent,
-  authenticationService,
+  cnavAuthenticationService,
   tokenService,
   authenticationMethodRepository,
   cnavTokensRepository,
@@ -20,9 +20,9 @@ module.exports = async function authenticateCnavUser({
     logger.error(`State sent ${stateSent} did not match the state received ${stateReceived}`);
     throw new UnexpectedCnavStateError();
   }
-  const cnavTokens = await authenticationService.exchangeCnavCodeForTokens({ code, redirectUri });
+  const cnavTokens = await cnavAuthenticationService.exchangeCodeForTokens({ code, redirectUri });
 
-  const userInfo = await authenticationService.getCnavUserInfo(cnavTokens.idToken);
+  const userInfo = await cnavAuthenticationService.getUserInfo(cnavTokens.idToken);
 
   const authenticationComplement = new AuthenticationMethod.CnavAuthenticationComplement({
     accessToken: cnavTokens.accessToken,

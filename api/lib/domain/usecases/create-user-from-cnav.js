@@ -10,13 +10,13 @@ module.exports = async function createUserFromCnav({
   authenticationMethodRepository,
   cnavTokensRepository,
   userToCreateRepository,
-  authenticationService,
+  cnavAuthenticationService,
 }) {
   const cnavTokens = await cnavTokensRepository.getByKey(authenticationKey);
   if (!cnavTokens) {
     throw new AuthenticationKeyForCnavTokenExpired();
   }
-  const userInfo = await authenticationService.getCnavUserInfo(cnavTokens.idToken);
+  const userInfo = await cnavAuthenticationService.getUserInfo(cnavTokens.idToken);
 
   if (!userInfo.firstName || !userInfo.lastName || !userInfo.externalIdentityId) {
     logger.error(`Un des champs obligatoires n'a pas été renvoyé par /userinfo: ${JSON.stringify(userInfo)}.`);

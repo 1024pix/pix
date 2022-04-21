@@ -21,7 +21,7 @@ describe('Unit | UseCase | create-user-from-cnav', function () {
   let authenticationMethodRepository;
   let cnavTokensRepository;
   let userToCreateRepository;
-  let authenticationService;
+  let cnavAuthenticationService;
 
   const now = new Date('2021-01-02');
 
@@ -47,8 +47,8 @@ describe('Unit | UseCase | create-user-from-cnav', function () {
       create: sinon.stub(),
     };
 
-    authenticationService = {
-      getCnavUserInfo: sinon.stub(),
+    cnavAuthenticationService = {
+      getUserInfo: sinon.stub(),
     };
   });
 
@@ -67,7 +67,7 @@ describe('Unit | UseCase | create-user-from-cnav', function () {
       authenticationMethodRepository,
       cnavTokensRepository,
       userToCreateRepository,
-      authenticationService,
+      cnavAuthenticationService,
     });
 
     // then
@@ -94,7 +94,7 @@ describe('Unit | UseCase | create-user-from-cnav', function () {
         externalIdentityId: 'externalIdentityId',
         nonce: 'nonce',
       };
-      authenticationService.getCnavUserInfo.withArgs(cnavTokens.idToken).resolves(decodedUserInfo);
+      cnavAuthenticationService.getUserInfo.withArgs(cnavTokens.idToken).resolves(decodedUserInfo);
 
       authenticationMethodRepository.findOneByExternalIdentifierAndIdentityProvider
         .withArgs({
@@ -122,7 +122,7 @@ describe('Unit | UseCase | create-user-from-cnav', function () {
         authenticationMethodRepository,
         cnavTokensRepository,
         userToCreateRepository,
-        authenticationService,
+        cnavAuthenticationService,
       });
 
       // then
@@ -162,7 +162,7 @@ describe('Unit | UseCase | create-user-from-cnav', function () {
         nonce: 'nonce',
       };
 
-      authenticationService.getCnavUserInfo.withArgs(cnavTokens.idToken).resolves(decodedUserInfo);
+      cnavAuthenticationService.getUserInfo.withArgs(cnavTokens.idToken).resolves(decodedUserInfo);
 
       sinon.stub(logger, 'error');
 
@@ -172,7 +172,7 @@ describe('Unit | UseCase | create-user-from-cnav', function () {
         authenticationMethodRepository,
         cnavTokensRepository,
         userToCreateRepository,
-        authenticationService,
+        cnavAuthenticationService,
       });
 
       // then
@@ -204,7 +204,7 @@ describe('Unit | UseCase | create-user-from-cnav', function () {
         externalIdentityId: 'externalIdentityId',
         nonce: 'nonce',
       };
-      authenticationService.getCnavUserInfo.withArgs(cnavTokens.idToken).resolves(decodedUserInfo);
+      cnavAuthenticationService.getUserInfo.withArgs(cnavTokens.idToken).resolves(decodedUserInfo);
 
       const authenticationMethod = domainBuilder.buildAuthenticationMethod.withCnavAsIdentityProvider({ userId });
       authenticationMethodRepository.findOneByExternalIdentifierAndIdentityProvider
@@ -220,7 +220,7 @@ describe('Unit | UseCase | create-user-from-cnav', function () {
         authenticationMethodRepository,
         cnavTokensRepository,
         userToCreateRepository,
-        authenticationService,
+        cnavAuthenticationService,
       });
 
       // then

@@ -1,7 +1,7 @@
 const usecases = require('../../domain/usecases');
 const tokenService = require('../../domain/services/token-service');
 const userRepository = require('../../infrastructure/repositories/user-repository');
-const authenticationService = require('../../../lib/domain/services/authentication-service');
+const cnavAuthenticationService = require('../../../lib/domain/services/cnav-authentication-service');
 
 module.exports = {
   async createUser(request, h) {
@@ -20,7 +20,7 @@ module.exports = {
   },
 
   async getAuthUrl(request, h) {
-    const result = authenticationService.getCnavAuthUrl({
+    const result = cnavAuthenticationService.getAuthUrl({
       redirectUri: request.query['redirect_uri'],
     });
     return h.response(result).code(200);

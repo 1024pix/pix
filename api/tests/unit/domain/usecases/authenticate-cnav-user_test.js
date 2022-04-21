@@ -13,7 +13,7 @@ const logger = require('../../../../lib/infrastructure/logger');
 const authenticateCnavUser = require('../../../../lib/domain/usecases/authenticate-cnav-user');
 
 describe('Unit | UseCase | authenticate-cnav-user', function () {
-  let authenticationService;
+  let cnavAuthenticationService;
   let tokenService;
 
   let authenticationMethodRepository;
@@ -25,9 +25,9 @@ describe('Unit | UseCase | authenticate-cnav-user', function () {
   beforeEach(function () {
     clock = sinon.useFakeTimers(Date.now());
 
-    authenticationService = {
-      exchangeCnavCodeForTokens: sinon.stub(),
-      getCnavUserInfo: sinon.stub(),
+    cnavAuthenticationService = {
+      exchangeCodeForTokens: sinon.stub(),
+      getUserInfo: sinon.stub(),
     };
 
     tokenService = {
@@ -74,7 +74,7 @@ describe('Unit | UseCase | authenticate-cnav-user', function () {
         redirectUri: 'redirectUri',
         stateReceived,
         stateSent,
-        authenticationService,
+        cnavAuthenticationService,
         tokenService,
         authenticationMethodRepository,
         cnavTokensRepository,
@@ -92,7 +92,7 @@ describe('Unit | UseCase | authenticate-cnav-user', function () {
   context('When user has an account', function () {
     it('should call authenticate cnav user with code and redirectUri parameters', async function () {
       // given
-      _fakeCnavAPI({ authenticationService });
+      _fakeCnavAPI({ cnavAuthenticationService });
       tokenService.createAccessTokenForCnav.returns('access-token');
 
       // when
@@ -103,7 +103,7 @@ describe('Unit | UseCase | authenticate-cnav-user', function () {
         redirectUri: 'redirectUri',
         stateReceived: 'state',
         stateSent: 'state',
-        authenticationService,
+        cnavAuthenticationService,
         tokenService,
         authenticationMethodRepository,
         cnavTokensRepository,
@@ -111,7 +111,7 @@ describe('Unit | UseCase | authenticate-cnav-user', function () {
       });
 
       // then
-      expect(authenticationService.exchangeCnavCodeForTokens).to.have.been.calledWith({
+      expect(cnavAuthenticationService.exchangeCodeForTokens).to.have.been.calledWith({
         code: 'code',
         redirectUri: 'redirectUri',
       });
@@ -119,7 +119,7 @@ describe('Unit | UseCase | authenticate-cnav-user', function () {
 
     it('should call get cnav user info with id token parameter', async function () {
       // given
-      _fakeCnavAPI({ authenticationService });
+      _fakeCnavAPI({ cnavAuthenticationService });
       tokenService.createAccessTokenForCnav.returns('access-token');
 
       // when
@@ -130,7 +130,7 @@ describe('Unit | UseCase | authenticate-cnav-user', function () {
         redirectUri: 'redirectUri',
         stateReceived: 'state',
         stateSent: 'state',
-        authenticationService,
+        cnavAuthenticationService,
         tokenService,
         authenticationMethodRepository,
         cnavTokensRepository,
@@ -138,7 +138,7 @@ describe('Unit | UseCase | authenticate-cnav-user', function () {
       });
 
       // then
-      expect(authenticationService.getCnavUserInfo).to.have.been.calledWith('idToken');
+      expect(cnavAuthenticationService.getUserInfo).to.have.been.calledWith('idToken');
     });
 
     it('should call tokenService createAccessTokenForCnav function with user id', async function () {
@@ -147,7 +147,7 @@ describe('Unit | UseCase | authenticate-cnav-user', function () {
       user.externalIdentityId = '094b83ac-2e20-4aa8-b438-0bc91748e4a6';
       tokenService.createAccessTokenForCnav.returns('access-token');
 
-      _fakeCnavAPI({ authenticationService });
+      _fakeCnavAPI({ cnavAuthenticationService });
       userRepository.findByCnavExternalIdentifier.resolves({ id: 1 });
 
       // when
@@ -158,7 +158,7 @@ describe('Unit | UseCase | authenticate-cnav-user', function () {
         redirectUri: 'redirectUri',
         stateReceived: 'state',
         stateSent: 'state',
-        authenticationService,
+        cnavAuthenticationService,
         tokenService,
         authenticationMethodRepository,
         cnavTokensRepository,
@@ -171,7 +171,7 @@ describe('Unit | UseCase | authenticate-cnav-user', function () {
 
     it('should return accessToken and idToken', async function () {
       // given
-      const { cnavTokens } = _fakeCnavAPI({ authenticationService });
+      const { cnavTokens } = _fakeCnavAPI({ cnavAuthenticationService });
       const authenticatedUserId = 1;
       tokenService.createAccessTokenForCnav.withArgs(authenticatedUserId).returns('access-token');
 
@@ -183,7 +183,7 @@ describe('Unit | UseCase | authenticate-cnav-user', function () {
         redirectUri: 'redirectUri',
         stateReceived: 'state',
         stateSent: 'state',
-        authenticationService,
+        cnavAuthenticationService,
         tokenService,
         authenticationMethodRepository,
         cnavTokensRepository,
@@ -200,7 +200,7 @@ describe('Unit | UseCase | authenticate-cnav-user', function () {
 
     it('should save last logged at date', async function () {
       // given
-      _fakeCnavAPI({ authenticationService });
+      _fakeCnavAPI({ cnavAuthenticationService });
       tokenService.createAccessTokenForCnav.returns('access-token');
 
       // when
@@ -211,7 +211,7 @@ describe('Unit | UseCase | authenticate-cnav-user', function () {
         redirectUri: 'redirectUri',
         stateReceived: 'state',
         stateSent: 'state',
-        authenticationService,
+        cnavAuthenticationService,
         tokenService,
         authenticationMethodRepository,
         cnavTokensRepository,
@@ -226,7 +226,7 @@ describe('Unit | UseCase | authenticate-cnav-user', function () {
       it('should call authentication repository updateCnavAuthenticationComplementByUserId function', async function () {
         // given
         userRepository.findByCnavExternalIdentifier.resolves({ id: 1 });
-        const { cnavTokens } = _fakeCnavAPI({ authenticationService });
+        const { cnavTokens } = _fakeCnavAPI({ cnavAuthenticationService });
         tokenService.createAccessTokenForCnav.returns('access-token');
 
         // when
@@ -237,7 +237,7 @@ describe('Unit | UseCase | authenticate-cnav-user', function () {
           redirectUri: 'redirectUri',
           stateReceived: 'state',
           stateSent: 'state',
-          authenticationService,
+          cnavAuthenticationService,
           tokenService,
           authenticationMethodRepository,
           cnavTokensRepository,
@@ -259,7 +259,7 @@ describe('Unit | UseCase | authenticate-cnav-user', function () {
       it('should also save last logged at date', async function () {
         // given
         userRepository.findByCnavExternalIdentifier.resolves({ id: 123 });
-        _fakeCnavAPI({ authenticationService });
+        _fakeCnavAPI({ cnavAuthenticationService });
         tokenService.createAccessTokenForCnav.returns('access-token');
 
         // when
@@ -270,7 +270,7 @@ describe('Unit | UseCase | authenticate-cnav-user', function () {
           redirectUri: 'redirectUri',
           stateReceived: 'state',
           stateSent: 'state',
-          authenticationService,
+          cnavAuthenticationService,
           tokenService,
           authenticationMethodRepository,
           cnavTokensRepository,
@@ -286,7 +286,7 @@ describe('Unit | UseCase | authenticate-cnav-user', function () {
       context('When the user does not have a cnav authentication method', function () {
         it('should call authentication method repository create function with cnav authentication method in domain transaction', async function () {
           // given
-          const { cnavTokens } = _fakeCnavAPI({ authenticationService });
+          const { cnavTokens } = _fakeCnavAPI({ cnavAuthenticationService });
           userRepository.findByCnavExternalIdentifier.resolves(null);
           tokenService.createAccessTokenForCnav.returns('access-token');
 
@@ -298,7 +298,7 @@ describe('Unit | UseCase | authenticate-cnav-user', function () {
             redirectUri: 'redirectUri',
             stateReceived: 'state',
             stateSent: 'state',
-            authenticationService,
+            cnavAuthenticationService,
             tokenService,
             authenticationMethodRepository,
             cnavTokensRepository,
@@ -325,7 +325,7 @@ describe('Unit | UseCase | authenticate-cnav-user', function () {
       context('When the user does have a cnav authentication method', function () {
         it('should call authentication repository updateCnavAuthenticationComplementByUserId function', async function () {
           // given
-          const { cnavTokens } = _fakeCnavAPI({ authenticationService });
+          const { cnavTokens } = _fakeCnavAPI({ cnavAuthenticationService });
           authenticationMethodRepository.findOneByUserIdAndIdentityProvider.resolves(
             domainBuilder.buildAuthenticationMethod.withCnavAsIdentityProvider({
               externalIdentifier: '094b83ac-2e20-4aa8-b438-0bc91748e4a6',
@@ -341,7 +341,7 @@ describe('Unit | UseCase | authenticate-cnav-user', function () {
             redirectUri: 'redirectUri',
             stateReceived: 'state',
             stateSent: 'state',
-            authenticationService,
+            cnavAuthenticationService,
             tokenService,
             authenticationMethodRepository,
             cnavTokensRepository,
@@ -362,7 +362,7 @@ describe('Unit | UseCase | authenticate-cnav-user', function () {
 
         it('should throw an UnexpectedUserAccountError error if the external identifier does not match the one in the cnav id token', async function () {
           // given
-          _fakeCnavAPI({ authenticationService });
+          _fakeCnavAPI({ cnavAuthenticationService });
 
           authenticationMethodRepository.findOneByUserIdAndIdentityProvider.resolves(
             domainBuilder.buildAuthenticationMethod.withCnavAsIdentityProvider({
@@ -378,7 +378,7 @@ describe('Unit | UseCase | authenticate-cnav-user', function () {
             redirectUri: 'redirectUri',
             stateReceived: 'state',
             stateSent: 'state',
-            authenticationService,
+            cnavAuthenticationService,
             tokenService,
             authenticationMethodRepository,
             cnavTokensRepository,
@@ -395,7 +395,7 @@ describe('Unit | UseCase | authenticate-cnav-user', function () {
   context('When user has no account', function () {
     it('should call CnavTokens repository save method', async function () {
       // given
-      const { cnavTokens } = _fakeCnavAPI({ authenticationService });
+      const { cnavTokens } = _fakeCnavAPI({ cnavAuthenticationService });
       const key = 'aaa-bbb-ccc';
       cnavTokensRepository.save.resolves(key);
       userRepository.findByCnavExternalIdentifier.resolves(null);
@@ -408,7 +408,7 @@ describe('Unit | UseCase | authenticate-cnav-user', function () {
         redirectUri: 'redirectUri',
         stateReceived: 'state',
         stateSent: 'state',
-        authenticationService,
+        cnavAuthenticationService,
         tokenService,
         authenticationMethodRepository,
         cnavTokensRepository,
@@ -422,7 +422,7 @@ describe('Unit | UseCase | authenticate-cnav-user', function () {
     it('should return an authenticationKey', async function () {
       // given
       const key = 'aaa-bbb-ccc';
-      _fakeCnavAPI({ authenticationService });
+      _fakeCnavAPI({ cnavAuthenticationService });
       cnavTokensRepository.save.resolves(key);
       userRepository.findByCnavExternalIdentifier.resolves(null);
 
@@ -434,7 +434,7 @@ describe('Unit | UseCase | authenticate-cnav-user', function () {
         redirectUri: 'redirectUri',
         stateReceived: 'state',
         stateSent: 'state',
-        authenticationService,
+        cnavAuthenticationService,
         tokenService,
         authenticationMethodRepository,
         cnavTokensRepository,
@@ -447,7 +447,7 @@ describe('Unit | UseCase | authenticate-cnav-user', function () {
   });
 });
 
-function _fakeCnavAPI({ authenticationService }) {
+function _fakeCnavAPI({ cnavAuthenticationService }) {
   const cnavTokens = new CnavTokens({
     accessToken: 'cnavAccessToken',
     expiresIn: 60,
@@ -460,8 +460,8 @@ function _fakeCnavAPI({ authenticationService }) {
     externalIdentityId: '094b83ac-2e20-4aa8-b438-0bc91748e4a6',
   };
 
-  authenticationService.exchangeCnavCodeForTokens.resolves(cnavTokens);
-  authenticationService.getCnavUserInfo.resolves(userInfo);
+  cnavAuthenticationService.exchangeCodeForTokens.resolves(cnavTokens);
+  cnavAuthenticationService.getUserInfo.resolves(userInfo);
 
   return { cnavTokens };
 }
