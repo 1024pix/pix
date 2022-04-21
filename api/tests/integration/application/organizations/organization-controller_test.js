@@ -24,10 +24,12 @@ describe('Integration | Application | Organizations | organization-controller', 
     sandbox.stub(usecases, 'findCertificationAttestationsForDivision');
     sandbox.stub(usecases, 'findGroupsByOrganization');
     sandbox.stub(usecases, 'findDivisionsByOrganization');
+    sandbox.stub(usecases, 'findOrganizationPlaces');
 
     sandbox.stub(certificationAttestationPdf, 'getCertificationAttestationsPdfBuffer');
 
     sandbox.stub(securityPreHandlers, 'checkUserIsAdminInOrganization');
+    sandbox.stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin');
     sandbox.stub(securityPreHandlers, 'checkUserBelongsToOrganizationManagingStudents');
     sandbox.stub(securityPreHandlers, 'checkUserBelongsToScoOrganizationAndManagesStudents');
     sandbox.stub(securityPreHandlers, 'checkUserBelongsToSupOrganizationAndManagesStudents');
@@ -212,6 +214,31 @@ describe('Integration | Application | Organizations | organization-controller', 
 
         // when
         const response = await httpTestServer.request('GET', '/api/organizations/1/invitations');
+
+        // then
+        expect(response.statusCode).to.equal(200);
+      });
+    });
+  });
+
+  describe('#findOrganizationPlaces', function () {
+    context('Success cases', function () {
+      it('should return an HTTP response with status code 200', async function () {
+        // given
+        const organizationId = domainBuilder.buildOrganization().id;
+        const place = domainBuilder.buildOrganizationPlace({
+          organizationId,
+          count: 18,
+          activationDate: new Date('2020-01-01'),
+          expiredDate: new Date('2021-01-01'),
+          reference: 'Toho Godzilla',
+          category: 'T2',
+        });
+        usecases.findOrganizationPlaces.resolves([place]);
+        securityPreHandlers.checkUserHasRoleSuperAdmin.returns(true);
+
+        // when
+        const response = await httpTestServer.request('GET', `/api/admin/organizations/${organizationId}/places`);
 
         // then
         expect(response.statusCode).to.equal(200);

@@ -210,6 +210,29 @@ exports.register = async (server) => {
     },
     {
       method: 'GET',
+      path: '/api/admin/organizations/{id}/places',
+      config: {
+        pre: [
+          {
+            method: securityPreHandlers.checkUserHasRoleSuperAdmin,
+            assign: 'hasRoleSuperAdmin',
+          },
+        ],
+        validate: {
+          params: Joi.object({
+            id: identifiersType.organizationId,
+          }),
+        },
+        handler: organizationController.findOrganizationPlaces,
+        tags: ['api', 'organizations'],
+        notes: [
+          'Cette route est restreinte aux administrateurs authentifiés',
+          "Elle retourne la liste des commandes de places faites par l'organisation",
+        ],
+      },
+    },
+    {
+      method: 'GET',
       path: '/api/organizations/{id}/memberships',
       config: {
         pre: [

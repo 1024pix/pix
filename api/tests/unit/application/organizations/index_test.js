@@ -318,12 +318,47 @@ describe('Unit | Router | organization-router', function () {
     });
   });
 
+  describe('GET /api/admin/organizations/{id}/places', function () {
+    it('should return BadRequest (400) if id is not numeric', async function () {
+      // given
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      const idNotNumeric = 'foo';
+      const method = 'GET';
+      const url = `/api/admin/organizations/${idNotNumeric}/places`;
+
+      // when
+      const response = await httpTestServer.request(method, url);
+
+      // then
+      expect(response.statusCode).to.equal(400);
+    });
+
+    it('should return an empty list when no places is found', async function () {
+      // given
+      sinon.stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin').returns(true);
+      sinon.stub(usecases, 'findOrganizationPlaces').returns([]);
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      const method = 'GET';
+      const url = '/api/admin/organizations/1/places';
+
+      // when
+      const response = await httpTestServer.request(method, url);
+
+      // then
+      expect(response.statusCode).to.equal(200);
+      expect(response.result.data).to.deep.equal([]);
+    });
+  });
+
   describe('GET /api/organizations/{id}/invitations', function () {
     it('should return an empty list when no organization is found', async function () {
       // given
       sinon.stub(usecases, 'findPendingOrganizationInvitations').resolves([]);
       sinon.stub(securityPreHandlers, 'checkUserIsAdminInOrganization').returns(true);
-      sinon.stub(organizationController, 'findPaginatedFilteredOrganizations').returns('ok');
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
 
