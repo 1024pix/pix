@@ -48,6 +48,10 @@ Router.map(function () {
       this.route('get', { path: '/:user_id' });
     });
 
+    this.route('team', { path: '/equipe' }, function () {
+      this.route('list', { path: '/' });
+    });
+
     this.route('certification-centers', function () {
       this.route('get', { path: '/:certification_center_id' });
       this.route('list');
