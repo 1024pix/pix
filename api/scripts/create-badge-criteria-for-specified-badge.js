@@ -1,5 +1,6 @@
 ('use strict');
 const Joi = require('joi');
+const bluebird = require('bluebird');
 const { NotFoundError } = require('../lib/domain/errors');
 const BadgeCriterion = require('../lib/domain/models/BadgeCriterion');
 const badgeRepository = require('../lib/infrastructure/repositories/badge-repository');
@@ -41,23 +42,19 @@ async function main() {
   console.log('BadgeCriteria schema ok');
 
   console.log('Check skillSet');
-  await Promise.all(
-    jsonFile.criteria.map((badgeCriterion) => {
-      if (badgeCriterion.skillSetIds) {
-        checkSkillSetIds(badgeCriterion.skillSetIds);
-      }
-    })
-  );
+  await bluebird.mapSeries(jsonFile.criteria, async (badgeCriterion) => {
+    if (badgeCriterion.skillSetIds) {
+      await checkSkillSetIds(badgeCriterion.skillSetIds);
+    }
+  });
   console.log('Check skillSet ok');
 
   console.log('Creating badge criteria... ');
   console.log('Saving badge criteria... ');
   return DomainTransaction.execute(async (domainTransaction) => {
-    await Promise.all(
-      jsonFile.criteria.map(async (badgeCriterion) => {
-        return _createBadgeCriterion({ ...badgeCriterion, badgeId: jsonFile.badgeId }, domainTransaction);
-      })
-    );
+    await bluebird.mapSeries(jsonFile.criteria, (badgeCriterion) => {
+      return _createBadgeCriterion({ ...badgeCriterion, badgeId: jsonFile.badgeId }, domainTransaction);
+    });
   });
 }
 
@@ -114,12 +111,10 @@ async function _createBadgeCriterion(badgeCriterion, domainTransaction) {
 
 async function copySkillSets({ skillSetIds, newBadgeId }) {
   const skillSets = await knex('skill-sets').select('name', 'skillIds').whereIn('id', skillSetIds);
-  return Promise.all(
-    skillSets.map(async (skillSet) => {
-      const savedSkillSet = await skillSetRepository.save({ skillSet: { ...skillSet, badgeId: newBadgeId } });
-      return savedSkillSet.id;
-    })
-  );
+  return bluebird.mapSeries(skillSets, async (skillSet) => {
+    const savedSkillSet = await skillSetRepository.save({ skillSet: { ...skillSet, badgeId: newBadgeId } });
+    return savedSkillSet.id;
+  });
 }
 
 if (require.main === module) {
