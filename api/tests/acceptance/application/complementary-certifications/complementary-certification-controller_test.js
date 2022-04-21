@@ -1,7 +1,7 @@
 const {
   expect,
   databaseBuilder,
-  insertUserWithRolePixMaster,
+  insertUserWithRoleSuperAdmin,
   generateValidRequestAuthorizationHeader,
 } = require('../../../test-helper');
 const createServer = require('../../../../server');
@@ -16,12 +16,12 @@ describe('Acceptance | API | complementary-certification-controller', function (
   describe('GET /api/habilitations/', function () {
     it('should return 200 HTTP status code', async function () {
       // given
-      const pixMaster = await insertUserWithRolePixMaster();
+      const superAdmin = await insertUserWithRoleSuperAdmin();
       const options = {
         method: 'GET',
         url: '/api/habilitations',
         headers: {
-          authorization: generateValidRequestAuthorizationHeader(pixMaster.id),
+          authorization: generateValidRequestAuthorizationHeader(superAdmin.id),
         },
       };
       databaseBuilder.factory.buildComplementaryCertification({

@@ -8,8 +8,8 @@ module.exports = {
       sessionId
     );
     if (!hasMembershipAccess) {
-      const isPixMaster = await userRepository.isPixMaster(userId);
-      if (!isPixMaster) {
+      const isSuperAdmin = await userRepository.isSuperAdmin(userId);
+      if (!isSuperAdmin) {
         return false;
       }
     }

@@ -104,10 +104,10 @@ function organizationsProBuilder({ databaseBuilder }) {
   });
 
   /* ARCHIVÉE */
-  const pixMaster = databaseBuilder.factory.buildUser.withRawPassword({
+  const pixSuperAdmin = databaseBuilder.factory.buildUser.withRawPassword({
     firstName: 'Clément',
     lastName: 'Tine',
-    email: 'pix.master@example.net',
+    email: 'pix.superuser@example.net',
     rawPassword: DEFAULT_PASSWORD,
   });
   const membership1 = databaseBuilder.factory.buildUser.withRawPassword({
@@ -130,7 +130,7 @@ function organizationsProBuilder({ databaseBuilder }) {
     type: 'PRO',
     name: 'Orga archivée',
     archivedAt,
-    archivedBy: pixMaster.id,
+    archivedBy: pixSuperAdmin.id,
   });
   databaseBuilder.factory.buildMembership({
     userId: membership1.id,

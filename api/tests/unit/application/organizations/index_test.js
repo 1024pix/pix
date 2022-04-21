@@ -12,7 +12,7 @@ describe('Unit | Router | organization-router', function () {
 
     it('should return OK (200) when request is valid', async function () {
       // given
-      sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').returns(true);
+      sinon.stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin').returns(true);
       sinon.stub(organizationController, 'findPaginatedFilteredOrganizations').returns('ok');
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -201,7 +201,7 @@ describe('Unit | Router | organization-router', function () {
 
     it('should return HTTP code 201', async function () {
       // given
-      sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').returns(true);
+      sinon.stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin').returns(true);
       sinon
         .stub(organizationController, 'sendInvitationByLangAndRole')
         .callsFake((request, h) => h.response().created());
@@ -291,9 +291,9 @@ describe('Unit | Router | organization-router', function () {
       expect(response.statusCode).to.equal(400);
     });
 
-    it('should check if user is Pix Master', async function () {
+    it('should check if user is Super Admin', async function () {
       // given
-      sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').resolves(false);
+      sinon.stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin').resolves(false);
       sinon
         .stub(organizationController, 'sendInvitationByLangAndRole')
         .callsFake((request, h) => h.response().created());
@@ -314,7 +314,7 @@ describe('Unit | Router | organization-router', function () {
       await httpTestServer.request(method, url, payload);
 
       // then
-      expect(securityPreHandlers.checkUserHasRolePixMaster).to.have.be.called;
+      expect(securityPreHandlers.checkUserHasRoleSuperAdmin).to.have.be.called;
     });
   });
 

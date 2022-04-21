@@ -32,7 +32,7 @@ module.exports = {
   },
   PIX_ADMIN: {
     SCOPE: 'pix-admin',
-    NOT_PIXMASTER_MSG: "Vous n'avez pas les droits pour vous connecter.",
+    NOT_SUPERADMIN_MSG: "Vous n'avez pas les droits pour vous connecter.",
   },
   PIX_CERTIF: {
     SCOPE: 'pix-certif',

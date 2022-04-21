@@ -8,7 +8,7 @@ const {
   SUP_CERTIF_CENTER_NAME,
   SUP_CERTIF_CENTER_ID,
 } = require('./certification-centers-builder');
-const { PIX_MASTER_ID } = require('./../users-builder');
+const { PIX_SUPER_ADMIN_ID } = require('./../users-builder');
 const EMPTY_SESSION_ID = 1;
 const STARTED_SESSION_ID = 2;
 const STARTED_SESSION_WITH_LOT_OF_CANDIDATES_ID = 3;
@@ -88,9 +88,9 @@ function certificationSessionsBuilder({ databaseBuilder }) {
     accessCode: 'ANNE06',
     examinerGlobalComment: 'Une météorite est tombée sur le centre de certification pendant la session !!',
     finalizedAt: new Date('2020-05-05T15:00:34Z'),
-    assignedCertificationOfficerId: PIX_MASTER_ID,
+    assignedCertificationOfficerId: PIX_SUPER_ADMIN_ID,
     juryComment: 'Tu te rends compte, si on n’avait pas perdu une heure et quart, on serait là depuis une heure et quart !',
-    juryCommentAuthorId: PIX_MASTER_ID,
+    juryCommentAuthorId: PIX_SUPER_ADMIN_ID,
     juryCommentedAt: new Date('2021-04-28T00:42:03Z'),
   });
 
@@ -101,7 +101,7 @@ function certificationSessionsBuilder({ databaseBuilder }) {
     publishedAt: null,
     date, time,
     finalizedAt: new Date('2020-05-05T15:00:34Z'),
-    assignedCertificationOfficerName: 'Pix Master',
+    assignedCertificationOfficerName: 'Super Admin',
   });
 
   databaseBuilder.factory.buildSession({

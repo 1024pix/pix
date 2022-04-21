@@ -20,13 +20,13 @@ describe('Unit | Application | Certifications Issue Report | Route', function ()
   });
 
   describe('PATCH /api/certification-issue-reports/{id}', function () {
-    context('when user is pixmaster', function () {
+    context('when user is ', function () {
       context('when no resolution is given', function () {
         it('should return 204', async function () {
           // given
           sinon.stub(certificationIssueReportController, 'manuallyResolve').callsFake((_, h) => h.response().code(204));
-          sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster');
-          securityPreHandlers.checkUserHasRolePixMaster.callsFake((_, h) => h.response(true));
+          sinon.stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin');
+          securityPreHandlers.checkUserHasRoleSuperAdmin.callsFake((_, h) => h.response(true));
 
           const httpTestServer = new HttpTestServer();
           await httpTestServer.register(moduleUnderTest);
@@ -44,12 +44,12 @@ describe('Unit | Application | Certifications Issue Report | Route', function ()
       });
     });
 
-    context('when user is not pixmaster', function () {
+    context('when user is not Super Admin', function () {
       it('should throw 403', async function () {
         // given
         sinon.stub(certificationIssueReportController, 'manuallyResolve').callsFake((_, h) => h.response().code(204));
-        sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster');
-        securityPreHandlers.checkUserHasRolePixMaster.callsFake((request, h) => h.response().code(403).takeover());
+        sinon.stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin');
+        securityPreHandlers.checkUserHasRoleSuperAdmin.callsFake((request, h) => h.response().code(403).takeover());
 
         const httpTestServer = new HttpTestServer();
         await httpTestServer.register(moduleUnderTest);

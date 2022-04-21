@@ -37,10 +37,10 @@ describe('Unit | UseCase | create-organization', function () {
       expect(organizationCreationValidator.validate).to.have.been.calledWithExactly({ name, type, documentationUrl });
     });
 
-    it('should create a new Organization Entity with Pix Master userId', async function () {
+    it('should create a new Organization Entity with Super Admin userId', async function () {
       // given
-      const pixMasterUserId = 10;
-      const createdBy = pixMasterUserId;
+      const superAdminUserId = 10;
+      const createdBy = superAdminUserId;
       const expectedOrganization = new Organization({
         createdBy,
         name,

@@ -1,7 +1,7 @@
 const {
   expect,
   generateValidRequestAuthorizationHeader,
-  insertUserWithRolePixMaster,
+  insertUserWithRoleSuperAdmin,
   databaseBuilder,
   knex,
   sinon,
@@ -13,7 +13,7 @@ describe('Acceptance | API | Certification Center Membership', function () {
 
   beforeEach(async function () {
     server = await createServer();
-    await insertUserWithRolePixMaster();
+    await insertUserWithRoleSuperAdmin();
   });
 
   describe('POST /api/certification-center-memberships', function () {
@@ -21,7 +21,7 @@ describe('Acceptance | API | Certification Center Membership', function () {
       await knex('certification-center-memberships').delete();
     });
 
-    context('when user is Pix Master', function () {
+    context('when user is Super Admin', function () {
       it('should return 201 HTTP status', async function () {
         // given
         const user = databaseBuilder.factory.buildUser();
@@ -51,7 +51,7 @@ describe('Acceptance | API | Certification Center Membership', function () {
       });
     });
 
-    context('when user is not PixMaster', function () {
+    context('when user is not SuperAdmin', function () {
       it('should return 403 HTTP status code ', async function () {
         // given
         const user = databaseBuilder.factory.buildUser();

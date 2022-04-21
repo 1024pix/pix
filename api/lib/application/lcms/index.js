@@ -9,14 +9,14 @@ exports.register = async function (server) {
       config: {
         pre: [
           {
-            method: securityPreHandlers.checkUserHasRolePixMaster,
-            assign: 'hasRolePixMaster',
+            method: securityPreHandlers.checkUserHasRoleSuperAdmin,
+            assign: 'hasRoleSuperAdmin',
           },
         ],
         handler: LcmsController.createRelease,
         tags: ['api', 'lcms'],
         notes: [
-          'Cette route est restreinte aux utilisateurs authentifiés avec le rôle Pix Master',
+          'Cette route est restreinte aux utilisateurs authentifiés avec le rôle Super Admin',
           'Elle permet de demander la création d’une nouvelle version au référentiel et de recharger le cache',
         ],
       },

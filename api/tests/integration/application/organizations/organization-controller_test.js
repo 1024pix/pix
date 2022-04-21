@@ -27,13 +27,13 @@ describe('Integration | Application | Organizations | organization-controller', 
 
     sandbox.stub(certificationAttestationPdf, 'getCertificationAttestationsPdfBuffer');
 
-    sandbox.stub(securityPreHandlers, 'checkUserHasRolePixMaster');
+    sandbox.stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin');
     sandbox.stub(securityPreHandlers, 'checkUserIsAdminInOrganization');
     sandbox.stub(securityPreHandlers, 'checkUserBelongsToOrganizationManagingStudents');
     sandbox.stub(securityPreHandlers, 'checkUserBelongsToScoOrganizationAndManagesStudents');
     sandbox.stub(securityPreHandlers, 'checkUserBelongsToSupOrganizationAndManagesStudents');
     sandbox.stub(securityPreHandlers, 'checkUserIsAdminInSCOOrganizationManagingStudents');
-    sandbox.stub(securityPreHandlers, 'checkUserBelongsToOrganizationOrHasRolePixMaster');
+    sandbox.stub(securityPreHandlers, 'checkUserBelongsToOrganizationOrhasRoleSuperAdmin');
     httpTestServer = new HttpTestServer();
     await httpTestServer.register(moduleUnderTest);
   });
@@ -65,7 +65,7 @@ describe('Integration | Application | Organizations | organization-controller', 
         // given
         const organization = domainBuilder.buildOrganization();
         usecases.updateOrganizationInformation.resolves(organization);
-        securityPreHandlers.checkUserHasRolePixMaster.callsFake((request, h) => h.response(true));
+        securityPreHandlers.checkUserHasRoleSuperAdmin.callsFake((request, h) => h.response(true));
 
         // when
         const response = await httpTestServer.request('PATCH', '/api/organizations/1234', payload);
@@ -78,7 +78,7 @@ describe('Integration | Application | Organizations | organization-controller', 
         // given
         const organization = domainBuilder.buildOrganization();
         usecases.updateOrganizationInformation.resolves(organization);
-        securityPreHandlers.checkUserHasRolePixMaster.callsFake((request, h) => h.response(true));
+        securityPreHandlers.checkUserHasRoleSuperAdmin.callsFake((request, h) => h.response(true));
 
         // when
         const response = await httpTestServer.request('PATCH', '/api/organizations/1234', payload);
@@ -92,7 +92,7 @@ describe('Integration | Application | Organizations | organization-controller', 
       context('when user is not allowed to access resource', function () {
         it('should resolve a 403 HTTP response', async function () {
           // given
-          securityPreHandlers.checkUserHasRolePixMaster.callsFake((request, h) => {
+          securityPreHandlers.checkUserHasRoleSuperAdmin.callsFake((request, h) => {
             return Promise.resolve(h.response().code(403).takeover());
           });
 
@@ -109,7 +109,7 @@ describe('Integration | Application | Organizations | organization-controller', 
   describe('#findPaginatedFilteredOrganizationMemberships', function () {
     context('Success cases', function () {
       beforeEach(function () {
-        securityPreHandlers.checkUserBelongsToOrganizationOrHasRolePixMaster.returns(true);
+        securityPreHandlers.checkUserBelongsToOrganizationOrhasRoleSuperAdmin.returns(true);
       });
 
       it('should return an HTTP response with status code 200', async function () {
@@ -232,10 +232,10 @@ describe('Integration | Application | Organizations | organization-controller', 
     };
 
     context('Error cases', function () {
-      context('when user is not Pix Master', function () {
+      context('when user is not Super Admin', function () {
         it('should return a 403 HTTP response', async function () {
           // given
-          securityPreHandlers.checkUserHasRolePixMaster.callsFake((request, h) => {
+          securityPreHandlers.checkUserHasRoleSuperAdmin.callsFake((request, h) => {
             return Promise.resolve(h.response().code(403).takeover());
           });
 
@@ -250,7 +250,7 @@ describe('Integration | Application | Organizations | organization-controller', 
       context('when target-profile-id does not contain only numbers', function () {
         it('should return a 404 HTTP response', async function () {
           // given
-          securityPreHandlers.checkUserHasRolePixMaster.callsFake((request, h) => h.response(true));
+          securityPreHandlers.checkUserHasRoleSuperAdmin.callsFake((request, h) => h.response(true));
 
           // when
           payload.data.attributes['target-profiles-to-attach'] = ['sdqdqsd', 'qsqsdqd'];

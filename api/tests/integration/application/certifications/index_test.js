@@ -12,7 +12,7 @@ describe('Integration | Application | Route | Certifications', function () {
   beforeEach(async function () {
     sinon.stub(certificationController, 'findUserCertifications').returns('ok');
     sinon.stub(certificationController, 'getCertification').callsFake((request, h) => h.response('ok').code(200));
-    sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
+    sinon.stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin').callsFake((request, h) => h.response(true));
 
     httpTestServer = new HttpTestServer();
     await httpTestServer.register(moduleUnderTest);

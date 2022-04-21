@@ -20,7 +20,7 @@ describe('Acceptance | Application | SecurityPreHandlers', function () {
     server = await createServer();
   });
 
-  describe('#checkUserHasRolePixMaster', function () {
+  describe('#checkUserHasRoleSuperAdmin', function () {
     it('should return a well formed JSON API error when user is not authorized', async function () {
       // given
       const options = {
@@ -292,7 +292,7 @@ describe('Acceptance | Application | SecurityPreHandlers', function () {
     });
   });
 
-  describe('#checkUserBelongsToOrganizationOrHasRolePixMaster', function () {
+  describe('#checkUserBelongsToOrganizationOrhasRoleSuperAdmin', function () {
     let userId;
     let organizationId;
     let options;
@@ -310,7 +310,7 @@ describe('Acceptance | Application | SecurityPreHandlers', function () {
       await databaseBuilder.commit();
     });
 
-    it('should return a well formed JSON API error when user is neither in the organization nor PIXMASTER', async function () {
+    it('should return a well formed JSON API error when user is neither in the organization nor SUPERADMIN', async function () {
       // when
       const response = await server.inject(options);
 

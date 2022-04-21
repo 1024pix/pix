@@ -1,5 +1,5 @@
 /* eslint-disable  no-restricted-syntax */
-const checkUserHasRolePixMasterUseCase = require('./usecases/checkUserHasRolePixMaster');
+const checkUserHasRoleSuperAdminUseCase = require('./usecases/checkUserHasRoleSuperAdmin');
 const checkUserIsAdminInOrganizationUseCase = require('./usecases/checkUserIsAdminInOrganization');
 const checkUserBelongsToOrganizationManagingStudentsUseCase = require('./usecases/checkUserBelongsToOrganizationManagingStudents');
 const checkUserBelongsToScoOrganizationAndManagesStudentsUseCase = require('./usecases/checkUserBelongsToScoOrganizationAndManagesStudents');
@@ -26,7 +26,7 @@ function _replyForbiddenError(h) {
   return h.response(jsonApiError).code(errorHttpStatusCode).takeover();
 }
 
-async function checkUserHasRolePixMaster(request, h) {
+async function checkUserHasRoleSuperAdmin(request, h) {
   if (!request.auth.credentials || !request.auth.credentials.userId) {
     return _replyForbiddenError(h);
   }
@@ -34,8 +34,8 @@ async function checkUserHasRolePixMaster(request, h) {
   const userId = request.auth.credentials.userId;
 
   try {
-    const hasRolePixMaster = await checkUserHasRolePixMasterUseCase.execute(userId);
-    if (hasRolePixMaster) {
+    const hasRoleSuperAdmin = await checkUserHasRoleSuperAdminUseCase.execute(userId);
+    if (hasRoleSuperAdmin) {
       return h.response(true);
     }
     return _replyForbiddenError(h);
@@ -98,7 +98,7 @@ function checkUserIsMemberOfCertificationCenter(request, h) {
     .catch(() => _replyForbiddenError(h));
 }
 
-async function checkUserBelongsToOrganizationOrHasRolePixMaster(request, h) {
+async function checkUserBelongsToOrganizationOrhasRoleSuperAdmin(request, h) {
   if (!request.auth.credentials || !request.auth.credentials.userId) {
     return _replyForbiddenError(h);
   }
@@ -111,8 +111,8 @@ async function checkUserBelongsToOrganizationOrHasRolePixMaster(request, h) {
     return h.response(true);
   }
 
-  const hasRolePixMaster = await checkUserHasRolePixMasterUseCase.execute(userId);
-  if (hasRolePixMaster) {
+  const hasRoleSuperAdmin = await checkUserHasRoleSuperAdminUseCase.execute(userId);
+  if (hasRoleSuperAdmin) {
     return h.response(true);
   }
 
@@ -259,11 +259,11 @@ async function checkAuthorizationToManageCampaign(request, h) {
 
 module.exports = {
   checkRequestedUserIsAuthenticatedUser,
-  checkUserBelongsToOrganizationOrHasRolePixMaster,
+  checkUserBelongsToOrganizationOrhasRoleSuperAdmin,
   checkUserBelongsToOrganizationManagingStudents,
   checkUserBelongsToScoOrganizationAndManagesStudents,
   checkUserBelongsToSupOrganizationAndManagesStudents,
-  checkUserHasRolePixMaster,
+  checkUserHasRoleSuperAdmin,
   checkUserIsAdminInOrganization,
   checkAuthorizationToManageCampaign,
   checkUserIsAdminInSCOOrganizationManagingStudents,

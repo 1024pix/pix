@@ -35,10 +35,10 @@ describe('Acceptance | Controller | cache-controller', function () {
         expect(response.statusCode).to.equal(401);
       });
 
-      it('should respond with a 403 - forbidden access - if user has not role PIX_MASTER', async function () {
+      it('should respond with a 403 - forbidden access - if user has not role Super Admin', async function () {
         // given
-        const nonPixMasterUserId = 9999;
-        options.headers.authorization = generateValidRequestAuthorizationHeader(nonPixMasterUserId);
+        const nonSuperAdminUserId = 9999;
+        options.headers.authorization = generateValidRequestAuthorizationHeader(nonSuperAdminUserId);
 
         // when
         const response = await server.inject(options);
@@ -72,10 +72,10 @@ describe('Acceptance | Controller | cache-controller', function () {
         expect(response.statusCode).to.equal(401);
       });
 
-      it('should respond with a 403 - forbidden access - if user has not role PIX_MASTER', async function () {
+      it('should respond with a 403 - forbidden access - if user has not role Super Admin', async function () {
         // given
-        const nonPixMAsterUserId = 9999;
-        options.headers.authorization = generateValidRequestAuthorizationHeader(nonPixMAsterUserId);
+        const nonSuperAdminUserId = 9999;
+        options.headers.authorization = generateValidRequestAuthorizationHeader(nonSuperAdminUserId);
 
         // when
         const response = await server.inject(options);

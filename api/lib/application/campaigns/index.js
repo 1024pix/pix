@@ -51,7 +51,7 @@ exports.register = async function (server) {
       method: 'GET',
       path: '/api/admin/campaigns/{id}',
       config: {
-        pre: [{ method: securityPreHandlers.checkUserHasRolePixMaster }],
+        pre: [{ method: securityPreHandlers.checkUserHasRoleSuperAdmin }],
         validate: {
           params: Joi.object({
             id: identifiersType.campaignId,
@@ -60,7 +60,7 @@ exports.register = async function (server) {
         handler: campaignManagementController.getCampaignDetails,
         tags: ['api', 'campaign', 'admin'],
         notes: [
-          '- **Cette route est restreinte aux utilisateurs authentifiés avec le rôle Pix Master**\n' +
+          '- **Cette route est restreinte aux utilisateurs authentifiés avec le rôle Super Admin**\n' +
             "- Elle permet de récupérer le détail d'une campagne.",
         ],
       },
@@ -69,7 +69,7 @@ exports.register = async function (server) {
       method: 'GET',
       path: '/api/admin/campaigns/{id}/participations',
       config: {
-        pre: [{ method: securityPreHandlers.checkUserHasRolePixMaster }],
+        pre: [{ method: securityPreHandlers.checkUserHasRoleSuperAdmin }],
         validate: {
           params: Joi.object({
             id: identifiersType.campaignId,
@@ -82,7 +82,7 @@ exports.register = async function (server) {
         handler: campaignManagementController.findPaginatedParticipationsForCampaignManagement,
         tags: ['api', 'campaign', 'participations', 'admin'],
         notes: [
-          '- **Cette route est restreinte aux utilisateurs authentifiés avec le rôle Pix Master**\n' +
+          '- **Cette route est restreinte aux utilisateurs authentifiés avec le rôle Super Admin**\n' +
             "- Elle permet de récupérer les participations d'une campagne donnée.",
         ],
       },
@@ -91,7 +91,7 @@ exports.register = async function (server) {
       method: 'PATCH',
       path: '/api/admin/campaigns/{id}',
       config: {
-        pre: [{ method: securityPreHandlers.checkUserHasRolePixMaster }],
+        pre: [{ method: securityPreHandlers.checkUserHasRoleSuperAdmin }],
         validate: {
           params: Joi.object({
             id: identifiersType.campaignId,
@@ -117,7 +117,7 @@ exports.register = async function (server) {
         handler: campaignManagementController.updateCampaignDetailsManagement,
         tags: ['api', 'campaign', 'admin'],
         notes: [
-          '- **Cette route est restreinte aux utilisateurs authentifiés avec le rôle Pix Master**\n' +
+          '- **Cette route est restreinte aux utilisateurs authentifiés avec le rôle Super Admin**\n' +
             "- Elle permet de modifier certaines informations d'une campagne.",
         ],
       },

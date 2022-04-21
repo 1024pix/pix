@@ -10,7 +10,7 @@ describe('PATCH /api/admin/sessions/:id/certification-officer-assignment', funct
     server = await createServer();
   });
 
-  context('when user does not have the role PIX MASTER', function () {
+  context('when user does not have the role Super Admin', function () {
     beforeEach(function () {
       certificationOfficerId = databaseBuilder.factory.buildUser().id;
       return databaseBuilder.commit();
@@ -29,10 +29,10 @@ describe('PATCH /api/admin/sessions/:id/certification-officer-assignment', funct
     });
   });
 
-  context('when user has role PixMaster', function () {
+  context('when user has role Super Admin', function () {
     beforeEach(function () {
       // given
-      certificationOfficerId = databaseBuilder.factory.buildUser.withPixRolePixMaster().id;
+      certificationOfficerId = databaseBuilder.factory.buildUser.withRoleSuperAdmin().id;
       options.headers = { authorization: generateValidRequestAuthorizationHeader(certificationOfficerId) };
       return databaseBuilder.commit();
     });

@@ -2,7 +2,7 @@ const {
   expect,
   generateValidRequestAuthorizationHeader,
   databaseBuilder,
-  insertUserWithRolePixMaster,
+  insertUserWithRoleSuperAdmin,
 } = require('../../../test-helper');
 const createServer = require('../../../../server');
 
@@ -11,7 +11,7 @@ describe('Acceptance | Controller | finalized-session-controller-find-finalized-
 
   beforeEach(async function () {
     server = await createServer();
-    await insertUserWithRolePixMaster();
+    await insertUserWithRoleSuperAdmin();
   });
 
   describe('GET /api/admin/sessions/to-publish', function () {

@@ -2,6 +2,6 @@ const userRepository = require('../../infrastructure/repositories/user-repositor
 
 module.exports = {
   execute(userId) {
-    return userRepository.isPixMaster(userId);
+    return userRepository.isSuperAdmin(userId);
   },
 };
