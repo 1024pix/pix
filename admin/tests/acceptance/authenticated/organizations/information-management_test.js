@@ -57,7 +57,7 @@ module('Acceptance | Organizations | Information management', function (hooks) {
       const screen = await visit(`/organizations/${organization.id}/team`);
 
       // then
-      assert.dom(screen.queryByLabelText('Équipe')).doesNotExist();
+      assert.dom(screen.queryByLabelText('Équipe', { selector: 'a' })).doesNotExist();
       assert.strictEqual(currentURL(), `/organizations/${organization.id}/target-profiles`);
     });
 

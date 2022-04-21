@@ -15,7 +15,7 @@
       <PixTooltip @position="right">
         <:triggerElement>
           <LinkTo @route="authenticated.users.list" class="menu-bar__link">
-            <FaIcon @icon="users" @title="Utilisateurs" />
+            <FaIcon @icon="user" @title="Utilisateurs" />
           </LinkTo>
         </:triggerElement>
         <:tooltip>Utilisateurs</:tooltip>
@@ -59,6 +59,16 @@
           </LinkTo>
         </:triggerElement>
         <:tooltip>Profils cibles</:tooltip>
+      </PixTooltip>
+    </li>
+    <li class="menu-bar__entry">
+      <PixTooltip @position="right">
+        <:triggerElement>
+          <LinkTo @route="authenticated.team" class="menu-bar__link">
+            <FaIcon @icon="users" @title="Équipe" />
+          </LinkTo>
+        </:triggerElement>
+        <:tooltip>Équipe</:tooltip>
       </PixTooltip>
     </li>
     <li class="menu-bar__entry">
