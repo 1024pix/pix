@@ -751,29 +751,28 @@ function _returnIds(...builders) {
 }
 
 function _associateSkillSets(databaseBuilder, targetProfileSkillIds, badge) {
-  databaseBuilder.factory.buildSkillSet({
-    name: 'Rechercher des informations sur internet',
-    skillIds: targetProfileSkillIds[0].map((id) => id),
-    badgeId: badge.id,
-  });
-
-  databaseBuilder.factory.buildSkillSet({
-    name: 'Utiliser des outils informatiques',
-    skillIds: targetProfileSkillIds[1].map((id) => id),
-    badgeId: badge.id,
-  });
-
-  databaseBuilder.factory.buildSkillSet({
-    name: 'Naviguer sur internet',
-    skillIds: targetProfileSkillIds[2].map((id) => id),
-    badgeId: badge.id,
-  });
-
-  databaseBuilder.factory.buildSkillSet({
-    name: 'Partager sur les réseaux sociaux',
-    skillIds: targetProfileSkillIds[3].map((id) => id),
-    badgeId: badge.id,
-  });
+  return _returnIds(
+    databaseBuilder.factory.buildSkillSet({
+      name: 'Rechercher des informations sur internet',
+      skillIds: targetProfileSkillIds[0].map((id) => id),
+      badgeId: badge.id,
+    }),
+    databaseBuilder.factory.buildSkillSet({
+      name: 'Utiliser des outils informatiques',
+      skillIds: targetProfileSkillIds[1].map((id) => id),
+      badgeId: badge.id,
+    }),
+    databaseBuilder.factory.buildSkillSet({
+      name: 'Naviguer sur internet',
+      skillIds: targetProfileSkillIds[2].map((id) => id),
+      badgeId: badge.id,
+    }),
+    databaseBuilder.factory.buildSkillSet({
+      name: 'Partager sur les réseaux sociaux',
+      skillIds: targetProfileSkillIds[3].map((id) => id),
+      badgeId: badge.id,
+    }),
+  );
 }
 
 function _associateBadgeCriteria(databaseBuilder, badge, skillSetsIds = []) {
