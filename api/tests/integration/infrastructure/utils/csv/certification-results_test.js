@@ -4,7 +4,7 @@ const {
   getDivisionCertificationResultsCsv,
 } = require('../../../../../lib/infrastructure/utils/csv/certification-results');
 const {
-  PIX_EMPLOI_CLEA,
+  PIX_EMPLOI_CLEA_V3,
   PIX_DROIT_MAITRE_CERTIF,
   PIX_DROIT_EXPERT_CERTIF,
   PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
@@ -146,7 +146,7 @@ describe('Integration | Infrastructure | Utils | csv | certification-results', f
 
     // eslint-disable-next-line mocha/no-setup-in-describe
     [
-      { partnerKey: PIX_EMPLOI_CLEA, expectedHeader: 'Certification CléA numérique' },
+      { partnerKey: PIX_EMPLOI_CLEA_V3, expectedHeader: 'Certification CléA numérique' },
       { partnerKey: PIX_DROIT_MAITRE_CERTIF, expectedHeader: 'Certification Pix+ Droit Maître' },
       { partnerKey: PIX_DROIT_EXPERT_CERTIF, expectedHeader: 'Certification Pix+ Droit Expert' },
       {
@@ -255,7 +255,10 @@ describe('Integration | Infrastructure | Utils | csv | certification-results', f
           commentForOrganization: 'RAS',
           competencesWithMark: competencesWithMark,
           complementaryCertificationCourseResults: [
-            domainBuilder.buildComplementaryCertificationCourseResult({ partnerKey: PIX_EMPLOI_CLEA, acquired: true }),
+            domainBuilder.buildComplementaryCertificationCourseResult({
+              partnerKey: PIX_EMPLOI_CLEA_V3,
+              acquired: true,
+            }),
             domainBuilder.buildComplementaryCertificationCourseResult({
               partnerKey: PIX_DROIT_MAITRE_CERTIF,
               acquired: false,

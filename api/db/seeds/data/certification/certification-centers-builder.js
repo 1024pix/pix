@@ -21,7 +21,13 @@ const CLEA_COMPLEMENTARY_CERTIFICATION_ID = 52;
 const PIX_DROIT_COMPLEMENTARY_CERTIFICATION_ID = 53;
 const PIX_EDU_COMPLEMENTARY_CERTIFICATION_ID = 54;
 
-const { PIX_EMPLOI_CLEA_BADGE_ID, PIX_DROIT_MAITRE_BADGE_ID, PIX_DROIT_EXPERT_BADGE_ID } = require('../badges-builder');
+const {
+  PIX_EMPLOI_CLEA_BADGE_ID_V1,
+  PIX_EMPLOI_CLEA_BADGE_ID_V2,
+  PIX_EMPLOI_CLEA_BADGE_ID_V3,
+  PIX_DROIT_MAITRE_BADGE_ID,
+  PIX_DROIT_EXPERT_BADGE_ID,
+} = require('../badges-builder');
 
 function certificationCentersBuilder({ databaseBuilder }) {
   databaseBuilder.factory.buildComplementaryCertification({
@@ -29,7 +35,17 @@ function certificationCentersBuilder({ databaseBuilder }) {
     id: CLEA_COMPLEMENTARY_CERTIFICATION_ID,
   });
   databaseBuilder.factory.buildComplementaryCertificationBadge({
-    badgeId: PIX_EMPLOI_CLEA_BADGE_ID,
+    badgeId: PIX_EMPLOI_CLEA_BADGE_ID_V1,
+    complementaryCertificationId: CLEA_COMPLEMENTARY_CERTIFICATION_ID,
+  });
+
+  databaseBuilder.factory.buildComplementaryCertificationBadge({
+    badgeId: PIX_EMPLOI_CLEA_BADGE_ID_V2,
+    complementaryCertificationId: CLEA_COMPLEMENTARY_CERTIFICATION_ID,
+  });
+
+  databaseBuilder.factory.buildComplementaryCertificationBadge({
+    badgeId: PIX_EMPLOI_CLEA_BADGE_ID_V3,
     complementaryCertificationId: CLEA_COMPLEMENTARY_CERTIFICATION_ID,
   });
 

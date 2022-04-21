@@ -145,7 +145,7 @@ describe('Integration | Repository | Partner Certification Scoring', function ()
             id: 998,
             certificationCourseId,
           }).id;
-          const badgeId = databaseBuilder.factory.buildBadge({ key: Badge.keys.PIX_EMPLOI_CLEA }).id;
+          const badgeId = databaseBuilder.factory.buildBadge({ key: Badge.keys.PIX_EMPLOI_CLEA_V3 }).id;
           databaseBuilder.factory.buildBadgeAcquisition({ userId, badgeId, createdAt: new Date('2021-06-06') });
           await databaseBuilder.commit();
           const skill = domainBuilder.buildSkill({ id: 'recSkill1' });
@@ -183,7 +183,7 @@ describe('Integration | Repository | Partner Certification Scoring', function ()
             id: 998,
             certificationCourseId,
           }).id;
-          badgeId = databaseBuilder.factory.buildBadge({ key: Badge.keys.PIX_EMPLOI_CLEA }).id;
+          badgeId = databaseBuilder.factory.buildBadge({ key: Badge.keys.PIX_EMPLOI_CLEA_V1 }).id;
           databaseBuilder.factory.buildBadgeAcquisition({ userId, badgeId, createdAt: new Date('2000-01-01') });
           return databaseBuilder.commit();
         });
@@ -378,7 +378,7 @@ describe('Integration | Repository | Partner Certification Scoring', function ()
         context('when user has more than one clea badges obtained before certification test was taken', function () {
           it('should compute the cleA scoring based on the most recently obtained cleA badge', async function () {
             // given
-            const anotherBadgeId = databaseBuilder.factory.buildBadge({ key: Badge.keys.PIX_EMPLOI_CLEA_V2 }).id;
+            const anotherBadgeId = databaseBuilder.factory.buildBadge({ key: Badge.keys.PIX_EMPLOI_CLEA_V3 }).id;
             databaseBuilder.factory.buildBadgeAcquisition({
               userId,
               badgeId: anotherBadgeId,

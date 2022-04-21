@@ -1,6 +1,7 @@
 const {
-  PIX_EMPLOI_CLEA,
+  PIX_EMPLOI_CLEA_V1,
   PIX_EMPLOI_CLEA_V2,
+  PIX_EMPLOI_CLEA_V3,
   PIX_DROIT_MAITRE_CERTIF,
   PIX_DROIT_EXPERT_CERTIF,
   PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
@@ -55,7 +56,8 @@ class CertificationAttestation {
 
   getAcquiredCleaCertification() {
     return this.certifiedBadges.find(
-      ({ partnerKey }) => partnerKey === PIX_EMPLOI_CLEA || partnerKey === PIX_EMPLOI_CLEA_V2
+      ({ partnerKey }) =>
+        partnerKey === PIX_EMPLOI_CLEA_V1 || partnerKey === PIX_EMPLOI_CLEA_V2 || partnerKey === PIX_EMPLOI_CLEA_V3
     )?.partnerKey;
   }
 
