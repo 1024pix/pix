@@ -1,5 +1,19 @@
 # Pix Changelog
 
+## v3.200.0 (21/04/2022)
+
+
+### :rocket: Amélioration
+- [#4347](https://github.com/1024pix/pix/pull/4347) [FEATURE] Gere la certification complementaire CleA V3 (PIX-4788)
+- [#4344](https://github.com/1024pix/pix/pull/4344) [FEATURE] Voir l'id d'un membre et le détail si l'on clique dessus (PIX-4781)
+- [#4346](https://github.com/1024pix/pix/pull/4346) [FEATURE] Mettre le focus automatiquement sur le champ texte de résolution de signalement lorsqu'on ouvre la pop-up de résolution sur PixAdmin (PIX-4786)
+
+### :building_construction: Tech
+- [#4320](https://github.com/1024pix/pix/pull/4320) [TECH] Ajout des migrations pour l'ajout de rôles dans Pix Admin (PIX-4566)
+- [#4351](https://github.com/1024pix/pix/pull/4351) [TECH] Améliorer le message d'erreur du script OGA lorsque l'organisation existe déjà (PIX-4823)
+- [#4335](https://github.com/1024pix/pix/pull/4335) [TECH] Mettre le path de l'url d'authentification de Pole Emploi dans la variable d'environnement (PIX-4792)
+- [#4314](https://github.com/1024pix/pix/pull/4314) [TECH] Gerer les volets Pix Edu en BDD via la colonne source (PIX-4746)
+
 ## v3.199.0 (19/04/2022)
 
 
