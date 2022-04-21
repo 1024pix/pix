@@ -75,19 +75,19 @@ module('Acceptance | Session Add Sco Students', function (hooks) {
     test('it should be possible to access student add page', async function (assert) {
       // when
       await visit(`/sessions/${session.id}/candidats`);
-      await clickByLabel('Ajouter des candidats');
+      await clickByLabel('Inscrire des candidats');
 
       // then
       // TODO: Fix this the next time the file is edited.
       // eslint-disable-next-line qunit/no-assert-equal
       assert.equal(currentURL(), `/sessions/${session.id}/ajout-eleves`);
-      assert.dom('.add-student__title').hasText('Ajouter des candidats');
+      assert.dom('.add-student__title').hasText('Inscrire des candidats');
     });
 
     test('it should be possible to return to candidates page from add student page', async function (assert) {
       // when
       await visit(`/sessions/${session.id}/candidats`);
-      await clickByLabel('Ajouter des candidats');
+      await clickByLabel('Inscrire des candidats');
       await clickByLabel('Retour à la session');
 
       // then
@@ -100,7 +100,7 @@ module('Acceptance | Session Add Sco Students', function (hooks) {
       test('it should show a empty list', async function (assert) {
         // when
         await visit(`/sessions/${session.id}/candidats`);
-        await clickByLabel('Ajouter des candidats');
+        await clickByLabel('Inscrire des candidats');
 
         // then
         assert.dom('.add-student-list').doesNotExist();
@@ -121,7 +121,7 @@ module('Acceptance | Session Add Sco Students', function (hooks) {
 
         // when
         await visit(`/sessions/${session.id}/candidats`);
-        await clickByLabel('Ajouter des candidats');
+        await clickByLabel('Inscrire des candidats');
         await click('.pix-multi-select-header__search-input');
         await clickByLabel('3A');
 
@@ -141,7 +141,7 @@ module('Acceptance | Session Add Sco Students', function (hooks) {
 
           // when
           await visit(`/sessions/${session.id}/candidats`);
-          await clickByLabel('Ajouter des candidats');
+          await clickByLabel('Inscrire des candidats');
 
           // then
           const allRow = document.querySelectorAll(rowSelector);
@@ -158,7 +158,7 @@ module('Acceptance | Session Add Sco Students', function (hooks) {
             // given
             server.createList('student', DEFAULT_PAGE_SIZE, { isSelected: false, isEnrolled: false });
             await visit(`/sessions/${session.id}/candidats`);
-            await clickByLabel('Ajouter des candidats');
+            await clickByLabel('Inscrire des candidats');
 
             // when
             const firstCheckbox = document.querySelector(rowSelector + ':nth-child(1) ' + checkboxSelector);
@@ -183,7 +183,7 @@ module('Acceptance | Session Add Sco Students', function (hooks) {
             // given
             server.createList('student', DEFAULT_PAGE_SIZE, { isSelected: false, isEnrolled: false });
             await visit(`/sessions/${session.id}/candidats`);
-            await clickByLabel('Ajouter des candidats');
+            await clickByLabel('Inscrire des candidats');
 
             // given
             const checkbox = document.querySelector(rowSelector + ' ' + checkboxSelector);
@@ -203,12 +203,12 @@ module('Acceptance | Session Add Sco Students', function (hooks) {
               // given
               server.createList('student', DEFAULT_PAGE_SIZE, { isSelected: false, isEnrolled: false });
               await visit(`/sessions/${session.id}/candidats`);
-              await clickByLabel('Ajouter des candidats');
+              await clickByLabel('Inscrire des candidats');
               const checkbox = document.querySelector(rowSelector + ' ' + checkboxSelector);
               await click(checkbox);
 
               // when
-              await clickByLabel('Ajouter');
+              await clickByLabel('Inscrire');
 
               // then
               // TODO: Fix this the next time the file is edited.
@@ -220,7 +220,7 @@ module('Acceptance | Session Add Sco Students', function (hooks) {
               // given
               server.createList('student', DEFAULT_PAGE_SIZE, { isSelected: false, isEnrolled: false });
               await visit(`/sessions/${session.id}/candidats`);
-              await clickByLabel('Ajouter des candidats');
+              await clickByLabel('Inscrire des candidats');
               const firstCheckbox = document.querySelector(rowSelector + ':nth-child(1) ' + checkboxSelector);
               const secondCheckbox = document.querySelector(rowSelector + ':nth-child(2) ' + checkboxSelector);
               const thirdCheckbox = document.querySelector(rowSelector + ':nth-child(3) ' + checkboxSelector);
@@ -230,7 +230,7 @@ module('Acceptance | Session Add Sco Students', function (hooks) {
               const detailController = this.owner.lookup('controller:authenticated.sessions.details');
 
               // when
-              await clickByLabel('Ajouter');
+              await clickByLabel('Inscrire');
 
               // then
               const certificationCandidates = await detailController.model.certificationCandidates;
@@ -258,7 +258,7 @@ module('Acceptance | Session Add Sco Students', function (hooks) {
             sessionId: sessionWithEnrolledStudent.id,
           });
           await visit(`/sessions/${sessionWithEnrolledStudent.id}/candidats`);
-          await clickByLabel('Ajouter des candidats');
+          await clickByLabel('Inscrire des candidats');
         });
 
         test('it should show "1 candidat sélectionné | 1 candidat déjà ajouté à la session"', async function (assert) {

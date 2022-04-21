@@ -233,7 +233,7 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
           assert
             .dom('.panel-actions__warning')
             .hasText(
-              'La session a débuté, vous ne pouvez plus importer une liste de candidats.Si vous souhaitez modifier la liste, vous pouvez ajouter un candidat directement dans le tableau ci-dessous.'
+              'La session a débuté, vous ne pouvez plus importer une liste de candidats.Si vous souhaitez modifier la liste, vous pouvez inscrire un candidat directement dans le tableau ci-dessous.'
             );
         });
       });
@@ -263,10 +263,10 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
 
         // when
         const screen = await visitScreen(`/sessions/${sessionWithoutCandidates.id}/candidats`);
-        await click(screen.getByRole('button', { name: 'Ajouter un candidat' }));
+        await click(screen.getByRole('button', { name: 'Inscrire un candidat' }));
 
         // then
-        assert.contains('Ajouter le candidat');
+        assert.contains('Inscrire le candidat');
       });
 
       module('when the new candidate form is submitted', function () {
@@ -290,9 +290,9 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
 
           // when
           const screen = await visitScreen(`/sessions/${session.id}/candidats`);
-          await click(screen.getByRole('button', { name: 'Ajouter un candidat' }));
+          await click(screen.getByRole('button', { name: 'Inscrire un candidat' }));
           await _fillFormWithCorrectData(screen);
-          await click(screen.getByRole('button', { name: 'Ajouter le candidat' }));
+          await click(screen.getByRole('button', { name: 'Inscrire le candidat' }));
 
           // then
           assert.dom('[data-test-notification-message="error"]').hasText('An error message');
@@ -307,9 +307,9 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
           test('it should display a success notification', async function (assert) {
             // when
             const screen = await visitScreen(`/sessions/${session.id}/candidats`);
-            await click(screen.getByRole('button', { name: 'Ajouter un candidat' }));
+            await click(screen.getByRole('button', { name: 'Inscrire un candidat' }));
             await _fillFormWithCorrectData(screen);
-            await click(screen.getByRole('button', { name: 'Ajouter le candidat' }));
+            await click(screen.getByRole('button', { name: 'Inscrire le candidat' }));
 
             // then
             assert.dom('[data-test-notification-message="success"]').hasText('Le candidat a été ajouté avec succès.');
@@ -318,9 +318,9 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
           test('it should add a new candidate', async function (assert) {
             // when
             const screen = await visitScreen(`/sessions/${session.id}/candidats`);
-            await click(screen.getByRole('button', { name: 'Ajouter un candidat' }));
+            await click(screen.getByRole('button', { name: 'Inscrire un candidat' }));
             await _fillFormWithCorrectData(screen);
-            await click(screen.getByRole('button', { name: 'Ajouter le candidat' }));
+            await click(screen.getByRole('button', { name: 'Inscrire le candidat' }));
 
             // then
             assert.dom('table tbody tr').exists({ count: 1 });
@@ -332,7 +332,7 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
               allowedCertificationCenterAccess.update({ type: 'SUP' });
 
               const screen = await visitScreen(`/sessions/${session.id}/candidats`);
-              await click(screen.getByRole('button', { name: 'Ajouter un candidat' }));
+              await click(screen.getByRole('button', { name: 'Inscrire un candidat' }));
               await fillIn(screen.getByLabelText('* Prénom'), 'Guybrush');
               await fillIn(screen.getByLabelText('* Nom de famille'), 'Threepwood');
               await fillIn(screen.getByLabelText('* Date de naissance'), '28/04/2019');
@@ -345,7 +345,7 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
               await fillIn(screen.getByLabelText('Code de prépaiement'), '12345');
 
               // when
-              await click(screen.getByRole('button', { name: 'Ajouter le candidat' }));
+              await click(screen.getByRole('button', { name: 'Inscrire le candidat' }));
 
               // then
               assert.dom('table tbody tr').exists({ count: 1 });
