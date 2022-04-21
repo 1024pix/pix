@@ -78,11 +78,13 @@ function _checkIfOrganizationsDataAreNotEmptyAndUnique(organizations) {
 }
 
 async function _checkIfOrganizationsAlreadyExistInDatabase(organizations, organizationRepository) {
-  const organizationIds = await organizationRepository.findByExternalIdsFetchingIdsOnly(
+  const foundOrganizations = await organizationRepository.findByExternalIdsFetchingIdsOnly(
     map(organizations, 'externalId')
   );
-  if (!isEmpty(organizationIds)) {
-    throw new OrganizationAlreadyExistError();
+  if (!isEmpty(foundOrganizations)) {
+    const organizationIds = organizations.map((foundOrganization) => foundOrganization.externalId);
+    const message = `Les organisations avec les externalIds suivants existent déjà : ${organizationIds.join(', ')}`;
+    throw new OrganizationAlreadyExistError(message);
   }
 }
 
