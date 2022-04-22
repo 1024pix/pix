@@ -1,7 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render } from '@ember/test-helpers';
-import { clickByName, fillByLabel } from '@1024pix/ember-testing-library';
+import { clickByName, fillByLabel, render } from '@1024pix/ember-testing-library';
 import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
 import sinon from 'sinon';
@@ -19,10 +18,10 @@ module('Integration | Component | organizations/target-profiles-section', functi
     this.set('organization', organization);
 
     // when
-    await render(hbs`<Organizations::TargetProfilesSection @organization={{organization}} />`);
+    const screen = await render(hbs`<Organizations::TargetProfilesSection @organization={{organization}} />`);
 
     // then
-    assert.dom('button').isDisabled();
+    assert.dom(screen.getByRole('button', { name: 'Valider' })).isDisabled();
   });
 
   test('it calls the organization action when the input is not empty and user clicks on button', async function (assert) {
