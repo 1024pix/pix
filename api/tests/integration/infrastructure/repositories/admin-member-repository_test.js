@@ -1,7 +1,7 @@
 const { expect, databaseBuilder, knex, catchErr } = require('../../../test-helper');
 const { ROLES } = require('../../../../lib/domain/constants').PIX_ADMIN;
 const adminMemberRepository = require('../../../../lib/infrastructure/repositories/admin-member-repository');
-const AdminMember = require('../../../../lib/domain/read-models/AdminMember');
+const AdminMember = require('../../../../lib/domain/models/AdminMember');
 const sinon = require('sinon');
 const { AdminMemberRoleUpdateError } = require('../../../../lib/domain/errors');
 
