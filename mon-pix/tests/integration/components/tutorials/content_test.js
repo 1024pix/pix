@@ -10,7 +10,7 @@ describe('Integration | Component | Tutorials | Header', function () {
 
   beforeEach(function () {
     class RouterStub extends Service {
-      currentRouteName = 'user-tutorials-v2.recommended';
+      currentRouteName = 'user-tutorials.recommended';
     }
     this.owner.register('service:router', RouterStub);
   });

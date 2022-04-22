@@ -16,17 +16,12 @@ describe('Acceptance | mes-tutos', function () {
       await authenticateByEmail(user);
     });
 
-    it('user is redirected to /mes-tutos when visiting /mes-tutos', async function () {
+    it('user is redirected to /mes-tutos/recommandes when visiting /mes-tutos', async function () {
       await visit('/mes-tutos');
       expect(currentURL()).to.equal('/mes-tutos/recommandes');
     });
 
-    it('user is redirected to /mes-tutos-v2/recommandes when visiting /mes-tutos-v2/recommandes', async function () {
-      await visit('/mes-tutos/recommandes');
-      expect(currentURL()).to.equal('/mes-tutos/recommandes');
-    });
-
-    it('user is redirected to /mes-tutos-v2/enregistres when visiting /mes-tutos-v2/enregistres', async function () {
+    it('user is redirected to /mes-tutos/enregistres when visiting /mes-tutos/enregistres', async function () {
       await visit('/mes-tutos/enregistres');
       expect(currentURL()).to.equal('/mes-tutos/enregistres');
     });
