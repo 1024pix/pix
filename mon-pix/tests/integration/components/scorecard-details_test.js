@@ -5,7 +5,6 @@ import EmberObject from '@ember/object';
 import { find, findAll, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
-import Service from '@ember/service';
 
 describe('Integration | Component | scorecard-details', function () {
   setupIntlRenderingTest();
@@ -262,12 +261,6 @@ describe('Integration | Component | scorecard-details', function () {
       context('and the user has some tutorials', async function () {
         it('should display the tutorial section and the related tutorials', async function () {
           // given
-          class FeatureTogglesService extends Service {
-            featureToggles = {
-              isNewTutorialsPageEnabled: false,
-            };
-          }
-          this.owner.register('service:featureToggles', FeatureTogglesService);
           const tuto1 = EmberObject.create({
             title: 'Tuto 1.1',
             tubeName: '@first_tube',
@@ -303,18 +296,12 @@ describe('Integration | Component | scorecard-details', function () {
           // then
           expect(find('.tutorials')).to.exist;
           expect(findAll('.tube')).to.have.lengthOf(2);
-          expect(findAll('.tutorial-item')).to.have.lengthOf(3);
+          expect(findAll('.tutorial-card-v2')).to.have.lengthOf(3);
         });
 
         context('when newTutorials FT is enabled', function () {
           it('should display the tutorial section and related tutorials', async function () {
             // given
-            class FeatureTogglesService extends Service {
-              featureToggles = {
-                isNewTutorialsPageEnabled: true,
-              };
-            }
-            this.owner.register('service:featureToggles', FeatureTogglesService);
             const tuto1 = EmberObject.create({
               title: 'Tuto 1.1',
               tubeName: '@first_tube',

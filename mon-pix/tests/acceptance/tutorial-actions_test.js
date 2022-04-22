@@ -18,7 +18,6 @@ describe('Acceptance | Tutorial | Actions', function () {
     firstScorecard = user.scorecards.models[0];
     competenceId = firstScorecard.competenceId;
     const assessment = server.create('assessment', 'ofCompetenceEvaluationType');
-    server.create('feature-toggle', { id: 0, isNewTutorialsPageEnabled: true });
     server.create('challenge', 'forCompetenceEvaluation', 'QCM');
     server.create('competence-evaluation', { user, competenceId, assessment });
 

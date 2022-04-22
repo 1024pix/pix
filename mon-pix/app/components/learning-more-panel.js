@@ -8,8 +8,4 @@ export default class LearningMorePanel extends Component {
     const learningMoreTutorials = this.args.learningMoreTutorials || [];
     return learningMoreTutorials.length > 0;
   }
-
-  get areNewTutorialsEnabled() {
-    return this.featureToggles.featureToggles.isNewTutorialsPageEnabled;
-  }
 }

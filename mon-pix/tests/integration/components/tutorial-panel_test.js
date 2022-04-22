@@ -2,20 +2,11 @@ import Service from '@ember/service';
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
-import { find, findAll, render } from '@ember/test-helpers';
+import { find, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
 describe('Integration | Component | tutorial panel', function () {
   setupIntlRenderingTest();
-
-  beforeEach(function () {
-    class FeatureTogglesService extends Service {
-      featureToggles = {
-        isNewTutorialsPageEnabled: false,
-      };
-    }
-    this.owner.register('service:featureToggles', FeatureTogglesService);
-  });
 
   context('when the result is not ok', function () {
     context('and a hint is present', function () {
@@ -68,30 +59,12 @@ describe('Integration | Component | tutorial panel', function () {
           await render(hbs`<TutorialPanel @hint={{this.hint}} @tutorials={{this.tutorials}} />`);
 
           // then
-          expect(find('.tutorial-item')).to.exist;
-          expect(find('.tutorial__content')).to.exist;
-          expect(find('.tutorial-content__title')).to.exist;
-          expect(find('.tutorial-content__duration')).to.exist;
-          expect(find('.tutorial-content-actions__save')).to.exist;
-          expect(find('.tutorial-content-actions__evaluate')).to.exist;
-        });
-
-        context('when newTutorials FT is enabled', function () {
-          it('should display a list of new tutorial cards', async function () {
-            // given
-            class FeatureTogglesService extends Service {
-              featureToggles = {
-                isNewTutorialsPageEnabled: true,
-              };
-            }
-            this.owner.register('service:featureToggles', FeatureTogglesService);
-
-            // when
-            await render(hbs`<TutorialPanel @hint={{this.hint}} @tutorials={{this.tutorials}} />`);
-
-            // then
-            expect(findAll('.tutorial-card-v2')).to.have.lengthOf(1);
-          });
+          expect(find('.tutorial-card-v2')).to.exist;
+          expect(find('.tutorial-card-v2__content')).to.exist;
+          expect(find('.tutorial-card-v2-content__details')).to.exist;
+          expect(find('.tutorial-card-v2-content__actions')).to.exist;
+          expect(find('[aria-label="Donner mon avis sur ce tuto"]')).to.exist;
+          expect(find('[aria-label="Enregistrer"]')).to.exist;
         });
       });
 
@@ -101,11 +74,10 @@ describe('Integration | Component | tutorial panel', function () {
           await render(hbs`<TutorialPanel @hint={{this.hint}} @tutorials={{this.tutorials}} />`);
 
           // then
-          expect(find('.tutorial-item')).to.exist;
-          expect(find('.tutorial__content')).to.exist;
-          expect(find('.tutorial-content__title')).to.exist;
-          expect(find('.tutorial-content__duration')).to.exist;
-          expect(find('.tutorial-content-actions')).to.not.exist;
+          expect(find('.tutorial-card-v2')).to.exist;
+          expect(find('.tutorial-card-v2__content')).to.exist;
+          expect(find('.tutorial-card-v2-content__details')).to.exist;
+          expect(find('.tutorial-card-v2-content__actions')).to.exist;
         });
       });
     });
