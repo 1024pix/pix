@@ -1,7 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { click } from '@ember/test-helpers';
-import { fillByLabel, render } from '@1024pix/ember-testing-library';
+import { fillByLabel, render, clickByName } from '@1024pix/ember-testing-library';
 import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
 import sinon from 'sinon';
@@ -79,7 +78,7 @@ module('Integration | Component | Badges::Badge', function (hooks) {
       await render(hbs`<Badges::Badge @badge={{this.badge}} />`);
 
       // when
-      await click('button[type="button"]');
+      await clickByName('Éditer');
       await fillByLabel('* Titre :', 'mon titre mis à jour');
       await fillByLabel('* Clé :', 'ma clef mise à jour');
       await fillByLabel('Message :', 'mon message mis à jour');
@@ -87,7 +86,7 @@ module('Integration | Component | Badges::Badge', function (hooks) {
       await fillByLabel("* Nom de l'image (svg) :", 'mon url image mise à jour');
       await fillByLabel('Certifiable :', false);
       await fillByLabel('Lacunes :', true);
-      await click('button[type="submit"]');
+      await clickByName('Enregistrer');
 
       // then
       sinon.assert.calledWith(findRecordStub, 'badge', badge.id);

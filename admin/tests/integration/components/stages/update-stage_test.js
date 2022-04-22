@@ -1,7 +1,7 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { click, fillIn } from '@ember/test-helpers';
-import { render } from '@1024pix/ember-testing-library';
+import { fillIn } from '@ember/test-helpers';
+import { render, clickByName } from '@1024pix/ember-testing-library';
 import sinon from 'sinon';
 import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
@@ -74,7 +74,7 @@ module('Integration | Component | UpdateStage', function (hooks) {
     //when
     await render(hbs`<Stages::UpdateStage @model={{this.stage}} @toggleEditMode={{this.toggleEditMode}} />`);
     await fillIn('#prescriberTitle', 'Nouveau titre');
-    await click('button[type="submit"]');
+    await clickByName('Enregistrer');
 
     //then
     assert.ok(this.stage.save.called);
@@ -83,7 +83,7 @@ module('Integration | Component | UpdateStage', function (hooks) {
   test('it should call onCancel when form is cancel', async function (assert) {
     // when
     await render(hbs`<Stages::UpdateStage @model={{this.stage}} @toggleEditMode={{this.toggleEditMode}} />`);
-    await click('button[type="button"]');
+    await clickByName('Enregistrer');
 
     // then
     assert.ok(toggleEditMode.called);
