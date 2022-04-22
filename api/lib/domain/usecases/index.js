@@ -64,6 +64,7 @@ const dependencies = {
   complementaryCertificationHabilitationRepository: require('../../infrastructure/repositories/complementary-certification-habilitation-repository'),
   complementaryCertificationRepository: require('../../infrastructure/repositories/complementary-certification-repository'),
   complementaryCertificationSubscriptionRepository: require('../../infrastructure/repositories/complementary-certification-subscription-repository'),
+  complementaryCertificationCourseResultRepository: require('../../infrastructure/repositories/complementary-certification-course-result-repository'),
   correctionRepository: require('../../infrastructure/repositories/correction-repository'),
   countryRepository: require('../../infrastructure/repositories/country-repository'),
   courseRepository: require('../../infrastructure/repositories/course-repository'),

@@ -21,6 +21,7 @@ module.exports = [
   require('./application/challenges'),
   require('./application/competence-evaluations'),
   require('./application/complementary-certifications'),
+  require('./application/complementary-certification-course-results'),
   require('./application/countries'),
   require('./application/courses'),
   require('./application/feature-toggles'),

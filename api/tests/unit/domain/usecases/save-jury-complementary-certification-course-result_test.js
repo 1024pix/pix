@@ -5,7 +5,7 @@ const { NotFoundError } = require('../../../../lib/domain/errors');
 const ComplementaryCertificationCourseResult = require('../../../../lib/domain/models/ComplementaryCertificationCourseResult');
 const Badge = require('../../../../lib/domain/models/Badge');
 
-describe('Unit | UseCase | save-jury-complementary-certification-course-result', function () {
+describe('Unit | UseCase | save-jury-complementary-certification-course-results', function () {
   describe('#saveJuryComplementaryCertificationCourseResult', function () {
     let complementaryCertificationCourseResultRepository;
 
