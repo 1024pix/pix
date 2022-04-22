@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { currentURL, click, fillIn } from '@ember/test-helpers';
-import { visit } from '@1024pix/ember-testing-library';
+import { visit, fillByLabel, selectByLabelAndOption } from '@1024pix/ember-testing-library';
 import { setupApplicationTest } from 'ember-qunit';
 import { createAuthenticateSession } from 'pix-admin/tests/helpers/test-init';
 
@@ -111,7 +111,7 @@ module('Acceptance | Session List', function (hooks) {
           const screen = await visit('/sessions/list');
 
           // when
-          await fillIn('#id', 'azere');
+          await fillByLabel('Filtrer les sessions avec un id', 'azere');
 
           //then
           assert.dom(screen.getByText('Aucun résultat')).exists();
@@ -131,7 +131,7 @@ module('Acceptance | Session List', function (hooks) {
         test('it should display the session with the ID specified in the input field', async function (assert) {
           // when
           const screen = await visit('/sessions/list');
-          await fillIn('#id', expectedSession.id);
+          await fillByLabel('Filtrer les sessions avec un id', expectedSession.id);
 
           // then
           assert.dom(screen.getByRole('link', { name: '1' })).exists();
@@ -152,7 +152,10 @@ module('Acceptance | Session List', function (hooks) {
         test('it should display the session with a certification center name alike the one specified in the field', async function (assert) {
           // when
           const screen = await visit('/sessions/list');
-          await fillIn('#certificationCenterName', expectedSession.certificationCenterName.toUpperCase());
+          await fillByLabel(
+            "Filtrer les sessions avec le nom d'un centre de certification",
+            expectedSession.certificationCenterName.toUpperCase()
+          );
 
           // then
           assert
@@ -170,7 +173,7 @@ module('Acceptance | Session List', function (hooks) {
         test('it should display the session with status as specified in the dropdown', async function (assert) {
           // when
           const screen = await visit('/sessions/list');
-          await fillIn('select#status', 'processed');
+          await selectByLabelAndOption('Filtrer les sessions en sélectionnant un statut', 'processed');
 
           // then
           const sessionProcessedCount = screen.getAllByLabelText('Informations de la session de certification', {
@@ -200,7 +203,7 @@ module('Acceptance | Session List', function (hooks) {
         test('it should only display sessions which results have been sent', async function (assert) {
           // when
           const screen = await visit('/sessions/list');
-          await fillIn('select#resultsSentToPrescriberAt', 'true');
+          await selectByLabelAndOption('Filtrer les sessions par leurs résultats diffusés ou non diffusés', 'true');
 
           // then
           const sessionWithResultSentCount = screen.getAllByLabelText('Informations de la session de certification', {
@@ -212,7 +215,7 @@ module('Acceptance | Session List', function (hooks) {
         test('it should only display sessions which results have not been sent', async function (assert) {
           // when
           const screen = await visit('/sessions/list');
-          await fillIn('select#resultsSentToPrescriberAt', 'false');
+          await selectByLabelAndOption('Filtrer les sessions par leurs résultats diffusés ou non diffusés', 'false');
 
           // then
           const sessionCount = screen.getAllByLabelText('Informations de la session de certification', {
