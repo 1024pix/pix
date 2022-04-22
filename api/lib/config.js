@@ -213,7 +213,6 @@ module.exports = (function () {
         expirationDelaySeconds: parseInt(process.env.CNAV_TEMPORARY_STORAGE_EXPIRATION_DELAY_SECONDS, 10) || 1140,
         redisUrl: process.env.REDIS_URL,
       },
-      cnavSendingsLimit: _getNumber(process.env.CNAV_SENDING_LIMIT, 100),
       cnavIdentityProvider: process.env.CNAV_IDENTITY_PROVIDER || 'CNAV',
       accessTokenLifespanMs: ms(process.env.CNAV_ACCESS_TOKEN_LIFESPAN || '7d'),
     },
