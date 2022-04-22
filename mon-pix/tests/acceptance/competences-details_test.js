@@ -125,7 +125,7 @@ describe("Acceptance | Competence details | Afficher la page de détails d'une 
         await visit(`/competences/${scorecardWithPoints.competenceId}/details`);
 
         // then
-        expect(findAll('.tutorial-item')).to.have.lengthOf(nbTutos);
+        expect(findAll('.tutorial-card-v2')).to.have.lengthOf(nbTutos);
       });
 
       context('when it has remaining some days before reset', () => {

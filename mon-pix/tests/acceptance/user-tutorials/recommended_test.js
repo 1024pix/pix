@@ -12,7 +12,6 @@ describe('Acceptance | User-tutorials-v2 | Recommended', function () {
 
   beforeEach(async function () {
     user = server.create('user', 'withEmail');
-    server.create('feature-toggle', { id: 0, isNewTutorialsPageEnabled: true });
     await authenticateByEmail(user);
     await server.db.tutorials.remove();
   });
@@ -23,7 +22,7 @@ describe('Acceptance | User-tutorials-v2 | Recommended', function () {
       server.createList('tutorial', 100);
 
       // when
-      await visit('/mes-tutos-v2/recommandes');
+      await visit('/mes-tutos/recommandes');
 
       //then
       expect(findAll('.tutorial-card-v2')).to.exist;
@@ -35,7 +34,7 @@ describe('Acceptance | User-tutorials-v2 | Recommended', function () {
       it('should not remove it from the list when clicking on the remove button', async function () {
         // given
         server.createList('tutorial', 1, 'withUserTutorial');
-        await visit('/mes-tutos-v2/recommandes');
+        await visit('/mes-tutos/recommandes');
 
         // when
         await click(find('[aria-label="Donner mon avis sur ce tuto"]'));

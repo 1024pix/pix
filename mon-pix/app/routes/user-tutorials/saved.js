@@ -3,17 +3,12 @@ import { inject as service } from '@ember/service';
 import { action } from '@ember/object';
 
 export default class UserTutorialsSavedRoute extends Route {
-  @service featureToggles;
   @service router;
 
   queryParams = {
     pageNumber: { refreshModel: true },
     pageSize: { refreshModel: true },
   };
-
-  redirect() {
-    if (!this.featureToggles.featureToggles.isNewTutorialsPageEnabled) this.router.replaceWith('user-tutorials');
-  }
 
   model(params) {
     return this.store.query(
