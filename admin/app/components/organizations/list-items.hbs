@@ -51,7 +51,7 @@
       {{#if @organizations}}
         <tbody>
           {{#each @organizations as |organization|}}
-            <tr aria-label="Organisation">
+            <tr aria-label="Organisation {{organization.name}}">
               <td class="table__column table__column--id">
                 <LinkTo @route="authenticated.organizations.get" @model={{organization.id}}>
                   {{organization.id}}

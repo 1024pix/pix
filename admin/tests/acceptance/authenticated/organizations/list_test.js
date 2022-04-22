@@ -36,13 +36,15 @@ module('Acceptance | Organizations | List', function (hooks) {
 
     test('it should list the organizations', async function (assert) {
       // given
-      server.createList('organization', 12);
+      server.create('organization', { name: 'Tic' });
+      server.create('organization', { name: 'Tac' });
 
       // when
-      await visit('/organizations/list');
+      const screen = await visit('/organizations/list');
 
       // then
-      assert.dom('.table-admin tbody tr').exists({ count: 12 });
+      assert.dom(screen.getByLabelText('Organisation Tic')).exists();
+      assert.dom(screen.getByLabelText('Organisation Tac')).exists();
     });
 
     module('when filters are used', function (hooks) {
