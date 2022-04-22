@@ -21,7 +21,7 @@ const CertificationCenterMembership = require('../../domain/models/Certification
 const Organization = require('../../domain/models/Organization');
 const OrganizationLearnerForAdmin = require('../../domain/read-models/OrganizationLearnerForAdmin');
 const AuthenticationMethod = require('../../domain/models/AuthenticationMethod');
-const AdminMember = require('../../domain/read-models/AdminMember');
+const AdminMember = require('../../domain/models/AdminMember');
 
 module.exports = {
   getByEmail(email) {

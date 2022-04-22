@@ -1,5 +1,5 @@
 const { knex } = require('../bookshelf');
-const AdminMember = require('../../domain/read-models/AdminMember');
+const AdminMember = require('../../domain/models/AdminMember');
 const { AdminMemberRoleUpdateError } = require('../../domain/errors');
 
 module.exports = {

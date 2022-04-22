@@ -2,7 +2,7 @@ const { expect } = require('../../../test-helper');
 const { ROLES } = require('../../../../lib/domain/constants').PIX_ADMIN;
 const { ObjectValidationError } = require('../../../../lib/domain/errors');
 
-const AdminMember = require('../../../../lib/domain/read-models/AdminMember');
+const AdminMember = require('../../../../lib/domain/models/AdminMember');
 
 describe('Unit | Domain | Models | AdminMember', function () {
   describe('constructor', function () {

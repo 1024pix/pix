@@ -1,4 +1,4 @@
-const AdminMember = require('../../../../lib/domain/read-models/AdminMember');
+const AdminMember = require('../../../../lib/domain/models/AdminMember');
 const { ROLES } = require('../../../../lib/domain/constants').PIX_ADMIN;
 
 module.exports = function buildAdminMember({
