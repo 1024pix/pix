@@ -24,8 +24,4 @@ export default class TutorialPanel extends Component {
   get limitedTutorials() {
     return this.args.tutorials.slice(0, 3);
   }
-
-  get areNewTutorialsEnabled() {
-    return this.featureToggles.featureToggles.isNewTutorialsPageEnabled;
-  }
 }

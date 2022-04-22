@@ -13,10 +13,6 @@ export default class ScorecardDetails extends Component {
 
   @tracked showResetModal = false;
 
-  get areNewTutorialsEnabled() {
-    return this.featureToggles.featureToggles.isNewTutorialsPageEnabled;
-  }
-
   get level() {
     return this.args.scorecard.isNotStarted ? null : this.args.scorecard.level;
   }
