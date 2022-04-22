@@ -86,19 +86,15 @@
           </form>
         </div>
       {{else}}
-        <div class="page-section__details">
-          ID :
-          {{@badge.id}}<br />
-          Nom du badge :
-          {{@badge.title}}<br />
-          Nom de l'image :
-          {{this.imageName}}<br />
-          Clé :
-          {{@badge.key}}<br />
-          Message :
-          {{@badge.message}}<br />
-          Message alternatif :
-          {{@badge.altMessage}}<br />
+        <div>
+          <ul class="badge-data__list">
+            <li>ID : {{@badge.id}}</li>
+            <li>Nom du badge : {{@badge.title}}</li>
+            <li>Nom de l'image : {{this.imageName}}</li>
+            <li>Clé : {{@badge.key}}</li>
+            <li>Message : {{@badge.message}}</li>
+            <li>Message alternatif : {{@badge.altMessage}}</li>
+          </ul>
           {{#if @badge.isCertifiable}}
             <PixTag @color={{this.isCertifiableColor}} class="badge-data__tags">{{this.isCertifiableText}}</PixTag><br
             />
@@ -121,7 +117,7 @@
 
   <section class="page-section">
     <div class="page-section__header">
-      <h2 class="page-section__title">Critères</h2>
+      <h1 class="page-section__title">Critères</h1>
     </div>
 
     <div class="page-section__details table-admin">
