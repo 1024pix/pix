@@ -150,31 +150,40 @@ module('Integration | Component | organizations/information-section', function (
 
     test('it should toggle edition mode on click to edit button', async function (assert) {
       // given
-      await render(hbs`<Organizations::InformationSection @organization={{this.organization}} />`);
+      const screen = await render(hbs`<Organizations::InformationSection @organization={{this.organization}} />`);
 
       // when
       await clickByName('Éditer');
 
       // then
-      assert.dom('.organization__edit-form').exists();
+      assert.dom(screen.getByRole('textbox', { name: 'Nom' })).exists();
+      assert.dom(screen.getByRole('textbox', { name: 'Identifiant externe' })).exists();
+      assert.dom(screen.getByRole('button', { name: 'Annuler' })).exists();
+      assert.dom(screen.getByRole('button', { name: 'Enregistrer' })).exists();
     });
 
     test('it should display organization edit form on click to edit button', async function (assert) {
       // given
-      await render(hbs`<Organizations::InformationSection @organization={{this.organization}} />`);
+      const screen = await render(hbs`<Organizations::InformationSection @organization={{this.organization}} />`);
 
       // when
       await clickByName('Éditer');
 
       // then
-      assert.dom('input#name').hasValue(organization.name);
-      assert.dom('input#externalId').hasValue(organization.externalId);
-      assert.dom('input#provinceCode').hasValue(organization.provinceCode);
-      assert.dom('input#email').hasValue(organization.email);
-      assert.dom('input#credit').hasValue(organization.credit.toString());
-      assert.dom('input#isManagingStudents').isNotChecked();
-      assert.dom('input#documentationUrl').hasValue(organization.documentationUrl);
-      assert.dom('input#showSkills').isNotChecked();
+      assert.dom(screen.getByRole('textbox', { name: 'Nom' })).hasValue(organization.name);
+      assert.dom(screen.getByRole('textbox', { name: 'Identifiant externe' })).hasValue(organization.externalId);
+      assert
+        .dom(screen.getByRole('textbox', { name: 'Département (en 3 chiffres)' }))
+        .hasValue(organization.provinceCode);
+      assert.dom(screen.getByRole('textbox', { name: 'Adresse e-mail (SCO)' })).hasValue(organization.email);
+      assert.dom(screen.getByRole('spinbutton', { name: 'Crédits' })).hasValue(organization.credit.toString());
+      assert.dom(screen.getByRole('checkbox', { name: 'Gestion d’élèves/étudiants' })).isNotChecked();
+      assert
+        .dom(screen.getByRole('textbox', { name: 'Lien vers la documentation' }))
+        .hasValue(organization.documentationUrl);
+      assert
+        .dom(screen.getByRole('checkbox', { name: "Affichage des acquis dans l'export de résultats" }))
+        .isNotChecked();
     });
 
     test("it should show error message if organization's name is empty", async function (assert) {
@@ -255,7 +264,7 @@ module('Integration | Component | organizations/information-section', function (
 
       // when
       await clickByName('Éditer');
-      await fillIn('#credit', 'credit');
+      await fillIn('#credits', 'credit');
 
       // then
       assert.dom(screen.getByText('Le nombre de crédits doit être un nombre supérieur ou égal à 0.')).exists();
@@ -263,14 +272,16 @@ module('Integration | Component | organizations/information-section', function (
 
     test('it should toggle display mode on click to cancel button', async function (assert) {
       // given
-      await render(hbs`<Organizations::InformationSection @organization={{this.organization}} />`);
+      const screen = await render(hbs`<Organizations::InformationSection @organization={{this.organization}} />`);
       await clickByName('Éditer');
 
       // when
       await clickByName('Annuler');
 
       // then
-      assert.dom('.organization__data').exists();
+      assert.dom(screen.getByRole('heading', { name: 'Organization SCO' })).exists();
+      assert.dom(screen.getByRole('button', { name: 'Éditer' })).exists();
+      assert.dom(screen.getByRole('button', { name: "Archiver l'organisation" })).exists();
     });
 
     test("it should show error message if organization's documentationUrl is not valid", async function (assert) {
@@ -320,7 +331,7 @@ module('Integration | Component | organizations/information-section', function (
       await fillIn('input#name', 'new name');
       await fillIn('input#externalId', 'new externalId');
       await fillIn('input#provinceCode', '  ');
-      await fillIn('input#credit', 50);
+      await fillIn('input#credits', 50);
       await clickByName('Gestion d’élèves/étudiants');
       await fillIn('input#documentationUrl', 'https://pix.fr/');
 
@@ -374,10 +385,10 @@ module('Integration | Component | organizations/information-section', function (
       this.organization.isManagingStudents = false;
 
       // when
-      await render(hbs`<Organizations::InformationSection @organization={{this.organization}} />`);
+      const screen = await render(hbs`<Organizations::InformationSection @organization={{this.organization}} />`);
 
       // then
-      assert.dom('.organization__isManagingStudents').doesNotExist();
+      assert.dom(screen.queryByRole('checkbox', { name: 'Gestion d’élèves/étudiants' })).doesNotExist();
     });
   });
 });
