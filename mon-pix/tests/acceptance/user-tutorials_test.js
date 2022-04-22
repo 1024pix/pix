@@ -10,44 +10,25 @@ describe('Acceptance | mes-tutos', function () {
   setupMirage();
   let user;
 
-  describe('When the the new tutorials page is enabled', function () {
-    beforeEach(async function () {
-      user = server.create('user', 'withEmail');
-      server.create('feature-toggle', { id: 0, isNewTutorialsPageEnabled: true });
-      await authenticateByEmail(user);
-    });
-
-    it('user is redirected to /mes-tutos-v2/recommandes when visiting /mes-tutos', async function () {
-      await visit('/mes-tutos');
-      expect(currentURL()).to.equal('/mes-tutos-v2/recommandes');
-    });
-
-    it('user is redirected to /mes-tutos-v2/recommandes when visiting /mes-tutos-v2', async function () {
-      await visit('/mes-tutos-v2');
-      expect(currentURL()).to.equal('/mes-tutos-v2/recommandes');
-    });
-  });
-
   describe('When the the new tutorials page is disabled', function () {
     beforeEach(async function () {
       user = server.create('user', 'withEmail');
-      server.create('feature-toggle', { id: 0, isNewTutorialsPageEnabled: false });
       await authenticateByEmail(user);
     });
 
-    it('user is redirected to /mes-tutos when visiting /mes-tutos-v2', async function () {
-      await visit('/mes-tutos-v2');
-      expect(currentURL()).to.equal('/mes-tutos');
+    it('user is redirected to /mes-tutos when visiting /mes-tutos', async function () {
+      await visit('/mes-tutos');
+      expect(currentURL()).to.equal('/mes-tutos/recommandes');
     });
 
-    it('user is redirected to /mes-tutos when visiting /mes-tutos-v2/recommandes', async function () {
-      await visit('/mes-tutos-v2/recommandes');
-      expect(currentURL()).to.equal('/mes-tutos');
+    it('user is redirected to /mes-tutos-v2/recommandes when visiting /mes-tutos-v2/recommandes', async function () {
+      await visit('/mes-tutos/recommandes');
+      expect(currentURL()).to.equal('/mes-tutos/recommandes');
     });
 
-    it('user is redirected to /mes-tutos when visiting /mes-tutos-v2/enregistres', async function () {
-      await visit('/mes-tutos-v2/enregistres');
-      expect(currentURL()).to.equal('/mes-tutos');
+    it('user is redirected to /mes-tutos-v2/enregistres when visiting /mes-tutos-v2/enregistres', async function () {
+      await visit('/mes-tutos/enregistres');
+      expect(currentURL()).to.equal('/mes-tutos/enregistres');
     });
   });
 });
