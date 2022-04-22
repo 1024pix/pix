@@ -1,7 +1,9 @@
-const { expect, databaseBuilder } = require('../../../test-helper');
+const { expect, databaseBuilder, knex, catchErr } = require('../../../test-helper');
 const { ROLES } = require('../../../../lib/domain/constants').PIX_ADMIN;
 const adminMemberRepository = require('../../../../lib/infrastructure/repositories/admin-member-repository');
 const AdminMember = require('../../../../lib/domain/read-models/AdminMember');
+const sinon = require('sinon');
+const { AdminMemberRoleUpdateError } = require('../../../../lib/domain/errors');
 
 describe('Integration | Infrastructure | Repository | adminMemberRepository', function () {
   describe('#findAll', function () {
@@ -81,6 +83,68 @@ describe('Integration | Infrastructure | Repository | adminMemberRepository', fu
       // then
       expect(members.length).to.equal(1);
       expect(members[0].id).to.not.equal(userWithDisabledPixAdminRole.id);
+    });
+  });
+
+  describe('#update', function () {
+    let clock;
+    const now = new Date('2022-02-16');
+
+    beforeEach(async function () {
+      clock = sinon.useFakeTimers(now);
+    });
+
+    afterEach(async function () {
+      clock.restore();
+    });
+
+    it('should return the given Admin role with new role', async function () {
+      // given
+      _buildUserWithPixAdminRole({ firstName: 'Sarah', lastName: 'Pelle' });
+      const user = _buildUserWithPixAdminRole({ firstName: 'Sarah', lastName: 'Croche' });
+
+      await databaseBuilder.commit();
+
+      // when
+      const member = await adminMemberRepository.update({
+        id: user.id,
+        attributesToUpdate: { role: ROLES.CERTIF },
+      });
+
+      // then
+      expect(member).to.be.instanceOf(AdminMember);
+      expect(member.id).to.equal(user.id);
+      expect(member.role).to.equal(ROLES.CERTIF);
+    });
+
+    it('should update the updated at date', async function () {
+      // given
+      const { id } = _buildUserWithPixAdminRole({ firstName: 'Sarah', lastName: 'Croche' });
+      await databaseBuilder.commit();
+
+      // when
+      const userToUpdate = new AdminMember({ id, role: ROLES.CERTIF });
+      await adminMemberRepository.update(userToUpdate);
+
+      // then
+      const userPixAdminRole = await knex.from('pix-admin-roles').where({ id }).first();
+      expect(userPixAdminRole.updatedAt).to.deep.equal(now);
+    });
+
+    it('should throw error if admin member does not exist', async function () {
+      // given
+      const { id } = _buildUserWithPixAdminRole({ firstName: 'Sarah', lastName: 'Croche' });
+      await databaseBuilder.commit();
+
+      // when
+      const nonExistingAdminMember = new AdminMember({
+        id: id + 1,
+        role: ROLES.SUPER_ADMIN,
+      });
+      const error = await catchErr(adminMemberRepository.update)(nonExistingAdminMember);
+
+      // then
+      expect(error).to.be.instanceOf(AdminMemberRoleUpdateError);
     });
   });
 });
