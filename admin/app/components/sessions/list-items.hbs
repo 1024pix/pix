@@ -79,7 +79,7 @@
     {{#if @sessions}}
       <tbody>
         {{#each @sessions as |session|}}
-          <tr>
+          <tr aria-label="Informations de la session de certification {{session.id}}">
             <td class="table__column table__column--id">
               <LinkTo @route="authenticated.sessions.session" @model={{session.id}}>
                 {{session.id}}
