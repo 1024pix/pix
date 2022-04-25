@@ -1,9 +1,10 @@
+const sinon = require('sinon');
 const { expect, databaseBuilder, knex, catchErr } = require('../../../test-helper');
 const { ROLES } = require('../../../../lib/domain/constants').PIX_ADMIN;
 const adminMemberRepository = require('../../../../lib/infrastructure/repositories/admin-member-repository');
 const AdminMember = require('../../../../lib/domain/models/AdminMember');
-const sinon = require('sinon');
 const { AdminMemberRoleUpdateError } = require('../../../../lib/domain/errors');
+const { NotFoundError } = require('../../../../lib/domain/errors');
 
 describe('Integration | Infrastructure | Repository | adminMemberRepository', function () {
   describe('#findAll', function () {
@@ -83,6 +84,54 @@ describe('Integration | Infrastructure | Repository | adminMemberRepository', fu
       // then
       expect(members.length).to.equal(1);
       expect(members[0].id).to.not.equal(userWithDisabledPixAdminRole.id);
+    });
+  });
+
+  describe('#get', function () {
+    it('should return user for given user id', async function () {
+      // given
+      const userWithPixAdminRole = await _buildUserWithPixAdminRole({ role: ROLES.SUPER_ADMIN });
+      await _buildUserWithPixAdminRole({
+        disabledAt: null,
+        role: ROLES.METIER,
+      });
+
+      await databaseBuilder.commit();
+
+      // when
+      const member = await adminMemberRepository.get({ userId: userWithPixAdminRole.userId });
+
+      // then
+      expect(member).to.deep.include(
+        new AdminMember({
+          id: userWithPixAdminRole.id,
+          userId: userWithPixAdminRole.userId,
+          firstName: userWithPixAdminRole.firstName,
+          lastName: userWithPixAdminRole.lastName,
+          email: userWithPixAdminRole.email,
+          role: 'SUPER_ADMIN',
+        })
+      );
+    });
+
+    it('should not return user for given user id when role is disabled', async function () {
+      // given
+      const userWithPixAdminRole = await _buildUserWithPixAdminRole({
+        role: ROLES.SUPER_ADMIN,
+        disabledAt: new Date(),
+      });
+      await _buildUserWithPixAdminRole({
+        disabledAt: null,
+        role: ROLES.METIER,
+      });
+
+      await databaseBuilder.commit();
+
+      // when
+      const error = await catchErr(adminMemberRepository.get)({ userId: userWithPixAdminRole.userId });
+
+      // then
+      expect(error).to.be.instanceOf(NotFoundError);
     });
   });
 
