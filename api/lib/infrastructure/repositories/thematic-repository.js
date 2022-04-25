@@ -15,4 +15,9 @@ module.exports = {
     const thematicData = await thematicDatasource.list();
     return thematicData.map(_toDomain);
   },
+
+  async findByCompetenceIds(competenceIds) {
+    const thematicDatas = await thematicDatasource.findByCompetenceIds(competenceIds);
+    return thematicDatas.map(_toDomain);
+  },
 };

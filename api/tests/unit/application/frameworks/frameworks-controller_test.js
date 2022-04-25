@@ -1,50 +1,91 @@
-const { expect, hFake, sinon, generateValidRequestAuthorizationHeader } = require('../../../test-helper');
+const { expect, sinon } = require('../../../test-helper');
 const usecases = require('../../../../lib/domain/usecases');
+const frameworkAreasSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/framework-areas-serializer');
 const frameworkSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/framework-serializer');
 const frameworksController = require('../../../../lib/application/frameworks/frameworks-controller');
 
 describe('Unit | Controller | frameworks-controller', function () {
+  let pixFmk;
+  let frameworks;
+  let areas;
+  let serializedAreas;
+  let serializedFrameworks;
+
   beforeEach(function () {
-    sinon.stub(usecases, 'getPixFramework');
-    sinon.stub(frameworkSerializer, 'serialize');
+    pixFmk = Symbol('pixFmk');
+    frameworks = Symbol('frameworks');
+    areas = Symbol('areas');
+    serializedAreas = Symbol('serializedAreas');
+    serializedFrameworks = Symbol('serializedFrameworks');
+
+    sinon.stub(usecases, 'getPixFramework').returns(pixFmk);
+    sinon.stub(usecases, 'getFrameworks').returns(frameworks);
+    sinon.stub(frameworkAreasSerializer, 'serialize').returns(serializedAreas);
+    sinon.stub(frameworkSerializer, 'serialize').returns(serializedFrameworks);
+    sinon.stub(usecases, 'getFrameworkAreas').returns(areas);
   });
 
   describe('#getPixFramework', function () {
-    it('should fetch and return framework, serialized as JSONAPI', async function () {
+    it('should fetch and return pix framework, serialized as JSONAPI', async function () {
       // given
-      const userId = 42;
-      const request = {
-        headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
-        pre: { userId },
-      };
+      const request = {};
 
       // when
-      await frameworksController.getPixFramework(request, hFake);
+      const result = await frameworksController.getPixFramework(request);
 
       // then
-      expect(usecases.getPixFramework).to.have.been.called;
+      expect(result).to.equal(serializedAreas);
       expect(usecases.getPixFramework).to.have.been.calledWithExactly('fr-fr');
-      expect(frameworkSerializer.serialize).to.have.been.called;
+      expect(frameworkAreasSerializer.serialize).to.have.been.calledWithExactly(pixFmk);
     });
 
     it('should extract the locale and pass it to the usecases', async function () {
       // given
-      const userId = 42;
       const request = {
         headers: {
-          authorization: generateValidRequestAuthorizationHeader(userId),
           'accept-language': 'en',
         },
-        pre: { userId },
       };
 
       // when
-      await frameworksController.getPixFramework(request, hFake);
+      const result = await frameworksController.getPixFramework(request);
 
       // then
-      expect(usecases.getPixFramework).to.have.been.called;
+      expect(result).to.equal(serializedAreas);
       expect(usecases.getPixFramework).to.have.been.calledWithExactly('en');
-      expect(frameworkSerializer.serialize).to.have.been.called;
+      expect(frameworkAreasSerializer.serialize).to.have.been.calledWithExactly(pixFmk);
+    });
+  });
+
+  describe('#getFrameworks', function () {
+    it('should fetch and return frameworks, serialized as JSONAPI', async function () {
+      // when
+      const result = await frameworksController.getFrameworks();
+
+      // then
+      expect(result).to.equal(serializedFrameworks);
+      expect(usecases.getFrameworks).to.have.been.calledWithExactly();
+      expect(frameworkSerializer.serialize).to.have.been.calledWithExactly(frameworks);
+    });
+  });
+
+  describe('#getFrameworkAreas', function () {
+    it('should fetch and return framework, serialized as JSONAPI', async function () {
+      // given
+      const frameworkId = 'frameworkId';
+      const request = {
+        params: {
+          id: frameworkId,
+        },
+      };
+
+      // when
+      const result = await frameworksController.getFrameworkAreas(request);
+
+      // then
+      expect(result).to.equal(serializedAreas);
+      expect(usecases.getFrameworkAreas).to.have.been.calledWithExactly({ frameworkId });
+      expect(frameworkAreasSerializer.serialize).to.have.been.calledWithExactly(areas);
     });
   });
 });
