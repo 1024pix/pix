@@ -17,6 +17,7 @@ describe('Acceptance | Controller | frameworks-controller', function () {
         titleFrFr: 'Area fr',
         color: 'some color',
         competenceIds: ['competenceId'],
+        frameworkId: 'pix',
       },
     ],
     competences: [
@@ -36,6 +37,7 @@ describe('Acceptance | Controller | frameworks-controller', function () {
         name: 'Test',
         index: 0,
         tubeIds: ['tubeId'],
+        competenceId: 'competenceId',
       },
     ],
     tubes: [
