@@ -1,5 +1,17 @@
 # Pix Changelog
 
+## v3.201.0 (25/04/2022)
+
+
+### :rocket: Amélioration
+- [#4357](https://github.com/1024pix/pix/pull/4357) [FEATURE] Modifier "Ajouter des candidats" en "Inscrire des candidats" dans Pix Certif (PIX-3007).
+- [#4352](https://github.com/1024pix/pix/pull/4352) [FEATURE] Désactiver le bouton quand on sauvegarde un tuto (PIX-4824).
+- [#4297](https://github.com/1024pix/pix/pull/4297) [FEATURE] Amélioration du style des boutons des nouvelles cartes tutos (PIX-4724).
+
+### :building_construction: Tech
+- [#4358](https://github.com/1024pix/pix/pull/4358) [TECH] Réparation d'un test flaky sur le test auto du script de création de badge-criteria à partir d'un fichier JSON (PIX-4828)
+- [#4338](https://github.com/1024pix/pix/pull/4338) [TECH]  Utiliser des vectoriels pour l'affichage des macarons de certification complementaire dans les pdf (PIX-4798)
+
 ## v3.200.0 (21/04/2022)
 
 
