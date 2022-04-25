@@ -59,6 +59,10 @@ class ComplementaryCertificationCourseResult {
     return this.source === sources.EXTERNAL;
   }
 
+  isAcquired() {
+    return this.acquired;
+  }
+
   isPixEdu() {
     return this.isPixEdu1erDegre() || this.isPixEdu2ndDegre();
   }
