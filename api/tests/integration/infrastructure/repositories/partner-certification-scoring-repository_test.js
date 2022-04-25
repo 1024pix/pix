@@ -13,6 +13,7 @@ const skillRepository = require('../../../../lib/infrastructure/repositories/ski
 const Badge = require('../../../../lib/domain/models/Badge');
 const { NotEligibleCandidateError } = require('../../../../lib/domain/errors');
 const { CleaCertificationScoring } = require('../../../../lib/domain/models');
+const ComplementaryCertificationCourseResult = require('../../../../lib/domain/models/ComplementaryCertificationCourseResult');
 
 describe('Integration | Repository | Partner Certification Scoring', function () {
   const COMPLEMENTARY_CERTIFICATION_COURSE_RESULTS_TABLE_NAME = 'complementary-certification-course-results';
@@ -56,7 +57,7 @@ describe('Integration | Repository | Partner Certification Scoring', function ()
         complementaryCertificationCourseId,
         partnerKey: partnerCertificationScoring.partnerKey,
         acquired: true,
-        source: 'PIX',
+        source: ComplementaryCertificationCourseResult.sources.PIX,
       });
     });
 
@@ -76,7 +77,7 @@ describe('Integration | Repository | Partner Certification Scoring', function ()
       databaseBuilder.factory.buildComplementaryCertificationCourseResult({
         complementaryCertificationCourseId,
         partnerKey: partnerCertificationScoring.partnerKey,
-        source: 'PIX',
+        source: ComplementaryCertificationCourseResult.sources.PIX,
       });
       await databaseBuilder.commit();
       sinon.stub(partnerCertificationScoring, 'isAcquired').returns(false);
@@ -99,7 +100,7 @@ describe('Integration | Repository | Partner Certification Scoring', function ()
         complementaryCertificationCourseId,
         partnerKey: partnerCertificationScoring.partnerKey,
         acquired: false,
-        source: 'PIX',
+        source: ComplementaryCertificationCourseResult.sources.PIX,
       });
     });
   });

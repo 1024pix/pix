@@ -8,6 +8,7 @@ const {
 } = require('../../../test-helper');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 const shareableCertificateRepository = require('../../../../lib/infrastructure/repositories/shareable-certificate-repository');
+const ComplementaryCertificationCourseResult = require('../../../../lib/domain/models/ComplementaryCertificationCourseResult');
 const {
   PIX_EMPLOI_CLEA_V1,
   PIX_EMPLOI_CLEA_V2,
@@ -592,7 +593,7 @@ describe('Integration | Infrastructure | Repository | Shareable Certificate', fu
           certificationCourseId: otherCertificateId,
           partnerKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
           acquired: true,
-          source: 'PIX',
+          source: ComplementaryCertificationCourseResult.sources.PIX,
         });
         await databaseBuilder.commit();
 
@@ -708,7 +709,7 @@ async function _buildValidShareableCertificateWithAcquiredAndNotAcquiredBadges({
       complementaryCertificationCourseId,
       partnerKey: badgeKey,
       acquired: true,
-      source: 'PIX',
+      source: ComplementaryCertificationCourseResult.sources.PIX,
     });
   });
 

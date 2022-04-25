@@ -11,6 +11,11 @@ const {
   PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT,
 } = require('./Badge').keys;
 
+const sources = {
+  EXTERNAL: 'EXTERNAL',
+  PIX: 'PIX',
+};
+
 class ComplementaryCertificationCourseResult {
   constructor({ certificationCourseId, complementaryCertificationCourseId, partnerKey, source, acquired } = {}) {
     this.certificationCourseId = certificationCourseId;
@@ -54,5 +59,7 @@ class ComplementaryCertificationCourseResult {
     ].includes(this.partnerKey);
   }
 }
+
+ComplementaryCertificationCourseResult.sources = sources;
 
 module.exports = ComplementaryCertificationCourseResult;

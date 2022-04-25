@@ -18,6 +18,7 @@ const {
   PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
 } = require('../../../../lib/domain/models/Badge').keys;
 const _ = require('lodash');
+const ComplementaryCertificationCourseResult = require('../../../../lib/domain/models/ComplementaryCertificationCourseResult');
 
 describe('Integration | Infrastructure | Repository | Private Certificate', function () {
   const minimalLearningContent = [
@@ -988,7 +989,7 @@ async function _buildValidPrivateCertificateWithAcquiredAndNotAcquiredBadges({
       complementaryCertificationCourseId,
       partnerKey: badgeKey,
       acquired: true,
-      source: 'PIX',
+      source: ComplementaryCertificationCourseResult.sources.PIX,
     });
   });
 
