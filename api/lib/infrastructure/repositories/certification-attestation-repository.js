@@ -38,7 +38,7 @@ module.exports = {
     }
 
     const competenceTree = await competenceTreeRepository.get();
-    const acquiredComplementaryCertifications = await _getAcquiredPartnerCertification(certificationCourseDTO.id);
+    const acquiredComplementaryCertifications = await _getPartnerCertification(certificationCourseDTO.id);
 
     return _toDomain(certificationCourseDTO, competenceTree, acquiredComplementaryCertifications);
   },
@@ -142,7 +142,7 @@ function _filterMostRecentCertificationCoursePerSchoolingRegistration(DTOs) {
   return mostRecent;
 }
 
-async function _getAcquiredPartnerCertification(certificationCourseId) {
+async function _getPartnerCertification(certificationCourseId) {
   const handledBadgeKeys = [
     PIX_EMPLOI_CLEA_V1,
     PIX_EMPLOI_CLEA_V2,
@@ -190,7 +190,7 @@ function _toDomain(certificationCourseDTO, competenceTree, acquiredComplementary
 
   const certifiedBadgesDTO = new CertifiedBadges({
     complementaryCertificationCourseResults: acquiredComplementaryCertifications,
-  }).getCertifiedBadgesDTO();
+  }).getAcquiredCertifiedBadgesDTO();
 
   return new CertificationAttestation({
     ...certificationCourseDTO,
