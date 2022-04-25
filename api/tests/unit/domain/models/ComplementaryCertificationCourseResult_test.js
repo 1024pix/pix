@@ -16,6 +16,40 @@ const {
 } = require('../../../../lib/domain/models/Badge').keys;
 
 describe('Unit | Domain | Models | ComplementaryCertificationCourseResult', function () {
+  describe('#isAcquired', function () {
+    it('should return true if acquired is true', function () {
+      // given
+      const complementaryCertificationCourseResult = new ComplementaryCertificationCourseResult({
+        complementaryCertificationCourseId: 'complementaryCertificationCourseId',
+        partnerKey: 'partnerKey',
+        acquired: true,
+        source: 'source',
+      });
+
+      // when
+      const result = complementaryCertificationCourseResult.isAcquired();
+
+      // then
+      expect(result).to.be.true;
+    });
+
+    it('should return false if acquired is false', function () {
+      // given
+      const complementaryCertificationCourseResult = new ComplementaryCertificationCourseResult({
+        complementaryCertificationCourseId: 'complementaryCertificationCourseId',
+        partnerKey: 'partnerKey',
+        acquired: false,
+        source: 'source',
+      });
+
+      // when
+      const result = complementaryCertificationCourseResult.isAcquired();
+
+      // then
+      expect(result).to.be.false;
+    });
+  });
+
   describe('#isPixEdu1erDegre', function () {
     // eslint-disable-next-line mocha/no-setup-in-describe
     [
