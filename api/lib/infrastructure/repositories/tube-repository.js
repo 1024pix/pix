@@ -71,10 +71,10 @@ module.exports = {
     return _.orderBy(tubes, (tube) => tube.name.toLowerCase());
   },
 
-  async findActiveByRecordIds(tubeIds) {
+  async findActiveByRecordIds(tubeIds, locale) {
     const tubeDatas = await tubeDatasource.findByRecordIds(tubeIds);
     const activeTubes = await _findActive(tubeDatas);
-    const tubes = _.map(activeTubes, (tubeData) => _toDomain({ tubeData }));
+    const tubes = _.map(activeTubes, (tubeData) => _toDomain({ tubeData, locale }));
     return _.orderBy(tubes, (tube) => tube.name.toLowerCase());
   },
 };
