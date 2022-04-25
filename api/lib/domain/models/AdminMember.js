@@ -29,4 +29,8 @@ module.exports = class AdminMember {
       this
     );
   }
+
+  get isSuperAdmin() {
+    return this.role === ROLES.SUPER_ADMIN;
+  }
 };
