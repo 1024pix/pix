@@ -175,7 +175,9 @@ async function _getCertifiedBadgeImages(certificationCourseId) {
       })
   );
 
-  const certifiedBadgesDTO = new CertifiedBadges({ complementaryCertificationCourseResults }).getCertifiedBadgesDTO();
+  const certifiedBadgesDTO = new CertifiedBadges({
+    complementaryCertificationCourseResults,
+  }).getAcquiredCertifiedBadgesDTO();
 
   return _.compact(
     _.map(certifiedBadgesDTO, ({ partnerKey, isTemporaryBadge }) =>

@@ -17,14 +17,14 @@ class CertifiedBadges {
     this.complementaryCertificationCourseResults = complementaryCertificationCourseResults;
   }
 
-  getCertifiedBadgesDTO() {
+  getAcquiredCertifiedBadgesDTO() {
     const complementaryCertificationCourseResultsByPartnerKey = _.groupBy(
       this.complementaryCertificationCourseResults,
       'complementaryCertificationCourseId'
     );
 
-    return Object.values(complementaryCertificationCourseResultsByPartnerKey).map(
-      (complementaryCertificationCourseResults) => {
+    return Object.values(complementaryCertificationCourseResultsByPartnerKey)
+      .map((complementaryCertificationCourseResults) => {
         const partnerKey = complementaryCertificationCourseResults[0].partnerKey;
         if (complementaryCertificationCourseResults[0].isPixEdu()) {
           if (complementaryCertificationCourseResults.length === 1) {
@@ -46,9 +46,11 @@ class CertifiedBadges {
           }
         }
 
-        return { partnerKey, isTemporaryBadge: false };
-      }
-    );
+        if (complementaryCertificationCourseResults[0].isAcquired()) {
+          return { partnerKey, isTemporaryBadge: false };
+        }
+      })
+      .filter(Boolean);
   }
 
   _getLowestPartnerKeyForPixEdu2ndDegreBadge(complementaryCertificationCourseResults) {
