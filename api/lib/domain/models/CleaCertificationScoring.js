@@ -16,6 +16,7 @@ class CleaCertificationScoring extends PartnerCertificationScoring {
     reproducibilityRate,
     isBadgeAcquisitionStillValid = true,
     cleaBadgeKey,
+    pixScore,
   } = {}) {
     super({
       complementaryCertificationCourseId,
@@ -26,6 +27,7 @@ class CleaCertificationScoring extends PartnerCertificationScoring {
     this.hasAcquiredBadge = hasAcquiredBadge;
     this.isBadgeAcquisitionStillValid = isBadgeAcquisitionStillValid;
     this.reproducibilityRate = reproducibilityRate;
+    this.pixScore = pixScore;
 
     const schema = Joi.object({
       hasAcquiredBadge: Joi.boolean().required(),
