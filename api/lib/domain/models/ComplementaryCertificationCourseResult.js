@@ -33,6 +33,32 @@ class ComplementaryCertificationCourseResult {
     });
   }
 
+  static buildFromJuryLevel({ complementaryCertificationCourseId, juryLevel, pixPartnerKey }) {
+    if (juryLevel === 'REJECTED') {
+      return new ComplementaryCertificationCourseResult({
+        complementaryCertificationCourseId,
+        partnerKey: pixPartnerKey,
+        acquired: false,
+        source: sources.EXTERNAL,
+      });
+    }
+
+    return new ComplementaryCertificationCourseResult({
+      complementaryCertificationCourseId,
+      partnerKey: juryLevel,
+      acquired: true,
+      source: sources.EXTERNAL,
+    });
+  }
+
+  isFromPixSource() {
+    return this.source === sources.PIX;
+  }
+
+  isFromExternalSource() {
+    return this.source === sources.EXTERNAL;
+  }
+
   isPixEdu() {
     return this.isPixEdu1erDegre() || this.isPixEdu2ndDegre();
   }
