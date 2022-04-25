@@ -134,7 +134,7 @@ async function _getCertifiedBadgeImages(certificationCourseId) {
       'complementary-certification-courses.id',
       'complementary-certification-course-results.complementaryCertificationCourseId'
     )
-    .where({ certificationCourseId, acquired: true })
+    .where({ certificationCourseId })
     .where(function () {
       this.whereIn('partnerKey', handledBadgeKeys);
     })
