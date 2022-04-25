@@ -265,6 +265,7 @@ module.exports = injectDependencies(
     flagSessionResultsAsSentToPrescriber: require('./flag-session-results-as-sent-to-prescriber'),
     generateUsername: require('./generate-username'),
     generateUsernameWithTemporaryPassword: require('./generate-username-with-temporary-password'),
+    getAdminMemberDetails: require('./get-admin-member-details'),
     getAnswer: require('./get-answer'),
     getAssessment: require('./get-assessment'),
     getAttendanceSheet: require('./get-attendance-sheet'),
