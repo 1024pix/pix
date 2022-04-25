@@ -1,5 +1,6 @@
 module.exports = async function getFrameworkAreas({
   frameworkId,
+  locale,
   challengeRepository,
   tubeRepository,
   thematicRepository,
@@ -13,7 +14,7 @@ module.exports = async function getFrameworkAreas({
   const thematics = await thematicRepository.findByCompetenceIds(competenceIds);
 
   const tubeIds = thematics.flatMap((thematic) => thematic.tubeIds);
-  const tubes = await tubeRepository.findActiveByRecordIds(tubeIds);
+  const tubes = await tubeRepository.findActiveByRecordIds(tubeIds, locale);
 
   const validatedChallenges = await challengeRepository.findValidatedPrototype();
 

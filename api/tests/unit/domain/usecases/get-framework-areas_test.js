@@ -14,7 +14,7 @@ describe('Unit | UseCase | get-framework-areas', function () {
   beforeEach(function () {
     expectedChallengeResult = [{ id: 'challengeId1', responsive: '', skill: { tubeId: 'tubeId1' } }];
     expectedTubesResult = [{ id: 'tubeId1' }];
-    expectedThematicsResult = [{ id: 'thematicId', tubeIds: [{ id: 'tubeId1' }] }];
+    expectedThematicsResult = [{ id: 'thematicId', tubeIds: ['tubeId1'] }];
     expectedAreasResult = [{ id: 'areaId1', competences: [{ id: 'competenceId1' }] }];
 
     challengeRepository = {
@@ -38,6 +38,8 @@ describe('Unit | UseCase | get-framework-areas', function () {
   it('should get the framework', async function () {
     // when
     const response = await usecases.getFrameworkAreas({
+      frameworkId: 'frameworkId',
+      locale: 'locale',
       challengeRepository,
       tubeRepository,
       thematicRepository,
@@ -49,10 +51,10 @@ describe('Unit | UseCase | get-framework-areas', function () {
       thematics: expectedThematicsResult,
       areas: expectedAreasResult,
     });
-    expect(challengeRepository.findValidatedPrototype).to.have.been.called;
-    expect(tubeRepository.findActiveByRecordIds).to.have.been.called;
-    expect(thematicRepository.findByCompetenceIds).to.have.been.called;
-    expect(areaRepository.findByFrameworkIdWithCompetences).to.have.been.called;
+    expect(challengeRepository.findValidatedPrototype).to.have.been.calledWithExactly();
+    expect(tubeRepository.findActiveByRecordIds).to.have.been.calledWith(['tubeId1'], 'locale');
+    expect(thematicRepository.findByCompetenceIds).to.have.been.calledWith(['competenceId1']);
+    expect(areaRepository.findByFrameworkIdWithCompetences).to.have.been.calledWithExactly('frameworkId');
   });
 
   /* eslint-disable mocha/no-setup-in-describe */
