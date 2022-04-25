@@ -143,7 +143,6 @@ async function _getCertifiedBadgeImages(certificationCourseId) {
   const complementaryCertificationCourseResults = results.map(
     ({ partnerKey, complementaryCertificationCourseId, acquired, source }) =>
       ComplementaryCertificationCourseResult.from({
-        certificationCourseId,
         complementaryCertificationCourseId,
         partnerKey,
         acquired,

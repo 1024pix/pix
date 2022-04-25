@@ -17,17 +17,15 @@ const sources = {
 };
 
 class ComplementaryCertificationCourseResult {
-  constructor({ certificationCourseId, complementaryCertificationCourseId, partnerKey, source, acquired } = {}) {
-    this.certificationCourseId = certificationCourseId;
+  constructor({ complementaryCertificationCourseId, partnerKey, source, acquired } = {}) {
     this.complementaryCertificationCourseId = complementaryCertificationCourseId;
     this.partnerKey = partnerKey;
     this.acquired = acquired;
     this.source = source;
   }
 
-  static from({ certificationCourseId, complementaryCertificationCourseId, partnerKey, acquired, source }) {
+  static from({ complementaryCertificationCourseId, partnerKey, acquired, source }) {
     return new ComplementaryCertificationCourseResult({
-      certificationCourseId,
       complementaryCertificationCourseId,
       partnerKey,
       acquired,
