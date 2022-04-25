@@ -1,6 +1,7 @@
 module.exports = class AdminMember {
-  constructor({ id, firstName, lastName, email, role }) {
+  constructor({ id, userId, firstName, lastName, email, role }) {
     this.id = id;
+    this.userId = userId;
     this.firstName = firstName;
     this.lastName = lastName;
     this.email = email;
