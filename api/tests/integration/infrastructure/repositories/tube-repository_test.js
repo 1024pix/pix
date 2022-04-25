@@ -402,5 +402,80 @@ describe('Integration | Repository | tube-repository', function () {
       expect(tubes).to.have.lengthOf(1);
       expect(tubes[0]).to.deep.equal(tube1);
     });
+
+    it('should return a list of english active tubes', async function () {
+      // given
+      const tube1 = new Tube({
+        id: 'recTube1',
+        name: 'tubeName1',
+        title: 'tubeTitle1',
+        description: 'tubeDescription1',
+        practicalTitle: 'translatedPracticalTitle1EnUs',
+        practicalDescription: 'translatedPracticalDescription1EnUs',
+        competenceId: 'recCompetence1',
+      });
+
+      const learningContentTube0 = {
+        id: 'recTube0',
+        name: 'tubeName0',
+        title: 'tubeTitle0',
+        description: 'tubeDescription0',
+        practicalTitleFrFr: 'translatedPracticalTitle0',
+        practicalDescriptionFrFr: 'translatedPracticalDescription0',
+        practicalTitleEnUs: 'translatedPracticalTitle0EnUs',
+        practicalDescriptionEnUs: 'translatedPracticalDescription0EnUs',
+        competenceId: 'recCompetence0',
+      };
+
+      const learningContentTube1 = {
+        id: 'recTube1',
+        name: 'tubeName1',
+        title: 'tubeTitle1',
+        description: 'tubeDescription1',
+        practicalTitleFrFr: 'translatedPracticalTitle1',
+        practicalDescriptionFrFr: 'translatedPracticalDescription1',
+        practicalTitleEnUs: 'translatedPracticalTitle1EnUs',
+        practicalDescriptionEnUs: 'translatedPracticalDescription1EnUs',
+        competenceId: 'recCompetence1',
+      };
+
+      const learningContentTube2 = {
+        id: 'recTube2',
+        name: 'tubeName2',
+        title: 'tubeTitle2',
+        description: 'tubeDescription2',
+        practicalTitleFrFr: 'translatedPracticalTitle2',
+        practicalDescriptionFrFr: 'translatedPracticalDescription2',
+        practicalTitleEnUs: 'translatedPracticalTitle2EnUs',
+        practicalDescriptionEnUs: 'translatedPracticalDescription2EnUs',
+        competenceId: 'recCompetence2',
+      };
+
+      const skills = [
+        {
+          id: 'skillId0',
+          status: 'actif',
+          tubeId: 'recTube0',
+        },
+        {
+          id: 'skillId1',
+          status: 'actif',
+          tubeId: 'recTube1',
+        },
+        {
+          id: 'skillId2',
+          status: 'archivé',
+          tubeId: 'recTube2',
+        },
+      ];
+      mockLearningContent({ tubes: [learningContentTube1, learningContentTube0, learningContentTube2], skills });
+
+      // when
+      const tubes = await tubeRepository.findActiveByRecordIds(['recTube1', 'recTube2'], 'en');
+
+      // then
+      expect(tubes).to.have.lengthOf(1);
+      expect(tubes[0]).to.deep.equal(tube1);
+    });
   });
 });
