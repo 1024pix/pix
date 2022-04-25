@@ -192,11 +192,11 @@ module('Integration | Component | enrolled-candidates', function (hooks) {
 
         // then
         if (multipleButtonVisible) {
-          assert.dom(screen.getByRole('link', { name: 'Ajouter des candidats' })).isVisible();
-          assert.dom(screen.queryByRole('button', { name: 'Ajouter un candidat' })).isNotVisible();
+          assert.dom(screen.getByRole('link', { name: 'Inscrire des candidats' })).isVisible();
+          assert.dom(screen.queryByRole('button', { name: 'Inscrire un candidat' })).isNotVisible();
         } else {
-          assert.dom(screen.queryByRole('link', { name: 'Ajouter des candidats' })).isNotVisible();
-          assert.dom(screen.getByRole('button', { name: 'Ajouter un candidat' })).isVisible();
+          assert.dom(screen.queryByRole('link', { name: 'Inscrire des candidats' })).isNotVisible();
+          assert.dom(screen.getByRole('button', { name: 'Inscrire un candidat' })).isVisible();
         }
       })
     );
