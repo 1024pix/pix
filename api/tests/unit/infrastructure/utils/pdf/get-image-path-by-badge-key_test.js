@@ -11,6 +11,11 @@ const {
   PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME,
   PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
   PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
+  PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_INITIE,
+  PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_CONFIRME,
+  PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_CONFIRME,
+  PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE,
+  PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT,
 } = require('../../../../../lib/domain/models/Badge').keys;
 
 describe('Unit | Utils | get-image-path-by-badge-key', function () {
@@ -26,6 +31,11 @@ describe('Unit | Utils | get-image-path-by-badge-key', function () {
     { badge: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME, path: '/files/macaron_edu_2nd_confirme.pdf' },
     { badge: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE, path: '/files/macaron_edu_2nd_avance.pdf' },
     { badge: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT, path: '/files/macaron_edu_2nd_expert.pdf' },
+    { badge: PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_INITIE, path: '/files/macaron_edu_1er_initie.pdf' },
+    { badge: PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_CONFIRME, path: '/files/macaron_edu_1er_confirme.pdf' },
+    { badge: PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_CONFIRME, path: '/files/macaron_edu_1er_confirme.pdf' },
+    { badge: PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE, path: '/files/macaron_edu_1er_avance.pdf' },
+    { badge: PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT, path: '/files/macaron_edu_1er_expert.pdf' },
   ].forEach(({ badge, path }) => {
     it(`should return the path ${path} for the badge ${badge}`, function () {
       // when
