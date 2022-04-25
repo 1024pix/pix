@@ -3,11 +3,12 @@ const buildComplementaryCertificationCourse = require('./build-complementary-cer
 const buildComplementaryCertification = require('./build-complementary-certification');
 const buildCertificationCourse = require('./build-certification-course');
 const _ = require('lodash');
+const ComplementaryCertificationCourseResult = require('../../../lib/domain/models/ComplementaryCertificationCourseResult');
 
 module.exports = function buildComplementaryCertificationCourseResult({
   complementaryCertificationCourseId,
   partnerKey,
-  source = 'PIX',
+  source = ComplementaryCertificationCourseResult.sources.PIX,
   acquired = true,
 }) {
   complementaryCertificationCourseId = _.isUndefined(complementaryCertificationCourseId)

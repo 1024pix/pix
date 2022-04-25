@@ -1,3 +1,4 @@
+const ComplementaryCertificationCourseResult = require('./ComplementaryCertificationCourseResult');
 const PartnerCertificationScoring = require('./PartnerCertificationScoring');
 
 class PixPlusEduCertificationScoring extends PartnerCertificationScoring {
@@ -10,7 +11,7 @@ class PixPlusEduCertificationScoring extends PartnerCertificationScoring {
     super({
       complementaryCertificationCourseId,
       partnerKey: certifiableBadgeKey,
-      source: 'PIX',
+      source: ComplementaryCertificationCourseResult.sources.PIX,
     });
 
     this.reproducibilityRate = reproducibilityRate;

@@ -1,3 +1,4 @@
+const ComplementaryCertificationCourseResult = require('../../../../lib/domain/models/ComplementaryCertificationCourseResult');
 const CertifiedBadges = require('../../../../lib/domain/read-models/CertifiedBadges');
 const { expect, domainBuilder } = require('../../../test-helper');
 
@@ -100,12 +101,12 @@ describe('Unit | Domain | Read-models | CertifiedBadges', function () {
                 complementaryCertificationCourseId: 456,
 
                 partnerKey,
-                source: 'PIX',
+                source: ComplementaryCertificationCourseResult.sources.PIX,
               }),
               domainBuilder.buildComplementaryCertificationCourseResult({
                 partnerKey,
                 complementaryCertificationCourseId: 456,
-                source: 'EXTERNAL',
+                source: ComplementaryCertificationCourseResult.sources.EXTERNAL,
               }),
             ];
 
@@ -224,12 +225,12 @@ describe('Unit | Domain | Read-models | CertifiedBadges', function () {
             domainBuilder.buildComplementaryCertificationCourseResult({
               partnerKey: sourcePix,
               complementaryCertificationCourseId: 456,
-              source: 'PIX',
+              source: ComplementaryCertificationCourseResult.sources.PIX,
             }),
             domainBuilder.buildComplementaryCertificationCourseResult({
               partnerKey: sourceExternal,
               complementaryCertificationCourseId: 456,
-              source: 'EXTERNAL',
+              source: ComplementaryCertificationCourseResult.sources.EXTERNAL,
             }),
           ];
 

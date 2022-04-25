@@ -3,6 +3,7 @@ const DomainTransaction = require('../DomainTransaction');
 const ComplementaryCertificationCourseResultBookshelf = require('../orm-models/ComplementaryCertificationCourseResult');
 const CleaCertificationScoring = require('../../domain/models/CleaCertificationScoring');
 const Badge = require('../../domain/models/Badge');
+const ComplementaryCertificationCourseResult = require('../../domain/models/ComplementaryCertificationCourseResult');
 
 module.exports = {
   async getCleaCertificationScoring({
@@ -32,7 +33,7 @@ module.exports = {
     const partnerCertificationToSave = new ComplementaryCertificationCourseResultBookshelf(
       _adaptModelToDB({
         ...partnerCertificationScoring,
-        source: 'PIX',
+        source: ComplementaryCertificationCourseResult.sources.PIX,
         complementaryCertificationCourseId: partnerCertificationScoring.complementaryCertificationCourseId,
         acquired: partnerCertificationScoring.isAcquired(),
       })

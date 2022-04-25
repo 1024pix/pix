@@ -27,6 +27,7 @@ const {
   PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT,
 } = require('../../../../lib/domain/models/Badge').keys;
 const certificationAttestationRepository = require('../../../../lib/infrastructure/repositories/certification-attestation-repository');
+const ComplementaryCertificationCourseResult = require('../../../../lib/domain/models/ComplementaryCertificationCourseResult');
 
 describe('Integration | Infrastructure | Repository | Certification Attestation', function () {
   const minimalLearningContent = [
@@ -427,7 +428,7 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
         databaseBuilder.factory.buildComplementaryCertificationCourseResult({
           complementaryCertificationCourseId: 999,
           partnerKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
-          source: 'PIX',
+          source: ComplementaryCertificationCourseResult.sources.PIX,
           acquired: true,
         });
         await databaseBuilder.commit();
