@@ -126,9 +126,7 @@ describe('Unit | Domain | Models | CleaCertificationScoring', function () {
       GREEN_ZONE_REPRO.forEach((reproducibilityRate) =>
         it(`for ${reproducibilityRate} reproducibility rate, it should obtain certification`, async function () {
           // given
-          const cleaCertificationScoring = await _buildCleaCertificationScoringWithReproducibilityRate(
-            reproducibilityRate
-          );
+          const cleaCertificationScoring = await _buildCleaCertificationScoringWithBadge(reproducibilityRate);
 
           // when
           const hasAcquiredCertif = cleaCertificationScoring.isAcquired();
@@ -144,9 +142,7 @@ describe('Unit | Domain | Models | CleaCertificationScoring', function () {
       RED_ZONE_REPRO.forEach((reproducibilityRate) =>
         it(`for ${reproducibilityRate} reproducibility rate, it should not obtain certification`, async function () {
           // given
-          const cleaCertificationScoring = await _buildCleaCertificationScoringWithReproducibilityRate(
-            reproducibilityRate
-          );
+          const cleaCertificationScoring = await _buildCleaCertificationScoringWithBadge(reproducibilityRate);
 
           // when
           const hasAcquiredCertif = cleaCertificationScoring.isAcquired({
@@ -162,19 +158,15 @@ describe('Unit | Domain | Models | CleaCertificationScoring', function () {
   });
 });
 
-function _buildCleaCertificationScoringWithBadge() {
-  return _buildCleaCertificationScoring({ withBadge: true });
+function _buildCleaCertificationScoringWithBadge(reproducibilityRate, pixScore) {
+  return _buildCleaCertificationScoring({ withBadge: true, reproducibilityRate, pixScore });
 }
 
 function _buildCleaCertificationScoringWithoutBadge() {
   return _buildCleaCertificationScoring({ withBadge: false });
 }
 
-function _buildCleaCertificationScoringWithReproducibilityRate(reproducibilityRate) {
-  return _buildCleaCertificationScoring({ withBadge: true, reproducibilityRate });
-}
-
-function _buildCleaCertificationScoring({ withBadge = false, reproducibilityRate = 0 }) {
+function _buildCleaCertificationScoring({ withBadge = false, reproducibilityRate = 0, pixScore = 0 }) {
   const certificationCourseId = 42;
   const complementaryCertificationCourseId = 999;
   return new CleaCertificationScoring({
@@ -183,5 +175,6 @@ function _buildCleaCertificationScoring({ withBadge = false, reproducibilityRate
     hasAcquiredBadge: withBadge,
     reproducibilityRate,
     cleaBadgeKey: 'pix_clea_badge_key',
+    pixScore,
   });
 }
