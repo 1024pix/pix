@@ -12,6 +12,7 @@ const partnerCertificationScoringRepository = require('../../../../lib/infrastru
 const skillRepository = require('../../../../lib/infrastructure/repositories/skill-repository');
 const Badge = require('../../../../lib/domain/models/Badge');
 const { NotEligibleCandidateError } = require('../../../../lib/domain/errors');
+const { CleaCertificationScoring } = require('../../../../lib/domain/models');
 
 describe('Integration | Repository | Partner Certification Scoring', function () {
   const COMPLEMENTARY_CERTIFICATION_COURSE_RESULTS_TABLE_NAME = 'complementary-certification-course-results';
@@ -188,46 +189,30 @@ describe('Integration | Repository | Partner Certification Scoring', function ()
           return databaseBuilder.commit();
         });
 
-        context('when user reproducibility rate is below minimum rate', function () {
-          it('should build a not acquired CleaCertificationScoring', async function () {
-            // given
-            const skill = domainBuilder.buildSkill({ id: 'recSkill1' });
-            const learningContent = { skills: [skill] };
-            mockLearningContent(learningContent);
-
-            // when
-            const cleaCertificationScoring = await partnerCertificationScoringRepository.buildCleaCertificationScoring({
-              complementaryCertificationCourseId,
-              certificationCourseId,
-              userId,
-              reproducibilityRate: 10,
-              skillRepository,
-            });
-
-            // then
-            expect(cleaCertificationScoring.isAcquired()).to.be.false;
+        it('should build an acquired CleaCertificationScoring', async function () {
+          // given
+          const skill = domainBuilder.buildSkill({ id: 'recSkill1' });
+          const learningContent = { skills: [skill] };
+          mockLearningContent(learningContent);
+          const expectedCleaCertificationScoring = new CleaCertificationScoring({
+            complementaryCertificationCourseId: 998,
+            hasAcquiredBadge: true,
+            reproducibilityRate: 95,
+            isBadgeAcquisitionStillValid: true,
+            cleaBadgeKey: 'PIX_EMPLOI_CLEA',
           });
-        });
 
-        context('when user reproducibility rate is above trusted rate', function () {
-          it('should build an acquired CleaCertificationScoring', async function () {
-            // given
-            const skill = domainBuilder.buildSkill({ id: 'recSkill1' });
-            const learningContent = { skills: [skill] };
-            mockLearningContent(learningContent);
-
-            // when
-            const cleaCertificationScoring = await partnerCertificationScoringRepository.buildCleaCertificationScoring({
-              complementaryCertificationCourseId,
-              certificationCourseId,
-              userId,
-              reproducibilityRate: 95,
-              skillRepository,
-            });
-
-            // then
-            expect(cleaCertificationScoring.isAcquired()).to.be.true;
+          // when
+          const cleaCertificationScoring = await partnerCertificationScoringRepository.buildCleaCertificationScoring({
+            complementaryCertificationCourseId,
+            certificationCourseId,
+            userId,
+            reproducibilityRate: 95,
+            skillRepository,
           });
+
+          // then
+          expect(cleaCertificationScoring).to.deepEqualInstance(expectedCleaCertificationScoring);
         });
       });
     });
