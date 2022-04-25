@@ -3,11 +3,7 @@ const { NotEligibleCandidateError } = require('../errors');
 const Joi = require('joi');
 const { validateEntity } = require('../validators/entity-validator');
 
-const { MINIMUM_REPRODUCIBILITY_RATE_TO_BE_CERTIFIED } = require('../constants');
-
-function _hasNotMinimumReproducibilityRateToBeCertified(reproducibilityRate) {
-  return reproducibilityRate < MINIMUM_REPRODUCIBILITY_RATE_TO_BE_CERTIFIED;
-}
+const { ReproducibilityRate } = require('./ReproducibilityRate');
 
 class CleaCertificationScoring extends PartnerCertificationScoring {
   constructor({
@@ -58,7 +54,9 @@ class CleaCertificationScoring extends PartnerCertificationScoring {
   isAcquired() {
     if (!this.hasAcquiredBadge) throw new NotEligibleCandidateError();
 
-    if (_hasNotMinimumReproducibilityRateToBeCertified(this.reproducibilityRate)) return false;
+    const reproducibilityRate = new ReproducibilityRate(this.reproducibilityRate);
+
+    if (!reproducibilityRate.isEnoughToBeCertified()) return false;
 
     return true;
   }
