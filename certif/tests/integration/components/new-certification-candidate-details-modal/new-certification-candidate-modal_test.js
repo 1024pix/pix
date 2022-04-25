@@ -463,7 +463,7 @@ module('Integration | Component | new-certification-candidate-modal', function (
       );
       await fillIn(screen.getByLabelText('E-mail de convocation'), 'roooooar@example.net');
 
-      await clickByLabel('Ajouter le candidat');
+      await clickByLabel('Inscrire le candidat');
 
       // then
       // TODO: Fix this the next time the file is edited.
