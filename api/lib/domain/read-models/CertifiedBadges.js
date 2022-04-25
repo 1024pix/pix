@@ -28,8 +28,17 @@ class CertifiedBadges {
         const partnerKey = complementaryCertificationCourseResults[0].partnerKey;
         if (complementaryCertificationCourseResults[0].isPixEdu()) {
           if (complementaryCertificationCourseResults.length === 1) {
+            if (!complementaryCertificationCourseResults[0].isAcquired()) {
+              return;
+            }
             return { partnerKey, isTemporaryBadge: true };
-          } else {
+          }
+
+          if (complementaryCertificationCourseResults.length > 1) {
+            if (!this._hasAcquiredExternalSourceCertifiedBadge(complementaryCertificationCourseResults)) {
+              return;
+            }
+
             let lowestPartnerKey;
             if (complementaryCertificationCourseResults[0].isPixEdu2ndDegre()) {
               lowestPartnerKey = this._getLowestPartnerKeyForPixEdu2ndDegreBadge(
@@ -95,6 +104,14 @@ class CertifiedBadges {
     return firstIndexOf <= secondIndexOf
       ? complementaryCertificationCourseResults[0].partnerKey
       : complementaryCertificationCourseResults[1].partnerKey;
+  }
+
+  _hasAcquiredExternalSourceCertifiedBadge(complementaryCertificationCourseResults) {
+    return complementaryCertificationCourseResults.some(
+      (complementaryCertificationCourseResult) =>
+        complementaryCertificationCourseResult.isAcquired() &&
+        complementaryCertificationCourseResult.isFromExternalSource()
+    );
   }
 }
 
