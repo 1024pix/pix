@@ -1,0 +1,28 @@
+<div class="content-text content-text--small">
+  <table class="table-admin">
+    <thead>
+      <tr>
+        <th>Prénom</th>
+        <th>Nom</th>
+        <th>E-mail</th>
+        <th>Rôle</th>
+      </tr>
+    </thead>
+    {{#if @members}}
+      <tbody>
+        {{#each @members as |member|}}
+          <tr aria-label={{concat member.firstName " " member.lastName}}>
+            <td>{{member.firstName}}</td>
+            <td>{{member.lastName}}</td>
+            <td>{{member.email}}</td>
+            <td>{{member.role}}</td>
+          </tr>
+        {{/each}}
+      </tbody>
+    {{/if}}
+  </table>
+
+  {{#unless @members}}
+    <div class="table__empty content-text">Aucun résultat</div>
+  {{/unless}}
+</div>

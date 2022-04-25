@@ -38,6 +38,10 @@ export default function () {
     return schema.campaignParticipations.all();
   });
 
+  this.get('/admin/admin-members', (schema) => {
+    return schema.adminMembers.all();
+  });
+
   this.get('/admin/sessions', findPaginatedAndFilteredSessions);
   this.get('/admin/sessions/to-publish', (schema) => {
     const toBePublishedSessions = schema.toBePublishedSessions.all();

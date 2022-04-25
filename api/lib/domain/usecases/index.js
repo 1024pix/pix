@@ -1,5 +1,6 @@
 const dependencies = {
   accountRecoveryDemandRepository: require('../../infrastructure/repositories/account-recovery-demand-repository'),
+  adminMemberRepository: require('../../infrastructure/repositories/admin-member-repository'),
   algorithmDataFetcherService: require('../../domain/services/algorithm-methods/data-fetcher'),
   answerRepository: require('../../infrastructure/repositories/answer-repository'),
   areaRepository: require('../../infrastructure/repositories/area-repository'),
@@ -304,6 +305,7 @@ module.exports = injectDependencies(
     getOrganizationInvitation: require('./get-organization-invitation'),
     getParticipantsDivision: require('./get-participants-division'),
     getParticipantsGroup: require('./get-participants-group'),
+    getAdminMembers: require('./get-admin-members'),
     getPoleEmploiSendings: require('./get-pole-emploi-sendings'),
     getPrescriber: require('./get-prescriber'),
     getPrivateCertificate: require('./certificate/get-private-certificate'),
