@@ -7,4 +7,9 @@ module.exports = datasource.extend({
     const areas = await this.list();
     return areas.filter(({ id }) => areaIds.includes(id));
   },
+
+  async findByFrameworkId(frameworkId) {
+    const areas = await this.list();
+    return areas.filter((area) => area.frameworkId === frameworkId);
+  },
 });

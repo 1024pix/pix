@@ -48,6 +48,11 @@ module.exports = datasource.extend({
     );
   },
 
+  async findValidatedPrototype() {
+    const validatedChallenges = await this.findValidated();
+    return validatedChallenges.filter((challenge) => challenge.genealogy === PROTOTYPE_CHALLENGE);
+  },
+
   async findFlashCompatible(locale) {
     const challenges = await this.list();
     return challenges.filter(

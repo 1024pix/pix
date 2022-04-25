@@ -34,21 +34,11 @@ function _findFromPixFramework(tubeDatas, pixCompetences) {
   });
 }
 
-async function _findActive(tubesFromPixFramework) {
-  const skillsByTube = await bluebird.mapSeries(tubesFromPixFramework, ({ id }) =>
-    skillDatasource.findActiveByTubeId(id)
-  );
-
-  const activeTubes = skillsByTube.reduce((accumulator, activeSkills) => {
-    if (activeSkills.length > 0) {
-      const tube = tubesFromPixFramework.find((tubeFromPixFramework) => {
-        return tubeFromPixFramework.id === activeSkills[0].tubeId;
-      });
-      accumulator.push(tube);
-    }
-    return accumulator;
-  }, []);
-  return activeTubes;
+async function _findActive(tubes) {
+  return bluebird.filter(tubes, async ({ id: tubeId }) => {
+    const activeSkills = await skillDatasource.findActiveByTubeId(tubeId);
+    return activeSkills.length > 0;
+  });
 }
 
 module.exports = {
@@ -78,6 +68,13 @@ module.exports = {
     const activeTubes = await _findActive(tubesFromPixFramework);
 
     const tubes = _.map(activeTubes, (tubeData) => _toDomain({ tubeData, locale }));
+    return _.orderBy(tubes, (tube) => tube.name.toLowerCase());
+  },
+
+  async findActiveByRecordIds(tubeIds) {
+    const tubeDatas = await tubeDatasource.findByRecordIds(tubeIds);
+    const activeTubes = await _findActive(tubeDatas);
+    const tubes = _.map(activeTubes, (tubeData) => _toDomain({ tubeData }));
     return _.orderBy(tubes, (tube) => tube.name.toLowerCase());
   },
 };
