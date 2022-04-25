@@ -20,6 +20,11 @@ const {
   PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME,
   PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
   PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
+  PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_INITIE,
+  PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_CONFIRME,
+  PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_CONFIRME,
+  PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE,
+  PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT,
 } = require('../../../../lib/domain/models/Badge').keys;
 const certificationAttestationRepository = require('../../../../lib/infrastructure/repositories/certification-attestation-repository');
 
@@ -328,6 +333,11 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
         { partnerKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME, isTemporaryBadge: true },
         { partnerKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE, isTemporaryBadge: true },
         { partnerKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT, isTemporaryBadge: true },
+        { partnerKey: PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_INITIE, isTemporaryBadge: true },
+        { partnerKey: PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_CONFIRME, isTemporaryBadge: true },
+        { partnerKey: PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_CONFIRME, isTemporaryBadge: true },
+        { partnerKey: PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE, isTemporaryBadge: true },
+        { partnerKey: PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT, isTemporaryBadge: true },
       ].forEach(({ partnerKey, isTemporaryBadge }) => {
         it(`should get the certified badge ${partnerKey} when acquired`, async function () {
           // given
