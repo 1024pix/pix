@@ -14,6 +14,14 @@ module('Integration | Component | menu-bar', function (hooks) {
     assert.dom(screen.getByTitle('Organisations')).exists();
   });
 
+  test('should contain link to "team" management page', async function (assert) {
+    // when
+    const screen = await render(hbs`{{menu-bar}}`);
+
+    // then
+    assert.dom(screen.getByTitle('Équipe')).exists();
+  });
+
   test('should contain link to "users" management page', async function (assert) {
     // when
     const screen = await render(hbs`{{menu-bar}}`);

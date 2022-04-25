@@ -79,6 +79,7 @@ module.exports = {
   buildOrganizationTag: require('./build-organization-tag'),
   buildParticipationForCampaignManagement: require('./build-participation-for-campaign-management'),
   buildComplementaryCertificationCourseResult: require('./build-complementary-certification-course-result'),
+  buildAdminMember: require('./build-admin-member'),
   buildPixPlusDroitCertificationResult: require('./build-pix-plus-droit-certification-result'),
   buildPixPlusDroitCertificationScoring: require('./build-pix-plus-droit-certification-scoring'),
   buildPixPlusEduCertificationScoring: require('./build-pix-plus-edu-certification-scoring'),
