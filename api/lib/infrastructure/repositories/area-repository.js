@@ -34,7 +34,7 @@ async function listWithPixCompetencesOnly({ locale } = {}) {
 async function findByFrameworkIdWithCompetences({ frameworkId, locale }) {
   const areaDatas = await areaDatasource.findByFrameworkId(frameworkId);
   const areas = areaDatas.map((areaData) => _toDomain({ areaData, locale }));
-  const competences = await competenceRepository.list();
+  const competences = await competenceRepository.list({ locale });
   areas.forEach((area) => {
     area.competences = _.filter(competences, { area: { id: area.id } });
   });
