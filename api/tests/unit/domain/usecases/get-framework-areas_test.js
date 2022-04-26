@@ -23,7 +23,6 @@ describe('Unit | UseCase | get-framework-areas', function () {
 
     tubeRepository = {
       findActiveByRecordIds: sinon.stub().resolves(expectedTubesResult),
-      findActivesFromPixFramework: sinon.stub().resolves(expectedTubesResult),
     };
 
     thematicRepository = {
