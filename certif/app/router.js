@@ -30,7 +30,7 @@ Router.map(function () {
         this.route('parameters', { path: '/' });
         this.route('certification-candidates', { path: '/candidats' });
       });
-      this.route('add-student', { path: '/:session_id/ajout-eleves' });
+      this.route('add-student', { path: '/:session_id/inscription-eleves' });
     });
     this.route('team', { path: '/equipe' });
   });

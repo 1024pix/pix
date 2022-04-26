@@ -42,7 +42,7 @@ module('Acceptance | Session Add Sco Students', function (hooks) {
   module('When certificationPointOfContact is not logged in', function () {
     test('it should not be accessible by an unauthenticated certificationPointOfContact', async function (assert) {
       // when
-      await visit(`/sessions/${session.id}/ajout-eleves`);
+      await visit(`/sessions/${session.id}/inscription-eleves`);
 
       // then
       assert.strictEqual(currentURL(), '/connexion');
@@ -61,7 +61,7 @@ module('Acceptance | Session Add Sco Students', function (hooks) {
         allowedCertificationCenterAccess.update({ isAccessBlockedCollege: true });
 
         // when
-        await visit(`/sessions/${session.id}/ajout-eleves`);
+        await visit(`/sessions/${session.id}/inscription-eleves`);
 
         // then
         assert.strictEqual(currentURL(), '/espace-ferme');
@@ -74,7 +74,7 @@ module('Acceptance | Session Add Sco Students', function (hooks) {
       await clickByLabel('Inscrire des candidats');
 
       // then
-      assert.strictEqual(currentURL(), `/sessions/${session.id}/ajout-eleves`);
+      assert.strictEqual(currentURL(), `/sessions/${session.id}/inscription-eleves`);
       assert.dom('.add-student__title').hasText('Inscrire des candidats');
     });
 
