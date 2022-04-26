@@ -32,7 +32,7 @@ describe('Unit | Controller | frameworks-controller', function () {
 
       // then
       expect(result).to.equal(serializedAreas);
-      expect(usecases.getFrameworkAreas).to.have.been.calledWith({ frameworkId: 'pix', locale: 'fr-fr' });
+      expect(usecases.getFrameworkAreas).to.have.been.calledWith({ frameworkName: 'Pix', locale: 'fr-fr' });
       expect(frameworkAreasSerializer.serialize).to.have.been.calledWithExactly(areas);
     });
 
@@ -49,7 +49,7 @@ describe('Unit | Controller | frameworks-controller', function () {
 
       // then
       expect(result).to.equal(serializedAreas);
-      expect(usecases.getFrameworkAreas).to.have.been.calledWithExactly({ frameworkId: 'pix', locale: 'en' });
+      expect(usecases.getFrameworkAreas).to.have.been.calledWithExactly({ frameworkName: 'Pix', locale: 'en' });
       expect(frameworkAreasSerializer.serialize).to.have.been.calledWithExactly(areas);
     });
   });

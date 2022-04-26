@@ -9,13 +9,16 @@ describe('Unit | UseCase | get-framework-areas', function () {
     challengeRepository,
     tubeRepository,
     thematicRepository,
-    areaRepository;
+    areaRepository,
+    frameworkRepository,
+    expectedFrameworkResult;
 
   beforeEach(function () {
     expectedChallengeResult = [{ id: 'challengeId1', responsive: '', skill: { tubeId: 'tubeId1' } }];
     expectedTubesResult = [{ id: 'tubeId1' }];
     expectedThematicsResult = [{ id: 'thematicId', tubeIds: ['tubeId1'] }];
     expectedAreasResult = [{ id: 'areaId1', competences: [{ id: 'competenceId1' }] }];
+    expectedFrameworkResult = { id: 'frameworkId', name: 'framework' };
 
     challengeRepository = {
       findValidatedPrototype: sinon.stub().resolves(expectedChallengeResult),
@@ -31,6 +34,10 @@ describe('Unit | UseCase | get-framework-areas', function () {
 
     areaRepository = {
       findByFrameworkIdWithCompetences: sinon.stub().resolves().returns(expectedAreasResult),
+    };
+
+    frameworkRepository = {
+      getByName: sinon.stub().resolves().returns(expectedFrameworkResult),
     };
   });
 
@@ -54,6 +61,29 @@ describe('Unit | UseCase | get-framework-areas', function () {
     expect(tubeRepository.findActiveByRecordIds).to.have.been.calledWith(['tubeId1'], 'locale');
     expect(thematicRepository.findByCompetenceIds).to.have.been.calledWith(['competenceId1']);
     expect(areaRepository.findByFrameworkIdWithCompetences).to.have.been.calledWithExactly('frameworkId');
+  });
+
+  it('should a get framework by name', async function () {
+    const response = await usecases.getFrameworkAreas({
+      frameworkName: 'framework',
+      locale: 'locale',
+      challengeRepository,
+      tubeRepository,
+      thematicRepository,
+      areaRepository,
+      frameworkRepository,
+    });
+
+    expect(response).to.deep.equal({
+      tubes: expectedTubesResult,
+      thematics: expectedThematicsResult,
+      areas: expectedAreasResult,
+    });
+    expect(challengeRepository.findValidatedPrototype).to.have.been.calledWithExactly();
+    expect(tubeRepository.findActiveByRecordIds).to.have.been.calledWith(['tubeId1'], 'locale');
+    expect(thematicRepository.findByCompetenceIds).to.have.been.calledWith(['competenceId1']);
+    expect(areaRepository.findByFrameworkIdWithCompetences).to.have.been.calledWithExactly('frameworkId');
+    expect(frameworkRepository.getByName).to.have.been.calledWithExactly('framework');
   });
 
   /* eslint-disable mocha/no-setup-in-describe */
@@ -159,10 +189,12 @@ describe('Unit | UseCase | get-framework-areas', function () {
 
           // when
           const { tubes } = await usecases.getFrameworkAreas({
+            frameworkId: 'frameworkId',
             challengeRepository,
             tubeRepository,
             thematicRepository,
             areaRepository,
+            frameworkRepository,
           });
 
           // then
