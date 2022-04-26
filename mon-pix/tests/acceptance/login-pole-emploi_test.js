@@ -5,7 +5,7 @@ import sinon from 'sinon';
 import { visit } from '@ember/test-helpers';
 import { expect } from 'chai';
 
-describe('Acceptance | Route | Login pe', function () {
+describe('Acceptance | Route | Login Pole Emploi', function () {
   setupApplicationTest();
   setupMirage();
   setupIntl();

@@ -3,7 +3,7 @@ import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 
-export default class TermsOfServicePeController extends Controller {
+export default class TermsOfServicePoleEmploiController extends Controller {
   queryParams = ['authenticationKey'];
 
   @service session;
