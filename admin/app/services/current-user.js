@@ -4,14 +4,14 @@ import { tracked } from '@glimmer/tracking';
 export default class CurrentUserService extends Service {
   @service session;
   @service store;
-  @tracked user;
+  @tracked adminMember;
 
   async load() {
     if (this.session.isAuthenticated) {
       try {
-        this.user = await this.store.queryRecord('user', { me: true });
+        this.adminMember = await this.store.queryRecord('admin-member', { me: true });
       } catch (error) {
-        this.user = null;
+        this.adminMember = null;
         return this.session.invalidate();
       }
     }

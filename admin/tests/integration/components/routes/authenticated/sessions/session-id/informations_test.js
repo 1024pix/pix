@@ -4,7 +4,7 @@ import { currentURL } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { visit } from '@1024pix/ember-testing-library';
 import { statusToDisplayName } from 'pix-admin/models/session';
-import { createAuthenticateSession } from 'pix-admin/tests/helpers/test-init';
+import { authenticateAdminMemberWithRole } from 'pix-admin/tests/helpers/test-init';
 import moment from 'moment';
 
 module('Integration | Component | routes/authenticated/sessions/session | informations', function (hooks) {
@@ -14,8 +14,7 @@ module('Integration | Component | routes/authenticated/sessions/session | inform
   let session;
 
   hooks.beforeEach(async function () {
-    const user = server.create('user');
-    await createAuthenticateSession({ userId: user.id });
+    await authenticateAdminMemberWithRole({ role: 'SUPER_ADMIN' })(server);
   });
 
   module('regardless of session status', function () {

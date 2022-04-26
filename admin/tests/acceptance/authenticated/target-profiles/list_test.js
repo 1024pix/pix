@@ -2,9 +2,8 @@ import { module, test } from 'qunit';
 import { currentURL } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { clickByName, visit } from '@1024pix/ember-testing-library';
-import { createAuthenticateSession } from 'pix-admin/tests/helpers/test-init';
-
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import { authenticateAdminMemberWithRole } from 'pix-admin/tests/helpers/test-init';
 
 module('Acceptance | Target Profiles | List', function (hooks) {
   setupApplicationTest(hooks);
@@ -16,16 +15,13 @@ module('Acceptance | Target Profiles | List', function (hooks) {
       await visit('/target-profiles/list');
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(currentURL(), '/login');
+      assert.strictEqual(currentURL(), '/login');
     });
   });
 
   module('When user is logged in', function (hooks) {
     hooks.beforeEach(async () => {
-      const user = server.create('user');
-      await createAuthenticateSession({ userId: user.id });
+      await authenticateAdminMemberWithRole({ role: 'SUPER_ADMIN' })(server);
     });
 
     test('it should be accessible for an authenticated user', async function (assert) {
@@ -33,9 +29,7 @@ module('Acceptance | Target Profiles | List', function (hooks) {
       await visit('/target-profiles/list');
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(currentURL(), '/target-profiles/list');
+      assert.strictEqual(currentURL(), '/target-profiles/list');
     });
 
     test('it should list target profiles', async function (assert) {
@@ -92,9 +86,7 @@ module('Acceptance | Target Profiles | List', function (hooks) {
       await clickByName('Profil Cible');
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(currentURL(), '/target-profiles/1');
+      assert.strictEqual(currentURL(), '/target-profiles/1');
       assert.dom(screen.getByText('Competence 1')).exists();
     });
 
@@ -107,9 +99,7 @@ module('Acceptance | Target Profiles | List', function (hooks) {
       await clickByName('Nouveau profil cible');
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(currentURL(), '/target-profiles/new');
+      assert.strictEqual(currentURL(), '/target-profiles/new');
     });
   });
 });

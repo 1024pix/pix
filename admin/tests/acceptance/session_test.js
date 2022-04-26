@@ -5,7 +5,7 @@ import { FINALIZED } from 'pix-admin/models/session';
 import { clickByName, fillByLabel, visit } from '@1024pix/ember-testing-library';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import sinon from 'sinon';
-import { createAuthenticateSession } from 'pix-admin/tests/helpers/test-init';
+import { authenticateAdminMemberWithRole } from 'pix-admin/tests/helpers/test-init';
 
 module('Acceptance | Session pages', function (hooks) {
   setupApplicationTest(hooks);
@@ -17,9 +17,7 @@ module('Acceptance | Session pages', function (hooks) {
       await visit('/sessions/session');
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(currentURL(), '/login');
+      assert.strictEqual(currentURL(), '/login');
     });
   });
 
@@ -28,8 +26,8 @@ module('Acceptance | Session pages', function (hooks) {
 
     hooks.beforeEach(async () => {
       // given
-      const user = server.create('user');
-      await createAuthenticateSession({ userId: user.id });
+      await authenticateAdminMemberWithRole({ role: 'SUPER_ADMIN' })(server);
+
       session = server.create('session', {
         id: 1,
         certificationCenterName: 'Centre des Staranne',
@@ -48,9 +46,7 @@ module('Acceptance | Session pages', function (hooks) {
 
       test('it should be accessible for an authenticated user', function (assert) {
         // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(currentURL(), '/sessions/1');
+        assert.strictEqual(currentURL(), '/sessions/1');
       });
 
       module('Search section', function () {
@@ -72,9 +68,7 @@ module('Acceptance | Session pages', function (hooks) {
           // then
           assert.dom(screen.getByRole('textbox', { name: 'Rechercher une session avec un identifiant' })).hasValue('2');
           assert.dom(screen.getByRole('button', { name: 'Charger' })).exists();
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line qunit/no-assert-equal
-          assert.equal(currentURL(), '/sessions/1');
+          assert.strictEqual(currentURL(), '/sessions/1');
         });
       });
 
@@ -86,9 +80,7 @@ module('Acceptance | Session pages', function (hooks) {
 
           // then
           assert.dom(screen.getByRole('link', { name: 'Informations' })).exists();
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line qunit/no-assert-equal
-          assert.equal(currentURL(), '/sessions/1');
+          assert.strictEqual(currentURL(), '/sessions/1');
         });
 
         test('tab "Certifications" is clickable', async function (assert) {
@@ -98,9 +90,7 @@ module('Acceptance | Session pages', function (hooks) {
 
           // then
           assert.dom(screen.getByRole('heading', { name: 'Certifications' })).exists();
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line qunit/no-assert-equal
-          assert.equal(currentURL(), '/sessions/1/certifications');
+          assert.strictEqual(currentURL(), '/sessions/1/certifications');
         });
       });
 
@@ -123,9 +113,7 @@ module('Acceptance | Session pages', function (hooks) {
           await clickByName(session.certificationCenterName);
 
           // then
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line qunit/no-assert-equal
-          assert.equal(currentURL(), '/certification-centers/1234');
+          assert.strictEqual(currentURL(), '/certification-centers/1234');
         });
       });
 
