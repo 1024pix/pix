@@ -193,6 +193,18 @@ describe('Integration | Repository | Partner Certification Scoring', function ()
           // given
           const skill = domainBuilder.buildSkill({ id: 'recSkill1' });
           const learningContent = { skills: [skill] };
+          const assessmentId = databaseBuilder.factory.buildAssessment({ certificationCourseId, userId }).id;
+          databaseBuilder.factory.buildAssessmentResult({
+            assessmentId,
+            pixScore: 42,
+            createdAt: new Date('2020-01-31'),
+          });
+          databaseBuilder.factory.buildAssessmentResult({
+            assessmentId,
+            pixScore: 89,
+            createdAt: new Date('2020-01-01'),
+          });
+          await databaseBuilder.commit();
           mockLearningContent(learningContent);
           const expectedCleaCertificationScoring = new CleaCertificationScoring({
             complementaryCertificationCourseId: 998,
@@ -200,6 +212,7 @@ describe('Integration | Repository | Partner Certification Scoring', function ()
             reproducibilityRate: 95,
             isBadgeAcquisitionStillValid: true,
             cleaBadgeKey: 'PIX_EMPLOI_CLEA',
+            pixScore: 42,
           });
 
           // when

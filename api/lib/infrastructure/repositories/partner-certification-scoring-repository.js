@@ -17,12 +17,14 @@ module.exports = {
     if (!hasAcquiredBadge) {
       return CleaCertificationScoring.buildNotEligible({ complementaryCertificationCourseId });
     }
+    const pixScore = await _getLatestPixScoreByCertificationCourseId(certificationCourseId);
 
     return new CleaCertificationScoring({
       complementaryCertificationCourseId,
       hasAcquiredBadge,
       reproducibilityRate,
       cleaBadgeKey,
+      pixScore,
     });
   },
 
@@ -82,4 +84,16 @@ async function _getAcquiredCleaBadgeKey(userId, certificationCourseId, domainTra
   }
   const [acquiredBadgeKey] = await badgeAcquisitionQuery;
   return acquiredBadgeKey;
+}
+
+async function _getLatestPixScoreByCertificationCourseId(certificationCourseId) {
+  const { pixScore } = await knex
+    .select('assessment-results.pixScore')
+    .from('assessments')
+    .innerJoin('assessment-results', 'assessment-results.assessmentId', 'assessments.id')
+    .where({ 'assessments.certificationCourseId': certificationCourseId })
+    .orderBy('assessment-results.createdAt', 'DESC')
+    .first();
+
+  return pixScore;
 }

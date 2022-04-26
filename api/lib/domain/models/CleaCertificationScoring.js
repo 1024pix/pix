@@ -56,9 +56,11 @@ class CleaCertificationScoring extends PartnerCertificationScoring {
 
     const reproducibilityRate = new ReproducibilityRate(this.reproducibilityRate);
 
-    if (!reproducibilityRate.isEnoughToBeCertified()) return false;
+    return reproducibilityRate.isEnoughToBeCertified() && this._isAboveMinimumScore();
+  }
 
-    return true;
+  _isAboveMinimumScore() {
+    return this.pixScore >= 70;
   }
 }
 
