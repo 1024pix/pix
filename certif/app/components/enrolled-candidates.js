@@ -105,7 +105,7 @@ export default class EnrolledCandidates extends Component {
         adapterOptions: { registerToSession: true, sessionId: this.args.sessionId },
       });
       this.args.reloadCertificationCandidate();
-      this.notifications.success('Le candidat a été ajouté avec succès.');
+      this.notifications.success('Le candidat a été inscrit avec succès.');
       return true;
     } catch (err) {
       if (this._hasConflict(err)) {

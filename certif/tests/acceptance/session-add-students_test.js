@@ -239,7 +239,7 @@ module('Acceptance | Session Add Sco Students', function (hooks) {
           await clickByLabel('Inscrire des candidats');
         });
 
-        test('it should show "1 candidat sélectionné | 1 candidat déjà ajouté à la session"', async function (assert) {
+        test('it should show label accordingly', async function (assert) {
           // given
           const candidatesEnrolledSelector = '.bottom-action-bar__informations--candidates-already-added';
           const candidatesSelectedSelector = '.bottom-action-bar__informations--candidates-selected';
@@ -250,7 +250,7 @@ module('Acceptance | Session Add Sco Students', function (hooks) {
           await click(firstCheckbox);
 
           // then
-          assert.dom(candidatesEnrolledSelector).includesText('1 candidat(s) déjà ajouté(s) à la session');
+          assert.dom(candidatesEnrolledSelector).includesText('1 candidat(s) déjà inscrit(s) à la session');
           assert.dom(candidatesSelectedSelector).includesText('1 candidat(s) sélectionné(s)');
         });
 
@@ -280,7 +280,7 @@ module('Acceptance | Session Add Sco Students', function (hooks) {
             await click(toggleAllCheckBox);
 
             // then
-            assert.dom(candidatesEnrolledSelector).includesText('1 candidat(s) déjà ajouté(s) à la session');
+            assert.dom(candidatesEnrolledSelector).includesText('1 candidat(s) déjà inscrit(s) à la session');
             assert.dom(candidatesSelectedSelector).includesText('1 candidat(s) sélectionné(s)');
           });
         });
