@@ -1,16 +1,15 @@
 import { module, test } from 'qunit';
 import { visit, fillByLabel, clickByName } from '@1024pix/ember-testing-library';
 import { setupApplicationTest } from 'ember-qunit';
-import { createAuthenticateSession } from 'pix-admin/tests/helpers/test-init';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import { authenticateAdminMemberWithRole } from 'pix-admin/tests/helpers/test-init';
 
 module('Acceptance | Organizations | Target profiles management', function (hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
 
   hooks.beforeEach(async function () {
-    const user = server.create('user');
-    await createAuthenticateSession({ userId: user.id });
+    await authenticateAdminMemberWithRole({ role: 'SUPER_ADMIN' })(server);
   });
 
   test('should display organization target profiles', async function (assert) {

@@ -2,9 +2,9 @@ import { module, test } from 'qunit';
 import { currentURL } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { visit } from '@1024pix/ember-testing-library';
-import { createAuthenticateSession } from 'pix-admin/tests/helpers/test-init';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import { authenticateAdminMemberWithRole } from '../../../../helpers/test-init';
 
 module('Acceptance | authenticated/certifications/certification/profile', function (hooks) {
   setupApplicationTest(hooks);
@@ -19,16 +19,13 @@ module('Acceptance | authenticated/certifications/certification/profile', functi
       await visit(`/certifications/${certification.id}/profile`);
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(currentURL(), '/login');
+      assert.strictEqual(currentURL(), '/login');
     });
   });
 
   module('When user is logged in', function (hooks) {
     hooks.beforeEach(async () => {
-      const { id: userId } = server.create('user');
-      await createAuthenticateSession({ userId });
+      await authenticateAdminMemberWithRole({ role: 'SUPER_ADMIN' })(server);
     });
 
     test('it should display certification id', async function (assert) {

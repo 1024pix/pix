@@ -2,9 +2,9 @@ import { module, test } from 'qunit';
 import { currentURL } from '@ember/test-helpers';
 import { fillByLabel, clickByName, visit } from '@1024pix/ember-testing-library';
 import { setupApplicationTest } from 'ember-qunit';
-import { createAuthenticateSession } from 'pix-admin/tests/helpers/test-init';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import { authenticateAdminMemberWithRole } from '../../../../helpers/test-init';
 
 module('Acceptance | authenticated/sessions/session/informations', function (hooks) {
   setupApplicationTest(hooks);
@@ -16,17 +16,14 @@ module('Acceptance | authenticated/sessions/session/informations', function (hoo
       await visit('/sessions/1');
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(currentURL(), '/login');
+      assert.strictEqual(currentURL(), '/login');
     });
   });
 
   module('When user is logged in', function (hooks) {
     hooks.beforeEach(async function () {
       // given
-      const { id: userId } = server.create('user');
-      await createAuthenticateSession({ userId });
+      await authenticateAdminMemberWithRole({ role: 'SUPER_ADMIN' })(server);
       server.create('session', { id: '1' });
     });
 
@@ -35,9 +32,7 @@ module('Acceptance | authenticated/sessions/session/informations', function (hoo
       await visit('/sessions/1');
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(currentURL(), '/sessions/1');
+      assert.strictEqual(currentURL(), '/sessions/1');
     });
 
     module('When session has a jury comment', function () {

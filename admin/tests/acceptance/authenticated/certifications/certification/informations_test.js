@@ -3,7 +3,7 @@ import { setupApplicationTest } from 'ember-qunit';
 import { click, currentURL } from '@ember/test-helpers';
 import { fillByLabel, clickByName, visit } from '@1024pix/ember-testing-library';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
-import { createAuthenticateSession } from 'pix-admin/tests/helpers/test-init';
+import { authenticateAdminMemberWithRole } from '../../../../helpers/test-init';
 
 module('Acceptance | Route | routes/authenticated/certifications/certification | informations', function (hooks) {
   setupApplicationTest(hooks);
@@ -12,8 +12,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
   let certification;
 
   hooks.beforeEach(async function () {
-    const user = server.create('user');
-    await createAuthenticateSession({ userId: user.id });
+    await authenticateAdminMemberWithRole({ role: 'SUPER_ADMIN' })(server);
     this.server.create('user', { id: 888 });
 
     this.server.create('country', {

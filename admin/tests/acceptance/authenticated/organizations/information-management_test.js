@@ -2,17 +2,16 @@ import { module, test } from 'qunit';
 import { currentURL, click } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { clickByName, visit, fillByLabel } from '@1024pix/ember-testing-library';
-import { createAuthenticateSession } from 'pix-admin/tests/helpers/test-init';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { Response } from 'ember-cli-mirage';
+import { authenticateAdminMemberWithRole } from 'pix-admin/tests/helpers/test-init';
 
 module('Acceptance | Organizations | Information management', function (hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
 
   hooks.beforeEach(async function () {
-    const { id: userId } = server.create('user');
-    await createAuthenticateSession({ userId });
+    await authenticateAdminMemberWithRole({ role: 'SUPER_ADMIN' })(server);
   });
 
   module('editing organization', function () {

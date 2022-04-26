@@ -8,7 +8,7 @@ module('Unit | Service | current-user', function (hooks) {
   setupTest(hooks);
 
   module('user is authenticated', function () {
-    test('should load the current user', async function (assert) {
+    test('should load the current admin member as current user', async function (assert) {
       // Given
       const connectedUserId = 1;
       const connectedUser = Object.create({ id: connectedUserId });
@@ -27,9 +27,7 @@ module('Unit | Service | current-user', function (hooks) {
       await currentUser.load();
 
       // Then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(currentUser.user, connectedUser);
+      assert.strictEqual(currentUser.adminMember, connectedUser);
     });
   });
 
@@ -46,9 +44,7 @@ module('Unit | Service | current-user', function (hooks) {
       await currentUser.load();
 
       // Then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(currentUser.user, null);
+      assert.strictEqual(currentUser.adminMember, undefined);
     });
   });
 
@@ -72,9 +68,7 @@ module('Unit | Service | current-user', function (hooks) {
       const result = await currentUser.load();
 
       // Then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(result, 'invalidate');
+      assert.strictEqual(result, 'invalidate');
     });
   });
 });

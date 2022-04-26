@@ -23,6 +23,10 @@ module('Acceptance | User details personal information', function (hooks) {
     user.schoolingRegistrations = [schoolingRegistration];
     user.authenticationMethods = [pixAuthenticationMethod, garAuthenticationMethod];
     user.save();
+    server.create('admin-member', {
+      userId: user.id,
+      role: 'SUPER_ADMIN',
+    });
     await createAuthenticateSession({ userId: user.id });
 
     return user;
