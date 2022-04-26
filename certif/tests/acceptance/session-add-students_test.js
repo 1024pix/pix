@@ -216,6 +216,27 @@ module('Acceptance | Session Add Sco Students', function (hooks) {
               const certificationCandidates = await detailController.model.certificationCandidates;
               assert.strictEqual(certificationCandidates.length, 3);
             });
+
+            test('it should display confirmation message', async function (assert) {
+              // given
+              server.createList('student', DEFAULT_PAGE_SIZE, { isSelected: false, isEnrolled: false });
+              await visit(`/sessions/${session.id}/candidats`);
+              await clickByLabel('Inscrire des candidats');
+              const firstCheckbox = document.querySelector(rowSelector + ':nth-child(1) ' + checkboxSelector);
+              const secondCheckbox = document.querySelector(rowSelector + ':nth-child(2) ' + checkboxSelector);
+              const thirdCheckbox = document.querySelector(rowSelector + ':nth-child(3) ' + checkboxSelector);
+              await click(firstCheckbox);
+              await click(secondCheckbox);
+              await click(thirdCheckbox);
+
+              // when
+              await clickByLabel('Inscrire');
+
+              // then
+              assert
+                .dom('[data-test-notification-message="success"]')
+                .hasText('Le(s) candidat(s) ont été inscrit(s) avec succès.');
+            });
           });
         });
       });
