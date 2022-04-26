@@ -24,6 +24,18 @@ exports.register = async function (server) {
       },
     },
     {
+      method: 'GET',
+      path: '/api/admin/admin-members/me',
+      config: {
+        handler: adminMemberController.getCurrentAdminMember,
+        notes: [
+          "- **Cette route n'est pas restreinte**\n" +
+            '- Récupération du membre admin pix courant ayant accès à Pix Admin\n',
+        ],
+        tags: ['api', 'admin-members', 'current-member'],
+      },
+    },
+    {
       method: 'PATCH',
       path: '/api/admin/admin-members/{id}',
       config: {
