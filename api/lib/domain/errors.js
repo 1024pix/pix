@@ -181,17 +181,25 @@ class NoStagesForCampaign extends DomainError {
   }
 }
 
+// à supprimer si on mutualise l'erreur
 class AuthenticationKeyForPoleEmploiTokenExpired extends DomainError {
   constructor(message = 'This authentication key for pole emploi token has expired.') {
     super(message);
   }
 }
 
+// à supprimer si on mutualise l'erreur
 class AuthenticationKeyForCnavTokenExpired extends DomainError {
   constructor(message = 'This authentication key for cnav token has expired.') {
     super(message);
   }
 }
+
+// class AuthenticationKeyExpired extends DomainError {
+//  constructor(message = 'This authentication key has expired.') {
+//    super(message);
+//  }
+//}
 
 class AccountRecoveryDemandExpired extends DomainError {
   constructor(message = 'This account recovery demand has expired.') {

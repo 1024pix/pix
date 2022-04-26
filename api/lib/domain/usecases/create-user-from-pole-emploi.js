@@ -14,6 +14,8 @@ module.exports = async function createUserFromPoleEmploi({
 }) {
   const poleEmploiTokens = await poleEmploiTokensRepository.getByKey(authenticationKey);
   if (!poleEmploiTokens) {
+    // mutualiser cette erreur pour toutes les clés expirées
+    // exemple : throw new AuthenticationKeyExpired();
     throw new AuthenticationKeyForPoleEmploiTokenExpired();
   }
   const userInfo = await poleEmploiAuthenticationService.getUserInfo(poleEmploiTokens.idToken);
@@ -35,6 +37,7 @@ module.exports = async function createUserFromPoleEmploi({
     };
   }
 
+  // Méthode createFromPoleEmploi, à mutualiser avec la CNAV ?
   const user = UserToCreate.createFromPoleEmploi({
     firstName: userInfo.firstName,
     lastName: userInfo.lastName,

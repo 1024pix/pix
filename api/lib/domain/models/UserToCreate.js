@@ -45,6 +45,7 @@ class UserToCreate {
     });
   }
 
+  // à mutualiser avec la CNAV ? Même paramètres attendus
   static createFromPoleEmploi(user) {
     const now = new Date();
     return new UserToCreate({
@@ -56,6 +57,7 @@ class UserToCreate {
     });
   }
 
+  // à mutualiser avec PE ? Même paramètres attendus
   static createFromCnav(user) {
     const now = new Date();
     return new UserToCreate({

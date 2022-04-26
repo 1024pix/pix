@@ -24,6 +24,7 @@ async function exchangeCodeForTokens({ code, redirectUri }) {
 
   if (!tokensResponse.isSuccessful) {
     const errorMessage = _getErrorMessage(tokensResponse.data);
+    // à mutualiser avec Pole Emploi ?
     throw new GenerateCnavTokensError(errorMessage, tokensResponse.code);
   }
 

@@ -17,6 +17,7 @@ module.exports = async function authenticateCnavUser({
 }) {
   if (stateSent !== stateReceived) {
     logger.error(`State sent ${stateSent} did not match the state received ${stateReceived}`);
+    // mutualiser cette erreur avec Pole Emploi
     throw new UnexpectedCnavStateError();
   }
   const cnavTokens = await cnavAuthenticationService.exchangeCodeForTokens({ code, redirectUri });
@@ -91,7 +92,7 @@ async function _getPixAccessTokenFromAlreadyAuthenticatedPixUser({
     if (authenticationMethod.externalIdentifier !== userInfo.externalIdentityId) {
       throw new UnexpectedUserAccountError({ message: "Le compte Pix connecté n'est pas celui qui est attendu." });
     }
-
+    // Authentication complement pour la CNAV ? Si non, supprimer la méthode
     await authenticationMethodRepository.updateCnavAuthenticationComplementByUserId({
       authenticationComplement,
       userId: authenticatedUserId,
@@ -116,6 +117,7 @@ async function _getPixAccessTokenFromCnavUser({
   userRepository,
   cnavAuthenticationService,
 }) {
+  // Authentication complement pour la CNAV ? Si non, supprimer la méthode
   await authenticationMethodRepository.updateCnavAuthenticationComplementByUserId({
     authenticationComplement,
     userId: user.id,
