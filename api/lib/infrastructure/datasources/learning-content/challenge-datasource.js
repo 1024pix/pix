@@ -41,13 +41,6 @@ module.exports = datasource.extend({
     return validatedChallenges.filter((challenge) => challenge.skillId === id);
   },
 
-  async findValidatedPrototypeBySkillId(id) {
-    const validatedChallenges = await this.findValidated();
-    return validatedChallenges.filter(
-      (challenge) => challenge.skillId === id && challenge.genealogy === PROTOTYPE_CHALLENGE
-    );
-  },
-
   async findValidatedPrototype() {
     const validatedChallenges = await this.findValidated();
     return validatedChallenges.filter((challenge) => challenge.genealogy === PROTOTYPE_CHALLENGE);
