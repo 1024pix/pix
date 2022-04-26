@@ -1,7 +1,7 @@
 const { expect, databaseBuilder } = require('../../../test-helper');
+const { ROLES } = require('../../../../lib/domain/constants').PIX_ADMIN;
 const adminMemberRepository = require('../../../../lib/infrastructure/repositories/admin-member-repository');
 const AdminMember = require('../../../../lib/domain/read-models/AdminMember');
-const PixAdminRole = require('../../../../lib/domain/models/PixAdminRole');
 
 describe('Integration | Infrastructure | Repository | adminMemberRepository', function () {
   describe('#findAll', function () {
@@ -90,7 +90,7 @@ function _buildUserWithPixAdminRole({ firstName, lastName, disabledAt, role } = 
   const userWithPixAdminRole = databaseBuilder.factory.buildPixAdminRole({
     userId: user.id,
     disabledAt,
-    role: role ?? PixAdminRole.roles.SUPER_ADMIN,
+    role: role ?? ROLES.SUPER_ADMIN,
   });
   return {
     ...userWithPixAdminRole,

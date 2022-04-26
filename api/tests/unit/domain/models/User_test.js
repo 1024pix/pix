@@ -1,7 +1,7 @@
 const { expect, domainBuilder } = require('../../../test-helper');
 
 const User = require('../../../../lib/domain/models/User');
-const PixAdminRole = require('../../../../lib/domain/models/PixAdminRole');
+const { ROLES } = require('../../../../lib/domain/constants').PIX_ADMIN;
 
 describe('Unit | Domain | Models | User', function () {
   describe('constructor', function () {
@@ -52,7 +52,7 @@ describe('Unit | Domain | Models | User', function () {
       // given
       userRawDetails.pixAdminRoles = [
         {
-          role: PixAdminRole.roles.SUPER_ADMIN,
+          role: ROLES.SUPER_ADMIN,
         },
       ];
       const user = new User(userRawDetails);

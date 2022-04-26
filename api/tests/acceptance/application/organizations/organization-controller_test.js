@@ -17,7 +17,7 @@ const Membership = require('../../../../lib/domain/models/Membership');
 const OrganizationInvitation = require('../../../../lib/domain/models/OrganizationInvitation');
 const Assessment = require('../../../../lib/domain/models/Assessment');
 const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult');
-const PixAdminRole = require('../../../../lib/domain/models/PixAdminRole');
+const { ROLES } = require('../../../../lib/domain/constants').PIX_ADMIN;
 
 describe('Acceptance | Application | organization-controller', function () {
   let server;
@@ -79,7 +79,7 @@ describe('Acceptance | Application | organization-controller', function () {
         const superAdminUserId = databaseBuilder.factory.buildUser().id;
         databaseBuilder.factory.buildPixAdminRole({
           userId: superAdminUserId,
-          role: PixAdminRole.roles.SUPER_ADMIN,
+          role: ROLES.SUPER_ADMIN,
         });
         await databaseBuilder.commit();
 
