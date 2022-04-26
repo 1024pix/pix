@@ -8,6 +8,9 @@ module.exports = function buildAdminMember({
   lastName = 'Kramatorsk',
   email = 'dimitri.k@pix.fr',
   role = ROLES.SUPER_ADMIN,
+  createdAt = new Date(2022, 4, 11),
+  updatedAt,
+  disabledAt,
 } = {}) {
-  return new AdminMember({ id, userId, firstName, lastName, email, role });
+  return new AdminMember({ id, userId, firstName, lastName, email, role, createdAt, updatedAt, disabledAt });
 };

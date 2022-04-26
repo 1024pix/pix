@@ -2,17 +2,17 @@ const { expect } = require('../../../test-helper');
 const { ROLES } = require('../../../../lib/domain/constants').PIX_ADMIN;
 const { ObjectValidationError } = require('../../../../lib/domain/errors');
 
-const PixAdminRole = require('../../../../lib/domain/models/PixAdminRole');
+const AdminMember = require('../../../../lib/domain/read-models/AdminMember');
 
-describe('Unit | Domain | Models | PixAdminRole', function () {
+describe('Unit | Domain | Models | AdminMember', function () {
   describe('constructor', function () {
     describe('when the given role is correct', function () {
       it('should successfully instantiate object for SUPER_ADMIN role', function () {
         // when
         expect(
           () =>
-            new PixAdminRole({
-              userId: 1,
+            new AdminMember({
+              id: 1,
               role: ROLES.SUPER_ADMIN,
             })
         ).not.to.throw(ObjectValidationError);
@@ -22,8 +22,8 @@ describe('Unit | Domain | Models | PixAdminRole', function () {
         // when
         expect(
           () =>
-            new PixAdminRole({
-              userId: 1,
+            new AdminMember({
+              id: 1,
               role: ROLES.SUPPORT,
             })
         ).not.to.throw(ObjectValidationError);
@@ -33,8 +33,8 @@ describe('Unit | Domain | Models | PixAdminRole', function () {
         // when
         expect(
           () =>
-            new PixAdminRole({
-              userId: 1,
+            new AdminMember({
+              id: 1,
               role: ROLES.METIER,
             })
         ).not.to.throw(ObjectValidationError);
@@ -44,8 +44,8 @@ describe('Unit | Domain | Models | PixAdminRole', function () {
         // when
         expect(
           () =>
-            new PixAdminRole({
-              userId: 1,
+            new AdminMember({
+              id: 1,
               role: ROLES.CERTIF,
             })
         ).not.to.throw(ObjectValidationError);
@@ -57,16 +57,16 @@ describe('Unit | Domain | Models | PixAdminRole', function () {
         // when
         expect(
           () =>
-            new PixAdminRole({
-              userId: 1,
+            new AdminMember({
+              id: 1,
               role: undefined,
             })
         ).to.throw(ObjectValidationError);
 
         expect(
           () =>
-            new PixAdminRole({
-              userId: 1,
+            new AdminMember({
+              id: 1,
               role: null,
             })
         ).to.throw(ObjectValidationError);
@@ -78,8 +78,8 @@ describe('Unit | Domain | Models | PixAdminRole', function () {
         // when
         expect(
           () =>
-            new PixAdminRole({
-              userId: 1,
+            new AdminMember({
+              id: 1,
               role: 'SUPER ROLE DE LA MORT QUI TUE',
             })
         ).to.throw(ObjectValidationError);
