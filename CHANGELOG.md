@@ -1,5 +1,16 @@
 # Pix Changelog
 
+## v3.202.0 (26/04/2022)
+
+
+### :rocket: Amélioration
+- [#4354](https://github.com/1024pix/pix/pull/4354) [FEATURE] Ajouter un script permettant de lancer l'auto jury pour une session (PIX-4819).
+- [#4339](https://github.com/1024pix/pix/pull/4339) [FEATURE] Empêcher la tentative de création de candidat pendant un appel API (PIX-4804).
+- [#4345](https://github.com/1024pix/pix/pull/4345) [FEATURE] Ajouter la page "Équipe" dans Pix Admin qui liste les membres Pix Admin existants (PIX-4003)
+
+### :building_construction: Tech
+- [#4213](https://github.com/1024pix/pix/pull/4213) [TECH] Créer des routes pour permettre la sélection d'un profil sur Pix-admin (PIX-4544).
+
 ## v3.201.0 (25/04/2022)
 
 
