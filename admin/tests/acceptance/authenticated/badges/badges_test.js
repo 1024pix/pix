@@ -2,7 +2,7 @@ import { visit } from '@1024pix/ember-testing-library';
 import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { module, test } from 'qunit';
-import { createAuthenticateSession } from '../../../helpers/test-init';
+import { authenticateAdminMemberWithRole } from 'pix-admin/tests/helpers/test-init';
 
 module('Acceptance | authenticated/badges/badge', function (hooks) {
   setupApplicationTest(hooks);
@@ -10,8 +10,7 @@ module('Acceptance | authenticated/badges/badge', function (hooks) {
 
   test('should display the badge', async function (assert) {
     // given
-    const currentUser = server.create('user');
-    await createAuthenticateSession({ userId: currentUser.id });
+    await authenticateAdminMemberWithRole({ role: 'SUPER_ADMIN' })(server);
 
     const tube = this.server.create('tube', { practicalTitle: 'Practical title of tube' });
     const skill = this.server.create('skill', { name: '@skill2', difficulty: 2, tube });

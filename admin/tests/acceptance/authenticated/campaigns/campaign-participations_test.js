@@ -2,7 +2,7 @@ import { module, test } from 'qunit';
 import { currentURL } from '@ember/test-helpers';
 import { visit } from '@1024pix/ember-testing-library';
 import { setupApplicationTest } from 'ember-qunit';
-import { createAuthenticateSession } from 'pix-admin/tests/helpers/test-init';
+import { authenticateAdminMemberWithRole } from 'pix-admin/tests/helpers/test-init';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
@@ -20,13 +20,10 @@ module('Acceptance | Campaign Participations', function (hooks) {
     });
   });
 
-  module('When user is logged in', function (hooks) {
-    hooks.beforeEach(async () => {
-      const user = server.create('user');
-      await createAuthenticateSession({ userId: user.id });
-    });
-
+  module('When user is logged in', function () {
     test('it should display campaign participations', async function (assert) {
+      // given
+      await authenticateAdminMemberWithRole({ role: 'SUPER_ADMIN' })(server);
       server.create('campaign', { id: 1, name: 'Campaign name' });
       server.create('campaign-participation', { firstName: 'Georgette', lastName: 'Frimousse' });
 

@@ -2,7 +2,7 @@ import { module, test } from 'qunit';
 import { currentURL } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { fillByLabel, clickByName, visit } from '@1024pix/ember-testing-library';
-import { createAuthenticateSession } from 'pix-admin/tests/helpers/test-init';
+import { authenticateAdminMemberWithRole } from 'pix-admin/tests/helpers/test-init';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
 module('Acceptance | tools', function (hooks) {
@@ -10,8 +10,7 @@ module('Acceptance | tools', function (hooks) {
   setupMirage(hooks);
 
   hooks.beforeEach(async function () {
-    const user = server.create('user');
-    await createAuthenticateSession({ userId: user.id });
+    await authenticateAdminMemberWithRole({ role: 'SUPER_ADMIN' })(server);
   });
 
   module('Access', function () {
@@ -20,9 +19,7 @@ module('Acceptance | tools', function (hooks) {
       await visit('/tools');
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(currentURL(), '/tools');
+      assert.strictEqual(currentURL(), '/tools');
     });
   });
 

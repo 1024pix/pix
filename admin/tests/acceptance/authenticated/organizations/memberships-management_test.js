@@ -1,9 +1,9 @@
 import { module, test } from 'qunit';
 import { click, currentURL, fillIn } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
-import { createAuthenticateSession } from 'pix-admin/tests/helpers/test-init';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { visit, clickByName, selectByLabelAndOption } from '@1024pix/ember-testing-library';
+import { authenticateAdminMemberWithRole } from 'pix-admin/tests/helpers/test-init';
 
 module('Acceptance | Organizations | Memberships management', function (hooks) {
   setupApplicationTest(hooks);
@@ -12,9 +12,8 @@ module('Acceptance | Organizations | Memberships management', function (hooks) {
   let organization;
 
   hooks.beforeEach(async function () {
-    const user = server.create('user');
+    await authenticateAdminMemberWithRole({ role: 'SUPER_ADMIN' })(server);
     organization = this.server.create('organization');
-    await createAuthenticateSession({ userId: user.id });
   });
 
   test('should redirect to organization team page', async function (assert) {

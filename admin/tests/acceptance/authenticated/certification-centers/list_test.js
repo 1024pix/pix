@@ -5,7 +5,7 @@ import { setupApplicationTest } from 'ember-qunit';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
-import { createAuthenticateSession } from 'pix-admin/tests/helpers/test-init';
+import { authenticateAdminMemberWithRole } from 'pix-admin/tests/helpers/test-init';
 
 module('Acceptance | Certification Centers | List', function (hooks) {
   setupApplicationTest(hooks);
@@ -17,16 +17,13 @@ module('Acceptance | Certification Centers | List', function (hooks) {
       await visit('/certification-centers/list');
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(currentURL(), '/login');
+      assert.strictEqual(currentURL(), '/login');
     });
   });
 
   module('When user is logged in', function (hooks) {
     hooks.beforeEach(async () => {
-      const { id: userId } = server.create('user');
-      await createAuthenticateSession({ userId });
+      await authenticateAdminMemberWithRole({ role: 'SUPER_ADMIN' })(server);
     });
 
     test('it should be accessible for an authenticated user', async function (assert) {
@@ -34,9 +31,7 @@ module('Acceptance | Certification Centers | List', function (hooks) {
       await visit('/certification-centers/list');
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(currentURL(), '/certification-centers/list');
+      assert.strictEqual(currentURL(), '/certification-centers/list');
     });
 
     test('it should list the certification-centers', async function (assert) {
@@ -73,9 +68,7 @@ module('Acceptance | Certification Centers | List', function (hooks) {
       await click(screen.getByRole('link', { name: '1' }));
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(currentURL(), '/certification-centers/1');
+      assert.strictEqual(currentURL(), '/certification-centers/1');
     });
   });
 });
