@@ -1,4 +1,3 @@
-const moment = require('moment');
 const UserToCreate = require('../models/UserToCreate');
 const AuthenticationMethod = require('../models/AuthenticationMethod');
 const DomainTransaction = require('../../infrastructure/DomainTransaction');
@@ -54,12 +53,6 @@ module.exports = async function createUserFromCnav({
       identityProvider: AuthenticationMethod.identityProviders.CNAV,
       userId: createdUserId,
       externalIdentifier: userInfo.externalIdentityId,
-      // Authentication complement pour la CNAV ? Si non, vide
-      authenticationComplement: new AuthenticationMethod.CnavAuthenticationComplement({
-        accessToken: cnavTokens.accessToken,
-        refreshToken: cnavTokens.refreshToken,
-        expiredDate: moment().add(cnavTokens.expiresIn, 's').toDate(),
-      }),
     });
     await authenticationMethodRepository.create({ authenticationMethod, domainTransaction });
   });

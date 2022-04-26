@@ -1,5 +1,3 @@
-const moment = require('moment');
-
 const { UnexpectedCnavStateError, UnexpectedUserAccountError } = require('../errors');
 const AuthenticationMethod = require('../models/AuthenticationMethod');
 const logger = require('../../infrastructure/logger');
@@ -24,19 +22,12 @@ module.exports = async function authenticateCnavUser({
 
   const userInfo = await cnavAuthenticationService.getUserInfo(cnavTokens.idToken);
 
-  const authenticationComplement = new AuthenticationMethod.CnavAuthenticationComplement({
-    accessToken: cnavTokens.accessToken,
-    refreshToken: cnavTokens.refreshToken,
-    expiredDate: moment().add(cnavTokens.expiresIn, 's').toDate(),
-  });
-
   let pixAccessToken;
 
   if (authenticatedUserId) {
     pixAccessToken = await _getPixAccessTokenFromAlreadyAuthenticatedPixUser({
       userInfo,
       authenticatedUserId,
-      authenticationComplement,
       authenticationMethodRepository,
       userRepository,
       cnavAuthenticationService,
@@ -52,7 +43,6 @@ module.exports = async function authenticateCnavUser({
     } else {
       pixAccessToken = await _getPixAccessTokenFromCnavUser({
         user,
-        authenticationComplement,
         authenticationMethodRepository,
         userRepository,
         cnavAuthenticationService,
@@ -66,19 +56,9 @@ module.exports = async function authenticateCnavUser({
   };
 };
 
-function _buildCnavAuthenticationMethod({ userInfo, authenticationComplement, userId }) {
-  return new AuthenticationMethod({
-    identityProvider: AuthenticationMethod.identityProviders.CNAV,
-    userId,
-    externalIdentifier: userInfo.externalIdentityId,
-    authenticationComplement,
-  });
-}
-
 async function _getPixAccessTokenFromAlreadyAuthenticatedPixUser({
   userInfo,
   authenticatedUserId,
-  authenticationComplement,
   authenticationMethodRepository,
   userRepository,
   cnavAuthenticationService,
@@ -92,16 +72,11 @@ async function _getPixAccessTokenFromAlreadyAuthenticatedPixUser({
     if (authenticationMethod.externalIdentifier !== userInfo.externalIdentityId) {
       throw new UnexpectedUserAccountError({ message: "Le compte Pix connecté n'est pas celui qui est attendu." });
     }
-    // Authentication complement pour la CNAV ? Si non, supprimer la méthode
-    await authenticationMethodRepository.updateCnavAuthenticationComplementByUserId({
-      authenticationComplement,
-      userId: authenticatedUserId,
-    });
   } else {
-    const authenticationMethod = _buildCnavAuthenticationMethod({
-      userInfo,
-      authenticationComplement,
+    const authenticationMethod = new AuthenticationMethod({
+      identityProvider: AuthenticationMethod.identityProviders.CNAV,
       userId: authenticatedUserId,
+      externalIdentifier: userInfo.externalIdentityId,
     });
     await authenticationMethodRepository.create({ authenticationMethod });
   }
@@ -110,18 +85,7 @@ async function _getPixAccessTokenFromAlreadyAuthenticatedPixUser({
   return pixAccessToken;
 }
 
-async function _getPixAccessTokenFromCnavUser({
-  user,
-  authenticationComplement,
-  authenticationMethodRepository,
-  userRepository,
-  cnavAuthenticationService,
-}) {
-  // Authentication complement pour la CNAV ? Si non, supprimer la méthode
-  await authenticationMethodRepository.updateCnavAuthenticationComplementByUserId({
-    authenticationComplement,
-    userId: user.id,
-  });
+async function _getPixAccessTokenFromCnavUser({ user, userRepository, cnavAuthenticationService }) {
   const pixAccessToken = cnavAuthenticationService.createAccessToken(user.id);
 
   await userRepository.updateLastLoggedAt({ userId: user.id });

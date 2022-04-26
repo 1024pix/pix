@@ -132,9 +132,6 @@ buildAuthenticationMethod.withPoleEmploiAsIdentityProvider = function ({
 buildAuthenticationMethod.withCnavAsIdentityProvider = function ({
   id = databaseBuffer.getNextId(),
   externalIdentifier,
-  accessToken = 'ABC789',
-  refreshToken = 'DEF753',
-  expiredDate = new Date('2022-01-01'),
   userId,
   createdAt = new Date('2020-01-01'),
   updatedAt = new Date('2020-01-02'),
@@ -148,11 +145,6 @@ buildAuthenticationMethod.withCnavAsIdentityProvider = function ({
   const values = {
     id,
     identityProvider: AuthenticationMethod.identityProviders.CNAV,
-    authenticationComplement: new AuthenticationMethod.CnavAuthenticationComplement({
-      accessToken,
-      refreshToken,
-      expiredDate,
-    }),
     externalIdentifier: generatedIdentifier,
     userId,
     createdAt,

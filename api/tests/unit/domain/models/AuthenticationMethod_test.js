@@ -75,20 +75,13 @@ describe('Unit | Domain | Models | AuthenticationMethod', function () {
       ).not.to.throw(ObjectValidationError);
     });
 
-    it('should successfully instantiate object when identityProvider is CNAV and externalIdentifier and authenticationComplements are defined', function () {
-      // given
-      const authenticationComplement = new AuthenticationMethod.CnavAuthenticationComplement({
-        accessToken: 'accessToken',
-        refreshToken: 'refreshToken',
-        expiredDate: Date.now(),
-      });
-      // when
+    it('should successfully instantiate object when identityProvider is CNAV and externalIdentifier are defined', function () {
+      // given & when & then
       expect(
         () =>
           new AuthenticationMethod({
             identityProvider: AuthenticationMethod.identityProviders.CNAV,
             externalIdentifier: 'externalIdentifier',
-            authenticationComplement,
             userId: 1,
           })
       ).not.to.throw(ObjectValidationError);
@@ -110,7 +103,7 @@ describe('Unit | Domain | Models | AuthenticationMethod', function () {
       ).to.throw(ObjectValidationError);
     });
 
-    it('should throw an ObjectValidationError when externalIdentifier is not defined for identityProvider GAR or POLE_EMPLOI', function () {
+    it('should throw an ObjectValidationError when externalIdentifier is not defined for identityProvider GAR, POLE_EMPLOI or CNAV', function () {
       // when
       expect(
         () =>
@@ -124,6 +117,14 @@ describe('Unit | Domain | Models | AuthenticationMethod', function () {
         () =>
           new AuthenticationMethod({
             identityProvider: AuthenticationMethod.identityProviders.POLE_EMPLOI,
+            externalIdentifier: undefined,
+            userId: 1,
+          })
+      ).to.throw(ObjectValidationError);
+      expect(
+        () =>
+          new AuthenticationMethod({
+            identityProvider: AuthenticationMethod.identityProviders.CNAV,
             externalIdentifier: undefined,
             userId: 1,
           })
@@ -248,51 +249,6 @@ describe('Unit | Domain | Models | AuthenticationMethod', function () {
         expect(
           () =>
             new AuthenticationMethod.PoleEmploiAuthenticationComplement({ ...validArguments, expiredDate: undefined })
-        ).to.throw(ObjectValidationError);
-      });
-    });
-
-    context('CnavAuthenticationComplement', function () {
-      let validArguments;
-      beforeEach(function () {
-        validArguments = {
-          accessToken: 'accessToken',
-          refreshToken: 'refreshToken',
-          expiredDate: Date.now(),
-        };
-      });
-
-      it('should successfully instantiate object when passing all valid arguments', function () {
-        // when
-        expect(() => new AuthenticationMethod.CnavAuthenticationComplement(validArguments)).not.to.throw(
-          ObjectValidationError
-        );
-      });
-
-      it('should throw an ObjectValidationError when accessToken is not valid', function () {
-        // when
-        expect(
-          () => new AuthenticationMethod.CnavAuthenticationComplement({ ...validArguments, accessToken: 1234 })
-        ).to.throw(ObjectValidationError);
-        expect(
-          () => new AuthenticationMethod.CnavAuthenticationComplement({ ...validArguments, accessToken: undefined })
-        ).to.throw(ObjectValidationError);
-      });
-
-      it('should throw an ObjectValidationError when refreshToken is not valid', function () {
-        // when
-        expect(
-          () => new AuthenticationMethod.CnavAuthenticationComplement({ ...validArguments, refreshToken: 1234 })
-        ).to.throw(ObjectValidationError);
-      });
-
-      it('should throw an ObjectValidationError when expiredDate is not valid', function () {
-        // when
-        expect(
-          () => new AuthenticationMethod.CnavAuthenticationComplement({ ...validArguments, expiredDate: 'not_valid' })
-        ).to.throw(ObjectValidationError);
-        expect(
-          () => new AuthenticationMethod.CnavAuthenticationComplement({ ...validArguments, expiredDate: undefined })
         ).to.throw(ObjectValidationError);
       });
     });

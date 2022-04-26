@@ -1229,69 +1229,6 @@ describe('Acceptance | Controller | authentication-controller', function () {
       });
 
       context('When user and CNAV authentication method exist', function () {
-        it('should update CNAV authentication method authentication complement', async function () {
-          // given
-          const firstName = 'John';
-          const lastName = 'Doe';
-          const externalIdentifier = 'some-unique-user-id';
-          const idToken = jsonwebtoken.sign(
-            {
-              given_name: firstName,
-              family_name: lastName,
-              nonce: 'nonce',
-              sub: 'some-unique-user-id',
-            },
-            'secret'
-          );
-          const getAccessTokenResponse = {
-            access_token: 'access_token',
-            id_token: idToken,
-            expires_in: 60,
-            refresh_token: 'refresh_token',
-          };
-          nock('http://idp.cnav').post('/token').reply(200, getAccessTokenResponse);
-          const userId = databaseBuilder.factory.buildUser({
-            firstName,
-            lastName,
-          }).id;
-
-          databaseBuilder.factory.buildAuthenticationMethod.withCnavAsIdentityProvider({
-            externalIdentifier,
-            accessToken: 'old_access_token',
-            refreshToken: 'old_refresh_token',
-            expiresIn: 1000,
-            userId,
-          });
-          await databaseBuilder.commit();
-
-          // when
-          await server.inject({
-            method: 'POST',
-            url: '/api/cnav/token',
-            headers: {
-              'content-type': 'application/x-www-form-urlencoded',
-            },
-            payload: querystring.stringify({
-              code: 'code',
-              redirect_uri: 'redirect_uri',
-              state_sent: 'state',
-              state_received: 'state',
-            }),
-          });
-
-          // then
-          const authenticationMethods = await knex('authentication-methods').where({ userId });
-          expect(authenticationMethods[0].authenticationComplement.accessToken).to.equal(
-            getAccessTokenResponse['access_token']
-          );
-          expect(authenticationMethods[0].authenticationComplement.expiredDate).to.equal(
-            moment().add(getAccessTokenResponse['expires_in'], 's').toISOString()
-          );
-          expect(authenticationMethods[0].authenticationComplement.refreshToken).to.equal(
-            getAccessTokenResponse['refresh_token']
-          );
-        });
-
         it('should return an 200 with access_token and id_token when authentication is ok', async function () {
           // given
           const firstName = 'John';
@@ -1400,15 +1337,6 @@ describe('Acceptance | Controller | authentication-controller', function () {
           const authenticationMethods = await knex('authentication-methods').where({ userId: authenticatedUser.id });
           expect(authenticationMethods[0].identityProvider).to.equal(AuthenticationMethod.identityProviders.CNAV);
           expect(authenticationMethods[0].externalIdentifier).to.equal('some-unique-user-id');
-          expect(authenticationMethods[0].authenticationComplement.accessToken).to.equal(
-            getAccessTokenResponse['access_token']
-          );
-          expect(authenticationMethods[0].authenticationComplement.expiredDate).to.equal(
-            moment().add(getAccessTokenResponse['expires_in'], 's').toISOString()
-          );
-          expect(authenticationMethods[0].authenticationComplement.refreshToken).to.equal(
-            getAccessTokenResponse['refresh_token']
-          );
         });
 
         it('should return an 200 with access_token and id_token when authentication is ok', async function () {
@@ -1458,65 +1386,6 @@ describe('Acceptance | Controller | authentication-controller', function () {
       });
 
       context('When the user does have a CNAV authentication method', function () {
-        it('should update POLE_EMPLOI authentication method authentication complement', async function () {
-          // given
-          const externalIdentifier = 'some-unique-user-id';
-          const authenticatedUser = databaseBuilder.factory.buildUser();
-          databaseBuilder.factory.buildAuthenticationMethod.withCnavAsIdentityProvider({
-            externalIdentifier,
-            accessToken: 'old_access_token',
-            refreshToken: 'old_refresh_token',
-            expiresIn: 1000,
-            userId: authenticatedUser.id,
-          });
-          await databaseBuilder.commit();
-
-          const idToken = jsonwebtoken.sign(
-            {
-              given_name: 'John',
-              family_name: 'Doe',
-              nonce: 'nonce',
-              sub: 'some-unique-user-id',
-            },
-            'secret'
-          );
-          const getAccessTokenResponse = {
-            access_token: 'access_token',
-            id_token: idToken,
-            expires_in: 60,
-            refresh_token: 'refresh_token',
-          };
-          nock('http://idp.cnav').post('/token').reply(200, getAccessTokenResponse);
-
-          // when
-          await server.inject({
-            method: 'POST',
-            url: '/api/cnav/token',
-            headers: {
-              Authorization: generateValidRequestAuthorizationHeader(authenticatedUser.id),
-              'content-type': 'application/x-www-form-urlencoded',
-            },
-            payload: querystring.stringify({
-              code: 'code',
-              redirect_uri: 'redirect_uri',
-              state_sent: 'state',
-              state_received: 'state',
-            }),
-          });
-
-          // then
-          const authenticationMethods = await knex('authentication-methods').where({ userId: authenticatedUser.id });
-          expect(authenticationMethods[0].authenticationComplement.accessToken).to.equal(
-            getAccessTokenResponse['access_token']
-          );
-          expect(authenticationMethods[0].authenticationComplement.expiredDate).to.equal(
-            moment().add(getAccessTokenResponse['expires_in'], 's').toISOString()
-          );
-          expect(authenticationMethods[0].authenticationComplement.refreshToken).to.equal(
-            getAccessTokenResponse['refresh_token']
-          );
-        });
-
         it('should return a 409 Conflict if the authenticated user is not the expected one', async function () {
           // given
           databaseBuilder.factory.buildUser();
@@ -1532,7 +1401,7 @@ describe('Acceptance | Controller | authentication-controller', function () {
               given_name: 'John',
               family_name: 'Doe',
               nonce: 'nonce',
-              idIdentiteExterne: 'idIdentiteExterne',
+              sub: 'idIdentiteExterne',
             },
             'secret'
           );

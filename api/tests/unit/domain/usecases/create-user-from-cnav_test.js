@@ -1,9 +1,6 @@
-const moment = require('moment');
-
 const { domainBuilder, expect, sinon, catchErr } = require('../../../test-helper');
 
 const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
-
 const AuthenticationMethod = require('../../../../lib/domain/models/AuthenticationMethod');
 const CnavTokens = require('../../../../lib/domain/models/CnavTokens');
 
@@ -108,11 +105,6 @@ describe('Unit | UseCase | create-user-from-cnav', function () {
       const expectedAuthenticationMethod = new AuthenticationMethod({
         identityProvider: AuthenticationMethod.identityProviders.CNAV,
         externalIdentifier: decodedUserInfo.externalIdentityId,
-        authenticationComplement: new AuthenticationMethod.CnavAuthenticationComplement({
-          accessToken: cnavTokens.accessToken,
-          refreshToken: cnavTokens.refreshToken,
-          expiredDate: moment().add(cnavTokens.expiresIn, 's').toDate(),
-        }),
         userId,
       });
 

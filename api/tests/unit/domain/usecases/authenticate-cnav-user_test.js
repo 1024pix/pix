@@ -1,5 +1,3 @@
-const moment = require('moment');
-
 const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper');
 
 const AuthenticationMethod = require('../../../../lib/domain/models/AuthenticationMethod');
@@ -32,7 +30,6 @@ describe('Unit | UseCase | authenticate-cnav-user', function () {
 
     authenticationMethodRepository = {
       create: sinon.stub().resolves(),
-      updateCnavAuthenticationComplementByUserId: sinon.stub().resolves(),
       findOneByUserIdAndIdentityProvider: sinon.stub(),
     };
 
@@ -213,39 +210,7 @@ describe('Unit | UseCase | authenticate-cnav-user', function () {
     });
 
     context('When user has an cnav authentication method', function () {
-      it('should call authentication repository updateCnavAuthenticationComplementByUserId function', async function () {
-        // given
-        userRepository.findByCnavExternalIdentifier.resolves({ id: 1 });
-        const { cnavTokens } = _fakeCnavAPI({ cnavAuthenticationService });
-        cnavAuthenticationService.createAccessToken.returns('access-token');
-
-        // when
-        await authenticateCnavUser({
-          authenticatedUserId: undefined,
-          clientId: 'clientId',
-          code: 'code',
-          redirectUri: 'redirectUri',
-          stateReceived: 'state',
-          stateSent: 'state',
-          cnavAuthenticationService,
-          authenticationMethodRepository,
-          cnavTokensRepository,
-          userRepository,
-        });
-
-        // then
-        const expectedAuthenticationComplement = new AuthenticationMethod.CnavAuthenticationComplement({
-          accessToken: cnavTokens.accessToken,
-          refreshToken: cnavTokens.refreshToken,
-          expiredDate: moment().add(cnavTokens.expiresIn, 's').toDate(),
-        });
-        expect(authenticationMethodRepository.updateCnavAuthenticationComplementByUserId).to.have.been.calledWith({
-          authenticationComplement: expectedAuthenticationComplement,
-          userId: 1,
-        });
-      });
-
-      it('should also save last logged at date', async function () {
+      it('should save last logged at date', async function () {
         // given
         userRepository.findByCnavExternalIdentifier.resolves({ id: 123 });
         _fakeCnavAPI({ cnavAuthenticationService });
@@ -274,7 +239,7 @@ describe('Unit | UseCase | authenticate-cnav-user', function () {
       context('When the user does not have a cnav authentication method', function () {
         it('should call authentication method repository create function with cnav authentication method in domain transaction', async function () {
           // given
-          const { cnavTokens } = _fakeCnavAPI({ cnavAuthenticationService });
+          _fakeCnavAPI({ cnavAuthenticationService });
           userRepository.findByCnavExternalIdentifier.resolves(null);
           cnavAuthenticationService.createAccessToken.returns('access-token');
 
@@ -296,11 +261,6 @@ describe('Unit | UseCase | authenticate-cnav-user', function () {
           const expectedAuthenticationMethod = new AuthenticationMethod({
             identityProvider: AuthenticationMethod.identityProviders.CNAV,
             externalIdentifier: '094b83ac-2e20-4aa8-b438-0bc91748e4a6',
-            authenticationComplement: new AuthenticationMethod.CnavAuthenticationComplement({
-              accessToken: cnavTokens.accessToken,
-              refreshToken: cnavTokens.refreshToken,
-              expiredDate: moment().add(cnavTokens.expiresIn, 's').toDate(),
-            }),
             userId: 1,
           });
           expect(authenticationMethodRepository.create).to.have.been.calledWith({
@@ -310,42 +270,6 @@ describe('Unit | UseCase | authenticate-cnav-user', function () {
       });
 
       context('When the user does have a cnav authentication method', function () {
-        it('should call authentication repository updateCnavAuthenticationComplementByUserId function', async function () {
-          // given
-          const { cnavTokens } = _fakeCnavAPI({ cnavAuthenticationService });
-          authenticationMethodRepository.findOneByUserIdAndIdentityProvider.resolves(
-            domainBuilder.buildAuthenticationMethod.withCnavAsIdentityProvider({
-              externalIdentifier: '094b83ac-2e20-4aa8-b438-0bc91748e4a6',
-            })
-          );
-          cnavAuthenticationService.createAccessToken.returns('access-token');
-
-          // when
-          await authenticateCnavUser({
-            authenticatedUserId: 1,
-            clientId: 'clientId',
-            code: 'code',
-            redirectUri: 'redirectUri',
-            stateReceived: 'state',
-            stateSent: 'state',
-            cnavAuthenticationService,
-            authenticationMethodRepository,
-            cnavTokensRepository,
-            userRepository,
-          });
-
-          // then
-          const expectedAuthenticationComplement = new AuthenticationMethod.CnavAuthenticationComplement({
-            accessToken: cnavTokens.accessToken,
-            refreshToken: cnavTokens.refreshToken,
-            expiredDate: moment().add(cnavTokens.expiresIn, 's').toDate(),
-          });
-          expect(authenticationMethodRepository.updateCnavAuthenticationComplementByUserId).to.have.been.calledWith({
-            authenticationComplement: expectedAuthenticationComplement,
-            userId: 1,
-          });
-        });
-
         it('should throw an UnexpectedUserAccountError error if the external identifier does not match the one in the cnav id token', async function () {
           // given
           _fakeCnavAPI({ cnavAuthenticationService });

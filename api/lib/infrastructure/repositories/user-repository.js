@@ -507,12 +507,6 @@ function _getAuthenticationComplementAndExternalIdentifier(authenticationMethodB
       refreshToken: authenticationComplement.refreshToken,
       expiredDate: authenticationComplement.expiredDate,
     });
-  } else if (identityProvider === AuthenticationMethod.identityProviders.CNAV) {
-    authenticationComplement = new AuthenticationMethod.CnavAuthenticationComplement({
-      accessToken: authenticationComplement.accessToken,
-      refreshToken: authenticationComplement.refreshToken,
-      expiredDate: authenticationComplement.expiredDate,
-    });
   }
 
   return { authenticationComplement, externalIdentifier };
