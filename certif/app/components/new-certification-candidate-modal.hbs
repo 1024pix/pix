@@ -321,7 +321,12 @@
     >
       Fermer
     </PixButton>
-    <PixButton @type="submit" form="new-certification-candidate-form">
+    <PixButton
+      @type="submit"
+      @isLoading={{this.isLoading}}
+      @isDisabled={{this.isLoading}}
+      form="new-certification-candidate-form"
+    >
       Inscrire le candidat
     </PixButton>
   </:footer>
