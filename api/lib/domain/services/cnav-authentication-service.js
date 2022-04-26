@@ -81,15 +81,11 @@ function _getErrorMessage(data) {
   return message.trim();
 }
 
-function _createAccessToken({ userId, source, expirationDelaySeconds }) {
-  return jsonwebtoken.sign({ user_id: userId, source }, settings.authentication.secret, {
-    expiresIn: expirationDelaySeconds,
-  });
-}
-
 function createAccessToken(userId) {
   const expirationDelaySeconds = settings.cnav.accessTokenLifespanMs / 1000;
-  return _createAccessToken({ userId, source: 'cnav', expirationDelaySeconds });
+  return jsonwebtoken.sign({ user_id: userId, source: 'cnav' }, settings.authentication.secret, {
+    expiresIn: expirationDelaySeconds,
+  });
 }
 
 async function _extractClaimsFromIdToken(idToken) {
