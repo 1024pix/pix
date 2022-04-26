@@ -23,10 +23,7 @@ describe('Unit | Domain | Services | cnav-authentication-service', function () {
       sinon.stub(settings.cnav, 'clientSecret').value('CNAV_CLIENT_SECRET');
 
       const cnavTokens = new CnavTokens({
-        accessToken: 'accessToken',
-        expiresIn: 60,
         idToken: 'idToken',
-        refreshToken: 'refreshToken',
       });
 
       const response = {

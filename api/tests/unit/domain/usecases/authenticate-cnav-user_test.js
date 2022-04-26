@@ -356,10 +356,7 @@ describe('Unit | UseCase | authenticate-cnav-user', function () {
 
 function _fakeCnavAPI({ cnavAuthenticationService }) {
   const cnavTokens = new CnavTokens({
-    accessToken: 'cnavAccessToken',
-    expiresIn: 60,
     idToken: 'idToken',
-    refreshToken: 'refreshToken',
   });
   const userInfo = {
     family_name: 'Morris',

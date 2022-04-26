@@ -29,10 +29,7 @@ async function exchangeCodeForTokens({ code, redirectUri }) {
   }
 
   return new CnavTokens({
-    accessToken: tokensResponse.data['access_token'],
     idToken: tokensResponse.data['id_token'],
-    expiresIn: tokensResponse.data['expires_in'],
-    refreshToken: tokensResponse.data['refresh_token'],
   });
 }
 

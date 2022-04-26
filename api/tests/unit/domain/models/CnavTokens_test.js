@@ -6,10 +6,7 @@ describe('Unit | Domain | Models | CnavTokens', function () {
     it('should construct a model CnavTokens from attributes', function () {
       // given
       const attributes = {
-        accessToken: 'accessToken',
         idToken: 'idToken',
-        expiresIn: 60,
-        refreshToken: 'refreshToken',
       };
 
       // when

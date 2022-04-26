@@ -8,10 +8,7 @@ describe('Integration | Repository | cnavTokensRepository', function () {
     it('should save cnavTokens and return a key', async function () {
       // given
       const cnavTokens = new CnavTokens({
-        accessToken: 'accessToken',
         idToken: 'idToken',
-        expiresIn: 10,
-        refreshToken: 'refreshToken',
       });
 
       // when
@@ -26,10 +23,7 @@ describe('Integration | Repository | cnavTokensRepository', function () {
     it('should retrieve the cnavTokens if it exists', async function () {
       // given
       const cnavTokens = new CnavTokens({
-        accessToken: 'accessToken',
         idToken: 'idToken',
-        expiresIn: 10,
-        refreshToken: 'refreshToken',
       });
       const key = await cnavTokensRepository.save(cnavTokens);
 

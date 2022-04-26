@@ -1,9 +1,6 @@
 class CnavTokens {
-  constructor({ accessToken, idToken, expiresIn, refreshToken }) {
-    this.accessToken = accessToken;
+  constructor({ idToken }) {
     this.idToken = idToken;
-    this.expiresIn = expiresIn;
-    this.refreshToken = refreshToken;
   }
 }
 

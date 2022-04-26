@@ -78,10 +78,7 @@ describe('Unit | UseCase | create-user-from-cnav', function () {
       const userId = 123;
       const authenticationKey = 'authenticationKey';
       const cnavTokens = new CnavTokens({
-        accessToken: 'accessToken',
         idToken: 'idToken',
-        expiresIn: 10,
-        refreshToken: 'refreshToken',
       });
       cnavTokensRepository.getByKey.withArgs(authenticationKey).resolves(cnavTokens);
 
@@ -140,10 +137,7 @@ describe('Unit | UseCase | create-user-from-cnav', function () {
       // given
       const authenticationKey = 'authenticationKey';
       const cnavTokens = new CnavTokens({
-        accessToken: 'accessToken',
         idToken: 'idToken',
-        expiresIn: 10,
-        refreshToken: 'refreshToken',
       });
       cnavTokensRepository.getByKey.withArgs(authenticationKey).resolves(cnavTokens);
 
@@ -183,10 +177,7 @@ describe('Unit | UseCase | create-user-from-cnav', function () {
       const userId = 123;
       const authenticationKey = 'authenticationKey';
       const cnavTokens = new CnavTokens({
-        accessToken: 'accessToken',
         idToken: 'idToken',
-        expiresIn: 10,
-        refreshToken: 'refreshToken',
       });
       cnavTokensRepository.getByKey.withArgs(authenticationKey).resolves(cnavTokens);
 

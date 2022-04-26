@@ -196,10 +196,7 @@ describe('Unit | Application | Controller | Authentication', function () {
 
     const pixAccessToken = 'pixAccessToken';
     const cnavTokens = new CnavTokens({
-      accessToken: 'cnavAccessToken',
-      expiresIn: 60,
       idToken: 'idToken',
-      refreshToken: 'refreshToken',
     });
 
     let request;

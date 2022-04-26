@@ -1200,10 +1200,7 @@ describe('Acceptance | Controller | authentication-controller', function () {
           nock('http://idp.cnav').post('/token').reply(200, getAccessTokenResponse);
 
           const cnavTokens = new CnavTokens({
-            accessToken: 'access_token',
             idToken: idToken,
-            expiresIn: 60,
-            refreshToken: 'refresh_token',
           });
 
           // when

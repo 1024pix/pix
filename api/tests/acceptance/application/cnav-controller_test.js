@@ -37,10 +37,7 @@ describe('Acceptance | API | Cnav Controller', function () {
       );
 
       const cnavTokens = new CnavTokens({
-        accessToken: 'accessToken',
-        expiresIn: 10,
         idToken,
-        refreshToken: 'refreshToken',
       });
       const userAuthenticationKey = await cnavTokensRepository.save(cnavTokens);
 
