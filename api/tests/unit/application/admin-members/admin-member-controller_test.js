@@ -24,6 +24,23 @@ describe('Unit | Controller | admin-member-controller', function () {
     });
   });
 
+  describe('#getCurrentAdminMember', function () {
+    it('should get the current admin member', async function () {
+      // given
+      const request = { auth: { credentials: { userId: 1 } } };
+      const adminMemberDetails = Symbol('adminMemberDetails');
+      sinon.stub(usecases, 'getAdminMemberDetails').withArgs({ userId: 1 }).resolves(adminMemberDetails);
+      const serializedUpdatedMember = Symbol('serializedUpdatedMember');
+      sinon.stub(adminMemberSerializer, 'serialize').withArgs(adminMemberDetails).returns(serializedUpdatedMember);
+
+      // when
+      const response = await adminMemberController.getCurrentAdminMember(request);
+
+      // then
+      expect(response).to.be.equal(serializedUpdatedMember);
+    });
+  });
+
   describe('#updateAdminMember', function () {
     it('should return the serialized admin member with updated values', async function () {
       // given

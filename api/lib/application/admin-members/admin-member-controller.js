@@ -7,6 +7,12 @@ module.exports = {
     return adminMemberSerializer.serialize(adminMembers);
   },
 
+  async getCurrentAdminMember(request) {
+    const authenticatedUserId = request.auth.credentials.userId;
+    const userDetailsForAdmin = await usecases.getAdminMemberDetails({ userId: authenticatedUserId });
+    return adminMemberSerializer.serialize(userDetailsForAdmin);
+  },
+
   async updateAdminMember(request) {
     const id = request.params.id;
     const role = request.payload.data.attributes.role;
