@@ -45,9 +45,7 @@ module('Acceptance | Session Add Sco Students', function (hooks) {
       await visit(`/sessions/${session.id}/ajout-eleves`);
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(currentURL(), '/connexion');
+      assert.strictEqual(currentURL(), '/connexion');
     });
   });
 
@@ -66,9 +64,7 @@ module('Acceptance | Session Add Sco Students', function (hooks) {
         await visit(`/sessions/${session.id}/ajout-eleves`);
 
         // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(currentURL(), '/espace-ferme');
+        assert.strictEqual(currentURL(), '/espace-ferme');
       });
     });
 
@@ -78,9 +74,7 @@ module('Acceptance | Session Add Sco Students', function (hooks) {
       await clickByLabel('Inscrire des candidats');
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(currentURL(), `/sessions/${session.id}/ajout-eleves`);
+      assert.strictEqual(currentURL(), `/sessions/${session.id}/ajout-eleves`);
       assert.dom('.add-student__title').hasText('Inscrire des candidats');
     });
 
@@ -91,9 +85,7 @@ module('Acceptance | Session Add Sco Students', function (hooks) {
       await clickByLabel('Retour à la session');
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(currentURL(), `/sessions/${session.id}/candidats`);
+      assert.strictEqual(currentURL(), `/sessions/${session.id}/candidats`);
     });
 
     module('when there are no students', function () {
@@ -127,9 +119,7 @@ module('Acceptance | Session Add Sco Students', function (hooks) {
 
         // then
         const studentRows = document.querySelectorAll(rowSelector);
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(studentRows.length, 2);
+        assert.strictEqual(studentRows.length, 2);
       });
 
       module('when there are no enrolled students', function () {
@@ -145,9 +135,7 @@ module('Acceptance | Session Add Sco Students', function (hooks) {
 
           // then
           const allRow = document.querySelectorAll(rowSelector);
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line qunit/no-assert-equal
-          assert.equal(allRow.length, DEFAULT_PAGE_SIZE);
+          assert.strictEqual(allRow.length, DEFAULT_PAGE_SIZE);
         });
 
         module('when selecting some students', function () {
@@ -170,13 +158,9 @@ module('Acceptance | Session Add Sco Students', function (hooks) {
 
             // then
             const allRow = document.querySelectorAll(rowSelector);
-            // TODO: Fix this the next time the file is edited.
-            // eslint-disable-next-line qunit/no-assert-equal
-            assert.equal(allRow.length, DEFAULT_PAGE_SIZE);
+            assert.strictEqual(allRow.length, DEFAULT_PAGE_SIZE);
             const checkboxChecked = document.querySelectorAll(checkboxCheckedSelector);
-            // TODO: Fix this the next time the file is edited.
-            // eslint-disable-next-line qunit/no-assert-equal
-            assert.equal(checkboxChecked.length, 3);
+            assert.strictEqual(checkboxChecked.length, 3);
           });
 
           test('it should be possible to cancel enrolling students', async function (assert) {
@@ -193,9 +177,7 @@ module('Acceptance | Session Add Sco Students', function (hooks) {
             await clickByLabel('Annuler');
 
             // then
-            // TODO: Fix this the next time the file is edited.
-            // eslint-disable-next-line qunit/no-assert-equal
-            assert.equal(currentURL(), `/sessions/${session.id}/candidats`);
+            assert.strictEqual(currentURL(), `/sessions/${session.id}/candidats`);
           });
 
           module('when clicking on "Ajout"', function () {
@@ -211,9 +193,7 @@ module('Acceptance | Session Add Sco Students', function (hooks) {
               await clickByLabel('Inscrire');
 
               // then
-              // TODO: Fix this the next time the file is edited.
-              // eslint-disable-next-line qunit/no-assert-equal
-              assert.equal(currentURL(), `/sessions/${session.id}/candidats`);
+              assert.strictEqual(currentURL(), `/sessions/${session.id}/candidats`);
             });
 
             test('it should add students as certification candidates', async function (assert) {
@@ -234,9 +214,7 @@ module('Acceptance | Session Add Sco Students', function (hooks) {
 
               // then
               const certificationCandidates = await detailController.model.certificationCandidates;
-              // TODO: Fix this the next time the file is edited.
-              // eslint-disable-next-line qunit/no-assert-equal
-              assert.equal(certificationCandidates.length, 3);
+              assert.strictEqual(certificationCandidates.length, 3);
             });
           });
         });
