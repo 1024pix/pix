@@ -21,7 +21,7 @@ const CertificationCenterMembership = require('../../domain/models/Certification
 const Organization = require('../../domain/models/Organization');
 const OrganizationLearnerForAdmin = require('../../domain/read-models/OrganizationLearnerForAdmin');
 const AuthenticationMethod = require('../../domain/models/AuthenticationMethod');
-const PixAdminRole = require('../../domain/models/PixAdminRole');
+const AdminMember = require('../../domain/read-models/AdminMember');
 
 module.exports = {
   getByEmail(email) {
@@ -465,15 +465,15 @@ function _toMembershipsDomain(membershipsBookshelf) {
   });
 }
 
-function _toPixAdminRolesDomain(pixAdminRolesBookshelf) {
-  return pixAdminRolesBookshelf.map((pixAdminRoleBookshelf) => {
-    return new PixAdminRole({
-      id: pixAdminRoleBookshelf.get('id'),
-      role: pixAdminRoleBookshelf.get('role'),
-      userId: pixAdminRoleBookshelf.get('userId'),
-      createdAt: pixAdminRoleBookshelf.get('createdAt'),
-      updatedAt: pixAdminRoleBookshelf.get('updatedAt'),
-      disabledAt: pixAdminRoleBookshelf.get('disabledAt'),
+function _toAdminMemberDomain(adminMembersBookshelf) {
+  return adminMembersBookshelf.map((adminMemberBookshelf) => {
+    return new AdminMember({
+      id: adminMemberBookshelf.get('id'),
+      role: adminMemberBookshelf.get('role'),
+      userId: adminMemberBookshelf.get('userId'),
+      createdAt: adminMemberBookshelf.get('createdAt'),
+      updatedAt: adminMemberBookshelf.get('updatedAt'),
+      disabledAt: adminMemberBookshelf.get('disabledAt'),
     });
   });
 }
@@ -538,7 +538,7 @@ function _toDomain(userBookshelf) {
     certificationCenterMemberships: _toCertificationCenterMembershipsDomain(
       userBookshelf.related('certificationCenterMemberships')
     ),
-    pixAdminRoles: _toPixAdminRolesDomain(userBookshelf.related('pixAdminRoles')),
+    pixAdminRoles: _toAdminMemberDomain(userBookshelf.related('pixAdminRoles')),
     hasSeenAssessmentInstructions: Boolean(userBookshelf.get('hasSeenAssessmentInstructions')),
     authenticationMethods: _toAuthenticationMethodsDomain(userBookshelf.related('authenticationMethods')),
   });
