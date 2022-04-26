@@ -13,7 +13,7 @@ module.exports = async function getFrameworkAreas({
     frameworkId = framework.id;
   }
 
-  const areasWithCompetences = await areaRepository.findByFrameworkIdWithCompetences(frameworkId);
+  const areasWithCompetences = await areaRepository.findByFrameworkIdWithCompetences({ frameworkId, locale });
 
   const competences = areasWithCompetences.flatMap((area) => area.competences);
 
