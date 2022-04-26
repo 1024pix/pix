@@ -9,8 +9,9 @@
             @count={{stage.index}}
             @total={{this.totalStage}}
             @color="blue"
+            @alt={{t "charts.participants-by-stage.label-a11y" stage=stage.index totalStage=this.totalStage}}
             class="participants-by-stage__stars"
-            aria-hidden="true"
+            role="img"
           />
           <div class="participants-by-stage__values">
             {{t "charts.participants-by-stage.participants" count=stage.value}}
