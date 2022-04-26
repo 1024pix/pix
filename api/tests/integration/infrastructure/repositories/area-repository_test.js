@@ -10,7 +10,7 @@ describe('Integration | Repository | area-repository', function () {
       code: 'area0code',
       name: 'area0name',
       titleFrFr: 'area0titleFr',
-      titleEn: 'area0titleEn',
+      titleEnUs: 'area0titleEn',
       color: 'area0color',
       competenceIds: ['recCompetence0'],
     };
@@ -19,7 +19,7 @@ describe('Integration | Repository | area-repository', function () {
       code: 'area1code',
       name: 'area1name',
       titleFrFr: 'area1titleFr',
-      titleEn: 'area1titleEn',
+      titleEnUs: 'area1titleEn',
       color: 'area1color',
       competenceIds: [],
     };
@@ -67,7 +67,7 @@ describe('Integration | Repository | area-repository', function () {
             code: 'area0code',
             name: 'area0name',
             titleFrFr: 'area0titleFr',
-            titleEn: 'area0titleEn',
+            titleEnUs: 'area0titleEn',
             color: 'area0color',
             competenceIds: ['recCompetence0'],
           },
@@ -94,7 +94,7 @@ describe('Integration | Repository | area-repository', function () {
         code: 'area0code',
         name: 'area0name',
         titleFrFr: 'area0titleFr',
-        titleEn: 'area0titleEn',
+        titleEnUs: 'area0titleEn',
         color: 'area0color',
         competenceIds: ['recCompetence0', 'recCompetence1'],
       };
@@ -104,7 +104,7 @@ describe('Integration | Repository | area-repository', function () {
         code: 'area1code',
         name: 'area1name',
         titleFrFr: 'area1titleFr',
-        titleEn: 'area1titleEn',
+        titleEnUs: 'area1titleEn',
         color: 'area1color',
         competenceIds: ['recCompetence2', 'recCompetence3'],
       };
@@ -158,7 +158,7 @@ describe('Integration | Repository | area-repository', function () {
       code: 'area0code',
       name: 'area0name',
       titleFrFr: 'area0titleFr',
-      titleEn: 'area0titleEn',
+      titleEnUs: 'area0titleEn',
       color: 'area0color',
       frameworkId: 'framework1',
       competenceIds: ['recCompetence0', 'recCompetence1'],
@@ -169,7 +169,7 @@ describe('Integration | Repository | area-repository', function () {
       code: 'area1code',
       name: 'area1name',
       titleFrFr: 'area1titleFr',
-      titleEn: 'area1titleEn',
+      titleEnUs: 'area1titleEn',
       color: 'area1color',
       frameworkId: 'framework2',
       competenceIds: ['recCompetence2', 'recCompetence3'],
@@ -190,7 +190,7 @@ describe('Integration | Repository | area-repository', function () {
 
     it('should return a list of areas from the proper framework', async function () {
       // when
-      const areas = await areaRepository.findByFrameworkIdWithCompetences('framework1');
+      const areas = await areaRepository.findByFrameworkIdWithCompetences({ frameworkId: 'framework1' });
 
       // then
       expect(areas).to.have.lengthOf(1);
@@ -200,6 +200,25 @@ describe('Integration | Repository | area-repository', function () {
         code: area0.code,
         name: area0.name,
         title: area0.titleFrFr,
+        color: area0.color,
+      });
+      expect(areas[0].competences).to.have.lengthOf(2);
+      expect(areas[0].competences[0].id).to.equal('recCompetence0');
+      expect(areas[0].competences[1].id).to.equal('recCompetence1');
+    });
+
+    it('should return a list of areas in english', async function () {
+      // when
+      const areas = await areaRepository.findByFrameworkIdWithCompetences({ frameworkId: 'framework1', locale: 'en' });
+
+      // then
+      expect(areas).to.have.lengthOf(1);
+      expect(areas[0]).to.be.instanceof(Area);
+      expect(_.omit(areas[0], 'competences')).to.deep.equal({
+        id: area0.id,
+        code: area0.code,
+        name: area0.name,
+        title: area0.titleEnUs,
         color: area0.color,
       });
       expect(areas[0].competences).to.have.lengthOf(2);
