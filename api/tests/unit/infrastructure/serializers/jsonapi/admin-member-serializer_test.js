@@ -7,6 +7,7 @@ describe('Unit | Serializer | JSONAPI | admin-member-serializer', function () {
       // given
       const adminMember = domainBuilder.buildAdminMember({
         id: 12,
+        userId: 7,
         firstName: 'Ivan',
         lastName: 'Iakovlievitch',
         email: 'ivan.iakovlievitch@pix.fr',
@@ -24,6 +25,7 @@ describe('Unit | Serializer | JSONAPI | admin-member-serializer', function () {
           attributes: {
             'first-name': 'Ivan',
             'last-name': 'Iakovlievitch',
+            'user-id': 7,
             email: 'ivan.iakovlievitch@pix.fr',
             role: 'SUPER_ADMIN',
           },
