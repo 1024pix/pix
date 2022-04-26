@@ -20,9 +20,6 @@ describe('Acceptance | Controller | feature-toggle-controller', function () {
       const expectedData = {
         data: {
           id: '0',
-          attributes: {
-            'is-new-tutorials-page-enabled': false,
-          },
           type: 'feature-toggles',
         },
       };

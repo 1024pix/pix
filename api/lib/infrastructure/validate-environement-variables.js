@@ -26,7 +26,6 @@ const schema = Joi.object({
   LOG_OPS_METRICS: Joi.string().optional().valid('true', 'false'),
   AUTH_SECRET: Joi.string().required(),
   SCO_ACCOUNT_RECOVERY_KEY_LIFETIME_MINUTES: Joi.number().integer().min(1).optional(),
-  FT_NEW_TUTORIALS_PAGE: Joi.string().optional().valid('true', 'false'),
   NODE_ENV: Joi.string().optional().valid('development', 'test', 'production'),
   POLE_EMPLOI_CLIENT_ID: Joi.string().optional(),
   POLE_EMPLOI_CLIENT_SECRET: Joi.string().optional(),
