@@ -1,11 +1,18 @@
 module.exports = async function getFrameworkAreas({
   frameworkId,
+  frameworkName,
   locale,
   challengeRepository,
   tubeRepository,
   thematicRepository,
   areaRepository,
+  frameworkRepository,
 }) {
+  if (!frameworkId) {
+    const framework = await frameworkRepository.getByName(frameworkName);
+    frameworkId = framework.id;
+  }
+
   const areasWithCompetences = await areaRepository.findByFrameworkIdWithCompetences(frameworkId);
 
   const competences = areasWithCompetences.flatMap((area) => area.competences);

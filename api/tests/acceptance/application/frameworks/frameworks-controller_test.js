@@ -10,6 +10,12 @@ describe('Acceptance | Controller | frameworks-controller', function () {
   let server;
 
   const learningContent = {
+    frameworks: [
+      {
+        id: 'pix123',
+        name: 'Pix',
+      },
+    ],
     areas: [
       {
         id: 'areaId',
@@ -17,7 +23,7 @@ describe('Acceptance | Controller | frameworks-controller', function () {
         titleFrFr: 'Area fr',
         color: 'some color',
         competenceIds: ['competenceId'],
-        frameworkId: 'pix',
+        frameworkId: 'pix123',
       },
     ],
     competences: [
