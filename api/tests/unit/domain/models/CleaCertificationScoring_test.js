@@ -123,42 +123,85 @@ describe('Unit | Domain | Models | CleaCertificationScoring', function () {
 
     context('reproducibility rate in green zone', function () {
       // eslint-disable-next-line mocha/no-setup-in-describe
-      GREEN_ZONE_REPRO.forEach((reproducibilityRate) =>
-        it(`for ${reproducibilityRate} reproducibility rate, it should obtain certification`, async function () {
-          // given
-          const cleaCertificationScoring = await _buildCleaCertificationScoringWithBadge(reproducibilityRate);
+      GREEN_ZONE_REPRO.forEach((reproducibilityRate) => {
+        context(`when reproducibility rate is ${reproducibilityRate}`, function () {
+          context('pix score is equal or greater than 70', function () {
+            it('should return true', async function () {
+              // given
+              const cleaCertificationScoring = await _buildCleaCertificationScoringWithBadge({
+                reproducibilityRate,
+                pixScore: 70,
+              });
 
-          // when
-          const hasAcquiredCertif = cleaCertificationScoring.isAcquired();
+              // when
+              const hasAcquiredCertif = cleaCertificationScoring.isAcquired();
 
-          // then
-          expect(hasAcquiredCertif).to.be.true;
-        })
-      );
+              // then
+              expect(hasAcquiredCertif).to.be.true;
+            });
+          });
+
+          context('pix score is lesser than 70', function () {
+            it('should return false', async function () {
+              // given
+              const cleaCertificationScoring = await _buildCleaCertificationScoringWithBadge({
+                reproducibilityRate,
+                pixScore: 69,
+              });
+
+              // when
+              const hasAcquiredCertif = cleaCertificationScoring.isAcquired();
+
+              // then
+              expect(hasAcquiredCertif).to.be.false;
+            });
+          });
+        });
+      });
     });
 
     context('reproducibility rate in red zone', function () {
       // eslint-disable-next-line mocha/no-setup-in-describe
       RED_ZONE_REPRO.forEach((reproducibilityRate) =>
-        it(`for ${reproducibilityRate} reproducibility rate, it should not obtain certification`, async function () {
-          // given
-          const cleaCertificationScoring = await _buildCleaCertificationScoringWithBadge(reproducibilityRate);
+        context(`when reproducibility rate is ${reproducibilityRate}`, function () {
+          context('pix score is equal or greater than 70', function () {
+            it('should return false', async function () {
+              // given
+              const cleaCertificationScoring = await _buildCleaCertificationScoringWithBadge({
+                reproducibilityRate,
+                pixScore: 70,
+              });
 
-          // when
-          const hasAcquiredCertif = cleaCertificationScoring.isAcquired({
-            hasAcquiredBadge: true,
-            reproducibilityRate,
+              // when
+              const hasAcquiredCertif = cleaCertificationScoring.isAcquired();
+
+              // then
+              expect(hasAcquiredCertif).to.be.false;
+            });
           });
 
-          // then
-          expect(hasAcquiredCertif).to.be.false;
+          context('pix score is lesser than 70', function () {
+            it('should return false', async function () {
+              // given
+              const cleaCertificationScoring = await _buildCleaCertificationScoringWithBadge({
+                reproducibilityRate,
+                pixScore: 69,
+              });
+
+              // when
+              const hasAcquiredCertif = cleaCertificationScoring.isAcquired();
+
+              // then
+              expect(hasAcquiredCertif).to.be.false;
+            });
+          });
         })
       );
     });
   });
 });
 
-function _buildCleaCertificationScoringWithBadge(reproducibilityRate, pixScore) {
+function _buildCleaCertificationScoringWithBadge({ reproducibilityRate, pixScore } = {}) {
   return _buildCleaCertificationScoring({ withBadge: true, reproducibilityRate, pixScore });
 }
 
