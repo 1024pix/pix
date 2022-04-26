@@ -42,6 +42,14 @@ export default function () {
     return schema.adminMembers.all();
   });
 
+  this.patch('/admin/admin-members/:id', (schema, request) => {
+    const requestBody = JSON.parse(request.requestBody);
+    const role = requestBody.data.attributes.role;
+    const id = request.params.id;
+    const adminMember = schema.adminMembers.findBy({ id });
+    return adminMember.update({ role });
+  });
+
   this.get('/admin/sessions', findPaginatedAndFilteredSessions);
   this.get('/admin/sessions/to-publish', (schema) => {
     const toBePublishedSessions = schema.toBePublishedSessions.all();
