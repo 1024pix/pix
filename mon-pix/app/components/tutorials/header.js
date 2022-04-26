@@ -5,10 +5,10 @@ export default class Header extends Component {
   @service router;
 
   get isRecommended() {
-    return this._isActive('user-tutorials-v2.recommended');
+    return this._isActive('user-tutorials.recommended');
   }
   get isSaved() {
-    return this._isActive('user-tutorials-v2.saved');
+    return this._isActive('user-tutorials.saved');
   }
   _isActive(route) {
     return route === this.router.currentRouteName ? 'grey' : 'transparent-light';

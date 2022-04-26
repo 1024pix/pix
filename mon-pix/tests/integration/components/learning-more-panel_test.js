@@ -3,21 +3,11 @@ import { describe, it } from 'mocha';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 import { find, findAll, render } from '@ember/test-helpers';
 import { A } from '@ember/array';
-import Service from '@ember/service';
 import EmberObject from '@ember/object';
 import hbs from 'htmlbars-inline-precompile';
 
 describe('Integration | Component | learning-more-panel', function () {
   setupIntlRenderingTest();
-
-  beforeEach(function () {
-    class FeatureTogglesService extends Service {
-      featureToggles = {
-        isNewTutorialsPageEnabled: false,
-      };
-    }
-    this.owner.register('service:featureToggles', FeatureTogglesService);
-  });
 
   describe('when there is at least one learningMore item', function () {
     it('renders a list item when there is at least one learningMore item', async function () {
@@ -36,12 +26,6 @@ describe('Integration | Component | learning-more-panel', function () {
     describe('when newTutorials FT is enabled', function () {
       it('should display a list of new tutorial cards', async function () {
         // given
-        class FeatureTogglesService extends Service {
-          featureToggles = {
-            isNewTutorialsPageEnabled: true,
-          };
-        }
-        this.owner.register('service:featureToggles', FeatureTogglesService);
         const tuto1 = EmberObject.create({
           title: 'Tuto 1.1',
           tubeName: '@first_tube',

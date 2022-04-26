@@ -21,11 +21,7 @@
       {{#if this.shouldDisplayTutorial}}
         <div class="tutorial-panel__tutorials-container">
           {{#each this.limitedTutorials as |tutorial|}}
-            {{#if this.areNewTutorialsEnabled}}
-              <Tutorials::Card @tutorial={{tutorial}} />
-            {{else}}
-              <TutorialItem @tutorial={{tutorial}} />
-            {{/if}}
+            <Tutorials::Card @tutorial={{tutorial}} />
           {{/each}}
         </div>
         <div class="tutorial-panel__tutorial-info">{{t "pages.tutorial-panel.info"}}</div>

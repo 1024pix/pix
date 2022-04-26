@@ -211,8 +211,8 @@ describe('Acceptance | Displaying a QROC challenge', () => {
 
         expect(find('.tutorial-panel__hint-container').textContent).to.contains(correction.hint);
 
-        const tutorialToSuccess = findAll('.tutorial-panel__tutorials-container .tutorial-item')[0];
-        const tutorialToLearnMore = findAll('.learning-more-panel__list-container .tutorial-item')[0];
+        const tutorialToSuccess = findAll('.tutorial-panel__tutorials-container .tutorial-card-v2')[0];
+        const tutorialToLearnMore = findAll('.learning-more-panel__list-container .tutorial-card-v2')[0];
 
         expect(tutorialToSuccess.textContent).to.contains(tutorial.title);
         expect(tutorialToLearnMore.textContent).to.contains(learningMoreTutorial.title);
@@ -364,8 +364,8 @@ describe('Acceptance | Displaying a QROC challenge', () => {
 
         expect(find('.tutorial-panel__hint-container').textContent).to.contains(correction.hint);
 
-        const tutorialToSuccess = findAll('.tutorial-panel__tutorials-container .tutorial-item')[0];
-        const tutorialToLearnMore = findAll('.learning-more-panel__list-container .tutorial-item')[0];
+        const tutorialToSuccess = findAll('.tutorial-panel__tutorials-container .tutorial-card-v2')[0];
+        const tutorialToLearnMore = findAll('.learning-more-panel__list-container .tutorial-card-v2')[0];
 
         expect(tutorialToSuccess.textContent).to.contains(tutorial.title);
         expect(tutorialToLearnMore.textContent).to.contains(learningMoreTutorial.title);
@@ -473,8 +473,8 @@ describe('Acceptance | Displaying a QROC challenge', () => {
 
         expect(find('.tutorial-panel__hint-container').textContent).to.contains(correction.hint);
 
-        const tutorialToSuccess = findAll('.tutorial-panel__tutorials-container .tutorial-item')[0];
-        const tutorialToLearnMore = findAll('.learning-more-panel__list-container .tutorial-item')[0];
+        const tutorialToSuccess = findAll('.tutorial-panel__tutorials-container .tutorial-card-v2')[0];
+        const tutorialToLearnMore = findAll('.learning-more-panel__list-container .tutorial-card-v2')[0];
 
         expect(tutorialToSuccess.textContent).to.contains(tutorial.title);
         expect(tutorialToLearnMore.textContent).to.contains(learningMoreTutorial.title);
