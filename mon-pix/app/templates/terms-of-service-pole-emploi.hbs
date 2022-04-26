@@ -9,7 +9,7 @@
       </a>
     </div>
 
-    <h2 class="terms-of-service-form__title">{{t "pages.terms-of-service-pole-emploi.title"}}</h2>
+    <h1 class="terms-of-service-form__title">{{t "pages.terms-of-service-pole-emploi.title"}}</h1>
 
     <div class="terms-of-service-form__description">
       {{t "pages.terms-of-service-pole-emploi.message"}}
@@ -24,26 +24,26 @@
           @checked={{this.isTermsOfServiceValidated}}
         />
         {{t "pages.terms-of-service-pole-emploi.cgu" htmlSafe=true}}
-
       </label>
       {{#if this.showErrorTermsOfServiceNotSelected}}
         <div class="terms-of-service-form-conditions__validation-error">
           {{t "pages.terms-of-service-pole-emploi.form.error-message"}}
         </div>
       {{/if}}
+      {{#if this.showErrorTermsOfServiceExpiredAuthenticatedKey}}
+        <div class="terms-of-service-form-conditions__validation-error">
+          {{t "pages.terms-of-service-pole-emploi.form.expired-authentication-key"}}
+        </div>
+      {{/if}}
     </div>
 
     <div class="terms-of-service-form__actions">
       <LinkTo @route="logout" class="button button--white">{{t "common.actions.back"}}</LinkTo>
-      {{#if this.showErrorTermsOfServiceExpiredAuthenticatedKey}}
-        <div class="terms-of-service-form-conditions__validation-error">{{t
-            "pages.terms-of-service-pole-emploi.form.expired-authentication-key"
-          }}</div>
-      {{else}}
+      {{#unless this.showErrorTermsOfServiceExpiredAuthenticatedKey}}
         <PixButton @type="submit" @triggerAction={{this.submit}} class="terms-of-service-form-actions__submit">
           {{t "pages.terms-of-service-pole-emploi.form.button"}}
         </PixButton>
-      {{/if}}
+      {{/unless}}
     </div>
 
   </div>
