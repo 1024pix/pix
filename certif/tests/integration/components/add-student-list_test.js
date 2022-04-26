@@ -284,7 +284,7 @@ module('Integration | Component | add-student-list', function (hooks) {
         });
 
         module('when there are 2 selected students', () => {
-          test('it should show "2 candidat(s) sélectionné(s) | 0 candidat déjà ajoutés à la session"', async function (assert) {
+          test('it should display a label accordingly', async function (assert) {
             // given
             const candidatesEnrolledSelector = '.bottom-action-bar__informations--candidates-already-added';
             const candidatesSelectedSelector = '.bottom-action-bar__informations--candidates-selected';
@@ -316,7 +316,7 @@ module('Integration | Component | add-student-list', function (hooks) {
             </AddStudentList>`);
 
             // then
-            assert.dom(candidatesEnrolledSelector).includesText('0 candidat(s) déjà ajouté(s) à la session');
+            assert.dom(candidatesEnrolledSelector).includesText('0 candidat(s) déjà inscrit(s) à la session');
             assert.dom(candidatesSelectedSelector).includesText('2 candidat(s) sélectionné(s)');
           });
         });
@@ -353,11 +353,11 @@ module('Integration | Component | add-student-list', function (hooks) {
             </AddStudentList>`);
           });
 
-          test('it should show "Aucun candidat sélectionné | 2 candidat(s) déjà ajouté(s) à la session"', async function (assert) {
+          test('it should display a label accordingly', async function (assert) {
             // then
             const candidatesEnrolledSelector = '.bottom-action-bar__informations--candidates-already-added';
             const candidatesSelectedSelector = '.bottom-action-bar__informations--candidates-selected';
-            assert.dom(candidatesEnrolledSelector).includesText('2 candidat(s) déjà ajouté(s) à la session');
+            assert.dom(candidatesEnrolledSelector).includesText('2 candidat(s) déjà inscrit(s) à la session');
             assert.dom(candidatesSelectedSelector).includesText('Aucun candidat sélectionné');
           });
 
@@ -400,11 +400,11 @@ module('Integration | Component | add-student-list', function (hooks) {
             </AddStudentList>`);
           });
 
-          test('it should show "2 candidat(s) sélectionné(s) | 2 candidat(s) déjà ajouté(s) à la session"', async function (assert) {
+          test('it should display a label accordingly', async function (assert) {
             // then
             const candidatesEnrolledSelector = '.bottom-action-bar__informations--candidates-already-added';
             const candidatesSelectedSelector = '.bottom-action-bar__informations--candidates-selected';
-            assert.dom(candidatesEnrolledSelector).includesText('2 candidat(s) déjà ajouté(s) à la session');
+            assert.dom(candidatesEnrolledSelector).includesText('2 candidat(s) déjà inscrit(s) à la session');
             assert.dom(candidatesSelectedSelector).includesText('2 candidat(s) sélectionné(s)');
           });
 
@@ -443,7 +443,7 @@ module('Integration | Component | add-student-list', function (hooks) {
           await click(addButton);
           assert.ok(
             notificationMessagesService.error.calledOnceWith(
-              'Une erreur est survenue au moment d‘enregistrer les candidats...'
+              'Une erreur est survenue au moment d‘inscrire les candidats...'
             )
           );
         });
