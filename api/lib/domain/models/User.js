@@ -62,7 +62,7 @@ class User {
   }
 
   get hasRoleSuperAdmin() {
-    return !!this.pixAdminRoles.find(({ role, disabledAt }) => role === ROLES.SUPER_ADMIN && disabledAt === null);
+    return !!this.pixAdminRoles.find(({ role, disabledAt }) => role === ROLES.SUPER_ADMIN && !disabledAt);
   }
 
   get shouldChangePassword() {
