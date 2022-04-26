@@ -12,7 +12,7 @@ const {
   AlreadyRegisteredUsernameError,
   UserNotFoundError,
 } = require('../../domain/errors');
-
+const { ROLES } = require('../../domain/constants').PIX_ADMIN;
 const User = require('../../domain/models/User');
 const UserDetailsForAdmin = require('../../domain/models/UserDetailsForAdmin');
 const Membership = require('../../domain/models/Membership');
@@ -243,7 +243,7 @@ module.exports = {
   },
 
   async isSuperAdmin(id) {
-    const user = await knex('pix-admin-roles').where({ userId: id, role: PixAdminRole.roles.SUPER_ADMIN }).first();
+    const user = await knex('pix-admin-roles').where({ userId: id, role: ROLES.SUPER_ADMIN }).first();
     return Boolean(user);
   },
 

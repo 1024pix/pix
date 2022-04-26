@@ -15,7 +15,7 @@ const buildCertificationCenter = require('./build-certification-center');
 const buildCertificationCenterMembership = require('./build-certification-center-membership');
 
 const { DEFAULT_PASSWORD } = require('../../seeds/data/users-builder');
-const PixAdminRole = require('../../../lib/domain/models/PixAdminRole');
+const { ROLES } = require('../../../lib/domain/constants').PIX_ADMIN;
 
 function _buildPixAuthenticationMethod({
   id = databaseBuffer.getNextId(),
@@ -208,7 +208,7 @@ buildUser.withRoleSuperAdmin = function buildUserWithRoleSuperAdmin({
     updatedAt,
   });
 
-  buildPixAdminRole({ userId: user.id, role: PixAdminRole.roles.SUPER_ADMIN });
+  buildPixAdminRole({ userId: user.id, role: ROLES.SUPER_ADMIN });
 
   return user;
 };

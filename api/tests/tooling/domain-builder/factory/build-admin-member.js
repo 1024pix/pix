@@ -1,5 +1,5 @@
 const AdminMember = require('../../../../lib/domain/read-models/AdminMember');
-const PixAdminRole = require('../../../../lib/domain/models/PixAdminRole');
+const { ROLES } = require('../../../../lib/domain/constants').PIX_ADMIN;
 
 module.exports = function buildAdminMember({
   id = 1,
@@ -7,7 +7,7 @@ module.exports = function buildAdminMember({
   firstName = 'Dimitri',
   lastName = 'Kramatorsk',
   email = 'dimitri.k@pix.fr',
-  role = PixAdminRole.roles.SUPER_ADMIN,
+  role = ROLES.SUPER_ADMIN,
 } = {}) {
   return new AdminMember({ id, userId, firstName, lastName, email, role });
 };
