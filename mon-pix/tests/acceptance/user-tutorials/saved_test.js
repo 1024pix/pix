@@ -13,7 +13,6 @@ describe('Acceptance | User-tutorials-v2 | Saved', function () {
   beforeEach(async function () {
     const numberOfTutorials = 100;
     user = server.create('user', 'withEmail');
-    server.create('feature-toggle', { id: 0, isNewTutorialsPageEnabled: true });
     await authenticateByEmail(user);
     await server.db.tutorials.remove();
     server.createList('tutorial', numberOfTutorials, 'withUserTutorial');
@@ -21,7 +20,7 @@ describe('Acceptance | User-tutorials-v2 | Saved', function () {
 
   describe('When there are tutorials saved', function () {
     it('should display paginated tutorial cards', async function () {
-      await visit('/mes-tutos-v2/enregistres');
+      await visit('/mes-tutos/enregistres');
       expect(findAll('.tutorial-card-v2')).to.exist;
       expect(findAll('.tutorial-card-v2')).to.be.lengthOf(10);
       expect(find('.pix-pagination__navigation').textContent).to.contain('Page 1 / 10');
@@ -34,7 +33,7 @@ describe('Acceptance | User-tutorials-v2 | Saved', function () {
         await server.db.tutorials.remove();
         await server.db.userTutorials.remove();
         server.createList('tutorial', numberOfTutorials, 'withUserTutorial');
-        await visit('/mes-tutos-v2/enregistres');
+        await visit('/mes-tutos/enregistres');
 
         // when
         await click('[aria-label="Retirer"]');
