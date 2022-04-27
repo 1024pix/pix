@@ -18,7 +18,7 @@ module.exports = async function getFrameworkAreas({
   const competences = areasWithCompetences.flatMap((area) => area.competences);
 
   const competenceIds = competences.map(({ id: competenceId }) => competenceId);
-  const thematics = await thematicRepository.findByCompetenceIds(competenceIds);
+  const thematics = await thematicRepository.findByCompetenceIds(competenceIds, locale);
 
   const tubeIds = thematics.flatMap((thematic) => thematic.tubeIds);
   const tubes = await tubeRepository.findActiveByRecordIds(tubeIds, locale);
