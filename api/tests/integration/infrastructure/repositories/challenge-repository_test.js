@@ -63,6 +63,39 @@ describe('Integration | Repository | challenge-repository', function () {
     });
   });
 
+  describe('#list', function () {
+    it('should return all the challenges', async function () {
+      // given
+      const skill1 = domainBuilder.buildSkill({ id: 'recSkill1' });
+      const challenge1 = domainBuilder.buildChallenge({ id: 'recChal1', skill: skill1 });
+      const skill2 = domainBuilder.buildSkill({ id: 'recSkill2' });
+      const challenge2 = domainBuilder.buildChallenge({ id: 'recChal2', skill: skill2 });
+      const skill3 = domainBuilder.buildSkill({ id: 'recSkill3' });
+      const challenge3 = domainBuilder.buildChallenge({ id: 'recChal3', skill: skill3 });
+      const learningContent = {
+        skills: [skill1, skill2, skill3],
+        challenges: [
+          { ...challenge1, skillId: 'recSkill1' },
+          { ...challenge2, skillId: 'recSkill2' },
+          { ...challenge3, skillId: 'recSkill3' },
+        ],
+      };
+      mockLearningContent(learningContent);
+
+      // when
+      const actualChallenges = await challengeRepository.list();
+
+      // then
+      const actualChallenge1 = _.find(actualChallenges, { skill: skill1, id: 'recChal1' });
+      const actualChallenge2 = _.find(actualChallenges, { skill: skill2, id: 'recChal2' });
+      const actualChallenge3 = _.find(actualChallenges, { skill: skill3, id: 'recChal3' });
+      expect(actualChallenges).to.have.lengthOf(3);
+      expect(Boolean(actualChallenge1)).to.be.true;
+      expect(Boolean(actualChallenge2)).to.be.true;
+      expect(Boolean(actualChallenge3)).to.be.true;
+    });
+  });
+
   describe('#findValidated', function () {
     it('should return only validated challenges with skills', async function () {
       // given
