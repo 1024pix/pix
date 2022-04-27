@@ -30,16 +30,16 @@ describe('Acceptance | Tutorial | Actions', function () {
     it('should display tutorial item in competence page with actions', async function () {
       // then
       expect(find('.tutorial-card-v2')).to.exist;
-      expect(find('[aria-label="Donner mon avis sur ce tuto"]')).to.exist;
+      expect(find('[aria-label="Marquer ce tuto comme utile"]')).to.exist;
       expect(find('[aria-label="Enregistrer"]')).to.exist;
     });
 
     it('should disable evaluate action on click', async function () {
       // when
-      await click('[aria-label="Donner mon avis sur ce tuto"]');
+      await click('[aria-label="Marquer ce tuto comme utile"]');
 
       // then
-      expect(find('[aria-label="Tuto utile"]').disabled).to.be.true;
+      expect(find('[aria-label="Ce tuto m\'a été utile"]').disabled).to.be.true;
     });
 
     describe('when save action is clicked', function () {
