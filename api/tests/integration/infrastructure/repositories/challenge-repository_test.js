@@ -1,8 +1,9 @@
 const _ = require('lodash');
-const { expect, mockLearningContent, domainBuilder } = require('../../../test-helper');
+const { expect, mockLearningContent, domainBuilder, catchErr } = require('../../../test-helper');
 const Challenge = require('../../../../lib/domain/models/Challenge');
 const Validator = require('../../../../lib/domain/models/Validator');
 const challengeRepository = require('../../../../lib/infrastructure/repositories/challenge-repository');
+const { NotFoundError } = require('../../../../lib/domain/errors');
 
 describe('Integration | Repository | challenge-repository', function () {
   describe('#get', function () {
@@ -60,6 +61,60 @@ describe('Integration | Repository | challenge-repository', function () {
       expect(actualChallenge.validator.solution.scoring).to.equal('');
       expect(actualChallenge.validator.solution.type).to.equal(challenge.type);
       expect(actualChallenge.validator.solution.value).to.equal(challenge.solution);
+    });
+  });
+
+  describe('#getMany', function () {
+    it('should return the challenges by their id', async function () {
+      const skill1 = domainBuilder.buildSkill({ id: 'recSkill1' });
+      const challenge1 = domainBuilder.buildChallenge({ id: 'recChal1', skill: skill1 });
+      const skill2 = domainBuilder.buildSkill({ id: 'recSkill2' });
+      const challenge2 = domainBuilder.buildChallenge({ id: 'recChal2', skill: skill2 });
+      const skill3 = domainBuilder.buildSkill({ id: 'recSkill3' });
+      const challenge3 = domainBuilder.buildChallenge({ id: 'recChal3', skill: skill3 });
+      const learningContent = {
+        skills: [skill1, skill2, skill3],
+        challenges: [
+          { ...challenge1, skillId: 'recSkill1' },
+          { ...challenge2, skillId: 'recSkill2' },
+          { ...challenge3, skillId: 'recSkill3' },
+        ],
+      };
+      mockLearningContent(learningContent);
+
+      // when
+      const actualChallenges = await challengeRepository.getMany(['recChal1', 'recChal2']);
+
+      // then
+      const actualChallenge1 = _.find(actualChallenges, { skill: skill1, id: 'recChal1' });
+      const actualChallenge2 = _.find(actualChallenges, { skill: skill2, id: 'recChal2' });
+      expect(actualChallenges).to.have.lengthOf(2);
+      expect(Boolean(actualChallenge1)).to.be.true;
+      expect(Boolean(actualChallenge2)).to.be.true;
+    });
+
+    it('should throw a NotFoundError error when resource not found', async function () {
+      const skill1 = domainBuilder.buildSkill({ id: 'recSkill1' });
+      const challenge1 = domainBuilder.buildChallenge({ id: 'recChal1', skill: skill1 });
+      const skill2 = domainBuilder.buildSkill({ id: 'recSkill2' });
+      const challenge2 = domainBuilder.buildChallenge({ id: 'recChal2', skill: skill2 });
+      const skill3 = domainBuilder.buildSkill({ id: 'recSkill3' });
+      const challenge3 = domainBuilder.buildChallenge({ id: 'recChal3', skill: skill3 });
+      const learningContent = {
+        skills: [skill1, skill2, skill3],
+        challenges: [
+          { ...challenge1, skillId: 'recSkill1' },
+          { ...challenge2, skillId: 'recSkill2' },
+          { ...challenge3, skillId: 'recSkill3' },
+        ],
+      };
+      mockLearningContent(learningContent);
+
+      // when
+      const error = await catchErr(challengeRepository.getMany)(['someChallengeId']);
+
+      // then
+      expect(error).to.be.instanceOf(NotFoundError);
     });
   });
 
