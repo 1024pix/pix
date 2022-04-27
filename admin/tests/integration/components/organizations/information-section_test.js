@@ -1,6 +1,5 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { fillIn } from '@ember/test-helpers';
 import { render, clickByName, fillByLabel } from '@1024pix/ember-testing-library';
 import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
@@ -175,7 +174,7 @@ module('Integration | Component | organizations/information-section', function (
       assert
         .dom(screen.getByRole('textbox', { name: 'Département (en 3 chiffres)' }))
         .hasValue(organization.provinceCode);
-      assert.dom(screen.getByRole('textbox', { name: 'Adresse e-mail (SCO)' })).hasValue(organization.email);
+      assert.dom(screen.getByRole('textbox', { name: "Adresse e-mail d'activation SCO" })).hasValue(organization.email);
       assert.dom(screen.getByRole('spinbutton', { name: 'Crédits' })).hasValue(organization.credit.toString());
       assert.dom(screen.getByRole('checkbox', { name: 'Gestion d’élèves/étudiants' })).isNotChecked();
       assert
@@ -240,7 +239,7 @@ module('Integration | Component | organizations/information-section', function (
 
       // when
       await clickByName('Éditer');
-      await fillByLabel('Adresse e-mail (SCO)', 'a'.repeat(256));
+      await fillByLabel("Adresse e-mail d'activation SCO", 'a'.repeat(256));
 
       // then
       assert.dom(screen.getByText("La longueur de l'email ne doit pas excéder 255 caractères.")).exists();
@@ -252,7 +251,7 @@ module('Integration | Component | organizations/information-section', function (
 
       // when
       await clickByName('Éditer');
-      await fillByLabel('Adresse e-mail (SCO)', 'not-valid-email-format');
+      await fillByLabel("Adresse e-mail d'activation SCO", 'not-valid-email-format');
 
       // then
       assert.dom(screen.getByText("L'e-mail n'a pas le bon format.")).exists();
@@ -301,11 +300,12 @@ module('Integration | Component | organizations/information-section', function (
       const screen = await render(hbs`<Organizations::InformationSection @organization={{this.organization}} />`);
 
       await clickByName('Éditer');
-      await fillIn('input#name', 'new name');
-      await fillIn('input#externalId', 'new externalId');
-      await fillIn('input#provinceCode', 'new provinceCode');
+
+      await fillByLabel('* Nom', 'new name');
+      await fillByLabel('Identifiant externe', 'new externalId');
+      await fillByLabel('Département (en 3 chiffres)', 'new provinceCode');
       await clickByName('Gestion d’élèves/étudiants');
-      await fillIn('input#documentationUrl', 'new documentationUrl');
+      await fillByLabel('Lien vers la documentation', 'new documentationUrl');
       await clickByName("Affichage des acquis dans l'export de résultats");
 
       // when
@@ -328,12 +328,12 @@ module('Integration | Component | organizations/information-section', function (
       );
       await clickByName('Éditer');
 
-      await fillIn('input#name', 'new name');
-      await fillIn('input#externalId', 'new externalId');
-      await fillIn('input#provinceCode', '  ');
-      await fillIn('input#credits', 50);
+      await fillByLabel('* Nom', 'new name');
+      await fillByLabel('Identifiant externe', 'new externalId');
+      await fillByLabel('Département (en 3 chiffres)', '   ');
+      await fillByLabel('Crédits', 50);
       await clickByName('Gestion d’élèves/étudiants');
-      await fillIn('input#documentationUrl', 'https://pix.fr/');
+      await fillByLabel('Lien vers la documentation', 'https://pix.fr/');
 
       // when
       await clickByName('Enregistrer');

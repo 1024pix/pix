@@ -26,7 +26,7 @@ module('Integration | Component | Campaigns | Update', function (hooks) {
     assert.dom('label[for="name"]').hasText('* Nom de la campagne');
     assert.dom('label[for="customLandingPageText"]').hasText("Texte de la page d'accueil");
     assert.dom('textarea#customLandingPageText').hasAttribute('maxLength', '5000');
-    assert.dom('input#name').hasValue('Ceci est un nom');
+    assert.dom(screen.getByRole('textbox', { name: 'obligatoire Nom de la campagne' })).hasValue('Ceci est un nom');
     assert.dom(screen.getByRole('button', { name: 'Annuler' })).exists();
     assert.dom(screen.getByRole('button', { name: 'Enregistrer' })).exists();
   });
@@ -38,14 +38,14 @@ module('Integration | Component | Campaigns | Update', function (hooks) {
 
     test('it should display items for assessment', async function (assert) {
       // when
-      await render(hbs`<Campaigns::update @campaign={{this.campaign}} @onExit={{this.onExit}} />`);
+      const screen = await render(hbs`<Campaigns::update @campaign={{this.campaign}} @onExit={{this.onExit}} />`);
 
       // then
       assert.dom('label[for="title"]').hasText('Titre du parcours');
       assert.dom('label[for="customResultPageText"]').hasText('Texte de la page de fin de parcours');
       assert.dom('label[for="customResultPageButtonText"]').hasText('Texte du bouton de la page de fin de parcours');
       assert.dom('label[for="customResultPageButtonUrl"]').hasText('URL du bouton de la page de fin de parcours');
-      assert.dom('input#title').hasValue('Ceci est un titre');
+      assert.dom(screen.getByRole('textbox', { name: 'Titre du parcours' })).hasValue('Ceci est un titre');
     });
 
     test('it should display an error text when the customResultPageButtonText has more than 255 characters', async function (assert) {
