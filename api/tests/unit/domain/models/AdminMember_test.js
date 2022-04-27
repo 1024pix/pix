@@ -86,4 +86,47 @@ describe('Unit | Domain | Models | AdminMember', function () {
       });
     });
   });
+
+  describe('the attribute "hasAccessToAdminScope"', function () {
+    it('should be true if user has a non-disabled allowed role', function () {
+      // given
+      const adminMemberRawDetails = {
+        id: 1,
+        userId: 2,
+        firstName: 'Son',
+        lastName: 'Goku',
+        email: 'email@example.net',
+        role: ROLES.CERTIF,
+        disabledAt: null,
+      };
+      const user = new AdminMember(adminMemberRawDetails);
+
+      // when
+      const hasAccess = user.hasAccessToAdminScope;
+
+      // then
+      expect(hasAccess).to.be.true;
+    });
+
+    it('should be false if user has a disabled role', function () {
+      // given
+      const adminMemberRawDetails = {
+        id: 1,
+        userId: 2,
+        firstName: 'Son',
+        lastName: 'Goku',
+        email: 'email@example.net',
+        role: ROLES.CERTIF,
+        disabledAt: new Date(),
+      };
+
+      const user = new AdminMember(adminMemberRawDetails);
+
+      // when
+      const hasAccess = user.hasAccessToAdminScope;
+
+      // then
+      expect(hasAccess).to.be.false;
+    });
+  });
 });
