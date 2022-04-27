@@ -19,9 +19,9 @@ describe('Acceptance | User-tutorials-v2 | Actions', function () {
     it('should disable evaluate action on click', async function () {
       await visit('/mes-tutos/recommandes');
 
-      await click(find('[aria-label="Donner mon avis sur ce tuto"]'));
+      await click(find('[aria-label="Marquer ce tuto comme utile"]'));
 
-      expect(find('[aria-label="Tuto utile"]').disabled).to.be.true;
+      expect(find('[aria-label="Ce tuto m\'a été utile"]').disabled).to.be.true;
     });
   });
 });
