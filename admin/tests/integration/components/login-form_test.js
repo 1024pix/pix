@@ -13,13 +13,14 @@ const NOT_SUPER_ADMIN_MSG = "Vous n'avez pas les droits pour vous connecter.";
 module('Integration | Component | login-form', function (hooks) {
   setupRenderingTest(hooks);
 
-  test('it renders', async function (assert) {
+  test('it displays a entry form', async function (assert) {
     // when
     const screen = await render(hbs`<LoginForm />`);
 
     // then
     assert.dom(screen.getByRole('textbox', { name: 'Adresse e-mail' })).exists();
     assert.dom(screen.getByLabelText('Mot de passe')).exists();
+    assert.dom(screen.getByRole('button', { name: 'Je me connecte' })).exists();
   });
 
   test('should hide error message by default', async function (assert) {
