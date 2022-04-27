@@ -1,5 +1,17 @@
 # Pix Changelog
 
+## v3.203.0 (27/04/2022)
+
+
+### :rocket: Amélioration
+- [#4359](https://github.com/1024pix/pix/pull/4359) [FEATURE] Supprimer le feature toggle des tutos v2 (PIX-4817). 
+
+### :bug: Correction
+- [#4365](https://github.com/1024pix/pix/pull/4365) [BUGFIX] Uniformiser la taille du contenu de la page "Mes Certifications" sur Pix App (PIX-4825).
+
+### :coffee: Autre
+- [#4370](https://github.com/1024pix/pix/pull/4370) [CLEANUP] Mise à jour de l'auto merge
+
 ## v3.202.0 (26/04/2022)
 
 
