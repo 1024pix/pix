@@ -8,7 +8,7 @@ describe('Acceptance | users-controller-find-users', function () {
   beforeEach(async function () {
     server = await createServer();
 
-    const userSuperAdminId = databaseBuilder.factory.buildUser.withRoleSuperAdmin({
+    const userSuperAdminId = databaseBuilder.factory.buildUser.withRole({
       firstName: 'SuperAdmin_firstName',
       lastName: 'SuperAdmin_lastName',
     }).id;

@@ -32,7 +32,7 @@ describe('PATCH /api/admin/sessions/:id/certification-officer-assignment', funct
   context('when user has role Super Admin', function () {
     beforeEach(function () {
       // given
-      certificationOfficerId = databaseBuilder.factory.buildUser.withRoleSuperAdmin().id;
+      certificationOfficerId = databaseBuilder.factory.buildUser.withRole().id;
       options.headers = { authorization: generateValidRequestAuthorizationHeader(certificationOfficerId) };
       return databaseBuilder.commit();
     });
