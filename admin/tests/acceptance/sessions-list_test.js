@@ -1,5 +1,5 @@
 import { module, test } from 'qunit';
-import { currentURL, click, fillIn } from '@ember/test-helpers';
+import { currentURL, click } from '@ember/test-helpers';
 import { visit, fillByLabel, selectByLabelAndOption } from '@1024pix/ember-testing-library';
 import { setupApplicationTest } from 'ember-qunit';
 import { createAuthenticateSession } from 'pix-admin/tests/helpers/test-init';
@@ -64,12 +64,12 @@ module('Acceptance | Session List', function (hooks) {
           const screen = await visit('/sessions/list');
 
           // then
-          assert.dom('select#pageSize').hasValue('10');
+          assert.dom(screen.getByRole('combobox', { name: "Nombre d'éléments à afficher par page" })).hasValue('10');
           const sessionCount = screen.getAllByLabelText('Informations de la session de certification', {
             exact: false,
           }).length;
           assert.strictEqual(sessionCount, 10);
-          assert.dom('div.page-navigation__current-page').hasText('1');
+          assert.dom(screen.getByText('Page : 1 / 4')).exists();
         });
       });
 
@@ -80,12 +80,12 @@ module('Acceptance | Session List', function (hooks) {
           await click(screen.getByLabelText('Aller à la page suivante'));
 
           // then
-          assert.dom('select#pageSize').hasValue('10');
+          assert.dom(screen.getByRole('combobox', { name: "Nombre d'éléments à afficher par page" })).hasValue('10');
           const sessionCount = screen.getAllByLabelText('Informations de la session de certification', {
             exact: false,
           }).length;
           assert.strictEqual(sessionCount, 10);
-          assert.dom('div.page-navigation__current-page').hasText('2');
+          assert.dom(screen.getByText('Page : 2 / 4')).exists();
         });
       });
 
@@ -93,15 +93,15 @@ module('Acceptance | Session List', function (hooks) {
         test('it should display all the finalized sessions', async function (assert) {
           // when
           const screen = await visit('/sessions/list');
-          await fillIn('select#pageSize', '25');
+          await selectByLabelAndOption("Nombre d'éléments à afficher par page", '25');
 
           // then
-          assert.dom('select#pageSize').hasValue('25');
+          assert.dom(screen.getByRole('combobox', { name: "Nombre d'éléments à afficher par page" })).hasValue('25');
           const sessionCount = screen.getAllByLabelText('Informations de la session de certification', {
             exact: false,
           }).length;
           assert.strictEqual(sessionCount, 25);
-          assert.dom('div.page-navigation__current-page').hasText('1');
+          assert.dom(screen.getByText('Page : 1 / 2')).exists();
         });
       });
 

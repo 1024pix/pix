@@ -4,6 +4,7 @@
     <div class="page-size__choice">
       <PixSelect
         id="pageSize"
+        aria-label="Nombre d'éléments à afficher par page"
         @options={{this.options}}
         @onChange={{this.changePageSize}}
         @selectedOption={{@pagination.pageSize}}
@@ -25,11 +26,7 @@
         <FaIcon @icon="arrow-left" />
       </LinkTo>
     </div>
-    <div class="page-navigation__body">
-      <div class="page-navigation__label">Page&nbsp;:</div>
-      <div class="page-navigation__current-page">{{@pagination.page}}</div>
-      <div class="page-navigation__last-page">/&nbsp;{{@pagination.pageCount}}</div>
-    </div>
+    <span>Page&nbsp;: {{@pagination.page}} /&nbsp;{{@pagination.pageCount}}</span>
     <div
       class="page-navigation__arrow page-navigation__arrow--next
         {{if (eq @pagination.page @pagination.pageCount) "page-navigation__arrow--disabled"}}"

@@ -154,7 +154,7 @@ module('Integration | Component | certification-centers/information', function (
     // then
     assert.dom(screen.getByRole('heading', { name: 'Modifier un centre de certification' })).exists();
     assert.dom(screen.getByRole('textbox', { name: 'Nom du centre' })).hasValue('Centre SCO');
-    assert.dom('select#certification-center-type').hasValue('SCO');
+    assert.dom(screen.getByRole('combobox', { name: 'Type' })).hasValue('SCO');
     assert.dom(screen.getByRole('textbox', { name: 'Identifiant externe' })).hasValue('AX129');
     assert.dom(screen.getByLabelText('Espace surveillant')).isNotChecked();
     assert.dom(screen.getByLabelText('Pix+Droit')).isChecked();
