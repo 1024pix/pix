@@ -15,8 +15,8 @@ async function _checkUserAccessScope(scope, user) {
     throw new ForbiddenAccess(apps.PIX_ORGA.NOT_LINKED_ORGANIZATION_MSG);
   }
 
-  if (scope === apps.PIX_ADMIN.SCOPE && !user.hasRoleSuperAdmin) {
-    throw new ForbiddenAccess(apps.PIX_ADMIN.NOT_SUPERADMIN_MSG);
+  if (scope === apps.PIX_ADMIN.SCOPE && !user.hasAccessToAdminScope) {
+    throw new ForbiddenAccess(apps.PIX_ADMIN.NOT_ALLOWED_MSG);
   }
 
   if (scope === apps.PIX_CERTIF.SCOPE && !user.isLinkedToCertificationCenters()) {
