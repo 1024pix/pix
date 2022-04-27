@@ -35,21 +35,11 @@ class CertifiedBadges {
           }
 
           if (complementaryCertificationCourseResults.length > 1) {
-            if (!this._hasAcquiredExternalSourceCertifiedBadge(complementaryCertificationCourseResults)) {
+            if (this._hasRejectedJuryCertifiedBadge(complementaryCertificationCourseResults)) {
               return;
             }
 
-            let lowestPartnerKey;
-            if (complementaryCertificationCourseResults[0].isPixEdu2ndDegre()) {
-              lowestPartnerKey = this._getLowestPartnerKeyForPixEdu2ndDegreBadge(
-                complementaryCertificationCourseResults
-              );
-            }
-            if (complementaryCertificationCourseResults[0].isPixEdu1erDegre()) {
-              lowestPartnerKey = this._getLowestPartnerKeyForPixEdu1erDegreBadge(
-                complementaryCertificationCourseResults
-              );
-            }
+            const lowestPartnerKey = this._getLowestPartnerKey(complementaryCertificationCourseResults);
 
             return { partnerKey: lowestPartnerKey, isTemporaryBadge: false };
           }
@@ -60,6 +50,15 @@ class CertifiedBadges {
         }
       })
       .filter(Boolean);
+  }
+
+  _getLowestPartnerKey(complementaryCertificationCourseResults) {
+    if (complementaryCertificationCourseResults[0].isPixEdu2ndDegre()) {
+      return this._getLowestPartnerKeyForPixEdu2ndDegreBadge(complementaryCertificationCourseResults);
+    }
+    if (complementaryCertificationCourseResults[0].isPixEdu1erDegre()) {
+      return this._getLowestPartnerKeyForPixEdu1erDegreBadge(complementaryCertificationCourseResults);
+    }
   }
 
   _getLowestPartnerKeyForPixEdu2ndDegreBadge(complementaryCertificationCourseResults) {
@@ -106,10 +105,10 @@ class CertifiedBadges {
       : complementaryCertificationCourseResults[1].partnerKey;
   }
 
-  _hasAcquiredExternalSourceCertifiedBadge(complementaryCertificationCourseResults) {
+  _hasRejectedJuryCertifiedBadge(complementaryCertificationCourseResults) {
     return complementaryCertificationCourseResults.some(
       (complementaryCertificationCourseResult) =>
-        complementaryCertificationCourseResult.isAcquired() &&
+        !complementaryCertificationCourseResult.isAcquired() &&
         complementaryCertificationCourseResult.isFromExternalSource()
     );
   }
