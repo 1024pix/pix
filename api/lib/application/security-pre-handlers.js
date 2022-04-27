@@ -1,5 +1,8 @@
 /* eslint-disable  no-restricted-syntax */
 const checkUserHasRoleSuperAdminUseCase = require('./usecases/checkUserHasRoleSuperAdmin');
+const checkUserHasRoleCertifUseCase = require('./usecases/checkUserHasRoleCertif');
+const checkUserHasRoleSupportUseCase = require('./usecases/checkUserHasRoleSupport');
+const checkUserHasRoleMetierUseCase = require('./usecases/checkUserHasRoleMetier');
 const checkUserIsAdminInOrganizationUseCase = require('./usecases/checkUserIsAdminInOrganization');
 const checkUserBelongsToOrganizationManagingStudentsUseCase = require('./usecases/checkUserBelongsToOrganizationManagingStudents');
 const checkUserBelongsToScoOrganizationAndManagesStudentsUseCase = require('./usecases/checkUserBelongsToScoOrganizationAndManagesStudents');
@@ -12,7 +15,7 @@ const checkAuthorizationToManageCampaignUsecase = require('./usecases/checkAutho
 const Organization = require('../../lib/domain/models/Organization');
 
 const JSONAPIError = require('jsonapi-serializer').Error;
-const _ = require('lodash');
+const has = require('lodash/has');
 
 function _replyForbiddenError(h) {
   const errorHttpStatusCode = 403;
@@ -36,6 +39,60 @@ async function checkUserHasRoleSuperAdmin(request, h) {
   try {
     const hasRoleSuperAdmin = await checkUserHasRoleSuperAdminUseCase.execute(userId);
     if (hasRoleSuperAdmin) {
+      return h.response(true);
+    }
+    return _replyForbiddenError(h);
+  } catch (e) {
+    return _replyForbiddenError(h);
+  }
+}
+
+async function checkUserHasRoleCertif(request, h) {
+  if (!request.auth.credentials || !request.auth.credentials.userId) {
+    return _replyForbiddenError(h);
+  }
+
+  const userId = request.auth.credentials.userId;
+
+  try {
+    const hasRoleCertif = await checkUserHasRoleCertifUseCase.execute(userId);
+    if (hasRoleCertif) {
+      return h.response(true);
+    }
+    return _replyForbiddenError(h);
+  } catch (e) {
+    return _replyForbiddenError(h);
+  }
+}
+
+async function checkUserHasRoleSupport(request, h) {
+  if (!request.auth.credentials || !request.auth.credentials.userId) {
+    return _replyForbiddenError(h);
+  }
+
+  const userId = request.auth.credentials.userId;
+
+  try {
+    const hasRoleSupport = await checkUserHasRoleSupportUseCase.execute(userId);
+    if (hasRoleSupport) {
+      return h.response(true);
+    }
+    return _replyForbiddenError(h);
+  } catch (e) {
+    return _replyForbiddenError(h);
+  }
+}
+
+async function checkUserHasRoleMetier(request, h) {
+  if (!request.auth.credentials || !request.auth.credentials.userId) {
+    return _replyForbiddenError(h);
+  }
+
+  const userId = request.auth.credentials.userId;
+
+  try {
+    const hasRoleMetier = await checkUserHasRoleMetierUseCase.execute(userId);
+    if (hasRoleMetier) {
       return h.response(true);
     }
     return _replyForbiddenError(h);
@@ -120,7 +177,7 @@ async function checkUserBelongsToOrganizationOrhasRoleSuperAdmin(request, h) {
 }
 
 async function checkUserBelongsToOrganizationManagingStudents(request, h) {
-  if (!_.has(request, 'auth.credentials.userId')) {
+  if (!has(request, 'auth.credentials.userId')) {
     return _replyForbiddenError(h);
   }
 
@@ -264,6 +321,9 @@ module.exports = {
   checkUserBelongsToScoOrganizationAndManagesStudents,
   checkUserBelongsToSupOrganizationAndManagesStudents,
   checkUserHasRoleSuperAdmin,
+  checkUserHasRoleCertif,
+  checkUserHasRoleSupport,
+  checkUserHasRoleMetier,
   checkUserIsAdminInOrganization,
   checkAuthorizationToManageCampaign,
   checkUserIsAdminInSCOOrganizationManagingStudents,
