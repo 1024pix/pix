@@ -1,7 +1,7 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { click, fillIn } from '@ember/test-helpers';
-import { render } from '@1024pix/ember-testing-library';
+import { render, fillByLabel } from '@1024pix/ember-testing-library';
 import hbs from 'htmlbars-inline-precompile';
 import sinon from 'sinon';
 
@@ -59,8 +59,8 @@ module('Integration | Component | TargetProfiles::BadgeForm', function (hooks) {
       await fillIn('input#alt-message', 'texte alternatif à l‘image');
       await fillIn('input#skillSetThreshold', '90');
       await fillIn('input#skillSetName', 'skill-set-name');
-      await fillIn('#skillSetSkills', 'skillSetId1,skillSetId2');
-      await fillIn('#campaignParticipationThreshold', '50');
+      await fillByLabel('Liste des acquis :', 'skillSetId1,skillSetId2');
+      await fillByLabel('Taux de réussite global :', '50');
       await click(screen.getByRole('button', { name: 'Créer le badge' }));
 
       // then

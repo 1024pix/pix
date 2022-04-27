@@ -1,7 +1,6 @@
 import { module, test } from 'qunit';
 import { render, fillByLabel, clickByName } from '@1024pix/ember-testing-library';
 import { setupRenderingTest } from 'ember-qunit';
-import { fillIn } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import EmberObject from '@ember/object';
 import ArrayProxy from '@ember/array/proxy';
@@ -177,7 +176,7 @@ module('Integration | Component | certification-centers/information', function (
     );
 
     await clickByName('Editer');
-    await fillIn('#name', repeat('a', 256));
+    await fillByLabel('Nom du centre', repeat('a', 256));
 
     // then
     assert.dom(screen.getByText('La longueur du nom ne doit pas excéder 255 caractères')).exists();
@@ -198,7 +197,7 @@ module('Integration | Component | certification-centers/information', function (
     );
 
     await clickByName('Editer');
-    await fillIn('#name', '');
+    await fillByLabel('Nom du centre', '');
 
     // then
     assert.dom(screen.getByText('Le nom ne peut pas être vide')).exists();
@@ -219,7 +218,7 @@ module('Integration | Component | certification-centers/information', function (
     );
 
     await clickByName('Editer');
-    await fillIn('#external-id', repeat('a', 256));
+    await fillByLabel('Identifiant externe', repeat('a', 256));
 
     // then
     assert.dom(screen.getByText("La longueur de l'identifiant externe ne doit pas excéder 255 caractères")).exists();
@@ -292,9 +291,9 @@ module('Integration | Component | certification-centers/information', function (
     );
 
     await clickByName('Editer');
-    await fillIn('#name', 'Centre SUP');
-    await fillIn('#certification-center-type', 'SUP');
-    await fillIn('#external-id', 'externalId');
+    await fillByLabel('Nom du centre', 'Centre SUP');
+    await fillByLabel('Type', 'SUP');
+    await fillByLabel('Identifiant externe', 'externalId');
     await clickByName('Espace surveillant');
     await clickByName('Cléa');
     await clickByName('Annuler');

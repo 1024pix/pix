@@ -177,7 +177,8 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
 
       // when
       await fillByLabel('Adresse e-mail du nouveau membre', spacesEmail);
-      await triggerEvent('#userEmailToAdd', 'focusout');
+      const input = screen.getByRole('textbox', { name: 'Adresse e-mail du nouveau membre' });
+      await triggerEvent(input, 'focusout');
 
       // then
       assert.dom(screen.getByRole('button', { name: 'Ajouter le membre' })).hasAttribute('disabled');
@@ -196,7 +197,8 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
 
       // when
       await fillByLabel('Adresse e-mail du nouveau membre', 'an invalid email');
-      await triggerEvent('#userEmailToAdd', 'focusout');
+      const input = screen.getByRole('textbox', { name: 'Adresse e-mail du nouveau membre' });
+      await triggerEvent(input, 'focusout');
 
       // then
       assert.dom(screen.getByText("L'adresse e-mail saisie n'est pas valide.")).exists();
@@ -216,7 +218,8 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
 
       // when
       await fillByLabel('Adresse e-mail du nouveau membre', 'test@example.net');
-      await triggerEvent('#userEmailToAdd', 'focusout');
+      const input = screen.getByRole('textbox', { name: 'Adresse e-mail du nouveau membre' });
+      await triggerEvent(input, 'focusout');
 
       // then
       assert.dom(screen.getByRole('button', { name: 'Ajouter le membre' })).hasNoAttribute('disabled');
@@ -235,7 +238,8 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
       const email = 'test@example.net';
       const screen = await visit(`/certification-centers/${certificationCenter.id}`);
       await fillByLabel('Adresse e-mail du nouveau membre', email);
-      await triggerEvent('#userEmailToAdd', 'focusout');
+      const input = screen.getByRole('textbox', { name: 'Adresse e-mail du nouveau membre' });
+      await triggerEvent(input, 'focusout');
 
       // when
       await clickByName('Ajouter le membre');

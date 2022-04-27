@@ -1,7 +1,7 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { fillIn, find } from '@ember/test-helpers';
-import { clickByName, render } from '@1024pix/ember-testing-library';
+import { find } from '@ember/test-helpers';
+import { clickByName, render, selectByLabelAndOption } from '@1024pix/ember-testing-library';
 import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
 import { A as EmberArray } from '@ember/array';
@@ -38,7 +38,7 @@ module('Integration | Component | certification-centers/form', function (hooks) 
       );
 
       // when
-      await fillIn('#certificationCenterTypeSelector', 'SCO');
+      await selectByLabelAndOption("Type d'établissement", 'SCO');
 
       // then
       assert.strictEqual(this.certificationCenter.type, 'SCO');
