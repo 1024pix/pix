@@ -58,10 +58,10 @@ module('Acceptance | Certification Centers | List', function (hooks) {
       server.createList('certification-center', 3, { type: 'SUP' });
 
       // when
-      await visit('/certification-centers/list?type=sup');
+      const screen = await visit('/certification-centers/list?type=sup');
 
       // then
-      assert.dom('#type').hasValue('sup');
+      assert.dom(screen.getByRole('textbox', { name: 'Type' })).hasValue('sup');
     });
 
     test('should go to certification center page when line is clicked', async function (assert) {

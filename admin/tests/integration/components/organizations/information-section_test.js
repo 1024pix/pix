@@ -1,7 +1,7 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { fillIn } from '@ember/test-helpers';
-import { render, clickByName } from '@1024pix/ember-testing-library';
+import { render, clickByName, fillByLabel } from '@1024pix/ember-testing-library';
 import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
 
@@ -192,7 +192,7 @@ module('Integration | Component | organizations/information-section', function (
 
       // when
       await clickByName('Éditer');
-      await fillIn('#name', '');
+      await fillByLabel('* Nom', '');
 
       // then
       assert.dom(screen.getByText('Le nom ne peut pas être vide')).exists();
@@ -204,7 +204,7 @@ module('Integration | Component | organizations/information-section', function (
 
       // when
       await clickByName('Éditer');
-      await fillIn('#name', 'a'.repeat(256));
+      await fillByLabel('* Nom', 'a'.repeat(256));
 
       // then
       assert.dom(screen.getByText('La longueur du nom ne doit pas excéder 255 caractères')).exists();
@@ -216,7 +216,7 @@ module('Integration | Component | organizations/information-section', function (
 
       // when
       await clickByName('Éditer');
-      await fillIn('#externalId', 'a'.repeat(256));
+      await fillByLabel('Identifiant externe', 'a'.repeat(256));
 
       // then
       assert.dom(screen.getByText("La longueur de l'identifiant externe ne doit pas excéder 255 caractères")).exists();
@@ -228,7 +228,7 @@ module('Integration | Component | organizations/information-section', function (
 
       // when
       await clickByName('Éditer');
-      await fillIn('#provinceCode', 'a'.repeat(256));
+      await fillByLabel('Département (en 3 chiffres)', 'a'.repeat(256));
 
       // then
       assert.dom(screen.getByText('La longueur du département ne doit pas excéder 255 caractères')).exists();
@@ -240,7 +240,7 @@ module('Integration | Component | organizations/information-section', function (
 
       // when
       await clickByName('Éditer');
-      await fillIn('#email', 'a'.repeat(256));
+      await fillByLabel('Adresse e-mail (SCO)', 'a'.repeat(256));
 
       // then
       assert.dom(screen.getByText("La longueur de l'email ne doit pas excéder 255 caractères.")).exists();
@@ -252,7 +252,7 @@ module('Integration | Component | organizations/information-section', function (
 
       // when
       await clickByName('Éditer');
-      await fillIn('#email', 'not-valid-email-format');
+      await fillByLabel('Adresse e-mail (SCO)', 'not-valid-email-format');
 
       // then
       assert.dom(screen.getByText("L'e-mail n'a pas le bon format.")).exists();
@@ -264,7 +264,7 @@ module('Integration | Component | organizations/information-section', function (
 
       // when
       await clickByName('Éditer');
-      await fillIn('#credits', 'credit');
+      await fillByLabel('Crédits', 'credit');
 
       // then
       assert.dom(screen.getByText('Le nombre de crédits doit être un nombre supérieur ou égal à 0.')).exists();
@@ -290,7 +290,7 @@ module('Integration | Component | organizations/information-section', function (
 
       // when
       await clickByName('Éditer');
-      await fillIn('#documentationUrl', 'not-valid-url-format');
+      await fillByLabel('Lien vers la documentation', 'not-valid-url-format');
 
       // then
       assert.dom(screen.getByText("Le lien n'est pas valide.")).exists();

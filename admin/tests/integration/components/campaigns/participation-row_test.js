@@ -1,7 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { fillIn } from '@ember/test-helpers';
-import { clickByName, render } from '@1024pix/ember-testing-library';
+import { clickByName, render, fillByLabel } from '@1024pix/ember-testing-library';
 import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
 import sinon from 'sinon';
@@ -126,7 +125,7 @@ module('Integration | Component | Campaigns | participation-row', function (hook
       await clickByName('Modifier');
 
       // when
-      await fillIn('#participantExternalId', '4567890');
+      await fillByLabel("Modifier l'identifiant externe du participant", '4567890');
       await clickByName('Enregistrer');
 
       // then
@@ -143,7 +142,7 @@ module('Integration | Component | Campaigns | participation-row', function (hook
       await clickByName('Modifier');
 
       // when
-      await fillIn('#participantExternalId', '    ');
+      await fillByLabel("Modifier l'identifiant externe du participant", '   ');
       await clickByName('Enregistrer');
 
       // then
@@ -160,7 +159,7 @@ module('Integration | Component | Campaigns | participation-row', function (hook
       await clickByName('Modifier');
 
       // when
-      await fillIn('#participantExternalId', '');
+      await fillByLabel("Modifier l'identifiant externe du participant", '');
       await clickByName('Enregistrer');
 
       // then
@@ -177,7 +176,7 @@ module('Integration | Component | Campaigns | participation-row', function (hook
       await clickByName('Modifier');
 
       // when
-      await fillIn('#participantExternalId', '4567890');
+      await fillByLabel("Modifier l'identifiant externe du participant", '4567890');
       await clickByName('Annuler');
 
       // then

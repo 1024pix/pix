@@ -54,26 +54,26 @@ module('Acceptance | Organizations | List', function (hooks) {
 
       test('it should display the current filter when organizations are filtered by name', async function (assert) {
         // when
-        await visit('/organizations/list?name=sav');
+        const screen = await visit('/organizations/list?name=sav');
 
         // then
-        assert.dom('#name').hasValue('sav');
+        assert.dom(screen.getByRole('textbox', { name: 'Nom' })).hasValue('sav');
       });
 
       test('it should display the current filter when organizations are filtered by type', async function (assert) {
         // when
-        await visit('/organizations/list?type=SCO');
+        const screen = await visit('/organizations/list?type=SCO');
 
         // then
-        assert.dom('#type').hasValue('SCO');
+        assert.dom(screen.getByRole('textbox', { name: 'Type' })).hasValue('SCO');
       });
 
       test('it should display the current filter when organizations are filtered by externalId', async function (assert) {
         // when
-        await visit('/organizations/list?externalId=1234567A');
+        const screen = await visit('/organizations/list?externalId=1234567A');
 
         // then
-        assert.dom('#externalId').hasValue('1234567A');
+        assert.dom(screen.getByRole('textbox', { name: 'Identifiant externe' })).hasValue('1234567A');
       });
     });
 

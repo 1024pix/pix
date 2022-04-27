@@ -1,7 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { fillIn } from '@ember/test-helpers';
-import { render, clickByName } from '@1024pix/ember-testing-library';
+import { render, clickByName, fillByLabel } from '@1024pix/ember-testing-library';
 import sinon from 'sinon';
 import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
@@ -50,11 +49,13 @@ module('Integration | Component | UpdateStage', function (hooks) {
       this.element.querySelector('label[for="prescriberDescription"]').textContent.trim(),
       'Description pour le prescripteur'
     );
-    assert.strictEqual(this.element.querySelector('#threshold').value, '50');
-    assert.strictEqual(this.element.querySelector('#title').value, 'Titre du palier');
-    assert.strictEqual(this.element.querySelector('#message').value, 'Ceci est un message');
-    assert.strictEqual(this.element.querySelector('#prescriberTitle').value, 'Ceci est un titre');
-    assert.strictEqual(this.element.querySelector('#prescriberDescription').value, 'Ceci est une description');
+    assert.dom(screen.getByRole('spinbutton', { name: 'Seuil' })).hasValue('50');
+    assert.dom(screen.getByRole('textbox', { name: 'Titre' })).hasValue('Titre du palier');
+    assert.dom(screen.getByRole('textbox', { name: 'Message' })).hasValue('Ceci est un message');
+    assert.dom(screen.getByRole('textbox', { name: 'Titre pour le prescripteur' })).hasValue('Ceci est un titre');
+    assert
+      .dom(screen.getByRole('textbox', { name: 'Description pour le prescripteur' }))
+      .hasValue('Ceci est une description');
     assert.dom(screen.getByRole('button', { name: 'Annuler' })).exists();
     assert.dom(screen.getByRole('button', { name: 'Enregistrer' })).exists();
   });
@@ -64,7 +65,8 @@ module('Integration | Component | UpdateStage', function (hooks) {
     const screen = await render(
       hbs`<Stages::UpdateStage @model={{this.stage}} @toggleEditMode={{this.toggleEditMode}} />`
     );
-    await fillIn('#prescriberTitle', 'a'.repeat(256));
+
+    await fillByLabel('Titre pour le prescripteur', 'a'.repeat(256));
 
     // then
     assert.dom(screen.getByText('La longueur du nom ne doit pas excéder 255 caractères')).exists();
@@ -73,7 +75,7 @@ module('Integration | Component | UpdateStage', function (hooks) {
   test('it should call updateStage when form is valid', async function (assert) {
     //when
     await render(hbs`<Stages::UpdateStage @model={{this.stage}} @toggleEditMode={{this.toggleEditMode}} />`);
-    await fillIn('#prescriberTitle', 'Nouveau titre');
+    await fillByLabel('Titre pour le prescripteur', 'Nouveau titre');
     await clickByName('Enregistrer');
 
     //then

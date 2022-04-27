@@ -1,7 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { fillIn } from '@ember/test-helpers';
-import { render } from '@1024pix/ember-testing-library';
+import { render, selectByLabelAndOption } from '@1024pix/ember-testing-library';
 import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
 
@@ -30,10 +29,12 @@ module('Integration | Component | certifications/status-select', function (hooks
         this.set('certification', certification);
 
         // when
-        await render(hbs`<Certifications::StatusSelect @edition={{true}} @certification={{this.certification}} />`);
+        const screen = await render(
+          hbs`<Certifications::StatusSelect @edition={{true}} @certification={{this.certification}} />`
+        );
 
         // then
-        assert.dom('#certification-status-selector').exists();
+        assert.dom(screen.getByRole('combobox', { name: 'Statut :' })).exists();
       });
 
       test('it has values', async function (assert) {
@@ -71,7 +72,7 @@ module('Integration | Component | certifications/status-select', function (hooks
         await render(hbs`<Certifications::StatusSelect @edition={{true}} @certification={{this.certification}} />`);
 
         // when
-        await fillIn('#certification-status-selector', 'validated');
+        await selectByLabelAndOption('Statut :', 'validated');
 
         // then
         // TODO: Fix this the next time the file is edited.
@@ -88,10 +89,10 @@ module('Integration | Component | certifications/status-select', function (hooks
       this.set('certification', certification);
 
       // when
-      await render(hbs`<Certifications::StatusSelect @certification={{this.certification}} />`);
+      const screen = await render(hbs`<Certifications::StatusSelect @certification={{this.certification}} />`);
 
       // then
-      assert.dom('#certification-status-selector').doesNotExist();
+      assert.dom(screen.queryByRole('combobox', { name: 'Statut :' })).doesNotExist();
     });
   });
 });
