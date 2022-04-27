@@ -78,6 +78,78 @@ describe('Unit | Domain | Models | User', function () {
     });
   });
 
+  describe('the attribute "hasAccessToAdminScope"', function () {
+    it('should be true if user has one of the allowed role not disabled', function () {
+      // given
+      const userRawDetails = {
+        id: 1,
+        firstName: 'Son',
+        lastName: 'Goku',
+        email: 'email@example.net',
+        password: 'pix123',
+        cgu: true,
+        pixAdminRoles: [
+          {
+            hasAccessToAdminScope: true,
+          },
+        ],
+      };
+      const user = new User(userRawDetails);
+
+      // when
+      const hasAccess = user.hasAccessToAdminScope;
+
+      // then
+      expect(hasAccess).to.be.true;
+    });
+
+    it('should be false if user has a disabled role ', function () {
+      // given
+      const userRawDetails = {
+        id: 1,
+        firstName: 'Son',
+        lastName: 'Goku',
+        email: 'email@example.net',
+        password: 'pix123',
+        cgu: true,
+        pixAdminRoles: [
+          {
+            hasAccessToAdminScope: false,
+          },
+        ],
+      };
+
+      const user = new User(userRawDetails);
+
+      // when
+      const hasAccess = user.hasAccessToAdminScope;
+
+      // then
+      expect(hasAccess).to.be.false;
+    });
+
+    it('should be false if user has no role ', function () {
+      // given
+      const userRawDetails = {
+        id: 1,
+        firstName: 'Son',
+        lastName: 'Goku',
+        email: 'email@example.net',
+        password: 'pix123',
+        cgu: true,
+        pixAdminRoles: [],
+      };
+
+      const user = new User(userRawDetails);
+
+      // when
+      const hasAccess = user.hasAccessToAdminScope;
+
+      // then
+      expect(hasAccess).to.be.false;
+    });
+  });
+
   describe('isLinkedToOrganizations', function () {
     it('should be true if user has a role in an organization', function () {
       // given
