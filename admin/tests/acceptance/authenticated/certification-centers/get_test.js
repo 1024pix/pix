@@ -263,7 +263,7 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
       const screen = await visit(`/certification-centers/${certificationCenter.id}`);
 
       // when
-      await clickByName('Editer');
+      await clickByName('Editer les informations');
 
       // then
       assert.dom(screen.getByRole('button', { name: 'Annuler' })).exists();
@@ -281,7 +281,7 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
         isSupervisorAccessEnabled: false,
       });
       const screen = await visit(`/certification-centers/${certificationCenter.id}`);
-      await clickByName('Editer');
+      await clickByName('Editer les informations');
       this.server.patch(`/certification-centers/${certificationCenter.id}`, () => new Response({}), 204);
 
       // when
@@ -312,7 +312,7 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
       server.create('habilitation', { name: 'Pix+Autre' });
 
       const screen = await visit(`/certification-centers/${certificationCenter.id}`);
-      await clickByName('Editer');
+      await clickByName('Editer les informations');
       this.server.patch(`/certification-centers/${certificationCenter.id}`, () => new Response({}), 204);
 
       // when
@@ -339,7 +339,7 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
       });
       this.server.patch(`/certification-centers/${certificationCenter.id}`, () => new Response({}), 422);
       const screen = await visit(`/certification-centers/${certificationCenter.id}`);
-      await clickByName('Editer');
+      await clickByName('Editer les informations');
 
       // when
       await clickByName('Enregistrer');
