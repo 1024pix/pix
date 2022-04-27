@@ -47,5 +47,5 @@ overrides:
     plugins:
       - '@typescript-eslint'
     rules:
-      "@typescript-eslint/no-unsafe-return": "warn"
-      "@typescript-eslint/explicit-function-return-type": "error"
+      '@typescript-eslint/no-unsafe-return': warn
+      '@typescript-eslint/explicit-function-return-type': warn

@@ -80,7 +80,8 @@
   "devDependencies": {
     "@ls-lint/ls-lint": "^1.11.0",
     "@tsconfig/node16": "^1.0.2",
-    "@types/node": "^17.0.23",
+    "@types/lodash": "^4.14.182",
+    "@types/node": "^17.0.29",
     "@typescript-eslint/eslint-plugin": "^5.19.0",
     "@typescript-eslint/parser": "^5.19.0",
     "chai": "^4.3.6",
@@ -104,6 +105,9 @@
     "sinon": "^13.0.1",
     "sinon-chai": "^3.7.0",
     "stream-to-promise": "^3.0.0",
+    "ts-migrate": "^0.1.28",
+    "ts-migrate-plugins": "^0.1.28",
+    "ts-migrate-server": "^0.1.27",
     "ts-node": "^10.7.0",
     "ts-node-dev": "^1.1.8",
     "typescript": "^4.6.3"
@@ -142,7 +146,9 @@
     "test:api:bail": "npm run test:api:unit -- --bail && npm run test:api:integration -- --bail && npm run test:api:acceptance -- --bail",
     "test:ci": "npm run test",
     "test:lint": "npm test && npm run lint",
-    "typecheck": "ts-node bin/www"
+    "typecheck": "ts-node bin/www",
+    "ts-migrate":"ts-migrate",
+    "migrate:typescript": "cjs-to-es6 lib/domain/models && npm run ts-migrate -- rename ./ -s lib/domain/models && npm run ts-migrate -- migrate ./ -s lib/domain/models && ts-node migrate.ts && eslint --fix ."
   },
   "nodemonConfig": {
     "signal": "SIGTERM",

@@ -7,8 +7,6 @@
       "allowJs": true,
       "resolveJsonModule": true,
       "strict": false,
-      "noImplicitAny": true,
-      "noImplicitReturns": true
     },
     "include": [
       "./lib/**/*",
