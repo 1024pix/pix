@@ -59,7 +59,7 @@ describe('Unit | UseCase | get-framework-areas', function () {
     });
     expect(challengeRepository.findValidatedPrototype).to.have.been.calledWithExactly();
     expect(tubeRepository.findActiveByRecordIds).to.have.been.calledWith(['tubeId1'], 'locale');
-    expect(thematicRepository.findByCompetenceIds).to.have.been.calledWith(['competenceId1']);
+    expect(thematicRepository.findByCompetenceIds).to.have.been.calledWith(['competenceId1'], 'locale');
     expect(areaRepository.findByFrameworkIdWithCompetences).to.have.been.calledWith({
       frameworkId: 'frameworkId',
       locale: 'locale',
@@ -84,7 +84,7 @@ describe('Unit | UseCase | get-framework-areas', function () {
     });
     expect(challengeRepository.findValidatedPrototype).to.have.been.calledWithExactly();
     expect(tubeRepository.findActiveByRecordIds).to.have.been.calledWith(['tubeId1'], 'locale');
-    expect(thematicRepository.findByCompetenceIds).to.have.been.calledWith(['competenceId1']);
+    expect(thematicRepository.findByCompetenceIds).to.have.been.calledWith(['competenceId1'], 'locale');
     expect(areaRepository.findByFrameworkIdWithCompetences).to.have.been.calledWith({
       frameworkId: 'frameworkId',
       locale: 'locale',
