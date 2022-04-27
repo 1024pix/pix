@@ -67,7 +67,7 @@ exports.seed = async (knex) => {
   certificationCentersBuilder({ databaseBuilder });
   certificationUsersBuilder({ databaseBuilder });
   certificationCenterMembershipsBuilder({ databaseBuilder });
-  certificationUserProfilesBuilder({ databaseBuilder });
+  await certificationUserProfilesBuilder({ databaseBuilder });
   certificationSessionsBuilder({ databaseBuilder });
   certificationCandidatesBuilder({ databaseBuilder });
   certificationCoursesBuilder({ databaseBuilder });
@@ -109,6 +109,6 @@ async function alterSequenceIfPG(knex) {
   const sequenceNames = sequenceNameQueryResult.rows.map((row) => row.sequence_name);
   return bluebird.mapSeries(sequenceNames, async (sequenceName) => {
     await knex.raw(`ALTER SEQUENCE "${sequenceName}" RESTART WITH ${sequenceRestartAtNumber};`);
-    sequenceRestartAtNumber += (SEQUENCE_RESTART_AT_NUMBER / 10);
+    sequenceRestartAtNumber += SEQUENCE_RESTART_AT_NUMBER / 10;
   });
 }
