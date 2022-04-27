@@ -3,6 +3,9 @@ const { expect, sinon, hFake, domainBuilder } = require('../../test-helper');
 const securityPreHandlers = require('../../../lib/application/security-pre-handlers');
 const tokenService = require('../../../lib/domain/services/token-service');
 const checkUserHasRoleSuperAdminUseCase = require('../../../lib/application/usecases/checkUserHasRoleSuperAdmin');
+const checkUserHasRoleCertifUseCase = require('../../../lib/application/usecases/checkUserHasRoleCertif');
+const checkUserHasRoleSupportUseCase = require('../../../lib/application/usecases/checkUserHasRoleSupport');
+const checkUserHasRoleMetierUseCase = require('../../../lib/application/usecases/checkUserHasRoleMetier');
 const checkUserIsAdminInOrganizationUseCase = require('../../../lib/application/usecases/checkUserIsAdminInOrganization');
 const checkUserBelongsToOrganizationManagingStudentsUseCase = require('../../../lib/application/usecases/checkUserBelongsToOrganizationManagingStudents');
 const checkUserBelongsToScoOrganizationAndManagesStudentsUseCase = require('../../../lib/application/usecases/checkUserBelongsToScoOrganizationAndManagesStudents');
@@ -51,7 +54,7 @@ describe('Unit | Application | SecurityPreHandlers', function () {
         expect(response.isTakeOver).to.be.true;
       });
 
-      it('should forbid resource access when user has not role Super Admin', async function () {
+      it('should forbid resource access when user does not have role Super Admin', async function () {
         // given
         checkUserHasRoleSuperAdminUseCase.execute.resolves(false);
 
@@ -69,6 +72,201 @@ describe('Unit | Application | SecurityPreHandlers', function () {
 
         // when
         const response = await securityPreHandlers.checkUserHasRoleSuperAdmin(request, hFake);
+
+        // then
+        expect(response.statusCode).to.equal(403);
+        expect(response.isTakeOver).to.be.true;
+      });
+    });
+  });
+
+  describe('#checkUserHasRoleCertif', function () {
+    let hasRoleCertifStub;
+    let request;
+
+    beforeEach(function () {
+      sinon.stub(tokenService, 'extractTokenFromAuthChain');
+      hasRoleCertifStub = sinon.stub(checkUserHasRoleCertifUseCase, 'execute');
+      request = { auth: { credentials: { accessToken: 'valid.access.token', userId: 1234 } } };
+    });
+
+    context('Successful case', function () {
+      beforeEach(function () {
+        hasRoleCertifStub.resolves({ user_id: 1234 });
+      });
+
+      it('should authorize access to resource when the user is authenticated and has role Certif', async function () {
+        // given
+
+        // when
+        const response = await securityPreHandlers.checkUserHasRoleCertif(request, hFake);
+
+        // then
+        expect(response.source).to.equal(true);
+      });
+    });
+
+    context('Error cases', function () {
+      it('should forbid resource access when user was not previously authenticated', async function () {
+        // given
+        delete request.auth.credentials;
+
+        // when
+        const response = await securityPreHandlers.checkUserHasRoleCertif(request, hFake);
+
+        // then
+        expect(response.statusCode).to.equal(403);
+        expect(response.isTakeOver).to.be.true;
+      });
+
+      it('should forbid resource access when user does not have role Certif', async function () {
+        // given
+        checkUserHasRoleCertifUseCase.execute.resolves(false);
+
+        // when
+        const response = await securityPreHandlers.checkUserHasRoleCertif(request, hFake);
+
+        // then
+        expect(response.statusCode).to.equal(403);
+        expect(response.isTakeOver).to.be.true;
+      });
+
+      it('should forbid resource access when an error is thrown by use case', async function () {
+        // given
+        checkUserHasRoleCertifUseCase.execute.rejects(new Error('Some error'));
+
+        // when
+        const response = await securityPreHandlers.checkUserHasRoleCertif(request, hFake);
+
+        // then
+        expect(response.statusCode).to.equal(403);
+        expect(response.isTakeOver).to.be.true;
+      });
+    });
+  });
+
+  describe('#checkUserHasRoleSupport', function () {
+    let hasRoleSupportStub;
+    let request;
+
+    beforeEach(function () {
+      sinon.stub(tokenService, 'extractTokenFromAuthChain');
+      hasRoleSupportStub = sinon.stub(checkUserHasRoleSupportUseCase, 'execute');
+      request = { auth: { credentials: { accessToken: 'valid.access.token', userId: 1234 } } };
+    });
+
+    context('Successful case', function () {
+      beforeEach(function () {
+        hasRoleSupportStub.resolves({ user_id: 1234 });
+      });
+
+      it('should authorize access to resource when the user is authenticated and has role Support', async function () {
+        // given
+
+        // when
+        const response = await securityPreHandlers.checkUserHasRoleSupport(request, hFake);
+
+        // then
+        expect(response.source).to.equal(true);
+      });
+    });
+
+    context('Error cases', function () {
+      it('should forbid resource access when user was not previously authenticated', async function () {
+        // given
+        delete request.auth.credentials;
+
+        // when
+        const response = await securityPreHandlers.checkUserHasRoleSupport(request, hFake);
+
+        // then
+        expect(response.statusCode).to.equal(403);
+        expect(response.isTakeOver).to.be.true;
+      });
+
+      it('should forbid resource access when user does not have role Support', async function () {
+        // given
+        checkUserHasRoleSupportUseCase.execute.resolves(false);
+
+        // when
+        const response = await securityPreHandlers.checkUserHasRoleSupport(request, hFake);
+
+        // then
+        expect(response.statusCode).to.equal(403);
+        expect(response.isTakeOver).to.be.true;
+      });
+
+      it('should forbid resource access when an error is thrown by use case', async function () {
+        // given
+        checkUserHasRoleSupportUseCase.execute.rejects(new Error('Some error'));
+
+        // when
+        const response = await securityPreHandlers.checkUserHasRoleSupport(request, hFake);
+
+        // then
+        expect(response.statusCode).to.equal(403);
+        expect(response.isTakeOver).to.be.true;
+      });
+    });
+  });
+
+  describe('#checkUserHasRoleMetier', function () {
+    let hasRoleMetierStub;
+    let request;
+
+    beforeEach(function () {
+      sinon.stub(tokenService, 'extractTokenFromAuthChain');
+      hasRoleMetierStub = sinon.stub(checkUserHasRoleMetierUseCase, 'execute');
+      request = { auth: { credentials: { accessToken: 'valid.access.token', userId: 1234 } } };
+    });
+
+    context('Successful case', function () {
+      beforeEach(function () {
+        hasRoleMetierStub.resolves({ user_id: 1234 });
+      });
+
+      it('should authorize access to resource when the user is authenticated and has role Metier', async function () {
+        // given
+
+        // when
+        const response = await securityPreHandlers.checkUserHasRoleMetier(request, hFake);
+
+        // then
+        expect(response.source).to.equal(true);
+      });
+    });
+
+    context('Error cases', function () {
+      it('should forbid resource access when user was not previously authenticated', async function () {
+        // given
+        delete request.auth.credentials;
+
+        // when
+        const response = await securityPreHandlers.checkUserHasRoleMetier(request, hFake);
+
+        // then
+        expect(response.statusCode).to.equal(403);
+        expect(response.isTakeOver).to.be.true;
+      });
+
+      it('should forbid resource access when user does not have role Metier', async function () {
+        // given
+        checkUserHasRoleMetierUseCase.execute.resolves(false);
+
+        // when
+        const response = await securityPreHandlers.checkUserHasRoleMetier(request, hFake);
+
+        // then
+        expect(response.statusCode).to.equal(403);
+        expect(response.isTakeOver).to.be.true;
+      });
+
+      it('should forbid resource access when an error is thrown by use case', async function () {
+        // given
+        checkUserHasRoleMetierUseCase.execute.rejects(new Error('Some error'));
+
+        // when
+        const response = await securityPreHandlers.checkUserHasRoleMetier(request, hFake);
 
         // then
         expect(response.statusCode).to.equal(403);
