@@ -19,7 +19,8 @@
     <div class="tutorial-card-v2-content__actions">
       <button
         class="pix-action-chip {{if this.isTutorialEvaluated "pix-action-chip--selected"}}"
-        aria-label={{this.evaluateLabel}}
+        aria-label={{this.evaluateInformation}}
+        title={{this.evaluateInformation}}
         type="button"
         {{on "click" this.evaluateTutorial}}
         disabled={{this.isTutorialEvaluated}}
@@ -29,7 +30,8 @@
       </button>
       <button
         class="pix-action-chip {{if this.isTutorialSaved "pix-action-chip--selected"}}"
-        aria-label={{this.saveLabel}}
+        aria-label={{this.saveInformation}}
+        title={{this.saveInformation}}
         type="button"
         {{on "click" this.toggleSaveTutorial}}
         disabled={{this.isSaveButtonDisabled}}
