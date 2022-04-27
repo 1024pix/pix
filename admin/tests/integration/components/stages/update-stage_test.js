@@ -38,17 +38,6 @@ module('Integration | Component | UpdateStage', function (hooks) {
     );
 
     // then
-    assert.strictEqual(this.element.querySelector('label[for="threshold"]').textContent.trim(), 'Seuil');
-    assert.strictEqual(this.element.querySelector('label[for="title"]').textContent.trim(), 'Titre');
-    assert.strictEqual(this.element.querySelector('label[for="message"]').textContent.trim(), 'Message');
-    assert.strictEqual(
-      this.element.querySelector('label[for="prescriberTitle"]').textContent.trim(),
-      'Titre pour le prescripteur'
-    );
-    assert.strictEqual(
-      this.element.querySelector('label[for="prescriberDescription"]').textContent.trim(),
-      'Description pour le prescripteur'
-    );
     assert.dom(screen.getByRole('spinbutton', { name: 'Seuil' })).hasValue('50');
     assert.dom(screen.getByRole('textbox', { name: 'Titre' })).hasValue('Titre du palier');
     assert.dom(screen.getByRole('textbox', { name: 'Message' })).hasValue('Ceci est un message');
