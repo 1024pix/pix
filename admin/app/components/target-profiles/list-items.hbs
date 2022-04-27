@@ -3,30 +3,30 @@
     <table>
       <thead>
         <tr>
-          <th class="table__column table__column--id">ID</th>
-          <th>Nom</th>
-          <th class="col-status">Statut</th>
+          <th class="table__column table__column--id" id="target-profile-id">ID</th>
+          <th id="target-profile-name">Nom</th>
+          <th class="col-status" id="target-profile-status">Statut</th>
         </tr>
         <tr>
-          <th class="table__column table__column--id">
+          <td class="table__column table__column--id">
             <input
-              id="id"
               type="text"
               value={{@id}}
               oninput={{perform @triggerFiltering "id"}}
               class="table-admin-input"
+              aria-label="Filtrer les profils cible par un id"
             />
-          </th>
-          <th>
+          </td>
+          <td>
             <input
-              id="name"
               type="text"
               value={{@name}}
               oninput={{perform @triggerFiltering "name"}}
               class="table-admin-input"
+              aria-label="Filtrer les profils cible par un nom"
             />
-          </th>
-          <th></th>
+          </td>
+          <td></td>
         </tr>
       </thead>
 
@@ -34,13 +34,13 @@
         <tbody>
           {{#each @targetProfiles as |targetProfile|}}
             <tr aria-label="Profil cible">
-              <td class="table__column table__column--id">{{targetProfile.id}}</td>
-              <td>
+              <td headers="target-profile-id" class="table__column table__column--id">{{targetProfile.id}}</td>
+              <td headers="target-profile-name">
                 <LinkTo @route="authenticated.target-profiles.target-profile" @model={{targetProfile.id}}>
                   {{targetProfile.name}}
                 </LinkTo>
               </td>
-              <td class="target-profile-table-column__status">
+              <td headers="target-profile-status" class="target-profile-table-column__status">
                 {{if targetProfile.outdated "Obsolète" "Actif"}}
               </td>
             </tr>

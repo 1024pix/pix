@@ -56,18 +56,18 @@ module('Acceptance | Target Profiles | List', function (hooks) {
 
       test('it should display the current filter when target profiles are filtered by name', async function (assert) {
         // when
-        await visit('/target-profiles/list?name=sav');
+        const screen = await visit('/target-profiles/list?name=sav');
 
         // then
-        assert.dom('input#name').hasValue('sav');
+        assert.dom(screen.getByRole('textbox', { name: 'Filtrer les profils cible par un nom' })).hasValue('sav');
       });
 
       test('it should display the current filter when target profiles are filtered by id', async function (assert) {
         // when
-        await visit('/target-profiles/list?id=123');
+        const screen = await visit('/target-profiles/list?id=123');
 
         // then
-        assert.dom('input#id').hasValue('123');
+        assert.dom(screen.getByRole('textbox', { name: 'Filtrer les profils cible par un id' })).hasValue('123');
       });
     });
 
