@@ -38,19 +38,4 @@
       }
     }
   }
-
-  &__body {
-    display: flex;
-  }
-
-  &__label {
-    margin-right: 4px;
-  }
-
-  &__current-page,
-  &__last-page {
-    display: flex;
-    justify-content: center;
-    width: 30px;
-  }
 }

@@ -38,7 +38,8 @@ module('Acceptance | Session page', function (hooks) {
 
       // when
       const screen = await visit(`/sessions/${session.id}`);
-      assert.dom('div.session-info__details').exists();
+
+      assert.dom(screen.getByText('Centre :')).exists();
       assert.dom(screen.queryByText('Date de finalisation :')).doesNotExist();
     });
 
@@ -49,7 +50,6 @@ module('Acceptance | Session page', function (hooks) {
       // when
       const screen = await visit(`/sessions/${session.id}`);
 
-      assert.dom('div.session-info__details').exists();
       assert.dom(screen.getByText('Date de finalisation :')).exists();
       assert.dom(screen.getByText('10/03/2019')).exists();
     });
