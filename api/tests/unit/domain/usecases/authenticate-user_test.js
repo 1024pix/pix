@@ -2,6 +2,7 @@ const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper
 
 const authenticateUser = require('../../../../lib/domain/usecases/authenticate-user');
 const User = require('../../../../lib/domain/models/User');
+const { ROLES } = require('../../../../lib/domain/constants').PIX_ADMIN;
 
 const {
   UserNotFoundError,
@@ -147,13 +148,37 @@ describe('Unit | Application | UseCase | authenticate-user', function () {
       expect(error.message).to.be.equal(expectedErrorMessage);
     });
 
-    it('should rejects an error when scope is pix-admin and user has not SUPER_ADMIN role', async function () {
+    it('should throw an error when scope is pix-admin and user has no role', async function () {
       // given
       const scope = appMessages.PIX_ADMIN.SCOPE;
       const user = new User({ email: userEmail, pixAdminRoles: [] });
       authenticationService.getUserByUsernameAndPassword.resolves(user);
 
-      const expectedErrorMessage = appMessages.PIX_ADMIN.NOT_SUPERADMIN_MSG;
+      const expectedErrorMessage = appMessages.PIX_ADMIN.NOT_ALLOWED_MSG;
+
+      // when
+      const error = await catchErr(authenticateUser)({
+        username: userEmail,
+        password,
+        scope,
+        userRepository,
+      });
+
+      // then
+      expect(error).to.be.an.instanceOf(ForbiddenAccess);
+      expect(error.message).to.be.equal(expectedErrorMessage);
+    });
+
+    it('should throw an error when scope is pix-admin and user has a valid role but is disabled', async function () {
+      // given
+      const scope = appMessages.PIX_ADMIN.SCOPE;
+      const user = new User({
+        email: userEmail,
+        pixAdminRoles: [{ role: ROLES.SUPER_ADMIN, disabledAt: new Date() }],
+      });
+      authenticationService.getUserByUsernameAndPassword.resolves(user);
+
+      const expectedErrorMessage = appMessages.PIX_ADMIN.NOT_ALLOWED_MSG;
 
       // when
       const error = await catchErr(authenticateUser)({
