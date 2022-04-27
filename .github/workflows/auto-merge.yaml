@@ -20,3 +20,4 @@ jobs:
           UPDATE_LABELS: ':rocket: Ready to Merge'
           UPDATE_METHOD: rebase
           MERGE_FORKS: 'false'
+          MERGE_REQUIRED_APPROVALS: 1
