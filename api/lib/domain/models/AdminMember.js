@@ -30,7 +30,7 @@ module.exports = class AdminMember {
     );
   }
 
-  get isSuperAdmin() {
-    return this.role === ROLES.SUPER_ADMIN;
+  get hasAccessToAdminScope() {
+    return this.role in ROLES && !this.disabledAt;
   }
 };
