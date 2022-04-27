@@ -243,7 +243,22 @@ module.exports = {
   },
 
   async isSuperAdmin(id) {
-    const user = await knex('pix-admin-roles').where({ userId: id, role: ROLES.SUPER_ADMIN }).first();
+    const user = await knex('pix-admin-roles').where({ userId: id, role: ROLES.SUPER_ADMIN, disabledAt: null }).first();
+    return Boolean(user);
+  },
+
+  async isCertif(id) {
+    const user = await knex('pix-admin-roles').where({ userId: id, role: ROLES.CERTIF, disabledAt: null }).first();
+    return Boolean(user);
+  },
+
+  async isSupport(id) {
+    const user = await knex('pix-admin-roles').where({ userId: id, role: ROLES.SUPPORT, disabledAt: null }).first();
+    return Boolean(user);
+  },
+
+  async isMetier(id) {
+    const user = await knex('pix-admin-roles').where({ userId: id, role: ROLES.METIER, disabledAt: null }).first();
     return Boolean(user);
   },
 

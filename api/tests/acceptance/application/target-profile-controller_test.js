@@ -60,7 +60,7 @@ describe('Acceptance | Controller | target-profile-controller', function () {
     beforeEach(async function () {
       mockLearningContent(learningContent);
 
-      user = databaseBuilder.factory.buildUser.withRoleSuperAdmin();
+      user = databaseBuilder.factory.buildUser.withRole();
 
       await databaseBuilder.commit();
     });
@@ -107,7 +107,7 @@ describe('Acceptance | Controller | target-profile-controller', function () {
       mockLearningContent(learningContent);
       targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
       databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: skillId });
-      user = databaseBuilder.factory.buildUser.withRoleSuperAdmin();
+      user = databaseBuilder.factory.buildUser.withRole();
 
       await databaseBuilder.commit();
     });
@@ -148,7 +148,7 @@ describe('Acceptance | Controller | target-profile-controller', function () {
       const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
       mockLearningContent(learningContentObjects);
       targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
-      user = databaseBuilder.factory.buildUser.withRoleSuperAdmin();
+      user = databaseBuilder.factory.buildUser.withRole();
       organizationId = databaseBuilder.factory.buildOrganization().id;
       databaseBuilder.factory.buildTargetProfileShare({ targetProfileId, organizationId });
       await databaseBuilder.commit();
@@ -182,7 +182,7 @@ describe('Acceptance | Controller | target-profile-controller', function () {
 
     it('should return 200', async function () {
       const targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
-      const user = databaseBuilder.factory.buildUser.withRoleSuperAdmin();
+      const user = databaseBuilder.factory.buildUser.withRole();
       const organization1 = databaseBuilder.factory.buildOrganization();
       const organization2 = databaseBuilder.factory.buildOrganization();
       await databaseBuilder.commit();
@@ -221,7 +221,7 @@ describe('Acceptance | Controller | target-profile-controller', function () {
     it('should return 204', async function () {
       const targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
       const existingTargetProfileId = databaseBuilder.factory.buildTargetProfile().id;
-      const userId = databaseBuilder.factory.buildUser.withRoleSuperAdmin().id;
+      const userId = databaseBuilder.factory.buildUser.withRole().id;
       const organizationId1 = databaseBuilder.factory.buildOrganization().id;
       const organizationId2 = databaseBuilder.factory.buildOrganization().id;
       databaseBuilder.factory.buildTargetProfileShare({
@@ -260,7 +260,7 @@ describe('Acceptance | Controller | target-profile-controller', function () {
   describe('PATCH /api/admin/target-profiles/{id}', function () {
     it('should return 204', async function () {
       const targetProfile = databaseBuilder.factory.buildTargetProfile();
-      const user = databaseBuilder.factory.buildUser.withRoleSuperAdmin();
+      const user = databaseBuilder.factory.buildUser.withRole();
       await databaseBuilder.commit();
 
       const options = {
@@ -290,7 +290,7 @@ describe('Acceptance | Controller | target-profile-controller', function () {
   describe('PUT /api/admin/target-profiles/{id}/outdate', function () {
     it('should return 204', async function () {
       const targetProfile = databaseBuilder.factory.buildTargetProfile();
-      const user = databaseBuilder.factory.buildUser.withRoleSuperAdmin();
+      const user = databaseBuilder.factory.buildUser.withRole();
       await databaseBuilder.commit();
 
       const options = {
@@ -327,7 +327,7 @@ describe('Acceptance | Controller | target-profile-controller', function () {
 
     it('should not create a badge if there are no associated criteria', async function () {
       // given
-      const user = databaseBuilder.factory.buildUser.withRoleSuperAdmin();
+      const user = databaseBuilder.factory.buildUser.withRole();
       const targetProfile = databaseBuilder.factory.buildTargetProfile();
       await databaseBuilder.commit();
       const badgeCreation = {
@@ -362,7 +362,7 @@ describe('Acceptance | Controller | target-profile-controller', function () {
 
     it('should create badge with empty message and title', async function () {
       // given
-      const user = databaseBuilder.factory.buildUser.withRoleSuperAdmin();
+      const user = databaseBuilder.factory.buildUser.withRole();
       const targetProfile = databaseBuilder.factory.buildTargetProfile();
       await databaseBuilder.commit();
       const badgeCreation = {
@@ -411,7 +411,7 @@ describe('Acceptance | Controller | target-profile-controller', function () {
 
     it('should create a badge with at least one criterion', async function () {
       // given
-      const user = databaseBuilder.factory.buildUser.withRoleSuperAdmin();
+      const user = databaseBuilder.factory.buildUser.withRole();
       const { id: targetProfileId } = databaseBuilder.factory.buildTargetProfile();
       databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: 'aki1' });
       databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: 'aki3' });
@@ -466,7 +466,7 @@ describe('Acceptance | Controller | target-profile-controller', function () {
 
     it('should not create a badge nor criteria', async function () {
       // given
-      const user = databaseBuilder.factory.buildUser.withRoleSuperAdmin();
+      const user = databaseBuilder.factory.buildUser.withRole();
       const { id: targetProfileId } = databaseBuilder.factory.buildTargetProfile();
       databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: 'aki1' });
       databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: 'aki3' });
@@ -548,7 +548,7 @@ describe('Acceptance | Controller | target-profile-controller', function () {
       targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
       databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: 'recSkill' });
       badge = databaseBuilder.factory.buildBadge({ targetProfileId });
-      user = databaseBuilder.factory.buildUser.withRoleSuperAdmin();
+      user = databaseBuilder.factory.buildUser.withRole();
 
       await databaseBuilder.commit();
     });
@@ -618,7 +618,7 @@ describe('Acceptance | Controller | target-profile-controller', function () {
       targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
       databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: 'recSkill' });
       stage = databaseBuilder.factory.buildStage({ targetProfileId });
-      user = databaseBuilder.factory.buildUser.withRoleSuperAdmin();
+      user = databaseBuilder.factory.buildUser.withRole();
 
       await databaseBuilder.commit();
     });

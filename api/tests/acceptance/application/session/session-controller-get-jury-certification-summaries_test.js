@@ -52,7 +52,7 @@ describe('Acceptance | Controller | session-controller-get-jury-certification-su
 
       beforeEach(function () {
         const dbf = databaseBuilder.factory;
-        superAdminId = dbf.buildUser.withRoleSuperAdmin().id;
+        superAdminId = dbf.buildUser.withRole().id;
         sessionId = dbf.buildSession().id;
         const badge = dbf.buildBadge({ key: Badge.keys.PIX_EMPLOI_CLEA_V3 });
 
