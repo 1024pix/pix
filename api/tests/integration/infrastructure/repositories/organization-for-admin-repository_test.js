@@ -170,7 +170,7 @@ describe('Integration | Repository | Organization-for-admin', function () {
 
     it('should cancel all pending invitations of a given organization', async function () {
       // given
-      const superAdminUserId = databaseBuilder.factory.buildUser.withRoleSuperAdmin().id;
+      const superAdminUserId = databaseBuilder.factory.buildUser.withRole().id;
       const pendingStatus = OrganizationInvitation.StatusType.PENDING;
       const cancelledStatus = OrganizationInvitation.StatusType.CANCELLED;
       const acceptedStatus = OrganizationInvitation.StatusType.ACCEPTED;
@@ -221,7 +221,7 @@ describe('Integration | Repository | Organization-for-admin', function () {
 
     it('should archive active campaigns of a given organization', async function () {
       // given
-      const superAdminUserId = databaseBuilder.factory.buildUser.withRoleSuperAdmin().id;
+      const superAdminUserId = databaseBuilder.factory.buildUser.withRole().id;
       const previousDate = new Date('2021-01-01');
       const organizationId = 1;
       databaseBuilder.factory.buildOrganization({ id: organizationId });
@@ -250,7 +250,7 @@ describe('Integration | Repository | Organization-for-admin', function () {
 
     it('should disable active members of a given organization', async function () {
       // given
-      const superAdminUserId = databaseBuilder.factory.buildUser.withRoleSuperAdmin().id;
+      const superAdminUserId = databaseBuilder.factory.buildUser.withRole().id;
       const previousDate = new Date('2021-01-01');
       const organizationId = 1;
       databaseBuilder.factory.buildOrganization({ id: organizationId });
@@ -283,7 +283,7 @@ describe('Integration | Repository | Organization-for-admin', function () {
       const organizationId = 1;
       databaseBuilder.factory.buildOrganization({ id: organizationId });
       databaseBuilder.factory.buildOrganization({ id: 2 });
-      const superAdminUserId = databaseBuilder.factory.buildUser.withRoleSuperAdmin().id;
+      const superAdminUserId = databaseBuilder.factory.buildUser.withRole().id;
 
       await databaseBuilder.commit();
 

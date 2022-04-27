@@ -284,7 +284,7 @@ describe('Acceptance | Application | organization-controller', function () {
     beforeEach(async function () {
       server = await createServer();
 
-      const userSuperAdmin = databaseBuilder.factory.buildUser.withRoleSuperAdmin();
+      const userSuperAdmin = databaseBuilder.factory.buildUser.withRole();
 
       databaseBuilder.factory.buildOrganization({
         name: 'The name of the organization',
@@ -594,7 +594,7 @@ describe('Acceptance | Application | organization-controller', function () {
 
     context('Expected output', function () {
       beforeEach(async function () {
-        superAdminUserId = databaseBuilder.factory.buildUser.withRoleSuperAdmin().id;
+        superAdminUserId = databaseBuilder.factory.buildUser.withRole().id;
 
         await databaseBuilder.commit();
       });
@@ -756,7 +756,7 @@ describe('Acceptance | Application | organization-controller', function () {
     let options;
 
     beforeEach(async function () {
-      const userSuperAdmin = databaseBuilder.factory.buildUser.withRoleSuperAdmin();
+      const userSuperAdmin = databaseBuilder.factory.buildUser.withRole();
       organization = databaseBuilder.factory.buildOrganization();
       options = {
         method: 'GET',
@@ -1256,7 +1256,7 @@ describe('Acceptance | Application | organization-controller', function () {
   describe('POST /api/admin/organizations/{id}/archive', function () {
     it('should return the archived organization', async function () {
       // given
-      const adminUser = databaseBuilder.factory.buildUser.withRoleSuperAdmin();
+      const adminUser = databaseBuilder.factory.buildUser.withRole();
       const organizationId = databaseBuilder.factory.buildOrganization().id;
       databaseBuilder.factory.buildOrganization({ id: 2 });
 
@@ -1369,7 +1369,7 @@ describe('Acceptance | Application | organization-controller', function () {
     let targetProfileId2;
 
     beforeEach(async function () {
-      userId = databaseBuilder.factory.buildUser.withRoleSuperAdmin().id;
+      userId = databaseBuilder.factory.buildUser.withRole().id;
       organizationId = databaseBuilder.factory.buildOrganization().id;
       targetProfileId1 = databaseBuilder.factory.buildTargetProfile().id;
       targetProfileId2 = databaseBuilder.factory.buildTargetProfile().id;

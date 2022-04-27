@@ -60,7 +60,7 @@ function generateIdTokenForExternalUser(externalUser) {
 }
 
 async function insertUserWithRoleSuperAdmin() {
-  const user = databaseBuilder.factory.buildUser.withRoleSuperAdmin({
+  const user = databaseBuilder.factory.buildUser.withRole({
     id: 1234,
     firstName: 'Super',
     lastName: 'Papa',
