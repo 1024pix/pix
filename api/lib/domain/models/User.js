@@ -2,7 +2,6 @@ const toLower = require('lodash/toLower');
 const isNil = require('lodash/isNil');
 
 const AuthenticationMethod = require('./AuthenticationMethod');
-const { ROLES } = require('../constants').PIX_ADMIN;
 
 class User {
   constructor({
@@ -61,10 +60,6 @@ class User {
     this.scorecards = scorecards;
     this.campaignParticipations = campaignParticipations;
     this.authenticationMethods = authenticationMethods;
-  }
-
-  get hasRoleSuperAdmin() {
-    return !!this.pixAdminRoles.find(({ role, disabledAt }) => role === ROLES.SUPER_ADMIN && !disabledAt);
   }
 
   get hasAccessToAdminScope() {
