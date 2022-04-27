@@ -20,7 +20,7 @@ module('Integration | Component | login-form', function (hooks) {
     // then
     assert.dom(screen.getByRole('textbox', { name: 'Adresse e-mail' })).exists();
     assert.dom(screen.getByLabelText('Mot de passe')).exists();
-    assert.dom(screen.getByRole('button', { name: 'Connexion' })).exists();
+    assert.dom(screen.getByRole('button', { name: 'Je me connecte' })).exists();
   });
 
   test('should hide error message by default', async function (assert) {
