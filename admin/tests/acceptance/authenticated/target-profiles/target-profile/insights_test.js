@@ -1,4 +1,4 @@
-import { click, currentURL, fillIn } from '@ember/test-helpers';
+import { click, currentURL } from '@ember/test-helpers';
 import { visit, clickByName, fillByLabel } from '@1024pix/ember-testing-library';
 import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
@@ -79,10 +79,11 @@ module('Acceptance | Target Profiles | Target Profile | Insights', function (hoo
       await visit(`/target-profiles/${targetProfile.id}/badges/new`);
 
       // when
-      await fillIn('input#badge-key', 'clé_du_badge');
-      await fillIn('input#image-name', 'nom_de_limage');
-      await fillIn('input#alt-message', 'texte alternatif à l‘image');
-      await fillIn('input#campaignParticipationThreshold', '65');
+      await fillByLabel('Nom du badge :', 'clé_du_badge');
+      await fillByLabel("Nom de l'image (svg) :", 'nom_de_limage');
+      await fillByLabel("Texte alternatif pour l'image :", 'texte alternatif à l‘image');
+      await fillByLabel("Clé (texte unique , vérifier qu'il n'existe pas) :", 'clé unique');
+      await fillByLabel('Taux de réussite global :', '65');
       await clickByName('Créer le badge');
 
       // then

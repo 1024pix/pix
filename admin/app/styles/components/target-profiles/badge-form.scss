@@ -4,6 +4,20 @@
     font-weight: $font-semi-bold;
   }
 
+  &__label {
+    margin-bottom: 2px;
+  }
+
+  &__information {
+    font-size: 0.75rem;
+    margin-bottom: 10px;
+
+    &--link {
+      color: $dark-blue-pro;
+      text-decoration: underline;
+    }
+  }
+
   &__text-field {
     display: flex;
     flex-direction: column;
@@ -39,7 +53,7 @@
     margin-bottom: 16px;
 
     &__threshold {
-      width: 160px;
+      width: 200px;
     }
 
     &__skill-set {
