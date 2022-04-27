@@ -27,13 +27,13 @@ module('Integration | Component | routes/authenticated/target-profiles | list-it
 
   test('it should display search inputs', async function (assert) {
     // when
-    await render(
+    const screen = await render(
       hbs`<TargetProfiles::ListItems @triggerFiltering={{this.triggerFiltering}} @goToTargetProfilePage={{this.goToTargetProfilePage}}/>`
     );
 
     // then
-    assert.dom('input#name').exists();
-    assert.dom('input#id').exists();
+    assert.dom(screen.getByRole('textbox', { name: 'Filtrer les profils cible par un id' })).exists();
+    assert.dom(screen.getByRole('textbox', { name: 'Filtrer les profils cible par un nom' })).exists();
   });
 
   test('it should display target profiles list', async function (assert) {
