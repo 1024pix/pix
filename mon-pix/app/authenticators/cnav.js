@@ -9,8 +9,6 @@ import { decodeToken } from 'mon-pix/helpers/jwt';
 import ENV from 'mon-pix/config/environment';
 import fetch from 'fetch';
 
-const { host, afterLogoutUri, endSessionEndpoint } = ENV.cnav;
-
 export default class CnavAuthenticator extends BaseAuthenticator {
   @service session;
   @service location;
@@ -49,10 +47,7 @@ export default class CnavAuthenticator extends BaseAuthenticator {
         body,
       };
 
-      // We want to authorize users connected to Pix to connect to Cnav as well
-      // in order to link their Cnav account to the Pix one.
       if (this.session.isAuthenticated) {
-        request.headers['Authorization'] = `Bearer ${this.session.data.authenticated.access_token}`;
         // We must ensure to disconnect the Pix user in order for the session service to fire
         // the authenticationSucceeded event (and thus execute the ApplicationRouteMixin sessionAuthenticated() method).
         // see: https://github.com/simplabs/ember-simple-auth/blob/92268fdcb9ac3d1c9f7b0abde4923dade7a0cd62/packages/ember-simple-auth/addon/internal-session.js#L95L106
@@ -71,10 +66,8 @@ export default class CnavAuthenticator extends BaseAuthenticator {
 
     return {
       access_token: data.access_token,
-      id_token: data.id_token,
       source: decodedAccessToken.source,
       user_id: decodedAccessToken.user_id,
-      redirectUri,
     };
   }
 
@@ -85,24 +78,5 @@ export default class CnavAuthenticator extends BaseAuthenticator {
       }
       reject();
     });
-  }
-
-  async invalidate() {
-    const idToken = this.session.get('data.authenticated.id_token');
-
-    if (!endSessionEndpoint) {
-      return;
-    }
-
-    const params = [];
-
-    if (afterLogoutUri) {
-      params.push(`redirect_uri=${afterLogoutUri}`);
-    }
-
-    if (idToken) {
-      params.push(`id_token_hint=${idToken}`);
-    }
-    this.location.replace(`${host}${endSessionEndpoint}?${params.join('&')}`);
   }
 }
