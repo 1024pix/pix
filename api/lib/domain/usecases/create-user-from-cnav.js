@@ -7,11 +7,11 @@ const logger = require('../../infrastructure/logger');
 module.exports = async function createUserFromCnav({
   authenticationKey,
   authenticationMethodRepository,
-  cnavTokensRepository,
+  authenticationSessionRepository,
   userToCreateRepository,
   cnavAuthenticationService,
 }) {
-  const cnavTokens = await cnavTokensRepository.getByKey(authenticationKey);
+  const cnavTokens = await authenticationSessionRepository.getByKey(authenticationKey);
   if (!cnavTokens) {
     // mutualiser cette erreur pour toutes les clés expirées
     // exemple : throw new AuthenticationKeyExpired();

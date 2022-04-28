@@ -10,7 +10,7 @@ module.exports = async function authenticateCnavUser({
   stateSent,
   cnavAuthenticationService,
   authenticationMethodRepository,
-  cnavTokensRepository,
+  authenticationSessionRepository,
   userRepository,
 }) {
   if (stateSent !== stateReceived) {
@@ -36,7 +36,7 @@ module.exports = async function authenticateCnavUser({
     const user = await userRepository.findByCnavExternalIdentifier(userInfo.externalIdentityId);
 
     if (!user) {
-      const authenticationKey = await cnavTokensRepository.save(cnavTokens);
+      const authenticationKey = await authenticationSessionRepository.save(cnavTokens);
       return { authenticationKey }; // todo : refacto, should not return different objects
       // will be refacto when keycloak will be setup
       // this return should be replaced by domain error (see controller)

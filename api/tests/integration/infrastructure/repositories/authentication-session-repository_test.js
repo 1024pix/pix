@@ -1,9 +1,9 @@
 const { expect } = require('../../../test-helper');
 
 const PoleEmploiTokens = require('../../../../lib/domain/models/PoleEmploiTokens');
-const poleEmploiTokensRepository = require('../../../../lib/infrastructure/repositories/pole-emploi-tokens-repository');
+const authenticationSessionRepository = require('../../../../lib/infrastructure/repositories/authentication-session-repository');
 
-describe('Integration | Repository | PoleEmploiTokensRepository', function () {
+describe('Integration | Repository | authenticationSessionRepository', function () {
   describe('#save', function () {
     it('should save PoleEmploiTokens and return a key', async function () {
       // given
@@ -15,7 +15,7 @@ describe('Integration | Repository | PoleEmploiTokensRepository', function () {
       });
 
       // when
-      const key = await poleEmploiTokensRepository.save(poleEmploiTokens);
+      const key = await authenticationSessionRepository.save(poleEmploiTokens);
 
       // then
       expect(key).to.exist;
@@ -31,13 +31,12 @@ describe('Integration | Repository | PoleEmploiTokensRepository', function () {
         expiresIn: 10,
         refreshToken: 'refreshToken',
       });
-      const key = await poleEmploiTokensRepository.save(poleEmploiTokens);
+      const key = await authenticationSessionRepository.save(poleEmploiTokens);
 
       // when
-      const result = await poleEmploiTokensRepository.getByKey(key);
+      const result = await authenticationSessionRepository.getByKey(key);
 
       // then
-      expect(result).to.be.an.instanceof(PoleEmploiTokens);
       expect(result).to.deep.equal(poleEmploiTokens);
     });
   });

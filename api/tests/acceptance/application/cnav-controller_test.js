@@ -3,7 +3,7 @@ const jsonwebtoken = require('jsonwebtoken');
 const { expect, knex } = require('../../test-helper');
 
 const CnavTokens = require('../../../lib/domain/models/CnavTokens');
-const cnavTokensRepository = require('../../../lib/infrastructure/repositories/cnav-tokens-repository');
+const authenticationSessionRepository = require('../../../lib/infrastructure/repositories/authentication-session-repository');
 
 const createServer = require('../../../server');
 
@@ -39,7 +39,7 @@ describe('Acceptance | API | Cnav Controller', function () {
       const cnavTokens = new CnavTokens({
         idToken,
       });
-      const userAuthenticationKey = await cnavTokensRepository.save(cnavTokens);
+      const userAuthenticationKey = await authenticationSessionRepository.save(cnavTokens);
 
       const request = {
         method: 'POST',

@@ -10,7 +10,7 @@ const {
 const poleEmploiSendingFactory = databaseBuilder.factory.poleEmploiSendingFactory;
 
 const PoleEmploiTokens = require('../../../lib/domain/models/PoleEmploiTokens');
-const poleEmploiTokensRepository = require('../../../lib/infrastructure/repositories/pole-emploi-tokens-repository');
+const authenticationSessionRepository = require('../../../lib/infrastructure/repositories/authentication-session-repository');
 
 const createServer = require('../../../server');
 const settings = require('../../../lib/config');
@@ -54,7 +54,7 @@ describe('Acceptance | API | Pole Emploi Controller', function () {
         idToken,
         refreshToken: 'refreshToken',
       });
-      const userAuthenticationKey = await poleEmploiTokensRepository.save(poleEmploiTokens);
+      const userAuthenticationKey = await authenticationSessionRepository.save(poleEmploiTokens);
 
       const request = {
         method: 'POST',

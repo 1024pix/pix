@@ -16,7 +16,7 @@ describe('Unit | UseCase | create-user-from-cnav', function () {
   let domainTransaction;
   let clock;
   let authenticationMethodRepository;
-  let cnavTokensRepository;
+  let authenticationSessionRepository;
   let userToCreateRepository;
   let cnavAuthenticationService;
 
@@ -35,7 +35,7 @@ describe('Unit | UseCase | create-user-from-cnav', function () {
       findOneByExternalIdentifierAndIdentityProvider: sinon.stub(),
     };
 
-    cnavTokensRepository = {
+    authenticationSessionRepository = {
       getByKey: sinon.stub(),
     };
 
@@ -56,13 +56,13 @@ describe('Unit | UseCase | create-user-from-cnav', function () {
   it('should throw an AuthenticationKeyForCnavTokenExpired if key expired', async function () {
     // given
     const authenticationKey = 'authenticationKey';
-    cnavTokensRepository.getByKey.withArgs(authenticationKey).resolves(null);
+    authenticationSessionRepository.getByKey.withArgs(authenticationKey).resolves(null);
 
     // when
     const error = await catchErr(createUserFromCnav)({
       authenticationKey,
       authenticationMethodRepository,
-      cnavTokensRepository,
+      authenticationSessionRepository,
       userToCreateRepository,
       cnavAuthenticationService,
     });
@@ -80,7 +80,7 @@ describe('Unit | UseCase | create-user-from-cnav', function () {
       const cnavTokens = new CnavTokens({
         idToken: 'idToken',
       });
-      cnavTokensRepository.getByKey.withArgs(authenticationKey).resolves(cnavTokens);
+      authenticationSessionRepository.getByKey.withArgs(authenticationKey).resolves(cnavTokens);
 
       const decodedUserInfo = {
         firstName: 'Jean',
@@ -109,7 +109,7 @@ describe('Unit | UseCase | create-user-from-cnav', function () {
       const response = await createUserFromCnav({
         authenticationKey,
         authenticationMethodRepository,
-        cnavTokensRepository,
+        authenticationSessionRepository,
         userToCreateRepository,
         cnavAuthenticationService,
       });
@@ -139,7 +139,7 @@ describe('Unit | UseCase | create-user-from-cnav', function () {
       const cnavTokens = new CnavTokens({
         idToken: 'idToken',
       });
-      cnavTokensRepository.getByKey.withArgs(authenticationKey).resolves(cnavTokens);
+      authenticationSessionRepository.getByKey.withArgs(authenticationKey).resolves(cnavTokens);
 
       const decodedUserInfo = {
         firstName: 'Jean',
@@ -156,7 +156,7 @@ describe('Unit | UseCase | create-user-from-cnav', function () {
       const error = await catchErr(createUserFromCnav)({
         authenticationKey,
         authenticationMethodRepository,
-        cnavTokensRepository,
+        authenticationSessionRepository,
         userToCreateRepository,
         cnavAuthenticationService,
       });
@@ -179,7 +179,7 @@ describe('Unit | UseCase | create-user-from-cnav', function () {
       const cnavTokens = new CnavTokens({
         idToken: 'idToken',
       });
-      cnavTokensRepository.getByKey.withArgs(authenticationKey).resolves(cnavTokens);
+      authenticationSessionRepository.getByKey.withArgs(authenticationKey).resolves(cnavTokens);
 
       const decodedUserInfo = {
         firstName: 'Jean',
@@ -201,7 +201,7 @@ describe('Unit | UseCase | create-user-from-cnav', function () {
       const response = await createUserFromCnav({
         authenticationKey,
         authenticationMethodRepository,
-        cnavTokensRepository,
+        authenticationSessionRepository,
         userToCreateRepository,
         cnavAuthenticationService,
       });

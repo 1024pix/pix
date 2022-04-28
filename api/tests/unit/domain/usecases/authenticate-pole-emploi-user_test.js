@@ -16,7 +16,7 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', function () {
   let poleEmploiAuthenticationService;
 
   let authenticationMethodRepository;
-  let poleEmploiTokensRepository;
+  let authenticationSessionRepository;
   let userRepository;
 
   let clock;
@@ -36,7 +36,7 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', function () {
       findOneByUserIdAndIdentityProvider: sinon.stub(),
     };
 
-    poleEmploiTokensRepository = {
+    authenticationSessionRepository = {
       save: sinon.stub(),
     };
 
@@ -72,7 +72,7 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', function () {
         stateSent,
         poleEmploiAuthenticationService,
         authenticationMethodRepository,
-        poleEmploiTokensRepository,
+        authenticationSessionRepository,
         userRepository,
       });
 
@@ -100,7 +100,7 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', function () {
         stateSent: 'state',
         poleEmploiAuthenticationService,
         authenticationMethodRepository,
-        poleEmploiTokensRepository,
+        authenticationSessionRepository,
         userRepository,
       });
 
@@ -126,7 +126,7 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', function () {
         stateSent: 'state',
         poleEmploiAuthenticationService,
         authenticationMethodRepository,
-        poleEmploiTokensRepository,
+        authenticationSessionRepository,
         userRepository,
       });
 
@@ -153,7 +153,7 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', function () {
         stateSent: 'state',
         poleEmploiAuthenticationService,
         authenticationMethodRepository,
-        poleEmploiTokensRepository,
+        authenticationSessionRepository,
         userRepository,
       });
 
@@ -177,7 +177,7 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', function () {
         stateSent: 'state',
         poleEmploiAuthenticationService,
         authenticationMethodRepository,
-        poleEmploiTokensRepository,
+        authenticationSessionRepository,
         userRepository,
       });
 
@@ -204,7 +204,7 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', function () {
         stateSent: 'state',
         poleEmploiAuthenticationService,
         authenticationMethodRepository,
-        poleEmploiTokensRepository,
+        authenticationSessionRepository,
         userRepository,
       });
 
@@ -229,7 +229,7 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', function () {
           stateSent: 'state',
           poleEmploiAuthenticationService,
           authenticationMethodRepository,
-          poleEmploiTokensRepository,
+          authenticationSessionRepository,
           userRepository,
         });
 
@@ -263,7 +263,7 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', function () {
           stateSent: 'state',
           poleEmploiAuthenticationService,
           authenticationMethodRepository,
-          poleEmploiTokensRepository,
+          authenticationSessionRepository,
           userRepository,
         });
 
@@ -290,7 +290,7 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', function () {
             stateSent: 'state',
             poleEmploiAuthenticationService,
             authenticationMethodRepository,
-            poleEmploiTokensRepository,
+            authenticationSessionRepository,
             userRepository,
           });
 
@@ -332,7 +332,7 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', function () {
             stateSent: 'state',
             poleEmploiAuthenticationService,
             authenticationMethodRepository,
-            poleEmploiTokensRepository,
+            authenticationSessionRepository,
             userRepository,
           });
 
@@ -370,7 +370,7 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', function () {
             stateSent: 'state',
             poleEmploiAuthenticationService,
             authenticationMethodRepository,
-            poleEmploiTokensRepository,
+            authenticationSessionRepository,
             userRepository,
           });
 
@@ -386,7 +386,7 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', function () {
       // given
       const { poleEmploiTokens } = _fakePoleEmploiAPI({ poleEmploiAuthenticationService });
       const key = 'aaa-bbb-ccc';
-      poleEmploiTokensRepository.save.resolves(key);
+      authenticationSessionRepository.save.resolves(key);
       userRepository.findByPoleEmploiExternalIdentifier.resolves(null);
 
       // when
@@ -399,19 +399,19 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', function () {
         stateSent: 'state',
         poleEmploiAuthenticationService,
         authenticationMethodRepository,
-        poleEmploiTokensRepository,
+        authenticationSessionRepository,
         userRepository,
       });
 
       // then
-      expect(poleEmploiTokensRepository.save).to.have.been.calledWith(poleEmploiTokens);
+      expect(authenticationSessionRepository.save).to.have.been.calledWith(poleEmploiTokens);
     });
 
     it('should return an authenticationKey', async function () {
       // given
       const key = 'aaa-bbb-ccc';
       _fakePoleEmploiAPI({ poleEmploiAuthenticationService });
-      poleEmploiTokensRepository.save.resolves(key);
+      authenticationSessionRepository.save.resolves(key);
       userRepository.findByPoleEmploiExternalIdentifier.resolves(null);
 
       // when
@@ -424,7 +424,7 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', function () {
         stateSent: 'state',
         poleEmploiAuthenticationService,
         authenticationMethodRepository,
-        poleEmploiTokensRepository,
+        authenticationSessionRepository,
         userRepository,
       });
 

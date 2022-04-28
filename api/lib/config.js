@@ -195,8 +195,6 @@ module.exports = (function () {
       userInfoUrl: process.env.POLE_EMPLOI_USER_INFO_URL,
       authUrl: process.env.POLE_EMPLOI_OIDC_AUTHENTICATION_URL,
       temporaryStorage: {
-        expirationDelaySeconds:
-          parseInt(process.env.POLE_EMPLOI_TEMPORARY_STORAGE_EXPIRATION_DELAY_SECONDS, 10) || 1140,
         redisUrl: process.env.REDIS_URL,
       },
       poleEmploiSendingsLimit: _getNumber(process.env.POLE_EMPLOI_SENDING_LIMIT, 100),
@@ -210,11 +208,17 @@ module.exports = (function () {
       tokenUrl: process.env.CNAV_TOKEN_URL,
       authUrl: process.env.CNAV_AUTHENTICATION_URL,
       temporaryStorage: {
-        expirationDelaySeconds: parseInt(process.env.CNAV_TEMPORARY_STORAGE_EXPIRATION_DELAY_SECONDS, 10) || 1140,
         redisUrl: process.env.REDIS_URL,
       },
       cnavIdentityProvider: process.env.CNAV_IDENTITY_PROVIDER || 'CNAV',
       accessTokenLifespanMs: ms(process.env.CNAV_ACCESS_TOKEN_LIFESPAN || '7d'),
+    },
+
+    authenticationSession: {
+      temporaryStorage: {
+        expirationDelaySeconds:
+          parseInt(process.env.AUTHENTICATION_SESSION_TEMPORARY_STORAGE_EXPIRATION_DELAY_SECONDS, 10) || 1140,
+      },
     },
 
     temporaryStorage: {
