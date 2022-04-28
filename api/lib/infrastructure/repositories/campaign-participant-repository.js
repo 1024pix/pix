@@ -5,12 +5,12 @@ const { AlreadyExistingCampaignParticipationError, NotFoundError } = require('..
 const skillDatasource = require('../datasources/learning-content/skill-datasource');
 
 async function save(campaignParticipant, domainTransaction) {
-  const newlyCreatedSchoolingRegistrationId = await _createNewSchoolingRegistration(
-    campaignParticipant.schoolingRegistration,
+  const newlyCreatedOrganizationLearnerId = await _createNewOrganizationLearner(
+    campaignParticipant.organizationLearner,
     domainTransaction.knexTransaction
   );
-  if (newlyCreatedSchoolingRegistrationId) {
-    campaignParticipant.campaignParticipation.schoolingRegistrationId = newlyCreatedSchoolingRegistrationId;
+  if (newlyCreatedOrganizationLearnerId) {
+    campaignParticipant.campaignParticipation.schoolingRegistrationId = newlyCreatedOrganizationLearnerId;
   }
 
   await _updatePreviousParticipation(
@@ -25,17 +25,17 @@ async function save(campaignParticipant, domainTransaction) {
   return campaignParticipationId;
 }
 
-async function _createNewSchoolingRegistration(schoolingRegistration, queryBuilder) {
-  if (schoolingRegistration) {
-    const [newlyCreatedSchoolingRegistrationId] = await queryBuilder('organization-learners')
+async function _createNewOrganizationLearner(organizationLearner, queryBuilder) {
+  if (organizationLearner) {
+    const [newlyCreatedOrganizationLearnerId] = await queryBuilder('organization-learners')
       .insert({
-        userId: schoolingRegistration.userId,
-        organizationId: schoolingRegistration.organizationId,
-        firstName: schoolingRegistration.firstName,
-        lastName: schoolingRegistration.lastName,
+        userId: organizationLearner.userId,
+        organizationId: organizationLearner.organizationId,
+        firstName: organizationLearner.firstName,
+        lastName: organizationLearner.lastName,
       })
       .returning('id');
-    return newlyCreatedSchoolingRegistrationId;
+    return newlyCreatedOrganizationLearnerId;
   }
 }
 
@@ -82,14 +82,14 @@ async function get({ userId, campaignId, domainTransaction }) {
 
   const campaignToStartParticipation = await _getCampaignToStart(campaignId, domainTransaction);
 
-  const schoolingRegistrationId = await _getSchoolingRegistrationId(campaignId, userId, domainTransaction);
+  const organizationLearner = await _getOrganizationLearner(campaignId, userId, domainTransaction);
 
   const previousCampaignParticipation = await _findPreviousCampaignParticipation(campaignId, userId, domainTransaction);
 
   return new CampaignParticipant({
     userIdentity,
     campaignToStartParticipation,
-    schoolingRegistrationId,
+    organizationLearner,
     previousCampaignParticipation,
   });
 }
@@ -129,14 +129,32 @@ async function _getCampaignToStart(campaignId, domainTransaction) {
   return new CampaignToStartParticipation({ ...campaignAttributes, skillCount: skills.length });
 }
 
-async function _getSchoolingRegistrationId(campaignId, userId, domainTransaction) {
-  const [id] = await domainTransaction
+async function _getOrganizationLearner(campaignId, userId, domainTransaction) {
+  const organizationLearner = { id: null, hasParticipated: false };
+  const row = await domainTransaction
     .knexTransaction('campaigns')
+    .select({ id: 'organization-learners.id', campaignParticipationId: 'campaign-participations.id' })
     .join('organization-learners', 'organization-learners.organizationId', 'campaigns.organizationId')
-    .where({ 'campaigns.id': campaignId, userId, isDisabled: false })
-    .pluck('organization-learners.id');
+    .leftJoin(
+      'campaign-participations',
+      function () {
+        this.on('campaign-participations.organizationLearnerId', 'organization-learners.id');
+        this.on('campaign-participations.campaignId', 'campaigns.id');
+      },
+      'organization-learners.id'
+    )
+    .where({
+      'campaigns.id': campaignId,
+      'organization-learners.userId': userId,
+      isDisabled: false,
+    })
+    .first();
 
-  return id;
+  if (row) {
+    organizationLearner.id = row.id;
+    organizationLearner.hasParticipated = Boolean(row.campaignParticipationId);
+  }
+  return organizationLearner;
 }
 
 async function _findPreviousCampaignParticipation(campaignId, userId, domainTransaction) {

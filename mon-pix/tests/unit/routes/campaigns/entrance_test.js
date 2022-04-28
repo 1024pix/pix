@@ -132,6 +132,22 @@ describe('Unit | Route | Entrance', function () {
       sinon.assert.calledWith(route.replaceWith, 'campaigns.invited.fill-in-participant-external-id', campaign.code);
     });
 
+    it('should abort campaign participation and redirect to already participated', async function () {
+      //given
+      campaign = EmberObject.create({
+        code: 'SOMECODE',
+      });
+      route.campaignStorage.get.withArgs(campaign.code, 'hasParticipated').returns(false);
+      campaignParticipationStub.save.rejects({
+        errors: [{ status: 412, detail: 'ORGANIZATION_LEARNER_HAS_ALREADY_PARTICIPATED' }],
+      });
+
+      //when
+      await route.afterModel(campaign);
+
+      sinon.assert.calledWith(route.replaceWith, 'campaigns.existing-participation', campaign.code);
+    });
+
     it('should redirect to profiles-collection when campaign is of type PROFILES COLLECTION', async function () {
       //given
       campaign = EmberObject.create({
