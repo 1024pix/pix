@@ -1,4 +1,3 @@
-const _ = require('lodash');
 const { v4: uuidv4 } = require('uuid');
 const CsvFile = require('./utils/CsvFile');
 
@@ -31,12 +30,7 @@ class AlgoResult {
   }
 
   get _skillNames() {
-    const skillsName = _
-      .chain(this._challenges)
-      .map((challenge) => challenge.skills)
-      .flatMap()
-      .map((skill) => skill.name)
-      .value();
+    const skillsName = this._challenges.map((challenge) => challenge.skill.name);
     const uniqSkillNames = new Set(skillsName);
     return [...uniqSkillNames];
   }

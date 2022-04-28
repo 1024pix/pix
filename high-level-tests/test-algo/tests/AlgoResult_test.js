@@ -1,6 +1,7 @@
 const { expect, sinon } = require('./test-helpers');
 const AlgoResult = require('../AlgoResult');
 const AnswerStatus = require('../../../api/lib/domain/models/AnswerStatus');
+const domainBuilder = require('../../../api/tests/tooling/domain-builder/domain-builder');
 const CsvFile = require('../utils/CsvFile');
 
 describe('AlgoResult', () => {
@@ -9,8 +10,8 @@ describe('AlgoResult', () => {
     it('should return total challenge asked', () => {
       // given
       const algoResult = new AlgoResult();
-      const challenge1 = { id: 'rec1', skills: [] };
-      const challenge2 = { id: 'rec2', skills: [] };
+      const challenge1 = domainBuilder.buildChallenge({ id: 'rec1', skill: {} });
+      const challenge2 = domainBuilder.buildChallenge({ id: 'rec2', skill: {} });
       algoResult.addChallenge(challenge1);
       algoResult.addChallenge(challenge2);
 
@@ -24,8 +25,8 @@ describe('AlgoResult', () => {
     it('should return challengeIds asked', () => {
       // given
       const algoResult = new AlgoResult();
-      const challenge1 = { id: 'rec1', skills: [] };
-      const challenge2 = { id: 'rec2', skills: [] };
+      const challenge1 = domainBuilder.buildChallenge({ id: 'rec1', skill: {} });
+      const challenge2 = domainBuilder.buildChallenge({ id: 'rec2', skill: {} });
       algoResult.addChallenge(challenge1);
       algoResult.addChallenge(challenge2);
 
@@ -56,9 +57,9 @@ describe('AlgoResult', () => {
     it('should return unique names of the skills', () => {
       // given
       const algoResult = new AlgoResult();
-      const challenge1 = { skills: [{ name: 'skill1' }] };
-      const challenge2 = { skills: [{ name: 'skill1' }] };
-      const challenge3 = { skills: [{ name: 'skill2' }] };
+      const challenge1 = domainBuilder.buildChallenge({ skill: { name: 'skill1' } });
+      const challenge2 = domainBuilder.buildChallenge({ skill: { name: 'skill1' } });
+      const challenge3 = domainBuilder.buildChallenge({ skill: { name: 'skill2' } });
       algoResult.addChallenge(challenge1);
       algoResult.addChallenge(challenge2);
       algoResult.addChallenge(challenge3);
@@ -157,8 +158,8 @@ describe('AlgoResult', () => {
     beforeEach(() => {
       // given
       const algoResult = new AlgoResult();
-      const challenge1 = { id: 'rec1', skills: [{ name: 'skill1' }] };
-      const challenge2 = { id: 'rec2', skills: [{ name: 'skill2' }] };
+      const challenge1 = domainBuilder.buildChallenge({ id: 'rec1', skill: { name: 'skill1' } });
+      const challenge2 = domainBuilder.buildChallenge({ id: 'rec2', skill: { name: 'skill2' } });
       algoResult.addChallenge(challenge1);
       algoResult.addChallenge(challenge2);
       algoResult.addChallengeLevel(2);
@@ -229,8 +230,8 @@ describe('AlgoResult', () => {
     it('should get results and write it in file', () => {
       // given
       const algoResult = new AlgoResult();
-      const challenge1 = { id: 'rec1', skills: [{ name: 'skill1' }] };
-      const challenge2 = { id: 'rec2', skills: [{ name: 'skill2' }] };
+      const challenge1 = domainBuilder.buildChallenge({ id: 'rec1', skill: { name: 'skill1' } });
+      const challenge2 = domainBuilder.buildChallenge({ id: 'rec2', skill: { name: 'skill2' } });
       algoResult.addChallenge(challenge1);
       algoResult.addChallenge(challenge2);
       algoResult.addChallengeLevel(2);
