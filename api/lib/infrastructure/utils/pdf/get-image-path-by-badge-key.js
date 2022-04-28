@@ -9,38 +9,31 @@ const {
   PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME,
   PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
   PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
+  PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_INITIE,
+  PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_CONFIRME,
+  PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_CONFIRME,
+  PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE,
+  PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT,
 } = require('../../../domain/models/Badge').keys;
 
-const macaronCleaPath = `${__dirname}/files/macaron_clea.pdf`;
-const macaronPixPlusDroitMaitrePath = `${__dirname}/files/macaron_droit_maitre.pdf`;
-const macaronPixPlusDroitExpertPath = `${__dirname}/files/macaron_droit_expert.pdf`;
-const macaronPixPlusEduInitiePath = `${__dirname}/files/macaron_edu_2nd_initie.pdf`;
-const macaronPixPlusEduConfirmePath = `${__dirname}/files/macaron_edu_2nd_confirme.pdf`;
-const macaronPixPlusEduAvancePath = `${__dirname}/files/macaron_edu_2nd_avance.pdf`;
-const macaronPixPlusEduExpertPath = `${__dirname}/files/macaron_edu_2nd_expert.pdf`;
+const STICKERS_PATH_BADGE_KEY = {
+  [PIX_EMPLOI_CLEA_V1]: `${__dirname}/files/stickers/macaron_clea.pdf`,
+  [PIX_EMPLOI_CLEA_V2]: `${__dirname}/files/stickers/macaron_clea.pdf`,
+  [PIX_EMPLOI_CLEA_V3]: `${__dirname}/files/stickers/macaron_clea.pdf`,
+  [PIX_DROIT_MAITRE_CERTIF]: `${__dirname}/files/stickers/macaron_droit_maitre.pdf`,
+  [PIX_DROIT_EXPERT_CERTIF]: `${__dirname}/files/stickers/macaron_droit_expert.pdf`,
+  [PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE]: `${__dirname}/files/stickers/macaron_edu_2nd_initie.pdf`,
+  [PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME]: `${__dirname}/files/stickers/macaron_edu_2nd_confirme.pdf`,
+  [PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME]: `${__dirname}/files/stickers/macaron_edu_2nd_confirme.pdf`,
+  [PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE]: `${__dirname}/files/stickers/macaron_edu_2nd_avance.pdf`,
+  [PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT]: `${__dirname}/files/stickers/macaron_edu_2nd_expert.pdf`,
+  [PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_INITIE]: `${__dirname}/files/stickers/macaron_edu_1er_initie.pdf`,
+  [PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_CONFIRME]: `${__dirname}/files/stickers/macaron_edu_1er_confirme.pdf`,
+  [PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_CONFIRME]: `${__dirname}/files/stickers/macaron_edu_1er_confirme.pdf`,
+  [PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE]: `${__dirname}/files/stickers/macaron_edu_1er_avance.pdf`,
+  [PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT]: `${__dirname}/files/stickers/macaron_edu_1er_expert.pdf`,
+};
 
 module.exports = function getImagePathByBadgeKey(badgeKey) {
-  if ([PIX_EMPLOI_CLEA_V1, PIX_EMPLOI_CLEA_V2, PIX_EMPLOI_CLEA_V3].includes(badgeKey)) {
-    return macaronCleaPath;
-  }
-  if (badgeKey === PIX_DROIT_MAITRE_CERTIF) {
-    return macaronPixPlusDroitMaitrePath;
-  }
-  if (badgeKey === PIX_DROIT_EXPERT_CERTIF) {
-    return macaronPixPlusDroitExpertPath;
-  }
-  if (badgeKey === PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE) {
-    return macaronPixPlusEduInitiePath;
-  }
-  if (
-    [PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME, PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME].includes(badgeKey)
-  ) {
-    return macaronPixPlusEduConfirmePath;
-  }
-  if (badgeKey === PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE) {
-    return macaronPixPlusEduAvancePath;
-  }
-  if (badgeKey === PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT) {
-    return macaronPixPlusEduExpertPath;
-  }
+  return STICKERS_PATH_BADGE_KEY[badgeKey];
 };
