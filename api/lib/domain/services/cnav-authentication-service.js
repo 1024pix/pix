@@ -5,7 +5,6 @@ const { v4: uuidv4 } = require('uuid');
 const httpAgent = require('../../infrastructure/http/http-agent');
 const querystring = require('querystring');
 const { GenerateCnavTokensError } = require('../errors');
-const CnavTokens = require('../models/CnavTokens');
 
 async function exchangeCodeForTokens({ code, redirectUri }) {
   const data = {
@@ -28,9 +27,7 @@ async function exchangeCodeForTokens({ code, redirectUri }) {
     throw new GenerateCnavTokensError(errorMessage, tokensResponse.code);
   }
 
-  return new CnavTokens({
-    idToken: tokensResponse.data['id_token'],
-  });
+  return tokensResponse.data['id_token'];
 }
 
 async function getUserInfo(idToken) {

@@ -15,7 +15,6 @@ const settings = require('../../../lib/config');
 const tokenService = require('../../../lib/domain/services/token-service');
 const AuthenticationMethod = require('../../../lib/domain/models/AuthenticationMethod');
 const PoleEmploiTokens = require('../../../lib/domain/models/PoleEmploiTokens');
-const CnavTokens = require('../../../lib/domain/models/CnavTokens');
 const authenticationSessionService = require('../../../lib/domain/services/authentication/authentication-session-service');
 
 const createServer = require('../../../server');
@@ -1177,9 +1176,9 @@ describe('Acceptance | Controller | authentication-controller', function () {
           expect(response.result.errors[0].code).to.equal('SHOULD_VALIDATE_CGU');
         });
 
-        it('should return an authenticationKey in meta which match to stored cnavTokens', async function () {
+        it('should return an authenticationKey in meta which match to stored cnavIdToken', async function () {
           // given
-          const idToken = jsonwebtoken.sign(
+          const cnavIdToken = jsonwebtoken.sign(
             {
               given_name: 'John',
               family_name: 'Doe',
@@ -1191,16 +1190,12 @@ describe('Acceptance | Controller | authentication-controller', function () {
 
           const getAccessTokenResponse = {
             access_token: 'access_token',
-            id_token: idToken,
+            id_token: cnavIdToken,
             expires_in: 60,
             refresh_token: 'refresh_token',
           };
 
           nock('http://idp.cnav').post('/token').reply(200, getAccessTokenResponse);
-
-          const cnavTokens = new CnavTokens({
-            idToken: idToken,
-          });
 
           // when
           const response = await server.inject({
@@ -1220,12 +1215,12 @@ describe('Acceptance | Controller | authentication-controller', function () {
           // then
           const key = response.result.errors[0].meta.authenticationKey;
           const result = await authenticationSessionService.getByKey(key);
-          expect(result).to.deep.equal(cnavTokens);
+          expect(result).to.equal(cnavIdToken);
         });
       });
 
       context('When user and CNAV authentication method exist', function () {
-        it('should return an 200 with access_token and id_token when authentication is ok', async function () {
+        it('should return an 200 with access_token when authentication is ok', async function () {
           // given
           const firstName = 'John';
           const lastName = 'John';
@@ -1279,7 +1274,6 @@ describe('Acceptance | Controller | authentication-controller', function () {
           expect(response.statusCode).to.equal(200);
           expect(getAccessTokenRequest.isDone()).to.be.true;
           expect(response.result['access_token']).to.exist;
-          expect(response.result['id_token']).to.equal(idToken);
         });
       });
     });
@@ -1335,7 +1329,7 @@ describe('Acceptance | Controller | authentication-controller', function () {
           expect(authenticationMethods[0].externalIdentifier).to.equal('some-unique-user-id');
         });
 
-        it('should return an 200 with access_token and id_token when authentication is ok', async function () {
+        it('should return an 200 with access_token when authentication is ok', async function () {
           // given
           const authenticatedUser = databaseBuilder.factory.buildUser();
           await databaseBuilder.commit();
@@ -1377,7 +1371,6 @@ describe('Acceptance | Controller | authentication-controller', function () {
           expect(response.statusCode).to.equal(200);
           expect(getAccessTokenRequest.isDone()).to.be.true;
           expect(response.result['access_token']).to.exist;
-          expect(response.result['id_token']).to.equal(idToken);
         });
       });
 
@@ -1430,7 +1423,7 @@ describe('Acceptance | Controller | authentication-controller', function () {
         });
       });
 
-      it('should return an 200 with access_token and id_token when authentication is ok', async function () {
+      it('should return an 200 with access_token when authentication is ok', async function () {
         const idToken = jsonwebtoken.sign(
           {
             given_name: 'John',
@@ -1471,7 +1464,6 @@ describe('Acceptance | Controller | authentication-controller', function () {
         expect(response.statusCode).to.equal(200);
         expect(getAccessTokenRequest.isDone()).to.be.true;
         expect(response.result['access_token']).to.exist;
-        expect(response.result['id_token']).to.equal(idToken);
       });
     });
 

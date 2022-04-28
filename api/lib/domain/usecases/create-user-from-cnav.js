@@ -11,13 +11,13 @@ module.exports = async function createUserFromCnav({
   authenticationMethodRepository,
   userToCreateRepository,
 }) {
-  const cnavTokens = await authenticationSessionService.getByKey(authenticationKey);
-  if (!cnavTokens) {
+  const idToken = await authenticationSessionService.getByKey(authenticationKey);
+  if (!idToken) {
     // mutualiser cette erreur pour toutes les clés expirées
     // exemple : throw new AuthenticationKeyExpired();
     throw new AuthenticationKeyForCnavTokenExpired();
   }
-  const userInfo = await cnavAuthenticationService.getUserInfo(cnavTokens.idToken);
+  const userInfo = await cnavAuthenticationService.getUserInfo(idToken);
 
   // nom et prénom nécessaires pour les afficher dans le menu de Pix App (autre raison ?)
   // Est-ce pour autant obligatoire ?
@@ -34,7 +34,7 @@ module.exports = async function createUserFromCnav({
   if (authenticationMethod) {
     return {
       userId: authenticationMethod.userId,
-      idToken: cnavTokens.idToken,
+      idToken,
     };
   }
 
@@ -59,6 +59,6 @@ module.exports = async function createUserFromCnav({
 
   return {
     userId: createdUserId,
-    idToken: cnavTokens.idToken,
+    idToken,
   };
 };

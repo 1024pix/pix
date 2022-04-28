@@ -1,8 +1,5 @@
 const jsonwebtoken = require('jsonwebtoken');
-
 const { expect, knex } = require('../../test-helper');
-
-const CnavTokens = require('../../../lib/domain/models/CnavTokens');
 const authenticationSessionService = require('../../../lib/domain/services/authentication/authentication-session-service');
 
 const createServer = require('../../../server');
@@ -35,11 +32,7 @@ describe('Acceptance | API | Cnav Controller', function () {
         },
         'secret'
       );
-
-      const cnavTokens = new CnavTokens({
-        idToken,
-      });
-      const userAuthenticationKey = await authenticationSessionService.save(cnavTokens);
+      const userAuthenticationKey = await authenticationSessionService.save(idToken);
 
       const request = {
         method: 'POST',

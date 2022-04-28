@@ -2,8 +2,6 @@ const { expect, sinon, catchErr } = require('../../../test-helper');
 
 const { GenerateCnavTokensError } = require('../../../../lib/domain/errors');
 
-const CnavTokens = require('../../../../lib/domain/models/CnavTokens');
-
 const settings = require('../../../../lib/config');
 const httpAgent = require('../../../../lib/infrastructure/http/http-agent');
 const jsonwebtoken = require('jsonwebtoken');
@@ -16,23 +14,18 @@ describe('Unit | Domain | Services | cnav-authentication-service', function () {
       sinon.stub(httpAgent, 'post');
     });
 
-    it('should return access token, id token and validity period', async function () {
+    it('should return access token and validity period', async function () {
       // given
       sinon.stub(settings.cnav, 'clientId').value('CNAV_CLIENT_ID');
       sinon.stub(settings.cnav, 'tokenUrl').value('http://cnav-igation.net/api/token');
       sinon.stub(settings.cnav, 'clientSecret').value('CNAV_CLIENT_SECRET');
 
-      const cnavTokens = new CnavTokens({
-        idToken: 'idToken',
-      });
+      const idToken = 'idToken';
 
       const response = {
         isSuccessful: true,
         data: {
-          access_token: cnavTokens.accessToken,
-          expires_in: cnavTokens.expiresIn,
-          id_token: cnavTokens.idToken,
-          refresh_token: cnavTokens.refreshToken,
+          id_token: idToken,
         },
       };
       httpAgent.post.resolves(response);
@@ -52,8 +45,7 @@ describe('Unit | Domain | Services | cnav-authentication-service', function () {
         payload: expectedData,
         headers: expectedHeaders,
       });
-      expect(result).to.be.an.instanceOf(CnavTokens);
-      expect(result).to.deep.equal(cnavTokens);
+      expect(result).to.equal(idToken);
     });
 
     context('when PE tokens generation fails', function () {

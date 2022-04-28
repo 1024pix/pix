@@ -105,10 +105,9 @@ module.exports = {
       stateSent,
     });
 
-    if (result.pixAccessToken && result.cnavTokens) {
+    if (result.pixAccessToken) {
       return {
         access_token: result.pixAccessToken,
-        id_token: result.cnavTokens.idToken,
       };
     } else {
       const message = "L'utilisateur n'a pas de compte Pix";

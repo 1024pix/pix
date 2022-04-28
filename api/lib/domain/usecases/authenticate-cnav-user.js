@@ -18,9 +18,9 @@ module.exports = async function authenticateCnavUser({
     // mutualiser cette erreur avec Pole Emploi
     throw new UnexpectedCnavStateError();
   }
-  const cnavTokens = await cnavAuthenticationService.exchangeCodeForTokens({ code, redirectUri });
+  const idToken = await cnavAuthenticationService.exchangeCodeForTokens({ code, redirectUri });
 
-  const userInfo = await cnavAuthenticationService.getUserInfo(cnavTokens.idToken);
+  const userInfo = await cnavAuthenticationService.getUserInfo(idToken);
 
   let pixAccessToken;
 
@@ -36,7 +36,7 @@ module.exports = async function authenticateCnavUser({
     const user = await userRepository.findByCnavExternalIdentifier(userInfo.externalIdentityId);
 
     if (!user) {
-      const authenticationKey = await authenticationSessionService.save(cnavTokens);
+      const authenticationKey = await authenticationSessionService.save(idToken);
       return { authenticationKey }; // todo : refacto, should not return different objects
       // will be refacto when keycloak will be setup
       // this return should be replaced by domain error (see controller)
@@ -50,10 +50,7 @@ module.exports = async function authenticateCnavUser({
     }
   }
 
-  return {
-    pixAccessToken,
-    cnavTokens,
-  };
+  return { pixAccessToken };
 };
 
 async function _getPixAccessTokenFromAlreadyAuthenticatedPixUser({

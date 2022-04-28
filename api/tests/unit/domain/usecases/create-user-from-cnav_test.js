@@ -2,7 +2,6 @@ const { domainBuilder, expect, sinon, catchErr } = require('../../../test-helper
 
 const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
 const AuthenticationMethod = require('../../../../lib/domain/models/AuthenticationMethod');
-const CnavTokens = require('../../../../lib/domain/models/CnavTokens');
 
 const {
   InvalidExternalAPIResponseError,
@@ -77,10 +76,8 @@ describe('Unit | UseCase | create-user-from-cnav', function () {
       // given
       const userId = 123;
       const authenticationKey = 'authenticationKey';
-      const cnavTokens = new CnavTokens({
-        idToken: 'idToken',
-      });
-      authenticationSessionService.getByKey.withArgs(authenticationKey).resolves(cnavTokens);
+      const idToken = 'idToken';
+      authenticationSessionService.getByKey.withArgs(authenticationKey).resolves(idToken);
 
       const decodedUserInfo = {
         firstName: 'Jean',
@@ -88,7 +85,7 @@ describe('Unit | UseCase | create-user-from-cnav', function () {
         externalIdentityId: 'externalIdentityId',
         nonce: 'nonce',
       };
-      cnavAuthenticationService.getUserInfo.withArgs(cnavTokens.idToken).resolves(decodedUserInfo);
+      cnavAuthenticationService.getUserInfo.withArgs(idToken).resolves(decodedUserInfo);
 
       authenticationMethodRepository.findOneByExternalIdentifierAndIdentityProvider
         .withArgs({
@@ -130,16 +127,14 @@ describe('Unit | UseCase | create-user-from-cnav', function () {
         domainTransaction,
       });
       expect(response.userId).to.equal(userId);
-      expect(response.idToken).to.equal(cnavTokens.idToken);
+      expect(response.idToken).to.equal(idToken);
     });
 
     it('should raise an error and log details if required properties are not returned by external API', async function () {
       // given
       const authenticationKey = 'authenticationKey';
-      const cnavTokens = new CnavTokens({
-        idToken: 'idToken',
-      });
-      authenticationSessionService.getByKey.withArgs(authenticationKey).resolves(cnavTokens);
+      const idToken = 'idToken';
+      authenticationSessionService.getByKey.withArgs(authenticationKey).resolves(idToken);
 
       const decodedUserInfo = {
         firstName: 'Jean',
@@ -148,7 +143,7 @@ describe('Unit | UseCase | create-user-from-cnav', function () {
         nonce: 'nonce',
       };
 
-      cnavAuthenticationService.getUserInfo.withArgs(cnavTokens.idToken).resolves(decodedUserInfo);
+      cnavAuthenticationService.getUserInfo.withArgs(idToken).resolves(decodedUserInfo);
 
       sinon.stub(logger, 'error');
 
@@ -176,10 +171,8 @@ describe('Unit | UseCase | create-user-from-cnav', function () {
       // given
       const userId = 123;
       const authenticationKey = 'authenticationKey';
-      const cnavTokens = new CnavTokens({
-        idToken: 'idToken',
-      });
-      authenticationSessionService.getByKey.withArgs(authenticationKey).resolves(cnavTokens);
+      const idToken = 'idToken';
+      authenticationSessionService.getByKey.withArgs(authenticationKey).resolves(idToken);
 
       const decodedUserInfo = {
         firstName: 'Jean',
@@ -187,7 +180,7 @@ describe('Unit | UseCase | create-user-from-cnav', function () {
         externalIdentityId: 'externalIdentityId',
         nonce: 'nonce',
       };
-      cnavAuthenticationService.getUserInfo.withArgs(cnavTokens.idToken).resolves(decodedUserInfo);
+      cnavAuthenticationService.getUserInfo.withArgs(idToken).resolves(decodedUserInfo);
 
       const authenticationMethod = domainBuilder.buildAuthenticationMethod.withCnavAsIdentityProvider({ userId });
       authenticationMethodRepository.findOneByExternalIdentifierAndIdentityProvider
@@ -210,7 +203,7 @@ describe('Unit | UseCase | create-user-from-cnav', function () {
       expect(userToCreateRepository.create).to.not.have.been.called;
       expect(authenticationMethodRepository.create).to.not.have.been.called;
       expect(response.userId).to.equal(userId);
-      expect(response.idToken).to.equal(cnavTokens.idToken);
+      expect(response.idToken).to.equal(idToken);
     });
   });
 });

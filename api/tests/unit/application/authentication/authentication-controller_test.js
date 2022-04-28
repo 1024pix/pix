@@ -2,7 +2,6 @@ const { sinon, expect, catchErr, hFake } = require('../../../test-helper');
 const tokenService = require('../../../../lib/domain/services/token-service');
 const usecases = require('../../../../lib/domain/usecases');
 const PoleEmploiTokens = require('../../../../lib/domain/models/PoleEmploiTokens');
-const CnavTokens = require('../../../../lib/domain/models/CnavTokens');
 
 const { UnauthorizedError } = require('../../../../lib/application/http-errors');
 
@@ -195,9 +194,7 @@ describe('Unit | Application | Controller | Authentication', function () {
     const state_received = 'state';
 
     const pixAccessToken = 'pixAccessToken';
-    const cnavTokens = new CnavTokens({
-      idToken: 'idToken',
-    });
+    const idToken = 'idToken';
 
     let request;
 
@@ -216,7 +213,7 @@ describe('Unit | Application | Controller | Authentication', function () {
 
     it('should call usecase with payload parameters', async function () {
       // given
-      usecases.authenticateCnavUser.resolves({ pixAccessToken, cnavTokens });
+      usecases.authenticateCnavUser.resolves({ pixAccessToken, idToken });
       const expectedParameters = {
         authenticatedUserId: undefined,
         code,
@@ -232,12 +229,11 @@ describe('Unit | Application | Controller | Authentication', function () {
       expect(usecases.authenticateCnavUser).to.have.been.calledWith(expectedParameters);
     });
 
-    it('should return PIX access token and Pole emploi ID token', async function () {
+    it('should return PIX access token', async function () {
       // given
-      usecases.authenticateCnavUser.resolves({ pixAccessToken, cnavTokens });
+      usecases.authenticateCnavUser.resolves({ pixAccessToken });
       const expectedResult = {
         access_token: pixAccessToken,
-        id_token: cnavTokens.idToken,
       };
 
       // when

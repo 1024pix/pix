@@ -1,7 +1,6 @@
 const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper');
 
 const AuthenticationMethod = require('../../../../lib/domain/models/AuthenticationMethod');
-const CnavTokens = require('../../../../lib/domain/models/CnavTokens');
 const User = require('../../../../lib/domain/models/User');
 
 const { UnexpectedCnavStateError, UnexpectedUserAccountError } = require('../../../../lib/domain/errors');
@@ -157,9 +156,9 @@ describe('Unit | UseCase | authenticate-cnav-user', function () {
       expect(cnavAuthenticationService.createAccessToken).to.have.been.calledWith(1);
     });
 
-    it('should return accessToken and idToken', async function () {
+    it('should return accessToken', async function () {
       // given
-      const { cnavTokens } = _fakeCnavAPI({ cnavAuthenticationService });
+      _fakeCnavAPI({ cnavAuthenticationService });
       const authenticatedUserId = 1;
       cnavAuthenticationService.createAccessToken.withArgs(authenticatedUserId).returns('access-token');
 
@@ -178,10 +177,7 @@ describe('Unit | UseCase | authenticate-cnav-user', function () {
       });
 
       // then
-      const expectedResult = {
-        pixAccessToken: 'access-token',
-        cnavTokens,
-      };
+      const expectedResult = { pixAccessToken: 'access-token' };
       expect(result).to.deep.equal(expectedResult);
     });
 
@@ -303,7 +299,7 @@ describe('Unit | UseCase | authenticate-cnav-user', function () {
   context('When user has no account', function () {
     it('should call CnavTokens repository save method', async function () {
       // given
-      const { cnavTokens } = _fakeCnavAPI({ cnavAuthenticationService });
+      const idToken = _fakeCnavAPI({ cnavAuthenticationService });
       const key = 'aaa-bbb-ccc';
       authenticationSessionService.save.resolves(key);
       userRepository.findByCnavExternalIdentifier.resolves(null);
@@ -323,7 +319,7 @@ describe('Unit | UseCase | authenticate-cnav-user', function () {
       });
 
       // then
-      expect(authenticationSessionService.save).to.have.been.calledWith(cnavTokens);
+      expect(authenticationSessionService.save).to.have.been.calledWith(idToken);
     });
 
     it('should return an authenticationKey', async function () {
@@ -354,17 +350,15 @@ describe('Unit | UseCase | authenticate-cnav-user', function () {
 });
 
 function _fakeCnavAPI({ cnavAuthenticationService }) {
-  const cnavTokens = new CnavTokens({
-    idToken: 'idToken',
-  });
+  const idToken = 'idToken';
   const userInfo = {
     family_name: 'Morris',
     given_name: 'Tuck',
     externalIdentityId: '094b83ac-2e20-4aa8-b438-0bc91748e4a6',
   };
 
-  cnavAuthenticationService.exchangeCodeForTokens.resolves(cnavTokens);
+  cnavAuthenticationService.exchangeCodeForTokens.resolves(idToken);
   cnavAuthenticationService.getUserInfo.resolves(userInfo);
 
-  return { cnavTokens };
+  return idToken;
 }
