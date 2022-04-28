@@ -11,7 +11,7 @@ describe('Unit | Router | user-router', function () {
 
     it('should exist', async function () {
       // given
-      sinon.stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin').callsFake((request, h) => h.response(true));
+      sinon.stub(securityPreHandlers, 'userHasAtLeastOneAccessOf').returns(() => true);
       sinon.stub(userController, 'findPaginatedFilteredUsers').returns('ok');
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -373,10 +373,10 @@ describe('Unit | Router | user-router', function () {
   describe('PATCH /api/admin/users/{id}', function () {
     const method = 'PATCH';
 
-    it('should verify user identity and return sucess update', async function () {
+    it('should verify user identity and return success update', async function () {
       // given
       sinon.stub(userController, 'updateUserDetailsForAdministration').returns('ok');
-      sinon.stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin').callsFake((request, h) => h.response(true));
+      sinon.stub(securityPreHandlers, 'userHasAtLeastOneAccessOf').returns(() => true);
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
 
@@ -390,7 +390,7 @@ describe('Unit | Router | user-router', function () {
 
       // then
       expect(result.statusCode).to.equal(200);
-      sinon.assert.calledOnce(securityPreHandlers.checkUserHasRoleSuperAdmin);
+      sinon.assert.calledOnce(securityPreHandlers.userHasAtLeastOneAccessOf);
     });
 
     describe('Payload and path param schema validation', function () {
@@ -431,7 +431,7 @@ describe('Unit | Router | user-router', function () {
     it('should exist', async function () {
       // given
       sinon.stub(userController, 'anonymizeUser').callsFake((request, h) => h.response({}).code(204));
-      sinon.stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin').callsFake((request, h) => h.response(true));
+      sinon.stub(securityPreHandlers, 'userHasAtLeastOneAccessOf').returns(() => true);
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
 
@@ -466,7 +466,7 @@ describe('Unit | Router | user-router', function () {
       it(`should return 200 when type is ${type}`, async function () {
         // given
         sinon.stub(userController, 'removeAuthenticationMethod').returns('ok');
-        sinon.stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin').callsFake((request, h) => h.response(true));
+        sinon.stub(securityPreHandlers, 'userHasAtLeastOneAccessOf').returns(() => true);
         const httpTestServer = new HttpTestServer();
         await httpTestServer.register(moduleUnderTest);
 

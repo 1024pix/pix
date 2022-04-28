@@ -10,14 +10,19 @@ exports.register = async function (server) {
         handler: certificationCenterMembershipController.create,
         pre: [
           {
-            method: securityPreHandlers.checkUserHasRoleSuperAdmin,
-            assign: 'hasRoleSuperAdmin',
+            method: (request, h) =>
+              securityPreHandlers.userHasAtLeastOneAccessOf([
+                securityPreHandlers.checkUserHasRoleSuperAdmin,
+                securityPreHandlers.checkUserHasRoleCertif,
+                securityPreHandlers.checkUserHasRoleSupport,
+                securityPreHandlers.checkUserHasRoleMetier,
+              ])(request, h),
+            assign: 'hasAuthorizationToAccessAdminScope',
           },
         ],
         notes: [
-          '- **Cette route est restreinte aux utilisateurs Super Admin authentifiés**\n' +
-            '- Création d‘un lien entre un utilisateur et un centre de certification\n' +
-            '- L‘utilisateur doit avoir les droits d‘accès en tant que Super Admin',
+          "- **Cette route est restreinte aux utilisateurs ayant les droits d'accès**\n" +
+            '- Création d‘un lien entre un utilisateur et un centre de certification\n',
         ],
         tags: ['api', 'certification-center-membership'],
       },
@@ -29,12 +34,18 @@ exports.register = async function (server) {
         handler: certificationCenterMembershipController.disable,
         pre: [
           {
-            method: securityPreHandlers.checkUserHasRoleSuperAdmin,
-            assign: 'hasRoleSuperAdmin',
+            method: (request, h) =>
+              securityPreHandlers.userHasAtLeastOneAccessOf([
+                securityPreHandlers.checkUserHasRoleSuperAdmin,
+                securityPreHandlers.checkUserHasRoleCertif,
+                securityPreHandlers.checkUserHasRoleSupport,
+                securityPreHandlers.checkUserHasRoleMetier,
+              ])(request, h),
+            assign: 'hasAuthorizationToAccessAdminScope',
           },
         ],
         notes: [
-          '- **Cette route est restreinte aux utilisateurs Super Admin authentifiés**\n' +
+          "- **Cette route est restreinte aux utilisateurs ayant les droits d'accès**\n" +
             '- Désactivation d‘un lien entre un utilisateur et un centre de certification\n',
         ],
         tags: ['api', 'certification-center-membership'],

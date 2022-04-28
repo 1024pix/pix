@@ -12,14 +12,19 @@ exports.register = async function (server) {
         handler: certificationCenterController.create,
         pre: [
           {
-            method: securityPreHandlers.checkUserHasRoleSuperAdmin,
-            assign: 'hasRoleSuperAdmin',
+            method: (request, h) =>
+              securityPreHandlers.userHasAtLeastOneAccessOf([
+                securityPreHandlers.checkUserHasRoleSuperAdmin,
+                securityPreHandlers.checkUserHasRoleCertif,
+                securityPreHandlers.checkUserHasRoleSupport,
+                securityPreHandlers.checkUserHasRoleMetier,
+              ])(request, h),
+            assign: 'hasAuthorizationToAccessAdminScope',
           },
         ],
         notes: [
-          '- **Cette route est restreinte aux utilisateurs Super Admin authentifiés**\n' +
-            '- Création d‘un nouveau centre de certification\n' +
-            '- L‘utilisateur doit avoir les droits d‘accès en tant que Super Admin',
+          "- **Cette route est restreinte aux utilisateurs ayant les droits d'accès**\n" +
+            '- Création d‘un nouveau centre de certification\n',
         ],
         tags: ['api', 'certification-center'],
       },
@@ -31,14 +36,19 @@ exports.register = async function (server) {
         handler: certificationCenterController.update,
         pre: [
           {
-            method: securityPreHandlers.checkUserHasRoleSuperAdmin,
-            assign: 'hasRoleSuperAdmin',
+            method: (request, h) =>
+              securityPreHandlers.userHasAtLeastOneAccessOf([
+                securityPreHandlers.checkUserHasRoleSuperAdmin,
+                securityPreHandlers.checkUserHasRoleCertif,
+                securityPreHandlers.checkUserHasRoleSupport,
+                securityPreHandlers.checkUserHasRoleMetier,
+              ])(request, h),
+            assign: 'hasAuthorizationToAccessAdminScope',
           },
         ],
         notes: [
-          '- **Cette route est restreinte aux utilisateurs Super Admin authentifiés**\n' +
-            '- Création d‘un nouveau centre de certification\n' +
-            '- L‘utilisateur doit avoir les droits d‘accès en tant que Super Admin',
+          "- **Cette route est restreinte aux utilisateurs ayant les droits d'accès**\n" +
+            '- Création d‘un nouveau centre de certification\n',
         ],
         tags: ['api', 'certification-center'],
       },
@@ -50,14 +60,19 @@ exports.register = async function (server) {
         handler: certificationCenterController.findPaginatedFilteredCertificationCenters,
         pre: [
           {
-            method: securityPreHandlers.checkUserHasRoleSuperAdmin,
-            assign: 'hasRoleSuperAdmin',
+            method: (request, h) =>
+              securityPreHandlers.userHasAtLeastOneAccessOf([
+                securityPreHandlers.checkUserHasRoleSuperAdmin,
+                securityPreHandlers.checkUserHasRoleCertif,
+                securityPreHandlers.checkUserHasRoleSupport,
+                securityPreHandlers.checkUserHasRoleMetier,
+              ])(request, h),
+            assign: 'hasAuthorizationToAccessAdminScope',
           },
         ],
         notes: [
-          '- **Cette route est restreinte aux utilisateurs Super Admin authentifiés**\n' +
-            '- Liste des centres de certification\n' +
-            '- L‘utilisateur doit avoir les droits d‘accès en tant que Super Admin',
+          "- **Cette route est restreinte aux utilisateurs ayant les droits d'accès**\n" +
+            '- Liste des centres de certification\n',
         ],
         tags: ['api', 'certification-center'],
       },
@@ -68,8 +83,14 @@ exports.register = async function (server) {
       config: {
         pre: [
           {
-            method: securityPreHandlers.checkUserHasRoleSuperAdmin,
-            assign: 'hasRoleSuperAdmin',
+            method: (request, h) =>
+              securityPreHandlers.userHasAtLeastOneAccessOf([
+                securityPreHandlers.checkUserHasRoleSuperAdmin,
+                securityPreHandlers.checkUserHasRoleCertif,
+                securityPreHandlers.checkUserHasRoleSupport,
+                securityPreHandlers.checkUserHasRoleMetier,
+              ])(request, h),
+            assign: 'hasAuthorizationToAccessAdminScope',
           },
         ],
         validate: {
@@ -79,9 +100,8 @@ exports.register = async function (server) {
         },
         handler: certificationCenterController.getById,
         notes: [
-          '- **Cette route est restreinte aux utilisateurs Super Admin authentifiés**\n' +
-            "- Récupération d'un centre de certification\n" +
-            '- L‘utilisateur doit avoir les droits d‘accès en tant que Super Admin',
+          "- **Cette route est restreinte aux utilisateurs ayant les droits d'accès**\n" +
+            "- Récupération d'un centre de certification\n",
         ],
         tags: ['api', 'certification-center'],
       },
@@ -149,8 +169,14 @@ exports.register = async function (server) {
       config: {
         pre: [
           {
-            method: securityPreHandlers.checkUserHasRoleSuperAdmin,
-            assign: 'hasRoleSuperAdmin',
+            method: (request, h) =>
+              securityPreHandlers.userHasAtLeastOneAccessOf([
+                securityPreHandlers.checkUserHasRoleSuperAdmin,
+                securityPreHandlers.checkUserHasRoleCertif,
+                securityPreHandlers.checkUserHasRoleSupport,
+                securityPreHandlers.checkUserHasRoleMetier,
+              ])(request, h),
+            assign: 'hasAuthorizationToAccessAdminScope',
           },
         ],
         validate: {
@@ -160,9 +186,8 @@ exports.register = async function (server) {
         },
         handler: certificationCenterController.findCertificationCenterMembershipsByCertificationCenter,
         notes: [
-          '- **Cette route est restreinte aux utilisateurs Super Admin authentifiés**\n' +
-            "- Récupération de tous les membres d'un centre de certification.\n" +
-            '- L‘utilisateur doit avoir les droits d‘accès en tant que Super Admin',
+          "- **Cette route est restreinte aux utilisateurs ayant les droits d'accès**\n" +
+            "- Récupération de tous les membres d'un centre de certification.\n",
         ],
         tags: ['api', 'admin', 'certification-center-membership'],
       },
@@ -196,8 +221,14 @@ exports.register = async function (server) {
       config: {
         pre: [
           {
-            method: securityPreHandlers.checkUserHasRoleSuperAdmin,
-            assign: 'hasRoleSuperAdmin',
+            method: (request, h) =>
+              securityPreHandlers.userHasAtLeastOneAccessOf([
+                securityPreHandlers.checkUserHasRoleSuperAdmin,
+                securityPreHandlers.checkUserHasRoleCertif,
+                securityPreHandlers.checkUserHasRoleSupport,
+                securityPreHandlers.checkUserHasRoleMetier,
+              ])(request, h),
+            assign: 'hasAuthorizationToAccessAdminScope',
           },
         ],
         validate: {
@@ -210,7 +241,7 @@ exports.register = async function (server) {
         },
         handler: certificationCenterController.createCertificationCenterMembershipByEmail,
         notes: [
-          '- **Cette route est restreinte aux utilisateurs Super Admin authentifiés**\n' +
+          "- **Cette route est restreinte aux utilisateurs ayant les droits d'accès**\n" +
             "- Création d‘un nouveau membre d'un centre de certification,\n" +
             "à partir de l'adresse e-mail d'un utilisateur.",
         ],

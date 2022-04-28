@@ -169,7 +169,18 @@ exports.register = async function (server) {
       method: 'PATCH',
       path: '/api/admin/campaign-participations/{id}',
       config: {
-        pre: [{ method: securityPreHandlers.checkUserHasRoleSuperAdmin }],
+        pre: [
+          {
+            method: (request, h) =>
+              securityPreHandlers.userHasAtLeastOneAccessOf([
+                securityPreHandlers.checkUserHasRoleSuperAdmin,
+                securityPreHandlers.checkUserHasRoleCertif,
+                securityPreHandlers.checkUserHasRoleSupport,
+                securityPreHandlers.checkUserHasRoleMetier,
+              ])(request, h),
+            assign: 'hasAuthorizationToAccessAdminScope',
+          },
+        ],
         validate: {
           params: Joi.object({
             id: identifiersType.campaignParticipationId,
@@ -178,7 +189,7 @@ exports.register = async function (server) {
         handler: campaignParticipationController.updateParticipantExternalId,
         tags: ['api', 'campaign', 'participations', 'admin'],
         notes: [
-          '- **Cette route est restreinte aux utilisateurs authentifiés avec le rôle Super Admin**\n' +
+          '- **Cette route est restreinte aux utilisateurs ayant accès à Pix Admin**\n' +
             "- Elle permet de mettre à jour l'identifaint externe d'une participation ",
         ],
       },
