@@ -312,7 +312,7 @@ module('Acceptance | Session Details Certification Candidates', function (hooks)
             await click(screen.getByRole('button', { name: 'Inscrire le candidat' }));
 
             // then
-            assert.dom('[data-test-notification-message="success"]').hasText('Le candidat a été ajouté avec succès.');
+            assert.dom('[data-test-notification-message="success"]').hasText('Le candidat a été inscrit avec succès.');
           });
 
           test('it should add a new candidate', async function (assert) {
