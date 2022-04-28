@@ -69,7 +69,7 @@
             />
           </div>
           <div class="form-field">
-            <label for="email" class="form-field__label">Adresse e-mail (SCO)</label>
+            <label for="email" class="form-field__label">Adresse e-mail d'activation SCO</label>
             {{#if (v-get this.form "email" "isInvalid")}}
               <div class="form-field__error">
                 {{v-get this.form "email" "message"}}
@@ -196,7 +196,7 @@
                     "Non"
                   }}</span><br />
               {{/if}}
-              Adresse e-mail:
+              Adresse e-mail d'activation SCO :
               <span class="organization'__email">{{@organization.email}}</span><br />
               Affichage des acquis dans l'export de résultats :
               <span class="organization__showSkills">{{if @organization.showSkills "Oui" "Non"}}</span><br />
