@@ -42,12 +42,10 @@ module('Acceptance | Session Add Sco Students', function (hooks) {
   module('When certificationPointOfContact is not logged in', function () {
     test('it should not be accessible by an unauthenticated certificationPointOfContact', async function (assert) {
       // when
-      await visit(`/sessions/${session.id}/ajout-eleves`);
+      await visit(`/sessions/${session.id}/inscription-eleves`);
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(currentURL(), '/connexion');
+      assert.strictEqual(currentURL(), '/connexion');
     });
   });
 
@@ -63,12 +61,10 @@ module('Acceptance | Session Add Sco Students', function (hooks) {
         allowedCertificationCenterAccess.update({ isAccessBlockedCollege: true });
 
         // when
-        await visit(`/sessions/${session.id}/ajout-eleves`);
+        await visit(`/sessions/${session.id}/inscription-eleves`);
 
         // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(currentURL(), '/espace-ferme');
+        assert.strictEqual(currentURL(), '/espace-ferme');
       });
     });
 
@@ -78,9 +74,7 @@ module('Acceptance | Session Add Sco Students', function (hooks) {
       await clickByLabel('Inscrire des candidats');
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(currentURL(), `/sessions/${session.id}/ajout-eleves`);
+      assert.strictEqual(currentURL(), `/sessions/${session.id}/inscription-eleves`);
       assert.dom('.add-student__title').hasText('Inscrire des candidats');
     });
 
@@ -91,9 +85,7 @@ module('Acceptance | Session Add Sco Students', function (hooks) {
       await clickByLabel('Retour à la session');
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(currentURL(), `/sessions/${session.id}/candidats`);
+      assert.strictEqual(currentURL(), `/sessions/${session.id}/candidats`);
     });
 
     module('when there are no students', function () {
@@ -127,9 +119,7 @@ module('Acceptance | Session Add Sco Students', function (hooks) {
 
         // then
         const studentRows = document.querySelectorAll(rowSelector);
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(studentRows.length, 2);
+        assert.strictEqual(studentRows.length, 2);
       });
 
       module('when there are no enrolled students', function () {
@@ -145,9 +135,7 @@ module('Acceptance | Session Add Sco Students', function (hooks) {
 
           // then
           const allRow = document.querySelectorAll(rowSelector);
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line qunit/no-assert-equal
-          assert.equal(allRow.length, DEFAULT_PAGE_SIZE);
+          assert.strictEqual(allRow.length, DEFAULT_PAGE_SIZE);
         });
 
         module('when selecting some students', function () {
@@ -170,13 +158,9 @@ module('Acceptance | Session Add Sco Students', function (hooks) {
 
             // then
             const allRow = document.querySelectorAll(rowSelector);
-            // TODO: Fix this the next time the file is edited.
-            // eslint-disable-next-line qunit/no-assert-equal
-            assert.equal(allRow.length, DEFAULT_PAGE_SIZE);
+            assert.strictEqual(allRow.length, DEFAULT_PAGE_SIZE);
             const checkboxChecked = document.querySelectorAll(checkboxCheckedSelector);
-            // TODO: Fix this the next time the file is edited.
-            // eslint-disable-next-line qunit/no-assert-equal
-            assert.equal(checkboxChecked.length, 3);
+            assert.strictEqual(checkboxChecked.length, 3);
           });
 
           test('it should be possible to cancel enrolling students', async function (assert) {
@@ -193,9 +177,7 @@ module('Acceptance | Session Add Sco Students', function (hooks) {
             await clickByLabel('Annuler');
 
             // then
-            // TODO: Fix this the next time the file is edited.
-            // eslint-disable-next-line qunit/no-assert-equal
-            assert.equal(currentURL(), `/sessions/${session.id}/candidats`);
+            assert.strictEqual(currentURL(), `/sessions/${session.id}/candidats`);
           });
 
           module('when clicking on "Ajout"', function () {
@@ -211,9 +193,7 @@ module('Acceptance | Session Add Sco Students', function (hooks) {
               await clickByLabel('Inscrire');
 
               // then
-              // TODO: Fix this the next time the file is edited.
-              // eslint-disable-next-line qunit/no-assert-equal
-              assert.equal(currentURL(), `/sessions/${session.id}/candidats`);
+              assert.strictEqual(currentURL(), `/sessions/${session.id}/candidats`);
             });
 
             test('it should add students as certification candidates', async function (assert) {
@@ -234,9 +214,28 @@ module('Acceptance | Session Add Sco Students', function (hooks) {
 
               // then
               const certificationCandidates = await detailController.model.certificationCandidates;
-              // TODO: Fix this the next time the file is edited.
-              // eslint-disable-next-line qunit/no-assert-equal
-              assert.equal(certificationCandidates.length, 3);
+              assert.strictEqual(certificationCandidates.length, 3);
+            });
+
+            test('it should display confirmation message', async function (assert) {
+              // given
+              server.createList('student', DEFAULT_PAGE_SIZE, { isSelected: false, isEnrolled: false });
+              await visit(`/sessions/${session.id}/candidats`);
+              await clickByLabel('Inscrire des candidats');
+              const firstCheckbox = document.querySelector(rowSelector + ':nth-child(1) ' + checkboxSelector);
+              const secondCheckbox = document.querySelector(rowSelector + ':nth-child(2) ' + checkboxSelector);
+              const thirdCheckbox = document.querySelector(rowSelector + ':nth-child(3) ' + checkboxSelector);
+              await click(firstCheckbox);
+              await click(secondCheckbox);
+              await click(thirdCheckbox);
+
+              // when
+              await clickByLabel('Inscrire');
+
+              // then
+              assert
+                .dom('[data-test-notification-message="success"]')
+                .hasText('Le(s) candidat(s) ont été inscrit(s) avec succès.');
             });
           });
         });
@@ -261,7 +260,7 @@ module('Acceptance | Session Add Sco Students', function (hooks) {
           await clickByLabel('Inscrire des candidats');
         });
 
-        test('it should show "1 candidat sélectionné | 1 candidat déjà ajouté à la session"', async function (assert) {
+        test('it should show label accordingly', async function (assert) {
           // given
           const candidatesEnrolledSelector = '.bottom-action-bar__informations--candidates-already-added';
           const candidatesSelectedSelector = '.bottom-action-bar__informations--candidates-selected';
@@ -272,7 +271,7 @@ module('Acceptance | Session Add Sco Students', function (hooks) {
           await click(firstCheckbox);
 
           // then
-          assert.dom(candidatesEnrolledSelector).includesText('1 candidat(s) déjà ajouté(s) à la session');
+          assert.dom(candidatesEnrolledSelector).includesText('1 candidat(s) déjà inscrit(s) à la session');
           assert.dom(candidatesSelectedSelector).includesText('1 candidat(s) sélectionné(s)');
         });
 
@@ -302,7 +301,7 @@ module('Acceptance | Session Add Sco Students', function (hooks) {
             await click(toggleAllCheckBox);
 
             // then
-            assert.dom(candidatesEnrolledSelector).includesText('1 candidat(s) déjà ajouté(s) à la session');
+            assert.dom(candidatesEnrolledSelector).includesText('1 candidat(s) déjà inscrit(s) à la session');
             assert.dom(candidatesSelectedSelector).includesText('1 candidat(s) sélectionné(s)');
           });
         });
