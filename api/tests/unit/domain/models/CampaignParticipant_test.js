@@ -15,12 +15,15 @@ describe('Unit | Domain | Models | CampaignParticipant', function () {
           multipleSendings: true,
           idPixLabel: null,
         });
-        const schoolingRegistrationId = 12;
+        const organizationLearnerId = 12;
         const userIdentity = { id: 13 };
         const campaignParticipant = new CampaignParticipant({
           campaignToStartParticipation,
           userIdentity,
-          schoolingRegistrationId,
+          organizationLearner: {
+            id: organizationLearnerId,
+            hasParticipated: false,
+          },
         });
         campaignParticipant.start({ participantExternalId: null });
 
@@ -28,7 +31,7 @@ describe('Unit | Domain | Models | CampaignParticipant', function () {
           campaignId: campaignToStartParticipation.id,
           status: 'STARTED',
           userId: userIdentity.id,
-          schoolingRegistrationId,
+          schoolingRegistrationId: organizationLearnerId,
         });
       });
 
@@ -38,12 +41,15 @@ describe('Unit | Domain | Models | CampaignParticipant', function () {
           multipleSendings: true,
           idPixLabel: null,
         });
-        const schoolingRegistrationId = 12;
+        const organizationLearnerId = 12;
         const userIdentity = { id: 13 };
         const campaignParticipant = new CampaignParticipant({
           campaignToStartParticipation,
           userIdentity,
-          schoolingRegistrationId,
+          organizationLearner: {
+            id: organizationLearnerId,
+            hasParticipated: false,
+          },
         });
         campaignParticipant.start({ participantExternalId: null });
 
@@ -70,6 +76,10 @@ describe('Unit | Domain | Models | CampaignParticipant', function () {
             campaignToStartParticipation,
             previousCampaignParticipation,
             userIdentity,
+            organizationLearner: {
+              id: null,
+              hasParticipated: false,
+            },
           });
           campaignParticipant.start({ participantExternalId: null });
 
@@ -97,6 +107,10 @@ describe('Unit | Domain | Models | CampaignParticipant', function () {
               status: 'SHARED',
               validatedSkillsCount: 2,
             },
+            organizationLearner: {
+              id: null,
+              hasParticipated: false,
+            },
           });
           const error = await catchErr(campaignParticipant.start, campaignParticipant)({ participantExternalId: null });
 
@@ -121,6 +135,10 @@ describe('Unit | Domain | Models | CampaignParticipant', function () {
               status: 'SHARED',
               validatedSkillsCount: 3,
             },
+            organizationLearner: {
+              id: null,
+              hasParticipated: false,
+            },
           });
           const error = await catchErr(campaignParticipant.start, campaignParticipant)({ participantExternalId: null });
 
@@ -139,13 +157,16 @@ describe('Unit | Domain | Models | CampaignParticipant', function () {
           idPixLabel: null,
           skillCount: 0,
         });
-        const schoolingRegistrationId = 12;
+        const organizationLearnerId = 12;
         const userIdentity = { id: 13 };
         const participantExternalId = 'some participant external id';
         const campaignParticipant = new CampaignParticipant({
           campaignToStartParticipation,
           userIdentity,
-          schoolingRegistrationId,
+          organizationLearner: {
+            id: organizationLearnerId,
+            hasParticipated: false,
+          },
         });
         campaignParticipant.start({ participantExternalId });
 
@@ -153,7 +174,7 @@ describe('Unit | Domain | Models | CampaignParticipant', function () {
           campaignId: campaignToStartParticipation.id,
           status: 'TO_SHARE',
           userId: userIdentity.id,
-          schoolingRegistrationId,
+          schoolingRegistrationId: organizationLearnerId,
         });
       });
 
@@ -166,6 +187,10 @@ describe('Unit | Domain | Models | CampaignParticipant', function () {
         const campaignParticipant = new CampaignParticipant({
           campaignToStartParticipation,
           userIdentity,
+          organizationLearner: {
+            id: null,
+            hasParticipated: false,
+          },
         });
         campaignParticipant.start({ participantExternalId: null });
 
@@ -185,6 +210,10 @@ describe('Unit | Domain | Models | CampaignParticipant', function () {
             campaignToStartParticipation,
             previousCampaignParticipation,
             userIdentity,
+            organizationLearner: {
+              id: null,
+              hasParticipated: false,
+            },
           });
 
           expect(() => campaignParticipant.start({ participantExternalId: null })).to.not.throw();
@@ -207,7 +236,10 @@ describe('Unit | Domain | Models | CampaignParticipant', function () {
         const campaignParticipant = new CampaignParticipant({
           campaignToStartParticipation: restrictedCampaign,
           userIdentity,
-          schoolingRegistrationId: null,
+          organizationLearner: {
+            id: null,
+            hasParticipated: false,
+          },
         });
         const error = await catchErr(campaignParticipant.start, campaignParticipant)({ participantExternalId: null });
 
@@ -219,7 +251,10 @@ describe('Unit | Domain | Models | CampaignParticipant', function () {
         const campaignParticipant = new CampaignParticipant({
           campaignToStartParticipation: restrictedCampaign,
           userIdentity,
-          schoolingRegistrationId: 1,
+          organizationLearner: {
+            id: 1,
+            hasParticipated: false,
+          },
         });
 
         campaignParticipant.start({ participantExternalId: null });
@@ -241,45 +276,54 @@ describe('Unit | Domain | Models | CampaignParticipant', function () {
       });
 
       context('when the user is not associated yet', function () {
-        it('creates a new schooling registration', function () {
+        it('creates a new organizationLearner', function () {
           const campaignParticipant = new CampaignParticipant({
             campaignToStartParticipation: campaign,
             userIdentity,
-            schoolingRegistrationId: null,
+            organizationLearner: {
+              id: null,
+              hasParticipated: false,
+            },
           });
 
           campaignParticipant.start({ participantExternalId: null });
 
-          expect(campaignParticipant.schoolingRegistration.userId).to.equal(userIdentity.id);
-          expect(campaignParticipant.schoolingRegistration.organizationId).to.equal(campaign.organizationId);
-          expect(campaignParticipant.schoolingRegistration.firstName).to.equal(userIdentity.firstName);
-          expect(campaignParticipant.schoolingRegistration.lastName).to.equal(userIdentity.lastName);
+          expect(campaignParticipant.organizationLearner.userId).to.equal(userIdentity.id);
+          expect(campaignParticipant.organizationLearner.organizationId).to.equal(campaign.organizationId);
+          expect(campaignParticipant.organizationLearner.firstName).to.equal(userIdentity.firstName);
+          expect(campaignParticipant.organizationLearner.lastName).to.equal(userIdentity.lastName);
         });
       });
 
       context('when the user is already associated', function () {
-        it('use the existed schooling registration', function () {
+        it('use the existing organizationLearner', function () {
           const campaignParticipant = new CampaignParticipant({
             campaignToStartParticipation: campaign,
             userIdentity,
-            schoolingRegistrationId: 77,
+            organizationLearner: {
+              id: 77,
+              hasParticipated: false,
+            },
           });
 
           campaignParticipant.start({ participantExternalId: null });
 
-          expect(campaignParticipant.schoolingRegistrationId).to.equal(77);
+          expect(campaignParticipant.organizationLearnerId).to.equal(77);
         });
 
-        it('does not create new schooling registration', function () {
+        it('does not create new organizationLearner', function () {
           const campaignParticipant = new CampaignParticipant({
             campaignToStartParticipation: campaign,
             userIdentity,
-            schoolingRegistrationId: 77,
+            organizationLearner: {
+              id: 77,
+              hasParticipated: false,
+            },
           });
 
           campaignParticipant.start({ participantExternalId: null });
 
-          expect(campaignParticipant.schoolingRegistration).to.be.null;
+          expect(campaignParticipant.organizationLearner).to.be.undefined;
         });
       });
     });
@@ -296,6 +340,10 @@ describe('Unit | Domain | Models | CampaignParticipant', function () {
         const campaignParticipant = new CampaignParticipant({
           campaignToStartParticipation,
           userIdentity,
+          organizationLearner: {
+            id: null,
+            hasParticipated: false,
+          },
         });
 
         const error = await catchErr(campaignParticipant.start, campaignParticipant)({ participantExternalId: null });
@@ -307,6 +355,10 @@ describe('Unit | Domain | Models | CampaignParticipant', function () {
         const campaignParticipant = new CampaignParticipant({
           campaignToStartParticipation,
           userIdentity,
+          organizationLearner: {
+            id: null,
+            hasParticipated: false,
+          },
         });
 
         const expectedParticipantExternalId = 'YvoLol';
@@ -330,6 +382,10 @@ describe('Unit | Domain | Models | CampaignParticipant', function () {
             participantExternalId: expectedParticipantExternalId,
           },
           userIdentity,
+          organizationLearner: {
+            id: null,
+            hasParticipated: false,
+          },
         });
 
         campaignParticipant.start({ participantExternalId: null });
@@ -350,6 +406,10 @@ describe('Unit | Domain | Models | CampaignParticipant', function () {
           campaignToStartParticipation,
           previousCampaignParticipation,
           userIdentity,
+          organizationLearner: {
+            id: null,
+            hasParticipated: false,
+          },
         });
         campaignParticipant.start({ participantExternalId: null });
 
@@ -367,6 +427,10 @@ describe('Unit | Domain | Models | CampaignParticipant', function () {
           userIdentity,
           previousCampaignParticipation: {
             status: 'STARTED',
+          },
+          organizationLearner: {
+            id: null,
+            hasParticipated: false,
           },
         });
         const error = await catchErr(campaignParticipant.start, campaignParticipant)({ participantExternalId: null });
@@ -391,6 +455,10 @@ describe('Unit | Domain | Models | CampaignParticipant', function () {
             status: 'SHARED',
             isDeleted: true,
           },
+          organizationLearner: {
+            id: null,
+            hasParticipated: false,
+          },
         });
         const error = await catchErr(campaignParticipant.start, campaignParticipant)({ participantExternalId: null });
 
@@ -409,6 +477,10 @@ describe('Unit | Domain | Models | CampaignParticipant', function () {
       const campaignParticipant = new CampaignParticipant({
         campaignToStartParticipation,
         userIdentity,
+        organizationLearner: {
+          id: null,
+          hasParticipated: false,
+        },
       });
       const error = await catchErr(campaignParticipant.start, campaignParticipant)({ participantExternalId: null });
 
@@ -428,6 +500,10 @@ describe('Unit | Domain | Models | CampaignParticipant', function () {
           campaignToStartParticipation,
           userIdentity,
           previousCampaignParticipation: { id: 1, status: 'SHARED' },
+          organizationLearner: {
+            id: null,
+            hasParticipated: false,
+          },
         });
         const error = await catchErr(campaignParticipant.start, campaignParticipant)({ participantExternalId: null });
 
@@ -436,6 +512,26 @@ describe('Unit | Domain | Models | CampaignParticipant', function () {
           `User ${userIdentity.id} has already a campaign participation with campaign ${campaignToStartParticipation.id}`
         );
       });
+    });
+  });
+
+  context('when the organization learner has already participated', function () {
+    it('throws an error', async function () {
+      const campaignToStartParticipation = domainBuilder.buildCampaignToStartParticipation({ idPixLabel: null });
+      const organizationLearnerId = 12;
+      const userIdentity = { id: 13 };
+      const campaignParticipant = new CampaignParticipant({
+        campaignToStartParticipation,
+        userIdentity,
+        organizationLearner: {
+          id: organizationLearnerId,
+          hasParticipated: true,
+        },
+      });
+      const error = await catchErr(campaignParticipant.start, campaignParticipant)({ participantExternalId: null });
+
+      expect(error).to.be.an.instanceof(AlreadyExistingCampaignParticipationError);
+      expect(error.message).to.equal('ORGANIZATION_LEARNER_HAS_ALREADY_PARTICIPATED');
     });
   });
 });

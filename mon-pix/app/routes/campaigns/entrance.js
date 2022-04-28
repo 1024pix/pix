@@ -54,6 +54,9 @@ export default class Entrance extends Route.extend(SecuredRouteMixin) {
         this.campaignStorage.set(campaign.code, 'participantExternalId', null);
         return this.replaceWith('campaigns.invited.fill-in-participant-external-id', campaign.code);
       }
+      if (error.detail === 'ORGANIZATION_LEARNER_HAS_ALREADY_PARTICIPATED') {
+        return this.replaceWith('campaigns.existing-participation', campaign.code);
+      }
 
       throw err;
     }
