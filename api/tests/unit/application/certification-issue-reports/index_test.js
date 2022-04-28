@@ -25,8 +25,7 @@ describe('Unit | Application | Certifications Issue Report | Route', function ()
         it('should return 204', async function () {
           // given
           sinon.stub(certificationIssueReportController, 'manuallyResolve').callsFake((_, h) => h.response().code(204));
-          sinon.stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin');
-          securityPreHandlers.checkUserHasRoleSuperAdmin.callsFake((_, h) => h.response(true));
+          sinon.stub(securityPreHandlers, 'userHasAtLeastOneAccessOf').returns(() => true);
 
           const httpTestServer = new HttpTestServer();
           await httpTestServer.register(moduleUnderTest);
@@ -44,12 +43,13 @@ describe('Unit | Application | Certifications Issue Report | Route', function ()
       });
     });
 
-    context('when user is not Super Admin', function () {
+    context('when user has no authorization to access Pix Admin', function () {
       it('should throw 403', async function () {
         // given
         sinon.stub(certificationIssueReportController, 'manuallyResolve').callsFake((_, h) => h.response().code(204));
-        sinon.stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin');
-        securityPreHandlers.checkUserHasRoleSuperAdmin.callsFake((request, h) => h.response().code(403).takeover());
+        sinon
+          .stub(securityPreHandlers, 'userHasAtLeastOneAccessOf')
+          .returns((request, h) => h.response().code(403).takeover());
 
         const httpTestServer = new HttpTestServer();
         await httpTestServer.register(moduleUnderTest);

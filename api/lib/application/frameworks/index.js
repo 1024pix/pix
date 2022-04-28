@@ -26,7 +26,7 @@ exports.register = async function (server) {
         pre: [{ method: securityPreHandlers.checkUserHasRoleSuperAdmin }],
         tags: ['api', 'framework'],
         notes: [
-          'Cette route est restreinte aux utilisateurs authentifiés avec le rôle Pix Master',
+          'Cette route est restreinte aux utilisateurs authentifiés avec le rôle Super Admin',
           'Elle permet de récupérer la liste des référentiels disponibles',
         ],
       },
@@ -44,7 +44,7 @@ exports.register = async function (server) {
         },
         tags: ['api', 'framework'],
         notes: [
-          'Cette route est restreinte aux utilisateurs authentifiés avec le rôle Pix Master',
+          'Cette route est restreinte aux utilisateurs authentifiés avec le rôle Super Admin',
           "Elle permet de récupérer tous les domaines d'un référentiel avec leurs compétences, thématiques et sujets",
         ],
       },

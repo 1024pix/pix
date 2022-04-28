@@ -147,7 +147,7 @@ describe('Unit | Application | Router | schooling-registration-user-associations
 
     it('should return a HTTP status code 204', async function () {
       // given
-      sinon.stub(preHandler, 'checkUserHasRoleSuperAdmin').returns(true);
+      sinon.stub(preHandler, 'userHasAtLeastOneAccessOf').returns(() => true);
       sinon
         .stub(schoolingRegistrationUserAssociationController, 'dissociate')
         .callsFake((request, h) => h.response('ok').code(204));
@@ -163,9 +163,9 @@ describe('Unit | Application | Router | schooling-registration-user-associations
       expect(response.statusCode).to.equal(204);
     });
 
-    it('should return a HTTP status code 403 when user is not ', async function () {
+    it('should return a HTTP status code 403 when user does not have rights to Pix Admin', async function () {
       // given
-      sinon.stub(preHandler, 'checkUserHasRoleSuperAdmin').callsFake((request, h) => h.response().code(403).takeover());
+      sinon.stub(preHandler, 'userHasAtLeastOneAccessOf').returns((request, h) => h.response().code(403).takeover());
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
 

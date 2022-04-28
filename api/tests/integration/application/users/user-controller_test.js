@@ -13,7 +13,7 @@ describe('Integration | Application | Users | user-controller', function () {
   beforeEach(async function () {
     sandbox = sinon.createSandbox();
     sandbox.stub(securityPreHandlers, 'checkRequestedUserIsAuthenticatedUser');
-    sandbox.stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin');
+    sandbox.stub(securityPreHandlers, 'userHasAtLeastOneAccessOf');
 
     sandbox.stub(usecases, 'getUserCampaignParticipationToCampaign');
     sandbox.stub(usecases, 'getUserProfileSharedForCampaign');
@@ -180,7 +180,7 @@ describe('Integration | Application | Users | user-controller', function () {
     };
 
     beforeEach(function () {
-      securityPreHandlers.checkUserHasRoleSuperAdmin.callsFake((request, h) => h.response(true));
+      securityPreHandlers.userHasAtLeastOneAccessOf.returns(() => true);
     });
 
     context('Success cases', function () {
@@ -199,9 +199,7 @@ describe('Integration | Application | Users | user-controller', function () {
     context('Error cases', function () {
       it('should return a 403 HTTP response when when user is not allowed to access resource', async function () {
         // given
-        securityPreHandlers.checkUserHasRoleSuperAdmin.callsFake((request, h) => {
-          return Promise.resolve(h.response().code(403).takeover());
-        });
+        securityPreHandlers.userHasAtLeastOneAccessOf.returns((request, h) => h.response().code(403).takeover());
 
         // when
         const response = await httpTestServer.request(method, url, payload);
