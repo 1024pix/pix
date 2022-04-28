@@ -11,8 +11,8 @@ module.exports = async function authenticatePoleEmploiUser({
   stateReceived,
   stateSent,
   poleEmploiAuthenticationService,
+  authenticationSessionService,
   authenticationMethodRepository,
-  authenticationSessionRepository,
   userRepository,
 }) {
   if (stateSent !== stateReceived) {
@@ -45,7 +45,7 @@ module.exports = async function authenticatePoleEmploiUser({
     const user = await userRepository.findByPoleEmploiExternalIdentifier(userInfo.externalIdentityId);
 
     if (!user) {
-      const authenticationKey = await authenticationSessionRepository.save(poleEmploiTokens);
+      const authenticationKey = await authenticationSessionService.save(poleEmploiTokens);
       return { authenticationKey }; // todo : refacto, should not return different objects
       // will be refacto when keycloak will be setup
       // this return should be replaced by domain error (see controller)

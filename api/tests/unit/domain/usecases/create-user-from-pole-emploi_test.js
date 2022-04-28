@@ -22,7 +22,7 @@ describe('Unit | UseCase | create-user-from-pole-emploi', function () {
 
   let clock;
   let authenticationMethodRepository;
-  let authenticationSessionRepository;
+  let authenticationSessionService;
   let userToCreateRepository;
   let poleEmploiAuthenticationService;
 
@@ -40,7 +40,7 @@ describe('Unit | UseCase | create-user-from-pole-emploi', function () {
       findOneByExternalIdentifierAndIdentityProvider: sinon.stub(),
     };
 
-    authenticationSessionRepository = {
+    authenticationSessionService = {
       getByKey: sinon.stub(),
     };
 
@@ -61,13 +61,13 @@ describe('Unit | UseCase | create-user-from-pole-emploi', function () {
   it('should throw an AuthenticationKeyForPoleEmploiTokenExpired if key expired', async function () {
     // given
     const authenticationKey = 'authenticationKey';
-    authenticationSessionRepository.getByKey.withArgs(authenticationKey).resolves(null);
+    authenticationSessionService.getByKey.withArgs(authenticationKey).resolves(null);
 
     // when
     const error = await catchErr(createUserFromPoleEmploi)({
       authenticationKey,
       authenticationMethodRepository,
-      authenticationSessionRepository,
+      authenticationSessionService,
       userToCreateRepository,
       poleEmploiAuthenticationService,
     });
@@ -88,7 +88,7 @@ describe('Unit | UseCase | create-user-from-pole-emploi', function () {
         expiresIn: 10,
         refreshToken: 'refreshToken',
       });
-      authenticationSessionRepository.getByKey.withArgs(authenticationKey).resolves(poleEmploiTokens);
+      authenticationSessionService.getByKey.withArgs(authenticationKey).resolves(poleEmploiTokens);
 
       const decodedUserInfo = {
         firstName: 'Jean',
@@ -122,7 +122,7 @@ describe('Unit | UseCase | create-user-from-pole-emploi', function () {
       const response = await createUserFromPoleEmploi({
         authenticationKey,
         authenticationMethodRepository,
-        authenticationSessionRepository,
+        authenticationSessionService,
         userToCreateRepository,
         poleEmploiAuthenticationService,
       });
@@ -155,7 +155,7 @@ describe('Unit | UseCase | create-user-from-pole-emploi', function () {
         expiresIn: 10,
         refreshToken: 'refreshToken',
       });
-      authenticationSessionRepository.getByKey.withArgs(authenticationKey).resolves(poleEmploiTokens);
+      authenticationSessionService.getByKey.withArgs(authenticationKey).resolves(poleEmploiTokens);
 
       const decodedUserInfo = {
         firstName: 'Jean',
@@ -172,7 +172,7 @@ describe('Unit | UseCase | create-user-from-pole-emploi', function () {
       const error = await catchErr(createUserFromPoleEmploi)({
         authenticationKey,
         authenticationMethodRepository,
-        authenticationSessionRepository,
+        authenticationSessionService,
         userToCreateRepository,
         poleEmploiAuthenticationService,
       });
@@ -198,7 +198,7 @@ describe('Unit | UseCase | create-user-from-pole-emploi', function () {
         expiresIn: 10,
         refreshToken: 'refreshToken',
       });
-      authenticationSessionRepository.getByKey.withArgs(authenticationKey).resolves(poleEmploiTokens);
+      authenticationSessionService.getByKey.withArgs(authenticationKey).resolves(poleEmploiTokens);
 
       const decodedUserInfo = {
         firstName: 'Jean',
@@ -220,7 +220,7 @@ describe('Unit | UseCase | create-user-from-pole-emploi', function () {
       const response = await createUserFromPoleEmploi({
         authenticationKey,
         authenticationMethodRepository,
-        authenticationSessionRepository,
+        authenticationSessionService,
         userToCreateRepository,
         poleEmploiAuthenticationService,
       });

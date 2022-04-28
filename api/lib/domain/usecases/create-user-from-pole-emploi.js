@@ -7,12 +7,12 @@ const logger = require('../../infrastructure/logger');
 
 module.exports = async function createUserFromPoleEmploi({
   authenticationKey,
-  authenticationMethodRepository,
-  authenticationSessionRepository,
-  userToCreateRepository,
+  authenticationSessionService,
   poleEmploiAuthenticationService,
+  authenticationMethodRepository,
+  userToCreateRepository,
 }) {
-  const poleEmploiTokens = await authenticationSessionRepository.getByKey(authenticationKey);
+  const poleEmploiTokens = await authenticationSessionService.getByKey(authenticationKey);
   if (!poleEmploiTokens) {
     // mutualiser cette erreur pour toutes les clés expirées
     // exemple : throw new AuthenticationKeyExpired();

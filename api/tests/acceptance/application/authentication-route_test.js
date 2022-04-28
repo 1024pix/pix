@@ -16,7 +16,7 @@ const tokenService = require('../../../lib/domain/services/token-service');
 const AuthenticationMethod = require('../../../lib/domain/models/AuthenticationMethod');
 const PoleEmploiTokens = require('../../../lib/domain/models/PoleEmploiTokens');
 const CnavTokens = require('../../../lib/domain/models/CnavTokens');
-const authenticationSessionRepository = require('../../../lib/infrastructure/repositories/authentication-session-repository');
+const authenticationSessionService = require('../../../lib/domain/services/authentication/authentication-session-service');
 
 const createServer = require('../../../server');
 
@@ -512,7 +512,7 @@ describe('Acceptance | Controller | authentication-controller', function () {
 
           // then
           const key = response.result.errors[0].meta.authenticationKey;
-          const result = await authenticationSessionRepository.getByKey(key);
+          const result = await authenticationSessionService.getByKey(key);
           expect(result).to.deep.equal(poleEmploiTokens);
         });
       });
@@ -1219,7 +1219,7 @@ describe('Acceptance | Controller | authentication-controller', function () {
 
           // then
           const key = response.result.errors[0].meta.authenticationKey;
-          const result = await authenticationSessionRepository.getByKey(key);
+          const result = await authenticationSessionService.getByKey(key);
           expect(result).to.deep.equal(cnavTokens);
         });
       });
