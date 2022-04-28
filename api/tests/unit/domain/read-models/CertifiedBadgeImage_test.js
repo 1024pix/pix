@@ -49,23 +49,23 @@ const pixPlusEdu2ndDegreBadgesInfos = {
 
 const pixPlusEdu1erDegreBadgesInfos = {
   [PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_INITIE]: {
-    path: 'https://images.pix.fr/badges%2FPix_plus_Edu-certif-Autonome_PREMIER-DEGRE.svg',
+    path: 'https://images.pix.fr/badges/Pix_plus_Edu-certif-Autonome_PREMIER-DEGRE.svg',
     levelName: 'Initié (entrée dans le métier)',
   },
   [PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_CONFIRME]: {
-    path: 'https://images.pix.fr/badges%2FPix_plus_Edu-certif-confirme_PREMIER-DEGRE.svg',
+    path: 'https://images.pix.fr/badges/Pix_plus_Edu-certif-confirme_PREMIER-DEGRE.svg',
     levelName: 'Confirmé',
   },
   [PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_CONFIRME]: {
-    path: 'https://images.pix.fr/badges%2FPix_plus_Edu-certif-confirme_PREMIER-DEGRE.svg',
+    path: 'https://images.pix.fr/badges/Pix_plus_Edu-certif-confirme_PREMIER-DEGRE.svg',
     levelName: 'Confirmé',
   },
   [PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE]: {
-    path: 'https://images.pix.fr/badges%2FPix_plus_Edu-certif-avance_PREMIER-DEGRE.svg',
+    path: 'https://images.pix.fr/badges/Pix_plus_Edu-certif-avance_PREMIER-DEGRE.svg',
     levelName: 'Avancé',
   },
   [PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT]: {
-    path: 'https://images.pix.fr/badges%2FPix_plus_Edu-certif-confirme_PREMIER-DEGRE.svg',
+    path: 'https://images.pix.fr/badges/Pix_plus_Edu-certif-Expert_PREMIER-DEGRE.svg',
     levelName: 'Expert',
   },
 };
