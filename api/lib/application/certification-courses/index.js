@@ -13,8 +13,14 @@ exports.register = async function (server) {
       config: {
         pre: [
           {
-            method: securityPreHandlers.checkUserHasRoleSuperAdmin,
-            assign: 'hasRoleSuperAdmin',
+            method: (request, h) =>
+              securityPreHandlers.userHasAtLeastOneAccessOf([
+                securityPreHandlers.checkUserHasRoleSuperAdmin,
+                securityPreHandlers.checkUserHasRoleCertif,
+                securityPreHandlers.checkUserHasRoleSupport,
+                securityPreHandlers.checkUserHasRoleMetier,
+              ])(request, h),
+            assign: 'hasAuthorizationToAccessAdminScope',
           },
         ],
         validate: {
@@ -37,8 +43,14 @@ exports.register = async function (server) {
       config: {
         pre: [
           {
-            method: securityPreHandlers.checkUserHasRoleSuperAdmin,
-            assign: 'hasRoleSuperAdmin',
+            method: (request, h) =>
+              securityPreHandlers.userHasAtLeastOneAccessOf([
+                securityPreHandlers.checkUserHasRoleSuperAdmin,
+                securityPreHandlers.checkUserHasRoleCertif,
+                securityPreHandlers.checkUserHasRoleSupport,
+                securityPreHandlers.checkUserHasRoleMetier,
+              ])(request, h),
+            assign: 'hasAuthorizationToAccessAdminScope',
           },
         ],
         validate: {
@@ -65,8 +77,14 @@ exports.register = async function (server) {
         },
         pre: [
           {
-            method: securityPreHandlers.checkUserHasRoleSuperAdmin,
-            assign: 'hasRoleSuperAdmin',
+            method: (request, h) =>
+              securityPreHandlers.userHasAtLeastOneAccessOf([
+                securityPreHandlers.checkUserHasRoleSuperAdmin,
+                securityPreHandlers.checkUserHasRoleCertif,
+                securityPreHandlers.checkUserHasRoleSupport,
+                securityPreHandlers.checkUserHasRoleMetier,
+              ])(request, h),
+            assign: 'hasAuthorizationToAccessAdminScope',
           },
         ],
         handler: certificationCourseController.getJuryCertification,
@@ -86,8 +104,14 @@ exports.register = async function (server) {
         tags: ['api'],
         pre: [
           {
-            method: securityPreHandlers.checkUserHasRoleSuperAdmin,
-            assign: 'hasRoleSuperAdmin',
+            method: (request, h) =>
+              securityPreHandlers.userHasAtLeastOneAccessOf([
+                securityPreHandlers.checkUserHasRoleSuperAdmin,
+                securityPreHandlers.checkUserHasRoleCertif,
+                securityPreHandlers.checkUserHasRoleSupport,
+                securityPreHandlers.checkUserHasRoleMetier,
+              ])(request, h),
+            assign: 'hasAuthorizationToAccessAdminScope',
           },
         ],
       },
@@ -129,8 +153,14 @@ exports.register = async function (server) {
         },
         pre: [
           {
-            method: securityPreHandlers.checkUserHasRoleSuperAdmin,
-            assign: 'hasRoleSuperAdmin',
+            method: (request, h) =>
+              securityPreHandlers.userHasAtLeastOneAccessOf([
+                securityPreHandlers.checkUserHasRoleSuperAdmin,
+                securityPreHandlers.checkUserHasRoleCertif,
+                securityPreHandlers.checkUserHasRoleSupport,
+                securityPreHandlers.checkUserHasRoleMetier,
+              ])(request, h),
+            assign: 'hasAuthorizationToAccessAdminScope',
           },
         ],
         handler: certificationCourseController.cancel,
@@ -148,8 +178,14 @@ exports.register = async function (server) {
         },
         pre: [
           {
-            method: securityPreHandlers.checkUserHasRoleSuperAdmin,
-            assign: 'hasRoleSuperAdmin',
+            method: (request, h) =>
+              securityPreHandlers.userHasAtLeastOneAccessOf([
+                securityPreHandlers.checkUserHasRoleSuperAdmin,
+                securityPreHandlers.checkUserHasRoleCertif,
+                securityPreHandlers.checkUserHasRoleSupport,
+                securityPreHandlers.checkUserHasRoleMetier,
+              ])(request, h),
+            assign: 'hasAuthorizationToAccessAdminScope',
           },
         ],
         handler: certificationCourseController.uncancel,

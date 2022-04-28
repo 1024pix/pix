@@ -17,7 +17,7 @@ describe('Unit | Application | Router | tag-router', function () {
     const url = '/api/admin/tags';
 
     sinon.stub(tagController, 'findAllTags').returns(tags);
-    sinon.stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin').callsFake((request, h) => h.response(true));
+    sinon.stub(securityPreHandlers, 'userHasAtLeastOneAccessOf').returns(() => true);
     const httpTestServer = new HttpTestServer();
     await httpTestServer.register(moduleUnderTest);
 

@@ -190,8 +190,14 @@ exports.register = async function (server) {
       config: {
         pre: [
           {
-            method: securityPreHandlers.checkUserHasRoleSuperAdmin,
-            assign: 'hasRoleSuperAdmin',
+            method: (request, h) =>
+              securityPreHandlers.userHasAtLeastOneAccessOf([
+                securityPreHandlers.checkUserHasRoleSuperAdmin,
+                securityPreHandlers.checkUserHasRoleCertif,
+                securityPreHandlers.checkUserHasRoleSupport,
+                securityPreHandlers.checkUserHasRoleMetier,
+              ])(request, h),
+            assign: 'hasAuthorizationToAccessAdminScope',
           },
         ],
         handler: schoolingRegistrationUserAssociationController.dissociate,
@@ -201,7 +207,7 @@ exports.register = async function (server) {
           }),
         },
         notes: [
-          '- **Cette route est restreinte aux utilisateurs authentifiés avec le rôle Super Admin**\n' +
+          "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n" +
             '- Elle dissocie un utilisateur d’une inscription d’élève',
         ],
         tags: ['api', 'schoolingRegistrationUserAssociation'],

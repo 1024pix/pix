@@ -13,7 +13,7 @@ describe('Integration | Application | Memberships | membership-controller', func
     sinon.stub(usecases, 'updateMembership');
     sinon.stub(usecases, 'createCertificationCenterMembershipForScoOrganizationMember');
     sinon.stub(usecases, 'disableMembership');
-    sinon.stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin');
+    sinon.stub(securityPreHandlers, 'userHasAtLeastOneAccessOf');
     sinon.stub(securityPreHandlers, 'checkUserIsAdminInOrganization');
     httpTestServer = new HttpTestServer();
     await httpTestServer.register(moduleUnderTest);
@@ -42,7 +42,7 @@ describe('Integration | Application | Memberships | membership-controller', func
             .withArgs({ membership })
             .resolves(certificationCenterMembership);
 
-          securityPreHandlers.checkUserHasRoleSuperAdmin.callsFake((request, h) => h.response(true));
+          securityPreHandlers.userHasAtLeastOneAccessOf.returns(() => true);
 
           // when
           const response = await httpTestServer.request('POST', '/api/admin/memberships', payload);
@@ -62,7 +62,7 @@ describe('Integration | Application | Memberships | membership-controller', func
             .withArgs({ membership })
             .resolves(undefined);
 
-          securityPreHandlers.checkUserHasRoleSuperAdmin.callsFake((request, h) => h.response(true));
+          securityPreHandlers.userHasAtLeastOneAccessOf.returns(() => true);
 
           // when
           const response = await httpTestServer.request('POST', '/api/admin/memberships', payload);
@@ -77,7 +77,7 @@ describe('Integration | Application | Memberships | membership-controller', func
         const membership = domainBuilder.buildMembership();
         usecases.createMembership.resolves(membership);
 
-        securityPreHandlers.checkUserHasRoleSuperAdmin.callsFake((request, h) => h.response(true));
+        securityPreHandlers.userHasAtLeastOneAccessOf.returns(() => true);
 
         // when
         const response = await httpTestServer.request('POST', '/api/admin/memberships', payload);
@@ -91,7 +91,7 @@ describe('Integration | Application | Memberships | membership-controller', func
       context('when user is not allowed to access resource', function () {
         it('should resolve a 403 HTTP response', async function () {
           // given
-          securityPreHandlers.checkUserHasRoleSuperAdmin.callsFake((request, h) => h.response().code(403).takeover());
+          securityPreHandlers.userHasAtLeastOneAccessOf.returns((request, h) => h.response().code(403).takeover());
 
           // when
           const response = await httpTestServer.request('POST', '/api/admin/memberships', payload);

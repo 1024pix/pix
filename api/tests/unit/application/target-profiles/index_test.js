@@ -8,7 +8,7 @@ describe('Integration | Application | Target Profiles | Routes', function () {
   describe('POST /api/target-profiles', function () {
     it('should resolve with owner organization id to null', async function () {
       // given
-      sinon.stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin').callsFake((request, h) => h.response(true));
+      sinon.stub(securityPreHandlers, 'userHasAtLeastOneAccessOf').returns(() => true);
       sinon.stub(targetProfileController, 'createTargetProfile').callsFake((request, h) => h.response('ok').code(200));
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -37,7 +37,7 @@ describe('Integration | Application | Target Profiles | Routes', function () {
 
     it('should resolve with owner organization id to empty', async function () {
       // given
-      sinon.stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin').callsFake((request, h) => h.response(true));
+      sinon.stub(securityPreHandlers, 'userHasAtLeastOneAccessOf').returns(() => true);
       sinon.stub(targetProfileController, 'createTargetProfile').callsFake((request, h) => h.response('ok').code(200));
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -93,7 +93,7 @@ describe('Integration | Application | Target Profiles | Routes', function () {
   describe('GET /api/target-profiles', function () {
     it('should resolve when there is no filter nor pagination', async function () {
       // given
-      sinon.stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin').callsFake((request, h) => h.response(true));
+      sinon.stub(securityPreHandlers, 'userHasAtLeastOneAccessOf').returns(() => true);
       sinon
         .stub(targetProfileController, 'findPaginatedFilteredTargetProfiles')
         .callsFake((request, h) => h.response('ok').code(200));
@@ -112,7 +112,7 @@ describe('Integration | Application | Target Profiles | Routes', function () {
 
     it('should resolve when there are filters and pagination', async function () {
       // given
-      sinon.stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin').callsFake((request, h) => h.response(true));
+      sinon.stub(securityPreHandlers, 'userHasAtLeastOneAccessOf').returns(() => true);
       sinon
         .stub(targetProfileController, 'findPaginatedFilteredTargetProfiles')
         .callsFake((request, h) => h.response('ok').code(200));
@@ -178,7 +178,7 @@ describe('Integration | Application | Target Profiles | Routes', function () {
   describe('GET /api/target-profiles/:id', function () {
     it('should resolve with correct id', async function () {
       // given
-      sinon.stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin').callsFake((request, h) => h.response(true));
+      sinon.stub(securityPreHandlers, 'userHasAtLeastOneAccessOf').returns(() => true);
       sinon
         .stub(targetProfileController, 'getTargetProfileDetails')
         .callsFake((request, h) => h.response('ok').code(200));
@@ -214,7 +214,7 @@ describe('Integration | Application | Target Profiles | Routes', function () {
   describe('POST /api/admin/target-profiles/:id/attach-organizations', function () {
     it('should resolve with correct id', async function () {
       // given
-      sinon.stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin').callsFake((request, h) => h.response(true));
+      sinon.stub(securityPreHandlers, 'userHasAtLeastOneAccessOf').returns(() => true);
       sinon.stub(targetProfileController, 'attachOrganizations').callsFake((request, h) => h.response('ok').code(204));
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -281,8 +281,8 @@ describe('Integration | Application | Target Profiles | Routes', function () {
     it('should reject request with HTTP code 403 when the user is not authorized', async function () {
       // given
       sinon
-        .stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin')
-        .callsFake((request, h) => h.response().code(403).takeover());
+        .stub(securityPreHandlers, 'userHasAtLeastOneAccessOf')
+        .returns((request, h) => h.response().code(403).takeover());
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
 
@@ -301,7 +301,7 @@ describe('Integration | Application | Target Profiles | Routes', function () {
   describe('POST /api/admin/target-profiles/:id/copy-organizations', function () {
     it('should resolve', async function () {
       // given
-      sinon.stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin').callsFake((request, h) => h.response(true));
+      sinon.stub(securityPreHandlers, 'userHasAtLeastOneAccessOf').returns(() => true);
       sinon
         .stub(targetProfileController, 'attachOrganizationsFromExistingTargetProfile')
         .callsFake((request, h) => h.response('ok').code(204));
@@ -354,8 +354,8 @@ describe('Integration | Application | Target Profiles | Routes', function () {
     it('should reject request with HTTP code 403 when the user is not authorized', async function () {
       // given
       sinon
-        .stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin')
-        .callsFake((request, h) => h.response().code(403).takeover());
+        .stub(securityPreHandlers, 'userHasAtLeastOneAccessOf')
+        .returns((request, h) => h.response().code(403).takeover());
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
 
@@ -374,7 +374,7 @@ describe('Integration | Application | Target Profiles | Routes', function () {
   describe('GET /api/target-profiles/:id/organizations', function () {
     it('should resolve when there is no filter nor pagination', async function () {
       // given
-      sinon.stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin').callsFake((request, h) => h.response(true));
+      sinon.stub(securityPreHandlers, 'userHasAtLeastOneAccessOf').returns(() => true);
       sinon
         .stub(targetProfileController, 'findPaginatedFilteredTargetProfileOrganizations')
         .callsFake((request, h) => h.response('ok').code(200));
@@ -393,7 +393,7 @@ describe('Integration | Application | Target Profiles | Routes', function () {
 
     it('should resolve when there are filters and pagination', async function () {
       // given
-      sinon.stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin').callsFake((request, h) => h.response(true));
+      sinon.stub(securityPreHandlers, 'userHasAtLeastOneAccessOf').returns(() => true);
       sinon
         .stub(targetProfileController, 'findPaginatedFilteredTargetProfileOrganizations')
         .callsFake((request, h) => h.response('ok').code(200));
@@ -460,7 +460,7 @@ describe('Integration | Application | Target Profiles | Routes', function () {
   describe('PATCH /api/admin/target-profiles', function () {
     it('should exist', async function () {
       // given
-      sinon.stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin').callsFake((request, h) => h.response(true));
+      sinon.stub(securityPreHandlers, 'userHasAtLeastOneAccessOf').returns(() => true);
       sinon.stub(targetProfileController, 'updateTargetProfile').callsFake((request, h) => h.response('ok').code(204));
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -574,8 +574,8 @@ describe('Integration | Application | Target Profiles | Routes', function () {
       it('should resolve a 403 HTTP response', async function () {
         //Given
         sinon
-          .stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin')
-          .callsFake((request, h) => h.response().code(403).takeover());
+          .stub(securityPreHandlers, 'userHasAtLeastOneAccessOf')
+          .returns((request, h) => h.response().code(403).takeover());
         const httpTestServer = new HttpTestServer();
         await httpTestServer.register(moduleUnderTest);
 
@@ -591,7 +591,7 @@ describe('Integration | Application | Target Profiles | Routes', function () {
   describe('PUT /api/target-profiles/{:id}/outdate', function () {
     it('should exist', async function () {
       // given
-      sinon.stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin').callsFake((request, h) => h.response(true));
+      sinon.stub(securityPreHandlers, 'userHasAtLeastOneAccessOf').returns(() => true);
       sinon.stub(targetProfileController, 'outdateTargetProfile').callsFake((request, h) => h.response('ok').code(204));
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -615,8 +615,8 @@ describe('Integration | Application | Target Profiles | Routes', function () {
       it('should resolve a 403 HTTP response', async function () {
         //Given
         sinon
-          .stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin')
-          .callsFake((request, h) => h.response().code(403).takeover());
+          .stub(securityPreHandlers, 'userHasAtLeastOneAccessOf')
+          .returns((request, h) => h.response().code(403).takeover());
         const httpTestServer = new HttpTestServer();
         await httpTestServer.register(moduleUnderTest);
 
@@ -632,7 +632,7 @@ describe('Integration | Application | Target Profiles | Routes', function () {
   describe('POST /api/target-profiles/{id}/badges', function () {
     it('should return 201 HTTP response', async function () {
       // given
-      sinon.stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin').callsFake((request, h) => h.response(true));
+      sinon.stub(securityPreHandlers, 'userHasAtLeastOneAccessOf').returns(() => true);
       sinon.stub(targetProfileController, 'createBadge').callsFake((request, h) => h.response('ok').code(201));
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -665,8 +665,8 @@ describe('Integration | Application | Target Profiles | Routes', function () {
       it('should return a 403 HTTP response', async function () {
         // given
         sinon
-          .stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin')
-          .callsFake((request, h) => h.response().code(403).takeover());
+          .stub(securityPreHandlers, 'userHasAtLeastOneAccessOf')
+          .returns((request, h) => h.response().code(403).takeover());
         const httpTestServer = new HttpTestServer();
         await httpTestServer.register(moduleUnderTest);
 
@@ -698,7 +698,7 @@ describe('Integration | Application | Target Profiles | Routes', function () {
     describe('when request payload has wrong format', function () {
       it('should return a 400 HTTP response', async function () {
         // given
-        sinon.stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin').callsFake((request, h) => h.response(true));
+        sinon.stub(securityPreHandlers, 'userHasAtLeastOneAccessOf').returns(() => true);
         const httpTestServer = new HttpTestServer();
         await httpTestServer.register(moduleUnderTest);
 

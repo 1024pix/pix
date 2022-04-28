@@ -170,7 +170,7 @@ describe('Unit | Router | certification-center-router', function () {
 
     it('should exist', async function () {
       //given
-      sinon.stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin').returns(true);
+      sinon.stub(securityPreHandlers, 'userHasAtLeastOneAccessOf').returns(() => true);
       sinon
         .stub(certificationCenterController, 'findCertificationCenterMembershipsByCertificationCenter')
         .returns('ok');
@@ -207,7 +207,7 @@ describe('Unit | Router | certification-center-router', function () {
 
     it('should return CREATED (200) when everything does as expected', async function () {
       //given
-      sinon.stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin').returns(true);
+      sinon.stub(securityPreHandlers, 'userHasAtLeastOneAccessOf').returns(() => true);
       sinon.stub(certificationCenterController, 'createCertificationCenterMembershipByEmail').returns('ok');
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -217,21 +217,6 @@ describe('Unit | Router | certification-center-router', function () {
 
       // then
       expect(result.statusCode).to.equal(200);
-    });
-
-    it('should reject an user without SuperAdmin role', async function () {
-      // given
-      sinon
-        .stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin')
-        .callsFake((request, h) => h.response().code(403).takeover());
-      const httpTestServer = new HttpTestServer();
-      await httpTestServer.register(moduleUnderTest);
-
-      // when
-      const result = await httpTestServer.request(method, url, payload);
-
-      // then
-      expect(result.statusCode).to.equal(403);
     });
 
     it('should reject an invalid certification-centers id', async function () {

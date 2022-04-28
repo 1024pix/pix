@@ -38,14 +38,20 @@ exports.register = async (server) => {
         },
         pre: [
           {
-            method: securityPreHandlers.checkUserHasRoleSuperAdmin,
-            assign: 'hasRoleSuperAdmin',
+            method: (request, h) =>
+              securityPreHandlers.userHasAtLeastOneAccessOf([
+                securityPreHandlers.checkUserHasRoleSuperAdmin,
+                securityPreHandlers.checkUserHasRoleCertif,
+                securityPreHandlers.checkUserHasRoleSupport,
+                securityPreHandlers.checkUserHasRoleMetier,
+              ])(request, h),
+            assign: 'hasAuthorizationToAccessAdminScope',
           },
         ],
         handler: certificationIssueReportController.manuallyResolve,
         tags: ['api', 'certification-issue-reports'],
         notes: [
-          '- **Cette route est restreinte aux utilisateurs Super Admin authentifiés**\n',
+          "- **Cette route est restreinte aux utilisateurs ayant les droits d'accès**\n",
           '- Elle permet de résoudre manuellement un signalement',
         ],
       },
