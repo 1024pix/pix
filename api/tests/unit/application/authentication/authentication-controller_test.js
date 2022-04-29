@@ -215,7 +215,6 @@ describe('Unit | Application | Controller | Authentication', function () {
       // given
       usecases.authenticateCnavUser.resolves({ pixAccessToken, idToken });
       const expectedParameters = {
-        authenticatedUserId: undefined,
         code,
         redirectUri: redirect_uri,
         stateReceived: state_received,

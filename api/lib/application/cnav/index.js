@@ -8,6 +8,10 @@ exports.register = async function (server) {
       config: {
         auth: false,
         handler: cnavController.createUser,
+        notes: [
+          '- Cette route permet de créer un compte Pix pour un utilisateur provenant de la CNAV.\n' +
+            "- Elle retournera un access token Pix correspondant à l'utilisateur.",
+        ],
         tags: ['api', 'CNAV'],
       },
     },

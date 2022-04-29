@@ -94,11 +94,9 @@ module.exports = {
   },
 
   async authenticateCnavUser(request) {
-    const authenticatedUserId = get(request.auth, 'credentials.userId');
     const { code, redirect_uri: redirectUri, state_sent: stateSent, state_received: stateReceived } = request.payload;
 
     const result = await usecases.authenticateCnavUser({
-      authenticatedUserId,
       code,
       redirectUri,
       stateReceived,

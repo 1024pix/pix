@@ -179,7 +179,7 @@ exports.register = async (server) => {
       method: 'POST',
       path: '/api/cnav/token',
       config: {
-        auth: { mode: 'optional' },
+        auth: false,
         payload: {
           allow: 'application/x-www-form-urlencoded',
         },
@@ -193,8 +193,8 @@ exports.register = async (server) => {
         },
         handler: AuthenticationController.authenticateCnavUser,
         notes: [
-          "- Cette route permet de récupérer l'ID Token d'un utilisateur provenant de la CNAV.\n" +
-            "- Elle retournera également un access token Pix correspondant à l'utilisateur.",
+          "- Cette route permet de récupérer l'id token d'un utilisateur provenant de la CNAV.\n" +
+            "- Elle retournera un access token Pix correspondant à l'utilisateur.",
         ],
         tags: ['api', 'CNAV'],
       },

@@ -1048,388 +1048,188 @@ describe('Acceptance | Controller | authentication-controller', function () {
       });
     });
 
-    context('When user is not connected to Pix', function () {
-      context('When user has no account', function () {
-        afterEach(async function () {
-          await knex('authentication-methods').delete();
-          await knex('users').delete();
-        });
-
-        it('should return http code 401', async function () {
-          // given
-          const idToken = jsonwebtoken.sign(
-            {
-              given_name: 'John',
-              family_name: 'Doe',
-              nonce: 'nonce',
-              sub: 'some-unique-user-id',
-            },
-            'secret'
-          );
-
-          const getAccessTokenResponse = {
-            access_token: 'access_token',
-            id_token: idToken,
-            expires_in: 60,
-            refresh_token: 'refresh_token',
-          };
-
-          nock('http://idp.cnav').post('/token').reply(200, getAccessTokenResponse);
-
-          // when
-          const response = await server.inject({
-            method: 'POST',
-            url: '/api/cnav/token',
-            headers: {
-              'content-type': 'application/x-www-form-urlencoded',
-            },
-            payload: querystring.stringify({
-              code: 'code',
-              redirect_uri: 'redirect_uri',
-              state_sent: 'state',
-              state_received: 'state',
-            }),
-          });
-
-          // then
-          expect(response.statusCode).to.equal(401);
-        });
-
-        it('should return an authenticationKey in meta', async function () {
-          // given
-          const idToken = jsonwebtoken.sign(
-            {
-              given_name: 'John',
-              family_name: 'Doe',
-              nonce: 'nonce',
-              sub: 'some-unique-user-id',
-            },
-            'secret'
-          );
-
-          const getAccessTokenResponse = {
-            access_token: 'access_token',
-            id_token: idToken,
-            expires_in: 60,
-            refresh_token: 'refresh_token',
-          };
-
-          nock('http://idp.cnav').post('/token').reply(200, getAccessTokenResponse);
-
-          // when
-          const response = await server.inject({
-            method: 'POST',
-            url: '/api/cnav/token',
-            headers: {
-              'content-type': 'application/x-www-form-urlencoded',
-            },
-            payload: querystring.stringify({
-              code: 'code',
-              redirect_uri: 'redirect_uri',
-              state_sent: 'state',
-              state_received: 'state',
-            }),
-          });
-
-          // then
-          expect(response.result.errors[0].meta).to.exist;
-        });
-
-        it('should return validate cgu in code', async function () {
-          // given
-          const idToken = jsonwebtoken.sign(
-            {
-              given_name: 'John',
-              family_name: 'Doe',
-              nonce: 'nonce',
-              sub: 'some-unique-user-id',
-            },
-            'secret'
-          );
-
-          const getAccessTokenResponse = {
-            access_token: 'access_token',
-            id_token: idToken,
-            expires_in: 60,
-            refresh_token: 'refresh_token',
-          };
-
-          nock('http://idp.cnav').post('/token').reply(200, getAccessTokenResponse);
-
-          // when
-          const response = await server.inject({
-            method: 'POST',
-            url: '/api/cnav/token',
-            headers: {
-              'content-type': 'application/x-www-form-urlencoded',
-            },
-            payload: querystring.stringify({
-              code: 'code',
-              redirect_uri: 'redirect_uri',
-              state_sent: 'state',
-              state_received: 'state',
-            }),
-          });
-
-          // then
-          expect(response.result.errors[0].code).to.exist;
-          expect(response.result.errors[0].code).to.equal('SHOULD_VALIDATE_CGU');
-        });
-
-        it('should return an authenticationKey in meta which match to stored cnavIdToken', async function () {
-          // given
-          const cnavIdToken = jsonwebtoken.sign(
-            {
-              given_name: 'John',
-              family_name: 'Doe',
-              nonce: 'nonce',
-              sub: 'some-unique-user-id',
-            },
-            'secret'
-          );
-
-          const getAccessTokenResponse = {
-            access_token: 'access_token',
-            id_token: cnavIdToken,
-            expires_in: 60,
-            refresh_token: 'refresh_token',
-          };
-
-          nock('http://idp.cnav').post('/token').reply(200, getAccessTokenResponse);
-
-          // when
-          const response = await server.inject({
-            method: 'POST',
-            url: '/api/cnav/token',
-            headers: {
-              'content-type': 'application/x-www-form-urlencoded',
-            },
-            payload: querystring.stringify({
-              code: 'code',
-              redirect_uri: 'redirect_uri',
-              state_sent: 'state',
-              state_received: 'state',
-            }),
-          });
-
-          // then
-          const key = response.result.errors[0].meta.authenticationKey;
-          const result = await authenticationSessionService.getByKey(key);
-          expect(result).to.equal(cnavIdToken);
-        });
-      });
-
-      context('When user and CNAV authentication method exist', function () {
-        it('should return an 200 with access_token when authentication is ok', async function () {
-          // given
-          const firstName = 'John';
-          const lastName = 'John';
-          const externalIdentifier = 'some-unique-user-id';
-          const idToken = jsonwebtoken.sign(
-            {
-              given_name: firstName,
-              family_name: lastName,
-              nonce: 'nonce',
-              sub: 'some-unique-user-id',
-            },
-            'secret'
-          );
-          const getAccessTokenResponse = {
-            access_token: 'access_token',
-            id_token: idToken,
-            expires_in: 60,
-            refresh_token: 'refresh_token',
-          };
-          const getAccessTokenRequest = nock('http://idp.cnav').post('/token').reply(200, getAccessTokenResponse);
-          const userId = databaseBuilder.factory.buildUser({
-            firstName,
-            lastName,
-          }).id;
-
-          databaseBuilder.factory.buildAuthenticationMethod.withCnavAsIdentityProvider({
-            externalIdentifier,
-            accessToken: 'old_access_token',
-            refreshToken: 'old_refresh_token',
-            expiresIn: 1000,
-            userId,
-          });
-          await databaseBuilder.commit();
-
-          // when
-          const response = await server.inject({
-            method: 'POST',
-            url: '/api/cnav/token',
-            headers: {
-              'content-type': 'application/x-www-form-urlencoded',
-            },
-            payload: querystring.stringify({
-              code: 'code',
-              redirect_uri: 'redirect_uri',
-              state_sent: 'state',
-              state_received: 'state',
-            }),
-          });
-
-          // then
-          expect(response.statusCode).to.equal(200);
-          expect(getAccessTokenRequest.isDone()).to.be.true;
-          expect(response.result['access_token']).to.exist;
-        });
-      });
-    });
-
-    context('When user is connected to Pix', function () {
+    context('When user has no account', function () {
       afterEach(async function () {
         await knex('authentication-methods').delete();
         await knex('users').delete();
       });
 
-      context('When the user does not have a CNAV authentication method', function () {
-        it('should create a CNAV authentication method for the authenticated user', async function () {
-          // given
-          const authenticatedUser = databaseBuilder.factory.buildUser();
-          await databaseBuilder.commit();
-
-          const idToken = jsonwebtoken.sign(
-            {
-              given_name: 'John',
-              family_name: 'Doe',
-              nonce: 'nonce',
-              sub: 'some-unique-user-id',
-            },
-            'secret'
-          );
-          const getAccessTokenResponse = {
-            access_token: 'access_token',
-            id_token: idToken,
-            expires_in: 60,
-            refresh_token: 'refresh_token',
-          };
-          nock('http://idp.cnav').post('/token').reply(200, getAccessTokenResponse);
-
-          // when
-          await server.inject({
-            method: 'POST',
-            url: '/api/cnav/token',
-            headers: {
-              Authorization: generateValidRequestAuthorizationHeader(authenticatedUser.id),
-              'content-type': 'application/x-www-form-urlencoded',
-            },
-            payload: querystring.stringify({
-              code: 'code',
-              redirect_uri: 'redirect_uri',
-              state_sent: 'state',
-              state_received: 'state',
-            }),
-          });
-
-          // then
-          const authenticationMethods = await knex('authentication-methods').where({ userId: authenticatedUser.id });
-          expect(authenticationMethods[0].identityProvider).to.equal(AuthenticationMethod.identityProviders.CNAV);
-          expect(authenticationMethods[0].externalIdentifier).to.equal('some-unique-user-id');
-        });
-
-        it('should return an 200 with access_token when authentication is ok', async function () {
-          // given
-          const authenticatedUser = databaseBuilder.factory.buildUser();
-          await databaseBuilder.commit();
-
-          const idToken = jsonwebtoken.sign(
-            {
-              given_name: 'John',
-              family_name: 'Doe',
-              nonce: 'nonce',
-              sub: 'some-unique-user-id',
-            },
-            'secret'
-          );
-          const getAccessTokenResponse = {
-            access_token: 'access_token',
-            id_token: idToken,
-            expires_in: 60,
-            refresh_token: 'refresh_token',
-          };
-          const getAccessTokenRequest = nock('http://idp.cnav').post('/token').reply(200, getAccessTokenResponse);
-
-          // when
-          const response = await server.inject({
-            method: 'POST',
-            url: '/api/cnav/token',
-            headers: {
-              Authorization: generateValidRequestAuthorizationHeader(authenticatedUser.id),
-              'content-type': 'application/x-www-form-urlencoded',
-            },
-            payload: querystring.stringify({
-              code: 'code',
-              redirect_uri: 'redirect_uri',
-              state_sent: 'state',
-              state_received: 'state',
-            }),
-          });
-
-          // then
-          expect(response.statusCode).to.equal(200);
-          expect(getAccessTokenRequest.isDone()).to.be.true;
-          expect(response.result['access_token']).to.exist;
-        });
-      });
-
-      context('When the user does have a CNAV authentication method', function () {
-        it('should return a 409 Conflict if the authenticated user is not the expected one', async function () {
-          // given
-          databaseBuilder.factory.buildUser();
-          const otherUser = databaseBuilder.factory.buildUser();
-          databaseBuilder.factory.buildAuthenticationMethod.withCnavAsIdentityProvider({
-            externalIdentifier: 'other_external_identifier',
-            userId: otherUser.id,
-          });
-          await databaseBuilder.commit();
-
-          const idToken = jsonwebtoken.sign(
-            {
-              given_name: 'John',
-              family_name: 'Doe',
-              nonce: 'nonce',
-              sub: 'idIdentiteExterne',
-            },
-            'secret'
-          );
-          const getAccessTokenResponse = {
-            access_token: 'access_token',
-            id_token: idToken,
-            expires_in: 60,
-            refresh_token: 'refresh_token',
-          };
-          nock('http://idp.cnav').post('/token').reply(200, getAccessTokenResponse);
-
-          // when
-          const response = await server.inject({
-            method: 'POST',
-            url: '/api/cnav/token',
-            headers: {
-              Authorization: generateValidRequestAuthorizationHeader(otherUser.id),
-              'content-type': 'application/x-www-form-urlencoded',
-            },
-            payload: querystring.stringify({
-              code: 'code',
-              redirect_uri: 'redirect_uri',
-              state_sent: 'state',
-              state_received: 'state',
-            }),
-          });
-
-          // then
-          expect(response.statusCode).to.equal(409);
-        });
-      });
-
-      it('should return an 200 with access_token when authentication is ok', async function () {
+      it('should return http code 401', async function () {
+        // given
         const idToken = jsonwebtoken.sign(
           {
             given_name: 'John',
             family_name: 'Doe',
             nonce: 'nonce',
-            idIdentiteExterne: 'idIdentiteExterne',
+            sub: 'some-unique-user-id',
+          },
+          'secret'
+        );
+
+        const getAccessTokenResponse = {
+          access_token: 'access_token',
+          id_token: idToken,
+          expires_in: 60,
+          refresh_token: 'refresh_token',
+        };
+
+        nock('http://idp.cnav').post('/token').reply(200, getAccessTokenResponse);
+
+        // when
+        const response = await server.inject({
+          method: 'POST',
+          url: '/api/cnav/token',
+          headers: {
+            'content-type': 'application/x-www-form-urlencoded',
+          },
+          payload: querystring.stringify({
+            code: 'code',
+            redirect_uri: 'redirect_uri',
+            state_sent: 'state',
+            state_received: 'state',
+          }),
+        });
+
+        // then
+        expect(response.statusCode).to.equal(401);
+      });
+
+      it('should return an authenticationKey in meta', async function () {
+        // given
+        const idToken = jsonwebtoken.sign(
+          {
+            given_name: 'John',
+            family_name: 'Doe',
+            nonce: 'nonce',
+            sub: 'some-unique-user-id',
+          },
+          'secret'
+        );
+
+        const getAccessTokenResponse = {
+          access_token: 'access_token',
+          id_token: idToken,
+          expires_in: 60,
+          refresh_token: 'refresh_token',
+        };
+
+        nock('http://idp.cnav').post('/token').reply(200, getAccessTokenResponse);
+
+        // when
+        const response = await server.inject({
+          method: 'POST',
+          url: '/api/cnav/token',
+          headers: {
+            'content-type': 'application/x-www-form-urlencoded',
+          },
+          payload: querystring.stringify({
+            code: 'code',
+            redirect_uri: 'redirect_uri',
+            state_sent: 'state',
+            state_received: 'state',
+          }),
+        });
+
+        // then
+        expect(response.result.errors[0].meta).to.exist;
+      });
+
+      it('should return validate cgu in code', async function () {
+        // given
+        const idToken = jsonwebtoken.sign(
+          {
+            given_name: 'John',
+            family_name: 'Doe',
+            nonce: 'nonce',
+            sub: 'some-unique-user-id',
+          },
+          'secret'
+        );
+
+        const getAccessTokenResponse = {
+          access_token: 'access_token',
+          id_token: idToken,
+          expires_in: 60,
+          refresh_token: 'refresh_token',
+        };
+
+        nock('http://idp.cnav').post('/token').reply(200, getAccessTokenResponse);
+
+        // when
+        const response = await server.inject({
+          method: 'POST',
+          url: '/api/cnav/token',
+          headers: {
+            'content-type': 'application/x-www-form-urlencoded',
+          },
+          payload: querystring.stringify({
+            code: 'code',
+            redirect_uri: 'redirect_uri',
+            state_sent: 'state',
+            state_received: 'state',
+          }),
+        });
+
+        // then
+        expect(response.result.errors[0].code).to.exist;
+        expect(response.result.errors[0].code).to.equal('SHOULD_VALIDATE_CGU');
+      });
+
+      it('should return an authenticationKey in meta which match to stored cnavIdToken', async function () {
+        // given
+        const cnavIdToken = jsonwebtoken.sign(
+          {
+            given_name: 'John',
+            family_name: 'Doe',
+            nonce: 'nonce',
+            sub: 'some-unique-user-id',
+          },
+          'secret'
+        );
+
+        const getAccessTokenResponse = {
+          access_token: 'access_token',
+          id_token: cnavIdToken,
+          expires_in: 60,
+          refresh_token: 'refresh_token',
+        };
+
+        nock('http://idp.cnav').post('/token').reply(200, getAccessTokenResponse);
+
+        // when
+        const response = await server.inject({
+          method: 'POST',
+          url: '/api/cnav/token',
+          headers: {
+            'content-type': 'application/x-www-form-urlencoded',
+          },
+          payload: querystring.stringify({
+            code: 'code',
+            redirect_uri: 'redirect_uri',
+            state_sent: 'state',
+            state_received: 'state',
+          }),
+        });
+
+        // then
+        const key = response.result.errors[0].meta.authenticationKey;
+        const result = await authenticationSessionService.getByKey(key);
+        expect(result).to.equal(cnavIdToken);
+      });
+    });
+
+    context('When user and CNAV authentication method exist', function () {
+      it('should return an 200 with access_token when authentication is ok', async function () {
+        // given
+        const firstName = 'John';
+        const lastName = 'John';
+        const externalIdentifier = 'some-unique-user-id';
+        const idToken = jsonwebtoken.sign(
+          {
+            given_name: firstName,
+            family_name: lastName,
+            nonce: 'nonce',
+            sub: 'some-unique-user-id',
           },
           'secret'
         );
@@ -1440,8 +1240,18 @@ describe('Acceptance | Controller | authentication-controller', function () {
           refresh_token: 'refresh_token',
         };
         const getAccessTokenRequest = nock('http://idp.cnav').post('/token').reply(200, getAccessTokenResponse);
+        const userId = databaseBuilder.factory.buildUser({
+          firstName,
+          lastName,
+        }).id;
 
-        const authenticatedUser = databaseBuilder.factory.buildUser();
+        databaseBuilder.factory.buildAuthenticationMethod.withCnavAsIdentityProvider({
+          externalIdentifier,
+          accessToken: 'old_access_token',
+          refreshToken: 'old_refresh_token',
+          expiresIn: 1000,
+          userId,
+        });
         await databaseBuilder.commit();
 
         // when
@@ -1449,7 +1259,6 @@ describe('Acceptance | Controller | authentication-controller', function () {
           method: 'POST',
           url: '/api/cnav/token',
           headers: {
-            Authorization: generateValidRequestAuthorizationHeader(authenticatedUser.id),
             'content-type': 'application/x-www-form-urlencoded',
           },
           payload: querystring.stringify({

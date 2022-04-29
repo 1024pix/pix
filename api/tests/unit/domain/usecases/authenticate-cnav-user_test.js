@@ -1,10 +1,6 @@
-const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper');
+const { expect, sinon, catchErr, domainBuilder } = require('../../../test-helper');
 
-const AuthenticationMethod = require('../../../../lib/domain/models/AuthenticationMethod');
-const User = require('../../../../lib/domain/models/User');
-
-const { UnexpectedStateError, UnexpectedUserAccountError } = require('../../../../lib/domain/errors');
-const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
+const { UnexpectedStateError } = require('../../../../lib/domain/errors');
 const logger = require('../../../../lib/infrastructure/logger');
 
 const authenticateCnavUser = require('../../../../lib/domain/usecases/authenticate-cnav-user');
@@ -39,11 +35,6 @@ describe('Unit | UseCase | authenticate-cnav-user', function () {
       findByCnavExternalIdentifier: sinon.stub().resolves({}),
       updateLastLoggedAt: sinon.stub(),
     };
-
-    const domainTransaction = Symbol();
-    DomainTransaction.execute = (lambda) => {
-      return lambda(domainTransaction);
-    };
   });
 
   afterEach(function () {
@@ -59,15 +50,13 @@ describe('Unit | UseCase | authenticate-cnav-user', function () {
 
       // when
       const error = await catchErr(authenticateCnavUser)({
-        authenticatedUserId: 1,
-        clientId: 'clientId',
         code: 'code',
         redirectUri: 'redirectUri',
         stateReceived,
         stateSent,
         cnavAuthenticationService,
-        authenticationMethodRepository,
         authenticationSessionService,
+        authenticationMethodRepository,
         userRepository,
       });
 
@@ -80,131 +69,33 @@ describe('Unit | UseCase | authenticate-cnav-user', function () {
   });
 
   context('When user has an account', function () {
-    it('should call authenticate cnav user with code and redirectUri parameters', async function () {
-      // given
-      _fakeCnavAPI({ cnavAuthenticationService });
-      cnavAuthenticationService.createAccessToken.returns('access-token');
+    context('When user has an Cnav authentication method', function () {
+      it('should create a Pix access token', async function () {
+        // given
+        const user = domainBuilder.buildUser().id;
+        domainBuilder.buildAuthenticationMethod.withCnavAsIdentityProvider({
+          userId: user.id,
+        });
 
-      // when
-      await authenticateCnavUser({
-        authenticatedUserId: 1,
-        clientId: 'clientId',
-        code: 'code',
-        redirectUri: 'redirectUri',
-        stateReceived: 'state',
-        stateSent: 'state',
-        cnavAuthenticationService,
-        authenticationMethodRepository,
-        authenticationSessionService,
-        userRepository,
+        _fakeCnavAPI({ cnavAuthenticationService });
+        userRepository.findByCnavExternalIdentifier.resolves(user);
+
+        // when
+        await authenticateCnavUser({
+          code: 'code',
+          redirectUri: 'redirectUri',
+          stateReceived: 'state',
+          stateSent: 'state',
+          cnavAuthenticationService,
+          authenticationSessionService,
+          authenticationMethodRepository,
+          userRepository,
+        });
+
+        // then
+        expect(cnavAuthenticationService.createAccessToken).to.have.been.calledWith(user.id);
       });
 
-      // then
-      expect(cnavAuthenticationService.exchangeCodeForIdToken).to.have.been.calledWith({
-        code: 'code',
-        redirectUri: 'redirectUri',
-      });
-    });
-
-    it('should call get cnav user info with id token parameter', async function () {
-      // given
-      _fakeCnavAPI({ cnavAuthenticationService });
-      cnavAuthenticationService.createAccessToken.returns('access-token');
-
-      // when
-      await authenticateCnavUser({
-        authenticatedUserId: 1,
-        clientId: 'clientId',
-        code: 'code',
-        redirectUri: 'redirectUri',
-        stateReceived: 'state',
-        stateSent: 'state',
-        cnavAuthenticationService,
-        authenticationMethodRepository,
-        authenticationSessionService,
-        userRepository,
-      });
-
-      // then
-      expect(cnavAuthenticationService.getUserInfo).to.have.been.calledWith('idToken');
-    });
-
-    it('should call cnavAuthenticationService createAccessToken function with user id', async function () {
-      // given
-      const user = new User({ id: 1, firstName: 'Tuck', lastName: 'Morris' });
-      user.externalIdentityId = '094b83ac-2e20-4aa8-b438-0bc91748e4a6';
-      cnavAuthenticationService.createAccessToken.returns('access-token');
-
-      _fakeCnavAPI({ cnavAuthenticationService });
-      userRepository.findByCnavExternalIdentifier.resolves({ id: 1 });
-
-      // when
-      await authenticateCnavUser({
-        authenticatedUserId: 1,
-        clientId: 'clientId',
-        code: 'code',
-        redirectUri: 'redirectUri',
-        stateReceived: 'state',
-        stateSent: 'state',
-        cnavAuthenticationService,
-        authenticationMethodRepository,
-        authenticationSessionService,
-        userRepository,
-      });
-
-      // then
-      expect(cnavAuthenticationService.createAccessToken).to.have.been.calledWith(1);
-    });
-
-    it('should return accessToken', async function () {
-      // given
-      _fakeCnavAPI({ cnavAuthenticationService });
-      const authenticatedUserId = 1;
-      cnavAuthenticationService.createAccessToken.withArgs(authenticatedUserId).returns('access-token');
-
-      // when
-      const result = await authenticateCnavUser({
-        authenticatedUserId,
-        clientId: 'clientId',
-        code: 'code',
-        redirectUri: 'redirectUri',
-        stateReceived: 'state',
-        stateSent: 'state',
-        cnavAuthenticationService,
-        authenticationMethodRepository,
-        authenticationSessionService,
-        userRepository,
-      });
-
-      // then
-      const expectedResult = { pixAccessToken: 'access-token' };
-      expect(result).to.deep.equal(expectedResult);
-    });
-
-    it('should save last logged at date', async function () {
-      // given
-      _fakeCnavAPI({ cnavAuthenticationService });
-      cnavAuthenticationService.createAccessToken.returns('access-token');
-
-      // when
-      await authenticateCnavUser({
-        authenticatedUserId: 1,
-        clientId: 'clientId',
-        code: 'code',
-        redirectUri: 'redirectUri',
-        stateReceived: 'state',
-        stateSent: 'state',
-        cnavAuthenticationService,
-        authenticationMethodRepository,
-        authenticationSessionService,
-        userRepository,
-      });
-
-      // then
-      expect(userRepository.updateLastLoggedAt).to.have.been.calledWith({ userId: 1 });
-    });
-
-    context('When user has an cnav authentication method', function () {
       it('should save last logged at date', async function () {
         // given
         userRepository.findByCnavExternalIdentifier.resolves({ id: 123 });
@@ -213,91 +104,51 @@ describe('Unit | UseCase | authenticate-cnav-user', function () {
 
         // when
         await authenticateCnavUser({
-          authenticatedUserId: undefined,
-          clientId: 'clientId',
           code: 'code',
           redirectUri: 'redirectUri',
           stateReceived: 'state',
           stateSent: 'state',
           cnavAuthenticationService,
-          authenticationMethodRepository,
           authenticationSessionService,
+          authenticationMethodRepository,
           userRepository,
         });
 
         // then
         expect(userRepository.updateLastLoggedAt).to.have.been.calledWith({ userId: 123 });
       });
-    });
 
-    context('When user is connected with Pix authentication method', function () {
-      context('When the user does not have a cnav authentication method', function () {
-        it('should call authentication method repository create function with cnav authentication method in domain transaction', async function () {
-          // given
-          _fakeCnavAPI({ cnavAuthenticationService });
-          userRepository.findByCnavExternalIdentifier.resolves(null);
-          cnavAuthenticationService.createAccessToken.returns('access-token');
-
-          // when
-          await authenticateCnavUser({
-            authenticatedUserId: 1,
-            clientId: 'clientId',
-            code: 'code',
-            redirectUri: 'redirectUri',
-            stateReceived: 'state',
-            stateSent: 'state',
-            cnavAuthenticationService,
-            authenticationMethodRepository,
-            authenticationSessionService,
-            userRepository,
-          });
-
-          // then
-          const expectedAuthenticationMethod = new AuthenticationMethod({
-            identityProvider: AuthenticationMethod.identityProviders.CNAV,
-            externalIdentifier: '094b83ac-2e20-4aa8-b438-0bc91748e4a6',
-            userId: 1,
-          });
-          expect(authenticationMethodRepository.create).to.have.been.calledWith({
-            authenticationMethod: expectedAuthenticationMethod,
-          });
+      it('should return Pix access token', async function () {
+        // given
+        const user = domainBuilder.buildUser().id;
+        domainBuilder.buildAuthenticationMethod.withCnavAsIdentityProvider({
+          userId: user.id,
         });
-      });
 
-      context('When the user does have a cnav authentication method', function () {
-        it('should throw an UnexpectedUserAccountError error if the external identifier does not match the one in the cnav id token', async function () {
-          // given
-          _fakeCnavAPI({ cnavAuthenticationService });
+        _fakeCnavAPI({ cnavAuthenticationService });
+        userRepository.findByCnavExternalIdentifier.resolves(user);
+        cnavAuthenticationService.createAccessToken.returns('access-token');
 
-          authenticationMethodRepository.findOneByUserIdAndIdentityProvider.resolves(
-            domainBuilder.buildAuthenticationMethod.withCnavAsIdentityProvider({
-              externalIdentifier: 'other_external_identifier',
-            })
-          );
-
-          // when
-          const error = await catchErr(authenticateCnavUser)({
-            authenticatedUserId: 1,
-            clientId: 'clientId',
-            code: 'code',
-            redirectUri: 'redirectUri',
-            stateReceived: 'state',
-            stateSent: 'state',
-            cnavAuthenticationService,
-            authenticationMethodRepository,
-            authenticationSessionService,
-            userRepository,
-          });
-
-          // then
-          expect(error).to.be.instanceOf(UnexpectedUserAccountError);
+        // when
+        const result = await authenticateCnavUser({
+          code: 'code',
+          redirectUri: 'redirectUri',
+          stateReceived: 'state',
+          stateSent: 'state',
+          cnavAuthenticationService,
+          authenticationSessionService,
+          authenticationMethodRepository,
+          userRepository,
         });
+
+        // then
+        expect(result).to.deep.equal({ pixAccessToken: 'access-token' });
       });
     });
   });
 
   context('When user has no account', function () {
-    it('should call CnavTokens repository save method', async function () {
+    it('should save the id token', async function () {
       // given
       const idToken = _fakeCnavAPI({ cnavAuthenticationService });
       const key = 'aaa-bbb-ccc';
@@ -306,15 +157,13 @@ describe('Unit | UseCase | authenticate-cnav-user', function () {
 
       // when
       await authenticateCnavUser({
-        authenticatedUserId: undefined,
-        clientId: 'clientId',
         code: 'code',
         redirectUri: 'redirectUri',
         stateReceived: 'state',
         stateSent: 'state',
         cnavAuthenticationService,
-        authenticationMethodRepository,
         authenticationSessionService,
+        authenticationMethodRepository,
         userRepository,
       });
 
@@ -322,29 +171,27 @@ describe('Unit | UseCase | authenticate-cnav-user', function () {
       expect(authenticationSessionService.save).to.have.been.calledWith(idToken);
     });
 
-    it('should return an authenticationKey', async function () {
+    it('should return an authentication key', async function () {
       // given
-      const key = 'aaa-bbb-ccc';
+      const authenticationKey = 'aaa-bbb-ccc';
       _fakeCnavAPI({ cnavAuthenticationService });
-      authenticationSessionService.save.resolves(key);
+      authenticationSessionService.save.resolves(authenticationKey);
       userRepository.findByCnavExternalIdentifier.resolves(null);
 
       // when
       const result = await authenticateCnavUser({
-        authenticatedUserId: undefined,
-        clientId: 'clientId',
         code: 'code',
         redirectUri: 'redirectUri',
         stateReceived: 'state',
         stateSent: 'state',
         cnavAuthenticationService,
-        authenticationMethodRepository,
         authenticationSessionService,
+        authenticationMethodRepository,
         userRepository,
       });
 
       // then
-      expect(result.authenticationKey).to.equal(key);
+      expect(result).to.deep.equal({ authenticationKey });
     });
   });
 });
