@@ -1,5 +1,5 @@
 const CleaCertificationScoring = require('../../../../lib/domain/models/CleaCertificationScoring');
-const { expect, catchErr } = require('../../../test-helper');
+const { expect, catchErr, domainBuilder } = require('../../../test-helper');
 const { ObjectValidationError, NotEligibleCandidateError } = require('../../../../lib/domain/errors');
 
 describe('Unit | Domain | Models | CleaCertificationScoring', function () {
@@ -209,7 +209,8 @@ function _buildCleaCertificationScoringWithoutBadge() {
 function _buildCleaCertificationScoring({ withBadge = false, reproducibilityRate = 0, pixScore = 0 }) {
   const certificationCourseId = 42;
   const complementaryCertificationCourseId = 999;
-  return new CleaCertificationScoring({
+
+  return domainBuilder.buildCleaCertificationScoring({
     complementaryCertificationCourseId,
     certificationCourseId,
     hasAcquiredBadge: withBadge,
