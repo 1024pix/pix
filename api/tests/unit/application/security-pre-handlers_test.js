@@ -580,7 +580,7 @@ describe('Unit | Application | SecurityPreHandlers', function () {
     });
   });
 
-  describe('#checkUserBelongsToOrganizationOrhasRoleSuperAdmin', function () {
+  describe('#userHasAtLeastOneAccessOf', function () {
     let belongsToOrganizationStub;
     let hasRoleSuperAdminStub;
     let request;
@@ -606,10 +606,13 @@ describe('Unit | Application | SecurityPreHandlers', function () {
         hasRoleSuperAdminStub.resolves(false);
 
         // when
-        const response = await securityPreHandlers.checkUserBelongsToOrganizationOrhasRoleSuperAdmin(request, hFake);
+        const response = await securityPreHandlers.userHasAtLeastOneAccessOf([
+          belongsToOrganizationStub,
+          hasRoleSuperAdminStub,
+        ])(request, hFake);
 
         // then
-        expect(response.source).to.equal(true);
+        expect(response).to.equal(true);
       });
 
       it('should authorize access to resource when the user is authenticated and is Super Admin', async function () {
@@ -618,10 +621,13 @@ describe('Unit | Application | SecurityPreHandlers', function () {
         hasRoleSuperAdminStub.resolves(true);
 
         // when
-        const response = await securityPreHandlers.checkUserBelongsToOrganizationOrhasRoleSuperAdmin(request, hFake);
+        const response = await securityPreHandlers.userHasAtLeastOneAccessOf([
+          belongsToOrganizationStub,
+          hasRoleSuperAdminStub,
+        ])(request, hFake);
 
         // then
-        expect(response.source).to.equal(true);
+        expect(response).to.equal(true);
       });
 
       it('should authorize access to resource when the user is authenticated and belongs to organization and is Super Admin', async function () {
@@ -630,32 +636,27 @@ describe('Unit | Application | SecurityPreHandlers', function () {
         hasRoleSuperAdminStub.resolves(true);
 
         // when
-        const response = await securityPreHandlers.checkUserBelongsToOrganizationOrhasRoleSuperAdmin(request, hFake);
+        const response = await securityPreHandlers.userHasAtLeastOneAccessOf([
+          belongsToOrganizationStub,
+          hasRoleSuperAdminStub,
+        ])(request, hFake);
 
         // then
-        expect(response.source).to.equal(true);
+        expect(response).to.equal(true);
       });
     });
 
     context('Error cases', function () {
-      it('should forbid resource access when user was not previously authenticated', async function () {
+      it('should forbid resource access when user does not belong to organization nor has role Super Admin', async function () {
         // given
-        delete request.auth.credentials;
+        belongsToOrganizationStub.resolves({ source: { errors: {} } });
+        hasRoleSuperAdminStub.resolves({ source: { errors: {} } });
 
         // when
-        const response = await securityPreHandlers.checkUserBelongsToOrganizationOrhasRoleSuperAdmin(request, hFake);
-
-        // then
-        expect(response.statusCode).to.equal(403);
-        expect(response.isTakeOver).to.be.true;
-      });
-
-      it('should forbid resource access when user does not belong to organization or has role Super Admin', async function () {
-        // given
-        belongsToOrganizationStub.resolves(false);
-
-        // when
-        const response = await securityPreHandlers.checkUserBelongsToOrganizationOrhasRoleSuperAdmin(request, hFake);
+        const response = await securityPreHandlers.userHasAtLeastOneAccessOf([
+          belongsToOrganizationStub,
+          hasRoleSuperAdminStub,
+        ])(request, hFake);
 
         // then
         expect(response.statusCode).to.equal(403);

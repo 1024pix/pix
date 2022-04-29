@@ -178,7 +178,11 @@ exports.register = async (server) => {
       config: {
         pre: [
           {
-            method: securityPreHandlers.checkUserBelongsToOrganizationOrhasRoleSuperAdmin,
+            method: (request, h) =>
+              securityPreHandlers.userHasAtLeastOneAccessOf([
+                securityPreHandlers.checkUserBelongsToOrganization,
+                securityPreHandlers.checkUserHasRoleSuperAdmin,
+              ])(request, h),
             assign: 'belongsToOrganization',
           },
         ],

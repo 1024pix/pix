@@ -33,7 +33,8 @@ describe('Integration | Application | Organizations | organization-controller', 
     sandbox.stub(securityPreHandlers, 'checkUserBelongsToScoOrganizationAndManagesStudents');
     sandbox.stub(securityPreHandlers, 'checkUserBelongsToSupOrganizationAndManagesStudents');
     sandbox.stub(securityPreHandlers, 'checkUserIsAdminInSCOOrganizationManagingStudents');
-    sandbox.stub(securityPreHandlers, 'checkUserBelongsToOrganizationOrhasRoleSuperAdmin');
+    sandbox.stub(securityPreHandlers, 'userHasAtLeastOneAccessOf');
+    sandbox.stub(securityPreHandlers, 'checkUserBelongsToOrganization');
     httpTestServer = new HttpTestServer();
     await httpTestServer.register(moduleUnderTest);
   });
@@ -109,7 +110,7 @@ describe('Integration | Application | Organizations | organization-controller', 
   describe('#findPaginatedFilteredOrganizationMemberships', function () {
     context('Success cases', function () {
       beforeEach(function () {
-        securityPreHandlers.checkUserBelongsToOrganizationOrhasRoleSuperAdmin.returns(true);
+        securityPreHandlers.userHasAtLeastOneAccessOf.returns(() => true);
       });
 
       it('should return an HTTP response with status code 200', async function () {
