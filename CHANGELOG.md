@@ -1,5 +1,24 @@
 # Pix Changelog
 
+## v3.204.0 (29/04/2022)
+
+
+### :rocket: Amélioration
+- [#4378](https://github.com/1024pix/pix/pull/4378) [FEATURE] Remplacement de l'image codée sur la page de tutos vide par un PNG (PIX-4841).
+- [#4369](https://github.com/1024pix/pix/pull/4369) [FEATURE]  Afficher les macarons Pix+Édu 1er degré dans le certificat pdf (PIX-4767).
+- [#4377](https://github.com/1024pix/pix/pull/4377) [FEATURE] Renommer le nom des labels des champs adresse email (PIX-4856).
+- [#4366](https://github.com/1024pix/pix/pull/4366) [FEATURE] Utiliser le vocabulaire métier "Inscrire un candidat" (PIX-4835).
+- [#4308](https://github.com/1024pix/pix/pull/4308) [FEATURE] Afficher un message d'erreur si un prescrit à déjà une participation à une campagne (PIX-4674).
+
+### :building_construction: Tech
+- [#4362](https://github.com/1024pix/pix/pull/4362) [TECH] Supprimer le usecase get-pix-framework au profit de get-framework-areas
+- [#4373](https://github.com/1024pix/pix/pull/4373) [TECH] Harmoniser le texte du formulaire de connexion sur Pix Admin (PIX-4852).
+- [#4367](https://github.com/1024pix/pix/pull/4367) [TECH] Suppression de la variable d'environnement FT_NEW_TUTORIALS_PAGE de l'api (PIX-4838).
+
+### :bug: Correction
+- [#4355](https://github.com/1024pix/pix/pull/4355) [BUGFIX] ajouter une marge au bloque d'information dans la page de création de campagne (PIX-4812)
+- [#4375](https://github.com/1024pix/pix/pull/4375) [BUGFIX] Traduire les intitulés sur la présélection de profil cible (PIX-4855)
+
 ## v3.203.0 (27/04/2022)
 
 
