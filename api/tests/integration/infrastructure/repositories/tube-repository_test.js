@@ -219,120 +219,6 @@ describe('Integration | Repository | tube-repository', function () {
     });
   });
 
-  describe('#findActivesFromFramework', function () {
-    it('should return the active tubes from pix framework', async function () {
-      // given
-      const tube0 = new Tube({
-        id: 'recTube0',
-        name: 'tubeName0',
-        competenceId: 'recCompetence0',
-      });
-
-      const learningContentSkill0 = {
-        id: 'recSkill0',
-        status: 'actif',
-        tubeId: 'recTube0',
-      };
-
-      const learningContentSkill1 = {
-        id: 'recSkill1',
-        status: 'archivé',
-        tubeId: 'recTube1',
-      };
-
-      const learningContentSkill2 = {
-        id: 'recSkill2',
-        status: 'actif',
-        tubeId: 'recTube2',
-      };
-
-      const learningContentTube0 = {
-        id: 'recTube0',
-        name: 'tubeName0',
-        competenceId: 'recCompetence0',
-      };
-
-      const learningContentTube1 = {
-        id: 'recTube1',
-        name: '@tubeName1',
-        competenceId: 'recCompetence0',
-      };
-
-      const learningContentTube2 = {
-        id: 'recTube2',
-        name: '@tubeName1',
-        competenceId: 'recCompetence1',
-      };
-
-      const learningContentCompetence0 = {
-        id: 'recCompetence0',
-        origin: 'Pix',
-      };
-
-      const learningContentCompetence1 = {
-        id: 'recCompetence1',
-        origin: 'Pix plus',
-      };
-
-      mockLearningContent({
-        tubes: [learningContentTube0, learningContentTube1, learningContentTube2],
-        skills: [learningContentSkill0, learningContentSkill1, learningContentSkill2],
-        competences: [learningContentCompetence0, learningContentCompetence1],
-      });
-
-      // when
-      const tubes = await tubeRepository.findActivesFromPixFramework();
-
-      // then
-      expect(tubes.length).to.equal(1);
-      expect(tubes[0]).to.deep.equal(tube0);
-    });
-
-    it('should return tubes in the specified locale', async function () {
-      // given
-      const tube0 = new Tube({
-        id: 'recTube0',
-        name: 'tubeName0',
-        practicalTitle: 'translatedPracticalTitle1',
-        practicalDescription: 'translatedPracticalDescription1',
-        competenceId: 'recCompetence0',
-      });
-
-      const learningContentSkill0 = {
-        id: 'recSkill0',
-        status: 'actif',
-        tubeId: 'recTube0',
-      };
-
-      const learningContentTube0 = {
-        id: 'recTube0',
-        name: 'tubeName0',
-        practicalTitleEnUs: 'translatedPracticalTitle1',
-        practicalDescriptionEnUs: 'translatedPracticalDescription1',
-        competenceId: 'recCompetence0',
-      };
-
-      const learningContentCompetence0 = {
-        id: 'recCompetence0',
-        origin: 'Pix',
-      };
-
-      mockLearningContent({
-        tubes: [learningContentTube0],
-        skills: [learningContentSkill0],
-        competences: [learningContentCompetence0],
-      });
-      const locale = 'en';
-
-      // when
-      const tubes = await tubeRepository.findActivesFromPixFramework(locale);
-
-      // then
-      expect(tubes.length).to.equal(1);
-      expect(tubes[0]).to.deep.equal(tube0);
-    });
-  });
-
   describe('#findActiveByRecordIds', function () {
     it('should return a list of active tubes', async function () {
       // given
@@ -397,6 +283,81 @@ describe('Integration | Repository | tube-repository', function () {
 
       // when
       const tubes = await tubeRepository.findActiveByRecordIds(['recTube1', 'recTube2']);
+
+      // then
+      expect(tubes).to.have.lengthOf(1);
+      expect(tubes[0]).to.deep.equal(tube1);
+    });
+
+    it('should return a list of english active tubes', async function () {
+      // given
+      const tube1 = new Tube({
+        id: 'recTube1',
+        name: 'tubeName1',
+        title: 'tubeTitle1',
+        description: 'tubeDescription1',
+        practicalTitle: 'translatedPracticalTitle1EnUs',
+        practicalDescription: 'translatedPracticalDescription1EnUs',
+        competenceId: 'recCompetence1',
+      });
+
+      const learningContentTube0 = {
+        id: 'recTube0',
+        name: 'tubeName0',
+        title: 'tubeTitle0',
+        description: 'tubeDescription0',
+        practicalTitleFrFr: 'translatedPracticalTitle0',
+        practicalDescriptionFrFr: 'translatedPracticalDescription0',
+        practicalTitleEnUs: 'translatedPracticalTitle0EnUs',
+        practicalDescriptionEnUs: 'translatedPracticalDescription0EnUs',
+        competenceId: 'recCompetence0',
+      };
+
+      const learningContentTube1 = {
+        id: 'recTube1',
+        name: 'tubeName1',
+        title: 'tubeTitle1',
+        description: 'tubeDescription1',
+        practicalTitleFrFr: 'translatedPracticalTitle1',
+        practicalDescriptionFrFr: 'translatedPracticalDescription1',
+        practicalTitleEnUs: 'translatedPracticalTitle1EnUs',
+        practicalDescriptionEnUs: 'translatedPracticalDescription1EnUs',
+        competenceId: 'recCompetence1',
+      };
+
+      const learningContentTube2 = {
+        id: 'recTube2',
+        name: 'tubeName2',
+        title: 'tubeTitle2',
+        description: 'tubeDescription2',
+        practicalTitleFrFr: 'translatedPracticalTitle2',
+        practicalDescriptionFrFr: 'translatedPracticalDescription2',
+        practicalTitleEnUs: 'translatedPracticalTitle2EnUs',
+        practicalDescriptionEnUs: 'translatedPracticalDescription2EnUs',
+        competenceId: 'recCompetence2',
+      };
+
+      const skills = [
+        {
+          id: 'skillId0',
+          status: 'actif',
+          tubeId: 'recTube0',
+        },
+        {
+          id: 'skillId1',
+          status: 'actif',
+          tubeId: 'recTube1',
+        },
+        {
+          id: 'skillId2',
+          status: 'archivé',
+          tubeId: 'recTube2',
+        },
+      ];
+      mockLearningContent({ tubes: [learningContentTube1, learningContentTube0, learningContentTube2], skills });
+
+      // when
+      const tubes = await tubeRepository.findActiveByRecordIds(['recTube1', 'recTube2'], 'en');
 
       // then
       expect(tubes).to.have.lengthOf(1);

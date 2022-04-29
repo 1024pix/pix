@@ -6,7 +6,7 @@ const { extractLocaleFromRequest } = require('../../infrastructure/utils/request
 module.exports = {
   async getPixFramework(request) {
     const locale = extractLocaleFromRequest(request);
-    const framework = await usecases.getPixFramework(locale);
+    const framework = await usecases.getFrameworkAreas({ frameworkName: 'Pix', locale });
     return frameworkAreasSerializer.serialize(framework);
   },
   async getFrameworks() {
