@@ -16,4 +16,39 @@ describe('Unit | Infrastructure | Datasource | Learning Content | FrameworkDatas
       expect(foundFrameworks).to.deep.equal(records);
     });
   });
+
+  describe('#getByName', function () {
+    it('should return a framework', async function () {
+      // given
+      const frameworks = [
+        { id: 'recFramework0', name: 'Framework0' },
+        { id: 'recFramework1', name: 'Framework1' },
+        { id: 'recFramework2', name: 'Framework2' },
+      ];
+      sinon.stub(lcms, 'getLatestRelease').resolves({ frameworks });
+
+      // when
+      const foundFramework = await frameworkDatasource.getByName('Framework0');
+
+      // then
+      expect(foundFramework).to.deep.equal({ id: 'recFramework0', name: 'Framework0' });
+    });
+
+    describe('when framework not found', function () {
+      it('should return undefined', async function () {
+        const frameworks = [
+          { id: 'recFramework0', name: 'Framework0' },
+          { id: 'recFramework1', name: 'Framework1' },
+          { id: 'recFramework2', name: 'Framework2' },
+        ];
+        sinon.stub(lcms, 'getLatestRelease').resolves({ frameworks });
+
+        // when
+        const foundFramework = await frameworkDatasource.getByName('Framework3');
+
+        // then
+        expect(foundFramework).to.be.undefined;
+      });
+    });
+  });
 });

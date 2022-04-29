@@ -5,20 +5,17 @@ const frameworkSerializer = require('../../../../lib/infrastructure/serializers/
 const frameworksController = require('../../../../lib/application/frameworks/frameworks-controller');
 
 describe('Unit | Controller | frameworks-controller', function () {
-  let pixFmk;
   let frameworks;
   let areas;
   let serializedAreas;
   let serializedFrameworks;
 
   beforeEach(function () {
-    pixFmk = Symbol('pixFmk');
     frameworks = Symbol('frameworks');
     areas = Symbol('areas');
     serializedAreas = Symbol('serializedAreas');
     serializedFrameworks = Symbol('serializedFrameworks');
 
-    sinon.stub(usecases, 'getPixFramework').returns(pixFmk);
     sinon.stub(usecases, 'getFrameworks').returns(frameworks);
     sinon.stub(frameworkAreasSerializer, 'serialize').returns(serializedAreas);
     sinon.stub(frameworkSerializer, 'serialize').returns(serializedFrameworks);
@@ -35,8 +32,8 @@ describe('Unit | Controller | frameworks-controller', function () {
 
       // then
       expect(result).to.equal(serializedAreas);
-      expect(usecases.getPixFramework).to.have.been.calledWithExactly('fr-fr');
-      expect(frameworkAreasSerializer.serialize).to.have.been.calledWithExactly(pixFmk);
+      expect(usecases.getFrameworkAreas).to.have.been.calledWith({ frameworkName: 'Pix', locale: 'fr-fr' });
+      expect(frameworkAreasSerializer.serialize).to.have.been.calledWithExactly(areas);
     });
 
     it('should extract the locale and pass it to the usecases', async function () {
@@ -52,8 +49,8 @@ describe('Unit | Controller | frameworks-controller', function () {
 
       // then
       expect(result).to.equal(serializedAreas);
-      expect(usecases.getPixFramework).to.have.been.calledWithExactly('en');
-      expect(frameworkAreasSerializer.serialize).to.have.been.calledWithExactly(pixFmk);
+      expect(usecases.getFrameworkAreas).to.have.been.calledWithExactly({ frameworkName: 'Pix', locale: 'en' });
+      expect(frameworkAreasSerializer.serialize).to.have.been.calledWithExactly(areas);
     });
   });
 

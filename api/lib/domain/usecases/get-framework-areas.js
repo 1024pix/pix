@@ -1,10 +1,18 @@
 module.exports = async function getFrameworkAreas({
   frameworkId,
+  frameworkName,
+  locale,
   challengeRepository,
   tubeRepository,
   thematicRepository,
   areaRepository,
+  frameworkRepository,
 }) {
+  if (!frameworkId) {
+    const framework = await frameworkRepository.getByName(frameworkName);
+    frameworkId = framework.id;
+  }
+
   const areasWithCompetences = await areaRepository.findByFrameworkIdWithCompetences(frameworkId);
 
   const competences = areasWithCompetences.flatMap((area) => area.competences);
@@ -13,7 +21,7 @@ module.exports = async function getFrameworkAreas({
   const thematics = await thematicRepository.findByCompetenceIds(competenceIds);
 
   const tubeIds = thematics.flatMap((thematic) => thematic.tubeIds);
-  const tubes = await tubeRepository.findActiveByRecordIds(tubeIds);
+  const tubes = await tubeRepository.findActiveByRecordIds(tubeIds, locale);
 
   const validatedChallenges = await challengeRepository.findValidatedPrototype();
 

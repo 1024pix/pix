@@ -260,20 +260,4 @@ describe('Unit | Infrastructure | Datasource | Learning Content | ChallengeDatas
       expect(result).to.deep.equal([challenge_web1, challenge_competence2]);
     });
   });
-
-  describe('#findValidatedPrototypeBySkillId', function () {
-    beforeEach(function () {
-      sinon.stub(lcms, 'getLatestRelease').resolves({
-        challenges: [challenge_web1, challenge_web1_notValidated, challenge_web1_archived, challenge_competence2],
-      });
-    });
-    it('should resolve an array of validated prototype challenge of a skill from learning content ', async function () {
-      // when
-      const result = await challengeDatasource.findValidatedPrototypeBySkillId('skill-web1');
-
-      // then
-      expect(lcms.getLatestRelease).to.have.been.called;
-      expect(result).to.deep.equal([challenge_web1]);
-    });
-  });
 });
