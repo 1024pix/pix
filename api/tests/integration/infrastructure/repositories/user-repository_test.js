@@ -13,6 +13,7 @@ const {
   UserNotFoundError,
 } = require('../../../../lib/domain/errors');
 
+const AuthenticationMethod = require('../../../../lib/domain/models/AuthenticationMethod');
 const User = require('../../../../lib/domain/models/User');
 const UserDetailsForAdmin = require('../../../../lib/domain/models/UserDetailsForAdmin');
 const Membership = require('../../../../lib/domain/models/Membership');
@@ -172,27 +173,26 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
       });
     });
 
-    describe('#findByPoleEmploiExternalIdentifier', function () {
-      const externalIdentityId = 'external-identity-id';
-
-      let userInDb;
-
-      beforeEach(async function () {
-        userInDb = databaseBuilder.factory.buildUser();
+    describe('#findByExternalIdentifier', function () {
+      it('should return user information for the given external identity id and identity provider', async function () {
+        // given
+        const externalIdentityId = 'external-identity-id';
+        const userId = databaseBuilder.factory.buildUser().id;
         databaseBuilder.factory.buildAuthenticationMethod.withPoleEmploiAsIdentityProvider({
           externalIdentifier: externalIdentityId,
-          userId: userInDb.id,
+          userId,
         });
         await databaseBuilder.commit();
-      });
 
-      it('should return user informations for the given external identity id', async function () {
         // when
-        const foundUser = await userRepository.findByPoleEmploiExternalIdentifier(externalIdentityId);
+        const foundUser = await userRepository.findByExternalIdentifier({
+          externalIdentityId,
+          identityProvider: AuthenticationMethod.identityProviders.POLE_EMPLOI,
+        });
 
         // then
         expect(foundUser).to.be.an.instanceof(User);
-        expect(foundUser.id).to.equal(userInDb.id);
+        expect(foundUser.id).to.equal(userId);
       });
 
       it('should return undefined when no user was found with this external identity id', async function () {
@@ -200,42 +200,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
         const badId = 'not-exist-external-identity-id';
 
         // when
-        const foundUser = await userRepository.findByPoleEmploiExternalIdentifier(badId);
-
-        // then
-        return expect(foundUser).to.be.null;
-      });
-    });
-
-    describe('#findByCnavExternalIdentifier', function () {
-      const externalIdentityId = 'external-identity-id';
-
-      let userInDb;
-
-      beforeEach(async function () {
-        userInDb = databaseBuilder.factory.buildUser();
-        databaseBuilder.factory.buildAuthenticationMethod.withCnavAsIdentityProvider({
-          externalIdentifier: externalIdentityId,
-          userId: userInDb.id,
-        });
-        await databaseBuilder.commit();
-      });
-
-      it('should return user informations for the given external identity id', async function () {
-        // when
-        const foundUser = await userRepository.findByCnavExternalIdentifier(externalIdentityId);
-
-        // then
-        expect(foundUser).to.be.an.instanceof(User);
-        expect(foundUser.id).to.equal(userInDb.id);
-      });
-
-      it('should return undefined when no user was found with this external identity id', async function () {
-        // given
-        const badId = 'not-exist-external-identity-id';
-
-        // when
-        const foundUser = await userRepository.findByCnavExternalIdentifier(badId);
+        const foundUser = await userRepository.findByExternalIdentifier(badId);
 
         // then
         return expect(foundUser).to.be.null;

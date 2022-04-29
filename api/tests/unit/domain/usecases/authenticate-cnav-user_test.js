@@ -32,7 +32,7 @@ describe('Unit | UseCase | authenticate-cnav-user', function () {
     };
 
     userRepository = {
-      findByCnavExternalIdentifier: sinon.stub().resolves({}),
+      findByExternalIdentifier: sinon.stub().resolves({}),
       updateLastLoggedAt: sinon.stub(),
     };
   });
@@ -78,7 +78,7 @@ describe('Unit | UseCase | authenticate-cnav-user', function () {
         });
 
         _fakeCnavAPI({ cnavAuthenticationService });
-        userRepository.findByCnavExternalIdentifier.resolves(user);
+        userRepository.findByExternalIdentifier.resolves(user);
 
         // when
         await authenticateCnavUser({
@@ -98,7 +98,7 @@ describe('Unit | UseCase | authenticate-cnav-user', function () {
 
       it('should save last logged at date', async function () {
         // given
-        userRepository.findByCnavExternalIdentifier.resolves({ id: 123 });
+        userRepository.findByExternalIdentifier.resolves({ id: 123 });
         _fakeCnavAPI({ cnavAuthenticationService });
         cnavAuthenticationService.createAccessToken.returns('access-token');
 
@@ -126,7 +126,7 @@ describe('Unit | UseCase | authenticate-cnav-user', function () {
         });
 
         _fakeCnavAPI({ cnavAuthenticationService });
-        userRepository.findByCnavExternalIdentifier.resolves(user);
+        userRepository.findByExternalIdentifier.resolves(user);
         cnavAuthenticationService.createAccessToken.returns('access-token');
 
         // when
@@ -153,7 +153,7 @@ describe('Unit | UseCase | authenticate-cnav-user', function () {
       const idToken = _fakeCnavAPI({ cnavAuthenticationService });
       const key = 'aaa-bbb-ccc';
       authenticationSessionService.save.resolves(key);
-      userRepository.findByCnavExternalIdentifier.resolves(null);
+      userRepository.findByExternalIdentifier.resolves(null);
 
       // when
       await authenticateCnavUser({
@@ -176,7 +176,7 @@ describe('Unit | UseCase | authenticate-cnav-user', function () {
       const authenticationKey = 'aaa-bbb-ccc';
       _fakeCnavAPI({ cnavAuthenticationService });
       authenticationSessionService.save.resolves(authenticationKey);
-      userRepository.findByCnavExternalIdentifier.resolves(null);
+      userRepository.findByExternalIdentifier.resolves(null);
 
       // when
       const result = await authenticateCnavUser({

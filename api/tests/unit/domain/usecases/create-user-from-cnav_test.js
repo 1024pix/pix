@@ -36,7 +36,6 @@ describe('Unit | UseCase | create-user-from-cnav', function () {
     };
 
     userToCreateRepository = {
-      findByCnavExternalIdentifier: sinon.stub(),
       create: sinon.stub(),
     };
 

@@ -1,4 +1,5 @@
 const { UnexpectedStateError } = require('../errors');
+const AuthenticationMethod = require('../models/AuthenticationMethod');
 const logger = require('../../infrastructure/logger');
 
 module.exports = async function authenticateCnavUser({
@@ -19,7 +20,10 @@ module.exports = async function authenticateCnavUser({
 
   const userInfo = await cnavAuthenticationService.getUserInfo(idToken);
 
-  const user = await userRepository.findByCnavExternalIdentifier(userInfo.externalIdentityId);
+  const user = await userRepository.findByExternalIdentifier({
+    externalIdentityId: userInfo.externalIdentityId,
+    identityProvider: AuthenticationMethod.identityProviders.CNAV,
+  });
 
   let pixAccessToken;
   if (user) {
