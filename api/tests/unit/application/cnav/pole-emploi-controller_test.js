@@ -3,7 +3,7 @@ const { expect, sinon, hFake } = require('../../../test-helper');
 const cnavController = require('../../../../lib/application/cnav/cnav-controller');
 const usecases = require('../../../../lib/domain/usecases');
 const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
-const cnavAuthenticationService = require('../../../../lib/domain/services/cnav-authentication-service');
+const cnavAuthenticationService = require('../../../../lib/domain/services/authentication/cnav-authentication-service');
 
 describe('Unit | Controller | cnav-controller', function () {
   describe('#createUser', function () {

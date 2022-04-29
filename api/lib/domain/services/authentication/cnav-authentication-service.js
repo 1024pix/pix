@@ -1,10 +1,10 @@
 const jsonwebtoken = require('jsonwebtoken');
 const get = require('lodash/get');
-const settings = require('../../config');
+const settings = require('../../../config');
 const { v4: uuidv4 } = require('uuid');
-const httpAgent = require('../../infrastructure/http/http-agent');
+const httpAgent = require('../../../infrastructure/http/http-agent');
 const querystring = require('querystring');
-const { GenerateCnavTokensError } = require('../errors');
+const { GenerateCnavTokensError } = require('../../errors');
 
 async function exchangeCodeForTokens({ code, redirectUri }) {
   const data = {

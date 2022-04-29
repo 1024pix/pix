@@ -1,55 +1,63 @@
-const { expect, sinon, catchErr } = require('../../../test-helper');
-
-const { GenerateCnavTokensError } = require('../../../../lib/domain/errors');
-
-const settings = require('../../../../lib/config');
-const httpAgent = require('../../../../lib/infrastructure/http/http-agent');
+const { expect, sinon, catchErr } = require('../../../../test-helper');
+const { GeneratePoleEmploiTokensError } = require('../../../../../lib/domain/errors');
+const PoleEmploiTokens = require('../../../../../lib/domain/models/PoleEmploiTokens');
+const settings = require('../../../../../lib/config');
+const httpAgent = require('../../../../../lib/infrastructure/http/http-agent');
 const jsonwebtoken = require('jsonwebtoken');
 
-const cnavAuthenticationService = require('../../../../lib/domain/services/cnav-authentication-service');
+const poleEmploiAuthenticationService = require('../../../../../lib/domain/services/authentication/pole-emploi-authentication-service');
 
-describe('Unit | Domain | Services | cnav-authentication-service', function () {
+describe('Unit | Domain | Services | pole-emploi-authentication-service', function () {
   describe('#exchangeCodeForTokens', function () {
     beforeEach(function () {
       sinon.stub(httpAgent, 'post');
     });
 
-    it('should return access token and validity period', async function () {
+    it('should return access token, id token and validity period', async function () {
       // given
-      sinon.stub(settings.cnav, 'clientId').value('CNAV_CLIENT_ID');
-      sinon.stub(settings.cnav, 'tokenUrl').value('http://cnav-igation.net/api/token');
-      sinon.stub(settings.cnav, 'clientSecret').value('CNAV_CLIENT_SECRET');
+      sinon.stub(settings.poleEmploi, 'clientId').value('PE_CLIENT_ID');
+      sinon.stub(settings.poleEmploi, 'tokenUrl').value('http://paul-emploi.net/api/token');
+      sinon.stub(settings.poleEmploi, 'clientSecret').value('PE_CLIENT_SECRET');
 
-      const idToken = 'idToken';
+      const poleEmploiTokens = new PoleEmploiTokens({
+        accessToken: 'accessToken',
+        expiresIn: 60,
+        idToken: 'idToken',
+        refreshToken: 'refreshToken',
+      });
 
       const response = {
         isSuccessful: true,
         data: {
-          id_token: idToken,
+          access_token: poleEmploiTokens.accessToken,
+          expires_in: poleEmploiTokens.expiresIn,
+          id_token: poleEmploiTokens.idToken,
+          refresh_token: poleEmploiTokens.refreshToken,
         },
       };
       httpAgent.post.resolves(response);
 
       // when
-      const result = await cnavAuthenticationService.exchangeCodeForTokens({
+      const result = await poleEmploiAuthenticationService.exchangeCodeForTokens({
         code: 'AUTH_CODE',
-        redirectUri: 'pix.net/connexion-cnav-igation',
+        redirectUri: 'pix.net/connexion-paul-emploi',
       });
 
       // then
-      const expectedData = `client_secret=CNAV_CLIENT_SECRET&grant_type=authorization_code&code=AUTH_CODE&client_id=CNAV_CLIENT_ID&redirect_uri=pix.net%2Fconnexion-cnav-igation`;
+      const expectedData = `client_secret=PE_CLIENT_SECRET&grant_type=authorization_code&code=AUTH_CODE&client_id=PE_CLIENT_ID&redirect_uri=pix.net%2Fconnexion-paul-emploi`;
       const expectedHeaders = { 'content-type': 'application/x-www-form-urlencoded' };
 
       expect(httpAgent.post).to.have.been.calledWith({
-        url: 'http://cnav-igation.net/api/token',
+        url: 'http://paul-emploi.net/api/token',
         payload: expectedData,
         headers: expectedHeaders,
       });
-      expect(result).to.equal(idToken);
+      expect(result).to.be.an.instanceOf(PoleEmploiTokens);
+      expect(result).to.deep.equal(poleEmploiTokens);
     });
 
     context('when PE tokens generation fails', function () {
-      it('should log error and throw GenerateCnavTokensError', async function () {
+      it('should log error and throw GeneratePoleEmploiTokensError', async function () {
         // given
         const code = 'code';
         const clientId = 'clientId';
@@ -69,14 +77,14 @@ describe('Unit | Domain | Services | cnav-authentication-service', function () {
         httpAgent.post.resolves(response);
 
         // when
-        const error = await catchErr(cnavAuthenticationService.exchangeCodeForTokens)({
+        const error = await catchErr(poleEmploiAuthenticationService.exchangeCodeForTokens)({
           code,
           clientId,
           redirectUri,
         });
 
         // then
-        expect(error).to.be.an.instanceOf(GenerateCnavTokensError);
+        expect(error).to.be.an.instanceOf(GeneratePoleEmploiTokensError);
         expect(error.message).to.equal(expectedMessage);
       });
     });
@@ -101,24 +109,24 @@ describe('Unit | Domain | Services | cnav-authentication-service', function () {
       const given_name = 'givenName';
       const family_name = 'familyName';
       const nonce = 'bb041272-d6e6-457c-99fb-ff1aa02217fd';
-      const sub = '094b83ac-2e20-4aa8-b438-0bc91748e4a6';
+      const idIdentiteExterne = '094b83ac-2e20-4aa8-b438-0bc91748e4a6';
 
       const idToken = generateIdToken({
         given_name,
         family_name,
         nonce,
-        sub,
+        idIdentiteExterne,
       });
 
       // when
-      const result = await cnavAuthenticationService.getUserInfo(idToken);
+      const result = await poleEmploiAuthenticationService.getUserInfo(idToken);
 
       // then
       expect(result).to.deep.equal({
         firstName: given_name,
         lastName: family_name,
-        nonce,
-        externalIdentityId: sub,
+        nonce: nonce,
+        externalIdentityId: idIdentiteExterne,
       });
     });
   });
@@ -128,15 +136,15 @@ describe('Unit | Domain | Services | cnav-authentication-service', function () {
       // given
       const userId = 123;
       settings.authentication.secret = 'a secret';
-      settings.cnav.accessTokenLifespanMs = 1000;
+      settings.poleEmploi.accessTokenLifespanMs = 1000;
       const accessToken = 'valid access token';
-      const firstParameter = { user_id: userId, source: 'cnav' };
+      const firstParameter = { user_id: userId, source: 'pole_emploi_connect' };
       const secondParameter = 'a secret';
       const thirdParameter = { expiresIn: 1 };
       sinon.stub(jsonwebtoken, 'sign').withArgs(firstParameter, secondParameter, thirdParameter).returns(accessToken);
 
       // when
-      const result = cnavAuthenticationService.createAccessToken(userId);
+      const result = poleEmploiAuthenticationService.createAccessToken(userId);
 
       // then
       expect(result).to.be.deep.equal(accessToken);

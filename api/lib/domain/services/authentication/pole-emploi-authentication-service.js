@@ -1,8 +1,8 @@
-const settings = require('../../config');
-const httpAgent = require('../../infrastructure/http/http-agent');
+const settings = require('../../../config');
+const httpAgent = require('../../../infrastructure/http/http-agent');
 const querystring = require('querystring');
-const { GeneratePoleEmploiTokensError } = require('../errors');
-const PoleEmploiTokens = require('../models/PoleEmploiTokens');
+const { GeneratePoleEmploiTokensError } = require('../../errors');
+const PoleEmploiTokens = require('../../models/PoleEmploiTokens');
 const { v4: uuidv4 } = require('uuid');
 const get = require('lodash/get');
 const jsonwebtoken = require('jsonwebtoken');

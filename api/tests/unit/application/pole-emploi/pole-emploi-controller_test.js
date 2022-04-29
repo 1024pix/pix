@@ -3,7 +3,7 @@ const { expect, sinon, hFake } = require('../../../test-helper');
 const poleEmploiController = require('../../../../lib/application/pole-emploi/pole-emploi-controller');
 const usecases = require('../../../../lib/domain/usecases');
 const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
-const poleEmploiAuthenticationService = require('../../../../lib/domain/services/pole-emploi-authentication-service');
+const poleEmploiAuthenticationService = require('../../../../lib/domain/services/authentication/pole-emploi-authentication-service');
 
 describe('Unit | Controller | pole-emploi-controller', function () {
   describe('#getSendings', function () {

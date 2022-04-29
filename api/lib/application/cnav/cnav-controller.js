@@ -1,6 +1,6 @@
 const usecases = require('../../domain/usecases');
 const userRepository = require('../../infrastructure/repositories/user-repository');
-const cnavAuthenticationService = require('../../../lib/domain/services/cnav-authentication-service');
+const cnavAuthenticationService = require('../../../lib/domain/services/authentication/cnav-authentication-service');
 
 module.exports = {
   async createUser(request, h) {

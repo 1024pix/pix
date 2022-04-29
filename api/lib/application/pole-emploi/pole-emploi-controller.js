@@ -1,6 +1,6 @@
 const usecases = require('../../domain/usecases');
 const userRepository = require('../../infrastructure/repositories/user-repository');
-const poleEmploiAuthenticationService = require('../../../lib/domain/services/pole-emploi-authentication-service');
+const poleEmploiAuthenticationService = require('../../../lib/domain/services/authentication/pole-emploi-authentication-service');
 
 module.exports = {
   async createUser(request, h) {
