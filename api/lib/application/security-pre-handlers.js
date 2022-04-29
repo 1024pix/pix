@@ -1,4 +1,5 @@
 /* eslint-disable  no-restricted-syntax */
+const bluebird = require('bluebird');
 const checkUserHasRoleSuperAdminUseCase = require('./usecases/checkUserHasRoleSuperAdmin');
 const checkUserHasRoleCertifUseCase = require('./usecases/checkUserHasRoleCertif');
 const checkUserHasRoleSupportUseCase = require('./usecases/checkUserHasRoleSupport');
@@ -155,27 +156,6 @@ function checkUserIsMemberOfCertificationCenter(request, h) {
     .catch(() => _replyForbiddenError(h));
 }
 
-async function checkUserBelongsToOrganizationOrhasRoleSuperAdmin(request, h) {
-  if (!request.auth.credentials || !request.auth.credentials.userId) {
-    return _replyForbiddenError(h);
-  }
-
-  const userId = request.auth.credentials.userId;
-  const organizationId = parseInt(request.params.id);
-
-  const belongsToOrganization = await checkUserBelongsToOrganizationUseCase.execute(userId, organizationId);
-  if (belongsToOrganization) {
-    return h.response(true);
-  }
-
-  const hasRoleSuperAdmin = await checkUserHasRoleSuperAdminUseCase.execute(userId);
-  if (hasRoleSuperAdmin) {
-    return h.response(true);
-  }
-
-  return _replyForbiddenError(h);
-}
-
 async function checkUserBelongsToOrganizationManagingStudents(request, h) {
   if (!has(request, 'auth.credentials.userId')) {
     return _replyForbiddenError(h);
@@ -312,11 +292,18 @@ async function checkAuthorizationToManageCampaign(request, h) {
   return _replyForbiddenError(h);
 }
 
+function userHasAtLeastOneAccessOf(securityChecks) {
+  return async (request, h) => {
+    const responses = await bluebird.map(securityChecks, (securityCheck) => securityCheck(request, h));
+    const hasAccess = responses.some((response) => !response.source?.errors);
+    return hasAccess ? hasAccess : _replyForbiddenError(h);
+  };
+}
+
 /* eslint-enable no-restricted-syntax */
 
 module.exports = {
   checkRequestedUserIsAuthenticatedUser,
-  checkUserBelongsToOrganizationOrhasRoleSuperAdmin,
   checkUserBelongsToOrganizationManagingStudents,
   checkUserBelongsToScoOrganizationAndManagesStudents,
   checkUserBelongsToSupOrganizationAndManagesStudents,
@@ -331,4 +318,5 @@ module.exports = {
   checkUserBelongsToOrganization,
   checkUserIsMemberOfAnOrganization,
   checkUserIsMemberOfCertificationCenter,
+  userHasAtLeastOneAccessOf,
 };
