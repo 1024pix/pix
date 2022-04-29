@@ -6,7 +6,7 @@ const AuthenticationMethod = require('../../../../lib/domain/models/Authenticati
 const PoleEmploiTokens = require('../../../../lib/domain/models/PoleEmploiTokens');
 const User = require('../../../../lib/domain/models/User');
 
-const { UnexpectedPoleEmploiStateError, UnexpectedUserAccountError } = require('../../../../lib/domain/errors');
+const { UnexpectedStateError, UnexpectedUserAccountError } = require('../../../../lib/domain/errors');
 const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
 const logger = require('../../../../lib/infrastructure/logger');
 
@@ -55,7 +55,7 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', function () {
   });
 
   context('When the request state does not match the response state', function () {
-    it('should throw an UnexpectedPoleEmploiStateError', async function () {
+    it('should throw an UnexpectedStateError', async function () {
       // given
       const stateSent = 'stateSent';
       const stateReceived = 'stateReceived';
@@ -76,7 +76,7 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', function () {
       });
 
       // then
-      expect(error).to.be.an.instanceOf(UnexpectedPoleEmploiStateError);
+      expect(error).to.be.an.instanceOf(UnexpectedStateError);
       expect(logger.error).to.have.been.calledWith(
         `State sent ${stateSent} did not match the state received ${stateReceived}`
       );

@@ -1,4 +1,4 @@
-const { UnexpectedCnavStateError, UnexpectedUserAccountError } = require('../errors');
+const { UnexpectedStateError, UnexpectedUserAccountError } = require('../errors');
 const AuthenticationMethod = require('../models/AuthenticationMethod');
 const logger = require('../../infrastructure/logger');
 
@@ -15,8 +15,7 @@ module.exports = async function authenticateCnavUser({
 }) {
   if (stateSent !== stateReceived) {
     logger.error(`State sent ${stateSent} did not match the state received ${stateReceived}`);
-    // mutualiser cette erreur avec Pole Emploi
-    throw new UnexpectedCnavStateError();
+    throw new UnexpectedStateError();
   }
   const idToken = await cnavAuthenticationService.exchangeCodeForIdToken({ code, redirectUri });
 

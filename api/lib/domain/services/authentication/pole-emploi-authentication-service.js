@@ -1,7 +1,7 @@
 const settings = require('../../../config');
 const httpAgent = require('../../../infrastructure/http/http-agent');
 const querystring = require('querystring');
-const { GeneratePoleEmploiTokensError } = require('../../errors');
+const { AuthenticationTokensRecoveryError } = require('../../errors');
 const PoleEmploiTokens = require('../../models/PoleEmploiTokens');
 const { v4: uuidv4 } = require('uuid');
 const get = require('lodash/get');
@@ -24,7 +24,7 @@ async function exchangeCodeForTokens({ code, redirectUri }) {
 
   if (!tokensResponse.isSuccessful) {
     const errorMessage = _getErrorMessage(tokensResponse.data);
-    throw new GeneratePoleEmploiTokensError(errorMessage, tokensResponse.code);
+    throw new AuthenticationTokensRecoveryError(errorMessage, tokensResponse.code);
   }
 
   return new PoleEmploiTokens({

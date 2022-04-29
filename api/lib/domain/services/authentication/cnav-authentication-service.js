@@ -4,7 +4,7 @@ const settings = require('../../../config');
 const { v4: uuidv4 } = require('uuid');
 const httpAgent = require('../../../infrastructure/http/http-agent');
 const querystring = require('querystring');
-const { GenerateCnavTokensError } = require('../../errors');
+const { AuthenticationTokensRecoveryError } = require('../../errors');
 
 async function exchangeCodeForIdToken({ code, redirectUri }) {
   const data = {
@@ -23,8 +23,7 @@ async function exchangeCodeForIdToken({ code, redirectUri }) {
 
   if (!response.isSuccessful) {
     const errorMessage = _getErrorMessage(response.data);
-    // à mutualiser avec Pole Emploi ?
-    throw new GenerateCnavTokensError(errorMessage, response.code);
+    throw new AuthenticationTokensRecoveryError(errorMessage, response.code);
   }
 
   return response.data['id_token'];

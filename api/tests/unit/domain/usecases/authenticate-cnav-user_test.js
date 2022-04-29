@@ -3,7 +3,7 @@ const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper
 const AuthenticationMethod = require('../../../../lib/domain/models/AuthenticationMethod');
 const User = require('../../../../lib/domain/models/User');
 
-const { UnexpectedCnavStateError, UnexpectedUserAccountError } = require('../../../../lib/domain/errors');
+const { UnexpectedStateError, UnexpectedUserAccountError } = require('../../../../lib/domain/errors');
 const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
 const logger = require('../../../../lib/infrastructure/logger');
 
@@ -51,7 +51,7 @@ describe('Unit | UseCase | authenticate-cnav-user', function () {
   });
 
   context('When the request state does not match the response state', function () {
-    it('should throw an UnexpectedCnavStateError', async function () {
+    it('should throw an UnexpectedStateError', async function () {
       // given
       const stateSent = 'stateSent';
       const stateReceived = 'stateReceived';
@@ -72,7 +72,7 @@ describe('Unit | UseCase | authenticate-cnav-user', function () {
       });
 
       // then
-      expect(error).to.be.an.instanceOf(UnexpectedCnavStateError);
+      expect(error).to.be.an.instanceOf(UnexpectedStateError);
       expect(logger.error).to.have.been.calledWith(
         `State sent ${stateSent} did not match the state received ${stateReceived}`
       );

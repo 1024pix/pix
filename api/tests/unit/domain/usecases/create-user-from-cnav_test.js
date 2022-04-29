@@ -3,10 +3,7 @@ const { domainBuilder, expect, sinon, catchErr } = require('../../../test-helper
 const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
 const AuthenticationMethod = require('../../../../lib/domain/models/AuthenticationMethod');
 
-const {
-  InvalidExternalAPIResponseError,
-  AuthenticationKeyForCnavTokenExpired,
-} = require('../../../../lib/domain/errors');
+const { InvalidExternalAPIResponseError, AuthenticationKeyExpired } = require('../../../../lib/domain/errors');
 const logger = require('../../../../lib/infrastructure/logger');
 
 const createUserFromCnav = require('../../../../lib/domain/usecases/create-user-from-cnav');
@@ -52,7 +49,7 @@ describe('Unit | UseCase | create-user-from-cnav', function () {
     clock.restore();
   });
 
-  it('should throw an AuthenticationKeyForCnavTokenExpired if key expired', async function () {
+  it('should throw an AuthenticationKeyExpired if key expired', async function () {
     // given
     const authenticationKey = 'authenticationKey';
     authenticationSessionService.getByKey.withArgs(authenticationKey).resolves(null);
@@ -67,8 +64,8 @@ describe('Unit | UseCase | create-user-from-cnav', function () {
     });
 
     // then
-    expect(error).to.be.instanceOf(AuthenticationKeyForCnavTokenExpired);
-    expect(error.message).to.be.equal('This authentication key for cnav token has expired.');
+    expect(error).to.be.instanceOf(AuthenticationKeyExpired);
+    expect(error.message).to.be.equal('This authentication key has expired.');
   });
 
   context('When there is no user with Cnav authentication method', function () {

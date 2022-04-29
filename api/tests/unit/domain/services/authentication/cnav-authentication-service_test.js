@@ -1,5 +1,5 @@
 const { expect, sinon, catchErr } = require('../../../../test-helper');
-const { GenerateCnavTokensError } = require('../../../../../lib/domain/errors');
+const { AuthenticationTokensRecoveryError } = require('../../../../../lib/domain/errors');
 const settings = require('../../../../../lib/config');
 const httpAgent = require('../../../../../lib/infrastructure/http/http-agent');
 const jsonwebtoken = require('jsonwebtoken');
@@ -7,7 +7,7 @@ const jsonwebtoken = require('jsonwebtoken');
 const cnavAuthenticationService = require('../../../../../lib/domain/services/authentication/cnav-authentication-service');
 
 describe('Unit | Domain | Services | cnav-authentication-service', function () {
-  describe('#exchangeCodeForTokens', function () {
+  describe('#exchangeCodeForIdToken', function () {
     beforeEach(function () {
       sinon.stub(httpAgent, 'post');
     });
@@ -47,7 +47,7 @@ describe('Unit | Domain | Services | cnav-authentication-service', function () {
     });
 
     context('when PE tokens generation fails', function () {
-      it('should log error and throw GenerateCnavTokensError', async function () {
+      it('should log error and throw AuthenticationTokensRecoveryError', async function () {
         // given
         const code = 'code';
         const clientId = 'clientId';
@@ -74,7 +74,7 @@ describe('Unit | Domain | Services | cnav-authentication-service', function () {
         });
 
         // then
-        expect(error).to.be.an.instanceOf(GenerateCnavTokensError);
+        expect(error).to.be.an.instanceOf(AuthenticationTokensRecoveryError);
         expect(error.message).to.equal(expectedMessage);
       });
     });

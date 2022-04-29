@@ -1,5 +1,5 @@
 const { expect, sinon, catchErr } = require('../../../../test-helper');
-const { GeneratePoleEmploiTokensError } = require('../../../../../lib/domain/errors');
+const { AuthenticationTokensRecoveryError } = require('../../../../../lib/domain/errors');
 const PoleEmploiTokens = require('../../../../../lib/domain/models/PoleEmploiTokens');
 const settings = require('../../../../../lib/config');
 const httpAgent = require('../../../../../lib/infrastructure/http/http-agent');
@@ -57,7 +57,7 @@ describe('Unit | Domain | Services | pole-emploi-authentication-service', functi
     });
 
     context('when PE tokens generation fails', function () {
-      it('should log error and throw GeneratePoleEmploiTokensError', async function () {
+      it('should log error and throw AuthenticationTokensRecoveryError', async function () {
         // given
         const code = 'code';
         const clientId = 'clientId';
@@ -84,7 +84,7 @@ describe('Unit | Domain | Services | pole-emploi-authentication-service', functi
         });
 
         // then
-        expect(error).to.be.an.instanceOf(GeneratePoleEmploiTokensError);
+        expect(error).to.be.an.instanceOf(AuthenticationTokensRecoveryError);
         expect(error.message).to.equal(expectedMessage);
       });
     });

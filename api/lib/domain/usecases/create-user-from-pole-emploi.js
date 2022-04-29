@@ -2,7 +2,7 @@ const moment = require('moment');
 const UserToCreate = require('../models/UserToCreate');
 const AuthenticationMethod = require('../models/AuthenticationMethod');
 const DomainTransaction = require('../../infrastructure/DomainTransaction');
-const { InvalidExternalAPIResponseError, AuthenticationKeyForPoleEmploiTokenExpired } = require('../errors');
+const { InvalidExternalAPIResponseError, AuthenticationKeyExpired } = require('../errors');
 const logger = require('../../infrastructure/logger');
 
 module.exports = async function createUserFromPoleEmploi({
@@ -14,9 +14,7 @@ module.exports = async function createUserFromPoleEmploi({
 }) {
   const poleEmploiTokens = await authenticationSessionService.getByKey(authenticationKey);
   if (!poleEmploiTokens) {
-    // mutualiser cette erreur pour toutes les clés expirées
-    // exemple : throw new AuthenticationKeyExpired();
-    throw new AuthenticationKeyForPoleEmploiTokenExpired();
+    throw new AuthenticationKeyExpired();
   }
   const userInfo = await poleEmploiAuthenticationService.getUserInfo(poleEmploiTokens.idToken);
 

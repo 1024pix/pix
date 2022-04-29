@@ -1,6 +1,6 @@
 const moment = require('moment');
 
-const { UnexpectedPoleEmploiStateError, UnexpectedUserAccountError } = require('../errors');
+const { UnexpectedStateError, UnexpectedUserAccountError } = require('../errors');
 const AuthenticationMethod = require('../models/AuthenticationMethod');
 const logger = require('../../infrastructure/logger');
 
@@ -17,7 +17,7 @@ module.exports = async function authenticatePoleEmploiUser({
 }) {
   if (stateSent !== stateReceived) {
     logger.error(`State sent ${stateSent} did not match the state received ${stateReceived}`);
-    throw new UnexpectedPoleEmploiStateError();
+    throw new UnexpectedStateError();
   }
 
   const poleEmploiTokens = await poleEmploiAuthenticationService.exchangeCodeForTokens({ code, redirectUri });

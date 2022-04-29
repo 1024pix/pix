@@ -1,7 +1,7 @@
 const UserToCreate = require('../models/UserToCreate');
 const AuthenticationMethod = require('../models/AuthenticationMethod');
 const DomainTransaction = require('../../infrastructure/DomainTransaction');
-const { InvalidExternalAPIResponseError, AuthenticationKeyForCnavTokenExpired } = require('../errors');
+const { InvalidExternalAPIResponseError, AuthenticationKeyExpired } = require('../errors');
 const logger = require('../../infrastructure/logger');
 
 module.exports = async function createUserFromCnav({
@@ -13,14 +13,10 @@ module.exports = async function createUserFromCnav({
 }) {
   const idToken = await authenticationSessionService.getByKey(authenticationKey);
   if (!idToken) {
-    // mutualiser cette erreur pour toutes les clés expirées
-    // exemple : throw new AuthenticationKeyExpired();
-    throw new AuthenticationKeyForCnavTokenExpired();
+    throw new AuthenticationKeyExpired();
   }
   const userInfo = await cnavAuthenticationService.getUserInfo(idToken);
 
-  // nom et prénom nécessaires pour les afficher dans le menu de Pix App (autre raison ?)
-  // Est-ce pour autant obligatoire ?
   if (!userInfo.firstName || !userInfo.lastName || !userInfo.externalIdentityId) {
     logger.error(`Un des champs obligatoires n'a pas été renvoyé par /userinfo: ${JSON.stringify(userInfo)}.`);
     throw new InvalidExternalAPIResponseError('API CNAV: les informations utilisateurs récupérées sont incorrectes.');

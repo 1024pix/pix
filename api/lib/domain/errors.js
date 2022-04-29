@@ -181,25 +181,11 @@ class NoStagesForCampaign extends DomainError {
   }
 }
 
-// à supprimer si on mutualise l'erreur
-class AuthenticationKeyForPoleEmploiTokenExpired extends DomainError {
-  constructor(message = 'This authentication key for pole emploi token has expired.') {
+class AuthenticationKeyExpired extends DomainError {
+  constructor(message = 'This authentication key has expired.') {
     super(message);
   }
 }
-
-// à supprimer si on mutualise l'erreur
-class AuthenticationKeyForCnavTokenExpired extends DomainError {
-  constructor(message = 'This authentication key for cnav token has expired.') {
-    super(message);
-  }
-}
-
-// class AuthenticationKeyExpired extends DomainError {
-//  constructor(message = 'This authentication key has expired.') {
-//    super(message);
-//  }
-//}
 
 class AccountRecoveryDemandExpired extends DomainError {
   constructor(message = 'This account recovery demand has expired.') {
@@ -977,19 +963,11 @@ class NotImplementedError extends Error {
   }
 }
 
-class GeneratePoleEmploiTokensError extends DomainError {
+class AuthenticationTokensRecoveryError extends DomainError {
   constructor(message, status) {
     super(message);
     this.status = parseInt(status, 10);
-    this.title = 'Pole emploi tokens generation fails.';
-  }
-}
-
-class GenerateCnavTokensError extends DomainError {
-  constructor(message, status) {
-    super(message);
-    this.status = parseInt(status, 10);
-    this.title = 'Cnav tokens generation fails.';
+    this.title = 'Erreur lors de la récupération des tokens du partenaire.';
   }
 }
 
@@ -1005,13 +983,7 @@ class TooManyRows extends DomainError {
   }
 }
 
-class UnexpectedPoleEmploiStateError extends DomainError {
-  constructor(message = 'La valeur du paramètre state reçu ne correspond pas à celui envoyé.') {
-    super(message);
-  }
-}
-
-class UnexpectedCnavStateError extends DomainError {
+class UnexpectedStateError extends DomainError {
   constructor(message = 'La valeur du paramètre state reçu ne correspond pas à celui envoyé.') {
     super(message);
   }
@@ -1144,7 +1116,8 @@ module.exports = {
   AssessmentResultNotCreatedError,
   AuthenticationMethodNotFoundError,
   AuthenticationMethodAlreadyExistsError,
-  AuthenticationKeyForPoleEmploiTokenExpired,
+  AuthenticationKeyExpired,
+  AuthenticationTokensRecoveryError,
   UncancellableOrganizationInvitationError,
   CampaignCodeError,
   CampaignParticipationDeletedError,
@@ -1186,8 +1159,6 @@ module.exports = {
   EntityValidationError,
   FileValidationError,
   ForbiddenAccess,
-  GeneratePoleEmploiTokensError,
-  GenerateCnavTokensError,
   ImproveCompetenceEvaluationForbiddenError,
   InvalidCertificationCandidate,
   InvalidCertificationReportForFinalization,
@@ -1242,8 +1213,7 @@ module.exports = {
   TargetProfileInvalidError,
   TargetProfileCannotBeCreated,
   TooManyRows,
-  UnexpectedPoleEmploiStateError,
-  UnexpectedCnavStateError,
+  UnexpectedStateError,
   UnexpectedUserAccountError,
   UserAccountNotFoundForPoleEmploiError,
   UnknownCountryForStudentEnrollmentError,
@@ -1271,5 +1241,4 @@ module.exports = {
   UserShouldNotBeReconciledOnAnotherAccountError,
   WrongDateFormatError,
   YamlParsingError,
-  AuthenticationKeyForCnavTokenExpired,
 };
