@@ -1489,8 +1489,8 @@
         "tutorial": {
           "actions": {
             "evaluate": {
-              "extra-information": "Give feedback on this tutorial",
-              "label": "Useful tutorial"
+              "extra-information": "Mark this tutorial as helpful",
+              "label": "This tutorial was useful to me"
             },
             "remove": {
               "extra-information": "Remove from my list of tutorials",
