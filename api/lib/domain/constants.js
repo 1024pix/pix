@@ -33,6 +33,12 @@ module.exports = {
   PIX_ADMIN: {
     SCOPE: 'pix-admin',
     NOT_SUPERADMIN_MSG: "Vous n'avez pas les droits pour vous connecter.",
+    ROLES: {
+      SUPER_ADMIN: 'SUPER_ADMIN',
+      SUPPORT: 'SUPPORT',
+      METIER: 'METIER',
+      CERTIF: 'CERTIF',
+    },
   },
   PIX_CERTIF: {
     SCOPE: 'pix-certif',

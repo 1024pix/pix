@@ -1,7 +1,7 @@
 const User = require('../../../../lib/domain/models/User');
 
 const buildMembership = require('./build-membership');
-const buildPixAdminRole = require('./build-pix-admin-role');
+const buildAdminMember = require('./build-admin-member');
 const buildCertificationCenterMembership = require('./build-certification-center-membership');
 const buildAuthenticationMethod = require('./build-authentication-method');
 
@@ -21,7 +21,7 @@ module.exports = function buildUser({
   pixCertifTermsOfServiceAccepted = false,
   hasSeenAssessmentInstructions = false,
   isAnonymous = false,
-  pixAdminRoles = [buildPixAdminRole()],
+  pixAdminRoles = [buildAdminMember()],
   memberships = [buildMembership()],
   certificationCenterMemberships = [buildCertificationCenterMembership()],
   authenticationMethods = [buildAuthenticationMethod.withPixAsIdentityProviderAndHashedPassword()],
