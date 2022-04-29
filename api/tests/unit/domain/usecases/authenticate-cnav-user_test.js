@@ -21,7 +21,7 @@ describe('Unit | UseCase | authenticate-cnav-user', function () {
     clock = sinon.useFakeTimers(Date.now());
 
     cnavAuthenticationService = {
-      exchangeCodeForTokens: sinon.stub(),
+      exchangeCodeForIdToken: sinon.stub(),
       getUserInfo: sinon.stub(),
       createAccessToken: sinon.stub().returns(),
     };
@@ -100,7 +100,7 @@ describe('Unit | UseCase | authenticate-cnav-user', function () {
       });
 
       // then
-      expect(cnavAuthenticationService.exchangeCodeForTokens).to.have.been.calledWith({
+      expect(cnavAuthenticationService.exchangeCodeForIdToken).to.have.been.calledWith({
         code: 'code',
         redirectUri: 'redirectUri',
       });
@@ -357,7 +357,7 @@ function _fakeCnavAPI({ cnavAuthenticationService }) {
     externalIdentityId: '094b83ac-2e20-4aa8-b438-0bc91748e4a6',
   };
 
-  cnavAuthenticationService.exchangeCodeForTokens.resolves(idToken);
+  cnavAuthenticationService.exchangeCodeForIdToken.resolves(idToken);
   cnavAuthenticationService.getUserInfo.resolves(userInfo);
 
   return idToken;

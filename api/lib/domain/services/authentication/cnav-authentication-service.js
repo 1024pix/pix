@@ -6,7 +6,7 @@ const httpAgent = require('../../../infrastructure/http/http-agent');
 const querystring = require('querystring');
 const { GenerateCnavTokensError } = require('../../errors');
 
-async function exchangeCodeForTokens({ code, redirectUri }) {
+async function exchangeCodeForIdToken({ code, redirectUri }) {
   const data = {
     client_secret: settings.cnav.clientSecret,
     grant_type: 'authorization_code',
@@ -15,19 +15,19 @@ async function exchangeCodeForTokens({ code, redirectUri }) {
     redirect_uri: redirectUri,
   };
 
-  const tokensResponse = await httpAgent.post({
+  const response = await httpAgent.post({
     url: settings.cnav.tokenUrl,
     payload: querystring.stringify(data),
     headers: { 'content-type': 'application/x-www-form-urlencoded' },
   });
 
-  if (!tokensResponse.isSuccessful) {
-    const errorMessage = _getErrorMessage(tokensResponse.data);
+  if (!response.isSuccessful) {
+    const errorMessage = _getErrorMessage(response.data);
     // à mutualiser avec Pole Emploi ?
-    throw new GenerateCnavTokensError(errorMessage, tokensResponse.code);
+    throw new GenerateCnavTokensError(errorMessage, response.code);
   }
 
-  return tokensResponse.data['id_token'];
+  return response.data['id_token'];
 }
 
 async function getUserInfo(idToken) {
@@ -91,6 +91,6 @@ async function _extractClaimsFromIdToken(idToken) {
 module.exports = {
   getAuthUrl,
   getUserInfo,
-  exchangeCodeForTokens,
+  exchangeCodeForIdToken,
   createAccessToken,
 };

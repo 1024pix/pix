@@ -18,7 +18,7 @@ module.exports = async function authenticateCnavUser({
     // mutualiser cette erreur avec Pole Emploi
     throw new UnexpectedCnavStateError();
   }
-  const idToken = await cnavAuthenticationService.exchangeCodeForTokens({ code, redirectUri });
+  const idToken = await cnavAuthenticationService.exchangeCodeForIdToken({ code, redirectUri });
 
   const userInfo = await cnavAuthenticationService.getUserInfo(idToken);
 

@@ -29,7 +29,7 @@ describe('Unit | Domain | Services | cnav-authentication-service', function () {
       httpAgent.post.resolves(response);
 
       // when
-      const result = await cnavAuthenticationService.exchangeCodeForTokens({
+      const result = await cnavAuthenticationService.exchangeCodeForIdToken({
         code: 'AUTH_CODE',
         redirectUri: 'pix.net/connexion-cnav-igation',
       });
@@ -67,7 +67,7 @@ describe('Unit | Domain | Services | cnav-authentication-service', function () {
         httpAgent.post.resolves(response);
 
         // when
-        const error = await catchErr(cnavAuthenticationService.exchangeCodeForTokens)({
+        const error = await catchErr(cnavAuthenticationService.exchangeCodeForIdToken)({
           code,
           clientId,
           redirectUri,
