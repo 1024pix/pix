@@ -6,6 +6,7 @@ import Component from '@glimmer/component';
 export default class TubesSelection extends Component {
   @tracked areas;
   @tracked tubesSelected = EmberArray();
+  tubeLevels = {};
 
   get haveNoTubeSelected() {
     return this.tubesSelected.length === 0;
@@ -31,15 +32,15 @@ export default class TubesSelection extends Component {
 
   @action
   checkTube(tube) {
-    if (this.tubesSelected.some((selectedTube) => selectedTube.id === tube.id)) {
+    if (this.tubesSelected.includes(tube.id)) {
       return;
     }
-    this.tubesSelected.pushObject({ id: tube.id, level: 'Illimité' }); // FIXME level
+    this.tubesSelected.pushObject(tube.id);
   }
 
   @action
   uncheckTube(tube) {
-    const index = this.tubesSelected.findIndex((selectedTube) => selectedTube.id === tube.id);
+    const index = this.tubesSelected.indexOf(tube.id);
     if (index === -1) {
       return;
     }
@@ -48,11 +49,10 @@ export default class TubesSelection extends Component {
 
   @action
   setLevelTube(tubeId, level) {
-    this.tubesSelected.map((tubeSelected) => {
-      if (tubeSelected.id === tubeId) {
-        tubeSelected.level = level;
-      }
-      return tubeSelected;
-    });
+    this.tubeLevels[tubeId] = level;
+  }
+
+  get hasNoFrameworksSelected() {
+    return this.args.selectedFrameworks.length === 0;
   }
 }

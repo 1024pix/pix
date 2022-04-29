@@ -1,19 +1,16 @@
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
+import { isTubeSelected } from '../../../helpers/is-tube-selected';
 
 export default class TubesSelectionThematic extends Component {
   get state() {
-    const checked = this.args.thematic.tubes.every((tube) => this.isTubeSelected(tube));
+    const checked = this.args.thematic.tubes.every((tube) => isTubeSelected(this.args.tubesSelected, tube));
     if (checked) return 'checked';
 
-    const indeterminate = this.args.thematic.tubes.any((tube) => this.isTubeSelected(tube));
+    const indeterminate = this.args.thematic.tubes.any((tube) => isTubeSelected(this.args.tubesSelected, tube));
     if (indeterminate) return 'indeterminate';
 
     return 'unchecked';
-  }
-
-  isTubeSelected(tube) {
-    return this.args.tubesSelected.some((selectedTube) => selectedTube.id === tube.id);
   }
 
   @action

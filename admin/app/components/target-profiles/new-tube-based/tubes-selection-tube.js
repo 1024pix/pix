@@ -1,5 +1,6 @@
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
+import { isTubeSelected } from '../../../helpers/is-tube-selected';
 
 export default class TubesSelectionTube extends Component {
   levelOptions = [
@@ -38,8 +39,7 @@ export default class TubesSelectionTube extends Component {
   ];
 
   get state() {
-    const checked = this.args.tubesSelected.some((selectedTube) => selectedTube.id === this.args.tube.id);
-    return checked ? 'checked' : 'unchecked';
+    return isTubeSelected(this.args.tubesSelected, this.args.tube) ? 'checked' : 'unchecked';
   }
 
   get checked() {

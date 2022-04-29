@@ -4,7 +4,7 @@ import { setupTest } from 'ember-qunit';
 
 import createComponent from '../../../../helpers/create-glimmer-component';
 
-module('Unit | Controller | authenticated/target-profiles/new-tube-based/tubes-selection-tube', function (hooks) {
+module('Unit | Component | authenticated/target-profiles/new-tube-based/tubes-selection-tube', function (hooks) {
   setupTest(hooks);
 
   let component;
