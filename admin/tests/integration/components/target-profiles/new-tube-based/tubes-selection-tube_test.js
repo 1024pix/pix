@@ -8,9 +8,10 @@ module('Integration | Component | targetProfiles:NewTubeBased::TubesSelectionTub
   setupRenderingTest(hooks);
   let updateSelectedTubes;
   let setLevelTube;
+  let tube;
 
   hooks.beforeEach(function () {
-    const tube = {
+    tube = {
       id: 'tubeId1',
       practicalTitle: 'Tube 1',
       practicalDescription: 'Description 1',
@@ -34,9 +35,10 @@ module('Integration | Component | targetProfiles:NewTubeBased::TubesSelectionTub
     this.set('setLevelTube', setLevelTube);
   });
 
-  test('it should disable level select is tubes is not selected', async function (assert) {
+  test('it should disable level select if tube is not selected', async function (assert) {
     // given
-    this.set('tubesSelected', []);
+    const tubesSelected = ['tubeId2', 'tubeId3'];
+    this.set('tubesSelected', tubesSelected);
 
     // when
     await render(
@@ -55,7 +57,8 @@ module('Integration | Component | targetProfiles:NewTubeBased::TubesSelectionTub
 
   test('it should not disable level select is tubes is selected', async function (assert) {
     // given
-    this.set('tubesSelected', [{ id: 'tubeId1' }]);
+    const tubesSelected = ['tubeId1', 'tubeId2'];
+    this.set('tubesSelected', tubesSelected);
 
     // when
     await render(
