@@ -17,13 +17,13 @@ export default class Card extends Component {
     this.evaluationStatus = args.tutorial.isEvaluated ? buttonStatusTypes.recorded : buttonStatusTypes.unrecorded;
   }
 
-  get saveLabel() {
+  get saveInformation() {
     return this.savingStatus === buttonStatusTypes.recorded
       ? this.intl.t('pages.user-tutorials.list.tutorial.actions.remove.label')
       : this.intl.t('pages.user-tutorials.list.tutorial.actions.save.label');
   }
 
-  get evaluateLabel() {
+  get evaluateInformation() {
     return this.evaluationStatus === buttonStatusTypes.recorded
       ? this.intl.t('pages.user-tutorials.list.tutorial.actions.evaluate.label')
       : this.intl.t('pages.user-tutorials.list.tutorial.actions.evaluate.extra-information');

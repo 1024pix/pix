@@ -1488,8 +1488,8 @@
         "tutorial": {
           "actions": {
             "evaluate": {
-              "extra-information": "Donner mon avis sur ce tuto",
-              "label": "Tuto utile"
+              "extra-information": "Marquer ce tuto comme utile",
+              "label": "Ce tuto m'a été utile"
             },
             "remove": {
               "extra-information": "Retirer de ma liste de tutos",
