@@ -5,7 +5,6 @@ function organizeOrganizationsByExternalId(organizations) {
 
   organizations.forEach((organization) => {
     if (organization.externalId) {
-      organization.externalId = organization.externalId.toUpperCase();
       organizationsByExternalId[organization.externalId] = organization;
     }
   });
