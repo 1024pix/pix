@@ -106,7 +106,7 @@ describe('Integration | Repository | Partner Certification Scoring', function ()
 
   describe('#buildCleaCertificationScoring', function () {
     context('when the user does not have no cleA badge', function () {
-      it('should build a CleaCertificationScoring that throws a NotEligibleCandidateError', async function () {
+      it('should get a CleaCertificationScoring that throws a NotEligibleCandidateError', async function () {
         // given
         const skill = domainBuilder.buildSkill({ id: 'recSkill1' });
         const learningContent = { skills: [skill] };
@@ -117,7 +117,7 @@ describe('Integration | Repository | Partner Certification Scoring', function ()
           id: 998,
           certificationCourseId,
         }).id;
-        const cleaCertificationScoring = await partnerCertificationScoringRepository.buildCleaCertificationScoring({
+        const cleaCertificationScoring = await partnerCertificationScoringRepository.getCleaCertificationScoring({
           complementaryCertificationCourseId,
           certificationCourseId,
           userId,
@@ -135,7 +135,7 @@ describe('Integration | Repository | Partner Certification Scoring', function ()
 
     context('when the user has a cleA badge', function () {
       context('when the badge was obtained after the certification test was taken', function () {
-        it('should build a CleaCertificationScoring that throws a NotEligibleCandidateError', async function () {
+        it('should get a CleaCertificationScoring that throws a NotEligibleCandidateError', async function () {
           // given
           const userId = databaseBuilder.factory.buildUser().id;
           const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({
@@ -152,7 +152,7 @@ describe('Integration | Repository | Partner Certification Scoring', function ()
           const skill = domainBuilder.buildSkill({ id: 'recSkill1' });
           const learningContent = { skills: [skill] };
           mockLearningContent(learningContent);
-          const cleaCertificationScoring = await partnerCertificationScoringRepository.buildCleaCertificationScoring({
+          const cleaCertificationScoring = await partnerCertificationScoringRepository.getCleaCertificationScoring({
             complementaryCertificationCourseId,
             certificationCourseId,
             userId,
@@ -189,7 +189,7 @@ describe('Integration | Repository | Partner Certification Scoring', function ()
           return databaseBuilder.commit();
         });
 
-        it('should build an acquired CleaCertificationScoring', async function () {
+        it('should get an acquired CleaCertificationScoring', async function () {
           // given
           const skill = domainBuilder.buildSkill({ id: 'recSkill1' });
           const learningContent = { skills: [skill] };
@@ -216,7 +216,7 @@ describe('Integration | Repository | Partner Certification Scoring', function ()
           });
 
           // when
-          const cleaCertificationScoring = await partnerCertificationScoringRepository.buildCleaCertificationScoring({
+          const cleaCertificationScoring = await partnerCertificationScoringRepository.getCleaCertificationScoring({
             complementaryCertificationCourseId,
             certificationCourseId,
             userId,
