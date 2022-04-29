@@ -5,7 +5,7 @@ const CleaCertificationScoring = require('../../domain/models/CleaCertificationS
 const Badge = require('../../domain/models/Badge');
 
 module.exports = {
-  async buildCleaCertificationScoring({
+  async getCleaCertificationScoring({
     complementaryCertificationCourseId,
     certificationCourseId,
     userId,
