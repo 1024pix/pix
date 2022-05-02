@@ -684,19 +684,24 @@ describe('Acceptance | Controller | user-tutorial-controller', function () {
         const expectedUserSavedTutorials = [
           {
             attributes: {
-              duration: '00:00:54',
-              format: 'video',
-              link: 'http://www.example.com/this-is-an-example.html',
+              duration: '00:03:31',
+              format: 'vidéo',
+              link: 'http://www.example.com/this-is-an-example3.html',
               source: 'tuto.com',
-              title: 'tuto1',
+              title: 'tuto3',
             },
+            id: 'tuto3',
             relationships: {
-              'user-tutorial': { data: { id: '101', type: 'user-tutorial' } },
               'tutorial-evaluation': {
                 data: null,
               },
+              'user-tutorial': {
+                data: {
+                  id: '103',
+                  type: 'user-tutorial',
+                },
+              },
             },
-            id: 'tuto1',
             type: 'tutorials',
           },
           {
@@ -707,13 +712,18 @@ describe('Acceptance | Controller | user-tutorial-controller', function () {
               source: 'tuto.com',
               title: 'tuto2',
             },
+            id: 'tuto2',
             relationships: {
-              'user-tutorial': { data: { id: '102', type: 'user-tutorial' } },
               'tutorial-evaluation': {
                 data: null,
               },
+              'user-tutorial': {
+                data: {
+                  id: '102',
+                  type: 'user-tutorial',
+                },
+              },
             },
-            id: 'tuto2',
             type: 'tutorials',
           },
         ];
