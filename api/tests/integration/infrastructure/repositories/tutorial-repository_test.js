@@ -139,16 +139,18 @@ describe('Integration | Repository | tutorial-repository', function () {
     });
 
     context('when user has saved tutorials', function () {
-      it('should return tutorial with user tutorial belonging to given user', async function () {
+      it('should return tutorial with user tutorial belonging to given user ordered by userTutorial Id desc', async function () {
         // given
-        const tutorialId = 'recTutorial';
+        const tutorialId1 = 'rec1Tutorial';
+        const tutorialId2 = 'rec2Tutorial';
 
         const learningContent = {
-          tutorials: [{ id: tutorialId }],
+          tutorials: [{ id: tutorialId1 }, { id: tutorialId2 }],
         };
         mockLearningContent(learningContent);
 
-        databaseBuilder.factory.buildUserSavedTutorial({ tutorialId, userId });
+        databaseBuilder.factory.buildUserSavedTutorial({ id: 1, tutorialId: tutorialId1, userId });
+        databaseBuilder.factory.buildUserSavedTutorial({ id: 2, tutorialId: tutorialId2, userId });
         await databaseBuilder.commit();
 
         // when
@@ -157,10 +159,11 @@ describe('Integration | Repository | tutorial-repository', function () {
         });
 
         // then
-        expect(tutorialsForUser).to.have.length(1);
+        expect(tutorialsForUser).to.have.length(2);
         expect(tutorialsForUser[0]).to.be.instanceOf(TutorialForUser);
         expect(tutorialsForUser[0].userTutorial).to.be.instanceOf(UserSavedTutorial);
         expect(tutorialsForUser[0].userTutorial.userId).to.equal(userId);
+        expect(tutorialsForUser.map((tutorialForUser) => tutorialForUser.userTutorial.id)).to.deep.equal([2, 1]);
       });
 
       context('when user has evaluated tutorial ', function () {
@@ -201,7 +204,7 @@ describe('Integration | Repository | tutorial-repository', function () {
       });
     });
 
-    context('when user has saved a tutorial not available anymore', function () {
+    context('when user has saved a tutorial which is not available anymore', function () {
       it('should return an empty list', async function () {
         mockLearningContent({ tutorials: [] });
         databaseBuilder.factory.buildUserSavedTutorial({ tutorialId: 'recTutorial', userId });
@@ -213,6 +216,34 @@ describe('Integration | Repository | tutorial-repository', function () {
 
         // then
         expect(tutorialsForUser).to.deep.equal([]);
+      });
+
+      it('should return row count of existing tutorials', async function () {
+        // given
+        const learningContent = {
+          tutorials: [{ id: 'tuto1' }, { id: 'tuto2' }, { id: 'tuto3' }, { id: 'tuto4' }],
+        };
+
+        mockLearningContent(learningContent);
+
+        databaseBuilder.factory.buildUserSavedTutorial({ id: 1, tutorialId: 'tuto1', userId });
+        databaseBuilder.factory.buildUserSavedTutorial({ id: 2, tutorialId: 'tuto2', userId });
+        databaseBuilder.factory.buildUserSavedTutorial({ id: 3, tutorialId: 'tuto3', userId });
+        databaseBuilder.factory.buildUserSavedTutorial({ id: 4, tutorialId: 'tuto_erreurId', userId });
+        databaseBuilder.factory.buildUserSavedTutorial({ id: 5, tutorialId: 'tuto4', userId });
+        await databaseBuilder.commit();
+
+        const expectedTutorialIds = ['tuto4', 'tuto3', 'tuto2', 'tuto1'];
+
+        // when
+        const { models: tutorialsForUser, meta } = await tutorialRepository.findPaginatedForCurrentUser({
+          userId,
+          page: { size: 4, number: 1 },
+        });
+
+        // then
+        expect(tutorialsForUser.map((tutorial) => tutorial.id)).to.deep.equal(expectedTutorialIds);
+        expect(meta).to.deep.equal({ page: 1, pageSize: 4, rowCount: 4, pageCount: 1 });
       });
     });
 
