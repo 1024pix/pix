@@ -116,22 +116,29 @@ describe('Integration | Infrastructure | Repository | user-tutorial-repository',
 
   describe('#find', function () {
     context('when user has saved tutorials', function () {
-      it('should return user-saved-tutorials belonging to given user', async function () {
+      it('should return user-saved-tutorials belonging to given user ordered by descending id', async function () {
         // given
-        const tutorialId = 'recTutorial';
-        databaseBuilder.factory.buildUserSavedTutorial({ tutorialId, userId });
+        const userSavedTutoId1 = databaseBuilder.factory.buildUserSavedTutorial({
+          tutorialId: 'recTutorial',
+          userId,
+        }).id;
+        const userSavedTutoId2 = databaseBuilder.factory.buildUserSavedTutorial({
+          tutorialId: 'recTutorial2',
+          userId,
+        }).id;
         await databaseBuilder.commit();
 
         // when
         const userTutorials = await userTutorialRepository.find({ userId });
 
         // then
-        expect(userTutorials).to.have.length(1);
-        expect(userTutorials[0]).to.have.property('tutorialId', tutorialId);
+        expect(userTutorials).to.have.length(2);
+        expect(userTutorials[0]).to.have.property('tutorialId', 'recTutorial2');
         expect(userTutorials[0]).to.have.property('userId', userId);
         expect(userTutorials[0]).to.be.instanceOf(UserSavedTutorial);
-        expect(userTutorials[0].tutorialId).to.equal(tutorialId);
         expect(userTutorials[0].skillId).to.equal(null);
+        expect(userTutorials[0].id).to.equal(userSavedTutoId2);
+        expect(userTutorials[1].id).to.equal(userSavedTutoId1);
       });
     });
 
