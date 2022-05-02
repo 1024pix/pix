@@ -35,18 +35,6 @@ exports.register = async (server) => {
     },
     {
       method: 'GET',
-      path: '/api/users/tutorials',
-      config: {
-        handler: userTutorialsController.find,
-        tags: ['api', 'tutorials'],
-        notes: [
-          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-            '- Récupération des tutoriels enregistrés par l‘utilisateur courant\n',
-        ],
-      },
-    },
-    {
-      method: 'GET',
       path: '/api/users/tutorials/saved',
       config: {
         handler: userTutorialsController.findSaved,
