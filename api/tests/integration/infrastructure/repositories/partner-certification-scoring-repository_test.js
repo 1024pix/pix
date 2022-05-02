@@ -105,7 +105,7 @@ describe('Integration | Repository | Partner Certification Scoring', function ()
     });
   });
 
-  describe('#buildCleaCertificationScoring', function () {
+  describe('#getCleaCertificationScoring', function () {
     context('when the user does not have no cleA badge', function () {
       it('should get a CleaCertificationScoring that throws a NotEligibleCandidateError', async function () {
         // given

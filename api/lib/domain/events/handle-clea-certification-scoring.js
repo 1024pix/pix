@@ -21,7 +21,7 @@ async function handleCleaCertificationScoring({
     return;
   }
 
-  const cleaCertificationScoring = await partnerCertificationScoringRepository.buildCleaCertificationScoring({
+  const cleaCertificationScoring = await partnerCertificationScoringRepository.getCleaCertificationScoring({
     complementaryCertificationCourseId,
     certificationCourseId,
     userId,
