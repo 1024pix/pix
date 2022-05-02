@@ -2,12 +2,15 @@ const { isEmpty, map, uniqBy } = require('lodash');
 const bluebird = require('bluebird');
 const Organization = require('../models/Organization');
 const OrganizationTag = require('../models/OrganizationTag');
+const organizationValidator = require('../validators/organization-with-tags-script');
+
 const {
   ManyOrganizationsFoundError,
   OrganizationAlreadyExistError,
   OrganizationTagNotFound,
   ObjectValidationError,
 } = require('../errors');
+
 const ORGANIZATION_TAG_SEPARATOR = '_';
 const organizationInvitationService = require('../../domain/services/organization-invitation-service');
 
@@ -19,11 +22,16 @@ module.exports = async function createProOrganizationsWithTags({
   organizationTagRepository,
   organizationInvitationRepository,
 }) {
-  _checkIfOrganizationsDataAreNotEmptyAndUnique(organizations);
+  _checkIfOrganizationsDataAreNotEmpty(organizations);
+  _checkIfOrganizationsDataAreUnique(organizations);
+
+  for (const organization of organizations) {
+    organizationValidator.validate(organization);
+  }
 
   await _checkIfOrganizationsAlreadyExistInDatabase(organizations, organizationRepository);
 
-  const organizationsData = _validateAndMapOrganizationsData(organizations);
+  const organizationsData = _mapOrganizationsData(organizations);
 
   const allTags = await tagRepository.findAll();
 
@@ -36,16 +44,18 @@ module.exports = async function createProOrganizationsWithTags({
       organizationsToCreate,
       domainTransaction
     );
-    const organizationsTags = createdOrganizations.flatMap(({ id, externalId }) => {
+
+    const organizationsTags = createdOrganizations.flatMap(({ id, externalId, name }) => {
       return organizationsData.get(externalId).tags.map((tagName) => {
         const foundTag = allTags.find((tagInDB) => tagInDB.name === tagName.toUpperCase());
         if (foundTag) {
           return new OrganizationTag({ organizationId: id, tagId: foundTag.id });
         } else {
-          throw new OrganizationTagNotFound();
+          throw new OrganizationTagNotFound(`Le tag ${tagName} de l'organisation ${name} n'existe pas.`);
         }
       });
     });
+
     await organizationTagRepository.batchCreate(organizationsTags, domainTransaction);
   });
 
@@ -63,13 +73,11 @@ module.exports = async function createProOrganizationsWithTags({
       locale,
     });
   });
+
   return createdOrganizations;
 };
 
-function _checkIfOrganizationsDataAreNotEmptyAndUnique(organizations) {
-  if (!organizations) {
-    throw new ObjectValidationError('Les organisations ne sont pas renseignées.');
-  }
+function _checkIfOrganizationsDataAreUnique(organizations) {
   const uniqOrganizations = uniqBy(organizations, 'externalId');
 
   if (uniqOrganizations.length !== organizations.length) {
@@ -81,24 +89,25 @@ async function _checkIfOrganizationsAlreadyExistInDatabase(organizations, organi
   const foundOrganizations = await organizationRepository.findByExternalIdsFetchingIdsOnly(
     map(organizations, 'externalId')
   );
+
   if (!isEmpty(foundOrganizations)) {
-    const organizationIds = organizations.map((foundOrganization) => foundOrganization.externalId);
-    const message = `Les organisations avec les externalIds suivants existent déjà : ${organizationIds.join(', ')}`;
+    const foundOrganizationIds = foundOrganizations.map((foundOrganization) => foundOrganization.externalId);
+    const message = `Les organisations avec les externalIds suivants : ${foundOrganizationIds.join(
+      ', '
+    )} existent déjà.`;
     throw new OrganizationAlreadyExistError(message);
   }
 }
 
-function _validateAndMapOrganizationsData(organizations) {
+function _checkIfOrganizationsDataAreNotEmpty(organizations) {
+  if (isEmpty(organizations)) {
+    throw new ObjectValidationError('Les organisations ne sont pas renseignées.');
+  }
+}
+function _mapOrganizationsData(organizations) {
   const mapOrganizationByExternalId = new Map();
 
   for (const organization of organizations) {
-    if (!organization.externalId) {
-      throw new ObjectValidationError('L’externalId de l’organisation n’est pas présent.');
-    }
-    if (!organization.name) {
-      throw new ObjectValidationError('Le nom de l’organisation n’est pas présent.');
-    }
-
     mapOrganizationByExternalId.set(organization.externalId, {
       organization: new Organization({
         ...organization,
@@ -109,5 +118,6 @@ function _validateAndMapOrganizationsData(organizations) {
       locale: organization.locale,
     });
   }
+
   return mapOrganizationByExternalId;
 }
