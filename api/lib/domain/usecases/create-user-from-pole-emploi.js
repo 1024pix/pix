@@ -35,8 +35,7 @@ module.exports = async function createUserFromPoleEmploi({
     };
   }
 
-  // Méthode createFromPoleEmploi, à mutualiser avec la CNAV ?
-  const user = UserToCreate.createFromPoleEmploi({
+  const user = UserToCreate.createWithTermsOfServiceAccepted({
     firstName: userInfo.firstName,
     lastName: userInfo.lastName,
   });

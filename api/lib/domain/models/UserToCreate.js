@@ -45,20 +45,7 @@ class UserToCreate {
     });
   }
 
-  // à mutualiser avec la CNAV ? Même paramètres attendus
-  static createFromPoleEmploi(user) {
-    const now = new Date();
-    return new UserToCreate({
-      ...user,
-      cgu: true,
-      lastTermsOfServiceValidatedAt: now,
-      createdAt: now,
-      updatedAt: now,
-    });
-  }
-
-  // à mutualiser avec PE ? Même paramètres attendus
-  static createFromCnav(user) {
+  static createWithTermsOfServiceAccepted(user) {
     const now = new Date();
     return new UserToCreate({
       ...user,

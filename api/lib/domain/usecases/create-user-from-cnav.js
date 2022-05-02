@@ -34,9 +34,7 @@ module.exports = async function createUserFromCnav({
     };
   }
 
-  // Méthode createFromCnav, à mutualiser avec PE ?
-  // La méthode propose un ...user pour ajouter les paramètres que l'on souhaite
-  const user = UserToCreate.createFromCnav({
+  const user = UserToCreate.createWithTermsOfServiceAccepted({
     firstName: userInfo.firstName,
     lastName: userInfo.lastName,
   });
