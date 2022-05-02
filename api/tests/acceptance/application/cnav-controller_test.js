@@ -44,6 +44,7 @@ describe('Acceptance | API | Cnav Controller', function () {
 
       // then
       expect(response.statusCode).to.equal(200);
+      expect(response.result['access_token']).to.exist;
 
       const createdUser = await knex('users').first();
       expect(createdUser.firstName).to.equal(firstName);

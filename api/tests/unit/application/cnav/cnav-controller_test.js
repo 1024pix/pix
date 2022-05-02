@@ -11,7 +11,7 @@ describe('Unit | Controller | cnav-controller', function () {
       // given
       const request = { query: { 'authentication-key': 'abcde' } };
       const userId = 7;
-      sinon.stub(usecases, 'createUserFromCnav').resolves({ userId, idToken: 1 });
+      sinon.stub(usecases, 'createUserFromCnav').resolves(userId);
       sinon.stub(cnavAuthenticationService, 'createAccessToken').resolves('an access token');
       sinon.stub(userRepository, 'updateLastLoggedAt');
 
@@ -22,13 +22,12 @@ describe('Unit | Controller | cnav-controller', function () {
       expect(userRepository.updateLastLoggedAt).to.have.been.calledWith({ userId: 7 });
     });
 
-    it('should return access token and id token', async function () {
+    it('should return access token', async function () {
       // given
       const request = { query: { 'authentication-key': 'abcde' } };
       const userId = 7;
-      const idToken = 1;
       const accessToken = 'access.token';
-      sinon.stub(usecases, 'createUserFromCnav').withArgs({ authenticationKey: 'abcde' }).resolves({ userId, idToken });
+      sinon.stub(usecases, 'createUserFromCnav').withArgs({ authenticationKey: 'abcde' }).resolves(userId);
       sinon.stub(userRepository, 'updateLastLoggedAt');
       sinon.stub(cnavAuthenticationService, 'createAccessToken').withArgs(userId).returns(accessToken);
 
@@ -37,7 +36,6 @@ describe('Unit | Controller | cnav-controller', function () {
 
       //then
       expect(result.source.access_token).to.equal(accessToken);
-      expect(result.source.id_token).to.equal(idToken);
     });
   });
 });

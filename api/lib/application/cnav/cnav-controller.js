@@ -6,15 +6,12 @@ module.exports = {
   async createUser(request, h) {
     const authenticationKey = request.query['authentication-key'];
 
-    const { userId, idToken } = await usecases.createUserFromCnav({ authenticationKey });
+    const userId = await usecases.createUserFromCnav({ authenticationKey });
 
     const accessToken = cnavAuthenticationService.createAccessToken(userId);
     await userRepository.updateLastLoggedAt({ userId });
 
-    const response = {
-      access_token: accessToken,
-      id_token: idToken,
-    };
+    const response = { access_token: accessToken };
     return h.response(response).code(200);
   },
 

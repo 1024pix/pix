@@ -28,10 +28,7 @@ module.exports = async function createUserFromCnav({
   });
 
   if (authenticationMethod) {
-    return {
-      userId: authenticationMethod.userId,
-      idToken,
-    };
+    return authenticationMethod.userId;
   }
 
   const user = UserToCreate.createWithTermsOfServiceAccepted({
@@ -51,8 +48,5 @@ module.exports = async function createUserFromCnav({
     await authenticationMethodRepository.create({ authenticationMethod, domainTransaction });
   });
 
-  return {
-    userId: createdUserId,
-    idToken,
-  };
+  return createdUserId;
 };

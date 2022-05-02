@@ -122,8 +122,7 @@ describe('Unit | UseCase | create-user-from-cnav', function () {
         authenticationMethod: expectedAuthenticationMethod,
         domainTransaction,
       });
-      expect(response.userId).to.equal(userId);
-      expect(response.idToken).to.equal(idToken);
+      expect(response).to.equal(userId);
     });
 
     it('should raise an error and log details if required properties are not returned by external API', async function () {
@@ -198,8 +197,7 @@ describe('Unit | UseCase | create-user-from-cnav', function () {
       // then
       expect(userToCreateRepository.create).to.not.have.been.called;
       expect(authenticationMethodRepository.create).to.not.have.been.called;
-      expect(response.userId).to.equal(userId);
-      expect(response.idToken).to.equal(idToken);
+      expect(response).to.equal(userId);
     });
   });
 });
