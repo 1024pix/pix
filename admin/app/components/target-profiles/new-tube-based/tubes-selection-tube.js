@@ -3,40 +3,9 @@ import { action } from '@ember/object';
 import { isTubeSelected } from '../../../helpers/is-tube-selected';
 
 export default class TubesSelectionTube extends Component {
-  levelOptions = [
-    {
-      value: 1,
-      label: '1',
-    },
-    {
-      value: 2,
-      label: '2',
-    },
-    {
-      value: 3,
-      label: '3',
-    },
-    {
-      value: 4,
-      label: '4',
-    },
-    {
-      value: 5,
-      label: '5',
-    },
-    {
-      value: 6,
-      label: '6',
-    },
-    {
-      value: 7,
-      label: '7',
-    },
-    {
-      value: 8,
-      label: '8',
-    },
-  ];
+  get levelOptions() {
+    return levelOptions;
+  }
 
   get state() {
     return isTubeSelected(this.args.tubesSelected, this.args.tube) ? 'checked' : 'unchecked';
@@ -63,3 +32,38 @@ export default class TubesSelectionTube extends Component {
     this.args.setLevelTube(tubeId, level);
   }
 }
+
+const levelOptions = [
+  {
+    value: 1,
+    label: '1',
+  },
+  {
+    value: 2,
+    label: '2',
+  },
+  {
+    value: 3,
+    label: '3',
+  },
+  {
+    value: 4,
+    label: '4',
+  },
+  {
+    value: 5,
+    label: '5',
+  },
+  {
+    value: 6,
+    label: '6',
+  },
+  {
+    value: 7,
+    label: '7',
+  },
+  {
+    value: 8,
+    label: '8',
+  },
+];
