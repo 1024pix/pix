@@ -1,15 +1,14 @@
-{{page-title "Nouveau profil cible"}}
+{{page-title "Générateur de profil cible"}}
 <header class="page-header">
   <div class="page-title">
-    Nouveau profil cible
+    Générateur de profil cible
   </div>
 </header>
 
 <main class="page-body">
   <section class="page-section">
-    <TargetProfiles::NewTubeBased::CreateTargetProfileFormTubeBased
+    <TargetProfiles::NewTubeBased::GenerateTargetProfileFormTubeBased
       @frameworks={{@model.frameworks}}
-      @targetProfile={{@model.targetProfile}}
       @onCancel={{this.goBackToTargetProfileList}}
     />
   </section>

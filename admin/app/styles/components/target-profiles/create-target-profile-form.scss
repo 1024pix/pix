@@ -3,7 +3,6 @@
 
   &__card {
     margin-bottom: $spacing-m;
-    margin-top: $spacing-m;
   }
 
   &__checkbox-container {
@@ -69,11 +68,6 @@
   &__multi-select {
     max-width: 300px;
     margin-left: $spacing-s;
-  }
-
-  &__multi-select-label {
-    font-weight: 500;
-    padding-right: $spacing-s;
   }
 
   .textarea-label {

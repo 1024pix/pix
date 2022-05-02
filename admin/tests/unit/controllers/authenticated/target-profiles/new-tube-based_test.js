@@ -13,13 +13,13 @@ module('Unit | Controller | authenticated/target-profiles/new-tube-based', funct
 
   module('#goBackToTargetProfileList', function () {
     test('should delete record and go back to target profile list page', async function (assert) {
-      controller.store.deleteRecord = sinon.stub();
+      // given
       controller.router.transitionTo = sinon.stub();
-      controller.model = { targetProfile: Symbol('targetProfile') };
 
+      // when
       controller.goBackToTargetProfileList();
 
-      assert.ok(controller.store.deleteRecord.calledWith(controller.model.targetProfile));
+      // then
       assert.ok(controller.router.transitionTo.calledWith('authenticated.target-profiles.list'));
     });
   });

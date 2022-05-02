@@ -1,0 +1,34 @@
+<form class="form generate-target-profile">
+
+  <section class="form-section">
+    <Card class="generate-target-profile__card" @title="Sélection des sujets">
+      <div class="generate-target-profile__inline-layout">
+        <label for="framework-list" class="generate-target-profile__multi-select-label">Référentiel :</label>
+        <PixMultiSelect
+          class="generate-target-profile__multi-select"
+          @id="framework-list"
+          @isSearchable={{true}}
+          @showOptionsOnInput={{true}}
+          @onSelect={{this.setSelectedFrameworkIds}}
+          @emptyMessage={{"Pas de résultat"}}
+          @selected={{this.selectedFrameworkIds}}
+          @options={{this.frameworkOptions}}
+          as |option|
+        >
+          {{option.label}}
+        </PixMultiSelect>
+      </div>
+    </Card>
+
+    <TargetProfiles::NewTubeBased::TubesSelection @selectedFrameworks={{this.selectedFrameworks}} />
+
+  </section>
+  <section class="form-section form-actions form-section--actions">
+    <PixButton
+      @backgroundColor="transparent-light"
+      @isBorderVisible={{true}}
+      @size="big"
+      @triggerAction={{@onCancel}}
+    >Retour</PixButton>
+  </section>
+</form>
