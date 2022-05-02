@@ -669,21 +669,17 @@ describe('Integration | Repository | tutorial-repository', function () {
         const { results } = await tutorialRepository.findPaginatedRecommendedByUserId({ userId });
 
         // then
-        expect(results.map((tutorial) => tutorial.tutorialEvaluation)).to.exactlyContain([
-          {
-            id: tutorialEvaluationId,
-            userId,
-            tutorialId: 'tuto4',
-          },
-        ]);
-        expect(results.map((tutorial) => tutorial.userTutorial)).to.exactlyContain([
-          {
-            id: userSavedTutorialId,
-            userId,
-            skillId: 'recSkill3',
-            tutorialId: 'tuto4',
-          },
-        ]);
+        expect(results[0].tutorialEvaluation).to.deep.equal({
+          id: tutorialEvaluationId,
+          userId,
+          tutorialId: 'tuto4',
+        });
+        expect(results[0].userTutorial).to.include({
+          id: userSavedTutorialId,
+          userId,
+          skillId: 'recSkill3',
+          tutorialId: 'tuto4',
+        });
       });
     });
 

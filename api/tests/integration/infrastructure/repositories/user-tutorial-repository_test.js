@@ -121,10 +121,12 @@ describe('Integration | Infrastructure | Repository | user-tutorial-repository',
         const userSavedTutoId1 = databaseBuilder.factory.buildUserSavedTutorial({
           tutorialId: 'recTutorial',
           userId,
+          createdAt: '2022-04-29',
         }).id;
         const userSavedTutoId2 = databaseBuilder.factory.buildUserSavedTutorial({
           tutorialId: 'recTutorial2',
           userId,
+          createdAt: '2022-05-02',
         }).id;
         await databaseBuilder.commit();
 
@@ -133,9 +135,10 @@ describe('Integration | Infrastructure | Repository | user-tutorial-repository',
 
         // then
         expect(userTutorials).to.have.length(2);
+        expect(userTutorials[0]).to.be.instanceOf(UserSavedTutorial);
         expect(userTutorials[0]).to.have.property('tutorialId', 'recTutorial2');
         expect(userTutorials[0]).to.have.property('userId', userId);
-        expect(userTutorials[0]).to.be.instanceOf(UserSavedTutorial);
+        expect(userTutorials[0].createdAt).to.deep.equal(new Date('2022-05-02'));
         expect(userTutorials[0].skillId).to.equal(null);
         expect(userTutorials[0].id).to.equal(userSavedTutoId2);
         expect(userTutorials[1].id).to.equal(userSavedTutoId1);
