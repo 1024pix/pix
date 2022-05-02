@@ -3,6 +3,7 @@ const CampaignParticipant = require('../../domain/models/CampaignParticipant');
 const CampaignToStartParticipation = require('../../domain/models/CampaignToStartParticipation');
 const { AlreadyExistingCampaignParticipationError, NotFoundError } = require('../../domain/errors');
 const skillDatasource = require('../datasources/learning-content/skill-datasource');
+const { knex } = require('../../../db/knex-database-connection');
 
 async function save(campaignParticipant, domainTransaction) {
   const newlyCreatedOrganizationLearnerId = await _createNewOrganizationLearner(
@@ -140,6 +141,7 @@ async function _getOrganizationLearner(campaignId, userId, domainTransaction) {
       function () {
         this.on('campaign-participations.organizationLearnerId', 'organization-learners.id');
         this.on('campaign-participations.campaignId', 'campaigns.id');
+        this.on('campaign-participations.deletedAt', knex.raw('IS'), knex.raw('NULL'));
       },
       'organization-learners.id'
     )

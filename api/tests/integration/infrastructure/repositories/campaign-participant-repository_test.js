@@ -604,7 +604,7 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
         expect(campaignParticipant.organizationLearnerId).to.equal(null);
       });
 
-      context('when there the organization learner has already participated', function () {
+      context('when the organization learner has already participated', function () {
         it('returns the participant without organization learner info', async function () {
           const campaignToStartParticipation = buildCampaignWithCompleteTargetProfile({ organizationId });
           const { id: userId } = databaseBuilder.factory.buildUser();
@@ -630,6 +630,37 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
 
           expect(campaignParticipant.organizationLearnerId).to.equal(organizationLearnerId);
           expect(campaignParticipant.organizationLearnerHasParticipated).to.equal(true);
+        });
+      });
+
+      context('when the organization learner has a deleted participation', function () {
+        it('does not take into account the participation', async function () {
+          const campaignToStartParticipation = buildCampaignWithCompleteTargetProfile({ organizationId });
+          const { id: userId } = databaseBuilder.factory.buildUser();
+          const { id: organizationLearnerId } = databaseBuilder.factory.buildOrganizationLearner({
+            userId,
+            organizationId,
+          });
+          databaseBuilder.factory.buildCampaignParticipation({
+            organizationLearnerId,
+            campaignId: campaignToStartParticipation.id,
+            organizationId,
+            deletedAt: new Date('2020-01-01'),
+            deletedBy: userId,
+          });
+
+          await databaseBuilder.commit();
+
+          const campaignParticipant = await DomainTransaction.execute(async (domainTransaction) => {
+            return campaignParticipantRepository.get({
+              userId,
+              campaignId: campaignToStartParticipation.id,
+              domainTransaction,
+            });
+          });
+
+          expect(campaignParticipant.organizationLearnerId).to.equal(organizationLearnerId);
+          expect(campaignParticipant.organizationLearnerHasParticipated).to.equal(false);
         });
       });
 
