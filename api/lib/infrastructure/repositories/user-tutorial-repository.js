@@ -45,5 +45,6 @@ function _toDomain(userSavedTutorial) {
     tutorialId: userSavedTutorial.tutorialId,
     userId: userSavedTutorial.userId,
     skillId: userSavedTutorial.skillId,
+    createdAt: userSavedTutorial.createdAt,
   });
 }
