@@ -1,6 +1,10 @@
 import get from 'lodash/get';
 import slice from 'lodash/slice';
 
+function getOrganizationPlaces(schema) {
+  return schema.organizationPlaces.all();
+}
+
 function getOrganizationInvitations(schema, request) {
   const ownerOrganizationId = request.params.id;
   return schema.organizationInvitations.where({ ownerOrganizationId });
@@ -46,4 +50,4 @@ function _applyPagination(memberships, { page, pageSize }) {
   return slice(memberships, start, end);
 }
 
-export { archiveOrganization, getOrganizationInvitations, findPaginatedOrganizationMemberships };
+export { archiveOrganization, getOrganizationInvitations, getOrganizationPlaces, findPaginatedOrganizationMemberships };
