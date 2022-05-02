@@ -966,7 +966,6 @@ describe('Acceptance | Controller | authentication-controller', function () {
           error: 'invalid_client',
           error_description: 'Invalid authentication method for accessing this endpoint.',
         };
-        const expectedDetail = `${errorData.error} ${errorData.error_description}`;
         nock.cleanAll();
         nock(settings.poleEmploi.tokenUrl).post('/').reply(400, errorData);
 
@@ -987,7 +986,9 @@ describe('Acceptance | Controller | authentication-controller', function () {
 
         // expect
         expect(response.statusCode).to.equal(500);
-        expect(response.result.errors[0].detail).to.equal(expectedDetail);
+        expect(response.result.errors[0].detail).to.equal(
+          '{"error":"invalid_client","error_description":"Invalid authentication method for accessing this endpoint."}'
+        );
       });
     });
   });
@@ -1011,7 +1012,7 @@ describe('Acceptance | Controller | authentication-controller', function () {
     context('When the state sent does not match the state received', function () {
       it('should return http code 400', async function () {
         // given
-        const idToken = jsonwebtoken.sign(
+        const cnavIdToken = jsonwebtoken.sign(
           {
             given_name: 'John',
             family_name: 'Doe',
@@ -1021,10 +1022,7 @@ describe('Acceptance | Controller | authentication-controller', function () {
           'secret'
         );
         const getAccessTokenResponse = {
-          access_token: 'access_token',
-          id_token: idToken,
-          expires_in: 60,
-          refresh_token: 'refresh_token',
+          id_token: cnavIdToken,
         };
         nock('http://idp.cnav').post('/token').reply(200, getAccessTokenResponse);
 
@@ -1056,7 +1054,7 @@ describe('Acceptance | Controller | authentication-controller', function () {
 
       it('should return http code 401', async function () {
         // given
-        const idToken = jsonwebtoken.sign(
+        const cnavIdToken = jsonwebtoken.sign(
           {
             given_name: 'John',
             family_name: 'Doe',
@@ -1067,12 +1065,8 @@ describe('Acceptance | Controller | authentication-controller', function () {
         );
 
         const getAccessTokenResponse = {
-          access_token: 'access_token',
-          id_token: idToken,
-          expires_in: 60,
-          refresh_token: 'refresh_token',
+          id_token: cnavIdToken,
         };
-
         nock('http://idp.cnav').post('/token').reply(200, getAccessTokenResponse);
 
         // when
@@ -1096,7 +1090,7 @@ describe('Acceptance | Controller | authentication-controller', function () {
 
       it('should return an authenticationKey in meta', async function () {
         // given
-        const idToken = jsonwebtoken.sign(
+        const cnavIdToken = jsonwebtoken.sign(
           {
             given_name: 'John',
             family_name: 'Doe',
@@ -1107,12 +1101,8 @@ describe('Acceptance | Controller | authentication-controller', function () {
         );
 
         const getAccessTokenResponse = {
-          access_token: 'access_token',
-          id_token: idToken,
-          expires_in: 60,
-          refresh_token: 'refresh_token',
+          id_token: cnavIdToken,
         };
-
         nock('http://idp.cnav').post('/token').reply(200, getAccessTokenResponse);
 
         // when
@@ -1136,7 +1126,7 @@ describe('Acceptance | Controller | authentication-controller', function () {
 
       it('should return validate cgu in code', async function () {
         // given
-        const idToken = jsonwebtoken.sign(
+        const cnavIdToken = jsonwebtoken.sign(
           {
             given_name: 'John',
             family_name: 'Doe',
@@ -1147,12 +1137,8 @@ describe('Acceptance | Controller | authentication-controller', function () {
         );
 
         const getAccessTokenResponse = {
-          access_token: 'access_token',
-          id_token: idToken,
-          expires_in: 60,
-          refresh_token: 'refresh_token',
+          id_token: cnavIdToken,
         };
-
         nock('http://idp.cnav').post('/token').reply(200, getAccessTokenResponse);
 
         // when
@@ -1188,12 +1174,8 @@ describe('Acceptance | Controller | authentication-controller', function () {
         );
 
         const getAccessTokenResponse = {
-          access_token: 'access_token',
           id_token: cnavIdToken,
-          expires_in: 60,
-          refresh_token: 'refresh_token',
         };
-
         nock('http://idp.cnav').post('/token').reply(200, getAccessTokenResponse);
 
         // when
@@ -1224,7 +1206,7 @@ describe('Acceptance | Controller | authentication-controller', function () {
         const firstName = 'John';
         const lastName = 'John';
         const externalIdentifier = 'some-unique-user-id';
-        const idToken = jsonwebtoken.sign(
+        const cnavIdToken = jsonwebtoken.sign(
           {
             given_name: firstName,
             family_name: lastName,
@@ -1234,10 +1216,7 @@ describe('Acceptance | Controller | authentication-controller', function () {
           'secret'
         );
         const getAccessTokenResponse = {
-          access_token: 'access_token',
-          id_token: idToken,
-          expires_in: 60,
-          refresh_token: 'refresh_token',
+          id_token: cnavIdToken,
         };
         const getAccessTokenRequest = nock('http://idp.cnav').post('/token').reply(200, getAccessTokenResponse);
         const userId = databaseBuilder.factory.buildUser({
@@ -1279,7 +1258,7 @@ describe('Acceptance | Controller | authentication-controller', function () {
     context('When user has an invalid token', function () {
       it('should be rejected by API', async function () {
         // given
-        const idToken = jsonwebtoken.sign(
+        const cnavIdToken = jsonwebtoken.sign(
           {
             given_name: 'John',
             family_name: 'Doe',
@@ -1289,10 +1268,7 @@ describe('Acceptance | Controller | authentication-controller', function () {
           'secret'
         );
         const getAccessTokenResponse = {
-          access_token: 'access_token',
-          id_token: idToken,
-          expires_in: 60,
-          refresh_token: 'refresh_token',
+          id_token: cnavIdToken,
         };
         nock('http://idp.cnav').post('/token').reply(200, getAccessTokenResponse);
 
@@ -1314,6 +1290,54 @@ describe('Acceptance | Controller | authentication-controller', function () {
 
         // expect
         expect(response.statusCode).to.equal(401);
+      });
+    });
+
+    context('When cnav request fail', function () {
+      it('should return HTTP 500 with error detail', async function () {
+        // given
+        const cnavIdToken = jsonwebtoken.sign(
+          {
+            given_name: 'John',
+            family_name: 'Doe',
+            nonce: 'nonce',
+            idIdentiteExterne: 'idIdentiteExterne',
+          },
+          'secret'
+        );
+
+        const getAccessTokenResponse = {
+          id_token: cnavIdToken,
+        };
+
+        nock('http://idp.cnav').post('/token').reply(200, getAccessTokenResponse);
+        const errorData = {
+          error: 'invalid_client',
+          error_description: 'Invalid authentication method for accessing this endpoint.',
+        };
+        nock.cleanAll();
+        nock('http://idp.cnav').post('/token').reply(400, errorData);
+
+        // when
+        const response = await server.inject({
+          method: 'POST',
+          url: '/api/cnav/token',
+          headers: {
+            'content-type': 'application/x-www-form-urlencoded',
+          },
+          payload: querystring.stringify({
+            code: 'code',
+            redirect_uri: 'redirect_uri',
+            state_sent: 'state',
+            state_received: 'state',
+          }),
+        });
+
+        // expect
+        expect(response.statusCode).to.equal(500);
+        expect(response.result.errors[0].detail).to.equal(
+          '{"error":"invalid_client","error_description":"Invalid authentication method for accessing this endpoint."}'
+        );
       });
     });
   });

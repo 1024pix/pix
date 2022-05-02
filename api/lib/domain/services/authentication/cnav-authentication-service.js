@@ -1,5 +1,4 @@
 const jsonwebtoken = require('jsonwebtoken');
-const get = require('lodash/get');
 const settings = require('../../../config');
 const { v4: uuidv4 } = require('uuid');
 const httpAgent = require('../../../infrastructure/http/http-agent');
@@ -22,7 +21,7 @@ async function exchangeCodeForIdToken({ code, redirectUri }) {
   });
 
   if (!response.isSuccessful) {
-    const errorMessage = _getErrorMessage(response.data);
+    const errorMessage = JSON.stringify(response.data);
     throw new AuthenticationTokensRecoveryError(errorMessage, response.code);
   }
 
@@ -60,19 +59,6 @@ function getAuthUrl({ redirectUri }) {
   params.forEach(({ key, value }) => redirectTarget.searchParams.append(key, value));
 
   return { redirectTarget: redirectTarget.toString(), state, nonce };
-}
-
-function _getErrorMessage(data) {
-  let message;
-
-  if (data instanceof String) {
-    message = data;
-  } else {
-    const error = get(data, 'error', '');
-    const error_description = get(data, 'error_description', '');
-    message = `${error} ${error_description}`;
-  }
-  return message.trim();
 }
 
 function createAccessToken(userId) {

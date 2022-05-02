@@ -67,7 +67,6 @@ describe('Unit | Domain | Services | pole-emploi-authentication-service', functi
           error: 'invalid_client',
           error_description: 'Invalid authentication method for accessing this endpoint.',
         };
-        const expectedMessage = `${errorData.error} ${errorData.error_description}`;
 
         const response = {
           isSuccessful: false,
@@ -85,7 +84,9 @@ describe('Unit | Domain | Services | pole-emploi-authentication-service', functi
 
         // then
         expect(error).to.be.an.instanceOf(AuthenticationTokensRecoveryError);
-        expect(error.message).to.equal(expectedMessage);
+        expect(error.message).to.equal(
+          '{"error":"invalid_client","error_description":"Invalid authentication method for accessing this endpoint."}'
+        );
       });
     });
   });

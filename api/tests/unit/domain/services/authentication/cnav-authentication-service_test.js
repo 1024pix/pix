@@ -46,7 +46,7 @@ describe('Unit | Domain | Services | cnav-authentication-service', function () {
       expect(result).to.equal(idToken);
     });
 
-    context('when PE tokens generation fails', function () {
+    context('when cnav tokens generation fails', function () {
       it('should log error and throw AuthenticationTokensRecoveryError', async function () {
         // given
         const code = 'code';
@@ -57,7 +57,6 @@ describe('Unit | Domain | Services | cnav-authentication-service', function () {
           error: 'invalid_client',
           error_description: 'Invalid authentication method for accessing this endpoint.',
         };
-        const expectedMessage = `${errorData.error} ${errorData.error_description}`;
 
         const response = {
           isSuccessful: false,
@@ -75,7 +74,9 @@ describe('Unit | Domain | Services | cnav-authentication-service', function () {
 
         // then
         expect(error).to.be.an.instanceOf(AuthenticationTokensRecoveryError);
-        expect(error.message).to.equal(expectedMessage);
+        expect(error.message).to.equal(
+          '{"error":"invalid_client","error_description":"Invalid authentication method for accessing this endpoint."}'
+        );
       });
     });
   });

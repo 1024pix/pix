@@ -4,7 +4,6 @@ const querystring = require('querystring');
 const { AuthenticationTokensRecoveryError } = require('../../errors');
 const PoleEmploiTokens = require('../../models/PoleEmploiTokens');
 const { v4: uuidv4 } = require('uuid');
-const get = require('lodash/get');
 const jsonwebtoken = require('jsonwebtoken');
 
 async function exchangeCodeForTokens({ code, redirectUri }) {
@@ -23,7 +22,7 @@ async function exchangeCodeForTokens({ code, redirectUri }) {
   });
 
   if (!tokensResponse.isSuccessful) {
-    const errorMessage = _getErrorMessage(tokensResponse.data);
+    const errorMessage = JSON.stringify(tokensResponse.data);
     throw new AuthenticationTokensRecoveryError(errorMessage, tokensResponse.code);
   }
 
@@ -75,19 +74,6 @@ function createAccessToken(userId) {
   return jsonwebtoken.sign({ user_id: userId, source: 'pole_emploi_connect' }, settings.authentication.secret, {
     expiresIn: expirationDelaySeconds,
   });
-}
-
-function _getErrorMessage(data) {
-  let message;
-
-  if (data instanceof String) {
-    message = data;
-  } else {
-    const error = get(data, 'error', '');
-    const error_description = get(data, 'error_description', '');
-    message = `${error} ${error_description}`;
-  }
-  return message.trim();
 }
 
 async function _extractPayloadFromIdToken(idToken) {
