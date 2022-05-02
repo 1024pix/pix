@@ -31,8 +31,8 @@ module('Integration | Component | targetProfiles::NewTubeBased::TubesSelection',
     ];
 
     const thematics = [
-      { id: 'thematicId1', name: 'thematic1', tubes: tubes1 },
-      { id: 'thematicId2', name: 'thematic2', tubes: tubes2 },
+      { id: 'thematicId1', name: 'Thématique 1', tubes: tubes1 },
+      { id: 'thematicId2', name: 'Thématique 2', tubes: tubes2 },
     ];
 
     const competences = [
@@ -63,13 +63,16 @@ module('Integration | Component | targetProfiles::NewTubeBased::TubesSelection',
     this.set('selectedFrameworks', selectedFrameworks);
 
     // when
-    await render(hbs`<TargetProfiles::NewTubeBased::TubesSelection @selectedFrameworks={{this.selectedFrameworks}}/>`);
+    const screen = await render(
+      hbs`<TargetProfiles::NewTubeBased::TubesSelection @selectedFrameworks={{this.selectedFrameworks}}/>`
+    );
+    await clickByName('1 · Titre domaine');
+    await clickByName('1 Titre competence');
 
     // then
-    assert.dom('.row-tube').exists({ count: 3 });
-    assert.dom('[data-test=label-tube-tubeId1]').hasText('Tube 1 : Description 1');
-    assert.dom('[data-test=label-tube-tubeId2]').hasText('Tube 2 : Description 2');
-    assert.dom('[data-test=label-tube-tubeId3]').hasText('Tube 3 : Description 3');
+    assert.dom(screen.getByText('Tube 1 : Description 1')).exists();
+    assert.dom(screen.getByText('Tube 2 : Description 2')).exists();
+    assert.dom(screen.getByText('Tube 3 : Description 3')).exists();
   });
 
   test('it should check the tubes if selected', async function (assert) {
@@ -77,111 +80,113 @@ module('Integration | Component | targetProfiles::NewTubeBased::TubesSelection',
     this.set('selectedFrameworks', selectedFrameworks);
 
     // when
-    await render(hbs`<TargetProfiles::NewTubeBased::TubesSelection @selectedFrameworks={{this.selectedFrameworks}}/>`);
-    const tube1 = document.getElementById('tube-tubeId1');
+    const screen = await render(
+      hbs`<TargetProfiles::NewTubeBased::TubesSelection @selectedFrameworks={{this.selectedFrameworks}}/>`
+    );
 
     await clickByName('1 · Titre domaine');
     await clickByName('1 Titre competence');
     await clickByName('Tube 1 : Description 1');
 
     // then
-    assert.dom(tube1).isChecked();
+    assert.dom(screen.getByLabelText('Tube 1 : Description 1')).isChecked();
   });
 
-  test('Should check all tubes corresponding to the thematics if a thematic is selected', async function (assert) {
+  test('it should check all tubes corresponding to the thematics if a thematic is selected', async function (assert) {
     // given
     this.set('selectedFrameworks', selectedFrameworks);
 
     // when
-    await render(hbs`<TargetProfiles::NewTubeBased::TubesSelection @selectedFrameworks={{this.selectedFrameworks}}/>`);
-    const tube1 = document.getElementById('tube-tubeId1');
-    const tube2 = document.getElementById('tube-tubeId2');
-    const competence = document.getElementById('competence-competenceId');
+    const screen = await render(
+      hbs`<TargetProfiles::NewTubeBased::TubesSelection @selectedFrameworks={{this.selectedFrameworks}}/>`
+    );
     await clickByName('1 · Titre domaine');
     await clickByName('1 Titre competence');
-    await clickByName('thematic1');
+    await clickByName('Thématique 1');
 
     // then
-    assert.dom(tube1).isChecked();
-    assert.dom(tube2).isChecked();
-    assert.true(competence.indeterminate);
+    assert.dom(screen.getByLabelText('Tube 1 : Description 1')).isChecked();
+    assert.dom(screen.getByLabelText('Tube 2 : Description 2')).isChecked();
+    assert.dom(screen.getByLabelText('Thématiques')).isNotChecked();
+    assert.dom(screen.getByLabelText('Thématiques')).hasProperty('indeterminate', true);
   });
 
-  test('Should check the thematic if all corresponding tubes are selected', async function (assert) {
+  test('it should check the thematic if all corresponding tubes are selected', async function (assert) {
     // given
     this.set('selectedFrameworks', selectedFrameworks);
 
     // when
-    await render(hbs`<TargetProfiles::NewTubeBased::TubesSelection @selectedFrameworks={{this.selectedFrameworks}}/>`);
-    const thematic = document.getElementById('thematic-thematicId1');
-    const competence = document.getElementById('competence-competenceId');
+    const screen = await render(
+      hbs`<TargetProfiles::NewTubeBased::TubesSelection @selectedFrameworks={{this.selectedFrameworks}}/>`
+    );
     await clickByName('1 · Titre domaine');
     await clickByName('1 Titre competence');
     await clickByName('Tube 1 : Description 1');
     await clickByName('Tube 2 : Description 2');
 
     // then
-    assert.dom(thematic).isChecked();
-    assert.true(competence.indeterminate);
+    assert.dom(screen.getByLabelText('Thématique 1')).isChecked();
+    assert.dom(screen.getByLabelText('Thématiques')).isNotChecked();
+    assert.dom(screen.getByLabelText('Thématiques')).hasProperty('indeterminate', true);
   });
 
-  test('Should indeterminate the thematic if not all of corresponding tubes are selected', async function (assert) {
+  test('it should indeterminate the thematic if not all of corresponding tubes are selected', async function (assert) {
     // given
     this.set('selectedFrameworks', selectedFrameworks);
 
     // when
-    await render(hbs`<TargetProfiles::NewTubeBased::TubesSelection @selectedFrameworks={{this.selectedFrameworks}}/>`);
-    const thematic = document.getElementById('thematic-thematicId1');
-    const competence = document.getElementById('competence-competenceId');
+    const screen = await render(
+      hbs`<TargetProfiles::NewTubeBased::TubesSelection @selectedFrameworks={{this.selectedFrameworks}}/>`
+    );
     await clickByName('1 · Titre domaine');
     await clickByName('1 Titre competence');
     await clickByName('Tube 1 : Description 1');
 
     // then
-    assert.true(thematic.indeterminate);
-    assert.true(competence.indeterminate);
+    assert.dom(screen.getByLabelText('Thématique 1')).isNotChecked();
+    assert.dom(screen.getByLabelText('Thématique 1')).hasProperty('indeterminate', true);
+    assert.dom(screen.getByLabelText('Thématiques')).isNotChecked();
+    assert.dom(screen.getByLabelText('Thématiques')).hasProperty('indeterminate', true);
   });
 
-  test('Should check the competence if all corresponding thematics are selected', async function (assert) {
+  test('it should check the competence if all corresponding thematics are selected', async function (assert) {
     // given
     this.set('selectedFrameworks', selectedFrameworks);
 
     // when
-    await render(hbs`<TargetProfiles::NewTubeBased::TubesSelection @selectedFrameworks={{this.selectedFrameworks}}/>`);
-    const competence = document.getElementById('competence-competenceId');
+    const screen = await render(
+      hbs`<TargetProfiles::NewTubeBased::TubesSelection @selectedFrameworks={{this.selectedFrameworks}}/>`
+    );
     await clickByName('1 · Titre domaine');
     await clickByName('1 Titre competence');
-    await clickByName('thematic1');
-    await clickByName('thematic2');
+    await clickByName('Thématique 1');
+    await clickByName('Thématique 2');
 
     // then
-    assert.dom(competence).isChecked();
+    assert.dom(screen.getByLabelText('Thématiques')).isChecked();
   });
 
-  test('Should check the thematics and tubes if competence is selected', async function (assert) {
+  test('it should check the thematics and tubes if competence is selected', async function (assert) {
     // given
     this.set('selectedFrameworks', selectedFrameworks);
 
     // when
-    await render(hbs`<TargetProfiles::NewTubeBased::TubesSelection @selectedFrameworks={{this.selectedFrameworks}}/>`);
-    const thematic1 = document.getElementById('thematic-thematicId1');
-    const thematic2 = document.getElementById('thematic-thematicId2');
-    const tube1 = document.getElementById('tube-tubeId1');
-    const tube2 = document.getElementById('tube-tubeId2');
-    const tube3 = document.getElementById('tube-tubeId3');
+    const screen = await render(
+      hbs`<TargetProfiles::NewTubeBased::TubesSelection @selectedFrameworks={{this.selectedFrameworks}}/>`
+    );
     await clickByName('1 · Titre domaine');
     await clickByName('1 Titre competence');
     await clickByName('Thématiques');
 
     // then
-    assert.dom(thematic1).isChecked();
-    assert.false(thematic1.indeterminate);
+    assert.dom(screen.getByLabelText('Thématique 1')).isChecked();
+    assert.dom(screen.getByLabelText('Thématique 1')).hasProperty('indeterminate', false);
 
-    assert.dom(thematic2).isChecked();
-    assert.false(thematic2.indeterminate);
+    assert.dom(screen.getByLabelText('Thématique 2')).isChecked();
+    assert.dom(screen.getByLabelText('Thématique 2')).hasProperty('indeterminate', false);
 
-    assert.dom(tube1).isChecked();
-    assert.dom(tube2).isChecked();
-    assert.dom(tube3).isChecked();
+    assert.dom(screen.getByLabelText('Tube 1 : Description 1')).isChecked();
+    assert.dom(screen.getByLabelText('Tube 2 : Description 2')).isChecked();
+    assert.dom(screen.getByLabelText('Tube 3 : Description 3')).isChecked();
   });
 });
