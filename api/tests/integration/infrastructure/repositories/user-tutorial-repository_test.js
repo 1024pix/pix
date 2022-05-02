@@ -3,7 +3,6 @@ const userTutorialRepository = require('../../../../lib/infrastructure/repositor
 const UserSavedTutorial = require('../../../../lib/domain/models/UserSavedTutorial');
 const UserTutorialWithTutorial = require('../../../../lib/domain/models/UserSavedTutorialWithTutorial');
 const Tutorial = require('../../../../lib/domain/models/Tutorial');
-const _ = require('lodash');
 
 describe('Integration | Infrastructure | Repository | user-tutorial-repository', function () {
   let userId;

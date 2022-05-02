@@ -32,7 +32,7 @@ module.exports = {
 
     const tutorialsForUser = _toTutorialsForUser({ tutorials, tutorialEvaluations, userTutorials });
 
-    const sortedTutorialsForUser = _.orderBy(tutorialsForUser, ['userTutorial.id'], ['desc']);
+    const sortedTutorialsForUser = _.orderBy(tutorialsForUser, ['userTutorial.createdAt'], ['desc']);
     const { results: models, pagination: meta } = paginateModule.paginate(sortedTutorialsForUser, page);
 
     return { models, meta };

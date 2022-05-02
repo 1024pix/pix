@@ -139,7 +139,7 @@ describe('Integration | Repository | tutorial-repository', function () {
     });
 
     context('when user has saved tutorials', function () {
-      it('should return tutorial with user tutorial belonging to given user ordered by userTutorial Id desc', async function () {
+      it('should return tutorials with user tutorials belonging to given user ordered by descending date of creation', async function () {
         // given
         const tutorialId1 = 'rec1Tutorial';
         const tutorialId2 = 'rec2Tutorial';
@@ -149,8 +149,16 @@ describe('Integration | Repository | tutorial-repository', function () {
         };
         mockLearningContent(learningContent);
 
-        databaseBuilder.factory.buildUserSavedTutorial({ id: 1, tutorialId: tutorialId1, userId });
-        databaseBuilder.factory.buildUserSavedTutorial({ id: 2, tutorialId: tutorialId2, userId });
+        const firstUserSavedTutorial = databaseBuilder.factory.buildUserSavedTutorial({
+          tutorialId: tutorialId1,
+          userId,
+          createdAt: new Date('2022-05-01'),
+        });
+        const lastUserSavedTutorial = databaseBuilder.factory.buildUserSavedTutorial({
+          tutorialId: tutorialId2,
+          userId,
+          createdAt: new Date('2022-05-02'),
+        });
         await databaseBuilder.commit();
 
         // when
@@ -163,7 +171,10 @@ describe('Integration | Repository | tutorial-repository', function () {
         expect(tutorialsForUser[0]).to.be.instanceOf(TutorialForUser);
         expect(tutorialsForUser[0].userTutorial).to.be.instanceOf(UserSavedTutorial);
         expect(tutorialsForUser[0].userTutorial.userId).to.equal(userId);
-        expect(tutorialsForUser.map((tutorialForUser) => tutorialForUser.userTutorial.id)).to.deep.equal([2, 1]);
+        expect(tutorialsForUser.map((tutorialForUser) => tutorialForUser.userTutorial.createdAt)).to.deep.equal([
+          lastUserSavedTutorial.createdAt,
+          firstUserSavedTutorial.createdAt,
+        ]);
       });
 
       context('when user has evaluated tutorial ', function () {
@@ -226,11 +237,31 @@ describe('Integration | Repository | tutorial-repository', function () {
 
         mockLearningContent(learningContent);
 
-        databaseBuilder.factory.buildUserSavedTutorial({ id: 1, tutorialId: 'tuto1', userId });
-        databaseBuilder.factory.buildUserSavedTutorial({ id: 2, tutorialId: 'tuto2', userId });
-        databaseBuilder.factory.buildUserSavedTutorial({ id: 3, tutorialId: 'tuto3', userId });
-        databaseBuilder.factory.buildUserSavedTutorial({ id: 4, tutorialId: 'tuto_erreurId', userId });
-        databaseBuilder.factory.buildUserSavedTutorial({ id: 5, tutorialId: 'tuto4', userId });
+        databaseBuilder.factory.buildUserSavedTutorial({
+          tutorialId: 'tuto1',
+          userId,
+          createdAt: new Date('2022-05-01'),
+        });
+        databaseBuilder.factory.buildUserSavedTutorial({
+          tutorialId: 'tuto2',
+          userId,
+          createdAt: new Date('2022-05-02'),
+        });
+        databaseBuilder.factory.buildUserSavedTutorial({
+          tutorialId: 'tuto3',
+          userId,
+          createdAt: new Date('2022-05-03'),
+        });
+        databaseBuilder.factory.buildUserSavedTutorial({
+          tutorialId: 'tuto_erreurId',
+          userId,
+          createdAt: new Date('2022-05-04'),
+        });
+        databaseBuilder.factory.buildUserSavedTutorial({
+          tutorialId: 'tuto4',
+          userId,
+          createdAt: new Date('2022-05-05'),
+        });
         await databaseBuilder.commit();
 
         const expectedTutorialIds = ['tuto4', 'tuto3', 'tuto2', 'tuto1'];
