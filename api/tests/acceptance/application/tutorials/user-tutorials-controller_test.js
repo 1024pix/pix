@@ -675,9 +675,24 @@ describe('Acceptance | Controller | user-tutorial-controller', function () {
 
         mockLearningContent(learningContentObjects);
 
-        databaseBuilder.factory.buildUserSavedTutorial({ id: 101, userId: 4444, tutorialId: 'tuto1' });
-        databaseBuilder.factory.buildUserSavedTutorial({ id: 102, userId: 4444, tutorialId: 'tuto2' });
-        databaseBuilder.factory.buildUserSavedTutorial({ id: 103, userId: 4444, tutorialId: 'tuto3' });
+        databaseBuilder.factory.buildUserSavedTutorial({
+          id: 101,
+          userId: 4444,
+          tutorialId: 'tuto1',
+          createdAt: new Date('2022-05-03'),
+        });
+        databaseBuilder.factory.buildUserSavedTutorial({
+          id: 102,
+          userId: 4444,
+          tutorialId: 'tuto2',
+          createdAt: new Date('2022-05-04'),
+        });
+        databaseBuilder.factory.buildUserSavedTutorial({
+          id: 103,
+          userId: 4444,
+          tutorialId: 'tuto3',
+          createdAt: new Date('2022-05-05'),
+        });
 
         await databaseBuilder.commit();
 
