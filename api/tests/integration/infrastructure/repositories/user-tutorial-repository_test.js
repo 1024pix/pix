@@ -118,16 +118,16 @@ describe('Integration | Infrastructure | Repository | user-tutorial-repository',
     context('when user has saved tutorials', function () {
       it('should return user-saved-tutorials belonging to given user ordered by descending id', async function () {
         // given
-        const userSavedTutoId1 = databaseBuilder.factory.buildUserSavedTutorial({
+        const userSavedTuto1 = databaseBuilder.factory.buildUserSavedTutorial({
           tutorialId: 'recTutorial',
           userId,
-          createdAt: '2022-04-29',
-        }).id;
-        const userSavedTutoId2 = databaseBuilder.factory.buildUserSavedTutorial({
+          createdAt: new Date('2022-04-29'),
+        });
+        const userSavedTuto2 = databaseBuilder.factory.buildUserSavedTutorial({
           tutorialId: 'recTutorial2',
           userId,
-          createdAt: '2022-05-02',
-        }).id;
+          createdAt: new Date('2022-05-02'),
+        });
         await databaseBuilder.commit();
 
         // when
@@ -138,10 +138,11 @@ describe('Integration | Infrastructure | Repository | user-tutorial-repository',
         expect(userTutorials[0]).to.be.instanceOf(UserSavedTutorial);
         expect(userTutorials[0]).to.have.property('tutorialId', 'recTutorial2');
         expect(userTutorials[0]).to.have.property('userId', userId);
-        expect(userTutorials[0].createdAt).to.deep.equal(new Date('2022-05-02'));
+        expect(userTutorials[0].createdAt).to.deep.equal(userSavedTuto2.createdAt);
         expect(userTutorials[0].skillId).to.equal(null);
-        expect(userTutorials[0].id).to.equal(userSavedTutoId2);
-        expect(userTutorials[1].id).to.equal(userSavedTutoId1);
+        expect(userTutorials[0].id).to.equal(userSavedTuto2.id);
+        expect(userTutorials[1].id).to.equal(userSavedTuto1.id);
+        expect(userTutorials[1].createdAt).to.deep.equal(userSavedTuto1.createdAt);
       });
     });
 
