@@ -262,7 +262,6 @@ module.exports = injectDependencies(
     findTutorials: require('./find-tutorials'),
     findUserCampaignParticipationOverviews: require('./find-user-campaign-participation-overviews'),
     findUserPrivateCertificates: require('./find-user-private-certificates'),
-    findUserTutorials: require('./find-user-tutorials'),
     flagSessionResultsAsSentToPrescriber: require('./flag-session-results-as-sent-to-prescriber'),
     generateUsername: require('./generate-username'),
     generateUsernameWithTemporaryPassword: require('./generate-username-with-temporary-password'),
