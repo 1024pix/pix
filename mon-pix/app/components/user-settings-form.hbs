@@ -1,0 +1,24 @@
+<div class="user-settings page-container">
+  <PixBlock @shadow="heavy" class="user-settings__form">
+    <h1 class="user-settings__title">{{t "pages.user-settings.title"}}
+      <PixTag @color="light-blue" class="user-settings__last-modified">
+        {{t "pages.user-settings.last-modified"}}
+        {{moment-format this.lastModified "D MMMM YYYY HH:mm:ss"}}
+      </PixTag>
+    </h1>
+    <PixSelect
+      @label={{t "pages.user-settings.color-label"}}
+      @id="preferred-color"
+      @options={{this.options}}
+      @onChange={{this.onChange}}
+      @selectedOption={{this.selectedColor}}
+      @emptyOptionLabel={{t "pages.user-settings.empty-color"}}
+      @isSearchable={{false}}
+      @isValidationActive={{false}}
+      @emptyOptionNotSelectable={{false}}
+    />
+    <PixButton @triggerAction={{this.onSubmit}} class="user-settings__submit">
+      {{t "pages.user-settings.submit"}}
+    </PixButton>
+  </PixBlock>
+</div>

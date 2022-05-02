@@ -18,7 +18,6 @@ describe('Unit | Serializer | JSONAPI | user-settings-serializer', function () {
           id: 'userSettingsId',
           attributes: {
             color: 'red',
-            'user-id': 'userId',
             'created-at': 'createdAt',
             'updated-at': 'updatedAt',
           },

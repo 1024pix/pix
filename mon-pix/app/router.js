@@ -23,6 +23,8 @@ Router.map(function () {
     this.route('index', { path: '' });
     this.route('user-dashboard', { path: '/accueil' });
     this.route('profile', { path: '/competences' });
+    this.route('user-settings', { path: '/preferences' });
+
     this.route('user-tests', { path: '/mes-parcours' });
     this.route('sitemap', { path: '/plan-du-site' });
 

@@ -30,6 +30,7 @@ import deleteUserSavedTutorial from './routes/delete-user-saved-tutorial';
 import putTutorialEvaluation from './routes/put-tutorial-evaluation';
 import postSharedCertifications from './routes/post-shared-certifications';
 import loadUserTutorialsRoutes from './routes/get-user-tutorials';
+import loadUserSettingsRoutes from './routes/get-user-settings';
 
 /* eslint max-statements: off */
 export default function () {
@@ -52,6 +53,7 @@ export default function () {
   loadUserRoutes(this);
   loadAccountRecoveryRoutes(this);
   loadUserTutorialsRoutes(this);
+  loadUserSettingsRoutes(this);
 
   this.get('/assessments/:id/competence-evaluations', getCompetenceEvaluationsByAssessment);
 

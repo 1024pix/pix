@@ -150,6 +150,13 @@
     "mobile-button-title": "Open menu"
   },
   "pages": {
+    "user-settings": {
+      "title": "User preferences",
+      "color-label": "Preferred color",
+      "last-modified": "Last modified on",
+      "empty-color": "Pick a color",
+      "submit": "Save"
+    },
     "assessment-banner": {
       "modal": {
         "title": "Do you need a break?",

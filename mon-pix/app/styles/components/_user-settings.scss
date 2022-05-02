@@ -1,0 +1,28 @@
+$header-height: 101px;
+
+.user-settings {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: calc(100vh - #{$header-height} - #{$footer-height});
+
+  &__title {
+    display: flex;
+    align-items: center;
+    margin-bottom: 16px;
+  }
+
+  &__submit {
+    margin-top: 16px;
+    margin-left: auto;
+  }
+
+  &__last-modified {
+    margin-left: 16px;
+  }
+
+  /* Fix pour https://1024pix.slack.com/archives/C0149DV4873/p1652093702342479 */
+  select {
+    width: 100%;
+  }
+}
