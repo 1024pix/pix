@@ -22,6 +22,7 @@ import {
   archiveOrganization,
   findPaginatedOrganizationMemberships,
   getOrganizationInvitations,
+  getOrganizationPlaces,
 } from './handlers/organizations';
 import { getJuryCertificationSummariesBySessionId } from './handlers/get-jury-certification-summaries-by-session-id';
 
@@ -132,6 +133,7 @@ export default function () {
   this.get('/organizations/:id/target-profiles', getOrganizationTargetProfiles);
   this.post('/organizations/:id/target-profiles', attachTargetProfiles);
   this.get('/admin/organizations/:id/invitations', getOrganizationInvitations);
+  this.get('/admin/organizations/:id/places', getOrganizationPlaces);
   this.get('/admin/badges/:id', getBadge);
   this.post('/admin/badges/:id/badge-criteria', createBadgeCriterion);
   this.post('/admin/target-profiles');
