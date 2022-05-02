@@ -15,7 +15,7 @@ describe('Unit | Domain | Events | handle-clea-certification-scoring', function 
 
   beforeEach(function () {
     partnerCertificationScoringRepository = {
-      buildCleaCertificationScoring: sinon.stub(),
+      getCleaCertificationScoring: sinon.stub(),
       save: sinon.stub(),
     };
 
@@ -130,7 +130,7 @@ describe('Unit | Domain | Events | handle-clea-certification-scoring', function 
           });
           const date = '2021-01-01';
 
-          partnerCertificationScoringRepository.buildCleaCertificationScoring
+          partnerCertificationScoringRepository.getCleaCertificationScoring
             .withArgs({
               complementaryCertificationCourseId,
               certificationCourseId,
@@ -242,7 +242,7 @@ describe('Unit | Domain | Events | handle-clea-certification-scoring', function 
           });
           const date = '2021-01-01';
 
-          partnerCertificationScoringRepository.buildCleaCertificationScoring
+          partnerCertificationScoringRepository.getCleaCertificationScoring
             .withArgs({
               complementaryCertificationCourseId,
               certificationCourseId,
