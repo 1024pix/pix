@@ -8,23 +8,13 @@ const authenticateCnavUser = require('../../../../lib/domain/usecases/authentica
 describe('Unit | UseCase | authenticate-cnav-user', function () {
   let cnavAuthenticationService;
   let authenticationSessionService;
-  let authenticationMethodRepository;
   let userRepository;
 
-  let clock;
-
   beforeEach(function () {
-    clock = sinon.useFakeTimers(Date.now());
-
     cnavAuthenticationService = {
       exchangeCodeForIdToken: sinon.stub(),
       getUserInfo: sinon.stub(),
       createAccessToken: sinon.stub().returns(),
-    };
-
-    authenticationMethodRepository = {
-      create: sinon.stub().resolves(),
-      findOneByUserIdAndIdentityProvider: sinon.stub(),
     };
 
     authenticationSessionService = {
@@ -35,10 +25,6 @@ describe('Unit | UseCase | authenticate-cnav-user', function () {
       findByExternalIdentifier: sinon.stub().resolves({}),
       updateLastLoggedAt: sinon.stub(),
     };
-  });
-
-  afterEach(function () {
-    clock.restore();
   });
 
   context('When the request state does not match the response state', function () {
@@ -56,7 +42,6 @@ describe('Unit | UseCase | authenticate-cnav-user', function () {
         stateSent,
         cnavAuthenticationService,
         authenticationSessionService,
-        authenticationMethodRepository,
         userRepository,
       });
 
@@ -88,7 +73,6 @@ describe('Unit | UseCase | authenticate-cnav-user', function () {
           stateSent: 'state',
           cnavAuthenticationService,
           authenticationSessionService,
-          authenticationMethodRepository,
           userRepository,
         });
 
@@ -110,7 +94,6 @@ describe('Unit | UseCase | authenticate-cnav-user', function () {
           stateSent: 'state',
           cnavAuthenticationService,
           authenticationSessionService,
-          authenticationMethodRepository,
           userRepository,
         });
 
@@ -124,10 +107,11 @@ describe('Unit | UseCase | authenticate-cnav-user', function () {
         domainBuilder.buildAuthenticationMethod.withCnavAsIdentityProvider({
           userId: user.id,
         });
+        const pixAccessToken = 'access-token';
 
         _fakeCnavAPI({ cnavAuthenticationService });
         userRepository.findByExternalIdentifier.resolves(user);
-        cnavAuthenticationService.createAccessToken.returns('access-token');
+        cnavAuthenticationService.createAccessToken.returns(pixAccessToken);
 
         // when
         const result = await authenticateCnavUser({
@@ -137,12 +121,11 @@ describe('Unit | UseCase | authenticate-cnav-user', function () {
           stateSent: 'state',
           cnavAuthenticationService,
           authenticationSessionService,
-          authenticationMethodRepository,
           userRepository,
         });
 
         // then
-        expect(result).to.deep.equal({ pixAccessToken: 'access-token' });
+        expect(result).to.deep.equal({ pixAccessToken, isAuthenticationComplete: true });
       });
     });
   });
@@ -156,14 +139,13 @@ describe('Unit | UseCase | authenticate-cnav-user', function () {
       userRepository.findByExternalIdentifier.resolves(null);
 
       // when
-      await authenticateCnavUser({
+      await catchErr(authenticateCnavUser)({
         code: 'code',
         redirectUri: 'redirectUri',
         stateReceived: 'state',
         stateSent: 'state',
         cnavAuthenticationService,
         authenticationSessionService,
-        authenticationMethodRepository,
         userRepository,
       });
 
@@ -186,12 +168,11 @@ describe('Unit | UseCase | authenticate-cnav-user', function () {
         stateSent: 'state',
         cnavAuthenticationService,
         authenticationSessionService,
-        authenticationMethodRepository,
         userRepository,
       });
 
       // then
-      expect(result).to.deep.equal({ authenticationKey });
+      expect(result).to.deep.equal({ authenticationKey, isAuthenticationComplete: false });
     });
   });
 });

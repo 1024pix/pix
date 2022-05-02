@@ -192,9 +192,7 @@ describe('Unit | Application | Controller | Authentication', function () {
     const redirect_uri = 'http://redirectUri.fr';
     const state_sent = 'state';
     const state_received = 'state';
-
     const pixAccessToken = 'pixAccessToken';
-    const idToken = 'idToken';
 
     let request;
 
@@ -213,7 +211,7 @@ describe('Unit | Application | Controller | Authentication', function () {
 
     it('should call usecase with payload parameters', async function () {
       // given
-      usecases.authenticateCnavUser.resolves({ pixAccessToken, idToken });
+      usecases.authenticateCnavUser.resolves({ pixAccessToken, isAuthenticationComplete: true });
       const expectedParameters = {
         code,
         redirectUri: redirect_uri,
@@ -230,7 +228,7 @@ describe('Unit | Application | Controller | Authentication', function () {
 
     it('should return PIX access token', async function () {
       // given
-      usecases.authenticateCnavUser.resolves({ pixAccessToken });
+      usecases.authenticateCnavUser.resolves({ pixAccessToken, isAuthenticationComplete: true });
       const expectedResult = {
         access_token: pixAccessToken,
       };
@@ -245,7 +243,7 @@ describe('Unit | Application | Controller | Authentication', function () {
     it('should return UnauthorizedError if pixAccessToken is not exist', async function () {
       // given
       const authenticationKey = 'aaa-bbb-ccc';
-      usecases.authenticateCnavUser.resolves({ authenticationKey });
+      usecases.authenticateCnavUser.resolves({ authenticationKey, isAuthenticationComplete: false });
       const expectedErrorMessage = "L'utilisateur n'a pas de compte Pix";
       const expectedResponseCode = 'SHOULD_VALIDATE_CGU';
       const expectedMeta = { authenticationKey };

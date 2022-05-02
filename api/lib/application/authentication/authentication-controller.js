@@ -103,10 +103,8 @@ module.exports = {
       stateSent,
     });
 
-    if (result.pixAccessToken) {
-      return {
-        access_token: result.pixAccessToken,
-      };
+    if (result.isAuthenticationComplete) {
+      return { access_token: result.pixAccessToken };
     } else {
       const message = "L'utilisateur n'a pas de compte Pix";
       const responseCode = 'SHOULD_VALIDATE_CGU';

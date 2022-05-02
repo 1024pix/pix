@@ -9,7 +9,6 @@ module.exports = async function authenticateCnavUser({
   stateSent,
   cnavAuthenticationService,
   authenticationSessionService,
-  authenticationMethodRepository,
   userRepository,
 }) {
   if (stateSent !== stateReceived) {
@@ -29,16 +28,15 @@ module.exports = async function authenticateCnavUser({
   if (user) {
     pixAccessToken = await _getPixAccessTokenFromCnavUser({
       user,
-      authenticationMethodRepository,
       userRepository,
       cnavAuthenticationService,
     });
 
-    return { pixAccessToken };
+    return { pixAccessToken, isAuthenticationComplete: true };
   } else {
     const authenticationKey = await authenticationSessionService.save(idToken);
 
-    return { authenticationKey };
+    return { authenticationKey, isAuthenticationComplete: false };
   }
 };
 
