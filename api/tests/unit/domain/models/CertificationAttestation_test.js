@@ -1,3 +1,4 @@
+const ComplementaryCertificationCourseResult = require('../../../../lib/domain/models/ComplementaryCertificationCourseResult');
 const { expect, domainBuilder } = require('../../../test-helper');
 const {
   PIX_EMPLOI_CLEA_V1,
@@ -144,14 +145,20 @@ describe('Unit | Domain | Models | CertificationAttestation', function () {
       it(`should return the acquired ${badgeKey} badge`, function () {
         // given
         const certificationAttestation = domainBuilder.buildCertificationAttestation({
-          certifiedBadges: [{ partnerKey: 'OTHER_BADGE' }, { partnerKey: badgeKey, source: 'PIX' }],
+          certifiedBadges: [
+            { partnerKey: 'OTHER_BADGE' },
+            { partnerKey: badgeKey, source: ComplementaryCertificationCourseResult.sources.PIX },
+          ],
         });
 
         // when
         const acquiredPixPlusEduCertification = certificationAttestation.getAcquiredPixPlusEduCertification();
 
         // expect
-        expect(acquiredPixPlusEduCertification).to.deep.equal({ partnerKey: badgeKey, source: 'PIX' });
+        expect(acquiredPixPlusEduCertification).to.deep.equal({
+          partnerKey: badgeKey,
+          source: ComplementaryCertificationCourseResult.sources.PIX,
+        });
       });
     });
 

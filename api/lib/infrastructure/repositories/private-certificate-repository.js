@@ -158,7 +158,7 @@ async function _getCertifiedBadgeImages(certificationCourseId) {
       'complementary-certification-courses.id',
       'complementary-certification-course-results.complementaryCertificationCourseId'
     )
-    .where({ certificationCourseId, acquired: true })
+    .where({ certificationCourseId })
     .where(function () {
       this.whereIn('partnerKey', handledBadgeKeys);
     })
@@ -175,7 +175,9 @@ async function _getCertifiedBadgeImages(certificationCourseId) {
       })
   );
 
-  const certifiedBadgesDTO = new CertifiedBadges({ complementaryCertificationCourseResults }).getCertifiedBadgesDTO();
+  const certifiedBadgesDTO = new CertifiedBadges({
+    complementaryCertificationCourseResults,
+  }).getAcquiredCertifiedBadgesDTO();
 
   return _.compact(
     _.map(certifiedBadgesDTO, ({ partnerKey, isTemporaryBadge }) =>
