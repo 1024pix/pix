@@ -17,7 +17,7 @@ module.exports = {
   },
 
   async find({ userId }) {
-    const userSavedTutorials = await knex(TABLE_NAME).where({ userId }).orderBy('id', 'desc');
+    const userSavedTutorials = await knex(TABLE_NAME).where({ userId }).orderBy('createdAt', 'desc');
     return userSavedTutorials.map(_toDomain);
   },
 
