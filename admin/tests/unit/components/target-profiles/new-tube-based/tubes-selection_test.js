@@ -14,40 +14,62 @@ module('Unit | Component | authenticated/target-profiles/new-tube-based/tubes-se
   });
 
   module('#checkTube', function () {
-    test('it should populate tubesSelected if element is checked with a selected level', function (assert) {
+    test('it should add tube to the selected tubes', function (assert) {
       // given
-
-      const tube = {
-        id: 'tubeId',
-        name: 'tubeName',
-      };
-      const expectedTubesSelected = ['tubeId'];
+      component.tubesSelected = EmberArray(['otherTubeId']);
 
       // when
-      component.checkTube(tube);
+      component.checkTube({
+        id: 'tubeId',
+      });
 
       // then
+      assert.deepEqual(component.tubesSelected, ['otherTubeId', 'tubeId']);
+    });
 
-      assert.deepEqual(component.tubesSelected, expectedTubesSelected);
+    module('when tube is already in the selected tubes', function () {
+      test('it should do nothing', function (assert) {
+        // given
+        component.tubesSelected = ['tubeId'];
+
+        // when
+        component.checkTube({
+          id: 'tubeId',
+        });
+
+        // then
+        assert.deepEqual(component.tubesSelected, ['tubeId']);
+      });
     });
   });
 
   module('#uncheckTube', function () {
     test('it should remove tube from tubesSelected if element is not checked', function (assert) {
       // given
-      component.tubesSelected = EmberArray(['tubeId']);
-
-      const tube = {
-        id: 'tubeId',
-        name: 'tubeName',
-      };
+      component.tubesSelected = EmberArray(['tubeId', 'otherTubeId']);
 
       // when
-      component.uncheckTube(tube);
+      component.uncheckTube({
+        id: 'tubeId',
+      });
 
       // then
+      assert.deepEqual(component.tubesSelected, ['otherTubeId']);
+    });
 
-      assert.deepEqual(component.tubesSelected, []);
+    module('when tube is not in the selected tubes', function () {
+      test('it should do nothing', function (assert) {
+        // given
+        component.tubesSelected = EmberArray(['otherTubeId']);
+
+        // when
+        component.uncheckTube({
+          id: 'tubeId',
+        });
+
+        // then
+        assert.deepEqual(component.tubesSelected, ['otherTubeId']);
+      });
     });
   });
 
@@ -55,14 +77,13 @@ module('Unit | Component | authenticated/target-profiles/new-tube-based/tubes-se
     test('it should set a level on tube', function (assert) {
       // given
       component.tubeLevels = {
-        tubeId2: '3',
+        tubeId2: 3,
       };
 
       // when
-      component.setLevelTube('tubeId1', '5');
+      component.setLevelTube('tubeId1', 5);
 
       // then
-
       assert.deepEqual(component.tubeLevels, {
         tubeId1: 5,
         tubeId2: 3,
