@@ -12,7 +12,7 @@ module('Unit | Component | target-profiles/new-tube-based/generate-target-profil
     test('it should return a framework list as multiselect option data', function (assert) {
       component = createComponent('component:target-profiles/new-tube-based/generate-target-profile-form-tube-based', {
         frameworks: [
-          { name: 'framework1', id: 'id1' },
+          { name: 'Pix', id: 'id1' },
           { name: 'framework2', id: 'id2' },
         ],
       });
@@ -21,7 +21,7 @@ module('Unit | Component | target-profiles/new-tube-based/generate-target-profil
       const result = component.frameworkOptions;
 
       assert.deepEqual(result, [
-        { label: 'framework1', value: 'id1' },
+        { label: 'Pix', value: 'id1' },
         { label: 'framework2', value: 'id2' },
       ]);
     });
