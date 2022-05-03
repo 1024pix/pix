@@ -23,8 +23,10 @@ describe('Integration | Component | Tutorials | Header', function () {
     expect(find('.user-tutorials-banner-v2__title')).to.exist;
     expect(find('.user-tutorials-banner-v2__description')).to.exist;
     expect(find('.user-tutorials-banner-v2__filters')).to.exist;
-    expect(findAll('a.choice-chip')).to.have.lengthOf(2);
-    expect(find('a.choice-chip,a.choice-chip--active')).to.exist;
-    expect(find('a.choice-chip,a.choice-chip--active')).to.have.property('textContent').that.contains('Recommandés');
+    expect(findAll('a.pix-choice-chip')).to.have.lengthOf(2);
+    expect(find('a.pix-choice-chip,a.pix-choice-chip--active')).to.exist;
+    expect(find('a.pix-choice-chip,a.pix-choice-chip--active'))
+      .to.have.property('textContent')
+      .that.contains('Recommandés');
   });
 });
