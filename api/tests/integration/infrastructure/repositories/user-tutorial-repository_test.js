@@ -3,7 +3,6 @@ const userTutorialRepository = require('../../../../lib/infrastructure/repositor
 const UserSavedTutorial = require('../../../../lib/domain/models/UserSavedTutorial');
 const UserTutorialWithTutorial = require('../../../../lib/domain/models/UserSavedTutorialWithTutorial');
 const Tutorial = require('../../../../lib/domain/models/Tutorial');
-const _ = require('lodash');
 
 describe('Integration | Infrastructure | Repository | user-tutorial-repository', function () {
   let userId;
@@ -116,82 +115,42 @@ describe('Integration | Infrastructure | Repository | user-tutorial-repository',
 
   describe('#find', function () {
     context('when user has saved tutorials', function () {
-      it('should return user-saved-tutorials belonging to given user', async function () {
+      it('should return user-saved-tutorials belonging to given user ordered by descending id', async function () {
         // given
-        const tutorialId = 'recTutorial';
-        databaseBuilder.factory.buildUserSavedTutorial({ tutorialId, userId });
-        await databaseBuilder.commit();
-
-        // when
-        const userTutorials = await userTutorialRepository.find({ userId });
-
-        // then
-        expect(userTutorials).to.have.length(1);
-        expect(userTutorials[0]).to.have.property('tutorialId', tutorialId);
-        expect(userTutorials[0]).to.have.property('userId', userId);
-        expect(userTutorials[0]).to.be.instanceOf(UserSavedTutorial);
-        expect(userTutorials[0].tutorialId).to.equal(tutorialId);
-        expect(userTutorials[0].skillId).to.equal(null);
-      });
-    });
-
-    context('when user has not saved tutorial', function () {
-      it('should return an empty list', async function () {
-        const userTutorials = await userTutorialRepository.find({ userId });
-
-        // then
-        expect(userTutorials).to.deep.equal([]);
-      });
-    });
-  });
-
-  describe('#findPaginated', function () {
-    context('when user has saved tutorials', function () {
-      it('should return user-saved-tutorials belonging to given user', async function () {
-        // given
-        const tutorialId = 'recTutorial';
-        databaseBuilder.factory.buildUserSavedTutorial({ tutorialId, userId });
-        await databaseBuilder.commit();
-
-        // when
-        const { models: userTutorials } = await userTutorialRepository.findPaginated({ userId });
-
-        // then
-        expect(userTutorials).to.have.length(1);
-        expect(userTutorials[0]).to.have.property('tutorialId', tutorialId);
-        expect(userTutorials[0]).to.have.property('userId', userId);
-        expect(userTutorials[0]).to.be.instanceOf(UserSavedTutorial);
-        expect(userTutorials[0].tutorialId).to.equal(tutorialId);
-        expect(userTutorials[0].skillId).to.equal(null);
-      });
-    });
-
-    context('when user has not saved tutorial', function () {
-      it('should return an empty list', async function () {
-        const { models: userTutorials } = await userTutorialRepository.findPaginated({ userId });
-
-        // then
-        expect(userTutorials).to.deep.equal([]);
-      });
-    });
-
-    context('when user-tutorials amount exceed page size', function () {
-      it('should return page size number of user-tutorials', async function () {
-        // given
-        const page = { number: 2, size: 2 };
-        _.times(4, (i) => databaseBuilder.factory.buildUserSavedTutorial({ userId, tutorialId: i }));
-        const expectedPagination = { page: 2, pageSize: 2, pageCount: 2, rowCount: 4 };
-        await databaseBuilder.commit();
-
-        // when
-        const { models: userTutorials, meta: pagination } = await userTutorialRepository.findPaginated({
+        const userSavedTuto1 = databaseBuilder.factory.buildUserSavedTutorial({
+          tutorialId: 'recTutorial',
           userId,
-          page,
+          createdAt: new Date('2022-04-29'),
         });
+        const userSavedTuto2 = databaseBuilder.factory.buildUserSavedTutorial({
+          tutorialId: 'recTutorial2',
+          userId,
+          createdAt: new Date('2022-05-02'),
+        });
+        await databaseBuilder.commit();
+
+        // when
+        const userTutorials = await userTutorialRepository.find({ userId });
 
         // then
-        expect(userTutorials).to.have.lengthOf(2);
-        expect(pagination).to.include(expectedPagination);
+        expect(userTutorials).to.have.length(2);
+        expect(userTutorials[0]).to.be.instanceOf(UserSavedTutorial);
+        expect(userTutorials[0]).to.have.property('tutorialId', 'recTutorial2');
+        expect(userTutorials[0]).to.have.property('userId', userId);
+        expect(userTutorials[0].createdAt).to.deep.equal(userSavedTuto2.createdAt);
+        expect(userTutorials[0].skillId).to.equal(null);
+        expect(userTutorials[0].id).to.equal(userSavedTuto2.id);
+        expect(userTutorials[1].id).to.equal(userSavedTuto1.id);
+        expect(userTutorials[1].createdAt).to.deep.equal(userSavedTuto1.createdAt);
+      });
+    });
+
+    context('when user has not saved tutorial', function () {
+      it('should return an empty list', async function () {
+        const userTutorials = await userTutorialRepository.find({ userId });
+
+        // then
+        expect(userTutorials).to.deep.equal([]);
       });
     });
   });
