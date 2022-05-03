@@ -16,7 +16,7 @@ module.exports = function () {
       'hourglass-end',
       'image',
       'circle-info',
-      'question-circle',
+      'circle-question',
       'lock',
       'long-arrow-alt-right',
       'power-off',
