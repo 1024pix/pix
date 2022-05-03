@@ -8,7 +8,6 @@ import ENV from 'mon-pix/config/environment';
 const PREFERRED_ATTACHMENT_FORMATS = ['docx', 'xlsx', 'pptx'];
 
 export default class ChallengeStatement extends Component {
-  @service mailGenerator;
   @service intl;
 
   @tracked selectedAttachmentUrl;
