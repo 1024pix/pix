@@ -18,10 +18,6 @@ class ComplementaryCertification {
     return this.name === PIX_PLUS_DROIT;
   }
 
-  isPixPlusEdu() {
-    return this.name === PIX_PLUS_EDU;
-  }
-
   isPixPlusEdu1erDegre() {
     return this.name === PIX_PLUS_EDU_1ER_DEGRE;
   }

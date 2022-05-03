@@ -171,18 +171,36 @@ async function _startNewCertification({
     }
   }
 
-  const pixEduBadgeAcquisition = highestCertifiableBadgeAcquisitions.find(
-    (badgeAcquisition) => badgeAcquisition.isPixEdu2ndDegre() || badgeAcquisition.isPixEdu1erDegre()
+  const pixEdu2ndDegreBadgeAcquisition = highestCertifiableBadgeAcquisitions.find((badgeAcquisition) =>
+    badgeAcquisition.isPixEdu2ndDegre()
   );
-  if (pixEduBadgeAcquisition) {
+  if (pixEdu2ndDegreBadgeAcquisition) {
     const certificationChallengesForPixEdu = await certificationChallengesService.pickCertificationChallengesForPixPlus(
-      pixEduBadgeAcquisition.badge,
+      pixEdu2ndDegreBadgeAcquisition.badge,
       userId,
       locale
     );
     challengesForCertification.push(...certificationChallengesForPixEdu);
     if (certificationChallengesForPixEdu.length) {
-      const pixEduComplementaryCertification = complementaryCertifications.find((comp) => comp.isPixPlusEdu());
+      const pixEduComplementaryCertification = complementaryCertifications.find((comp) => comp.isPixPlusEdu2ndDegre());
+      if (pixEduComplementaryCertification) {
+        complementaryCertificationIds.push(pixEduComplementaryCertification.id);
+      }
+    }
+  }
+
+  const pixEdu1erDegreBadgeAcquisition = highestCertifiableBadgeAcquisitions.find((badgeAcquisition) =>
+    badgeAcquisition.isPixEdu1erDegre()
+  );
+  if (pixEdu1erDegreBadgeAcquisition) {
+    const certificationChallengesForPixEdu = await certificationChallengesService.pickCertificationChallengesForPixPlus(
+      pixEdu1erDegreBadgeAcquisition.badge,
+      userId,
+      locale
+    );
+    challengesForCertification.push(...certificationChallengesForPixEdu);
+    if (certificationChallengesForPixEdu.length) {
+      const pixEduComplementaryCertification = complementaryCertifications.find((comp) => comp.isPixPlusEdu1erDegre());
       if (pixEduComplementaryCertification) {
         complementaryCertificationIds.push(pixEduComplementaryCertification.id);
       }
