@@ -59,7 +59,7 @@ describe('Unit | Domain | Models | ComplementaryCertification', function () {
   });
 
   describe('#isPixPlusEdu', function () {
-    it('should return true id name equals Pix+ Édu', function () {
+    it('should return true if name equals Pix+ Édu', function () {
       // given
       const complementaryCertification = domainBuilder.buildComplementaryCertification({
         name: ComplementaryCertification.PIX_PLUS_EDU,
@@ -83,6 +83,62 @@ describe('Unit | Domain | Models | ComplementaryCertification', function () {
 
       // then
       expect(isPixPlusEdu).to.be.false;
+    });
+  });
+
+  describe('#isPixPlusEdu2ndDegre', function () {
+    it('should return true id name equals Pix+ Édu 2nd degré', function () {
+      // given
+      const complementaryCertification = domainBuilder.buildComplementaryCertification({
+        name: ComplementaryCertification.PIX_PLUS_EDU_1ER_DEGRE,
+      });
+
+      // when
+      const isPixPlusEdu1erDegre = complementaryCertification.isPixPlusEdu1erDegre();
+
+      // then
+      expect(isPixPlusEdu1erDegre).to.be.true;
+    });
+
+    it('should return false otherwise', function () {
+      // given
+      const complementaryCertification = domainBuilder.buildComplementaryCertification({
+        name: 'Not pix+ Édu',
+      });
+
+      // when
+      const isPixPlusEdu1erDegre = complementaryCertification.isPixPlusEdu1erDegre();
+
+      // then
+      expect(isPixPlusEdu1erDegre).to.be.false;
+    });
+  });
+
+  describe('#isPixPlusEdu1erDegre', function () {
+    it('should return true id name equals Pix+ Édu 1er degré', function () {
+      // given
+      const complementaryCertification = domainBuilder.buildComplementaryCertification({
+        name: ComplementaryCertification.PIX_PLUS_EDU_2ND_DEGRE,
+      });
+
+      // when
+      const isPixPlusEdu2ndDegre = complementaryCertification.isPixPlusEdu2ndDegre();
+
+      // then
+      expect(isPixPlusEdu2ndDegre).to.be.true;
+    });
+
+    it('should return false otherwise', function () {
+      // given
+      const complementaryCertification = domainBuilder.buildComplementaryCertification({
+        name: 'Not pix+ Édu',
+      });
+
+      // when
+      const isPixPlusEdu2ndDegre = complementaryCertification.isPixPlusEdu2ndDegre();
+
+      // then
+      expect(isPixPlusEdu2ndDegre).to.be.false;
     });
   });
 });
