@@ -8,7 +8,7 @@ module.exports = function () {
       'bookmark',
       'circle-check',
       'copy',
-      'exclamation-circle',
+      'circle-exclamation',
       'exclamation-triangle',
       'external-link-alt',
       'eye',

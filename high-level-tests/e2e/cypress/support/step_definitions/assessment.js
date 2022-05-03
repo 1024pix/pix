@@ -43,6 +43,6 @@ Then(`j'ai mal répondu à {string}`, (challenge) => {
 
 Then(`j'ai bien répondu à {string}`, (challenge) => {
   cy.contains('.result-item', challenge).find('.result-item__icon svg')
-    .should('have.class', 'fa-check-circle').and('have.class', 'result-item__icon--green');
+    .should('have.class', 'fa-circle-check').and('have.class', 'result-item__icon--green');
 });
 
