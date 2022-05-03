@@ -11,7 +11,7 @@ class CampaignParticipant {
     this.organizationLearnerId = organizationLearner?.id;
     this.userIdentity = userIdentity;
     this.previousCampaignParticipation = previousCampaignParticipation;
-    this.organizationLearnerHasParticipated = organizationLearner.hasParticipated;
+    this.organizationLearnerHasParticipatedForAnotherUser = organizationLearner.hasParticipated;
   }
 
   start({ participantExternalId }) {
@@ -91,7 +91,7 @@ class CampaignParticipant {
       });
     }
 
-    if (this.organizationLearnerHasParticipated) {
+    if (this.organizationLearnerHasParticipatedForAnotherUser) {
       throw new AlreadyExistingCampaignParticipationError('ORGANIZATION_LEARNER_HAS_ALREADY_PARTICIPATED');
     }
   }

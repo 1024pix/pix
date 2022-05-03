@@ -579,7 +579,7 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
         });
 
         expect(campaignParticipant.organizationLearnerId).to.equal(organizationLearnerId);
-        expect(campaignParticipant.organizationLearnerHasParticipated).to.equal(false);
+        expect(campaignParticipant.organizationLearnerHasParticipatedForAnotherUser).to.equal(false);
       });
 
       it('find only organization learner which is not disabled', async function () {
@@ -605,90 +605,168 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
       });
 
       context('when the organization learner has already participated', function () {
-        it('returns the participant without organization learner info', async function () {
-          const campaignToStartParticipation = buildCampaignWithCompleteTargetProfile({ organizationId });
-          const { id: userId } = databaseBuilder.factory.buildUser();
-          const { id: organizationLearnerId } = databaseBuilder.factory.buildOrganizationLearner({
-            userId,
-            organizationId,
-          });
-          databaseBuilder.factory.buildCampaignParticipation({
-            organizationLearnerId,
-            campaignId: campaignToStartParticipation.id,
-            organizationId,
-          });
-
-          await databaseBuilder.commit();
-
-          const campaignParticipant = await DomainTransaction.execute(async (domainTransaction) => {
-            return campaignParticipantRepository.get({
+        context('when the participation associated to the same user', function () {
+          it('returns false for organizationLearnerHasParticipatedForAnotherUser', async function () {
+            const campaignToStartParticipation = buildCampaignWithCompleteTargetProfile({
+              organizationId,
+            });
+            const { id: userId } = databaseBuilder.factory.buildUser();
+            const { id: organizationLearnerId } = databaseBuilder.factory.buildOrganizationLearner({
               userId,
+              organizationId,
+            });
+            databaseBuilder.factory.buildCampaignParticipation({
+              organizationLearnerId,
               campaignId: campaignToStartParticipation.id,
-              domainTransaction,
+              organizationId,
+              userId,
+            });
+
+            await databaseBuilder.commit();
+
+            const campaignParticipant = await DomainTransaction.execute(async (domainTransaction) => {
+              return campaignParticipantRepository.get({
+                userId,
+                campaignId: campaignToStartParticipation.id,
+                domainTransaction,
+              });
+            });
+
+            expect(campaignParticipant.organizationLearnerId).to.equal(organizationLearnerId);
+            expect(campaignParticipant.organizationLearnerHasParticipatedForAnotherUser).to.equal(false);
+          });
+
+          context('when there is participation for another campaign', function () {
+            it('returns organization learner id', async function () {
+              const campaignToStartParticipation = buildCampaignWithCompleteTargetProfile({ organizationId });
+              const { id: userId } = databaseBuilder.factory.buildUser();
+              const { id: organizationLearnerId } = databaseBuilder.factory.buildOrganizationLearner({
+                userId,
+                organizationId,
+              });
+              databaseBuilder.factory.buildCampaignParticipation({
+                organizationLearnerId,
+                organizationId,
+              });
+
+              await databaseBuilder.commit();
+
+              const campaignParticipant = await DomainTransaction.execute(async (domainTransaction) => {
+                return campaignParticipantRepository.get({
+                  userId,
+                  campaignId: campaignToStartParticipation.id,
+                  domainTransaction,
+                });
+              });
+
+              expect(campaignParticipant.organizationLearnerId).to.equal(organizationLearnerId);
+              expect(campaignParticipant.organizationLearnerHasParticipatedForAnotherUser).to.equal(false);
             });
           });
-
-          expect(campaignParticipant.organizationLearnerId).to.equal(organizationLearnerId);
-          expect(campaignParticipant.organizationLearnerHasParticipated).to.equal(true);
         });
-      });
 
-      context('when the organization learner has a deleted participation', function () {
-        it('does not take into account the participation', async function () {
-          const campaignToStartParticipation = buildCampaignWithCompleteTargetProfile({ organizationId });
-          const { id: userId } = databaseBuilder.factory.buildUser();
-          const { id: organizationLearnerId } = databaseBuilder.factory.buildOrganizationLearner({
-            userId,
-            organizationId,
-          });
-          databaseBuilder.factory.buildCampaignParticipation({
-            organizationLearnerId,
-            campaignId: campaignToStartParticipation.id,
-            organizationId,
-            deletedAt: new Date('2020-01-01'),
-            deletedBy: userId,
-          });
-
-          await databaseBuilder.commit();
-
-          const campaignParticipant = await DomainTransaction.execute(async (domainTransaction) => {
-            return campaignParticipantRepository.get({
+        context('when the participation associated to another user', function () {
+          it('takes into account the participation', async function () {
+            const campaignToStartParticipation = buildCampaignWithCompleteTargetProfile({ organizationId });
+            const { id: userId } = databaseBuilder.factory.buildUser();
+            const { id: organizationLearnerId } = databaseBuilder.factory.buildOrganizationLearner({
               userId,
+              organizationId,
+            });
+            databaseBuilder.factory.buildCampaignParticipation({
+              organizationLearnerId,
               campaignId: campaignToStartParticipation.id,
-              domainTransaction,
+              organizationId,
+            });
+
+            await databaseBuilder.commit();
+
+            const campaignParticipant = await DomainTransaction.execute(async (domainTransaction) => {
+              return campaignParticipantRepository.get({
+                userId,
+                campaignId: campaignToStartParticipation.id,
+                domainTransaction,
+              });
+            });
+
+            expect(campaignParticipant.organizationLearnerId).to.equal(organizationLearnerId);
+            expect(campaignParticipant.organizationLearnerHasParticipatedForAnotherUser).to.equal(true);
+          });
+
+          context('when the participation is deleted', function () {
+            it('does not take into account the participation', async function () {
+              const campaignToStartParticipation = buildCampaignWithCompleteTargetProfile({ organizationId });
+              const { id: userId } = databaseBuilder.factory.buildUser();
+              const { id: organizationLearnerId } = databaseBuilder.factory.buildOrganizationLearner({
+                userId,
+                organizationId,
+              });
+              databaseBuilder.factory.buildCampaignParticipation({
+                organizationLearnerId,
+                campaignId: campaignToStartParticipation.id,
+                organizationId,
+                deletedAt: new Date('2020-01-01'),
+                deletedBy: userId,
+              });
+
+              await databaseBuilder.commit();
+
+              const campaignParticipant = await DomainTransaction.execute(async (domainTransaction) => {
+                return campaignParticipantRepository.get({
+                  userId,
+                  campaignId: campaignToStartParticipation.id,
+                  domainTransaction,
+                });
+              });
+
+              expect(campaignParticipant.organizationLearnerId).to.equal(organizationLearnerId);
+              expect(campaignParticipant.organizationLearnerHasParticipatedForAnotherUser).to.equal(false);
+            });
+
+            context('when there are several previous participations', function () {
+              it('does not take into account participations', async function () {
+                const campaignToStartParticipation = buildCampaignWithCompleteTargetProfile({
+                  multipleSendings: true,
+                  organizationId,
+                });
+                const { id: userId } = databaseBuilder.factory.buildUser();
+                const { id: otherUser } = databaseBuilder.factory.buildUser();
+                const { id: organizationLearnerId } = databaseBuilder.factory.buildOrganizationLearner({
+                  userId,
+                  organizationId,
+                });
+                databaseBuilder.factory.buildCampaignParticipation({
+                  organizationLearnerId,
+                  campaignId: campaignToStartParticipation.id,
+                  organizationId,
+                  userId: otherUser,
+                  isImproved: true,
+                  deletedBy: otherUser,
+                });
+                databaseBuilder.factory.buildCampaignParticipation({
+                  organizationLearnerId,
+                  campaignId: campaignToStartParticipation.id,
+                  organizationId,
+                  userId: otherUser,
+                  deletedAt: new Date('2020-01-01'),
+                  deletedBy: otherUser,
+                });
+
+                await databaseBuilder.commit();
+
+                const campaignParticipant = await DomainTransaction.execute(async (domainTransaction) => {
+                  return campaignParticipantRepository.get({
+                    userId,
+                    campaignId: campaignToStartParticipation.id,
+                    domainTransaction,
+                  });
+                });
+
+                expect(campaignParticipant.organizationLearnerId).to.equal(organizationLearnerId);
+                expect(campaignParticipant.organizationLearnerHasParticipatedForAnotherUser).to.equal(false);
+              });
             });
           });
-
-          expect(campaignParticipant.organizationLearnerId).to.equal(organizationLearnerId);
-          expect(campaignParticipant.organizationLearnerHasParticipated).to.equal(false);
-        });
-      });
-
-      context('when there is participation for another campaign', function () {
-        it('returns organization learner id', async function () {
-          const campaignToStartParticipation = buildCampaignWithCompleteTargetProfile({ organizationId });
-          const { id: userId } = databaseBuilder.factory.buildUser();
-          const { id: organizationLearnerId } = databaseBuilder.factory.buildOrganizationLearner({
-            userId,
-            organizationId,
-          });
-          databaseBuilder.factory.buildCampaignParticipation({
-            organizationLearnerId,
-            organizationId,
-          });
-
-          await databaseBuilder.commit();
-
-          const campaignParticipant = await DomainTransaction.execute(async (domainTransaction) => {
-            return campaignParticipantRepository.get({
-              userId,
-              campaignId: campaignToStartParticipation.id,
-              domainTransaction,
-            });
-          });
-
-          expect(campaignParticipant.organizationLearnerId).to.equal(organizationLearnerId);
-          expect(campaignParticipant.organizationLearnerHasParticipated).to.equal(false);
         });
       });
     });

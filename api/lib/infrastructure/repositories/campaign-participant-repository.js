@@ -142,6 +142,8 @@ async function _getOrganizationLearner(campaignId, userId, domainTransaction) {
         this.on('campaign-participations.organizationLearnerId', 'organization-learners.id');
         this.on('campaign-participations.campaignId', 'campaigns.id');
         this.on('campaign-participations.deletedAt', knex.raw('IS'), knex.raw('NULL'));
+        this.on('campaign-participations.isImproved', knex.raw('IS'), knex.raw('false'));
+        this.on('campaign-participations.userId', '!=', 'organization-learners.userId');
       },
       'organization-learners.id'
     )
