@@ -31,4 +31,9 @@ export default class GenerateTargetProfileFromTubeBased extends Component {
   setSelectedFrameworkIds(frameworkIds) {
     this.selectedFrameworkIds = frameworkIds;
   }
+
+  @action
+  goBackToTargetProfileList() {
+    this.router.transitionTo('authenticated.target-profiles.list');
+  }
 }
