@@ -5,9 +5,10 @@ module.exports = function buildUserSavedTutorial({
   tutorialId,
   userId,
   skillId = null,
+  createdAt = new Date(),
 } = {}) {
   return databaseBuffer.pushInsertable({
     tableName: 'user-saved-tutorials',
-    values: { id, userId, tutorialId, skillId },
+    values: { id, userId, tutorialId, skillId, createdAt },
   });
 };

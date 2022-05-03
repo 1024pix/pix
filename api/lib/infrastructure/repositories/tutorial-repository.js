@@ -24,7 +24,7 @@ module.exports = {
   },
 
   async findPaginatedForCurrentUser({ userId, page }) {
-    const { models: userTutorials, meta } = await userTutorialRepository.findPaginated({ userId, page });
+    const userTutorials = await userTutorialRepository.find({ userId });
     const [tutorials, tutorialEvaluations] = await Promise.all([
       tutorialDatasource.findByRecordIds(userTutorials.map(({ tutorialId }) => tutorialId)),
       tutorialEvaluationRepository.find({ userId }),
@@ -32,7 +32,10 @@ module.exports = {
 
     const tutorialsForUser = _toTutorialsForUser({ tutorials, tutorialEvaluations, userTutorials });
 
-    return { models: tutorialsForUser, meta };
+    const sortedTutorialsForUser = _.orderBy(tutorialsForUser, ['userTutorial.createdAt'], ['desc']);
+    const { results: models, pagination: meta } = paginateModule.paginate(sortedTutorialsForUser, page);
+
+    return { models, meta };
   },
 
   async get(id) {

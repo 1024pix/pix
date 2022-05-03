@@ -139,16 +139,26 @@ describe('Integration | Repository | tutorial-repository', function () {
     });
 
     context('when user has saved tutorials', function () {
-      it('should return tutorial with user tutorial belonging to given user', async function () {
+      it('should return tutorials with user tutorials belonging to given user ordered by descending date of creation', async function () {
         // given
-        const tutorialId = 'recTutorial';
+        const tutorialId1 = 'rec1Tutorial';
+        const tutorialId2 = 'rec2Tutorial';
 
         const learningContent = {
-          tutorials: [{ id: tutorialId }],
+          tutorials: [{ id: tutorialId1 }, { id: tutorialId2 }],
         };
         mockLearningContent(learningContent);
 
-        databaseBuilder.factory.buildUserSavedTutorial({ tutorialId, userId });
+        const firstUserSavedTutorial = databaseBuilder.factory.buildUserSavedTutorial({
+          tutorialId: tutorialId1,
+          userId,
+          createdAt: new Date('2022-05-01'),
+        });
+        const lastUserSavedTutorial = databaseBuilder.factory.buildUserSavedTutorial({
+          tutorialId: tutorialId2,
+          userId,
+          createdAt: new Date('2022-05-02'),
+        });
         await databaseBuilder.commit();
 
         // when
@@ -157,10 +167,14 @@ describe('Integration | Repository | tutorial-repository', function () {
         });
 
         // then
-        expect(tutorialsForUser).to.have.length(1);
+        expect(tutorialsForUser).to.have.length(2);
         expect(tutorialsForUser[0]).to.be.instanceOf(TutorialForUser);
         expect(tutorialsForUser[0].userTutorial).to.be.instanceOf(UserSavedTutorial);
         expect(tutorialsForUser[0].userTutorial.userId).to.equal(userId);
+        expect(tutorialsForUser.map((tutorialForUser) => tutorialForUser.userTutorial.createdAt)).to.deep.equal([
+          lastUserSavedTutorial.createdAt,
+          firstUserSavedTutorial.createdAt,
+        ]);
       });
 
       context('when user has evaluated tutorial ', function () {
@@ -201,7 +215,7 @@ describe('Integration | Repository | tutorial-repository', function () {
       });
     });
 
-    context('when user has saved a tutorial not available anymore', function () {
+    context('when user has saved a tutorial which is not available anymore', function () {
       it('should return an empty list', async function () {
         mockLearningContent({ tutorials: [] });
         databaseBuilder.factory.buildUserSavedTutorial({ tutorialId: 'recTutorial', userId });
@@ -213,6 +227,54 @@ describe('Integration | Repository | tutorial-repository', function () {
 
         // then
         expect(tutorialsForUser).to.deep.equal([]);
+      });
+
+      it('should return row count of existing tutorials', async function () {
+        // given
+        const learningContent = {
+          tutorials: [{ id: 'tuto1' }, { id: 'tuto2' }, { id: 'tuto3' }, { id: 'tuto4' }],
+        };
+
+        mockLearningContent(learningContent);
+
+        databaseBuilder.factory.buildUserSavedTutorial({
+          tutorialId: 'tuto1',
+          userId,
+          createdAt: new Date('2022-05-01'),
+        });
+        databaseBuilder.factory.buildUserSavedTutorial({
+          tutorialId: 'tuto2',
+          userId,
+          createdAt: new Date('2022-05-02'),
+        });
+        databaseBuilder.factory.buildUserSavedTutorial({
+          tutorialId: 'tuto3',
+          userId,
+          createdAt: new Date('2022-05-03'),
+        });
+        databaseBuilder.factory.buildUserSavedTutorial({
+          tutorialId: 'tuto_erreurId',
+          userId,
+          createdAt: new Date('2022-05-04'),
+        });
+        databaseBuilder.factory.buildUserSavedTutorial({
+          tutorialId: 'tuto4',
+          userId,
+          createdAt: new Date('2022-05-05'),
+        });
+        await databaseBuilder.commit();
+
+        const expectedTutorialIds = ['tuto4', 'tuto3', 'tuto2', 'tuto1'];
+
+        // when
+        const { models: tutorialsForUser, meta } = await tutorialRepository.findPaginatedForCurrentUser({
+          userId,
+          page: { size: 4, number: 1 },
+        });
+
+        // then
+        expect(tutorialsForUser.map((tutorial) => tutorial.id)).to.deep.equal(expectedTutorialIds);
+        expect(meta).to.deep.equal({ page: 1, pageSize: 4, rowCount: 4, pageCount: 1 });
       });
     });
 
@@ -638,21 +700,17 @@ describe('Integration | Repository | tutorial-repository', function () {
         const { results } = await tutorialRepository.findPaginatedRecommendedByUserId({ userId });
 
         // then
-        expect(results.map((tutorial) => tutorial.tutorialEvaluation)).to.exactlyContain([
-          {
-            id: tutorialEvaluationId,
-            userId,
-            tutorialId: 'tuto4',
-          },
-        ]);
-        expect(results.map((tutorial) => tutorial.userTutorial)).to.exactlyContain([
-          {
-            id: userSavedTutorialId,
-            userId,
-            skillId: 'recSkill3',
-            tutorialId: 'tuto4',
-          },
-        ]);
+        expect(results[0].tutorialEvaluation).to.deep.equal({
+          id: tutorialEvaluationId,
+          userId,
+          tutorialId: 'tuto4',
+        });
+        expect(results[0].userTutorial).to.include({
+          id: userSavedTutorialId,
+          userId,
+          skillId: 'recSkill3',
+          tutorialId: 'tuto4',
+        });
       });
     });
 
