@@ -137,7 +137,7 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
             hasParticipated: false,
           },
           userIdentity,
-          previousCampaignParticipation: null,
+          previousCampaignParticipationForUser: null,
         });
 
         campaignParticipant.start({ participantExternalId: null });
@@ -168,7 +168,7 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
             hasParticipated: false,
           },
           userIdentity,
-          previousCampaignParticipation: null,
+          previousCampaignParticipationForUser: null,
         });
 
         campaignParticipant.start({ participantExternalId: null });
@@ -204,7 +204,7 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
             hasParticipated: false,
           },
           userIdentity,
-          previousCampaignParticipation: null,
+          previousCampaignParticipationForUser: null,
         });
 
         campaignParticipant.start({ participantExternalId: null });
@@ -227,7 +227,7 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
         const campaign = databaseBuilder.factory.buildCampaign({
           multipleSendings: true,
         });
-        const { id: previousCampaignParticipationId } = databaseBuilder.factory.buildCampaignParticipation({
+        const { id: previousCampaignParticipationForUserId } = databaseBuilder.factory.buildCampaignParticipation({
           userId: userIdentity.id,
           campaignId: campaign.id,
           isImproved: false,
@@ -240,8 +240,8 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
         const campaignParticipant = new CampaignParticipant({
           campaignToStartParticipation,
           userIdentity,
-          previousCampaignParticipation: {
-            id: previousCampaignParticipationId,
+          previousCampaignParticipationForUser: {
+            id: previousCampaignParticipationForUserId,
             status: 'SHARED',
             validatedSkillsCount: 0,
           },
@@ -261,7 +261,7 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
         //THEN
         const campaignParticipation = await knex('campaign-participations')
           .select('isImproved')
-          .where({ id: previousCampaignParticipationId })
+          .where({ id: previousCampaignParticipationForUserId })
           .first();
 
         expect(campaignParticipation.isImproved).to.deep.equal(true);
@@ -284,7 +284,7 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
           campaignId: campaign.id,
           isImproved: false,
         });
-        const { id: previousCampaignParticipationId } = databaseBuilder.factory.buildCampaignParticipation({
+        const { id: previousCampaignParticipationForUserId } = databaseBuilder.factory.buildCampaignParticipation({
           userId: userIdentity.id,
           campaignId: campaign.id,
           isImproved: false,
@@ -296,8 +296,8 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
         const campaignParticipant = new CampaignParticipant({
           campaignToStartParticipation,
           userIdentity,
-          previousCampaignParticipation: {
-            id: previousCampaignParticipationId,
+          previousCampaignParticipationForUser: {
+            id: previousCampaignParticipationForUserId,
             status: 'SHARED',
             validatedSkillsCount: 0,
           },
@@ -317,7 +317,7 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
         //THEN
         const campaignParticipations = await knex('campaign-participations').pluck('id').where({ isImproved: true });
 
-        expect(campaignParticipations).to.deep.equal([previousCampaignParticipationId]);
+        expect(campaignParticipations).to.deep.equal([previousCampaignParticipationForUserId]);
       });
     });
 
@@ -423,7 +423,7 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
           multipleSendings: true,
           idPixLabel: null,
         });
-        const { id: previousCampaignParticipationId } = databaseBuilder.factory.buildCampaignParticipation({
+        const { id: previousCampaignParticipationForUserId } = databaseBuilder.factory.buildCampaignParticipation({
           userId: userIdentity.id,
           campaignId: campaign.id,
           isImproved: false,
@@ -435,8 +435,8 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
         const campaignParticipant = new CampaignParticipant({
           campaignToStartParticipation,
           userIdentity,
-          previousCampaignParticipation: {
-            id: previousCampaignParticipationId,
+          previousCampaignParticipationForUser: {
+            id: previousCampaignParticipationForUserId,
             status: 'SHARED',
             validatedSkillsCount: 0,
           },
@@ -459,7 +459,9 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
         const campaignParticipations = await knex('campaign-participations').select(['id', 'isImproved']);
         const assessments = await knex('assessments');
 
-        expect(campaignParticipations).to.deep.equal([{ id: previousCampaignParticipationId, isImproved: false }]);
+        expect(campaignParticipations).to.deep.equal([
+          { id: previousCampaignParticipationForUserId, isImproved: false },
+        ]);
         expect(assessments).to.be.empty;
       });
     });
@@ -533,7 +535,7 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
           });
         });
 
-        expect(campaignParticipant.previousCampaignParticipation).to.deep.equal(expectedAttributes);
+        expect(campaignParticipant.previousCampaignParticipationForUser).to.deep.equal(expectedAttributes);
       });
     });
 
@@ -555,7 +557,7 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
           });
         });
 
-        expect(campaignParticipant.previousCampaignParticipation).to.be.null;
+        expect(campaignParticipant.previousCampaignParticipationForUser).to.be.null;
       });
     });
 
@@ -579,7 +581,7 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
         });
 
         expect(campaignParticipant.organizationLearnerId).to.equal(organizationLearnerId);
-        expect(campaignParticipant.organizationLearnerHasParticipated).to.equal(false);
+        expect(campaignParticipant.organizationLearnerHasParticipatedForAnotherUser).to.equal(false);
       });
 
       it('find only organization learner which is not disabled', async function () {
@@ -604,60 +606,169 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
         expect(campaignParticipant.organizationLearnerId).to.equal(null);
       });
 
-      context('when there the organization learner has already participated', function () {
-        it('returns the participant without organization learner info', async function () {
-          const campaignToStartParticipation = buildCampaignWithCompleteTargetProfile({ organizationId });
-          const { id: userId } = databaseBuilder.factory.buildUser();
-          const { id: organizationLearnerId } = databaseBuilder.factory.buildOrganizationLearner({
-            userId,
-            organizationId,
-          });
-          databaseBuilder.factory.buildCampaignParticipation({
-            organizationLearnerId,
-            campaignId: campaignToStartParticipation.id,
-            organizationId,
-          });
-
-          await databaseBuilder.commit();
-
-          const campaignParticipant = await DomainTransaction.execute(async (domainTransaction) => {
-            return campaignParticipantRepository.get({
+      context('when the organization learner has already participated', function () {
+        context('when the participation associated to the same user', function () {
+          it('returns false for organizationLearnerHasParticipatedForAnotherUser', async function () {
+            const campaignToStartParticipation = buildCampaignWithCompleteTargetProfile({
+              organizationId,
+            });
+            const { id: userId } = databaseBuilder.factory.buildUser();
+            const { id: organizationLearnerId } = databaseBuilder.factory.buildOrganizationLearner({
               userId,
+              organizationId,
+            });
+            databaseBuilder.factory.buildCampaignParticipation({
+              organizationLearnerId,
               campaignId: campaignToStartParticipation.id,
-              domainTransaction,
+              organizationId,
+              userId,
+            });
+
+            await databaseBuilder.commit();
+
+            const campaignParticipant = await DomainTransaction.execute(async (domainTransaction) => {
+              return campaignParticipantRepository.get({
+                userId,
+                campaignId: campaignToStartParticipation.id,
+                domainTransaction,
+              });
+            });
+
+            expect(campaignParticipant.organizationLearnerId).to.equal(organizationLearnerId);
+            expect(campaignParticipant.organizationLearnerHasParticipatedForAnotherUser).to.equal(false);
+          });
+
+          context('when there is participation for another campaign', function () {
+            it('returns organization learner id', async function () {
+              const campaignToStartParticipation = buildCampaignWithCompleteTargetProfile({ organizationId });
+              const { id: userId } = databaseBuilder.factory.buildUser();
+              const { id: organizationLearnerId } = databaseBuilder.factory.buildOrganizationLearner({
+                userId,
+                organizationId,
+              });
+              databaseBuilder.factory.buildCampaignParticipation({
+                organizationLearnerId,
+                organizationId,
+              });
+
+              await databaseBuilder.commit();
+
+              const campaignParticipant = await DomainTransaction.execute(async (domainTransaction) => {
+                return campaignParticipantRepository.get({
+                  userId,
+                  campaignId: campaignToStartParticipation.id,
+                  domainTransaction,
+                });
+              });
+
+              expect(campaignParticipant.organizationLearnerId).to.equal(organizationLearnerId);
+              expect(campaignParticipant.organizationLearnerHasParticipatedForAnotherUser).to.equal(false);
             });
           });
-
-          expect(campaignParticipant.organizationLearnerId).to.equal(organizationLearnerId);
-          expect(campaignParticipant.organizationLearnerHasParticipated).to.equal(true);
         });
-      });
 
-      context('when there is participation for another campaign', function () {
-        it('returns organization learner id', async function () {
-          const campaignToStartParticipation = buildCampaignWithCompleteTargetProfile({ organizationId });
-          const { id: userId } = databaseBuilder.factory.buildUser();
-          const { id: organizationLearnerId } = databaseBuilder.factory.buildOrganizationLearner({
-            userId,
-            organizationId,
-          });
-          databaseBuilder.factory.buildCampaignParticipation({
-            organizationLearnerId,
-            organizationId,
-          });
-
-          await databaseBuilder.commit();
-
-          const campaignParticipant = await DomainTransaction.execute(async (domainTransaction) => {
-            return campaignParticipantRepository.get({
+        context('when the participation associated to another user', function () {
+          it('takes into account the participation', async function () {
+            const campaignToStartParticipation = buildCampaignWithCompleteTargetProfile({ organizationId });
+            const { id: userId } = databaseBuilder.factory.buildUser();
+            const { id: organizationLearnerId } = databaseBuilder.factory.buildOrganizationLearner({
               userId,
+              organizationId,
+            });
+            databaseBuilder.factory.buildCampaignParticipation({
+              organizationLearnerId,
               campaignId: campaignToStartParticipation.id,
-              domainTransaction,
+              organizationId,
+            });
+
+            await databaseBuilder.commit();
+
+            const campaignParticipant = await DomainTransaction.execute(async (domainTransaction) => {
+              return campaignParticipantRepository.get({
+                userId,
+                campaignId: campaignToStartParticipation.id,
+                domainTransaction,
+              });
+            });
+
+            expect(campaignParticipant.organizationLearnerId).to.equal(organizationLearnerId);
+            expect(campaignParticipant.organizationLearnerHasParticipatedForAnotherUser).to.equal(true);
+          });
+
+          context('when the participation is deleted', function () {
+            it('does not take into account the participation', async function () {
+              const campaignToStartParticipation = buildCampaignWithCompleteTargetProfile({ organizationId });
+              const { id: userId } = databaseBuilder.factory.buildUser();
+              const { id: organizationLearnerId } = databaseBuilder.factory.buildOrganizationLearner({
+                userId,
+                organizationId,
+              });
+              databaseBuilder.factory.buildCampaignParticipation({
+                organizationLearnerId,
+                campaignId: campaignToStartParticipation.id,
+                organizationId,
+                deletedAt: new Date('2020-01-01'),
+                deletedBy: userId,
+              });
+
+              await databaseBuilder.commit();
+
+              const campaignParticipant = await DomainTransaction.execute(async (domainTransaction) => {
+                return campaignParticipantRepository.get({
+                  userId,
+                  campaignId: campaignToStartParticipation.id,
+                  domainTransaction,
+                });
+              });
+
+              expect(campaignParticipant.organizationLearnerId).to.equal(organizationLearnerId);
+              expect(campaignParticipant.organizationLearnerHasParticipatedForAnotherUser).to.equal(false);
+            });
+
+            context('when there are several previous participations', function () {
+              it('does not take into account participations', async function () {
+                const campaignToStartParticipation = buildCampaignWithCompleteTargetProfile({
+                  multipleSendings: true,
+                  organizationId,
+                });
+                const { id: userId } = databaseBuilder.factory.buildUser();
+                const { id: otherUser } = databaseBuilder.factory.buildUser();
+                const { id: organizationLearnerId } = databaseBuilder.factory.buildOrganizationLearner({
+                  userId,
+                  organizationId,
+                });
+                databaseBuilder.factory.buildCampaignParticipation({
+                  organizationLearnerId,
+                  campaignId: campaignToStartParticipation.id,
+                  organizationId,
+                  userId: otherUser,
+                  isImproved: true,
+                  deletedBy: otherUser,
+                });
+                databaseBuilder.factory.buildCampaignParticipation({
+                  organizationLearnerId,
+                  campaignId: campaignToStartParticipation.id,
+                  organizationId,
+                  userId: otherUser,
+                  deletedAt: new Date('2020-01-01'),
+                  deletedBy: otherUser,
+                });
+
+                await databaseBuilder.commit();
+
+                const campaignParticipant = await DomainTransaction.execute(async (domainTransaction) => {
+                  return campaignParticipantRepository.get({
+                    userId,
+                    campaignId: campaignToStartParticipation.id,
+                    domainTransaction,
+                  });
+                });
+
+                expect(campaignParticipant.organizationLearnerId).to.equal(organizationLearnerId);
+                expect(campaignParticipant.organizationLearnerHasParticipatedForAnotherUser).to.equal(false);
+              });
             });
           });
-
-          expect(campaignParticipant.organizationLearnerId).to.equal(organizationLearnerId);
-          expect(campaignParticipant.organizationLearnerHasParticipated).to.equal(false);
         });
       });
     });
@@ -864,7 +975,7 @@ async function makeCampaignParticipant({
     campaignToStartParticipation,
     organizationLearner,
     userIdentity,
-    previousCampaignParticipation: null,
+    previousCampaignParticipationForUser: null,
   });
 
   campaignParticipant.start({ participantExternalId });

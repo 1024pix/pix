@@ -6,23 +6,28 @@ const couldNotJoinCampaignErrorMessage = "Vous n'êtes pas autorisé à rejoindr
 const couldNotImproveCampaignErrorMessage = 'Vous ne pouvez pas repasser la campagne';
 
 class CampaignParticipant {
-  constructor({ campaignToStartParticipation, organizationLearner, userIdentity, previousCampaignParticipation }) {
+  constructor({
+    campaignToStartParticipation,
+    organizationLearner,
+    userIdentity,
+    previousCampaignParticipationForUser,
+  }) {
     this.campaignToStartParticipation = campaignToStartParticipation;
     this.organizationLearnerId = organizationLearner?.id;
     this.userIdentity = userIdentity;
-    this.previousCampaignParticipation = previousCampaignParticipation;
-    this.organizationLearnerHasParticipated = organizationLearner.hasParticipated;
+    this.previousCampaignParticipationForUser = previousCampaignParticipationForUser;
+    this.organizationLearnerHasParticipatedForAnotherUser = organizationLearner.hasParticipated;
   }
 
   start({ participantExternalId }) {
     this._checkCanParticipateToCampaign(participantExternalId);
 
     const participantExternalIdToUse =
-      this.previousCampaignParticipation?.participantExternalId || participantExternalId;
+      this.previousCampaignParticipationForUser?.participantExternalId || participantExternalId;
     let startAgainCampaign = false;
-    if (this.previousCampaignParticipation) {
+    if (this.previousCampaignParticipationForUser) {
       startAgainCampaign = true;
-      this.previousCampaignParticipation.isImproved = true;
+      this.previousCampaignParticipationForUser.isImproved = true;
     }
 
     if (this._shouldCreateOrganizationLearner()) {
@@ -63,17 +68,17 @@ class CampaignParticipant {
       throw new ForbiddenAccess(couldNotJoinCampaignErrorMessage);
     }
 
-    if (this.previousCampaignParticipation && !this.campaignToStartParticipation.multipleSendings) {
+    if (this.previousCampaignParticipationForUser && !this.campaignToStartParticipation.multipleSendings) {
       throw new AlreadyExistingCampaignParticipationError(
         `User ${this.userIdentity.id} has already a campaign participation with campaign ${this.campaignToStartParticipation.id}`
       );
     }
 
-    if (this.previousCampaignParticipation?.isDeleted) {
+    if (this.previousCampaignParticipationForUser?.isDeleted) {
       throw new ForbiddenAccess(couldNotImproveCampaignErrorMessage);
     }
 
-    if (['STARTED', 'TO_SHARE'].includes(this.previousCampaignParticipation?.status)) {
+    if (['STARTED', 'TO_SHARE'].includes(this.previousCampaignParticipationForUser?.status)) {
       throw new ForbiddenAccess(couldNotImproveCampaignErrorMessage);
     }
     if (this._canImproveResults()) {
@@ -91,7 +96,7 @@ class CampaignParticipant {
       });
     }
 
-    if (this.organizationLearnerHasParticipated) {
+    if (this.organizationLearnerHasParticipatedForAnotherUser) {
       throw new AlreadyExistingCampaignParticipationError('ORGANIZATION_LEARNER_HAS_ALREADY_PARTICIPATED');
     }
   }
@@ -99,14 +104,16 @@ class CampaignParticipant {
   _canImproveResults() {
     return (
       this.campaignToStartParticipation.isAssessment &&
-      this.previousCampaignParticipation &&
-      this.previousCampaignParticipation.validatedSkillsCount >= this.campaignToStartParticipation.skillCount
+      this.previousCampaignParticipationForUser &&
+      this.previousCampaignParticipationForUser.validatedSkillsCount >= this.campaignToStartParticipation.skillCount
     );
   }
 
   _isMissingParticipantExternalId(participantExternalId) {
     return (
-      this.campaignToStartParticipation.idPixLabel && !participantExternalId && !this.previousCampaignParticipation
+      this.campaignToStartParticipation.idPixLabel &&
+      !participantExternalId &&
+      !this.previousCampaignParticipationForUser
     );
   }
 }
