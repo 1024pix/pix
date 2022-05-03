@@ -10,7 +10,7 @@ module.exports = function () {
       'copy',
       'circle-exclamation',
       'triangle-exclamation',
-      'external-link-alt',
+      'up-right-from-square',
       'eye',
       'eye-slash',
       'hourglass-end',
