@@ -91,10 +91,10 @@ describe('Integration | Component | comparison-window', function () {
 
     [
       { status: 'ok', color: 'green', icon: 'circle-check' },
-      { status: 'ko', color: 'red', icon: 'times-circle' },
-      { status: 'aband', color: 'grey', icon: 'times-circle' },
+      { status: 'ko', color: 'red', icon: 'circle-xmark' },
+      { status: 'aband', color: 'grey', icon: 'circle-xmark' },
       { status: 'partially', color: 'orange', icon: 'circle-check' },
-      { status: 'timedout', color: 'red', icon: 'times-circle' },
+      { status: 'timedout', color: 'red', icon: 'circle-xmark' },
     ].forEach(function (data) {
       it(`should display the good icon in title when answer's result is "${data.status}"`, async function () {
         // given

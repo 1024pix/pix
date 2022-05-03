@@ -4,15 +4,15 @@ const resultIcons = {
     color: 'green',
   },
   ko: {
-    icon: 'times-circle',
+    icon: 'circle-xmark',
     color: 'red',
   },
   focusedOut: {
-    icon: 'times-circle',
+    icon: 'circle-xmark',
     color: 'red',
   },
   aband: {
-    icon: 'times-circle',
+    icon: 'circle-xmark',
     color: 'grey',
   },
   partially: {
@@ -20,7 +20,7 @@ const resultIcons = {
     color: 'orange',
   },
   timedout: {
-    icon: 'times-circle',
+    icon: 'circle-xmark',
     color: 'red',
   },
 };
