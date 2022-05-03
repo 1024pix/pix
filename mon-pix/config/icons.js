@@ -20,7 +20,7 @@ module.exports = function () {
       'lock',
       'right-long',
       'power-off',
-      'redo-alt',
+      'rotate-right',
       'sign-out-alt',
       'thumbs-up',
       'times',
