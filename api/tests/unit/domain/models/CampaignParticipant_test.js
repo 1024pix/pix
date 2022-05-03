@@ -71,10 +71,10 @@ describe('Unit | Domain | Models | CampaignParticipant', function () {
             skillCount: 1,
           });
           const userIdentity = { id: 13 };
-          const previousCampaignParticipation = { status: 'SHARED', validatedSkillsCount: 0, id: 1 };
+          const previousCampaignParticipationForUser = { status: 'SHARED', validatedSkillsCount: 0, id: 1 };
           const campaignParticipant = new CampaignParticipant({
             campaignToStartParticipation,
-            previousCampaignParticipation,
+            previousCampaignParticipationForUser,
             userIdentity,
             organizationLearner: {
               id: null,
@@ -103,7 +103,7 @@ describe('Unit | Domain | Models | CampaignParticipant', function () {
           const campaignParticipant = new CampaignParticipant({
             campaignToStartParticipation,
             userIdentity,
-            previousCampaignParticipation: {
+            previousCampaignParticipationForUser: {
               status: 'SHARED',
               validatedSkillsCount: 2,
             },
@@ -131,7 +131,7 @@ describe('Unit | Domain | Models | CampaignParticipant', function () {
           const campaignParticipant = new CampaignParticipant({
             campaignToStartParticipation,
             userIdentity,
-            previousCampaignParticipation: {
+            previousCampaignParticipationForUser: {
               status: 'SHARED',
               validatedSkillsCount: 3,
             },
@@ -205,10 +205,10 @@ describe('Unit | Domain | Models | CampaignParticipant', function () {
             multipleSendings: true,
             idPixLabel: null,
           });
-          const previousCampaignParticipation = { status: 'SHARED', validatedSkillsCount: null, id: 1 };
+          const previousCampaignParticipationForUser = { status: 'SHARED', validatedSkillsCount: null, id: 1 };
           const campaignParticipant = new CampaignParticipant({
             campaignToStartParticipation,
-            previousCampaignParticipation,
+            previousCampaignParticipationForUser,
             userIdentity,
             organizationLearner: {
               id: null,
@@ -376,7 +376,7 @@ describe('Unit | Domain | Models | CampaignParticipant', function () {
         const expectedParticipantExternalId = 'YvoLol';
         const campaignParticipant = new CampaignParticipant({
           campaignToStartParticipation,
-          previousCampaignParticipation: {
+          previousCampaignParticipationForUser: {
             status: 'SHARED',
             validatedSkillsCount: 0,
             participantExternalId: expectedParticipantExternalId,
@@ -401,10 +401,10 @@ describe('Unit | Domain | Models | CampaignParticipant', function () {
           idPixLabel: null,
         });
         const userIdentity = { id: 13 };
-        const previousCampaignParticipation = { status: 'SHARED', id: 1 };
+        const previousCampaignParticipationForUser = { status: 'SHARED', id: 1 };
         const campaignParticipant = new CampaignParticipant({
           campaignToStartParticipation,
-          previousCampaignParticipation,
+          previousCampaignParticipationForUser,
           userIdentity,
           organizationLearner: {
             id: null,
@@ -413,7 +413,7 @@ describe('Unit | Domain | Models | CampaignParticipant', function () {
         });
         campaignParticipant.start({ participantExternalId: null });
 
-        expect(campaignParticipant.previousCampaignParticipation.isImproved).to.equal(true);
+        expect(campaignParticipant.previousCampaignParticipationForUser.isImproved).to.equal(true);
       });
 
       it('throws a AlreadyExistingCampaignParticipationError exception when the previous participation is not shared', async function () {
@@ -425,7 +425,7 @@ describe('Unit | Domain | Models | CampaignParticipant', function () {
         const campaignParticipant = new CampaignParticipant({
           campaignToStartParticipation,
           userIdentity,
-          previousCampaignParticipation: {
+          previousCampaignParticipationForUser: {
             status: 'STARTED',
           },
           organizationLearner: {
@@ -451,7 +451,7 @@ describe('Unit | Domain | Models | CampaignParticipant', function () {
         const campaignParticipant = new CampaignParticipant({
           campaignToStartParticipation,
           userIdentity,
-          previousCampaignParticipation: {
+          previousCampaignParticipationForUser: {
             status: 'SHARED',
             isDeleted: true,
           },
@@ -499,7 +499,7 @@ describe('Unit | Domain | Models | CampaignParticipant', function () {
         const campaignParticipant = new CampaignParticipant({
           campaignToStartParticipation,
           userIdentity,
-          previousCampaignParticipation: { id: 1, status: 'SHARED' },
+          previousCampaignParticipationForUser: { id: 1, status: 'SHARED' },
           organizationLearner: {
             id: null,
             hasParticipated: false,

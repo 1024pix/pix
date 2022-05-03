@@ -15,7 +15,7 @@ async function save(campaignParticipant, domainTransaction) {
   }
 
   await _updatePreviousParticipation(
-    campaignParticipant.previousCampaignParticipation,
+    campaignParticipant.previousCampaignParticipationForUser,
     domainTransaction.knexTransaction
   );
   const campaignParticipationId = await _createNewCampaignParticipation(
@@ -85,13 +85,17 @@ async function get({ userId, campaignId, domainTransaction }) {
 
   const organizationLearner = await _getOrganizationLearner(campaignId, userId, domainTransaction);
 
-  const previousCampaignParticipation = await _findPreviousCampaignParticipation(campaignId, userId, domainTransaction);
+  const previousCampaignParticipationForUser = await _findpreviousCampaignParticipationForUser(
+    campaignId,
+    userId,
+    domainTransaction
+  );
 
   return new CampaignParticipant({
     userIdentity,
     campaignToStartParticipation,
     organizationLearner,
-    previousCampaignParticipation,
+    previousCampaignParticipationForUser,
   });
 }
 
@@ -142,7 +146,7 @@ async function _getOrganizationLearner(campaignId, userId, domainTransaction) {
         this.on('campaign-participations.organizationLearnerId', 'organization-learners.id');
         this.on('campaign-participations.campaignId', 'campaigns.id');
         this.on('campaign-participations.deletedAt', knex.raw('IS'), knex.raw('NULL'));
-        this.on('campaign-participations.isImproved', knex.raw('IS'), knex.raw('false'));
+        this.on('campaign-participations.isImproved', knex.raw('false'));
         this.on('campaign-participations.userId', '!=', 'organization-learners.userId');
       },
       'organization-learners.id'
@@ -161,7 +165,7 @@ async function _getOrganizationLearner(campaignId, userId, domainTransaction) {
   return organizationLearner;
 }
 
-async function _findPreviousCampaignParticipation(campaignId, userId, domainTransaction) {
+async function _findpreviousCampaignParticipationForUser(campaignId, userId, domainTransaction) {
   const campaignParticipationAttributes = await domainTransaction
     .knexTransaction('campaign-participations')
     .select('id', 'participantExternalId', 'validatedSkillsCount', 'status', 'deletedAt')

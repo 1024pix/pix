@@ -137,7 +137,7 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
             hasParticipated: false,
           },
           userIdentity,
-          previousCampaignParticipation: null,
+          previousCampaignParticipationForUser: null,
         });
 
         campaignParticipant.start({ participantExternalId: null });
@@ -168,7 +168,7 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
             hasParticipated: false,
           },
           userIdentity,
-          previousCampaignParticipation: null,
+          previousCampaignParticipationForUser: null,
         });
 
         campaignParticipant.start({ participantExternalId: null });
@@ -204,7 +204,7 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
             hasParticipated: false,
           },
           userIdentity,
-          previousCampaignParticipation: null,
+          previousCampaignParticipationForUser: null,
         });
 
         campaignParticipant.start({ participantExternalId: null });
@@ -227,7 +227,7 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
         const campaign = databaseBuilder.factory.buildCampaign({
           multipleSendings: true,
         });
-        const { id: previousCampaignParticipationId } = databaseBuilder.factory.buildCampaignParticipation({
+        const { id: previousCampaignParticipationForUserId } = databaseBuilder.factory.buildCampaignParticipation({
           userId: userIdentity.id,
           campaignId: campaign.id,
           isImproved: false,
@@ -240,8 +240,8 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
         const campaignParticipant = new CampaignParticipant({
           campaignToStartParticipation,
           userIdentity,
-          previousCampaignParticipation: {
-            id: previousCampaignParticipationId,
+          previousCampaignParticipationForUser: {
+            id: previousCampaignParticipationForUserId,
             status: 'SHARED',
             validatedSkillsCount: 0,
           },
@@ -261,7 +261,7 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
         //THEN
         const campaignParticipation = await knex('campaign-participations')
           .select('isImproved')
-          .where({ id: previousCampaignParticipationId })
+          .where({ id: previousCampaignParticipationForUserId })
           .first();
 
         expect(campaignParticipation.isImproved).to.deep.equal(true);
@@ -284,7 +284,7 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
           campaignId: campaign.id,
           isImproved: false,
         });
-        const { id: previousCampaignParticipationId } = databaseBuilder.factory.buildCampaignParticipation({
+        const { id: previousCampaignParticipationForUserId } = databaseBuilder.factory.buildCampaignParticipation({
           userId: userIdentity.id,
           campaignId: campaign.id,
           isImproved: false,
@@ -296,8 +296,8 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
         const campaignParticipant = new CampaignParticipant({
           campaignToStartParticipation,
           userIdentity,
-          previousCampaignParticipation: {
-            id: previousCampaignParticipationId,
+          previousCampaignParticipationForUser: {
+            id: previousCampaignParticipationForUserId,
             status: 'SHARED',
             validatedSkillsCount: 0,
           },
@@ -317,7 +317,7 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
         //THEN
         const campaignParticipations = await knex('campaign-participations').pluck('id').where({ isImproved: true });
 
-        expect(campaignParticipations).to.deep.equal([previousCampaignParticipationId]);
+        expect(campaignParticipations).to.deep.equal([previousCampaignParticipationForUserId]);
       });
     });
 
@@ -423,7 +423,7 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
           multipleSendings: true,
           idPixLabel: null,
         });
-        const { id: previousCampaignParticipationId } = databaseBuilder.factory.buildCampaignParticipation({
+        const { id: previousCampaignParticipationForUserId } = databaseBuilder.factory.buildCampaignParticipation({
           userId: userIdentity.id,
           campaignId: campaign.id,
           isImproved: false,
@@ -435,8 +435,8 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
         const campaignParticipant = new CampaignParticipant({
           campaignToStartParticipation,
           userIdentity,
-          previousCampaignParticipation: {
-            id: previousCampaignParticipationId,
+          previousCampaignParticipationForUser: {
+            id: previousCampaignParticipationForUserId,
             status: 'SHARED',
             validatedSkillsCount: 0,
           },
@@ -459,7 +459,9 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
         const campaignParticipations = await knex('campaign-participations').select(['id', 'isImproved']);
         const assessments = await knex('assessments');
 
-        expect(campaignParticipations).to.deep.equal([{ id: previousCampaignParticipationId, isImproved: false }]);
+        expect(campaignParticipations).to.deep.equal([
+          { id: previousCampaignParticipationForUserId, isImproved: false },
+        ]);
         expect(assessments).to.be.empty;
       });
     });
@@ -533,7 +535,7 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
           });
         });
 
-        expect(campaignParticipant.previousCampaignParticipation).to.deep.equal(expectedAttributes);
+        expect(campaignParticipant.previousCampaignParticipationForUser).to.deep.equal(expectedAttributes);
       });
     });
 
@@ -555,7 +557,7 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
           });
         });
 
-        expect(campaignParticipant.previousCampaignParticipation).to.be.null;
+        expect(campaignParticipant.previousCampaignParticipationForUser).to.be.null;
       });
     });
 
@@ -973,7 +975,7 @@ async function makeCampaignParticipant({
     campaignToStartParticipation,
     organizationLearner,
     userIdentity,
-    previousCampaignParticipation: null,
+    previousCampaignParticipationForUser: null,
   });
 
   campaignParticipant.start({ participantExternalId });
