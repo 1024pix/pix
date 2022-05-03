@@ -9,7 +9,17 @@ log_format keyvalue
   ' duration=${request_time}s'
   ' bytes=$bytes_sent'
   ' referer="$http_referer"'
-  ' user_agent="$http_user_agent"';
+  ' user_agent="$http_user_agent"'<%#
+    To allow dynamic logging format for nginx,
+    create a json that contains the key/value pairs
+    you want to add to nginx logging.
+    For the logs to be correctly parsed, use the nginx_logger_version parameter.
+    For example:
+    ADDITIONAL_NGINX_LOGS='{"nginx_logger_version"="0", "my_custom_header"="$http_my_custom_header"}'
+  %><%
+    require 'json';
+    JSON.parse(ENV['ADDITIONAL_NGINX_LOGS']||'{}').each do |nginx_key,value| %>
+  ' <%= nginx_key %>="<%= value %>"'<% end %>;
 
 # In order to avoid logging access twice per request
 # it is necessary to turn off the top-level (e.g. http) buildpack default access_log
