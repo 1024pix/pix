@@ -21,7 +21,7 @@ module.exports = function () {
       'right-long',
       'power-off',
       'rotate-right',
-      'sign-out-alt',
+      'right-from-bracket',
       'thumbs-up',
       'times',
       'times-circle',
