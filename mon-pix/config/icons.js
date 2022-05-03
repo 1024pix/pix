@@ -23,7 +23,7 @@ module.exports = function () {
       'rotate-right',
       'right-from-bracket',
       'thumbs-up',
-      'times',
+      'xmark',
       'times-circle',
       'chevron-down',
       'user',
