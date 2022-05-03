@@ -12,9 +12,7 @@ export default class GenerateTargetProfileFromTubeBased extends Component {
   constructor(...args) {
     super(...args);
     const pixFramework = this.args.frameworks.find((framework) => framework.name === 'Pix');
-    if (pixFramework) {
-      this.selectedFrameworkIds = [pixFramework.id];
-    }
+    this.selectedFrameworkIds = [pixFramework.id];
   }
 
   get frameworkOptions() {
