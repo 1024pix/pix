@@ -13,7 +13,7 @@
             {{#each @certificationCandidateSubscription.eligibleSubscriptions as |eligibleSubscription|}}
               <span class="certification-starter-subscriptions-container-items__eligible-item">
                 <FaIcon
-                  @icon="check-circle"
+                  @icon="circle-check"
                   class="certification-starter-subscriptions-container-items__eligible-icon"
                 />
                 {{eligibleSubscription.name}}
@@ -22,7 +22,7 @@
             {{#each @certificationCandidateSubscription.nonEligibleSubscriptions as |nonEligibleSubscription|}}
               <span class="certification-starter-subscriptions-container-items__non-eligible-item">
                 <FaIcon
-                  @icon="check-circle"
+                  @icon="circle-check"
                   class="certification-starter-subscriptions-container-items__non-eligible-icon"
                 />
                 {{nonEligibleSubscription.name}}
@@ -33,7 +33,7 @@
       {{/if}}
       {{#if this.nonEligibleSubscriptionNames.length}}
         <div class="certification-starter-subscriptions-container__non-eligible">
-          <FaIcon @icon="exclamation-circle" class="certification-starter-subscriptions-container__info-icon" />
+          <FaIcon @icon="circle-exclamation" class="certification-starter-subscriptions-container__info-icon" />
           <span>
             {{t
               "pages.certification-start.non-eligible-subscriptions"

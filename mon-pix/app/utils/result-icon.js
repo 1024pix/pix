@@ -1,6 +1,6 @@
 const resultIcons = {
   ok: {
-    icon: 'check-circle',
+    icon: 'circle-check',
     color: 'green',
   },
   ko: {
@@ -16,7 +16,7 @@ const resultIcons = {
     color: 'grey',
   },
   partially: {
-    icon: 'check-circle',
+    icon: 'circle-check',
     color: 'orange',
   },
   timedout: {

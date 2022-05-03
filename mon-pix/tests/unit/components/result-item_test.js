@@ -44,10 +44,10 @@ describe('Unit | Component | result-item-component', function () {
 
   describe('#resultItem Computed property - defined case', function () {
     [
-      { result: 'ok', expectedColor: 'green', expectedIcon: 'check-circle' },
+      { result: 'ok', expectedColor: 'green', expectedIcon: 'circle-check' },
       { result: 'ko', expectedColor: 'red', expectedIcon: 'times-circle' },
       { result: 'timedout', expectedColor: 'red', expectedIcon: 'times-circle' },
-      { result: 'partially', expectedColor: 'orange', expectedIcon: 'check-circle' },
+      { result: 'partially', expectedColor: 'orange', expectedIcon: 'circle-check' },
       { result: 'aband', expectedColor: 'grey', expectedIcon: 'times-circle' },
     ].forEach((data) => {
       it(`should return a ${data.expectedColor} ${data.expectedIcon} icon when answer provided has a ${data.result} result`, function () {
