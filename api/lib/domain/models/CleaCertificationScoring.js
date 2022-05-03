@@ -3,8 +3,6 @@ const { NotEligibleCandidateError } = require('../errors');
 const Joi = require('joi');
 const { validateEntity } = require('../validators/entity-validator');
 
-const { ReproducibilityRate } = require('./ReproducibilityRate');
-
 class CleaCertificationScoring extends PartnerCertificationScoring {
   constructor({
     complementaryCertificationCourseId,
@@ -13,6 +11,8 @@ class CleaCertificationScoring extends PartnerCertificationScoring {
     isBadgeAcquisitionStillValid = true,
     cleaBadgeKey,
     pixScore,
+    minimumEarnedPix,
+    minimumReproducibilityRate,
   } = {}) {
     super({
       complementaryCertificationCourseId,
@@ -24,6 +24,8 @@ class CleaCertificationScoring extends PartnerCertificationScoring {
     this.isBadgeAcquisitionStillValid = isBadgeAcquisitionStillValid;
     this.reproducibilityRate = reproducibilityRate;
     this.pixScore = pixScore;
+    this.minimumEarnedPix = minimumEarnedPix;
+    this.minimumReproducibilityRate = minimumReproducibilityRate;
 
     const schema = Joi.object({
       hasAcquiredBadge: Joi.boolean().required(),
@@ -53,14 +55,15 @@ class CleaCertificationScoring extends PartnerCertificationScoring {
 
   isAcquired() {
     if (!this.hasAcquiredBadge) throw new NotEligibleCandidateError();
-
-    const reproducibilityRate = new ReproducibilityRate(this.reproducibilityRate);
-
-    return reproducibilityRate.isEnoughToBeCertified() && this._isAboveMinimumScore();
+    return this._isAboveMinimumReproducibilityRate() && this._isAboveMinimumScore();
   }
 
   _isAboveMinimumScore() {
-    return this.pixScore >= 70;
+    return this.pixScore >= this.minimumEarnedPix;
+  }
+
+  _isAboveMinimumReproducibilityRate() {
+    return this.reproducibilityRate >= this.minimumReproducibilityRate;
   }
 }
 
