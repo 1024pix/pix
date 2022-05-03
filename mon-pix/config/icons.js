@@ -9,7 +9,7 @@ module.exports = function () {
       'circle-check',
       'copy',
       'circle-exclamation',
-      'exclamation-triangle',
+      'triangle-exclamation',
       'external-link-alt',
       'eye',
       'eye-slash',
