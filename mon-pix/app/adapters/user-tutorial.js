@@ -9,8 +9,4 @@ export default class UserTutorial extends ApplicationAdapter {
   urlForDeleteRecord(id, modelName, { adapterOptions }) {
     return `${this.host}/${this.namespace}/users/tutorials/${adapterOptions.tutorialId}`;
   }
-
-  urlForFindAll() {
-    return `${this.host}/${this.namespace}/users/tutorials`;
-  }
 }

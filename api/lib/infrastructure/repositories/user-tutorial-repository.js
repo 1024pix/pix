@@ -1,8 +1,5 @@
 const { knex } = require('../../../db/knex-database-connection');
-const Tutorial = require('../../domain/models/Tutorial');
 const UserSavedTutorial = require('../../domain/models/UserSavedTutorial');
-const UserSavedTutorialWithTutorial = require('../../domain/models/UserSavedTutorialWithTutorial');
-const tutorialDatasource = require('../datasources/learning-content/tutorial-datasource');
 
 const TABLE_NAME = 'user-saved-tutorials';
 
@@ -19,19 +16,6 @@ module.exports = {
   async find({ userId }) {
     const userSavedTutorials = await knex(TABLE_NAME).where({ userId }).orderBy('createdAt', 'desc');
     return userSavedTutorials.map(_toDomain);
-  },
-
-  // TODO delete when tutorial V2 becomes main version
-  async findWithTutorial({ userId }) {
-    const userSavedTutorials = await knex(TABLE_NAME).where({ userId });
-    const tutorials = await tutorialDatasource.findByRecordIds(userSavedTutorials.map(({ tutorialId }) => tutorialId));
-    return tutorials.map((tutorial) => {
-      const userSavedTutorial = userSavedTutorials.find(({ tutorialId }) => tutorialId === tutorial.id);
-      return new UserSavedTutorialWithTutorial({
-        ...userSavedTutorial,
-        tutorial: new Tutorial(tutorial),
-      });
-    });
   },
 
   async removeFromUser(userSavedTutorial) {

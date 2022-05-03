@@ -16,14 +16,6 @@ module.exports = {
     return h.response(userTutorialSerializer.serialize(userSavedTutorial)).created();
   },
 
-  async find(request, h) {
-    const { userId } = request.auth.credentials;
-
-    const userSavedTutorials = await usecases.findUserTutorials({ userId });
-
-    return h.response(userTutorialSerializer.serialize(userSavedTutorials));
-  },
-
   async findSaved(request, h) {
     const { userId } = request.auth.credentials;
     const { page } = queryParamsUtils.extractParameters(request.query);
