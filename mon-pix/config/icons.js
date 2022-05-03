@@ -6,7 +6,7 @@ module.exports = function () {
       'arrow-right',
       'bars',
       'bookmark',
-      'check-circle',
+      'circle-check',
       'copy',
       'exclamation-circle',
       'exclamation-triangle',
