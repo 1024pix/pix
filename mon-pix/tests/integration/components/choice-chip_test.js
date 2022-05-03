@@ -4,7 +4,7 @@ import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 import { find, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
-describe('Integration | Component | choice-chip', function () {
+describe('Integration | Component | pix-choice-chip', function () {
   setupIntlRenderingTest();
 
   it('renders', async function () {
@@ -12,6 +12,6 @@ describe('Integration | Component | choice-chip', function () {
     await render(hbs`<ChoiceChip>Test</ChoiceChip>`);
 
     //then
-    expect(find('.choice-chip')).to.exist;
+    expect(find('.pix-choice-chip')).to.exist;
   });
 });
