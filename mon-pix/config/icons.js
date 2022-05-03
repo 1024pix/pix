@@ -24,7 +24,7 @@ module.exports = function () {
       'right-from-bracket',
       'thumbs-up',
       'xmark',
-      'times-circle',
+      'circle-xmark',
       'chevron-down',
       'user',
       'user-circle',
