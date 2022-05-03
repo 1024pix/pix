@@ -324,6 +324,7 @@ module.exports = injectDependencies(
     getStageDetails: require('./get-stage-details'),
     getSupervisorKitSessionInfo: require('./get-supervisor-kit-session-info'),
     getTargetProfileDetails: require('./get-target-profile-details'),
+    getTubeSkills: require('./get-tube-skills'),
     getFrameworks: require('./get-frameworks'),
     getFrameworkAreas: require('./get-framework-areas'),
     getAccountRecoveryDetails: require('./account-recovery/get-account-recovery-details'),
