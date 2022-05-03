@@ -134,7 +134,8 @@
       "errors": {
         "no-longer-accessible": "Oups, la page demandée n’est plus accessible.",
         "not-accessible": "Oups, la page demandée n’est pas accessible.",
-        "existing-participation": "Le parcours n'est pas accessible pour vous. Il y a déjà une participation associée au nom de ",
+        "existing-participation": "Le parcours n'est pas accessible pour vous.",
+        "existing-participation-user-info": "Il y a déjà une participation associée au nom de ",
         "existing-participation-info": "Rapprochez-vous de votre enseignant pour qu'il supprime votre participation dans Pix Orga."
       }
     },
