@@ -5,15 +5,13 @@ describe('Unit | Serializer | JSONAPI | pix-framework-serializer', function () {
   describe('#serialize', function () {
     it('should return a serialized JSON data object', function () {
       // given
-      const tubeId = '456';
-
       const tube = domainBuilder.buildTube({
-        id: tubeId,
+        id: 'tubeId',
       });
 
       const thematicWithTube = domainBuilder.buildThematic({
         id: 'recThem1',
-        tubeIds: [tubeId],
+        tubeIds: ['tubeId'],
       });
 
       const thematicWithoutTube = domainBuilder.buildThematic({
@@ -50,10 +48,17 @@ describe('Unit | Serializer | JSONAPI | pix-framework-serializer', function () {
         included: [
           {
             type: 'tubes',
-            id: tubeId,
+            id: 'tubeId',
             attributes: {
               'practical-title': 'titre pratique',
               'practical-description': 'description pratique',
+            },
+            relationships: {
+              skills: {
+                links: {
+                  related: '/api/tubes/tubeId/skills',
+                },
+              },
             },
           },
           {
@@ -67,7 +72,7 @@ describe('Unit | Serializer | JSONAPI | pix-framework-serializer', function () {
               tubes: {
                 data: [
                   {
-                    id: tubeId,
+                    id: 'tubeId',
                     type: 'tubes',
                   },
                 ],
