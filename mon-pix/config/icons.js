@@ -15,7 +15,7 @@ module.exports = function () {
       'eye-slash',
       'hourglass-end',
       'image',
-      'info-circle',
+      'circle-info',
       'question-circle',
       'lock',
       'long-arrow-alt-right',
