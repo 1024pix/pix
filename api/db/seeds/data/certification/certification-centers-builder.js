@@ -19,7 +19,8 @@ const AGRI_SCO_MANAGING_STUDENT_ID = 9;
 const AGRI_SCO_MANAGING_STUDENT_NAME = 'Centre AGRI des Anne-Etoiles';
 const CLEA_COMPLEMENTARY_CERTIFICATION_ID = 52;
 const PIX_DROIT_COMPLEMENTARY_CERTIFICATION_ID = 53;
-const PIX_EDU_COMPLEMENTARY_CERTIFICATION_ID = 54;
+const PIX_EDU_1ER_DEGRE_COMPLEMENTARY_CERTIFICATION_ID = 54;
+const PIX_EDU_2ND_DEGRE_COMPLEMENTARY_CERTIFICATION_ID = 55;
 
 const {
   PIX_EMPLOI_CLEA_BADGE_ID_V1,
@@ -55,8 +56,13 @@ function certificationCentersBuilder({ databaseBuilder }) {
   });
 
   databaseBuilder.factory.buildComplementaryCertification({
-    name: 'Pix+ Édu',
-    id: PIX_EDU_COMPLEMENTARY_CERTIFICATION_ID,
+    name: 'Pix+ Édu 2nd degré',
+    id: PIX_EDU_2ND_DEGRE_COMPLEMENTARY_CERTIFICATION_ID,
+  });
+
+  databaseBuilder.factory.buildComplementaryCertification({
+    name: 'Pix+ Édu 1er degré',
+    id: PIX_EDU_1ER_DEGRE_COMPLEMENTARY_CERTIFICATION_ID,
   });
 
   databaseBuilder.factory.buildComplementaryCertificationBadge({
