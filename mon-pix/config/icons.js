@@ -18,7 +18,7 @@ module.exports = function () {
       'circle-info',
       'circle-question',
       'lock',
-      'long-arrow-alt-right',
+      'right-long',
       'power-off',
       'redo-alt',
       'sign-out-alt',
