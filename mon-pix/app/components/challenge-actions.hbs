@@ -20,7 +20,7 @@
 
   {{else if @hasChallengeTimedOut}}
     <div class="challenge-actions__alert-message" role="alert" aria-live="assertive">
-      <FaIcon @icon="info-circle" class="challenge-actions-alert-message__icon" />
+      <FaIcon @icon="circle-info" class="challenge-actions-alert-message__icon" />
       {{t "pages.challenge.timed.cannot-answer"}}
     </div>
     <PixButton
@@ -43,7 +43,7 @@
         role="alert"
         aria-live="assertive"
       >
-        <FaIcon @icon="info-circle" class="challenge-actions-alert-message__icon" />
+        <FaIcon @icon="circle-info" class="challenge-actions-alert-message__icon" />
         {{#if @isCertification}}
           <span data-test="certification-focused-out-error-message">{{t
               "pages.challenge.has-focused-out-of-window.certification"
