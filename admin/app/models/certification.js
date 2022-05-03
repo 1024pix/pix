@@ -42,13 +42,6 @@ export default class Certification extends Model {
   @attr() pixScore;
   @attr() competencesWithMark;
   @attr('boolean', { defaultValue: false }) isPublished;
-  @attr() cleaCertificationStatus;
-  @attr() pixPlusDroitMaitreCertificationStatus;
-  @attr() pixPlusDroitExpertCertificationStatus;
-  @attr() pixPlusEduInitieCertificationStatus;
-  @attr() pixPlusEduConfirmeCertificationStatus;
-  @attr() pixPlusEduAvanceCertificationStatus;
-  @attr() pixPlusEduExpertCertificationStatus;
 
   @hasMany('certification-issue-report') certificationIssueReports;
 
@@ -91,38 +84,6 @@ export default class Certification extends Model {
         result.push(indexedCompetences[value]);
         return result;
       }, []);
-  }
-
-  @computed('cleaCertificationStatus')
-  get cleaCertificationStatusLabel() {
-    return partnerCertificationStatusToDisplayName[this.cleaCertificationStatus];
-  }
-
-  @computed('pixPlusDroitMaitreCertificationStatus')
-  get pixPlusDroitMaitreCertificationStatusLabel() {
-    return partnerCertificationStatusToDisplayName[this.pixPlusDroitMaitreCertificationStatus];
-  }
-
-  @computed('pixPlusDroitExpertCertificationStatus')
-  get pixPlusDroitExpertCertificationStatusLabel() {
-    return partnerCertificationStatusToDisplayName[this.pixPlusDroitExpertCertificationStatus];
-  }
-
-  @computed('pixPlusEduInitieCertificationStatus')
-  get pixPlusEduInitieCertificationStatusLabel() {
-    return partnerCertificationStatusToDisplayName[this.pixPlusEduInitieCertificationStatus];
-  }
-  @computed('pixPlusEduConfirmeCertificationStatus')
-  get pixPlusEduConfirmeCertificationStatusLabel() {
-    return partnerCertificationStatusToDisplayName[this.pixPlusEduConfirmeCertificationStatus];
-  }
-  @computed('pixPlusEduAvanceCertificationStatus')
-  get pixPlusEduAvanceCertificationStatusLabel() {
-    return partnerCertificationStatusToDisplayName[this.pixPlusEduAvanceCertificationStatus];
-  }
-  @computed('pixPlusEduExpertCertificationStatus')
-  get pixPlusEduExpertCertificationStatusLabel() {
-    return partnerCertificationStatusToDisplayName[this.pixPlusEduExpertCertificationStatus];
   }
 
   get wasRegisteredBeforeCPF() {
