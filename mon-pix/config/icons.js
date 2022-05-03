@@ -27,7 +27,7 @@ module.exports = function () {
       'circle-xmark',
       'chevron-down',
       'user',
-      'user-circle',
+      'circle-user',
       'link',
       'globe',
     ],
