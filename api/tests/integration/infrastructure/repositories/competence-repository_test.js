@@ -1,5 +1,5 @@
 const _ = require('lodash');
-const { expect, mockLearningContent, domainBuilder, databaseBuilder } = require('../../../test-helper');
+const { expect, mockLearningContent, domainBuilder } = require('../../../test-helper');
 const Area = require('../../../../lib/domain/models/Area');
 const Competence = require('../../../../lib/domain/models/Competence');
 const competenceRepository = require('../../../../lib/infrastructure/repositories/competence-repository');
@@ -103,35 +103,6 @@ describe('Integration | Repository | competence-repository', function () {
 
       // then
       expect(competenceName).to.equal(expectedCompetence.name);
-    });
-  });
-
-  describe('#getPixScoreByCompetence', function () {
-    it('should return the user pixScore by competence within date', async function () {
-      // given
-      const competenceId1 = 'recCompetenceId1';
-      const competenceId2 = 'recCompetenceId2';
-      const userId = databaseBuilder.factory.buildUser().id;
-      databaseBuilder.factory.buildKnowledgeElement({
-        competenceId: competenceId1,
-        earnedPix: 1,
-        userId,
-        skillId: 'recS1',
-      });
-      databaseBuilder.factory.buildKnowledgeElement({
-        competenceId: competenceId2,
-        earnedPix: 10,
-        userId,
-        skillId: 'recS2',
-      });
-      await databaseBuilder.commit();
-
-      // when
-      const pixScoreByCompetence = await competenceRepository.getPixScoreByCompetence({ userId });
-
-      // then
-      expect(pixScoreByCompetence[competenceId1]).to.equal(1);
-      expect(pixScoreByCompetence[competenceId2]).to.equal(10);
     });
   });
 
