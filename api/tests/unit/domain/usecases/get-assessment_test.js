@@ -6,7 +6,6 @@ const competenceRepository = require('../../../../lib/infrastructure/repositorie
 const courseRepository = require('../../../../lib/infrastructure/repositories/course-repository');
 
 const Assessment = require('../../../../lib/domain/models/Assessment');
-const { NotFoundError } = require('../../../../lib/domain/errors');
 
 describe('Unit | UseCase | get-assessment', function () {
   let assessment;
@@ -176,16 +175,5 @@ describe('Unit | UseCase | get-assessment', function () {
     expect(result).to.be.an.instanceOf(Assessment);
     expect(result.id).to.equal(assessment.id);
     expect(result.title).to.equal('Preview');
-  });
-
-  it('should reject a domain NotFoundError when there is no assessment for given ID', function () {
-    // given
-    assessmentRepository.getWithAnswers.resolves(null);
-
-    // when
-    const promise = getAssessment({ assessmentRepository, assessmentId: assessment.id });
-
-    // then
-    return expect(promise).to.have.been.rejectedWith(NotFoundError, `Assessment not found for ID ${assessment.id}`);
   });
 });

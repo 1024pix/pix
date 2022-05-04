@@ -9,7 +9,9 @@ const { knex } = require('../bookshelf');
 module.exports = {
   async getWithAnswers(id) {
     const [assessment] = await knex('assessments').where('assessments.id', id);
-    if (!assessment) return null;
+    if (!assessment) {
+      throw new NotFoundError(`Assessment not found for ID ${id}`);
+    }
 
     const answers = await knex('answers')
       .select('id', 'challengeId', 'value')
