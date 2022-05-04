@@ -34,26 +34,31 @@ describe('Acceptance | Route | Tubes', function () {
             id: 'skillId1',
             status: 'actif',
             tubeId: 'tubeId1',
+            level: 1,
           },
           {
             id: 'skillId2',
             status: 'actif',
             tubeId: 'tubeId1',
+            level: 2,
           },
           {
             id: 'skillId3',
             status: 'archivé',
             tubeId: 'tubeId1',
+            level: 3,
           },
           {
             id: 'skillId4',
             status: 'supprimé',
             tubeId: 'tubeId1',
+            level: 4,
           },
           {
             id: 'skillId5',
             status: 'actif',
             tubeId: 'tubeId2',
+            level: 5,
           },
         ],
       });
@@ -95,10 +100,16 @@ describe('Acceptance | Route | Tubes', function () {
       expect(response.result.data).to.deep.include({
         id: 'skillId1',
         type: 'skills',
+        attributes: {
+          level: 1,
+        },
       });
       expect(response.result.data).to.deep.include({
         id: 'skillId2',
         type: 'skills',
+        attributes: {
+          level: 2,
+        },
       });
     });
 
