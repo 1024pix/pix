@@ -20,14 +20,50 @@
     float: right;
   }
 
-  &__complementary-certification--acquired {
-    color: $green;
-    font-weight: bold;
-  }
+  &__complementary-certification {
 
-  &__complementary-certification--rejected {
-    color: $error;
-    font-weight: bold;
+    &__title {
+      margin-bottom: 24px;
+    }
+
+    &__non-pix-edu {
+      margin: 8px 0 8px 0;
+      font-size: 0.875rem;
+
+      span {
+        display: inline-block;
+        color: $grey-40;
+        min-width: 180px;
+      }
+
+      p {
+        margin: 0;
+      }
+    }
+
+    &__pix-edu {
+      margin-top: 24px;
+
+      &__row {
+        margin-top: 16px;
+        display: flex;
+        gap: 16px;
+
+        .card {
+          width: 550px;
+          background-color: $grey-5;
+          height: 110px;
+          text-align: center;
+          box-shadow: none;
+          border: 2px solid $grey-20;
+          font-weight: 500;
+
+          p {
+            color: $grey-40;
+          }
+        }
+      }
+    }
   }
 
   &__certification-issue-reports {
