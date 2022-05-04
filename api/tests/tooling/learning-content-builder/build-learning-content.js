@@ -58,6 +58,7 @@ const buildLearningContent = function (learningContent) {
               pixValue: skill.pixValue,
               tutorialIds: skill.tutorials && _.map(skill.tutorials, 'id'),
               version: skill.version,
+              level: skill.level,
             };
           });
           allSkills.push(skills);

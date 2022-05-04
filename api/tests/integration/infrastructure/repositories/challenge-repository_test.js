@@ -418,6 +418,7 @@ function _buildSkill({ id }) {
     tutorialIds: [],
     version: 1,
     status: 'actif',
+    level: 1,
   };
 }
 

@@ -15,6 +15,7 @@ describe('Unit | Infrastructure | Adapter | skillAdapter', function () {
         tutorialIds: ['recCO0X22abcdefgh'],
         tubeId: skillDataObject.tubeId,
         version: skillDataObject.version,
+        level: skillDataObject.level,
       });
 
       // when

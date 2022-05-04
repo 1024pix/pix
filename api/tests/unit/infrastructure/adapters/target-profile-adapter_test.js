@@ -4,7 +4,7 @@ const BookshelfTargetProfileShare = require('../../../../lib/infrastructure/orm-
 const TargetProfile = require('../../../../lib/domain/models/TargetProfile');
 const targetProfileAdapter = require('../../../../lib/infrastructure/adapters/target-profile-adapter');
 
-describe('Unit | Infrastructure | Adapter | targetSkillAdapter', function () {
+describe('Unit | Infrastructure | Adapter | targetProfileAdapter', function () {
   it('should adapt TargetProfile object to domain', function () {
     // given
     const bookshelfTargetProfile = new BookshelfTargetProfile(databaseBuilder.factory.buildTargetProfile());
