@@ -2,7 +2,7 @@ import { module, test } from 'qunit';
 import { currentURL, click } from '@ember/test-helpers';
 import { visit, fillByLabel, selectByLabelAndOption } from '@1024pix/ember-testing-library';
 import { setupApplicationTest } from 'ember-qunit';
-import { createAuthenticateSession } from 'pix-admin/tests/helpers/test-init';
+import { authenticateAdminMemberWithRole } from 'pix-admin/tests/helpers/test-init';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
@@ -16,16 +16,13 @@ module('Acceptance | Session List', function (hooks) {
       await visit('/sessions/list');
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(currentURL(), '/login');
+      assert.strictEqual(currentURL(), '/login');
     });
   });
 
   module('When user is logged in', function (hooks) {
     hooks.beforeEach(async () => {
-      const user = server.create('user');
-      await createAuthenticateSession({ userId: user.id });
+      await authenticateAdminMemberWithRole({ role: 'SUPER_ADMIN' })(server);
     });
 
     test('it should be accessible for an authenticated user', async function (assert) {
@@ -33,9 +30,7 @@ module('Acceptance | Session List', function (hooks) {
       await visit('/sessions/list');
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(currentURL(), '/sessions/list');
+      assert.strictEqual(currentURL(), '/sessions/list');
     });
 
     test('it should display the number of sessions with required actions', async function (assert) {
@@ -46,9 +41,7 @@ module('Acceptance | Session List', function (hooks) {
       const screen = await visit('/sessions/list');
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(currentURL(), '/sessions/list');
+      assert.strictEqual(currentURL(), '/sessions/list');
       assert.dom(screen.getByText('Sessions à traiter (10)')).exists();
     });
 

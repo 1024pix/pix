@@ -3,6 +3,7 @@ import { inject as service } from '@ember/service';
 
 export default class OrganizationTeamRoute extends Route {
   @service router;
+  @service notifications;
 
   queryParams = {
     pageNumber: { refreshModel: true },
@@ -11,6 +12,11 @@ export default class OrganizationTeamRoute extends Route {
     lastName: { refreshModel: true },
     email: { refreshModel: true },
     organizationRole: { refreshModel: true },
+  };
+
+  ERROR_MESSAGES = {
+    DEFAULT: 'Une erreur est survenue.',
+    STATUS_403: "Vous n'avez pas accès à certaines actions ou informations de cette page",
   };
 
   beforeModel() {
@@ -22,16 +28,21 @@ export default class OrganizationTeamRoute extends Route {
 
   async model(params) {
     const organization = this.modelFor('authenticated.organizations.get');
-    await organization.hasMany('memberships').reload({
-      adapterOptions: {
-        'page[size]': params.pageSize,
-        'page[number]': params.pageNumber,
-        'filter[firstName]': params.firstName,
-        'filter[lastName]': params.lastName,
-        'filter[email]': params.email,
-        'filter[organizationRole]': params.organizationRole,
-      },
-    });
+    try {
+      await organization.hasMany('memberships').reload({
+        adapterOptions: {
+          'page[size]': params.pageSize,
+          'page[number]': params.pageNumber,
+          'filter[firstName]': params.firstName,
+          'filter[lastName]': params.lastName,
+          'filter[email]': params.email,
+          'filter[organizationRole]': params.organizationRole,
+        },
+      });
+    } catch (errorResponse) {
+      this._handleResponseError(errorResponse);
+    }
+
     return organization;
   }
 
@@ -43,6 +54,25 @@ export default class OrganizationTeamRoute extends Route {
       controller.lastName = null;
       controller.email = null;
       controller.organizationRole = null;
+    }
+  }
+
+  _handleResponseError(errorResponse) {
+    const { errors } = errorResponse;
+
+    if (errors) {
+      errors.map((error) => {
+        switch (error.code) {
+          case 403:
+            this.notifications.error(this.ERROR_MESSAGES.STATUS_403);
+            break;
+          default:
+            this.notifications.error(this.ERROR_MESSAGES.DEFAULT);
+            break;
+        }
+      });
+    } else {
+      this.notifications.error(this.ERROR_MESSAGES.DEFAULT);
     }
   }
 }

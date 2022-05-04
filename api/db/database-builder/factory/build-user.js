@@ -157,10 +157,11 @@ buildUser.withRawPassword = function buildUserWithRawPassword({
   return user;
 };
 
-buildUser.withRoleSuperAdmin = function buildUserWithRoleSuperAdmin({
+buildUser.withRole = function buildUserWithRole({
   id = databaseBuffer.getNextId(),
   firstName = 'Billy',
   lastName = 'TheKid',
+  role = ROLES.SUPER_ADMIN,
   email,
   cgu = true,
   lang = 'fr',
@@ -208,7 +209,7 @@ buildUser.withRoleSuperAdmin = function buildUserWithRoleSuperAdmin({
     updatedAt,
   });
 
-  buildPixAdminRole({ userId: user.id, role: ROLES.SUPER_ADMIN });
+  buildPixAdminRole({ userId: user.id, role });
 
   return user;
 };

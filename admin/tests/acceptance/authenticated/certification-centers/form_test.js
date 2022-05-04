@@ -11,13 +11,15 @@ module('Acceptance | Certification Centers | Form', function (hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
 
-  hooks.beforeEach(async () => {
-    const { id: userId } = server.create('user');
-    await createAuthenticateSession({ userId });
-  });
-
   test('it should create a certification center', async function (assert) {
     // given
+    const { id: userId } = server.create('user');
+    server.create('admin-member', {
+      userId,
+      role: 'SUPER_ADMIN',
+    });
+    await createAuthenticateSession({ userId });
+
     this.server.create('habilitation', { name: 'Pix+ Droit' });
     this.server.create('habilitation', { name: 'CléA Numérique' });
 

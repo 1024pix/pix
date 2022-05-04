@@ -2,7 +2,7 @@ import { module, test } from 'qunit';
 import { click, currentURL, visit } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
-import { createAuthenticateSession } from '../../../helpers/test-init';
+import { authenticateAdminMemberWithRole } from 'pix-admin/tests/helpers/test-init';
 
 module('Acceptance | authenticated/users/get', function (hooks) {
   setupApplicationTest(hooks);
@@ -11,15 +11,12 @@ module('Acceptance | authenticated/users/get', function (hooks) {
   let currentUser;
 
   hooks.beforeEach(async function () {
-    currentUser = server.create('user');
-    await createAuthenticateSession({ userId: currentUser.id });
+    currentUser = await authenticateAdminMemberWithRole({ role: 'SUPER_ADMIN' })(server);
   });
 
   test('User detail page can be accessed by URL /users/:id', async function (assert) {
     await visit(`/users/${currentUser.id}`);
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line qunit/no-assert-equal
-    assert.equal(currentURL(), `/users/${currentUser.id}`);
+    assert.strictEqual(currentURL(), `/users/${currentUser.id}`);
   });
 
   test('User detail page can be accessed from user list page', async function (assert) {
@@ -42,19 +39,13 @@ module('Acceptance | authenticated/users/get', function (hooks) {
     // when
     await visit('/users/list?email=userpix1example.net');
     await click('tbody > tr:nth-child(1) > td:nth-child(1) > a');
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line qunit/no-assert-equal
-    assert.equal(currentURL(), `/users/${currentUser.id}`);
+    assert.strictEqual(currentURL(), `/users/${currentUser.id}`);
   });
 
   test('Should redirect to list users page when click page title', async function (assert) {
     await visit(`/users/${currentUser.id}`);
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line qunit/no-assert-equal
-    assert.equal(currentURL(), `/users/${currentUser.id}`);
+    assert.strictEqual(currentURL(), `/users/${currentUser.id}`);
     await click('#link-to-users-page');
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line qunit/no-assert-equal
-    assert.equal(currentURL(), '/users/list');
+    assert.strictEqual(currentURL(), '/users/list');
   });
 });

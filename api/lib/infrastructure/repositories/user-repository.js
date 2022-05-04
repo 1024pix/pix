@@ -247,6 +247,21 @@ module.exports = {
     return Boolean(user);
   },
 
+  async isCertif(id) {
+    const user = await knex('pix-admin-roles').where({ userId: id, role: ROLES.CERTIF }).first();
+    return Boolean(user);
+  },
+
+  async isSupport(id) {
+    const user = await knex('pix-admin-roles').where({ userId: id, role: ROLES.SUPPORT }).first();
+    return Boolean(user);
+  },
+
+  async isMetier(id) {
+    const user = await knex('pix-admin-roles').where({ userId: id, role: ROLES.METIER }).first();
+    return Boolean(user);
+  },
+
   async updateHasSeenAssessmentInstructionsToTrue(id) {
     const user = await BookshelfUser.where({ id }).fetch({ require: false });
     await user.save({ hasSeenAssessmentInstructions: true }, { patch: true, method: 'update' });

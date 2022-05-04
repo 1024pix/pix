@@ -1,8 +1,8 @@
+const sinon = require('sinon');
 const { expect, databaseBuilder, knex, catchErr } = require('../../../test-helper');
 const { ROLES } = require('../../../../lib/domain/constants').PIX_ADMIN;
 const adminMemberRepository = require('../../../../lib/infrastructure/repositories/admin-member-repository');
 const AdminMember = require('../../../../lib/domain/models/AdminMember');
-const sinon = require('sinon');
 const { AdminMemberRoleUpdateError } = require('../../../../lib/domain/errors');
 
 describe('Integration | Infrastructure | Repository | adminMemberRepository', function () {
@@ -70,19 +70,29 @@ describe('Integration | Infrastructure | Repository | adminMemberRepository', fu
       expect(members[1].lastName).to.equal('Fiodorovitch');
       expect(members[2].lastName).to.equal('Karamazov');
     });
+  });
 
-    it('should not return users with disabled pix admin roles', async function () {
+  describe('#get', function () {
+    it('should return user for given user id', async function () {
       // given
-      _buildUserWithPixAdminRole();
-      const userWithDisabledPixAdminRole = _buildUserWithPixAdminRole({ disabledAt: new Date() });
+      await _buildUserWithPixAdminRole({ role: ROLES.METIER });
+      const userWithPixAdminRole = await _buildUserWithPixAdminRole({ role: ROLES.SUPER_ADMIN });
       await databaseBuilder.commit();
 
       // when
-      const members = await adminMemberRepository.findAll();
+      const member = await adminMemberRepository.get({ userId: userWithPixAdminRole.userId });
 
       // then
-      expect(members.length).to.equal(1);
-      expect(members[0].id).to.not.equal(userWithDisabledPixAdminRole.id);
+      expect(member).to.deep.include(
+        new AdminMember({
+          id: userWithPixAdminRole.id,
+          userId: userWithPixAdminRole.userId,
+          firstName: userWithPixAdminRole.firstName,
+          lastName: userWithPixAdminRole.lastName,
+          email: userWithPixAdminRole.email,
+          role: 'SUPER_ADMIN',
+        })
+      );
     });
   });
 

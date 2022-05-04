@@ -11,7 +11,7 @@ describe('Integration | Application | Organizations | Routes', function () {
       const method = 'POST';
       const url = '/api/organizations';
 
-      sinon.stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin').callsFake((request, h) => h.response(true));
+      sinon.stub(securityPreHandlers, 'userHasAtLeastOneAccessOf').returns(() => true);
       sinon.stub(organizationController, 'create').returns('ok');
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -30,7 +30,7 @@ describe('Integration | Application | Organizations | Routes', function () {
       const method = 'GET';
       const url = '/api/organizations';
 
-      sinon.stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin').callsFake((request, h) => h.response(true));
+      sinon.stub(securityPreHandlers, 'userHasAtLeastOneAccessOf').returns(() => true);
       sinon.stub(organizationController, 'findPaginatedFilteredOrganizations').returns('ok');
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -40,6 +40,29 @@ describe('Integration | Application | Organizations | Routes', function () {
 
       // then
       expect(response.statusCode).to.equal(200);
+    });
+
+    context('Error cases', function () {
+      context('when user is not allowed to access resource', function () {
+        it('should resolve a 403 HTTP response', async function () {
+          // given
+          const method = 'GET';
+          const url = '/api/organizations';
+
+          sinon
+            .stub(securityPreHandlers, 'userHasAtLeastOneAccessOf')
+            .returns((request, h) => h.response().code(403).takeover());
+          sinon.stub(organizationController, 'findPaginatedFilteredOrganizations').returns('ok');
+          const httpTestServer = new HttpTestServer();
+          await httpTestServer.register(moduleUnderTest);
+
+          // when
+          const response = await httpTestServer.request(method, url);
+
+          // then
+          expect(response.statusCode).to.equal(403);
+        });
+      });
     });
   });
 
@@ -110,7 +133,7 @@ describe('Integration | Application | Organizations | Routes', function () {
       const method = 'POST';
       const url = '/api/admin/organizations/1/archive';
 
-      sinon.stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin').callsFake((request, h) => h.response(true));
+      sinon.stub(securityPreHandlers, 'userHasAtLeastOneAccessOf').returns(() => true);
       sinon.stub(organizationController, 'archiveOrganization').callsFake((request, h) => h.response('ok').code(204));
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -178,7 +201,7 @@ describe('Integration | Application | Organizations | Routes', function () {
       const method = 'GET';
       const url = '/api/admin/organizations/1/invitations';
 
-      sinon.stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin').callsFake((request, h) => h.response(true));
+      sinon.stub(securityPreHandlers, 'userHasAtLeastOneAccessOf').returns(() => true);
       sinon.stub(organizationController, 'findPendingInvitations').returns('ok');
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -277,7 +300,7 @@ describe('Integration | Application | Organizations | Routes', function () {
         },
       };
 
-      sinon.stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin').callsFake((request, h) => h.response(true));
+      sinon.stub(securityPreHandlers, 'userHasAtLeastOneAccessOf').returns(() => true);
       sinon.stub(organizationController, 'attachTargetProfiles').callsFake((request, h) => h.response('ok').code(204));
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);

@@ -10,4 +10,8 @@ export default class AdminMember extends Model {
   @attr('string') role;
 
   @attr('boolean') isInEditionMode;
+
+  get fullName() {
+    return `${this.firstName} ${this.lastName}`;
+  }
 }

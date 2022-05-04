@@ -1,5 +1,9 @@
 /* eslint-disable  no-restricted-syntax */
+const bluebird = require('bluebird');
 const checkUserHasRoleSuperAdminUseCase = require('./usecases/checkUserHasRoleSuperAdmin');
+const checkUserHasRoleCertifUseCase = require('./usecases/checkUserHasRoleCertif');
+const checkUserHasRoleSupportUseCase = require('./usecases/checkUserHasRoleSupport');
+const checkUserHasRoleMetierUseCase = require('./usecases/checkUserHasRoleMetier');
 const checkUserIsAdminInOrganizationUseCase = require('./usecases/checkUserIsAdminInOrganization');
 const checkUserBelongsToOrganizationManagingStudentsUseCase = require('./usecases/checkUserBelongsToOrganizationManagingStudents');
 const checkUserBelongsToScoOrganizationAndManagesStudentsUseCase = require('./usecases/checkUserBelongsToScoOrganizationAndManagesStudents');
@@ -12,7 +16,7 @@ const checkAuthorizationToManageCampaignUsecase = require('./usecases/checkAutho
 const Organization = require('../../lib/domain/models/Organization');
 
 const JSONAPIError = require('jsonapi-serializer').Error;
-const _ = require('lodash');
+const has = require('lodash/has');
 
 function _replyForbiddenError(h) {
   const errorHttpStatusCode = 403;
@@ -36,6 +40,60 @@ async function checkUserHasRoleSuperAdmin(request, h) {
   try {
     const hasRoleSuperAdmin = await checkUserHasRoleSuperAdminUseCase.execute(userId);
     if (hasRoleSuperAdmin) {
+      return h.response(true);
+    }
+    return _replyForbiddenError(h);
+  } catch (e) {
+    return _replyForbiddenError(h);
+  }
+}
+
+async function checkUserHasRoleCertif(request, h) {
+  if (!request.auth.credentials || !request.auth.credentials.userId) {
+    return _replyForbiddenError(h);
+  }
+
+  const userId = request.auth.credentials.userId;
+
+  try {
+    const hasRoleCertif = await checkUserHasRoleCertifUseCase.execute(userId);
+    if (hasRoleCertif) {
+      return h.response(true);
+    }
+    return _replyForbiddenError(h);
+  } catch (e) {
+    return _replyForbiddenError(h);
+  }
+}
+
+async function checkUserHasRoleSupport(request, h) {
+  if (!request.auth.credentials || !request.auth.credentials.userId) {
+    return _replyForbiddenError(h);
+  }
+
+  const userId = request.auth.credentials.userId;
+
+  try {
+    const hasRoleSupport = await checkUserHasRoleSupportUseCase.execute(userId);
+    if (hasRoleSupport) {
+      return h.response(true);
+    }
+    return _replyForbiddenError(h);
+  } catch (e) {
+    return _replyForbiddenError(h);
+  }
+}
+
+async function checkUserHasRoleMetier(request, h) {
+  if (!request.auth.credentials || !request.auth.credentials.userId) {
+    return _replyForbiddenError(h);
+  }
+
+  const userId = request.auth.credentials.userId;
+
+  try {
+    const hasRoleMetier = await checkUserHasRoleMetierUseCase.execute(userId);
+    if (hasRoleMetier) {
       return h.response(true);
     }
     return _replyForbiddenError(h);
@@ -98,29 +156,8 @@ function checkUserIsMemberOfCertificationCenter(request, h) {
     .catch(() => _replyForbiddenError(h));
 }
 
-async function checkUserBelongsToOrganizationOrhasRoleSuperAdmin(request, h) {
-  if (!request.auth.credentials || !request.auth.credentials.userId) {
-    return _replyForbiddenError(h);
-  }
-
-  const userId = request.auth.credentials.userId;
-  const organizationId = parseInt(request.params.id);
-
-  const belongsToOrganization = await checkUserBelongsToOrganizationUseCase.execute(userId, organizationId);
-  if (belongsToOrganization) {
-    return h.response(true);
-  }
-
-  const hasRoleSuperAdmin = await checkUserHasRoleSuperAdminUseCase.execute(userId);
-  if (hasRoleSuperAdmin) {
-    return h.response(true);
-  }
-
-  return _replyForbiddenError(h);
-}
-
 async function checkUserBelongsToOrganizationManagingStudents(request, h) {
-  if (!_.has(request, 'auth.credentials.userId')) {
+  if (!has(request, 'auth.credentials.userId')) {
     return _replyForbiddenError(h);
   }
 
@@ -255,15 +292,25 @@ async function checkAuthorizationToManageCampaign(request, h) {
   return _replyForbiddenError(h);
 }
 
+function userHasAtLeastOneAccessOf(securityChecks) {
+  return async (request, h) => {
+    const responses = await bluebird.map(securityChecks, (securityCheck) => securityCheck(request, h));
+    const hasAccess = responses.some((response) => !response.source?.errors);
+    return hasAccess ? hasAccess : _replyForbiddenError(h);
+  };
+}
+
 /* eslint-enable no-restricted-syntax */
 
 module.exports = {
   checkRequestedUserIsAuthenticatedUser,
-  checkUserBelongsToOrganizationOrhasRoleSuperAdmin,
   checkUserBelongsToOrganizationManagingStudents,
   checkUserBelongsToScoOrganizationAndManagesStudents,
   checkUserBelongsToSupOrganizationAndManagesStudents,
   checkUserHasRoleSuperAdmin,
+  checkUserHasRoleCertif,
+  checkUserHasRoleSupport,
+  checkUserHasRoleMetier,
   checkUserIsAdminInOrganization,
   checkAuthorizationToManageCampaign,
   checkUserIsAdminInSCOOrganizationManagingStudents,
@@ -271,4 +318,5 @@ module.exports = {
   checkUserBelongsToOrganization,
   checkUserIsMemberOfAnOrganization,
   checkUserIsMemberOfCertificationCenter,
+  userHasAtLeastOneAccessOf,
 };

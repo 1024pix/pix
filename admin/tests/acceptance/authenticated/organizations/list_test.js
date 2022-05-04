@@ -2,9 +2,9 @@ import { module, test } from 'qunit';
 import { currentURL, click } from '@ember/test-helpers';
 import { visit } from '@1024pix/ember-testing-library';
 import { setupApplicationTest } from 'ember-qunit';
-import { createAuthenticateSession } from 'pix-admin/tests/helpers/test-init';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import { authenticateAdminMemberWithRole } from 'pix-admin/tests/helpers/test-init';
 
 module('Acceptance | Organizations | List', function (hooks) {
   setupApplicationTest(hooks);
@@ -22,8 +22,7 @@ module('Acceptance | Organizations | List', function (hooks) {
 
   module('When user is logged in', function (hooks) {
     hooks.beforeEach(async () => {
-      const user = server.create('user');
-      await createAuthenticateSession({ userId: user.id });
+      await authenticateAdminMemberWithRole({ role: 'SUPER_ADMIN' })(server);
     });
 
     test('it should be accessible for an authenticated user', async function (assert) {

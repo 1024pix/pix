@@ -3,19 +3,17 @@ import { visit, clickByName, fillByLabel } from '@1024pix/ember-testing-library'
 import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { module, test } from 'qunit';
-import { createAuthenticateSession } from 'pix-admin/tests/helpers/test-init';
+import { authenticateAdminMemberWithRole } from '../../../../helpers/test-init';
 
 module('Acceptance | Target Profiles | Target Profile | Insights', function (hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
 
-  let currentUser;
   let targetProfile;
 
   hooks.beforeEach(async function () {
     // given
-    currentUser = server.create('user');
-    await createAuthenticateSession({ userId: currentUser.id });
+    await authenticateAdminMemberWithRole({ role: 'SUPER_ADMIN' })(server);
 
     targetProfile = this.server.create('target-profile', { name: 'Profil cible du ghetto' });
     this.server.create('badge', { id: 100, title: 'My badge', imageUrl: 'http://images.pix.fr/badges/ag2r.svg' });
@@ -43,9 +41,7 @@ module('Acceptance | Target Profiles | Target Profile | Insights', function (hoo
       await clickByName('Détails du badge My badge');
 
       //then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(currentURL(), '/badges/100');
+      assert.strictEqual(currentURL(), '/badges/100');
     });
 
     test('should redirect to badge creation page on link click', async function (assert) {
@@ -56,9 +52,7 @@ module('Acceptance | Target Profiles | Target Profile | Insights', function (hoo
       await clickByName('Nouveau résultat thématique');
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(currentURL(), `/target-profiles/${targetProfile.id}/badges/new`);
+      assert.strictEqual(currentURL(), `/target-profiles/${targetProfile.id}/badges/new`);
     });
 
     test('should redirect to insights parent page when badge creation is cancelled', async function (assert) {
@@ -69,9 +63,7 @@ module('Acceptance | Target Profiles | Target Profile | Insights', function (hoo
       await clickByName('Annuler');
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(currentURL(), `/target-profiles/${targetProfile.id}/insights`);
+      assert.strictEqual(currentURL(), `/target-profiles/${targetProfile.id}/insights`);
     });
 
     test('should redirect to insights parent page when badge creation is done', async function (assert) {
@@ -87,9 +79,7 @@ module('Acceptance | Target Profiles | Target Profile | Insights', function (hoo
       await clickByName('Créer le badge');
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(currentURL(), `/target-profiles/${targetProfile.id}/insights`);
+      assert.strictEqual(currentURL(), `/target-profiles/${targetProfile.id}/insights`);
     });
   });
 
@@ -98,9 +88,7 @@ module('Acceptance | Target Profiles | Target Profile | Insights', function (hoo
       const screen = await visit(`/target-profiles/${targetProfile.id}/insights`);
 
       const stageCount = screen.getAllByLabelText('Informations sur le palier', { exact: false }).length;
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(stageCount, 1);
+      assert.strictEqual(stageCount, 1);
 
       assert.dom(screen.queryByText('Enregistrer')).doesNotExist();
 
@@ -110,9 +98,7 @@ module('Acceptance | Target Profiles | Target Profile | Insights', function (hoo
       assert.dom(screen.getByRole('button', { name: 'Annuler' })).exists();
 
       const newTableRowCount = screen.getAllByLabelText('Informations sur le palier', { exact: false }).length;
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(newTableRowCount, 2);
+      assert.strictEqual(newTableRowCount, 2);
 
       await fillByLabel('Seuil du palier', '0');
       await fillByLabel('Titre du palier', 'My stage title');
@@ -122,44 +108,34 @@ module('Acceptance | Target Profiles | Target Profile | Insights', function (hoo
       assert.dom(screen.queryByText('Enregistrer')).doesNotExist();
 
       const newStageCount = screen.getAllByLabelText('Informations sur le palier', { exact: false }).length;
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(newStageCount, 2);
+      assert.strictEqual(newStageCount, 2);
     });
 
     test('should reset stage creation data after cancellation', async function (assert) {
       // when
       const screen = await visit(`/target-profiles/${targetProfile.id}/insights`);
       const stageCount = screen.getAllByLabelText('Informations sur le palier', { exact: false }).length;
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(stageCount, 1);
+      assert.strictEqual(stageCount, 1);
       await clickByName('Nouveau palier');
       await clickByName('Annuler');
 
       // then
       const newStageCount = screen.getAllByLabelText('Informations sur le palier', { exact: false }).length;
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(newStageCount, 1);
+      assert.strictEqual(newStageCount, 1);
     });
 
     test('should remove one line of a new stage', async function (assert) {
       // when
       const screen = await visit(`/target-profiles/${targetProfile.id}/insights`);
       const stageCount = screen.getAllByLabelText('Informations sur le palier', { exact: false }).length;
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(stageCount, 1);
+      assert.strictEqual(stageCount, 1);
       await clickByName('Nouveau palier');
       await clickByName('Nouveau palier');
       await click(screen.getAllByLabelText('Supprimer palier')[1]);
 
       // then
       const newStageCount = screen.getAllByLabelText('Informations sur le palier', { exact: false }).length;
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(newStageCount, 2);
+      assert.strictEqual(newStageCount, 2);
     });
   });
 });

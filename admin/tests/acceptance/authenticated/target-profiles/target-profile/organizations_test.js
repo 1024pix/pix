@@ -2,19 +2,16 @@ import { fillByLabel, clickByName, visit } from '@1024pix/ember-testing-library'
 import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { module, test } from 'qunit';
-import { createAuthenticateSession } from 'pix-admin/tests/helpers/test-init';
+import { authenticateAdminMemberWithRole } from '../../../../helpers/test-init';
 
 module('Acceptance | Target Profiles | Target Profile | Organizations', function (hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
 
-  let currentUser;
   let targetProfile;
 
   hooks.beforeEach(async function () {
-    currentUser = server.create('user');
-    await createAuthenticateSession({ userId: currentUser.id });
-
+    await authenticateAdminMemberWithRole({ role: 'SUPER_ADMIN' })(server);
     targetProfile = this.server.create('target-profile', { name: 'Profil cible du ghetto' });
   });
 

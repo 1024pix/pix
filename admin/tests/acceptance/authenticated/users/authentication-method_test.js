@@ -1,7 +1,7 @@
 import { module, test } from 'qunit';
 import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
-import { createAuthenticateSession } from '../../../helpers/test-init';
+import { authenticateAdminMemberWithRole } from 'pix-admin/tests/helpers/test-init';
 import { fillByLabel, clickByName, visit } from '@1024pix/ember-testing-library';
 
 module('Acceptance | authenticated/users | authentication-method', function (hooks) {
@@ -11,8 +11,7 @@ module('Acceptance | authenticated/users | authentication-method', function (hoo
   module('when adding Pix authentication method', function () {
     test("should display Pix authentication method with email's information", async function (assert) {
       // given
-      const currentUser = server.create('user');
-      await createAuthenticateSession({ userId: currentUser.id });
+      await authenticateAdminMemberWithRole({ role: 'SUPER_ADMIN' })(server);
 
       const firstName = 'Alice';
       const lastName = 'Merveille';
@@ -39,8 +38,7 @@ module('Acceptance | authenticated/users | authentication-method', function (hoo
 
     test('should stay on modal if email already existing for an other user', async function (assert) {
       // given
-      const currentUser = server.create('user');
-      await createAuthenticateSession({ userId: currentUser.id });
+      await authenticateAdminMemberWithRole({ role: 'SUPER_ADMIN' })(server);
 
       const firstName = 'Alice';
       const lastName = 'Merveille';
@@ -67,8 +65,8 @@ module('Acceptance | authenticated/users | authentication-method', function (hoo
   module('when reassign Gar authentication method', function () {
     test('should remove Gar authentication method information', async function (assert) {
       // given
-      const currentUser = server.create('user');
-      await createAuthenticateSession({ userId: currentUser.id });
+      await authenticateAdminMemberWithRole({ role: 'SUPER_ADMIN' })(server);
+
       const firstName = 'Alice';
       const lastName = 'Merveille';
       const garAuthenticationMethod = server.create('authentication-method', { identityProvider: 'GAR' });
@@ -95,8 +93,7 @@ module('Acceptance | authenticated/users | authentication-method', function (hoo
   module('when reassign Pole Emploi authentication method', function () {
     test('should remove Pole Emploi authentication method information', async function (assert) {
       // given
-      const currentUser = server.create('user');
-      await createAuthenticateSession({ userId: currentUser.id });
+      await authenticateAdminMemberWithRole({ role: 'SUPER_ADMIN' })(server);
 
       const firstName = 'Alice';
       const lastName = 'Merveille';

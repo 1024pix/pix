@@ -32,7 +32,7 @@ describe('PATCH /api/admin/sessions/:id/publish', function () {
   context('when user has role Super Admin', function () {
     beforeEach(function () {
       // given
-      userId = databaseBuilder.factory.buildUser.withRoleSuperAdmin().id;
+      userId = databaseBuilder.factory.buildUser.withRole().id;
       options.headers = { authorization: generateValidRequestAuthorizationHeader(userId) };
       return databaseBuilder.commit();
     });

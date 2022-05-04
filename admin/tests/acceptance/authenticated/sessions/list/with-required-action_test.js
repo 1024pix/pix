@@ -16,16 +16,25 @@ module('Acceptance | authenticated/sessions/list/with required action', function
       await visit('/sessions/list/with-required-action');
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(currentURL(), '/login');
+      assert.strictEqual(currentURL(), '/login');
     });
   });
 
   module('When user is logged in', function (hooks) {
     hooks.beforeEach(async () => {
       // given
-      const { id: userId } = server.create('user', { firstName: 'John', lastName: 'Doe', fullName: 'John Doe' });
+      const {
+        id: userId,
+        firstName,
+        lastName,
+      } = server.create('user', { firstName: 'John', lastName: 'Doe', fullName: 'John Doe' });
+
+      server.create('admin-member', {
+        userId,
+        firstName,
+        lastName,
+        role: 'SUPER_ADMIN',
+      });
       await createAuthenticateSession({ userId });
     });
 
@@ -34,9 +43,7 @@ module('Acceptance | authenticated/sessions/list/with required action', function
       await visit('/sessions/list/with-required-action');
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(currentURL(), '/sessions/list/with-required-action');
+      assert.strictEqual(currentURL(), '/sessions/list/with-required-action');
     });
 
     test('it should display sessions with required action informations', async function (assert) {

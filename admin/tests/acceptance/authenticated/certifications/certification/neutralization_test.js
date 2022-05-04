@@ -2,15 +2,14 @@ import { module, test } from 'qunit';
 import { setupApplicationTest } from 'ember-qunit';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { clickByName, visit } from '@1024pix/ember-testing-library';
-import { createAuthenticateSession } from 'pix-admin/tests/helpers/test-init';
+import { authenticateAdminMemberWithRole } from '../../../../helpers/test-init';
 
 module('Acceptance | Route | routes/authenticated/certifications/certification | neutralization', function (hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
 
   hooks.beforeEach(async function () {
-    const user = server.create('user');
-    await createAuthenticateSession({ userId: user.id });
+    await authenticateAdminMemberWithRole({ role: 'SUPER_ADMIN' })(server);
   });
 
   module('when there is no challenge for this certification', function () {
@@ -275,15 +274,9 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
       const firstRowContent = document.querySelector('tr:nth-child(1) td:nth-child(2)').innerText;
       const secondRowContent = document.querySelector('tr:nth-child(2) td:nth-child(2)').innerText;
       const thirdRowContent = document.querySelector('tr:nth-child(3) td:nth-child(2)').innerText;
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(firstRowContent, 'recCGEqqWBQnzD3NZ');
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(secondRowContent, 'recABCEdeef1234');
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(thirdRowContent, 'recZXYW4321');
+      assert.strictEqual(firstRowContent, 'recCGEqqWBQnzD3NZ');
+      assert.strictEqual(secondRowContent, 'recABCEdeef1234');
+      assert.strictEqual(thirdRowContent, 'recZXYW4321');
     });
   });
 });
