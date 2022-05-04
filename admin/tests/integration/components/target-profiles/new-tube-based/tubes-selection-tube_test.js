@@ -6,7 +6,6 @@ import sinon from 'sinon';
 
 module('Integration | Component | targetProfiles:NewTubeBased::TubesSelectionTube', function (hooks) {
   setupRenderingTest(hooks);
-  let updateSelectedTubes;
   let setLevelTube;
   let tube;
 
@@ -25,13 +24,11 @@ module('Integration | Component | targetProfiles:NewTubeBased::TubesSelectionTub
       name: 'Titre competence',
     };
 
-    updateSelectedTubes = sinon.stub();
     setLevelTube = sinon.stub();
 
     this.set('tube', tube);
     this.set('thematic', thematic);
     this.set('competence', competence);
-    this.set('updateSelectedTubes', updateSelectedTubes);
     this.set('setLevelTube', setLevelTube);
   });
 
@@ -45,7 +42,6 @@ module('Integration | Component | targetProfiles:NewTubeBased::TubesSelectionTub
       hbs`<TargetProfiles::NewTubeBased::TubesSelectionTube @competence={{this.competence}}
                           @thematic={{this.thematic}}
                           @tube={{this.tube}}
-                          @updateSelectedTubes={{this.updateSelectedTubes}}
                           @setLevelTube={{this.setLevelTube}}
                           @tubesSelected={{this.tubesSelected}}/>`
     );
@@ -65,7 +61,6 @@ module('Integration | Component | targetProfiles:NewTubeBased::TubesSelectionTub
       hbs`<TargetProfiles::NewTubeBased::TubesSelectionTube @competence={{this.competence}}
                           @thematic={{this.thematic}}
                           @tube={{this.tube}}
-                          @updateSelectedTubes={{this.updateSelectedTubes}}
                           @setLevelTube={{this.setLevelTube}}
                           @tubesSelected={{this.tubesSelected}}/>`
     );
