@@ -24,13 +24,10 @@ module.exports = async function authenticateCnavUser({
     identityProvider: AuthenticationMethod.identityProviders.CNAV,
   });
 
-  let pixAccessToken;
   if (user) {
-    pixAccessToken = await _getPixAccessTokenFromCnavUser({
-      user,
-      userRepository,
-      cnavAuthenticationService,
-    });
+    const pixAccessToken = cnavAuthenticationService.createAccessToken(user.id);
+
+    await userRepository.updateLastLoggedAt({ userId: user.id });
 
     return { pixAccessToken, isAuthenticationComplete: true };
   } else {
@@ -39,10 +36,3 @@ module.exports = async function authenticateCnavUser({
     return { authenticationKey, isAuthenticationComplete: false };
   }
 };
-
-async function _getPixAccessTokenFromCnavUser({ user, userRepository, cnavAuthenticationService }) {
-  const pixAccessToken = cnavAuthenticationService.createAccessToken(user.id);
-
-  await userRepository.updateLastLoggedAt({ userId: user.id });
-  return pixAccessToken;
-}
