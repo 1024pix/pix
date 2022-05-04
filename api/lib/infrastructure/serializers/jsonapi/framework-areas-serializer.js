@@ -19,7 +19,14 @@ module.exports = {
           tubes: {
             include: true,
             ref: 'id',
-            attributes: ['practicalTitle', 'practicalDescription', 'mobile', 'tablet'],
+            attributes: ['practicalTitle', 'practicalDescription', 'mobile', 'tablet', 'skills'],
+            skills: {
+              ref: true,
+              ignoreRelationshipData: true,
+              relationshipLinks: {
+                related: (_area, _skills, tube) => `/api/tubes/${tube.id}/skills`,
+              },
+            },
           },
         },
       },
