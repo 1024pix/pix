@@ -28,6 +28,10 @@ describe('Unit | Serializer | JSONAPI | admin-member-serializer', function () {
             'user-id': 7,
             email: 'ivan.iakovlievitch@pix.fr',
             role: 'SUPER_ADMIN',
+            'is-certif': false,
+            'is-metier': false,
+            'is-super-admin': true,
+            'is-support': false,
           },
         },
       });
