@@ -11,7 +11,7 @@ module.exports = async function getAssessment({
 }) {
   const assessment = await assessmentRepository.getWithAnswers(assessmentId);
   if (!assessment) {
-    throw new NotFoundError(`Assessment not found for ID ${assessmentId}`);
+    throw new NotFoundError(`Assessment not found for ID ${assessmentId}`); // move
   }
 
   assessment.title = await _fetchAssessmentTitle({
@@ -22,6 +22,11 @@ module.exports = async function getAssessment({
     campaignRepository,
   });
 
+  if (assessment.type === Assessment.types.CAMPAIGN) {
+    assessment.campaignCode = await campaignRepository.getCampaignCodeByCampaignParticipationId(
+      assessment.campaignParticipationId
+    );
+  }
   return assessment;
 };
 

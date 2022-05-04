@@ -17,11 +17,15 @@ describe('Unit | UseCase | get-assessment', function () {
   const certificationCourseId = 1;
 
   const expectedCampaignTitle = 'Campagne Il';
+  const expectedCampaignCode = 'CAMPAIGN1';
   const expectedCourseName = 'Course Àpieds';
   const expectedAssessmentTitle = 'Traiter des données';
 
   beforeEach(function () {
-    campaign = domainBuilder.buildCampaign.ofTypeAssessment({ title: expectedCampaignTitle });
+    campaign = domainBuilder.buildCampaign.ofTypeAssessment({
+      title: expectedCampaignTitle,
+      code: expectedCampaignCode,
+    });
     campaignParticipation = domainBuilder.buildCampaignParticipation({ campaign });
     competence = domainBuilder.buildCompetence({ id: 'recsvLz0W2ShyfD63', name: expectedAssessmentTitle });
     course = domainBuilder.buildCourse({ id: 'ABC123', name: expectedCourseName });
@@ -35,6 +39,7 @@ describe('Unit | UseCase | get-assessment', function () {
 
     sinon.stub(assessmentRepository, 'getWithAnswers');
     sinon.stub(campaignRepository, 'getCampaignTitleByCampaignParticipationId');
+    sinon.stub(campaignRepository, 'getCampaignCodeByCampaignParticipationId');
     sinon.stub(competenceRepository, 'getCompetenceName');
     sinon.stub(courseRepository, 'getCourseName');
   });
@@ -116,6 +121,9 @@ describe('Unit | UseCase | get-assessment', function () {
     campaignRepository.getCampaignTitleByCampaignParticipationId
       .withArgs(assessment.campaignParticipationId)
       .resolves(expectedCampaignTitle);
+    campaignRepository.getCampaignCodeByCampaignParticipationId
+      .withArgs(assessment.campaignParticipationId)
+      .resolves(expectedCampaignCode);
 
     // when
     const result = await getAssessment({
@@ -128,6 +136,7 @@ describe('Unit | UseCase | get-assessment', function () {
     expect(result).to.be.an.instanceOf(Assessment);
     expect(result.id).to.equal(assessment.id);
     expect(result.title).to.equal(expectedCampaignTitle);
+    expect(result.campaignCode).to.equal(expectedCampaignCode);
   });
 
   it('should resolve the Assessment domain object without title matching the given assessment ID', async function () {

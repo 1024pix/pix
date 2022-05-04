@@ -394,4 +394,45 @@ describe('Integration | Repository | Campaign', function () {
       expect(title).to.equal('Autre');
     });
   });
+
+  describe('#getCampaignCodeByCampaignParticipationId', function () {
+    it('should return campaign code when campaign has one', async function () {
+      // given
+      const campaignId = databaseBuilder.factory.buildCampaign({ code: 'CAMPAIGN1' }).id;
+      const campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({ campaignId }).id;
+      await databaseBuilder.commit();
+
+      // when
+      const code = await campaignRepository.getCampaignCodeByCampaignParticipationId(campaignParticipationId);
+
+      // then
+      expect(code).to.equal('CAMPAIGN1');
+    });
+
+    it('should return null when campaignParticipationId does not exist', async function () {
+      // when
+      const code = await campaignRepository.getCampaignCodeByCampaignParticipationId(123);
+
+      // then
+      expect(code).to.be.null;
+    });
+
+    it('should return the code from the given campaignParticipationId', async function () {
+      // given
+      const campaignId = databaseBuilder.factory.buildCampaign({ code: 'CAMPAIGN1' }).id;
+      databaseBuilder.factory.buildCampaignParticipation({ campaignId });
+
+      const otherCampaignId = databaseBuilder.factory.buildCampaign({ code: 'CAMPAIGN2' }).id;
+      const otherCampaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({
+        campaignId: otherCampaignId,
+      }).id;
+      await databaseBuilder.commit();
+
+      // when
+      const code = await campaignRepository.getCampaignCodeByCampaignParticipationId(otherCampaignParticipationId);
+
+      // then
+      expect(code).to.equal('CAMPAIGN2');
+    });
+  });
 });

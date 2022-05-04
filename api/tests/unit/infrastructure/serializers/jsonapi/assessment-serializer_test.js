@@ -98,6 +98,7 @@ describe('Unit | Serializer | JSONAPI | assessment-serializer', function () {
         type: Assessment.types.CAMPAIGN,
         campaignParticipation: { campaign: { code: 'Konami' } },
         title: 'Parcours',
+        campaignCode: 'CAMPAGNE1',
       });
       const expectedProgressionJson = {
         data: {
@@ -115,7 +116,7 @@ describe('Unit | Serializer | JSONAPI | assessment-serializer', function () {
       // then
       expect(json.data.relationships['progression']).to.deep.equal(expectedProgressionJson);
       expect(json.data.attributes['certification-number']).to.be.null;
-      expect(json.data.attributes['code-campaign']).to.equal('Konami');
+      expect(json.data.attributes['code-campaign']).to.equal('CAMPAGNE1');
       expect(json.data.attributes['title']).to.equal('Parcours');
     });
 

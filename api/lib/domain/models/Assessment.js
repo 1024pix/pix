@@ -60,6 +60,7 @@ class Assessment {
     competenceId,
     campaignParticipationId,
     method,
+    campaignCode,
   } = {}) {
     this.id = id;
     this.createdAt = createdAt;
@@ -81,6 +82,7 @@ class Assessment {
     this.competenceId = competenceId;
     this.campaignParticipationId = campaignParticipationId;
     this.method = method || Assessment.computeMethodFromType(this.type);
+    this.campaignCode = campaignCode;
   }
 
   isCompleted() {
