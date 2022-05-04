@@ -1,6 +1,7 @@
-const _ = require('lodash');
+const toLower = require('lodash/toLower');
+const isNil = require('lodash/isNil');
+
 const AuthenticationMethod = require('./AuthenticationMethod');
-const { ROLES } = require('../constants').PIX_ADMIN;
 
 class User {
   constructor({
@@ -36,7 +37,7 @@ class User {
     this.firstName = firstName;
     this.lastName = lastName;
     this.username = username;
-    this.email = email ? _.toLower(email) : undefined;
+    this.email = email ? toLower(email) : undefined;
     this.emailConfirmedAt = emailConfirmedAt;
     this.cgu = cgu;
     this.lastTermsOfServiceValidatedAt = lastTermsOfServiceValidatedAt;
@@ -61,8 +62,8 @@ class User {
     this.authenticationMethods = authenticationMethods;
   }
 
-  get hasRoleSuperAdmin() {
-    return !!this.pixAdminRoles.find(({ role, disabledAt }) => role === ROLES.SUPER_ADMIN && !disabledAt);
+  get hasAccessToAdminScope() {
+    return this.pixAdminRoles.some((pixAdminRole) => pixAdminRole.hasAccessToAdminScope);
   }
 
   get shouldChangePassword() {
@@ -89,7 +90,7 @@ class User {
     return this.certificationCenterMemberships.some(
       (certificationCenterMembership) =>
         certificationCenterMembership.certificationCenter.id === certificationCenterId &&
-        _.isNil(certificationCenterMembership.disabledAt)
+        isNil(certificationCenterMembership.disabledAt)
     );
   }
 }

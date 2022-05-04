@@ -40,7 +40,6 @@ module.exports = {
 
   getCurrentUser(request) {
     const authenticatedUserId = request.auth.credentials.userId;
-
     return usecases.getCurrentUser({ authenticatedUserId }).then(userWithActivitySerializer.serialize);
   },
 

@@ -29,4 +29,8 @@ module.exports = class AdminMember {
       this
     );
   }
+
+  get hasAccessToAdminScope() {
+    return this.role in ROLES;
+  }
 };

@@ -2,9 +2,9 @@ import { module, test } from 'qunit';
 import { currentURL } from '@ember/test-helpers';
 import { visit } from '@1024pix/ember-testing-library';
 import { setupApplicationTest } from 'ember-qunit';
-import { createAuthenticateSession } from 'pix-admin/tests/helpers/test-init';
 import { clickByName } from '@1024pix/ember-testing-library';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import { authenticateAdminMemberWithRole } from '../../../../helpers/test-init';
 
 module('Acceptance | authenticated/sessions/list/to be published', function (hooks) {
   setupApplicationTest(hooks);
@@ -18,17 +18,14 @@ module('Acceptance | authenticated/sessions/list/to be published', function (hoo
       await visit(SESSIONS_TO_BE_PUBLISHED_LIST_PAGE);
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(currentURL(), '/login');
+      assert.strictEqual(currentURL(), '/login');
     });
   });
 
   module('When user is logged in', function (hooks) {
     hooks.beforeEach(async function () {
       // given
-      const { id: userId } = server.create('user');
-      await createAuthenticateSession({ userId });
+      await authenticateAdminMemberWithRole({ role: 'SUPER_ADMIN' })(server);
     });
 
     test('visiting /sessions/list/to-be-published', async function (assert) {
@@ -36,9 +33,7 @@ module('Acceptance | authenticated/sessions/list/to be published', function (hoo
       await visit(SESSIONS_TO_BE_PUBLISHED_LIST_PAGE);
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(currentURL(), SESSIONS_TO_BE_PUBLISHED_LIST_PAGE);
+      assert.strictEqual(currentURL(), SESSIONS_TO_BE_PUBLISHED_LIST_PAGE);
     });
 
     test('it should display sessions to publish informations', async function (assert) {

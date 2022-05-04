@@ -11,8 +11,14 @@ exports.register = async function (server) {
       config: {
         pre: [
           {
-            method: securityPreHandlers.checkUserHasRoleSuperAdmin,
-            assign: 'hasRoleSuperAdmin',
+            method: (request, h) =>
+              securityPreHandlers.userHasAtLeastOneAccessOf([
+                securityPreHandlers.checkUserHasRoleSuperAdmin,
+                securityPreHandlers.checkUserHasRoleCertif,
+                securityPreHandlers.checkUserHasRoleSupport,
+                securityPreHandlers.checkUserHasRoleMetier,
+              ])(request, h),
+            assign: 'hasAuthorizationToAccessAdminScope',
           },
         ],
         handler: stagesController.create,
@@ -25,8 +31,14 @@ exports.register = async function (server) {
       config: {
         pre: [
           {
-            method: securityPreHandlers.checkUserHasRoleSuperAdmin,
-            assign: 'hasRoleSuperAdmin',
+            method: (request, h) =>
+              securityPreHandlers.userHasAtLeastOneAccessOf([
+                securityPreHandlers.checkUserHasRoleSuperAdmin,
+                securityPreHandlers.checkUserHasRoleCertif,
+                securityPreHandlers.checkUserHasRoleSupport,
+                securityPreHandlers.checkUserHasRoleMetier,
+              ])(request, h),
+            assign: 'hasAuthorizationToAccessAdminScope',
           },
         ],
         validate: {
@@ -37,7 +49,7 @@ exports.register = async function (server) {
         handler: stagesController.getStageDetails,
         tags: ['api', 'stages'],
         notes: [
-          '- **Cette route est restreinte aux utilisateurs authentifiés avec le rôle Super Admin**\n' +
+          "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n" +
             '- Elle permet de récupérer un palier.',
         ],
       },
@@ -48,8 +60,14 @@ exports.register = async function (server) {
       config: {
         pre: [
           {
-            method: securityPreHandlers.checkUserHasRoleSuperAdmin,
-            assign: 'hasRoleSuperAdmin',
+            method: (request, h) =>
+              securityPreHandlers.userHasAtLeastOneAccessOf([
+                securityPreHandlers.checkUserHasRoleSuperAdmin,
+                securityPreHandlers.checkUserHasRoleCertif,
+                securityPreHandlers.checkUserHasRoleSupport,
+                securityPreHandlers.checkUserHasRoleMetier,
+              ])(request, h),
+            assign: 'hasAuthorizationToAccessAdminScope',
           },
         ],
         validate: {
@@ -71,7 +89,7 @@ exports.register = async function (server) {
         handler: stagesController.updateStage,
         tags: ['api', 'stages'],
         notes: [
-          '- **Cette route est restreinte aux utilisateurs authentifiés avec le rôle Super Admin**\n' +
+          "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n" +
             "- Elle permet de mettre à jour le prescriberTitle et le prescriberDescription d'un palier.",
         ],
       },

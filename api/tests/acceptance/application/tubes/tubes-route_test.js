@@ -17,7 +17,7 @@ describe('Acceptance | Route | Tubes', function () {
     let userId;
 
     beforeEach(async function () {
-      userId = databaseBuilder.factory.buildUser.withRoleSuperAdmin().id;
+      userId = databaseBuilder.factory.buildUser.withRole().id;
 
       await databaseBuilder.commit();
       mockLearningContent({

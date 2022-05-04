@@ -34,8 +34,8 @@ describe('Acceptance | Application | Admin-members | Routes', function () {
   describe('PATCH /api/admin/admin-members/{id}', function () {
     it('should return 200 http status code', async function () {
       // given
-      const superAdmin = databaseBuilder.factory.buildUser.withRoleSuperAdmin();
-      const pixAdminUserToUpdate = databaseBuilder.factory.buildUser.withRoleSuperAdmin();
+      const superAdmin = databaseBuilder.factory.buildUser.withRole();
+      const pixAdminUserToUpdate = databaseBuilder.factory.buildUser.withRole();
       const pixAdminRole = databaseBuilder.factory.buildPixAdminRole({
         userId: pixAdminUserToUpdate.id,
         role: ROLES.SUPPORT,

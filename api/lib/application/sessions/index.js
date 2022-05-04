@@ -17,14 +17,20 @@ exports.register = async (server) => {
       config: {
         pre: [
           {
-            method: securityPreHandlers.checkUserHasRoleSuperAdmin,
-            assign: 'hasRoleSuperAdmin',
+            method: (request, h) =>
+              securityPreHandlers.userHasAtLeastOneAccessOf([
+                securityPreHandlers.checkUserHasRoleSuperAdmin,
+                securityPreHandlers.checkUserHasRoleCertif,
+                securityPreHandlers.checkUserHasRoleSupport,
+                securityPreHandlers.checkUserHasRoleMetier,
+              ])(request, h),
+            assign: 'hasAuthorizationToAccessAdminScope',
           },
         ],
         handler: sessionController.findPaginatedFilteredJurySessions,
         tags: ['api', 'sessions'],
         notes: [
-          '- **Cette route est restreinte aux utilisateurs authentifiés avec le rôle Super Admin**\n' +
+          "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n" +
             '- Elle permet de consulter la liste de toutes les sessions avec filtre et pagination (retourne un tableau avec n éléments)',
         ],
       },
@@ -40,8 +46,14 @@ exports.register = async (server) => {
         },
         pre: [
           {
-            method: securityPreHandlers.checkUserHasRoleSuperAdmin,
-            assign: 'hasRoleSuperAdmin',
+            method: (request, h) =>
+              securityPreHandlers.userHasAtLeastOneAccessOf([
+                securityPreHandlers.checkUserHasRoleSuperAdmin,
+                securityPreHandlers.checkUserHasRoleCertif,
+                securityPreHandlers.checkUserHasRoleSupport,
+                securityPreHandlers.checkUserHasRoleMetier,
+              ])(request, h),
+            assign: 'hasAuthorizationToAccessAdminScope',
           },
         ],
         handler: sessionController.getJurySession,
@@ -73,8 +85,14 @@ exports.register = async (server) => {
       config: {
         pre: [
           {
-            method: securityPreHandlers.checkUserHasRoleSuperAdmin,
-            assign: 'hasRoleSuperAdmin',
+            method: (request, h) =>
+              securityPreHandlers.userHasAtLeastOneAccessOf([
+                securityPreHandlers.checkUserHasRoleSuperAdmin,
+                securityPreHandlers.checkUserHasRoleCertif,
+                securityPreHandlers.checkUserHasRoleSupport,
+                securityPreHandlers.checkUserHasRoleMetier,
+              ])(request, h),
+            assign: 'hasAuthorizationToAccessAdminScope',
           },
         ],
         handler: finalizedSessionController.findFinalizedSessionsToPublish,
@@ -87,8 +105,14 @@ exports.register = async (server) => {
       config: {
         pre: [
           {
-            method: securityPreHandlers.checkUserHasRoleSuperAdmin,
-            assign: 'hasRoleSuperAdmin',
+            method: (request, h) =>
+              securityPreHandlers.userHasAtLeastOneAccessOf([
+                securityPreHandlers.checkUserHasRoleSuperAdmin,
+                securityPreHandlers.checkUserHasRoleCertif,
+                securityPreHandlers.checkUserHasRoleSupport,
+                securityPreHandlers.checkUserHasRoleMetier,
+              ])(request, h),
+            assign: 'hasAuthorizationToAccessAdminScope',
           },
         ],
         handler: finalizedSessionController.findFinalizedSessionsWithRequiredAction,
@@ -317,14 +341,20 @@ exports.register = async (server) => {
         },
         pre: [
           {
-            method: securityPreHandlers.checkUserHasRoleSuperAdmin,
-            assign: 'hasRoleSuperAdmin',
+            method: (request, h) =>
+              securityPreHandlers.userHasAtLeastOneAccessOf([
+                securityPreHandlers.checkUserHasRoleSuperAdmin,
+                securityPreHandlers.checkUserHasRoleCertif,
+                securityPreHandlers.checkUserHasRoleSupport,
+                securityPreHandlers.checkUserHasRoleMetier,
+              ])(request, h),
+            assign: 'hasAuthorizationToAccessAdminScope',
           },
         ],
         handler: sessionController.getJuryCertificationSummaries,
         tags: ['api', 'sessions', 'jury-certification-summary'],
         notes: [
-          'Cette route est restreinte aux utilisateurs ayant le rôle SUPERADMIN',
+          "Cette route est restreinte aux utilisateurs ayant les droits d'accès",
           "Elle retourne les résumés de certifications d'une session",
         ],
       },
@@ -340,14 +370,20 @@ exports.register = async (server) => {
         },
         pre: [
           {
-            method: securityPreHandlers.checkUserHasRoleSuperAdmin,
-            assign: 'hasRoleSuperAdmin',
+            method: (request, h) =>
+              securityPreHandlers.userHasAtLeastOneAccessOf([
+                securityPreHandlers.checkUserHasRoleSuperAdmin,
+                securityPreHandlers.checkUserHasRoleCertif,
+                securityPreHandlers.checkUserHasRoleSupport,
+                securityPreHandlers.checkUserHasRoleMetier,
+              ])(request, h),
+            assign: 'hasAuthorizationToAccessAdminScope',
           },
         ],
         handler: sessionController.generateSessionResultsDownloadLink,
         tags: ['api', 'sessions'],
         notes: [
-          'Cette route est restreinte aux utilisateurs ayant le rôle SUPERADMIN',
+          "Cette route est restreinte aux utilisateurs ayant les droits d'accès",
           "Elle permet de générer un lien permettant de télécharger tous les résultats de certification d'une session",
         ],
       },
@@ -490,8 +526,14 @@ exports.register = async (server) => {
         },
         pre: [
           {
-            method: securityPreHandlers.checkUserHasRoleSuperAdmin,
-            assign: 'hasRoleSuperAdmin',
+            method: (request, h) =>
+              securityPreHandlers.userHasAtLeastOneAccessOf([
+                securityPreHandlers.checkUserHasRoleSuperAdmin,
+                securityPreHandlers.checkUserHasRoleCertif,
+                securityPreHandlers.checkUserHasRoleSupport,
+                securityPreHandlers.checkUserHasRoleMetier,
+              ])(request, h),
+            assign: 'hasAuthorizationToAccessAdminScope',
           },
         ],
         handler: sessionController.publish,
@@ -517,13 +559,19 @@ exports.register = async (server) => {
         },
         pre: [
           {
-            method: securityPreHandlers.checkUserHasRoleSuperAdmin,
-            assign: 'hasRoleSuperAdmin',
+            method: (request, h) =>
+              securityPreHandlers.userHasAtLeastOneAccessOf([
+                securityPreHandlers.checkUserHasRoleSuperAdmin,
+                securityPreHandlers.checkUserHasRoleCertif,
+                securityPreHandlers.checkUserHasRoleSupport,
+                securityPreHandlers.checkUserHasRoleMetier,
+              ])(request, h),
+            assign: 'hasAuthorizationToAccessAdminScope',
           },
         ],
         handler: sessionController.publishInBatch,
         notes: [
-          '- **Cette route est restreinte aux utilisateurs authentifiés avec le rôle Super Admin**\n' +
+          "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n" +
             "- Permet de publier plusieurs sessions sans problème d'un coup",
         ],
         tags: ['api', 'session', 'publication'],
@@ -540,8 +588,14 @@ exports.register = async (server) => {
         },
         pre: [
           {
-            method: securityPreHandlers.checkUserHasRoleSuperAdmin,
-            assign: 'hasRoleSuperAdmin',
+            method: (request, h) =>
+              securityPreHandlers.userHasAtLeastOneAccessOf([
+                securityPreHandlers.checkUserHasRoleSuperAdmin,
+                securityPreHandlers.checkUserHasRoleCertif,
+                securityPreHandlers.checkUserHasRoleSupport,
+                securityPreHandlers.checkUserHasRoleMetier,
+              ])(request, h),
+            assign: 'hasAuthorizationToAccessAdminScope',
           },
         ],
         handler: sessionController.unpublish,
@@ -563,15 +617,21 @@ exports.register = async (server) => {
         },
         pre: [
           {
-            method: securityPreHandlers.checkUserHasRoleSuperAdmin,
-            assign: 'hasRoleSuperAdmin',
+            method: (request, h) =>
+              securityPreHandlers.userHasAtLeastOneAccessOf([
+                securityPreHandlers.checkUserHasRoleSuperAdmin,
+                securityPreHandlers.checkUserHasRoleCertif,
+                securityPreHandlers.checkUserHasRoleSupport,
+                securityPreHandlers.checkUserHasRoleMetier,
+              ])(request, h),
+            assign: 'hasAuthorizationToAccessAdminScope',
           },
         ],
 
         handler: sessionController.flagResultsAsSentToPrescriber,
         tags: ['api', 'sessions'],
         notes: [
-          '- **Cette route est restreinte aux utilisateurs authentifiés avec le rôle Super Admin**\n' +
+          "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n" +
             '- Elle permet de marquer le fait que les résultats de la session ont été envoyés au prescripteur,\n',
           '- par le biais de la sauvegarde de la date courante.',
         ],
@@ -588,13 +648,19 @@ exports.register = async (server) => {
         },
         pre: [
           {
-            method: securityPreHandlers.checkUserHasRoleSuperAdmin,
-            assign: 'hasRoleSuperAdmin',
+            method: (request, h) =>
+              securityPreHandlers.userHasAtLeastOneAccessOf([
+                securityPreHandlers.checkUserHasRoleSuperAdmin,
+                securityPreHandlers.checkUserHasRoleCertif,
+                securityPreHandlers.checkUserHasRoleSupport,
+                securityPreHandlers.checkUserHasRoleMetier,
+              ])(request, h),
+            assign: 'hasAuthorizationToAccessAdminScope',
           },
         ],
         handler: sessionController.assignCertificationOfficer,
         notes: [
-          '- **Cette route est restreinte aux utilisateurs authentifiés avec le rôle Super Admin**\n' +
+          "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n" +
             '- Assigne la session à un membre du pôle certification (certification-officer)',
         ],
         tags: ['api', 'session', 'assignment'],
@@ -611,13 +677,19 @@ exports.register = async (server) => {
         },
         pre: [
           {
-            method: securityPreHandlers.checkUserHasRoleSuperAdmin,
-            assign: 'hasRoleSuperAdmin',
+            method: (request, h) =>
+              securityPreHandlers.userHasAtLeastOneAccessOf([
+                securityPreHandlers.checkUserHasRoleSuperAdmin,
+                securityPreHandlers.checkUserHasRoleCertif,
+                securityPreHandlers.checkUserHasRoleSupport,
+                securityPreHandlers.checkUserHasRoleMetier,
+              ])(request, h),
+            assign: 'hasAuthorizationToAccessAdminScope',
           },
         ],
         handler: sessionController.commentAsJury,
         notes: [
-          '- **Cette route est restreinte aux utilisateurs authentifiés avec le rôle Super Admin**\n' +
+          "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n" +
             "- Ajoute/modifie un commentaire d'un membre du pôle certification (certification-officer)",
         ],
         tags: ['api', 'session', 'assignment'],
@@ -634,13 +706,19 @@ exports.register = async (server) => {
         },
         pre: [
           {
-            method: securityPreHandlers.checkUserHasRoleSuperAdmin,
-            assign: 'hasRoleSuperAdmin',
+            method: (request, h) =>
+              securityPreHandlers.userHasAtLeastOneAccessOf([
+                securityPreHandlers.checkUserHasRoleSuperAdmin,
+                securityPreHandlers.checkUserHasRoleCertif,
+                securityPreHandlers.checkUserHasRoleSupport,
+                securityPreHandlers.checkUserHasRoleMetier,
+              ])(request, h),
+            assign: 'hasAuthorizationToAccessAdminScope',
           },
         ],
         handler: sessionController.deleteJuryComment,
         notes: [
-          '- **Cette route est restreinte aux utilisateurs authentifiés avec le rôle Super Admin**\n' +
+          "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n" +
             "- Supprime le commentaire d'un membre du pôle certification (certification-officer)",
         ],
         tags: ['api', 'session', 'assignment'],

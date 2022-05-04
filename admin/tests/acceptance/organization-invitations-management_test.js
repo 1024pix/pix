@@ -1,10 +1,10 @@
 import { module, test } from 'qunit';
 import { clickByText, fillByLabel, visit } from '@1024pix/ember-testing-library';
 import { setupApplicationTest } from 'ember-qunit';
-import { createAuthenticateSession } from 'pix-admin/tests/helpers/test-init';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import moment from 'moment';
 import sinon from 'sinon';
+import { authenticateAdminMemberWithRole } from 'pix-admin/tests/helpers/test-init';
 
 module('Acceptance | organization invitations management', function (hooks) {
   setupApplicationTest(hooks);
@@ -22,9 +22,8 @@ module('Acceptance | organization invitations management', function (hooks) {
 
   test('should display invitations tab', async function (assert) {
     // given
-    const user = server.create('user');
+    await authenticateAdminMemberWithRole({ role: 'SUPER_ADMIN' })(server);
     const organization = this.server.create('organization');
-    await createAuthenticateSession({ userId: user.id });
 
     // when
     const screen = await visit(`/organizations/${organization.id}`);
@@ -36,9 +35,8 @@ module('Acceptance | organization invitations management', function (hooks) {
   module('inviting a member', function () {
     test('should create an organization-invitation', async function (assert) {
       // given
-      const user = server.create('user');
+      await authenticateAdminMemberWithRole({ role: 'SUPER_ADMIN' })(server);
       const organization = this.server.create('organization');
-      await createAuthenticateSession({ userId: user.id });
 
       // when
       const screen = await visit(`/organizations/${organization.id}/invitations`);
@@ -54,9 +52,8 @@ module('Acceptance | organization invitations management', function (hooks) {
 
     test('should display an error if the creation has failed', async function (assert) {
       // given
-      const user = server.create('user');
+      await authenticateAdminMemberWithRole({ role: 'SUPER_ADMIN' })(server);
       const organization = this.server.create('organization');
-      await createAuthenticateSession({ userId: user.id });
 
       this.server.post(
         '/admin/organizations/:id/invitations',

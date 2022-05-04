@@ -17,14 +17,20 @@ exports.register = async (server) => {
       config: {
         pre: [
           {
-            method: securityPreHandlers.checkUserHasRoleSuperAdmin,
-            assign: 'hasRoleSuperAdmin',
+            method: (request, h) =>
+              securityPreHandlers.userHasAtLeastOneAccessOf([
+                securityPreHandlers.checkUserHasRoleSuperAdmin,
+                securityPreHandlers.checkUserHasRoleCertif,
+                securityPreHandlers.checkUserHasRoleSupport,
+                securityPreHandlers.checkUserHasRoleMetier,
+              ])(request, h),
+            assign: 'hasAuthorizationToAccessAdminScope',
           },
         ],
         handler: organizationController.create,
         tags: ['api', 'organizations'],
         notes: [
-          '- **Cette route est restreinte aux utilisateurs authentifiés avec le rôle Super Admin**\n' +
+          "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n" +
             '- Elle permet de créer une nouvelle organisation',
         ],
       },
@@ -35,8 +41,14 @@ exports.register = async (server) => {
       config: {
         pre: [
           {
-            method: securityPreHandlers.checkUserHasRoleSuperAdmin,
-            assign: 'hasRoleSuperAdmin',
+            method: (request, h) =>
+              securityPreHandlers.userHasAtLeastOneAccessOf([
+                securityPreHandlers.checkUserHasRoleSuperAdmin,
+                securityPreHandlers.checkUserHasRoleCertif,
+                securityPreHandlers.checkUserHasRoleSupport,
+                securityPreHandlers.checkUserHasRoleMetier,
+              ])(request, h),
+            assign: 'hasAuthorizationToAccessAdminScope',
           },
         ],
         validate: {
@@ -56,7 +68,7 @@ exports.register = async (server) => {
         handler: organizationController.findPaginatedFilteredOrganizations,
         tags: ['api', 'organizations'],
         notes: [
-          '- **Cette route est restreinte aux utilisateurs authentifiés avec le rôle Super Admin**\n' +
+          "- **Cette route est restreinte aux utilisateurs authentifiés ayant un rôle permettant un accès à l'admin de Pix**\n" +
             '- Elle permet de récupérer & chercher une liste d’organisations\n' +
             '- Cette liste est paginée et filtrée selon un **name** et/ou un **type** et/ou un **identifiant externe** donnés',
         ],
@@ -68,8 +80,14 @@ exports.register = async (server) => {
       config: {
         pre: [
           {
-            method: securityPreHandlers.checkUserHasRoleSuperAdmin,
-            assign: 'hasRoleSuperAdmin',
+            method: (request, h) =>
+              securityPreHandlers.userHasAtLeastOneAccessOf([
+                securityPreHandlers.checkUserHasRoleSuperAdmin,
+                securityPreHandlers.checkUserHasRoleCertif,
+                securityPreHandlers.checkUserHasRoleSupport,
+                securityPreHandlers.checkUserHasRoleMetier,
+              ])(request, h),
+            assign: 'hasAuthorizationToAccessAdminScope',
           },
         ],
         validate: {
@@ -80,7 +98,7 @@ exports.register = async (server) => {
         handler: organizationController.getOrganizationDetails,
         tags: ['api', 'organizations'],
         notes: [
-          '- **Cette route est restreinte aux utilisateurs authentifiés avec le rôle Super Admin**\n' +
+          "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n" +
             '- Elle permet de récupérer toutes les informations d’une organisation',
         ],
       },
@@ -91,8 +109,14 @@ exports.register = async (server) => {
       config: {
         pre: [
           {
-            method: securityPreHandlers.checkUserHasRoleSuperAdmin,
-            assign: 'hasRoleSuperAdmin',
+            method: (request, h) =>
+              securityPreHandlers.userHasAtLeastOneAccessOf([
+                securityPreHandlers.checkUserHasRoleSuperAdmin,
+                securityPreHandlers.checkUserHasRoleCertif,
+                securityPreHandlers.checkUserHasRoleSupport,
+                securityPreHandlers.checkUserHasRoleMetier,
+              ])(request, h),
+            assign: 'hasAuthorizationToAccessAdminScope',
           },
         ],
         validate: {
@@ -103,7 +127,7 @@ exports.register = async (server) => {
         handler: organizationController.archiveOrganization,
         tags: ['api', 'organizations'],
         notes: [
-          '- **Cette route est restreinte aux utilisateurs authentifiés avec le rôle Super Admin**\n' +
+          "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n" +
             "- Elle permet d'archiver une organisation",
         ],
       },
@@ -114,8 +138,14 @@ exports.register = async (server) => {
       config: {
         pre: [
           {
-            method: securityPreHandlers.checkUserHasRoleSuperAdmin,
-            assign: 'hasRoleSuperAdmin',
+            method: (request, h) =>
+              securityPreHandlers.userHasAtLeastOneAccessOf([
+                securityPreHandlers.checkUserHasRoleSuperAdmin,
+                securityPreHandlers.checkUserHasRoleCertif,
+                securityPreHandlers.checkUserHasRoleSupport,
+                securityPreHandlers.checkUserHasRoleMetier,
+              ])(request, h),
+            assign: 'hasAuthorizationToAccessAdminScope',
           },
         ],
         validate: {
@@ -126,7 +156,7 @@ exports.register = async (server) => {
         handler: organizationController.updateOrganizationInformation,
         tags: ['api', 'organizations'],
         notes: [
-          '- **Cette route est restreinte aux utilisateurs authentifiés avec le rôle Super Admin**\n' +
+          "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n" +
             '- Elle permet de mettre à jour tout ou partie d’une organisation',
         ],
       },
@@ -155,8 +185,14 @@ exports.register = async (server) => {
       config: {
         pre: [
           {
-            method: securityPreHandlers.checkUserHasRoleSuperAdmin,
-            assign: 'hasRoleSuperAdmin',
+            method: (request, h) =>
+              securityPreHandlers.userHasAtLeastOneAccessOf([
+                securityPreHandlers.checkUserHasRoleSuperAdmin,
+                securityPreHandlers.checkUserHasRoleCertif,
+                securityPreHandlers.checkUserHasRoleSupport,
+                securityPreHandlers.checkUserHasRoleMetier,
+              ])(request, h),
+            assign: 'hasAuthorizationToAccessAdminScope',
           },
         ],
         validate: {
@@ -178,7 +214,14 @@ exports.register = async (server) => {
       config: {
         pre: [
           {
-            method: securityPreHandlers.checkUserBelongsToOrganizationOrhasRoleSuperAdmin,
+            method: (request, h) =>
+              securityPreHandlers.userHasAtLeastOneAccessOf([
+                securityPreHandlers.checkUserBelongsToOrganization,
+                securityPreHandlers.checkUserHasRoleSuperAdmin,
+                securityPreHandlers.checkUserHasRoleCertif,
+                securityPreHandlers.checkUserHasRoleSupport,
+                securityPreHandlers.checkUserHasRoleMetier,
+              ])(request, h),
             assign: 'belongsToOrganization',
           },
         ],
@@ -330,8 +373,14 @@ exports.register = async (server) => {
       config: {
         pre: [
           {
-            method: securityPreHandlers.checkUserHasRoleSuperAdmin,
-            assign: 'hasRoleSuperAdmin',
+            method: (request, h) =>
+              securityPreHandlers.userHasAtLeastOneAccessOf([
+                securityPreHandlers.checkUserHasRoleSuperAdmin,
+                securityPreHandlers.checkUserHasRoleCertif,
+                securityPreHandlers.checkUserHasRoleSupport,
+                securityPreHandlers.checkUserHasRoleMetier,
+              ])(request, h),
+            assign: 'hasAuthorizationToAccessAdminScope',
           },
         ],
         handler: organizationController.attachTargetProfiles,
@@ -534,8 +583,14 @@ exports.register = async (server) => {
       config: {
         pre: [
           {
-            method: securityPreHandlers.checkUserHasRoleSuperAdmin,
-            assign: 'hasRoleSuperAdmin',
+            method: (request, h) =>
+              securityPreHandlers.userHasAtLeastOneAccessOf([
+                securityPreHandlers.checkUserHasRoleSuperAdmin,
+                securityPreHandlers.checkUserHasRoleCertif,
+                securityPreHandlers.checkUserHasRoleSupport,
+                securityPreHandlers.checkUserHasRoleMetier,
+              ])(request, h),
+            assign: 'hasAuthorizationToAccessAdminScope',
           },
         ],
         handler: organizationController.sendInvitationByLangAndRole,
@@ -557,7 +612,7 @@ exports.register = async (server) => {
           }),
         },
         notes: [
-          '- **Cette route est restreinte aux utilisateurs authentifiés en tant que Super Admin**\n' +
+          "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n" +
             "- Elle permet d'inviter des personnes, déjà utilisateurs de Pix ou non, à être membre d'une organisation, via leur **email**",
         ],
         tags: ['api', 'invitations'],
@@ -616,8 +671,14 @@ exports.register = async (server) => {
       config: {
         pre: [
           {
-            method: securityPreHandlers.checkUserHasRoleSuperAdmin,
-            assign: 'hasRoleSuperAdmin',
+            method: (request, h) =>
+              securityPreHandlers.userHasAtLeastOneAccessOf([
+                securityPreHandlers.checkUserHasRoleSuperAdmin,
+                securityPreHandlers.checkUserHasRoleCertif,
+                securityPreHandlers.checkUserHasRoleSupport,
+                securityPreHandlers.checkUserHasRoleMetier,
+              ])(request, h),
+            assign: 'hasAuthorizationToAccessAdminScope',
           },
         ],
         validate: {
@@ -628,7 +689,7 @@ exports.register = async (server) => {
         handler: organizationController.findPendingInvitations,
         tags: ['api', 'invitations', 'admin'],
         notes: [
-          '- **Cette route est restreinte aux utilisateurs authentifiés en tant que Super Admin**\n' +
+          "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n" +
             "- Elle permet de lister les invitations en attente d'acceptation d'une organisation",
         ],
       },

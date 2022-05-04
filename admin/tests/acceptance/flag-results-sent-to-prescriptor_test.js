@@ -5,15 +5,14 @@ import { setupApplicationTest } from 'ember-qunit';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { FINALIZED } from 'pix-admin/models/session';
 
-import { createAuthenticateSession } from 'pix-admin/tests/helpers/test-init';
+import { authenticateAdminMemberWithRole } from 'pix-admin/tests/helpers/test-init';
 
 module('Acceptance | Session page', function (hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
 
   hooks.beforeEach(async function () {
-    const user = server.create('user');
-    await createAuthenticateSession({ userId: user.id });
+    await authenticateAdminMemberWithRole({ role: 'SUPER_ADMIN' })(server);
   });
 
   module('Access', function () {
@@ -22,9 +21,7 @@ module('Acceptance | Session page', function (hooks) {
       await visitSessionsPage();
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(currentURL(), '/sessions/list');
+      assert.strictEqual(currentURL(), '/sessions/list');
     });
   });
 

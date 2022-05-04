@@ -24,6 +24,8 @@ const OrganizationLearnerForAdmin = require('../../../../lib/domain/read-models/
 const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
 const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
 
+const { ROLES } = require('../../../../lib/domain/constants').PIX_ADMIN;
+
 const expectedUserDetailsForAdminAttributes = [
   'id',
   'firstName',
@@ -1197,7 +1199,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
     context('when user is Super Admin', function () {
       it('should return true', async function () {
         // given
-        const userId = databaseBuilder.factory.buildUser.withRoleSuperAdmin().id;
+        const userId = databaseBuilder.factory.buildUser.withRole().id;
         await databaseBuilder.commit();
 
         // when
@@ -1219,6 +1221,96 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
 
         // then
         expect(isSuperAdmin).to.be.false;
+      });
+    });
+  });
+
+  describe('#isCertif', function () {
+    context('when user has role certif', function () {
+      it('should return true', async function () {
+        // given
+        const userId = databaseBuilder.factory.buildUser.withRole({ role: ROLES.CERTIF }).id;
+        await databaseBuilder.commit();
+
+        // when
+        const isCertif = await userRepository.isCertif(userId);
+
+        // then
+        expect(isCertif).to.be.true;
+      });
+    });
+
+    context('when user does not have role certif', function () {
+      it('should return false', async function () {
+        // given
+        const userId = databaseBuilder.factory.buildUser.withRole().id;
+        await databaseBuilder.commit();
+
+        // when
+        const isCertif = await userRepository.isCertif(userId);
+
+        // then
+        expect(isCertif).to.be.false;
+      });
+    });
+  });
+
+  describe('#isSupport', function () {
+    context('when user has role support', function () {
+      it('should return true', async function () {
+        // given
+        const userId = databaseBuilder.factory.buildUser.withRole({ role: ROLES.SUPPORT }).id;
+        await databaseBuilder.commit();
+
+        // when
+        const isSupport = await userRepository.isSupport(userId);
+
+        // then
+        expect(isSupport).to.be.true;
+      });
+    });
+
+    context('when user does not have role support', function () {
+      it('should return false', async function () {
+        // given
+        const userId = databaseBuilder.factory.buildUser.withRole().id;
+        await databaseBuilder.commit();
+
+        // when
+        const isSupport = await userRepository.isSupport(userId);
+
+        // then
+        expect(isSupport).to.be.false;
+      });
+    });
+  });
+
+  describe('#isMetier', function () {
+    context('when user has role metier', function () {
+      it('should return true', async function () {
+        // given
+        const userId = databaseBuilder.factory.buildUser.withRole({ role: ROLES.METIER }).id;
+        await databaseBuilder.commit();
+
+        // when
+        const isMetier = await userRepository.isMetier(userId);
+
+        // then
+        expect(isMetier).to.be.true;
+      });
+    });
+
+    context('when user does not have role metier', function () {
+      it('should return false', async function () {
+        // given
+        const userId = databaseBuilder.factory.buildUser.withRole().id;
+        await databaseBuilder.commit();
+
+        // when
+        const isMetier = await userRepository.isMetier(userId);
+
+        // then
+        expect(isMetier).to.be.false;
       });
     });
   });

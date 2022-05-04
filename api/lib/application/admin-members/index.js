@@ -12,15 +12,33 @@ exports.register = async function (server) {
         handler: adminMemberController.findAll,
         pre: [
           {
-            method: securityPreHandlers.checkUserHasRoleSuperAdmin,
-            assign: 'hasRoleSuperAdmin',
+            method: (request, h) =>
+              securityPreHandlers.userHasAtLeastOneAccessOf([
+                securityPreHandlers.checkUserHasRoleSuperAdmin,
+                securityPreHandlers.checkUserHasRoleCertif,
+                securityPreHandlers.checkUserHasRoleSupport,
+                securityPreHandlers.checkUserHasRoleMetier,
+              ])(request, h),
+            assign: 'hasAuthorizationToAccessAdminScope',
           },
         ],
         notes: [
-          '- **Cette route est restreinte aux utilisateurs Super Admin authentifiés**\n' +
+          "- **Cette route est restreinte aux utilisateurs ayant les droits d'accès**\n" +
             '- Lister les utilisateurs ayant accès à Pix Admin \n',
         ],
         tags: ['api', 'admin-members'],
+      },
+    },
+    {
+      method: 'GET',
+      path: '/api/admin/admin-members/me',
+      config: {
+        handler: adminMemberController.getCurrentAdminMember,
+        notes: [
+          "- **Cette route n'est pas restreinte**\n" +
+            '- Récupération du membre admin pix courant ayant accès à Pix Admin\n',
+        ],
+        tags: ['api', 'admin-members', 'current-member'],
       },
     },
     {
@@ -29,8 +47,14 @@ exports.register = async function (server) {
       config: {
         pre: [
           {
-            method: securityPreHandlers.checkUserHasRoleSuperAdmin,
-            assign: 'hasRoleSuperAdmin',
+            method: (request, h) =>
+              securityPreHandlers.userHasAtLeastOneAccessOf([
+                securityPreHandlers.checkUserHasRoleSuperAdmin,
+                securityPreHandlers.checkUserHasRoleCertif,
+                securityPreHandlers.checkUserHasRoleSupport,
+                securityPreHandlers.checkUserHasRoleMetier,
+              ])(request, h),
+            assign: 'hasAuthorizationToAccessAdminScope',
           },
         ],
         validate: {
@@ -50,7 +74,7 @@ exports.register = async function (server) {
         },
         handler: adminMemberController.updateAdminMember,
         notes: [
-          '- Cette route est restreinte aux utilisateurs Super Admin authentifiés\n' +
+          "- Cette route est restreinte aux utilisateurs ayant les droits d'accès\n" +
             "- Elle permet de changer le rôle d'un membre Pix Admin",
         ],
         tags: ['api', 'admin-members'],

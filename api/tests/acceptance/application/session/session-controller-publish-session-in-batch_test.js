@@ -12,7 +12,7 @@ describe('POST /api/admin/sessions/publish-in-batch', function () {
   beforeEach(async function () {
     server = await createServer();
     // given
-    userId = databaseBuilder.factory.buildUser.withRoleSuperAdmin().id;
+    userId = databaseBuilder.factory.buildUser.withRole().id;
     options.headers = { authorization: generateValidRequestAuthorizationHeader(userId) };
     return databaseBuilder.commit();
   });

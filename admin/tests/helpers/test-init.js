@@ -8,3 +8,12 @@ export async function createAuthenticateSession({ userId }) {
     token_type: 'Bearer token type',
   });
 }
+
+export function authenticateAdminMemberWithRole({ role }) {
+  return async (server) => {
+    const user = server.create('user');
+    server.create('admin-member', { role, userId: user.id });
+    await createAuthenticateSession({ userId: user.id });
+    return user;
+  };
+}

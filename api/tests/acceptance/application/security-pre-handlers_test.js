@@ -292,7 +292,7 @@ describe('Acceptance | Application | SecurityPreHandlers', function () {
     });
   });
 
-  describe('#checkUserBelongsToOrganizationOrhasRoleSuperAdmin', function () {
+  describe('#userHasAtLeastOneAccessOf', function () {
     let userId;
     let organizationId;
     let options;

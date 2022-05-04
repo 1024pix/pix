@@ -10,7 +10,7 @@ describe('Unit | Router | membership-router', function () {
   describe('PATCH /api/admin/memberships/{id}', function () {
     it('should return 200 if user is Pix Admin', async function () {
       // given
-      sinon.stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin').callsFake((request, h) => h.response(true));
+      sinon.stub(securityPreHandlers, 'userHasAtLeastOneAccessOf').returns(() => true);
       sinon.stub(membershipController, 'update').callsFake((request, h) => h.response().code(200));
 
       const httpTestServer = new HttpTestServer();
@@ -28,8 +28,8 @@ describe('Unit | Router | membership-router', function () {
     it('should return 403 if user is not Pix Admin', async function () {
       // given
       sinon
-        .stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin')
-        .callsFake((request, h) => h.response().code(403).takeover());
+        .stub(securityPreHandlers, 'userHasAtLeastOneAccessOf')
+        .returns((request, h) => h.response().code(403).takeover());
       sinon.stub(membershipController, 'update');
 
       const httpTestServer = new HttpTestServer();
@@ -86,7 +86,7 @@ describe('Unit | Router | membership-router', function () {
   describe('POST /api/admin/memberships/{id}/disable', function () {
     it('should return 204 if user is Pix Admin', async function () {
       // given
-      sinon.stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin').callsFake((request, h) => h.response(true));
+      sinon.stub(securityPreHandlers, 'userHasAtLeastOneAccessOf').returns(() => true);
       sinon.stub(membershipController, 'disable').callsFake((request, h) => h.response().code(204));
 
       const httpTestServer = new HttpTestServer();
@@ -101,11 +101,11 @@ describe('Unit | Router | membership-router', function () {
       expect(membershipController.disable).to.have.been.called;
     });
 
-    it('should return 403 if user is not Pix Admin', async function () {
+    it('should return 403 if user has no authorization to access Pix Admin', async function () {
       // given
       sinon
-        .stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin')
-        .callsFake((request, h) => h.response().code(403).takeover());
+        .stub(securityPreHandlers, 'userHasAtLeastOneAccessOf')
+        .returns((request, h) => h.response().code(403).takeover());
       sinon.stub(membershipController, 'disable');
 
       const httpTestServer = new HttpTestServer();
