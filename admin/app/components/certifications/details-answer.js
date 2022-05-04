@@ -1,7 +1,6 @@
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
-import find from 'lodash/find';
 
 const options = [
   { value: 'ok', label: 'Succès' },
@@ -24,10 +23,6 @@ export default class CertificationDetailsAnswer extends Component {
     this.selectedOption = this._answerResultValue();
   }
 
-  getOption(resultValue) {
-    return find(options, { value: resultValue });
-  }
-
   get resultClass() {
     return this.hasJuryResult ? 'jury' : null;
   }
@@ -44,8 +39,8 @@ export default class CertificationDetailsAnswer extends Component {
   selectOption(event) {
     const answer = this.args.answer;
     const answerResult = this._answerResultValue();
-    const newResult = this.getOption(event.target.value);
-    answer.jury = answerResult.value !== newResult.value ? newResult.value : null;
+    const newResult = event.target.value;
+    answer.jury = answerResult !== newResult ? newResult : null;
     this.selectedOption = newResult ?? answerResult;
     this.hasJuryResult = !!newResult;
     this.args.onUpdateRate();
@@ -53,11 +48,11 @@ export default class CertificationDetailsAnswer extends Component {
 
   _answerResultValue() {
     if (this.args.answer.isNeutralized) {
-      return this.getOption('skip');
+      return 'skip';
     }
     if (this.args.answer.hasBeenSkippedAutomatically) {
-      return this.getOption('skippedAutomatically');
+      return 'skippedAutomatically';
     }
-    return this.getOption(this.args.answer.result);
+    return this.args.answer.result;
   }
 }
