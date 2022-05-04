@@ -6,13 +6,12 @@
     </p>
 
     <div class="user-tutorials-banner-v2__filters">
-      <PixButtonLink @route="user-tutorials.recommended" @shape="rounded" @backgroundColor={{this.isRecommended}}>
+      <ChoiceChip @route="user-tutorials.recommended">
         {{t "pages.user-tutorials-v2.recommended"}}
-      </PixButtonLink>
-
-      <PixButtonLink @route="user-tutorials.saved" @shape="rounded" @backgroundColor={{this.isSaved}}>
+      </ChoiceChip>
+      <ChoiceChip @route="user-tutorials.saved">
         {{t "pages.user-tutorials-v2.saved"}}
-      </PixButtonLink>
+      </ChoiceChip>
     </div>
   </div>
 </header>
