@@ -8,35 +8,25 @@ const { knex } = require('../bookshelf');
 
 module.exports = {
   async getWithAnswers(id) {
-    const bookshelfAssessment = await BookshelfAssessment.where('id', id).fetch({
-      require: false,
-      withRelated: [
-        {
-          answers: function (query) {
-            query.orderBy('createdAt', 'ASC');
-          },
-        },
-      ],
-    });
+    const [assessment] = await knex('assessments').where('assessments.id', id);
+    if (!assessment) return null;
 
-    const assessment = bookshelfToDomainConverter.buildDomainObject(BookshelfAssessment, bookshelfAssessment);
-    if (assessment) assessment.answers = uniqBy(assessment.answers, 'challengeId');
-    return assessment;
+    const answers = await knex('answers')
+      .select('id', 'challengeId', 'value')
+      .where('assessmentId', id)
+      .orderBy('createdAt');
+    assessment.answers = uniqBy(answers, 'challengeId');
+    return new Assessment(assessment);
   },
 
   async get(id, domainTransaction = DomainTransaction.emptyTransaction()) {
-    try {
-      const bookshelfAssessment = await BookshelfAssessment.where({ id }).fetch({
-        transacting: domainTransaction.knexTransaction,
-      });
+    const knexConn = domainTransaction.knexTransaction || knex;
+    const assessment = await knexConn('assessments').where({ id }).first();
 
-      return bookshelfToDomainConverter.buildDomainObject(BookshelfAssessment, bookshelfAssessment);
-    } catch (err) {
-      if (err instanceof BookshelfAssessment.NotFoundError) {
-        throw new NotFoundError("L'assessment n'existe pas ou son accès est restreint");
-      }
-      throw err;
+    if (!assessment) {
+      throw new NotFoundError("L'assessment n'existe pas ou son accès est restreint");
     }
+    return new Assessment(assessment);
   },
 
   findLastCompletedAssessmentsForEachCompetenceByUser(userId, limitDate) {
@@ -71,12 +61,11 @@ module.exports = {
       });
   },
 
-  save({ assessment, domainTransaction = DomainTransaction.emptyTransaction() }) {
-    return assessment
-      .validate()
-      .then(() => new BookshelfAssessment(_adaptModelToDb(assessment)))
-      .then((bookshelfAssessment) => bookshelfAssessment.save(null, { transacting: domainTransaction.knexTransaction }))
-      .then((assessment) => bookshelfToDomainConverter.buildDomainObject(BookshelfAssessment, assessment));
+  async save({ assessment, domainTransaction = DomainTransaction.emptyTransaction() }) {
+    const knexConn = domainTransaction.knexTransaction || knex;
+    assessment.validate();
+    const [assessmentCreated] = await knexConn('assessments').insert(_adaptModelToDb(assessment)).returning('*');
+    return new Assessment(assessmentCreated);
   },
 
   findNotAbortedCampaignAssessmentsByUserId(userId) {

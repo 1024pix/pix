@@ -1,5 +1,6 @@
 const hashInt = require('hash-int');
 const { ObjectValidationError } = require('../errors');
+const Answer = require('./Answer');
 
 const courseIdMessage = {
   COMPETENCE_EVALUATION: '[NOT USED] CompetenceId is in Competence Evaluation.',
@@ -69,7 +70,7 @@ class Assessment {
     this.isImproving = isImproving;
     this.lastChallengeId = lastChallengeId;
     this.lastQuestionState = lastQuestionState;
-    this.answers = answers;
+    this.answers = answers.map((answer) => new Answer(answer));
     this.campaignParticipation = campaignParticipation;
     this.course = course;
     this.targetProfile = targetProfile;
@@ -104,9 +105,8 @@ class Assessment {
 
   validate() {
     if (TYPES_OF_ASSESSMENT_NEEDING_USER.includes(this.type) && !this.userId) {
-      return Promise.reject(new ObjectValidationError(`Assessment ${this.type} needs an User Id`));
+      return new ObjectValidationError(`Assessment ${this.type} needs an User Id`);
     }
-    return Promise.resolve();
   }
 
   isPreview() {
