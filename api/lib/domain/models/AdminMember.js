@@ -33,4 +33,20 @@ module.exports = class AdminMember {
   get hasAccessToAdminScope() {
     return this.role in ROLES;
   }
+
+  get isSuperAdmin() {
+    return this.role === ROLES.SUPER_ADMIN;
+  }
+
+  get isCertif() {
+    return this.role === ROLES.CERTIF;
+  }
+
+  get isMetier() {
+    return this.role === ROLES.METIER;
+  }
+
+  get isSupport() {
+    return this.role === ROLES.SUPPORT;
+  }
 };
