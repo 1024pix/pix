@@ -18,7 +18,7 @@
       <Input
         id="firstName"
         @type="text"
-        class="form-control user-edit-form__first-name {{if (v-get this.form "firstName" "isInvalid") "is-invalid"}}"
+        class="form-control {{if (v-get this.form "firstName" "isInvalid") "is-invalid"}}"
         @value={{this.form.firstName}}
       />
     </div>
@@ -35,7 +35,7 @@
       <Input
         id="lastName"
         @type="text"
-        class="form-control user-edit-form__last-name {{if (v-get this.form "lastName" "isInvalid") "is-invalid"}}"
+        class="form-control {{if (v-get this.form "lastName" "isInvalid") "is-invalid"}}"
         @value={{this.form.lastName}}
       />
     </div>
@@ -53,7 +53,7 @@
         <Input
           id="email"
           @type="email"
-          class="form-control user-edit-form__email {{if (v-get this.form "email" "isInvalid") "is-invalid"}}"
+          class="form-control {{if (v-get this.form "email" "isInvalid") "is-invalid"}}"
           @value={{this.form.email}}
         />
       </div>
@@ -72,7 +72,7 @@
         <Input
           id="username"
           @type="text"
-          class="form-control user-edit-form__username {{if (v-get this.form "username" "isInvalid") "is-invalid"}}"
+          class="form-control {{if (v-get this.form "username" "isInvalid") "is-invalid"}}"
           @value={{this.form.username}}
         />
       </div>

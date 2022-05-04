@@ -38,7 +38,7 @@ module('Acceptance | Target Profiles | Target Profile | Organizations', function
     await fillByLabel('Rattacher une ou plusieurs organisation(s)', '42');
     await clickByName('Valider le rattachement');
 
-    assert.dom(screen.getByLabelText('Organisation')).includesText('42');
+    assert.dom(screen.getByLabelText('Organisation Organization 42')).includesText('42');
   });
 
   test('should be able to attach an organization with given target profile', async function (assert) {
@@ -47,6 +47,6 @@ module('Acceptance | Target Profiles | Target Profile | Organizations', function
     await fillByLabel("Rattacher les organisations d'un profil cible existant", '43');
     await clickByName('Valider le rattachement à partir de ce profil cible');
 
-    assert.dom(screen.getByLabelText('Organisation')).includesText('Organization for target profile 43');
+    assert.dom(screen.getByLabelText('Organisation Organization for target profile 43')).exists();
   });
 });

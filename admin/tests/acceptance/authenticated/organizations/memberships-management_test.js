@@ -32,34 +32,34 @@ module('Acceptance | Organizations | Memberships management', function (hooks) {
 
     test('it should display the current filter when memberships are filtered by firstName', async function (assert) {
       // when
-      await visit(`/organizations/${organization.id}/team?firstName=sav`);
+      const screen = await visit(`/organizations/${organization.id}/team?firstName=sav`);
 
       // then
-      assert.dom('#firstName').hasValue('sav');
+      assert.dom(screen.getByRole('textbox', { name: 'Rechercher par prénom' })).hasValue('sav');
     });
 
     test('it should display the current filter when organizations are filtered by lastName', async function (assert) {
       // when
-      await visit(`/organizations/${organization.id}/team?lastName=tro`);
+      const screen = await visit(`/organizations/${organization.id}/team?lastName=tro`);
 
       // then
-      assert.dom('#lastName').hasValue('tro');
+      assert.dom(screen.getByRole('textbox', { name: 'Rechercher par nom' })).hasValue('tro');
     });
 
     test('it should display the current filter when organizations are filtered by email', async function (assert) {
       // when
-      await visit(`/organizations/${organization.id}/team?email=fri`);
+      const screen = await visit(`/organizations/${organization.id}/team?email=fri`);
 
       // then
-      assert.dom('#email').hasValue('fri');
+      assert.dom(screen.getByRole('textbox', { name: 'Rechercher par adresse e-mail' })).hasValue('fri');
     });
 
     test('it should display the current filter when organizations are filtered by role', async function (assert) {
       // when
-      await visit(`/organizations/${organization.id}/team?organizationRole=ADMIN`);
+      const screen = await visit(`/organizations/${organization.id}/team?organizationRole=ADMIN`);
 
       // then
-      assert.dom('#organizationRole').hasValue('ADMIN');
+      assert.dom(screen.getByRole('combobox', { name: 'Rechercher par rôle' })).hasValue('ADMIN');
     });
 
     test('it should redirect to user details on user id click', async function (assert) {
@@ -95,7 +95,7 @@ module('Acceptance | Organizations | Memberships management', function (hooks) {
       assert.dom(screen.getByText('John')).exists();
       assert.dom(screen.getByText('Doe')).exists();
       assert.dom(screen.getByText('user@example.com')).exists();
-      assert.dom('#userEmailToAdd').hasNoValue();
+      assert.dom(screen.getByRole('textbox', { name: "Adresse e-mail de l'utilisateur à ajouter" })).hasNoValue();
     });
 
     test('should not do anything when the membership was already existing for given user email and organization', async function (assert) {
@@ -117,8 +117,9 @@ module('Acceptance | Organizations | Memberships management', function (hooks) {
 
       // then
       assert.strictEqual(screen.getAllByLabelText('Membre').length, 1);
-      assert.dom(screen.getByText('Denise')).exists();
-      assert.dom('#userEmailToAdd').hasValue('denise@example.com');
+      assert
+        .dom(screen.getByRole('textbox', { name: "Adresse e-mail de l'utilisateur à ajouter" }))
+        .hasValue('denise@example.com');
     });
 
     test('should not do anything when no user was found for the input email', async function (assert) {
@@ -137,7 +138,9 @@ module('Acceptance | Organizations | Memberships management', function (hooks) {
       // then
       assert.strictEqual(screen.getAllByLabelText('Membre').length, 1);
       assert.dom(screen.getByText('Erica')).exists();
-      assert.dom('#userEmailToAdd').hasValue('unexisting@example.com');
+      assert
+        .dom(screen.getByRole('textbox', { name: "Adresse e-mail de l'utilisateur à ajouter" }))
+        .hasValue('unexisting@example.com');
     });
   });
 

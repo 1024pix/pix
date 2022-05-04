@@ -14,7 +14,7 @@
       </thead>
       <tbody>
         {{#each @badges as |badge|}}
-          <tr>
+          <tr aria-label="Informations du badge {{badge.title}}">
             <td class="table__column table__column--id">{{badge.id}}</td>
             <td class="badges-table__image"><img src={{badge.imageUrl}} alt={{badge.altMessage}} /></td>
             <td>{{badge.key}}</td>
@@ -23,7 +23,7 @@
             <td>
               <Common::TickOrCross @isTrue={{badge.isAlwaysVisible}} />
             </td>
-            <td aria-label="Informations du badge {{badge.title}}" class="badges-table__actions">
+            <td class="badges-table__actions">
               <PixButtonLink
                 @backgroundColor="transparent-light"
                 @isBorderVisible={{true}}
@@ -31,6 +31,7 @@
                 @size="small"
                 @model={{badge.id}}
                 class="badges-table-actions__button"
+                aria-label="Détails du badge {{badge.title}}"
               >Voir détail</PixButtonLink>
               <PixButton
                 @size="small"

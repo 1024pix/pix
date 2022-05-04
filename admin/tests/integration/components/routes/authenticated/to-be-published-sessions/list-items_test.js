@@ -1,6 +1,5 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { click } from '@ember/test-helpers';
 import { render, clickByName } from '@1024pix/ember-testing-library';
 import hbs from 'htmlbars-inline-precompile';
 import sinon from 'sinon';
@@ -96,7 +95,7 @@ module('Integration | Component | routes/authenticated/to-be-published-sessions 
     await clickByName('Publier la session numéro 1');
 
     // when
-    await click('.btn-primary');
+    await clickByName('Confirmer');
 
     // then
     sinon.assert.calledWith(this.publishSession, session);

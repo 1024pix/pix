@@ -1,11 +1,10 @@
 import { module, test } from 'qunit';
 import { setupApplicationTest } from 'ember-qunit';
-import { currentURL, find } from '@ember/test-helpers';
+import { currentURL } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { visit } from '@1024pix/ember-testing-library';
 import { statusToDisplayName } from 'pix-admin/models/session';
 import { createAuthenticateSession } from 'pix-admin/tests/helpers/test-init';
-
 import moment from 'moment';
 
 module('Integration | Component | routes/authenticated/sessions/session | informations', function (hooks) {
@@ -25,24 +24,23 @@ module('Integration | Component | routes/authenticated/sessions/session | inform
       session = this.server.create('session');
 
       // when
-      await visit(`/sessions/${session.id}`);
+      const screen = await visit(`/sessions/${session.id}`);
 
       // then
       assert.strictEqual(currentURL(), `/sessions/${session.id}`);
-      assert.dom('.session-info__details div:nth-child(1) div:last-child').hasText(session.certificationCenterName);
+
+      assert.dom(screen.getByRole('link', { name: session.certificationCenterName })).exists();
       assert
-        .dom('.session-info__details div:nth-child(1) div:last-child a')
+        .dom(screen.getByRole('link', { name: session.certificationCenterName }))
         .hasAttribute('href', '/certification-centers/' + session.certificationCenterId);
-      assert.dom('.session-info__details div:nth-child(2) div:last-child').hasText(session.address);
-      assert.dom('.session-info__details div:nth-child(3) div:last-child').hasText(session.room);
-      assert.dom('.session-info__details div:nth-child(4) div:last-child').hasText(session.examiner);
-      assert
-        .dom('.session-info__details div:nth-child(5) div:last-child')
-        .hasText(moment(session.date, 'YYYY-MM-DD').format('DD/MM/YYYY'));
-      assert.dom('.session-info__details div:nth-child(6) div:last-child').hasText(session.time);
-      assert.dom('.session-info__details div:nth-child(7) div:last-child').hasText(session.description);
-      assert.dom('.session-info__details div:nth-child(8) div:last-child').hasText(session.accessCode);
-      assert.dom('.session-info__details div:nth-child(9) div:last-child').hasText(statusToDisplayName[session.status]);
+      assert.dom(screen.getByText(session.address)).exists();
+      assert.dom(screen.getByText(session.room)).exists();
+      assert.dom(screen.getByText(session.examiner)).exists();
+      assert.dom(screen.getByText(moment(session.date, 'YYYY-MM-DD').format('DD/MM/YYYY'))).exists();
+      assert.dom(screen.getByText(session.time)).exists();
+      assert.dom(screen.getByText(session.description)).exists();
+      assert.dom(screen.getByText(session.accessCode)).exists();
+      assert.dom(screen.getByText(statusToDisplayName[session.status])).exists();
     });
   });
 
@@ -52,11 +50,11 @@ module('Integration | Component | routes/authenticated/sessions/session | inform
       session = this.server.create('session', 'created');
 
       // when
-      await visit(`/sessions/${session.id}`);
+      const screen = await visit(`/sessions/${session.id}`);
 
       // then
-      assert.strictEqual(find('[data-test-id="session-info__examiner-comment"]'), null);
-      assert.strictEqual(find('[data-test-id="session-info__number-of-not-checked-end-screen"]'), null);
+      assert.dom(screen.queryByText('Commentaire global :')).doesNotExist();
+      assert.dom(screen.queryByText("Nombre d'écrans de fin de test non renseignés :")).doesNotExist();
     });
 
     test('it does not render the "M\'assigner la session" button', async function (assert) {
@@ -64,10 +62,10 @@ module('Integration | Component | routes/authenticated/sessions/session | inform
       session = this.server.create('session', 'created');
 
       // when
-      await visit(`/sessions/${session.id}`);
+      const screen = await visit(`/sessions/${session.id}`);
 
       // then
-      assert.dom('.session-info__actions .row button:nth-child(1)').doesNotIncludeText("M'assigner la session");
+      assert.dom(screen.queryByRole('button', { name: "M'assigner la session" })).doesNotExist();
     });
   });
 
@@ -75,9 +73,9 @@ module('Integration | Component | routes/authenticated/sessions/session | inform
     hooks.beforeEach(async function () {
       const sessionData = {
         status: 'finalized',
-        finalizedAt: new Date(),
-        examinerGlobalComment: 'commentaire',
-        resultsSentToPrescriberAt: new Date(),
+        finalizedAt: new Date('2022-01-01'),
+        examinerGlobalComment: 'ceci est un commentaire sur les sessions de certification',
+        resultsSentToPrescriberAt: new Date('2020-01-01'),
       };
       session = this.server.create('session', sessionData);
       const juryCertifSummary1 = this.server.create('jury-certification-summary', {
@@ -94,10 +92,10 @@ module('Integration | Component | routes/authenticated/sessions/session | inform
 
     test('it renders the finalization date', async function (assert) {
       // when
-      await visit(`/sessions/${session.id}`);
+      const screen = await visit(`/sessions/${session.id}`);
 
       // when
-      assert.dom('[data-test-id="session-info__finalized-at"]').exists();
+      assert.dom(screen.getByText('01/01/2022')).exists();
     });
 
     test('it renders all the stats of the session', async function (assert) {
@@ -125,10 +123,11 @@ module('Integration | Component | routes/authenticated/sessions/session | inform
 
     test('it renders the examinerGlobalComment if any', async function (assert) {
       // when
-      await visit(`/sessions/${session.id}`);
+      const screen = await visit(`/sessions/${session.id}`);
 
       // then
-      assert.dom('[data-test-id="session-info__examiner-global-comment"]').hasText(session.examinerGlobalComment);
+      assert.dom(screen.getByText('Commentaire global :')).exists();
+      assert.dom(screen.getByText(session.examinerGlobalComment)).exists();
     });
 
     test('it does not render the examinerGlobalComment row if no comment', async function (assert) {
@@ -136,10 +135,10 @@ module('Integration | Component | routes/authenticated/sessions/session | inform
       session.update({ examinerGlobalComment: null });
 
       // when
-      await visit(`/sessions/${session.id}`);
+      const screen = await visit(`/sessions/${session.id}`);
 
       // then
-      assert.strictEqual(find('[data-test-id="session-info__examiner-comment"]'), null);
+      assert.dom(screen.queryByText('Commentaire global :')).doesNotExist();
     });
 
     module('when results have not yet been sent to prescriber', function () {
@@ -148,13 +147,10 @@ module('Integration | Component | routes/authenticated/sessions/session | inform
         session.update({ resultsSentToPrescriberAt: null });
 
         // when
-        await visit(`/sessions/${session.id}`);
+        const screen = await visit(`/sessions/${session.id}`);
 
         // then
-        const buttonSendResultsToCandidates = this.element.querySelector(
-          '.session-info__actions .row button:nth-child(3)'
-        );
-        assert.strictEqual(buttonSendResultsToCandidates.innerHTML.trim(), 'Résultats transmis au prescripteur');
+        assert.dom(screen.getByRole('button', { name: 'Résultats transmis au prescripteur' })).exists();
       });
     });
 
@@ -164,36 +160,37 @@ module('Integration | Component | routes/authenticated/sessions/session | inform
         session.update({ resultsSentToPrescriberAt: new Date() });
 
         // when
-        await visit(`/sessions/${session.id}`);
+        const screen = await visit(`/sessions/${session.id}`);
 
         // then
-        assert.dom('.session-info__actions .row button:nth-child(4)').doesNotExist();
+        assert.dom(screen.queryByRole('button', { name: 'Résultats transmis au prescripteur' })).doesNotExist();
       });
     });
 
     module('when the session results have been sent to the prescriber', function () {
       test('it renders the resultsSentToPrescriberAt date', async function (assert) {
         // given
-        session.update({ resultsSentToPrescriberAt: new Date() });
+        session.update({ resultsSentToPrescriberAt: new Date('2022-02-22') });
 
         // when
-        await visit(`/sessions/${session.id}`);
+        const screen = await visit(`/sessions/${session.id}`);
 
         // when
-        assert.dom('[data-test-id="session-info__sent-to-prescriber-at"]').exists();
+        assert.dom(screen.getByText('22/02/2022')).exists();
       });
     });
 
     module('when the session is processed', function () {
       test('it renders the publishedAt date', async function (assert) {
         // given
-        session.update({ publishedAt: new Date() });
+        session.update({ publishedAt: new Date('2022-10-24') });
 
         // when
-        await visit(`/sessions/${session.id}`);
+        const screen = await visit(`/sessions/${session.id}`);
 
         // when
-        assert.dom('[data-test-id="session-info__published-at"]').exists();
+        console.log(session.publishedAt, 'publish');
+        assert.dom(screen.getByText('24/10/2022')).exists();
       });
     });
   });

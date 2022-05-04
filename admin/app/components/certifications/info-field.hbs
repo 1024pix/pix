@@ -1,51 +1,39 @@
 {{#if @edition}}
   <div class="row form-group certification-info-field edited">
     <label
-      for={{@id}}
+      for={{@fieldId}}
       class="col-form-label certification-info-field__label--editing
         {{if @isTextarea "certification-info-field__label--large"}}
         {{if @suffix "certification-info-field__label--small"}}"
     >
       {{@label}}
     </label>
-    {{#if @isDate}}
-      <EmberFlatpickr
-        @id={{@fieldId}}
-        @altFormat="d/m/Y"
-        @altInput={{true}}
-        @onChange={{@onUpdateCertificationBirthdate}}
-        @dateFormat="Y-m-d"
-        @locale="fr"
-        @date={{@value}}
-        @name={{@fieldId}}
-        @class="form-control"
-      />
+    {{#if @isTextarea}}
+      <Textarea id={{@fieldId}} @value={{@value}} class="form-control" />
     {{else}}
-      {{#if @isTextarea}}
-        <Textarea id={{@fieldId}} @value={{@value}} class="form-control" />
-      {{else}}
-        <Input id={{@fieldId}} @type="text" @value={{@value}} class="form-control" />
-      {{/if}}
-      {{#if @suffix}}
-        <span class="certification-info-field__suffix">{{@suffix}}</span>
-      {{/if}}
+      <Input id={{@fieldId}} @type="text" @value={{@value}} class="form-control" />
+    {{/if}}
+    {{#if @suffix}}
+      <span class="certification-info-field__suffix">{{@suffix}}</span>
     {{/if}}
   </div>
 {{else}}
   <div class="row certification-info-field">
-    <div class="certification-info-field__label">{{@label}}</div>
-    <div class="certification-info-value {{@class}}">
+    <p>
+      {{@label}}
       {{#if @linkRoute}}
         <LinkTo @route={{@linkRoute}} @model={{@value}}>
           {{this.valueWithSuffix}}
         </LinkTo>
       {{else}}
-        {{#if @isDate}}
-          {{moment-format @value "DD/MM/YYYY" allow-empty=true}}
-        {{else}}
-          {{if this.valueWithSuffix this.valueWithSuffix " - "}}
-        {{/if}}
+        <span class={{@class}}>
+          {{#if @isDate}}
+            {{moment-format @value "DD/MM/YYYY" allow-empty=true}}
+          {{else}}
+            {{if this.valueWithSuffix this.valueWithSuffix " - "}}
+          {{/if}}
+        </span>
       {{/if}}
-    </div>
+    </p>
   </div>
 {{/if}}

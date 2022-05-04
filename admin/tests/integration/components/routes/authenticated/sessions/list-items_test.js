@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { fillIn, render } from '@ember/test-helpers';
+import { render, selectByLabelAndOption } from '@1024pix/ember-testing-library';
 import hbs from 'htmlbars-inline-precompile';
 
 module('Integration | Component | routes/authenticated/sessions | list-items', function (hooks) {
@@ -94,47 +94,43 @@ module('Integration | Component | routes/authenticated/sessions | list-items', f
   module('Input field for id filtering', function () {
     test('it should render a input field to filter on id', async function (assert) {
       // when
-      await render(hbs`<Sessions::ListItems @triggerFiltering={{this.triggerFiltering}} />`);
+      const screen = await render(hbs`<Sessions::ListItems @triggerFiltering={{this.triggerFiltering}} />`);
 
       // then
-      assert.dom('table thead tr:nth-child(2) th:nth-child(1) input').exists();
+      assert.dom(screen.getByRole('textbox', { name: 'Filtrer les sessions avec un id' })).exists();
     });
   });
 
   module('Input field for certificationCenterName filtering', function () {
     test('it should render a input field to filter on certificationCenterName', async function (assert) {
       // when
-      await render(hbs`{{sessions/list-items triggerFiltering=triggerFiltering}}`);
-      await render(hbs`<Sessions::ListItems @triggerFiltering={{this.triggerFiltering}} />`);
+      const screen = await render(hbs`<Sessions::ListItems @triggerFiltering={{this.triggerFiltering}} />`);
 
       // then
-      assert.dom('table thead tr:nth-child(2) th:nth-child(2) input').exists();
+      assert
+        .dom(screen.getByRole('textbox', { name: "Filtrer les sessions avec le nom d'un centre de certification" }))
+        .exists();
     });
   });
 
   module('Dropdown menu for certification center type filtering', function () {
     test('it should render a dropdown menu to filter sessions on their certification center type', async function (assert) {
       // given
-      const expectedOptions = [
-        { value: 'all', label: 'Tous' },
-        { value: 'SCO', label: 'Sco' },
-        { value: 'SUP', label: 'Sup' },
-        { value: 'PRO', label: 'Pro' },
-      ];
+      const expectedLabels = { allType: 'Tous', scoType: 'Sco', supType: 'Sup', proType: 'Pro' };
 
       // when
-      await render(hbs`<Sessions::ListItems />`);
+      const screen = await render(hbs`<Sessions::ListItems />`);
 
       // then
-      const elementOptions = this.element.querySelectorAll('#certificationCenterType > option');
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(elementOptions.length, 4);
-      elementOptions.forEach((elementOption, index) => {
-        const expectedOption = expectedOptions[index];
-        assert.dom(elementOption).hasText(expectedOption.label);
-        assert.dom(elementOption).hasValue(expectedOption.value);
-      });
+      assert
+        .dom(
+          screen.getByRole('combobox', {
+            name: 'Filtrer les sessions en sélectionnant un type de centre de certification',
+          })
+        )
+        .hasText(
+          `${expectedLabels.allType} ${expectedLabels.scoType} ${expectedLabels.supType} ${expectedLabels.proType}`
+        );
     });
 
     test('it should filter sessions on certification center type when it has changed', async function (assert) {
@@ -146,7 +142,7 @@ module('Integration | Component | routes/authenticated/sessions | list-items', f
       );
 
       // when
-      await fillIn('#certificationCenterType', 'PRO');
+      await selectByLabelAndOption('Filtrer les sessions en sélectionnant un type de centre de certification', 'PRO');
 
       // then
       // TODO: Fix this the next time the file is edited.
@@ -158,27 +154,27 @@ module('Integration | Component | routes/authenticated/sessions | list-items', f
   module('Dropdown menu for status filtering', function () {
     test('it should render a dropdown menu to filter sessions on their status', async function (assert) {
       // given
-      const expectedOptions = [
-        { value: 'all', label: 'Tous' },
-        { value: 'created', label: 'Créée' },
-        { value: 'finalized', label: 'Finalisée' },
-        { value: 'in_process', label: 'En cours de traitement' },
-        { value: 'processed', label: 'Résultats transmis par Pix' },
-      ];
+      const expectedLabels = {
+        allStatus: 'Tous',
+        createdStatus: 'Créée',
+        finalizedStatus: 'Finalisée',
+        inProcessStatus: 'En cours de traitement',
+        processedStatus: 'Résultats transmis par Pix',
+      };
 
       // when
-      await render(hbs`<Sessions::ListItems />`);
+      const screen = await render(hbs`<Sessions::ListItems />`);
 
       // then
-      const elementOptions = this.element.querySelectorAll('#status > option');
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(elementOptions.length, 5);
-      elementOptions.forEach((elementOption, index) => {
-        const expectedOption = expectedOptions[index];
-        assert.dom(elementOption).hasText(expectedOption.label);
-        assert.dom(elementOption).hasValue(expectedOption.value);
-      });
+      assert
+        .dom(
+          screen.getByRole('combobox', {
+            name: 'Filtrer les sessions en sélectionnant un statut',
+          })
+        )
+        .hasText(
+          `${expectedLabels.allStatus} ${expectedLabels.createdStatus} ${expectedLabels.finalizedStatus} ${expectedLabels.inProcessStatus} ${expectedLabels.processedStatus}`
+        );
     });
 
     test('it should filter sessions on (session) "status" when it has changed', async function (assert) {
@@ -190,7 +186,7 @@ module('Integration | Component | routes/authenticated/sessions | list-items', f
       );
 
       // when
-      await fillIn('#status', 'created');
+      await selectByLabelAndOption('Filtrer les sessions en sélectionnant un statut', 'created');
 
       // then
       // TODO: Fix this the next time the file is edited.
@@ -202,25 +198,23 @@ module('Integration | Component | routes/authenticated/sessions | list-items', f
   module('Dropdown menu for resultsSentToPrescriberAt filtering', function () {
     test('it should render a dropdown menu to filter sessions on their results sending', async function (assert) {
       // given
-      const expectedOptions = [
-        { value: 'all', label: 'Tous' },
-        { value: 'true', label: 'Résultats diffusés' },
-        { value: 'false', label: 'Résultats non diffusés' },
-      ];
+      const expectedLabels = {
+        all: 'Tous',
+        resultsSent: 'Résultats diffusés',
+        resultsNotSent: 'Résultats non diffusés',
+      };
 
       // when
-      await render(hbs`<Sessions::ListItems />`);
+      const screen = await render(hbs`<Sessions::ListItems />`);
 
       // then
-      const elementOptions = this.element.querySelectorAll('#resultsSentToPrescriberAt > option');
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(elementOptions.length, 3);
-      elementOptions.forEach((elementOption, index) => {
-        const expectedOption = expectedOptions[index];
-        assert.dom(elementOption).hasText(expectedOption.label);
-        assert.dom(elementOption).hasValue(expectedOption.value);
-      });
+      assert
+        .dom(
+          screen.getByRole('combobox', {
+            name: 'Filtrer les sessions par leurs résultats diffusés ou non diffusés',
+          })
+        )
+        .hasText(`${expectedLabels.all} ${expectedLabels.resultsSent} ${expectedLabels.resultsNotSent}`);
     });
 
     test('it should filter sessions on results sending status when it has changed', async function (assert) {
@@ -234,7 +228,7 @@ module('Integration | Component | routes/authenticated/sessions | list-items', f
       );
 
       // when
-      await fillIn('#resultsSentToPrescriberAt', 'false');
+      await selectByLabelAndOption('Filtrer les sessions par leurs résultats diffusés ou non diffusés', 'false');
 
       // then
       // TODO: Fix this the next time the file is edited.

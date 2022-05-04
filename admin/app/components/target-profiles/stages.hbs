@@ -23,7 +23,7 @@
           </thead>
           <tbody>
             {{#each @stages as |stage|}}
-              <tr>
+              <tr aria-label="Informations sur le palier {{stage.title}}">
                 <td class="table__column table__column--id">{{stage.id}}</td>
                 <td class="stages-table__image">
                   <img src={{@targetProfile.imageUrl}} alt="" role="presentation" />
@@ -36,6 +36,7 @@
                         @type="number"
                         required="true"
                         @value={{stage.threshold}}
+                        aria-label="Seuil du palier"
                       />
                       {{#if stage.errors.threshold}}
                         <div class="form-field__error">
@@ -58,6 +59,7 @@
                         }}
                         required="true"
                         @value={{stage.title}}
+                        aria-label="Titre du palier"
                       />
                       {{#if stage.errors.title}}
                         <div class="form-field__error">
@@ -72,7 +74,12 @@
                 <td>
                   {{#if stage.isNew}}
                     <div class="form-field">
-                      <Input class="form-control" required="true" @value={{stage.message}} />
+                      <Input
+                        class="form-control"
+                        required="true"
+                        @value={{stage.message}}
+                        aria-label="Message du palier"
+                      />
                     </div>
                   {{else}}
                     {{stage.message}}

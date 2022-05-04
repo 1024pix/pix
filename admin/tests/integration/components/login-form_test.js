@@ -1,7 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { click } from '@ember/test-helpers';
-import { render, fillByLabel } from '@1024pix/ember-testing-library';
+import { render, fillByLabel, clickByName } from '@1024pix/ember-testing-library';
 import hbs from 'htmlbars-inline-precompile';
 import Service from '@ember/service';
 import { reject } from 'rsvp';
@@ -62,7 +61,7 @@ module('Integration | Component | login-form', function (hooks) {
       // when
       await fillByLabel('Adresse e-mail', 'pix@example.net');
       await fillByLabel('Mot de passe', 'JeMeLoggue1024');
-      await click('button.login-form__button');
+      await clickByName('Je me connecte');
 
       // then
       assert.dom('p.login-form__error').exists();
@@ -88,7 +87,7 @@ module('Integration | Component | login-form', function (hooks) {
       // when
       await fillByLabel('Adresse e-mail', 'pix@');
       await fillByLabel('Mot de passe', 'JeMeLoggue1024');
-      await click('button.login-form__button');
+      await clickByName('Je me connecte');
 
       // then
       assert.dom('p.login-form__error').exists();
@@ -107,7 +106,7 @@ module('Integration | Component | login-form', function (hooks) {
       // when
       await fillByLabel('Adresse e-mail', 'pix@example.net');
       await fillByLabel('Mot de passe', 'JeMeLoggue1024');
-      await click('button.login-form__button');
+      await clickByName('Je me connecte');
 
       // then
       assert.dom('p.login-form__error').exists();
@@ -133,7 +132,7 @@ module('Integration | Component | login-form', function (hooks) {
       // when
       await fillByLabel('Adresse e-mail', 'pix@example.net');
       await fillByLabel('Mot de passe', 'JeMeLoggue1024');
-      await click('button.login-form__button');
+      await clickByName('Je me connecte');
 
       // then
       assert.dom('p.login-form__error').exists();
@@ -152,7 +151,7 @@ module('Integration | Component | login-form', function (hooks) {
       // when
       await fillByLabel('Adresse e-mail', 'pix@example.net');
       await fillByLabel('Mot de passe', 'JeMeLoggue1024');
-      await click('button.login-form__button');
+      await clickByName('Je me connecte');
 
       // then
       assert.dom('p.login-form__error').exists();

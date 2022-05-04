@@ -1,7 +1,7 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { click, triggerEvent } from '@ember/test-helpers';
-import { render } from '@1024pix/ember-testing-library';
+import { triggerEvent } from '@ember/test-helpers';
+import { render, clickByName } from '@1024pix/ember-testing-library';
 import sinon from 'sinon';
 import hbs from 'htmlbars-inline-precompile';
 
@@ -58,7 +58,7 @@ module('Integration | Component | TargetProfiles::CreateTargetProfileForm', func
     assert.dom(screen.getByLabelText('Public :')).exists();
     assert.dom(screen.getByLabelText('Importer un profil cible .JSON')).exists();
     assert.dom(screen.getByLabelText("Identifiant de l'organisation de référence :")).exists();
-    assert.dom(screen.getByLabelText("Lien de l'image du profil cible :")).exists();
+    assert.dom(screen.getByLabelText("Lien de l'image du profil cible :", { exact: false })).exists();
     assert.dom(screen.getByRole('button', { name: 'Annuler' })).exists();
     assert.dom(screen.getByRole('button', { name: 'Créer le profil cible' })).exists();
     assert.dom(screen.getByLabelText('Commentaire (usage interne) :')).exists();
@@ -107,7 +107,7 @@ module('Integration | Component | TargetProfiles::CreateTargetProfileForm', func
       @onSubmit={{this.onSubmit}}
       @onCancel={{this.onCancel}}/>`);
 
-    await click('button[type="button"]');
+    await clickByName('Annuler');
 
     // then
     assert.ok(onCancel.called);

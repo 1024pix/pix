@@ -1,6 +1,9 @@
 {{#if @edition}}
   {{#each this.competenceList as |competenceItem key|}}
-    <div class="row form-group certification-info-field">
+    <div
+      class="row form-group certification-info-field"
+      aria-label="Informations de la compétence {{competenceItem}} éditable"
+    >
       <label class="col-sm-1 col-form-label" for={{concat "certification-info-score_" key}}>{{competenceItem}}</label>
       <div class="col-sm-2 certificate">
         <Input
@@ -28,7 +31,7 @@
   {{/each}}
 {{else}}
   {{#each @competences as |competence|}}
-    <div class="row certification-info-field">
+    <div class="row certification-info-field" aria-label="Informations de la compétence {{competence.index}}">
       <div class="col-sm-3 certification-info-competence-index">
         {{competence.index}}
       </div>

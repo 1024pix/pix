@@ -1,35 +1,37 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { click, fillIn } from '@ember/test-helpers';
-import { render } from '@1024pix/ember-testing-library';
+import { click } from '@ember/test-helpers';
+import { render, fillByLabel } from '@1024pix/ember-testing-library';
 import hbs from 'htmlbars-inline-precompile';
 import sinon from 'sinon';
 
 module('Integration | Component | TargetProfiles::BadgeForm', function (hooks) {
   setupRenderingTest(hooks);
 
-  test('it should display the form', async function (assert) {
+  test('it should display the heading in form', async function (assert) {
     // when
-    await render(hbs`<TargetProfiles::BadgeForm />`);
+    const screen = await render(hbs`<TargetProfiles::BadgeForm />`);
 
     // then
-    assert.dom('form').exists();
-    assert.dom('input').exists();
+    assert.dom(screen.getByRole('heading', { name: "Création d'un résultat thématique" })).exists();
   });
 
   test('it should display the expected number of inputs', async function (assert) {
     // given
-    const expectedNumberOfInputsInForm = 11;
-    const expectedNumberOfTextareasInForm = 2;
+    const expectedNumberOfInputsInForm = 7;
     const expectedNumberOfCheckboxesInForm = 2;
+    const expectedNumberOfSpinButtonsInForm = 2;
 
     // when
-    await render(hbs`<TargetProfiles::BadgeForm />`);
+    const screen = await render(hbs`<TargetProfiles::BadgeForm />`);
 
     // then
-    assert.dom('input, textarea').exists({ count: expectedNumberOfInputsInForm });
-    assert.dom('textarea').exists({ count: expectedNumberOfTextareasInForm });
-    assert.dom('input[type="checkbox"]').exists({ count: expectedNumberOfCheckboxesInForm });
+    const inputCount = screen.getAllByRole('textbox').length;
+    const checkboxCount = screen.getAllByRole('checkbox').length;
+    const spinButtonCount = screen.getAllByRole('spinbutton').length;
+    assert.strictEqual(inputCount, expectedNumberOfInputsInForm);
+    assert.strictEqual(checkboxCount, expectedNumberOfCheckboxesInForm);
+    assert.strictEqual(spinButtonCount, expectedNumberOfSpinButtonsInForm);
   });
 
   test('it should display form actions', async function (assert) {
@@ -54,13 +56,13 @@ module('Integration | Component | TargetProfiles::BadgeForm', function (hooks) {
       const screen = await render(hbs`<TargetProfiles::BadgeForm @targetProfileId={{targetProfileId}} />`);
 
       // when
-      await fillIn('input#badge-key', 'clé_du_badge');
-      await fillIn('input#image-name', 'nom_de_limage.svg');
-      await fillIn('input#alt-message', 'texte alternatif à l‘image');
-      await fillIn('input#skillSetThreshold', '90');
-      await fillIn('input#skillSetName', 'skill-set-name');
-      await fillIn('#skillSetSkills', 'skillSetId1,skillSetId2');
-      await fillIn('#campaignParticipationThreshold', '50');
+      await fillByLabel("Nom de l'image (svg) :", 'nom_de_limage.svg');
+      await fillByLabel("Texte alternatif pour l'image :", 'texte alternatif à l‘image');
+      await fillByLabel("Clé (texte unique , vérifier qu'il n'existe pas) :", 'clé_du_badge');
+      await fillByLabel('Nom de la liste :', 'skill-set-name');
+      await fillByLabel('Liste des acquis :', 'skillSetId1,skillSetId2');
+      await fillByLabel('Taux de réussite :', '90');
+      await fillByLabel('Taux de réussite global :', '50');
       await click(screen.getByRole('button', { name: 'Créer le badge' }));
 
       // then

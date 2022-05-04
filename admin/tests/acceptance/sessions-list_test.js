@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
-import { currentURL, click, fillIn } from '@ember/test-helpers';
-import { visit } from '@1024pix/ember-testing-library';
+import { currentURL, click } from '@ember/test-helpers';
+import { visit, fillByLabel, selectByLabelAndOption } from '@1024pix/ember-testing-library';
 import { setupApplicationTest } from 'ember-qunit';
 import { createAuthenticateSession } from 'pix-admin/tests/helpers/test-init';
 
@@ -61,12 +61,15 @@ module('Acceptance | Session List', function (hooks) {
       module('Default display', function () {
         test('it should display the first page of finalized sessions', async function (assert) {
           // when
-          await visit('/sessions/list');
+          const screen = await visit('/sessions/list');
 
           // then
-          assert.dom('select#pageSize').hasValue('10');
-          assert.dom('.table-admin tbody tr').exists({ count: 10 });
-          assert.dom('div.page-navigation__current-page').hasText('1');
+          assert.dom(screen.getByRole('combobox', { name: "Nombre d'éléments à afficher par page" })).hasValue('10');
+          const sessionCount = screen.getAllByLabelText('Informations de la session de certification', {
+            exact: false,
+          }).length;
+          assert.strictEqual(sessionCount, 10);
+          assert.dom(screen.getByText('Page : 1 / 4')).exists();
         });
       });
 
@@ -77,35 +80,41 @@ module('Acceptance | Session List', function (hooks) {
           await click(screen.getByLabelText('Aller à la page suivante'));
 
           // then
-          assert.dom('select#pageSize').hasValue('10');
-          assert.dom('.table-admin tbody tr').exists({ count: 10 });
-          assert.dom('div.page-navigation__current-page').hasText('2');
+          assert.dom(screen.getByRole('combobox', { name: "Nombre d'éléments à afficher par page" })).hasValue('10');
+          const sessionCount = screen.getAllByLabelText('Informations de la session de certification', {
+            exact: false,
+          }).length;
+          assert.strictEqual(sessionCount, 10);
+          assert.dom(screen.getByText('Page : 2 / 4')).exists();
         });
       });
 
       module('when selecting a different pageSize', function () {
         test('it should display all the finalized sessions', async function (assert) {
           // when
-          await visit('/sessions/list');
-          await fillIn('select#pageSize', '25');
+          const screen = await visit('/sessions/list');
+          await selectByLabelAndOption("Nombre d'éléments à afficher par page", '25');
 
           // then
-          assert.dom('select#pageSize').hasValue('25');
-          assert.dom('.table-admin tbody tr').exists({ count: 25 });
-          assert.dom('div.page-navigation__current-page').hasText('1');
+          assert.dom(screen.getByRole('combobox', { name: "Nombre d'éléments à afficher par page" })).hasValue('25');
+          const sessionCount = screen.getAllByLabelText('Informations de la session de certification', {
+            exact: false,
+          }).length;
+          assert.strictEqual(sessionCount, 25);
+          assert.dom(screen.getByText('Page : 1 / 2')).exists();
         });
       });
 
       module('when invalid filter value are typed in', function () {
         test('it should display an empty list', async function (assert) {
           // given
-          await visit('/sessions/list');
+          const screen = await visit('/sessions/list');
 
           // when
-          await fillIn('#id', 'azere');
+          await fillByLabel('Filtrer les sessions avec un id', 'azere');
 
           //then
-          assert.dom('.table__empty').hasText('Aucun résultat');
+          assert.dom(screen.getByText('Aucun résultat')).exists();
         });
       });
     });
@@ -121,11 +130,11 @@ module('Acceptance | Session List', function (hooks) {
 
         test('it should display the session with the ID specified in the input field', async function (assert) {
           // when
-          await visit('/sessions/list');
-          await fillIn('#id', expectedSession.id);
+          const screen = await visit('/sessions/list');
+          await fillByLabel('Filtrer les sessions avec un id', expectedSession.id);
 
           // then
-          assert.dom('.table-admin tbody tr').exists({ count: 1 });
+          assert.dom(screen.getByRole('link', { name: '1' })).exists();
         });
       });
 
@@ -133,17 +142,25 @@ module('Acceptance | Session List', function (hooks) {
         let expectedSession;
 
         hooks.beforeEach(function () {
-          expectedSession = server.create('session', 'finalized');
+          expectedSession = server.create('session', {
+            certificationCenterName: 'Erdman, Bode and Walker',
+            status: 'finalized',
+          });
           server.createList('session', 10, 'finalized');
         });
 
         test('it should display the session with a certification center name alike the one specified in the field', async function (assert) {
           // when
-          await visit('/sessions/list');
-          await fillIn('#certificationCenterName', expectedSession.certificationCenterName.toUpperCase());
+          const screen = await visit('/sessions/list');
+          await fillByLabel(
+            "Filtrer les sessions avec le nom d'un centre de certification",
+            expectedSession.certificationCenterName.toUpperCase()
+          );
 
           // then
-          assert.dom('.table-admin tbody tr').exists({ count: 1 });
+          assert
+            .dom(screen.getByLabelText('Informations de la session de certification 1'))
+            .containsText('Erdman, Bode and Walker');
         });
       });
 
@@ -155,11 +172,14 @@ module('Acceptance | Session List', function (hooks) {
 
         test('it should display the session with status as specified in the dropdown', async function (assert) {
           // when
-          await visit('/sessions/list');
-          await fillIn('select#status', 'processed');
+          const screen = await visit('/sessions/list');
+          await selectByLabelAndOption('Filtrer les sessions en sélectionnant un statut', 'processed');
 
           // then
-          assert.dom('.table-admin tbody tr').exists({ count: 5 });
+          const sessionProcessedCount = screen.getAllByLabelText('Informations de la session de certification', {
+            exact: false,
+          }).length;
+          assert.strictEqual(sessionProcessedCount, 5);
         });
       });
 
@@ -171,28 +191,37 @@ module('Acceptance | Session List', function (hooks) {
 
         test('it should display sessions regardless the results have been sent or not', async function (assert) {
           // when
-          await visit('/sessions/list');
+          const screen = await visit('/sessions/list');
 
           // then
-          assert.dom('.table-admin tbody tr').exists({ count: 8 });
+          const sessionCount = screen.getAllByLabelText('Informations de la session de certification', {
+            exact: false,
+          }).length;
+          assert.strictEqual(sessionCount, 8);
         });
 
         test('it should only display sessions which results have been sent', async function (assert) {
           // when
-          await visit('/sessions/list');
-          await fillIn('select#resultsSentToPrescriberAt', 'true');
+          const screen = await visit('/sessions/list');
+          await selectByLabelAndOption('Filtrer les sessions par leurs résultats diffusés ou non diffusés', 'true');
 
           // then
-          assert.dom('.table-admin tbody tr').exists({ count: 5 });
+          const sessionWithResultSentCount = screen.getAllByLabelText('Informations de la session de certification', {
+            exact: false,
+          }).length;
+          assert.strictEqual(sessionWithResultSentCount, 5);
         });
 
         test('it should only display sessions which results have not been sent', async function (assert) {
           // when
-          await visit('/sessions/list');
-          await fillIn('select#resultsSentToPrescriberAt', 'false');
+          const screen = await visit('/sessions/list');
+          await selectByLabelAndOption('Filtrer les sessions par leurs résultats diffusés ou non diffusés', 'false');
 
           // then
-          assert.dom('.table-admin tbody tr').exists({ count: 3 });
+          const sessionCount = screen.getAllByLabelText('Informations de la session de certification', {
+            exact: false,
+          }).length;
+          assert.strictEqual(sessionCount, 3);
         });
       });
     });
