@@ -1,4 +1,3 @@
-const { NotFoundError } = require('../errors');
 const Assessment = require('../models/Assessment');
 
 module.exports = async function getAssessment({
@@ -10,9 +9,6 @@ module.exports = async function getAssessment({
   campaignRepository,
 }) {
   const assessment = await assessmentRepository.getWithAnswers(assessmentId);
-  if (!assessment) {
-    throw new NotFoundError(`Assessment not found for ID ${assessmentId}`); // move
-  }
 
   assessment.title = await _fetchAssessmentTitle({
     assessment,

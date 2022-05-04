@@ -78,10 +78,10 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
     context('when the assessment does not exist', function () {
       it('should return null', async function () {
         // when
-        const assessment = await assessmentRepository.getWithAnswers(245);
+        const error = await catchErr(assessmentRepository.getWithAnswers)(245);
 
         // then
-        expect(assessment).to.equal(null);
+        expect(error).to.be.instanceOf(NotFoundError);
       });
     });
   });
