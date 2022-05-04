@@ -28,7 +28,7 @@ describe('Acceptance | Application | Admin-members | Routes', function () {
       // then
       expect(response.statusCode).to.equal(200);
     });
-    it('should return 403 http status code when user is not a member of pix admin and has no role', async function () {
+    it('should return 404 http status code when user is not a member of pix admin and has no role', async function () {
       // given
       const user = databaseBuilder.factory.buildUser();
       await databaseBuilder.commit();
@@ -44,8 +44,8 @@ describe('Acceptance | Application | Admin-members | Routes', function () {
       });
 
       // then
-      expect(response.statusCode).to.equal(403);
-      expect(response.statusMessage).to.equal('Forbidden');
+      expect(response.statusCode).to.equal(404);
+      expect(response.statusMessage).to.equal('Not Found');
     });
   });
 });

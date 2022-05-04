@@ -9,7 +9,6 @@ module.exports = {
       .select('pix-admin-roles.id', 'users.id as userId', 'firstName', 'lastName', 'email', 'role')
       .from('pix-admin-roles')
       .join('users', 'users.id', 'pix-admin-roles.userId')
-      .where('pix-admin-roles.disabledAt', null)
       .orderBy(['firstName', 'lastName']);
     return members.map((member) => new AdminMember(member));
   },
@@ -18,7 +17,7 @@ module.exports = {
     const member = await knex
       .select('pix-admin-roles.id', 'users.id as userId', 'firstName', 'lastName', 'email', 'role')
       .from('pix-admin-roles')
-      .where({ userId, disabledAt: null })
+      .where({ userId })
       .join('users', 'users.id', 'pix-admin-roles.userId')
       .first();
 
