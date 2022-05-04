@@ -1,5 +1,18 @@
 # Pix Changelog
 
+## v3.206.0 (04/05/2022)
+
+
+### :rocket: Amélioration
+- [#4398](https://github.com/1024pix/pix/pull/4398) [FEATURE] Tous les membres avec un rôle peuvent accéder à Pix Admin (PIX-4005) 
+
+### :building_construction: Tech
+- [#4356](https://github.com/1024pix/pix/pull/4356) [TECH] Ajout d'informations configurables dans les logs des frontaux
+- [#4395](https://github.com/1024pix/pix/pull/4395) [TECH] Supprimer la méthode non utilisée `getPixScoreByCompetence`. 
+
+### :bug: Correction
+- [#4400](https://github.com/1024pix/pix/pull/4400) [BUGFIX] Corriger l'affichage de la réponse à une épreuve dans la page de détail d'une certification dans Pix Admin (PIX-4897)
+
 ## v3.205.0 (04/05/2022)
 
 
