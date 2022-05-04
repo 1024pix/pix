@@ -23,4 +23,10 @@
     font-weight: 500;
     padding-right: $spacing-s;
   }
+
+  // WORKAROUND: bootstrap messing with PixButtonLink hover style
+  a.pix-button--background-green:hover {
+    color: $white;
+    text-decoration: none;
+  }
 }
