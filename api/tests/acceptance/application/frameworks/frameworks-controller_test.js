@@ -131,6 +131,13 @@ describe('Acceptance | Controller | frameworks-controller', function () {
                 mobile: false,
                 tablet: false,
               },
+              relationships: {
+                skills: {
+                  links: {
+                    related: '/api/tubes/tubeId/skills',
+                  },
+                },
+              },
             },
 
             {

@@ -52,4 +52,4 @@ exports.register = async function (server) {
   ]);
 };
 
-exports.name = 'tubes-api';
+exports.name = 'frameworks-api';
