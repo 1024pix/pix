@@ -108,6 +108,54 @@
     </div>
   </div>
 
+  {{#if this.certification.hasComplementaryCertifications}}
+    <section class="card certification-informations__complementary-certification">
+      <div class="card-body">
+        <h5 class="card-title certification-informations__complementary-certification__title">Certifications
+          complémentaires</h5>
+        {{#each
+          this.certification.commonComplementaryCertificationCourseResults
+          as |commonComplementaryCertificationCourseResult|
+        }}
+          <div class="certification-informations__complementary-certification__non-pix-edu">
+            <p>
+              <span>
+                {{commonComplementaryCertificationCourseResult.label}}
+                :
+              </span>
+              {{commonComplementaryCertificationCourseResult.status}}
+            </p>
+          </div>
+        {{/each}}
+        {{#if this.certification.complementaryCertificationCourseResultsWithExternal}}
+          <section class="certification-informations__complementary-certification__pix-edu">
+            <h6>Résultats de la certification complémentaire Pix+ Edu :</h6>
+            <div class="certification-informations__complementary-certification__pix-edu__row">
+              <div class="card">
+                <div class="card-body">
+                  <p>VOLET PIX</p>
+                  {{this.certification.complementaryCertificationCourseResultsWithExternal.pixResult}}
+                </div>
+              </div>
+              <div class="card">
+                <div class="card-body">
+                  <p>VOLET JURY</p>
+                  {{this.certification.complementaryCertificationCourseResultsWithExternal.externalResult}}
+                </div>
+              </div>
+              <div class="card">
+                <div class="card-body">
+                  <p>NIVEAU FINAL</p>
+                  {{this.certification.complementaryCertificationCourseResultsWithExternal.finalResult}}
+                </div>
+              </div>
+            </div>
+          </section>
+        {{/if}}
+      </div>
+    </section>
+  {{/if}}
+
   {{#if this.hasIssueReports}}
     <section class="card certification-informations__certification-issue-reports">
       <div class="card-body">

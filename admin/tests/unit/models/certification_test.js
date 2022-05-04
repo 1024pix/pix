@@ -128,6 +128,60 @@ module('Unit | Model | certification', function (hooks) {
     });
   });
 
+  module('#hasComplementaryCertifications', function () {
+    module('when there are no complementary certification results', function () {
+      test('should return false', function (assert) {
+        // given
+        const complementaryCertificationCourseResultsWithExternal = null;
+        const commonComplementaryCertificationCourseResults = [];
+        const certification = store.createRecord('certification', {
+          complementaryCertificationCourseResultsWithExternal,
+          commonComplementaryCertificationCourseResults,
+        });
+
+        //when / then
+        assert.false(certification.hasComplementaryCertifications);
+      });
+    });
+
+    module('when there is only an external complementary certification result', function () {
+      test('should return true', function (assert) {
+        // given
+        const complementaryCertificationCourseResultsWithExternal = store.createRecord(
+          'complementary-certification-course-results-with-external',
+          {
+            pixResult: 'TOTO',
+          }
+        );
+        const commonComplementaryCertificationCourseResults = [];
+        const certification = store.createRecord('certification', {
+          complementaryCertificationCourseResultsWithExternal,
+          commonComplementaryCertificationCourseResults,
+        });
+
+        //when / then
+        assert.true(certification.hasComplementaryCertifications);
+      });
+    });
+  });
+
+  module('when there is only a common complementary certification result', function () {
+    test('should return true', function (assert) {
+      // given
+      const complementaryCertificationCourseResultsWithExternal = null;
+      const commonComplementaryCertificationCourseResults = [
+        store.createRecord('common-complementary-certification-course-result'),
+      ];
+      const certification = store.createRecord('certification', {
+        complementaryCertificationCourseResultsWithExternal,
+        commonComplementaryCertificationCourseResults,
+      });
+
+      //when / then
+      assert.true(certification.hasComplementaryCertifications);
+    });
+  });
+
   module('#statusLabelAndValue', function () {
     [
       { value: 'started', label: 'Démarrée' },

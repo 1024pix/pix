@@ -86,6 +86,67 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
       });
     });
 
+    test('it displays common complementary certifications result', async function (assert) {
+      //given
+      const commonComplementaryCertificationCourseResults = [
+        server.create('common-complementary-certification-course-result', {
+          label: 'CléA Numérique',
+          status: 'Validée',
+        }),
+        server.create('common-complementary-certification-course-result', {
+          label: 'Pix+ Droit Maître',
+          status: 'Validée',
+        }),
+        server.create('common-complementary-certification-course-result', {
+          label: 'Pix+ Droit Expert',
+          status: 'Rejetée',
+        }),
+      ];
+
+      certification.update({
+        commonComplementaryCertificationCourseResults,
+      });
+
+      // when
+      const screen = await visit(`/certifications/${certification.id}`);
+
+      // then
+      assert.dom(screen.getByText('Certifications complémentaires')).exists();
+      assert.dom(screen.queryByText('Résultats de la certification complémentaire Pix+ Edu :')).doesNotExist();
+      assert.dom(screen.getByText('CléA Numérique :')).exists();
+      assert.dom(screen.getByText('Pix+ Droit Maître :')).exists();
+      assert.dom(screen.getByText('Pix+ Droit Expert :')).exists();
+      assert.strictEqual(screen.getAllByText('Validée').length, 2);
+      assert.strictEqual(screen.getAllByText('Rejetée').length, 1);
+    });
+
+    test('it displays external complementary certifications', async function (assert) {
+      //given
+      const complementaryCertificationCourseResultsWithExternal = server.create(
+        'complementary-certification-course-results-with-external',
+        {
+          complementaryCertificationCourseId: 1234,
+          pixResult: 'Pix+ Édu Initié (entrée dans le métier)',
+          externalResult: 'Pix+ Édu Avancé',
+          finalResult: 'Pix+ Édu Initié (entrée dans le métier)',
+        }
+      );
+      certification.update({
+        complementaryCertificationCourseResultsWithExternal,
+      });
+
+      // when
+      const screen = await visit(`/certifications/${certification.id}`);
+
+      // then
+      assert.dom(screen.getByText('Résultats de la certification complémentaire Pix+ Edu :')).exists();
+      assert.dom(screen.getByText('VOLET PIX')).exists();
+      assert.dom(screen.getByText('VOLET JURY')).exists();
+      assert.dom(screen.getByText('NIVEAU FINAL')).exists();
+      assert.strictEqual(screen.getAllByText('Pix+ Édu Initié (entrée dans le métier)').length, 2);
+      assert.strictEqual(screen.getAllByText('Pix+ Édu Avancé').length, 1);
+    });
+
     module('when candidate certification was enrolled with CPF data', function () {
       module('when editing candidate information succeeds', function () {
         test('should save the candidate information data when modifying them', async function (assert) {

@@ -190,9 +190,7 @@ module('Unit | Controller | authenticated/certifications/certification/informati
       };
 
       // when/then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(controller.impactfulCertificationIssueReports.length, 2);
+      assert.strictEqual(controller.impactfulCertificationIssueReports.length, 2);
     });
   });
 
@@ -213,9 +211,7 @@ module('Unit | Controller | authenticated/certifications/certification/informati
       };
 
       // when/then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(controller.unimpactfulCertificationIssueReports.length, 3);
+      assert.strictEqual(controller.unimpactfulCertificationIssueReports.length, 3);
     });
   });
 
@@ -228,9 +224,8 @@ module('Unit | Controller | authenticated/certifications/certification/informati
         // then
         const competences = controller.certification.competencesWithMark;
         const aCompetence = _getCompetenceWithMark(anExistingCompetenceCode, competences);
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(aCompetence.score, 55);
+
+        assert.strictEqual(aCompetence.score, 55);
       });
     });
 
@@ -255,9 +250,8 @@ module('Unit | Controller | authenticated/certifications/certification/informati
         // then
         const competences = controller.certification.competencesWithMark;
         const aCompetence = _getCompetenceWithMark(aNewCompetenceCode, competences);
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(aCompetence.score, 55);
+
+        assert.strictEqual(aCompetence.score, 55);
       });
     });
   });
@@ -271,9 +265,8 @@ module('Unit | Controller | authenticated/certifications/certification/informati
         // then
         const competences = controller.certification.competencesWithMark;
         const aCompetence = _getCompetenceWithMark(anExistingCompetenceCode, competences);
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(aCompetence.level, 5);
+
+        assert.strictEqual(aCompetence.level, 5);
       });
     });
 
@@ -298,9 +291,8 @@ module('Unit | Controller | authenticated/certifications/certification/informati
         // then
         const competences = controller.certification.competencesWithMark;
         const aCompetence = _getCompetenceWithMark(aNewCompetenceCode, competences);
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(aCompetence.level, 8);
+
+        assert.strictEqual(aCompetence.level, 8);
       });
     });
   });
@@ -333,9 +325,7 @@ module('Unit | Controller | authenticated/certifications/certification/informati
         await controller.onCandidateResultsSaveConfirm();
 
         // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(controller.confirmAction, 'onCandidateResultsSave');
+        assert.strictEqual(controller.confirmAction, 'onCandidateResultsSave');
         assert.ok(controller.displayConfirm);
         assert.ok(controller.confirmMessage);
         assert.notOk(controller.confirmErrorMessage);
@@ -362,9 +352,8 @@ module('Unit | Controller | authenticated/certifications/certification/informati
         // then
         const levelErrorRegexp = `.*niveau.*${anExistingCompetenceCode}.*${controller.MAX_REACHABLE_LEVEL}`;
         const scoreErrorRegexp = `.*nombre de pix.*${anotherExistingCompetenceCode}.*${controller.MAX_REACHABLE_PIX_BY_COMPETENCE}`;
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(controller.confirmAction, 'onCandidateResultsSave');
+
+        assert.strictEqual(controller.confirmAction, 'onCandidateResultsSave');
         assert.ok(controller.displayConfirm);
         assert.ok(controller.confirmMessage);
         assert.ok(controller.confirmErrorMessage.match(new RegExp(levelErrorRegexp)));
@@ -426,9 +415,7 @@ module('Unit | Controller | authenticated/certifications/certification/informati
         const state = await getSettledState();
 
         // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(controller.certification.pixScore, score);
+        assert.strictEqual(controller.certification.pixScore, score);
         assert.deepEqual(controller.certification.competencesWithMark, expectedCompetencesWithMark);
         assert.ok(state.hasPendingTimers);
 
@@ -486,21 +473,14 @@ module('Unit | Controller | authenticated/certifications/certification/informati
 
     let aCompetence = _getCompetenceWithMark(anotherExistingCompetenceCode);
     let aCompetenceRef = _getCompetenceWithMark(anotherExistingCompetenceCode);
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line qunit/no-assert-equal
-    assert.equal(aCompetence.score, aCompetenceRef.score);
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line qunit/no-assert-equal
-    assert.equal(aCompetence.level, aCompetenceRef.level);
+
+    assert.strictEqual(aCompetence.score, aCompetenceRef.score);
+    assert.strictEqual(aCompetence.level, aCompetenceRef.level);
 
     aCompetence = _getCompetenceWithMark(anExistingCompetenceCode, competences);
     aCompetenceRef = _getCompetenceWithMark(anExistingCompetenceCode);
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line qunit/no-assert-equal
-    assert.equal(aCompetence.score, aCompetenceRef.score);
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line qunit/no-assert-equal
-    assert.equal(aCompetence.level, aCompetenceRef.level);
+    assert.strictEqual(aCompetence.score, aCompetenceRef.score);
+    assert.strictEqual(aCompetence.level, aCompetenceRef.level);
 
     sinon.assert.calledOnce(rollbackAttributes);
   });

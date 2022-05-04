@@ -1,6 +1,6 @@
 // eslint-disable-next-line ember/no-computed-properties-in-native-classes
 import { computed } from '@ember/object';
-import Model, { attr, hasMany } from '@ember-data/model';
+import Model, { attr, belongsTo, hasMany } from '@ember-data/model';
 import { memberAction } from 'ember-api-actions';
 
 export const ACQUIRED = 'acquired';
@@ -42,8 +42,11 @@ export default class Certification extends Model {
   @attr() pixScore;
   @attr() competencesWithMark;
   @attr('boolean', { defaultValue: false }) isPublished;
+  @belongsTo('complementary-certification-course-results-with-external')
+  complementaryCertificationCourseResultsWithExternal;
 
   @hasMany('certification-issue-report') certificationIssueReports;
+  @hasMany('common-complementary-certification-course-result') commonComplementaryCertificationCourseResults;
 
   @computed('createdAt')
   get creationDate() {
@@ -64,6 +67,13 @@ export default class Certification extends Model {
   get publishedText() {
     const value = this.isPublished;
     return value ? 'Oui' : 'Non';
+  }
+
+  get hasComplementaryCertifications() {
+    return (
+      Boolean(this.commonComplementaryCertificationCourseResults.length) ||
+      Boolean(this.complementaryCertificationCourseResultsWithExternal.get('pixResult'))
+    );
   }
 
   @computed('competencesWithMark')
