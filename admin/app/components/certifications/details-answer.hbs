@@ -27,6 +27,9 @@
     <PixSelect
       @onChange={{this.selectOption}}
       @options={{this.resultOptions}}
+      @selectedOption={{this.selectedOption}}
+      @emptyOptionLabel=""
+      @emptyOptionNotSelectable="true"
       aria-label="Sélectionner un résultat"
       @isSearchable={{false}}
       class={{this.resultClass}}
