@@ -9,10 +9,12 @@ describe('Unit | Serializer | JSONAPI | skill-serializer', function () {
         {
           id: 'skillId1',
           name: 'skill1',
+          level: 1,
         },
         {
           id: 'skillId2',
           name: 'skill1',
+          level: 2,
         },
       ];
 
@@ -21,10 +23,16 @@ describe('Unit | Serializer | JSONAPI | skill-serializer', function () {
           {
             type: 'skills',
             id: 'skillId1',
+            attributes: {
+              level: 1,
+            },
           },
           {
             type: 'skills',
             id: 'skillId2',
+            attributes: {
+              level: 2,
+            },
           },
         ],
       };
