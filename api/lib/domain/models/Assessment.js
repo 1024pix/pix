@@ -50,7 +50,6 @@ class Assessment {
     lastChallengeId,
     lastQuestionState,
     answers = [],
-    campaignParticipation,
     course,
     targetProfile,
     lastQuestionDate,
@@ -72,7 +71,6 @@ class Assessment {
     this.lastChallengeId = lastChallengeId;
     this.lastQuestionState = lastQuestionState;
     this.answers = answers.map((answer) => new Answer(answer));
-    this.campaignParticipation = campaignParticipation;
     this.course = course;
     this.targetProfile = targetProfile;
     this.lastQuestionDate = lastQuestionDate;
