@@ -1,6 +1,5 @@
 const { expect, sinon, domainBuilder } = require('../../../test-helper');
 const getAdminMemberDetails = require('../../../../lib/domain/usecases/get-admin-member-details');
-const { ForbiddenAccess } = require('../../../../lib/domain/errors');
 
 describe('Unit | UseCase | get-admin-member-details', function () {
   it('should return an admin member details', async function () {
@@ -16,18 +15,5 @@ describe('Unit | UseCase | get-admin-member-details', function () {
 
     // then
     expect(adminMembers).to.deep.equal(adminMember);
-  });
-
-  it('should throw a ForbiddenAccess error', async function () {
-    // GIVEN
-    const adminMemberRepository = {
-      get: sinon.stub(),
-    };
-    adminMemberRepository.get.throws(ForbiddenAccess);
-
-    // WHEN
-
-    // THEN
-    expect(getAdminMemberDetails({ adminMemberRepository, userId: 1 })).to.be.rejectedWith(ForbiddenAccess);
   });
 });

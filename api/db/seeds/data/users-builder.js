@@ -2,10 +2,6 @@ const PIX_SUPER_ADMIN_ID = 199;
 const PIX_SUPPORT_ID = 200;
 const PIX_METIER_ID = 201;
 const PIX_CERTIF_ID = 202;
-const PIX_SUPER_ADMIN_DISABLED_ID = 203;
-const PIX_SUPPORT_DISABLED_ID = 204;
-const PIX_METIER_DISABLED_ID = 205;
-const PIX_CERTIF_DISABLED_ID = 206;
 const DEFAULT_PASSWORD = 'pix123';
 
 function usersBuilder({ databaseBuilder }) {
@@ -28,28 +24,12 @@ function usersBuilder({ databaseBuilder }) {
   });
 
   databaseBuilder.factory.buildUser.withRawPassword({
-    id: PIX_SUPER_ADMIN_DISABLED_ID,
-    firstName: 'Super',
-    lastName: 'Admin Disabled',
-    email: 'superadmindisabled@example.net',
-    rawPassword: DEFAULT_PASSWORD,
-  });
-
-  databaseBuilder.factory.buildUser.withRawPassword({
     id: PIX_SUPPORT_ID,
     firstName: 'Pix',
     lastName: 'Support',
     email: 'pixsupport@example.net',
     rawPassword: DEFAULT_PASSWORD,
     cgu: true,
-  });
-
-  databaseBuilder.factory.buildUser.withRawPassword({
-    id: PIX_SUPPORT_DISABLED_ID,
-    firstName: 'Pix',
-    lastName: 'Support Disabled',
-    email: 'pixsupportdisabled@example.net',
-    rawPassword: DEFAULT_PASSWORD,
   });
 
   databaseBuilder.factory.buildUser.withRawPassword({
@@ -61,26 +41,10 @@ function usersBuilder({ databaseBuilder }) {
   });
 
   databaseBuilder.factory.buildUser.withRawPassword({
-    id: PIX_METIER_DISABLED_ID,
-    firstName: 'Pix',
-    lastName: 'Métier Disabled',
-    email: 'pixmetierdisabled@example.net',
-    rawPassword: DEFAULT_PASSWORD,
-  });
-
-  databaseBuilder.factory.buildUser.withRawPassword({
     id: PIX_CERTIF_ID,
     firstName: 'Pix',
     lastName: 'Certif',
     email: 'pixcertif@example.net',
-    rawPassword: DEFAULT_PASSWORD,
-  });
-
-  databaseBuilder.factory.buildUser.withRawPassword({
-    id: PIX_CERTIF_DISABLED_ID,
-    firstName: 'Pix',
-    lastName: 'Certif Disabled',
-    email: 'pixcertifdisabled@example.net',
     rawPassword: DEFAULT_PASSWORD,
   });
 
@@ -158,9 +122,5 @@ module.exports = {
   PIX_SUPPORT_ID,
   PIX_METIER_ID,
   PIX_CERTIF_ID,
-  PIX_SUPER_ADMIN_DISABLED_ID,
-  PIX_SUPPORT_DISABLED_ID,
-  PIX_METIER_DISABLED_ID,
-  PIX_CERTIF_DISABLED_ID,
   DEFAULT_PASSWORD,
 };

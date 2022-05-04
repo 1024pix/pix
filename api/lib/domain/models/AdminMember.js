@@ -31,6 +31,6 @@ module.exports = class AdminMember {
   }
 
   get hasAccessToAdminScope() {
-    return this.role in ROLES && !this.disabledAt;
+    return this.role in ROLES;
   }
 };
