@@ -1,5 +1,32 @@
 # Pix Changelog
 
+## v3.205.0 (04/05/2022)
+
+
+### :rocket: Amélioration
+- [#4392](https://github.com/1024pix/pix/pull/4392) [FEATURE] Récupérer les acquis depuis des sujets (PIX-4762).
+- [#4331](https://github.com/1024pix/pix/pull/4331) [FEATURE] Création du composant choice-chip (Pix-4734) 
+- [#4353](https://github.com/1024pix/pix/pull/4353) [FEATURE] Enregistrer le niveau obtenu au volet jury (PIX-4512)
+- [#4363](https://github.com/1024pix/pix/pull/4363) [FEATURE] Modifier les règles de scoring de la certification complementaire CléA numérique (PIX-4831)
+- [#4360](https://github.com/1024pix/pix/pull/4360) [FEATURE] Permettre le changement de rôle dans Pix Admin pour les Super Admin (PIX-4664)
+- [#4374](https://github.com/1024pix/pix/pull/4374) [FEATURE] Ajout d'un title aux nouvelles cartes de tutos (PIX-4836).
+
+### :building_construction: Tech
+- [#4390](https://github.com/1024pix/pix/pull/4390) [TECH] Supprimer le service mail-generator ajouté pour les épreuves QMAIL. 
+- [#4393](https://github.com/1024pix/pix/pull/4393) [TECH] Effectuer la montée de version de @fortawesome/free-solid-svg-icons (PIX-4816).
+- [#4376](https://github.com/1024pix/pix/pull/4376) [TECH] Nettoyage des tests de Pix Admin avec Testing Library (the end.) (PIX-4782). 
+- [#4385](https://github.com/1024pix/pix/pull/4385) [TECH] Supprimer le code en relation avec les tutoriels v1 (PIX-4845).
+- [#4388](https://github.com/1024pix/pix/pull/4388) [TECH] Suppression des changements des v1 et v2 du changelog
+- [#4379](https://github.com/1024pix/pix/pull/4379) [TECH] Réparer le lancement des test de l'algo. 
+
+### :bug: Correction
+- [#4383](https://github.com/1024pix/pix/pull/4383) [BUGFIX] Permettre de commencer une campagne si la participation du prescrit est supprimée (PIX-4875).
+- [#4384](https://github.com/1024pix/pix/pull/4384) [BUGFIX] Corriger l'erreur sur la pagination des tutoriels enregistrés (PIX-4842).
+- [#4382](https://github.com/1024pix/pix/pull/4382) [BUGFIX] Renommer la méthode Build en Get pour le scoring Cléa (PIX-4874)
+
+### :coffee: Autre
+- [#4391](https://github.com/1024pix/pix/pull/4391) FEATURE] Permettre la sélection de sujets pour un profile cible dans pix-admin (PIX-4579)
+
 ## v3.204.0 (29/04/2022)
 
 
