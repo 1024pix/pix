@@ -1,6 +1,6 @@
 import { describe, it } from 'mocha';
 import { expect } from 'chai';
-import { find, render } from '@ember/test-helpers';
+import { find, render, findAll } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 import Service from '@ember/service';
@@ -23,11 +23,10 @@ describe('Integration | Component | Tutorials | Header', function () {
     expect(find('.user-tutorials-banner-v2__title')).to.exist;
     expect(find('.user-tutorials-banner-v2__description')).to.exist;
     expect(find('.user-tutorials-banner-v2__filters')).to.exist;
-    expect(find('a.pix-button--background-grey')).to.exist;
-    expect(find('a.pix-button--background-grey')).to.have.property('textContent').that.contains('Recommandés');
-    expect(find('a.pix-button--background-transparent-light')).to.exist;
-    expect(find('a.pix-button--background-transparent-light'))
+    expect(findAll('a.pix-choice-chip')).to.have.lengthOf(2);
+    expect(find('a.pix-choice-chip,a.pix-choice-chip--active')).to.exist;
+    expect(find('a.pix-choice-chip,a.pix-choice-chip--active'))
       .to.have.property('textContent')
-      .that.contains('Enregistrés');
+      .that.contains('Recommandés');
   });
 });
