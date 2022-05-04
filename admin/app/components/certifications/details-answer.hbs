@@ -24,16 +24,15 @@
     </div>
   </div>
   <div class="card-footer">
-    <div class={{this.resultClass}}>
-      <PowerSelect
-        @options={{this.resultOptions}}
-        @selected={{this.selectedOption}}
-        @searchEnabled={{false}}
-        @onChange={{this.selectOption}}
-        as |result|
-      >
-        {{result.label}}
-      </PowerSelect>
-    </div>
+    <PixSelect
+      @onChange={{this.selectOption}}
+      @options={{this.resultOptions}}
+      aria-label="Sélectionner un résultat"
+      @isSearchable={{false}}
+      class={{this.resultClass}}
+      as |result|
+    >
+      {{result.label}}
+    </PixSelect>
   </div>
 </div>

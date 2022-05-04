@@ -158,10 +158,9 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
       const screen = await visit(`/certification-centers/${certificationCenter.id}`);
 
       // then
-      assert.dom(screen.getByText('Ajouter un membre')).exists();
-      assert.dom(screen.getByLabelText('Adresse e-mail du nouveau membre')).exists();
-      assert.dom(screen.getByText('Valider')).exists();
-      assert.dom('.error').notExists;
+      assert.dom(screen.getByRole('heading', { name: 'Ajouter un membre' })).exists();
+      assert.dom(screen.getByRole('textbox', { name: 'Adresse e-mail du nouveau membre' })).exists();
+      assert.dom(screen.getByRole('button', { name: 'Ajouter le membre' })).exists();
     });
 
     test('should disable button if email is empty or contains spaces', async function (assert) {
@@ -178,7 +177,8 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
 
       // when
       await fillByLabel('Adresse e-mail du nouveau membre', spacesEmail);
-      await triggerEvent('#userEmailToAdd', 'focusout');
+      const input = screen.getByRole('textbox', { name: 'Adresse e-mail du nouveau membre' });
+      await triggerEvent(input, 'focusout');
 
       // then
       assert.dom(screen.getByRole('button', { name: 'Ajouter le membre' })).hasAttribute('disabled');
@@ -197,7 +197,8 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
 
       // when
       await fillByLabel('Adresse e-mail du nouveau membre', 'an invalid email');
-      await triggerEvent('#userEmailToAdd', 'focusout');
+      const input = screen.getByRole('textbox', { name: 'Adresse e-mail du nouveau membre' });
+      await triggerEvent(input, 'focusout');
 
       // then
       assert.dom(screen.getByText("L'adresse e-mail saisie n'est pas valide.")).exists();
@@ -217,11 +218,12 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
 
       // when
       await fillByLabel('Adresse e-mail du nouveau membre', 'test@example.net');
-      await triggerEvent('#userEmailToAdd', 'focusout');
+      const input = screen.getByRole('textbox', { name: 'Adresse e-mail du nouveau membre' });
+      await triggerEvent(input, 'focusout');
 
       // then
       assert.dom(screen.getByRole('button', { name: 'Ajouter le membre' })).hasNoAttribute('disabled');
-      assert.dom('.error').notExists;
+      assert.dom(screen.queryByText("L'adresse e-mail saisie n'est pas valide.")).doesNotExist();
     });
 
     test('should display new certification-center-membership', async function (assert) {
@@ -236,7 +238,8 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
       const email = 'test@example.net';
       const screen = await visit(`/certification-centers/${certificationCenter.id}`);
       await fillByLabel('Adresse e-mail du nouveau membre', email);
-      await triggerEvent('#userEmailToAdd', 'focusout');
+      const input = screen.getByRole('textbox', { name: 'Adresse e-mail du nouveau membre' });
+      await triggerEvent(input, 'focusout');
 
       // when
       await clickByName('Ajouter le membre');
@@ -260,7 +263,7 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
       const screen = await visit(`/certification-centers/${certificationCenter.id}`);
 
       // when
-      await clickByName('Editer');
+      await clickByName('Editer les informations');
 
       // then
       assert.dom(screen.getByRole('button', { name: 'Annuler' })).exists();
@@ -278,7 +281,7 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
         isSupervisorAccessEnabled: false,
       });
       const screen = await visit(`/certification-centers/${certificationCenter.id}`);
-      await clickByName('Editer');
+      await clickByName('Editer les informations');
       this.server.patch(`/certification-centers/${certificationCenter.id}`, () => new Response({}), 204);
 
       // when
@@ -309,7 +312,7 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
       server.create('habilitation', { name: 'Pix+Autre' });
 
       const screen = await visit(`/certification-centers/${certificationCenter.id}`);
-      await clickByName('Editer');
+      await clickByName('Editer les informations');
       this.server.patch(`/certification-centers/${certificationCenter.id}`, () => new Response({}), 204);
 
       // when
@@ -336,7 +339,7 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
       });
       this.server.patch(`/certification-centers/${certificationCenter.id}`, () => new Response({}), 422);
       const screen = await visit(`/certification-centers/${certificationCenter.id}`);
-      await clickByName('Editer');
+      await clickByName('Editer les informations');
 
       // when
       await clickByName('Enregistrer');

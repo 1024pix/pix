@@ -49,7 +49,7 @@ module('Acceptance | organization invitations management', function (hooks) {
       // then
       assert.dom(screen.getByText("Un email a bien a été envoyé à l'adresse user@example.com.")).exists();
       assert.dom(screen.getByText(moment(now).format('DD/MM/YYYY [-] HH:mm'))).exists();
-      assert.dom('#userEmailToInvite').hasNoValue();
+      assert.dom(screen.getByRole('textbox', { name: 'Adresse e-mail du membre à inviter' })).hasNoValue();
     });
 
     test('should display an error if the creation has failed', async function (assert) {

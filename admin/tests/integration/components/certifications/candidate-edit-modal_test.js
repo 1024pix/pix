@@ -1,6 +1,5 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { click } from '@ember/test-helpers';
 import { fillByLabel, clickByName, render } from '@1024pix/ember-testing-library';
 import hbs from 'htmlbars-inline-precompile';
 import sinon from 'sinon';
@@ -68,13 +67,13 @@ module('Integration | Component | certifications/candidate-edit-modal', function
       ];
 
       // when
-      await render(
+      const screen = await render(
         hbs`<Certifications::CandidateEditModal @isDisplayed={{true}} @candidate={{this.candidate}} @countries={{this.countries}} />`
       );
 
       // then
-      assert.dom('#first-name').hasValue('Fabrice');
-      assert.dom('#last-name').hasValue('Gadjo');
+      assert.dom(screen.getByRole('textbox', { name: '* Prénom' })).hasValue('Fabrice');
+      assert.dom(screen.getByRole('textbox', { name: '* Nom de famille' })).hasValue('Gadjo');
       assert.dom('#birthdate').hasValue('2000-12-15');
     });
 
@@ -99,12 +98,12 @@ module('Integration | Component | certifications/candidate-edit-modal', function
         ];
 
         // when
-        await render(
+        const screen = await render(
           hbs`<Certifications::CandidateEditModal @isDisplayed={{true}} @candidate={{this.candidate}} @countries={{this.countries}} />`
         );
 
         // then
-        assert.dom('#male').isChecked();
+        assert.dom(screen.getByRole('radio', { name: 'Homme' })).isChecked();
       });
 
       test('it should check "Femme" option when candidate is female', async function (assert) {
@@ -127,12 +126,12 @@ module('Integration | Component | certifications/candidate-edit-modal', function
         ];
 
         // when
-        await render(
+        const screen = await render(
           hbs`<Certifications::CandidateEditModal @isDisplayed={{true}} @candidate={{this.candidate}} @countries={{this.countries}} />`
         );
 
         // then
-        assert.dom('#female').isChecked();
+        assert.dom(screen.getByRole('radio', { name: 'Femme' })).isChecked();
       });
     });
 
@@ -157,16 +156,15 @@ module('Integration | Component | certifications/candidate-edit-modal', function
         ];
 
         // when
-        await render(
+        const screen = await render(
           hbs`<Certifications::CandidateEditModal @isDisplayed={{true}} @candidate={{this.candidate}} @countries={{this.countries}} />`
         );
 
         // then
-        assert.dom('#birth-insee-code').doesNotExist();
-        assert.dom('#birth-postal-code').doesNotExist();
-        const options = this.element.querySelectorAll('option');
-        assert.true(options.item(0).selected);
-        assert.dom('#birth-city').hasValue('Copenhague');
+        assert.dom(screen.queryByRole('textbox', { name: '* Code Insee de naissance' })).doesNotExist();
+        assert.dom(screen.queryByRole('textbox', { name: '* Code postal de naissance' })).doesNotExist();
+        assert.dom(screen.getByRole('combobox', { name: 'Pays de naissance' })).containsText('DANEMARK');
+        assert.dom(screen.getByRole('textbox', { name: '* Commune de naissance' })).hasValue('Copenhague');
       });
     });
 
@@ -191,16 +189,15 @@ module('Integration | Component | certifications/candidate-edit-modal', function
         ];
 
         // when
-        await render(
+        const screen = await render(
           hbs`<Certifications::CandidateEditModal @isDisplayed={{true}} @candidate={{this.candidate}} @countries={{this.countries}} />`
         );
 
         // then
-        assert.dom('#birth-postal-code').hasValue('66440');
-        assert.dom('#birth-insee-code').doesNotExist();
-        assert.dom('#birth-city').hasValue('Torreilles');
-        const options = this.element.querySelectorAll('option');
-        assert.true(options.item(1).selected);
+        assert.dom(screen.getByRole('textbox', { name: '* Code postal de naissance' })).hasValue('66440');
+        assert.dom(screen.queryByRole('textbox', { name: '* Code Insee de naissance' })).doesNotExist();
+        assert.dom(screen.getByRole('textbox', { name: '* Commune de naissance' })).hasValue('Torreilles');
+        assert.dom(screen.getByRole('combobox', { name: 'Pays de naissance' })).containsText('FRANCE');
       });
     });
 
@@ -225,16 +222,15 @@ module('Integration | Component | certifications/candidate-edit-modal', function
         ];
 
         // when
-        await render(
+        const screen = await render(
           hbs`<Certifications::CandidateEditModal @isDisplayed={{true}} @candidate={{this.candidate}} @countries={{this.countries}} />`
         );
 
         // then
-        assert.dom('#birth-insee-code').hasValue('66212');
-        assert.dom('#birth-postal-code').doesNotExist();
-        assert.dom('#birth-city').doesNotExist();
-        const options = this.element.querySelectorAll('option');
-        assert.true(options.item(1).selected);
+        assert.dom(screen.queryByRole('textbox', { name: '* Code postal de naissance' })).doesNotExist();
+        assert.dom(screen.getByRole('textbox', { name: '* Code Insee de naissance' })).hasValue('66212');
+        assert.dom(screen.queryByRole('textbox', { name: '* Commune de naissance' })).doesNotExist();
+        assert.dom(screen.getByRole('combobox', { name: 'Pays de naissance' })).containsText('FRANCE');
       });
     });
   });
@@ -258,15 +254,16 @@ module('Integration | Component | certifications/candidate-edit-modal', function
         run(() => store.createRecord('country', { code: '99100', name: 'FRANCE' })),
       ];
       this.onCancelButtonsClickedStub = sinon.stub();
-      await render(
+      const screen = await render(
         hbs`<Certifications::CandidateEditModal @isDisplayed={{true}} @candidate={{candidate}}  @onCancelButtonsClicked={{this.onCancelButtonsClickedStub}} @countries={{countries}} />`
       );
+
       await fillByLabel('* Nom de famille', 'Belmans');
       await fillByLabel('* Prénom', 'Gideona');
       setFlatpickrDate('#birthdate', new Date('1861-03-17'));
-      await click('#female');
+      await clickByName('Femme');
       await fillByLabel('Pays de naissance', '99100');
-      await click('#postal-code-choice');
+      await clickByName('Code postal');
       await fillByLabel('* Code postal de naissance', '75001');
       await fillByLabel('* Commune de naissance', 'PARIS 01');
 
@@ -274,15 +271,14 @@ module('Integration | Component | certifications/candidate-edit-modal', function
       await clickByName('Annuler');
 
       // then
-      assert.dom('#first-name').hasValue('Fabrice');
-      assert.dom('#last-name').hasValue('Gadjo');
+      assert.dom(screen.getByRole('textbox', { name: '* Prénom' })).hasValue('Fabrice');
+      assert.dom(screen.getByRole('textbox', { name: '* Nom de famille' })).hasValue('Gadjo');
       assert.dom('#birthdate').hasValue('2000-12-15');
-      assert.dom('#male').isChecked;
-      assert.dom('#birth-insee-code').doesNotExist();
-      assert.dom('#birth-postal-code').doesNotExist();
-      assert.dom('#birth-city').hasValue('Copenhague');
-      const options = this.element.querySelectorAll('option');
-      assert.true(options.item(0).selected);
+      assert.dom(screen.getByRole('radio', { name: 'Homme' })).isChecked();
+      assert.dom(screen.queryByRole('textbox', { name: '* Code Insee de naissance' })).doesNotExist();
+      assert.dom(screen.queryByRole('textbox', { name: '* Code postal de naissance' })).doesNotExist();
+      assert.dom(screen.getByRole('textbox', { name: '* Commune de naissance' })).hasValue('Copenhague');
+      assert.dom(screen.getByRole('combobox', { name: 'Pays de naissance' })).containsText('DANEMARK');
     });
 
     test('it should not alter candidate information', async function (assert) {
@@ -310,9 +306,9 @@ module('Integration | Component | certifications/candidate-edit-modal', function
       await fillByLabel('* Nom de famille', 'Belmans');
       await fillByLabel('* Prénom', 'Gideona');
       setFlatpickrDate('#birthdate', new Date('1861-03-17'));
-      await click('#female');
+      await clickByName('Femme');
       await fillByLabel('Pays de naissance', '99100');
-      await click('#postal-code-choice');
+      await clickByName('Code postal');
       await fillByLabel('* Code postal de naissance', '75001');
       await fillByLabel('* Commune de naissance', 'PARIS 01');
 
@@ -382,9 +378,9 @@ module('Integration | Component | certifications/candidate-edit-modal', function
       await fillByLabel('* Nom de famille', 'Belmans');
       await fillByLabel('* Prénom', 'Gideon');
       setFlatpickrDate('#birthdate', new Date('1861-03-17'));
-      await click('#male');
+      await clickByName('Homme');
       await fillByLabel('Pays de naissance', '99100');
-      await click('#postal-code-choice');
+      await clickByName('Code postal');
       await fillByLabel('* Code postal de naissance', '75001');
       await fillByLabel('* Commune de naissance', 'PARIS 01');
 
@@ -466,7 +462,7 @@ module('Integration | Component | certifications/candidate-edit-modal', function
 
         // when
         await fillByLabel('Pays de naissance', '99100');
-        await click('#insee-code-choice');
+        await clickByName('Code INSEE');
         await fillByLabel('* Code Insee de naissance', '66212');
         await clickByName('Enregistrer');
 
@@ -511,7 +507,7 @@ module('Integration | Component | certifications/candidate-edit-modal', function
 
         // when
         await fillByLabel('Pays de naissance', '99100');
-        await click('#postal-code-choice');
+        await clickByName('Code postal');
         await fillByLabel('* Code postal de naissance', '66440');
         await fillByLabel('* Commune de naissance', 'Torreilles');
         await clickByName('Enregistrer');
@@ -584,7 +580,7 @@ module('Integration | Component | certifications/candidate-edit-modal', function
         );
 
         // when
-        await click('#insee-code-choice');
+        await clickByName('Code INSEE');
 
         // then
         assert.dom(screen.getByLabelText('* Code Insee de naissance')).exists();
@@ -613,7 +609,7 @@ module('Integration | Component | certifications/candidate-edit-modal', function
         );
 
         // when
-        await click('#postal-code-choice');
+        await clickByName('Code postal');
 
         // then
         assert.dom(screen.queryByText('Code INSEE de naissance')).doesNotExist();

@@ -6,10 +6,17 @@
       <Input id="title" class="form-control" @type="text" @value={{this.badge.title}} />
     </div>
     <div class="badge-form__text-field">
-      <label for="image-url">Nom de l'image (svg) :
-        <a href="https://images.pix.fr/badges.html" target="_blank" rel="noopener noreferrer">
-          Voir la liste des badges</a>
-      </label>
+      <label for="image-name" class="badge-form__label">Nom de l'image (svg) :</label>
+      <p class="badge-form__information">
+        <a
+          class="badge-form__information--link"
+          href="https://images.pix.fr/badges.html"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Voir la liste des badges
+        </a>
+      </p>
       <Input
         id="image-name"
         required="true"
@@ -102,7 +109,7 @@
 
       <div class="badge-form-criteria">
         <div class="badge-form__text-field badge-form-criteria__threshold">
-          <label for="campaignParticipationThreshold">Taux de réussite :</label>
+          <label for="campaignParticipationThreshold">Taux de réussite global :</label>
           <Input
             id="campaignParticipationThreshold"
             class="form-control"

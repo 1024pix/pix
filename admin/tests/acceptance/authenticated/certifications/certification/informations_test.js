@@ -461,11 +461,11 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
         certification.update({ certificationIssueReports: [certificationIssueReportImpactful] });
 
         // when
-        await visit('/certifications/123');
+        const screen = await visit('/certifications/123');
 
         // then
-        assert.dom('.certification-issue-report__resolution-status--resolved').exists();
-        assert.dom('.certification-issue-report__resolution-status--unresolved').doesNotExist();
+        assert.dom(screen.getByLabelText('Signalement résolu')).exists();
+        assert.dom(screen.queryByLabelText('Signalement non résolu')).doesNotExist();
       });
 
       test('should display a non-resolved issue report when not resolved', async function (assert) {
@@ -479,11 +479,11 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
         certification.update({ certificationIssueReports: [certificationIssueReportImpactful] });
 
         // when
-        await visit('/certifications/123');
+        const screen = await visit('/certifications/123');
 
         // then
-        assert.dom('.certification-issue-report__resolution-status--resolved').doesNotExist();
-        assert.dom('.certification-issue-report__resolution-status--unresolved').exists();
+        assert.dom(screen.getByLabelText('Signalement non résolu')).exists();
+        assert.dom(screen.queryByLabelText('Signalement résolu')).doesNotExist();
       });
 
       module('when Resolve button is clicked on issue report', function () {
@@ -520,7 +520,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
 
                 // then
                 assert.dom(screen.getByText('Le signalement a été résolu.')).exists();
-                assert.dom('.certification-issue-report__details').containsText('Fraud');
+                assert.dom(screen.getByText('Résolution : Fraud')).exists();
               });
             });
           });

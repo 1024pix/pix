@@ -1,16 +1,16 @@
 <li class="certification-issue-report">
   {{#if (or (not @issueReport.isImpactful) @issueReport.resolvedAt)}}
     <FaIcon
-      aria-label="Résolu"
+      aria-label="Signalement résolu"
       aria-hidden="false"
-      class="certification-issue-report__resolution-status certification-issue-report__resolution-status--resolved"
+      class="certification-issue-report__resolution-status--resolved"
       @icon="check-circle"
     />
   {{else}}
     <FaIcon
-      aria-label="Non résolu"
+      aria-label="Signalement non résolu"
       aria-hidden="false"
-      class="certification-issue-report__resolution-status certification-issue-report__resolution-status--unresolved"
+      class="certification-issue-report__resolution-status--unresolved"
       @icon="times-circle"
     />
   {{/if}}

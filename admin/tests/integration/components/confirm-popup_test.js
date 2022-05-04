@@ -1,7 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render } from '@1024pix/ember-testing-library';
-import { click } from '@ember/test-helpers';
+import { render, clickByName } from '@1024pix/ember-testing-library';
 import hbs from 'htmlbars-inline-precompile';
 import sinon from 'sinon';
 
@@ -28,7 +27,7 @@ module('Integration | Component | confirm-popup', function (hooks) {
     const screen = await render(hbs`<ConfirmPopup @show={{this.display}} @cancel={{this.cancel}} />`);
 
     // when
-    await click('button.btn-secondary');
+    await clickByName('Annuler');
 
     // then
     assert.ok(this.cancel.called);
@@ -43,7 +42,7 @@ module('Integration | Component | confirm-popup', function (hooks) {
     await render(hbs`<ConfirmPopup @show={{this.display}} @confirm={{this.confirm}} />`);
 
     // when
-    await click('button.btn-primary');
+    await clickByName('Confirmer');
 
     // then
     assert.ok(this.confirm.called);

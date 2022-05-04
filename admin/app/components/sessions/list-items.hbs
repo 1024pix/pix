@@ -2,101 +2,103 @@
   <table class="table-admin table-admin__auto-width">
     <thead>
       <tr>
-        <th class="table__column table__column--id">ID</th>
-        <th>Centre de certification</th>
-        <th>Identifiant externe</th>
-        <th>Catégorie</th>
-        <th>Date de session</th>
-        <th>Statut</th>
-        <th>Date de finalisation</th>
-        <th>Date de publication</th>
-        <th>Date de diffusion au prescripteur</th>
+        <th class="table__column table__column--id" id="session-id">ID</th>
+        <th id="certification-center-name">Centre de certification</th>
+        <th id="session-external-id">Identifiant externe</th>
+        <th id="certification-center-category">Catégorie</th>
+        <th id="session-date">Date de session</th>
+        <th id="session-status">Statut</th>
+        <th id="session-finalization-date">Date de finalisation</th>
+        <th id="session-publication-date">Date de publication</th>
+        <th id="session-results-sent-to-prescriber">Date de diffusion au prescripteur</th>
       </tr>
       <tr>
-        <th class="table__column table__column--id">
+        <td class="table__column table__column--id">
           <input
-            id="id"
+            aria-label="Filtrer les sessions avec un id"
             type="text"
             value={{@id}}
             oninput={{perform @triggerFiltering "id"}}
             class="table-admin-input"
           />
-        </th>
-        <th>
+        </td>
+        <td>
           <input
-            id="certificationCenterName"
+            aria-label="Filtrer les sessions avec le nom d'un centre de certification"
             type="text"
             value={{@certificationCenterName}}
             oninput={{perform @triggerFiltering "certificationCenterName"}}
             class="table-admin-input"
           />
-        </th>
-        <th>
+        </td>
+        <td>
           <input
-            id="certificationCenterExternalId"
+            aria-label="Filtrer les sessions avec un identifiant externe"
             type="text"
             value={{@certificationCenterExternalId}}
             oninput={{perform @triggerFiltering "certificationCenterExternalId"}}
             class="table-admin-input"
           />
-        </th>
-        <th>
+        </td>
+        <td>
           <PixSelect
-            id="certificationCenterType"
+            aria-label="Filtrer les sessions en sélectionnant un type de centre de certification"
             name="certificationCenterType"
             class="sessions-list-items__select"
             @options={{this.certificationCenterTypeOptions}}
             @onChange={{this.selectCertificationCenterType}}
             @selectedOption={{@certificationCenterType}}
           />
-        </th>
-        <th></th>
-        <th>
+        </td>
+        <td></td>
+        <td>
           <PixSelect
-            id="status"
+            aria-label="Filtrer les sessions en sélectionnant un statut"
             name="status"
             class="sessions-list-items__select"
             @options={{this.sessionStatusOptions}}
             @onChange={{this.selectSessionStatus}}
             @selectedOption={{@status}}
           />
-        </th>
-        <th></th>
-        <th></th>
-        <th>
+        </td>
+        <td></td>
+        <td></td>
+        <td>
           <PixSelect
-            id="resultsSentToPrescriberAt"
+            aria-label="Filtrer les sessions par leurs résultats diffusés ou non diffusés"
             name="resultsSentToPrescriberAt"
             class="sessions-list-items__select"
             @options={{this.sessionResultsSentToPrescriberOptions}}
             @onChange={{this.selectSessionResultsSentToPrescriber}}
             @selectedOption={{@resultsSentToPrescriberAt}}
           />
-        </th>
+        </td>
       </tr>
     </thead>
 
     {{#if @sessions}}
       <tbody>
         {{#each @sessions as |session|}}
-          <tr>
-            <td class="table__column table__column--id">
+          <tr aria-label="Informations de la session de certification {{session.id}}">
+            <td headers="session-id" class="table__column table__column--id">
               <LinkTo @route="authenticated.sessions.session" @model={{session.id}}>
                 {{session.id}}
               </LinkTo>
             </td>
-            <td>{{session.certificationCenterName}}</td>
-            <td>{{session.certificationCenterExternalId}}</td>
+            <td headers="certification-center-name">{{session.certificationCenterName}}</td>
+            <td headers="session-external-id">{{session.certificationCenterExternalId}}</td>
             {{#if session.certificationCenterType}}
-              <td class="session-list__item--align-center">{{session.certificationCenterType}}</td>
+              <td headers="certification-center-category" class="session-list__item--align-center">
+                {{session.certificationCenterType}}
+              </td>
             {{else}}
-              <td class="session-list__item--align-center">-</td>
+              <td headers="certification-center-category" class="session-list__item--align-center">-</td>
             {{/if}}
-            <td>{{format-date session.date}} à {{session.time}}</td>
-            <td>{{session.displayStatus}}</td>
-            <td>{{format-date session.finalizedAt}}</td>
-            <td>{{format-date session.publishedAt}}</td>
-            <td>{{format-date session.resultsSentToPrescriberAt}}</td>
+            <td headers="session-date">{{format-date session.date}} à {{session.time}}</td>
+            <td headers="session-status">{{session.displayStatus}}</td>
+            <td headers="session-finalization-date">{{format-date session.finalizedAt}}</td>
+            <td headers="session-publication-date">{{format-date session.publishedAt}}</td>
+            <td headers="session-results-sent-to-prescriber">{{format-date session.resultsSentToPrescriberAt}}</td>
           </tr>
         {{/each}}
       </tbody>

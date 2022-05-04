@@ -90,6 +90,6 @@ module('Acceptance | tools', function (hooks) {
 
     // then
     assert.dom(screen.getByText('Le tag a bien été créé !')).exists();
-    assert.dom('#tagNameInput').hasNoValue();
+    assert.dom(screen.getByRole('textbox', { name: 'Nom du tag' })).hasNoValue();
   });
 });

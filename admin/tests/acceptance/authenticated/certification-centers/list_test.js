@@ -41,13 +41,14 @@ module('Acceptance | Certification Centers | List', function (hooks) {
 
     test('it should list the certification-centers', async function (assert) {
       // given
-      server.createList('certification-center', 12);
-
+      const certificationCenter = server.createList('certification-center', 3);
       // when
-      await visit('/certification-centers/list');
+      const screen = await visit('/certification-centers/list');
 
       // then
-      assert.dom('.table-admin tbody tr').exists({ count: 12 });
+      assert.dom(screen.getByLabelText(`Centre de certification ${certificationCenter[0].name}`)).exists();
+      assert.dom(screen.getByLabelText(`Centre de certification ${certificationCenter[1].name}`)).exists();
+      assert.dom(screen.getByLabelText(`Centre de certification ${certificationCenter[2].name}`)).exists();
     });
 
     test('it should display the current filter when certification-centers are filtered', async function (assert) {
@@ -57,10 +58,10 @@ module('Acceptance | Certification Centers | List', function (hooks) {
       server.createList('certification-center', 3, { type: 'SUP' });
 
       // when
-      await visit('/certification-centers/list?type=sup');
+      const screen = await visit('/certification-centers/list?type=sup');
 
       // then
-      assert.dom('#type').hasValue('sup');
+      assert.dom(screen.getByRole('textbox', { name: 'Type' })).hasValue('sup');
     });
 
     test('should go to certification center page when line is clicked', async function (assert) {

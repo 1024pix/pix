@@ -1,7 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { find, click } from '@ember/test-helpers';
-import { fillByLabel, render } from '@1024pix/ember-testing-library';
+import { fillByLabel, render, clickByName } from '@1024pix/ember-testing-library';
 import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
 import sinon from 'sinon';
@@ -51,15 +50,13 @@ module('Integration | Component | Badges::Badge', function (hooks) {
     const screen = await render(hbs`<Badges::Badge @badge={{this.badge}} />`);
 
     //then
-    assert.dom('.page-section__details').exists();
-    const detailsContent = find('.page-section__details').textContent;
-    assert.ok(detailsContent.match(badge.title), 'title');
-    assert.ok(detailsContent.match(badge.key), 'key');
-    assert.ok(detailsContent.match(badge.message), 'message');
-    assert.ok(detailsContent.match(badge.id), 'id');
-    assert.ok(detailsContent.match(badge.altMessage), 'altMessage');
-    assert.ok(detailsContent.match('Certifiable'), 'Certifiable');
-    assert.dom('.page-section__details img').exists();
+    assert.dom(screen.getByText(`ID : ${badge.id}`)).exists();
+    assert.dom(screen.getByText(`Nom du badge : ${badge.title}`)).exists();
+    assert.dom(screen.getByText(`Message : ${badge.message}`)).exists();
+    assert.dom(screen.getByText(`Clé : ${badge.key}`)).exists();
+    assert.dom(screen.getByText(`Message alternatif : ${badge.altMessage}`)).exists();
+    assert.dom(screen.getByText('Certifiable')).exists();
+    assert.dom(screen.getByRole('presentation')).exists();
     assert.dom(screen.getByText('85%')).exists();
     assert
       .dom(screen.getByText('L‘évalué doit obtenir sur l‘ensemble des acquis du target profile', { exact: false }))
@@ -81,7 +78,7 @@ module('Integration | Component | Badges::Badge', function (hooks) {
       await render(hbs`<Badges::Badge @badge={{this.badge}} />`);
 
       // when
-      await click('button[type="button"]');
+      await clickByName('Éditer');
       await fillByLabel('* Titre :', 'mon titre mis à jour');
       await fillByLabel('* Clé :', 'ma clef mise à jour');
       await fillByLabel('Message :', 'mon message mis à jour');
@@ -89,7 +86,7 @@ module('Integration | Component | Badges::Badge', function (hooks) {
       await fillByLabel("* Nom de l'image (svg) :", 'mon url image mise à jour');
       await fillByLabel('Certifiable :', false);
       await fillByLabel('Lacunes :', true);
-      await click('button[type="submit"]');
+      await clickByName('Enregistrer');
 
       // then
       sinon.assert.calledWith(findRecordStub, 'badge', badge.id);
