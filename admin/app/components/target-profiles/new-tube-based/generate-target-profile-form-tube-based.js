@@ -33,6 +33,18 @@ export default class GenerateTargetProfileFromTubeBased extends Component {
     return this.selectedFrameworkIds.length === 0;
   }
 
+  get selectedTubes() {
+    return this.areas
+      .flatMap((area) => {
+        const competences = area.competences.toArray();
+        return competences.flatMap((competence) => {
+          const thematics = competence.thematics.toArray();
+          return thematics.flatMap((thematic) => thematic.tubes.toArray());
+        });
+      })
+      .filter((tube) => this.selectedTubeIds.includes(tube.id));
+  }
+
   @action
   setSelectedFrameworkIds(frameworkIds) {
     this.selectedFrameworkIds = frameworkIds;
