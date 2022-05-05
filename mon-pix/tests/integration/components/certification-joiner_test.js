@@ -172,11 +172,9 @@ describe('Integration | Component | certification-joiner', function () {
       await clickByLabel(this.intl.t('pages.certification-joiner.form.actions.submit'));
 
       // then
-      expect(
-        contains(
-          'Oups ! Nous ne parvenons pas à vous trouver. Vérifiez vos informations afin de continuer ou prévenez le surveillant.'
-        )
-      ).to.exist;
+      expect(contains(this.intl.t('pages.certification-joiner.error-messages.generic.disclaimer'))).to.exist;
+      expect(contains(this.intl.t('pages.certification-joiner.error-messages.generic.check-session-number'))).to.exist;
+      expect(contains(this.intl.t('pages.certification-joiner.error-messages.generic.check-personal-info'))).to.exist;
     });
 
     it('should display an error message on session not accessible', async function () {

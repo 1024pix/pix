@@ -74,7 +74,15 @@
     </div>
 
     {{#if this.errorMessage}}
-      <div class="certification-course-page__errors">{{this.errorMessage}}</div>
+      <div class="certification-course-page__errors">{{this.errorMessage}}
+        {{#if this.genericErrorListElements}}
+          <ul class="certification-course-page__errors__list">
+            {{#each this.genericErrorListElements as |genericErrorElement|}}
+              <li>{{genericErrorElement}}</li>
+            {{/each}}
+          </ul>
+        {{/if}}
+      </div>
     {{/if}}
     <PixButton @type="submit">{{t "pages.certification-joiner.form.actions.submit"}}</PixButton>
   </form>

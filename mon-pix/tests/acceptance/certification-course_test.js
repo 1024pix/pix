@@ -66,11 +66,15 @@ describe('Acceptance | Certification | Certification Course', function () {
             });
           });
 
-          it('should display an error message', function () {
+          it('Should display an error message', function () {
             // then
-            expect(find('.certification-course-page__errors').textContent.trim()).to.equal(
-              'Oups ! Nous ne parvenons pas à vous trouver.\nVérifiez vos informations afin de continuer ou prévenez le surveillant.'
-            );
+            expect(contains(this.intl.t('pages.certification-joiner.error-messages.generic.disclaimer'))).to.exist;
+            expect(
+              contains(this.intl.t('pages.certification-joiner.error-messages.generic.check-session-number'))
+            ).to.exist;
+            expect(
+              contains(this.intl.t('pages.certification-joiner.error-messages.generic.check-personal-info'))
+            ).to.exist;
           });
         });
 
@@ -90,9 +94,13 @@ describe('Acceptance | Certification | Certification Course', function () {
 
           it('should display an error message', function () {
             // then
-            expect(find('.certification-course-page__errors').textContent.trim()).to.equal(
-              'Oups ! Nous ne parvenons pas à vous trouver.\nVérifiez vos informations afin de continuer ou prévenez le surveillant.'
-            );
+            expect(contains(this.intl.t('pages.certification-joiner.error-messages.generic.disclaimer'))).to.exist;
+            expect(
+              contains(this.intl.t('pages.certification-joiner.error-messages.generic.check-session-number'))
+            ).to.exist;
+            expect(
+              contains(this.intl.t('pages.certification-joiner.error-messages.generic.check-personal-info'))
+            ).to.exist;
           });
         });
 
@@ -112,9 +120,13 @@ describe('Acceptance | Certification | Certification Course', function () {
 
           it('should display an error message', function () {
             // then
-            expect(find('.certification-course-page__errors').textContent.trim()).to.equal(
-              'Oups ! Nous ne parvenons pas à vous trouver.\nVérifiez vos informations afin de continuer ou prévenez le surveillant.'
-            );
+            expect(contains(this.intl.t('pages.certification-joiner.error-messages.generic.disclaimer'))).to.exist;
+            expect(
+              contains(this.intl.t('pages.certification-joiner.error-messages.generic.check-session-number'))
+            ).to.exist;
+            expect(
+              contains(this.intl.t('pages.certification-joiner.error-messages.generic.check-personal-info'))
+            ).to.exist;
           });
         });
 
@@ -134,9 +146,13 @@ describe('Acceptance | Certification | Certification Course', function () {
 
           it('should display an error message', function () {
             // then
-            expect(find('.certification-course-page__errors').textContent.trim()).to.equal(
-              'Oups ! Nous ne parvenons pas à vous trouver.\nVérifiez vos informations afin de continuer ou prévenez le surveillant.'
-            );
+            expect(contains(this.intl.t('pages.certification-joiner.error-messages.generic.disclaimer'))).to.exist;
+            expect(
+              contains(this.intl.t('pages.certification-joiner.error-messages.generic.check-session-number'))
+            ).to.exist;
+            expect(
+              contains(this.intl.t('pages.certification-joiner.error-messages.generic.check-personal-info'))
+            ).to.exist;
           });
         });
 
@@ -156,9 +172,13 @@ describe('Acceptance | Certification | Certification Course', function () {
 
           it('should display an error message', function () {
             // then
-            expect(find('.certification-course-page__errors').textContent.trim()).to.equal(
-              'Oups ! Nous ne parvenons pas à vous trouver.\nVérifiez vos informations afin de continuer ou prévenez le surveillant.'
-            );
+            expect(contains(this.intl.t('pages.certification-joiner.error-messages.generic.disclaimer'))).to.exist;
+            expect(
+              contains(this.intl.t('pages.certification-joiner.error-messages.generic.check-session-number'))
+            ).to.exist;
+            expect(
+              contains(this.intl.t('pages.certification-joiner.error-messages.generic.check-personal-info'))
+            ).to.exist;
           });
         });
 
