@@ -25,7 +25,7 @@ module('Acceptance | User details personal information', function (hooks) {
     user.save();
     server.create('admin-member', {
       userId: user.id,
-      role: 'SUPER_ADMIN',
+      isSuperAdmin: true,
     });
     await createAuthenticateSession({ userId: user.id });
 

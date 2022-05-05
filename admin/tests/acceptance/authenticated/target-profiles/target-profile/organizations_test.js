@@ -11,7 +11,7 @@ module('Acceptance | Target Profiles | Target Profile | Organizations', function
   let targetProfile;
 
   hooks.beforeEach(async function () {
-    await authenticateAdminMemberWithRole({ role: 'SUPER_ADMIN' })(server);
+    await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
     targetProfile = this.server.create('target-profile', { name: 'Profil cible du ghetto' });
   });
 

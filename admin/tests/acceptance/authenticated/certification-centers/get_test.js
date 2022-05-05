@@ -11,7 +11,7 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
 
   test('should access Certification center page by URL /certification-centers/:id', async function (assert) {
     // given
-    await authenticateAdminMemberWithRole({ role: 'SUPER_ADMIN' })(server);
+    await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
 
     const certificationCenter = server.create('certification-center', {
       name: 'Center 1',
@@ -28,7 +28,7 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
 
   test('should display Certification center detail', async function (assert) {
     // given
-    await authenticateAdminMemberWithRole({ role: 'SUPER_ADMIN' })(server);
+    await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
 
     const certificationCenter = server.create('certification-center', {
       name: 'Center 1',
@@ -47,7 +47,7 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
 
   test('should display Certification center habilitations', async function (assert) {
     // given
-    await authenticateAdminMemberWithRole({ role: 'SUPER_ADMIN' })(server);
+    await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
     const habilitation1 = server.create('habilitation', { name: 'Pix+Edu' });
     const habilitation2 = server.create('habilitation', { name: 'Pix+Surf' });
     const certificationCenter = server.create('certification-center', {
@@ -67,7 +67,7 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
 
   test('should highlight the habilitations of the current certification center', async function (assert) {
     // given
-    await authenticateAdminMemberWithRole({ role: 'SUPER_ADMIN' })(server);
+    await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
     const habilitation1 = server.create('habilitation', { name: 'Pix+Edu' });
     const habilitation2 = server.create('habilitation', { name: 'Pix+Surf' });
     const certificationCenter = server.create('certification-center', {
@@ -90,7 +90,7 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
 
   test('should display Certification center memberships', async function (assert) {
     // given
-    await authenticateAdminMemberWithRole({ role: 'SUPER_ADMIN' })(server);
+    await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
     const certificationCenter = server.create('certification-center', {
       name: 'Center 1',
       externalId: 'ABCDEF',
@@ -115,7 +115,7 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
 
   test('should be possible to desactive a certification center membership', async function (assert) {
     // given
-    await authenticateAdminMemberWithRole({ role: 'SUPER_ADMIN' })(server);
+    await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
     const user = server.create('user', { firstName: 'Lili' });
     const certificationCenter = server.create('certification-center', {
       name: 'Center 1',
@@ -139,7 +139,7 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
   module('To add certification center membership', function () {
     test('should display elements to add certification center membership', async function (assert) {
       // given
-      await authenticateAdminMemberWithRole({ role: 'SUPER_ADMIN' })(server);
+      await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
       const certificationCenter = server.create('certification-center', {
         name: 'Center 1',
         externalId: 'ABCDEF',
@@ -157,7 +157,7 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
 
     test('should disable button if email is empty or contains spaces', async function (assert) {
       // given
-      await authenticateAdminMemberWithRole({ role: 'SUPER_ADMIN' })(server);
+      await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
       const certificationCenter = server.create('certification-center', {
         name: 'Center 1',
         externalId: 'ABCDEF',
@@ -177,7 +177,7 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
 
     test('should display error message and disable button if email is invalid', async function (assert) {
       // given
-      await authenticateAdminMemberWithRole({ role: 'SUPER_ADMIN' })(server);
+      await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
       const certificationCenter = server.create('certification-center', {
         name: 'Center 1',
         externalId: 'ABCDEF',
@@ -197,7 +197,7 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
 
     test('should enable button and not display error message if email is valid', async function (assert) {
       // given
-      await authenticateAdminMemberWithRole({ role: 'SUPER_ADMIN' })(server);
+      await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
       const certificationCenter = server.create('certification-center', {
         name: 'Center 1',
         externalId: 'ABCDEF',
@@ -217,7 +217,7 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
 
     test('should display new certification-center-membership', async function (assert) {
       // given
-      await authenticateAdminMemberWithRole({ role: 'SUPER_ADMIN' })(server);
+      await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
       const certificationCenter = server.create('certification-center', {
         name: 'Center 1',
         externalId: 'ABCDEF',
@@ -241,7 +241,7 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
   module('Update certification center', function () {
     test('should display a form after clicking on "Editer"', async function (assert) {
       // given
-      await authenticateAdminMemberWithRole({ role: 'SUPER_ADMIN' })(server);
+      await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
       const certificationCenter = server.create('certification-center', {
         name: 'Center 1',
         externalId: 'ABCDEF',
@@ -259,7 +259,7 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
 
     test('should send edited certification center to the API', async function (assert) {
       // given
-      await authenticateAdminMemberWithRole({ role: 'SUPER_ADMIN' })(server);
+      await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
       const certificationCenter = server.create('certification-center', {
         name: 'Center 1',
         externalId: 'ABCDEF',
@@ -287,7 +287,7 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
 
     test('should display a success notification when the certification has been successfully updated', async function (assert) {
       // given
-      await authenticateAdminMemberWithRole({ role: 'SUPER_ADMIN' })(server);
+      await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
       const certificationCenter = server.create('certification-center', {
         name: 'Center 1',
         externalId: 'ABCDEF',
@@ -315,7 +315,7 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
 
     test('should display an error notification when the certification has not been updated in API', async function (assert) {
       // given
-      await authenticateAdminMemberWithRole({ role: 'SUPER_ADMIN' })(server);
+      await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
       const certificationCenter = server.create('certification-center', {
         name: 'Center 1',
         externalId: 'ABCDEF',

@@ -2,7 +2,6 @@ import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { hbs } from 'ember-cli-htmlbars';
 import { render } from '@1024pix/ember-testing-library';
-import { roles } from 'pix-admin/models/admin-member';
 
 module('Integration | Component | team | list', function (hooks) {
   setupRenderingTest(hooks);
@@ -14,7 +13,8 @@ module('Integration | Component | team | list', function (hooks) {
         firstName: 'Marie',
         lastName: 'Tim',
         email: 'marie.tim@example.net',
-        role: roles.SUPER_ADMIN,
+        role: 'SUPER_ADMIN',
+        isSuperAdmin: true,
       },
     ]);
 

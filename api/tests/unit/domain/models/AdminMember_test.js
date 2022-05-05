@@ -87,7 +87,7 @@ describe('Unit | Domain | Models | AdminMember', function () {
     });
   });
 
-  describe('the attribute "hasAccessToAdminScope"', function () {
+  describe('#hasAccessToAdminScope', function () {
     it('should be true if user has a non-disabled allowed role', function () {
       // given
       const adminMemberRawDetails = {
@@ -106,6 +106,78 @@ describe('Unit | Domain | Models | AdminMember', function () {
 
       // then
       expect(hasAccess).to.be.true;
+    });
+  });
+
+  describe('#isSuperAdmin', function () {
+    it('should be true if user has Super Admin role', function () {
+      // given
+      const user = new AdminMember({ id: 7, role: ROLES.SUPER_ADMIN });
+
+      // when / then
+      expect(user.isSuperAdmin).to.be.true;
+    });
+
+    it('should be false if user has not Super Admin role', function () {
+      // given
+      const user = new AdminMember({ id: 7, role: ROLES.CERTIF });
+
+      // when / then
+      expect(user.isSuperAdmin).to.be.false;
+    });
+  });
+
+  describe('#isCertif', function () {
+    it('should be true if user has Certif role', function () {
+      // given
+      const user = new AdminMember({ id: 7, role: ROLES.CERTIF });
+
+      // when / then
+      expect(user.isCertif).to.be.true;
+    });
+
+    it('should be false if user has not Certif role', function () {
+      // given
+      const user = new AdminMember({ id: 7, role: ROLES.METIER });
+
+      // when / then
+      expect(user.isCertif).to.be.false;
+    });
+  });
+
+  describe('#isMetier', function () {
+    it('should be true if user has Metier role', function () {
+      // given
+      const user = new AdminMember({ id: 7, role: ROLES.METIER });
+
+      // when / then
+      expect(user.isMetier).to.be.true;
+    });
+
+    it('should be false if user has not Metier role', function () {
+      // given
+      const user = new AdminMember({ id: 7, role: ROLES.SUPER_ADMIN });
+
+      // when / then
+      expect(user.isMetier).to.be.false;
+    });
+  });
+
+  describe('#isSupport', function () {
+    it('should be true if user has Support role', function () {
+      // given
+      const user = new AdminMember({ id: 7, role: ROLES.SUPPORT });
+
+      // when / then
+      expect(user.isSupport).to.be.true;
+    });
+
+    it('should be false if user has not Support role', function () {
+      // given
+      const user = new AdminMember({ id: 7, role: ROLES.METIER });
+
+      // when / then
+      expect(user.isSupport).to.be.false;
     });
   });
 });
