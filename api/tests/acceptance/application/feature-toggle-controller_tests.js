@@ -21,6 +21,9 @@ describe('Acceptance | Controller | feature-toggle-controller', function () {
         data: {
           id: '0',
           type: 'feature-toggles',
+          attributes: {
+            'is-certification-free-fields-deletion-enabled': false,
+          },
         },
       };
 
