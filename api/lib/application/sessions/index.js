@@ -439,7 +439,7 @@ exports.register = async (server) => {
               type: 'supervisor-authentications',
               attributes: {
                 'supervisor-password': Joi.string().required(),
-                'session-id': Joi.number().required(),
+                'session-id': identifiersType.sessionId,
               },
             },
           }),
