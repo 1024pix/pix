@@ -142,6 +142,7 @@ module.exports = {
       .from('campaign-participations')
       .where('campaign-participations.campaignId', '=', campaignId)
       .where('campaign-participations.isImproved', '=', false)
+      .where('campaign-participations.deletedAt', 'is', null)
       .limit(1);
 
     if (!result.length) return {};
