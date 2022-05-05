@@ -28,14 +28,12 @@ module('Unit | Component | Campaign::Activity::Dashboard', (hooks) => {
     component = await createGlimmerComponent('component:campaign/activity/dashboard', {
       campaign: { id: 1 },
     });
+    await component.fetchDataForParticipationsByStatus();
 
     // then
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line qunit/no-assert-equal
-    assert.equal(component.total, 3);
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line qunit/no-assert-equal
-    assert.equal(component.shared, 1);
+
+    assert.strictEqual(component.total, 3);
+    assert.strictEqual(component.shared, 1);
     assert.deepEqual(component.participantCountByStatus, [
       ['started', 1],
       ['completed', 1],
