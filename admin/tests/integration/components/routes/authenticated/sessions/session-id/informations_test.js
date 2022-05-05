@@ -14,7 +14,7 @@ module('Integration | Component | routes/authenticated/sessions/session | inform
   let session;
 
   hooks.beforeEach(async function () {
-    await authenticateAdminMemberWithRole({ role: 'SUPER_ADMIN' })(server);
+    await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
   });
 
   module('regardless of session status', function () {

@@ -16,7 +16,7 @@ module('Acceptance | Certification Centers | Form', function (hooks) {
     const { id: userId } = server.create('user');
     server.create('admin-member', {
       userId,
-      role: 'SUPER_ADMIN',
+      isSuperAdmin: true,
     });
     await createAuthenticateSession({ userId });
 

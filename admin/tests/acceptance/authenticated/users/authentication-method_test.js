@@ -11,7 +11,7 @@ module('Acceptance | authenticated/users | authentication-method', function (hoo
   module('when adding Pix authentication method', function () {
     test("should display Pix authentication method with email's information", async function (assert) {
       // given
-      await authenticateAdminMemberWithRole({ role: 'SUPER_ADMIN' })(server);
+      await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
 
       const firstName = 'Alice';
       const lastName = 'Merveille';
@@ -38,7 +38,7 @@ module('Acceptance | authenticated/users | authentication-method', function (hoo
 
     test('should stay on modal if email already existing for an other user', async function (assert) {
       // given
-      await authenticateAdminMemberWithRole({ role: 'SUPER_ADMIN' })(server);
+      await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
 
       const firstName = 'Alice';
       const lastName = 'Merveille';
@@ -65,7 +65,7 @@ module('Acceptance | authenticated/users | authentication-method', function (hoo
   module('when reassign Gar authentication method', function () {
     test('should remove Gar authentication method information', async function (assert) {
       // given
-      await authenticateAdminMemberWithRole({ role: 'SUPER_ADMIN' })(server);
+      await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
 
       const firstName = 'Alice';
       const lastName = 'Merveille';
@@ -93,7 +93,7 @@ module('Acceptance | authenticated/users | authentication-method', function (hoo
   module('when reassign Pole Emploi authentication method', function () {
     test('should remove Pole Emploi authentication method information', async function (assert) {
       // given
-      await authenticateAdminMemberWithRole({ role: 'SUPER_ADMIN' })(server);
+      await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
 
       const firstName = 'Alice';
       const lastName = 'Merveille';

@@ -3,7 +3,6 @@ import { currentURL } from '@ember/test-helpers';
 import { visit, clickByName, selectByLabelAndOption } from '@1024pix/ember-testing-library';
 import { setupApplicationTest } from 'ember-qunit';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
-import { roles } from 'pix-admin/models/admin-member';
 import { authenticateAdminMemberWithRole } from 'pix-admin/tests/helpers/test-init';
 
 module('Acceptance | Team | List', function (hooks) {
@@ -22,7 +21,7 @@ module('Acceptance | Team | List', function (hooks) {
 
   module('When user is logged in', function (hooks) {
     hooks.beforeEach(async () => {
-      await authenticateAdminMemberWithRole({ role: 'SUPER_ADMIN' })(server);
+      await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
     });
 
     test('it should be accessible for an authenticated user', async function (assert) {
@@ -48,13 +47,25 @@ module('Acceptance | Team | List', function (hooks) {
 
     test('it should be possible to change the role of a member', async function (assert) {
       // given
-      server.create('admin-member', { id: 5, firstName: 'Elise', lastName: 'Emoi', role: roles.SUPER_ADMIN });
-      server.create('admin-member', { id: 3, firstName: 'Anne', lastName: 'Estésie', role: roles.SUPPORT });
+      server.create('admin-member', {
+        id: 5,
+        firstName: 'Elise',
+        lastName: 'Emoi',
+        role: 'SUPER_ADMIN',
+        isSuperAdmin: true,
+      });
+      server.create('admin-member', {
+        id: 3,
+        firstName: 'Anne',
+        lastName: 'Estésie',
+        role: 'SUPPORT',
+        isSupport: true,
+      });
 
       // when
       const screen = await visit('/equipe');
       await clickByName('Modifier le rôle de Anne Estésie');
-      await selectByLabelAndOption('Sélectionner un rôle', roles.CERTIF);
+      await selectByLabelAndOption('Sélectionner un rôle', 'CERTIF');
       await clickByName('Valider la modification de rôle');
 
       // then
@@ -64,8 +75,20 @@ module('Acceptance | Team | List', function (hooks) {
 
     test('it should show an error when modification is not successful and not modify user role', async function (assert) {
       // given
-      server.create('admin-member', { id: 5, firstName: 'Elise', lastName: 'Emoi', role: roles.SUPER_ADMIN });
-      server.create('admin-member', { id: 377, firstName: 'Anne', lastName: 'Estésie', role: roles.SUPPORT });
+      server.create('admin-member', {
+        id: 5,
+        firstName: 'Elise',
+        lastName: 'Emoi',
+        role: 'SUPER_ADMIN',
+        isSuperAdmin: true,
+      });
+      server.create('admin-member', {
+        id: 377,
+        firstName: 'Anne',
+        lastName: 'Estésie',
+        role: 'SUPPORT',
+        isSupport: true,
+      });
 
       this.server.patch(
         '/admin/admin-members/:id',
@@ -78,7 +101,7 @@ module('Acceptance | Team | List', function (hooks) {
       // when
       const screen = await visit('/equipe');
       await clickByName('Modifier le rôle de Anne Estésie');
-      await selectByLabelAndOption('Sélectionner un rôle', roles.CERTIF);
+      await selectByLabelAndOption('Sélectionner un rôle', 'CERTIF');
       await clickByName('Valider la modification de rôle');
 
       // then

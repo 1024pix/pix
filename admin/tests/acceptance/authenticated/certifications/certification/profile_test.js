@@ -25,7 +25,7 @@ module('Acceptance | authenticated/certifications/certification/profile', functi
 
   module('When user is logged in', function (hooks) {
     hooks.beforeEach(async () => {
-      await authenticateAdminMemberWithRole({ role: 'SUPER_ADMIN' })(server);
+      await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
     });
 
     test('it should display certification id', async function (assert) {

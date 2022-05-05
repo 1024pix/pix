@@ -26,7 +26,7 @@ module('Acceptance | Session pages', function (hooks) {
 
     hooks.beforeEach(async () => {
       // given
-      await authenticateAdminMemberWithRole({ role: 'SUPER_ADMIN' })(server);
+      await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
 
       session = server.create('session', {
         id: 1,

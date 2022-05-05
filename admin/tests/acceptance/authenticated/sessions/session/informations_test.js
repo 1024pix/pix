@@ -23,7 +23,7 @@ module('Acceptance | authenticated/sessions/session/informations', function (hoo
   module('When user is logged in', function (hooks) {
     hooks.beforeEach(async function () {
       // given
-      await authenticateAdminMemberWithRole({ role: 'SUPER_ADMIN' })(server);
+      await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
       server.create('session', { id: '1' });
     });
 

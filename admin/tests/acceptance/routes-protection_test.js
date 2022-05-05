@@ -19,7 +19,7 @@ module('Acceptance | routes protection', function (hooks) {
 
     test('authenticated users can visit /organizations/new', async function (assert) {
       // given
-      await authenticateAdminMemberWithRole({ role: 'SUPER_ADMIN' })(server);
+      await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
 
       // when
       await visit('/organizations/new');

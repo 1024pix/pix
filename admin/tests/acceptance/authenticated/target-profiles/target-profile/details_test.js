@@ -24,7 +24,7 @@ module('Acceptance | Target Profiles | Target Profile | Details', function (hook
 
   module('When user is logged in', function (hooks) {
     hooks.beforeEach(async () => {
-      await authenticateAdminMemberWithRole({ role: 'SUPER_ADMIN' })(server);
+      await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
     });
 
     test('it should be accessible for an authenticated user', async function (assert) {
