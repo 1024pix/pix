@@ -10,12 +10,37 @@ const { FileValidationError } = require('../../../lib/domain/errors');
 
 describe('Unit | Scripts | create-pro-organization-with-tags.js', function () {
   context('When organization file is empty', function () {
-    afterEach(function () {
-      sinon.restore();
-    });
     it('should throw an error', async function () {
       // given
       const organizationsWithValidDataPath = `${__dirname}/helpers/files/organizations-empty-file.csv`;
+
+      // when
+      const error = await catchErr(createOrganizationWithTags)(organizationsWithValidDataPath);
+
+      // then
+      expect(error).to.be.instanceOf(FileValidationError);
+      expect(error.meta).to.be.equal('File is empty');
+    });
+  });
+
+  context('When some required headers are missing', function () {
+    it('should throw an error', async function () {
+      // given
+      const organizationsWithValidDataPath = `${__dirname}/helpers/files/organizations-with-missing-headers-test.csv`;
+
+      // when
+      const error = await catchErr(createOrganizationWithTags)(organizationsWithValidDataPath);
+
+      // then
+      expect(error).to.be.instanceOf(FileValidationError);
+      expect(error.meta).to.be.equal('Headers missing: externalId,createdBy');
+    });
+  });
+
+  context('When required headers are present but data is missing', function () {
+    it('should throw an error', async function () {
+      // given
+      const organizationsWithValidDataPath = `${__dirname}/helpers/files/organizations-with-header-and-missing-data-test.csv`;
 
       // when
       const error = await catchErr(createOrganizationWithTags)(organizationsWithValidDataPath);
