@@ -970,6 +970,20 @@ describe('Integration | Repository | Campaign Participation', function () {
       expect(result).to.deep.equal({ 1: 1, 2: 0, 3: 0 });
     });
 
+    it('returns the distribution for not deleted participations', async function () {
+      databaseBuilder.factory.buildCampaignParticipation({ campaignId, masteryRate: 0, deletedAt: null });
+      databaseBuilder.factory.buildCampaignParticipation({
+        campaignId,
+        masteryRate: 0,
+        deletedAt: new Date('2019-03-13'),
+      });
+      await databaseBuilder.commit();
+
+      const result = await campaignParticipationRepository.countParticipationsByStage(campaignId, stagesBoundaries);
+
+      expect(result).to.deep.equal({ 1: 1, 2: 0, 3: 0 });
+    });
+
     it('returns the distribution of participations by stage', async function () {
       databaseBuilder.factory.buildCampaignParticipation({ campaignId, masteryRate: 0 });
       databaseBuilder.factory.buildCampaignParticipation({ campaignId, masteryRate: 0.05 });

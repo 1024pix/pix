@@ -213,6 +213,23 @@ describe('Integration | Repository | Campaign-Report', function () {
       expect(result).to.deep.equal([0.3]);
     });
 
+    it('should only take into account participations not deleted', async function () {
+      // given
+      databaseBuilder.factory.buildCampaignParticipation({ campaignId, masteryRate: 0.1, deletedAt: null });
+      databaseBuilder.factory.buildCampaignParticipation({
+        campaignId,
+        masteryRate: 0.3,
+        deletedAt: new Date('2019-03-06'),
+      });
+      await databaseBuilder.commit();
+
+      // when
+      const result = await campaignReportRepository.findMasteryRates(campaignId);
+
+      // then
+      expect(result).to.deep.equal([0.1]);
+    });
+
     it('should only take into account shared participations', async function () {
       // given
       databaseBuilder.factory.buildCampaignParticipation({ campaignId, masteryRate: 0.1, sharedAt: new Date() });
