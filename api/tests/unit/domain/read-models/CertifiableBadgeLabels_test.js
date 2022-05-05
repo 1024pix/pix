@@ -27,43 +27,43 @@ describe('Unit | Domain | Models | CertifiableBadgeLabels', function () {
       },
       {
         badgeKey: 'PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE',
-        expectedLabel: 'Pix+ Édu Initié (entrée dans le métier)',
+        expectedLabel: 'Pix+ Édu 2nd degré Initié (entrée dans le métier)',
       },
       {
         badgeKey: 'PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME',
-        expectedLabel: 'Pix+ Édu Confirmé',
+        expectedLabel: 'Pix+ Édu 2nd degré Confirmé',
       },
       {
         badgeKey: 'PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME',
-        expectedLabel: 'Pix+ Édu Confirmé',
+        expectedLabel: 'Pix+ Édu 2nd degré Confirmé',
       },
       {
         badgeKey: 'PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE',
-        expectedLabel: 'Pix+ Édu Avancé',
+        expectedLabel: 'Pix+ Édu 2nd degré Avancé',
       },
       {
         badgeKey: 'PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT',
-        expectedLabel: 'Pix+ Édu Expert',
+        expectedLabel: 'Pix+ Édu 2nd degré Expert',
       },
       {
         badgeKey: 'PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_INITIE',
-        expectedLabel: 'Pix+ Édu Initié (entrée dans le métier)',
+        expectedLabel: 'Pix+ Édu 1er degré Initié (entrée dans le métier)',
       },
       {
         badgeKey: 'PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_CONFIRME',
-        expectedLabel: 'Pix+ Édu Confirmé',
+        expectedLabel: 'Pix+ Édu 1er degré Confirmé',
       },
       {
         badgeKey: 'PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_CONFIRME',
-        expectedLabel: 'Pix+ Édu Confirmé',
+        expectedLabel: 'Pix+ Édu 1er degré Confirmé',
       },
       {
         badgeKey: 'PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE',
-        expectedLabel: 'Pix+ Édu Avancé',
+        expectedLabel: 'Pix+ Édu 1er degré Avancé',
       },
       {
         badgeKey: 'PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT',
-        expectedLabel: 'Pix+ Édu Expert',
+        expectedLabel: 'Pix+ Édu 1er degré Expert',
       },
     ].forEach(({ badgeKey, expectedLabel }) => {
       describe(`when badgeKey is ${badgeKey}`, function () {
