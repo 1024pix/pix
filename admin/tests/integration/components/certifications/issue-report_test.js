@@ -6,6 +6,32 @@ import { render as renderScreen } from '@1024pix/ember-testing-library';
 module('Integration | Component | certifications/issue-report', function (hooks) {
   setupRenderingTest(hooks);
 
+  test('it should display issue details', async function (assert) {
+    // Given
+    const store = this.owner.lookup('service:store');
+    const issueReport = store.createRecord('certification-issue-report', {
+      category: 'TECHNICAL_PROBLEM',
+      subcategory: 'FILE_NOT_OPENING',
+      description: 'this is a report',
+      questionNumber: 2,
+      isImpactful: true,
+      resolvedAt: null,
+    });
+    this.set('issueReport', issueReport);
+
+    // When
+    const screen = await renderScreen(hbs`<Certifications::IssueReport @issueReport={{this.issueReport}}/>`);
+
+    // Then
+    assert
+      .dom(
+        screen.getByText(
+          "Problème technique non bloquant : Le fichier à télécharger ne se télécharge pas ou ne s'ouvre pas - this is a report - Question 2"
+        )
+      )
+      .exists();
+  });
+
   module('when the issue has not been resolved yet', function () {
     test('it should display resolve button', async function (assert) {
       // Given
