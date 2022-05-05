@@ -2,6 +2,7 @@ import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render, click } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
+import Service from '@ember/service';
 import sinon from 'sinon';
 import EmberObject from '@ember/object';
 import {
@@ -12,6 +13,15 @@ import {
 
 module('Integration | Component | add-issue-report-modal', function (hooks) {
   setupRenderingTest(hooks);
+
+  const featureToggles = {};
+
+  hooks.beforeEach(function () {
+    class FeatureTogglesStub extends Service {
+      featureToggles = featureToggles;
+    }
+    this.owner.register('service:feature-toggles', FeatureTogglesStub);
+  });
 
   test('it show candidate informations in title', async function (assert) {
     // given
