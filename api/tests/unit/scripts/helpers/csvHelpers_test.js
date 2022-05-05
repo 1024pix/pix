@@ -10,6 +10,7 @@ const {
 
 describe('Unit | Scripts | Helpers | csvHelpers.js', function () {
   const notExistFilePath = 'notExist.csv';
+  const emptyFilePath = `${__dirname}/files/organizations-empty-file.csv`;
   const badExtensionFilePath = `${__dirname}/files/bad_extension.html`;
   const validFilePath = `${__dirname}/files/valid-organizations-test.csv`;
   const utf8FilePath = `${__dirname}/files/utf8_excel-test.csv`;
@@ -115,6 +116,18 @@ describe('Unit | Scripts | Helpers | csvHelpers.js', function () {
 
       // then
       expect(error).to.be.equal('should have thrown an error');
+    });
+
+    it('should not throw if headers empty', async function () {
+      // given
+      const headers = ['uai', 'name'];
+
+      // when
+      const error = await catchErr(checkCsvHeader)({ filePath: emptyFilePath, requiredFieldNames: headers });
+
+      // then
+      expect(error).to.be.instanceOf(FileValidationError);
+      expect(error.meta).to.equal('File is empty');
     });
   });
 });

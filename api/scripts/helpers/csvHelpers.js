@@ -9,6 +9,7 @@ const ERRORS = {
   INVALID_FILE_EXTENSION: 'INVALID_FILE_EXTENSION',
   MISSING_REQUIRED_FIELD_NAMES: 'MISSING_REQUIRED_FIELD_NAMES',
   MISSING_REQUIRED_FIELD_VALUES: 'MISSING_REQUIRED_FIELD_VALUES',
+  EMPTY_FILE: 'EMPTY_FILE',
 };
 
 const optionsWithHeader = {
@@ -43,6 +44,10 @@ async function checkCsvHeader({ filePath, requiredFieldNames = [] }) {
 
   const options = { ...optionsWithHeader, preview: 1 };
   const data = await parseCsv(filePath, options);
+  if (isEmpty(data)) {
+    throw new FileValidationError(ERRORS.EMPTY_FILE, 'File is empty');
+  }
+
   const fieldNames = Object.keys(data[0]);
 
   const fieldNamesNotPresent = difference(requiredFieldNames, fieldNames);
@@ -61,6 +66,7 @@ async function readCsvFile(filePath) {
   checkCsvExtensionFile(filePath);
 
   const rawData = await readFile(filePath, 'utf8');
+
   return rawData.replace(/^\uFEFF/, '');
 }
 
@@ -71,7 +77,6 @@ async function parseCsv(filePath, options) {
 
 async function parseCsvData(cleanedData, options) {
   const { data } = papa.parse(cleanedData, options);
-
   return data;
 }
 
