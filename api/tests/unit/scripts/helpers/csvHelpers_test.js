@@ -103,7 +103,7 @@ describe('Unit | Scripts | Helpers | csvHelpers.js', function () {
       // then
       expect(error).to.be.instanceOf(FileValidationError);
       expect(error.code).to.equal('MISSING_REQUIRED_FIELD_NAMES');
-      expect(error.meta).to.equal('Header are required: uai,Name');
+      expect(error.meta).to.equal('Headers missing: Name');
     });
 
     it('should not throw if headers match', async function () {

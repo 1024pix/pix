@@ -49,7 +49,7 @@ describe('Integration | Scripts | Helpers | csvHelpers.js', function () {
       // then
       expect(error).to.be.instanceOf(FileValidationError);
       expect(error.code).to.equal('MISSING_REQUIRED_FIELD_NAMES');
-      expect(error.meta).to.equal('Header are required: foo');
+      expect(error.meta).to.equal('Headers missing: foo');
     });
 
     it('should not throw if required header field names are present', async function () {
@@ -69,7 +69,7 @@ describe('Integration | Scripts | Helpers | csvHelpers.js', function () {
   describe('parseCsvWithHeaderAndRequiredFields', function () {
     it('should throw FileValidationError if required field value is empty', async function () {
       // given
-      const requiredFieldNames = ['createdBy'];
+      const requiredFieldNames = ['createdBy', 'provinceCode'];
 
       // when
       const error = await catchErr(parseCsvWithHeaderAndRequiredFields)({
@@ -80,7 +80,7 @@ describe('Integration | Scripts | Helpers | csvHelpers.js', function () {
       // then
       expect(error).to.be.instanceOf(FileValidationError);
       expect(error.code).to.equal('MISSING_REQUIRED_FIELD_VALUES');
-      expect(error.meta).to.equal('Field values are required: createdBy');
+      expect(error.meta).to.equal('Field values are required: createdBy,provinceCode');
     });
   });
 });
