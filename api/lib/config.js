@@ -167,7 +167,9 @@ module.exports = (function () {
       pixCertifScoBlockedAccessDateCollege: process.env.PIX_CERTIF_SCO_BLOCKED_ACCESS_DATE_COLLEGE,
     },
 
-    featureToggles: {},
+    featureToggles: {
+      isCertificationFreeFieldsDeletionEnabled: isFeatureEnabled(process.env.FT_CERTIFICATION_FREE_FIELDS_DELETION),
+    },
 
     infra: {
       concurrencyForHeavyOperations: _getNumber(process.env.INFRA_CONCURRENCY_HEAVY_OPERATIONS, 2),
