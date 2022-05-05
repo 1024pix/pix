@@ -1,6 +1,10 @@
 <form class="form generate-target-profile">
 
-  <section class="form-section">
+  <section
+    class="form-section"
+    {{did-insert this.refreshAreas}}
+    {{did-update this.refreshAreas this.selectedFrameworkIds}}
+  >
     <Card class="generate-target-profile__card" @title="Sélection des sujets">
       <div class="generate-target-profile__inline-layout">
         <label for="framework-list" class="generate-target-profile__multi-select-label">Référentiel :</label>
@@ -20,7 +24,17 @@
       </div>
     </Card>
 
-    <TargetProfiles::NewTubeBased::TubesSelection @selectedFrameworks={{this.selectedFrameworks}} />
+    {{#if this.hasNoFrameworksSelected}}
+      Aucun référentiel de sélectionné
+    {{else}}
+      <TargetProfiles::NewTubeBased::TubesSelection
+        @areas={{this.areas}}
+        @setLevelTube={{this.setLevelTube}}
+        @tubesSelected={{this.tubesSelected}}
+        @checkTube={{this.checkTube}}
+        @uncheckTube={{this.uncheckTube}}
+      />
+    {{/if}}
 
   </section>
   <section class="form-section form-actions form-section--actions">

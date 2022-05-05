@@ -2,12 +2,16 @@ import { action } from '@ember/object';
 import Component from '@glimmer/component';
 import { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
+import { A as EmberArray } from '@ember/array';
 
 export default class GenerateTargetProfileFromTubeBased extends Component {
   @service router;
   @service notifications;
 
   @tracked selectedFrameworkIds;
+  @tracked areas;
+  @tracked tubesSelected = EmberArray();
+  tubeLevels = {};
 
   constructor(...args) {
     super(...args);
@@ -25,9 +29,49 @@ export default class GenerateTargetProfileFromTubeBased extends Component {
     return this.args.frameworks.filter((framework) => this.selectedFrameworkIds.includes(framework.id));
   }
 
+  get hasNoFrameworksSelected() {
+    return this.selectedFrameworkIds.length === 0;
+  }
+
   @action
   setSelectedFrameworkIds(frameworkIds) {
     this.selectedFrameworkIds = frameworkIds;
+  }
+
+  @action
+  async refreshAreas() {
+    const selectedFrameworksAreas = await Promise.all(
+      this.selectedFrameworks.map(async (framework) => {
+        const frameworkAreas = await framework.areas;
+        return frameworkAreas.toArray();
+      })
+    );
+
+    this.areas = selectedFrameworksAreas.flat().sort((area1, area2) => {
+      return area1.code - area2.code;
+    });
+  }
+
+  @action
+  checkTube(tube) {
+    if (this.tubesSelected.includes(tube.id)) {
+      return;
+    }
+    this.tubesSelected.pushObject(tube.id);
+  }
+
+  @action
+  uncheckTube(tube) {
+    const index = this.tubesSelected.indexOf(tube.id);
+    if (index === -1) {
+      return;
+    }
+    this.tubesSelected.removeAt(index);
+  }
+
+  @action
+  setLevelTube(tubeId, level) {
+    this.tubeLevels[tubeId] = level;
   }
 
   @action

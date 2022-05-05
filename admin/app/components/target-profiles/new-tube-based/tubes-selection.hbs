@@ -1,22 +1,16 @@
-<div {{did-insert this.refreshAreas}} {{did-update this.refreshAreas @selectedFrameworks}}>
-  {{#each this.areas as |area|}}
-    <div class="area-border-container">
-      <div class="area-border {{area.color}}"></div>
-      <PixCollapsible @title="{{area.code}} · {{area.title}}" class="{{area.color}} list-competences">
-        {{#each area.sortedCompetences as |competence|}}
-          <TargetProfiles::NewTubeBased::TubesSelectionCompetence
-            @competence={{competence}}
-            @setLevelTube={{this.setLevelTube}}
-            @tubesSelected={{this.tubesSelected}}
-            @checkTube={{this.checkTube}}
-            @uncheckTube={{this.uncheckTube}}
-          />
-        {{/each}}
-      </PixCollapsible>
-    </div>
-  {{else}}
-    {{#if this.hasNoFrameworksSelected}}
-      Aucun référentiel de sélectionné
-    {{/if}}
-  {{/each}}
-</div>
+{{#each @areas as |area|}}
+  <div class="area-border-container">
+    <div class="area-border {{area.color}}"></div>
+    <PixCollapsible @title="{{area.code}} · {{area.title}}" class="{{area.color}} list-competences">
+      {{#each area.sortedCompetences as |competence|}}
+        <TargetProfiles::NewTubeBased::TubesSelectionCompetence
+          @competence={{competence}}
+          @setLevelTube={{@setLevelTube}}
+          @tubesSelected={{@tubesSelected}}
+          @checkTube={{@checkTube}}
+          @uncheckTube={{@uncheckTube}}
+        />
+      {{/each}}
+    </PixCollapsible>
+  </div>
+{{/each}}
