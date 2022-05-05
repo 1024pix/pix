@@ -8,7 +8,7 @@ export default class TubesSelectionTube extends Component {
   }
 
   get state() {
-    return isTubeSelected(this.args.tubesSelected, this.args.tube) ? 'checked' : 'unchecked';
+    return isTubeSelected(this.args.selectedTubeIds, this.args.tube) ? 'checked' : 'unchecked';
   }
 
   get checked() {

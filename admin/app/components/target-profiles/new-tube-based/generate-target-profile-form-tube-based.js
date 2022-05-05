@@ -10,7 +10,7 @@ export default class GenerateTargetProfileFromTubeBased extends Component {
 
   @tracked selectedFrameworkIds;
   @tracked areas;
-  @tracked tubesSelected = EmberArray();
+  @tracked selectedTubeIds = EmberArray();
   tubeLevels = {};
 
   constructor(...args) {
@@ -54,19 +54,19 @@ export default class GenerateTargetProfileFromTubeBased extends Component {
 
   @action
   checkTube(tube) {
-    if (this.tubesSelected.includes(tube.id)) {
+    if (this.selectedTubeIds.includes(tube.id)) {
       return;
     }
-    this.tubesSelected.pushObject(tube.id);
+    this.selectedTubeIds.pushObject(tube.id);
   }
 
   @action
   uncheckTube(tube) {
-    const index = this.tubesSelected.indexOf(tube.id);
+    const index = this.selectedTubeIds.indexOf(tube.id);
     if (index === -1) {
       return;
     }
-    this.tubesSelected.removeAt(index);
+    this.selectedTubeIds.removeAt(index);
   }
 
   @action
