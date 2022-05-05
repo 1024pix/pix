@@ -253,7 +253,11 @@
         "pix-plus-droit-maitre-eligibility": "You are also eligible for the Pix+ Droit Maître certification."
       },
       "error-messages": {
-        "generic": "Oops! We can't find you.\nPlease check your details to continue or call the invigilator.",
+        "generic": {
+          "disclaimer": "The information entered does not match any candidate registered for the session.",
+          "check-session-number": "Check the session number.",
+          "check-personal-info": "Check with the invigilator that your personal information matches the sign-in sheet."
+        },
         "session-not-accessible": "The session you are trying to join is no longer available.",
         "wrong-account": "Oops! It seems that you are using the wrong Pix account to join this certification session.\nTo continue, please login to the correct Pix account or ask the invigilator for help."
       },

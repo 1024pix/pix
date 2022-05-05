@@ -25,6 +25,8 @@ export default class CertificationJoiner extends Component {
   SESSION_ID_VALIDATION_PATTERN = '^[0-9]*$';
 
   @tracked errorMessage = null;
+  @tracked genericErrorDisclaimer = null;
+  @tracked genericErrorListElements = [];
   @tracked sessionIdIsNotANumberError = null;
   @tracked validationClassName = '';
   @tracked sessionId = null;
@@ -89,10 +91,16 @@ export default class CertificationJoiner extends Component {
 
       if (_isMatchingReconciledStudentNotFoundError(err)) {
         this.errorMessage = this.intl.t('pages.certification-joiner.error-messages.wrong-account');
+        this.genericErrorListElements = [];
       } else if (_isSessionNotAccessibleError(err)) {
         this.errorMessage = this.intl.t('pages.certification-joiner.error-messages.session-not-accessible');
+        this.genericErrorListElements = [];
       } else {
-        this.errorMessage = this.intl.t('pages.certification-joiner.error-messages.generic');
+        this.errorMessage = this.intl.t('pages.certification-joiner.error-messages.generic.disclaimer');
+        this.genericErrorListElements = [
+          this.intl.t('pages.certification-joiner.error-messages.generic.check-session-number'),
+          this.intl.t('pages.certification-joiner.error-messages.generic.check-personal-info'),
+        ];
       }
     }
   }
