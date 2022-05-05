@@ -215,6 +215,7 @@ module.exports = injectDependencies(
     createUser: require('./create-user'),
     createUserAndReconcileToSchoolingRegistrationFromExternalUser: require('./create-user-and-reconcile-to-schooling-registration-from-external-user'),
     createUserFromPoleEmploi: require('./create-user-from-pole-emploi'),
+    deleteCampaignParticipation: require('./delete-campaign-participation'),
     deleteCertificationIssueReport: require('./delete-certification-issue-report'),
     deleteSessionJuryComment: require('./delete-session-jury-comment'),
     deleteUnassociatedBadge: require('./delete-unassociated-badge'),
