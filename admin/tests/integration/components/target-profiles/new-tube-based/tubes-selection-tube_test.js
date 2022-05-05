@@ -34,8 +34,8 @@ module('Integration | Component | targetProfiles:NewTubeBased::TubesSelectionTub
 
   test('it should disable level select if tube is not selected', async function (assert) {
     // given
-    const tubesSelected = ['tubeId2', 'tubeId3'];
-    this.set('tubesSelected', tubesSelected);
+    const selectedTubeIds = ['tubeId2', 'tubeId3'];
+    this.set('selectedTubeIds', selectedTubeIds);
 
     // when
     await render(
@@ -43,7 +43,7 @@ module('Integration | Component | targetProfiles:NewTubeBased::TubesSelectionTub
                           @thematic={{this.thematic}}
                           @tube={{this.tube}}
                           @setLevelTube={{this.setLevelTube}}
-                          @tubesSelected={{this.tubesSelected}}/>`
+                          @selectedTubeIds={{this.selectedTubeIds}}/>`
     );
     const select = document.getElementById('select-level-tube-tubeId1');
 
@@ -53,8 +53,8 @@ module('Integration | Component | targetProfiles:NewTubeBased::TubesSelectionTub
 
   test('it should not disable level select is tubes is selected', async function (assert) {
     // given
-    const tubesSelected = ['tubeId1', 'tubeId2'];
-    this.set('tubesSelected', tubesSelected);
+    const selectedTubeIds = ['tubeId1', 'tubeId2'];
+    this.set('selectedTubeIds', selectedTubeIds);
 
     // when
     await render(
@@ -62,7 +62,7 @@ module('Integration | Component | targetProfiles:NewTubeBased::TubesSelectionTub
                           @thematic={{this.thematic}}
                           @tube={{this.tube}}
                           @setLevelTube={{this.setLevelTube}}
-                          @tubesSelected={{this.tubesSelected}}/>`
+                          @selectedTubeIds={{this.selectedTubeIds}}/>`
     );
     const select = document.getElementById('select-level-tube-tubeId1');
 

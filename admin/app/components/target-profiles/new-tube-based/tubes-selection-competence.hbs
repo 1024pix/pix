@@ -34,7 +34,7 @@
                 {{#if (eq index 0)}}
                   <TargetProfiles::NewTubeBased::TubesSelectionThematic
                     @thematic={{thematic}}
-                    @tubesSelected={{@tubesSelected}}
+                    @selectedTubeIds={{@selectedTubeIds}}
                     @checkTube={{@checkTube}}
                     @uncheckTube={{@uncheckTube}}
                   />
@@ -42,7 +42,7 @@
                 <TargetProfiles::NewTubeBased::TubesSelectionTube
                   @tube={{tube}}
                   @setLevelTube={{@setLevelTube}}
-                  @tubesSelected={{@tubesSelected}}
+                  @selectedTubeIds={{@selectedTubeIds}}
                   @checkTube={{@checkTube}}
                   @uncheckTube={{@uncheckTube}}
                 />

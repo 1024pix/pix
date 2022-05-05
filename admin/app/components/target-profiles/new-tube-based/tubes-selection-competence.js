@@ -8,7 +8,7 @@ export default class TubesSelectionCompetence extends Component {
     if (checked) return 'checked';
 
     const indeterminate = this.args.competence.thematics.any((thematic) => {
-      return thematic.tubes.any((tube) => isTubeSelected(this.args.tubesSelected, tube));
+      return thematic.tubes.any((tube) => isTubeSelected(this.args.selectedTubeIds, tube));
     });
 
     if (indeterminate) return 'indeterminate';
@@ -17,7 +17,7 @@ export default class TubesSelectionCompetence extends Component {
   }
 
   isThematicSelected(thematic) {
-    return thematic.tubes.every((tube) => isTubeSelected(this.args.tubesSelected, tube));
+    return thematic.tubes.every((tube) => isTubeSelected(this.args.selectedTubeIds, tube));
   }
 
   @action

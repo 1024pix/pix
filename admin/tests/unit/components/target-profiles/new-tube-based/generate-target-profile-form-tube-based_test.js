@@ -57,7 +57,7 @@ module('Unit | Component | target-profiles/new-tube-based/generate-target-profil
   module('#checkTube', function () {
     test('it should add tube to the selected tubes', function (assert) {
       // given
-      component.tubesSelected = EmberArray(['otherTubeId']);
+      component.selectedTubeIds = EmberArray(['otherTubeId']);
 
       // when
       component.checkTube({
@@ -65,13 +65,13 @@ module('Unit | Component | target-profiles/new-tube-based/generate-target-profil
       });
 
       // then
-      assert.deepEqual(component.tubesSelected, ['otherTubeId', 'tubeId']);
+      assert.deepEqual(component.selectedTubeIds, ['otherTubeId', 'tubeId']);
     });
 
     module('when tube is already in the selected tubes', function () {
       test('it should do nothing', function (assert) {
         // given
-        component.tubesSelected = ['tubeId'];
+        component.selectedTubeIds = ['tubeId'];
 
         // when
         component.checkTube({
@@ -79,15 +79,15 @@ module('Unit | Component | target-profiles/new-tube-based/generate-target-profil
         });
 
         // then
-        assert.deepEqual(component.tubesSelected, ['tubeId']);
+        assert.deepEqual(component.selectedTubeIds, ['tubeId']);
       });
     });
   });
 
   module('#uncheckTube', function () {
-    test('it should remove tube from tubesSelected if element is not checked', function (assert) {
+    test('it should remove tube from selectedTubeIds if element is not checked', function (assert) {
       // given
-      component.tubesSelected = EmberArray(['tubeId', 'otherTubeId']);
+      component.selectedTubeIds = EmberArray(['tubeId', 'otherTubeId']);
 
       // when
       component.uncheckTube({
@@ -95,13 +95,13 @@ module('Unit | Component | target-profiles/new-tube-based/generate-target-profil
       });
 
       // then
-      assert.deepEqual(component.tubesSelected, ['otherTubeId']);
+      assert.deepEqual(component.selectedTubeIds, ['otherTubeId']);
     });
 
     module('when tube is not in the selected tubes', function () {
       test('it should do nothing', function (assert) {
         // given
-        component.tubesSelected = EmberArray(['otherTubeId']);
+        component.selectedTubeIds = EmberArray(['otherTubeId']);
 
         // when
         component.uncheckTube({
@@ -109,7 +109,7 @@ module('Unit | Component | target-profiles/new-tube-based/generate-target-profil
         });
 
         // then
-        assert.deepEqual(component.tubesSelected, ['otherTubeId']);
+        assert.deepEqual(component.selectedTubeIds, ['otherTubeId']);
       });
     });
   });
