@@ -222,4 +222,85 @@ module('Unit | Component | target-profiles/new-tube-based/generate-target-profil
       ]);
     });
   });
+
+  module('#getSelectedTubesWithLevelAndSkills', function () {
+    test('it should return selected tubes', async function (assert) {
+      // given
+      const skills1 = Promise.resolve([
+        { id: 'skillId1', level: 1 },
+        { id: 'skillId2', level: 2 },
+        { id: 'skillId3', level: 3 },
+      ]);
+
+      const skills2 = Promise.resolve([
+        { id: 'skillId4', level: 1 },
+        { id: 'skillId5', level: 3 },
+        { id: 'skillId6', level: 7 },
+      ]);
+
+      const tubes1 = [
+        { id: 'tubeId1' },
+        {
+          id: 'tubeId2',
+          skills: skills1,
+        },
+      ];
+
+      const tubes2 = [
+        {
+          id: 'tubeId3',
+          practicalTitle: 'Tube 3',
+          practicalDescription: 'Description 3',
+          skills: skills2,
+        },
+        {
+          id: 'tubeId4',
+          practicalTitle: 'Tube 4',
+          practicalDescription: 'Description 4',
+        },
+      ];
+
+      const thematics = [
+        { id: 'thematicId1', tubes: tubes1 },
+        { id: 'thematicId2', tubes: tubes2 },
+      ];
+
+      const competences = [
+        {
+          id: 'competenceId',
+          thematics,
+        },
+      ];
+
+      component.areas = [
+        {
+          id: 'areaId',
+          competences,
+        },
+      ];
+
+      component.selectedTubeIds = EmberArray(['tubeId2', 'tubeId3']);
+
+      component.tubeLevels = {
+        tubeId2: 2,
+      };
+
+      // when
+      const result = await component.getSelectedTubesWithLevelAndSkills();
+
+      // then
+      assert.deepEqual(result, [
+        {
+          id: 'tubeId2',
+          level: 2,
+          skills: ['skillId1', 'skillId2'],
+        },
+        {
+          id: 'tubeId3',
+          level: 8,
+          skills: ['skillId4', 'skillId5', 'skillId6'],
+        },
+      ]);
+    });
+  });
 });

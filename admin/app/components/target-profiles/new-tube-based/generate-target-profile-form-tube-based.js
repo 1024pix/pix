@@ -45,6 +45,25 @@ export default class GenerateTargetProfileFromTubeBased extends Component {
       .filter((tube) => this.selectedTubeIds.includes(tube.id));
   }
 
+  async getSelectedTubesWithLevelAndSkills() {
+    return Promise.all(
+      this.selectedTubes.map(async (tube) => {
+        const skills = await tube.skills;
+
+        const level = this.tubeLevels[tube.id] ?? 8;
+
+        return {
+          id: tube.id,
+          level,
+          skills: skills
+            .toArray()
+            .filter((skill) => skill.level <= level)
+            .map((skill) => skill.id),
+        };
+      })
+    );
+  }
+
   @action
   setSelectedFrameworkIds(frameworkIds) {
     this.selectedFrameworkIds = frameworkIds;
