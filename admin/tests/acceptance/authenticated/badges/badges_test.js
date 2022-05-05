@@ -10,7 +10,7 @@ module('Acceptance | authenticated/badges/badge', function (hooks) {
 
   test('should display the badge', async function (assert) {
     // given
-    await authenticateAdminMemberWithRole({ role: 'SUPER_ADMIN' })(server);
+    await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
 
     const tube = this.server.create('tube', { practicalTitle: 'Practical title of tube' });
     const skill = this.server.create('skill', { name: '@skill2', difficulty: 2, tube });

@@ -12,7 +12,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
   let certification;
 
   hooks.beforeEach(async function () {
-    await authenticateAdminMemberWithRole({ role: 'SUPER_ADMIN' })(server);
+    await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
     this.server.create('user', { id: 888 });
 
     this.server.create('country', {

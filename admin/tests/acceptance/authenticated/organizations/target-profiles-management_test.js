@@ -9,7 +9,7 @@ module('Acceptance | Organizations | Target profiles management', function (hook
   setupMirage(hooks);
 
   hooks.beforeEach(async function () {
-    await authenticateAdminMemberWithRole({ role: 'SUPER_ADMIN' })(server);
+    await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
   });
 
   test('should display organization target profiles', async function (assert) {
