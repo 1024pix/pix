@@ -25,7 +25,7 @@ module('Acceptance | authenticated/sessions/list/to be published', function (hoo
   module('When user is logged in', function (hooks) {
     hooks.beforeEach(async function () {
       // given
-      await authenticateAdminMemberWithRole({ role: 'SUPER_ADMIN' })(server);
+      await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
     });
 
     test('visiting /sessions/list/to-be-published', async function (assert) {

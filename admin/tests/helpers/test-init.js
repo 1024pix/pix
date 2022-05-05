@@ -9,10 +9,10 @@ export async function createAuthenticateSession({ userId }) {
   });
 }
 
-export function authenticateAdminMemberWithRole({ role }) {
+export function authenticateAdminMemberWithRole({ isSuperAdmin, isCertif, isSupport, isMetier } = {}) {
   return async (server) => {
     const user = server.create('user');
-    server.create('admin-member', { role, userId: user.id });
+    server.create('admin-member', { isSuperAdmin, isCertif, isSupport, isMetier, userId: user.id });
     await createAuthenticateSession({ userId: user.id });
     return user;
   };

@@ -10,7 +10,7 @@ module('Acceptance | tools', function (hooks) {
   setupMirage(hooks);
 
   hooks.beforeEach(async function () {
-    await authenticateAdminMemberWithRole({ role: 'SUPER_ADMIN' })(server);
+    await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
   });
 
   module('Access', function () {

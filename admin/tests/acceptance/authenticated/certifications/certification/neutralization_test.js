@@ -9,7 +9,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
   setupMirage(hooks);
 
   hooks.beforeEach(async function () {
-    await authenticateAdminMemberWithRole({ role: 'SUPER_ADMIN' })(server);
+    await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
   });
 
   module('when there is no challenge for this certification', function () {

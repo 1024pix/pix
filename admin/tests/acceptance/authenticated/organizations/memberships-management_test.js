@@ -12,7 +12,7 @@ module('Acceptance | Organizations | Memberships management', function (hooks) {
   let organization;
 
   hooks.beforeEach(async function () {
-    await authenticateAdminMemberWithRole({ role: 'SUPER_ADMIN' })(server);
+    await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
     organization = this.server.create('organization');
   });
 

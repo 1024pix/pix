@@ -33,7 +33,7 @@ module('Acceptance | authenticated/sessions/list/with required action', function
         userId,
         firstName,
         lastName,
-        role: 'SUPER_ADMIN',
+        isSuperAdmin: true,
       });
       await createAuthenticateSession({ userId });
     });

@@ -13,7 +13,7 @@ module('Acceptance | Target Profiles | Target Profile | Insights', function (hoo
 
   hooks.beforeEach(async function () {
     // given
-    await authenticateAdminMemberWithRole({ role: 'SUPER_ADMIN' })(server);
+    await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
 
     targetProfile = this.server.create('target-profile', { name: 'Profil cible du ghetto' });
     this.server.create('badge', { id: 100, title: 'My badge', imageUrl: 'http://images.pix.fr/badges/ag2r.svg' });

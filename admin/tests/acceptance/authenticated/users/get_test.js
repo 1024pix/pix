@@ -11,7 +11,7 @@ module('Acceptance | authenticated/users/get', function (hooks) {
   let currentUser;
 
   hooks.beforeEach(async function () {
-    currentUser = await authenticateAdminMemberWithRole({ role: 'SUPER_ADMIN' })(server);
+    currentUser = await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
   });
 
   test('User detail page can be accessed by URL /users/:id', async function (assert) {
