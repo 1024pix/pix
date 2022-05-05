@@ -48,7 +48,7 @@ async function checkCsvHeader({ filePath, requiredFieldNames = [] }) {
   const fieldNamesNotPresent = difference(requiredFieldNames, fieldNames);
 
   if (!isEmpty(fieldNamesNotPresent)) {
-    throw new FileValidationError(ERRORS.MISSING_REQUIRED_FIELD_NAMES, `Header are required: ${requiredFieldNames}`);
+    throw new FileValidationError(ERRORS.MISSING_REQUIRED_FIELD_NAMES, `Headers missing: ${fieldNamesNotPresent}`);
   }
 }
 
@@ -109,4 +109,5 @@ module.exports = {
   parseCsv,
   parseCsvWithHeader,
   parseCsvWithHeaderAndRequiredFields,
+  optionsWithHeader,
 };
