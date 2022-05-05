@@ -7,7 +7,7 @@ const {
 } = require('../../domain/errors');
 
 const apps = require('../constants');
-const authenticationService = require('../../domain/services/authentication-service');
+const pixAuthenticationService = require('../services/pix-authentication-service');
 const endTestScreenRemovalService = require('../../domain/services/end-test-screen-removal-service');
 
 async function _checkUserAccessScope(scope, user) {
@@ -37,7 +37,7 @@ module.exports = async function authenticateUser({
   userRepository,
 }) {
   try {
-    const foundUser = await authenticationService.getUserByUsernameAndPassword({
+    const foundUser = await pixAuthenticationService.getUserByUsernameAndPassword({
       username,
       password,
       userRepository,
