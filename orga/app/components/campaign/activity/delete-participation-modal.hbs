@@ -1,0 +1,25 @@
+{{#if @isModalOpen}}
+  <PixModal @title={{t "pages.campaign-activity.delete-participation-modal.title"}} @onCloseButtonClick={{@closeModal}}>
+    <:content>
+      <p>
+        {{t
+          "pages.campaign-activity.delete-participation-modal.text"
+          lastName=@participation.lastName
+          firstName=@participation.firstName
+          htmlSafe=true
+        }}
+      </p>
+      <p class="warning-text">
+        {{t "pages.campaign-activity.delete-participation-modal.warning"}}
+      </p>
+    </:content>
+    <:footer>
+      <PixButton @backgroundColor="transparent-light" @isBorderVisible={{true}} @triggerAction={{@closeModal}}>
+        {{t "pages.campaign-activity.delete-participation-modal.actions.cancel"}}
+      </PixButton>
+      <PixButton @backgroundColor="red" @triggerAction={{this.deleteCampaignParticipation}}>
+        {{t "pages.campaign-activity.delete-participation-modal.actions.confirmation"}}
+      </PixButton>
+    </:footer>
+  </PixModal>
+{{/if}}

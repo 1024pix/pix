@@ -273,13 +273,18 @@
       }
     },
     "campaign-activity": {
+      "actions": {
+        "delete": "Supprimer"
+      },
       "title": "Activité",
       "table": {
         "column": {
+          "delete": "Supprimer la participation",
           "first-name": "Prénom",
           "last-name": "Nom",
           "status": "Statut"
         },
+        "delete-button-label": "Supprimer la participation",
         "empty": "Aucun participant",
         "row-title": "Participant",
         "title": "Liste des participants"
@@ -290,6 +295,17 @@
         "SHARED-assessment": "Résultats reçus",
         "TO_SHARE-profile": "En attente d'envoi",
         "SHARED-profile": "Profil reçu"
+      },
+      "delete-participation-modal": {
+        "actions": {
+          "cancel": "Non",
+          "confirmation": "Oui, je supprime"
+        },
+        "error": "Un problème est survenu lors de la suppression de la participation.",
+        "success": "La participation a été supprimée avec succès.",
+        "title": "Supprimer cette participation ?",
+        "text": "Vous êtes sur le point de supprimer la participation de <strong>{firstName} {lastName}</strong>, celle-ci ne sera plus visible ni comprise dans les statistiques de la campagne.",
+        "warning": "Le participant pourra terminer son parcours mais ne pourra plus envoyer ses résultats. Il ne pourra pas non plus participer de nouveau à cette campagne."
       }
     },
     "campaign-creation": {
