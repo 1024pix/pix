@@ -435,11 +435,11 @@ exports.register = async (server) => {
         validate: {
           payload: Joi.object({
             data: {
-              id: Joi.string().required(),
+              id: identifiersType.supervisorAccessesId,
               type: 'supervisor-authentications',
               attributes: {
                 'supervisor-password': Joi.string().required(),
-                'session-id': Joi.number().required(),
+                'session-id': identifiersType.sessionId,
               },
             },
           }),
