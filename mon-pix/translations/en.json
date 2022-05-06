@@ -1333,7 +1333,8 @@
       "cgu": "I agree to the '<a href=\"https://pix.org/en-gb/terms-and-conditions\" class=\"link\" target=\"_blank\">'terms and conditions of use of the Pix platform'</a>'",
       "form": {
         "button": "Continue",
-        "error-message": "Please agree to the terms and conditions of use."
+        "error-message": "Please agree to the terms and conditions of use.",
+        "expired-authentication-key": "Your authentication demand has expired. Please click to back button to log in"
       },
       "message": ""
     },

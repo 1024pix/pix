@@ -45,6 +45,23 @@ describe('Unit | Controller | terms-of-service-cnav', function () {
       });
     });
 
+    describe('when authentication key has expired', function () {
+      it('should display error', async function () {
+        //given
+        controller.isTermsOfServiceValidated = true;
+        controller.errorMessage = false;
+        controller.session.authenticate.rejects({ errors: [{ status: '401' }] });
+
+        // when
+        await controller.send('submit');
+
+        // then
+        expect(controller.errorMessage).to.equal(
+          "Votre demande d'authentification a expiré, merci de renouveler votre connexion en cliquant sur le bouton retour."
+        );
+      });
+    });
+
     it('it should display generic error', async function () {
       //given
       controller.isTermsOfServiceValidated = true;
