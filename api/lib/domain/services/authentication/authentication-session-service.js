@@ -4,6 +4,10 @@ const temporaryStorage = require('../../../infrastructure/temporary-storage').wi
 const EXPIRATION_DELAY_SECONDS = settings.authenticationSession.temporaryStorage.expirationDelaySeconds;
 
 module.exports = {
+  getByKey(key) {
+    return temporaryStorage.get(key);
+  },
+
   save(sessionContent) {
     return temporaryStorage.save({
       value: sessionContent,
