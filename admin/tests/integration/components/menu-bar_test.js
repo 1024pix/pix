@@ -62,12 +62,34 @@ module('Integration | Component | menu-bar', function (hooks) {
     assert.dom(screen.getByTitle('Profils cibles')).exists();
   });
 
-  test('should contain link to "tools" management page', async function (assert) {
-    // when
-    const screen = await render(hbs`{{menu-bar}}`);
+  module('Tools tab', function () {
+    module('when user is Super Admin', function () {
+      test('should contain link to "tools" management page', async function (assert) {
+        // given
+        const currentUser = this.owner.lookup('service:currentUser');
+        currentUser.adminMember = { isSuperAdmin: true };
 
-    // then
-    assert.dom(screen.getByTitle('Outils')).exists();
+        // when
+        const screen = await render(hbs`{{menu-bar}}`);
+
+        // then
+        assert.dom(screen.getByTitle('Outils')).exists();
+      });
+    });
+
+    module('when user is Certif, Metier or Support', function () {
+      test('should not contain link to "tools" management page', async function (assert) {
+        // given
+        const currentUser = this.owner.lookup('service:currentUser');
+        currentUser.adminMember = { isSuperAdmin: false };
+
+        // when
+        const screen = await render(hbs`{{menu-bar}}`);
+
+        // then
+        assert.dom(screen.queryByText('Outils')).doesNotExist();
+      });
+    });
   });
 
   test('should contain link to "logout"', async function (assert) {
