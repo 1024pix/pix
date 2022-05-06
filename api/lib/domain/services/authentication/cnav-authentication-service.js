@@ -3,6 +3,7 @@ const { v4: uuidv4 } = require('uuid');
 const httpAgent = require('../../../infrastructure/http/http-agent');
 const querystring = require('querystring');
 const { AuthenticationTokenRetrievalError } = require('../../errors');
+const jsonwebtoken = require('jsonwebtoken');
 
 async function exchangeCodeForIdToken({ code, redirectUri }) {
   const data = {
@@ -49,7 +50,24 @@ function getAuthUrl({ redirectUri }) {
   return { redirectTarget: redirectTarget.toString(), state, nonce };
 }
 
+async function getUserInfo(idToken) {
+  const { given_name, family_name, nonce, sub } = await _extractClaimsFromIdToken(idToken);
+
+  return {
+    firstName: given_name,
+    lastName: family_name,
+    externalIdentityId: sub,
+    nonce,
+  };
+}
+
+async function _extractClaimsFromIdToken(idToken) {
+  const { given_name, family_name, nonce, sub } = await jsonwebtoken.decode(idToken);
+  return { given_name, family_name, nonce, sub };
+}
+
 module.exports = {
-  getAuthUrl,
   exchangeCodeForIdToken,
+  getAuthUrl,
+  getUserInfo,
 };
