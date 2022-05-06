@@ -207,6 +207,8 @@ module.exports = (function () {
     cnav: {
       clientId: process.env.CNAV_CLIENT_ID,
       authUrl: process.env.CNAV_AUTHENTICATION_URL,
+      tokenUrl: process.env.POLE_EMPLOI_TOKEN_URL,
+      clientSecret: process.env.POLE_EMPLOI_CLIENT_SECRET,
     },
 
     temporaryStorage: {
@@ -291,6 +293,8 @@ module.exports = (function () {
 
     config.cnav.clientId = 'PIX_CNAV_CLIENT_ID';
     config.cnav.authUrl = 'http://idp.cnav/auth';
+    config.cnav.tokenUrl = 'http://idp.cnav/token';
+    config.cnav.clientSecret = 'PIX_CNAV_CLIENT_SECRET';
 
     config.saml.accessTokenLifespanMs = 1000;
 
