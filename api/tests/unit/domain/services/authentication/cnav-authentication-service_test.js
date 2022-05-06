@@ -3,10 +3,30 @@ const { AuthenticationTokenRetrievalError } = require('../../../../../lib/domain
 const settings = require('../../../../../lib/config');
 const httpAgent = require('../../../../../lib/infrastructure/http/http-agent');
 const jsonwebtoken = require('jsonwebtoken');
+const { CNAV } = require('../../../../../lib/domain/constants').SOURCE;
 
 const cnavAuthenticationService = require('../../../../../lib/domain/services/authentication/cnav-authentication-service');
 
 describe('Unit | Domain | Services | cnav-authentication-service', function () {
+  describe('#createAccessToken', function () {
+    it('should create access token with user id and source', function () {
+      // given
+      const userId = 123;
+      settings.authentication.secret = 'a secret';
+      settings.cnav.accessTokenLifespanMs = 1000;
+      const accessToken = 'valid access token';
+      const firstParameter = { user_id: userId, source: CNAV };
+      const secondParameter = 'a secret';
+      const thirdParameter = { expiresIn: 1 };
+      sinon.stub(jsonwebtoken, 'sign').withArgs(firstParameter, secondParameter, thirdParameter).returns(accessToken);
+
+      // when
+      const result = cnavAuthenticationService.createAccessToken(userId);
+
+      // then
+      expect(result).to.equal(accessToken);
+    });
+  });
   describe('#exchangeCodeForIdToken', function () {
     beforeEach(function () {
       sinon.stub(httpAgent, 'post');
@@ -46,7 +66,7 @@ describe('Unit | Domain | Services | cnav-authentication-service', function () {
       expect(result).to.equal(idToken);
     });
 
-    context('when cnav id token recovery fails', function () {
+    context('when cnav id token retrieval fails', function () {
       it('should log error and throw AuthenticationTokenRetrievalError', async function () {
         // given
         const code = 'code';
