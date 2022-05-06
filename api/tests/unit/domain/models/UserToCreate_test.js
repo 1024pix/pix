@@ -46,14 +46,14 @@ describe('Unit | Domain | Models | UserToCreate', function () {
     });
   });
 
-  describe('#createFromPoleEmploi', function () {
+  describe('#createWithTermsOfServiceAccepted', function () {
     it('should create a user from pole emploi', function () {
       // given
       const now = new Date('2022-04-01');
       const clock = sinon.useFakeTimers({ now });
 
       // when
-      const user = UserToCreate.createFromPoleEmploi({ email: '  anneMAIL@example.net ' });
+      const user = UserToCreate.createWithTermsOfServiceAccepted({ email: '  anneMAIL@example.net ' });
 
       // then
       expect(user.cgu).to.equal(true);
