@@ -4,6 +4,8 @@ const ComplementaryCertificationCourseResultBookshelf = require('../orm-models/C
 const CleaCertificationScoring = require('../../domain/models/CleaCertificationScoring');
 const Badge = require('../../domain/models/Badge');
 const ComplementaryCertificationCourseResult = require('../../domain/models/ComplementaryCertificationCourseResult');
+const ComplementaryCertification = require('../../domain/models/ComplementaryCertification');
+const _ = require('lodash');
 
 module.exports = {
   async getCleaCertificationScoring({
@@ -19,6 +21,7 @@ module.exports = {
       return CleaCertificationScoring.buildNotEligible({ complementaryCertificationCourseId });
     }
     const pixScore = await _getLatestPixScoreByCertificationCourseId(certificationCourseId);
+    const { minimumEarnedPix, minimumReproducibilityRate } = await _getMinimumReproducibilityRateAndMinimumEarnedPix();
 
     return new CleaCertificationScoring({
       complementaryCertificationCourseId,
@@ -26,6 +29,8 @@ module.exports = {
       reproducibilityRate,
       cleaBadgeKey,
       pixScore,
+      minimumEarnedPix,
+      minimumReproducibilityRate,
     });
   },
 
@@ -97,4 +102,16 @@ async function _getLatestPixScoreByCertificationCourseId(certificationCourseId) 
     .first();
 
   return pixScore;
+}
+
+async function _getMinimumReproducibilityRateAndMinimumEarnedPix() {
+  const { minimumReproducibilityRate, minimumEarnedPix } = await knex('complementary-certifications')
+    .select('minimumReproducibilityRate', 'minimumEarnedPix')
+    .where({ name: ComplementaryCertification.CLEA })
+    .first();
+
+  return {
+    minimumEarnedPix,
+    minimumReproducibilityRate: _.toNumber(minimumReproducibilityRate),
+  };
 }
