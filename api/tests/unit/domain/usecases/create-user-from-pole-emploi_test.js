@@ -45,7 +45,6 @@ describe('Unit | UseCase | create-user-from-pole-emploi', function () {
     };
 
     userToCreateRepository = {
-      findByPoleEmploiExternalIdentifier: sinon.stub(),
       create: sinon.stub(),
     };
 

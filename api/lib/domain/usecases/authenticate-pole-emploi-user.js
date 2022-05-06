@@ -43,7 +43,10 @@ module.exports = async function authenticatePoleEmploiUser({
       tokenService,
     });
   } else {
-    const user = await userRepository.findByPoleEmploiExternalIdentifier(userInfo.externalIdentityId);
+    const user = await userRepository.findByExternalIdentifier({
+      externalIdentityId: userInfo.externalIdentityId,
+      identityProvider: AuthenticationMethod.identityProviders.POLE_EMPLOI,
+    });
 
     if (!user) {
       const authenticationKey = await poleEmploiTokensRepository.save(poleEmploiTokens);
