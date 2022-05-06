@@ -281,24 +281,54 @@ describe('Unit | Application | Sessions | Routes', function () {
   describe('PATCH /api/admin/sessions/{id}/publish', function () {
     it('should exist', async function () {
       // given
-      sinon.stub(securityPreHandlers, 'userHasAtLeastOneAccessOf').returns(() => true);
       sinon.stub(sessionController, 'publish').returns('ok');
+      sinon.stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin').resolves(true);
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
 
-      const payload = {
+      // when
+      const response = await httpTestServer.request('PATCH', '/api/admin/sessions/1/publish', {
         data: {
           attributes: {
             toPublish: true,
           },
         },
-      };
-
-      // when
-      const response = await httpTestServer.request('PATCH', '/api/admin/sessions/1/publish', payload);
+      });
 
       // then
       expect(response.statusCode).to.equal(200);
+    });
+
+    it('return forbidden access if user has METIER role', async function () {
+      // given
+      sinon.stub(sessionController, 'publish').returns('ok');
+
+      sinon.stub(securityPreHandlers, 'checkUserHasRoleMetier').callsFake((request, h) => h.response(true));
+      sinon
+        .stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin')
+        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+      sinon
+        .stub(securityPreHandlers, 'checkUserHasRoleSupport')
+        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+      sinon
+        .stub(securityPreHandlers, 'checkUserHasRoleCertif')
+        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      // when
+      const response = await httpTestServer.request('PATCH', '/api/admin/sessions/1/publish', {
+        data: {
+          attributes: {
+            toPublish: true,
+          },
+        },
+      });
+
+      // then
+      expect(response.statusCode).to.equal(403);
+      sinon.assert.notCalled(sessionController.publish);
     });
   });
 
