@@ -1,7 +1,7 @@
 const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper');
 
 const {
-  GeneratePoleEmploiTokensError,
+  AuthenticationTokenRetrievalError,
   PasswordNotMatching,
   UserNotFoundError,
 } = require('../../../../lib/domain/errors');
@@ -173,7 +173,7 @@ describe('Unit | Domain | Services | authentication-service', function () {
     });
 
     context('when PE tokens generation fails', function () {
-      it('should log error and throw GeneratePoleEmploiTokensError', async function () {
+      it('should log error and throw AuthenticationTokenRetrievalError', async function () {
         // given
         const code = 'code';
         const clientId = 'clientId';
@@ -200,7 +200,7 @@ describe('Unit | Domain | Services | authentication-service', function () {
         });
 
         // then
-        expect(error).to.be.an.instanceOf(GeneratePoleEmploiTokensError);
+        expect(error).to.be.an.instanceOf(AuthenticationTokenRetrievalError);
         expect(error.message).to.equal(expectedMessage);
       });
     });

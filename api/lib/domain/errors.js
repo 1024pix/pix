@@ -954,11 +954,11 @@ class NotImplementedError extends Error {
   }
 }
 
-class GeneratePoleEmploiTokensError extends DomainError {
+class AuthenticationTokenRetrievalError extends DomainError {
   constructor(message, status) {
     super(message);
     this.status = parseInt(status, 10);
-    this.title = 'Pole emploi tokens generation fails.';
+    this.title = 'Erreur lors de la récupération des tokens du partenaire.';
   }
 }
 
@@ -1108,6 +1108,7 @@ module.exports = {
   AuthenticationMethodNotFoundError,
   AuthenticationMethodAlreadyExistsError,
   AuthenticationKeyForPoleEmploiTokenExpired,
+  AuthenticationTokenRetrievalError,
   UncancellableOrganizationInvitationError,
   CampaignCodeError,
   CampaignParticipationDeletedError,
@@ -1149,7 +1150,6 @@ module.exports = {
   EntityValidationError,
   FileValidationError,
   ForbiddenAccess,
-  GeneratePoleEmploiTokensError,
   ImproveCompetenceEvaluationForbiddenError,
   InvalidCertificationCandidate,
   InvalidCertificationReportForFinalization,
