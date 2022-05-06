@@ -591,7 +591,6 @@ exports.register = async (server) => {
                 securityPreHandlers.checkUserHasRoleSuperAdmin,
                 securityPreHandlers.checkUserHasRoleCertif,
                 securityPreHandlers.checkUserHasRoleSupport,
-                securityPreHandlers.checkUserHasRoleMetier,
               ])(request, h),
             assign: 'hasAuthorizationToAccessAdminScope',
           },
