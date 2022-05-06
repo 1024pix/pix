@@ -1,0 +1,25 @@
+<PixModal @title="Télécharger la sélection des sujets" @onCloseButtonClick={{@close}}>
+  <:content>
+    <PixInput
+      @id="fileName"
+      @label="Nom du fichier"
+      @requiredLabel="Champ obligatoire"
+      @value={{this.fileName}}
+      {{on "change" this.onFileNameChange}}
+    />
+  </:content>
+  <:footer>
+    <PixButton @backgroundColor="transparent-light" @isBorderVisible={{true}} {{on "click" @close}}>
+      Annuler
+    </PixButton>
+    <PixButtonLink
+      @backgroundColor="green"
+      @href={{this.downloadURL}}
+      download="{{this.fileName}}{{this.fileNameSuffix}}"
+      {{on "click" @close}}
+    >
+      Télécharger (JSON
+      {{this.formattedFileSize}})
+    </PixButtonLink>
+  </:footer>
+</PixModal>

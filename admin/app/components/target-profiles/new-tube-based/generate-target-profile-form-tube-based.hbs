@@ -46,8 +46,15 @@
     >
       Retour
     </PixButton>
-    <PixButtonLink @size="big" @backgroundColor="green" @href="#">
+    <PixButton @size="big" @backgroundColor="green" @triggerAction={{this.openDownloadModal}}>
       Télécharger la sélection des sujets (JSON)
-    </PixButtonLink>
+    </PixButton>
   </section>
+
+  {{#if this.isDownloadModalOpened}}
+    <TargetProfiles::NewTubeBased::DownloadModal
+      @tubesWithLevelAndSkills={{this.tubesWithLevelAndSkills}}
+      @close={{this.closeDownloadModal}}
+    />
+  {{/if}}
 </form>
