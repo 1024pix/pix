@@ -380,6 +380,38 @@ describe('Unit | Application | Sessions | Routes', function () {
       expect(response.statusCode).to.equal(403);
     });
 
+    it('return forbidden access if user has METIER role', async function () {
+      // given
+      sinon.stub(sessionController, 'publishInBatch').returns('ok');
+
+      sinon.stub(securityPreHandlers, 'checkUserHasRoleMetier').callsFake((request, h) => h.response(true));
+      sinon
+        .stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin')
+        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+      sinon
+        .stub(securityPreHandlers, 'checkUserHasRoleSupport')
+        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+      sinon
+        .stub(securityPreHandlers, 'checkUserHasRoleCertif')
+        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      // when
+      const response = await httpTestServer.request('POST', '/api/admin/sessions/publish-in-batch', {
+        data: {
+          attributes: {
+            ids: [1, 2, 3],
+          },
+        },
+      });
+
+      // then
+      expect(response.statusCode).to.equal(403);
+      sinon.assert.notCalled(sessionController.publishInBatch);
+    });
+
     it('should succeed with valid session ids', async function () {
       // given
       sinon.stub(securityPreHandlers, 'userHasAtLeastOneAccessOf').returns(() => true);
