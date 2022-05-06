@@ -1,5 +1,20 @@
 # Pix Changelog
 
+## v3.207.0 (06/05/2022)
+
+
+### :rocket: Amélioration
+- [#4387](https://github.com/1024pix/pix/pull/4387) [FEATURE] Rendre configurable les critères d'obtention de la certification CléA Numérique (PIX-4832).
+- [#4401](https://github.com/1024pix/pix/pull/4401) [FEATURE] Récupération du niveau des acquis (PIX-4889)
+- [#4402](https://github.com/1024pix/pix/pull/4402) [FEATURE] Contrôler le type d'identifiant de session pour la supervision (PIX-4904).
+
+### :building_construction: Tech
+- [#4296](https://github.com/1024pix/pix/pull/4296) [TECH] Supprimer des indexs non utilisés en production.
+- [#4397](https://github.com/1024pix/pix/pull/4397) [TECH] Préparer Pix Admin à la restriction des accès pour certains rôles à certaines pages (PIX-4885)
+
+### :bug: Correction
+- [#4386](https://github.com/1024pix/pix/pull/4386) [BUGFIX] Corriger le message d'erreur listant les ids des orgas en doublon dans le script OGA(PIX-4864)
+
 ## v3.206.0 (04/05/2022)
 
 
