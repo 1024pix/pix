@@ -181,8 +181,8 @@ class NoStagesForCampaign extends DomainError {
   }
 }
 
-class AuthenticationKeyForPoleEmploiTokenExpired extends DomainError {
-  constructor(message = 'This authentication key for pole emploi token has expired.') {
+class AuthenticationKeyExpired extends DomainError {
+  constructor(message = 'This authentication key has expired.') {
     super(message);
   }
 }
@@ -1107,7 +1107,7 @@ module.exports = {
   AssessmentResultNotCreatedError,
   AuthenticationMethodNotFoundError,
   AuthenticationMethodAlreadyExistsError,
-  AuthenticationKeyForPoleEmploiTokenExpired,
+  AuthenticationKeyExpired,
   AuthenticationTokenRetrievalError,
   UncancellableOrganizationInvitationError,
   CampaignCodeError,
