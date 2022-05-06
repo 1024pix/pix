@@ -75,6 +75,18 @@ describe('Unit | Domain | Models | AuthenticationMethod', function () {
       ).not.to.throw(ObjectValidationError);
     });
 
+    it('should successfully instantiate object when identityProvider is CNAV and externalIdentifier is defined', function () {
+      // given & when & then
+      expect(
+        () =>
+          new AuthenticationMethod({
+            identityProvider: AuthenticationMethod.identityProviders.CNAV,
+            externalIdentifier: 'externalIdentifier',
+            userId: 1,
+          })
+      ).not.to.throw(ObjectValidationError);
+    });
+
     it('should throw an ObjectValidationError when identityProvider is not valid', function () {
       // when
       expect(
@@ -91,7 +103,7 @@ describe('Unit | Domain | Models | AuthenticationMethod', function () {
       ).to.throw(ObjectValidationError);
     });
 
-    it('should throw an ObjectValidationError when externalIdentifier is not defined for identityProvider GAR or POLE_EMPLOI', function () {
+    it('should throw an ObjectValidationError when externalIdentifier is not defined for identityProvider GAR, POLE_EMPLOI or CNAV', function () {
       // when
       expect(
         () =>
@@ -105,6 +117,14 @@ describe('Unit | Domain | Models | AuthenticationMethod', function () {
         () =>
           new AuthenticationMethod({
             identityProvider: AuthenticationMethod.identityProviders.POLE_EMPLOI,
+            externalIdentifier: undefined,
+            userId: 1,
+          })
+      ).to.throw(ObjectValidationError);
+      expect(
+        () =>
+          new AuthenticationMethod({
+            identityProvider: AuthenticationMethod.identityProviders.CNAV,
             externalIdentifier: undefined,
             userId: 1,
           })
