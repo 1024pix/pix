@@ -35,7 +35,7 @@ module.exports = async function createUserFromPoleEmploi({
     };
   }
 
-  const user = UserToCreate.createFromPoleEmploi({
+  const user = UserToCreate.createWithTermsOfServiceAccepted({
     firstName: userInfo.firstName,
     lastName: userInfo.lastName,
   });
