@@ -829,6 +829,32 @@ describe('Unit | Application | Sessions | Routes', function () {
       // then
       expect(response.statusCode).to.equal(403);
     });
+
+    it('return forbidden access if user has METIER role', async function () {
+      // given
+      sinon.stub(sessionController, 'commentAsJury').returns('ok');
+
+      sinon.stub(securityPreHandlers, 'checkUserHasRoleMetier').callsFake((request, h) => h.response(true));
+      sinon
+        .stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin')
+        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+      sinon
+        .stub(securityPreHandlers, 'checkUserHasRoleSupport')
+        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+      sinon
+        .stub(securityPreHandlers, 'checkUserHasRoleCertif')
+        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      // when
+      const response = await httpTestServer.request('PUT', '/api/admin/sessions/1/comment');
+
+      // then
+      expect(response.statusCode).to.equal(403);
+      sinon.assert.notCalled(sessionController.commentAsJury);
+    });
   });
 
   describe('DELETE /api/admin/sessions/{id}/comment', function () {
