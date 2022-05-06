@@ -202,5 +202,37 @@ describe('Integration | Component | certification-joiner', function () {
       // then
       expect(contains("La session que vous tentez de rejoindre n'est plus accessible.")).to.exist;
     });
+
+    context('when candidate has already been linked to another user in the session', function () {
+      it('should display an error message', async function () {
+        // given
+        this.set('onStepChange', sinon.stub());
+        await render(hbs`<CertificationJoiner @onStepChange={{this.onStepChange}}/>`);
+        await fillInByLabel(this.intl.t('pages.certification-joiner.form.fields.session-number'), '123456');
+        await fillInByLabel(this.intl.t('pages.certification-joiner.form.fields.first-name'), 'Robert');
+        await fillInByLabel(this.intl.t('pages.certification-joiner.form.fields.birth-name'), 'de Pix');
+        await fillInByLabel(this.intl.t('pages.certification-joiner.form.fields.birth-day'), '02');
+        await fillInByLabel(this.intl.t('pages.certification-joiner.form.fields.birth-month'), '01');
+        await fillInByLabel(this.intl.t('pages.certification-joiner.form.fields.birth-year'), '2000');
+        const store = this.owner.lookup('service:store');
+        const saveStub = sinon.stub();
+        saveStub
+          .withArgs({ adapterOptions: { joinSession: true, sessionId: '123456' } })
+          .throws({ errors: [{ status: '404' }] });
+        const createRecordMock = sinon.mock();
+        createRecordMock.returns({ save: saveStub, deleteRecord: function () {} });
+        store.createRecord = createRecordMock;
+
+        // when
+        await clickByLabel(this.intl.t('pages.certification-joiner.form.actions.submit'));
+
+        // then
+        expect(contains(this.intl.t('pages.certification-joiner.error-messages.generic.disclaimer'))).to.exist;
+        expect(
+          contains(this.intl.t('pages.certification-joiner.error-messages.generic.check-session-number'))
+        ).to.exist;
+        expect(contains(this.intl.t('pages.certification-joiner.error-messages.generic.check-personal-info'))).to.exist;
+      });
+    });
   });
 });
