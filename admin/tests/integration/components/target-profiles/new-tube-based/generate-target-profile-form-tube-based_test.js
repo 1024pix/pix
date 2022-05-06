@@ -1,5 +1,5 @@
 import { module, test } from 'qunit';
-import { render, clickByName } from '@1024pix/ember-testing-library';
+import { render, clickByName, within } from '@1024pix/ember-testing-library';
 import hbs from 'htmlbars-inline-precompile';
 import { setupRenderingTest } from 'ember-qunit';
 
@@ -13,11 +13,13 @@ module('Integration | Component | targetProfiles::NewTubeBased::GenerateTargetPr
         id: 'tubeId1',
         practicalTitle: 'Tube 1',
         practicalDescription: 'Description 1',
+        skills: [],
       },
       {
         id: 'tubeId2',
         practicalTitle: 'Tube 2',
         practicalDescription: 'Description 2',
+        skills: [],
       },
     ];
 
@@ -26,6 +28,7 @@ module('Integration | Component | targetProfiles::NewTubeBased::GenerateTargetPr
         id: 'tubeId3',
         practicalTitle: 'Tube 3',
         practicalDescription: 'Description 3',
+        skills: [],
       },
     ];
 
@@ -53,6 +56,7 @@ module('Integration | Component | targetProfiles::NewTubeBased::GenerateTargetPr
         get sortedCompetences() {
           return competences;
         },
+        competences,
       },
     ];
 
@@ -235,6 +239,29 @@ module('Integration | Component | targetProfiles::NewTubeBased::GenerateTargetPr
 
         // then
         assert.dom(screen.getByRole('button', { name: 'Télécharger la sélection des sujets (JSON)' })).isNotDisabled();
+      });
+    });
+
+    module('when download button is clicked', function () {
+      test('it display a download subjects selection modal', async function (assert) {
+        // given
+        this.set('frameworks', frameworks);
+
+        // when
+        const screen = await render(
+          hbs`<TargetProfiles::NewTubeBased::GenerateTargetProfileFormTubeBased @frameworks={{this.frameworks}} />`
+        );
+        await clickByName('1 · Titre domaine');
+        await clickByName('1 Titre competence');
+        await clickByName('Tube 1 : Description 1');
+        await clickByName('Télécharger la sélection des sujets (JSON)');
+
+        // then
+        const dialog = screen.getByRole('dialog', { name: 'Télécharger la sélection des sujets' });
+        assert.dom(dialog).exists();
+        assert.dom(within(dialog).getByRole('textbox', { name: 'Nom du fichier' })).exists();
+        assert.dom(within(dialog).getByRole('button', { name: 'Annuler' })).exists();
+        assert.dom(within(dialog).getByRole('link', { name: /Télécharger \(JSON .+ Ko\)/ })).exists();
       });
     });
   });
