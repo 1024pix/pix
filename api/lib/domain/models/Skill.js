@@ -1,5 +1,5 @@
 class Skill {
-  constructor({ id, name, pixValue, competenceId, tutorialIds = [], tubeId, version } = {}) {
+  constructor({ id, name, pixValue, competenceId, tutorialIds = [], tubeId, version, level } = {}) {
     this.id = id;
     this.name = name;
     this.pixValue = pixValue;
@@ -7,6 +7,7 @@ class Skill {
     this.tutorialIds = tutorialIds;
     this.tubeId = tubeId;
     this.version = version;
+    this.level = level;
   }
 
   get difficulty() {
