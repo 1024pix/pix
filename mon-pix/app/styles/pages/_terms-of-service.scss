@@ -28,12 +28,9 @@
   &__title,
   &__description,
   &__conditions {
-    margin-bottom: 32px;
     text-align: center;
     color: $grey-80;
     font-family: $font-roboto;
-    font-size: 1rem;
-    font-weight: normal;
   }
 
   &__title {
@@ -44,18 +41,21 @@
 
   &__description {
     margin-bottom: 40px;
+    font-size: 1rem;
+    font-weight: normal;
   }
 
   &__conditions {
     font-weight: normal;
     font-size: 1rem;
     letter-spacing: 0.009rem;
-    text-align: center;
+    margin-bottom: 20px;
   }
 
   &__actions {
     display: flex;
     justify-content: center;
+    padding-top: 20px;
   }
 }
 
@@ -75,19 +75,6 @@
 .terms-of-service-form-actions {
 
   &__submit {
-    margin-left: 8px;
-    border-radius: 4px;
-    padding: 14px 21px;
-    font-weight: 400;
-  }
-
-  &__cancel {
-    background-color: $grey-50;
-    border-radius: 4px;
-    font-weight: 400;
-
-    &:hover {
-      background-color: darken($grey-50, 4%);
-    }
+    margin-left: 10px;
   }
 }
