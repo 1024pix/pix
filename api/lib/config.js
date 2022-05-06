@@ -212,6 +212,13 @@ module.exports = (function () {
       accessTokenLifespanMs: ms(process.env.CNAV_ACCESS_TOKEN_LIFESPAN || '7d'),
     },
 
+    authenticationSession: {
+      temporaryStorage: {
+        expirationDelaySeconds:
+          parseInt(process.env.AUTHENTICATION_SESSION_TEMPORARY_STORAGE_EXP_DELAY_SECONDS, 10) || 1140,
+      },
+    },
+
     temporaryStorage: {
       expirationDelaySeconds: parseInt(process.env.TEMPORARY_STORAGE_EXPIRATION_DELAY_SECONDS, 10) || 600,
       redisUrl: process.env.REDIS_URL,
