@@ -110,6 +110,7 @@ Router.map(function () {
   this.route('login-pole-emploi', { path: '/connexion-pole-emploi' });
   this.route('terms-of-service-pole-emploi', { path: '/cgu-pole-emploi' });
   this.route('login-cnav', { path: '/connexion-cnav' });
+  this.route('terms-of-service-cnav', { path: '/cgu-cnav' });
 
   this.route('sitemap', { path: '/plan-du-site' });
   // XXX: this route is used for any request that did not match any of the previous routes. SHOULD ALWAYS BE THE LAST ONE
