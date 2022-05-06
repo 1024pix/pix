@@ -207,8 +207,9 @@ module.exports = (function () {
     cnav: {
       clientId: process.env.CNAV_CLIENT_ID,
       authUrl: process.env.CNAV_AUTHENTICATION_URL,
-      tokenUrl: process.env.POLE_EMPLOI_TOKEN_URL,
-      clientSecret: process.env.POLE_EMPLOI_CLIENT_SECRET,
+      tokenUrl: process.env.CNAV_TOKEN_URL,
+      clientSecret: process.env.CNAV_CLIENT_SECRET,
+      accessTokenLifespanMs: ms(process.env.CNAV_ACCESS_TOKEN_LIFESPAN || '7d'),
     },
 
     temporaryStorage: {
