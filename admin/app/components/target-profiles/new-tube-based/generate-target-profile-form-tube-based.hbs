@@ -46,7 +46,12 @@
     >
       Retour
     </PixButton>
-    <PixButton @size="big" @backgroundColor="green" @triggerAction={{this.openDownloadModal}}>
+    <PixButton
+      @size="big"
+      @backgroundColor="green"
+      @triggerAction={{this.openDownloadModal}}
+      @isDisabled={{this.hasNoTubesSelected}}
+    >
       Télécharger la sélection des sujets (JSON)
     </PixButton>
   </section>

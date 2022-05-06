@@ -191,29 +191,51 @@ module('Integration | Component | targetProfiles::NewTubeBased::GenerateTargetPr
     assert.dom(screen.getByLabelText('Tube 3 : Description 3')).isChecked();
   });
 
-  test('it should display a return button', async function (assert) {
-    // given
-    this.set('frameworks', frameworks);
+  module('form actions section', function () {
+    test('it should display a return button', async function (assert) {
+      // given
+      this.set('frameworks', frameworks);
 
-    // when
-    const screen = await render(
-      hbs`<TargetProfiles::NewTubeBased::GenerateTargetProfileFormTubeBased @frameworks={{this.frameworks}} />`
-    );
+      // when
+      const screen = await render(
+        hbs`<TargetProfiles::NewTubeBased::GenerateTargetProfileFormTubeBased @frameworks={{this.frameworks}} />`
+      );
 
-    // then
-    assert.dom(screen.getByRole('button', { name: 'Retour' })).exists();
-  });
+      // then
+      assert.dom(screen.getByRole('button', { name: 'Retour' })).exists();
+    });
 
-  test('it should display a download target profile button', async function (assert) {
-    // given
-    this.set('frameworks', frameworks);
+    module('when no tubes are selected', function () {
+      test('it should display a disabled download subjects selection button', async function (assert) {
+        // given
+        this.set('frameworks', frameworks);
 
-    // when
-    const screen = await render(
-      hbs`<TargetProfiles::NewTubeBased::GenerateTargetProfileFormTubeBased @frameworks={{this.frameworks}} />`
-    );
+        // when
+        const screen = await render(
+          hbs`<TargetProfiles::NewTubeBased::GenerateTargetProfileFormTubeBased @frameworks={{this.frameworks}} />`
+        );
 
-    // then
-    assert.dom(screen.getByRole('button', { name: 'Télécharger la sélection des sujets (JSON)' })).exists();
+        // then
+        assert.dom(screen.getByRole('button', { name: 'Télécharger la sélection des sujets (JSON)' })).isDisabled();
+      });
+    });
+
+    module('when at least one tube is selected', function () {
+      test('it should display a download subjects selection button that is not disabled', async function (assert) {
+        // given
+        this.set('frameworks', frameworks);
+
+        // when
+        const screen = await render(
+          hbs`<TargetProfiles::NewTubeBased::GenerateTargetProfileFormTubeBased @frameworks={{this.frameworks}} />`
+        );
+        await clickByName('1 · Titre domaine');
+        await clickByName('1 Titre competence');
+        await clickByName('Tube 1 : Description 1');
+
+        // then
+        assert.dom(screen.getByRole('button', { name: 'Télécharger la sélection des sujets (JSON)' })).isNotDisabled();
+      });
+    });
   });
 });
