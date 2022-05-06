@@ -1447,7 +1447,8 @@
         "authentication-methods": {
           "label": "Connexion externe",
           "gar": "via ENT/Mediacentre",
-          "pole-emploi": "via Pôle Emploi"
+          "pole-emploi": "via Pôle Emploi",
+          "cnav": "via Cnav"
         }
       },
       "email-verification": {

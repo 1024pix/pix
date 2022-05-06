@@ -1,5 +1,10 @@
 import { describe, it } from 'mocha';
-import { authenticateByEmail, authenticateByGAR, authenticateByUsername } from '../../helpers/authentication';
+import {
+  authenticateByEmail,
+  authenticateByGAR,
+  authenticateByUsername,
+  authenticateByCnav,
+} from '../../helpers/authentication';
 import { expect } from 'chai';
 import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
@@ -62,6 +67,20 @@ describe('Acceptance | user-account | connection-methods', function () {
       // then
       expect(contains(this.intl.t('pages.user-account.connexion-methods.authentication-methods.label'))).to.exist;
       expect(contains(this.intl.t('pages.user-account.connexion-methods.authentication-methods.pole-emploi'))).to.exist;
+    });
+
+    it("should display user's Cnav authentication method", async function () {
+      // given
+      const garUser = server.create('user', 'external');
+      server.create('authentication-method', 'withCnavIdentityProvider', { user: garUser });
+      await authenticateByCnav(garUser);
+
+      // when
+      await visit('/mon-compte/methodes-de-connexion');
+
+      // then
+      expect(contains(this.intl.t('pages.user-account.connexion-methods.authentication-methods.label'))).to.exist;
+      expect(contains(this.intl.t('pages.user-account.connexion-methods.authentication-methods.cnav'))).to.exist;
     });
   });
 

@@ -4,6 +4,7 @@ const identityProviders = {
   PIX: 'PIX',
   GAR: 'GAR',
   POLE_EMPLOI: 'POLE_EMPLOI',
+  CNAV: 'CNAV',
 };
 
 export default class AuthenticationMethod extends Model {
@@ -19,5 +20,9 @@ export default class AuthenticationMethod extends Model {
 
   get isPoleEmploiIdentityProvider() {
     return this.identityProvider === identityProviders.POLE_EMPLOI;
+  }
+
+  get isCnavIdentityProvider() {
+    return this.identityProvider === identityProviders.CNAV;
   }
 }

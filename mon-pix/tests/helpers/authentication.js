@@ -21,6 +21,12 @@ export async function authenticateByGAR(user) {
   );
 }
 
+export async function authenticateByCnav(user) {
+  await visit(
+    '/?token=aaa.' + btoa(`{"user_id":${user.id},"source":"cnav","iat":1545321469,"exp":4702193958}`) + '.bbb'
+  );
+}
+
 export async function logout() {
   await visit('/deconnexion');
 }
