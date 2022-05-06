@@ -1,5 +1,4 @@
 import RSVP from 'rsvp';
-import { isEmpty } from '@ember/utils';
 import { inject as service } from '@ember/service';
 
 import BaseAuthenticator from 'ember-simple-auth/authenticators/base';
@@ -13,31 +12,34 @@ export default class CnavAuthenticator extends BaseAuthenticator {
   @service session;
   @service location;
 
-  async authenticate({ code, redirectUri, state }) {
-    const bodyObject = {
-      code,
-      redirect_uri: redirectUri,
-      state_sent: this.session.data.state,
-      state_received: state,
-    };
-
-    const body = Object.keys(bodyObject)
-      .map((k) => `${k}=${encodeURIComponent(bodyObject[k])}`)
-      .join('&');
-
+  async authenticate({ code, redirectUri, state, authenticationKey }) {
     const request = {
       method: 'POST',
       headers: {
         Accept: 'application/json',
-        'Content-Type': 'application/x-www-form-urlencoded',
       },
-      body,
     };
+    let serverTokenEndpoint;
 
-    const serverTokenEndpoint = `${ENV.APP.API_HOST}/api/cnav/token`;
+    if (authenticationKey) {
+      serverTokenEndpoint = `${ENV.APP.API_HOST}/api/cnav/users?authentication-key=${authenticationKey}`;
+    } else {
+      serverTokenEndpoint = `${ENV.APP.API_HOST}/api/cnav/token`;
+      const bodyObject = {
+        code,
+        redirect_uri: redirectUri,
+        state_sent: this.session.data.state,
+        state_received: state,
+      };
 
-    if (this.session.isAuthenticated) {
-      await this.session.invalidate();
+      request.headers['Content-Type'] = 'application/x-www-form-urlencoded';
+      request.body = Object.keys(bodyObject)
+        .map((k) => `${k}=${encodeURIComponent(bodyObject[k])}`)
+        .join('&');
+
+      if (this.session.isAuthenticated) {
+        await this.session.invalidate();
+      }
     }
 
     const response = await fetch(serverTokenEndpoint, request);
@@ -54,15 +56,5 @@ export default class CnavAuthenticator extends BaseAuthenticator {
       source: decodedAccessToken.source,
       user_id: decodedAccessToken.user_id,
     };
-  }
-
-  //En a-t-on besoin ? Si oui pour quels scénarios ?
-  restore(data) {
-    return new RSVP.Promise((resolve, reject) => {
-      if (!isEmpty(data['access_token'])) {
-        resolve(data);
-      }
-      reject();
-    });
   }
 }
