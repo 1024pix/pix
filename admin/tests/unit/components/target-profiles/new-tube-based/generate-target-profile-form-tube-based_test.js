@@ -154,6 +154,28 @@ module('Unit | Component | target-profiles/new-tube-based/generate-target-profil
     });
   });
 
+  module('#hasNoTubesSelected', function () {
+    module('when some tubes are selected', function () {
+      test('it should return false', function (assert) {
+        // given
+        component.selectedTubeIds = ['tubeId1', 'tubeId2'];
+
+        // then
+        assert.false(component.hasNoTubesSelected);
+      });
+    });
+
+    module('when no tubes are selected', function () {
+      test('it should return true', function (assert) {
+        // given
+        component.selectedTubeIds = [];
+
+        // then
+        assert.true(component.hasNoTubesSelected);
+      });
+    });
+  });
+
   module('#selectedTubes', function () {
     test('it should return selected tubes', function (assert) {
       // given

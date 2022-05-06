@@ -68,6 +68,10 @@ export default class GenerateTargetProfileFromTubeBased extends Component {
     );
   }
 
+  get hasNoTubesSelected() {
+    return this.selectedTubeIds.length === 0;
+  }
+
   @action
   setSelectedFrameworkIds(frameworkIds) {
     this.selectedFrameworkIds = frameworkIds;
