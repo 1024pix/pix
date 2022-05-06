@@ -33,7 +33,7 @@ describe('Acceptance | Application | Admin-members | Routes', function () {
   });
 
   describe('PATCH /api/admin/admin-members/{id}', function () {
-    it('should return 200 http status code', async function () {
+    it('should return 200 http status code if use has role "SUPER_ADMIN"', async function () {
       // given
       const superAdmin = databaseBuilder.factory.buildUser.withRole();
       const pixAdminUserToUpdate = databaseBuilder.factory.buildUser.withRole();
@@ -88,6 +88,37 @@ describe('Acceptance | Application | Admin-members | Routes', function () {
 
       // then
       expect(response.statusCode).to.equal(403);
+    });
+
+    it('should return 400 if the payload is invalid', async function () {
+      // given
+      const superAdmin = databaseBuilder.factory.buildUser.withRole();
+      const pixAdminUserToUpdate = databaseBuilder.factory.buildUser.withRole();
+      const pixAdminRole = databaseBuilder.factory.buildPixAdminRole({
+        userId: pixAdminUserToUpdate.id,
+        role: ROLES.SUPPORT,
+      });
+      await databaseBuilder.commit();
+      const server = await createServer();
+
+      // when
+      const response = await server.inject({
+        headers: {
+          authorization: generateValidRequestAuthorizationHeader(superAdmin.id),
+        },
+        method: 'PATCH',
+        url: `/api/admin/admin-members/${pixAdminRole.id}`,
+        payload: {
+          data: {
+            attributes: {
+              role: 'INVALID_ROLE',
+            },
+          },
+        },
+      });
+
+      // then
+      expect(response.statusCode).to.equal(400);
     });
   });
 });

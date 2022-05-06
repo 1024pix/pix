@@ -41,13 +41,7 @@ exports.register = async function (server) {
       config: {
         pre: [
           {
-            method: (request, h) =>
-              securityPreHandlers.userHasAtLeastOneAccessOf([
-                securityPreHandlers.checkUserHasRoleSuperAdmin,
-                securityPreHandlers.checkUserHasRoleCertif,
-                securityPreHandlers.checkUserHasRoleSupport,
-                securityPreHandlers.checkUserHasRoleMetier,
-              ])(request, h),
+            method: securityPreHandlers.checkUserHasRoleSuperAdmin,
             assign: 'hasAuthorizationToAccessAdminScope',
           },
         ],
