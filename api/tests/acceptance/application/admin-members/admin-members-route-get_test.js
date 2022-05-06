@@ -1,19 +1,20 @@
-const {
-  expect,
-  databaseBuilder,
-  generateValidRequestAuthorizationHeader,
-  insertUserWithRoleSuperAdmin,
-} = require('../../../test-helper');
+const { expect, databaseBuilder, generateValidRequestAuthorizationHeader } = require('../../../test-helper');
 const createServer = require('../../../../server');
 const { ROLES } = require('../../../../lib/domain/constants').PIX_ADMIN;
 
 describe('Acceptance | Application | Admin-members | Routes', function () {
   describe('GET /api/admin/admin-members', function () {
-    it('should return 200 http status code', async function () {
+    it('should return 200 http status code when user has role "SUPER_ADMIN"', async function () {
       // given
-      const user = databaseBuilder.factory.buildUser();
-      databaseBuilder.factory.buildPixAdminRole({ userId: user.id, role: 'SUPER_ADMIN' });
-      const admin = await insertUserWithRoleSuperAdmin();
+      const admin = databaseBuilder.factory.buildUser.withRole({
+        id: 1234,
+        firstName: 'Super',
+        lastName: 'Papa',
+        email: 'super.papa@example.net',
+        password: 'Password123',
+        role: ROLES.SUPER_ADMIN,
+      });
+
       await databaseBuilder.commit();
       const server = await createServer();
 
