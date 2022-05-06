@@ -217,6 +217,7 @@ module.exports = injectDependencies(
     createTargetProfile: require('./create-target-profile'),
     createUser: require('./create-user'),
     createUserAndReconcileToSchoolingRegistrationFromExternalUser: require('./create-user-and-reconcile-to-schooling-registration-from-external-user'),
+    createUserFromCnav: require('./authentication/create-user-from-cnav'),
     createUserFromPoleEmploi: require('./create-user-from-pole-emploi'),
     deleteCampaignParticipation: require('./delete-campaign-participation'),
     deleteCertificationIssueReport: require('./delete-certification-issue-report'),
