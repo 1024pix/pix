@@ -31,6 +31,7 @@ describe('Integration | Service | Placement Profile Service', function () {
                     pixValue: 1,
                     challenges: ['challengeRecordIdOne', 'challengeRecordIdTwo', 'challengeRecordIdTen'],
                     version: 1,
+                    level: 4,
                   },
                 ],
               },
@@ -51,6 +52,7 @@ describe('Integration | Service | Placement Profile Service', function () {
                     pixValue: 1,
                     challenges: ['challengeRecordIdOne', 'challengeRecordIdFive'],
                     version: 1,
+                    level: 2,
                   },
                   {
                     id: 'recRemplir4',
@@ -58,6 +60,7 @@ describe('Integration | Service | Placement Profile Service', function () {
                     pixValue: 1,
                     challenges: ['challengeRecordIdSix'],
                     version: 1,
+                    level: 4,
                   },
                 ],
               },
@@ -78,6 +81,7 @@ describe('Integration | Service | Placement Profile Service', function () {
                     pixValue: 1,
                     challenges: ['challengeRecordIdNine'],
                     version: 1,
+                    level: 5,
                   },
                 ],
               },
@@ -327,6 +331,7 @@ describe('Integration | Service | Placement Profile Service', function () {
                 tubeId: 'Remplir',
                 tutorialIds: [],
                 version: 1,
+                level: 2,
               },
             ],
           });
@@ -472,6 +477,7 @@ describe('Integration | Service | Placement Profile Service', function () {
                 tubeId: 'Remplir',
                 tutorialIds: [],
                 version: 1,
+                level: 2,
               },
             ],
           });
