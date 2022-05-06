@@ -5,6 +5,9 @@ const OrganizationTag = require('../../../../lib/domain/models/OrganizationTag')
 const domainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
 const createProOrganizations = require('../../../../lib/domain/usecases/create-pro-organizations-with-tags');
 const organizationInvitationService = require('../../../../lib/domain/services/organization-invitation-service');
+
+const organizationValidator = require('../../../../lib/domain/validators/organization-with-tags-script');
+
 const {
   ManyOrganizationsFoundError,
   ObjectValidationError,
@@ -43,6 +46,7 @@ describe('Unit | UseCase | create-pro-organizations-with-tags', function () {
     };
 
     sinon.stub(organizationInvitationService, 'createProOrganizationInvitation').resolves();
+    sinon.stub(organizationValidator, 'validate');
   });
 
   it('should throw an ObjectValidationError if organizations are undefined', async function () {
@@ -68,59 +72,84 @@ describe('Unit | UseCase | create-pro-organizations-with-tags', function () {
     expect(error).to.be.an.instanceOf(ManyOrganizationsFoundError);
   });
 
-  context('when an organization already exists in database', function () {
-    it('should throw an error', async function () {
-      // given
-      const organizations = [{ externalId: 'externalId' }];
-      organizationRepositoryStub.findByExternalIdsFetchingIdsOnly.resolves([{ id: 'id', externalId: 'externalId' }]);
-
-      // when
-      const error = await catchErr(createProOrganizations)({
-        organizations,
-        organizationRepository: organizationRepositoryStub,
-      });
-
-      // then
-      expect(error).to.be.an.instanceOf(OrganizationAlreadyExistError);
-      expect(error.message).to.equal('Les organisations avec les externalIds suivants existent déjà : externalId');
-    });
-  });
-
-  it('should throw an ObjectValidationError if name is empty or undefined', async function () {
+  it('should validate organization data before trying to create organizations', async function () {
     // given
-    const organizations = [{ name: '', externalId: 'externalId' }];
+    const organizations = [
+      { name: '', externalId: 'AB1234', email: 'fake@axample.net', createdBy: 4, tags: 'tag1_tag2' },
+    ];
 
     // when
-    const error = await catchErr(createProOrganizations)({
-      organizations,
+    tagRepositoryStub.findAll.resolves(allTags);
+    organizationRepositoryStub.batchCreateProOrganizations.resolves(organizations);
+
+    // when
+    await createProOrganizations({
+      domainTransaction,
+      organizations: organizations,
       organizationRepository: organizationRepositoryStub,
+      tagRepository: tagRepositoryStub,
+      organizationTagRepository: organizationTagRepositoryStub,
     });
 
     // then
-    expect(error).to.be.an.instanceOf(ObjectValidationError);
-    expect(error.message).to.be.equals('Le nom de l’organisation n’est pas présent.');
+    expect(organizationValidator.validate).to.have.been.calledWith(organizations[0]);
   });
 
-  it('should throw an ObjectValidationError if externalId is empty or undefined', async function () {
+  it('should throw an error when organization tags not exists', async function () {
     // given
-    const organizations = [{ name: 'name', externalId: '' }];
+    const firstOrganization = {
+      id: 1,
+      name: 'organization A',
+      externalId: 'externalId A',
+      tags: 'TagNotFound',
+      type: 'PRO',
+      email: 'fake@axample.net',
+      createdBy: 4,
+    };
+    const secondOrganization = {
+      id: 2,
+      name: 'organization B',
+      externalId: 'externalId B',
+      tags: 'Tag1_Tag2',
+      type: 'PRO',
+      email: 'fake@axample.net',
+      createdBy: 4,
+    };
+
+    organizationRepositoryStub.findByExternalIdsFetchingIdsOnly.resolves([]);
+    tagRepositoryStub.findAll.resolves(allTags);
+    organizationRepositoryStub.batchCreateProOrganizations.resolves([
+      domainBuilder.buildOrganization(firstOrganization),
+      domainBuilder.buildOrganization(secondOrganization),
+    ]);
 
     // when
     const error = await catchErr(createProOrganizations)({
-      organizations,
+      domainTransaction,
+      organizations: [firstOrganization, secondOrganization],
       organizationRepository: organizationRepositoryStub,
+      tagRepository: tagRepositoryStub,
+      organizationTagRepository: organizationTagRepositoryStub,
     });
 
     // then
-    expect(error).to.be.an.instanceOf(ObjectValidationError);
-    expect(error.message).to.be.equals('L’externalId de l’organisation n’est pas présent.');
+    expect(error).to.be.instanceOf(OrganizationTagNotFound);
+    expect(error.message).to.be.equal("Le tag TagNotFound de l'organisation organization A n'existe pas.");
   });
 
   it('should add organizations into database', async function () {
     // given
-    const organization = { id: 1, name: 'organization A', externalId: 'externalId A', tags: 'Tag1_Tag2_Tag3' };
+    const organization = {
+      id: 1,
+      name: 'organization A',
+      externalId: 'externalId A',
+      tags: 'Tag1_Tag2_Tag3',
+      type: 'PRO',
+      email: 'fake@axample.net',
+      createdBy: 4,
+    };
 
-    const expectedProOrganizationToInsert = [new Organization({ ...organization, type: 'PRO' })];
+    const expectedProOrganizationToInsert = [new Organization({ ...organization })];
     tagRepositoryStub.findAll.resolves(allTags);
     organizationRepositoryStub.batchCreateProOrganizations.resolves([organization]);
 
@@ -139,8 +168,24 @@ describe('Unit | UseCase | create-pro-organizations-with-tags', function () {
 
   it('should add organization tags when exists', async function () {
     // given
-    const firstOrganization = { id: 1, name: 'organization A', externalId: 'externalId A', tags: 'Tag1' };
-    const secondOrganization = { id: 2, name: 'organization B', externalId: 'externalId B', tags: 'Tag1_Tag2' };
+    const firstOrganization = {
+      id: 1,
+      name: 'organization A',
+      externalId: 'externalId A',
+      tags: 'Tag1',
+      type: 'PRO',
+      email: 'fake@axample.net',
+      createdBy: 4,
+    };
+    const secondOrganization = {
+      id: 2,
+      name: 'organization B',
+      externalId: 'externalId B',
+      tags: 'Tag1_Tag2',
+      type: 'PRO',
+      email: 'fake@axample.net',
+      createdBy: 4,
+    };
 
     const expectedOrganizationTag1ToInsert = new OrganizationTag({ organizationId: firstOrganization.id, tagId: 1 });
     const expectedOrganizationTag2ToInsert = new OrganizationTag({ organizationId: secondOrganization.id, tagId: 1 });
@@ -171,32 +216,6 @@ describe('Unit | UseCase | create-pro-organizations-with-tags', function () {
     expect(organizationTagRepositoryStub.batchCreate).to.be.calledWith(expectedOrganizationTagsToInsert);
   });
 
-  it('should throw an error when organization tags not exists', async function () {
-    // given
-    const firstOrganization = { id: 1, name: 'organization A', externalId: 'externalId A', tags: 'TagNotFound' };
-    const secondOrganization = { id: 2, name: 'organization B', externalId: 'externalId B', tags: 'Tag1_Tag2' };
-
-    organizationRepositoryStub.findByExternalIdsFetchingIdsOnly.resolves([]);
-    tagRepositoryStub.findAll.resolves(allTags);
-    organizationRepositoryStub.batchCreateProOrganizations.resolves([
-      domainBuilder.buildOrganization(firstOrganization),
-      domainBuilder.buildOrganization(secondOrganization),
-    ]);
-
-    // when
-    const error = await catchErr(createProOrganizations)({
-      domainTransaction,
-      organizations: [firstOrganization, secondOrganization],
-      organizationRepository: organizationRepositoryStub,
-      tagRepository: tagRepositoryStub,
-      organizationTagRepository: organizationTagRepositoryStub,
-    });
-
-    // then
-    expect(error).to.be.instanceOf(OrganizationTagNotFound);
-    expect(error.message).to.be.equal('Le tag de l’organization n’existe pas.');
-  });
-
   it('should create invitation for organizations with email and role', async function () {
     // given
     const firstOrganizationWithAdminRole = {
@@ -207,6 +226,8 @@ describe('Unit | UseCase | create-pro-organizations-with-tags', function () {
       email: 'organizationA@exmaple.net',
       organizationInvitationRole: Membership.roles.ADMIN,
       locale: 'en',
+      type: 'PRO',
+      createdBy: 4,
     };
     const secondOrganizationWithMemberRole = {
       id: 2,
@@ -215,6 +236,8 @@ describe('Unit | UseCase | create-pro-organizations-with-tags', function () {
       tags: 'Tag2',
       email: 'organizationB@exmaple.net',
       organizationInvitationRole: Membership.roles.MEMBER,
+      type: 'PRO',
+      createdBy: 4,
     };
 
     organizationRepositoryStub.findByExternalIdsFetchingIdsOnly.resolves([]);
@@ -263,6 +286,8 @@ describe('Unit | UseCase | create-pro-organizations-with-tags', function () {
       externalId: 'externalId A',
       tags: 'TAG1',
       email: null,
+      type: 'PRO',
+      createdBy: 4,
     };
 
     organizationRepositoryStub.findByExternalIdsFetchingIdsOnly.resolves([]);
@@ -283,5 +308,30 @@ describe('Unit | UseCase | create-pro-organizations-with-tags', function () {
 
     // then
     expect(organizationInvitationService.createProOrganizationInvitation).to.not.have.been.called;
+  });
+
+  context('when an organization already exists in database', function () {
+    it('should throw an error', async function () {
+      // given
+
+      const organizations = [
+        { externalId: 'Ab1234', name: 'fake', email: 'fake@axample.net', createdBy: 4 },
+        { externalId: 'Cd456', name: 'fake', email: 'fake@axample.net', createdBy: 4 },
+      ];
+      organizationRepositoryStub.findByExternalIdsFetchingIdsOnly.resolves([
+        { id: '1', externalId: 'Ab1234' },
+        { id: '2', externalId: 'Cd456' },
+      ]);
+
+      // when
+      const error = await catchErr(createProOrganizations)({
+        organizations,
+        organizationRepository: organizationRepositoryStub,
+      });
+
+      // then
+      expect(error).to.be.an.instanceOf(OrganizationAlreadyExistError);
+      expect(error.message).to.equal('Les organisations avec les externalIds suivants : Ab1234, Cd456 existent déjà.');
+    });
   });
 });
