@@ -1,5 +1,31 @@
 const settings = require('../../../config');
 const { v4: uuidv4 } = require('uuid');
+const httpAgent = require('../../../infrastructure/http/http-agent');
+const querystring = require('querystring');
+const { AuthenticationTokenRetrievalError } = require('../../errors');
+
+async function exchangeCodeForIdToken({ code, redirectUri }) {
+  const data = {
+    client_secret: settings.cnav.clientSecret,
+    grant_type: 'authorization_code',
+    code,
+    client_id: settings.cnav.clientId,
+    redirect_uri: redirectUri,
+  };
+
+  const response = await httpAgent.post({
+    url: settings.cnav.tokenUrl,
+    payload: querystring.stringify(data),
+    headers: { 'content-type': 'application/x-www-form-urlencoded' },
+  });
+
+  if (!response.isSuccessful) {
+    const errorMessage = JSON.stringify(response.data);
+    throw new AuthenticationTokenRetrievalError(errorMessage, response.code);
+  }
+
+  return response.data['id_token'];
+}
 
 function getAuthUrl({ redirectUri }) {
   const redirectTarget = new URL(settings.cnav.authUrl);
@@ -25,4 +51,5 @@ function getAuthUrl({ redirectUri }) {
 
 module.exports = {
   getAuthUrl,
+  exchangeCodeForIdToken,
 };
