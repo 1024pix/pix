@@ -10,14 +10,8 @@ exports.register = async (server) => {
       config: {
         pre: [
           {
-            method: (request, h) =>
-              securityPreHandlers.userHasAtLeastOneAccessOf([
-                securityPreHandlers.checkUserHasRoleSuperAdmin,
-                securityPreHandlers.checkUserHasRoleCertif,
-                securityPreHandlers.checkUserHasRoleSupport,
-                securityPreHandlers.checkUserHasRoleMetier,
-              ])(request, h),
-            assign: 'hasAuthorizationToAccessAdminScope',
+            method: securityPreHandlers.checkUserHasRoleSuperAdmin,
+            assign: 'hasRoleSuperAdmin',
           },
         ],
         validate: {
@@ -36,7 +30,7 @@ exports.register = async (server) => {
         handler: tagController.create,
         tags: ['api', 'tags'],
         notes: [
-          "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n" +
+          '- **Cette route est restreinte aux utilisateurs authentifiés ayant le role Super Admin**\n' +
             '- Elle permet de créer un tag',
         ],
       },

@@ -26,7 +26,7 @@ describe('Acceptance | Controller | cache-controller', function () {
         expect(response.statusCode).to.equal(401);
       });
 
-      it('should respond with a 403 - forbidden access - if user has not role Super Admin', async function () {
+      it('should respond with a 403 - forbidden access - if user is not a Super Admin', async function () {
         // given
         const nonSuperAdminUserId = 9999;
 
@@ -61,7 +61,7 @@ describe('Acceptance | Controller | cache-controller', function () {
         expect(response.statusCode).to.equal(401);
       });
 
-      it('should respond with a 403 - forbidden access - if user has not role Super Admin', async function () {
+      it('should respond with a 403 - forbidden access - if user is not a Super Admin', async function () {
         // given
         const nonSuperAdminUserId = 9999;
 
