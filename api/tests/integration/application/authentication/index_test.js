@@ -24,6 +24,7 @@ describe('Integration | Application | Route | AuthenticationRouter', function ()
     sinon
       .stub(authenticationController, 'authenticateAnonymousUser')
       .callsFake((request, h) => h.response('ok').code(200));
+    sinon.stub(authenticationController, 'authenticateCnavUser').callsFake((request, h) => h.response('ok').code(200));
     server = await createServer();
   });
 
@@ -345,6 +346,44 @@ describe('Integration | Application | Route | AuthenticationRouter', function ()
 
       // when
       const response = await server.inject({ method, url, payload, auth: null, headers });
+
+      // then
+      expect(response.statusCode).to.equal(400);
+    });
+  });
+
+  describe('POST /api/cnav/token', function () {
+    it('should return 400 when code is missing', async function () {
+      // given
+      const headers = {
+        'content-type': 'application/x-www-form-urlencoded',
+      };
+      const payload = querystring.stringify({
+        redirect_uri: 'http://redirectUri.fr',
+        state_sent: 'state',
+        state_received: 'state',
+      });
+
+      // when
+      const response = await server.inject({ method: 'POST', url: '/api/cnav/token', payload, auth: null, headers });
+
+      // then
+      expect(response.statusCode).to.equal(400);
+    });
+
+    it('should return 400 when redirect_uri is missing', async function () {
+      // given
+      const headers = {
+        'content-type': 'application/x-www-form-urlencoded',
+      };
+      const payload = querystring.stringify({
+        code: 'ABCD',
+        state_sent: 'state',
+        state_received: 'state',
+      });
+
+      // when
+      const response = await server.inject({ method: 'POST', url: '/api/cnav/token', payload, auth: null, headers });
 
       // then
       expect(response.statusCode).to.equal(400);
