@@ -62,6 +62,80 @@ describe('Unit | Application | Controller | Authentication', function () {
     });
   });
 
+  describe('#authenticateCnavUser', function () {
+    it('should call usecase with payload parameters', async function () {
+      // given
+      const request = {
+        payload: {
+          code: 'ABCD',
+          redirect_uri: 'http://redirectUri.fr',
+          state_sent: 'state',
+          state_received: 'state',
+        },
+      };
+      const pixAccessToken = 'pixAccessToken';
+      sinon.stub(usecases, 'authenticateCnavUser').resolves({ pixAccessToken, isAuthenticationComplete: true });
+
+      // when
+      await authenticationController.authenticateCnavUser(request, hFake);
+
+      // then
+      expect(usecases.authenticateCnavUser).to.have.been.calledWith({
+        code: 'ABCD',
+        redirectUri: 'http://redirectUri.fr',
+        stateReceived: 'state',
+        stateSent: 'state',
+      });
+    });
+
+    describe('when user has a pix account', function () {
+      it('should return pix access token', async function () {
+        // given
+        const request = {
+          payload: {
+            code: 'ABCD',
+            redirect_uri: 'http://redirectUri.fr',
+            state_sent: 'state',
+            state_received: 'state',
+          },
+        };
+        const pixAccessToken = 'pixAccessToken';
+        sinon.stub(usecases, 'authenticateCnavUser').resolves({ pixAccessToken, isAuthenticationComplete: true });
+
+        // when
+        const response = await authenticationController.authenticateCnavUser(request, hFake);
+
+        // then
+        expect(response).to.deep.equal({ access_token: pixAccessToken });
+      });
+    });
+
+    describe('when user has no pix account', function () {
+      it('should return UnauthorizedError', async function () {
+        // given
+        const request = {
+          payload: {
+            code: 'ABCD',
+            redirect_uri: 'http://redirectUri.fr',
+            state_sent: 'state',
+            state_received: 'state',
+          },
+        };
+        const authenticationKey = 'aaa-bbb-ccc';
+        sinon.stub(usecases, 'authenticateCnavUser').resolves({ authenticationKey, isAuthenticationComplete: false });
+
+        // when
+        const error = await catchErr(authenticationController.authenticateCnavUser)(request, hFake);
+
+        // then
+        expect(error).to.be.an.instanceOf(UnauthorizedError);
+        expect(error.message).to.equal("L'utilisateur n'a pas de compte Pix");
+        expect(error.code).to.equal('SHOULD_VALIDATE_CGU');
+        expect(error.meta).to.deep.equal({ authenticationKey });
+      });
+    });
+  });
+
   describe('#authenticateExternalUser', function () {
     it('should return an access token', async function () {
       // given
