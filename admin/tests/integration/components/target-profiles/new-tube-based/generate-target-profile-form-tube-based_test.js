@@ -214,6 +214,6 @@ module('Integration | Component | targetProfiles::NewTubeBased::GenerateTargetPr
     );
 
     // then
-    assert.dom(screen.getByRole('link', { name: 'Télécharger la sélection des sujets (JSON)' })).exists();
+    assert.dom(screen.getByRole('button', { name: 'Télécharger la sélection des sujets (JSON)' })).exists();
   });
 });

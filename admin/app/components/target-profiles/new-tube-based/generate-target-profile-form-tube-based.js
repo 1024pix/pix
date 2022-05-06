@@ -13,6 +13,10 @@ export default class GenerateTargetProfileFromTubeBased extends Component {
   @tracked selectedTubeIds = EmberArray();
   tubeLevels = {};
 
+  @tracked isDownloadModalOpened = false;
+  @tracked tubesWithLevelAndSkills;
+  @tracked downloadContent;
+
   constructor(...args) {
     super(...args);
     const pixFramework = this.args.frameworks.find((framework) => framework.name === 'Pix');
@@ -108,5 +112,16 @@ export default class GenerateTargetProfileFromTubeBased extends Component {
   @action
   goBackToTargetProfileList() {
     this.router.transitionTo('authenticated.target-profiles.list');
+  }
+
+  @action
+  async openDownloadModal() {
+    this.tubesWithLevelAndSkills = await this.getSelectedTubesWithLevelAndSkills();
+    this.isDownloadModalOpened = true;
+  }
+
+  @action
+  closeDownloadModal() {
+    this.isDownloadModalOpened = false;
   }
 }
