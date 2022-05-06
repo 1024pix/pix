@@ -974,7 +974,7 @@ class TooManyRows extends DomainError {
   }
 }
 
-class UnexpectedPoleEmploiStateError extends DomainError {
+class UnexpectedOidcStateError extends DomainError {
   constructor(message = 'La valeur du paramètre state reçu ne correspond pas à celui envoyé.') {
     super(message);
   }
@@ -1204,7 +1204,7 @@ module.exports = {
   TargetProfileInvalidError,
   TargetProfileCannotBeCreated,
   TooManyRows,
-  UnexpectedPoleEmploiStateError,
+  UnexpectedOidcStateError,
   UnexpectedUserAccountError,
   UnknownCountryForStudentEnrollmentError,
   UserAlreadyExistsWithAuthenticationMethodError,

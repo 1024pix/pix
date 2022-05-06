@@ -374,7 +374,7 @@ function _mapToHttpError(error) {
     return new HttpErrors.BadRequestError(error.message);
   }
 
-  if (error instanceof DomainErrors.UnexpectedPoleEmploiStateError) {
+  if (error instanceof DomainErrors.UnexpectedOidcStateError) {
     return new HttpErrors.BadRequestError(error.message);
   }
 
