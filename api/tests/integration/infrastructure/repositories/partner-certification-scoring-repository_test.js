@@ -14,6 +14,7 @@ const Badge = require('../../../../lib/domain/models/Badge');
 const { NotEligibleCandidateError } = require('../../../../lib/domain/errors');
 const { CleaCertificationScoring } = require('../../../../lib/domain/models');
 const ComplementaryCertificationCourseResult = require('../../../../lib/domain/models/ComplementaryCertificationCourseResult');
+const ComplementaryCertification = require('../../../../lib/domain/models/ComplementaryCertification');
 
 describe('Integration | Repository | Partner Certification Scoring', function () {
   const COMPLEMENTARY_CERTIFICATION_COURSE_RESULTS_TABLE_NAME = 'complementary-certification-course-results';
@@ -205,6 +206,11 @@ describe('Integration | Repository | Partner Certification Scoring', function ()
             pixScore: 89,
             createdAt: new Date('2020-01-01'),
           });
+          databaseBuilder.factory.buildComplementaryCertification({
+            name: ComplementaryCertification.CLEA,
+            minimumReproducibilityRate: 66.5,
+            minimumEarnedPix: 33,
+          });
           await databaseBuilder.commit();
           mockLearningContent(learningContent);
           const expectedCleaCertificationScoring = new CleaCertificationScoring({
@@ -214,6 +220,8 @@ describe('Integration | Repository | Partner Certification Scoring', function ()
             isBadgeAcquisitionStillValid: true,
             cleaBadgeKey: 'PIX_EMPLOI_CLEA',
             pixScore: 42,
+            minimumReproducibilityRate: 66.5,
+            minimumEarnedPix: 33,
           });
 
           // when

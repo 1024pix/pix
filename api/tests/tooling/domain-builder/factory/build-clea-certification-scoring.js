@@ -8,6 +8,8 @@ module.exports = function buildCleaCertificationScoring({
   reproducibilityRate = 50,
   cleaBadgeKey = 'some-clea_key',
   pixScore,
+  minimumEarnedPix,
+  minimumReproducibilityRate,
 } = {}) {
   return new CleaCertificationScoring({
     complementaryCertificationCourseId,
@@ -17,5 +19,7 @@ module.exports = function buildCleaCertificationScoring({
     reproducibilityRate,
     cleaBadgeKey,
     pixScore,
+    minimumEarnedPix,
+    minimumReproducibilityRate,
   });
 };
