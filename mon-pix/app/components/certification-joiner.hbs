@@ -82,6 +82,15 @@
             {{/each}}
           </ul>
         {{/if}}
+        {{#if this.errorMessageLink}}
+          <a
+            rel="noopener noreferrer"
+            target="_blank"
+            href={{this.errorMessageLink.url}}
+          >{{this.errorMessageLink.label}}
+          </a>
+          <FaIcon @icon="up-right-from-square" />
+        {{/if}}
       </div>
     {{/if}}
     <PixButton @type="submit">{{t "pages.certification-joiner.form.actions.submit"}}</PixButton>

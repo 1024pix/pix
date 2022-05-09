@@ -144,9 +144,10 @@ describe('Integration | Component | certification-joiner', function () {
       // then
       expect(
         contains(
-          'Oups ! Il semble que vous n’utilisiez pas le bon compte Pix pour rejoindre cette session de certification. Pour continuer, connectez-vous au bon compte Pix ou demandez de l’aide au surveillant.'
+          "Vous utilisez actuellement un compte qui n'est pas lié à votre établissement. Connectez vous au compte avec lequel vous avez effectué vos parcours ou demandez de l'aide au surveillant."
         )
       ).to.exist;
+      expect(contains("Comment trouver le compte lié à l'établissement ?")).to.exist;
     });
 
     it('should display an error message on candidate not found', async function () {
