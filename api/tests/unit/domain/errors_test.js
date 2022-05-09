@@ -475,10 +475,6 @@ describe('Unit | Domain | Errors', function () {
     });
   });
 
-  it('should export a UserAccountNotFoundForPoleEmploiError', function () {
-    expect(errors.UserAccountNotFoundForPoleEmploiError).to.exist;
-  });
-
   it('should export a UnknownCountryForStudentEnrollmentError', function () {
     expect(errors.UnknownCountryForStudentEnrollmentError).to.exist;
   });
