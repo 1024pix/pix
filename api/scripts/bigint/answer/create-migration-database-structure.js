@@ -47,7 +47,7 @@ async function createAnswersBigintMigrationDatabaseStructures(knex) {
 const isLaunchedFromCommandLine = require.main === module;
 
 async function main() {
-  logger.info('Start script');
+  logger.info(`Start script ${__filename}... `);
   await createAnswersBigintMigrationDatabaseStructures(knex);
   logger.info('End script');
 }
