@@ -6,7 +6,9 @@
         <th>Centre de certification</th>
         <th>Date de session</th>
         <th>Date de finalisation</th>
-        <th>Actions</th>
+        {{#if this.isCurrentUserAllowedToPublishSession}}
+          <th>Actions</th>
+        {{/if}}
       </tr>
     </thead>
 
@@ -22,16 +24,18 @@
             <td>{{toBePublishedSession.certificationCenterName}}</td>
             <td>{{toBePublishedSession.printableDateAndTime}}</td>
             <td>{{toBePublishedSession.printableFinalizationDate}}</td>
-            <td>
-              <PixButton
-                @triggerAction={{fn this.showConfirmModal toBePublishedSession}}
-                class="publish-session-button"
-                @size="small"
-                aria-label="Publier la session numéro {{toBePublishedSession.id}}"
-              >
-                <FaIcon @icon="paper-plane" />Publier
-              </PixButton>
-            </td>
+            {{#if this.isCurrentUserAllowedToPublishSession}}
+              <td>
+                <PixButton
+                  @triggerAction={{fn this.showConfirmModal toBePublishedSession}}
+                  class="publish-session-button"
+                  @size="small"
+                  aria-label="Publier la session numéro {{toBePublishedSession.id}}"
+                >
+                  <FaIcon @icon="paper-plane" />Publier
+                </PixButton>
+              </td>
+            {{/if}}
           </tr>
         {{/each}}
       </tbody>

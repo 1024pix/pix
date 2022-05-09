@@ -9,6 +9,7 @@ import { action, computed } from '@ember/object';
 export default class ListController extends Controller {
   @service notifications;
   @service store;
+  @service currentUser;
 
   @tracked displayConfirm = false;
   @tracked confirmMessage = null;
@@ -17,6 +18,14 @@ export default class ListController extends Controller {
   get canPublish() {
     return !some(this.model.juryCertificationSummaries.toArray(), (certif) =>
       ['error', 'started'].includes(certif.status)
+    );
+  }
+
+  get isCurrentUserAllowedToPublishSession() {
+    return (
+      this.currentUser.adminMember.isSuperAdmin ||
+      this.currentUser.adminMember.isSupport ||
+      this.currentUser.adminMember.isCertif
     );
   }
 
