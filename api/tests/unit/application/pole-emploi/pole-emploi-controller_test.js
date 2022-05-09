@@ -4,6 +4,7 @@ const poleEmploiController = require('../../../../lib/application/pole-emploi/po
 const usecases = require('../../../../lib/domain/usecases');
 const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
 const tokenService = require('../../../../lib/domain/services/token-service');
+const poleEmploiAuthenticationService = require('../../../../lib/domain/services/authentication/pole-emploi-authentication-service');
 
 describe('Unit | Controller | pole-emploi-controller', function () {
   describe('#getSendings', function () {
@@ -94,6 +95,20 @@ describe('Unit | Controller | pole-emploi-controller', function () {
       //then
       expect(result.source.access_token).to.equal(accessToken);
       expect(result.source.id_token).to.equal(idToken);
+    });
+  });
+
+  describe('#getAuthUrl', function () {
+    it('should call pole emploi authentication service to generate url', async function () {
+      // given
+      const request = { query: { redirect_uri: 'http:/exemple.net/' } };
+      sinon.stub(poleEmploiAuthenticationService, 'getAuthUrl').resolves('an authentication url');
+
+      // when
+      await poleEmploiController.getAuthUrl(request, hFake);
+
+      //then
+      expect(poleEmploiAuthenticationService.getAuthUrl).to.have.been.calledWith({ redirectUri: 'http:/exemple.net/' });
     });
   });
 });
