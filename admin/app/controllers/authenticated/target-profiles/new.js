@@ -7,6 +7,7 @@ import { tracked } from '@glimmer/tracking';
 export default class NewController extends Controller {
   @service notifications;
   @service store;
+  @service router;
 
   @tracked isFileInvalid = false;
   @tracked isSaving = false;
@@ -16,7 +17,7 @@ export default class NewController extends Controller {
   goBackToTargetProfileList() {
     this.store.deleteRecord(this.model);
 
-    this.transitionToRoute('authenticated.target-profiles.list');
+    this.router.transitionTo('authenticated.target-profiles.list');
   }
 
   @action
@@ -53,11 +54,23 @@ export default class NewController extends Controller {
       await this.model.save();
 
       this.notifications.success('Le profil cible a été créé avec succès.');
-      this.transitionToRoute('authenticated.target-profiles.target-profile', this.model.id);
+      this.router.transitionTo('authenticated.target-profiles.target-profile', this.model.id);
     } catch (error) {
-      this.notifications.error('Une erreur est survenue.');
+      this._handleResponseError(error);
+    } finally {
+      this.isSaving = false;
     }
+  }
 
-    this.isSaving = false;
+  _handleResponseError({ errors }) {
+    if (!errors) {
+      return this.notifications.error('Une erreur est survenue.');
+    }
+    errors.forEach((error) => {
+      if (['404', '412', '422'].includes(error.status)) {
+        return this.notifications.error(error.detail);
+      }
+      return this.notifications.error('Une erreur est survenue.');
+    });
   }
 }
