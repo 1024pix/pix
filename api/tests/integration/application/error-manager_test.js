@@ -826,15 +826,6 @@ describe('Integration | API | Controller Error', function () {
       expect(responseDetail(response)).to.equal('Erreur, vous devez changer votre mot de passe.');
     });
 
-    it('when a UserShouldChangePasswordError error is thrown', async function () {
-      const expectedMessage = "L'utilisateur n'a pas de compte Pix";
-      routeHandler.throws(new DomainErrors.UserAccountNotFoundForPoleEmploiError(expectedMessage));
-      const response = await server.requestObject(request);
-
-      expect(response.statusCode).to.equal(UNAUTHORIZED_ERROR);
-      expect(responseDetail(response)).to.equal(expectedMessage);
-    });
-
     it('responds Unauthorized when a UserCantBeCreatedError error occurs', async function () {
       routeHandler.throws(new DomainErrors.UserCantBeCreatedError("L'utilisateur ne peut pas être créé"));
       const response = await server.requestObject(request);
