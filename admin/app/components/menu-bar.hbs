@@ -61,16 +61,18 @@
         <:tooltip>Profils cibles</:tooltip>
       </PixTooltip>
     </li>
-    <li class="menu-bar__entry">
-      <PixTooltip @position="right">
-        <:triggerElement>
-          <LinkTo @route="authenticated.team" class="menu-bar__link">
-            <FaIcon @icon="users" @title="Équipe" />
-          </LinkTo>
-        </:triggerElement>
-        <:tooltip>Équipe</:tooltip>
-      </PixTooltip>
-    </li>
+    {{#if this.currentUser.adminMember.isSuperAdmin}}
+      <li class="menu-bar__entry">
+        <PixTooltip @position="right">
+          <:triggerElement>
+            <LinkTo @route="authenticated.team" class="menu-bar__link">
+              <FaIcon @icon="users" @title="Équipe" />
+            </LinkTo>
+          </:triggerElement>
+          <:tooltip>Équipe</:tooltip>
+        </PixTooltip>
+      </li>
+    {{/if}}
     {{#if this.currentUser.adminMember.isSuperAdmin}}
       <li class="menu-bar__entry">
         <PixTooltip @position="right">

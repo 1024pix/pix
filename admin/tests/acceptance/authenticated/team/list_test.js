@@ -19,12 +19,11 @@ module('Acceptance | Team | List', function (hooks) {
     });
   });
 
-  module('When user is logged in', function (hooks) {
-    hooks.beforeEach(async () => {
-      await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
-    });
-
+  module('When user is logged in', function () {
     test('it should be accessible for an authenticated user', async function (assert) {
+      // given
+      await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
+
       // when
       await visit('/equipe');
 
@@ -34,6 +33,7 @@ module('Acceptance | Team | List', function (hooks) {
 
     test('it should list all team members', async function (assert) {
       // given
+      await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
       server.create('admin-member', { id: 1, firstName: 'Marie', lastName: 'Tim' });
       server.create('admin-member', { id: 2, firstName: 'Alain', lastName: 'Térieur' });
 
@@ -47,6 +47,7 @@ module('Acceptance | Team | List', function (hooks) {
 
     test('it should be possible to change the role of a member', async function (assert) {
       // given
+      await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
       server.create('admin-member', {
         id: 5,
         firstName: 'Elise',
@@ -75,6 +76,7 @@ module('Acceptance | Team | List', function (hooks) {
 
     test('it should show an error when modification is not successful and not modify user role', async function (assert) {
       // given
+      await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
       server.create('admin-member', {
         id: 5,
         firstName: 'Elise',
