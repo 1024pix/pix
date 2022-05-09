@@ -1320,7 +1320,7 @@
       "form": {
         "button": "Je continue",
         "error-message": "Vous devez accepter les conditions d’utilisation de Pix.",
-        "expired-authentication-key": "Votre demande d'authentification a expirée, merci de renouveler votre connexion en cliquant sur le boutton retour"
+        "expired-authentication-key": "Votre demande d'authentification a expiré, merci de renouveler votre connexion en cliquant sur le bouton retour."
       },
       "message": "Votre compte Pix est sur le point d’être créé à partir des éléments transmis par Pôle Emploi."
     },

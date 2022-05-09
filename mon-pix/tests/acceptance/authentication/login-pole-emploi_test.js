@@ -1,16 +1,16 @@
 import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
-import setupIntl from '../helpers/setup-intl';
+import setupIntl from '../../helpers/setup-intl';
 import sinon from 'sinon';
 import { visit } from '@ember/test-helpers';
 import { expect } from 'chai';
 
-describe('Acceptance | Route | Login pe', function () {
+describe('Acceptance | Route | login-pole-emploi', function () {
   setupApplicationTest();
   setupMirage();
   setupIntl();
 
-  it('should redirect to Pole Emploi login page', async function () {
+  it('should redirect to pole emploi login page', async function () {
     // given
     const route = this.owner.lookup('route:login-pole-emploi');
 
