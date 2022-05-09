@@ -241,6 +241,7 @@ jobs:
         environment:
           POSTGRES_USER: circleci
           POSTGRES_HOST_AUTH_METHOD: trust
+      - image: redis:5.0.7-alpine
     resource_class: medium+
     parallelism: 5
     working_directory: ~/pix/high-level-tests/e2e
@@ -304,6 +305,7 @@ jobs:
           working_directory: ~/pix/api
           environment:
             DATABASE_URL: 'postgres://circleci@localhost:5432/circleci'
+            REDIS_URL: 'redis://localhost:6379'
           background: true
           command: npm start
 
