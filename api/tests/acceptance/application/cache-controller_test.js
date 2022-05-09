@@ -9,39 +9,37 @@ describe('Acceptance | Controller | cache-controller', function () {
   });
 
   describe('PATCH /api/cache/{model}/{id}', function () {
-    let options;
-
-    beforeEach(function () {
-      options = {
-        method: 'PATCH',
-        url: '/api/cache/challenges/recChallengeId',
-        headers: {},
-        payload: {
-          id: 'recChallengeId',
-          param: 'updatedModelParam',
-        },
-      };
-    });
-
     describe('Resource access management', function () {
       it('should respond with a 401 - unauthorized access - if user is not authenticated', async function () {
-        // given
-        options.headers.authorization = 'invalid.access.token';
-
-        // when
-        const response = await server.inject(options);
+        // given & when
+        const response = await server.inject({
+          method: 'PATCH',
+          url: '/api/cache/challenges/recChallengeId',
+          headers: { authorization: 'invalid.access.token' },
+          payload: {
+            id: 'recChallengeId',
+            param: 'updatedModelParam',
+          },
+        });
 
         // then
         expect(response.statusCode).to.equal(401);
       });
 
-      it('should respond with a 403 - forbidden access - if user has not role Super Admin', async function () {
+      it('should respond with a 403 - forbidden access - if user is not a Super Admin', async function () {
         // given
         const nonSuperAdminUserId = 9999;
-        options.headers.authorization = generateValidRequestAuthorizationHeader(nonSuperAdminUserId);
 
         // when
-        const response = await server.inject(options);
+        const response = await server.inject({
+          method: 'PATCH',
+          url: '/api/cache/challenges/recChallengeId',
+          headers: { authorization: generateValidRequestAuthorizationHeader(nonSuperAdminUserId) },
+          payload: {
+            id: 'recChallengeId',
+            param: 'updatedModelParam',
+          },
+        });
 
         // then
         expect(response.statusCode).to.equal(403);
@@ -50,35 +48,29 @@ describe('Acceptance | Controller | cache-controller', function () {
   });
 
   describe('PATCH /api/cache', function () {
-    let options;
-
-    beforeEach(function () {
-      options = {
-        method: 'PATCH',
-        url: '/api/cache',
-        headers: {},
-      };
-    });
-
     describe('Resource access management', function () {
       it('should respond with a 401 - unauthorized access - if user is not authenticated', async function () {
-        // given
-        options.headers.authorization = 'invalid.access.token';
-
-        // when
-        const response = await server.inject(options);
+        // given & when
+        const response = await server.inject({
+          method: 'PATCH',
+          url: '/api/cache',
+          headers: { authorization: 'invalid.access.token' },
+        });
 
         // then
         expect(response.statusCode).to.equal(401);
       });
 
-      it('should respond with a 403 - forbidden access - if user has not role Super Admin', async function () {
+      it('should respond with a 403 - forbidden access - if user is not a Super Admin', async function () {
         // given
         const nonSuperAdminUserId = 9999;
-        options.headers.authorization = generateValidRequestAuthorizationHeader(nonSuperAdminUserId);
 
         // when
-        const response = await server.inject(options);
+        const response = await server.inject({
+          method: 'PATCH',
+          url: '/api/cache',
+          headers: { authorization: generateValidRequestAuthorizationHeader(nonSuperAdminUserId) },
+        });
 
         // then
         expect(response.statusCode).to.equal(403);
