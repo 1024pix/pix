@@ -7,7 +7,16 @@ import get from 'lodash/get';
 export default class SessionToBePublishedController extends Controller {
   @service notifications;
   @service store;
+  @service currentUser;
   @tracked shouldShowModal = false;
+
+  get isCurrentUserAllowedToPublishSession() {
+    return (
+      this.currentUser.adminMember.isSuperAdmin ||
+      this.currentUser.adminMember.isSupport ||
+      this.currentUser.adminMember.isCertif
+    );
+  }
 
   @action
   async publishSession(toBePublishedSession) {

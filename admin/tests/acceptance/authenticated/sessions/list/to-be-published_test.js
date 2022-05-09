@@ -94,38 +94,69 @@ module('Acceptance | authenticated/sessions/list/to be published', function (hoo
       _assertSecondSessionIsNotDisplayed(assert, screen);
     });
 
-    test('it should publish a batch of sessions', async function (assert) {
-      assert.expect(3);
-      // given
-      await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
-      const sessionDate = '2021-01-01';
-      const sessionTime = '17:00:00';
-      const finalizedAt = new Date('2021-02-01T03:00:00Z');
-      server.create('to-be-published-session', {
-        id: '1',
-        certificationCenterName: 'Centre SCO des Anne-Étoiles',
-        finalizedAt,
-        sessionDate,
-        sessionTime,
+    module('publish a batch of sessions button', function () {
+      test('it should be hidden if current user is Metier', async function (assert) {
+        // given
+        await authenticateAdminMemberWithRole({ isMetier: true })(server);
+
+        const sessionDate = '2021-01-01';
+        const sessionTime = '17:00:00';
+        const finalizedAt = new Date('2021-02-01T03:00:00Z');
+        server.create('to-be-published-session', {
+          id: '1',
+          certificationCenterName: 'Centre SCO des Anne-Étoiles',
+          finalizedAt,
+          sessionDate,
+          sessionTime,
+        });
+        server.create('to-be-published-session', {
+          id: '2',
+          certificationCenterName: 'Centre SUP et rieur',
+          finalizedAt,
+          sessionDate,
+          sessionTime,
+        });
+
+        // when
+        const screen = await visit(SESSIONS_TO_BE_PUBLISHED_LIST_PAGE);
+
+        // then
+        assert.dom(screen.queryByText('Publier toutes les sessions')).doesNotExist();
       });
-      server.create('to-be-published-session', {
-        id: '2',
-        certificationCenterName: 'Centre SUP et rieur',
-        finalizedAt,
-        sessionDate,
-        sessionTime,
+
+      test('it should be clickable if current user is Certif', async function (assert) {
+        assert.expect(3);
+        // given
+        await authenticateAdminMemberWithRole({ isCertif: true })(server);
+        const sessionDate = '2021-01-01';
+        const sessionTime = '17:00:00';
+        const finalizedAt = new Date('2021-02-01T03:00:00Z');
+        server.create('to-be-published-session', {
+          id: '1',
+          certificationCenterName: 'Centre SCO des Anne-Étoiles',
+          finalizedAt,
+          sessionDate,
+          sessionTime,
+        });
+        server.create('to-be-published-session', {
+          id: '2',
+          certificationCenterName: 'Centre SUP et rieur',
+          finalizedAt,
+          sessionDate,
+          sessionTime,
+        });
+
+        const screen = await visit(SESSIONS_TO_BE_PUBLISHED_LIST_PAGE);
+        await clickByName('Publier toutes les sessions');
+
+        // when
+        await clickByName('Confirmer');
+
+        // then
+        _assertPublishAllSessionsButtonHidden(assert, screen);
+        _assertNoSessionInList(assert, screen);
+        _assertConfirmModalIsClosed(assert, screen);
       });
-
-      const screen = await visit(SESSIONS_TO_BE_PUBLISHED_LIST_PAGE);
-      await clickByName('Publier toutes les sessions');
-
-      // when
-      await clickByName('Confirmer');
-
-      // then
-      _assertPublishAllSessionsButtonHidden(assert, screen);
-      _assertNoSessionInList(assert, screen);
-      _assertConfirmModalIsClosed(assert, screen);
     });
   });
 });
