@@ -5,7 +5,12 @@ const TargetProfileForCreation = require('../../../../lib/domain/models/TargetPr
 const Skill = require('../../../../lib/domain/models/Skill');
 const targetProfileRepository = require('../../../../lib/infrastructure/repositories/target-profile-repository');
 const skillDatasource = require('../../../../lib/infrastructure/datasources/learning-content/skill-datasource');
-const { NotFoundError, ObjectValidationError, InvalidSkillSetError } = require('../../../../lib/domain/errors');
+const {
+  NotFoundError,
+  ObjectValidationError,
+  InvalidSkillSetError,
+  OrganizationNotFoundError,
+} = require('../../../../lib/domain/errors');
 
 describe('Integration | Repository | Target-profile', function () {
   describe('#create', function () {
@@ -67,6 +72,22 @@ describe('Integration | Repository | Target-profile', function () {
       const skillsId = skillsList.map((skill) => skill.skillId);
       // then
       expect(skillsId).to.exactlyContain(['skills1', 'skills2']);
+    });
+
+    describe("when organization doesn't exist", function () {
+      it('should throw an OrganizationNotFoundError', async function () {
+        const targetProfileForCreation = new TargetProfileForCreation({
+          name: 'myFirstTargetProfile',
+          skillIds: ['skills1', 'skills2', 'skills2'],
+          ownerOrganizationId: -1,
+        });
+
+        // when
+        const error = await catchErr(targetProfileRepository.create)(targetProfileForCreation);
+
+        // then
+        expect(error).to.be.instanceOf(OrganizationNotFoundError);
+      });
     });
   });
 
