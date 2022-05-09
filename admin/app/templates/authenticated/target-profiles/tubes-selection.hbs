@@ -1,12 +1,12 @@
-{{page-title "Générateur de profil cible"}}
+{{page-title "Sélection des sujets"}}
 <header class="page-header">
-  <div class="page-title">
-    Générateur de profil cible
-  </div>
+  <h1 class="page-title">
+    Sélection des sujets
+  </h1>
 </header>
 
 <main class="page-body">
   <section class="page-section">
-    <TargetProfiles::TubesSelection::GenerateTargetProfileFormTubeBased @frameworks={{@model.frameworks}} />
+    <TargetProfiles::TubesSelection::Form @frameworks={{@model.frameworks}} />
   </section>
 </main>
