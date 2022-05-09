@@ -21,6 +21,7 @@ const campaignReportSerializer = require('../../../../lib/infrastructure/seriali
 const organizationInvitationSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/organization-invitation-serializer');
 const organizationSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/organization-serializer');
 const organizationForAdminSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/organization-for-admin-serializer');
+const organizationPlacesSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/organization/organization-place-serializer');
 const TargetProfileForSpecifierSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/campaign/target-profile-for-specifier-serializer');
 const userWithSchoolingRegistrationSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/user-with-schooling-registration-serializer');
 const organizationAttachTargetProfilesSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/organization-attach-target-profiles-serializer');
@@ -53,6 +54,28 @@ describe('Unit | Application | Organizations | organization-controller', functio
 
       // then
       expect(result).to.equal(organizationDetailsSerialized);
+    });
+  });
+
+  describe('#findOrganizationPlaces', function () {
+    it('should call the usecase and serialize the response', async function () {
+      // given
+      const organizationId = 1234;
+      const request = { params: { id: organizationId } };
+
+      const organizationPlaces = Symbol('organizationPlaces');
+      const organizationPlacesSerialized = Symbol('organizationPlacesSerialized');
+      sinon.stub(usecases, 'findOrganizationPlaces').withArgs({ organizationId }).resolves(organizationPlaces);
+      sinon
+        .stub(organizationPlacesSerializer, 'serialize')
+        .withArgs(organizationPlaces)
+        .returns(organizationPlacesSerialized);
+
+      // when
+      const result = await organizationController.findOrganizationPlaces(request, hFake);
+
+      // then
+      expect(result).to.equal(organizationPlacesSerialized);
     });
   });
 

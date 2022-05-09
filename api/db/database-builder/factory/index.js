@@ -43,6 +43,7 @@ module.exports = {
   buildKnowledgeElementSnapshot: require('./build-knowledge-element-snapshot'),
   buildMembership: require('./build-membership'),
   buildOrganization: require('./build-organization'),
+  buildOrganizationPlace: require('./build-organization-place'),
   buildOrganizationInvitation: require('./build-organization-invitation'),
   buildOrganizationLearner: require('./build-organization-learner'),
   buildOrganizationLearnerWithUser: require('./build-organization-learner-with-user'),
