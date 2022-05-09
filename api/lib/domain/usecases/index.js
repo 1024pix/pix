@@ -105,6 +105,7 @@ const dependencies = {
   pixPlusDroitMaitreCertificationResultRepository: require('../../infrastructure/repositories/pix-plus-droit-maitre-certification-result-repository'),
   pixPlusDroitExpertCertificationResultRepository: require('../../infrastructure/repositories/pix-plus-droit-expert-certification-result-repository'),
   placementProfileService: require('../../domain/services/placement-profile-service'),
+  poleEmploiAuthenticationService: require('../services/authentication/pole-emploi-authentication-service'),
   poleEmploiSendingRepository: require('../../infrastructure/repositories/pole-emploi-sending-repository'),
   poleEmploiTokensRepository: require('../../infrastructure/repositories/pole-emploi-tokens-repository'),
   prescriberRepository: require('../../infrastructure/repositories/prescriber-repository'),
