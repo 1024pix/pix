@@ -27,7 +27,7 @@
     {{#if this.hasNoFrameworksSelected}}
       Aucun référentiel de sélectionné
     {{else}}
-      <TargetProfiles::NewTubeBased::TubesSelection
+      <TargetProfiles::TubesSelection::TubesSelection
         @areas={{this.areas}}
         @setLevelTube={{this.setLevelTube}}
         @selectedTubeIds={{this.selectedTubeIds}}
@@ -57,7 +57,7 @@
   </section>
 
   {{#if this.isDownloadModalOpened}}
-    <TargetProfiles::NewTubeBased::DownloadModal
+    <TargetProfiles::TubesSelection::DownloadModal
       @tubesWithLevelAndSkills={{this.tubesWithLevelAndSkills}}
       @close={{this.closeDownloadModal}}
     />
