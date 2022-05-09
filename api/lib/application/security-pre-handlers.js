@@ -295,7 +295,7 @@ async function checkAuthorizationToManageCampaign(request, h) {
 function userHasAtLeastOneAccessOf(securityChecks) {
   return async (request, h) => {
     const responses = await bluebird.map(securityChecks, (securityCheck) => securityCheck(request, h));
-    const hasAccess = responses.some((response) => !response.source?.errors);
+    const hasAccess = responses.some((response) => !response.source?.errors && Boolean(response?.source));
     return hasAccess ? hasAccess : _replyForbiddenError(h);
   };
 }

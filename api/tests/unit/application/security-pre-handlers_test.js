@@ -9,7 +9,6 @@ const checkUserHasRoleMetierUseCase = require('../../../lib/application/usecases
 const checkUserIsAdminInOrganizationUseCase = require('../../../lib/application/usecases/checkUserIsAdminInOrganization');
 const checkUserBelongsToOrganizationManagingStudentsUseCase = require('../../../lib/application/usecases/checkUserBelongsToOrganizationManagingStudents');
 const checkUserBelongsToScoOrganizationAndManagesStudentsUseCase = require('../../../lib/application/usecases/checkUserBelongsToScoOrganizationAndManagesStudents');
-const checkUserBelongsToOrganizationUseCase = require('../../../lib/application/usecases/checkUserBelongsToOrganization');
 const checkUserIsMemberOfAnOrganizationUseCase = require('../../../lib/application/usecases/checkUserIsMemberOfAnOrganization');
 const checkUserIsMemberOfCertificationCenterUseCase = require('../../../lib/application/usecases/checkUserIsMemberOfCertificationCenter');
 const checkAuthorizationToManageCampaignUsecase = require('../../../lib/application/usecases/checkAuthorizationToManageCampaign');
@@ -581,13 +580,9 @@ describe('Unit | Application | SecurityPreHandlers', function () {
   });
 
   describe('#userHasAtLeastOneAccessOf', function () {
-    let belongsToOrganizationStub;
-    let hasRoleSuperAdminStub;
     let request;
 
     beforeEach(function () {
-      belongsToOrganizationStub = sinon.stub(checkUserBelongsToOrganizationUseCase, 'execute');
-      hasRoleSuperAdminStub = sinon.stub(checkUserHasRoleSuperAdminUseCase, 'execute');
       request = {
         auth: {
           credentials: {
@@ -602,13 +597,13 @@ describe('Unit | Application | SecurityPreHandlers', function () {
     context('Successful case', function () {
       it('should authorize access to resource when the user is authenticated and belongs to organization', async function () {
         // given
-        belongsToOrganizationStub.resolves(true);
-        hasRoleSuperAdminStub.resolves(false);
+        const checkUserBelongsToOrganizationStub = sinon.stub().callsFake((request, h) => h.response(true));
+        const checkUserHasRoleSuperAdminStub = sinon.stub().callsFake((request, h) => h.response(false));
 
         // when
         const response = await securityPreHandlers.userHasAtLeastOneAccessOf([
-          belongsToOrganizationStub,
-          hasRoleSuperAdminStub,
+          checkUserBelongsToOrganizationStub,
+          checkUserHasRoleSuperAdminStub,
         ])(request, hFake);
 
         // then
@@ -617,13 +612,13 @@ describe('Unit | Application | SecurityPreHandlers', function () {
 
       it('should authorize access to resource when the user is authenticated and is Super Admin', async function () {
         // given
-        belongsToOrganizationStub.resolves(false);
-        hasRoleSuperAdminStub.resolves(true);
+        const checkUserBelongsToOrganizationStub = sinon.stub().callsFake((request, h) => h.response(false));
+        const checkUserHasRoleSuperAdminStub = sinon.stub().callsFake((request, h) => h.response(true));
 
         // when
         const response = await securityPreHandlers.userHasAtLeastOneAccessOf([
-          belongsToOrganizationStub,
-          hasRoleSuperAdminStub,
+          checkUserBelongsToOrganizationStub,
+          checkUserHasRoleSuperAdminStub,
         ])(request, hFake);
 
         // then
@@ -632,13 +627,13 @@ describe('Unit | Application | SecurityPreHandlers', function () {
 
       it('should authorize access to resource when the user is authenticated and belongs to organization and is Super Admin', async function () {
         // given
-        belongsToOrganizationStub.resolves(true);
-        hasRoleSuperAdminStub.resolves(true);
+        const checkUserBelongsToOrganizationStub = sinon.stub().callsFake((request, h) => h.response(true));
+        const checkUserHasRoleSuperAdminStub = sinon.stub().callsFake((request, h) => h.response(true));
 
         // when
         const response = await securityPreHandlers.userHasAtLeastOneAccessOf([
-          belongsToOrganizationStub,
-          hasRoleSuperAdminStub,
+          checkUserBelongsToOrganizationStub,
+          checkUserHasRoleSuperAdminStub,
         ])(request, hFake);
 
         // then
@@ -649,13 +644,13 @@ describe('Unit | Application | SecurityPreHandlers', function () {
     context('Error cases', function () {
       it('should forbid resource access when user does not belong to organization nor has role Super Admin', async function () {
         // given
-        belongsToOrganizationStub.resolves({ source: { errors: {} } });
-        hasRoleSuperAdminStub.resolves({ source: { errors: {} } });
+        const checkUserBelongsToOrganizationStub = sinon.stub().callsFake((request, h) => h.response(false));
+        const checkUserHasRoleSuperAdminStub = sinon.stub().callsFake((request, h) => h.response(false));
 
         // when
         const response = await securityPreHandlers.userHasAtLeastOneAccessOf([
-          belongsToOrganizationStub,
-          hasRoleSuperAdminStub,
+          checkUserBelongsToOrganizationStub,
+          checkUserHasRoleSuperAdminStub,
         ])(request, hFake);
 
         // then
