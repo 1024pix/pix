@@ -2,12 +2,9 @@ import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
 
 export default class ToolsRoute extends Route {
-  @service router;
-  @service currentUser;
+  @service accessControl;
 
   beforeModel() {
-    if (!this.currentUser.adminMember.hasAccess(['isSuperAdmin'])) {
-      this.router.transitionTo('authenticated');
-    }
+    this.accessControl.restrictAccessTo(['isSuperAdmin'], 'authenticated');
   }
 }

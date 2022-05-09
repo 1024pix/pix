@@ -6,41 +6,20 @@ import Service from '@ember/service';
 module('Unit | Route | authenticated/tools', function (hooks) {
   setupTest(hooks);
 
-  test('it should allow super admin to access page', function (assert) {
+  test('it should check if current user is super admin', function (assert) {
     // given
     const route = this.owner.lookup('route:authenticated/tools');
-    const router = this.owner.lookup('service:router');
-    router.transitionTo = sinon.stub();
 
-    class CurrentUserStub extends Service {
-      adminMember = { hasAccess: sinon.stub().returns(true) };
+    const restrictAccessToStub = sinon.stub().returns();
+    class AccessControlStub extends Service {
+      restrictAccessTo = restrictAccessToStub;
     }
-    this.owner.register('service:current-user', CurrentUserStub);
+    this.owner.register('service:access-control', AccessControlStub);
 
     // when
     route.beforeModel();
 
     // then
-    assert.ok(router.transitionTo.notCalled);
-  });
-
-  test('it should redirect all other pix member (certif, metier, support) into home page', function (assert) {
-    // given
-    const route = this.owner.lookup('route:authenticated/tools');
-    const router = this.owner.lookup('service:router');
-    router.transitionTo = sinon.stub();
-
-    const hasAccessStub = sinon.stub().returns(true);
-    hasAccessStub.withArgs(['isSuperAdmin']).returns(false);
-    class CurrentUserStub extends Service {
-      adminMember = { hasAccess: hasAccessStub };
-    }
-    this.owner.register('service:current-user', CurrentUserStub);
-
-    // when
-    route.beforeModel();
-
-    // then
-    assert.ok(router.transitionTo.called);
+    assert.ok(restrictAccessToStub.calledWith(['isSuperAdmin'], 'authenticated'));
   });
 });
