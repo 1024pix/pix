@@ -5,7 +5,7 @@
 
     <header class="certification-list-page__header">
       <h2>Certifications</h2>
-      {{#if this.isCurrentUserAllowedToPublishSession}}
+      {{#if this.accessControl.hasAccessToCertificationActionsScope}}
         <div class="btn-group" role="group">
 
           {{#if this.model.isPublished}}

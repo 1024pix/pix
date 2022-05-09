@@ -19,4 +19,12 @@ export default class AccessControlService extends Service {
       this.currentUser.adminMember.isMetier
     );
   }
+
+  get hasAccessToCertificationActionsScope() {
+    return !!(
+      this.currentUser.adminMember.isSuperAdmin ||
+      this.currentUser.adminMember.isSupport ||
+      this.currentUser.adminMember.isCertif
+    );
+  }
 }
