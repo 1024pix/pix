@@ -16,8 +16,4 @@ export default class AdminMember extends Model {
   get fullName() {
     return `${this.firstName} ${this.lastName}`;
   }
-
-  hasAccess(rights) {
-    return rights.some((right) => this[right]);
-  }
 }
