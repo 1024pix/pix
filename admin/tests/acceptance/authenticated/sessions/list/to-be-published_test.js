@@ -22,13 +22,11 @@ module('Acceptance | authenticated/sessions/list/to be published', function (hoo
     });
   });
 
-  module('When user is logged in', function (hooks) {
-    hooks.beforeEach(async function () {
+  module('When user is logged in', function () {
+    test('visiting /sessions/list/to-be-published', async function (assert) {
       // given
       await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
-    });
 
-    test('visiting /sessions/list/to-be-published', async function (assert) {
       // when
       await visit(SESSIONS_TO_BE_PUBLISHED_LIST_PAGE);
 
@@ -39,6 +37,7 @@ module('Acceptance | authenticated/sessions/list/to be published', function (hoo
     test('it should display sessions to publish informations', async function (assert) {
       assert.expect(7);
       // given
+      await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
       const finalizedAt = new Date('2021-02-01T03:00:00Z');
       server.create('to-be-published-session', {
         id: '1',
@@ -66,6 +65,7 @@ module('Acceptance | authenticated/sessions/list/to be published', function (hoo
     test('it should publish a session', async function (assert) {
       assert.expect(2);
       // given
+      await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
       const sessionDate = '2021-01-01';
       const sessionTime = '17:00:00';
       const finalizedAt = new Date('2021-02-01T03:00:00Z');
@@ -97,6 +97,7 @@ module('Acceptance | authenticated/sessions/list/to be published', function (hoo
     test('it should publish a batch of sessions', async function (assert) {
       assert.expect(3);
       // given
+      await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
       const sessionDate = '2021-01-01';
       const sessionTime = '17:00:00';
       const finalizedAt = new Date('2021-02-01T03:00:00Z');
