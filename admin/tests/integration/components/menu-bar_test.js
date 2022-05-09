@@ -14,12 +14,30 @@ module('Integration | Component | menu-bar', function (hooks) {
     assert.dom(screen.getByTitle('Organisations')).exists();
   });
 
-  test('should contain link to "team" management page', async function (assert) {
-    // when
-    const screen = await render(hbs`{{menu-bar}}`);
+  module('Team tab', function () {
+    test('should contain link to "team" management page when admin member have "SUPER_ADMIN" as role', async function (assert) {
+      // given
+      const currentUser = this.owner.lookup('service:currentUser');
+      currentUser.adminMember = { isSuperAdmin: true };
 
-    // then
-    assert.dom(screen.getByTitle('Équipe')).exists();
+      // when
+      const screen = await render(hbs`{{menu-bar}}`);
+
+      // then
+      assert.dom(screen.getByTitle('Équipe')).exists();
+    });
+
+    test('should not contain link to "team" management page when admin member have "SUPPORT", "CERTIF" or "METIER" as role', async function (assert) {
+      // given
+      const currentUser = this.owner.lookup('service:currentUser');
+      currentUser.adminMember = { isSuperAdmin: false };
+
+      // when
+      const screen = await render(hbs`{{menu-bar}}`);
+
+      // then
+      assert.throws(() => screen.getByTitle('Équipe'), 'HTMLElement not found');
+    });
   });
 
   test('should contain link to "users" management page', async function (assert) {
