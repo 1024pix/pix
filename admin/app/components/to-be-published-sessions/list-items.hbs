@@ -6,7 +6,7 @@
         <th>Centre de certification</th>
         <th>Date de session</th>
         <th>Date de finalisation</th>
-        {{#if this.isCurrentUserAllowedToPublishSession}}
+        {{#if this.accessControl.hasAccessToCertificationActionsScope}}
           <th>Actions</th>
         {{/if}}
       </tr>
@@ -24,7 +24,7 @@
             <td>{{toBePublishedSession.certificationCenterName}}</td>
             <td>{{toBePublishedSession.printableDateAndTime}}</td>
             <td>{{toBePublishedSession.printableFinalizationDate}}</td>
-            {{#if this.isCurrentUserAllowedToPublishSession}}
+            {{#if this.accessControl.hasAccessToCertificationActionsScope}}
               <td>
                 <PixButton
                   @triggerAction={{fn this.showConfirmModal toBePublishedSession}}

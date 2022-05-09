@@ -4,7 +4,7 @@ import { tracked } from '@glimmer/tracking';
 import { inject as service } from '@ember/service';
 
 export default class ToBePublishedSessionsList extends Component {
-  @service currentUser;
+  @service accessControl;
 
   @tracked shouldShowModal = false;
   currentSelectedSession;
@@ -12,14 +12,6 @@ export default class ToBePublishedSessionsList extends Component {
   _cancelModalSelection() {
     this.shouldShowModal = false;
     this.currentSelectedSession = null;
-  }
-
-  get isCurrentUserAllowedToPublishSession() {
-    return (
-      this.currentUser.adminMember.isSuperAdmin ||
-      this.currentUser.adminMember.isSupport ||
-      this.currentUser.adminMember.isCertif
-    );
   }
 
   @action
