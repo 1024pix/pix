@@ -1,7 +1,7 @@
 import { module, test } from 'qunit';
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
 import { setupIntl, t } from 'ember-intl/test-support';
-import { render } from '@ember/test-helpers';
+import { render } from '@1024pix/ember-testing-library';
 import hbs from 'htmlbars-inline-precompile';
 
 module('Integration | Component | Participant::Assessment::Header', function (hooks) {
@@ -127,13 +127,14 @@ module('Integration | Component | Participant::Assessment::Header', function (ho
             isShared: true,
           };
 
-          await render(
+          const screen = await render(
             hbs`<Participant::Assessment::Header @participation={{participation}} @campaign={{campaign}} />`
           );
 
+          assert.dom(`[aria-label="${t('pages.assessment-individual-results.stages.label')}"]`).exists();
           assert
-            .dom(`[aria-label="${t('pages.assessment-individual-results.stages.label')}"]`)
-            .containsText(t('pages.assessment-individual-results.stages.value', { count: 1, total: 2 }));
+            .dom(screen.getByLabelText(t('pages.assessment-individual-results.stages.value', { count: 1, total: 2 })))
+            .exists();
         });
       });
 
