@@ -17,7 +17,11 @@ exports.register = async (server) => {
           rateLimit: {
             enabled: rateLimitEnabled,
             key: (request) => {
-              return request.payload.username;
+              if (request.payload.grant_type === 'password') {
+                return request.payload.username;
+              } else {
+                return request.payload.refresh_token;
+              }
             },
           },
         },
