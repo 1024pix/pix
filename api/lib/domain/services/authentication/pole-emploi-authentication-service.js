@@ -1,5 +1,37 @@
 const settings = require('../../../config');
 const { v4: uuidv4 } = require('uuid');
+const httpAgent = require('../../../infrastructure/http/http-agent');
+const querystring = require('querystring');
+const { AuthenticationTokenRetrievalError } = require('../../errors');
+const PoleEmploiTokens = require('../../models/PoleEmploiTokens');
+
+async function exchangeCodeForTokens({ code, redirectUri }) {
+  const data = {
+    client_secret: settings.poleEmploi.clientSecret,
+    grant_type: 'authorization_code',
+    code,
+    client_id: settings.poleEmploi.clientId,
+    redirect_uri: redirectUri,
+  };
+
+  const response = await httpAgent.post({
+    url: settings.poleEmploi.tokenUrl,
+    payload: querystring.stringify(data),
+    headers: { 'content-type': 'application/x-www-form-urlencoded' },
+  });
+
+  if (!response.isSuccessful) {
+    const errorMessage = JSON.stringify(response.data);
+    throw new AuthenticationTokenRetrievalError(errorMessage, response.code);
+  }
+
+  return new PoleEmploiTokens({
+    accessToken: response.data['access_token'],
+    idToken: response.data['id_token'],
+    expiresIn: response.data['expires_in'],
+    refreshToken: response.data['refresh_token'],
+  });
+}
 
 function getAuthUrl({ redirectUri }) {
   const redirectTarget = new URL(`${settings.poleEmploi.authUrl}`);
@@ -25,5 +57,6 @@ function getAuthUrl({ redirectUri }) {
 }
 
 module.exports = {
+  exchangeCodeForTokens,
   getAuthUrl,
 };

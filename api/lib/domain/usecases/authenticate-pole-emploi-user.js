@@ -11,6 +11,7 @@ module.exports = async function authenticatePoleEmploiUser({
   stateReceived,
   stateSent,
   authenticationService,
+  poleEmploiAuthenticationService,
   tokenService,
   authenticationMethodRepository,
   poleEmploiTokensRepository,
@@ -21,7 +22,7 @@ module.exports = async function authenticatePoleEmploiUser({
     throw new UnexpectedOidcStateError();
   }
 
-  const poleEmploiTokens = await authenticationService.exchangePoleEmploiCodeForTokens({ code, redirectUri });
+  const poleEmploiTokens = await poleEmploiAuthenticationService.exchangeCodeForTokens({ code, redirectUri });
 
   const userInfo = await authenticationService.getPoleEmploiUserInfo(poleEmploiTokens.idToken);
 
