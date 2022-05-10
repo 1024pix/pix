@@ -9,7 +9,232 @@ const { EntityValidationError } = require('../../domain/errors');
 const identifiersType = require('../../domain/types/identifiers-type');
 
 exports.register = async function (server) {
+  const adminRoutes = [
+    {
+      method: 'GET',
+      path: '/api/admin/users',
+      config: {
+        pre: [
+          {
+            method: (request, h) =>
+              securityPreHandlers.userHasAtLeastOneAccessOf([
+                securityPreHandlers.checkUserHasRoleSuperAdmin,
+                securityPreHandlers.checkUserHasRoleCertif,
+                securityPreHandlers.checkUserHasRoleSupport,
+                securityPreHandlers.checkUserHasRoleMetier,
+              ])(request, h),
+          },
+        ],
+        handler: userController.findPaginatedFilteredUsers,
+        notes: [
+          "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n" +
+            '- Elle permet de récupérer & chercher une liste d’utilisateurs\n' +
+            '- Cette liste est paginée et filtrée selon un **firstName**, un **lastName** et/ou un **email** donnés',
+        ],
+        tags: ['api', 'admin', 'user'],
+      },
+    },
+    {
+      method: 'GET',
+      path: '/api/admin/users/{id}',
+      config: {
+        validate: {
+          params: Joi.object({
+            id: identifiersType.userId,
+          }),
+          failAction: (request, h) => {
+            return sendJsonApiError(new BadRequestError("L'identifiant de l'utilisateur n'est pas au bon format."), h);
+          },
+        },
+        pre: [
+          {
+            method: (request, h) =>
+              securityPreHandlers.userHasAtLeastOneAccessOf([
+                securityPreHandlers.checkUserHasRoleSuperAdmin,
+                securityPreHandlers.checkUserHasRoleCertif,
+                securityPreHandlers.checkUserHasRoleSupport,
+                securityPreHandlers.checkUserHasRoleMetier,
+              ])(request, h),
+          },
+        ],
+        handler: userController.getUserDetailsForAdmin,
+        notes: [
+          '- **Cette route est restreinte aux utilisateurs administrateurs**\n' +
+            "- Elle permet de récupérer le détail d'un utilisateur dans un contexte d'administration\n",
+        ],
+        tags: ['api', 'admin', 'user'],
+      },
+    },
+
+    {
+      method: 'POST',
+      path: '/api/admin/users/{id}/anonymize',
+      config: {
+        validate: {
+          params: Joi.object({
+            id: identifiersType.userId,
+          }),
+        },
+        pre: [
+          {
+            method: (request, h) =>
+              securityPreHandlers.userHasAtLeastOneAccessOf([
+                securityPreHandlers.checkUserHasRoleSuperAdmin,
+                securityPreHandlers.checkUserHasRoleSupport,
+              ])(request, h),
+          },
+        ],
+        handler: userController.anonymizeUser,
+        notes: ["- Permet à un administrateur d'anonymiser un utilisateur"],
+        tags: ['api', 'admin', 'user'],
+      },
+    },
+    {
+      method: 'POST',
+      path: '/api/admin/users/{id}/add-pix-authentication-method',
+      config: {
+        pre: [
+          {
+            method: (request, h) =>
+              securityPreHandlers.userHasAtLeastOneAccessOf([
+                securityPreHandlers.checkUserHasRoleSuperAdmin,
+                securityPreHandlers.checkUserHasRoleSupport,
+              ])(request, h),
+          },
+        ],
+        validate: {
+          params: Joi.object({
+            id: identifiersType.userId,
+          }),
+          payload: Joi.object({
+            data: {
+              attributes: {
+                email: Joi.string().email().required(),
+              },
+            },
+          }),
+          options: {
+            allowUnknown: true,
+          },
+        },
+        handler: userController.addPixAuthenticationMethodByEmail,
+        notes: ["- Permet à un administrateur d'ajouter une méthode de connexion Pix à un utilisateur"],
+        tags: ['api', 'admin', 'user'],
+      },
+    },
+    {
+      method: 'POST',
+      path: '/api/admin/users/{userId}/authentication-methods/{authenticationMethodId}',
+      config: {
+        validate: {
+          params: Joi.object({
+            userId: identifiersType.userId,
+            authenticationMethodId: identifiersType.authenticationMethodId,
+          }),
+          payload: Joi.object({
+            data: {
+              attributes: {
+                'user-id': identifiersType.userId,
+                'identity-provider': Joi.string().valid('GAR', 'POLE_EMPLOI').required(),
+              },
+            },
+          }),
+        },
+        pre: [
+          {
+            method: (request, h) =>
+              securityPreHandlers.userHasAtLeastOneAccessOf([
+                securityPreHandlers.checkUserHasRoleSuperAdmin,
+                securityPreHandlers.checkUserHasRoleSupport,
+              ])(request, h),
+          },
+        ],
+        handler: userController.reassignAuthenticationMethods,
+        notes: ["- Permet à un administrateur de déplacer une méthode de connexion GAR d'un utilisateur à un autre"],
+        tags: ['api', 'admin', 'user', 'authentication-method'],
+      },
+    },
+    {
+      method: 'POST',
+      path: '/api/admin/users/{id}/remove-authentication',
+      config: {
+        pre: [
+          {
+            method: (request, h) =>
+              securityPreHandlers.userHasAtLeastOneAccessOf([
+                securityPreHandlers.checkUserHasRoleSuperAdmin,
+                securityPreHandlers.checkUserHasRoleSupport,
+              ])(request, h),
+          },
+        ],
+        validate: {
+          params: Joi.object({
+            id: identifiersType.userId,
+          }),
+          payload: Joi.object({
+            data: {
+              attributes: {
+                type: Joi.string().valid('GAR', 'EMAIL', 'USERNAME', 'POLE_EMPLOI').required(),
+              },
+            },
+          }),
+          options: {
+            allowUnknown: true,
+          },
+        },
+        handler: userController.removeAuthenticationMethod,
+        notes: ['- Permet à un administrateur de supprimer une méthode de connexion'],
+        tags: ['api', 'admin', 'user'],
+      },
+    },
+
+    {
+      method: 'PATCH',
+      path: '/api/admin/users/{id}',
+      config: {
+        pre: [
+          {
+            method: (request, h) =>
+              securityPreHandlers.userHasAtLeastOneAccessOf([
+                securityPreHandlers.checkUserHasRoleSuperAdmin,
+                securityPreHandlers.checkUserHasRoleSupport,
+              ])(request, h),
+          },
+        ],
+        plugins: {
+          'hapi-swagger': {
+            payloadType: 'form',
+          },
+        },
+        validate: {
+          params: Joi.object({
+            id: identifiersType.userId,
+          }),
+          payload: Joi.object({
+            data: {
+              attributes: {
+                'first-name': Joi.string().empty(Joi.string().regex(/^\s*$/)).required(),
+                'last-name': Joi.string().empty(Joi.string().regex(/^\s*$/)).required(),
+                email: Joi.string().email().allow(null).optional(),
+                username: Joi.string().allow(null).optional(),
+              },
+            },
+          }),
+          options: {
+            allowUnknown: true,
+          },
+        },
+        handler: userController.updateUserDetailsForAdministration,
+        notes: [
+          "- Permet à un administrateur de mettre à jour certains attributs d'un utilisateur identifié par son identifiant",
+        ],
+        tags: ['api', 'admin', 'user'],
+      },
+    },
+  ];
+
   server.route([
+    ...adminRoutes,
     {
       method: 'POST',
       path: '/api/users',
@@ -67,156 +292,6 @@ exports.register = async function (server) {
             '- Récupération de l’utilisateur courant\n',
         ],
         tags: ['api', 'user'],
-      },
-    },
-    {
-      method: 'GET',
-      path: '/api/admin/users/{id}',
-      config: {
-        validate: {
-          params: Joi.object({
-            id: identifiersType.userId,
-          }),
-          failAction: (request, h) => {
-            return sendJsonApiError(new BadRequestError("L'identifiant de l'utilisateur n'est pas au bon format."), h);
-          },
-        },
-        pre: [
-          {
-            method: (request, h) =>
-              securityPreHandlers.userHasAtLeastOneAccessOf([
-                securityPreHandlers.checkUserHasRoleSuperAdmin,
-                securityPreHandlers.checkUserHasRoleCertif,
-                securityPreHandlers.checkUserHasRoleSupport,
-                securityPreHandlers.checkUserHasRoleMetier,
-              ])(request, h),
-            assign: 'hasAuthorizationToAccessAdminScope',
-          },
-        ],
-        handler: userController.getUserDetailsForAdmin,
-        notes: [
-          '- **Cette route est restreinte aux utilisateurs administrateurs**\n' +
-            "- Elle permet de récupérer le détail d'un utilisateur dans un contexte d'administration\n",
-        ],
-        tags: ['api', 'administration', 'user'],
-      },
-    },
-    {
-      method: 'PATCH',
-      path: '/api/admin/users/{id}',
-      config: {
-        pre: [
-          {
-            method: (request, h) =>
-              securityPreHandlers.userHasAtLeastOneAccessOf([
-                securityPreHandlers.checkUserHasRoleSuperAdmin,
-                securityPreHandlers.checkUserHasRoleCertif,
-                securityPreHandlers.checkUserHasRoleSupport,
-                securityPreHandlers.checkUserHasRoleMetier,
-              ])(request, h),
-            assign: 'hasAuthorizationToAccessAdminScope',
-          },
-        ],
-        plugins: {
-          'hapi-swagger': {
-            payloadType: 'form',
-          },
-        },
-        validate: {
-          params: Joi.object({
-            id: identifiersType.userId,
-          }),
-          payload: Joi.object({
-            data: {
-              attributes: {
-                'first-name': Joi.string().empty(Joi.string().regex(/^\s*$/)).required(),
-                'last-name': Joi.string().empty(Joi.string().regex(/^\s*$/)).required(),
-                email: Joi.string().email().allow(null).optional(),
-                username: Joi.string().allow(null).optional(),
-              },
-            },
-          }),
-          options: {
-            allowUnknown: true,
-          },
-        },
-        handler: userController.updateUserDetailsForAdministration,
-        notes: [
-          "- Permet à un administrateur de mettre à jour certains attributs d'un utilisateur identifié par son identifiant",
-        ],
-        tags: ['api', 'administration', 'user'],
-      },
-    },
-    {
-      method: 'POST',
-      path: '/api/admin/users/{id}/add-pix-authentication-method',
-      config: {
-        pre: [
-          {
-            method: (request, h) =>
-              securityPreHandlers.userHasAtLeastOneAccessOf([
-                securityPreHandlers.checkUserHasRoleSuperAdmin,
-                securityPreHandlers.checkUserHasRoleCertif,
-                securityPreHandlers.checkUserHasRoleSupport,
-                securityPreHandlers.checkUserHasRoleMetier,
-              ])(request, h),
-            assign: 'hasAuthorizationToAccessAdminScope',
-          },
-        ],
-        validate: {
-          params: Joi.object({
-            id: identifiersType.userId,
-          }),
-          payload: Joi.object({
-            data: {
-              attributes: {
-                email: Joi.string().email().required(),
-              },
-            },
-          }),
-          options: {
-            allowUnknown: true,
-          },
-        },
-        handler: userController.addPixAuthenticationMethodByEmail,
-        notes: ["- Permet à un administrateur d'ajouter une méthode de connexion Pix à un utilisateur"],
-        tags: ['api', 'administration', 'user'],
-      },
-    },
-    {
-      method: 'POST',
-      path: '/api/admin/users/{id}/remove-authentication',
-      config: {
-        pre: [
-          {
-            method: (request, h) =>
-              securityPreHandlers.userHasAtLeastOneAccessOf([
-                securityPreHandlers.checkUserHasRoleSuperAdmin,
-                securityPreHandlers.checkUserHasRoleCertif,
-                securityPreHandlers.checkUserHasRoleSupport,
-                securityPreHandlers.checkUserHasRoleMetier,
-              ])(request, h),
-            assign: 'hasAuthorizationToAccessAdminScope',
-          },
-        ],
-        validate: {
-          params: Joi.object({
-            id: identifiersType.userId,
-          }),
-          payload: Joi.object({
-            data: {
-              attributes: {
-                type: Joi.string().valid('GAR', 'EMAIL', 'USERNAME', 'POLE_EMPLOI').required(),
-              },
-            },
-          }),
-          options: {
-            allowUnknown: true,
-          },
-        },
-        handler: userController.removeAuthenticationMethod,
-        notes: ['- Permet à un administrateur de supprimer une méthode de connexion'],
-        tags: ['api', 'administration', 'user'],
       },
     },
     {
@@ -695,32 +770,6 @@ exports.register = async function (server) {
       },
     },
     {
-      method: 'POST',
-      path: '/api/admin/users/{id}/anonymize',
-      config: {
-        validate: {
-          params: Joi.object({
-            id: identifiersType.userId,
-          }),
-        },
-        pre: [
-          {
-            method: (request, h) =>
-              securityPreHandlers.userHasAtLeastOneAccessOf([
-                securityPreHandlers.checkUserHasRoleSuperAdmin,
-                securityPreHandlers.checkUserHasRoleCertif,
-                securityPreHandlers.checkUserHasRoleSupport,
-                securityPreHandlers.checkUserHasRoleMetier,
-              ])(request, h),
-            assign: 'hasAuthorizationToAccessAdminScope',
-          },
-        ],
-        handler: userController.anonymizeUser,
-        notes: ["- Permet à un administrateur d'anonymiser un utilisateur"],
-        tags: ['api', 'administration', 'user'],
-      },
-    },
-    {
       method: 'PUT',
       path: '/api/users/{id}/email/verification-code',
       config: {
@@ -770,41 +819,6 @@ exports.register = async function (server) {
             "- Elle permet la récupération des noms des méthodes de connexion de l'utilisateur.",
         ],
         tags: ['api', 'user', 'authentication-methods'],
-      },
-    },
-    {
-      method: 'POST',
-      path: '/api/admin/users/{userId}/authentication-methods/{authenticationMethodId}',
-      config: {
-        validate: {
-          params: Joi.object({
-            userId: identifiersType.userId,
-            authenticationMethodId: identifiersType.authenticationMethodId,
-          }),
-          payload: Joi.object({
-            data: {
-              attributes: {
-                'user-id': identifiersType.userId,
-                'identity-provider': Joi.string().valid('GAR', 'POLE_EMPLOI').required(),
-              },
-            },
-          }),
-        },
-        pre: [
-          {
-            method: (request, h) =>
-              securityPreHandlers.userHasAtLeastOneAccessOf([
-                securityPreHandlers.checkUserHasRoleSuperAdmin,
-                securityPreHandlers.checkUserHasRoleCertif,
-                securityPreHandlers.checkUserHasRoleSupport,
-                securityPreHandlers.checkUserHasRoleMetier,
-              ])(request, h),
-            assign: 'hasAuthorizationToAccessAdminScope',
-          },
-        ],
-        handler: userController.reassignAuthenticationMethods,
-        notes: ["- Permet à un administrateur de déplacer une méthode de connexion GAR d'un utilisateur à un autre"],
-        tags: ['api', 'administration', 'user', 'authentication-method'],
       },
     },
   ]);
