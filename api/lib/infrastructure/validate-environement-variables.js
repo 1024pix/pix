@@ -40,6 +40,10 @@ const schema = Joi.object({
   FORCE_DROP_DATABASE: Joi.string().optional().valid('true', 'false'),
   TEST_LOG_ENABLED: Joi.string().optional().valid('true', 'false'),
   TEST_REDIS_URL: Joi.string().optional(),
+  RATE_LIMIT_ENABLED: Joi.string().optional().valid('true', 'false'),
+  RATE_LIMIT_LOG_ONLY: Joi.string().optional().valid('true', 'false'),
+  RATE_LIMIT_DEFAULT_LIMIT: Joi.number().optional(),
+  RATE_LIMIT_DEFAULT_WINDOW: Joi.number().optional(),
 }).options({ allowUnknown: true });
 
 const validateEnvironmentVariables = function () {

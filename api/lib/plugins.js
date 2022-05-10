@@ -6,7 +6,8 @@ const Vision = require('@hapi/vision');
 const monitoringTools = require('./infrastructure/monitoring-tools');
 const RedisClient = require('./infrastructure/utils/RedisClient');
 const { TooManyRequestsError } = require('./application/http-errors');
-const { redisUrl } = settings.rateLimit;
+
+const { redisUrl, logOnly: rateLimitLogOnly } = settings.rateLimit;
 
 function logObjectSerializer(req) {
   const enhancedReq = {
@@ -67,9 +68,13 @@ const plugins = [
         return request.auth.credentials.userId;
       },
       redisClient,
-      overLimitError: (rate) => {
-        logger.error('Rate limit exceeded');
-        return new TooManyRequestsError(`Rate Limit Exceeded - try again in ${rate.window} seconds`);
+      overLimitError: (rate, request, h) => {
+        logger.error({ request_id: request.info.id }, 'Rate limit exceeded');
+        if (rateLimitLogOnly) {
+          return h.continue;
+        } else {
+          return new TooManyRequestsError(`Rate Limit Exceeded - try again in ${rate.window} seconds`);
+        }
       },
       onRedisError: (err) => logger.error(err),
     },

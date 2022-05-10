@@ -1,4 +1,7 @@
 const Joi = require('joi');
+const {
+  rateLimit: { enabled: rateLimitEnabled },
+} = require('../../config');
 const { sendJsonApiError, BadRequestError } = require('../http-errors');
 const AuthenticationController = require('./authentication-controller');
 const responseAuthenticationObjectDoc = require('../../infrastructure/open-api-doc/authentication/response-authentication-doc');
@@ -12,7 +15,7 @@ exports.register = async (server) => {
       config: {
         plugins: {
           rateLimit: {
-            enabled: true,
+            enabled: rateLimitEnabled,
             key: (request) => {
               return request.payload.username;
             },
