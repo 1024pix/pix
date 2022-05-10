@@ -31,7 +31,7 @@ describe('Acceptance | Tutorial | Actions', function () {
       // then
       expect(find('.tutorial-card-v2')).to.exist;
       expect(find('[aria-label="Marquer ce tuto comme utile"]')).to.exist;
-      expect(find('[aria-label="Enregistrer"]')).to.exist;
+      expect(find('[aria-label="Enregistrer dans ma liste de tutos"]')).to.exist;
     });
 
     it('should disable evaluate action on click', async function () {
@@ -45,10 +45,10 @@ describe('Acceptance | Tutorial | Actions', function () {
     describe('when save action is clicked', function () {
       it('should display remove action button', async function () {
         // when
-        await click('[aria-label="Enregistrer"]');
+        await click('[aria-label="Enregistrer dans ma liste de tutos"]');
 
         // then
-        expect(find('[aria-label="Retirer"]')).to.exist;
+        expect(find('[aria-label="Retirer de ma liste de tutos"]')).to.exist;
       });
     });
   });

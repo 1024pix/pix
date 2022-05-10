@@ -64,7 +64,7 @@ describe('Integration | Component | Tutorial Panel', function () {
           expect(find('.tutorial-card-v2-content__details')).to.exist;
           expect(find('.tutorial-card-v2-content__actions')).to.exist;
           expect(find('[aria-label="Marquer ce tuto comme utile"]')).to.exist;
-          expect(find('[aria-label="Enregistrer"]')).to.exist;
+          expect(find('[aria-label="Enregistrer dans ma liste de tutos"]')).to.exist;
           expect(find('[title="Marquer ce tuto comme utile"]')).to.exist;
         });
       });
