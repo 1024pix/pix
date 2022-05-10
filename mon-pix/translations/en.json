@@ -137,7 +137,6 @@
         "existing-participation": "You cannot take this customised test.",
         "existing-participation-user-info": "There is already a participation associated with the name ",
         "existing-participation-info": "Please contact your teacher so that they can delete your previous participation in Pix Orga."
-
       }
     },
     "campaign-landing": {
@@ -1499,11 +1498,9 @@
               "label": "This tutorial was helpful to me"
             },
             "remove": {
-              "extra-information": "Remove from my saved tutorials",
               "label": "Remove from my saved tutorials"
             },
             "save": {
-              "extra-information": "Add to my saved tutorials",
               "label": "Add to my saved tutorials"
             }
           },

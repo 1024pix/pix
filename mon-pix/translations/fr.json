@@ -1498,12 +1498,10 @@
               "label": "Ce tuto m'a été utile"
             },
             "remove": {
-              "extra-information": "Retirer de ma liste de tutos",
-              "label": "Retirer"
+              "label": "Retirer de ma liste de tutos"
             },
             "save": {
-              "extra-information": "Enregistrer dans ma liste de tutos",
-              "label": "Enregistrer"
+              "label": "Enregistrer dans ma liste de tutos"
             }
           },
           "source": "Par"

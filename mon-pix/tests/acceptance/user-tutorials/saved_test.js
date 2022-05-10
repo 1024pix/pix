@@ -36,7 +36,7 @@ describe('Acceptance | User-tutorials-v2 | Saved', function () {
         await visit('/mes-tutos/enregistres');
 
         // when
-        await click('[aria-label="Retirer"]');
+        await click('[aria-label="Retirer de ma liste de tutos"]');
 
         // then
         expect(findAll('.tutorial-card-v2')).to.be.lengthOf(9);
