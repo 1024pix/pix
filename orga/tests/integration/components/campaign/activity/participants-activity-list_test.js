@@ -1,11 +1,10 @@
 import sinon from 'sinon';
 import { module, test } from 'qunit';
-import { find, click } from '@ember/test-helpers';
-import { fillByLabel, clickByName, render } from '@1024pix/ember-testing-library';
+import { find } from '@ember/test-helpers';
+import { fillByLabel, render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
 import EmberObject from '@ember/object';
 import hbs from 'htmlbars-inline-precompile';
-import { t } from 'ember-intl/test-support';
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
 
 module('Integration | Component | Campaign::Activity::ParticipantsList', function (hooks) {
@@ -125,68 +124,6 @@ module('Integration | Component | Campaign::Activity::ParticipantsList', functio
           />`);
 
         assert.dom('[aria-label="Supprimer la participation"]').doesNotExist();
-      });
-    });
-
-    module('when the user click to delete the campaign participation', function (hooks) {
-      let participation;
-      let campaign;
-      let screen;
-      const deleteCampaignParticipant = sinon.stub();
-
-      hooks.beforeEach(async function () {
-        class CurrentUserStub extends Service {
-          isAdminInOrganization = true;
-        }
-        this.owner.register('service:current-user', CurrentUserStub);
-
-        campaign = { id: 90, idPixLabel: 'id', type: 'ASSESSMENT' };
-        participation = {
-          id: 56,
-          firstName: 'Joe',
-          lastName: 'La frite',
-          status: 'TO_SHARE',
-          participantExternalId: 'patate',
-        };
-
-        this.set('campaign', campaign);
-        this.set('participations', [participation]);
-        this.onClickParticipant = sinon.stub();
-        this.deleteCampaignParticipant = deleteCampaignParticipant;
-
-        screen = await render(hbs`<Campaign::Activity::ParticipantsList
-            @campaign={{this.campaign}}
-            @participations={{this.participations}}
-            @onClickParticipant={{this.onClickParticipant}}
-            @deleteCampaignParticipant={{this.deleteCampaignParticipant}}
-          />`);
-      });
-
-      test('it displays the modal to confirm the deletion', async function (assert) {
-        await click('[aria-label="Supprimer la participation"]');
-
-        assert.contains(t('pages.campaign-activity.delete-participation-modal.title'));
-        assert.contains(t('pages.campaign-activity.delete-participation-modal.actions.cancel'));
-        assert.contains(t('pages.campaign-activity.delete-participation-modal.actions.confirmation'));
-      });
-
-      module('When the user clicks on cancel button', function () {
-        test('it closes the modal and not delete the campaign participation', async function (assert) {
-          await click('[aria-label="Supprimer la participation"]');
-          await clickByName(t('pages.campaign-activity.delete-participation-modal.actions.cancel'));
-
-          assert.dom(screen.queryByText(t('pages.campaign-activity.delete-participation-modal.title'))).doesNotExist();
-          assert.contains('Joe');
-        });
-      });
-
-      module('When the user clicks on confirmation button', function () {
-        test('it deletes the campaign participation', async function (assert) {
-          await click('[aria-label="Supprimer la participation"]');
-          await clickByName(t('pages.campaign-activity.delete-participation-modal.actions.confirmation'));
-
-          assert.ok(deleteCampaignParticipant.calledWith(campaign.id, participation));
-        });
       });
     });
   });
