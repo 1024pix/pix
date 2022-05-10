@@ -39,14 +39,20 @@ export default class Badge extends Component {
   get badgeCriteria() {
     this.args.badge.badgeCriteria.forEach((badgeCriterion) => {
       badgeCriterion.skillSets.forEach((skillSet) => {
+        const skills = skillSet.skills;
         const tubes = uniqBy(
-          skillSet.skills.map((skill) => skill.tube),
+          skills.map((skill) => skill.tube),
           (tube) => tube.get('id')
         );
+
         tubes.forEach((tube) => {
           tube.skillsWithAllLevels = new Array(ENV.APP.MAX_LEVEL)
             .fill(undefined)
-            .map((_, index) => tube.get('skills').find((skill) => skill.difficulty === index + 1));
+            .map((_, index) =>
+              skills
+                .filter((skill) => skill.tube.get('id') === tube.get('id'))
+                .find((skill) => skill.difficulty === index + 1)
+            );
         });
         skillSet.tubes = tubes;
       });
