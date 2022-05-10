@@ -158,6 +158,8 @@ module.exports = (function () {
       redisUrl: process.env.REDIS_URL,
       enabled: isFeatureEnabled(process.env.RATE_LIMIT_ENABLED),
       logOnly: isFeatureEnabled(process.env.RATE_LIMIT_LOG_ONLY),
+      limit: _getNumber(process.env.RATE_LIMIT_DEFAULT_LIMIT, 10),
+      window: _getNumber(process.env.RATE_LIMIT_DEFAULT_WINDOW, 60),
     },
 
     caching: {

@@ -7,7 +7,7 @@ const monitoringTools = require('./infrastructure/monitoring-tools');
 const RedisClient = require('./infrastructure/utils/RedisClient');
 const { TooManyRequestsError } = require('./application/http-errors');
 
-const { redisUrl, logOnly: rateLimitLogOnly } = settings.rateLimit;
+const { rateLimit } = settings;
 
 function logObjectSerializer(req) {
   const enhancedReq = {
@@ -26,11 +26,11 @@ function logObjectSerializer(req) {
   };
 }
 
-const redisClient = redisUrl ? new RedisClient(redisUrl, 'api-rate-limiter') : null;
+const redisClient = rateLimit.redisUrl ? new RedisClient(rateLimit.redisUrl, 'api-rate-limiter') : null;
 
 const defaultRate = {
-  limit: 10,
-  window: 60,
+  limit: rateLimit.limit,
+  window: rateLimit.window,
 };
 
 const plugins = [
@@ -70,7 +70,7 @@ const plugins = [
       redisClient,
       overLimitError: (rate, request, h) => {
         logger.error({ request_id: request.info.id }, 'Rate limit exceeded');
-        if (rateLimitLogOnly) {
+        if (rateLimit.logOnly) {
           return h.continue;
         } else {
           return new TooManyRequestsError(`Rate Limit Exceeded - try again in ${rate.window} seconds`);
