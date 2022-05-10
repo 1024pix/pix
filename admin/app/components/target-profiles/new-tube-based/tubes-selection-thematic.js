@@ -4,10 +4,10 @@ import { isTubeSelected } from '../../../helpers/is-tube-selected';
 
 export default class TubesSelectionThematic extends Component {
   get state() {
-    const checked = this.args.thematic.tubes.every((tube) => isTubeSelected(this.args.tubesSelected, tube));
+    const checked = this.args.thematic.tubes.every((tube) => isTubeSelected(this.args.selectedTubeIds, tube));
     if (checked) return 'checked';
 
-    const indeterminate = this.args.thematic.tubes.any((tube) => isTubeSelected(this.args.tubesSelected, tube));
+    const indeterminate = this.args.thematic.tubes.any((tube) => isTubeSelected(this.args.selectedTubeIds, tube));
     if (indeterminate) return 'indeterminate';
 
     return 'unchecked';
