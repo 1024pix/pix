@@ -4,6 +4,7 @@ const httpAgent = require('../../../infrastructure/http/http-agent');
 const querystring = require('querystring');
 const { AuthenticationTokenRetrievalError } = require('../../errors');
 const PoleEmploiTokens = require('../../models/PoleEmploiTokens');
+const jsonwebtoken = require('jsonwebtoken');
 
 async function exchangeCodeForTokens({ code, redirectUri }) {
   const data = {
@@ -56,7 +57,24 @@ function getAuthUrl({ redirectUri }) {
   return { redirectTarget: redirectTarget.toString(), state, nonce };
 }
 
+async function getUserInfo(idToken) {
+  const { given_name, family_name, nonce, idIdentiteExterne } = await _extractClaimsFromIdToken(idToken);
+
+  return {
+    firstName: given_name,
+    lastName: family_name,
+    externalIdentityId: idIdentiteExterne,
+    nonce,
+  };
+}
+
+async function _extractClaimsFromIdToken(idToken) {
+  const { given_name, family_name, nonce, idIdentiteExterne } = await jsonwebtoken.decode(idToken);
+  return { given_name, family_name, nonce, idIdentiteExterne };
+}
+
 module.exports = {
   exchangeCodeForTokens,
   getAuthUrl,
+  getUserInfo,
 };

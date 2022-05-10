@@ -1,12 +1,8 @@
 const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper');
-
 const { PasswordNotMatching, UserNotFoundError } = require('../../../../lib/domain/errors');
 
 const User = require('../../../../lib/domain/models/User');
-
 const encryptionService = require('../../../../lib/domain/services/encryption-service');
-const tokenService = require('../../../../lib/domain/services/token-service');
-
 const authenticationService = require('../../../../lib/domain/services/authentication-service');
 
 describe('Unit | Domain | Services | authentication-service', function () {
@@ -113,38 +109,6 @@ describe('Unit | Domain | Services | authentication-service', function () {
         // then
         expect(error).to.be.an.instanceof(PasswordNotMatching);
       });
-    });
-  });
-
-  describe('#getPoleEmploiUserInfo', function () {
-    beforeEach(function () {
-      sinon.stub(tokenService, 'extractPayloadFromPoleEmploiIdToken');
-    });
-
-    it('should return email, firstName, lastName and external identity id', async function () {
-      // given
-      const idToken = 'ID_TOKEN';
-      const payloadFromIdToken = {
-        given_name: 'givenName',
-        family_name: 'familyName',
-        nonce: 'bb041272-d6e6-457c-99fb-ff1aa02217fd',
-        idIdentiteExterne: '094b83ac-2e20-4aa8-b438-0bc91748e4a6',
-      };
-
-      tokenService.extractPayloadFromPoleEmploiIdToken.resolves(payloadFromIdToken);
-
-      const expectedResult = {
-        firstName: payloadFromIdToken.given_name,
-        lastName: payloadFromIdToken.family_name,
-        nonce: payloadFromIdToken.nonce,
-        externalIdentityId: payloadFromIdToken.idIdentiteExterne,
-      };
-
-      // when
-      const result = await authenticationService.getPoleEmploiUserInfo(idToken);
-
-      // then
-      expect(result).to.deep.equal(expectedResult);
     });
   });
 });

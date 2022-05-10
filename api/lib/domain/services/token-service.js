@@ -183,11 +183,6 @@ async function extractExternalUserFromIdToken(token) {
   };
 }
 
-async function extractPayloadFromPoleEmploiIdToken(idToken) {
-  const { given_name, family_name, nonce, idIdentiteExterne } = await jsonwebtoken.decode(idToken);
-  return { given_name, family_name, nonce, idIdentiteExterne };
-}
-
 module.exports = {
   createAccessTokenFromUser,
   createAccessTokenForPoleEmploi,
@@ -200,7 +195,6 @@ module.exports = {
   decodeIfValid,
   getDecodedToken,
   extractExternalUserFromIdToken,
-  extractPayloadFromPoleEmploiIdToken,
   extractResultRecipientEmailAndSessionId,
   extractSamlId,
   extractSessionId,
