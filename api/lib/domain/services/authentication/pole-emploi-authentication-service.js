@@ -5,6 +5,14 @@ const querystring = require('querystring');
 const { AuthenticationTokenRetrievalError } = require('../../errors');
 const PoleEmploiTokens = require('../../models/PoleEmploiTokens');
 const jsonwebtoken = require('jsonwebtoken');
+const { POLE_EMPLOI } = require('../../constants').SOURCE;
+
+function createAccessToken(userId) {
+  const expirationDelaySeconds = settings.poleEmploi.accessTokenLifespanMs / 1000;
+  return jsonwebtoken.sign({ user_id: userId, source: POLE_EMPLOI }, settings.authentication.secret, {
+    expiresIn: expirationDelaySeconds,
+  });
+}
 
 async function exchangeCodeForTokens({ code, redirectUri }) {
   const data = {
@@ -74,6 +82,7 @@ async function _extractClaimsFromIdToken(idToken) {
 }
 
 module.exports = {
+  createAccessToken,
   exchangeCodeForTokens,
   getAuthUrl,
   getUserInfo,

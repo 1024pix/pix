@@ -53,6 +53,7 @@ module.exports = {
 
   SOURCE: {
     CNAV: 'cnav',
+    POLE_EMPLOI: 'pole_emploi_connect',
   },
 
   STUDENT_RECONCILIATION_ERRORS: {
