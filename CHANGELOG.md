@@ -1,5 +1,20 @@
 # Pix Changelog
 
+## v3.208.0 (10/05/2022)
+
+
+### :rocket: Amélioration
+- [#4403](https://github.com/1024pix/pix/pull/4403) [FEATURE] Téléchargement du JSON du profil cible à partir d'une sélection de sujets (PIX-4888)
+- [#4396](https://github.com/1024pix/pix/pull/4396) [FEATURE] Changer le message d'erreur de connexion en session de certification. (PIX-4878)
+- [#4406](https://github.com/1024pix/pix/pull/4406) [FEATURE] Restreindre l'accès à la page "Équipe" de Pix Admin uniquement au rôle "SUPER_ADMIN" (PIX-4850)
+- [#4405](https://github.com/1024pix/pix/pull/4405) [FEATURE] Restreindre l'accès à la page Outils de Pix Admin uniquement aux Super Admin (PIX-4189)
+- [#4341](https://github.com/1024pix/pix/pull/4341) [FEATURE] Ajouter dans Pix Admin la liste des places détenu par les organisations (PIX-4775) 
+
+### :building_construction: Tech
+- [#4399](https://github.com/1024pix/pix/pull/4399) [TECH] Suppression de l'attribut `campaignParticipation` dans le modèle `Assessment` (PIX-4898).
+- [#4409](https://github.com/1024pix/pix/pull/4409) [TECH] Supprimer l'erreur UserAccountNotFoundForPoleEmploiError inutilisée (PIX-4915).
+- [#4130](https://github.com/1024pix/pix/pull/4130) [TECH] Migrer la colonne Answer.id de INTEGER en BIG INTEGER (Partie 3)
+
 ## v3.207.0 (06/05/2022)
 
 
