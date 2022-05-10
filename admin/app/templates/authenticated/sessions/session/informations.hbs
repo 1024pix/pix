@@ -150,19 +150,17 @@
 />
 
 {{#if this.isShowingAssignmentModal}}
-  <ModalDialog @targetAttachment="center" @translucentOverlay={{true}} @onClose={{this.cancelAssignment}}>
-    <div class="ember-modal-dialog--title">
-      <h2>Assignation de la session</h2>
-      <span role="button" {{on "click" this.cancelAssignment}}>×</span>
-    </div>
-    <p>
-      L'utilisateur
-      {{this.sessionModel.assignedCertificationOfficer.fullName}}
-      s'est déjà assigné cette session.
-      <br />
-      Voulez-vous vous quand même vous assigner cette session ?
-    </p>
-    <div class="ember-modal-dialog--actions">
+  <PixModal @title="Assignation de la session" @onCloseButtonClick={{this.cancelAssignment}}>
+    <:content>
+      <p>
+        L'utilisateur
+        {{this.sessionModel.assignedCertificationOfficer.fullName}}
+        s'est déjà assigné cette session.
+        <br />
+        Voulez-vous vous quand même vous assigner cette session ?
+      </p>
+    </:content>
+    <:footer>
       <PixButton
         @backgroundColor="transparent-light"
         @isBorderVisible={{true}}
@@ -174,6 +172,6 @@
       <PixButton @size="small" @triggerAction={{this.confirmAssignment}}>
         Confirmer
       </PixButton>
-    </div>
-  </ModalDialog>
+    </:footer>
+  </PixModal>
 {{/if}}
