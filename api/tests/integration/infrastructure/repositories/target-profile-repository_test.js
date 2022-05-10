@@ -12,7 +12,6 @@ const {
   OrganizationNotFoundError,
 } = require('../../../../lib/domain/errors');
 const TargetProfileTemplate = require('../../../../lib/domain/models/TargetProfileTemplate');
-const targetProfileTemplateRepository = require('../../../../lib/infrastructure/repositories/target-profile-template-repository');
 
 describe('Integration | Repository | Target-profile', function () {
   describe('#create', function () {
@@ -720,7 +719,7 @@ describe('Integration | Repository | Target-profile', function () {
       };
 
       // when
-      const savedTargetProfileTemplate = await targetProfileTemplateRepository.create({ targetProfileTemplate });
+      const savedTargetProfileTemplate = await targetProfileRepository.createTemplate({ targetProfileTemplate });
 
       // then
       expect(savedTargetProfileTemplate).to.be.instanceOf(TargetProfileTemplate);
@@ -729,6 +728,33 @@ describe('Integration | Repository | Target-profile', function () {
       expect(savedTargetProfileTemplate.tubes).to.deep.include({ id: 'tubeId1', level: 8 });
       expect(savedTargetProfileTemplate.tubes).to.deep.include({ id: 'tubeId2', level: 4 });
       expect(savedTargetProfileTemplate.tubes).to.deep.include({ id: 'tubeId3', level: 5 });
+    });
+
+    it('should save the target profile template', async function () {
+      // given
+      const targetProfileTemplate = {
+        tubes: [
+          { id: 'tubeId1', level: 8 },
+          { id: 'tubeId2', level: 4 },
+          { id: 'tubeId3', level: 5 },
+        ],
+      };
+
+      // when
+      const { id } = await targetProfileRepository.createTemplate({ targetProfileTemplate });
+
+      // then
+      const savedTargetProfileTemplate = await knex('target-profile-templates').select().where({ id }).first();
+      const savedTargetProfileTemplateTubes = await knex('target-profile-templates_tubes')
+        .select()
+        .where({ targetProfileTemplateId: id })
+        .orderBy('tubeId');
+
+      expect(savedTargetProfileTemplate.id).to.equal(id);
+      expect(savedTargetProfileTemplateTubes).to.have.lengthOf(3);
+      expect(savedTargetProfileTemplateTubes[0]).to.include({ tubeId: 'tubeId1', level: 8 });
+      expect(savedTargetProfileTemplateTubes[1]).to.include({ tubeId: 'tubeId2', level: 4 });
+      expect(savedTargetProfileTemplateTubes[2]).to.include({ tubeId: 'tubeId3', level: 5 });
     });
   });
 });

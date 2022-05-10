@@ -194,7 +194,23 @@ module.exports = {
   },
 
   async createTemplate({ targetProfileTemplate }) {
-    return new TargetProfileTemplate({ id: 123, tubes: targetProfileTemplate.tubes });
+    const [targetProfileTemplateId] = await knex('target-profile-templates').insert({}).returning('id');
+
+    const tubes = targetProfileTemplate.tubes.map((tube) => ({
+      targetProfileTemplateId,
+      tubeId: tube.id,
+      level: tube.level,
+    }));
+
+    const savedTubes = await knex.batchInsert('target-profile-templates_tubes', tubes).returning('*');
+
+    return new TargetProfileTemplate({
+      id: targetProfileTemplateId,
+      tubes: savedTubes.map((tube) => ({
+        id: tube.tubeId,
+        level: tube.level,
+      })),
+    });
   },
 };
 
