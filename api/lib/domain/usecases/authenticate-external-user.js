@@ -15,13 +15,13 @@ async function authenticateExternalUser({
   externalUserToken,
   expectedUserId,
   tokenService,
-  authenticationService,
+  pixAuthenticationService,
   obfuscationService,
   authenticationMethodRepository,
   userRepository,
 }) {
   try {
-    const userFromCredentials = await authenticationService.getUserByUsernameAndPassword({
+    const userFromCredentials = await pixAuthenticationService.getUserByUsernameAndPassword({
       username,
       password,
       userRepository,

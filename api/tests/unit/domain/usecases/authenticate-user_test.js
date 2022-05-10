@@ -10,13 +10,13 @@ const {
   UserShouldChangePasswordError,
 } = require('../../../../lib/domain/errors');
 
-const authenticationService = require('../../../../lib/domain/services/authentication-service');
 const endTestScreenRemovalService = require('../../../../lib/domain/services/end-test-screen-removal-service');
 const appMessages = require('../../../../lib/domain/constants');
 
 describe('Unit | Application | UseCase | authenticate-user', function () {
   let refreshTokenService;
   let userRepository;
+  let pixAuthenticationService;
 
   const userEmail = 'user@example.net';
   const password = 'Password1234';
@@ -30,7 +30,9 @@ describe('Unit | Application | UseCase | authenticate-user', function () {
       getByUsernameOrEmailWithRoles: sinon.stub(),
       updateLastLoggedAt: sinon.stub(),
     };
-    sinon.stub(authenticationService, 'getUserByUsernameAndPassword');
+    pixAuthenticationService = {
+      getUserByUsernameAndPassword: sinon.stub(),
+    };
     sinon.stub(endTestScreenRemovalService, 'isEndTestScreenRemovalEnabledForSomeCertificationCenter');
   });
 
@@ -42,7 +44,7 @@ describe('Unit | Application | UseCase | authenticate-user', function () {
     const expirationDelaySeconds = 1;
     const user = domainBuilder.buildUser({ email: userEmail });
 
-    authenticationService.getUserByUsernameAndPassword.resolves(user);
+    pixAuthenticationService.getUserByUsernameAndPassword.resolves(user);
     refreshTokenService.createRefreshTokenFromUserId
       .withArgs({
         userId: user.id,
@@ -58,12 +60,13 @@ describe('Unit | Application | UseCase | authenticate-user', function () {
       username: userEmail,
       password,
       source,
+      pixAuthenticationService,
       refreshTokenService,
       userRepository,
     });
 
     // then
-    expect(authenticationService.getUserByUsernameAndPassword).to.have.been.calledWithExactly({
+    expect(pixAuthenticationService.getUserByUsernameAndPassword).to.have.been.calledWithExactly({
       username: userEmail,
       password,
       userRepository,
@@ -78,7 +81,7 @@ describe('Unit | Application | UseCase | authenticate-user', function () {
     const expirationDelaySeconds = 1;
     const user = domainBuilder.buildUser({ email: userEmail });
 
-    authenticationService.getUserByUsernameAndPassword.resolves(user);
+    pixAuthenticationService.getUserByUsernameAndPassword.resolves(user);
     refreshTokenService.createAccessTokenFromRefreshToken.resolves({ accessToken, expirationDelaySeconds });
 
     // when
@@ -86,6 +89,7 @@ describe('Unit | Application | UseCase | authenticate-user', function () {
       username: userEmail,
       password,
       source,
+      pixAuthenticationService,
       refreshTokenService,
       userRepository,
     });
@@ -97,7 +101,7 @@ describe('Unit | Application | UseCase | authenticate-user', function () {
   it('should rejects an error when given username (email) does not match an existing one', async function () {
     // given
     const unknownUserEmail = 'unknown_user_email@example.net';
-    authenticationService.getUserByUsernameAndPassword.rejects(new UserNotFoundError());
+    pixAuthenticationService.getUserByUsernameAndPassword.rejects(new UserNotFoundError());
 
     // when
     const error = await catchErr(authenticateUser)({
@@ -112,7 +116,7 @@ describe('Unit | Application | UseCase | authenticate-user', function () {
 
   it('should rejects an error when given password does not match the found user’s one', async function () {
     // given
-    authenticationService.getUserByUsernameAndPassword.rejects(new MissingOrInvalidCredentialsError());
+    pixAuthenticationService.getUserByUsernameAndPassword.rejects(new MissingOrInvalidCredentialsError());
 
     // when
     const error = await catchErr(authenticateUser)({
@@ -130,7 +134,7 @@ describe('Unit | Application | UseCase | authenticate-user', function () {
       // given
       const scope = appMessages.PIX_ORGA.SCOPE;
       const user = new User({ email: userEmail, memberships: [] });
-      authenticationService.getUserByUsernameAndPassword.resolves(user);
+      pixAuthenticationService.getUserByUsernameAndPassword.resolves(user);
 
       const expectedErrorMessage = appMessages.PIX_ORGA.NOT_LINKED_ORGANIZATION_MSG;
 
@@ -139,6 +143,7 @@ describe('Unit | Application | UseCase | authenticate-user', function () {
         username: userEmail,
         password,
         scope,
+        pixAuthenticationService,
         userRepository,
       });
 
@@ -151,7 +156,7 @@ describe('Unit | Application | UseCase | authenticate-user', function () {
       // given
       const scope = appMessages.PIX_ADMIN.SCOPE;
       const user = new User({ email: userEmail, pixAdminRoles: [] });
-      authenticationService.getUserByUsernameAndPassword.resolves(user);
+      pixAuthenticationService.getUserByUsernameAndPassword.resolves(user);
 
       const expectedErrorMessage = appMessages.PIX_ADMIN.NOT_ALLOWED_MSG;
 
@@ -160,6 +165,7 @@ describe('Unit | Application | UseCase | authenticate-user', function () {
         username: userEmail,
         password,
         scope,
+        pixAuthenticationService,
         userRepository,
       });
 
@@ -173,7 +179,7 @@ describe('Unit | Application | UseCase | authenticate-user', function () {
         // given
         const scope = appMessages.PIX_CERTIF.SCOPE;
         const user = domainBuilder.buildUser({ email: userEmail, certificationCenterMemberships: [] });
-        authenticationService.getUserByUsernameAndPassword.resolves(user);
+        pixAuthenticationService.getUserByUsernameAndPassword.resolves(user);
         endTestScreenRemovalService.isEndTestScreenRemovalEnabledForSomeCertificationCenter.resolves(false);
 
         const expectedErrorMessage = appMessages.PIX_CERTIF.NOT_LINKED_CERTIFICATION_MSG;
@@ -182,6 +188,7 @@ describe('Unit | Application | UseCase | authenticate-user', function () {
           username: userEmail,
           password,
           scope,
+          pixAuthenticationService,
           userRepository,
         });
 
@@ -203,7 +210,7 @@ describe('Unit | Application | UseCase | authenticate-user', function () {
         });
 
         endTestScreenRemovalService.isEndTestScreenRemovalEnabledForSomeCertificationCenter.resolves(true);
-        authenticationService.getUserByUsernameAndPassword.resolves(user);
+        pixAuthenticationService.getUserByUsernameAndPassword.resolves(user);
         refreshTokenService.createRefreshTokenFromUserId
           .withArgs({
             userId: user.id,
@@ -220,13 +227,14 @@ describe('Unit | Application | UseCase | authenticate-user', function () {
           password,
           scope,
           source,
+          pixAuthenticationService,
           refreshTokenService,
           userRepository,
           endTestScreenRemovalService,
         });
 
         // then
-        expect(authenticationService.getUserByUsernameAndPassword).to.have.been.calledWithExactly({
+        expect(pixAuthenticationService.getUserByUsernameAndPassword).to.have.been.calledWithExactly({
           username: userEmail,
           password,
           userRepository,
@@ -246,13 +254,14 @@ describe('Unit | Application | UseCase | authenticate-user', function () {
       });
       user.authenticationMethods = [authenticationMethod];
 
-      authenticationService.getUserByUsernameAndPassword.resolves(user);
+      pixAuthenticationService.getUserByUsernameAndPassword.resolves(user);
 
       // when
       const error = await catchErr(authenticateUser)({
         username: userEmail,
         password,
         userRepository,
+        pixAuthenticationService,
         endTestScreenRemovalService,
       });
 

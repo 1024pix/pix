@@ -1,11 +1,11 @@
-const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper');
-const { PasswordNotMatching, UserNotFoundError } = require('../../../../lib/domain/errors');
+const { expect, sinon, domainBuilder, catchErr } = require('../../../../test-helper');
+const { PasswordNotMatching, UserNotFoundError } = require('../../../../../lib/domain/errors');
 
-const User = require('../../../../lib/domain/models/User');
-const encryptionService = require('../../../../lib/domain/services/encryption-service');
-const authenticationService = require('../../../../lib/domain/services/authentication-service');
+const User = require('../../../../../lib/domain/models/User');
+const encryptionService = require('../../../../../lib/domain/services/encryption-service');
+const pixAuthenticationService = require('../../../../../lib/domain/services/authentication/pix-authentication-service');
 
-describe('Unit | Domain | Services | authentication-service', function () {
+describe('Unit | Domain | Services | pix-authentication-service', function () {
   describe('#getUserByUsernameAndPassword', function () {
     const username = 'user@example.net';
     const password = 'Password123';
@@ -36,7 +36,7 @@ describe('Unit | Domain | Services | authentication-service', function () {
 
       it('should call the user repository', async function () {
         // when
-        await authenticationService.getUserByUsernameAndPassword({
+        await pixAuthenticationService.getUserByUsernameAndPassword({
           username,
           password,
           userRepository,
@@ -51,7 +51,7 @@ describe('Unit | Domain | Services | authentication-service', function () {
         const expectedPasswordHash = authenticationMethod.authenticationComplement.password;
 
         // when
-        await authenticationService.getUserByUsernameAndPassword({
+        await pixAuthenticationService.getUserByUsernameAndPassword({
           username,
           password,
           userRepository,
@@ -66,7 +66,7 @@ describe('Unit | Domain | Services | authentication-service', function () {
 
       it('should return user found', async function () {
         // when
-        const foundUser = await authenticationService.getUserByUsernameAndPassword({
+        const foundUser = await pixAuthenticationService.getUserByUsernameAndPassword({
           username,
           password,
           userRepository,
@@ -84,7 +84,7 @@ describe('Unit | Domain | Services | authentication-service', function () {
         userRepository.getByUsernameOrEmailWithRolesAndPassword.rejects(new UserNotFoundError());
 
         // when
-        const error = await catchErr(authenticationService.getUserByUsernameAndPassword)({
+        const error = await catchErr(pixAuthenticationService.getUserByUsernameAndPassword)({
           username,
           password,
           userRepository,
@@ -100,7 +100,7 @@ describe('Unit | Domain | Services | authentication-service', function () {
         encryptionService.checkPassword.rejects(new PasswordNotMatching());
 
         // when
-        const error = await catchErr(authenticationService.getUserByUsernameAndPassword)({
+        const error = await catchErr(pixAuthenticationService.getUserByUsernameAndPassword)({
           username,
           password,
           userRepository,
