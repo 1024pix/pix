@@ -7,7 +7,7 @@ const identifiersType = require('../../../../lib/domain/types/identifiers-type')
 const moduleUnderTest = require('../../../../lib/application/organizations');
 
 describe('Unit | Router | organization-router', function () {
-  describe('GET /api/organizations', function () {
+  describe('GET /api/admin/organizations', function () {
     const method = 'GET';
 
     it('should return OK (200) when request is valid', async function () {
@@ -18,7 +18,7 @@ describe('Unit | Router | organization-router', function () {
       await httpTestServer.register(moduleUnderTest);
 
       // given
-      const url = '/api/organizations?filter[id]=&filter[name]=DRA&filter[type]=SCO&page[number]=3&page[size]=25';
+      const url = '/api/admin/organizations?filter[id]=&filter[name]=DRA&filter[type]=SCO&page[number]=3&page[size]=25';
 
       // when
       const response = await httpTestServer.request(method, url);
@@ -34,7 +34,7 @@ describe('Unit | Router | organization-router', function () {
         await httpTestServer.register(moduleUnderTest);
 
         const idNotNumeric = 'foo';
-        const url = `/api/organizations?filter[id]=${idNotNumeric}`;
+        const url = `/api/admin/organizations?filter[id]=${idNotNumeric}`;
 
         // when
         const response = await httpTestServer.request(method, url);
@@ -51,7 +51,7 @@ describe('Unit | Router | organization-router', function () {
 
           const minNumberLimit = identifiersType.positiveInteger32bits.min;
           const wrongNumber = minNumberLimit - 1;
-          const url = `/api/organizations?filter[id]=${wrongNumber}`;
+          const url = `/api/admin/organizations?filter[id]=${wrongNumber}`;
 
           // when
           const response = await httpTestServer.request(method, url);
@@ -67,7 +67,7 @@ describe('Unit | Router | organization-router', function () {
 
           const maxNumberLimit = identifiersType.positiveInteger32bits.max;
           const wrongNumber = maxNumberLimit + 1;
-          const url = `/api/organizations?filter[id]=${wrongNumber}`;
+          const url = `/api/admin/organizations?filter[id]=${wrongNumber}`;
 
           // when
           const response = await httpTestServer.request(method, url);
