@@ -217,5 +217,45 @@ describe('Unit | Domain | Models | HigherSchoolingRegistrationSet', function () 
         expect(warnings).to.have.lengthOf(0);
       });
     });
+
+    context('When group has spaces', function () {
+      it('should trim group', async function () {
+        const higherSchoolingRegistrationSet = new HigherSchoolingRegistrationSet(i18n);
+        const registration = {
+          firstName: 'Beatrix',
+          lastName: 'Kiddo',
+          birthdate: '1990-04-01',
+          studentNumber: '123ABC',
+          organizationId: 123,
+          diploma: 'BAD',
+          studyScheme: 'Autre',
+          group: ' some group ',
+        };
+
+        higherSchoolingRegistrationSet.addRegistration(registration);
+        const { registrations } = higherSchoolingRegistrationSet;
+
+        expect(registrations[0].group).to.equal('some group');
+      });
+
+      it('should remove extra space on group', function () {
+        const higherSchoolingRegistrationSet = new HigherSchoolingRegistrationSet(i18n);
+        const registration = {
+          firstName: 'Beatrix',
+          lastName: 'Kiddo',
+          birthdate: '1990-04-01',
+          studentNumber: '123ABC',
+          organizationId: 123,
+          diploma: 'BAD',
+          studyScheme: 'Autre',
+          group: 'some        group',
+        };
+
+        higherSchoolingRegistrationSet.addRegistration(registration);
+        const { registrations } = higherSchoolingRegistrationSet;
+
+        expect(registrations[0].group).to.equal('some group');
+      });
+    });
   });
 });
