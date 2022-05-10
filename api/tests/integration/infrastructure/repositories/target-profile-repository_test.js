@@ -11,6 +11,8 @@ const {
   InvalidSkillSetError,
   OrganizationNotFoundError,
 } = require('../../../../lib/domain/errors');
+const TargetProfileTemplate = require('../../../../lib/domain/models/TargetProfileTemplate');
+const targetProfileTemplateRepository = require('../../../../lib/infrastructure/repositories/target-profile-template-repository');
 
 describe('Integration | Repository | Target-profile', function () {
   describe('#create', function () {
@@ -698,6 +700,35 @@ describe('Integration | Repository | Target-profile', function () {
         expect(error).to.be.instanceOf(InvalidSkillSetError);
         expect(error).to.haveOwnProperty('message', 'Unknown skillIds : recSkill666');
       });
+    });
+  });
+
+  describe('#createTemplate', function () {
+    afterEach(async function () {
+      await knex('target-profile-templates_tubes').delete();
+      await knex('target-profile-templates').delete();
+    });
+
+    it('should return the saved target profile template', async function () {
+      // given
+      const targetProfileTemplate = {
+        tubes: [
+          { id: 'tubeId1', level: 8 },
+          { id: 'tubeId2', level: 4 },
+          { id: 'tubeId3', level: 5 },
+        ],
+      };
+
+      // when
+      const savedTargetProfileTemplate = await targetProfileTemplateRepository.create({ targetProfileTemplate });
+
+      // then
+      expect(savedTargetProfileTemplate).to.be.instanceOf(TargetProfileTemplate);
+      expect(savedTargetProfileTemplate.id).to.be.a('number');
+      expect(savedTargetProfileTemplate.tubes).to.have.lengthOf(3);
+      expect(savedTargetProfileTemplate.tubes).to.deep.include({ id: 'tubeId1', level: 8 });
+      expect(savedTargetProfileTemplate.tubes).to.deep.include({ id: 'tubeId2', level: 4 });
+      expect(savedTargetProfileTemplate.tubes).to.deep.include({ id: 'tubeId3', level: 5 });
     });
   });
 });
