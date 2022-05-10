@@ -10,8 +10,7 @@ describe('Acceptance | Application | Admin-members | Routes', function () {
   describe('GET /api/admin/admin-members/me', function () {
     it('should return 200 http status code', async function () {
       // given
-      const user = databaseBuilder.factory.buildUser();
-      databaseBuilder.factory.buildPixAdminRole({ userId: user.id, role: 'SUPER_ADMIN' });
+      databaseBuilder.factory.buildUser.withRole();
       const admin = await insertUserWithRoleSuperAdmin();
       await databaseBuilder.commit();
       const server = await createServer();

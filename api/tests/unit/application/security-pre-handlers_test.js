@@ -9,7 +9,6 @@ const checkUserHasRoleMetierUseCase = require('../../../lib/application/usecases
 const checkUserIsAdminInOrganizationUseCase = require('../../../lib/application/usecases/checkUserIsAdminInOrganization');
 const checkUserBelongsToOrganizationManagingStudentsUseCase = require('../../../lib/application/usecases/checkUserBelongsToOrganizationManagingStudents');
 const checkUserBelongsToScoOrganizationAndManagesStudentsUseCase = require('../../../lib/application/usecases/checkUserBelongsToScoOrganizationAndManagesStudents');
-const checkUserBelongsToOrganizationUseCase = require('../../../lib/application/usecases/checkUserBelongsToOrganization');
 const checkUserIsMemberOfAnOrganizationUseCase = require('../../../lib/application/usecases/checkUserIsMemberOfAnOrganization');
 const checkUserIsMemberOfCertificationCenterUseCase = require('../../../lib/application/usecases/checkUserIsMemberOfCertificationCenter');
 const checkAuthorizationToManageCampaignUsecase = require('../../../lib/application/usecases/checkAuthorizationToManageCampaign');
@@ -586,8 +585,8 @@ describe('Unit | Application | SecurityPreHandlers', function () {
     let request;
 
     beforeEach(function () {
-      belongsToOrganizationStub = sinon.stub(checkUserBelongsToOrganizationUseCase, 'execute');
-      hasRoleSuperAdminStub = sinon.stub(checkUserHasRoleSuperAdminUseCase, 'execute');
+      belongsToOrganizationStub = sinon.stub(securityPreHandlers, 'checkUserBelongsToOrganization');
+      hasRoleSuperAdminStub = sinon.stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin');
       request = {
         auth: {
           credentials: {
