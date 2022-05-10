@@ -5,6 +5,7 @@ const httpAgent = require('../../../../../lib/infrastructure/http/http-agent');
 
 const poleEmploiAuthenticationService = require('../../../../../lib/domain/services/authentication/pole-emploi-authentication-service');
 const PoleEmploiTokens = require('../../../../../lib/domain/models/PoleEmploiTokens');
+const jsonwebtoken = require('jsonwebtoken');
 
 describe('Unit | Domain | Services | pole-emploi-authentication-service', function () {
   describe('#exchangeCodeForTokens', function () {
@@ -86,6 +87,42 @@ describe('Unit | Domain | Services | pole-emploi-authentication-service', functi
         expect(error.message).to.equal(
           '{"error":"invalid_client","error_description":"Invalid authentication method for accessing this endpoint."}'
         );
+      });
+    });
+  });
+  describe('#getUserInfo', function () {
+    it('should return email, firstName, lastName and external identity id', async function () {
+      // given
+      function generateIdToken(payload) {
+        return jsonwebtoken.sign(
+          {
+            ...payload,
+          },
+          'secret'
+        );
+      }
+
+      const given_name = 'givenName';
+      const family_name = 'familyName';
+      const nonce = 'bb041272-d6e6-457c-99fb-ff1aa02217fd';
+      const idIdentiteExterne = '094b83ac-2e20-4aa8-b438-0bc91748e4a6';
+
+      const idToken = generateIdToken({
+        given_name,
+        family_name,
+        nonce,
+        idIdentiteExterne,
+      });
+
+      // when
+      const result = await poleEmploiAuthenticationService.getUserInfo(idToken);
+
+      // then
+      expect(result).to.deep.equal({
+        firstName: given_name,
+        lastName: family_name,
+        nonce,
+        externalIdentityId: idIdentiteExterne,
       });
     });
   });

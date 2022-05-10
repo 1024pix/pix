@@ -21,7 +21,7 @@ describe('Unit | UseCase | create-user-from-pole-emploi', function () {
   let authenticationMethodRepository;
   let poleEmploiTokensRepository;
   let userToCreateRepository;
-  let authenticationService;
+  let poleEmploiAuthenticationService;
 
   const now = new Date('2021-01-02');
 
@@ -45,8 +45,8 @@ describe('Unit | UseCase | create-user-from-pole-emploi', function () {
       create: sinon.stub(),
     };
 
-    authenticationService = {
-      getPoleEmploiUserInfo: sinon.stub(),
+    poleEmploiAuthenticationService = {
+      getUserInfo: sinon.stub(),
     };
   });
 
@@ -62,10 +62,10 @@ describe('Unit | UseCase | create-user-from-pole-emploi', function () {
     // when
     const error = await catchErr(createUserFromPoleEmploi)({
       authenticationKey,
+      poleEmploiAuthenticationService,
       authenticationMethodRepository,
       poleEmploiTokensRepository,
       userToCreateRepository,
-      authenticationService,
     });
 
     // then
@@ -92,7 +92,7 @@ describe('Unit | UseCase | create-user-from-pole-emploi', function () {
         externalIdentityId: 'externalIdentityId',
         nonce: 'nonce',
       };
-      authenticationService.getPoleEmploiUserInfo.withArgs(poleEmploiTokens.idToken).resolves(decodedUserInfo);
+      poleEmploiAuthenticationService.getUserInfo.withArgs(poleEmploiTokens.idToken).resolves(decodedUserInfo);
 
       authenticationMethodRepository.findOneByExternalIdentifierAndIdentityProvider
         .withArgs({
@@ -117,10 +117,10 @@ describe('Unit | UseCase | create-user-from-pole-emploi', function () {
       // when
       const response = await createUserFromPoleEmploi({
         authenticationKey,
+        poleEmploiAuthenticationService,
         authenticationMethodRepository,
         poleEmploiTokensRepository,
         userToCreateRepository,
-        authenticationService,
       });
 
       // then
@@ -160,17 +160,17 @@ describe('Unit | UseCase | create-user-from-pole-emploi', function () {
         nonce: 'nonce',
       };
 
-      authenticationService.getPoleEmploiUserInfo.withArgs(poleEmploiTokens.idToken).resolves(decodedUserInfo);
+      poleEmploiAuthenticationService.getUserInfo.withArgs(poleEmploiTokens.idToken).resolves(decodedUserInfo);
 
       sinon.stub(logger, 'error');
 
       // when
       const error = await catchErr(createUserFromPoleEmploi)({
         authenticationKey,
+        poleEmploiAuthenticationService,
         authenticationMethodRepository,
         poleEmploiTokensRepository,
         userToCreateRepository,
-        authenticationService,
       });
 
       // then
@@ -202,7 +202,7 @@ describe('Unit | UseCase | create-user-from-pole-emploi', function () {
         externalIdentityId: 'externalIdentityId',
         nonce: 'nonce',
       };
-      authenticationService.getPoleEmploiUserInfo.withArgs(poleEmploiTokens.idToken).resolves(decodedUserInfo);
+      poleEmploiAuthenticationService.getUserInfo.withArgs(poleEmploiTokens.idToken).resolves(decodedUserInfo);
 
       const authenticationMethod = domainBuilder.buildAuthenticationMethod.withPoleEmploiAsIdentityProvider({ userId });
       authenticationMethodRepository.findOneByExternalIdentifierAndIdentityProvider
@@ -215,10 +215,10 @@ describe('Unit | UseCase | create-user-from-pole-emploi', function () {
       // when
       const response = await createUserFromPoleEmploi({
         authenticationKey,
+        poleEmploiAuthenticationService,
         authenticationMethodRepository,
         poleEmploiTokensRepository,
         userToCreateRepository,
-        authenticationService,
       });
 
       // then

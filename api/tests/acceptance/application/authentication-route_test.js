@@ -944,29 +944,10 @@ describe('Acceptance | Controller | authentication-controller', function () {
     context('When pole-emploi request fail', function () {
       it('should return HTTP 500 with error detail', async function () {
         // given
-        const idToken = jsonwebtoken.sign(
-          {
-            given_name: 'John',
-            family_name: 'Doe',
-            nonce: 'nonce',
-            idIdentiteExterne: 'externalIdentifier',
-          },
-          'secret'
-        );
-
-        const getAccessTokenResponse = {
-          access_token: 'access_token',
-          id_token: idToken,
-          expires_in: 60,
-          refresh_token: 'refresh_token',
-        };
-
-        nock(settings.poleEmploi.tokenUrl).post('/').reply(200, getAccessTokenResponse);
         const errorData = {
           error: 'invalid_client',
           error_description: 'Invalid authentication method for accessing this endpoint.',
         };
-        const expectedDetail = `${errorData.error} ${errorData.error_description}`;
         nock.cleanAll();
         nock(settings.poleEmploi.tokenUrl).post('/').reply(400, errorData);
 
@@ -987,7 +968,9 @@ describe('Acceptance | Controller | authentication-controller', function () {
 
         // expect
         expect(response.statusCode).to.equal(500);
-        expect(response.result.errors[0].detail).to.equal(expectedDetail);
+        expect(response.result.errors[0].detail).to.equal(
+          '{"error":"invalid_client","error_description":"Invalid authentication method for accessing this endpoint."}'
+        );
       });
     });
   });
