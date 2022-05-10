@@ -11,16 +11,11 @@ module('Integration | Component | routes/authenticated/sessions/session | inform
   setupApplicationTest(hooks);
   setupMirage(hooks);
 
-  let session;
-
-  hooks.beforeEach(async function () {
-    await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
-  });
-
   module('regardless of session status', function () {
     test('it renders the details page with correct info', async function (assert) {
       // given
-      session = this.server.create('session');
+      await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
+      const session = this.server.create('session');
 
       // when
       const screen = await visit(`/sessions/${session.id}`);
@@ -46,7 +41,8 @@ module('Integration | Component | routes/authenticated/sessions/session | inform
   module('when the session is created', function () {
     test('it does not render the examinerGlobalComment row or stats', async function (assert) {
       // given
-      session = this.server.create('session', 'created');
+      await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
+      const session = this.server.create('session', 'created');
 
       // when
       const screen = await visit(`/sessions/${session.id}`);
@@ -58,7 +54,8 @@ module('Integration | Component | routes/authenticated/sessions/session | inform
 
     test('it does not render the "M\'assigner la session" button', async function (assert) {
       // given
-      session = this.server.create('session', 'created');
+      await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
+      const session = this.server.create('session', 'created');
 
       // when
       const screen = await visit(`/sessions/${session.id}`);
@@ -68,28 +65,12 @@ module('Integration | Component | routes/authenticated/sessions/session | inform
     });
   });
 
-  module('when the session is finalized', function (hooks) {
-    hooks.beforeEach(async function () {
-      const sessionData = {
-        status: 'finalized',
-        finalizedAt: new Date('2022-01-01'),
-        examinerGlobalComment: 'ceci est un commentaire sur les sessions de certification',
-        resultsSentToPrescriberAt: new Date('2020-01-01'),
-      };
-      session = this.server.create('session', sessionData);
-      const juryCertifSummary1 = this.server.create('jury-certification-summary', {
-        numberOfCertificationIssueReports: 1,
-        status: 'validated',
-        hasSeenEndTestScreen: false,
-      });
-      const juryCertifSummary2 = this.server.create('jury-certification-summary', {
-        status: 'validated',
-        hasSeenEndTestScreen: true,
-      });
-      session.update({ juryCertificationSummaries: [juryCertifSummary1, juryCertifSummary2] });
-    });
-
+  module('when the session is finalized', function () {
     test('it renders the finalization date', async function (assert) {
+      // given
+      await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
+      const session = _buildSessionWithTwoJuryCertificationSummary({}, server);
+
       // when
       const screen = await visit(`/sessions/${session.id}`);
 
@@ -98,6 +79,10 @@ module('Integration | Component | routes/authenticated/sessions/session | inform
     });
 
     test('it renders all the stats of the session', async function (assert) {
+      // given
+      await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
+      const session = _buildSessionWithTwoJuryCertificationSummary({}, server);
+
       // when
       await visit(`/sessions/${session.id}`);
 
@@ -110,7 +95,8 @@ module('Integration | Component | routes/authenticated/sessions/session | inform
     module('when the session has supervisor access', function () {
       test('it should not display the number of not checked end test screens', async function (assert) {
         // given
-        session.update({ hasSupervisorAccess: true });
+        await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
+        const session = _buildSessionWithTwoJuryCertificationSummary({ hasSupervisorAccess: true }, server);
 
         // when
         const screen = await visit(`/sessions/${session.id}`);
@@ -121,6 +107,10 @@ module('Integration | Component | routes/authenticated/sessions/session | inform
     });
 
     test('it renders the examinerGlobalComment if any', async function (assert) {
+      // given
+      await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
+      const session = _buildSessionWithTwoJuryCertificationSummary({}, server);
+
       // when
       const screen = await visit(`/sessions/${session.id}`);
 
@@ -131,7 +121,8 @@ module('Integration | Component | routes/authenticated/sessions/session | inform
 
     test('it does not render the examinerGlobalComment row if no comment', async function (assert) {
       // given
-      session.update({ examinerGlobalComment: null });
+      await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
+      const session = _buildSessionWithTwoJuryCertificationSummary({ examinerGlobalComment: null }, server);
 
       // when
       const screen = await visit(`/sessions/${session.id}`);
@@ -143,7 +134,8 @@ module('Integration | Component | routes/authenticated/sessions/session | inform
     module('when results have not yet been sent to prescriber', function () {
       test('it should display the button to flag results as sent', async function (assert) {
         // given
-        session.update({ resultsSentToPrescriberAt: null });
+        await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
+        const session = _buildSessionWithTwoJuryCertificationSummary({ resultsSentToPrescriberAt: null }, server);
 
         // when
         const screen = await visit(`/sessions/${session.id}`);
@@ -156,7 +148,8 @@ module('Integration | Component | routes/authenticated/sessions/session | inform
     module('when results have been sent to prescriber', function () {
       test('it should not display the button to flag results as sent', async function (assert) {
         // given
-        session.update({ resultsSentToPrescriberAt: new Date() });
+        await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
+        const session = _buildSessionWithTwoJuryCertificationSummary({ resultsSentToPrescriberAt: new Date() }, server);
 
         // when
         const screen = await visit(`/sessions/${session.id}`);
@@ -169,7 +162,11 @@ module('Integration | Component | routes/authenticated/sessions/session | inform
     module('when the session results have been sent to the prescriber', function () {
       test('it renders the resultsSentToPrescriberAt date', async function (assert) {
         // given
-        session.update({ resultsSentToPrescriberAt: new Date('2022-02-22') });
+        await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
+        const session = _buildSessionWithTwoJuryCertificationSummary(
+          { resultsSentToPrescriberAt: new Date('2022-02-22') },
+          server
+        );
 
         // when
         const screen = await visit(`/sessions/${session.id}`);
@@ -182,7 +179,8 @@ module('Integration | Component | routes/authenticated/sessions/session | inform
     module('when the session is processed', function () {
       test('it renders the publishedAt date', async function (assert) {
         // given
-        session.update({ publishedAt: new Date('2022-10-24') });
+        await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
+        const session = _buildSessionWithTwoJuryCertificationSummary({ publishedAt: new Date('2022-10-24') }, server);
 
         // when
         const screen = await visit(`/sessions/${session.id}`);
@@ -194,3 +192,24 @@ module('Integration | Component | routes/authenticated/sessions/session | inform
     });
   });
 });
+
+function _buildSessionWithTwoJuryCertificationSummary(sessionData, server) {
+  const juryCertifSummary1 = server.create('jury-certification-summary', {
+    numberOfCertificationIssueReports: 1,
+    status: 'validated',
+    hasSeenEndTestScreen: false,
+  });
+  const juryCertifSummary2 = server.create('jury-certification-summary', {
+    status: 'validated',
+    hasSeenEndTestScreen: true,
+  });
+
+  return server.create('session', {
+    status: 'finalized',
+    finalizedAt: new Date('2022-01-01'),
+    examinerGlobalComment: 'ceci est un commentaire sur les sessions de certification',
+    resultsSentToPrescriberAt: new Date('2020-01-01'),
+    juryCertificationSummaries: [juryCertifSummary1, juryCertifSummary2],
+    ...sessionData,
+  });
+}
