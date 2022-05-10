@@ -12,22 +12,21 @@ const { parseCsv } = require('../helpers/csvHelpers');
 
 function checkData({ csvData }) {
   return csvData
-    .map(([externalIdLowerCase, targetProfileList]) => {
-      if (!externalIdLowerCase && !targetProfileList) {
+    .map(([externalId, targetProfileList]) => {
+      if (!externalId && !targetProfileList) {
         if (require.main === module) process.stdout.write('Found empty line in input file.');
         return null;
       }
-      if (!externalIdLowerCase) {
+      if (!externalId) {
         if (require.main === module)
           process.stdout.write(`A line is missing an externalId for target profile ${targetProfileList}`);
         return null;
       }
       if (!targetProfileList) {
         if (require.main === module)
-          process.stdout.write(`A line is missing a targetProfileIdList for external id ${externalIdLowerCase}`);
+          process.stdout.write(`A line is missing a targetProfileIdList for external id ${externalId}`);
         return null;
       }
-      const externalId = externalIdLowerCase.toUpperCase();
       const targetProfileIdList = targetProfileList.split('-').filter((targetProfile) => !!targetProfile.trim());
 
       return { externalId, targetProfileIdList };
@@ -50,6 +49,8 @@ async function addTargetProfileSharesToOrganizations({ organizationsByExternalId
         targetProfileIdList,
       });
       if (require.main === module) process.stdout.write('===> ✔');
+    } else if (require.main === module) {
+      process.stdout.write(`Organization ${externalId} not found`);
     }
   }
 }
