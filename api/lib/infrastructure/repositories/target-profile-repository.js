@@ -15,6 +15,7 @@ const {
 } = require('../../domain/errors');
 const DomainTransaction = require('../../infrastructure/DomainTransaction');
 const TargetProfile = require('../../domain/models/TargetProfile');
+const TargetProfileTemplate = require('../../domain/models/TargetProfileTemplate');
 const { PGSQL_FOREIGN_KEY_VIOLATION_ERROR } = require('../../../db/pgsql-errors');
 
 module.exports = {
@@ -190,6 +191,10 @@ module.exports = {
     }
 
     return true;
+  },
+
+  async createTemplate({ targetProfileTemplate }) {
+    return new TargetProfileTemplate({ id: 123, tubes: targetProfileTemplate.tubes });
   },
 };
 
