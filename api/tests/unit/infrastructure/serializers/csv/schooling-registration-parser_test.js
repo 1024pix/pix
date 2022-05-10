@@ -213,6 +213,22 @@ describe('Unit | Infrastructure | SchoolingRegistrationParser', function () {
             expect(registrations[0].division).to.equal('Division 1');
           });
         });
+
+        context('When the organization is Agriculture and file contain status AP', function () {
+          it('should return schooling registration with nationalStudentId', function () {
+            const input = `${schoolingRegistrationCsvColumns}
+            0123456789F;Beatrix;The;Bride;Kiddo;Black Mamba;1;01/01/1970;97422;;974;99100;AP;MEF1;Division 1;
+            `;
+            const encodedInput = iconv.encode(input, 'utf8');
+            const parser = new SchoolingRegistrationParser(encodedInput, 123, i18n);
+
+            const { registrations } = parser.parse();
+            expect(registrations[0]).to.includes({
+              nationalStudentId: '0123456789F',
+              status: 'AP',
+            });
+          });
+        });
       });
 
       context('when the data are not correct', function () {
@@ -247,22 +263,6 @@ describe('Unit | Infrastructure | SchoolingRegistrationParser', function () {
           expect(error).to.be.an.instanceOf(CsvImportError);
           expect(error.code).to.equal('INSEE_CODE_INVALID');
           expect(error.meta).to.deep.equal({ line: 2, field: 'Code commune naissance**' });
-        });
-
-        context('When the organization is Agriculture and file contain status AP', function () {
-          it('should return schooling registration with nationalStudentId', function () {
-            const input = `${schoolingRegistrationCsvColumns}
-            0123456789F;Beatrix;The;Bride;Kiddo;Black Mamba;1;01/01/1970;97422;;974;99100;AP;MEF1;Division 1;
-            `;
-            const encodedInput = iconv.encode(input, 'utf8');
-            const parser = new SchoolingRegistrationParser(encodedInput, 123, i18n);
-
-            const { registrations } = parser.parse();
-            expect(registrations[0]).to.includes({
-              nationalStudentId: '0123456789F',
-              status: 'AP',
-            });
-          });
         });
 
         context('When csv has duplicates on national identifier', function () {
