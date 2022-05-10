@@ -50,30 +50,6 @@ describe('Acceptance | Certification | Certification Course', function () {
           return visit('/certifications');
         });
 
-        context('when user forget to fill a field', function () {
-          beforeEach(async function () {
-            await visit('/certifications');
-
-            // when
-            await fillCertificationJoiner({
-              sessionId: '1',
-              firstName: 'Laura',
-              lastName: '',
-              dayOfBirth: '04',
-              monthOfBirth: '01',
-              yearOfBirth: '1990',
-              intl: this.intl,
-            });
-          });
-
-          it('should display an error message', function () {
-            // then
-            expect(find('.certification-course-page__errors').textContent.trim()).to.equal(
-              'Oups ! Nous ne parvenons pas à vous trouver.\nVérifiez vos informations afin de continuer ou prévenez le surveillant.'
-            );
-          });
-        });
-
         context('when no candidate with given info has been registered in the given session', function () {
           beforeEach(async function () {
             // when
@@ -90,9 +66,13 @@ describe('Acceptance | Certification | Certification Course', function () {
 
           it('should display an error message', function () {
             // then
-            expect(find('.certification-course-page__errors').textContent.trim()).to.equal(
-              'Oups ! Nous ne parvenons pas à vous trouver.\nVérifiez vos informations afin de continuer ou prévenez le surveillant.'
-            );
+            expect(contains(this.intl.t('pages.certification-joiner.error-messages.generic.disclaimer'))).to.exist;
+            expect(
+              contains(this.intl.t('pages.certification-joiner.error-messages.generic.check-session-number'))
+            ).to.exist;
+            expect(
+              contains(this.intl.t('pages.certification-joiner.error-messages.generic.check-personal-info'))
+            ).to.exist;
           });
         });
 
@@ -112,9 +92,13 @@ describe('Acceptance | Certification | Certification Course', function () {
 
           it('should display an error message', function () {
             // then
-            expect(find('.certification-course-page__errors').textContent.trim()).to.equal(
-              'Oups ! Nous ne parvenons pas à vous trouver.\nVérifiez vos informations afin de continuer ou prévenez le surveillant.'
-            );
+            expect(contains(this.intl.t('pages.certification-joiner.error-messages.generic.disclaimer'))).to.exist;
+            expect(
+              contains(this.intl.t('pages.certification-joiner.error-messages.generic.check-session-number'))
+            ).to.exist;
+            expect(
+              contains(this.intl.t('pages.certification-joiner.error-messages.generic.check-personal-info'))
+            ).to.exist;
           });
         });
 
@@ -134,31 +118,13 @@ describe('Acceptance | Certification | Certification Course', function () {
 
           it('should display an error message', function () {
             // then
-            expect(find('.certification-course-page__errors').textContent.trim()).to.equal(
-              'Oups ! Nous ne parvenons pas à vous trouver.\nVérifiez vos informations afin de continuer ou prévenez le surveillant.'
-            );
-          });
-        });
-
-        context('when candidate has already been linked to another user in the session', function () {
-          beforeEach(async function () {
-            // when
-            await fillCertificationJoiner({
-              sessionId: '1',
-              firstName: 'Laura',
-              lastName: 'CandidatLiéAutre',
-              dayOfBirth: '04',
-              monthOfBirth: '01',
-              yearOfBirth: '1990',
-              intl: this.intl,
-            });
-          });
-
-          it('should display an error message', function () {
-            // then
-            expect(find('.certification-course-page__errors').textContent.trim()).to.equal(
-              'Oups ! Nous ne parvenons pas à vous trouver.\nVérifiez vos informations afin de continuer ou prévenez le surveillant.'
-            );
+            expect(contains(this.intl.t('pages.certification-joiner.error-messages.generic.disclaimer'))).to.exist;
+            expect(
+              contains(this.intl.t('pages.certification-joiner.error-messages.generic.check-session-number'))
+            ).to.exist;
+            expect(
+              contains(this.intl.t('pages.certification-joiner.error-messages.generic.check-personal-info'))
+            ).to.exist;
           });
         });
 

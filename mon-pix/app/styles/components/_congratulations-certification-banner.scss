@@ -45,6 +45,10 @@
   margin-bottom: 16px;
 }
 
+.congratulations-banner__eligibility-message {
+  text-align: center;
+}
+
 .congratulations-banner__link {
   @include textBannerStyle();
 
