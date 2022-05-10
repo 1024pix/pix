@@ -13,7 +13,24 @@ function getOrganizationInvitations(schema, request) {
 function findPaginatedOrganizationMemberships(schema, request) {
   const organizationId = request.params.id;
   const queryParams = request.queryParams;
-  const memberships = schema.memberships.where({ organizationId, disabledAt: undefined }).models;
+  const organizationRole = queryParams['filter[organizationRole]'];
+  const withOrganizationRoleFilter = ['ADMIN', 'MEMBER'].some((role) => role === organizationRole);
+
+  let filters = {
+    organizationId,
+    disabledAt: undefined,
+  };
+
+  if (withOrganizationRoleFilter) {
+    filters = {
+      organizationId,
+      disabledAt: undefined,
+      organizationRole,
+    };
+  }
+
+  const memberships = schema.memberships.where(filters).models;
+
   const rowCount = memberships.length;
 
   const pagination = _getPaginationFromQueryParams(queryParams);
@@ -26,6 +43,7 @@ function findPaginatedOrganizationMemberships(schema, request) {
     rowCount,
     pageCount: Math.ceil(rowCount / pagination.pageSize),
   };
+
   return json;
 }
 
