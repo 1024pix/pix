@@ -154,6 +154,10 @@ module.exports = (function () {
       numbers: '2346789',
     },
 
+    rateLimit: {
+      redisUrl: process.env.REDIS_URL,
+    },
+
     caching: {
       redisUrl: process.env.REDIS_URL,
       redisCacheKeyLockTTL: parseInt(process.env.REDIS_CACHE_KEY_LOCK_TTL, 10) || 60000,
@@ -359,6 +363,8 @@ module.exports = (function () {
     config.caching.redisUrl = null;
     config.caching.redisCacheKeyLockTTL = 0;
     config.caching.redisCacheLockedWaitBeforeRetry = 0;
+
+    config.rateLimit.redisUrl = null;
 
     config.sentry.enabled = false;
 
