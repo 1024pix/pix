@@ -189,6 +189,30 @@ describe('Unit | Infrastructure | SchoolingRegistrationParser', function () {
             });
           });
         });
+
+        context('when division has spaces', function () {
+          it('should trim division', function () {
+            const input = `${schoolingRegistrationCsvColumns}
+            123F;Beatrix;The;Bride;Kiddo;Black Mamba;1;01/01/1970;97422;;200;99100;ST;MEF1;  Division 1 ;
+            `;
+            const encodedInput = iconv.encode(input, 'utf8');
+            const parser = new SchoolingRegistrationParser(encodedInput, 456, i18n);
+
+            const { registrations } = parser.parse();
+            expect(registrations[0].division).to.equal('Division 1');
+          });
+
+          it('should remove extra space on division', function () {
+            const input = `${schoolingRegistrationCsvColumns}
+            123F;Beatrix;The;Bride;Kiddo;Black Mamba;1;01/01/1970;97422;;200;99100;ST;MEF1;Division     1;
+            `;
+            const encodedInput = iconv.encode(input, 'utf8');
+            const parser = new SchoolingRegistrationParser(encodedInput, 456, i18n);
+
+            const { registrations } = parser.parse();
+            expect(registrations[0].division).to.equal('Division 1');
+          });
+        });
       });
 
       context('when the data are not correct', function () {
