@@ -69,7 +69,7 @@ const plugins = [
       },
       redisClient,
       overLimitError: (rate, request, h) => {
-        logger.error({ request_id: request.info.id }, 'Rate limit exceeded');
+        logger.error({ request_id: request.info.id, overLimit: rate.overLimit }, 'Rate limit exceeded');
         if (rateLimit.logOnly) {
           return h.continue;
         } else {
