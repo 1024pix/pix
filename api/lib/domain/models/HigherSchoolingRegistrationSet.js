@@ -44,7 +44,8 @@ class HigherSchoolingRegistrationSet {
     const registration = new HigherSchoolingRegistration(registrationAttributes);
     this._checkStudyScheme(registration);
     this._checkDiploma(registration);
-    this.registrations.push(registration);
+    const transformedRegistration = this._transform(registration);
+    this.registrations.push(transformedRegistration);
 
     checkValidation(this);
   }
@@ -74,6 +75,13 @@ class HigherSchoolingRegistrationSet {
       const input = valueToCheck.toLowerCase();
       return areTwoStringsCloseEnough(input, reference, RATIO);
     });
+  }
+
+  _transform(registration) {
+    return {
+      ...registration,
+      group: registration.group?.trim().replace(/\s+/g, ' '),
+    };
   }
 }
 
