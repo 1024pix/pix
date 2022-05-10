@@ -6,9 +6,9 @@ const { expect, knex } = require('../../../../test-helper');
 describe('#createAnswersBigintMigrationDatabaseStructures', function () {
   it('should create temporary tables', async function () {
     // given
+    await knex.raw('DROP TABLE IF EXISTS "knowledge-elements_bigint"');
     await knex.raw('DROP TABLE IF EXISTS "answers_bigint"');
     await knex.raw('DROP TABLE IF EXISTS "bigint-migration-settings"');
-    await knex.raw('DROP TABLE IF EXISTS "knowledge-elements_bigint"');
 
     // when
     await createAnswersBigintMigrationDatabaseStructures(knex);
