@@ -9,6 +9,10 @@ const organizationInvitationService = require('../../../lib/domain/services/orga
 const { FileValidationError } = require('../../../lib/domain/errors');
 
 describe('Unit | Scripts | create-pro-organization-with-tags.js', function () {
+  beforeEach(function () {
+    sinon.stub(console, 'log');
+  });
+
   context('When organization file is empty', function () {
     it('should throw an error', async function () {
       // given
