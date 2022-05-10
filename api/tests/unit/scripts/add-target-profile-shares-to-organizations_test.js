@@ -53,11 +53,11 @@ describe('Acceptance | Scripts | add-target-profile-shares-to-organizations.js',
 
       const expectedResult = [
         {
-          externalId: 'A100',
+          externalId: 'a100',
           targetProfileIdList: ['1', '2', '999'],
         },
         {
-          externalId: 'B200',
+          externalId: 'b200',
           targetProfileIdList: ['1', '3', '6'],
         },
       ];
@@ -78,7 +78,7 @@ describe('Acceptance | Scripts | add-target-profile-shares-to-organizations.js',
 
       const expectedResult = [
         {
-          externalId: 'A100',
+          externalId: 'a100',
           targetProfileIdList: ['1', '2', '999'],
         },
       ];
@@ -99,7 +99,7 @@ describe('Acceptance | Scripts | add-target-profile-shares-to-organizations.js',
 
       const expectedResult = [
         {
-          externalId: 'A100',
+          externalId: 'a100',
           targetProfileIdList: ['1', '2', '999'],
         },
       ];
@@ -114,7 +114,7 @@ describe('Acceptance | Scripts | add-target-profile-shares-to-organizations.js',
     it('should keep only one data when targetProfileIds is missing', async function () {
       // given
       const csvData = [
-        ['a100', '1-2-999'],
+        ['A100', '1-2-999'],
         ['b200', ''],
       ];
 
@@ -135,7 +135,7 @@ describe('Acceptance | Scripts | add-target-profile-shares-to-organizations.js',
     it('should keep all data except the empty targetProfileId', async function () {
       // given
       const csvData = [
-        ['a100', '1-2-999'],
+        ['A100', '1-2-999'],
         ['b200', '1-3-'],
       ];
 
@@ -145,7 +145,7 @@ describe('Acceptance | Scripts | add-target-profile-shares-to-organizations.js',
           targetProfileIdList: ['1', '2', '999'],
         },
         {
-          externalId: 'B200',
+          externalId: 'b200',
           targetProfileIdList: ['1', '3'],
         },
       ];
@@ -166,11 +166,11 @@ describe('Acceptance | Scripts | add-target-profile-shares-to-organizations.js',
 
       const expectedResult = [
         {
-          externalId: 'A100',
+          externalId: 'a100',
           targetProfileIdList: ['1', '2', '999'],
         },
         {
-          externalId: 'B200',
+          externalId: 'b200',
           targetProfileIdList: ['1 ', ' 3 ', ' 6'],
         },
       ];

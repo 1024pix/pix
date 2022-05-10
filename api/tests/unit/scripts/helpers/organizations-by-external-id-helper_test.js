@@ -16,13 +16,13 @@ describe('Unit | Scripts | organizations-by-external-id-helper.js', function () 
       ];
 
       const expectedResult = {
-        A100: {
+        a100: {
           id: 1,
-          externalId: 'A100',
+          externalId: 'a100',
         },
-        B200: {
+        b200: {
           id: 2,
-          externalId: 'B200',
+          externalId: 'b200',
         },
       };
 
