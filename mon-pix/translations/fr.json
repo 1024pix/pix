@@ -252,7 +252,11 @@
         "pix-plus-droit-maitre-eligibility": "Vous êtes également éligible à la certification Pix+ Droit Maître."
       },
       "error-messages": {
-        "generic": "Oups ! Nous ne parvenons pas à vous trouver.\nVérifiez vos informations afin de continuer ou prévenez le surveillant.",
+        "generic": {
+          "disclaimer": "Les informations saisies ne correspondent à aucun candidat inscrit à la session.",
+          "check-session-number": "Vérifiez le numéro de session.",
+          "check-personal-info": "Vérifiez auprès du surveillant la correspondance de vos informations personnelles avec la feuille d'émargement."
+        },
         "session-not-accessible": "La session que vous tentez de rejoindre n'est plus accessible.",
         "wrong-account": "Oups ! Il semble que vous n’utilisiez pas le bon compte Pix pour rejoindre cette session de certification.\nPour continuer, connectez-vous au bon compte Pix ou demandez de l’aide au surveillant."
       },
