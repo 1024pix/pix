@@ -26,9 +26,9 @@ function buildAssessment({
   lastChallengeId = null,
   lastQuestionState = Assessment.statesOfLastQuestion.ASKED,
   method,
+  campaignCode,
 } = {}) {
   return new Assessment({
-    // attributes
     id,
     courseId,
     certificationCourseId,
@@ -43,11 +43,11 @@ function buildAssessment({
     lastQuestionDate,
     lastChallengeId,
     lastQuestionState,
-    // relationships
     answers,
     course,
     campaignParticipation,
     method,
+    campaignCode,
   });
 }
 
@@ -70,6 +70,7 @@ buildAssessment.ofTypeCampaign = function ({
   campaignParticipationId = null,
   title = 'campaignTitle',
   method,
+  campaignCode,
 } = {}) {
   if (!_.isNil(campaignParticipation) && _.isNil(campaignParticipationId)) {
     campaignParticipationId = campaignParticipation.id;
@@ -83,7 +84,6 @@ buildAssessment.ofTypeCampaign = function ({
   }
 
   return new Assessment({
-    // attributes
     id,
     courseId,
     createdAt,
@@ -98,12 +98,12 @@ buildAssessment.ofTypeCampaign = function ({
     lastQuestionDate,
     lastChallengeId,
     lastQuestionState,
-    // relationships
     answers,
     course,
     targetProfile,
     campaignParticipation,
     method,
+    campaignCode,
   });
 };
 
@@ -128,7 +128,6 @@ buildAssessment.ofTypeCompetenceEvaluation = function ({
   competenceId = 789,
 } = {}) {
   return new Assessment({
-    // attributes
     id,
     courseId,
     certificationCourseId: null,
@@ -144,12 +143,12 @@ buildAssessment.ofTypeCompetenceEvaluation = function ({
     lastQuestionDate,
     lastChallengeId,
     lastQuestionState,
-    // relationships
     answers,
     course,
     targetProfile,
     knowledgeElements,
     campaignParticipation,
+    campaignCode: null,
   });
 };
 

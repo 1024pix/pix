@@ -83,43 +83,48 @@ describe('Unit | Domain | Models | Assessment', function () {
       assessment = new Assessment({ type: 'DEMO' });
 
       // when
-      const promise = assessment.validate();
+      const call = () => {
+        assessment.validate();
+      };
 
       // then
-      return expect(promise).to.be.fulfilled;
+      expect(call).to.not.throw();
     });
 
-    it('should return rejected promise when Certification assessment has no userId', function () {
+    it('should throw an error when Certification assessment has no userId', function () {
       //given
       assessment = new Assessment({ type: 'CERTIFICATION' });
 
       // when
-      const promise = assessment.validate();
-
-      // then
-      return expect(promise).to.be.rejected;
+      try {
+        assessment.validate();
+      } catch (e) {
+        expect.fail('ObjectValidationError');
+      }
     });
 
-    it('should return rejected promise when Competence evaluation assessment has no userId', function () {
+    it('should throw an error when Competence evaluation assessment has no userId', function () {
       //given
       assessment = new Assessment({ type: 'COMPETENCE_EVALUATION' });
 
       // when
-      const promise = assessment.validate();
-
-      // then
-      return expect(promise).to.be.rejected;
+      try {
+        assessment.validate();
+      } catch (e) {
+        expect.fail('ObjectValidationError');
+      }
     });
 
-    it('should return rejected promise when Campaign assessment has no userId', function () {
+    it('should throw an error when Campaign assessment has no userId', function () {
       //given
       assessment = new Assessment({ type: 'CAMPAIGN' });
 
       // when
-      const promise = assessment.validate();
-
-      // then
-      return expect(promise).to.be.rejected;
+      try {
+        assessment.validate();
+      } catch (e) {
+        expect.fail('ObjectValidationError');
+      }
     });
   });
 

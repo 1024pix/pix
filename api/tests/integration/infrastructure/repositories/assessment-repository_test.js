@@ -15,21 +15,26 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
     return knex('assessments').delete();
   });
 
-  describe('#getWithAnswersAndCampaignParticipation', function () {
+  describe('#getWithAnswers', function () {
     let assessmentId;
 
     context('when the assessment exists', function () {
       beforeEach(async function () {
+        assessmentId = databaseBuilder.factory.buildAssessment({
+          courseId: 'course_A',
+          state: 'completed',
+        }).id;
+
+        await databaseBuilder.commit();
+      });
+
+      it('should return the assessment with the answers sorted by creation date', async function () {
+        //given
         const dateOfFirstAnswer = moment.utc().subtract(3, 'minute').toDate();
         const dateOfSecondAnswer = moment.utc().subtract(2, 'minute').toDate();
         const dateOfThirdAnswer = moment.utc().subtract(1, 'minute').toDate();
         moment.utc().toDate();
         const dateOfFourthAnswer = moment.utc().toDate();
-
-        assessmentId = databaseBuilder.factory.buildAssessment({
-          courseId: 'course_A',
-          state: 'completed',
-        }).id;
 
         _.each(
           [
@@ -43,13 +48,10 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
             databaseBuilder.factory.buildAnswer(answer);
           }
         );
-
         await databaseBuilder.commit();
-      });
 
-      it('should return the assessment with the answers sorted by creation date ', async function () {
         // when
-        const assessment = await assessmentRepository.getWithAnswersAndCampaignParticipation(assessmentId);
+        const assessment = await assessmentRepository.getWithAnswers(assessmentId);
 
         // then
         expect(assessment).to.be.an.instanceOf(Assessment);
@@ -63,15 +65,23 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
         expect(assessment.answers[2].challengeId).to.equal('challenge_2_8');
         expect(assessment.answers[2].value).to.equal('2,8');
       });
+
+      it('should return the assessment with no answers', async function () {
+        // when
+        const assessment = await assessmentRepository.getWithAnswers(assessmentId);
+
+        // then
+        expect(assessment.answers).to.have.lengthOf(0);
+      });
     });
 
     context('when the assessment does not exist', function () {
       it('should return null', async function () {
         // when
-        const assessment = await assessmentRepository.getWithAnswersAndCampaignParticipation(245);
+        const error = await catchErr(assessmentRepository.getWithAnswers)(245);
 
         // then
-        expect(assessment).to.equal(null);
+        expect(error).to.be.instanceOf(NotFoundError);
       });
     });
   });
