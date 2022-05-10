@@ -70,9 +70,8 @@ describe('Unit | Serializer | JSONAPI | assessment-serializer', function () {
       //given
       const assessment = domainBuilder.buildAssessment({
         type: Assessment.types.COMPETENCE_EVALUATION,
+        title: 'Traiter des données',
       });
-
-      assessment.title = 'Traiter des données';
 
       const expectedProgressionJson = {
         data: {
@@ -98,6 +97,8 @@ describe('Unit | Serializer | JSONAPI | assessment-serializer', function () {
       const assessment = domainBuilder.buildAssessment({
         type: Assessment.types.CAMPAIGN,
         campaignParticipation: { campaign: { code: 'Konami' } },
+        title: 'Parcours',
+        campaignCode: 'CAMPAGNE1',
       });
       const expectedProgressionJson = {
         data: {
@@ -115,14 +116,14 @@ describe('Unit | Serializer | JSONAPI | assessment-serializer', function () {
       // then
       expect(json.data.relationships['progression']).to.deep.equal(expectedProgressionJson);
       expect(json.data.attributes['certification-number']).to.be.null;
-      expect(json.data.attributes['code-campaign']).to.equal('Konami');
+      expect(json.data.attributes['code-campaign']).to.equal('CAMPAGNE1');
+      expect(json.data.attributes['title']).to.equal('Parcours');
     });
 
     it('should convert an Assessment model object with type CAMPAIGN and method FLASH into JSON API data', function () {
       //given
       const assessment = domainBuilder.buildAssessment.ofTypeCampaign({
         method: Assessment.methods.FLASH,
-        campaignParticipation: { campaign: { code: 'Konami' } },
       });
       const expectedProgressionJson = {
         data: {
@@ -139,8 +140,6 @@ describe('Unit | Serializer | JSONAPI | assessment-serializer', function () {
 
       // then
       expect(json.data.relationships['progression']).to.deep.equal(expectedProgressionJson);
-      expect(json.data.attributes['certification-number']).to.be.null;
-      expect(json.data.attributes['code-campaign']).to.equal('Konami');
       expect(json.data.attributes['method']).to.equal(Assessment.methods.FLASH);
     });
 

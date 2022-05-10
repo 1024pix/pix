@@ -9,9 +9,5 @@ export default class CheckpointRoute extends Route {
     if (assessment.isCompetenceEvaluation || assessment.isForCampaign) {
       await assessment.belongsTo('progression').reload();
     }
-
-    if (assessment.isForCampaign) {
-      assessment.campaign = await this.store.queryRecord('campaign', { filter: { code: assessment.codeCampaign } });
-    }
   }
 }

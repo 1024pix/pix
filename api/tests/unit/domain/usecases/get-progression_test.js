@@ -10,27 +10,26 @@ describe('Unit | Domain | Use Cases | get-progression', function () {
   const progressionId = `progression-${assessmentId}`;
   const userId = 9874;
 
-  const campaignParticipationRepository = { get: () => undefined, isRetrying: () => undefined };
-  const targetProfileRepository = { getByCampaignId: () => undefined };
-  const knowledgeElementRepository = { findUniqByUserId: () => undefined };
-  const assessmentRepository = { getByAssessmentIdAndUserId: () => undefined };
-  const competenceEvaluationRepository = { getByAssessmentId: () => undefined };
-  const skillRepository = { findActiveByCompetenceId: () => undefined };
-  const improvementService = { filterKnowledgeElementsIfImproving: () => undefined };
-
-  let sandbox;
+  let campaignParticipationRepository;
+  let targetProfileRepository;
+  let knowledgeElementRepository;
+  let assessmentRepository;
+  let competenceEvaluationRepository;
+  let skillRepository;
+  let improvementService;
 
   beforeEach(function () {
-    sandbox = sinon.createSandbox();
-    sandbox.stub(knowledgeElementRepository, 'findUniqByUserId').resolves([]);
-  });
-
-  afterEach(function () {
-    sandbox.restore();
+    campaignParticipationRepository = { get: sinon.stub(), isRetrying: sinon.stub() };
+    targetProfileRepository = { getByCampaignId: sinon.stub() };
+    knowledgeElementRepository = { findUniqByUserId: sinon.stub().resolves([]) };
+    assessmentRepository = { getByAssessmentIdAndUserId: sinon.stub() };
+    competenceEvaluationRepository = { getByAssessmentId: sinon.stub() };
+    skillRepository = { findActiveByCompetenceId: sinon.stub() };
+    improvementService = { filterKnowledgeElementsIfImproving: sinon.stub() };
   });
 
   describe('#getProgression', function () {
-    let assessment, campaignParticipation, targetProfile, flashAssessment;
+    let assessment, campaignParticipation, targetProfile;
 
     context('when the assessment exists and is campaign', function () {
       beforeEach(function () {
@@ -41,33 +40,18 @@ describe('Unit | Domain | Use Cases | get-progression', function () {
           type: Assessment.types.CAMPAIGN,
           campaignParticipationId: 456,
         });
-        const campaign = domainBuilder.buildCampaign({ id: 123 });
-        campaignParticipation = domainBuilder.buildCampaignParticipation({ campaign });
-        targetProfile = domainBuilder.buildTargetProfile();
-        flashAssessment = domainBuilder.buildAssessment.ofTypeCampaign({
-          userId,
-          targetProfile: null,
-          method: 'FLASH',
+        targetProfile = domainBuilder.buildTargetProfile({});
+        const campaign = domainBuilder.buildCampaign({ id: 123, targetProfile });
+        campaignParticipation = domainBuilder.buildCampaignParticipation({
+          id: assessment.campaignParticipationId,
+          campaign,
         });
 
-        sandbox
-          .stub(assessmentRepository, 'getByAssessmentIdAndUserId')
-          .withArgs(assessment.id, userId)
-          .resolves(assessment)
-          .withArgs(flashAssessment.id, userId)
-          .resolves(flashAssessment);
-        sandbox
-          .stub(campaignParticipationRepository, 'get')
+        assessmentRepository.getByAssessmentIdAndUserId.withArgs(assessment.id, userId).resolves(assessment);
+        campaignParticipationRepository.get
           .withArgs(assessment.campaignParticipationId)
-          .resolves(campaignParticipation)
-          .withArgs(flashAssessment.campaignParticipationId)
-          .resolves(flashAssessment.campaignParticipation);
-        sandbox
-          .stub(targetProfileRepository, 'getByCampaignId')
-          .withArgs(campaignParticipation.campaignId)
-          .resolves(targetProfile);
-        sandbox.stub(campaignParticipationRepository, 'isRetrying');
-        sandbox.stub(improvementService, 'filterKnowledgeElementsIfImproving');
+          .resolves(campaignParticipation);
+        targetProfileRepository.getByCampaignId.withArgs(campaignParticipation.campaignId).resolves(targetProfile);
       });
 
       it('should return the progression associated to the assessment', async function () {
@@ -226,6 +210,23 @@ describe('Unit | Domain | Use Cases | get-progression', function () {
       });
 
       context("campaign's method is flash", function () {
+        let flashAssessment;
+        beforeEach(function () {
+          flashAssessment = domainBuilder.buildAssessment.ofTypeCampaign({
+            userId,
+            targetProfile: null,
+            method: 'FLASH',
+            campaignParticipationId: campaignParticipation.id,
+          });
+
+          assessmentRepository.getByAssessmentIdAndUserId
+            .withArgs(flashAssessment.id, userId)
+            .resolves(flashAssessment);
+          campaignParticipationRepository.get
+            .withArgs(flashAssessment.campaignParticipationId)
+            .resolves(campaignParticipation);
+        });
+
         it('should return the progression associated to the flash assessment', async function () {
           // given
           const flashProgressionId = `progression-${flashAssessment.id}`;
@@ -271,11 +272,10 @@ describe('Unit | Domain | Use Cases | get-progression', function () {
         });
         competenceSkills = [domainBuilder.buildSkill()];
 
-        sandbox.stub(assessmentRepository, 'getByAssessmentIdAndUserId').resolves(competenceEvaluationAssessment);
-        sandbox.stub(competenceEvaluationRepository, 'getByAssessmentId').resolves(competenceEvaluation);
-        sandbox.stub(skillRepository, 'findActiveByCompetenceId').resolves(competenceSkills);
-        sandbox
-          .stub(improvementService, 'filterKnowledgeElementsIfImproving')
+        assessmentRepository.getByAssessmentIdAndUserId.resolves(competenceEvaluationAssessment);
+        competenceEvaluationRepository.getByAssessmentId.resolves(competenceEvaluation);
+        skillRepository.findActiveByCompetenceId.resolves(competenceSkills);
+        improvementService.filterKnowledgeElementsIfImproving
           .withArgs({ knowledgeElements: [], assessment: competenceEvaluationAssessment })
           .returns([]);
       });
@@ -390,12 +390,6 @@ describe('Unit | Domain | Use Cases | get-progression', function () {
     context('when the assessment does not exist', function () {
       it('should transfer the errors', async function () {
         // given
-        const assessment = domainBuilder.buildAssessment({
-          id: assessmentId,
-          userId,
-          type: Assessment.types.CAMPAIGN,
-        });
-        sandbox.stub(assessmentRepository, 'getByAssessmentIdAndUserId').resolves(assessment);
         assessmentRepository.getByAssessmentIdAndUserId.rejects(new NotFoundError('No found Assessment for ID 1234'));
 
         // when

@@ -23,15 +23,13 @@ module.exports = {
           };
         }
 
-        if (currentAssessment.campaignParticipation && currentAssessment.campaignParticipation.campaign) {
-          assessment.codeCampaign = currentAssessment.campaignParticipation.campaign.code;
+        if (currentAssessment.type === Assessment.types.CAMPAIGN) {
+          assessment.codeCampaign = currentAssessment.campaignCode;
         }
 
         if (!currentAssessment.course) {
           assessment.course = { id: currentAssessment.courseId };
         }
-
-        assessment.title = currentAssessment.title;
 
         return assessment;
       },
