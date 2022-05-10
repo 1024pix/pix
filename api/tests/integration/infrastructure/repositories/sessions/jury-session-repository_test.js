@@ -605,17 +605,12 @@ describe('Integration | Repository | JurySession', function () {
   });
 
   describe('#assignCertificationOfficer', function () {
-    let sessionId;
-    let assignedCertificationOfficerId;
-
-    beforeEach(function () {
-      sessionId = databaseBuilder.factory.buildSession({ assignedCertificationOfficerId: null }).id;
-      assignedCertificationOfficerId = databaseBuilder.factory.buildUser().id;
-
-      return databaseBuilder.commit();
-    });
-
     it('should return an updated Session domain object', async function () {
+      // given
+      const sessionId = databaseBuilder.factory.buildSession({ assignedCertificationOfficerId: null }).id;
+      const assignedCertificationOfficerId = databaseBuilder.factory.buildUser().id;
+      await databaseBuilder.commit();
+
       // when
       const updatedSession = await jurySessionRepository.assignCertificationOfficer({
         id: sessionId,
@@ -632,6 +627,9 @@ describe('Integration | Repository | JurySession', function () {
     context('when assignedCertificationOfficerId provided does not exist', function () {
       it('should return a Not found error', async function () {
         // given
+        const sessionId = databaseBuilder.factory.buildSession({ assignedCertificationOfficerId: null }).id;
+        const assignedCertificationOfficerId = databaseBuilder.factory.buildUser().id;
+        await databaseBuilder.commit();
         const unknownUserId = assignedCertificationOfficerId + 1;
 
         // when
@@ -648,6 +646,9 @@ describe('Integration | Repository | JurySession', function () {
     context('when sessionId does not exist', function () {
       it('should return a Not found error', async function () {
         // given
+        const sessionId = databaseBuilder.factory.buildSession({ assignedCertificationOfficerId: null }).id;
+        const assignedCertificationOfficerId = databaseBuilder.factory.buildUser().id;
+        await databaseBuilder.commit();
         const unknownSessionId = sessionId + 1;
 
         // when
