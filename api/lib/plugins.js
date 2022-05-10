@@ -6,7 +6,7 @@ const Vision = require('@hapi/vision');
 const monitoringTools = require('./infrastructure/monitoring-tools');
 const RedisClient = require('./infrastructure/utils/RedisClient');
 const { TooManyRequestsError } = require('./application/http-errors');
-const { redisUrl } = settings.caching;
+const { redisUrl } = settings.rateLimit;
 
 function logObjectSerializer(req) {
   const enhancedReq = {
