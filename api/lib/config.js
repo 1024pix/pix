@@ -156,6 +156,8 @@ module.exports = (function () {
 
     rateLimit: {
       redisUrl: process.env.REDIS_URL,
+      enabled: isFeatureEnabled(process.env.RATE_LIMIT_ENABLED),
+      logOnly: isFeatureEnabled(process.env.RATE_LIMIT_LOG_ONLY),
     },
 
     caching: {
