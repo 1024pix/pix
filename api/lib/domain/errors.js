@@ -909,14 +909,6 @@ class UserNotFoundError extends NotFoundError {
   }
 }
 
-class UserAccountNotFoundForPoleEmploiError extends DomainError {
-  constructor({ message = "L'utilisateur n'a pas de compte Pix", responseCode, authenticationKey }) {
-    super(message);
-    this.responseCode = responseCode;
-    this.authenticationKey = authenticationKey;
-  }
-}
-
 class UnknownCountryForStudentEnrollmentError extends DomainError {
   constructor(
     { firstName, lastName },
@@ -1214,7 +1206,6 @@ module.exports = {
   TooManyRows,
   UnexpectedPoleEmploiStateError,
   UnexpectedUserAccountError,
-  UserAccountNotFoundForPoleEmploiError,
   UnknownCountryForStudentEnrollmentError,
   UserAlreadyExistsWithAuthenticationMethodError,
   UserAlreadyLinkedToCandidateInSessionError,
