@@ -1496,15 +1496,15 @@
           "actions": {
             "evaluate": {
               "extra-information": "Mark this tutorial as helpful",
-              "label": "This tutorial was useful to me"
+              "label": "This tutorial was helpful to me"
             },
             "remove": {
-              "extra-information": "Remove from my list of tutorials",
-              "label": "Remove"
+              "extra-information": "Remove from my saved tutorials",
+              "label": "Remove from my saved tutorials"
             },
             "save": {
-              "extra-information": "Save in my list of tutorials",
-              "label": "Save"
+              "extra-information": "Add to my saved tutorials",
+              "label": "Add to my saved tutorials"
             }
           },
           "source": "By"
