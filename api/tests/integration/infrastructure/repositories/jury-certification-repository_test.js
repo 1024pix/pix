@@ -112,7 +112,24 @@ describe('Integration | Infrastructure | Repository | Jury Certification', funct
         commentForJury: 'Un commentaire jury',
         competenceMarks: [expectedCompetenceMark],
         certificationIssueReports: [],
-        complementaryCertificationCourseResults: [],
+        commonComplementaryCertificationCourseResults: [
+          {
+            acquired: true,
+            id: 123,
+            partnerKey: 'PIX_DROIT_EXPERT_CERTIF',
+          },
+        ],
+        complementaryCertificationCourseResultsWithExternal: {
+          complementaryCertificationCourseId: 456,
+          externalSection: {
+            acquired: false,
+            partnerKey: undefined,
+          },
+          pixSection: {
+            acquired: true,
+            partnerKey: 'PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE',
+          },
+        },
       });
       expect(juryCertification).to.deepEqualInstance(expectedJuryCertification);
     });
