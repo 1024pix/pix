@@ -1,15 +1,18 @@
-<BsModalSimple
-  @title={{this.title}}
-  @closeTitle={{this.closeTitle}}
-  @submitTitle={{this.submitTitle}}
-  @size={{this.size}}
-  @fade={{false}}
-  @open={{@show}}
-  @position="center"
-  @onSubmit={{@confirm}}
-  @onHide={{@cancel}}
-  @submitButtonType={{if @submitButtonType @submitButtonType "primary"}}
->
-  <p>{{@message}}</p>
-  <p class="confirm-popup__errors">{{@error}}</p>
-</BsModalSimple>
+{{#if @show}}
+  <PixModal @title={{this.title}} @onCloseButtonClick={{@cancel}}>
+    <:content>
+      <p>{{@message}}</p>
+      <p class="confirm-popup__errors">{{@error}}</p>
+    </:content>
+
+    <:footer>
+      <PixButton @backgroundColor="transparent-light" @isBorderVisible={{true}} @triggerAction={{@cancel}}>
+        {{this.closeTitle}}
+      </PixButton>
+
+      <PixButton @triggerAction={{@confirm}} @loadingColor="white" @backgroundColor="blue">
+        {{this.submitTitle}}
+      </PixButton>
+    </:footer>
+  </PixModal>
+{{/if}}
