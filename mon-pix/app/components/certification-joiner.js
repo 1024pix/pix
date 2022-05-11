@@ -25,8 +25,8 @@ export default class CertificationJoiner extends Component {
   SESSION_ID_VALIDATION_PATTERN = '^[0-9]*$';
 
   @tracked errorMessage = null;
-  @tracked genericErrorDisclaimer = null;
-  @tracked genericErrorListElements = [];
+  @tracked errorDetailList = [];
+  @tracked errorMessageLink = null;
   @tracked sessionIdIsNotANumberError = null;
   @tracked validationClassName = '';
   @tracked sessionId = null;
@@ -72,6 +72,7 @@ export default class CertificationJoiner extends Component {
   @action
   async attemptNext(e) {
     e.preventDefault();
+    this._resetErrorMessages();
     let currentCertificationCandidate = null;
     if (this.sessionId && !this._isANumber(this.sessionId)) {
       this.sessionIdIsNotANumberError = this.intl.t(
@@ -91,13 +92,15 @@ export default class CertificationJoiner extends Component {
 
       if (_isMatchingReconciledStudentNotFoundError(err)) {
         this.errorMessage = this.intl.t('pages.certification-joiner.error-messages.wrong-account');
-        this.genericErrorListElements = [];
+        this.errorMessageLink = {
+          label: this.intl.t('pages.certification-joiner.error-messages.wrong-account-link'),
+          url: 'https://support.pix.org/fr/support/solutions/articles/15000047880',
+        };
       } else if (_isSessionNotAccessibleError(err)) {
         this.errorMessage = this.intl.t('pages.certification-joiner.error-messages.session-not-accessible');
-        this.genericErrorListElements = [];
       } else {
         this.errorMessage = this.intl.t('pages.certification-joiner.error-messages.generic.disclaimer');
-        this.genericErrorListElements = [
+        this.errorDetailList = [
           this.intl.t('pages.certification-joiner.error-messages.generic.check-session-number'),
           this.intl.t('pages.certification-joiner.error-messages.generic.check-personal-info'),
         ];
@@ -126,5 +129,11 @@ export default class CertificationJoiner extends Component {
   @action
   handleInputFocus(value, event) {
     event.target.select();
+  }
+
+  _resetErrorMessages() {
+    this.errorMessage = null;
+    this.errorDetailList = [];
+    this.errorMessageLink = null;
   }
 }

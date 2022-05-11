@@ -160,6 +160,12 @@
       margin: 8px 0 0 16px;
     }
   }
+
+  a,
+  a:visited {
+    color: $pure-orange;
+    text-decoration: underline;
+  }
 }
 
 .certification-course-page__field-button {
