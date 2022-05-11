@@ -291,7 +291,7 @@ describe('Unit | Domain | Read-models | CertifiedBadges', function () {
           expectedLowestBadge: PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT,
         },
       ].forEach(({ sourcePix, sourceExternal, expectedLowestBadge }) => {
-        it(`should return ${expectedLowestBadge} when the 'PIX' source level is ${sourcePix} and the 'ETERNAL' source level is ${sourceExternal}`, function () {
+        it(`should return ${expectedLowestBadge} when the 'PIX' source level is ${sourcePix} and the 'EXTERNAL' source level is ${sourceExternal}`, function () {
           // given
           const complementaryCertificationCourseResults = [
             domainBuilder.buildComplementaryCertificationCourseResult({
