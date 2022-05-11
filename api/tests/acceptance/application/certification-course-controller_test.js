@@ -11,6 +11,7 @@ const createServer = require('../../../server');
 const { CertificationIssueReportCategories } = require('../../../lib/domain/models/CertificationIssueReportCategory');
 const CertificationAssessment = require('../../../lib/domain/models/CertificationAssessment');
 const KnowledgeElement = require('../../../lib/domain/models/KnowledgeElement');
+const Badge = require('../../../lib/domain/models/Badge');
 
 describe('Acceptance | API | Certification Course', function () {
   let server;
@@ -172,6 +173,8 @@ describe('Acceptance | API | Certification Course', function () {
       // given
       databaseBuilder.factory.buildUser({ id: 789 });
       databaseBuilder.factory.buildSession({ id: 456 });
+      databaseBuilder.factory.buildBadge({ id: 123, key: Badge.keys.PIX_DROIT_EXPERT_CERTIF });
+      databaseBuilder.factory.buildBadge({ id: 456, key: Badge.keys.PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE });
       databaseBuilder.factory.buildCertificationCourse({
         id: 123,
         sessionId: 456,
@@ -188,9 +191,41 @@ describe('Acceptance | API | Certification Course', function () {
         createdAt: new Date('2020-01-01'),
         completedAt: new Date('2020-02-01'),
       });
+      databaseBuilder.factory.buildComplementaryCertificationCourse({
+        id: 456,
+        userId: 789,
+        certificationCourseId: 123,
+      });
+      databaseBuilder.factory.buildComplementaryCertificationCourseResult({
+        id: 789,
+        partnerKey: Badge.keys.PIX_DROIT_EXPERT_CERTIF,
+        acquired: true,
+        complementaryCertificationCourseId: 456,
+        source: 'PIX',
+      });
+      databaseBuilder.factory.buildComplementaryCertificationCourse({
+        id: 654,
+        userId: 789,
+        certificationCourseId: 123,
+      });
+      databaseBuilder.factory.buildComplementaryCertificationCourseResult({
+        id: 987,
+        partnerKey: Badge.keys.PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE,
+        acquired: true,
+        complementaryCertificationCourseId: 654,
+        source: 'PIX',
+      });
+      databaseBuilder.factory.buildComplementaryCertificationCourseResult({
+        id: 986,
+        partnerKey: Badge.keys.PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE,
+        acquired: false,
+        complementaryCertificationCourseId: 654,
+        source: 'EXTERNAL',
+      });
       databaseBuilder.factory.buildAssessment({ id: 159, certificationCourseId: 123 });
       databaseBuilder.factory.buildUser({ id: 66 });
       databaseBuilder.factory.buildAssessmentResult({
+        id: 456,
         assessmentId: 159,
         pixScore: 55,
         juryId: 66,
@@ -198,6 +233,15 @@ describe('Acceptance | API | Certification Course', function () {
         commentForOrganization: 'comment organization',
         commentForJury: 'comment jury',
         status: 'rejected',
+      });
+      databaseBuilder.factory.buildCompetenceMark({
+        id: 125,
+        score: 10,
+        level: 4,
+        competence_code: '2.4',
+        area_code: '3',
+        competenceId: 'recComp25',
+        assessmentResultId: 456,
       });
       const user = await insertUserWithRoleSuperAdmin();
       await databaseBuilder.commit();
@@ -235,24 +279,61 @@ describe('Acceptance | API | Certification Course', function () {
           'completed-at': new Date('2020-02-01'),
           'pix-score': 55,
           'jury-id': 66,
-          'competences-with-mark': [],
           'comment-for-candidate': 'comment candidate',
           'comment-for-jury': 'comment jury',
           'comment-for-organization': 'comment organization',
-          'clea-certification-status': 'not_taken',
-          'pix-plus-droit-expert-certification-status': 'not_taken',
-          'pix-plus-droit-maitre-certification-status': 'not_taken',
-          'pix-plus-edu-initie-certification-status': 'not_taken',
-          'pix-plus-edu-confirme-certification-status': 'not_taken',
-          'pix-plus-edu-avance-certification-status': 'not_taken',
-          'pix-plus-edu-expert-certification-status': 'not_taken',
+          'competences-with-mark': [
+            {
+              area_code: '3',
+              assessmentResultId: 456,
+              competenceId: 'recComp25',
+              competence_code: '2.4',
+              id: 125,
+              level: 4,
+              score: 10,
+            },
+          ],
         },
         relationships: {
           'certification-issue-reports': {
             data: [],
           },
+          'common-complementary-certification-course-results': {
+            data: [
+              {
+                id: '456',
+                type: 'commonComplementaryCertificationCourseResults',
+              },
+            ],
+          },
+          'complementary-certification-course-results-with-external': {
+            data: {
+              id: '654',
+              type: 'complementaryCertificationCourseResultsWithExternals',
+            },
+          },
         },
       });
+      expect(response.result.included).to.deep.equal([
+        {
+          id: '456',
+          type: 'commonComplementaryCertificationCourseResults',
+          attributes: {
+            label: 'Pix+ Droit Expert',
+            status: 'Validée',
+          },
+        },
+        {
+          id: '654',
+          type: 'complementaryCertificationCourseResultsWithExternals',
+          attributes: {
+            'complementary-certification-course-id': 654,
+            'external-result': 'Rejetée',
+            'final-result': 'Rejetée',
+            'pix-result': 'Pix+ Édu Avancé',
+          },
+        },
+      ]);
     });
   });
 

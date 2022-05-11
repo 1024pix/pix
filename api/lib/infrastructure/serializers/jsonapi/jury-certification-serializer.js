@@ -8,13 +8,6 @@ module.exports = {
           id: juryCertification.certificationCourseId,
           ...juryCertification,
           competencesWithMark: juryCertification.competenceMarks,
-          cleaCertificationStatus: juryCertification.getCleaCertificationStatus(),
-          pixPlusDroitMaitreCertificationStatus: juryCertification.getPixPlusDroitMaitreCertificationStatus(),
-          pixPlusDroitExpertCertificationStatus: juryCertification.getPixPlusDroitExpertCertificationStatus(),
-          pixPlusEduInitieCertificationStatus: juryCertification.getPixPlusEduInitieCertificationStatus(),
-          pixPlusEduConfirmeCertificationStatus: juryCertification.getPixPlusEduConfirmeCertificationStatus(),
-          pixPlusEduAvanceCertificationStatus: juryCertification.getPixPlusEduAvanceCertificationStatus(),
-          pixPlusEduExpertCertificationStatus: juryCertification.getPixPlusEduExpertCertificationStatus(),
         };
       },
       attributes: [
@@ -39,15 +32,19 @@ module.exports = {
         'commentForCandidate',
         'commentForOrganization',
         'commentForJury',
-        'cleaCertificationStatus',
-        'pixPlusDroitMaitreCertificationStatus',
-        'pixPlusDroitExpertCertificationStatus',
-        'pixPlusEduInitieCertificationStatus',
-        'pixPlusEduConfirmeCertificationStatus',
-        'pixPlusEduAvanceCertificationStatus',
-        'pixPlusEduExpertCertificationStatus',
+        'commonComplementaryCertificationCourseResults',
+        'complementaryCertificationCourseResultsWithExternal',
         'certificationIssueReports',
       ],
+
+      commonComplementaryCertificationCourseResults: {
+        ref: 'id',
+        attributes: ['label', 'status'],
+      },
+      complementaryCertificationCourseResultsWithExternal: {
+        ref: 'complementaryCertificationCourseId',
+        attributes: ['complementaryCertificationCourseId', 'pixResult', 'externalResult', 'finalResult'],
+      },
       certificationIssueReports: {
         ref: 'id',
         attributes: [
