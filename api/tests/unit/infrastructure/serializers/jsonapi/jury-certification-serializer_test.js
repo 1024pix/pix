@@ -1,11 +1,6 @@
 const { expect, domainBuilder } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/jury-certification-serializer');
-const {
-  PIX_DROIT_MAITRE_CERTIF,
-  PIX_DROIT_EXPERT_CERTIF,
-  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME,
-  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
-} = require('../../../../../lib/domain/models/Badge').keys;
+const Badge = require('../../../../../lib/domain/models/Badge');
 
 describe('Unit | Serializer | JSONAPI | jury-certification-serializer', function () {
   describe('#serialize', function () {
@@ -43,24 +38,26 @@ describe('Unit | Serializer | JSONAPI | jury-certification-serializer', function
         commentForJury: 'ça va',
         competenceMarks,
         certificationIssueReports,
-        complementaryCertificationCourseResults: [
-          domainBuilder.buildComplementaryCertificationCourseResult({
-            partnerKey: PIX_DROIT_MAITRE_CERTIF,
+        commonComplementaryCertificationCourseResults: [
+          domainBuilder.buildComplementaryCertificationCourseResultForJuryCertification({
+            id: 12,
+            partnerKey: Badge.keys.PIX_DROIT_EXPERT_CERTIF,
             acquired: true,
           }),
-          domainBuilder.buildComplementaryCertificationCourseResult({
-            partnerKey: PIX_DROIT_EXPERT_CERTIF,
-            acquired: false,
-          }),
-          domainBuilder.buildComplementaryCertificationCourseResult({
-            partnerKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME,
+          domainBuilder.buildComplementaryCertificationCourseResultForJuryCertification({
+            id: 14,
+            partnerKey: Badge.keys.PIX_EMPLOI_CLEA_V3,
             acquired: true,
-          }),
-          domainBuilder.buildComplementaryCertificationCourseResult({
-            partnerKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
-            acquired: false,
           }),
         ],
+        complementaryCertificationCourseResultsWithExternal:
+          domainBuilder.buildComplementaryCertificationCourseResultForJuryCertificationWithExternal({
+            complementaryCertificationCourseId: 1234,
+            pixPartnerKey: Badge.keys.PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE,
+            pixAcquired: true,
+            externalPartnerKey: Badge.keys.PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE,
+            externalAcquired: true,
+          }),
       });
 
       // when
@@ -93,13 +90,6 @@ describe('Unit | Serializer | JSONAPI | jury-certification-serializer', function
             'comment-for-candidate': 'coucou',
             'comment-for-jury': 'ça va',
             'comment-for-organization': 'comment',
-            'clea-certification-status': 'not_taken',
-            'pix-plus-droit-maitre-certification-status': 'acquired',
-            'pix-plus-droit-expert-certification-status': 'rejected',
-            'pix-plus-edu-initie-certification-status': 'not_taken',
-            'pix-plus-edu-confirme-certification-status': 'acquired',
-            'pix-plus-edu-avance-certification-status': 'rejected',
-            'pix-plus-edu-expert-certification-status': 'not_taken',
           },
           relationships: {
             'certification-issue-reports': {
@@ -110,9 +100,53 @@ describe('Unit | Serializer | JSONAPI | jury-certification-serializer', function
                 },
               ],
             },
+            'common-complementary-certification-course-results': {
+              data: [
+                {
+                  id: '12',
+                  type: 'commonComplementaryCertificationCourseResults',
+                },
+                {
+                  id: '14',
+                  type: 'commonComplementaryCertificationCourseResults',
+                },
+              ],
+            },
+            'complementary-certification-course-results-with-external': {
+              data: {
+                id: '1234',
+                type: 'complementaryCertificationCourseResultsWithExternals',
+              },
+            },
           },
         },
         included: [
+          {
+            type: 'commonComplementaryCertificationCourseResults',
+            id: '12',
+            attributes: {
+              label: 'Pix+ Droit Expert',
+              status: 'Validée',
+            },
+          },
+          {
+            type: 'commonComplementaryCertificationCourseResults',
+            id: '14',
+            attributes: {
+              label: 'CléA Numérique',
+              status: 'Validée',
+            },
+          },
+          {
+            type: 'complementaryCertificationCourseResultsWithExternals',
+            id: '1234',
+            attributes: {
+              'complementary-certification-course-id': 1234,
+              'pix-result': 'Pix+ Édu Avancé',
+              'external-result': 'Pix+ Édu Avancé',
+              'final-result': 'Pix+ Édu Avancé',
+            },
+          },
           {
             type: 'certificationIssueReports',
             id: certificationIssueReport.id.toString(),
