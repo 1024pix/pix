@@ -6,7 +6,38 @@ const schoolingRegistrationUserAssociationController = require('./schooling-regi
 const identifiersType = require('../../domain/types/identifiers-type');
 
 exports.register = async function (server) {
+  const adminRoutes = [
+    {
+      method: 'DELETE',
+      path: '/api/admin/schooling-registration-user-associations/{id}',
+      config: {
+        pre: [
+          {
+            method: (request, h) =>
+              securityPreHandlers.userHasAtLeastOneAccessOf([
+                securityPreHandlers.checkUserHasRoleSuperAdmin,
+                securityPreHandlers.checkUserHasRoleSupport,
+              ])(request, h),
+            assign: 'hasAuthorizationToAccessAdminScope',
+          },
+        ],
+        handler: schoolingRegistrationUserAssociationController.dissociate,
+        validate: {
+          params: Joi.object({
+            id: identifiersType.schoolingRegistrationId,
+          }),
+        },
+        notes: [
+          "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n" +
+            '- Elle dissocie un utilisateur d’une inscription d’élève',
+        ],
+        tags: ['api', 'admin', 'schoolingRegistrationUserAssociation'],
+      },
+    },
+  ];
+
   server.route([
+    ...adminRoutes,
     {
       method: 'POST',
       path: '/api/schooling-registration-user-associations',
@@ -210,7 +241,7 @@ exports.register = async function (server) {
           "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n" +
             '- Elle dissocie un utilisateur d’une inscription d’élève',
         ],
-        tags: ['api', 'schoolingRegistrationUserAssociation'],
+        tags: ['api', 'admin', 'schoolingRegistrationUserAssociation'],
       },
     },
   ]);
