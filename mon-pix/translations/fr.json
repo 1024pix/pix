@@ -1507,10 +1507,10 @@
           "source": "Par"
         }
       },
-      "recommended": "Recommandés"
+      "recommended": "Recommandés",
+      "saved": "Enregistrés"
     },
     "user-tutorials-v2": {
-      "saved": "Enregistrés",
       "saved-empty": {
         "title": "Vous n'avez pas encore de tutos enregistrés",
         "description": "Vouz devez enregistrer un tuto recommandé pour qu'il s'affiche ici."
