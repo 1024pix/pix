@@ -1,26 +1,7 @@
-const _ = require('lodash');
 const CompetenceMark = require('./CompetenceMark');
-const {
-  PIX_EMPLOI_CLEA_V1,
-  PIX_EMPLOI_CLEA_V2,
-  PIX_EMPLOI_CLEA_V3,
-  PIX_DROIT_MAITRE_CERTIF,
-  PIX_DROIT_EXPERT_CERTIF,
-  PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
-  PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME,
-  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME,
-  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
-  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
-} = require('../models/Badge').keys;
 
 const status = {
   CANCELLED: 'cancelled',
-};
-
-const complementaryCertificationStatus = {
-  ACQUIRED: 'acquired',
-  REJECTED: 'rejected',
-  NOT_TAKEN: 'not_taken',
 };
 
 class JuryCertification {
@@ -48,7 +29,8 @@ class JuryCertification {
     commentForOrganization,
     commentForJury,
     certificationIssueReports,
-    complementaryCertificationCourseResults,
+    complementaryCertificationCourseResultsWithExternal,
+    commonComplementaryCertificationCourseResults,
   }) {
     this.certificationCourseId = certificationCourseId;
     this.sessionId = sessionId;
@@ -73,11 +55,18 @@ class JuryCertification {
     this.commentForOrganization = commentForOrganization;
     this.commentForJury = commentForJury;
     this.certificationIssueReports = certificationIssueReports;
-    this.complementaryCertificationCourseResults = complementaryCertificationCourseResults;
+    this.complementaryCertificationCourseResultsWithExternal = complementaryCertificationCourseResultsWithExternal;
+    this.commonComplementaryCertificationCourseResults = commonComplementaryCertificationCourseResults;
   }
 
-  static from({ juryCertificationDTO, certificationIssueReports, complementaryCertificationCourseResults }) {
-    const competenceMarkDTOs = _.compact(juryCertificationDTO.competenceMarks).map(
+  static from({
+    juryCertificationDTO,
+    certificationIssueReports,
+    competenceMarkDTOs,
+    complementaryCertificationCourseResultsWithExternal,
+    commonComplementaryCertificationCourseResults,
+  }) {
+    const competenceMarks = competenceMarkDTOs.map(
       (competenceMarkDTO) =>
         new CompetenceMark({
           ...competenceMarkDTO,
@@ -103,56 +92,14 @@ class JuryCertification {
       isPublished: juryCertificationDTO.isPublished,
       juryId: juryCertificationDTO.juryId,
       pixScore: juryCertificationDTO.pixScore,
-      competenceMarks: competenceMarkDTOs,
+      competenceMarks,
       commentForCandidate: juryCertificationDTO.commentForCandidate,
       commentForOrganization: juryCertificationDTO.commentForOrganization,
       commentForJury: juryCertificationDTO.commentForJury,
       certificationIssueReports,
-      complementaryCertificationCourseResults,
+      complementaryCertificationCourseResultsWithExternal,
+      commonComplementaryCertificationCourseResults,
     });
-  }
-
-  getCleaCertificationStatus() {
-    return this._getStatusFromComplementaryCertification([PIX_EMPLOI_CLEA_V1, PIX_EMPLOI_CLEA_V2, PIX_EMPLOI_CLEA_V3]);
-  }
-
-  getPixPlusDroitMaitreCertificationStatus() {
-    return this._getStatusFromComplementaryCertification([PIX_DROIT_MAITRE_CERTIF]);
-  }
-
-  getPixPlusDroitExpertCertificationStatus() {
-    return this._getStatusFromComplementaryCertification([PIX_DROIT_EXPERT_CERTIF]);
-  }
-
-  getPixPlusEduInitieCertificationStatus() {
-    return this._getStatusFromComplementaryCertification([PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE]);
-  }
-
-  getPixPlusEduConfirmeCertificationStatus() {
-    return this._getStatusFromComplementaryCertification([
-      PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME,
-      PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME,
-    ]);
-  }
-
-  getPixPlusEduAvanceCertificationStatus() {
-    return this._getStatusFromComplementaryCertification([PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE]);
-  }
-
-  getPixPlusEduExpertCertificationStatus() {
-    return this._getStatusFromComplementaryCertification([PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT]);
-  }
-
-  _getStatusFromComplementaryCertification(complementaryCertificationKeys) {
-    const complementaryCertificationCourseResult = this.complementaryCertificationCourseResults.find(({ partnerKey }) =>
-      complementaryCertificationKeys.includes(partnerKey)
-    );
-    if (!complementaryCertificationCourseResult) {
-      return complementaryCertificationStatus.NOT_TAKEN;
-    }
-    return complementaryCertificationCourseResult.acquired
-      ? complementaryCertificationStatus.ACQUIRED
-      : complementaryCertificationStatus.REJECTED;
   }
 }
 

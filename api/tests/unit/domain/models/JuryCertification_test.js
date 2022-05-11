@@ -1,5 +1,6 @@
 const { expect, domainBuilder } = require('../../../test-helper');
 const JuryCertification = require('../../../../lib/domain/models/JuryCertification');
+const { PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE } = require('../../../../lib/domain/models/Badge').keys;
 const { PIX_EMPLOI_CLEA } = require('../../../../lib/domain/models/Badge').keys;
 
 describe('Unit | Domain | Models | JuryCertification', function () {
@@ -29,17 +30,6 @@ describe('Unit | Domain | Models | JuryCertification', function () {
         commentForCandidate: 'coucou',
         commentForOrganization: 'comment',
         commentForJury: 'ça va',
-        competenceMarks: [
-          {
-            id: 123,
-            score: 10,
-            level: 4,
-            area_code: '2',
-            competence_code: '2.3',
-            assessmentResultId: 753,
-            competenceId: 'recComp23',
-          },
-        ],
       };
     });
 
@@ -51,15 +41,41 @@ describe('Unit | Domain | Models | JuryCertification', function () {
         isCancelled: false,
       };
       const certificationIssueReports = [certificationIssueReport];
-      const complementaryCertificationCourseResults = [
-        domainBuilder.buildComplementaryCertificationCourseResult({ partnerKey: PIX_EMPLOI_CLEA, acquired: true }),
+      const commonComplementaryCertificationCourseResults = [
+        domainBuilder.buildComplementaryCertificationCourseResultForJuryCertification({
+          partnerKey: PIX_EMPLOI_CLEA,
+          acquired: true,
+        }),
       ];
+
+      const competenceMarkDTOs = [
+        {
+          id: 123,
+          score: 10,
+          level: 4,
+          area_code: '2',
+          competence_code: '2.3',
+          assessmentResultId: 753,
+          competenceId: 'recComp23',
+        },
+      ];
+
+      const complementaryCertificationCourseResultsWithExternal =
+        domainBuilder.buildComplementaryCertificationCourseResultForJuryCertificationWithExternal({
+          complementaryCertificationCourseId: 123,
+          pixPartnerKey: PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE,
+          pixAcquired: true,
+          externalPartnerKey: PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE,
+          externalAcquired: true,
+        });
 
       // when
       const juryCertification = JuryCertification.from({
         juryCertificationDTO,
         certificationIssueReports,
-        complementaryCertificationCourseResults,
+        competenceMarkDTOs,
+        commonComplementaryCertificationCourseResults,
+        complementaryCertificationCourseResultsWithExternal,
       });
 
       // then
@@ -96,7 +112,8 @@ describe('Unit | Domain | Models | JuryCertification', function () {
         commentForJury: 'ça va',
         competenceMarks: [expectedCompetenceMark],
         certificationIssueReports,
-        complementaryCertificationCourseResults,
+        commonComplementaryCertificationCourseResults,
+        complementaryCertificationCourseResultsWithExternal,
       });
       expect(juryCertification).to.deepEqualInstance(expectedJuryCertification);
     });
@@ -115,6 +132,7 @@ describe('Unit | Domain | Models | JuryCertification', function () {
           juryCertificationDTO,
           certificationIssueReports: [],
           complementaryCertificationCourseResults: [],
+          competenceMarkDTOs: [],
         });
 
         // then
@@ -134,6 +152,7 @@ describe('Unit | Domain | Models | JuryCertification', function () {
           juryCertificationDTO,
           certificationIssueReports: [],
           complementaryCertificationCourseResults: [],
+          competenceMarkDTOs: [],
         });
 
         // then
