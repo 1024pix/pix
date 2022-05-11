@@ -11,6 +11,22 @@
   padding: 12px;
 }
 
+.certification-start-page__link-to-user-certifications {
+  background-color: $grey-10;
+  border-radius: 8px;
+  color: $grey-70;
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  margin-top: 16px;
+  padding: 16px;
+
+  a, a:visited {
+    color: $grey-70;
+    text-decoration-line: underline;
+  }
+}
+
 .certification-start-page__title {
   color: $grey-100;
   font-family: $font-open-sans;
