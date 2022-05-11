@@ -1,26 +1,28 @@
 <section class="page-section mb_10 session-jury-comment">
   <h2 class="jury-comment__title">Commentaire de l'équipe Certification</h2>
   {{#if this.shouldDisplayForm}}
-    <form onsubmit={{this.submitForm}}>
-      <PixTextarea
-        placeholder="Ajouter un commentaire…"
-        @value={{this.commentBeingEdited}}
-        class="jury-comment__field"
-        @id="jury-comment-field"
-        aria-label="Texte du commentaire"
-        required={{true}}
-      />
-      <div class="jury-comment__actions">
-        {{#if this.commentExists}}
-          <PixButton @triggerAction={{this.exitEditingMode}} @backgroundColor="transparent-light" @size="small">
-            Annuler
+    {{#if this.accessControl.hasAccessToCertificationActionsScope}}
+      <form onsubmit={{this.submitForm}}>
+        <PixTextarea
+          placeholder="Ajouter un commentaire…"
+          @value={{this.commentBeingEdited}}
+          class="jury-comment__field"
+          @id="jury-comment-field"
+          aria-label="Texte du commentaire"
+          required={{true}}
+        />
+        <div class="jury-comment__actions">
+          {{#if this.commentExists}}
+            <PixButton @triggerAction={{this.exitEditingMode}} @backgroundColor="transparent-light" @size="small">
+              Annuler
+            </PixButton>
+          {{/if}}
+          <PixButton @type="submit" @size="small">
+            Enregistrer
           </PixButton>
-        {{/if}}
-        <PixButton @type="submit" @size="small">
-          Enregistrer
-        </PixButton>
-      </div>
-    </form>
+        </div>
+      </form>
+    {{/if}}
   {{else}}
     <div>
       <span class="jury-comment__author">{{@author}}</span>
@@ -28,19 +30,21 @@
       <time class="jury-comment__date">{{moment-format @date "DD/MM/YYYY à HH:mm"}}</time>
     </div>
     <p class="jury-comment__content">{{this.comment}}</p>
-    <div class="jury-comment__actions">
-      <PixButton @triggerAction={{this.enterEditingMode}} @size="small">
-        Modifier
-      </PixButton>
-      <PixButton
-        @triggerAction={{this.openDeletionConfirmationModal}}
-        @size="small"
-        @backgroundColor="transparent-light"
-        @isBorderVisible={{true}}
-      >
-        Supprimer
-      </PixButton>
-    </div>
+    {{#if this.accessControl.hasAccessToCertificationActionsScope}}
+      <div class="jury-comment__actions">
+        <PixButton @triggerAction={{this.enterEditingMode}} @size="small">
+          Modifier
+        </PixButton>
+        <PixButton
+          @triggerAction={{this.openDeletionConfirmationModal}}
+          @size="small"
+          @backgroundColor="transparent-light"
+          @isBorderVisible={{true}}
+        >
+          Supprimer
+        </PixButton>
+      </div>
+    {{/if}}
   {{/if}}
 </section>
 

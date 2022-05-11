@@ -2,8 +2,11 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import noop from 'lodash/noop';
+import { inject as service } from '@ember/service';
 
 export default class JuryComment extends Component {
+  @service accessControl;
+
   @tracked editingMode = false;
   @tracked commentBeingEdited;
   @tracked shouldDisplayDeletionConfirmationModal = false;
