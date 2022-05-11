@@ -12,6 +12,10 @@
   justify-content: center;
 }
 
+.congratulations-banner p {
+  text-align: center;
+}
+
 .congratulations-banner__icon {
   color: $white;
   position: absolute;
@@ -43,10 +47,6 @@
 
   font-size: 1.5rem;
   margin-bottom: 16px;
-}
-
-.congratulations-banner__eligibility-message {
-  text-align: center;
 }
 
 .congratulations-banner__link {
