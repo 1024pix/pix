@@ -1506,10 +1506,10 @@
           },
           "source": "Par"
         }
-      }
+      },
+      "recommended": "Recommandés"
     },
     "user-tutorials-v2": {
-      "recommended": "Recommandés",
       "saved": "Enregistrés",
       "saved-empty": {
         "title": "Vous n'avez pas encore de tutos enregistrés",
