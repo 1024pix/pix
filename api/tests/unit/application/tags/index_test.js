@@ -29,7 +29,7 @@ describe('Unit | Application | Router | tag-router', function () {
   });
 
   describe('POST /api/admin/tags', function () {
-    it('return forbiden access if user has CERTIF or SUPPORT or METIER role', async function () {
+    it('returns forbidden access if user has CERTIF or SUPPORT or METIER role', async function () {
       // given
       sinon.stub(tagController, 'create').resolves('ok');
 
