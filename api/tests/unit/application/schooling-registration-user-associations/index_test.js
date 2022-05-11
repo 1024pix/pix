@@ -1,8 +1,8 @@
 const { expect, generateValidRequestAuthorizationHeader, HttpTestServer, sinon } = require('../../../test-helper');
 
-const preHandler = require('../../../../lib/application/security-pre-handlers');
 const schoolingRegistrationUserAssociationController = require('../../../../lib/application/schooling-registration-user-associations/schooling-registration-user-association-controller');
 const moduleUnderTest = require('../../../../lib/application/schooling-registration-user-associations');
+const securityPreHandlers = require('../../../../lib/application/security-pre-handlers');
 
 describe('Unit | Application | Router | schooling-registration-user-associations-router', function () {
   const organizationId = 2;
@@ -21,7 +21,7 @@ describe('Unit | Application | Router | schooling-registration-user-associations
       it('should exist', async function () {
         // given
         sinon
-          .stub(preHandler, 'checkUserIsAdminInSUPOrganizationManagingStudents')
+          .stub(securityPreHandlers, 'checkUserIsAdminInSUPOrganizationManagingStudents')
           .callsFake((request, h) => h.response(true));
         sinon.stub(schoolingRegistrationUserAssociationController, 'updateStudentNumber').returns('ok');
         const httpTestServer = new HttpTestServer();
@@ -119,7 +119,7 @@ describe('Unit | Application | Router | schooling-registration-user-associations
       it('should return an error when the user is not authenticated', async function () {
         // given
         sinon
-          .stub(preHandler, 'checkUserIsAdminInSUPOrganizationManagingStudents')
+          .stub(securityPreHandlers, 'checkUserIsAdminInSUPOrganizationManagingStudents')
           .callsFake((request, h) => h.response().code(403).takeover());
         const httpTestServer = new HttpTestServer();
         await httpTestServer.register(moduleUnderTest);
@@ -147,7 +147,7 @@ describe('Unit | Application | Router | schooling-registration-user-associations
 
     it('should return a HTTP status code 204', async function () {
       // given
-      sinon.stub(preHandler, 'userHasAtLeastOneAccessOf').returns(() => true);
+      sinon.stub(securityPreHandlers, 'userHasAtLeastOneAccessOf').returns(() => true);
       sinon
         .stub(schoolingRegistrationUserAssociationController, 'dissociate')
         .callsFake((request, h) => h.response('ok').code(204));
@@ -165,7 +165,9 @@ describe('Unit | Application | Router | schooling-registration-user-associations
 
     it('should return a HTTP status code 403 when user does not have rights to Pix Admin', async function () {
       // given
-      sinon.stub(preHandler, 'userHasAtLeastOneAccessOf').returns((request, h) => h.response().code(403).takeover());
+      sinon
+        .stub(securityPreHandlers, 'userHasAtLeastOneAccessOf')
+        .returns((request, h) => h.response().code(403).takeover());
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
 
@@ -190,6 +192,102 @@ describe('Unit | Application | Router | schooling-registration-user-associations
 
       // then
       expect(response.statusCode).to.equal(400);
+    });
+  });
+
+  context('Routes /admin', function () {
+    describe('DELETE /api/admin/schooling-registration-user-associations/{id}', function () {
+      it('should return a HTTP status code 204 when user role is "SUPER_ADMIN"', async function () {
+        // given
+        sinon.stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin').callsFake((request, h) => h.response(true));
+        sinon
+          .stub(securityPreHandlers, 'checkUserHasRoleSupport')
+          .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+        sinon
+          .stub(schoolingRegistrationUserAssociationController, 'dissociate')
+          .callsFake((request, h) => h.response('ok').code(204));
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        // when
+        const response = await httpTestServer.request(
+          'DELETE',
+          '/api/admin/schooling-registration-user-associations/1'
+        );
+
+        // then
+        sinon.assert.calledOnce(securityPreHandlers.checkUserHasRoleSuperAdmin);
+        sinon.assert.calledOnce(securityPreHandlers.checkUserHasRoleSupport);
+        sinon.assert.calledOnce(schoolingRegistrationUserAssociationController.dissociate);
+        expect(response.statusCode).to.equal(204);
+      });
+
+      it('should return a HTTP status code 204 when user role is "SUPPORT"', async function () {
+        // given
+        sinon
+          .stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin')
+          .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+        sinon.stub(securityPreHandlers, 'checkUserHasRoleSupport').callsFake((request, h) => h.response(true));
+        sinon
+          .stub(schoolingRegistrationUserAssociationController, 'dissociate')
+          .callsFake((request, h) => h.response('ok').code(204));
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        // when
+        const response = await httpTestServer.request(
+          'DELETE',
+          '/api/admin/schooling-registration-user-associations/1'
+        );
+
+        // then
+        sinon.assert.calledOnce(securityPreHandlers.checkUserHasRoleSuperAdmin);
+        sinon.assert.calledOnce(securityPreHandlers.checkUserHasRoleSupport);
+        sinon.assert.calledOnce(schoolingRegistrationUserAssociationController.dissociate);
+        expect(response.statusCode).to.equal(204);
+      });
+
+      it('should return a HTTP status code 403 when user does not have access (CERTIF | METIER)', async function () {
+        // given
+        sinon
+          .stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin')
+          .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+        sinon
+          .stub(securityPreHandlers, 'checkUserHasRoleSupport')
+          .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+        sinon
+          .stub(schoolingRegistrationUserAssociationController, 'dissociate')
+          .callsFake((request, h) => h.response('ok').code(204));
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        // when
+        const response = await httpTestServer.request(
+          'DELETE',
+          '/api/admin/schooling-registration-user-associations/1'
+        );
+
+        // then
+        sinon.assert.calledOnce(securityPreHandlers.checkUserHasRoleSuperAdmin);
+        sinon.assert.calledOnce(securityPreHandlers.checkUserHasRoleSupport);
+        sinon.assert.notCalled(schoolingRegistrationUserAssociationController.dissociate);
+        expect(response.statusCode).to.equal(403);
+      });
+
+      it('should return a HTTP status code 400 if id parameter is not a number', async function () {
+        // given
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        // when
+        const response = await httpTestServer.request(
+          'DELETE',
+          '/api/admin/schooling-registration-user-associations/ABC'
+        );
+
+        // then
+        expect(response.statusCode).to.equal(400);
+      });
     });
   });
 });
