@@ -36,7 +36,7 @@
     color: $grey-50;
     cursor: default;
     font-size: 0.75rem;
-    font-family: $roboto;
+    font-family: $font-roboto;
     padding: 16px 0;
   }
 }
@@ -48,7 +48,7 @@
     color: $grey-60;
     font-size: 0.8125rem;
     font-weight: 500;
-    font-family: $roboto;
+    font-family: $font-roboto;
     text-decoration: none;
 
     @include device-is('desktop') {

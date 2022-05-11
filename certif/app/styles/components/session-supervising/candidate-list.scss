@@ -35,7 +35,7 @@ $green-70: #006134;
     &__title {
       font-weight: 600;
       margin-top: 0;
-      font-family: $open-sans;
+      font-family: $font-open-sans;
       color: $grey-15;
       font-size: 1.125rem;
       padding: 0 8px;
@@ -61,7 +61,7 @@ $green-70: #006134;
 
     &__empty-message {
       color: $grey-15;
-      font-family: $open-sans;
+      font-family: $font-open-sans;
       font-size: 1.125rem;
       font-weight: 600;
       margin: auto;
