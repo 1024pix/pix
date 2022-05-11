@@ -3,7 +3,8 @@ const { NotFoundError } = require('../../domain/errors');
 const _ = require('lodash');
 const JuryCertification = require('../../domain/models/JuryCertification');
 const CertificationIssueReport = require('../../domain/models/CertificationIssueReport');
-const ComplementaryCertificationCourseResult = require('../../domain/models/ComplementaryCertificationCourseResult');
+const ComplementaryCertificationCourseResultsForJuryCertification = require('../../domain/read-models/ComplementaryCertificationCourseResultsForJuryCertification');
+const ComplementaryCertificationCourseResultsForJuryCertificationWithExternal = require('../../domain/read-models/ComplementaryCertificationCourseResultsForJuryCertificationWithExternal');
 
 module.exports = {
   async get(certificationCourseId) {
@@ -15,11 +16,32 @@ module.exports = {
       throw new NotFoundError(`Certification course of id ${certificationCourseId} does not exist.`);
     }
 
+    const competenceMarkDTOs = await knex('competence-marks')
+      .where({
+        assessmentResultId: juryCertificationDTO.assessmentResultId,
+      })
+      .orderBy('competence_code', 'asc');
+
+    const complementaryCertificationCourseResultDTOs = await knex('complementary-certification-course-results')
+      .leftJoin(
+        'complementary-certification-courses',
+        'complementary-certification-course-results.complementaryCertificationCourseId',
+        'complementary-certification-courses.id'
+      )
+      .where({
+        certificationCourseId: juryCertificationDTO.certificationCourseId,
+      });
+
     const certificationIssueReportDTOs = await knex('certification-issue-reports')
       .where({ certificationCourseId })
       .orderBy('id', 'ASC');
 
-    return _toDomainWithComplementaryCertifications({ juryCertificationDTO, certificationIssueReportDTOs });
+    return _toDomainWithComplementaryCertifications({
+      juryCertificationDTO,
+      certificationIssueReportDTOs,
+      competenceMarkDTOs,
+      complementaryCertificationCourseResultDTOs,
+    });
   },
 };
 
@@ -42,30 +64,18 @@ function _selectJuryCertifications() {
       createdAt: 'certification-courses.createdAt',
       completedAt: 'certification-courses.completedAt',
       assessmentId: 'assessments.id',
+      assessmentResultId: 'assessment-results.id',
       pixScore: 'assessment-results.pixScore',
       juryId: 'assessment-results.juryId',
       assessmentResultStatus: 'assessment-results.status',
       commentForCandidate: 'assessment-results.commentForCandidate',
       commentForOrganization: 'assessment-results.commentForOrganization',
       commentForJury: 'assessment-results.commentForJury',
-      competenceMarks: knex.raw('json_agg("competence-marks".* ORDER BY "competence-marks"."competence_code" asc)'),
-      complementaryCertificationCourseResults: knex.raw('json_agg("complementary-certification-course-results".*)'),
     })
     .from('certification-courses')
     .join('assessments', 'assessments.certificationCourseId', 'certification-courses.id')
     .leftJoin('assessment-results', 'assessment-results.assessmentId', 'assessments.id')
     .modify(_filterMostRecentAssessmentResult)
-    .leftJoin('competence-marks', 'competence-marks.assessmentResultId', 'assessment-results.id')
-    .leftJoin(
-      'complementary-certification-courses',
-      'complementary-certification-courses.certificationCourseId',
-      'certification-courses.id'
-    )
-    .leftJoin(
-      'complementary-certification-course-results',
-      'complementary-certification-course-results.complementaryCertificationCourseId',
-      'complementary-certification-courses.id'
-    )
     .groupBy('certification-courses.id', 'assessments.id', 'assessment-results.id');
 }
 
@@ -79,7 +89,12 @@ function _filterMostRecentAssessmentResult(qb) {
   );
 }
 
-async function _toDomainWithComplementaryCertifications({ juryCertificationDTO, certificationIssueReportDTOs }) {
+async function _toDomainWithComplementaryCertifications({
+  juryCertificationDTO,
+  certificationIssueReportDTOs,
+  competenceMarkDTOs,
+  complementaryCertificationCourseResultDTOs,
+}) {
   const certificationIssueReports = certificationIssueReportDTOs.map(
     (certificationIssueReport) =>
       new CertificationIssueReport({
@@ -94,13 +109,37 @@ async function _toDomainWithComplementaryCertifications({ juryCertificationDTO, 
       })
   );
 
-  const complementaryCertificationCourseResults = _.compact(
-    juryCertificationDTO.complementaryCertificationCourseResults
-  ).map(ComplementaryCertificationCourseResult.from);
+  const [complementaryCertificationCourseResultsWithExternal, commonComplementaryCertificationCourseResults] =
+    _toComplementaryCertificationCourseResultForJuryCertification(complementaryCertificationCourseResultDTOs);
 
   return JuryCertification.from({
     juryCertificationDTO,
     certificationIssueReports,
-    complementaryCertificationCourseResults,
+    competenceMarkDTOs,
+    complementaryCertificationCourseResultsWithExternal,
+    commonComplementaryCertificationCourseResults,
   });
+}
+
+function _toComplementaryCertificationCourseResultForJuryCertification(complementaryCertificationCourseResults) {
+  const [complementaryCertificationCourseResultsWithExternal, commonComplementaryCertificationCourseResults] =
+    _.partition(complementaryCertificationCourseResults, (ccr) => {
+      return ccr.partnerKey.startsWith('PIX_EDU');
+    });
+
+  const complementaryCertificationCourseResultsForJuryCertificationWithExternal =
+    ComplementaryCertificationCourseResultsForJuryCertificationWithExternal.from(
+      complementaryCertificationCourseResultsWithExternal
+    );
+
+  const commonComplementaryCertificationCourseResultsForJuryCertification =
+    commonComplementaryCertificationCourseResults.map(
+      ({ id, partnerKey, acquired }) =>
+        new ComplementaryCertificationCourseResultsForJuryCertification({ id, partnerKey, acquired })
+    );
+
+  return [
+    complementaryCertificationCourseResultsForJuryCertificationWithExternal,
+    commonComplementaryCertificationCourseResultsForJuryCertification,
+  ];
 }
