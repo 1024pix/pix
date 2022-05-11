@@ -1,5 +1,6 @@
 module.exports = {
   buildAccountRecoveryDemand: require('./build-account-recovery-demand'),
+  buildAdminMember: require('./build-admin-member'),
   buildAllowedCertificationCenterAccess: require('./build-allowed-certification-center-access'),
   buildAnswer: require('./build-answer'),
   buildArea: require('./build-area'),
@@ -80,7 +81,8 @@ module.exports = {
   buildOrganizationTag: require('./build-organization-tag'),
   buildParticipationForCampaignManagement: require('./build-participation-for-campaign-management'),
   buildComplementaryCertificationCourseResult: require('./build-complementary-certification-course-result'),
-  buildAdminMember: require('./build-admin-member'),
+  buildComplementaryCertificationCourseResultForJuryCertification: require('./build-complementary-certification-course-result-for-certification'),
+  buildComplementaryCertificationCourseResultForJuryCertificationWithExternal: require('./build-complementary-certification-course-result-for-certification-with-external'),
   buildPixPlusDroitCertificationResult: require('./build-pix-plus-droit-certification-result'),
   buildPixPlusDroitCertificationScoring: require('./build-pix-plus-droit-certification-scoring'),
   buildPixPlusEduCertificationScoring: require('./build-pix-plus-edu-certification-scoring'),
