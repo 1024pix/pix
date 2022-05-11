@@ -3,6 +3,7 @@
   "ts-node": {
     "files": true,
     "compilerOptions": {
+      "esModuleInterop": true,
       "outDir": "./dist",
       "allowJs": true,
       "resolveJsonModule": true,

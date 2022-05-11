@@ -49,3 +49,4 @@ overrides:
     rules:
       '@typescript-eslint/no-unsafe-return': warn
       '@typescript-eslint/explicit-function-return-type': warn
+      '@typescript-eslint/no-var-requires': warn
