@@ -1,5 +1,6 @@
 /* stylelint-disable declaration-colon-newline-after */
 /* stylelint-disable function-parentheses-newline-inside */
+/* stylelint-disable no-descending-specificity */
 
 .certification-starter {
   @include device-is('desktop') {
@@ -7,33 +8,59 @@
   }
 }
 
-.certification-start-page__block {
-  padding: 12px;
-}
+.certification-start-page {
 
-.certification-start-page__link-to-user-certifications {
-  background-color: $grey-10;
-  border-radius: 8px;
-  color: $grey-70;
-  display: flex;
-  gap: 8px;
-  justify-content: center;
-  margin-top: 16px;
-  padding: 16px;
-
-  a, a:visited {
-    color: $grey-70;
-    text-decoration-line: underline;
+  &__block {
+    padding: 12px;
   }
-}
 
-.certification-start-page__title {
-  color: $grey-100;
-  font-family: $font-open-sans;
-  font-size: 2.625rem;
-  font-weight: $font-light;
-  text-align: center;
-  margin-bottom: 20px;
+  &__errors {
+    color: $pure-orange;
+    font-size: 0.875rem;
+    text-align: start;
+    margin: 5px 5px 5px 5px;
+
+    &__list {
+
+      li {
+        text-align: start;
+        list-style: disc;
+        margin: 8px 0 0 16px;
+      }
+    }
+
+    a,
+    a:visited {
+      color: $pure-orange;
+      text-decoration: underline;
+    }
+  }
+
+  &__link-to-user-certifications {
+    background-color: $grey-10;
+    border-radius: 8px;
+    color: $grey-70;
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    margin-top: 16px;
+    padding: 16px;
+
+    a,
+    a:visited {
+      color: $grey-70;
+      text-decoration-line: underline;
+    }
+  }
+
+  &__title {
+    color: $grey-100;
+    font-family: $font-open-sans;
+    font-size: 2.625rem;
+    font-weight: $font-light;
+    text-align: center;
+    margin-bottom: 20px;
+  }
 }
 
 .certification-starter-subscriptions {
@@ -159,28 +186,6 @@
   &:focus {
     outline: none;
     color: $grey-70;
-  }
-}
-
-.certification-course-page__errors {
-  color: $pure-orange;
-  font-size: 0.875rem;
-  text-align: start;
-  margin: 5px 5px 5px 5px;
-
-  &__list {
-
-    li {
-      text-align: start;
-      list-style: disc;
-      margin: 8px 0 0 16px;
-    }
-  }
-
-  a,
-  a:visited {
-    color: $pure-orange;
-    text-decoration: underline;
   }
 }
 
