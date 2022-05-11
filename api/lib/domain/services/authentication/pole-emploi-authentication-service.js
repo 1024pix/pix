@@ -5,6 +5,9 @@ const { AuthenticationTokensRecoveryError } = require('../../errors');
 const PoleEmploiTokens = require('../../models/PoleEmploiTokens');
 const { v4: uuidv4 } = require('uuid');
 const jsonwebtoken = require('jsonwebtoken');
+const DomainTransaction = require('../../../infrastructure/DomainTransaction');
+const AuthenticationMethod = require('../../models/AuthenticationMethod');
+const moment = require('moment');
 
 async function exchangeCodeForTokens({ code, redirectUri }) {
   const data = {
@@ -34,7 +37,7 @@ async function exchangeCodeForTokens({ code, redirectUri }) {
   });
 }
 
-async function getUserInfo(idToken) {
+async function getUserInfo({ idToken }) {
   const { given_name, family_name, nonce, idIdentiteExterne } = await _extractPayloadFromIdToken(idToken);
 
   return {
@@ -81,9 +84,39 @@ async function _extractPayloadFromIdToken(idToken) {
   return { given_name, family_name, nonce, idIdentiteExterne };
 }
 
+async function createUserAccount({
+  user,
+  sessionContent,
+  externalIdentityId,
+  userToCreateRepository,
+  authenticationMethodRepository,
+}) {
+  let createdUserId;
+  await DomainTransaction.execute(async (domainTransaction) => {
+    createdUserId = (await userToCreateRepository.create({ user, domainTransaction })).id;
+
+    const authenticationMethod = new AuthenticationMethod({
+      identityProvider: AuthenticationMethod.identityProviders.POLE_EMPLOI,
+      userId: createdUserId,
+      externalIdentifier: externalIdentityId,
+      authenticationComplement: new AuthenticationMethod.PoleEmploiAuthenticationComplement({
+        accessToken: sessionContent.accessToken,
+        refreshToken: sessionContent.refreshToken,
+        expiredDate: moment().add(sessionContent.expiresIn, 's').toDate(),
+      }),
+    });
+    await authenticationMethodRepository.create({ authenticationMethod, domainTransaction });
+  });
+  return {
+    userId: createdUserId,
+    idToken: sessionContent.idToken,
+  };
+}
+
 module.exports = {
   exchangeCodeForTokens,
   getUserInfo,
   getAuthUrl,
   createAccessToken,
+  createUserAccount,
 };

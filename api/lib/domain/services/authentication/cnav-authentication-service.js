@@ -4,6 +4,8 @@ const { v4: uuidv4 } = require('uuid');
 const httpAgent = require('../../../infrastructure/http/http-agent');
 const querystring = require('querystring');
 const { AuthenticationTokensRecoveryError } = require('../../errors');
+const DomainTransaction = require('../../../infrastructure/DomainTransaction');
+const AuthenticationMethod = require('../../models/AuthenticationMethod');
 
 async function exchangeCodeForIdToken({ code, redirectUri }) {
   const data = {
@@ -28,7 +30,7 @@ async function exchangeCodeForIdToken({ code, redirectUri }) {
   return response.data['id_token'];
 }
 
-async function getUserInfo(idToken) {
+async function getUserInfo({ idToken }) {
   const { given_name, family_name, nonce, sub } = await _extractClaimsFromIdToken(idToken);
 
   return {
@@ -73,9 +75,25 @@ async function _extractClaimsFromIdToken(idToken) {
   return { given_name, family_name, nonce, sub };
 }
 
+async function createUserAccount({ user, externalIdentityId, userToCreateRepository, authenticationMethodRepository }) {
+  let createdUserId;
+  await DomainTransaction.execute(async (domainTransaction) => {
+    createdUserId = (await userToCreateRepository.create({ user, domainTransaction })).id;
+
+    const authenticationMethod = new AuthenticationMethod({
+      identityProvider: AuthenticationMethod.identityProviders.CNAV,
+      userId: createdUserId,
+      externalIdentifier: externalIdentityId,
+    });
+    await authenticationMethodRepository.create({ authenticationMethod, domainTransaction });
+  });
+  return { userId: createdUserId };
+}
+
 module.exports = {
   getAuthUrl,
   getUserInfo,
   exchangeCodeForIdToken,
   createAccessToken,
+  createUserAccount,
 };

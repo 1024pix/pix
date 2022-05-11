@@ -1,12 +1,16 @@
 const usecases = require('../../domain/usecases');
 const userRepository = require('../../infrastructure/repositories/user-repository');
 const cnavAuthenticationService = require('../../../lib/domain/services/authentication/cnav-authentication-service');
+const AuthenticationMethod = require('../../domain/models/AuthenticationMethod');
 
 module.exports = {
   async createUser(request, h) {
     const authenticationKey = request.query['authentication-key'];
 
-    const userId = await usecases.createUserFromCnav({ authenticationKey });
+    const { userId } = await usecases.createUserFromExternalIdp({
+      authenticationKey,
+      identityProvider: AuthenticationMethod.identityProviders.CNAV,
+    });
 
     const accessToken = cnavAuthenticationService.createAccessToken(userId);
     await userRepository.updateLastLoggedAt({ userId });

@@ -1,12 +1,16 @@
 const usecases = require('../../domain/usecases');
 const userRepository = require('../../infrastructure/repositories/user-repository');
 const poleEmploiAuthenticationService = require('../../../lib/domain/services/authentication/pole-emploi-authentication-service');
+const AuthenticationMethod = require('../../domain/models/AuthenticationMethod');
 
 module.exports = {
   async createUser(request, h) {
     const authenticationKey = request.query['authentication-key'];
 
-    const { userId, idToken } = await usecases.createUserFromPoleEmploi({ authenticationKey });
+    const { userId, idToken } = await usecases.createUserFromExternalIdp({
+      authenticationKey,
+      identityProvider: AuthenticationMethod.identityProviders.POLE_EMPLOI,
+    });
 
     const accessToken = poleEmploiAuthenticationService.createAccessToken(userId);
     await userRepository.updateLastLoggedAt({ userId });

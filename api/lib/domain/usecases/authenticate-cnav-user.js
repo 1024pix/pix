@@ -17,7 +17,7 @@ module.exports = async function authenticateCnavUser({
   }
   const idToken = await cnavAuthenticationService.exchangeCodeForIdToken({ code, redirectUri });
 
-  const userInfo = await cnavAuthenticationService.getUserInfo(idToken);
+  const userInfo = await cnavAuthenticationService.getUserInfo({ idToken });
 
   const user = await userRepository.findByExternalIdentifier({
     externalIdentityId: userInfo.externalIdentityId,
