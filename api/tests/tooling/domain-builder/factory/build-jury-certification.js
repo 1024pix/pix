@@ -26,7 +26,8 @@ const buildJuryCertification = function ({
   commentForJury = 'comment jury',
   competenceMarks = [buildCompetenceMark()],
   certificationIssueReports = [buildCertificationIssueReport()],
-  complementaryCertificationCourseResults = [],
+  commonComplementaryCertificationCourseResults = [],
+  complementaryCertificationCourseResultsWithExternal = {},
 } = {}) {
   return new JuryCertification({
     certificationCourseId,
@@ -52,7 +53,8 @@ const buildJuryCertification = function ({
     commentForJury,
     competenceMarks,
     certificationIssueReports,
-    complementaryCertificationCourseResults,
+    commonComplementaryCertificationCourseResults,
+    complementaryCertificationCourseResultsWithExternal,
   });
 };
 
