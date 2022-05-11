@@ -12,7 +12,7 @@
   }
 
   &__opening-title {
-    font-family: $open-sans;
+    font-family: $font-open-sans;
     font-size: 2rem;
     font-weight: 300;
     letter-spacing: 0.15px;
@@ -26,7 +26,7 @@
     background: $blue-zodiac;
     border-radius: 8px;
     color: $white;
-    font-family: $open-sans;
+    font-family: $font-open-sans;
     font-size: 1.5rem;
     font-weight: 600;
     letter-spacing: 0.15px;
@@ -37,7 +37,7 @@
   }
 
   &__link-calendar {
-    font-family: $roboto;
+    font-family: $font-roboto;
     font-size: 0.875rem;
     font-weight: normal;
     letter-spacing: 0.15px;

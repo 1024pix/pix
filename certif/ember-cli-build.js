@@ -6,6 +6,9 @@ const pluginsToBlacklist = environment === 'production' ? ['ember-freestyle'] : 
 
 module.exports = function (defaults) {
   const app = new EmberApp(defaults, {
+    sassOptions: {
+      includePaths: ['node_modules/@1024pix/pix-ui/addon/styles'],
+    },
     sourcemaps: { enabled: true },
     babel: {
       sourceMaps: 'inline',
@@ -21,9 +24,6 @@ module.exports = function (defaults) {
     },
     'ember-cli-template-lint': {
       testGenerator: 'qunit',
-    },
-    sassOptions: {
-      includePaths: ['node_modules/@1024pix/pix-ui/addon/styles'],
     },
   });
 

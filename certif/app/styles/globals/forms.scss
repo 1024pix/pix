@@ -53,7 +53,7 @@ input[type=number] {
 
 .error-message {
   color: red;
-  font-family: $roboto;
+  font-family: $font-roboto;
   font-size: 0.75rem;
 }
 
@@ -80,7 +80,7 @@ input[type=number] {
     text-decoration: underline;
     border: none;
     background: none;
-    font-family: $roboto;
+    font-family: $font-roboto;
     font-size: 0.875rem;
     color: $blue-zodiac;
 

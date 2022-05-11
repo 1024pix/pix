@@ -2,10 +2,10 @@
 
 @import "ember-modal-dialog/ember-modal-structure";
 @import "ember-modal-dialog/ember-modal-appearance";
-@import 'colors';
-@import "globals/breakpoints";
+
+@import 'pix-design-tokens';
+
 @import "globals/errors";
-@import "globals/fonts";
 @import "globals/forms";
 @import "globals/pages";
 @import "globals/panels";
@@ -57,7 +57,7 @@ html {
   margin: 0;
   min-height: 100%;
   min-height: 100vh;
-  font-family: $roboto;
+  font-family: $font-roboto;
   color: $black;
   background-color: $grey-10;
 }
