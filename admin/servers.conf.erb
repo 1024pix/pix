@@ -15,7 +15,7 @@ log_format keyvalue
     you want to add to nginx logging.
     For the logs to be correctly parsed, use the nginx_logger_version parameter.
     For example:
-    ADDITIONAL_NGINX_LOGS='{"nginx_logger_version"="0", "my_custom_header"="$http_my_custom_header"}'
+    ADDITIONAL_NGINX_LOGS='{"nginx_logger_version":"1", "my_custom_header":"$http_my_custom_header"}'
   %><%
     require 'json';
     JSON.parse(ENV['ADDITIONAL_NGINX_LOGS']||'{}').each do |nginx_key,value| %>
