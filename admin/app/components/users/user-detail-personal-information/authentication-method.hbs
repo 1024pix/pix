@@ -95,12 +95,10 @@
         {{#if this.accessControl.hasAccessToUsersActionsScope}}
           {{#if @user.isAllowedToRemoveGarAuthenticationMethod}}
             <PixButton
-              class="user-authentication-method__remove-button"
               @size="small"
               @backgroundColor="red"
               @triggerAction={{fn @toggleDisplayRemoveAuthenticationMethodModal "GAR"}}
-            >Supprimer</PixButton>
-          {{/if}}
+            >Supprimer</PixButton>{{/if}}
         {{/if}}
       </td>
       <td>
