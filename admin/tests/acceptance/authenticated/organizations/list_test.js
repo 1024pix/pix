@@ -20,7 +20,7 @@ module('Acceptance | Organizations | List', function (hooks) {
     });
   });
 
-  module('When user is logged in', function (hooks) {
+  module('When user is logged in as Super Admin', function (hooks) {
     hooks.beforeEach(async () => {
       await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
     });
@@ -44,6 +44,14 @@ module('Acceptance | Organizations | List', function (hooks) {
       // then
       assert.dom(screen.getByLabelText('Organisation Tic')).exists();
       assert.dom(screen.getByLabelText('Organisation Tac')).exists();
+    });
+
+    test('it should allow creation of a new organization', async function (assert) {
+      // given & when
+      const screen = await visit('/organizations/list');
+
+      // then
+      assert.dom(screen.getByRole('link', { name: 'Nouvelle organisation' })).exists();
     });
 
     module('when filters are used', function (hooks) {
@@ -86,6 +94,19 @@ module('Acceptance | Organizations | List', function (hooks) {
 
       // then
       assert.strictEqual(currentURL(), '/organizations/1/team');
+    });
+  });
+
+  module('When user is logged in as Certif', function () {
+    test('it should not allow creation of a new organization', async function (assert) {
+      // given
+      await authenticateAdminMemberWithRole({ isCertif: true })(server);
+
+      // when
+      const screen = await visit('/organizations/list');
+
+      // then
+      assert.dom(screen.queryByRole('link', { name: 'Nouvelle organisation' })).doesNotExist();
     });
   });
 });

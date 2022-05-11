@@ -1,16 +1,18 @@
 {{page-title "Organisations"}}
 <header class="page-header">
   <h1 class="page-title">Toutes les organisations</h1>
-  <div class="page-actions">
-    <PixButton
-      @route="authenticated.organizations.new"
-      @backgroundColor="transparent-light"
-      @isBorderVisible={{true}}
-      class="pix-button__secondary"
-    >
-      <FaIcon @icon="plus" />Nouvelle organisation
-    </PixButton>
-  </div>
+  {{#if this.accessControl.hasAccessToOrganizationActionsScope}}
+    <div class="page-actions">
+      <PixButton
+        @route="authenticated.organizations.new"
+        @backgroundColor="transparent-light"
+        @isBorderVisible={{true}}
+        class="pix-button__secondary"
+      >
+        <FaIcon @icon="plus" />Nouvelle organisation
+      </PixButton>
+    </div>
+  {{/if}}
 </header>
 
 <main class="page-body">

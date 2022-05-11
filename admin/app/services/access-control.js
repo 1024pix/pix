@@ -11,4 +11,12 @@ export default class AccessControlService extends Service {
       this.router.transitionTo(redirectionUrl);
     }
   }
+
+  get hasAccessToOrganizationActionsScope() {
+    return !!(
+      this.currentUser.adminMember.isSuperAdmin ||
+      this.currentUser.adminMember.isSupport ||
+      this.currentUser.adminMember.isMetier
+    );
+  }
 }

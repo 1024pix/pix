@@ -44,4 +44,50 @@ module('Unit | Service | access-control', function (hooks) {
       });
     });
   });
+
+  module('#hasAccessToOrganizationActionsScope', function () {
+    test('should be true if user is Super Admin', function (assert) {
+      // given
+      const currentUser = this.owner.lookup('service:currentUser');
+      currentUser.adminMember = { isSuperAdmin: true };
+
+      const service = this.owner.lookup('service:access-control');
+
+      // when / then
+      assert.true(service.hasAccessToOrganizationActionsScope);
+    });
+
+    test('should be true if user is Support', function (assert) {
+      // given
+      const currentUser = this.owner.lookup('service:currentUser');
+      currentUser.adminMember = { isSupport: true };
+
+      const service = this.owner.lookup('service:access-control');
+
+      // when / then
+      assert.true(service.hasAccessToOrganizationActionsScope);
+    });
+
+    test('should be true if user is Metier', function (assert) {
+      // given
+      const currentUser = this.owner.lookup('service:currentUser');
+      currentUser.adminMember = { isMetier: true };
+
+      const service = this.owner.lookup('service:access-control');
+
+      // when / then
+      assert.true(service.hasAccessToOrganizationActionsScope);
+    });
+
+    test('should be false if user is Certif', function (assert) {
+      // given
+      const currentUser = this.owner.lookup('service:currentUser');
+      currentUser.adminMember = { isCertif: true };
+
+      const service = this.owner.lookup('service:access-control');
+
+      // when / then
+      assert.false(service.hasAccessToOrganizationActionsScope);
+    });
+  });
 });
