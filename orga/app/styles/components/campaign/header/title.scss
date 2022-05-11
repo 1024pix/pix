@@ -15,13 +15,13 @@
     margin: 0;
     padding: 0;
 
-    & > *  {
+    & > * {
       padding-right: 15px;
       margin-right: 15px;
       border-right: 1px solid $grey-20;
     }
 
-    & > *:last-child  {
+    & > *:last-child {
       padding-right: 0;
       margin-right: 0;
       border-right-width: 0;
@@ -30,7 +30,7 @@
 
   &__info-item {
     color: $grey-60;
-    font-family: $roboto;
+    font-family: $font-roboto;
     font-size: 1rem;
 
     & > dt {

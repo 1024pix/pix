@@ -32,7 +32,7 @@
 
   &__details {
     color: $grey-50;
-    font-family: $roboto;
+    font-family: $font-roboto;
     font-size: 1rem;
     font-weight: 300;
     margin: 8px;
@@ -46,7 +46,7 @@
 .import-students-page-section {
   &__title {
     color: $grey-90;
-    font-family: $open-sans;
+    font-family: $font-open-sans;
     font-size: 1.25rem;
     font-weight: 500;
     margin: 8px;
@@ -54,7 +54,7 @@
 
   &__details {
     color: $grey-50;
-    font-family: $roboto;
+    font-family: $font-roboto;
     font-size: 0.875rem;
     text-align: center;
     line-height: 22px;

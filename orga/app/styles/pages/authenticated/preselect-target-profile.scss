@@ -11,30 +11,30 @@
   }
 }
 .preselect-tube-table {
-   .is-responsive {
-     color: $green;
-   }
-   .not-responsive {
-     position: absolute;
-     top: 50%;
-     left: calc(50% + 12px);
-     transform: translate(-50%, -50%);
-     color: $red;
-   }
+  .is-responsive {
+    color: $green;
+  }
+  .not-responsive {
+    position: absolute;
+    top: 50%;
+    left: calc(50% + 12px);
+    transform: translate(-50%, -50%);
+    color: $red;
+  }
 }
 
 .preselect-target-profile {
   .pix-collapsible {
     &__title {
       align-items: center;
-      font-family: $open-sans;
+      font-family: $font-open-sans;
       font-size: 1.5rem;
       font-weight: 500;
       position: relative;
       padding-left: 2rem;
 
       &:before {
-        content: "";
+        content: '';
         position: absolute;
         top: 10%;
         left: 1rem;
@@ -67,7 +67,7 @@
       cursor: auto;
 
       h2 {
-        font-family: $open-sans;
+        font-family: $font-open-sans;
         font-size: 1.125rem;
         padding: 1rem;
         margin: 0;
@@ -80,10 +80,11 @@
 
       th {
         font-weight: 500;
-        color: $grey-100
+        color: $grey-100;
       }
 
-      th, td {
+      th,
+      td {
         vertical-align: middle;
       }
       td.table__column--center,

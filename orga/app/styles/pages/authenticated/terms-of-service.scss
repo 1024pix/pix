@@ -29,14 +29,13 @@
       display: flex;
       margin: auto;
     }
-
   }
 
   &__title {
     margin-bottom: 30px;
     text-align: center;
     color: $grey-100;
-    font-family: $roboto;
+    font-family: $font-roboto;
     font-size: 1.15em;
     font-weight: 300;
   }
@@ -55,7 +54,7 @@
     padding: 0 35px;
     overflow-y: scroll;
     overflow-x: hidden;
-    font-family: $open-sans;
+    font-family: $font-open-sans;
 
     @include device-is('mobile') {
       margin: 0;
@@ -98,11 +97,9 @@
       padding: 0;
     }
   }
-
 }
 
 .terms-of-service-form-text {
-
   &__article-title {
     font-size: 1.15em;
   }

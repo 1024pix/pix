@@ -39,7 +39,7 @@
   align-items: center;
   padding: 6px 0;
   margin: 0;
-  font-family: $roboto;
+  font-family: $font-roboto;
 
   &--highlight {
     background-color: $grey-10;
@@ -92,7 +92,6 @@
     margin: 0;
   }
 
-
   &__stages {
     display: flex;
     align-items: center;
@@ -131,13 +130,14 @@
     outline: none;
     cursor: pointer;
     color: $grey-50;
-    font-family: $roboto;
+    font-family: $font-roboto;
     font-size: 0.9rem;
     font-weight: 500;
-    transition: all ease-in-out .2s;
+    transition: all ease-in-out 0.2s;
     text-decoration: none;
 
-    &:hover, &:focus {
+    &:hover,
+    &:focus {
       color: $blue;
     }
 
@@ -149,13 +149,13 @@
   }
 
   &-item.active {
-      border-bottom: 2px solid $blue;
-      color: $blue;
+    border-bottom: 2px solid $blue;
+    color: $blue;
   }
 }
 
 @include device-is('mobile') {
-  .navbar{
+  .navbar {
     height: auto;
     padding: 0;
     width: 100%;
@@ -193,7 +193,6 @@
       border-left: none;
       margin-bottom: 16px;
     }
-
 
     &__content:last-child {
       margin-bottom: 0px;

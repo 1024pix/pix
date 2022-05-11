@@ -1,5 +1,5 @@
 .campaign-archived-banner {
-  font-family: $open-sans;
+  font-family: $font-open-sans;
   font-weight: 600;
   background: $blue-zodiac;
   display: flex;
@@ -29,7 +29,7 @@
     border: 2px solid $white;
     margin-left: auto;
     &:hover {
-      opacity: .8;
+      opacity: 0.8;
       background: $blue-zodiac;
     }
     &:focus {
