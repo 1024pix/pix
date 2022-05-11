@@ -25,7 +25,7 @@ export default class CertificationJoiner extends Component {
   SESSION_ID_VALIDATION_PATTERN = '^[0-9]*$';
 
   @tracked errorMessage = null;
-  @tracked genericErrorListElements = [];
+  @tracked errorDetailList = [];
   @tracked errorMessageLink = null;
   @tracked sessionIdIsNotANumberError = null;
   @tracked validationClassName = '';
@@ -100,7 +100,7 @@ export default class CertificationJoiner extends Component {
         this.errorMessage = this.intl.t('pages.certification-joiner.error-messages.session-not-accessible');
       } else {
         this.errorMessage = this.intl.t('pages.certification-joiner.error-messages.generic.disclaimer');
-        this.genericErrorListElements = [
+        this.errorDetailList = [
           this.intl.t('pages.certification-joiner.error-messages.generic.check-session-number'),
           this.intl.t('pages.certification-joiner.error-messages.generic.check-personal-info'),
         ];
@@ -133,7 +133,7 @@ export default class CertificationJoiner extends Component {
 
   _resetErrorMessages() {
     this.errorMessage = null;
-    this.genericErrorListElements = [];
+    this.errorDetailList = [];
     this.errorMessageLink = null;
   }
 }

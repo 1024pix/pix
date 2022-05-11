@@ -75,10 +75,10 @@
 
     {{#if this.errorMessage}}
       <div class="certification-course-page__errors">{{this.errorMessage}}
-        {{#if this.genericErrorListElements}}
+        {{#if this.errorDetailList}}
           <ul class="certification-course-page__errors__list">
-            {{#each this.genericErrorListElements as |genericErrorElement|}}
-              <li>{{genericErrorElement}}</li>
+            {{#each this.errorDetailList as |errorDetailElement|}}
+              <li>{{errorDetailElement}}</li>
             {{/each}}
           </ul>
         {{/if}}
