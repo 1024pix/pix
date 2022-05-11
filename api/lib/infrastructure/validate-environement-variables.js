@@ -38,6 +38,7 @@ const schema = Joi.object({
   CNAV_TOKEN_URL: Joi.string().uri().optional(),
   CONTAINER_VERSION: Joi.string().optional(),
   FORCE_DROP_DATABASE: Joi.string().optional().valid('true', 'false'),
+  TEST_REDIS_URL: Joi.string().optional(),
 }).options({ allowUnknown: true });
 
 const validateEnvironmentVariables = function () {
