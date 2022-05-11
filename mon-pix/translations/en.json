@@ -1508,17 +1508,17 @@
         }
       },
       "recommended": "Recommended",
+      "recommended-empty": {
+        "title": "{firstName}, find your favorite tutorials here",
+        "description": "To get tutorials recommendations adapted to your level, you must start a test.",
+        "link": "Let's go"
+      },
       "saved": "Saved"
     },
     "user-tutorials-v2": {
       "saved-empty": {
         "title": "No tutorials saved yet",
         "description": "You need to save a tutorial for it to be displayed here."
-      },
-      "recommended-empty": {
-        "title": "{firstName}, find your favorite tutorials here",
-        "description": "To get tutorials recommendations adapted to your level, you must start a test.",
-        "link": "Let's go"
       }
     }
   }
