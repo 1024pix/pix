@@ -1506,10 +1506,10 @@
           },
           "source": "By"
         }
-      }
+      },
+      "recommended": "Recommended"
     },
     "user-tutorials-v2": {
-      "recommended": "Recommended",
       "saved": "Saved",
       "saved-empty": {
         "title": "No tutorials saved yet",
