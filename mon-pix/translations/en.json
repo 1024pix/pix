@@ -1509,7 +1509,6 @@
       }
     },
     "user-tutorials-v2": {
-      "description": "Improve with the help of tutorials suggested by the Pix users’ community.",
       "recommended": "Recommended",
       "saved": "Saved",
       "saved-empty": {
