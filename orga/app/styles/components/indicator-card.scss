@@ -22,9 +22,15 @@
     min-width: 96px;
     font-size: 1.5rem;
 
-    &--blue { @include colorize($blue, 0%, 32%); }
-    &--purple { @include colorize($purple, 6%, 32%); }
-    &--green { @include colorize($green, 0%, 70%); }
+    &--blue {
+      @include colorize($blue, 0%, 32%);
+    }
+    &--purple {
+      @include colorize($purple, 6%, 32%);
+    }
+    &--green {
+      @include colorize($green, 0%, 70%);
+    }
   }
 
   &__content {
@@ -38,14 +44,14 @@
   &__title {
     display: flex;
     align-items: center;
-    font-family: $roboto;
+    font-family: $font-roboto;
     font-weight: 500;
     font-size: 0.875rem;
     margin-bottom: 8px;
   }
 
   &__value {
-    font-family: $open-sans;
+    font-family: $font-open-sans;
     font-weight: 600;
     font-size: 2rem;
     line-height: 2rem;

@@ -29,7 +29,7 @@
   }
 
   &__title {
-    font-family: $open-sans;
+    font-family: $font-open-sans;
     font-size: 2rem;
     letter-spacing: 0.009375rem;
     line-height: 2.6875rem;
@@ -39,7 +39,7 @@
   }
 
   &__description {
-    font-family: $roboto;
+    font-family: $font-roboto;
     text-align: center;
     max-width: 497px;
     font-size: 0.875rem;
@@ -57,7 +57,7 @@
   &__success {
     text-align: center;
     color: $grey-90;
-    letter-spacing: .15px;
+    letter-spacing: 0.15px;
     margin-top: 54px;
     margin-bottom: 24px;
   }
