@@ -281,6 +281,30 @@ describe('Acceptance | API | Campaign Participations', function () {
     });
   });
 
+  describe('DELETE /api/campaign/{campaignId}/campaign-participations/{campaignParticipationId}', function () {
+    it('should return 204 HTTP status code', async function () {
+      // given
+      const userId = databaseBuilder.factory.buildUser().id;
+      const organizationId = databaseBuilder.factory.buildOrganization().id;
+      const campaignId = databaseBuilder.factory.buildCampaign({ organizationId, user }).id;
+      const campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({ campaignId }).id;
+      databaseBuilder.factory.buildMembership({ userId, organizationRole: 'ADMIN', organizationId });
+
+      await databaseBuilder.commit();
+      options = {
+        method: 'DELETE',
+        url: `/api/campaigns/${campaignId}/campaign-participations/${campaignParticipationId}`,
+        headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
+      };
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(204);
+    });
+  });
+
   describe('GET /api/campaigns/{campaignId}/profiles-collection-participations/{campaignParticipationId}', function () {
     beforeEach(function () {
       const learningObjects = learningContentBuilder.buildLearningContent([]);

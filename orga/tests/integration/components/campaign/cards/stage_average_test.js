@@ -1,7 +1,7 @@
 import { module, test } from 'qunit';
-import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import { setupIntl, t } from 'ember-intl/test-support';
+import { render } from '@1024pix/ember-testing-library';
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
 
 module('Integration | Component | Campaign::Cards::StageAverage', function (hooks) {
@@ -12,9 +12,11 @@ module('Integration | Component | Campaign::Cards::StageAverage', function (hook
     this.averageResult = 0.5;
     this.stages = [{ threshold: 20 }, { threshold: 70 }];
 
-    await render(hbs`<Campaign::Cards::StageAverage @value={{averageResult}} @stages={{stages}} />`);
+    const screen = await render(hbs`<Campaign::Cards::StageAverage @value={{averageResult}} @stages={{stages}} />`);
 
     assert.contains(t('cards.participants-average-stages.title'));
-    assert.contains(t('pages.assessment-individual-results.stages.value', { count: 1, total: 2 }));
+    assert
+      .dom(screen.getByLabelText(t('pages.assessment-individual-results.stages.value', { count: 1, total: 2 })))
+      .exists();
   });
 });

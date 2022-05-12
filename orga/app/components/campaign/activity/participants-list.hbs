@@ -20,6 +20,9 @@
           <col class="table__column--wide" />
         {{/if}}
         <col class="table__column--wide" />
+        {{#if this.canDeleteParticipation}}
+          <col class="table__column--small table__column--right hide-on-mobile" />
+        {{/if}}
       </colgroup>
       <thead>
         <tr>
@@ -29,6 +32,13 @@
             <Table::Header>{{@campaign.idPixLabel}}</Table::Header>
           {{/if}}
           <Table::Header>{{t "pages.campaign-activity.table.column.status"}}</Table::Header>
+          {{#if this.canDeleteParticipation}}
+            <Table::Header class="hide-on-mobile">
+              <span class="sr-only">
+                {{t "pages.campaign-activity.table.column.delete"}}
+              </span>
+            </Table::Header>
+          {{/if}}
         </tr>
       </thead>
 
@@ -63,6 +73,20 @@
                   @isTypeAssessment={{@campaign.isTypeAssessment}}
                 />
               </td>
+              {{#if this.canDeleteParticipation}}
+                <td class="hide-on-mobile">
+                  <PixIconButton
+                    @ariaLabel={{t "pages.campaign-activity.table.delete-button-label"}}
+                    @withBackground={{true}}
+                    @icon="trash-alt"
+                    @triggerAction={{fn this.openModal participation}}
+                    @size="small"
+                    class="campaign-activity-table-actions__button campaign-activity-table-actions__button--delete"
+                  >
+                    <FaIcon />
+                  </PixIconButton>
+                </td>
+              {{/if}}
             </tr>
           {{/each}}
         </tbody>
@@ -77,4 +101,12 @@
   {{#if @participations}}
     <Table::PaginationControl @pagination={{@participations.meta}} />
   {{/if}}
+
+  <Campaign::Activity::DeleteParticipationModal
+    @participation={{this.participationToDelete}}
+    @campaign={{@campaign}}
+    @deleteCampaignParticipant={{@deleteCampaignParticipant}}
+    @closeModal={{this.closeModal}}
+    @isModalOpen={{this.isModalOpen}}
+  />
 </section>

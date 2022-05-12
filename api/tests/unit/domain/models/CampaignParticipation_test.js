@@ -236,4 +236,27 @@ describe('Unit | Domain | Models | CampaignParticipation', function () {
       });
     });
   });
+
+  describe('delete', function () {
+    let clock;
+    const now = new Date('2021-09-25');
+
+    beforeEach(function () {
+      clock = sinon.useFakeTimers(now.getTime());
+    });
+
+    afterEach(function () {
+      clock.restore();
+    });
+
+    it('updates attributes deletedAt and deletedBy', function () {
+      const userId = 4567;
+      const campaignParticipation = new CampaignParticipation({ deletedAt: null, deletedBy: null });
+
+      campaignParticipation.delete(userId);
+
+      expect(campaignParticipation.deletedAt).to.deep.equal(now);
+      expect(campaignParticipation.deletedBy).to.deep.equal(userId);
+    });
+  });
 });

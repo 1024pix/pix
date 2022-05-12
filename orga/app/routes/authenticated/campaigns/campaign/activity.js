@@ -61,4 +61,9 @@ export default class ActivityRoute extends Route {
       controller.groups = [];
     }
   }
+
+  @action
+  refreshModel() {
+    this.modelFor('authenticated.campaigns.campaign').reload();
+  }
 }

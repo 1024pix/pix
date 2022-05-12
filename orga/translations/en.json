@@ -273,13 +273,18 @@
       }
     },
     "campaign-activity": {
+      "actions": {
+        "delete": "Delete"
+      },
       "title": "Activity",
       "table": {
         "column": {
+          "delete": "Delete participation",
           "first-name": "First name",
           "last-name": "Last name",
           "status": "Status"
         },
+        "delete-button-label": "Delete participation",
         "empty": "No participants",
         "row-title": "Participant",
         "title": "List of participants"
@@ -290,6 +295,18 @@
         "SHARED-assessment": "Submitted results",
         "TO_SHARE-profile": "Pending profile",
         "SHARED-profile": "Submitted profile"
+      },
+      "delete-participation-modal": {
+        "actions": {
+          "cancel": "No",
+        "confirmation": "Yes, delete"
+        },
+        "error": "An error occurred while removing this participation.",
+        "success": "The participation has been successfully deleted",
+        "title": "Delete this participation ?",
+        "text": "You are about to delete the participation of <strong>{firstName} {lastName}</strong>, it will no longer be visible nor included in the statistics of the campaign.",
+        "warning": "The participant will be able to complete their customised test but will no longer be able to submit their results. They will also not be able to participate in the campaign again."
+
       }
     },
     "campaign-creation": {

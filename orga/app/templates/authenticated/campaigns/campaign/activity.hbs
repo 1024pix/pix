@@ -2,7 +2,11 @@
 <h2 class="sr-only">{{t "pages.campaign-activity.title"}}</h2>
 
 {{#if @model.campaign.hasParticipations}}
-  <Campaign::Activity::Dashboard @campaign={{@model.campaign}} class="activity__dashboard" />
+  <Campaign::Activity::Dashboard
+    @campaign={{@model.campaign}}
+    @totalParticipations={{@model.participations.length}}
+    @class="activity__dashboard"
+  />
 
   <h3 class="sr-only">{{t "pages.campaign-activity.table.title"}}</h3>
 
@@ -16,6 +20,7 @@
     @rowCount={{@model.participations.meta.rowCount}}
     @onFilter={{this.triggerFiltering}}
     @onResetFilter={{this.resetFiltering}}
+    @deleteCampaignParticipant={{this.deleteCampaignParticipant}}
     class="activity__participants-list"
   />
 {{else}}

@@ -11,28 +11,30 @@ module('Unit | Controller | authenticated/campaigns/campaign/activity', function
   });
 
   module('#action goToParticipantPage', function () {
-    test('it should call transitionToRoute with appropriate arguments for profiles collection', function (assert) {
+    test('it should call transitionTo with appropriate arguments for profiles collection', function (assert) {
       // given
-      controller.transitionToRoute = sinon.stub();
+      controller.router = { transitionTo: sinon.stub() };
       controller.model = { campaign: { isTypeAssessment: false } };
 
       // when
       controller.send('goToParticipantPage', 123, 456);
 
       // then
-      assert.true(controller.transitionToRoute.calledWith('authenticated.campaigns.participant-profile', 123, 456));
+      assert.true(controller.router.transitionTo.calledWith('authenticated.campaigns.participant-profile', 123, 456));
     });
 
-    test('it should call transitionToRoute with appropriate arguments for assessment', function (assert) {
+    test('it should call transitionTo with appropriate arguments for assessment', function (assert) {
       // given
-      controller.transitionToRoute = sinon.stub();
+      controller.router = { transitionTo: sinon.stub() };
       controller.model = { campaign: { isTypeAssessment: true } };
 
       // when
       controller.send('goToParticipantPage', 123, 456);
 
       // then
-      assert.true(controller.transitionToRoute.calledWith('authenticated.campaigns.participant-assessment', 123, 456));
+      assert.true(
+        controller.router.transitionTo.calledWith('authenticated.campaigns.participant-assessment', 123, 456)
+      );
     });
   });
 
@@ -52,13 +54,9 @@ module('Unit | Controller | authenticated/campaigns/campaign/activity', function
       controller.send('triggerFiltering', { divisions: ['A1'], status: 'STARTED', groups: ['L3'] });
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(controller.pageNumber, null);
+      assert.strictEqual(controller.pageNumber, null);
       assert.deepEqual(controller.divisions, ['A1']);
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(controller.status, 'STARTED');
+      assert.strictEqual(controller.status, 'STARTED');
       assert.deepEqual(controller.groups, ['L3']);
     });
 
@@ -73,13 +71,9 @@ module('Unit | Controller | authenticated/campaigns/campaign/activity', function
         controller.send('triggerFiltering', { status: 'COMPLETED' });
 
         // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(controller.pageNumber, null);
+        assert.strictEqual(controller.pageNumber, null);
         assert.deepEqual(controller.divisions, ['A2']);
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(controller.status, 'COMPLETED');
+        assert.strictEqual(controller.status, 'COMPLETED');
       });
     });
 
@@ -94,13 +88,9 @@ module('Unit | Controller | authenticated/campaigns/campaign/activity', function
         controller.send('triggerFiltering', { status: 'COMPLETED' });
 
         // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(controller.pageNumber, null);
+        assert.strictEqual(controller.pageNumber, null);
         assert.deepEqual(controller.groups, ['A2']);
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(controller.status, 'COMPLETED');
+        assert.strictEqual(controller.status, 'COMPLETED');
       });
     });
 
@@ -115,13 +105,9 @@ module('Unit | Controller | authenticated/campaigns/campaign/activity', function
         controller.send('triggerFiltering', { divisions: ['A1'] });
 
         // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(controller.pageNumber, null);
+        assert.strictEqual(controller.pageNumber, null);
         assert.deepEqual(controller.divisions, ['A1']);
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(controller.status, 'SHARED');
+        assert.strictEqual(controller.status, 'SHARED');
       });
     });
 
@@ -135,9 +121,36 @@ module('Unit | Controller | authenticated/campaigns/campaign/activity', function
         controller.send('triggerFiltering', { status: '' });
 
         // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(controller.status, '');
+        assert.strictEqual(controller.status, '');
+      });
+    });
+  });
+
+  module('#action deleteCampaignParticipant', function (hooks) {
+    hooks.beforeEach(function () {
+      controller.model = { campaign: { isTypeAssessment: false, id: 7 } };
+    });
+
+    module('when the deleteCampaignParticipant works', function () {
+      test('it should called destroyRecord', async function (assert) {
+        // given
+        const campaignParticipantActivity = {
+          id: 89,
+          destroyRecord: sinon.stub(),
+        };
+        const campaignId = controller.model.campaign.id;
+        controller.send = sinon.stub();
+        // when
+        await controller.deleteCampaignParticipant(campaignId, campaignParticipantActivity);
+
+        //then
+        assert.true(
+          campaignParticipantActivity.destroyRecord.calledWith({
+            adapterOptions: { campaignId, campaignParticipationId: campaignParticipantActivity.id },
+          })
+        );
+
+        assert.true(controller.send.calledWith('refreshModel'));
       });
     });
   });

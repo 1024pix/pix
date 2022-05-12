@@ -16,7 +16,7 @@ const CampaignParticipationsStatsRepository = {
     return knex('campaign-participations')
       .select('masteryRate')
       .count()
-      .where({ campaignId, status: SHARED, isImproved: false })
+      .where({ campaignId, status: SHARED, isImproved: false, deletedAt: null })
       .whereNotNull('masteryRate')
       .groupBy('masteryRate')
       .orderBy('masteryRate', 'ASC');

@@ -5,7 +5,9 @@ const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-convert
 const { knex } = require('../../../db/knex-database-connection');
 const knowledgeElementRepository = require('./knowledge-element-repository');
 const knowledgeElementSnapshotRepository = require('./knowledge-element-snapshot-repository');
+const CampaignParticipation = require('../../domain/models/CampaignParticipation');
 const DomainTransaction = require('../DomainTransaction');
+const { NotFoundError } = require('../../domain/errors');
 
 const { SHARED, TO_SHARE, STARTED } = CampaignParticipationStatuses;
 
@@ -140,6 +142,7 @@ module.exports = {
       .from('campaign-participations')
       .where('campaign-participations.campaignId', '=', campaignId)
       .where('campaign-participations.isImproved', '=', false)
+      .where('campaign-participations.deletedAt', 'is', null)
       .limit(1);
 
     if (!result.length) return {};
@@ -159,6 +162,34 @@ module.exports = {
       .first();
 
     return mapToParticipationByStatus(row, campaignType);
+  },
+
+  async getAllCampaignParticipationsForAUser({ campaignId, campaignParticipationId, domainTransaction }) {
+    const knexConn = domainTransaction.knexTransaction;
+    const result = await knexConn('campaign-participations')
+      .select('organizationLearnerId')
+      .where({ id: campaignParticipationId, campaignId: campaignId })
+      .first();
+
+    if (!result) {
+      throw new NotFoundError(
+        `There is no campaign participation with the id "${campaignParticipationId}" for the campaign wih the id "${campaignId}"`
+      );
+    }
+
+    const campaignParticipations = await knexConn('campaign-participations').where({
+      campaignId,
+      organizationLearnerId: result.organizationLearnerId,
+      deletedAt: null,
+      deletedBy: null,
+    });
+
+    return campaignParticipations.map((campaignParticipation) => new CampaignParticipation(campaignParticipation));
+  },
+
+  async delete({ id, deletedAt, deletedBy, domainTransaction }) {
+    const knexConn = domainTransaction.knexTransaction;
+    return await knexConn('campaign-participations').where({ id }).update({ deletedAt, deletedBy });
   },
 };
 
