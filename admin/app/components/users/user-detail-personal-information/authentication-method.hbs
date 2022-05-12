@@ -25,16 +25,20 @@
         {{/if}}
       </td>
       <td>
-        {{#if @user.isAllowedToRemoveEmailAuthenticationMethod}}
-          <PixButton
-            class="user-authentication-method__remove-button"
-            @size="small"
-            @backgroundColor="red"
-            @triggerAction={{fn @toggleDisplayRemoveAuthenticationMethodModal "EMAIL"}}
-          >Supprimer</PixButton>
-        {{/if}}
-        {{#if @user.isAllowedToAddEmailAuthenticationMethod}}
-          <PixButton @triggerAction={{this.toggleAddAuthenticationMethodModal}} @size="small">Ajouter une adresse e-mail</PixButton>
+        {{#if this.accessControl.hasAccessToUsersActionsScope}}
+          {{#if @user.isAllowedToRemoveEmailAuthenticationMethod}}
+            <PixButton
+              class="user-authentication-method__remove-button"
+              @size="small"
+              @backgroundColor="red"
+              @triggerAction={{fn @toggleDisplayRemoveAuthenticationMethodModal "EMAIL"}}
+            >Supprimer</PixButton>
+          {{/if}}
+          {{#if @user.isAllowedToAddEmailAuthenticationMethod}}
+            <PixButton @triggerAction={{this.toggleAddAuthenticationMethodModal}} @size="small">
+              Ajouter une adresse e-mail
+            </PixButton>
+          {{/if}}
         {{/if}}
       </td>
     </tr>
@@ -57,13 +61,15 @@
         {{/if}}
       </td>
       <td>
-        {{#if @user.isAllowedToRemoveUsernameAuthenticationMethod}}
-          <PixButton
-            class="user-authentication-method__remove-button"
-            @size="small"
-            @backgroundColor="red"
-            @triggerAction={{fn @toggleDisplayRemoveAuthenticationMethodModal "USERNAME"}}
-          >Supprimer</PixButton>
+        {{#if this.accessControl.hasAccessToUsersActionsScope}}
+          {{#if @user.isAllowedToRemoveUsernameAuthenticationMethod}}
+            <PixButton
+              class="user-authentication-method__remove-button"
+              @size="small"
+              @backgroundColor="red"
+              @triggerAction={{fn @toggleDisplayRemoveAuthenticationMethodModal "USERNAME"}}
+            >Supprimer</PixButton>
+          {{/if}}
         {{/if}}
       </td>
     </tr>
@@ -86,20 +92,24 @@
         {{/if}}
       </td>
       <td>
-        {{#if @user.isAllowedToRemovePoleEmploiAuthenticationMethod}}
-          <PixButton
-            class="user-authentication-method__remove-button"
-            @size="small"
-            @backgroundColor="red"
-            @triggerAction={{fn @toggleDisplayRemoveAuthenticationMethodModal "POLE_EMPLOI"}}
-          >Supprimer</PixButton>
+        {{#if this.accessControl.hasAccessToUsersActionsScope}}
+          {{#if @user.isAllowedToRemovePoleEmploiAuthenticationMethod}}
+            <PixButton
+              class="user-authentication-method__remove-button"
+              @size="small"
+              @backgroundColor="red"
+              @triggerAction={{fn @toggleDisplayRemoveAuthenticationMethodModal "POLE_EMPLOI"}}
+            >Supprimer</PixButton>
+          {{/if}}
         {{/if}}
       </td>
       <td>
-        {{#if @user.hasPoleEmploiAuthenticationMethod}}
-          <PixButton @triggerAction={{this.toggleReassignPoleEmploiAuthenticationMethodModal}} @size="small">
-            Déplacer cette méthode de connexion
-          </PixButton>
+        {{#if this.accessControl.hasAccessToUsersActionsScope}}
+          {{#if @user.hasPoleEmploiAuthenticationMethod}}
+            <PixButton @triggerAction={{this.toggleReassignPoleEmploiAuthenticationMethodModal}} @size="small">
+              Déplacer cette méthode de connexion
+            </PixButton>
+          {{/if}}
         {{/if}}
       </td>
     </tr>
@@ -122,20 +132,24 @@
         {{/if}}
       </td>
       <td>
-        {{#if @user.isAllowedToRemoveGarAuthenticationMethod}}
-          <PixButton
-            class="user-authentication-method__remove-button"
-            @size="small"
-            @backgroundColor="red"
-            @triggerAction={{fn @toggleDisplayRemoveAuthenticationMethodModal "GAR"}}
-          >Supprimer</PixButton>
+        {{#if this.accessControl.hasAccessToUsersActionsScope}}
+          {{#if @user.isAllowedToRemoveGarAuthenticationMethod}}
+            <PixButton
+              class="user-authentication-method__remove-button"
+              @size="small"
+              @backgroundColor="red"
+              @triggerAction={{fn @toggleDisplayRemoveAuthenticationMethodModal "GAR"}}
+            >Supprimer</PixButton>
+          {{/if}}
         {{/if}}
       </td>
       <td>
-        {{#if @user.hasGarAuthenticationMethod}}
-          <PixButton @triggerAction={{this.toggleReassignGarAuthenticationMethodModal}} @size="small">
-            Déplacer cette méthode de connexion
-          </PixButton>
+        {{#if this.accessControl.hasAccessToUsersActionsScope}}
+          {{#if @user.hasGarAuthenticationMethod}}
+            <PixButton @triggerAction={{this.toggleReassignGarAuthenticationMethodModal}} @size="small">
+              Déplacer cette méthode de connexion
+            </PixButton>
+          {{/if}}
         {{/if}}
       </td>
     </tr>
