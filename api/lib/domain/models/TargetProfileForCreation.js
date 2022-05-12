@@ -10,7 +10,7 @@ class TargetProfileForCreation {
     description,
     comment,
     isPublic,
-    imageUrl = DEFAULT_IMAGE_URL,
+    imageUrl,
     ownerOrganizationId,
   }) {
     this.name = name;
@@ -19,7 +19,7 @@ class TargetProfileForCreation {
     this.description = description;
     this.comment = comment;
     this.isPublic = isPublic;
-    this.imageUrl = imageUrl;
+    this.imageUrl = imageUrl || DEFAULT_IMAGE_URL;
     this.ownerOrganizationId = ownerOrganizationId;
     validate(this);
   }
