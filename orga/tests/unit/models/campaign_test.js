@@ -99,6 +99,35 @@ module('Unit | Model | campaign', function (hooks) {
     });
   });
 
+  module('#hasExternalId', function () {
+    test('returns false while campaign does not contain IdPixLabel', function (assert) {
+      const store = this.owner.lookup('service:store');
+      const model = store.createRecord('campaign', {
+        idPixLabel: null,
+      });
+
+      assert.false(model.hasExternalId);
+    });
+
+    test('returns false while idPixLabel is empty', function (assert) {
+      const store = this.owner.lookup('service:store');
+      const model = store.createRecord('campaign', {
+        idPixLabel: '',
+      });
+
+      assert.false(model.hasExternalId);
+    });
+
+    test('returns true while campaign contain idPixLabel', function (assert) {
+      const store = this.owner.lookup('service:store');
+      const model = store.createRecord('campaign', {
+        idPixLabel: 'krakow',
+      });
+
+      assert.true(model.hasExternalId);
+    });
+  });
+
   module('#hasBadges', function () {
     test('returns true while campaign contains badges', function (assert) {
       const store = this.owner.lookup('service:store');

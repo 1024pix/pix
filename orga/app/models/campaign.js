@@ -42,6 +42,10 @@ export default class Campaign extends Model {
     return this.targetProfileThematicResultCount > 0;
   }
 
+  get hasExternalId() {
+    return Boolean(this.idPixLabel);
+  }
+
   get hasStages() {
     return this.targetProfileHasStage;
   }
