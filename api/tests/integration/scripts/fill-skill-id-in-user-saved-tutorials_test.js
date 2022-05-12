@@ -16,7 +16,7 @@ const {
   getMostRelevantSkillId,
   main,
 } = require('../../../scripts/fill-skill-id-in-user-saved-tutorials');
-const UserSavedTutorial = require('../../../lib/domain/models/UserSavedTutorial');
+const { UserSavedTutorial } = require('../../../lib/domain/models/UserSavedTutorial');
 const UserSavedTutorialWithTutorial = require('../../../lib/domain/models/UserSavedTutorialWithTutorial');
 const KnowledgeElement = require('../../../lib/domain/models/KnowledgeElement');
 
