@@ -83,6 +83,25 @@ describe('Unit | Router | membership-router', function () {
     });
   });
 
+  describe('POST /api/admin/memberships', function () {
+    it('returns forbidden access if user has CERTIF role', async function () {
+      // given
+      sinon.stub(securityPreHandlers, 'checkUserHasRoleCertif').resolves(true);
+      sinon.stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin').resolves({ source: { errors: {} } });
+      sinon.stub(securityPreHandlers, 'checkUserHasRoleSupport').resolves({ source: { errors: {} } });
+      sinon.stub(securityPreHandlers, 'checkUserHasRoleMetier').resolves({ source: { errors: {} } });
+
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      // when
+      const response = await httpTestServer.request('POST', `/api/admin/memberships`);
+
+      // then
+      expect(response.statusCode).to.equal(403);
+    });
+  });
+
   describe('POST /api/admin/memberships/{id}/disable', function () {
     it('should return 204 if user is Pix Admin', async function () {
       // given
