@@ -159,6 +159,20 @@ module('Acceptance | Organizations | Memberships management', function (hooks) {
         .dom(screen.getByRole('textbox', { name: "Adresse e-mail de l'utilisateur à ajouter" }))
         .hasValue('unexisting@example.com');
     });
+
+    test('should not allow to add a member when user does not have the rights', async function (assert) {
+      // given
+      await authenticateAdminMemberWithRole({ isCertif: true })(server);
+      const organization = this.server.create('organization', {
+        name: 'Aude Javel Company',
+      });
+
+      // when
+      const screen = await visit(`/organizations/${organization.id}`);
+
+      // then
+      assert.dom(screen.queryByText('Ajouter un membre')).doesNotExist();
+    });
   });
 
   module("editing a member's role", function (hooks) {
