@@ -45,6 +45,7 @@
       "quit": "Quitter",
       "sign-out": "Se déconnecter"
     },
+    "error": "Une erreur est survenue. Veuillez recommencer ou contacter le support.",
     "form": {
       "error": "erreur",
       "invisible-password": "cacher le mot de passe",
@@ -1327,6 +1328,16 @@
       },
       "message": "Votre compte Pix est sur le point d’être créé à partir des éléments transmis par Pôle Emploi."
     },
+    "terms-of-service-cnav": {
+      "title": "Conditions d'utilisation",
+      "cgu": "J'accepte les '<a href=\"https://pix.fr/conditions-generales-d-utilisation\" class=\"link\" target=\"_blank\">'conditions d'utilisation'</a> et la '<a href=\"https://pix.fr/politique-protection-donnees-personnelles-app\" class=\"link\" target=\"_blank\">politique de confidentialité'</a> de Pix'",
+      "form": {
+        "button": "Je continue",
+        "error-message": "Vous devez accepter les conditions d’utilisation de Pix.",
+        "expired-authentication-key": "Votre demande d'authentification a expiré, merci de renouveler votre connexion en cliquant sur le bouton retour."
+      },
+      "message": "Votre compte Pix est sur le point d’être créé à partir des éléments transmis par la CNAV."
+    },
     "timed-challenge-instructions": {
       "action": "Commencer",
       "primary": "Vous disposerez de '<span class=\"timed-challenge-instructions__time\">'{time}'</span>' pour réussir la question suivante.",
@@ -1436,7 +1447,8 @@
         "authentication-methods": {
           "label": "Connexion externe",
           "gar": "via ENT/Mediacentre",
-          "pole-emploi": "via Pôle Emploi"
+          "pole-emploi": "via Pôle Emploi",
+          "cnav": "via Cnav"
         }
       },
       "email-verification": {

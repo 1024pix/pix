@@ -4,7 +4,7 @@ const get = require('lodash/get');
 const settings = require('../../config');
 const httpAgent = require('../../infrastructure/http/http-agent');
 
-const { GeneratePoleEmploiTokensError } = require('../errors');
+const { AuthenticationTokenRetrievalError } = require('../errors');
 
 const PoleEmploiTokens = require('../models/PoleEmploiTokens');
 
@@ -41,7 +41,7 @@ async function exchangePoleEmploiCodeForTokens({ code, redirectUri }) {
 
   if (!tokensResponse.isSuccessful) {
     const errorMessage = _getErrorMessage(tokensResponse.data);
-    throw new GeneratePoleEmploiTokensError(errorMessage, tokensResponse.code);
+    throw new AuthenticationTokenRetrievalError(errorMessage, tokensResponse.code);
   }
 
   return new PoleEmploiTokens({

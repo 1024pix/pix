@@ -79,7 +79,6 @@ exports.register = async (server) => {
         tags: ['api', 'authorization-server'],
       },
     },
-
     {
       method: 'POST',
       path: '/api/token/anonymous',
@@ -173,6 +172,27 @@ exports.register = async (server) => {
             "- Elle retournera également un access token Pix correspondant à l'utilisateur.",
         ],
         tags: ['api', 'Pôle emploi'],
+      },
+    },
+    {
+      method: 'POST',
+      path: '/api/cnav/token',
+      config: {
+        auth: false,
+        payload: {
+          allow: 'application/x-www-form-urlencoded',
+        },
+        validate: {
+          payload: Joi.object().required().keys({
+            code: Joi.string().required(),
+            redirect_uri: Joi.string().required(),
+            state_sent: Joi.string().required(),
+            state_received: Joi.string().required(),
+          }),
+        },
+        handler: AuthenticationController.authenticateCnavUser,
+        notes: ["Cette route reçoit l'authentication code de la CNAV et renvoie un access token Pix."],
+        tags: ['api', 'CNAV'],
       },
     },
   ]);

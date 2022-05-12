@@ -119,4 +119,23 @@ buildAuthenticationMethod.withPoleEmploiAsIdentityProvider = function ({
   });
 };
 
+buildAuthenticationMethod.withCnavAsIdentityProvider = function ({
+  id,
+  externalIdentifier = `externalId${id}`,
+  userId,
+  createdAt = new Date('2020-01-01'),
+  updatedAt = new Date('2020-02-01'),
+} = {}) {
+  userId = isUndefined(userId) ? _buildUser().id : userId;
+
+  return new AuthenticationMethod({
+    id,
+    identityProvider: AuthenticationMethod.identityProviders.CNAV,
+    externalIdentifier,
+    userId,
+    createdAt,
+    updatedAt,
+  });
+};
+
 module.exports = buildAuthenticationMethod;

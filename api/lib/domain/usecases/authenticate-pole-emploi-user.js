@@ -1,6 +1,6 @@
 const moment = require('moment');
 
-const { UnexpectedPoleEmploiStateError, UnexpectedUserAccountError } = require('../errors');
+const { UnexpectedOidcStateError, UnexpectedUserAccountError } = require('../errors');
 const AuthenticationMethod = require('../models/AuthenticationMethod');
 const logger = require('../../infrastructure/logger');
 
@@ -18,7 +18,7 @@ module.exports = async function authenticatePoleEmploiUser({
 }) {
   if (stateSent !== stateReceived) {
     logger.error(`State sent ${stateSent} did not match the state received ${stateReceived}`);
-    throw new UnexpectedPoleEmploiStateError();
+    throw new UnexpectedOidcStateError();
   }
 
   const poleEmploiTokens = await authenticationService.exchangePoleEmploiCodeForTokens({ code, redirectUri });
@@ -43,7 +43,10 @@ module.exports = async function authenticatePoleEmploiUser({
       tokenService,
     });
   } else {
-    const user = await userRepository.findByPoleEmploiExternalIdentifier(userInfo.externalIdentityId);
+    const user = await userRepository.findByExternalIdentifier({
+      externalIdentityId: userInfo.externalIdentityId,
+      identityProvider: AuthenticationMethod.identityProviders.POLE_EMPLOI,
+    });
 
     if (!user) {
       const authenticationKey = await poleEmploiTokensRepository.save(poleEmploiTokens);

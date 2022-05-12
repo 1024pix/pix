@@ -181,8 +181,8 @@ class NoStagesForCampaign extends DomainError {
   }
 }
 
-class AuthenticationKeyForPoleEmploiTokenExpired extends DomainError {
-  constructor(message = 'This authentication key for pole emploi token has expired.') {
+class AuthenticationKeyExpired extends DomainError {
+  constructor(message = 'This authentication key has expired.') {
     super(message);
   }
 }
@@ -954,11 +954,11 @@ class NotImplementedError extends Error {
   }
 }
 
-class GeneratePoleEmploiTokensError extends DomainError {
+class AuthenticationTokenRetrievalError extends DomainError {
   constructor(message, status) {
     super(message);
     this.status = parseInt(status, 10);
-    this.title = 'Pole emploi tokens generation fails.';
+    this.title = 'Erreur lors de la récupération des tokens du partenaire.';
   }
 }
 
@@ -974,7 +974,7 @@ class TooManyRows extends DomainError {
   }
 }
 
-class UnexpectedPoleEmploiStateError extends DomainError {
+class UnexpectedOidcStateError extends DomainError {
   constructor(message = 'La valeur du paramètre state reçu ne correspond pas à celui envoyé.') {
     super(message);
   }
@@ -1107,7 +1107,8 @@ module.exports = {
   AssessmentResultNotCreatedError,
   AuthenticationMethodNotFoundError,
   AuthenticationMethodAlreadyExistsError,
-  AuthenticationKeyForPoleEmploiTokenExpired,
+  AuthenticationKeyExpired,
+  AuthenticationTokenRetrievalError,
   UncancellableOrganizationInvitationError,
   CampaignCodeError,
   CampaignParticipationDeletedError,
@@ -1149,7 +1150,6 @@ module.exports = {
   EntityValidationError,
   FileValidationError,
   ForbiddenAccess,
-  GeneratePoleEmploiTokensError,
   ImproveCompetenceEvaluationForbiddenError,
   InvalidCertificationCandidate,
   InvalidCertificationReportForFinalization,
@@ -1204,7 +1204,7 @@ module.exports = {
   TargetProfileInvalidError,
   TargetProfileCannotBeCreated,
   TooManyRows,
-  UnexpectedPoleEmploiStateError,
+  UnexpectedOidcStateError,
   UnexpectedUserAccountError,
   UnknownCountryForStudentEnrollmentError,
   UserAlreadyExistsWithAuthenticationMethodError,

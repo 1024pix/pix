@@ -5,6 +5,7 @@ const identityProviders = {
   PIX: 'PIX',
   GAR: 'GAR',
   POLE_EMPLOI: 'POLE_EMPLOI',
+  CNAV: 'CNAV',
 };
 
 class PixAuthenticationComplement {
@@ -63,11 +64,13 @@ const validationSchema = Joi.object({
     { is: identityProviders.PIX, then: Joi.object().instance(PixAuthenticationComplement).required() },
     { is: identityProviders.POLE_EMPLOI, then: Joi.object().instance(PoleEmploiAuthenticationComplement).required() },
     { is: identityProviders.GAR, then: Joi.any().empty() },
+    { is: identityProviders.CNAV, then: Joi.any().empty() },
   ]),
   externalIdentifier: Joi.when('identityProvider', [
     { is: identityProviders.GAR, then: Joi.string().required() },
     { is: identityProviders.POLE_EMPLOI, then: Joi.string().required() },
     { is: identityProviders.PIX, then: Joi.any().forbidden() },
+    { is: identityProviders.CNAV, then: Joi.string().required() },
   ]),
   userId: Joi.number().integer().required(),
   createdAt: Joi.date().optional(),

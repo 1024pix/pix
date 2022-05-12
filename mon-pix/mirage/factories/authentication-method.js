@@ -10,4 +10,7 @@ export default Factory.extend({
   withPoleEmploiIdentityProvider: trait({
     identityProvider: 'POLE_EMPLOI',
   }),
+  withCnavIdentityProvider: trait({
+    identityProvider: 'CNAV',
+  }),
 });

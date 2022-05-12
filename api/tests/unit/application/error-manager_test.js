@@ -5,7 +5,7 @@ const {
   AlreadyRegisteredEmailAndUsernameError,
   AlreadyRegisteredEmailError,
   AlreadyRegisteredUsernameError,
-  AuthenticationKeyForPoleEmploiTokenExpired,
+  AuthenticationKeyExpired,
   EntityValidationError,
   InvalidExternalAPIResponseError,
   MissingOrInvalidCredentialsError,
@@ -263,9 +263,9 @@ describe('Unit | Application | ErrorManager', function () {
       expect(HttpErrors.UnauthorizedError).to.have.been.calledWithExactly(error.message);
     });
 
-    it('should instantiate UnauthorizedError when AuthenticationKeyForPoleEmploiTokenExpired', async function () {
+    it('should instantiate UnauthorizedError when AuthenticationKeyExpired', async function () {
       // given
-      const error = new AuthenticationKeyForPoleEmploiTokenExpired();
+      const error = new AuthenticationKeyExpired();
       sinon.stub(HttpErrors, 'UnauthorizedError');
       const params = { request: {}, h: hFake, error };
 
