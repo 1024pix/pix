@@ -1,0 +1,12 @@
+{
+    "extends": "@tsconfig/node16/tsconfig.json",
+    "ts-node": {
+        "files": true,
+        "compilerOptions": {
+            "esModuleInterop": true,
+            "allowJs": true,
+            "resolveJsonModule": true,
+            "strict": false,
+        }
+    }
+}
