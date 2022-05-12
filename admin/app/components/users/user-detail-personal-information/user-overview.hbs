@@ -140,17 +140,19 @@
       </div>
     </section>
     <div class="col-md-4 form-actions">
-      <PixButton
-        @size="small"
-        @backgroundColor="transparent-light"
-        @isBorderVisible={{true}}
-        @triggerAction={{this.changeEditionMode}}
-      >
-        Modifier
-      </PixButton>
-      <PixButton @size="small" @backgroundColor="red" @triggerAction={{@toggleDisplayAnonymizeModal}}>
-        Anonymiser cet utilisateur
-      </PixButton>
+      {{#if this.accessControl.hasAccessToUsersActionsScope}}
+        <PixButton
+          @size="small"
+          @backgroundColor="transparent-light"
+          @isBorderVisible={{true}}
+          @triggerAction={{this.changeEditionMode}}
+        >
+          Modifier
+        </PixButton>
+        <PixButton @size="small" @backgroundColor="red" @triggerAction={{@toggleDisplayAnonymizeModal}}>
+          Anonymiser cet utilisateur
+        </PixButton>
+      {{/if}}
     </div>
   </form>
 {{/if}}
