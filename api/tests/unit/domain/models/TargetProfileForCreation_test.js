@@ -45,6 +45,23 @@ describe('Unit | Domain | Models | TargetProfileForUpdate', function () {
       });
     });
 
+    context('when the image url is null', function () {
+      it('set a value by default', function () {
+        const targetProfile = new TargetProfileForCreation({
+          name: 'name',
+          category: TargetProfile.categories.OTHER,
+          skillIds: [1],
+          description: 'description',
+          comment: 'comment',
+          isPublic: true,
+          imageUrl: null,
+          ownerOrganizationId: 1,
+        });
+
+        expect(targetProfile.imageUrl).to.eq('https://images.pix.fr/profil-cible/Illu_GEN.svg');
+      });
+    });
+
     context('when the category is not given', function () {
       it('set a value by default', function () {
         const targetProfile = new TargetProfileForCreation({
