@@ -74,6 +74,19 @@ class ComplementaryCertificationCourseResultsForJuryCertificationWithExternal {
     });
   }
 
+  get pixResult() {
+    if (!this.pixSection.isEvaluated) return null;
+    if (!this.pixSection.acquired) return 'Rejetée';
+    return pixEduCertificationLabels[this.pixSection.partnerKey];
+  }
+
+  get externalResult() {
+    if (!this.pixSection.acquired) return '-';
+    if (!this.externalSection.isEvaluated) return 'En attente';
+    if (!this.externalSection.acquired) return 'Rejetée';
+    return pixEduCertificationLabels[this.externalSection.partnerKey];
+  }
+
   get finalResult() {
     if (!this.pixSection.acquired) return 'Rejetée';
     if (!this.externalSection.isEvaluated) return 'En attente volet jury';
