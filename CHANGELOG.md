@@ -1,5 +1,28 @@
 # Pix Changelog
 
+## v3.209.0 (12/05/2022)
+
+
+### :rocket: Amélioration
+- [#4318](https://github.com/1024pix/pix/pull/4318) [FEATURE] Supprimer une participation depuis Pix Orga quand on est un admin ou propriétaire de la campagne (Pix-4578)
+- [#4424](https://github.com/1024pix/pix/pull/4424) [FEATURE] Modification des titres de boutons d'action des cartes tutos (PIX-4921).
+- [#4414](https://github.com/1024pix/pix/pull/4414) [FEATURE] Modifier le message d'erreur affiché lorsqu'un élève tente de rentrer en session avec le mauvais compte (PIX-4879).
+
+### :building_construction: Tech
+- [#4137](https://github.com/1024pix/pix/pull/4137) [TECH] Migrer la colonne Answer.id de INTEGER en BIG INTEGER (Partie 6)
+- [#4135](https://github.com/1024pix/pix/pull/4135) [TECH] Migrer la colonne Answer.id de INTEGER en BIG INTEGER (Partie 5)
+- [#4134](https://github.com/1024pix/pix/pull/4134) [TECH] Migrer la colonne Answer.id de INTEGER en BIG INTEGER (Partie 4)
+
+### :bug: Correction
+- [#4431](https://github.com/1024pix/pix/pull/4431) [BUGFIX] Il n'y a plus d'image par défaut pour les profils cible (PIX-4940).
+- [#4415](https://github.com/1024pix/pix/pull/4415) [BUGFIX] Réparer les filtres sur la page liste des membres d'une organisation(PIX-4849) 
+- [#4419](https://github.com/1024pix/pix/pull/4419) [BUGFIX] Corriger le bouton d'assignation à une session
+- [#4421](https://github.com/1024pix/pix/pull/4421) [BUGFIX] Afficher correctement les acquis dans les résultats thématiques (PIX-4932).
+- [#4381](https://github.com/1024pix/pix/pull/4381) [BUGFIX] Corriger le script de rattachement de profils cibles (PIX-4866)
+
+### :coffee: Autre
+- [#4422](https://github.com/1024pix/pix/pull/4422) [DOC] Correction du format de la variable d'environnement ADDITIONAL_NGINX_LOGS dans la documentation
+
 ## v3.208.0 (10/05/2022)
 
 
