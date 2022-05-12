@@ -19,30 +19,9 @@ module.exports = {
   },
 
   async save({ complementaryCertificationCourseId, partnerKey, acquired, source }) {
-    const existingComplementaryCertificationCourseResult = await knex('complementary-certification-course-results')
-      .where({
-        complementaryCertificationCourseId,
-        source,
-      })
-      .first();
-
-    if (existingComplementaryCertificationCourseResult) {
-      return knex('complementary-certification-course-results')
-        .where({
-          complementaryCertificationCourseId,
-          source,
-        })
-        .update({
-          partnerKey,
-          acquired,
-        });
-    }
-
-    return knex('complementary-certification-course-results').insert({
-      complementaryCertificationCourseId,
-      partnerKey,
-      acquired,
-      source,
-    });
+    return knex('complementary-certification-course-results')
+      .insert({ partnerKey, acquired, complementaryCertificationCourseId, source })
+      .onConflict(['complementaryCertificationCourseId', 'source'])
+      .merge();
   },
 };

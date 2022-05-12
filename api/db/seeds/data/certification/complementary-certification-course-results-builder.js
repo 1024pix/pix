@@ -1,10 +1,15 @@
 const Badge = require('../../../../lib/domain/models/Badge');
-const { CERTIFICATION_COURSE_SUCCESS_ID, CERTIFICATION_COURSE_FAILURE_ID } = require('./certification-courses-builder');
+const {
+  CERTIFICATION_COURSE_SUCCESS_ID,
+  CERTIFICATION_COURSE_FAILURE_ID,
+  CERTIFICATION_COURSE_EDU_ID,
+} = require('./certification-courses-builder');
 const { PIX_DROIT_MAITRE_BADGE_ID } = require('../badges-builder');
 const { CERTIF_DROIT_USER5_ID } = require('./users');
 const {
   CLEA_COMPLEMENTARY_CERTIFICATION_ID,
   PIX_DROIT_COMPLEMENTARY_CERTIFICATION_ID,
+  PIX_EDU_COMPLEMENTARY_CERTIFICATION_ID,
 } = require('./certification-centers-builder');
 
 function complementaryCertificationCourseResultsBuilder({ databaseBuilder }) {
@@ -13,12 +18,12 @@ function complementaryCertificationCourseResultsBuilder({ databaseBuilder }) {
     userId: CERTIF_DROIT_USER5_ID,
     campaignParticipationId: null,
   });
-  const { id: complementaryCertifCourseSuccessId } = databaseBuilder.factory.buildComplementaryCertificationCourse({
+  const { id: complementaryCertifCourseSuccessCleaId } = databaseBuilder.factory.buildComplementaryCertificationCourse({
     certificationCourseId: CERTIFICATION_COURSE_SUCCESS_ID,
     complementaryCertificationId: CLEA_COMPLEMENTARY_CERTIFICATION_ID,
   });
   databaseBuilder.factory.buildComplementaryCertificationCourseResult({
-    complementaryCertificationCourseId: complementaryCertifCourseSuccessId,
+    complementaryCertificationCourseId: complementaryCertifCourseSuccessCleaId,
     acquired: true,
     partnerKey: Badge.keys.PIX_EMPLOI_CLEA_V3,
   });
@@ -33,15 +38,16 @@ function complementaryCertificationCourseResultsBuilder({ databaseBuilder }) {
     partnerKey: Badge.keys.PIX_EMPLOI_CLEA_V3,
   });
 
+  const { id: complementaryCertifCourseSuccessDroitId } = databaseBuilder.factory.buildComplementaryCertificationCourse(
+    {
+      certificationCourseId: CERTIFICATION_COURSE_SUCCESS_ID,
+      complementaryCertificationId: PIX_DROIT_COMPLEMENTARY_CERTIFICATION_ID,
+    }
+  );
   databaseBuilder.factory.buildComplementaryCertificationCourseResult({
-    complementaryCertificationCourseId: complementaryCertifCourseSuccessId,
+    complementaryCertificationCourseId: complementaryCertifCourseSuccessDroitId,
     acquired: true,
     partnerKey: Badge.keys.PIX_DROIT_MAITRE_CERTIF,
-  });
-
-  databaseBuilder.factory.buildComplementaryCertificationCourse({
-    certificationCourseId: CERTIFICATION_COURSE_SUCCESS_ID,
-    complementaryCertificationId: PIX_DROIT_COMPLEMENTARY_CERTIFICATION_ID,
   });
 }
 
