@@ -370,11 +370,11 @@ module.exports = {
     }
   },
 
-  async findByPoleEmploiExternalIdentifier(externalIdentityId) {
+  async findByExternalIdentifier({ externalIdentityId, identityProvider }) {
     const bookshelfUser = await BookshelfUser.query((qb) => {
       qb.innerJoin('authentication-methods', function () {
         this.on('users.id', 'authentication-methods.userId')
-          .andOnVal('authentication-methods.identityProvider', AuthenticationMethod.identityProviders.POLE_EMPLOI)
+          .andOnVal('authentication-methods.identityProvider', identityProvider)
           .andOnVal('authentication-methods.externalIdentifier', externalIdentityId);
       });
     }).fetch({ require: false, withRelated: 'authenticationMethods' });

@@ -50,6 +50,11 @@ module.exports = {
     FRENCH_FRANCE: 'fr-fr',
     FRENCH_SPOKEN: 'fr',
   },
+
+  SOURCE: {
+    CNAV: 'cnav',
+  },
+
   STUDENT_RECONCILIATION_ERRORS: {
     RECONCILIATION: {
       IN_OTHER_ORGANIZATION: {

@@ -45,6 +45,7 @@
       "quit": "Exit",
       "sign-out": "Sign out"
     },
+    "error": "An error has occured. Please try again or contact the support.",
     "form": {
       "error": "error",
       "invisible-password": "Hide password",
@@ -1327,6 +1328,16 @@
       },
       "message": ""
     },
+    "terms-of-service-cnav": {
+      "title": "Terms and conditions of use",
+      "cgu": "I agree to the '<a href=\"https://pix.org/en-gb/terms-and-conditions\" class=\"link\" target=\"_blank\">'terms and conditions of use of the Pix platform'</a>'",
+      "form": {
+        "button": "Continue",
+        "error-message": "Please agree to the terms and conditions of use.",
+        "expired-authentication-key": "Your authentication demand has expired. Please click to back button to log in"
+      },
+      "message": ""
+    },
     "timed-challenge-instructions": {
       "action": "Start",
       "primary": "You have '<span class=\"timed-challenge-instructions__time\">'{time}'</span>' to complete the next question.",
@@ -1436,7 +1447,8 @@
         "authentication-methods": {
           "label": "External login",
           "gar": "ENT/Mediacentre",
-          "pole-emploi": "Pôle Emploi"
+          "pole-emploi": "Pôle Emploi",
+          "cnav": "Cnav"
         }
       },
       "email-verification": {

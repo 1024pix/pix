@@ -45,7 +45,7 @@ class UserToCreate {
     });
   }
 
-  static createFromPoleEmploi(user) {
+  static createWithTermsOfServiceAccepted(user) {
     const now = new Date();
     return new UserToCreate({
       ...user,

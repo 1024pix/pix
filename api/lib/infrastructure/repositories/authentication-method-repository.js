@@ -6,18 +6,16 @@ const { AlreadyExistingEntityError, AuthenticationMethodNotFoundError } = requir
 const AuthenticationMethod = require('../../domain/models/AuthenticationMethod');
 
 function _toDomain(authenticationMethodDTO) {
-  const externalIdentifier =
-    authenticationMethodDTO.identityProvider === AuthenticationMethod.identityProviders.GAR ||
-    authenticationMethodDTO.identityProvider === AuthenticationMethod.identityProviders.POLE_EMPLOI
-      ? authenticationMethodDTO.externalIdentifier
-      : undefined;
+  if (authenticationMethodDTO.identityProvider === AuthenticationMethod.identityProviders.PIX) {
+    authenticationMethodDTO.externalIdentifier = undefined;
+  }
   const authenticationComplement = _toAuthenticationComplement(
     authenticationMethodDTO.identityProvider,
     authenticationMethodDTO.authenticationComplement
   );
   return new AuthenticationMethod({
     ...authenticationMethodDTO,
-    externalIdentifier,
+    externalIdentifier: authenticationMethodDTO.externalIdentifier,
     authenticationComplement,
   });
 }

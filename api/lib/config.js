@@ -204,6 +204,21 @@ module.exports = (function () {
       accessTokenLifespanMs: ms(process.env.POLE_EMPLOI_ACCESS_TOKEN_LIFESPAN || '7d'),
     },
 
+    cnav: {
+      clientId: process.env.CNAV_CLIENT_ID,
+      authUrl: process.env.CNAV_AUTHENTICATION_URL,
+      tokenUrl: process.env.CNAV_TOKEN_URL,
+      clientSecret: process.env.CNAV_CLIENT_SECRET,
+      accessTokenLifespanMs: ms(process.env.CNAV_ACCESS_TOKEN_LIFESPAN || '7d'),
+    },
+
+    authenticationSession: {
+      temporaryStorage: {
+        expirationDelaySeconds:
+          parseInt(process.env.AUTHENTICATION_SESSION_TEMPORARY_STORAGE_EXP_DELAY_SECONDS, 10) || 1140,
+      },
+    },
+
     temporaryStorage: {
       expirationDelaySeconds: parseInt(process.env.TEMPORARY_STORAGE_EXPIRATION_DELAY_SECONDS, 10) || 600,
       redisUrl: process.env.REDIS_URL,
@@ -283,6 +298,11 @@ module.exports = (function () {
     config.poleEmploi.sendingUrl = 'http://sendingUrl.fr';
     config.poleEmploi.userInfoUrl = 'http://userInfoUrl.fr';
     config.poleEmploi.authUrl = 'http://authurl.fr';
+
+    config.cnav.clientId = 'PIX_CNAV_CLIENT_ID';
+    config.cnav.authUrl = 'http://idp.cnav/auth';
+    config.cnav.tokenUrl = 'http://idp.cnav/token';
+    config.cnav.clientSecret = 'PIX_CNAV_CLIENT_SECRET';
 
     config.saml.accessTokenLifespanMs = 1000;
 

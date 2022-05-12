@@ -69,7 +69,7 @@ function _mapToHttpError(error) {
   if (error instanceof DomainErrors.MissingAttributesError) {
     return new HttpErrors.UnprocessableEntityError(error.message);
   }
-  if (error instanceof DomainErrors.AuthenticationKeyForPoleEmploiTokenExpired) {
+  if (error instanceof DomainErrors.AuthenticationKeyExpired) {
     return new HttpErrors.UnauthorizedError(error.message);
   }
   if (error instanceof DomainErrors.AuthenticationMethodAlreadyExistsError) {
@@ -123,7 +123,7 @@ function _mapToHttpError(error) {
   if (error instanceof DomainErrors.CampaignCodeError) {
     return new HttpErrors.NotFoundError(error.message);
   }
-  if (error instanceof DomainErrors.GeneratePoleEmploiTokensError) {
+  if (error instanceof DomainErrors.AuthenticationTokenRetrievalError) {
     return new HttpErrors.InternalServerError(error.message, error.title);
   }
   if (error instanceof DomainErrors.UserAlreadyExistsWithAuthenticationMethodError) {
@@ -374,7 +374,7 @@ function _mapToHttpError(error) {
     return new HttpErrors.BadRequestError(error.message);
   }
 
-  if (error instanceof DomainErrors.UnexpectedPoleEmploiStateError) {
+  if (error instanceof DomainErrors.UnexpectedOidcStateError) {
     return new HttpErrors.BadRequestError(error.message);
   }
 

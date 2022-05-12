@@ -129,4 +129,31 @@ buildAuthenticationMethod.withPoleEmploiAsIdentityProvider = function ({
   });
 };
 
+buildAuthenticationMethod.withCnavAsIdentityProvider = function ({
+  id = databaseBuffer.getNextId(),
+  externalIdentifier,
+  userId,
+  createdAt = new Date('2020-01-01'),
+  updatedAt = new Date('2020-01-02'),
+} = {}) {
+  userId = isUndefined(userId) ? buildUser().id : userId;
+
+  let generatedIdentifier = externalIdentifier;
+  if (!generatedIdentifier) {
+    generatedIdentifier = `externalIdentifier-${id}`;
+  }
+  const values = {
+    id,
+    identityProvider: AuthenticationMethod.identityProviders.CNAV,
+    externalIdentifier: generatedIdentifier,
+    userId,
+    createdAt,
+    updatedAt,
+  };
+  return databaseBuffer.pushInsertable({
+    tableName: 'authentication-methods',
+    values,
+  });
+};
+
 module.exports = buildAuthenticationMethod;
