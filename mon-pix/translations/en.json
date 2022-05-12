@@ -137,7 +137,6 @@
         "existing-participation": "You cannot take this customised test.",
         "existing-participation-user-info": "There is already a participation associated with the name ",
         "existing-participation-info": "Please contact your teacher so that they can delete your previous participation in Pix Orga."
-
       }
     },
     "campaign-landing": {
@@ -1496,34 +1495,28 @@
           "actions": {
             "evaluate": {
               "extra-information": "Mark this tutorial as helpful",
-              "label": "This tutorial was useful to me"
+              "label": "This tutorial was helpful to me"
             },
             "remove": {
-              "extra-information": "Remove from my list of tutorials",
-              "label": "Remove"
+              "label": "Remove from my saved tutorials"
             },
             "save": {
-              "extra-information": "Save in my list of tutorials",
-              "label": "Save"
+              "label": "Add to my saved tutorials"
             }
           },
           "source": "By"
         }
-      }
-    },
-    "user-tutorials-v2": {
-      "title": "My tutorials",
-      "description": "Improve with the help of tutorials suggested by the Pix users’ community.",
-      "recommended": "Recommended",
-      "saved": "Saved",
-      "saved-empty": {
-        "title": "No tutorials saved yet",
-        "description": "You need to save a tutorial for it to be displayed here."
       },
+      "recommended": "Recommended",
       "recommended-empty": {
         "title": "{firstName}, find your favorite tutorials here",
         "description": "To get tutorials recommendations adapted to your level, you must start a test.",
         "link": "Let's go"
+      },
+      "saved": "Saved",
+      "saved-empty": {
+        "title": "No tutorials saved yet",
+        "description": "You need to save a tutorial for it to be displayed here."
       }
     }
   }
