@@ -24,11 +24,7 @@ module('Acceptance | Organizations | Memberships management', function (hooks) {
     assert.strictEqual(currentURL(), `/organizations/${organization.id}/team`);
   });
 
-  module('listing members', function (hooks) {
-    hooks.beforeEach(async function () {
-      server.createList('membership', 12);
-    });
-
+  module('listing members', function () {
     test('it should display the current filter when memberships are filtered by firstName', async function (assert) {
       // when
       const screen = await visit(`/organizations/${organization.id}/team?firstName=sav`);
@@ -37,7 +33,7 @@ module('Acceptance | Organizations | Memberships management', function (hooks) {
       assert.dom(screen.getByRole('textbox', { name: 'Rechercher par prénom' })).hasValue('sav');
     });
 
-    test('it should display the current filter when organizations are filtered by lastName', async function (assert) {
+    test('it should display the current filter when memberships are filtered by lastName', async function (assert) {
       // when
       const screen = await visit(`/organizations/${organization.id}/team?lastName=tro`);
 
@@ -45,20 +41,12 @@ module('Acceptance | Organizations | Memberships management', function (hooks) {
       assert.dom(screen.getByRole('textbox', { name: 'Rechercher par nom' })).hasValue('tro');
     });
 
-    test('it should display the current filter when organizations are filtered by email', async function (assert) {
+    test('it should display the current filter when memberships are filtered by email', async function (assert) {
       // when
       const screen = await visit(`/organizations/${organization.id}/team?email=fri`);
 
       // then
       assert.dom(screen.getByRole('textbox', { name: 'Rechercher par adresse e-mail' })).hasValue('fri');
-    });
-
-    test('it should display the current filter when organizations are filtered by role', async function (assert) {
-      // when
-      const screen = await visit(`/organizations/${organization.id}/team?organizationRole=ADMIN`);
-
-      // then
-      assert.dom(screen.getByRole('combobox', { name: 'Rechercher par rôle' })).hasValue('ADMIN');
     });
 
     test('it should redirect to user details on user id click', async function (assert) {
@@ -74,6 +62,36 @@ module('Acceptance | Organizations | Memberships management', function (hooks) {
 
       // then
       assert.strictEqual(currentURL(), '/users/2');
+    });
+  });
+
+  module('filtering by role', function (hooks) {
+    let user;
+    hooks.beforeEach(async function () {
+      user = this.server.create('user', { firstName: 'John', lastName: 'Doe', email: 'user@example.com' });
+      this.server.create('membership', { organizationRole: 'ADMIN', user, organization });
+      user = this.server.create('user', { firstName: 'Jane', lastName: 'Doe', email: 'user2@example.com' });
+      this.server.create('membership', { organizationRole: 'MEMBER', user, organization });
+    });
+
+    test('it should list all memberships when all is selected', async function (assert) {
+      // when
+      const screen = await visit(`/organizations/${organization.id}/team`);
+
+      // then
+      assert.dom(screen.getByRole('combobox', { name: 'Rechercher par rôle' })).hasValue('');
+      assert.dom(screen.getByText('user@example.com')).exists();
+      assert.dom(screen.queryByText('user2@example.com')).exists();
+    });
+
+    test('it should filter memberships by role when a role selected', async function (assert) {
+      // when
+      const screen = await visit(`/organizations/${organization.id}/team?organizationRole=ADMIN`);
+
+      // then
+      assert.dom(screen.getByRole('combobox', { name: 'Rechercher par rôle' })).hasValue('ADMIN');
+      assert.dom(screen.getByText('user@example.com')).exists();
+      assert.dom(screen.queryByText('user2@example.com')).doesNotExist();
     });
   });
 

@@ -17,7 +17,6 @@
           </tr>
           <tr>
             <td class="table__column"></td>
-            <td class="table__column"></td>
             <td class="table__column table__column--wide">
               <input
                 id="firstName"
@@ -48,16 +47,16 @@
                 class="table-admin-input form-control"
               />
             </td>
-            <th class="table__column">
+            <td class="table__column">
               <PixSelect
                 id="organizationRole"
                 @options={{this.options}}
                 @selectedOption={{@organizationRole}}
-                @onChange={{this.selectRole}}
+                @onChange={{@selectRoleForSearch}}
                 @emptyOptionLabel="Tous"
                 aria-label="Rechercher par rôle"
               />
-            </th>
+            </td>
             <td class="table__column"></td>
           </tr>
         </thead>
