@@ -1,7 +1,7 @@
 const { sinon, expect, catchErr, hFake } = require('../../../test-helper');
 const tokenService = require('../../../../lib/domain/services/token-service');
 const usecases = require('../../../../lib/domain/usecases');
-const PoleEmploiTokens = require('../../../../lib/domain/models/PoleEmploiTokens');
+const AuthenticationSessionContent = require('../../../../lib/domain/models/AuthenticationSessionContent.js');
 
 const { UnauthorizedError } = require('../../../../lib/application/http-errors');
 
@@ -113,7 +113,7 @@ describe('Unit | Application | Controller | Authentication', function () {
     const state_received = 'state';
 
     const pixAccessToken = 'pixAccessToken';
-    const poleEmploiTokens = new PoleEmploiTokens({
+    const poleEmploiAuthenticationSessionContent = new AuthenticationSessionContent({
       accessToken: 'poleEmploiAccessToken',
       expiresIn: 60,
       idToken: 'idToken',
@@ -137,7 +137,7 @@ describe('Unit | Application | Controller | Authentication', function () {
 
     it('should call usecase with payload parameters', async function () {
       // given
-      usecases.authenticatePoleEmploiUser.resolves({ pixAccessToken, poleEmploiTokens });
+      usecases.authenticatePoleEmploiUser.resolves({ pixAccessToken, poleEmploiAuthenticationSessionContent });
       const expectedParameters = {
         authenticatedUserId: undefined,
         code,
@@ -155,10 +155,10 @@ describe('Unit | Application | Controller | Authentication', function () {
 
     it('should return PIX access token and Pole emploi ID token', async function () {
       // given
-      usecases.authenticatePoleEmploiUser.resolves({ pixAccessToken, poleEmploiTokens });
+      usecases.authenticatePoleEmploiUser.resolves({ pixAccessToken, poleEmploiAuthenticationSessionContent });
       const expectedResult = {
         access_token: pixAccessToken,
-        id_token: poleEmploiTokens.idToken,
+        id_token: poleEmploiAuthenticationSessionContent.idToken,
       };
 
       // when

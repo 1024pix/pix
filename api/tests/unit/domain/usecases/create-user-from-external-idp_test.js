@@ -64,13 +64,15 @@ describe('Unit | UseCase | create-user-from-external-idp', function () {
       // given
       const authenticationKey = 'authenticationKey';
       const poleEmploiIdentityProvider = AuthenticationMethod.identityProviders.POLE_EMPLOI;
-      const poleEmploiTokens = {
+      const poleEmploiAuthenticationSessionContent = {
         accessToken: 'accessToken',
         idToken: 'idToken',
         expiresIn: 10,
         refreshToken: 'refreshToken',
       };
-      authenticationSessionService.getByKey.withArgs(authenticationKey).resolves(poleEmploiTokens);
+      authenticationSessionService.getByKey
+        .withArgs(authenticationKey)
+        .resolves(poleEmploiAuthenticationSessionContent);
 
       authenticationServiceRegistry.lookupAuthenticationService
         .withArgs(poleEmploiIdentityProvider)
@@ -82,7 +84,9 @@ describe('Unit | UseCase | create-user-from-external-idp', function () {
         externalIdentityId: 'externalIdentityId',
         nonce: 'nonce',
       };
-      poleEmploiAuthenticationService.getUserInfo.withArgs(poleEmploiTokens).resolves(decodedUserInfo);
+      poleEmploiAuthenticationService.getUserInfo
+        .withArgs(poleEmploiAuthenticationSessionContent)
+        .resolves(decodedUserInfo);
 
       authenticationMethodRepository.findOneByExternalIdentifierAndIdentityProvider
         .withArgs({
@@ -110,7 +114,7 @@ describe('Unit | UseCase | create-user-from-external-idp', function () {
       };
       expect(poleEmploiAuthenticationService.createUserAccount).to.have.been.calledWithMatch({
         user: expectedUser,
-        sessionContent: poleEmploiTokens,
+        sessionContent: poleEmploiAuthenticationSessionContent,
         externalIdentityId: decodedUserInfo.externalIdentityId,
         authenticationMethodRepository,
         userToCreateRepository,
@@ -120,13 +124,13 @@ describe('Unit | UseCase | create-user-from-external-idp', function () {
     it('should raise an error and log details if required properties are not returned by Pole Emploi external API', async function () {
       // given
       const authenticationKey = 'authenticationKey';
-      const poleEmploiTokens = {
+      const poleEmploiAuthenticationSessionContent = {
         accessToken: 'accessToken',
         idToken: 'idToken',
         expiresIn: 10,
         refreshToken: 'refreshToken',
       };
-      authenticationSessionService.getByKey.resolves(poleEmploiTokens);
+      authenticationSessionService.getByKey.resolves(poleEmploiAuthenticationSessionContent);
       authenticationServiceRegistry.lookupAuthenticationService.resolves(poleEmploiAuthenticationService);
 
       const decodedUserInfo = {

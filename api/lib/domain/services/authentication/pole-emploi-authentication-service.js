@@ -2,7 +2,7 @@ const settings = require('../../../config');
 const httpAgent = require('../../../infrastructure/http/http-agent');
 const querystring = require('querystring');
 const { AuthenticationTokensRecoveryError } = require('../../errors');
-const PoleEmploiTokens = require('../../models/PoleEmploiTokens');
+const AuthenticationSessionContent = require('../../models/AuthenticationSessionContent.js');
 const { v4: uuidv4 } = require('uuid');
 const jsonwebtoken = require('jsonwebtoken');
 const DomainTransaction = require('../../../infrastructure/DomainTransaction');
@@ -29,7 +29,7 @@ async function exchangeCodeForTokens({ code, redirectUri }) {
     throw new AuthenticationTokensRecoveryError(errorMessage, tokensResponse.code);
   }
 
-  return new PoleEmploiTokens({
+  return new AuthenticationSessionContent({
     accessToken: tokensResponse.data['access_token'],
     idToken: tokensResponse.data['id_token'],
     expiresIn: tokensResponse.data['expires_in'],

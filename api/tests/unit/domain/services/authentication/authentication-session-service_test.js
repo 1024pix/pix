@@ -3,9 +3,9 @@ const authenticationSessionService = require('../../../../../lib/domain/services
 
 describe('Unit | Domain | Services | authentication session', function () {
   describe('#save', function () {
-    it('should save PoleEmploiTokens and return a key', async function () {
+    it('should save sessionContentTokens and return a key', async function () {
       // given
-      const poleEmploiTokens = {
+      const poleEmploiAuthenticationSessionContent = {
         accessToken: 'accessToken',
         idToken: 'idToken',
         expiresIn: 10,
@@ -13,7 +13,7 @@ describe('Unit | Domain | Services | authentication session', function () {
       };
 
       // when
-      const key = await authenticationSessionService.save(poleEmploiTokens);
+      const key = await authenticationSessionService.save(poleEmploiAuthenticationSessionContent);
 
       // then
       expect(key).to.exist;
@@ -21,21 +21,21 @@ describe('Unit | Domain | Services | authentication session', function () {
   });
 
   describe('#getByKey', function () {
-    it('should retrieve the PoleEmploiTokens if it exists', async function () {
+    it('should retrieve the sessionContentTokens if it exists', async function () {
       // given
-      const poleEmploiTokens = {
+      const poleEmploiAuthenticationSessionContent = {
         accessToken: 'accessToken',
         idToken: 'idToken',
         expiresIn: 10,
         refreshToken: 'refreshToken',
       };
-      const key = await authenticationSessionService.save(poleEmploiTokens);
+      const key = await authenticationSessionService.save(poleEmploiAuthenticationSessionContent);
 
       // when
       const result = await authenticationSessionService.getByKey(key);
 
       // then
-      expect(result).to.deep.equal(poleEmploiTokens);
+      expect(result).to.deep.equal(poleEmploiAuthenticationSessionContent);
     });
   });
 });

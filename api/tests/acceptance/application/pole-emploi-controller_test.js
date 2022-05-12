@@ -9,7 +9,7 @@ const {
 } = require('../../test-helper');
 const poleEmploiSendingFactory = databaseBuilder.factory.poleEmploiSendingFactory;
 
-const PoleEmploiTokens = require('../../../lib/domain/models/PoleEmploiTokens');
+const AuthenticationSessionContent = require('../../../lib/domain/models/AuthenticationSessionContent.js');
 const authenticationSessionService = require('../../../lib/domain/services/authentication/authentication-session-service');
 
 const createServer = require('../../../server');
@@ -48,13 +48,13 @@ describe('Acceptance | API | Pole Emploi Controller', function () {
         'secret'
       );
 
-      const poleEmploiTokens = new PoleEmploiTokens({
+      const poleEmploiAuthenticationSessionContent = new AuthenticationSessionContent({
         accessToken: 'accessToken',
         expiresIn: 10,
         idToken,
         refreshToken: 'refreshToken',
       });
-      const userAuthenticationKey = await authenticationSessionService.save(poleEmploiTokens);
+      const userAuthenticationKey = await authenticationSessionService.save(poleEmploiAuthenticationSessionContent);
 
       const request = {
         method: 'POST',
