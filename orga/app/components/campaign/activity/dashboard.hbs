@@ -1,4 +1,9 @@
-<section class="activity-dashboard" ...attributes>
+<section
+  class="activity-dashboard"
+  ...attributes
+  {{did-insert this.fetchDataForParticipationsByStatus}}
+  {{did-update this.fetchDataForParticipationsByStatus @totalParticipations}}
+>
   <div class="activity-dashboard__row">
     <Campaign::Cards::ParticipantsCount
       @value={{this.total}}
@@ -14,6 +19,7 @@
   <div class="activity-dashboard__row">
     <Campaign::Charts::ParticipantsByDay
       @campaignId={{@campaign.id}}
+      @totalParticipations={{@totalParticipations}}
       @isTypeAssessment={{@campaign.isTypeAssessment}}
       class="activity-dashboard__participations-by-day"
     />

@@ -97,6 +97,20 @@ module.exports = {
     return campaignAssessmentParticipationSerializer.serialize(campaignAssessmentParticipation);
   },
 
+  async deleteParticipation(request, h) {
+    const { userId } = request.auth.credentials;
+    const { id, campaignParticipationId } = request.params;
+    await DomainTransaction.execute(async (domainTransaction) => {
+      await usecases.deleteCampaignParticipation({
+        userId,
+        campaignId: id,
+        campaignParticipationId,
+        domainTransaction,
+      });
+    });
+    return h.response({}).code(204);
+  },
+
   async getCampaignAssessmentParticipationResult(request) {
     const { userId } = request.auth.credentials;
     const { campaignId, campaignParticipationId } = request.params;

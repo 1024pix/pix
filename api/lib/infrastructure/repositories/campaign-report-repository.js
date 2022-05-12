@@ -94,6 +94,7 @@ module.exports = {
       .select('masteryRate')
       .where('isImproved', false)
       .andWhere('status', SHARED)
+      .andWhere('deletedAt', null)
       .andWhere({ campaignId });
     return results.map((result) => Number(result.masteryRate));
   },

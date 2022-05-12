@@ -1,6 +1,7 @@
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { inject as service } from '@ember/service';
+import { action } from '@ember/object';
 import moment from 'moment';
 import { TOOLTIP_CONFIG, LEGEND_CONFIG } from '../../ui/chart';
 import locales from 'date-fns/locale';
@@ -16,14 +17,10 @@ export default class ParticipantsByDay extends Component {
 
   @tracked loading = true;
 
-  constructor(...args) {
-    super(...args);
-    const { campaignId } = this.args;
-
-    this.isTypeAssessment = this.args.isTypeAssessment;
+  @action
+  fetchParticipationsByDay() {
     const adapter = this.store.adapterFor('campaign-stats');
-
-    adapter.getParticipationsByDay(campaignId).then((response) => {
+    adapter.getParticipationsByDay(this.args.campaignId).then((response) => {
       const { 'started-participations': startedParticipations, 'shared-participations': sharedParticipations } =
         response.data.attributes;
 
@@ -55,7 +52,7 @@ export default class ParticipantsByDay extends Component {
   }
 
   get labels() {
-    return this.isTypeAssessment ? LABELS_ASSESSMENT : LABELS_PROFILE_COLLECTIONS;
+    return this.args.isTypeAssessment ? LABELS_ASSESSMENT : LABELS_PROFILE_COLLECTIONS;
   }
 
   get data() {
@@ -136,7 +133,7 @@ export default class ParticipantsByDay extends Component {
     let startedLabel = '';
     let sharedLabel = '';
 
-    if (this.isTypeAssessment) {
+    if (this.args.isTypeAssessment) {
       startedLabel = LABELS_ASSESSMENT.started.a11y;
       sharedLabel = LABELS_ASSESSMENT.shared.a11y;
     } else {

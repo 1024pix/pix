@@ -1,22 +1,24 @@
 import { module, test } from 'qunit';
-import { currentURL } from '@ember/test-helpers';
+import { currentURL, click } from '@ember/test-helpers';
 import { clickByName, fillByLabel, visit } from '@1024pix/ember-testing-library';
 import { setupApplicationTest } from 'ember-qunit';
 import authenticateSession from '../helpers/authenticate-session';
 import { createPrescriberByUser, createUserWithMembershipAndTermsOfServiceAccepted } from '../helpers/test-init';
-
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import setupIntl from '../helpers/setup-intl';
 
 module('Acceptance | Campaign Activity', function (hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
+  setupIntl(hooks);
+
   let campaignId;
 
-  hooks.beforeEach(async () => {
+  hooks.beforeEach(async function () {
     const user = createUserWithMembershipAndTermsOfServiceAccepted();
     createPrescriberByUser(user);
     campaignId = 1;
-    server.create('campaign', 'ofTypeAssessment', { id: campaignId, participationsCount: 1 });
+    server.create('campaign', 'ofTypeAssessment', { id: campaignId, participationsCount: 1, ownerId: user.id });
     const campaignAssessmentParticipationResult = server.create(
       'campaign-assessment-participation-result',
       'withCompetenceResults',
@@ -41,14 +43,12 @@ module('Acceptance | Campaign Activity', function (hooks) {
         await clickByName('Bacri');
 
         // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(currentURL(), '/campagnes/1/evaluations/1/resultats');
+        assert.strictEqual(currentURL(), '/campagnes/1/evaluations/1/resultats');
       });
     });
 
     module('When campaign is of type profiles collection', function (hooks) {
-      hooks.beforeEach(async () => {
+      hooks.beforeEach(async function () {
         campaignId = 2;
         server.create('campaign', 'ofTypeProfilesCollection', { id: campaignId, participationsCount: 1 });
         server.create('campaign-profile', { id: 1, campaignId, lastName: 'Bacri' });
@@ -61,9 +61,7 @@ module('Acceptance | Campaign Activity', function (hooks) {
         await clickByName('Bacri');
 
         // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(currentURL(), '/campagnes/2/profils/1');
+        assert.strictEqual(currentURL(), '/campagnes/2/profils/1');
       });
     });
 
@@ -73,13 +71,11 @@ module('Acceptance | Campaign Activity', function (hooks) {
       await clickByName('Retour');
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(currentURL(), '/campagnes/1');
+      assert.strictEqual(currentURL(), '/campagnes/1');
     });
   });
 
-  module('when prescriber reset filters', () => {
+  module('when prescriber reset filters', function () {
     test('should reset status filter', async function (assert) {
       // when
       const screen = await visit('/campagnes/1');
@@ -88,9 +84,38 @@ module('Acceptance | Campaign Activity', function (hooks) {
       await clickByName('Effacer les filtres');
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(screen.getByLabelText('Statut').value, '');
+      assert.strictEqual(screen.getByLabelText('Statut').value, '');
+    });
+  });
+
+  module('when prescriber deletes a participation', function () {
+    test('Success case: should display empty sentence and success notification', async function (assert) {
+      // when
+      const screen = await visit('/campagnes/1');
+      await click(screen.getByLabelText('Supprimer la participation'));
+      await clickByName('Oui, je supprime');
+      // then
+      assert.contains('Aucun participant');
+      assert.contains('La participation a été supprimée avec succès.');
+    });
+
+    test('Error case: should display an error notification', async function (assert) {
+      // when
+      this.server.delete(
+        '/campaigns/:campaignId/campaign-participations/:campaignParticipationId',
+        () => ({
+          errors: [{ detail: "You're not allowed to delete" }],
+        }),
+        422
+      );
+
+      const screen = await visit('/campagnes/1');
+      await click(screen.getByLabelText('Supprimer la participation'));
+      await clickByName('Oui, je supprime');
+
+      // then
+      assert.contains('Bacri');
+      assert.contains('Un problème est survenu lors de la suppression de la participation.');
     });
   });
 });

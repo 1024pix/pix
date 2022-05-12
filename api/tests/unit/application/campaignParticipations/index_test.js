@@ -76,4 +76,79 @@ describe('Unit | Application | Router | campaign-participation-router ', functio
       expect(response.statusCode).to.equal(204);
     });
   });
+
+  describe('DELETE /api/campaigns/{campaignId}/campaign-participations/{campaignParticipationId}', function () {
+    it('should return the controller response', async function () {
+      // given
+      sinon.stub(securityPreHandlers, 'checkAuthorizationToManageCampaign').callsFake((request, h) => h.response(true));
+      sinon
+        .stub(campaignParticipationController, 'deleteParticipation')
+        .callsFake((request, h) => h.response('ok').code(204));
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      const method = 'DELETE';
+      const url = '/api/campaigns/4/campaign-participations/123';
+
+      // when
+      const response = await httpTestServer.request(method, url);
+
+      // then
+      expect(response.statusCode).to.equal(204);
+    });
+
+    context('When the user is neither an admin nor the owner of the campaign', function () {
+      it('should return 403', async function () {
+        // given
+        sinon
+          .stub(securityPreHandlers, 'checkAuthorizationToManageCampaign')
+          .callsFake((request, h) => h.response().code(403).takeover());
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        const method = 'DELETE';
+        const url = '/api/campaigns/1/campaign-participations/123';
+
+        // when
+        const response = await httpTestServer.request(method, url);
+
+        // then
+        expect(response.statusCode).to.equal(403);
+      });
+    });
+
+    context('When the campaignId is not a number', function () {
+      it('should return 400', async function () {
+        // given
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        const method = 'DELETE';
+        const url = '/api/campaigns/ERTYU/campaign-participations/123';
+
+        // when
+        const response = await httpTestServer.request(method, url);
+
+        // then
+        expect(response.statusCode).to.equal(400);
+      });
+    });
+
+    context('When the campaignParticipationId is not a number', function () {
+      it('should return 400', async function () {
+        // given
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        const method = 'DELETE';
+        const url = '/api/campaigns/12/campaign-participations/ERTYUI';
+
+        // when
+        const response = await httpTestServer.request(method, url);
+
+        // then
+        expect(response.statusCode).to.equal(400);
+      });
+    });
+  });
 });

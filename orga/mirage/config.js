@@ -472,4 +472,13 @@ export default function () {
     request.queryParams.include = ['competences.thematics', 'competences.thematics.tubes'].join(',');
     return schema.areas.all();
   });
+
+  this.delete('/campaigns/:campaignId/campaign-participations/:campaignParticipationId', (schema, request) => {
+    const campaignParticipationId = request.params.campaignParticipationId;
+
+    const campaignParticipation = schema.campaignParticipantActivities.find(campaignParticipationId);
+    campaignParticipation.destroy();
+
+    return new Response(204);
+  });
 }

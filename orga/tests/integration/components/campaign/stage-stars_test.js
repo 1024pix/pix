@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
-import { render } from '@ember/test-helpers';
+import { render } from '@1024pix/ember-testing-library';
 import hbs from 'htmlbars-inline-precompile';
 
 module('Integration | Component | Campaign::StageStars', function (hooks) {
@@ -18,12 +18,8 @@ module('Integration | Component | Campaign::StageStars', function (hooks) {
     const unacquiredStars = this.element.querySelectorAll('.pix-stars__unacquired');
 
     // then
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line qunit/no-assert-equal
-    assert.equal(acquiredStars.length, 1);
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line qunit/no-assert-equal
-    assert.equal(unacquiredStars.length, 1);
+    assert.strictEqual(acquiredStars.length, 1);
+    assert.strictEqual(unacquiredStars.length, 1);
   });
 
   test('should render a star only when threshold > 0 and reached', async function (assert) {
@@ -38,12 +34,8 @@ module('Integration | Component | Campaign::StageStars', function (hooks) {
     const unacquiredStars = this.element.querySelectorAll('.pix-stars__unacquired');
 
     // then
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line qunit/no-assert-equal
-    assert.equal(acquiredStars.length, 1);
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line qunit/no-assert-equal
-    assert.equal(unacquiredStars.length, 1);
+    assert.strictEqual(acquiredStars.length, 1);
+    assert.strictEqual(unacquiredStars.length, 1);
   });
 
   test('should render a screen reader message', async function (assert) {
@@ -52,14 +44,10 @@ module('Integration | Component | Campaign::StageStars', function (hooks) {
     this.stages = [{ threshold: 20 }, { threshold: 70 }];
 
     // when
-    await render(hbs`<Campaign::StageStars @result={{this.result}} @stages={{this.stages}} />`);
-
-    const srOnly = this.element.querySelector('.sr-only');
+    const screen = await render(hbs`<Campaign::StageStars @result={{this.result}} @stages={{this.stages}} />`);
 
     // then
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line qunit/no-assert-equal
-    assert.equal(srOnly.textContent.trim(), '1 étoiles sur 2');
+    assert.dom(screen.getByLabelText('1 étoiles sur 2')).exists();
   });
 
   test('should not display tooltip by default', async function (assert) {

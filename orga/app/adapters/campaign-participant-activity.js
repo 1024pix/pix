@@ -8,4 +8,8 @@ export default class CampaignParticipantActivity extends ApplicationAdapter {
       return `${this.host}/${this.namespace}/campaigns/${campaignId}/participants-activity`;
     }
   }
+
+  urlForDeleteRecord(id, modelName, { adapterOptions }) {
+    return `${this.host}/${this.namespace}/campaigns/${adapterOptions.campaignId}/campaign-participations/${adapterOptions.campaignParticipationId}`;
+  }
 }

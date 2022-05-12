@@ -16,6 +16,7 @@ class CampaignParticipation {
     status,
     sharedAt,
     deletedAt,
+    deletedBy,
     assessments,
     campaign,
     userId,
@@ -29,6 +30,7 @@ class CampaignParticipation {
     this.participantExternalId = participantExternalId;
     this.sharedAt = sharedAt;
     this.deletedAt = deletedAt;
+    this.deletedBy = deletedBy;
     this.campaign = campaign;
     this.assessments = assessments;
     this.userId = userId;
@@ -81,6 +83,11 @@ class CampaignParticipation {
   improve() {
     this._canBeImproved();
     this.status = CampaignParticipationStatuses.STARTED;
+  }
+
+  delete(userId) {
+    this.deletedAt = new Date();
+    this.deletedBy = userId;
   }
 
   _canBeImproved() {

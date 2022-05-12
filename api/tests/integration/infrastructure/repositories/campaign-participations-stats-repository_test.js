@@ -150,6 +150,24 @@ describe('Integration | Repository | Campaign Participations Stats', function ()
       });
     });
 
+    context('When there are deleted participations', function () {
+      it('counts only not deleted participations', async function () {
+        const { id: campaignId } = databaseBuilder.factory.buildCampaign();
+        databaseBuilder.factory.buildCampaignParticipation({ campaignId, masteryRate: 0.1 });
+        databaseBuilder.factory.buildCampaignParticipation({
+          campaignId,
+          masteryRate: 0.2,
+          deletedAt: new Date('2021-05-29'),
+        });
+
+        await databaseBuilder.commit();
+        const resultDistribution = await campaignParticipationsStatsRepository.countParticipationsByMasteryRate({
+          campaignId,
+        });
+        expect(resultDistribution).to.exactlyContainInOrder([{ count: 1, masteryRate: '0.10' }]);
+      });
+    });
+
     context('When there are participation without mastery rate', function () {
       it('returns only participation count for participation with mastery rate', async function () {
         const { id: campaignId } = databaseBuilder.factory.buildCampaign();
