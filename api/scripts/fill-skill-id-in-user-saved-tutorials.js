@@ -1,6 +1,6 @@
 require('dotenv').config();
 const { knex } = require('../db/knex-database-connection');
-const UserSavedTutorial = require('../lib/domain/models/UserSavedTutorial');
+const { UserSavedTutorial } = require('../lib/domain/models/UserSavedTutorial');
 const KnowledgeElement = require('../lib/domain/models/KnowledgeElement');
 const UserSavedTutorialWithTutorial = require('../lib/domain/models/UserSavedTutorialWithTutorial');
 const knowledgeElementRepository = require('../lib/infrastructure/repositories/knowledge-element-repository');
