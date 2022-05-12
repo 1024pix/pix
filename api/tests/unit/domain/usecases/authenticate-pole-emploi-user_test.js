@@ -130,7 +130,7 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', function () {
       });
 
       // then
-      expect(poleEmploiAuthenticationService.getUserInfo).to.have.been.calledWith('idToken');
+      expect(poleEmploiAuthenticationService.getUserInfo).to.have.been.calledWith({ idToken: 'idToken' });
     });
 
     it('should call pole emploi authentication service createAccessToken function with user id', async function () {

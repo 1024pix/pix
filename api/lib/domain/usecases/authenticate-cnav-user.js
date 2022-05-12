@@ -31,7 +31,7 @@ module.exports = async function authenticateCnavUser({
 
     return { pixAccessToken, isAuthenticationComplete: true };
   } else {
-    const authenticationKey = await authenticationSessionService.save(idToken);
+    const authenticationKey = await authenticationSessionService.save({ idToken });
 
     return { authenticationKey, isAuthenticationComplete: false };
   }

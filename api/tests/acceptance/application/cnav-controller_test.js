@@ -32,7 +32,7 @@ describe('Acceptance | API | Cnav Controller', function () {
         },
         'secret'
       );
-      const userAuthenticationKey = await authenticationSessionService.save(idToken);
+      const userAuthenticationKey = await authenticationSessionService.save({ idToken });
 
       const request = {
         method: 'POST',

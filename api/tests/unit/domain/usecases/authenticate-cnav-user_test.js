@@ -150,7 +150,7 @@ describe('Unit | UseCase | authenticate-cnav-user', function () {
       });
 
       // then
-      expect(authenticationSessionService.save).to.have.been.calledWith(idToken);
+      expect(authenticationSessionService.save).to.have.been.calledWith({ idToken });
     });
 
     it('should return an authentication key', async function () {
