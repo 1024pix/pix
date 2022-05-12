@@ -1,6 +1,6 @@
 const { expect, knex, databaseBuilder } = require('../../../test-helper');
 const userTutorialRepository = require('../../../../lib/infrastructure/repositories/user-tutorial-repository');
-const UserSavedTutorial = require('../../../../lib/domain/models/UserSavedTutorial');
+const { UserSavedTutorial } = require('../../../../lib/domain/models/UserSavedTutorial');
 
 describe('Integration | Infrastructure | Repository | user-tutorial-repository', function () {
   let userId;
