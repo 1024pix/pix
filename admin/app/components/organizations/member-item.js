@@ -10,6 +10,7 @@ const options = [
 
 export default class MemberItem extends Component {
   @service notifications;
+  @service accessControl;
 
   @tracked organizationRoles = null;
   @tracked isEditionMode = false;

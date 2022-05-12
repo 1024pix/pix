@@ -1,0 +1,80 @@
+<td><LinkTo @route="authenticated.users.get" @model={{@membership.user}}>
+    {{@membership.user.id}}
+  </LinkTo></td>
+<td>{{@membership.user.firstName}}</td>
+<td>{{@membership.user.lastName}}</td>
+<td>{{@membership.user.email}}</td>
+<td>
+  {{#if this.isEditionMode}}
+    <PixSelect
+      @onChange={{this.setRoleSelection}}
+      @options={{this.organizationRoles}}
+      placeholder="Sélectionner"
+      aria-label="Sélectionner un rôle"
+      @isSearchable={{false}}
+      @emptyOptionNotSelectable={{true}}
+      @emptyOptionLabel=""
+      as |role|
+    >
+      {{role.label}}
+    </PixSelect>
+  {{else}}
+    {{@membership.displayedOrganizationRole}}
+  {{/if}}
+</td>
+{{#if this.accessControl.hasAccessToOrganizationActionsScope}}
+  <td>
+    <div class="member-item-actions">
+      {{#if this.isEditionMode}}
+        <div class="member-item-actions__modify">
+          <PixButton
+            @size="small"
+            @triggerAction={{this.updateRoleOfMember}}
+            class="member-item-actions__button member-item-actions__button--save"
+          >
+            Enregistrer
+          </PixButton>
+          <PixButton
+            @size="small"
+            @backgroundColor="transparent-light"
+            @isBorderVisible={{true}}
+            @triggerAction={{this.cancelUpdateRoleOfMember}}
+            aria-label="Annuler"
+            class="member-item-actions__button--icon"
+          >
+            <FaIcon @icon="times" />
+          </PixButton>
+        </div>
+      {{else}}
+        <PixButton
+          @isDisabled={{@membership.isSaving}}
+          @size="small"
+          class="member-item-actions__button"
+          aria-label="Modifier le rôle"
+          @triggerAction={{this.editRoleOfMember}}
+        >
+          <FaIcon @icon="edit" />Modifier le rôle
+        </PixButton>
+      {{/if}}
+      <PixButton
+        @size="small"
+        @backgroundColor="red"
+        @isDisabled={{@membership.isSaving}}
+        class="member-item-actions__button"
+        aria-label="Désactiver le membre"
+        @triggerAction={{this.toggleDisplayConfirm}}
+      >
+        <FaIcon @icon="trash" />Désactiver
+      </PixButton>
+    </div>
+  </td>
+{{/if}}
+
+<ConfirmPopup
+  @message="Etes-vous sûr de vouloir désactiver ce membre de cette équipe ?"
+  @title="Désactivation d'un membre"
+  @submitTitle="Confirmer"
+  @confirm={{this.disableMembership}}
+  @cancel={{this.toggleDisplayConfirm}}
+  @show={{this.displayConfirm}}
+/>
