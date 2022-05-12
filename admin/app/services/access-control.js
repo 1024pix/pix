@@ -5,6 +5,10 @@ export default class AccessControlService extends Service {
   @service currentUser;
   @service router;
 
+  get hasAccessToUsersActionsScope() {
+    return this.currentUser.adminMember.isSuperAdmin || this.currentUser.adminMember.isSupport;
+  }
+
   restrictAccessTo(roles, redirectionUrl) {
     const currentUserIsAllowed = roles.some((role) => this.currentUser.adminMember[role]);
     if (!currentUserIsAllowed) {
