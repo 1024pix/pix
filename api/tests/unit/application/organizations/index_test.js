@@ -106,6 +106,56 @@ describe('Unit | Router | organization-router', function () {
     });
   });
 
+  describe('PATCH /api/admin/organizations/{id}', function () {
+    it('returns forbidden access if user has CERTIF role', async function () {
+      // given
+      sinon.stub(securityPreHandlers, 'checkUserHasRoleCertif').resolves(true);
+      sinon.stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin').resolves({ source: { errors: {} } });
+      sinon.stub(securityPreHandlers, 'checkUserHasRoleSupport').resolves({ source: { errors: {} } });
+      sinon.stub(securityPreHandlers, 'checkUserHasRoleMetier').resolves({ source: { errors: {} } });
+
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      // when
+      const response = await httpTestServer.request('PATCH', '/api/admin/organizations/1', {
+        data: {
+          id: '1',
+          type: 'organizations',
+          attributes: {
+            name: 'Super Tag',
+            type: 'SCO',
+          },
+        },
+      });
+
+      // then
+      expect(response.statusCode).to.equal(403);
+    });
+  });
+
+  describe('POST /api/admin/organizations/{id}/archive', function () {
+    it('returns forbidden access if user has CERTIF role', async function () {
+      // given
+      sinon.stub(organizationController, 'archiveOrganization').resolves('ok');
+
+      sinon.stub(securityPreHandlers, 'checkUserHasRoleCertif').resolves(true);
+      sinon.stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin').resolves({ source: { errors: {} } });
+      sinon.stub(securityPreHandlers, 'checkUserHasRoleSupport').resolves({ source: { errors: {} } });
+      sinon.stub(securityPreHandlers, 'checkUserHasRoleMetier').resolves({ source: { errors: {} } });
+
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      // when
+      const response = await httpTestServer.request('POST', '/api/admin/organizations/1/archive');
+
+      // then
+      expect(response.statusCode).to.equal(403);
+      sinon.assert.notCalled(organizationController.archiveOrganization);
+    });
+  });
+
   describe('POST /api/organizations/{id}/invitations', function () {
     const method = 'POST';
     const url = '/api/organizations/1/invitations';
