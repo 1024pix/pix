@@ -9,11 +9,16 @@ import { clickByName, render } from '@1024pix/ember-testing-library';
 module('Integration | Component | users | user-detail-personal-information', function (hooks) {
   setupRenderingTest(hooks);
 
+  class AccessControlStub extends Service {
+    hasAccessToUsersActionsScope = true;
+  }
+
   module('schooling registrations', function () {
     module('When user has no schoolingRegistrations', function () {
       test('should display no result in schooling registrations table', async function (assert) {
         // given
         this.set('user', { schoolingRegistrations: [] });
+        this.owner.register('service:access-control', AccessControlStub);
 
         // when
         const screen = await render(hbs`<Users::UserDetailPersonalInformation @user={{this.user}}/>`);
@@ -27,6 +32,7 @@ module('Integration | Component | users | user-detail-personal-information', fun
       test('should display schooling registrations in table', async function (assert) {
         // given
         this.set('user', { schoolingRegistrations: [{ id: 1 }, { id: 2 }] });
+        this.owner.register('service:access-control', AccessControlStub);
 
         // when
         const screen = await render(hbs`<Users::UserDetailPersonalInformation @user={{this.user}}/>`);
@@ -39,6 +45,7 @@ module('Integration | Component | users | user-detail-personal-information', fun
         test('Should display a green tick mark on the table when "isDisabled = false"', async function (assert) {
           // given
           this.set('user', { schoolingRegistrations: [{ id: 1, isDisabled: false }] });
+          this.owner.register('service:access-control', AccessControlStub);
 
           // when
           const screen = await render(hbs`<Users::UserDetailPersonalInformation @user={{this.user}}/>`);
@@ -50,6 +57,7 @@ module('Integration | Component | users | user-detail-personal-information', fun
         test('Should display a red cross on the table when "isDisabled= true"', async function (assert) {
           // given
           this.set('user', { schoolingRegistrations: [{ id: 1, isDisabled: true }] });
+          this.owner.register('service:access-control', AccessControlStub);
 
           // when
           const screen = await render(hbs`<Users::UserDetailPersonalInformation @user={{this.user}}/>`);
@@ -61,7 +69,7 @@ module('Integration | Component | users | user-detail-personal-information', fun
     });
   });
 
-  module('when the administrator click on anonymize button', function (hooks) {
+  module('when the admin member click on anonymize button', function (hooks) {
     let user = null;
 
     hooks.beforeEach(function () {
@@ -76,6 +84,7 @@ module('Integration | Component | users | user-detail-personal-information', fun
     test('should show modal', async function (assert) {
       // given
       this.set('user', user);
+      this.owner.register('service:access-control', AccessControlStub);
       const screen = await render(hbs`<Users::UserDetailPersonalInformation @user={{this.user}}/>`);
 
       // when
@@ -93,6 +102,7 @@ module('Integration | Component | users | user-detail-personal-information', fun
     test('should close the modal to cancel action', async function (assert) {
       // given
       this.set('user', user);
+      this.owner.register('service:access-control', AccessControlStub);
       const screen = await render(hbs`<Users::UserDetailPersonalInformation @user={{this.user}}/>`);
       await clickByName('Anonymiser cet utilisateur');
 
@@ -106,7 +116,7 @@ module('Integration | Component | users | user-detail-personal-information', fun
     });
   });
 
-  module('when the administrator click on dissociate button', function () {
+  module('when the admin member click on dissociate button', function () {
     test('should display dissociate confirm modal', async function (assert) {
       // given
       const destroyRecordStub = sinon.stub();
@@ -125,6 +135,7 @@ module('Integration | Component | users | user-detail-personal-information', fun
         schoolingRegistrations: [schoolingRegistration],
       });
       this.set('user', user);
+      this.owner.register('service:access-control', AccessControlStub);
 
       const screen = await render(hbs`<Users::UserDetailPersonalInformation @user={{this.user}} />`);
 
@@ -153,6 +164,7 @@ module('Integration | Component | users | user-detail-personal-information', fun
         schoolingRegistrations: [schoolingRegistration],
       });
       this.set('user', user);
+      this.owner.register('service:access-control', AccessControlStub);
 
       const screen = await render(hbs`<Users::UserDetailPersonalInformation @user={{this.user}}/>`);
       await clickByName('Dissocier');
@@ -183,6 +195,7 @@ module('Integration | Component | users | user-detail-personal-information', fun
         schoolingRegistrations: [schoolingRegistration],
       });
       this.set('user', user);
+      this.owner.register('service:access-control', AccessControlStub);
 
       await render(hbs`<Users::UserDetailPersonalInformation @user={{this.user}} />`);
       await clickByName('Dissocier');
@@ -195,7 +208,7 @@ module('Integration | Component | users | user-detail-personal-information', fun
     });
   });
 
-  module('when the administrator click on remove authentication method button', function () {
+  module('when the admin member click on remove authentication method button', function () {
     test('should display remove authentication methode confirm modal', async function (assert) {
       // given
       const user = EmberObject.create({
@@ -209,6 +222,7 @@ module('Integration | Component | users | user-detail-personal-information', fun
       });
 
       this.set('user', user);
+      this.owner.register('service:access-control', AccessControlStub);
       const screen = await render(hbs`<Users::UserDetailPersonalInformation @user={{this.user}}/>`);
 
       // when
@@ -231,6 +245,7 @@ module('Integration | Component | users | user-detail-personal-information', fun
       });
 
       this.set('user', user);
+      this.owner.register('service:access-control', AccessControlStub);
       const screen = await render(hbs`<Users::UserDetailPersonalInformation @user={{this.user}}/>`);
       await clickByName('Supprimer');
 
@@ -243,7 +258,7 @@ module('Integration | Component | users | user-detail-personal-information', fun
       assert.dom(screen.queryByRole('button', { name: 'Annuler' })).doesNotExist();
     });
 
-    module('when the administrator confirm the removal', function () {
+    module('when the admin member confirm the removal', function () {
       test('should call removeAuthenticationMethod parameter', async function (assert) {
         // given
         const user = EmberObject.create({
@@ -256,6 +271,7 @@ module('Integration | Component | users | user-detail-personal-information', fun
           isAllowedToRemoveEmailAuthenticationMethod: true,
         });
         this.set('user', user);
+        this.owner.register('service:access-control', AccessControlStub);
         const removeAuthenticationMethodStub = sinon.stub();
         this.set('removeAuthenticationMethod', removeAuthenticationMethodStub);
 
@@ -274,7 +290,7 @@ module('Integration | Component | users | user-detail-personal-information', fun
         assert.dom(screen.queryByRole('button', { name: 'Confirmer' })).doesNotExist();
       });
 
-      test('should display an error message when the administrator try to remove the last authentication method', async function (assert) {
+      test('should display an error message when the admin member try to remove the last authentication method', async function (assert) {
         // given
         const user = EmberObject.create({
           lastName: 'Harry',
@@ -285,6 +301,7 @@ module('Integration | Component | users | user-detail-personal-information', fun
           isAllowedToRemoveEmailAuthenticationMethod: true,
         });
         this.set('user', user);
+        this.owner.register('service:access-control', AccessControlStub);
         const removeAuthenticationMethodStub = sinon.stub();
         this.set('removeAuthenticationMethod', removeAuthenticationMethodStub);
 
