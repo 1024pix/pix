@@ -25,23 +25,21 @@ describe('Unit | Router | membership-router', function () {
       expect(membershipController.update).to.have.been.called;
     });
 
-    it('should return 403 if user is not Pix Admin', async function () {
+    it('returns forbidden access if user has CERTIF role', async function () {
       // given
-      sinon
-        .stub(securityPreHandlers, 'userHasAtLeastOneAccessOf')
-        .returns((request, h) => h.response().code(403).takeover());
-      sinon.stub(membershipController, 'update');
+      sinon.stub(securityPreHandlers, 'checkUserHasRoleCertif').resolves(true);
+      sinon.stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin').resolves({ source: { errors: {} } });
+      sinon.stub(securityPreHandlers, 'checkUserHasRoleSupport').resolves({ source: { errors: {} } });
+      sinon.stub(securityPreHandlers, 'checkUserHasRoleMetier').resolves({ source: { errors: {} } });
 
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
-      const id = 123;
 
       // when
-      const response = await httpTestServer.request('PATCH', `/api/admin/memberships/${id}`);
+      const response = await httpTestServer.request('PATCH', `/api/admin/memberships/1`);
 
       // then
       expect(response.statusCode).to.equal(403);
-      expect(membershipController.update).to.have.not.been.called;
     });
   });
 
@@ -120,19 +118,20 @@ describe('Unit | Router | membership-router', function () {
       expect(membershipController.disable).to.have.been.called;
     });
 
-    it('should return 403 if user has no authorization to access Pix Admin', async function () {
+    it('returns forbidden access if user has CERTIF role', async function () {
       // given
-      sinon
-        .stub(securityPreHandlers, 'userHasAtLeastOneAccessOf')
-        .returns((request, h) => h.response().code(403).takeover());
       sinon.stub(membershipController, 'disable');
+
+      sinon.stub(securityPreHandlers, 'checkUserHasRoleCertif').resolves(true);
+      sinon.stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin').resolves({ source: { errors: {} } });
+      sinon.stub(securityPreHandlers, 'checkUserHasRoleSupport').resolves({ source: { errors: {} } });
+      sinon.stub(securityPreHandlers, 'checkUserHasRoleMetier').resolves({ source: { errors: {} } });
 
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
-      const membershipId = 123;
 
       // when
-      const response = await httpTestServer.request('POST', `/api/admin/memberships/${membershipId}/disable`);
+      const response = await httpTestServer.request('POST', '/api/admin/memberships/1/disable');
 
       // then
       expect(response.statusCode).to.equal(403);
