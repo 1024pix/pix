@@ -25,7 +25,7 @@ export default class IndexController extends Controller {
   get isCurrentUserAssignedToSession() {
     const currentUserId = this.currentUser.adminMember.get('userId');
     const assignedCertificationOfficerId = this.sessionModel.assignedCertificationOfficer.get('id');
-    return assignedCertificationOfficerId != null && currentUserId === assignedCertificationOfficerId;
+    return assignedCertificationOfficerId != null && currentUserId == assignedCertificationOfficerId;
   }
 
   get isAssigned() {

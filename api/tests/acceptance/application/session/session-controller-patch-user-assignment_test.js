@@ -3,26 +3,23 @@ const createServer = require('../../../../server');
 
 describe('PATCH /api/admin/sessions/:id/certification-officer-assignment', function () {
   let server;
-  const options = { method: 'PATCH' };
-  let certificationOfficerId;
 
   beforeEach(async function () {
     server = await createServer();
   });
 
   context('when user does not have the role Super Admin', function () {
-    beforeEach(function () {
-      certificationOfficerId = databaseBuilder.factory.buildUser().id;
-      return databaseBuilder.commit();
-    });
-
     it('should return a 403 error code', async function () {
       // given
-      options.url = '/api/admin/sessions/12/certification-officer-assignment';
-      options.headers = { authorization: generateValidRequestAuthorizationHeader(certificationOfficerId) };
+      const certificationOfficerId = databaseBuilder.factory.buildUser().id;
+      await databaseBuilder.commit();
 
       // when
-      const response = await server.inject(options);
+      const response = await server.inject({
+        method: 'PATCH',
+        url: '/api/admin/sessions/12/certification-officer-assignment',
+        headers: { authorization: generateValidRequestAuthorizationHeader(certificationOfficerId) },
+      });
 
       // then
       expect(response.statusCode).to.equal(403);
@@ -30,20 +27,18 @@ describe('PATCH /api/admin/sessions/:id/certification-officer-assignment', funct
   });
 
   context('when user has role Super Admin', function () {
-    beforeEach(function () {
-      // given
-      certificationOfficerId = databaseBuilder.factory.buildUser.withRole().id;
-      options.headers = { authorization: generateValidRequestAuthorizationHeader(certificationOfficerId) };
-      return databaseBuilder.commit();
-    });
-
     context('when the session id has an invalid format', function () {
       it('should return a 400 error code', async function () {
         // given
-        options.url = '/api/admin/sessions/test/certification-officer-assignment';
+        const certificationOfficerId = databaseBuilder.factory.buildUser.withRole().id;
+        await databaseBuilder.commit();
 
         // when
-        const response = await server.inject(options);
+        const response = await server.inject({
+          method: 'PATCH',
+          headers: { authorization: generateValidRequestAuthorizationHeader(certificationOfficerId) },
+          url: '/api/admin/sessions/test/certification-officer-assignment',
+        });
 
         // then
         expect(response.statusCode).to.equal(400);
@@ -54,10 +49,15 @@ describe('PATCH /api/admin/sessions/:id/certification-officer-assignment', funct
       context('when the session does not exist', function () {
         it('should return a 404 error code', async function () {
           // given
-          options.url = '/api/admin/sessions/1/certification-officer-assignment';
+          const certificationOfficerId = databaseBuilder.factory.buildUser.withRole().id;
+          await databaseBuilder.commit();
 
           // when
-          const response = await server.inject(options);
+          const response = await server.inject({
+            method: 'PATCH',
+            headers: { authorization: generateValidRequestAuthorizationHeader(certificationOfficerId) },
+            url: '/api/admin/sessions/1/certification-officer-assignment',
+          });
 
           // then
           expect(response.statusCode).to.equal(404);
@@ -67,16 +67,20 @@ describe('PATCH /api/admin/sessions/:id/certification-officer-assignment', funct
       context('when the session exists', function () {
         it('should return a 200 status code', async function () {
           // given
+          const certificationOfficerId = databaseBuilder.factory.buildUser.withRole().id;
           const sessionId = databaseBuilder.factory.buildSession().id;
           databaseBuilder.factory.buildFinalizedSession({
             sessionId,
             isPublishable: true,
           });
           await databaseBuilder.commit();
-          options.url = `/api/admin/sessions/${sessionId}/certification-officer-assignment`;
 
           // when
-          const response = await server.inject(options);
+          const response = await server.inject({
+            method: 'PATCH',
+            headers: { authorization: generateValidRequestAuthorizationHeader(certificationOfficerId) },
+            url: `/api/admin/sessions/${sessionId}/certification-officer-assignment`,
+          });
 
           // then
           expect(response.statusCode).to.equal(200);

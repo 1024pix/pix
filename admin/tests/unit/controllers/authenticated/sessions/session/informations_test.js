@@ -1,6 +1,7 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
+import Service from '@ember/service';
 
 module('Unit | Controller | authenticated/sessions/session/informations', function (hooks) {
   setupTest(hooks);
@@ -163,6 +164,25 @@ module('Unit | Controller | authenticated/sessions/session/informations', functi
       assert.equal(controller.copyButtonText, 'Erreur !');
       assert.ok(controller.isCopyButtonClicked);
       assert.ok(window.setTimeout);
+    });
+  });
+
+  module('#isCurrentUserAssignedToSession', function () {
+    test('it should return true if current user is assigned to session', async function (assert) {
+      // given
+      const getUserIdStub = sinon.stub();
+      class CurrentUserStub extends Service {
+        adminMember = { get: getUserIdStub.withArgs('userId').returns(3) };
+      }
+      this.owner.register('service:currentUser', CurrentUserStub);
+
+      const getIdStub = sinon.stub();
+      controller.model = {
+        assignedCertificationOfficer: { get: getIdStub.withArgs('id').returns('3') },
+      };
+
+      // when / then
+      assert.true(controller.isCurrentUserAssignedToSession);
     });
   });
 });
