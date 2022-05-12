@@ -2,17 +2,8 @@
   margin-top: 32px;
   text-rendering: optimizeLegibility;
 
-  &__label {
-    color: rgb(88, 95, 117);
-    font-family: $font-roboto;
-    font-size: 1rem;
-    font-weight: normal;
-    height: 18px;
-    margin-bottom: 6px;
-  }
-
   &__title {
-    color: $grey-100;
+    color: $grey-90;
     font-family: $font-open-sans;
     font-size: 2rem;
     font-weight: $font-light;
@@ -32,6 +23,10 @@
     display: flex;
     flex-flow: row nowrap;
     align-items: center;
+
+    input {
+      padding-right: 3px;
+    }
   }
 
   &__divider {
@@ -108,5 +103,11 @@
     font-size: 0.875rem;
     margin-top: 6px;
     margin-bottom: 0;
+  }
+
+  &__label {
+    font-size: 0.875rem;
+    color: $grey-70;
+    margin-bottom: 4px;
   }
 }
