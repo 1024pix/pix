@@ -368,13 +368,17 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
             id: 998,
             certificationCourseId: 123,
           });
+          databaseBuilder.factory.buildComplementaryCertificationCourse({
+            id: 999,
+            certificationCourseId: 123,
+          });
           databaseBuilder.factory.buildComplementaryCertificationCourseResult({
             complementaryCertificationCourseId: 998,
             partnerKey,
             acquired: true,
           });
           databaseBuilder.factory.buildComplementaryCertificationCourseResult({
-            complementaryCertificationCourseId: 998,
+            complementaryCertificationCourseId: 999,
             partnerKey: 'some-other-badge-e',
             acquired: true,
           });
@@ -465,6 +469,7 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
         sessionId: 789,
       };
       await _buildValidCertificationAttestation(certificationAttestationData);
+      await _buildOtherComplementaryCertifResult({ certificationCourseId: 123 });
       await _buildCleaResult({ certificationCourseId: 123, acquired: false, cleaBadgeKey: PIX_EMPLOI_CLEA_V1 });
       await _buildPixPlusDroitMaitreResult({ certificationCourseId: 123, acquired: true });
 
@@ -1300,14 +1305,24 @@ async function _buildValidCertificationAttestationWithSeveralResults(certificati
 
 async function _buildCleaResult({ certificationCourseId, acquired, cleaBadgeKey }) {
   databaseBuilder.factory.buildBadge({ key: cleaBadgeKey });
-  databaseBuilder.factory.buildBadge({ key: 'some-other-badge-c' });
-  databaseBuilder.factory.buildComplementaryCertificationCourseResult({
+  const complementaryCertificationCourseId = databaseBuilder.factory.buildComplementaryCertificationCourse({
     certificationCourseId,
+  }).id;
+  databaseBuilder.factory.buildComplementaryCertificationCourseResult({
+    complementaryCertificationCourseId,
     partnerKey: cleaBadgeKey,
     acquired,
   });
-  databaseBuilder.factory.buildComplementaryCertificationCourseResult({
+
+  await databaseBuilder.commit();
+}
+async function _buildOtherComplementaryCertifResult({ certificationCourseId }) {
+  const complementaryCertificationCourseId = databaseBuilder.factory.buildComplementaryCertificationCourse({
     certificationCourseId,
+  }).id;
+  databaseBuilder.factory.buildBadge({ key: 'some-other-badge-c' });
+  databaseBuilder.factory.buildComplementaryCertificationCourseResult({
+    complementaryCertificationCourseId,
     partnerKey: 'some-other-badge-c',
     acquired: true,
   });
@@ -1315,21 +1330,14 @@ async function _buildCleaResult({ certificationCourseId, acquired, cleaBadgeKey 
 }
 
 async function _buildPixPlusDroitMaitreResult({ certificationCourseId, acquired }) {
-  databaseBuilder.factory.buildBadge({ key: PIX_DROIT_MAITRE_CERTIF });
-  databaseBuilder.factory.buildBadge({ key: 'some-other-badge-m' });
-  databaseBuilder.factory.buildComplementaryCertificationCourse({
-    id: 998,
+  const complementaryCertificationCourseId = databaseBuilder.factory.buildComplementaryCertificationCourse({
     certificationCourseId,
-  });
+  }).id;
+  databaseBuilder.factory.buildBadge({ key: PIX_DROIT_MAITRE_CERTIF });
   databaseBuilder.factory.buildComplementaryCertificationCourseResult({
-    complementaryCertificationCourseId: 998,
+    complementaryCertificationCourseId,
     partnerKey: PIX_DROIT_MAITRE_CERTIF,
     acquired,
-  });
-  databaseBuilder.factory.buildComplementaryCertificationCourseResult({
-    complementaryCertificationCourseId: 998,
-    partnerKey: 'some-other-badge-m',
-    acquired: true,
   });
   await databaseBuilder.commit();
 }
