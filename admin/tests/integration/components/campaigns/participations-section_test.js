@@ -3,9 +3,18 @@ import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@1024pix/ember-testing-library';
 import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
+import Service from '@ember/service';
 
 module('Integration | Component | Campaigns | participations-section', function (hooks) {
   setupRenderingTest(hooks);
+
+  hooks.beforeEach(async function () {
+    // given
+    class AccessControlStub extends Service {
+      hasAccessToOrganizationActionsScope = true;
+    }
+    this.owner.register('service:access-control', AccessControlStub);
+  });
 
   test('it should display a list of participations', async function (assert) {
     // given
@@ -47,7 +56,7 @@ module('Integration | Component | Campaigns | participations-section', function 
     assert.dom(screen.getByText('identifiant')).exists();
   });
 
-  test('it should an empty table when no participations', async function (assert) {
+  test('it should display an empty table when no participations', async function (assert) {
     // given
     const participations = [];
     this.set('participations', participations);
