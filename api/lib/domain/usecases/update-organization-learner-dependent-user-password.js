@@ -2,18 +2,18 @@ const isEmpty = require('lodash/isEmpty');
 
 const { UserNotAuthorizedToUpdatePasswordError } = require('../errors');
 
-module.exports = async function updateSchoolingRegistrationDependentUserPassword({
+module.exports = async function updateOrganizationLearnerDependentUserPassword({
   organizationId,
   schoolingRegistrationId,
   userId,
   encryptionService,
   passwordGenerator,
   authenticationMethodRepository,
-  schoolingRegistrationRepository,
+  organizationLearnerRepository,
   userRepository,
 }) {
   const userWithMemberships = await userRepository.getWithMemberships(userId);
-  const schoolingRegistration = await schoolingRegistrationRepository.get(schoolingRegistrationId);
+  const schoolingRegistration = await organizationLearnerRepository.get(schoolingRegistrationId);
 
   if (
     !userWithMemberships.hasAccessToOrganization(organizationId) ||

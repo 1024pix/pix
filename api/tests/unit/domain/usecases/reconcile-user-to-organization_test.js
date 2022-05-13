@@ -2,7 +2,7 @@ const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper
 const usecases = require('../../../../lib/domain/usecases');
 const OrganizationLearner = require('../../../../lib/domain/models/OrganizationLearner');
 const campaignRepository = require('../../../../lib/infrastructure/repositories/campaign-repository');
-const schoolingRegistrationRepository = require('../../../../lib/infrastructure/repositories/schooling-registration-repository');
+const organizationLearnerRepository = require('../../../../lib/infrastructure/repositories/organization-learner-repository');
 const { CampaignCodeError, UserCouldNotBeReconciledError } = require('../../../../lib/domain/errors');
 
 describe('Unit | UseCase | reconcile-user-to-organization', function () {
@@ -31,10 +31,10 @@ describe('Unit | UseCase | reconcile-user-to-organization', function () {
       .resolves(domainBuilder.buildCampaign({ organization: { id: organizationId } }));
 
     reconcileUserByNationalStudentIdAndOrganizationIdStub = sinon.stub(
-      schoolingRegistrationRepository,
+      organizationLearnerRepository,
       'reconcileUserByNationalStudentIdAndOrganizationId'
     );
-    findByUserIdStub = sinon.stub(schoolingRegistrationRepository, 'findByUserId');
+    findByUserIdStub = sinon.stub(organizationLearnerRepository, 'findByUserId');
   });
 
   context('When there is no campaign with the given code', function () {

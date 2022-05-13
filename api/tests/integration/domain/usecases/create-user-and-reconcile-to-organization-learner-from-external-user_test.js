@@ -1,7 +1,7 @@
 const { catchErr, databaseBuilder, expect, knex } = require('../../../test-helper');
 
 const campaignRepository = require('../../../../lib/infrastructure/repositories/campaign-repository');
-const schoolingRegistrationRepository = require('../../../../lib/infrastructure/repositories/schooling-registration-repository');
+const organizationLearnerRepository = require('../../../../lib/infrastructure/repositories/organization-learner-repository');
 const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
 const userToCreateRepository = require('../../../../lib/infrastructure/repositories/user-to-create-repository');
 const studentRepository = require('../../../../lib/infrastructure/repositories/student-repository');
@@ -18,16 +18,16 @@ const {
   CampaignCodeError,
   NotFoundError,
   ObjectValidationError,
-  SchoolingRegistrationAlreadyLinkedToUserError,
+  OrganizationLearnerAlreadyLinkedToUserError,
 } = require('../../../../lib/domain/errors');
 
-const createUserAndReconcileToSchoolingRegistrationByExternalUser = require('../../../../lib/domain/usecases/create-user-and-reconcile-to-schooling-registration-from-external-user');
+const createUserAndReconcileToOrganizationLearnerByExternalUser = require('../../../../lib/domain/usecases/create-user-and-reconcile-to-organization-learner-from-external-user');
 
-describe('Integration | UseCases | create-user-and-reconcile-to-schooling-registration-from-external-user', function () {
+describe('Integration | UseCases | create-user-and-reconcile-to-organization-learner-from-external-user', function () {
   context('When there is no campaign with the given code', function () {
     it('should throw a campaign code error', async function () {
       // when
-      const error = await catchErr(createUserAndReconcileToSchoolingRegistrationByExternalUser)({
+      const error = await catchErr(createUserAndReconcileToOrganizationLearnerByExternalUser)({
         campaignCode: 'NOTEXIST',
         campaignRepository,
       });
@@ -55,7 +55,7 @@ describe('Integration | UseCases | create-user-and-reconcile-to-schooling-regist
         const token = tokenService.createIdTokenForUserReconciliation(externalUser);
 
         // when
-        const error = await catchErr(createUserAndReconcileToSchoolingRegistrationByExternalUser)({
+        const error = await catchErr(createUserAndReconcileToOrganizationLearnerByExternalUser)({
           campaignCode,
           token,
           tokenService,
@@ -78,7 +78,7 @@ describe('Integration | UseCases | create-user-and-reconcile-to-schooling-regist
         const token = tokenService.createIdTokenForUserReconciliation(externalUser);
 
         // when
-        const error = await catchErr(createUserAndReconcileToSchoolingRegistrationByExternalUser)({
+        const error = await catchErr(createUserAndReconcileToOrganizationLearnerByExternalUser)({
           campaignCode,
           token,
           tokenService,
@@ -101,7 +101,7 @@ describe('Integration | UseCases | create-user-and-reconcile-to-schooling-regist
         const token = tokenService.createIdTokenForUserReconciliation(externalUser);
 
         // when
-        const error = await catchErr(createUserAndReconcileToSchoolingRegistrationByExternalUser)({
+        const error = await catchErr(createUserAndReconcileToOrganizationLearnerByExternalUser)({
           campaignCode,
           token,
           tokenService,
@@ -135,23 +135,23 @@ describe('Integration | UseCases | create-user-and-reconcile-to-schooling-regist
       const birthdate = '2008-01-01';
 
       // when
-      const error = await catchErr(createUserAndReconcileToSchoolingRegistrationByExternalUser)({
+      const error = await catchErr(createUserAndReconcileToOrganizationLearnerByExternalUser)({
         birthdate,
         campaignCode,
         token,
         campaignRepository,
         tokenService,
         userReconciliationService,
-        schoolingRegistrationRepository,
+        organizationLearnerRepository,
       });
 
       // then
       expect(error).to.be.instanceof(NotFoundError);
-      expect(error.message).to.equal('There are no schooling registrations found');
+      expect(error.message).to.equal('There are no organization learners found');
     });
   });
 
-  context('When a schoolingRegistration match the token data and birthdate', function () {
+  context('When an organizationLearner match the token data and birthdate', function () {
     const firstName = 'Saml';
     const lastName = 'Jackson';
     const samlId = 'SamlId';
@@ -189,7 +189,7 @@ describe('Integration | UseCases | create-user-and-reconcile-to-schooling-regist
       const usersBefore = await knex('users');
 
       // when
-      await createUserAndReconcileToSchoolingRegistrationByExternalUser({
+      await createUserAndReconcileToOrganizationLearnerByExternalUser({
         birthdate: organizationLearner.birthdate,
         campaignCode,
         campaignRepository,
@@ -199,7 +199,7 @@ describe('Integration | UseCases | create-user-and-reconcile-to-schooling-regist
         userReconciliationService,
         userService,
         authenticationMethodRepository,
-        schoolingRegistrationRepository,
+        organizationLearnerRepository,
         studentRepository,
         userRepository,
         userToCreateRepository,
@@ -216,7 +216,7 @@ describe('Integration | UseCases | create-user-and-reconcile-to-schooling-regist
     context(
       'When the external user is already reconciled by another account without samlId authentication method',
       function () {
-        it('should throw a SchoolingRegistrationAlreadyLinkedToUserError', async function () {
+        it('should throw a OrganizationLearnerAlreadyLinkedToUserError', async function () {
           // given
           const organizationLearner = databaseBuilder.factory.buildOrganizationLearner({
             firstName,
@@ -226,7 +226,7 @@ describe('Integration | UseCases | create-user-and-reconcile-to-schooling-regist
           await databaseBuilder.commit();
 
           // when
-          const error = await catchErr(createUserAndReconcileToSchoolingRegistrationByExternalUser)({
+          const error = await catchErr(createUserAndReconcileToOrganizationLearnerByExternalUser)({
             birthdate: organizationLearner.birthdate,
             campaignCode,
             token,
@@ -234,12 +234,12 @@ describe('Integration | UseCases | create-user-and-reconcile-to-schooling-regist
             tokenService,
             userReconciliationService,
             campaignRepository,
-            schoolingRegistrationRepository,
+            organizationLearnerRepository,
             userRepository,
           });
 
           // then
-          expect(error).to.be.instanceOf(SchoolingRegistrationAlreadyLinkedToUserError);
+          expect(error).to.be.instanceOf(OrganizationLearnerAlreadyLinkedToUserError);
         });
       }
     );
@@ -279,7 +279,7 @@ describe('Integration | UseCases | create-user-and-reconcile-to-schooling-regist
             await databaseBuilder.commit();
 
             // when
-            await createUserAndReconcileToSchoolingRegistrationByExternalUser({
+            await createUserAndReconcileToOrganizationLearnerByExternalUser({
               campaignCode,
               token,
               birthdate: organizationLearner.birthdate,
@@ -288,7 +288,7 @@ describe('Integration | UseCases | create-user-and-reconcile-to-schooling-regist
               userReconciliationService,
               authenticationMethodRepository,
               campaignRepository,
-              schoolingRegistrationRepository,
+              organizationLearnerRepository,
               studentRepository,
               userRepository,
             });
@@ -332,7 +332,7 @@ describe('Integration | UseCases | create-user-and-reconcile-to-schooling-regist
             await databaseBuilder.commit();
 
             // when
-            await createUserAndReconcileToSchoolingRegistrationByExternalUser({
+            await createUserAndReconcileToOrganizationLearnerByExternalUser({
               campaignCode,
               token,
               birthdate: organizationLearner.birthdate,
@@ -341,7 +341,7 @@ describe('Integration | UseCases | create-user-and-reconcile-to-schooling-regist
               userReconciliationService,
               authenticationMethodRepository,
               campaignRepository,
-              schoolingRegistrationRepository,
+              organizationLearnerRepository,
               studentRepository,
               userRepository,
             });
@@ -380,7 +380,7 @@ describe('Integration | UseCases | create-user-and-reconcile-to-schooling-regist
         const usersBefore = await knex('users');
 
         // when
-        await createUserAndReconcileToSchoolingRegistrationByExternalUser({
+        await createUserAndReconcileToOrganizationLearnerByExternalUser({
           birthdate: organizationLearner.birthdate,
           campaignCode,
           token,
@@ -388,7 +388,7 @@ describe('Integration | UseCases | create-user-and-reconcile-to-schooling-regist
           tokenService,
           userReconciliationService,
           campaignRepository,
-          schoolingRegistrationRepository,
+          organizationLearnerRepository,
           studentRepository,
           userRepository,
         });

@@ -7,11 +7,11 @@ const updateStudentNumber = require('../../../../lib/domain/usecases/update-stud
 describe('Unit | UseCase | update-student-number', function () {
   const organizationId = 2;
   const studentNumber = '4321A';
-  const schoolingRegistrationId = 1234;
+  const organizationLearnerId = 1234;
 
   let schoolingRegistration;
 
-  const higherSchoolingRegistrationRepository = {
+  const supOrganizationLearnerRepository = {
     // TODO: Fix this the next time the file is edited.
     // eslint-disable-next-line mocha/no-setup-in-describe
     findOneByStudentNumber: sinon.stub(),
@@ -22,9 +22,9 @@ describe('Unit | UseCase | update-student-number', function () {
 
   context('When there is a schooling registration with the same student number', function () {
     beforeEach(function () {
-      schoolingRegistration = domainBuilder.buildHigherSchoolingRegistration();
+      schoolingRegistration = domainBuilder.buildSupOrganizationLearner();
 
-      higherSchoolingRegistrationRepository.findOneByStudentNumber
+      supOrganizationLearnerRepository.findOneByStudentNumber
         .withArgs({ organizationId, studentNumber })
         .resolves(schoolingRegistration);
     });
@@ -35,8 +35,8 @@ describe('Unit | UseCase | update-student-number', function () {
 
       // when
       const error = await catchErr(updateStudentNumber)({
-        higherSchoolingRegistrationRepository,
-        schoolingRegistrationId,
+        supOrganizationLearnerRepository,
+        organizationLearnerId,
         studentNumber,
         organizationId,
       });
@@ -49,7 +49,7 @@ describe('Unit | UseCase | update-student-number', function () {
 
   context('When there are not schooling registration with the same student number', function () {
     beforeEach(function () {
-      higherSchoolingRegistrationRepository.findOneByStudentNumber
+      supOrganizationLearnerRepository.findOneByStudentNumber
         .withArgs({ organizationId, studentNumber })
         .resolves(null);
     });
@@ -57,15 +57,15 @@ describe('Unit | UseCase | update-student-number', function () {
     it('should update a student number', async function () {
       // when
       await updateStudentNumber({
-        higherSchoolingRegistrationRepository,
-        schoolingRegistrationId,
+        supOrganizationLearnerRepository,
+        organizationLearnerId,
         studentNumber,
         organizationId,
       });
 
       // then
-      expect(higherSchoolingRegistrationRepository.updateStudentNumber).to.have.been.calledWith(
-        schoolingRegistrationId,
+      expect(supOrganizationLearnerRepository.updateStudentNumber).to.have.been.calledWith(
+        organizationLearnerId,
         studentNumber
       );
     });

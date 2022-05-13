@@ -2,7 +2,7 @@ const isEmpty = require('lodash/isEmpty');
 const { UserNotAuthorizedToGenerateUsernamePasswordError } = require('../errors');
 
 module.exports = async function generateUsernameWithTemporaryPassword({
-  schoolingRegistrationId,
+  organizationLearnerId,
   organizationId,
   passwordGenerator,
   encryptionService,
@@ -10,16 +10,16 @@ module.exports = async function generateUsernameWithTemporaryPassword({
   userService,
   authenticationMethodRepository,
   userRepository,
-  schoolingRegistrationRepository,
+  organizationLearnerRepository,
 }) {
-  const schoolingRegistration = await schoolingRegistrationRepository.get(schoolingRegistrationId);
-  _checkIfStudentHasAccessToOrganization(schoolingRegistration, organizationId);
+  const organizationLearner = await organizationLearnerRepository.get(organizationLearnerId);
+  _checkIfStudentHasAccessToOrganization(organizationLearner, organizationId);
 
-  const studentAccount = await userRepository.get(schoolingRegistration.userId);
+  const studentAccount = await userRepository.get(organizationLearner.userId);
   _checkIfStudentAccountAlreadyHasUsername(studentAccount);
 
   const username = await userReconciliationService.createUsernameByUser({
-    user: schoolingRegistration,
+    user: organizationLearner,
     userRepository,
   });
 
@@ -47,10 +47,10 @@ module.exports = async function generateUsernameWithTemporaryPassword({
   }
 };
 
-function _checkIfStudentHasAccessToOrganization(schoolingRegistration, organizationId) {
-  if (schoolingRegistration.organizationId !== organizationId) {
+function _checkIfStudentHasAccessToOrganization(organizationLearner, organizationId) {
+  if (organizationLearner.organizationId !== organizationId) {
     throw new UserNotAuthorizedToGenerateUsernamePasswordError(
-      `L'élève avec l'INE ${schoolingRegistration.nationalStudentId} n'appartient pas à l'organisation.`
+      `L'élève avec l'INE ${organizationLearner.nationalStudentId} n'appartient pas à l'organisation.`
     );
   }
 }

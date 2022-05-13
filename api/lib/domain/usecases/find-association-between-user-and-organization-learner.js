@@ -1,15 +1,15 @@
 const {
   CampaignCodeError,
   UserNotAuthorizedToAccessEntityError,
-  SchoolingRegistrationDisabledError,
+  OrganizationLearnerDisabledError,
 } = require('../errors');
 
-module.exports = async function findAssociationBetweenUserAndSchoolingRegistration({
+module.exports = async function findAssociationBetweenUserAndOrganizationLearner({
   authenticatedUserId,
   requestedUserId,
   campaignCode,
   campaignRepository,
-  schoolingRegistrationRepository,
+  organizationLearnerRepository,
 }) {
   if (authenticatedUserId !== requestedUserId) {
     throw new UserNotAuthorizedToAccessEntityError();
@@ -20,13 +20,13 @@ module.exports = async function findAssociationBetweenUserAndSchoolingRegistrati
     throw new CampaignCodeError();
   }
 
-  const registration = await schoolingRegistrationRepository.findOneByUserIdAndOrganizationId({
+  const registration = await organizationLearnerRepository.findOneByUserIdAndOrganizationId({
     userId: authenticatedUserId,
     organizationId: campaign.organizationId,
   });
 
   if (registration && registration.isDisabled) {
-    throw new SchoolingRegistrationDisabledError();
+    throw new OrganizationLearnerDisabledError();
   }
 
   return registration;

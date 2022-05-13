@@ -1,18 +1,18 @@
 module.exports = async function getAccountRecoveryDetails({
   temporaryKey,
   accountRecoveryDemandRepository,
-  schoolingRegistrationRepository,
+  organizationLearnerRepository,
   userRepository,
   scoAccountRecoveryService,
 }) {
-  const { id, newEmail, schoolingRegistrationId } =
+  const { id, newEmail, organizationLearnerId } =
     await scoAccountRecoveryService.retrieveAndValidateAccountRecoveryDemand({
       temporaryKey,
       accountRecoveryDemandRepository,
       userRepository,
     });
 
-  const { firstName } = await schoolingRegistrationRepository.get(schoolingRegistrationId);
+  const { firstName } = await organizationLearnerRepository.get(organizationLearnerId);
 
   return {
     id,

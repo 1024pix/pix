@@ -3,7 +3,7 @@ const User = require('../models/User');
 const AuthenticationMethod = require('../models/AuthenticationMethod');
 const { STUDENT_RECONCILIATION_ERRORS } = require('../constants');
 
-module.exports = async function createUserAndReconcileToSchoolingRegistrationFromExternalUser({
+module.exports = async function createUserAndReconcileToOrganizationLearnerFromExternalUser({
   birthdate,
   campaignCode,
   token,
@@ -15,7 +15,7 @@ module.exports = async function createUserAndReconcileToSchoolingRegistrationFro
   campaignRepository,
   userRepository,
   userToCreateRepository,
-  schoolingRegistrationRepository,
+  organizationLearnerRepository,
   studentRepository,
 }) {
   const campaign = await campaignRepository.getByCode(campaignCode);
@@ -41,7 +41,7 @@ module.exports = async function createUserAndReconcileToSchoolingRegistrationFro
     cgu: false,
   });
 
-  let matchedSchoolingRegistration;
+  let matchedOrganizationLearner;
   let userWithSamlId;
   let userId;
   const reconciliationErrors = [
@@ -50,15 +50,15 @@ module.exports = async function createUserAndReconcileToSchoolingRegistrationFro
   ];
 
   try {
-    matchedSchoolingRegistration =
-      await userReconciliationService.findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser({
+    matchedOrganizationLearner =
+      await userReconciliationService.findMatchingOrganizationLearnerIdForGivenOrganizationIdAndUser({
         organizationId: campaign.organizationId,
         reconciliationInfo,
-        schoolingRegistrationRepository,
+        organizationLearnerRepository,
       });
 
     await userReconciliationService.checkIfStudentHasAnAlreadyReconciledAccount(
-      matchedSchoolingRegistration,
+      matchedOrganizationLearner,
       userRepository,
       obfuscationService,
       studentRepository
@@ -66,12 +66,12 @@ module.exports = async function createUserAndReconcileToSchoolingRegistrationFro
 
     userWithSamlId = await userRepository.getBySamlId(externalUser.samlId);
     if (!userWithSamlId) {
-      userId = await userService.createAndReconcileUserToSchoolingRegistration({
+      userId = await userService.createAndReconcileUserToOrganizationLearner({
         user: domainUser,
-        schoolingRegistrationId: matchedSchoolingRegistration.id,
+        schoolingRegistrationId: matchedOrganizationLearner.id,
         samlId: externalUser.samlId,
         authenticationMethodRepository,
-        schoolingRegistrationRepository,
+        organizationLearnerRepository,
         userToCreateRepository,
       });
     }
@@ -82,11 +82,11 @@ module.exports = async function createUserAndReconcileToSchoolingRegistrationFro
         userId: error.meta.userId,
         identityProvider: AuthenticationMethod.identityProviders.GAR,
       });
-      const schoolingRegistration = await schoolingRegistrationRepository.reconcileUserToSchoolingRegistration({
+      const organizationLearner = await organizationLearnerRepository.reconcileUserToOrganizationLearner({
         userId: error.meta.userId,
-        schoolingRegistrationId: matchedSchoolingRegistration.id,
+        organizationLearnerId: matchedOrganizationLearner.id,
       });
-      userId = schoolingRegistration.userId;
+      userId = organizationLearner.userId;
     } else {
       throw error;
     }

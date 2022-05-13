@@ -2,9 +2,9 @@ const { sinon, expect, catchErr } = require('../../../test-helper');
 
 const { UserNotFoundError, UserNotAuthorizedToUpdatePasswordError } = require('../../../../lib/domain/errors');
 
-const updateSchoolingRegistrationDependentUserPassword = require('../../../../lib/domain/usecases/update-schooling-registration-dependent-user-password');
+const updateOrganizationLearnerDependentUserPassword = require('../../../../lib/domain/usecases/update-organization-learner-dependent-user-password');
 
-describe('Unit | UseCase | update-schooling-registration-dependent-user-password', function () {
+describe('Unit | UseCase | update-organization-learner-dependent-user-password', function () {
   const userId = 1;
   const organizationId = 1;
   const schoolingRegistrationId = 1;
@@ -15,7 +15,7 @@ describe('Unit | UseCase | update-schooling-registration-dependent-user-password
   let passwordGenerator;
   let encryptionService;
   let authenticationMethodRepository;
-  let schoolingRegistrationRepository;
+  let organizationLearnerRepository;
   let userRepository;
 
   let userMember;
@@ -48,7 +48,7 @@ describe('Unit | UseCase | update-schooling-registration-dependent-user-password
     authenticationMethodRepository = {
       updatePasswordThatShouldBeChanged: sinon.stub(),
     };
-    schoolingRegistrationRepository = {
+    organizationLearnerRepository = {
       get: sinon.stub().resolves(student),
     };
     userRepository = {
@@ -60,14 +60,14 @@ describe('Unit | UseCase | update-schooling-registration-dependent-user-password
 
   it('should get user by his id', async function () {
     // when
-    await updateSchoolingRegistrationDependentUserPassword({
+    await updateOrganizationLearnerDependentUserPassword({
       organizationId,
       schoolingRegistrationId,
       userId,
       encryptionService,
       passwordGenerator,
       authenticationMethodRepository,
-      schoolingRegistrationRepository,
+      organizationLearnerRepository,
       userRepository,
     });
 
@@ -77,31 +77,31 @@ describe('Unit | UseCase | update-schooling-registration-dependent-user-password
 
   it('should get student by his id', async function () {
     // when
-    await updateSchoolingRegistrationDependentUserPassword({
+    await updateOrganizationLearnerDependentUserPassword({
       organizationId,
       schoolingRegistrationId,
       userId,
       encryptionService,
       passwordGenerator,
       authenticationMethodRepository,
-      schoolingRegistrationRepository,
+      organizationLearnerRepository,
       userRepository,
     });
 
     // then
-    expect(schoolingRegistrationRepository.get).to.have.been.calledWith(schoolingRegistrationId);
+    expect(organizationLearnerRepository.get).to.have.been.calledWith(schoolingRegistrationId);
   });
 
   it('should update user password with a hashed password', async function () {
     // when
-    await updateSchoolingRegistrationDependentUserPassword({
+    await updateOrganizationLearnerDependentUserPassword({
       organizationId,
       schoolingRegistrationId,
       userId,
       encryptionService,
       passwordGenerator,
       authenticationMethodRepository,
-      schoolingRegistrationRepository,
+      organizationLearnerRepository,
       userRepository,
     });
 
@@ -115,14 +115,14 @@ describe('Unit | UseCase | update-schooling-registration-dependent-user-password
 
   it('should return generated password if update succeeded', async function () {
     // when
-    const result = await updateSchoolingRegistrationDependentUserPassword({
+    const result = await updateOrganizationLearnerDependentUserPassword({
       organizationId,
       schoolingRegistrationId,
       userId,
       encryptionService,
       passwordGenerator,
       authenticationMethodRepository,
-      schoolingRegistrationRepository,
+      organizationLearnerRepository,
       userRepository,
     });
 
@@ -136,14 +136,14 @@ describe('Unit | UseCase | update-schooling-registration-dependent-user-password
       userMember.hasAccessToOrganization.returns(false);
 
       // when
-      const error = await catchErr(updateSchoolingRegistrationDependentUserPassword)({
+      const error = await catchErr(updateOrganizationLearnerDependentUserPassword)({
         organizationId,
         schoolingRegistrationId,
         userId,
         encryptionService,
         passwordGenerator,
         authenticationMethodRepository,
-        schoolingRegistrationRepository,
+        organizationLearnerRepository,
         userRepository,
       });
 
@@ -158,14 +158,14 @@ describe('Unit | UseCase | update-schooling-registration-dependent-user-password
       student.organizationId = 2;
 
       // when
-      const error = await catchErr(updateSchoolingRegistrationDependentUserPassword)({
+      const error = await catchErr(updateOrganizationLearnerDependentUserPassword)({
         organizationId,
         schoolingRegistrationId,
         userId,
         encryptionService,
         passwordGenerator,
         authenticationMethodRepository,
-        schoolingRegistrationRepository,
+        organizationLearnerRepository,
         userRepository,
       });
 
@@ -180,14 +180,14 @@ describe('Unit | UseCase | update-schooling-registration-dependent-user-password
       userRepository.get.rejects(new UserNotFoundError());
 
       // when
-      const error = await catchErr(updateSchoolingRegistrationDependentUserPassword)({
+      const error = await catchErr(updateOrganizationLearnerDependentUserPassword)({
         organizationId,
         schoolingRegistrationId,
         userId,
         encryptionService,
         passwordGenerator,
         authenticationMethodRepository,
-        schoolingRegistrationRepository,
+        organizationLearnerRepository,
         userRepository,
       });
 
@@ -201,14 +201,14 @@ describe('Unit | UseCase | update-schooling-registration-dependent-user-password
       userStudent.email = null;
 
       // when
-      const error = await catchErr(updateSchoolingRegistrationDependentUserPassword)({
+      const error = await catchErr(updateOrganizationLearnerDependentUserPassword)({
         organizationId,
         schoolingRegistrationId,
         userId,
         encryptionService,
         passwordGenerator,
         authenticationMethodRepository,
-        schoolingRegistrationRepository,
+        organizationLearnerRepository,
         userRepository,
       });
 

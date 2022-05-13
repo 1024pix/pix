@@ -12,7 +12,7 @@ describe('Unit | UseCase | get-user-profile-shared-for-campaign', function () {
   let knowledgeElementRepository;
   let competenceRepository;
   let campaignRepository;
-  let schoolingRegistrationRepository;
+  let organizationLearnerRepository;
   let userId;
   let campaignId;
 
@@ -24,7 +24,7 @@ describe('Unit | UseCase | get-user-profile-shared-for-campaign', function () {
       knowledgeElementRepository = { findUniqByUserIdGroupedByCompetenceId: sinon.stub() };
       competenceRepository = { listPixCompetencesOnly: sinon.stub() };
       campaignRepository = { get: sinon.stub() };
-      schoolingRegistrationRepository = { isActive: sinon.stub() };
+      organizationLearnerRepository = { isActive: sinon.stub() };
       sinon.stub(Scorecard, 'buildFrom');
     });
 
@@ -45,7 +45,7 @@ describe('Unit | UseCase | get-user-profile-shared-for-campaign', function () {
         .resolves(knowledgeElements);
       competenceRepository.listPixCompetencesOnly.withArgs({ locale: 'fr' }).resolves(competences);
       campaignRepository.get.withArgs(campaignId).resolves(campaign);
-      schoolingRegistrationRepository.isActive.withArgs({ campaignId, userId }).resolves(false);
+      organizationLearnerRepository.isActive.withArgs({ campaignId, userId }).resolves(false);
       Scorecard.buildFrom
         .withArgs({ userId, knowledgeElements: knowledgeElements['competence1'], competence: competences[0] })
         .returns({ id: 'Score1', earnedPix: 10 });
@@ -61,7 +61,7 @@ describe('Unit | UseCase | get-user-profile-shared-for-campaign', function () {
         knowledgeElementRepository,
         competenceRepository,
         campaignRepository,
-        schoolingRegistrationRepository,
+        organizationLearnerRepository,
         locale,
       });
 
@@ -92,7 +92,7 @@ describe('Unit | UseCase | get-user-profile-shared-for-campaign', function () {
         knowledgeElementRepository,
         competenceRepository,
         campaignRepository,
-        schoolingRegistrationRepository,
+        organizationLearnerRepository,
       });
 
       // then

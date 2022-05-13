@@ -1,12 +1,12 @@
 const { AlreadyExistingEntityError } = require('../../domain/errors');
 
 module.exports = async function updateStudentNumber({
-  schoolingRegistrationId,
+  organizationLearnerId,
   studentNumber,
   organizationId,
-  higherSchoolingRegistrationRepository,
+  supOrganizationLearnerRepository,
 }) {
-  const registration = await higherSchoolingRegistrationRepository.findOneByStudentNumber({
+  const registration = await supOrganizationLearnerRepository.findOneByStudentNumber({
     organizationId,
     studentNumber,
   });
@@ -15,5 +15,5 @@ module.exports = async function updateStudentNumber({
     throw new AlreadyExistingEntityError('STUDENT_NUMBER_EXISTS');
   }
 
-  await higherSchoolingRegistrationRepository.updateStudentNumber(schoolingRegistrationId, studentNumber);
+  await supOrganizationLearnerRepository.updateStudentNumber(organizationLearnerId, studentNumber);
 };

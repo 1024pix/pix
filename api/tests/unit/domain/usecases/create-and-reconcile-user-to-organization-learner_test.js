@@ -8,13 +8,13 @@ const {
   AlreadyRegisteredUsernameError,
   CampaignCodeError,
   EntityValidationError,
-  SchoolingRegistrationAlreadyLinkedToUserError,
+  OrganizationLearnerAlreadyLinkedToUserError,
   NotFoundError,
 } = require('../../../../lib/domain/errors');
 
 const usecases = require('../../../../lib/domain/usecases');
 
-describe('Unit | UseCase | create-and-reconcile-user-to-schooling-registration', function () {
+describe('Unit | UseCase | create-and-reconcile-user-to-organization-learner', function () {
   const organizationId = 1;
   const schoolingRegistrationId = 1;
   const password = 'P@ssw0rd';
@@ -25,7 +25,7 @@ describe('Unit | UseCase | create-and-reconcile-user-to-schooling-registration',
 
   let authenticationMethodRepository;
   let campaignRepository;
-  let schoolingRegistrationRepository;
+  let organizationLearnerRepository;
   let userRepository;
 
   let encryptionService;
@@ -46,7 +46,7 @@ describe('Unit | UseCase | create-and-reconcile-user-to-schooling-registration',
     campaignRepository = {
       getByCode: sinon.stub(),
     };
-    schoolingRegistrationRepository = {};
+    organizationLearnerRepository = {};
     userRepository = {
       create: sinon.stub(),
       checkIfEmailIsAvailable: sinon.stub(),
@@ -61,10 +61,10 @@ describe('Unit | UseCase | create-and-reconcile-user-to-schooling-registration',
       sendAccountCreationEmail: sinon.stub(),
     };
     userReconciliationService = {
-      findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser: sinon.stub(),
+      findMatchingOrganizationLearnerIdForGivenOrganizationIdAndUser: sinon.stub(),
     };
     userService = {
-      createAndReconcileUserToSchoolingRegistration: sinon.stub(),
+      createAndReconcileUserToOrganizationLearner: sinon.stub(),
     };
 
     sinon.stub(passwordValidator, 'validate');
@@ -88,14 +88,14 @@ describe('Unit | UseCase | create-and-reconcile-user-to-schooling-registration',
       campaignRepository.getByCode.withArgs(campaignCode).resolves(null);
 
       // when
-      const result = await catchErr(usecases.createAndReconcileUserToSchoolingRegistration)({
+      const result = await catchErr(usecases.createAndReconcileUserToOrganizationLearner)({
         campaignCode,
         locale,
         password,
         userAttributes,
         authenticationMethodRepository,
         campaignRepository,
-        schoolingRegistrationRepository,
+        organizationLearnerRepository,
         userRepository,
         encryptionService,
         mailService,
@@ -112,19 +112,19 @@ describe('Unit | UseCase | create-and-reconcile-user-to-schooling-registration',
   context('When no schoolingRegistration found', function () {
     it('should throw a Not Found error', async function () {
       // given
-      userReconciliationService.findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser.throws(
+      userReconciliationService.findMatchingOrganizationLearnerIdForGivenOrganizationIdAndUser.throws(
         new NotFoundError('Error message')
       );
 
       // when
-      const result = await catchErr(usecases.createAndReconcileUserToSchoolingRegistration)({
+      const result = await catchErr(usecases.createAndReconcileUserToOrganizationLearner)({
         campaignCode,
         locale,
         password,
         userAttributes,
         authenticationMethodRepository,
         campaignRepository,
-        schoolingRegistrationRepository,
+        organizationLearnerRepository,
         userRepository,
         encryptionService,
         mailService,
@@ -146,12 +146,12 @@ describe('Unit | UseCase | create-and-reconcile-user-to-schooling-registration',
     beforeEach(function () {
       createdUser = domainBuilder.buildUser();
 
-      userReconciliationService.findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser.resolves(
+      userReconciliationService.findMatchingOrganizationLearnerIdForGivenOrganizationIdAndUser.resolves(
         schoolingRegistrationId
       );
       encryptionService.hashPassword.resolves(encryptedPassword);
 
-      userService.createAndReconcileUserToSchoolingRegistration.resolves(createdUser.id);
+      userService.createAndReconcileUserToOrganizationLearner.resolves(createdUser.id);
       userRepository.get.withArgs(createdUser.id).resolves(createdUser);
     });
 
@@ -187,14 +187,14 @@ describe('Unit | UseCase | create-and-reconcile-user-to-schooling-registration',
           const expectedInvalidAttributes = [userInvalidAttribute, passwordInvalidAttribute];
 
           // when
-          const error = await catchErr(usecases.createAndReconcileUserToSchoolingRegistration)({
+          const error = await catchErr(usecases.createAndReconcileUserToOrganizationLearner)({
             campaignCode,
             locale,
             password,
             userAttributes,
             authenticationMethodRepository,
             campaignRepository,
-            schoolingRegistrationRepository,
+            organizationLearnerRepository,
             userRepository,
             encryptionService,
             mailService,
@@ -215,14 +215,14 @@ describe('Unit | UseCase | create-and-reconcile-user-to-schooling-registration',
           userRepository.checkIfEmailIsAvailable.rejects(new AlreadyRegisteredEmailError());
 
           // when
-          const error = await catchErr(usecases.createAndReconcileUserToSchoolingRegistration)({
+          const error = await catchErr(usecases.createAndReconcileUserToOrganizationLearner)({
             campaignCode,
             locale,
             password,
             userAttributes,
             authenticationMethodRepository,
             campaignRepository,
-            schoolingRegistrationRepository,
+            organizationLearnerRepository,
             userRepository,
             encryptionService,
             mailService,
@@ -243,14 +243,14 @@ describe('Unit | UseCase | create-and-reconcile-user-to-schooling-registration',
 
         it('should create user and associate schoolingRegistration', async function () {
           // when
-          const result = await usecases.createAndReconcileUserToSchoolingRegistration({
+          const result = await usecases.createAndReconcileUserToOrganizationLearner({
             campaignCode,
             locale,
             password,
             userAttributes,
             authenticationMethodRepository,
             campaignRepository,
-            schoolingRegistrationRepository,
+            organizationLearnerRepository,
             userRepository,
             encryptionService,
             mailService,
@@ -268,14 +268,14 @@ describe('Unit | UseCase | create-and-reconcile-user-to-schooling-registration',
           const expectedRedirectionUrl = `https://app.pix.fr/campagnes/${campaignCode}`;
 
           // when
-          await usecases.createAndReconcileUserToSchoolingRegistration({
+          await usecases.createAndReconcileUserToOrganizationLearner({
             campaignCode,
             locale,
             password,
             userAttributes,
             authenticationMethodRepository,
             campaignRepository,
-            schoolingRegistrationRepository,
+            organizationLearnerRepository,
             userRepository,
             encryptionService,
             mailService,
@@ -295,19 +295,19 @@ describe('Unit | UseCase | create-and-reconcile-user-to-schooling-registration',
         context('But association is already done', function () {
           it('should nor create nor associate schoolingRegistration', async function () {
             // given
-            userService.createAndReconcileUserToSchoolingRegistration.throws(
-              new SchoolingRegistrationAlreadyLinkedToUserError()
+            userService.createAndReconcileUserToOrganizationLearner.throws(
+              new OrganizationLearnerAlreadyLinkedToUserError()
             );
 
             // when
-            const error = await catchErr(usecases.createAndReconcileUserToSchoolingRegistration)({
+            const error = await catchErr(usecases.createAndReconcileUserToOrganizationLearner)({
               campaignCode,
               locale,
               password,
               userAttributes,
               authenticationMethodRepository,
               campaignRepository,
-              schoolingRegistrationRepository,
+              organizationLearnerRepository,
               userRepository,
               encryptionService,
               mailService,
@@ -317,7 +317,7 @@ describe('Unit | UseCase | create-and-reconcile-user-to-schooling-registration',
             });
 
             // then
-            expect(error).to.be.instanceOf(SchoolingRegistrationAlreadyLinkedToUserError);
+            expect(error).to.be.instanceOf(OrganizationLearnerAlreadyLinkedToUserError);
           });
         });
       });
@@ -335,14 +335,14 @@ describe('Unit | UseCase | create-and-reconcile-user-to-schooling-registration',
           userRepository.isUsernameAvailable.rejects(new AlreadyRegisteredUsernameError());
 
           // when
-          const error = await catchErr(usecases.createAndReconcileUserToSchoolingRegistration)({
+          const error = await catchErr(usecases.createAndReconcileUserToOrganizationLearner)({
             campaignCode,
             locale,
             password,
             userAttributes,
             authenticationMethodRepository,
             campaignRepository,
-            schoolingRegistrationRepository,
+            organizationLearnerRepository,
             userRepository,
             encryptionService,
             mailService,
@@ -359,14 +359,14 @@ describe('Unit | UseCase | create-and-reconcile-user-to-schooling-registration',
       context('When username is available', function () {
         it('should create user and associate schoolingRegistration', async function () {
           // when
-          const result = await usecases.createAndReconcileUserToSchoolingRegistration({
+          const result = await usecases.createAndReconcileUserToOrganizationLearner({
             campaignCode,
             locale,
             password,
             userAttributes,
             authenticationMethodRepository,
             campaignRepository,
-            schoolingRegistrationRepository,
+            organizationLearnerRepository,
             userRepository,
             encryptionService,
             mailService,
@@ -382,19 +382,19 @@ describe('Unit | UseCase | create-and-reconcile-user-to-schooling-registration',
         context('But association is already done', function () {
           it('should nor create nor associate schoolingRegistration', async function () {
             // given
-            userService.createAndReconcileUserToSchoolingRegistration.throws(
-              new SchoolingRegistrationAlreadyLinkedToUserError()
+            userService.createAndReconcileUserToOrganizationLearner.throws(
+              new OrganizationLearnerAlreadyLinkedToUserError()
             );
 
             // when
-            const error = await catchErr(usecases.createAndReconcileUserToSchoolingRegistration)({
+            const error = await catchErr(usecases.createAndReconcileUserToOrganizationLearner)({
               campaignCode,
               locale,
               password,
               userAttributes,
               authenticationMethodRepository,
               campaignRepository,
-              schoolingRegistrationRepository,
+              organizationLearnerRepository,
               userRepository,
               encryptionService,
               mailService,
@@ -404,7 +404,7 @@ describe('Unit | UseCase | create-and-reconcile-user-to-schooling-registration',
             });
 
             // then
-            expect(error).to.be.instanceOf(SchoolingRegistrationAlreadyLinkedToUserError);
+            expect(error).to.be.instanceOf(OrganizationLearnerAlreadyLinkedToUserError);
           });
         });
       });

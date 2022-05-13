@@ -1,13 +1,13 @@
 const { expect, databaseBuilder, knex, catchErr } = require('../../../test-helper');
 const userReconciliationService = require('../../../../lib/domain/services/user-reconciliation-service');
 const campaignRepository = require('../../../../lib/infrastructure/repositories/campaign-repository');
-const higherSchoolingRegistrationRepository = require('../../../../lib/infrastructure/repositories/higher-schooling-registration-repository');
-const schoolingRegistrationRepository = require('../../../../lib/infrastructure/repositories/schooling-registration-repository');
-const { NotFoundError, SchoolingRegistrationAlreadyLinkedToUserError } = require('../../../../lib/domain/errors');
+const supOrganizationLearnerRepository = require('../../../../lib/infrastructure/repositories/sup-organization-learner-repository');
+const organizationLearnerRepository = require('../../../../lib/infrastructure/repositories/organization-learner-repository');
+const { NotFoundError, OrganizationLearnerAlreadyLinkedToUserError } = require('../../../../lib/domain/errors');
 
-const reconcileHigherSchoolingRegistration = require('../../../../lib/domain/usecases/reconcile-higher-schooling-registration');
+const reconcileSupOrganizationLearner = require('../../../../lib/domain/usecases/reconcile-sup-organization-learner');
 
-describe('Integration | UseCases | reconcile-higher-schooling-registration', function () {
+describe('Integration | UseCases | reconcile-sup-organization-learner', function () {
   let userId;
   let organizationId;
   let campaignCode;
@@ -15,7 +15,7 @@ describe('Integration | UseCases | reconcile-higher-schooling-registration', fun
   context('When there is no campaign with the given code', function () {
     it('should throw a campaign code error', async function () {
       // when
-      const error = await catchErr(reconcileHigherSchoolingRegistration)({
+      const error = await catchErr(reconcileSupOrganizationLearner)({
         campaignCode: 'NOTEXIST',
         reconciliationInfo: {},
         campaignRepository,
@@ -55,12 +55,12 @@ describe('Integration | UseCases | reconcile-higher-schooling-registration', fun
           await databaseBuilder.commit();
 
           // when
-          const error = await catchErr(reconcileHigherSchoolingRegistration)({
+          const error = await catchErr(reconcileSupOrganizationLearner)({
             campaignCode,
             reconciliationInfo,
             campaignRepository,
-            higherSchoolingRegistrationRepository,
-            schoolingRegistrationRepository,
+            supOrganizationLearnerRepository,
+            organizationLearnerRepository,
             userReconciliationService,
           });
 
@@ -90,12 +90,12 @@ describe('Integration | UseCases | reconcile-higher-schooling-registration', fun
           await databaseBuilder.commit();
 
           // when
-          await reconcileHigherSchoolingRegistration({
+          await reconcileSupOrganizationLearner({
             campaignCode,
             reconciliationInfo,
             campaignRepository,
-            higherSchoolingRegistrationRepository,
-            schoolingRegistrationRepository,
+            supOrganizationLearnerRepository,
+            organizationLearnerRepository,
             userReconciliationService,
           });
 
@@ -125,17 +125,17 @@ describe('Integration | UseCases | reconcile-higher-schooling-registration', fun
           await databaseBuilder.commit();
 
           // when
-          const error = await catchErr(reconcileHigherSchoolingRegistration)({
+          const error = await catchErr(reconcileSupOrganizationLearner)({
             campaignCode,
             reconciliationInfo,
             campaignRepository,
-            higherSchoolingRegistrationRepository,
-            schoolingRegistrationRepository,
+            supOrganizationLearnerRepository,
+            organizationLearnerRepository,
             userReconciliationService,
           });
 
           // then
-          expect(error).to.be.instanceOf(SchoolingRegistrationAlreadyLinkedToUserError);
+          expect(error).to.be.instanceOf(OrganizationLearnerAlreadyLinkedToUserError);
         });
       });
     });
