@@ -7,6 +7,7 @@ import Component from '@glimmer/component';
 export default class OrganizationTargetProfilesSectionComponent extends Component {
   @tracked targetProfilesToAttach = '';
 
+  @service accessControl;
   @service notifications;
   @service router;
 
