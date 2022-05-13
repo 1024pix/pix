@@ -1,5 +1,16 @@
 # Pix Changelog
 
+## v3.210.0 (13/05/2022)
+
+
+### :rocket: Amélioration
+- [#4389](https://github.com/1024pix/pix/pull/4389) [FEATURE] Voir le détail des niveaux obtenus aux différents volets d'une certif Pix+ Edu (PIX-4626)
+- [#4417](https://github.com/1024pix/pix/pull/4417) [FEATURE] Enlever les espaces en début et fin de classe et groupe lors des import de fichier prescrits (Pix-4629).
+- [#4407](https://github.com/1024pix/pix/pull/4407) [FEATURE] Permettre à un utilisateur venant de la CNAV de se connecter à Pix App (PIX-4184).
+
+### :building_construction: Tech
+- [#4436](https://github.com/1024pix/pix/pull/4436) [TECH] Empêcher la création automatique d'une traduction vide (PIX-4956).
+
 ## v3.209.0 (12/05/2022)
 
 
