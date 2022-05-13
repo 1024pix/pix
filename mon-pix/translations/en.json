@@ -274,7 +274,8 @@
           "birth-name": "Last name (given at birth)",
           "birth-year": "Year (YYYY)",
           "first-name": "First name",
-          "session-number": "Session number"
+          "session-number": "Session number",
+          "session-number-information": "Given only by the invigilator at the beginning of the session"
         },
         "fields-validation": {
           "session-number-error": "The session ID must only contain numbers."
