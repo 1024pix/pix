@@ -1,6 +1,5 @@
 const CertificationEligibility = require('../read-models/CertificationEligibility');
-const { PIX_EMPLOI_CLEA_V1 } = require('../models/Badge').keys;
-const { getLabelByBadgeKey } = require('../read-models/CertifiableBadgeLabels');
+const { getLabelByBadgeKey, getCleaLabel } = require('../read-models/CertifiableBadgeLabels');
 
 module.exports = async function getUserCertificationEligibility({
   userId,
@@ -26,7 +25,7 @@ module.exports = async function getUserCertificationEligibility({
   const hasStillValidCleaBadge = await certificationBadgesService.hasStillValidCleaBadgeAcquisition({ userId });
 
   if (hasStillValidCleaBadge) {
-    eligibleComplementaryCertifications.unshift(getLabelByBadgeKey(PIX_EMPLOI_CLEA_V1));
+    eligibleComplementaryCertifications.unshift(getCleaLabel());
   }
 
   return new CertificationEligibility({
