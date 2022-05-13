@@ -1,5 +1,5 @@
 const _ = require('lodash');
-const { SchoolingRegistrationsCouldNotBeSavedError } = require('../../domain/errors');
+const { OrganizationLearnersCouldNotBeSavedError } = require('../../domain/errors');
 const { knex } = require('../bookshelf');
 const BookshelfOrganizationLearner = require('../orm-models/OrganizationLearner');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
@@ -51,14 +51,14 @@ module.exports = {
     return bookshelfToDomainConverter.buildDomainObject(BookshelfOrganizationLearner, organizationLearner);
   },
 
-  async addStudents(higherSchoolingRegistrations) {
-    await _upsertStudents(knex, higherSchoolingRegistrations);
+  async addStudents(supOrganizationLearners) {
+    await _upsertStudents(knex, supOrganizationLearners);
   },
 
-  async replaceStudents(organizationId, higherSchoolingRegistrations) {
+  async replaceStudents(organizationId, supOrganizationLearners) {
     await knex.transaction(async (transaction) => {
       await _disableAllRegistrations(transaction, organizationId);
-      await _upsertStudents(transaction, higherSchoolingRegistrations);
+      await _upsertStudents(transaction, supOrganizationLearners);
     });
   },
 };
@@ -69,8 +69,8 @@ async function _disableAllRegistrations(queryBuilder, organizationId) {
     .where({ organizationId, isDisabled: false });
 }
 
-async function _upsertStudents(queryBuilder, higherSchoolingRegistrations) {
-  const registrationsToInsert = higherSchoolingRegistrations.map((registration) => ({
+async function _upsertStudents(queryBuilder, supOrganizationLearners) {
+  const registrationsToInsert = supOrganizationLearners.map((registration) => ({
     ..._.pick(registration, ATTRIBUTES_TO_SAVE),
     status: registration.studyScheme,
     isDisabled: false,
@@ -83,6 +83,6 @@ async function _upsertStudents(queryBuilder, higherSchoolingRegistrations) {
       .onConflict(['organizationId', 'studentNumber'])
       .merge();
   } catch (error) {
-    throw new SchoolingRegistrationsCouldNotBeSavedError();
+    throw new OrganizationLearnersCouldNotBeSavedError();
   }
 }

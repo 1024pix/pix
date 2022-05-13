@@ -27,22 +27,22 @@ function _toPrescriberDomain(bookshelfUser) {
   });
 }
 
-async function _areNewYearSchoolingRegistrationsImportedForPrescriber(prescriber) {
+async function _areNewYearOrganizationLearnersImportedForPrescriber(prescriber) {
   const currentOrganizationId = prescriber.userOrgaSettings.id
     ? prescriber.userOrgaSettings.currentOrganization.id
     : prescriber.memberships[0].organization.id;
-  const atLeastOneSchoolingRegistration = await knex('organizations')
+  const atLeastOneOrganizationLearner = await knex('organizations')
     .select('organizations.id')
     .join('organization-learners', 'organization-learners.organizationId', 'organizations.id')
     .where((qb) => {
       qb.where('organizations.id', currentOrganizationId);
-      if (settings.features.newYearSchoolingRegistrationsImportDate) {
-        qb.where('organization-learners.createdAt', '>=', settings.features.newYearSchoolingRegistrationsImportDate);
+      if (settings.features.newYearOrganizationLearnersImportDate) {
+        qb.where('organization-learners.createdAt', '>=', settings.features.newYearOrganizationLearnersImportDate);
       }
     })
     .first();
 
-  prescriber.areNewYearSchoolingRegistrationsImported = Boolean(atLeastOneSchoolingRegistration);
+  prescriber.areNewYearOrganizationLearnersImported = Boolean(atLeastOneOrganizationLearner);
 }
 
 module.exports = {
@@ -64,7 +64,7 @@ module.exports = {
         throw new ForbiddenAccess(`User of ID ${userId} is not a prescriber`);
       }
 
-      await _areNewYearSchoolingRegistrationsImportedForPrescriber(prescriber);
+      await _areNewYearOrganizationLearnersImportedForPrescriber(prescriber);
 
       return prescriber;
     } catch (err) {

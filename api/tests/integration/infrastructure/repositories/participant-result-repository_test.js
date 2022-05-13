@@ -97,7 +97,7 @@ describe('Integration | Repository | ParticipantResultRepository', function () {
     });
 
     context('computes canRetry', function () {
-      it('returns true when there is no schooling-registration and all other conditions are filled', async function () {
+      it('returns true when there is no organization-learner and all other conditions are filled', async function () {
         const { id: userId } = databaseBuilder.factory.buildUser();
         const { id: campaignId } = databaseBuilder.factory.buildCampaign({ targetProfileId, multipleSendings: true });
         const { id: campaignParticipationId } = databaseBuilder.factory.buildCampaignParticipation({
@@ -118,7 +118,7 @@ describe('Integration | Repository | ParticipantResultRepository', function () {
         expect(participantResult.canRetry).to.equal(true);
       });
 
-      it('returns true when there is a schooling-registration active and all other conditions are filled', async function () {
+      it('returns true when there is a organization-learner active and all other conditions are filled', async function () {
         const { id: userId } = databaseBuilder.factory.buildUser();
         const { id: organizationId } = databaseBuilder.factory.buildOrganization();
         databaseBuilder.factory.buildOrganizationLearner({ userId, organizationId });
@@ -164,7 +164,7 @@ describe('Integration | Repository | ParticipantResultRepository', function () {
         expect(participantResult.canRetry).to.equal(false);
       });
 
-      it('returns false when schooling-registration is disabled', async function () {
+      it('returns false when organization-learner is disabled', async function () {
         const { id: userId } = databaseBuilder.factory.buildUser();
         const { id: organizationId } = databaseBuilder.factory.buildOrganization();
         const { id: campaignId } = databaseBuilder.factory.buildCampaign({

@@ -1125,12 +1125,12 @@ describe('Integration | Repository | AuthenticationMethod', function () {
       const userId = databaseBuilder.factory.buildUser().id;
       const authenticationMethod = databaseBuilder.factory.buildAuthenticationMethod.withGarAsIdentityProvider({
         userId,
-        updatedAt: '2018-01-01',
+        updatedAt: new Date('2018-01-01'),
       });
       const otherAuthenticationMethod =
         databaseBuilder.factory.buildAuthenticationMethod.withPixAsIdentityProviderAndPassword({
           userId,
-          updatedAt: '2018-01-01',
+          updatedAt: new Date('2018-01-01'),
         });
       await databaseBuilder.commit();
 
