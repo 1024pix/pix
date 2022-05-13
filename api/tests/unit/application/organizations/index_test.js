@@ -368,12 +368,13 @@ describe('Unit | Router | organization-router', function () {
       expect(response.statusCode).to.equal(400);
     });
 
-    it('should check if user is Super Admin', async function () {
+    it('returns forbidden access if user has CERTIF role', async function () {
       // given
-      sinon.stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin').resolves(false);
-      sinon
-        .stub(organizationController, 'sendInvitationByLangAndRole')
-        .callsFake((request, h) => h.response().created());
+      sinon.stub(securityPreHandlers, 'checkUserHasRoleCertif').resolves(true);
+      sinon.stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin').resolves({ source: { errors: {} } });
+      sinon.stub(securityPreHandlers, 'checkUserHasRoleSupport').resolves({ source: { errors: {} } });
+      sinon.stub(securityPreHandlers, 'checkUserHasRoleMetier').resolves({ source: { errors: {} } });
+
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
 
@@ -388,10 +389,10 @@ describe('Unit | Router | organization-router', function () {
       };
 
       // when
-      await httpTestServer.request(method, url, payload);
+      const response = await httpTestServer.request(method, url, payload);
 
       // then
-      expect(securityPreHandlers.checkUserHasRoleSuperAdmin).to.have.be.called;
+      expect(response.statusCode).to.equal(403);
     });
   });
 
