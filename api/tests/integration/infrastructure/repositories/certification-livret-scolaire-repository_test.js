@@ -4,7 +4,7 @@ const status = require('../../../../lib/domain/read-models/livret-scolaire/Certi
 
 const {
   buildUser,
-  buildSchoolingRegistration,
+  buildOrganizationLearner,
   buildOrganization,
   buildCertificationDataWithNoCompetenceMarks,
   buildValidatedPublishedCertificationData,
@@ -44,7 +44,7 @@ describe('Integration | Repository | Certification-ls ', function () {
       // given
       const organizationId = buildOrganization(uai).id;
       const user = buildUser();
-      const schoolingRegistration = buildSchoolingRegistration({
+      const schoolingRegistration = buildOrganizationLearner({
         userId: user.id,
         organizationId,
       });
@@ -95,7 +95,7 @@ describe('Integration | Repository | Certification-ls ', function () {
       // given
       const organizationId = buildOrganization(uai).id;
       const user = buildUser();
-      const schoolingRegistration = buildSchoolingRegistration({
+      const schoolingRegistration = buildOrganizationLearner({
         userId: user.id,
         organizationId,
         isDisabled: true,
@@ -122,7 +122,7 @@ describe('Integration | Repository | Certification-ls ', function () {
       // given
       const organizationId = buildOrganization(uai).id;
       const user = buildUser();
-      const schoolingRegistration = buildSchoolingRegistration({
+      const schoolingRegistration = buildOrganizationLearner({
         userId: user.id,
         organizationId,
       });
@@ -147,7 +147,7 @@ describe('Integration | Repository | Certification-ls ', function () {
       // given
       const organizationId = buildOrganization(uai).id;
       const user = buildUser();
-      const schoolingRegistration = buildSchoolingRegistration({
+      const schoolingRegistration = buildOrganizationLearner({
         userId: user.id,
         organizationId,
       });
@@ -172,7 +172,7 @@ describe('Integration | Repository | Certification-ls ', function () {
       // given
       const organizationId = buildOrganization(uai).id;
       const user = buildUser();
-      const schoolingRegistration = buildSchoolingRegistration({
+      const schoolingRegistration = buildOrganizationLearner({
         userId: user.id,
         organizationId,
       });
@@ -196,7 +196,7 @@ describe('Integration | Repository | Certification-ls ', function () {
       // given
       const organizationId = buildOrganization(uai).id;
       const user = buildUser();
-      const schoolingRegistration = buildSchoolingRegistration({
+      const schoolingRegistration = buildOrganizationLearner({
         userId: user.id,
         organizationId,
       });
@@ -220,7 +220,7 @@ describe('Integration | Repository | Certification-ls ', function () {
       // given
       const organizationId = buildOrganization(uai).id;
       const user = buildUser();
-      const schoolingRegistration = buildSchoolingRegistration({
+      const schoolingRegistration = buildOrganizationLearner({
         userId: user.id,
         organizationId,
       });
@@ -242,19 +242,19 @@ describe('Integration | Repository | Certification-ls ', function () {
       // given
       const organizationId = buildOrganization(uai).id;
       const user = buildUser();
-      buildSchoolingRegistration({
+      buildOrganizationLearner({
         userId: user.id,
         organizationId,
       });
       const formerOrganizationId = buildOrganization().id;
-      const formerSchoolingRegistration = buildSchoolingRegistration({
+      const formerOrganizationLearner = buildOrganizationLearner({
         userId: user.id,
         formerOrganizationId,
       });
 
       buildValidatedPublishedCertificationData({
         user,
-        schoolingRegistration: formerSchoolingRegistration,
+        schoolingRegistration: formerOrganizationLearner,
         verificationCode,
         pixScore,
         competenceMarks,
@@ -275,7 +275,7 @@ describe('Integration | Repository | Certification-ls ', function () {
       // given
       const organizationId = buildOrganization(uai).id;
       const user = buildUser();
-      const schoolingRegistration = buildSchoolingRegistration({
+      const schoolingRegistration = buildOrganizationLearner({
         userId: user.id,
         organizationId,
       });
@@ -317,7 +317,7 @@ describe('Integration | Repository | Certification-ls ', function () {
       // given
       const organizationId = buildOrganization(uai).id;
       const user = buildUser();
-      const schoolingRegistration = buildSchoolingRegistration({
+      const schoolingRegistration = buildOrganizationLearner({
         userId: user.id,
         organizationId,
       });

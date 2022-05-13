@@ -40,7 +40,7 @@ describe('Integration | Infrastructure | Repository | account-recovery-demand-re
             id: demandId,
             userId,
             oldEmail: null,
-            schoolingRegistrationId: organizationLearnerId,
+            organizationLearnerId,
             newEmail: 'philipe@example.net',
             temporaryKey: 'someTemporaryKey',
             used: true,
@@ -71,7 +71,7 @@ describe('Integration | Infrastructure | Repository | account-recovery-demand-re
             id: demandId,
             userId,
             oldEmail: null,
-            schoolingRegistrationId: organizationLearnerId,
+            organizationLearnerId,
             newEmail: 'philipe@example.net',
             temporaryKey: 'someTemporaryKey',
             used: false,
@@ -125,22 +125,8 @@ describe('Integration | Infrastructure | Repository | account-recovery-demand-re
 
         // then
         expect(result).to.be.deep.equal([
-          omit(
-            {
-              ...firstAccountRecoveryDemand,
-              schoolingRegistrationId: firstAccountRecoveryDemand.organizationLearnerId,
-            },
-            'updatedAt',
-            'organizationLearnerId'
-          ),
-          omit(
-            {
-              ...secondAccountRecoveryDemand,
-              schoolingRegistrationId: secondAccountRecoveryDemand.organizationLearnerId,
-            },
-            'updatedAt',
-            'organizationLearnerId'
-          ),
+          omit(firstAccountRecoveryDemand, 'updatedAt'),
+          omit(secondAccountRecoveryDemand, 'updatedAt'),
         ]);
       });
     });
@@ -211,7 +197,7 @@ describe('Integration | Infrastructure | Repository | account-recovery-demand-re
       const temporaryKey = '123456789AZERTYUIO';
       const accountRecoveryDemandAttributes = {
         userId,
-        schoolingRegistrationId: organizationLearnerId,
+        organizationLearnerId,
         newEmail,
         oldEmail,
         used,
