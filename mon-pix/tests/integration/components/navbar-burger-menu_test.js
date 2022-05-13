@@ -26,6 +26,14 @@ describe('Integration | Component | navbar-burger-menu', function () {
     expect(contains('Bobby Carotte')).to.exist;
   });
 
+  it('should display the closing button', async function () {
+    // when
+    await render(hbs`<NavbarBurgerMenu />`);
+
+    // then
+    expect(find('.navbar-burger-menu-navigation-header__close')).to.exist;
+  });
+
   it('should display the navigation menu with "Home", "Skills", "Certification", "My tutorials" and "I have a code" links', async function () {
     // when
     await render(hbs`<NavbarBurgerMenu />`);
