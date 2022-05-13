@@ -1,6 +1,5 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
-import { ACQUIRED, REJECTED, NOT_TAKEN } from 'pix-admin/models/certification';
 
 module('Unit | Model | certification', function (hooks) {
   setupTest(hooks);
@@ -9,55 +8,6 @@ module('Unit | Model | certification', function (hooks) {
 
   hooks.beforeEach(async function () {
     store = this.owner.lookup('service:store');
-  });
-
-  const certificationStatusesAndExpectedLabel = new Map([
-    [ACQUIRED, 'Validée'],
-    [REJECTED, 'Rejetée'],
-  ]);
-
-  [
-    { domainName: 'cleaCertificationStatus', displayName: 'cleaCertificationStatusLabel' },
-    { domainName: 'pixPlusDroitMaitreCertificationStatus', displayName: 'pixPlusDroitMaitreCertificationStatusLabel' },
-    { domainName: 'pixPlusDroitExpertCertificationStatus', displayName: 'pixPlusDroitExpertCertificationStatusLabel' },
-    { domainName: 'pixPlusEduInitieCertificationStatus', displayName: 'pixPlusEduInitieCertificationStatusLabel' },
-    { domainName: 'pixPlusEduAvanceCertificationStatus', displayName: 'pixPlusEduAvanceCertificationStatusLabel' },
-    { domainName: 'pixPlusEduExpertCertificationStatus', displayName: 'pixPlusEduExpertCertificationStatusLabel' },
-    { domainName: 'pixPlusEduConfirmeCertificationStatus', displayName: 'pixPlusEduConfirmeCertificationStatusLabel' },
-  ].forEach(function ({ domainName, displayName }) {
-    module(`#${domainName}`, function () {
-      certificationStatusesAndExpectedLabel.forEach((expectedLabel, status) => {
-        module(`when ${displayName} is ${status}`, function () {
-          test(`${domainName} should be ${expectedLabel}`, function (assert) {
-            // given
-            const certification = store.createRecord('certification', {
-              [domainName]: status,
-            });
-
-            // when
-            const label = certification[displayName];
-
-            // then
-            assert.strictEqual(label, expectedLabel);
-          });
-        });
-      });
-
-      module(`when ${domainName} is not passed`, function () {
-        test(`${domainName} should be hidden`, function (assert) {
-          // given
-          const certification = store.createRecord('certification', {
-            [domainName]: NOT_TAKEN,
-          });
-
-          // when
-          const label = certification[displayName];
-
-          // then
-          assert.false(Boolean(label));
-        });
-      });
-    });
   });
 
   module('#publishedText', function () {
@@ -175,6 +125,60 @@ module('Unit | Model | certification', function (hooks) {
           score: 20,
         },
       ]);
+    });
+  });
+
+  module('#hasComplementaryCertifications', function () {
+    module('when there are no complementary certification results', function () {
+      test('should return false', function (assert) {
+        // given
+        const complementaryCertificationCourseResultsWithExternal = null;
+        const commonComplementaryCertificationCourseResults = [];
+        const certification = store.createRecord('certification', {
+          complementaryCertificationCourseResultsWithExternal,
+          commonComplementaryCertificationCourseResults,
+        });
+
+        //when / then
+        assert.false(certification.hasComplementaryCertifications);
+      });
+    });
+
+    module('when there is only an external complementary certification result', function () {
+      test('should return true', function (assert) {
+        // given
+        const complementaryCertificationCourseResultsWithExternal = store.createRecord(
+          'complementary-certification-course-results-with-external',
+          {
+            pixResult: 'TOTO',
+          }
+        );
+        const commonComplementaryCertificationCourseResults = [];
+        const certification = store.createRecord('certification', {
+          complementaryCertificationCourseResultsWithExternal,
+          commonComplementaryCertificationCourseResults,
+        });
+
+        //when / then
+        assert.true(certification.hasComplementaryCertifications);
+      });
+    });
+  });
+
+  module('when there is only a common complementary certification result', function () {
+    test('should return true', function (assert) {
+      // given
+      const complementaryCertificationCourseResultsWithExternal = null;
+      const commonComplementaryCertificationCourseResults = [
+        store.createRecord('common-complementary-certification-course-result'),
+      ];
+      const certification = store.createRecord('certification', {
+        complementaryCertificationCourseResultsWithExternal,
+        commonComplementaryCertificationCourseResults,
+      });
+
+      //when / then
+      assert.true(certification.hasComplementaryCertifications);
     });
   });
 

@@ -47,62 +47,6 @@
               @edition={{false}}
               @label="Publiée :"
             />
-            {{#if this.certification.cleaCertificationStatusLabel}}
-              <Certifications::InfoField
-                @value={{this.certification.cleaCertificationStatusLabel}}
-                @edition={{false}}
-                @label="Certification CléA numérique :"
-                @class="certification-informations__complementary-certification--{{this.certification.cleaCertificationStatus}}"
-              />
-            {{/if}}
-            {{#if this.certification.pixPlusDroitMaitreCertificationStatusLabel}}
-              <Certifications::InfoField
-                @value={{this.certification.pixPlusDroitMaitreCertificationStatusLabel}}
-                @edition={{false}}
-                @label="Certification Pix+ Droit Maître :"
-                @class="certification-informations__complementary-certification--{{this.certification.pixPlusDroitMaitreCertificationStatus}}"
-              />
-            {{/if}}
-            {{#if this.certification.pixPlusDroitExpertCertificationStatusLabel}}
-              <Certifications::InfoField
-                @value={{this.certification.pixPlusDroitExpertCertificationStatusLabel}}
-                @edition={{false}}
-                @label="Certification Pix+ Droit Expert :"
-                @class="certification-informations__complementary-certification--{{this.certification.pixPlusDroitExpertCertificationStatus}}"
-              />
-            {{/if}}
-            {{#if this.certification.pixPlusEduInitieCertificationStatusLabel}}
-              <Certifications::InfoField
-                @value={{this.certification.pixPlusEduInitieCertificationStatusLabel}}
-                @edition={{false}}
-                @label="Certification Pix+ Édu Initié (entrée dans le métier) :"
-                @class="certification-informations__complementary-certification--{{this.certification.pixPlusEduInitieCertificationStatus}}"
-              />
-            {{/if}}
-            {{#if this.certification.pixPlusEduConfirmeCertificationStatusLabel}}
-              <Certifications::InfoField
-                @value={{this.certification.pixPlusEduConfirmeCertificationStatusLabel}}
-                @edition={{false}}
-                @label="Certification Pix+ Édu Confirmé :"
-                @class="certification-informations__complementary-certification--{{this.certification.pixPlusEduConfirmeCertificationStatus}}"
-              />
-            {{/if}}
-            {{#if this.certification.pixPlusEduAvanceCertificationStatusLabel}}
-              <Certifications::InfoField
-                @value={{this.certification.pixPlusEduAvanceCertificationStatusLabel}}
-                @edition={{false}}
-                @label="Certification Pix+ Édu Avancé :"
-                @class="certification-informations__complementary-certification--{{this.certification.pixPlusEduAvanceCertificationStatus}}"
-              />
-            {{/if}}
-            {{#if this.certification.pixPlusEduExpertCertificationStatusLabel}}
-              <Certifications::InfoField
-                @value={{this.certification.pixPlusEduExpertCertificationStatusLabel}}
-                @edition={{false}}
-                @label="Certification Pix+ Édu Expert :"
-                @class="certification-informations__complementary-certification--{{this.certification.pixPlusEduExpertCertificationStatus}}"
-              />
-            {{/if}}
           </div>
         </div>
       </div>
@@ -163,6 +107,54 @@
       </div>
     </div>
   </div>
+
+  {{#if this.certification.hasComplementaryCertifications}}
+    <section class="card certification-informations__complementary-certification">
+      <div class="card-body">
+        <h5 class="card-title certification-informations__complementary-certification__title">Certifications
+          complémentaires</h5>
+        {{#each
+          this.certification.commonComplementaryCertificationCourseResults
+          as |commonComplementaryCertificationCourseResult|
+        }}
+          <div class="certification-informations__complementary-certification__non-pix-edu">
+            <p>
+              <span>
+                {{commonComplementaryCertificationCourseResult.label}}
+                :
+              </span>
+              {{commonComplementaryCertificationCourseResult.status}}
+            </p>
+          </div>
+        {{/each}}
+        {{#if this.certification.complementaryCertificationCourseResultsWithExternal}}
+          <section class="certification-informations__complementary-certification__pix-edu">
+            <h6>Résultats de la certification complémentaire Pix+ Edu :</h6>
+            <div class="certification-informations__complementary-certification__pix-edu__row">
+              <div class="card">
+                <div class="card-body">
+                  <p>VOLET PIX</p>
+                  {{this.certification.complementaryCertificationCourseResultsWithExternal.pixResult}}
+                </div>
+              </div>
+              <div class="card">
+                <div class="card-body">
+                  <p>VOLET JURY</p>
+                  {{this.certification.complementaryCertificationCourseResultsWithExternal.externalResult}}
+                </div>
+              </div>
+              <div class="card">
+                <div class="card-body">
+                  <p>NIVEAU FINAL</p>
+                  {{this.certification.complementaryCertificationCourseResultsWithExternal.finalResult}}
+                </div>
+              </div>
+            </div>
+          </section>
+        {{/if}}
+      </div>
+    </section>
+  {{/if}}
 
   {{#if this.hasIssueReports}}
     <section class="card certification-informations__certification-issue-reports">
