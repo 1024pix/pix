@@ -2,12 +2,12 @@ const { expect, hFake, sinon } = require('../../../test-helper');
 
 const usecases = require('../../../../lib/domain/usecases');
 
-const schoolingRegistrationUserAssociationController = require('../../../../lib/application/schooling-registration-user-associations/schooling-registration-user-association-controller');
+const schoolingRegistrationUserAssociationController = require('../../../../lib/application/organization-learner-user-associations/organization-learner-user-association-controller');
 
 describe('Unit | Application | Controller | schooling-registration-user-associations', function () {
   describe('#dissociate', function () {
     beforeEach(function () {
-      sinon.stub(usecases, 'dissociateUserFromSchoolingRegistration');
+      sinon.stub(usecases, 'dissociateUserFromOrganizationLearner');
     });
 
     it('should call the usecase', async function () {
@@ -18,13 +18,13 @@ describe('Unit | Application | Controller | schooling-registration-user-associat
         auth: { credentials: { userId } },
         params: { id: schoolingRegistrationId },
       };
-      usecases.dissociateUserFromSchoolingRegistration.resolves();
+      usecases.dissociateUserFromOrganizationLearner.resolves();
 
       // when
       await schoolingRegistrationUserAssociationController.dissociate(request, hFake);
 
       // then
-      expect(usecases.dissociateUserFromSchoolingRegistration).to.have.been.calledWith({ schoolingRegistrationId });
+      expect(usecases.dissociateUserFromOrganizationLearner).to.have.been.calledWith({ schoolingRegistrationId });
     });
   });
 });

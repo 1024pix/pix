@@ -1,10 +1,10 @@
 const usecases = require('../../domain/usecases');
-const schoolingRegistrationDependentUser = require('../../infrastructure/serializers/jsonapi/schooling-registration-dependent-user-serializer');
+const schoolingRegistrationDependentUser = require('../../infrastructure/serializers/jsonapi/organization-learner-dependent-user-serializer');
 const { extractLocaleFromRequest } = require('../../infrastructure/utils/request-response-utils');
 const studentInformationForAccountRecoverySerializer = require('../../infrastructure/serializers/jsonapi/student-information-for-account-recovery-serializer');
 
 module.exports = {
-  async createAndReconcileUserToSchoolingRegistration(request, h) {
+  async createAndReconcileUserToOrganizationLearner(request, h) {
     const payload = request.payload.data.attributes;
     const userAttributes = {
       firstName: payload['first-name'],
@@ -16,7 +16,7 @@ module.exports = {
     };
     const locale = extractLocaleFromRequest(request);
 
-    await usecases.createAndReconcileUserToSchoolingRegistration({
+    await usecases.createAndReconcileUserToOrganizationLearner({
       userAttributes,
       password: payload.password,
       campaignCode: payload['campaign-code'],
@@ -26,10 +26,10 @@ module.exports = {
     return h.response().code(204);
   },
 
-  async createUserAndReconcileToSchoolingRegistrationFromExternalUser(request, h) {
+  async createUserAndReconcileToOrganizationLearnerFromExternalUser(request, h) {
     const { birthdate, 'campaign-code': campaignCode, 'external-user-token': token } = request.payload.data.attributes;
 
-    const accessToken = await usecases.createUserAndReconcileToSchoolingRegistrationFromExternalUser({
+    const accessToken = await usecases.createUserAndReconcileToOrganizationLearnerFromExternalUser({
       birthdate,
       campaignCode,
       token,
@@ -53,7 +53,7 @@ module.exports = {
     const organizationId = payload['organization-id'];
     const schoolingRegistrationId = payload['schooling-registration-id'];
 
-    const generatedPassword = await usecases.updateSchoolingRegistrationDependentUserPassword({
+    const generatedPassword = await usecases.updateOrganizationLearnerDependentUserPassword({
       userId,
       organizationId,
       schoolingRegistrationId,
@@ -74,10 +74,10 @@ module.exports = {
   async generateUsernameWithTemporaryPassword(request, h) {
     const payload = request.payload.data.attributes;
     const organizationId = payload['organization-id'];
-    const schoolingRegistrationId = payload['schooling-registration-id'];
+    const organizationLearnerId = payload['schooling-registration-id'];
 
     const result = await usecases.generateUsernameWithTemporaryPassword({
-      schoolingRegistrationId,
+      organizationLearnerId,
       organizationId,
     });
 

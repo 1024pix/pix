@@ -568,9 +568,9 @@ describe('Unit | Router | organization-router', function () {
         });
 
         it('responds 200', async function () {
-          sinon.stub(organizationController, 'replaceHigherSchoolingRegistrations');
+          sinon.stub(organizationController, 'replaceSupOrganizationLearners');
           sinon.stub(securityPreHandlers, 'checkUserIsAdminInSUPOrganizationManagingStudents');
-          organizationController.replaceHigherSchoolingRegistrations.resolves('ok');
+          organizationController.replaceSupOrganizationLearners.resolves('ok');
           securityPreHandlers.checkUserIsAdminInSUPOrganizationManagingStudents.resolves(true);
           const httpTestServer = new HttpTestServer();
           await httpTestServer.register(moduleUnderTest);
@@ -591,9 +591,9 @@ describe('Unit | Router | organization-router', function () {
       });
 
       it('responds 403', async function () {
-        sinon.stub(organizationController, 'replaceHigherSchoolingRegistrations');
+        sinon.stub(organizationController, 'replaceSupOrganizationLearners');
         sinon.stub(securityPreHandlers, 'checkUserIsAdminInSUPOrganizationManagingStudents');
-        organizationController.replaceHigherSchoolingRegistrations.resolves('ok');
+        organizationController.replaceSupOrganizationLearners.resolves('ok');
         securityPreHandlers.checkUserIsAdminInSUPOrganizationManagingStudents.callsFake((request, h) =>
           h.response().code(403).takeover()
         );
@@ -614,7 +614,7 @@ describe('Unit | Router | organization-router', function () {
     it('should call the organization controller to csv template', async function () {
       // given
       sinon
-        .stub(organizationController, 'getSchoolingRegistrationsCsvTemplate')
+        .stub(organizationController, 'getOrganizationLearnersCsvTemplate')
         .callsFake((request, h) => h.response('ok').code(200));
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -627,7 +627,7 @@ describe('Unit | Router | organization-router', function () {
 
       // then
       expect(response.statusCode).to.equal(200);
-      expect(organizationController.getSchoolingRegistrationsCsvTemplate).to.have.been.calledOnce;
+      expect(organizationController.getOrganizationLearnersCsvTemplate).to.have.been.calledOnce;
     });
 
     describe('When parameters are not valid', function () {

@@ -1,11 +1,11 @@
 const { expect, sinon, domainBuilder, HttpTestServer } = require('../../../test-helper');
 
-const moduleUnderTest = require('../../../../lib/application/schooling-registration-user-associations');
+const moduleUnderTest = require('../../../../lib/application/organization-learner-user-associations');
 
 const usecases = require('../../../../lib/domain/usecases');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 
-describe('Integration | Application | Schooling-registration-user-association | schooling-registration-user-association-controller', function () {
+describe('Integration | Application | Schooling-registration-user-association | organization-learner-user-association-controller', function () {
   let sandbox;
   let httpTestServer;
 

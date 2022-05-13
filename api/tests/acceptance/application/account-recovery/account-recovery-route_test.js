@@ -21,7 +21,7 @@ describe('Acceptance | Route | Account-recovery', function () {
       birthdate: '2016-06-01',
     };
 
-    const createUserWithSeveralSchoolingRegistrations = async ({ email = 'jude.law@example.net' } = {}) => {
+    const createUserWithSeveralOrganizationLearners = async ({ email = 'jude.law@example.net' } = {}) => {
       const user = databaseBuilder.factory.buildUser.withRawPassword({
         id: 8,
         firstName: 'Judy',
@@ -56,7 +56,7 @@ describe('Acceptance | Route | Account-recovery', function () {
 
     it('should return 204 HTTP status code', async function () {
       // given
-      await createUserWithSeveralSchoolingRegistrations();
+      await createUserWithSeveralOrganizationLearners();
       const newEmail = 'new_email@example.net';
 
       const options = {
@@ -85,7 +85,7 @@ describe('Acceptance | Route | Account-recovery', function () {
     it('should return 400 if email already exists', async function () {
       // given
       const newEmail = 'new_email@example.net';
-      await createUserWithSeveralSchoolingRegistrations({ email: newEmail });
+      await createUserWithSeveralOrganizationLearners({ email: newEmail });
 
       const options = {
         method: 'POST',

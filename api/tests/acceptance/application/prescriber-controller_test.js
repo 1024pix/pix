@@ -23,7 +23,7 @@ describe('Acceptance | Controller | Prescriber-controller', function () {
           'first-name': user.firstName,
           'last-name': user.lastName,
           'pix-orga-terms-of-service-accepted': false,
-          'are-new-year-schooling-registrations-imported': false,
+          'are-new-year-organization-learners-imported': false,
           lang: user.lang,
         },
         relationships: {

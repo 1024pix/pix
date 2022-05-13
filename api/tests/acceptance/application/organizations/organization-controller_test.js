@@ -943,7 +943,7 @@ describe('Acceptance | Application | organization-controller', function () {
         await databaseBuilder.commit();
       });
 
-      it('should return the matching schoolingRegistrations as JSON API', async function () {
+      it('should return the matching organizationLearners as JSON API', async function () {
         // given
         const expectedResult = {
           data: [
@@ -1000,7 +1000,7 @@ describe('Acceptance | Application | organization-controller', function () {
         expect(response.statusCode).to.equal(403);
       });
 
-      it('should respond with a 403 - Forbidden access - if Organization does not manage schoolingRegistrations', async function () {
+      it('should respond with a 403 - Forbidden access - if Organization does not manage organizationLearners', async function () {
         // given
         const organizationId = databaseBuilder.factory.buildOrganization({ type: 'SCO', isManagingStudents: false }).id;
         const userId = databaseBuilder.factory.buildUser.withMembership({ organizationId }).id;
@@ -1623,7 +1623,7 @@ describe('Acceptance | Application | organization-controller', function () {
         organizationRole: Membership.roles.ADMIN,
       });
 
-      _buildSchoolingRegistrations(
+      _buildOrganizationLearners(
         organization,
         { id: 1, division: '2ndB', firstName: 'Laura', lastName: 'Certif4Ever' },
         { id: 2, division: '2ndA', firstName: 'Laura', lastName: 'Booooo' },
@@ -1649,7 +1649,7 @@ describe('Acceptance | Application | organization-controller', function () {
   });
 });
 
-function _buildSchoolingRegistrations(organization, ...students) {
+function _buildOrganizationLearners(organization, ...students) {
   return students.map((student) =>
     databaseBuilder.factory.buildOrganizationLearner({ organizationId: organization.id, ...student })
   );

@@ -50,7 +50,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
     });
 
     context('associate user with firstName, lastName and birthdate', function () {
-      it('should return an 200 status after having successfully associated user to schoolingRegistration', async function () {
+      it('should return an 200 status after having successfully associated user to organizationLearner', async function () {
         // given
         options.headers.authorization = generateValidRequestAuthorizationHeader(user.id);
         options.payload.data = {
@@ -71,7 +71,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
       });
 
       context('When student is already reconciled in the same organization', function () {
-        it('should return a schooling registration already linked error (short code R31 when account with email)', async function () {
+        it('should return a organization learner already linked error (short code R31 when account with email)', async function () {
           // given
           const userWithEmailOnly = databaseBuilder.factory.buildUser({
             username: null,
@@ -110,7 +110,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
           expect(response.result.errors[0]).to.deep.equal(expectedResponse);
         });
 
-        it('should return a schooling registration already linked error (short code R32 when connected with username)', async function () {
+        it('should return a organization learner already linked error (short code R32 when connected with username)', async function () {
           // given
           const userWithUsernameOnly = databaseBuilder.factory.buildUser({
             username: 'john.harry0702',
@@ -149,7 +149,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
           expect(response.result.errors[0]).to.deep.equal(expectedResponse);
         });
 
-        it('should return a schooling registration already linked error (short code R33 when account with samlId)', async function () {
+        it('should return a organization learner already linked error (short code R33 when account with samlId)', async function () {
           // given
           const userWithSamlOnly = databaseBuilder.factory.buildUser({
             username: null,
@@ -195,7 +195,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
       });
 
       context('When student is already reconciled in another organization', function () {
-        it('should return a schooling registration already linked error (short code R13 when account with samlId)', async function () {
+        it('should return a organization learner already linked error (short code R13 when account with samlId)', async function () {
           // given
           const userWithSamlIdOnly = databaseBuilder.factory.buildUser({
             email: null,
@@ -240,7 +240,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
           expect(response.result.errors[0]).to.deep.equal(expectedResponse);
         });
 
-        it('should return a schooling registration already linked error (short code R11 when account with email)', async function () {
+        it('should return a organization learner already linked error (short code R11 when account with email)', async function () {
           // given
           const userWithEmailOnly = databaseBuilder.factory.buildUser({
             username: null,
@@ -281,7 +281,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
           expect(response.result.errors[0]).to.deep.equal(expectedResponse);
         });
 
-        it('should return a schooling registration already linked error (short code R12 when connected with username)', async function () {
+        it('should return a organization learner already linked error (short code R12 when connected with username)', async function () {
           // given
           const userWithUsernameOnly = databaseBuilder.factory.buildUser({
             email: null,
@@ -323,7 +323,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
         });
       });
 
-      context('when no schoolingRegistration can be associated because birthdate does not match', function () {
+      context('when no organizationLearner can be associated because birthdate does not match', function () {
         it('should return an 404 NotFoundError error', async function () {
           // given
           const options = {
@@ -347,11 +347,11 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
 
           // then
           expect(response.statusCode).to.equal(404);
-          expect(response.result.errors[0].detail).to.equal('There are no schooling registrations found');
+          expect(response.result.errors[0].detail).to.equal('There are no organization learners found');
         });
       });
 
-      context('when no schoolingRegistration found to associate because names does not match', function () {
+      context('when no organizationLearner found to associate because names does not match', function () {
         it('should return an 404 NotFoundError error', async function () {
           // given
           const options = {
@@ -375,7 +375,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
 
           // then
           expect(response.statusCode).to.equal(404);
-          expect(response.result.errors[0].detail).to.equal('There were no schoolingRegistrations matching with names');
+          expect(response.result.errors[0].detail).to.equal('There were no organizationLearners matching with names');
         });
       });
 
@@ -550,7 +550,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
     });
 
     context('when an external user try to reconcile for the first time', function () {
-      it('should return an 200 status after having successfully created the user and associated it to schoolingRegistration', async function () {
+      it('should return an 200 status after having successfully created the user and associated it to organizationLearner', async function () {
         // given
         const externalUser = {
           lastName: organizationLearner.lastName,
@@ -729,7 +729,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
       await databaseBuilder.commit();
     });
 
-    it('should return an 200 status after having successfully associated user to schoolingRegistration', async function () {
+    it('should return an 200 status after having successfully associated user to organizationLearner', async function () {
       // given
       databaseBuilder.factory.buildOrganizationLearner({ userId: user.id, nationalStudentId });
       await databaseBuilder.commit();
@@ -811,7 +811,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
       await databaseBuilder.commit();
     });
 
-    it('should return an 204 status after updating higher schooling registration', async function () {
+    it('should return an 204 status after updating higher organization learner', async function () {
       // given
       options.headers.authorization = generateValidRequestAuthorizationHeader(user.id);
       options.payload.data = {
@@ -885,7 +885,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
     });
 
     describe('Success case', function () {
-      it('should return the schoolingRegistration linked to the user and a 200 status code response', async function () {
+      it('should return the organizationLearner linked to the user and a 200 status code response', async function () {
         // when
         const response = await server.inject(options);
 
@@ -897,7 +897,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
       });
     });
 
-    describe('There is no schoolingRegistration linked to the user', function () {
+    describe('There is no organizationLearner linked to the user', function () {
       it('should return a data null', async function () {
         // given
         const userWithoutStudent = databaseBuilder.factory.buildUser({
@@ -920,7 +920,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
       });
     });
 
-    describe('There is no schoolingRegistration linked to the organization owning the campaign', function () {
+    describe('There is no organizationLearner linked to the organization owning the campaign', function () {
       it('should return a data null', async function () {
         // given
         const otherCampaignCode = databaseBuilder.factory.buildCampaign({ code: 'ABCDE123' }).code;
@@ -983,7 +983,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
     });
 
     describe('Success case', function () {
-      it('should return the schoolingRegistration linked to the user and a 200 status code response', async function () {
+      it('should return the organizationLearner linked to the user and a 200 status code response', async function () {
         // when
         const response = await server.inject(options);
 
@@ -993,7 +993,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
     });
 
     describe('Error cases', function () {
-      context('when no schoolingRegistration can be associated because birthdate does not match', function () {
+      context('when no organizationLearner can be associated because birthdate does not match', function () {
         it('should respond with a 404 - Not Found', async function () {
           // given
           options.payload.data.attributes.birthdate = '1990-03-01';
@@ -1004,12 +1004,12 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
           // then
           expect(response.statusCode).to.equal(404);
           expect(response.result.errors[0].detail).to.equal(
-            'There were no schoolingRegistrations matching with organization and birthdate'
+            'There were no organizationLearners matching with organization and birthdate'
           );
         });
       });
 
-      context('when no schoolingRegistration found to associate because names does not match', function () {
+      context('when no organizationLearner found to associate because names does not match', function () {
         it('should respond with a 404 - Not Found', async function () {
           // given
           options.payload.data.attributes['first-name'] = 'wrong firstName';
@@ -1019,12 +1019,12 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
 
           // then
           expect(response.statusCode).to.equal(404);
-          expect(response.result.errors[0].detail).to.equal('There were no schoolingRegistrations matching with names');
+          expect(response.result.errors[0].detail).to.equal('There were no organizationLearners matching with names');
         });
       });
 
-      context('when schoolingRegistration is already associated in the same organization', function () {
-        it('should return a schooling registration already linked error (short code S51 when account with email)', async function () {
+      context('when organizationLearner is already associated in the same organization', function () {
+        it('should return a organization learner already linked error (short code S51 when account with email)', async function () {
           // given
           const userWithEmailOnly = databaseBuilder.factory.buildUser({
             username: null,
@@ -1062,7 +1062,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
           expect(response.result.errors[0]).to.deep.equal(expectedResponse);
         });
 
-        it('should return a schooling registration already linked error (short code S52 when connected with username)', async function () {
+        it('should return a organization learner already linked error (short code S52 when connected with username)', async function () {
           // given
           const userWithUsernameOnly = databaseBuilder.factory.buildUser({
             username: 'john.harry0702',
@@ -1100,7 +1100,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
           expect(response.result.errors[0]).to.deep.equal(expectedResponse);
         });
 
-        it('should return a schooling registration already linked error (short code S53 when account with samlId)', async function () {
+        it('should return a organization learner already linked error (short code S53 when account with samlId)', async function () {
           // given
           const userWithEmailOnly = databaseBuilder.factory.buildUser({
             username: null,
@@ -1149,7 +1149,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
         });
       });
 
-      context('when schoolingRegistration is already associated in others organizations', function () {
+      context('when organizationLearner is already associated in others organizations', function () {
         it('should respond with a 409 - Conflict', async function () {
           // given
           const organizationLearnerAlreadyMatched = databaseBuilder.factory.buildOrganizationLearner({
@@ -1176,7 +1176,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
           );
         });
 
-        it('should return a schooling registration already linked error (short code S61 when account with email)', async function () {
+        it('should return a organization learner already linked error (short code S61 when account with email)', async function () {
           // given
           const userWithEmailOnly = databaseBuilder.factory.buildUser({
             username: null,
@@ -1217,7 +1217,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
           expect(response.result.errors[0]).to.deep.equal(expectedResponse);
         });
 
-        it('should return a schooling registration already linked error (short code S62 when connected with username)', async function () {
+        it('should return a organization learner already linked error (short code S62 when connected with username)', async function () {
           // given
           const userWithUsernameOnly = databaseBuilder.factory.buildUser({
             username: 'john.harry0702',
@@ -1258,7 +1258,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
           expect(response.result.errors[0]).to.deep.equal(expectedResponse);
         });
 
-        it('should return a schooling registration already linked error (short code S63 when account with samlId)', async function () {
+        it('should return a organization learner already linked error (short code S63 when account with samlId)', async function () {
           // given
           const userWithSamlIdOnly = databaseBuilder.factory.buildUser({
             email: null,
@@ -1321,8 +1321,8 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
   });
 
   describe('DELETE /api/schooling-registration-user-associations', function () {
-    context('When user has the role SUPER_ADMIN and schooling registration can be dissociated', function () {
-      it('should return an 204 status after having successfully dissociated user from schoolingRegistration', async function () {
+    context('When user has the role SUPER_ADMIN and organization learner can be dissociated', function () {
+      it('should return an 204 status after having successfully dissociated user from organizationLearner', async function () {
         const organizationId = databaseBuilder.factory.buildOrganization({ isManagingStudents: true }).id;
         const superAdmin = await insertUserWithRoleSuperAdmin();
         const userId = databaseBuilder.factory.buildUser().id;
@@ -1346,8 +1346,8 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
   });
 
   describe('DELETE /api/admin/schooling-registration-user-associations', function () {
-    context('When user has the role SUPER_ADMIN and schooling registration can be dissociated', function () {
-      it('should return an 204 status after having successfully dissociated user from schoolingRegistration', async function () {
+    context('When user has the role SUPER_ADMIN and organization learner can be dissociated', function () {
+      it('should return an 204 status after having successfully dissociated user from organizationLearner', async function () {
         const organizationId = databaseBuilder.factory.buildOrganization({ isManagingStudents: true }).id;
         const superAdmin = await insertUserWithRoleSuperAdmin();
         const userId = databaseBuilder.factory.buildUser().id;

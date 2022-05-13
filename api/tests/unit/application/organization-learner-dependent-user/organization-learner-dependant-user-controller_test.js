@@ -2,7 +2,7 @@ const { expect, sinon, hFake } = require('../../../test-helper');
 
 const usecases = require('../../../../lib/domain/usecases');
 const studentInformationForAccountRecoverySerializer = require('../../../../lib/infrastructure/serializers/jsonapi/student-information-for-account-recovery-serializer.js');
-const schoolingRegistrationDependantUserController = require('../../../../lib/application/schooling-registration-dependent-users/schooling-registration-dependent-user-controller');
+const schoolingRegistrationDependantUserController = require('../../../../lib/application/organization-learner-dependent-users/organization-learner-dependent-user-controller');
 
 describe('Unit | Application | Controller | schooling-registration-user-associations', function () {
   describe('#checkScoAccountRecovery', function () {
@@ -49,7 +49,7 @@ describe('Unit | Application | Controller | schooling-registration-user-associat
     });
   });
 
-  describe('#createUserAndReconcileToSchoolingRegistrationFromExternalUser', function () {
+  describe('#createUserAndReconcileToOrganizationLearnerFromExternalUser', function () {
     it('should return 200 response with an access token', async function () {
       // given
       const request = {
@@ -65,11 +65,11 @@ describe('Unit | Application | Controller | schooling-registration-user-associat
       };
       const token = Symbol('token');
 
-      sinon.stub(usecases, 'createUserAndReconcileToSchoolingRegistrationFromExternalUser').resolves(token);
+      sinon.stub(usecases, 'createUserAndReconcileToOrganizationLearnerFromExternalUser').resolves(token);
 
       // when
       const response =
-        await schoolingRegistrationDependantUserController.createUserAndReconcileToSchoolingRegistrationFromExternalUser(
+        await schoolingRegistrationDependantUserController.createUserAndReconcileToOrganizationLearnerFromExternalUser(
           request,
           hFake
         );

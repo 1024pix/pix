@@ -99,7 +99,7 @@ function _mapToHttpError(error) {
   if (error instanceof DomainErrors.NoCampaignParticipationForUserAndCampaign) {
     return new HttpErrors.PreconditionFailedError(error.message);
   }
-  if (error instanceof DomainErrors.SchoolingRegistrationDisabledError) {
+  if (error instanceof DomainErrors.OrganizationLearnerDisabledError) {
     return new HttpErrors.PreconditionFailedError(error.message);
   }
   if (error instanceof DomainErrors.NoOrganizationToAttach) {
@@ -250,7 +250,7 @@ function _mapToHttpError(error) {
   if (error instanceof DomainErrors.FileValidationError) {
     return new HttpErrors.UnprocessableEntityError(error.message, error.code, error.meta);
   }
-  if (error instanceof DomainErrors.SchoolingRegistrationsCouldNotBeSavedError) {
+  if (error instanceof DomainErrors.OrganizationLearnersCouldNotBeSavedError) {
     return new HttpErrors.BadRequestError(error.message);
   }
   if (error instanceof DomainErrors.AssessmentNotCompletedError) {
@@ -313,10 +313,10 @@ function _mapToHttpError(error) {
   if (error instanceof DomainErrors.SessionAlreadyFinalizedError) {
     return new HttpErrors.BadRequestError(error.message);
   }
-  if (error instanceof DomainErrors.SchoolingRegistrationAlreadyLinkedToUserError) {
+  if (error instanceof DomainErrors.OrganizationLearnerAlreadyLinkedToUserError) {
     return new HttpErrors.ConflictError(error.message, error.code, error.meta);
   }
-  if (error instanceof DomainErrors.SchoolingRegistrationAlreadyLinkedToInvalidUserError) {
+  if (error instanceof DomainErrors.OrganizationLearnerAlreadyLinkedToInvalidUserError) {
     return new HttpErrors.BadRequestError(error.message);
   }
   if (error instanceof DomainErrors.MatchingReconciledStudentNotFoundError) {
@@ -386,7 +386,7 @@ function _mapToHttpError(error) {
     return new HttpErrors.UnprocessableEntityError(error.message, error.code, error.meta);
   }
 
-  if (error instanceof DomainErrors.MultipleSchoolingRegistrationsWithDifferentNationalStudentIdError) {
+  if (error instanceof DomainErrors.MultipleOrganizationLearnersWithDifferentNationalStudentIdError) {
     return new HttpErrors.ConflictError(error.message);
   }
 
@@ -418,7 +418,7 @@ function _mapToHttpError(error) {
     return new HttpErrors.ForbiddenError(error.message);
   }
 
-  if (error instanceof DomainErrors.SchoolingRegistrationCannotBeDissociatedError) {
+  if (error instanceof DomainErrors.OrganizationLearnerCannotBeDissociatedError) {
     return new HttpErrors.PreconditionFailedError(error.message);
   }
 

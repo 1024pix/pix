@@ -1,8 +1,8 @@
 const usecases = require('../../domain/usecases');
-const schoolingRegistrationSerializer = require('../../infrastructure/serializers/jsonapi/schooling-registration-user-association-serializer');
+const organizationLearnerSerializer = require('../../infrastructure/serializers/jsonapi/organization-learner-user-association-serializer');
 
 module.exports = {
-  async reconcileSchoolingRegistrationAutomatically(request) {
+  async reconcileOrganizationLearnerAutomatically(request) {
     const authenticatedUserId = request.auth.credentials.userId;
     const payload = request.payload.data.attributes;
     const campaignCode = payload['campaign-code'];
@@ -10,10 +10,10 @@ module.exports = {
       userId: authenticatedUserId,
       campaignCode,
     });
-    return schoolingRegistrationSerializer.serialize(schoolingRegistration);
+    return organizationLearnerSerializer.serialize(schoolingRegistration);
   },
 
-  async reconcileSchoolingRegistrationManually(request, h) {
+  async reconcileOrganizationLearnerManually(request, h) {
     const authenticatedUserId = request.auth.credentials.userId;
     const payload = request.payload.data.attributes;
     const campaignCode = payload['campaign-code'];
@@ -26,20 +26,20 @@ module.exports = {
       birthdate: payload['birthdate'],
     };
 
-    const schoolingRegistration = await usecases.reconcileSchoolingRegistration({
+    const schoolingRegistration = await usecases.reconcileOrganizationLearner({
       campaignCode,
       reconciliationInfo,
       withReconciliation,
     });
 
     if (withReconciliation) {
-      return schoolingRegistrationSerializer.serialize(schoolingRegistration);
+      return organizationLearnerSerializer.serialize(schoolingRegistration);
     }
 
     return h.response().code(204);
   },
 
-  async reconcileHigherSchoolingRegistration(request, h) {
+  async reconcileSupOrganizationLearner(request, h) {
     const userId = request.auth.credentials.userId;
     const payload = request.payload.data.attributes;
 
@@ -53,7 +53,7 @@ module.exports = {
       birthdate: payload['birthdate'],
     };
 
-    await usecases.reconcileHigherSchoolingRegistration({ campaignCode, reconciliationInfo });
+    await usecases.reconcileSupOrganizationLearner({ campaignCode, reconciliationInfo });
 
     return h.response(null).code(204);
   },
@@ -64,13 +64,13 @@ module.exports = {
     const requestedUserId = parseInt(request.query.userId);
     const campaignCode = request.query.campaignCode;
 
-    const schoolingRegistration = await usecases.findAssociationBetweenUserAndSchoolingRegistration({
+    const schoolingRegistration = await usecases.findAssociationBetweenUserAndOrganizationLearner({
       authenticatedUserId,
       requestedUserId,
       campaignCode,
     });
 
-    return schoolingRegistrationSerializer.serialize(schoolingRegistration);
+    return organizationLearnerSerializer.serialize(schoolingRegistration);
   },
 
   async generateUsername(request, h) {
@@ -103,7 +103,7 @@ module.exports = {
 
   async dissociate(request, h) {
     const schoolingRegistrationId = request.params.id;
-    await usecases.dissociateUserFromSchoolingRegistration({ schoolingRegistrationId });
+    await usecases.dissociateUserFromOrganizationLearner({ schoolingRegistrationId });
     return h.response().code(204);
   },
 
@@ -111,9 +111,9 @@ module.exports = {
     const payload = request.payload.data.attributes;
     const organizationId = request.params.id;
     const studentNumber = payload['student-number'];
-    const schoolingRegistrationId = request.params.schoolingRegistrationId;
+    const organizationLearnerId = request.params.schoolingRegistrationId;
 
-    await usecases.updateStudentNumber({ schoolingRegistrationId, studentNumber, organizationId });
+    await usecases.updateStudentNumber({ organizationLearnerId, studentNumber, organizationId });
     return h.response().code(204);
   },
 };

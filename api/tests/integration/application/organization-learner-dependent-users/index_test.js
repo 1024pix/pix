@@ -1,7 +1,7 @@
 const { expect, sinon, HttpTestServer } = require('../../../test-helper');
 
-const schoolingRegistrationDependentUserController = require('../../../../lib/application/schooling-registration-dependent-users/schooling-registration-dependent-user-controller');
-const moduleUnderTest = require('../../../../lib/application/schooling-registration-dependent-users');
+const organizationLearnerDependentUserController = require('../../../../lib/application/organization-learner-dependent-users/organization-learner-dependent-user-controller');
+const moduleUnderTest = require('../../../../lib/application/organization-learner-dependent-users');
 const securityPreHandlers = require('../../../../lib/application/security-pre-handlers');
 
 describe('Integration | Application | Route | schooling-registration-dependent-users', function () {
@@ -12,19 +12,16 @@ describe('Integration | Application | Route | schooling-registration-dependent-u
       .stub(securityPreHandlers, 'checkUserBelongsToScoOrganizationAndManagesStudents')
       .callsFake((request, h) => h.response(true));
     sinon
-      .stub(schoolingRegistrationDependentUserController, 'createAndReconcileUserToSchoolingRegistration')
+      .stub(organizationLearnerDependentUserController, 'createAndReconcileUserToOrganizationLearner')
       .callsFake((request, h) => h.response().code(204));
     sinon
-      .stub(
-        schoolingRegistrationDependentUserController,
-        'createUserAndReconcileToSchoolingRegistrationFromExternalUser'
-      )
+      .stub(organizationLearnerDependentUserController, 'createUserAndReconcileToOrganizationLearnerFromExternalUser')
       .callsFake((request, h) => h.response('ok').code(200));
     sinon
-      .stub(schoolingRegistrationDependentUserController, 'generateUsernameWithTemporaryPassword')
+      .stub(organizationLearnerDependentUserController, 'generateUsernameWithTemporaryPassword')
       .callsFake((request, h) => h.response('ok').code(200));
     sinon
-      .stub(schoolingRegistrationDependentUserController, 'updatePassword')
+      .stub(organizationLearnerDependentUserController, 'updatePassword')
       .callsFake((request, h) => h.response('ok').code(200));
     httpTestServer = new HttpTestServer();
     await httpTestServer.register(moduleUnderTest);

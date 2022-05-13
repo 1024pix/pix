@@ -11,7 +11,7 @@ const {
   buildValidatedPublishedCertificationData,
   mockLearningContentCompetences,
   buildUser,
-  buildSchoolingRegistration,
+  buildOrganizationLearner,
 } = require('../../../../tests/tooling/domain-builder/factory/build-certifications-results-for-ls');
 
 describe('Acceptance | API | Certifications', function () {
@@ -204,7 +204,7 @@ describe('Acceptance | API | Certifications', function () {
         // given
         server = await createServer();
         const user = buildUser();
-        const schoolingRegistration = buildSchoolingRegistration({ userId: user.id, organizationId });
+        const schoolingRegistration = buildOrganizationLearner({ userId: user.id, organizationId });
         const { session, certificationCourse } = buildValidatedPublishedCertificationData({
           user,
           schoolingRegistration,
