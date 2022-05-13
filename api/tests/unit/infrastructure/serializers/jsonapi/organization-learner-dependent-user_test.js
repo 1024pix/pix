@@ -1,9 +1,9 @@
 const { expect, domainBuilder } = require('../../../../test-helper');
-const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/schooling-registration-dependent-user-serializer');
+const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/organization-learner-dependent-user-serializer');
 
-describe('Unit | Serializer | JSONAPI | schooling-registration-dependent-user-serializer', function () {
+describe('Unit | Serializer | JSONAPI | organization-learner-dependent-user-serializer', function () {
   describe('#serialize', function () {
-    it('should convert a schooling-registration-dependent-user object into JSON API data', function () {
+    it('should convert a organization-learner-dependent-user object into JSON API data', function () {
       // given
       const organizationLearnerWithUsernameAndPassword = domainBuilder.buildOrganizationLearner();
       organizationLearnerWithUsernameAndPassword.username = 'john.harry0702';

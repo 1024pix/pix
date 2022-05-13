@@ -1,8 +1,8 @@
 const { expect } = require('../../../../test-helper');
-const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/schooling-registration-user-association-serializer');
+const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/organization-learner-user-association-serializer');
 const OrganizationLearner = require('../../../../../lib/domain/models/OrganizationLearner');
 
-describe('Unit | Serializer | JSONAPI | schooling-registration-user-association-serializer', function () {
+describe('Unit | Serializer | JSONAPI | organization-learner-user-association-serializer', function () {
   describe('#serialize', function () {
     it('should convert a OrganizationLearner model object into JSON API data', function () {
       // given
