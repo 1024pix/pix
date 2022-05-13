@@ -9,7 +9,7 @@ const { CERTIF_DROIT_USER5_ID } = require('./users');
 const {
   CLEA_COMPLEMENTARY_CERTIFICATION_ID,
   PIX_DROIT_COMPLEMENTARY_CERTIFICATION_ID,
-  PIX_EDU_COMPLEMENTARY_CERTIFICATION_ID,
+  PIX_EDU_2ND_DEGRE_COMPLEMENTARY_CERTIFICATION_ID,
 } = require('./certification-centers-builder');
 
 function complementaryCertificationCourseResultsBuilder({ databaseBuilder }) {
@@ -42,12 +42,22 @@ function complementaryCertificationCourseResultsBuilder({ databaseBuilder }) {
     {
       certificationCourseId: CERTIFICATION_COURSE_SUCCESS_ID,
       complementaryCertificationId: PIX_DROIT_COMPLEMENTARY_CERTIFICATION_ID,
-    }
+    },
   );
   databaseBuilder.factory.buildComplementaryCertificationCourseResult({
     complementaryCertificationCourseId: complementaryCertifCourseSuccessDroitId,
     acquired: true,
     partnerKey: Badge.keys.PIX_DROIT_MAITRE_CERTIF,
+  });
+
+  const { id: complementaryCertifCourseEduId } = databaseBuilder.factory.buildComplementaryCertificationCourse({
+    certificationCourseId: CERTIFICATION_COURSE_EDU_ID,
+    complementaryCertificationId: PIX_EDU_2ND_DEGRE_COMPLEMENTARY_CERTIFICATION_ID,
+  });
+  databaseBuilder.factory.buildComplementaryCertificationCourseResult({
+    complementaryCertificationCourseId: complementaryCertifCourseEduId,
+    acquired: true,
+    partnerKey: Badge.keys.PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_INITIE,
   });
 }
 
