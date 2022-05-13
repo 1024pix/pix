@@ -156,6 +156,62 @@ describe('Unit | Router | organization-router', function () {
     });
   });
 
+  describe('POST /api/admin/organizations/{id}/target-profiles', function () {
+    it('should add target profile to organization if user has allowed role', async function () {
+      // given
+      sinon.stub(organizationController, 'attachTargetProfiles').returns('ok');
+      sinon.stub(securityPreHandlers, 'checkUserHasRoleCertif').resolves({ source: { errors: {} } });
+      sinon.stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin').resolves(true);
+      sinon.stub(securityPreHandlers, 'checkUserHasRoleSupport').resolves(true);
+      sinon.stub(securityPreHandlers, 'checkUserHasRoleMetier').resolves(true);
+
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      const payload = {
+        data: {
+          attributes: {
+            'target-profiles-to-attach': ['7'],
+          },
+          type: 'organizations',
+        },
+      };
+
+      // when
+      const response = await httpTestServer.request('POST', '/api/admin/organizations/1/target-profiles', payload);
+
+      // then
+      expect(response.statusCode).to.equal(200);
+      sinon.assert.calledOnce(organizationController.attachTargetProfiles);
+    });
+
+    it('returns forbidden access if user has CERTIF role', async function () {
+      // given
+      sinon.stub(securityPreHandlers, 'checkUserHasRoleCertif').resolves(true);
+      sinon.stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin').resolves({ source: { errors: {} } });
+      sinon.stub(securityPreHandlers, 'checkUserHasRoleSupport').resolves({ source: { errors: {} } });
+      sinon.stub(securityPreHandlers, 'checkUserHasRoleMetier').resolves({ source: { errors: {} } });
+
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      const payload = {
+        data: {
+          attributes: {
+            'target-profiles-to-attach': ['7'],
+          },
+          type: 'organizations',
+        },
+      };
+
+      // when
+      const response = await httpTestServer.request('POST', '/api/admin/organizations/1/target-profiles', payload);
+
+      // then
+      expect(response.statusCode).to.equal(403);
+    });
+  });
+
   describe('POST /api/organizations/{id}/invitations', function () {
     const method = 'POST';
     const url = '/api/organizations/1/invitations';
