@@ -59,13 +59,14 @@
     <li>Envoi multiple : {{if @campaign.multipleSendings "Oui" "Non"}}</li>
   </ul>
 
-  <br />
-
-  <PixButton
-    @triggerAction={{@toggleEditMode}}
-    @backgroundColor="transparent-light"
-    @isBorderVisible={{true}}
-    @size="small"
-  >Editer</PixButton>
+  {{#if this.accessControl.hasAccessToOrganizationActionsScope}}
+    <br />
+    <PixButton
+      @triggerAction={{@toggleEditMode}}
+      @backgroundColor="transparent-light"
+      @isBorderVisible={{true}}
+      @size="small"
+    >Éditer</PixButton>
+  {{/if}}
 
 </section>
