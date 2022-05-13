@@ -32,7 +32,7 @@ class SchoolingRegistrationSet {
 
   _transform(registrationAttributes) {
     let sex;
-    const { birthCountryCode, nationalIdentifier } = registrationAttributes;
+    const { birthCountryCode, nationalIdentifier, division } = registrationAttributes;
 
     if (registrationAttributes.sex) {
       sex = _convertSexCodeToLabel(registrationAttributes.sex);
@@ -44,6 +44,7 @@ class SchoolingRegistrationSet {
       ...registrationAttributes,
       birthCountryCode: birthCountryCode.slice(-3),
       nationalStudentId: nationalIdentifier,
+      division: division?.trim().replace(/\s+/g, ' '),
       sex,
     };
   }
