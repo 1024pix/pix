@@ -1,9 +1,9 @@
-const HigherSchoolingRegistration = require('../../../../lib/domain/models/HigherSchoolingRegistration');
+const SupOrganizationLearner = require('../../../../lib/domain/models/SupOrganizationLearner');
 const { expect, catchErr } = require('../../../test-helper');
 
-describe('Unit | Domain | Models | HigherSchoolingRegistration', function () {
+describe('Unit | Domain | Models | SupOrganizationLearner', function () {
   describe('#validate', function () {
-    const buildRegistration = (attributes) => new HigherSchoolingRegistration(attributes);
+    const buildRegistration = (attributes) => new SupOrganizationLearner(attributes);
 
     const validAttributes = {
       studentNumber: 'A12345',
@@ -16,9 +16,9 @@ describe('Unit | Domain | Models | HigherSchoolingRegistration', function () {
     context('when all required fields are presents', function () {
       it('is valid', async function () {
         try {
-          new HigherSchoolingRegistration(validAttributes);
+          new SupOrganizationLearner(validAttributes);
         } catch (e) {
-          expect.fail('higherSchoolingRegistration is valid when all required fields are present');
+          expect.fail('supOrganizationLearner is valid when all required fields are present');
         }
       });
     });
@@ -143,7 +143,7 @@ describe('Unit | Domain | Models | HigherSchoolingRegistration', function () {
             try {
               await buildRegistration({ ...validAttributes, studentNumber: value });
             } catch (e) {
-              expect.fail('higherSchoolingRegistration is valid when student number is correctly formed');
+              expect.fail('supOrganizationLearner is valid when student number is correctly formed');
             }
           });
         });

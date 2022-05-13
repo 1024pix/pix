@@ -1,20 +1,20 @@
-const HigherSchoolingRegistrationSet = require('../../../../lib/domain/models/HigherSchoolingRegistrationSet');
+const SupOrganizationLearnerSet = require('../../../../lib/domain/models/SupOrganizationLearnerSet');
 const { expect, catchErr } = require('../../../test-helper');
 const { getI18n } = require('../../../tooling/i18n/i18n');
 const { EntityValidationError } = require('../../../../lib/domain/errors');
 
-describe('Unit | Domain | Models | HigherSchoolingRegistrationSet', function () {
+describe('Unit | Domain | Models | SupOrganizationLearnerSet', function () {
   let i18n;
 
   beforeEach(function () {
     i18n = getI18n();
   });
 
-  context('#addRegistration', function () {
-    context('when set has no registration', function () {
-      it('creates the first registration of the set', function () {
-        const higherSchoolingRegistrationSet = new HigherSchoolingRegistrationSet(i18n);
-        const registrationAttributes = {
+  context('#addLearner', function () {
+    context('when set has no learner', function () {
+      it('creates the first learner of the set', function () {
+        const supOrganizationLearnerSet = new SupOrganizationLearnerSet(i18n);
+        const learnerAttributes = {
           firstName: 'Beatrix',
           middleName: 'The',
           thirdName: 'Bride',
@@ -31,18 +31,18 @@ describe('Unit | Domain | Models | HigherSchoolingRegistrationSet', function () 
           organizationId: 1,
         };
 
-        higherSchoolingRegistrationSet.addRegistration(registrationAttributes);
-        const registrations = higherSchoolingRegistrationSet.registrations;
+        supOrganizationLearnerSet.addLearner(learnerAttributes);
+        const learners = supOrganizationLearnerSet.learners;
 
-        expect(registrations).to.have.lengthOf(1);
-        expect(registrations[0]).to.deep.equal(registrationAttributes);
+        expect(learners).to.have.lengthOf(1);
+        expect(learners[0]).to.deep.equal(learnerAttributes);
       });
     });
 
-    context('when set has registrations', function () {
-      it('creates the a new registration for the set', function () {
-        const higherSchoolingRegistrationSet = new HigherSchoolingRegistrationSet(i18n);
-        const registration1 = {
+    context('when set has learners', function () {
+      it('creates the a new learner for the set', function () {
+        const supOrganizationLearnerSet = new SupOrganizationLearnerSet(i18n);
+        const learner1 = {
           firstName: 'Beatrix',
           middleName: 'The',
           thirdName: 'Bride',
@@ -59,7 +59,7 @@ describe('Unit | Domain | Models | HigherSchoolingRegistrationSet', function () 
           userId: 12345,
           organizationId: 1,
         };
-        const registration2 = {
+        const learner2 = {
           firstName: 'Bill',
           middleName: 'Unknown',
           thirdName: 'Unknown',
@@ -76,54 +76,51 @@ describe('Unit | Domain | Models | HigherSchoolingRegistrationSet', function () 
           organizationId: 2,
         };
 
-        higherSchoolingRegistrationSet.addRegistration(registration1);
-        higherSchoolingRegistrationSet.addRegistration(registration2);
-        const registrations = higherSchoolingRegistrationSet.registrations;
+        supOrganizationLearnerSet.addLearner(learner1);
+        supOrganizationLearnerSet.addLearner(learner2);
+        const learners = supOrganizationLearnerSet.learners;
 
-        expect(registrations).to.have.lengthOf(2);
-        expect(registrations[1]).to.deep.equal(registration2);
+        expect(learners).to.have.lengthOf(2);
+        expect(learners[1]).to.deep.equal(learner2);
       });
     });
 
-    context('when a registration is not valid', function () {
+    context('when a learner is not valid', function () {
       it('throws an error', async function () {
-        const higherSchoolingRegistrationSet = new HigherSchoolingRegistrationSet(i18n);
-        const registration = {
+        const supOrganizationLearnerSet = new SupOrganizationLearnerSet(i18n);
+        const learner = {
           firstName: null,
           lastName: 'Kiddo',
           birthdate: new Date('1980-07-01'),
         };
 
-        const addRegistration = higherSchoolingRegistrationSet.addRegistration.bind(higherSchoolingRegistrationSet);
-        const error = await catchErr(addRegistration)(registration);
+        const addLearner = supOrganizationLearnerSet.addLearner.bind(supOrganizationLearnerSet);
+        const error = await catchErr(addLearner)(learner);
 
         expect(error).to.be.instanceOf(EntityValidationError);
       });
     });
 
-    context('when there is a registration with the same student number', function () {
+    context('when there is a learner with the same student number', function () {
       it('throws an error', async function () {
-        const higherSchoolingRegistrationSet = new HigherSchoolingRegistrationSet(i18n);
-        const registration1 = {
+        const supOrganizationLearnerSet = new SupOrganizationLearnerSet(i18n);
+        const learner1 = {
           firstName: 'Beatrix',
           lastName: 'Kiddo',
           birthdate: '1990-04-01',
           studentNumber: '123ABC',
           organizationId: 123,
         };
-        const registration2 = {
+        const learner2 = {
           firstName: 'Ishii',
           lastName: 'O-ren',
           birthdate: '1990-04-01',
           studentNumber: '123ABC',
           organizationId: 123,
         };
-        await higherSchoolingRegistrationSet.addRegistration(registration1);
+        await supOrganizationLearnerSet.addLearner(learner1);
 
-        const error = await catchErr(
-          higherSchoolingRegistrationSet.addRegistration,
-          higherSchoolingRegistrationSet
-        )(registration2);
+        const error = await catchErr(supOrganizationLearnerSet.addLearner, supOrganizationLearnerSet)(learner2);
 
         expect(error).to.be.instanceOf(EntityValidationError);
         expect(error.key).to.equal('studentNumber');
@@ -133,8 +130,8 @@ describe('Unit | Domain | Models | HigherSchoolingRegistrationSet', function () 
 
     context('When there are warnings', function () {
       it('should add a diploma warning', async function () {
-        const higherSchoolingRegistrationSet = new HigherSchoolingRegistrationSet(i18n);
-        const registration = {
+        const supOrganizationLearnerSet = new SupOrganizationLearnerSet(i18n);
+        const learner = {
           firstName: 'Beatrix',
           lastName: 'Kiddo',
           birthdate: '1990-04-01',
@@ -144,18 +141,18 @@ describe('Unit | Domain | Models | HigherSchoolingRegistrationSet', function () 
           studyScheme: 'Autre',
         };
 
-        higherSchoolingRegistrationSet.addRegistration(registration);
-        const { registrations, warnings } = higherSchoolingRegistrationSet;
+        supOrganizationLearnerSet.addLearner(learner);
+        const { learners, warnings } = supOrganizationLearnerSet;
 
-        expect(registrations).to.have.lengthOf(1);
-        expect(registrations[0].diploma).to.equal('Non reconnu');
+        expect(learners).to.have.lengthOf(1);
+        expect(learners[0].diploma).to.equal('Non reconnu');
         expect(warnings).to.have.lengthOf(1);
         expect(warnings[0]).to.deep.equal({ studentNumber: '123ABC', field: 'diploma', value: 'BAD', code: 'unknown' });
       });
 
       it('should add a study scheme warning', async function () {
-        const higherSchoolingRegistrationSet = new HigherSchoolingRegistrationSet(i18n);
-        const registration = {
+        const supOrganizationLearnerSet = new SupOrganizationLearnerSet(i18n);
+        const learner = {
           firstName: 'Beatrix',
           lastName: 'Kiddo',
           birthdate: '1990-04-01',
@@ -165,11 +162,11 @@ describe('Unit | Domain | Models | HigherSchoolingRegistrationSet', function () 
           studyScheme: 'BAD',
         };
 
-        higherSchoolingRegistrationSet.addRegistration(registration);
-        const { registrations, warnings } = higherSchoolingRegistrationSet;
+        supOrganizationLearnerSet.addLearner(learner);
+        const { learners, warnings } = supOrganizationLearnerSet;
 
-        expect(registrations).to.have.lengthOf(1);
-        expect(registrations[0].studyScheme).to.equal('Non reconnu');
+        expect(learners).to.have.lengthOf(1);
+        expect(learners[0].studyScheme).to.equal('Non reconnu');
         expect(warnings).to.have.lengthOf(1);
         expect(warnings[0]).to.deep.equal({
           studentNumber: '123ABC',
@@ -180,8 +177,8 @@ describe('Unit | Domain | Models | HigherSchoolingRegistrationSet', function () 
       });
 
       it('should check diplomas and study schemes with lower case', async function () {
-        const higherSchoolingRegistrationSet = new HigherSchoolingRegistrationSet(i18n);
-        const registration = {
+        const supOrganizationLearnerSet = new SupOrganizationLearnerSet(i18n);
+        const learner = {
           firstName: 'Beatrix',
           lastName: 'Kiddo',
           birthdate: '1990-04-01',
@@ -191,16 +188,16 @@ describe('Unit | Domain | Models | HigherSchoolingRegistrationSet', function () 
           studyScheme: 'aUTRe',
         };
 
-        higherSchoolingRegistrationSet.addRegistration(registration);
-        const { registrations, warnings } = higherSchoolingRegistrationSet;
+        supOrganizationLearnerSet.addLearner(learner);
+        const { learners, warnings } = supOrganizationLearnerSet;
 
-        expect(registrations).to.have.lengthOf(1);
+        expect(learners).to.have.lengthOf(1);
         expect(warnings).to.have.lengthOf(0);
       });
 
       it('should check diplomas and study schemes with Levenshtein distance', async function () {
-        const higherSchoolingRegistrationSet = new HigherSchoolingRegistrationSet(i18n);
-        const registration = {
+        const supOrganizationLearnerSet = new SupOrganizationLearnerSet(i18n);
+        const learner = {
           firstName: 'Beatrix',
           lastName: 'Kiddo',
           birthdate: '1990-04-01',
@@ -210,17 +207,17 @@ describe('Unit | Domain | Models | HigherSchoolingRegistrationSet', function () 
           studyScheme: 'Autra',
         };
 
-        higherSchoolingRegistrationSet.addRegistration(registration);
-        const { registrations, warnings } = higherSchoolingRegistrationSet;
+        supOrganizationLearnerSet.addLearner(learner);
+        const { learners, warnings } = supOrganizationLearnerSet;
 
-        expect(registrations).to.have.lengthOf(1);
+        expect(learners).to.have.lengthOf(1);
         expect(warnings).to.have.lengthOf(0);
       });
     });
 
     context('When group has spaces', function () {
       it('should trim group', async function () {
-        const higherSchoolingRegistrationSet = new HigherSchoolingRegistrationSet(i18n);
+        const supOrganizationLearnerSet = new SupOrganizationLearnerSet(i18n);
         const registration = {
           firstName: 'Beatrix',
           lastName: 'Kiddo',
@@ -232,15 +229,15 @@ describe('Unit | Domain | Models | HigherSchoolingRegistrationSet', function () 
           group: ' some group ',
         };
 
-        higherSchoolingRegistrationSet.addRegistration(registration);
-        const { registrations } = higherSchoolingRegistrationSet;
+        supOrganizationLearnerSet.addLearner(registration);
+        const { learners } = supOrganizationLearnerSet;
 
-        expect(registrations[0].group).to.equal('some group');
+        expect(learners[0].group).to.equal('some group');
       });
 
       it('should remove extra space on group', function () {
-        const higherSchoolingRegistrationSet = new HigherSchoolingRegistrationSet(i18n);
-        const registration = {
+        const supOrganizationLearnerSet = new SupOrganizationLearnerSet(i18n);
+        const learner = {
           firstName: 'Beatrix',
           lastName: 'Kiddo',
           birthdate: '1990-04-01',
@@ -251,10 +248,10 @@ describe('Unit | Domain | Models | HigherSchoolingRegistrationSet', function () 
           group: 'some        group',
         };
 
-        higherSchoolingRegistrationSet.addRegistration(registration);
-        const { registrations } = higherSchoolingRegistrationSet;
+        supOrganizationLearnerSet.addLearner(learner);
+        const { learners } = supOrganizationLearnerSet;
 
-        expect(registrations[0].group).to.equal('some group');
+        expect(learners[0].group).to.equal('some group');
       });
     });
   });

@@ -479,8 +479,8 @@ describe('Unit | Domain | Errors', function () {
     expect(errors.UnknownCountryForStudentEnrollmentError).to.exist;
   });
 
-  it('should export a SchoolingRegistrationsCouldNotBeSavedError', function () {
-    expect(errors.SchoolingRegistrationsCouldNotBeSavedError).to.exist;
+  it('should export a OrganizationLearnersCouldNotBeSavedError', function () {
+    expect(errors.OrganizationLearnersCouldNotBeSavedError).to.exist;
   });
 
   it('should export an InvalidVerificationCodeError', function () {
@@ -491,8 +491,8 @@ describe('Unit | Domain | Errors', function () {
     expect(errors.EmailModificationDemandNotFoundOrExpiredError).to.exist;
   });
 
-  it('should export an SchoolingRegistrationCannotBeDissociatedError', function () {
-    expect(errors.SchoolingRegistrationCannotBeDissociatedError).to.exist;
+  it('should export an OrganizationLearnerCannotBeDissociatedError', function () {
+    expect(errors.OrganizationLearnerCannotBeDissociatedError).to.exist;
   });
 
   it('should export an AlreadyAcceptedOrCancelledOrganizationInvitationError', function () {

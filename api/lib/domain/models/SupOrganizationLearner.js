@@ -1,6 +1,6 @@
-const { checkValidation } = require('../validators/higher-schooling-registration-validator');
+const { checkValidation } = require('../validators/sup-organization-learner-validator');
 
-class HigherSchoolingRegistration {
+class SupOrganizationLearner {
   constructor({
     firstName,
     middleName,
@@ -35,4 +35,4 @@ class HigherSchoolingRegistration {
   }
 }
 
-module.exports = HigherSchoolingRegistration;
+module.exports = SupOrganizationLearner;
