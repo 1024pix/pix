@@ -39,13 +39,6 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
       competencesWithMark: [],
       listChallengesAndAnswers: [],
       createdAt: new Date('2020-01-01'),
-      cleaCertificationStatus: 'not_taken',
-      pixPlusDroitMaitreCertificationStatus: 'not_taken',
-      pixPlusDroitExpertCertificationStatus: 'not_taken',
-      pixPlusEduInitieCertificationStatus: 'not_taken',
-      pixPlusEduConfirmeCertificationStatus: 'not_taken',
-      pixPlusEduAvanceCertificationStatus: 'not_taken',
-      pixPlusEduExpertCertificationStatus: 'not_taken',
     });
   });
 
@@ -62,83 +55,6 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
     assert.dom(screen.getByText('Code INSEE de naissance : 99217')).exists();
     assert.dom(screen.getByText('Code postal de naissance :')).exists();
     assert.dom(screen.getByText('Pays de naissance : JAPON')).exists();
-  });
-
-  test('it displays validated partner certifications', async function (assert) {
-    //given
-    certification.update({
-      cleaCertificationStatus: 'acquired',
-      pixPlusDroitMaitreCertificationStatus: 'acquired',
-      pixPlusDroitExpertCertificationStatus: 'acquired',
-      pixPlusEduInitieCertificationStatus: 'acquired',
-      pixPlusEduConfirmeCertificationStatus: 'acquired',
-      pixPlusEduAvanceCertificationStatus: 'acquired',
-      pixPlusEduExpertCertificationStatus: 'acquired',
-    });
-
-    // when
-    const screen = await visit(`/certifications/${certification.id}`);
-
-    // then
-    assert.dom(screen.getByText('Certification CléA numérique :')).exists();
-    assert.dom(screen.getByText('Certification Pix+ Droit Maître :')).exists();
-    assert.dom(screen.getByText('Certification Pix+ Droit Expert :')).exists();
-    assert.dom(screen.getByText('Certification Pix+ Édu Initié (entrée dans le métier) :')).exists();
-    assert.dom(screen.getByText('Certification Pix+ Édu Confirmé :')).exists();
-    assert.dom(screen.getByText('Certification Pix+ Édu Avancé :')).exists();
-    assert.dom(screen.getByText('Certification Pix+ Édu Expert :')).exists();
-    assert.strictEqual(screen.getAllByText('Validée').length, 7);
-  });
-
-  test('it displays rejected partner certifications', async function (assert) {
-    // given
-    certification.update({
-      cleaCertificationStatus: 'rejected',
-      pixPlusDroitMaitreCertificationStatus: 'rejected',
-      pixPlusDroitExpertCertificationStatus: 'rejected',
-      pixPlusEduInitieCertificationStatus: 'rejected',
-      pixPlusEduConfirmeCertificationStatus: 'rejected',
-      pixPlusEduAvanceCertificationStatus: 'rejected',
-      pixPlusEduExpertCertificationStatus: 'rejected',
-    });
-
-    // when
-    const screen = await visit(`/certifications/${certification.id}`);
-
-    // then
-    assert.dom(screen.getByText('Certification CléA numérique :')).exists();
-    assert.dom(screen.getByText('Certification Pix+ Droit Maître :')).exists();
-    assert.dom(screen.getByText('Certification Pix+ Droit Expert :')).exists();
-    assert.dom(screen.getByText('Certification Pix+ Édu Initié (entrée dans le métier) :')).exists();
-    assert.dom(screen.getByText('Certification Pix+ Édu Confirmé :')).exists();
-    assert.dom(screen.getByText('Certification Pix+ Édu Avancé :')).exists();
-    assert.dom(screen.getByText('Certification Pix+ Édu Expert :')).exists();
-    assert.strictEqual(screen.getAllByText('Rejetée').length, 7);
-  });
-
-  test('it does not display not passed partner certifications', async function (assert) {
-    // given
-    certification.update({
-      cleaCertificationStatus: 'not_taken',
-      pixPlusDroitMaitreCertificationStatus: 'not_taken',
-      pixPlusDroitExpertCertificationStatus: 'not_taken',
-      pixPlusEduInitieCertificationStatus: 'not_taken',
-      pixPlusEduConfirmeCertificationStatus: 'not_taken',
-      pixPlusEduAvanceCertificationStatus: 'not_taken',
-      pixPlusEduExpertCertificationStatus: 'not_taken',
-    });
-
-    // when
-    const screen = await visit(`/certifications/${certification.id}`);
-
-    // then
-    assert.dom(screen.queryByLabelText('Certification CléA numérique :')).doesNotExist();
-    assert.dom(screen.queryByLabelText('Certification Pix+ Droit Maître :')).doesNotExist();
-    assert.dom(screen.queryByLabelText('Certification Pix+ Droit Expert :')).doesNotExist();
-    assert.dom(screen.queryByLabelText('Certification Pix+ Édu Initié (entrée dans le métier) :')).doesNotExist();
-    assert.dom(screen.queryByLabelText('Certification Pix+ Édu Confirmé :')).doesNotExist();
-    assert.dom(screen.queryByLabelText('Certification Pix+ Édu Avancé :')).doesNotExist();
-    assert.dom(screen.queryByLabelText('Certification Pix+ Édu Expert :')).doesNotExist();
   });
 
   module('Candidate information edition', function () {
@@ -168,6 +84,67 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
         assert.dom(screen.getByText('Voir avec PO/Dev pour modifier les infos candidat.')).exists();
         assert.dom(screen.queryByLabelText('Modifier les informations du candidat')).isDisabled();
       });
+    });
+
+    test('it displays common complementary certifications result', async function (assert) {
+      //given
+      const commonComplementaryCertificationCourseResults = [
+        server.create('common-complementary-certification-course-result', {
+          label: 'CléA Numérique',
+          status: 'Validée',
+        }),
+        server.create('common-complementary-certification-course-result', {
+          label: 'Pix+ Droit Maître',
+          status: 'Validée',
+        }),
+        server.create('common-complementary-certification-course-result', {
+          label: 'Pix+ Droit Expert',
+          status: 'Rejetée',
+        }),
+      ];
+
+      certification.update({
+        commonComplementaryCertificationCourseResults,
+      });
+
+      // when
+      const screen = await visit(`/certifications/${certification.id}`);
+
+      // then
+      assert.dom(screen.getByText('Certifications complémentaires')).exists();
+      assert.dom(screen.queryByText('Résultats de la certification complémentaire Pix+ Edu :')).doesNotExist();
+      assert.dom(screen.getByText('CléA Numérique :')).exists();
+      assert.dom(screen.getByText('Pix+ Droit Maître :')).exists();
+      assert.dom(screen.getByText('Pix+ Droit Expert :')).exists();
+      assert.strictEqual(screen.getAllByText('Validée').length, 2);
+      assert.strictEqual(screen.getAllByText('Rejetée').length, 1);
+    });
+
+    test('it displays external complementary certifications', async function (assert) {
+      //given
+      const complementaryCertificationCourseResultsWithExternal = server.create(
+        'complementary-certification-course-results-with-external',
+        {
+          complementaryCertificationCourseId: 1234,
+          pixResult: 'Pix+ Édu Initié (entrée dans le métier)',
+          externalResult: 'Pix+ Édu Avancé',
+          finalResult: 'Pix+ Édu Initié (entrée dans le métier)',
+        }
+      );
+      certification.update({
+        complementaryCertificationCourseResultsWithExternal,
+      });
+
+      // when
+      const screen = await visit(`/certifications/${certification.id}`);
+
+      // then
+      assert.dom(screen.getByText('Résultats de la certification complémentaire Pix+ Edu :')).exists();
+      assert.dom(screen.getByText('VOLET PIX')).exists();
+      assert.dom(screen.getByText('VOLET JURY')).exists();
+      assert.dom(screen.getByText('NIVEAU FINAL')).exists();
+      assert.strictEqual(screen.getAllByText('Pix+ Édu Initié (entrée dans le métier)').length, 2);
+      assert.strictEqual(screen.getAllByText('Pix+ Édu Avancé').length, 1);
     });
 
     module('when candidate certification was enrolled with CPF data', function () {

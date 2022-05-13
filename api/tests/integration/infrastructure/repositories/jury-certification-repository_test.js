@@ -1,18 +1,7 @@
 const { expect, databaseBuilder, domainBuilder, catchErr } = require('../../../test-helper');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 const juryCertificationRepository = require('../../../../lib/infrastructure/repositories/jury-certification-repository');
-const {
-  PIX_EMPLOI_CLEA_V1,
-  PIX_EMPLOI_CLEA_V2,
-  PIX_EMPLOI_CLEA_V3,
-  PIX_DROIT_MAITRE_CERTIF,
-  PIX_DROIT_EXPERT_CERTIF,
-  PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
-  PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME,
-  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME,
-  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
-  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
-} = require('../../../../lib/domain/models/Badge').keys;
+const Badge = require('../../../../lib/domain/models/Badge');
 
 describe('Integration | Infrastructure | Repository | Jury Certification', function () {
   describe('#get', function () {
@@ -30,10 +19,13 @@ describe('Integration | Infrastructure | Repository | Jury Certification', funct
       expect(error.message).to.equal('Certification course of id 2 does not exist.');
     });
 
-    it('should return get the JuryCertification for given certificationCourseId', async function () {
+    it('should return the JuryCertification for given certificationCourseId', async function () {
       // given
       databaseBuilder.factory.buildUser({ id: 789 });
       databaseBuilder.factory.buildSession({ id: 456 });
+      databaseBuilder.factory.buildBadge({ key: Badge.keys.PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE });
+      databaseBuilder.factory.buildBadge({ key: Badge.keys.PIX_DROIT_EXPERT_CERTIF });
+
       databaseBuilder.factory.buildCertificationCourse({ id: 2, sessionId: 456 });
       databaseBuilder.factory.buildAssessment({ certificationCourseId: 2 });
       databaseBuilder.factory.buildCertificationCourse({
@@ -52,6 +44,38 @@ describe('Integration | Infrastructure | Repository | Jury Certification', funct
         completedAt: new Date('2020-02-01'),
         isPublished: false,
         isCancelled: false,
+      });
+      databaseBuilder.factory.buildComplementaryCertification({
+        id: 23,
+        name: 'Pix+ Droit',
+      });
+      databaseBuilder.factory.buildComplementaryCertification({
+        id: 24,
+        name: 'Pix+ Édu',
+      });
+      databaseBuilder.factory.buildComplementaryCertificationCourse({
+        id: 123,
+        complementaryCertificationId: 23,
+        certificationCourseId: 1,
+      });
+      databaseBuilder.factory.buildComplementaryCertificationCourse({
+        id: 456,
+        complementaryCertificationId: 24,
+        certificationCourseId: 1,
+      });
+
+      databaseBuilder.factory.buildComplementaryCertificationCourseResult({
+        complementaryCertificationCourseId: 123,
+        source: 'PIX',
+        partnerKey: Badge.keys.PIX_DROIT_EXPERT_CERTIF,
+        acquired: true,
+      });
+
+      databaseBuilder.factory.buildComplementaryCertificationCourseResult({
+        complementaryCertificationCourseId: 456,
+        source: 'PIX',
+        partnerKey: Badge.keys.PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE,
+        acquired: true,
       });
       databaseBuilder.factory.buildAssessment({ id: 159, certificationCourseId: 1 });
       databaseBuilder.factory.buildUser({ id: 22 });
@@ -112,7 +136,24 @@ describe('Integration | Infrastructure | Repository | Jury Certification', funct
         commentForJury: 'Un commentaire jury',
         competenceMarks: [expectedCompetenceMark],
         certificationIssueReports: [],
-        complementaryCertificationCourseResults: [],
+        commonComplementaryCertificationCourseResults: [
+          {
+            acquired: true,
+            id: 123,
+            partnerKey: 'PIX_DROIT_EXPERT_CERTIF',
+          },
+        ],
+        complementaryCertificationCourseResultsWithExternal: {
+          complementaryCertificationCourseId: 456,
+          externalSection: {
+            acquired: false,
+            partnerKey: undefined,
+          },
+          pixSection: {
+            acquired: true,
+            partnerKey: 'PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE',
+          },
+        },
       });
       expect(juryCertification).to.deepEqualInstance(expectedJuryCertification);
     });
@@ -156,50 +197,5 @@ describe('Integration | Infrastructure | Repository | Jury Certification', funct
         expectedCertificationIssueReportA,
       ]);
     });
-
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    [
-      { partnerKey: PIX_EMPLOI_CLEA_V1, method: 'getCleaCertificationStatus' },
-      { partnerKey: PIX_EMPLOI_CLEA_V2, method: 'getCleaCertificationStatus' },
-      { partnerKey: PIX_EMPLOI_CLEA_V3, method: 'getCleaCertificationStatus' },
-      { partnerKey: PIX_DROIT_MAITRE_CERTIF, method: 'getPixPlusDroitMaitreCertificationStatus' },
-      { partnerKey: PIX_DROIT_EXPERT_CERTIF, method: 'getPixPlusDroitExpertCertificationStatus' },
-      { partnerKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE, method: 'getPixPlusEduInitieCertificationStatus' },
-      { partnerKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME, method: 'getPixPlusEduConfirmeCertificationStatus' },
-      { partnerKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME, method: 'getPixPlusEduConfirmeCertificationStatus' },
-      { partnerKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE, method: 'getPixPlusEduAvanceCertificationStatus' },
-      {
-        partnerKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
-        method: 'getPixPlusEduExpertCertificationStatus',
-      },
-    ].forEach(function ({ partnerKey, method }) {
-      it(`should have the status acquired when ${partnerKey} certification is acquired`, async function () {
-        // given
-        await _buildJuryCertification(1);
-        databaseBuilder.factory.buildBadge({ key: partnerKey });
-        databaseBuilder.factory.buildComplementaryCertificationCourse({
-          id: 111,
-          certificationCourseId: 1,
-        });
-        databaseBuilder.factory.buildComplementaryCertificationCourseResult({
-          complementaryCertificationCourseId: 111,
-          partnerKey,
-          acquired: true,
-        });
-        await databaseBuilder.commit();
-
-        // when
-        const juryCertification = await juryCertificationRepository.get(1);
-
-        // then
-        expect(juryCertification[method]()).to.equal('acquired');
-      });
-    });
   });
 });
-
-async function _buildJuryCertification(certificationCourseId) {
-  databaseBuilder.factory.buildCertificationCourse({ id: certificationCourseId });
-  databaseBuilder.factory.buildAssessment({ certificationCourseId: 1 });
-  await databaseBuilder.commit();
-}

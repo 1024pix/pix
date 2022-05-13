@@ -133,7 +133,8 @@ describe('Unit | Controller | certification-course-controller', function () {
         commentForJury: 'comment jury',
         competenceMarks: [],
         certificationIssueReports: [],
-        complementaryCertificationCourseResults: [],
+        commonComplementaryCertificationCourseResults: [],
+        complementaryCertificationCourseResultsWithExternal: null,
       });
       sinon.stub(usecases, 'getJuryCertification').withArgs({ certificationCourseId }).resolves(juryCertification);
 
@@ -166,17 +167,16 @@ describe('Unit | Controller | certification-course-controller', function () {
           'comment-for-candidate': 'comment candidate',
           'comment-for-jury': 'comment jury',
           'comment-for-organization': 'comment organization',
-          'clea-certification-status': 'not_taken',
-          'pix-plus-droit-expert-certification-status': 'not_taken',
-          'pix-plus-droit-maitre-certification-status': 'not_taken',
-          'pix-plus-edu-initie-certification-status': 'not_taken',
-          'pix-plus-edu-confirme-certification-status': 'not_taken',
-          'pix-plus-edu-avance-certification-status': 'not_taken',
-          'pix-plus-edu-expert-certification-status': 'not_taken',
         },
         relationships: {
           'certification-issue-reports': {
             data: [],
+          },
+          'common-complementary-certification-course-results': {
+            data: [],
+          },
+          'complementary-certification-course-results-with-external': {
+            data: null,
           },
         },
       });

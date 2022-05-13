@@ -1,6 +1,6 @@
 // eslint-disable-next-line ember/no-computed-properties-in-native-classes
 import { computed } from '@ember/object';
-import Model, { attr, hasMany } from '@ember-data/model';
+import Model, { attr, belongsTo, hasMany } from '@ember-data/model';
 import { memberAction } from 'ember-api-actions';
 
 export const ACQUIRED = 'acquired';
@@ -42,15 +42,11 @@ export default class Certification extends Model {
   @attr() pixScore;
   @attr() competencesWithMark;
   @attr('boolean', { defaultValue: false }) isPublished;
-  @attr() cleaCertificationStatus;
-  @attr() pixPlusDroitMaitreCertificationStatus;
-  @attr() pixPlusDroitExpertCertificationStatus;
-  @attr() pixPlusEduInitieCertificationStatus;
-  @attr() pixPlusEduConfirmeCertificationStatus;
-  @attr() pixPlusEduAvanceCertificationStatus;
-  @attr() pixPlusEduExpertCertificationStatus;
+  @belongsTo('complementary-certification-course-results-with-external')
+  complementaryCertificationCourseResultsWithExternal;
 
   @hasMany('certification-issue-report') certificationIssueReports;
+  @hasMany('common-complementary-certification-course-result') commonComplementaryCertificationCourseResults;
 
   @computed('createdAt')
   get creationDate() {
@@ -73,6 +69,13 @@ export default class Certification extends Model {
     return value ? 'Oui' : 'Non';
   }
 
+  get hasComplementaryCertifications() {
+    return (
+      Boolean(this.commonComplementaryCertificationCourseResults.length) ||
+      Boolean(this.complementaryCertificationCourseResultsWithExternal.get('pixResult'))
+    );
+  }
+
   @computed('competencesWithMark')
   get indexedCompetences() {
     const competencesWithMarks = this.competencesWithMark;
@@ -91,38 +94,6 @@ export default class Certification extends Model {
         result.push(indexedCompetences[value]);
         return result;
       }, []);
-  }
-
-  @computed('cleaCertificationStatus')
-  get cleaCertificationStatusLabel() {
-    return partnerCertificationStatusToDisplayName[this.cleaCertificationStatus];
-  }
-
-  @computed('pixPlusDroitMaitreCertificationStatus')
-  get pixPlusDroitMaitreCertificationStatusLabel() {
-    return partnerCertificationStatusToDisplayName[this.pixPlusDroitMaitreCertificationStatus];
-  }
-
-  @computed('pixPlusDroitExpertCertificationStatus')
-  get pixPlusDroitExpertCertificationStatusLabel() {
-    return partnerCertificationStatusToDisplayName[this.pixPlusDroitExpertCertificationStatus];
-  }
-
-  @computed('pixPlusEduInitieCertificationStatus')
-  get pixPlusEduInitieCertificationStatusLabel() {
-    return partnerCertificationStatusToDisplayName[this.pixPlusEduInitieCertificationStatus];
-  }
-  @computed('pixPlusEduConfirmeCertificationStatus')
-  get pixPlusEduConfirmeCertificationStatusLabel() {
-    return partnerCertificationStatusToDisplayName[this.pixPlusEduConfirmeCertificationStatus];
-  }
-  @computed('pixPlusEduAvanceCertificationStatus')
-  get pixPlusEduAvanceCertificationStatusLabel() {
-    return partnerCertificationStatusToDisplayName[this.pixPlusEduAvanceCertificationStatus];
-  }
-  @computed('pixPlusEduExpertCertificationStatus')
-  get pixPlusEduExpertCertificationStatusLabel() {
-    return partnerCertificationStatusToDisplayName[this.pixPlusEduExpertCertificationStatus];
   }
 
   get wasRegisteredBeforeCPF() {
