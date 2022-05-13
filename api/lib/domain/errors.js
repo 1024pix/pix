@@ -684,8 +684,9 @@ class NotEligibleCandidateError extends DomainError {
 }
 
 class NotFoundError extends DomainError {
-  constructor(message = 'Erreur, ressource introuvable.') {
+  constructor(message = 'Erreur, ressource introuvable.', code) {
     super(message);
+    this.code = code;
   }
 }
 
@@ -896,8 +897,8 @@ class UserCantBeCreatedError extends DomainError {
 }
 
 class UserNotFoundError extends NotFoundError {
-  constructor(message = 'Ce compte est introuvable.') {
-    super(message);
+  constructor(message = 'Ce compte est introuvable.', code = 'USER_ACCOUNT_NOT_FOUND') {
+    super(message, code);
   }
 
   getErrorMessage() {
