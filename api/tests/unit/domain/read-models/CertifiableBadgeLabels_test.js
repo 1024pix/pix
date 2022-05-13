@@ -77,4 +77,14 @@ describe('Unit | Domain | Models | CertifiableBadgeLabels', function () {
       });
     });
   });
+
+  describe('#getCleaLabel', function () {
+    it('returns CleA label', function () {
+      // when
+      const label = CertifiableBadgeLabels.getCleaLabel();
+
+      // then
+      expect(label).to.equal('CléA Numérique');
+    });
+  });
 });

@@ -38,6 +38,10 @@ class CertifiableBadgeLabels {
   static getLabelByBadgeKey(badgeKey) {
     return certifiableBadgeLabels[badgeKey];
   }
+
+  static getCleaLabel() {
+    return certifiableBadgeLabels[PIX_EMPLOI_CLEA_V1];
+  }
 }
 
 CertifiableBadgeLabels.labels = certifiableBadgeLabels;
