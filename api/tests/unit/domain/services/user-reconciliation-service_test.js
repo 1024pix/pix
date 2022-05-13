@@ -3,8 +3,8 @@ const userReconciliationService = require('../../../../lib/domain/services/user-
 const {
   AlreadyRegisteredUsernameError,
   NotFoundError,
-  SchoolingRegistrationAlreadyLinkedToUserError,
-  SchoolingRegistrationAlreadyLinkedToInvalidUserError,
+  OrganizationLearnerAlreadyLinkedToUserError,
+  OrganizationLearnerAlreadyLinkedToInvalidUserError,
 } = require('../../../../lib/domain/errors');
 
 describe('Unit | Service | user-reconciliation-service', function () {
@@ -35,7 +35,7 @@ describe('Unit | Service | user-reconciliation-service', function () {
       lastName: 'Poe',
     };
 
-    context('When schoolingRegistration list is empty', function () {
+    context('When organizationLearner list is empty', function () {
       it('should return null', async function () {
         // when
         const result = await userReconciliationService.findMatchingCandidateIdForGivenUser([], user);
@@ -45,8 +45,8 @@ describe('Unit | Service | user-reconciliation-service', function () {
       });
     });
 
-    context('When schoolingRegistration list is not empty', function () {
-      context('When no schoolingRegistration matched on names', function () {
+    context('When organizationLearner list is not empty', function () {
+      context('When no organizationLearner matched on names', function () {
         it('should return null if name is completely different', async function () {
           // given
           user.firstName = 'Sam';
@@ -83,10 +83,10 @@ describe('Unit | Service | user-reconciliation-service', function () {
       });
 
       // A contained context state 'When multiple matches'
-      // So the context 'one schoolingRegistration matched' is ambiguous
-      // Can it be replaced by 'When at least one schoolingRegistration matched on names' ?
-      context('When one schoolingRegistration matched on names', function () {
-        context('When schoolingRegistration found based on his...', function () {
+      // So the context 'one organizationLearner matched' is ambiguous
+      // Can it be replaced by 'When at least one organizationLearner matched on names' ?
+      context('When one organizationLearner matched on names', function () {
+        context('When organizationLearner found based on his...', function () {
           it('...firstName', async function () {
             // given
             organizationLearners[0].firstName = user.firstName;
@@ -211,7 +211,7 @@ describe('Unit | Service | user-reconciliation-service', function () {
           });
         });
 
-        context('When schoolingRegistration found even if there is...', function () {
+        context('When organizationLearner found even if there is...', function () {
           it('...an accent', async function () {
             // given
             user.firstName = 'Joé';
@@ -337,7 +337,7 @@ describe('Unit | Service | user-reconciliation-service', function () {
           });
         });
 
-        context('When two schoolingRegistrations are close', function () {
+        context('When two organizationLearners are close', function () {
           const twin1 = { firstName: 'allan', lastName: 'Poe' };
           const twin2 = { firstName: 'alian', lastName: 'Poe' };
 
@@ -362,24 +362,24 @@ describe('Unit | Service | user-reconciliation-service', function () {
     });
   });
 
-  describe('#findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser', function () {
+  describe('#findMatchingOrganizationLearnerIdForGivenOrganizationIdAndUser', function () {
     let user;
     let organizationId;
-    let schoolingRegistrationRepositoryStub;
+    let organizationLearnerRepositoryStub;
 
     beforeEach(function () {
       organizationId = domainBuilder.buildOrganization().id;
-      schoolingRegistrationRepositoryStub = {
+      organizationLearnerRepositoryStub = {
         findByOrganizationIdAndBirthdate: sinon.stub(),
       };
     });
 
-    context('When schooling registrations are found for organization and birthdate', function () {
+    context('When organization Learners are found for organization and birthdate', function () {
       beforeEach(function () {
-        schoolingRegistrationRepositoryStub.findByOrganizationIdAndBirthdate.resolves(organizationLearners);
+        organizationLearnerRepositoryStub.findByOrganizationIdAndBirthdate.resolves(organizationLearners);
       });
 
-      context('When no schooling registrations matched on names', function () {
+      context('When no organization Learners matched on names', function () {
         it('should throw NotFoundError', async function () {
           // given
           user = {
@@ -389,16 +389,16 @@ describe('Unit | Service | user-reconciliation-service', function () {
 
           // when
           const result = await catchErr(
-            userReconciliationService.findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser
+            userReconciliationService.findMatchingOrganizationLearnerIdForGivenOrganizationIdAndUser
           )({
             organizationId,
             reconciliationInfo: user,
-            schoolingRegistrationRepository: schoolingRegistrationRepositoryStub,
+            organizationLearnerRepository: organizationLearnerRepositoryStub,
           });
 
           // then
           expect(result).to.be.instanceOf(NotFoundError);
-          expect(result.message).to.equal('There were no schoolingRegistrations matching with names');
+          expect(result.message).to.equal('There were no organizationLearners matching with names');
         });
       });
 
@@ -410,14 +410,15 @@ describe('Unit | Service | user-reconciliation-service', function () {
           };
         });
 
-        it('should return matched SchoolingRegistration', async function () {
+        it('should return matched OrganizationLearner', async function () {
           // when
-          const result =
-            await userReconciliationService.findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser({
+          const result = await userReconciliationService.findMatchingOrganizationLearnerIdForGivenOrganizationIdAndUser(
+            {
               organizationId,
               reconciliationInfo: user,
-              schoolingRegistrationRepository: schoolingRegistrationRepositoryStub,
-            });
+              organizationLearnerRepository: organizationLearnerRepositoryStub,
+            }
+          );
 
           // then
           expect(result).to.equal(organizationLearners[0]);
@@ -425,9 +426,9 @@ describe('Unit | Service | user-reconciliation-service', function () {
       });
     });
 
-    context('When no schooling registrations found', function () {
+    context('When no organization Learners found', function () {
       beforeEach(function () {
-        schoolingRegistrationRepositoryStub.findByOrganizationIdAndBirthdate.resolves([]);
+        organizationLearnerRepositoryStub.findByOrganizationIdAndBirthdate.resolves([]);
       });
 
       it('should throw NotFoundError', async function () {
@@ -439,37 +440,37 @@ describe('Unit | Service | user-reconciliation-service', function () {
 
         // when
         const result = await catchErr(
-          userReconciliationService.findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser
+          userReconciliationService.findMatchingOrganizationLearnerIdForGivenOrganizationIdAndUser
         )({
           organizationId,
           reconciliationInfo: user,
-          schoolingRegistrationRepository: schoolingRegistrationRepositoryStub,
+          organizationLearnerRepository: organizationLearnerRepositoryStub,
         });
 
         // then
-        expect(result).to.be.instanceOf(NotFoundError, 'There were no schoolingRegistrations matching');
+        expect(result).to.be.instanceOf(NotFoundError, 'There were no organizationLearners matching');
       });
     });
   });
 
-  describe('#findMatchingHigherSchoolingRegistrationIdForGivenOrganizationIdAndUser', function () {
+  describe('#findMatchingSupOrganizationLearnerIdForGivenOrganizationIdAndUser', function () {
     let user;
     let organizationId;
-    let higherSchoolingRegistrationRepositoryStub;
+    let supOrganizationLearnerRepositoryStub;
 
     beforeEach(function () {
       organizationId = domainBuilder.buildOrganization().id;
-      higherSchoolingRegistrationRepositoryStub = {
+      supOrganizationLearnerRepositoryStub = {
         findOneByStudentNumberAndBirthdate: sinon.stub(),
       };
     });
 
-    context('When schooling registrations are found for organization and birthdate', function () {
+    context('When organization Learners are found for organization and birthdate', function () {
       beforeEach(function () {
-        higherSchoolingRegistrationRepositoryStub.findOneByStudentNumberAndBirthdate.resolves(organizationLearners[0]);
+        supOrganizationLearnerRepositoryStub.findOneByStudentNumberAndBirthdate.resolves(organizationLearners[0]);
       });
 
-      context('When no schooling registrations matched on names', function () {
+      context('When no organization Learners matched on names', function () {
         it('should throw an error', async function () {
           // given
           user = {
@@ -479,11 +480,11 @@ describe('Unit | Service | user-reconciliation-service', function () {
 
           // when
           const error = await catchErr(
-            userReconciliationService.findMatchingHigherSchoolingRegistrationIdForGivenOrganizationIdAndUser
+            userReconciliationService.findMatchingSupOrganizationLearnerIdForGivenOrganizationIdAndUser
           )({
             organizationId,
             reconciliationInfo: user,
-            higherSchoolingRegistrationRepository: higherSchoolingRegistrationRepositoryStub,
+            supOrganizationLearnerRepository: supOrganizationLearnerRepositoryStub,
           });
 
           // then
@@ -499,39 +500,37 @@ describe('Unit | Service | user-reconciliation-service', function () {
           };
         });
 
-        context('When schoolingRegistration is already linked', function () {
+        context('When organizationLearner is already linked', function () {
           beforeEach(function () {
             organizationLearners[0].userId = '123';
           });
 
           it('should throw an error', async function () {
             // given
-            higherSchoolingRegistrationRepositoryStub.findOneByStudentNumberAndBirthdate.resolves(
-              organizationLearners[0]
-            );
+            supOrganizationLearnerRepositoryStub.findOneByStudentNumberAndBirthdate.resolves(organizationLearners[0]);
 
             // when
             const result = await catchErr(
-              userReconciliationService.findMatchingHigherSchoolingRegistrationIdForGivenOrganizationIdAndUser
+              userReconciliationService.findMatchingSupOrganizationLearnerIdForGivenOrganizationIdAndUser
             )({
               organizationId,
               reconciliationInfo: user,
-              higherSchoolingRegistrationRepository: higherSchoolingRegistrationRepositoryStub,
+              supOrganizationLearnerRepository: supOrganizationLearnerRepositoryStub,
             });
 
             // then
-            expect(result).to.be.instanceOf(SchoolingRegistrationAlreadyLinkedToUserError);
+            expect(result).to.be.instanceOf(OrganizationLearnerAlreadyLinkedToUserError);
           });
         });
 
-        context('When schoolingRegistration is not already linked', function () {
-          it('should return matched SchoolingRegistration', async function () {
+        context('When organizationLearner is not already linked', function () {
+          it('should return matched OrganizationLearner', async function () {
             // when
             const result =
-              await userReconciliationService.findMatchingHigherSchoolingRegistrationIdForGivenOrganizationIdAndUser({
+              await userReconciliationService.findMatchingSupOrganizationLearnerIdForGivenOrganizationIdAndUser({
                 organizationId,
                 reconciliationInfo: user,
-                higherSchoolingRegistrationRepository: higherSchoolingRegistrationRepositoryStub,
+                supOrganizationLearnerRepository: supOrganizationLearnerRepositoryStub,
               });
 
             // then
@@ -541,9 +540,9 @@ describe('Unit | Service | user-reconciliation-service', function () {
       });
     });
 
-    context('When no schooling registrations found', function () {
+    context('When no organization Learners found', function () {
       beforeEach(function () {
-        higherSchoolingRegistrationRepositoryStub.findOneByStudentNumberAndBirthdate.resolves(null);
+        supOrganizationLearnerRepositoryStub.findOneByStudentNumberAndBirthdate.resolves(null);
       });
 
       it('should throw an error', async function () {
@@ -555,11 +554,11 @@ describe('Unit | Service | user-reconciliation-service', function () {
 
         // when
         const error = await catchErr(
-          userReconciliationService.findMatchingHigherSchoolingRegistrationIdForGivenOrganizationIdAndUser
+          userReconciliationService.findMatchingSupOrganizationLearnerIdForGivenOrganizationIdAndUser
         )({
           organizationId,
           reconciliationInfo: user,
-          higherSchoolingRegistrationRepository: higherSchoolingRegistrationRepositoryStub,
+          supOrganizationLearnerRepository: supOrganizationLearnerRepositoryStub,
         });
 
         // then
@@ -683,11 +682,11 @@ describe('Unit | Service | user-reconciliation-service', function () {
 
     context('When student is already reconciled in the same organization', function () {
       context('When the reconciled account has an email', function () {
-        it('should return a SchoolingRegistrationAlreadyLinkedToUserError with ACCOUNT_WITH_EMAIL_ALREADY_EXIST_FOR_THE_SAME_ORGANIZATION code', async function () {
+        it('should return a OrganizationLearnerAlreadyLinkedToUserError with ACCOUNT_WITH_EMAIL_ALREADY_EXIST_FOR_THE_SAME_ORGANIZATION code', async function () {
           // given
-          const schoolingRegistration = domainBuilder.buildOrganizationLearner();
+          const organizationLearner = domainBuilder.buildOrganizationLearner();
           const user = domainBuilder.buildUser({ email: 'test@example.net' });
-          schoolingRegistration.userId = user.id;
+          organizationLearner.userId = user.id;
 
           userRepositoryStub.getForObfuscation.withArgs(user.id).resolves(user);
           obfuscationServiceStub.getUserAuthenticationMethodWithObfuscation.withArgs(user).returns({
@@ -697,14 +696,14 @@ describe('Unit | Service | user-reconciliation-service', function () {
 
           // when
           const error = await catchErr(userReconciliationService.checkIfStudentHasAnAlreadyReconciledAccount)(
-            schoolingRegistration,
+            organizationLearner,
             userRepositoryStub,
             obfuscationServiceStub,
             studentRepositoryStub
           );
 
           // then
-          expect(error).to.be.instanceof(SchoolingRegistrationAlreadyLinkedToUserError);
+          expect(error).to.be.instanceof(OrganizationLearnerAlreadyLinkedToUserError);
           expect(error.message).to.equal('Un compte existe déjà pour l‘élève dans le même établissement.');
           expect(error.code).to.equal('ACCOUNT_WITH_EMAIL_ALREADY_EXIST_FOR_THE_SAME_ORGANIZATION');
           expect(error.meta.shortCode).to.equal('R31');
@@ -714,11 +713,11 @@ describe('Unit | Service | user-reconciliation-service', function () {
       });
 
       context('When the reconciled account as a username', function () {
-        it('should return a SchoolingRegistrationAlreadyLinkedToUserError with ACCOUNT_WITH_USERNAME_ALREADY_EXIST_FOR_THE_SAME_ORGANIZATION code', async function () {
+        it('should return a OrganizationLearnerAlreadyLinkedToUserError with ACCOUNT_WITH_USERNAME_ALREADY_EXIST_FOR_THE_SAME_ORGANIZATION code', async function () {
           // given
-          const schoolingRegistration = domainBuilder.buildOrganizationLearner();
+          const organizationLearner = domainBuilder.buildOrganizationLearner();
           const user = domainBuilder.buildUser({ username: 'john.doe0101' });
-          schoolingRegistration.userId = user.id;
+          organizationLearner.userId = user.id;
 
           userRepositoryStub.getForObfuscation.withArgs(user.id).resolves(user);
           obfuscationServiceStub.getUserAuthenticationMethodWithObfuscation.withArgs(user).returns({
@@ -728,14 +727,14 @@ describe('Unit | Service | user-reconciliation-service', function () {
 
           // when
           const error = await catchErr(userReconciliationService.checkIfStudentHasAnAlreadyReconciledAccount)(
-            schoolingRegistration,
+            organizationLearner,
             userRepositoryStub,
             obfuscationServiceStub,
             studentRepositoryStub
           );
 
           // then
-          expect(error).to.be.instanceof(SchoolingRegistrationAlreadyLinkedToUserError);
+          expect(error).to.be.instanceof(OrganizationLearnerAlreadyLinkedToUserError);
           expect(userRepositoryStub.getForObfuscation).to.have.been.calledWith(user.id);
           expect(error.message).to.equal('Un compte existe déjà pour l‘élève dans le même établissement.');
           expect(error.code).to.equal('ACCOUNT_WITH_USERNAME_ALREADY_EXIST_FOR_THE_SAME_ORGANIZATION');
@@ -746,11 +745,11 @@ describe('Unit | Service | user-reconciliation-service', function () {
       });
 
       context('When the reconciled account as a samlId', function () {
-        it('should return a SchoolingRegistrationAlreadyLinkedToUserError with ACCOUNT_WITH_GAR_ALREADY_EXIST_FOR_THE_SAME_ORGANIZATION code', async function () {
+        it('should return a OrganizationLearnerAlreadyLinkedToUserError with ACCOUNT_WITH_GAR_ALREADY_EXIST_FOR_THE_SAME_ORGANIZATION code', async function () {
           // given
-          const schoolingRegistration = domainBuilder.buildOrganizationLearner();
+          const organizationLearner = domainBuilder.buildOrganizationLearner();
           const user = domainBuilder.buildUser({ samlId: 'samlId' });
-          schoolingRegistration.userId = user.id;
+          organizationLearner.userId = user.id;
 
           userRepositoryStub.getForObfuscation.withArgs(user.id).resolves(user);
           obfuscationServiceStub.getUserAuthenticationMethodWithObfuscation.withArgs(user).returns({
@@ -760,14 +759,14 @@ describe('Unit | Service | user-reconciliation-service', function () {
 
           // when
           const error = await catchErr(userReconciliationService.checkIfStudentHasAnAlreadyReconciledAccount)(
-            schoolingRegistration,
+            organizationLearner,
             userRepositoryStub,
             obfuscationServiceStub,
             studentRepositoryStub
           );
 
           // then
-          expect(error).to.be.instanceof(SchoolingRegistrationAlreadyLinkedToUserError);
+          expect(error).to.be.instanceof(OrganizationLearnerAlreadyLinkedToUserError);
           expect(userRepositoryStub.getForObfuscation).to.have.been.calledWith(user.id);
           expect(error.message).to.equal('Un compte existe déjà pour l‘élève dans le même établissement.');
           expect(error.code).to.equal('ACCOUNT_WITH_GAR_ALREADY_EXIST_FOR_THE_SAME_ORGANIZATION');
@@ -780,10 +779,10 @@ describe('Unit | Service | user-reconciliation-service', function () {
 
     context('When student is already reconciled in an other organization', function () {
       context('When the reconciled account as an email', function () {
-        it('should return a SchoolingRegistrationAlreadyLinkedToUserError with ACCOUNT_WITH_EMAIL_ALREADY_EXIST_FOR_ANOTHER_ORGANIZATION code', async function () {
+        it('should return a OrganizationLearnerAlreadyLinkedToUserError with ACCOUNT_WITH_EMAIL_ALREADY_EXIST_FOR_ANOTHER_ORGANIZATION code', async function () {
           // given
           const nationalStudentId = 'nationalStudentId';
-          const schoolingRegistration = domainBuilder.buildOrganizationLearner({ nationalStudentId });
+          const organizationLearner = domainBuilder.buildOrganizationLearner({ nationalStudentId });
           const user = domainBuilder.buildUser({ email: 'test@example.net' });
 
           studentRepositoryStub.getReconciledStudentByNationalStudentId
@@ -797,14 +796,14 @@ describe('Unit | Service | user-reconciliation-service', function () {
 
           // when
           const error = await catchErr(userReconciliationService.checkIfStudentHasAnAlreadyReconciledAccount)(
-            schoolingRegistration,
+            organizationLearner,
             userRepositoryStub,
             obfuscationServiceStub,
             studentRepositoryStub
           );
 
           // then
-          expect(error).to.be.instanceof(SchoolingRegistrationAlreadyLinkedToUserError);
+          expect(error).to.be.instanceof(OrganizationLearnerAlreadyLinkedToUserError);
           expect(error.message).to.equal('Un compte existe déjà pour l‘élève dans un autre établissement.');
           expect(error.code).to.equal('ACCOUNT_WITH_EMAIL_ALREADY_EXIST_FOR_ANOTHER_ORGANIZATION');
           expect(error.meta.shortCode).to.equal('R11');
@@ -814,10 +813,10 @@ describe('Unit | Service | user-reconciliation-service', function () {
       });
 
       context('When the reconciled account as a username', function () {
-        it('should return a SchoolingRegistrationAlreadyLinkedToUserError with ACCOUNT_WITH_USERNAME_ALREADY_EXIST_FOR_ANOTHER_ORGANIZATION code', async function () {
+        it('should return a OrganizationLearnerAlreadyLinkedToUserError with ACCOUNT_WITH_USERNAME_ALREADY_EXIST_FOR_ANOTHER_ORGANIZATION code', async function () {
           // given
           const nationalStudentId = 'nationalStudentId';
-          const schoolingRegistration = domainBuilder.buildOrganizationLearner({ nationalStudentId });
+          const organizationLearner = domainBuilder.buildOrganizationLearner({ nationalStudentId });
           const user = domainBuilder.buildUser({ username: 'john.doe0101' });
 
           studentRepositoryStub.getReconciledStudentByNationalStudentId
@@ -831,14 +830,14 @@ describe('Unit | Service | user-reconciliation-service', function () {
 
           // when
           const error = await catchErr(userReconciliationService.checkIfStudentHasAnAlreadyReconciledAccount)(
-            schoolingRegistration,
+            organizationLearner,
             userRepositoryStub,
             obfuscationServiceStub,
             studentRepositoryStub
           );
 
           // then
-          expect(error).to.be.instanceof(SchoolingRegistrationAlreadyLinkedToUserError);
+          expect(error).to.be.instanceof(OrganizationLearnerAlreadyLinkedToUserError);
           expect(userRepositoryStub.getForObfuscation).to.have.been.calledWith(user.id);
           expect(error.message).to.equal('Un compte existe déjà pour l‘élève dans un autre établissement.');
           expect(error.code).to.equal('ACCOUNT_WITH_USERNAME_ALREADY_EXIST_FOR_ANOTHER_ORGANIZATION');
@@ -849,10 +848,10 @@ describe('Unit | Service | user-reconciliation-service', function () {
       });
 
       context('When the reconciled account as a samlId', function () {
-        it('should return a SchoolingRegistrationAlreadyLinkedToUserError with ACCOUNT_WITH_GAR_ALREADY_EXIST_FOR_ANOTHER_ORGANIZATION code', async function () {
+        it('should return a OrganizationLearnerAlreadyLinkedToUserError with ACCOUNT_WITH_GAR_ALREADY_EXIST_FOR_ANOTHER_ORGANIZATION code', async function () {
           // given
           const nationalStudentId = 'nationalStudentId';
-          const schoolingRegistration = domainBuilder.buildOrganizationLearner({ nationalStudentId });
+          const organizationLearner = domainBuilder.buildOrganizationLearner({ nationalStudentId });
           const user = domainBuilder.buildUser({ samlId: 'samlId' });
 
           studentRepositoryStub.getReconciledStudentByNationalStudentId
@@ -866,14 +865,14 @@ describe('Unit | Service | user-reconciliation-service', function () {
 
           // when
           const error = await catchErr(userReconciliationService.checkIfStudentHasAnAlreadyReconciledAccount)(
-            schoolingRegistration,
+            organizationLearner,
             userRepositoryStub,
             obfuscationServiceStub,
             studentRepositoryStub
           );
 
           // then
-          expect(error).to.be.instanceof(SchoolingRegistrationAlreadyLinkedToUserError);
+          expect(error).to.be.instanceof(OrganizationLearnerAlreadyLinkedToUserError);
           expect(userRepositoryStub.getForObfuscation).to.have.been.calledWith(user.id);
           expect(error.message).to.equal('Un compte existe déjà pour l‘élève dans un autre établissement.');
           expect(error.code).to.equal('ACCOUNT_WITH_GAR_ALREADY_EXIST_FOR_ANOTHER_ORGANIZATION');
@@ -885,7 +884,7 @@ describe('Unit | Service | user-reconciliation-service', function () {
     });
 
     context('When student has an invalid reconciliation', function () {
-      it('should return a SchoolingRegistrationAlreadyLinkedToInvalidUserError', async function () {
+      it('should return a OrganizationLearnerAlreadyLinkedToInvalidUserError', async function () {
         // given
         const nationalStudentId = 'nationalStudentId';
         const user = domainBuilder.buildUser({
@@ -893,7 +892,7 @@ describe('Unit | Service | user-reconciliation-service', function () {
           username: null,
           authenticationMethods: [],
         });
-        const schoolingRegistration = domainBuilder.buildOrganizationLearner({ nationalStudentId, userId: user.id });
+        const organizationLearner = domainBuilder.buildOrganizationLearner({ nationalStudentId, userId: user.id });
 
         studentRepositoryStub.getReconciledStudentByNationalStudentId
           .withArgs(nationalStudentId)
@@ -903,14 +902,14 @@ describe('Unit | Service | user-reconciliation-service', function () {
 
         // when
         const error = await catchErr(userReconciliationService.checkIfStudentHasAnAlreadyReconciledAccount)(
-          schoolingRegistration,
+          organizationLearner,
           userRepositoryStub,
           obfuscationServiceStub,
           studentRepositoryStub
         );
 
         // then
-        expect(error).to.be.instanceof(SchoolingRegistrationAlreadyLinkedToInvalidUserError);
+        expect(error).to.be.instanceof(OrganizationLearnerAlreadyLinkedToInvalidUserError);
         expect(error.message).to.equal('Élève rattaché avec un compte invalide.');
       });
     });

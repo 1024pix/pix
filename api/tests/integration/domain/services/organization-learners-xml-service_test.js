@@ -1,15 +1,15 @@
 const { expect, catchErr } = require('../../../test-helper');
 const { SiecleXmlImportError } = require('../../../../lib/domain/errors');
-const schoolingRegistrationsXmlService = require('../../../../lib/domain/services/schooling-registrations-xml-service');
+const organizationLearnersXmlService = require('../../../../lib/domain/services/organization-learners-xml-service');
 
-describe('Integration | Services | schooling-registrations-xml-service', function () {
-  describe('extractSchoolingRegistrationsInformationFromSIECLE', function () {
-    it('should parse two schoolingRegistrations information', async function () {
+describe('Integration | Services | organization-learnerz-xml-service', function () {
+  describe('extractOrganizationLearnersInformationFromSIECLE', function () {
+    it('should parse two organizationLearners information', async function () {
       // given
       const validUAIFromSIECLE = '123ABC';
       const organization = { externalId: validUAIFromSIECLE };
       const path = `${process.cwd()}/tests/tooling/fixtures/siecle-file/siecle-with-two-valid-students.xml`;
-      const expectedSchoolingRegistrations = [
+      const expectedOrganizationLearners = [
         {
           lastName: 'HANDMADE',
           preferredLastName: '',
@@ -47,30 +47,30 @@ describe('Integration | Services | schooling-registrations-xml-service', functio
       ];
 
       // when
-      const result = await schoolingRegistrationsXmlService.extractSchoolingRegistrationsInformationFromSIECLE(
+      const result = await organizationLearnersXmlService.extractOrganizationLearnersInformationFromSIECLE(
         path,
         organization
       );
 
       //then
-      expect(result).to.deep.equal(expectedSchoolingRegistrations);
+      expect(result).to.deep.equal(expectedOrganizationLearners);
     });
 
-    it('should not parse schoolingRegistrations who are no longer in the school', async function () {
+    it('should not parse organizationLearners who are no longer in the school', async function () {
       // given
       const validUAIFromSIECLE = '123ABC';
       const organization = { externalId: validUAIFromSIECLE };
       const path = `${process.cwd()}/tests/tooling/fixtures/siecle-file/siecle-with-registrations-no-longer-in-school.xml`;
-      const expectedSchoolingRegistrations = [];
+      const expectedOrganizationLearners = [];
 
       // when
-      const result = await schoolingRegistrationsXmlService.extractSchoolingRegistrationsInformationFromSIECLE(
+      const result = await organizationLearnersXmlService.extractOrganizationLearnersInformationFromSIECLE(
         path,
         organization
       );
 
       //then
-      expect(result).to.deep.equal(expectedSchoolingRegistrations);
+      expect(result).to.deep.equal(expectedOrganizationLearners);
     });
 
     it('should abort parsing and reject with not valid UAI error', async function () {
@@ -79,7 +79,7 @@ describe('Integration | Services | schooling-registrations-xml-service', functio
       const organization = { externalId: wrongUAIFromSIECLE };
       const path = `${process.cwd()}/tests/tooling/fixtures/siecle-file/siecle-with-wrong-uai.xml`;
       // when
-      const error = await catchErr(schoolingRegistrationsXmlService.extractSchoolingRegistrationsInformationFromSIECLE)(
+      const error = await catchErr(organizationLearnersXmlService.extractOrganizationLearnersInformationFromSIECLE)(
         path,
         organization
       );
@@ -95,7 +95,7 @@ describe('Integration | Services | schooling-registrations-xml-service', functio
       const organization = { externalId: wrongUAIFromSIECLE };
       const path = `${process.cwd()}/tests/tooling/fixtures/siecle-file/siecle-with-no-uai.xml`;
       // when
-      const error = await catchErr(schoolingRegistrationsXmlService.extractSchoolingRegistrationsInformationFromSIECLE)(
+      const error = await catchErr(organizationLearnersXmlService.extractOrganizationLearnersInformationFromSIECLE)(
         path,
         organization
       );
@@ -111,7 +111,7 @@ describe('Integration | Services | schooling-registrations-xml-service', functio
       const organization = { externalId: validUAIFromSIECLE };
       const path = `${process.cwd()}/tests/tooling/fixtures/siecle-file/siecle-with-duplicate-national-student-id.xml`;
       // when
-      const error = await catchErr(schoolingRegistrationsXmlService.extractSchoolingRegistrationsInformationFromSIECLE)(
+      const error = await catchErr(organizationLearnersXmlService.extractOrganizationLearnersInformationFromSIECLE)(
         path,
         organization
       );
@@ -128,7 +128,7 @@ describe('Integration | Services | schooling-registrations-xml-service', functio
       const organization = { externalId: validUAIFromSIECLE };
       const path = `${process.cwd()}/tests/tooling/fixtures/siecle-file/siecle-with-duplicate-national-student-id-and-unclosed-tag.xml`;
       // when
-      const error = await catchErr(schoolingRegistrationsXmlService.extractSchoolingRegistrationsInformationFromSIECLE)(
+      const error = await catchErr(organizationLearnersXmlService.extractOrganizationLearnersInformationFromSIECLE)(
         path,
         organization
       );
@@ -145,7 +145,7 @@ describe('Integration | Services | schooling-registrations-xml-service', functio
       const organization = { externalId: validUAIFromSIECLE };
       const path = `${process.cwd()}/tests/tooling/fixtures/siecle-file/siecle-with-no-national-student-id.xml`;
       // when
-      const error = await catchErr(schoolingRegistrationsXmlService.extractSchoolingRegistrationsInformationFromSIECLE)(
+      const error = await catchErr(organizationLearnersXmlService.extractOrganizationLearnersInformationFromSIECLE)(
         path,
         organization
       );
