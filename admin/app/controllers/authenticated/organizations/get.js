@@ -6,6 +6,7 @@ import get from 'lodash/get';
 export default class GetController extends Controller {
   @service notifications;
   @service router;
+  @service accessControl;
 
   @action
   updateOrganizationInformation() {
