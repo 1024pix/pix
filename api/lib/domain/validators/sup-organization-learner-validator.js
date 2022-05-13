@@ -25,8 +25,8 @@ const validationSchema = Joi.object({
 });
 
 module.exports = {
-  checkValidation(higherSchoolingRegistration) {
-    const { error } = validationSchema.validate(higherSchoolingRegistration, validationConfiguration);
+  checkValidation(supOrganizationLearner) {
+    const { error } = validationSchema.validate(supOrganizationLearner, validationConfiguration);
     if (error) {
       const err = EntityValidationError.fromJoiErrors(error.details);
       err.key = error.details[0].context.key;

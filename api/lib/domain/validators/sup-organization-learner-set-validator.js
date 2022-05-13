@@ -6,8 +6,8 @@ const validationConfiguration = { allowUnknown: true };
 const validationSchema = Joi.array().unique('studentNumber');
 
 module.exports = {
-  checkValidation(higherSchoolingRegistrationSet) {
-    const { error } = validationSchema.validate(higherSchoolingRegistrationSet.registrations, validationConfiguration);
+  checkValidation(organizationLearnerSet) {
+    const { error } = validationSchema.validate(organizationLearnerSet.learners, validationConfiguration);
 
     if (error) {
       const err = EntityValidationError.fromJoiErrors(error.details);
