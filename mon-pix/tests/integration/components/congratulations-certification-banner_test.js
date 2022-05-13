@@ -38,40 +38,13 @@ describe('Integration | Component | Congratulations Certification Banner', funct
     sinon.assert.calledOnce(closeBannerStub);
   });
 
-  [
-    {
-      record: { cleaCertificationEligible: true },
-      expectedMessage: 'Vous êtes également éligible à la certification CléA numérique.',
-    },
-    {
-      record: { pixPlusDroitMaitreCertificationEligible: true },
-      expectedMessage: 'Vous êtes également éligible à la certification Pix+ Droit Maître.',
-    },
-    {
-      record: { pixPlusDroitExpertCertificationEligible: true },
-      expectedMessage: 'Vous êtes également éligible à la certification Pix+ Droit Expert.',
-    },
-    {
-      record: { pixPlusEduInitieCertificationEligible: true },
-      expectedMessage: 'Vous êtes également éligible à la certification Pix+ Édu Initié (entrée dans le métier).',
-    },
-    {
-      record: { pixPlusEduConfirmeCertificationEligible: true },
-      expectedMessage: 'Vous êtes également éligible à la certification Pix+ Édu Confirmé.',
-    },
-    {
-      record: { pixPlusEduAvanceCertificationEligible: true },
-      expectedMessage: 'Vous êtes également éligible à la certification Pix+ Édu Avancé.',
-    },
-    {
-      record: { pixPlusEduExpertCertificationEligible: true },
-      expectedMessage: 'Vous êtes également éligible à la certification Pix+ Édu Expert.',
-    },
-  ].forEach(({ record, expectedMessage }) => {
-    it(`renders "${expectedMessage}" when ${Object.keys(record)[0]} is ${Object.values(record)[0]}`, async function () {
+  describe('When there are eligible complementary certifications', function () {
+    it(`renders complementary certification eligibility message`, async function () {
       // given
       const store = this.owner.lookup('service:store');
-      const certificationEligibility = store.createRecord('is-certifiable', record);
+      const certificationEligibility = store.createRecord('is-certifiable', {
+        eligibleComplementaryCertifications: ['CléA Numérique', 'Pix+ Édu 1er degré Confirmé'],
+      });
       this.set('certificationEligibility', certificationEligibility);
       this.set('fullName', 'Fifi Brindacier');
 
@@ -81,7 +54,8 @@ describe('Integration | Component | Congratulations Certification Banner', funct
       );
 
       // then
-      expect(contains(expectedMessage)).to.exist;
+      expect(contains('Vous êtes également éligible à la certification CléA Numérique.')).to.exist;
+      expect(contains('Vous êtes également éligible à la certification Pix+ Édu 1er degré Confirmé.')).to.exist;
     });
   });
 });

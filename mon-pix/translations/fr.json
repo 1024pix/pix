@@ -239,18 +239,12 @@
     "certification-joiner": {
       "title": "Rejoindre une session de certification",
       "congratulation-banner": {
-        "clea-eligibility": "Vous êtes également éligible à la certification CléA numérique.",
+        "complementary-certification-eligibility": "Vous êtes également éligible à la certification {complementaryCertificationName}.",
         "link": {
           "text": "Comment se certifier ?",
           "url": "https://support.pix.org/fr/support/solutions/articles/15000039372-la-certification-pix-c-est-quoi-"
         },
-        "message": "Bravo {fullName},'<br>'votre profil est certifiable.",
-        "pix-plus-edu-avance-eligibility": "Vous êtes également éligible à la certification Pix+ Édu Avancé.",
-        "pix-plus-edu-confirme-eligibility": "Vous êtes également éligible à la certification Pix+ Édu Confirmé.",
-        "pix-plus-edu-expert-eligibility": "Vous êtes également éligible à la certification Pix+ Édu Expert.",
-        "pix-plus-edu-initie-eligibility": "Vous êtes également éligible à la certification Pix+ Édu Initié (entrée dans le métier).",
-        "pix-plus-droit-expert-eligibility": "Vous êtes également éligible à la certification Pix+ Droit Expert.",
-        "pix-plus-droit-maitre-eligibility": "Vous êtes également éligible à la certification Pix+ Droit Maître."
+        "message": "Bravo {fullName},'<br>'votre profil est certifiable."
       },
       "error-messages": {
         "generic": {
