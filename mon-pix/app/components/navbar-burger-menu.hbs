@@ -2,9 +2,18 @@
   <div class="navbar-burger-menu__navigation">
 
     {{#if this.currentUser.user}}
-      <p class="navbar-burger-menu-navigation__name">
-        {{this.currentUser.user.fullName}}
-      </p>
+      <div class="navbar-burger-menu-navigation__header">
+        <p class="navbar-burger-menu-navigation-header__name">
+          {{this.currentUser.user.fullName}}
+        </p>
+        <button
+          {{on "click" @burger.state.actions.toggle}}
+          class="navbar-burger-menu-navigation-header__close"
+          type="button"
+        >
+          <FaIcon @icon="xmark" />
+        </button>
+      </div>
     {{/if}}
     <ul class="navbar-burger-menu-navigation__list">
       <li class="navbar-burger-menu-navigation__item">

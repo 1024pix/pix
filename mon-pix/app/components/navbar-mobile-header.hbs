@@ -4,15 +4,13 @@
     {{#if @burger}}
       {{#if this.isUserLogged}}
         <span class="navbar-mobile-header__burger-icon" {{action @burger.state.actions.toggle}}>
-          {{#if @burger.state.open}}
-            <FaIcon @icon="xmark" />
-          {{else}}
+          {{#unless @burger.state.open}}
             <FaIcon @icon="bars" />
-          {{/if}}
+          {{/unless}}
         </span>
 
         {{#@burger.menu as |menu|}}
-          <NavbarBurgerMenu class="navbar-burger-menu-content" />
+          <NavbarBurgerMenu class="navbar-burger-menu-content" @burger={{@burger}} />
         {{/@burger.menu}}
       {{/if}}
     {{/if}}
