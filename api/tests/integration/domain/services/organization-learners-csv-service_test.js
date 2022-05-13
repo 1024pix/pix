@@ -1,17 +1,17 @@
 const _ = require('lodash');
 const { expect, catchErr } = require('../../../test-helper');
 const { CsvImportError } = require('../../../../lib/domain/errors');
-const schoolingRegistrationsCsvService = require('../../../../lib/domain/services/schooling-registrations-csv-service');
+const organizationLearnersCsvService = require('../../../../lib/domain/services/organization-learners-csv-service');
 const { getI18n } = require('../../../tooling/i18n/i18n');
 const i18n = getI18n();
 
-describe('Integration | Services | schooling-registrations-csv-service', function () {
-  describe('extractSchoolingRegistrationsInformation', function () {
-    it('should parse two schoolingRegistrations information', async function () {
+describe('Integration | Services | organization-learners-csv-service', function () {
+  describe('extractOrganizationLearnersInformation', function () {
+    it('should parse two organizationLearners information', async function () {
       // given
       const organization = { id: 123, isAgriculture: true };
       const path = `${process.cwd()}/tests/tooling/fixtures/siecle-file/siecle-csv-with-two-valid-students.csv`;
-      const expectedSchoolingRegistrations = [
+      const expectedOrganizationLearners = [
         {
           lastName: 'Corse',
           preferredLastName: 'Cottonmouth',
@@ -49,7 +49,7 @@ describe('Integration | Services | schooling-registrations-csv-service', functio
       ];
 
       // when
-      const results = await schoolingRegistrationsCsvService.extractSchoolingRegistrationsInformation(
+      const results = await organizationLearnersCsvService.extractOrganizationLearnersInformation(
         path,
         organization,
         i18n
@@ -59,7 +59,7 @@ describe('Integration | Services | schooling-registrations-csv-service', functio
       const actualResult = _.map(results, (result) =>
         _.omit(result, ['id', 'organizationId', 'userId', 'updatedAt', 'isDisabled'])
       );
-      expect(actualResult).to.deep.equal(expectedSchoolingRegistrations);
+      expect(actualResult).to.deep.equal(expectedOrganizationLearners);
     });
 
     it('when the encoding is not supported it throws an error', async function () {
@@ -67,7 +67,7 @@ describe('Integration | Services | schooling-registrations-csv-service', functio
       const organization = { id: 123, isAgriculture: true };
       const path = `${process.cwd()}/tests/tooling/fixtures/siecle-file/siecle-csv-with-unknown-encoding.csv`;
       // when
-      const error = await catchErr(schoolingRegistrationsCsvService.extractSchoolingRegistrationsInformation)(
+      const error = await catchErr(organizationLearnersCsvService.extractOrganizationLearnersInformation)(
         path,
         organization,
         i18n
@@ -83,7 +83,7 @@ describe('Integration | Services | schooling-registrations-csv-service', functio
       const organization = { id: 123, isAgriculture: true };
       const path = `${process.cwd()}/tests/tooling/fixtures/siecle-file/siecle-csv-with-duplicate-national-student-id.csv`;
       // when
-      const error = await catchErr(schoolingRegistrationsCsvService.extractSchoolingRegistrationsInformation)(
+      const error = await catchErr(organizationLearnersCsvService.extractOrganizationLearnersInformation)(
         path,
         organization,
         i18n
@@ -100,7 +100,7 @@ describe('Integration | Services | schooling-registrations-csv-service', functio
       const organization = { id: 123, isAgriculture: true };
       const path = `${process.cwd()}/tests/tooling/fixtures/siecle-file/siecle-csv-with-no-national-student-id.csv`;
       // when
-      const error = await catchErr(schoolingRegistrationsCsvService.extractSchoolingRegistrationsInformation)(
+      const error = await catchErr(organizationLearnersCsvService.extractOrganizationLearnersInformation)(
         path,
         organization,
         i18n

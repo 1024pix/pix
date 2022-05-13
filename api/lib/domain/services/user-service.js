@@ -69,13 +69,13 @@ async function updateUsernameAndAddPassword({
   });
 }
 
-async function createAndReconcileUserToSchoolingRegistration({
+async function createAndReconcileUserToOrganizationLearner({
   hashedPassword,
   samlId,
   schoolingRegistrationId,
   user,
   authenticationMethodRepository,
-  schoolingRegistrationRepository,
+  organizationLearnerRepository,
   userToCreateRepository,
 }) {
   const userToAdd = UserToCreate.create(user);
@@ -105,7 +105,7 @@ async function createAndReconcileUserToSchoolingRegistration({
       domainTransaction,
     });
 
-    await schoolingRegistrationRepository.updateUserIdWhereNull({
+    await organizationLearnerRepository.updateUserIdWhereNull({
       schoolingRegistrationId,
       userId: createdUser.id,
       domainTransaction,
@@ -116,7 +116,7 @@ async function createAndReconcileUserToSchoolingRegistration({
 }
 
 module.exports = {
-  createAndReconcileUserToSchoolingRegistration,
+  createAndReconcileUserToOrganizationLearner,
   createUserWithPassword,
   updateUsernameAndAddPassword,
 };
