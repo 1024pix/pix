@@ -5,7 +5,7 @@
       {{#if this.isUserLogged}}
         <span class="navbar-mobile-header__burger-icon" {{action @burger.state.actions.toggle}}>
           {{#if @burger.state.open}}
-            <FaIcon @icon="times" />
+            <FaIcon @icon="xmark" />
           {{else}}
             <FaIcon @icon="bars" />
           {{/if}}
