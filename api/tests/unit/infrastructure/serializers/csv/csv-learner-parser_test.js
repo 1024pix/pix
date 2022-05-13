@@ -1,25 +1,25 @@
 const iconv = require('iconv-lite');
 const { sinon, expect, catchErr } = require('../../../../test-helper');
 const {
-  CsvRegistrationParser,
+  CsvOrganizationLearnerParser,
   CsvColumn,
-} = require('../../../../../lib/infrastructure/serializers/csv/csv-registration-parser');
+} = require('../../../../../lib/infrastructure/serializers/csv/csv-learner-parser');
 
-class FakeRegistrationSet {
+class FakeLearnerSet {
   constructor() {
-    this.registrations = [];
+    this.learners = [];
   }
-  addRegistration(registration) {
-    this.registrations.push(registration);
+  addLearner(learner) {
+    this.learners.push(learner);
   }
 }
 
-describe('Unit | Infrastructure | CsvRegistrationParser', function () {
+describe('Unit | Infrastructure | CsvOrganizationLearnerParser', function () {
   const organizationId = 123;
-  let registrationSet;
+  let learnerSet;
 
   beforeEach(function () {
-    registrationSet = new FakeRegistrationSet();
+    learnerSet = new FakeLearnerSet();
   });
 
   context('when the header is correctly formed', function () {
@@ -29,17 +29,17 @@ describe('Unit | Infrastructure | CsvRegistrationParser', function () {
         new CsvColumn({ name: 'col2', label: 'Column 2' }),
       ];
 
-      it('returns a HigherSchoolingRegistrationSet with a schooling registration for each line', function () {
+      it('returns a SupOrganizationLearnerSet with an organization learner for each line', function () {
         const input = `Column 1;Column 2;
         Beatrix;The;
         O-Ren;;
         `;
         const encodedInput = iconv.encode(input, 'utf8');
-        const parser = new CsvRegistrationParser(encodedInput, organizationId, columns, registrationSet);
+        const parser = new CsvOrganizationLearnerParser(encodedInput, organizationId, columns, learnerSet);
 
         parser.parse();
 
-        expect(registrationSet.registrations).to.have.lengthOf(2);
+        expect(learnerSet.learners).to.have.lengthOf(2);
       });
     });
     context('when there are different date formats', function () {
@@ -55,13 +55,13 @@ describe('Unit | Infrastructure | CsvRegistrationParser', function () {
         O-Ren;20/01/10;
         `;
         const encodedInput = iconv.encode(input, 'utf8');
-        const parser = new CsvRegistrationParser(encodedInput, organizationId, columns, registrationSet);
+        const parser = new CsvOrganizationLearnerParser(encodedInput, organizationId, columns, learnerSet);
 
         parser.parse();
 
-        expect(registrationSet.registrations[0].col2).to.equal('2010-01-20');
-        expect(registrationSet.registrations[1].col2).to.equal('2010-01-20');
-        expect(registrationSet.registrations[2].col2).to.equal('2010-01-20');
+        expect(learnerSet.learners[0].col2).to.equal('2010-01-20');
+        expect(learnerSet.learners[1].col2).to.equal('2010-01-20');
+        expect(learnerSet.learners[2].col2).to.equal('2010-01-20');
       });
     });
 
@@ -70,7 +70,7 @@ describe('Unit | Infrastructure | CsvRegistrationParser', function () {
 
       let error;
       beforeEach(function () {
-        registrationSet.addRegistration = function () {
+        learnerSet.addLearner = function () {
           throw error;
         };
       });
@@ -86,7 +86,7 @@ describe('Unit | Infrastructure | CsvRegistrationParser', function () {
           Beatrix;
           `;
           const encodedInput = iconv.encode(input, 'utf8');
-          const parser = new CsvRegistrationParser(encodedInput, organizationId, columns, registrationSet);
+          const parser = new CsvOrganizationLearnerParser(encodedInput, organizationId, columns, learnerSet);
 
           const parsingError = await catchErr(parser.parse, parser)();
 
@@ -106,7 +106,7 @@ describe('Unit | Infrastructure | CsvRegistrationParser', function () {
           Beatrix;
           `;
           const encodedInput = iconv.encode(input, 'utf8');
-          const parser = new CsvRegistrationParser(encodedInput, organizationId, columns, registrationSet);
+          const parser = new CsvOrganizationLearnerParser(encodedInput, organizationId, columns, learnerSet);
 
           const parsingError = await catchErr(parser.parse, parser)();
 
@@ -125,7 +125,7 @@ describe('Unit | Infrastructure | CsvRegistrationParser', function () {
           Beatrix;
           `;
           const encodedInput = iconv.encode(input, 'utf8');
-          const parser = new CsvRegistrationParser(encodedInput, organizationId, columns, registrationSet);
+          const parser = new CsvOrganizationLearnerParser(encodedInput, organizationId, columns, learnerSet);
 
           const parsingError = await catchErr(parser.parse, parser)();
 
@@ -145,7 +145,7 @@ describe('Unit | Infrastructure | CsvRegistrationParser', function () {
           Beatrix;
           `;
           const encodedInput = iconv.encode(input, 'utf8');
-          const parser = new CsvRegistrationParser(encodedInput, organizationId, columns, registrationSet);
+          const parser = new CsvOrganizationLearnerParser(encodedInput, organizationId, columns, learnerSet);
 
           const parsingError = await catchErr(parser.parse, parser)();
 
@@ -169,7 +169,7 @@ describe('Unit | Infrastructure | CsvRegistrationParser', function () {
           Beatrix;
           `;
           const encodedInput = iconv.encode(input, 'utf8');
-          const parser = new CsvRegistrationParser(encodedInput, organizationId, columns, registrationSet);
+          const parser = new CsvOrganizationLearnerParser(encodedInput, organizationId, columns, learnerSet);
 
           const parsingError = await catchErr(parser.parse, parser)();
 
@@ -188,7 +188,7 @@ describe('Unit | Infrastructure | CsvRegistrationParser', function () {
           Beatrix;
           `;
           const encodedInput = iconv.encode(input, 'utf8');
-          const parser = new CsvRegistrationParser(encodedInput, organizationId, columns, registrationSet);
+          const parser = new CsvOrganizationLearnerParser(encodedInput, organizationId, columns, learnerSet);
 
           const parsingError = await catchErr(parser.parse, parser)();
 
@@ -207,7 +207,7 @@ describe('Unit | Infrastructure | CsvRegistrationParser', function () {
           Beatrix;
           `;
           const encodedInput = iconv.encode(input, 'utf8');
-          const parser = new CsvRegistrationParser(encodedInput, organizationId, columns, registrationSet);
+          const parser = new CsvOrganizationLearnerParser(encodedInput, organizationId, columns, learnerSet);
 
           const parsingError = await catchErr(parser.parse, parser)();
 
@@ -226,7 +226,7 @@ describe('Unit | Infrastructure | CsvRegistrationParser', function () {
           boeuf_bourguignon@chef..com;
           `;
           const encodedInput = iconv.encode(input, 'utf8');
-          const parser = new CsvRegistrationParser(encodedInput, organizationId, columns, registrationSet);
+          const parser = new CsvOrganizationLearnerParser(encodedInput, organizationId, columns, learnerSet);
 
           const parsingError = await catchErr(parser.parse, parser)();
 
@@ -240,7 +240,7 @@ describe('Unit | Infrastructure | CsvRegistrationParser', function () {
         error.key = 'ColumnName';
         error.why = 'required';
 
-        registrationSet.addRegistration = sinon.stub().onThirdCall().throws(error);
+        learnerSet.addLearner = sinon.stub().onThirdCall().throws(error);
         const input = `ColumnLabel;
         Beatrix1;
         Beatrix2;
@@ -248,7 +248,7 @@ describe('Unit | Infrastructure | CsvRegistrationParser', function () {
         `;
 
         const encodedInput = iconv.encode(input, 'utf8');
-        const parser = new CsvRegistrationParser(encodedInput, organizationId, columns, registrationSet);
+        const parser = new CsvOrganizationLearnerParser(encodedInput, organizationId, columns, learnerSet);
 
         const parsingError = await catchErr(parser.parse, parser)();
 
@@ -267,7 +267,7 @@ describe('Unit | Infrastructure | CsvRegistrationParser', function () {
       const input = `Column 1\\Column 2\\
       Beatrix\\The\\`;
       const encodedInput = iconv.encode(input, 'utf8');
-      const parser = new CsvRegistrationParser(encodedInput, organizationId, columns, registrationSet);
+      const parser = new CsvOrganizationLearnerParser(encodedInput, organizationId, columns, learnerSet);
 
       const error = await catchErr(parser.parse, parser)();
 
@@ -280,7 +280,7 @@ describe('Unit | Infrastructure | CsvRegistrationParser', function () {
         O-Ren;;
       `;
       const encodedInput = iconv.encode(input, 'utf8');
-      const parser = new CsvRegistrationParser(encodedInput, organizationId, columns, registrationSet);
+      const parser = new CsvOrganizationLearnerParser(encodedInput, organizationId, columns, learnerSet);
 
       const error = await catchErr(parser.parse, parser)();
 
@@ -291,7 +291,7 @@ describe('Unit | Infrastructure | CsvRegistrationParser', function () {
       const input = `Column 2;
       The;`;
       const encodedInput = iconv.encode(input, 'utf8');
-      const parser = new CsvRegistrationParser(encodedInput, organizationId, columns, registrationSet);
+      const parser = new CsvOrganizationLearnerParser(encodedInput, organizationId, columns, learnerSet);
 
       const error = await catchErr(parser.parse, parser)();
 
@@ -312,28 +312,28 @@ describe('Unit | Infrastructure | CsvRegistrationParser', function () {
 
     it('should parse UTF-8 encoding', function () {
       const encodedInput = iconv.encode(input, 'utf8');
-      const parser = new CsvRegistrationParser(encodedInput, organizationId, columns, registrationSet);
+      const parser = new CsvOrganizationLearnerParser(encodedInput, organizationId, columns, learnerSet);
       parser.parse();
-      expect(registrationSet.registrations[0].firstName).to.equal('Éçéà niño véga');
+      expect(learnerSet.learners[0].firstName).to.equal('Éçéà niño véga');
     });
 
     it('should parse win1252 encoding (CSV WIN/MSDOS)', function () {
       const encodedInput = iconv.encode(input, 'win1252');
-      const parser = new CsvRegistrationParser(encodedInput, organizationId, columns, registrationSet);
+      const parser = new CsvOrganizationLearnerParser(encodedInput, organizationId, columns, learnerSet);
       parser.parse();
-      expect(registrationSet.registrations[0].firstName).to.equal('Éçéà niño véga');
+      expect(learnerSet.learners[0].firstName).to.equal('Éçéà niño véga');
     });
 
     it('should parse macintosh encoding', function () {
       const encodedInput = iconv.encode(input, 'macintosh');
-      const parser = new CsvRegistrationParser(encodedInput, organizationId, columns, registrationSet);
+      const parser = new CsvOrganizationLearnerParser(encodedInput, organizationId, columns, learnerSet);
       parser.parse();
-      expect(registrationSet.registrations[0].firstName).to.equal('Éçéà niño véga');
+      expect(learnerSet.learners[0].firstName).to.equal('Éçéà niño véga');
     });
 
     it('should throw an error if encoding not supported', async function () {
       const encodedInput = iconv.encode(input, 'utf16');
-      const parser = new CsvRegistrationParser(encodedInput, organizationId, columns, registrationSet);
+      const parser = new CsvOrganizationLearnerParser(encodedInput, organizationId, columns, learnerSet);
       const error = await catchErr(parser.parse, parser)();
 
       expect(error.code).to.equal('ENCODING_NOT_SUPPORTED');
