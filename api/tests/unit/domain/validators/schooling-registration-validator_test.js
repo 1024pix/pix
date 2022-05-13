@@ -2,7 +2,7 @@ const { expect, catchErr } = require('../../../test-helper');
 const {
   checkValidation,
   FRANCE_COUNTRY_CODE,
-} = require('../../../../lib/domain/validators/schooling-registration-validator');
+} = require('../../../../lib/domain/validators/organization-learner-validator');
 
 describe('Unit | Domain | Schooling Registration validator', function () {
   context('#checkValidation', function () {
@@ -26,7 +26,7 @@ describe('Unit | Domain | Schooling Registration validator', function () {
         try {
           checkValidation(validAttributes);
         } catch (e) {
-          expect.fail('SchoolingRegistration is valid when all required fields are present');
+          expect.fail('OrganizationLearner is valid when all required fields are present');
         }
       });
     });
@@ -99,7 +99,7 @@ describe('Unit | Domain | Schooling Registration validator', function () {
           try {
             checkValidation({ ...validAttributes, birthCountryCode: '99123' });
           } catch (e) {
-            expect.fail('SchoolingRegistration is valid birthCountryCode respect INSEE code');
+            expect.fail('OrganizationLearner is valid birthCountryCode respect INSEE code');
           }
         });
       });
@@ -157,7 +157,7 @@ describe('Unit | Domain | Schooling Registration validator', function () {
         try {
           checkValidation({ ...validAttributes, status: 'ST' });
         } catch (e) {
-          expect.fail("SchoolingRegistration is valid when status is 'ST'");
+          expect.fail("OrganizationLearner is valid when status is 'ST'");
         }
       });
 
@@ -165,7 +165,7 @@ describe('Unit | Domain | Schooling Registration validator', function () {
         try {
           checkValidation({ ...validAttributes, nationalIdentifier: '0123456789F', status: 'AP' });
         } catch (e) {
-          expect.fail("SchoolingRegistration is valid when status is 'AP'");
+          expect.fail("OrganizationLearner is valid when status is 'AP'");
         }
       });
     });
@@ -220,7 +220,7 @@ describe('Unit | Domain | Schooling Registration validator', function () {
             birthCity: undefined,
           });
         } catch (e) {
-          expect.fail('SchoolingRegistration is valid when birthCity is undefined and birthCountry is France');
+          expect.fail('OrganizationLearner is valid when birthCity is undefined and birthCountry is France');
         }
       });
     });
@@ -232,7 +232,7 @@ describe('Unit | Domain | Schooling Registration validator', function () {
             try {
               checkValidation({ ...validAttributes, birthCountryCode: FRANCE_COUNTRY_CODE, birthCityCode: '2B125' });
             } catch (e) {
-              expect.fail('SchoolingRegistration is valid birthCityCode respect INSEE code, like Corsica');
+              expect.fail('OrganizationLearner is valid birthCityCode respect INSEE code, like Corsica');
             }
           });
 
@@ -240,7 +240,7 @@ describe('Unit | Domain | Schooling Registration validator', function () {
             try {
               checkValidation({ ...validAttributes, birthCountryCode: FRANCE_COUNTRY_CODE, birthCityCode: '13125' });
             } catch (e) {
-              expect.fail('SchoolingRegistration is valid birthCityCode respect INSEE code, like Corsica');
+              expect.fail('OrganizationLearner is valid birthCityCode respect INSEE code, like Corsica');
             }
           });
         });
@@ -250,7 +250,7 @@ describe('Unit | Domain | Schooling Registration validator', function () {
             try {
               checkValidation({ ...validAttributes, birthCountryCode: '99125', birthCityCode: undefined });
             } catch (e) {
-              expect.fail('SchoolingRegistration is valid when birthCity is undefined and birthCountry is not France');
+              expect.fail('OrganizationLearner is valid when birthCity is undefined and birthCountry is not France');
             }
           });
         });
