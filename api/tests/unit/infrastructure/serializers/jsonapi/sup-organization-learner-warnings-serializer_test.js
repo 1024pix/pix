@@ -1,7 +1,7 @@
 const { expect } = require('../../../../test-helper');
-const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/higher-schooling-registration-warnings-serializer');
+const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/sup-organization-learner-warnings-serializer');
 
-describe('Unit | Serializer | higher-schooling-registration-warnings-serializer', function () {
+describe('Unit | Serializer | sup-organization-learner-warnings-serializer', function () {
   describe('#serialize', function () {
     it('should return a JSON API serialized warning', function () {
       // given
@@ -20,7 +20,7 @@ describe('Unit | Serializer | higher-schooling-registration-warnings-serializer'
       // then
       expect(serialized).to.deep.equal({
         data: {
-          type: 'higher-schooling-registration-warnings',
+          type: 'sup-organization-learner-warnings',
           id: importWarnings.id.toString(),
           attributes: {
             warnings: importWarnings.warnings,

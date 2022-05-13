@@ -1,8 +1,8 @@
 const { expect } = require('../../../../test-helper');
-const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/user-with-schooling-registration-serializer');
+const UserWithOrganizationLearnerSerializer = require('../../../../../lib/infrastructure/serializers/jsonapi/user-with-organization-learner-serializer');
 const UserWithOrganizationLearner = require('../../../../../lib/domain/models/UserWithOrganizationLearner');
 
-describe('Unit | Serializer | JSONAPI | UserWithSchoolingRegistration-serializer', function () {
+describe('Unit | Serializer | JSONAPI | UserWithOrganizationLearner-serializer', function () {
   describe('#serialize', function () {
     it('should convert a UserWithOrganizationLearner model object into JSON API data', function () {
       // given
@@ -40,7 +40,7 @@ describe('Unit | Serializer | JSONAPI | UserWithSchoolingRegistration-serializer
       };
 
       // when
-      const json = serializer.serialize(userWithOrganizationLearner);
+      const json = UserWithOrganizationLearnerSerializer.serialize(userWithOrganizationLearner);
 
       // then
       expect(json).to.deep.equal(expectedSerializedUserWithOrganizationLearner);
