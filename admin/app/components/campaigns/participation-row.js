@@ -5,6 +5,7 @@ import { inject as service } from '@ember/service';
 
 export default class ParticipationRow extends Component {
   @service notifications;
+  @service accessControl;
 
   @tracked isEditionMode = false;
   @tracked newParticipantExternalId;
