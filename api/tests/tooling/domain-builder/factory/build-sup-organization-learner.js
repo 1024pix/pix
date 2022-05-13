@@ -1,7 +1,7 @@
-const HigherSchoolingRegistration = require('../../../../lib/domain/models/HigherSchoolingRegistration');
+const SupOrganizationLearner = require('../../../../lib/domain/models/SupOrganizationLearner');
 const buildOrganization = require('./build-organization');
 
-function buildSchoolingRegistration({
+function buildSupOrganizationLearner({
   organization = buildOrganization({ isManagingStudents: true }),
   lastName = 'Hanin',
   preferredLastName = 'ninin',
@@ -17,7 +17,7 @@ function buildSchoolingRegistration({
   diploma = 'licence',
   studyScheme = 'sch23',
 } = {}) {
-  return new HigherSchoolingRegistration({
+  return new SupOrganizationLearner({
     firstName,
     middleName,
     thirdName,
@@ -35,4 +35,4 @@ function buildSchoolingRegistration({
   });
 }
 
-module.exports = buildSchoolingRegistration;
+module.exports = buildSupOrganizationLearner;
