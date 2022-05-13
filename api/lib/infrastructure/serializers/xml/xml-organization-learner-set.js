@@ -8,7 +8,7 @@ const ERRORS = {
 };
 const DIVISION = 'D';
 
-class XMLSchoolingRegistrationsSet {
+class XMLOrganizationLearnersSet {
   constructor() {
     this.schoolingRegistrationsByStudentId = new Map();
     this.studentIds = [];
@@ -19,7 +19,7 @@ class XMLSchoolingRegistrationsSet {
     this._checkNationalStudentIdUniqueness(nationalStudentId);
     this.studentIds.push(nationalStudentId);
 
-    this.schoolingRegistrationsByStudentId.set(id, _mapStudentInformationToSchoolingRegistration(xmlNode));
+    this.schoolingRegistrationsByStudentId.set(id, _mapStudentInformationToOrganizationLearner(xmlNode));
   }
 
   updateDivision(xmlNode) {
@@ -51,7 +51,7 @@ class XMLSchoolingRegistrationsSet {
   }
 }
 
-function _mapStudentInformationToSchoolingRegistration(studentNode) {
+function _mapStudentInformationToOrganizationLearner(studentNode) {
   return {
     lastName: _getValueFromParsedElement(studentNode.NOM_DE_FAMILLE),
     preferredLastName: _getValueFromParsedElement(studentNode.NOM_USAGE),
@@ -82,4 +82,4 @@ function _getValueFromParsedElement(obj) {
   return Array.isArray(obj) && !isEmpty(obj) ? obj[0] : obj;
 }
 
-module.exports = XMLSchoolingRegistrationsSet;
+module.exports = XMLOrganizationLearnersSet;
