@@ -274,7 +274,8 @@
           "birth-name": "Nom de naissance",
           "birth-year": "année de naissance (AAAA)",
           "first-name": "Prénom",
-          "session-number": "Numéro de session"
+          "session-number": "Numéro de session",
+          "session-number-information": "Communiqué uniquement par le surveillant en début de session"
         },
         "fields-validation": {
           "session-number-error": "Le numéro de session est composé uniquement de chiffres."

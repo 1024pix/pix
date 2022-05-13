@@ -236,6 +236,14 @@ describe('Integration | Component | certification-joiner', function () {
       });
     });
   });
+
+  it('should display hint on session number input', async function () {
+    await render(hbs`<CertificationJoiner @onStepChange={{this.onStepChange}}/>`);
+    const foo = find(`.pix-input__information`);
+
+    expect(foo.innerText).to.contains(this.intl.t('pages.certification-joiner.form.fields.session-number-information'));
+  });
+
   context('when filling form', function () {
     context('should not allow filling letters in birth date', function () {
       it('day', async function () {
