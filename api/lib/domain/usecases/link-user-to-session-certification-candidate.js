@@ -20,7 +20,7 @@ async function linkUserToSessionCertificationCandidate({
   certificationCandidateRepository,
   certificationCenterRepository,
   organizationRepository,
-  schoolingRegistrationRepository,
+  organizationLearnerRepository,
   sessionRepository,
 }) {
   const session = await sessionRepository.get(sessionId);
@@ -52,7 +52,7 @@ async function linkUserToSessionCertificationCandidate({
       await _checkCandidateMatchTheReconciledStudent({
         userId,
         certificationCandidate,
-        schoolingRegistrationRepository,
+        organizationLearnerRepository,
       });
     }
     await _linkUserToCandidate({
@@ -141,15 +141,15 @@ async function _linkUserToCandidate({ sessionId, userId, certificationCandidate,
 async function _checkCandidateMatchTheReconciledStudent({
   userId,
   certificationCandidate,
-  schoolingRegistrationRepository,
+  organizationLearnerRepository,
 }) {
-  const isSchoolingRegistrationIdLinkedToUserAndSCOOrganization =
-    await schoolingRegistrationRepository.isSchoolingRegistrationIdLinkedToUserAndSCOOrganization({
+  const isOrganizationLearnerIdLinkedToUserAndSCOOrganization =
+    await organizationLearnerRepository.isOrganizationLearnerIdLinkedToUserAndSCOOrganization({
       userId,
-      schoolingRegistrationId: certificationCandidate.schoolingRegistrationId,
+      organizationLearnerId: certificationCandidate.schoolingRegistrationId,
     });
 
-  if (!isSchoolingRegistrationIdLinkedToUserAndSCOOrganization) {
+  if (!isOrganizationLearnerIdLinkedToUserAndSCOOrganization) {
     throw new MatchingReconciledStudentNotFoundError();
   }
 }

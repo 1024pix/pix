@@ -5,15 +5,15 @@ const OrganizationLearner = require('../../../../lib/domain/models/OrganizationL
 const {
   CampaignCodeError,
   NotFoundError,
-  SchoolingRegistrationAlreadyLinkedToUserError,
+  OrganizationLearnerAlreadyLinkedToUserError,
   UserShouldNotBeReconciledOnAnotherAccountError,
 } = require('../../../../lib/domain/errors');
 
-describe('Unit | UseCase | reconcile-schooling-registration', function () {
+describe('Unit | UseCase | reconcile-organization-learner', function () {
   let campaignCode;
 
   let campaignRepository;
-  let schoolingRegistrationRepository;
+  let organizationLearnerRepository;
   let userReconciliationService;
 
   let organizationLearner;
@@ -34,13 +34,13 @@ describe('Unit | UseCase | reconcile-schooling-registration', function () {
     campaignRepository = {
       getByCode: sinon.stub(),
     };
-    schoolingRegistrationRepository = {
-      reconcileUserToSchoolingRegistration: sinon.stub(),
+    organizationLearnerRepository = {
+      reconcileUserToOrganizationLearner: sinon.stub(),
       findOneByUserIdAndOrganizationId: sinon.stub(),
       findByUserId: sinon.stub(),
     };
     userReconciliationService = {
-      findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser: sinon.stub(),
+      findMatchingOrganizationLearnerIdForGivenOrganizationIdAndUser: sinon.stub(),
       checkIfStudentHasAnAlreadyReconciledAccount: sinon.stub(),
     };
   });
@@ -51,7 +51,7 @@ describe('Unit | UseCase | reconcile-schooling-registration', function () {
       campaignRepository.getByCode.withArgs(campaignCode).resolves(null);
 
       // when
-      const result = await catchErr(usecases.reconcileSchoolingRegistration)({
+      const result = await catchErr(usecases.reconcileOrganizationLearner)({
         reconciliationInfo: user,
         campaignCode,
         campaignRepository,
@@ -68,12 +68,12 @@ describe('Unit | UseCase | reconcile-schooling-registration', function () {
       campaignRepository.getByCode
         .withArgs(campaignCode)
         .resolves(domainBuilder.buildCampaign({ organization: { id: organizationId } }));
-      userReconciliationService.findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser.throws(
+      userReconciliationService.findMatchingOrganizationLearnerIdForGivenOrganizationIdAndUser.throws(
         new NotFoundError('Error message')
       );
 
       // when
-      const result = await catchErr(usecases.reconcileSchoolingRegistration)({
+      const result = await catchErr(usecases.reconcileOrganizationLearner)({
         reconciliationInfo: user,
         campaignCode,
         campaignRepository,
@@ -87,20 +87,20 @@ describe('Unit | UseCase | reconcile-schooling-registration', function () {
   });
 
   context('When student has already a reconciled account', function () {
-    it('should return a SchoolingRegistrationAlreadyLinkedToUser error', async function () {
+    it('should return a OrganizationLearnerAlreadyLinkedToUser error', async function () {
       // given
       campaignRepository.getByCode
         .withArgs(campaignCode)
         .resolves(domainBuilder.buildCampaign({ organization: { id: organizationId } }));
-      userReconciliationService.findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser.resolves(
+      userReconciliationService.findMatchingOrganizationLearnerIdForGivenOrganizationIdAndUser.resolves(
         organizationLearner
       );
       userReconciliationService.checkIfStudentHasAnAlreadyReconciledAccount.throws(
-        new SchoolingRegistrationAlreadyLinkedToUserError()
+        new OrganizationLearnerAlreadyLinkedToUserError()
       );
 
       // when
-      const result = await catchErr(usecases.reconcileSchoolingRegistration)({
+      const result = await catchErr(usecases.reconcileOrganizationLearner)({
         reconciliationInfo: user,
         campaignCode,
         campaignRepository,
@@ -108,12 +108,12 @@ describe('Unit | UseCase | reconcile-schooling-registration', function () {
       });
 
       // then
-      expect(result).to.be.instanceof(SchoolingRegistrationAlreadyLinkedToUserError);
+      expect(result).to.be.instanceof(OrganizationLearnerAlreadyLinkedToUserError);
     });
   });
 
   context('When another student is already reconciled in the same organization and with the same user', function () {
-    it('should return a SchoolingRegistrationAlreadyLinkedToUser error', async function () {
+    it('should return a OrganizationLearnerAlreadyLinkedToUser error', async function () {
       // given
       organizationLearner.userId = user.id;
       organizationLearner.firstName = user.firstName;
@@ -129,11 +129,11 @@ describe('Unit | UseCase | reconcile-schooling-registration', function () {
       campaignRepository.getByCode
         .withArgs(campaignCode)
         .resolves(domainBuilder.buildCampaign({ organization: { id: organizationId } }));
-      userReconciliationService.findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser.resolves(
+      userReconciliationService.findMatchingOrganizationLearnerIdForGivenOrganizationIdAndUser.resolves(
         organizationLearner
       );
       userReconciliationService.checkIfStudentHasAnAlreadyReconciledAccount.resolves();
-      schoolingRegistrationRepository.findOneByUserIdAndOrganizationId
+      organizationLearnerRepository.findOneByUserIdAndOrganizationId
         .withArgs({
           userId: user.id,
           organizationId,
@@ -141,16 +141,16 @@ describe('Unit | UseCase | reconcile-schooling-registration', function () {
         .resolves(alreadyReconciledOrganizationLearnerWithAnotherStudent);
 
       // when
-      const result = await catchErr(usecases.reconcileSchoolingRegistration)({
+      const result = await catchErr(usecases.reconcileOrganizationLearner)({
         reconciliationInfo: user,
         campaignCode,
         campaignRepository,
         userReconciliationService,
-        schoolingRegistrationRepository,
+        organizationLearnerRepository,
       });
 
       // then
-      expect(result).to.be.instanceof(SchoolingRegistrationAlreadyLinkedToUserError);
+      expect(result).to.be.instanceof(OrganizationLearnerAlreadyLinkedToUserError);
       expect(result.message).to.equal(exceptedErrorMessage);
     });
   });
@@ -185,30 +185,28 @@ describe('Unit | UseCase | reconcile-schooling-registration', function () {
           });
 
           campaignRepository.getByCode.resolves(campaign);
-          userReconciliationService.findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser.resolves(
+          userReconciliationService.findMatchingOrganizationLearnerIdForGivenOrganizationIdAndUser.resolves(
             currentOrganizationLearner
           );
           userReconciliationService.checkIfStudentHasAnAlreadyReconciledAccount.resolves();
-          schoolingRegistrationRepository.findOneByUserIdAndOrganizationId.resolves();
-          schoolingRegistrationRepository.findByUserId.withArgs({ userId: 1 }).resolves([previousOrganizationLearner]);
-          schoolingRegistrationRepository.reconcileUserToSchoolingRegistration.resolves(currentOrganizationLearner);
+          organizationLearnerRepository.findOneByUserIdAndOrganizationId.resolves();
+          organizationLearnerRepository.findByUserId.withArgs({ userId: 1 }).resolves([previousOrganizationLearner]);
+          organizationLearnerRepository.reconcileUserToOrganizationLearner.resolves(currentOrganizationLearner);
 
           // when
-          await usecases.reconcileSchoolingRegistration({
+          await usecases.reconcileOrganizationLearner({
             reconciliationInfo,
             withReconciliation: true,
             campaignCode,
             campaignRepository,
             userReconciliationService,
-            schoolingRegistrationRepository,
+            organizationLearnerRepository,
           });
 
           // then
-          expect(
-            schoolingRegistrationRepository.reconcileUserToSchoolingRegistration
-          ).to.have.been.calledOnceWithExactly({
+          expect(organizationLearnerRepository.reconcileUserToOrganizationLearner).to.have.been.calledOnceWithExactly({
             userId: reconciliationInfo.id,
-            schoolingRegistrationId: currentOrganizationLearner.id,
+            organizationLearnerId: currentOrganizationLearner.id,
           });
         });
       });
@@ -241,21 +239,21 @@ describe('Unit | UseCase | reconcile-schooling-registration', function () {
           });
 
           campaignRepository.getByCode.resolves(campaign);
-          userReconciliationService.findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser.resolves(
+          userReconciliationService.findMatchingOrganizationLearnerIdForGivenOrganizationIdAndUser.resolves(
             currentOrganizationLearner
           );
           userReconciliationService.checkIfStudentHasAnAlreadyReconciledAccount.resolves();
-          schoolingRegistrationRepository.findOneByUserIdAndOrganizationId.resolves();
-          schoolingRegistrationRepository.findByUserId.withArgs({ userId: 1 }).resolves([previousOrganizationLearner]);
+          organizationLearnerRepository.findOneByUserIdAndOrganizationId.resolves();
+          organizationLearnerRepository.findByUserId.withArgs({ userId: 1 }).resolves([previousOrganizationLearner]);
 
           // when
-          const error = await catchErr(usecases.reconcileSchoolingRegistration)({
+          const error = await catchErr(usecases.reconcileOrganizationLearner)({
             reconciliationInfo,
             withReconciliation: true,
             campaignCode,
             campaignRepository,
             userReconciliationService,
-            schoolingRegistrationRepository,
+            organizationLearnerRepository,
           });
 
           // then
@@ -292,31 +290,29 @@ describe('Unit | UseCase | reconcile-schooling-registration', function () {
         });
 
         campaignRepository.getByCode.resolves(campaign);
-        userReconciliationService.findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser.resolves(
+        userReconciliationService.findMatchingOrganizationLearnerIdForGivenOrganizationIdAndUser.resolves(
           currentOrganizationLearner
         );
         userReconciliationService.checkIfStudentHasAnAlreadyReconciledAccount.resolves();
-        schoolingRegistrationRepository.findOneByUserIdAndOrganizationId.resolves();
-        schoolingRegistrationRepository.findByUserId.withArgs({ userId: 1 }).resolves([previousOrganizationLearner]);
-        schoolingRegistrationRepository.reconcileUserToSchoolingRegistration.resolves(currentOrganizationLearner);
+        organizationLearnerRepository.findOneByUserIdAndOrganizationId.resolves();
+        organizationLearnerRepository.findByUserId.withArgs({ userId: 1 }).resolves([previousOrganizationLearner]);
+        organizationLearnerRepository.reconcileUserToOrganizationLearner.resolves(currentOrganizationLearner);
 
         // when
-        await usecases.reconcileSchoolingRegistration({
+        await usecases.reconcileOrganizationLearner({
           reconciliationInfo,
           withReconciliation: true,
           campaignCode,
           campaignRepository,
           userReconciliationService,
-          schoolingRegistrationRepository,
+          organizationLearnerRepository,
         });
 
         // then
-        expect(schoolingRegistrationRepository.reconcileUserToSchoolingRegistration).to.have.been.calledOnceWithExactly(
-          {
-            userId: reconciliationInfo.id,
-            schoolingRegistrationId: currentOrganizationLearner.id,
-          }
-        );
+        expect(organizationLearnerRepository.reconcileUserToOrganizationLearner).to.have.been.calledOnceWithExactly({
+          userId: reconciliationInfo.id,
+          organizationLearnerId: currentOrganizationLearner.id,
+        });
       });
     });
 
@@ -348,31 +344,29 @@ describe('Unit | UseCase | reconcile-schooling-registration', function () {
         });
 
         campaignRepository.getByCode.resolves(campaign);
-        userReconciliationService.findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser.resolves(
+        userReconciliationService.findMatchingOrganizationLearnerIdForGivenOrganizationIdAndUser.resolves(
           currentOrganizationLearner
         );
         userReconciliationService.checkIfStudentHasAnAlreadyReconciledAccount.resolves();
-        schoolingRegistrationRepository.findOneByUserIdAndOrganizationId.resolves();
-        schoolingRegistrationRepository.findByUserId.withArgs({ userId: 1 }).resolves([previousOrganizationLearner]);
-        schoolingRegistrationRepository.reconcileUserToSchoolingRegistration.resolves(currentOrganizationLearner);
+        organizationLearnerRepository.findOneByUserIdAndOrganizationId.resolves();
+        organizationLearnerRepository.findByUserId.withArgs({ userId: 1 }).resolves([previousOrganizationLearner]);
+        organizationLearnerRepository.reconcileUserToOrganizationLearner.resolves(currentOrganizationLearner);
 
         // when
-        await usecases.reconcileSchoolingRegistration({
+        await usecases.reconcileOrganizationLearner({
           reconciliationInfo,
           withReconciliation: true,
           campaignCode,
           campaignRepository,
           userReconciliationService,
-          schoolingRegistrationRepository,
+          organizationLearnerRepository,
         });
 
         // then
-        expect(schoolingRegistrationRepository.reconcileUserToSchoolingRegistration).to.have.been.calledOnceWithExactly(
-          {
-            userId: reconciliationInfo.id,
-            schoolingRegistrationId: currentOrganizationLearner.id,
-          }
-        );
+        expect(organizationLearnerRepository.reconcileUserToOrganizationLearner).to.have.been.calledOnceWithExactly({
+          userId: reconciliationInfo.id,
+          organizationLearnerId: currentOrganizationLearner.id,
+        });
       });
     });
 
@@ -414,23 +408,23 @@ describe('Unit | UseCase | reconcile-schooling-registration', function () {
             });
 
             campaignRepository.getByCode.resolves(campaign);
-            userReconciliationService.findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser.resolves(
+            userReconciliationService.findMatchingOrganizationLearnerIdForGivenOrganizationIdAndUser.resolves(
               currentOrganizationLearner
             );
             userReconciliationService.checkIfStudentHasAnAlreadyReconciledAccount.resolves();
-            schoolingRegistrationRepository.findOneByUserIdAndOrganizationId.resolves();
-            schoolingRegistrationRepository.findByUserId
+            organizationLearnerRepository.findOneByUserIdAndOrganizationId.resolves();
+            organizationLearnerRepository.findByUserId
               .withArgs({ userId: 1 })
               .resolves([previousOrganizationLearner, otherOrganizationLearner]);
 
             // when
-            const error = await catchErr(usecases.reconcileSchoolingRegistration)({
+            const error = await catchErr(usecases.reconcileOrganizationLearner)({
               reconciliationInfo,
               withReconciliation: true,
               campaignCode,
               campaignRepository,
               userReconciliationService,
-              schoolingRegistrationRepository,
+              organizationLearnerRepository,
             });
 
             // then
@@ -473,32 +467,32 @@ describe('Unit | UseCase | reconcile-schooling-registration', function () {
             });
 
             campaignRepository.getByCode.resolves(campaign);
-            userReconciliationService.findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser.resolves(
+            userReconciliationService.findMatchingOrganizationLearnerIdForGivenOrganizationIdAndUser.resolves(
               currentOrganizationLearner
             );
             userReconciliationService.checkIfStudentHasAnAlreadyReconciledAccount.resolves();
-            schoolingRegistrationRepository.findOneByUserIdAndOrganizationId.resolves();
-            schoolingRegistrationRepository.findByUserId
+            organizationLearnerRepository.findOneByUserIdAndOrganizationId.resolves();
+            organizationLearnerRepository.findByUserId
               .withArgs({ userId: 1 })
               .resolves([previousOrganizationLearner, otherOrganizationLearner]);
 
             // when
-            await usecases.reconcileSchoolingRegistration({
+            await usecases.reconcileOrganizationLearner({
               reconciliationInfo,
               withReconciliation: true,
               campaignCode,
               campaignRepository,
               userReconciliationService,
-              schoolingRegistrationRepository,
+              organizationLearnerRepository,
             });
 
             // then
-            expect(
-              schoolingRegistrationRepository.reconcileUserToSchoolingRegistration
-            ).to.have.been.calledOnceWithExactly({
-              userId: reconciliationInfo.id,
-              schoolingRegistrationId: currentOrganizationLearner.id,
-            });
+            expect(organizationLearnerRepository.reconcileUserToOrganizationLearner).to.have.been.calledOnceWithExactly(
+              {
+                userId: reconciliationInfo.id,
+                organizationLearnerId: currentOrganizationLearner.id,
+              }
+            );
           });
         });
       }
@@ -515,26 +509,26 @@ describe('Unit | UseCase | reconcile-schooling-registration', function () {
       campaignRepository.getByCode
         .withArgs(campaignCode)
         .resolves(domainBuilder.buildCampaign({ organization: { id: organizationId } }));
-      userReconciliationService.findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser.resolves(
+      userReconciliationService.findMatchingOrganizationLearnerIdForGivenOrganizationIdAndUser.resolves(
         organizationLearner
       );
       userReconciliationService.checkIfStudentHasAnAlreadyReconciledAccount.resolves();
-      schoolingRegistrationRepository.reconcileUserToSchoolingRegistration
+      organizationLearnerRepository.reconcileUserToOrganizationLearner
         .withArgs({
           userId: user.id,
-          schoolingRegistrationId: organizationLearnerId,
+          organizationLearnerId: organizationLearnerId,
         })
         .resolves(organizationLearner);
-      schoolingRegistrationRepository.findByUserId.resolves([organizationLearner]);
+      organizationLearnerRepository.findByUserId.resolves([organizationLearner]);
 
       // when
-      const result = await usecases.reconcileSchoolingRegistration({
+      const result = await usecases.reconcileOrganizationLearner({
         reconciliationInfo: user,
         withReconciliation,
         campaignCode,
         campaignRepository,
         userReconciliationService,
-        schoolingRegistrationRepository,
+        organizationLearnerRepository,
       });
 
       // then
@@ -553,25 +547,25 @@ describe('Unit | UseCase | reconcile-schooling-registration', function () {
       campaignRepository.getByCode
         .withArgs(campaignCode)
         .resolves(domainBuilder.buildCampaign({ organization: { id: organizationId } }));
-      userReconciliationService.findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser.resolves(
+      userReconciliationService.findMatchingOrganizationLearnerIdForGivenOrganizationIdAndUser.resolves(
         organizationLearner
       );
-      schoolingRegistrationRepository.findByUserId.resolves([organizationLearner]);
+      organizationLearnerRepository.findByUserId.resolves([organizationLearner]);
       userReconciliationService.checkIfStudentHasAnAlreadyReconciledAccount.resolves();
 
       // when
-      const result = await usecases.reconcileSchoolingRegistration({
+      const result = await usecases.reconcileOrganizationLearner({
         reconciliationInfo: user,
         withReconciliation,
         campaignCode,
         campaignRepository,
         userReconciliationService,
-        schoolingRegistrationRepository,
+        organizationLearnerRepository,
       });
 
       // then
       expect(result).to.be.undefined;
-      expect(schoolingRegistrationRepository.reconcileUserToSchoolingRegistration).to.not.have.been.called;
+      expect(organizationLearnerRepository.reconcileUserToOrganizationLearner).to.not.have.been.called;
     });
   });
 });

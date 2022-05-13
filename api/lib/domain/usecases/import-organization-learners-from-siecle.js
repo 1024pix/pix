@@ -1,7 +1,7 @@
 const { FileValidationError, SiecleXmlImportError } = require('../errors');
 const fs = require('fs').promises;
 const bluebird = require('bluebird');
-const { SCHOOLING_REGISTRATION_CHUNK_SIZE } = require('../../infrastructure/constants');
+const { ORGANIZATION_LEARNER_CHUNK_SIZE } = require('../../infrastructure/constants');
 const { isEmpty, chunk } = require('lodash');
 const DomainTransaction = require('../../infrastructure/DomainTransaction');
 
@@ -10,26 +10,28 @@ const ERRORS = {
   INVALID_FILE_EXTENSION: 'INVALID_FILE_EXTENSION',
 };
 
-module.exports = async function importSchoolingRegistrationsFromSIECLEFormat({
+module.exports = async function importOrganizationLearnersFromSIECLEFormat({
   organizationId,
   payload,
   format,
-  schoolingRegistrationsCsvService,
-  schoolingRegistrationsXmlService,
-  schoolingRegistrationRepository,
+  organizationLearnersCsvService,
+  organizationLearnersXmlService,
+  organizationLearnerRepository,
   organizationRepository,
   i18n,
 }) {
-  let schoolingRegistrationData = [];
+  let organizationLearnerData = [];
 
   const organization = await organizationRepository.get(organizationId);
   const path = payload.path;
 
   if (format === 'xml') {
-    schoolingRegistrationData =
-      await schoolingRegistrationsXmlService.extractSchoolingRegistrationsInformationFromSIECLE(path, organization);
+    organizationLearnerData = await organizationLearnersXmlService.extractOrganizationLearnersInformationFromSIECLE(
+      path,
+      organization
+    );
   } else if (format === 'csv') {
-    schoolingRegistrationData = await schoolingRegistrationsCsvService.extractSchoolingRegistrationsInformation(
+    organizationLearnerData = await organizationLearnersCsvService.extractOrganizationLearnersInformation(
       path,
       organization,
       i18n
@@ -40,20 +42,20 @@ module.exports = async function importSchoolingRegistrationsFromSIECLEFormat({
 
   fs.unlink(payload.path);
 
-  if (isEmpty(schoolingRegistrationData)) {
+  if (isEmpty(organizationLearnerData)) {
     throw new SiecleXmlImportError(ERRORS.EMPTY);
   }
 
-  const schoolingRegistrationsChunks = chunk(schoolingRegistrationData, SCHOOLING_REGISTRATION_CHUNK_SIZE);
+  const organizationLearnersChunks = chunk(organizationLearnerData, ORGANIZATION_LEARNER_CHUNK_SIZE);
 
   return DomainTransaction.execute(async (domainTransaction) => {
-    await schoolingRegistrationRepository.disableAllSchoolingRegistrationsInOrganization({
+    await organizationLearnerRepository.disableAllOrganizationLearnersInOrganization({
       domainTransaction,
       organizationId,
     });
 
-    await bluebird.mapSeries(schoolingRegistrationsChunks, (chunk) => {
-      return schoolingRegistrationRepository.addOrUpdateOrganizationSchoolingRegistrations(
+    await bluebird.mapSeries(organizationLearnersChunks, (chunk) => {
+      return organizationLearnerRepository.addOrUpdateOrganizationOfOrganizationLearners(
         chunk,
         organizationId,
         domainTransaction

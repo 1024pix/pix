@@ -5,23 +5,23 @@ describe('Unit | UseCase | get-account-recovery-details', function () {
   it('should return new email and firstName of account recovery demand', async function () {
     // given
     const temporaryKey = 'ZHABCDEFJSJ';
-    const schoolingRegistrationRepository = {
+    const organizationLearnerRepository = {
       get: sinon.stub(),
     };
     const scoAccountRecoveryService = {
       retrieveAndValidateAccountRecoveryDemand: sinon.stub(),
     };
-    const schoolingRegistrationId = '4321';
+    const organizationLearnerId = '4321';
     const newEmail = 'newemail@example.net';
     const firstName = 'Emma';
 
-    scoAccountRecoveryService.retrieveAndValidateAccountRecoveryDemand.resolves({ schoolingRegistrationId, newEmail });
-    schoolingRegistrationRepository.get.withArgs(schoolingRegistrationId).resolves({ firstName });
+    scoAccountRecoveryService.retrieveAndValidateAccountRecoveryDemand.resolves({ organizationLearnerId, newEmail });
+    organizationLearnerRepository.get.withArgs(organizationLearnerId).resolves({ firstName });
 
     // when
     const result = await getAccountRecoveryDetails({
       temporaryKey,
-      schoolingRegistrationRepository,
+      organizationLearnerRepository,
       scoAccountRecoveryService,
     });
 

@@ -1,17 +1,17 @@
 const {
   CampaignCodeError,
-  SchoolingRegistrationAlreadyLinkedToUserError,
+  OrganizationLearnerAlreadyLinkedToUserError,
   UserShouldNotBeReconciledOnAnotherAccountError,
 } = require('../errors');
 const { STUDENT_RECONCILIATION_ERRORS } = require('../constants');
 const isEmpty = require('lodash/isEmpty');
 
-module.exports = async function reconcileSchoolingRegistration({
+module.exports = async function reconcileOrganizationLearner({
   campaignCode,
   reconciliationInfo,
   withReconciliation,
   campaignRepository,
-  schoolingRegistrationRepository,
+  organizationLearnerRepository,
   studentRepository,
   userRepository,
   obfuscationService,
@@ -23,10 +23,10 @@ module.exports = async function reconcileSchoolingRegistration({
   }
 
   const schoolingRegistrationOfUserAccessingCampaign =
-    await userReconciliationService.findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser({
+    await userReconciliationService.findMatchingOrganizationLearnerIdForGivenOrganizationIdAndUser({
       organizationId: campaign.organizationId,
       reconciliationInfo,
-      schoolingRegistrationRepository,
+      organizationLearnerRepository,
     });
 
   await userReconciliationService.checkIfStudentHasAnAlreadyReconciledAccount(
@@ -39,19 +39,19 @@ module.exports = async function reconcileSchoolingRegistration({
   await _checkIfAnotherStudentIsAlreadyReconciledWithTheSameOrganizationAndUser(
     reconciliationInfo.id,
     campaign.organizationId,
-    schoolingRegistrationRepository
+    organizationLearnerRepository
   );
 
   await _checkIfUserIsConnectedOnAnotherAccount({
     schoolingRegistrationOfUserAccessingCampaign,
     authenticatedUserId: reconciliationInfo.id,
-    schoolingRegistrationRepository,
+    organizationLearnerRepository,
   });
 
   if (withReconciliation) {
-    return schoolingRegistrationRepository.reconcileUserToSchoolingRegistration({
+    return organizationLearnerRepository.reconcileUserToOrganizationLearner({
       userId: reconciliationInfo.id,
-      schoolingRegistrationId: schoolingRegistrationOfUserAccessingCampaign.id,
+      organizationLearnerId: schoolingRegistrationOfUserAccessingCampaign.id,
     });
   }
 };
@@ -59,9 +59,9 @@ module.exports = async function reconcileSchoolingRegistration({
 async function _checkIfAnotherStudentIsAlreadyReconciledWithTheSameOrganizationAndUser(
   userId,
   organizationId,
-  schoolingRegistrationRepository
+  organizationLearnerRepository
 ) {
-  const schoolingRegistrationFound = await schoolingRegistrationRepository.findOneByUserIdAndOrganizationId({
+  const schoolingRegistrationFound = await organizationLearnerRepository.findOneByUserIdAndOrganizationId({
     userId,
     organizationId,
   });
@@ -72,37 +72,37 @@ async function _checkIfAnotherStudentIsAlreadyReconciledWithTheSameOrganizationA
     const meta = {
       shortCode: error.shortCode,
     };
-    throw new SchoolingRegistrationAlreadyLinkedToUserError(detail, error.code, meta);
+    throw new OrganizationLearnerAlreadyLinkedToUserError(detail, error.code, meta);
   }
 }
 
 async function _checkIfUserIsConnectedOnAnotherAccount({
   schoolingRegistrationOfUserAccessingCampaign,
   authenticatedUserId,
-  schoolingRegistrationRepository,
+  organizationLearnerRepository,
 }) {
-  const loggedAccountReconciledSchoolingRegistrations = await schoolingRegistrationRepository.findByUserId({
+  const loggedAccountReconciledOrganizationLearners = await organizationLearnerRepository.findByUserId({
     userId: authenticatedUserId,
   });
 
-  const loggedAccountReconciledSchoolingRegistrationsWithoutNullNationalStudentIds =
-    loggedAccountReconciledSchoolingRegistrations.filter(
+  const loggedAccountReconciledOrganizationLearnersWithoutNullNationalStudentIds =
+    loggedAccountReconciledOrganizationLearners.filter(
       (schoolingRegistration) => !!schoolingRegistration.nationalStudentId
     );
 
-  if (isEmpty(loggedAccountReconciledSchoolingRegistrationsWithoutNullNationalStudentIds)) {
+  if (isEmpty(loggedAccountReconciledOrganizationLearnersWithoutNullNationalStudentIds)) {
     return;
   }
 
   const isUserNationalStudentIdDifferentFromLoggedAccount =
-    loggedAccountReconciledSchoolingRegistrationsWithoutNullNationalStudentIds.every(
+    loggedAccountReconciledOrganizationLearnersWithoutNullNationalStudentIds.every(
       (schoolingRegistration) =>
         schoolingRegistration.nationalStudentId !== schoolingRegistrationOfUserAccessingCampaign.nationalStudentId
     );
 
   if (isUserNationalStudentIdDifferentFromLoggedAccount) {
     const isUserBirthdayDifferentFromLoggedAccount =
-      loggedAccountReconciledSchoolingRegistrationsWithoutNullNationalStudentIds.every(
+      loggedAccountReconciledOrganizationLearnersWithoutNullNationalStudentIds.every(
         (schoolingRegistration) =>
           schoolingRegistration.birthdate !== schoolingRegistrationOfUserAccessingCampaign.birthdate
       );

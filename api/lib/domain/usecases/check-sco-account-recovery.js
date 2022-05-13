@@ -2,7 +2,7 @@ const StudentInformationForAccountRecovery = require('../read-models/StudentInfo
 
 module.exports = async function checkScoAccountRecovery({
   studentInformation,
-  schoolingRegistrationRepository,
+  organizationLearnerRepository,
   organizationRepository,
   accountRecoveryDemandRepository,
   userRepository,
@@ -10,10 +10,10 @@ module.exports = async function checkScoAccountRecovery({
   userReconciliationService,
 }) {
   const { firstName, lastName, username, organizationId, email } =
-    await scoAccountRecoveryService.retrieveSchoolingRegistration({
+    await scoAccountRecoveryService.retrieveOrganizationLearner({
       studentInformation,
       accountRecoveryDemandRepository,
-      schoolingRegistrationRepository,
+      organizationLearnerRepository,
       userRepository,
       userReconciliationService,
     });

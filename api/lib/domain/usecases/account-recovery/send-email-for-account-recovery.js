@@ -4,7 +4,7 @@ const AccountRecoveryDemand = require('../../models/AccountRecoveryDemand');
 module.exports = async function sendEmailForAccountRecovery({
   studentInformation,
   temporaryKey,
-  schoolingRegistrationRepository,
+  organizationLearnerRepository,
   userRepository,
   accountRecoveryDemandRepository,
   mailService,
@@ -19,10 +19,10 @@ module.exports = async function sendEmailForAccountRecovery({
     id,
     userId,
     email: oldEmail,
-  } = await scoAccountRecoveryService.retrieveSchoolingRegistration({
+  } = await scoAccountRecoveryService.retrieveOrganizationLearner({
     studentInformation,
     accountRecoveryDemandRepository,
-    schoolingRegistrationRepository,
+    organizationLearnerRepository,
     userRepository,
     userReconciliationService,
   });
@@ -31,7 +31,7 @@ module.exports = async function sendEmailForAccountRecovery({
 
   const accountRecoveryDemand = new AccountRecoveryDemand({
     userId,
-    schoolingRegistrationId: id,
+    organizationLearnerId: id,
     newEmail,
     oldEmail,
     used: false,

@@ -3,7 +3,7 @@ const StudentInformationForAccountRecovery = require('../../../../lib/domain/rea
 const checkScoAccountRecovery = require('../../../../lib/domain/usecases/check-sco-account-recovery');
 
 describe('Unit | UseCase | check-sco-account-recovery', function () {
-  let schoolingRegistrationRepository;
+  let organizationLearnerRepository;
   let accountRecoveryDemandRepository;
   let userRepository;
   let organizationRepository;
@@ -11,8 +11,8 @@ describe('Unit | UseCase | check-sco-account-recovery', function () {
   const userReconciliationService = {};
 
   beforeEach(function () {
-    schoolingRegistrationRepository = {
-      getSchoolingRegistrationInformation: sinon.stub(),
+    organizationLearnerRepository = {
+      getOrganizationLearnerInformation: sinon.stub(),
       findByUserId: sinon.stub(),
     };
     userRepository = {
@@ -22,7 +22,7 @@ describe('Unit | UseCase | check-sco-account-recovery', function () {
       get: sinon.stub(),
     };
     scoAccountRecoveryService = {
-      retrieveSchoolingRegistration: sinon.stub(),
+      retrieveOrganizationLearner: sinon.stub(),
     };
   });
 
@@ -39,11 +39,11 @@ describe('Unit | UseCase | check-sco-account-recovery', function () {
 
         const expectedOrganization = domainBuilder.buildOrganization({ id: 7, name: 'Lycée Poudlard' });
 
-        scoAccountRecoveryService.retrieveSchoolingRegistration
+        scoAccountRecoveryService.retrieveOrganizationLearner
           .withArgs({
             accountRecoveryDemandRepository,
             studentInformation,
-            schoolingRegistrationRepository,
+            organizationLearnerRepository,
             userRepository,
             userReconciliationService,
           })
@@ -59,7 +59,7 @@ describe('Unit | UseCase | check-sco-account-recovery', function () {
         // when
         const result = await checkScoAccountRecovery({
           userRepository,
-          schoolingRegistrationRepository,
+          organizationLearnerRepository,
           studentInformation,
           organizationRepository,
           scoAccountRecoveryService,

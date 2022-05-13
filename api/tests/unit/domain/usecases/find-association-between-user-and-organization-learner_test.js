@@ -4,12 +4,12 @@ const OrganizationLearner = require('../../../../lib/domain/models/OrganizationL
 const {
   CampaignCodeError,
   UserNotAuthorizedToAccessEntityError,
-  SchoolingRegistrationDisabledError,
+  OrganizationLearnerDisabledError,
 } = require('../../../../lib/domain/errors');
 const campaignRepository = require('../../../../lib/infrastructure/repositories/campaign-repository');
-const schoolingRegistrationRepository = require('../../../../lib/infrastructure/repositories/schooling-registration-repository');
+const organizationLearnerRepository = require('../../../../lib/infrastructure/repositories/organization-learner-repository');
 
-describe('Unit | UseCase | find-association-between-user-and-schooling-registration', function () {
+describe('Unit | UseCase | find-association-between-user-and-organization-learner', function () {
   let schoolingRegistrationReceivedStub;
   let getCampaignStub;
   let organizationLearner;
@@ -24,7 +24,7 @@ describe('Unit | UseCase | find-association-between-user-and-schooling-registrat
     organizationLearner = domainBuilder.buildOrganizationLearner({ organization, userId });
     getCampaignStub = sinon.stub(campaignRepository, 'getByCode').throws('unexpected call');
     schoolingRegistrationReceivedStub = sinon
-      .stub(schoolingRegistrationRepository, 'findOneByUserIdAndOrganizationId')
+      .stub(organizationLearnerRepository, 'findOneByUserIdAndOrganizationId')
       .throws('unexpected call');
   });
 
@@ -35,7 +35,7 @@ describe('Unit | UseCase | find-association-between-user-and-schooling-registrat
       schoolingRegistrationReceivedStub.resolves({});
 
       // when
-      await usecases.findAssociationBetweenUserAndSchoolingRegistration({
+      await usecases.findAssociationBetweenUserAndOrganizationLearner({
         authenticatedUserId: userId,
         requestedUserId: userId,
         campaignCode: campaign.code,
@@ -53,7 +53,7 @@ describe('Unit | UseCase | find-association-between-user-and-schooling-registrat
         .resolves(organizationLearner);
 
       // when
-      const result = await usecases.findAssociationBetweenUserAndSchoolingRegistration({
+      const result = await usecases.findAssociationBetweenUserAndOrganizationLearner({
         authenticatedUserId: userId,
         requestedUserId: userId,
         campaignCode: campaign.code,
@@ -72,7 +72,7 @@ describe('Unit | UseCase | find-association-between-user-and-schooling-registrat
       schoolingRegistrationReceivedStub.withArgs({ userId, organizationId: organization.id }).resolves(null);
 
       // when
-      const result = await usecases.findAssociationBetweenUserAndSchoolingRegistration({
+      const result = await usecases.findAssociationBetweenUserAndOrganizationLearner({
         authenticatedUserId: userId,
         requestedUserId: userId,
         campaignCode: campaign.code,
@@ -97,14 +97,14 @@ describe('Unit | UseCase | find-association-between-user-and-schooling-registrat
         .resolves(disabledOrganizationLearner);
 
       // when
-      const result = await catchErr(usecases.findAssociationBetweenUserAndSchoolingRegistration)({
+      const result = await catchErr(usecases.findAssociationBetweenUserAndOrganizationLearner)({
         authenticatedUserId: userId,
         requestedUserId: userId,
         campaignCode: campaign.code,
       });
 
       // then
-      expect(result).to.be.instanceof(SchoolingRegistrationDisabledError);
+      expect(result).to.be.instanceof(OrganizationLearnerDisabledError);
     });
   });
 
@@ -115,7 +115,7 @@ describe('Unit | UseCase | find-association-between-user-and-schooling-registrat
       schoolingRegistrationReceivedStub.withArgs({ userId, organizationId: organization.id }).resolves(null);
 
       // when
-      const result = await catchErr(usecases.findAssociationBetweenUserAndSchoolingRegistration)({
+      const result = await catchErr(usecases.findAssociationBetweenUserAndOrganizationLearner)({
         authenticatedUserId: '999',
         requestedUserId: userId,
         campaignCode: campaign.code,
@@ -132,7 +132,7 @@ describe('Unit | UseCase | find-association-between-user-and-schooling-registrat
       getCampaignStub.withArgs(campaign.code).resolves(null);
 
       // when
-      const result = await catchErr(usecases.findAssociationBetweenUserAndSchoolingRegistration)({
+      const result = await catchErr(usecases.findAssociationBetweenUserAndOrganizationLearner)({
         authenticatedUserId: userId,
         requestedUserId: userId,
         campaignCode: campaign.code,

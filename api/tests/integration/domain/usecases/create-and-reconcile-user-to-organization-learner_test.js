@@ -4,7 +4,7 @@ const { catchErr, databaseBuilder, expect, knex } = require('../../../test-helpe
 
 const authenticationMethodRepository = require('../../../../lib/infrastructure/repositories/authentication-method-repository');
 const campaignRepository = require('../../../../lib/infrastructure/repositories/campaign-repository');
-const schoolingRegistrationRepository = require('../../../../lib/infrastructure/repositories/schooling-registration-repository');
+const organizationLearnerRepository = require('../../../../lib/infrastructure/repositories/organization-learner-repository');
 const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
 const userToCreateRepository = require('../../../../lib/infrastructure/repositories/user-to-create-repository');
 
@@ -18,12 +18,12 @@ const {
   CampaignCodeError,
   EntityValidationError,
   NotFoundError,
-  SchoolingRegistrationAlreadyLinkedToUserError,
+  OrganizationLearnerAlreadyLinkedToUserError,
 } = require('../../../../lib/domain/errors');
 
-const createAndReconcileUserToSchoolingRegistration = require('../../../../lib/domain/usecases/create-and-reconcile-user-to-schooling-registration');
+const createAndReconcileUserToOrganizationLearner = require('../../../../lib/domain/usecases/create-and-reconcile-user-to-organization-learner');
 
-describe('Integration | UseCases | create-and-reconcile-user-to-schooling-registration', function () {
+describe('Integration | UseCases | create-and-reconcile-user-to-organization-learner', function () {
   const pickUserAttributes = ['firstName', 'lastName', 'email', 'username', 'cgu'];
   const locale = 'fr';
 
@@ -36,14 +36,14 @@ describe('Integration | UseCases | create-and-reconcile-user-to-schooling-regist
   context('When there is no campaign with the given code', function () {
     it('should throw a campaign code error', async function () {
       // when
-      const error = await catchErr(createAndReconcileUserToSchoolingRegistration)({
+      const error = await catchErr(createAndReconcileUserToOrganizationLearner)({
         campaignCode: 'NOTEXIST',
         locale,
         password,
         userAttributes,
         authenticationMethodRepository,
         campaignRepository,
-        schoolingRegistrationRepository,
+        organizationLearnerRepository,
         userRepository,
         encryptionService,
         mailService,
@@ -72,14 +72,14 @@ describe('Integration | UseCases | create-and-reconcile-user-to-schooling-regist
       };
 
       // when
-      const error = await catchErr(createAndReconcileUserToSchoolingRegistration)({
+      const error = await catchErr(createAndReconcileUserToOrganizationLearner)({
         campaignCode,
         locale,
         password,
         userAttributes,
         authenticationMethodRepository,
         campaignRepository,
-        schoolingRegistrationRepository,
+        organizationLearnerRepository,
         userRepository,
         encryptionService,
         mailService,
@@ -90,11 +90,11 @@ describe('Integration | UseCases | create-and-reconcile-user-to-schooling-regist
 
       // then
       expect(error).to.be.instanceof(NotFoundError);
-      expect(error.message).to.equal('There are no schooling registrations found');
+      expect(error.message).to.equal('There are no organization learners found');
     });
   });
 
-  context('When one schoolingRegistration matched on names', function () {
+  context('When one organizationLearner matched on names', function () {
     beforeEach(async function () {
       organizationId = databaseBuilder.factory.buildOrganization().id;
       campaignCode = databaseBuilder.factory.buildCampaign({
@@ -125,14 +125,14 @@ describe('Integration | UseCases | create-and-reconcile-user-to-schooling-regist
         await databaseBuilder.commit();
 
         // when
-        const error = await catchErr(createAndReconcileUserToSchoolingRegistration)({
+        const error = await catchErr(createAndReconcileUserToOrganizationLearner)({
           campaignCode,
           locale,
           password,
           userAttributes,
           authenticationMethodRepository,
           campaignRepository,
-          schoolingRegistrationRepository,
+          organizationLearnerRepository,
           userRepository,
           encryptionService,
           mailService,
@@ -142,7 +142,7 @@ describe('Integration | UseCases | create-and-reconcile-user-to-schooling-regist
         });
 
         // then
-        expect(error).to.be.instanceOf(SchoolingRegistrationAlreadyLinkedToUserError);
+        expect(error).to.be.instanceOf(OrganizationLearnerAlreadyLinkedToUserError);
       });
     });
 
@@ -181,14 +181,14 @@ describe('Integration | UseCases | create-and-reconcile-user-to-schooling-regist
           });
 
           // when
-          const error = await catchErr(createAndReconcileUserToSchoolingRegistration)({
+          const error = await catchErr(createAndReconcileUserToOrganizationLearner)({
             campaignCode,
             locale,
             password: '',
             userAttributes,
             authenticationMethodRepository,
             campaignRepository,
-            schoolingRegistrationRepository,
+            organizationLearnerRepository,
             userRepository,
             encryptionService,
             mailService,
@@ -224,14 +224,14 @@ describe('Integration | UseCases | create-and-reconcile-user-to-schooling-regist
           await databaseBuilder.commit();
 
           // when
-          const error = await catchErr(createAndReconcileUserToSchoolingRegistration)({
+          const error = await catchErr(createAndReconcileUserToOrganizationLearner)({
             campaignCode,
             locale,
             password,
             userAttributes,
             authenticationMethodRepository,
             campaignRepository,
-            schoolingRegistrationRepository,
+            organizationLearnerRepository,
             userRepository,
             encryptionService,
             mailService,
@@ -253,14 +253,14 @@ describe('Integration | UseCases | create-and-reconcile-user-to-schooling-regist
           userAttributes.email = email;
 
           // when
-          const result = await createAndReconcileUserToSchoolingRegistration({
+          const result = await createAndReconcileUserToOrganizationLearner({
             campaignCode,
             locale,
             password,
             userAttributes,
             authenticationMethodRepository,
             campaignRepository,
-            schoolingRegistrationRepository,
+            organizationLearnerRepository,
             userRepository,
             userToCreateRepository,
             encryptionService,
@@ -321,14 +321,14 @@ describe('Integration | UseCases | create-and-reconcile-user-to-schooling-regist
           await databaseBuilder.commit();
 
           // when
-          const error = await catchErr(createAndReconcileUserToSchoolingRegistration)({
+          const error = await catchErr(createAndReconcileUserToOrganizationLearner)({
             campaignCode,
             locale,
             password,
             userAttributes,
             authenticationMethodRepository,
             campaignRepository,
-            schoolingRegistrationRepository,
+            organizationLearnerRepository,
             userRepository,
             encryptionService,
             mailService,
@@ -359,14 +359,14 @@ describe('Integration | UseCases | create-and-reconcile-user-to-schooling-regist
           };
 
           // when
-          const result = await createAndReconcileUserToSchoolingRegistration({
+          const result = await createAndReconcileUserToOrganizationLearner({
             campaignCode,
             locale,
             password,
             userAttributes,
             authenticationMethodRepository,
             campaignRepository,
-            schoolingRegistrationRepository,
+            organizationLearnerRepository,
             userRepository,
             userToCreateRepository,
             encryptionService,

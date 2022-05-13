@@ -5,7 +5,7 @@ const {
   AlreadyRegisteredUsernameError,
   CampaignCodeError,
   EntityValidationError,
-  SchoolingRegistrationAlreadyLinkedToUserError,
+  OrganizationLearnerAlreadyLinkedToUserError,
 } = require('../errors');
 
 const User = require('../models/User');
@@ -107,14 +107,14 @@ async function _validateData({ isUsernameMode, password, userAttributes, userRep
   }
 }
 
-module.exports = async function createAndReconcileUserToSchoolingRegistration({
+module.exports = async function createAndReconcileUserToOrganizationLearner({
   campaignCode,
   locale,
   password,
   userAttributes,
   authenticationMethodRepository,
   campaignRepository,
-  schoolingRegistrationRepository,
+  organizationLearnerRepository,
   userRepository,
   userToCreateRepository,
   encryptionService,
@@ -128,17 +128,17 @@ module.exports = async function createAndReconcileUserToSchoolingRegistration({
     throw new CampaignCodeError();
   }
 
-  const matchedSchoolingRegistration =
-    await userReconciliationService.findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser({
+  const matchedOrganizationLearner =
+    await userReconciliationService.findMatchingOrganizationLearnerIdForGivenOrganizationIdAndUser({
       organizationId: campaign.organizationId,
       reconciliationInfo: userAttributes,
-      schoolingRegistrationRepository,
+      organizationLearnerRepository,
       userRepository,
       obfuscationService,
     });
 
-  if (!isNil(matchedSchoolingRegistration.userId)) {
-    throw new SchoolingRegistrationAlreadyLinkedToUserError(
+  if (!isNil(matchedOrganizationLearner.userId)) {
+    throw new OrganizationLearnerAlreadyLinkedToUserError(
       'Un compte existe déjà pour l‘élève dans le même établissement.'
     );
   }
@@ -156,12 +156,12 @@ module.exports = async function createAndReconcileUserToSchoolingRegistration({
   const hashedPassword = await _encryptPassword(password, encryptionService);
   const domainUser = _createDomainUser(cleanedUserAttributes);
 
-  const userId = await userService.createAndReconcileUserToSchoolingRegistration({
+  const userId = await userService.createAndReconcileUserToOrganizationLearner({
     hashedPassword,
-    schoolingRegistrationId: matchedSchoolingRegistration.id,
+    schoolingRegistrationId: matchedOrganizationLearner.id,
     user: domainUser,
     authenticationMethodRepository,
-    schoolingRegistrationRepository,
+    organizationLearnerRepository,
     userToCreateRepository,
   });
 

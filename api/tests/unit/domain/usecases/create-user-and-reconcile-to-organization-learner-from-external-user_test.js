@@ -1,7 +1,7 @@
 const { domainBuilder, expect, sinon } = require('../../../test-helper');
-const createUserAndReconcileToSchoolingRegistrationFromExternalUser = require('../../../../lib/domain/usecases/create-user-and-reconcile-to-schooling-registration-from-external-user');
+const createUserAndReconcileToOrganizationLearnerFromExternalUser = require('../../../../lib/domain/usecases/create-user-and-reconcile-to-organization-learner-from-external-user');
 
-describe('Unit | UseCase | create-user-and-reconcile-to-schooling-registration-from-external-user', function () {
+describe('Unit | UseCase | create-user-and-reconcile-to-organization-learner-from-external-user', function () {
   let obfuscationService;
   let tokenService;
   let userReconciliationService;
@@ -9,7 +9,7 @@ describe('Unit | UseCase | create-user-and-reconcile-to-schooling-registration-f
   let authenticationMethodRepository;
   let campaignRepository;
   let userRepository;
-  let schoolingRegistrationRepository;
+  let organizationLearnerRepository;
   let studentRepository;
 
   beforeEach(function () {
@@ -21,7 +21,7 @@ describe('Unit | UseCase | create-user-and-reconcile-to-schooling-registration-f
       createAccessTokenForSaml: sinon.stub(),
     };
     userReconciliationService = {
-      findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser: sinon.stub(),
+      findMatchingOrganizationLearnerIdForGivenOrganizationIdAndUser: sinon.stub(),
       checkIfStudentHasAnAlreadyReconciledAccount: sinon.stub(),
     };
     userRepository = {
@@ -29,7 +29,7 @@ describe('Unit | UseCase | create-user-and-reconcile-to-schooling-registration-f
       updateLastLoggedAt: sinon.stub(),
     };
     userService = {
-      createAndReconcileUserToSchoolingRegistration: sinon.stub(),
+      createAndReconcileUserToOrganizationLearner: sinon.stub(),
     };
   });
 
@@ -42,13 +42,13 @@ describe('Unit | UseCase | create-user-and-reconcile-to-schooling-registration-f
 
       campaignRepository.getByCode.resolves('ABCDE');
       tokenService.extractExternalUserFromIdToken.resolves(externalUser);
-      userReconciliationService.findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser.resolves(
+      userReconciliationService.findMatchingOrganizationLearnerIdForGivenOrganizationIdAndUser.resolves(
         organizationLearner
       );
       userRepository.getBySamlId.resolves(user);
 
       // when
-      await createUserAndReconcileToSchoolingRegistrationFromExternalUser({
+      await createUserAndReconcileToOrganizationLearnerFromExternalUser({
         birthdate: user.birthdate,
         campaignCode: 'ABCDE',
         token: 'a token',
@@ -59,7 +59,7 @@ describe('Unit | UseCase | create-user-and-reconcile-to-schooling-registration-f
         authenticationMethodRepository,
         campaignRepository,
         userRepository,
-        schoolingRegistrationRepository,
+        organizationLearnerRepository,
         studentRepository,
       });
 
@@ -76,14 +76,14 @@ describe('Unit | UseCase | create-user-and-reconcile-to-schooling-registration-f
 
       campaignRepository.getByCode.resolves('ABCDE');
       tokenService.extractExternalUserFromIdToken.resolves(externalUser);
-      userReconciliationService.findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser.resolves(
+      userReconciliationService.findMatchingOrganizationLearnerIdForGivenOrganizationIdAndUser.resolves(
         organizationLearner
       );
       userRepository.getBySamlId.resolves(user);
       tokenService.createAccessTokenForSaml.withArgs(user.id).resolves(token);
 
       // when
-      const result = await createUserAndReconcileToSchoolingRegistrationFromExternalUser({
+      const result = await createUserAndReconcileToOrganizationLearnerFromExternalUser({
         birthdate: user.birthdate,
         campaignCode: 'ABCDE',
         token: 'a token',
@@ -94,7 +94,7 @@ describe('Unit | UseCase | create-user-and-reconcile-to-schooling-registration-f
         authenticationMethodRepository,
         campaignRepository,
         userRepository,
-        schoolingRegistrationRepository,
+        organizationLearnerRepository,
         studentRepository,
       });
 
@@ -112,14 +112,14 @@ describe('Unit | UseCase | create-user-and-reconcile-to-schooling-registration-f
 
       campaignRepository.getByCode.resolves('ABCDE');
       tokenService.extractExternalUserFromIdToken.resolves(externalUser);
-      userReconciliationService.findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser.resolves(
+      userReconciliationService.findMatchingOrganizationLearnerIdForGivenOrganizationIdAndUser.resolves(
         organizationLearner
       );
       userRepository.getBySamlId.resolves(null);
-      userService.createAndReconcileUserToSchoolingRegistration.resolves(user.id);
+      userService.createAndReconcileUserToOrganizationLearner.resolves(user.id);
 
       // when
-      await createUserAndReconcileToSchoolingRegistrationFromExternalUser({
+      await createUserAndReconcileToOrganizationLearnerFromExternalUser({
         birthdate: user.birthdate,
         campaignCode: 'ABCDE',
         token: 'a token',
@@ -130,7 +130,7 @@ describe('Unit | UseCase | create-user-and-reconcile-to-schooling-registration-f
         authenticationMethodRepository,
         campaignRepository,
         userRepository,
-        schoolingRegistrationRepository,
+        organizationLearnerRepository,
         studentRepository,
       });
 
@@ -147,15 +147,15 @@ describe('Unit | UseCase | create-user-and-reconcile-to-schooling-registration-f
 
       campaignRepository.getByCode.resolves('ABCDE');
       tokenService.extractExternalUserFromIdToken.resolves(externalUser);
-      userReconciliationService.findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser.resolves(
+      userReconciliationService.findMatchingOrganizationLearnerIdForGivenOrganizationIdAndUser.resolves(
         organizationLearner
       );
       userRepository.getBySamlId.resolves(null);
-      userService.createAndReconcileUserToSchoolingRegistration.resolves(user.id);
+      userService.createAndReconcileUserToOrganizationLearner.resolves(user.id);
       tokenService.createAccessTokenForSaml.withArgs(user.id).resolves(token);
 
       // when
-      const result = await createUserAndReconcileToSchoolingRegistrationFromExternalUser({
+      const result = await createUserAndReconcileToOrganizationLearnerFromExternalUser({
         birthdate: user.birthdate,
         campaignCode: 'ABCDE',
         token: 'a token',
@@ -166,7 +166,7 @@ describe('Unit | UseCase | create-user-and-reconcile-to-schooling-registration-f
         authenticationMethodRepository,
         campaignRepository,
         userRepository,
-        schoolingRegistrationRepository,
+        organizationLearnerRepository,
         studentRepository,
       });
 

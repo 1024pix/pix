@@ -1,10 +1,10 @@
 const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper');
-const getSchoolingRegistrationsCsvTemplate = require('../../../../lib/domain/usecases/get-schooling-registrations-csv-template');
+const getOrganizationLearnersCsvTemplate = require('../../../../lib/domain/usecases/get-organization-learners-csv-template');
 const _ = require('lodash');
 const { UserNotAuthorizedToAccessEntityError } = require('../../../../lib/domain/errors');
 const { getI18n } = require('../../../tooling/i18n/i18n');
 
-describe('Unit | UseCase | get-schooling-registrations-csv-template', function () {
+describe('Unit | UseCase | get-organization-learners-csv-template', function () {
   // TODO: Fix this the next time the file is edited.
   // eslint-disable-next-line mocha/no-setup-in-describe
   const userId = Symbol('userId');
@@ -26,7 +26,7 @@ describe('Unit | UseCase | get-schooling-registrations-csv-template', function (
       sinon.stub(membershipRepository, 'findByUserIdAndOrganizationId').resolves([membership]);
 
       // when
-      const result = await getSchoolingRegistrationsCsvTemplate({ userId, organizationId, i18n, membershipRepository });
+      const result = await getOrganizationLearnersCsvTemplate({ userId, organizationId, i18n, membershipRepository });
 
       // then
       const csvExpected =
@@ -55,7 +55,7 @@ describe('Unit | UseCase | get-schooling-registrations-csv-template', function (
         .resolves([{ isAdmin: true, organization: { isManagingStudents: false, type: 'SUP' } }]);
 
       // when
-      const error = await catchErr(getSchoolingRegistrationsCsvTemplate)({
+      const error = await catchErr(getOrganizationLearnersCsvTemplate)({
         userId,
         organizationId,
         membershipRepository,
@@ -74,7 +74,7 @@ describe('Unit | UseCase | get-schooling-registrations-csv-template', function (
         .resolves([{ isAdmin: false, organization: { isManagingStudents: true, type: 'SUP' } }]);
 
       // when
-      const error = await catchErr(getSchoolingRegistrationsCsvTemplate)({
+      const error = await catchErr(getOrganizationLearnersCsvTemplate)({
         userId,
         organizationId,
         membershipRepository,
@@ -91,7 +91,7 @@ describe('Unit | UseCase | get-schooling-registrations-csv-template', function (
       sinon.stub(membershipRepository, 'findByUserIdAndOrganizationId').resolves([]);
 
       // when
-      const error = await catchErr(getSchoolingRegistrationsCsvTemplate)({
+      const error = await catchErr(getOrganizationLearnersCsvTemplate)({
         userId,
         organizationId,
         membershipRepository,
