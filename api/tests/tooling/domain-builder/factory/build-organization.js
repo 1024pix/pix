@@ -1,7 +1,7 @@
 const Organization = require('../../../../lib/domain/models/Organization');
 const OrganizationLearner = require('../../../../lib/domain/models/OrganizationLearner');
 
-function _buildSchoolingRegistration({
+function _buildOrganizationLearner({
   id = 1,
   lastName = 'Bono',
   firstName = 'Jean',
@@ -53,7 +53,7 @@ function buildOrganization({
   });
 }
 
-buildOrganization.withSchoolingRegistrations = function ({
+buildOrganization.withOrganizationLearners = function ({
   id = 123,
   name = 'Lycée Luke Skywalker',
   type = 'SCO',
@@ -83,8 +83,8 @@ buildOrganization.withSchoolingRegistrations = function ({
   });
 
   organization.students = [
-    _buildSchoolingRegistration({ id: 1, lastName: 'Doe', firstName: 'John', organization }),
-    _buildSchoolingRegistration({ id: 2, lastName: 'Smith', firstName: 'Jane', organization }),
+    _buildOrganizationLearner({ id: 1, lastName: 'Doe', firstName: 'John', organization }),
+    _buildOrganizationLearner({ id: 2, lastName: 'Smith', firstName: 'Jane', organization }),
   ];
 
   return organization;
