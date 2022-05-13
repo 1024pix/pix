@@ -1,21 +1,21 @@
 const iconv = require('iconv-lite');
 const { expect, catchErr } = require('../../../../test-helper');
-const SchoolingRegistrationParser = require('../../../../../lib/infrastructure/serializers/csv/schooling-registration-parser');
+const OrganizationLearnerParser = require('../../../../../lib/infrastructure/serializers/csv/organization-learner-parser');
 const { CsvImportError } = require('../../../../../lib/domain/errors');
-const SchoolingRegistrationColumns = require('../../../../../lib/infrastructure/serializers/csv/schooling-registration-columns');
+const OrganizationLearnerColumns = require('../../../../../lib/infrastructure/serializers/csv/organization-learner-columns');
 const { getI18n } = require('../../../../tooling/i18n/i18n');
 const i18n = getI18n();
 
-const schoolingRegistrationCsvColumns = new SchoolingRegistrationColumns(i18n).columns
+const schoolingRegistrationCsvColumns = new OrganizationLearnerColumns(i18n).columns
   .map((column) => column.label)
   .join(';');
 const COL_TO_REMOVE = 'Code sexe*';
-const schoolingRegistrationCsvColumnsWithoutSexCode = new SchoolingRegistrationColumns(i18n).columns
+const schoolingRegistrationCsvColumnsWithoutSexCode = new OrganizationLearnerColumns(i18n).columns
   .map((column) => column.label)
   .filter((col) => col !== COL_TO_REMOVE)
   .join(';');
 
-describe('Unit | Infrastructure | SchoolingRegistrationParser', function () {
+describe('Unit | Infrastructure | OrganizationLearnerParser', function () {
   context('when the header is not correctly formed', function () {
     const organizationId = 123;
 
@@ -36,7 +36,7 @@ describe('Unit | Infrastructure | SchoolingRegistrationParser', function () {
           let input = schoolingRegistrationCsvColumns.replace(`${field}`, '');
           input = input.replace(';;', ';');
           const encodedInput = iconv.encode(input, 'utf8');
-          const parser = new SchoolingRegistrationParser(encodedInput, organizationId, i18n);
+          const parser = new OrganizationLearnerParser(encodedInput, organizationId, i18n);
 
           const error = await catchErr(parser.parse, parser)();
 
@@ -49,7 +49,7 @@ describe('Unit | Infrastructure | SchoolingRegistrationParser', function () {
       it('should throw an CsvImportError', async function () {
         const input = schoolingRegistrationCsvColumns.replace('Premier prénom*;', '');
         const encodedInput = iconv.encode(input, 'utf8');
-        const parser = new SchoolingRegistrationParser(encodedInput, organizationId, i18n);
+        const parser = new OrganizationLearnerParser(encodedInput, organizationId, i18n);
 
         const error = await catchErr(parser.parse, parser)();
 
@@ -60,14 +60,14 @@ describe('Unit | Infrastructure | SchoolingRegistrationParser', function () {
 
   context('when the header is correctly formed', function () {
     context('when there is no line', function () {
-      it('returns no registrations', function () {
+      it('returns no learners', function () {
         const input = schoolingRegistrationCsvColumns;
         const encodedInput = iconv.encode(input, 'utf8');
-        const parser = new SchoolingRegistrationParser(encodedInput, 123, i18n);
+        const parser = new OrganizationLearnerParser(encodedInput, 123, i18n);
 
-        const { registrations } = parser.parse();
+        const { learners } = parser.parse();
 
-        expect(registrations).to.be.empty;
+        expect(learners).to.be.empty;
       });
     });
 
@@ -80,23 +80,23 @@ describe('Unit | Infrastructure | SchoolingRegistrationParser', function () {
             456F;O-Ren;;;Ishii;Cottonmouth;2;01/01/1980;;Shangai;99;99132;ST;MEF1;Division 2;
             `;
             const encodedInput = iconv.encode(input, 'utf8');
-            const parser = new SchoolingRegistrationParser(encodedInput, 456, i18n);
+            const parser = new OrganizationLearnerParser(encodedInput, 456, i18n);
 
-            const { registrations } = parser.parse();
-            expect(registrations).to.have.lengthOf(2);
+            const { learners } = parser.parse();
+            expect(learners).to.have.lengthOf(2);
           });
 
-          it('returns schooling registrations for each line using the CSV column', function () {
+          it('returns schooling learners for each line using the CSV column', function () {
             const input = `${schoolingRegistrationCsvColumns}
             123F;Beatrix;The;Bride;Kiddo;Black Mamba;M;01/01/1970;97422;;974;99100;ST;MEF1;Division 1;
             0123456789F;O-Ren;;;Ishii;Cottonmouth;f;01/01/1980;;Shangai;99;99132;AP;MEF1;Division 2;
             `;
             const organizationId = 789;
             const encodedInput = iconv.encode(input, 'utf8');
-            const parser = new SchoolingRegistrationParser(encodedInput, organizationId, i18n);
+            const parser = new OrganizationLearnerParser(encodedInput, organizationId, i18n);
 
-            const { registrations } = parser.parse();
-            expect(registrations[0]).to.includes({
+            const { learners } = parser.parse();
+            expect(learners[0]).to.includes({
               nationalStudentId: '123F',
               firstName: 'Beatrix',
               middleName: 'The',
@@ -114,7 +114,7 @@ describe('Unit | Infrastructure | SchoolingRegistrationParser', function () {
               organizationId,
             });
 
-            expect(registrations[1]).to.includes({
+            expect(learners[1]).to.includes({
               nationalStudentId: '0123456789F',
               firstName: 'O-Ren',
               lastName: 'Ishii',
@@ -139,22 +139,22 @@ describe('Unit | Infrastructure | SchoolingRegistrationParser', function () {
             456F;O-Ren;;;Ishii;Cottonmouth;01/01/1980;;Shangai;99;99132;ST;MEF1;Division 2;
             `;
             const encodedInput = iconv.encode(input, 'utf8');
-            const parser = new SchoolingRegistrationParser(encodedInput, 456, i18n);
+            const parser = new OrganizationLearnerParser(encodedInput, 456, i18n);
 
-            const { registrations } = parser.parse();
-            expect(registrations).to.have.lengthOf(2);
+            const { learners } = parser.parse();
+            expect(learners).to.have.lengthOf(2);
           });
 
-          it('returns schooling registrations for each line using the CSV column', function () {
+          it('returns schooling learners for each line using the CSV column', function () {
             const input = `${schoolingRegistrationCsvColumnsWithoutSexCode}
             123F;Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1970;97422;;974;99100;ST;MEF1;Division 1;
             0123456789F;O-Ren;;;Ishii;Cottonmouth;01/01/1980;;Shangai;99;99132;AP;MEF1;Division 2;
             `;
             const encodedInput = iconv.encode(input, 'utf8');
-            const parser = new SchoolingRegistrationParser(encodedInput, 456, i18n);
+            const parser = new OrganizationLearnerParser(encodedInput, 456, i18n);
 
-            const { registrations } = parser.parse();
-            expect(registrations[0]).to.includes({
+            const { learners } = parser.parse();
+            expect(learners[0]).to.includes({
               nationalStudentId: '123F',
               firstName: 'Beatrix',
               middleName: 'The',
@@ -172,7 +172,7 @@ describe('Unit | Infrastructure | SchoolingRegistrationParser', function () {
               organizationId: 456,
             });
 
-            expect(registrations[1]).to.includes({
+            expect(learners[1]).to.includes({
               nationalStudentId: '0123456789F',
               firstName: 'O-Ren',
               lastName: 'Ishii',
@@ -196,10 +196,10 @@ describe('Unit | Infrastructure | SchoolingRegistrationParser', function () {
             123F;Beatrix;The;Bride;Kiddo;Black Mamba;1;01/01/1970;97422;;200;99100;ST;MEF1;  Division 1 ;
             `;
             const encodedInput = iconv.encode(input, 'utf8');
-            const parser = new SchoolingRegistrationParser(encodedInput, 456, i18n);
+            const parser = new OrganizationLearnerParser(encodedInput, 456, i18n);
 
-            const { registrations } = parser.parse();
-            expect(registrations[0].division).to.equal('Division 1');
+            const { learners } = parser.parse();
+            expect(learners[0].division).to.equal('Division 1');
           });
 
           it('should remove extra space on division', function () {
@@ -207,10 +207,10 @@ describe('Unit | Infrastructure | SchoolingRegistrationParser', function () {
             123F;Beatrix;The;Bride;Kiddo;Black Mamba;1;01/01/1970;97422;;200;99100;ST;MEF1;Division     1;
             `;
             const encodedInput = iconv.encode(input, 'utf8');
-            const parser = new SchoolingRegistrationParser(encodedInput, 456, i18n);
+            const parser = new OrganizationLearnerParser(encodedInput, 456, i18n);
 
-            const { registrations } = parser.parse();
-            expect(registrations[0].division).to.equal('Division 1');
+            const { learners } = parser.parse();
+            expect(learners[0].division).to.equal('Division 1');
           });
         });
 
@@ -220,10 +220,10 @@ describe('Unit | Infrastructure | SchoolingRegistrationParser', function () {
             0123456789F;Beatrix;The;Bride;Kiddo;Black Mamba;1;01/01/1970;97422;;974;99100;AP;MEF1;Division 1;
             `;
             const encodedInput = iconv.encode(input, 'utf8');
-            const parser = new SchoolingRegistrationParser(encodedInput, 123, i18n);
+            const parser = new OrganizationLearnerParser(encodedInput, 123, i18n);
 
-            const { registrations } = parser.parse();
-            expect(registrations[0]).to.includes({
+            const { learners } = parser.parse();
+            expect(learners[0]).to.includes({
               nationalStudentId: '0123456789F',
               status: 'AP',
             });
@@ -239,7 +239,7 @@ describe('Unit | Infrastructure | SchoolingRegistrationParser', function () {
           123F;Beatrix;The;Bride;Kiddo;Black Mamba;1;01/01/1980;97422;;200;${wrongData};ST;MEF1;Division 1;
           `;
           const encodedInput = iconv.encode(input, 'utf8');
-          const parser = new SchoolingRegistrationParser(encodedInput, 123, i18n);
+          const parser = new OrganizationLearnerParser(encodedInput, 123, i18n);
 
           const error = await catchErr(parser.parse, parser)();
 
@@ -255,7 +255,7 @@ describe('Unit | Infrastructure | SchoolingRegistrationParser', function () {
           123F;Beatrix;The;Bride;Kiddo;Black Mamba;1;01/01/1980;${wrongData};;974;99100;ST;MEF1;Division 1;
           `;
           const encodedInput = iconv.encode(input, 'utf8');
-          const parser = new SchoolingRegistrationParser(encodedInput, 123, i18n);
+          const parser = new OrganizationLearnerParser(encodedInput, 123, i18n);
 
           const error = await catchErr(parser.parse, parser)();
 
@@ -263,6 +263,22 @@ describe('Unit | Infrastructure | SchoolingRegistrationParser', function () {
           expect(error).to.be.an.instanceOf(CsvImportError);
           expect(error.code).to.equal('INSEE_CODE_INVALID');
           expect(error.meta).to.deep.equal({ line: 2, field: 'Code commune naissance**' });
+        });
+
+        context('When the organization is Agriculture and file contain status AP', function () {
+          it('should return schooling registration with nationalStudentId', function () {
+            const input = `${schoolingRegistrationCsvColumns}
+            0123456789F;Beatrix;The;Bride;Kiddo;Black Mamba;1;01/01/1970;97422;;974;99100;AP;MEF1;Division 1;
+            `;
+            const encodedInput = iconv.encode(input, 'utf8');
+            const parser = new OrganizationLearnerParser(encodedInput, 123, i18n);
+
+            const { learners } = parser.parse();
+            expect(learners[0]).to.includes({
+              nationalStudentId: '0123456789F',
+              status: 'AP',
+            });
+          });
         });
 
         context('When csv has duplicates on national identifier', function () {
@@ -274,7 +290,7 @@ describe('Unit | Infrastructure | SchoolingRegistrationParser', function () {
               `;
 
               const encodedInput = iconv.encode(input, 'utf8');
-              const parser = new SchoolingRegistrationParser(encodedInput, 123, i18n);
+              const parser = new OrganizationLearnerParser(encodedInput, 123, i18n);
 
               const error = await catchErr(parser.parse, parser)();
 

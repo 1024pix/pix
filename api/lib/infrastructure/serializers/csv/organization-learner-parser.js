@@ -1,9 +1,9 @@
 const OrganizationLearner = require('../../../domain/models/OrganizationLearner');
-const { checkValidation } = require('../../../domain/validators/schooling-registration-validator');
+const { checkValidation } = require('../../../domain/validators/organization-learner-validator');
 
-const { CsvRegistrationParser } = require('./csv-registration-parser');
-const { CsvImportError, DomainError } = require('../../../../lib/domain/errors');
-const SchoolingRegistrationColumns = require('./schooling-registration-columns');
+const { CsvOrganizationLearnerParser } = require('./csv-learner-parser');
+const { CsvImportError, DomainError } = require('../../../domain/errors');
+const OrganizationLearnerColumns = require('./organization-learner-columns');
 
 const ERRORS = {
   IDENTIFIER_UNIQUE: 'IDENTIFIER_UNIQUE',
@@ -15,33 +15,33 @@ const sexPossibleValues = {
   F: 'F',
 };
 
-class SchoolingRegistrationSet {
+class OrganizationLearnerSet {
   constructor() {
-    this.registrations = [];
+    this.learners = [];
     this.existingNationalStudentIds = [];
   }
 
-  addRegistration(registrationAttributes) {
-    checkValidation(registrationAttributes);
-    const transformedAttributes = this._transform(registrationAttributes);
+  addLearner(learnerAttributes) {
+    checkValidation(learnerAttributes);
+    const transformedAttributes = this._transform(learnerAttributes);
     const organizationLearner = new OrganizationLearner(transformedAttributes);
-    this.registrations.push(organizationLearner);
+    this.learners.push(organizationLearner);
 
     this._checkRegistrationsUnicity(organizationLearner);
   }
 
-  _transform(registrationAttributes) {
+  _transform(learnerAttributes) {
     let sex;
-    const { birthCountryCode, nationalIdentifier, division } = registrationAttributes;
+    const { birthCountryCode, nationalIdentifier, division } = learnerAttributes;
 
-    if (registrationAttributes.sex) {
-      sex = _convertSexCodeToLabel(registrationAttributes.sex);
+    if (learnerAttributes.sex) {
+      sex = _convertSexCodeToLabel(learnerAttributes.sex);
     } else {
       sex = null;
     }
 
     return {
-      ...registrationAttributes,
+      ...learnerAttributes,
       birthCountryCode: birthCountryCode.slice(-3),
       nationalStudentId: nationalIdentifier,
       division: division?.trim().replace(/\s+/g, ' '),
@@ -51,7 +51,7 @@ class SchoolingRegistrationSet {
 
   _checkRegistrationsUnicity(registration) {
     // we removed JOI unicity validation (uniq)
-    // because it took too much time (2h30  for 10000 registrations)
+    // because it took too much time (2h30  for 10000 learners)
     // we did the same validation but manually
     if (this.existingNationalStudentIds.includes(registration.nationalStudentId)) {
       const err = new DomainError();
@@ -71,13 +71,13 @@ function _convertSexCodeToLabel(sexCode) {
   return null;
 }
 
-class SchoolingRegistrationParser extends CsvRegistrationParser {
+class OrganizationLearnerParser extends CsvOrganizationLearnerParser {
   constructor(input, organizationId, i18n) {
-    const registrationSet = new SchoolingRegistrationSet();
+    const learnerSet = new OrganizationLearnerSet();
 
-    const columns = new SchoolingRegistrationColumns(i18n).columns;
+    const columns = new OrganizationLearnerColumns(i18n).columns;
 
-    super(input, organizationId, columns, registrationSet);
+    super(input, organizationId, columns, learnerSet);
   }
 
   _handleError(err, index) {
@@ -97,8 +97,8 @@ class SchoolingRegistrationParser extends CsvRegistrationParser {
   }
 
   static buildParser() {
-    return new SchoolingRegistrationParser(...arguments);
+    return new OrganizationLearnerParser(...arguments);
   }
 }
 
-module.exports = SchoolingRegistrationParser;
+module.exports = OrganizationLearnerParser;

@@ -1,7 +1,7 @@
 const papa = require('papaparse');
 const iconv = require('iconv-lite');
 const { convertDateValue } = require('../../utils/date-utils');
-const { CsvImportError } = require('../../../../lib/domain/errors');
+const { CsvImportError } = require('../../../domain/errors');
 
 const ERRORS = {
   ENCODING_NOT_SUPPORTED: 'ENCODING_NOT_SUPPORTED',
@@ -39,32 +39,32 @@ class CsvColumn {
   }
 }
 
-class CsvRegistrationParser {
-  constructor(input, organizationId, columns, registrationSet) {
+class CsvOrganizationLearnerParser {
+  constructor(input, organizationId, columns, learnerSet) {
     this._input = input;
     this._organizationId = organizationId;
     this._columns = columns;
-    this.registrationSet = registrationSet;
+    this.learnerSet = learnerSet;
   }
 
   parse() {
     const encoding = this._getFileEncoding();
-    const { registrationLines, fields } = this._parse(encoding);
+    const { learnerLines, fields } = this._parse(encoding);
 
     if (!encoding) {
       throw new CsvImportError(ERRORS.ENCODING_NOT_SUPPORTED);
     }
 
     this._checkColumns(fields);
-    registrationLines.forEach((line, index) => {
-      const registrationAttributes = this._lineToRegistrationAttributes(line);
+    learnerLines.forEach((line, index) => {
+      const learnerAttributes = this._lineToRegistrationAttributes(line);
       try {
-        this.registrationSet.addRegistration(registrationAttributes);
+        this.learnerSet.addLearner(learnerAttributes);
       } catch (err) {
         this._handleError(err, index);
       }
     });
-    return this.registrationSet;
+    return this.learnerSet;
   }
 
   /**
@@ -97,7 +97,7 @@ class CsvRegistrationParser {
   _parse(encoding = 'utf8') {
     const decodedInput = iconv.decode(this._input, encoding);
     const {
-      data: registrationLines,
+      data: learnerLines,
       meta: { fields },
       errors,
     } = papa.parse(decodedInput, PARSING_OPTIONS);
@@ -109,24 +109,24 @@ class CsvRegistrationParser {
       }
     }
 
-    return { registrationLines, fields };
+    return { learnerLines, fields };
   }
 
   _lineToRegistrationAttributes(line) {
-    const registrationAttributes = {
+    const learnerAttributes = {
       organizationId: this._organizationId,
     };
 
     this._columns.forEach((column) => {
       const value = line[column.label];
       if (column.isDate) {
-        registrationAttributes[column.name] = this._buildDateAttribute(value);
+        learnerAttributes[column.name] = this._buildDateAttribute(value);
       } else {
-        registrationAttributes[column.name] = value;
+        learnerAttributes[column.name] = value;
       }
     });
 
-    return registrationAttributes;
+    return learnerAttributes;
   }
 
   _checkColumns(parsedColumns) {
@@ -196,5 +196,5 @@ function _atLeastOneParsedColumnDoesNotMatchAcceptedColumns(parsedColumns, accep
 
 module.exports = {
   CsvColumn,
-  CsvRegistrationParser,
+  CsvOrganizationLearnerParser,
 };

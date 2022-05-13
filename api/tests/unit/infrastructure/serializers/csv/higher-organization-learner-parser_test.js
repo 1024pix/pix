@@ -1,54 +1,53 @@
 const iconv = require('iconv-lite');
 const { expect, catchErr } = require('../../../../test-helper');
-const HigherSchoolingRegistrationParser = require('../../../../../lib/infrastructure/serializers/csv/higher-schooling-registration-parser');
-const HigherSchoolingRegistrationColumns = require('../../../../../lib/infrastructure/serializers/csv/higher-schooling-registration-columns');
+const SupOrganizationLearnerParser = require('../../../../../lib/infrastructure/serializers/csv/sup-organization-learner-parser');
+const SupOrganizationLearnerColumns = require('../../../../../lib/infrastructure/serializers/csv/sup-organization-learner-columns');
 const _ = require('lodash');
-const { getI18n } = require('../../../../../tests/tooling/i18n/i18n');
+const { getI18n } = require('../../../../tooling/i18n/i18n');
 const i18n = getI18n();
 
-const higherSchoolingRegistrationColumns = new HigherSchoolingRegistrationColumns(i18n).columns
+const supOrganizationLearnerColumns = new SupOrganizationLearnerColumns(i18n).columns
   .map((column) => column.label)
   .join(';');
 
-describe('Unit | Infrastructure | HigherSchoolingRegistrationParser', function () {
+describe('Unit | Infrastructure | SupOrganizationLearnerParser', function () {
   context('when the header is correctly formed', function () {
     context('when there is no line', function () {
-      it('returns an empty HigherSchoolingRegistrationSet', function () {
-        const input = higherSchoolingRegistrationColumns;
+      it('returns an empty SupOrganizationLearnerSet', function () {
+        const input = supOrganizationLearnerColumns;
         const encodedInput = iconv.encode(input, 'utf8');
-        const parser = new HigherSchoolingRegistrationParser(encodedInput, 123, i18n);
+        const parser = new SupOrganizationLearnerParser(encodedInput, 123, i18n);
 
-        const higherSchoolingRegistrationSet = parser.parse();
+        const supOrganizationLearnerSet = parser.parse();
 
-        expect(higherSchoolingRegistrationSet.registrations).to.be.empty;
+        expect(supOrganizationLearnerSet.learners).to.be.empty;
       });
     });
     context('when there are lines', function () {
-      it('returns a HigherSchoolingRegistrationSet with a schooling registration for each line', function () {
-        const input = `${higherSchoolingRegistrationColumns}
+      it('returns a SupOrganizationLearnerSet with organization learner for each line', function () {
+        const input = `${supOrganizationLearnerColumns}
         Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1970;thebride@example.net;12346;Assassination Squad;Hattori Hanzo;Deadly Viper Assassination Squad;Master;hello darkness my old friend;
         O-Ren;;;Ishii;Cottonmouth;01/01/1980;ishii@example.net;789;Assassination Squad;Bill;Deadly Viper Assassination Squad;DUT;;
         `;
         const encodedInput = iconv.encode(input, 'utf8');
-        const parser = new HigherSchoolingRegistrationParser(encodedInput, 456, i18n);
+        const parser = new SupOrganizationLearnerParser(encodedInput, 456, i18n);
 
-        const higherSchoolingRegistrationSet = parser.parse();
-        const registrations = higherSchoolingRegistrationSet.registrations;
-        expect(registrations).to.have.lengthOf(2);
+        const supOrganizationLearnerSet = parser.parse();
+        const learners = supOrganizationLearnerSet.learners;
+        expect(learners).to.have.lengthOf(2);
       });
 
-      it('returns a HigherSchoolingRegistrationSet with a schooling registration for each line using the CSV column', function () {
-        const input = `${higherSchoolingRegistrationColumns}
+      it('returns a SupOrganizationLearnerSet with an organization learner for each line using the CSV column', function () {
+        const input = `${supOrganizationLearnerColumns}
         Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1970;thebride@example.net;123456;Assassination Squad;Hattori Hanzo;Deadly Viper Assassination Squad;Autre;Autre;
         O-Ren;;;Ishii;Cottonmouth;01/01/1980;ishii@example.net;789;Assassination Squad;Bill;Deadly Viper Assassination Squad;DUT contrôlé par l'Etat;Autre;
         `;
         const organizationId = 789;
         const encodedInput = iconv.encode(input, 'utf8');
-        const parser = new HigherSchoolingRegistrationParser(encodedInput, organizationId, i18n);
-
-        const higherSchoolingRegistrationSet = parser.parse();
-        const registrations = _.sortBy(higherSchoolingRegistrationSet.registrations, 'preferredLastName');
-        expect(registrations[0]).to.deep.equal({
+        const parser = new SupOrganizationLearnerParser(encodedInput, organizationId, i18n);
+        const supOrganizationLearnerSet = parser.parse();
+        const learners = _.sortBy(supOrganizationLearnerSet.learners, 'preferredLastName');
+        expect(learners[0]).to.deep.equal({
           firstName: 'Beatrix',
           middleName: 'The',
           thirdName: 'Bride',
@@ -64,7 +63,7 @@ describe('Unit | Infrastructure | HigherSchoolingRegistrationParser', function (
           studyScheme: 'Autre',
           organizationId,
         });
-        expect(registrations[1]).to.deep.equal({
+        expect(learners[1]).to.deep.equal({
           firstName: 'O-Ren',
           middleName: undefined,
           thirdName: undefined,
@@ -88,11 +87,11 @@ describe('Unit | Infrastructure | HigherSchoolingRegistrationParser', function (
     const organizationId = 123;
 
     it('should throw an error if the student number is not unique', async function () {
-      const input = `${higherSchoolingRegistrationColumns}
+      const input = `${supOrganizationLearnerColumns}
       Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1970;thebride@example.net;123;Assassination Squad;Hattori Hanzo;Deadly Viper Assassination Squad;Master;hello darkness my old friend;
       Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1970;thebride@example.net;123;Assassination Squad;Hattori Hanzo;Deadly Viper Assassination Squad;Master;hello darkness my old friend;`;
       const encodedInput = iconv.encode(input, 'utf8');
-      const parser = new HigherSchoolingRegistrationParser(encodedInput, organizationId, i18n);
+      const parser = new SupOrganizationLearnerParser(encodedInput, organizationId, i18n);
 
       const error = await catchErr(parser.parse, parser)();
 
@@ -101,11 +100,11 @@ describe('Unit | Infrastructure | HigherSchoolingRegistrationParser', function (
     });
 
     it('should throw an error if the student number is has an incorrect  format', async function () {
-      const input = `${higherSchoolingRegistrationColumns}
+      const input = `${supOrganizationLearnerColumns}
       Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1970;thebride@example.net;123@;Assassination Squad;Hattori Hanzo;Deadly Viper Assassination Squad;Master;hello darkness my old friend;
       Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1971;thebride@example.net;1234;Assassination Squad;Hattori Hanzo;Deadly Viper Assassination Squad;Master;hello darkness my old friend;`;
       const encodedInput = iconv.encode(input, 'utf8');
-      const parser = new HigherSchoolingRegistrationParser(encodedInput, organizationId, i18n);
+      const parser = new SupOrganizationLearnerParser(encodedInput, organizationId, i18n);
 
       const error = await catchErr(parser.parse, parser)();
 
