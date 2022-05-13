@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: automerge
-        uses: 1024pix/automerge-action@fix-approvals-check
+        uses: pascalgn/automerge-action@v0.15.3
         env:
           GITHUB_TOKEN: '${{ secrets.PIX_SERVICE_ACTIONS_TOKEN }}'
           MERGE_LABELS: ':rocket: Ready to Merge,!:warning: Blocked,!:earth_africa: i18n needed,!:busts_in_silhouette: Panel Review Needed,!Development in progress,!:eyes: Design Review Needed,!:eyes: Func Review Needed,!:eyes: Tech Review Needed'
