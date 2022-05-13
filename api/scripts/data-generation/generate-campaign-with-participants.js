@@ -19,7 +19,7 @@ const firstKECreatedAt = new Date('2020-05-01');
 const secondKECreatedAt = new Date('2020-05-02');
 const baseDate = new Date('2020-05-03');
 let lowRAMMode = false;
-let createSchoolingRegistration = false;
+let createOrganizationLearner = false;
 let progression = 0;
 function _logProgression(totalCount) {
   ++progression;
@@ -52,7 +52,7 @@ function _printUsage() {
                                              light : 1 compétence, medium : la moitié des compétences, all : toutes les compétences
                                              Option ignorée si le type de la campagne est profiles_collection
                                              Option ignorée si un profil cible est spécifié via --targetProfileId
-    --createSchoolingRegistrations      : Flag pour créer une schooling-registration par participant
+    --createOrganizationLearners      : Flag pour créer une organization-learner par participant
     --lowRAM                            : Flag optionnel. Indique que la machine dispose de peu de RAM. Réalise donc la même
                                              opération en consommant moins de RAM (opération ralentie).
     --help ou -h                        : Affiche l'aide`);
@@ -155,8 +155,8 @@ function _validateAndNormalizeArgs(commandLineArgs) {
   if (commandLineArgs.find((commandLineArg) => commandLineArg === '--lowRAM')) {
     lowRAMMode = true;
   }
-  if (commandLineArgs.find((commandLineArg) => commandLineArg === '--createSchoolingRegistrations')) {
-    createSchoolingRegistration = true;
+  if (commandLineArgs.find((commandLineArg) => commandLineArg === '--createOrganizationLearners')) {
+    createOrganizationLearner = true;
   }
   const campaignType = _validateAndNormalizeCampaignType(commandLineArgs);
   const targetProfileId = _validateAndNormalizeTargetProfileId(commandLineArgs);
@@ -241,19 +241,19 @@ async function _createUsers({ count, uniqId, trx }) {
   return trx.batchInsert('users', userData.flat(), chunkSize).returning('id');
 }
 
-async function _createSchoolingRegistrations({ userIds, organizationId, uniqId, trx }) {
+async function _createOrganizationLearners({ userIds, organizationId, uniqId, trx }) {
   const { type } = await trx.select('type').from('organizations').where({ id: organizationId }).first();
   let schoolingRegistrationSpecificBuilder;
   switch (type) {
     case 'SCO':
-      schoolingRegistrationSpecificBuilder = _buildSCOSchoolingRegistration;
+      schoolingRegistrationSpecificBuilder = _buildSCOOrganizationLearner;
       break;
     case 'SUP': {
-      schoolingRegistrationSpecificBuilder = _buildSUPSchoolingRegistration;
+      schoolingRegistrationSpecificBuilder = _buildSUPOrganizationLearner;
       break;
     }
     case 'PRO': {
-      schoolingRegistrationSpecificBuilder = _buildPROSchoolingRegistration;
+      schoolingRegistrationSpecificBuilder = _buildPROOrganizationLearner;
       break;
     }
     default:
@@ -268,7 +268,7 @@ async function _createSchoolingRegistrations({ userIds, organizationId, uniqId, 
   return trx.batchInsert('organization-learners', schoolingRegistrationData.flat(), chunkSize).returning('id');
 }
 
-function _buildBaseSchoolingRegistration({ userId, organizationId, identifier }) {
+function _buildBaseOrganizationLearner({ userId, organizationId, identifier }) {
   const birthdates = ['2001-01-05', '2002-11-15', '1995-06-25'];
   return {
     organizationId,
@@ -286,29 +286,29 @@ function _buildBaseSchoolingRegistration({ userId, organizationId, identifier })
   };
 }
 
-function _buildSCOSchoolingRegistration({ userId, organizationId, identifier }) {
+function _buildSCOOrganizationLearner({ userId, organizationId, identifier }) {
   const divisions = ['3eme', '4eme', '5eme', '6eme'];
   return {
-    ..._buildBaseSchoolingRegistration({ userId, organizationId, identifier }),
+    ..._buildBaseOrganizationLearner({ userId, organizationId, identifier }),
     status: 'ST',
     nationalStudentId: `INE_${organizationId}_${identifier}`,
     division: divisions[_.random(0, 3)],
   };
 }
 
-function _buildSUPSchoolingRegistration({ userId, organizationId, identifier }) {
+function _buildSUPOrganizationLearner({ userId, organizationId, identifier }) {
   const diplomas = ['LICENCE', 'MASTER', 'DOCTORAT', 'DUT'];
   const groups = ['G1', 'G2', 'G3', 'G4'];
   return {
-    ..._buildBaseSchoolingRegistration({ userId, organizationId, identifier }),
+    ..._buildBaseOrganizationLearner({ userId, organizationId, identifier }),
     studentNumber: `NUMETU_${organizationId}_${identifier}`,
     diploma: diplomas[_.random(0, 3)],
     group: groups[_.random(0, 3)],
   };
 }
 
-function _buildPROSchoolingRegistration({ userId, organizationId, identifier }) {
-  return _buildBaseSchoolingRegistration({ userId, organizationId, identifier });
+function _buildPROOrganizationLearner({ userId, organizationId, identifier }) {
+  return _buildBaseOrganizationLearner({ userId, organizationId, identifier });
 }
 
 async function _createAssessments({ userAndCampaignParticipationIds, trx }) {
@@ -438,9 +438,9 @@ async function _createParticipants({ count, targetProfile, organizationId, campa
   console.log('Création des utilisateurs...');
   const userIds = await _createUsers({ count, uniqId: targetProfile.id, trx });
   console.log('OK');
-  if (createSchoolingRegistration) {
-    console.log('Création des schooling-registrations...');
-    await _createSchoolingRegistrations({ userIds, organizationId, uniqId: targetProfile.id, trx });
+  if (createOrganizationLearner) {
+    console.log('Création des organization-learners...');
+    await _createOrganizationLearners({ userIds, organizationId, uniqId: targetProfile.id, trx });
     console.log('OK');
   }
   console.log('Création des campaign-participations...');
