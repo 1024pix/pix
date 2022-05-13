@@ -2,7 +2,7 @@ const Joi = require('joi').extend(require('@joi/date'));
 
 const { sendJsonApiError, UnprocessableEntityError, NotFoundError } = require('../http-errors');
 const securityPreHandlers = require('../security-pre-handlers');
-const schoolingRegistrationUserAssociationController = require('./schooling-registration-user-association-controller');
+const organizationLearnerUserAssociationController = require('./organization-learner-user-association-controller');
 const identifiersType = require('../../domain/types/identifiers-type');
 
 exports.register = async function (server) {
@@ -21,7 +21,7 @@ exports.register = async function (server) {
             assign: 'hasAuthorizationToAccessAdminScope',
           },
         ],
-        handler: schoolingRegistrationUserAssociationController.dissociate,
+        handler: organizationLearnerUserAssociationController.dissociate,
         validate: {
           params: Joi.object({
             id: identifiersType.schoolingRegistrationId,
@@ -42,7 +42,7 @@ exports.register = async function (server) {
       method: 'POST',
       path: '/api/schooling-registration-user-associations',
       config: {
-        handler: schoolingRegistrationUserAssociationController.reconcileSchoolingRegistrationManually,
+        handler: organizationLearnerUserAssociationController.reconcileOrganizationLearnerManually,
         validate: {
           options: {
             allowUnknown: false,
@@ -73,7 +73,7 @@ exports.register = async function (server) {
       method: 'POST',
       path: '/api/schooling-registration-user-associations/student',
       config: {
-        handler: schoolingRegistrationUserAssociationController.reconcileHigherSchoolingRegistration,
+        handler: organizationLearnerUserAssociationController.reconcileSupOrganizationLearner,
         validate: {
           options: {
             allowUnknown: false,
@@ -105,7 +105,7 @@ exports.register = async function (server) {
       method: 'POST',
       path: '/api/schooling-registration-user-associations/auto',
       config: {
-        handler: schoolingRegistrationUserAssociationController.reconcileSchoolingRegistrationAutomatically,
+        handler: organizationLearnerUserAssociationController.reconcileOrganizationLearnerAutomatically,
         validate: {
           options: {
             allowUnknown: false,
@@ -133,7 +133,7 @@ exports.register = async function (server) {
       method: 'GET',
       path: '/api/schooling-registration-user-associations',
       config: {
-        handler: schoolingRegistrationUserAssociationController.findAssociation,
+        handler: organizationLearnerUserAssociationController.findAssociation,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
             "- Récupération de l'inscription de l'élève à l'organisation, et de l'utilisateur associé\n" +
@@ -147,7 +147,7 @@ exports.register = async function (server) {
       path: '/api/schooling-registration-user-associations/possibilities',
       config: {
         auth: false,
-        handler: schoolingRegistrationUserAssociationController.generateUsername,
+        handler: organizationLearnerUserAssociationController.generateUsername,
         validate: {
           options: {
             allowUnknown: true,
@@ -183,7 +183,7 @@ exports.register = async function (server) {
             method: securityPreHandlers.checkUserIsAdminInSUPOrganizationManagingStudents,
           },
         ],
-        handler: schoolingRegistrationUserAssociationController.updateStudentNumber,
+        handler: organizationLearnerUserAssociationController.updateStudentNumber,
         validate: {
           options: {
             allowUnknown: true,
@@ -231,7 +231,7 @@ exports.register = async function (server) {
             assign: 'hasAuthorizationToAccessAdminScope',
           },
         ],
-        handler: schoolingRegistrationUserAssociationController.dissociate,
+        handler: organizationLearnerUserAssociationController.dissociate,
         validate: {
           params: Joi.object({
             id: identifiersType.schoolingRegistrationId,

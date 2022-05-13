@@ -87,7 +87,7 @@ describe('Integration | Application | Organizations | Routes', function () {
   });
 
   describe('POST /api/organizations/:id/schooling-registrations/import-siecle', function () {
-    it('should call the organization controller to import schoolingRegistrations', async function () {
+    it('should call the organization controller to import organizationLearners', async function () {
       // given
       const method = 'POST';
       const url = '/api/organizations/1/schooling-registrations/import-siecle';
@@ -97,7 +97,7 @@ describe('Integration | Application | Organizations | Routes', function () {
         .stub(securityPreHandlers, 'checkUserIsAdminInSCOOrganizationManagingStudents')
         .callsFake((request, h) => h.response(true));
       sinon
-        .stub(organizationController, 'importSchoolingRegistrationsFromSIECLE')
+        .stub(organizationController, 'importOrganizationLearnersFromSIECLE')
         .callsFake((request, h) => h.response('ok').code(201));
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -107,7 +107,7 @@ describe('Integration | Application | Organizations | Routes', function () {
 
       // then
       expect(response.statusCode).to.equal(201);
-      expect(organizationController.importSchoolingRegistrationsFromSIECLE).to.have.been.calledOnce;
+      expect(organizationController.importOrganizationLearnersFromSIECLE).to.have.been.calledOnce;
     });
 
     it('should throw an error when id is invalid', async function () {
@@ -247,7 +247,7 @@ describe('Integration | Application | Organizations | Routes', function () {
         .stub(securityPreHandlers, 'checkUserBelongsToOrganizationManagingStudents')
         .callsFake((request, h) => h.response(true));
       sinon
-        .stub(organizationController, 'findPaginatedFilteredSchoolingRegistrations')
+        .stub(organizationController, 'findPaginatedFilteredOrganizationLearners')
         .callsFake((request, h) => h.response('ok').code(200));
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -257,7 +257,7 @@ describe('Integration | Application | Organizations | Routes', function () {
 
       // then
       expect(response.statusCode).to.equal(200);
-      expect(organizationController.findPaginatedFilteredSchoolingRegistrations).to.have.been.calledOnce;
+      expect(organizationController.findPaginatedFilteredOrganizationLearners).to.have.been.calledOnce;
     });
 
     describe('When parameters are not valid', function () {

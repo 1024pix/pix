@@ -1,18 +1,18 @@
 const { expect, knex, databaseBuilder, generateValidRequestAuthorizationHeader } = require('../../../test-helper');
 const Membership = require('../../../../lib/domain/models/Membership');
-const HigherSchoolingRegistrationColumns = require('../../../../lib/infrastructure/serializers/csv/higher-schooling-registration-columns');
+const SupOrganizationLearnerColumns = require('../../../../lib/infrastructure/serializers/csv/sup-organization-learner-columns');
 
 const { getI18n } = require('../../../../tests/tooling/i18n/i18n');
 const createServer = require('../../../../server');
 
 const i18n = getI18n();
-const higherSchoolingRegistrationColumns = new HigherSchoolingRegistrationColumns(i18n).columns
+const supOrganizationLearnerColumns = new SupOrganizationLearnerColumns(i18n).columns
   .map((column) => column.label)
   .join(';');
 
 let server;
 
-describe('Acceptance | Application | organization-controller-replace-higher-schooling-registrations', function () {
+describe('Acceptance | Application | organization-controller-replace-sup-organization-learners', function () {
   beforeEach(async function () {
     server = await createServer();
   });
@@ -43,7 +43,7 @@ describe('Acceptance | Application | organization-controller-replace-higher-scho
         });
         await databaseBuilder.commit();
         const buffer =
-          `${higherSchoolingRegistrationColumns}\n` +
+          `${supOrganizationLearnerColumns}\n` +
           'Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1990;thebride@example.net;12346;Assassination Squad;Hattori Hanzo;Deadly Viper Assassination Squad;Master;hello darkness my old friend\n';
         const options = {
           method: 'POST',
@@ -60,7 +60,7 @@ describe('Acceptance | Application | organization-controller-replace-higher-scho
         expect(response.result).to.deep.equal({
           data: {
             id: String(organization.id),
-            type: 'higher-schooling-registration-warnings',
+            type: 'sup-organization-learner-warnings',
             attributes: {
               warnings: [
                 {

@@ -1,26 +1,26 @@
 const { expect, sinon, HttpTestServer } = require('../../../test-helper');
 
-const schoolingRegistrationUserAssociationController = require('../../../../lib/application/schooling-registration-user-associations/schooling-registration-user-association-controller');
-const moduleUnderTest = require('../../../../lib/application/schooling-registration-user-associations');
+const organizationLearnerUserAssociationController = require('../../../../lib/application/organization-learner-user-associations/organization-learner-user-association-controller');
+const moduleUnderTest = require('../../../../lib/application/organization-learner-user-associations');
 
 describe('Integration | Application | Route | schooling-registration-user-associations', function () {
   let httpTestServer;
 
   beforeEach(async function () {
     sinon
-      .stub(schoolingRegistrationUserAssociationController, 'reconcileSchoolingRegistrationManually')
+      .stub(organizationLearnerUserAssociationController, 'reconcileOrganizationLearnerManually')
       .callsFake((request, h) => h.response('ok').code(204));
     sinon
-      .stub(schoolingRegistrationUserAssociationController, 'reconcileHigherSchoolingRegistration')
+      .stub(organizationLearnerUserAssociationController, 'reconcileSupOrganizationLearner')
       .callsFake((request, h) => h.response('ok').code(204));
     sinon
-      .stub(schoolingRegistrationUserAssociationController, 'reconcileSchoolingRegistrationAutomatically')
+      .stub(organizationLearnerUserAssociationController, 'reconcileOrganizationLearnerAutomatically')
       .callsFake((request, h) => h.response('ok').code(204));
     sinon
-      .stub(schoolingRegistrationUserAssociationController, 'findAssociation')
+      .stub(organizationLearnerUserAssociationController, 'findAssociation')
       .callsFake((request, h) => h.response('ok').code(200));
     sinon
-      .stub(schoolingRegistrationUserAssociationController, 'generateUsername')
+      .stub(organizationLearnerUserAssociationController, 'generateUsername')
       .callsFake((request, h) => h.response('ok').code(200));
 
     httpTestServer = new HttpTestServer();

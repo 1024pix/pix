@@ -556,7 +556,7 @@ exports.register = async (server) => {
             'filter[divisions][]': [Joi.string(), Joi.array().items(Joi.string())],
           }).options({ allowUnknown: true }),
         },
-        handler: organizationController.findPaginatedFilteredSchoolingRegistrations,
+        handler: organizationController.findPaginatedFilteredOrganizationLearners,
         tags: ['api', 'students'],
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
@@ -577,7 +577,7 @@ exports.register = async (server) => {
             accessToken: Joi.string().required(),
           }).options({ allowUnknown: true }),
         },
-        handler: organizationController.getSchoolingRegistrationsCsvTemplate,
+        handler: organizationController.getOrganizationLearnersCsvTemplate,
         notes: [
           "- **Cette route est restreinte via un token dédié passé en paramètre avec l'id de l'utilisateur.**\n" +
             "- Récupération d'un template CSV qui servira à téléverser les inscriptions d’étudiants\n" +
@@ -616,13 +616,13 @@ exports.register = async (server) => {
             );
           },
         },
-        handler: organizationController.importSchoolingRegistrationsFromSIECLE,
+        handler: organizationController.importOrganizationLearnersFromSIECLE,
         notes: [
           "- **Cette route est restreinte aux utilisateurs authentifiés et responsables de l'organisation**\n" +
             "- Elle permet d'importer des inscriptions d'élèves, en masse, depuis un fichier au format XML ou CSV de SIECLE\n" +
             '- Elle ne retourne aucune valeur de retour',
         ],
-        tags: ['api', 'schooling-registrations'],
+        tags: ['api', 'organization-learners'],
       },
     },
     {
@@ -652,13 +652,13 @@ exports.register = async (server) => {
             );
           },
         },
-        handler: organizationController.importHigherSchoolingRegistrations,
+        handler: organizationController.importSupOrganizationLearners,
         notes: [
           "- **Cette route est restreinte aux utilisateurs authentifiés et responsables de l'organisation**\n" +
             "- Elle permet d'importer des inscriptions d'étudiants, en masse, depuis un fichier au format csv\n" +
             '- Elle ne retourne aucune valeur de retour',
         ],
-        tags: ['api', 'schooling-registrations'],
+        tags: ['api', 'organization-learners'],
       },
     },
     {
@@ -688,7 +688,7 @@ exports.register = async (server) => {
             );
           },
         },
-        handler: organizationController.replaceHigherSchoolingRegistrations,
+        handler: organizationController.replaceSupOrganizationLearners,
         notes: [
           "- **Cette route est restreinte aux utilisateurs authentifiés et responsables de l'organisation**\n" +
             "- Elle désactive les inscriptions existantes et importe de nouvelles inscriptions d'étudiants, en masse, depuis un fichier au format csv\n" +

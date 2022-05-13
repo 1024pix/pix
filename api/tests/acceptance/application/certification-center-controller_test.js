@@ -323,7 +323,7 @@ describe('Acceptance | API | Certification Center', function () {
       const { certificationCenter, user } = _buildUserWithCertificationCenterMemberShip(externalId);
       const organization = databaseBuilder.factory.buildOrganization({ externalId, type: 'SCO' });
 
-      _buildSchoolingRegistrations(
+      _buildOrganizationLearners(
         organization,
         { id: 1, division: '2ndB', firstName: 'Laura', lastName: 'Certif4Ever' },
         { id: 2, division: '2ndA', firstName: 'Laura', lastName: 'Booooo' },
@@ -382,7 +382,7 @@ describe('Acceptance | API | Certification Center', function () {
         const { certificationCenter, user } = _buildUserWithCertificationCenterMemberShip(externalId);
         const organization = databaseBuilder.factory.buildOrganization({ externalId });
         const session = databaseBuilder.factory.buildSession({ certificationCenterId: certificationCenter.id });
-        _buildSchoolingRegistrations(organization, { firstName: 'Laura', lastName: 'certifForEver', division: '2ndB' });
+        _buildOrganizationLearners(organization, { firstName: 'Laura', lastName: 'certifForEver', division: '2ndB' });
         await databaseBuilder.commit();
 
         const request = _buildSchoolinRegistrationsWithConnectedUserRequest(user, certificationCenter, session);
@@ -399,7 +399,7 @@ describe('Acceptance | API | Certification Center', function () {
         const { certificationCenter, user } = _buildUserWithCertificationCenterMemberShip(externalId);
         const organization = databaseBuilder.factory.buildOrganization({ type: 'SCO', externalId });
         const session = databaseBuilder.factory.buildSession({ certificationCenterId: certificationCenter.id });
-        _buildSchoolingRegistrations(
+        _buildOrganizationLearners(
           organization,
           { id: 1, division: '2ndB', firstName: 'Laura', lastName: 'Certif4Ever' },
           { id: 2, division: '2ndA', firstName: 'Laura', lastName: 'Booooo' },
@@ -705,7 +705,7 @@ describe('Acceptance | API | Certification Center', function () {
     });
   });
 
-  function _buildSchoolingRegistrations(organization, ...students) {
+  function _buildOrganizationLearners(organization, ...students) {
     const AFTER_BEGINNING_OF_THE_2020_SCHOOL_YEAR = '2020-10-15';
     return students.map((student) =>
       databaseBuilder.factory.buildOrganizationLearner({

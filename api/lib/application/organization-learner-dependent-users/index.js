@@ -9,7 +9,7 @@ const identifiersType = require('../../domain/types/identifiers-type');
 const inePattern = new RegExp('^[0-9]{9}[a-zA-Z]{2}$');
 const inaPattern = new RegExp('^[0-9]{10}[a-zA-Z]{1}$');
 
-const schoolingRegistrationDependentUserController = require('./schooling-registration-dependent-user-controller');
+const schoolingRegistrationDependentUserController = require('./organization-learner-dependent-user-controller');
 
 exports.register = async function (server) {
   server.route([
@@ -18,7 +18,7 @@ exports.register = async function (server) {
       path: '/api/schooling-registration-dependent-users',
       config: {
         auth: false,
-        handler: schoolingRegistrationDependentUserController.createAndReconcileUserToSchoolingRegistration,
+        handler: schoolingRegistrationDependentUserController.createAndReconcileUserToOrganizationLearner,
         validate: {
           options: {
             allowUnknown: true,
@@ -50,7 +50,7 @@ exports.register = async function (server) {
       config: {
         auth: false,
         handler:
-          schoolingRegistrationDependentUserController.createUserAndReconcileToSchoolingRegistrationFromExternalUser,
+          schoolingRegistrationDependentUserController.createUserAndReconcileToOrganizationLearnerFromExternalUser,
         validate: {
           options: {
             allowUnknown: false,
@@ -174,4 +174,4 @@ exports.register = async function (server) {
   ]);
 };
 
-exports.name = 'schooling-registration-dependent-users-api';
+exports.name = 'organization-learner-dependent-users-api';

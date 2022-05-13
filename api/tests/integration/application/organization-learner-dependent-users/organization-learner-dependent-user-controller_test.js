@@ -1,6 +1,6 @@
 const { expect, sinon, domainBuilder, HttpTestServer } = require('../../../test-helper');
 
-const moduleUnderTest = require('../../../../lib/application/schooling-registration-dependent-users');
+const moduleUnderTest = require('../../../../lib/application/organization-learner-dependent-users');
 
 const usecases = require('../../../../lib/domain/usecases');
 const securityPreHandlers = require('../../../../lib/application/security-pre-handlers');
@@ -16,8 +16,8 @@ describe('Integration | Application | Schooling-registration-dependent-users | s
 
   beforeEach(async function () {
     sandbox = sinon.createSandbox();
-    sandbox.stub(usecases, 'createAndReconcileUserToSchoolingRegistration').rejects(new Error('not expected error'));
-    sandbox.stub(usecases, 'updateSchoolingRegistrationDependentUserPassword').rejects(new Error('not expected error'));
+    sandbox.stub(usecases, 'createAndReconcileUserToOrganizationLearner').rejects(new Error('not expected error'));
+    sandbox.stub(usecases, 'updateOrganizationLearnerDependentUserPassword').rejects(new Error('not expected error'));
     sandbox.stub(usecases, 'generateUsernameWithTemporaryPassword').resolves();
     sandbox.stub(securityPreHandlers, 'checkUserBelongsToScoOrganizationAndManagesStudents');
     httpTestServer = new HttpTestServer();
@@ -28,7 +28,7 @@ describe('Integration | Application | Schooling-registration-dependent-users | s
     sandbox.restore();
   });
 
-  describe('#createAndReconcileUserToSchoolingRegistration', function () {
+  describe('#createAndReconcileUserToOrganizationLearner', function () {
     const payload = { data: { attributes: {} } };
 
     beforeEach(function () {
@@ -51,7 +51,7 @@ describe('Integration | Application | Schooling-registration-dependent-users | s
           payload.data.attributes.email = 'toto@example.net';
           delete payload.data.attributes.username;
           payload.data.attributes['with-username'] = false;
-          usecases.createAndReconcileUserToSchoolingRegistration.resolves(createdUser);
+          usecases.createAndReconcileUserToOrganizationLearner.resolves(createdUser);
 
           // when
           const response = await httpTestServer.request('POST', '/api/schooling-registration-dependent-users', payload);
@@ -68,7 +68,7 @@ describe('Integration | Application | Schooling-registration-dependent-users | s
           delete payload.data.attributes.email;
           payload.data.attributes.username = 'robert.smith1212';
           payload.data.attributes['with-username'] = true;
-          usecases.createAndReconcileUserToSchoolingRegistration.resolves(createdUser);
+          usecases.createAndReconcileUserToOrganizationLearner.resolves(createdUser);
 
           // when
           const response = await httpTestServer.request('POST', '/api/schooling-registration-dependent-users', payload);
@@ -84,7 +84,7 @@ describe('Integration | Application | Schooling-registration-dependent-users | s
         it('should resolve a 404 HTTP response', async function () {
           // given
           delete payload.data.attributes.username;
-          usecases.createAndReconcileUserToSchoolingRegistration.rejects(new NotFoundError());
+          usecases.createAndReconcileUserToOrganizationLearner.rejects(new NotFoundError());
 
           // when
           const response = await httpTestServer.request('POST', '/api/schooling-registration-dependent-users', payload);
@@ -177,7 +177,7 @@ describe('Integration | Application | Schooling-registration-dependent-users | s
     context('Success cases', function () {
       it('should return an HTTP response with status code 200', async function () {
         // given
-        usecases.updateSchoolingRegistrationDependentUserPassword.resolves(generatedPassword);
+        usecases.updateOrganizationLearnerDependentUserPassword.resolves(generatedPassword);
 
         // when
         const response = await httpTestServer.request(
@@ -197,7 +197,7 @@ describe('Integration | Application | Schooling-registration-dependent-users | s
       context('when a NotFoundError is thrown', function () {
         it('should resolve a 404 HTTP response', async function () {
           // given
-          usecases.updateSchoolingRegistrationDependentUserPassword.rejects(new NotFoundError());
+          usecases.updateOrganizationLearnerDependentUserPassword.rejects(new NotFoundError());
 
           // when
           const response = await httpTestServer.request(
@@ -215,9 +215,7 @@ describe('Integration | Application | Schooling-registration-dependent-users | s
       context('when a UserNotAuthorizedToUpdatePasswordError is thrown', function () {
         it('should resolve a 403 HTTP response', async function () {
           // given
-          usecases.updateSchoolingRegistrationDependentUserPassword.rejects(
-            new UserNotAuthorizedToUpdatePasswordError()
-          );
+          usecases.updateOrganizationLearnerDependentUserPassword.rejects(new UserNotAuthorizedToUpdatePasswordError());
 
           // when
           const response = await httpTestServer.request(
