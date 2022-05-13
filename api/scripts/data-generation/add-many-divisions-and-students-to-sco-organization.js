@@ -1,10 +1,10 @@
 const _ = require('lodash');
 const randomString = require('randomstring');
 const OrganizationLearner = require('../../lib/domain/models/OrganizationLearner');
-const { SchoolingRegistrationsCouldNotBeSavedError } = require('../../lib/domain/errors');
+const { OrganizationLearnersCouldNotBeSavedError } = require('../../lib/domain/errors');
 const { knex } = require('../../lib/infrastructure/bookshelf');
 
-function _buildSchoolingRegistration(division, organizationId, iteration) {
+function _buildOrganizationLearner(division, organizationId, iteration) {
   const birthdates = ['2001-01-05', '2002-11-15', '1995-06-25'];
   return new OrganizationLearner({
     firstName: `someFirstName${iteration}`,
@@ -37,14 +37,14 @@ async function addManyDivisionsAndStudentsToScoCertificationCenter(numberOfDivis
 
   const manyStudents = _.flatMap(divisions, (division) => {
     return _.times(numberOfStudentsPerDivision, (iteration) =>
-      _buildSchoolingRegistration(division, organizationId, iteration)
+      _buildOrganizationLearner(division, organizationId, iteration)
     );
   });
 
   try {
     await knex.batchInsert('organization-learners', manyStudents);
   } catch (err) {
-    throw new SchoolingRegistrationsCouldNotBeSavedError();
+    throw new OrganizationLearnersCouldNotBeSavedError();
   }
 }
 
