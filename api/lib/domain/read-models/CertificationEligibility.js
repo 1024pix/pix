@@ -1,24 +1,12 @@
 class CertificationEligibility {
-  constructor({
-    id,
-    pixCertificationEligible,
-    cleaCertificationEligible,
-    pixPlusDroitMaitreCertificationEligible,
-    pixPlusDroitExpertCertificationEligible,
-    pixPlusEduInitieCertificationEligible,
-    pixPlusEduConfirmeCertificationEligible,
-    pixPlusEduAvanceCertificationEligible,
-    pixPlusEduExpertCertificationEligible,
-  }) {
+  constructor({ id, pixCertificationEligible, eligibleComplementaryCertifications = [] }) {
     this.id = id;
     this.pixCertificationEligible = pixCertificationEligible;
-    this.cleaCertificationEligible = cleaCertificationEligible;
-    this.pixPlusDroitMaitreCertificationEligible = pixPlusDroitMaitreCertificationEligible;
-    this.pixPlusDroitExpertCertificationEligible = pixPlusDroitExpertCertificationEligible;
-    this.pixPlusEduInitieCertificationEligible = pixPlusEduInitieCertificationEligible;
-    this.pixPlusEduConfirmeCertificationEligible = pixPlusEduConfirmeCertificationEligible;
-    this.pixPlusEduAvanceCertificationEligible = pixPlusEduAvanceCertificationEligible;
-    this.pixPlusEduExpertCertificationEligible = pixPlusEduExpertCertificationEligible;
+    this.eligibleComplementaryCertifications = eligibleComplementaryCertifications;
+  }
+
+  static notCertifiable({ userId }) {
+    return new CertificationEligibility({ id: userId, pixCertificationEligible: false });
   }
 }
 

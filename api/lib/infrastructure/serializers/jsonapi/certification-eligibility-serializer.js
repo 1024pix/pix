@@ -8,16 +8,7 @@ module.exports = {
         clone.isCertifiable = clone.pixCertificationEligible;
         return clone;
       },
-      attributes: [
-        'isCertifiable',
-        'cleaCertificationEligible',
-        'pixPlusDroitMaitreCertificationEligible',
-        'pixPlusDroitExpertCertificationEligible',
-        'pixPlusEduInitieCertificationEligible',
-        'pixPlusEduConfirmeCertificationEligible',
-        'pixPlusEduAvanceCertificationEligible',
-        'pixPlusEduExpertCertificationEligible',
-      ],
+      attributes: ['isCertifiable', 'eligibleComplementaryCertifications'],
     }).serialize(certificationEligibility);
   },
 };

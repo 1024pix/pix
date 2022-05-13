@@ -2,24 +2,12 @@ const CertificationEligibility = require('../../../../lib/domain/read-models/Cer
 
 module.exports = function buildCertificationEligibility({
   id = 123,
-  pixCertificationEligible = true,
-  cleaCertificationEligible = false,
-  pixPlusDroitMaitreCertificationEligible = false,
-  pixPlusDroitExpertCertificationEligible = true,
-  pixPlusEduInitieCertificationEligible = false,
-  pixPlusEduConfirmeCertificationEligible = false,
-  pixPlusEduAvanceCertificationEligible = false,
-  pixPlusEduExpertCertificationEligible = false,
+  pixCertificationEligible = false,
+  eligibleComplementaryCertifications = [],
 } = {}) {
   return new CertificationEligibility({
     id,
     pixCertificationEligible,
-    cleaCertificationEligible,
-    pixPlusDroitMaitreCertificationEligible,
-    pixPlusDroitExpertCertificationEligible,
-    pixPlusEduInitieCertificationEligible,
-    pixPlusEduConfirmeCertificationEligible,
-    pixPlusEduAvanceCertificationEligible,
-    pixPlusEduExpertCertificationEligible,
+    eligibleComplementaryCertifications,
   });
 };
