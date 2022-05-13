@@ -50,7 +50,7 @@
     }
   },
   "csv-template": {
-    "higher-schooling-registrations": {
+    "sup-organization-learners": {
       "birthdate": "Date of birth (DD/MM/YYYY)",
       "department": "Department",
       "diploma": "Degree",
@@ -65,7 +65,7 @@
       "study-scheme": "Status",
       "third-name": "Middle name #2"
     },
-    "schooling-registrations": {
+    "organization-learners": {
       "birth-city": "Place of birth**",
       "birth-city-code": "City of birth code**",
       "birth-country-code": "Country code*",
@@ -85,7 +85,7 @@
     "template-name": "import-template"
   },
   "csv-import-values": {
-    "higher-schooling-registrations": {
+    "sup-organization-learner": {
       "diplomas": {
         "license": "Diplôme National de Licence contrôlé par l'Etat",
         "master": "Diplôme National de Master contrôlé par l'Etat",
