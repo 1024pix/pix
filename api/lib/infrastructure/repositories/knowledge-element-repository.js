@@ -119,14 +119,8 @@ module.exports = {
     competenceId,
     domainTransaction = DomainTransaction.emptyTransaction(),
   }) {
-    const query = _findByUserIdAndLimitDateQuery({ userId });
-    const knowledgeElementRows = await query.where({ competenceId }, { transacting: domainTransaction });
-
-    const knowledgeElements = _.map(
-      knowledgeElementRows,
-      (knowledgeElementRow) => new KnowledgeElement(knowledgeElementRow)
-    );
-    return _applyFilters(knowledgeElements);
+    const knowledgeElements = await _findAssessedByUserIdAndLimitDateQuery({ userId, domainTransaction });
+    return knowledgeElements.filter((knowledgeElement) => knowledgeElement.competenceId === competenceId);
   },
 
   async findUniqByUserIdGroupedByCompetenceId({ userId, limitDate }) {
