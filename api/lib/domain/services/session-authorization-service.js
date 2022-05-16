@@ -9,7 +9,10 @@ module.exports = {
     );
     if (!hasMembershipAccess) {
       const isSuperAdmin = await userRepository.isSuperAdmin(userId);
-      if (!isSuperAdmin) {
+      const isSupport = await userRepository.isSupport(userId);
+      const isCertif = await userRepository.isCertif(userId);
+      const hasRights = isSuperAdmin || isSupport || isCertif;
+      if (!hasRights) {
         return false;
       }
     }
