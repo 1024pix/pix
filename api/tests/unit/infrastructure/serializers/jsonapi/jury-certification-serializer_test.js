@@ -142,9 +142,9 @@ describe('Unit | Serializer | JSONAPI | jury-certification-serializer', function
             id: '1234',
             attributes: {
               'complementary-certification-course-id': 1234,
-              'pix-result': 'Pix+ Édu Avancé',
-              'external-result': 'Pix+ Édu Avancé',
-              'final-result': 'Pix+ Édu Avancé',
+              'pix-result': 'Pix+ Édu 1er degré Avancé',
+              'external-result': 'Pix+ Édu 1er degré Avancé',
+              'final-result': 'Pix+ Édu 1er degré Avancé',
             },
           },
           {
