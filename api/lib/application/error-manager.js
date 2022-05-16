@@ -414,6 +414,10 @@ function _mapToHttpError(error) {
     return new HttpErrors.ForbiddenError(error.message, error.code);
   }
 
+  if (error instanceof DomainErrors.CertificationCandidateOnFinalizedSessionError) {
+    return new HttpErrors.ForbiddenError(error.message);
+  }
+
   if (error instanceof DomainErrors.SchoolingRegistrationCannotBeDissociatedError) {
     return new HttpErrors.PreconditionFailedError(error.message);
   }
