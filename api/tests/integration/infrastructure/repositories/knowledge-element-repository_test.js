@@ -253,6 +253,35 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
       // then
       expect(actualKnowledgeElements).to.have.deep.members(wantedKnowledgeElements);
     });
+
+    context('when the user has two KE for the same skill but in two different competences', function () {
+      it('should return the most recent KE independent of the competence', async function () {
+        // given
+        const userId = databaseBuilder.factory.buildUser().id;
+        databaseBuilder.factory.buildKnowledgeElement({
+          userId,
+          skillId: '@skill123',
+          competenceId: '@comp1',
+          createdAt: new Date('2022-10-02'),
+        });
+        databaseBuilder.factory.buildKnowledgeElement({
+          userId,
+          skillId: '@skill123',
+          competenceId: '@comp256',
+          createdAt: new Date('2022-10-01'),
+        });
+        await databaseBuilder.commit();
+
+        // when
+        const knowledgeElementFound = await knowledgeElementRepository.findUniqByUserIdAndCompetenceId({
+          userId,
+          competenceId: '@comp256',
+        });
+
+        // then
+        expect(knowledgeElementFound).to.deep.equal([]);
+      });
+    });
   });
 
   describe('findByCampaignIdForSharedCampaignParticipation', function () {
