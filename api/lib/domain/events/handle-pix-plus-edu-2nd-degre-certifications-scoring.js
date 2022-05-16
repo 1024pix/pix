@@ -10,13 +10,8 @@ const {
   PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME,
   PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
   PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
-  PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_INITIE,
-  PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_CONFIRME,
-  PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_CONFIRME,
-  PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE,
-  PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT,
 } = require('../models/Badge').keys;
-const { PIX_PLUS_EDU } = require('../models/ComplementaryCertification');
+const { PIX_PLUS_EDU_2ND_DEGRE } = require('../models/ComplementaryCertification');
 
 const eventTypes = [CertificationScoringCompleted, CertificationRescoringCompleted];
 
@@ -27,11 +22,6 @@ function _isAllowedToBeScored(certifiableBadgeKey) {
     PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME,
     PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
     PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
-    PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_INITIE,
-    PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_CONFIRME,
-    PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_CONFIRME,
-    PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE,
-    PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT,
   ].includes(certifiableBadgeKey);
 }
 
@@ -51,7 +41,7 @@ async function handlePixPlusEdu2ndDegreCertificationsScoring({
   const complementaryCertificationCourseId =
     await complementaryCertificationCourseRepository.getComplementaryCertificationCourseId({
       certificationCourseId,
-      complementaryCertificationName: PIX_PLUS_EDU,
+      complementaryCertificationName: PIX_PLUS_EDU_2ND_DEGRE,
     });
   if (!complementaryCertificationCourseId) {
     return;
