@@ -4,8 +4,8 @@ const AssessmentCompleted = require('../../../../lib/domain/events/AssessmentCom
 const CertificationScoringCompleted = require('../../../../lib/domain/events/CertificationScoringCompleted');
 const CertificationRescoringCompleted = require('../../../../lib/domain/events/CertificationRescoringCompleted');
 
-describe('Event Choreography | Score Pix+ Édu Certification', function () {
-  it('chains Certification Scoring and Pix+ Édu Certification Scoring on Certification Scoring Completed', async function () {
+describe('Event Choreography | Score Pix+ Édu 2nd degre Certification', function () {
+  it('chains Certification Scoring and Pix+ Édu 2nd degre Certification Scoring on Certification Scoring Completed', async function () {
     // given
     const { handlerStubs, eventDispatcher } = buildEventDispatcherAndHandlersForTest();
 
@@ -21,13 +21,13 @@ describe('Event Choreography | Score Pix+ Édu Certification', function () {
     await eventDispatcher.dispatch(certificationScoringCompleted);
 
     // then
-    expect(handlerStubs.handlePixPlusEduCertificationsScoring).to.have.been.calledWith({
+    expect(handlerStubs.handlePixPlusEdu2ndDegreCertificationsScoring).to.have.been.calledWith({
       event: certificationScoringCompleted,
       domainTransaction: undefined,
     });
   });
 
-  it('chains Certification Rescoring and Pix+ Édu Certification Rescoring on Certification Rescoring Completed', async function () {
+  it('chains Certification Rescoring and Pix+ Édu 2nd degre Certification Rescoring on Certification Rescoring Completed', async function () {
     // given
     const { handlerStubs, eventDispatcher } = buildEventDispatcherAndHandlersForTest();
 
@@ -43,7 +43,7 @@ describe('Event Choreography | Score Pix+ Édu Certification', function () {
     await eventDispatcher.dispatch(certificationRescoringCompleted);
 
     // then
-    expect(handlerStubs.handlePixPlusEduCertificationsScoring).to.have.been.calledWith({
+    expect(handlerStubs.handlePixPlusEdu2ndDegreCertificationsScoring).to.have.been.calledWith({
       event: certificationRescoringCompleted,
       domainTransaction: undefined,
     });
