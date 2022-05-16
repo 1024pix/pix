@@ -28,7 +28,10 @@ body > div.ember-view {
         line-height: $app-header-height;
         width: 100%;
         height: 100%;
-        text-decoration: none;
+
+        &:hover {
+          text-decoration: none;
+        }
       }
     }
   }

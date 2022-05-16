@@ -602,7 +602,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
         await clickByName('Annuler la certification');
 
         // when
-        await clickByName('Fermer');
+        await clickByName('Close');
 
         // then
         assert.dom(screen.getByText('Validée')).exists();
@@ -651,7 +651,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
         await clickByName('Désannuler la certification');
 
         // when
-        await clickByName('Fermer');
+        await clickByName('Close');
 
         // then
         assert.dom(screen.getByText('Annulée')).exists();

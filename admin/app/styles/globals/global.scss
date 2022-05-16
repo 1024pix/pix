@@ -20,7 +20,6 @@ h3,
 h4,
 h5,
 h6 {
-  margin: 0;
   font-family: 'Roboto', Arial, sans-serif;
 }
 
@@ -40,13 +39,4 @@ abbr.mandatory-mark {
   display: contents;
   margin: 1.25rem;
   text-decoration: none;
-}
-
-a {
-  text-decoration: none;
-
-  &:hover,
-  &:focus {
-    text-decoration: underline;
-  }
 }
