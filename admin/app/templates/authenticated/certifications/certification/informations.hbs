@@ -141,6 +141,11 @@
                 <div class="card-body">
                   <p>VOLET JURY</p>
                   {{this.certification.complementaryCertificationCourseResultsWithExternal.externalResult}}
+                  {{#if this.shouldDisplayJuryLevelEditButton}}
+                    <PixButton @size="small" aria-label="Modifier le volet jury" @triggerAction={{this.editJury}}>
+                      <FaIcon @icon="edit" />
+                    </PixButton>
+                  {{/if}}
                 </div>
               </div>
               <div class="card">

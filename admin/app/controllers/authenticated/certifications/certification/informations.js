@@ -251,6 +251,10 @@ export default class CertificationInformationsController extends Controller {
     this.isCandidateEditModalOpen = false;
   }
 
+  get shouldDisplayJuryLevelEditButton() {
+    return this.certification.complementaryCertificationCourseResultsWithExternal.get('isExternalResultEditable');
+  }
+
   // Private methods
   _copyCompetences() {
     return cloneDeep(this.certification.competencesWithMark);
