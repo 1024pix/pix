@@ -3,11 +3,11 @@
   <div class="navbar-mobile-header__container">
     {{#if @burger}}
       {{#if this.isUserLogged}}
-        <span class="navbar-mobile-header__burger-icon" {{action @burger.state.actions.toggle}}>
+        <button class="navbar-mobile-header__burger-icon" {{action @burger.state.actions.toggle}} type="button">
           {{#unless @burger.state.open}}
             <FaIcon @icon="bars" />
           {{/unless}}
-        </span>
+        </button>
 
         {{#@burger.menu as |menu|}}
           <NavbarBurgerMenu class="navbar-burger-menu-content" @burger={{@burger}} />
