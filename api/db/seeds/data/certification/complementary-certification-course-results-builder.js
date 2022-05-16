@@ -20,7 +20,7 @@ function complementaryCertificationCourseResultsBuilder({ databaseBuilder }) {
   databaseBuilder.factory.buildComplementaryCertificationCourseResult({
     complementaryCertificationCourseId: complementaryCertifCourseSuccessId,
     acquired: true,
-    partnerKey: Badge.keys.PIX_EMPLOI_CLEA,
+    partnerKey: Badge.keys.PIX_EMPLOI_CLEA_V1,
   });
 
   const { id: complementaryCertifCourseFailureId } = databaseBuilder.factory.buildComplementaryCertificationCourse({
@@ -30,7 +30,7 @@ function complementaryCertificationCourseResultsBuilder({ databaseBuilder }) {
   databaseBuilder.factory.buildComplementaryCertificationCourseResult({
     complementaryCertificationCourseId: complementaryCertifCourseFailureId,
     acquired: false,
-    partnerKey: Badge.keys.PIX_EMPLOI_CLEA,
+    partnerKey: Badge.keys.PIX_EMPLOI_CLEA_V1,
   });
 
   databaseBuilder.factory.buildComplementaryCertificationCourseResult({
