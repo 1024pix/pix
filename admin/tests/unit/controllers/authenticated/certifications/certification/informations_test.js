@@ -160,6 +160,62 @@ module('Unit | Controller | authenticated/certifications/certification/informati
     });
   });
 
+  // get shouldDisplayJuryLevelEditButton() {
+  //   return this.certification.complementaryCertificationCourseResultsWithExternal.isExternalResultEditable;
+  // }
+  module('#shouldDisplayJuryLevelEditButton', function () {
+    module('when isExternalResultEditable is true', function () {
+      test('it should return true', function (assert) {
+        // given
+        const store = this.owner.lookup('service:store');
+        const complementaryCertificationCourseResultsWithExternal = store.createRecord(
+          'complementary-certification-course-results-with-external'
+        );
+
+        sinon.stub(complementaryCertificationCourseResultsWithExternal, 'isExternalResultEditable').get(() => true);
+
+        const certification = store.createRecord('certification', {
+          complementaryCertificationCourseResultsWithExternal,
+        });
+
+        controller.model = {
+          certification,
+        };
+        // when
+        const shouldDisplayJuryLevelEditButton = controller.shouldDisplayJuryLevelEditButton;
+
+        // then
+        assert.ok(shouldDisplayJuryLevelEditButton);
+      });
+    });
+
+    module('when isExternalResultEditable is false', function () {
+      test('it should return false', function (assert) {
+        // given
+        const store = this.owner.lookup('service:store');
+        const complementaryCertificationCourseResultsWithExternal = store.createRecord(
+          'complementary-certification-course-results-with-external'
+        );
+
+        sinon.stub(complementaryCertificationCourseResultsWithExternal, 'isExternalResultEditable').get(() => false);
+
+        const certification = store.createRecord('certification', {
+          complementaryCertificationCourseResultsWithExternal,
+        });
+
+        controller.model = {
+          certification,
+        };
+
+        // when
+        const shouldDisplayJuryLevelEditButton = controller.shouldDisplayJuryLevelEditButton;
+
+        // then
+        assert.false(shouldDisplayJuryLevelEditButton);
+      });
+    });
+  });
+
   module('#isCertificationCancelled', function () {
     test('should return true when certification status is cancelled', function (assert) {
       // given
