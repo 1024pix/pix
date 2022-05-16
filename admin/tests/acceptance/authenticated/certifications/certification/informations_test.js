@@ -1,7 +1,7 @@
 import { module, test } from 'qunit';
 import { setupApplicationTest } from 'ember-qunit';
 import { click, currentURL } from '@ember/test-helpers';
-import { fillByLabel, clickByName, visit } from '@1024pix/ember-testing-library';
+import { fillByLabel, clickByName, visit, selectByLabelAndOption } from '@1024pix/ember-testing-library';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { authenticateAdminMemberWithRole } from '../../../../helpers/test-init';
 
@@ -267,6 +267,50 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
           assert.dom(screen.getByText('Code postal de naissance :')).exists();
           assert.dom(screen.getByText('Pays de naissance : JAPON')).exists();
         });
+      });
+    });
+
+    module('when there is a complementary certification course result with external', function () {
+      test('should be possible to update jury level', async function (assert) {
+        //given
+        const complementaryCertificationCourseResultsWithExternal = server.create(
+          'complementary-certification-course-results-with-external',
+          {
+            complementaryCertificationCourseId: 1234,
+            pixResult: 'Pix+ Édu Initiale 1er degré Initié (entrée dans le métier)',
+            externalResult: 'En attente',
+            finalResult: 'En attente',
+          }
+        );
+        certification.update({
+          complementaryCertificationCourseResultsWithExternal,
+        });
+
+        this.server.post('/complementary-certification-course-results', (schema) => {
+          const complementaryCertificationCourseResultsWithExternal =
+            schema.complementaryCertificationCourseResultsWithExternals.first();
+
+          complementaryCertificationCourseResultsWithExternal.update({
+            externalResult: 'Pix+ Édu Initiale 1er degré Confirmé',
+            finalResult: 'Pix+ Édu Initiale 1er degré Initié (entrée dans le métier)',
+          });
+        });
+
+        const screen = await visit(`/certifications/${certification.id}`);
+
+        // when
+        await click(screen.getByRole('button', { name: 'Modifier le volet jury' }));
+        await selectByLabelAndOption('Sélectionner un niveau', 'PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_CONFIRME');
+        await click(screen.getByRole('button', { name: 'Modifier le niveau du jury' }));
+
+        // then
+        assert
+          .dom('.certification-informations__complementary-certification__pix-edu__row__jury-level > p')
+          .containsText('Pix+ Édu Initiale 1er degré Confirmé');
+
+        assert
+          .dom('.certification-informations__complementary-certification__pix-edu__row > div:nth-child(3)')
+          .containsText('Pix+ Édu Initiale 1er degré Initié (entrée dans le métier)');
       });
     });
   });

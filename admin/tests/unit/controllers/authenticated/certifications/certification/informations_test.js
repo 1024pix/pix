@@ -42,9 +42,10 @@ module('Unit | Controller | authenticated/certifications/certification/informati
   let controller;
 
   hooks.beforeEach(function () {
+    const store = this.owner.lookup('service:store');
     controller = this.owner.lookup('controller:authenticated/certifications/certification/informations');
     controller.model = {
-      certification: EmberObject.create({
+      certification: store.createRecord('certification', {
         competencesWithMark,
       }),
     };
@@ -160,9 +161,6 @@ module('Unit | Controller | authenticated/certifications/certification/informati
     });
   });
 
-  // get shouldDisplayJuryLevelEditButton() {
-  //   return this.certification.complementaryCertificationCourseResultsWithExternal.isExternalResultEditable;
-  // }
   module('#shouldDisplayJuryLevelEditButton', function () {
     module('when isExternalResultEditable is true', function () {
       test('it should return true', function (assert) {
@@ -507,6 +505,102 @@ module('Unit | Controller | authenticated/certifications/certification/informati
       // then
       sinon.assert.calledWith(certification.save, { adapterOptions: { updateMarks: false } });
       assert.ok(true);
+    });
+  });
+
+  module('#editJury', function () {
+    test('it should set displayJuryLevelSelect to true', function (assert) {
+      // given
+      controller.displayJuryLevelSelect = false;
+
+      // when
+      controller.editJury();
+
+      // then
+      assert.true(controller.displayJuryLevelSelect);
+    });
+  });
+
+  module('#onCancelJuryLevelEditButtonClick', function () {
+    test('it should set displayJuryLevelSelect to false', function (assert) {
+      // given
+      controller.displayJuryLevelSelect = true;
+
+      // when
+      controller.onCancelJuryLevelEditButtonClick();
+
+      // then
+      assert.false(controller.displayJuryLevelSelect);
+    });
+  });
+
+  module('#selectJuryLevel', function () {
+    test('it should set selectedJuryLevel', function (assert) {
+      // given
+      controller.selectedJuryLevel = '';
+      const event = {
+        target: {
+          value: 'REJECTED',
+        },
+      };
+
+      // when
+      controller.selectJuryLevel(event);
+
+      // then
+      assert.strictEqual(controller.selectedJuryLevel, 'REJECTED');
+    });
+  });
+
+  module('#onEditJuryLevelSave', function () {
+    module('when the jury level is not empty', function () {
+      test('it should save it', async function (assert) {
+        // given
+        const store = this.owner.lookup('service:store');
+        controller.selectedJuryLevel = 'REJECTED';
+        const complementaryCertificationCourseResultWithExternal = store.createRecord(
+          'complementary-certification-course-results-with-external',
+          {
+            complementaryCertificationCourseId: 12345,
+          }
+        );
+
+        controller.certification.editJuryLevel = sinon.stub().resolves();
+        controller.certification.reload = sinon.stub().resolves();
+        controller.certification.complementaryCertificationCourseResultsWithExternal =
+          complementaryCertificationCourseResultWithExternal;
+
+        controller.displayJuryLevelSelect = true;
+
+        // when
+        await controller.onEditJuryLevelSave();
+
+        // then
+        assert.false(controller.displayJuryLevelSelect);
+        sinon.assert.calledOnceWithExactly(controller.certification.editJuryLevel, {
+          juryLevel: 'REJECTED',
+          complementaryCertificationCourseId: 12345,
+        });
+        assert.ok(controller.certification.reload.calledOnce);
+      });
+    });
+
+    module('when the jury level is empty', function () {
+      test('it should not save it', async function (assert) {
+        // given
+        controller.selectedJuryLevel = null;
+        controller.certification.editJuryLevel = sinon.stub().resolves();
+        controller.certification.reload = sinon.stub().resolves();
+        controller.displayJuryLevelSelect = true;
+
+        // when
+        await controller.onEditJuryLevelSave();
+
+        // then
+        assert.true(controller.displayJuryLevelSelect);
+        assert.notOk(controller.certification.editJuryLevel.calledOnce);
+        assert.notOk(controller.certification.reload.calledOnce);
+      });
     });
   });
 

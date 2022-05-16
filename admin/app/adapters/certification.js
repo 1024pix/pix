@@ -39,8 +39,11 @@ export default class Certification extends ApplicationAdapter {
   buildURL(modelName, id, snapshot, requestType, query) {
     if (['cancel', 'uncancel'].includes(requestType)) {
       return `${this.host}/${this.namespace}/admin/certification-courses/${id}/${requestType}`;
-    } else {
-      return super.buildURL(modelName, id, snapshot, requestType, query);
     }
+
+    if (requestType === 'edit-jury-level') {
+      return `${this.host}/${this.namespace}/complementary-certification-course-results`;
+    }
+    return super.buildURL(modelName, id, snapshot, requestType, query);
   }
 }
