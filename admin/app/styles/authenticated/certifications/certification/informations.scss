@@ -49,10 +49,46 @@
         display: flex;
         gap: 16px;
 
+        &__jury-level {
+          display: flex;
+          justify-content: center;
+          align-items: start;
+
+          p {
+            margin-top: 0;
+          }
+
+          .jury-level-edit-icon-button {
+            margin-left: 10px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 19px;
+            color: $grey-60;
+          }
+        }
+
+        &__jury-level-editor {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          max-width: 100%;
+          padding: 0 8px 0 8px;
+
+          section:nth-of-type(2) {
+            margin: 8px 0 8px 0;
+            display: flex;
+            gap: 1rem;
+
+            button:last-child {
+              flex: 2;
+            }
+          }
+        }
+
         .card {
           width: 550px;
           background-color: $grey-5;
-          height: 110px;
           text-align: center;
           box-shadow: none;
           border: 2px solid $grey-20;
@@ -60,6 +96,11 @@
 
           p {
             color: $grey-40;
+          }
+
+          .card-body-text {
+            font-size: 18px;
+            color: $grey-90;
           }
         }
       }
