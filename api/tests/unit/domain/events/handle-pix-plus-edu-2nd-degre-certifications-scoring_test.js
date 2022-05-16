@@ -1,4 +1,4 @@
-const { PIX_PLUS_EDU } = require('../../../../lib/domain/models/ComplementaryCertification');
+const { PIX_PLUS_EDU_2ND_DEGRE } = require('../../../../lib/domain/models/ComplementaryCertification');
 const { catchErr, expect, sinon, domainBuilder } = require('../../../test-helper');
 const { handlePixPlusEdu2ndDegreCertificationsScoring } = require('../../../../lib/domain/events')._forTestOnly
   .handlers;
@@ -8,11 +8,6 @@ const {
   PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME,
   PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
   PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
-  PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_INITIE,
-  PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_CONFIRME,
-  PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_CONFIRME,
-  PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE,
-  PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT,
 } = require('../../../../lib/domain/models/Badge').keys;
 
 describe('Unit | Domain | Events | handle-pix-plus-edu-2nd-degre-certifications-scoring', function () {
@@ -55,11 +50,6 @@ describe('Unit | Domain | Events | handle-pix-plus-edu-2nd-degre-certifications-
       PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME,
       PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
       PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
-      PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_INITIE,
-      PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_CONFIRME,
-      PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_CONFIRME,
-      PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE,
-      PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT,
     ].forEach((certifiableBadgeKey) => {
       it(`should score Pix+ Édu certification for badge ${certifiableBadgeKey}`, async function () {
         // given
@@ -91,7 +81,7 @@ describe('Unit | Domain | Events | handle-pix-plus-edu-2nd-degre-certifications-
         complementaryCertificationCourseRepository.getComplementaryCertificationCourseId
           .withArgs({
             certificationCourseId: 123,
-            complementaryCertificationName: PIX_PLUS_EDU,
+            complementaryCertificationName: PIX_PLUS_EDU_2ND_DEGRE,
           })
           .resolves(999);
 
@@ -138,7 +128,7 @@ describe('Unit | Domain | Events | handle-pix-plus-edu-2nd-degre-certifications-
       complementaryCertificationCourseRepository.getComplementaryCertificationCourseId
         .withArgs({
           certificationCourseId: 123,
-          complementaryCertificationName: PIX_PLUS_EDU,
+          complementaryCertificationName: PIX_PLUS_EDU_2ND_DEGRE,
         })
         .resolves(999);
 
@@ -178,7 +168,7 @@ describe('Unit | Domain | Events | handle-pix-plus-edu-2nd-degre-certifications-
       complementaryCertificationCourseRepository.getComplementaryCertificationCourseId
         .withArgs({
           certificationCourseId: 123,
-          complementaryCertificationName: PIX_PLUS_EDU,
+          complementaryCertificationName: PIX_PLUS_EDU_2ND_DEGRE,
         })
         .resolves(999);
 
@@ -231,7 +221,7 @@ describe('Unit | Domain | Events | handle-pix-plus-edu-2nd-degre-certifications-
       complementaryCertificationCourseRepository.getComplementaryCertificationCourseId
         .withArgs({
           certificationCourseId: 123,
-          complementaryCertificationName: PIX_PLUS_EDU,
+          complementaryCertificationName: PIX_PLUS_EDU_2ND_DEGRE,
         })
         .resolves(999);
 
@@ -283,7 +273,7 @@ describe('Unit | Domain | Events | handle-pix-plus-edu-2nd-degre-certifications-
       complementaryCertificationCourseRepository.getComplementaryCertificationCourseId
         .withArgs({
           certificationCourseId: 123,
-          complementaryCertificationName: PIX_PLUS_EDU,
+          complementaryCertificationName: PIX_PLUS_EDU_2ND_DEGRE,
         })
         .resolves(999);
 
