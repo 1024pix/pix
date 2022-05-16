@@ -39,7 +39,7 @@ function _allowedToBeScoredBadgeKeys({ certifiableBadgeKeys }) {
   return certifiableBadgeKeys.filter(_isAllowedToBeScored);
 }
 
-async function handlePixPlusEduCertificationsScoring({
+async function handlePixPlusEdu2ndDegreCertificationsScoring({
   event,
   assessmentResultRepository,
   certificationAssessmentRepository,
@@ -100,5 +100,5 @@ function _buildPixPlusEduCertificationScoring(
   });
 }
 
-handlePixPlusEduCertificationsScoring.eventTypes = eventTypes;
-module.exports = handlePixPlusEduCertificationsScoring;
+handlePixPlusEdu2ndDegreCertificationsScoring.eventTypes = eventTypes;
+module.exports = handlePixPlusEdu2ndDegreCertificationsScoring;

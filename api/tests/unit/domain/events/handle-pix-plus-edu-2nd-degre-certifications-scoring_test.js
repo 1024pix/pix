@@ -1,6 +1,7 @@
 const { PIX_PLUS_EDU } = require('../../../../lib/domain/models/ComplementaryCertification');
 const { catchErr, expect, sinon, domainBuilder } = require('../../../test-helper');
-const { handlePixPlusEduCertificationsScoring } = require('../../../../lib/domain/events')._forTestOnly.handlers;
+const { handlePixPlusEdu2ndDegreCertificationsScoring } = require('../../../../lib/domain/events')._forTestOnly
+  .handlers;
 const {
   PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
   PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME,
@@ -14,7 +15,7 @@ const {
   PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT,
 } = require('../../../../lib/domain/models/Badge').keys;
 
-describe('Unit | Domain | Events | handle-pix-plus-edu-certifications-scoring', function () {
+describe('Unit | Domain | Events | handle-pix-plus-edu-2nd-degre-certifications-scoring', function () {
   const certificationAssessmentRepository = {};
   const partnerCertificationScoringRepository = {};
   const assessmentResultRepository = {};
@@ -39,14 +40,14 @@ describe('Unit | Domain | Events | handle-pix-plus-edu-certifications-scoring', 
     const event = 'not an event of the correct type';
 
     // when / then
-    const error = await catchErr(handlePixPlusEduCertificationsScoring)({ event, ...dependencies });
+    const error = await catchErr(handlePixPlusEdu2ndDegreCertificationsScoring)({ event, ...dependencies });
 
     // then
     expect(error.message).to.equal(
       'event must be one of types CertificationScoringCompleted, CertificationRescoringCompleted'
     );
   });
-  describe('when the assessment has a Pix+ Edu challenge', function () {
+  describe('when the assessment has a Pix+ Edu 2nd degre challenge', function () {
     // eslint-disable-next-line mocha/no-setup-in-describe
     [
       PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
@@ -95,7 +96,7 @@ describe('Unit | Domain | Events | handle-pix-plus-edu-certifications-scoring', 
           .resolves(999);
 
         // when
-        await handlePixPlusEduCertificationsScoring({ event, ...dependencies });
+        await handlePixPlusEdu2ndDegreCertificationsScoring({ event, ...dependencies });
 
         // then
         const expectedPartnerCertificationScoring = domainBuilder.buildPixPlusEduCertificationScoring({
@@ -111,8 +112,8 @@ describe('Unit | Domain | Events | handle-pix-plus-edu-certifications-scoring', 
     });
   });
 
-  describe('when the assessment has no Pix+ Edu challenge', function () {
-    it('should not score Pix+ Edu certifications', async function () {
+  describe('when the assessment has no Pix+ Edu 2nd degre challenge', function () {
+    it('should not score Pix+ Edu 2nd degre certifications', async function () {
       // given
       const event = domainBuilder.buildCertificationScoringCompletedEvent({
         certificationCourseId: 123,
@@ -142,7 +143,7 @@ describe('Unit | Domain | Events | handle-pix-plus-edu-certifications-scoring', 
         .resolves(999);
 
       // when
-      await handlePixPlusEduCertificationsScoring({ event, ...dependencies });
+      await handlePixPlusEdu2ndDegreCertificationsScoring({ event, ...dependencies });
 
       // then
       expect(partnerCertificationScoringRepository.save).to.not.have.been.called;
@@ -150,7 +151,7 @@ describe('Unit | Domain | Events | handle-pix-plus-edu-certifications-scoring', 
   });
 
   context('scoring', function () {
-    it('should save a "not acquired" Pix+ Edu certification when pix certification is not validated', async function () {
+    it('should save a "not acquired" Pix+ Edu 2nd degre certification when pix certification is not validated', async function () {
       // given
       const event = domainBuilder.buildCertificationScoringCompletedEvent({
         certificationCourseId: 123,
@@ -182,7 +183,7 @@ describe('Unit | Domain | Events | handle-pix-plus-edu-certifications-scoring', 
         .resolves(999);
 
       // when
-      await handlePixPlusEduCertificationsScoring({ event, ...dependencies });
+      await handlePixPlusEdu2ndDegreCertificationsScoring({ event, ...dependencies });
 
       // then
       const expectedPartnerCertificationScoring = domainBuilder.buildPixPlusEduCertificationScoring({
@@ -198,7 +199,7 @@ describe('Unit | Domain | Events | handle-pix-plus-edu-certifications-scoring', 
       expect(expectedPartnerCertificationScoring.isAcquired()).to.be.false;
     });
 
-    it('should save a "not acquired" Pix+ Edu certification when pix certification is validated and repro rate is not sufficient', async function () {
+    it('should save a "not acquired" Pix+ Edu 2nd degre certification when pix certification is validated and repro rate is not sufficient', async function () {
       // given
       const event = domainBuilder.buildCertificationScoringCompletedEvent({
         certificationCourseId: 123,
@@ -235,7 +236,7 @@ describe('Unit | Domain | Events | handle-pix-plus-edu-certifications-scoring', 
         .resolves(999);
 
       // when
-      await handlePixPlusEduCertificationsScoring({ event, ...dependencies });
+      await handlePixPlusEdu2ndDegreCertificationsScoring({ event, ...dependencies });
 
       // then
       const expectedPartnerCertificationScoring = domainBuilder.buildPixPlusEduCertificationScoring({
@@ -250,7 +251,7 @@ describe('Unit | Domain | Events | handle-pix-plus-edu-certifications-scoring', 
       expect(expectedPartnerCertificationScoring.isAcquired()).to.be.false;
     });
 
-    it('should save an "acquired" Pix+ Edu certification when pix certification is validated and repro rate is sufficient', async function () {
+    it('should save an "acquired" Pix+ Edu 2nd degre certification when pix certification is validated and repro rate is sufficient', async function () {
       // given
       const event = domainBuilder.buildCertificationScoringCompletedEvent({
         certificationCourseId: 123,
@@ -287,7 +288,7 @@ describe('Unit | Domain | Events | handle-pix-plus-edu-certifications-scoring', 
         .resolves(999);
 
       // when
-      await handlePixPlusEduCertificationsScoring({ event, ...dependencies });
+      await handlePixPlusEdu2ndDegreCertificationsScoring({ event, ...dependencies });
 
       // then
       const expectedPartnerCertificationScoring = domainBuilder.buildPixPlusEduCertificationScoring({
