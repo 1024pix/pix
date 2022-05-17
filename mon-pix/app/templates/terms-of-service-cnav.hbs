@@ -38,7 +38,7 @@
       <PixButtonLink @route="logout" @backgroundColor="grey">
         {{t "common.actions.back"}}
       </PixButtonLink>
-      {{#unless this.showErrorTermsOfServiceExpiredAuthenticatedKey}}
+      {{#unless this.isAuthenticationKeyExpired}}
         <PixButton @type="submit" @triggerAction={{this.submit}} class="terms-of-service-form-actions__submit">
           {{t "pages.terms-of-service-cnav.form.button"}}
         </PixButton>

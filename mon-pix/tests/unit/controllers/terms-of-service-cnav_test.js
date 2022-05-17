@@ -18,7 +18,7 @@ describe('Unit | Controller | terms-of-service-cnav', function () {
     it('should save the acceptance date of the last terms of service', async function () {
       // given
       controller.isTermsOfServiceValidated = true;
-      controller.errorMessage = false;
+      controller.errorMessage = null;
       controller.authenticationKey = 'authenticationKey';
 
       // when
@@ -28,14 +28,14 @@ describe('Unit | Controller | terms-of-service-cnav', function () {
       sinon.assert.calledWith(controller.session.authenticate, 'authenticator:cnav', {
         authenticationKey: 'authenticationKey',
       });
-      expect(controller.errorMessage).to.be.false;
+      expect(controller.errorMessage).to.be.null;
     });
 
     describe('when terms of service are not selected', function () {
       it('should display error', async function () {
-        //given
+        // given
         controller.isTermsOfServiceValidated = false;
-        controller.errorMessage = false;
+        controller.errorMessage = null;
 
         // when
         await controller.send('submit');
@@ -47,9 +47,9 @@ describe('Unit | Controller | terms-of-service-cnav', function () {
 
     describe('when authentication key has expired', function () {
       it('should display error', async function () {
-        //given
+        // given
         controller.isTermsOfServiceValidated = true;
-        controller.errorMessage = false;
+        controller.errorMessage = null;
         controller.session.authenticate.rejects({ errors: [{ status: '401' }] });
 
         // when
@@ -63,9 +63,9 @@ describe('Unit | Controller | terms-of-service-cnav', function () {
     });
 
     it('it should display generic error', async function () {
-      //given
+      // given
       controller.isTermsOfServiceValidated = true;
-      controller.errorMessage = false;
+      controller.errorMessage = null;
       controller.session.authenticate.rejects();
 
       // when
