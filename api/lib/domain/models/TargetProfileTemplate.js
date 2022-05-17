@@ -1,6 +1,7 @@
 class TargetedProfileTemplate {
-  constructor({ id, tubes } = {}) {
+  constructor({ id, targetProfiles, tubes } = {}) {
     this.id = id;
+    this.targetProfiles = targetProfiles;
     this.tubes = tubes;
   }
 }
