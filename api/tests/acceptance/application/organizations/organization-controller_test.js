@@ -17,7 +17,6 @@ const Membership = require('../../../../lib/domain/models/Membership');
 const OrganizationInvitation = require('../../../../lib/domain/models/OrganizationInvitation');
 const Assessment = require('../../../../lib/domain/models/Assessment');
 const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult');
-const { ROLES } = require('../../../../lib/domain/constants').PIX_ADMIN;
 
 describe('Acceptance | Application | organization-controller', function () {
   let server;
@@ -27,7 +26,7 @@ describe('Acceptance | Application | organization-controller', function () {
     await insertUserWithRoleSuperAdmin();
   });
 
-  describe('POST /api/organizations', function () {
+  describe('POST /api/admin/organizations', function () {
     let payload;
     let options;
 
@@ -44,7 +43,7 @@ describe('Acceptance | Application | organization-controller', function () {
       };
       options = {
         method: 'POST',
-        url: '/api/organizations',
+        url: '/api/admin/organizations',
         payload,
         headers: { authorization: generateValidRequestAuthorizationHeader() },
       };
@@ -76,11 +75,7 @@ describe('Acceptance | Application | organization-controller', function () {
 
       it('should save the Super Admin userId creating the Organization', async function () {
         // given
-        const superAdminUserId = databaseBuilder.factory.buildUser().id;
-        databaseBuilder.factory.buildPixAdminRole({
-          userId: superAdminUserId,
-          role: ROLES.SUPER_ADMIN,
-        });
+        const superAdminUserId = databaseBuilder.factory.buildUser.withRole().id;
         await databaseBuilder.commit();
 
         options.headers.authorization = generateValidRequestAuthorizationHeader(superAdminUserId);
@@ -154,7 +149,7 @@ describe('Acceptance | Application | organization-controller', function () {
     });
   });
 
-  describe('PATCH /api/organizations/{id}', function () {
+  describe('PATCH /api/admin/organizations/{id}', function () {
     afterEach(async function () {
       await knex('organization-tags').delete();
     });
@@ -194,7 +189,7 @@ describe('Acceptance | Application | organization-controller', function () {
       };
       const options = {
         method: 'PATCH',
-        url: `/api/organizations/${organization.id}`,
+        url: `/api/admin/organizations/${organization.id}`,
         payload,
         headers: { authorization: generateValidRequestAuthorizationHeader() },
       };
@@ -232,7 +227,7 @@ describe('Acceptance | Application | organization-controller', function () {
         };
         const options = {
           method: 'PATCH',
-          url: `/api/organizations/${organization.id}`,
+          url: `/api/admin/organizations/${organization.id}`,
           payload,
           headers: { authorization: 'invalid.access.token' },
         };
@@ -263,7 +258,7 @@ describe('Acceptance | Application | organization-controller', function () {
         };
         const options = {
           method: 'PATCH',
-          url: `/api/organizations/${organization.id}`,
+          url: `/api/admin/organizations/${organization.id}`,
           payload,
           headers: { authorization: generateValidRequestAuthorizationHeader(nonSuperAdminUserId) },
         };
@@ -277,7 +272,7 @@ describe('Acceptance | Application | organization-controller', function () {
     });
   });
 
-  describe('GET /api/organizations', function () {
+  describe('GET /api/admin/organizations', function () {
     let server;
     let options;
 
@@ -299,7 +294,7 @@ describe('Acceptance | Application | organization-controller', function () {
 
       options = {
         method: 'GET',
-        url: '/api/organizations',
+        url: '/api/admin/organizations',
         payload: {},
         headers: { authorization: generateValidRequestAuthorizationHeader(userSuperAdmin.id) },
       };
@@ -356,7 +351,7 @@ describe('Acceptance | Application | organization-controller', function () {
 
       it('should return a 200 status code with paginated and filtered data', async function () {
         // given
-        options.url = '/api/organizations?filter[name]=orga&filter[externalId]=A&page[number]=2&page[size]=1';
+        options.url = '/api/admin/organizations?filter[name]=orga&filter[externalId]=A&page[number]=2&page[size]=1';
         const expectedMetaData = { page: 2, pageSize: 1, rowCount: 2, pageCount: 2 };
 
         // when
@@ -372,7 +367,7 @@ describe('Acceptance | Application | organization-controller', function () {
       it('should return a 200 status code with empty result', async function () {
         // given
         options.url =
-          '/api/organizations?filter[name]=orga&filter[type]=sco&filter[externalId]=B&page[number]=1&page[size]=1';
+          '/api/admin/organizations?filter[name]=orga&filter[type]=sco&filter[externalId]=B&page[number]=1&page[size]=1';
         const expectedMetaData = { page: 1, pageSize: 1, rowCount: 0, pageCount: 0 };
 
         // when
@@ -589,7 +584,7 @@ describe('Acceptance | Application | organization-controller', function () {
     });
   });
 
-  describe('GET /api/organizations/{id}', function () {
+  describe('GET /api/admin/organizations/{id}', function () {
     let superAdminUserId;
 
     context('Expected output', function () {
@@ -686,7 +681,7 @@ describe('Acceptance | Application | organization-controller', function () {
         // when
         const response = await server.inject({
           method: 'GET',
-          url: `/api/organizations/${organization.id}`,
+          url: `/api/admin/organizations/${organization.id}`,
           headers: { authorization: generateValidRequestAuthorizationHeader(superAdminUserId) },
         });
 
@@ -698,7 +693,7 @@ describe('Acceptance | Application | organization-controller', function () {
         // given & when
         const promise = server.inject({
           method: 'GET',
-          url: `/api/organizations/999`,
+          url: `/api/admin/organizations/999`,
           headers: { authorization: generateValidRequestAuthorizationHeader(superAdminUserId) },
         });
 
@@ -722,7 +717,7 @@ describe('Acceptance | Application | organization-controller', function () {
         // given & when
         const promise = server.inject({
           method: 'GET',
-          url: `/api/organizations/999`,
+          url: `/api/admin/organizations/999`,
           headers: { authorization: 'invalid.access.token' },
         });
 
@@ -739,7 +734,7 @@ describe('Acceptance | Application | organization-controller', function () {
         // when
         const promise = server.inject({
           method: 'GET',
-          url: `/api/organizations/999`,
+          url: `/api/admin/organizations/999`,
           headers: { authorization: generateValidRequestAuthorizationHeader(nonSuperAdminUserId) },
         });
 
@@ -1359,7 +1354,7 @@ describe('Acceptance | Application | organization-controller', function () {
     });
   });
 
-  describe('POST /api/organizations/{id}/target-profiles', function () {
+  describe('POST /api/admin/organizations/{id}/target-profiles', function () {
     let payload;
     let options;
 
@@ -1386,7 +1381,7 @@ describe('Acceptance | Application | organization-controller', function () {
       };
       options = {
         method: 'POST',
-        url: `/api/organizations/${organizationId}/target-profiles`,
+        url: `/api/admin/organizations/${organizationId}/target-profiles`,
         payload,
         headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
       };

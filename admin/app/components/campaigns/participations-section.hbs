@@ -19,8 +19,10 @@
             <th>Statut</th>
             <th>Date d'envoi</th>
             <th>Supprimé le</th>
-            {{#if @idPixLabel}}
-              <th>Actions</th>
+            {{#if this.accessControl.hasAccessToOrganizationActionsScope}}
+              {{#if @idPixLabel}}
+                <th>Actions</th>
+              {{/if}}
             {{/if}}
           </tr>
         </thead>

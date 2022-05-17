@@ -21,6 +21,7 @@ export default class GetTeamController extends Controller {
   @tracked organizationRole = null;
   pendingFilters = {};
 
+  @service accessControl;
   @service notifications;
   @service store;
 

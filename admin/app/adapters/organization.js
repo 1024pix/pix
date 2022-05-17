@@ -2,11 +2,13 @@ import ApplicationAdapter from './application';
 import queryString from 'query-string';
 
 export default class OrganizationAdapter extends ApplicationAdapter {
+  namespace = 'api/admin';
+
   urlForQuery(query) {
     if (query.targetProfileId) {
       const { targetProfileId } = query;
       delete query.targetProfileId;
-      return `${this.host}/api/admin/target-profiles/${targetProfileId}/organizations`;
+      return `${this.host}/${this.namespace}/target-profiles/${targetProfileId}/organizations`;
     }
     return super.urlForQuery(...arguments);
   }
@@ -24,7 +26,7 @@ export default class OrganizationAdapter extends ApplicationAdapter {
 
   updateRecord(store, type, snapshot) {
     if (snapshot?.adapterOptions?.archiveOrganization) {
-      const url = `${this.host}/${this.namespace}/admin/organizations/${snapshot.id}/archive`;
+      const url = `${this.host}/${this.namespace}/organizations/${snapshot.id}/archive`;
       return this.ajax(url, 'POST');
     }
 

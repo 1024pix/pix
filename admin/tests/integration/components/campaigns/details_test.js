@@ -1,6 +1,7 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import sinon from 'sinon';
+import Service from '@ember/service';
 import hbs from 'htmlbars-inline-precompile';
 import { clickByName, render } from '@1024pix/ember-testing-library';
 
@@ -9,6 +10,11 @@ module('Integration | Component | Campaigns | details', function (hooks) {
 
   hooks.beforeEach(function () {
     this.toggleEditMode = sinon.stub();
+
+    class AccessControlStub extends Service {
+      hasAccessToOrganizationActionsScope = true;
+    }
+    this.owner.register('service:access-control', AccessControlStub);
   });
 
   module('when campaign type is ASSESSMENT', function () {
@@ -103,7 +109,7 @@ module('Integration | Component | Campaigns | details', function (hooks) {
 
     //when
     await render(hbs`<Campaigns::Details @campaign={{this.campaign}} @toggleEditMode={{this.toggleEditMode}} />`);
-    await clickByName('Editer');
+    await clickByName('Éditer');
 
     //then
     assert.ok(this.toggleEditMode.called);
@@ -154,6 +160,23 @@ module('Integration | Component | Campaigns | details', function (hooks) {
 
       // then
       assert.dom(screen.getByText('Envoi multiple : Non')).exists();
+    });
+  });
+
+  module('when user does not have access', function () {
+    test('it should not allow to edit campaign details', async function (assert) {
+      // given
+      class AccessControlStub extends Service {
+        hasAccessToOrganizationActionsScope = false;
+      }
+      this.owner.register('service:access-control', AccessControlStub);
+      this.campaign = {};
+
+      //when
+      const screen = await render(hbs`<Campaigns::Details @campaign={{this.campaign}} />`);
+
+      // expect
+      assert.dom(screen.queryByRole('button', { name: 'Éditer' })).doesNotExist();
     });
   });
 });

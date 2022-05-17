@@ -3,12 +3,17 @@ import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@1024pix/ember-testing-library';
 import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
+import Service from '@ember/service';
 
 module('Integration | Component | organization-team-section', function (hooks) {
   setupRenderingTest(hooks);
 
   test('it should display a list of members', async function (assert) {
     // given
+    class AccessControlStub extends Service {
+      hasAccessToOrganizationActionsScope = true;
+    }
+    this.owner.register('service:access-control', AccessControlStub);
     this.set('noop', () => {});
     const user1 = EmberObject.create({ firstName: 'Jojo', lastName: 'La Gringue', email: 'jojo@lagringue.fr' });
     const user2 = EmberObject.create({

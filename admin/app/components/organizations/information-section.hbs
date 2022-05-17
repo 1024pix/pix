@@ -215,25 +215,27 @@
                 {{/if}}
               </li>
             </ul>
-            <div class="form-actions">
-              <PixButton
-                @backgroundColor="transparent-light"
-                @isBorderVisible={{true}}
-                @size="small"
-                @triggerAction={{this.toggleEditMode}}
-              >
-                Éditer
-              </PixButton>
-              {{#unless @organization.isArchived}}
+            {{#if this.accessControl.hasAccessToOrganizationActionsScope}}
+              <div class="form-actions">
                 <PixButton
-                  @backgroundColor="red"
+                  @backgroundColor="transparent-light"
+                  @isBorderVisible={{true}}
                   @size="small"
-                  @triggerAction={{this.toggleArchivingConfirmationModal}}
+                  @triggerAction={{this.toggleEditMode}}
                 >
-                  Archiver l'organisation
+                  Éditer
                 </PixButton>
-              {{/unless}}
-            </div>
+                {{#unless @organization.isArchived}}
+                  <PixButton
+                    @backgroundColor="red"
+                    @size="small"
+                    @triggerAction={{this.toggleArchivingConfirmationModal}}
+                  >
+                    Archiver l'organisation
+                  </PixButton>
+                {{/unless}}
+              </div>
+            {{/if}}
           </div>
           <div>
             <PixButtonLink

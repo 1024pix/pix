@@ -5,11 +5,11 @@ const organizationController = require('../../../../lib/application/organization
 const moduleUnderTest = require('../../../../lib/application/organizations');
 
 describe('Integration | Application | Organizations | Routes', function () {
-  describe('POST /api/organizations', function () {
+  describe('POST /api/admin/organizations', function () {
     it('should exist', async function () {
       // given
       const method = 'POST';
-      const url = '/api/organizations';
+      const url = '/api/admin/organizations';
 
       sinon.stub(securityPreHandlers, 'userHasAtLeastOneAccessOf').returns(() => true);
       sinon.stub(organizationController, 'create').returns('ok');
@@ -24,11 +24,11 @@ describe('Integration | Application | Organizations | Routes', function () {
     });
   });
 
-  describe('GET /api/organizations', function () {
+  describe('GET /api/admin/organizations', function () {
     it('should exist', async function () {
       // given
       const method = 'GET';
-      const url = '/api/organizations';
+      const url = '/api/admin/organizations';
 
       sinon.stub(securityPreHandlers, 'userHasAtLeastOneAccessOf').returns(() => true);
       sinon.stub(organizationController, 'findPaginatedFilteredOrganizations').returns('ok');
@@ -47,7 +47,7 @@ describe('Integration | Application | Organizations | Routes', function () {
         it('should resolve a 403 HTTP response', async function () {
           // given
           const method = 'GET';
-          const url = '/api/organizations';
+          const url = '/api/admin/organizations';
 
           sinon
             .stub(securityPreHandlers, 'userHasAtLeastOneAccessOf')
@@ -308,11 +308,11 @@ describe('Integration | Application | Organizations | Routes', function () {
     });
   });
 
-  describe('POST /api/organizations/:id/target-profiles', function () {
+  describe('POST /api/admin/organizations/:id/target-profiles', function () {
     it('should resolve with a 204 status code', async function () {
       // given
       const method = 'POST';
-      const url = '/api/organizations/1/target-profiles';
+      const url = '/api/admin/organizations/1/target-profiles';
       const payload = {
         data: {
           type: 'target-profile-shares',

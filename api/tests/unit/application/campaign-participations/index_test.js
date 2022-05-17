@@ -49,10 +49,46 @@ describe('Unit | Application | Router | campaign-participation-router ', functio
     });
   });
 
-  describe('PATCH /api/admin/update-participant-external-id', function () {
-    it('should exist', async function () {
+  describe('PATCH /api/admin/campaign-participations/{id}', function () {
+    it('returns 200 when admin member has rights', async function () {
       // given
-      sinon.stub(securityPreHandlers, 'userHasAtLeastOneAccessOf').returns(() => true);
+      sinon
+        .stub(securityPreHandlers, 'checkUserHasRoleCertif')
+        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+      sinon.stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin').callsFake((request, h) => h.response(true));
+      sinon.stub(securityPreHandlers, 'checkUserHasRoleSupport').callsFake((request, h) => h.response(true));
+      sinon.stub(securityPreHandlers, 'checkUserHasRoleMetier').callsFake((request, h) => h.response(true));
+      sinon
+        .stub(campaignParticipationController, 'updateParticipantExternalId')
+        .callsFake((request, h) => h.response('ok').code(204));
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      // when
+      const response = await httpTestServer.request('PATCH', '/api/admin/campaign-participations/123', {
+        data: {
+          attributes: {
+            'participant-external-id': 'new ext id',
+          },
+        },
+      });
+
+      // then
+      expect(response.statusCode).to.equal(204);
+    });
+
+    it('returns forbidden when admin member does not have rights', async function () {
+      // given
+      sinon.stub(securityPreHandlers, 'checkUserHasRoleCertif').callsFake((request, h) => h.response(true));
+      sinon
+        .stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin')
+        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+      sinon
+        .stub(securityPreHandlers, 'checkUserHasRoleSupport')
+        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+      sinon
+        .stub(securityPreHandlers, 'checkUserHasRoleMetier')
+        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
       sinon
         .stub(campaignParticipationController, 'updateParticipantExternalId')
         .callsFake((request, h) => h.response('ok').code(204));
@@ -73,7 +109,7 @@ describe('Unit | Application | Router | campaign-participation-router ', functio
       const response = await httpTestServer.request(method, url, payload);
 
       // then
-      expect(response.statusCode).to.equal(204);
+      expect(response.statusCode).to.equal(403);
     });
   });
 

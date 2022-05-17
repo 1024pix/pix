@@ -7,7 +7,7 @@ const identifiersType = require('../../../../lib/domain/types/identifiers-type')
 const moduleUnderTest = require('../../../../lib/application/organizations');
 
 describe('Unit | Router | organization-router', function () {
-  describe('GET /api/organizations', function () {
+  describe('GET /api/admin/organizations', function () {
     const method = 'GET';
 
     it('should return OK (200) when request is valid', async function () {
@@ -18,7 +18,7 @@ describe('Unit | Router | organization-router', function () {
       await httpTestServer.register(moduleUnderTest);
 
       // given
-      const url = '/api/organizations?filter[id]=&filter[name]=DRA&filter[type]=SCO&page[number]=3&page[size]=25';
+      const url = '/api/admin/organizations?filter[id]=&filter[name]=DRA&filter[type]=SCO&page[number]=3&page[size]=25';
 
       // when
       const response = await httpTestServer.request(method, url);
@@ -34,7 +34,7 @@ describe('Unit | Router | organization-router', function () {
         await httpTestServer.register(moduleUnderTest);
 
         const idNotNumeric = 'foo';
-        const url = `/api/organizations?filter[id]=${idNotNumeric}`;
+        const url = `/api/admin/organizations?filter[id]=${idNotNumeric}`;
 
         // when
         const response = await httpTestServer.request(method, url);
@@ -51,7 +51,7 @@ describe('Unit | Router | organization-router', function () {
 
           const minNumberLimit = identifiersType.positiveInteger32bits.min;
           const wrongNumber = minNumberLimit - 1;
-          const url = `/api/organizations?filter[id]=${wrongNumber}`;
+          const url = `/api/admin/organizations?filter[id]=${wrongNumber}`;
 
           // when
           const response = await httpTestServer.request(method, url);
@@ -67,7 +67,7 @@ describe('Unit | Router | organization-router', function () {
 
           const maxNumberLimit = identifiersType.positiveInteger32bits.max;
           const wrongNumber = maxNumberLimit + 1;
-          const url = `/api/organizations?filter[id]=${wrongNumber}`;
+          const url = `/api/admin/organizations?filter[id]=${wrongNumber}`;
 
           // when
           const response = await httpTestServer.request(method, url);
@@ -76,6 +76,165 @@ describe('Unit | Router | organization-router', function () {
           expect(response.statusCode).to.equal(400);
         });
       });
+    });
+  });
+
+  describe('POST /api/admin/organizations', function () {
+    it('returns forbidden access if admin member has CERTIF role', async function () {
+      // given
+      sinon.stub(securityPreHandlers, 'checkUserHasRoleCertif').callsFake((request, h) => h.response(true));
+      sinon
+        .stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin')
+        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+      sinon
+        .stub(securityPreHandlers, 'checkUserHasRoleSupport')
+        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+      sinon
+        .stub(securityPreHandlers, 'checkUserHasRoleMetier')
+        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      // when
+      const response = await httpTestServer.request('POST', '/api/admin/organizations', {
+        data: {
+          type: 'organizations',
+          attributes: {
+            name: 'Super Tag',
+            type: 'SCO',
+          },
+        },
+      });
+
+      // then
+      expect(response.statusCode).to.equal(403);
+    });
+  });
+
+  describe('PATCH /api/admin/organizations/{id}', function () {
+    it('returns forbidden access if admin member has CERTIF role', async function () {
+      // given
+      sinon.stub(securityPreHandlers, 'checkUserHasRoleCertif').callsFake((request, h) => h.response(true));
+      sinon
+        .stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin')
+        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+      sinon
+        .stub(securityPreHandlers, 'checkUserHasRoleSupport')
+        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+      sinon
+        .stub(securityPreHandlers, 'checkUserHasRoleMetier')
+        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      // when
+      const response = await httpTestServer.request('PATCH', '/api/admin/organizations/1', {
+        data: {
+          id: '1',
+          type: 'organizations',
+          attributes: {
+            name: 'Super Tag',
+            type: 'SCO',
+          },
+        },
+      });
+
+      // then
+      expect(response.statusCode).to.equal(403);
+    });
+  });
+
+  describe('POST /api/admin/organizations/{id}/archive', function () {
+    it('returns forbidden access if admin member has CERTIF role', async function () {
+      // given
+      sinon.stub(organizationController, 'archiveOrganization').resolves('ok');
+
+      sinon.stub(securityPreHandlers, 'checkUserHasRoleCertif').callsFake((request, h) => h.response(true));
+      sinon
+        .stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin')
+        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+      sinon
+        .stub(securityPreHandlers, 'checkUserHasRoleSupport')
+        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+      sinon
+        .stub(securityPreHandlers, 'checkUserHasRoleMetier')
+        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      // when
+      const response = await httpTestServer.request('POST', '/api/admin/organizations/1/archive');
+
+      // then
+      expect(response.statusCode).to.equal(403);
+      sinon.assert.notCalled(organizationController.archiveOrganization);
+    });
+  });
+
+  describe('POST /api/admin/organizations/{id}/target-profiles', function () {
+    it('should add target profile to organization if admin member has allowed role', async function () {
+      // given
+      sinon.stub(organizationController, 'attachTargetProfiles').returns('ok');
+      sinon
+        .stub(securityPreHandlers, 'checkUserHasRoleCertif')
+        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+      sinon.stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin').callsFake((request, h) => h.response(true));
+      sinon.stub(securityPreHandlers, 'checkUserHasRoleSupport').callsFake((request, h) => h.response(true));
+      sinon.stub(securityPreHandlers, 'checkUserHasRoleMetier').callsFake((request, h) => h.response(true));
+
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      const payload = {
+        data: {
+          attributes: {
+            'target-profiles-to-attach': ['7'],
+          },
+          type: 'organizations',
+        },
+      };
+
+      // when
+      const response = await httpTestServer.request('POST', '/api/admin/organizations/1/target-profiles', payload);
+
+      // then
+      expect(response.statusCode).to.equal(200);
+      sinon.assert.calledOnce(organizationController.attachTargetProfiles);
+    });
+
+    it('returns forbidden access if admin member has CERTIF role', async function () {
+      // given
+      sinon.stub(securityPreHandlers, 'checkUserHasRoleCertif').callsFake((request, h) => h.response(true));
+      sinon
+        .stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin')
+        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+      sinon
+        .stub(securityPreHandlers, 'checkUserHasRoleSupport')
+        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+      sinon
+        .stub(securityPreHandlers, 'checkUserHasRoleMetier')
+        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      const payload = {
+        data: {
+          attributes: {
+            'target-profiles-to-attach': ['7'],
+          },
+          type: 'organizations',
+        },
+      };
+
+      // when
+      const response = await httpTestServer.request('POST', '/api/admin/organizations/1/target-profiles', payload);
+
+      // then
+      expect(response.statusCode).to.equal(403);
     });
   });
 
@@ -291,12 +450,19 @@ describe('Unit | Router | organization-router', function () {
       expect(response.statusCode).to.equal(400);
     });
 
-    it('should check if user is Super Admin', async function () {
+    it('returns forbidden access if admin member has CERTIF role', async function () {
       // given
-      sinon.stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin').resolves(false);
+      sinon.stub(securityPreHandlers, 'checkUserHasRoleCertif').callsFake((request, h) => h.response(true));
       sinon
-        .stub(organizationController, 'sendInvitationByLangAndRole')
-        .callsFake((request, h) => h.response().created());
+        .stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin')
+        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+      sinon
+        .stub(securityPreHandlers, 'checkUserHasRoleSupport')
+        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+      sinon
+        .stub(securityPreHandlers, 'checkUserHasRoleMetier')
+        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
 
@@ -311,10 +477,10 @@ describe('Unit | Router | organization-router', function () {
       };
 
       // when
-      await httpTestServer.request(method, url, payload);
+      const response = await httpTestServer.request(method, url, payload);
 
       // then
-      expect(securityPreHandlers.checkUserHasRoleSuperAdmin).to.have.be.called;
+      expect(response.statusCode).to.equal(403);
     });
   });
 
@@ -337,7 +503,7 @@ describe('Unit | Router | organization-router', function () {
 
     it('should return an empty list when no places is found', async function () {
       // given
-      sinon.stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin').returns(true);
+      sinon.stub(securityPreHandlers, 'userHasAtLeastOneAccessOf').returns(() => true);
       sinon.stub(usecases, 'findOrganizationPlaces').returns([]);
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);

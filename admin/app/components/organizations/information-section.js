@@ -1,4 +1,5 @@
 import Object, { action } from '@ember/object';
+import { inject as service } from '@ember/service';
 import ENV from 'pix-admin/config/environment';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
@@ -97,6 +98,7 @@ class Form extends Object.extend(Validations) {
 }
 
 export default class OrganizationInformationSection extends Component {
+  @service accessControl;
   @tracked isEditMode = false;
   @tracked showArchivingConfirmationModal = false;
 
