@@ -414,7 +414,7 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
           })();
 
           //THEN
-          expect(error.constraint).to.equal('students_userid_foreign');
+          expect(error.constraint).to.equal('organization_learners_userid_foreign');
         });
       });
 
