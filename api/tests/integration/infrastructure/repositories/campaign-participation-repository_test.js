@@ -332,25 +332,23 @@ describe('Integration | Repository | Campaign Participation', function () {
       expect(campaignParticipation.masteryRate).to.equals('0.90');
     });
 
-    it('save the change of schoolingRegistrationId', async function () {
-      const campaignParticipationId = 12;
-      const organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner().id;
-      databaseBuilder.factory.buildCampaignParticipation({
-        id: campaignParticipationId,
-        organizationLearnerId: null,
+    it('should not update because the leaner can not have 2 active participations for the same campaign', async function () {
+      const campaignId = databaseBuilder.factory.buildCampaign().id;
+      const userId = databaseBuilder.factory.buildUser().id;
+      const organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner({ userId }).id;
+      databaseBuilder.factory.buildCampaignParticipation({ organizationLearnerId, campaignId });
+      const campaignParticipationToUpdate = databaseBuilder.factory.buildCampaignParticipation({
+        organizationLearnerId,
       });
 
       await databaseBuilder.commit();
 
-      await campaignParticipationRepository.update({
-        id: campaignParticipationId,
-        schoolingRegistrationId: organizationLearnerId,
+      const error = await catchErr(campaignParticipationRepository.update)({
+        ...campaignParticipationToUpdate,
+        campaignId,
       });
-      const campaignParticipation = await knex('campaign-participations')
-        .where({ id: campaignParticipationId })
-        .first();
 
-      expect(campaignParticipation.organizationLearnerId).to.equals(organizationLearnerId);
+      expect(error.constraint).to.equals('one_active_participation_by_learner');
     });
   });
 
