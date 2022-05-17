@@ -14,13 +14,13 @@ module('Unit | Controller | authenticated/target-profiles/new', function (hooks)
   module('#goBackToTargetProfileList', function () {
     test('should delete record and go back target profile list page', async function (assert) {
       controller.store.deleteRecord = sinon.stub();
-      controller.transitionToRoute = sinon.stub();
+      controller.router.transitionTo = sinon.stub();
       controller.model = Symbol('targetProfile');
 
       controller.goBackToTargetProfileList();
 
       assert.ok(controller.store.deleteRecord.calledWith(controller.model));
-      assert.ok(controller.transitionToRoute.calledWith('authenticated.target-profiles.list'));
+      assert.ok(controller.router.transitionTo.calledWith('authenticated.target-profiles.list'));
     });
   });
 
@@ -122,7 +122,7 @@ module('Unit | Controller | authenticated/target-profiles/new', function (hooks)
         save: sinon.stub(),
       };
 
-      controller.transitionToRoute = sinon.stub();
+      controller.router.transitionTo = sinon.stub();
 
       controller.notifications = {
         success: sinon.stub(),
@@ -142,11 +142,11 @@ module('Unit | Controller | authenticated/target-profiles/new', function (hooks)
       assert.ok(controller.model.save.called);
       assert.ok(controller.notifications.success.calledWith('Le profil cible a été créé avec succès.'));
       assert.ok(
-        controller.transitionToRoute.calledWith('authenticated.target-profiles.target-profile', controller.model.id)
+        controller.router.transitionTo.calledWith('authenticated.target-profiles.target-profile', controller.model.id)
       );
     });
 
-    test('it should display notification Error when model cannot be saved', async function (assert) {
+    test('it should display error notification when model cannot be saved', async function (assert) {
       controller.model = {
         save: sinon.stub(),
       };
@@ -168,6 +168,32 @@ module('Unit | Controller | authenticated/target-profiles/new', function (hooks)
       assert.ok(event.preventDefault.called);
       assert.ok(controller.model.save.called);
       assert.ok(controller.notifications.error.calledWith('Une erreur est survenue.'));
+    });
+
+    test('it should display detailed error notification when model cannot be saved', async function (assert) {
+      controller.model = {
+        save: sinon.stub(),
+      };
+
+      controller.notifications = {
+        error: sinon.stub(),
+      };
+
+      const event = {
+        preventDefault: sinon.stub(),
+      };
+
+      controller.model.save.rejects({
+        errors: [{ status: '404', detail: 'Organisation non trouvée' }],
+      });
+
+      // when
+      await controller.createTargetProfile(event);
+
+      // then
+      assert.ok(event.preventDefault.called);
+      assert.ok(controller.model.save.called);
+      assert.ok(controller.notifications.error.calledWith('Organisation non trouvée'));
     });
   });
 });
