@@ -30,7 +30,7 @@ exports.register = async (server) => {
         tags: ['api', 'organizations'],
         notes: [
           "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n" +
-            '- SUPER_ADMIN, SUPPORT, et METIER\n' +
+            '- SUPER_ADMIN, SUPPORT ou METIER\n' +
             '- Elle permet de créer une nouvelle organisation',
         ],
       },
