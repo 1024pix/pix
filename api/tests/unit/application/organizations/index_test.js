@@ -471,7 +471,7 @@ describe('Unit | Router | organization-router', function () {
 
     it('should return an empty list when no places is found', async function () {
       // given
-      sinon.stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin').returns(true);
+      sinon.stub(securityPreHandlers, 'userHasAtLeastOneAccessOf').returns(() => true);
       sinon.stub(usecases, 'findOrganizationPlaces').returns([]);
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);

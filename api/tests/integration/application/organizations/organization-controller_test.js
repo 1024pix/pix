@@ -235,7 +235,7 @@ describe('Integration | Application | Organizations | organization-controller', 
           category: 'T2',
         });
         usecases.findOrganizationPlaces.resolves([place]);
-        securityPreHandlers.checkUserHasRoleSuperAdmin.returns(true);
+        securityPreHandlers.userHasAtLeastOneAccessOf.returns(() => true);
 
         // when
         const response = await httpTestServer.request('GET', `/api/admin/organizations/${organizationId}/places`);
