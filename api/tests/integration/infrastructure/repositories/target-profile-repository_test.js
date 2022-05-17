@@ -704,6 +704,8 @@ describe('Integration | Repository | Target-profile', function () {
 
   describe('#createTemplate', function () {
     afterEach(async function () {
+      await knex('target-profiles_skills').delete();
+      await knex('target-profiles').delete();
       await knex('target-profile-templates_tubes').delete();
       await knex('target-profile-templates').delete();
     });
@@ -718,8 +720,22 @@ describe('Integration | Repository | Target-profile', function () {
         ],
       };
 
+      const targetProfileForCreation = new TargetProfileForCreation({
+        name: 'myFirstTargetProfile',
+        imageUrl: 'someUrl',
+        isPublic: true,
+        ownerOrganizationId: null,
+        skillIds: [1],
+        description: 'public description of target profile',
+        comment: 'This is a high level target profile',
+        category: TargetProfile.categories.SUBJECT,
+      });
+
       // when
-      const savedTargetProfileTemplate = await targetProfileRepository.createTemplate({ targetProfileTemplate });
+      const savedTargetProfileTemplate = await targetProfileRepository.createTemplateAndTargetProfile({
+        targetProfileTemplate,
+        targetProfileData: targetProfileForCreation,
+      });
 
       // then
       expect(savedTargetProfileTemplate).to.be.instanceOf(TargetProfileTemplate);
@@ -728,9 +744,10 @@ describe('Integration | Repository | Target-profile', function () {
       expect(savedTargetProfileTemplate.tubes).to.deep.include({ id: 'tubeId1', level: 8 });
       expect(savedTargetProfileTemplate.tubes).to.deep.include({ id: 'tubeId2', level: 4 });
       expect(savedTargetProfileTemplate.tubes).to.deep.include({ id: 'tubeId3', level: 5 });
+      expect(savedTargetProfileTemplate.targetProfiles).to.have.lengthOf(1);
     });
 
-    it('should save the target profile template', async function () {
+    it('should save the target profile template and a target profile', async function () {
       // given
       const targetProfileTemplate = {
         tubes: [
@@ -740,11 +757,26 @@ describe('Integration | Repository | Target-profile', function () {
         ],
       };
 
+      const targetProfileForCreation = new TargetProfileForCreation({
+        name: 'myFirstTargetProfile',
+        imageUrl: 'someUrl',
+        isPublic: true,
+        ownerOrganizationId: null,
+        skillIds: [1],
+        description: 'public description of target profile',
+        comment: 'This is a high level target profile',
+        category: TargetProfile.categories.SUBJECT,
+      });
+
       // when
-      const { id } = await targetProfileRepository.createTemplate({ targetProfileTemplate });
+      const { id } = await targetProfileRepository.createTemplateAndTargetProfile({
+        targetProfileTemplate,
+        targetProfileData: targetProfileForCreation,
+      });
 
       // then
       const savedTargetProfileTemplate = await knex('target-profile-templates').select().where({ id }).first();
+      const savedTargetProfile = await knex('target-profiles').select().where({ name: 'myFirstTargetProfile' }).first();
       const savedTargetProfileTemplateTubes = await knex('target-profile-templates_tubes')
         .select()
         .where({ targetProfileTemplateId: id })
@@ -755,6 +787,8 @@ describe('Integration | Repository | Target-profile', function () {
       expect(savedTargetProfileTemplateTubes[0]).to.include({ tubeId: 'tubeId1', level: 8 });
       expect(savedTargetProfileTemplateTubes[1]).to.include({ tubeId: 'tubeId2', level: 4 });
       expect(savedTargetProfileTemplateTubes[2]).to.include({ tubeId: 'tubeId3', level: 5 });
+      expect(savedTargetProfile).to.exist;
+      expect(savedTargetProfile.targetProfileTemplateId).to.equal(id);
     });
   });
 });
