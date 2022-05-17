@@ -1,13 +1,14 @@
 import { module, test } from 'qunit';
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
 import sinon from 'sinon';
-import { render, click } from '@ember/test-helpers';
+import { click } from '@ember/test-helpers';
+import { render } from '@1024pix/ember-testing-library';
 import hbs from 'htmlbars-inline-precompile';
 
 module('Integration | Component | Campaign::Charts::ParticipantsByStage', function (hooks) {
   setupIntlRenderingTest(hooks);
   const campaignId = 1;
-  let onSelectStage, dataFetcher;
+  let onSelectStage, dataFetcher, screen;
 
   hooks.beforeEach(async function () {
     // given
@@ -31,7 +32,7 @@ module('Integration | Component | Campaign::Charts::ParticipantsByStage', functi
     });
 
     // when
-    await render(
+    screen = await render(
       hbs`<Campaign::Charts::ParticipantsByStage @campaignId={{campaignId}} @onSelectStage={{onSelectStage}} />`
     );
   });
@@ -51,6 +52,12 @@ module('Integration | Component | Campaign::Charts::ParticipantsByStage', functi
     // then
     assert.contains('0 %');
     assert.contains('100 %');
+  });
+
+  test('should render a screen reader message', async function (assert) {
+    // then
+    assert.dom(screen.getByRole('img', { name: '0 étoile sur 1' })).exists();
+    assert.dom(screen.getByRole('img', { name: '1 étoile sur 1' })).exists();
   });
 
   test('it should not display empty tooltip', async function (assert) {
