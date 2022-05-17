@@ -32,38 +32,6 @@ describe('Unit | Application | Sessions | Routes', function () {
     });
   });
 
-  describe('GET /api/admin/sessions/{id}', function () {
-    it('should exist', async function () {
-      // given
-      sinon.stub(securityPreHandlers, 'userHasAtLeastOneAccessOf').returns(() => true);
-      sinon.stub(sessionController, 'getJurySession').returns('ok');
-      const httpTestServer = new HttpTestServer();
-      await httpTestServer.register(moduleUnderTest);
-
-      // when
-      const response = await httpTestServer.request('GET', '/api/admin/sessions/123');
-
-      // then
-      expect(response.statusCode).to.equal(200);
-    });
-  });
-
-  describe('GET /api/admin/sessions', function () {
-    it('should exist', async function () {
-      // given
-      sinon.stub(securityPreHandlers, 'userHasAtLeastOneAccessOf').returns(() => true);
-      sinon.stub(sessionController, 'findPaginatedFilteredJurySessions').returns('ok');
-      const httpTestServer = new HttpTestServer();
-      await httpTestServer.register(moduleUnderTest);
-
-      // when
-      const response = await httpTestServer.request('GET', '/api/admin/sessions');
-
-      // then
-      expect(response.statusCode).to.equal(200);
-    });
-  });
-
   describe('POST /api/session', function () {
     it('should exist', async function () {
       // given
@@ -231,22 +199,6 @@ describe('Unit | Application | Sessions | Routes', function () {
     });
   });
 
-  describe('GET /api/admin/sessions/{id}/jury-certification-summaries', function () {
-    it('should exist', async function () {
-      // given
-      sinon.stub(securityPreHandlers, 'userHasAtLeastOneAccessOf').returns(() => true);
-      sinon.stub(sessionController, 'getJuryCertificationSummaries').returns('ok');
-      const httpTestServer = new HttpTestServer();
-      await httpTestServer.register(moduleUnderTest);
-
-      // when
-      const response = await httpTestServer.request('GET', '/api/admin/sessions/1/jury-certification-summaries');
-
-      // then
-      expect(response.statusCode).to.equal(200);
-    });
-  });
-
   describe('POST /api/sessions/{id}/candidate-participation', function () {
     it('should exist', async function () {
       // given
@@ -275,294 +227,6 @@ describe('Unit | Application | Sessions | Routes', function () {
 
       // then
       expect(response.statusCode).to.equal(200);
-    });
-  });
-
-  describe('PATCH /api/admin/sessions/{id}/publish', function () {
-    it('should exist', async function () {
-      // given
-      sinon.stub(sessionController, 'publish').returns('ok');
-      sinon.stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin').resolves(true);
-      const httpTestServer = new HttpTestServer();
-      await httpTestServer.register(moduleUnderTest);
-
-      // when
-      const response = await httpTestServer.request('PATCH', '/api/admin/sessions/1/publish', {
-        data: {
-          attributes: {
-            toPublish: true,
-          },
-        },
-      });
-
-      // then
-      expect(response.statusCode).to.equal(200);
-    });
-
-    it('return forbidden access if user has METIER role', async function () {
-      // given
-      sinon.stub(sessionController, 'publish').returns('ok');
-
-      sinon.stub(securityPreHandlers, 'checkUserHasRoleMetier').callsFake((request, h) => h.response(true));
-      sinon
-        .stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin')
-        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
-      sinon
-        .stub(securityPreHandlers, 'checkUserHasRoleSupport')
-        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
-      sinon
-        .stub(securityPreHandlers, 'checkUserHasRoleCertif')
-        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
-
-      const httpTestServer = new HttpTestServer();
-      await httpTestServer.register(moduleUnderTest);
-
-      // when
-      const response = await httpTestServer.request('PATCH', '/api/admin/sessions/1/publish', {
-        data: {
-          attributes: {
-            toPublish: true,
-          },
-        },
-      });
-
-      // then
-      expect(response.statusCode).to.equal(403);
-      sinon.assert.notCalled(sessionController.publish);
-    });
-  });
-
-  describe('PATCH /api/admin/sessions/{id}/unpublish', function () {
-    it('should exist', async function () {
-      // given
-      sinon.stub(securityPreHandlers, 'userHasAtLeastOneAccessOf').returns(() => true);
-      sinon.stub(sessionController, 'unpublish').returns('ok');
-      const httpTestServer = new HttpTestServer();
-      await httpTestServer.register(moduleUnderTest);
-
-      // when
-      const response = await httpTestServer.request('PATCH', '/api/admin/sessions/1/unpublish');
-
-      // then
-      expect(response.statusCode).to.equal(200);
-    });
-
-    it('return forbidden access if user has METIER role', async function () {
-      // given
-      sinon.stub(securityPreHandlers, 'checkUserHasRoleMetier').callsFake((request, h) => h.response(true));
-      sinon
-        .stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin')
-        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
-      sinon
-        .stub(securityPreHandlers, 'checkUserHasRoleSupport')
-        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
-      sinon
-        .stub(securityPreHandlers, 'checkUserHasRoleCertif')
-        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
-
-      const httpTestServer = new HttpTestServer();
-      await httpTestServer.register(moduleUnderTest);
-
-      // when
-      const response = await httpTestServer.request('PATCH', '/api/admin/sessions/1/unpublish');
-
-      // then
-      expect(response.statusCode).to.equal(403);
-      sinon.assert.notCalled(securityPreHandlers.checkUserHasRoleMetier);
-    });
-  });
-
-  describe('POST /api/admin/sessions/publish-in-batch', function () {
-    it('is protected by a pre-handler checking authorization to access Pix Admin', async function () {
-      // given
-      sinon
-        .stub(securityPreHandlers, 'userHasAtLeastOneAccessOf')
-        .returns((request, h) => h.response().code(403).takeover());
-      const httpTestServer = new HttpTestServer();
-      await httpTestServer.register(moduleUnderTest);
-
-      const payload = {
-        data: {
-          attributes: {
-            ids: [1, 2, 3],
-          },
-        },
-      };
-
-      // when
-      const response = await httpTestServer.request('POST', '/api/admin/sessions/publish-in-batch', payload);
-
-      // then
-      expect(response.statusCode).to.equal(403);
-    });
-
-    it('return forbidden access if user has METIER role', async function () {
-      // given
-      sinon.stub(sessionController, 'publishInBatch').returns('ok');
-
-      sinon.stub(securityPreHandlers, 'checkUserHasRoleMetier').callsFake((request, h) => h.response(true));
-      sinon
-        .stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin')
-        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
-      sinon
-        .stub(securityPreHandlers, 'checkUserHasRoleSupport')
-        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
-      sinon
-        .stub(securityPreHandlers, 'checkUserHasRoleCertif')
-        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
-
-      const httpTestServer = new HttpTestServer();
-      await httpTestServer.register(moduleUnderTest);
-
-      // when
-      const response = await httpTestServer.request('POST', '/api/admin/sessions/publish-in-batch', {
-        data: {
-          attributes: {
-            ids: [1, 2, 3],
-          },
-        },
-      });
-
-      // then
-      expect(response.statusCode).to.equal(403);
-      sinon.assert.notCalled(sessionController.publishInBatch);
-    });
-
-    it('should succeed with valid session ids', async function () {
-      // given
-      sinon.stub(securityPreHandlers, 'userHasAtLeastOneAccessOf').returns(() => true);
-      sinon.stub(sessionController, 'publishInBatch').returns('ok');
-      const httpTestServer = new HttpTestServer();
-      await httpTestServer.register(moduleUnderTest);
-
-      const payload = {
-        data: {
-          attributes: {
-            ids: [1, 2, 3],
-          },
-        },
-      };
-
-      // when
-      const response = await httpTestServer.request('POST', '/api/admin/sessions/publish-in-batch', payload);
-
-      // then
-      expect(response.statusCode).to.equal(200);
-    });
-
-    it('should validate the session ids in payload', async function () {
-      // given
-      const httpTestServer = new HttpTestServer();
-      await httpTestServer.register(moduleUnderTest);
-
-      const payload = {
-        data: {
-          attributes: {
-            ids: ['an invalid session id'],
-          },
-        },
-      };
-
-      // when
-      const response = await httpTestServer.request('POST', '/api/admin/sessions/publish-in-batch', payload);
-
-      // then
-      expect(response.statusCode).to.equal(400);
-    });
-  });
-
-  describe('PUT /api/admin/sessions/{id}/results-sent-to-prescriber', function () {
-    it('should exist', async function () {
-      // when
-      sinon.stub(securityPreHandlers, 'userHasAtLeastOneAccessOf').returns(() => true);
-      sinon.stub(sessionController, 'flagResultsAsSentToPrescriber').returns('ok');
-      const httpTestServer = new HttpTestServer();
-      await httpTestServer.register(moduleUnderTest);
-
-      const response = await httpTestServer.request('PUT', '/api/admin/sessions/3/results-sent-to-prescriber');
-
-      // then
-      expect(response.statusCode).to.equal(200);
-    });
-
-    it('return forbidden access if user has METIER role', async function () {
-      // given
-      sinon.stub(sessionController, 'flagResultsAsSentToPrescriber').returns('ok');
-
-      sinon.stub(securityPreHandlers, 'checkUserHasRoleMetier').callsFake((request, h) => h.response(true));
-      sinon
-        .stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin')
-        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
-      sinon
-        .stub(securityPreHandlers, 'checkUserHasRoleSupport')
-        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
-      sinon
-        .stub(securityPreHandlers, 'checkUserHasRoleCertif')
-        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
-
-      const httpTestServer = new HttpTestServer();
-      await httpTestServer.register(moduleUnderTest);
-
-      // when
-      const response = await httpTestServer.request('PUT', '/api/admin/sessions/1/results-sent-to-prescriber');
-
-      // then
-      expect(response.statusCode).to.equal(403);
-      sinon.assert.notCalled(sessionController.flagResultsAsSentToPrescriber);
-    });
-  });
-
-  describe('GET /api/admin/sessions/{id}/supervisor-kit', function () {
-    it('should return 200', async function () {
-      // when
-      sinon.stub(sessionController, 'getSupervisorKitPdf').returns('ok');
-      const httpTestServer = new HttpTestServer();
-      await httpTestServer.register(moduleUnderTest);
-
-      const response = await httpTestServer.request('GET', '/api/sessions/3/supervisor-kit');
-
-      // then
-      expect(response.statusCode).to.equal(200);
-    });
-  });
-
-  describe('PATCH /api/admin/sessions/{id}/certification-officer-assignment', function () {
-    it('should exist', async function () {
-      // given
-      sinon.stub(securityPreHandlers, 'userHasAtLeastOneAccessOf').returns(() => true);
-      sinon.stub(sessionController, 'assignCertificationOfficer').returns('ok');
-      const httpTestServer = new HttpTestServer();
-      await httpTestServer.register(moduleUnderTest);
-
-      // when
-      const response = await httpTestServer.request('PATCH', '/api/admin/sessions/1/certification-officer-assignment');
-
-      // then
-      expect(response.statusCode).to.equal(200);
-    });
-
-    it('return forbidden access if user has METIER role', async function () {
-      // given
-      sinon.stub(securityPreHandlers, 'checkUserHasRoleMetier').callsFake((request, h) => h.response(true));
-      sinon
-        .stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin')
-        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
-      sinon
-        .stub(securityPreHandlers, 'checkUserHasRoleSupport')
-        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
-      sinon
-        .stub(securityPreHandlers, 'checkUserHasRoleCertif')
-        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
-
-      const httpTestServer = new HttpTestServer();
-      await httpTestServer.register(moduleUnderTest);
-
-      // when
-      const response = await httpTestServer.request('PATCH', '/api/admin/sessions/1/certification-officer-assignment');
-
-      // then
-      expect(response.statusCode).to.equal(403);
-      sinon.assert.notCalled(securityPreHandlers.checkUserHasRoleMetier);
     });
   });
 
@@ -739,167 +403,6 @@ describe('Unit | Application | Sessions | Routes', function () {
     });
   });
 
-  describe('GET /api/admin/sessions/to-publish', function () {
-    it('exists', async function () {
-      // given
-      sinon.stub(securityPreHandlers, 'userHasAtLeastOneAccessOf').returns(() => true);
-      sinon.stub(finalizedSessionController, 'findFinalizedSessionsToPublish').returns('ok');
-      const httpTestServer = new HttpTestServer();
-      await httpTestServer.register(moduleUnderTest);
-
-      // when
-      const response = await httpTestServer.request('GET', '/api/admin/sessions/to-publish');
-
-      // then
-      expect(response.statusCode).to.equal(200);
-    });
-    it('is protected by a prehandler checking the SUPER_ADMIN role', async function () {
-      // given
-      sinon
-        .stub(securityPreHandlers, 'userHasAtLeastOneAccessOf')
-        .returns((request, h) => h.response().code(403).takeover());
-      const httpTestServer = new HttpTestServer();
-      await httpTestServer.register(moduleUnderTest);
-
-      // when
-      const response = await httpTestServer.request('GET', '/api/admin/sessions/to-publish');
-
-      // then
-      expect(response.statusCode).to.equal(403);
-    });
-  });
-
-  describe('GET /api/admin/sessions/with-required-action', function () {
-    it('exists', async function () {
-      // given
-      sinon.stub(securityPreHandlers, 'userHasAtLeastOneAccessOf').returns(() => true);
-      sinon.stub(finalizedSessionController, 'findFinalizedSessionsWithRequiredAction').returns('ok');
-      const httpTestServer = new HttpTestServer();
-      await httpTestServer.register(moduleUnderTest);
-
-      // when
-      const response = await httpTestServer.request('GET', '/api/admin/sessions/with-required-action');
-
-      // then
-      expect(response.statusCode).to.equal(200);
-    });
-
-    it('is protected by a prehandler checking the SUPER_ADMIN role', async function () {
-      // given
-      sinon
-        .stub(securityPreHandlers, 'userHasAtLeastOneAccessOf')
-        .returns((request, h) => h.response().code(403).takeover());
-      const httpTestServer = new HttpTestServer();
-      await httpTestServer.register(moduleUnderTest);
-
-      // when
-      const response = await httpTestServer.request('GET', '/api/admin/sessions/with-required-action');
-
-      // then
-      expect(response.statusCode).to.equal(403);
-    });
-  });
-
-  describe('PUT /api/admin/sessions/{id}/comment', function () {
-    it('should exist', async function () {
-      // given
-      sinon.stub(securityPreHandlers, 'userHasAtLeastOneAccessOf').returns(() => true);
-      sinon.stub(sessionController, 'commentAsJury').returns('ok');
-      const httpTestServer = new HttpTestServer();
-      await httpTestServer.register(moduleUnderTest);
-
-      // when
-      const response = await httpTestServer.request('PUT', '/api/admin/sessions/1/comment');
-
-      // then
-      expect(response.statusCode).to.equal(200);
-    });
-
-    it('is protected by a prehandler checking the SUPER_ADMIN role', async function () {
-      // given
-      sinon
-        .stub(securityPreHandlers, 'userHasAtLeastOneAccessOf')
-        .returns((request, h) => h.response().code(403).takeover());
-      const httpTestServer = new HttpTestServer();
-      await httpTestServer.register(moduleUnderTest);
-
-      // when
-      const response = await httpTestServer.request('PUT', '/api/admin/sessions/1/comment');
-
-      // then
-      expect(response.statusCode).to.equal(403);
-    });
-
-    it('return forbidden access if user has METIER role', async function () {
-      // given
-      sinon.stub(sessionController, 'commentAsJury').returns('ok');
-
-      sinon.stub(securityPreHandlers, 'checkUserHasRoleMetier').callsFake((request, h) => h.response(true));
-      sinon
-        .stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin')
-        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
-      sinon
-        .stub(securityPreHandlers, 'checkUserHasRoleSupport')
-        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
-      sinon
-        .stub(securityPreHandlers, 'checkUserHasRoleCertif')
-        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
-
-      const httpTestServer = new HttpTestServer();
-      await httpTestServer.register(moduleUnderTest);
-
-      // when
-      const response = await httpTestServer.request('PUT', '/api/admin/sessions/1/comment');
-
-      // then
-      expect(response.statusCode).to.equal(403);
-      sinon.assert.notCalled(sessionController.commentAsJury);
-    });
-  });
-
-  describe('DELETE /api/admin/sessions/{id}/comment', function () {
-    it('should call appropriate use case and ensure user has access to Pix Admin', async function () {
-      // given
-      sinon.stub(securityPreHandlers, 'userHasAtLeastOneAccessOf').returns(() => true);
-      sinon.stub(sessionController, 'deleteJuryComment').returns('ok');
-      const httpTestServer = new HttpTestServer();
-      await httpTestServer.register(moduleUnderTest);
-
-      // when
-      await httpTestServer.request('DELETE', '/api/admin/sessions/1/comment');
-
-      // then
-      expect(securityPreHandlers.userHasAtLeastOneAccessOf).to.be.calledOnce;
-      expect(sessionController.deleteJuryComment).to.be.calledOnce;
-    });
-
-    it('return forbidden access if user has METIER role', async function () {
-      // given
-      sinon.stub(sessionController, 'deleteJuryComment').returns('ok');
-
-      sinon.stub(securityPreHandlers, 'checkUserHasRoleMetier').callsFake((request, h) => h.response(true));
-      sinon
-        .stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin')
-        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
-      sinon
-        .stub(securityPreHandlers, 'checkUserHasRoleSupport')
-        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
-      sinon
-        .stub(securityPreHandlers, 'checkUserHasRoleCertif')
-        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
-
-      const httpTestServer = new HttpTestServer();
-      await httpTestServer.register(moduleUnderTest);
-
-      // when
-      const response = await httpTestServer.request('DELETE', '/api/admin/sessions/1/comment');
-
-      // then
-      expect(response.statusCode).to.equal(403);
-      sinon.assert.notCalled(sessionController.deleteJuryComment);
-    });
-  });
-
   describe('GET /api/sessions/{id}/supervising', function () {
     it('should return 200 if the user is a supervisor of the session and certification center is in the whitelist', async function () {
       //given
@@ -954,31 +457,535 @@ describe('Unit | Application | Sessions | Routes', function () {
     });
   });
 
-  describe('GET /api/admin/sessions/{id}/generate-results-download-link', function () {
-    it('return forbidden access if user has METIER role', async function () {
-      // given
-      sinon.stub(sessionController, 'generateSessionResultsDownloadLink').returns('ok');
+  describe('For admin', function () {
+    describe('GET /api/admin/sessions/{id}', function () {
+      it('should exist', async function () {
+        // given
+        sinon.stub(securityPreHandlers, 'userHasAtLeastOneAccessOf').returns(() => true);
+        sinon.stub(sessionController, 'getJurySession').returns('ok');
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
 
-      sinon.stub(securityPreHandlers, 'checkUserHasRoleMetier').callsFake((request, h) => h.response(true));
-      sinon
-        .stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin')
-        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
-      sinon
-        .stub(securityPreHandlers, 'checkUserHasRoleSupport')
-        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
-      sinon
-        .stub(securityPreHandlers, 'checkUserHasRoleCertif')
-        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+        // when
+        const response = await httpTestServer.request('GET', '/api/admin/sessions/123');
 
-      const httpTestServer = new HttpTestServer();
-      await httpTestServer.register(moduleUnderTest);
+        // then
+        expect(response.statusCode).to.equal(200);
+      });
+    });
 
-      // when
-      const response = await httpTestServer.request('GET', '/api/admin/sessions/1/generate-results-download-link');
+    describe('GET /api/admin/sessions', function () {
+      it('should exist', async function () {
+        // given
+        sinon.stub(securityPreHandlers, 'userHasAtLeastOneAccessOf').returns(() => true);
+        sinon.stub(sessionController, 'findPaginatedFilteredJurySessions').returns('ok');
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
 
-      // then
-      expect(response.statusCode).to.equal(403);
-      sinon.assert.notCalled(sessionController.generateSessionResultsDownloadLink);
+        // when
+        const response = await httpTestServer.request('GET', '/api/admin/sessions');
+
+        // then
+        expect(response.statusCode).to.equal(200);
+      });
+    });
+    describe('GET /api/admin/sessions/{id}/jury-certification-summaries', function () {
+      it('should exist', async function () {
+        // given
+        sinon.stub(securityPreHandlers, 'userHasAtLeastOneAccessOf').returns(() => true);
+        sinon.stub(sessionController, 'getJuryCertificationSummaries').returns('ok');
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        // when
+        const response = await httpTestServer.request('GET', '/api/admin/sessions/1/jury-certification-summaries');
+
+        // then
+        expect(response.statusCode).to.equal(200);
+      });
+    });
+
+    describe('PATCH /api/admin/sessions/{id}/publish', function () {
+      it('should exist', async function () {
+        // given
+        sinon.stub(sessionController, 'publish').returns('ok');
+        sinon.stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin').resolves(true);
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        // when
+        const response = await httpTestServer.request('PATCH', '/api/admin/sessions/1/publish', {
+          data: {
+            attributes: {
+              toPublish: true,
+            },
+          },
+        });
+
+        // then
+        expect(response.statusCode).to.equal(200);
+      });
+
+      it('return forbidden access if user has METIER role', async function () {
+        // given
+        sinon.stub(sessionController, 'publish').returns('ok');
+
+        sinon.stub(securityPreHandlers, 'checkUserHasRoleMetier').callsFake((request, h) => h.response(true));
+        sinon
+          .stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin')
+          .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+        sinon
+          .stub(securityPreHandlers, 'checkUserHasRoleSupport')
+          .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+        sinon
+          .stub(securityPreHandlers, 'checkUserHasRoleCertif')
+          .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        // when
+        const response = await httpTestServer.request('PATCH', '/api/admin/sessions/1/publish', {
+          data: {
+            attributes: {
+              toPublish: true,
+            },
+          },
+        });
+
+        // then
+        expect(response.statusCode).to.equal(403);
+        sinon.assert.notCalled(sessionController.publish);
+      });
+    });
+
+    describe('PATCH /api/admin/sessions/{id}/unpublish', function () {
+      it('should exist', async function () {
+        // given
+        sinon.stub(securityPreHandlers, 'userHasAtLeastOneAccessOf').returns(() => true);
+        sinon.stub(sessionController, 'unpublish').returns('ok');
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        // when
+        const response = await httpTestServer.request('PATCH', '/api/admin/sessions/1/unpublish');
+
+        // then
+        expect(response.statusCode).to.equal(200);
+      });
+
+      it('return forbidden access if user has METIER role', async function () {
+        // given
+        sinon.stub(securityPreHandlers, 'checkUserHasRoleMetier').callsFake((request, h) => h.response(true));
+        sinon
+          .stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin')
+          .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+        sinon
+          .stub(securityPreHandlers, 'checkUserHasRoleSupport')
+          .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+        sinon
+          .stub(securityPreHandlers, 'checkUserHasRoleCertif')
+          .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        // when
+        const response = await httpTestServer.request('PATCH', '/api/admin/sessions/1/unpublish');
+
+        // then
+        expect(response.statusCode).to.equal(403);
+        sinon.assert.notCalled(securityPreHandlers.checkUserHasRoleMetier);
+      });
+    });
+
+    describe('POST /api/admin/sessions/publish-in-batch', function () {
+      it('is protected by a pre-handler checking authorization to access Pix Admin', async function () {
+        // given
+        sinon
+          .stub(securityPreHandlers, 'userHasAtLeastOneAccessOf')
+          .returns((request, h) => h.response().code(403).takeover());
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        const payload = {
+          data: {
+            attributes: {
+              ids: [1, 2, 3],
+            },
+          },
+        };
+
+        // when
+        const response = await httpTestServer.request('POST', '/api/admin/sessions/publish-in-batch', payload);
+
+        // then
+        expect(response.statusCode).to.equal(403);
+      });
+
+      it('return forbidden access if user has METIER role', async function () {
+        // given
+        sinon.stub(sessionController, 'publishInBatch').returns('ok');
+
+        sinon.stub(securityPreHandlers, 'checkUserHasRoleMetier').callsFake((request, h) => h.response(true));
+        sinon
+          .stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin')
+          .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+        sinon
+          .stub(securityPreHandlers, 'checkUserHasRoleSupport')
+          .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+        sinon
+          .stub(securityPreHandlers, 'checkUserHasRoleCertif')
+          .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        // when
+        const response = await httpTestServer.request('POST', '/api/admin/sessions/publish-in-batch', {
+          data: {
+            attributes: {
+              ids: [1, 2, 3],
+            },
+          },
+        });
+
+        // then
+        expect(response.statusCode).to.equal(403);
+        sinon.assert.notCalled(sessionController.publishInBatch);
+      });
+
+      it('should succeed with valid session ids', async function () {
+        // given
+        sinon.stub(securityPreHandlers, 'userHasAtLeastOneAccessOf').returns(() => true);
+        sinon.stub(sessionController, 'publishInBatch').returns('ok');
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        const payload = {
+          data: {
+            attributes: {
+              ids: [1, 2, 3],
+            },
+          },
+        };
+
+        // when
+        const response = await httpTestServer.request('POST', '/api/admin/sessions/publish-in-batch', payload);
+
+        // then
+        expect(response.statusCode).to.equal(200);
+      });
+
+      it('should validate the session ids in payload', async function () {
+        // given
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        const payload = {
+          data: {
+            attributes: {
+              ids: ['an invalid session id'],
+            },
+          },
+        };
+
+        // when
+        const response = await httpTestServer.request('POST', '/api/admin/sessions/publish-in-batch', payload);
+
+        // then
+        expect(response.statusCode).to.equal(400);
+      });
+    });
+
+    describe('PUT /api/admin/sessions/{id}/results-sent-to-prescriber', function () {
+      it('should exist', async function () {
+        // when
+        sinon.stub(securityPreHandlers, 'userHasAtLeastOneAccessOf').returns(() => true);
+        sinon.stub(sessionController, 'flagResultsAsSentToPrescriber').returns('ok');
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        const response = await httpTestServer.request('PUT', '/api/admin/sessions/3/results-sent-to-prescriber');
+
+        // then
+        expect(response.statusCode).to.equal(200);
+      });
+
+      it('return forbidden access if user has METIER role', async function () {
+        // given
+        sinon.stub(sessionController, 'flagResultsAsSentToPrescriber').returns('ok');
+
+        sinon.stub(securityPreHandlers, 'checkUserHasRoleMetier').callsFake((request, h) => h.response(true));
+        sinon
+          .stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin')
+          .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+        sinon
+          .stub(securityPreHandlers, 'checkUserHasRoleSupport')
+          .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+        sinon
+          .stub(securityPreHandlers, 'checkUserHasRoleCertif')
+          .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        // when
+        const response = await httpTestServer.request('PUT', '/api/admin/sessions/1/results-sent-to-prescriber');
+
+        // then
+        expect(response.statusCode).to.equal(403);
+        sinon.assert.notCalled(sessionController.flagResultsAsSentToPrescriber);
+      });
+    });
+
+    describe('GET /api/admin/sessions/{id}/supervisor-kit', function () {
+      it('should return 200', async function () {
+        // when
+        sinon.stub(sessionController, 'getSupervisorKitPdf').returns('ok');
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        const response = await httpTestServer.request('GET', '/api/sessions/3/supervisor-kit');
+
+        // then
+        expect(response.statusCode).to.equal(200);
+      });
+    });
+
+    describe('PATCH /api/admin/sessions/{id}/certification-officer-assignment', function () {
+      it('should exist', async function () {
+        // given
+        sinon.stub(securityPreHandlers, 'userHasAtLeastOneAccessOf').returns(() => true);
+        sinon.stub(sessionController, 'assignCertificationOfficer').returns('ok');
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        // when
+        const response = await httpTestServer.request(
+          'PATCH',
+          '/api/admin/sessions/1/certification-officer-assignment'
+        );
+
+        // then
+        expect(response.statusCode).to.equal(200);
+      });
+
+      it('return forbidden access if user has METIER role', async function () {
+        // given
+        sinon.stub(securityPreHandlers, 'checkUserHasRoleMetier').callsFake((request, h) => h.response(true));
+        sinon
+          .stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin')
+          .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+        sinon
+          .stub(securityPreHandlers, 'checkUserHasRoleSupport')
+          .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+        sinon
+          .stub(securityPreHandlers, 'checkUserHasRoleCertif')
+          .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        // when
+        const response = await httpTestServer.request(
+          'PATCH',
+          '/api/admin/sessions/1/certification-officer-assignment'
+        );
+
+        // then
+        expect(response.statusCode).to.equal(403);
+        sinon.assert.notCalled(securityPreHandlers.checkUserHasRoleMetier);
+      });
+    });
+
+    describe('GET /api/admin/sessions/to-publish', function () {
+      it('exists', async function () {
+        // given
+        sinon.stub(securityPreHandlers, 'userHasAtLeastOneAccessOf').returns(() => true);
+        sinon.stub(finalizedSessionController, 'findFinalizedSessionsToPublish').returns('ok');
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        // when
+        const response = await httpTestServer.request('GET', '/api/admin/sessions/to-publish');
+
+        // then
+        expect(response.statusCode).to.equal(200);
+      });
+      it('is protected by a prehandler checking the SUPER_ADMIN role', async function () {
+        // given
+        sinon
+          .stub(securityPreHandlers, 'userHasAtLeastOneAccessOf')
+          .returns((request, h) => h.response().code(403).takeover());
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        // when
+        const response = await httpTestServer.request('GET', '/api/admin/sessions/to-publish');
+
+        // then
+        expect(response.statusCode).to.equal(403);
+      });
+    });
+
+    describe('GET /api/admin/sessions/with-required-action', function () {
+      it('exists', async function () {
+        // given
+        sinon.stub(securityPreHandlers, 'userHasAtLeastOneAccessOf').returns(() => true);
+        sinon.stub(finalizedSessionController, 'findFinalizedSessionsWithRequiredAction').returns('ok');
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        // when
+        const response = await httpTestServer.request('GET', '/api/admin/sessions/with-required-action');
+
+        // then
+        expect(response.statusCode).to.equal(200);
+      });
+
+      it('is protected by a prehandler checking the SUPER_ADMIN role', async function () {
+        // given
+        sinon
+          .stub(securityPreHandlers, 'userHasAtLeastOneAccessOf')
+          .returns((request, h) => h.response().code(403).takeover());
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        // when
+        const response = await httpTestServer.request('GET', '/api/admin/sessions/with-required-action');
+
+        // then
+        expect(response.statusCode).to.equal(403);
+      });
+    });
+
+    describe('PUT /api/admin/sessions/{id}/comment', function () {
+      it('should exist', async function () {
+        // given
+        sinon.stub(securityPreHandlers, 'userHasAtLeastOneAccessOf').returns(() => true);
+        sinon.stub(sessionController, 'commentAsJury').returns('ok');
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        // when
+        const response = await httpTestServer.request('PUT', '/api/admin/sessions/1/comment');
+
+        // then
+        expect(response.statusCode).to.equal(200);
+      });
+
+      it('is protected by a prehandler checking the SUPER_ADMIN role', async function () {
+        // given
+        sinon
+          .stub(securityPreHandlers, 'userHasAtLeastOneAccessOf')
+          .returns((request, h) => h.response().code(403).takeover());
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        // when
+        const response = await httpTestServer.request('PUT', '/api/admin/sessions/1/comment');
+
+        // then
+        expect(response.statusCode).to.equal(403);
+      });
+
+      it('return forbidden access if user has METIER role', async function () {
+        // given
+        sinon.stub(sessionController, 'commentAsJury').returns('ok');
+
+        sinon.stub(securityPreHandlers, 'checkUserHasRoleMetier').callsFake((request, h) => h.response(true));
+        sinon
+          .stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin')
+          .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+        sinon
+          .stub(securityPreHandlers, 'checkUserHasRoleSupport')
+          .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+        sinon
+          .stub(securityPreHandlers, 'checkUserHasRoleCertif')
+          .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        // when
+        const response = await httpTestServer.request('PUT', '/api/admin/sessions/1/comment');
+
+        // then
+        expect(response.statusCode).to.equal(403);
+        sinon.assert.notCalled(sessionController.commentAsJury);
+      });
+    });
+
+    describe('DELETE /api/admin/sessions/{id}/comment', function () {
+      it('should call appropriate use case and ensure user has access to Pix Admin', async function () {
+        // given
+        sinon.stub(securityPreHandlers, 'userHasAtLeastOneAccessOf').returns(() => true);
+        sinon.stub(sessionController, 'deleteJuryComment').returns('ok');
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        // when
+        await httpTestServer.request('DELETE', '/api/admin/sessions/1/comment');
+
+        // then
+        expect(securityPreHandlers.userHasAtLeastOneAccessOf).to.be.calledOnce;
+        expect(sessionController.deleteJuryComment).to.be.calledOnce;
+      });
+
+      it('return forbidden access if user has METIER role', async function () {
+        // given
+        sinon.stub(sessionController, 'deleteJuryComment').returns('ok');
+
+        sinon.stub(securityPreHandlers, 'checkUserHasRoleMetier').callsFake((request, h) => h.response(true));
+        sinon
+          .stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin')
+          .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+        sinon
+          .stub(securityPreHandlers, 'checkUserHasRoleSupport')
+          .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+        sinon
+          .stub(securityPreHandlers, 'checkUserHasRoleCertif')
+          .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        // when
+        const response = await httpTestServer.request('DELETE', '/api/admin/sessions/1/comment');
+
+        // then
+        expect(response.statusCode).to.equal(403);
+        sinon.assert.notCalled(sessionController.deleteJuryComment);
+      });
+    });
+
+    describe('GET /api/admin/sessions/{id}/generate-results-download-link', function () {
+      it('return forbidden access if user has METIER role', async function () {
+        // given
+        sinon.stub(sessionController, 'generateSessionResultsDownloadLink').returns('ok');
+
+        sinon.stub(securityPreHandlers, 'checkUserHasRoleMetier').callsFake((request, h) => h.response(true));
+        sinon
+          .stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin')
+          .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+        sinon
+          .stub(securityPreHandlers, 'checkUserHasRoleSupport')
+          .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+        sinon
+          .stub(securityPreHandlers, 'checkUserHasRoleCertif')
+          .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        // when
+        const response = await httpTestServer.request('GET', '/api/admin/sessions/1/generate-results-download-link');
+
+        // then
+        expect(response.statusCode).to.equal(403);
+        sinon.assert.notCalled(sessionController.generateSessionResultsDownloadLink);
+      });
     });
   });
 });
