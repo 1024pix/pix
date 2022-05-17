@@ -11,9 +11,11 @@ const {
   NotFoundError,
   ObjectValidationError,
   InvalidSkillSetError,
+  OrganizationNotFoundError,
 } = require('../../domain/errors');
 const DomainTransaction = require('../../infrastructure/DomainTransaction');
 const TargetProfile = require('../../domain/models/TargetProfile');
+const { PGSQL_FOREIGN_KEY_VIOLATION_ERROR } = require('../../../db/pgsql-errors');
 
 module.exports = {
   async create(targetProfileData) {
@@ -45,6 +47,10 @@ module.exports = {
       return targetProfileId;
     } catch (e) {
       await trx.rollback();
+
+      if (e.code === PGSQL_FOREIGN_KEY_VIOLATION_ERROR) {
+        throw new OrganizationNotFoundError();
+      }
 
       throw new TargetProfileCannotBeCreated();
     }
