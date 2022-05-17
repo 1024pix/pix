@@ -50,6 +50,11 @@ describe('Acceptance | Certification | Certification Course', function () {
           return visit('/certifications');
         });
 
+        it("should display a link to user's certifications", async function () {
+          // then
+          expect(contains(this.intl.t('pages.certification-start.link-to-user-certification'))).to.exist;
+        });
+
         context('when no candidate with given info has been registered in the given session', function () {
           beforeEach(async function () {
             // when

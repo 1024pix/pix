@@ -342,7 +342,8 @@
         "candidate-not-authorized-to-start": "Your invigilator has not confirmed your presence in the test room. Therefore, you cannot start your certification test yet. Please inform your invigilator.",
         "candidate-not-authorized-to-resume": "Please contact your invigilator to resume your certification test."
       },
-      "first-title": "You are about to begin your certification test."
+      "first-title": "You are about to begin your certification test.",
+      "link-to-user-certification": "See my certificates"
     },
     "certifications-list": {
       "title": "My Certifications",

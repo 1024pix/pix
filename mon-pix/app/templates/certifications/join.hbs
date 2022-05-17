@@ -15,6 +15,10 @@
                 @closeBanner={{this.closeBanner}}
               />
             {{/if}}
+            <div class="certification-start-page__link-to-user-certifications">
+              <FaIcon @icon="arrow-right" />
+              <LinkTo @route="user-certifications">{{t "pages.certification-start.link-to-user-certification"}}</LinkTo>
+            </div>
             <CertificationJoiner @onStepChange={{this.changeStep}} />
           </PixBlock>
         {{else}}
