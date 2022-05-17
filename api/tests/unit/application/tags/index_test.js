@@ -15,7 +15,7 @@ describe('Unit | Application | Router | tag-router', function () {
       ];
 
       sinon.stub(tagController, 'findAllTags').returns(tags);
-      sinon.stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin').resolves(true);
+      sinon.stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin').callsFake((request, h) => h.response(true));
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
 
@@ -29,16 +29,16 @@ describe('Unit | Application | Router | tag-router', function () {
   });
 
   describe('POST /api/admin/tags', function () {
-    it('returns forbidden access if user has CERTIF or SUPPORT or METIER role', async function () {
+    it('returns forbidden access if admin member has CERTIF or SUPPORT or METIER role', async function () {
       // given
       sinon.stub(tagController, 'create').resolves('ok');
 
       sinon
         .stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin')
         .callsFake((request, h) => h.response().code(403).takeover());
-      sinon.stub(securityPreHandlers, 'checkUserHasRoleCertif').resolves(true);
-      sinon.stub(securityPreHandlers, 'checkUserHasRoleSupport').resolves(true);
-      sinon.stub(securityPreHandlers, 'checkUserHasRoleMetier').resolves(true);
+      sinon.stub(securityPreHandlers, 'checkUserHasRoleCertif').callsFake((request, h) => h.response(true));
+      sinon.stub(securityPreHandlers, 'checkUserHasRoleSupport').callsFake((request, h) => h.response(true));
+      sinon.stub(securityPreHandlers, 'checkUserHasRoleMetier').callsFake((request, h) => h.response(true));
 
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);

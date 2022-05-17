@@ -25,12 +25,18 @@ describe('Unit | Router | membership-router', function () {
       expect(membershipController.update).to.have.been.called;
     });
 
-    it('returns forbidden access if user has CERTIF role', async function () {
+    it('returns forbidden access if admin member has CERTIF role', async function () {
       // given
-      sinon.stub(securityPreHandlers, 'checkUserHasRoleCertif').resolves(true);
-      sinon.stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin').resolves({ source: { errors: {} } });
-      sinon.stub(securityPreHandlers, 'checkUserHasRoleSupport').resolves({ source: { errors: {} } });
-      sinon.stub(securityPreHandlers, 'checkUserHasRoleMetier').resolves({ source: { errors: {} } });
+      sinon.stub(securityPreHandlers, 'checkUserHasRoleCertif').callsFake((request, h) => h.response(true));
+      sinon
+        .stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin')
+        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+      sinon
+        .stub(securityPreHandlers, 'checkUserHasRoleSupport')
+        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+      sinon
+        .stub(securityPreHandlers, 'checkUserHasRoleMetier')
+        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
 
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -82,12 +88,18 @@ describe('Unit | Router | membership-router', function () {
   });
 
   describe('POST /api/admin/memberships', function () {
-    it('returns forbidden access if user has CERTIF role', async function () {
+    it('returns forbidden access if admin member has CERTIF role', async function () {
       // given
-      sinon.stub(securityPreHandlers, 'checkUserHasRoleCertif').resolves(true);
-      sinon.stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin').resolves({ source: { errors: {} } });
-      sinon.stub(securityPreHandlers, 'checkUserHasRoleSupport').resolves({ source: { errors: {} } });
-      sinon.stub(securityPreHandlers, 'checkUserHasRoleMetier').resolves({ source: { errors: {} } });
+      sinon.stub(securityPreHandlers, 'checkUserHasRoleCertif').callsFake((request, h) => h.response(true));
+      sinon
+        .stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin')
+        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+      sinon
+        .stub(securityPreHandlers, 'checkUserHasRoleSupport')
+        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+      sinon
+        .stub(securityPreHandlers, 'checkUserHasRoleMetier')
+        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
 
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -118,14 +130,20 @@ describe('Unit | Router | membership-router', function () {
       expect(membershipController.disable).to.have.been.called;
     });
 
-    it('returns forbidden access if user has CERTIF role', async function () {
+    it('returns forbidden access if admin member has CERTIF role', async function () {
       // given
       sinon.stub(membershipController, 'disable');
 
-      sinon.stub(securityPreHandlers, 'checkUserHasRoleCertif').resolves(true);
-      sinon.stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin').resolves({ source: { errors: {} } });
-      sinon.stub(securityPreHandlers, 'checkUserHasRoleSupport').resolves({ source: { errors: {} } });
-      sinon.stub(securityPreHandlers, 'checkUserHasRoleMetier').resolves({ source: { errors: {} } });
+      sinon.stub(securityPreHandlers, 'checkUserHasRoleCertif').callsFake((request, h) => h.response(true));
+      sinon
+        .stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin')
+        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+      sinon
+        .stub(securityPreHandlers, 'checkUserHasRoleSupport')
+        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+      sinon
+        .stub(securityPreHandlers, 'checkUserHasRoleMetier')
+        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
 
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);

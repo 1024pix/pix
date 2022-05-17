@@ -601,8 +601,8 @@ describe('Unit | Application | SecurityPreHandlers', function () {
     context('Successful case', function () {
       it('should authorize access to resource when the user is authenticated and belongs to organization', async function () {
         // given
-        belongsToOrganizationStub.resolves(true);
-        hasRoleSuperAdminStub.resolves(false);
+        belongsToOrganizationStub.callsFake((request, h) => h.response(true));
+        hasRoleSuperAdminStub.callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
 
         // when
         const response = await securityPreHandlers.userHasAtLeastOneAccessOf([
@@ -616,8 +616,8 @@ describe('Unit | Application | SecurityPreHandlers', function () {
 
       it('should authorize access to resource when the user is authenticated and is Super Admin', async function () {
         // given
-        belongsToOrganizationStub.resolves(false);
-        hasRoleSuperAdminStub.resolves(true);
+        belongsToOrganizationStub.callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+        hasRoleSuperAdminStub.callsFake((request, h) => h.response(true));
 
         // when
         const response = await securityPreHandlers.userHasAtLeastOneAccessOf([
@@ -631,8 +631,8 @@ describe('Unit | Application | SecurityPreHandlers', function () {
 
       it('should authorize access to resource when the user is authenticated and belongs to organization and is Super Admin', async function () {
         // given
-        belongsToOrganizationStub.resolves(true);
-        hasRoleSuperAdminStub.resolves(true);
+        belongsToOrganizationStub.callsFake((request, h) => h.response(true));
+        hasRoleSuperAdminStub.callsFake((request, h) => h.response(true));
 
         // when
         const response = await securityPreHandlers.userHasAtLeastOneAccessOf([
@@ -648,8 +648,8 @@ describe('Unit | Application | SecurityPreHandlers', function () {
     context('Error cases', function () {
       it('should forbid resource access when user does not belong to organization nor has role Super Admin', async function () {
         // given
-        belongsToOrganizationStub.resolves({ source: { errors: {} } });
-        hasRoleSuperAdminStub.resolves({ source: { errors: {} } });
+        belongsToOrganizationStub.callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+        hasRoleSuperAdminStub.callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
 
         // when
         const response = await securityPreHandlers.userHasAtLeastOneAccessOf([
