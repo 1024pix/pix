@@ -1,4 +1,5 @@
 const Joi = require('joi');
+const crypto = require('crypto');
 const {
   rateLimit: { enabled: rateLimitEnabled },
 } = require('../../config');
@@ -17,11 +18,14 @@ exports.register = async (server) => {
           rateLimit: {
             enabled: rateLimitEnabled,
             key: (request) => {
-              if (request.payload.grant_type === 'password') {
-                return request.payload.username;
-              } else {
-                return request.payload.refresh_token;
-              }
+              const baseKey = (() => {
+                if (request.payload.grant_type === 'password') {
+                  return request.payload.username;
+                } else {
+                  return request.payload.refresh_token;
+                }
+              })();
+              return crypto.createHash('sha256').update(baseKey).digest('hex');
             },
           },
         },
