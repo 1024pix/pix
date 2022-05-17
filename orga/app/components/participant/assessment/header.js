@@ -5,4 +5,8 @@ export default class Header extends Component {
     const { campaign, participation } = this.args;
     return campaign.hasBadges && participation.badges.length > 0;
   }
+
+  get valuePercentage() {
+    return Math.round(this.args.participation.masteryRate * 100);
+  }
 }

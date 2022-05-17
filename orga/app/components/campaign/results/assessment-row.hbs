@@ -1,0 +1,35 @@
+<tr
+  aria-label={{t "pages.campaign-results.table.row-title"}}
+  role="button"
+  {{on "click" (fn @onClickParticipant @campaignId @participation.id)}}
+  class="tr--clickable"
+>
+  <td>
+    <LinkTo @route={{"authenticated.campaigns.participant-assessment"}} @models={{array @campaignId @participation.id}}>
+      {{@participation.lastName}}
+    </LinkTo>
+  </td>
+  <td>{{@participation.firstName}}</td>
+  {{#if @hasExternalId}}
+    <td>{{@participation.participantExternalId}}</td>
+  {{/if}}
+  {{#if @hasStages}}
+    <td>
+      <Campaign::StageStars
+        @result={{this.valuePercentage}}
+        @stages={{@stages}}
+        @withTooltip={{true}}
+        @tooltipPosition="bottom-left"
+      />
+    </td>
+  {{else}}
+    <td class="participant-list__mastery-percentage">
+      {{t "pages.campaign-results.table.column.results.value" percentage=@participation.masteryRate}}
+    </td>
+  {{/if}}
+  {{#if @hasBadges}}
+    <td class="participant-list__badges">
+      <Campaign::Badges @badges={{@participation.badges}} />
+    </td>
+  {{/if}}
+</tr>
