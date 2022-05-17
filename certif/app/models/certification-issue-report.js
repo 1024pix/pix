@@ -1,4 +1,5 @@
 import Model, { attr, belongsTo } from '@ember-data/model';
+import { inject as service } from '@ember/service';
 
 export const certificationIssueReportCategories = {
   OTHER: 'OTHER',
@@ -43,7 +44,8 @@ export const subcategoryToLabel = {
     'Était présent(e) mais a oublié de signer, ou a signé sur la mauvaise ligne',
   [certificationIssueReportSubcategories.IMAGE_NOT_DISPLAYING]: "L'image ne s'affiche pas",
   [certificationIssueReportSubcategories.EMBED_NOT_WORKING]: "Le simulateur/l'application ne s'affiche pas",
-  [certificationIssueReportSubcategories.FILE_NOT_OPENING]: "Le fichier à télécharger ne s'ouvre pas",
+  [certificationIssueReportSubcategories.FILE_NOT_OPENING]:
+    "Le fichier à télécharger ne se télécharge pas ou ne s'ouvre pas",
   [certificationIssueReportSubcategories.WEBSITE_UNAVAILABLE]:
     'Le site à visiter est indisponible/en maintenance/inaccessible',
   [certificationIssueReportSubcategories.WEBSITE_BLOCKED]:
@@ -89,6 +91,7 @@ export const subcategoryToTextareaLabel = {
 };
 
 export default class CertificationIssueReport extends Model {
+  @service featureToggles;
   @attr('string') category;
   @attr('string') subcategory;
   @attr('string') description;
@@ -101,6 +104,12 @@ export default class CertificationIssueReport extends Model {
   }
 
   get subcategoryLabel() {
+    if (
+      this.subcategory === certificationIssueReportSubcategories.FILE_NOT_OPENING &&
+      !this.featureToggles.featureToggles.isCertificationFreeFieldsDeletionEnabled
+    ) {
+      return "Le fichier à télécharger ne s'ouvre pas";
+    }
     return this.subcategory ? subcategoryToLabel[this.subcategory] : '';
   }
 
