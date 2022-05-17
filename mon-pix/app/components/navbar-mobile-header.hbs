@@ -1,18 +1,16 @@
-{{! template-lint-disable no-implicit-this no-action no-curly-component-invocation no-invalid-interactive no-unused-block-params }}
+{{! template-lint-disable no-implicit-this no-curly-component-invocation no-invalid-interactive no-unused-block-params }}
 <div class="navbar-mobile-header">
   <div class="navbar-mobile-header__container">
     {{#if @burger}}
       {{#if this.isUserLogged}}
-        <span class="navbar-mobile-header__burger-icon" {{action @burger.state.actions.toggle}}>
-          {{#if @burger.state.open}}
-            <FaIcon @icon="xmark" />
-          {{else}}
+        <button class="navbar-mobile-header__burger-icon" {{on "click" @burger.state.actions.toggle}} type="button">
+          {{#unless @burger.state.open}}
             <FaIcon @icon="bars" />
-          {{/if}}
-        </span>
+          {{/unless}}
+        </button>
 
         {{#@burger.menu as |menu|}}
-          <NavbarBurgerMenu class="navbar-burger-menu-content" />
+          <NavbarBurgerMenu class="navbar-burger-menu-content" @burger={{@burger}} />
         {{/@burger.menu}}
       {{/if}}
     {{/if}}
