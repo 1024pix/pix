@@ -6,6 +6,14 @@ import hbs from 'htmlbars-inline-precompile';
 module('Integration | Helper | format-percentage', function (hooks) {
   setupRenderingTest(hooks);
 
+  test('it truncate decimal places', async function (assert) {
+    this.set('value', 0.2899999);
+
+    await render(hbs`{{format-percentage value}}`);
+
+    assert.dom(this.element).hasText('28 %');
+  });
+
   test('it renders correct value', async function (assert) {
     this.set('value', 0.3);
 
