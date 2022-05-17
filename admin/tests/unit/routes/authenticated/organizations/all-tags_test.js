@@ -3,12 +3,12 @@ import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
 import Service from '@ember/service';
 
-module('Unit | Route | authenticated/organizations/new', function (hooks) {
+module('Unit | Route | authenticated/organizations/get/all-tags', function (hooks) {
   setupTest(hooks);
 
   test('it should check if current user is super admin, support, or metier', function (assert) {
     // given
-    const route = this.owner.lookup('route:authenticated/organizations/new');
+    const route = this.owner.lookup('route:authenticated/organizations/get/all-tags');
 
     const restrictAccessToStub = sinon.stub().returns();
     class AccessControlStub extends Service {
@@ -20,12 +20,14 @@ module('Unit | Route | authenticated/organizations/new', function (hooks) {
     route.beforeModel();
 
     // then
-    assert.ok(restrictAccessToStub.calledWith(['isSuperAdmin', 'isSupport', 'isMetier'], 'authenticated'));
+    assert.ok(
+      restrictAccessToStub.calledWith(['isSuperAdmin', 'isSupport', 'isMetier'], 'authenticated.organizations.get.team')
+    );
   });
 
   test('it should allow super admin to access page', function (assert) {
     // given
-    const route = this.owner.lookup('route:authenticated/organizations/new');
+    const route = this.owner.lookup('route:authenticated/organizations/get/all-tags');
     const router = this.owner.lookup('service:router');
     router.transitionTo = sinon.stub();
 
@@ -44,7 +46,7 @@ module('Unit | Route | authenticated/organizations/new', function (hooks) {
 
   test('it should allow support to access page', function (assert) {
     // given
-    const route = this.owner.lookup('route:authenticated/organizations/new');
+    const route = this.owner.lookup('route:authenticated/organizations/get/all-tags');
     const router = this.owner.lookup('service:router');
     router.transitionTo = sinon.stub();
 
@@ -63,7 +65,7 @@ module('Unit | Route | authenticated/organizations/new', function (hooks) {
 
   test('it should allow metier to access page', function (assert) {
     // given
-    const route = this.owner.lookup('route:authenticated/organizations/new');
+    const route = this.owner.lookup('route:authenticated/organizations/get/all-tags');
     const router = this.owner.lookup('service:router');
     router.transitionTo = sinon.stub();
 
@@ -80,9 +82,9 @@ module('Unit | Route | authenticated/organizations/new', function (hooks) {
     assert.ok(router.transitionTo.notCalled);
   });
 
-  test('it should redirect certif to home page', function (assert) {
+  test('it should redirect certif to organization team page', function (assert) {
     // given
-    const route = this.owner.lookup('route:authenticated/organizations/new');
+    const route = this.owner.lookup('route:authenticated/organizations/get/all-tags');
     const router = this.owner.lookup('service:router');
     router.transitionTo = sinon.stub();
 

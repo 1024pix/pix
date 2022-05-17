@@ -3,6 +3,7 @@ import { setupRenderingTest } from 'ember-qunit';
 import { clickByName, render, selectByLabelAndOption } from '@1024pix/ember-testing-library';
 import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
+import Service from '@ember/service';
 import sinon from 'sinon';
 
 module('Integration | Component | member-item', function (hooks) {
@@ -12,11 +13,16 @@ module('Integration | Component | member-item', function (hooks) {
     const user = EmberObject.create({ id: 123, firstName: 'Jojo', lastName: 'La Gringue', email: 'jojo@lagringue.fr' });
 
     this.membership = EmberObject.create({ id: 1, user, displayedOrganizationRole: 'Administrateur' });
+
+    class AccessControlStub extends Service {
+      hasAccessToOrganizationActionsScope = true;
+    }
+    this.owner.register('service:access-control', AccessControlStub);
   });
 
   test('it should display a member', async function (assert) {
     // when
-    const screen = await render(hbs`<MemberItem @membership={{this.membership}} />`);
+    const screen = await render(hbs`<Organizations::MemberItem @membership={{this.membership}} />`);
 
     // then
     assert.dom(screen.getByText('123')).exists();
@@ -35,7 +41,7 @@ module('Integration | Component | member-item', function (hooks) {
 
       // when
       const screen = await render(
-        hbs`<MemberItem @membership={{this.membership}} @updateMembership={{this.updateMembership}} />`
+        hbs`<Organizations::MemberItem @membership={{this.membership}} @updateMembership={{this.updateMembership}} />`
       );
       await clickByName('Modifier le rôle');
 
@@ -48,7 +54,7 @@ module('Integration | Component | member-item', function (hooks) {
       // given
       this.updateMembership = sinon.spy();
       const screen = await render(
-        hbs`<MemberItem @membership={{this.membership}} @updateMembership={{this.updateMembership}} />`
+        hbs`<Organizations::MemberItem @membership={{this.membership}} @updateMembership={{this.updateMembership}} />`
       );
 
       // when
@@ -63,7 +69,7 @@ module('Integration | Component | member-item', function (hooks) {
       // given
       this.updateMembership = sinon.spy();
       const screen = await render(
-        hbs`<MemberItem @membership={{this.membership}} @updateMembership={{this.updateMembership}} />`
+        hbs`<Organizations::MemberItem @membership={{this.membership}} @updateMembership={{this.updateMembership}} />`
       );
       await clickByName('Modifier le rôle');
 
@@ -81,7 +87,7 @@ module('Integration | Component | member-item', function (hooks) {
       // given
       this.updateMembership = sinon.spy();
       const screen = await render(
-        hbs`<MemberItem @membership={{this.membership}} @updateMembership={{this.updateMembership}} />`
+        hbs`<Organizations::MemberItem @membership={{this.membership}} @updateMembership={{this.updateMembership}} />`
       );
       await clickByName('Modifier le rôle');
 
@@ -101,7 +107,7 @@ module('Integration | Component | member-item', function (hooks) {
       // given
       this.disableMembership = sinon.spy();
       const screen = await render(
-        hbs`<MemberItem @membership={{this.membership}} @disableMembership={{this.disableMembership}} />`
+        hbs`<Organizations::MemberItem @membership={{this.membership}} @disableMembership={{this.disableMembership}} />`
       );
 
       // when
@@ -117,7 +123,7 @@ module('Integration | Component | member-item', function (hooks) {
       // given
       this.disableMembership = sinon.spy();
       const screen = await render(
-        hbs`<MemberItem @membership={{this.membership}} @disableMembership={{this.disableMembership}} />`
+        hbs`<Organizations::MemberItem @membership={{this.membership}} @disableMembership={{this.disableMembership}} />`
       );
       await clickByName('Désactiver le membre');
 
@@ -132,7 +138,9 @@ module('Integration | Component | member-item', function (hooks) {
     test('should disable membership on click on confirm', async function (assert) {
       // given
       this.disableMembership = sinon.spy();
-      await render(hbs`<MemberItem @membership={{this.membership}} @disableMembership={{this.disableMembership}} />`);
+      await render(
+        hbs`<Organizations::MemberItem @membership={{this.membership}} @disableMembership={{this.disableMembership}} />`
+      );
 
       await clickByName('Désactiver le membre');
 
@@ -141,6 +149,23 @@ module('Integration | Component | member-item', function (hooks) {
 
       // then
       assert.ok(this.disableMembership.called);
+    });
+  });
+
+  module('when user does not have access', function () {
+    test('it should not allow to edit or deactivate a member', async function (assert) {
+      // given
+      class AccessControlStub extends Service {
+        hasAccessToOrganizationActionsScope = false;
+      }
+      this.owner.register('service:access-control', AccessControlStub);
+
+      // when
+      const screen = await render(hbs`<Organizations::MemberItem @membership={{this.membership}} />`);
+
+      // expect
+      assert.dom(screen.queryByRole('button', { name: 'Modifier le rôle' })).doesNotExist();
+      assert.dom(screen.queryByRole('button', { name: 'Désactiver' })).doesNotExist();
     });
   });
 });

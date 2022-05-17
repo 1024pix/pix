@@ -25,23 +25,27 @@ describe('Unit | Router | membership-router', function () {
       expect(membershipController.update).to.have.been.called;
     });
 
-    it('should return 403 if user is not Pix Admin', async function () {
+    it('returns forbidden access if admin member has CERTIF role', async function () {
       // given
+      sinon.stub(securityPreHandlers, 'checkUserHasRoleCertif').callsFake((request, h) => h.response(true));
       sinon
-        .stub(securityPreHandlers, 'userHasAtLeastOneAccessOf')
-        .returns((request, h) => h.response().code(403).takeover());
-      sinon.stub(membershipController, 'update');
+        .stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin')
+        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+      sinon
+        .stub(securityPreHandlers, 'checkUserHasRoleSupport')
+        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+      sinon
+        .stub(securityPreHandlers, 'checkUserHasRoleMetier')
+        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
 
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
-      const id = 123;
 
       // when
-      const response = await httpTestServer.request('PATCH', `/api/admin/memberships/${id}`);
+      const response = await httpTestServer.request('PATCH', `/api/admin/memberships/1`);
 
       // then
       expect(response.statusCode).to.equal(403);
-      expect(membershipController.update).to.have.not.been.called;
     });
   });
 
@@ -83,6 +87,31 @@ describe('Unit | Router | membership-router', function () {
     });
   });
 
+  describe('POST /api/admin/memberships', function () {
+    it('returns forbidden access if admin member has CERTIF role', async function () {
+      // given
+      sinon.stub(securityPreHandlers, 'checkUserHasRoleCertif').callsFake((request, h) => h.response(true));
+      sinon
+        .stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin')
+        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+      sinon
+        .stub(securityPreHandlers, 'checkUserHasRoleSupport')
+        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+      sinon
+        .stub(securityPreHandlers, 'checkUserHasRoleMetier')
+        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      // when
+      const response = await httpTestServer.request('POST', `/api/admin/memberships`);
+
+      // then
+      expect(response.statusCode).to.equal(403);
+    });
+  });
+
   describe('POST /api/admin/memberships/{id}/disable', function () {
     it('should return 204 if user is Pix Admin', async function () {
       // given
@@ -101,19 +130,26 @@ describe('Unit | Router | membership-router', function () {
       expect(membershipController.disable).to.have.been.called;
     });
 
-    it('should return 403 if user has no authorization to access Pix Admin', async function () {
+    it('returns forbidden access if admin member has CERTIF role', async function () {
       // given
-      sinon
-        .stub(securityPreHandlers, 'userHasAtLeastOneAccessOf')
-        .returns((request, h) => h.response().code(403).takeover());
       sinon.stub(membershipController, 'disable');
+
+      sinon.stub(securityPreHandlers, 'checkUserHasRoleCertif').callsFake((request, h) => h.response(true));
+      sinon
+        .stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin')
+        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+      sinon
+        .stub(securityPreHandlers, 'checkUserHasRoleSupport')
+        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+      sinon
+        .stub(securityPreHandlers, 'checkUserHasRoleMetier')
+        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
 
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
-      const membershipId = 123;
 
       // when
-      const response = await httpTestServer.request('POST', `/api/admin/memberships/${membershipId}/disable`);
+      const response = await httpTestServer.request('POST', '/api/admin/memberships/1/disable');
 
       // then
       expect(response.statusCode).to.equal(403);

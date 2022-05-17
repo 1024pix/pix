@@ -36,38 +36,40 @@
 {{else}}
   <td>-</td>
 {{/if}}
-{{#if @idPixLabel}}
-  <td>
-    <div class="participation-item-actions">
-      {{#if this.isEditionMode}}
-        <div class="participation-item-actions__modify">
+{{#if this.accessControl.hasAccessToOrganizationActionsScope}}
+  {{#if @idPixLabel}}
+    <td>
+      <div class="participation-item-actions">
+        {{#if this.isEditionMode}}
+          <div class="participation-item-actions__modify">
+            <PixButton
+              @size="small"
+              @triggerAction={{this.updateParticipantExternalId}}
+              class="participation-item-actions__button participation-item-actions__button--save"
+            >
+              Enregistrer
+            </PixButton>
+            <PixButton
+              @size="small"
+              @backgroundColor="transparent-light"
+              @isBorderVisible={{true}}
+              @triggerAction={{this.cancelUpdateParticipantExternalId}}
+              aria-label="Annuler"
+              class="participation-item-actions__button--icon"
+            >
+              <FaIcon @icon="times" />
+            </PixButton>
+          </div>
+        {{else}}
           <PixButton
+            @triggerAction={{this.editParticipantExternalId}}
             @size="small"
-            @triggerAction={{this.updateParticipantExternalId}}
-            class="participation-item-actions__button participation-item-actions__button--save"
+            class="participation-item-actions__button"
           >
-            Enregistrer
+            <FaIcon @icon="edit" />Modifier
           </PixButton>
-          <PixButton
-            @size="small"
-            @backgroundColor="transparent-light"
-            @isBorderVisible={{true}}
-            @triggerAction={{this.cancelUpdateParticipantExternalId}}
-            aria-label="Annuler"
-            class="participation-item-actions__button--icon"
-          >
-            <FaIcon @icon="times" />
-          </PixButton>
-        </div>
-      {{else}}
-        <PixButton
-          @triggerAction={{this.editParticipantExternalId}}
-          @size="small"
-          class="participation-item-actions__button"
-        >
-          <FaIcon @icon="edit" />Modifier
-        </PixButton>
-      {{/if}}
-    </div>
-  </td>
+        {{/if}}
+      </div>
+    </td>
+  {{/if}}
 {{/if}}

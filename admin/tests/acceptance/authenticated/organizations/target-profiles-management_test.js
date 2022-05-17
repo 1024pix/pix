@@ -21,6 +21,7 @@ module('Acceptance | Organizations | Target profiles management', function (hook
     const screen = await visit(`/organizations/${ownerOrganizationId}/target-profiles`);
 
     // then
+    assert.dom(screen.getByRole('link', { name: 'Tags' })).exists();
     assert.dom(screen.getByLabelText('Profil cible')).includesText('Profil cible du ghetto');
   });
 
@@ -36,5 +37,18 @@ module('Acceptance | Organizations | Target profiles management', function (hook
     // then
     assert.dom(screen.getByLabelText('Profil cible')).includesText('66');
     assert.dom(screen.getByLabelText('ID du ou des profil(s) cible(s)')).hasNoValue();
+  });
+
+  test('should not display organization target profiles when user does not have access', async function (assert) {
+    // given
+    await authenticateAdminMemberWithRole({ isCertif: true })(server);
+    const ownerOrganizationId = this.server.create('organization').id;
+    this.server.create('target-profile', { name: 'Profil cible du ghetto', ownerOrganizationId });
+
+    // when
+    const screen = await visit(`/organizations/${ownerOrganizationId}/target-profiles`);
+
+    // then
+    assert.dom(screen.queryByRole('link', { name: 'Tags' })).doesNotExist();
   });
 });

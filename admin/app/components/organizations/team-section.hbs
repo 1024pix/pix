@@ -13,7 +13,9 @@
             <th class="table__column table__column--wide">Nom</th>
             <th class="table__column table__column--wide">Adresse e-mail</th>
             <th class="table__column">Rôle</th>
-            <th class="table__column">Actions</th>
+            {{#if this.accessControl.hasAccessToOrganizationActionsScope}}
+              <th class="table__column">Actions</th>
+            {{/if}}
           </tr>
           <tr>
             <td class="table__column"></td>
@@ -57,7 +59,9 @@
                 aria-label="Rechercher par rôle"
               />
             </td>
-            <td class="table__column"></td>
+            {{#if this.accessControl.hasAccessToOrganizationActionsScope}}
+              <td class="table__column"></td>
+            {{/if}}
           </tr>
         </thead>
 
@@ -65,7 +69,7 @@
           <tbody>
             {{#each @memberships as |membership|}}
               <tr aria-label="Membre">
-                <MemberItem
+                <Organizations::MemberItem
                   @membership={{membership}}
                   @updateMembership={{@updateMembership}}
                   @disableMembership={{@disableMembership}}

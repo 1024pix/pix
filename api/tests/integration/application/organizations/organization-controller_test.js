@@ -70,7 +70,7 @@ describe('Integration | Application | Organizations | organization-controller', 
         securityPreHandlers.userHasAtLeastOneAccessOf.returns(() => true);
 
         // when
-        const response = await httpTestServer.request('PATCH', '/api/organizations/1234', payload);
+        const response = await httpTestServer.request('PATCH', '/api/admin/organizations/1234', payload);
 
         // then
         expect(response.statusCode).to.equal(200);
@@ -83,7 +83,7 @@ describe('Integration | Application | Organizations | organization-controller', 
         securityPreHandlers.userHasAtLeastOneAccessOf.returns(() => true);
 
         // when
-        const response = await httpTestServer.request('PATCH', '/api/organizations/1234', payload);
+        const response = await httpTestServer.request('PATCH', '/api/admin/organizations/1234', payload);
 
         // then
         expect(response.result.data.type).to.equal('organizations');
@@ -97,7 +97,7 @@ describe('Integration | Application | Organizations | organization-controller', 
           securityPreHandlers.userHasAtLeastOneAccessOf.returns((request, h) => h.response().code(403).takeover());
 
           // when
-          const response = await httpTestServer.request('PATCH', '/api/organizations/1234', payload);
+          const response = await httpTestServer.request('PATCH', '/api/admin/organizations/1234', payload);
 
           // then
           expect(response.statusCode).to.equal(403);
@@ -235,7 +235,7 @@ describe('Integration | Application | Organizations | organization-controller', 
           category: 'T2',
         });
         usecases.findOrganizationPlaces.resolves([place]);
-        securityPreHandlers.checkUserHasRoleSuperAdmin.returns(true);
+        securityPreHandlers.userHasAtLeastOneAccessOf.returns(() => true);
 
         // when
         const response = await httpTestServer.request('GET', `/api/admin/organizations/${organizationId}/places`);
@@ -263,7 +263,11 @@ describe('Integration | Application | Organizations | organization-controller', 
           securityPreHandlers.userHasAtLeastOneAccessOf.returns((request, h) => h.response().code(403).takeover());
 
           // when
-          const response = await httpTestServer.request('POST', '/api/organizations/1234/target-profiles', payload);
+          const response = await httpTestServer.request(
+            'POST',
+            '/api/admin/organizations/1234/target-profiles',
+            payload
+          );
 
           // then
           expect(response.statusCode).to.equal(403);
@@ -277,7 +281,11 @@ describe('Integration | Application | Organizations | organization-controller', 
 
           // when
           payload.data.attributes['target-profiles-to-attach'] = ['sdqdqsd', 'qsqsdqd'];
-          const response = await httpTestServer.request('POST', '/api/organizations/1234/target-profiles', payload);
+          const response = await httpTestServer.request(
+            'POST',
+            '/api/admin/organizations/1234/target-profiles',
+            payload
+          );
 
           // then
           expect(response.statusCode).to.equal(404);

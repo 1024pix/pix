@@ -10,6 +10,7 @@ export default class InvitationsController extends Controller {
   @tracked email = null;
   @service notifications;
   @service store;
+  @service accessControl;
 
   @action
   async createOrganizationInvitation(lang, role) {

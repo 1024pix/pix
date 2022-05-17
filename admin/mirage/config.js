@@ -127,11 +127,11 @@ export default function () {
   });
 
   this.post('/admin/memberships', createMembership);
-  this.get('/organizations');
-  this.get('/organizations/:id');
+  this.get('/admin/organizations');
+  this.get('/admin/organizations/:id');
   this.get('/organizations/:id/memberships', findPaginatedOrganizationMemberships);
   this.get('/organizations/:id/target-profiles', getOrganizationTargetProfiles);
-  this.post('/organizations/:id/target-profiles', attachTargetProfiles);
+  this.post('/admin/organizations/:id/target-profiles', attachTargetProfiles);
   this.get('/admin/organizations/:id/invitations', getOrganizationInvitations);
   this.get('/admin/organizations/:id/places', getOrganizationPlaces);
   this.get('/admin/badges/:id', getBadge);
@@ -197,7 +197,7 @@ export default function () {
     return membership.update({ disabledAt: new Date() });
   });
 
-  this.patch('/organizations/:id');
+  this.patch('/admin/organizations/:id');
 
   this.get('/admin/users/:id');
 

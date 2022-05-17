@@ -10,17 +10,16 @@ const ERRORS = {
 };
 
 exports.register = async (server) => {
-  server.route([
+  const adminRoutes = [
     {
       method: 'POST',
-      path: '/api/organizations',
+      path: '/api/admin/organizations',
       config: {
         pre: [
           {
             method: (request, h) =>
               securityPreHandlers.userHasAtLeastOneAccessOf([
                 securityPreHandlers.checkUserHasRoleSuperAdmin,
-                securityPreHandlers.checkUserHasRoleCertif,
                 securityPreHandlers.checkUserHasRoleSupport,
                 securityPreHandlers.checkUserHasRoleMetier,
               ])(request, h),
@@ -31,13 +30,14 @@ exports.register = async (server) => {
         tags: ['api', 'organizations'],
         notes: [
           "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n" +
+            '- SUPER_ADMIN, SUPPORT ou METIER\n' +
             '- Elle permet de créer une nouvelle organisation',
         ],
       },
     },
     {
       method: 'GET',
-      path: '/api/organizations',
+      path: '/api/admin/organizations',
       config: {
         pre: [
           {
@@ -76,7 +76,7 @@ exports.register = async (server) => {
     },
     {
       method: 'GET',
-      path: '/api/organizations/{id}',
+      path: '/api/admin/organizations/{id}',
       config: {
         pre: [
           {
@@ -112,7 +112,6 @@ exports.register = async (server) => {
             method: (request, h) =>
               securityPreHandlers.userHasAtLeastOneAccessOf([
                 securityPreHandlers.checkUserHasRoleSuperAdmin,
-                securityPreHandlers.checkUserHasRoleCertif,
                 securityPreHandlers.checkUserHasRoleSupport,
                 securityPreHandlers.checkUserHasRoleMetier,
               ])(request, h),
@@ -134,14 +133,13 @@ exports.register = async (server) => {
     },
     {
       method: 'PATCH',
-      path: '/api/organizations/{id}',
+      path: '/api/admin/organizations/{id}',
       config: {
         pre: [
           {
             method: (request, h) =>
               securityPreHandlers.userHasAtLeastOneAccessOf([
                 securityPreHandlers.checkUserHasRoleSuperAdmin,
-                securityPreHandlers.checkUserHasRoleCertif,
                 securityPreHandlers.checkUserHasRoleSupport,
                 securityPreHandlers.checkUserHasRoleMetier,
               ])(request, h),
@@ -158,24 +156,6 @@ exports.register = async (server) => {
         notes: [
           "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n" +
             '- Elle permet de mettre à jour tout ou partie d’une organisation',
-        ],
-      },
-    },
-    {
-      method: 'GET',
-      path: '/api/organizations/{id}/campaigns',
-      config: {
-        pre: [{ method: securityPreHandlers.checkUserBelongsToOrganization }],
-        validate: {
-          params: Joi.object({
-            id: identifiersType.organizationId,
-          }),
-        },
-        handler: organizationController.findPaginatedFilteredCampaigns,
-        tags: ['api', 'organizations'],
-        notes: [
-          'Cette route est restreinte aux utilisateurs authentifiés',
-          'Elle retourne les campagnes rattachées à l’organisation.',
         ],
       },
     },
@@ -210,12 +190,47 @@ exports.register = async (server) => {
     },
     {
       method: 'GET',
+      path: '/api/admin/organizations/{id}/invitations',
+      config: {
+        pre: [
+          {
+            method: (request, h) =>
+              securityPreHandlers.userHasAtLeastOneAccessOf([
+                securityPreHandlers.checkUserHasRoleSuperAdmin,
+                securityPreHandlers.checkUserHasRoleCertif,
+                securityPreHandlers.checkUserHasRoleSupport,
+                securityPreHandlers.checkUserHasRoleMetier,
+              ])(request, h),
+            assign: 'hasAuthorizationToAccessAdminScope',
+          },
+        ],
+        validate: {
+          params: Joi.object({
+            id: identifiersType.organizationId,
+          }),
+        },
+        handler: organizationController.findPendingInvitations,
+        tags: ['api', 'invitations', 'admin'],
+        notes: [
+          "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n" +
+            "- Elle permet de lister les invitations en attente d'acceptation d'une organisation",
+        ],
+      },
+    },
+    {
+      method: 'GET',
       path: '/api/admin/organizations/{id}/places',
       config: {
         pre: [
           {
-            method: securityPreHandlers.checkUserHasRoleSuperAdmin,
-            assign: 'hasRoleSuperAdmin',
+            method: (request, h) =>
+              securityPreHandlers.userHasAtLeastOneAccessOf([
+                securityPreHandlers.checkUserHasRoleSuperAdmin,
+                securityPreHandlers.checkUserHasRoleCertif,
+                securityPreHandlers.checkUserHasRoleSupport,
+                securityPreHandlers.checkUserHasRoleMetier,
+              ])(request, h),
+            assign: 'hasAuthorizationToAccessAdminScope',
           },
         ],
         validate: {
@@ -226,26 +241,117 @@ exports.register = async (server) => {
         handler: organizationController.findOrganizationPlaces,
         tags: ['api', 'organizations'],
         notes: [
-          'Cette route est restreinte aux administrateurs authentifiés',
-          "Elle retourne la liste des commandes de places faites par l'organisation",
+          "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n" +
+            "- Elle retourne la liste des commandes de places faites par l'organisation",
         ],
       },
     },
     {
-      method: 'GET',
-      path: '/api/organizations/{id}/memberships',
+      method: 'POST',
+      path: '/api/admin/organizations/{id}/invitations',
       config: {
         pre: [
           {
             method: (request, h) =>
               securityPreHandlers.userHasAtLeastOneAccessOf([
-                securityPreHandlers.checkUserBelongsToOrganization,
                 securityPreHandlers.checkUserHasRoleSuperAdmin,
-                securityPreHandlers.checkUserHasRoleCertif,
                 securityPreHandlers.checkUserHasRoleSupport,
                 securityPreHandlers.checkUserHasRoleMetier,
               ])(request, h),
-            assign: 'belongsToOrganization',
+            assign: 'hasAuthorizationToAccessAdminScope',
+          },
+        ],
+        handler: organizationController.sendInvitationByLangAndRole,
+        validate: {
+          params: Joi.object({
+            id: identifiersType.organizationId,
+          }),
+          options: {
+            allowUnknown: true,
+          },
+          payload: Joi.object({
+            data: {
+              attributes: {
+                email: Joi.string().email().required(),
+                lang: Joi.string().valid('fr-fr', 'fr', 'en'),
+                role: Joi.string().valid('ADMIN', 'MEMBER').allow(null),
+              },
+            },
+          }),
+        },
+        notes: [
+          "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n" +
+            "- Elle permet d'inviter des personnes, déjà utilisateurs de Pix ou non, à être membre d'une organisation, via leur **email**",
+        ],
+        tags: ['api', 'invitations'],
+      },
+    },
+    {
+      method: 'POST',
+      path: '/api/admin/organizations/{id}/target-profiles',
+      config: {
+        pre: [
+          {
+            method: (request, h) =>
+              securityPreHandlers.userHasAtLeastOneAccessOf([
+                securityPreHandlers.checkUserHasRoleSuperAdmin,
+                securityPreHandlers.checkUserHasRoleSupport,
+                securityPreHandlers.checkUserHasRoleMetier,
+              ])(request, h),
+            assign: 'hasAuthorizationToAccessAdminScope',
+          },
+        ],
+        handler: organizationController.attachTargetProfiles,
+        validate: {
+          params: Joi.object({
+            id: identifiersType.organizationId,
+          }),
+          payload: Joi.object({
+            data: {
+              attributes: {
+                'target-profiles-to-attach': Joi.array().items(
+                  Joi.string().pattern(/^[0-9]+$/),
+                  Joi.number().integer()
+                ),
+              },
+            },
+          }).options({ allowUnknown: true }),
+          failAction: (request, h) => {
+            return sendJsonApiError(new NotFoundError("L'id d'un des profils cible n'est pas valide"), h);
+          },
+        },
+        tags: ['api', 'organizations'],
+      },
+    },
+  ];
+
+  const orgaRoutes = [
+    {
+      method: 'GET',
+      path: '/api/organizations/{id}/campaigns',
+      config: {
+        pre: [{ method: securityPreHandlers.checkUserBelongsToOrganization }],
+        validate: {
+          params: Joi.object({
+            id: identifiersType.organizationId,
+          }),
+        },
+        handler: organizationController.findPaginatedFilteredCampaigns,
+        tags: ['api', 'organizations'],
+        notes: [
+          'Cette route est restreinte aux utilisateurs authentifiés',
+          'Elle retourne les campagnes rattachées à l’organisation.',
+        ],
+      },
+    },
+    {
+      method: 'GET',
+      path: '/api/organizations/{id}/invitations',
+      config: {
+        pre: [
+          {
+            method: securityPreHandlers.checkUserIsAdminInOrganization,
+            assign: 'isAdminInOrganization',
           },
         ],
         validate: {
@@ -253,11 +359,68 @@ exports.register = async (server) => {
             id: identifiersType.organizationId,
           }),
         },
-        handler: organizationController.findPaginatedFilteredMemberships,
-        tags: ['api', 'organizations'],
+        handler: organizationController.findPendingInvitations,
+        tags: ['api', 'invitations'],
         notes: [
-          'Cette route est restreinte aux utilisateurs authentifiés',
-          'Elle retourne les rôles des membres rattachés à l’organisation de manière paginée.',
+          "- Cette route est restreinte aux utilisateurs authentifiés responsables de l'organisation",
+          "- Elle permet de lister les invitations en attente d'acceptation d'une organisation",
+        ],
+      },
+    },
+    {
+      method: 'POST',
+      path: '/api/organizations/{id}/invitations',
+      config: {
+        pre: [
+          {
+            method: securityPreHandlers.checkUserIsAdminInOrganization,
+            assign: 'isAdminInOrganization',
+          },
+        ],
+        handler: organizationController.sendInvitations,
+        validate: {
+          params: Joi.object({
+            id: identifiersType.organizationId,
+          }),
+          options: {
+            allowUnknown: true,
+          },
+          payload: Joi.object({
+            data: {
+              attributes: {
+                email: Joi.string().email({ multiple: true }).required(),
+              },
+            },
+          }),
+        },
+        notes: [
+          "- **Cette route est restreinte aux utilisateurs authentifiés en tant que responsables de l'organisation**\n" +
+            "- Elle permet d'inviter des personnes, déjà utilisateurs de Pix ou non, à être membre d'une organisation, via leur **email**",
+        ],
+        tags: ['api', 'invitations'],
+      },
+    },
+    {
+      method: 'DELETE',
+      path: '/api/organizations/{id}/invitations/{organizationInvitationId}',
+      config: {
+        pre: [
+          {
+            method: securityPreHandlers.checkUserIsAdminInOrganization,
+            assign: 'isAdminInOrganization',
+          },
+        ],
+        validate: {
+          params: Joi.object({
+            id: identifiersType.organizationId,
+            organizationInvitationId: identifiersType.organizationInvitationId,
+          }),
+        },
+        handler: organizationController.cancelOrganizationInvitation,
+        tags: ['api', 'invitations', 'cancel'],
+        notes: [
+          "- **Cette route est restreinte aux utilisateurs authentifiés en tant qu'admin d'une organisation**\n" +
+            "- Elle permet à l'administrateur de l'organisation d'annuler une invitation envoyée mais non acceptée encore.",
         ],
       },
     },
@@ -375,61 +538,6 @@ exports.register = async (server) => {
     },
     {
       method: 'GET',
-      path: '/api/organizations/{id}/target-profiles',
-      config: {
-        validate: {
-          params: Joi.object({
-            id: identifiersType.organizationId,
-          }),
-        },
-        handler: organizationController.findTargetProfiles,
-        tags: ['api', 'target-profile'],
-        notes: [
-          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-            '- Récupération des profiles cibles utilisables par l‘organisation\n',
-        ],
-      },
-    },
-    {
-      method: 'POST',
-      path: '/api/organizations/{id}/target-profiles',
-      config: {
-        pre: [
-          {
-            method: (request, h) =>
-              securityPreHandlers.userHasAtLeastOneAccessOf([
-                securityPreHandlers.checkUserHasRoleSuperAdmin,
-                securityPreHandlers.checkUserHasRoleCertif,
-                securityPreHandlers.checkUserHasRoleSupport,
-                securityPreHandlers.checkUserHasRoleMetier,
-              ])(request, h),
-            assign: 'hasAuthorizationToAccessAdminScope',
-          },
-        ],
-        handler: organizationController.attachTargetProfiles,
-        validate: {
-          params: Joi.object({
-            id: identifiersType.organizationId,
-          }),
-          payload: Joi.object({
-            data: {
-              attributes: {
-                'target-profiles-to-attach': Joi.array().items(
-                  Joi.string().pattern(/^[0-9]+$/),
-                  Joi.number().integer()
-                ),
-              },
-            },
-          }).options({ allowUnknown: true }),
-          failAction: (request, h) => {
-            return sendJsonApiError(new NotFoundError("L'id d'un des profils cible n'est pas valide"), h);
-          },
-        },
-        tags: ['api', 'organizations'],
-      },
-    },
-    {
-      method: 'GET',
       path: '/api/organizations/{id}/students',
       config: {
         pre: [
@@ -454,6 +562,28 @@ exports.register = async (server) => {
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
             '- Récupération des élèves liés à une organisation\n',
         ],
+      },
+    },
+    {
+      method: 'GET',
+      path: '/api/organizations/{id}/schooling-registrations/csv-template',
+      config: {
+        auth: false,
+        validate: {
+          params: Joi.object({
+            id: identifiersType.organizationId,
+          }),
+          query: Joi.object({
+            accessToken: Joi.string().required(),
+          }).options({ allowUnknown: true }),
+        },
+        handler: organizationController.getSchoolingRegistrationsCsvTemplate,
+        notes: [
+          "- **Cette route est restreinte via un token dédié passé en paramètre avec l'id de l'utilisateur.**\n" +
+            "- Récupération d'un template CSV qui servira à téléverser les inscriptions d’étudiants\n" +
+            '- L‘utilisateur doit avoir les droits d‘accès ADMIN à l‘organisation',
+        ],
+        tags: ['api', 'schooling-registrations'],
       },
     },
     {
@@ -567,88 +697,26 @@ exports.register = async (server) => {
         tags: ['api', 'schooling-registrations'],
       },
     },
+  ];
+
+  server.route([
+    ...adminRoutes,
+    ...orgaRoutes,
     {
-      method: 'POST',
-      path: '/api/organizations/{id}/invitations',
-      config: {
-        pre: [
-          {
-            method: securityPreHandlers.checkUserIsAdminInOrganization,
-            assign: 'isAdminInOrganization',
-          },
-        ],
-        handler: organizationController.sendInvitations,
-        validate: {
-          params: Joi.object({
-            id: identifiersType.organizationId,
-          }),
-          options: {
-            allowUnknown: true,
-          },
-          payload: Joi.object({
-            data: {
-              attributes: {
-                email: Joi.string().email({ multiple: true }).required(),
-              },
-            },
-          }),
-        },
-        notes: [
-          "- **Cette route est restreinte aux utilisateurs authentifiés en tant que responsables de l'organisation**\n" +
-            "- Elle permet d'inviter des personnes, déjà utilisateurs de Pix ou non, à être membre d'une organisation, via leur **email**",
-        ],
-        tags: ['api', 'invitations'],
-      },
-    },
-    {
-      method: 'POST',
-      path: '/api/admin/organizations/{id}/invitations',
+      method: 'GET',
+      path: '/api/organizations/{id}/memberships',
       config: {
         pre: [
           {
             method: (request, h) =>
               securityPreHandlers.userHasAtLeastOneAccessOf([
+                securityPreHandlers.checkUserBelongsToOrganization,
                 securityPreHandlers.checkUserHasRoleSuperAdmin,
                 securityPreHandlers.checkUserHasRoleCertif,
                 securityPreHandlers.checkUserHasRoleSupport,
                 securityPreHandlers.checkUserHasRoleMetier,
               ])(request, h),
-            assign: 'hasAuthorizationToAccessAdminScope',
-          },
-        ],
-        handler: organizationController.sendInvitationByLangAndRole,
-        validate: {
-          params: Joi.object({
-            id: identifiersType.organizationId,
-          }),
-          options: {
-            allowUnknown: true,
-          },
-          payload: Joi.object({
-            data: {
-              attributes: {
-                email: Joi.string().email().required(),
-                lang: Joi.string().valid('fr-fr', 'fr', 'en'),
-                role: Joi.string().valid('ADMIN', 'MEMBER').allow(null),
-              },
-            },
-          }),
-        },
-        notes: [
-          "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n" +
-            "- Elle permet d'inviter des personnes, déjà utilisateurs de Pix ou non, à être membre d'une organisation, via leur **email**",
-        ],
-        tags: ['api', 'invitations'],
-      },
-    },
-    {
-      method: 'GET',
-      path: '/api/organizations/{id}/invitations',
-      config: {
-        pre: [
-          {
-            method: securityPreHandlers.checkUserIsAdminInOrganization,
-            assign: 'isAdminInOrganization',
+            assign: 'belongsToOrganization',
           },
         ],
         validate: {
@@ -656,87 +724,29 @@ exports.register = async (server) => {
             id: identifiersType.organizationId,
           }),
         },
-        handler: organizationController.findPendingInvitations,
-        tags: ['api', 'invitations'],
+        handler: organizationController.findPaginatedFilteredMemberships,
+        tags: ['api', 'organizations'],
         notes: [
-          "- Cette route est restreinte aux utilisateurs authentifiés responsables de l'organisation",
-          "- Elle permet de lister les invitations en attente d'acceptation d'une organisation",
-        ],
-      },
-    },
-    {
-      method: 'DELETE',
-      path: '/api/organizations/{id}/invitations/{organizationInvitationId}',
-      config: {
-        pre: [
-          {
-            method: securityPreHandlers.checkUserIsAdminInOrganization,
-            assign: 'isAdminInOrganization',
-          },
-        ],
-        validate: {
-          params: Joi.object({
-            id: identifiersType.organizationId,
-            organizationInvitationId: identifiersType.organizationInvitationId,
-          }),
-        },
-        handler: organizationController.cancelOrganizationInvitation,
-        tags: ['api', 'invitations', 'cancel'],
-        notes: [
-          "- **Cette route est restreinte aux utilisateurs authentifiés en tant qu'admin d'une organisation**\n" +
-            "- Elle permet à l'administrateur de l'organisation d'annuler une invitation envoyée mais non acceptée encore.",
+          'Cette route est restreinte aux utilisateurs authentifiés',
+          'Elle retourne les rôles des membres rattachés à l’organisation de manière paginée.',
         ],
       },
     },
     {
       method: 'GET',
-      path: '/api/admin/organizations/{id}/invitations',
+      path: '/api/organizations/{id}/target-profiles',
       config: {
-        pre: [
-          {
-            method: (request, h) =>
-              securityPreHandlers.userHasAtLeastOneAccessOf([
-                securityPreHandlers.checkUserHasRoleSuperAdmin,
-                securityPreHandlers.checkUserHasRoleCertif,
-                securityPreHandlers.checkUserHasRoleSupport,
-                securityPreHandlers.checkUserHasRoleMetier,
-              ])(request, h),
-            assign: 'hasAuthorizationToAccessAdminScope',
-          },
-        ],
         validate: {
           params: Joi.object({
             id: identifiersType.organizationId,
           }),
         },
-        handler: organizationController.findPendingInvitations,
-        tags: ['api', 'invitations', 'admin'],
+        handler: organizationController.findTargetProfiles,
+        tags: ['api', 'target-profile'],
         notes: [
-          "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n" +
-            "- Elle permet de lister les invitations en attente d'acceptation d'une organisation",
+          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
+            '- Récupération des profiles cibles utilisables par l‘organisation\n',
         ],
-      },
-    },
-    {
-      method: 'GET',
-      path: '/api/organizations/{id}/schooling-registrations/csv-template',
-      config: {
-        auth: false,
-        validate: {
-          params: Joi.object({
-            id: identifiersType.organizationId,
-          }),
-          query: Joi.object({
-            accessToken: Joi.string().required(),
-          }).options({ allowUnknown: true }),
-        },
-        handler: organizationController.getSchoolingRegistrationsCsvTemplate,
-        notes: [
-          "- **Cette route est restreinte via un token dédié passé en paramètre avec l'id de l'utilisateur.**\n" +
-            "- Récupération d'un template CSV qui servira à téléverser les inscriptions d’étudiants\n" +
-            '- L‘utilisateur doit avoir les droits d‘accès ADMIN à l‘organisation',
-        ],
-        tags: ['api', 'schooling-registrations'],
       },
     },
   ]);
