@@ -51,6 +51,7 @@ export class RadioButtonCategoryWithDescription extends RadioButtonCategory {
 }
 
 export class RadioButtonCategoryWithSubcategory extends RadioButtonCategory {
+  @service featureToggles;
   @tracked subcategory;
 
   constructor({ name, subcategory, isChecked }) {
@@ -60,6 +61,12 @@ export class RadioButtonCategoryWithSubcategory extends RadioButtonCategory {
   }
 
   get subcategoryLabel() {
+    if (
+      this.subcategory === certificationIssueReportSubcategories.FILE_NOT_OPENING &&
+      !this.featureToggles.featureToggles.isCertificationFreeFieldsDeletionEnabled
+    ) {
+      return "Le fichier à télécharger ne s'ouvre pas";
+    }
     return subcategoryToLabel[this.subcategory];
   }
 

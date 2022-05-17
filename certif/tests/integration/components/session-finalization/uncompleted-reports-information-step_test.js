@@ -8,6 +8,7 @@ import sinon from 'sinon';
 import { certificationIssueReportCategories } from 'pix-certif/models/certification-issue-report';
 import clickByLabel from '../../../helpers/extended-ember-test-helpers/click-by-label';
 import { render as renderScreen } from '@1024pix/ember-testing-library';
+import Service from '@ember/service';
 
 module('Integration | Component | SessionFinalization::UncompletedReportsInformationStep', function (hooks) {
   setupRenderingTest(hooks);
@@ -15,6 +16,13 @@ module('Integration | Component | SessionFinalization::UncompletedReportsInforma
   let reportB;
   let store;
   let certificationIssueReportA;
+
+  hooks.beforeEach(function () {
+    class FeatureTogglesStub extends Service {
+      featureToggles = {};
+    }
+    this.owner.register('service:feature-toggles', FeatureTogglesStub);
+  });
 
   hooks.beforeEach(async function () {
     store = this.owner.lookup('service:store');

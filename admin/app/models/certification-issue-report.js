@@ -50,7 +50,8 @@ export const subcategoryToLabel = {
     'Était présent(e) mais a oublié de signer, ou a signé sur la mauvaise ligne',
   [certificationIssueReportSubcategories.IMAGE_NOT_DISPLAYING]: "L'image ne s'affiche pas",
   [certificationIssueReportSubcategories.EMBED_NOT_WORKING]: "Le simulateur/l'application ne s'affiche pas",
-  [certificationIssueReportSubcategories.FILE_NOT_OPENING]: "Le fichier à télécharger ne s'ouvre pas",
+  [certificationIssueReportSubcategories.FILE_NOT_OPENING]:
+    "Le fichier à télécharger ne se télécharge pas ou ne s'ouvre pas",
   [certificationIssueReportSubcategories.WEBSITE_UNAVAILABLE]:
     'Le site à visiter est indisponible/en maintenance/inaccessible',
   [certificationIssueReportSubcategories.WEBSITE_BLOCKED]:
