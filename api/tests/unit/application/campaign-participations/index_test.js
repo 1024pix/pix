@@ -64,18 +64,14 @@ describe('Unit | Application | Router | campaign-participation-router ', functio
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
 
-      const method = 'PATCH';
-      const payload = {
+      // when
+      const response = await httpTestServer.request('PATCH', '/api/admin/campaign-participations/123', {
         data: {
           attributes: {
             'participant-external-id': 'new ext id',
           },
         },
-      };
-      const url = '/api/admin/campaign-participations/123';
-
-      // when
-      const response = await httpTestServer.request(method, url, payload);
+      });
 
       // then
       expect(response.statusCode).to.equal(204);
