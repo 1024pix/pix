@@ -70,15 +70,11 @@
 
 .navbar-burger-menu-navigation {
 
-  &__name {
-    font-size: 1.25rem;
-    font-weight: $font-semi-bold;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
-    padding: 6px 32px;
-    color: $grey-70;
-    margin: 0 0 20px 0;
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-right: 32px;
   }
 
   &__list {
@@ -90,6 +86,29 @@
     list-style: none;
     padding: 12px 0;
     margin: 5px 0;
+  }
+}
+
+.navbar-burger-menu-navigation-header {
+
+  &__name {
+    font-size: 1.25rem;
+    font-weight: $font-semi-bold;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    padding: 6px 32px;
+    color: $grey-70;
+    margin: 0 0 20px 0;
+  }
+
+  &__close {
+    margin-bottom: 20px;
+    background: none;
+    cursor: pointer;
+    color: $grey-50;
+    font-size: 1.25rem;
+    border: none;
   }
 }
 
