@@ -259,31 +259,6 @@ exports.register = async function (server) {
     },
     {
       method: 'GET',
-      path: '/api/users',
-      config: {
-        pre: [
-          {
-            method: (request, h) =>
-              securityPreHandlers.userHasAtLeastOneAccessOf([
-                securityPreHandlers.checkUserHasRoleSuperAdmin,
-                securityPreHandlers.checkUserHasRoleCertif,
-                securityPreHandlers.checkUserHasRoleSupport,
-                securityPreHandlers.checkUserHasRoleMetier,
-              ])(request, h),
-            assign: 'hasAuthorizationToAccessAdminScope',
-          },
-        ],
-        handler: userController.findPaginatedFilteredUsers,
-        notes: [
-          "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n" +
-            '- Elle permet de récupérer & chercher une liste d’utilisateurs\n' +
-            '- Cette liste est paginée et filtrée selon un **firstName**, un **lastName** et/ou un **email** donnés',
-        ],
-        tags: ['api', 'user'],
-      },
-    },
-    {
-      method: 'GET',
       path: '/api/users/me',
       config: {
         handler: userController.getCurrentUser,

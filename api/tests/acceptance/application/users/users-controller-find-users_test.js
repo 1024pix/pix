@@ -22,7 +22,7 @@ describe('Acceptance | users-controller-find-users', function () {
 
     options = {
       method: 'GET',
-      url: '/api/users',
+      url: '/api/admin/users',
       headers: { authorization: generateValidRequestAuthorizationHeader(userSuperAdminId) },
     };
 
@@ -83,7 +83,7 @@ describe('Acceptance | users-controller-find-users', function () {
 
       it('should return a 200 status code with paginated and filtered data', async function () {
         // given
-        options.url = '/api/users?filter[firstName]=jean&page[number]=2&page[size]=1';
+        options.url = '/api/admin/users?filter[firstName]=jean&page[number]=2&page[size]=1';
         const expectedMetaData = { page: 2, pageSize: 1, rowCount: 2, pageCount: 2 };
 
         // when
@@ -98,7 +98,7 @@ describe('Acceptance | users-controller-find-users', function () {
 
       it('should return a 200 status code with empty result', async function () {
         // given
-        options.url = '/api/users?filter[firstName]=jean&filter[lastName]=jean&page[number]=1&page[size]=1';
+        options.url = '/api/admin/users?filter[firstName]=jean&filter[lastName]=jean&page[number]=1&page[size]=1';
         const expectedMetaData = { page: 1, pageSize: 1, rowCount: 0, pageCount: 0 };
 
         // when
