@@ -27,10 +27,11 @@
             {{if schoolingRegistration.division schoolingRegistration.division}}
             {{if schoolingRegistration.group schoolingRegistration.group}}
           </td>
-          <td><LinkTo
-              @route="authenticated.organizations.get"
-              @model={{schoolingRegistration.organizationId}}
-            >{{schoolingRegistration.organizationName}}</LinkTo></td>
+          <td>
+            <LinkTo @route="authenticated.organizations.get" @model={{schoolingRegistration.organizationId}}>
+              {{schoolingRegistration.organizationName}}
+            </LinkTo>
+          </td>
           <td>{{format-date schoolingRegistration.createdAt}}</td>
           <td>{{format-date schoolingRegistration.updatedAt}}</td>
           <td class="table-admin-schooling-registrations-status">
@@ -49,14 +50,16 @@
             {{/if}}
           </td>
           <td>
-            {{#if schoolingRegistration.canBeDissociated}}
-              <PixButton
-                @triggerAction={{fn @toggleDisplayDissociateModal schoolingRegistration}}
-                @size="small"
-                @backgroundColor="red"
-              >
-                Dissocier
-              </PixButton>
+            {{#if this.accessControl.hasAccessToUsersActionsScope}}
+              {{#if schoolingRegistration.canBeDissociated}}
+                <PixButton
+                  @triggerAction={{fn @toggleDisplayDissociateModal schoolingRegistration}}
+                  @size="small"
+                  @backgroundColor="red"
+                >
+                  Dissocier
+                </PixButton>
+              {{/if}}
             {{/if}}
           </td>
         </tr>

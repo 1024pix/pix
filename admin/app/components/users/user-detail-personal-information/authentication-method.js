@@ -5,6 +5,7 @@ import { inject as service } from '@ember/service';
 
 export default class AuthenticationMethod extends Component {
   @service notifications;
+  @service accessControl;
 
   @tracked showAddAuthenticationMethodModal = false;
   @tracked showReassignGarAuthenticationMethodModal = false;

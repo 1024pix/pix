@@ -1321,7 +1321,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
   });
 
   describe('DELETE /api/schooling-registration-user-associations', function () {
-    context('When user has therole SUPER_ADMIN and schooling registration can be dissociated', function () {
+    context('When user has the role SUPER_ADMIN and schooling registration can be dissociated', function () {
       it('should return an 204 status after having successfully dissociated user from schoolingRegistration', async function () {
         const organizationId = databaseBuilder.factory.buildOrganization({ isManagingStudents: true }).id;
         const superAdmin = await insertUserWithRoleSuperAdmin();
@@ -1333,6 +1333,31 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
         const options = {
           method: 'DELETE',
           url: `/api/schooling-registration-user-associations/${organizationLearner.id}`,
+          headers: {
+            authorization: generateValidRequestAuthorizationHeader(superAdmin.id),
+          },
+        };
+
+        const response = await server.inject(options);
+
+        expect(response.statusCode).to.equal(204);
+      });
+    });
+  });
+
+  describe('DELETE /api/admin/schooling-registration-user-associations', function () {
+    context('When user has the role SUPER_ADMIN and schooling registration can be dissociated', function () {
+      it('should return an 204 status after having successfully dissociated user from schoolingRegistration', async function () {
+        const organizationId = databaseBuilder.factory.buildOrganization({ isManagingStudents: true }).id;
+        const superAdmin = await insertUserWithRoleSuperAdmin();
+        const userId = databaseBuilder.factory.buildUser().id;
+        const organizationLearner = databaseBuilder.factory.buildOrganizationLearner({ organizationId, userId });
+
+        await databaseBuilder.commit();
+
+        const options = {
+          method: 'DELETE',
+          url: `/api/admin/schooling-registration-user-associations/${organizationLearner.id}`,
           headers: {
             authorization: generateValidRequestAuthorizationHeader(superAdmin.id),
           },

@@ -1,12 +1,14 @@
 import ApplicationAdapter from './application';
 
 export default class UserAdapter extends ApplicationAdapter {
+  namespace = 'api/admin';
+
   urlForFindRecord(id) {
-    return `${this.host}/${this.namespace}/admin/users/${id}`;
+    return `${this.host}/${this.namespace}/users/${id}`;
   }
 
   urlForUpdateRecord(id) {
-    return `${this.host}/${this.namespace}/admin/users/${id}`;
+    return `${this.host}/${this.namespace}/users/${id}`;
   }
 
   updateRecord(store, type, snapshot) {

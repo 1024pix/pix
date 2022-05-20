@@ -6,26 +6,6 @@ const userController = require('../../../../lib/application/users/user-controlle
 const moduleUnderTest = require('../../../../lib/application/users');
 
 describe('Unit | Router | user-router', function () {
-  describe('GET /api/users', function () {
-    const method = 'GET';
-
-    it('should exist', async function () {
-      // given
-      sinon.stub(securityPreHandlers, 'userHasAtLeastOneAccessOf').returns(() => true);
-      sinon.stub(userController, 'findPaginatedFilteredUsers').returns('ok');
-      const httpTestServer = new HttpTestServer();
-      await httpTestServer.register(moduleUnderTest);
-
-      const url = '/api/users?firstName=Bruce&lastName=Wayne&email=batman@gotham.city&page=3&pageSize=25';
-
-      // when
-      const response = await httpTestServer.request(method, url);
-
-      // then
-      expect(response.statusCode).to.equal(200);
-    });
-  });
-
   describe('POST /api/users', function () {
     const method = 'POST';
     const url = '/api/users';
@@ -370,166 +350,6 @@ describe('Unit | Router | user-router', function () {
     });
   });
 
-  describe('PATCH /api/admin/users/{id}', function () {
-    const method = 'PATCH';
-
-    it('should verify user identity and return success update', async function () {
-      // given
-      sinon.stub(userController, 'updateUserDetailsForAdministration').returns('ok');
-      sinon.stub(securityPreHandlers, 'userHasAtLeastOneAccessOf').returns(() => true);
-      const httpTestServer = new HttpTestServer();
-      await httpTestServer.register(moduleUnderTest);
-
-      const userId = '12344';
-      const url = `/api/admin/users/${userId}`;
-      const payloadAttributes = { 'first-name': 'firstname', 'last-name': 'lastname', email: 'partial@update.com' };
-      const payload = { data: { attributes: payloadAttributes } };
-
-      // when
-      const result = await httpTestServer.request(method, url, payload);
-
-      // then
-      expect(result.statusCode).to.equal(200);
-      sinon.assert.calledOnce(securityPreHandlers.userHasAtLeastOneAccessOf);
-    });
-
-    describe('Payload and path param schema validation', function () {
-      const method = 'PATCH';
-      const url = '/api/admin/users/not_number';
-
-      it('should return bad request when param id is not numeric', async function () {
-        // given
-        const httpTestServer = new HttpTestServer();
-        await httpTestServer.register(moduleUnderTest);
-
-        const payload = { data: { attributes: { email: 'partial@update.net' } } };
-
-        // when
-        const result = await httpTestServer.request(method, url, payload);
-
-        // then
-        expect(result.statusCode).to.equal(400);
-      });
-
-      it('should return bad request when payload is not found', async function () {
-        // given
-        const httpTestServer = new HttpTestServer();
-        await httpTestServer.register(moduleUnderTest);
-
-        // when
-        const result = await httpTestServer.request(method, url);
-
-        // then
-        expect(result.statusCode).to.equal(400);
-      });
-    });
-  });
-
-  describe('POST /api/admin/users/{id}/anonymize', function () {
-    const method = 'POST';
-
-    it('should exist', async function () {
-      // given
-      sinon.stub(userController, 'anonymizeUser').callsFake((request, h) => h.response({}).code(204));
-      sinon.stub(securityPreHandlers, 'userHasAtLeastOneAccessOf').returns(() => true);
-      const httpTestServer = new HttpTestServer();
-      await httpTestServer.register(moduleUnderTest);
-
-      const url = '/api/admin/users/1/anonymize';
-
-      // when
-      const result = await httpTestServer.request(method, url);
-
-      // then
-      expect(result.statusCode).to.equal(204);
-    });
-
-    it('should return 400 when id is not a number', async function () {
-      // given
-      const httpTestServer = new HttpTestServer();
-      await httpTestServer.register(moduleUnderTest);
-
-      const url = '/api/admin/users/wrongId/anonymize';
-
-      // when
-      const result = await httpTestServer.request(method, url);
-
-      // then
-      expect(result.statusCode).to.equal(400);
-      expect(JSON.parse(result.payload).errors[0].detail).to.equal('"id" must be a number');
-    });
-  });
-
-  describe('POST /api/admin/users/{id}/remove-authentication', function () {
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    ['GAR', 'EMAIL', 'USERNAME', 'POLE_EMPLOI'].forEach((type) => {
-      it(`should return 200 when type is ${type}`, async function () {
-        // given
-        sinon.stub(userController, 'removeAuthenticationMethod').returns('ok');
-        sinon.stub(securityPreHandlers, 'userHasAtLeastOneAccessOf').returns(() => true);
-        const httpTestServer = new HttpTestServer();
-        await httpTestServer.register(moduleUnderTest);
-
-        const url = '/api/admin/users/1/remove-authentication';
-        const payload = {
-          data: {
-            attributes: {
-              type,
-            },
-          },
-        };
-
-        // when
-        const result = await httpTestServer.request('POST', url, payload);
-
-        // then
-        expect(result.statusCode).to.equal(200);
-      });
-    });
-
-    it('should return 400 when id is not a number', async function () {
-      // given
-      const httpTestServer = new HttpTestServer();
-      await httpTestServer.register(moduleUnderTest);
-
-      const url = '/api/admin/users/wrongId/remove-authentication';
-      const payload = {
-        data: {
-          attributes: {
-            type: 'EMAIL',
-          },
-        },
-      };
-
-      // when
-      const result = await httpTestServer.request('POST', url, payload);
-
-      // then
-      expect(result.statusCode).to.equal(400);
-    });
-
-    it('should return 400 when type is not GAR or EMAIL or USERNAME or POLE_EMPLOI', async function () {
-      // given
-      const httpTestServer = new HttpTestServer();
-      await httpTestServer.register(moduleUnderTest);
-
-      const url = '/api/admin/users/1/remove-authentication';
-      const payload = {
-        data: {
-          attributes: {
-            type: 'INVALID',
-          },
-        },
-      };
-
-      // when
-      const result = await httpTestServer.request('POST', url, payload);
-
-      // then
-      expect(result.statusCode).to.equal(400);
-    });
-  });
-
   describe('PUT /api/users/{id}/email/verification-code', function () {
     it('should return HTTP code 204', async function () {
       // given
@@ -707,6 +527,652 @@ describe('Unit | Router | user-router', function () {
       expect(result.result.errors[0].detail).to.equal(
         '"data.attributes.code" with value "9" fails to match the required pattern: /^[1-9]{6}$/'
       );
+    });
+  });
+
+  context('Routes /admin', function () {
+    describe('GET /api/admin/users', function () {
+      it('should return an HTTP status code 200', async function () {
+        // given
+        sinon.stub(securityPreHandlers, 'userHasAtLeastOneAccessOf').returns(() => true);
+        sinon.stub(userController, 'findPaginatedFilteredUsers').returns('ok');
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        // when
+        const response = await httpTestServer.request(
+          'GET',
+          '/api/admin/users?firstName=Bruce&lastName=Wayne&email=batman@gotham.city&page=3&pageSize=25'
+        );
+
+        // then
+        sinon.assert.calledOnce(securityPreHandlers.userHasAtLeastOneAccessOf);
+        sinon.assert.calledOnce(userController.findPaginatedFilteredUsers);
+        expect(response.statusCode).to.equal(200);
+      });
+
+      it('should return an HTTP status code 403', async function () {
+        // given
+        sinon.stub(securityPreHandlers, 'userHasAtLeastOneAccessOf').returns((request, h) =>
+          h
+            .response({ errors: new Error('') })
+            .code(403)
+            .takeover()
+        );
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        // when
+        const response = await httpTestServer.request(
+          'GET',
+          '/api/admin/users?firstName=Bruce&lastName=Wayne&email=batman@gotham.city&page=3&pageSize=25'
+        );
+
+        // then
+        sinon.assert.calledOnce(securityPreHandlers.userHasAtLeastOneAccessOf);
+        expect(response.statusCode).to.equal(403);
+      });
+    });
+
+    describe('GET /api/admin/users/{id}', function () {
+      it('should return an HTTP status code 200', async function () {
+        // given
+        sinon.stub(securityPreHandlers, 'userHasAtLeastOneAccessOf').returns(() => true);
+        sinon.stub(userController, 'getUserDetailsForAdmin').resolves('ok');
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        // when
+        const response = await httpTestServer.request(
+          'GET',
+          '/api/admin/users/8?include=schoolingRegistrations%2CauthenticationMethods'
+        );
+
+        // then
+        sinon.assert.calledOnce(securityPreHandlers.userHasAtLeastOneAccessOf);
+        sinon.assert.calledOnce(userController.getUserDetailsForAdmin);
+        expect(response.statusCode).to.equal(200);
+      });
+
+      it('should return an HTTP status code 403', async function () {
+        // given
+        sinon.stub(securityPreHandlers, 'userHasAtLeastOneAccessOf').returns((request, h) =>
+          h
+            .response({ errors: new Error('') })
+            .code(403)
+            .takeover()
+        );
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        // when
+        const response = await httpTestServer.request(
+          'GET',
+          '/api/admin/users/8?include=schoolingRegistrations%2CauthenticationMethods'
+        );
+
+        // then
+        sinon.assert.calledOnce(securityPreHandlers.userHasAtLeastOneAccessOf);
+        expect(response.statusCode).to.equal(403);
+      });
+    });
+
+    describe('PATCH /api/admin/users/{id}', function () {
+      it('should verify user identity and return success update when user role is "SUPER_ADMIN"', async function () {
+        // given
+        sinon.stub(userController, 'updateUserDetailsForAdministration').returns('ok');
+        sinon.stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin').callsFake((request, h) => h.response(true));
+        sinon
+          .stub(securityPreHandlers, 'checkUserHasRoleSupport')
+          .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        const payloadAttributes = { 'first-name': 'firstname', 'last-name': 'lastname', email: 'partial@update.com' };
+        const payload = { data: { attributes: payloadAttributes } };
+
+        // when
+        const result = await httpTestServer.request('PATCH', '/api/admin/users/12344', payload);
+
+        // then
+        sinon.assert.calledOnce(securityPreHandlers.checkUserHasRoleSuperAdmin);
+        sinon.assert.calledOnce(securityPreHandlers.checkUserHasRoleSupport);
+        sinon.assert.calledOnce(userController.updateUserDetailsForAdministration);
+        expect(result.statusCode).to.equal(200);
+      });
+
+      it('should verify user identity and return success update when role is "SUPPORT"', async function () {
+        // given
+        sinon.stub(userController, 'updateUserDetailsForAdministration').returns('ok');
+        sinon
+          .stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin')
+          .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+        sinon.stub(securityPreHandlers, 'checkUserHasRoleSupport').callsFake((request, h) => h.response(true));
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        const payloadAttributes = { 'first-name': 'firstname', 'last-name': 'lastname', email: 'partial@update.com' };
+        const payload = { data: { attributes: payloadAttributes } };
+
+        // when
+        const result = await httpTestServer.request('PATCH', '/api/admin/users/12344', payload);
+
+        // then
+        sinon.assert.calledOnce(securityPreHandlers.checkUserHasRoleSuperAdmin);
+        sinon.assert.calledOnce(securityPreHandlers.checkUserHasRoleSupport);
+        sinon.assert.calledOnce(userController.updateUserDetailsForAdministration);
+        expect(result.statusCode).to.equal(200);
+      });
+
+      it('should return bad request when param id is not numeric', async function () {
+        // given
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        const payload = { data: { attributes: { email: 'partial@update.net' } } };
+
+        // when
+        const result = await httpTestServer.request('PATCH', '/api/admin/users/not_number', payload);
+
+        // then
+        expect(result.statusCode).to.equal(400);
+      });
+
+      it('should return bad request when payload is not found', async function () {
+        // given
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        // when
+        const result = await httpTestServer.request('PATCH', '/api/admin/users/12344');
+
+        // then
+        expect(result.statusCode).to.equal(400);
+      });
+
+      it(`should return 403 when user don't have access (CERTIF | METIER)`, async function () {
+        // given
+        sinon.stub(userController, 'updateUserDetailsForAdministration').returns('ok');
+        sinon
+          .stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin')
+          .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+        sinon
+          .stub(securityPreHandlers, 'checkUserHasRoleSupport')
+          .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        const payloadAttributes = { 'first-name': 'firstname', 'last-name': 'lastname', email: 'partial@update.com' };
+        const payload = { data: { attributes: payloadAttributes } };
+
+        // when
+        const result = await httpTestServer.request('PATCH', '/api/admin/users/12344', payload);
+
+        // then
+        sinon.assert.calledOnce(securityPreHandlers.checkUserHasRoleSuperAdmin);
+        sinon.assert.calledOnce(securityPreHandlers.checkUserHasRoleSupport);
+        sinon.assert.notCalled(userController.updateUserDetailsForAdministration);
+        expect(result.statusCode).to.equal(403);
+      });
+    });
+
+    describe('POST /api/admin/users/{id}/anonymize', function () {
+      it('should return 200 when user role is "SUPER_ADMIN"', async function () {
+        // given
+        sinon.stub(userController, 'anonymizeUser').callsFake((request, h) => h.response({}).code(200));
+        sinon.stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin').callsFake((request, h) => h.response(true));
+        sinon
+          .stub(securityPreHandlers, 'checkUserHasRoleSupport')
+          .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        // when
+        const { statusCode } = await httpTestServer.request('POST', '/api/admin/users/1/anonymize');
+
+        // then
+        sinon.assert.calledOnce(securityPreHandlers.checkUserHasRoleSuperAdmin);
+        sinon.assert.calledOnce(securityPreHandlers.checkUserHasRoleSupport);
+        sinon.assert.calledOnce(userController.anonymizeUser);
+        expect(statusCode).to.equal(200);
+      });
+
+      it('should return 200 when user role is "SUPPORT"', async function () {
+        // given
+        sinon.stub(userController, 'anonymizeUser').callsFake((request, h) => h.response({}).code(200));
+        sinon
+          .stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin')
+          .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+        sinon.stub(securityPreHandlers, 'checkUserHasRoleSupport').callsFake((request, h) => h.response(true));
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        // when
+        const { statusCode } = await httpTestServer.request('POST', '/api/admin/users/1/anonymize');
+
+        // then
+        sinon.assert.calledOnce(securityPreHandlers.checkUserHasRoleSuperAdmin);
+        sinon.assert.calledOnce(securityPreHandlers.checkUserHasRoleSupport);
+        sinon.assert.calledOnce(userController.anonymizeUser);
+        expect(statusCode).to.equal(200);
+      });
+
+      it('should return 400 when id is not a number', async function () {
+        // given
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        // when
+        const { statusCode, payload } = await httpTestServer.request('POST', '/api/admin/users/wrongId/anonymize');
+
+        // then
+        expect(statusCode).to.equal(400);
+        expect(JSON.parse(payload).errors[0].detail).to.equal('"id" must be a number');
+      });
+
+      it(`should return 403 when user don't have access (CERTIF | METIER)`, async function () {
+        // given
+        sinon.stub(userController, 'anonymizeUser').returns('ok');
+        sinon
+          .stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin')
+          .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+        sinon
+          .stub(securityPreHandlers, 'checkUserHasRoleSupport')
+          .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        const payloadAttributes = { 'first-name': 'firstname', 'last-name': 'lastname', email: 'partial@update.com' };
+        const payload = { data: { attributes: payloadAttributes } };
+
+        // when
+        const result = await httpTestServer.request('POST', '/api/admin/users/1/anonymize', payload);
+
+        // then
+        sinon.assert.calledOnce(securityPreHandlers.checkUserHasRoleSuperAdmin);
+        sinon.assert.calledOnce(securityPreHandlers.checkUserHasRoleSupport);
+        sinon.assert.notCalled(userController.anonymizeUser);
+        expect(result.statusCode).to.equal(403);
+      });
+    });
+
+    describe('POST /api/admin/users/{id}/add-pix-authentication-method', function () {
+      it('should return 200 when user role is "SUPER_ADMIN"', async function () {
+        // given
+        sinon
+          .stub(userController, 'addPixAuthenticationMethodByEmail')
+          .callsFake((request, h) => h.response({}).code(201));
+        sinon.stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin').callsFake((request, h) => h.response(true));
+        sinon
+          .stub(securityPreHandlers, 'checkUserHasRoleSupport')
+          .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+        const payload = { data: { attributes: { email: 'user@rexample.net' } } };
+
+        // when
+        const { statusCode } = await httpTestServer.request(
+          'POST',
+          '/api/admin/users/1/add-pix-authentication-method',
+          payload
+        );
+
+        // then
+        sinon.assert.calledOnce(securityPreHandlers.checkUserHasRoleSuperAdmin);
+        sinon.assert.calledOnce(securityPreHandlers.checkUserHasRoleSupport);
+        sinon.assert.calledOnce(userController.addPixAuthenticationMethodByEmail);
+        expect(statusCode).to.equal(201);
+      });
+
+      it('should return 200 when user role is "SUPPORT"', async function () {
+        // given
+        sinon
+          .stub(userController, 'addPixAuthenticationMethodByEmail')
+          .callsFake((request, h) => h.response({}).code(201));
+        sinon
+          .stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin')
+          .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+        sinon.stub(securityPreHandlers, 'checkUserHasRoleSupport').callsFake((request, h) => h.response(true));
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+        const payload = { data: { attributes: { email: 'user@rexample.net' } } };
+
+        // when
+        const { statusCode } = await httpTestServer.request(
+          'POST',
+          '/api/admin/users/1/add-pix-authentication-method',
+          payload
+        );
+
+        // then
+        sinon.assert.calledOnce(securityPreHandlers.checkUserHasRoleSuperAdmin);
+        sinon.assert.calledOnce(securityPreHandlers.checkUserHasRoleSupport);
+        sinon.assert.calledOnce(userController.addPixAuthenticationMethodByEmail);
+        expect(statusCode).to.equal(201);
+      });
+
+      it('should return 400 when id is not a number', async function () {
+        // given
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        // when
+        const { statusCode, payload } = await httpTestServer.request(
+          'POST',
+          '/api/admin/users/invalid-id/add-pix-authentication-method'
+        );
+
+        // then
+        expect(statusCode).to.equal(400);
+        expect(JSON.parse(payload).errors[0].detail).to.equal('"id" must be a number');
+      });
+
+      it(`should return 403 when user don't have access (CERTIF | METIER)`, async function () {
+        // given
+        sinon.stub(userController, 'addPixAuthenticationMethodByEmail').returns('ok');
+        sinon
+          .stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin')
+          .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+        sinon
+          .stub(securityPreHandlers, 'checkUserHasRoleSupport')
+          .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+        const payload = { data: { attributes: { email: 'user@rexample.net' } } };
+
+        // when
+        const result = await httpTestServer.request(
+          'POST',
+          '/api/admin/users/1/add-pix-authentication-method',
+          payload
+        );
+
+        // then
+        sinon.assert.calledOnce(securityPreHandlers.checkUserHasRoleSuperAdmin);
+        sinon.assert.calledOnce(securityPreHandlers.checkUserHasRoleSupport);
+        sinon.assert.notCalled(userController.addPixAuthenticationMethodByEmail);
+        expect(result.statusCode).to.equal(403);
+      });
+    });
+
+    describe('POST /api/admin/users/{id}/remove-authentication', function () {
+      // eslint-disable-next-line mocha/no-setup-in-describe
+      ['GAR', 'EMAIL', 'USERNAME', 'POLE_EMPLOI'].forEach((type) => {
+        it(`should return 200 when user is "SUPER_ADMIN" and type is ${type}`, async function () {
+          // given
+          sinon.stub(userController, 'removeAuthenticationMethod').returns('ok');
+          sinon.stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin').callsFake((request, h) => h.response(true));
+          sinon
+            .stub(securityPreHandlers, 'checkUserHasRoleSupport')
+            .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+          const httpTestServer = new HttpTestServer();
+          await httpTestServer.register(moduleUnderTest);
+
+          // when
+          const result = await httpTestServer.request('POST', '/api/admin/users/1/remove-authentication', {
+            data: {
+              attributes: {
+                type,
+              },
+            },
+          });
+
+          // then
+          sinon.assert.calledOnce(securityPreHandlers.checkUserHasRoleSuperAdmin);
+          sinon.assert.calledOnce(securityPreHandlers.checkUserHasRoleSupport);
+          sinon.assert.calledOnce(userController.removeAuthenticationMethod);
+          expect(result.statusCode).to.equal(200);
+        });
+
+        it(`should return 200 when user is "SUPPORT" and type is ${type}`, async function () {
+          // given
+          sinon.stub(userController, 'removeAuthenticationMethod').returns('ok');
+          sinon
+            .stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin')
+            .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+          sinon.stub(securityPreHandlers, 'checkUserHasRoleSupport').callsFake((request, h) => h.response(true));
+          const httpTestServer = new HttpTestServer();
+          await httpTestServer.register(moduleUnderTest);
+
+          // when
+          const result = await httpTestServer.request('POST', '/api/admin/users/1/remove-authentication', {
+            data: {
+              attributes: {
+                type,
+              },
+            },
+          });
+
+          // then
+          sinon.assert.calledOnce(securityPreHandlers.checkUserHasRoleSuperAdmin);
+          sinon.assert.calledOnce(securityPreHandlers.checkUserHasRoleSupport);
+          sinon.assert.calledOnce(userController.removeAuthenticationMethod);
+          expect(result.statusCode).to.equal(200);
+        });
+      });
+
+      it('should return 400 when id is not a number', async function () {
+        // given
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        // when
+        const result = await httpTestServer.request('POST', '/api/admin/users/invalid-id/remove-authentication', {
+          data: {
+            attributes: {
+              type: 'EMAIL',
+            },
+          },
+        });
+
+        // then
+        expect(result.statusCode).to.equal(400);
+      });
+
+      it('should return 400 when type is not GAR or EMAIL or USERNAME or POLE_EMPLOI', async function () {
+        // given
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        // when
+        const result = await httpTestServer.request('POST', '/api/admin/users/1/remove-authentication', {
+          data: {
+            attributes: {
+              type: 'INVALID',
+            },
+          },
+        });
+
+        // then
+        expect(result.statusCode).to.equal(400);
+      });
+
+      it(`should return 403 when user don't have access (CERTIF | METIER)`, async function () {
+        // given
+        sinon.stub(userController, 'removeAuthenticationMethod').returns('ok');
+        sinon
+          .stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin')
+          .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+        sinon
+          .stub(securityPreHandlers, 'checkUserHasRoleSupport')
+          .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        // when
+        const result = await httpTestServer.request('POST', '/api/admin/users/1/remove-authentication', {
+          data: {
+            attributes: {
+              type: 'POLE_EMPLOI',
+            },
+          },
+        });
+
+        // then
+        sinon.assert.calledOnce(securityPreHandlers.checkUserHasRoleSuperAdmin);
+        sinon.assert.calledOnce(securityPreHandlers.checkUserHasRoleSupport);
+        sinon.assert.notCalled(userController.removeAuthenticationMethod);
+        expect(result.statusCode).to.equal(403);
+      });
+    });
+
+    describe('POST /api/admin/users/{userId}/authentication-methods/{authenticationMethodId}', function () {
+      // eslint-disable-next-line mocha/no-setup-in-describe
+      ['GAR', 'POLE_EMPLOI'].forEach((identityProvider) => {
+        it(`should return 200 when user role is "SUPER_ADMIN" and identity provider is "${identityProvider}"`, async function () {
+          // given
+          sinon
+            .stub(userController, 'reassignAuthenticationMethods')
+            .callsFake((request, h) => h.response({}).code(204));
+          sinon.stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin').callsFake((request, h) => h.response(true));
+          sinon
+            .stub(securityPreHandlers, 'checkUserHasRoleSupport')
+            .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+          const httpTestServer = new HttpTestServer();
+          await httpTestServer.register(moduleUnderTest);
+          const payload = {
+            data: {
+              attributes: {
+                'user-id': 2,
+                'identity-provider': identityProvider,
+              },
+            },
+          };
+
+          // when
+          const { statusCode } = await httpTestServer.request(
+            'POST',
+            '/api/admin/users/1/authentication-methods/1',
+            payload
+          );
+
+          // then
+          sinon.assert.calledOnce(securityPreHandlers.checkUserHasRoleSuperAdmin);
+          sinon.assert.calledOnce(securityPreHandlers.checkUserHasRoleSupport);
+          sinon.assert.calledOnce(userController.reassignAuthenticationMethods);
+          expect(statusCode).to.equal(204);
+        });
+
+        it(`should return 200 when user role is "SUPPORT" and identity provider is "${identityProvider}"`, async function () {
+          // given
+          sinon
+            .stub(userController, 'reassignAuthenticationMethods')
+            .callsFake((request, h) => h.response({}).code(204));
+          sinon
+            .stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin')
+            .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+          sinon.stub(securityPreHandlers, 'checkUserHasRoleSupport').callsFake((request, h) => h.response(true));
+          const httpTestServer = new HttpTestServer();
+          await httpTestServer.register(moduleUnderTest);
+          const payload = {
+            data: {
+              attributes: {
+                'user-id': 3,
+                'identity-provider': identityProvider,
+              },
+            },
+          };
+
+          // when
+          const { statusCode } = await httpTestServer.request(
+            'POST',
+            '/api/admin/users/1/authentication-methods/1',
+            payload
+          );
+
+          // then
+          sinon.assert.calledOnce(securityPreHandlers.checkUserHasRoleSuperAdmin);
+          sinon.assert.calledOnce(securityPreHandlers.checkUserHasRoleSupport);
+          sinon.assert.calledOnce(userController.reassignAuthenticationMethods);
+          expect(statusCode).to.equal(204);
+        });
+      });
+
+      it('should return 400 when "userId" is not a number', async function () {
+        // given
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        // when
+        const { statusCode, payload } = await httpTestServer.request(
+          'POST',
+          '/api/admin/users/invalid-id/authentication-methods/1'
+        );
+
+        // then
+        expect(statusCode).to.equal(400);
+        expect(JSON.parse(payload).errors[0].detail).to.equal('"userId" must be a number');
+      });
+
+      it('should return 400 when "authenticationMethodId" is not a number', async function () {
+        // given
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        // when
+        const { statusCode, payload } = await httpTestServer.request(
+          'POST',
+          '/api/admin/users/1/authentication-methods/invalid-id'
+        );
+
+        // then
+        expect(statusCode).to.equal(400);
+        expect(JSON.parse(payload).errors[0].detail).to.equal('"authenticationMethodId" must be a number');
+      });
+
+      it('should return 400 when the payload is invalid', async function () {
+        // given
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+        const payload = {
+          data: {
+            attributes: {
+              'user-id': 'invalid-user-id',
+              'identity-provider': 'invalid-identity-provider',
+            },
+          },
+        };
+
+        // when
+        const { statusCode } = await httpTestServer.request(
+          'POST',
+          '/api/admin/users/1/authentication-methods/1',
+          payload
+        );
+
+        // then
+        expect(statusCode).to.equal(400);
+      });
+
+      it(`should return 403 when user don't have access (CERTIF | METIER)`, async function () {
+        // given
+        sinon.stub(userController, 'reassignAuthenticationMethods').returns('ok');
+        sinon
+          .stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin')
+          .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+        sinon
+          .stub(securityPreHandlers, 'checkUserHasRoleSupport')
+          .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+        const payload = {
+          data: {
+            attributes: {
+              'user-id': 2,
+              'identity-provider': 'GAR',
+            },
+          },
+        };
+
+        // when
+        const result = await httpTestServer.request('POST', '/api/admin/users/1/authentication-methods/1', payload);
+
+        // then
+        sinon.assert.calledOnce(securityPreHandlers.checkUserHasRoleSuperAdmin);
+        sinon.assert.calledOnce(securityPreHandlers.checkUserHasRoleSupport);
+        sinon.assert.notCalled(userController.reassignAuthenticationMethods);
+        expect(result.statusCode).to.equal(403);
+      });
     });
   });
 });
