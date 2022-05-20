@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import sinon from 'sinon';
-import { render } from '@ember/test-helpers';
+import { find, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 import { contains } from '../../helpers/contains';
@@ -11,14 +11,14 @@ import { clickByLabel } from '../../helpers/click-by-label';
 describe('Integration | Component | certification-joiner', function () {
   setupIntlRenderingTest();
 
-  describe('#submit', function () {
+  context('submit', function () {
     it('should create certificate candidate with trimmed first and last name', async function () {
       // given
       this.set('onStepChange', sinon.stub());
       await render(hbs`<CertificationJoiner @onStepChange={{this.onStepChange}}/>`);
       await fillInByLabel(this.intl.t('pages.certification-joiner.form.fields.session-number'), '123456');
-      await fillInByLabel(this.intl.t('pages.certification-joiner.form.fields.first-name'), 'Robert  ');
-      await fillInByLabel(this.intl.t('pages.certification-joiner.form.fields.birth-name'), '  de Pix');
+      await fillInByLabel(this.intl.t('pages.certification-joiner.form.fields.first-name'), 'Robert' + '  ');
+      await fillInByLabel(this.intl.t('pages.certification-joiner.form.fields.birth-name'), '  ' + 'de Pix');
       await fillInByLabel(this.intl.t('pages.certification-joiner.form.fields.birth-day'), '02');
       await fillInByLabel(this.intl.t('pages.certification-joiner.form.fields.birth-month'), '01');
       await fillInByLabel(this.intl.t('pages.certification-joiner.form.fields.birth-year'), '2000');
@@ -233,6 +233,56 @@ describe('Integration | Component | certification-joiner', function () {
           contains(this.intl.t('pages.certification-joiner.error-messages.generic.check-session-number'))
         ).to.exist;
         expect(contains(this.intl.t('pages.certification-joiner.error-messages.generic.check-personal-info'))).to.exist;
+      });
+    });
+  });
+
+  it('should display hint on session number input', async function () {
+    await render(hbs`<CertificationJoiner @onStepChange={{this.onStepChange}}/>`);
+    const foo = find(`.pix-input__information`);
+
+    expect(foo.innerText).to.contains(this.intl.t('pages.certification-joiner.form.fields.session-number-information'));
+  });
+
+  context('when filling form', function () {
+    context('should not allow filling letters in birth date', function () {
+      it('day', async function () {
+        // given
+        this.set('onStepChange', sinon.stub());
+        await render(hbs`<CertificationJoiner @onStepChange={{this.onStepChange}}/>`);
+
+        // when
+        await fillInByLabel(this.intl.t('pages.certification-joiner.form.fields.birth-day'), 'aa');
+
+        // then
+        const foo = find(`input[aria-label="${this.intl.t('pages.certification-joiner.form.fields.birth-day')}"]`);
+        expect(foo.value).not.to.contains('aa');
+      });
+
+      it('month', async function () {
+        // given
+        this.set('onStepChange', sinon.stub());
+        await render(hbs`<CertificationJoiner @onStepChange={{this.onStepChange}}/>`);
+
+        // when
+        await fillInByLabel(this.intl.t('pages.certification-joiner.form.fields.birth-month'), 'aa');
+
+        // then
+        const foo = find(`input[aria-label="${this.intl.t('pages.certification-joiner.form.fields.birth-month')}"]`);
+        expect(foo.value).not.to.contains('aa');
+      });
+
+      it('year', async function () {
+        // given
+        this.set('onStepChange', sinon.stub());
+        await render(hbs`<CertificationJoiner @onStepChange={{this.onStepChange}}/>`);
+
+        // when
+        await fillInByLabel(this.intl.t('pages.certification-joiner.form.fields.birth-year'), 'aa');
+
+        // then
+        const foo = find(`input[aria-label="${this.intl.t('pages.certification-joiner.form.fields.birth-year')}"]`);
+        expect(foo.value).not.to.contains('aa');
       });
     });
   });
