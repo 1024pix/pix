@@ -3,7 +3,7 @@ import { render, clickByName, within } from '@1024pix/ember-testing-library';
 import hbs from 'htmlbars-inline-precompile';
 import { setupRenderingTest } from 'ember-qunit';
 
-module('Integration | Component | targetProfiles::NewTubeBased::GenerateTargetProfileFormTubeBased', function (hooks) {
+module('Integration | Component | targetProfiles::TubesSelection::Form', function (hooks) {
   setupRenderingTest(hooks);
   let frameworks;
 
@@ -68,9 +68,7 @@ module('Integration | Component | targetProfiles::NewTubeBased::GenerateTargetPr
     this.set('frameworks', frameworks);
 
     // when
-    const screen = await render(
-      hbs`<TargetProfiles::NewTubeBased::GenerateTargetProfileFormTubeBased @frameworks={{this.frameworks}} />`
-    );
+    const screen = await render(hbs`<TargetProfiles::TubesSelection::Form @frameworks={{this.frameworks}} />`);
     await clickByName('1 · Titre domaine');
     await clickByName('1 Titre competence');
 
@@ -85,9 +83,7 @@ module('Integration | Component | targetProfiles::NewTubeBased::GenerateTargetPr
     this.set('frameworks', frameworks);
 
     // when
-    const screen = await render(
-      hbs`<TargetProfiles::NewTubeBased::GenerateTargetProfileFormTubeBased @frameworks={{this.frameworks}} />`
-    );
+    const screen = await render(hbs`<TargetProfiles::TubesSelection::Form @frameworks={{this.frameworks}} />`);
 
     await clickByName('1 · Titre domaine');
     await clickByName('1 Titre competence');
@@ -102,9 +98,7 @@ module('Integration | Component | targetProfiles::NewTubeBased::GenerateTargetPr
     this.set('frameworks', frameworks);
 
     // when
-    const screen = await render(
-      hbs`<TargetProfiles::NewTubeBased::GenerateTargetProfileFormTubeBased @frameworks={{this.frameworks}} />`
-    );
+    const screen = await render(hbs`<TargetProfiles::TubesSelection::Form @frameworks={{this.frameworks}} />`);
     await clickByName('1 · Titre domaine');
     await clickByName('1 Titre competence');
     await clickByName('Thématique 1');
@@ -121,9 +115,7 @@ module('Integration | Component | targetProfiles::NewTubeBased::GenerateTargetPr
     this.set('frameworks', frameworks);
 
     // when
-    const screen = await render(
-      hbs`<TargetProfiles::NewTubeBased::GenerateTargetProfileFormTubeBased @frameworks={{this.frameworks}} />`
-    );
+    const screen = await render(hbs`<TargetProfiles::TubesSelection::Form @frameworks={{this.frameworks}} />`);
     await clickByName('1 · Titre domaine');
     await clickByName('1 Titre competence');
     await clickByName('Tube 1 : Description 1');
@@ -140,9 +132,7 @@ module('Integration | Component | targetProfiles::NewTubeBased::GenerateTargetPr
     this.set('frameworks', frameworks);
 
     // when
-    const screen = await render(
-      hbs`<TargetProfiles::NewTubeBased::GenerateTargetProfileFormTubeBased @frameworks={{this.frameworks}} />`
-    );
+    const screen = await render(hbs`<TargetProfiles::TubesSelection::Form @frameworks={{this.frameworks}} />`);
     await clickByName('1 · Titre domaine');
     await clickByName('1 Titre competence');
     await clickByName('Tube 1 : Description 1');
@@ -159,9 +149,7 @@ module('Integration | Component | targetProfiles::NewTubeBased::GenerateTargetPr
     this.set('frameworks', frameworks);
 
     // when
-    const screen = await render(
-      hbs`<TargetProfiles::NewTubeBased::GenerateTargetProfileFormTubeBased @frameworks={{this.frameworks}} />`
-    );
+    const screen = await render(hbs`<TargetProfiles::TubesSelection::Form @frameworks={{this.frameworks}} />`);
     await clickByName('1 · Titre domaine');
     await clickByName('1 Titre competence');
     await clickByName('Thématique 1');
@@ -176,9 +164,7 @@ module('Integration | Component | targetProfiles::NewTubeBased::GenerateTargetPr
     this.set('frameworks', frameworks);
 
     // when
-    const screen = await render(
-      hbs`<TargetProfiles::NewTubeBased::GenerateTargetProfileFormTubeBased @frameworks={{this.frameworks}} />`
-    );
+    const screen = await render(hbs`<TargetProfiles::TubesSelection::Form @frameworks={{this.frameworks}} />`);
     await clickByName('1 · Titre domaine');
     await clickByName('1 Titre competence');
     await clickByName('Thématiques');
@@ -201,9 +187,7 @@ module('Integration | Component | targetProfiles::NewTubeBased::GenerateTargetPr
       this.set('frameworks', frameworks);
 
       // when
-      const screen = await render(
-        hbs`<TargetProfiles::NewTubeBased::GenerateTargetProfileFormTubeBased @frameworks={{this.frameworks}} />`
-      );
+      const screen = await render(hbs`<TargetProfiles::TubesSelection::Form @frameworks={{this.frameworks}} />`);
 
       // then
       assert.dom(screen.getByRole('button', { name: 'Retour' })).exists();
@@ -215,9 +199,7 @@ module('Integration | Component | targetProfiles::NewTubeBased::GenerateTargetPr
         this.set('frameworks', frameworks);
 
         // when
-        const screen = await render(
-          hbs`<TargetProfiles::NewTubeBased::GenerateTargetProfileFormTubeBased @frameworks={{this.frameworks}} />`
-        );
+        const screen = await render(hbs`<TargetProfiles::TubesSelection::Form @frameworks={{this.frameworks}} />`);
 
         // then
         assert.dom(screen.getByRole('button', { name: 'Télécharger la sélection des sujets (JSON)' })).isDisabled();
@@ -230,9 +212,7 @@ module('Integration | Component | targetProfiles::NewTubeBased::GenerateTargetPr
         this.set('frameworks', frameworks);
 
         // when
-        const screen = await render(
-          hbs`<TargetProfiles::NewTubeBased::GenerateTargetProfileFormTubeBased @frameworks={{this.frameworks}} />`
-        );
+        const screen = await render(hbs`<TargetProfiles::TubesSelection::Form @frameworks={{this.frameworks}} />`);
         await clickByName('1 · Titre domaine');
         await clickByName('1 Titre competence');
         await clickByName('Tube 1 : Description 1');
@@ -248,9 +228,7 @@ module('Integration | Component | targetProfiles::NewTubeBased::GenerateTargetPr
         this.set('frameworks', frameworks);
 
         // when
-        const screen = await render(
-          hbs`<TargetProfiles::NewTubeBased::GenerateTargetProfileFormTubeBased @frameworks={{this.frameworks}} />`
-        );
+        const screen = await render(hbs`<TargetProfiles::TubesSelection::Form @frameworks={{this.frameworks}} />`);
         await clickByName('1 · Titre domaine');
         await clickByName('1 Titre competence');
         await clickByName('Tube 1 : Description 1');

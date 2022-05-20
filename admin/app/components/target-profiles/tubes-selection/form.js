@@ -4,7 +4,7 @@ import { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 import { A as EmberArray } from '@ember/array';
 
-export default class GenerateTargetProfileFromTubeBased extends Component {
+export default class Form extends Component {
   @service router;
   @service notifications;
 

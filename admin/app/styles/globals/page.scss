@@ -26,6 +26,11 @@
         color: $grey-45;
       }
     }
+
+    .page-actions {
+      display: flex;
+      gap: 1rem;
+    }
   }
 
   .page-body {
