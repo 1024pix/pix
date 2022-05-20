@@ -57,7 +57,7 @@ module('Acceptance | User List', function (hooks) {
         ],
       };
 
-      this.server.get('/users', () => result);
+      this.server.get('/admin/users', () => result);
 
       // when
       const screen = await visit('/users/list?email=example.net');
