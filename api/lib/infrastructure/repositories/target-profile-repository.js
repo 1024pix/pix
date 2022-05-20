@@ -15,39 +15,16 @@ const {
 } = require('../../domain/errors');
 const DomainTransaction = require('../../infrastructure/DomainTransaction');
 const TargetProfile = require('../../domain/models/TargetProfile');
+const TargetProfileTemplate = require('../../domain/models/TargetProfileTemplate');
 const { PGSQL_FOREIGN_KEY_VIOLATION_ERROR } = require('../../../db/pgsql-errors');
 
 module.exports = {
   async create(targetProfileData) {
-    const targetProfileRawData = _.pick(targetProfileData, [
-      'name',
-      'isPublic',
-      'imageUrl',
-      'ownerOrganizationId',
-      'comment',
-      'description',
-      'category',
-    ]);
-
-    const trx = await knex.transaction();
-
     try {
-      const [targetProfileId] = await trx('target-profiles').insert(targetProfileRawData).returning('id');
-
-      const skillsIdList = _.uniq(targetProfileData.skillIds);
-
-      const skillToAdd = skillsIdList.map((skillId) => {
-        return { targetProfileId, skillId };
+      return await knex.transaction((trx) => {
+        return _createTargetProfile({ trx, targetProfileData });
       });
-
-      await trx.batchInsert('target-profiles_skills', skillToAdd);
-
-      await trx.commit();
-
-      return targetProfileId;
     } catch (e) {
-      await trx.rollback();
-
       if (e.code === PGSQL_FOREIGN_KEY_VIOLATION_ERROR) {
         throw new OrganizationNotFoundError();
       }
@@ -191,6 +168,39 @@ module.exports = {
 
     return true;
   },
+
+  async createTemplateAndTargetProfile({ targetProfileTemplate, targetProfileData }) {
+    try {
+      return await knex.transaction(async (trx) => {
+        const [targetProfileTemplateId] = await knex('target-profile-templates').insert({}).returning('id');
+
+        const tubes = targetProfileTemplate.tubes.map((tube) => ({
+          targetProfileTemplateId,
+          tubeId: tube.id,
+          level: tube.level,
+        }));
+
+        const savedTubes = await knex.batchInsert('target-profile-templates_tubes', tubes).returning('*');
+        const savedTargetProfile = await _createTargetProfile({
+          trx,
+          targetProfileData: {
+            ...targetProfileData,
+            targetProfileTemplateId,
+          },
+        });
+        return new TargetProfileTemplate({
+          id: targetProfileTemplateId,
+          targetProfiles: [savedTargetProfile],
+          tubes: savedTubes.map((tube) => ({
+            id: tube.tubeId,
+            level: tube.level,
+          })),
+        });
+      });
+    } catch (e) {
+      throw new TargetProfileCannotBeCreated();
+    }
+  },
 };
 
 async function _getWithLearningContentSkills(targetProfile) {
@@ -217,4 +227,29 @@ function _setSearchFiltersForQueryBuilder(filter, qb) {
   if (id) {
     qb.where({ id });
   }
+}
+
+async function _createTargetProfile({ trx, targetProfileData }) {
+  const targetProfileRawData = _.pick(targetProfileData, [
+    'name',
+    'isPublic',
+    'imageUrl',
+    'ownerOrganizationId',
+    'comment',
+    'description',
+    'category',
+    'targetProfileTemplateId',
+  ]);
+
+  const [targetProfileId] = await trx('target-profiles').insert(targetProfileRawData).returning('id');
+
+  const skillsIdList = _.uniq(targetProfileData.skillIds);
+
+  const skillToAdd = skillsIdList.map((skillId) => {
+    return { targetProfileId, skillId };
+  });
+
+  await trx.batchInsert('target-profiles_skills', skillToAdd);
+
+  return targetProfileId;
 }
