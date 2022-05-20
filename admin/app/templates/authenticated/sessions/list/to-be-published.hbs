@@ -1,8 +1,10 @@
 {{page-title "Sessions à publier"}}
 {{#if @model.length}}
-  <div class="session-to-be-publish__publish-all">
-    <PixButton @triggerAction={{this.showConfirmModal}}>Publier toutes les sessions</PixButton>
-  </div>
+  {{#if this.accessControl.hasAccessToCertificationActionsScope}}
+    <div class="session-to-be-publish__publish-all">
+      <PixButton @triggerAction={{this.showConfirmModal}}>Publier toutes les sessions</PixButton>
+    </div>
+  {{/if}}
 {{/if}}
 
 <ToBePublishedSessions::ListItems @toBePublishedSessions={{@model}} @publishSession={{this.publishSession}} />

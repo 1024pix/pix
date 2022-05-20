@@ -17,6 +17,9 @@ describe('Unit | UseCase | get-certification-course', function () {
     };
     userRepository = {
       isSuperAdmin: sinon.stub(),
+      isSupport: sinon.stub(),
+      isCertif: sinon.stub(),
+      isMetier: sinon.stub(),
     };
   });
 
@@ -40,6 +43,57 @@ describe('Unit | UseCase | get-certification-course', function () {
     // given
     certificationCourseRepository.get.withArgs(certificationCourse.getId()).resolves(certificationCourse);
     userRepository.isSuperAdmin.withArgs('super_admin_user_id').resolves(true);
+
+    // when
+    const actualCertificationCourse = await getCertificationCourse({
+      certificationCourseId: certificationCourse.getId(),
+      userId: 'super_admin_user_id',
+      certificationCourseRepository,
+      userRepository,
+    });
+
+    // then
+    expect(actualCertificationCourse.getId()).to.equal(certificationCourse.getId());
+  });
+
+  it('should get the certificationCourse when the user id does not match the certification course user id but is Support', async function () {
+    // given
+    certificationCourseRepository.get.withArgs(certificationCourse.getId()).resolves(certificationCourse);
+    userRepository.isSupport.withArgs('super_admin_user_id').resolves(true);
+
+    // when
+    const actualCertificationCourse = await getCertificationCourse({
+      certificationCourseId: certificationCourse.getId(),
+      userId: 'super_admin_user_id',
+      certificationCourseRepository,
+      userRepository,
+    });
+
+    // then
+    expect(actualCertificationCourse.getId()).to.equal(certificationCourse.getId());
+  });
+
+  it('should get the certificationCourse when the user id does not match the certification course user id but is Certif', async function () {
+    // given
+    certificationCourseRepository.get.withArgs(certificationCourse.getId()).resolves(certificationCourse);
+    userRepository.isCertif.withArgs('super_admin_user_id').resolves(true);
+
+    // when
+    const actualCertificationCourse = await getCertificationCourse({
+      certificationCourseId: certificationCourse.getId(),
+      userId: 'super_admin_user_id',
+      certificationCourseRepository,
+      userRepository,
+    });
+
+    // then
+    expect(actualCertificationCourse.getId()).to.equal(certificationCourse.getId());
+  });
+
+  it('should get the certificationCourse when the user id does not match the certification course user id but is Metier', async function () {
+    // given
+    certificationCourseRepository.get.withArgs(certificationCourse.getId()).resolves(certificationCourse);
+    userRepository.isMetier.withArgs('super_admin_user_id').resolves(true);
 
     // when
     const actualCertificationCourse = await getCertificationCourse({

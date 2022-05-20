@@ -5,32 +5,34 @@
 
     <header class="certification-list-page__header">
       <h2>Certifications</h2>
-      <div class="btn-group" role="group">
+      {{#if this.accessControl.hasAccessToCertificationActionsScope}}
+        <div class="btn-group" role="group">
 
-        {{#if this.model.isPublished}}
-          <PixButton @triggerAction={{this.displayCertificationStatusUpdateConfirmationModal}}>Dépublier la session</PixButton>
-        {{else}}
-
-          {{#if this.canPublish}}
-            <PixButton @triggerAction={{this.displayCertificationStatusUpdateConfirmationModal}}>Publier la session</PixButton>
+          {{#if this.model.isPublished}}
+            <PixButton @triggerAction={{this.displayCertificationStatusUpdateConfirmationModal}}>Dépublier la session</PixButton>
           {{else}}
 
-            <PixTooltip @position="left" @isWide={{true}}>
-              <:triggerElement>
-                <PixButton
-                  @triggerAction={{this.displayCertificationStatusUpdateConfirmationModal}}
-                  @isDisabled={{true}}
-                >
-                  Publier la session
-                </PixButton>
-              </:triggerElement>
-              <:tooltip>Vous ne pouvez pas publier la session tant qu'il reste des certifications en 'error' ou
-                'started'.</:tooltip>
-            </PixTooltip>
-          {{/if}}
+            {{#if this.canPublish}}
+              <PixButton @triggerAction={{this.displayCertificationStatusUpdateConfirmationModal}}>Publier la session</PixButton>
+            {{else}}
 
-        {{/if}}
-      </div>
+              <PixTooltip @position="left" @isWide={{true}}>
+                <:triggerElement>
+                  <PixButton
+                    @triggerAction={{this.displayCertificationStatusUpdateConfirmationModal}}
+                    @isDisabled={{true}}
+                  >
+                    Publier la session
+                  </PixButton>
+                </:triggerElement>
+                <:tooltip>Vous ne pouvez pas publier la session tant qu'il reste des certifications en 'error' ou
+                  'started'.</:tooltip>
+              </PixTooltip>
+            {{/if}}
+
+          {{/if}}
+        </div>
+      {{/if}}
     </header>
 
     <div>

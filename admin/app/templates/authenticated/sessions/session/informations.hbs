@@ -109,35 +109,37 @@
       </div>
     {{/if}}
 
-    <div class="session-info__actions">
-      <div class="row row--btn">
+    {{#if this.accessControl.hasAccessToCertificationActionsScope}}
+      <div class="session-info__actions">
+        <div class="row row--btn">
 
-        {{#if this.sessionModel.finalizedAt}}
-          {{#if this.isCurrentUserAssignedToSession}}
-            <PixButton @size="small" @isDisabled={{true}}>Vous êtes assigné à cette session</PixButton>
-          {{else}}
-            <PixButton @size="small" @triggerAction={{this.checkForAssignment}}>M'assigner la session</PixButton>
-          {{/if}}
-        {{/if}}
-
-        <div class="session-info__copy-button">
-          {{#if this.isCopyButtonClicked}}
-            <p>{{this.copyButtonText}}</p>
+          {{#if this.sessionModel.finalizedAt}}
+            {{#if this.isCurrentUserAssignedToSession}}
+              <PixButton @size="small" @isDisabled={{true}}>Vous êtes assigné à cette session</PixButton>
+            {{else}}
+              <PixButton @size="small" @triggerAction={{this.checkForAssignment}}>M'assigner la session</PixButton>
+            {{/if}}
           {{/if}}
 
-          <PixButton size="small" @triggerAction={{this.copyResultsDownloadLink}} @backgroundColor="grey">
-            <FaIcon @icon="copy" @prefix="far" class="fa-inverse" aria-label="Copier" />
-            Lien de téléchargement des résultats
-          </PixButton>
+          <div class="session-info__copy-button">
+            {{#if this.isCopyButtonClicked}}
+              <p>{{this.copyButtonText}}</p>
+            {{/if}}
+
+            <PixButton size="small" @triggerAction={{this.copyResultsDownloadLink}} @backgroundColor="grey">
+              <FaIcon @icon="copy" @prefix="far" class="fa-inverse" aria-label="Copier" />
+              Lien de téléchargement des résultats
+            </PixButton>
+          </div>
+
+          {{#if this.sessionModel.areResultsToBeSentToPrescriber}}
+            <PixButton size="small" @triggerAction={{this.tagSessionAsSentToPrescriber}} @backgroundColor="grey">
+              Résultats transmis au prescripteur
+            </PixButton>
+          {{/if}}
         </div>
-
-        {{#if this.sessionModel.areResultsToBeSentToPrescriber}}
-          <PixButton size="small" @triggerAction={{this.tagSessionAsSentToPrescriber}} @backgroundColor="grey">
-            Résultats transmis au prescripteur
-          </PixButton>
-        {{/if}}
       </div>
-    </div>
+    {{/if}}
   </div>
 </section>
 
