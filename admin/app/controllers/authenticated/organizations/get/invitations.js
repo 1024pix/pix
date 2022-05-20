@@ -10,9 +10,59 @@ export default class InvitationsController extends Controller {
   @tracked email = null;
   @service notifications;
   @service store;
+  @tracked organizationInvitationLang = this.languagesOptions[0].value;
+  @tracked organizationInvitationRole = this.rolesOptions[0].value;
+
+  get languagesOptions() {
+    return [
+      {
+        label: 'Français',
+        value: 'fr-fr',
+      },
+      {
+        label: 'Francophone',
+        value: 'fr',
+      },
+      {
+        label: 'Anglais',
+        value: 'en',
+      },
+    ];
+  }
+
+  get rolesOptions() {
+    return [
+      {
+        label: 'Automatique',
+        value: 'NULL',
+      },
+      {
+        label: 'Rôle Membre',
+        value: 'MEMBER',
+      },
+      {
+        label: 'Rôle Administrateur',
+        value: 'ADMIN',
+      },
+    ];
+  }
+
+  get organizationInvitationRoleValue() {
+    return this.organizationInvitationRole === 'NULL' ? null : this.organizationInvitationRole;
+  }
 
   @action
-  async createOrganizationInvitation(lang, role) {
+  changeOrganizationInvitationRole(event) {
+    this.organizationInvitationRole = event.target.value ? event.target.value : null;
+  }
+
+  @action
+  changeOrganizationInvitationLang(event) {
+    this.organizationInvitationLang = event.target.value;
+  }
+
+  @action
+  async createOrganizationInvitation() {
     this.isLoading = true;
     const email = this.userEmailToInvite?.trim();
     if (!this._isEmailToInviteValid(email)) {
@@ -23,8 +73,8 @@ export default class InvitationsController extends Controller {
     try {
       const organizationInvitation = await this.store.queryRecord('organization-invitation', {
         email,
-        lang,
-        role,
+        lang: this.organizationInvitationLang,
+        role: this.organizationInvitationRoleValue,
         organizationId: this.model.organization.id,
       });
 
@@ -54,5 +104,9 @@ export default class InvitationsController extends Controller {
   @action
   onChangeUserEmailToInvite(event) {
     this.userEmailToInvite = event.target.value;
+  }
+
+  get sortedInvitations() {
+    return this.model.organizationInvitations.sortBy('updatedAt').reverse();
   }
 }

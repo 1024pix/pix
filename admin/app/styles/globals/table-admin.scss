@@ -8,8 +8,7 @@
     margin-bottom: 0;
   }
 
-  tbody > tr,
-  thead > tr {
+  tr {
     border-bottom: 1px solid $grey-22;
 
     &:first-child {
@@ -27,7 +26,7 @@
     }
   }
 
-  tbody > tr:nth-child(odd) {
+   tr:nth-child(odd) {
     background-color: rgba(0, 0, 0, 0.03);
   }
 

@@ -1,14 +1,40 @@
-.organization-invitations {
+.organization-invitations-select {
+  min-width: 220px;
+  height: 36px;
+  border: 1px solid $grey-40;
+  color: $grey-90;
+  border-radius: $spacing-xxs;
+  font-family: $font-roboto;
+  font-size: 0.875rem;
+  padding-left: $spacing-s;
+}
 
-  &__input {
-    min-width: 320px;
-  }
+.organization-invitations-input {
+  min-width: 320px;
+  height: 36px;
+  border: 1px solid $grey-40;
+  color: $grey-90;
+  border-radius: $spacing-xxs;
+  padding: 0 $spacing-s 0 $spacing-s;
+  font-family: $font-roboto;
+  font-size: 0.875rem;
+}
 
-  &__button {
-    margin-left: 6px;
-  }
+.organization-invitations-button {
+  color: $white;
+  font-family: $font-roboto;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  background-color: $blue;
+  border: 2px solid transparent;
+  text-decoration: none;
+  border-radius: $spacing-xxs;
+  height: 36px;
+  min-width: 120px;
+}
 
-  &__message {
-    text-align: center;
-  }
+.organization-invitations-heading {
+  text-align: center;
+  padding-bottom: 25px;
 }

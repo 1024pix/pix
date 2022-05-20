@@ -1,8 +1,53 @@
 {{page-title "Orga " @model.organization.id " | Invitations"}}
-<Organizations::InvitationsAction
-  @userEmailToInvite={{this.userEmailToInvite}}
-  @onChangeUserEmailToInvite={{this.onChangeUserEmailToInvite}}
-  @userEmailToInviteError={{this.userEmailToInviteError}}
-  @createOrganizationInvitation={{this.createOrganizationInvitation}}
-/>
-<Organizations::Invitations @invitations={{@model.organizationInvitations}} />
+
+<section class="page-section mb_10">
+  <h2 class="organization-invitations-heading">Inviter un membre</h2>
+  <div>Adresse e-mail du membre à inviter</div>
+  <input
+    value={{this.userEmailToInvite}}
+    {{on "change" this.onChangeUserEmailToInvite}}
+    class="organization-invitations-input"
+  />
+
+  <select class="organization-invitations-select" {{on "change" this.changeOrganizationInvitationLang}}>
+    {{#each this.languagesOptions as |opt|}}
+      <option value={{opt.value}}>
+        {{opt.label}}
+      </option>
+    {{/each}}
+  </select>
+
+  <select
+    aria-label="Choisir le rôle du membre"
+    class="organization-invitations-select"
+    {{on "change" this.changeOrganizationInvitationRole}}
+  >
+    {{#each this.rolesOptions as |opt|}}
+      <option value={{opt.value}}>
+        {{opt.label}}
+      </option>
+    {{/each}}
+  </select>
+
+  <button {{on "click" this.createOrganizationInvitation}} class="organization-invitations-button" type="button">
+    Inviter
+  </button>
+</section>
+
+<section class="page-section mb_10">
+  <h2 class="organization-invitations-heading">Invitations</h2>
+  <table class="table-admin">
+    <tr>
+      <td>Adresse e-mail</td>
+      <td>Rôle</td>
+      <td>Date de dernier envoi</td>
+    </tr>
+    {{#each this.sortedInvitations as |invitation|}}
+      <tr aria-label="Invitation en attente">
+        <td>{{invitation.email}}</td>
+        <td>{{invitation.roleInFrench}}</td>
+        <td>{{moment-format invitation.updatedAt "DD/MM/YYYY [-] HH:mm" locale="fr"}}</td>
+      </tr>
+    {{/each}}
+  </table>
+</section>
