@@ -4,7 +4,7 @@ import { render } from '@1024pix/ember-testing-library';
 import hbs from 'htmlbars-inline-precompile';
 import sinon from 'sinon';
 
-module('Integration | Component | targetProfiles:NewTubeBased::TubesSelectionTube', function (hooks) {
+module('Integration | Component | TargetProfiles:TubesSelection::Tube', function (hooks) {
   setupRenderingTest(hooks);
   let setLevelTube;
   let tube;
@@ -39,7 +39,7 @@ module('Integration | Component | targetProfiles:NewTubeBased::TubesSelectionTub
 
     // when
     await render(
-      hbs`<TargetProfiles::NewTubeBased::TubesSelectionTube @competence={{this.competence}}
+      hbs`<TargetProfiles::TubesSelection::Tube @competence={{this.competence}}
                           @thematic={{this.thematic}}
                           @tube={{this.tube}}
                           @setLevelTube={{this.setLevelTube}}
@@ -58,7 +58,7 @@ module('Integration | Component | targetProfiles:NewTubeBased::TubesSelectionTub
 
     // when
     await render(
-      hbs`<TargetProfiles::NewTubeBased::TubesSelectionTube @competence={{this.competence}}
+      hbs`<TargetProfiles::TubesSelection::Tube @competence={{this.competence}}
                           @thematic={{this.thematic}}
                           @tube={{this.tube}}
                           @setLevelTube={{this.setLevelTube}}

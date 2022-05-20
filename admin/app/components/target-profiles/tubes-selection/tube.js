@@ -2,7 +2,7 @@ import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import { isTubeSelected } from '../../../helpers/is-tube-selected';
 
-export default class TubesSelectionTube extends Component {
+export default class Tube extends Component {
   get levelOptions() {
     return levelOptions;
   }

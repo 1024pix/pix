@@ -2,7 +2,7 @@ import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import { isTubeSelected } from '../../../helpers/is-tube-selected';
 
-export default class TubesSelectionCompetence extends Component {
+export default class Competence extends Component {
   get state() {
     const checked = this.args.competence.thematics.every((thematic) => this.isThematicSelected(thematic));
     if (checked) return 'checked';
