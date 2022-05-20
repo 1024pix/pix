@@ -46,25 +46,32 @@ describe('Unit | Application | Certifications Issue Report | Route', function ()
       });
     });
 
-    context('when user has no authorization to access Pix Admin', function () {
-      it('should throw 403', async function () {
-        // given
-        sinon.stub(certificationIssueReportController, 'manuallyResolve').callsFake((_, h) => h.response().code(204));
-        sinon
-          .stub(securityPreHandlers, 'userHasAtLeastOneAccessOf')
-          .returns((request, h) => h.response().code(403).takeover());
+    it('return forbidden access if user has METIER role', async function () {
+      // given
+      sinon.stub(securityPreHandlers, 'checkUserHasRoleMetier').callsFake((request, h) => h.response(true));
+      sinon
+        .stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin')
+        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+      sinon
+        .stub(securityPreHandlers, 'checkUserHasRoleSupport')
+        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+      sinon
+        .stub(securityPreHandlers, 'checkUserHasRoleCertif')
+        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
 
-        const httpTestServer = new HttpTestServer();
-        await httpTestServer.register(moduleUnderTest);
-        const payload = {
-          data: {},
-        };
-        // when
-        const response = await httpTestServer.request('PATCH', '/api/certification-issue-reports/1', payload);
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
 
-        // then
-        expect(response.statusCode).to.equal(403);
+      // when
+      const response = await httpTestServer.request('PATCH', '/api/certification-issue-reports/1', {
+        data: {
+          resolution: null,
+        },
       });
+
+      // then
+      expect(response.statusCode).to.equal(403);
+      sinon.assert.notCalled(securityPreHandlers.checkUserHasRoleMetier);
     });
   });
 });
