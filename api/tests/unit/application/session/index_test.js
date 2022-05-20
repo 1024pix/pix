@@ -963,8 +963,6 @@ describe('Unit | Application | Sessions | Routes', function () {
     describe('GET /api/admin/sessions/{id}/generate-results-download-link', function () {
       it('return forbidden access if user has METIER role', async function () {
         // given
-        sinon.stub(sessionController, 'generateSessionResultsDownloadLink').returns('ok');
-
         sinon.stub(securityPreHandlers, 'checkUserHasRoleMetier').callsFake((request, h) => h.response(true));
         sinon
           .stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin')
@@ -984,7 +982,7 @@ describe('Unit | Application | Sessions | Routes', function () {
 
         // then
         expect(response.statusCode).to.equal(403);
-        sinon.assert.notCalled(sessionController.generateSessionResultsDownloadLink);
+        sinon.assert.notCalled(securityPreHandlers.checkUserHasRoleMetier);
       });
     });
   });
