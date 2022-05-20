@@ -90,7 +90,7 @@ export default function () {
     return schema.featureToggles.findOrCreateBy({ id: 0 });
   });
 
-  this.get('/users');
+  this.get('/admin/users');
 
   this.get('/certification-centers');
   this.get('/certification-centers/:id');

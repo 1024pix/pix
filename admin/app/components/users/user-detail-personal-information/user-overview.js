@@ -87,6 +87,7 @@ export default class UserOverview extends Component {
   @tracked isEditionMode = false;
 
   @service notifications;
+  @service accessControl;
 
   constructor() {
     super(...arguments);

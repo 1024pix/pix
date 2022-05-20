@@ -45,6 +45,38 @@ module('Unit | Service | access-control', function (hooks) {
     });
   });
 
+  module('#hasAccessToUsersActionsScope', function () {
+    test('should be true if admin member has role "SUPER_ADMIN"', function (assert) {
+      // given
+      const currentUser = this.owner.lookup('service:current-user');
+      currentUser.adminMember = { isSuperAdmin: true };
+      const service = this.owner.lookup('service:access-control');
+
+      // when & then
+      assert.true(service.hasAccessToUsersActionsScope);
+    });
+
+    test('should be true if admin member has role "SUPPORT"', function (assert) {
+      // given
+      const currentUser = this.owner.lookup('service:current-user');
+      currentUser.adminMember = { isSupport: true };
+      const service = this.owner.lookup('service:access-control');
+
+      // when & then
+      assert.true(service.hasAccessToUsersActionsScope);
+    });
+
+    test('should be false if admin member has role "CERTIF" or "METIER"', function (assert) {
+      // given
+      const currentUser = this.owner.lookup('service:current-user');
+      currentUser.adminMember = { isSuperAdmin: false, isSupport: false };
+      const service = this.owner.lookup('service:access-control');
+
+      // when & then
+      assert.false(service.hasAccessToUsersActionsScope);
+    });
+  });
+
   module('#hasAccessToOrganizationActionsScope', function () {
     test('should be true if current admin member is Super Admin', function (assert) {
       // given
