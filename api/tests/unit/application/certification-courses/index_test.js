@@ -113,6 +113,30 @@ describe('Unit | Application | Certifications Course | Route', function () {
       // then
       expect(response.statusCode).to.equal(200);
     });
+
+    it('return forbidden access if user has METIER role', async function () {
+      // given
+      sinon.stub(securityPreHandlers, 'checkUserHasRoleMetier').callsFake((request, h) => h.response(true));
+      sinon
+        .stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin')
+        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+      sinon
+        .stub(securityPreHandlers, 'checkUserHasRoleSupport')
+        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+      sinon
+        .stub(securityPreHandlers, 'checkUserHasRoleCertif')
+        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      // when
+      const response = await httpTestServer.request('PATCH', '/api/certification-courses/1234');
+
+      // then
+      expect(response.statusCode).to.equal(403);
+      sinon.assert.notCalled(securityPreHandlers.checkUserHasRoleMetier);
+    });
   });
 
   describe('POST /api/certification-courses', function () {
