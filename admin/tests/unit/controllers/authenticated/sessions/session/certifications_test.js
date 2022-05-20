@@ -67,9 +67,7 @@ module('Unit | Controller | authenticated/sessions/session/certifications', func
         await controller.actions.displayCertificationStatusUpdateConfirmationModal.call(controller);
 
         // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(controller.confirmMessage, 'Souhaitez-vous publier la session ?');
+        assert.strictEqual(controller.confirmMessage, 'Souhaitez-vous publier la session ?');
         assert.true(controller.displayConfirm);
       });
     });
@@ -84,9 +82,7 @@ module('Unit | Controller | authenticated/sessions/session/certifications', func
         await controller.actions.displayCertificationStatusUpdateConfirmationModal.call(controller);
 
         // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(controller.confirmMessage, 'Souhaitez-vous dépublier la session ?');
+        assert.strictEqual(controller.confirmMessage, 'Souhaitez-vous dépublier la session ?');
         assert.true(controller.displayConfirm);
       });
     });

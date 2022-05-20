@@ -190,6 +190,40 @@ module('Integration | Component | routes/authenticated/sessions/session | inform
         assert.dom(screen.getByText('24/10/2022')).exists();
       });
     });
+
+    module('buttons sections', function () {
+      module('when user does not have the right to make certif actions', function () {
+        test('it does not render the buttons section', async function (assert) {
+          // given
+          await authenticateAdminMemberWithRole({ isMetier: true })(server);
+          const session = _buildSessionWithTwoJuryCertificationSummary({}, server);
+
+          // when
+          const screen = await visit(`/sessions/${session.id}`);
+
+          // then
+          assert.dom(screen.queryByText("M'assigner la session")).doesNotExist();
+          assert.dom(screen.queryByText('Lien de téléchargement des résultats')).doesNotExist();
+          assert.dom(screen.queryByText('Résultats transmis au prescripteur')).doesNotExist();
+        });
+      });
+    });
+
+    module('when user has the right to make certif actions', function () {
+      test('it renders the buttons section', async function (assert) {
+        // given
+        await authenticateAdminMemberWithRole({ isCertif: true })(server);
+        const session = _buildSessionWithTwoJuryCertificationSummary({}, server);
+
+        // when
+        const screen = await visit(`/sessions/${session.id}`);
+
+        // then
+        assert.dom(screen.getByRole('button', { name: "M'assigner la session" })).exists();
+        assert.dom(screen.getByRole('button', { name: 'Lien de téléchargement des résultats' })).exists();
+        assert.dom(screen.getByRole('button', { name: 'Résultats transmis au prescripteur' })).exists();
+      });
+    });
   });
 });
 
@@ -208,7 +242,6 @@ function _buildSessionWithTwoJuryCertificationSummary(sessionData, server) {
     status: 'finalized',
     finalizedAt: new Date('2022-01-01'),
     examinerGlobalComment: 'ceci est un commentaire sur les sessions de certification',
-    resultsSentToPrescriberAt: new Date('2020-01-01'),
     juryCertificationSummaries: [juryCertifSummary1, juryCertifSummary2],
     ...sessionData,
   });

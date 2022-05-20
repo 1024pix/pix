@@ -14,6 +14,8 @@ describe('Unit | Service | SessionAuthorizationService', function () {
 
     beforeEach(function () {
       sinon.stub(userRepository, 'isSuperAdmin');
+      sinon.stub(userRepository, 'isSupport');
+      sinon.stub(userRepository, 'isCertif');
       sinon.stub(sessionRepository, 'doesUserHaveCertificationCenterMembershipForSession');
     });
 
@@ -50,10 +52,38 @@ describe('Unit | Service | SessionAuthorizationService', function () {
         });
       });
 
-      context('when user is not SuperAdmin', function () {
+      context('when user is Support', function () {
+        it('should return true', async function () {
+          // given
+          userRepository.isSupport.withArgs(userId).resolves(true);
+
+          // when
+          const isAuthorized = await sessionAuthorizationService.isAuthorizedToAccessSession({ userId, sessionId });
+
+          // then
+          expect(isAuthorized).to.be.true;
+        });
+      });
+
+      context('when user is Certif', function () {
+        it('should return true', async function () {
+          // given
+          userRepository.isCertif.withArgs(userId).resolves(true);
+
+          // when
+          const isAuthorized = await sessionAuthorizationService.isAuthorizedToAccessSession({ userId, sessionId });
+
+          // then
+          expect(isAuthorized).to.be.true;
+        });
+      });
+
+      context('when user is neither SuperAdmin, nor Support, nor Certif', function () {
         it('should return false', async function () {
           // given
           userRepository.isSuperAdmin.withArgs(userId).resolves(false);
+          userRepository.isCertif.withArgs(userId).resolves(false);
+          userRepository.isSupport.withArgs(userId).resolves(false);
 
           // when
           const isAuthorized = await sessionAuthorizationService.isAuthorizedToAccessSession({ userId, sessionId });
