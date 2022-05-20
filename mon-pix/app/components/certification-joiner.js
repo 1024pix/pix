@@ -70,6 +70,21 @@ export default class CertificationJoiner extends Component {
   }
 
   @action
+  setSessionId(event) {
+    this.sessionId = event.target.value;
+  }
+
+  @action
+  setFirstName(event) {
+    this.firstName = event.target.value;
+  }
+
+  @action
+  setLastName(event) {
+    this.lastName = event.target.value;
+  }
+
+  @action
   async attemptNext(e) {
     e.preventDefault();
     this._resetErrorMessages();
@@ -115,6 +130,19 @@ export default class CertificationJoiner extends Component {
     if (value.length === 2) {
       document.getElementById('certificationJoinerMonthOfBirth').focus();
     }
+  }
+
+  @action
+  setDayOfBirth(event) {
+    this.dayOfBirth = event.target.value;
+  }
+  @action
+  setMonthOfBirth(event) {
+    this.monthOfBirth = event.target.value;
+  }
+  @action
+  setYearOfBirth(event) {
+    this.yearOfBirth = event.target.value;
   }
 
   @action
