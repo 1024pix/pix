@@ -83,28 +83,35 @@ describe('Unit | Application | Certification | Routes', function () {
   });
 
   context('POST /api/admin/certification/deneutralize-challenge', function () {
-    it('rejects access if the logged user is not a Super Admin', async function () {
+    it('return forbidden access if user has METIER role', async function () {
       // given
-      sinon.stub(certificationController, 'deneutralizeChallenge').returns('ok');
+      sinon.stub(securityPreHandlers, 'checkUserHasRoleMetier').callsFake((request, h) => h.response(true));
       sinon
-        .stub(securityPreHandlers, 'userHasAtLeastOneAccessOf')
-        .returns((request, h) => h.response().code(403).takeover());
+        .stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin')
+        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+      sinon
+        .stub(securityPreHandlers, 'checkUserHasRoleSupport')
+        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+      sinon
+        .stub(securityPreHandlers, 'checkUserHasRoleCertif')
+        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
-      const payload = {
+
+      // when
+      const response = await httpTestServer.request('POST', '/api/admin/certification/deneutralize-challenge', {
         data: {
           attributes: {
             certificationCourseId: 1,
             challengeRecId: 'rec43mpMIR5dUzdjh',
           },
         },
-      };
-
-      // when
-      const response = await httpTestServer.request('POST', '/api/admin/certification/deneutralize-challenge', payload);
+      });
 
       // then
       expect(response.statusCode).to.equal(403);
+      sinon.assert.notCalled(securityPreHandlers.checkUserHasRoleMetier);
     });
 
     it('checks that a valid certification-course id is given', async function () {
