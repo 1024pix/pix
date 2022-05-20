@@ -51,7 +51,6 @@
           {{on "focus-in" this.handleInputFocus}}
           aria-label={{t "pages.certification-joiner.form.fields.birth-day"}}
         />
-        <div class="certification-joiner__divider"></div>
         <PixInput
           @id="certificationJoinerMonthOfBirth"
           min="1"
@@ -63,10 +62,10 @@
           {{on "focus-in" this.handleInputFocus}}
           aria-label={{t "pages.certification-joiner.form.fields.birth-month"}}
         />
-        <div class="certification-joiner__divider"></div>
         <PixInput
           @id="certificationJoinerYearOfBirth"
           min="1900"
+          max="2100"
           type="number"
           placeholder="AAAA"
           {{on "change" this.setYearOfBirth}}
@@ -96,6 +95,9 @@
         {{/if}}
       </div>
     {{/if}}
-    <PixButton @type="submit">{{t "pages.certification-joiner.form.actions.submit"}}</PixButton>
+    <PixButton @id="certificationJoinerSubmitButton" @type="submit">{{t
+        "pages.certification-joiner.form.actions.submit"
+      }}
+    </PixButton>
   </form>
 </section>

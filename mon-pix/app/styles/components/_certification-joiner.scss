@@ -19,21 +19,6 @@
     margin-bottom: 24px;
   }
 
-  &__birthdate {
-    display: flex;
-    flex-flow: row nowrap;
-    align-items: center;
-
-    input {
-      padding-right: 3px;
-    }
-  }
-
-  &__divider {
-    width: 20px;
-    flex-shrink: 0;
-  }
-
   form {
     width: 280px;
     display: block;
@@ -103,6 +88,21 @@
     font-size: 0.875rem;
     margin-top: 6px;
     margin-bottom: 0;
+  }
+
+  &__birthdate {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: space-between;
+
+    .pix-input {
+      flex: 0.3;
+
+      input {
+        padding-right: 3px;
+      }
+    }
   }
 
   &__label {
