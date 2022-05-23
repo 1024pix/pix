@@ -9,9 +9,11 @@
         <th>
           RecId de l'épreuve
         </th>
-        <th>
-          Action
-        </th>
+        {{#if this.accessControl.hasAccessToCertificationActionsScope}}
+          <th>
+            Action
+          </th>
+        {{/if}}
       </tr>
     </thead>
     <tbody>
@@ -23,27 +25,29 @@
           <td>
             {{answer.challengeId}}
           </td>
-          <td>
-            {{#if answer.isNeutralized}}
-              <PixButton
-                @triggerAction={{fn this.deneutralize answer.challengeId answer.order}}
-                @backgroundColor="transparent"
-                @loading-color="grey"
-                @size="small"
-              >
-                Dé-neutraliser
-              </PixButton>
-            {{else}}
-              <PixButton
-                @triggerAction={{fn this.neutralize answer.challengeId answer.order}}
-                @backgroundColor="blue"
-                @loading-color="white"
-                @size="small"
-              >
-                Neutraliser
-              </PixButton>
-            {{/if}}
-          </td>
+          {{#if this.accessControl.hasAccessToCertificationActionsScope}}
+            <td>
+              {{#if answer.isNeutralized}}
+                <PixButton
+                  @triggerAction={{fn this.deneutralize answer.challengeId answer.order}}
+                  @backgroundColor="transparent"
+                  @loading-color="grey"
+                  @size="small"
+                >
+                  Dé-neutraliser
+                </PixButton>
+              {{else}}
+                <PixButton
+                  @triggerAction={{fn this.neutralize answer.challengeId answer.order}}
+                  @backgroundColor="blue"
+                  @loading-color="white"
+                  @size="small"
+                >
+                  Neutraliser
+                </PixButton>
+              {{/if}}
+            </td>
+          {{/if}}
         </tr>
       {{/each}}
     </tbody>
