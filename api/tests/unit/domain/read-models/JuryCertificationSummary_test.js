@@ -2,8 +2,64 @@ const { expect, domainBuilder } = require('../../../test-helper');
 const JuryCertificationSummary = require('../../../../lib/domain/read-models/JuryCertificationSummary');
 const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult');
 const forIn = require('lodash/forIn');
+const ComplementaryCertificationCourseResult = require('../../../../lib/domain/models/ComplementaryCertificationCourseResult');
+const { PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE, PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_INITIE } =
+  require('../../../../lib/domain/models/Badge').keys;
 
 describe('Unit | Domain | Models | JuryCertificationSummary', function () {
+  describe('#constructor', function () {
+    it('should return a JuryCertificationSummary', function () {
+      // given
+      const notImpactfulIssueReport = domainBuilder.buildCertificationIssueReport.notImpactful({ resolvedAt: null });
+      const data = {
+        certificationIssueReports: [notImpactfulIssueReport],
+        complementaryCertificationCourseResults: [
+          ComplementaryCertificationCourseResult.from({
+            partnerKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
+            acquired: true,
+            source: 'PIX',
+          }),
+          ComplementaryCertificationCourseResult.from({
+            partnerKey: PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_INITIE,
+            acquired: false,
+            source: 'PIX',
+          }),
+        ],
+        completedAt: new Date('2020-01-01'),
+        createdAt: new Date('2020-01-02'),
+        firstName: 'Mad',
+        lastName: 'Martigan',
+        hasSeenEndTestScreen: 'true',
+        id: 100001,
+        isFlaggedAborted: false,
+        isPublished: false,
+        pixScore: 751,
+        status: 'started',
+      };
+
+      // when
+      const juryCertificationSummary = new JuryCertificationSummary(data);
+
+      // then
+      expect(juryCertificationSummary).to.deep.equal({
+        certificationIssueReports: [notImpactfulIssueReport],
+        complementaryCertificationTakenLabels: [
+          'Pix+ Édu 2nd degré Initié (entrée dans le métier)',
+          'Pix+ Édu 1er degré Initié (entrée dans le métier)',
+        ],
+        completedAt: new Date('2020-01-01'),
+        createdAt: new Date('2020-01-02'),
+        firstName: 'Mad',
+        lastName: 'Martigan',
+        hasSeenEndTestScreen: 'true',
+        id: 100001,
+        isFlaggedAborted: false,
+        isPublished: false,
+        pixScore: 751,
+        status: 'started',
+      });
+    });
+  });
   describe('#validate', function () {
     context('when a status is given', function () {
       // eslint-disable-next-line mocha/no-setup-in-describe
