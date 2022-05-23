@@ -35,7 +35,7 @@
     "file-type": "^16.5.3",
     "hapi-i18n": "^3.0.1",
     "hapi-pino": "^10.1.0",
-    "hapi-rate-limiter": "1024pix/hapi-rate-limiter#add-overlimit-count-on-rate",
+    "hapi-rate-limiter": "1024pix/hapi-rate-limiter#pix",
     "hapi-sentry": "^3.2.0",
     "hapi-swagger": "^14.5.5",
     "hash-int": "^1.0.0",
