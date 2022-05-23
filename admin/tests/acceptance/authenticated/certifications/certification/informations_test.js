@@ -549,6 +549,17 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
     });
 
     module('Certification results edition', function () {
+      test('should not show certification modify button when user does not have access to certification actions scope', async function (assert) {
+        // given
+        await authenticateAdminMemberWithRole({ isMetier: true })(server);
+
+        // when
+        const screen = await visit(`/certifications/${certification.id}`);
+
+        // then
+        assert.dom(screen.queryByLabelText('Modifier les résultats du candidat')).doesNotExist();
+      });
+
       module('when candidate results edit button is clicked', function () {
         test('it disables candidate informations edit button', async function (assert) {
           // given

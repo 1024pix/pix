@@ -12,6 +12,7 @@ export default class CertificationDetailsController extends Controller {
   requestedId = '';
 
   @service('mark-store') _markStore;
+  @service accessControl;
 
   @alias('details.percentageCorrectAnswers') rate;
   @alias('details.totalScore') score;
