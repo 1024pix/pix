@@ -50,7 +50,9 @@
   </div>
   <div class="row">
     <div class="col certification-details__actions">
-      <PixButton @type="submit" @size="small" @triggerAction={{this.onStoreMarks}}>Enregistrer</PixButton>
+      {{#if this.accessControl.hasAccessToCertificationActionsScope}}
+        <PixButton @type="submit" @size="small" @triggerAction={{this.onStoreMarks}}>Enregistrer</PixButton>
+      {{/if}}
     </div>
   </div>
 </div>
