@@ -7,6 +7,7 @@ import { inject as service } from '@ember/service';
 export default class NeutralizationController extends Controller {
   @alias('model') certificationDetails;
   @service notifications;
+  @service accessControl;
 
   @action
   async neutralize(challengeRecId, questionIndex) {
