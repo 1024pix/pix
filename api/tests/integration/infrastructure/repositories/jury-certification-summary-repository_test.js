@@ -7,18 +7,8 @@ const {
 const { status: assessmentResultStatuses } = require('../../../../lib/domain/models/AssessmentResult');
 const juryCertificationSummaryRepository = require('../../../../lib/infrastructure/repositories/jury-certification-summary-repository');
 const Assessment = require('../../../../lib/domain/models/Assessment');
-const {
-  PIX_EMPLOI_CLEA_V1,
-  PIX_EMPLOI_CLEA_V2,
-  PIX_EMPLOI_CLEA_V3,
-  PIX_DROIT_MAITRE_CERTIF,
-  PIX_DROIT_EXPERT_CERTIF,
-  PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
-  PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME,
-  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME,
-  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
-  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
-} = require('../../../../lib/domain/models/Badge').keys;
+const { PIX_EMPLOI_CLEA_V3, PIX_DROIT_MAITRE_CERTIF, PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE } =
+  require('../../../../lib/domain/models/Badge').keys;
 
 describe('Integration | Repository | JuryCertificationSummary', function () {
   describe('#findBySessionId', function () {
@@ -259,22 +249,15 @@ describe('Integration | Repository | JuryCertificationSummary', function () {
 
     // eslint-disable-next-line mocha/no-setup-in-describe
     [
-      { partnerKey: PIX_EMPLOI_CLEA_V1, method: 'getCleaCertificationStatus' },
-      { partnerKey: PIX_EMPLOI_CLEA_V2, method: 'getCleaCertificationStatus' },
-      { partnerKey: PIX_EMPLOI_CLEA_V3, method: 'getCleaCertificationStatus' },
-      { partnerKey: PIX_DROIT_MAITRE_CERTIF, method: 'getPixPlusDroitMaitreCertificationStatus' },
-      { partnerKey: PIX_DROIT_EXPERT_CERTIF, method: 'getPixPlusDroitExpertCertificationStatus' },
-      { partnerKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE, method: 'getPixPlusEduInitieCertificationStatus' },
-      { partnerKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME, method: 'getPixPlusEduConfirmeCertificationStatus' },
-      { partnerKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME, method: 'getPixPlusEduConfirmeCertificationStatus' },
-      { partnerKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE, method: 'getPixPlusEduAvanceCertificationStatus' },
+      { partnerKey: PIX_EMPLOI_CLEA_V3, label: 'CléA Numérique' },
+      { partnerKey: PIX_DROIT_MAITRE_CERTIF, label: 'Pix+ Droit Maître' },
       {
-        partnerKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
-        method: 'getPixPlusEduExpertCertificationStatus',
+        partnerKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
+        label: 'Pix+ Édu 2nd degré Initié (entrée dans le métier)',
       },
-    ].forEach(({ partnerKey, method }) => {
+    ].forEach(({ partnerKey, label }) => {
       context(`when a summary has a ${partnerKey} certification`, function () {
-        it(`should have the status acquired when ${partnerKey} certification is acquired`, async function () {
+        it(`should have the associated label when ${partnerKey} certification is taken`, async function () {
           // given
           const dbf = databaseBuilder.factory;
           const sessionId = dbf.buildSession().id;
@@ -293,46 +276,7 @@ describe('Integration | Repository | JuryCertificationSummary', function () {
 
           // then
           expect(juryCertificationSummaries).to.have.lengthOf(1);
-          expect(juryCertificationSummaries[0][method]()).to.equal('acquired');
-        });
-
-        it(`should have the status rejected when ${partnerKey} certification is rejected`, async function () {
-          // given
-          const dbf = databaseBuilder.factory;
-          const sessionId = dbf.buildSession().id;
-          const certificationCourseId = dbf.buildCertificationCourse({ sessionId }).id;
-          dbf.buildBadge({ key: partnerKey });
-          dbf.buildComplementaryCertificationCourse({ id: 998, certificationCourseId });
-          dbf.buildComplementaryCertificationCourseResult({
-            complementaryCertificationCourseId: 998,
-            partnerKey,
-            acquired: false,
-          });
-          await databaseBuilder.commit();
-
-          // when
-          const juryCertificationSummaries = await juryCertificationSummaryRepository.findBySessionId(sessionId);
-
-          // then
-          expect(juryCertificationSummaries).to.have.lengthOf(1);
-          expect(juryCertificationSummaries[0][method]()).to.equal('rejected');
-        });
-      });
-
-      context(`when a summary has no ${partnerKey} certification`, function () {
-        it('should have the status notTaken when clea certification has not be taken', async function () {
-          // given
-          const dbf = databaseBuilder.factory;
-          const sessionId = dbf.buildSession().id;
-          dbf.buildCertificationCourse({ sessionId });
-          await databaseBuilder.commit();
-
-          // when
-          const juryCertificationSummaries = await juryCertificationSummaryRepository.findBySessionId(sessionId);
-
-          // then
-          expect(juryCertificationSummaries).to.have.lengthOf(1);
-          expect(juryCertificationSummaries[0][method]()).to.equal('not_taken');
+          expect(juryCertificationSummaries[0].complementaryCertificationTakenLabels[0]).to.equal(label);
         });
       });
     });
