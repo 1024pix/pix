@@ -3,7 +3,7 @@ const { expect, sinon, hFake } = require('../../../test-helper');
 const poleEmploiController = require('../../../../lib/application/pole-emploi/pole-emploi-controller');
 const usecases = require('../../../../lib/domain/usecases');
 const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
-const tokenService = require('../../../../lib/domain/services/token-service');
+const poleEmploiAuthenticationService = require('../../../../lib/domain/services/authentication/pole-emploi-authentication-service');
 
 describe('Unit | Controller | pole-emploi-controller', function () {
   describe('#getSendings', function () {
@@ -65,7 +65,7 @@ describe('Unit | Controller | pole-emploi-controller', function () {
       const request = { query: { 'authentication-key': 'abcde' } };
       const userId = 7;
       sinon.stub(usecases, 'createUserFromPoleEmploi').resolves({ userId, idToken: 1 });
-      sinon.stub(tokenService, 'createAccessTokenForPoleEmploi').resolves('an access token');
+      sinon.stub(poleEmploiAuthenticationService, 'createAccessToken').resolves('an access token');
       sinon.stub(userRepository, 'updateLastLoggedAt');
 
       // when
@@ -86,7 +86,7 @@ describe('Unit | Controller | pole-emploi-controller', function () {
         .withArgs({ authenticationKey: 'abcde' })
         .resolves({ userId, idToken });
       sinon.stub(userRepository, 'updateLastLoggedAt');
-      sinon.stub(tokenService, 'createAccessTokenForPoleEmploi').withArgs(userId).returns(accessToken);
+      sinon.stub(poleEmploiAuthenticationService, 'createAccessToken').withArgs(userId).returns(accessToken);
 
       // when
       const result = await poleEmploiController.createUser(request, hFake);
@@ -94,6 +94,20 @@ describe('Unit | Controller | pole-emploi-controller', function () {
       //then
       expect(result.source.access_token).to.equal(accessToken);
       expect(result.source.id_token).to.equal(idToken);
+    });
+  });
+
+  describe('#getAuthUrl', function () {
+    it('should call pole emploi authentication service to generate url', async function () {
+      // given
+      const request = { query: { redirect_uri: 'http:/exemple.net/' } };
+      sinon.stub(poleEmploiAuthenticationService, 'getAuthUrl').resolves('an authentication url');
+
+      // when
+      await poleEmploiController.getAuthUrl(request, hFake);
+
+      //then
+      expect(poleEmploiAuthenticationService.getAuthUrl).to.have.been.calledWith({ redirectUri: 'http:/exemple.net/' });
     });
   });
 });

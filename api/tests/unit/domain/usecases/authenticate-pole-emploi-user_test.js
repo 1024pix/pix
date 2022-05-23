@@ -13,8 +13,7 @@ const logger = require('../../../../lib/infrastructure/logger');
 const authenticatePoleEmploiUser = require('../../../../lib/domain/usecases/authenticate-pole-emploi-user');
 
 describe('Unit | UseCase | authenticate-pole-emploi-user', function () {
-  let authenticationService;
-  let tokenService;
+  let poleEmploiAuthenticationService;
 
   let authenticationMethodRepository;
   let poleEmploiTokensRepository;
@@ -25,13 +24,10 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', function () {
   beforeEach(function () {
     clock = sinon.useFakeTimers(Date.now());
 
-    authenticationService = {
-      exchangePoleEmploiCodeForTokens: sinon.stub(),
-      getPoleEmploiUserInfo: sinon.stub(),
-    };
-
-    tokenService = {
-      createAccessTokenForPoleEmploi: sinon.stub().returns(),
+    poleEmploiAuthenticationService = {
+      exchangeCodeForTokens: sinon.stub(),
+      getUserInfo: sinon.stub(),
+      createAccessToken: sinon.stub(),
     };
 
     authenticationMethodRepository = {
@@ -74,8 +70,6 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', function () {
         redirectUri: 'redirectUri',
         stateReceived,
         stateSent,
-        authenticationService,
-        tokenService,
         authenticationMethodRepository,
         poleEmploiTokensRepository,
         userRepository,
@@ -92,8 +86,8 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', function () {
   context('When user has an account', function () {
     it('should call authenticate pole emploi user with code and redirectUri parameters', async function () {
       // given
-      _fakePoleEmploiAPI({ authenticationService });
-      tokenService.createAccessTokenForPoleEmploi.returns('access-token');
+      _fakePoleEmploiAPI({ poleEmploiAuthenticationService });
+      poleEmploiAuthenticationService.createAccessToken.returns('access-token');
 
       // when
       await authenticatePoleEmploiUser({
@@ -103,15 +97,14 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', function () {
         redirectUri: 'redirectUri',
         stateReceived: 'state',
         stateSent: 'state',
-        authenticationService,
-        tokenService,
+        poleEmploiAuthenticationService,
         authenticationMethodRepository,
         poleEmploiTokensRepository,
         userRepository,
       });
 
       // then
-      expect(authenticationService.exchangePoleEmploiCodeForTokens).to.have.been.calledWith({
+      expect(poleEmploiAuthenticationService.exchangeCodeForTokens).to.have.been.calledWith({
         code: 'code',
         redirectUri: 'redirectUri',
       });
@@ -119,8 +112,8 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', function () {
 
     it('should call get pole emploi user info with id token parameter', async function () {
       // given
-      _fakePoleEmploiAPI({ authenticationService });
-      tokenService.createAccessTokenForPoleEmploi.returns('access-token');
+      _fakePoleEmploiAPI({ poleEmploiAuthenticationService });
+      poleEmploiAuthenticationService.createAccessToken.returns('access-token');
 
       // when
       await authenticatePoleEmploiUser({
@@ -130,24 +123,23 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', function () {
         redirectUri: 'redirectUri',
         stateReceived: 'state',
         stateSent: 'state',
-        authenticationService,
-        tokenService,
+        poleEmploiAuthenticationService,
         authenticationMethodRepository,
         poleEmploiTokensRepository,
         userRepository,
       });
 
       // then
-      expect(authenticationService.getPoleEmploiUserInfo).to.have.been.calledWith('idToken');
+      expect(poleEmploiAuthenticationService.getUserInfo).to.have.been.calledWith('idToken');
     });
 
-    it('should call tokenService createAccessTokenForPoleEmploi function with user id', async function () {
+    it('should call poleEmploiAuthenticationService createAccessToken function with user id', async function () {
       // given
       const user = new User({ id: 1, firstName: 'Tuck', lastName: 'Morris' });
       user.externalIdentityId = '094b83ac-2e20-4aa8-b438-0bc91748e4a6';
-      tokenService.createAccessTokenForPoleEmploi.returns('access-token');
+      poleEmploiAuthenticationService.createAccessToken.returns('access-token');
 
-      _fakePoleEmploiAPI({ authenticationService });
+      _fakePoleEmploiAPI({ poleEmploiAuthenticationService });
       userRepository.findByExternalIdentifier.resolves({ id: 1 });
 
       // when
@@ -158,22 +150,21 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', function () {
         redirectUri: 'redirectUri',
         stateReceived: 'state',
         stateSent: 'state',
-        authenticationService,
-        tokenService,
+        poleEmploiAuthenticationService,
         authenticationMethodRepository,
         poleEmploiTokensRepository,
         userRepository,
       });
 
       // then
-      expect(tokenService.createAccessTokenForPoleEmploi).to.have.been.calledWith(1);
+      expect(poleEmploiAuthenticationService.createAccessToken).to.have.been.calledWith(1);
     });
 
     it('should return accessToken and idToken', async function () {
       // given
-      const { poleEmploiTokens } = _fakePoleEmploiAPI({ authenticationService });
+      const { poleEmploiTokens } = _fakePoleEmploiAPI({ poleEmploiAuthenticationService });
       const authenticatedUserId = 1;
-      tokenService.createAccessTokenForPoleEmploi.withArgs(authenticatedUserId).returns('access-token');
+      poleEmploiAuthenticationService.createAccessToken.withArgs(authenticatedUserId).returns('access-token');
 
       // when
       const result = await authenticatePoleEmploiUser({
@@ -183,8 +174,7 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', function () {
         redirectUri: 'redirectUri',
         stateReceived: 'state',
         stateSent: 'state',
-        authenticationService,
-        tokenService,
+        poleEmploiAuthenticationService,
         authenticationMethodRepository,
         poleEmploiTokensRepository,
         userRepository,
@@ -200,8 +190,8 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', function () {
 
     it('should save last logged at date', async function () {
       // given
-      _fakePoleEmploiAPI({ authenticationService });
-      tokenService.createAccessTokenForPoleEmploi.returns('access-token');
+      _fakePoleEmploiAPI({ poleEmploiAuthenticationService });
+      poleEmploiAuthenticationService.createAccessToken.returns('access-token');
 
       // when
       await authenticatePoleEmploiUser({
@@ -211,8 +201,7 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', function () {
         redirectUri: 'redirectUri',
         stateReceived: 'state',
         stateSent: 'state',
-        authenticationService,
-        tokenService,
+        poleEmploiAuthenticationService,
         authenticationMethodRepository,
         poleEmploiTokensRepository,
         userRepository,
@@ -226,8 +215,8 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', function () {
       it('should call authentication repository updatePoleEmploiAuthenticationComplementByUserId function', async function () {
         // given
         userRepository.findByExternalIdentifier.resolves({ id: 1 });
-        const { poleEmploiTokens } = _fakePoleEmploiAPI({ authenticationService });
-        tokenService.createAccessTokenForPoleEmploi.returns('access-token');
+        const { poleEmploiTokens } = _fakePoleEmploiAPI({ poleEmploiAuthenticationService });
+        poleEmploiAuthenticationService.createAccessToken.returns('access-token');
 
         // when
         await authenticatePoleEmploiUser({
@@ -237,8 +226,7 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', function () {
           redirectUri: 'redirectUri',
           stateReceived: 'state',
           stateSent: 'state',
-          authenticationService,
-          tokenService,
+          poleEmploiAuthenticationService,
           authenticationMethodRepository,
           poleEmploiTokensRepository,
           userRepository,
@@ -261,8 +249,8 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', function () {
       it('should also save last logged at date', async function () {
         // given
         userRepository.findByExternalIdentifier.resolves({ id: 123 });
-        _fakePoleEmploiAPI({ authenticationService });
-        tokenService.createAccessTokenForPoleEmploi.returns('access-token');
+        _fakePoleEmploiAPI({ poleEmploiAuthenticationService });
+        poleEmploiAuthenticationService.createAccessToken.returns('access-token');
 
         // when
         await authenticatePoleEmploiUser({
@@ -272,8 +260,7 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', function () {
           redirectUri: 'redirectUri',
           stateReceived: 'state',
           stateSent: 'state',
-          authenticationService,
-          tokenService,
+          poleEmploiAuthenticationService,
           authenticationMethodRepository,
           poleEmploiTokensRepository,
           userRepository,
@@ -288,9 +275,9 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', function () {
       context('When the user does not have a pole emploi authentication method', function () {
         it('should call authentication method repository create function with pole emploi authentication method in domain transaction', async function () {
           // given
-          const { poleEmploiTokens } = _fakePoleEmploiAPI({ authenticationService });
+          const { poleEmploiTokens } = _fakePoleEmploiAPI({ poleEmploiAuthenticationService });
           userRepository.findByExternalIdentifier.resolves(null);
-          tokenService.createAccessTokenForPoleEmploi.returns('access-token');
+          poleEmploiAuthenticationService.createAccessToken.returns('access-token');
 
           // when
           await authenticatePoleEmploiUser({
@@ -300,8 +287,7 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', function () {
             redirectUri: 'redirectUri',
             stateReceived: 'state',
             stateSent: 'state',
-            authenticationService,
-            tokenService,
+            poleEmploiAuthenticationService,
             authenticationMethodRepository,
             poleEmploiTokensRepository,
             userRepository,
@@ -327,13 +313,13 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', function () {
       context('When the user does have a pole emploi authentication method', function () {
         it('should call authentication repository updatePoleEmploiAuthenticationComplementByUserId function', async function () {
           // given
-          const { poleEmploiTokens } = _fakePoleEmploiAPI({ authenticationService });
+          const { poleEmploiTokens } = _fakePoleEmploiAPI({ poleEmploiAuthenticationService });
           authenticationMethodRepository.findOneByUserIdAndIdentityProvider.resolves(
             domainBuilder.buildAuthenticationMethod.withPoleEmploiAsIdentityProvider({
               externalIdentifier: '094b83ac-2e20-4aa8-b438-0bc91748e4a6',
             })
           );
-          tokenService.createAccessTokenForPoleEmploi.returns('access-token');
+          poleEmploiAuthenticationService.createAccessToken.returns('access-token');
 
           // when
           await authenticatePoleEmploiUser({
@@ -343,8 +329,7 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', function () {
             redirectUri: 'redirectUri',
             stateReceived: 'state',
             stateSent: 'state',
-            authenticationService,
-            tokenService,
+            poleEmploiAuthenticationService,
             authenticationMethodRepository,
             poleEmploiTokensRepository,
             userRepository,
@@ -366,7 +351,7 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', function () {
 
         it('should throw an UnexpectedUserAccountError error if the external identifier does not match the one in the pole emploi id token', async function () {
           // given
-          _fakePoleEmploiAPI({ authenticationService });
+          _fakePoleEmploiAPI({ poleEmploiAuthenticationService });
 
           authenticationMethodRepository.findOneByUserIdAndIdentityProvider.resolves(
             domainBuilder.buildAuthenticationMethod.withPoleEmploiAsIdentityProvider({
@@ -382,8 +367,7 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', function () {
             redirectUri: 'redirectUri',
             stateReceived: 'state',
             stateSent: 'state',
-            authenticationService,
-            tokenService,
+            poleEmploiAuthenticationService,
             authenticationMethodRepository,
             poleEmploiTokensRepository,
             userRepository,
@@ -399,7 +383,7 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', function () {
   context('When user has no account', function () {
     it('should call poleEmploiTokens repository save method', async function () {
       // given
-      const { poleEmploiTokens } = _fakePoleEmploiAPI({ authenticationService });
+      const { poleEmploiTokens } = _fakePoleEmploiAPI({ poleEmploiAuthenticationService });
       const key = 'aaa-bbb-ccc';
       poleEmploiTokensRepository.save.resolves(key);
       userRepository.findByExternalIdentifier.resolves(null);
@@ -412,8 +396,7 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', function () {
         redirectUri: 'redirectUri',
         stateReceived: 'state',
         stateSent: 'state',
-        authenticationService,
-        tokenService,
+        poleEmploiAuthenticationService,
         authenticationMethodRepository,
         poleEmploiTokensRepository,
         userRepository,
@@ -426,7 +409,7 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', function () {
     it('should return an authenticationKey', async function () {
       // given
       const key = 'aaa-bbb-ccc';
-      _fakePoleEmploiAPI({ authenticationService });
+      _fakePoleEmploiAPI({ poleEmploiAuthenticationService });
       poleEmploiTokensRepository.save.resolves(key);
       userRepository.findByExternalIdentifier.resolves(null);
 
@@ -438,8 +421,7 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', function () {
         redirectUri: 'redirectUri',
         stateReceived: 'state',
         stateSent: 'state',
-        authenticationService,
-        tokenService,
+        poleEmploiAuthenticationService,
         authenticationMethodRepository,
         poleEmploiTokensRepository,
         userRepository,
@@ -451,7 +433,7 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', function () {
   });
 });
 
-function _fakePoleEmploiAPI({ authenticationService }) {
+function _fakePoleEmploiAPI({ poleEmploiAuthenticationService }) {
   const poleEmploiTokens = new PoleEmploiTokens({
     accessToken: 'poleEmploiAccessToken',
     expiresIn: 60,
@@ -464,8 +446,8 @@ function _fakePoleEmploiAPI({ authenticationService }) {
     externalIdentityId: '094b83ac-2e20-4aa8-b438-0bc91748e4a6',
   };
 
-  authenticationService.exchangePoleEmploiCodeForTokens.resolves(poleEmploiTokens);
-  authenticationService.getPoleEmploiUserInfo.resolves(userInfo);
+  poleEmploiAuthenticationService.exchangeCodeForTokens.resolves(poleEmploiTokens);
+  poleEmploiAuthenticationService.getUserInfo.resolves(userInfo);
 
   return { poleEmploiTokens };
 }

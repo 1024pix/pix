@@ -7,16 +7,16 @@ const logger = require('../../infrastructure/logger');
 
 module.exports = async function createUserFromPoleEmploi({
   authenticationKey,
+  poleEmploiAuthenticationService,
   authenticationMethodRepository,
   poleEmploiTokensRepository,
   userToCreateRepository,
-  authenticationService,
 }) {
   const poleEmploiTokens = await poleEmploiTokensRepository.getByKey(authenticationKey);
   if (!poleEmploiTokens) {
     throw new AuthenticationKeyExpired();
   }
-  const userInfo = await authenticationService.getPoleEmploiUserInfo(poleEmploiTokens.idToken);
+  const userInfo = await poleEmploiAuthenticationService.getUserInfo(poleEmploiTokens.idToken);
 
   if (!userInfo.firstName || !userInfo.lastName || !userInfo.externalIdentityId) {
     logger.error(`Un des champs obligatoires n'a pas été renvoyé par /userinfo: ${JSON.stringify(userInfo)}.`);
