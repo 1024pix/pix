@@ -1,7 +1,6 @@
 const CertificationCourse = require('../models/CertificationCourse');
 const Assessment = require('../models/Assessment');
 const ComplementaryCertificationCourse = require('../models/ComplementaryCertificationCourse');
-const { PIX_PLUS_DROIT, CLEA, PIX_PLUS_EDU } = require('../models/ComplementaryCertification');
 const {
   UserNotAuthorizedToCertifyError,
   NotFoundError,
@@ -140,7 +139,7 @@ async function _startNewCertification({
 
   if (certificationCenter.isHabilitatedClea && certificationCandidate.isGrantedCleA()) {
     if (await certificationBadgesService.hasStillValidCleaBadgeAcquisition({ userId })) {
-      const cleAComplementaryCertification = complementaryCertifications.find((comp) => comp.name === CLEA);
+      const cleAComplementaryCertification = complementaryCertifications.find((comp) => comp.isClea());
       if (cleAComplementaryCertification) {
         complementaryCertificationIds.push(cleAComplementaryCertification.id);
       }
@@ -157,9 +156,7 @@ async function _startNewCertification({
       badgeAcquisition.isPixDroit()
     );
     if (pixDroitBadgeAcquisition) {
-      const pixDroitComplementaryCertification = complementaryCertifications.find(
-        (comp) => comp.name === PIX_PLUS_DROIT
-      );
+      const pixDroitComplementaryCertification = complementaryCertifications.find((comp) => comp.isPixPlusDroit());
       if (pixDroitComplementaryCertification) {
         complementaryCertificationIds.push(pixDroitComplementaryCertification.id);
       }
@@ -174,18 +171,36 @@ async function _startNewCertification({
     }
   }
 
-  const pixEduBadgeAcquisition = highestCertifiableBadgeAcquisitions.find(
-    (badgeAcquisition) => badgeAcquisition.isPixEdu2ndDegre() || badgeAcquisition.isPixEdu1erDegre()
+  const pixEdu2ndDegreBadgeAcquisition = highestCertifiableBadgeAcquisitions.find((badgeAcquisition) =>
+    badgeAcquisition.isPixEdu2ndDegre()
   );
-  if (pixEduBadgeAcquisition) {
+  if (pixEdu2ndDegreBadgeAcquisition) {
     const certificationChallengesForPixEdu = await certificationChallengesService.pickCertificationChallengesForPixPlus(
-      pixEduBadgeAcquisition.badge,
+      pixEdu2ndDegreBadgeAcquisition.badge,
       userId,
       locale
     );
     challengesForCertification.push(...certificationChallengesForPixEdu);
     if (certificationChallengesForPixEdu.length) {
-      const pixEduComplementaryCertification = complementaryCertifications.find((comp) => comp.name === PIX_PLUS_EDU);
+      const pixEduComplementaryCertification = complementaryCertifications.find((comp) => comp.isPixPlusEdu2ndDegre());
+      if (pixEduComplementaryCertification) {
+        complementaryCertificationIds.push(pixEduComplementaryCertification.id);
+      }
+    }
+  }
+
+  const pixEdu1erDegreBadgeAcquisition = highestCertifiableBadgeAcquisitions.find((badgeAcquisition) =>
+    badgeAcquisition.isPixEdu1erDegre()
+  );
+  if (pixEdu1erDegreBadgeAcquisition) {
+    const certificationChallengesForPixEdu = await certificationChallengesService.pickCertificationChallengesForPixPlus(
+      pixEdu1erDegreBadgeAcquisition.badge,
+      userId,
+      locale
+    );
+    challengesForCertification.push(...certificationChallengesForPixEdu);
+    if (certificationChallengesForPixEdu.length) {
+      const pixEduComplementaryCertification = complementaryCertifications.find((comp) => comp.isPixPlusEdu1erDegre());
       if (pixEduComplementaryCertification) {
         complementaryCertificationIds.push(pixEduComplementaryCertification.id);
       }

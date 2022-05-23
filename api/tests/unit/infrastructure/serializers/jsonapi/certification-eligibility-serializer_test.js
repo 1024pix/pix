@@ -7,14 +7,8 @@ describe('Unit | Serializer | JSONAPI | certification-eligibility-serializer', f
       // given
       const certificationEligibility = domainBuilder.buildCertificationEligibility({
         id: 123,
-        pixCertificationEligible: false,
-        cleaCertificationEligible: true,
-        pixPlusDroitMaitreCertificationEligible: false,
-        pixPlusDroitExpertCertificationEligible: true,
-        pixPlusEduInitieCertificationEligible: false,
-        pixPlusEduConfirmeCertificationEligible: false,
-        pixPlusEduAvanceCertificationEligible: true,
-        pixPlusEduExpertCertificationEligible: false,
+        pixCertificationEligible: true,
+        eligibleComplementaryCertifications: ['CléA Numérique', 'Pix+ Droit Expert', 'Pix+ Édu 1er degré Avancé'],
       });
 
       // when
@@ -26,14 +20,12 @@ describe('Unit | Serializer | JSONAPI | certification-eligibility-serializer', f
           id: '123',
           type: 'isCertifiables',
           attributes: {
-            'is-certifiable': false,
-            'clea-certification-eligible': true,
-            'pix-plus-droit-maitre-certification-eligible': false,
-            'pix-plus-droit-expert-certification-eligible': true,
-            'pix-plus-edu-initie-certification-eligible': false,
-            'pix-plus-edu-confirme-certification-eligible': false,
-            'pix-plus-edu-avance-certification-eligible': true,
-            'pix-plus-edu-expert-certification-eligible': false,
+            'is-certifiable': true,
+            'eligible-complementary-certifications': [
+              'CléA Numérique',
+              'Pix+ Droit Expert',
+              'Pix+ Édu 1er degré Avancé',
+            ],
           },
         },
       });
