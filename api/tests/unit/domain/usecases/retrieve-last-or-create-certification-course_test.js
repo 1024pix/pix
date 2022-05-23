@@ -1,5 +1,10 @@
 const { expect, sinon, catchErr, domainBuilder } = require('../../../test-helper');
-const { PIX_PLUS_DROIT, CLEA, PIX_PLUS_EDU } = require('../../../../lib/domain/models/ComplementaryCertification');
+const {
+  PIX_PLUS_DROIT,
+  CLEA,
+  PIX_PLUS_EDU_2ND_DEGRE,
+  PIX_PLUS_EDU_1ER_DEGRE,
+} = require('../../../../lib/domain/models/ComplementaryCertification');
 const {
   UserNotAuthorizedToCertifyError,
   NotFoundError,
@@ -1586,7 +1591,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                 });
 
                 context('when user has certifiable badge for Pix+ Édu 2nd degre', function () {
-                  it('should save complementary certification info for Pix+ Édu', async function () {
+                  it('should save complementary certification info for Pix+ Édu 2nd degré', async function () {
                     // given
                     const domainTransaction = Symbol('someDomainTransaction');
 
@@ -1617,14 +1622,16 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                       .withArgs({ sessionId: 1, userId: 2 })
                       .resolves(foundCertificationCandidate);
 
-                    const complementaryCertificationPixPlusEdu = domainBuilder.buildComplementaryCertification({
-                      name: PIX_PLUS_EDU,
+                    const complementaryCertificationPixPlusEdu2ndDegre = domainBuilder.buildComplementaryCertification({
+                      name: PIX_PLUS_EDU_2ND_DEGRE,
                     });
                     const certificationCenter = domainBuilder.buildCertificationCenter({
                       habilitations: [],
                     });
                     certificationCenterRepository.getBySessionId.resolves(certificationCenter);
-                    complementaryCertificationRepository.findAll.resolves([complementaryCertificationPixPlusEdu]);
+                    complementaryCertificationRepository.findAll.resolves([
+                      complementaryCertificationPixPlusEdu2ndDegre,
+                    ]);
 
                     const challengePlus1 = domainBuilder.buildChallenge({ id: 'challenge-pixplus1' });
                     const challengePlus2 = domainBuilder.buildChallenge({ id: 'challenge-pixplus2' });
@@ -1642,7 +1649,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
 
                     const complementaryCertificationCourse =
                       ComplementaryCertificationCourse.fromComplementaryCertificationId(
-                        complementaryCertificationPixPlusEdu.id
+                        complementaryCertificationPixPlusEdu2ndDegre.id
                       );
 
                     const certificationCourseToSave = CertificationCourse.from({
@@ -1695,7 +1702,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                       {
                         id: 99,
                         certificationCourseId: savedCertificationCourse.getId(),
-                        complementaryCertificationId: complementaryCertificationPixPlusEdu.id,
+                        complementaryCertificationId: complementaryCertificationPixPlusEdu2ndDegre.id,
                       },
                     ]);
                   });
@@ -1796,7 +1803,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                 });
 
                 context('when user has certifiable badge for Pix+ Édu 1er degre', function () {
-                  it('should save complementary certification info for Pix+ Édu', async function () {
+                  it('should save complementary certification info for Pix+ Édu 1er Degré', async function () {
                     // given
                     const domainTransaction = Symbol('someDomainTransaction');
 
@@ -1827,14 +1834,16 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                       .withArgs({ sessionId: 1, userId: 2 })
                       .resolves(foundCertificationCandidate);
 
-                    const complementaryCertificationPixPlusEdu = domainBuilder.buildComplementaryCertification({
-                      name: PIX_PLUS_EDU,
+                    const complementaryCertificationPixPlusEdu1erDegre = domainBuilder.buildComplementaryCertification({
+                      name: PIX_PLUS_EDU_1ER_DEGRE,
                     });
                     const certificationCenter = domainBuilder.buildCertificationCenter({
                       habilitations: [],
                     });
                     certificationCenterRepository.getBySessionId.resolves(certificationCenter);
-                    complementaryCertificationRepository.findAll.resolves([complementaryCertificationPixPlusEdu]);
+                    complementaryCertificationRepository.findAll.resolves([
+                      complementaryCertificationPixPlusEdu1erDegre,
+                    ]);
 
                     const challengePlus1 = domainBuilder.buildChallenge({ id: 'challenge-pixplus1' });
                     const challengePlus2 = domainBuilder.buildChallenge({ id: 'challenge-pixplus2' });
@@ -1852,7 +1861,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
 
                     const complementaryCertificationCourse =
                       ComplementaryCertificationCourse.fromComplementaryCertificationId(
-                        complementaryCertificationPixPlusEdu.id
+                        complementaryCertificationPixPlusEdu1erDegre.id
                       );
 
                     const certificationCourseToSave = CertificationCourse.from({
@@ -1905,7 +1914,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                       {
                         id: 99,
                         certificationCourseId: savedCertificationCourse.getId(),
-                        complementaryCertificationId: complementaryCertificationPixPlusEdu.id,
+                        complementaryCertificationId: complementaryCertificationPixPlusEdu1erDegre.id,
                       },
                     ]);
                   });

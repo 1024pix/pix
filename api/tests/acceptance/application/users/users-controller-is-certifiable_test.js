@@ -5,13 +5,13 @@ const {
   mockLearningContent,
 } = require('../../../test-helper');
 const createServer = require('../../../../server');
+const { PIX_EMPLOI_CLEA_V1 } = require('../../../../lib/domain/models/Badge').keys;
 
 describe('Acceptance | users-controller-is-certifiable', function () {
   let server;
   let options;
   let user;
 
-  const competenceId = 'recCompetence1';
   const learningContent = {
     areas: [
       {
@@ -19,24 +19,83 @@ describe('Acceptance | users-controller-is-certifiable', function () {
         titleFrFr: 'Information et données',
         color: 'jaffa',
         code: '1',
-        competenceIds: [competenceId],
+        competenceIds: ['recCompetence1', 'recCompetence2', 'recCompetence3'],
+      },
+      {
+        id: 'recDH19F7kKrfL3Ii',
+        titleFrFr: 'Communication et collaboration',
+        color: 'jaffa',
+        code: '1',
+        competenceIds: ['recCompetence4', 'recCompetence5'],
       },
     ],
     competences: [
       {
-        id: competenceId,
+        id: 'recCompetence1',
         nameFrFr: 'Mener une recherche et une veille d’information',
         index: '1.1',
         origin: 'Pix',
         areaId: 'recvoGdo7z2z7pXWa',
       },
+      {
+        id: 'recCompetence2',
+        nameFrFr: 'Gérer les données',
+        index: '1.2',
+        origin: 'Pix',
+        areaId: 'recvoGdo7z2z7pXWa',
+      },
+      {
+        id: 'recCompetence3',
+        nameFrFr: 'Traiter les données',
+        index: '1.3',
+        origin: 'Pix',
+        areaId: 'recvoGdo7z2z7pXWa',
+      },
+      {
+        id: 'recCompetence4',
+        nameFrFr: 'Intéragir',
+        index: '2.1',
+        origin: 'Pix',
+        areaId: 'recDH19F7kKrfL3Ii',
+      },
+      {
+        id: 'recCompetence5',
+        nameFrFr: 'Partager et publier',
+        index: '2.2',
+        origin: 'Pix',
+        areaId: 'recDH19F7kKrfL3Ii',
+      },
     ],
     skills: [
       {
-        id: 'skillId',
+        id: 'skillId@web3',
         name: '@web3',
         status: 'actif',
-        competenceId: competenceId,
+        competenceId: 'recCompetence1',
+      },
+      {
+        id: 'skillId@fichier3',
+        name: '@fichier3',
+        status: 'actif',
+        competenceId: 'recCompetence2',
+      },
+      {
+        id: 'skillId@tri3',
+        name: '@tri3',
+        status: 'actif',
+        competenceId: 'recCompetence3',
+      },
+      {
+        id: 'skillId@spam3',
+        name: '@spam3',
+        status: 'actif',
+        competenceId: 'recCompetence4',
+      },
+      {
+        id: 'skillId@vocRS3',
+        name: '@vocRS3',
+        status: 'actif',
+        competenceId: 'recCompetence5',
       },
     ],
   };
@@ -49,7 +108,37 @@ describe('Acceptance | users-controller-is-certifiable', function () {
 
     mockLearningContent(learningContent);
 
-    databaseBuilder.factory.buildKnowledgeElement({ userId: user.id, earnedPix: 10, competenceId: competenceId });
+    learningContent.skills.forEach(({ id: skillId, competenceId }) => {
+      databaseBuilder.factory.buildKnowledgeElement({ userId: user.id, earnedPix: 10, competenceId, skillId });
+    });
+
+    const targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
+    learningContent.skills.forEach(({ id: skillId }) => {
+      databaseBuilder.factory.buildTargetProfileSkill({
+        targetProfileId,
+        skillId,
+      });
+    });
+
+    const cleaBadgeId = databaseBuilder.factory.buildBadge({
+      key: PIX_EMPLOI_CLEA_V1,
+      targetProfileId,
+    }).id;
+    const skillSetId = databaseBuilder.factory.buildSkillSet({
+      targetProfileId,
+      badgeId: cleaBadgeId,
+      skillIds: `{${learningContent.skills.map(({ id }) => id).join(',')}}`,
+    }).id;
+    databaseBuilder.factory.buildBadgeCriterion({
+      badgeId: cleaBadgeId,
+      threshold: 75,
+      skillSetIds: `{${skillSetId}}`,
+    });
+
+    databaseBuilder.factory.buildBadgeAcquisition({
+      userId: user.id,
+      badgeId: cleaBadgeId,
+    });
 
     options = {
       method: 'GET',
@@ -95,14 +184,8 @@ describe('Acceptance | users-controller-is-certifiable', function () {
             id: `${user.id}`,
             type: 'isCertifiables',
             attributes: {
-              'is-certifiable': false,
-              'clea-certification-eligible': false,
-              'pix-plus-droit-maitre-certification-eligible': false,
-              'pix-plus-droit-expert-certification-eligible': false,
-              'pix-plus-edu-initie-certification-eligible': false,
-              'pix-plus-edu-confirme-certification-eligible': false,
-              'pix-plus-edu-avance-certification-eligible': false,
-              'pix-plus-edu-expert-certification-eligible': false,
+              'is-certifiable': true,
+              'eligible-complementary-certifications': ['CléA Numérique'],
             },
           },
         };

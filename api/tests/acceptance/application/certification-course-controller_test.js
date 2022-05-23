@@ -330,7 +330,7 @@ describe('Acceptance | API | Certification Course', function () {
             'complementary-certification-course-id': 654,
             'external-result': 'Rejetée',
             'final-result': 'Rejetée',
-            'pix-result': 'Pix+ Édu Avancé',
+            'pix-result': 'Pix+ Édu 1er degré Avancé',
           },
         },
       ]);

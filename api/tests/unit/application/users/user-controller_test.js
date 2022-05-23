@@ -709,13 +709,7 @@ describe('Unit | Controller | user-controller', function () {
       const certificationEligibility = domainBuilder.buildCertificationEligibility({
         id: 123,
         pixCertificationEligible: true,
-        cleaCertificationEligible: false,
-        pixPlusDroitMaitreCertificationEligible: true,
-        pixPlusDroitExpertCertificationEligible: false,
-        pixPlusEduInitieCertificationEligible: false,
-        pixPlusEduConfirmeCertificationEligible: false,
-        pixPlusEduAvanceCertificationEligible: true,
-        pixPlusEduExpertCertificationEligible: false,
+        eligibleComplementaryCertifications: ['Pix+ Droit Maître', 'Pix+ Édu 1er degré Avancé'],
       });
       sinon
         .stub(usecases, 'getUserCertificationEligibility')
@@ -739,13 +733,7 @@ describe('Unit | Controller | user-controller', function () {
           type: 'isCertifiables',
           attributes: {
             'is-certifiable': true,
-            'clea-certification-eligible': false,
-            'pix-plus-droit-maitre-certification-eligible': true,
-            'pix-plus-droit-expert-certification-eligible': false,
-            'pix-plus-edu-initie-certification-eligible': false,
-            'pix-plus-edu-confirme-certification-eligible': false,
-            'pix-plus-edu-avance-certification-eligible': true,
-            'pix-plus-edu-expert-certification-eligible': false,
+            'eligible-complementary-certifications': ['Pix+ Droit Maître', 'Pix+ Édu 1er degré Avancé'],
           },
         },
       });

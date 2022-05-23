@@ -59,9 +59,6 @@ describe('Unit | UseCase | get-user-certification-eligibility', function () {
       const expectedCertificationEligibility = domainBuilder.buildCertificationEligibility({
         id: 2,
         pixCertificationEligible: false,
-        cleaCertificationEligible: false,
-        pixPlusDroitMaitreCertificationEligible: false,
-        pixPlusDroitExpertCertificationEligible: false,
       });
       expect(certificationEligibility).to.deep.equal(expectedCertificationEligibility);
     });
@@ -85,55 +82,55 @@ describe('Unit | UseCase | get-user-certification-eligibility', function () {
       });
 
       // then
-      expect(certificationEligibility.cleaCertificationEligible).to.be.true;
+      expect(certificationEligibility.eligibleComplementaryCertifications).contains('CléA Numérique');
     });
   });
 
   // eslint-disable-next-line mocha/no-setup-in-describe
   [
-    { badgeKey: PIX_DROIT_MAITRE_CERTIF, certificationEligibilityAttribute: 'pixPlusDroitMaitreCertificationEligible' },
-    { badgeKey: PIX_DROIT_EXPERT_CERTIF, certificationEligibilityAttribute: 'pixPlusDroitExpertCertificationEligible' },
+    { badgeKey: PIX_DROIT_MAITRE_CERTIF, expectedCertifiableBadgeLabel: 'Pix+ Droit Maître' },
+    { badgeKey: PIX_DROIT_EXPERT_CERTIF, expectedCertifiableBadgeLabel: 'Pix+ Droit Expert' },
     {
       badgeKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
-      certificationEligibilityAttribute: 'pixPlusEduInitieCertificationEligible',
-    },
-    {
-      badgeKey: PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_INITIE,
-      certificationEligibilityAttribute: 'pixPlusEduInitieCertificationEligible',
+      expectedCertifiableBadgeLabel: 'Pix+ Édu 2nd degré Initié (entrée dans le métier)',
     },
     {
       badgeKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME,
-      certificationEligibilityAttribute: 'pixPlusEduConfirmeCertificationEligible',
-    },
-    {
-      badgeKey: PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_CONFIRME,
-      certificationEligibilityAttribute: 'pixPlusEduConfirmeCertificationEligible',
+      expectedCertifiableBadgeLabel: 'Pix+ Édu 2nd degré Confirmé',
     },
     {
       badgeKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME,
-      certificationEligibilityAttribute: 'pixPlusEduConfirmeCertificationEligible',
-    },
-    {
-      badgeKey: PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_CONFIRME,
-      certificationEligibilityAttribute: 'pixPlusEduConfirmeCertificationEligible',
+      expectedCertifiableBadgeLabel: 'Pix+ Édu 2nd degré Confirmé',
     },
     {
       badgeKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
-      certificationEligibilityAttribute: 'pixPlusEduAvanceCertificationEligible',
-    },
-    {
-      badgeKey: PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE,
-      certificationEligibilityAttribute: 'pixPlusEduAvanceCertificationEligible',
+      expectedCertifiableBadgeLabel: 'Pix+ Édu 2nd degré Avancé',
     },
     {
       badgeKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
-      certificationEligibilityAttribute: 'pixPlusEduExpertCertificationEligible',
+      expectedCertifiableBadgeLabel: 'Pix+ Édu 2nd degré Expert',
+    },
+    {
+      badgeKey: PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_INITIE,
+      expectedCertifiableBadgeLabel: 'Pix+ Édu 1er degré Initié (entrée dans le métier)',
+    },
+    {
+      badgeKey: PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_CONFIRME,
+      expectedCertifiableBadgeLabel: 'Pix+ Édu 1er degré Confirmé',
+    },
+    {
+      badgeKey: PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_CONFIRME,
+      expectedCertifiableBadgeLabel: 'Pix+ Édu 1er degré Confirmé',
+    },
+    {
+      badgeKey: PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE,
+      expectedCertifiableBadgeLabel: 'Pix+ Édu 1er degré Avancé',
     },
     {
       badgeKey: PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT,
-      certificationEligibilityAttribute: 'pixPlusEduExpertCertificationEligible',
+      expectedCertifiableBadgeLabel: 'Pix+ Édu 1er degré Expert',
     },
-  ].forEach(({ badgeKey, certificationEligibilityAttribute }) => {
+  ].forEach(({ badgeKey, expectedCertifiableBadgeLabel }) => {
     context(`when ${badgeKey} badge is not acquired`, function () {
       it(`should return the user certification eligibility with not eligible ${badgeKey}`, async function () {
         // given
@@ -142,13 +139,7 @@ describe('Unit | UseCase | get-user-certification-eligibility', function () {
         };
         placementProfileService.getPlacementProfile.withArgs({ userId: 2, limitDate: now }).resolves(placementProfile);
         certificationBadgesService.hasStillValidCleaBadgeAcquisition.resolves(false);
-        const someOtherBadge = domainBuilder.buildBadge({
-          key: 'someKey',
-        });
-        const someOtherBadgeAcquisition = domainBuilder.buildBadgeAcquisition({
-          badge: someOtherBadge,
-        });
-        certificationBadgesService.findStillValidBadgeAcquisitions.resolves([someOtherBadgeAcquisition]);
+        certificationBadgesService.findStillValidBadgeAcquisitions.resolves([]);
 
         // when
         const certificationEligibility = await getUserCertificationEligibility({
@@ -158,7 +149,7 @@ describe('Unit | UseCase | get-user-certification-eligibility', function () {
         });
 
         // then
-        expect(certificationEligibility[certificationEligibilityAttribute]).to.be.false;
+        expect(certificationEligibility.eligibleComplementaryCertifications).to.be.empty;
       });
     });
 
@@ -170,12 +161,12 @@ describe('Unit | UseCase | get-user-certification-eligibility', function () {
         };
         placementProfileService.getPlacementProfile.withArgs({ userId: 2, limitDate: now }).resolves(placementProfile);
         certificationBadgesService.hasStillValidCleaBadgeAcquisition.resolves(false);
-        const maitreBadgeAcquisition = domainBuilder.buildBadgeAcquisition({
+        const badgeAcquisition = domainBuilder.buildBadgeAcquisition({
           badge: domainBuilder.buildBadge({
             key: badgeKey,
           }),
         });
-        certificationBadgesService.findStillValidBadgeAcquisitions.resolves([maitreBadgeAcquisition]);
+        certificationBadgesService.findStillValidBadgeAcquisitions.resolves([badgeAcquisition]);
 
         // when
         const certificationEligibility = await getUserCertificationEligibility({
@@ -185,7 +176,7 @@ describe('Unit | UseCase | get-user-certification-eligibility', function () {
         });
 
         // then
-        expect(certificationEligibility[certificationEligibilityAttribute]).to.be.true;
+        expect(certificationEligibility.eligibleComplementaryCertifications).contains(expectedCertifiableBadgeLabel);
       });
     });
   });
