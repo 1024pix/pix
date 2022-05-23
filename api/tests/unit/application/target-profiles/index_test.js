@@ -5,88 +5,142 @@ const targetProfileController = require('../../../../lib/application/target-prof
 const moduleUnderTest = require('../../../../lib/application/target-profiles');
 
 describe('Unit | Application | Target Profiles | Routes', function () {
-  describe('GET /api/target-profiles', function () {
-    it('should resolve when there is no filter nor pagination', async function () {
-      // given
-      sinon.stub(securityPreHandlers, 'userHasAtLeastOneAccessOf').returns(() => true);
-      sinon
-        .stub(targetProfileController, 'findPaginatedFilteredTargetProfiles')
-        .callsFake((request, h) => h.response('ok').code(200));
-      const httpTestServer = new HttpTestServer();
-      await httpTestServer.register(moduleUnderTest);
+  describe('GET /api/admin/target-profiles', function () {
+    const method = 'GET';
+    const url = '/api/admin/target-profiles';
 
-      const method = 'GET';
-      const url = '/api/admin/target-profiles';
+    context('when user has role "SUPER_ADMIN", "SUPPORT" or "METIER"', function () {
+      it('should return a response with an HTTP status code 200', async function () {
+        // given
+        sinon
+          .stub(securityPreHandlers, 'userHasAtLeastOneAccessOf')
+          .withArgs([
+            securityPreHandlers.checkUserHasRoleSuperAdmin,
+            securityPreHandlers.checkUserHasRoleSupport,
+            securityPreHandlers.checkUserHasRoleMetier,
+          ])
+          .callsFake(() => (request, h) => h.response(true));
+        sinon
+          .stub(targetProfileController, 'findPaginatedFilteredTargetProfiles')
+          .callsFake((request, h) => h.response('ok').code(200));
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
 
-      // when
-      const response = await httpTestServer.request(method, url);
+        // when
+        const { statusCode } = await httpTestServer.request(method, url);
 
-      // then
-      expect(response.statusCode).to.equal(200);
+        // then
+        expect(statusCode).to.equal(200);
+      });
     });
 
-    it('should resolve when there are filters and pagination', async function () {
-      // given
-      sinon.stub(securityPreHandlers, 'userHasAtLeastOneAccessOf').returns(() => true);
-      sinon
-        .stub(targetProfileController, 'findPaginatedFilteredTargetProfiles')
-        .callsFake((request, h) => h.response('ok').code(200));
-      const httpTestServer = new HttpTestServer();
-      await httpTestServer.register(moduleUnderTest);
+    context('when user has role "CERTIF"', function () {
+      it('should return a response with an HTTP status code 403', async function () {
+        // given
+        sinon
+          .stub(securityPreHandlers, 'userHasAtLeastOneAccessOf')
+          .withArgs([
+            securityPreHandlers.checkUserHasRoleSuperAdmin,
+            securityPreHandlers.checkUserHasRoleSupport,
+            securityPreHandlers.checkUserHasRoleMetier,
+          ])
+          .callsFake(
+            () => (request, h) =>
+              h
+                .response({ errors: new Error('forbidden') })
+                .code(403)
+                .takeover()
+          );
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
 
-      const method = 'GET';
-      const url = '/api/admin/target-profiles?filter[id]=1&filter[name]=azerty&page[size]=10&page[number]=1';
+        // when
+        const { statusCode } = await httpTestServer.request(method, url);
 
-      // when
-      const response = await httpTestServer.request(method, url);
-
-      // then
-      expect(response.statusCode).to.equal(200);
+        // then
+        expect(statusCode).to.equal(403);
+      });
     });
 
-    it('should reject request with HTTP code 400, when id is not an integer', async function () {
-      // given
-      const httpTestServer = new HttpTestServer();
-      await httpTestServer.register(moduleUnderTest);
+    context('when there is no filter nor pagination', function () {
+      it('should resolve with HTTP code 200', async function () {
+        // given
+        sinon.stub(securityPreHandlers, 'userHasAtLeastOneAccessOf').returns(() => true);
+        sinon
+          .stub(targetProfileController, 'findPaginatedFilteredTargetProfiles')
+          .callsFake((request, h) => h.response('ok').code(200));
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
 
-      const method = 'GET';
-      const url = '/api/admin/target-profiles?filter[id]=azerty';
+        // when
+        const { statusCode } = await httpTestServer.request(method, url);
 
-      // when
-      const response = await httpTestServer.request(method, url);
-
-      // then
-      expect(response.statusCode).to.equal(400);
+        // then
+        expect(statusCode).to.equal(200);
+      });
     });
 
-    it('should reject request with HTTP code 400, when page size is not an integer', async function () {
-      // given
-      const httpTestServer = new HttpTestServer();
-      await httpTestServer.register(moduleUnderTest);
+    context('when there are filters and pagination', function () {
+      it('should resolve with HTTP code 200', async function () {
+        // given
+        sinon.stub(securityPreHandlers, 'userHasAtLeastOneAccessOf').returns(() => true);
+        sinon
+          .stub(targetProfileController, 'findPaginatedFilteredTargetProfiles')
+          .callsFake((request, h) => h.response('ok').code(200));
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
 
-      const method = 'GET';
-      const url = '/api/admin/target-profiles?page[size]=azerty';
+        // when
+        const response = await httpTestServer.request(
+          method,
+          `${url}?filter[id]=1&filter[name]=azerty&page[size]=10&page[number]=1`
+        );
 
-      // when
-      const response = await httpTestServer.request(method, url);
-
-      // then
-      expect(response.statusCode).to.equal(400);
+        // then
+        expect(response.statusCode).to.equal(200);
+      });
     });
 
-    it('should reject request with HTTP code 400, when page number is not an integer', async function () {
-      // given
-      const httpTestServer = new HttpTestServer();
-      await httpTestServer.register(moduleUnderTest);
+    context('when id is not an integer', function () {
+      it('should reject request with HTTP code 400', async function () {
+        // given
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
 
-      const method = 'GET';
-      const url = '/api/admin/target-profiles?page[number]=azerty';
+        // when
+        const response = await httpTestServer.request(method, `${url}?filter[id]=azerty`);
 
-      // when
-      const response = await httpTestServer.request(method, url);
+        // then
+        expect(response.statusCode).to.equal(400);
+      });
+    });
 
-      // then
-      expect(response.statusCode).to.equal(400);
+    context('when page size is not an integer', function () {
+      it('should reject request with HTTP code 400', async function () {
+        // given
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        // when
+        const response = await httpTestServer.request(method, `${url}?page[size]=azerty`);
+
+        // then
+        expect(response.statusCode).to.equal(400);
+      });
+    });
+
+    context('when page number is not an integer', function () {
+      it('should reject request with HTTP code 400', async function () {
+        // given
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        // when
+        const response = await httpTestServer.request(method, `${url}?page[number]=azerty`);
+
+        // then
+        expect(response.statusCode).to.equal(400);
+      });
     });
   });
 
