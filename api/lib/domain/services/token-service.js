@@ -19,11 +19,6 @@ function createAccessTokenFromUser(userId, source) {
   return { accessToken, expirationDelaySeconds };
 }
 
-function createAccessTokenForPoleEmploi(userId) {
-  const expirationDelaySeconds = settings.poleEmploi.accessTokenLifespanMs / 1000;
-  return _createAccessToken({ userId, source: 'pole_emploi_connect', expirationDelaySeconds });
-}
-
 function createAccessTokenForSaml(userId) {
   const expirationDelaySeconds = settings.saml.accessTokenLifespanMs / 1000;
   return _createAccessToken({ userId, source: 'external', expirationDelaySeconds });
@@ -183,14 +178,8 @@ async function extractExternalUserFromIdToken(token) {
   };
 }
 
-async function extractPayloadFromPoleEmploiIdToken(idToken) {
-  const { given_name, family_name, nonce, idIdentiteExterne } = await jsonwebtoken.decode(idToken);
-  return { given_name, family_name, nonce, idIdentiteExterne };
-}
-
 module.exports = {
   createAccessTokenFromUser,
-  createAccessTokenForPoleEmploi,
   createAccessTokenForSaml,
   createAccessTokenFromApplication,
   createTokenForCampaignResults,
@@ -200,7 +189,6 @@ module.exports = {
   decodeIfValid,
   getDecodedToken,
   extractExternalUserFromIdToken,
-  extractPayloadFromPoleEmploiIdToken,
   extractResultRecipientEmailAndSessionId,
   extractSamlId,
   extractSessionId,

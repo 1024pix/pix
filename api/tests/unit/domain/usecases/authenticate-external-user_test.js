@@ -14,7 +14,7 @@ const AuthenticationMethod = require('../../../../lib/domain/models/Authenticati
 
 describe('Unit | Application | UseCase | authenticate-external-user', function () {
   let tokenService;
-  let authenticationService;
+  let pixAuthenticationService;
   let obfuscationService;
   let authenticationMethodRepository;
   let userRepository;
@@ -24,7 +24,7 @@ describe('Unit | Application | UseCase | authenticate-external-user', function (
       createAccessTokenForSaml: sinon.stub(),
       extractExternalUserFromIdToken: sinon.stub(),
     };
-    authenticationService = {
+    pixAuthenticationService = {
       getUserByUsernameAndPassword: sinon.stub(),
     };
     obfuscationService = {
@@ -46,7 +46,7 @@ describe('Unit | Application | UseCase | authenticate-external-user', function (
       const password = 'Azerty123*';
       const user = createUserWithValidCredentials({
         password,
-        authenticationService,
+        pixAuthenticationService,
         userRepository,
       });
 
@@ -69,7 +69,7 @@ describe('Unit | Application | UseCase | authenticate-external-user', function (
         externalUserToken,
         expectedUserId: user.id,
         tokenService,
-        authenticationService,
+        pixAuthenticationService,
         obfuscationService,
         authenticationMethodRepository,
         userRepository,
@@ -84,7 +84,7 @@ describe('Unit | Application | UseCase | authenticate-external-user', function (
       const password = 'Azerty123*';
       const user = createUserWithValidCredentials({
         password,
-        authenticationService,
+        pixAuthenticationService,
         userRepository,
       });
 
@@ -107,7 +107,7 @@ describe('Unit | Application | UseCase | authenticate-external-user', function (
         externalUserToken,
         expectedUserId: user.id,
         tokenService,
-        authenticationService,
+        pixAuthenticationService,
         obfuscationService,
         authenticationMethodRepository,
         userRepository,
@@ -122,7 +122,7 @@ describe('Unit | Application | UseCase | authenticate-external-user', function (
       const password = 'Azerty123*';
       const user = createUserWithValidCredentials({
         password,
-        authenticationService,
+        pixAuthenticationService,
         userRepository,
       });
 
@@ -144,7 +144,7 @@ describe('Unit | Application | UseCase | authenticate-external-user', function (
         externalUserToken: 'an external user token',
         expectedUserId,
         tokenService,
-        authenticationService,
+        pixAuthenticationService,
         obfuscationService,
         authenticationMethodRepository,
         userRepository,
@@ -163,7 +163,7 @@ describe('Unit | Application | UseCase | authenticate-external-user', function (
         const password = 'Azerty123*';
         const userFromCredentials = createUserWithValidCredentials({
           password,
-          authenticationService,
+          pixAuthenticationService,
           userRepository,
         });
 
@@ -181,7 +181,7 @@ describe('Unit | Application | UseCase | authenticate-external-user', function (
           externalUserToken: externalUserToken,
           expectedUserId: userFromCredentials.id,
           tokenService,
-          authenticationService,
+          pixAuthenticationService,
           authenticationMethodRepository,
           userRepository,
         });
@@ -195,7 +195,7 @@ describe('Unit | Application | UseCase | authenticate-external-user', function (
         const password = 'Azerty123*';
         const user = createUserWithValidCredentials({
           password,
-          authenticationService,
+          pixAuthenticationService,
           userRepository,
         });
 
@@ -219,7 +219,7 @@ describe('Unit | Application | UseCase | authenticate-external-user', function (
           externalUserToken,
           expectedUserId: user.id,
           tokenService,
-          authenticationService,
+          pixAuthenticationService,
           authenticationMethodRepository,
           userRepository,
         });
@@ -246,7 +246,7 @@ describe('Unit | Application | UseCase | authenticate-external-user', function (
         const oneTimePassword = 'Azerty123*';
         const user = createUserWithValidCredentialsWhoShouldChangePassword({
           oneTimePassword,
-          authenticationService,
+          pixAuthenticationService,
           userRepository,
         });
 
@@ -270,7 +270,7 @@ describe('Unit | Application | UseCase | authenticate-external-user', function (
           externalUserToken,
           expectedUserId: user.id,
           tokenService,
-          authenticationService,
+          pixAuthenticationService,
           authenticationMethodRepository,
           userRepository,
         });
@@ -295,7 +295,7 @@ describe('Unit | Application | UseCase | authenticate-external-user', function (
         const oneTimePassword = 'Azerty123*';
         const user = createUserWithValidCredentialsWhoShouldChangePassword({
           oneTimePassword,
-          authenticationService,
+          pixAuthenticationService,
           userRepository,
         });
 
@@ -317,7 +317,7 @@ describe('Unit | Application | UseCase | authenticate-external-user', function (
           externalUserToken,
           expectedUserId: user.id,
           tokenService,
-          authenticationService,
+          pixAuthenticationService,
           authenticationMethodRepository,
           userRepository,
         });
@@ -334,7 +334,7 @@ describe('Unit | Application | UseCase | authenticate-external-user', function (
       const unknownUserEmail = 'foo@example.net';
       const password = 'Azerty123*';
 
-      authenticationService.getUserByUsernameAndPassword
+      pixAuthenticationService.getUserByUsernameAndPassword
         .withArgs({
           username: unknownUserEmail,
           password,
@@ -347,7 +347,7 @@ describe('Unit | Application | UseCase | authenticate-external-user', function (
         username: unknownUserEmail,
         password,
         tokenService,
-        authenticationService,
+        pixAuthenticationService,
         userRepository,
       });
 
@@ -360,7 +360,7 @@ describe('Unit | Application | UseCase | authenticate-external-user', function (
       const email = 'foo@example.net';
       const invalidPassword = 'oups123*';
 
-      authenticationService.getUserByUsernameAndPassword
+      pixAuthenticationService.getUserByUsernameAndPassword
         .withArgs({
           username: email,
           password: invalidPassword,
@@ -373,7 +373,7 @@ describe('Unit | Application | UseCase | authenticate-external-user', function (
         username: email,
         password: invalidPassword,
         tokenService,
-        authenticationService,
+        pixAuthenticationService,
         userRepository,
       });
 
@@ -383,7 +383,7 @@ describe('Unit | Application | UseCase | authenticate-external-user', function (
   });
 });
 
-function createUserWithValidCredentials({ password, authenticationService, userRepository }) {
+function createUserWithValidCredentials({ password, pixAuthenticationService, userRepository }) {
   const userId = 1;
   const email = 'john.doe@example.net';
   const pixAuthenticationMethod = AuthenticationMethod.buildPixAuthenticationMethod({ password, userId });
@@ -392,7 +392,7 @@ function createUserWithValidCredentials({ password, authenticationService, userR
     email,
     authenticationMethods: [pixAuthenticationMethod],
   });
-  authenticationService.getUserByUsernameAndPassword
+  pixAuthenticationService.getUserByUsernameAndPassword
     .withArgs({
       username: email,
       password,
@@ -405,7 +405,7 @@ function createUserWithValidCredentials({ password, authenticationService, userR
 
 function createUserWithValidCredentialsWhoShouldChangePassword({
   oneTimePassword,
-  authenticationService,
+  pixAuthenticationService,
   userRepository,
 }) {
   const email = 'john.doe@example.net';
@@ -419,7 +419,7 @@ function createUserWithValidCredentialsWhoShouldChangePassword({
     authenticationMethods: [emailAuthenticationMethod],
   });
 
-  authenticationService.getUserByUsernameAndPassword
+  pixAuthenticationService.getUserByUsernameAndPassword
     .withArgs({
       username: email,
       password: oneTimePassword,

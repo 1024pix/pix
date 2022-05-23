@@ -6,12 +6,12 @@ module.exports = async function updateExpiredPassword({
   expiredPassword,
   newPassword,
   username,
-  authenticationService,
+  pixAuthenticationService,
   encryptionService,
   authenticationMethodRepository,
   userRepository,
 }) {
-  const foundUser = await authenticationService.getUserByUsernameAndPassword({
+  const foundUser = await pixAuthenticationService.getUserByUsernameAndPassword({
     username,
     password: expiredPassword,
     userRepository,

@@ -10,8 +10,7 @@ module.exports = async function authenticatePoleEmploiUser({
   redirectUri,
   stateReceived,
   stateSent,
-  authenticationService,
-  tokenService,
+  poleEmploiAuthenticationService,
   authenticationMethodRepository,
   poleEmploiTokensRepository,
   userRepository,
@@ -21,9 +20,9 @@ module.exports = async function authenticatePoleEmploiUser({
     throw new UnexpectedOidcStateError();
   }
 
-  const poleEmploiTokens = await authenticationService.exchangePoleEmploiCodeForTokens({ code, redirectUri });
+  const poleEmploiTokens = await poleEmploiAuthenticationService.exchangeCodeForTokens({ code, redirectUri });
 
-  const userInfo = await authenticationService.getPoleEmploiUserInfo(poleEmploiTokens.idToken);
+  const userInfo = await poleEmploiAuthenticationService.getUserInfo(poleEmploiTokens.idToken);
 
   const authenticationComplement = new AuthenticationMethod.PoleEmploiAuthenticationComplement({
     accessToken: poleEmploiTokens.accessToken,
@@ -38,9 +37,9 @@ module.exports = async function authenticatePoleEmploiUser({
       userInfo,
       authenticatedUserId,
       authenticationComplement,
+      poleEmploiAuthenticationService,
       authenticationMethodRepository,
       userRepository,
-      tokenService,
     });
   } else {
     const user = await userRepository.findByExternalIdentifier({
@@ -57,9 +56,9 @@ module.exports = async function authenticatePoleEmploiUser({
       pixAccessToken = await _getPixAccessTokenFromPoleEmploiUser({
         user,
         authenticationComplement,
+        poleEmploiAuthenticationService,
         authenticationMethodRepository,
         userRepository,
-        tokenService,
       });
     }
   }
@@ -83,9 +82,9 @@ async function _getPixAccessTokenFromAlreadyAuthenticatedPixUser({
   userInfo,
   authenticatedUserId,
   authenticationComplement,
+  poleEmploiAuthenticationService,
   authenticationMethodRepository,
   userRepository,
-  tokenService,
 }) {
   const authenticationMethod = await authenticationMethodRepository.findOneByUserIdAndIdentityProvider({
     userId: authenticatedUserId,
@@ -109,7 +108,7 @@ async function _getPixAccessTokenFromAlreadyAuthenticatedPixUser({
     });
     await authenticationMethodRepository.create({ authenticationMethod });
   }
-  const pixAccessToken = tokenService.createAccessTokenForPoleEmploi(authenticatedUserId);
+  const pixAccessToken = poleEmploiAuthenticationService.createAccessToken(authenticatedUserId);
   await userRepository.updateLastLoggedAt({ userId: authenticatedUserId });
   return pixAccessToken;
 }
@@ -117,15 +116,15 @@ async function _getPixAccessTokenFromAlreadyAuthenticatedPixUser({
 async function _getPixAccessTokenFromPoleEmploiUser({
   user,
   authenticationComplement,
+  poleEmploiAuthenticationService,
   authenticationMethodRepository,
   userRepository,
-  tokenService,
 }) {
   await authenticationMethodRepository.updatePoleEmploiAuthenticationComplementByUserId({
     authenticationComplement,
     userId: user.id,
   });
-  const pixAccessToken = tokenService.createAccessTokenForPoleEmploi(user.id);
+  const pixAccessToken = poleEmploiAuthenticationService.createAccessToken(user.id);
 
   await userRepository.updateLastLoggedAt({ userId: user.id });
   return pixAccessToken;
