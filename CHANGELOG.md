@@ -1,5 +1,34 @@
 # Pix Changelog
 
+## v3.211.0 (23/05/2022)
+
+
+### :rocket: Amélioration
+- [#4423](https://github.com/1024pix/pix/pull/4423) [FEATURE] Restreindre les actions de la page "Utilisateurs" dans Pix Admin aux rôles "SUPER_ADMIN" et "SUPPORT" (PIX-4191)
+- [#4434](https://github.com/1024pix/pix/pull/4434) [FEATURE] Inciter le candidat à contacter le surveillant pour rejoindre une session (PIX-4880).
+- [#4408](https://github.com/1024pix/pix/pull/4408) [FEATURE] Restreindre l'accès des actions liés aux sessions de certification (PIX-4666)
+- [#4413](https://github.com/1024pix/pix/pull/4413) [FEATURE] Ajout d'un bouton pour accéder à la sélection des sujets (PIX-4763).
+- [#4404](https://github.com/1024pix/pix/pull/4404) [FEATURE] Préciser le texte de la sous-catégorie de signalement E3 dans la page de finalisation de session (PIX-4907)
+- [#4425](https://github.com/1024pix/pix/pull/4425) [FEATURE] Restreindre l'accès aux actions de la page Organisation de Pix Admin aux Certif (PIX-4190).
+- [#4428](https://github.com/1024pix/pix/pull/4428) [FEATURE] Ajouter un lien vers "Mes certifications" dans la page d'accès à une session de certification (PIX-4881).
+- [#4441](https://github.com/1024pix/pix/pull/4441) [FEATURE] Déplacement du bouton de fermeture du menu burger sur mobile/tablette (PIX-4958).
+
+### :building_construction: Tech
+- [#4418](https://github.com/1024pix/pix/pull/4418) [TECH] Création du service d'authentification Pôle Emploi dans l'API (PIX-4920).
+- [#4443](https://github.com/1024pix/pix/pull/4443) [TECH] Repository permettant de créer un gabarit et un profil cible (PIX-4925)
+- [#4448](https://github.com/1024pix/pix/pull/4448) [TECH] Renommage des contraintes en base faisant mention des "schooling registrations" (PIX-4492).
+- [#4445](https://github.com/1024pix/pix/pull/4445) [TECH] Rajouter bootstrap suite au remove de celui ci (PIX-4964)
+- [#4411](https://github.com/1024pix/pix/pull/4411) [TECH] Améliorer les notifications d'erreur sur la création de profil cible
+- [#4426](https://github.com/1024pix/pix/pull/4426) [TECH] Retirer bootstrap de Pix Admin (Pix-4937)
+
+### :bug: Correction
+- [#4433](https://github.com/1024pix/pix/pull/4433) [BUGFIX] Corriger un problème d'arrondi lors de l'affichage des paliers (PIX-4861)
+- [#4430](https://github.com/1024pix/pix/pull/4430) [BUGFIX] Calculer correctement les Pix quand un acquis a été passé dans 2 compétences différentes (PIX-4938).
+- [#4437](https://github.com/1024pix/pix/pull/4437) [BUGFIX] Centrer le niveau sur la notification de changement de niveau (PIX-4783).
+
+### :coffee: Autre
+- [#4439](https://github.com/1024pix/pix/pull/4439) [A11Y] Ajouter un alt au résultat par palier(Pix-4846)
+
 ## v3.210.0 (13/05/2022)
 
 
