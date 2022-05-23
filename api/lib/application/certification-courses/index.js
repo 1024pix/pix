@@ -106,6 +106,7 @@ exports.register = async function (server) {
           {
             method: (request, h) =>
               securityPreHandlers.userHasAtLeastOneAccessOf([
+                securityPreHandlers.checkUserOwnsCertificationCourse,
                 securityPreHandlers.checkUserHasRoleSuperAdmin,
                 securityPreHandlers.checkUserHasRoleCertif,
                 securityPreHandlers.checkUserHasRoleSupport,
@@ -133,6 +134,19 @@ exports.register = async function (server) {
       method: 'GET',
       path: '/api/certification-courses/{id}',
       config: {
+        pre: [
+          {
+            method: (request, h) =>
+              securityPreHandlers.userHasAtLeastOneAccessOf([
+                securityPreHandlers.checkUserOwnsCertificationCourse,
+                securityPreHandlers.checkUserHasRoleSuperAdmin,
+                securityPreHandlers.checkUserHasRoleCertif,
+                securityPreHandlers.checkUserHasRoleSupport,
+                securityPreHandlers.checkUserHasRoleMetier,
+              ])(request, h),
+            assign: 'hasAuthorizationToAccessAdminScope',
+          },
+        ],
         validate: {
           params: Joi.object({
             id: identifiersType.certificationCourseId,

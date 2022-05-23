@@ -133,6 +133,7 @@ describe('Unit | Application | Certifications Course | Route', function () {
   describe('GET /api/certification-courses/{id}', function () {
     it('should exist', async function () {
       // given
+      sinon.stub(securityPreHandlers, 'checkUserOwnsCertificationCourse').returns(() => true);
       sinon.stub(certificationCoursesController, 'get').returns('ok');
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
