@@ -25,6 +25,8 @@ export default class CertificationInformationsController extends Controller {
   @tracked editingCandidateResults = false;
   @service notifications;
   @service featureToggles;
+  @service accessControl;
+
   @tracked displayConfirm = false;
   @tracked confirmMessage = '';
   @tracked confirmErrorMessage = '';
