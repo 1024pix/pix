@@ -62,7 +62,6 @@ exports.register = async function (server) {
             method: (request, h) =>
               securityPreHandlers.userHasAtLeastOneAccessOf([
                 securityPreHandlers.checkUserHasRoleSuperAdmin,
-                securityPreHandlers.checkUserHasRoleCertif,
                 securityPreHandlers.checkUserHasRoleSupport,
                 securityPreHandlers.checkUserHasRoleMetier,
               ])(request, h),
@@ -86,7 +85,7 @@ exports.register = async function (server) {
           }).options({ allowUnknown: true }),
         },
         handler: stagesController.updateStage,
-        tags: ['api', 'stages'],
+        tags: ['api', 'admin', 'stages'],
         notes: [
           "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n" +
             "- Elle permet de mettre à jour le prescriberTitle et le prescriberDescription d'un palier.",
