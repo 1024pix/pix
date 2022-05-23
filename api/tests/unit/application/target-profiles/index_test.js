@@ -5,109 +5,6 @@ const targetProfileController = require('../../../../lib/application/target-prof
 const moduleUnderTest = require('../../../../lib/application/target-profiles');
 
 describe('Unit | Application | Target Profiles | Routes', function () {
-  describe('POST /api/target-profiles', function () {
-    it('should resolve with owner organization id to null', async function () {
-      // given
-      sinon.stub(securityPreHandlers, 'userHasAtLeastOneAccessOf').returns(() => true);
-      sinon.stub(targetProfileController, 'createTargetProfile').callsFake((request, h) => h.response('ok').code(200));
-      const httpTestServer = new HttpTestServer();
-      await httpTestServer.register(moduleUnderTest);
-
-      const method = 'POST';
-      const url = '/api/admin/target-profiles';
-      const payload = {
-        data: {
-          attributes: {
-            name: 'MyTargetProfile',
-            'owner-organization-id': null,
-            'image-url': null,
-            'is-public': false,
-            'skill-ids': ['skill1', 'skill2'],
-            comment: 'comment',
-            'template-tubes': [
-              {
-                id: 'tube1',
-                level: 7,
-              },
-            ],
-          },
-        },
-      };
-
-      // when
-      const response = await httpTestServer.request(method, url, payload);
-
-      // then
-      expect(response.statusCode).to.equal(200);
-    });
-
-    it('should resolve with owner organization id to empty', async function () {
-      // given
-      sinon.stub(securityPreHandlers, 'userHasAtLeastOneAccessOf').returns(() => true);
-      sinon.stub(targetProfileController, 'createTargetProfile').callsFake((request, h) => h.response('ok').code(200));
-      const httpTestServer = new HttpTestServer();
-      await httpTestServer.register(moduleUnderTest);
-
-      const method = 'POST';
-      const url = '/api/admin/target-profiles';
-      const payload = {
-        data: {
-          attributes: {
-            name: 'MyTargetProfile',
-            'owner-organization-id': '',
-            'image-url': null,
-            'is-public': false,
-            'skill-ids': ['skill1', 'skill2'],
-            comment: 'comment',
-            'template-tubes': [
-              {
-                id: 'tube1',
-                level: 7,
-              },
-            ],
-          },
-        },
-      };
-      // when
-      const response = await httpTestServer.request(method, url, payload);
-
-      // then
-      expect(response.statusCode).to.equal(200);
-    });
-
-    it('should reject with alphanumeric owner organization id ', async function () {
-      // given
-      const httpTestServer = new HttpTestServer();
-      await httpTestServer.register(moduleUnderTest);
-
-      const method = 'POST';
-      const url = '/api/admin/target-profiles';
-      const payload = {
-        data: {
-          attributes: {
-            name: 'MyTargetProfile',
-            'owner-organization-id': 'ABC',
-            'image-url': null,
-            'is-public': false,
-            'skill-ids': ['skill1', 'skill2'],
-            comment: 'comment',
-            'template-tubes': [
-              {
-                id: 'tube1',
-                level: 7,
-              },
-            ],
-          },
-        },
-      };
-      // when
-      const response = await httpTestServer.request(method, url, payload);
-
-      // then
-      expect(response.statusCode).to.equal(400);
-    });
-  });
-
   describe('GET /api/target-profiles', function () {
     it('should resolve when there is no filter nor pagination', async function () {
       // given
@@ -223,6 +120,195 @@ describe('Unit | Application | Target Profiles | Routes', function () {
 
       // when
       const response = await httpTestServer.request(method, url);
+
+      // then
+      expect(response.statusCode).to.equal(400);
+    });
+  });
+
+  describe('GET /api/target-profiles/:id/organizations', function () {
+    it('should resolve when there is no filter nor pagination', async function () {
+      // given
+      sinon.stub(securityPreHandlers, 'userHasAtLeastOneAccessOf').returns(() => true);
+      sinon
+        .stub(targetProfileController, 'findPaginatedFilteredTargetProfileOrganizations')
+        .callsFake((request, h) => h.response('ok').code(200));
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      const method = 'GET';
+      const url = '/api/admin/target-profiles/1/organizations';
+
+      // when
+      const response = await httpTestServer.request(method, url);
+
+      // then
+      expect(response.statusCode).to.equal(200);
+    });
+
+    it('should resolve when there are filters and pagination', async function () {
+      // given
+      sinon.stub(securityPreHandlers, 'userHasAtLeastOneAccessOf').returns(() => true);
+      sinon
+        .stub(targetProfileController, 'findPaginatedFilteredTargetProfileOrganizations')
+        .callsFake((request, h) => h.response('ok').code(200));
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      const method = 'GET';
+      const url =
+        '/api/admin/target-profiles/1/organizations?filter[name]=azerty&filter[type]=sco&filter[external-id]=abc&page[size]=10&page[number]=1';
+
+      // when
+      const response = await httpTestServer.request(method, url);
+
+      // then
+      expect(response.statusCode).to.equal(200);
+    });
+
+    it('should reject request with HTTP code 400, when id is not an integer', async function () {
+      // given
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      const method = 'GET';
+      const url = '/api/admin/target-profiles/azerty/organizations';
+
+      // when
+      const response = await httpTestServer.request(method, url);
+
+      // then
+      expect(response.statusCode).to.equal(400);
+    });
+
+    it('should reject request with HTTP code 400, when page size is not an integer', async function () {
+      // given
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      const method = 'GET';
+      const url = '/api/admin/target-profiles/1/organizations?page[size]=azerty';
+
+      // when
+      const response = await httpTestServer.request(method, url);
+
+      // then
+      expect(response.statusCode).to.equal(400);
+    });
+
+    it('should reject request with HTTP code 400, when page number is not an integer', async function () {
+      // given
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      const method = 'GET';
+      const url = '/api/admin/target-profiles/1/organizations?page[number]=azerty';
+
+      // when
+      const response = await httpTestServer.request(method, url);
+
+      // then
+      expect(response.statusCode).to.equal(400);
+    });
+  });
+
+  describe('POST /api/target-profiles', function () {
+    it('should resolve with owner organization id to null', async function () {
+      // given
+      sinon.stub(securityPreHandlers, 'userHasAtLeastOneAccessOf').returns(() => true);
+      sinon.stub(targetProfileController, 'createTargetProfile').callsFake((request, h) => h.response('ok').code(200));
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      const method = 'POST';
+      const url = '/api/admin/target-profiles';
+      const payload = {
+        data: {
+          attributes: {
+            name: 'MyTargetProfile',
+            'owner-organization-id': null,
+            'image-url': null,
+            'is-public': false,
+            'skill-ids': ['skill1', 'skill2'],
+            comment: 'comment',
+            'template-tubes': [
+              {
+                id: 'tube1',
+                level: 7,
+              },
+            ],
+          },
+        },
+      };
+
+      // when
+      const response = await httpTestServer.request(method, url, payload);
+
+      // then
+      expect(response.statusCode).to.equal(200);
+    });
+
+    it('should resolve with owner organization id to empty', async function () {
+      // given
+      sinon.stub(securityPreHandlers, 'userHasAtLeastOneAccessOf').returns(() => true);
+      sinon.stub(targetProfileController, 'createTargetProfile').callsFake((request, h) => h.response('ok').code(200));
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      const method = 'POST';
+      const url = '/api/admin/target-profiles';
+      const payload = {
+        data: {
+          attributes: {
+            name: 'MyTargetProfile',
+            'owner-organization-id': '',
+            'image-url': null,
+            'is-public': false,
+            'skill-ids': ['skill1', 'skill2'],
+            comment: 'comment',
+            'template-tubes': [
+              {
+                id: 'tube1',
+                level: 7,
+              },
+            ],
+          },
+        },
+      };
+      // when
+      const response = await httpTestServer.request(method, url, payload);
+
+      // then
+      expect(response.statusCode).to.equal(200);
+    });
+
+    it('should reject with alphanumeric owner organization id ', async function () {
+      // given
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      const method = 'POST';
+      const url = '/api/admin/target-profiles';
+      const payload = {
+        data: {
+          attributes: {
+            name: 'MyTargetProfile',
+            'owner-organization-id': 'ABC',
+            'image-url': null,
+            'is-public': false,
+            'skill-ids': ['skill1', 'skill2'],
+            comment: 'comment',
+            'template-tubes': [
+              {
+                id: 'tube1',
+                level: 7,
+              },
+            ],
+          },
+        },
+      };
+      // when
+      const response = await httpTestServer.request(method, url, payload);
 
       // then
       expect(response.statusCode).to.equal(400);
@@ -389,89 +475,89 @@ describe('Unit | Application | Target Profiles | Routes', function () {
     });
   });
 
-  describe('GET /api/target-profiles/:id/organizations', function () {
-    it('should resolve when there is no filter nor pagination', async function () {
+  describe('POST /api/target-profiles/{id}/badges', function () {
+    it('should return 201 HTTP response', async function () {
       // given
       sinon.stub(securityPreHandlers, 'userHasAtLeastOneAccessOf').returns(() => true);
-      sinon
-        .stub(targetProfileController, 'findPaginatedFilteredTargetProfileOrganizations')
-        .callsFake((request, h) => h.response('ok').code(200));
+      sinon.stub(targetProfileController, 'createBadge').callsFake((request, h) => h.response('ok').code(201));
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
 
-      const method = 'GET';
-      const url = '/api/admin/target-profiles/1/organizations';
+      const method = 'POST';
+      const payload = {
+        data: {
+          type: 'badges',
+          attributes: {
+            key: 'KEY',
+            'alt-message': 'alt-message',
+            'image-url': 'https://example.net/image.svg',
+            message: 'message',
+            title: 'title',
+            'is-certifiable': false,
+            'is-always-visible': true,
+          },
+        },
+      };
+      const url = '/api/admin/target-profiles/123/badges';
 
       // when
-      const response = await httpTestServer.request(method, url);
+      const response = await httpTestServer.request(method, url, payload);
 
       // then
-      expect(response.statusCode).to.equal(200);
+      expect(response.statusCode).to.equal(201);
     });
 
-    it('should resolve when there are filters and pagination', async function () {
-      // given
-      sinon.stub(securityPreHandlers, 'userHasAtLeastOneAccessOf').returns(() => true);
-      sinon
-        .stub(targetProfileController, 'findPaginatedFilteredTargetProfileOrganizations')
-        .callsFake((request, h) => h.response('ok').code(200));
-      const httpTestServer = new HttpTestServer();
-      await httpTestServer.register(moduleUnderTest);
+    describe('when user does not have a SUPER_ADMIN role', function () {
+      it('should return a 403 HTTP response', async function () {
+        // given
+        sinon
+          .stub(securityPreHandlers, 'userHasAtLeastOneAccessOf')
+          .returns((request, h) => h.response().code(403).takeover());
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
 
-      const method = 'GET';
-      const url =
-        '/api/admin/target-profiles/1/organizations?filter[name]=azerty&filter[type]=sco&filter[external-id]=abc&page[size]=10&page[number]=1';
+        const method = 'POST';
+        const payload = {
+          data: {
+            type: 'badges',
+            attributes: {
+              key: 'KEY',
+              'alt-message': 'alt-message',
+              'image-url': 'https://example.net/image.svg',
+              message: 'message',
+              title: 'title',
+              'is-certifiable': false,
+              'is-always-visible': true,
+            },
+          },
+        };
+        const url = '/api/admin/target-profiles/123/badges';
 
-      // when
-      const response = await httpTestServer.request(method, url);
+        // when
+        const response = await httpTestServer.request(method, url, payload);
 
-      // then
-      expect(response.statusCode).to.equal(200);
+        // then
+        expect(response.statusCode).to.equal(403);
+      });
     });
 
-    it('should reject request with HTTP code 400, when id is not an integer', async function () {
-      // given
-      const httpTestServer = new HttpTestServer();
-      await httpTestServer.register(moduleUnderTest);
+    describe('when request payload has wrong format', function () {
+      it('should return a 400 HTTP response', async function () {
+        // given
+        sinon.stub(securityPreHandlers, 'userHasAtLeastOneAccessOf').returns(() => true);
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
 
-      const method = 'GET';
-      const url = '/api/admin/target-profiles/azerty/organizations';
+        const method = 'POST';
+        const payload = { data: { attributes: {} } };
+        const url = '/api/admin/target-profiles/123/badges';
 
-      // when
-      const response = await httpTestServer.request(method, url);
+        // when
+        const response = await httpTestServer.request(method, url, payload);
 
-      // then
-      expect(response.statusCode).to.equal(400);
-    });
-
-    it('should reject request with HTTP code 400, when page size is not an integer', async function () {
-      // given
-      const httpTestServer = new HttpTestServer();
-      await httpTestServer.register(moduleUnderTest);
-
-      const method = 'GET';
-      const url = '/api/admin/target-profiles/1/organizations?page[size]=azerty';
-
-      // when
-      const response = await httpTestServer.request(method, url);
-
-      // then
-      expect(response.statusCode).to.equal(400);
-    });
-
-    it('should reject request with HTTP code 400, when page number is not an integer', async function () {
-      // given
-      const httpTestServer = new HttpTestServer();
-      await httpTestServer.register(moduleUnderTest);
-
-      const method = 'GET';
-      const url = '/api/admin/target-profiles/1/organizations?page[number]=azerty';
-
-      // when
-      const response = await httpTestServer.request(method, url);
-
-      // then
-      expect(response.statusCode).to.equal(400);
+        // then
+        expect(response.statusCode).to.equal(400);
+      });
     });
   });
 
@@ -643,92 +729,6 @@ describe('Unit | Application | Target Profiles | Routes', function () {
 
         // then
         expect(response.statusCode).to.equal(403);
-      });
-    });
-  });
-
-  describe('POST /api/target-profiles/{id}/badges', function () {
-    it('should return 201 HTTP response', async function () {
-      // given
-      sinon.stub(securityPreHandlers, 'userHasAtLeastOneAccessOf').returns(() => true);
-      sinon.stub(targetProfileController, 'createBadge').callsFake((request, h) => h.response('ok').code(201));
-      const httpTestServer = new HttpTestServer();
-      await httpTestServer.register(moduleUnderTest);
-
-      const method = 'POST';
-      const payload = {
-        data: {
-          type: 'badges',
-          attributes: {
-            key: 'KEY',
-            'alt-message': 'alt-message',
-            'image-url': 'https://example.net/image.svg',
-            message: 'message',
-            title: 'title',
-            'is-certifiable': false,
-            'is-always-visible': true,
-          },
-        },
-      };
-      const url = '/api/admin/target-profiles/123/badges';
-
-      // when
-      const response = await httpTestServer.request(method, url, payload);
-
-      // then
-      expect(response.statusCode).to.equal(201);
-    });
-
-    describe('when user does not have a SUPER_ADMIN role', function () {
-      it('should return a 403 HTTP response', async function () {
-        // given
-        sinon
-          .stub(securityPreHandlers, 'userHasAtLeastOneAccessOf')
-          .returns((request, h) => h.response().code(403).takeover());
-        const httpTestServer = new HttpTestServer();
-        await httpTestServer.register(moduleUnderTest);
-
-        const method = 'POST';
-        const payload = {
-          data: {
-            type: 'badges',
-            attributes: {
-              key: 'KEY',
-              'alt-message': 'alt-message',
-              'image-url': 'https://example.net/image.svg',
-              message: 'message',
-              title: 'title',
-              'is-certifiable': false,
-              'is-always-visible': true,
-            },
-          },
-        };
-        const url = '/api/admin/target-profiles/123/badges';
-
-        // when
-        const response = await httpTestServer.request(method, url, payload);
-
-        // then
-        expect(response.statusCode).to.equal(403);
-      });
-    });
-
-    describe('when request payload has wrong format', function () {
-      it('should return a 400 HTTP response', async function () {
-        // given
-        sinon.stub(securityPreHandlers, 'userHasAtLeastOneAccessOf').returns(() => true);
-        const httpTestServer = new HttpTestServer();
-        await httpTestServer.register(moduleUnderTest);
-
-        const method = 'POST';
-        const payload = { data: { attributes: {} } };
-        const url = '/api/admin/target-profiles/123/badges';
-
-        // when
-        const response = await httpTestServer.request(method, url, payload);
-
-        // then
-        expect(response.statusCode).to.equal(400);
       });
     });
   });
