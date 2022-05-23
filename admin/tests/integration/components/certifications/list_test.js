@@ -32,9 +32,7 @@ module('Integration | Component | certifications/list', function (hooks) {
   test('should display the complementary certifications if any', async function (assert) {
     // given
     const juryCertificationSummaryProcessed = store.createRecord('jury-certification-summary', {
-      cleaCertificationStatus: 'taken',
-      pixPlusDroitMaitreCertificationStatus: 'taken',
-      pixPlusDroitExpertCertificationStatus: 'not_taken',
+      complementaryCertificationTakenLabels: ['CléA Numérique', 'Pix+ Droit Maître'],
     });
     this.certifications = [juryCertificationSummaryProcessed];
 
