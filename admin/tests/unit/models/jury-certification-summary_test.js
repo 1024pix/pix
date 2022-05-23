@@ -25,9 +25,7 @@ module('Unit | Model | jury-certification-summary', function (hooks) {
           const statusLabel = juryCertificationSummaryProcessed.get('statusLabel');
 
           // then
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line qunit/no-assert-equal
-          assert.equal(statusLabel, label);
+          assert.strictEqual(statusLabel, label);
         });
       });
     });
@@ -44,9 +42,7 @@ module('Unit | Model | jury-certification-summary', function (hooks) {
       const hasSeenEndTestScreenLabel = juryCertificationSummaryProcessed.hasSeenEndTestScreenLabel;
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(hasSeenEndTestScreenLabel, '');
+      assert.strictEqual(hasSeenEndTestScreenLabel, '');
     });
 
     test("it returns 'non' when it has not seen end test screen", function (assert) {
@@ -59,9 +55,7 @@ module('Unit | Model | jury-certification-summary', function (hooks) {
       const hasSeenEndTestScreenLabel = juryCertificationSummaryProcessed.hasSeenEndTestScreenLabel;
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(hasSeenEndTestScreenLabel, 'non');
+      assert.strictEqual(hasSeenEndTestScreenLabel, 'non');
     });
   });
 
@@ -79,9 +73,7 @@ module('Unit | Model | jury-certification-summary', function (hooks) {
         juryCertificationSummaryProcessed.numberOfCertificationIssueReportsWithRequiredActionLabel;
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(numberOfCertificationIssueReportsWithRequiredActionLabel, '');
+      assert.strictEqual(numberOfCertificationIssueReportsWithRequiredActionLabel, '');
     });
 
     test('it returns the count of issue reports when there are some', function (assert) {
@@ -97,9 +89,7 @@ module('Unit | Model | jury-certification-summary', function (hooks) {
         juryCertificationSummaryProcessed.numberOfCertificationIssueReportsWithRequiredActionLabel;
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(numberOfCertificationIssueReportsWithRequiredActionLabel, 4);
+      assert.strictEqual(numberOfCertificationIssueReportsWithRequiredActionLabel, 4);
     });
   });
 
@@ -122,9 +112,7 @@ module('Unit | Model | jury-certification-summary', function (hooks) {
       const complementaryCertificationsLabel = juryCertificationSummaryProcessed.complementaryCertificationsLabel;
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(complementaryCertificationsLabel, '');
+      assert.strictEqual(complementaryCertificationsLabel, '');
     });
 
     [
@@ -158,9 +146,7 @@ module('Unit | Model | jury-certification-summary', function (hooks) {
         const complementaryCertificationsLabel = juryCertificationSummaryProcessed.complementaryCertificationsLabel;
 
         // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(complementaryCertificationsLabel, expectedMessage);
+        assert.strictEqual(complementaryCertificationsLabel, expectedMessage);
       });
     });
 
@@ -330,9 +316,7 @@ module('Unit | Model | jury-certification-summary', function (hooks) {
       });
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(juryCertificationSummary.completionDate, null);
+      assert.notOk(juryCertificationSummary.completionDate, null);
     });
 
     test('it should a formatted date when completedAt is defined', function (assert) {
@@ -342,9 +326,7 @@ module('Unit | Model | jury-certification-summary', function (hooks) {
       });
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(juryCertificationSummary.completionDate, '30/06/2021, 15:10:45');
+      assert.strictEqual(juryCertificationSummary.completionDate, '30/06/2021, 15:10:45');
     });
   });
 });
