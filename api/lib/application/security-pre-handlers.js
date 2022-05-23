@@ -8,11 +8,14 @@ const checkUserIsAdminInOrganizationUseCase = require('./usecases/checkUserIsAdm
 const checkUserBelongsToOrganizationManagingStudentsUseCase = require('./usecases/checkUserBelongsToOrganizationManagingStudents');
 const checkUserBelongsToScoOrganizationAndManagesStudentsUseCase = require('./usecases/checkUserBelongsToScoOrganizationAndManagesStudents');
 const checkUserBelongsToSupOrganizationAndManagesStudentsUseCase = require('./usecases/checkUserBelongsToSupOrganizationAndManagesStudents');
+const checkUserOwnsCertificationCourseUseCase = require('./usecases/checkUserOwnsCertificationCourse');
 const checkUserBelongsToOrganizationUseCase = require('./usecases/checkUserBelongsToOrganization');
 const checkUserIsAdminAndManagingStudentsForOrganization = require('./usecases/checkUserIsAdminAndManagingStudentsForOrganization');
 const checkUserIsMemberOfAnOrganizationUseCase = require('./usecases/checkUserIsMemberOfAnOrganization');
 const checkUserIsMemberOfCertificationCenterUsecase = require('./usecases/checkUserIsMemberOfCertificationCenter');
+const checkUserIsMemberOfCertificationCenterSessionUsecase = require('./usecases/checkUserIsMemberOfCertificationCenterSession');
 const checkAuthorizationToManageCampaignUsecase = require('./usecases/checkAuthorizationToManageCampaign');
+const certificationIssueReportRepository = require('../infrastructure/repositories/certification-issue-report-repository');
 const Organization = require('../../lib/domain/models/Organization');
 
 const JSONAPIError = require('jsonapi-serializer').Error;
@@ -154,6 +157,45 @@ function checkUserIsMemberOfCertificationCenter(request, h) {
       return _replyForbiddenError(h);
     })
     .catch(() => _replyForbiddenError(h));
+}
+
+async function checkUserIsMemberOfCertificationCenterSessionFromCertificationIssueReportId(request, h) {
+  if (!request.auth.credentials || !request.auth.credentials.userId) {
+    return _replyForbiddenError(h);
+  }
+
+  const userId = request.auth.credentials.userId;
+  const certificationIssueReportId = parseInt(request.params.id);
+
+  try {
+    const certificationIssueReport = await certificationIssueReportRepository.get(certificationIssueReportId);
+    const isMemberOfSession = await checkUserIsMemberOfCertificationCenterSessionUsecase.execute({
+      userId,
+      certificationCourseId: certificationIssueReport.certificationCourseId,
+    });
+    return isMemberOfSession ? h.response(true) : _replyForbiddenError(h);
+  } catch (e) {
+    return _replyForbiddenError(h);
+  }
+}
+
+async function checkUserIsMemberOfCertificationCenterSessionFromCertificationCourseId(request, h) {
+  if (!request.auth.credentials || !request.auth.credentials.userId) {
+    return _replyForbiddenError(h);
+  }
+
+  const userId = request.auth.credentials.userId;
+  const certificationCourseId = parseInt(request.params.id);
+
+  try {
+    const isMemberOfSession = await checkUserIsMemberOfCertificationCenterSessionUsecase.execute({
+      userId,
+      certificationCourseId,
+    });
+    return isMemberOfSession ? h.response(true) : _replyForbiddenError(h);
+  } catch (e) {
+    return _replyForbiddenError(h);
+  }
 }
 
 async function checkUserBelongsToOrganizationManagingStudents(request, h) {
@@ -300,6 +342,25 @@ function userHasAtLeastOneAccessOf(securityChecks) {
   };
 }
 
+async function checkUserOwnsCertificationCourse(request, h) {
+  if (!request.auth.credentials || !request.auth.credentials.userId) {
+    return _replyForbiddenError(h);
+  }
+
+  const userId = request.auth.credentials.userId;
+  const certificationCourseId = parseInt(request.params.id);
+
+  try {
+    const ownsCertificationCourse = await checkUserOwnsCertificationCourseUseCase.execute({
+      userId,
+      certificationCourseId,
+    });
+    return ownsCertificationCourse ? h.response(true) : _replyForbiddenError(h);
+  } catch (e) {
+    return _replyForbiddenError(h);
+  }
+}
+
 /* eslint-enable no-restricted-syntax */
 
 module.exports = {
@@ -318,5 +379,8 @@ module.exports = {
   checkUserBelongsToOrganization,
   checkUserIsMemberOfAnOrganization,
   checkUserIsMemberOfCertificationCenter,
+  checkUserOwnsCertificationCourse,
+  checkUserIsMemberOfCertificationCenterSessionFromCertificationCourseId,
+  checkUserIsMemberOfCertificationCenterSessionFromCertificationIssueReportId,
   userHasAtLeastOneAccessOf,
 };
