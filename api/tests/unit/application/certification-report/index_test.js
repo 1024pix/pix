@@ -3,19 +3,25 @@ const certificationReportController = require('../../../../lib/application/certi
 const { NotFoundError } = require('../../../../lib/application/http-errors');
 const authorization = require('../../../../lib/application/preHandlers/authorization');
 const moduleUnderTest = require('../../../../lib/application/certification-reports');
+const securityPreHandlers = require('../../../../lib/application/security-pre-handlers');
 
 describe('Unit | Application | Certifications Report | Route', function () {
-  it('POST /api/certification-reports/{id}/certification-issue-reports should exist', async function () {
-    // given
-    sinon.stub(certificationReportController, 'saveCertificationIssueReport').returns('ok');
-    const httpTestServer = new HttpTestServer();
-    await httpTestServer.register(moduleUnderTest);
+  describe('POST /api/certification-reports/{id}/certification-issue-reports', function () {
+    it('should return a 200', async function () {
+      // given
+      sinon
+        .stub(securityPreHandlers, 'checkUserIsMemberOfCertificationCenterSessionFromCertificationCourseId')
+        .callsFake((request, h) => h.response(true));
+      sinon.stub(certificationReportController, 'saveCertificationIssueReport').returns('ok');
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
 
-    // when
-    const response = await httpTestServer.request('POST', '/api/certification-reports/1/certification-issue-reports');
+      // when
+      const response = await httpTestServer.request('POST', '/api/certification-reports/1/certification-issue-reports');
 
-    // then
-    expect(response.statusCode).to.equal(200);
+      // then
+      expect(response.statusCode).to.equal(200);
+    });
   });
 
   describe('POST /api/certification-reports/{id}/abort', function () {

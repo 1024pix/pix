@@ -5,41 +5,44 @@ const securityPreHandlers = require('../../../../lib/application/security-pre-ha
 const moduleUnderTest = require('../../../../lib/application/certification-issue-reports');
 
 describe('Unit | Application | Certifications Issue Report | Route', function () {
-  it('DELETE /api/certification-issue-reports/{id} should exist', async function () {
-    // given
-    sinon.stub(certificationIssueReportController, 'deleteCertificationIssueReport').returns('ok');
+  describe('DELETE /api/certification-issue-reports/{id}', function () {
+    it('should return a 200', async function () {
+      // given
+      sinon
+        .stub(securityPreHandlers, 'checkUserIsMemberOfCertificationCenterSessionFromCertificationIssueReportId')
+        .callsFake((request, h) => h.response(true));
+      sinon.stub(certificationIssueReportController, 'deleteCertificationIssueReport').returns('ok');
 
-    const httpTestServer = new HttpTestServer();
-    await httpTestServer.register(moduleUnderTest);
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
 
-    // when
-    const response = await httpTestServer.request('DELETE', '/api/certification-issue-reports/1');
+      // when
+      const response = await httpTestServer.request('DELETE', '/api/certification-issue-reports/1');
 
-    // then
-    expect(response.statusCode).to.equal(200);
+      // then
+      expect(response.statusCode).to.equal(200);
+    });
   });
 
   describe('PATCH /api/certification-issue-reports/{id}', function () {
-    context('when user is ', function () {
-      context('when no resolution is given', function () {
-        it('should return 204', async function () {
-          // given
-          sinon.stub(certificationIssueReportController, 'manuallyResolve').callsFake((_, h) => h.response().code(204));
-          sinon.stub(securityPreHandlers, 'userHasAtLeastOneAccessOf').returns(() => true);
+    context('when no resolution is given', function () {
+      it('should return 204', async function () {
+        // given
+        sinon.stub(certificationIssueReportController, 'manuallyResolve').callsFake((_, h) => h.response().code(204));
+        sinon.stub(securityPreHandlers, 'userHasAtLeastOneAccessOf').returns(() => true);
 
-          const httpTestServer = new HttpTestServer();
-          await httpTestServer.register(moduleUnderTest);
-          const payload = {
-            data: {
-              resolution: null,
-            },
-          };
-          // when
-          const response = await httpTestServer.request('PATCH', '/api/certification-issue-reports/1', payload);
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
 
-          // then
-          expect(response.statusCode).to.equal(204);
+        // when
+        const response = await httpTestServer.request('PATCH', '/api/certification-issue-reports/1', {
+          data: {
+            resolution: null,
+          },
         });
+
+        // then
+        expect(response.statusCode).to.equal(204);
       });
     });
 
