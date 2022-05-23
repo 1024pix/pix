@@ -48,7 +48,9 @@ class JuryCertificationSummary {
   }
 
   _buildLabels(complementaryCertificationCourseResults) {
-    return complementaryCertificationCourseResults?.map(({ partnerKey }) => getLabelByBadgeKey(partnerKey));
+    return complementaryCertificationCourseResults
+      ?.filter((complementaryCertificationCourseResult) => complementaryCertificationCourseResult.isFromPixSource())
+      .map(({ partnerKey }) => getLabelByBadgeKey(partnerKey));
   }
 }
 
