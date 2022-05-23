@@ -12,7 +12,6 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
   let certification;
 
   hooks.beforeEach(async function () {
-    await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
     this.server.create('user', { id: 888 });
 
     this.server.create('country', {
@@ -44,6 +43,9 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
 
   module('certification information read', function () {
     test('it displays candidate information', async function (assert) {
+      // given
+      await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
+
       // when
       const screen = await visit(`/certifications/${certification.id}`);
 
@@ -61,6 +63,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
     module('Certification issue reports section', function () {
       test('should not render the "Signalements" section when certification has no issue reports', async function (assert) {
         // given
+        await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
         certification.update({ certificationIssueReports: [] });
 
         // when
@@ -72,6 +75,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
 
       test('should render the "Signalements" section when certification has issue reports', async function (assert) {
         // given
+        await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
         const certificationIssueReport = this.server.create('certification-issue-report', {
           category: 'OTHER',
           description: 'Un signalement impactant',
@@ -88,6 +92,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
 
       test('should display the issue reports, impactful and non impactful', async function (assert) {
         // given
+        await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
         const certificationIssueReportNonImpactful = this.server.create('certification-issue-report', {
           category: 'CANDIDATE_INFORMATIONS_CHANGES',
           subcategory: 'EXTRA_TIME_PERCENTAGE',
@@ -127,6 +132,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
 
       test('should hide "Signalement(s) non impactant(s)" sub-section when no not impactful issue reports exist', async function (assert) {
         // given
+        await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
         const certificationIssueReportImpactful = this.server.create('certification-issue-report', {
           category: 'OTHER',
           description: 'Un signalement super impactant',
@@ -151,6 +157,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
 
       test('should hide "Signalement(s) impactant(s)" sub-section when no impactful issue reports exist', async function (assert) {
         // given
+        await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
         const certificationIssueReportNonImpactful = this.server.create('certification-issue-report', {
           category: 'CANDIDATE_INFORMATIONS_CHANGES',
           subcategory: 'EXTRA_TIME_PERCENTAGE',
@@ -176,6 +183,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
 
       test('should display a resolved issue report when resolved', async function (assert) {
         // given
+        await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
         const certificationIssueReportImpactful = this.server.create('certification-issue-report', {
           category: 'OTHER',
           description: 'Un signalement super impactant',
@@ -194,6 +202,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
 
       test('should display a non-resolved issue report when not resolved', async function (assert) {
         // given
+        await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
         const certificationIssueReportImpactful = this.server.create('certification-issue-report', {
           category: 'OTHER',
           description: 'Un signalement super impactant',
@@ -213,6 +222,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
       module('IN_CHALLENGE issue report', function () {
         test('should display a "in challenge" issue report with its challenge number', async function (assert) {
           // given
+          await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
           const certificationIssueReport = this.server.create('certification-issue-report', {
             category: 'IN_CHALLENGE',
             subcategory: 'IMAGE_NOT_DISPLAYING',
@@ -240,6 +250,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
     module('when go to user detail button is clicked', function () {
       test('it should redirect to user detail page', async function (assert) {
         // given
+        await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
         await visit(`/certifications/${certification.id}`);
 
         // when
@@ -256,6 +267,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
       module('when candidate certification was enrolled before the CPF feature was enabled', function () {
         test('should prevent user from editing candidate information', async function (assert) {
           // given
+          await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
           this.server.create('certification', {
             id: 456,
             firstName: 'Bora Horza',
@@ -284,6 +296,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
       module('when there is a complementary certification course result with external', function () {
         test('should be possible to update jury level', async function (assert) {
           //given
+          await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
           const complementaryCertificationCourseResultsWithExternal = server.create(
             'complementary-certification-course-results-with-external',
             {
@@ -332,7 +345,8 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
       });
 
       test('it displays common complementary certifications result', async function (assert) {
-        //given
+        // given
+        await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
         const commonComplementaryCertificationCourseResults = [
           server.create('common-complementary-certification-course-result', {
             label: 'CléA Numérique',
@@ -366,7 +380,8 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
       });
 
       test('it displays external complementary certifications', async function (assert) {
-        //given
+        // given
+        await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
         const complementaryCertificationCourseResultsWithExternal = server.create(
           'complementary-certification-course-results-with-external',
           {
@@ -396,6 +411,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
         module('when editing candidate information succeeds', function () {
           test('should save the candidate information data when modifying them', async function (assert) {
             // given
+            await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
             const screen = await visit('/certifications/123');
             await clickByName('Modifier les informations du candidat');
 
@@ -417,6 +433,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
 
           test('should display a success notification', async function (assert) {
             // given
+            await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
             const screen = await visit('/certifications/123');
             await clickByName('Modifier les informations du candidat');
 
@@ -431,6 +448,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
 
           test('should close the modal', async function (assert) {
             // given
+            await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
             const screen = await visit('/certifications/123');
             await clickByName('Modifier les informations du candidat');
 
@@ -447,6 +465,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
         module('when editing candidate information fails', function () {
           test('should display an error notification', async function (assert) {
             // given
+            await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
             this.server.patch(
               '/certification-courses/:id',
               () => ({
@@ -467,6 +486,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
 
           test('should leave the modal opened', async function (assert) {
             // given
+            await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
             this.server.patch(
               '/certification-courses/:id',
               () => ({
@@ -487,6 +507,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
 
           test('should leave candidate information untouched when aborting the edition', async function (assert) {
             // given
+            await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
             this.server.patch(
               '/certification-courses/:id',
               () => ({
@@ -519,6 +540,9 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
     module('Certification results edition', function () {
       module('when candidate results edit button is clicked', function () {
         test('it disables candidate informations edit button', async function (assert) {
+          // given
+          await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
+
           // when
           const screen = await visit(`/certifications/${certification.id}`);
           await clickByName('Modifier les résultats du candidat');
@@ -530,6 +554,9 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
 
       module('when candidate results form cancel button is clicked', function () {
         test('it re-enables candidate informations edit button', async function (assert) {
+          // given
+          await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
+
           // when
           const screen = await visit(`/certifications/${certification.id}`);
           await clickByName('Modifier les résultats du candidat');
@@ -542,6 +569,9 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
 
       module('when candidate results form is submitted', function () {
         test('it also re-enables candidate informations edit button', async function (assert) {
+          // given
+          await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
+
           // when
           const screen = await visit(`/certifications/${certification.id}`);
           await clickByName('Modifier les résultats du candidat');
@@ -561,6 +591,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
             module('when a label is keyed', function () {
               test('it should set issue as resolved with label', async function (assert) {
                 // given
+                await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
                 const certificationIssueReport = this.server.create('certification-issue-report', {
                   category: 'OTHER',
                   description: 'Un signalement impactant',
@@ -596,6 +627,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
           module('when the api returns an error', function () {
             test('it should display an error notification', async function (assert) {
               // given
+              await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
               const certificationIssueReport = this.server.create('certification-issue-report', {
                 category: 'OTHER',
                 description: 'Un signalement impactant',
@@ -634,6 +666,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
 
         test('should display confirmation popup for cancellation when certification is not yet cancelled and cancellation button is clicked', async function (assert) {
           // given
+          await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
           const screen = await visit(`/certifications/${certification.id}`);
 
           // when
@@ -651,6 +684,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
 
         test('should not cancel the certification when aborting action in the confirmation popup', async function (assert) {
           // given
+          await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
           const screen = await visit(`/certifications/${certification.id}`);
           await clickByName('Annuler la certification');
 
@@ -664,6 +698,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
 
         test('should cancel the certification when confirming action in the confirmation popup', async function (assert) {
           // given
+          await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
           const screen = await visit(`/certifications/${certification.id}`);
           await clickByName('Annuler la certification');
 
@@ -683,6 +718,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
 
         test('should display confirmation popup for uncancellation when certification is cancelled and uncancellation button is clicked', async function (assert) {
           // given
+          await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
           const screen = await visit(`/certifications/${certification.id}`);
 
           // when
@@ -700,6 +736,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
 
         test('should not uncancel the certification when aborting action in the confirmation popup', async function (assert) {
           // given
+          await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
           const screen = await visit(`/certifications/${certification.id}`);
           await clickByName('Désannuler la certification');
 
@@ -713,6 +750,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
 
         test('should uncancel the certification when confirming action in the confirmation popup', async function (assert) {
           // given
+          await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
           const screen = await visit(`/certifications/${certification.id}`);
           await clickByName('Désannuler la certification');
 
