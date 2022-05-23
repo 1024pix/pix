@@ -664,6 +664,17 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
           certification.update({ status: 'validated' });
         });
 
+        test('should not show cancellation button when user does not have access to certification actions scope', async function (assert) {
+          // given
+          await authenticateAdminMemberWithRole({ isMetier: true })(server);
+
+          // when
+          const screen = await visit(`/certifications/${certification.id}`);
+
+          // then
+          assert.dom(screen.queryByText('Annuler la certification')).doesNotExist();
+        });
+
         test('should display confirmation popup for cancellation when certification is not yet cancelled and cancellation button is clicked', async function (assert) {
           // given
           await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
