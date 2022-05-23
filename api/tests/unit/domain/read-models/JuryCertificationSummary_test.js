@@ -3,8 +3,11 @@ const JuryCertificationSummary = require('../../../../lib/domain/read-models/Jur
 const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult');
 const forIn = require('lodash/forIn');
 const ComplementaryCertificationCourseResult = require('../../../../lib/domain/models/ComplementaryCertificationCourseResult');
-const { PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE, PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_INITIE } =
-  require('../../../../lib/domain/models/Badge').keys;
+const {
+  PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
+  PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_INITIE,
+  PIX_DROIT_EXPERT_CERTIF,
+} = require('../../../../lib/domain/models/Badge').keys;
 
 describe('Unit | Domain | Models | JuryCertificationSummary', function () {
   describe('#constructor', function () {
@@ -21,6 +24,11 @@ describe('Unit | Domain | Models | JuryCertificationSummary', function () {
           }),
           ComplementaryCertificationCourseResult.from({
             partnerKey: PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_INITIE,
+            acquired: true,
+            source: 'EXTERNAL',
+          }),
+          ComplementaryCertificationCourseResult.from({
+            partnerKey: PIX_DROIT_EXPERT_CERTIF,
             acquired: false,
             source: 'PIX',
           }),
@@ -45,7 +53,7 @@ describe('Unit | Domain | Models | JuryCertificationSummary', function () {
         certificationIssueReports: [notImpactfulIssueReport],
         complementaryCertificationTakenLabels: [
           'Pix+ Édu 2nd degré Initié (entrée dans le métier)',
-          'Pix+ Édu 1er degré Initié (entrée dans le métier)',
+          'Pix+ Droit Expert',
         ],
         completedAt: new Date('2020-01-01'),
         createdAt: new Date('2020-01-02'),
