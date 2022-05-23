@@ -20,17 +20,16 @@ describe('Acceptance | Controller | certification-issue-report-controller', func
       const certificationIssueReportId = databaseBuilder.factory.buildCertificationIssueReport({
         certificationCourseId,
       }).id;
-      const request = {
+      await databaseBuilder.commit();
+
+      // when
+      const response = await server.inject({
         method: 'DELETE',
         url: `/api/certification-issue-reports/${certificationIssueReportId}`,
         headers: {
           authorization: generateValidRequestAuthorizationHeader(userId),
         },
-      };
-      await databaseBuilder.commit();
-
-      // when
-      const response = await server.inject(request);
+      });
 
       // then
       expect(response.statusCode).to.equal(204);
