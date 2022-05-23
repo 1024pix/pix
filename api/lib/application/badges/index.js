@@ -90,7 +90,6 @@ exports.register = async function (server) {
             method: (request, h) =>
               securityPreHandlers.userHasAtLeastOneAccessOf([
                 securityPreHandlers.checkUserHasRoleSuperAdmin,
-                securityPreHandlers.checkUserHasRoleCertif,
                 securityPreHandlers.checkUserHasRoleSupport,
                 securityPreHandlers.checkUserHasRoleMetier,
               ])(request, h),
@@ -103,7 +102,7 @@ exports.register = async function (server) {
           }),
         },
         handler: badgesController.deleteUnassociatedBadge,
-        tags: ['api', 'badges'],
+        tags: ['api', 'admin', 'badges'],
         notes: [
           "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n" +
             '- Elle permet de supprimer un résultat thématique non assigné.',
