@@ -94,83 +94,55 @@ module('Unit | Model | jury-certification-summary', function (hooks) {
   });
 
   module('#complementaryCertificationsLabel', function () {
-    test('it returns an empty string when there are no complementary certifications taken', function (assert) {
-      // given
-      const juryCertificationSummaryProcessed = run(() => {
-        return store.createRecord('jury-certification-summary', {
-          cleaCertificationStatus: 'not_taken',
-          pixPlusDroitMaitreCertificationStatus: 'not_taken',
-          pixPlusDroitExpertCertificationStatus: 'not_taken',
-          pixPlusEduInitieCertificationStatus: 'not_taken',
-          pixPlusEduConfirmeCertificationStatus: 'not_taken',
-          pixPlusEduAvanceCertificationStatus: 'not_taken',
-          pixPlusEduExpertCertificationStatus: 'not_taken',
-        });
-      });
-
-      // when
-      const complementaryCertificationsLabel = juryCertificationSummaryProcessed.complementaryCertificationsLabel;
-
-      // then
-      assert.strictEqual(complementaryCertificationsLabel, '');
-    });
-
-    [
-      { attribute: 'cleaCertificationStatus', expectedMessage: 'CléA Numérique' },
-      { attribute: 'pixPlusDroitMaitreCertificationStatus', expectedMessage: 'Pix+ Droit Maître' },
-      { attribute: 'pixPlusDroitExpertCertificationStatus', expectedMessage: 'Pix+ Droit Expert' },
-      {
-        attribute: 'pixPlusEduInitieCertificationStatus',
-        expectedMessage: 'Pix+ Édu Initié (entrée dans le métier)',
-      },
-      { attribute: 'pixPlusEduConfirmeCertificationStatus', expectedMessage: 'Pix+ Édu Confirmé' },
-      { attribute: 'pixPlusEduAvanceCertificationStatus', expectedMessage: 'Pix+ Édu Avancé' },
-      { attribute: 'pixPlusEduExpertCertificationStatus', expectedMessage: 'Pix+ Édu Expert' },
-    ].forEach(({ attribute, expectedMessage }) => {
-      test(`it returns ${expectedMessage} when ${attribute} is not equal to 'not_taken`, function (assert) {
+    module('When there are no complementary certifications taken', function () {
+      test('it returns an empty string', function (assert) {
         // given
         const juryCertificationSummaryProcessed = run(() => {
           return store.createRecord('jury-certification-summary', {
-            cleaCertificationStatus: 'not_taken',
-            pixPlusDroitMaitreCertificationStatus: 'not_taken',
-            pixPlusDroitExpertCertificationStatus: 'not_taken',
-            pixPlusEduInitieCertificationStatus: 'not_taken',
-            pixPlusEduConfirmeCertificationStatus: 'not_taken',
-            pixPlusEduAvanceCertificationStatus: 'not_taken',
-            pixPlusEduExpertCertificationStatus: 'not_taken',
+            complementaryCertificationTakenLabels: [],
           });
         });
-        juryCertificationSummaryProcessed[attribute] = 'not_equal_to_not_taken';
 
         // when
         const complementaryCertificationsLabel = juryCertificationSummaryProcessed.complementaryCertificationsLabel;
 
         // then
-        assert.strictEqual(complementaryCertificationsLabel, expectedMessage);
+        assert.strictEqual(complementaryCertificationsLabel, '');
       });
     });
 
-    test('it returns all complementary certifications taken separated by carriage return where there are some', function (assert) {
-      // given
-      const juryCertificationSummaryProcessed = run(() => {
-        return store.createRecord('jury-certification-summary', {
-          cleaCertificationStatus: 'taken',
-          pixPlusDroitMaitreCertificationStatus: 'not_taken',
-          pixPlusDroitExpertCertificationStatus: 'taken',
-          pixPlusEduInitieCertificationStatus: 'not_taken',
-          pixPlusEduConfirmeCertificationStatus: 'not_taken',
-          pixPlusEduAvanceCertificationStatus: 'not_taken',
-          pixPlusEduExpertCertificationStatus: 'not_taken',
+    module('When there is 1 complementary certification taken', function () {
+      test('it returns the complementary certifications taken', function (assert) {
+        // given
+        const juryCertificationSummaryProcessed = run(() => {
+          return store.createRecord('jury-certification-summary', {
+            complementaryCertificationTakenLabels: ['Pix+ Droit Expert'],
+          });
         });
+
+        // when
+        const complementaryCertificationsLabel = juryCertificationSummaryProcessed.complementaryCertificationsLabel;
+
+        // then
+        assert.strictEqual(complementaryCertificationsLabel, 'Pix+ Droit Expert');
       });
+    });
 
-      // when
-      const complementaryCertificationsLabel = juryCertificationSummaryProcessed.complementaryCertificationsLabel;
+    module('When there are more than 1 complementary certification taken', function () {
+      test('it returns all complementary certifications taken separated by carriage return', function (assert) {
+        // given
+        const juryCertificationSummaryProcessed = run(() => {
+          return store.createRecord('jury-certification-summary', {
+            complementaryCertificationTakenLabels: ['CléA Numérique', 'Pix+ Droit Expert'],
+          });
+        });
 
-      // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(complementaryCertificationsLabel, 'CléA Numérique\nPix+ Droit Expert');
+        // when
+        const complementaryCertificationsLabel = juryCertificationSummaryProcessed.complementaryCertificationsLabel;
+
+        // then
+        assert.strictEqual(complementaryCertificationsLabel, 'CléA Numérique\nPix+ Droit Expert');
+      });
     });
   });
 
