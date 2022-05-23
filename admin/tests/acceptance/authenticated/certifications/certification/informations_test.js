@@ -264,6 +264,17 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
 
   module('certification edition actions', function () {
     module('Candidate information edition', function () {
+      test('should not show candidate modify button when user does not have access to certification actions scope', async function (assert) {
+        // given
+        await authenticateAdminMemberWithRole({ isMetier: true })(server);
+
+        // when
+        const screen = await visit(`/certifications/${certification.id}`);
+
+        // then
+        assert.dom(screen.queryByLabelText('Modifier les informations du candidat')).doesNotExist();
+      });
+
       module('when candidate certification was enrolled before the CPF feature was enabled', function () {
         test('should prevent user from editing candidate information', async function (assert) {
           // given
