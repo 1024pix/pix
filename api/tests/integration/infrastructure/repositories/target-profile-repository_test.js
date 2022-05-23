@@ -734,7 +734,7 @@ describe('Integration | Repository | Target-profile', function () {
       // when
       const savedTargetProfileTemplate = await targetProfileRepository.createTemplateAndTargetProfile({
         targetProfileTemplate,
-        targetProfileData: targetProfileForCreation,
+        targetProfileForCreation,
       });
 
       // then
@@ -771,7 +771,7 @@ describe('Integration | Repository | Target-profile', function () {
       // when
       const { id } = await targetProfileRepository.createTemplateAndTargetProfile({
         targetProfileTemplate,
-        targetProfileData: targetProfileForCreation,
+        targetProfileForCreation,
       });
 
       // then

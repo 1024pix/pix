@@ -19,10 +19,10 @@ const TargetProfileTemplate = require('../../domain/models/TargetProfileTemplate
 const { PGSQL_FOREIGN_KEY_VIOLATION_ERROR } = require('../../../db/pgsql-errors');
 
 module.exports = {
-  async create(targetProfileData) {
+  async create(targetProfileForCreation) {
     try {
       return await knex.transaction((trx) => {
-        return _createTargetProfile({ trx, targetProfileData });
+        return _createTargetProfile({ trx, targetProfileForCreation });
       });
     } catch (e) {
       if (e.code === PGSQL_FOREIGN_KEY_VIOLATION_ERROR) {
@@ -169,7 +169,7 @@ module.exports = {
     return true;
   },
 
-  async createTemplateAndTargetProfile({ targetProfileTemplate, targetProfileData }) {
+  async createTemplateAndTargetProfile({ targetProfileTemplate, targetProfileForCreation }) {
     try {
       return await knex.transaction(async (trx) => {
         const [targetProfileTemplateId] = await knex('target-profile-templates').insert({}).returning('id');
@@ -183,8 +183,8 @@ module.exports = {
         const savedTubes = await knex.batchInsert('target-profile-templates_tubes', tubes).returning('*');
         const savedTargetProfile = await _createTargetProfile({
           trx,
-          targetProfileData: {
-            ...targetProfileData,
+          targetProfileForCreation: {
+            ...targetProfileForCreation,
             targetProfileTemplateId,
           },
         });
@@ -229,8 +229,8 @@ function _setSearchFiltersForQueryBuilder(filter, qb) {
   }
 }
 
-async function _createTargetProfile({ trx, targetProfileData }) {
-  const targetProfileRawData = _.pick(targetProfileData, [
+async function _createTargetProfile({ trx, targetProfileForCreation }) {
+  const targetProfileRawData = _.pick(targetProfileForCreation, [
     'name',
     'isPublic',
     'imageUrl',
@@ -243,7 +243,7 @@ async function _createTargetProfile({ trx, targetProfileData }) {
 
   const [targetProfileId] = await trx('target-profiles').insert(targetProfileRawData).returning('id');
 
-  const skillsIdList = _.uniq(targetProfileData.skillIds);
+  const skillsIdList = _.uniq(targetProfileForCreation.skillIds);
 
   const skillToAdd = skillsIdList.map((skillId) => {
     return { targetProfileId, skillId };
