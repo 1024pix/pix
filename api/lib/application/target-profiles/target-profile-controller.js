@@ -74,10 +74,13 @@ module.exports = {
   },
 
   async createTargetProfile(request) {
-    const targetProfileData = targetProfileSerializer.deserialize(request.payload);
+    const { targetProfileData, targetProfileTemplateData } = targetProfileSerializer.deserialize(request.payload);
 
-    const targetProfile = await usecases.createTargetProfile({ targetProfileData });
-
+    const targetProfileTemplate = await usecases.createTemplateTargetProfile({
+      targetProfileData,
+      targetProfileTemplateData,
+    });
+    const targetProfile = targetProfileTemplate.targetProfiles[0];
     return targetProfileWithLearningContentSerializer.serialize(targetProfile);
   },
 
