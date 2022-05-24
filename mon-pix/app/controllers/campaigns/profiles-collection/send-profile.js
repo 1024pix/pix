@@ -5,6 +5,7 @@ import { tracked } from '@glimmer/tracking';
 
 export default class SendProfileController extends Controller {
   @service intl;
+  @service currentUser;
 
   @tracked errorMessage = null;
 
@@ -21,6 +22,7 @@ export default class SendProfileController extends Controller {
 
     try {
       await campaignParticipation.save();
+      await this.currentUser.load();
     } catch (errorResponse) {
       campaignParticipation.rollbackAttributes();
       this._handleCampaignParticipationSaveErrors(errorResponse.errors);

@@ -24,11 +24,16 @@ describe('Unit | Controller | campaigns/profiles-collection/send-profile', funct
     campaignParticipation,
   };
   let controller;
+  let currentUserStub;
 
   beforeEach(function () {
     controller = this.owner.lookup('controller:campaigns.profiles-collection.send-profile');
+    currentUserStub = { load: sinon.stub() };
+
     controller.model = model;
+    controller.set('currentUser', currentUserStub);
     campaignParticipation.save.resolves(campaignParticipationShared);
+    currentUserStub.load.resolves();
   });
 
   describe('#isDisabled', function () {
@@ -65,6 +70,14 @@ describe('Unit | Controller | campaigns/profiles-collection/send-profile', funct
 
       // then
       expect(controller.model.campaignParticipation.isShared).to.equal(true);
+    });
+
+    it('should call load from currentUser', async function () {
+      // when
+      await controller.actions.sendProfile.call(controller);
+
+      // then
+      sinon.assert.called(currentUserStub.load);
     });
 
     it('should not be loading nor in error', async function () {
