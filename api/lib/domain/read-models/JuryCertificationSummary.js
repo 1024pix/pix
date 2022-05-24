@@ -1,26 +1,8 @@
 const { status: assessmentResultStatuses } = require('../models/AssessmentResult');
-const {
-  PIX_EMPLOI_CLEA_V1,
-  PIX_EMPLOI_CLEA_V2,
-  PIX_EMPLOI_CLEA_V3,
-  PIX_DROIT_MAITRE_CERTIF,
-  PIX_DROIT_EXPERT_CERTIF,
-  PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
-  PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME,
-  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME,
-  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
-  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
-} = require('../models/Badge').keys;
-
+const { getLabelByBadgeKey } = require('./CertifiableBadgeLabels');
 const STARTED = 'started';
 const CANCELLED = 'cancelled';
 const ENDED_BY_SUPERVISOR = 'endedBySupervisor';
-
-const complementaryCertificationStatus = {
-  ACQUIRED: 'acquired',
-  REJECTED: 'rejected',
-  NOT_TAKEN: 'not_taken',
-};
 
 class JuryCertificationSummary {
   constructor({
@@ -45,7 +27,7 @@ class JuryCertificationSummary {
     this.status = _getStatus(status, isCourseCancelled, isEndedBySupervisor);
     this.pixScore = pixScore;
     this.isFlaggedAborted = Boolean(abortReason) && !completedAt;
-    this.complementaryCertificationCourseResults = complementaryCertificationCourseResults;
+    this.complementaryCertificationTakenLabels = this._buildLabels(complementaryCertificationCourseResults);
     this.createdAt = createdAt;
     this.completedAt = completedAt;
     this.isPublished = isPublished;
@@ -65,47 +47,10 @@ class JuryCertificationSummary {
     return this.status !== JuryCertificationSummary.statuses.STARTED;
   }
 
-  getCleaCertificationStatus() {
-    return this._getStatusFromComplementaryCertification([PIX_EMPLOI_CLEA_V1, PIX_EMPLOI_CLEA_V2, PIX_EMPLOI_CLEA_V3]);
-  }
-
-  getPixPlusDroitMaitreCertificationStatus() {
-    return this._getStatusFromComplementaryCertification([PIX_DROIT_MAITRE_CERTIF]);
-  }
-
-  getPixPlusDroitExpertCertificationStatus() {
-    return this._getStatusFromComplementaryCertification([PIX_DROIT_EXPERT_CERTIF]);
-  }
-
-  getPixPlusEduInitieCertificationStatus() {
-    return this._getStatusFromComplementaryCertification([PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE]);
-  }
-
-  getPixPlusEduConfirmeCertificationStatus() {
-    return this._getStatusFromComplementaryCertification([
-      PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME,
-      PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME,
-    ]);
-  }
-
-  getPixPlusEduAvanceCertificationStatus() {
-    return this._getStatusFromComplementaryCertification([PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE]);
-  }
-
-  getPixPlusEduExpertCertificationStatus() {
-    return this._getStatusFromComplementaryCertification([PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT]);
-  }
-
-  _getStatusFromComplementaryCertification(complementaryCertificationKeys) {
-    const complementaryCertificationCourseResult = this.complementaryCertificationCourseResults.find(({ partnerKey }) =>
-      complementaryCertificationKeys.includes(partnerKey)
-    );
-    if (!complementaryCertificationCourseResult) {
-      return complementaryCertificationStatus.NOT_TAKEN;
-    }
-    return complementaryCertificationCourseResult.acquired
-      ? complementaryCertificationStatus.ACQUIRED
-      : complementaryCertificationStatus.REJECTED;
+  _buildLabels(complementaryCertificationCourseResults) {
+    return complementaryCertificationCourseResults
+      ?.filter((complementaryCertificationCourseResult) => complementaryCertificationCourseResult.isFromPixSource())
+      .map(({ partnerKey }) => getLabelByBadgeKey(partnerKey));
   }
 }
 
