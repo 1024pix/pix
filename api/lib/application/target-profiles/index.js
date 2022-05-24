@@ -395,7 +395,6 @@ exports.register = async (server) => {
             method: (request, h) =>
               securityPreHandlers.userHasAtLeastOneAccessOf([
                 securityPreHandlers.checkUserHasRoleSuperAdmin,
-                securityPreHandlers.checkUserHasRoleCertif,
                 securityPreHandlers.checkUserHasRoleSupport,
                 securityPreHandlers.checkUserHasRoleMetier,
               ])(request, h),
@@ -418,7 +417,7 @@ exports.register = async (server) => {
           }).options({ allowUnknown: true }),
         },
         handler: targetProfileController.updateTargetProfile,
-        tags: ['api', 'target-profiles'],
+        tags: ['api', 'admin', 'target-profiles'],
         notes: [
           "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n" +
             "- Elle permet de mettre à jour les attributs d'un profil cible",

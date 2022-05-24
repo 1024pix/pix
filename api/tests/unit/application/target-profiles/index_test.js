@@ -719,133 +719,130 @@ describe('Unit | Application | Target Profiles | Routes', function () {
     });
   });
 
-  describe('PATCH /api/admin/target-profiles', function () {
-    it('should exist', async function () {
-      // given
-      sinon.stub(securityPreHandlers, 'userHasAtLeastOneAccessOf').returns(() => true);
-      sinon.stub(targetProfileController, 'updateTargetProfile').callsFake((request, h) => h.response('ok').code(204));
-      const httpTestServer = new HttpTestServer();
-      await httpTestServer.register(moduleUnderTest);
-
-      const method = 'PATCH';
-      const payload = {
-        data: {
-          attributes: {
-            name: 'test',
-            description: 'description changée.',
-            comment: 'commentaire changé.',
-            category: 'OTHER',
-          },
+  describe('PATCH /api/admin/target-profiles/{id}', function () {
+    const method = 'PATCH';
+    const url = '/api/admin/target-profiles/123';
+    const payload = {
+      data: {
+        attributes: {
+          name: 'test',
+          description: 'description changée.',
+          comment: 'commentaire changé.',
+          category: 'OTHER',
         },
-      };
-      const url = '/api/admin/target-profiles/123';
+      },
+    };
 
-      // when
-      const response = await httpTestServer.request(method, url, payload);
-
-      // then
-      expect(response.statusCode).to.equal(204);
-    });
-
-    it('should return a 400 error when description is over than 500 characters', async function () {
-      // given
-      const httpTestServer = new HttpTestServer();
-      const description = 'description changée.';
-      await httpTestServer.register(moduleUnderTest);
-
-      const method = 'PATCH';
-      const payload = {
-        data: {
-          attributes: {
-            name: 'test',
-            description: description.repeat(26),
-            comment: null,
-          },
-        },
-      };
-      const url = '/api/admin/target-profiles/123';
-
-      // when
-      const response = await httpTestServer.request(method, url, payload);
-
-      // then
-      expect(response.statusCode).to.equal(400);
-    });
-
-    it('should return a 400 error when comment is over than 500 characters', async function () {
-      // given
-      const httpTestServer = new HttpTestServer();
-      const comment = 'commentaire changé.';
-      await httpTestServer.register(moduleUnderTest);
-
-      const method = 'PATCH';
-      const payload = {
-        data: {
-          attributes: {
-            name: 'test',
-            description: 'good',
-            comment: comment.repeat(27),
-          },
-        },
-      };
-      const url = '/api/admin/target-profiles/123';
-
-      // when
-      const response = await httpTestServer.request(method, url, payload);
-
-      // then
-      expect(response.statusCode).to.equal(400);
-    });
-
-    it('should return a 400 error when the name is not defined', async function () {
-      // given
-      const httpTestServer = new HttpTestServer();
-      await httpTestServer.register(moduleUnderTest);
-
-      const method = 'PATCH';
-      const payload = {
-        data: {
-          attributes: {
-            name: undefined,
-          },
-        },
-      };
-      const url = '/api/admin/target-profiles/123';
-
-      // when
-      const response = await httpTestServer.request(method, url, payload);
-
-      // then
-      expect(response.statusCode).to.equal(400);
-    });
-
-    describe('when user does not have a SUPER_ADMIN role', function () {
-      const method = 'PATCH';
-      const payload = {
-        data: {
-          attributes: {
-            name: 'Not Pix Admin',
-            description: null,
-            comment: null,
-            category: 'OTHER',
-          },
-        },
-      };
-      const url = '/api/admin/target-profiles/9999999';
-
-      it('should resolve a 403 HTTP response', async function () {
-        //Given
+    context('when user has role "SUPER_ADMIN", "SUPPORT" or "METIER"', function () {
+      it('should return a response with an HTTP status code 204', async function () {
+        // given
         sinon
           .stub(securityPreHandlers, 'userHasAtLeastOneAccessOf')
-          .returns((request, h) => h.response().code(403).takeover());
+          .withArgs([
+            securityPreHandlers.checkUserHasRoleSuperAdmin,
+            securityPreHandlers.checkUserHasRoleSupport,
+            securityPreHandlers.checkUserHasRoleMetier,
+          ])
+          .callsFake(() => (request, h) => h.response(true));
+        sinon
+          .stub(targetProfileController, 'updateTargetProfile')
+          .callsFake((request, h) => h.response('ok').code(204));
         const httpTestServer = new HttpTestServer();
         await httpTestServer.register(moduleUnderTest);
 
         // when
-        const response = await httpTestServer.request(method, url, payload);
+        const { statusCode } = await httpTestServer.request(method, url, payload);
 
         // then
-        expect(response.statusCode).to.equal(403);
+        expect(statusCode).to.equal(204);
+      });
+
+      it('should return a 400 error when description is over than 500 characters', async function () {
+        // given
+        const httpTestServer = new HttpTestServer();
+        const description = 'description changée.';
+        await httpTestServer.register(moduleUnderTest);
+
+        // when
+        const { statusCode } = await httpTestServer.request(method, url, {
+          data: {
+            attributes: {
+              name: 'test',
+              description: description.repeat(26),
+              comment: null,
+            },
+          },
+        });
+
+        // then
+        expect(statusCode).to.equal(400);
+      });
+
+      it('should return a 400 error when comment is over than 500 characters', async function () {
+        // given
+        const httpTestServer = new HttpTestServer();
+        const comment = 'commentaire changé.';
+        await httpTestServer.register(moduleUnderTest);
+
+        // when
+        const { statusCode } = await httpTestServer.request(method, url, {
+          data: {
+            attributes: {
+              name: 'test',
+              description: 'good',
+              comment: comment.repeat(27),
+            },
+          },
+        });
+
+        // then
+        expect(statusCode).to.equal(400);
+      });
+
+      it('should return a 400 error when the name is not defined', async function () {
+        // given
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        // when
+        const { statusCode } = await httpTestServer.request(method, url, {
+          data: {
+            attributes: {
+              name: undefined,
+            },
+          },
+        });
+
+        // then
+        expect(statusCode).to.equal(400);
+      });
+    });
+
+    context('when user has role "CERTIF"', function () {
+      it('should return a response with an HTTP status code 403', async function () {
+        // given
+        sinon
+          .stub(securityPreHandlers, 'userHasAtLeastOneAccessOf')
+          .withArgs([
+            securityPreHandlers.checkUserHasRoleSuperAdmin,
+            securityPreHandlers.checkUserHasRoleSupport,
+            securityPreHandlers.checkUserHasRoleMetier,
+          ])
+          .callsFake(
+            () => (request, h) =>
+              h
+                .response({ errors: new Error('forbidden') })
+                .code(403)
+                .takeover()
+          );
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        // when
+        const { statusCode } = await httpTestServer.request(method, url, payload);
+
+        // then
+        expect(statusCode).to.equal(403);
       });
     });
   });
