@@ -82,7 +82,6 @@ exports.register = async (server) => {
             method: (request, h) =>
               securityPreHandlers.userHasAtLeastOneAccessOf([
                 securityPreHandlers.checkUserHasRoleSuperAdmin,
-                securityPreHandlers.checkUserHasRoleCertif,
                 securityPreHandlers.checkUserHasRoleSupport,
                 securityPreHandlers.checkUserHasRoleMetier,
               ])(request, h),
@@ -95,7 +94,7 @@ exports.register = async (server) => {
           }),
         },
         handler: targetProfileController.findTargetProfileBadges,
-        tags: ['api', 'target-profiles', 'badges'],
+        tags: ['api', 'admin', 'target-profiles', 'badges'],
         notes: [
           "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n" +
             '- Elle permet de récupérer les badges attachés au profil cible',
