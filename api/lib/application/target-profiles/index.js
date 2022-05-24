@@ -179,7 +179,6 @@ exports.register = async (server) => {
             method: (request, h) =>
               securityPreHandlers.userHasAtLeastOneAccessOf([
                 securityPreHandlers.checkUserHasRoleSuperAdmin,
-                securityPreHandlers.checkUserHasRoleCertif,
                 securityPreHandlers.checkUserHasRoleSupport,
                 securityPreHandlers.checkUserHasRoleMetier,
               ])(request, h),
@@ -210,7 +209,7 @@ exports.register = async (server) => {
           },
         },
         handler: targetProfileController.createTargetProfile,
-        tags: ['api', 'target-profiles', 'create'],
+        tags: ['api', 'admin', 'target-profiles', 'create'],
         notes: [
           "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n" +
             "- Elle permet de créer un profil cible avec ses acquis ainsi qu'un gabarit de ce profil cible",

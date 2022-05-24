@@ -266,106 +266,174 @@ describe('Unit | Application | Target Profiles | Routes', function () {
     });
   });
 
-  describe('POST /api/target-profiles', function () {
-    it('should resolve with owner organization id to null', async function () {
-      // given
-      sinon.stub(securityPreHandlers, 'userHasAtLeastOneAccessOf').returns(() => true);
-      sinon.stub(targetProfileController, 'createTargetProfile').callsFake((request, h) => h.response('ok').code(200));
-      const httpTestServer = new HttpTestServer();
-      await httpTestServer.register(moduleUnderTest);
-
-      const method = 'POST';
-      const url = '/api/admin/target-profiles';
-      const payload = {
-        data: {
-          attributes: {
-            name: 'MyTargetProfile',
-            'owner-organization-id': null,
-            'image-url': null,
-            'is-public': false,
-            'skill-ids': ['skill1', 'skill2'],
-            comment: 'comment',
-            'template-tubes': [
-              {
-                id: 'tube1',
-                level: 7,
-              },
-            ],
-          },
+  describe('POST /api/admin/target-profiles', function () {
+    const method = 'POST';
+    const url = '/api/admin/target-profiles';
+    const payload = {
+      data: {
+        attributes: {
+          name: 'MyTargetProfile',
+          'owner-organization-id': null,
+          'image-url': null,
+          'is-public': false,
+          'skill-ids': ['skill1', 'skill2'],
+          comment: 'comment',
+          'template-tubes': [
+            {
+              id: 'tube1',
+              level: 7,
+            },
+          ],
         },
-      };
+      },
+    };
 
-      // when
-      const response = await httpTestServer.request(method, url, payload);
+    context('when user has role "SUPER_ADMIN", "SUPPORT" or "METIER"', function () {
+      it('should return a response with an HTTP status code 200', async function () {
+        // given
+        sinon
+          .stub(securityPreHandlers, 'userHasAtLeastOneAccessOf')
+          .withArgs([
+            securityPreHandlers.checkUserHasRoleSuperAdmin,
+            securityPreHandlers.checkUserHasRoleSupport,
+            securityPreHandlers.checkUserHasRoleMetier,
+          ])
+          .callsFake(() => (request, h) => h.response(true));
+        sinon
+          .stub(targetProfileController, 'createTargetProfile')
+          .callsFake((request, h) => h.response('ok').code(200));
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
 
-      // then
-      expect(response.statusCode).to.equal(200);
+        // when
+        const { statusCode } = await httpTestServer.request(method, url, payload);
+
+        // then
+        expect(statusCode).to.equal(200);
+      });
+
+      it('should resolve with owner organization id to null', async function () {
+        // given
+        sinon.stub(securityPreHandlers, 'userHasAtLeastOneAccessOf').returns(() => true);
+        sinon
+          .stub(targetProfileController, 'createTargetProfile')
+          .callsFake((request, h) => h.response('ok').code(200));
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        // when
+        const { statusCode } = await httpTestServer.request(method, url, {
+          data: {
+            attributes: {
+              name: 'MyTargetProfile',
+              'owner-organization-id': null,
+              'image-url': null,
+              'is-public': false,
+              'skill-ids': ['skill1', 'skill2'],
+              comment: 'comment',
+              'template-tubes': [
+                {
+                  id: 'tube1',
+                  level: 7,
+                },
+              ],
+            },
+          },
+        });
+
+        // then
+        expect(statusCode).to.equal(200);
+      });
+
+      it('should resolve with owner organization id to empty', async function () {
+        // given
+        sinon.stub(securityPreHandlers, 'userHasAtLeastOneAccessOf').returns(() => true);
+        sinon
+          .stub(targetProfileController, 'createTargetProfile')
+          .callsFake((request, h) => h.response('ok').code(200));
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        // when
+        const { statusCode } = await httpTestServer.request(method, url, {
+          data: {
+            attributes: {
+              name: 'MyTargetProfile',
+              'owner-organization-id': '',
+              'image-url': null,
+              'is-public': false,
+              'skill-ids': ['skill1', 'skill2'],
+              comment: 'comment',
+              'template-tubes': [
+                {
+                  id: 'tube1',
+                  level: 7,
+                },
+              ],
+            },
+          },
+        });
+
+        // then
+        expect(statusCode).to.equal(200);
+      });
+
+      it('should reject with alphanumeric owner organization id ', async function () {
+        // given
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        // when
+        const { statusCode } = await httpTestServer.request(method, url, {
+          data: {
+            attributes: {
+              name: 'MyTargetProfile',
+              'owner-organization-id': 'ABC',
+              'image-url': null,
+              'is-public': false,
+              'skill-ids': ['skill1', 'skill2'],
+              comment: 'comment',
+              'template-tubes': [
+                {
+                  id: 'tube1',
+                  level: 7,
+                },
+              ],
+            },
+          },
+        });
+
+        // then
+        expect(statusCode).to.equal(400);
+      });
     });
 
-    it('should resolve with owner organization id to empty', async function () {
-      // given
-      sinon.stub(securityPreHandlers, 'userHasAtLeastOneAccessOf').returns(() => true);
-      sinon.stub(targetProfileController, 'createTargetProfile').callsFake((request, h) => h.response('ok').code(200));
-      const httpTestServer = new HttpTestServer();
-      await httpTestServer.register(moduleUnderTest);
+    context('when user has role "CERTIF"', function () {
+      it('should return a response with an HTTP status code 403', async function () {
+        // given
+        sinon
+          .stub(securityPreHandlers, 'userHasAtLeastOneAccessOf')
+          .withArgs([
+            securityPreHandlers.checkUserHasRoleSuperAdmin,
+            securityPreHandlers.checkUserHasRoleSupport,
+            securityPreHandlers.checkUserHasRoleMetier,
+          ])
+          .callsFake(
+            () => (request, h) =>
+              h
+                .response({ errors: new Error('forbidden') })
+                .code(403)
+                .takeover()
+          );
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
 
-      const method = 'POST';
-      const url = '/api/admin/target-profiles';
-      const payload = {
-        data: {
-          attributes: {
-            name: 'MyTargetProfile',
-            'owner-organization-id': '',
-            'image-url': null,
-            'is-public': false,
-            'skill-ids': ['skill1', 'skill2'],
-            comment: 'comment',
-            'template-tubes': [
-              {
-                id: 'tube1',
-                level: 7,
-              },
-            ],
-          },
-        },
-      };
-      // when
-      const response = await httpTestServer.request(method, url, payload);
+        // when
+        const { statusCode } = await httpTestServer.request(method, url, payload);
 
-      // then
-      expect(response.statusCode).to.equal(200);
-    });
-
-    it('should reject with alphanumeric owner organization id ', async function () {
-      // given
-      const httpTestServer = new HttpTestServer();
-      await httpTestServer.register(moduleUnderTest);
-
-      const method = 'POST';
-      const url = '/api/admin/target-profiles';
-      const payload = {
-        data: {
-          attributes: {
-            name: 'MyTargetProfile',
-            'owner-organization-id': 'ABC',
-            'image-url': null,
-            'is-public': false,
-            'skill-ids': ['skill1', 'skill2'],
-            comment: 'comment',
-            'template-tubes': [
-              {
-                id: 'tube1',
-                level: 7,
-              },
-            ],
-          },
-        },
-      };
-      // when
-      const response = await httpTestServer.request(method, url, payload);
-
-      // then
-      expect(response.statusCode).to.equal(400);
+        // then
+        expect(statusCode).to.equal(403);
+      });
     });
   });
 
