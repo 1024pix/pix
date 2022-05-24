@@ -1,10 +1,9 @@
-import { expect } from 'chai';
 import { describe, it, beforeEach } from 'mocha';
-import { setupTest } from 'ember-mocha';
 import sinon from 'sinon';
+import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 
 describe('Unit | Controller | terms-of-service-pole-emploi', function () {
-  setupTest();
+  setupIntlRenderingTest();
   let controller;
 
   describe('#action submit', function () {
@@ -15,41 +14,17 @@ describe('Unit | Controller | terms-of-service-pole-emploi', function () {
       };
     });
 
-    it('it should save the acceptance date of the last terms of service', async function () {
-      // when
-      controller.isTermsOfServiceValidated = true;
-      controller.showErrorTermsOfServiceNotSelected = false;
+    it('should save the acceptance date of the last terms of service', async function () {
+      // given
       controller.authenticationKey = 'authenticationKey';
-      await controller.send('submit');
+
+      // when
+      await controller.send('createSession');
 
       // then
       sinon.assert.calledWith(controller.session.authenticate, 'authenticator:pole-emploi', {
         authenticationKey: 'authenticationKey',
       });
-      expect(controller.showErrorTermsOfServiceNotSelected).to.be.false;
-    });
-
-    it('it should show an error to user to validate terms of service ', async function () {
-      // when
-      controller.isTermsOfServiceValidated = false;
-      controller.showErrorTermsOfServiceNotSelected = false;
-      await controller.send('submit');
-
-      // then
-      expect(controller.showErrorTermsOfServiceNotSelected).to.be.true;
-    });
-
-    it('it should show an error expired authentication key', async function () {
-      // given
-      controller.session.authenticate.rejects();
-      controller.isTermsOfServiceValidated = true;
-      controller.showErrorTermsOfServiceExpiredAuthenticatedKey = false;
-
-      // when
-      await controller.send('submit');
-
-      // then
-      expect(controller.showErrorTermsOfServiceExpiredAuthenticatedKey).to.be.true;
     });
   });
 });
