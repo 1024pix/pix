@@ -286,7 +286,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
           complementaryCertificationCourseResultsWithExternal,
         });
 
-        this.server.post('/complementary-certification-course-results', (schema) => {
+        this.server.post('/admin/complementary-certification-course-results', (schema) => {
           const complementaryCertificationCourseResultsWithExternal =
             schema.complementaryCertificationCourseResultsWithExternals.first();
 

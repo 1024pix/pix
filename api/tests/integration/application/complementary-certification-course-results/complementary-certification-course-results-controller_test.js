@@ -51,7 +51,7 @@ describe('Integration | Application | complementary-certification-course-results
           // when
           const response = await httpTestServer.request(
             'POST',
-            '/api/complementary-certification-course-results',
+            '/api/admin/complementary-certification-course-results',
             payload
           );
 
@@ -79,7 +79,7 @@ describe('Integration | Application | complementary-certification-course-results
           // when
           const response = await httpTestServer.request(
             'POST',
-            '/api/complementary-certification-course-results',
+            '/api/admin/complementary-certification-course-results',
             payload
           );
 
@@ -106,7 +106,7 @@ describe('Integration | Application | complementary-certification-course-results
           // when
           const response = await httpTestServer.request(
             'POST',
-            '/api/complementary-certification-course-results',
+            '/api/admin/complementary-certification-course-results',
             payload
           );
 
