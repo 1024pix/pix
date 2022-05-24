@@ -5,3 +5,4 @@ postdeploy: npm run postdeploy
 # and https://github.com/npm/npm/issues/4603
 # for more information
 web: exec node bin/www
+worker: npm run start:job
