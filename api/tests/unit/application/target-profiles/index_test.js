@@ -847,43 +847,75 @@ describe('Unit | Application | Target Profiles | Routes', function () {
     });
   });
 
-  describe('PUT /api/target-profiles/{:id}/outdate', function () {
-    it('should exist', async function () {
-      // given
-      sinon.stub(securityPreHandlers, 'userHasAtLeastOneAccessOf').returns(() => true);
-      sinon.stub(targetProfileController, 'outdateTargetProfile').callsFake((request, h) => h.response('ok').code(204));
-      const httpTestServer = new HttpTestServer();
-      await httpTestServer.register(moduleUnderTest);
+  describe('PUT /api/admin/target-profiles/{id}/outdate', function () {
+    const method = 'PUT';
+    const url = '/api/admin/target-profiles/123/outdate';
+    const payload = {};
 
-      const method = 'PUT';
-      const payload = {};
-      const url = '/api/admin/target-profiles/123/outdate';
-
-      // when
-      const response = await httpTestServer.request(method, url, payload);
-
-      // then
-      expect(response.statusCode).to.equal(204);
-    });
-
-    describe('when user does not have a SUPER_ADMIN role', function () {
-      const method = 'PUT';
-      const payload = {};
-      const url = '/api/admin/target-profiles/9999999/outdate';
-
-      it('should resolve a 403 HTTP response', async function () {
-        //Given
+    context('when user has role "SUPER_ADMIN", "SUPPORT" or "METIER"', function () {
+      it('should return a response with an HTTP status code 204', async function () {
+        // given
         sinon
           .stub(securityPreHandlers, 'userHasAtLeastOneAccessOf')
-          .returns((request, h) => h.response().code(403).takeover());
+          .withArgs([
+            securityPreHandlers.checkUserHasRoleSuperAdmin,
+            securityPreHandlers.checkUserHasRoleSupport,
+            securityPreHandlers.checkUserHasRoleMetier,
+          ])
+          .callsFake(() => (request, h) => h.response(true));
+        sinon
+          .stub(targetProfileController, 'outdateTargetProfile')
+          .callsFake((request, h) => h.response('ok').code(204));
         const httpTestServer = new HttpTestServer();
         await httpTestServer.register(moduleUnderTest);
 
         // when
-        const response = await httpTestServer.request(method, url, payload);
+        const { statusCode } = await httpTestServer.request(method, url, payload);
 
         // then
-        expect(response.statusCode).to.equal(403);
+        expect(statusCode).to.equal(204);
+      });
+
+      context('when target profile ID is invalid', function () {
+        it('should reject request with HTTP code 400', async function () {
+          // given
+          const httpTestServer = new HttpTestServer();
+          await httpTestServer.register(moduleUnderTest);
+
+          // when
+          const { statusCode } = await httpTestServer.request(method, '/api/admin/target-profiles/azerty/outdate');
+
+          // then
+          expect(statusCode).to.equal(400);
+        });
+      });
+    });
+
+    context('when user has role "CERTIF"', function () {
+      it('should return a response with an HTTP status code 403', async function () {
+        // given
+        sinon
+          .stub(securityPreHandlers, 'userHasAtLeastOneAccessOf')
+          .withArgs([
+            securityPreHandlers.checkUserHasRoleSuperAdmin,
+            securityPreHandlers.checkUserHasRoleSupport,
+            securityPreHandlers.checkUserHasRoleMetier,
+          ])
+          .callsFake(
+            () => (request, h) =>
+              h
+                .response({ errors: new Error('forbidden') })
+                .code(403)
+                .takeover()
+          );
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        // when
+        const { statusCode } = await httpTestServer.request(method, url, payload);
+
+        // then
+        expect(statusCode).to.equal(403);
       });
     });
   });
