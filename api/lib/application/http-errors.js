@@ -48,10 +48,11 @@ class MissingQueryParamError extends BaseHttpError {
 }
 
 class NotFoundError extends BaseHttpError {
-  constructor(message, title) {
+  constructor(message, code, title) {
     super(message);
     this.title = title || 'Not Found';
     this.status = 404;
+    this.code = code;
   }
 }
 

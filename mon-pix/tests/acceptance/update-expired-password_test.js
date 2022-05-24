@@ -80,6 +80,27 @@ describe('Acceptance | Update Expired Password', function () {
     expect(contains(expectedErrorMessage)).to.exist;
   });
 
+  it('should display error message when update password fails with http 404 error', async function () {
+    // given
+    this.server.post('/expired-password-updates', () => {
+      return new Response(
+        401,
+        {},
+        {
+          errors: [{ status: '404', code: 'USER_ACCOUNT_NOT_FOUND' }],
+        }
+      );
+    });
+
+    await fillIn('#password', 'newPass12345!');
+
+    // when
+    await clickByLabel(this.intl.t('pages.update-expired-password.button'));
+
+    // then
+    expect(this.intl.t('common.error')).to.exist;
+  });
+
   it('should display error message when update password fails', async function () {
     // given
     const expectedErrorMessage = this.intl.t('api-error-messages.internal-server-error');

@@ -118,7 +118,7 @@ function _mapToHttpError(error) {
     return new HttpErrors.NotFoundError(error.message);
   }
   if (error instanceof DomainErrors.NotFoundError) {
-    return new HttpErrors.NotFoundError(error.message);
+    return new HttpErrors.NotFoundError(error.message, error.code);
   }
   if (error instanceof DomainErrors.CampaignCodeError) {
     return new HttpErrors.NotFoundError(error.message);

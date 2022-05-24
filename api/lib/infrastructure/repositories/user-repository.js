@@ -1,6 +1,6 @@
 const moment = require('moment');
 const { knex } = require('../../../db/knex-database-connection');
-
+const logger = require('../../infrastructure/logger');
 const DomainTransaction = require('../DomainTransaction');
 const BookshelfUser = require('../orm-models/User');
 const { isUniqConstraintViolated } = require('../utils/knex-utils');
@@ -55,6 +55,12 @@ module.exports = {
       })
       .then((foundUser) => {
         if (foundUser === null) {
+          logger.warn(
+            {
+              username,
+            },
+            'Trying to change his password with incorrect username'
+          );
           return Promise.reject(new UserNotFoundError());
         }
         return _toDomain(foundUser);
