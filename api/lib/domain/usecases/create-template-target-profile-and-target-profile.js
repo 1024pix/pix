@@ -1,18 +1,18 @@
 const TargetProfileForCreation = require('../models/TargetProfileForCreation');
 
 module.exports = async function createTemplateTargetProfile({
-  targetProfileTemplate,
+  targetProfileTemplateData,
   targetProfileData,
   targetProfileRepository,
   targetProfileWithLearningContentRepository,
 }) {
   const targetProfileForCreation = new TargetProfileForCreation(targetProfileData);
   const createdTargetProfileTemplate = await targetProfileRepository.createTemplateAndTargetProfile({
-    targetProfileTemplate,
+    targetProfileTemplate: targetProfileTemplateData,
     targetProfileForCreation,
   });
   const targetProfileWithLearningContent = await targetProfileWithLearningContentRepository.get({
-    id: createdTargetProfileTemplate.targetProfiles[0].id,
+    id: createdTargetProfileTemplate.targetProfileIds[0],
   });
   return {
     ...createdTargetProfileTemplate,

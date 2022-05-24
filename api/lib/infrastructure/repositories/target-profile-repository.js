@@ -181,7 +181,7 @@ module.exports = {
         }));
 
         const savedTubes = await knex.batchInsert('target-profile-templates_tubes', tubes).returning('*');
-        const savedTargetProfile = await _createTargetProfile({
+        const savedTargetProfileId = await _createTargetProfile({
           trx,
           targetProfileForCreation: {
             ...targetProfileForCreation,
@@ -190,7 +190,7 @@ module.exports = {
         });
         return new TargetProfileTemplate({
           id: targetProfileTemplateId,
-          targetProfiles: [savedTargetProfile],
+          targetProfileIds: [savedTargetProfileId],
           tubes: savedTubes.map((tube) => ({
             id: tube.tubeId,
             level: tube.level,
