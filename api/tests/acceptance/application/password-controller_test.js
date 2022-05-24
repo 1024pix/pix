@@ -196,6 +196,7 @@ describe('Acceptance | Controller | password-controller', function () {
 
           // then
           expect(response.statusCode).to.equal(404);
+          expect(response.result.errors[0].code).to.equal('USER_ACCOUNT_NOT_FOUND');
         });
       });
 
@@ -212,7 +213,7 @@ describe('Acceptance | Controller | password-controller', function () {
         });
       });
 
-      context('when shoulChangePassword is false', function () {
+      context('when shouldChangePassword is false', function () {
         it('should respond 403 HTTP status code', async function () {
           // given
           const username = 'jean.oubliejamais0105';
