@@ -19,7 +19,7 @@ describe('Unit | UseCase | create-target-profile', function () {
   it('should create template target profile and target profile with skills given data', async function () {
     //given
     const skillIds = ['skill1-tube1', 'skill3-tube1'];
-    const targetProfileTemplate = {
+    const targetProfileTemplateData = {
       tubes: [
         {
           id: 'tube1',
@@ -42,12 +42,12 @@ describe('Unit | UseCase | create-target-profile', function () {
     const targetProfileTemplateId = 'targetProfileTemplate_1';
     const targetTemplateProfileStubResult = {
       id: targetProfileTemplateId,
-      targetProfiles: [{ id: targetProfileId }],
+      targetProfileIds: [targetProfileId],
     };
     const targetProfileForCreation = new TargetProfileForCreation(targetProfileData);
 
     targetProfileRepositoryStub.createTemplateAndTargetProfile
-      .withArgs({ targetProfileForCreation, targetProfileTemplate })
+      .withArgs({ targetProfileForCreation, targetProfileTemplate: targetProfileTemplateData })
       .resolves(targetTemplateProfileStubResult);
 
     targetProfileWithLearningContentRepositoryStub.get
@@ -56,14 +56,14 @@ describe('Unit | UseCase | create-target-profile', function () {
 
     //when
     const result = await createTemplateTargetProfile({
-      targetProfileTemplate,
+      targetProfileTemplateData,
       targetProfileData,
       targetProfileRepository: targetProfileRepositoryStub,
       targetProfileWithLearningContentRepository: targetProfileWithLearningContentRepositoryStub,
     });
 
     //then
-    expect(result).to.deep.equal({
+    expect(result).to.deep.contain({
       id: targetProfileTemplateId,
       targetProfiles: [targetProfileWithLearningContent],
     });
