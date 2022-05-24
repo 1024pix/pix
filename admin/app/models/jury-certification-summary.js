@@ -4,7 +4,6 @@ import Model, { attr } from '@ember-data/model';
 import find from 'lodash/find';
 import { certificationStatuses } from 'pix-admin/models/certification';
 
-const NOT_TAKEN = 'not_taken';
 export const ENDED_BY_SUPERVISOR = 'endedBySupervisor';
 export const juryCertificationSummaryStatuses = [{ value: ENDED_BY_SUPERVISOR, label: 'Terminée par le surveillant' }];
 
@@ -19,13 +18,7 @@ export default class JuryCertificationSummary extends Model {
   @attr() isPublished;
   @attr() examinerComment;
   @attr() hasSeenEndTestScreen;
-  @attr() cleaCertificationStatus;
-  @attr() pixPlusDroitMaitreCertificationStatus;
-  @attr() pixPlusDroitExpertCertificationStatus;
-  @attr() pixPlusEduInitieCertificationStatus;
-  @attr() pixPlusEduConfirmeCertificationStatus;
-  @attr() pixPlusEduAvanceCertificationStatus;
-  @attr() pixPlusEduExpertCertificationStatus;
+  @attr() complementaryCertificationTakenLabels;
   @attr() numberOfCertificationIssueReports;
   @attr() isFlaggedAborted;
   @attr() numberOfCertificationIssueReportsWithRequiredAction;
@@ -41,16 +34,7 @@ export default class JuryCertificationSummary extends Model {
   }
 
   get complementaryCertificationsLabel() {
-    const certifications = [];
-    if (this.cleaCertificationStatus !== NOT_TAKEN) certifications.push('CléA Numérique');
-    if (this.pixPlusDroitMaitreCertificationStatus !== NOT_TAKEN) certifications.push('Pix+ Droit Maître');
-    if (this.pixPlusDroitExpertCertificationStatus !== NOT_TAKEN) certifications.push('Pix+ Droit Expert');
-    if (this.pixPlusEduInitieCertificationStatus !== NOT_TAKEN)
-      certifications.push('Pix+ Édu Initié (entrée dans le métier)');
-    if (this.pixPlusEduConfirmeCertificationStatus !== NOT_TAKEN) certifications.push('Pix+ Édu Confirmé');
-    if (this.pixPlusEduAvanceCertificationStatus !== NOT_TAKEN) certifications.push('Pix+ Édu Avancé');
-    if (this.pixPlusEduExpertCertificationStatus !== NOT_TAKEN) certifications.push('Pix+ Édu Expert');
-    return certifications.join('\n');
+    return this.complementaryCertificationTakenLabels?.join('\n') ?? '';
   }
 
   @computed('numberOfCertificationIssueReportsWithRequiredAction')
