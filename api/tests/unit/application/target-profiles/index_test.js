@@ -4,7 +4,7 @@ const securityPreHandlers = require('../../../../lib/application/security-pre-ha
 const targetProfileController = require('../../../../lib/application/target-profiles/target-profile-controller');
 const moduleUnderTest = require('../../../../lib/application/target-profiles');
 
-describe('Integration | Application | Target Profiles | Routes', function () {
+describe('Unit | Application | Target Profiles | Routes', function () {
   describe('POST /api/target-profiles', function () {
     it('should resolve with owner organization id to null', async function () {
       // given
@@ -24,6 +24,12 @@ describe('Integration | Application | Target Profiles | Routes', function () {
             'is-public': false,
             'skill-ids': ['skill1', 'skill2'],
             comment: 'comment',
+            'template-tubes': [
+              {
+                id: 'tube1',
+                level: 7,
+              },
+            ],
           },
         },
       };
@@ -53,6 +59,12 @@ describe('Integration | Application | Target Profiles | Routes', function () {
             'is-public': false,
             'skill-ids': ['skill1', 'skill2'],
             comment: 'comment',
+            'template-tubes': [
+              {
+                id: 'tube1',
+                level: 7,
+              },
+            ],
           },
         },
       };
@@ -79,6 +91,12 @@ describe('Integration | Application | Target Profiles | Routes', function () {
             'is-public': false,
             'skill-ids': ['skill1', 'skill2'],
             comment: 'comment',
+            'template-tubes': [
+              {
+                id: 'tube1',
+                level: 7,
+              },
+            ],
           },
         },
       };

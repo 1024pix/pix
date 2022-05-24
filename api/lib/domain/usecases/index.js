@@ -215,6 +215,7 @@ module.exports = injectDependencies(
     createStage: require('./create-stage'),
     createTag: require('./create-tag'),
     createTargetProfile: require('./create-target-profile'),
+    createTemplateTargetProfile: require('./create-template-target-profile-and-target-profile'),
     createUser: require('./create-user'),
     createUserAndReconcileToOrganizationLearnerFromExternalUser: require('./create-user-and-reconcile-to-organization-learner-from-external-user'),
     createUserFromCnav: require('./authentication/create-user-from-cnav'),
