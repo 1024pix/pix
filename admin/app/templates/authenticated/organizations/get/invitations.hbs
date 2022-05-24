@@ -1,53 +1,65 @@
 {{page-title "Orga " @model.organization.id " | Invitations"}}
 
 <section class="page-section mb_10">
-  <h2 class="organization-invitations-heading">Inviter un membre</h2>
-  <div>Adresse e-mail du membre à inviter</div>
-  <input
-    value={{this.userEmailToInvite}}
-    {{on "change" this.onChangeUserEmailToInvite}}
-    class="organization-invitations-input"
-  />
+  <h1 class="organization-invitations-heading">Inviter un membre</h1>
+  <form>
+    <label for="emailInput">Adresse e-mail du membre à inviter</label>
+    <input
+      id="emailInput"
+      value={{this.userEmailToInvite}}
+      {{on "change" this.onChangeUserEmailToInvite}}
+      class="organization-invitations-input"
+      placeholder="user@example.net"
+    />
 
-  <select class="organization-invitations-select" {{on "change" this.changeOrganizationInvitationLang}}>
-    {{#each this.languagesOptions as |opt|}}
-      <option value={{opt.value}}>
-        {{opt.label}}
-      </option>
-    {{/each}}
-  </select>
+    <select
+      aria-label="Choisir la langue de l'email"
+      class="organization-invitations-select"
+      {{on "change" this.changeOrganizationInvitationLang}}
+    >
+      {{#each this.languagesOptions as |opt|}}
+        <option value={{opt.value}}>
+          {{opt.label}}
+        </option>
+      {{/each}}
+    </select>
 
-  <select
-    aria-label="Choisir le rôle du membre"
-    class="organization-invitations-select"
-    {{on "change" this.changeOrganizationInvitationRole}}
-  >
-    {{#each this.rolesOptions as |opt|}}
-      <option value={{opt.value}}>
-        {{opt.label}}
-      </option>
-    {{/each}}
-  </select>
+    <select
+      aria-label="Choisir le rôle du membre"
+      class="organization-invitations-select"
+      {{on "change" this.changeOrganizationInvitationRole}}
+    >
+      {{#each this.rolesOptions as |opt|}}
+        <option value={{opt.value}}>
+          {{opt.label}}
+        </option>
+      {{/each}}
+    </select>
 
-  <button {{on "click" this.createOrganizationInvitation}} class="organization-invitations-button" type="button">
-    Inviter
-  </button>
+    <button {{on "click" this.createOrganizationInvitation}} class="organization-invitations-button" type="button">
+      Inviter
+    </button>
+  </form>
 </section>
 
 <section class="page-section mb_10">
   <h2 class="organization-invitations-heading">Invitations</h2>
   <table class="table-admin">
-    <tr>
-      <td>Adresse e-mail</td>
-      <td>Rôle</td>
-      <td>Date de dernier envoi</td>
-    </tr>
-    {{#each this.sortedInvitations as |invitation|}}
-      <tr aria-label="Invitation en attente">
-        <td>{{invitation.email}}</td>
-        <td>{{invitation.roleInFrench}}</td>
-        <td>{{moment-format invitation.updatedAt "DD/MM/YYYY [-] HH:mm" locale="fr"}}</td>
+    <thead>
+      <tr>
+        <th>Adresse e-mail</th>
+        <th>Rôle</th>
+        <th>Date de dernier envoi</th>
       </tr>
-    {{/each}}
+    </thead>
+    <tbody>
+      {{#each this.sortedInvitations as |invitation|}}
+        <tr aria-label="Invitation en attente">
+          <td>{{invitation.email}}</td>
+          <td>{{invitation.roleInFrench}}</td>
+          <td>{{moment-format invitation.updatedAt "DD/MM/YYYY [-] HH:mm" locale="fr"}}</td>
+        </tr>
+      {{/each}}
+    </tbody>
   </table>
 </section>
