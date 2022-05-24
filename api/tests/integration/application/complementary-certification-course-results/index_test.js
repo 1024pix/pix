@@ -16,7 +16,7 @@ describe('Integration | Application | Route | Certifications', function () {
     await httpTestServer.register(moduleUnderTest);
   });
 
-  describe('POST /api/complementary-certification-course-results', function () {
+  describe('POST /api/admin/complementary-certification-course-results', function () {
     it('should exist', async function () {
       // given
       const payload = {
@@ -28,7 +28,11 @@ describe('Integration | Application | Route | Certifications', function () {
         },
       };
       // when
-      const response = await httpTestServer.request('POST', '/api/complementary-certification-course-results', payload);
+      const response = await httpTestServer.request(
+        'POST',
+        '/api/admin/complementary-certification-course-results',
+        payload
+      );
 
       // then
       expect(response.statusCode).to.equal(200);

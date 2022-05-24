@@ -42,7 +42,7 @@ export default class Certification extends ApplicationAdapter {
     }
 
     if (requestType === 'edit-jury-level') {
-      return `${this.host}/${this.namespace}/complementary-certification-course-results`;
+      return `${this.host}/${this.namespace}/admin/complementary-certification-course-results`;
     }
     return super.buildURL(modelName, id, snapshot, requestType, query);
   }

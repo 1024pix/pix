@@ -133,7 +133,7 @@ module('Unit | Adapter | certification', function (hooks) {
       const url = adapter.buildURL('not_used', 'not_used', 'not_used', 'edit-jury-level', 'not_used');
 
       // then
-      assert.strictEqual(url, 'http://localhost:3000/api/complementary-certification-course-results');
+      assert.strictEqual(url, 'http://localhost:3000/api/admin/complementary-certification-course-results');
     });
   });
 });
