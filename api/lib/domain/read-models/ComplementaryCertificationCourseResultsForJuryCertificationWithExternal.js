@@ -87,6 +87,47 @@ class ComplementaryCertificationCourseResultsForJuryCertificationWithExternal {
     throw new Error(`Badges edu incoherent !!! ${this.pixSection.partnerKey} et ${this.externalSection.partnerKey}`);
   }
 
+  get allowedExternalLevels() {
+    const partnerKey = this.pixSection.partnerKey;
+    let filteredBadges;
+    if (this._isInitial1stDegree(partnerKey)) {
+      filteredBadges = pixEdu1stDegreeBadges.filter(this._isInitial1stDegree);
+    }
+    if (this._isContinue1stDegree(partnerKey)) {
+      filteredBadges = pixEdu1stDegreeBadges.filter(this._isContinue1stDegree);
+    }
+    if (this._isInitial2ndDegree(partnerKey)) {
+      filteredBadges = pixEdu2ndDegreeBadges.filter(this._isInitial2ndDegree);
+    }
+    if (this._isContinue2ndDegree(partnerKey)) {
+      filteredBadges = pixEdu2ndDegreeBadges.filter(this._isContinue2ndDegree);
+    }
+
+    if (!filteredBadges.length) {
+      throw new Error('Unknown pix level');
+    }
+
+    return filteredBadges.map((badge) => {
+      return {
+        label: getLabelByBadgeKey(badge),
+        value: badge,
+      };
+    });
+  }
+
+  _isInitial1stDegree(partnerKey) {
+    return partnerKey.startsWith('PIX_EDU_FORMATION_INITIALE_1ER_DEGRE');
+  }
+  _isContinue1stDegree(partnerKey) {
+    return partnerKey.startsWith('PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE');
+  }
+  _isInitial2ndDegree(partnerKey) {
+    return partnerKey.startsWith('PIX_EDU_FORMATION_INITIALE_2ND_DEGRE');
+  }
+  _isContinue2ndDegree(partnerKey) {
+    return partnerKey.startsWith('PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE');
+  }
+
   _getLowestPartnerKeyLabelForPixEdu2ndDegreBadge() {
     const firstIndexOf = pixEdu2ndDegreeBadges.indexOf(this.pixSection.partnerKey);
     const secondIndexOf = pixEdu2ndDegreeBadges.indexOf(this.externalSection.partnerKey);
