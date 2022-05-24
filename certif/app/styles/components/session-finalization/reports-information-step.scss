@@ -58,7 +58,19 @@
     display: flex;
 
     .add-button {
-      font-size: 13px;
+      color: $grey-70;
+      display: flex;
+      gap: 4px;
+      align-items: center;
+
+      svg {
+        font-size: 1.125rem;
+      }
+    }
+
+    p {
+      color: $grey-70;
+      font-weight: 700;
     }
   }
 
