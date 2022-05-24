@@ -54,7 +54,6 @@ exports.register = async (server) => {
             method: (request, h) =>
               securityPreHandlers.userHasAtLeastOneAccessOf([
                 securityPreHandlers.checkUserHasRoleSuperAdmin,
-                securityPreHandlers.checkUserHasRoleCertif,
                 securityPreHandlers.checkUserHasRoleSupport,
                 securityPreHandlers.checkUserHasRoleMetier,
               ])(request, h),
@@ -67,7 +66,7 @@ exports.register = async (server) => {
           }),
         },
         handler: targetProfileController.getTargetProfileDetails,
-        tags: ['api', 'target-profiles'],
+        tags: ['api', 'admin', 'target-profiles'],
         notes: [
           "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n" +
             '- Elle permet de récupérer toutes les informations d’un profil cible',
