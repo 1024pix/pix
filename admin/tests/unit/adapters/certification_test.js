@@ -117,9 +117,7 @@ module('Unit | Adapter | certification', function (hooks) {
       const url = adapter.buildURL('not_used', 123, 'not_used', 'cancel', 'not_used');
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(url, 'http://localhost:3000/api/admin/certification-courses/123/cancel');
+      assert.strictEqual(url, 'http://localhost:3000/api/admin/certification-courses/123/cancel');
     });
 
     test('it should build specific URL when requestType is "uncancel"', function (assert) {
@@ -127,9 +125,15 @@ module('Unit | Adapter | certification', function (hooks) {
       const url = adapter.buildURL('not_used', 123, 'not_used', 'uncancel', 'not_used');
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(url, 'http://localhost:3000/api/admin/certification-courses/123/uncancel');
+      assert.strictEqual(url, 'http://localhost:3000/api/admin/certification-courses/123/uncancel');
+    });
+
+    test('it should build specific URL when requestType is "edit-jury-level"', function (assert) {
+      // when
+      const url = adapter.buildURL('not_used', 'not_used', 'not_used', 'edit-jury-level', 'not_used');
+
+      // then
+      assert.strictEqual(url, 'http://localhost:3000/api/admin/complementary-certification-course-results');
     });
   });
 });

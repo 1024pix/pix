@@ -146,4 +146,19 @@ export default class Certification extends Model {
     type: 'post',
     urlType: 'uncancel',
   });
+
+  editJuryLevel = memberAction({
+    type: 'post',
+    urlType: 'edit-jury-level',
+    before(attributes) {
+      return {
+        data: {
+          attributes,
+        },
+      };
+    },
+    after() {
+      this.reload();
+    },
+  });
 }
