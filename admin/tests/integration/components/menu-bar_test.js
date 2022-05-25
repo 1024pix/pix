@@ -7,11 +7,45 @@ module('Integration | Component | menu-bar', function (hooks) {
   setupRenderingTest(hooks);
 
   test('should contain link to "organizations" management page', async function (assert) {
+    // given
+    const currentUser = this.owner.lookup('service:currentUser');
+    currentUser.adminMember = { isSuperAdmin: true };
+
     // when
     const screen = await render(hbs`{{menu-bar}}`);
 
     // then
     assert.dom(screen.getByTitle('Organisations')).exists();
+  });
+
+  module('Target Profiles tab', function () {
+    module('when admin member have "SUPER_ADMIN", "SUPPORT" or "METIER" as role', function () {
+      test('should contain link to "Target Profiles" page', async function (assert) {
+        // given
+        const currentUser = this.owner.lookup('service:currentUser');
+        currentUser.adminMember = { isSuperAdmin: true };
+
+        // when
+        const screen = await render(hbs`{{menu-bar}}`);
+
+        // then
+        assert.dom(screen.getByTitle('Profils cibles')).exists();
+      });
+    });
+
+    module('when admin member have "CERTIF" as role', function () {
+      test('should not contain link to "Target Profiles" management page', async function (assert) {
+        // given
+        const currentUser = this.owner.lookup('service:currentUser');
+        currentUser.adminMember = { isCertif: true };
+
+        // when
+        const screen = await render(hbs`{{menu-bar}}`);
+
+        // then
+        assert.dom(screen.queryByTitle('Profils cibles')).doesNotExist();
+      });
+    });
   });
 
   module('Team tab', function () {
@@ -41,6 +75,10 @@ module('Integration | Component | menu-bar', function (hooks) {
   });
 
   test('should contain link to "users" management page', async function (assert) {
+    // given
+    const currentUser = this.owner.lookup('service:currentUser');
+    currentUser.adminMember = { isSuperAdmin: true };
+
     // when
     const screen = await render(hbs`{{menu-bar}}`);
 
@@ -49,6 +87,10 @@ module('Integration | Component | menu-bar', function (hooks) {
   });
 
   test('should contain link to "sessions" management page', async function (assert) {
+    // given
+    const currentUser = this.owner.lookup('service:currentUser');
+    currentUser.adminMember = { isSuperAdmin: true };
+
     // when
     const screen = await render(hbs`{{menu-bar}}`);
 
@@ -57,6 +99,10 @@ module('Integration | Component | menu-bar', function (hooks) {
   });
 
   test('should contain link to "certifications" management page', async function (assert) {
+    // given
+    const currentUser = this.owner.lookup('service:currentUser');
+    currentUser.adminMember = { isSuperAdmin: true };
+
     // when
     const screen = await render(hbs`{{menu-bar}}`);
 
@@ -65,19 +111,15 @@ module('Integration | Component | menu-bar', function (hooks) {
   });
 
   test('should contain link to "certification centers" management page', async function (assert) {
+    // given
+    const currentUser = this.owner.lookup('service:currentUser');
+    currentUser.adminMember = { isSuperAdmin: true };
+
     // when
     const screen = await render(hbs`{{menu-bar}}`);
 
     // then
     assert.dom(screen.getByTitle('Centres de certification')).exists();
-  });
-
-  test('should contain link to "target-profiles" management page', async function (assert) {
-    // when
-    const screen = await render(hbs`{{menu-bar}}`);
-
-    // then
-    assert.dom(screen.getByTitle('Profils cibles')).exists();
   });
 
   module('Tools tab', function () {
@@ -111,6 +153,10 @@ module('Integration | Component | menu-bar', function (hooks) {
   });
 
   test('should contain link to "logout"', async function (assert) {
+    // given
+    const currentUser = this.owner.lookup('service:currentUser');
+    currentUser.adminMember = { isSuperAdmin: true };
+
     // when
     const screen = await render(hbs`{{menu-bar}}`);
 
