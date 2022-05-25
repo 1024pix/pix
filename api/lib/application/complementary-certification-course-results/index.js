@@ -8,7 +8,7 @@ exports.register = async function (server) {
   server.route([
     {
       method: 'POST',
-      path: '/api/complementary-certification-course-results',
+      path: '/api/admin/complementary-certification-course-results',
       config: {
         validate: {
           payload: Joi.object({
@@ -45,7 +45,7 @@ exports.register = async function (server) {
           '- **Cette route est restreinte aux utilisateurs Super Admin authentifiés**\n',
           "- Elle permet de sauvergarder le volet jury d'une certification complémentaire Pix+ Edu",
         ],
-        tags: ['api', 'complementary-certification-course-results', 'Pix+ Édu'],
+        tags: ['api', 'admin', 'complementary-certification-course-results', 'Pix+ Édu'],
       },
     },
   ]);

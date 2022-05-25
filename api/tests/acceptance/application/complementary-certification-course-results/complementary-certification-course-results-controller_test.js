@@ -9,7 +9,7 @@ const ComplementaryCertificationCourseResult = require('../../../../lib/domain/m
 const Badge = require('../../../../lib/domain/models/Badge');
 
 describe('Acceptance | API | Certifications', function () {
-  describe('POST /api/complementary-certification-course-results', function () {
+  describe('POST /api/admin/complementary-certification-course-results', function () {
     it('should return 201 HTTP status code', async function () {
       // given
       const server = await createServer();
@@ -40,7 +40,7 @@ describe('Acceptance | API | Certifications', function () {
       const userId = (await insertUserWithRoleSuperAdmin()).id;
       const options = {
         method: 'POST',
-        url: '/api/complementary-certification-course-results',
+        url: '/api/admin/complementary-certification-course-results',
         headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
         payload: {
           data: {

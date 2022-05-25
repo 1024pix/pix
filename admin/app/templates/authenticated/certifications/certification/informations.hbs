@@ -134,19 +134,73 @@
               <div class="card">
                 <div class="card-body">
                   <p>VOLET PIX</p>
-                  {{this.certification.complementaryCertificationCourseResultsWithExternal.pixResult}}
+                  <p
+                    class="card-body-text"
+                  >{{this.certification.complementaryCertificationCourseResultsWithExternal.pixResult}}</p>
                 </div>
               </div>
               <div class="card">
                 <div class="card-body">
                   <p>VOLET JURY</p>
-                  {{this.certification.complementaryCertificationCourseResultsWithExternal.externalResult}}
+                  {{#if this.displayJuryLevelSelect}}
+                    <div
+                      class="certification-informations__complementary-certification__pix-edu__row__jury-level-editor"
+                    >
+                      <section>
+                        <PixSelect
+                          aria-label="Sélectionner un niveau"
+                          @options={{this.juryLevelOptions}}
+                          @selectedOption={{this.selectedJuryLevel}}
+                          @emptyOptionNotSelectable={{true}}
+                          @onChange={{this.selectJuryLevel}}
+                          @emptyOptionLabel="Choisir un niveau"
+                          @size="small"
+                        />
+                      </section>
+                      <section>
+                        <PixButton
+                          @backgroundColor="transparent-light"
+                          @isBorderVisible="true"
+                          @size="small"
+                          @triggerAction={{this.onCancelJuryLevelEditButtonClick}}
+                        >
+                          Annuler
+                        </PixButton>
+                        <PixButton
+                          @size="small"
+                          @triggerAction={{this.onEditJuryLevelSave}}
+                          aria-label="Modifier le niveau du jury"
+                          @isDisabled={{this.isModifyButtonDisabled}}
+                        >
+                          Enregistrer
+                        </PixButton>
+                      </section>
+                    </div>
+                  {{else}}
+                    <div class="certification-informations__complementary-certification__pix-edu__row__jury-level">
+                      <p
+                        class="card-body-text"
+                      >{{this.certification.complementaryCertificationCourseResultsWithExternal.externalResult}}</p>
+                      {{#if this.shouldDisplayJuryLevelEditButton}}
+                        <button
+                          type="button"
+                          class="jury-level-edit-icon-button"
+                          aria-label="Modifier le volet jury"
+                          {{on "click" this.editJury}}
+                        >
+                          <FaIcon @icon="edit" />
+                        </button>
+                      {{/if}}
+                    </div>
+                  {{/if}}
                 </div>
               </div>
               <div class="card">
                 <div class="card-body">
                   <p>NIVEAU FINAL</p>
-                  {{this.certification.complementaryCertificationCourseResultsWithExternal.finalResult}}
+                  <p
+                    class="card-body-text"
+                  >{{this.certification.complementaryCertificationCourseResultsWithExternal.finalResult}}</p>
                 </div>
               </div>
             </div>
