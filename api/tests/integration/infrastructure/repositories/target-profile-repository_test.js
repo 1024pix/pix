@@ -734,7 +734,7 @@ describe('Integration | Repository | Target-profile', function () {
       // when
       const savedTargetProfileTemplate = await targetProfileRepository.createTemplateAndTargetProfile({
         targetProfileTemplate,
-        targetProfileData: targetProfileForCreation,
+        targetProfileForCreation,
       });
 
       // then
@@ -744,7 +744,7 @@ describe('Integration | Repository | Target-profile', function () {
       expect(savedTargetProfileTemplate.tubes).to.deep.include({ id: 'tubeId1', level: 8 });
       expect(savedTargetProfileTemplate.tubes).to.deep.include({ id: 'tubeId2', level: 4 });
       expect(savedTargetProfileTemplate.tubes).to.deep.include({ id: 'tubeId3', level: 5 });
-      expect(savedTargetProfileTemplate.targetProfiles).to.have.lengthOf(1);
+      expect(savedTargetProfileTemplate.targetProfileIds).to.have.lengthOf(1);
     });
 
     it('should save the target profile template and a target profile', async function () {
@@ -771,7 +771,7 @@ describe('Integration | Repository | Target-profile', function () {
       // when
       const { id } = await targetProfileRepository.createTemplateAndTargetProfile({
         targetProfileTemplate,
-        targetProfileData: targetProfileForCreation,
+        targetProfileForCreation,
       });
 
       // then

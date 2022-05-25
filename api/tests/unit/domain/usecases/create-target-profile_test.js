@@ -26,9 +26,9 @@ describe('Unit | UseCase | create-target-profile', function () {
       skillIds,
     };
     const targetProfileId = 12;
-    const targetProfile = new TargetProfileForCreation(targetProfileData);
+    const targetProfileForCreation = new TargetProfileForCreation(targetProfileData);
 
-    targetProfileRepositoryStub.create.withArgs(targetProfile).resolves(targetProfileId);
+    targetProfileRepositoryStub.create.withArgs(targetProfileForCreation).resolves(targetProfileId);
     targetProfileWithLearningContentRepositoryStub.get
       .withArgs({ id: targetProfileId })
       .resolves(targetProfileWithLearningContent);
