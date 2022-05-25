@@ -221,7 +221,6 @@ exports.register = async (server) => {
             method: (request, h) =>
               securityPreHandlers.userHasAtLeastOneAccessOf([
                 securityPreHandlers.checkUserHasRoleSuperAdmin,
-                securityPreHandlers.checkUserHasRoleCertif,
                 securityPreHandlers.checkUserHasRoleSupport,
                 securityPreHandlers.checkUserHasRoleMetier,
               ])(request, h),
@@ -237,7 +236,7 @@ exports.register = async (server) => {
           }),
         },
         handler: targetProfileController.attachOrganizations,
-        tags: ['api', 'target-profiles'],
+        tags: ['api', 'admin', 'target-profiles'],
         notes: [
           "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n" +
             '- Elle permet de rattacher des organisations à un profil cible',
