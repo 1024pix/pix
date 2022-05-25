@@ -51,16 +51,18 @@
         <:tooltip>Certifications</:tooltip>
       </PixTooltip>
     </li>
-    <li class="menu-bar__entry">
-      <PixTooltip @position="right" @inline={{true}}>
-        <:triggerElement>
-          <LinkTo @route="authenticated.target-profiles.list" class="menu-bar__link">
-            <FaIcon @icon="clipboard-list" @title="Profils cibles" />
-          </LinkTo>
-        </:triggerElement>
-        <:tooltip>Profils cibles</:tooltip>
-      </PixTooltip>
-    </li>
+    {{#if this.accessControl.hasAccessToTargetProfilesActionsScope}}
+      <li class="menu-bar__entry">
+        <PixTooltip @position="right" @inline={{true}}>
+          <:triggerElement>
+            <LinkTo @route="authenticated.target-profiles.list" class="menu-bar__link">
+              <FaIcon @icon="clipboard-list" @title="Profils cibles" />
+            </LinkTo>
+          </:triggerElement>
+          <:tooltip>Profils cibles</:tooltip>
+        </PixTooltip>
+      </li>
+    {{/if}}
     {{#if this.currentUser.adminMember.isSuperAdmin}}
       <li class="menu-bar__entry">
         <PixTooltip @position="right">
