@@ -47,11 +47,11 @@
       {{/if}}
     </div>
   {{/if}}
-  <p class="certification-course-page__order">
+  <p class="certification-start-page__order">
     {{t "pages.certification-start.access-code"}}
   </p>
   <form autocomplete="off">
-    <div class="certification-course-page__session-code-input">
+    <div class="certification-start-page__session-code-input">
       <Input
         required={{true}}
         id="certificationStarterSessionCode"
@@ -61,11 +61,11 @@
         spellcheck={{false}}
       />
       {{#if this.errorMessage}}
-        <div class="certification-course-page__errors">{{this.errorMessage}}</div>
+        <div class="certification-start-page__errors">{{this.errorMessage}}</div>
       {{/if}}
     </div>
 
-    <div class="certification-course-page__field-button">
+    <div class="certification-start-page__field-button">
 
       <PixButton @type="submit" @triggerAction={{this.submit}}>
         {{t "pages.certification-start.actions.submit"}}
@@ -73,7 +73,7 @@
     </div>
   </form>
 
-  <div class="certification-course-page__cgu">
+  <div class="certification-start-page__cgu">
     <p>
       {{t "pages.certification-start.cgu.info"}}
     </p>
