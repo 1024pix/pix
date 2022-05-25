@@ -212,10 +212,7 @@
         />
       </div>
 
-      <div
-        id="recipient-email-container"
-        class="new-certification-candidate-modal__form__field new-certification-candidate-modal__form__field-double"
-      >
+      <div id="recipient-email-container" class="new-certification-candidate-modal__form__field">
         <label for="result-recipient-email" class="label">E-mail du destinataire des résultats (formateur,
           enseignant...)</label>
         <Input
@@ -225,12 +222,14 @@
           @value={{@candidateData.resultRecipientEmail}}
           {{on "input" (fn @updateCandidateData @candidateData "resultRecipientEmail")}}
         />
+        <div class="new-certification-candidate-modal__form__field__info-panel">
+          <FaIcon @icon="info-circle" />
+          <span>Si le champ n’est pas renseigné, les résultats ne seront pas transmis par mail pour le/les candidats
+            concernés.<br />Le candidat verra ses résultats affichés directement sur son compte Pix.</span>
+        </div>
       </div>
 
-      <div
-        id="email-container"
-        class="new-certification-candidate-modal__form__field new-certification-candidate-modal__form__field-double"
-      >
+      <div id="email-container" class="new-certification-candidate-modal__form__field">
         <label for="email" class="label">E-mail de convocation</label>
         <Input
           id="email"
