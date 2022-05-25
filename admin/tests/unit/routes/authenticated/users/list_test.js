@@ -15,6 +15,7 @@ module('Unit | Route | authenticated/users/list', function (hooks) {
     const expectedQueryArgs = {};
 
     hooks.beforeEach(function () {
+      // given
       route.store.query = sinon.stub().resolves();
       params.pageNumber = 'somePageNumber';
       params.pageSize = 'somePageSize';
@@ -69,6 +70,7 @@ module('Unit | Route | authenticated/users/list', function (hooks) {
     let controller;
 
     hooks.beforeEach(function () {
+      // given
       controller = {
         pageNumber: 'somePageNumber',
         pageSize: 'somePageSize',
@@ -85,21 +87,11 @@ module('Unit | Route | authenticated/users/list', function (hooks) {
         route.resetController(controller, true);
 
         // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(controller.pageNumber, 1);
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(controller.pageSize, 10);
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(controller.firstName, null);
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(controller.lastName, null);
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(controller.email, null);
+        assert.deepEqual(controller.pageNumber, 1);
+        assert.deepEqual(controller.pageSize, 10);
+        assert.deepEqual(controller.firstName, null);
+        assert.deepEqual(controller.lastName, null);
+        assert.deepEqual(controller.email, null);
         assert.deepEqual(controller.username, null);
       });
     });
@@ -110,21 +102,11 @@ module('Unit | Route | authenticated/users/list', function (hooks) {
         route.resetController(controller, false);
 
         // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(controller.pageNumber, 'somePageNumber');
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(controller.pageSize, 'somePageSize');
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(controller.firstName, 'someFirstName');
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(controller.lastName, 'someLastName');
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(controller.email, 'someEmail');
+        assert.deepEqual(controller.pageNumber, 'somePageNumber');
+        assert.deepEqual(controller.pageSize, 'somePageSize');
+        assert.deepEqual(controller.firstName, 'someFirstName');
+        assert.deepEqual(controller.lastName, 'someLastName');
+        assert.deepEqual(controller.email, 'someEmail');
         assert.deepEqual(controller.username, 'someUsername');
       });
     });
