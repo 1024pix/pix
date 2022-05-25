@@ -15,6 +15,16 @@ export default class InChallengeCertificationIssueReportFields extends Component
     this.args.inChallengeCategory.subcategory = event.target.value;
   }
 
+  get categoryCode() {
+    // Les services (injectés) ne peuvent etre utilisés dans des constructeurs.
+    // Ce getter pourra etre supprimé et remplacé par @inChallengeCategory.categoryCode dans le template
+    // avec la suppression du toggle
+    if (!this.featureToggles.featureToggles.isCertificationFreeFieldsDeletionEnabled) {
+      return 'E1-E10';
+    }
+    return this.args.inChallengeCategory.categoryCode;
+  }
+
   options = [
     'IMAGE_NOT_DISPLAYING',
     'EMBED_NOT_WORKING',

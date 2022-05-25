@@ -118,6 +118,48 @@ module('Integration | Component | in-challenge-certification-issue-report-fields
     );
   });
 
+  test('category with FT disabled', async function (assert) {
+    // given
+    featureToggles.isCertificationFreeFieldsDeletionEnabled = false;
+    const toggleOnCategory = () => {};
+    const inChallengeCategory = new RadioButtonCategoryWithSubcategoryAndQuestionNumber({
+      name: 'IN_CHALLENGE',
+    });
+    this.set('toggleOnCategory', toggleOnCategory);
+    this.set('inChallengeCategory', inChallengeCategory);
+
+    // when
+    await render(hbs`
+      <IssueReportModal::InChallengeCertificationIssueReportFields
+        @inChallengeCategory={{this.inChallengeCategory}}
+        @toggleOnCategory={{this.toggleOnCategory}}
+      />`);
+
+    //
+    assert.contains(`E1-E10`);
+  });
+
+  test('category with FT enabled', async function (assert) {
+    // given
+    featureToggles.isCertificationFreeFieldsDeletionEnabled = true;
+    const toggleOnCategory = () => {};
+    const inChallengeCategory = new RadioButtonCategoryWithSubcategoryAndQuestionNumber({
+      name: 'IN_CHALLENGE',
+    });
+    this.set('toggleOnCategory', toggleOnCategory);
+    this.set('inChallengeCategory', inChallengeCategory);
+
+    // when
+    await render(hbs`
+      <IssueReportModal::InChallengeCertificationIssueReportFields
+        @inChallengeCategory={{this.inChallengeCategory}}
+        @toggleOnCategory={{this.toggleOnCategory}}
+      />`);
+
+    //
+    assert.contains(`E1-E12`);
+  });
+
   test('subcategory FILE_NOT_OPENING with FT disabled', async function (assert) {
     // given
     featureToggles.isCertificationFreeFieldsDeletionEnabled = false;
