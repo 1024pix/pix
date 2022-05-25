@@ -62,7 +62,8 @@
                   class="button--showed-as-link add-button"
                   {{on "click" (fn this.openIssueReportsModal report)}}
                 >
-                  Ajouter / modifier
+                  <FaIcon @icon="plus-circle" />
+                  Ajouter / supprimer
                 </button>
                 <p data-test-id="finalization-report-has-examiner-comment_{{report.certificationCourseId}}">
                   {{#if (gt report.certificationIssueReports.length 1)}}
@@ -78,7 +79,8 @@
                   class="button--showed-as-link add-button"
                   {{on "click" (fn this.openAddIssueReportModal report)}}
                 >
-                  Ajouter ?
+                  <FaIcon @icon="plus-circle" />
+                  Ajouter
                 </button>
               {{/if}}
             </div>

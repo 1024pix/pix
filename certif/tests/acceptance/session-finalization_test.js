@@ -101,9 +101,9 @@ module('Acceptance | Session Finalization', function (hooks) {
 
     module('When certificationPointOfContact click on "Finaliser" button', function () {
       module('when there is no certification issue reports', function () {
-        test('it should show "Ajouter ?" button', async function (assert) {
+        test('it should show "Ajouter" button', async function (assert) {
           // given
-          const expectedText = 'Ajouter ?';
+          const expectedText = 'Ajouter';
           const certificationReportsWithoutIssueReport = server.create('certification-report', {
             certificationCourseId: 1,
           });
@@ -121,10 +121,10 @@ module('Acceptance | Session Finalization', function (hooks) {
       });
 
       module('when we add a certification issue report', function () {
-        test('it should show "Ajouter / modifier" button', async function (assert) {
+        test('it should show "Ajouter / supprimer" button', async function (assert) {
           // given
-          const expectedTextWithIssueReport = 'Ajouter / modifier';
-          const expectedTextWithoutIssueReport = 'Ajouter ?';
+          const expectedTextWithIssueReport = 'Ajouter / supprimer';
+          const expectedTextWithoutIssueReport = 'Ajouter';
           const BTN_ADD_ISSUE_REPORT_FOR_CERTIFICATION_COURSE_1 =
             '[data-test-id="finalization-report-certification-issue-reports_1"] .button--showed-as-link';
           const BTN_ADD_ISSUE_REPORT_FOR_CERTIFICATION_COURSE_2 =
