@@ -1,5 +1,18 @@
 # Pix Changelog
 
+## v3.212.0 (25/05/2022)
+
+
+### :rocket: Amélioration
+- [#4447](https://github.com/1024pix/pix/pull/4447) [FEATURE] Séparer les certifications complémentaires Pix+ Édu de 1er et 2nd degré (PIX-4769).
+
+### :building_construction: Tech
+- [#4452](https://github.com/1024pix/pix/pull/4452) [TECH] Ajout d'un usecase pour la création d'un gabarit d'un profile cible (PIX-4926).
+- [#4410](https://github.com/1024pix/pix/pull/4410) [TECH] Améliorer la page des CGU de Pôle Emploi sur Pix App (PIX-4917).
+- [#4438](https://github.com/1024pix/pix/pull/4438) [TECH] Obtenir des détails sur l'erreur lors de la réinitialisation du mot de passe sur Pix App (PIX-4957).
+- [#4451](https://github.com/1024pix/pix/pull/4451) [TECH] Affiche les certifications complementaires dans la page des certifs d'une session (PIX-4769)
+- [#4146](https://github.com/1024pix/pix/pull/4146) [TECH] Ajouter une contrainte en BDD pour rendre le champ organizationLearnerId dans campaign-participations non nullable (PIX-4136).
+
 ## v3.211.0 (23/05/2022)
 
 
