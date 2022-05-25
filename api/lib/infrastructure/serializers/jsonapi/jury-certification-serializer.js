@@ -43,7 +43,13 @@ module.exports = {
       },
       complementaryCertificationCourseResultsWithExternal: {
         ref: 'complementaryCertificationCourseId',
-        attributes: ['complementaryCertificationCourseId', 'pixResult', 'externalResult', 'finalResult'],
+        attributes: [
+          'complementaryCertificationCourseId',
+          'pixResult',
+          'externalResult',
+          'finalResult',
+          'allowedExternalLevels',
+        ],
       },
       certificationIssueReports: {
         ref: 'id',
