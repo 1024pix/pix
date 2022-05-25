@@ -833,88 +833,86 @@ describe('Unit | Application | Target Profiles | Routes', function () {
     });
   });
 
-  describe('POST /api/target-profiles/{id}/badges', function () {
-    it('should return 201 HTTP response', async function () {
-      // given
-      sinon.stub(securityPreHandlers, 'userHasAtLeastOneAccessOf').returns(() => true);
-      sinon.stub(targetProfileController, 'createBadge').callsFake((request, h) => h.response('ok').code(201));
-      const httpTestServer = new HttpTestServer();
-      await httpTestServer.register(moduleUnderTest);
-
-      const method = 'POST';
-      const payload = {
-        data: {
-          type: 'badges',
-          attributes: {
-            key: 'KEY',
-            'alt-message': 'alt-message',
-            'image-url': 'https://example.net/image.svg',
-            message: 'message',
-            title: 'title',
-            'is-certifiable': false,
-            'is-always-visible': true,
-          },
+  describe('POST /api/admin/target-profiles/{id}/badges', function () {
+    const method = 'POST';
+    const url = '/api/admin/target-profiles/123/badges';
+    const payload = {
+      data: {
+        type: 'badges',
+        attributes: {
+          key: 'KEY',
+          'alt-message': 'alt-message',
+          'image-url': 'https://example.net/image.svg',
+          message: 'message',
+          title: 'title',
+          'is-certifiable': false,
+          'is-always-visible': true,
         },
-      };
-      const url = '/api/admin/target-profiles/123/badges';
+      },
+    };
 
-      // when
-      const response = await httpTestServer.request(method, url, payload);
-
-      // then
-      expect(response.statusCode).to.equal(201);
-    });
-
-    describe('when user does not have a SUPER_ADMIN role', function () {
-      it('should return a 403 HTTP response', async function () {
+    context('when user has role "SUPER_ADMIN", "SUPPORT" or "METIER"', function () {
+      it('should return a response with an HTTP status code 201', async function () {
         // given
         sinon
           .stub(securityPreHandlers, 'userHasAtLeastOneAccessOf')
-          .returns((request, h) => h.response().code(403).takeover());
+          .withArgs([
+            securityPreHandlers.checkUserHasRoleSuperAdmin,
+            securityPreHandlers.checkUserHasRoleSupport,
+            securityPreHandlers.checkUserHasRoleMetier,
+          ])
+          .callsFake(() => (request, h) => h.response(true));
+        sinon.stub(targetProfileController, 'createBadge').callsFake((request, h) => h.response('ok').code(201));
         const httpTestServer = new HttpTestServer();
         await httpTestServer.register(moduleUnderTest);
 
-        const method = 'POST';
-        const payload = {
-          data: {
-            type: 'badges',
-            attributes: {
-              key: 'KEY',
-              'alt-message': 'alt-message',
-              'image-url': 'https://example.net/image.svg',
-              message: 'message',
-              title: 'title',
-              'is-certifiable': false,
-              'is-always-visible': true,
-            },
-          },
-        };
-        const url = '/api/admin/target-profiles/123/badges';
-
         // when
-        const response = await httpTestServer.request(method, url, payload);
+        const { statusCode } = await httpTestServer.request(method, url, payload);
 
         // then
-        expect(response.statusCode).to.equal(403);
+        expect(statusCode).to.equal(201);
+      });
+
+      context('when request payload has wrong format', function () {
+        it('should return a 400 HTTP response', async function () {
+          // given
+          const httpTestServer = new HttpTestServer();
+          await httpTestServer.register(moduleUnderTest);
+
+          // when
+          const { statusCode } = await httpTestServer.request(method, url, { data: { attributes: {} } });
+
+          // then
+          expect(statusCode).to.equal(400);
+        });
       });
     });
 
-    describe('when request payload has wrong format', function () {
-      it('should return a 400 HTTP response', async function () {
+    context('when user has role "CERTIF"', function () {
+      it('should return a response with an HTTP status code 403', async function () {
         // given
-        sinon.stub(securityPreHandlers, 'userHasAtLeastOneAccessOf').returns(() => true);
+        sinon
+          .stub(securityPreHandlers, 'userHasAtLeastOneAccessOf')
+          .withArgs([
+            securityPreHandlers.checkUserHasRoleSuperAdmin,
+            securityPreHandlers.checkUserHasRoleSupport,
+            securityPreHandlers.checkUserHasRoleMetier,
+          ])
+          .callsFake(
+            () => (request, h) =>
+              h
+                .response({ errors: new Error('forbidden') })
+                .code(403)
+                .takeover()
+          );
         const httpTestServer = new HttpTestServer();
         await httpTestServer.register(moduleUnderTest);
 
-        const method = 'POST';
-        const payload = { data: { attributes: {} } };
-        const url = '/api/admin/target-profiles/123/badges';
-
         // when
-        const response = await httpTestServer.request(method, url, payload);
+        const { statusCode } = await httpTestServer.request(method, url, payload);
 
         // then
-        expect(response.statusCode).to.equal(400);
+        expect(statusCode).to.equal(403);
       });
     });
   });
