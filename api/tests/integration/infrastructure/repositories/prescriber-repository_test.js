@@ -8,7 +8,7 @@ const Prescriber = require('../../../../lib/domain/read-models/Prescriber');
 const Membership = require('../../../../lib/domain/models/Membership');
 const UserOrgaSettings = require('../../../../lib/domain/models/UserOrgaSettings');
 const Organization = require('../../../../lib/domain/models/Organization');
-const Tag = require('../../../../lib/domain/models/Tag');
+const { Tag } = require('../../../../lib/domain/models/Tag');
 
 describe('Integration | Infrastructure | Repository | Prescriber', function () {
   const userToInsert = {

@@ -1,6 +1,6 @@
 const { NotFoundError, MissingAttributesError } = require('../../domain/errors');
 const OrganizationForAdmin = require('../../domain/models/OrganizationForAdmin');
-const Tag = require('../../domain/models/Tag');
+const { Tag } = require('../../domain/models/Tag');
 const { knex } = require('../../../db/knex-database-connection');
 const OrganizationInvitation = require('../../domain/models/OrganizationInvitation');
 

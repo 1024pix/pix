@@ -4,7 +4,7 @@
 'use strict';
 require('dotenv').config();
 const organizationTagRepository = require('../lib/infrastructure/repositories/organization-tag-repository');
-const tagRepository = require('../lib/infrastructure/repositories/tag-repository');
+const { tagRepository } = require('../lib/infrastructure/repositories/tag-repository');
 const OrganizationTag = require('../lib/domain/models/OrganizationTag');
 const { parseCsv } = require('./helpers/csvHelpers');
 const uniq = require('lodash/uniq');

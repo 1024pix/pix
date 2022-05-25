@@ -1,5 +1,5 @@
 const { expect, domainBuilder, sinon } = require('../../../test-helper');
-const Tag = require('../../../../lib/domain/models/Tag');
+const { Tag } = require('../../../../lib/domain/models/Tag');
 const createTag = require('../../../../lib/domain/usecases/create-tag');
 
 describe('Unit | UseCase | create-tag', function () {

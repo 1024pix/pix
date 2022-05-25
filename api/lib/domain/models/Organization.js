@@ -1,4 +1,4 @@
-const Tag = require('./Tag');
+const { Tag } = require('./Tag');
 
 const types = {
   SCO: 'SCO',

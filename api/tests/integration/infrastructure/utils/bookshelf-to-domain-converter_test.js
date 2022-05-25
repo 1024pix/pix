@@ -5,7 +5,7 @@ const User = require('../../../../lib/domain/models/User');
 const Membership = require('../../../../lib/domain/models/Membership');
 const TargetProfile = require('../../../../lib/domain/models/TargetProfile');
 const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
-const Tag = require('../../../../lib/domain/models/Tag');
+const { Tag } = require('../../../../lib/domain/models/Tag');
 const Organization = require('../../../../lib/domain/models/Organization');
 
 const BookshelfUser = require('../../../../lib/infrastructure/orm-models/User');
