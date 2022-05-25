@@ -1,7 +1,7 @@
 const { expect, sinon } = require('../../test-helper');
 const { addTagsToOrganizations } = require('../../../scripts/add-tags-to-organizations');
 const organizationTagRepository = require('../../../lib/infrastructure/repositories/organization-tag-repository');
-const Tag = require('../../../lib/domain/models/Tag');
+const { Tag } = require('../../../lib/domain/models/Tag');
 
 describe('Unit | Scripts | add-tags-to-organizations.js', function () {
   context('When tag already exists for an organization', function () {

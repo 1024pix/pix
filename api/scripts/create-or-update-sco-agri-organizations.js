@@ -11,7 +11,7 @@ const {
 } = require('./helpers/organizations-by-external-id-helper');
 const { parseCsv } = require('./helpers/csvHelpers');
 const Organization = require('../lib/domain/models/Organization');
-const Tag = require('../lib/domain/models/Tag');
+const { Tag } = require('../lib/domain/models/Tag');
 const OrganizationTag = require('../lib/domain/models/OrganizationTag');
 const organizationRepository = require('../lib/infrastructure/repositories/organization-repository');
 const tagRepository = require('../lib/infrastructure/repositories/tag-repository');
