@@ -32,6 +32,7 @@ module('Unit | Route | authenticated/users/list', function (hooks) {
           firstName: '',
           lastName: '',
           email: '',
+          username: '',
         };
 
         // then
@@ -40,16 +41,18 @@ module('Unit | Route | authenticated/users/list', function (hooks) {
       });
     });
 
-    module('when queryParams filters are  truthy', function () {
+    module('when queryParams filters are truthy', function () {
       test('it should call store.query with filters containing trimmed values', async function (assert) {
         // given
         params.firstName = ' someFirstName';
         params.lastName = 'someLastName ';
         params.email = 'someEmail';
+        params.username = 'someUsername';
         expectedQueryArgs.filter = {
           firstName: 'someFirstName',
           lastName: 'someLastName',
           email: 'someEmail',
+          username: 'someUsername',
         };
 
         // when
@@ -72,6 +75,7 @@ module('Unit | Route | authenticated/users/list', function (hooks) {
         firstName: 'someFirstName',
         lastName: 'someLastName',
         email: 'someEmail',
+        username: 'someUsername',
       };
     });
 
@@ -96,6 +100,7 @@ module('Unit | Route | authenticated/users/list', function (hooks) {
         // TODO: Fix this the next time the file is edited.
         // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(controller.email, null);
+        assert.deepEqual(controller.username, null);
       });
     });
 
@@ -120,6 +125,7 @@ module('Unit | Route | authenticated/users/list', function (hooks) {
         // TODO: Fix this the next time the file is edited.
         // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(controller.email, 'someEmail');
+        assert.deepEqual(controller.username, 'someUsername');
       });
     });
   });

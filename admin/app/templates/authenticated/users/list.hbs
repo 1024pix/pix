@@ -12,6 +12,12 @@
         placeholder="Adresse e-mail"
         @ariaLabel="Adresse e-mail"
       />
+      <PixInput
+        @id="username"
+        {{on "change" this.onChangeUsername}}
+        placeholder="Identifiant"
+        @ariaLabel="Identifiant"
+      />
       <PixButton @size="small" @type="submit">Charger</PixButton>
     </form>
   </div>
@@ -24,6 +30,7 @@
       @firstName={{this.firstName}}
       @lastName={{this.lastName}}
       @email={{this.email}}
+      @username={{this.username}}
     />
   </section>
 </main>
