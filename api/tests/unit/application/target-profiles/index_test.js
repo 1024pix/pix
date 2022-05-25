@@ -778,76 +778,95 @@ describe('Unit | Application | Target Profiles | Routes', function () {
     });
   });
 
-  describe('POST /api/admin/target-profiles/:id/copy-organizations', function () {
-    it('should resolve', async function () {
-      // given
-      sinon.stub(securityPreHandlers, 'userHasAtLeastOneAccessOf').returns(() => true);
-      sinon
-        .stub(targetProfileController, 'attachOrganizationsFromExistingTargetProfile')
-        .callsFake((request, h) => h.response('ok').code(204));
-      const httpTestServer = new HttpTestServer();
-      await httpTestServer.register(moduleUnderTest);
+  describe('POST /api/admin/target-profiles/{id}/copy-organizations', function () {
+    const method = 'POST';
+    const url = '/api/admin/target-profiles/3/copy-organizations';
+    const payload = { 'target-profile-id': 1 };
 
-      const method = 'POST';
-      const url = '/api/admin/target-profiles/3/copy-organizations';
-      const payload = { 'target-profile-id': 1 };
+    context('when user has role "SUPER_ADMIN", "SUPPORT" or "METIER"', function () {
+      it('should return a response with an HTTP status code 204', async function () {
+        // given
+        sinon
+          .stub(securityPreHandlers, 'userHasAtLeastOneAccessOf')
+          .withArgs([
+            securityPreHandlers.checkUserHasRoleSuperAdmin,
+            securityPreHandlers.checkUserHasRoleSupport,
+            securityPreHandlers.checkUserHasRoleMetier,
+          ])
+          .callsFake(() => (request, h) => h.response(true));
+        sinon
+          .stub(targetProfileController, 'attachOrganizationsFromExistingTargetProfile')
+          .callsFake((request, h) => h.response('ok').code(204));
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
 
-      // when
-      const response = await httpTestServer.request(method, url, payload);
+        // when
+        const { statusCode } = await httpTestServer.request(method, url, payload);
 
-      // then
-      expect(response.statusCode).to.equal(204);
+        // then
+        expect(statusCode).to.equal(204);
+        sinon.assert.calledOnce(targetProfileController.attachOrganizationsFromExistingTargetProfile);
+      });
+
+      context('when id is a string', function () {
+        it('should reject request with HTTP code 400', async function () {
+          // given
+          const httpTestServer = new HttpTestServer();
+          await httpTestServer.register(moduleUnderTest);
+
+          // when
+          const { statusCode } = await httpTestServer.request(
+            method,
+            '/api/admin/target-profiles/azerty/copy-organizations',
+            payload
+          );
+
+          // then
+          expect(statusCode).to.equal(400);
+        });
+      });
+
+      context('when target profile id is a string', function () {
+        it('should reject request with HTTP code 400', async function () {
+          // given
+          const httpTestServer = new HttpTestServer();
+          await httpTestServer.register(moduleUnderTest);
+
+          // when
+          const { statusCode } = await httpTestServer.request(method, url, { 'target-profile-id': 'azerty' });
+
+          // then
+          expect(statusCode).to.equal(400);
+        });
+      });
     });
 
-    it('should reject request with HTTP code 400 when id is a string', async function () {
-      // given
-      const httpTestServer = new HttpTestServer();
-      await httpTestServer.register(moduleUnderTest);
+    context('when user has role "CERTIF"', function () {
+      it('should return a response with an HTTP status code 403', async function () {
+        // given
+        sinon
+          .stub(securityPreHandlers, 'userHasAtLeastOneAccessOf')
+          .withArgs([
+            securityPreHandlers.checkUserHasRoleSuperAdmin,
+            securityPreHandlers.checkUserHasRoleSupport,
+            securityPreHandlers.checkUserHasRoleMetier,
+          ])
+          .callsFake(
+            () => (request, h) =>
+              h
+                .response({ errors: new Error('forbidden') })
+                .code(403)
+                .takeover()
+          );
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
 
-      const method = 'POST';
-      const url = '/api/admin/target-profiles/azerty/copy-organizations';
-      const payload = { 'target-profile-id': 1 };
+        // when
+        const { statusCode } = await httpTestServer.request(method, url, payload);
 
-      // when
-      const response = await httpTestServer.request(method, url, payload);
-
-      // then
-      expect(response.statusCode).to.equal(400);
-    });
-
-    it('should reject request with HTTP code 400 when target profile id is a string', async function () {
-      // given
-      const httpTestServer = new HttpTestServer();
-      await httpTestServer.register(moduleUnderTest);
-
-      const method = 'POST';
-      const url = '/api/admin/target-profiles/3/copy-organizations';
-      const payload = { 'target-profile-id': 'azerty' };
-
-      // when
-      const response = await httpTestServer.request(method, url, payload);
-
-      // then
-      expect(response.statusCode).to.equal(400);
-    });
-
-    it('should reject request with HTTP code 403 when the user is not authorized', async function () {
-      // given
-      sinon
-        .stub(securityPreHandlers, 'userHasAtLeastOneAccessOf')
-        .returns((request, h) => h.response().code(403).takeover());
-      const httpTestServer = new HttpTestServer();
-      await httpTestServer.register(moduleUnderTest);
-
-      const method = 'POST';
-      const url = '/api/admin/target-profiles/3/copy-organizations';
-      const payload = { 'target-profile-id': 1 };
-
-      // when
-      const response = await httpTestServer.request(method, url, payload);
-
-      // then
-      expect(response.statusCode).to.equal(403);
+        // then
+        expect(statusCode).to.equal(403);
+      });
     });
   });
 
