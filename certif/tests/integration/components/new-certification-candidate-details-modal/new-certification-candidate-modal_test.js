@@ -71,6 +71,14 @@ module('Integration | Component | new-certification-candidate-modal', function (
     assert.dom(screen.getByLabelText('Identifiant externe')).exists();
     assert.dom(screen.getByLabelText('Temps majoré (%)')).exists();
     assert.dom(screen.getByLabelText('E-mail du destinataire des résultats (formateur, enseignant...)')).exists();
+    assert
+      .dom(
+        screen.getByText(
+          'Si le champ n’est pas renseigné, les résultats ne seront pas transmis par mail pour le/les candidats concernés.Le candidat verra ses résultats affichés directement sur son compte Pix.',
+          { exact: false }
+        )
+      )
+      .exists();
     assert.dom(screen.getByLabelText('E-mail de convocation')).exists();
     assert.dom(screen.getByLabelText('Certif complémentaire 1')).exists();
     assert.dom(screen.getByLabelText('Certif complémentaire 2')).exists();
@@ -133,6 +141,14 @@ module('Integration | Component | new-certification-candidate-modal', function (
       assert.dom(screen.getByLabelText('Identifiant externe')).exists();
       assert.dom(screen.getByLabelText('Temps majoré (%)')).exists();
       assert.dom(screen.getByLabelText('E-mail du destinataire des résultats (formateur, enseignant...)')).exists();
+      assert
+        .dom(
+          screen.getByText(
+            'Si le champ n’est pas renseigné, les résultats ne seront pas transmis par mail pour le/les candidats concernés.Le candidat verra ses résultats affichés directement sur son compte Pix.',
+            { exact: false }
+          )
+        )
+        .exists();
       assert.dom(screen.getByLabelText('E-mail de convocation')).exists();
       assert.dom(screen.getByLabelText('Certif complémentaire 1')).exists();
       assert.dom(screen.getByLabelText('Certif complémentaire 2')).exists();
