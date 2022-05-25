@@ -200,7 +200,7 @@ module('Integration | Component | SessionFinalization::UncompletedReportsInforma
           @onChangeAbortReason = {{this.abort}}
         />
       `);
-    await clickByLabel('Ajouter / modifier');
+    await clickByLabel('Ajouter / supprimer');
 
     // then
     assert.contains('Mes signalements (1)');
@@ -232,7 +232,7 @@ module('Integration | Component | SessionFinalization::UncompletedReportsInforma
         />
       `);
 
-    await clickByLabel('Ajouter ?');
+    await clickByLabel('Ajouter');
 
     // then
     assert.contains('Retard, absence ou départ');
