@@ -1016,7 +1016,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
 
   describe('#findPaginatedFiltered', function () {
     context('when there are users in the database', function () {
-      it('should return an Array of Users', async function () {
+      it('should return an array of users', async function () {
         // given
         const filter = {};
         const page = { number: 1, size: 10 };
@@ -1144,6 +1144,37 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
       });
     });
 
+    context('when there are multiple users matching the same "username" search pattern', function () {
+      it('should return only users matching "username" if given in filter', async function () {
+        // given
+        each(
+          [
+            { username: 'alex.ception1011' },
+            { username: 'alex.terieur1011' },
+            { username: 'ella.danloss0101' },
+            { username: 'ella.bienhu1011' },
+            { username: 'ella.bienhu2312' },
+          ],
+          (user) => {
+            databaseBuilder.factory.buildUser(user);
+          }
+        );
+        await databaseBuilder.commit();
+        const filter = { username: '1011' };
+        const page = { number: 1, size: 10 };
+
+        // when
+        const { models: matchingUsers } = await userRepository.findPaginatedFiltered({ filter, page });
+
+        // then
+        expect(map(matchingUsers, 'username')).to.have.members([
+          'alex.ception1011',
+          'alex.terieur1011',
+          'ella.bienhu1011',
+        ]);
+      });
+    });
+
     context(
       'when there are multiple users matching the fields "first name", "last name" and "email" search pattern',
       function () {
@@ -1151,14 +1182,14 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
           each(
             [
               // Matching users
-              { firstName: 'fn_ok_1', lastName: 'ln_ok_1', email: 'email_ok_1@mail.com' },
-              { firstName: 'fn_ok_2', lastName: 'ln_ok_2', email: 'email_ok_2@mail.com' },
-              { firstName: 'fn_ok_3', lastName: 'ln_ok_3', email: 'email_ok_3@mail.com' },
+              { firstName: 'fn_ok_1', lastName: 'ln_ok_1', email: 'email_ok_1@mail.com', username: 'username_ok0210' },
+              { firstName: 'fn_ok_2', lastName: 'ln_ok_2', email: 'email_ok_2@mail.com', username: 'username_ok1214' },
+              { firstName: 'fn_ok_3', lastName: 'ln_ok_3', email: 'email_ok_3@mail.com', username: 'username_ok1010' },
 
               // Unmatching users
-              { firstName: 'fn_ko_4', lastName: 'ln_ok_4', email: 'email_ok_4@mail.com' },
-              { firstName: 'fn_ok_5', lastName: 'ln_ko_5', email: 'email_ok_5@mail.com' },
-              { firstName: 'fn_ok_6', lastName: 'ln_ok_6', email: 'email_ko_6@mail.com' },
+              { firstName: 'fn_ko_4', lastName: 'ln_ok_4', email: 'email_ok_4@mail.com', username: 'username_ko1309' },
+              { firstName: 'fn_ok_5', lastName: 'ln_ko_5', email: 'email_ok_5@mail.com', username: 'username_ok1911' },
+              { firstName: 'fn_ok_6', lastName: 'ln_ok_6', email: 'email_ko_6@mail.com', username: 'username_ok2010' },
             ],
             (user) => {
               databaseBuilder.factory.buildUser(user);
@@ -1168,9 +1199,9 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
           await databaseBuilder.commit();
         });
 
-        it('should return only users matching "first name" AND "last name" AND "email" if given in filter', async function () {
+        it('should return only users matching "first name" AND "last name" AND "email" AND "username" if given in filter', async function () {
           // given
-          const filter = { firstName: 'fn_ok', lastName: 'ln_ok', email: 'email_ok' };
+          const filter = { firstName: 'fn_ok', lastName: 'ln_ok', email: 'email_ok', username: 'username_ok' };
           const page = { number: 1, size: 10 };
           const expectedPagination = { page: page.number, pageSize: page.size, pageCount: 1, rowCount: 3 };
 
@@ -1184,6 +1215,11 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
             'email_ok_1@mail.com',
             'email_ok_2@mail.com',
             'email_ok_3@mail.com',
+          ]);
+          expect(map(matchingUsers, 'username')).to.have.members([
+            'username_ok0210',
+            'username_ok1214',
+            'username_ok1010',
           ]);
           expect(pagination).to.deep.equal(expectedPagination);
         });
