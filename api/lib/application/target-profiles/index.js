@@ -285,7 +285,6 @@ exports.register = async (server) => {
             method: (request, h) =>
               securityPreHandlers.userHasAtLeastOneAccessOf([
                 securityPreHandlers.checkUserHasRoleSuperAdmin,
-                securityPreHandlers.checkUserHasRoleCertif,
                 securityPreHandlers.checkUserHasRoleSupport,
                 securityPreHandlers.checkUserHasRoleMetier,
               ])(request, h),
@@ -316,7 +315,7 @@ exports.register = async (server) => {
           }).required(),
         },
         handler: targetProfileController.createBadge,
-        tags: ['api', 'badges'],
+        tags: ['api', 'admin', 'badges'],
         notes: [
           "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n" +
             '- Elle permet de créer un résultat thématique rattaché au profil cible.',
