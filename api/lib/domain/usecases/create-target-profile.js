@@ -4,7 +4,7 @@ module.exports = async function createTargetProfile({
   targetProfileRepository,
   targetProfileWithLearningContentRepository,
 }) {
-  const targetProfile = new TargetProfileForCreation(targetProfileData);
-  const targetProfileId = await targetProfileRepository.create(targetProfile);
+  const targetProfileForCreation = new TargetProfileForCreation(targetProfileData);
+  const targetProfileId = await targetProfileRepository.create(targetProfileForCreation);
   return targetProfileWithLearningContentRepository.get({ id: targetProfileId });
 };
