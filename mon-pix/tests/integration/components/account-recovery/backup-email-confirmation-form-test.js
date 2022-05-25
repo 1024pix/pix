@@ -1,7 +1,8 @@
 import { describe, it } from 'mocha';
 import { expect } from 'chai';
 import Service from '@ember/service';
-import { render, triggerEvent } from '@ember/test-helpers';
+import { triggerEvent } from '@ember/test-helpers';
+import { render } from '@1024pix/ember-testing-library';
 import hbs from 'htmlbars-inline-precompile';
 import sinon from 'sinon';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
@@ -25,36 +26,45 @@ describe('Integration | Component | account-recovery::backup-email-confirmation-
       this.set('existingEmail', existingEmail);
 
       // when
-      await render(
+      const screen = await render(
         hbs`<AccountRecovery::BackupEmailConfirmationForm @firstName={{this.firstName}} @existingEmail={{this.existingEmail}} @resetErrors={{this.resetErrors}}/>`
       );
 
       // then
       expect(
-        contains(
+        screen.getByText(
           this.intl.t(
             'pages.account-recovery.find-sco-record.backup-email-confirmation.email-already-exist-for-account-message'
           )
         )
       ).to.exist;
       expect(
-        contains(this.intl.t('pages.account-recovery.find-sco-record.backup-email-confirmation.email-is-valid-message'))
-      ).to.exist;
-      expect(
-        contains(this.intl.t('pages.account-recovery.find-sco-record.backup-email-confirmation.email-reset-message'))
-      ).to.exist;
-      expect(
-        contains(this.intl.t('pages.account-recovery.find-sco-record.backup-email-confirmation.form.email'))
-      ).to.exist;
-      expect(
-        contains(
-          this.intl.t('pages.account-recovery.find-sco-record.backup-email-confirmation.ask-for-new-email-message')
+        screen.getByText(
+          this.intl.t('pages.account-recovery.find-sco-record.backup-email-confirmation.email-is-valid-message'),
+          { exact: false }
         )
       ).to.exist;
+      expect(
+        screen.getByText(
+          this.intl.t('pages.account-recovery.find-sco-record.backup-email-confirmation.ask-for-new-email-message'),
+          { exact: false }
+        )
+      ).to.exist;
+      expect(
+        screen.getByRole('link', {
+          name: this.intl.t('pages.account-recovery.find-sco-record.backup-email-confirmation.email-reset-message'),
+        })
+      ).to.exist;
+      expect(
+        screen.getByRole('textbox', {
+          name: this.intl.t('pages.account-recovery.find-sco-record.backup-email-confirmation.form.email'),
+        })
+      ).to.exist;
 
-      const submitButton = findByLabel(
-        this.intl.t('pages.account-recovery.find-sco-record.backup-email-confirmation.form.actions.submit')
-      );
+      const submitButton = screen.getByRole('button', {
+        name: this.intl.t('pages.account-recovery.find-sco-record.backup-email-confirmation.form.actions.submit'),
+      });
+
       expect(submitButton).to.exist;
       expect(submitButton.disabled).to.be.true;
     });
