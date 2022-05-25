@@ -19,7 +19,7 @@ describe('Unit | Serializer | JSONAPI | framework-serializer', function () {
             relationships: {
               areas: {
                 links: {
-                  related: '/api/frameworks/frameworkId1/areas',
+                  related: '/api/admin/frameworks/frameworkId1/areas',
                 },
               },
             },
@@ -31,7 +31,7 @@ describe('Unit | Serializer | JSONAPI | framework-serializer', function () {
             relationships: {
               areas: {
                 links: {
-                  related: '/api/frameworks/frameworkId2/areas',
+                  related: '/api/admin/frameworks/frameworkId2/areas',
                 },
               },
             },
