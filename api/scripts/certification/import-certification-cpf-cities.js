@@ -1,12 +1,12 @@
 #!/usr/bin/env node
 require('dotenv').config();
-const logger = require('../lib/infrastructure/logger');
+const logger = require('../../lib/infrastructure/logger');
 // Usage: node scripts/import-certification-cpf-cities path/file.csv
 // File downloaded from https://www.data.gouv.fr/fr/datasets/base-officielle-des-codes-postaux/
 
 ('use strict');
-const { parseCsv, checkCsvHeader } = require('./helpers/csvHelpers');
-const { knex } = require('../lib/infrastructure/bookshelf');
+const { parseCsv, checkCsvHeader } = require('../helpers/csvHelpers');
+const { knex } = require('../../lib/infrastructure/bookshelf');
 const uniqBy = require('lodash/uniqBy');
 const values = require('lodash/values');
 
