@@ -34,7 +34,6 @@ module.exports = {
     );
     await usecases.correctCandidateIdentityInCertificationCourse({ command });
     const updatedCertificationCourse = await usecases.getCertificationCourse({
-      userId: command.userId,
       certificationCourseId: command.certificationCourseId,
     });
     return certificationSerializer.serializeFromCertificationCourse(updatedCertificationCourse);
@@ -63,9 +62,7 @@ module.exports = {
 
   async get(request) {
     const certificationCourseId = request.params.id;
-    const userId = request.auth.credentials.userId;
-
-    const certificationCourse = await usecases.getCertificationCourse({ userId, certificationCourseId });
+    const certificationCourse = await usecases.getCertificationCourse({ certificationCourseId });
     const isEndScreenRemoveEnabled = await isEndTestScreenRemovalService.isEndTestScreenRemovalEnabledBySessionId(
       certificationCourse.getSessionId()
     );

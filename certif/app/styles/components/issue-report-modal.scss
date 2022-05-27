@@ -19,11 +19,15 @@
 
     button {
       font-weight: 500;
-
-      svg {
-        margin-right: 8px;
-      }
     }
+
+    svg {
+      margin-right: 8px;
+    }
+  }
+
+  &__add-button {
+    margin-right: 8px;
   }
 
   &__category-label {

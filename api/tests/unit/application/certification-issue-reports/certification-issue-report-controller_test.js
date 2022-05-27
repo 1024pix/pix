@@ -8,24 +8,24 @@ describe('Unit | Controller | certification-issue-report-controller', function (
       // given
       const certificationIssueReportId = 456;
       const userId = 789;
-      const request = {
-        params: {
-          id: certificationIssueReportId,
-        },
-        auth: {
-          credentials: { userId },
-        },
-      };
-      sinon
-        .stub(usecases, 'deleteCertificationIssueReport')
-        .withArgs({ certificationIssueReportId, userId })
-        .resolves();
+      sinon.stub(usecases, 'deleteCertificationIssueReport');
 
       // when
-      const response = await certificationIssueReportController.deleteCertificationIssueReport(request, hFake);
+      const response = await certificationIssueReportController.deleteCertificationIssueReport(
+        {
+          params: {
+            id: certificationIssueReportId,
+          },
+          auth: {
+            credentials: { userId },
+          },
+        },
+        hFake
+      );
 
       // then
       expect(response).to.be.null;
+      expect(usecases.deleteCertificationIssueReport).to.have.been.calledWith({ certificationIssueReportId });
     });
   });
 
