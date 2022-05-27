@@ -2,6 +2,7 @@ const Joi = require('joi');
 const certificationReportController = require('./certification-report-controller');
 const identifiersType = require('../../domain/types/identifiers-type');
 const authorization = require('../preHandlers/authorization');
+const securityPreHandlers = require('../security-pre-handlers');
 
 exports.register = async (server) => {
   server.route([
@@ -9,15 +10,29 @@ exports.register = async (server) => {
       method: 'POST',
       path: '/api/certification-reports/{id}/certification-issue-reports',
       config: {
+        pre: [
+          {
+            method: (request, h) =>
+              securityPreHandlers.userHasAtLeastOneAccessOf([
+                securityPreHandlers.checkUserIsMemberOfCertificationCenterSessionFromCertificationCourseId,
+                securityPreHandlers.checkUserHasRoleSuperAdmin,
+                securityPreHandlers.checkUserHasRoleCertif,
+                securityPreHandlers.checkUserHasRoleSupport,
+                securityPreHandlers.checkUserHasRoleMetier,
+              ])(request, h),
+            assign: 'hasAuthorizationToAccessAdminScope',
+          },
+        ],
         validate: {
           params: Joi.object({
-            id: identifiersType.certificationIssueReportId,
+            id: identifiersType.certificationCourseId,
           }),
         },
         handler: certificationReportController.saveCertificationIssueReport,
         tags: ['api', 'certification-reports'],
         notes: [
-          '- **Cette route est restreinte aux utilisateurs authentifiés**\n',
+          '- **Cette route est restreinte aux utilisateurs qui sont membres de la session du centre de certification**\n',
+          "ou à ceux avec un rôle sur l'application Pix Admin\n",
           "- Elle permet d'enregistrer un signalement relevé par un surveillant sur la certification d'un candidat",
         ],
       },

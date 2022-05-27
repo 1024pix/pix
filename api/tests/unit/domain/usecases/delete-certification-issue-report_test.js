@@ -32,24 +32,6 @@ describe('Unit | UseCase | delete-certification-issue-report', function () {
     sinon.stub(sessionAuthorizationService, 'isAuthorizedToAccessSession');
   });
 
-  it('should throw a ForbiddenAccess error when user is not allowed to delete certification issue report', async function () {
-    // given
-    sessionAuthorizationService.isAuthorizedToAccessSession.withArgs({ userId, sessionId }).resolves(false);
-
-    // when
-    const error = await catchErr(deleteCertificationIssueReport)({
-      certificationIssueReportId,
-      userId,
-      certificationCourseRepository,
-      certificationIssueReportRepository,
-      sessionRepository,
-      sessionAuthorizationService,
-    });
-
-    // then
-    expect(error).to.be.instanceOf(ForbiddenAccess);
-  });
-
   it('should throw a ForbiddenAccess error when session is already finalized', async function () {
     // given
     sessionAuthorizationService.isAuthorizedToAccessSession.withArgs({ userId, sessionId }).resolves(true);

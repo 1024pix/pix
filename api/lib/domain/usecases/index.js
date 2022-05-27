@@ -119,7 +119,6 @@ const dependencies = {
   scoCertificationCandidateRepository: require('../../infrastructure/repositories/sco-certification-candidate-repository'),
   scorecardService: require('../../domain/services/scorecard-service'),
   scoringCertificationService: require('../../domain/services/scoring/scoring-certification-service'),
-  sessionAuthorizationService: require('../../domain/services/session-authorization-service'),
   sessionForAttendanceSheetRepository: require('../../infrastructure/repositories/sessions/session-for-attendance-sheet-repository'),
   sessionPublicationService: require('../../domain/services/session-publication-service'),
   sessionRepository: require('../../infrastructure/repositories/sessions/session-repository'),

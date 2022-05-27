@@ -9,6 +9,19 @@ exports.register = async (server) => {
       method: 'DELETE',
       path: '/api/certification-issue-reports/{id}',
       config: {
+        pre: [
+          {
+            method: (request, h) =>
+              securityPreHandlers.userHasAtLeastOneAccessOf([
+                securityPreHandlers.checkUserIsMemberOfCertificationCenterSessionFromCertificationIssueReportId,
+                securityPreHandlers.checkUserHasRoleSuperAdmin,
+                securityPreHandlers.checkUserHasRoleCertif,
+                securityPreHandlers.checkUserHasRoleSupport,
+                securityPreHandlers.checkUserHasRoleMetier,
+              ])(request, h),
+            assign: 'hasAuthorizationToAccessAdminScope',
+          },
+        ],
         validate: {
           params: Joi.object({
             id: identifiersType.certificationIssueReportId,
@@ -17,7 +30,8 @@ exports.register = async (server) => {
         handler: certificationIssueReportController.deleteCertificationIssueReport,
         tags: ['api', 'certification-issue-reports'],
         notes: [
-          '- **Cette route est restreinte aux utilisateurs authentifiés**\n',
+          '- **Cette route est restreinte aux utilisateurs qui sont membres de la session du centre de certification**\n',
+          "ou à ceux avec un rôle sur l'application Pix Admin\n",
           '- Elle permet de supprimer un signalement',
         ],
       },

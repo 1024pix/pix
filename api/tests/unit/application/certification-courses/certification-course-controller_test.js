@@ -335,21 +335,13 @@ describe('Unit | Controller | certification-course-controller', function () {
   });
 
   describe('#get', function () {
-    let certificationCourse;
-    const sessionId = 5;
-    const certificationCourseId = 'certification_course_id';
-
-    beforeEach(function () {
-      certificationCourse = new CertificationCourse({ id: certificationCourseId, sessionId });
-    });
-
     it('should fetch and return the given course, serialized as JSONAPI', async function () {
       // given
+      const sessionId = 5;
+      const certificationCourseId = 'certification_course_id';
+      const certificationCourse = new CertificationCourse({ id: certificationCourseId, sessionId });
       const userId = 42;
-      sinon
-        .stub(usecases, 'getCertificationCourse')
-        .withArgs({ userId, certificationCourseId })
-        .resolves(certificationCourse);
+      sinon.stub(usecases, 'getCertificationCourse').withArgs({ certificationCourseId }).resolves(certificationCourse);
       sinon
         .stub(certificationCourseSerializer, 'serialize')
         .withArgs(certificationCourse)

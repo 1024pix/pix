@@ -8,24 +8,6 @@ describe('Unit | Controller | certification-report-controller', function () {
       // given
       const certificationReportId = 123;
       const userId = 456;
-      const request = {
-        params: {
-          id: certificationReportId,
-        },
-        auth: {
-          credentials: { userId },
-        },
-        payload: {
-          data: {
-            attributes: {
-              category: 'someCategory',
-              description: 'someDescription',
-              subcategory: 'someSubcategory',
-              'question-number': 'someQuestionNumber',
-            },
-          },
-        },
-      };
       const certificationIssueReportDeserialized = {
         certificationCourseId: certificationReportId,
         category: 'someCategory',
@@ -36,11 +18,31 @@ describe('Unit | Controller | certification-report-controller', function () {
       const savedCertificationIssueReport = domainBuilder.buildCertificationIssueReport();
       sinon
         .stub(usecases, 'saveCertificationIssueReport')
-        .withArgs({ userId, certificationIssueReportDTO: certificationIssueReportDeserialized })
+        .withArgs({ certificationIssueReportDTO: certificationIssueReportDeserialized })
         .resolves(savedCertificationIssueReport);
 
       // when
-      const response = await certificationReportController.saveCertificationIssueReport(request, hFake);
+      const response = await certificationReportController.saveCertificationIssueReport(
+        {
+          params: {
+            id: certificationReportId,
+          },
+          auth: {
+            credentials: { userId },
+          },
+          payload: {
+            data: {
+              attributes: {
+                category: 'someCategory',
+                description: 'someDescription',
+                subcategory: 'someSubcategory',
+                'question-number': 'someQuestionNumber',
+              },
+            },
+          },
+        },
+        hFake
+      );
 
       // then
       expect(response.source.data).to.deep.equal({

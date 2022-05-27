@@ -12,6 +12,9 @@ const checkUserBelongsToScoOrganizationAndManagesStudentsUseCase = require('../.
 const checkUserIsMemberOfAnOrganizationUseCase = require('../../../lib/application/usecases/checkUserIsMemberOfAnOrganization');
 const checkUserIsMemberOfCertificationCenterUseCase = require('../../../lib/application/usecases/checkUserIsMemberOfCertificationCenter');
 const checkAuthorizationToManageCampaignUsecase = require('../../../lib/application/usecases/checkAuthorizationToManageCampaign');
+const checkUserIsMemberOfCertificationCenterSessionUsecase = require('../../../lib/application/usecases/checkUserIsMemberOfCertificationCenterSession');
+const certificationIssueReportRepository = require('../../../lib/infrastructure/repositories/certification-issue-report-repository');
+const checkUserOwnsCertificationCourseUseCase = require('../../../lib/application/usecases/checkUserOwnsCertificationCourse');
 
 describe('Unit | Application | SecurityPreHandlers', function () {
   describe('#checkUserHasRoleSuperAdmin', function () {
@@ -829,6 +832,247 @@ describe('Unit | Application | SecurityPreHandlers', function () {
 
         // when
         const response = await securityPreHandlers.checkAuthorizationToManageCampaign(request, hFake);
+
+        // then
+        expect(response.statusCode).to.equal(403);
+        expect(response.isTakeOver).to.be.true;
+      });
+    });
+  });
+
+  describe('#checkUserIsMemberOfCertificationCenterSessionFromCertificationCourseId', function () {
+    context('Successful case', function () {
+      it('should authorize access to resource when the user is a member of the organization center', async function () {
+        // given
+        const userId = 123;
+        const certificationCourseId = 7;
+        sinon
+          .stub(checkUserIsMemberOfCertificationCenterSessionUsecase, 'execute')
+          .withArgs({ userId, certificationCourseId })
+          .resolves(true);
+
+        // when
+        const response =
+          await securityPreHandlers.checkUserIsMemberOfCertificationCenterSessionFromCertificationCourseId(
+            {
+              auth: { credentials: { accessToken: 'valid.access.token', userId: 123 } },
+              params: { id: 7 },
+            },
+            hFake
+          );
+
+        // then
+        expect(response.source).to.equal(true);
+      });
+    });
+
+    context('Error cases', function () {
+      it('should forbid resource access when user was not previously authenticated', async function () {
+        // given & when
+        const response =
+          await securityPreHandlers.checkUserIsMemberOfCertificationCenterSessionFromCertificationCourseId(
+            { auth: { credentials: {} }, params: { id: 5678 } },
+            hFake
+          );
+
+        // then
+        expect(response.statusCode).to.equal(403);
+        expect(response.isTakeOver).to.be.true;
+      });
+
+      it('should forbid resource access when user is not a member of the organization center', async function () {
+        // given
+        sinon.stub(checkUserIsMemberOfCertificationCenterSessionUsecase, 'execute').resolves(false);
+
+        // when
+        const response =
+          await securityPreHandlers.checkUserIsMemberOfCertificationCenterSessionFromCertificationCourseId(
+            { auth: { credentials: { accessToken: 'valid.access.token', userId: 1 } }, params: { id: 5678 } },
+            hFake
+          );
+
+        // then
+        expect(response.statusCode).to.equal(403);
+        expect(response.isTakeOver).to.be.true;
+      });
+
+      it('should forbid resource access when an error is thrown by use case', async function () {
+        // given
+        sinon.stub(checkUserIsMemberOfCertificationCenterSessionUsecase, 'execute').rejects(new Error('Some error'));
+
+        // when
+        const response =
+          await securityPreHandlers.checkUserIsMemberOfCertificationCenterSessionFromCertificationCourseId(
+            { auth: { credentials: { accessToken: 'valid.access.token', userId: 1 } }, params: { id: 5678 } },
+            hFake
+          );
+
+        // then
+        expect(response.statusCode).to.equal(403);
+        expect(response.isTakeOver).to.be.true;
+      });
+    });
+  });
+
+  describe('#checkUserIsMemberOfCertificationCenterSessionFromCertificationIssueReportId', function () {
+    context('Successful case', function () {
+      it('should authorize access to resource when the user is a member of the organization center', async function () {
+        // given
+        const userId = 123;
+        const certificationCourseId = 7;
+        const certificationIssueReportId = 666;
+        sinon
+          .stub(certificationIssueReportRepository, 'get')
+          .withArgs(certificationIssueReportId)
+          .resolves({ certificationCourseId });
+        sinon
+          .stub(checkUserIsMemberOfCertificationCenterSessionUsecase, 'execute')
+          .withArgs({ userId, certificationCourseId })
+          .resolves(true);
+
+        // when
+        const response =
+          await securityPreHandlers.checkUserIsMemberOfCertificationCenterSessionFromCertificationIssueReportId(
+            {
+              auth: { credentials: { accessToken: 'valid.access.token', userId: 123 } },
+              params: { id: 666 },
+            },
+            hFake
+          );
+
+        // then
+        expect(response.source).to.equal(true);
+      });
+    });
+
+    context('Error cases', function () {
+      it('should forbid resource access when user was not previously authenticated', async function () {
+        // given & when
+        const response =
+          await securityPreHandlers.checkUserIsMemberOfCertificationCenterSessionFromCertificationIssueReportId(
+            { auth: { credentials: {} }, params: { id: 5678 } },
+            hFake
+          );
+
+        // then
+        expect(response.statusCode).to.equal(403);
+        expect(response.isTakeOver).to.be.true;
+      });
+
+      it('should forbid resource access when user is not a member of the organization center', async function () {
+        // given
+        sinon.stub(certificationIssueReportRepository, 'get').resolves({ certificationCourseId: 7 });
+        sinon.stub(checkUserIsMemberOfCertificationCenterSessionUsecase, 'execute').resolves(false);
+
+        // when
+        const response =
+          await securityPreHandlers.checkUserIsMemberOfCertificationCenterSessionFromCertificationIssueReportId(
+            { auth: { credentials: { accessToken: 'valid.access.token', userId: 1 } }, params: { id: 666 } },
+            hFake
+          );
+
+        // then
+        expect(response.statusCode).to.equal(403);
+        expect(response.isTakeOver).to.be.true;
+      });
+
+      it('should forbid resource access when an error is thrown by use case', async function () {
+        // given
+        sinon.stub(certificationIssueReportRepository, 'get').resolves({ certificationCourseId: 7 });
+        sinon.stub(checkUserIsMemberOfCertificationCenterSessionUsecase, 'execute').rejects(new Error('Some error'));
+
+        // when
+        const response =
+          await securityPreHandlers.checkUserIsMemberOfCertificationCenterSessionFromCertificationIssueReportId(
+            { auth: { credentials: { accessToken: 'valid.access.token', userId: 1 } }, params: { id: 666 } },
+            hFake
+          );
+
+        // then
+        expect(response.statusCode).to.equal(403);
+        expect(response.isTakeOver).to.be.true;
+      });
+
+      it('should forbid resource access when an error is thrown by repo', async function () {
+        // given
+        sinon.stub(certificationIssueReportRepository, 'get').rejects(new Error('Some error'));
+
+        // when
+        const response =
+          await securityPreHandlers.checkUserIsMemberOfCertificationCenterSessionFromCertificationIssueReportId(
+            { auth: { credentials: { accessToken: 'valid.access.token', userId: 1 } }, params: { id: 666 } },
+            hFake
+          );
+
+        // then
+        expect(response.statusCode).to.equal(403);
+        expect(response.isTakeOver).to.be.true;
+      });
+    });
+  });
+
+  describe('#checkUserOwnsCertificationCourse', function () {
+    context('Successful case', function () {
+      it('should authorize access to resource when the user owns the certification course', async function () {
+        // given
+        const userId = 123;
+        const certificationCourseId = 7;
+        sinon
+          .stub(checkUserOwnsCertificationCourseUseCase, 'execute')
+          .withArgs({ userId, certificationCourseId })
+          .resolves(true);
+
+        // when
+        const response = await securityPreHandlers.checkUserOwnsCertificationCourse(
+          {
+            auth: { credentials: { accessToken: 'valid.access.token', userId: 123 } },
+            params: { id: 7 },
+          },
+          hFake
+        );
+
+        // then
+        expect(response.source).to.equal(true);
+      });
+    });
+
+    context('Error cases', function () {
+      it('should forbid resource access when user was not previously authenticated', async function () {
+        // given & when
+        const response = await securityPreHandlers.checkUserOwnsCertificationCourse(
+          { auth: { credentials: {} }, params: { id: 5678 } },
+          hFake
+        );
+
+        // then
+        expect(response.statusCode).to.equal(403);
+        expect(response.isTakeOver).to.be.true;
+      });
+
+      it('should forbid resource access when user does not own the certification course', async function () {
+        // given
+        sinon.stub(checkUserOwnsCertificationCourseUseCase, 'execute').resolves(false);
+
+        // when
+        const response = await securityPreHandlers.checkUserOwnsCertificationCourse(
+          { auth: { credentials: { accessToken: 'valid.access.token', userId: 1 } }, params: { id: 5678 } },
+          hFake
+        );
+
+        // then
+        expect(response.statusCode).to.equal(403);
+        expect(response.isTakeOver).to.be.true;
+      });
+
+      it('should forbid resource access when an error is thrown by use case', async function () {
+        // given
+        sinon.stub(checkUserOwnsCertificationCourseUseCase, 'execute').rejects(new Error('Some error'));
+
+        // when
+        const response = await securityPreHandlers.checkUserOwnsCertificationCourse(
+          { auth: { credentials: { accessToken: 'valid.access.token', userId: 1 } }, params: { id: 5678 } },
+          hFake
+        );
 
         // then
         expect(response.statusCode).to.equal(403);
