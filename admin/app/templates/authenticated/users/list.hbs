@@ -19,6 +19,12 @@
         @ariaLabel="Identifiant"
       />
       <PixButton @size="small" @type="submit">Charger</PixButton>
+      <PixIconButton
+        @ariaLabel="Vider les champs de recherche"
+        @icon="times"
+        @withBackground={{true}}
+        @triggerAction={{this.clearSearchFields}}
+      />
     </form>
   </div>
 </header>

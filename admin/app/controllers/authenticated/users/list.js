@@ -48,4 +48,12 @@ export default class ListController extends Controller {
   onChangeUsername(event) {
     this.usernameForm = event.target.value;
   }
+
+  @action
+  clearSearchFields() {
+    this.firstName = null;
+    this.lastName = null;
+    this.email = null;
+    this.username = null;
+  }
 }
