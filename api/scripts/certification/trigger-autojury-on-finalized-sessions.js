@@ -1,13 +1,13 @@
-const { knex } = require('../db/knex-database-connection');
+const { knex } = require('../../db/knex-database-connection');
 const bluebird = require('bluebird');
-const handleAutoJury = require('../lib/domain/events/handle-auto-jury');
-const certificationIssueReportRepository = require('../lib/infrastructure/repositories/certification-issue-report-repository');
-const certificationAssessmentRepository = require('../lib/infrastructure/repositories/certification-assessment-repository');
-const certificationCourseRepository = require('../lib/infrastructure/repositories/certification-course-repository');
-const challengeRepository = require('../lib/infrastructure/repositories/challenge-repository');
-const logger = require('../lib/infrastructure/logger');
-const SessionFinalized = require('../lib/domain/events/SessionFinalized');
-const { eventDispatcher } = require('../lib/domain/events');
+const handleAutoJury = require('../../lib/domain/events/handle-auto-jury');
+const certificationIssueReportRepository = require('../../lib/infrastructure/repositories/certification-issue-report-repository');
+const certificationAssessmentRepository = require('../../lib/infrastructure/repositories/certification-assessment-repository');
+const certificationCourseRepository = require('../../lib/infrastructure/repositories/certification-course-repository');
+const challengeRepository = require('../../lib/infrastructure/repositories/challenge-repository');
+const logger = require('../../lib/infrastructure/logger');
+const SessionFinalized = require('../../lib/domain/events/SessionFinalized');
+const { eventDispatcher } = require('../../lib/domain/events');
 const IS_FROM_SCRATCH = process.env.IS_FROM_SCRATCH === 'true';
 const AUDIT_TABLE = 'autojury-script-audit';
 
