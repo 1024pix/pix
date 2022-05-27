@@ -5,17 +5,19 @@ import { action } from '@ember/object';
 const DEFAULT_PAGE_NUMBER = 1;
 
 export default class ListController extends Controller {
-  queryParams = ['pageNumber', 'pageSize', 'firstName', 'lastName', 'email'];
+  queryParams = ['pageNumber', 'pageSize', 'firstName', 'lastName', 'email', 'username'];
 
   @tracked pageNumber = DEFAULT_PAGE_NUMBER;
   @tracked pageSize = 10;
   @tracked firstName = null;
   @tracked lastName = null;
   @tracked email = null;
+  @tracked username = null;
 
   @tracked firstNameForm = null;
   @tracked lastNameForm = null;
   @tracked emailForm = null;
+  @tracked usernameForm = null;
 
   @action
   async refreshModel(event) {
@@ -23,6 +25,7 @@ export default class ListController extends Controller {
     this.firstName = this.firstNameForm;
     this.lastName = this.lastNameForm;
     this.email = this.emailForm;
+    this.username = this.usernameForm;
     this.pageNumber = DEFAULT_PAGE_NUMBER;
   }
 
@@ -39,5 +42,10 @@ export default class ListController extends Controller {
   @action
   onChangeEmail(event) {
     this.emailForm = event.target.value;
+  }
+
+  @action
+  onChangeUsername(event) {
+    this.usernameForm = event.target.value;
   }
 }
