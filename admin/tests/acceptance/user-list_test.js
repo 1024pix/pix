@@ -41,30 +41,65 @@ module('Acceptance | User List', function (hooks) {
       assert.dom(screen.getByText('Aucun résultat')).exists();
     });
 
-    test('it should display the current filter when users are filtered', async function (assert) {
-      // given
-      const result = {
-        data: [
-          {
-            type: 'users',
-            id: '1',
-            attributes: {
-              'first-name': 'Pix',
-              'last-name': 'Aile',
-              email: 'userpix1@example.net',
-            },
-          },
-        ],
-      };
+    module('when users are filtered', function () {
+      module('when user has only username or email', function () {
+        test('it should display the current user', async function (assert) {
+          // given
+          const result = {
+            data: [
+              {
+                type: 'users',
+                id: '1',
+                attributes: {
+                  'first-name': 'Alex',
+                  'last-name': 'Ception',
+                  username: 'alex.pix1030',
+                },
+              },
+            ],
+          };
 
-      this.server.get('/admin/users', () => result);
+          this.server.get('/admin/users', () => result);
 
-      // when
-      const screen = await visit('/users/list?email=example.net');
+          // when
+          const screen = await visit('/users/list?username=alex.pix1030');
 
-      // then
-      assert.dom(screen.getByLabelText("Informations de l'utilisateur Pix Aile")).containsText('userpix1@example.net');
-      assert.strictEqual(screen.queryAllByLabelText("Informations de l'utilisateur", { exact: false }).length, 1);
+          // then
+          assert
+            .dom(screen.getByLabelText("Informations de l'utilisateur Alex Ception"))
+            .hasText('1 Alex Ception alex.pix1030');
+          assert.strictEqual(screen.queryAllByLabelText("Informations de l'utilisateur", { exact: false }).length, 1);
+        });
+      });
+      module('when user has username and email', function () {
+        test('it should display the current user', async function (assert) {
+          // given
+          const result = {
+            data: [
+              {
+                type: 'users',
+                id: '1',
+                attributes: {
+                  'first-name': 'Alex',
+                  'last-name': 'Ception',
+                  email: 'alex.ception@example.net',
+                  username: 'alex.pix1030',
+                },
+              },
+            ],
+          };
+
+          this.server.get('/admin/users', () => result);
+
+          // when
+          const screen = await visit('/users/list?username=alex.pix1030');
+
+          // then
+          assert
+            .dom(screen.getByLabelText("Informations de l'utilisateur Alex Ception"))
+            .hasText('1 Alex Ception alex.ception@example.net alex.pix1030');
+        });
+      });
     });
   });
 });

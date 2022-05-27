@@ -1,5 +1,6 @@
 import { module, test } from 'qunit';
-import { click, currentURL, visit } from '@ember/test-helpers';
+import { click, currentURL } from '@ember/test-helpers';
+import { visit } from '@1024pix/ember-testing-library';
 import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { authenticateAdminMemberWithRole } from 'pix-admin/tests/helpers/test-init';
@@ -8,18 +9,20 @@ module('Acceptance | authenticated/users/get', function (hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
 
-  let currentUser;
+  test('should access on user details page by URL /users/:id', async function (assert) {
+    // given
+    const currentUser = await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
 
-  hooks.beforeEach(async function () {
-    currentUser = await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
-  });
-
-  test('User detail page can be accessed by URL /users/:id', async function (assert) {
+    // when
     await visit(`/users/${currentUser.id}`);
+
+    // then
     assert.strictEqual(currentURL(), `/users/${currentUser.id}`);
   });
 
-  test('User detail page can be accessed from user list page', async function (assert) {
+  test('should access on user details page by user search form', async function (assert) {
+    // given
+    const currentUser = await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
     const usersListAfterFilteredSearch = {
       data: [
         {
@@ -37,15 +40,22 @@ module('Acceptance | authenticated/users/get', function (hooks) {
     this.server.get('/users', () => usersListAfterFilteredSearch);
 
     // when
-    await visit('/users/list?email=userpix1example.net');
-    await click('tbody > tr:nth-child(1) > td:nth-child(1) > a');
+    const screen = await visit('/users/list?email=userpix1example.net');
+    await click(screen.getByRole('link', { name: '1' }));
+
+    // then
     assert.strictEqual(currentURL(), `/users/${currentUser.id}`);
   });
 
-  test('Should redirect to list users page when click page title', async function (assert) {
+  test('should redirect to list users page when click page title', async function (assert) {
+    // given
+    const currentUser = await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
     await visit(`/users/${currentUser.id}`);
-    assert.strictEqual(currentURL(), `/users/${currentUser.id}`);
+
+    // when
     await click('#link-to-users-page');
+
+    // then
     assert.strictEqual(currentURL(), '/users/list');
   });
 });

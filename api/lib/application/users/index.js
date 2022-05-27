@@ -29,7 +29,7 @@ exports.register = async function (server) {
         notes: [
           "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n" +
             '- Elle permet de récupérer & chercher une liste d’utilisateurs\n' +
-            '- Cette liste est paginée et filtrée selon un **firstName**, un **lastName** et/ou un **email** donnés',
+            '- Cette liste est paginée et filtrée selon un **firstName**, un **lastName**, un **email** et **identifiant** donnés',
         ],
         tags: ['api', 'admin', 'user'],
       },
