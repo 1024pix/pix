@@ -231,6 +231,30 @@ describe('Unit | Domain | Models | Session', function () {
       expect(isSupervisable).to.be.false;
     });
   });
+
+  context('#canEnrollCandidate', function () {
+    it('should return true when session is not finalized', function () {
+      // given
+      const session = domainBuilder.buildSession.created();
+
+      // when
+      const result = session.canEnrollCandidate();
+
+      // then
+      expect(result).to.be.true;
+    });
+
+    it('should return false when session is not finalized', function () {
+      // given
+      const session = domainBuilder.buildSession.finalized();
+
+      // when
+      const result = session.canEnrollCandidate();
+
+      // then
+      expect(result).to.be.false;
+    });
+  });
 });
 
 context('#generateSupervisorPassword', function () {
