@@ -13,25 +13,6 @@ import ENV from 'pix-admin/config/environment';
 import { tracked } from '@glimmer/tracking';
 
 const PIX_COUNT_BY_LEVEL = 8;
-const options = [
-  {
-    value: 'PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_INITIE',
-    label: 'Pix+ Édu Initiale 1er degré Initié (entrée dans le métier)',
-  },
-  { value: 'PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_CONFIRME', label: 'Pix+ Édu Initiale 1er degré Confirmé' },
-  { value: 'PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_CONFIRME', label: 'Pix+ Édu Continue 1er degré Confirmé' },
-  { value: 'PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE', label: 'Pix+ Édu Continue 1er degré Avancé' },
-  { value: 'PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT', label: 'Pix+ Édu Continue 1er degré Expert' },
-  {
-    value: 'PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE',
-    label: 'Pix+ Édu Initiale 2nd degré Initié (entrée dans le métier)',
-  },
-  { value: 'PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME', label: 'Pix+ Édu Initiale 2nd degré Confirmé' },
-  { value: 'PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME', label: 'Pix+ Édu Continue 2nd degré Confirmé' },
-  { value: 'PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE', label: 'Pix+ Édu Continue 2nd degré Avancé' },
-  { value: 'PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT', label: 'Pix+ Édu Continue 2nd degré Expert' },
-  { value: 'REJECTED', label: 'Rejetée' },
-];
 
 export default class CertificationInformationsController extends Controller {
   // Domain constants
@@ -50,7 +31,10 @@ export default class CertificationInformationsController extends Controller {
   @tracked confirmAction = 'onCandidateResultsSave';
   @tracked isCandidateEditModalOpen = false;
   @tracked displayJuryLevelSelect = false;
-  @tracked juryLevelOptions = options;
+  @tracked juryLevelOptions = [
+    ...this.certification.complementaryCertificationCourseResultsWithExternal.get('allowedExternalLevels'),
+    { value: 'REJECTED', label: 'Rejetée' },
+  ];
   @tracked selectedJuryLevel = null;
 
   // private properties
