@@ -71,7 +71,6 @@ describe('Unit | Application | Certifications Issue Report | Route', function ()
 
       // then
       expect(response.statusCode).to.equal(403);
-      sinon.assert.notCalled(securityPreHandlers.checkUserHasRoleMetier);
     });
   });
 });

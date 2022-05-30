@@ -134,7 +134,6 @@ describe('Unit | Application | Certifications Course | Route', function () {
 
       // then
       expect(response.statusCode).to.equal(403);
-      sinon.assert.notCalled(securityPreHandlers.checkUserHasRoleMetier);
     });
   });
 
@@ -191,7 +190,6 @@ describe('Unit | Application | Certifications Course | Route', function () {
 
       // then
       expect(response.statusCode).to.equal(403);
-      sinon.assert.notCalled(securityPreHandlers.checkUserHasRoleMetier);
     });
 
     it('should call handler when user is ', async function () {
@@ -231,8 +229,8 @@ describe('Unit | Application | Certifications Course | Route', function () {
 
       // then
       expect(response.statusCode).to.equal(403);
-      sinon.assert.notCalled(securityPreHandlers.checkUserHasRoleMetier);
     });
+
     it('should call handler when user is ', async function () {
       // given
       sinon.stub(securityPreHandlers, 'userHasAtLeastOneAccessOf').returns(() => true);

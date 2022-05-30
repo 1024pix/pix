@@ -26,7 +26,6 @@ describe('Unit | Application | Assessmnet results | Route', function () {
 
       // then
       expect(response.statusCode).to.equal(403);
-      sinon.assert.notCalled(securityPreHandlers.checkUserHasRoleMetier);
     });
   });
 });

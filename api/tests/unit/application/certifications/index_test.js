@@ -34,7 +34,6 @@ describe('Unit | Application | Certification | Routes', function () {
 
       // then
       expect(response.statusCode).to.equal(403);
-      sinon.assert.notCalled(securityPreHandlers.checkUserHasRoleMetier);
     });
 
     it('checks that a valid certification-course id is given', async function () {
@@ -111,7 +110,6 @@ describe('Unit | Application | Certification | Routes', function () {
 
       // then
       expect(response.statusCode).to.equal(403);
-      sinon.assert.notCalled(securityPreHandlers.checkUserHasRoleMetier);
     });
 
     it('checks that a valid certification-course id is given', async function () {

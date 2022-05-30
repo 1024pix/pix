@@ -595,7 +595,6 @@ describe('Unit | Application | Sessions | Routes', function () {
 
         // then
         expect(response.statusCode).to.equal(403);
-        sinon.assert.notCalled(securityPreHandlers.checkUserHasRoleMetier);
       });
     });
 
@@ -795,7 +794,6 @@ describe('Unit | Application | Sessions | Routes', function () {
 
         // then
         expect(response.statusCode).to.equal(403);
-        sinon.assert.notCalled(securityPreHandlers.checkUserHasRoleMetier);
       });
     });
 
@@ -982,7 +980,6 @@ describe('Unit | Application | Sessions | Routes', function () {
 
         // then
         expect(response.statusCode).to.equal(403);
-        sinon.assert.notCalled(securityPreHandlers.checkUserHasRoleMetier);
       });
     });
   });
