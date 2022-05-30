@@ -10,6 +10,7 @@ const {
   NotFoundError,
   ForbiddenAccess,
   CertificationEndedBySupervisorError,
+  CertificationEndedByFinalizationError,
 } = require('../../../../lib/domain/errors');
 const dateUtils = require('../../../../lib/infrastructure/utils/date-utils');
 
@@ -126,6 +127,29 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
 
       // then
       return expect(error).to.be.an.instanceOf(CertificationEndedBySupervisorError);
+    });
+  });
+
+  context('when the assessment has been ended because session was finalized', function () {
+    it('should throw a CertificationEndedByFinalizationError error', async function () {
+      // given
+      const assessment = domainBuilder.buildAssessment({
+        userId,
+        lastQuestionDate: nowDate,
+        state: Assessment.states.ENDED_BY_FINALIZATION,
+      });
+      assessmentRepository.get.resolves(assessment);
+
+      // when
+      const error = await catchErr(correctAnswerThenUpdateAssessment)({
+        answer,
+        userId,
+        ...dependencies,
+      });
+
+      // then
+      expect(error).to.be.an.instanceOf(CertificationEndedByFinalizationError);
+      expect(error.message).to.equal('La session a été finalisée par votre centre de certification.');
     });
   });
 

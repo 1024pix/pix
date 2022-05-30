@@ -390,6 +390,12 @@ class CertificationEndedBySupervisorError extends DomainError {
   }
 }
 
+class CertificationEndedByFinalizationError extends DomainError {
+  constructor(message = 'La session a été finalisée par votre centre de certification.') {
+    super(message);
+  }
+}
+
 class SupervisorAccessNotAuthorizedError extends DomainError {
   constructor(
     message = "Cette session est organisée dans un centre de certification pour lequel l'espace surveillant n'a pas été activé par Pix."
@@ -1145,6 +1151,7 @@ module.exports = {
   CertificationCourseNotPublishableError,
   CertificationCourseUpdateError,
   CertificationEndedBySupervisorError,
+  CertificationEndedByFinalizationError,
   ChallengeAlreadyAnsweredError,
   ChallengeNotAskedError,
   ChallengeToBeNeutralizedNotFoundError,
