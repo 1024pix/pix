@@ -17,7 +17,7 @@ module('Integration | Component | in-challenge-certification-issue-report-fields
   setupRenderingTest(hooks);
 
   const featureToggles = {
-    isCertificationFreeFieldsDeletionEnabled: true,
+    isCertificationFreeFieldsDeletionEnabled: false,
   };
 
   hooks.beforeEach(function () {
@@ -27,164 +27,285 @@ module('Integration | Component | in-challenge-certification-issue-report-fields
     this.owner.register('service:feature-toggles', FeatureTogglesStub);
   });
 
-  hooks.afterEach(function () {
-    featureToggles.isCertificationFreeFieldsDeletionEnabled = true;
-  });
-
-  test('it should call toggle function on click radio button', async function (assert) {
-    // given
-    const toggleOnCategory = sinon.stub();
-    const inChallengeCategory = new RadioButtonCategoryWithSubcategoryAndQuestionNumber({
-      name: 'IN_CHALLENGE',
-      isChecked: false,
+  module('when FT_CERTIFICATION_FREE_FIELDS_DELETION is disabled', function (hooks) {
+    hooks.beforeEach(function () {
+      sinon.stub(featureToggles, 'isCertificationFreeFieldsDeletionEnabled').value(false);
     });
-    this.set('toggleOnCategory', toggleOnCategory);
-    this.set('inChallengeCategory', inChallengeCategory);
 
-    // when
-    await render(hbs`
+    test('it should call toggle function on click radio button', async function (assert) {
+      // given
+      const toggleOnCategory = sinon.stub();
+      const inChallengeCategory = new RadioButtonCategoryWithSubcategoryAndQuestionNumber({
+        name: 'IN_CHALLENGE',
+        isChecked: false,
+      });
+      this.set('toggleOnCategory', toggleOnCategory);
+      this.set('inChallengeCategory', inChallengeCategory);
+
+      // when
+      await render(hbs`
+        <IssueReportModal::InChallengeCertificationIssueReportFields
+          @inChallengeCategory={{this.inChallengeCategory}}
+          @toggleOnCategory={{this.toggleOnCategory}}
+          @maxlength={{500}}
+        />`);
+      await click(
+        `[aria-label="Sélectionner la catégorie '${categoryToLabel[certificationIssueReportCategories.IN_CHALLENGE]}'"]`
+      );
+
+      // then
+      assert.ok(toggleOnCategory.calledOnceWith(inChallengeCategory));
+    });
+
+    test('it should show dropdown menu with code & subcategories when category is checked', async function (assert) {
+      // given
+      const toggleOnCategory = sinon.stub();
+      const inChallengeCategory = new RadioButtonCategoryWithSubcategoryAndQuestionNumber({
+        name: 'IN_CHALLENGE',
+        isChecked: true,
+      });
+      this.set('toggleOnCategory', toggleOnCategory);
+      this.set('inChallengeCategory', inChallengeCategory);
+
+      // when
+      await render(hbs`
       <IssueReportModal::InChallengeCertificationIssueReportFields
         @inChallengeCategory={{this.inChallengeCategory}}
         @toggleOnCategory={{this.toggleOnCategory}}
         @maxlength={{500}}
       />`);
-    await click(
-      `[aria-label="Sélectionner la catégorie '${categoryToLabel[certificationIssueReportCategories.IN_CHALLENGE]}'"]`
-    );
+      await click('[aria-label="Sélectionner la sous-catégorie"]');
 
-    // then
-    assert.ok(toggleOnCategory.calledOnceWith(inChallengeCategory));
+      // then
+      assert.contains(
+        `${subcategoryToCode[certificationIssueReportSubcategories.IMAGE_NOT_DISPLAYING]} ${
+          subcategoryToLabel[certificationIssueReportSubcategories.IMAGE_NOT_DISPLAYING]
+        }`
+      );
+      assert.contains(
+        `${subcategoryToCode[certificationIssueReportSubcategories.EMBED_NOT_WORKING]} ${
+          subcategoryToLabel[certificationIssueReportSubcategories.EMBED_NOT_WORKING]
+        }`
+      );
+      assert.contains(
+        `${subcategoryToCode[certificationIssueReportSubcategories.WEBSITE_UNAVAILABLE]} ${
+          subcategoryToLabel[certificationIssueReportSubcategories.WEBSITE_UNAVAILABLE]
+        }`
+      );
+      assert.contains(
+        `${subcategoryToCode[certificationIssueReportSubcategories.WEBSITE_BLOCKED]} ${
+          subcategoryToLabel[certificationIssueReportSubcategories.WEBSITE_BLOCKED]
+        }`
+      );
+      assert.contains(
+        `${subcategoryToCode[certificationIssueReportSubcategories.EXTRA_TIME_EXCEEDED]} ${
+          subcategoryToLabel[certificationIssueReportSubcategories.EXTRA_TIME_EXCEEDED]
+        }`
+      );
+      assert.contains(
+        `${subcategoryToCode[certificationIssueReportSubcategories.SOFTWARE_NOT_WORKING]} ${
+          subcategoryToLabel[certificationIssueReportSubcategories.SOFTWARE_NOT_WORKING]
+        }`
+      );
+      assert.contains(
+        `${subcategoryToCode[certificationIssueReportSubcategories.UNINTENTIONAL_FOCUS_OUT]} ${
+          subcategoryToLabel[certificationIssueReportSubcategories.UNINTENTIONAL_FOCUS_OUT]
+        }`
+      );
+      assert.contains(
+        `${
+          subcategoryToCode[certificationIssueReportSubcategories.FILE_NOT_OPENING]
+        } Le fichier à télécharger ne s'ouvre pas`
+      );
+    });
+
+    test('category', async function (assert) {
+      // given
+      sinon.stub(featureToggles, 'isCertificationFreeFieldsDeletionEnabled').value(false);
+      const toggleOnCategory = () => {};
+      const inChallengeCategory = new RadioButtonCategoryWithSubcategoryAndQuestionNumber({
+        name: 'IN_CHALLENGE',
+      });
+      this.set('toggleOnCategory', toggleOnCategory);
+      this.set('inChallengeCategory', inChallengeCategory);
+
+      // when
+      await render(hbs`
+        <IssueReportModal::InChallengeCertificationIssueReportFields
+          @inChallengeCategory={{this.inChallengeCategory}}
+          @toggleOnCategory={{this.toggleOnCategory}}
+        />`);
+
+      //
+      assert.contains(`E1-E10`);
+    });
+
+    test('subcategory FILE_NOT_OPENING', async function (assert) {
+      // given
+      sinon.stub(featureToggles, 'isCertificationFreeFieldsDeletionEnabled').value(false);
+      const toggleOnCategory = sinon.stub();
+      const inChallengeCategory = new RadioButtonCategoryWithSubcategoryAndQuestionNumber({
+        name: 'IN_CHALLENGE',
+        isChecked: true,
+      });
+      this.set('toggleOnCategory', toggleOnCategory);
+      this.set('inChallengeCategory', inChallengeCategory);
+
+      // when
+      await render(hbs`
+        <IssueReportModal::InChallengeCertificationIssueReportFields
+          @inChallengeCategory={{this.inChallengeCategory}}
+          @toggleOnCategory={{this.toggleOnCategory}}
+          @maxlength={{500}}
+        />`);
+      await click('[aria-label="Sélectionner la sous-catégorie"]');
+
+      //
+      assert.contains(
+        `${
+          subcategoryToCode[certificationIssueReportSubcategories.FILE_NOT_OPENING]
+        } Le fichier à télécharger ne s'ouvre pas`
+      );
+    });
   });
 
-  test('it should show dropdown menu with code & subcategories when category is checked and FT is enabled', async function (assert) {
-    // given
-    const toggleOnCategory = sinon.stub();
-    const inChallengeCategory = new RadioButtonCategoryWithSubcategoryAndQuestionNumber({
-      name: 'IN_CHALLENGE',
-      isChecked: true,
+  module('when FT_CERTIFICATION_FREE_FIELDS_DELETION is enabled', function (hooks) {
+    hooks.beforeEach(function () {
+      sinon.stub(featureToggles, 'isCertificationFreeFieldsDeletionEnabled').value(true);
     });
-    this.set('toggleOnCategory', toggleOnCategory);
-    this.set('inChallengeCategory', inChallengeCategory);
 
-    // when
-    await render(hbs`
+    test('it should call toggle function on click radio button', async function (assert) {
+      // given
+      const toggleOnCategory = sinon.stub();
+      const inChallengeCategory = new RadioButtonCategoryWithSubcategoryAndQuestionNumber({
+        name: 'IN_CHALLENGE',
+        isChecked: false,
+      });
+      this.set('toggleOnCategory', toggleOnCategory);
+      this.set('inChallengeCategory', inChallengeCategory);
+
+      // when
+      await render(hbs`
       <IssueReportModal::InChallengeCertificationIssueReportFields
         @inChallengeCategory={{this.inChallengeCategory}}
         @toggleOnCategory={{this.toggleOnCategory}}
         @maxlength={{500}}
       />`);
-    await click('[aria-label="Sélectionner la sous-catégorie"]');
+      await click(
+        `[aria-label="Sélectionner la catégorie '${categoryToLabel[certificationIssueReportCategories.IN_CHALLENGE]}'"]`
+      );
 
-    // then
-    assert.contains(
-      `${subcategoryToCode[certificationIssueReportSubcategories.IMAGE_NOT_DISPLAYING]} ${
-        subcategoryToLabel[certificationIssueReportSubcategories.IMAGE_NOT_DISPLAYING]
-      }`
-    );
-    assert.contains(
-      `${subcategoryToCode[certificationIssueReportSubcategories.EMBED_NOT_WORKING]} ${
-        subcategoryToLabel[certificationIssueReportSubcategories.EMBED_NOT_WORKING]
-      }`
-    );
-    assert.contains(
-      `${subcategoryToCode[certificationIssueReportSubcategories.WEBSITE_UNAVAILABLE]} ${
-        subcategoryToLabel[certificationIssueReportSubcategories.WEBSITE_UNAVAILABLE]
-      }`
-    );
-    assert.contains(
-      `${subcategoryToCode[certificationIssueReportSubcategories.WEBSITE_BLOCKED]} ${
-        subcategoryToLabel[certificationIssueReportSubcategories.WEBSITE_BLOCKED]
-      }`
-    );
-    assert.contains(
-      `${subcategoryToCode[certificationIssueReportSubcategories.EXTRA_TIME_EXCEEDED]} ${
-        subcategoryToLabel[certificationIssueReportSubcategories.EXTRA_TIME_EXCEEDED]
-      }`
-    );
-    assert.contains(
-      `${subcategoryToCode[certificationIssueReportSubcategories.SOFTWARE_NOT_WORKING]} ${
-        subcategoryToLabel[certificationIssueReportSubcategories.SOFTWARE_NOT_WORKING]
-      }`
-    );
-    assert.contains(
-      `${subcategoryToCode[certificationIssueReportSubcategories.UNINTENTIONAL_FOCUS_OUT]} ${
-        subcategoryToLabel[certificationIssueReportSubcategories.UNINTENTIONAL_FOCUS_OUT]
-      }`
-    );
-    assert.contains(
-      `${subcategoryToCode[certificationIssueReportSubcategories.FILE_NOT_OPENING]} ${
-        subcategoryToLabel[certificationIssueReportSubcategories.FILE_NOT_OPENING]
-      }`
-    );
-  });
-
-  test('category with FT disabled', async function (assert) {
-    // given
-    featureToggles.isCertificationFreeFieldsDeletionEnabled = false;
-    const toggleOnCategory = () => {};
-    const inChallengeCategory = new RadioButtonCategoryWithSubcategoryAndQuestionNumber({
-      name: 'IN_CHALLENGE',
+      // then
+      assert.ok(toggleOnCategory.calledOnceWith(inChallengeCategory));
     });
-    this.set('toggleOnCategory', toggleOnCategory);
-    this.set('inChallengeCategory', inChallengeCategory);
 
-    // when
-    await render(hbs`
-      <IssueReportModal::InChallengeCertificationIssueReportFields
-        @inChallengeCategory={{this.inChallengeCategory}}
-        @toggleOnCategory={{this.toggleOnCategory}}
-      />`);
+    test('it should show dropdown menu with code & subcategories when category is checked', async function (assert) {
+      // given
+      const toggleOnCategory = sinon.stub();
+      const inChallengeCategory = new RadioButtonCategoryWithSubcategoryAndQuestionNumber({
+        name: 'IN_CHALLENGE',
+        isChecked: true,
+      });
+      this.set('toggleOnCategory', toggleOnCategory);
+      this.set('inChallengeCategory', inChallengeCategory);
 
-    //
-    assert.contains(`E1-E10`);
-  });
-
-  test('category with FT enabled', async function (assert) {
-    // given
-    featureToggles.isCertificationFreeFieldsDeletionEnabled = true;
-    const toggleOnCategory = () => {};
-    const inChallengeCategory = new RadioButtonCategoryWithSubcategoryAndQuestionNumber({
-      name: 'IN_CHALLENGE',
-    });
-    this.set('toggleOnCategory', toggleOnCategory);
-    this.set('inChallengeCategory', inChallengeCategory);
-
-    // when
-    await render(hbs`
-      <IssueReportModal::InChallengeCertificationIssueReportFields
-        @inChallengeCategory={{this.inChallengeCategory}}
-        @toggleOnCategory={{this.toggleOnCategory}}
-      />`);
-
-    //
-    assert.contains(`E1-E12`);
-  });
-
-  test('subcategory FILE_NOT_OPENING with FT disabled', async function (assert) {
-    // given
-    featureToggles.isCertificationFreeFieldsDeletionEnabled = false;
-    const toggleOnCategory = sinon.stub();
-    const inChallengeCategory = new RadioButtonCategoryWithSubcategoryAndQuestionNumber({
-      name: 'IN_CHALLENGE',
-      isChecked: true,
-    });
-    this.set('toggleOnCategory', toggleOnCategory);
-    this.set('inChallengeCategory', inChallengeCategory);
-
-    // when
-    await render(hbs`
+      // when
+      await render(hbs`
       <IssueReportModal::InChallengeCertificationIssueReportFields
         @inChallengeCategory={{this.inChallengeCategory}}
         @toggleOnCategory={{this.toggleOnCategory}}
         @maxlength={{500}}
       />`);
-    await click('[aria-label="Sélectionner la sous-catégorie"]');
+      await click('[aria-label="Sélectionner la sous-catégorie"]');
 
-    //
-    assert.contains(
-      `${
-        subcategoryToCode[certificationIssueReportSubcategories.FILE_NOT_OPENING]
-      } Le fichier à télécharger ne s'ouvre pas`
-    );
+      // then
+      assert.contains(
+        `${subcategoryToCode[certificationIssueReportSubcategories.IMAGE_NOT_DISPLAYING]} ${
+          subcategoryToLabel[certificationIssueReportSubcategories.IMAGE_NOT_DISPLAYING]
+        }`
+      );
+      assert.contains(
+        `${subcategoryToCode[certificationIssueReportSubcategories.EMBED_NOT_WORKING]} ${
+          subcategoryToLabel[certificationIssueReportSubcategories.EMBED_NOT_WORKING]
+        }`
+      );
+      assert.contains(
+        `${subcategoryToCode[certificationIssueReportSubcategories.WEBSITE_UNAVAILABLE]} ${
+          subcategoryToLabel[certificationIssueReportSubcategories.WEBSITE_UNAVAILABLE]
+        }`
+      );
+      assert.contains(
+        `${subcategoryToCode[certificationIssueReportSubcategories.WEBSITE_BLOCKED]} ${
+          subcategoryToLabel[certificationIssueReportSubcategories.WEBSITE_BLOCKED]
+        }`
+      );
+      assert.contains(
+        `${subcategoryToCode[certificationIssueReportSubcategories.EXTRA_TIME_EXCEEDED]} ${
+          subcategoryToLabel[certificationIssueReportSubcategories.EXTRA_TIME_EXCEEDED]
+        }`
+      );
+      assert.contains(
+        `${subcategoryToCode[certificationIssueReportSubcategories.SOFTWARE_NOT_WORKING]} ${
+          subcategoryToLabel[certificationIssueReportSubcategories.SOFTWARE_NOT_WORKING]
+        }`
+      );
+      assert.contains(
+        `${subcategoryToCode[certificationIssueReportSubcategories.UNINTENTIONAL_FOCUS_OUT]} ${
+          subcategoryToLabel[certificationIssueReportSubcategories.UNINTENTIONAL_FOCUS_OUT]
+        }`
+      );
+      assert.contains(
+        `${subcategoryToCode[certificationIssueReportSubcategories.FILE_NOT_OPENING]} ${
+          subcategoryToLabel[certificationIssueReportSubcategories.FILE_NOT_OPENING]
+        }`
+      );
+    });
+
+    test('category', async function (assert) {
+      // given
+      const toggleOnCategory = () => {};
+      const inChallengeCategory = new RadioButtonCategoryWithSubcategoryAndQuestionNumber({
+        name: 'IN_CHALLENGE',
+      });
+      this.set('toggleOnCategory', toggleOnCategory);
+      this.set('inChallengeCategory', inChallengeCategory);
+
+      // when
+      await render(hbs`
+      <IssueReportModal::InChallengeCertificationIssueReportFields
+        @inChallengeCategory={{this.inChallengeCategory}}
+        @toggleOnCategory={{this.toggleOnCategory}}
+      />`);
+
+      //
+      assert.contains(`E1-E12`);
+    });
+
+    test('subcategory FILE_NOT_OPENING', async function (assert) {
+      // given
+      const toggleOnCategory = sinon.stub();
+      const inChallengeCategory = new RadioButtonCategoryWithSubcategoryAndQuestionNumber({
+        name: 'IN_CHALLENGE',
+        isChecked: true,
+      });
+      this.set('toggleOnCategory', toggleOnCategory);
+      this.set('inChallengeCategory', inChallengeCategory);
+
+      // when
+      await render(hbs`
+      <IssueReportModal::InChallengeCertificationIssueReportFields
+        @inChallengeCategory={{this.inChallengeCategory}}
+        @toggleOnCategory={{this.toggleOnCategory}}
+        @maxlength={{500}}
+      />`);
+      await click('[aria-label="Sélectionner la sous-catégorie"]');
+
+      //
+      assert.contains(
+        `${subcategoryToCode[certificationIssueReportSubcategories.FILE_NOT_OPENING]} ${
+          subcategoryToLabel[certificationIssueReportSubcategories.FILE_NOT_OPENING]
+        }`
+      );
+    });
   });
 });
