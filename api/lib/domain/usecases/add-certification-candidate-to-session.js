@@ -2,6 +2,7 @@ const {
   CertificationCandidateByPersonalInfoTooManyMatchesError,
   CpfBirthInformationValidationError,
   CertificationCandidateAddError,
+  CertificationCandidateOnFinalizedSessionError,
 } = require('../errors');
 
 module.exports = async function addCertificationCandidateToSession({
@@ -15,6 +16,12 @@ module.exports = async function addCertificationCandidateToSession({
   certificationCpfCityRepository,
 }) {
   certificationCandidate.sessionId = sessionId;
+
+  const session = await sessionRepository.get(sessionId);
+  if (!session.canEnrollCandidate()) {
+    throw new CertificationCandidateOnFinalizedSessionError();
+  }
+
   const isSco = await sessionRepository.isSco({ sessionId });
 
   try {

@@ -186,6 +186,7 @@ class AuthenticationKeyExpired extends DomainError {
     super(message);
   }
 }
+
 class AccountRecoveryDemandExpired extends DomainError {
   constructor(message = 'This account recovery demand has expired.') {
     super(message);
@@ -338,6 +339,7 @@ class DeprecatedCertificationIssueReportCategoryError extends DomainError {
     super(message);
   }
 }
+
 class DeprecatedCertificationIssueReportSubcategoryError extends DomainError {
   constructor(message = 'La sous-catégorie de signalement choisie est dépréciée.') {
     super(message);
@@ -392,6 +394,12 @@ class SupervisorAccessNotAuthorizedError extends DomainError {
   constructor(
     message = "Cette session est organisée dans un centre de certification pour lequel l'espace surveillant n'a pas été activé par Pix."
   ) {
+    super(message);
+  }
+}
+
+class CertificationCandidateOnFinalizedSessionError extends DomainError {
+  constructor(message = "Cette session a déjà été finalisée, l'ajout de candidat n'est pas autorisé") {
     super(message);
   }
 }
@@ -1119,6 +1127,7 @@ module.exports = {
   CertificateVerificationCodeGenerationTooManyTrials,
   NoCertificationAttestationForDivisionError,
   CertificationBadgeForbiddenDeletionError,
+  CertificationCandidateOnFinalizedSessionError,
   CertificationCandidateAddError,
   CertificationCandidateAlreadyLinkedToUserError,
   CertificationCandidateByPersonalInfoNotFoundError,
