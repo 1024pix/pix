@@ -19,7 +19,7 @@ export default class LoginPoleEmploiRoute extends Route {
   beforeModel(transition) {
     const queryParams = transition.to.queryParams;
     if (queryParams.error) {
-      return this.replaceWith('login');
+      throw new Error(`${queryParams.error}: ${queryParams.error_description}`);
     }
 
     if (!queryParams.code) {
