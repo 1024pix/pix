@@ -10,6 +10,7 @@ const states = {
   COMPLETED: 'completed',
   STARTED: 'started',
   ENDED_BY_SUPERVISOR: 'endedBySupervisor',
+  ENDED_BY_FINALIZATION: 'endedByFinalization',
 };
 
 const certificationAssessmentSchema = Joi.object({
@@ -18,7 +19,9 @@ const certificationAssessmentSchema = Joi.object({
   certificationCourseId: Joi.number().integer().required(),
   createdAt: Joi.date().required(),
   completedAt: Joi.date().allow(null),
-  state: Joi.string().valid(states.COMPLETED, states.STARTED, states.ENDED_BY_SUPERVISOR).required(),
+  state: Joi.string()
+    .valid(states.COMPLETED, states.STARTED, states.ENDED_BY_SUPERVISOR, states.ENDED_BY_FINALIZATION)
+    .required(),
   isV2Certification: Joi.boolean().required(),
   certificationChallenges: Joi.array().min(1).required(),
   certificationAnswersByDate: Joi.array().min(0).required(),
@@ -64,6 +67,10 @@ class CertificationAssessment {
     } else {
       throw new ChallengeToBeNeutralizedNotFoundError();
     }
+  }
+
+  endByFinalization() {
+    this.state = states.ENDED_BY_FINALIZATION;
   }
 
   neutralizeChallengeByNumberIfKoOrSkippedOrPartially(questionNumber) {
