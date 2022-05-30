@@ -61,6 +61,30 @@ describe('Unit | Domain | Models | Assessment', function () {
     });
   });
 
+  describe('#isEndedByFinalization', function () {
+    it('should return true when its state is endedByFinalization', function () {
+      // given
+      const assessment = new Assessment({ state: 'endedByFinalization' });
+
+      // when
+      const isEndedByFinalization = assessment.isEndedByFinalization();
+
+      // then
+      expect(isEndedByFinalization).to.be.true;
+    });
+
+    it('should return false when its state is not endedByFinalization', function () {
+      // given
+      const assessment = new Assessment({ state: '' });
+
+      // when
+      const isEndedByFinalization = assessment.isEndedByFinalization();
+
+      // then
+      expect(isEndedByFinalization).to.be.false;
+    });
+  });
+
   describe('#setCompleted', function () {
     it('should return the same object with state completed', function () {
       // given
