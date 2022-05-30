@@ -30,9 +30,9 @@ module.exports = {
     return Boolean(session);
   },
 
-  async get(idSession) {
+  async get(sessionId) {
     try {
-      const session = await BookshelfSession.where({ id: idSession }).fetch();
+      const session = await BookshelfSession.where({ id: sessionId }).fetch();
       return bookshelfToDomainConverter.buildDomainObject(BookshelfSession, session);
     } catch (err) {
       if (err instanceof BookshelfSession.NotFoundError) {
@@ -42,8 +42,8 @@ module.exports = {
     }
   },
 
-  async getWithCertificationCandidates(idSession) {
-    const session = await knex.from('sessions').where({ 'sessions.id': idSession }).first();
+  async getWithCertificationCandidates(sessionId) {
+    const session = await knex.from('sessions').where({ 'sessions.id': sessionId }).first();
 
     if (!session) {
       throw new NotFoundError("La session n'existe pas ou son accès est restreint");
@@ -68,7 +68,7 @@ module.exports = {
         'complementary-certification-subscriptions.complementaryCertificationId'
       )
       .groupBy('certification-candidates.id')
-      .where({ sessionId: idSession })
+      .where({ sessionId })
       .orderByRaw('LOWER(??) ASC, LOWER(??) ASC', ['lastName', 'firstName']);
 
     return _toDomain({ ...session, certificationCandidates });
