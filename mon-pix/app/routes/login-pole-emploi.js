@@ -17,7 +17,7 @@ export default class LoginPoleEmploiRoute extends Route {
   }
 
   beforeModel(transition) {
-    const queryParams = transition.to ? transition.to.queryParams : transition.queryParams;
+    const queryParams = transition.to.queryParams;
     if (!queryParams.code && queryParams.error) {
       return this.replaceWith('login');
     }
@@ -28,7 +28,7 @@ export default class LoginPoleEmploiRoute extends Route {
   }
 
   async model(_, transition) {
-    const queryParams = transition.to ? transition.to.queryParams : transition.queryParams;
+    const queryParams = transition.to.queryParams;
     if (queryParams.code) {
       return this._handleCallbackRequest(queryParams.code, queryParams.state);
     }
