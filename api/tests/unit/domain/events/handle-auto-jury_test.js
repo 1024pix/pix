@@ -451,7 +451,7 @@ describe('Unit | Domain | Events | handle-auto-jury', function () {
         certificationCourseId: 123,
         createdAt: new Date('2020-01-01T00:00:00Z'),
         completedAt: new Date('2020-01-01T00:00:00Z'),
-        state: 'started',
+        state: 'endedBecauseSessionFinalized',
         isV2Certification: true,
         certificationChallenges: [
           domainBuilder.buildCertificationChallengeWithType({
