@@ -90,6 +90,10 @@ class Session {
   isSupervisable(supervisorPassword) {
     return this.supervisorPassword === supervisorPassword;
   }
+
+  canEnrollCandidate() {
+    return _.isNull(this.finalizedAt);
+  }
 }
 
 module.exports = Session;
