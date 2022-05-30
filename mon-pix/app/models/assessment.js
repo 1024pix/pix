@@ -3,6 +3,14 @@
 import Model, { attr, belongsTo, hasMany } from '@ember-data/model';
 import { equal, or, not, and } from '@ember/object/computed';
 import ENV from 'mon-pix/config/environment';
+
+export const assessmentStates = {
+  COMPLETED: 'completed',
+  STARTED: 'started',
+  ABORTED: 'aborted',
+  ENDED_BY_SUPERVISOR: 'endedBySupervisor',
+  ENDED_BY_FINALIZATION: 'endedByFinalization',
+};
 export default class Assessment extends Model {
   // attributes
   @attr('string') certificationNumber;

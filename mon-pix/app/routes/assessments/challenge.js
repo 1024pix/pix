@@ -100,7 +100,7 @@ export default class ChallengeRoute extends Route {
     } catch (error) {
       answer.rollbackAttributes();
 
-      if (error?.errors?.[0]?.detail === 'Le surveillant a mis fin à votre test de certification.') {
+      if (this._isAssessmentEndedBySupervisorOrByFinalization(error)) {
         return this.transitionTo('certifications.results', assessment.certificationCourse.get('id'));
       }
 
@@ -122,5 +122,12 @@ export default class ChallengeRoute extends Route {
     if (isExiting) {
       controller.set('hasFocusedOutOfChallenge', false);
     }
+  }
+
+  _isAssessmentEndedBySupervisorOrByFinalization(error) {
+    return (
+      error?.errors?.[0]?.detail === 'Le surveillant a mis fin à votre test de certification.' ||
+      error?.errors?.[0]?.detail === 'La session a été finalisée par votre centre de certification.'
+    );
   }
 }
