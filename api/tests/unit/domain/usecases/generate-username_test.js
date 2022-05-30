@@ -4,8 +4,8 @@ const { generateUsername } = require('../../../../lib/domain/usecases');
 const Student = require('../../../../lib/domain/models/Student');
 const {
   CampaignCodeError,
-  SchoolingRegistrationNotFound,
-  SchoolingRegistrationAlreadyLinkedToUserError,
+  OrganizationLearnerNotFound,
+  OrganizationLearnerAlreadyLinkedToUserError,
 } = require('../../../../lib/domain/errors');
 
 describe('Unit | UseCase | generate-username', function () {
@@ -14,7 +14,7 @@ describe('Unit | UseCase | generate-username', function () {
 
   let campaignRepository;
   let userRepository;
-  let schoolingRegistrationRepository;
+  let organizationLearnerRepository;
   let studentRepository;
 
   let obfuscationService;
@@ -41,7 +41,7 @@ describe('Unit | UseCase | generate-username', function () {
     userRepository = {
       getForObfuscation: sinon.stub(),
     };
-    schoolingRegistrationRepository = {
+    organizationLearnerRepository = {
       findByOrganizationIdAndBirthdate: sinon.stub(),
     };
     studentRepository = {
@@ -70,7 +70,7 @@ describe('Unit | UseCase | generate-username', function () {
         studentInformation,
         campaignCode,
         campaignRepository,
-        schoolingRegistrationRepository,
+        organizationLearnerRepository,
         userReconciliationService,
         obfuscationService,
         userRepository,
@@ -83,16 +83,16 @@ describe('Unit | UseCase | generate-username', function () {
   });
 
   context('When no schoolingRegistration found matching organization and birthdate', function () {
-    it('should throw a SchoolingRegistrationNotFound error', async function () {
+    it('should throw a OrganizationLearnerNotFound error', async function () {
       // given
-      schoolingRegistrationRepository.findByOrganizationIdAndBirthdate.resolves([]);
+      organizationLearnerRepository.findByOrganizationIdAndBirthdate.resolves([]);
 
       // when
       const result = await catchErr(generateUsername)({
         studentInformation,
         campaignCode,
         campaignRepository,
-        schoolingRegistrationRepository,
+        organizationLearnerRepository,
         userReconciliationService,
         obfuscationService,
         userRepository,
@@ -100,15 +100,15 @@ describe('Unit | UseCase | generate-username', function () {
       });
 
       // then
-      expect(result).to.be.instanceof(SchoolingRegistrationNotFound);
-      expect(result.message).to.equal('There were no schoolingRegistrations matching with organization and birthdate');
+      expect(result).to.be.instanceof(OrganizationLearnerNotFound);
+      expect(result.message).to.equal('There were no organizationLearners matching with organization and birthdate');
     });
   });
 
   context('When no schoolingRegistration found matching with firstname and lastname', function () {
-    it('should throw a SchoolingRegistrationNotFound error', async function () {
+    it('should throw a OrganizationLearnerNotFound error', async function () {
       // given
-      schoolingRegistrationRepository.findByOrganizationIdAndBirthdate.resolves([organizationLearner]);
+      organizationLearnerRepository.findByOrganizationIdAndBirthdate.resolves([organizationLearner]);
       userReconciliationService.findMatchingCandidateIdForGivenUser
         .withArgs([organizationLearner], studentInformation)
         .resolves();
@@ -118,7 +118,7 @@ describe('Unit | UseCase | generate-username', function () {
         studentInformation,
         campaignCode,
         campaignRepository,
-        schoolingRegistrationRepository,
+        organizationLearnerRepository,
         userReconciliationService,
         obfuscationService,
         userRepository,
@@ -126,20 +126,20 @@ describe('Unit | UseCase | generate-username', function () {
       });
 
       // then
-      expect(result).to.be.instanceof(SchoolingRegistrationNotFound);
-      expect(result.message).to.equal('There were no schoolingRegistrations matching with names');
+      expect(result).to.be.instanceof(OrganizationLearnerNotFound);
+      expect(result.message).to.equal('There were no organizationLearners matching with names');
     });
   });
 
   context('When student is already reconciled in the same organization', function () {
-    it('should return a SchoolingRegistrationAlreadyLinkedToUser error', async function () {
+    it('should return a OrganizationLearnerAlreadyLinkedToUser error', async function () {
       // given
       organizationLearner.userId = studentInformation.id;
       organizationLearner.firstName = studentInformation.firstName;
       organizationLearner.lastName = studentInformation.lastName;
       const exceptedErrorMessage = 'Un compte existe déjà pour l‘élève dans le même établissement.';
 
-      schoolingRegistrationRepository.findByOrganizationIdAndBirthdate.resolves([organizationLearner]);
+      organizationLearnerRepository.findByOrganizationIdAndBirthdate.resolves([organizationLearner]);
       userReconciliationService.findMatchingCandidateIdForGivenUser.resolves(organizationLearner.id);
       userRepository.getForObfuscation.resolves();
       obfuscationService.getUserAuthenticationMethodWithObfuscation.resolves({
@@ -152,7 +152,7 @@ describe('Unit | UseCase | generate-username', function () {
         studentInformation,
         campaignCode,
         campaignRepository,
-        schoolingRegistrationRepository,
+        organizationLearnerRepository,
         userReconciliationService,
         obfuscationService,
         userRepository,
@@ -160,18 +160,18 @@ describe('Unit | UseCase | generate-username', function () {
       });
 
       // then
-      expect(result).to.be.instanceof(SchoolingRegistrationAlreadyLinkedToUserError);
+      expect(result).to.be.instanceof(OrganizationLearnerAlreadyLinkedToUserError);
       expect(result.message).to.equal(exceptedErrorMessage);
     });
   });
 
   context('When student is already reconciled in others organizations', function () {
-    it('should return a SchoolingRegistrationAlreadyLinkedToUser error', async function () {
+    it('should return a OrganizationLearnerAlreadyLinkedToUser error', async function () {
       // given
       organizationLearner.firstName = studentInformation.firstName;
       organizationLearner.lastName = studentInformation.lastName;
       const exceptedErrorMessage = 'Un compte existe déjà pour l‘élève dans un autre établissement.';
-      schoolingRegistrationRepository.findByOrganizationIdAndBirthdate.resolves([organizationLearner]);
+      organizationLearnerRepository.findByOrganizationIdAndBirthdate.resolves([organizationLearner]);
       userReconciliationService.findMatchingCandidateIdForGivenUser.resolves(organizationLearner.id);
       const student = new Student({ account: { userId: studentInformation.id } });
       studentRepository.getReconciledStudentByNationalStudentId.resolves(student);
@@ -186,7 +186,7 @@ describe('Unit | UseCase | generate-username', function () {
         studentInformation,
         campaignCode,
         campaignRepository,
-        schoolingRegistrationRepository,
+        organizationLearnerRepository,
         userReconciliationService,
         obfuscationService,
         userRepository,
@@ -194,7 +194,7 @@ describe('Unit | UseCase | generate-username', function () {
       });
 
       // then
-      expect(result).to.be.instanceof(SchoolingRegistrationAlreadyLinkedToUserError);
+      expect(result).to.be.instanceof(OrganizationLearnerAlreadyLinkedToUserError);
       expect(result.message).to.equal(exceptedErrorMessage);
     });
   });
@@ -202,7 +202,7 @@ describe('Unit | UseCase | generate-username', function () {
   context('When schoolingRegistration matched and student is not already reconciled', function () {
     it('should call createUsernameByUser with student information from database', async function () {
       // given
-      schoolingRegistrationRepository.findByOrganizationIdAndBirthdate.resolves([organizationLearner]);
+      organizationLearnerRepository.findByOrganizationIdAndBirthdate.resolves([organizationLearner]);
       userReconciliationService.findMatchingCandidateIdForGivenUser.resolves(organizationLearner.id);
 
       studentInformation = {
@@ -216,7 +216,7 @@ describe('Unit | UseCase | generate-username', function () {
         studentInformation,
         campaignCode,
         campaignRepository,
-        schoolingRegistrationRepository,
+        organizationLearnerRepository,
         userReconciliationService,
         obfuscationService,
         userRepository,

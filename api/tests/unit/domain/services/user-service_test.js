@@ -15,7 +15,7 @@ describe('Unit | Service | user-service', function () {
   let transactionToBeExecuted;
 
   let authenticationMethodRepository;
-  let schoolingRegistrationRepository;
+  let organizationLearnerRepository;
   let userRepository;
   let userToCreateRepository;
 
@@ -33,12 +33,12 @@ describe('Unit | Service | user-service', function () {
       updatePasswordThatShouldBeChanged: sinon.stub(),
       createPasswordThatShouldBeChanged: sinon.stub(),
     };
-    schoolingRegistrationRepository = {
+    organizationLearnerRepository = {
       updateUserIdWhereNull: sinon.stub(),
     };
 
     authenticationMethodRepository.create.resolves();
-    schoolingRegistrationRepository.updateUserIdWhereNull.resolves();
+    organizationLearnerRepository.updateUserIdWhereNull.resolves();
     userToCreateRepository.create.resolves();
 
     sinon.stub(DomainTransaction, 'execute').callsFake((lambda) => {
@@ -112,7 +112,7 @@ describe('Unit | Service | user-service', function () {
     });
   });
 
-  describe('#createAndReconcileUserToSchoolingRegistration', function () {
+  describe('#createAndReconcileUserToOrganizationLearner', function () {
     it('should call user and authenticationMethod create and function, and schoolingRegistration update function', async function () {
       // given
       const user = domainBuilder.buildUser({
@@ -123,13 +123,13 @@ describe('Unit | Service | user-service', function () {
       userToCreateRepository.create.resolves(user);
 
       // when
-      await userService.createAndReconcileUserToSchoolingRegistration({
+      await userService.createAndReconcileUserToOrganizationLearner({
         samlId: 'SAML_ID',
         schoolingRegistrationId,
         user,
         authenticationMethodRepository,
         userToCreateRepository,
-        schoolingRegistrationRepository,
+        organizationLearnerRepository,
       });
       await transactionToBeExecuted(domainTransaction);
 
@@ -145,7 +145,7 @@ describe('Unit | Service | user-service', function () {
           },
         },
       });
-      expect(schoolingRegistrationRepository.updateUserIdWhereNull).to.have.been.calledWithMatch({
+      expect(organizationLearnerRepository.updateUserIdWhereNull).to.have.been.calledWithMatch({
         schoolingRegistrationId,
         userId: user.id,
       });

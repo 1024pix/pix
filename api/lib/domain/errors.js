@@ -199,13 +199,13 @@ class AccountRecoveryUserAlreadyConfirmEmail extends DomainError {
   }
 }
 
-class SchoolingRegistrationsCouldNotBeSavedError extends DomainError {
+class OrganizationLearnersCouldNotBeSavedError extends DomainError {
   constructor(message = 'An error occurred during process') {
     super(message);
   }
 }
 
-class MultipleSchoolingRegistrationsWithDifferentNationalStudentIdError extends DomainError {
+class MultipleOrganizationLearnersWithDifferentNationalStudentIdError extends DomainError {
   constructor(message = 'Multiple schooling registrations with different INE') {
     super(message);
   }
@@ -728,7 +728,7 @@ class UserShouldChangePasswordError extends DomainError {
   }
 }
 
-class SchoolingRegistrationAlreadyLinkedToUserError extends DomainError {
+class OrganizationLearnerAlreadyLinkedToUserError extends DomainError {
   constructor(message = "L'élève est déjà rattaché à un compte utilisateur.", code, meta) {
     super(message);
     this.code = code;
@@ -736,7 +736,7 @@ class SchoolingRegistrationAlreadyLinkedToUserError extends DomainError {
   }
 }
 
-class SchoolingRegistrationAlreadyLinkedToInvalidUserError extends DomainError {
+class OrganizationLearnerAlreadyLinkedToInvalidUserError extends DomainError {
   constructor(message = 'Élève rattaché avec un compte invalide.') {
     super(message);
   }
@@ -886,13 +886,13 @@ class UserNotAuthorizedToRemoveAuthenticationMethod extends DomainError {
   }
 }
 
-class SchoolingRegistrationDisabledError extends DomainError {
+class OrganizationLearnerDisabledError extends DomainError {
   constructor(message = "L'inscription de l'élève est désactivée dans l'organisation.") {
     super(message);
   }
 }
 
-class SchoolingRegistrationNotFound extends NotFoundError {
+class OrganizationLearnerNotFound extends NotFoundError {
   constructor(message = 'Aucune inscription d‘élève n‘a été trouvée.') {
     super(message);
   }
@@ -1061,7 +1061,7 @@ class InvalidSkillSetError extends DomainError {
   }
 }
 
-class SchoolingRegistrationCannotBeDissociatedError extends DomainError {
+class OrganizationLearnerCannotBeDissociatedError extends DomainError {
   constructor(message = 'Impossible de dissocier') {
     super(message);
   }
@@ -1182,7 +1182,7 @@ module.exports = {
   MissingAttributesError,
   MissingBadgeCriterionError,
   MissingOrInvalidCredentialsError,
-  MultipleSchoolingRegistrationsWithDifferentNationalStudentIdError,
+  MultipleOrganizationLearnersWithDifferentNationalStudentIdError,
   NoCampaignParticipationForUserAndCampaign,
   CantImproveCampaignParticipationError,
   NoCertificationResultForDivision,
@@ -1199,12 +1199,12 @@ module.exports = {
   OrganizationWithoutEmailError,
   PasswordNotMatching,
   PasswordResetDemandNotFoundError,
-  SchoolingRegistrationAlreadyLinkedToUserError,
-  SchoolingRegistrationAlreadyLinkedToInvalidUserError,
-  SchoolingRegistrationCannotBeDissociatedError,
-  SchoolingRegistrationDisabledError,
-  SchoolingRegistrationNotFound,
-  SchoolingRegistrationsCouldNotBeSavedError,
+  OrganizationLearnerAlreadyLinkedToUserError,
+  OrganizationLearnerAlreadyLinkedToInvalidUserError,
+  OrganizationLearnerCannotBeDissociatedError,
+  OrganizationLearnerDisabledError,
+  OrganizationLearnerNotFound,
+  OrganizationLearnersCouldNotBeSavedError,
   SendingEmailToResultRecipientError,
   SessionAlreadyFinalizedError,
   SessionAlreadyPublishedError,

@@ -5,23 +5,23 @@ module.exports = async function reconcileUserToOrganization({
   campaignCode,
   userId,
   campaignRepository,
-  schoolingRegistrationRepository,
+  organizationLearnerRepository,
 }) {
   const campaign = await campaignRepository.getByCode(campaignCode);
   if (!campaign) {
     throw new CampaignCodeError();
   }
 
-  const studentSchoolingRegistrations = await schoolingRegistrationRepository.findByUserId({ userId });
+  const studentOrganizationLearners = await organizationLearnerRepository.findByUserId({ userId });
 
-  if (_.isEmpty(studentSchoolingRegistrations)) {
+  if (_.isEmpty(studentOrganizationLearners)) {
     throw new UserCouldNotBeReconciledError();
   }
 
-  const nationalStudentIdForReconcile = _.orderBy(studentSchoolingRegistrations, 'updatedAt', 'desc')[0]
+  const nationalStudentIdForReconcile = _.orderBy(studentOrganizationLearners, 'updatedAt', 'desc')[0]
     .nationalStudentId;
 
-  return schoolingRegistrationRepository.reconcileUserByNationalStudentIdAndOrganizationId({
+  return organizationLearnerRepository.reconcileUserByNationalStudentIdAndOrganizationId({
     userId,
     nationalStudentId: nationalStudentIdForReconcile,
     organizationId: campaign.organizationId,

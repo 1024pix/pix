@@ -113,7 +113,7 @@ describe('Integration | Repository | Campaign Participant activity', function ()
     });
 
     context('order', function () {
-      it('should return participants activities ordered by last name then first name asc from schooling-registration', async function () {
+      it('should return participants activities ordered by last name then first name asc from organization-learner', async function () {
         // given
         const organizationId = databaseBuilder.factory.buildOrganization().id;
         campaign = databaseBuilder.factory.buildCampaign({ organizationId });

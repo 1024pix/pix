@@ -644,13 +644,13 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
         // given
         const userInDB = databaseBuilder.factory.buildUser(userToInsert);
         const firstOrganizationInDB = databaseBuilder.factory.buildOrganization();
-        const firstSchoolingRegistrationInDB = databaseBuilder.factory.buildOrganizationLearner({
+        const firstOrganizationLearnerInDB = databaseBuilder.factory.buildOrganizationLearner({
           id: 1,
           userId: userInDB.id,
           organizationId: firstOrganizationInDB.id,
         });
         const secondOrganizationInDB = databaseBuilder.factory.buildOrganization();
-        const secondSchoolingRegistrationInDB = databaseBuilder.factory.buildOrganizationLearner({
+        const secondOrganizationLearnerInDB = databaseBuilder.factory.buildOrganizationLearner({
           id: 2,
           userId: userInDB.id,
           organizationId: secondOrganizationInDB.id,
@@ -665,19 +665,19 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
         const schoolingRegistrations = userDetailsForAdmin.schoolingRegistrations;
         expect(schoolingRegistrations[0]).to.be.instanceOf(OrganizationLearnerForAdmin);
 
-        const expectedSchoolingRegistrations = [
+        const expectedOrganizationLearners = [
           {
-            ...firstSchoolingRegistrationInDB,
+            ...firstOrganizationLearnerInDB,
             organizationName: firstOrganizationInDB.name,
             canBeDissociated: firstOrganizationInDB.isManagingStudents,
           },
           {
-            ...secondSchoolingRegistrationInDB,
+            ...secondOrganizationLearnerInDB,
             organizationName: secondOrganizationInDB.name,
             canBeDissociated: secondOrganizationInDB.isManagingStudents,
           },
         ].map((schoolingRegistration) => pick(schoolingRegistration, expectedUserDetailsForAdminAttributes));
-        expect(schoolingRegistrations).to.deep.equal(expectedSchoolingRegistrations);
+        expect(schoolingRegistrations).to.deep.equal(expectedOrganizationLearners);
       });
     });
 

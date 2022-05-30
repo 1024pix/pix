@@ -17,7 +17,7 @@ describe('Acceptance | Scripts | add-many-students-to-sco-certification-centers.
 
     it('should insert 2 sco certification centers', async function () {
       // given
-      const numberOfSchoolingRegistrationToCreate = 3;
+      const numberOfOrganizationLearnerToCreate = 3;
       databaseBuilder.factory.buildOrganization({
         id: SCO_MIDDLE_SCHOOL_ID,
         type: 'SCO',
@@ -30,15 +30,15 @@ describe('Acceptance | Scripts | add-many-students-to-sco-certification-centers.
       await databaseBuilder.commit();
 
       // when
-      await addManyStudentsToScoCertificationCenter(numberOfSchoolingRegistrationToCreate);
-      const numberAfter = await _getNumberOfSchoolingRegistrations();
+      await addManyStudentsToScoCertificationCenter(numberOfOrganizationLearnerToCreate);
+      const numberAfter = await _getNumberOfOrganizationLearners();
 
       // then
-      expect(numberAfter).to.equal(numberOfSchoolingRegistrationToCreate);
+      expect(numberAfter).to.equal(numberOfOrganizationLearnerToCreate);
     });
   });
 });
 
-function _getNumberOfSchoolingRegistrations() {
+function _getNumberOfOrganizationLearners() {
   return BookshelfOrganizationLearner.count().then((number) => parseInt(number, 10));
 }

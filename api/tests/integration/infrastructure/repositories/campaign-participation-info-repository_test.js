@@ -319,7 +319,7 @@ describe('Integration | Repository | Campaign Participation Info', function () {
       });
     });
 
-    context('when a participant has several schooling-registrations', function () {
+    context('when a participant has several organization-learners', function () {
       let campaign;
       beforeEach(async function () {
         const otherOrganizationId = databaseBuilder.factory.buildOrganization().id;
@@ -348,7 +348,7 @@ describe('Integration | Repository | Campaign Participation Info', function () {
         await databaseBuilder.commit();
       });
 
-      it('return the first name and the last name of the correct schooling-registration', async function () {
+      it('return the first name and the last name of the correct organization-learner', async function () {
         const campaignParticipationInfos = await campaignParticipationInfoRepository.findByCampaignId(campaign.id);
 
         expect(campaignParticipationInfos.length).to.equal(1);

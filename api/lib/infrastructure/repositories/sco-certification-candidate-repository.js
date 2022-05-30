@@ -10,14 +10,14 @@ module.exports = {
       .whereIn('organizationLearnerId', organizationLearnerIds)
       .where({ sessionId });
 
-    const alreadyEnrolledCandidateSchoolingRegistrationIds = alreadyEnrolledCandidate.map(
+    const alreadyEnrolledCandidateOrganizationLearnerIds = alreadyEnrolledCandidate.map(
       (candidate) => candidate.organizationLearnerId
     );
 
     const scoCandidateToDTO = _scoCandidateToDTOForSession(sessionId);
     const candidatesToBeEnrolledDTOs = scoCertificationCandidates
       .filter(
-        (candidate) => !alreadyEnrolledCandidateSchoolingRegistrationIds.includes(candidate.schoolingRegistrationId)
+        (candidate) => !alreadyEnrolledCandidateOrganizationLearnerIds.includes(candidate.schoolingRegistrationId)
       )
       .map(scoCandidateToDTO);
 

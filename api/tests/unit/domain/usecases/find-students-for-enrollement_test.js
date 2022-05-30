@@ -15,7 +15,7 @@ describe('Unit | UseCase | find-students-for-enrollment', function () {
     // eslint-disable-next-line mocha/no-setup-in-describe
     getIdByCertificationCenterId: sinon.stub(),
   };
-  const schoolingRegistrationRepository = {
+  const organizationLearnerRepository = {
     // TODO: Fix this the next time the file is edited.
     // eslint-disable-next-line mocha/no-setup-in-describe
     findByOrganizationIdAndUpdatedAtOrderByDivision: sinon.stub(),
@@ -49,7 +49,7 @@ describe('Unit | UseCase | find-students-for-enrollment', function () {
           certificationCenterId,
           page: { size: 10, number: 1 },
           organizationRepository,
-          schoolingRegistrationRepository,
+          organizationLearnerRepository,
           certificationCandidateRepository,
         });
 
@@ -71,7 +71,7 @@ describe('Unit | UseCase | find-students-for-enrollment', function () {
       const certificationCandidates = [
         domainBuilder.buildCertificationCandidate({ sessionId, schoolingRegistrationId: enrolledStudent.id }),
       ];
-      schoolingRegistrationRepository.findByOrganizationIdAndUpdatedAtOrderByDivision
+      organizationLearnerRepository.findByOrganizationIdAndUpdatedAtOrderByDivision
         .withArgs({ page: { number: 1, size: 10 }, filter: { divisions: ['3A'] }, organizationId: organization.id })
         .resolves({
           data: [enrolledStudent, ...enrollableStudents],
@@ -87,7 +87,7 @@ describe('Unit | UseCase | find-students-for-enrollment', function () {
         page: { number: 1, size: 10 },
         filter: { divisions: ['3A'] },
         organizationRepository,
-        schoolingRegistrationRepository,
+        organizationLearnerRepository,
         certificationCandidateRepository,
       });
 
@@ -106,7 +106,7 @@ describe('Unit | UseCase | find-students-for-enrollment', function () {
     context('when the linked organization has no student', function () {
       it('should return empty array', async function () {
         // given
-        schoolingRegistrationRepository.findByOrganizationIdAndUpdatedAtOrderByDivision
+        organizationLearnerRepository.findByOrganizationIdAndUpdatedAtOrderByDivision
           .withArgs({ page: { number: 1, size: 10 }, filter: {}, organizationId: organization.id })
           .resolves({
             data: [],
@@ -120,7 +120,7 @@ describe('Unit | UseCase | find-students-for-enrollment', function () {
           page: { number: 1, size: 10 },
           filter: {},
           organizationRepository,
-          schoolingRegistrationRepository,
+          organizationLearnerRepository,
           certificationCandidateRepository,
         });
 

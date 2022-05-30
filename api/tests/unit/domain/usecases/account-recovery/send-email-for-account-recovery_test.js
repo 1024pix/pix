@@ -5,7 +5,7 @@ const AccountRecoveryDemand = require('../../../../../lib/domain/models/AccountR
 
 describe('Unit | UseCase | Account-recovery | account-recovery | send-email-for-account-recovery', function () {
   let userRepository;
-  let schoolingRegistrationRepository;
+  let organizationLearnerRepository;
   let accountRecoveryDemandRepository;
   let scoAccountRecoveryService;
   let mailService;
@@ -16,14 +16,14 @@ describe('Unit | UseCase | Account-recovery | account-recovery | send-email-for-
       checkIfEmailIsAvailable: sinon.stub(),
       get: sinon.stub(),
     };
-    schoolingRegistrationRepository = {
-      getSchoolingRegistrationInformation: sinon.stub(),
+    organizationLearnerRepository = {
+      getOrganizationLearnerInformation: sinon.stub(),
     };
     accountRecoveryDemandRepository = {
       save: sinon.stub(),
     };
     scoAccountRecoveryService = {
-      retrieveSchoolingRegistration: sinon.stub(),
+      retrieveOrganizationLearner: sinon.stub(),
     };
     mailService = {
       sendAccountRecoveryEmail: sinon.stub(),
@@ -40,11 +40,11 @@ describe('Unit | UseCase | Account-recovery | account-recovery | send-email-for-
         email: newEmail,
       };
 
-      scoAccountRecoveryService.retrieveSchoolingRegistration
+      scoAccountRecoveryService.retrieveOrganizationLearner
         .withArgs({
           accountRecoveryDemandRepository,
           studentInformation,
-          schoolingRegistrationRepository,
+          organizationLearnerRepository,
           userRepository,
           userReconciliationService,
         })
@@ -56,7 +56,7 @@ describe('Unit | UseCase | Account-recovery | account-recovery | send-email-for-
       // when
       const error = await catchErr(sendEmailForAccountRecovery)({
         studentInformation,
-        schoolingRegistrationRepository,
+        organizationLearnerRepository,
         userRepository,
         accountRecoveryDemandRepository,
         mailService,
@@ -85,11 +85,11 @@ describe('Unit | UseCase | Account-recovery | account-recovery | send-email-for-
         email: newEmail,
       };
 
-      scoAccountRecoveryService.retrieveSchoolingRegistration
+      scoAccountRecoveryService.retrieveOrganizationLearner
         .withArgs({
           accountRecoveryDemandRepository,
           studentInformation,
-          schoolingRegistrationRepository,
+          organizationLearnerRepository,
           userRepository,
           userReconciliationService,
         })
@@ -103,7 +103,7 @@ describe('Unit | UseCase | Account-recovery | account-recovery | send-email-for-
       await sendEmailForAccountRecovery({
         studentInformation,
         temporaryKey,
-        schoolingRegistrationRepository,
+        organizationLearnerRepository,
         userRepository,
         accountRecoveryDemandRepository,
         mailService,
@@ -135,11 +135,11 @@ describe('Unit | UseCase | Account-recovery | account-recovery | send-email-for-
         email: newEmail,
       };
 
-      scoAccountRecoveryService.retrieveSchoolingRegistration
+      scoAccountRecoveryService.retrieveOrganizationLearner
         .withArgs({
           accountRecoveryDemandRepository,
           studentInformation,
-          schoolingRegistrationRepository,
+          organizationLearnerRepository,
           userRepository,
           userReconciliationService,
         })
@@ -153,7 +153,7 @@ describe('Unit | UseCase | Account-recovery | account-recovery | send-email-for-
       await sendEmailForAccountRecovery({
         studentInformation,
         temporaryKey,
-        schoolingRegistrationRepository,
+        organizationLearnerRepository,
         userRepository,
         accountRecoveryDemandRepository,
         mailService,

@@ -5,10 +5,7 @@ const { NotFoundError } = require('../../domain/errors');
 const DomainTransaction = require('../DomainTransaction');
 
 const _toDomain = (accountRecoveryDemandDTO) => {
-  return new AccountRecoveryDemand({
-    ...accountRecoveryDemandDTO,
-    schoolingRegistrationId: accountRecoveryDemandDTO.organizationLearnerId,
-  });
+  return new AccountRecoveryDemand(accountRecoveryDemandDTO);
 };
 
 const _toDomainArray = (accountRecoveryDemandsDTOs) => {
@@ -40,12 +37,7 @@ module.exports = {
   },
 
   async save(accountRecoveryDemand) {
-    const result = await knex('account-recovery-demands')
-      .insert({
-        ..._.omit(accountRecoveryDemand, 'schoolingRegistrationId'),
-        organizationLearnerId: accountRecoveryDemand.schoolingRegistrationId,
-      })
-      .returning('*');
+    const result = await knex('account-recovery-demands').insert(accountRecoveryDemand).returning('*');
 
     return _toDomain(result[0]);
   },

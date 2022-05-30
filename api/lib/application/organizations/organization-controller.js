@@ -8,13 +8,13 @@ const groupSerializer = require('../../infrastructure/serializers/jsonapi/group-
 const membershipSerializer = require('../../infrastructure/serializers/jsonapi/membership-serializer');
 const organizationSerializer = require('../../infrastructure/serializers/jsonapi/organization-serializer');
 const organizationInvitationSerializer = require('../../infrastructure/serializers/jsonapi/organization-invitation-serializer');
-const userWithSchoolingRegistrationSerializer = require('../../infrastructure/serializers/jsonapi/user-with-schooling-registration-serializer');
-const higherSchoolingRegistrationWarningSerializer = require('../../infrastructure/serializers/jsonapi/higher-schooling-registration-warnings-serializer');
+const userWithOrganizationLearnerSerializer = require('../../infrastructure/serializers/jsonapi/user-with-organization-learner-serializer');
+const supOrganizationLearnerWarningSerializer = require('../../infrastructure/serializers/jsonapi/sup-organization-learner-warnings-serializer');
 const organizationAttachTargetProfilesSerializer = require('../../infrastructure/serializers/jsonapi/organization-attach-target-profiles-serializer');
 const TargetProfileForSpecifierSerializer = require('../../infrastructure/serializers/jsonapi/campaign/target-profile-for-specifier-serializer');
 const organizationMemberIdentitySerializer = require('../../infrastructure/serializers/jsonapi/organization-member-identity-serializer');
 const organizationPlaceSerializer = require('../../infrastructure/serializers/jsonapi/organization/organization-place-serializer');
-const HigherSchoolingRegistrationParser = require('../../infrastructure/serializers/csv/higher-schooling-registration-parser');
+const SupOrganizationLearnerParser = require('../../infrastructure/serializers/csv/sup-organization-learner-parser');
 const queryParamsUtils = require('../../infrastructure/utils/query-params-utils');
 const {
   extractLocaleFromRequest,
@@ -203,7 +203,7 @@ module.exports = {
     return groupSerializer.serialize(groups);
   },
 
-  async findPaginatedFilteredSchoolingRegistrations(request) {
+  async findPaginatedFilteredOrganizationLearners(request) {
     const organizationId = request.params.id;
     const { filter, page } = queryParamsUtils.extractParameters(request.query);
     if (filter.divisions && !Array.isArray(filter.divisions)) {
@@ -213,19 +213,19 @@ module.exports = {
     if (filter.groups && !Array.isArray(filter.groups)) {
       filter.groups = [filter.groups];
     }
-    const { data, pagination } = await usecases.findPaginatedFilteredSchoolingRegistrations({
+    const { data, pagination } = await usecases.findPaginatedFilteredOrganizationLearners({
       organizationId,
       filter,
       page,
     });
-    return userWithSchoolingRegistrationSerializer.serialize(data, pagination);
+    return userWithOrganizationLearnerSerializer.serialize(data, pagination);
   },
 
-  async importSchoolingRegistrationsFromSIECLE(request, h) {
+  async importOrganizationLearnersFromSIECLE(request, h) {
     const organizationId = request.params.id;
     const { format } = request.query;
 
-    await usecases.importSchoolingRegistrationsFromSIECLEFormat({
+    await usecases.importOrganizationLearnersFromSIECLEFormat({
       organizationId,
       payload: request.payload,
       format,
@@ -234,32 +234,25 @@ module.exports = {
     return h.response(null).code(204);
   },
 
-  async importHigherSchoolingRegistrations(request, h) {
+  async importSupOrganizationLearners(request, h) {
     const organizationId = request.params.id;
     const buffer = request.payload;
-    const higherSchoolingRegistrationParser = new HigherSchoolingRegistrationParser(
-      buffer,
-      organizationId,
-      request.i18n
-    );
-    const warnings = await usecases.importHigherSchoolingRegistrations({ higherSchoolingRegistrationParser });
-    const response = higherSchoolingRegistrationWarningSerializer.serialize({ id: organizationId, warnings });
+    const supOrganizationLearnerParser = new SupOrganizationLearnerParser(buffer, organizationId, request.i18n);
+    const warnings = await usecases.importSupOrganizationLearners({ supOrganizationLearnerParser });
+
+    const response = supOrganizationLearnerWarningSerializer.serialize({ id: organizationId, warnings });
     return h.response(response).code(200);
   },
 
-  async replaceHigherSchoolingRegistrations(request, h) {
+  async replaceSupOrganizationLearners(request, h) {
     const organizationId = request.params.id;
     const buffer = request.payload;
-    const higherSchoolingRegistrationParser = new HigherSchoolingRegistrationParser(
-      buffer,
+    const supOrganizationLearnerParser = new SupOrganizationLearnerParser(buffer, organizationId, request.i18n);
+    const warnings = await usecases.replaceSupOrganizationLearners({
       organizationId,
-      request.i18n
-    );
-    const warnings = await usecases.replaceHigherSchoolingRegistrations({
-      organizationId,
-      higherSchoolingRegistrationParser,
+      supOrganizationLearnerParser,
     });
-    const response = higherSchoolingRegistrationWarningSerializer.serialize({ id: organizationId, warnings });
+    const response = supOrganizationLearnerWarningSerializer.serialize({ id: organizationId, warnings });
     return h.response(response).code(200);
   },
 
@@ -300,11 +293,11 @@ module.exports = {
       .then((invitations) => organizationInvitationSerializer.serialize(invitations));
   },
 
-  async getSchoolingRegistrationsCsvTemplate(request, h) {
+  async getOrganizationLearnersCsvTemplate(request, h) {
     const organizationId = request.params.id;
     const token = request.query.accessToken;
     const userId = tokenService.extractUserId(token);
-    const template = await usecases.getSchoolingRegistrationsCsvTemplate({
+    const template = await usecases.getOrganizationLearnersCsvTemplate({
       userId,
       organizationId,
       i18n: request.i18n,

@@ -2,7 +2,7 @@ const AccountRecoveryDemand = require('../../../../lib/domain/models/AccountReco
 
 module.exports = function buildAccountRecoveryDemand({
   userId = 7,
-  schoolingRegistrationId,
+  organizationLearnerId,
   newEmail = 'new-email@example.net',
   oldEmail = 'old-email@example.net',
   used = false,
@@ -10,7 +10,7 @@ module.exports = function buildAccountRecoveryDemand({
 } = {}) {
   return new AccountRecoveryDemand({
     userId,
-    schoolingRegistrationId,
+    organizationLearnerId,
     newEmail,
     oldEmail,
     used,

@@ -78,7 +78,7 @@ describe('Integration | Repository | Campaign Profiles Collection Participation 
       expect(names).exactlyContainInOrder(['Lise']);
     });
 
-    it('should return participants data summary ordered by last name then first name asc from schooling-registration', async function () {
+    it('should return participants data summary ordered by last name then first name asc from organization-learner', async function () {
       // given
       const campaignParticipation = { campaignId };
       databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(

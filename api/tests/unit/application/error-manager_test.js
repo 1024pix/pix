@@ -11,15 +11,15 @@ const {
   MissingOrInvalidCredentialsError,
   UnexpectedUserAccountError,
   UserShouldChangePasswordError,
-  MultipleSchoolingRegistrationsWithDifferentNationalStudentIdError,
+  MultipleOrganizationLearnersWithDifferentNationalStudentIdError,
   UserHasAlreadyLeftSCO,
-  SchoolingRegistrationAlreadyLinkedToInvalidUserError,
+  OrganizationLearnerAlreadyLinkedToInvalidUserError,
   InvalidVerificationCodeError,
   EmailModificationDemandNotFoundOrExpiredError,
   CandidateNotAuthorizedToJoinSessionError,
   CandidateNotAuthorizedToResumeCertificationTestError,
   UncancellableOrganizationInvitationError,
-  SchoolingRegistrationCannotBeDissociatedError,
+  OrganizationLearnerCannotBeDissociatedError,
   UserShouldNotBeReconciledOnAnotherAccountError,
   CertificationCandidateOnFinalizedSessionError,
 } = require('../../../lib/domain/errors');
@@ -238,9 +238,9 @@ describe('Unit | Application | ErrorManager', function () {
       expect(HttpErrors.ServiceUnavailableError).to.have.been.calledWithExactly(error.message);
     });
 
-    it('should instantiate ConflictError when MultipleSchoolingRegistrationsWithDifferentNationalStudentIdError', async function () {
+    it('should instantiate ConflictError when MultipleOrganizationLearnersWithDifferentNationalStudentIdError', async function () {
       // given
-      const error = new MultipleSchoolingRegistrationsWithDifferentNationalStudentIdError();
+      const error = new MultipleOrganizationLearnersWithDifferentNationalStudentIdError();
       sinon.stub(HttpErrors, 'ConflictError');
       const params = { request: {}, h: hFake, error };
 
@@ -316,9 +316,9 @@ describe('Unit | Application | ErrorManager', function () {
       expect(HttpErrors.ForbiddenError).to.have.been.calledWithExactly(error.message, error.code);
     });
 
-    it('should instantiate BadRequestError when SchoolingRegistrationAlreadyLinkedToInvalidUserError', async function () {
+    it('should instantiate BadRequestError when OrganizationLearnerAlreadyLinkedToInvalidUserError', async function () {
       // given
-      const error = new SchoolingRegistrationAlreadyLinkedToInvalidUserError();
+      const error = new OrganizationLearnerAlreadyLinkedToInvalidUserError();
       sinon.stub(HttpErrors, 'BadRequestError');
       const params = { request: {}, h: hFake, error };
 
@@ -383,9 +383,9 @@ describe('Unit | Application | ErrorManager', function () {
       expect(HttpErrors.UnprocessableEntityError).to.have.been.calledWithExactly(error.message, error.code, error.meta);
     });
 
-    it('should instantiate PreconditionFailedError when SchoolingRegistrationCannotBeDissociatedError', async function () {
+    it('should instantiate PreconditionFailedError when OrganizationLearnerCannotBeDissociatedError', async function () {
       // given
-      const error = new SchoolingRegistrationCannotBeDissociatedError();
+      const error = new OrganizationLearnerCannotBeDissociatedError();
       sinon.stub(HttpErrors, 'PreconditionFailedError');
       const params = { request: {}, h: hFake, error };
 

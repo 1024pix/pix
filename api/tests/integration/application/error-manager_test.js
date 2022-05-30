@@ -144,8 +144,8 @@ describe('Integration | API | Controller Error', function () {
       expect(response.statusCode).to.equal(PRECONDITION_FAILED);
     });
 
-    it('responds Precondition Failed when a SchoolingRegistrationDisabledError occurs', async function () {
-      routeHandler.throws(new DomainErrors.SchoolingRegistrationDisabledError());
+    it('responds Precondition Failed when a OrganizationLearnerDisabledError occurs', async function () {
+      routeHandler.throws(new DomainErrors.OrganizationLearnerDisabledError());
       const response = await server.requestObject(request);
 
       expect(response.statusCode).to.equal(PRECONDITION_FAILED);
@@ -158,8 +158,8 @@ describe('Integration | API | Controller Error', function () {
       expect(response.statusCode).to.equal(PRECONDITION_FAILED);
     });
 
-    it('responds Precondition Failed when a SchoolingRegistrationCannotBeDissociated occurs', async function () {
-      routeHandler.throws(new DomainErrors.SchoolingRegistrationCannotBeDissociatedError());
+    it('responds Precondition Failed when a OrganizationLearnerCannotBeDissociated occurs', async function () {
+      routeHandler.throws(new DomainErrors.OrganizationLearnerCannotBeDissociatedError());
       const response = await server.requestObject(request);
 
       expect(response.statusCode).to.equal(PRECONDITION_FAILED);
@@ -280,9 +280,9 @@ describe('Integration | API | Controller Error', function () {
       expect(responseDetail(response)).to.equal("Cette évaluation n'est pas terminée.");
     });
 
-    it('responds Conflict when a SchoolingRegistrationAlreadyLinkedToUserError error occurs', async function () {
+    it('responds Conflict when a OrganizationLearnerAlreadyLinkedToUserError error occurs', async function () {
       routeHandler.throws(
-        new DomainErrors.SchoolingRegistrationAlreadyLinkedToUserError(
+        new DomainErrors.OrganizationLearnerAlreadyLinkedToUserError(
           "L'élève est déjà rattaché à un compte utilisateur."
         )
       );
@@ -529,8 +529,8 @@ describe('Integration | API | Controller Error', function () {
       expect(responseDetail(response)).to.equal('Erreur lors de la mise à jour du membership à une organisation.');
     });
 
-    it('responds Bad Request when a SchoolingRegistrationsCouldNotBeSavedError error occurs', async function () {
-      routeHandler.throws(new DomainErrors.SchoolingRegistrationsCouldNotBeSavedError());
+    it('responds Bad Request when a OrganizationLearnersCouldNotBeSavedError error occurs', async function () {
+      routeHandler.throws(new DomainErrors.OrganizationLearnersCouldNotBeSavedError());
       const response = await server.requestObject(request);
 
       expect(response.statusCode).to.equal(BAD_REQUEST_ERROR);

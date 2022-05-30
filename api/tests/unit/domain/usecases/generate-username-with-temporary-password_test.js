@@ -31,7 +31,7 @@ describe('Unit | UseCase | generate-username-with-temporary-password', function 
 
   let authenticationMethodRepository;
   let userRepository;
-  let schoolingRegistrationRepository;
+  let organizationLearnerRepository;
 
   beforeEach(function () {
     organizationLearner = domainBuilder.buildOrganizationLearner({
@@ -60,11 +60,11 @@ describe('Unit | UseCase | generate-username-with-temporary-password', function 
       get: sinon.stub(),
       updateUsernameAndPassword: sinon.stub().resolves(),
     };
-    schoolingRegistrationRepository = {
+    organizationLearnerRepository = {
       get: sinon.stub(),
     };
 
-    schoolingRegistrationRepository.get.resolves(organizationLearner);
+    organizationLearnerRepository.get.resolves(organizationLearner);
     userRepository.get.resolves(userRelatedToStudent);
   });
 
@@ -79,7 +79,7 @@ describe('Unit | UseCase | generate-username-with-temporary-password', function 
       userService,
       authenticationMethodRepository,
       userRepository,
-      schoolingRegistrationRepository,
+      organizationLearnerRepository,
     });
 
     // then
@@ -101,7 +101,7 @@ describe('Unit | UseCase | generate-username-with-temporary-password', function 
       userService,
       authenticationMethodRepository,
       userRepository,
-      schoolingRegistrationRepository,
+      organizationLearnerRepository,
     });
 
     // then
@@ -126,7 +126,7 @@ describe('Unit | UseCase | generate-username-with-temporary-password', function 
       userService,
       authenticationMethodRepository,
       userRepository,
-      schoolingRegistrationRepository,
+      organizationLearnerRepository,
     });
 
     // then
@@ -136,7 +136,7 @@ describe('Unit | UseCase | generate-username-with-temporary-password', function 
     );
   });
 
-  context('when schooling-registration refers to an user with a password', function () {
+  context('when organization-learner refers to an user with a password', function () {
     const username = 'john.doe2510';
     const userEmail = 'john.doe@example.net';
 
@@ -159,7 +159,7 @@ describe('Unit | UseCase | generate-username-with-temporary-password', function 
 
       userReconciliationService.createUsernameByUser.resolves(username);
 
-      schoolingRegistrationRepository.get.resolves(organizationLearner);
+      organizationLearnerRepository.get.resolves(organizationLearner);
       userRepository.get.resolves(userWithEmail);
       userRepository.addUsername.resolves({ ...userWithEmail, username });
 
@@ -177,7 +177,7 @@ describe('Unit | UseCase | generate-username-with-temporary-password', function 
         userService,
         authenticationMethodRepository,
         userRepository,
-        schoolingRegistrationRepository,
+        organizationLearnerRepository,
       });
 
       // then
