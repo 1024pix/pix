@@ -145,7 +145,8 @@
       "server.js",
       "package.json",
       "db",
-      "translations"
+      "translations",
+      ".env"
     ],
     "ignore": [
       "db/seeds",
