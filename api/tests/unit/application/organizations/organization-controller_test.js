@@ -23,7 +23,7 @@ const organizationSerializer = require('../../../../lib/infrastructure/serialize
 const organizationForAdminSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/organization-for-admin-serializer');
 const organizationPlacesSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/organization/organization-place-serializer');
 const TargetProfileForSpecifierSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/campaign/target-profile-for-specifier-serializer');
-const userWithSchoolingRegistrationSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/user-with-schooling-registration-serializer');
+const userWithOrganizationLearnerSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/user-with-organization-learner-serializer');
 const organizationAttachTargetProfilesSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/organization-attach-target-profiles-serializer');
 const organizationMemberIdentitySerializer = require('../../../../lib/infrastructure/serializers/jsonapi/organization-member-identity-serializer');
 const certificationResultUtils = require('../../../../lib/infrastructure/utils/csv/certification-results');
@@ -643,7 +643,7 @@ describe('Unit | Application | Organizations | organization-controller', functio
     });
   });
 
-  describe('#findPaginatedFilteredSchoolingRegistrations', function () {
+  describe('#findPaginatedFilteredOrganizationLearners', function () {
     const connectedUserId = 1;
     const organizationId = 145;
 
@@ -657,8 +657,8 @@ describe('Unit | Application | Organizations | organization-controller', functio
         params: { id: organizationId },
       };
 
-      sinon.stub(usecases, 'findPaginatedFilteredSchoolingRegistrations');
-      sinon.stub(userWithSchoolingRegistrationSerializer, 'serialize');
+      sinon.stub(usecases, 'findPaginatedFilteredOrganizationLearners');
+      sinon.stub(userWithOrganizationLearnerSerializer, 'serialize');
 
       studentWithUserInfo = domainBuilder.buildUserWithOrganizationLearner();
       serializedStudentsWithUsersInfos = {
@@ -673,13 +673,13 @@ describe('Unit | Application | Organizations | organization-controller', functio
 
     it('should call the usecase to find students with users infos related to the organization id', async function () {
       // given
-      usecases.findPaginatedFilteredSchoolingRegistrations.resolves({});
+      usecases.findPaginatedFilteredOrganizationLearners.resolves({});
 
       // when
-      await organizationController.findPaginatedFilteredSchoolingRegistrations(request, hFake);
+      await organizationController.findPaginatedFilteredOrganizationLearners(request, hFake);
 
       // then
-      expect(usecases.findPaginatedFilteredSchoolingRegistrations).to.have.been.calledWith({
+      expect(usecases.findPaginatedFilteredOrganizationLearners).to.have.been.calledWith({
         organizationId,
         filter: {},
         page: {},
@@ -698,13 +698,13 @@ describe('Unit | Application | Organizations | organization-controller', functio
           'filter[group]': 'L1',
         },
       };
-      usecases.findPaginatedFilteredSchoolingRegistrations.resolves({});
+      usecases.findPaginatedFilteredOrganizationLearners.resolves({});
 
       // when
-      await organizationController.findPaginatedFilteredSchoolingRegistrations(request, hFake);
+      await organizationController.findPaginatedFilteredOrganizationLearners(request, hFake);
 
       // then
-      expect(usecases.findPaginatedFilteredSchoolingRegistrations).to.have.been.calledWith({
+      expect(usecases.findPaginatedFilteredOrganizationLearners).to.have.been.calledWith({
         organizationId,
         filter: { lastName: 'Bob', firstName: 'Tom', connexionType: 'email', divisions: ['D1'], group: 'L1' },
         page: {},
@@ -714,13 +714,13 @@ describe('Unit | Application | Organizations | organization-controller', functio
     it('should call the usecase to find students with users infos related to pagination', async function () {
       // given
       request = { ...request, query: { 'page[size]': 10, 'page[number]': 1 } };
-      usecases.findPaginatedFilteredSchoolingRegistrations.resolves({});
+      usecases.findPaginatedFilteredOrganizationLearners.resolves({});
 
       // when
-      await organizationController.findPaginatedFilteredSchoolingRegistrations(request, hFake);
+      await organizationController.findPaginatedFilteredOrganizationLearners(request, hFake);
 
       // then
-      expect(usecases.findPaginatedFilteredSchoolingRegistrations).to.have.been.calledWith({
+      expect(usecases.findPaginatedFilteredOrganizationLearners).to.have.been.calledWith({
         organizationId,
         filter: {},
         page: { size: 10, number: 1 },
@@ -729,19 +729,19 @@ describe('Unit | Application | Organizations | organization-controller', functio
 
     it('should return the serialized students belonging to the organization', async function () {
       // given
-      usecases.findPaginatedFilteredSchoolingRegistrations.resolves({ data: [studentWithUserInfo] });
-      userWithSchoolingRegistrationSerializer.serialize.returns(serializedStudentsWithUsersInfos);
+      usecases.findPaginatedFilteredOrganizationLearners.resolves({ data: [studentWithUserInfo] });
+      userWithOrganizationLearnerSerializer.serialize.returns(serializedStudentsWithUsersInfos);
 
       // when
-      const response = await organizationController.findPaginatedFilteredSchoolingRegistrations(request, hFake);
+      const response = await organizationController.findPaginatedFilteredOrganizationLearners(request, hFake);
 
       // then
       expect(response).to.deep.equal(serializedStudentsWithUsersInfos);
     });
   });
 
-  describe('#importSchoolingRegistrationsFromSIECLE', function () {
-    it('should call the usecase to import schoolingRegistrations', async function () {
+  describe('#importorganizationLearnersFromSIECLE', function () {
+    it('should call the usecase to import organizationLearners', async function () {
       // given
       const connectedUserId = 1;
       const organizationId = 145;
@@ -757,15 +757,15 @@ describe('Unit | Application | Organizations | organization-controller', functio
         i18n,
       };
 
-      sinon.stub(usecases, 'importSchoolingRegistrationsFromSIECLEFormat');
+      sinon.stub(usecases, 'importOrganizationLearnersFromSIECLEFormat');
 
-      usecases.importSchoolingRegistrationsFromSIECLEFormat.resolves();
+      usecases.importOrganizationLearnersFromSIECLEFormat.resolves();
 
       // when
-      await organizationController.importSchoolingRegistrationsFromSIECLE(request, hFake);
+      await organizationController.importOrganizationLearnersFromSIECLE(request, hFake);
 
       // then
-      expect(usecases.importSchoolingRegistrationsFromSIECLEFormat).to.have.been.calledWith({
+      expect(usecases.importOrganizationLearnersFromSIECLEFormat).to.have.been.calledWith({
         organizationId,
         payload,
         format,
@@ -928,7 +928,7 @@ describe('Unit | Application | Organizations | organization-controller', functio
     });
   });
 
-  describe('#getSchoolingRegistrationsCsvTemplate', function () {
+  describe('#getOrganizationLearnersCsvTemplate', function () {
     const userId = 1;
     const organizationId = 2;
     const request = {
@@ -941,14 +941,14 @@ describe('Unit | Application | Organizations | organization-controller', functio
     };
 
     beforeEach(function () {
-      sinon.stub(usecases, 'getSchoolingRegistrationsCsvTemplate').resolves('template');
+      sinon.stub(usecases, 'getOrganizationLearnersCsvTemplate').resolves('template');
       sinon.stub(tokenService, 'extractUserId').returns(userId);
     });
 
     it('should return a response with correct headers', async function () {
       // when
       request.i18n = getI18n();
-      const response = await organizationController.getSchoolingRegistrationsCsvTemplate(request, hFake);
+      const response = await organizationController.getOrganizationLearnersCsvTemplate(request, hFake);
 
       // then
       expect(response.headers['Content-Type']).to.equal('text/csv;charset=utf-8');

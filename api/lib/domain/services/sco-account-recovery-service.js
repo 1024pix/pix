@@ -1,26 +1,26 @@
 const {
   AccountRecoveryDemandExpired,
-  MultipleSchoolingRegistrationsWithDifferentNationalStudentIdError,
+  MultipleOrganizationLearnersWithDifferentNationalStudentIdError,
   UserNotFoundError,
   UserHasAlreadyLeftSCO,
 } = require('../errors');
 const _ = require('lodash');
 
-async function retrieveSchoolingRegistration({
+async function retrieveOrganizationLearner({
   accountRecoveryDemandRepository,
   studentInformation,
-  schoolingRegistrationRepository,
+  organizationLearnerRepository,
   userRepository,
   userReconciliationService,
 }) {
-  const latestSchoolingRegistration = await schoolingRegistrationRepository.getLatestSchoolingRegistration({
+  const latestOrganizationLearner = await organizationLearnerRepository.getLatestOrganizationLearner({
     birthdate: studentInformation.birthdate,
     nationalStudentId: studentInformation.ineIna.toUpperCase(),
   });
 
-  const userId = await _getUserIdByMatchingStudentInformationWithSchoolingRegistration({
+  const userId = await _getUserIdByMatchingStudentInformationWithOrganizationLearner({
     studentInformation,
-    latestSchoolingRegistration,
+    latestOrganizationLearner,
     userReconciliationService,
   });
 
@@ -30,11 +30,11 @@ async function retrieveSchoolingRegistration({
     throw new UserHasAlreadyLeftSCO();
   }
 
-  await _checkIfThereAreMultipleUserForTheSameAccount({ userId, schoolingRegistrationRepository });
+  await _checkIfThereAreMultipleUserForTheSameAccount({ userId, organizationLearnerRepository });
 
   const { username, email } = await userRepository.get(userId);
 
-  const { id, firstName, lastName, organizationId } = latestSchoolingRegistration;
+  const { id, firstName, lastName, organizationId } = latestOrganizationLearner;
 
   return { id, userId, firstName, lastName, username, organizationId, email };
 }
@@ -44,7 +44,7 @@ async function retrieveAndValidateAccountRecoveryDemand({
   userRepository,
   accountRecoveryDemandRepository,
 }) {
-  const { id, userId, newEmail, schoolingRegistrationId, createdAt } =
+  const { id, userId, newEmail, organizationLearnerId, createdAt } =
     await accountRecoveryDemandRepository.findByTemporaryKey(temporaryKey);
   await userRepository.checkIfEmailIsAvailable(newEmail);
 
@@ -58,7 +58,7 @@ async function retrieveAndValidateAccountRecoveryDemand({
     throw new AccountRecoveryDemandExpired();
   }
 
-  return { id, userId, newEmail, schoolingRegistrationId };
+  return { id, userId, newEmail, organizationLearnerId };
 }
 
 function _demandHasExpired(demandCreationDate) {
@@ -73,32 +73,32 @@ function _demandHasExpired(demandCreationDate) {
   return expirationDate < now;
 }
 
-async function _getUserIdByMatchingStudentInformationWithSchoolingRegistration({
+async function _getUserIdByMatchingStudentInformationWithOrganizationLearner({
   studentInformation,
-  latestSchoolingRegistration,
+  latestOrganizationLearner,
   userReconciliationService,
 }) {
-  const matchingSchoolingRegistrationId = await userReconciliationService.findMatchingCandidateIdForGivenUser(
-    [latestSchoolingRegistration],
+  const matchingOrganizationLearnerId = await userReconciliationService.findMatchingCandidateIdForGivenUser(
+    [latestOrganizationLearner],
     { firstName: studentInformation.firstName, lastName: studentInformation.lastName }
   );
 
-  if (!matchingSchoolingRegistrationId) {
+  if (!matchingOrganizationLearnerId) {
     throw new UserNotFoundError();
   }
 
-  return latestSchoolingRegistration.userId;
+  return latestOrganizationLearner.userId;
 }
 
-async function _checkIfThereAreMultipleUserForTheSameAccount({ userId, schoolingRegistrationRepository }) {
-  const schoolingRegistrations = await schoolingRegistrationRepository.findByUserId({ userId });
+async function _checkIfThereAreMultipleUserForTheSameAccount({ userId, organizationLearnerRepository }) {
+  const organizationLearners = await organizationLearnerRepository.findByUserId({ userId });
 
-  if (_.uniqBy(schoolingRegistrations, 'nationalStudentId').length > 1) {
-    throw new MultipleSchoolingRegistrationsWithDifferentNationalStudentIdError();
+  if (_.uniqBy(organizationLearners, 'nationalStudentId').length > 1) {
+    throw new MultipleOrganizationLearnersWithDifferentNationalStudentIdError();
   }
 }
 
 module.exports = {
-  retrieveSchoolingRegistration,
+  retrieveOrganizationLearner,
   retrieveAndValidateAccountRecoveryDemand,
 };

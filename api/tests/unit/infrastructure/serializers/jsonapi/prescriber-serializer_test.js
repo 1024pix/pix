@@ -33,7 +33,7 @@ describe('Unit | Serializer | JSONAPI | prescriber-serializer', function () {
         const prescriber = domainBuilder.buildPrescriber({
           firstName: user.firstName,
           lastName: user.lastName,
-          areNewYearSchoolingRegistrationsImported: false,
+          areNewYearOrganizationLearnersImported: false,
           pixOrgaTermsOfServiceAccepted: user.pixOrgaTermsOfServiceAccepted,
           memberships: [membership],
           userOrgaSettings,
@@ -76,7 +76,7 @@ describe('Unit | Serializer | JSONAPI | prescriber-serializer', function () {
         const prescriber = domainBuilder.buildPrescriber({
           firstName: user.firstName,
           lastName: user.lastName,
-          areNewYearSchoolingRegistrationsImported: false,
+          areNewYearOrganizationLearnersImported: false,
           pixOrgaTermsOfServiceAccepted: user.pixOrgaTermsOfServiceAccepted,
           memberships: [membership],
           userOrgaSettings,
@@ -122,7 +122,7 @@ describe('Unit | Serializer | JSONAPI | prescriber-serializer', function () {
         const prescriber = domainBuilder.buildPrescriber({
           firstName: user.firstName,
           lastName: user.lastName,
-          areNewYearSchoolingRegistrationsImported: false,
+          areNewYearOrganizationLearnersImported: false,
           pixOrgaTermsOfServiceAccepted: user.pixOrgaTermsOfServiceAccepted,
           memberships: [membership],
           userOrgaSettings,
@@ -161,7 +161,7 @@ function createExpectedPrescriberSerializedWithOneMoreField({
         'first-name': prescriber.firstName,
         'last-name': prescriber.lastName,
         'pix-orga-terms-of-service-accepted': prescriber.pixOrgaTermsOfServiceAccepted,
-        'are-new-year-schooling-registrations-imported': prescriber.areNewYearSchoolingRegistrationsImported,
+        'are-new-year-organization-learners-imported': prescriber.areNewYearOrganizationLearnersImported,
         lang: prescriber.lang,
       },
       relationships: {
@@ -269,7 +269,7 @@ function createExpectedPrescriberSerialized({ prescriber, membership, userOrgaSe
         'first-name': prescriber.firstName,
         'last-name': prescriber.lastName,
         'pix-orga-terms-of-service-accepted': prescriber.pixOrgaTermsOfServiceAccepted,
-        'are-new-year-schooling-registrations-imported': prescriber.areNewYearSchoolingRegistrationsImported,
+        'are-new-year-organization-learners-imported': prescriber.areNewYearOrganizationLearnersImported,
         lang: prescriber.lang,
       },
       relationships: {

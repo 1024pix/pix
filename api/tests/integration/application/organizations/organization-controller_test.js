@@ -16,7 +16,7 @@ describe('Integration | Application | Organizations | organization-controller', 
     sandbox = sinon.createSandbox();
     sandbox.stub(usecases, 'updateOrganizationInformation');
     sandbox.stub(usecases, 'findPaginatedFilteredOrganizationMemberships');
-    sandbox.stub(usecases, 'findPaginatedFilteredSchoolingRegistrations');
+    sandbox.stub(usecases, 'findPaginatedFilteredOrganizationLearners');
     sandbox.stub(usecases, 'createOrganizationInvitations');
     sandbox.stub(usecases, 'acceptOrganizationInvitation');
     sandbox.stub(usecases, 'findPendingOrganizationInvitations');
@@ -159,7 +159,7 @@ describe('Integration | Application | Organizations | organization-controller', 
       it('should return an HTTP response with status code 200', async function () {
         // given
         const studentWithUserInfo = domainBuilder.buildUserWithOrganizationLearner();
-        usecases.findPaginatedFilteredSchoolingRegistrations.resolves({ data: [studentWithUserInfo] });
+        usecases.findPaginatedFilteredOrganizationLearners.resolves({ data: [studentWithUserInfo] });
         securityPreHandlers.checkUserBelongsToOrganizationManagingStudents.returns(true);
 
         // when
@@ -172,7 +172,7 @@ describe('Integration | Application | Organizations | organization-controller', 
       it('should return an HTTP response formatted as JSON:API', async function () {
         // given
         const studentWithUserInfo = domainBuilder.buildUserWithOrganizationLearner();
-        usecases.findPaginatedFilteredSchoolingRegistrations.resolves({ data: [studentWithUserInfo] });
+        usecases.findPaginatedFilteredOrganizationLearners.resolves({ data: [studentWithUserInfo] });
         securityPreHandlers.checkUserBelongsToOrganizationManagingStudents.returns(true);
 
         // when

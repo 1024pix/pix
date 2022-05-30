@@ -452,7 +452,7 @@ describe('Integration | Repository | Campaign Participation', function () {
       ]);
     });
 
-    context('when a participant has several schooling-registrations for different organizations', function () {
+    context('when a participant has several organization-learners for different organizations', function () {
       let campaign;
       let otherCampaign;
 

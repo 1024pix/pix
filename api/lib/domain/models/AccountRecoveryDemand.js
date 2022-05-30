@@ -1,7 +1,7 @@
 class AccountRecoveryDemand {
-  constructor({ id, userId, schoolingRegistrationId, oldEmail, newEmail, temporaryKey, used, createdAt } = {}) {
+  constructor({ id, userId, organizationLearnerId, oldEmail, newEmail, temporaryKey, used, createdAt } = {}) {
     this.id = id;
-    this.schoolingRegistrationId = schoolingRegistrationId;
+    this.organizationLearnerId = organizationLearnerId;
     this.userId = userId;
     this.oldEmail = oldEmail;
     this.newEmail = newEmail.toLowerCase();

@@ -1,11 +1,11 @@
 const _ = require('lodash');
 const { SCO_MIDDLE_SCHOOL_ID } = require('../../db/seeds/data/organizations-sco-builder');
 const OrganizationLearner = require('../../lib/domain/models/OrganizationLearner');
-const { SchoolingRegistrationsCouldNotBeSavedError } = require('../../lib/domain/errors');
+const { OrganizationLearnersCouldNotBeSavedError } = require('../../lib/domain/errors');
 const { knex } = require('../../lib/infrastructure/bookshelf');
 const DomainTransaction = require('../../lib/infrastructure/DomainTransaction');
 
-function _buildSchoolingRegistration(iteration) {
+function _buildOrganizationLearner(iteration) {
   const birthdates = ['2001-01-05', '2002-11-15', '1995-06-25'];
   const divisions = ['5eme', '4eme', '3eme'];
   return new OrganizationLearner({
@@ -18,13 +18,13 @@ function _buildSchoolingRegistration(iteration) {
 }
 
 async function addManyStudentsToScoCertificationCenter(numberOfStudents) {
-  const manyStudents = _.times(numberOfStudents, _buildSchoolingRegistration);
+  const manyStudents = _.times(numberOfStudents, _buildOrganizationLearner);
   try {
     await knex
       .batchInsert('organization-learners', manyStudents)
       .transacting(DomainTransaction.emptyTransaction().knexTransaction);
   } catch (err) {
-    throw new SchoolingRegistrationsCouldNotBeSavedError();
+    throw new OrganizationLearnersCouldNotBeSavedError();
   }
 }
 

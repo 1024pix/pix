@@ -19,7 +19,7 @@ describe('Acceptance | Scripts | add-many-divisions-and-students-to-sco-organiza
       // given
       const numberOfDivisionsToCreate = 4;
       const numberOfStudentsPerDivision = 30;
-      const numberOfSchoolingRegistrationToCreate = numberOfDivisionsToCreate * numberOfStudentsPerDivision;
+      const numberOfOrganizationLearnerToCreate = numberOfDivisionsToCreate * numberOfStudentsPerDivision;
 
       databaseBuilder.factory.buildOrganization({
         id: SCO_MIDDLE_SCHOOL_ID,
@@ -35,17 +35,17 @@ describe('Acceptance | Scripts | add-many-divisions-and-students-to-sco-organiza
 
       // when
       await addManyDivisionsAndStudentsToScoCertificationCenter(numberOfDivisionsToCreate, SCO_MIDDLE_SCHOOL_ID);
-      const numberOfCreatedSchoolingRegistrations = await _getNumberOfSchoolingRegistrations();
+      const numberOfCreatedOrganizationLearners = await _getNumberOfOrganizationLearners();
       const createdDivisions = await _getDistinctDivisions();
 
       // then
-      expect(numberOfCreatedSchoolingRegistrations).to.equal(numberOfSchoolingRegistrationToCreate);
+      expect(numberOfCreatedOrganizationLearners).to.equal(numberOfOrganizationLearnerToCreate);
       expect(createdDivisions.length).to.equal(numberOfDivisionsToCreate);
     });
   });
 });
 
-function _getNumberOfSchoolingRegistrations() {
+function _getNumberOfOrganizationLearners() {
   return BookshelfOrganizationLearner.count().then((number) => parseInt(number, 10));
 }
 

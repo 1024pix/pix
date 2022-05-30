@@ -50,7 +50,7 @@ module.exports = function buildPrescriber({
   lastName = 'Forme',
   pixOrgaTermsOfServiceAccepted = false,
   lang = 'fr',
-  areNewYearSchoolingRegistrationsImported = false,
+  areNewYearOrganizationLearnersImported = false,
   memberships = _buildMemberships(),
   userOrgaSettings = _buildUserOrgaSettings(),
 } = {}) {
@@ -60,7 +60,7 @@ module.exports = function buildPrescriber({
     lastName,
     pixOrgaTermsOfServiceAccepted,
     lang,
-    areNewYearSchoolingRegistrationsImported,
+    areNewYearOrganizationLearnersImported,
     memberships,
     userOrgaSettings,
   });

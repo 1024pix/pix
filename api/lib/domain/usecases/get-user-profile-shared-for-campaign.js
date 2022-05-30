@@ -8,7 +8,7 @@ module.exports = async function getUserProfileSharedForCampaign({
   campaignRepository,
   knowledgeElementRepository,
   competenceRepository,
-  schoolingRegistrationRepository,
+  organizationLearnerRepository,
   locale,
 }) {
   const campaignParticipation = await campaignParticipationRepository.findOneByCampaignIdAndUserId({
@@ -27,7 +27,7 @@ module.exports = async function getUserProfileSharedForCampaign({
     knowledgeElementsGroupedByCompetenceId,
   ] = await Promise.all([
     campaignRepository.get(campaignId),
-    schoolingRegistrationRepository.isActive({ campaignId, userId }),
+    organizationLearnerRepository.isActive({ campaignId, userId }),
     competenceRepository.listPixCompetencesOnly({ locale }),
     await knowledgeElementRepository.findUniqByUserIdGroupedByCompetenceId({
       userId,

@@ -1,8 +1,8 @@
 const { expect, generateValidRequestAuthorizationHeader, HttpTestServer, sinon } = require('../../../test-helper');
 
-const schoolingRegistrationUserAssociationController = require('../../../../lib/application/schooling-registration-user-associations/schooling-registration-user-association-controller');
-const moduleUnderTest = require('../../../../lib/application/schooling-registration-user-associations');
 const securityPreHandlers = require('../../../../lib/application/security-pre-handlers');
+const schoolingRegistrationUserAssociationController = require('../../../../lib/application/organization-learner-user-associations/organization-learner-user-association-controller');
+const moduleUnderTest = require('../../../../lib/application/organization-learner-user-associations');
 
 describe('Unit | Application | Router | schooling-registration-user-associations-router', function () {
   const organizationId = 2;

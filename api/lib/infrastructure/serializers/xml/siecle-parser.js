@@ -3,7 +3,7 @@ const xml2js = require('xml2js');
 const saxPath = require('saxpath');
 const { isEmpty, isUndefined } = require('lodash');
 const SiecleFileStreamer = require('../../utils/xml/siecle-file-streamer');
-const XMLSchoolingRegistrationSet = require('./xml-schooling-registration-set');
+const XMLOrganizationLearnerSet = require('./xml-organization-learner-set');
 
 const ERRORS = {
   UAI_MISMATCHED: 'UAI_MISMATCHED',
@@ -18,7 +18,7 @@ class SiecleParser {
   constructor(organization, path) {
     this.organization = organization;
     this.path = path;
-    this.schoolingRegistrationsSet = new XMLSchoolingRegistrationSet();
+    this.schoolingRegistrationsSet = new XMLOrganizationLearnerSet();
   }
 
   async parse() {
@@ -66,9 +66,9 @@ class SiecleParser {
   }
 
   _extractStudentRegistrationsFromStream(saxParser, resolve, reject) {
-    const streamerToParseSchoolingRegistrations = new saxPath.SaXPath(saxParser, NODES_SCHOOLING_REGISTRATIONS);
-    streamerToParseSchoolingRegistrations.on('match', (xmlNode) => {
-      if (_isSchoolingRegistrationNode(xmlNode)) {
+    const streamerToParseOrganizationLearners = new saxPath.SaXPath(saxParser, NODES_SCHOOLING_REGISTRATIONS);
+    streamerToParseOrganizationLearners.on('match', (xmlNode) => {
+      if (_isOrganizationLearnerNode(xmlNode)) {
         xml2js.parseString(xmlNode, (err, nodeData) => {
           try {
             if (err) throw err; // Si j'enleve cette ligne les tests passent
@@ -85,11 +85,11 @@ class SiecleParser {
       }
     });
 
-    streamerToParseSchoolingRegistrations.on('end', resolve);
+    streamerToParseOrganizationLearners.on('end', resolve);
   }
 }
 
-function _isSchoolingRegistrationNode(xmlNode) {
+function _isOrganizationLearnerNode(xmlNode) {
   return xmlNode.startsWith(ELEVE_ELEMENT) || xmlNode.startsWith(STRUCTURE_ELEVE_ELEMENT);
 }
 
@@ -102,9 +102,9 @@ function _isNodeImportableStructures(nodeData, schoolingRegistrationsSet) {
 }
 
 function _isImportable(studentData) {
-  const isStudentNotLeftSchoolingRegistration = isEmpty(studentData.DATE_SORTIE);
-  const isStudentNotYetArrivedSchoolingRegistration = !isEmpty(studentData.ID_NATIONAL);
-  return isStudentNotLeftSchoolingRegistration && isStudentNotYetArrivedSchoolingRegistration;
+  const isStudentNotLeftOrganizationLearner = isEmpty(studentData.DATE_SORTIE);
+  const isStudentNotYetArrivedOrganizationLearner = !isEmpty(studentData.ID_NATIONAL);
+  return isStudentNotLeftOrganizationLearner && isStudentNotYetArrivedOrganizationLearner;
 }
 
 module.exports = SiecleParser;

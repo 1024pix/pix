@@ -331,9 +331,9 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candida
               resolves: organization,
             });
 
-            const schoolingRegistrationRepository =
-              _buildFakeSchoolingRegistrationRepository().withIsSchoolingRegistrationIdLinkedToUserAndSCOOrganization({
-                args: { userId, schoolingRegistrationId: certificationCandidate.schoolingRegistrationId },
+            const organizationLearnerRepository =
+              _buildFakeOrganizationLearnerRepository().withIsOrganizationLearnerIdLinkedToUserAndSCOOrganization({
+                args: { userId, organizationLearnerId: certificationCandidate.schoolingRegistrationId },
                 resolves: false,
               });
 
@@ -346,7 +346,7 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candida
               birthdate,
               sessionRepository,
               certificationCandidateRepository,
-              schoolingRegistrationRepository,
+              organizationLearnerRepository,
               certificationCenterRepository,
               organizationRepository,
             });
@@ -405,13 +405,11 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candida
                 resolves: organization,
               });
 
-              const schoolingRegistrationRepository =
-                _buildFakeSchoolingRegistrationRepository().withIsSchoolingRegistrationIdLinkedToUserAndSCOOrganization(
-                  {
-                    args: { userId, schoolingRegistrationId: certificationCandidate.schoolingRegistrationId },
-                    resolves: true,
-                  }
-                );
+              const organizationLearnerRepository =
+                _buildFakeOrganizationLearnerRepository().withIsOrganizationLearnerIdLinkedToUserAndSCOOrganization({
+                  args: { userId, organizationLearnerId: certificationCandidate.schoolingRegistrationId },
+                  resolves: true,
+                });
 
               // when
               const event = await linkUserToSessionCertificationCandidate({
@@ -422,7 +420,7 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candida
                 birthdate,
                 sessionRepository,
                 certificationCandidateRepository,
-                schoolingRegistrationRepository,
+                organizationLearnerRepository,
                 certificationCenterRepository,
                 organizationRepository,
               });
@@ -433,8 +431,8 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candida
                 userId,
               });
               expect(
-                schoolingRegistrationRepository.isSchoolingRegistrationIdLinkedToUserAndSCOOrganization
-              ).to.have.been.calledWith({ userId, schoolingRegistrationId: organizationLearner.id });
+                organizationLearnerRepository.isOrganizationLearnerIdLinkedToUserAndSCOOrganization
+              ).to.have.been.calledWith({ userId, organizationLearnerId: organizationLearner.id });
               expect(event).to.be.instanceOf(UserLinkedToCertificationCandidate);
             });
           });
@@ -487,13 +485,11 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candida
                 resolves: organization,
               });
 
-              const schoolingRegistrationRepository =
-                _buildFakeSchoolingRegistrationRepository().withIsSchoolingRegistrationIdLinkedToUserAndSCOOrganization(
-                  {
-                    args: { userId, schoolingRegistrationId: certificationCandidate.schoolingRegistrationId },
-                    resolves: true,
-                  }
-                );
+              const organizationLearnerRepository =
+                _buildFakeOrganizationLearnerRepository().withIsOrganizationLearnerIdLinkedToUserAndSCOOrganization({
+                  args: { userId, organizationLearnerId: certificationCandidate.schoolingRegistrationId },
+                  resolves: true,
+                });
 
               // when
               const error = await catchErr(linkUserToSessionCertificationCandidate)({
@@ -504,15 +500,15 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candida
                 birthdate,
                 sessionRepository,
                 certificationCandidateRepository,
-                schoolingRegistrationRepository,
+                organizationLearnerRepository,
                 certificationCenterRepository,
                 organizationRepository,
               });
 
               // then
               expect(
-                schoolingRegistrationRepository.isSchoolingRegistrationIdLinkedToUserAndSCOOrganization
-              ).to.have.been.calledWith({ userId, schoolingRegistrationId: organizationLearner.id });
+                organizationLearnerRepository.isOrganizationLearnerIdLinkedToUserAndSCOOrganization
+              ).to.have.been.calledWith({ userId, organizationLearnerId: organizationLearner.id });
               expect(error).to.be.an.instanceof(UserAlreadyLinkedToCandidateInSessionError);
             });
           });
@@ -555,9 +551,9 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candida
             resolves: organization,
           });
 
-          const schoolingRegistrationRepository =
-            _buildFakeSchoolingRegistrationRepository().withIsSchoolingRegistrationIdLinkedToUserAndSCOOrganization({
-              args: { userId, schoolingRegistrationId: certificationCandidate.schoolingRegistrationId },
+          const organizationLearnerRepository =
+            _buildFakeOrganizationLearnerRepository().withIsOrganizationLearnerIdLinkedToUserAndSCOOrganization({
+              args: { userId, organizationLearnerId: certificationCandidate.schoolingRegistrationId },
               resolves: true,
             });
 
@@ -572,13 +568,11 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candida
             certificationCandidateRepository,
             certificationCenterRepository,
             organizationRepository,
-            schoolingRegistrationRepository,
+            organizationLearnerRepository,
           });
 
           // then
-          expect(
-            schoolingRegistrationRepository.isSchoolingRegistrationIdLinkedToUserAndSCOOrganization
-          ).to.be.not.called;
+          expect(organizationLearnerRepository.isOrganizationLearnerIdLinkedToUserAndSCOOrganization).to.be.not.called;
           expect(result).to.be.an.instanceof(UserLinkedToCertificationCandidate);
         });
       });
@@ -608,12 +602,12 @@ function _buildFakeOrganizationRepository() {
   };
 }
 
-function _buildFakeSchoolingRegistrationRepository() {
-  const isSchoolingRegistrationIdLinkedToUserAndSCOOrganization = sinon.stub();
+function _buildFakeOrganizationLearnerRepository() {
+  const isOrganizationLearnerIdLinkedToUserAndSCOOrganization = sinon.stub();
   return {
-    isSchoolingRegistrationIdLinkedToUserAndSCOOrganization,
-    withIsSchoolingRegistrationIdLinkedToUserAndSCOOrganization({ args, resolves }) {
-      this.isSchoolingRegistrationIdLinkedToUserAndSCOOrganization.withArgs(args).resolves(resolves);
+    isOrganizationLearnerIdLinkedToUserAndSCOOrganization,
+    withIsOrganizationLearnerIdLinkedToUserAndSCOOrganization({ args, resolves }) {
+      this.isOrganizationLearnerIdLinkedToUserAndSCOOrganization.withArgs(args).resolves(resolves);
       return this;
     },
   };

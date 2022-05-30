@@ -38,10 +38,10 @@ describe('Unit | UseCase | enroll-students-to-session', function () {
       });
 
       const scoCertificationCandidateRepository = new InMemorySCOCertificationCandidateRepository();
-      const schoolingRegistrationRepository = { findByIds: sinon.stub() };
+      const organizationLearnerRepository = { findByIds: sinon.stub() };
       const countryRepository = { findAll: sinon.stub() };
       countryRepository.findAll.resolves([country]);
-      schoolingRegistrationRepository.findByIds.withArgs({ ids: studentIds }).resolves(organizationLearners);
+      organizationLearnerRepository.findByIds.withArgs({ ids: studentIds }).resolves(organizationLearners);
       const sessionRepository = { get: sinon.stub() };
       sessionRepository.get.withArgs(sessionId).resolves(session);
       const certificationCenterMembershipRepository = { findByUserId: sinon.stub() };
@@ -60,7 +60,7 @@ describe('Unit | UseCase | enroll-students-to-session', function () {
         referentId,
         scoCertificationCandidateRepository,
         certificationCenterMembershipRepository,
-        schoolingRegistrationRepository,
+        organizationLearnerRepository,
         sessionRepository,
         countryRepository,
         organizationRepository,
@@ -109,10 +109,10 @@ describe('Unit | UseCase | enroll-students-to-session', function () {
       });
 
       const scoCertificationCandidateRepository = new InMemorySCOCertificationCandidateRepository();
-      const schoolingRegistrationRepository = { findByIds: sinon.stub() };
+      const organizationLearnerRepository = { findByIds: sinon.stub() };
       const countryRepository = { findAll: sinon.stub() };
       countryRepository.findAll.resolves([country]);
-      schoolingRegistrationRepository.findByIds.withArgs({ ids: [1] }).resolves([organizationLearner]);
+      organizationLearnerRepository.findByIds.withArgs({ ids: [1] }).resolves([organizationLearner]);
       const sessionRepository = { get: sinon.stub() };
       sessionRepository.get.withArgs(sessionId).resolves(session);
       const certificationCenterMembershipRepository = { findByUserId: sinon.stub() };
@@ -131,7 +131,7 @@ describe('Unit | UseCase | enroll-students-to-session', function () {
         referentId,
         scoCertificationCandidateRepository,
         certificationCenterMembershipRepository,
-        schoolingRegistrationRepository,
+        organizationLearnerRepository,
         sessionRepository,
         countryRepository,
         organizationRepository,
@@ -153,8 +153,8 @@ describe('Unit | UseCase | enroll-students-to-session', function () {
       const { organizationForReferent, organizationLearners } =
         _buildNonMatchingReferentOrganisationAndOrganizationLearners(studentIds);
 
-      const schoolingRegistrationRepository = { findByIds: sinon.stub() };
-      schoolingRegistrationRepository.findByIds.withArgs({ ids: studentIds }).resolves(organizationLearners);
+      const organizationLearnerRepository = { findByIds: sinon.stub() };
+      organizationLearnerRepository.findByIds.withArgs({ ids: studentIds }).resolves(organizationLearners);
       const sessionRepository = { get: sinon.stub() };
       sessionRepository.get.withArgs(session.id).resolves(session);
       const certificationCenterMembershipRepository = { findByUserId: sinon.stub() };
@@ -171,7 +171,7 @@ describe('Unit | UseCase | enroll-students-to-session', function () {
         sessionId: session.id,
         studentIds,
         referentId,
-        schoolingRegistrationRepository,
+        organizationLearnerRepository,
         organizationRepository,
         sessionRepository,
         certificationCenterMembershipRepository,
@@ -201,7 +201,7 @@ describe('Unit | UseCase | enroll-students-to-session', function () {
         referentId,
         certificationCenterMembershipRepository,
         organizationRepository: undefined,
-        schoolingRegistrationRepository: undefined,
+        organizationLearnerRepository: undefined,
         sessionRepository,
       });
 
@@ -225,8 +225,8 @@ describe('Unit | UseCase | enroll-students-to-session', function () {
       });
 
       const scoCertificationCandidateRepository = new InMemorySCOCertificationCandidateRepository();
-      const schoolingRegistrationRepository = { findByIds: sinon.stub() };
-      schoolingRegistrationRepository.findByIds.withArgs({ ids: studentIds }).resolves(organizationLearners);
+      const organizationLearnerRepository = { findByIds: sinon.stub() };
+      organizationLearnerRepository.findByIds.withArgs({ ids: studentIds }).resolves(organizationLearners);
       const countryRepository = { findAll: sinon.stub() };
       countryRepository.findAll.resolves([country]);
       const sessionRepository = { get: sinon.stub() };
@@ -247,7 +247,7 @@ describe('Unit | UseCase | enroll-students-to-session', function () {
         referentId,
         scoCertificationCandidateRepository,
         certificationCenterMembershipRepository,
-        schoolingRegistrationRepository,
+        organizationLearnerRepository,
         sessionRepository,
         countryRepository,
         organizationRepository,
@@ -272,10 +272,10 @@ describe('Unit | UseCase | enroll-students-to-session', function () {
       });
 
       const scoCertificationCandidateRepository = new InMemorySCOCertificationCandidateRepository();
-      const schoolingRegistrationRepository = { findByIds: sinon.stub() };
+      const organizationLearnerRepository = { findByIds: sinon.stub() };
       const countryRepository = { findAll: sinon.stub() };
       countryRepository.findAll.resolves([country]);
-      schoolingRegistrationRepository.findByIds.withArgs({ ids: studentIds }).resolves(organizationLearners);
+      organizationLearnerRepository.findByIds.withArgs({ ids: studentIds }).resolves(organizationLearners);
       const sessionRepository = { get: sinon.stub() };
       sessionRepository.get.withArgs(sessionId).resolves(session);
       const certificationCenterMembershipRepository = { findByUserId: sinon.stub() };
@@ -295,7 +295,7 @@ describe('Unit | UseCase | enroll-students-to-session', function () {
         scoCertificationCandidateRepository,
         certificationCenterMembershipRepository,
         organizationRepository,
-        schoolingRegistrationRepository,
+        organizationLearnerRepository,
         countryRepository,
         sessionRepository,
       });

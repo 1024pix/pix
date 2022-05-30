@@ -24,7 +24,7 @@ module.exports = {
         'firstName',
         'lastName',
         'pixOrgaTermsOfServiceAccepted',
-        'areNewYearSchoolingRegistrationsImported',
+        'areNewYearOrganizationLearnersImported',
         'lang',
         'memberships',
         'userOrgaSettings',

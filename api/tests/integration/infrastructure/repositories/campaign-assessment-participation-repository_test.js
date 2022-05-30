@@ -226,7 +226,7 @@ describe('Integration | Repository | Campaign Assessment Participation', functio
       });
     });
 
-    context('when there are several schooling-registrations for the same participant', function () {
+    context('when there are several organization-learners for the same participant', function () {
       beforeEach(async function () {
         const skill = { id: 'skill', status: 'actif' };
         mockLearningContent({ skills: [skill] });
@@ -265,7 +265,7 @@ describe('Integration | Repository | Campaign Assessment Participation', functio
         await databaseBuilder.commit();
       });
 
-      it('return the first name and the last name of the correct schooling-registration', async function () {
+      it('return the first name and the last name of the correct organization-learner', async function () {
         const campaignAssessmentParticipation =
           await campaignAssessmentParticipationRepository.getByCampaignIdAndCampaignParticipationId({
             campaignId,

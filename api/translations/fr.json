@@ -62,7 +62,7 @@
     }
   },
   "csv-template": {
-    "higher-schooling-registrations": {
+    "sup-organization-learners": {
       "birthdate": "Date de naissance (jj/mm/aaaa)",
       "department": "Composante",
       "diploma": "Diplôme",
@@ -77,7 +77,7 @@
       "study-scheme": "Régime",
       "third-name": "Troisième prénom"
     },
-    "schooling-registrations": {
+    "organization-learners": {
       "birth-city": "Libellé commune naissance**",
       "birth-city-code": "Code commune naissance**",
       "birth-country-code": "Code pays naissance*",
@@ -86,7 +86,7 @@
       "division": "Division*",
       "first-name": "Premier prénom*",
       "last-name": "Nom de famille*",
-			"sex": "Code sexe*",
+      "sex": "Code sexe*",
       "mef-code": "Code MEF*",
       "middle-name": "Deuxième prénom",
       "national-identifier": "Identifiant unique*",
@@ -97,7 +97,7 @@
     "template-name": "modele-import"
   },
   "csv-import-values": {
-    "higher-schooling-registrations": {
+    "sup-organization-learner": {
       "diplomas": {
         "license": "Diplôme National de Licence contrôlé par l'Etat",
         "master": "Diplôme National de Master contrôlé par l'Etat",
@@ -132,7 +132,7 @@
     "body": {
       "doNotAnswer": "Ceci est un e-mail automatique, merci de ne pas y répondre",
       "context": "Vous souhaitez faire une modification de votre adresse e-mail sur votre compte. Pour continuer, entrez le code suivant sur Pix :",
-      "warningMessage" : "Si ce n'était pas vous, nous vous invitons à réinitialiser votre mot de passe au plus vite afin de sécuriser votre compte.",
+      "warningMessage": "Si ce n'était pas vous, nous vous invitons à réinitialiser votre mot de passe au plus vite afin de sécuriser votre compte.",
       "greeting": "Bonjour,",
       "moreOn": "En savoir plus sur",
       "pixPresentation": "Pix est le service public en ligne pour évaluer, développer et certifier ses compétences numériques.",

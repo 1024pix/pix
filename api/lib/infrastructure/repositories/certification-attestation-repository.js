@@ -72,9 +72,9 @@ module.exports = {
 
     const competenceTree = await competenceTreeRepository.get();
 
-    const mostRecentCertificationsPerSchoolingRegistration =
-      _filterMostRecentCertificationCoursePerSchoolingRegistration(certificationCourseDTOs);
-    return _(mostRecentCertificationsPerSchoolingRegistration)
+    const mostRecentCertificationsPerOrganizationLearner =
+      _filterMostRecentCertificationCoursePerOrganizationLearner(certificationCourseDTOs);
+    return _(mostRecentCertificationsPerOrganizationLearner)
       .orderBy(['lastName', 'firstName'], ['asc', 'asc'])
       .map((certificationCourseDTO) => {
         return _toDomain(certificationCourseDTO, competenceTree, []);
@@ -132,12 +132,12 @@ function _checkOrganizationIsScoIsManagingStudents(qb) {
   return qb.where('organizations.type', 'SCO').where('organizations.isManagingStudents', true);
 }
 
-function _filterMostRecentCertificationCoursePerSchoolingRegistration(DTOs) {
-  const groupedBySchoolingRegistration = _.groupBy(DTOs, 'organizationLearnerId');
+function _filterMostRecentCertificationCoursePerOrganizationLearner(DTOs) {
+  const groupedByOrganizationLearner = _.groupBy(DTOs, 'organizationLearnerId');
 
   const mostRecent = [];
-  for (const certificationsForOneSchoolingRegistration of Object.values(groupedBySchoolingRegistration)) {
-    mostRecent.push(certificationsForOneSchoolingRegistration[0]);
+  for (const certificationsForOneOrganizationLearner of Object.values(groupedByOrganizationLearner)) {
+    mostRecent.push(certificationsForOneOrganizationLearner[0]);
   }
   return mostRecent;
 }

@@ -3,12 +3,12 @@ const pick = require('lodash/pick');
 const { catchErr, domainBuilder, databaseBuilder, expect, knex } = require('../../../test-helper');
 
 const authenticationMethodRepository = require('../../../../lib/infrastructure/repositories/authentication-method-repository');
-const schoolingRegistrationRepository = require('../../../../lib/infrastructure/repositories/schooling-registration-repository');
+const organizationLearnerRepository = require('../../../../lib/infrastructure/repositories/organization-learner-repository');
 const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
 const userToCreateRepository = require('../../../../lib/infrastructure/repositories/user-to-create-repository');
 
 const AuthenticationMethod = require('../../../../lib/domain/models/AuthenticationMethod');
-const { SchoolingRegistrationNotFound } = require('../../../../lib/domain/errors');
+const { OrganizationLearnerNotFound } = require('../../../../lib/domain/errors');
 
 const userService = require('../../../../lib/domain/services/user-service');
 
@@ -136,7 +136,7 @@ describe('Integration | Domain | Services | user-service', function () {
     });
   });
 
-  describe('#createAndReconcileUserToSchoolingRegistration', function () {
+  describe('#createAndReconcileUserToOrganizationLearner', function () {
     let organizationId;
     let samlId;
     let organizationLearnerId;
@@ -160,22 +160,22 @@ describe('Integration | Domain | Services | user-service', function () {
     context('when all goes well', function () {
       it('should create user', async function () {
         // when
-        const updatedUserId = await userService.createAndReconcileUserToSchoolingRegistration({
+        const updatedUserId = await userService.createAndReconcileUserToOrganizationLearner({
           hashedPassword,
           samlId,
           schoolingRegistrationId: organizationLearnerId,
           user,
           authenticationMethodRepository,
-          schoolingRegistrationRepository,
+          organizationLearnerRepository,
           userToCreateRepository,
         });
 
         // then
-        const foundSchoolingRegistration = await schoolingRegistrationRepository.get(organizationLearnerId);
-        expect(updatedUserId).to.equal(foundSchoolingRegistration.userId);
+        const foundOrganizationLearner = await organizationLearnerRepository.get(organizationLearnerId);
+        expect(updatedUserId).to.equal(foundOrganizationLearner.userId);
       });
 
-      it('should update updatedAt column in schooling-registration row', async function () {
+      it('should update updatedAt column in organization-learner row', async function () {
         // given
         await knex('organization-learners')
           .update({ updatedAt: new Date('2019-01-01') })
@@ -187,13 +187,13 @@ describe('Integration | Domain | Services | user-service', function () {
           .first();
 
         // when
-        await userService.createAndReconcileUserToSchoolingRegistration({
+        await userService.createAndReconcileUserToOrganizationLearner({
           hashedPassword,
           samlId,
           schoolingRegistrationId: organizationLearnerId,
           user,
           authenticationMethodRepository,
-          schoolingRegistrationRepository,
+          organizationLearnerRepository,
           userToCreateRepository,
         });
 
@@ -212,13 +212,13 @@ describe('Integration | Domain | Services | user-service', function () {
           samlId = 'samlId';
 
           // when
-          const result = await userService.createAndReconcileUserToSchoolingRegistration({
+          const result = await userService.createAndReconcileUserToOrganizationLearner({
             hashedPassword,
             samlId,
             schoolingRegistrationId: organizationLearnerId,
             user,
             authenticationMethodRepository,
-            schoolingRegistrationRepository,
+            organizationLearnerRepository,
             userToCreateRepository,
           });
 
@@ -244,20 +244,20 @@ describe('Integration | Domain | Services | user-service', function () {
         await databaseBuilder.commit();
 
         // when
-        const error = await catchErr(userService.createAndReconcileUserToSchoolingRegistration)({
+        const error = await catchErr(userService.createAndReconcileUserToOrganizationLearner)({
           hashedPassword,
           samlId,
           schoolingRegistrationId: organizationLearnerId,
           user,
           authenticationMethodRepository,
-          schoolingRegistrationRepository,
+          organizationLearnerRepository,
           userToCreateRepository,
         });
 
         // then
-        expect(error).to.be.instanceOf(SchoolingRegistrationNotFound);
-        const foundSchoolingRegistrations = await knex('organization-learners').where('id', organizationLearnerId);
-        expect(foundSchoolingRegistrations[0].userId).to.equal(userId);
+        expect(error).to.be.instanceOf(OrganizationLearnerNotFound);
+        const foundOrganizationLearners = await knex('organization-learners').where('id', organizationLearnerId);
+        expect(foundOrganizationLearners[0].userId).to.equal(userId);
         const foundUser = await knex('users').where({ email: user.email });
         expect(foundUser).to.have.lengthOf(0);
       });

@@ -8,7 +8,7 @@ module.exports = async function enrollStudentsToSession({
   referentId,
   studentIds,
   scoCertificationCandidateRepository,
-  schoolingRegistrationRepository,
+  organizationLearnerRepository,
   organizationRepository,
   certificationCenterMembershipRepository,
   countryRepository,
@@ -21,7 +21,7 @@ module.exports = async function enrollStudentsToSession({
     throw new ForbiddenAccess('Impossible de modifier une session ne faisant pas partie de votre établissement');
   }
 
-  const students = await schoolingRegistrationRepository.findByIds({ ids: studentIds });
+  const students = await organizationLearnerRepository.findByIds({ ids: studentIds });
 
   const doAllStudentsBelongToSameCertificationCenterAsSession =
     await _doAllStudentsBelongToSameCertificationCenterAsSession({ students, session, organizationRepository });

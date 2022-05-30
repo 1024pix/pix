@@ -11,7 +11,7 @@ function buildUser() {
   return databaseBuilder.factory.buildUser();
 }
 
-function buildSchoolingRegistration({ userId, organizationId, isDisabled }) {
+function buildOrganizationLearner({ userId, organizationId, isDisabled }) {
   return databaseBuilder.factory.buildOrganizationLearner({ userId, organizationId, isDisabled });
 }
 
@@ -351,5 +351,5 @@ module.exports = {
   mockLearningContentCompetences,
   buildOrganization,
   buildUser,
-  buildSchoolingRegistration,
+  buildOrganizationLearner,
 };
