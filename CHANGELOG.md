@@ -1,5 +1,24 @@
 # Pix Changelog
 
+## v3.213.0 (30/05/2022)
+
+
+### :rocket: Amélioration
+- [#4461](https://github.com/1024pix/pix/pull/4461) [FEATURE] Filtrer les certifications sélectionnable pour le volet jury coté admin (PIX-4978)
+- [#4440](https://github.com/1024pix/pix/pull/4440) [FEATURE] Prévenir l'ajout individuel de candidat une fois la session finalisée (PIX-4959).
+- [#4458](https://github.com/1024pix/pix/pull/4458) [FEATURE] Permettre de rechercher par identifiant dans la liste des utilisateurs sur Pix Admin (PIX-396).
+- [#4454](https://github.com/1024pix/pix/pull/4454) [FEATURE] Ajouter un message d'information pour le champ "Email du destinataire" dans la modale d'ajout d'un candidat (PIX-4910).
+- [#4456](https://github.com/1024pix/pix/pull/4456) [FEATURE] Modifier le design du bouton d'ajout d'un signalement (PIX-4911).
+- [#4442](https://github.com/1024pix/pix/pull/4442) [FEATURE] Permettre de renseigner le volet jury dans admin (PIX-4509)
+
+### :building_construction: Tech
+- [#4348](https://github.com/1024pix/pix/pull/4348) [TECH] Nettoyage de toutes les variables, constantes, méthodes, routes du terme `schooling-registrations` (PIX-4741).
+- [#4446](https://github.com/1024pix/pix/pull/4446) [TECH] Documenter le helper de pourcentage certif.
+- [#4449](https://github.com/1024pix/pix/pull/4449) [TECH] Vérifier les autorisations au niveau des pre-handler (PIX-4969).
+
+### :bug: Correction
+- [#4453](https://github.com/1024pix/pix/pull/4453) [BUGFIX] Recharger l'utilisateur après le partage d'une campagne afin de ne plus garder dans les données de la dernière campagne non partagé  (PIX-4923)
+
 ## v3.212.0 (25/05/2022)
 
 
