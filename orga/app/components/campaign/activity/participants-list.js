@@ -18,7 +18,7 @@ export default class ParticipantsList extends Component {
   }
 
   get canDeleteParticipation() {
-    return this.currentUser.isAdminInOrganization || this.args.campaign.ownerId == this.currentUser.prescriber.id;
+    return this.currentUser.isAdminInOrganization || this.args.campaign.ownerId == this.currentUser.prescriber?.id;
   }
 
   @action
