@@ -10,6 +10,20 @@
     margin-right: -20px;
   }
 
+  &__list {
+    list-style: none;
+    margin-bottom: 40px;
+    padding: 0;
+  }
+
+  &__list-item {
+    display: flex;
+
+    span {
+      width: 50%;
+    }
+  }
+
   &__certification-officer-assigned {
     display: flex;
     justify-content: flex-end;
@@ -20,12 +34,9 @@
     }
   }
 
-  &__stats {
-    padding-top: 40px;
-  }
-
   &__actions {
-    padding-top: 32px;
+    display: flex;
+    flex-wrap: wrap;
   }
 
   &__copy-button {
@@ -52,43 +63,6 @@
         bottom: -10px;
         left: calc(50% - 5px);
       }
-    }
-  }
-}
-
-.ember-modal-dialog {
-  padding: 0;
-  margin: 0;
-  min-width: 35vw;
-
-  .ember-modal-dialog--title {
-    border-bottom: 1px solid $grey-20;
-    display: flex;
-    justify-content: space-between;
-    padding: 1rem;
-
-    & > * {
-      font-size: 1.25rem;
-    }
-
-    span { color: $grey-40; }
-
-    span:hover {
-      cursor: pointer;
-      color: $black;
-    }
-  }
-
-  p { padding: 1rem; }
-
-  .ember-modal-dialog--actions {
-    border-top: 1px solid $grey-20;
-    padding: 1rem;
-    display: flex;
-    justify-content: flex-end;
-
-    button {
-      margin: 0 4px;
     }
   }
 }
