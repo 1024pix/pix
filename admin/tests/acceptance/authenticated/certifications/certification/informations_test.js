@@ -280,6 +280,9 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
             pixResult: 'Pix+ Édu Initiale 1er degré Initié (entrée dans le métier)',
             externalResult: 'En attente',
             finalResult: 'En attente',
+            allowedExternalLevels: [
+              { value: 'PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_CONFIRME', label: 'Pix+ Édu Initiale 1er degré Confirmé' },
+            ],
           }
         );
         certification.update({

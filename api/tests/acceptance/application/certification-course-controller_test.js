@@ -327,6 +327,20 @@ describe('Acceptance | API | Certification Course', function () {
           id: '654',
           type: 'complementaryCertificationCourseResultsWithExternals',
           attributes: {
+            'allowed-external-levels': [
+              {
+                label: 'Pix+ Édu 1er degré Confirmé',
+                value: 'PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_CONFIRME',
+              },
+              {
+                label: 'Pix+ Édu 1er degré Avancé',
+                value: 'PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE',
+              },
+              {
+                label: 'Pix+ Édu 1er degré Expert',
+                value: 'PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT',
+              },
+            ],
             'complementary-certification-course-id': 654,
             'external-result': 'Rejetée',
             'final-result': 'Rejetée',
