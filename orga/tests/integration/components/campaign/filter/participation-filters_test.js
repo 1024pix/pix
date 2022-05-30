@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
-import { render, click, fillIn, find } from '@ember/test-helpers';
+import { render, click, find } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import Service from '@ember/service';
 import sinon from 'sinon';
@@ -330,7 +330,7 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
         await render(
           hbs`<Campaign::Filter::ParticipationFilters @campaign={{campaign}} @onFilter={{triggerFiltering}}/>`
         );
-        await fillIn('[aria-label="Statut"]', 'STARTED');
+        await fillByLabel(t('pages.campaign-results.filters.type.status.title'), 'STARTED');
 
         // then
         assert.ok(triggerFiltering.calledWith({ status: 'STARTED' }));
