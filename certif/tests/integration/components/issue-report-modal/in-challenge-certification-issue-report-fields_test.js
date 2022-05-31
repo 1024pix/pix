@@ -117,6 +117,16 @@ module('Integration | Component | in-challenge-certification-issue-report-fields
           subcategoryToCode[certificationIssueReportSubcategories.FILE_NOT_OPENING]
         } Le fichier à télécharger ne s'ouvre pas`
       );
+      assert.notContains(
+        `${subcategoryToCode[certificationIssueReportSubcategories.SKIP_ON_OUPS]} ${
+          subcategoryToLabel[certificationIssueReportSubcategories.SKIP_ON_OUPS]
+        }`
+      );
+      assert.notContains(
+        `${subcategoryToCode[certificationIssueReportSubcategories.ACCESSIBILITY_ISSUE]} ${
+          subcategoryToLabel[certificationIssueReportSubcategories.ACCESSIBILITY_ISSUE]
+        }`
+      );
     });
 
     test('category', async function (assert) {
@@ -257,6 +267,16 @@ module('Integration | Component | in-challenge-certification-issue-report-fields
       assert.contains(
         `${subcategoryToCode[certificationIssueReportSubcategories.FILE_NOT_OPENING]} ${
           subcategoryToLabel[certificationIssueReportSubcategories.FILE_NOT_OPENING]
+        }`
+      );
+      assert.contains(
+        `${subcategoryToCode[certificationIssueReportSubcategories.SKIP_ON_OUPS]} ${
+          subcategoryToLabel[certificationIssueReportSubcategories.SKIP_ON_OUPS]
+        }`
+      );
+      assert.contains(
+        `${subcategoryToCode[certificationIssueReportSubcategories.ACCESSIBILITY_ISSUE]} ${
+          subcategoryToLabel[certificationIssueReportSubcategories.ACCESSIBILITY_ISSUE]
         }`
       );
     });

@@ -34,18 +34,27 @@ export default class InChallengeCertificationIssueReportFields extends Component
     'EXTRA_TIME_EXCEEDED',
     'SOFTWARE_NOT_WORKING',
     'UNINTENTIONAL_FOCUS_OUT',
-  ].map((subcategoryKey) => {
-    const subcategory = certificationIssueReportSubcategories[subcategoryKey];
-    let labelForSubcategory = subcategoryToLabel[subcategory];
-    if (
-      subcategory === certificationIssueReportSubcategories.FILE_NOT_OPENING &&
-      !this.featureToggles.featureToggles.isCertificationFreeFieldsDeletionEnabled
-    ) {
-      labelForSubcategory = "Le fichier à télécharger ne s'ouvre pas";
-    }
-    return {
-      value: certificationIssueReportSubcategories[subcategory],
-      label: `${subcategoryToCode[subcategory]} ${labelForSubcategory}`,
-    };
-  });
+    'SKIP_ON_OUPS',
+    'ACCESSIBILITY_ISSUE',
+  ]
+    .map((subcategoryKey) => {
+      const subcategory = certificationIssueReportSubcategories[subcategoryKey];
+      let labelForSubcategory = subcategoryToLabel[subcategory];
+      if (!this.featureToggles.featureToggles.isCertificationFreeFieldsDeletionEnabled) {
+        if (subcategory === certificationIssueReportSubcategories.FILE_NOT_OPENING) {
+          labelForSubcategory = "Le fichier à télécharger ne s'ouvre pas";
+        }
+        if (
+          subcategory === certificationIssueReportSubcategories.SKIP_ON_OUPS ||
+          subcategory === certificationIssueReportSubcategories.ACCESSIBILITY_ISSUE
+        ) {
+          return null;
+        }
+      }
+      return {
+        value: certificationIssueReportSubcategories[subcategory],
+        label: `${subcategoryToCode[subcategory]} ${labelForSubcategory}`,
+      };
+    })
+    .filter(Boolean);
 }
