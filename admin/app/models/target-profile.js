@@ -27,6 +27,7 @@ export default class TargetProfile extends Model {
   @attr('string') category;
   @attr('boolean') isSimplifiedAccess;
   @attr('array') skillIds;
+  @attr('array') templateTubes;
 
   @hasMany('badge') badges;
   @hasMany('stage') stages;

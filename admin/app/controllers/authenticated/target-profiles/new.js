@@ -33,10 +33,15 @@ export default class NewController extends Controller {
     try {
       const json = JSON.parse(event.target.result);
       const skillIds = json.flatMap((tube) => tube.skills);
+      const templateTubes = json.map(({ id, level }) => ({
+        id,
+        level,
+      }));
       if (skillIds.length === 0) {
         throw new Error('Ce fichier ne contient aucun acquis !');
       }
       this.isFileInvalid = false;
+      this.model.templateTubes = templateTubes;
       this.model.skillIds = skillIds;
     } catch (e) {
       this.isFileInvalid = true;
