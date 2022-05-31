@@ -3,6 +3,7 @@ const { sinon, expect, domainBuilder, catchErr } = require('../../../test-helper
 const { ForbiddenAccess, PasswordNotMatching, UserNotFoundError } = require('../../../../lib/domain/errors');
 
 const updateExpiredPassword = require('../../../../lib/domain/usecases/update-expired-password');
+const logger = require('../../../../lib/infrastructure/logger');
 
 describe('Unit | UseCase | update-expired-password', function () {
   const username = 'firstName.lastName0511';
@@ -79,6 +80,29 @@ describe('Unit | UseCase | update-expired-password', function () {
 
       // then
       expect(error).to.be.instanceOf(UserNotFoundError);
+    });
+
+    it('should log error with username when username is unknown', async function () {
+      // given
+      pixAuthenticationService.getUserByUsernameAndPassword.rejects(new UserNotFoundError());
+      sinon.stub(logger, 'warn');
+
+      // when
+      await catchErr(updateExpiredPassword)({
+        expiredPassword,
+        newPassword,
+        username: 'bad-username',
+        pixAuthenticationService,
+        encryptionService,
+        authenticationMethodRepository,
+        userRepository,
+      });
+
+      // then
+      expect(logger.warn).to.have.been.calledWith(
+        { username: 'bad-username' },
+        'Trying to change his password with incorrect username'
+      );
     });
 
     it('should throw PasswordNotMatching when expiredPassword is invalid', async function () {
