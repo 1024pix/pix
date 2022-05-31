@@ -31,7 +31,7 @@ module('Unit | Model | certification issue report', function (hooks) {
   });
 
   test('it should return the right label for the subcategory', function (assert) {
-    assert.expect(13);
+    assert.expect(16);
     // given
     const store = this.owner.lookup('service:store');
 

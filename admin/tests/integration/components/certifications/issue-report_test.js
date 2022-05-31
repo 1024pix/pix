@@ -2,6 +2,7 @@ import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 import { render as renderScreen } from '@1024pix/ember-testing-library';
+import { certificationIssueReportSubcategories } from 'pix-admin/models/certification-issue-report';
 
 module('Integration | Component | certifications/issue-report', function (hooks) {
   setupRenderingTest(hooks);
@@ -62,6 +63,86 @@ module('Integration | Component | certifications/issue-report', function (hooks)
 
       // Then
       assert.dom(screen.queryByText('Résoudre le signalement')).doesNotExist();
+    });
+  });
+
+  [
+    {
+      subcategory: certificationIssueReportSubcategories.NAME_OR_BIRTHDATE,
+      expectedLabel: 'Modification des prénom/nom/date de naissance',
+    },
+    {
+      subcategory: certificationIssueReportSubcategories.EXTRA_TIME_PERCENTAGE,
+      expectedLabel: 'Ajout/modification du temps majoré',
+    },
+    { subcategory: certificationIssueReportSubcategories.LEFT_EXAM_ROOM, expectedLabel: 'Écran de fin de test non vu' },
+    {
+      subcategory: certificationIssueReportSubcategories.SIGNATURE_ISSUE,
+      expectedLabel: 'Était présent(e) mais a oublié de signer, ou a signé sur la mauvaise ligne',
+    },
+    {
+      subcategory: certificationIssueReportSubcategories.IMAGE_NOT_DISPLAYING,
+      expectedLabel: "L'image ne s'affiche pas",
+    },
+    {
+      subcategory: certificationIssueReportSubcategories.EMBED_NOT_WORKING,
+      expectedLabel: "Le simulateur/l'application ne s'affiche pas",
+    },
+    {
+      subcategory: certificationIssueReportSubcategories.FILE_NOT_OPENING,
+      expectedLabel: "Le fichier à télécharger ne se télécharge pas ou ne s'ouvre pas",
+    },
+    {
+      subcategory: certificationIssueReportSubcategories.WEBSITE_UNAVAILABLE,
+      expectedLabel: 'Le site à visiter est indisponible/en maintenance/inaccessible',
+    },
+    {
+      subcategory: certificationIssueReportSubcategories.WEBSITE_BLOCKED,
+      expectedLabel: "Le site est bloqué par les restrictions réseau de l'établissement (réseaux sociaux par ex.)",
+    },
+    { subcategory: certificationIssueReportSubcategories.LINK_NOT_WORKING, expectedLabel: 'Le lien ne fonctionne pas' },
+    { subcategory: certificationIssueReportSubcategories.OTHER, expectedLabel: 'Autre incident lié à une question' },
+    {
+      subcategory: certificationIssueReportSubcategories.EXTRA_TIME_EXCEEDED,
+      expectedLabel:
+        "Le candidat bénéficie d'un temps majoré et n'a pas pu répondre à la question dans le temps imparti",
+    },
+    {
+      subcategory: certificationIssueReportSubcategories.SOFTWARE_NOT_WORKING,
+      expectedLabel: "Le logiciel installé sur l'ordinateur n'a pas fonctionné",
+    },
+    {
+      subcategory: certificationIssueReportSubcategories.UNINTENTIONAL_FOCUS_OUT,
+      expectedLabel:
+        'Le candidat a été contraint de cliquer en dehors du cadre autorisé pour une question en mode focus',
+    },
+    {
+      subcategory: certificationIssueReportSubcategories.SKIP_ON_OOPS,
+      expectedLabel: 'Une page affichant “Oups une erreur est survenue” a contraint le candidat à passer la question',
+    },
+    {
+      subcategory: certificationIssueReportSubcategories.ACCESSIBILITY_ISSUE,
+      expectedLabel: 'Problème avec l’accessibilité de la question (ex : daltonisme)',
+    },
+  ].forEach(function ({ subcategory, expectedLabel }) {
+    test('should display subcategory', async function (assert) {
+      // Given
+      const store = this.owner.lookup('service:store');
+      const issueReport = store.createRecord('certification-issue-report', {
+        category: 'TECHNICAL_PROBLEM',
+        subcategory,
+        description: 'this is a report',
+        questionNumber: 2,
+        isImpactful: true,
+        resolvedAt: null,
+      });
+      this.set('issueReport', issueReport);
+
+      // When
+      const screen = await renderScreen(hbs`<Certifications::IssueReport @issueReport={{this.issueReport}}/>`);
+
+      // then
+      assert.dom(screen.getByText(expectedLabel, { exact: false })).exists();
     });
   });
 });
