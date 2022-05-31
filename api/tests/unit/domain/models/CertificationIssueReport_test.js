@@ -54,6 +54,7 @@ describe('Unit | Domain | Models | CertificationIssueReport', function () {
         });
       });
     });
+
     context('CATEGORY: NON_BLOCKING_TECHNICAL_ISSUE', function () {
       let certificationIssueReportDTO;
 
@@ -269,6 +270,8 @@ describe('Unit | Domain | Models | CertificationIssueReport', function () {
             CertificationIssueReportSubcategories.EXTRA_TIME_EXCEEDED,
             CertificationIssueReportSubcategories.SOFTWARE_NOT_WORKING,
             CertificationIssueReportSubcategories.UNINTENTIONAL_FOCUS_OUT,
+            CertificationIssueReportSubcategories.SKIP_ON_OUPS,
+            CertificationIssueReportSubcategories.ACCESSIBILITY_ISSUE,
           ].includes(subcategory)
         ) {
           it(`should create an IN_CHALLENGE CertificationIssueReport when subcategory is of value ${subcategory}`, function () {

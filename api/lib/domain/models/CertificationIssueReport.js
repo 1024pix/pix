@@ -69,7 +69,9 @@ const categoryInChallengeJoiSchema = Joi.object({
       CertificationIssueReportSubcategories.OTHER,
       CertificationIssueReportSubcategories.EXTRA_TIME_EXCEEDED,
       CertificationIssueReportSubcategories.SOFTWARE_NOT_WORKING,
-      CertificationIssueReportSubcategories.UNINTENTIONAL_FOCUS_OUT
+      CertificationIssueReportSubcategories.UNINTENTIONAL_FOCUS_OUT,
+      CertificationIssueReportSubcategories.SKIP_ON_OUPS,
+      CertificationIssueReportSubcategories.ACCESSIBILITY_ISSUE
     ),
 });
 
