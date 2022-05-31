@@ -48,7 +48,7 @@ describe('Integration | UseCase | find-paginated-campaign-participants-activitie
     });
   });
 
-  context('when there is a filter on division', function () {
+  context('when there are filters', function () {
     beforeEach(async function () {
       databaseBuilder.factory.buildMembership({ organizationId, userId });
 
@@ -72,6 +72,16 @@ describe('Integration | UseCase | find-paginated-campaign-participants-activitie
       });
 
       expect(campaignParticipantsActivities[0].participantExternalId).to.equal('Yubaba');
+    });
+
+    it('returns the campaignParticipantsActivities filtered by the search', async function () {
+      const { campaignParticipantsActivities } = await useCases.findPaginatedCampaignParticipantsActivities({
+        userId,
+        campaignId,
+        filters: { search: 'Tonari N' },
+      });
+
+      expect(campaignParticipantsActivities.length).to.equal(1);
     });
   });
 });
