@@ -566,7 +566,7 @@ describe('Unit | Application | Controller | Campaign', function () {
   describe('#findParticipantsActivity', function () {
     let serializedParticipantsActivities;
     let participantsActivities;
-    const filters = { status: 'SHARED', groups: ['L1'] };
+    const filters = { status: 'SHARED', groups: ['L1'], search: 'Choupette' };
 
     const campaignId = 1;
     const userId = 1;
@@ -574,7 +574,7 @@ describe('Unit | Application | Controller | Campaign', function () {
     beforeEach(function () {
       participantsActivities = Symbol('participants activities');
       serializedParticipantsActivities = Symbol('serialized participants activities');
-      sinon.stub(usecases, 'findPaginatedCampaignParticipantsActivities').resolves(participantsActivities);
+      sinon.stub(usecases, 'findPaginatedCampaignParticipantsActivities');
       sinon
         .stub(campaignParticipantsActivitySerializer, 'serialize')
         .withArgs({ participantsActivities })
@@ -584,7 +584,7 @@ describe('Unit | Application | Controller | Campaign', function () {
     it('should return the participants activities properly serialized', async function () {
       // given
       usecases.findPaginatedCampaignParticipantsActivities
-        .withArgs({ campaignId, userId, page: 3, filters })
+        .withArgs({ campaignId, userId, page: { number: 3 }, filters })
         .resolves(participantsActivities);
       campaignParticipantsActivitySerializer.serialize
         .withArgs(participantsActivities)
@@ -596,11 +596,12 @@ describe('Unit | Application | Controller | Campaign', function () {
         auth: {
           credentials: { userId },
         },
+
         query: {
-          filter: {
-            group: ['L1'],
-            status: 'SHARED',
-          },
+          'page[number]': 3,
+          'filter[groups][]': ['L1'],
+          'filter[status]': 'SHARED',
+          'filter[search]': 'Choupette',
         },
       });
 
