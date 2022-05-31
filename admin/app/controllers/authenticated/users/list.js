@@ -55,5 +55,10 @@ export default class ListController extends Controller {
     this.lastName = null;
     this.email = null;
     this.username = null;
+
+    this.firstNameForm = null;
+    this.lastNameForm = null;
+    this.emailForm = null;
+    this.usernameForm = null;
   }
 }
