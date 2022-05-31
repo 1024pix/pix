@@ -1,6 +1,8 @@
 const get = require('lodash/get');
 
 const { ForbiddenAccess } = require('../../domain/errors');
+const { UserNotFoundError } = require('../../domain/errors');
+const logger = require('../../../lib/infrastructure/logger');
 
 module.exports = async function updateExpiredPassword({
   expiredPassword,
@@ -11,11 +13,20 @@ module.exports = async function updateExpiredPassword({
   authenticationMethodRepository,
   userRepository,
 }) {
-  const foundUser = await pixAuthenticationService.getUserByUsernameAndPassword({
-    username,
-    password: expiredPassword,
-    userRepository,
-  });
+  let foundUser;
+  try {
+    foundUser = await pixAuthenticationService.getUserByUsernameAndPassword({
+      username,
+      password: expiredPassword,
+      userRepository,
+    });
+  } catch (error) {
+    if (error instanceof UserNotFoundError) {
+      logger.warn({ username }, 'Trying to change his password with incorrect username');
+    }
+
+    throw error;
+  }
 
   const shouldChangePassword = get(foundUser, 'authenticationMethods[0].authenticationComplement.shouldChangePassword');
 
