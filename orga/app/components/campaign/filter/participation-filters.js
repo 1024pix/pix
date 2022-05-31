@@ -12,7 +12,8 @@ export default class ParticipationFilters extends Component {
       this.displayBadgesFilter ||
       this.displayDivisionFilter ||
       this.displayStatusFilter ||
-      this.displayGroupsFilter
+      this.displayGroupsFilter ||
+      this.displaySearchFilter
     );
   }
 
@@ -36,6 +37,10 @@ export default class ParticipationFilters extends Component {
 
   get displayStatusFilter() {
     return !this.args.isHiddenStatus;
+  }
+
+  get displaySearchFilter() {
+    return !this.args.isHiddenSearch;
   }
 
   get stageOptions() {
@@ -71,6 +76,11 @@ export default class ParticipationFilters extends Component {
   @action
   onSelectStatus(e) {
     this.args.onFilter({ status: e.target.value });
+  }
+
+  @action
+  onSearch(e) {
+    this.args.onFilter({ search: e.target.value });
   }
 
   @action

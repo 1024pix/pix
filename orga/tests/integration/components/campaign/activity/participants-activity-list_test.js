@@ -173,4 +173,24 @@ module('Integration | Component | Campaign::Activity::ParticipantsList', functio
       assert.ok(this.onFilter.calledWith({ status: 'SHARED' }));
     });
   });
+
+  module('search filter', function () {
+    test('it should filter participants by names', async function (assert) {
+      this.campaign = { idPixLabel: 'id' };
+      this.participations = [];
+      this.onClickParticipant = sinon.stub();
+      this.onFilter = sinon.stub();
+
+      await render(hbs`<Campaign::Activity::ParticipantsList
+          @campaign={{campaign}}
+          @participations={{participations}}
+          @onClickParticipant={{onClickParticipant}}
+          @onFilter={{onFilter}}
+        />`);
+
+      await fillByLabel('Recherche sur le nom et prénom', 'Jean');
+
+      assert.ok(this.onFilter.calledWith({ search: 'Jean' }));
+    });
+  });
 });
