@@ -118,8 +118,8 @@ module('Integration | Component | in-challenge-certification-issue-report-fields
         } Le fichier à télécharger ne s'ouvre pas`
       );
       assert.notContains(
-        `${subcategoryToCode[certificationIssueReportSubcategories.SKIP_ON_OUPS]} ${
-          subcategoryToLabel[certificationIssueReportSubcategories.SKIP_ON_OUPS]
+        `${subcategoryToCode[certificationIssueReportSubcategories.SKIP_ON_OOPS]} ${
+          subcategoryToLabel[certificationIssueReportSubcategories.SKIP_ON_OOPS]
         }`
       );
       assert.notContains(
@@ -270,8 +270,8 @@ module('Integration | Component | in-challenge-certification-issue-report-fields
         }`
       );
       assert.contains(
-        `${subcategoryToCode[certificationIssueReportSubcategories.SKIP_ON_OUPS]} ${
-          subcategoryToLabel[certificationIssueReportSubcategories.SKIP_ON_OUPS]
+        `${subcategoryToCode[certificationIssueReportSubcategories.SKIP_ON_OOPS]} ${
+          subcategoryToLabel[certificationIssueReportSubcategories.SKIP_ON_OOPS]
         }`
       );
       assert.contains(

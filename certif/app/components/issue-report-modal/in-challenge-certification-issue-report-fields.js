@@ -34,7 +34,7 @@ export default class InChallengeCertificationIssueReportFields extends Component
     'EXTRA_TIME_EXCEEDED',
     'SOFTWARE_NOT_WORKING',
     'UNINTENTIONAL_FOCUS_OUT',
-    'SKIP_ON_OUPS',
+    'SKIP_ON_OOPS',
     'ACCESSIBILITY_ISSUE',
   ]
     .map((subcategoryKey) => {
@@ -45,7 +45,7 @@ export default class InChallengeCertificationIssueReportFields extends Component
           labelForSubcategory = "Le fichier à télécharger ne s'ouvre pas";
         }
         if (
-          subcategory === certificationIssueReportSubcategories.SKIP_ON_OUPS ||
+          subcategory === certificationIssueReportSubcategories.SKIP_ON_OOPS ||
           subcategory === certificationIssueReportSubcategories.ACCESSIBILITY_ISSUE
         ) {
           return null;
