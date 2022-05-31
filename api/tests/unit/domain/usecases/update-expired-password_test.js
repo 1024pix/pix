@@ -62,7 +62,7 @@ describe('Unit | UseCase | update-expired-password', function () {
   });
 
   context('When credentials are invalid', function () {
-    it('should throw UserNotFoundError when username is unknow', async function () {
+    it('should throw UserNotFoundError when username is unknown', async function () {
       // given
       pixAuthenticationService.getUserByUsernameAndPassword.rejects(new UserNotFoundError());
 
