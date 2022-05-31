@@ -157,6 +157,28 @@ describe('Integration | Infrastructure | Repository | adminMemberRepository', fu
       expect(error).to.be.instanceOf(AdminMemberRoleUpdateError);
     });
   });
+
+  describe('#save', function () {
+    afterEach(async function () {
+      await knex('pix-admin-roles').delete();
+    });
+
+    it('should persist admin member role', async function () {
+      // given
+      const user = databaseBuilder.factory.buildUser();
+      await databaseBuilder.commit();
+      const pixAdminRole = {
+        userId: user.id,
+        role: ROLES.SUPER_ADMIN,
+      };
+
+      // when
+      const result = await adminMemberRepository.save(pixAdminRole);
+
+      // then
+      expect(result).to.be.instanceOf(AdminMember);
+    });
+  });
 });
 
 function _buildUserWithPixAdminRole({ firstName, lastName, disabledAt, role } = {}) {
