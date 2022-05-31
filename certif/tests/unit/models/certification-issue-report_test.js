@@ -48,7 +48,7 @@ module('Unit | Model | certification issue report', function (hooks) {
   });
 
   test('it should return the right label for the subcategory when FT enabled', function (assert) {
-    const expectedAssertNumber = 12;
+    const expectedAssertNumber = 14;
     assert.expect(expectedAssertNumber);
     // given
     const store = this.owner.lookup('service:store');
@@ -93,7 +93,7 @@ module('Unit | Model | certification issue report', function (hooks) {
   });
 
   test('it should return the right code for the subcategory', function (assert) {
-    const expectedAssertNumber = 12;
+    const expectedAssertNumber = 14;
     assert.expect(expectedAssertNumber);
     // given
     const store = this.owner.lookup('service:store');
