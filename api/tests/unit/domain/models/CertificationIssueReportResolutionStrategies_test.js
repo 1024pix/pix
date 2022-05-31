@@ -1693,6 +1693,16 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
         subCategoryToBeResolved: CertificationIssueReportSubcategories.UNINTENTIONAL_FOCUS_OUT,
         strategyToBeApplied: 'neutralizeOrValidateIfFocusedChallenge',
       },
+      {
+        // eslint-disable-next-line mocha/no-setup-in-describe
+        subCategoryToBeResolved: CertificationIssueReportSubcategories.SKIP_ON_OOPS,
+        strategyToBeApplied: 'neutralizeWithoutChecking',
+      },
+      {
+        // eslint-disable-next-line mocha/no-setup-in-describe
+        subCategoryToBeResolved: CertificationIssueReportSubcategories.ACCESSIBILITY_ISSUE,
+        strategyToBeApplied: 'neutralizeWithoutChecking',
+      },
     ].forEach(({ subCategoryToBeResolved, strategyToBeApplied }) => {
       it(`apply strategy "${strategyToBeApplied}" when resolving issue report of subcategory "${subCategoryToBeResolved}"`, async function () {
         // given
