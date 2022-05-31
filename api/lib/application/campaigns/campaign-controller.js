@@ -201,13 +201,14 @@ module.exports = {
       filters.groups = [filters.groups];
     }
 
-    const userId = requestResponseUtils.extractUserIdFromRequest(request);
+    const { userId } = request.auth.credentials;
     const paginatedParticipations = await usecases.findPaginatedCampaignParticipantsActivities({
       userId,
       campaignId,
       page,
       filters,
     });
+
     return campaignParticipantsActivitySerializer.serialize(paginatedParticipations);
   },
 
