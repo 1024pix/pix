@@ -1,5 +1,20 @@
 # Pix Changelog
 
+## v3.215.0 (01/06/2022)
+
+
+### :rocket: Amélioration
+- [#4470](https://github.com/1024pix/pix/pull/4470) [FEATURE] Passer les sessions ayant des certifications non terminées scorées automatiquement en publiable lors de la finalisation (PIX-4848)
+- [#4475](https://github.com/1024pix/pix/pull/4475) [FEATURE] Mettre à jour le lien de certification (PIX-5033).
+- [#4478](https://github.com/1024pix/pix/pull/4478) [FEATURE] Afficher les sous catégories E10-E11-E12 dans Pix-Admin (PIX-4914)
+- [#4472](https://github.com/1024pix/pix/pull/4472) [FEATURE] Neutraliser automatiquement les signalements des sous-catégories E11 et E12 (PIX-4913)
+
+### :bug: Correction
+- [#4465](https://github.com/1024pix/pix/pull/4465) [BUGFIX] Corriger la position du macaron Pix+ Droit dans l'attestation de certification (PIX-4834).
+
+### :coffee: Autre
+- [#4462](https://github.com/1024pix/pix/pull/4462) FEATURE Ajouter les sous categories E11 et E12 (PIX-4912)
+
 ## v3.214.0 (01/06/2022)
 
 
