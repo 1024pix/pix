@@ -169,6 +169,8 @@ class CertificationIssueReportResolutionStrategies {
       case CertificationIssueReportSubcategories.WEBSITE_BLOCKED:
       case CertificationIssueReportSubcategories.WEBSITE_UNAVAILABLE:
       case CertificationIssueReportSubcategories.SOFTWARE_NOT_WORKING:
+      case CertificationIssueReportSubcategories.SKIP_ON_OOPS:
+      case CertificationIssueReportSubcategories.ACCESSIBILITY_ISSUE:
         return await this._neutralizeWithoutChecking(strategyParameters);
       case CertificationIssueReportSubcategories.IMAGE_NOT_DISPLAYING:
         return await this._neutralizeIfImage(strategyParameters);
