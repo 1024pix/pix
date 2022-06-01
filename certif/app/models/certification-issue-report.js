@@ -24,6 +24,8 @@ export const certificationIssueReportSubcategories = {
   EXTRA_TIME_EXCEEDED: 'EXTRA_TIME_EXCEEDED',
   SOFTWARE_NOT_WORKING: 'SOFTWARE_NOT_WORKING',
   UNINTENTIONAL_FOCUS_OUT: 'UNINTENTIONAL_FOCUS_OUT',
+  SKIP_ON_OOPS: 'SKIP_ON_OOPS',
+  ACCESSIBILITY_ISSUE: 'ACCESSIBILITY_ISSUE',
 };
 
 export const categoryToLabel = {
@@ -56,6 +58,10 @@ export const subcategoryToLabel = {
     "Le logiciel installé sur l'ordinateur n'a pas fonctionné",
   [certificationIssueReportSubcategories.UNINTENTIONAL_FOCUS_OUT]:
     'Le candidat a été contraint de cliquer en dehors du cadre autorisé pour une question en mode focus',
+  [certificationIssueReportSubcategories.SKIP_ON_OOPS]:
+    'Une page affichant “Oups une erreur est survenue” a contraint le candidat à passer la question',
+  [certificationIssueReportSubcategories.ACCESSIBILITY_ISSUE]:
+    'Problème avec l’accessibilité de la question (ex : daltonisme)',
 };
 
 export const categoryToCode = {
@@ -64,7 +70,7 @@ export const categoryToCode = {
   [certificationIssueReportCategories.FRAUD]: 'C6',
   [certificationIssueReportCategories.NON_BLOCKING_TECHNICAL_ISSUE]: 'C7',
   [certificationIssueReportCategories.NON_BLOCKING_CANDIDATE_ISSUE]: 'C8',
-  [certificationIssueReportCategories.IN_CHALLENGE]: 'E1-E10',
+  [certificationIssueReportCategories.IN_CHALLENGE]: 'E1-E12',
   [certificationIssueReportCategories.OTHER]: 'A2',
 };
 
@@ -81,6 +87,8 @@ export const subcategoryToCode = {
   [certificationIssueReportSubcategories.EXTRA_TIME_EXCEEDED]: 'E8',
   [certificationIssueReportSubcategories.SOFTWARE_NOT_WORKING]: 'E9',
   [certificationIssueReportSubcategories.UNINTENTIONAL_FOCUS_OUT]: 'E10',
+  [certificationIssueReportSubcategories.SKIP_ON_OOPS]: 'E11',
+  [certificationIssueReportSubcategories.ACCESSIBILITY_ISSUE]: 'E12',
 };
 
 export const subcategoryToTextareaLabel = {

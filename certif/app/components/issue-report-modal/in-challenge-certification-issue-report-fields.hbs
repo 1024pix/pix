@@ -10,7 +10,7 @@
       {{on "click" (fn @toggleOnCategory @inChallengeCategory)}}
     />
     <label for="input-radio-for-category-in-challenge"><span
-      >{{@inChallengeCategory.categoryCode}}&nbsp;</span>{{@inChallengeCategory.categoryLabel}}</label>
+      >{{this.categoryCode}}&nbsp;</span>{{@inChallengeCategory.categoryLabel}}</label>
   </div>
   {{#if @inChallengeCategory.isChecked}}
     <div class="candidate-information-change-certification-issue-report-fields__details">
