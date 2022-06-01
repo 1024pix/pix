@@ -28,6 +28,9 @@ export const certificationIssueReportSubcategories = {
   OTHER: 'OTHER',
   EXTRA_TIME_EXCEEDED: 'EXTRA_TIME_EXCEEDED',
   SOFTWARE_NOT_WORKING: 'SOFTWARE_NOT_WORKING',
+  UNINTENTIONAL_FOCUS_OUT: 'UNINTENTIONAL_FOCUS_OUT',
+  SKIP_ON_OOPS: 'SKIP_ON_OOPS',
+  ACCESSIBILITY_ISSUE: 'ACCESSIBILITY_ISSUE',
 };
 
 export const categoryToLabel = {
@@ -62,6 +65,12 @@ export const subcategoryToLabel = {
     "Le candidat bénéficie d'un temps majoré et n'a pas pu répondre à la question dans le temps imparti",
   [certificationIssueReportSubcategories.SOFTWARE_NOT_WORKING]:
     "Le logiciel installé sur l'ordinateur n'a pas fonctionné",
+  [certificationIssueReportSubcategories.UNINTENTIONAL_FOCUS_OUT]:
+    'Le candidat a été contraint de cliquer en dehors du cadre autorisé pour une question en mode focus',
+  [certificationIssueReportSubcategories.SKIP_ON_OOPS]:
+    'Une page affichant “Oups une erreur est survenue” a contraint le candidat à passer la question',
+  [certificationIssueReportSubcategories.ACCESSIBILITY_ISSUE]:
+    'Problème avec l’accessibilité de la question (ex : daltonisme)',
 };
 
 export const subcategoryToTextareaLabel = {
