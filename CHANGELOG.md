@@ -1,5 +1,19 @@
 # Pix Changelog
 
+## v3.214.0 (01/06/2022)
+
+
+### :rocket: Amélioration
+- [#4464](https://github.com/1024pix/pix/pull/4464) [FEATURE] Ajout d'un bouton pour vider les champs de recherche d'utilisateurs dans Pix Admin (PIX-4862).
+- [#4463](https://github.com/1024pix/pix/pull/4463) [FEATURE] Créer un script qui crée les comptes des participants au concours de la mairie de Paris (PIX-4962).
+
+### :building_construction: Tech
+- [#4420](https://github.com/1024pix/pix/pull/4420) [TECH] Corriger le nom de l'index knowledge-elements_assessmentId_idx qui ne respecte pas la convention de nommage knex.
+
+### :coffee: Autre
+- [#4466](https://github.com/1024pix/pix/pull/4466) [ADMIN] Nettoyer le CSS de la page informations de la session (PIX-5015)
+- [#4469](https://github.com/1024pix/pix/pull/4469) [A11Y] Ajouter le rôle img aux boulettes de pertinence dans l'onglet Analyse (PIX-4246)
+
 ## v3.213.0 (30/05/2022)
 
 
