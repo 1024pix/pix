@@ -1,6 +1,3 @@
-const some = require('lodash/some');
-const every = require('lodash/every');
-
 module.exports = class FinalizedSession {
   constructor({
     sessionId,
@@ -41,9 +38,9 @@ module.exports = class FinalizedSession {
       isPublishable:
         !hasExaminerGlobalComment &&
         _hasNoIssueReportsWithRequiredAction(juryCertificationSummaries) &&
-        _isNotFlaggedAsAborted(juryCertificationSummaries) &&
-        _hasNoScoringErrorOrUncompletedAssessmentResults(juryCertificationSummaries) &&
-        (hasSupervisorAccess || _hasExaminerSeenAllEndScreens(juryCertificationSummaries)),
+        _hasNoScoringError(juryCertificationSummaries) &&
+        _hasNoUnfinishedWithoutAbortReason(juryCertificationSummaries) &&
+        _hasAllFinishedEndTestScreensSeenByExaminer(hasSupervisorAccess, juryCertificationSummaries),
       publishedAt: null,
     });
   }
@@ -66,16 +63,21 @@ function _hasNoIssueReportsWithRequiredAction(juryCertificationSummaries) {
   return !juryCertificationSummaries.some((summary) => summary.isActionRequired());
 }
 
-function _isNotFlaggedAsAborted(juryCertificationSummaries) {
-  return !juryCertificationSummaries.some((summary) => summary.isFlaggedAborted);
-}
-
-function _hasNoScoringErrorOrUncompletedAssessmentResults(juryCertificationSummaries) {
-  return !some(juryCertificationSummaries, (summary) => {
-    return summary.hasScoringError() || !summary.hasCompletedAssessment();
+function _hasNoScoringError(juryCertificationSummaries) {
+  return !juryCertificationSummaries.some((summary) => {
+    return summary.hasScoringError();
   });
 }
 
-function _hasExaminerSeenAllEndScreens(juryCertificationSummaries) {
-  return every(juryCertificationSummaries.map((summary) => summary.hasSeenEndTestScreen));
+function _hasNoUnfinishedWithoutAbortReason(juryCertificationSummaries) {
+  return juryCertificationSummaries
+    .filter((certificationSummary) => !certificationSummary.completedAt)
+    .every((unfinishedCertificationSummary) => unfinishedCertificationSummary.isFlaggedAborted);
+}
+
+function _hasAllFinishedEndTestScreensSeenByExaminer(hasSupervisorAccess, juryCertificationSummaries) {
+  if (hasSupervisorAccess) return true;
+  return juryCertificationSummaries
+    .filter((certificationSummary) => Boolean(certificationSummary.completedAt))
+    .every((finishedCertificationSummary) => finishedCertificationSummary.hasSeenEndTestScreen);
 }

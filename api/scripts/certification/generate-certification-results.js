@@ -1,10 +1,9 @@
-const { knex } = require('../db/knex-database-connection');
-const _ = require('lodash');
+const { knex } = require('../../db/knex-database-connection');
 const ASSESSMENT_COUNT = parseInt(process.env.ASSESSMENT_COUNT) || 100;
-const ASSESSMENT_ID = parseInt(process.env.ASSESSMENT_ID) || null;
 const bluebird = require('bluebird');
-const scoringCertificationService = require('../lib/domain/services/scoring/scoring-certification-service');
-const certificationAssessmentRepository = require('../lib/infrastructure/repositories/certification-assessment-repository');
+const scoringCertificationService = require('../../lib/domain/services/scoring/scoring-certification-service');
+const certificationAssessmentRepository = require('../../lib/infrastructure/repositories/certification-assessment-repository');
+
 async function _retrieveLastScoredAssessmentIds() {
   const result = await knex.raw(
     `
@@ -16,15 +15,7 @@ async function _retrieveLastScoredAssessmentIds() {
   `,
     ASSESSMENT_COUNT
   );
-
-  const lastScoredAssessmentIds = _(result.rows)
-    .map((row) => row.id)
-    .sortBy()
-    .value();
-
-  console.log({ lastScoredAssessmentIds });
-
-  return lastScoredAssessmentIds;
+  return result.rows.map((row) => row.id);
 }
 
 async function _computeScore(assessmentIds) {
@@ -36,12 +27,6 @@ async function _computeScore(assessmentIds) {
         const certificationAssessmentScore = await scoringCertificationService.calculateCertificationAssessmentScore(
           certificationAssessment
         );
-        certificationAssessmentScore.assessmentId = assessmentId;
-
-        certificationAssessmentScore.competenceMarks.forEach((competenceMark) => {
-          competenceMark.assessmentId = assessmentId;
-        });
-
         return certificationAssessmentScore;
       } catch (err) {
         const message = `Erreur de génération pour l'assessment : ${assessmentId}`;
@@ -53,15 +38,11 @@ async function _computeScore(assessmentIds) {
   );
   return scores;
 }
+
 async function main() {
   try {
-    let assessmentIds = [];
-    if (ASSESSMENT_ID) {
-      assessmentIds = [ASSESSMENT_ID];
-    } else {
-      console.error(`Récupération de ${ASSESSMENT_COUNT} assessments...`);
-      assessmentIds = await _retrieveLastScoredAssessmentIds();
-    }
+    console.error(`Récupération de ${ASSESSMENT_COUNT} assessments...`);
+    const assessmentIds = await _retrieveLastScoredAssessmentIds();
     const scores = await _computeScore(assessmentIds);
     scores.forEach((score) => console.log(score));
   } catch (error) {
@@ -69,6 +50,7 @@ async function main() {
     process.exit(1);
   }
 }
+
 if (require.main === module) {
   main().then(
     () => process.exit(0),

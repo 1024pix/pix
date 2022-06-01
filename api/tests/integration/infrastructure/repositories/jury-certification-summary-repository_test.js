@@ -1,4 +1,4 @@
-const { databaseBuilder, expect } = require('../../../test-helper');
+const { databaseBuilder, domainBuilder, expect } = require('../../../test-helper');
 const JuryCertificationSummary = require('../../../../lib/domain/read-models/JuryCertificationSummary');
 const CertificationIssueReport = require('../../../../lib/domain/models/CertificationIssueReport');
 const {
@@ -71,7 +71,7 @@ describe('Integration | Repository | JuryCertificationSummary', function () {
         const juryCertificationSummaries = await juryCertificationSummaryRepository.findBySessionId(sessionId);
 
         // then
-        const expectedJuryCertificationSummary = new JuryCertificationSummary({
+        const expectedJuryCertificationSummary = domainBuilder.buildJuryCertificationSummary({
           completedAt: manyAsrCertification.completedAt,
           createdAt: manyAsrCertification.createdAt,
           firstName: manyAsrCertification.firstName,

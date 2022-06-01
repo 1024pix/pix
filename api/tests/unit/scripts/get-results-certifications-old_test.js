@@ -6,7 +6,7 @@ const {
   buildRequestObject,
   findCompetence,
   HEADERS,
-} = require('../../../scripts/get-results-certifications-old');
+} = require('../../../scripts/certification/get-results-certifications-old');
 
 describe('Get Result Certifications Script OLD', function () {
   describe('parseArgs', function () {

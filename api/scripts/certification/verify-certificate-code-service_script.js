@@ -1,5 +1,5 @@
 const _ = require('lodash');
-const verifyCertificationCodeService = require('../lib/domain/services/verify-certificate-code-service');
+const verifyCertificationCodeService = require('../../lib/domain/services/verify-certificate-code-service');
 const verifyCertificateCodeRepository = require('../../../../lib/infrastructure/repositories/verify-certificate-code-repository');
 
 const addCertification = async () => {

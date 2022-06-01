@@ -1,14 +1,14 @@
 'use strict';
 require('dotenv').config();
-const { knex } = require('../db/knex-database-connection');
-const SessionFinalized = require('../lib/domain/events/SessionFinalized');
-const certificationAssessmentRepository = require('../lib/infrastructure/repositories/certification-assessment-repository');
-const challengeRepository = require('../lib/infrastructure/repositories/challenge-repository');
-const certificationIssueReportRepository = require('../lib/infrastructure/repositories/certification-issue-report-repository');
-const certificationCourseRepository = require('../lib/infrastructure/repositories/certification-course-repository');
-const handleAutoJury = require('../lib/domain/events/handle-auto-jury');
-const events = require('../lib/domain/events');
-const logger = require('../lib/infrastructure/logger');
+const { knex } = require('../../db/knex-database-connection');
+const SessionFinalized = require('../../lib/domain/events/SessionFinalized');
+const certificationAssessmentRepository = require('../../lib/infrastructure/repositories/certification-assessment-repository');
+const challengeRepository = require('../../lib/infrastructure/repositories/challenge-repository');
+const certificationIssueReportRepository = require('../../lib/infrastructure/repositories/certification-issue-report-repository');
+const certificationCourseRepository = require('../../lib/infrastructure/repositories/certification-course-repository');
+const handleAutoJury = require('../../lib/domain/events/handle-auto-jury');
+const events = require('../../lib/domain/events');
+const logger = require('../../lib/infrastructure/logger');
 
 async function main() {
   const id = process.argv[2];

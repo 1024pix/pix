@@ -1,9 +1,9 @@
 'use strict';
 require('dotenv').config();
 const bluebird = require('bluebird');
-const logger = require('../lib/infrastructure/logger');
-const certificationBadgesService = require('../lib/domain/services/certification-badges-service');
-const { knex } = require('../db/knex-database-connection');
+const logger = require('../../lib/infrastructure/logger');
+const certificationBadgesService = require('../../lib/domain/services/certification-badges-service');
+const { knex } = require('../../db/knex-database-connection');
 
 /**
  * Usage: node scripts/check-clea-elligibility.js 456
