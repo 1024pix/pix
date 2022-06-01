@@ -272,32 +272,32 @@ function _renderVerificationCode(viewModel, page, rgb) {
 }
 
 function _renderPixPlusCertificationCertification(viewModel, page, embeddedImages) {
-  let yCoordinate = 385;
+  let yCoordinate = 480;
 
   if (viewModel.shouldDisplayCleaCertification()) {
-    yCoordinate = 280;
+    yCoordinate -= 84;
   }
 
   if (viewModel.shouldDisplayPixPlusDroitCertification()) {
     const pdfImage = embeddedImages[viewModel.pixPlusDroitCertificationImagePath];
     page.drawPage(pdfImage, {
       x: 397,
-      y: yCoordinate,
+      y: yCoordinate - 111,
       width: 85,
       height: 111,
     });
-    yCoordinate -= 100;
+    yCoordinate -= 111;
   }
 
   if (viewModel.shouldDisplayPixPlusEduCertification()) {
     const pdfImage = embeddedImages[viewModel.pixPlusEduCertificationImagePath];
     page.drawPage(pdfImage, {
       x: 400,
-      y: yCoordinate,
+      y: yCoordinate - 89,
       width: 80,
       height: 89,
     });
-    yCoordinate -= 15;
+    yCoordinate -= 89 + 15;
 
     if (viewModel.pixPlusEduTemporaryBadgeMessage) {
       viewModel.pixPlusEduTemporaryBadgeMessage.forEach((text, index) => {
