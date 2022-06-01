@@ -5,139 +5,133 @@
       <span>{{this.sessionModel.assignedCertificationOfficer.fullName}}</span>
     </div>
 
-    <div class="session-info__details">
-      <div class="row">
-        <div class="col">Centre :</div>
-        <div class="col">
+    <ul class="session-info__list">
+      <li class="session-info__list-item">
+        <span>Centre :</span>
+        <span>
           <LinkTo @route="authenticated.certification-centers.get" @model={{this.sessionModel.certificationCenterId}}>
             {{this.sessionModel.certificationCenterName}}
           </LinkTo>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col">Adresse :</div>
-        <div class="col">{{this.sessionModel.address}}</div>
-      </div>
-      <div class="row">
-        <div class="col">Pièce :</div>
-        <div class="col">{{this.sessionModel.room}}</div>
-      </div>
-      <div class="row">
-        <div class="col">Surveillant :</div>
-        <div class="col">{{this.sessionModel.examiner}}</div>
-      </div>
-      <div class="row">
-        <div class="col">Date :</div>
-        <div class="col">{{format-date this.sessionModel.date}}</div>
-      </div>
-      <div class="row">
-        <div class="col">Heure :</div>
-        <div class="col">{{this.sessionModel.time}}</div>
-      </div>
-      <div class="row">
-        <div class="col">Description :</div>
-        <div class="col">{{this.sessionModel.description}}</div>
-      </div>
-      <div class="row">
-        <div class="col">Code d'accès :</div>
-        <div class="col">{{this.sessionModel.accessCode}}</div>
-      </div>
-      <div class="row">
-        <div class="col">Statut :</div>
-        <div class="col">{{this.sessionModel.displayStatus}}</div>
-      </div>
+        </span>
+      </li>
+      <li class="session-info__list-item">
+        <span>Adresse :</span>
+        <span>{{this.sessionModel.address}}</span>
+      </li>
+      <li class="session-info__list-item">
+        <span>Pièce :</span>
+        <span>{{this.sessionModel.room}}</span>
+      </li>
+      <li class="session-info__list-item">
+        <span>Surveillant :</span>
+        <span>{{this.sessionModel.examiner}}</span>
+      </li>
+      <li class="session-info__list-item">
+        <span>Date :</span>
+        <span>{{format-date this.sessionModel.date}}</span>
+      </li>
+      <li class="session-info__list-item">
+        <span>Heure :</span>
+        <span>{{this.sessionModel.time}}</span>
+      </li>
+      <li class="session-info__list-item">
+        <span>Description :</span>
+        <span>{{this.sessionModel.description}}</span>
+      </li>
+      <li class="session-info__list-item">
+        <span>Code d'accès :</span>
+        <span>{{this.sessionModel.accessCode}}</span>
+      </li>
+      <li class="session-info__list-item">
+        <span>Statut :</span>
+        <span>{{this.sessionModel.displayStatus}}</span>
+      </li>
 
       {{#if this.sessionModel.finalizedAt}}
-        <div class="row">
-          <div class="col">Date de finalisation :</div>
-          <div class="col">{{format-date this.sessionModel.finalizedAt}}</div>
-        </div>
+        <li class="session-info__list-item">
+          <span>Date de finalisation :</span>
+          <span>{{format-date this.sessionModel.finalizedAt}}</span>
+        </li>
       {{/if}}
       {{#if this.sessionModel.publishedAt}}
-        <div class="row">
-          <div class="col">Date de publication :</div>
-          <div class="col">{{format-date this.sessionModel.publishedAt}}</div>
-        </div>
+        <li class="session-info__list-item">
+          <span>Date de publication :</span>
+          <span>{{format-date this.sessionModel.publishedAt}}</span>
+        </li>
       {{/if}}
       {{#if this.sessionModel.resultsSentToPrescriberAt}}
-        <div class="row">
-          <div class="col">Date d'envoi des résultats au prescripteur :</div>
-          <div class="col">{{format-date this.sessionModel.resultsSentToPrescriberAt}}</div>
-        </div>
+        <li class="session-info__list-item">
+          <span>Date d'envoi des résultats au prescripteur :</span>
+          <span>{{format-date this.sessionModel.resultsSentToPrescriberAt}}</span>
+        </li>
       {{/if}}
-    </div>
+    </ul>
 
     {{#if this.sessionModel.finalizedAt}}
-      <div class="session-info__stats">
-        <div class="row">
-          <div class="col">Nombre de signalements impactants non résolus:</div>
-          <div class="col">{{this.sessionModel.countCertificationIssueReportsWithActionRequired}}</div>
-        </div>
-        <div class="row">
-          <div class="col">Nombre de signalements :</div>
-          <div
-            class="col"
+      <ul class="session-info__list">
+        <li class="session-info__list-item">
+          <span>Nombre de signalements impactants non résolus:</span>
+          <span>{{this.sessionModel.countCertificationIssueReportsWithActionRequired}}</span>
+        </li>
+        <li class="session-info__list-item">
+          <span>Nombre de signalements :</span>
+          <span
             data-test-id="session-info__number-of-issue-report"
-          >{{this.sessionModel.countCertificationIssueReports}}</div>
-        </div>
+          >{{this.sessionModel.countCertificationIssueReports}}</span>
+        </li>
         {{#unless this.sessionModel.hasSupervisorAccess}}
-          <div class="row">
-            <div class="col">Nombre d'écrans de fin de test non renseignés :</div>
-            <div
-              class="col"
+          <li class="session-info__list-item">
+            <span>Nombre d'écrans de fin de test non renseignés :</span>
+            <span
               data-test-id="session-info__number-of-not-checked-end-screen"
-            >{{this.sessionModel.countNotCheckedEndScreen}}</div>
-          </div>
+            >{{this.sessionModel.countNotCheckedEndScreen}}</span>
+          </li>
         {{/unless}}
-        <div class="row">
-          <div class="col">Certifications non terminées traitées automatiquement :</div>
-          <div class="col">{{this.sessionModel.countCertificationsFlaggedAsAborted}}</div>
-        </div>
-        <div class="row">
-          <div class="col">Nombre de certifications démarrées/en erreur :</div>
-          <div
-            class="col"
+        <li class="session-info__list-item">
+          <span>Certifications non terminées traitées automatiquement :</span>
+          <span>{{this.sessionModel.countCertificationsFlaggedAsAborted}}</span>
+        </li>
+        <li class="session-info__list-item">
+          <span>Nombre de certifications démarrées/en erreur :</span>
+          <span
             data-test-id="session-info__number-of-started-or-error-certifications"
-          >{{this.sessionModel.countStartedAndInErrorCertifications}}</div>
-        </div>
+          >{{this.sessionModel.countStartedAndInErrorCertifications}}</span>
+        </li>
         {{#if this.sessionModel.hasExaminerGlobalComment}}
-          <div class="row">
-            <div class="col">Commentaire global :</div>
-            <div class="col">{{this.sessionModel.examinerGlobalComment}}</div>
-          </div>
+          <li class="session-info__list-item">
+            <span>Commentaire global :</span>
+            <span>{{this.sessionModel.examinerGlobalComment}}</span>
+          </li>
         {{/if}}
-      </div>
+      </ul>
     {{/if}}
 
     {{#if this.accessControl.hasAccessToCertificationActionsScope}}
       <div class="session-info__actions">
-        <div class="row row--btn">
+        {{#if this.sessionModel.finalizedAt}}
+          {{#if this.isCurrentUserAssignedToSession}}
+            <PixButton @size="small" @isDisabled={{true}}>Vous êtes assigné à cette session</PixButton>
+          {{else}}
+            <PixButton @size="small" @triggerAction={{this.checkForAssignment}}>M'assigner la session</PixButton>
+          {{/if}}
+        {{/if}}
 
-          {{#if this.sessionModel.finalizedAt}}
-            {{#if this.isCurrentUserAssignedToSession}}
-              <PixButton @size="small" @isDisabled={{true}}>Vous êtes assigné à cette session</PixButton>
-            {{else}}
-              <PixButton @size="small" @triggerAction={{this.checkForAssignment}}>M'assigner la session</PixButton>
-            {{/if}}
+        <div class="session-info__copy-button">
+          {{#if this.isCopyButtonClicked}}
+            <p>{{this.copyButtonText}}</p>
           {{/if}}
 
-          <div class="session-info__copy-button">
-            {{#if this.isCopyButtonClicked}}
-              <p>{{this.copyButtonText}}</p>
-            {{/if}}
-
-            <PixButton size="small" @triggerAction={{this.copyResultsDownloadLink}} @backgroundColor="grey">
-              <FaIcon @icon="copy" @prefix="far" class="fa-inverse" aria-label="Copier" />
-              Lien de téléchargement des résultats
-            </PixButton>
-          </div>
-
-          {{#if this.sessionModel.areResultsToBeSentToPrescriber}}
-            <PixButton size="small" @triggerAction={{this.tagSessionAsSentToPrescriber}} @backgroundColor="grey">
-              Résultats transmis au prescripteur
-            </PixButton>
-          {{/if}}
+          <PixButton size="small" @triggerAction={{this.copyResultsDownloadLink}} @backgroundColor="grey">
+            <FaIcon @icon="copy" @prefix="far" class="fa-inverse" aria-label="Copier" />
+            Lien de téléchargement des résultats
+          </PixButton>
         </div>
+
+        {{#if this.sessionModel.areResultsToBeSentToPrescriber}}
+          <PixButton size="small" @triggerAction={{this.tagSessionAsSentToPrescriber}} @backgroundColor="grey">
+            Résultats transmis au prescripteur
+          </PixButton>
+        {{/if}}
       </div>
     {{/if}}
   </div>
