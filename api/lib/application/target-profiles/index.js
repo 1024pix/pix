@@ -425,6 +425,33 @@ exports.register = async (server) => {
         ],
       },
     },
+    {
+      method: 'GET',
+      path: '/api/admin/target-profile-templates/{id}',
+      config: {
+        pre: [
+          {
+            method: (request, h) =>
+              securityPreHandlers.userHasAtLeastOneAccessOf([securityPreHandlers.checkUserHasRoleSuperAdmin])(
+                request,
+                h
+              ),
+            assign: 'hasAuthorizationToAccessAdminScope',
+          },
+        ],
+        validate: {
+          params: Joi.object({
+            id: identifiersType.targetProfileTemplateId,
+          }),
+        },
+        handler: targetProfileController.getTargetProfileTemplate,
+        tags: ['api', 'target-profiles'],
+        notes: [
+          "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n" +
+            '- Elle permet de récupérer les informations d’un gabarit de profil cible',
+        ],
+      },
+    },
   ]);
 };
 

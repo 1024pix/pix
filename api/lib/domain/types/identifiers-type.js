@@ -46,6 +46,7 @@ const typesPositiveInteger32bits = [
   'stageId',
   'supervisorAccessesId',
   'targetProfileId',
+  'targetProfileTemplateId',
   'userId',
   'userOrgaSettingsId',
 ];
