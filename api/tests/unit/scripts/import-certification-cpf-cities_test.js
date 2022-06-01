@@ -1,5 +1,5 @@
 const { expect, sinon } = require('../../test-helper');
-const { buildCities } = require('../../../scripts/import-certification-cpf-cities');
+const { buildCities } = require('../../../scripts/certification/import-certification-cpf-cities');
 const { noop } = require('lodash/noop');
 
 describe('Unit | Scripts | import-certification-cpf-cities.js', function () {

@@ -3,12 +3,12 @@ require('dotenv').config();
 const _ = require('lodash');
 const fp = require('lodash/fp').convert({ cap: false });
 const bluebird = require('bluebird');
-const { knex } = require('../db/knex-database-connection');
-const competenceRepository = require('../lib/infrastructure/repositories/competence-repository');
-const challengeRepository = require('../lib/infrastructure/repositories/challenge-repository');
-const placementProfileService = require('../lib/domain/services/placement-profile-service');
-const certificationChallengeService = require('../lib/domain/services/certification-challenges-service');
-const { FRENCH_FRANCE } = require('../lib/domain/constants').LOCALE;
+const { knex } = require('../../db/knex-database-connection');
+const competenceRepository = require('../../lib/infrastructure/repositories/competence-repository');
+const challengeRepository = require('../../lib/infrastructure/repositories/challenge-repository');
+const placementProfileService = require('../../lib/domain/services/placement-profile-service');
+const certificationChallengeService = require('../../lib/domain/services/certification-challenges-service');
+const { FRENCH_FRANCE } = require('../../lib/domain/constants').LOCALE;
 
 const USER_COUNT = parseInt(process.env.USER_COUNT) || 100;
 const USER_ID = parseInt(process.env.USER_ID) || null;

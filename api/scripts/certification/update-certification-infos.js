@@ -2,7 +2,7 @@ require('dotenv').config({ path: `${__dirname}/../.env` });
 
 const bluebird = require('bluebird');
 const { readFile } = require('fs/promises');
-const logger = require('../lib/infrastructure/logger');
+const logger = require('../../lib/infrastructure/logger');
 // Usage: node scripts/update-certifications-infos path/data.csv path/sessionsId.csv
 // data.csv
 // #externalId,birthdate,birthINSEECode,birthPostalCode,birthCity,birthCountry
@@ -11,8 +11,8 @@ const logger = require('../lib/infrastructure/logger');
 // 1,12,30
 
 ('use strict');
-const { parseCsv, checkCsvHeader } = require('./helpers/csvHelpers');
-const { knex } = require('../db/knex-database-connection');
+const { parseCsv, checkCsvHeader } = require('../helpers/csvHelpers');
+const { knex } = require('../../db/knex-database-connection');
 const values = require('lodash/values');
 
 const headers = {

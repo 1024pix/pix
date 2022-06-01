@@ -5,9 +5,9 @@
 // downloaded from https://www.data.gouv.fr/fr/datasets/code-officiel-geographique-cog/
 
 'use strict';
-const { parseCsv } = require('./helpers/csvHelpers');
-const { knex } = require('../lib/infrastructure/bookshelf');
-const { normalizeAndSortChars } = require('../lib/infrastructure/utils/string-utils');
+const { parseCsv } = require('../helpers/csvHelpers');
+const { knex } = require('../../lib/infrastructure/bookshelf');
+const { normalizeAndSortChars } = require('../../lib/infrastructure/utils/string-utils');
 const _ = require('lodash');
 
 const CURRENT_NAME_COLUMN = 'LIBCOG';
