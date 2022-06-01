@@ -1,5 +1,6 @@
 const usecases = require('../../domain/usecases');
 const targetProfileSerializer = require('../../infrastructure/serializers/jsonapi/target-profile-serializer');
+const targetProfileTemplateSerializer = require('../../infrastructure/serializers/jsonapi/target-profile-template-serializer');
 const targetProfileWithLearningContentSerializer = require('../../infrastructure/serializers/jsonapi/target-profile-with-learning-content-serializer');
 const queryParamsUtils = require('../../infrastructure/utils/query-params-utils');
 const organizationSerializer = require('../../infrastructure/serializers/jsonapi/organization-serializer');
@@ -105,5 +106,11 @@ module.exports = {
 
     const targetProfile = await usecases.markTargetProfileAsSimplifiedAccess({ id });
     return h.response(targetProfileSerializer.serialize(targetProfile));
+  },
+
+  async getTargetProfileTemplate(request) {
+    const targetProfileTemplateId = request.params.id;
+    const targetProfileTemplate = await usecases.getTargetProfileTemplate({ targetProfileTemplateId });
+    return targetProfileTemplateSerializer.serialize(targetProfileTemplate);
   },
 };
