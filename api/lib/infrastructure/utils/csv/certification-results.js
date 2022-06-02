@@ -142,13 +142,37 @@ const _getRowItemsFromSessionAndResults = (session) => (certificationResult) => 
     [_headers.BIRTHPLACE]: certificationResult.birthplace,
     [_headers.EXTERNAL_ID]: certificationResult.externalId,
     [_headers.STATUS]: _formatStatus(certificationResult),
-    [_headers.CLEA_STATUS]: _formatCleaCertificationResult(certificationResult),
-    [_headers.PIX_PLUS_DROIT_MAITRE_STATUS]: _formatPixPlusDroitMaitreCertificationResult(certificationResult),
-    [_headers.PIX_PLUS_DROIT_EXPERT_STATUS]: _formatPixPlusDroitExpertCertificationResult(certificationResult),
-    [_headers.PIX_PLUS_EDU_INITIE_HEADER]: _formatPixPlusEduInitieCertificationResult(certificationResult),
-    [_headers.PIX_PLUS_EDU_CONFIRME_HEADER]: _formatPixPlusEduConfirmeCertificationResult(certificationResult),
-    [_headers.PIX_PLUS_EDU_AVANCE_HEADER]: _formatPixPlusEduAvanceCertificationResult(certificationResult),
-    [_headers.PIX_PLUS_EDU_EXPERT_HEADER]: _formatPixPlusEduExpertCertificationResult(certificationResult),
+    [_headers.CLEA_STATUS]: _formatComplementaryCertification(certificationResult, 'hasTakenClea', 'hasAcquiredClea'),
+    [_headers.PIX_PLUS_DROIT_MAITRE_STATUS]: _formatComplementaryCertification(
+      certificationResult,
+      'hasTakenPixPlusDroitMaitre',
+      'hasAcquiredPixPlusDroitMaitre'
+    ),
+    [_headers.PIX_PLUS_DROIT_EXPERT_STATUS]: _formatComplementaryCertification(
+      certificationResult,
+      'hasTakenPixPlusDroitExpert',
+      'hasAcquiredPixPlusDroitExpert'
+    ),
+    [_headers.PIX_PLUS_EDU_INITIE_HEADER]: _formatComplementaryCertification(
+      certificationResult,
+      'hasTakenPixPlusEdu2ndDegreInitie',
+      'hasAcquiredPixPlusEdu2ndDegreInitie'
+    ),
+    [_headers.PIX_PLUS_EDU_CONFIRME_HEADER]: _formatComplementaryCertification(
+      certificationResult,
+      'hasTakenPixPlusEdu2ndDegreConfirme',
+      'hasAcquiredPixPlusEdu2ndDegreConfirme'
+    ),
+    [_headers.PIX_PLUS_EDU_AVANCE_HEADER]: _formatComplementaryCertification(
+      certificationResult,
+      'hasTakenPixPlusEdu2ndDegreAvance',
+      'hasAcquiredPixPlusEdu2ndDegreAvance'
+    ),
+    [_headers.PIX_PLUS_EDU_EXPERT_HEADER]: _formatComplementaryCertification(
+      certificationResult,
+      'hasTakenPixPlusEdu2ndDegreExpert',
+      'hasAcquiredPixPlusEdu2ndDegreExpert'
+    ),
     [_headers.PIX_SCORE]: _formatPixScore(certificationResult),
     [_headers.JURY_COMMENT_FOR_ORGANIZATION]: certificationResult.commentForOrganization,
     [_headers.SESSION_ID]: session.id,
@@ -160,43 +184,10 @@ const _getRowItemsFromSessionAndResults = (session) => (certificationResult) => 
   return { ...rowWithoutCompetences, ...competencesCells };
 };
 
-function _formatCleaCertificationResult(certificationResult) {
-  if (!certificationResult.hasTakenClea()) return 'Non passée';
+function _formatComplementaryCertification(certificationResult, hasTakenFunction, hasAcquiredFunction) {
+  if (!certificationResult[hasTakenFunction]()) return 'Non passée';
   if (certificationResult.isCancelled()) return 'Annulée';
-  return certificationResult.hasAcquiredClea() ? 'Validée' : 'Rejetée';
-}
-
-function _formatPixPlusDroitMaitreCertificationResult(certificationResult) {
-  if (!certificationResult.hasTakenPixPlusDroitMaitre()) return 'Non passée';
-  if (certificationResult.isCancelled()) return 'Annulée';
-  return certificationResult.hasAcquiredPixPlusDroitMaitre() ? 'Validée' : 'Rejetée';
-}
-
-function _formatPixPlusDroitExpertCertificationResult(certificationResult) {
-  if (!certificationResult.hasTakenPixPlusDroitExpert()) return 'Non passée';
-  if (certificationResult.isCancelled()) return 'Annulée';
-  return certificationResult.hasAcquiredPixPlusDroitExpert() ? 'Validée' : 'Rejetée';
-}
-
-function _formatPixPlusEduInitieCertificationResult(certificationResult) {
-  if (!certificationResult.hasTakenPixPlusEdu2ndDegreInitie()) return 'Non passée';
-  if (certificationResult.isCancelled()) return 'Annulée';
-  return certificationResult.hasAcquiredPixPlusEdu2ndDegreInitie() ? 'Validée' : 'Rejetée';
-}
-function _formatPixPlusEduConfirmeCertificationResult(certificationResult) {
-  if (!certificationResult.hasTakenPixPlusEdu2ndDegreConfirme()) return 'Non passée';
-  if (certificationResult.isCancelled()) return 'Annulée';
-  return certificationResult.hasAcquiredPixPlusEdu2ndDegreConfirme() ? 'Validée' : 'Rejetée';
-}
-function _formatPixPlusEduAvanceCertificationResult(certificationResult) {
-  if (!certificationResult.hasTakenPixPlusEdu2ndDegreAvance()) return 'Non passée';
-  if (certificationResult.isCancelled()) return 'Annulée';
-  return certificationResult.hasAcquiredPixPlusEdu2ndDegreAvance() ? 'Validée' : 'Rejetée';
-}
-function _formatPixPlusEduExpertCertificationResult(certificationResult) {
-  if (!certificationResult.hasTakenPixPlusEdu2ndDegreExpert()) return 'Non passée';
-  if (certificationResult.isCancelled()) return 'Annulée';
-  return certificationResult.hasAcquiredPixPlusEdu2ndDegreExpert() ? 'Validée' : 'Rejetée';
+  return certificationResult[hasAcquiredFunction]() ? 'Validée' : 'Rejetée';
 }
 
 function _formatPixScore(certificationResult) {
