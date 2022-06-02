@@ -6,7 +6,7 @@ const { v4: uuidv4 } = require('uuid');
 
 async function createRefreshTokenFromUserId({ userId, source }) {
   const expirationDelaySeconds = settings.authentication.refreshTokenLifespanMs / 1000;
-  const token = uuidv4();
+  const token = `${userId}:${uuidv4()}`;
   return await temporaryStorage.save({
     key: token,
     value: { type: 'refresh_token', userId, source },
