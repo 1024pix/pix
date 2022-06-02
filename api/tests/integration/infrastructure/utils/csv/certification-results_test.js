@@ -151,13 +151,19 @@ describe('Integration | Infrastructure | Utils | csv | certification-results', f
       { partnerKey: PIX_DROIT_EXPERT_CERTIF, expectedHeader: 'Certification Pix+ Droit Expert' },
       {
         partnerKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
-        expectedHeader: 'Certification Pix+ Édu Initié (entrée dans le métier)',
+        expectedHeader: 'Certification Pix+ Édu 2nd degré Initié (entrée dans le métier)',
       },
-      { partnerKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME, expectedHeader: 'Certification Pix+ Édu Confirmé' },
-      { partnerKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE, expectedHeader: 'Certification Pix+ Édu Avancé' },
+      {
+        partnerKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME,
+        expectedHeader: 'Certification Pix+ Édu 2nd degré Confirmé',
+      },
+      {
+        partnerKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
+        expectedHeader: 'Certification Pix+ Édu 2nd degré Avancé',
+      },
       {
         partnerKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
-        expectedHeader: 'Certification Pix+ Édu Expert',
+        expectedHeader: 'Certification Pix+ Édu 2nd degré Expert',
       },
     ].forEach(({ partnerKey, expectedHeader }) => {
       context(`when at least one candidate has passed ${partnerKey} certification`, function () {
@@ -294,7 +300,7 @@ describe('Integration | Infrastructure | Utils | csv | certification-results', f
         // then
         const expectedResult =
           '\uFEFF' +
-          '"Numéro de certification";"Prénom";"Nom";"Date de naissance";"Lieu de naissance";"Identifiant Externe";"Statut";"Certification Pix+ Droit Maître";"Certification Pix+ Droit Expert";"Certification CléA numérique";"Certification Pix+ Édu Initié (entrée dans le métier)";"Certification Pix+ Édu Confirmé";"Certification Pix+ Édu Avancé";"Certification Pix+ Édu Expert";"Nombre de Pix";"1.1";"1.2";"1.3";"2.1";"2.2";"2.3";"2.4";"3.1";"3.2";"3.3";"3.4";"4.1";"4.2";"4.3";"5.1";"5.2";"Commentaire jury pour l’organisation";"Session";"Centre de certification";"Date de passage de la certification"\n' +
+          '"Numéro de certification";"Prénom";"Nom";"Date de naissance";"Lieu de naissance";"Identifiant Externe";"Statut";"Certification Pix+ Droit Maître";"Certification Pix+ Droit Expert";"Certification CléA numérique";"Certification Pix+ Édu 2nd degré Initié (entrée dans le métier)";"Certification Pix+ Édu 2nd degré Confirmé";"Certification Pix+ Édu 2nd degré Avancé";"Certification Pix+ Édu 2nd degré Expert";"Nombre de Pix";"1.1";"1.2";"1.3";"2.1";"2.2";"2.3";"2.4";"3.1";"3.2";"3.3";"3.4";"4.1";"4.2";"4.3";"5.1";"5.2";"Commentaire jury pour l’organisation";"Session";"Centre de certification";"Date de passage de la certification"\n' +
           '123;"Lili";"Oxford";"04/01/1990";"Torreilles";"LOLORD";"Validée";"Rejetée";"Validée";"Validée";"Validée";"Rejetée";"Validée";"Rejetée";55;"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";3;0;"RAS";777;"CentreCertif";"01/01/2020"';
         expect(result).to.equal(expectedResult);
       });

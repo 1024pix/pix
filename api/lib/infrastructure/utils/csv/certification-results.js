@@ -93,16 +93,16 @@ function _buildFileHeaders(certificationResults) {
   const pixPlusDroitMaitreHeader = shouldIncludePixPlusDroitMaitreHeader ? [_headers.PIX_PLUS_DROIT_MAITRE_STATUS] : [];
   const pixPlusDroitExpertHeader = shouldIncludePixPlusDroitExpertHeader ? [_headers.PIX_PLUS_DROIT_EXPERT_STATUS] : [];
   const pixPlusEdu2ndDegreInitieHeader = shouldIncludePixPlusEdu2ndDegreInitieHeader
-    ? [_headers.PIX_PLUS_EDU_INITIE_HEADER]
+    ? [_headers.PIX_PLUS_EDU_2ND_DEGRE_INITIE_HEADER]
     : [];
   const pixPlusEdu2ndDegreConfirmeHeader = shouldIncludePixPlusEdu2ndDegreConfirmeHeader
-    ? [_headers.PIX_PLUS_EDU_CONFIRME_HEADER]
+    ? [_headers.PIX_PLUS_EDU_2ND_DEGRE_CONFIRME_HEADER]
     : [];
   const pixPlusEdu2ndDegreAvanceHeader = shouldIncludePixPlusEdu2ndDegreAvanceHeader
-    ? [_headers.PIX_PLUS_EDU_AVANCE_HEADER]
+    ? [_headers.PIX_PLUS_EDU_2ND_DEGRE_AVANCE_HEADER]
     : [];
   const pixPlusEdu2ndDegreExpertHeader = shouldIncludePixPlusEdu2ndDegreExpertHeader
-    ? [_headers.PIX_PLUS_EDU_EXPERT_HEADER]
+    ? [_headers.PIX_PLUS_EDU_2ND_DEGRE_EXPERT_HEADER]
     : [];
 
   return _.concat(
@@ -153,22 +153,22 @@ const _getRowItemsFromSessionAndResults = (session) => (certificationResult) => 
       'hasTakenPixPlusDroitExpert',
       'hasAcquiredPixPlusDroitExpert'
     ),
-    [_headers.PIX_PLUS_EDU_INITIE_HEADER]: _formatComplementaryCertification(
+    [_headers.PIX_PLUS_EDU_2ND_DEGRE_INITIE_HEADER]: _formatComplementaryCertification(
       certificationResult,
       'hasTakenPixPlusEdu2ndDegreInitie',
       'hasAcquiredPixPlusEdu2ndDegreInitie'
     ),
-    [_headers.PIX_PLUS_EDU_CONFIRME_HEADER]: _formatComplementaryCertification(
+    [_headers.PIX_PLUS_EDU_2ND_DEGRE_CONFIRME_HEADER]: _formatComplementaryCertification(
       certificationResult,
       'hasTakenPixPlusEdu2ndDegreConfirme',
       'hasAcquiredPixPlusEdu2ndDegreConfirme'
     ),
-    [_headers.PIX_PLUS_EDU_AVANCE_HEADER]: _formatComplementaryCertification(
+    [_headers.PIX_PLUS_EDU_2ND_DEGRE_AVANCE_HEADER]: _formatComplementaryCertification(
       certificationResult,
       'hasTakenPixPlusEdu2ndDegreAvance',
       'hasAcquiredPixPlusEdu2ndDegreAvance'
     ),
-    [_headers.PIX_PLUS_EDU_EXPERT_HEADER]: _formatComplementaryCertification(
+    [_headers.PIX_PLUS_EDU_2ND_DEGRE_EXPERT_HEADER]: _formatComplementaryCertification(
       certificationResult,
       'hasTakenPixPlusEdu2ndDegreExpert',
       'hasAcquiredPixPlusEdu2ndDegreExpert'
@@ -276,10 +276,10 @@ const _headers = {
   CLEA_STATUS: 'Certification CléA numérique',
   PIX_PLUS_DROIT_MAITRE_STATUS: 'Certification Pix+ Droit Maître',
   PIX_PLUS_DROIT_EXPERT_STATUS: 'Certification Pix+ Droit Expert',
-  PIX_PLUS_EDU_INITIE_HEADER: 'Certification Pix+ Édu Initié (entrée dans le métier)',
-  PIX_PLUS_EDU_CONFIRME_HEADER: 'Certification Pix+ Édu Confirmé',
-  PIX_PLUS_EDU_AVANCE_HEADER: 'Certification Pix+ Édu Avancé',
-  PIX_PLUS_EDU_EXPERT_HEADER: 'Certification Pix+ Édu Expert',
+  PIX_PLUS_EDU_2ND_DEGRE_INITIE_HEADER: 'Certification Pix+ Édu 2nd degré Initié (entrée dans le métier)',
+  PIX_PLUS_EDU_2ND_DEGRE_CONFIRME_HEADER: 'Certification Pix+ Édu 2nd degré Confirmé',
+  PIX_PLUS_EDU_2ND_DEGRE_AVANCE_HEADER: 'Certification Pix+ Édu 2nd degré Avancé',
+  PIX_PLUS_EDU_2ND_DEGRE_EXPERT_HEADER: 'Certification Pix+ Édu 2nd degré Expert',
   PIX_SCORE: 'Nombre de Pix',
   SESSION_ID: 'Session',
   CERTIFICATION_CENTER: 'Centre de certification',
