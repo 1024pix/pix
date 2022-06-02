@@ -152,20 +152,20 @@ class CertificationResult {
     return Boolean(pixPlusDroitExpertComplementaryCertificationCourseResult?.acquired);
   }
 
-  hasTakenPixPlusEduInitie() {
+  hasTakenPixPlusEdu2ndDegreInitie() {
     return this.complementaryCertificationCourseResults.some(
       ({ partnerKey }) => partnerKey === PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE
     );
   }
 
-  hasAcquiredPixPlusEduInitie() {
+  hasAcquiredPixPlusEdu2ndDegreInitie() {
     const pixPlusEduInitieComplementaryCertificationCourseResult = this.complementaryCertificationCourseResults.find(
       ({ partnerKey }) => partnerKey === PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE
     );
     return Boolean(pixPlusEduInitieComplementaryCertificationCourseResult?.acquired);
   }
 
-  hasTakenPixPlusEduConfirme() {
+  hasTakenPixPlusEdu2ndDegreConfirme() {
     return this.complementaryCertificationCourseResults.some(({ partnerKey }) =>
       [PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME, PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME].includes(
         partnerKey
@@ -173,7 +173,7 @@ class CertificationResult {
     );
   }
 
-  hasAcquiredPixPlusEduConfirme() {
+  hasAcquiredPixPlusEdu2ndDegreConfirme() {
     const pixPlusEduConfirmeComplementaryCertificationCourseResult = this.complementaryCertificationCourseResults.find(
       ({ partnerKey }) =>
         [PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME, PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME].includes(
@@ -183,26 +183,26 @@ class CertificationResult {
     return Boolean(pixPlusEduConfirmeComplementaryCertificationCourseResult?.acquired);
   }
 
-  hasTakenPixPlusEduAvance() {
+  hasTakenPixPlusEdu2ndDegreAvance() {
     return this.complementaryCertificationCourseResults.some(
       ({ partnerKey }) => partnerKey === PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE
     );
   }
 
-  hasAcquiredPixPlusEduAvance() {
+  hasAcquiredPixPlusEdu2ndDegreAvance() {
     const pixPlusEduAvanceComplementaryCertificationCourseResult = this.complementaryCertificationCourseResults.find(
       ({ partnerKey }) => partnerKey === PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE
     );
     return Boolean(pixPlusEduAvanceComplementaryCertificationCourseResult?.acquired);
   }
 
-  hasTakenPixPlusEduExpert() {
+  hasTakenPixPlusEdu2ndDegreExpert() {
     return this.complementaryCertificationCourseResults.some(
       ({ partnerKey }) => partnerKey === PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT
     );
   }
 
-  hasAcquiredPixPlusEduExpert() {
+  hasAcquiredPixPlusEdu2ndDegreExpert() {
     const pixPlusEduExpertComplementaryCertificationCourseResult = this.complementaryCertificationCourseResults.find(
       ({ partnerKey }) => partnerKey === PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT
     );
