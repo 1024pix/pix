@@ -90,7 +90,7 @@ describe('Unit | Infrastructure | temporary-storage | RedisTemporaryStorage', fu
   });
 
   describe('#get', function () {
-    it('should call client set and retrieve value', async function () {
+    it('should call client set to retrieve value', async function () {
       // given
       const key = 'valueKey';
       const value = { name: 'name' };
@@ -107,7 +107,7 @@ describe('Unit | Infrastructure | temporary-storage | RedisTemporaryStorage', fu
   });
 
   describe('#delete', function () {
-    it('should call client set and delete value', async function () {
+    it('should call client del to delete value', async function () {
       // given
       const key = 'valueKey';
       clientStub.del.withArgs(key).resolves();
