@@ -86,4 +86,17 @@ describe('Unit | Domain | Service | Refresh Token Service', function () {
       expect(temporaryStorage.delete).to.have.been.calledWith(refreshToken);
     });
   });
+
+  describe('#revokeRefreshTokensForUserId', function () {
+    it('should remove refresh tokens for given userId from temporary storage', async function () {
+      // given
+      sinon.stub(temporaryStorage, 'deleteByPrefix');
+
+      // when
+      await refreshTokenService.revokeRefreshTokensForUserId({ userId: 123 });
+
+      // then
+      expect(temporaryStorage.deleteByPrefix).to.have.been.calledWith('123:');
+    });
+  });
 });
