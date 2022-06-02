@@ -2,7 +2,8 @@ import { describe } from 'mocha';
 import { expect } from 'chai';
 import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
-import { currentURL, visit } from '@ember/test-helpers';
+import { currentURL } from '@ember/test-helpers';
+import { visit } from '@1024pix/ember-testing-library';
 import setupIntl from '../../helpers/setup-intl';
 import { fillInByLabel } from '../../helpers/fill-in-by-label';
 import { clickByLabel } from '../../helpers/click-by-label';
@@ -60,11 +61,15 @@ describe('Acceptance | account-recovery | FindScoRecordRoute', function () {
 
   it('should display student information form', async function () {
     // given & when
-    await visit('/recuperer-mon-compte');
+    const screen = await visit('/recuperer-mon-compte');
 
     // then
     expect(currentURL()).to.equal('/recuperer-mon-compte');
-    expect(contains(this.intl.t('pages.account-recovery.find-sco-record.student-information.title'))).to.exist;
+    expect(
+      screen.getByRole('heading', {
+        name: this.intl.t('pages.account-recovery.find-sco-record.student-information.title'),
+      })
+    ).to.exist;
   });
 
   context('when submitting information form with valid data', () => {
