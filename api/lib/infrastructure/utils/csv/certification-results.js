@@ -76,26 +76,34 @@ function _buildFileHeaders(certificationResults) {
   const shouldIncludePixPlusDroitExpertHeader = certificationResults.some((certificationResult) =>
     certificationResult.hasTakenPixPlusDroitExpert()
   );
-  const shouldIncludePixPlusEduAutonomeHeader = certificationResults.some((certificationResult) =>
+  const shouldIncludePixPlusEdu2ndDegreInitieHeader = certificationResults.some((certificationResult) =>
     certificationResult.hasTakenPixPlusEduInitie()
   );
-  const shouldIncludePixPlusEduAvanceHeader = certificationResults.some((certificationResult) =>
+  const shouldIncludePixPlusEdu2ndDegreConfirmeHeader = certificationResults.some((certificationResult) =>
     certificationResult.hasTakenPixPlusEduConfirme()
   );
-  const shouldIncludePixPlusEduExpertHeader = certificationResults.some((certificationResult) =>
+  const shouldIncludePixPlusEdu2ndDegreAvanceHeader = certificationResults.some((certificationResult) =>
     certificationResult.hasTakenPixPlusEduAvance()
   );
-  const shouldIncludePixPlusEduFormateurHeader = certificationResults.some((certificationResult) =>
+  const shouldIncludePixPlusEdu2ndDegreExpertHeader = certificationResults.some((certificationResult) =>
     certificationResult.hasTakenPixPlusEduExpert()
   );
 
   const cleaHeader = shouldIncludeCleaHeader ? [_headers.CLEA_STATUS] : [];
   const pixPlusDroitMaitreHeader = shouldIncludePixPlusDroitMaitreHeader ? [_headers.PIX_PLUS_DROIT_MAITRE_STATUS] : [];
   const pixPlusDroitExpertHeader = shouldIncludePixPlusDroitExpertHeader ? [_headers.PIX_PLUS_DROIT_EXPERT_STATUS] : [];
-  const pixPlusEduAutonomeHeader = shouldIncludePixPlusEduAutonomeHeader ? [_headers.PIX_PLUS_EDU_INITIE_HEADER] : [];
-  const pixPlusEduAvanceHeader = shouldIncludePixPlusEduAvanceHeader ? [_headers.PIX_PLUS_EDU_CONFIRME_HEADER] : [];
-  const pixPlusEduExpertHeader = shouldIncludePixPlusEduExpertHeader ? [_headers.PIX_PLUS_EDU_AVANCE_HEADER] : [];
-  const pixPlusEduFormateurHeader = shouldIncludePixPlusEduFormateurHeader ? [_headers.PIX_PLUS_EDU_EXPERT_HEADER] : [];
+  const pixPlusEdu2ndDegreInitieHeader = shouldIncludePixPlusEdu2ndDegreInitieHeader
+    ? [_headers.PIX_PLUS_EDU_INITIE_HEADER]
+    : [];
+  const pixPlusEdu2ndDegreConfirmeHeader = shouldIncludePixPlusEdu2ndDegreConfirmeHeader
+    ? [_headers.PIX_PLUS_EDU_CONFIRME_HEADER]
+    : [];
+  const pixPlusEdu2ndDegreAvanceHeader = shouldIncludePixPlusEdu2ndDegreAvanceHeader
+    ? [_headers.PIX_PLUS_EDU_AVANCE_HEADER]
+    : [];
+  const pixPlusEdu2ndDegreExpertHeader = shouldIncludePixPlusEdu2ndDegreExpertHeader
+    ? [_headers.PIX_PLUS_EDU_EXPERT_HEADER]
+    : [];
 
   return _.concat(
     [
@@ -110,10 +118,10 @@ function _buildFileHeaders(certificationResults) {
     pixPlusDroitMaitreHeader,
     pixPlusDroitExpertHeader,
     cleaHeader,
-    pixPlusEduAutonomeHeader,
-    pixPlusEduAvanceHeader,
-    pixPlusEduExpertHeader,
-    pixPlusEduFormateurHeader,
+    pixPlusEdu2ndDegreInitieHeader,
+    pixPlusEdu2ndDegreConfirmeHeader,
+    pixPlusEdu2ndDegreAvanceHeader,
+    pixPlusEdu2ndDegreExpertHeader,
     [_headers.PIX_SCORE],
     _competenceIndexes,
     [
