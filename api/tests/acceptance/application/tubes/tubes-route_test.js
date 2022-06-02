@@ -13,7 +13,7 @@ describe('Acceptance | Route | Tubes', function () {
     server = await createServer();
   });
 
-  describe('GET api/tubes/{id}/skills', function () {
+  describe('GET /api/admin/tubes/{id}/skills', function () {
     let userId;
 
     beforeEach(async function () {
@@ -68,7 +68,7 @@ describe('Acceptance | Route | Tubes', function () {
       // given
       const options = {
         method: 'GET',
-        url: `/api/tubes/tubeId1/skills`,
+        url: `/api/admin/tubes/tubeId1/skills`,
         headers: {
           authorization: generateValidRequestAuthorizationHeader(userId),
         },
@@ -85,7 +85,7 @@ describe('Acceptance | Route | Tubes', function () {
       // given
       const options = {
         method: 'GET',
-        url: `/api/tubes/tubeId1/skills`,
+        url: `/api/admin/tubes/tubeId1/skills`,
         headers: {
           authorization: generateValidRequestAuthorizationHeader(userId),
         },
@@ -120,7 +120,7 @@ describe('Acceptance | Route | Tubes', function () {
         await databaseBuilder.commit();
         const options = {
           method: 'GET',
-          url: `/api/tubes/123/skills`,
+          url: `/api/admin/tubes/123/skills`,
           headers: {
             authorization: generateValidRequestAuthorizationHeader(userId),
           },
