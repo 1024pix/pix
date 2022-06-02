@@ -46,7 +46,7 @@ export default function () {
   this.get('/admin/admin-members/me', (schema, request) => {
     const userToken = request.requestHeaders.Authorization.replace('Bearer ', '');
     const userId = JSON.parse(atob(userToken.split('.')[1])).user_id;
-    return schema.adminMembers.find(userId);
+    return schema.adminMembers.findBy({ userId });
   });
 
   this.patch('/admin/admin-members/:id', (schema, request) => {

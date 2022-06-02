@@ -528,18 +528,20 @@ describe('Unit | Application | Sessions | Routes', function () {
 
       it('return forbidden access if user has METIER role', async function () {
         // given
-        sinon.stub(sessionController, 'publish').returns('ok');
-
-        sinon.stub(securityPreHandlers, 'checkUserHasRoleMetier').callsFake((request, h) => h.response(true));
         sinon
-          .stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin')
-          .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
-        sinon
-          .stub(securityPreHandlers, 'checkUserHasRoleSupport')
-          .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
-        sinon
-          .stub(securityPreHandlers, 'checkUserHasRoleCertif')
-          .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+          .stub(securityPreHandlers, 'userHasAtLeastOneAccessOf')
+          .withArgs([
+            securityPreHandlers.checkUserHasRoleSuperAdmin,
+            securityPreHandlers.checkUserHasRoleCertif,
+            securityPreHandlers.checkUserHasRoleSupport,
+          ])
+          .callsFake(
+            () => (request, h) =>
+              h
+                .response({ errors: new Error('forbidden') })
+                .code(403)
+                .takeover()
+          );
 
         const httpTestServer = new HttpTestServer();
         await httpTestServer.register(moduleUnderTest);
@@ -555,7 +557,6 @@ describe('Unit | Application | Sessions | Routes', function () {
 
         // then
         expect(response.statusCode).to.equal(403);
-        sinon.assert.notCalled(sessionController.publish);
       });
     });
 
@@ -576,17 +577,20 @@ describe('Unit | Application | Sessions | Routes', function () {
 
       it('return forbidden access if user has METIER role', async function () {
         // given
-        sinon.stub(securityPreHandlers, 'checkUserHasRoleMetier').callsFake((request, h) => h.response(true));
         sinon
-          .stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin')
-          .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
-        sinon
-          .stub(securityPreHandlers, 'checkUserHasRoleSupport')
-          .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
-        sinon
-          .stub(securityPreHandlers, 'checkUserHasRoleCertif')
-          .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
-
+          .stub(securityPreHandlers, 'userHasAtLeastOneAccessOf')
+          .withArgs([
+            securityPreHandlers.checkUserHasRoleSuperAdmin,
+            securityPreHandlers.checkUserHasRoleCertif,
+            securityPreHandlers.checkUserHasRoleSupport,
+          ])
+          .callsFake(
+            () => (request, h) =>
+              h
+                .response({ errors: new Error('forbidden') })
+                .code(403)
+                .takeover()
+          );
         const httpTestServer = new HttpTestServer();
         await httpTestServer.register(moduleUnderTest);
 
@@ -595,7 +599,6 @@ describe('Unit | Application | Sessions | Routes', function () {
 
         // then
         expect(response.statusCode).to.equal(403);
-        sinon.assert.notCalled(securityPreHandlers.checkUserHasRoleMetier);
       });
     });
 
@@ -625,19 +628,20 @@ describe('Unit | Application | Sessions | Routes', function () {
 
       it('return forbidden access if user has METIER role', async function () {
         // given
-        sinon.stub(sessionController, 'publishInBatch').returns('ok');
-
-        sinon.stub(securityPreHandlers, 'checkUserHasRoleMetier').callsFake((request, h) => h.response(true));
         sinon
-          .stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin')
-          .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
-        sinon
-          .stub(securityPreHandlers, 'checkUserHasRoleSupport')
-          .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
-        sinon
-          .stub(securityPreHandlers, 'checkUserHasRoleCertif')
-          .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
-
+          .stub(securityPreHandlers, 'userHasAtLeastOneAccessOf')
+          .withArgs([
+            securityPreHandlers.checkUserHasRoleSuperAdmin,
+            securityPreHandlers.checkUserHasRoleCertif,
+            securityPreHandlers.checkUserHasRoleSupport,
+          ])
+          .callsFake(
+            () => (request, h) =>
+              h
+                .response({ errors: new Error('forbidden') })
+                .code(403)
+                .takeover()
+          );
         const httpTestServer = new HttpTestServer();
         await httpTestServer.register(moduleUnderTest);
 
@@ -652,7 +656,6 @@ describe('Unit | Application | Sessions | Routes', function () {
 
         // then
         expect(response.statusCode).to.equal(403);
-        sinon.assert.notCalled(sessionController.publishInBatch);
       });
 
       it('should succeed with valid session ids', async function () {
@@ -714,19 +717,20 @@ describe('Unit | Application | Sessions | Routes', function () {
 
       it('return forbidden access if user has METIER role', async function () {
         // given
-        sinon.stub(sessionController, 'flagResultsAsSentToPrescriber').returns('ok');
-
-        sinon.stub(securityPreHandlers, 'checkUserHasRoleMetier').callsFake((request, h) => h.response(true));
         sinon
-          .stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin')
-          .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
-        sinon
-          .stub(securityPreHandlers, 'checkUserHasRoleSupport')
-          .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
-        sinon
-          .stub(securityPreHandlers, 'checkUserHasRoleCertif')
-          .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
-
+          .stub(securityPreHandlers, 'userHasAtLeastOneAccessOf')
+          .withArgs([
+            securityPreHandlers.checkUserHasRoleSuperAdmin,
+            securityPreHandlers.checkUserHasRoleCertif,
+            securityPreHandlers.checkUserHasRoleSupport,
+          ])
+          .callsFake(
+            () => (request, h) =>
+              h
+                .response({ errors: new Error('forbidden') })
+                .code(403)
+                .takeover()
+          );
         const httpTestServer = new HttpTestServer();
         await httpTestServer.register(moduleUnderTest);
 
@@ -735,7 +739,6 @@ describe('Unit | Application | Sessions | Routes', function () {
 
         // then
         expect(response.statusCode).to.equal(403);
-        sinon.assert.notCalled(sessionController.flagResultsAsSentToPrescriber);
       });
     });
 
@@ -773,17 +776,20 @@ describe('Unit | Application | Sessions | Routes', function () {
 
       it('return forbidden access if user has METIER role', async function () {
         // given
-        sinon.stub(securityPreHandlers, 'checkUserHasRoleMetier').callsFake((request, h) => h.response(true));
         sinon
-          .stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin')
-          .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
-        sinon
-          .stub(securityPreHandlers, 'checkUserHasRoleSupport')
-          .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
-        sinon
-          .stub(securityPreHandlers, 'checkUserHasRoleCertif')
-          .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
-
+          .stub(securityPreHandlers, 'userHasAtLeastOneAccessOf')
+          .withArgs([
+            securityPreHandlers.checkUserHasRoleSuperAdmin,
+            securityPreHandlers.checkUserHasRoleCertif,
+            securityPreHandlers.checkUserHasRoleSupport,
+          ])
+          .callsFake(
+            () => (request, h) =>
+              h
+                .response({ errors: new Error('forbidden') })
+                .code(403)
+                .takeover()
+          );
         const httpTestServer = new HttpTestServer();
         await httpTestServer.register(moduleUnderTest);
 
@@ -795,7 +801,6 @@ describe('Unit | Application | Sessions | Routes', function () {
 
         // then
         expect(response.statusCode).to.equal(403);
-        sinon.assert.notCalled(securityPreHandlers.checkUserHasRoleMetier);
       });
     });
 
@@ -892,19 +897,20 @@ describe('Unit | Application | Sessions | Routes', function () {
 
       it('return forbidden access if user has METIER role', async function () {
         // given
-        sinon.stub(sessionController, 'commentAsJury').returns('ok');
-
-        sinon.stub(securityPreHandlers, 'checkUserHasRoleMetier').callsFake((request, h) => h.response(true));
         sinon
-          .stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin')
-          .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
-        sinon
-          .stub(securityPreHandlers, 'checkUserHasRoleSupport')
-          .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
-        sinon
-          .stub(securityPreHandlers, 'checkUserHasRoleCertif')
-          .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
-
+          .stub(securityPreHandlers, 'userHasAtLeastOneAccessOf')
+          .withArgs([
+            securityPreHandlers.checkUserHasRoleSuperAdmin,
+            securityPreHandlers.checkUserHasRoleCertif,
+            securityPreHandlers.checkUserHasRoleSupport,
+          ])
+          .callsFake(
+            () => (request, h) =>
+              h
+                .response({ errors: new Error('forbidden') })
+                .code(403)
+                .takeover()
+          );
         const httpTestServer = new HttpTestServer();
         await httpTestServer.register(moduleUnderTest);
 
@@ -913,7 +919,6 @@ describe('Unit | Application | Sessions | Routes', function () {
 
         // then
         expect(response.statusCode).to.equal(403);
-        sinon.assert.notCalled(sessionController.commentAsJury);
       });
     });
 
@@ -935,19 +940,20 @@ describe('Unit | Application | Sessions | Routes', function () {
 
       it('return forbidden access if user has METIER role', async function () {
         // given
-        sinon.stub(sessionController, 'deleteJuryComment').returns('ok');
-
-        sinon.stub(securityPreHandlers, 'checkUserHasRoleMetier').callsFake((request, h) => h.response(true));
         sinon
-          .stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin')
-          .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
-        sinon
-          .stub(securityPreHandlers, 'checkUserHasRoleSupport')
-          .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
-        sinon
-          .stub(securityPreHandlers, 'checkUserHasRoleCertif')
-          .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
-
+          .stub(securityPreHandlers, 'userHasAtLeastOneAccessOf')
+          .withArgs([
+            securityPreHandlers.checkUserHasRoleSuperAdmin,
+            securityPreHandlers.checkUserHasRoleCertif,
+            securityPreHandlers.checkUserHasRoleSupport,
+          ])
+          .callsFake(
+            () => (request, h) =>
+              h
+                .response({ errors: new Error('forbidden') })
+                .code(403)
+                .takeover()
+          );
         const httpTestServer = new HttpTestServer();
         await httpTestServer.register(moduleUnderTest);
 
@@ -956,26 +962,26 @@ describe('Unit | Application | Sessions | Routes', function () {
 
         // then
         expect(response.statusCode).to.equal(403);
-        sinon.assert.notCalled(sessionController.deleteJuryComment);
       });
     });
 
     describe('GET /api/admin/sessions/{id}/generate-results-download-link', function () {
       it('return forbidden access if user has METIER role', async function () {
         // given
-        sinon.stub(sessionController, 'generateSessionResultsDownloadLink').returns('ok');
-
-        sinon.stub(securityPreHandlers, 'checkUserHasRoleMetier').callsFake((request, h) => h.response(true));
         sinon
-          .stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin')
-          .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
-        sinon
-          .stub(securityPreHandlers, 'checkUserHasRoleSupport')
-          .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
-        sinon
-          .stub(securityPreHandlers, 'checkUserHasRoleCertif')
-          .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
-
+          .stub(securityPreHandlers, 'userHasAtLeastOneAccessOf')
+          .withArgs([
+            securityPreHandlers.checkUserHasRoleSuperAdmin,
+            securityPreHandlers.checkUserHasRoleCertif,
+            securityPreHandlers.checkUserHasRoleSupport,
+          ])
+          .callsFake(
+            () => (request, h) =>
+              h
+                .response({ errors: new Error('forbidden') })
+                .code(403)
+                .takeover()
+          );
         const httpTestServer = new HttpTestServer();
         await httpTestServer.register(moduleUnderTest);
 
@@ -984,7 +990,6 @@ describe('Unit | Application | Sessions | Routes', function () {
 
         // then
         expect(response.statusCode).to.equal(403);
-        sinon.assert.notCalled(sessionController.generateSessionResultsDownloadLink);
       });
     });
   });
