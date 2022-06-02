@@ -16,6 +16,7 @@ export default class ActivityController extends Controller {
   @tracked groups = [];
   @tracked campaign;
   @tracked participations;
+  @tracked search = null;
 
   @action
   goToParticipantPage(campaignId, participationId) {
@@ -34,6 +35,9 @@ export default class ActivityController extends Controller {
     if (filters.status !== undefined) {
       this.status = filters.status;
     }
+    if (filters.search !== undefined) {
+      this.search = filters.search;
+    }
   }
 
   @action
@@ -42,6 +46,7 @@ export default class ActivityController extends Controller {
     this.divisions = [];
     this.status = null;
     this.groups = [];
+    this.search = null;
   }
 
   @action

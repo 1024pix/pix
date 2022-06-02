@@ -1251,6 +1251,21 @@ describe('Acceptance | API | Campaign Controller', function () {
       expect(participation['first-name']).to.equal(participant2.firstName);
     });
 
+    it('should return the campaign participant activity filtered by search as JSONAPI', async function () {
+      const options = {
+        method: 'GET',
+        url: `/api/campaigns/${campaign.id}/participants-activity?filter[search]=Mary M`,
+        headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
+      };
+
+      const response = await server.inject(options);
+
+      expect(response.statusCode).to.equal(200);
+      const participation = response.result.data[0].attributes;
+      expect(response.result.data).to.have.lengthOf(1);
+      expect(participation['first-name']).to.equal(participant3.firstName);
+    });
+
     it('should return the campaign participant activity with group L1 as JSONAPI', async function () {
       const options = {
         method: 'GET',

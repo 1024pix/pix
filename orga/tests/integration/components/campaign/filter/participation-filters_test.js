@@ -1,10 +1,11 @@
 import { module, test } from 'qunit';
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
-import { render, click, fillIn, find } from '@ember/test-helpers';
+import { render, click, find } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import Service from '@ember/service';
 import sinon from 'sinon';
-import { clickByName } from '@1024pix/ember-testing-library';
+import { clickByName, fillByLabel } from '@1024pix/ember-testing-library';
+import { t } from 'ember-intl/test-support';
 
 module('Integration | Component | Campaign::Filter::ParticipationFilters', function (hooks) {
   setupIntlRenderingTest(hooks);
@@ -22,7 +23,9 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
         this.set('campaign', campaign);
 
         // when
-        await render(hbs`<Campaign::Filter::ParticipationFilters @campaign={{campaign}} @isHiddenStatus={{true}} />`);
+        await render(
+          hbs`<Campaign::Filter::ParticipationFilters @campaign={{campaign}} @isHiddenStatus={{true}} @isHiddenSearch={{true}}/>`
+        );
 
         // then
         assert.notContains('Filtres');
@@ -307,6 +310,7 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
         });
       });
     });
+
     module('status', function () {
       test('it triggers the filter when a status is selected', async function (assert) {
         // given
@@ -326,7 +330,7 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
         await render(
           hbs`<Campaign::Filter::ParticipationFilters @campaign={{campaign}} @onFilter={{triggerFiltering}}/>`
         );
-        await fillIn('[aria-label="Statut"]', 'STARTED');
+        await fillByLabel(t('pages.campaign-results.filters.type.status.title'), 'STARTED');
 
         // then
         assert.ok(triggerFiltering.calledWith({ status: 'STARTED' }));
@@ -403,6 +407,32 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
         // then
         const values = Array.from(find('[aria-label="Statut"]').options).map((option) => option.value);
         assert.deepEqual(values, ['', 'TO_SHARE', 'SHARED']);
+      });
+    });
+
+    module('search', function () {
+      test('it triggers the filter when a text is searched', async function (assert) {
+        // given
+        const campaign = store.createRecord('campaign', {
+          id: campaignId,
+          name: 'campagne 1',
+          type: 'ASSESSMENT',
+          targetProfileHasStage: false,
+          stages: [],
+        });
+
+        const triggerFiltering = sinon.stub();
+        this.set('campaign', campaign);
+        this.set('triggerFiltering', triggerFiltering);
+
+        // when
+        await render(
+          hbs`<Campaign::Filter::ParticipationFilters @campaign={{campaign}} @onFilter={{triggerFiltering}}/>`
+        );
+        await fillByLabel(t('pages.campaign-results.filters.type.search.title'), 'Sal');
+
+        // then
+        assert.ok(triggerFiltering.calledWith({ search: 'Sal' }));
       });
     });
   });

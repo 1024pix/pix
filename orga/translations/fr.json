@@ -173,12 +173,12 @@
     },
     "percentage": "{value, number, ::percent}",
     "target-profile-details": {
-      "results" : {
+      "results": {
         "common": "Résultats affichés en ",
-        "star" : "étoile",
+        "star": "étoile",
         "percent": "pourcentage"
       },
-      "subjects" : "Sujets : {value, number}",
+      "subjects": "Sujets : {value, number}",
       "thematic-results": "Résultats thématiques : {value, number}"
     }
   },
@@ -438,6 +438,10 @@
           "divisions": {
             "placeholder": "Classes"
           },
+          "search": {
+            "title": "Recherche sur le nom et prénom",
+            "placeholder": "Nom, prénom"
+          },
           "status": {
             "title": "Statut",
             "empty": "Tous les statuts"
@@ -517,7 +521,7 @@
       }
     },
     "campaigns-list": {
-      "title":  "Campagnes",
+      "title": "Campagnes",
       "navigation": "Navigation de la section Campagnes",
       "tabs": {
         "all-campaigns": "Toutes les campagnes",
