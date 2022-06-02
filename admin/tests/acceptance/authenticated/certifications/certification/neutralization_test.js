@@ -107,122 +107,130 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
       });
 
       module('when user has access to certification action scope', function () {
-        test('it renders a "Neutraliser" button when challenge is not neutralized', async function (assert) {
-          // given
-          await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
-          const listChallengesAndAnswers = [
-            {
-              result: 'ok',
-              value: 'Dummy value',
-              challengeId: 'recCGEqqWBQnzD3NZ',
-              competence: '1.1',
-              skill: '',
-              isNeutralized: false,
-            },
-          ];
+        module('when challenge is not neutralized', function () {
+          test('it renders a "Neutraliser" button', async function (assert) {
+            // given
+            await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
+            const listChallengesAndAnswers = [
+              {
+                result: 'ok',
+                value: 'Dummy value',
+                challengeId: 'recCGEqqWBQnzD3NZ',
+                competence: '1.1',
+                skill: '',
+                isNeutralized: false,
+              },
+            ];
 
-          const certificationId = this.server.create('certification').id;
-          this.server.create('certification-detail', {
-            id: certificationId,
-            competencesWithMark: [],
-            status: 'started',
-            listChallengesAndAnswers,
+            const certificationId = this.server.create('certification').id;
+            this.server.create('certification-detail', {
+              id: certificationId,
+              competencesWithMark: [],
+              status: 'started',
+              listChallengesAndAnswers,
+            });
+
+            // when
+            const screen = await visit(`/certifications/${certificationId}/neutralization`);
+
+            // then
+            assert.dom(screen.getByRole('button', { name: 'Neutraliser' })).exists();
           });
-
-          // when
-          const screen = await visit(`/certifications/${certificationId}/neutralization`);
-
-          // then
-          assert.dom(screen.getByRole('button', { name: 'Neutraliser' })).exists();
         });
 
-        test('it renders a "Dé-neutraliser" button when challenge is neutralized', async function (assert) {
-          // given
-          await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
-          const listChallengesAndAnswers = [
-            {
-              result: 'ok',
-              value: 'Dummy value',
-              challengeId: 'recCGEqqWBQnzD3NZ',
-              competence: '1.1',
-              skill: '',
-              isNeutralized: true,
-            },
-          ];
+        module('when challenge is neutralized', function () {
+          test('it renders a "Dé-neutraliser" button', async function (assert) {
+            // given
+            await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
+            const listChallengesAndAnswers = [
+              {
+                result: 'ok',
+                value: 'Dummy value',
+                challengeId: 'recCGEqqWBQnzD3NZ',
+                competence: '1.1',
+                skill: '',
+                isNeutralized: true,
+              },
+            ];
 
-          const certificationId = this.server.create('certification').id;
-          this.server.create('certification-detail', {
-            id: certificationId,
-            competencesWithMark: [],
-            status: 'started',
-            listChallengesAndAnswers,
+            const certificationId = this.server.create('certification').id;
+            this.server.create('certification-detail', {
+              id: certificationId,
+              competencesWithMark: [],
+              status: 'started',
+              listChallengesAndAnswers,
+            });
+
+            // when
+            const screen = await visit(`/certifications/${certificationId}/neutralization`);
+
+            // then
+            assert.dom(screen.getByRole('button', { name: 'Dé-neutraliser' })).exists();
           });
-
-          // when
-          const screen = await visit(`/certifications/${certificationId}/neutralization`);
-
-          // then
-          assert.dom(screen.getByRole('button', { name: 'Dé-neutraliser' })).exists();
         });
 
-        test('it toggles the "Dé-neutraliser" button into a "Neutraliser" button when deneutralizing a neutralized challenge', async function (assert) {
-          // given
-          await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
-          const listChallengesAndAnswers = [
-            {
-              result: 'ok',
-              value: 'Dummy value',
-              challengeId: 'recCGEqqWBQnzD3NZ',
-              competence: '1.1',
-              skill: '',
-              isNeutralized: true,
-            },
-          ];
+        module('when deneutralizing a neutralized challenge', function () {
+          test('it toggles the "Dé-neutraliser" button into a "Neutraliser" button', async function (assert) {
+            // given
+            await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
+            const listChallengesAndAnswers = [
+              {
+                result: 'ok',
+                value: 'Dummy value',
+                challengeId: 'recCGEqqWBQnzD3NZ',
+                competence: '1.1',
+                skill: '',
+                isNeutralized: true,
+              },
+            ];
 
-          const certificationId = this.server.create('certification').id;
-          this.server.create('certification-detail', {
-            id: certificationId,
-            competencesWithMark: [],
-            status: 'started',
-            listChallengesAndAnswers,
+            const certificationId = this.server.create('certification').id;
+            this.server.create('certification-detail', {
+              id: certificationId,
+              competencesWithMark: [],
+              status: 'started',
+              listChallengesAndAnswers,
+            });
+            const screen = await visit(`/certifications/${certificationId}/neutralization`);
+
+            // when
+            await clickByName('Dé-neutraliser');
+
+            // then
+            assert.dom(screen.getByRole('button', { name: 'Neutraliser' })).exists();
           });
-          const screen = await visit(`/certifications/${certificationId}/neutralization`);
-
-          // when
-          await clickByName('Dé-neutraliser');
-
-          // then
-          assert.dom(screen.getByRole('button', { name: 'Neutraliser' })).exists();
         });
 
-        test('it toggles the "Neutraliser" button into a "Dé-neutraliser" button when neutralizing a deneutralized challenge', async function (assert) {
-          // given
-          await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
-          const listChallengesAndAnswers = [
-            {
-              result: 'ok',
-              value: 'Dummy value',
-              challengeId: 'recCGEqqWBQnzD3NZ',
-              competence: '1.1',
-              skill: '',
-              isNeutralized: false,
-            },
-          ];
+        module('when neutralizing a deneutralized challenge', function () {
+          test('it toggles the "Neutraliser" button into a "Dé-neutraliser" button', async function (assert) {
+            // given
+            await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
+            const listChallengesAndAnswers = [
+              {
+                result: 'ok',
+                value: 'Dummy value',
+                challengeId: 'recCGEqqWBQnzD3NZ',
+                competence: '1.1',
+                skill: '',
+                isNeutralized: false,
+              },
+            ];
 
-          const certificationId = this.server.create('certification').id;
-          this.server.create('certification-detail', {
-            id: certificationId,
-            competencesWithMark: [],
-            status: 'started',
-            listChallengesAndAnswers,
+            const certificationId = this.server.create('certification').id;
+            this.server.create('certification-detail', {
+              id: certificationId,
+              competencesWithMark: [],
+              status: 'started',
+              listChallengesAndAnswers,
+            });
+            const screen = await visit(`/certifications/${certificationId}/neutralization`);
+
+            // when
+            await clickByName('Neutraliser');
+
+            // then
+            assert.dom(screen.getByRole('button', { name: 'Dé-neutraliser' })).exists();
           });
-          const screen = await visit(`/certifications/${certificationId}/neutralization`);
-
-          // when
-          await clickByName('Neutraliser');
-
-          // then
-          assert.dom(screen.getByRole('button', { name: 'Dé-neutraliser' })).exists();
         });
       });
 

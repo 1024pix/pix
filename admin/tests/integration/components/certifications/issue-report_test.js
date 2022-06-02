@@ -39,39 +39,43 @@ module('Integration | Component | certifications/issue-report', function (hooks)
   });
 
   module('when the issue has not been resolved yet', function () {
-    test('it should display resolve button if current user has access to certification actions scope', async function (assert) {
-      // Given
-      const store = this.owner.lookup('service:store');
-      const issueReport = store.createRecord('certification-issue-report', { isImpactful: true, resolvedAt: null });
-      this.set('issueReport', issueReport);
-      class AccessControlStub extends Service {
-        hasAccessToCertificationActionsScope = true;
-      }
-      this.owner.register('service:access-control', AccessControlStub);
+    module('when current user has access to certification actions scope', function () {
+      test('it should display resolve button', async function (assert) {
+        // Given
+        const store = this.owner.lookup('service:store');
+        const issueReport = store.createRecord('certification-issue-report', { isImpactful: true, resolvedAt: null });
+        this.set('issueReport', issueReport);
+        class AccessControlStub extends Service {
+          hasAccessToCertificationActionsScope = true;
+        }
+        this.owner.register('service:access-control', AccessControlStub);
 
-      // When
-      const screen = await renderScreen(hbs`<Certifications::IssueReport @issueReport={{this.issueReport}}/>`);
+        // When
+        const screen = await renderScreen(hbs`<Certifications::IssueReport @issueReport={{this.issueReport}}/>`);
 
-      // Then
-      assert.dom(screen.getByRole('button', { name: 'Résoudre le signalement' })).exists();
+        // Then
+        assert.dom(screen.getByRole('button', { name: 'Résoudre le signalement' })).exists();
+      });
     });
 
-    test('it should not display resolve button if current user does not have access to certification actions scope', async function (assert) {
-      // Given
-      const store = this.owner.lookup('service:store');
-      const issueReport = store.createRecord('certification-issue-report', { isImpactful: true, resolvedAt: null });
-      this.set('issueReport', issueReport);
+    module('when current user does not have access to certification actions scope', function () {
+      test('it should not display resolve button', async function (assert) {
+        // Given
+        const store = this.owner.lookup('service:store');
+        const issueReport = store.createRecord('certification-issue-report', { isImpactful: true, resolvedAt: null });
+        this.set('issueReport', issueReport);
 
-      class AccessControlStub extends Service {
-        hasAccessToCertificationActionsScope = false;
-      }
-      this.owner.register('service:access-control', AccessControlStub);
+        class AccessControlStub extends Service {
+          hasAccessToCertificationActionsScope = false;
+        }
+        this.owner.register('service:access-control', AccessControlStub);
 
-      // When
-      const screen = await renderScreen(hbs`<Certifications::IssueReport @issueReport={{this.issueReport}}/>`);
+        // When
+        const screen = await renderScreen(hbs`<Certifications::IssueReport @issueReport={{this.issueReport}}/>`);
 
-      // Then
-      assert.dom(screen.queryByText('Résoudre le signalement')).doesNotExist();
+        // Then
+        assert.dom(screen.queryByText('Résoudre le signalement')).doesNotExist();
+      });
     });
   });
 

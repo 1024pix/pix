@@ -10,7 +10,7 @@ module('Acceptance | authenticated/certifications/certification/details', functi
   setupMirage(hooks);
 
   module('when user does not have access to certification action scope', function () {
-    test('it does not render save button', async function (assert) {
+    test('it should not render save button', async function (assert) {
       // given
       await authenticateAdminMemberWithRole({ isMetier: true })(server);
       const listChallengesAndAnswers = [
