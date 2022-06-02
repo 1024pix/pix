@@ -45,5 +45,55 @@ describe('Integration | Infrastructure | Utils | RedisClient', function () {
       await redisClient1.del('key');
       await redisClient2.del('key');
     });
+
+    describe('#deleteByPrefix', function () {
+      it('should delete keys with given matching prefix', async function () {
+        // given
+        const value = new Date().toISOString();
+        const redisClient = new RedisClient(process.env.REDIS_URL, { prefix: 'client-prefix:' });
+        await redisClient.set('123:AVRIL', value);
+        await redisClient.set('123:abcde', value);
+        await redisClient.set('456:abcde', value);
+
+        // when
+        await redisClient.deleteByPrefix('123:');
+
+        // then
+        expect(await redisClient.get('123:AVRIL')).to.not.exist;
+        expect(await redisClient.get('123:abcde')).to.not.exist;
+        expect(await redisClient.get('456:abcde')).to.exist;
+      });
+
+      it('should escape special characters', async function () {
+        // given
+        const value = new Date().toISOString();
+        const redisClient = new RedisClient(process.env.REDIS_URL, { prefix: 'client-prefix:' });
+        await redisClient.set('123:AVRIL', value);
+        await redisClient.set('123:abcde', value);
+        await redisClient.set('456:abcde', value);
+        await redisClient.set('*:abcde', value);
+        await redisClient.set('**:abcde', value);
+
+        // when
+        await redisClient.deleteByPrefix('**');
+
+        // then
+        expect(await redisClient.get('**:abcde')).to.not.exist;
+        expect(await redisClient.get('*:abcde')).to.exist;
+      });
+
+      it('should do nothing if there is no matching prefix', async function () {
+        // given
+        const value = new Date().toISOString();
+        const redisClient = new RedisClient(process.env.REDIS_URL, { prefix: 'client-prefix:' });
+        await redisClient.set('789:abcde', value);
+
+        // when
+        await redisClient.deleteByPrefix('333:');
+
+        // then
+        expect(await redisClient.get('789:abcde')).to.exist;
+      });
+    });
   }
 });
