@@ -30,4 +30,18 @@ describe('Unit | UseCase | anonymize-user', function () {
       expectedAnonymizedUser
     );
   });
+
+  it("should revoke all user's refresh token ", async function () {
+    // given
+    const userId = 1;
+    const userRepository = { updateUserDetailsForAdministration: sinon.stub() };
+    const authenticationMethodRepository = { removeAllAuthenticationMethodsByUserId: sinon.stub() };
+    const refreshTokenService = { revokeRefreshTokensForUserId: sinon.stub() };
+
+    // when
+    await anonymizeUser({ userId, userRepository, authenticationMethodRepository, refreshTokenService });
+
+    // then
+    expect(refreshTokenService.revokeRefreshTokensForUserId).to.have.been.calledWithExactly({ userId });
+  });
 });
