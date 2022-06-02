@@ -42,7 +42,7 @@ describe('Integration | Repository | Campaign Participant activity', function ()
 
     context('When there are several participations for the same participant', function () {
       it('Returns one CampaignParticipantActivity with the most recent participation (isImproved = false)', async function () {
-        //Given
+        // given
         const campaign = databaseBuilder.factory.buildCampaign();
         const user = databaseBuilder.factory.buildUser();
 
@@ -77,36 +77,48 @@ describe('Integration | Repository | Campaign Participant activity', function ()
     context('status', function () {
       context('when the participation is shared', function () {
         it('should return status shared', async function () {
+          // given
           campaign = databaseBuilder.factory.buildCampaign();
           databaseBuilder.factory.buildCampaignParticipation({ campaignId: campaign.id, status: SHARED });
           await databaseBuilder.commit();
 
+          // when
           const { campaignParticipantsActivities } =
             await campaignParticipantActivityRepository.findPaginatedByCampaignId({ campaignId: campaign.id });
+
+          // then
           expect(campaignParticipantsActivities[0].status).to.equal(SHARED);
         });
       });
 
       context('when the participation is not shared', function () {
         it('should return status to share', async function () {
+          // given
           campaign = databaseBuilder.factory.buildCampaign();
           databaseBuilder.factory.buildCampaignParticipation({ campaignId: campaign.id, status: TO_SHARE });
           await databaseBuilder.commit();
 
+          // when
           const { campaignParticipantsActivities } =
             await campaignParticipantActivityRepository.findPaginatedByCampaignId({ campaignId: campaign.id });
+
+          // then
           expect(campaignParticipantsActivities[0].status).to.equal(TO_SHARE);
         });
       });
 
       context('when the participation is started', function () {
         it('should return status started', async function () {
+          // given
           campaign = databaseBuilder.factory.buildCampaign();
           databaseBuilder.factory.buildCampaignParticipation({ campaignId: campaign.id, status: STARTED });
           await databaseBuilder.commit();
 
+          // when
           const { campaignParticipantsActivities } =
             await campaignParticipantActivityRepository.findPaginatedByCampaignId({ campaignId: campaign.id });
+
+          // then
           expect(campaignParticipantsActivities[0].status).to.equal(STARTED);
         });
       });
@@ -153,6 +165,7 @@ describe('Integration | Repository | Campaign Participant activity', function ()
 
     context('when there is a filter on division', function () {
       it('returns participants which have the correct division', async function () {
+        // given
         campaign = databaseBuilder.factory.buildCampaign();
         databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
           { organizationId: campaign.organizationId, division: 'Good Guys Team' },
@@ -188,6 +201,7 @@ describe('Integration | Repository | Campaign Participant activity', function ()
 
     context('when there is a filter on status', function () {
       it('returns participants which have the correct status', async function () {
+        // given
         campaign = databaseBuilder.factory.buildCampaign({});
 
         databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
@@ -217,8 +231,235 @@ describe('Integration | Repository | Campaign Participant activity', function ()
       });
     });
 
+    context('when there is a filter on the firstname and lastname', function () {
+      it('returns all participants if the filter is empty', async function () {
+        // given
+        campaign = databaseBuilder.factory.buildCampaign({});
+
+        databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
+          { organizationId: campaign.organizationId, firstName: 'Choupette', lastName: 'Eurasier' },
+          { campaignId: campaign.id }
+        );
+
+        databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
+          { organizationId: campaign.organizationId, firstName: 'Salto', lastName: 'Irish terrier' },
+          { campaignId: campaign.id }
+        );
+
+        await databaseBuilder.commit();
+
+        // when
+        const { pagination } = await campaignParticipantActivityRepository.findPaginatedByCampaignId({
+          campaignId: campaign.id,
+          filters: { search: '' },
+        });
+
+        // then
+        expect(pagination.rowCount).to.equal(2);
+      });
+
+      it('return Choupette participant when we search part its firstname', async function () {
+        // given
+        campaign = databaseBuilder.factory.buildCampaign({});
+
+        databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
+          { organizationId: campaign.organizationId, firstName: 'Choupette', lastName: 'Eurasier' },
+          { campaignId: campaign.id }
+        );
+
+        databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
+          { organizationId: campaign.organizationId, firstName: 'Salto', lastName: 'Irish terrier' },
+          { campaignId: campaign.id }
+        );
+
+        await databaseBuilder.commit();
+
+        // when
+        const { campaignParticipantsActivities, pagination } =
+          await campaignParticipantActivityRepository.findPaginatedByCampaignId({
+            campaignId: campaign.id,
+            filters: { search: 'Chou' },
+          });
+
+        // then
+        expect(pagination.rowCount).to.equal(1);
+        expect(campaignParticipantsActivities[0].firstName).to.equal('Choupette');
+      });
+
+      it('return Choupette participant when we search contains a space before', async function () {
+        // given
+        campaign = databaseBuilder.factory.buildCampaign({});
+
+        databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
+          { organizationId: campaign.organizationId, firstName: 'Choupette', lastName: 'Eurasier' },
+          { campaignId: campaign.id }
+        );
+
+        databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
+          { organizationId: campaign.organizationId, firstName: 'Salto', lastName: 'Irish terrier' },
+          { campaignId: campaign.id }
+        );
+
+        await databaseBuilder.commit();
+
+        // when
+        const { campaignParticipantsActivities, pagination } =
+          await campaignParticipantActivityRepository.findPaginatedByCampaignId({
+            campaignId: campaign.id,
+            filters: { search: ' Cho' },
+          });
+
+        // then
+        expect(pagination.rowCount).to.equal(1);
+        expect(campaignParticipantsActivities[0].firstName).to.equal('Choupette');
+      });
+
+      it('return Choupette participant when we search contains a space after', async function () {
+        // given
+        campaign = databaseBuilder.factory.buildCampaign({});
+
+        databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
+          { organizationId: campaign.organizationId, firstName: 'Choupette', lastName: 'Eurasier' },
+          { campaignId: campaign.id }
+        );
+
+        databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
+          { organizationId: campaign.organizationId, firstName: 'Salto', lastName: 'Irish terrier' },
+          { campaignId: campaign.id }
+        );
+
+        await databaseBuilder.commit();
+
+        // when
+        const { campaignParticipantsActivities, pagination } =
+          await campaignParticipantActivityRepository.findPaginatedByCampaignId({
+            campaignId: campaign.id,
+            filters: { search: 'Cho ' },
+          });
+
+        // then
+        expect(pagination.rowCount).to.equal(1);
+        expect(campaignParticipantsActivities[0].firstName).to.equal('Choupette');
+      });
+
+      it('return Choupette participant when we search part its lastname', async function () {
+        // given
+        campaign = databaseBuilder.factory.buildCampaign({});
+
+        databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
+          { organizationId: campaign.organizationId, firstName: 'Choupette', lastName: 'Eurasier' },
+          { campaignId: campaign.id }
+        );
+
+        databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
+          { organizationId: campaign.organizationId, firstName: 'Salto', lastName: 'Irish terrier' },
+          { campaignId: campaign.id }
+        );
+
+        await databaseBuilder.commit();
+
+        // when
+        const { campaignParticipantsActivities, pagination } =
+          await campaignParticipantActivityRepository.findPaginatedByCampaignId({
+            campaignId: campaign.id,
+            filters: { search: 'Eura' },
+          });
+
+        // then
+        expect(pagination.rowCount).to.equal(1);
+        expect(campaignParticipantsActivities[0].lastName).to.equal('Eurasier');
+      });
+
+      it('return Choupette participant when we search part its fullname', async function () {
+        // given
+        campaign = databaseBuilder.factory.buildCampaign({});
+
+        databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
+          { organizationId: campaign.organizationId, firstName: 'Choupette', lastName: 'Eurasier' },
+          { campaignId: campaign.id }
+        );
+
+        databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
+          { organizationId: campaign.organizationId, firstName: 'Salto', lastName: 'Irish terrier' },
+          { campaignId: campaign.id }
+        );
+
+        await databaseBuilder.commit();
+
+        // when
+        const { campaignParticipantsActivities, pagination } =
+          await campaignParticipantActivityRepository.findPaginatedByCampaignId({
+            campaignId: campaign.id,
+            filters: { search: 'Choupette E' },
+          });
+
+        // then
+        expect(pagination.rowCount).to.equal(1);
+        expect(campaignParticipantsActivities[0].firstName).to.equal('Choupette');
+      });
+
+      it('return Choupette participant only for the involved campaign when we search part of its full name', async function () {
+        // given
+        campaign = databaseBuilder.factory.buildCampaign({});
+        const otherCampaign = databaseBuilder.factory.buildCampaign({});
+
+        databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
+          { organizationId: campaign.organizationId, firstName: 'Choupette', lastName: 'Right' },
+          { campaignId: campaign.id }
+        );
+
+        databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
+          { organizationId: campaign.organizationId, firstName: 'Choupette', lastName: 'Wrong' },
+          { campaignId: otherCampaign.id }
+        );
+
+        await databaseBuilder.commit();
+
+        // when
+        const { campaignParticipantsActivities, pagination } =
+          await campaignParticipantActivityRepository.findPaginatedByCampaignId({
+            campaignId: campaign.id,
+            filters: { search: 'Choupette' },
+          });
+
+        // then
+        expect(pagination.rowCount).to.equal(1);
+        expect(campaignParticipantsActivities[0].lastName).to.equal('Right');
+      });
+
+      it('return all participants when we search similar part of firstname', async function () {
+        // given
+        campaign = databaseBuilder.factory.buildCampaign({});
+
+        databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
+          { organizationId: campaign.organizationId, firstName: 'Saphira', lastName: 'Eurasier' },
+          { campaignId: campaign.id }
+        );
+
+        databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
+          { organizationId: campaign.organizationId, firstName: 'Salto', lastName: 'Irish terrier' },
+          { campaignId: campaign.id }
+        );
+
+        await databaseBuilder.commit();
+
+        // when
+        const { campaignParticipantsActivities, pagination } =
+          await campaignParticipantActivityRepository.findPaginatedByCampaignId({
+            campaignId: campaign.id,
+            filters: { search: 'Sa' },
+          });
+
+        // then
+        expect(pagination.rowCount).to.equal(2);
+        expect(campaignParticipantsActivities[0].firstName).to.equal('Saphira');
+        expect(campaignParticipantsActivities[1].firstName).to.equal('Salto');
+      });
+    });
+
     context('when there is a filter on group', function () {
       it('returns participants which have the correct group', async function () {
+        // given
         campaign = databaseBuilder.factory.buildCampaign();
 
         databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
@@ -266,21 +507,26 @@ describe('Integration | Repository | Campaign Participant activity', function ()
       });
 
       it('should return paginated campaign participations based on the given size and number', async function () {
+        // given
         const page = { size: 1, number: 1 };
 
+        // when
         const { campaignParticipantsActivities, pagination } =
           await campaignParticipantActivityRepository.findPaginatedByCampaignId({ campaignId: campaign.id, page });
 
+        // then
         expect(campaignParticipantsActivities).to.have.lengthOf(1);
         expect(pagination).to.deep.equals({ page: 1, pageCount: 2, pageSize: 1, rowCount: 2 });
       });
 
       context('default pagination', function () {
         it('should return a page size of 25', async function () {
+          // when
           const { pagination } = await campaignParticipantActivityRepository.findPaginatedByCampaignId({
             campaignId: campaign.id,
           });
 
+          // then
           expect(pagination.pageSize).to.equals(25);
         });
       });
@@ -293,9 +539,11 @@ describe('Integration | Repository | Campaign Participant activity', function ()
         });
 
         it('should return the first page with 0 elements', async function () {
+          // when
           const { campaignParticipantsActivities, pagination } =
             await campaignParticipantActivityRepository.findPaginatedByCampaignId({ campaignId: campaign.id });
 
+          // then
           expect(campaignParticipantsActivities).to.have.lengthOf(0);
           expect(pagination).to.deep.equals({ page: 1, pageCount: 0, pageSize: 25, rowCount: 0 });
         });

@@ -173,10 +173,10 @@
     },
     "percentage": "{value, number, ::percent}",
     "target-profile-details": {
-      "subjects" : "Topics: {value, number}",
-      "results" : {
+      "subjects": "Topics: {value, number}",
+      "results": {
         "common": "Success rate in ",
-        "star" :"stars",
+        "star": "stars",
         "percent": "percentage"
       },
       "thematic-results": "Thematic results: {value, number}"
@@ -439,12 +439,16 @@
           "divisions": {
             "placeholder": "Classes"
           },
+          "search": {
+            "title": "Search by lastname and firstname",
+            "placeholder": "Lastname, firstname"
+          },
           "status": {
             "title": "Status",
             "empty": "All statuses"
           },
           "stages": "Success rate",
-          "groups":  {
+          "groups": {
             "title": "Groups",
             "empty": "No group"
           }
@@ -518,7 +522,7 @@
       }
     },
     "campaigns-list": {
-      "title":  "Campaigns",
+      "title": "Campaigns",
       "navigation": "Navigation in the Campaign section",
       "tabs": {
         "all-campaigns": "All the campaigns",
@@ -646,7 +650,7 @@
       "title": "Topic selection",
       "table": {
         "caption": "Topic selection",
-        "column" : {
+        "column": {
           "action": "Select",
           "theme-name": "Theme name",
           "name": "Topic name",

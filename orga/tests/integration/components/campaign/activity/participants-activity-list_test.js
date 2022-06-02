@@ -1,9 +1,9 @@
 import sinon from 'sinon';
 import { module, test } from 'qunit';
-import { find } from '@ember/test-helpers';
-import { fillByLabel, render } from '@1024pix/ember-testing-library';
+import { render, find } from '@ember/test-helpers';
 import Service from '@ember/service';
 import EmberObject from '@ember/object';
+import { fillByLabel, clickByText } from '@1024pix/ember-testing-library';
 import hbs from 'htmlbars-inline-precompile';
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
 
@@ -171,6 +171,83 @@ module('Integration | Component | Campaign::Activity::ParticipantsList', functio
       await fillByLabel('Statut', 'SHARED');
 
       assert.ok(this.onFilter.calledWith({ status: 'SHARED' }));
+    });
+  });
+
+  module('division filter', function () {
+    class CurrentUserStub extends Service {
+      organization = { isSco: true };
+      isSCOManagingStudents = true;
+    }
+
+    test('it should filter on participation divisions', async function (assert) {
+      // given
+      this.owner.register('service:current-user', CurrentUserStub);
+
+      this.campaign = { idPixLabel: 'id', divisions: [{ name: '3B' }, { name: '3A' }] };
+      this.participations = [];
+      this.onClickParticipant = sinon.stub();
+      this.onFilter = sinon.stub();
+
+      await render(hbs`<Campaign::Activity::ParticipantsList
+          @campaign={{campaign}}
+          @participations={{participations}}
+          @onClickParticipant={{onClickParticipant}}
+          @onFilter={{onFilter}}
+        />`);
+
+      await clickByText('Classes');
+      await clickByText('3A');
+
+      assert.ok(this.onFilter.calledWith({ divisions: ['3A'] }));
+    });
+  });
+
+  module('group filter', function () {
+    class CurrentUserStub extends Service {
+      organization = { isSup: true };
+      isSUPManagingStudents = true;
+    }
+    test('it should filter on participants groups', async function (assert) {
+      // given
+      this.owner.register('service:current-user', CurrentUserStub);
+
+      this.campaign = { idPixLabel: 'id', groups: [{ name: 'M1' }, { name: 'M2' }] };
+      this.participations = [];
+      this.onClickParticipant = sinon.stub();
+      this.onFilter = sinon.stub();
+
+      await render(hbs`<Campaign::Activity::ParticipantsList
+          @campaign={{campaign}}
+          @participations={{participations}}
+          @onClickParticipant={{onClickParticipant}}
+          @onFilter={{onFilter}}
+        />`);
+
+      await clickByText('Groupes');
+      await clickByText('M2');
+
+      assert.ok(this.onFilter.calledWith({ groups: ['M2'] }));
+    });
+  });
+
+  module('search filter', function () {
+    test('it should filter participants by names', async function (assert) {
+      this.campaign = { idPixLabel: 'id' };
+      this.participations = [];
+      this.onClickParticipant = sinon.stub();
+      this.onFilter = sinon.stub();
+
+      await render(hbs`<Campaign::Activity::ParticipantsList
+          @campaign={{campaign}}
+          @participations={{participations}}
+          @onClickParticipant={{onClickParticipant}}
+          @onFilter={{onFilter}}
+        />`);
+
+      await fillByLabel('Recherche sur le nom et prénom', 'Jean');
+
+      assert.ok(this.onFilter.calledWith({ search: 'Jean' }));
     });
   });
 });

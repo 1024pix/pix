@@ -19,6 +19,9 @@ export default class ActivityRoute extends Route {
     groups: {
       refreshModel: true,
     },
+    search: {
+      refreshModel: true,
+    },
   };
 
   model(params) {
@@ -40,6 +43,7 @@ export default class ActivityRoute extends Route {
         divisions: params.divisions,
         status: params.status,
         groups: params.groups,
+        search: params.search,
       },
     });
   }
@@ -59,6 +63,7 @@ export default class ActivityRoute extends Route {
       controller.divisions = [];
       controller.status = null;
       controller.groups = [];
+      controller.search = null;
     }
   }
 

@@ -5,7 +5,6 @@ const campaignParticipantActivityRepository = {
   async findPaginatedByCampaignId({ page = { size: 25 }, campaignId, filters = {} }) {
     const pagination = await getPagination(campaignId, filters, page);
     const results = await _buildParticipationsPage(knex, campaignId, filters, pagination);
-
     const campaignParticipantsActivities = results.map((result) => {
       return new CampaignParticipantActivity(result);
     });
@@ -17,26 +16,22 @@ const campaignParticipantActivityRepository = {
   },
 };
 
-function _buildCampaignParticipationByParticipant(qb, campaignId, filters) {
-  qb.select(
-    'campaign-participations.id AS campaignParticipationId',
-    'campaign-participations.userId',
-    'organization-learners.firstName',
-    'organization-learners.lastName',
-    'campaign-participations.participantExternalId',
-    'campaign-participations.sharedAt',
-    'campaign-participations.status',
-    'campaigns.type AS campaignType'
-  )
+function _buildCampaignParticipationByParticipant(queryBuilder, campaignId, filters) {
+  queryBuilder
+    .select(
+      'campaign-participations.id AS campaignParticipationId',
+      'campaign-participations.userId',
+      'organization-learners.firstName',
+      'organization-learners.lastName',
+      'campaign-participations.participantExternalId',
+      'campaign-participations.sharedAt',
+      'campaign-participations.status',
+      'campaigns.type AS campaignType'
+    )
     .from('campaign-participations')
     .join('campaigns', 'campaigns.id', 'campaign-participations.campaignId')
     .join('organization-learners', 'organization-learners.id', 'campaign-participations.organizationLearnerId')
-    .where('campaign-participations.campaignId', '=', campaignId)
-    .where('campaign-participations.isImproved', '=', false)
-    .whereNull('campaign-participations.deletedAt')
-    .modify(_filterByDivisions, filters)
-    .modify(_filterByStatus, filters)
-    .modify(_filterByGroup, filters);
+    .modify(_filterParticipations, filters, campaignId);
 }
 
 function _buildPaginationQuery(queryBuilder, campaignId, filters) {
@@ -45,30 +40,54 @@ function _buildPaginationQuery(queryBuilder, campaignId, filters) {
     .from('campaign-participations')
     .join('campaigns', 'campaigns.id', 'campaign-participations.campaignId')
     .join('organization-learners', 'organization-learners.id', 'campaign-participations.organizationLearnerId')
+    .modify(_filterParticipations, filters, campaignId);
+}
+
+function _filterParticipations(queryBuilder, filters, campaignId) {
+  queryBuilder
     .where('campaign-participations.campaignId', '=', campaignId)
     .where('campaign-participations.isImproved', '=', false)
     .whereNull('campaign-participations.deletedAt')
     .modify(_filterByDivisions, filters)
     .modify(_filterByStatus, filters)
-    .modify(_filterByGroup, filters);
+    .modify(_filterByGroup, filters)
+    .modify(_filterBySearch, filters);
 }
 
-function _filterByDivisions(qb, filters) {
+function _filterBySearch(queryBuilder, filters) {
+  if (filters.search) {
+    const search = filters.search.trim().toLowerCase();
+    queryBuilder.where(function () {
+      this.where(
+        knex.raw(`CONCAT ("organization-learners"."firstName", ' ', "organization-learners"."lastName") <-> ?`, search),
+        '<=',
+        0.8
+      )
+        .orWhereRaw('LOWER("organization-learners"."lastName") LIKE ?', `%${search}%`)
+        .orWhereRaw('LOWER("organization-learners"."firstName") LIKE ?', `%${search}%`);
+    });
+  }
+}
+
+function _filterByDivisions(queryBuilder, filters) {
   if (filters.divisions) {
     const divisionsLowerCase = filters.divisions.map((division) => division.toLowerCase());
-    qb.whereRaw('LOWER("organization-learners"."division") = ANY(:divisionsLowerCase)', { divisionsLowerCase });
+    queryBuilder.whereRaw('LOWER("organization-learners"."division") = ANY(:divisionsLowerCase)', {
+      divisionsLowerCase,
+    });
   }
 }
 
-function _filterByStatus(qb, filters) {
+function _filterByStatus(queryBuilder, filters) {
   if (filters.status) {
-    qb.where('campaign-participations.status', filters.status);
+    queryBuilder.where('campaign-participations.status', filters.status);
   }
 }
-function _filterByGroup(qb, filters) {
+
+function _filterByGroup(queryBuilder, filters) {
   if (filters.groups) {
     const groupsLowerCase = filters.groups.map((group) => group.toLowerCase());
-    qb.whereIn(knex.raw('LOWER("organization-learners"."group")'), groupsLowerCase);
+    queryBuilder.whereIn(knex.raw('LOWER("organization-learners"."group")'), groupsLowerCase);
   }
 }
 
@@ -90,7 +109,6 @@ async function getPagination(campaignId, filters, { number = 1, size = 10 } = {}
 
   const query = _buildPaginationQuery(knex, campaignId, filters);
   const { rowCount } = await knex.count('*', { as: 'rowCount' }).from(query.as('query_all_results')).first();
-
   return {
     page,
     pageSize: size,

@@ -34,6 +34,15 @@
         class="participant-filter-banner__multi-select"
       />
     {{/if}}
+    {{#if this.displaySearchFilter}}
+      <Ui::SearchInput
+        @inputName="search"
+        @value={{@searchFilter}}
+        @placeholder={{t "pages.campaign-results.filters.type.search.placeholder"}}
+        @ariaLabel={{t "pages.campaign-results.filters.type.search.title"}}
+        @onSearch={{this.onSearch}}
+      />
+    {{/if}}
     {{#if this.displayStagesFilter}}
       <PixMultiSelect
         @id="stage"

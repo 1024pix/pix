@@ -1,9 +1,10 @@
 import { module, test } from 'qunit';
 import { currentURL, click } from '@ember/test-helpers';
-import { clickByName, fillByLabel, visit } from '@1024pix/ember-testing-library';
 import { setupApplicationTest } from 'ember-qunit';
 import authenticateSession from '../helpers/authenticate-session';
 import { createPrescriberByUser, createUserWithMembershipAndTermsOfServiceAccepted } from '../helpers/test-init';
+import { clickByName, fillByLabel, visit } from '@1024pix/ember-testing-library';
+
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import setupIntl from '../helpers/setup-intl';
 
@@ -116,6 +117,28 @@ module('Acceptance | Campaign Activity', function (hooks) {
       // then
       assert.contains('Bacri');
       assert.contains('Un problème est survenu lors de la suppression de la participation.');
+    });
+  });
+
+  module('when prescriber set filters', () => {
+    test('should set status filter', async function (assert) {
+      // when
+      await visit('/campagnes/1');
+
+      await fillByLabel('Statut', 'STARTED');
+
+      // then
+      assert.strictEqual(currentURL(), '/campagnes/1?status=STARTED');
+    });
+
+    test('should set search filter', async function (assert) {
+      // when
+      await visit('/campagnes/1');
+
+      await fillByLabel('Recherche sur le nom et prénom', 'Choupette');
+
+      // then
+      assert.strictEqual(currentURL(), '/campagnes/1?search=Choupette');
     });
   });
 });
