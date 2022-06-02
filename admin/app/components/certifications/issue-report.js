@@ -5,6 +5,7 @@ import { inject as service } from '@ember/service';
 
 export default class CertificationIssueReport extends Component {
   @service notifications;
+  @service accessControl;
 
   @tracked showResolveModal = false;
 

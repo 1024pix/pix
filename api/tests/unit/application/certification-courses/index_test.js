@@ -97,7 +97,6 @@ describe('Unit | Application | Certifications Course | Route', function () {
       expect(response.statusCode).to.equal(400);
     });
   });
-  //});
 
   describe('PATCH /api/certification-courses/id', function () {
     it('should exist', async function () {
@@ -112,6 +111,33 @@ describe('Unit | Application | Certifications Course | Route', function () {
 
       // then
       expect(response.statusCode).to.equal(200);
+    });
+
+    it('should return a forbidden access if user has METIER role', async function () {
+      // given
+      sinon
+        .stub(securityPreHandlers, 'userHasAtLeastOneAccessOf')
+        .withArgs([
+          securityPreHandlers.checkUserOwnsCertificationCourse,
+          securityPreHandlers.checkUserHasRoleSuperAdmin,
+          securityPreHandlers.checkUserHasRoleCertif,
+          securityPreHandlers.checkUserHasRoleSupport,
+        ])
+        .callsFake(
+          () => (request, h) =>
+            h
+              .response({ errors: new Error('forbidden') })
+              .code(403)
+              .takeover()
+        );
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      // when
+      const response = await httpTestServer.request('PATCH', '/api/certification-courses/1234');
+
+      // then
+      expect(response.statusCode).to.equal(403);
     });
   });
 
@@ -147,21 +173,30 @@ describe('Unit | Application | Certifications Course | Route', function () {
   });
 
   describe('POST /api/admin/certification-courses/{id}/cancel', function () {
-    it('should reject with 403 code when user is not Super Admin', async function () {
+    it('return forbidden access if user has METIER role', async function () {
       // given
       sinon
         .stub(securityPreHandlers, 'userHasAtLeastOneAccessOf')
-        .returns((request, h) => h.response().code(403).takeover());
-      sinon.stub(certificationCoursesController, 'cancel').throws(new Error('I should not be here'));
+        .withArgs([
+          securityPreHandlers.checkUserHasRoleSuperAdmin,
+          securityPreHandlers.checkUserHasRoleCertif,
+          securityPreHandlers.checkUserHasRoleSupport,
+        ])
+        .callsFake(
+          () => (request, h) =>
+            h
+              .response({ errors: new Error('forbidden') })
+              .code(403)
+              .takeover()
+        );
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
 
       // when
-      const result = await httpTestServer.request('POST', '/api/admin/certification-courses/1/cancel');
+      const response = await httpTestServer.request('POST', '/api/admin/certification-courses/1/cancel');
 
       // then
-      expect(result.statusCode).to.equal(403);
-      expect(certificationCoursesController.cancel).to.not.have.been.called;
+      expect(response.statusCode).to.equal(403);
     });
 
     it('should call handler when user is ', async function () {
@@ -180,21 +215,31 @@ describe('Unit | Application | Certifications Course | Route', function () {
   });
 
   describe('POST /api/admin/certification-courses/{id}/uncancel', function () {
-    it('should reject with 403 code when user is not Super Admin', async function () {
+    it('return forbidden access if user has METIER role', async function () {
       // given
       sinon
         .stub(securityPreHandlers, 'userHasAtLeastOneAccessOf')
-        .returns((request, h) => h.response().code(403).takeover());
-      sinon.stub(certificationCoursesController, 'uncancel').throws(new Error('I should not be here'));
+        .withArgs([
+          securityPreHandlers.checkUserHasRoleSuperAdmin,
+          securityPreHandlers.checkUserHasRoleCertif,
+          securityPreHandlers.checkUserHasRoleSupport,
+        ])
+        .callsFake(
+          () => (request, h) =>
+            h
+              .response({ errors: new Error('forbidden') })
+              .code(403)
+              .takeover()
+        );
+
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
 
       // when
-      const result = await httpTestServer.request('POST', '/api/admin/certification-courses/1/uncancel');
+      const response = await httpTestServer.request('POST', '/api/admin/certification-courses/1/uncancel');
 
       // then
-      expect(result.statusCode).to.equal(403);
-      expect(certificationCoursesController.uncancel).to.not.have.been.called;
+      expect(response.statusCode).to.equal(403);
     });
 
     it('should call handler when user is ', async function () {

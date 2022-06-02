@@ -3,6 +3,7 @@ import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 import { render as renderScreen } from '@1024pix/ember-testing-library';
 import { certificationIssueReportSubcategories } from 'pix-admin/models/certification-issue-report';
+import Service from '@ember/service';
 
 module('Integration | Component | certifications/issue-report', function (hooks) {
   setupRenderingTest(hooks);
@@ -19,6 +20,10 @@ module('Integration | Component | certifications/issue-report', function (hooks)
       resolvedAt: null,
     });
     this.set('issueReport', issueReport);
+    class AccessControlStub extends Service {
+      hasAccessToCertificationActionsScope = true;
+    }
+    this.owner.register('service:access-control', AccessControlStub);
 
     // When
     const screen = await renderScreen(hbs`<Certifications::IssueReport @issueReport={{this.issueReport}}/>`);
@@ -34,17 +39,43 @@ module('Integration | Component | certifications/issue-report', function (hooks)
   });
 
   module('when the issue has not been resolved yet', function () {
-    test('it should display resolve button', async function (assert) {
-      // Given
-      const store = this.owner.lookup('service:store');
-      const issueReport = store.createRecord('certification-issue-report', { isImpactful: true, resolvedAt: null });
-      this.set('issueReport', issueReport);
+    module('when current user has access to certification actions scope', function () {
+      test('it should display resolve button', async function (assert) {
+        // Given
+        const store = this.owner.lookup('service:store');
+        const issueReport = store.createRecord('certification-issue-report', { isImpactful: true, resolvedAt: null });
+        this.set('issueReport', issueReport);
+        class AccessControlStub extends Service {
+          hasAccessToCertificationActionsScope = true;
+        }
+        this.owner.register('service:access-control', AccessControlStub);
 
-      // When
-      const screen = await renderScreen(hbs`<Certifications::IssueReport @issueReport={{this.issueReport}}/>`);
+        // When
+        const screen = await renderScreen(hbs`<Certifications::IssueReport @issueReport={{this.issueReport}}/>`);
 
-      // Then
-      assert.dom(screen.getByRole('button', { name: 'Résoudre le signalement' })).exists();
+        // Then
+        assert.dom(screen.getByRole('button', { name: 'Résoudre le signalement' })).exists();
+      });
+    });
+
+    module('when current user does not have access to certification actions scope', function () {
+      test('it should not display resolve button', async function (assert) {
+        // Given
+        const store = this.owner.lookup('service:store');
+        const issueReport = store.createRecord('certification-issue-report', { isImpactful: true, resolvedAt: null });
+        this.set('issueReport', issueReport);
+
+        class AccessControlStub extends Service {
+          hasAccessToCertificationActionsScope = false;
+        }
+        this.owner.register('service:access-control', AccessControlStub);
+
+        // When
+        const screen = await renderScreen(hbs`<Certifications::IssueReport @issueReport={{this.issueReport}}/>`);
+
+        // Then
+        assert.dom(screen.queryByText('Résoudre le signalement')).doesNotExist();
+      });
     });
   });
 
@@ -57,6 +88,10 @@ module('Integration | Component | certifications/issue-report', function (hooks)
         resolvedAt: new Date('2020-01-01'),
       });
       this.set('issueReport', issueReport);
+      class AccessControlStub extends Service {
+        hasAccessToCertificationActionsScope = true;
+      }
+      this.owner.register('service:access-control', AccessControlStub);
 
       // When
       const screen = await renderScreen(hbs`<Certifications::IssueReport @issueReport={{this.issueReport}}/>`);
@@ -126,7 +161,11 @@ module('Integration | Component | certifications/issue-report', function (hooks)
     },
   ].forEach(function ({ subcategory, expectedLabel }) {
     test('should display subcategory', async function (assert) {
-      // Given
+      // given
+      class AccessControlStub extends Service {
+        hasAccessToCertificationActionsScope = true;
+      }
+      this.owner.register('service:access-control', AccessControlStub);
       const store = this.owner.lookup('service:store');
       const issueReport = store.createRecord('certification-issue-report', {
         category: 'TECHNICAL_PROBLEM',
@@ -138,7 +177,7 @@ module('Integration | Component | certifications/issue-report', function (hooks)
       });
       this.set('issueReport', issueReport);
 
-      // When
+      // when
       const screen = await renderScreen(hbs`<Certifications::IssueReport @issueReport={{this.issueReport}}/>`);
 
       // then
