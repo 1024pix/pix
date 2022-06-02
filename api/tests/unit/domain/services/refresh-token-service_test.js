@@ -11,7 +11,6 @@ describe('Unit | Domain | Service | Refresh Token Service', function () {
       // given
       const userId = 123;
       const source = 'pix';
-      const validRefreshToken = 'valid-refresh-token';
       const value = {
         type: 'refresh_token',
         userId,
@@ -21,14 +20,14 @@ describe('Unit | Domain | Service | Refresh Token Service', function () {
 
       sinon
         .stub(temporaryStorage, 'save')
-        .withArgs(sinon.match({ key: sinon.match(/^[-0-9a-f]+$/), value, expirationDelaySeconds }))
-        .resolves(validRefreshToken);
+        .withArgs(sinon.match({ key: sinon.match(/^123:[-0-9a-f]+$/), value, expirationDelaySeconds }))
+        .resolves('123:aaaabbbb-1111-ffff-8888-7777dddd0000');
 
       // when
       const result = await refreshTokenService.createRefreshTokenFromUserId({ userId, source });
 
       // then
-      expect(result).to.equal(validRefreshToken);
+      expect(result).to.equal('123:aaaabbbb-1111-ffff-8888-7777dddd0000');
     });
   });
 
