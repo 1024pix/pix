@@ -21,6 +21,12 @@ class InMemoryTemporaryStorage extends TemporaryStorage {
   delete(key) {
     return this._client.del(key);
   }
+
+  deleteByPrefix(prefix) {
+    const keys = this._client.keys();
+    const matchingKeys = keys.filter((key) => key.startsWith(prefix));
+    return this._client.del(matchingKeys);
+  }
 }
 
 module.exports = InMemoryTemporaryStorage;
