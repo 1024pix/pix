@@ -476,7 +476,7 @@
     },
     "campaign-review": {
       "title": "Analyse",
-      "description": "En fonction du référentiel testé et des résultats de la campagne, Pix vous recommande ces sujets à travailler, classés par degré de pertinence ({bubble}).",
+      "description": "En fonction du référentiel testé et des résultats de la campagne, Pix vous recommande ces sujets à travailler, classés par degré de pertinence {bubble}.",
       "sub-table": {
         "title": "{count, plural, =1 {1 tuto recommandé} other{{count} tutos recommandés}} par la communauté Pix",
         "column": {
