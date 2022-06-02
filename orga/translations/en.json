@@ -477,7 +477,7 @@
     },
     "campaign-review": {
       "title": "Review",
-      "description": "According to the target profile selected and the results of your campaign, Pix recommends focusing on the following topics, sorted by relevance ({bubble}).",
+      "description": "According to the target profile selected and the results of your campaign, Pix recommends focusing on the following topics, sorted by relevance {bubble}.",
       "sub-table": {
         "title": "{count, plural, =1 {1 tutorial} other{{count} tutorials}} recommended by the Pix community",
         "column": {

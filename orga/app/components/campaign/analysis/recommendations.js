@@ -6,8 +6,7 @@ import { htmlSafe } from '@ember/string';
 
 export default class Recommendations extends Component {
   @service intl;
-  @tracked
-  sortedRecommendations;
+  @tracked sortedRecommendations;
 
   constructor() {
     super(...arguments);
@@ -20,7 +19,7 @@ export default class Recommendations extends Component {
     return htmlSafe(
       this.intl.t('pages.campaign-review.description', {
         bubble:
-          '<svg height="10" width="10" role="img"><circle cx="5" cy="5" r="5" class="campaign-details-analysis recommendation-indicator__bubble" /></svg>',
+          '<span aria-hidden="true" focusable="false">(<svg height="10" width="10" role="img"><circle cx="5" cy="5" r="5" class="campaign-details-analysis recommendation-indicator__bubble" /></svg>)</span>',
       })
     );
   }
