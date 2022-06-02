@@ -113,19 +113,23 @@ describe('Unit | Application | Certifications Course | Route', function () {
       expect(response.statusCode).to.equal(200);
     });
 
-    it('return forbidden access if user has METIER role', async function () {
+    it('should return a forbidden access if user has METIER role', async function () {
       // given
-      sinon.stub(securityPreHandlers, 'checkUserHasRoleMetier').callsFake((request, h) => h.response(true));
       sinon
-        .stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin')
-        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
-      sinon
-        .stub(securityPreHandlers, 'checkUserHasRoleSupport')
-        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
-      sinon
-        .stub(securityPreHandlers, 'checkUserHasRoleCertif')
-        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
-
+        .stub(securityPreHandlers, 'userHasAtLeastOneAccessOf')
+        .withArgs([
+          securityPreHandlers.checkUserOwnsCertificationCourse,
+          securityPreHandlers.checkUserHasRoleSuperAdmin,
+          securityPreHandlers.checkUserHasRoleCertif,
+          securityPreHandlers.checkUserHasRoleSupport,
+        ])
+        .callsFake(
+          () => (request, h) =>
+            h
+              .response({ errors: new Error('forbidden') })
+              .code(403)
+              .takeover()
+        );
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
 
@@ -171,17 +175,20 @@ describe('Unit | Application | Certifications Course | Route', function () {
   describe('POST /api/admin/certification-courses/{id}/cancel', function () {
     it('return forbidden access if user has METIER role', async function () {
       // given
-      sinon.stub(securityPreHandlers, 'checkUserHasRoleMetier').callsFake((request, h) => h.response(true));
       sinon
-        .stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin')
-        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
-      sinon
-        .stub(securityPreHandlers, 'checkUserHasRoleSupport')
-        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
-      sinon
-        .stub(securityPreHandlers, 'checkUserHasRoleCertif')
-        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
-
+        .stub(securityPreHandlers, 'userHasAtLeastOneAccessOf')
+        .withArgs([
+          securityPreHandlers.checkUserHasRoleSuperAdmin,
+          securityPreHandlers.checkUserHasRoleCertif,
+          securityPreHandlers.checkUserHasRoleSupport,
+        ])
+        .callsFake(
+          () => (request, h) =>
+            h
+              .response({ errors: new Error('forbidden') })
+              .code(403)
+              .takeover()
+        );
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
 
@@ -210,16 +217,20 @@ describe('Unit | Application | Certifications Course | Route', function () {
   describe('POST /api/admin/certification-courses/{id}/uncancel', function () {
     it('return forbidden access if user has METIER role', async function () {
       // given
-      sinon.stub(securityPreHandlers, 'checkUserHasRoleMetier').callsFake((request, h) => h.response(true));
       sinon
-        .stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin')
-        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
-      sinon
-        .stub(securityPreHandlers, 'checkUserHasRoleSupport')
-        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
-      sinon
-        .stub(securityPreHandlers, 'checkUserHasRoleCertif')
-        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+        .stub(securityPreHandlers, 'userHasAtLeastOneAccessOf')
+        .withArgs([
+          securityPreHandlers.checkUserHasRoleSuperAdmin,
+          securityPreHandlers.checkUserHasRoleCertif,
+          securityPreHandlers.checkUserHasRoleSupport,
+        ])
+        .callsFake(
+          () => (request, h) =>
+            h
+              .response({ errors: new Error('forbidden') })
+              .code(403)
+              .takeover()
+        );
 
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
