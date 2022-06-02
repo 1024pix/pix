@@ -31,6 +31,10 @@ class RedisTemporaryStorage extends TemporaryStorage {
   async delete(key) {
     await this._client.del(key);
   }
+
+  async deleteByPrefix(prefix) {
+    await this._client.deleteByPrefix(prefix);
+  }
 }
 
 module.exports = RedisTemporaryStorage;
