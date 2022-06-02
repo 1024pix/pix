@@ -1,5 +1,12 @@
 # Pix Changelog
 
+## v3.216.0 (02/06/2022)
+
+
+### :rocket: Amélioration
+- [#4467](https://github.com/1024pix/pix/pull/4467) [FEATURE] Ajoute un filtre sur le nom et prénom dans l'onglet Activité d'une campagne (PIX-4580)
+- [#4432](https://github.com/1024pix/pix/pull/4432) [FEATURE] Restreindre l'accès aux actions liées aux certifications (PIX-4667)
+
 ## v3.215.0 (01/06/2022)
 
 
