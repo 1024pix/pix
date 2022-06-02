@@ -77,16 +77,16 @@ function _buildFileHeaders(certificationResults) {
     certificationResult.hasTakenPixPlusDroitExpert()
   );
   const shouldIncludePixPlusEdu2ndDegreInitieHeader = certificationResults.some((certificationResult) =>
-    certificationResult.hasTakenPixPlusEduInitie()
+    certificationResult.hasTakenPixPlusEdu2ndDegreInitie()
   );
   const shouldIncludePixPlusEdu2ndDegreConfirmeHeader = certificationResults.some((certificationResult) =>
-    certificationResult.hasTakenPixPlusEduConfirme()
+    certificationResult.hasTakenPixPlusEdu2ndDegreConfirme()
   );
   const shouldIncludePixPlusEdu2ndDegreAvanceHeader = certificationResults.some((certificationResult) =>
-    certificationResult.hasTakenPixPlusEduAvance()
+    certificationResult.hasTakenPixPlusEdu2ndDegreAvance()
   );
   const shouldIncludePixPlusEdu2ndDegreExpertHeader = certificationResults.some((certificationResult) =>
-    certificationResult.hasTakenPixPlusEduExpert()
+    certificationResult.hasTakenPixPlusEdu2ndDegreExpert()
   );
 
   const cleaHeader = shouldIncludeCleaHeader ? [_headers.CLEA_STATUS] : [];
@@ -179,24 +179,24 @@ function _formatPixPlusDroitExpertCertificationResult(certificationResult) {
 }
 
 function _formatPixPlusEduInitieCertificationResult(certificationResult) {
-  if (!certificationResult.hasTakenPixPlusEduInitie()) return 'Non passée';
+  if (!certificationResult.hasTakenPixPlusEdu2ndDegreInitie()) return 'Non passée';
   if (certificationResult.isCancelled()) return 'Annulée';
-  return certificationResult.hasAcquiredPixPlusEduInitie() ? 'Validée' : 'Rejetée';
+  return certificationResult.hasAcquiredPixPlusEdu2ndDegreInitie() ? 'Validée' : 'Rejetée';
 }
 function _formatPixPlusEduConfirmeCertificationResult(certificationResult) {
-  if (!certificationResult.hasTakenPixPlusEduConfirme()) return 'Non passée';
+  if (!certificationResult.hasTakenPixPlusEdu2ndDegreConfirme()) return 'Non passée';
   if (certificationResult.isCancelled()) return 'Annulée';
-  return certificationResult.hasAcquiredPixPlusEduConfirme() ? 'Validée' : 'Rejetée';
+  return certificationResult.hasAcquiredPixPlusEdu2ndDegreConfirme() ? 'Validée' : 'Rejetée';
 }
 function _formatPixPlusEduAvanceCertificationResult(certificationResult) {
-  if (!certificationResult.hasTakenPixPlusEduAvance()) return 'Non passée';
+  if (!certificationResult.hasTakenPixPlusEdu2ndDegreAvance()) return 'Non passée';
   if (certificationResult.isCancelled()) return 'Annulée';
-  return certificationResult.hasAcquiredPixPlusEduAvance() ? 'Validée' : 'Rejetée';
+  return certificationResult.hasAcquiredPixPlusEdu2ndDegreAvance() ? 'Validée' : 'Rejetée';
 }
 function _formatPixPlusEduExpertCertificationResult(certificationResult) {
-  if (!certificationResult.hasTakenPixPlusEduExpert()) return 'Non passée';
+  if (!certificationResult.hasTakenPixPlusEdu2ndDegreExpert()) return 'Non passée';
   if (certificationResult.isCancelled()) return 'Annulée';
-  return certificationResult.hasAcquiredPixPlusEduExpert() ? 'Validée' : 'Rejetée';
+  return certificationResult.hasAcquiredPixPlusEdu2ndDegreExpert() ? 'Validée' : 'Rejetée';
 }
 
 function _formatPixScore(certificationResult) {
