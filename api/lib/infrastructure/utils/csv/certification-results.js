@@ -88,6 +88,18 @@ function _buildFileHeaders(certificationResults) {
   const shouldIncludePixPlusEdu2ndDegreExpertHeader = certificationResults.some((certificationResult) =>
     certificationResult.hasTakenPixPlusEdu2ndDegreExpert()
   );
+  const shouldIncludePixPlusEdu1erDegreInitieHeader = certificationResults.some((certificationResult) =>
+    certificationResult.hasTakenPixPlusEdu1erDegreInitie()
+  );
+  const shouldIncludePixPlusEdu1erDegreConfirmeHeader = certificationResults.some((certificationResult) =>
+    certificationResult.hasTakenPixPlusEdu1erDegreConfirme()
+  );
+  const shouldIncludePixPlusEdu1erDegreAvanceHeader = certificationResults.some((certificationResult) =>
+    certificationResult.hasTakenPixPlusEdu1erDegreAvance()
+  );
+  const shouldIncludePixPlusEdu1erDegreExpertHeader = certificationResults.some((certificationResult) =>
+    certificationResult.hasTakenPixPlusEdu1erDegreExpert()
+  );
 
   const cleaHeader = shouldIncludeCleaHeader ? [_headers.CLEA_STATUS] : [];
   const pixPlusDroitMaitreHeader = shouldIncludePixPlusDroitMaitreHeader ? [_headers.PIX_PLUS_DROIT_MAITRE_STATUS] : [];
@@ -103,6 +115,18 @@ function _buildFileHeaders(certificationResults) {
     : [];
   const pixPlusEdu2ndDegreExpertHeader = shouldIncludePixPlusEdu2ndDegreExpertHeader
     ? [_headers.PIX_PLUS_EDU_2ND_DEGRE_EXPERT_HEADER]
+    : [];
+  const pixPlusEdu1erDegreInitieHeader = shouldIncludePixPlusEdu1erDegreInitieHeader
+    ? [_headers.PIX_PLUS_EDU_1ER_DEGRE_INITIE_HEADER]
+    : [];
+  const pixPlusEdu1erDegreConfirmeHeader = shouldIncludePixPlusEdu1erDegreConfirmeHeader
+    ? [_headers.PIX_PLUS_EDU_1ER_DEGRE_CONFIRME_HEADER]
+    : [];
+  const pixPlusEdu1erDegreAvanceHeader = shouldIncludePixPlusEdu1erDegreAvanceHeader
+    ? [_headers.PIX_PLUS_EDU_1ER_DEGRE_AVANCE_HEADER]
+    : [];
+  const pixPlusEdu1erDegreExpertHeader = shouldIncludePixPlusEdu1erDegreExpertHeader
+    ? [_headers.PIX_PLUS_EDU_1ER_DEGRE_EXPERT_HEADER]
     : [];
 
   return _.concat(
@@ -122,6 +146,10 @@ function _buildFileHeaders(certificationResults) {
     pixPlusEdu2ndDegreConfirmeHeader,
     pixPlusEdu2ndDegreAvanceHeader,
     pixPlusEdu2ndDegreExpertHeader,
+    pixPlusEdu1erDegreInitieHeader,
+    pixPlusEdu1erDegreConfirmeHeader,
+    pixPlusEdu1erDegreAvanceHeader,
+    pixPlusEdu1erDegreExpertHeader,
     [_headers.PIX_SCORE],
     _competenceIndexes,
     [
@@ -172,6 +200,26 @@ const _getRowItemsFromSessionAndResults = (session) => (certificationResult) => 
       certificationResult,
       'hasTakenPixPlusEdu2ndDegreExpert',
       'hasAcquiredPixPlusEdu2ndDegreExpert'
+    ),
+    [_headers.PIX_PLUS_EDU_1ER_DEGRE_INITIE_HEADER]: _formatComplementaryCertification(
+      certificationResult,
+      'hasTakenPixPlusEdu1erDegreInitie',
+      'hasAcquiredPixPlusEdu1erDegreInitie'
+    ),
+    [_headers.PIX_PLUS_EDU_1ER_DEGRE_CONFIRME_HEADER]: _formatComplementaryCertification(
+      certificationResult,
+      'hasTakenPixPlusEdu1erDegreConfirme',
+      'hasAcquiredPixPlusEdu1erDegreConfirme'
+    ),
+    [_headers.PIX_PLUS_EDU_1ER_DEGRE_AVANCE_HEADER]: _formatComplementaryCertification(
+      certificationResult,
+      'hasTakenPixPlusEdu1erDegreAvance',
+      'hasAcquiredPixPlusEdu1erDegreAvance'
+    ),
+    [_headers.PIX_PLUS_EDU_1ER_DEGRE_EXPERT_HEADER]: _formatComplementaryCertification(
+      certificationResult,
+      'hasTakenPixPlusEdu1erDegreExpert',
+      'hasAcquiredPixPlusEdu1erDegreExpert'
     ),
     [_headers.PIX_SCORE]: _formatPixScore(certificationResult),
     [_headers.JURY_COMMENT_FOR_ORGANIZATION]: certificationResult.commentForOrganization,
@@ -280,6 +328,10 @@ const _headers = {
   PIX_PLUS_EDU_2ND_DEGRE_CONFIRME_HEADER: 'Certification Pix+ Édu 2nd degré Confirmé',
   PIX_PLUS_EDU_2ND_DEGRE_AVANCE_HEADER: 'Certification Pix+ Édu 2nd degré Avancé',
   PIX_PLUS_EDU_2ND_DEGRE_EXPERT_HEADER: 'Certification Pix+ Édu 2nd degré Expert',
+  PIX_PLUS_EDU_1ER_DEGRE_INITIE_HEADER: 'Certification Pix+ Édu 1er degré Initié (entrée dans le métier)',
+  PIX_PLUS_EDU_1ER_DEGRE_CONFIRME_HEADER: 'Certification Pix+ Édu 1er degré Confirmé',
+  PIX_PLUS_EDU_1ER_DEGRE_AVANCE_HEADER: 'Certification Pix+ Édu 1er degré Avancé',
+  PIX_PLUS_EDU_1ER_DEGRE_EXPERT_HEADER: 'Certification Pix+ Édu 1er degré Expert',
   PIX_SCORE: 'Nombre de Pix',
   SESSION_ID: 'Session',
   CERTIFICATION_CENTER: 'Centre de certification',
