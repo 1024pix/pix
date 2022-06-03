@@ -1,6 +1,7 @@
 import { describe, it } from 'mocha';
 import { expect } from 'chai';
 import { render } from '@ember/test-helpers';
+import { render as renderScreen } from '@1024pix/ember-testing-library';
 import { contains } from '../../../../helpers/contains';
 import hbs from 'htmlbars-inline-precompile';
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
@@ -84,11 +85,12 @@ describe('Integration | Component | CampaignParticipationOverview | Card | Archi
         this.set('campaignParticipationOverview', campaignParticipationOverview);
 
         // when
-        await render(hbs`<CampaignParticipationOverview::Card::Disabled @model={{campaignParticipationOverview}} />`);
+        const screen = await renderScreen(
+          hbs`<CampaignParticipationOverview::Card::Disabled @model={{campaignParticipationOverview}} />`
+        );
 
         // then
-
-        expect(contains('1 étoile sur 3')).to.exist;
+        expect(screen.getByLabelText('1 étoile sur 3')).to.exist;
       });
     });
   });
