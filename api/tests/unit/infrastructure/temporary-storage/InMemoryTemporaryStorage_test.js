@@ -120,4 +120,24 @@ describe('Unit | Infrastructure | temporary-storage | InMemoryTemporaryStorage',
       expect(savedKey).to.be.undefined;
     });
   });
+
+  describe('#deleteByPrefix', function () {
+    it('should delete all found keys with the given matching prefix', async function () {
+      // given
+      const expirationDelaySeconds = 1000;
+
+      const inMemoryTemporaryStorage = new InMemoryTemporaryStorage();
+      await inMemoryTemporaryStorage.save({ key: '456:c', value: {}, expirationDelaySeconds });
+      await inMemoryTemporaryStorage.save({ key: '123:a', value: {}, expirationDelaySeconds });
+      await inMemoryTemporaryStorage.save({ key: '123:b', value: {}, expirationDelaySeconds });
+
+      // when
+      await inMemoryTemporaryStorage.deleteByPrefix('123:');
+
+      // then
+      expect(await inMemoryTemporaryStorage.get('123:a')).to.be.undefined;
+      expect(await inMemoryTemporaryStorage.get('123:b')).to.be.undefined;
+      expect(await inMemoryTemporaryStorage.get('456:c')).to.exist;
+    });
+  });
 });
