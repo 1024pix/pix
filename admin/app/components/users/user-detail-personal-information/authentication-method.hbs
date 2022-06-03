@@ -75,46 +75,6 @@
     </tr>
 
     <tr>
-      <td class="authentication-method__name-column">Pôle emploi</td>
-      <td>
-        {{#if @user.hasPoleEmploiAuthenticationMethod}}
-          <FaIcon
-            @icon="check-circle"
-            aria-label="L'utilisateur a une méthode de connexion Pôle Emploi"
-            class="authentication-method__check"
-          />
-        {{else}}
-          <FaIcon
-            @icon="times-circle"
-            aria-label="L'utilisateur n'a pas de méthode de connexion Pôle Emploi"
-            class="authentication-method__uncheck"
-          />
-        {{/if}}
-      </td>
-      <td>
-        {{#if this.accessControl.hasAccessToUsersActionsScope}}
-          {{#if @user.isAllowedToRemovePoleEmploiAuthenticationMethod}}
-            <PixButton
-              class="user-authentication-method__remove-button"
-              @size="small"
-              @backgroundColor="red"
-              @triggerAction={{fn @toggleDisplayRemoveAuthenticationMethodModal "POLE_EMPLOI"}}
-            >Supprimer</PixButton>
-          {{/if}}
-        {{/if}}
-      </td>
-      <td>
-        {{#if this.accessControl.hasAccessToUsersActionsScope}}
-          {{#if @user.hasPoleEmploiAuthenticationMethod}}
-            <PixButton @triggerAction={{this.toggleReassignPoleEmploiAuthenticationMethodModal}} @size="small">
-              Déplacer cette méthode de connexion
-            </PixButton>
-          {{/if}}
-        {{/if}}
-      </td>
-    </tr>
-
-    <tr>
       <td class="authentication-method__name-column">Médiacentre</td>
       <td>
         {{#if @user.hasGarAuthenticationMethod}}
@@ -147,6 +107,46 @@
         {{#if this.accessControl.hasAccessToUsersActionsScope}}
           {{#if @user.hasGarAuthenticationMethod}}
             <PixButton @triggerAction={{this.toggleReassignGarAuthenticationMethodModal}} @size="small">
+              Déplacer cette méthode de connexion
+            </PixButton>
+          {{/if}}
+        {{/if}}
+      </td>
+    </tr>
+
+    <tr>
+      <td class="authentication-method__name-column">Pôle emploi</td>
+      <td>
+        {{#if @user.hasPoleEmploiAuthenticationMethod}}
+          <FaIcon
+            @icon="check-circle"
+            aria-label="L'utilisateur a une méthode de connexion Pôle Emploi"
+            class="authentication-method__check"
+          />
+        {{else}}
+          <FaIcon
+            @icon="times-circle"
+            aria-label="L'utilisateur n'a pas de méthode de connexion Pôle Emploi"
+            class="authentication-method__uncheck"
+          />
+        {{/if}}
+      </td>
+      <td>
+        {{#if this.accessControl.hasAccessToUsersActionsScope}}
+          {{#if @user.isAllowedToRemovePoleEmploiAuthenticationMethod}}
+            <PixButton
+              class="user-authentication-method__remove-button"
+              @size="small"
+              @backgroundColor="red"
+              @triggerAction={{fn @toggleDisplayRemoveAuthenticationMethodModal "POLE_EMPLOI"}}
+            >Supprimer</PixButton>
+          {{/if}}
+        {{/if}}
+      </td>
+      <td>
+        {{#if this.accessControl.hasAccessToUsersActionsScope}}
+          {{#if @user.hasPoleEmploiAuthenticationMethod}}
+            <PixButton @triggerAction={{this.toggleReassignPoleEmploiAuthenticationMethodModal}} @size="small">
               Déplacer cette méthode de connexion
             </PixButton>
           {{/if}}
