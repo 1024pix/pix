@@ -110,4 +110,29 @@
     color: $grey-70;
     margin-bottom: 4px;
   }
+
+  .certification-course-page {
+
+    &__errors {
+      color: $pure-orange;
+      font-size: 0.875rem;
+      text-align: start;
+      margin: 5px 5px 5px 5px;
+
+      &__list {
+
+        li {
+          text-align: start;
+          list-style: disc;
+          margin: 8px 0 0 16px;
+        }
+      }
+
+      a,
+      a:visited {
+        color: $pure-orange;
+        text-decoration: underline;
+      }
+    }
+  }
 }
