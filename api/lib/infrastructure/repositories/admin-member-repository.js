@@ -1,6 +1,6 @@
 const { knex } = require('../bookshelf');
 const AdminMember = require('../../domain/models/AdminMember');
-const { AdminMemberRoleUpdateError } = require('../../domain/errors');
+const { AdminMemberRoleUpdateError, AdminMemberError } = require('../../domain/errors');
 
 const TABLE_NAME = 'pix-admin-roles';
 
@@ -12,6 +12,7 @@ module.exports = {
       .where({ disabledAt: null })
       .join('users', 'users.id', `${TABLE_NAME}.userId`)
       .orderBy(['firstName', 'lastName']);
+
     return members.map((member) => new AdminMember(member));
   },
 
@@ -44,5 +45,22 @@ module.exports = {
   async save(pixAdminRole) {
     const [savedAdminMember] = await knex(TABLE_NAME).insert(pixAdminRole).returning('*');
     return new AdminMember(savedAdminMember);
+  },
+
+  async deactivate({ id }) {
+    const now = new Date();
+    const [deactivateddAdminMember] = await knex
+      .from('pix-admin-roles')
+      .where({ id })
+      .whereRaw('"disabledAt" IS NULL')
+      .update({ disabledAt: now, updatedAt: now })
+      .returning('*');
+
+    if (!deactivateddAdminMember) {
+      throw new AdminMemberError(
+        'A problem occured while trying to deactivate an admin member',
+        'DEACTIVATE_ADMIN_MEMBER_ERROR'
+      );
+    }
   },
 };

@@ -3,7 +3,7 @@ const { expect, databaseBuilder, knex, catchErr } = require('../../../test-helpe
 const { ROLES } = require('../../../../lib/domain/constants').PIX_ADMIN;
 const adminMemberRepository = require('../../../../lib/infrastructure/repositories/admin-member-repository');
 const AdminMember = require('../../../../lib/domain/models/AdminMember');
-const { AdminMemberRoleUpdateError } = require('../../../../lib/domain/errors');
+const { AdminMemberRoleUpdateError, AdminMemberError } = require('../../../../lib/domain/errors');
 
 describe('Integration | Infrastructure | Repository | adminMemberRepository', function () {
   describe('#findAll', function () {
@@ -171,6 +171,60 @@ describe('Integration | Infrastructure | Repository | adminMemberRepository', fu
 
       // then
       expect(error).to.be.instanceOf(AdminMemberRoleUpdateError);
+    });
+  });
+
+  describe('#deactivate', function () {
+    let clock;
+    const now = new Date('2022-02-16');
+
+    beforeEach(async function () {
+      clock = sinon.useFakeTimers(now);
+    });
+
+    afterEach(async function () {
+      clock.restore();
+    });
+
+    it('should update Admin role with disabledAt and updatedAt filled with the date', async function () {
+      // given
+      const adminMember = _buildUserWithPixAdminRole({ firstName: 'Sarah', lastName: 'Croche' });
+
+      await databaseBuilder.commit();
+
+      // when
+      await adminMemberRepository.deactivate({
+        id: adminMember.id,
+      });
+      const deactivatedAdminMember = await knex('pix-admin-roles').where({ id: adminMember.id }).first();
+
+      // then
+      expect(deactivatedAdminMember.updatedAt).to.deep.equal(now);
+      expect(deactivatedAdminMember.disabledAt).to.deep.equal(now);
+    });
+
+    it('should throw and error if admin member does not exist', async function () {
+      // given
+      _buildUserWithPixAdminRole({ firstName: 'Sarah', lastName: 'Croche' });
+      await databaseBuilder.commit();
+
+      // when
+      const error = await catchErr(adminMemberRepository.deactivate)({ id: 345 });
+
+      // then
+      expect(error).to.be.instanceOf(AdminMemberError);
+    });
+
+    it('should throw and error if admin member exist but is already disabled', async function () {
+      // given
+      const toto = _buildUserWithPixAdminRole({ firstName: 'Sarah', lastName: 'Croche', disabledAt: now });
+      await databaseBuilder.commit();
+
+      // when
+      const error = await catchErr(adminMemberRepository.deactivate)({ id: toto.id });
+
+      // then
+      expect(error).to.be.instanceOf(AdminMemberError);
     });
   });
 
