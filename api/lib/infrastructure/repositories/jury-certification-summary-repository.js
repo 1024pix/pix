@@ -8,42 +8,32 @@ const Assessment = require('../../domain/models/Assessment');
 module.exports = {
   async findBySessionId(sessionId) {
     const juryCertificationSummaryRows = await knex
-      .with('certifications_every_assess_results', (qb) => {
-        qb.select('certification-courses.*', 'assessment-results.pixScore')
-          .select({
-            assessmentResultStatus: 'assessment-results.status',
-            assessmentState: 'assessments.state',
-          })
-          .select(
-            knex.raw('ROW_NUMBER() OVER (PARTITION BY ?? ORDER BY ?? DESC) AS asr_row_number', [
-              'certification-courses.id',
-              'assessment-results.createdAt',
-            ])
-          )
-          .select(
-            knex.raw(
-              `json_agg("complementary-certification-course-results".*) over (partition by "certification-courses".id) as "complementaryCertificationCourseResults"`
-            )
-          )
-          .from('certification-courses')
-          .leftJoin('assessments', 'assessments.certificationCourseId', 'certification-courses.id')
-          .leftJoin('assessment-results', 'assessment-results.assessmentId', 'assessments.id')
-          .leftJoin(
-            'complementary-certification-courses',
-            'complementary-certification-courses.certificationCourseId',
-            'certification-courses.id'
-          )
-          .leftJoin(
-            'complementary-certification-course-results',
-            'complementary-certification-course-results.complementaryCertificationCourseId',
-            'complementary-certification-courses.id'
-          )
-
-          .where('certification-courses.sessionId', sessionId);
+      .select('certification-courses.*', 'assessment-results.pixScore')
+      .select({
+        assessmentResultStatus: 'assessment-results.status',
+        assessmentState: 'assessments.state',
       })
-      .select('*')
-      .from('certifications_every_assess_results')
-      .where('asr_row_number', 1)
+      .select(
+        knex.raw(
+          `json_agg("complementary-certification-course-results".*) over (partition by "certification-courses".id) as "complementaryCertificationCourseResults"`
+        )
+      )
+      .from('certification-courses')
+      .leftJoin('assessments', 'assessments.certificationCourseId', 'certification-courses.id')
+      .leftJoin('assessment-results', 'assessment-results.assessmentId', 'assessments.id')
+      .modify(_filterMostRecentAssessmentResult)
+      .leftJoin(
+        'complementary-certification-courses',
+        'complementary-certification-courses.certificationCourseId',
+        'certification-courses.id'
+      )
+      .leftJoin(
+        'complementary-certification-course-results',
+        'complementary-certification-course-results.complementaryCertificationCourseId',
+        'complementary-certification-courses.id'
+      )
+
+      .where('certification-courses.sessionId', sessionId)
       .orderBy('lastName', 'ASC')
       .orderBy('firstName', 'ASC');
 
@@ -61,6 +51,16 @@ module.exports = {
     return _.map(juryCertificationSummaryDTOs, _toDomain);
   },
 };
+
+function _filterMostRecentAssessmentResult(qb) {
+  return qb.whereNotExists(
+    knex
+      .select(1)
+      .from({ 'last-assessment-results': 'assessment-results' })
+      .whereRaw('"last-assessment-results"."assessmentId" = assessments.id')
+      .whereRaw('"assessment-results"."createdAt" < "last-assessment-results"."createdAt"')
+  );
+}
 
 function _buildJuryCertificationSummaryDTOs(juryCertificationSummaryRows, certificationIssueReportRows) {
   return juryCertificationSummaryRows.map((juryCertificationSummaryRow) => {
