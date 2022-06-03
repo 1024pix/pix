@@ -1,8 +1,8 @@
 const moment = require('moment');
 
-const { UnexpectedOidcStateError, UnexpectedUserAccountError } = require('../errors');
-const AuthenticationMethod = require('../models/AuthenticationMethod');
-const logger = require('../../infrastructure/logger');
+const { UnexpectedOidcStateError, UnexpectedUserAccountError } = require('../../errors');
+const AuthenticationMethod = require('../../models/AuthenticationMethod');
+const logger = require('../../../infrastructure/logger');
 
 module.exports = async function authenticatePoleEmploiUser({
   authenticatedUserId,
