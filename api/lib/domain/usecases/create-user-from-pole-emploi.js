@@ -7,12 +7,12 @@ const logger = require('../../infrastructure/logger');
 
 module.exports = async function createUserFromPoleEmploi({
   authenticationKey,
+  authenticationSessionService,
   poleEmploiAuthenticationService,
   authenticationMethodRepository,
-  poleEmploiTokensRepository,
   userToCreateRepository,
 }) {
-  const poleEmploiTokens = await poleEmploiTokensRepository.getByKey(authenticationKey);
+  const poleEmploiTokens = await authenticationSessionService.getByKey(authenticationKey);
   if (!poleEmploiTokens) {
     throw new AuthenticationKeyExpired();
   }
