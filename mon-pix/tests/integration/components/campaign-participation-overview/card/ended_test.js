@@ -1,6 +1,7 @@
 import { describe, it } from 'mocha';
 import { expect } from 'chai';
 import { render } from '@ember/test-helpers';
+import { render as renderScreen } from '@1024pix/ember-testing-library';
 import { contains } from '../../../../helpers/contains';
 import hbs from 'htmlbars-inline-precompile';
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
@@ -75,10 +76,12 @@ describe('Integration | Component | CampaignParticipationOverview | Card | Ended
         this.set('campaignParticipationOverview', campaignParticipationOverview);
 
         // when
-        await render(hbs`<CampaignParticipationOverview::Card::Ended @model={{this.campaignParticipationOverview}} />`);
+        const screen = await renderScreen(
+          hbs`<CampaignParticipationOverview::Card::Ended @model={{this.campaignParticipationOverview}} />`
+        );
 
         // then
-        expect(contains('4 étoiles sur 6')).to.exist;
+        expect(screen.getByLabelText('4 étoiles sur 6')).to.exist;
       });
     });
   });
