@@ -60,13 +60,19 @@ module('Unit | Controller | authenticated/target-profiles/new', function (hooks)
         controller.isFileInvalid = true;
         const event = {
           target: {
-            result: [{ skills: ['skill1'] }, { skills: ['skill2'] }],
+            result: [
+              { id: 'tube-1', level: 7, skills: ['skill1'] },
+              { id: 'tube-2', level: 5, skills: ['skill2'] },
+            ],
           },
         };
-        const skillsList = [{ skills: ['skill1'] }, { skills: ['skill2'] }];
+        const selectionTubeList = [
+          { id: 'tube-1', level: 7, skills: ['skill1'] },
+          { id: 'tube-2', level: 5, skills: ['skill2'] },
+        ];
 
         // when
-        sinon.stub(JSON, 'parse').returns(skillsList);
+        sinon.stub(JSON, 'parse').returns(selectionTubeList);
         controller._onFileLoad(event);
       });
 
@@ -76,6 +82,12 @@ module('Unit | Controller | authenticated/target-profiles/new', function (hooks)
 
       test('it should fill skillIds list', function (assert) {
         assert.deepEqual(controller.model.skillIds, ['skill1', 'skill2']);
+      });
+      test('it should fill templateTubes list', function (assert) {
+        assert.deepEqual(controller.model.templateTubes, [
+          { id: 'tube-1', level: 7 },
+          { id: 'tube-2', level: 5 },
+        ]);
       });
     });
 
