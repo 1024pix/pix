@@ -142,19 +142,57 @@ module('Integration | Component | users | user-detail-personal-information/authe
         });
       });
 
-      test('should display user’s gar authentication method', async function (assert) {
-        // given
-        this.set('user', { hasGarAuthenticationMethod: true });
-        this.owner.register('service:access-control', AccessControlStub);
+      module('gar authentication method', function () {
+        module('when user has gar authentication method', function () {
+          test('should display information', async function (assert) {
+            // given
+            this.set('user', { hasGarAuthenticationMethod: true });
+            this.owner.register('service:access-control', AccessControlStub);
 
-        // when
-        const screen = await render(hbs`
+            // when
+            const screen = await render(hbs`
         <Users::UserDetailPersonalInformation::AuthenticationMethod
           @user={{this.user}}
         />`);
 
-        // then
-        assert.dom(screen.getByLabelText("L'utilisateur a une méthode de connexion Médiacentre")).exists();
+            // then
+            assert.dom(screen.getByLabelText("L'utilisateur a une méthode de connexion Médiacentre")).exists();
+          });
+
+          test('it should display reassign authentication method button', async function (assert) {
+            // given
+            this.set('user', {
+              hasGarAuthenticationMethod: true,
+            });
+            this.owner.register('service:access-control', AccessControlStub);
+
+            // when
+            const screen = await render(hbs`
+          <Users::UserDetailPersonalInformation::AuthenticationMethod
+            @user={{this.user}}
+          />`);
+
+            // then
+            assert.dom(screen.getByRole('button', { name: 'Déplacer cette méthode de connexion' })).exists();
+          });
+        });
+
+        module('when user does not have gar authentication method', function () {
+          test('should display information', async function (assert) {
+            // given
+            this.set('user', { hasGarAuthenticationMethod: false, hasCnavAuthenticationMethod: true });
+            this.owner.register('service:access-control', AccessControlStub);
+
+            // when
+            const screen = await render(hbs`
+        <Users::UserDetailPersonalInformation::AuthenticationMethod
+          @user={{this.user}}
+        />`);
+
+            // then
+            assert.dom(screen.getByLabelText("L'utilisateur n'a pas de méthode de connexion Médiacentre")).exists();
+          });
+        });
       });
 
       module('cnav authentication method', function () {
@@ -245,25 +283,6 @@ module('Integration | Component | users | user-detail-personal-information/authe
             // then
             assert.dom(screen.queryByRole('button', { name: 'Ajouter une adresse e-mail' })).doesNotExist();
           });
-        });
-      });
-
-      module('When user has gar authentication method', function () {
-        test('it should display reassign authentication method button', async function (assert) {
-          // given
-          this.set('user', {
-            hasGarAuthenticationMethod: true,
-          });
-          this.owner.register('service:access-control', AccessControlStub);
-
-          // when
-          const screen = await render(hbs`
-          <Users::UserDetailPersonalInformation::AuthenticationMethod
-            @user={{this.user}}
-          />`);
-
-          // then
-          assert.dom(screen.getByRole('button', { name: 'Déplacer cette méthode de connexion' })).exists();
         });
       });
     });
