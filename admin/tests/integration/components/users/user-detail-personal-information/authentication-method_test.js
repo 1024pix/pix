@@ -89,19 +89,57 @@ module('Integration | Component | users | user-detail-personal-information/authe
         });
       });
 
-      test('should display user’s Pole Emploi authentication method', async function (assert) {
-        // given
-        this.set('user', { hasPoleEmploiAuthenticationMethod: true });
-        this.owner.register('service:access-control', AccessControlStub);
+      module('pole emploi authentication method', function () {
+        module('when user has pole emploi authentication method', function () {
+          test('should display information', async function (assert) {
+            // given
+            this.set('user', { hasPoleEmploiAuthenticationMethod: true });
+            this.owner.register('service:access-control', AccessControlStub);
 
-        // when
-        const screen = await render(hbs`
+            // when
+            const screen = await render(hbs`
         <Users::UserDetailPersonalInformation::AuthenticationMethod
           @user={{this.user}}
         />`);
 
-        // then
-        assert.dom(screen.getByLabelText("L'utilisateur a une méthode de connexion Pôle Emploi")).exists();
+            // then
+            assert.dom(screen.getByLabelText("L'utilisateur a une méthode de connexion Pôle Emploi")).exists();
+          });
+
+          test('should display reassign authentication method button', async function (assert) {
+            // given
+            this.set('user', {
+              hasPoleEmploiAuthenticationMethod: true,
+            });
+            this.owner.register('service:access-control', AccessControlStub);
+
+            // when
+            const screen = await render(hbs`
+          <Users::UserDetailPersonalInformation::AuthenticationMethod
+            @user={{this.user}}
+          />`);
+
+            // then
+            assert.dom(screen.getByRole('button', { name: 'Déplacer cette méthode de connexion' })).exists();
+          });
+        });
+
+        module('when user does not have pole emploi authentication method', function () {
+          test('should display information', async function (assert) {
+            // given
+            this.set('user', { hasPoleEmploiAuthenticationMethod: false, hasCnavAuthenticationMethod: true });
+            this.owner.register('service:access-control', AccessControlStub);
+
+            // when
+            const screen = await render(hbs`
+        <Users::UserDetailPersonalInformation::AuthenticationMethod
+          @user={{this.user}}
+        />`);
+
+            // then
+            assert.dom(screen.getByLabelText("L'utilisateur n'a pas de méthode de connexion Pôle Emploi")).exists();
+          });
+        });
       });
 
       test('should display user’s gar authentication method', async function (assert) {
@@ -215,25 +253,6 @@ module('Integration | Component | users | user-detail-personal-information/authe
           // given
           this.set('user', {
             hasGarAuthenticationMethod: true,
-          });
-          this.owner.register('service:access-control', AccessControlStub);
-
-          // when
-          const screen = await render(hbs`
-          <Users::UserDetailPersonalInformation::AuthenticationMethod
-            @user={{this.user}}
-          />`);
-
-          // then
-          assert.dom(screen.getByRole('button', { name: 'Déplacer cette méthode de connexion' })).exists();
-        });
-      });
-
-      module('When user has Pole Emploi authentication method', function () {
-        test('it should display reassign authentication method button', async function (assert) {
-          // given
-          this.set('user', {
-            hasPoleEmploiAuthenticationMethod: true,
           });
           this.owner.register('service:access-control', AccessControlStub);
 
