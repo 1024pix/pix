@@ -89,7 +89,7 @@ async function _autoCompleteUnfinishedTest({
     certificationAssessment.neutralizeUnansweredChallenges();
   }
 
-  certificationAssessment.endByFinalization();
+  certificationAssessment.endDueToFinalization();
 
   await certificationAssessmentRepository.save(certificationAssessment);
 

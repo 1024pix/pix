@@ -439,18 +439,18 @@ describe('Unit | Domain | Models | CertificationAssessment', function () {
     });
   });
 
-  describe('#endByFinalization', function () {
-    it('should change the assessment state to "endedByFinalization"', function () {
+  describe('#endDueToFinalization', function () {
+    it('should change the assessment state to "endedDueToFinalization"', function () {
       // given
       const certificationAssessment = domainBuilder.buildCertificationAssessment({
         state: CertificationAssessment.states.STARTED,
       });
 
       // when
-      certificationAssessment.endByFinalization();
+      certificationAssessment.endDueToFinalization();
 
       // when then
-      expect(certificationAssessment.state).to.equal(CertificationAssessment.states.ENDED_BY_FINALIZATION);
+      expect(certificationAssessment.state).to.equal(CertificationAssessment.states.ENDED_DUE_TO_FINALIZATION);
     });
   });
 

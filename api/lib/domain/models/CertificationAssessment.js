@@ -10,7 +10,7 @@ const states = {
   COMPLETED: 'completed',
   STARTED: 'started',
   ENDED_BY_SUPERVISOR: 'endedBySupervisor',
-  ENDED_BY_FINALIZATION: 'endedByFinalization',
+  ENDED_DUE_TO_FINALIZATION: 'endedDueToFinalization',
 };
 
 const certificationAssessmentSchema = Joi.object({
@@ -20,7 +20,7 @@ const certificationAssessmentSchema = Joi.object({
   createdAt: Joi.date().required(),
   completedAt: Joi.date().allow(null),
   state: Joi.string()
-    .valid(states.COMPLETED, states.STARTED, states.ENDED_BY_SUPERVISOR, states.ENDED_BY_FINALIZATION)
+    .valid(states.COMPLETED, states.STARTED, states.ENDED_BY_SUPERVISOR, states.ENDED_DUE_TO_FINALIZATION)
     .required(),
   isV2Certification: Joi.boolean().required(),
   certificationChallenges: Joi.array().min(1).required(),
@@ -69,8 +69,8 @@ class CertificationAssessment {
     }
   }
 
-  endByFinalization() {
-    this.state = states.ENDED_BY_FINALIZATION;
+  endDueToFinalization() {
+    this.state = states.ENDED_DUE_TO_FINALIZATION;
   }
 
   neutralizeChallengeByNumberIfKoOrSkippedOrPartially(questionNumber) {

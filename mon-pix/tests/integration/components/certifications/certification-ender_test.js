@@ -102,7 +102,7 @@ describe('Integration | Component | Certifications | CertificationEnder', functi
 
       // when
       await render(hbs`
-      <Certifications::CertificationEnder @certificationNumber={{certificationNumber}} @isEndedByFinalization={{true}} />
+      <Certifications::CertificationEnder @certificationNumber={{certificationNumber}} @hasBeenEndedDueToFinalization={{true}} />
     `);
 
       // then

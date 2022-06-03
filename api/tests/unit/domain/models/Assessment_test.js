@@ -61,27 +61,27 @@ describe('Unit | Domain | Models | Assessment', function () {
     });
   });
 
-  describe('#isEndedByFinalization', function () {
-    it('should return true when its state is endedByFinalization', function () {
+  describe('#hasBeenEndedDueToFinalization', function () {
+    it('should return true when its state is endedDueToFinalization', function () {
       // given
-      const assessment = new Assessment({ state: 'endedByFinalization' });
+      const assessment = new Assessment({ state: 'endedDueToFinalization' });
 
       // when
-      const isEndedByFinalization = assessment.isEndedByFinalization();
+      const hasBeenEndedDueToFinalization = assessment.hasBeenEndedDueToFinalization();
 
       // then
-      expect(isEndedByFinalization).to.be.true;
+      expect(hasBeenEndedDueToFinalization).to.be.true;
     });
 
-    it('should return false when its state is not endedByFinalization', function () {
+    it('should return false when its state is not endedDueToFinalization', function () {
       // given
       const assessment = new Assessment({ state: '' });
 
       // when
-      const isEndedByFinalization = assessment.isEndedByFinalization();
+      const hasBeenEndedDueToFinalization = assessment.hasBeenEndedDueToFinalization();
 
       // then
-      expect(isEndedByFinalization).to.be.false;
+      expect(hasBeenEndedDueToFinalization).to.be.false;
     });
   });
 

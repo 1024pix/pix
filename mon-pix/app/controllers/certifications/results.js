@@ -6,7 +6,7 @@ export default class CertificationResultsController extends Controller {
     return this.model.assessment.get('state') === assessmentStates.ENDED_BY_SUPERVISOR;
   }
 
-  get isEndedByFinalization() {
-    return this.model.assessment.get('state') === assessmentStates.ENDED_BY_FINALIZATION;
+  get hasBeenEndedDueToFinalization() {
+    return this.model.assessment.get('state') === assessmentStates.ENDED_DUE_TO_FINALIZATION;
   }
 }
