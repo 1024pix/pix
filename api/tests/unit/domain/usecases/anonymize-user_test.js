@@ -1,7 +1,5 @@
 const { expect, sinon } = require('../../../test-helper');
 const anonymizeUser = require('../../../../lib/domain/usecases/anonymize-user');
-const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
-const authenticationMethodRepository = require('../../../../lib/infrastructure/repositories/authentication-method-repository');
 
 describe('Unit | UseCase | anonymize-user', function () {
   it('should anonymize user and delete all authentication methods', async function () {
@@ -14,11 +12,12 @@ describe('Unit | UseCase | anonymize-user', function () {
       username: null,
     };
 
-    sinon.stub(userRepository, 'updateUserDetailsForAdministration').resolves();
-    sinon.stub(authenticationMethodRepository, 'removeAllAuthenticationMethodsByUserId').resolves();
+    const userRepository = { updateUserDetailsForAdministration: sinon.stub() };
+    const authenticationMethodRepository = { removeAllAuthenticationMethodsByUserId: sinon.stub() };
+    const refreshTokenService = { revokeRefreshTokensForUserId: sinon.stub() };
 
     // when
-    await anonymizeUser({ userId, userRepository, authenticationMethodRepository });
+    await anonymizeUser({ userId, userRepository, authenticationMethodRepository, refreshTokenService });
 
     // then
     expect(authenticationMethodRepository.removeAllAuthenticationMethodsByUserId).to.have.been.calledWithExactly({
@@ -29,5 +28,19 @@ describe('Unit | UseCase | anonymize-user', function () {
       userId,
       expectedAnonymizedUser
     );
+  });
+
+  it("should revoke all user's refresh tokens", async function () {
+    // given
+    const userId = 1;
+    const userRepository = { updateUserDetailsForAdministration: sinon.stub() };
+    const authenticationMethodRepository = { removeAllAuthenticationMethodsByUserId: sinon.stub() };
+    const refreshTokenService = { revokeRefreshTokensForUserId: sinon.stub() };
+
+    // when
+    await anonymizeUser({ userId, userRepository, authenticationMethodRepository, refreshTokenService });
+
+    // then
+    expect(refreshTokenService.revokeRefreshTokensForUserId).to.have.been.calledWithExactly({ userId });
   });
 });
