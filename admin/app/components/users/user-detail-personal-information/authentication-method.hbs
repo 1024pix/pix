@@ -153,6 +153,25 @@
         {{/if}}
       </td>
     </tr>
+
+    <tr>
+      <td class="authentication-method__name-column">CNAV</td>
+      <td>
+        {{#if @user.hasCnavAuthenticationMethod}}
+          <FaIcon
+            @icon="check-circle"
+            aria-label="L'utilisateur a une méthode de connexion CNAV"
+            class="authentication-method__check"
+          />
+        {{else}}
+          <FaIcon
+            @icon="times-circle"
+            aria-label="L'utilisateur n'a pas de méthode de connexion CNAV"
+            class="authentication-method__uncheck"
+          />
+        {{/if}}
+      </td>
+    </tr>
   </tbody>
 </table>
 

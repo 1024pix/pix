@@ -73,6 +73,42 @@ module('Integration | Component | users | user-detail-personal-information/authe
         assert.dom(screen.getByLabelText("L'utilisateur a une méthode de connexion Médiacentre")).exists();
       });
 
+      module('cnav authentication method', function () {
+        module('when user has cnav authentication method', function () {
+          test('should display information', async function (assert) {
+            // given
+            this.set('user', { hasCnavAuthenticationMethod: true });
+            this.owner.register('service:access-control', AccessControlStub);
+
+            // when
+            const screen = await render(hbs`
+        <Users::UserDetailPersonalInformation::AuthenticationMethod
+          @user={{this.user}}
+        />`);
+
+            // then
+            assert.dom(screen.getByLabelText("L'utilisateur a une méthode de connexion CNAV")).exists();
+          });
+        });
+
+        module('when user does not have cnav authentication method', function () {
+          test('should display information', async function (assert) {
+            // given
+            this.set('user', { hasUsernameAuthenticationMethod: true, hasCnavAuthenticationMethod: false });
+            this.owner.register('service:access-control', AccessControlStub);
+
+            // when
+            const screen = await render(hbs`
+        <Users::UserDetailPersonalInformation::AuthenticationMethod
+          @user={{this.user}}
+        />`);
+
+            // then
+            assert.dom(screen.getByLabelText("L'utilisateur n'a pas de méthode de connexion CNAV")).exists();
+          });
+        });
+      });
+
       module('When user has only one authentication method', function () {
         test('it should not display a remove authentication method link', async function (assert) {
           // given

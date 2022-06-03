@@ -106,6 +106,17 @@ module('Unit | Model | user', function (hooks) {
     });
   });
 
+  module('#hasCnavAuthenticationMethod', function () {
+    test('it should return true when user has cnav authentication method', function (assert) {
+      // given
+      const authenticationMethod = store.createRecord('authentication-method', { identityProvider: 'CNAV' });
+      const user = store.createRecord('user', { authenticationMethods: [authenticationMethod] });
+
+      // when & then
+      assert.true(user.hasCnavAuthenticationMethod);
+    });
+  });
+
   module('hasOnlyOneAuthenticationMethod', function () {
     test('it should return true when user has only one authentication method', function (assert) {
       // given
