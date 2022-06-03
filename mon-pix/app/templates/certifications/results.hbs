@@ -1,10 +1,10 @@
 {{page-title (t "pages.certification-results.title")}}
 
-{{#if (or @model.isEndTestScreenRemovalEnabled this.isEndedByFinalization)}}
+{{#if (or @model.isEndTestScreenRemovalEnabled this.hasBeenEndedDueToFinalization)}}
   <Certifications::CertificationEnder
     @certificationNumber={{@model.id}}
     @isEndedBySupervisor={{this.isEndedBySupervisor}}
-    @isEndedByFinalization={{this.isEndedByFinalization}}
+    @hasBeenEndedDueToFinalization={{this.hasBeenEndedDueToFinalization}}
   />
 {{else}}
   <CertificationResultsPage @certificationNumber={{@model.id}} />

@@ -380,7 +380,7 @@ describe('Acceptance | Certification | Certification Course', function () {
           });
           this.server.create('assessment', {
             certificationCourseId: certificationCourse.id,
-            state: assessmentStates.ENDED_BY_FINALIZATION,
+            state: assessmentStates.ENDED_DUE_TO_FINALIZATION,
           });
 
           // when

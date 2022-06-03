@@ -136,7 +136,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
       const assessment = domainBuilder.buildAssessment({
         userId,
         lastQuestionDate: nowDate,
-        state: Assessment.states.ENDED_BY_FINALIZATION,
+        state: Assessment.states.ENDED_DUE_TO_FINALIZATION,
       });
       assessmentRepository.get.resolves(assessment);
 

@@ -9,7 +9,7 @@ export const assessmentStates = {
   STARTED: 'started',
   ABORTED: 'aborted',
   ENDED_BY_SUPERVISOR: 'endedBySupervisor',
-  ENDED_BY_FINALIZATION: 'endedByFinalization',
+  ENDED_DUE_TO_FINALIZATION: 'endedDueToFinalization',
 };
 export default class Assessment extends Model {
   // attributes

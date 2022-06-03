@@ -12,7 +12,7 @@ const states = {
   STARTED: 'started',
   ABORTED: 'aborted',
   ENDED_BY_SUPERVISOR: 'endedBySupervisor',
-  ENDED_BY_FINALIZATION: 'endedByFinalization',
+  ENDED_DUE_TO_FINALIZATION: 'endedDueToFinalization',
 };
 
 const types = {
@@ -96,8 +96,8 @@ class Assessment {
     return this.state === Assessment.states.ENDED_BY_SUPERVISOR;
   }
 
-  isEndedByFinalization() {
-    return this.state === Assessment.states.ENDED_BY_FINALIZATION;
+  hasBeenEndedDueToFinalization() {
+    return this.state === Assessment.states.ENDED_DUE_TO_FINALIZATION;
   }
 
   setCompleted() {

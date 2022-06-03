@@ -33,7 +33,7 @@ module.exports = async function correctAnswerThenUpdateAssessment({
   if (assessment.isEndedBySupervisor()) {
     throw new CertificationEndedBySupervisorError();
   }
-  if (assessment.isEndedByFinalization()) {
+  if (assessment.hasBeenEndedDueToFinalization()) {
     throw new CertificationEndedByFinalizationError();
   }
   if (assessment.lastChallengeId && assessment.lastChallengeId != answer.challengeId) {

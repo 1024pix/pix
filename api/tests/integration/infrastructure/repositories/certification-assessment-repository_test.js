@@ -412,7 +412,7 @@ describe('Integration | Infrastructure | Repositories | certification-assessment
 
       await databaseBuilder.commit();
       const certificationAssessmentToBeSaved = await certificationAssessmentRepository.get(certificationAssessmentId);
-      certificationAssessmentToBeSaved.state = CertificationAssessment.states.ENDED_BY_FINALIZATION;
+      certificationAssessmentToBeSaved.state = CertificationAssessment.states.ENDED_DUE_TO_FINALIZATION;
 
       // when
       await certificationAssessmentRepository.save(certificationAssessmentToBeSaved);
@@ -420,7 +420,7 @@ describe('Integration | Infrastructure | Repositories | certification-assessment
       // then
       const persistedCertificationAssessment = await certificationAssessmentRepository.get(certificationAssessmentId);
       expect(persistedCertificationAssessment.state).to.deep.equal(
-        CertificationAssessment.states.ENDED_BY_FINALIZATION
+        CertificationAssessment.states.ENDED_DUE_TO_FINALIZATION
       );
     });
   });
