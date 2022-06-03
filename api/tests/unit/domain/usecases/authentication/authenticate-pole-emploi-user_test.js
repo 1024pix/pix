@@ -1,16 +1,16 @@
 const moment = require('moment');
 
-const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper');
+const { expect, sinon, domainBuilder, catchErr } = require('../../../../test-helper');
 
-const AuthenticationMethod = require('../../../../lib/domain/models/AuthenticationMethod');
-const PoleEmploiTokens = require('../../../../lib/domain/models/PoleEmploiTokens');
-const User = require('../../../../lib/domain/models/User');
+const AuthenticationMethod = require('../../../../../lib/domain/models/AuthenticationMethod');
+const PoleEmploiTokens = require('../../../../../lib/domain/models/PoleEmploiTokens');
+const User = require('../../../../../lib/domain/models/User');
 
-const { UnexpectedOidcStateError, UnexpectedUserAccountError } = require('../../../../lib/domain/errors');
-const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
-const logger = require('../../../../lib/infrastructure/logger');
+const { UnexpectedOidcStateError, UnexpectedUserAccountError } = require('../../../../../lib/domain/errors');
+const DomainTransaction = require('../../../../../lib/infrastructure/DomainTransaction');
+const logger = require('../../../../../lib/infrastructure/logger');
 
-const authenticatePoleEmploiUser = require('../../../../lib/domain/usecases/authenticate-pole-emploi-user');
+const authenticatePoleEmploiUser = require('../../../../../lib/domain/usecases/authentication/authenticate-pole-emploi-user');
 
 describe('Unit | UseCase | authenticate-pole-emploi-user', function () {
   let poleEmploiAuthenticationService;

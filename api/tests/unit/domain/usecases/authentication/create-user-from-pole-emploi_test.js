@@ -1,14 +1,14 @@
 const moment = require('moment');
-const { domainBuilder, expect, sinon, catchErr } = require('../../../test-helper');
-const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
+const { domainBuilder, expect, sinon, catchErr } = require('../../../../test-helper');
+const DomainTransaction = require('../../../../../lib/infrastructure/DomainTransaction');
 
-const AuthenticationMethod = require('../../../../lib/domain/models/AuthenticationMethod');
-const PoleEmploiTokens = require('../../../../lib/domain/models/PoleEmploiTokens');
+const AuthenticationMethod = require('../../../../../lib/domain/models/AuthenticationMethod');
+const PoleEmploiTokens = require('../../../../../lib/domain/models/PoleEmploiTokens');
 
-const { InvalidExternalAPIResponseError, AuthenticationKeyExpired } = require('../../../../lib/domain/errors');
-const logger = require('../../../../lib/infrastructure/logger');
+const { InvalidExternalAPIResponseError, AuthenticationKeyExpired } = require('../../../../../lib/domain/errors');
+const logger = require('../../../../../lib/infrastructure/logger');
 
-const createUserFromPoleEmploi = require('../../../../lib/domain/usecases/create-user-from-pole-emploi');
+const createUserFromPoleEmploi = require('../../../../../lib/domain/usecases/authentication/create-user-from-pole-emploi');
 
 describe('Unit | UseCase | create-user-from-pole-emploi', function () {
   // TODO: Fix this the next time the file is edited.
