@@ -333,6 +333,7 @@ module.exports = injectDependencies(
     getStageDetails: require('./get-stage-details'),
     getSupervisorKitSessionInfo: require('./get-supervisor-kit-session-info'),
     getTargetProfileDetails: require('./get-target-profile-details'),
+    getTargetProfileTemplate: require('./get-target-profile-template'),
     getTubeSkills: require('./get-tube-skills'),
     getFrameworks: require('./get-frameworks'),
     getFrameworkAreas: require('./get-framework-areas'),

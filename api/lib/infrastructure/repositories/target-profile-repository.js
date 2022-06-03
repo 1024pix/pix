@@ -201,6 +201,21 @@ module.exports = {
       throw new TargetProfileCannotBeCreated();
     }
   },
+
+  async getTargetProfileTemplate({ id }) {
+    const targetProfileTemplate = await knex('target-profile-templates').where({ id }).first();
+    if (!targetProfileTemplate) {
+      return null;
+    }
+    const tubes = await knex('target-profile-templates_tubes')
+      .where({ targetProfileTemplateId: id })
+      .orderBy('id', 'asc');
+
+    return new TargetProfileTemplate({
+      id,
+      tubes,
+    });
+  },
 };
 
 async function _getWithLearningContentSkills(targetProfile) {
