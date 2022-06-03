@@ -51,19 +51,42 @@ module('Integration | Component | users | user-detail-personal-information/authe
         });
       });
 
-      test('should display user’s username authentication method', async function (assert) {
-        // given
-        this.set('user', { hasUsernameAuthenticationMethod: true });
-        this.owner.register('service:access-control', AccessControlStub);
+      module('username authentication method', function () {
+        module('when user has username authentication method', function () {
+          test('should display information', async function (assert) {
+            // given
+            this.set('user', { hasUsernameAuthenticationMethod: true });
+            this.owner.register('service:access-control', AccessControlStub);
 
-        // when
-        const screen = await render(hbs`
+            // when
+            const screen = await render(hbs`
         <Users::UserDetailPersonalInformation::AuthenticationMethod
           @user={{this.user}}
         />`);
 
-        // then
-        assert.dom(screen.getByLabelText("L'utilisateur a une méthode de connexion avec identifiant")).exists();
+            // then
+            assert.dom(screen.getByLabelText("L'utilisateur a une méthode de connexion avec identifiant")).exists();
+          });
+        });
+
+        module('when user does not have username authentication method', function () {
+          test('should display information', async function (assert) {
+            // given
+            this.set('user', { hasUsernameAuthenticationMethod: false, hasCnavAuthenticationMethod: true });
+            this.owner.register('service:access-control', AccessControlStub);
+
+            // when
+            const screen = await render(hbs`
+        <Users::UserDetailPersonalInformation::AuthenticationMethod
+          @user={{this.user}}
+        />`);
+
+            // then
+            assert
+              .dom(screen.getByLabelText("L'utilisateur n'a pas de méthode de connexion avec identifiant"))
+              .exists();
+          });
+        });
       });
 
       test('should display user’s Pole Emploi authentication method', async function (assert) {
