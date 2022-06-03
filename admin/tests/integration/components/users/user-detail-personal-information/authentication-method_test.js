@@ -13,19 +13,42 @@ module('Integration | Component | users | user-detail-personal-information/authe
     }
 
     module('When user has authentication methods', function () {
-      test('should display user’s email authentication method', async function (assert) {
-        // given
-        this.set('user', { hasEmailAuthenticationMethod: true });
-        this.owner.register('service:access-control', AccessControlStub);
+      module('email authentication method', function () {
+        module('when user has email authentication method', function () {
+          test('should display information', async function (assert) {
+            // given
+            this.set('user', { hasEmailAuthenticationMethod: true });
+            this.owner.register('service:access-control', AccessControlStub);
 
-        // when
-        const screen = await render(hbs`
+            // when
+            const screen = await render(hbs`
         <Users::UserDetailPersonalInformation::AuthenticationMethod
           @user={{this.user}}
         />`);
 
-        // then
-        assert.dom(screen.getByLabelText("L'utilisateur a une méthode de connexion avec adresse e-mail")).exists();
+            // then
+            assert.dom(screen.getByLabelText("L'utilisateur a une méthode de connexion avec adresse e-mail")).exists();
+          });
+        });
+
+        module('when user does not have email authentication method', function () {
+          test('should display information', async function (assert) {
+            // given
+            this.set('user', { hasEmailAuthenticationMethod: false, hasCnavAuthenticationMethod: true });
+            this.owner.register('service:access-control', AccessControlStub);
+
+            // when
+            const screen = await render(hbs`
+        <Users::UserDetailPersonalInformation::AuthenticationMethod
+          @user={{this.user}}
+        />`);
+
+            // then
+            assert
+              .dom(screen.getByLabelText("L'utilisateur n'a pas de méthode de connexion avec adresse e-mail"))
+              .exists();
+          });
+        });
       });
 
       test('should display user’s username authentication method', async function (assert) {
