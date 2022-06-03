@@ -8,7 +8,8 @@ import {
 import { expect } from 'chai';
 import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
-import { triggerEvent, visit } from '@ember/test-helpers';
+import { triggerEvent } from '@ember/test-helpers';
+import { visit } from '@1024pix/ember-testing-library';
 import { contains } from '../../helpers/contains';
 import { clickByLabel } from '../../helpers/click-by-label';
 import { fillInByLabel } from '../../helpers/fill-in-by-label';
@@ -76,11 +77,15 @@ describe('Acceptance | user-account | connection-methods', function () {
       await authenticateByCnav(garUser);
 
       // when
-      await visit('/mon-compte/methodes-de-connexion');
+      const screen = await visit('/mon-compte/methodes-de-connexion');
 
       // then
-      expect(contains(this.intl.t('pages.user-account.connexion-methods.authentication-methods.label'))).to.exist;
-      expect(contains(this.intl.t('pages.user-account.connexion-methods.authentication-methods.cnav'))).to.exist;
+      expect(
+        screen.getByText(this.intl.t('pages.user-account.connexion-methods.authentication-methods.label'))
+      ).to.exist;
+      expect(
+        screen.getByText(this.intl.t('pages.user-account.connexion-methods.authentication-methods.cnav'))
+      ).to.exist;
     });
   });
 
