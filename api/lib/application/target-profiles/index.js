@@ -170,6 +170,7 @@ exports.register = async (server) => {
                 'skill-ids': Joi.array().required(),
                 comment: Joi.string().optional().allow(null).max(500).empty(''),
                 description: Joi.string().optional().allow(null).max(500).empty(''),
+                'template-tubes': Joi.array().required(),
               },
             },
           }),
@@ -181,7 +182,7 @@ exports.register = async (server) => {
         tags: ['api', 'target-profiles', 'create'],
         notes: [
           "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n" +
-            '- Elle permet de créer un profil cible avec ses acquis',
+            "- Elle permet de créer un profil cible avec ses acquis ainsi qu'un gabarit de ce profil cible",
         ],
       },
     },
