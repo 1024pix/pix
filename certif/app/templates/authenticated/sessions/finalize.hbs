@@ -48,18 +48,30 @@
     </SessionFinalizationStepContainer>
   {{/if}}
 
-  <SessionFinalizationStepContainer
-    @number="3"
-    @title="Commenter la session (facultatif)"
-    @icon="/icons/session-finalization-edit.svg"
-    @iconAlt=""
-  >
-    <SessionFinalization::ExaminerGlobalCommentStep
-      @session={{this.session}}
-      @examinerGlobalCommentMaxLength={{this.examinerGlobalCommentMaxLength}}
-      @onExaminerGlobalCommentChange={{this.updateExaminerGlobalComment}}
-    />
-  </SessionFinalizationStepContainer>
+  {{#if this.featureToggles.featureToggles.isCertificationFreeFieldsDeletionEnabled}}
+    <SessionFinalizationStepContainer
+      @title="Informations complémentaires (facultatif)"
+      @subtitle="Vous pouvez indiquer, le cas échéant, les événements survenus lors de la session. Il n'est pas nécessaire de renseigner les candidats absents."
+      @icon="/icons/session-finalization-send.svg"
+      @iconAlt=""
+    >
+      <SessionFinalization::ComplementaryInformationStep />
+    </SessionFinalizationStepContainer>
+
+  {{else}}
+    <SessionFinalizationStepContainer
+      @number="3"
+      @title="Commenter la session (facultatif)"
+      @icon="/icons/session-finalization-edit.svg"
+      @iconAlt=""
+    >
+      <SessionFinalization::ExaminerGlobalCommentStep
+        @session={{this.session}}
+        @examinerGlobalCommentMaxLength={{this.examinerGlobalCommentMaxLength}}
+        @onExaminerGlobalCommentChange={{this.updateExaminerGlobalComment}}
+      />
+    </SessionFinalizationStepContainer>
+  {{/if}}
 
   <PixButton class="finalize__button" data-test-id="finalize__button" @triggerAction={{this.openModal}}>
     Finaliser
