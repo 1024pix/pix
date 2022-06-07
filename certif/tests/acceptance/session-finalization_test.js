@@ -98,6 +98,28 @@ module('Acceptance | Session Finalization', function (hooks) {
       assert.deepEqual(currentURL(), `/sessions/${session.id}`);
     });
 
+    test('it should display the comment step section', async function (assert) {
+      // when
+      const screen = await visit(`/sessions/${session.id}/finalisation`);
+
+      // then
+      assert.dom(screen.getByText('Étape 3 : Commenter la session (facultatif)')).exists();
+      assert
+        .dom(
+          screen.getByText(
+            "Aucun problème sur la session, en dehors des signalements individuels renseignés lors de l'étape 1."
+          )
+        )
+        .exists();
+      assert
+        .dom(
+          screen.getByText(
+            'Je souhaite signaler un ou plusieurs incident(s) ayant impacté la session dans son ensemble'
+          )
+        )
+        .exists();
+    });
+
     module('When certificationPointOfContact click on "Finaliser" button', function () {
       module('when there is no certification issue reports', function () {
         test('it should show "Ajouter" button', async function (assert) {
