@@ -1,13 +1,14 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, click } from '@ember/test-helpers';
+import { click } from '@ember/test-helpers';
+import { render as renderScreen } from '@1024pix/ember-testing-library';
+import Service from '@ember/service';
+
 import { hbs } from 'ember-cli-htmlbars';
 import sinon from 'sinon';
 
 module('Integration | Component | issue-report-modal/fraud-certification-issue-report-fields', function (hooks) {
   setupRenderingTest(hooks);
-
-  const INPUT_RADIO_SELECTOR = '#input-radio-for-category-fraud';
 
   test('it should call toggle function on click radio button', async function (assert) {
     // given
@@ -17,35 +18,80 @@ module('Integration | Component | issue-report-modal/fraud-certification-issue-r
     this.set('fraudCategory', fraudCategory);
 
     // when
-    await render(hbs`
+    const screen = await renderScreen(hbs`
       <IssueReportModal::FraudCertificationIssueReportFields
         @fraudCategory={{this.fraudCategory}}
         @toggleOnCategory={{this.toggleOnCategory}}
       />`);
-    await click(INPUT_RADIO_SELECTOR);
+    await click(screen.getByRole('radio'));
 
     // then
     assert.ok(toggleOnCategory.calledOnceWith(fraudCategory));
   });
 
-  test('it should show text if category is checked', async function (assert) {
-    // given
-    const toggleOnCategory = sinon.stub();
-    const fraudCategory = { isChecked: true };
-    this.set('toggleOnCategory', toggleOnCategory);
-    this.set('fraudCategory', fraudCategory);
+  module('when isCertificationFreeFieldsDeletionEnabled toggle is disabled', function () {
+    test('it should show text if category is checked', async function (assert) {
+      // given
+      class FeatureTogglesStub extends Service {
+        featureToggles = {
+          isCertificationFreeFieldsDeletionEnabled: false,
+        };
+      }
 
-    // when
-    await render(hbs`
-      <IssueReportModal::FraudCertificationIssueReportFields
-        @fraudCategory={{this.fraudCategory}}
-        @toggleOnCategory={{this.toggleOnCategory}}
-      />`);
-    await click(INPUT_RADIO_SELECTOR);
+      this.owner.register('service:feature-toggles', FeatureTogglesStub);
 
-    // then
-    assert.contains(
-      "Merci de joindre le procès-verbal de fraude rempli pendant la session de certification en utilisant le formulaire 123formbuilder accessible à l'étape suivante de cette finalisation de session."
-    );
+      this.set('toggleOnCategory', sinon.stub());
+      this.set('fraudCategory', { isChecked: true });
+      // when
+      const screen = await renderScreen(hbs`
+        <IssueReportModal::FraudCertificationIssueReportFields
+          @fraudCategory={{this.fraudCategory}}
+          @toggleOnCategory={{this.toggleOnCategory}}
+        />`);
+      await click(screen.getByRole('radio'));
+
+      // then
+      assert
+        .dom(
+          screen.getByText(
+            "Merci de joindre le procès-verbal de fraude rempli pendant la session de certification en utilisant le formulaire 123formbuilder accessible à l'étape suivante de cette finalisation de session."
+          )
+        )
+        .exists();
+    });
+  });
+
+  module('when isCertificationFreeFieldsDeletionEnabled toggle is enabled', function () {
+    test('it should show text if category is checked', async function (assert) {
+      // given
+      class FeatureTogglesStub extends Service {
+        featureToggles = {
+          isCertificationFreeFieldsDeletionEnabled: true,
+        };
+      }
+
+      this.owner.register('service:feature-toggles', FeatureTogglesStub);
+
+      this.set('toggleOnCategory', sinon.stub());
+      this.set('fraudCategory', { isChecked: true });
+
+      // when
+      const screen = await renderScreen(hbs`
+        <IssueReportModal::FraudCertificationIssueReportFields
+          @fraudCategory={{this.fraudCategory}}
+          @toggleOnCategory={{this.toggleOnCategory}}
+        />`);
+      await click(screen.getByRole('radio'));
+
+      // then
+      assert
+        .dom(
+          screen.getByText(
+            'Merci de transmettre le procès-verbal de fraude rempli pendant la session de certification en utilisant'
+          )
+        )
+        .exists();
+      assert.dom(screen.getByText('ce formulaire')).exists();
+    });
   });
 });
