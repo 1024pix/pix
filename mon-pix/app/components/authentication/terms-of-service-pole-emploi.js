@@ -34,7 +34,9 @@ export default class TermsOfServicePoleEmploiComponent extends Component {
           this.isAuthenticationKeyExpired = true;
           this.errorMessage = this.intl.t(ERROR_INPUT_MESSAGE_MAP['expiredAuthenticationKey']);
         } else {
-          this.errorMessage = this.intl.t(ERROR_INPUT_MESSAGE_MAP['unknownError']);
+          const errorDetail = get(error, 'errors[0].detail');
+          this.errorMessage =
+            this.intl.t(ERROR_INPUT_MESSAGE_MAP['unknownError']) + (errorDetail ? ` (${errorDetail})` : '');
         }
       }
     } else {

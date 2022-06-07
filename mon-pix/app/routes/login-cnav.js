@@ -17,18 +17,18 @@ export default class LoginCnavRoute extends Route {
   }
 
   beforeModel(transition) {
-    const queryParams = transition.to ? transition.to.queryParams : transition.queryParams;
-    if (!queryParams.code && queryParams.error) {
-      return this.replaceWith('login');
+    const queryParams = transition.to.queryParams;
+    if (queryParams.error) {
+      throw new Error(`${queryParams.error}: ${queryParams.error_description}`);
     }
 
-    if (!queryParams.code && !queryParams.error) {
+    if (!queryParams.code) {
       return this._handleRedirectRequest();
     }
   }
 
   async model(_, transition) {
-    const queryParams = transition.to ? transition.to.queryParams : transition.queryParams;
+    const queryParams = transition.to.queryParams;
     if (queryParams.code) {
       return this._handleCallbackRequest(queryParams.code, queryParams.state);
     }

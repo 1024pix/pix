@@ -62,6 +62,21 @@ describe('Unit | Controller | terms-of-service-cnav', function () {
       });
     });
 
+    it('it should display detailed error', async function () {
+      // given
+      controller.isTermsOfServiceValidated = true;
+      controller.errorMessage = null;
+      controller.session.authenticate.rejects({ errors: [{ detail: 'some details' }] });
+
+      // when
+      await controller.send('submit');
+
+      // then
+      expect(controller.errorMessage).to.equal(
+        'Une erreur est survenue. Veuillez recommencer ou contacter le support. (some details)'
+      );
+    });
+
     it('it should display generic error', async function () {
       // given
       controller.isTermsOfServiceValidated = true;
