@@ -32,7 +32,7 @@ module('Acceptance | Session supervising error', function (hooks) {
 
       const screen = await visitScreen('/connexion-espace-surveillant');
       await fillIn(screen.getByRole('spinbutton', { name: 'Numéro de la session' }), '2000');
-      await fillIn(screen.getByLabelText('Mot de passe de la session'), '6789');
+      await fillIn(screen.getByLabelText('Mot de passe de la session Exemple : C-12345'), '6789');
       await click(screen.getByRole('button', { name: 'Surveiller la session' }));
 
       // when

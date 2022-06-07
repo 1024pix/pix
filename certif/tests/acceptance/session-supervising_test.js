@@ -52,7 +52,7 @@ module('Acceptance | Session supervising', function (hooks) {
 
       const screen = await visitScreen('/connexion-espace-surveillant');
       await fillIn(screen.getByRole('spinbutton', { name: 'Numéro de la session' }), '12345');
-      await fillIn(screen.getByLabelText('Mot de passe de la session'), '6789');
+      await fillIn(screen.getByLabelText('Mot de passe de la session Exemple : C-12345'), '6789');
 
       // when
       await click(screen.getByRole('button', { name: 'Surveiller la session' }));
@@ -97,7 +97,7 @@ module('Acceptance | Session supervising', function (hooks) {
       // when
       const screen = await visitScreen('/connexion-espace-surveillant');
       await fillIn(screen.getByRole('spinbutton', { name: 'Numéro de la session' }), '12345');
-      await fillIn(screen.getByLabelText('Mot de passe de la session'), '6789');
+      await fillIn(screen.getByLabelText('Mot de passe de la session Exemple : C-12345'), '6789');
       await click(screen.getByRole('button', { name: 'Surveiller la session' }));
 
       // then
@@ -127,7 +127,7 @@ module('Acceptance | Session supervising', function (hooks) {
 
     const firstVisit = await visitScreen('/connexion-espace-surveillant');
     await fillIn(firstVisit.getByRole('spinbutton', { name: 'Numéro de la session' }), '12345');
-    await fillIn(firstVisit.getByLabelText('Mot de passe de la session'), '6789');
+    await fillIn(firstVisit.getByLabelText('Mot de passe de la session Exemple : C-12345'), '6789');
     await click(firstVisit.getByRole('button', { name: 'Surveiller la session' }));
 
     // when
@@ -136,7 +136,7 @@ module('Acceptance | Session supervising', function (hooks) {
     // then
     const secondVisit = await visitScreen('/connexion-espace-surveillant');
     await fillIn(secondVisit.getByRole('spinbutton', { name: 'Numéro de la session' }), '12345');
-    await fillIn(secondVisit.getByLabelText('Mot de passe de la session'), '6789');
+    await fillIn(secondVisit.getByLabelText('Mot de passe de la session Exemple : C-12345'), '6789');
     await click(secondVisit.getByRole('button', { name: 'Surveiller la session' }));
     assert.true(find('input[type="checkbox"]').checked);
   });
@@ -160,7 +160,7 @@ module('Acceptance | Session supervising', function (hooks) {
 
     const firstVisit = await visitScreen('/connexion-espace-surveillant');
     await fillIn(firstVisit.getByRole('spinbutton', { name: 'Numéro de la session' }), '12345');
-    await fillIn(firstVisit.getByLabelText('Mot de passe de la session'), '6789');
+    await fillIn(firstVisit.getByLabelText('Mot de passe de la session Exemple : C-12345'), '6789');
     await click(firstVisit.getByRole('button', { name: 'Surveiller la session' }));
 
     // when
@@ -191,7 +191,7 @@ module('Acceptance | Session supervising', function (hooks) {
 
     const firstVisit = await visitScreen('/connexion-espace-surveillant');
     await fillIn(firstVisit.getByRole('spinbutton', { name: 'Numéro de la session' }), '12345');
-    await fillIn(firstVisit.getByLabelText('Mot de passe de la session'), '6789');
+    await fillIn(firstVisit.getByLabelText('Mot de passe de la session Exemple : C-12345'), '6789');
     await click(firstVisit.getByRole('button', { name: 'Surveiller la session' }));
 
     // when
