@@ -37,14 +37,16 @@
     {{/if}}
   </SessionFinalizationStepContainer>
 
-  <SessionFinalizationStepContainer
-    @number="2"
-    @title="Transmettre des documents (facultatif)"
-    @icon="/icons/session-finalization-send.svg"
-    @iconAlt=""
-  >
-    <SessionFinalization::FormbuilderLinkStep />
-  </SessionFinalizationStepContainer>
+  {{#if this.shouldDisplayFormStep}}
+    <SessionFinalizationStepContainer
+      @number="2"
+      @title="Transmettre des documents (facultatif)"
+      @icon="/icons/session-finalization-send.svg"
+      @iconAlt=""
+    >
+      <SessionFinalization::FormbuilderLinkStep />
+    </SessionFinalizationStepContainer>
+  {{/if}}
 
   <SessionFinalizationStepContainer
     @number="3"

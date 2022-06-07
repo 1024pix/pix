@@ -1,5 +1,6 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
+import Service from '@ember/service';
 import sinon from 'sinon';
 
 const FINALIZE_PATH = 'authenticated/sessions/finalize';
@@ -127,6 +128,44 @@ module('Unit | Controller | ' + FINALIZE_PATH, function (hooks) {
 
       // when
       const result = controller.shouldDisplayHasSeenEndTestScreenCheckbox;
+
+      // then
+      assert.true(result);
+    });
+  });
+
+  module('#computed shouldDisplayStepTwo', function () {
+    test('it should return false if the feature toggle isCertificationFreeFieldsDeletionEnabled is enabled', function (assert) {
+      // given
+      class FeatureTogglesStub extends Service {
+        featureToggles = {
+          isCertificationFreeFieldsDeletionEnabled: true,
+        };
+      }
+      this.owner.register('service:feature-toggles', FeatureTogglesStub);
+
+      const controller = this.owner.lookup('controller:' + FINALIZE_PATH);
+
+      // when
+      const result = controller.shouldDisplayFormStep;
+
+      // then
+      assert.false(result);
+    });
+
+    test('it should return true if the feature toggle isCertificationFreeFieldsDeletionEnabled is not enabled', function (assert) {
+      // given
+      class FeatureTogglesStub extends Service {
+        featureToggles = {
+          isCertificationFreeFieldsDeletionEnabled: false,
+        };
+      }
+      this.owner.register('service:feature-toggles', FeatureTogglesStub);
+
+      const controller = this.owner.lookup('controller:' + FINALIZE_PATH);
+
+      // when
+      const result = controller.shouldDisplayFormStep;
 
       // then
       assert.true(result);
