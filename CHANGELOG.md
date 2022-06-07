@@ -1,5 +1,28 @@
 # Pix Changelog
 
+## v3.217.0 (07/06/2022)
+
+
+### :rocket: Amélioration
+- [#4468](https://github.com/1024pix/pix/pull/4468) [FEATURE] Empêcher un candidat de continuer sa certification si la session est finalisée (PIX-4815)
+- [#4457](https://github.com/1024pix/pix/pull/4457) [FEATURE] Création d'un gabarit avec sujets/niveaux lors de celle d'un profil cible (PIX-4927).
+- [#4480](https://github.com/1024pix/pix/pull/4480) [FEATURE] Améliorer la consistance des seeds (PIX-5046)
+- [#4484](https://github.com/1024pix/pix/pull/4484) [FEATURE] Supprimer les refresh tokens d'un utilisateur quand il est anonymisé (PIX-1990).
+- [#4460](https://github.com/1024pix/pix/pull/4460) [FEATURE] Utiliser le package ember-testing-library dans Pix App (PIX-4983).
+
+### :building_construction: Tech
+- [#4479](https://github.com/1024pix/pix/pull/4479) [TECH] Ajout d'une route pour récupérer un gabarit de profil cible (PIX-5025).
+- [#4471](https://github.com/1024pix/pix/pull/4471) [TECH] Mieux cibler les erreurs lors de la réinitialisation du mot de passe sur Pix App (PIX-5016)
+
+### :bug: Correction
+- [#4488](https://github.com/1024pix/pix/pull/4488) [BUGFIX] Corriger l'acronyme CNAV en majuscules sur Pix App (PIX-5023).
+- [#4459](https://github.com/1024pix/pix/pull/4459) [BUGFIX] Remettre le style du message d'erreur de connexion en session de certification. (PIX-4984)
+- [#4476](https://github.com/1024pix/pix/pull/4476) [BUGFIX] Corriger l'affichage multiple des certifications complémentaires dans la liste des certifications d'une session (PIX-5040).
+- [#4477](https://github.com/1024pix/pix/pull/4477) [BUGFIX] Rajout du nom complet de la compétence sur la bannière de l'assessment (PIX-5027).
+
+### :coffee: Autre
+- [#4485](https://github.com/1024pix/pix/pull/4485) [A11Y] Rendre la boulette de pertinence de la phrase explicative non lisible pour les lecteurs d'écran(PIX-4247)
+
 ## v3.216.0 (02/06/2022)
 
 
