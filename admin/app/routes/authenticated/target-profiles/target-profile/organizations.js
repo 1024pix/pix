@@ -3,6 +3,7 @@ import { inject as service } from '@ember/service';
 
 export default class TargetProfileOrganizationsRoute extends Route {
   @service store;
+  @service accessControl;
 
   queryParams = {
     pageNumber: { refreshModel: true },
@@ -12,6 +13,10 @@ export default class TargetProfileOrganizationsRoute extends Route {
     type: { refreshModel: true },
     externalId: { refreshModel: true },
   };
+
+  beforeModel() {
+    this.accessControl.restrictAccessTo(['isSuperAdmin', 'isSupport', 'isMetier'], 'authenticated');
+  }
 
   async model(params) {
     const targetProfile = this.modelFor('authenticated.target-profiles.target-profile');

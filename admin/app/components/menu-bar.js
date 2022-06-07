@@ -5,6 +5,7 @@ import Component from '@glimmer/component';
 export default class MenuBar extends Component {
   @service session;
   @service currentUser;
+  @service accessControl;
 
   @action
   logout() {

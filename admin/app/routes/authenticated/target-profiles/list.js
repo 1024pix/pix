@@ -5,6 +5,7 @@ import isEmpty from 'lodash/isEmpty';
 export default class ListRoute extends Route {
   @service notifications;
   @service store;
+  @service accessControl;
 
   queryParams = {
     pageNumber: { refreshModel: true },
@@ -12,6 +13,10 @@ export default class ListRoute extends Route {
     id: { refreshModel: true },
     name: { refreshModel: true },
   };
+
+  beforeModel() {
+    this.accessControl.restrictAccessTo(['isSuperAdmin', 'isSupport', 'isMetier'], 'authenticated');
+  }
 
   async model(params) {
     let targetProfiles;

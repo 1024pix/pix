@@ -134,7 +134,7 @@ describe('Acceptance | Controller | frameworks-controller', function () {
               relationships: {
                 skills: {
                   links: {
-                    related: '/api/tubes/tubeId/skills',
+                    related: '/api/admin/tubes/tubeId/skills',
                   },
                 },
               },

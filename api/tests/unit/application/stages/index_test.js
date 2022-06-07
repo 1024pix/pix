@@ -3,24 +3,57 @@ const securityPreHandlers = require('../../../../lib/application/security-pre-ha
 const stagesController = require('../../../../lib/application/stages/stages-controller');
 const moduleUnderTest = require('../../../../lib/application/stages');
 
-describe('Unit | Router | stages-router', function () {
+describe('Unit | Application | Stages | Routes', function () {
   describe('POST /api/admin/stages', function () {
-    const method = 'POST';
+    context('when user has role "SUPER_ADMIN", "SUPPORT" or "METIER"', function () {
+      it('should return a response with an HTTP status code 201', async function () {
+        // given
+        sinon
+          .stub(securityPreHandlers, 'userHasAtLeastOneAccessOf')
+          .withArgs([
+            securityPreHandlers.checkUserHasRoleSuperAdmin,
+            securityPreHandlers.checkUserHasRoleSupport,
+            securityPreHandlers.checkUserHasRoleMetier,
+          ])
+          .callsFake(() => (request, h) => h.response(true));
+        sinon.stub(stagesController, 'create').callsFake((request, h) => h.response('ok').code(201));
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
 
-    it('should exist', async function () {
-      // given
-      sinon.stub(securityPreHandlers, 'userHasAtLeastOneAccessOf').returns(() => true);
-      sinon.stub(stagesController, 'create').returns('ok');
-      const httpTestServer = new HttpTestServer();
-      await httpTestServer.register(moduleUnderTest);
+        // when
+        const { statusCode } = await httpTestServer.request('POST', '/api/admin/stages');
 
-      const url = '/api/admin/stages';
+        // then
+        expect(statusCode).to.equal(201);
+      });
+    });
 
-      // when
-      const response = await httpTestServer.request(method, url);
+    context('when user has role "CERTIF"', function () {
+      it('should return a response with an HTTP status code 403', async function () {
+        // given
+        sinon
+          .stub(securityPreHandlers, 'userHasAtLeastOneAccessOf')
+          .withArgs([
+            securityPreHandlers.checkUserHasRoleSuperAdmin,
+            securityPreHandlers.checkUserHasRoleSupport,
+            securityPreHandlers.checkUserHasRoleMetier,
+          ])
+          .callsFake(
+            () => (request, h) =>
+              h
+                .response({ errors: new Error('forbidden') })
+                .code(403)
+                .takeover()
+          );
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
 
-      // then
-      expect(response.statusCode).to.equal(200);
+        // when
+        const { statusCode } = await httpTestServer.request('POST', '/api/admin/stages');
+
+        // then
+        expect(statusCode).to.equal(403);
+      });
     });
   });
 
@@ -36,10 +69,10 @@ describe('Unit | Router | stages-router', function () {
       const url = '/api/admin/stages/34';
 
       // when
-      const response = await httpTestServer.request(method, url);
+      const { statusCode } = await httpTestServer.request(method, url);
 
       // then
-      expect(response.statusCode).to.equal(200);
+      expect(statusCode).to.equal(200);
     });
 
     it('should return a 400 error when the id is not a number', async function () {
@@ -52,138 +85,215 @@ describe('Unit | Router | stages-router', function () {
       const url = `/api/admin/stages/${unknownId}`;
 
       // when
-      const response = await httpTestServer.request(method, url);
+      const { statusCode } = await httpTestServer.request(method, url);
 
       // then
-      expect(response.statusCode).to.equal(400);
+      expect(statusCode).to.equal(400);
     });
   });
 
-  describe('PATCH /api/admin/stages/:id', function () {
-    it('should update the stage with attributes', async function () {
-      // given
-      sinon.stub(securityPreHandlers, 'userHasAtLeastOneAccessOf').returns(() => true);
-      sinon.stub(stagesController, 'updateStage').callsFake((request, h) => h.response('ok').code(204));
-      const httpTestServer = new HttpTestServer();
-      await httpTestServer.register(moduleUnderTest);
+  describe('PATCH /api/admin/stages/{id}', function () {
+    context('when user has role "SUPER_ADMIN", "SUPPORT" or "METIER"', function () {
+      it('should return a response with an HTTP status code 201', async function () {
+        // given
+        sinon
+          .stub(securityPreHandlers, 'userHasAtLeastOneAccessOf')
+          .withArgs([
+            securityPreHandlers.checkUserHasRoleSuperAdmin,
+            securityPreHandlers.checkUserHasRoleSupport,
+            securityPreHandlers.checkUserHasRoleMetier,
+          ])
+          .callsFake(() => (request, h) => h.response(true));
+        sinon.stub(stagesController, 'updateStage').callsFake((request, h) => h.response('ok').code(201));
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
 
-      const method = 'PATCH';
-      const payload = {
-        data: {
-          attributes: {
-            threshold: 42,
-            title: 'titre',
-            message: 'message',
-            'prescriber-title': 'test',
-            'prescriber-description': 'bidule',
+        // when
+        const { statusCode } = await httpTestServer.request('PATCH', '/api/admin/stages/1', {
+          data: {
+            attributes: {
+              message: null,
+              'prescriber-description': null,
+              'prescriber-title': null,
+              threshold: null,
+              title: null,
+            },
           },
-        },
-      };
-      const url = '/api/admin/stages/34';
+        });
 
-      // when
-      const response = await httpTestServer.request(method, url, payload);
+        // then
+        expect(statusCode).to.equal(201);
+      });
 
-      // then
-      expect(response.statusCode).to.equal(204);
+      it('should update the stage with attributes', async function () {
+        // given
+        sinon.stub(securityPreHandlers, 'userHasAtLeastOneAccessOf').returns(() => true);
+        sinon.stub(stagesController, 'updateStage').callsFake((request, h) => h.response('ok').code(204));
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        const method = 'PATCH';
+        const payload = {
+          data: {
+            attributes: {
+              threshold: 42,
+              title: 'titre',
+              message: 'message',
+              'prescriber-title': 'test',
+              'prescriber-description': 'bidule',
+            },
+          },
+        };
+        const url = '/api/admin/stages/34';
+
+        // when
+        const { statusCode } = await httpTestServer.request(method, url, payload);
+
+        // then
+        expect(statusCode).to.equal(204);
+      });
+
+      it('should update the stage even if there is null', async function () {
+        // given
+        sinon.stub(securityPreHandlers, 'userHasAtLeastOneAccessOf').returns(() => true);
+        sinon.stub(stagesController, 'updateStage').callsFake((request, h) => h.response('ok').code(204));
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        const method = 'PATCH';
+        const payload = {
+          data: {
+            attributes: {
+              threshold: 42,
+              title: 'titre',
+              message: null,
+              'prescriber-title': null,
+              'prescriber-description': 'bidule',
+            },
+          },
+        };
+        const url = '/api/admin/stages/34';
+
+        // when
+        const { statusCode } = await httpTestServer.request(method, url, payload);
+
+        // then
+        expect(statusCode).to.equal(204);
+      });
+
+      context('when the id is not a number', function () {
+        it('should return a 400 error', async function () {
+          // given
+          const httpTestServer = new HttpTestServer();
+          await httpTestServer.register(moduleUnderTest);
+
+          const method = 'PATCH';
+          const unknownId = 'abcd45';
+          const payload = {
+            data: {
+              attributes: {
+                'prescriber-title': 'test',
+                'prescriber-description': 'bidule',
+              },
+            },
+          };
+          const url = `/api/admin/stages/${unknownId}`;
+
+          // when
+          const { statusCode } = await httpTestServer.request(method, url, payload);
+
+          // then
+          expect(statusCode).to.equal(400);
+        });
+      });
+
+      context('when payload is undefined', function () {
+        it('should return a 400 error', async function () {
+          // given
+          const httpTestServer = new HttpTestServer();
+          await httpTestServer.register(moduleUnderTest);
+
+          const method = 'PATCH';
+          const payload = {
+            data: {
+              attributes: {
+                'prescriber-title': undefined,
+                'prescriber-description': undefined,
+              },
+            },
+          };
+          const url = '/api/admin/stages/34';
+
+          // when
+          const { statusCode } = await httpTestServer.request(method, url, payload);
+
+          // then
+          expect(statusCode).to.equal(400);
+        });
+      });
+
+      context('when payload is empty strings', function () {
+        it('should return a 400 error', async function () {
+          // given
+          const httpTestServer = new HttpTestServer();
+          await httpTestServer.register(moduleUnderTest);
+
+          const method = 'PATCH';
+          const payload = {
+            data: {
+              attributes: {
+                'prescriber-title': '',
+                'prescriber-description': '',
+              },
+            },
+          };
+          const url = '/api/admin/stages/34';
+
+          // when
+          const { statusCode } = await httpTestServer.request(method, url, payload);
+
+          // then
+          expect(statusCode).to.equal(400);
+        });
+      });
     });
 
-    it('should update the stage even if there is null', async function () {
-      // given
-      sinon.stub(securityPreHandlers, 'userHasAtLeastOneAccessOf').returns(() => true);
-      sinon.stub(stagesController, 'updateStage').callsFake((request, h) => h.response('ok').code(204));
-      const httpTestServer = new HttpTestServer();
-      await httpTestServer.register(moduleUnderTest);
+    context('when user has role "CERTIF"', function () {
+      it('should return a response with an HTTP status code 403', async function () {
+        // given
+        sinon
+          .stub(securityPreHandlers, 'userHasAtLeastOneAccessOf')
+          .withArgs([
+            securityPreHandlers.checkUserHasRoleSuperAdmin,
+            securityPreHandlers.checkUserHasRoleSupport,
+            securityPreHandlers.checkUserHasRoleMetier,
+          ])
+          .callsFake(
+            () => (request, h) =>
+              h
+                .response({ errors: new Error('forbidden') })
+                .code(403)
+                .takeover()
+          );
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
 
-      const method = 'PATCH';
-      const payload = {
-        data: {
-          attributes: {
-            threshold: 42,
-            title: 'titre',
-            message: null,
-            'prescriber-title': null,
-            'prescriber-description': 'bidule',
+        // when
+        const { statusCode } = await httpTestServer.request('PATCH', '/api/admin/stages/1', {
+          data: {
+            attributes: {
+              message: null,
+              'prescriber-description': null,
+              'prescriber-title': null,
+              threshold: null,
+              title: null,
+            },
           },
-        },
-      };
-      const url = '/api/admin/stages/34';
+        });
 
-      // when
-      const response = await httpTestServer.request(method, url, payload);
-
-      // then
-      expect(response.statusCode).to.equal(204);
-    });
-
-    it('should return a 400 error when the id is not a number', async function () {
-      // given
-      const httpTestServer = new HttpTestServer();
-      await httpTestServer.register(moduleUnderTest);
-
-      const method = 'PATCH';
-      const unknownId = 'abcd45';
-      const payload = {
-        data: {
-          attributes: {
-            'prescriber-title': 'test',
-            'prescriber-description': 'bidule',
-          },
-        },
-      };
-      const url = `/api/admin/stages/${unknownId}`;
-
-      // when
-      const response = await httpTestServer.request(method, url, payload);
-
-      // then
-      expect(response.statusCode).to.equal(400);
-    });
-
-    it('should return a 400 error when payload is undefined', async function () {
-      // given
-      const httpTestServer = new HttpTestServer();
-      await httpTestServer.register(moduleUnderTest);
-
-      const method = 'PATCH';
-      const payload = {
-        data: {
-          attributes: {
-            'prescriber-title': undefined,
-            'prescriber-description': undefined,
-          },
-        },
-      };
-      const url = '/api/admin/stages/34';
-
-      // when
-      const response = await httpTestServer.request(method, url, payload);
-
-      // then
-      expect(response.statusCode).to.equal(400);
-    });
-
-    it('should return a 400 error when payload is empty strings', async function () {
-      // given
-      const httpTestServer = new HttpTestServer();
-      await httpTestServer.register(moduleUnderTest);
-
-      const method = 'PATCH';
-      const payload = {
-        data: {
-          attributes: {
-            'prescriber-title': '',
-            'prescriber-description': '',
-          },
-        },
-      };
-      const url = '/api/admin/stages/34';
-
-      // when
-      const response = await httpTestServer.request(method, url, payload);
-
-      // then
-      expect(response.statusCode).to.equal(400);
+        // then
+        expect(statusCode).to.equal(403);
+      });
     });
   });
 });

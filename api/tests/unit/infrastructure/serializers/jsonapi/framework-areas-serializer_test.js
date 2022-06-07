@@ -56,7 +56,7 @@ describe('Unit | Serializer | JSONAPI | pix-framework-serializer', function () {
             relationships: {
               skills: {
                 links: {
-                  related: '/api/tubes/tubeId/skills',
+                  related: '/api/admin/tubes/tubeId/skills',
                 },
               },
             },
