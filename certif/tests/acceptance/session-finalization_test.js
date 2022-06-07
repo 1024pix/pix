@@ -120,6 +120,44 @@ module('Acceptance | Session Finalization', function (hooks) {
         .exists();
     });
 
+    module('when FT_CERTIFICATION_FREE_FIELDS_DELETION is on', function () {
+      test('it should not display the comment step section', async function (assert) {
+        // given
+        server.create('feature-toggle', { id: 0, isCertificationFreeFieldsDeletionEnabled: true });
+
+        // when
+        const screen = await visit(`/sessions/${session.id}/finalisation`);
+
+        // then
+        assert.dom(screen.queryByText('Étape 3 : Commenter la session (facultatif)')).doesNotExist();
+        assert
+          .dom(
+            screen.queryByText(
+              "Aucun problème sur la session, en dehors des signalements individuels renseignés lors de l'étape 1."
+            )
+          )
+          .doesNotExist();
+        assert
+          .dom(
+            screen.queryByText(
+              'Je souhaite signaler un ou plusieurs incident(s) ayant impacté la session dans son ensemble'
+            )
+          )
+          .doesNotExist();
+      });
+
+      test('it should display the complementary info section', async function (assert) {
+        // given
+        server.create('feature-toggle', { id: 0, isCertificationFreeFieldsDeletionEnabled: true });
+
+        // when
+        const screen = await visit(`/sessions/${session.id}/finalisation`);
+
+        // then
+        assert.dom(screen.getByText('Malgré un incident survenu')).exists();
+      });
+    });
+
     module('When certificationPointOfContact click on "Finaliser" button', function () {
       module('when there is no certification issue reports', function () {
         test('it should show "Ajouter" button', async function (assert) {
