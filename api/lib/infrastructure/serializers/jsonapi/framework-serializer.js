@@ -9,7 +9,7 @@ module.exports = {
         ref: true,
         ignoreRelationshipData: true,
         relationshipLinks: {
-          related: (framework) => `/api/frameworks/${framework.id}/areas`,
+          related: (framework) => `/api/admin/frameworks/${framework.id}/areas`,
         },
       },
       transform: (framework) => ({
