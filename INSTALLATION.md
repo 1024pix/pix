@@ -82,8 +82,8 @@ en local. Si besoin, éditer le fichier `.env` généré par le script pour l'ad
 
 Vérifier les connexions à la base de donnée :
 
-- de test manuel (présence de table et de données) `docker exec -it pix_postgres_1 psql -U postgres pix`;
-- de test automatique (présence de tables) `docker exec -it pix_postgres_1 psql -U postgres pix_test`.
+- de test manuel (présence de table et de données) `docker exec -it pix-api-postgres psql -U postgres pix`;
+- de test automatique (présence de tables) `docker exec -it pix-api-postgres psql -U postgres pix_test`.
 
 ### 4. Démarrer les applications.
 
