@@ -422,6 +422,10 @@ function _mapToHttpError(error) {
     return new HttpErrors.PreconditionFailedError(error.message);
   }
 
+  if (error instanceof DomainErrors.CertificationEndedByFinalizationError) {
+    return new HttpErrors.ConflictError(error.message);
+  }
+
   return new HttpErrors.BaseHttpError(error.message);
 }
 

@@ -1,4 +1,9 @@
-const { ForbiddenAccess, ChallengeNotAskedError, CertificationEndedBySupervisorError } = require('../errors');
+const {
+  ForbiddenAccess,
+  ChallengeNotAskedError,
+  CertificationEndedBySupervisorError,
+  CertificationEndedByFinalizationError,
+} = require('../errors');
 const Examiner = require('../models/Examiner');
 const KnowledgeElement = require('../models/KnowledgeElement');
 const logger = require('../../infrastructure/logger');
@@ -27,6 +32,9 @@ module.exports = async function correctAnswerThenUpdateAssessment({
   }
   if (assessment.isEndedBySupervisor()) {
     throw new CertificationEndedBySupervisorError();
+  }
+  if (assessment.hasBeenEndedDueToFinalization()) {
+    throw new CertificationEndedByFinalizationError();
   }
   if (assessment.lastChallengeId && assessment.lastChallengeId != answer.challengeId) {
     throw new ChallengeNotAskedError();

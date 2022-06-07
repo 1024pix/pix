@@ -439,6 +439,21 @@ describe('Unit | Domain | Models | CertificationAssessment', function () {
     });
   });
 
+  describe('#endDueToFinalization', function () {
+    it('should change the assessment state to "endedDueToFinalization"', function () {
+      // given
+      const certificationAssessment = domainBuilder.buildCertificationAssessment({
+        state: CertificationAssessment.states.STARTED,
+      });
+
+      // when
+      certificationAssessment.endDueToFinalization();
+
+      // when then
+      expect(certificationAssessment.state).to.equal(CertificationAssessment.states.ENDED_DUE_TO_FINALIZATION);
+    });
+  });
+
   describe('#listCertifiableBadgeKeysTaken', function () {
     it('returns the certifiable badge keys of those taken during this certification', function () {
       // given
