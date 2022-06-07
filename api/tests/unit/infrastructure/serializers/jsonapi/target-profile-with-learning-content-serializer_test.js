@@ -84,6 +84,9 @@ describe('Unit | Serializer | JSONAPI | target-profile-with-learning-content-ser
                 related: `/api/admin/target-profiles/${targetProfileWithLearningContent.id}/stages`,
               },
             },
+            template: {
+              data: null,
+            },
           },
         },
         included: [

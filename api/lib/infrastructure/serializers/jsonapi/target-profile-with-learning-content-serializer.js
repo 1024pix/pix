@@ -20,6 +20,7 @@ module.exports = {
         'imageUrl',
         'category',
         'isSimplifiedAccess',
+        'template',
       ],
       skills: {
         ref: 'id',
@@ -60,6 +61,15 @@ module.exports = {
             return `/api/admin/target-profiles/${parent.id}/stages`;
           },
         },
+      },
+      template: {
+        ref: 'id',
+      },
+      typeForAttribute: function (type) {
+        if (type === 'template') {
+          return 'target-profile-templates';
+        }
+        return undefined; // fallback to default type name
       },
       meta,
     }).serialize(targetProfiles);
