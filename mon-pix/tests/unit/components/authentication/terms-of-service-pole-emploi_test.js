@@ -61,6 +61,23 @@ describe('Unit | Component | authentication::terms-of-service-pole-emploi', func
       });
     });
 
+    it('it should display detailed error', async function () {
+      // given
+      const component = createGlimmerComponent('component:authentication/terms-of-service-pole-emploi');
+      const createSession = sinon.stub().rejects({ errors: [{ status: '500', detail: 'some detail' }] });
+      component.args.createSession = createSession;
+      component.isTermsOfServiceValidated = true;
+      component.errorMessage = null;
+
+      // when
+      await component.submit();
+
+      // then
+      expect(component.errorMessage).to.equal(
+        'Une erreur est survenue. Veuillez recommencer ou contacter le support. (some detail)'
+      );
+    });
+
     it('it should display generic error', async function () {
       // given
       const component = createGlimmerComponent('component:authentication/terms-of-service-pole-emploi');
