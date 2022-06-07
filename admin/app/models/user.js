@@ -45,6 +45,10 @@ export default class User extends Model {
     );
   }
 
+  get hasCnavAuthenticationMethod() {
+    return this.authenticationMethods.any((authenticationMethod) => authenticationMethod.identityProvider === 'CNAV');
+  }
+
   get hasGarAuthenticationMethod() {
     return this.authenticationMethods.any((authenticationMethod) => authenticationMethod.identityProvider === 'GAR');
   }
