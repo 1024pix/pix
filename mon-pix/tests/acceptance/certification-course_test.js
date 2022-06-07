@@ -7,6 +7,7 @@ import { authenticateByEmail } from '../helpers/authentication';
 import { fillCertificationJoiner, fillCertificationStarter } from '../helpers/certification';
 import setupIntl from '../helpers/setup-intl';
 import { contains } from '../helpers/contains';
+import { assessmentStates } from 'mon-pix/models/assessment';
 
 describe('Acceptance | Certification | Certification Course', function () {
   setupApplicationTest();
@@ -354,7 +355,7 @@ describe('Acceptance | Certification | Certification Course', function () {
           });
           this.server.create('assessment', {
             certificationCourseId: certificationCourse.id,
-            state: 'endedBySupervisor',
+            state: assessmentStates.ENDED_BY_SUPERVISOR,
           });
 
           // when
@@ -365,6 +366,31 @@ describe('Acceptance | Certification | Certification Course', function () {
           expect(
             contains(
               'Votre surveillant a mis fin à votre test de certification. Vous ne pouvez plus continuer de répondre aux questions.'
+            )
+          ).to.exist;
+        });
+      });
+
+      context('when test was ended by finalization', function () {
+        it('should display "La session a été finalisée par votre centre de certification..."', async function () {
+          // given
+          const user = server.create('user', 'withEmail', 'certifiable', { hasSeenOtherChallengesTooltip: true });
+          const certificationCourse = this.server.create('certification-course', {
+            isEndTestScreenRemovalEnabled: false,
+          });
+          this.server.create('assessment', {
+            certificationCourseId: certificationCourse.id,
+            state: assessmentStates.ENDED_DUE_TO_FINALIZATION,
+          });
+
+          // when
+          await authenticateByEmail(user);
+          await visit(`/certifications/${certificationCourse.id}/results`);
+
+          // then
+          expect(
+            contains(
+              'La session a été finalisée par votre centre de certification. Vous ne pouvez plus continuer de répondre aux questions.'
             )
           ).to.exist;
         });

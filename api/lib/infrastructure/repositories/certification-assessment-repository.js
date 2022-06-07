@@ -115,5 +115,9 @@ module.exports = {
         .where({ id: answer.id })
         .update({ result: answerStatusDatabaseAdapter.toSQLString(answer.result) });
     }
+
+    await knex('assessments')
+      .where({ certificationCourseId: certificationAssessment.certificationCourseId })
+      .update({ state: certificationAssessment.state });
   },
 };

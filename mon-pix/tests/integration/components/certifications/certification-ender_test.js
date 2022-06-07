@@ -89,4 +89,24 @@ describe('Integration | Component | Certifications | CertificationEnder', functi
       expect(contains(this.intl.t('pages.certification-ender.candidate.ended-by-supervisor'))).to.exist;
     });
   });
+
+  context('when the assessment status is ended by finalization', function () {
+    it('should display the ended by finalization text', async function () {
+      // given
+      class currentUser extends Service {
+        user = {
+          fullName: 'Jim Halpert',
+        };
+      }
+      this.owner.register('service:currentUser', currentUser);
+
+      // when
+      await render(hbs`
+      <Certifications::CertificationEnder @certificationNumber={{certificationNumber}} @hasBeenEndedDueToFinalization={{true}} />
+    `);
+
+      // then
+      expect(contains(this.intl.t('pages.certification-ender.candidate.ended-due-to-finalization'))).to.exist;
+    });
+  });
 });

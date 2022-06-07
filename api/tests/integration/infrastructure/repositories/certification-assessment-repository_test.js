@@ -391,5 +391,37 @@ describe('Integration | Infrastructure | Repositories | certification-assessment
       expect(persistedCertificationAssessment.certificationAnswersByDate[0].result).to.deep.equal(AnswerStatus.OK);
       expect(persistedCertificationAssessment.certificationAnswersByDate[1].result).to.deep.equal(AnswerStatus.SKIPPED);
     });
+
+    it('persists the mutation of assessment state', async function () {
+      // given
+      const dbf = databaseBuilder.factory;
+      const userId = dbf.buildUser().id;
+      const certificationCourseId = dbf.buildCertificationCourse({ userId }).id;
+      const certificationAssessmentId = dbf.buildAssessment({
+        userId,
+        certificationCourseId,
+        state: 'started',
+      }).id;
+
+      const certificationChallengeRecId = 'rec567';
+
+      dbf.buildCertificationChallenge({
+        challengeId: certificationChallengeRecId,
+        courseId: certificationCourseId,
+      });
+
+      await databaseBuilder.commit();
+      const certificationAssessmentToBeSaved = await certificationAssessmentRepository.get(certificationAssessmentId);
+      certificationAssessmentToBeSaved.state = CertificationAssessment.states.ENDED_DUE_TO_FINALIZATION;
+
+      // when
+      await certificationAssessmentRepository.save(certificationAssessmentToBeSaved);
+
+      // then
+      const persistedCertificationAssessment = await certificationAssessmentRepository.get(certificationAssessmentId);
+      expect(persistedCertificationAssessment.state).to.deep.equal(
+        CertificationAssessment.states.ENDED_DUE_TO_FINALIZATION
+      );
+    });
   });
 });
