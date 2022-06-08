@@ -27,22 +27,22 @@ async function exchangeCodeForTokens({ code, redirectUri }) {
     redirect_uri: redirectUri,
   };
 
-  const response = await httpAgent.post({
+  const tokensResponse = await httpAgent.post({
     url: settings.poleEmploi.tokenUrl,
     payload: querystring.stringify(data),
     headers: { 'content-type': 'application/x-www-form-urlencoded' },
   });
 
-  if (!response.isSuccessful) {
-    const errorMessage = JSON.stringify(response.data);
-    throw new AuthenticationTokenRetrievalError(errorMessage, response.code);
+  if (!tokensResponse.isSuccessful) {
+    const errorMessage = JSON.stringify(tokensResponse.data);
+    throw new AuthenticationTokenRetrievalError(errorMessage, tokensResponse.code);
   }
 
   return new PoleEmploiTokens({
-    accessToken: response.data['access_token'],
-    idToken: response.data['id_token'],
-    expiresIn: response.data['expires_in'],
-    refreshToken: response.data['refresh_token'],
+    accessToken: tokensResponse.data['access_token'],
+    idToken: tokensResponse.data['id_token'],
+    expiresIn: tokensResponse.data['expires_in'],
+    refreshToken: tokensResponse.data['refresh_token'],
   });
 }
 
