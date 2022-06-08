@@ -749,7 +749,7 @@
     },
     "fill-in-campaign-code": {
       "title": "I have a code",
-      "description": "This code can be used to start a customised test or to submit your profile to an organisation",
+      "description": "This code is given by your school/organisation and can be used to start a customised test or to submit your profile",
       "errors": {
         "forbidden": "Oops! We can’t find you. Check your details to continue or contact the organiser.",
         "missing-code": "Please enter a code.",
@@ -757,7 +757,7 @@
       },
       "first-title-connected": "{ firstName }, enter your code",
       "first-title-not-connected": "Enter your code",
-      "start": "Start",
+      "start": "Start the customised test",
       "warning-message": "If you are not { firstName } { lastName },",
       "warning-message-logout": "please log out"
     },
