@@ -1,24 +1,17 @@
-{{#if @edition}}
-  <div class="row form-group certification-info-field edited">
-    <label
-      for={{@fieldId}}
-      class="col-form-label certification-info-field__label--editing
-        {{if @isTextarea "certification-info-field__label--large"}}
-        {{if @suffix "certification-info-field__label--small"}}"
-    >
+<div class="certification-info-field">
+  {{#if @edition}}
+    <label for={{@fieldId}} class="certification-info-field__label">
       {{@label}}
     </label>
     {{#if @isTextarea}}
-      <Textarea id={{@fieldId}} @value={{@value}} class="form-control" />
+      <Textarea id={{@fieldId}} @value={{@value}} class="form-control" ...attributes />
     {{else}}
-      <Input id={{@fieldId}} @type="text" @value={{@value}} class="form-control" />
+      <Input id={{@fieldId}} @type="text" @value={{@value}} class="form-control" ...attributes />
     {{/if}}
     {{#if @suffix}}
       <span class="certification-info-field__suffix">{{@suffix}}</span>
     {{/if}}
-  </div>
-{{else}}
-  <div class="row certification-info-field">
+  {{else}}
     <p>
       {{@label}}
       {{#if @linkRoute}}
@@ -31,5 +24,5 @@
         </span>
       {{/if}}
     </p>
-  </div>
-{{/if}}
+  {{/if}}
+</div>
