@@ -170,53 +170,57 @@ const _getRowItemsFromSessionAndResults = (session) => (certificationResult) => 
     [_headers.BIRTHPLACE]: certificationResult.birthplace,
     [_headers.EXTERNAL_ID]: certificationResult.externalId,
     [_headers.STATUS]: _formatStatus(certificationResult),
-    [_headers.CLEA_STATUS]: _formatComplementaryCertification(certificationResult, 'hasTakenClea', 'hasAcquiredClea'),
-    [_headers.PIX_PLUS_DROIT_MAITRE_STATUS]: _formatComplementaryCertification(
+    [_headers.CLEA_STATUS]: _getComplementaryCertificationStatus(
+      certificationResult,
+      'hasTakenClea',
+      'hasAcquiredClea'
+    ),
+    [_headers.PIX_PLUS_DROIT_MAITRE_STATUS]: _getComplementaryCertificationStatus(
       certificationResult,
       'hasTakenPixPlusDroitMaitre',
       'hasAcquiredPixPlusDroitMaitre'
     ),
-    [_headers.PIX_PLUS_DROIT_EXPERT_STATUS]: _formatComplementaryCertification(
+    [_headers.PIX_PLUS_DROIT_EXPERT_STATUS]: _getComplementaryCertificationStatus(
       certificationResult,
       'hasTakenPixPlusDroitExpert',
       'hasAcquiredPixPlusDroitExpert'
     ),
-    [_headers.PIX_PLUS_EDU_2ND_DEGRE_INITIE_HEADER]: _formatComplementaryCertification(
+    [_headers.PIX_PLUS_EDU_2ND_DEGRE_INITIE_HEADER]: _getComplementaryCertificationStatus(
       certificationResult,
       'hasTakenPixPlusEdu2ndDegreInitie',
       'hasAcquiredPixPlusEdu2ndDegreInitie'
     ),
-    [_headers.PIX_PLUS_EDU_2ND_DEGRE_CONFIRME_HEADER]: _formatComplementaryCertification(
+    [_headers.PIX_PLUS_EDU_2ND_DEGRE_CONFIRME_HEADER]: _getComplementaryCertificationStatus(
       certificationResult,
       'hasTakenPixPlusEdu2ndDegreConfirme',
       'hasAcquiredPixPlusEdu2ndDegreConfirme'
     ),
-    [_headers.PIX_PLUS_EDU_2ND_DEGRE_AVANCE_HEADER]: _formatComplementaryCertification(
+    [_headers.PIX_PLUS_EDU_2ND_DEGRE_AVANCE_HEADER]: _getComplementaryCertificationStatus(
       certificationResult,
       'hasTakenPixPlusEdu2ndDegreAvance',
       'hasAcquiredPixPlusEdu2ndDegreAvance'
     ),
-    [_headers.PIX_PLUS_EDU_2ND_DEGRE_EXPERT_HEADER]: _formatComplementaryCertification(
+    [_headers.PIX_PLUS_EDU_2ND_DEGRE_EXPERT_HEADER]: _getComplementaryCertificationStatus(
       certificationResult,
       'hasTakenPixPlusEdu2ndDegreExpert',
       'hasAcquiredPixPlusEdu2ndDegreExpert'
     ),
-    [_headers.PIX_PLUS_EDU_1ER_DEGRE_INITIE_HEADER]: _formatComplementaryCertification(
+    [_headers.PIX_PLUS_EDU_1ER_DEGRE_INITIE_HEADER]: _getComplementaryCertificationStatus(
       certificationResult,
       'hasTakenPixPlusEdu1erDegreInitie',
       'hasAcquiredPixPlusEdu1erDegreInitie'
     ),
-    [_headers.PIX_PLUS_EDU_1ER_DEGRE_CONFIRME_HEADER]: _formatComplementaryCertification(
+    [_headers.PIX_PLUS_EDU_1ER_DEGRE_CONFIRME_HEADER]: _getComplementaryCertificationStatus(
       certificationResult,
       'hasTakenPixPlusEdu1erDegreConfirme',
       'hasAcquiredPixPlusEdu1erDegreConfirme'
     ),
-    [_headers.PIX_PLUS_EDU_1ER_DEGRE_AVANCE_HEADER]: _formatComplementaryCertification(
+    [_headers.PIX_PLUS_EDU_1ER_DEGRE_AVANCE_HEADER]: _getComplementaryCertificationStatus(
       certificationResult,
       'hasTakenPixPlusEdu1erDegreAvance',
       'hasAcquiredPixPlusEdu1erDegreAvance'
     ),
-    [_headers.PIX_PLUS_EDU_1ER_DEGRE_EXPERT_HEADER]: _formatComplementaryCertification(
+    [_headers.PIX_PLUS_EDU_1ER_DEGRE_EXPERT_HEADER]: _getComplementaryCertificationStatus(
       certificationResult,
       'hasTakenPixPlusEdu1erDegreExpert',
       'hasAcquiredPixPlusEdu1erDegreExpert'
@@ -232,7 +236,7 @@ const _getRowItemsFromSessionAndResults = (session) => (certificationResult) => 
   return { ...rowWithoutCompetences, ...competencesCells };
 };
 
-function _formatComplementaryCertification(certificationResult, hasTakenFunction, hasAcquiredFunction) {
+function _getComplementaryCertificationStatus(certificationResult, hasTakenFunction, hasAcquiredFunction) {
   if (!certificationResult[hasTakenFunction]()) return 'Non passée';
   if (certificationResult.isCancelled()) return 'Annulée';
   return certificationResult[hasAcquiredFunction]() ? 'Validée' : 'Rejetée';
