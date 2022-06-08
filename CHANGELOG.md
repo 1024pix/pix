@@ -1,5 +1,19 @@
 # Pix Changelog
 
+## v3.218.0 (08/06/2022)
+
+
+### :rocket: Amélioration
+- [#4489](https://github.com/1024pix/pix/pull/4489) [FEATURE] Afficher la méthode de connexion CNAV sur la page de détail d'un utilisateur sur Pix Admin (PIX-5022).
+- [#4482](https://github.com/1024pix/pix/pull/4482) [FEATURE] Afficher un lien pour transmettre le PV de fraude lors de la finalisation de session (PIX-4943)
+- [#4455](https://github.com/1024pix/pix/pull/4455) [FEATURE] Retirer l'accès à la page "Profils cibles" de Pix Admin uniquement au rôle "CERTIF" (PIX-4668)
+
+### :building_construction: Tech
+- [#4486](https://github.com/1024pix/pix/pull/4486) [TECH] Afficher une page d'erreur lorsque un identity provider externe nous renvoie une erreur (PIX-5017).
+
+### :coffee: Autre
+- [#4492](https://github.com/1024pix/pix/pull/4492) [DOCS] Corriger le test de la connexion BDD dans l'installation
+
 ## v3.217.0 (07/06/2022)
 
 
