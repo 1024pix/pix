@@ -3,7 +3,7 @@ const { v4: uuidv4 } = require('uuid');
 const httpAgent = require('../../../infrastructure/http/http-agent');
 const querystring = require('querystring');
 const { AuthenticationTokenRetrievalError } = require('../../errors');
-const PoleEmploiTokens = require('../../models/PoleEmploiTokens');
+const AuthenticationSessionContent = require('../../models/AuthenticationSessionContent');
 const jsonwebtoken = require('jsonwebtoken');
 const { POLE_EMPLOI } = require('../../constants').SOURCE;
 
@@ -38,7 +38,7 @@ async function exchangeCodeForTokens({ code, redirectUri }) {
     throw new AuthenticationTokenRetrievalError(errorMessage, tokensResponse.code);
   }
 
-  return new PoleEmploiTokens({
+  return new AuthenticationSessionContent({
     accessToken: tokensResponse.data['access_token'],
     idToken: tokensResponse.data['id_token'],
     expiresIn: tokensResponse.data['expires_in'],

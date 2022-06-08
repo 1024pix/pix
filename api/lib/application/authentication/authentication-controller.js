@@ -100,10 +100,10 @@ module.exports = {
       stateSent,
     });
 
-    if (result.pixAccessToken && result.poleEmploiTokens) {
+    if (result.pixAccessToken && result.poleEmploiAuthenticationSessionContent) {
       return {
         access_token: result.pixAccessToken,
-        id_token: result.poleEmploiTokens.idToken,
+        id_token: result.poleEmploiAuthenticationSessionContent.idToken,
       };
     } else {
       const message = "L'utilisateur n'a pas de compte Pix";

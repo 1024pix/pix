@@ -20,14 +20,19 @@ module.exports = async function authenticatePoleEmploiUser({
     throw new UnexpectedOidcStateError();
   }
 
-  const poleEmploiTokens = await poleEmploiAuthenticationService.exchangeCodeForTokens({ code, redirectUri });
+  const poleEmploiAuthenticationSessionContent = await poleEmploiAuthenticationService.exchangeCodeForTokens({
+    code,
+    redirectUri,
+  });
 
-  const userInfo = await poleEmploiAuthenticationService.getUserInfo({ idToken: poleEmploiTokens.idToken });
+  const userInfo = await poleEmploiAuthenticationService.getUserInfo({
+    idToken: poleEmploiAuthenticationSessionContent.idToken,
+  });
 
   const authenticationComplement = new AuthenticationMethod.PoleEmploiAuthenticationComplement({
-    accessToken: poleEmploiTokens.accessToken,
-    refreshToken: poleEmploiTokens.refreshToken,
-    expiredDate: moment().add(poleEmploiTokens.expiresIn, 's').toDate(),
+    accessToken: poleEmploiAuthenticationSessionContent.accessToken,
+    refreshToken: poleEmploiAuthenticationSessionContent.refreshToken,
+    expiredDate: moment().add(poleEmploiAuthenticationSessionContent.expiresIn, 's').toDate(),
   });
 
   let pixAccessToken;
@@ -48,7 +53,7 @@ module.exports = async function authenticatePoleEmploiUser({
     });
 
     if (!user) {
-      const authenticationKey = await authenticationSessionService.save(poleEmploiTokens);
+      const authenticationKey = await authenticationSessionService.save(poleEmploiAuthenticationSessionContent);
       return { authenticationKey }; // todo : refacto, should not return different objects
       // will be refacto when keycloak will be setup
       // this return should be replaced by domain error (see controller)
@@ -65,7 +70,7 @@ module.exports = async function authenticatePoleEmploiUser({
 
   return {
     pixAccessToken,
-    poleEmploiTokens,
+    poleEmploiAuthenticationSessionContent,
   };
 };
 

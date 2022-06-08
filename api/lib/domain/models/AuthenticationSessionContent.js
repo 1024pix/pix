@@ -1,4 +1,4 @@
-class PoleEmploiTokens {
+class AuthenticationSessionContent {
   constructor({ accessToken, idToken, expiresIn, refreshToken }) {
     this.accessToken = accessToken;
     this.idToken = idToken;
@@ -7,4 +7,4 @@ class PoleEmploiTokens {
   }
 }
 
-module.exports = PoleEmploiTokens;
+module.exports = AuthenticationSessionContent;
