@@ -610,6 +610,82 @@ describe('Integration | Repository | Campaign-Report', function () {
         });
       });
 
+      context('when some campaigns owner fullname match the given ownerName searched', function () {
+        it('should return the matching campaigns', async function () {
+          // given
+          const owner1 = databaseBuilder.factory.buildUser({ firstName: 'Robert', lastName: 'Howard' });
+          const owner2 = databaseBuilder.factory.buildUser({ firstName: 'Bernard', lastName: 'Dupuy' });
+          const filter = { ownerName: 'Robert H' };
+          _.each(
+            [
+              { name: 'Maths L1', ownerId: owner1.id },
+              { name: 'Maths L2', ownerId: owner2.id },
+              { name: 'Chimie', ownerId: owner1.id },
+            ],
+            (campaign) => {
+              databaseBuilder.factory.buildCampaign({ ...campaign, organizationId });
+            }
+          );
+
+          await databaseBuilder.commit();
+
+          // when
+          const { models: actualCampaignsWithReports } =
+            await campaignReportRepository.findPaginatedFilteredByOrganizationId({ organizationId, filter, page });
+
+          // then
+          expect(_.map(actualCampaignsWithReports, 'name')).to.have.members(['Maths L1', 'Chimie']);
+        });
+
+        it('should handle space before search', async function () {
+          // given
+          const owner1 = databaseBuilder.factory.buildUser({ firstName: 'Robert', lastName: 'Howard' });
+          const filter = { ownerName: ' ro' };
+          _.each(
+            [
+              { name: 'Maths L1', ownerId: owner1.id },
+              { name: 'Chimie', ownerId: owner1.id },
+            ],
+            (campaign) => {
+              databaseBuilder.factory.buildCampaign({ ...campaign, organizationId });
+            }
+          );
+
+          await databaseBuilder.commit();
+
+          // when
+          const { models: actualCampaignsWithReports } =
+            await campaignReportRepository.findPaginatedFilteredByOrganizationId({ organizationId, filter, page });
+
+          // then
+          expect(_.map(actualCampaignsWithReports, 'name')).to.have.members(['Maths L1', 'Chimie']);
+        });
+
+        it('should handle space after search', async function () {
+          // given
+          const owner1 = databaseBuilder.factory.buildUser({ firstName: 'Robert', lastName: 'Howard' });
+          const filter = { ownerName: 'ro ' };
+          _.each(
+            [
+              { name: 'Maths L1', ownerId: owner1.id },
+              { name: 'Chimie', ownerId: owner1.id },
+            ],
+            (campaign) => {
+              databaseBuilder.factory.buildCampaign({ ...campaign, organizationId });
+            }
+          );
+
+          await databaseBuilder.commit();
+
+          // when
+          const { models: actualCampaignsWithReports } =
+            await campaignReportRepository.findPaginatedFilteredByOrganizationId({ organizationId, filter, page });
+
+          // then
+          expect(_.map(actualCampaignsWithReports, 'name')).to.have.members(['Maths L1', 'Chimie']);
+        });
+      });
+
       context('when some campaigns owner firstName match the given ownerName searched', function () {
         it('should return the matching campaigns', async function () {
           // given
