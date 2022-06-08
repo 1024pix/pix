@@ -37,4 +37,17 @@ describe('Unit | Serializer | JSONAPI | admin-member-serializer', function () {
       });
     });
   });
+
+  describe('#deserialize', function () {
+    it('should extract attributes from JSON API data', async function () {
+      // given
+      const jsonApiData = { data: { attributes: { key: 'value' } } };
+
+      // when
+      const attributes = await serializer.deserialize(jsonApiData);
+
+      // then
+      expect(attributes).to.deep.equal({ key: 'value' });
+    });
+  });
 });
