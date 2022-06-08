@@ -430,6 +430,18 @@ describe('Unit | Domain | Models | CertificationIssueReport', function () {
             questionNumber: 42,
           },
           { certificationCourseId: 42, category: 'TECHNICAL_PROBLEM', description: 'toto' },
+          {
+            certificationCourseId: 42,
+            category: 'IN_CHALLENGE',
+            subcategory: 'SKIP_ON_OOPS',
+            questionNumber: 42,
+          },
+          {
+            certificationCourseId: 42,
+            category: 'IN_CHALLENGE',
+            subcategory: 'ACCESSIBILITY_ISSUE',
+            questionNumber: 42,
+          },
         ].forEach((certificationIssueReportDTO) => {
           it(`for ${certificationIssueReportDTO.category} ${
             certificationIssueReportDTO.subcategory ? certificationIssueReportDTO.subcategory : ''
