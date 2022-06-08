@@ -7,6 +7,7 @@ const dependencies = {
   assessmentRepository: require('../../infrastructure/repositories/assessment-repository'),
   assessmentResultRepository: require('../../infrastructure/repositories/assessment-result-repository'),
   authenticationMethodRepository: require('../../infrastructure/repositories/authentication-method-repository'),
+  authenticationServiceRegistry: require('../services/authentication/authentication-service-registry'),
   authenticationSessionService: require('../../domain/services/authentication/authentication-session-service'),
   badgeAcquisitionRepository: require('../../infrastructure/repositories/badge-acquisition-repository'),
   badgeCriteriaService: require('../../domain/services/badge-criteria-service'),
