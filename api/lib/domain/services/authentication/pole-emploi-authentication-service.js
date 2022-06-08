@@ -47,7 +47,7 @@ async function exchangeCodeForTokens({ code, redirectUri }) {
 }
 
 function getAuthUrl({ redirectUri }) {
-  const redirectTarget = new URL(`${settings.poleEmploi.authUrl}`);
+  const redirectTarget = new URL(settings.poleEmploi.authUrl);
   const state = uuidv4();
   const nonce = uuidv4();
   const clientId = settings.poleEmploi.clientId;
