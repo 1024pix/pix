@@ -350,6 +350,38 @@ module('Acceptance | Session Finalization', function (hooks) {
           });
         });
       });
+
+      module('when the feature toggle isCertificationFreeFieldsDeletionEnabled is enabled', function () {
+        test('it should not display the step two block', async function (assert) {
+          // given
+          server.create('feature-toggle', { id: 0, isCertificationFreeFieldsDeletionEnabled: true });
+
+          const certificationReport = server.create('certification-report');
+          session.update({ certificationReports: [certificationReport] });
+
+          // when
+          await visit(`/sessions/${session.id}/finalisation`);
+
+          // then
+          assert.notContains('Étape 2 : Transmettre des documents (facultatif)');
+        });
+      });
+
+      module('when the feature toggle isCertificationFreeFieldsDeletionEnabled is not enabled', function () {
+        test('it should display the form step block', async function (assert) {
+          // given
+          server.create('feature-toggle', { id: 0, isCertificationFreeFieldsDeletionEnabled: false });
+
+          const certificationReport = server.create('certification-report');
+          session.update({ certificationReports: [certificationReport] });
+
+          // when
+          await visit(`/sessions/${session.id}/finalisation`);
+
+          // then
+          assert.contains('Étape 2 : Transmettre des documents (facultatif)');
+        });
+      });
     });
   });
 });

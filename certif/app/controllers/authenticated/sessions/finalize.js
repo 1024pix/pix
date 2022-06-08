@@ -10,7 +10,7 @@ import trim from 'lodash/trim';
 
 export default class SessionsFinalizeController extends Controller {
   @service currentUser;
-
+  @service featureToggles;
   @service notifications;
 
   @alias('model') session;
@@ -35,6 +35,10 @@ export default class SessionsFinalizeController extends Controller {
 
   get hasUncheckedHasSeenEndTestScreen() {
     return this.uncheckedHasSeenEndTestScreenCount > 0;
+  }
+
+  get shouldDisplayFormStep() {
+    return !this.featureToggles.featureToggles.isCertificationFreeFieldsDeletionEnabled;
   }
 
   showErrorNotification(message, options = {}) {
