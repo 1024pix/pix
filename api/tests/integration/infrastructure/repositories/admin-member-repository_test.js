@@ -91,6 +91,7 @@ describe('Integration | Infrastructure | Repository | adminMemberRepository', fu
           lastName: userWithPixAdminRole.lastName,
           email: userWithPixAdminRole.email,
           role: 'SUPER_ADMIN',
+          disabledAt: null,
         })
       );
     });

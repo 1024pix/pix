@@ -6,6 +6,12 @@ class DomainError extends Error {
   }
 }
 
+class AlreadyExistingAdminMemberError extends DomainError {
+  constructor(message = 'Cet agent a déjà accès') {
+    super(message);
+  }
+}
+
 class AccountRecoveryDemandNotCreatedError extends DomainError {
   constructor(message = "La demande de récupération de compte n'a pas pu être générée.") {
     super(message);
@@ -1104,6 +1110,7 @@ module.exports = {
   AcquiredBadgeForbiddenDeletionError,
   AdminMemberRoleUpdateError,
   AlreadyAcceptedOrCancelledOrganizationInvitationError,
+  AlreadyExistingAdminMemberError,
   AlreadyExistingEntityError,
   AlreadyExistingCampaignParticipationError,
   AlreadyExistingMembershipError,

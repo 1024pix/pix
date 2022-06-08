@@ -16,7 +16,7 @@ module.exports = {
 
   get: async function ({ userId }) {
     const member = await knex
-      .select(`${TABLE_NAME}.id`, 'users.id as userId', 'firstName', 'lastName', 'email', 'role')
+      .select(`${TABLE_NAME}.id`, 'users.id as userId', 'firstName', 'lastName', 'email', 'role', 'disabledAt')
       .from(TABLE_NAME)
       .where({ userId })
       .join('users', 'users.id', `${TABLE_NAME}.userId`)
@@ -37,10 +37,7 @@ module.exports = {
       throw new AdminMemberRoleUpdateError();
     }
 
-    return new AdminMember({
-      id: updatedAdminMember.id,
-      role: updatedAdminMember.role,
-    });
+    return new AdminMember(updatedAdminMember);
   },
 
   async save(pixAdminRole) {
