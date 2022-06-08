@@ -7,6 +7,10 @@ const PoleEmploiTokens = require('../../models/PoleEmploiTokens');
 const jsonwebtoken = require('jsonwebtoken');
 const { POLE_EMPLOI } = require('../../constants').SOURCE;
 
+const DomainTransaction = require('../../../infrastructure/DomainTransaction');
+const AuthenticationMethod = require('../../models/AuthenticationMethod');
+const moment = require('moment');
+
 function createAccessToken(userId) {
   const expirationDelaySeconds = settings.poleEmploi.accessTokenLifespanMs / 1000;
   return jsonwebtoken.sign({ user_id: userId, source: POLE_EMPLOI }, settings.authentication.secret, {
@@ -81,9 +85,39 @@ async function _extractClaimsFromIdToken(idToken) {
   return { given_name, family_name, nonce, idIdentiteExterne };
 }
 
+async function createUserAccount({
+  user,
+  sessionContent,
+  externalIdentityId,
+  userToCreateRepository,
+  authenticationMethodRepository,
+}) {
+  let createdUserId;
+  await DomainTransaction.execute(async (domainTransaction) => {
+    createdUserId = (await userToCreateRepository.create({ user, domainTransaction })).id;
+
+    const authenticationMethod = new AuthenticationMethod({
+      identityProvider: AuthenticationMethod.identityProviders.POLE_EMPLOI,
+      userId: createdUserId,
+      externalIdentifier: externalIdentityId,
+      authenticationComplement: new AuthenticationMethod.PoleEmploiAuthenticationComplement({
+        accessToken: sessionContent.accessToken,
+        refreshToken: sessionContent.refreshToken,
+        expiredDate: moment().add(sessionContent.expiresIn, 's').toDate(),
+      }),
+    });
+    await authenticationMethodRepository.create({ authenticationMethod, domainTransaction });
+  });
+  return {
+    userId: createdUserId,
+    idToken: sessionContent.idToken,
+  };
+}
+
 module.exports = {
   createAccessToken,
   exchangeCodeForTokens,
   getAuthUrl,
   getUserInfo,
+  createUserAccount,
 };

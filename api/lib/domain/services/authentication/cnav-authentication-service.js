@@ -5,6 +5,8 @@ const querystring = require('querystring');
 const { AuthenticationTokenRetrievalError } = require('../../errors');
 const jsonwebtoken = require('jsonwebtoken');
 const { CNAV } = require('../../constants').SOURCE;
+const DomainTransaction = require('../../../infrastructure/DomainTransaction');
+const AuthenticationMethod = require('../../models/AuthenticationMethod');
 
 function createAccessToken(userId) {
   const expirationDelaySeconds = settings.cnav.accessTokenLifespanMs / 1000;
@@ -74,9 +76,25 @@ async function _extractClaimsFromIdToken(idToken) {
   return { given_name, family_name, nonce, sub };
 }
 
+async function createUserAccount({ user, externalIdentityId, userToCreateRepository, authenticationMethodRepository }) {
+  let createdUserId;
+  await DomainTransaction.execute(async (domainTransaction) => {
+    createdUserId = (await userToCreateRepository.create({ user, domainTransaction })).id;
+
+    const authenticationMethod = new AuthenticationMethod({
+      identityProvider: AuthenticationMethod.identityProviders.CNAV,
+      userId: createdUserId,
+      externalIdentifier: externalIdentityId,
+    });
+    await authenticationMethodRepository.create({ authenticationMethod, domainTransaction });
+  });
+  return { userId: createdUserId };
+}
+
 module.exports = {
   createAccessToken,
   exchangeCodeForIdToken,
   getAuthUrl,
   getUserInfo,
+  createUserAccount,
 };
