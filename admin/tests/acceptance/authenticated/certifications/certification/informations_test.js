@@ -1,7 +1,7 @@
 import { module, test } from 'qunit';
 import { setupApplicationTest } from 'ember-qunit';
 import { click, currentURL } from '@ember/test-helpers';
-import { fillByLabel, clickByName, visit, selectByLabelAndOption } from '@1024pix/ember-testing-library';
+import { fillByLabel, clickByName, visit, selectByLabelAndOption, within } from '@1024pix/ember-testing-library';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { authenticateAdminMemberWithRole } from '../../../../helpers/test-init';
 
@@ -333,14 +333,11 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
           await selectByLabelAndOption('Sélectionner un niveau', 'PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_CONFIRME');
           await click(screen.getByRole('button', { name: 'Modifier le niveau du jury' }));
 
+          const finalResult = within(screen.getByText('NIVEAU FINAL').parentElement);
           // then
-          assert
-            .dom('.certification-informations__complementary-certification__pix-edu__row__jury-level > p')
-            .containsText('Pix+ Édu Initiale 1er degré Confirmé');
+          assert.dom(screen.getByText('Pix+ Édu Initiale 1er degré Confirmé')).exists();
 
-          assert
-            .dom('.certification-informations__complementary-certification__pix-edu__row > div:nth-child(3)')
-            .containsText('Pix+ Édu Initiale 1er degré Initié (entrée dans le métier)');
+          assert.dom(finalResult.getByText('Pix+ Édu Initiale 1er degré Initié (entrée dans le métier)')).exists();
         });
       });
 

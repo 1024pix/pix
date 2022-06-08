@@ -32,7 +32,7 @@ module('Integration | Component | certifications/competence-list', function (hoo
 
     // then
     assert.dom(screen.getByLabelText('Informations de la compétence 1.1')).containsText('30 Pix');
-    assert.dom(screen.getByLabelText('Informations de la compétence 1.1')).containsText('Niveau : 3');
+    assert.dom(screen.getByLabelText('Informations de la compétence 1.1')).containsText('Niveau: 3');
   });
 
   test('it should display 16 entries in edition mode', async function (assert) {
@@ -70,7 +70,7 @@ module('Integration | Component | certifications/competence-list', function (hoo
     assert.dom(screen.getByRole('textbox', { name: '2.1' })).hasValue('16');
     assert.dom(screen.getByRole('textbox', { name: '2.2' })).hasValue('42');
 
-    const certificationInfoLevelInputs = screen.getAllByRole('textbox', { name: 'Niveau :' });
+    const certificationInfoLevelInputs = screen.getAllByRole('textbox', { name: 'Niveau:' });
     assert.dom(certificationInfoLevelInputs[0]).hasValue('3');
     assert.dom(certificationInfoLevelInputs[3]).hasValue('2');
     assert.dom(certificationInfoLevelInputs[4]).hasValue('5');

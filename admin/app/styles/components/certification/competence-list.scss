@@ -1,0 +1,15 @@
+.competence-list-details {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+  &__item {
+    display: flex;
+    gap: 20%;
+  }
+}
+
+.competence-list-edited {
+  display: flex;
+  gap: 150px;
+}
