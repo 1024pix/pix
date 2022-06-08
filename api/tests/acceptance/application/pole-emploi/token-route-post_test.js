@@ -13,7 +13,7 @@ const createServer = require('../../../../server');
 const settings = require('../../../../lib/config');
 const moment = require('moment');
 const AuthenticationMethod = require('../../../../lib/domain/models/AuthenticationMethod');
-const PoleEmploiTokens = require('../../../../lib/domain/models/PoleEmploiTokens');
+const AuthenticationSessionContent = require('../../../../lib/domain/models/AuthenticationSessionContent');
 const authenticationSessionService = require('../../../../lib/domain/services/authentication/authentication-session-service');
 
 describe('Acceptance | Route | pole emploi token', function () {
@@ -201,7 +201,7 @@ describe('Acceptance | Route | pole emploi token', function () {
           expect(response.result.errors[0].code).to.equal('SHOULD_VALIDATE_CGU');
         });
 
-        it('should return an authenticationKey in meta which match to stored poleEmploiTokens', async function () {
+        it('should return an authenticationKey in meta which match to stored pole Emploi tokens', async function () {
           // given
           const idToken = jsonwebtoken.sign(
             {
@@ -222,7 +222,7 @@ describe('Acceptance | Route | pole emploi token', function () {
 
           nock(settings.poleEmploi.tokenUrl).post('/').reply(200, getAccessTokenResponse);
 
-          const poleEmploiTokens = new PoleEmploiTokens({
+          const poleEmploiAuthenticationSessionContent = new AuthenticationSessionContent({
             accessToken: 'access_token',
             idToken: idToken,
             expiresIn: 60,
@@ -247,7 +247,7 @@ describe('Acceptance | Route | pole emploi token', function () {
           // then
           const key = response.result.errors[0].meta.authenticationKey;
           const result = await authenticationSessionService.getByKey(key);
-          expect(result).to.deep.equal(poleEmploiTokens);
+          expect(result).to.deep.equal(poleEmploiAuthenticationSessionContent);
         });
       });
 

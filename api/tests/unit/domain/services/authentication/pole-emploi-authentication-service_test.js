@@ -4,7 +4,7 @@ const settings = require('../../../../../lib/config');
 const httpAgent = require('../../../../../lib/infrastructure/http/http-agent');
 
 const poleEmploiAuthenticationService = require('../../../../../lib/domain/services/authentication/pole-emploi-authentication-service');
-const PoleEmploiTokens = require('../../../../../lib/domain/models/PoleEmploiTokens');
+const AuthenticationSessionContent = require('../../../../../lib/domain/models/AuthenticationSessionContent');
 const UserToCreate = require('../../../../../lib/domain/models/UserToCreate');
 const jsonwebtoken = require('jsonwebtoken');
 const { POLE_EMPLOI } = require('../../../../../lib/domain/constants').SOURCE;
@@ -69,7 +69,7 @@ describe('Unit | Domain | Services | pole-emploi-authentication-service', functi
       sinon.stub(settings.poleEmploi, 'tokenUrl').value('http://paul-emploi.net/api/token');
       sinon.stub(settings.poleEmploi, 'clientSecret').value('PE_CLIENT_SECRET');
 
-      const poleEmploiTokens = new PoleEmploiTokens({
+      const poleEmploiAuthenticationSessionContent = new AuthenticationSessionContent({
         accessToken: 'accessToken',
         expiresIn: 60,
         idToken: 'idToken',
@@ -79,10 +79,10 @@ describe('Unit | Domain | Services | pole-emploi-authentication-service', functi
       const response = {
         isSuccessful: true,
         data: {
-          access_token: poleEmploiTokens.accessToken,
-          expires_in: poleEmploiTokens.expiresIn,
-          id_token: poleEmploiTokens.idToken,
-          refresh_token: poleEmploiTokens.refreshToken,
+          access_token: poleEmploiAuthenticationSessionContent.accessToken,
+          expires_in: poleEmploiAuthenticationSessionContent.expiresIn,
+          id_token: poleEmploiAuthenticationSessionContent.idToken,
+          refresh_token: poleEmploiAuthenticationSessionContent.refreshToken,
         },
       };
       httpAgent.post.resolves(response);
@@ -102,8 +102,8 @@ describe('Unit | Domain | Services | pole-emploi-authentication-service', functi
         payload: expectedData,
         headers: expectedHeaders,
       });
-      expect(result).to.be.an.instanceOf(PoleEmploiTokens);
-      expect(result).to.deep.equal(poleEmploiTokens);
+      expect(result).to.be.an.instanceOf(AuthenticationSessionContent);
+      expect(result).to.deep.equal(poleEmploiAuthenticationSessionContent);
     });
 
     context('when pole emploi tokens retrieval fails', function () {
