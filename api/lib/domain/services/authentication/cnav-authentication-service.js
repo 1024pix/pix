@@ -58,7 +58,7 @@ function getAuthUrl({ redirectUri }) {
   return { redirectTarget: redirectTarget.toString(), state, nonce };
 }
 
-async function getUserInfo(idToken) {
+async function getUserInfo({ idToken }) {
   const { given_name, family_name, nonce, sub } = await _extractClaimsFromIdToken(idToken);
 
   return {

@@ -135,7 +135,7 @@ describe('Unit | Domain | Services | pole-emploi-authentication-service', functi
       });
 
       // when
-      const result = await poleEmploiAuthenticationService.getUserInfo(idToken);
+      const result = await poleEmploiAuthenticationService.getUserInfo({ idToken });
 
       // then
       expect(result).to.deep.equal({

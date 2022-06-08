@@ -22,7 +22,7 @@ module.exports = async function authenticatePoleEmploiUser({
 
   const poleEmploiTokens = await poleEmploiAuthenticationService.exchangeCodeForTokens({ code, redirectUri });
 
-  const userInfo = await poleEmploiAuthenticationService.getUserInfo(poleEmploiTokens.idToken);
+  const userInfo = await poleEmploiAuthenticationService.getUserInfo({ idToken: poleEmploiTokens.idToken });
 
   const authenticationComplement = new AuthenticationMethod.PoleEmploiAuthenticationComplement({
     accessToken: poleEmploiTokens.accessToken,
