@@ -21,10 +21,12 @@ function _setSearchFiltersForQueryBuilder(qb, { name, ongoing = true, ownerName,
     qb.whereNotNull('campaigns.archivedAt');
   }
   if (ownerName) {
-    qb.whereRaw('(LOWER("users"."firstName") LIKE ? OR LOWER("users"."lastName") LIKE ?)', [
-      `%${ownerName.toLowerCase()}%`,
-      `%${ownerName.toLowerCase()}%`,
-    ]);
+    qb.where(function () {
+      const search = ownerName.toLowerCase().trim();
+      this.where(knex.raw(`CONCAT ("users"."firstName", ' ', "users"."lastName") <-> ?`, search), '<=', 0.8)
+        .orWhereRaw('LOWER("users"."lastName") LIKE ?', `%${search}%`)
+        .orWhereRaw('LOWER("users"."firstName") LIKE ?', `%${search}%`);
+    });
   }
   if (isOwnedByMe) {
     qb.where('users.id', '=', userId);
