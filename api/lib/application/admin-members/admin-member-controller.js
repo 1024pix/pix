@@ -15,8 +15,14 @@ module.exports = {
 
   async updateAdminMember(request) {
     const id = request.params.id;
-    const role = request.payload.data.attributes.role;
+    const { role } = await adminMemberSerializer.deserialize(request.payload);
     const updatedAdminMember = await usecases.updateAdminMember({ id, role });
     return adminMemberSerializer.serialize(updatedAdminMember);
+  },
+
+  async saveAdminMember(request, h) {
+    const attributes = await adminMemberSerializer.deserialize(request.payload);
+    const savedAdminMember = await usecases.saveAdminMember(attributes);
+    return h.response(adminMemberSerializer.serialize(savedAdminMember)).created();
   },
 };

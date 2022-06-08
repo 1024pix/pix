@@ -1,4 +1,4 @@
-const { Serializer } = require('jsonapi-serializer');
+const { Serializer, Deserializer } = require('jsonapi-serializer');
 
 module.exports = {
   serialize(adminMembers, meta) {
@@ -16,5 +16,10 @@ module.exports = {
       ],
       meta,
     }).serialize(adminMembers);
+  },
+
+  async deserialize(jsonApiData) {
+    const deserializer = new Deserializer({ keyForAttribute: 'camelCase' });
+    return await deserializer.deserialize(jsonApiData);
   },
 };
