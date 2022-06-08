@@ -125,7 +125,7 @@ describe('Unit | Domain | Services | cnav-authentication-service', function () {
       });
 
       // when
-      const result = await cnavAuthenticationService.getUserInfo(idToken);
+      const result = await cnavAuthenticationService.getUserInfo({ idToken });
 
       // then
       expect(result).to.deep.equal({
