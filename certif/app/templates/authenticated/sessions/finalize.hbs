@@ -67,41 +67,11 @@
 </div>
 
 {{#if this.showConfirmModal}}
-  <AppModal @containerClass="pix-modal-dialog--wide" @onClose={{this.closeModal}}>
-
-    <div class="pix-modal__close-button">
-      <button type="button" data-test-id="finalize-session-modal__close-cross" {{on "click" this.closeModal}}>Fermer
-        <img src="/icons/icon-close-modal.svg" alt="Fermer la fenêtre de confirmation" width="24" height="24" />
-      </button>
-    </div>
-
-    <div class="pix-modal__container pix-modal__container--white pix-modal__container--with-padding">
-      <div class="pix-modal-body pix-modal-body--with-padding">
-        <div class="app-modal-body__attention">Vous êtes sur le point de finaliser cette session.</div>
-        <div class="app-modal-body__warning">
-          {{#if (and this.hasUncheckedHasSeenEndTestScreen this.shouldDisplayHasSeenEndTestScreenCheckbox)}}
-            <p class="app-modal-body__contextual">La case "Écran de fin du test vu" n'est pas cochée pour
-              {{this.uncheckedHasSeenEndTestScreenCount}}
-              candidat(s)</p>
-          {{/if}}
-          <p>Attention : il ne vous sera plus possible de modifier ces informations par la suite.</p>
-          <p>Un délai de traitement est nécessaire avant la mise à disposition des résultats par Pix (ce délai de
-            traitement pouvant varier d'une session à l'autre).</p>
-        </div>
-      </div>
-
-      <div class="pix-modal-footer">
-        <PixButton
-          data-test-id="finalize-session-modal__cancel-button"
-          @triggerAction={{this.closeModal}}
-          @backgroundColor="transparent-light"
-        >
-          Annuler
-        </PixButton>
-        <PixButton data-test-id="finalize-session-modal__confirm-button" @triggerAction={{this.finalizeSession}}>
-          Confirmer
-        </PixButton>
-      </div>
-    </div>
-  </AppModal>
+  <SessionFinalization::FinalizationConfirmationModal
+    @closeModal={{this.closeModal}}
+    @hasUncheckedHasSeenEndTestScreen={{this.hasUncheckedHasSeenEndTestScreen}}
+    @uncheckedHasSeenEndTestScreenCount={{this.uncheckedHasSeenEndTestScreenCount}}
+    @shouldDisplayHasSeenEndTestScreenCheckbox={{this.shouldDisplayHasSeenEndTestScreenCheckbox}}
+    @finalizeSession={{this.finalizeSession}}
+  />
 {{/if}}

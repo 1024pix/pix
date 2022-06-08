@@ -7,7 +7,7 @@ import { visit as visitScreen, visit } from '@1024pix/ember-testing-library';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
-const CONFIRMATION_TEXT = 'Vous êtes sur le point de finaliser cette session.';
+const MODAL_TITLE = 'Finalisation de la session';
 
 module('Acceptance | Session Finalization', function (hooks) {
   setupApplicationTest(hooks);
@@ -204,7 +204,7 @@ module('Acceptance | Session Finalization', function (hooks) {
             await clickByLabel('Finaliser');
 
             // then
-            assert.contains(CONFIRMATION_TEXT);
+            assert.contains(MODAL_TITLE);
             assert.notContains('La case "Écran de fin du test vu" n\'est pas cochée pour 1 candidat(s)');
           });
         });
@@ -225,7 +225,7 @@ module('Acceptance | Session Finalization', function (hooks) {
             await clickByLabel('Finaliser');
 
             // then
-            assert.contains(CONFIRMATION_TEXT);
+            assert.contains(MODAL_TITLE);
             assert.contains('La case "Écran de fin du test vu" n\'est pas cochée pour 1 candidat(s)');
           });
         });
@@ -262,7 +262,7 @@ module('Acceptance | Session Finalization', function (hooks) {
               await clickByLabel('Finaliser');
 
               // then
-              assert.contains(CONFIRMATION_TEXT);
+              assert.contains(MODAL_TITLE);
               assert.notContains('La case "Écran de fin du test vu" n\'est pas cochée pour 1 candidat(s)');
             });
           });
@@ -281,7 +281,7 @@ module('Acceptance | Session Finalization', function (hooks) {
               await clickByLabel('Finaliser');
 
               // then
-              assert.contains(CONFIRMATION_TEXT);
+              assert.contains(MODAL_TITLE);
               assert.contains('La case "Écran de fin du test vu" n\'est pas cochée pour 1 candidat(s)');
             });
           });
@@ -327,7 +327,7 @@ module('Acceptance | Session Finalization', function (hooks) {
             await clickByLabel('Finaliser');
 
             // then
-            assert.notContains(CONFIRMATION_TEXT);
+            assert.notContains(MODAL_TITLE);
           });
         });
 
@@ -346,7 +346,7 @@ module('Acceptance | Session Finalization', function (hooks) {
             await clickByLabel('Finaliser');
 
             // then
-            assert.contains(CONFIRMATION_TEXT);
+            assert.contains(MODAL_TITLE);
           });
         });
       });
