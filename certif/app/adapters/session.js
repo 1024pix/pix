@@ -19,6 +19,8 @@ export default class SessionAdapter extends ApplicationAdapter {
           data: {
             attributes: {
               'examiner-global-comment': model.examinerGlobalComment,
+              'has-incident': model.hasIncident,
+              'has-joining-issue': model.hasJoiningIssue,
             },
             included: model.certificationReports.map((certificationReport) => {
               return {
