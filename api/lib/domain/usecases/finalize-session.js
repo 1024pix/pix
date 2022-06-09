@@ -7,6 +7,8 @@ module.exports = async function finalizeSession({
   certificationReports,
   sessionRepository,
   certificationReportRepository,
+  hasIncident,
+  hasJoiningIssue,
 }) {
   const isSessionAlreadyFinalized = await sessionRepository.isFinalized(sessionId);
 
@@ -22,6 +24,8 @@ module.exports = async function finalizeSession({
     id: sessionId,
     examinerGlobalComment,
     finalizedAt: new Date(),
+    hasIncident,
+    hasJoiningIssue,
   });
 
   return new SessionFinalized({
