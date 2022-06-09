@@ -4,12 +4,24 @@
       <Input
         class=""
         @type="checkbox"
-        @checked={{this.form.hasAnIncident}}
+        @checked={{false}}
         id="session-finalization-complementary-information-step-incident"
+        {{on "click" @onCheckIncidentDuringCertificationSession}}
       />
-      <label for="session-finalization-complementary-information-step-incident">Malgré un incident survenu</label>
-
+      <label for="session-finalization-complementary-information-step-incident">Malgré un incident survenu pendant la
+        session, les candidats ont pu terminer leur test de certification. Un temps supplémentaire a été accordé à un ou
+        plusieurs candidats.</label>
     </div>
-
+    <div>
+      <Input
+        class=""
+        @type="checkbox"
+        @checked={{false}}
+        id="session-finalization-complementary-information-step-candidates-joining-issue"
+        {{on "click" @onCheckSessionJoiningIssue}}
+      />
+      <label for="session-finalization-complementary-information-step-candidates-joining-issue">Un ou plusieurs
+        candidats étaient présents en session de certification mais n'ont pas pu rejoindre la session.</label>
+    </div>
   </div>
 </div>
