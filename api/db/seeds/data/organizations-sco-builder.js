@@ -178,9 +178,9 @@ function _buildMiddleSchools({ databaseBuilder }) {
   // schooling registration associated with email used by certification
   const userCertifWithEmail = databaseBuilder.factory.buildUser.withRawPassword({
     id: SCO_STUDENT_ID,
-    firstName: 'student',
-    lastName: 'certif',
-    email: 'eleve-certif@example.net',
+    firstName: 'Student',
+    lastName: 'Certified',
+    email: 'student.certified@example.net',
     rawPassword: DEFAULT_PASSWORD,
     cgu: true,
   });
