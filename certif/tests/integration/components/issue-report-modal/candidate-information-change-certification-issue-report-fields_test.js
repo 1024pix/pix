@@ -53,7 +53,7 @@ module('Integration | Component | candidate-information-change-certification-iss
     assert.dom(TEXTAREA_SELECTOR).exists();
   });
 
-  test('it should show "Précisez les informations à modifier" if subcategory NAME_OR_BIRTHDATE is selected', async function (assert) {
+  test('it should show "Renseignez les informations correctes" if subcategory NAME_OR_BIRTHDATE is selected', async function (assert) {
     // given
     const toggleOnCategory = sinon.stub();
     const candidateInformationChangeCategory = {
@@ -75,7 +75,7 @@ module('Integration | Component | candidate-information-change-certification-iss
     // then
     assert.dom(SUBCATEGORY_SELECTOR).exists();
     assert.dom(TEXTAREA_SELECTOR).exists();
-    assert.contains('Précisez les informations à modifier');
+    assert.contains('Renseignez les informations correctes');
   });
 
   test('it should show "Précisez le temps majoré" if subcategory EXTRA_TIME_PERCENTAGE is selected', async function (assert) {

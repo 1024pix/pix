@@ -94,7 +94,7 @@ export const subcategoryToCode = {
 export const subcategoryToTextareaLabel = {
   [certificationIssueReportSubcategories.LEFT_EXAM_ROOM]: 'Précisez et indiquez l’heure de sortie',
   [certificationIssueReportSubcategories.SIGNATURE_ISSUE]: 'Précisez',
-  [certificationIssueReportSubcategories.NAME_OR_BIRTHDATE]: 'Précisez les informations à modifier',
+  [certificationIssueReportSubcategories.NAME_OR_BIRTHDATE]: 'Renseignez les informations correctes',
   [certificationIssueReportSubcategories.EXTRA_TIME_PERCENTAGE]: 'Précisez le temps majoré',
 };
 
