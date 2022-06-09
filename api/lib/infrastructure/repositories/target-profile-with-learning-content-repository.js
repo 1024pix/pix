@@ -16,6 +16,7 @@ const areaDatasource = require('../datasources/learning-content/area-datasource'
 const { NotFoundError, TargetProfileInvalidError } = require('../../domain/errors');
 const { FRENCH_FRANCE } = require('../../domain/constants').LOCALE;
 const { getTranslatedText } = require('../../domain/services/get-translated-text');
+const TargetProfileTemplate = require('../../domain/models/TargetProfileTemplate');
 
 module.exports = {
   async get({ id, locale = FRENCH_FRANCE }) {
@@ -51,6 +52,7 @@ async function _get(whereClauseFnc, locale) {
       'target-profiles.ownerOrganizationId',
       'target-profiles.category',
       'target-profiles.isSimplifiedAccess',
+      'target-profiles.targetProfileTemplateId',
       'target-profiles_skills.skillId'
     )
     .leftJoin('target-profiles_skills', 'target-profiles_skills.targetProfileId', 'target-profiles.id');
@@ -69,6 +71,9 @@ async function _get(whereClauseFnc, locale) {
 async function _toDomain(results, badges, stages, locale) {
   const skillIds = _.compact(results.map(({ skillId }) => skillId));
   const { skills, tubes, competences, areas } = await _getTargetedLearningContent(skillIds, locale);
+  const template = results[0].targetProfileTemplateId
+    ? new TargetProfileTemplate({ id: results[0].targetProfileTemplateId, targetProfileIds: [], tubes: [] })
+    : null;
 
   return new TargetProfileWithLearningContent({
     id: results[0].id,
@@ -88,6 +93,7 @@ async function _toDomain(results, badges, stages, locale) {
     areas,
     badges,
     stages,
+    template,
   });
 }
 
