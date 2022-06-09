@@ -8,18 +8,17 @@ import { render as renderScreen } from '@1024pix/ember-testing-library';
 module('Integration | Component | SessionFinalization::ComplementaryInformationStep', function (hooks) {
   setupRenderingTest(hooks);
 
-  test('on click on incident during certification session checkbox, it should call report incident controller', async function (assert) {
+  test('on click on incident during certification session checkbox, it should call toggleIncidentDuringCertificationSession', async function (assert) {
     // given
-    const hasIssueWithJoiningSessionStub = sinon.stub();
-    const hasIncidentDuringCertificationSessionStub = sinon.stub();
-    this.set('hasIssueWithJoiningSession', hasIssueWithJoiningSessionStub);
-    this.set('hasIncidentDuringCertificationSession', hasIncidentDuringCertificationSessionStub);
+    const toggleSessionJoiningIssueStub = sinon.stub();
+    const toggleIncidentDuringCertificationSessionStub = sinon.stub();
+    this.set('toggleSessionJoiningIssue', toggleSessionJoiningIssueStub);
+    this.set('toggleIncidentDuringCertificationSession', toggleIncidentDuringCertificationSessionStub);
 
-    // when
     const screen = await renderScreen(hbs`
         <SessionFinalization::ComplementaryInformationStep
-          @onCheckIncidentDuringCertificationSession={{this.hasIncidentDuringCertificationSession}}
-          @onCheckSessionJoiningIssue={{this.hasIssueWithJoiningSession}}
+          @toggleIncidentDuringCertificationSession={{this.toggleIncidentDuringCertificationSession}}
+          @toggleSessionJoiningIssue={{this.toggleSessionJoiningIssue}}
         />
       `);
 
@@ -32,21 +31,20 @@ module('Integration | Component | SessionFinalization::ComplementaryInformationS
 
     // then
     assert.ok(true);
-    sinon.assert.calledOnce(hasIncidentDuringCertificationSessionStub);
+    sinon.assert.calledOnceWithExactly(toggleIncidentDuringCertificationSessionStub, true);
   });
 
-  test('on click on issue with joining session checkbox, it should call report issue with joining session controller', async function (assert) {
+  test('on click on issue with joining session checkbox, it should call toggleSessionJoiningIssue', async function (assert) {
     // given
-    const hasIssueWithJoiningSessionStub = sinon.stub();
-    const hasIncidentDuringCertificationSessionStub = sinon.stub();
-    this.set('hasIssueWithJoiningSession', hasIssueWithJoiningSessionStub);
-    this.set('hasIncidentDuringCertificationSession', hasIncidentDuringCertificationSessionStub);
+    const toggleSessionJoiningIssueStub = sinon.stub();
+    const toggleIncidentDuringCertificationSessionStub = sinon.stub();
+    this.set('toggleSessionJoiningIssue', toggleSessionJoiningIssueStub);
+    this.set('toggleIncidentDuringCertificationSession', toggleIncidentDuringCertificationSessionStub);
 
-    // when
     const screen = await renderScreen(hbs`
         <SessionFinalization::ComplementaryInformationStep
-          @onCheckIncidentDuringCertificationSession={{this.hasIncidentDuringCertificationSession}}
-          @onCheckSessionJoiningIssue={{this.hasIssueWithJoiningSession}}
+          @toggleIncidentDuringCertificationSession={{this.toggleIncidentDuringCertificationSession}}
+          @toggleSessionJoiningIssue={{this.toggleSessionJoiningIssue}}
         />
       `);
 
@@ -59,7 +57,7 @@ module('Integration | Component | SessionFinalization::ComplementaryInformationS
 
     // then
     assert.ok(true);
-    sinon.assert.calledOnce(hasIssueWithJoiningSessionStub);
+    sinon.assert.calledOnceWithExactly(toggleSessionJoiningIssueStub, true);
   });
 
   test('it should not check the checkboxes by default', async function (assert) {
@@ -88,5 +86,37 @@ module('Integration | Component | SessionFinalization::ComplementaryInformationS
         name: "Un ou plusieurs candidats étaient présents en session de certification mais n'ont pas pu rejoindre la session.",
       }).checked
     );
+  });
+
+  test('it should display joining issue information message and link when joining issue is checked', async function (assert) {
+    // given
+    const toggleSessionJoiningIssueStub = sinon.stub();
+    const toggleIncidentDuringCertificationSessionStub = sinon.stub();
+    this.set('toggleSessionJoiningIssue', toggleSessionJoiningIssueStub);
+    this.set('toggleIncidentDuringCertificationSession', toggleIncidentDuringCertificationSessionStub);
+
+    const screen = await renderScreen(hbs`
+        <SessionFinalization::ComplementaryInformationStep
+          @toggleIncidentDuringCertificationSession={{this.toggleIncidentDuringCertificationSession}}
+          @toggleSessionJoiningIssue={{this.toggleSessionJoiningIssue}}
+        />
+      `);
+
+    // when
+    await click(
+      screen.getByRole('checkbox', {
+        name: "Un ou plusieurs candidats étaient présents en session de certification mais n'ont pas pu rejoindre la session.",
+      })
+    );
+
+    // then
+    assert.dom(screen.queryByText('Vous trouverez')).exists();
+    assert
+      .dom(
+        screen.getByRole('link', {
+          name: 'ici un document pour vous aider à résoudre ce type de problème de connexion pour les prochaines sessions. (PDF, 131ko)',
+        })
+      )
+      .exists();
   });
 });

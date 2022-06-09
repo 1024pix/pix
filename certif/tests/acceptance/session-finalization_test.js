@@ -98,28 +98,29 @@ module('Acceptance | Session Finalization', function (hooks) {
       assert.deepEqual(currentURL(), `/sessions/${session.id}`);
     });
 
-    test('it should display the comment step section', async function (assert) {
-      // when
-      const screen = await visit(`/sessions/${session.id}/finalisation`);
+    module('when FT_CERTIFICATION_FREE_FIELDS_DELETION is off', function () {
+      test('it should display the comment step section', async function (assert) {
+        // when
+        const screen = await visit(`/sessions/${session.id}/finalisation`);
 
-      // then
-      assert.dom(screen.getByText('Étape 3 : Commenter la session (facultatif)')).exists();
-      assert
-        .dom(
-          screen.getByText(
-            "Aucun problème sur la session, en dehors des signalements individuels renseignés lors de l'étape 1."
+        // then
+        assert.dom(screen.getByText('Étape 3 : Commenter la session (facultatif)')).exists();
+        assert
+          .dom(
+            screen.getByText(
+              "Aucun problème sur la session, en dehors des signalements individuels renseignés lors de l'étape 1."
+            )
           )
-        )
-        .exists();
-      assert
-        .dom(
-          screen.getByText(
-            'Je souhaite signaler un ou plusieurs incident(s) ayant impacté la session dans son ensemble'
+          .exists();
+        assert
+          .dom(
+            screen.getByText(
+              'Je souhaite signaler un ou plusieurs incident(s) ayant impacté la session dans son ensemble'
+            )
           )
-        )
-        .exists();
+          .exists();
+      });
     });
-
     module('when FT_CERTIFICATION_FREE_FIELDS_DELETION is on', function () {
       test('it should not display the comment step section', async function (assert) {
         // given
@@ -154,7 +155,20 @@ module('Acceptance | Session Finalization', function (hooks) {
         const screen = await visit(`/sessions/${session.id}/finalisation`);
 
         // then
-        assert.dom(screen.getByText('Malgré un incident survenu')).exists();
+        assert
+          .dom(
+            screen.getByRole('checkbox', {
+              name: 'Malgré un incident survenu pendant la session, les candidats ont pu terminer leur test de certification. Un temps supplémentaire a été accordé à un ou plusieurs candidats.',
+            })
+          )
+          .exists();
+        assert
+          .dom(
+            screen.getByRole('checkbox', {
+              name: "Un ou plusieurs candidats étaient présents en session de certification mais n'ont pas pu rejoindre la session.",
+            })
+          )
+          .exists();
       });
     });
 

@@ -11,8 +11,7 @@
   </div>
 
   <SessionFinalizationStepContainer
-    @number="1"
-    @title="Reporter, pour chaque candidat, les signalements renseignés sur le PV d'incident"
+    @title="Étape 1 : Reporter, pour chaque candidat, les signalements renseignés sur le PV d'incident"
     @icon="/icons/session-finalization-user.svg"
     @iconAlt=""
   >
@@ -39,8 +38,7 @@
 
   {{#if this.shouldDisplayFormStep}}
     <SessionFinalizationStepContainer
-      @number="2"
-      @title="Transmettre des documents (facultatif)"
+      @title="Étape 2 : Transmettre des documents (facultatif)"
       @icon="/icons/session-finalization-send.svg"
       @iconAlt=""
     >
@@ -55,13 +53,15 @@
       @icon="/icons/session-finalization-send.svg"
       @iconAlt=""
     >
-      <SessionFinalization::ComplementaryInformationStep />
+      <SessionFinalization::ComplementaryInformationStep
+        @toggleIncidentDuringCertificationSession={{this.toggleIncidentDuringCertificationSession}}
+        @toggleSessionJoiningIssue={{this.toggleSessionJoiningIssue}}
+      />
     </SessionFinalizationStepContainer>
 
   {{else}}
     <SessionFinalizationStepContainer
-      @number="3"
-      @title="Commenter la session (facultatif)"
+      @title="Étape 3 : Commenter la session (facultatif)"
       @icon="/icons/session-finalization-edit.svg"
       @iconAlt=""
     >
