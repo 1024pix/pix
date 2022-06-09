@@ -21,6 +21,8 @@ describe('Integration | Repository | Session', function () {
         time: '14:30:00',
         description: 'Première certification EVER !!!',
         examinerGlobalComment: 'No comment',
+        hasIncident: true,
+        hasJoiningIssue: true,
         finalizedAt: new Date('2017-12-07'),
         publishedAt: new Date('2017-12-07'),
         resultsSentToPrescriberAt: new Date('2017-12-07'),
@@ -445,6 +447,8 @@ describe('Integration | Repository | Session', function () {
   describe('#finalize', function () {
     let id;
     const examinerGlobalComment = '';
+    const hasIncident = false;
+    const hasJoiningIssue = true;
     const finalizedAt = new Date('2017-09-01T12:14:33Z');
 
     beforeEach(function () {
@@ -455,12 +459,20 @@ describe('Integration | Repository | Session', function () {
 
     it('should return an updated Session domain object', async function () {
       // when
-      const sessionSaved = await sessionRepository.finalize({ id, examinerGlobalComment, finalizedAt });
+      const sessionSaved = await sessionRepository.finalize({
+        id,
+        examinerGlobalComment,
+        hasIncident,
+        hasJoiningIssue,
+        finalizedAt,
+      });
 
       // then
       expect(sessionSaved).to.be.an.instanceof(Session);
       expect(sessionSaved.id).to.deep.equal(id);
       expect(sessionSaved.examinerGlobalComment).to.deep.equal(examinerGlobalComment);
+      expect(sessionSaved.hasIncident).to.deep.equal(hasIncident);
+      expect(sessionSaved.hasJoiningIssue).to.deep.equal(hasJoiningIssue);
       expect(sessionSaved.status).to.deep.equal(statuses.FINALIZED);
     });
   });

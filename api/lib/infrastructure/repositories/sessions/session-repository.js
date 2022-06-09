@@ -111,9 +111,9 @@ module.exports = {
     return Boolean(session);
   },
 
-  async finalize({ id, examinerGlobalComment, finalizedAt }) {
+  async finalize({ id, examinerGlobalComment, hasIncident, hasJoiningIssue, finalizedAt }) {
     let updatedSession = await new BookshelfSession({ id }).save(
-      { examinerGlobalComment, finalizedAt },
+      { examinerGlobalComment, hasIncident, hasJoiningIssue, finalizedAt },
       { patch: true }
     );
     updatedSession = await updatedSession.refresh();
