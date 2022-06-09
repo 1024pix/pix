@@ -11,6 +11,11 @@ const {
   PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME,
   PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
   PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
+  PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_INITIE,
+  PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_CONFIRME,
+  PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_CONFIRME,
+  PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE,
+  PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT,
 } = require('../../../../lib/domain/models/Badge').keys;
 
 describe('Unit | Domain | Models | CertificationResult', function () {
@@ -361,13 +366,20 @@ describe('Unit | Domain | Models | CertificationResult', function () {
     { method: 'hasTakenClea', partnerKeys: [PIX_EMPLOI_CLEA_V1, PIX_EMPLOI_CLEA_V2, PIX_EMPLOI_CLEA_V3] },
     { method: 'hasTakenPixPlusDroitMaitre', partnerKeys: [PIX_DROIT_MAITRE_CERTIF] },
     { method: 'hasTakenPixPlusDroitExpert', partnerKeys: [PIX_DROIT_EXPERT_CERTIF] },
-    { method: 'hasTakenPixPlusEduInitie', partnerKeys: [PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE] },
+    { method: 'hasTakenPixPlusEdu2ndDegreInitie', partnerKeys: [PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE] },
     {
-      method: 'hasTakenPixPlusEduConfirme',
+      method: 'hasTakenPixPlusEdu2ndDegreConfirme',
       partnerKeys: [PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME, PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME],
     },
-    { method: 'hasTakenPixPlusEduAvance', partnerKeys: [PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE] },
-    { method: 'hasTakenPixPlusEduExpert', partnerKeys: [PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT] },
+    { method: 'hasTakenPixPlusEdu2ndDegreAvance', partnerKeys: [PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE] },
+    { method: 'hasTakenPixPlusEdu2ndDegreExpert', partnerKeys: [PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT] },
+    { method: 'hasTakenPixPlusEdu1erDegreInitie', partnerKeys: [PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_INITIE] },
+    {
+      method: 'hasTakenPixPlusEdu1erDegreConfirme',
+      partnerKeys: [PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_CONFIRME, PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_CONFIRME],
+    },
+    { method: 'hasTakenPixPlusEdu1erDegreAvance', partnerKeys: [PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE] },
+    { method: 'hasTakenPixPlusEdu1erDegreExpert', partnerKeys: [PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT] },
   ].forEach(({ method, partnerKeys }) => {
     context(`#${method}`, function () {
       // eslint-disable-next-line mocha/no-setup-in-describe
@@ -408,13 +420,20 @@ describe('Unit | Domain | Models | CertificationResult', function () {
     { method: 'hasAcquiredClea', partnerKeys: [PIX_EMPLOI_CLEA_V1, PIX_EMPLOI_CLEA_V2, PIX_EMPLOI_CLEA_V3] },
     { method: 'hasAcquiredPixPlusDroitMaitre', partnerKeys: [PIX_DROIT_MAITRE_CERTIF] },
     { method: 'hasAcquiredPixPlusDroitExpert', partnerKeys: [PIX_DROIT_EXPERT_CERTIF] },
-    { method: 'hasAcquiredPixPlusEduInitie', partnerKeys: [PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE] },
+    { method: 'hasAcquiredPixPlusEdu2ndDegreInitie', partnerKeys: [PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE] },
     {
-      method: 'hasAcquiredPixPlusEduConfirme',
+      method: 'hasAcquiredPixPlusEdu2ndDegreConfirme',
       partnerKeys: [PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME, PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME],
     },
-    { method: 'hasAcquiredPixPlusEduAvance', partnerKeys: [PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE] },
-    { method: 'hasAcquiredPixPlusEduExpert', partnerKeys: [PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT] },
+    { method: 'hasAcquiredPixPlusEdu2ndDegreAvance', partnerKeys: [PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE] },
+    { method: 'hasAcquiredPixPlusEdu2ndDegreExpert', partnerKeys: [PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT] },
+    { method: 'hasAcquiredPixPlusEdu1erDegreInitie', partnerKeys: [PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_INITIE] },
+    {
+      method: 'hasAcquiredPixPlusEdu1erDegreConfirme',
+      partnerKeys: [PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_CONFIRME, PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_CONFIRME],
+    },
+    { method: 'hasAcquiredPixPlusEdu1erDegreAvance', partnerKeys: [PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE] },
+    { method: 'hasAcquiredPixPlusEdu1erDegreExpert', partnerKeys: [PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT] },
   ].forEach(({ method, partnerKeys }) => {
     context(`#${method}`, function () {
       // eslint-disable-next-line mocha/no-setup-in-describe
