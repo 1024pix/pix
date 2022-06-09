@@ -54,8 +54,9 @@
           @triggerAction={{this.toggleEditMode}}
         >Editer</PixButton>
         {{#unless @model.outdated}}
-          <PixButton @size="small" @backgroundColor="red" @triggerAction={{this.toggleDisplayConfirm}}>Marquer comme
-            obsolète</PixButton>
+          <PixButton @size="small" @backgroundColor="red" @triggerAction={{this.toggleDisplayConfirm}}>
+            Marquer comme obsolète
+          </PixButton>
         {{/unless}}
         {{#unless @model.isSimplifiedAccess}}
           <PixButton
@@ -66,6 +67,11 @@
             Marquer comme accès simplifié
           </PixButton>
         {{/unless}}
+        {{#if @model.template}}
+          <PixButton @size="small" @backgroundColor="green">
+            Télécharger le profil cible (JSON)
+          </PixButton>
+        {{/if}}
       </div>
     </section>
 
