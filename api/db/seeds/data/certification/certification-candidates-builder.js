@@ -70,7 +70,7 @@ const CANDIDATE_DATA_STARTED = {
 };
 const CANDIDATE_SCO_DATA_SUCCESS = {
   firstName: 'Student',
-  lastName: 'Certif',
+  lastName: 'Certified',
   birthdate: '2000-01-01',
   birthCity: 'Ici',
   resultRecipientEmail: null,
