@@ -2,7 +2,6 @@ import { module, test } from 'qunit';
 import { click, currentURL, fillIn } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { authenticateSession } from '../helpers/test-init';
-import clickByLabel from '../helpers/extended-ember-test-helpers/click-by-label';
 import { visit as visitScreen, visit } from '@1024pix/ember-testing-library';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
@@ -111,27 +110,16 @@ module('Acceptance | Session Finalization', function (hooks) {
           session.update({ certificationReports });
 
           // when
-          await visit(`/sessions/${session.id}/finalisation`);
+          const screen = await visitScreen(`/sessions/${session.id}/finalisation`);
 
           // then
-          assert
-            .dom('[data-test-id="finalization-report-certification-issue-reports_1"] .button--showed-as-link')
-            .hasText(expectedText);
+          assert.dom(screen.getByText(expectedText)).exists();
         });
       });
 
       module('when we add a certification issue report', function () {
         test('it should show "Ajouter / supprimer" button', async function (assert) {
           // given
-          const expectedTextWithIssueReport = 'Ajouter / supprimer';
-          const expectedTextWithoutIssueReport = 'Ajouter';
-          const BTN_ADD_ISSUE_REPORT_FOR_CERTIFICATION_COURSE_1 =
-            '[data-test-id="finalization-report-certification-issue-reports_1"] .button--showed-as-link';
-          const BTN_ADD_ISSUE_REPORT_FOR_CERTIFICATION_COURSE_2 =
-            '[data-test-id="finalization-report-certification-issue-reports_2"] .button--showed-as-link';
-          const RADIO_BTN_OF_TYPE_OTHER = '#input-radio-for-category-other';
-          const TEXT_AREA_OF_TYPE_OTHER = '#text-area-for-category-other';
-
           const certificationReportsWithoutCertificationIssueReport = server.create('certification-report', {
             certificationCourseId: 1,
           });
@@ -146,24 +134,28 @@ module('Acceptance | Session Finalization', function (hooks) {
           session.update({ certificationReports });
 
           // when
-          await visit(`/sessions/${session.id}/finalisation`);
-          await click(BTN_ADD_ISSUE_REPORT_FOR_CERTIFICATION_COURSE_2);
-          await click(RADIO_BTN_OF_TYPE_OTHER);
-          await fillIn(TEXT_AREA_OF_TYPE_OTHER, 'Coucou');
-          await clickByLabel('Ajouter le signalement');
+          const screen = await visitScreen(`/sessions/${session.id}/finalisation`);
+          const addCertificationIssueReportsButtonsBeforeFilling = screen.getAllByText('Ajouter');
+          const addOrDeleteCertificationIssueReportsButtonsBeforeFilling = screen.queryAllByText('Ajouter / supprimer');
+
+          await click(addCertificationIssueReportsButtonsBeforeFilling[1]);
+          await click(
+            screen.getByLabelText('A2 Autre (si aucune des catégories ci-dessus ne correspond au signalement)', {})
+          );
+          await fillIn(screen.getByLabelText('Décrivez l’incident', {}), 'Coucou');
+          await click(screen.getByLabelText('Ajouter le signalement'));
+
+          const addOrDeleteCertificationIssueReportsButtonsAfterFilling = screen.getAllByText('Ajouter / supprimer');
 
           // then
-          assert.dom(BTN_ADD_ISSUE_REPORT_FOR_CERTIFICATION_COURSE_1).hasText(expectedTextWithoutIssueReport);
-          assert.dom(BTN_ADD_ISSUE_REPORT_FOR_CERTIFICATION_COURSE_2).hasText(expectedTextWithIssueReport);
+          assert.strictEqual(addOrDeleteCertificationIssueReportsButtonsBeforeFilling.length, 0);
+          assert.strictEqual(addOrDeleteCertificationIssueReportsButtonsAfterFilling.length, 1);
         });
       });
 
       module('when we delete a certification issue report', function () {
         test('it should show the remaining count of issue reports', async function (assert) {
           // given
-          const BTN_ADD_ISSUE_REPORT_FOR_CERTIFICATION_COURSE_1 =
-            '[data-test-id="finalization-report-certification-issue-reports_1"] .button--showed-as-link';
-
           const certificationReport = server.create('certification-report', { certificationCourseId: 1 });
           const certificationIssueReport1 = server.create('certification-issue-report', {
             certificationReportId: certificationReport.id,
@@ -177,13 +169,14 @@ module('Acceptance | Session Finalization', function (hooks) {
           session.update({ certificationReports: [certificationReport] });
 
           // when
-          await visit(`/sessions/${session.id}/finalisation`);
-          await click(BTN_ADD_ISSUE_REPORT_FOR_CERTIFICATION_COURSE_1);
-          await click('button[aria-label="Supprimer le signalement"]');
-          await click('button[aria-label="Fermer"]');
+          const screen = await visitScreen(`/sessions/${session.id}/finalisation`);
+          await click(screen.getByText('Ajouter / supprimer'));
+          const allDeleteIssueReportButtons = screen.getAllByLabelText('Supprimer le signalement');
+          await click(allDeleteIssueReportButtons[0]);
+          await click(screen.getByLabelText('Fermer'));
 
           // then
-          assert.contains('1 signalement');
+          assert.dom(screen.getByText('1 signalement')).exists();
         });
       });
 
@@ -201,11 +194,14 @@ module('Acceptance | Session Finalization', function (hooks) {
 
             // when
             await visit(`/sessions/${session.id}/finalisation`);
-            await clickByLabel('Finaliser');
+            const screen = await visitScreen(`/sessions/${session.id}/finalisation`);
+            await click(screen.getByText('Finaliser'));
 
             // then
-            assert.contains(MODAL_TITLE);
-            assert.notContains('La case "Écran de fin du test vu" n\'est pas cochée pour 1 candidat(s)');
+            assert.dom(screen.getByText(MODAL_TITLE)).exists();
+            assert
+              .dom(screen.queryByText('La case "Écran de fin du test vu" n\'est pas cochée pour 1 candidat(s)'))
+              .doesNotExist();
           });
         });
 
@@ -222,11 +218,14 @@ module('Acceptance | Session Finalization', function (hooks) {
 
             // when
             await visit(`/sessions/${session.id}/finalisation`);
-            await clickByLabel('Finaliser');
+            const screen = await visitScreen(`/sessions/${session.id}/finalisation`);
+            await click(screen.getByText('Finaliser'));
 
             // then
-            assert.contains(MODAL_TITLE);
-            assert.contains('La case "Écran de fin du test vu" n\'est pas cochée pour 1 candidat(s)');
+            assert.dom(screen.getByText(MODAL_TITLE)).exists();
+            assert
+              .dom(screen.getByText('La case "Écran de fin du test vu" n\'est pas cochée pour 1 candidat(s)'))
+              .exists();
           });
         });
       });
@@ -239,9 +238,10 @@ module('Acceptance | Session Finalization', function (hooks) {
 
           // when
           await visit(`/sessions/${session.id}/finalisation`);
+          const screen = await visitScreen(`/sessions/${session.id}/finalisation`);
 
           // then
-          assert.notContains("Ces candidats n'ont pas fini leur test de certification");
+          assert.dom(screen.queryByText("Ces candidats n'ont pas fini leur test de certification")).doesNotExist();
         });
       });
 
@@ -258,14 +258,18 @@ module('Acceptance | Session Finalization', function (hooks) {
               session.update({ certificationReports: [certificationReport], hasSupervisorAccess: true });
 
               // when
-              await visit(`/sessions/${session.id}/finalisation`);
-              await clickByLabel('Finaliser');
+              const screen = await visitScreen(`/sessions/${session.id}/finalisation`);
+
+              await click(screen.getByText('Finaliser'));
 
               // then
-              assert.contains(MODAL_TITLE);
-              assert.notContains('La case "Écran de fin du test vu" n\'est pas cochée pour 1 candidat(s)');
+              assert.dom(screen.getByText(MODAL_TITLE)).exists();
+              assert
+                .dom(screen.queryByText('La case "Écran de fin du test vu" n\'est pas cochée pour 1 candidat(s)'))
+                .doesNotExist();
             });
           });
+
           module('when the session does not have supervisor access', function () {
             test('it should display end test screen warning', async function (assert) {
               // given
@@ -277,12 +281,15 @@ module('Acceptance | Session Finalization', function (hooks) {
               session.update({ certificationReports: [certificationReport], hasSupervisorAccess: false });
 
               // when
-              await visit(`/sessions/${session.id}/finalisation`);
-              await clickByLabel('Finaliser');
+              const screen = await visitScreen(`/sessions/${session.id}/finalisation`);
+
+              await click(screen.getByText('Finaliser'));
 
               // then
-              assert.contains(MODAL_TITLE);
-              assert.contains('La case "Écran de fin du test vu" n\'est pas cochée pour 1 candidat(s)');
+              assert.dom(screen.getByText(MODAL_TITLE)).exists();
+              assert
+                .dom(screen.getByText('La case "Écran de fin du test vu" n\'est pas cochée pour 1 candidat(s)'))
+                .exists();
             });
           });
         });
@@ -293,11 +300,11 @@ module('Acceptance | Session Finalization', function (hooks) {
           session.update({ certificationReports: [certificationReport] });
 
           // when
-          await visit(`/sessions/${session.id}/finalisation`);
+          const screen = await visitScreen(`/sessions/${session.id}/finalisation`);
 
           // then
-          assert.notContains('Certification(s) terminée(s)\n');
-          assert.notContains('Écran de fin du test vu\n');
+          assert.dom(screen.queryByText('Certification(s) terminée(s)\n')).doesNotExist();
+          assert.dom(screen.queryByText('Écran de fin du test vu\n')).doesNotExist();
         });
 
         test('it should show the uncompleted reports table', async function (assert) {
@@ -306,10 +313,10 @@ module('Acceptance | Session Finalization', function (hooks) {
           session.update({ certificationReports: [certificationReport] });
 
           // when
-          await visit(`/sessions/${session.id}/finalisation`);
+          const screen = await visitScreen(`/sessions/${session.id}/finalisation`);
 
           // then
-          assert.contains("Ces candidats n'ont pas fini leur test de certification");
+          assert.dom(screen.getByText("Ces candidats n'ont pas fini leur test de certification")).exists();
         });
 
         module('without any selected reason', function () {
@@ -322,12 +329,13 @@ module('Acceptance | Session Finalization', function (hooks) {
             session.update({ certificationReports: [certificationReport] });
 
             // when
-            await visit(`/sessions/${session.id}/finalisation`);
+            const screen = await visitScreen(`/sessions/${session.id}/finalisation`);
 
-            await clickByLabel('Finaliser');
+            await click(screen.getByText('Finaliser'));
 
             // then
-            assert.notContains(MODAL_TITLE);
+            assert.dom(screen.queryByText(MODAL_TITLE)).doesNotExist();
+            assert.dom(screen.queryByText('Finalisation de la session')).doesNotExist();
           });
         });
 
@@ -341,12 +349,13 @@ module('Acceptance | Session Finalization', function (hooks) {
             session.update({ certificationReports: [certificationReport] });
 
             // when
-            await visit(`/sessions/${session.id}/finalisation`);
+            const screen = await visitScreen(`/sessions/${session.id}/finalisation`);
 
-            await clickByLabel('Finaliser');
+            await click(screen.getByText('Finaliser'));
 
             // then
-            assert.contains(MODAL_TITLE);
+            assert.dom(screen.getByText(MODAL_TITLE)).exists();
+            assert.dom(screen.getByText('Finalisation de la session')).exists();
           });
         });
       });
@@ -360,10 +369,10 @@ module('Acceptance | Session Finalization', function (hooks) {
           session.update({ certificationReports: [certificationReport] });
 
           // when
-          await visit(`/sessions/${session.id}/finalisation`);
+          const screen = await visitScreen(`/sessions/${session.id}/finalisation`);
 
           // then
-          assert.notContains('Étape 2 : Transmettre des documents (facultatif)');
+          assert.dom(screen.queryByText('Étape 2 : Transmettre des documents (facultatif)')).doesNotExist();
         });
       });
 
@@ -376,10 +385,10 @@ module('Acceptance | Session Finalization', function (hooks) {
           session.update({ certificationReports: [certificationReport] });
 
           // when
-          await visit(`/sessions/${session.id}/finalisation`);
+          const screen = await visitScreen(`/sessions/${session.id}/finalisation`);
 
           // then
-          assert.contains('Étape 2 : Transmettre des documents (facultatif)');
+          assert.dom(screen.getByText('Étape 2 : Transmettre des documents (facultatif)')).exists();
         });
       });
     });
