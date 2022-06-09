@@ -1,4 +1,4 @@
-class TargetedProfileTemplate {
+class TargetProfileTemplate {
   constructor({ id, targetProfileIds, tubes } = {}) {
     this.id = id;
     this.targetProfileIds = targetProfileIds;
@@ -6,4 +6,4 @@ class TargetedProfileTemplate {
   }
 }
 
-module.exports = TargetedProfileTemplate;
+module.exports = TargetProfileTemplate;
