@@ -1,17 +1,6 @@
 const { knex } = require('../../../db/knex-database-connection');
 const CertificationResult = require('../../domain/models/CertificationResult');
-const {
-  PIX_EMPLOI_CLEA_V1,
-  PIX_EMPLOI_CLEA_V2,
-  PIX_EMPLOI_CLEA_V3,
-  PIX_DROIT_MAITRE_CERTIF,
-  PIX_DROIT_EXPERT_CERTIF,
-  PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
-  PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME,
-  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME,
-  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
-  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
-} = require('../../domain/models/Badge').keys;
+const isEmpty = require('lodash/isEmpty');
 
 module.exports = {
   async findBySessionId({ sessionId }) {
@@ -20,7 +9,18 @@ module.exports = {
       .orderBy('certification-courses.lastName', 'ASC')
       .orderBy('certification-courses.firstName', 'ASC');
 
-    return certificationResultDTOs.map(_toDomain);
+    const complementaryCertificationCourseResultsByCertificationCourseId =
+      await _selectComplementaryCertificationCourseResultsBySessionId({
+        sessionId,
+      });
+
+    return certificationResultDTOs.map((certificationResultDTO) => {
+      certificationResultDTO.complementaryCertificationCourseResults =
+        complementaryCertificationCourseResultsByCertificationCourseId.find(
+          ({ certificationCourseId }) => certificationCourseId === certificationResultDTO.id
+        )?.complementaryCertificationCourseResults;
+      return _toDomain(certificationResultDTO);
+    });
   },
 
   async findByCertificationCandidateIds({ certificationCandidateIds }) {
@@ -34,7 +34,21 @@ module.exports = {
       .orderBy('certification-courses.lastName', 'ASC')
       .orderBy('certification-courses.firstName', 'ASC');
 
-    return certificationResultDTOs.map(_toDomain);
+    let complementaryCertificationCourseResultsByCertificationCourseId = [];
+    if (!isEmpty(certificationResultDTOs)) {
+      complementaryCertificationCourseResultsByCertificationCourseId =
+        await _selectComplementaryCertificationCourseResultsBySessionId({
+          sessionId: certificationResultDTOs[0].sessionId,
+        });
+    }
+
+    return certificationResultDTOs.map((certificationResultDTO) => {
+      certificationResultDTO.complementaryCertificationCourseResults =
+        complementaryCertificationCourseResultsByCertificationCourseId.find(
+          ({ certificationCourseId }) => certificationCourseId === certificationResultDTO.id
+        )?.complementaryCertificationCourseResults;
+      return _toDomain(certificationResultDTO);
+    });
   },
 };
 
@@ -58,40 +72,34 @@ function _selectCertificationResults() {
       knex.raw(`
         json_agg("competence-marks".* ORDER BY "competence-marks"."competence_code" asc)  as "competenceMarks"`)
     )
-    .select(
-      knex.raw(`
-        json_agg("complementary-certification-course-results".*) as "complementaryCertificationCourseResults"`)
-    )
     .from('certification-courses')
     .join('assessments', 'assessments.certificationCourseId', 'certification-courses.id')
     .leftJoin('assessment-results', 'assessment-results.assessmentId', 'assessments.id')
     .modify(_filterMostRecentAssessmentResult)
     .leftJoin('competence-marks', 'competence-marks.assessmentResultId', 'assessment-results.id')
-    .leftJoin(
-      'complementary-certification-courses',
-      'complementary-certification-courses.certificationCourseId',
-      'certification-courses.id'
-    )
-    .leftJoin('complementary-certification-course-results', function () {
-      this.on(
-        'complementary-certification-course-results.complementaryCertificationCourseId',
-        '=',
-        'complementary-certification-courses.id'
-      ).onIn('complementary-certification-course-results.partnerKey', [
-        PIX_EMPLOI_CLEA_V1,
-        PIX_EMPLOI_CLEA_V2,
-        PIX_EMPLOI_CLEA_V3,
-        PIX_DROIT_MAITRE_CERTIF,
-        PIX_DROIT_EXPERT_CERTIF,
-        PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
-        PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME,
-        PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME,
-        PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
-        PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
-      ]);
-    })
     .groupBy('certification-courses.id', 'assessments.id', 'assessment-results.id')
     .where('certification-courses.isPublished', true);
+}
+
+function _selectComplementaryCertificationCourseResultsBySessionId({ sessionId }) {
+  return knex('complementary-certification-course-results')
+    .select({ certificationCourseId: 'certification-courses.id' })
+    .select(
+      knex.raw(`
+        json_agg("complementary-certification-course-results".*) as "complementaryCertificationCourseResults"`)
+    )
+    .join(
+      'complementary-certification-courses',
+      'complementary-certification-courses.id',
+      'complementary-certification-course-results.complementaryCertificationCourseId'
+    )
+    .join(
+      'certification-courses',
+      'certification-courses.id',
+      'complementary-certification-courses.certificationCourseId'
+    )
+    .where({ sessionId })
+    .groupBy('certification-courses.id');
 }
 
 function _filterMostRecentAssessmentResult(qb) {
