@@ -12,6 +12,9 @@ const {
   COMPLEMENTARY_CERTIFICATIONS_SESSION_ID,
 } = require('./certification-sessions-builder');
 const {
+  SCO_STUDENT_ID: SCO_STUDENT_ORGANIZATION_LEARNER_ID,
+} = require('../organizations-sco-builder');
+const {
   CERTIF_SUCCESS_USER_ID,
   CERTIF_FAILED_USER_ID,
   CERTIF_REGULAR_USER5_ID,
@@ -145,7 +148,11 @@ function certificationCandidatesBuilder({ databaseBuilder }) {
 
   let sessionId;
   const candidateDataSuccessWithUser = { ...CANDIDATE_DATA_SUCCESS, userId: CERTIF_SUCCESS_USER_ID };
-  const candidateDataSuccessWithUserSco = { ...CANDIDATE_SCO_DATA_SUCCESS, userId: CERTIF_SCO_STUDENT_ID };
+  const candidateDataSuccessWithUserSco = {
+    ...CANDIDATE_SCO_DATA_SUCCESS,
+    userId: CERTIF_SCO_STUDENT_ID,
+    organizationLearnerId: SCO_STUDENT_ORGANIZATION_LEARNER_ID,
+  };
   const candidateDataFailureWithUser = { ...CANDIDATE_DATA_FAILURE, userId: CERTIF_FAILED_USER_ID };
   const candidateDataMissingWithUser = { ...CANDIDATE_DATA_MISSING, userId: null };
   const candidateDataStartedWithUser = { ...CANDIDATE_DATA_STARTED, userId: CERTIF_REGULAR_USER5_ID };
