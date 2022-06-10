@@ -993,7 +993,7 @@ describe('Unit | Application | Organizations | organization-controller', functio
       // then
       expect(response.source).to.equal('csv-string');
       expect(response.headers['Content-Type']).to.equal('text/csv;charset=utf-8');
-      expect(response.headers['Content-Disposition']).to.equal('attachment; filename=20210101_resultats_3èmeA.csv');
+      expect(response.headers['Content-Disposition']).to.equal('attachment; filename="20210101_resultats_3èmeA.csv"');
     });
   });
 
