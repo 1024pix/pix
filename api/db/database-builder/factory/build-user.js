@@ -112,7 +112,7 @@ buildUser.withRawPassword = function buildUserWithRawPassword({
   username,
   cgu = true,
   lang = 'fr',
-  lastTermsOfServiceValidatedAt,
+  lastTermsOfServiceValidatedAt = new Date('2019-04-28T02:42:00Z'),
   lastPixOrgaTermsOfServiceValidatedAt = null,
   lastPixCertifTermsOfServiceValidatedAt = null,
   mustValidateTermsOfService = false,

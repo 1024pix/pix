@@ -6,6 +6,7 @@ const DEFAULT_PASSWORD = 'pix123';
 
 function usersBuilder({ databaseBuilder }) {
 
+  const now = new Date('2022-06-10');
   databaseBuilder.factory.buildUser.withRawPassword({
     id: 1,
     firstName: 'Pix',
@@ -13,6 +14,16 @@ function usersBuilder({ databaseBuilder }) {
     email: 'userpix1@example.net',
     rawPassword: DEFAULT_PASSWORD,
     cgu: true,
+    lang: 'fr',
+    createdAt: now,
+    mustValidateTermsOfService: false,
+    lastTermsOfServiceValidatedAt: now,
+    pixOrgaTermsOfServiceAccepted: true,
+    lastPixOrgaTermsOfServiceValidatedAt: now,
+    pixCertifTermsOfServiceAccepted: true,
+    lastPixCertifTermsOfServiceValidatedAt: now,
+    lastLoggedAt: now,
+    emailConfirmedAt: now,
   });
 
   databaseBuilder.factory.buildUser.withRawPassword({
