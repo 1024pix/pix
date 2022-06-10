@@ -15,6 +15,8 @@ export default class User extends Model {
   @attr() lastTermsOfServiceValidatedAt;
   @attr() lastPixOrgaTermsOfServiceValidatedAt;
   @attr() lastPixCertifTermsOfServiceValidatedAt;
+  @attr() lastLoggedAt;
+  @attr() emailConfirmedAt;
 
   @hasMany('membership') memberships;
   @hasMany('certification-center-membership') certificationCenterMemberships;
