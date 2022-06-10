@@ -27,7 +27,6 @@ class User {
     isAnonymous,
     memberships = [],
     certificationCenterMemberships = [],
-    pixAdminRoles = [],
     pixScore,
     scorecards = [],
     campaignParticipations = [],
@@ -53,7 +52,6 @@ class User {
     this.knowledgeElements = knowledgeElements;
     this.lang = lang;
     this.isAnonymous = isAnonymous;
-    this.pixAdminRoles = pixAdminRoles;
     this.pixScore = pixScore;
     this.memberships = memberships;
     this.certificationCenterMemberships = certificationCenterMemberships;
