@@ -23,6 +23,8 @@ function _toDomain(rawOrganization) {
     archivedAt: rawOrganization.archivedAt,
     archivistFirstName: rawOrganization.archivistFirstName,
     archivistLastName: rawOrganization.archivistLastName,
+    creatorFirstName: rawOrganization.creatorFirstName,
+    creatorLastName: rawOrganization.creatorLastName,
   });
 
   organization.tags = rawOrganization.tags || [];
@@ -49,10 +51,13 @@ module.exports = {
         formNPSUrl: 'organizations.formNPSUrl',
         showSkills: 'organizations.showSkills',
         archivedAt: 'organizations.archivedAt',
-        archivistFirstName: 'users.firstName',
-        archivistLastName: 'users.lastName',
+        archivistFirstName: 'archivists.firstName',
+        archivistLastName: 'archivists.lastName',
+        creatorFirstName: 'creators.firstName',
+        creatorLastName: 'creators.lastName',
       })
-      .leftJoin('users', 'users.id', 'organizations.archivedBy')
+      .leftJoin('users AS archivists', 'archivists.id', 'organizations.archivedBy')
+      .leftJoin('users AS creators', 'creators.id', 'organizations.createdBy')
       .where('organizations.id', id)
       .first();
 
