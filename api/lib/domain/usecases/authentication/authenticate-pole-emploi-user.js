@@ -1,8 +1,8 @@
 const moment = require('moment');
 
-const { UnexpectedOidcStateError, UnexpectedUserAccountError } = require('../errors');
-const AuthenticationMethod = require('../models/AuthenticationMethod');
-const logger = require('../../infrastructure/logger');
+const { UnexpectedOidcStateError, UnexpectedUserAccountError } = require('../../errors');
+const AuthenticationMethod = require('../../models/AuthenticationMethod');
+const logger = require('../../../infrastructure/logger');
 
 module.exports = async function authenticatePoleEmploiUser({
   authenticatedUserId,
@@ -10,9 +10,9 @@ module.exports = async function authenticatePoleEmploiUser({
   redirectUri,
   stateReceived,
   stateSent,
+  authenticationSessionService,
   poleEmploiAuthenticationService,
   authenticationMethodRepository,
-  poleEmploiTokensRepository,
   userRepository,
 }) {
   if (stateSent !== stateReceived) {
@@ -48,7 +48,7 @@ module.exports = async function authenticatePoleEmploiUser({
     });
 
     if (!user) {
-      const authenticationKey = await poleEmploiTokensRepository.save(poleEmploiTokens);
+      const authenticationKey = await authenticationSessionService.save(poleEmploiTokens);
       return { authenticationKey }; // todo : refacto, should not return different objects
       // will be refacto when keycloak will be setup
       // this return should be replaced by domain error (see controller)
