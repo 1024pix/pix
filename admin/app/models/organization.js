@@ -20,6 +20,7 @@ export default class Organization extends Model {
   @attr('boolean') showSkills;
   @attr() archivistFullName;
   @attr() archivedAt;
+  @attr() creatorFullName;
 
   @equal('type', 'SCO') isOrganizationSCO;
   @equal('type', 'SUP') isOrganizationSUP;
