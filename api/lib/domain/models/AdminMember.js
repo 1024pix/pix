@@ -1,5 +1,6 @@
 const Joi = require('joi').extend(require('@joi/date'));
 const { validateEntity } = require('../validators/entity-validator');
+const isNil = require('lodash/isNil');
 const { ROLES } = require('../constants').PIX_ADMIN;
 
 module.exports = class AdminMember {
@@ -31,7 +32,7 @@ module.exports = class AdminMember {
   }
 
   get hasAccessToAdminScope() {
-    return this.role in ROLES;
+    return this.role in ROLES && isNil(this.disabledAt);
   }
 
   get isSuperAdmin() {

@@ -97,7 +97,6 @@ describe('Unit | Domain | Models | AdminMember', function () {
         lastName: 'Goku',
         email: 'email@example.net',
         role: ROLES.CERTIF,
-        disabledAt: null,
       };
       const user = new AdminMember(adminMemberRawDetails);
 
@@ -106,6 +105,26 @@ describe('Unit | Domain | Models | AdminMember', function () {
 
       // then
       expect(hasAccess).to.be.true;
+    });
+
+    it('should be false if user has a disabled allowed role', function () {
+      // given
+      const adminMemberRawDetails = {
+        id: 1,
+        userId: 2,
+        firstName: 'Son',
+        lastName: 'Goku',
+        email: 'email@example.net',
+        role: ROLES.CERTIF,
+        disabledAt: new Date(2022, 4, 11),
+      };
+      const user = new AdminMember(adminMemberRawDetails);
+
+      // when
+      const hasAccess = user.hasAccessToAdminScope;
+
+      // then
+      expect(hasAccess).to.be.false;
     });
   });
 
