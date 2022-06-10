@@ -1,18 +1,18 @@
 const moment = require('moment');
-const UserToCreate = require('../models/UserToCreate');
-const AuthenticationMethod = require('../models/AuthenticationMethod');
-const DomainTransaction = require('../../infrastructure/DomainTransaction');
-const { InvalidExternalAPIResponseError, AuthenticationKeyExpired } = require('../errors');
-const logger = require('../../infrastructure/logger');
+const UserToCreate = require('../../models/UserToCreate');
+const AuthenticationMethod = require('../../models/AuthenticationMethod');
+const DomainTransaction = require('../../../infrastructure/DomainTransaction');
+const { InvalidExternalAPIResponseError, AuthenticationKeyExpired } = require('../../errors');
+const logger = require('../../../infrastructure/logger');
 
 module.exports = async function createUserFromPoleEmploi({
   authenticationKey,
+  authenticationSessionService,
   poleEmploiAuthenticationService,
   authenticationMethodRepository,
-  poleEmploiTokensRepository,
   userToCreateRepository,
 }) {
-  const poleEmploiTokens = await poleEmploiTokensRepository.getByKey(authenticationKey);
+  const poleEmploiTokens = await authenticationSessionService.getByKey(authenticationKey);
   if (!poleEmploiTokens) {
     throw new AuthenticationKeyExpired();
   }
