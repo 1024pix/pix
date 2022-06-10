@@ -123,6 +123,8 @@ buildUser.withRawPassword = function buildUserWithRawPassword({
   updatedAt = new Date(),
   rawPassword = DEFAULT_PASSWORD,
   shouldChangePassword = false,
+  lastLoggedAt = new Date('2022-04-28T02:42:00Z'),
+  emailConfirmedAt = new Date('2021-04-28T02:42:00Z'),
 } = {}) {
   email = isUndefined(email) ? `${firstName}.${lastName}${id}@example.net`.toLowerCase() : email || null;
 
@@ -143,6 +145,8 @@ buildUser.withRawPassword = function buildUserWithRawPassword({
     hasSeenAssessmentInstructions,
     createdAt,
     updatedAt,
+    lastLoggedAt,
+    emailConfirmedAt,
   };
 
   const user = databaseBuffer.pushInsertable({

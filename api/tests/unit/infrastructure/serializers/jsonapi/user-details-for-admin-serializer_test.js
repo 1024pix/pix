@@ -5,31 +5,46 @@ describe('Unit | Serializer | JSONAPI | user-details-for-admin-serializer', func
   describe('#serialize', function () {
     it('should serialize user details for Pix Admin', function () {
       // given
-      const modelObject = domainBuilder.buildUserDetailsForAdmin({
+      const now = new Date();
+      const userDetailsForAdmin = domainBuilder.buildUserDetailsForAdmin({
+        createdAt: now,
+        lang: 'fr',
+        lastTermsOfServiceValidatedAt: now,
+        lastPixOrgaTermsOfServiceValidatedAt: now,
+        lastPixCertifTermsOfServiceValidatedAt: now,
+        lastLoggedAt: now,
+        emailConfirmedAt: now,
         schoolingRegistrations: [domainBuilder.buildOrganizationLearnerForAdmin()],
         authenticationMethods: [{ id: 1, identityProvider: 'PIX' }],
       });
 
       // when
-      const json = serializer.serialize(modelObject);
+      const json = serializer.serialize(userDetailsForAdmin);
 
       // then
       expect(json).to.be.deep.equal({
         data: {
           attributes: {
-            'first-name': modelObject.firstName,
-            'last-name': modelObject.lastName,
-            email: modelObject.email,
-            username: modelObject.username,
-            cgu: modelObject.cgu,
-            'pix-orga-terms-of-service-accepted': modelObject.pixOrgaTermsOfServiceAccepted,
-            'pix-certif-terms-of-service-accepted': modelObject.pixCertifTermsOfServiceAccepted,
+            'first-name': userDetailsForAdmin.firstName,
+            'last-name': userDetailsForAdmin.lastName,
+            email: userDetailsForAdmin.email,
+            username: userDetailsForAdmin.username,
+            'created-at': userDetailsForAdmin.createdAt,
+            cgu: userDetailsForAdmin.cgu,
+            'pix-orga-terms-of-service-accepted': userDetailsForAdmin.pixOrgaTermsOfServiceAccepted,
+            'pix-certif-terms-of-service-accepted': userDetailsForAdmin.pixCertifTermsOfServiceAccepted,
+            lang: 'fr',
+            'last-terms-of-service-validated-at': now,
+            'last-pix-orga-terms-of-service-validated-at': now,
+            'last-pix-certif-terms-of-service-validated-at': now,
+            'last-logged-at': now,
+            'email-confirmed-at': now,
           },
           relationships: {
             'schooling-registrations': {
               data: [
                 {
-                  id: `${modelObject.schoolingRegistrations[0].id}`,
+                  id: `${userDetailsForAdmin.schoolingRegistrations[0].id}`,
                   type: 'schoolingRegistrations',
                 },
               ],
@@ -37,38 +52,38 @@ describe('Unit | Serializer | JSONAPI | user-details-for-admin-serializer', func
             'authentication-methods': {
               data: [
                 {
-                  id: `${modelObject.authenticationMethods[0].id}`,
+                  id: `${userDetailsForAdmin.authenticationMethods[0].id}`,
                   type: 'authenticationMethods',
                 },
               ],
             },
           },
-          id: `${modelObject.id}`,
+          id: `${userDetailsForAdmin.id}`,
           type: 'users',
         },
         included: [
           {
             attributes: {
-              'first-name': modelObject.schoolingRegistrations[0].firstName,
-              'last-name': modelObject.schoolingRegistrations[0].lastName,
-              birthdate: modelObject.schoolingRegistrations[0].birthdate,
-              division: modelObject.schoolingRegistrations[0].division,
-              group: modelObject.schoolingRegistrations[0].group,
-              'organization-id': modelObject.schoolingRegistrations[0].organizationId,
-              'organization-name': modelObject.schoolingRegistrations[0].organizationName,
-              'created-at': modelObject.schoolingRegistrations[0].createdAt,
-              'updated-at': modelObject.schoolingRegistrations[0].updatedAt,
-              'is-disabled': modelObject.schoolingRegistrations[0].isDisabled,
-              'can-be-dissociated': modelObject.schoolingRegistrations[0].canBeDissociated,
+              'first-name': userDetailsForAdmin.schoolingRegistrations[0].firstName,
+              'last-name': userDetailsForAdmin.schoolingRegistrations[0].lastName,
+              birthdate: userDetailsForAdmin.schoolingRegistrations[0].birthdate,
+              division: userDetailsForAdmin.schoolingRegistrations[0].division,
+              group: userDetailsForAdmin.schoolingRegistrations[0].group,
+              'organization-id': userDetailsForAdmin.schoolingRegistrations[0].organizationId,
+              'organization-name': userDetailsForAdmin.schoolingRegistrations[0].organizationName,
+              'created-at': userDetailsForAdmin.schoolingRegistrations[0].createdAt,
+              'updated-at': userDetailsForAdmin.schoolingRegistrations[0].updatedAt,
+              'is-disabled': userDetailsForAdmin.schoolingRegistrations[0].isDisabled,
+              'can-be-dissociated': userDetailsForAdmin.schoolingRegistrations[0].canBeDissociated,
             },
-            id: `${modelObject.schoolingRegistrations[0].id}`,
+            id: `${userDetailsForAdmin.schoolingRegistrations[0].id}`,
             type: 'schoolingRegistrations',
           },
           {
             attributes: {
-              'identity-provider': modelObject.authenticationMethods[0].identityProvider,
+              'identity-provider': userDetailsForAdmin.authenticationMethods[0].identityProvider,
             },
-            id: `${modelObject.authenticationMethods[0].id}`,
+            id: `${userDetailsForAdmin.authenticationMethods[0].id}`,
             type: 'authenticationMethods',
           },
         ],
