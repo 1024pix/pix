@@ -12,6 +12,9 @@ export default class User extends Model {
   @attr('boolean') pixCertifTermsOfServiceAccepted;
   @attr() lang;
   @attr() createdAt;
+  @attr() lastTermsOfServiceValidatedAt;
+  @attr() lastPixOrgaTermsOfServiceValidatedAt;
+  @attr() lastPixCertifTermsOfServiceValidatedAt;
 
   @hasMany('membership') memberships;
   @hasMany('certification-center-membership') certificationCenterMemberships;

@@ -120,19 +120,15 @@
           <br />
           <div>
             <span>CGU Pix App validé : </span>
-            <span>{{if @user.cgu "OUI" "NON"}}</span>
+            <span>{{this.userHasValidatePixAppTermsOfService}}</span>
           </div>
           <div>
             <span>CGU Pix Orga validé : </span>
-            <span>
-              {{if @user.pixOrgaTermsOfServiceAccepted "OUI" "NON"}}
-            </span>
+            <span>{{this.userHasValidatePixOrgaTermsOfService}}</span>
           </div>
           <div>
             <span>CGU Pix Certif validé : </span>
-            <span>
-              {{if @user.pixCertifTermsOfServiceAccepted "OUI" "NON"}}
-            </span>
+            <span>{{this.userHasValidatePixCertifTermsOfService}}</span>
           </div>
         </div>
         <div>

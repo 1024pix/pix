@@ -58,16 +58,16 @@ module('Integration | Component | users | user-detail-personal-information/user-
       });
 
       module('terms of service', function () {
-        test('should display "OUI" when user accepted Pix App terms of service', async function (assert) {
+        test('should display "OUI" with date when user accepted Pix App terms of service', async function (assert) {
           // given
-          this.set('user', { cgu: true });
+          this.set('user', { cgu: true, lastTermsOfServiceValidatedAt: new Date('2021-12-10') });
           this.owner.register('service:access-control', AccessControlStub);
 
           // when
           const screen = await render(hbs`<Users::UserDetailPersonalInformation::UserOverview @user={{this.user}}/>`);
 
           // then
-          assert.dom(screen.getByText('OUI')).exists();
+          assert.dom(screen.getByText('OUI, le 10/12/2021')).exists();
         });
 
         test('should display "NON" when user not accepted Pix App terms of service', async function (assert) {
@@ -82,16 +82,19 @@ module('Integration | Component | users | user-detail-personal-information/user-
           assert.dom(screen.getByText('NON')).exists();
         });
 
-        test('should display "OUI" when user accepted Pix Orga terms of service', async function (assert) {
+        test('should display "OUI" with date when user accepted Pix Orga terms of service', async function (assert) {
           // given
-          this.set('user', { pixOrgaTermsOfServiceAccepted: true });
+          this.set('user', {
+            pixOrgaTermsOfServiceAccepted: true,
+            lastPixOrgaTermsOfServiceValidatedAt: new Date('2021-12-14'),
+          });
           this.owner.register('service:access-control', AccessControlStub);
 
           // when
           const screen = await render(hbs`<Users::UserDetailPersonalInformation::UserOverview @user={{this.user}}/>`);
 
           // then
-          assert.dom(screen.getByText('OUI')).exists();
+          assert.dom(screen.getByText('OUI, le 14/12/2021')).exists();
         });
 
         test('should display "NON" when user not accepted Pix Orga terms of service', async function (assert) {
@@ -106,16 +109,19 @@ module('Integration | Component | users | user-detail-personal-information/user-
           assert.dom(screen.getByText('NON')).exists();
         });
 
-        test('should display "OUI" when user accepted Pix Certif terms of service', async function (assert) {
+        test('should display "OUI" with date when user accepted Pix Certif terms of service', async function (assert) {
           // given
-          this.set('user', { pixCertifTermsOfServiceAccepted: true });
+          this.set('user', {
+            pixCertifTermsOfServiceAccepted: true,
+            lastPixCertifTermsOfServiceValidatedAt: new Date('2021-12-14'),
+          });
           this.owner.register('service:access-control', AccessControlStub);
 
           // when
           const screen = await render(hbs`<Users::UserDetailPersonalInformation::UserOverview @user={{this.user}}/>`);
 
           // then
-          assert.dom(screen.getByText('OUI')).exists();
+          assert.dom(screen.getByText('OUI, le 14/12/2021')).exists();
         });
 
         test('should display "NON" when user not accepted Pix Certif terms of service', async function (assert) {
