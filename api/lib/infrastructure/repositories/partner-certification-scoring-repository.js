@@ -50,6 +50,7 @@ module.exports = {
       .where({
         complementaryCertificationCourseId: partnerCertificationScoring.complementaryCertificationCourseId,
         partnerKey: partnerCertificationScoring.partnerKey,
+        source: partnerCertificationScoring.source,
       })
       .first();
 
