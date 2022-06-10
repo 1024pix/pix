@@ -43,6 +43,7 @@ describe('Unit | Serializer | organization-for-admin-serializer', function () {
             'show-skills': organization.showSkills,
             'archived-at': organization.archivedAt,
             'archivist-full-name': organization.archivistFullName,
+            'creator-full-name': organization.creatorFullName,
           },
           relationships: {
             memberships: {
