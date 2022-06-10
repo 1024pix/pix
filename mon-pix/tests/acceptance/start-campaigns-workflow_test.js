@@ -19,6 +19,7 @@ import { startCampaignByCode, startCampaignByCodeAndExternalId } from '../helper
 import { currentSession } from 'ember-simple-auth/test-support';
 import ENV from 'mon-pix/config/environment';
 import setupIntl from '../helpers/setup-intl';
+import { t } from 'ember-intl/test-support';
 
 const AUTHENTICATED_SOURCE_FROM_MEDIACENTRE = ENV.APP.AUTHENTICATED_SOURCE_FROM_MEDIACENTRE;
 
@@ -61,7 +62,9 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
           await visit('/campagnes');
 
           // then
-          expect(find('.fill-in-campaign-code__start-button').textContent).to.contains('Commencer');
+          expect(find('.fill-in-campaign-code__start-button').textContent).to.contains(
+            t('pages.fill-in-campaign-code.start')
+          );
         });
       });
 
@@ -135,7 +138,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
 
               // when
               await fillIn('#campaign-code', campaign.code);
-              await clickByLabel('Commencer');
+              await clickByLabel(t('pages.fill-in-campaign-code.start'));
               await clickByLabel('Je commence');
               await click('#login-button');
               await fillIn('#login', prescritUser.email);
@@ -159,7 +162,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
 
                 // when
                 await fillIn('#campaign-code', campaign.code);
-                await clickByLabel('Commencer');
+                await clickByLabel(t('pages.fill-in-campaign-code.start'));
                 await clickByLabel('Je commence');
                 await click('#login-button');
                 await fillIn('#login', prescritUser.email);
@@ -178,7 +181,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
               await visit('/campagnes');
               prescritUser.mustValidateTermsOfService = true;
               await fillIn('#campaign-code', campaign.code);
-              await clickByLabel('Commencer');
+              await clickByLabel(t('pages.fill-in-campaign-code.start'));
               await clickByLabel('Je commence');
               await click('#login-button');
               await fillIn('#login', prescritUser.email);
@@ -331,7 +334,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
 
             // when
             await fillIn('#campaign-code', campaign.code);
-            await clickByLabel('Commencer');
+            await clickByLabel(t('pages.fill-in-campaign-code.start'));
 
             // then
             expect(currentURL()).to.equal(`/campagnes/${campaign.code}/presentation`);
@@ -385,7 +388,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
 
             // when
             await fillIn('#campaign-code', campaign.code);
-            await clickByLabel('Commencer');
+            await clickByLabel(t('pages.fill-in-campaign-code.start'));
 
             // then
             expect(currentURL()).to.equal(`/campagnes/${campaign.code}/presentation`);
@@ -473,7 +476,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
 
           // when
           await fillIn('#campaign-code', campaignCode);
-          await clickByLabel('Commencer');
+          await clickByLabel(t('pages.fill-in-campaign-code.start'));
 
           // then
           expect(currentURL()).to.equal('/campagnes');
@@ -489,7 +492,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
           await visit('/campagnes');
 
           // when
-          await clickByLabel('Commencer');
+          await clickByLabel(t('pages.fill-in-campaign-code.start'));
 
           // then
           expect(currentURL()).to.equal('/campagnes');
@@ -578,7 +581,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
 
             //when
             await fillIn('#campaign-code', campaign.code);
-            await clickByLabel('Commencer');
+            await clickByLabel(t('pages.fill-in-campaign-code.start'));
 
             //then
             expect(currentURL()).to.equal(`/campagnes/${campaign.code}/presentation`);
@@ -680,7 +683,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
 
           //when
           await fillIn('#campaign-code', campaign.code);
-          await clickByLabel('Commencer');
+          await clickByLabel(t('pages.fill-in-campaign-code.start'));
 
           //then
           expect(currentURL()).to.equal(`/campagnes/${campaign.code}/presentation`);
@@ -742,7 +745,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
 
             // when
             await fillIn('#campaign-code', campaign.code);
-            await clickByLabel('Commencer');
+            await clickByLabel(t('pages.fill-in-campaign-code.start'));
 
             // then
             expect(currentURL()).to.equal(`/campagnes/${campaign.code}/presentation`);
@@ -752,7 +755,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
             // given
             await visit('/campagnes');
             await fillIn('#campaign-code', campaign.code);
-            await clickByLabel('Commencer');
+            await clickByLabel(t('pages.fill-in-campaign-code.start'));
 
             // when
             await clickByLabel('Je commence');
@@ -769,7 +772,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
 
             // when
             await fillIn('#campaign-code', campaign.code);
-            await clickByLabel('Commencer');
+            await clickByLabel(t('pages.fill-in-campaign-code.start'));
 
             // then
             expect(currentURL()).to.equal(`/campagnes/${campaign.code}/presentation`);
@@ -930,7 +933,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
         // when
         await visit('/campagnes');
         await fillIn('#campaign-code', campaign.code);
-        await clickByLabel('Commencer');
+        await clickByLabel(t('pages.fill-in-campaign-code.start'));
         await click('button[type="submit"]');
 
         const currentUserId = session.data.authenticated['user_id'];
@@ -961,7 +964,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
           it('should redirect to landing page', async function () {
             // when
             await fillIn('#campaign-code', campaign.code);
-            await clickByLabel('Commencer');
+            await clickByLabel(t('pages.fill-in-campaign-code.start'));
 
             // then
             expect(currentURL()).to.equal(`/campagnes/${campaign.code}/presentation`);
@@ -970,7 +973,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
           it('should redirect to reconciliation form when landing page has been seen', async function () {
             // when
             await fillIn('#campaign-code', campaign.code);
-            await clickByLabel('Commencer');
+            await clickByLabel(t('pages.fill-in-campaign-code.start'));
             await clickByLabel('Je commence');
 
             // then
@@ -980,7 +983,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
           it('should set by default firstName and lastName', async function () {
             // when
             await fillIn('#campaign-code', campaign.code);
-            await clickByLabel('Commencer');
+            await clickByLabel(t('pages.fill-in-campaign-code.start'));
             await clickByLabel('Je commence');
 
             //then
@@ -991,7 +994,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
           it('should begin campaign participation when reconciliation is done', async function () {
             // given
             await fillIn('#campaign-code', campaign.code);
-            await clickByLabel('Commencer');
+            await clickByLabel(t('pages.fill-in-campaign-code.start'));
             await clickByLabel('Je commence');
 
             // when
@@ -1037,7 +1040,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
 
               // when
               await fillIn('#campaign-code', campaign.code);
-              await clickByLabel('Commencer');
+              await clickByLabel(t('pages.fill-in-campaign-code.start'));
 
               // then
               expect(currentURL()).to.equal(`/campagnes/${campaign.code}/presentation`);
@@ -1085,7 +1088,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
               campaignCode: campaign.code,
             });
             await fillIn('#campaign-code', campaign.code);
-            await clickByLabel('Commencer');
+            await clickByLabel(t('pages.fill-in-campaign-code.start'));
             await clickByLabel('Je commence');
 
             await fillIn('#dayOfBirth', '10');
@@ -1119,7 +1122,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
             server.post('/token-from-external-user', () => errorsApi);
 
             await fillIn('#campaign-code', campaign.code);
-            await clickByLabel('Commencer');
+            await clickByLabel(t('pages.fill-in-campaign-code.start'));
             await clickByLabel('Je commence');
 
             await fillIn('#dayOfBirth', '10');
@@ -1159,7 +1162,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
             server.post('/token-from-external-user', () => errorsApi);
 
             await fillIn('#campaign-code', campaign.code);
-            await clickByLabel('Commencer');
+            await clickByLabel(t('pages.fill-in-campaign-code.start'));
             await clickByLabel('Je commence');
 
             await fillIn('#dayOfBirth', '10');
@@ -1187,7 +1190,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
             server.post('/token-from-external-user', () => new Response(500));
 
             await fillIn('#campaign-code', campaign.code);
-            await clickByLabel('Commencer');
+            await clickByLabel(t('pages.fill-in-campaign-code.start'));
             await clickByLabel('Je commence');
 
             await fillIn('#dayOfBirth', '10');
@@ -1239,7 +1242,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
 
               // when
               await fillIn('#campaign-code', campaign.code);
-              await clickByLabel('Commencer');
+              await clickByLabel(t('pages.fill-in-campaign-code.start'));
               await clickByLabel('Je commence');
 
               await fillIn('#dayOfBirth', '10');

@@ -28,7 +28,15 @@
     text-align: center;
     font-weight: $font-light;
     margin-bottom: 16px;
-    max-width: 390px;
+    max-width: 600px;
+
+    @include device-is('tablet') {
+      width: 75vw;
+    }
+
+    @include device-is('mobile') {
+      width: 75vw;
+    }
   }
 
   &__form-field {
@@ -66,5 +74,21 @@
     font-size: 0.875rem;
     text-align: center;
     margin-top: 40px;
+  }
+
+  &__explanation {
+    text-align: center;
+    padding-top: 25px;
+    margin-top: 25px;
+    border-top: 1px solid $grey-15;
+    max-width: 600px;
+
+    @include device-is('tablet') {
+      width: 75vw;
+    }
+
+    @include device-is('mobile') {
+      width: 75vw;
+    }
   }
 }
