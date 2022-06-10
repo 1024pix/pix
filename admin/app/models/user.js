@@ -10,6 +10,8 @@ export default class User extends Model {
   @attr('boolean') cgu;
   @attr('boolean') pixOrgaTermsOfServiceAccepted;
   @attr('boolean') pixCertifTermsOfServiceAccepted;
+  @attr() lang;
+  @attr() createdAt;
 
   @hasMany('membership') memberships;
   @hasMany('certification-center-membership') certificationCenterMemberships;
@@ -19,6 +21,10 @@ export default class User extends Model {
   @computed('firstName', 'lastName')
   get fullName() {
     return `${this.firstName} ${this.lastName}`;
+  }
+
+  get language() {
+    return this.lang.toUpperCase();
   }
 
   get hasPixAuthenticationMethod() {

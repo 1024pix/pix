@@ -33,12 +33,16 @@ module('Integration | Component | users | user-detail-personal-information/user-
 
       test('should display user’s information', async function (assert) {
         // given
-        this.set('user', {
+        const store = this.owner.lookup('service:store');
+        const user = store.createRecord('user', {
           firstName: 'John',
           lastName: 'Snow',
           email: 'john.snow@winterfell.got',
           username: 'kingofthenorth',
+          lang: 'fr',
+          createdAt: new Date('2021-12-10'),
         });
+        this.set('user', user);
         this.owner.register('service:access-control', AccessControlStub);
 
         // when
@@ -49,6 +53,8 @@ module('Integration | Component | users | user-detail-personal-information/user-
         assert.dom(screen.getByText(this.user.lastName)).exists();
         assert.dom(screen.getByText(this.user.email)).exists();
         assert.dom(screen.getByText(this.user.username)).exists();
+        assert.dom(screen.getByText('FR')).exists();
+        assert.dom(screen.getByText('10/12/2021')).exists();
       });
 
       module('terms of service', function () {
