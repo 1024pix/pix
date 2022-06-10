@@ -36,7 +36,7 @@ function _fetchData({ url, token }) {
 function _getFileNameFromHeader(headers) {
   if (headers && headers.get('Content-Disposition')) {
     const contentDispositionHeader = headers.get('Content-Disposition');
-    const [, fileName] = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/.exec(contentDispositionHeader);
+    const [, fileName] = /filename\*?=['"]?([^;\r\n"']*)['"]?/.exec(contentDispositionHeader);
     return fileName;
   }
 }
