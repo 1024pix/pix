@@ -104,6 +104,54 @@ describe('Integration | Repository | Partner Certification Scoring', function ()
         source: ComplementaryCertificationCourseResult.sources.PIX,
       });
     });
+
+    context('when there is multiple source results', function () {
+      it('should update the PIX source complementary certification course result', async function () {
+        // given
+        const certificationCourseId = databaseBuilder.factory.buildCertificationCourse().id;
+        const complementaryCertificationId = databaseBuilder.factory.buildComplementaryCertification({
+          name: ComplementaryCertification.PIX_PLUS_EDU_2ND_DEGRE,
+        }).id;
+        const complementaryCertificationCourseId = databaseBuilder.factory.buildComplementaryCertificationCourse({
+          certificationCourseId,
+          complementaryCertificationId,
+        }).id;
+        const badge = databaseBuilder.factory.buildBadge({
+          key: Badge.keys.PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
+        });
+        databaseBuilder.factory.buildComplementaryCertificationCourseResult({
+          complementaryCertificationCourseId,
+          partnerKey: badge.key,
+          source: ComplementaryCertificationCourseResult.sources.PIX,
+          acquired: true,
+        });
+        databaseBuilder.factory.buildComplementaryCertificationCourseResult({
+          complementaryCertificationCourseId,
+          partnerKey: badge.key,
+          source: ComplementaryCertificationCourseResult.sources.EXTERNAL,
+          acquired: false,
+        });
+        await databaseBuilder.commit();
+
+        const partnerCertificationScoring = domainBuilder.buildPixPlusEduCertificationScoring({
+          complementaryCertificationCourseId,
+          certifiableBadgeKey: badge.key,
+          hasAcquiredPixCertification: false,
+        });
+
+        // when
+        await partnerCertificationScoringRepository.save({ partnerCertificationScoring });
+
+        // then
+        const sourcePixComplementaryCertificationCourseResult = await knex('complementary-certification-course-results')
+          .where({
+            complementaryCertificationCourseId,
+            source: ComplementaryCertificationCourseResult.sources.PIX,
+          })
+          .first();
+        expect(sourcePixComplementaryCertificationCourseResult.acquired).to.be.false;
+      });
+    });
   });
 
   describe('#getCleaCertificationScoring', function () {
