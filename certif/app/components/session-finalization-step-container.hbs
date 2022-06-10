@@ -1,10 +1,12 @@
 <div class="panel session-finalization-step-container">
-  <div class="session-finalization-step-container__title">
+  <div class="session-finalization-step-container__header">
     <img src={{@icon}} alt={{@iconAlt}} class="session-finalization-step-container__icon" />
-    Étape
-    {{@number}}
-    :
-    {{@title}}
+    <div class="session-finalization-step-container__titles">
+      <div>{{@title}}</div>
+      {{#if @subtitle}}
+        <div class="session-finalization-step-container__subtitle">{{@subtitle}}</div>
+      {{/if}}
+    </div>
   </div>
   <div class="session-finalization-step-container__border">
     {{yield}}
