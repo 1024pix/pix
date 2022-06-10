@@ -45,4 +45,15 @@ module.exports = {
     const [savedAdminMember] = await knex(TABLE_NAME).insert(pixAdminRole).returning('*');
     return new AdminMember(savedAdminMember);
   },
+
+  async deactivate({ id }) {
+    const now = new Date();
+    const [updatedAdminMember] = await knex
+      .from(TABLE_NAME)
+      .where({ id })
+      .update({ disabledAt: now, updatedAt: now })
+      .returning('*');
+
+    return updatedAdminMember ? new AdminMember(updatedAdminMember) : undefined;
+  },
 };

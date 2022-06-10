@@ -78,7 +78,7 @@ describe('Integration | Infrastructure | Repository | adminMemberRepository', fu
   });
 
   describe('#get', function () {
-    it('should return user for given user id', async function () {
+    it('should return admin member for given user id', async function () {
       // given
       await _buildUserWithPixAdminRole({ role: ROLES.METIER });
       const userWithPixAdminRole = await _buildUserWithPixAdminRole({ role: ROLES.SUPER_ADMIN });

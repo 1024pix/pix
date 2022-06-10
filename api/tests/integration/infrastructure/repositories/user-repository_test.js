@@ -444,6 +444,26 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
         expect(firstMembership.certificationCenter.name).to.equal(certificationCenterInDB.name);
       });
 
+      context('when user is an admin member', function () {
+        it('should return pix admin roles associated to the user even if it is disabled', async function () {
+          // given
+          const user = databaseBuilder.factory.buildUser();
+          const userWithRoleSuperAdminAdded = databaseBuilder.factory.buildPixAdminRole({
+            userId: user.id,
+            role: ROLES.CERTIF,
+            disabledAt: new Date('2021-01-02'),
+          });
+          await databaseBuilder.commit();
+
+          // when
+          const foundUser = await userRepository.getByUsernameOrEmailWithRolesAndPassword(user.email);
+
+          // then
+          expect(foundUser.pixAdminRoles).to.be.an('array');
+          expect(foundUser.pixAdminRoles[0].role).to.equal(userWithRoleSuperAdminAdded.role);
+        });
+      });
+
       it('should reject with a UserNotFound error when no user was found with this email', async function () {
         // given
         const unusedEmail = 'kikou@pix.fr';
