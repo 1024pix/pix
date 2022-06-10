@@ -68,6 +68,8 @@ const buildUser = function buildUser({
   isAnonymous = false,
   createdAt = new Date(),
   updatedAt = new Date(),
+  lastLoggedAt = new Date(),
+  emailConfirmedAt = null,
 } = {}) {
   email = isUndefined(email) ? `${firstName}.${lastName}${id}@example.net`.toLowerCase() : email || null;
 
@@ -92,6 +94,8 @@ const buildUser = function buildUser({
     isAnonymous,
     createdAt,
     updatedAt,
+    lastLoggedAt,
+    emailConfirmedAt,
   };
 
   return databaseBuffer.pushInsertable({
