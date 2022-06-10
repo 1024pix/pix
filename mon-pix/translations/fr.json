@@ -749,15 +749,16 @@
     },
     "fill-in-campaign-code": {
       "title": "J'ai un code",
-      "description": "Ce code permet de démarrer un parcours ou d’envoyer votre profil à une organisation",
+      "description": "Ce code est transmis par votre établissement/organisation et permet de démarrer un parcours ou d’envoyer votre profil.",
       "errors": {
         "forbidden": "Oups ! nous ne parvenons pas à vous trouver. Vérifiez vos informations afin de continuer ou prévenez l’organisateur.",
         "missing-code": "Veuillez saisir un code.",
         "not-found": "Votre code est erroné, veuillez vérifier ou contacter l’organisateur."
       },
+      "explanation-message": "Qu’est-ce qu’un code parcours et comment l’utiliser ?",
       "first-title-connected": "{ firstName }, saisissez votre code",
       "first-title-not-connected": "Saisissez votre code",
-      "start": "Commencer",
+      "start": "Accéder au parcours",
       "warning-message": "Vous n'êtes pas { firstName } { lastName } ?",
       "warning-message-logout": "Se déconnecter"
     },
