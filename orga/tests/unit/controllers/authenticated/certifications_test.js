@@ -110,7 +110,9 @@ module('Unit | Controller | authenticated/certifications', function (hooks) {
       assert.ok(
         controller.fileSaver.save.calledWith({
           token,
-          url: `/api/organizations/${organizationId}/certification-results?division=${selectedDivision}`,
+          url: `/api/organizations/${organizationId}/certification-results?division=${encodeURIComponent(
+            selectedDivision
+          )}`,
         })
       );
     });

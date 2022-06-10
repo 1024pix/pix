@@ -33,7 +33,9 @@ export default class AuthenticatedCertificationsController extends Controller {
       }
 
       const organizationId = this.currentUser.organization.id;
-      const url = `/api/organizations/${organizationId}/certification-results?division=${this.selectedDivision}`;
+      const url = `/api/organizations/${organizationId}/certification-results?division=${encodeURIComponent(
+        this.selectedDivision
+      )}`;
 
       let token = '';
 
