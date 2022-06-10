@@ -2,6 +2,9 @@ const querystring = require('querystring');
 const { expect, databaseBuilder, knex } = require('../../test-helper');
 const tokenService = require('../../../lib/domain/services/token-service');
 const AuthenticationMethod = require('../../../lib/domain/models/AuthenticationMethod');
+const PoleEmploiTokens = require('../../../lib/domain/models/PoleEmploiTokens');
+const poleEmploiTokensRepository = require('../../../lib/infrastructure/repositories/pole-emploi-tokens-repository');
+const { ROLES } = require('../../../lib/domain/constants').PIX_ADMIN;
 
 const createServer = require('../../../server');
 
@@ -112,6 +115,32 @@ describe('Acceptance | Controller | authentication-controller', function () {
       // then
       expect(response.statusCode).to.equal(401);
       expect(response.result).to.deep.equal(expectedResponseError);
+    });
+
+    context('when scope is admin', function () {
+      context('when admin member has allowed role but has been disabled', function () {
+        it('should return http code 403', async function () {
+          //given
+          const user = databaseBuilder.factory.buildUser.withRawPassword({
+            email: 'email@example.net',
+            rawPassword: userPassword,
+            cgu: true,
+          });
+          databaseBuilder.factory.buildPixAdminRole({
+            userId: user.id,
+            role: ROLES.CERTIF,
+            disabledAt: new Date('2021-01-02'),
+          });
+          await databaseBuilder.commit();
+          const options = _getOptions({ scope: 'pix-admin', username: user.email, password: userPassword });
+
+          // when
+          const response = await server.inject(options);
+
+          // then
+          expect(response.statusCode).to.equal(403);
+        });
+      });
     });
 
     context('when scope is pix-certif', function () {
