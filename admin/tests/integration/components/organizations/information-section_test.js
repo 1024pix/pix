@@ -25,6 +25,8 @@ module('Integration | Component | organizations/information-section', function (
         credit: 350,
         documentationUrl: 'https://pix.fr',
         showSkills: true,
+        createdBy: 1,
+        creatorFullName: 'Gilles Parbal',
       });
 
       // when
@@ -33,6 +35,7 @@ module('Integration | Component | organizations/information-section', function (
       // then
       assert.dom(screen.getByRole('heading', { name: 'SUPer Orga' })).exists();
       assert.dom(screen.getByText('Type : SUP')).exists();
+      assert.dom(screen.getByText('Créée par : Gilles Parbal (1)')).exists();
       assert.dom(screen.getByText("Affichage des acquis dans l'export de résultats : Oui")).exists();
       assert.dom(screen.getByText('Crédits : 350')).exists();
       assert.dom(screen.getByText('https://pix.fr')).exists();
