@@ -18,6 +18,8 @@ module.exports = {
       'description',
       'accessCode',
       'examinerGlobalComment',
+      'hasIncident',
+      'hasJoiningIssue',
       'finalizedAt',
       'resultsSentToPrescriberAt',
       'publishedAt',
@@ -59,7 +61,7 @@ module.exports = {
 
   serializeForFinalization(sessions) {
     return new Serializer('session', {
-      attributes: ['status', 'examinerGlobalComment'],
+      attributes: ['status', 'examinerGlobalComment', 'hasIncident', 'hasJoiningIssue'],
       transform(session) {
         return { ...session, status: session.status };
       },
@@ -83,6 +85,8 @@ module.exports = {
       status: attributes.status,
       description: attributes.description,
       examinerGlobalComment: attributes['examiner-global-comment'],
+      hasIncident: attributes['has-incident'],
+      hasJoiningIssue: attributes['has-joining-issue'],
     });
 
     if (_.isEmpty(_.trim(result.examinerGlobalComment))) {

@@ -25,6 +25,8 @@ describe('Unit | Serializer | JSONAPI | session-serializer', function () {
             status: statuses.PROCESSED,
             description: '',
             'examiner-global-comment': 'It was a fine session my dear',
+            'has-incident': true,
+            'has-joining-issue': true,
             'finalized-at': new Date('2020-02-17T14:23:56Z'),
             'results-sent-to-prescriber-at': new Date('2020-02-20T14:23:56Z'),
             'published-at': new Date('2020-02-21T14:23:56Z'),
@@ -56,6 +58,8 @@ describe('Unit | Serializer | JSONAPI | session-serializer', function () {
         accessCode: '',
         supervisorPassword: 'SOWHAT',
         examinerGlobalComment: 'It was a fine session my dear',
+        hasIncident: true,
+        hasJoiningIssue: true,
         finalizedAt: new Date('2020-02-17T14:23:56Z'),
         resultsSentToPrescriberAt: new Date('2020-02-20T14:23:56Z'),
         publishedAt: new Date('2020-02-21T14:23:56Z'),
@@ -107,6 +111,8 @@ describe('Unit | Serializer | JSONAPI | session-serializer', function () {
           description: '',
           'certification-center-id': 42,
           'examiner-global-comment': 'It was a fine session my dear',
+          'has-incident': true,
+          'has-joining-issue': true,
           'finalized-at': new Date('2020-02-17T14:23:56Z'),
           'results-sent-to-prescriber-at': new Date('2020-02-20T14:23:56Z'),
         },
@@ -149,6 +155,8 @@ describe('Unit | Serializer | JSONAPI | session-serializer', function () {
       expect(session.time).to.equal('14:30');
       expect(session.description).to.equal('');
       expect(session.examinerGlobalComment).to.equal('It was a fine session my dear');
+      expect(session.hasIncident).to.be.true;
+      expect(session.hasJoiningIssue).to.be.true;
     });
 
     // eslint-disable-next-line mocha/no-setup-in-describe
@@ -177,6 +185,8 @@ describe('Unit | Serializer | JSONAPI | session-serializer', function () {
           // eslint-disable-next-line mocha/no-setup-in-describe
           status: statuses.CREATED,
           'examiner-global-comment': 'It was a fine session my dear',
+          'has-incident': true,
+          'has-joining-issue': true,
         },
       },
     };
@@ -193,6 +203,8 @@ describe('Unit | Serializer | JSONAPI | session-serializer', function () {
         accessCode: '',
         status: statuses.CREATED,
         examinerGlobalComment: 'It was a fine session my dear',
+        hasIncident: true,
+        hasJoiningIssue: true,
       });
     });
 
