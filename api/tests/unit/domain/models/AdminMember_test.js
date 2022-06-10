@@ -98,10 +98,10 @@ describe('Unit | Domain | Models | AdminMember', function () {
         email: 'email@example.net',
         role: ROLES.CERTIF,
       };
-      const user = new AdminMember(adminMemberRawDetails);
+      const adminMember = new AdminMember(adminMemberRawDetails);
 
       // when
-      const hasAccess = user.hasAccessToAdminScope;
+      const hasAccess = adminMember.hasAccessToAdminScope;
 
       // then
       expect(hasAccess).to.be.true;
@@ -118,10 +118,10 @@ describe('Unit | Domain | Models | AdminMember', function () {
         role: ROLES.CERTIF,
         disabledAt: new Date(2022, 4, 11),
       };
-      const user = new AdminMember(adminMemberRawDetails);
+      const adminMember = new AdminMember(adminMemberRawDetails);
 
       // when
-      const hasAccess = user.hasAccessToAdminScope;
+      const hasAccess = adminMember.hasAccessToAdminScope;
 
       // then
       expect(hasAccess).to.be.false;

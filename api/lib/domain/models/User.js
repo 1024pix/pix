@@ -62,10 +62,6 @@ class User {
     this.authenticationMethods = authenticationMethods;
   }
 
-  get hasAccessToAdminScope() {
-    return this.pixAdminRoles.some((pixAdminRole) => pixAdminRole.hasAccessToAdminScope);
-  }
-
   get shouldChangePassword() {
     const pixAuthenticationMethod = this.authenticationMethods.find(
       (authenticationMethod) => authenticationMethod.identityProvider === AuthenticationMethod.identityProviders.PIX
