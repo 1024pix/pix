@@ -16,7 +16,29 @@ module('Integration | Component | organizations/information-section', function (
       this.owner.register('service:access-control', AccessControlStub);
     });
 
-    test('it renders and allows to edit or archive an organization', async function (assert) {
+    test('it renders general information about organization', async function (assert) {
+      // given
+      this.set('organization', {
+        type: 'SUP',
+        isManagingStudents: false,
+        name: 'SUPer Orga',
+        credit: 350,
+        documentationUrl: 'https://pix.fr',
+        showSkills: true,
+      });
+
+      // when
+      const screen = await render(hbs`<Organizations::InformationSection @organization={{this.organization}} />`);
+
+      // then
+      assert.dom(screen.getByRole('heading', { name: 'SUPer Orga' })).exists();
+      assert.dom(screen.getByText('Type : SUP')).exists();
+      assert.dom(screen.getByText("Affichage des acquis dans l'export de résultats : Oui")).exists();
+      assert.dom(screen.getByText('Crédits : 350')).exists();
+      assert.dom(screen.getByText('https://pix.fr')).exists();
+    });
+
+    test('it renders edit and archive button', async function (assert) {
       // given
       this.organization = EmberObject.create({ type: 'SUP', isManagingStudents: false, name: 'SUPer Orga' });
 
@@ -24,61 +46,8 @@ module('Integration | Component | organizations/information-section', function (
       const screen = await render(hbs`<Organizations::InformationSection @organization={{this.organization}} />`);
 
       // then
-      assert.dom(screen.queryByText('Archivée le')).doesNotExist();
-      assert.dom(screen.getByRole('heading', { name: 'SUPer Orga' })).exists();
-      assert.dom(screen.getByText('Type : SUP')).exists();
       assert.dom(screen.getByRole('button', { name: 'Éditer' })).exists();
       assert.dom(screen.getByRole('button', { name: "Archiver l'organisation" })).exists();
-    });
-
-    test('it should display credit', async function (assert) {
-      // given
-      const organization = EmberObject.create({ credit: 350 });
-      this.set('organization', organization);
-
-      // when
-      const screen = await render(hbs`<Organizations::InformationSection @organization={{this.organization}} />`);
-
-      // then
-      assert.dom(screen.getByText('Crédits : 350')).exists();
-    });
-
-    module('Displaying whether or not the items of this campaign will be exported in results', function () {
-      test("it should display 'Oui' when showskills set to true", async function (assert) {
-        // given
-        const organization = EmberObject.create({ type: 'SUP', showSkills: true });
-        this.set('organization', organization);
-
-        // when
-        const screen = await render(hbs`<Organizations::InformationSection @organization={{this.organization}} />`);
-
-        // then
-        assert.dom(screen.getByText("Affichage des acquis dans l'export de résultats : Oui")).exists();
-      });
-
-      test("it should display 'Non' when showskills set to false", async function (assert) {
-        // given
-        const organization = EmberObject.create({ type: 'SCO', showSkills: false });
-        this.set('organization', organization);
-
-        // when
-        const screen = await render(hbs`<Organizations::InformationSection @organization={{this.organization}} />`);
-
-        // then
-        assert.dom(screen.getByText("Affichage des acquis dans l'export de résultats : Non")).exists();
-      });
-    });
-
-    test('it should display documentation url', async function (assert) {
-      // given
-      const organization = EmberObject.create({ documentationUrl: 'https://pix.fr' });
-      this.set('organization', organization);
-
-      // when
-      const screen = await render(hbs`<Organizations::InformationSection @organization={{this.organization}} />`);
-
-      // then
-      assert.dom(screen.getByText('https://pix.fr')).exists();
     });
 
     test('it should display empty documentation link message', async function (assert) {
@@ -126,6 +95,50 @@ module('Integration | Component | organizations/information-section', function (
 
         // expect
         assert.dom(screen.getByText('Archivée le 22/02/2022 par Rob Lochon.')).exists();
+      });
+    });
+
+    module('When organization is SCO or SUP', function (hooks) {
+      hooks.beforeEach(function () {
+        this.organization = EmberObject.create({ type: 'SCO', isOrganizationSCO: true, isManagingStudents: true });
+      });
+
+      test('it should display "Oui" if it is managing students', async function (assert) {
+        // given
+        this.organization.isManagingStudents = true;
+
+        // when
+        const screen = await render(hbs`<Organizations::InformationSection @organization={{this.organization}} />`);
+
+        assert.dom(screen.getByText(`Gestion d’élèves/étudiants : Oui`)).exists();
+      });
+
+      test('it should display "Non" if managing students is false', async function (assert) {
+        // given
+        this.organization.isManagingStudents = false;
+
+        // when
+        const screen = await render(hbs`<Organizations::InformationSection @organization={{this.organization}} />`);
+
+        // then
+        assert.dom(screen.getByText(`Gestion d’élèves/étudiants : Non`)).exists();
+      });
+    });
+
+    module('When organization is not SCO', function (hooks) {
+      hooks.beforeEach(function () {
+        this.organization = EmberObject.create({ type: 'PRO', isOrganizationSCO: false, isOrganizationSUP: false });
+      });
+
+      test('it should not display if it is managing students', async function (assert) {
+        // given
+        this.organization.isManagingStudents = false;
+
+        // when
+        const screen = await render(hbs`<Organizations::InformationSection @organization={{this.organization}} />`);
+
+        // then
+        assert.dom(screen.queryByRole('checkbox', { name: 'Gestion d’élèves/étudiants' })).doesNotExist();
       });
     });
 
@@ -358,50 +371,6 @@ module('Integration | Component | organizations/information-section', function (
         assert.dom(screen.getByText('Crédits : 50')).exists();
         assert.dom(screen.getByText(`Gestion d’élèves/étudiants : Oui`)).exists();
         assert.dom(screen.getByRole('link', { name: 'https://pix.fr/' })).exists();
-      });
-    });
-
-    module('When organization is SCO or SUP', function (hooks) {
-      hooks.beforeEach(function () {
-        this.organization = EmberObject.create({ type: 'SCO', isOrganizationSCO: true, isManagingStudents: true });
-      });
-
-      test('it should display "Oui" if it is managing students', async function (assert) {
-        // given
-        this.organization.isManagingStudents = true;
-
-        // when
-        const screen = await render(hbs`<Organizations::InformationSection @organization={{this.organization}} />`);
-
-        assert.dom(screen.getByText(`Gestion d’élèves/étudiants : Oui`)).exists();
-      });
-
-      test('it should display "Non" if managing students is false', async function (assert) {
-        // given
-        this.organization.isManagingStudents = false;
-
-        // when
-        const screen = await render(hbs`<Organizations::InformationSection @organization={{this.organization}} />`);
-
-        // then
-        assert.dom(screen.getByText(`Gestion d’élèves/étudiants : Non`)).exists();
-      });
-    });
-
-    module('When organization is not SCO', function (hooks) {
-      hooks.beforeEach(function () {
-        this.organization = EmberObject.create({ type: 'PRO', isOrganizationSCO: false, isOrganizationSUP: false });
-      });
-
-      test('it should not display if it is managing students', async function (assert) {
-        // given
-        this.organization.isManagingStudents = false;
-
-        // when
-        const screen = await render(hbs`<Organizations::InformationSection @organization={{this.organization}} />`);
-
-        // then
-        assert.dom(screen.queryByRole('checkbox', { name: 'Gestion d’élèves/étudiants' })).doesNotExist();
       });
     });
   });
