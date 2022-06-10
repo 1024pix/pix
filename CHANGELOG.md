@@ -1,5 +1,20 @@
 # Pix Changelog
 
+## v3.219.0 (10/06/2022)
+
+
+### :rocket: Amélioration
+- [#4495](https://github.com/1024pix/pix/pull/4495) [FEATURE] Distinguer les Profils Cibles avec gabarit dans l'écran de détail
+- [#4487](https://github.com/1024pix/pix/pull/4487) [FEATURE] Afficher le niveau Pix des certifications complémentaire Pix+ Édu de 1er degré dans l'export csv des résultats (PIX-5043)
+- [#4493](https://github.com/1024pix/pix/pull/4493) [FEATURE] Supprimer l'étape 2 lors de finalisation d'une session (PIX-4953)
+
+### :building_construction: Tech
+- [#4507](https://github.com/1024pix/pix/pull/4507) [TECH] Mettre en cohérence la seed de candidat SCO certifié (PIX-5080).
+- [#4501](https://github.com/1024pix/pix/pull/4501) [TECH] Corriger la version de l'API.
+
+### :bug: Correction
+- [#4491](https://github.com/1024pix/pix/pull/4491) [BUGFIX] Rendre les signalements E11 et E12 impactant (PIX-5054).
+
 ## v3.218.0 (08/06/2022)
 
 
