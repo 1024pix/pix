@@ -168,7 +168,7 @@ module.exports = {
     return h
       .response(csvResult)
       .header('Content-Type', 'text/csv;charset=utf-8')
-      .header('Content-Disposition', `attachment; filename=${fileName}`);
+      .header('Content-Disposition', `attachment; filename="${fileName}"`);
   },
 
   async findTargetProfiles(request) {
