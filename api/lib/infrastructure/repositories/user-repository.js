@@ -97,6 +97,13 @@ module.exports = {
           'cgu',
           'pixOrgaTermsOfServiceAccepted',
           'pixCertifTermsOfServiceAccepted',
+          'createdAt',
+          'lang',
+          'lastTermsOfServiceValidatedAt',
+          'lastPixOrgaTermsOfServiceValidatedAt',
+          'lastPixCertifTermsOfServiceValidatedAt',
+          'lastLoggedAt',
+          'emailConfirmedAt',
         ],
         withRelated: [
           {
@@ -415,6 +422,13 @@ function _toUserDetailsForAdminDomain(bookshelfUser) {
     cgu: rawUserDetailsForAdmin.cgu,
     pixOrgaTermsOfServiceAccepted: rawUserDetailsForAdmin.pixOrgaTermsOfServiceAccepted,
     pixCertifTermsOfServiceAccepted: rawUserDetailsForAdmin.pixCertifTermsOfServiceAccepted,
+    createdAt: rawUserDetailsForAdmin.createdAt,
+    lang: rawUserDetailsForAdmin.lang,
+    lastTermsOfServiceValidatedAt: rawUserDetailsForAdmin.lastTermsOfServiceValidatedAt,
+    lastPixOrgaTermsOfServiceValidatedAt: rawUserDetailsForAdmin.lastPixOrgaTermsOfServiceValidatedAt,
+    lastPixCertifTermsOfServiceValidatedAt: rawUserDetailsForAdmin.lastPixCertifTermsOfServiceValidatedAt,
+    lastLoggedAt: rawUserDetailsForAdmin.lastLoggedAt,
+    emailConfirmedAt: rawUserDetailsForAdmin.emailConfirmedAt,
     schoolingRegistrations: _toOrganizationLearnersForAdmin(rawUserDetailsForAdmin.schoolingRegistrations),
     authenticationMethods: rawUserDetailsForAdmin.authenticationMethods,
   });
