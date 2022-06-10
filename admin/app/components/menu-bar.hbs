@@ -41,16 +41,18 @@
         <:tooltip>Sessions de certifications</:tooltip>
       </PixTooltip>
     </li>
-    <li class="menu-bar__entry">
-      <PixTooltip @position="right" @inline={{true}}>
-        <:triggerElement>
-          <LinkTo @route="authenticated.certifications" class="menu-bar__link">
-            <FaIcon @icon="graduation-cap" @title="Certifications" />
-          </LinkTo>
-        </:triggerElement>
-        <:tooltip>Certifications</:tooltip>
-      </PixTooltip>
-    </li>
+    {{#if this.accessControl.hasAccessToCertificationActionsScope}}
+      <li class="menu-bar__entry">
+        <PixTooltip @position="right" @inline={{true}}>
+          <:triggerElement>
+            <LinkTo @route="authenticated.certifications" class="menu-bar__link">
+              <FaIcon @icon="graduation-cap" @title="Certifications" />
+            </LinkTo>
+          </:triggerElement>
+          <:tooltip>Certifications</:tooltip>
+        </PixTooltip>
+      </li>
+    {{/if}}
     {{#if this.accessControl.hasAccessToTargetProfilesActionsScope}}
       <li class="menu-bar__entry">
         <PixTooltip @position="right" @inline={{true}}>
