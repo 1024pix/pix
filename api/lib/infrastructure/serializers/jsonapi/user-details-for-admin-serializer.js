@@ -39,6 +39,45 @@ module.exports = {
       },
     }).serialize(usersDetailsForAdmin);
   },
+
+  serializeForUpdate(usersDetailsForAdmin) {
+    return new Serializer('user', {
+      attributes: [
+        'firstName',
+        'lastName',
+        'email',
+        'username',
+        'cgu',
+        'pixOrgaTermsOfServiceAccepted',
+        'pixCertifTermsOfServiceAccepted',
+        'schoolingRegistrations',
+        'authenticationMethods',
+      ],
+      schoolingRegistrations: {
+        ref: 'id',
+        includes: true,
+        attributes: [
+          'firstName',
+          'lastName',
+          'birthdate',
+          'division',
+          'group',
+          'organizationId',
+          'organizationName',
+          'createdAt',
+          'updatedAt',
+          'isDisabled',
+          'canBeDissociated',
+        ],
+      },
+      authenticationMethods: {
+        ref: 'id',
+        includes: true,
+        attributes: ['identityProvider'],
+      },
+    }).serialize(usersDetailsForAdmin);
+  },
+
   deserialize(json) {
     return new UserDetailsForAdmin({
       id: json.data.id,

@@ -158,7 +158,7 @@ describe('Unit | Controller | user-controller', function () {
 
     beforeEach(function () {
       sinon.stub(usecases, 'updateUserDetailsForAdministration');
-      sinon.stub(userDetailsForAdminSerializer, 'serialize');
+      sinon.stub(userDetailsForAdminSerializer, 'serializeForUpdate');
       sinon.stub(userDetailsForAdminSerializer, 'deserialize');
     });
 
@@ -184,7 +184,7 @@ describe('Unit | Controller | user-controller', function () {
       // given
       userDetailsForAdminSerializer.deserialize.withArgs(payload).returns({ email: newEmail, lastName, firstName });
       usecases.updateUserDetailsForAdministration.resolves({ email: newEmail, lastName, firstName });
-      userDetailsForAdminSerializer.serialize.returns('updated');
+      userDetailsForAdminSerializer.serializeForUpdate.returns('updated');
 
       // when
       const response = await userController.updateUserDetailsForAdministration(request);
@@ -211,7 +211,7 @@ describe('Unit | Controller | user-controller', function () {
 
       userDetailsForAdminSerializer.deserialize.withArgs(payload).returns({ email: newEmail });
       usecases.updateUserDetailsForAdministration.resolves({ email: newEmail });
-      userDetailsForAdminSerializer.serialize.returns(newEmail);
+      userDetailsForAdminSerializer.serializeForUpdate.returns(newEmail);
 
       // when
       const response = await userController.updateUserDetailsForAdministration(request);

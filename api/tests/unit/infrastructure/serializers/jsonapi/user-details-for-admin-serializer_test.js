@@ -76,6 +76,80 @@ describe('Unit | Serializer | JSONAPI | user-details-for-admin-serializer', func
     });
   });
 
+  describe('#serializeForUpdate', function () {
+    it('should serialize user details for Pix Admin', function () {
+      // given
+      const modelObject = domainBuilder.buildUserDetailsForAdmin({
+        schoolingRegistrations: [domainBuilder.buildOrganizationLearnerForAdmin()],
+        authenticationMethods: [{ id: 1, identityProvider: 'PIX' }],
+      });
+
+      // when
+      const json = serializer.serializeForUpdate(modelObject);
+
+      // then
+      expect(json).to.be.deep.equal({
+        data: {
+          attributes: {
+            'first-name': modelObject.firstName,
+            'last-name': modelObject.lastName,
+            email: modelObject.email,
+            username: modelObject.username,
+            cgu: modelObject.cgu,
+            'pix-orga-terms-of-service-accepted': modelObject.pixOrgaTermsOfServiceAccepted,
+            'pix-certif-terms-of-service-accepted': modelObject.pixCertifTermsOfServiceAccepted,
+          },
+          relationships: {
+            'schooling-registrations': {
+              data: [
+                {
+                  id: `${modelObject.schoolingRegistrations[0].id}`,
+                  type: 'schoolingRegistrations',
+                },
+              ],
+            },
+            'authentication-methods': {
+              data: [
+                {
+                  id: `${modelObject.authenticationMethods[0].id}`,
+                  type: 'authenticationMethods',
+                },
+              ],
+            },
+          },
+          id: `${modelObject.id}`,
+          type: 'users',
+        },
+        included: [
+          {
+            attributes: {
+              'first-name': modelObject.schoolingRegistrations[0].firstName,
+              'last-name': modelObject.schoolingRegistrations[0].lastName,
+              birthdate: modelObject.schoolingRegistrations[0].birthdate,
+              division: modelObject.schoolingRegistrations[0].division,
+              group: modelObject.schoolingRegistrations[0].group,
+              'organization-id': modelObject.schoolingRegistrations[0].organizationId,
+              'organization-name': modelObject.schoolingRegistrations[0].organizationName,
+              'created-at': modelObject.schoolingRegistrations[0].createdAt,
+              'updated-at': modelObject.schoolingRegistrations[0].updatedAt,
+              'is-disabled': modelObject.schoolingRegistrations[0].isDisabled,
+              'can-be-dissociated': modelObject.schoolingRegistrations[0].canBeDissociated,
+            },
+            id: `${modelObject.schoolingRegistrations[0].id}`,
+            type: 'schoolingRegistrations',
+          },
+          {
+            attributes: {
+              'identity-provider': modelObject.authenticationMethods[0].identityProvider,
+            },
+            id: `${modelObject.authenticationMethods[0].id}`,
+            type: 'authenticationMethods',
+          },
+        ],
+      });
+    });
+  });
+
   describe('#deserialize', function () {
     let jsonUser;
 
