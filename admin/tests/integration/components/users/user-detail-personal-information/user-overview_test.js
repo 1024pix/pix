@@ -13,74 +13,42 @@ module('Integration | Component | users | user-detail-personal-information/user-
       hasAccessToUsersActionsScope = true;
     }
 
-    module('When the admin member click on user details', function () {
-      module('update button', function () {
-        test('should display the update button', async function (assert) {
-          // given
-          this.set('user', {
-            firstName: 'John',
-            lastName: 'Harry',
-            email: 'john.harry@example.net',
-            username: 'john.harry0102',
-          });
-          this.owner.register('service:access-control', AccessControlStub);
-
-          // when
-          const screen = await render(hbs`<Users::UserDetailPersonalInformation::UserOverview @user={{this.user}}/>`);
-
-          // then
-          assert.dom(screen.getByRole('button', { name: 'Modifier' })).exists();
+    module('When the admin look at user details', function () {
+      test('should display the update button', async function (assert) {
+        // given
+        this.set('user', {
+          firstName: 'John',
+          lastName: 'Harry',
+          email: 'john.harry@example.net',
+          username: 'john.harry0102',
         });
+        this.owner.register('service:access-control', AccessControlStub);
+
+        // when
+        const screen = await render(hbs`<Users::UserDetailPersonalInformation::UserOverview @user={{this.user}}/>`);
+
+        // then
+        assert.dom(screen.getByRole('button', { name: 'Modifier' })).exists();
       });
 
-      module('user authentication', function () {
-        test('should display user’s first name', async function (assert) {
-          // given
-          this.set('user', { firstName: 'John' });
-          this.owner.register('service:access-control', AccessControlStub);
-
-          // when
-          const screen = await render(hbs`<Users::UserDetailPersonalInformation::UserOverview @user={{this.user}}/>`);
-
-          // then
-          assert.dom(screen.getByText(this.user.firstName)).exists();
+      test('should display user’s information', async function (assert) {
+        // given
+        this.set('user', {
+          firstName: 'John',
+          lastName: 'Snow',
+          email: 'john.snow@winterfell.got',
+          username: 'kingofthenorth',
         });
+        this.owner.register('service:access-control', AccessControlStub);
 
-        test('should display user’s last name', async function (assert) {
-          // given
-          this.set('user', { lastName: 'Snow' });
-          this.owner.register('service:access-control', AccessControlStub);
+        // when
+        const screen = await render(hbs`<Users::UserDetailPersonalInformation::UserOverview @user={{this.user}}/>`);
 
-          // when
-          const screen = await render(hbs`<Users::UserDetailPersonalInformation::UserOverview @user={{this.user}}/>`);
-
-          // then
-          assert.dom(screen.getByText(this.user.lastName)).exists();
-        });
-
-        test('should display user’s email', async function (assert) {
-          // given
-          this.set('user', { email: 'john.snow@winterfell.got' });
-          this.owner.register('service:access-control', AccessControlStub);
-
-          // when
-          const screen = await render(hbs`<Users::UserDetailPersonalInformation::UserOverview @user={{this.user}}/>`);
-
-          // then
-          assert.dom(screen.getByText(this.user.email)).exists();
-        });
-
-        test('should display user’s username', async function (assert) {
-          // given
-          this.set('user', { username: 'kingofthenorth' });
-          this.owner.register('service:access-control', AccessControlStub);
-
-          // when
-          const screen = await render(hbs`<Users::UserDetailPersonalInformation::UserOverview @user={{this.user}}/>`);
-
-          // then
-          assert.dom(screen.getByText(this.user.username)).exists();
-        });
+        // then
+        assert.dom(screen.getByText(this.user.firstName)).exists();
+        assert.dom(screen.getByText(this.user.lastName)).exists();
+        assert.dom(screen.getByText(this.user.email)).exists();
+        assert.dom(screen.getByText(this.user.username)).exists();
       });
 
       module('terms of service', function () {
