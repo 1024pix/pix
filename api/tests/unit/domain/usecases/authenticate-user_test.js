@@ -70,7 +70,7 @@ describe('Unit | Application | UseCase | authenticate-user', function () {
       it('should throw an error when user has no role so he is not an admin member', async function () {
         // given
         const scope = appMessages.PIX_ADMIN.SCOPE;
-        const user = new User({ email: userEmail, pixAdminRoles: [] });
+        const user = new User({ email: userEmail });
         pixAuthenticationService.getUserByUsernameAndPassword.resolves(user);
         adminMemberRepository.get.withArgs({ userId: user.id }).resolves();
 
@@ -94,7 +94,7 @@ describe('Unit | Application | UseCase | authenticate-user', function () {
       it('should throw an error when user has a role but admin membership is disabled', async function () {
         // given
         const scope = appMessages.PIX_ADMIN.SCOPE;
-        const user = new User({ email: userEmail, pixAdminRoles: [] });
+        const user = new User({ email: userEmail });
         const adminMember = new AdminMember({
           id: 567,
           userId: user.id,
@@ -130,7 +130,7 @@ describe('Unit | Application | UseCase | authenticate-user', function () {
         // given
         const scope = appMessages.PIX_ADMIN.SCOPE;
         const source = 'pix';
-        const user = new User({ id: 123, email: userEmail, pixAdminRoles: [] });
+        const user = new User({ id: 123, email: userEmail });
         const adminMember = new AdminMember({
           id: 567,
           userId: user.id,

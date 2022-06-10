@@ -25,10 +25,6 @@ module.exports = Bookshelf.model(
       return this.hasMany('KnowledgeElement', 'userId');
     },
 
-    pixAdminRoles() {
-      return this.hasMany('PixAdminRole', 'userId');
-    },
-
     memberships() {
       return this.hasMany('Membership', 'userId');
     },
