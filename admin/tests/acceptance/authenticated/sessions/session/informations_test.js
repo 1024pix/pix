@@ -35,6 +35,43 @@ module('Acceptance | authenticated/sessions/session/informations', function (hoo
       assert.strictEqual(currentURL(), '/sessions/1');
     });
 
+    module('When session is finalized', function () {
+      module('When session has a global comment', function () {
+        test('it should display the global comment section', async function (assert) {
+          // given
+          server.create('session', {
+            id: '3',
+            finalizedAt: new Date(),
+            examinerGlobalComment: 'Vraiment, super session!',
+          });
+
+          // when
+          const screen = await visit('/sessions/3');
+
+          // then
+          assert.dom(screen.getByText('Commentaire global :')).exists();
+          assert.dom(screen.getByText('Vraiment, super session!')).exists();
+        });
+      });
+
+      module('When session has no global comment', function () {
+        test('it should not display the global comment section', async function (assert) {
+          // given
+          server.create('session', {
+            id: '3',
+            finalizedAt: new Date(),
+            examinerGlobalComment: '',
+          });
+
+          // when
+          const screen = await visit('/sessions/3');
+
+          // then
+          assert.dom(screen.queryByText('Commentaire global :')).doesNotExist();
+        });
+      });
+    });
+
     module('When session has a jury comment', function () {
       test('it should display a jury comment for session', async function (assert) {
         // given
