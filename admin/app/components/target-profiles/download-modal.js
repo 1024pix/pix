@@ -17,7 +17,7 @@ export default class DownloadModal extends Component {
   }
 
   get downloadContent() {
-    const json = JSON.stringify(this.args.tubesWithLevelAndSkills);
+    const json = JSON.stringify(this.args.content);
     return new Blob([json], { type: 'application/json' });
   }
 

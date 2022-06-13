@@ -68,7 +68,7 @@
           </PixButton>
         {{/unless}}
         {{#if @model.template}}
-          <PixButton @size="small" @backgroundColor="green">
+          <PixButton @size="small" @backgroundColor="green" @triggerAction={{this.openDownloadModal}}>
             Télécharger le profil cible (JSON)
           </PixButton>
         {{/if}}
@@ -132,5 +132,13 @@
         </PixButton>
       </:footer>
     </PixModal>
+  {{/if}}
+
+  {{#if this.isDownloadModalOpened}}
+    <TargetProfiles::DownloadModal
+      @title="Télécharger le profil cible"
+      @content={{this.tubesWithLevelAndSkills}}
+      @close={{this.closeDownloadModal}}
+    />
   {{/if}}
 </main>

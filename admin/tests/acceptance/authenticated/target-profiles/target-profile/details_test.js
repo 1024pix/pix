@@ -1,5 +1,5 @@
 import { click, currentURL } from '@ember/test-helpers';
-import { fillByLabel, clickByName, visit } from '@1024pix/ember-testing-library';
+import { fillByLabel, clickByName, visit, within } from '@1024pix/ember-testing-library';
 import { module, test } from 'qunit';
 import { setupApplicationTest } from 'ember-qunit';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
@@ -259,8 +259,8 @@ module('Acceptance | Target Profiles | Target Profile | Details', function (hook
       });
 
       module('when target profile is attached to a template', function () {
-        test('it should display download target profile JSON button', async function (assert) {
-          const template = server.create('target-profile-template', { id: 456 });
+        test('it should display target profile download modal', async function (assert) {
+          const template = server.create('target-profile-template', { id: 456, tubes: [] });
           server.create('target-profile', {
             id: 1,
             name: 'Profil Cible avec Gabarit',
@@ -270,9 +270,14 @@ module('Acceptance | Target Profiles | Target Profile | Details', function (hook
 
           // when
           const screen = await visit('/target-profiles/1');
+          await clickByName('Télécharger le profil cible (JSON)');
 
           // then
-          assert.dom(screen.getByRole('button', { name: 'Télécharger le profil cible (JSON)' })).exists();
+          const dialog = screen.getByRole('dialog', { name: 'Télécharger le profil cible' });
+          assert.dom(dialog).exists();
+          assert.dom(within(dialog).getByRole('textbox', { name: 'Nom du fichier' })).exists();
+          assert.dom(within(dialog).getByRole('button', { name: 'Annuler' })).exists();
+          assert.dom(within(dialog).getByRole('link', { name: /Télécharger \(JSON .+ Ko\)/ })).exists();
         });
       });
 

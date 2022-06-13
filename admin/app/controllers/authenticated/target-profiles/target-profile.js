@@ -8,6 +8,7 @@ export default class TargetProfileController extends Controller {
   @tracked isEditMode = false;
   @tracked displayConfirm = false;
   @tracked displaySimplifiedAccessPopupConfirm = false;
+  @tracked isDownloadModalOpened = false;
 
   get isPublic() {
     return this.model.isPublic ? 'Oui' : 'Non';
@@ -19,6 +20,10 @@ export default class TargetProfileController extends Controller {
 
   get isSimplifiedAccess() {
     return this.model.isSimplifiedAccess ? 'Oui' : 'Non';
+  }
+
+  get tubesWithLevelAndSkills() {
+    return [];
   }
 
   @action
@@ -59,6 +64,16 @@ export default class TargetProfileController extends Controller {
     } catch (responseError) {
       this.notifications.error('Une erreur est survenue.');
     }
+  }
+
+  @action
+  openDownloadModal() {
+    this.isDownloadModalOpened = true;
+  }
+
+  @action
+  closeDownloadModal() {
+    this.isDownloadModalOpened = false;
   }
 
   _handleResponseError({ errors }) {
