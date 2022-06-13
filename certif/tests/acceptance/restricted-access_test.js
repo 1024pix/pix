@@ -64,6 +64,8 @@ module('Acceptance | Restricted access', function (hooks) {
           isAccessBlockedLycee: false,
           isAccessBlockedAEFE: false,
           isAccessBlockedAgri: false,
+          pixCertifScoBlockedAccessDateLycee: '2022-12-12',
+          pixCertifScoBlockedAccessDateCollege: '2022-11-12',
         });
         certificationPointOfContact.update({
           allowedCertificationCenterAccesses: [blockedCertificationCenterAccess],
@@ -76,7 +78,7 @@ module('Acceptance | Restricted access', function (hooks) {
 
         // then
         assert.contains('Ouverture de votre espace PixCertif');
-        assert.contains('Le 1er novembre pour les lycées et le 1er février pour les collèges');
+        assert.contains('Le 12/12/2022 pour les lycées et le 12/11/2022 pour les collèges');
       });
     });
   });

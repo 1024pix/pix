@@ -1,15 +1,12 @@
 import Controller from '@ember/controller';
-import { inject as service } from '@ember/service';
-import { action } from '@ember/object';
 
 export default class RestrictedAccessController extends Controller {
-  @service router;
-  @service currentUser;
+  get pixCertifScoBlockedAccessDateLycee() {
+    return this.model.pixCertifScoBlockedAccessDateLycee;
+  }
 
-  @action
-  async changeCurrentCertificationCenterAccess(certificationCenterAccess) {
-    this.currentUser.currentAllowedCertificationCenterAccess = certificationCenterAccess;
-    this.router.replaceWith('authenticated');
+  get pixCertifScoBlockedAccessDateCollege() {
+    return this.model.pixCertifScoBlockedAccessDateCollege;
   }
 
   get calendarScoLink() {
