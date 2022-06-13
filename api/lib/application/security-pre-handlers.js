@@ -17,6 +17,8 @@ const checkUserIsMemberOfCertificationCenterSessionUsecase = require('./usecases
 const checkAuthorizationToManageCampaignUsecase = require('./usecases/checkAuthorizationToManageCampaign');
 const certificationIssueReportRepository = require('../infrastructure/repositories/certification-issue-report-repository');
 const Organization = require('../../lib/domain/models/Organization');
+const { ForbiddenAccess } = require('../..//lib/domain/errors');
+const apps = require('../..//lib/domain/constants');
 
 const JSONAPIError = require('jsonapi-serializer').Error;
 const has = require('lodash/has');
@@ -42,10 +44,10 @@ async function checkUserHasRoleSuperAdmin(request, h) {
 
   try {
     const hasRoleSuperAdmin = await checkUserHasRoleSuperAdminUseCase.execute(userId);
-    if (hasRoleSuperAdmin) {
-      return h.response(true);
+    if (!hasRoleSuperAdmin) {
+      throw new ForbiddenAccess(apps.PIX_ADMIN.NOT_ALLOWED_MSG);
     }
-    return _replyForbiddenError(h);
+    return h.response(true);
   } catch (e) {
     return _replyForbiddenError(h);
   }
@@ -60,10 +62,10 @@ async function checkUserHasRoleCertif(request, h) {
 
   try {
     const hasRoleCertif = await checkUserHasRoleCertifUseCase.execute(userId);
-    if (hasRoleCertif) {
-      return h.response(true);
+    if (!hasRoleCertif) {
+      throw new ForbiddenAccess(apps.PIX_ADMIN.NOT_ALLOWED_MSG);
     }
-    return _replyForbiddenError(h);
+    return h.response(true);
   } catch (e) {
     return _replyForbiddenError(h);
   }
@@ -78,10 +80,10 @@ async function checkUserHasRoleSupport(request, h) {
 
   try {
     const hasRoleSupport = await checkUserHasRoleSupportUseCase.execute(userId);
-    if (hasRoleSupport) {
-      return h.response(true);
+    if (!hasRoleSupport) {
+      throw new ForbiddenAccess(apps.PIX_ADMIN.NOT_ALLOWED_MSG);
     }
-    return _replyForbiddenError(h);
+    return h.response(true);
   } catch (e) {
     return _replyForbiddenError(h);
   }
@@ -96,10 +98,10 @@ async function checkUserHasRoleMetier(request, h) {
 
   try {
     const hasRoleMetier = await checkUserHasRoleMetierUseCase.execute(userId);
-    if (hasRoleMetier) {
-      return h.response(true);
+    if (!hasRoleMetier) {
+      throw new ForbiddenAccess(apps.PIX_ADMIN.NOT_ALLOWED_MSG);
     }
-    return _replyForbiddenError(h);
+    return h.response(true);
   } catch (e) {
     return _replyForbiddenError(h);
   }

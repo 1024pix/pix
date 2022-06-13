@@ -5,8 +5,90 @@ const {
   HttpTestServer,
 } = require('../../test-helper');
 const securityPreHandlers = require('../../../lib/application/security-pre-handlers');
+const { ROLES } = require('../../../lib/domain/constants').PIX_ADMIN;
 
 describe('Integration | Application | SecurityPreHandlers', function () {
+  describe('check admin member roles for pix admin routes', function () {
+    let httpServerTest;
+
+    beforeEach(async function () {
+      const moduleUnderTest = {
+        name: 'security-test',
+        register: async function (server) {
+          server.route([
+            {
+              method: 'GET',
+              path: '/api/admin/users',
+              handler: (r, h) => h.response().code(200),
+              config: {
+                pre: [
+                  {
+                    method: (request, h) =>
+                      securityPreHandlers.userHasAtLeastOneAccessOf([
+                        securityPreHandlers.checkUserHasRoleSuperAdmin,
+                        securityPreHandlers.checkUserHasRoleCertif,
+                      ])(request, h),
+                  },
+                ],
+              },
+            },
+          ]);
+        },
+      };
+      httpServerTest = new HttpTestServer();
+      await httpServerTest.register(moduleUnderTest);
+      httpServerTest.setupAuthentication();
+    });
+
+    it('returns 403 when user is not an admin member', async function () {
+      const user = databaseBuilder.factory.buildUser();
+
+      await databaseBuilder.commit();
+
+      const options = {
+        method: 'GET',
+        url: '/api/admin/users',
+        headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
+      };
+
+      const response = await httpServerTest.requestObject(options);
+
+      expect(response.statusCode).to.equal(403);
+    });
+
+    it('returns 403 when user is and admin member without one of the allowed roles', async function () {
+      const user = databaseBuilder.factory.buildUser.withRole({ disabledAt: null, role: ROLES.METIER });
+
+      await databaseBuilder.commit();
+
+      const options = {
+        method: 'GET',
+        url: '/api/admin/users',
+        headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
+      };
+
+      const response = await httpServerTest.requestObject(options);
+
+      expect(response.statusCode).to.equal(403);
+    });
+
+    it('returns 200 when user is and admin member with one of the allowed roles', async function () {
+      const user = databaseBuilder.factory.buildUser.withRole({ disabledAt: null });
+
+      await databaseBuilder.commit();
+
+      const options = {
+        method: 'GET',
+        url: '/api/admin/users',
+        headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
+      };
+
+      const response = await httpServerTest.requestObject(options);
+
+      expect(response.statusCode).to.equal(200);
+    });
+  });
+
   describe('#checkUserBelongsToOrganization', function () {
     let httpServerTest;
 

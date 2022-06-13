@@ -1,7 +1,8 @@
-const userRepository = require('../../infrastructure/repositories/user-repository');
+const adminMemberRepository = require('../../infrastructure/repositories/admin-member-repository');
 
 module.exports = {
-  execute(userId) {
-    return userRepository.isCertif(userId);
+  async execute(userId) {
+    const adminMember = await adminMemberRepository.get({ userId });
+    return adminMember.isCertif;
   },
 };
