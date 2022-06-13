@@ -1,7 +1,13 @@
-const userRepository = require('../../infrastructure/repositories/user-repository');
+const adminMemberRepository = require('../../infrastructure/repositories/admin-member-repository');
+const { ForbiddenAccess } = require('../../domain/errors');
+const apps = require('../../domain/constants');
 
 module.exports = {
-  execute(userId) {
-    return userRepository.isSupport(userId);
+  async execute(userId) {
+    const adminMember = await adminMemberRepository.get({ userId });
+    if (!adminMember) {
+      throw new ForbiddenAccess(apps.PIX_ADMIN.NOT_ALLOWED_MSG);
+    }
+    return adminMember.isSupport;
   },
 };
