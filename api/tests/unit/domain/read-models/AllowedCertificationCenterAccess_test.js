@@ -718,4 +718,74 @@ describe('Unit | Domain | Read-Models | AllowedCertificationCenterAccess', funct
       expect(result).to.be.false;
     });
   });
+
+  context('#pixCertifScoBlockedAccessDateLycee', function () {
+    describe('when pixCertifScoBlockedAccessDateLycee is defined', function () {
+      it('should return the french formated pixCertifScoBlockedAccessDateLycee', function () {
+        // given
+        sinon.stub(settings.features, 'pixCertifScoBlockedAccessDateLycee').value('2022-02-01');
+
+        const allowedCertificationCenterAccess = domainBuilder.buildAllowedCertificationCenterAccess({
+          id: 1,
+        });
+
+        // when
+        const result = allowedCertificationCenterAccess.pixCertifScoBlockedAccessDateLycee;
+
+        // then
+        expect(result).to.be.equal('2022-02-01');
+      });
+    });
+
+    describe('when pixCertifScoBlockedAccessDateLycee is not defined', function () {
+      it('should return null', function () {
+        // given
+        sinon.stub(settings.features, 'pixCertifScoBlockedAccessDateLycee').value(undefined);
+
+        const allowedCertificationCenterAccess = domainBuilder.buildAllowedCertificationCenterAccess({
+          id: 1,
+        });
+
+        // when
+        const result = allowedCertificationCenterAccess.pixCertifScoBlockedAccessDateLycee;
+
+        // then
+        expect(result).to.be.null;
+      });
+    });
+  });
+
+  context('#pixCertifScoBlockedAccessDateCollege', function () {
+    describe('when pixCertifScoBlockedAccessDateCollege is defined', function () {
+      it('should return the french formated pixCertifScoBlockedAccessDateCollege', function () {
+        // given
+        sinon.stub(settings.features, 'pixCertifScoBlockedAccessDateCollege').value('2022-02-01');
+        const allowedCertificationCenterAccess = domainBuilder.buildAllowedCertificationCenterAccess({
+          id: 1,
+        });
+
+        // when
+        const result = allowedCertificationCenterAccess.pixCertifScoBlockedAccessDateCollege;
+
+        // then
+        expect(result).to.be.equal('2022-02-01');
+      });
+    });
+
+    describe('when pixCertifScoBlockedAccessDateCollege is not defined', function () {
+      it('should return null', function () {
+        // given
+        sinon.stub(settings.features, 'pixCertifScoBlockedAccessDateCollege').value(undefined);
+        const allowedCertificationCenterAccess = domainBuilder.buildAllowedCertificationCenterAccess({
+          id: 1,
+        });
+
+        // when
+        const result = allowedCertificationCenterAccess.pixCertifScoBlockedAccessDateCollege;
+
+        // then
+        expect(result).to.be.null;
+      });
+    });
+  });
 });
