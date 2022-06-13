@@ -12,7 +12,9 @@
       width: 500px;
     }
 
-    &--wide input,select,textarea {
+    &--wide input,
+    select,
+    textarea {
       width: 100%;
     }
 
@@ -28,7 +30,7 @@
     flex-direction: column;
 
     & > .form__field--wide {
-      flex-grow:1;
+      flex-grow: 1;
     }
 
     @include device-is('desktop') {
@@ -53,7 +55,6 @@
       left: 100%;
       width: calc(100vw - 100% - #{$app-sidebar-width} - 32px);
     }
-
 
     &-icon {
       color: $blue;
@@ -120,7 +121,7 @@
 
   &__radio-button {
     margin-bottom: 16px;
-    input[type=radio] {
+    input[type='radio'] {
       margin-right: 16px;
     }
     label {
@@ -180,19 +181,19 @@ p.label {
 
 .error-message {
   color: $red;
-  font-family: $roboto;
+  font-family: $font-roboto;
   font-size: 0.75rem;
 }
 
-input[type=radio]::before,
-input[type=radio]:checked::after {
+input[type='radio']::before,
+input[type='radio']:checked::after {
   display: block;
   position: relative;
   content: '';
   border-radius: 100%;
 }
 
-input[type=radio]::before {
+input[type='radio']::before {
   height: 17px;
   width: 17px;
   top: -3px;
@@ -202,7 +203,7 @@ input[type=radio]::before {
   background-color: $white;
 }
 
-input[type=radio]:checked::after {
+input[type='radio']:checked::after {
   height: 9px;
   width: 9px;
   top: -18px;
@@ -210,16 +211,16 @@ input[type=radio]:checked::after {
   background-color: $blue;
 }
 
-input[type=radio]:checked::before {
+input[type='radio']:checked::before {
   border-color: $blue;
 }
 
-input[type=radio]:focus::before,
-input[type=radio]:hover::before {
+input[type='radio']:focus::before,
+input[type='radio']:hover::before {
   box-shadow: 0 0 0 8px rgba($blue, 0.1);
   border-color: $blue;
 }
 
-input[type=radio]:active::before {
+input[type='radio']:active::before {
   box-shadow: 0 0 0 8px rgba($blue, 0.3);
 }

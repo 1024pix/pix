@@ -29,7 +29,7 @@
     margin-bottom: 30px;
     text-align: center;
     color: $grey-80;
-    font-family: $roboto;
+    font-family: $font-roboto;
     font-size: 18px;
     font-weight: 300;
   }
@@ -48,7 +48,7 @@
     padding: 0 35px;
     overflow-y: scroll;
     overflow-x: hidden;
-    font-family: $open-sans;
+    font-family: $font-open-sans;
   }
 
   &__actions {

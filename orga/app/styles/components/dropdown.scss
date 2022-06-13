@@ -22,11 +22,12 @@
       > button {
         border: none;
         background-color: transparent;
-        font-family: $roboto;
+        font-family: $font-roboto;
         text-align: start;
       }
 
-      > a, > button {
+      > a,
+      > button {
         color: $grey-60;
         padding: 12px 16px;
         width: 100%;
@@ -43,7 +44,8 @@
           text-decoration: none;
         }
 
-        &:focus, &:focus-visible {
+        &:focus,
+        &:focus-visible {
           border-radius: 4px;
           box-shadow: inset 0px 0px 0px 1.6px $blue;
           outline: none;

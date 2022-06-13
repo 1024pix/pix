@@ -1,5 +1,5 @@
 .tube-recommendation-title {
-  font-family: $open-sans;
+  font-family: $font-open-sans;
   color: $grey-80;
   font-weight: 600;
   font-size: 0.875rem;
@@ -12,7 +12,7 @@
 }
 
 .tube-recommendation-subtitle {
-  font-family: $open-sans;
+  font-family: $font-open-sans;
   font-weight: 400;
   font-size: 0.75rem;
   color: $grey-50;
@@ -31,7 +31,7 @@
   }
 
   &__description {
-    font-family: $open-sans;
+    font-family: $font-open-sans;
     color: $grey-60;
     font-size: 0.875rem;
   }
@@ -44,7 +44,7 @@
 
   &__title {
     font-weight: 400;
-    font-family: $open-sans;
+    font-family: $font-open-sans;
     font-size: 1rem;
     padding-left: 20px;
   }
@@ -76,8 +76,8 @@
 
   &__details {
     color: $grey-80;
-    font-family: $roboto;
-    font-size: .75rem;
+    font-family: $font-roboto;
+    font-size: 0.75rem;
     font-weight: normal;
   }
 

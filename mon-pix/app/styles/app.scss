@@ -7,11 +7,13 @@
 @import 'ember-modal-dialog/ember-modal-structure';
 @import 'ember-modal-dialog/ember-modal-appearance';
 
+/* Pix UI */
+@import 'pix-design-tokens';
+
 /* globals */
 @import 'globals/a11y';
 @import 'globals/colors';
 @import 'globals/fonts';
-@import 'globals/breakpoints';
 @import 'globals/alert';
 @import 'globals/dimension';
 @import 'globals/inputs';

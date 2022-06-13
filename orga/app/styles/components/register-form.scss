@@ -2,7 +2,7 @@
   max-width: 360px;
 
   &__cgu-label {
-    font-family: $roboto;
+    font-family: $font-roboto;
     font-size: 0.875rem;
     margin: 0;
   }
@@ -23,7 +23,7 @@
 
   .checkbox-container {
     display: flex;
-    input[type=checkbox] {
+    input[type='checkbox'] {
       margin: 1px 6px 0 0;
     }
   }

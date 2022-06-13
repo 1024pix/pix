@@ -5,6 +5,7 @@
       class="session-supervising-candidate-in-list__checkbox"
       type="checkbox"
       checked={{@candidate.authorizedToStart}}
+      @ariaLabel="{{@candidate.lastName}} {{@candidate.firstName}}"
       {{on "click" (fn this.toggleCandidate @candidate)}}
     />
   {{/if}}

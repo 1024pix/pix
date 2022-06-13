@@ -31,7 +31,7 @@
   }
 
   &__category-label {
-    font-family: $roboto;
+    font-family: $font-roboto;
     padding: 0;
     margin: 0;
     display: flex;
@@ -46,7 +46,7 @@
   }
 
   &__subcategory-label {
-    font-family: $roboto;
+    font-family: $font-roboto;
     color: $grey-50;
     padding: 0 0 0 16px;
     margin: 8px 0 0 0;

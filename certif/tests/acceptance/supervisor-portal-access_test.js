@@ -27,7 +27,7 @@ module('Acceptance | Supervisor Portal', function (hooks) {
       // given
       const screen = await visitScreen('/connexion-espace-surveillant');
       await fillIn(screen.getByRole('spinbutton', { name: 'Numéro de la session' }), '12345');
-      await fillIn(screen.getByLabelText('Mot de passe de la session'), '6789');
+      await fillIn(screen.getByLabelText('Mot de passe de la session Exemple : C-12345'), '6789');
 
       // when
       await click(screen.getByRole('button', { name: 'Surveiller la session' }));
@@ -44,7 +44,7 @@ module('Acceptance | Supervisor Portal', function (hooks) {
           // given
           const screen = await visitScreen('/connexion-espace-surveillant');
           await fillIn(screen.getByRole('spinbutton', { name: 'Numéro de la session' }), '12345');
-          await fillIn(screen.getByLabelText('Mot de passe de la session'), '6789');
+          await fillIn(screen.getByLabelText('Mot de passe de la session Exemple : C-12345'), '6789');
           await click(screen.getByRole('button', { name: 'Surveiller la session' }));
 
           // when

@@ -1,5 +1,5 @@
 .c-notification.notification {
-  font-family: $roboto;
+  font-family: $font-roboto;
   font-size: 1rem;
   font-weight: 500;
   border-radius: 6px;
@@ -41,7 +41,8 @@
   .c-notification__close svg {
     fill: $grey-60;
 
-    &:hover, &:active {
+    &:hover,
+    &:active {
       fill: $grey-70;
     }
   }
@@ -88,7 +89,7 @@
   text-align: right;
   margin-top: -5px;
   margin-bottom: 5px;
-  font-size: .75rem;
+  font-size: 0.75rem;
 
   &--error {
     color: $error;

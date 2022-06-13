@@ -10,10 +10,6 @@
     color: $white;
     position: relative;
     right: 0;
-
-    @include device-is('middle-desktop') {
-      right: 350px;
-    }
   }
 
   &__validation-title {
