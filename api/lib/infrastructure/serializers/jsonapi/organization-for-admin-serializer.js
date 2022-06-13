@@ -19,6 +19,7 @@ module.exports = {
         'showSkills',
         'archivedAt',
         'archivistFullName',
+        'creatorFullName',
         'tags',
         'memberships',
         'students',

@@ -585,17 +585,14 @@ describe('Acceptance | Application | organization-controller', function () {
   });
 
   describe('GET /api/admin/organizations/{id}', function () {
-    let superAdminUserId;
-
     context('Expected output', function () {
-      beforeEach(async function () {
-        superAdminUserId = databaseBuilder.factory.buildUser.withRole().id;
-
-        await databaseBuilder.commit();
-      });
-
       it('should return the matching organization as JSON API', async function () {
         // given
+        const superAdminUserId = databaseBuilder.factory.buildUser.withRole({
+          firstName: 'Tom',
+          lastName: 'Dereck',
+        }).id;
+
         const archivist = databaseBuilder.factory.buildUser({
           firstName: 'Jean',
           lastName: 'Bonneau',
@@ -619,7 +616,15 @@ describe('Acceptance | Application | organization-controller', function () {
         databaseBuilder.factory.buildOrganizationTag({ tagId: tag.id, organizationId: organization.id });
         await databaseBuilder.commit();
 
-        const expectedResult = {
+        // when
+        const response = await server.inject({
+          method: 'GET',
+          url: `/api/admin/organizations/${organization.id}`,
+          headers: { authorization: generateValidRequestAuthorizationHeader(superAdminUserId) },
+        });
+
+        // then
+        expect(response.result).to.deep.equal({
           data: {
             attributes: {
               name: organization.name,
@@ -637,6 +642,7 @@ describe('Acceptance | Application | organization-controller', function () {
               'show-skills': false,
               'archivist-full-name': 'Jean Bonneau',
               'archived-at': archivedAt,
+              'creator-full-name': 'Tom Dereck',
             },
             id: organization.id.toString(),
             relationships: {
@@ -676,38 +682,30 @@ describe('Acceptance | Application | organization-controller', function () {
               type: 'tags',
             },
           ],
-        };
+        });
+      });
+
+      it('should return a 404 error when organization was not found', async function () {
+        // given
+        const superAdminUserId = databaseBuilder.factory.buildUser.withRole().id;
+        await databaseBuilder.commit();
 
         // when
         const response = await server.inject({
-          method: 'GET',
-          url: `/api/admin/organizations/${organization.id}`,
-          headers: { authorization: generateValidRequestAuthorizationHeader(superAdminUserId) },
-        });
-
-        // then
-        expect(response.result).to.deep.equal(expectedResult);
-      });
-
-      it('should return a 404 error when organization was not found', function () {
-        // given & when
-        const promise = server.inject({
           method: 'GET',
           url: `/api/admin/organizations/999`,
           headers: { authorization: generateValidRequestAuthorizationHeader(superAdminUserId) },
         });
 
         // then
-        return promise.then((response) => {
-          expect(response.result).to.deep.equal({
-            errors: [
-              {
-                status: '404',
-                detail: 'Not found organization for ID 999',
-                title: 'Not Found',
-              },
-            ],
-          });
+        expect(response.result).to.deep.equal({
+          errors: [
+            {
+              status: '404',
+              detail: 'Not found organization for ID 999',
+              title: 'Not Found',
+            },
+          ],
         });
       });
     });
