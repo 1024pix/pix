@@ -72,6 +72,22 @@ describe('Integration | Application | SecurityPreHandlers', function () {
       expect(response.statusCode).to.equal(403);
     });
 
+    it('returns 403 when user is and admin member with one of the allowed roles but is disabled', async function () {
+      const user = databaseBuilder.factory.buildUser.withRole({ disabledAt: new Date() });
+
+      await databaseBuilder.commit();
+
+      const options = {
+        method: 'GET',
+        url: '/api/admin/users',
+        headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
+      };
+
+      const response = await httpServerTest.requestObject(options);
+
+      expect(response.statusCode).to.equal(403);
+    });
+
     it('returns 200 when user is and admin member with one of the allowed roles', async function () {
       const user = databaseBuilder.factory.buildUser.withRole({ disabledAt: null });
 

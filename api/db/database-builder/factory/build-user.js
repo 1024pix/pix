@@ -182,7 +182,8 @@ buildUser.withRole = function buildUserWithRole({
   hasSeenAssessmentInstructions = false,
   createdAt = new Date(),
   updatedAt = new Date(),
-  disabledAt,
+  disabledAt = null,
+
   rawPassword = DEFAULT_PASSWORD,
   shouldChangePassword = false,
 } = {}) {
@@ -217,7 +218,7 @@ buildUser.withRole = function buildUserWithRole({
     updatedAt,
   });
 
-  buildPixAdminRole({ userId: user.id, role, disabledAt });
+  buildPixAdminRole({ userId: user.id, role, disabledAt, createdAt, updatedAt });
 
   return user;
 };
