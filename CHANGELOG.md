@@ -1,5 +1,22 @@
 # Pix Changelog
 
+## v3.220.0 (13/06/2022)
+
+
+### :rocket: Amélioration
+- [#4510](https://github.com/1024pix/pix/pull/4510) [FEATURE] Améliorer le message de la page j'ai un code (Pix-4976)
+- [#4509](https://github.com/1024pix/pix/pull/4509) [FEATURE] Mise à jour des templates de l'attestation de certification Pix (PIX-4968)
+- [#4498](https://github.com/1024pix/pix/pull/4498) [FEATURE] Mettre à jour le design de la pop-up de confirmation de finalisation de session (PIX-5042)
+- [#4506](https://github.com/1024pix/pix/pull/4506) [FEATURE] Mettre à jour le wording du texte explicatif lorsque le signalement C1 est sélectionné (PIX-4946).
+- [#4499](https://github.com/1024pix/pix/pull/4499) [FEATURE] Harmoniser le fonctionnement des champs de recherche dans Pix Orga (PIX-5057).
+
+### :building_construction: Tech
+- [#4490](https://github.com/1024pix/pix/pull/4490) [TECH] Supprimer le repository Pole Emploi tokens (PIX-4935).
+
+### :bug: Correction
+- [#4513](https://github.com/1024pix/pix/pull/4513) [BUGFIX] Corriger l'export des résultats de certification pour les noms de classe ayant des caractères spéciaux (PIX-5079).
+- [#4500](https://github.com/1024pix/pix/pull/4500) [BUGFIX] Corriger le scoring des certifications Pix+ Édu lors d'une neutralisation (PIX-5068)
+
 ## v3.219.0 (10/06/2022)
 
 
