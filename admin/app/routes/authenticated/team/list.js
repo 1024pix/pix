@@ -9,6 +9,12 @@ export default class ListRoute extends Route {
   }
 
   async model() {
-    return this.store.query('admin-member', {});
+    return this.store.findAll('admin-member');
+  }
+
+  resetController(controller, isExiting) {
+    if (isExiting) {
+      controller.set('inviteErrorRaised', null);
+    }
   }
 }
