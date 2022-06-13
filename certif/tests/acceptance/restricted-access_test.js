@@ -1,8 +1,9 @@
 import { module, test } from 'qunit';
-import { currentURL, visit } from '@ember/test-helpers';
+import { currentURL } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { authenticateSession } from '../helpers/test-init';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import { visit as visitScreen } from '@1024pix/ember-testing-library';
 
 module('Acceptance | Restricted access', function (hooks) {
   setupApplicationTest(hooks);
@@ -11,12 +12,10 @@ module('Acceptance | Restricted access', function (hooks) {
   module('When certificationPointOfContact is not logged in', function () {
     test('it should not be accessible by an unauthenticated certificationPointOfContact', async function (assert) {
       // when
-      await visit('/espace-ferme');
+      await visitScreen('/espace-ferme');
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(currentURL(), '/connexion');
+      assert.strictEqual(currentURL(), '/connexion');
     });
   });
 
@@ -46,17 +45,16 @@ module('Acceptance | Restricted access', function (hooks) {
         });
 
         // when
-        await visit('/espace-ferme');
+        await visitScreen('/espace-ferme');
 
         // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(currentURL(), '/sessions/liste');
+        assert.strictEqual(currentURL(), '/sessions/liste');
       });
     });
 
-    module('when current certification center is blocked', function (hooks) {
-      hooks.beforeEach(() => {
+    module('when current certification center is blocked', function () {
+      test('it should render the espace-ferme page', async function (assert) {
+        // given
         const blockedCertificationCenterAccess = server.create('allowed-certification-center-access', {
           type: 'SCO',
           isRelatedToManagingStudentsOrganization: true,
@@ -70,15 +68,13 @@ module('Acceptance | Restricted access', function (hooks) {
         certificationPointOfContact.update({
           allowedCertificationCenterAccesses: [blockedCertificationCenterAccess],
         });
-      });
 
-      test('it should render the espace-ferme page', async function (assert) {
         // when
-        await visit('/espace-ferme');
+        const screen = await visitScreen('/espace-ferme');
 
         // then
-        assert.contains('Ouverture de votre espace PixCertif');
-        assert.contains('Le 12/12/2022 pour les lycées et le 12/11/2022 pour les collèges');
+        assert.dom(screen.getByText('Ouverture de votre espace PixCertif')).exists();
+        assert.dom(screen.getByText('Le 12/12/2022 pour les lycées et le 12/11/2022 pour les collèges')).exists();
       });
     });
   });
