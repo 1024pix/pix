@@ -2,8 +2,6 @@ const querystring = require('querystring');
 const { expect, databaseBuilder, knex } = require('../../test-helper');
 const tokenService = require('../../../lib/domain/services/token-service');
 const AuthenticationMethod = require('../../../lib/domain/models/AuthenticationMethod');
-const PoleEmploiTokens = require('../../../lib/domain/models/PoleEmploiTokens');
-const poleEmploiTokensRepository = require('../../../lib/infrastructure/repositories/pole-emploi-tokens-repository');
 const { ROLES } = require('../../../lib/domain/constants').PIX_ADMIN;
 
 const createServer = require('../../../server');
