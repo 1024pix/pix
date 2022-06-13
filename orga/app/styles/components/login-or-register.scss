@@ -8,7 +8,7 @@
     border-radius: 10px;
     align-items: center;
     padding: 20px 2px;
-    
+
     @include device-is('tablet') {
       padding: 20px;
     }
@@ -26,7 +26,7 @@
   }
 
   &__invitation {
-    font-family: $roboto;
+    font-family: $font-roboto;
     font-size: 1.125rem;
     font-weight: 500;
     color: $grey-100;
@@ -82,10 +82,10 @@
     flex-direction: column;
     max-height: 0;
     overflow-y: hidden;
-    -webkit-transition: max-height .4s ease-in-out;
-    -moz-transition: max-height .4s ease-in-out;
-    -o-transition: max-height .4s ease-in-out;
-    transition: max-height .4s ease-in-out;
+    -webkit-transition: max-height 0.4s ease-in-out;
+    -moz-transition: max-height 0.4s ease-in-out;
+    -o-transition: max-height 0.4s ease-in-out;
+    transition: max-height 0.4s ease-in-out;
 
     &--expanded {
       max-height: 720px;

@@ -99,7 +99,7 @@
     overflow: hidden;
 
     &:focus-visible + .campaign-filters__tab {
-      box-shadow: $white 0 0 0 2px, $blue 0 0 0 4px;;
+      box-shadow: $white 0 0 0 2px, $blue 0 0 0 4px;
       z-index: 1;
     }
   }
@@ -115,13 +115,13 @@
     font-size: 0.8125rem;
     font-weight: 500;
     outline: none;
-    font-family: $roboto;
+    font-family: $font-roboto;
     border: 1.2px solid $grey-45;
     height: 36px;
 
     &:hover {
       background: $grey-20;
-      opacity: .8;
+      opacity: 0.8;
     }
 
     &--active {

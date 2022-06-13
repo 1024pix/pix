@@ -1,5 +1,5 @@
 .join-request-form {
-  font-family: $roboto;
+  font-family: $font-roboto;
 
   &__information {
     font-size: 0.875rem;
@@ -23,7 +23,7 @@
 
       svg {
         margin-right: 4px;
-        transition: all .2s ease-in-out;
+        transition: all 0.2s ease-in-out;
       }
 
       &:hover {

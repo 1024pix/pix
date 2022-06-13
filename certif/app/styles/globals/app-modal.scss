@@ -66,7 +66,7 @@ $pix-modal-border-radius: 5px;
           margin: 0;
           text-align: center;
           padding: 30px;
-          font-family: $roboto;
+          font-family: $font-roboto;
           font-size: 1.6rem;
 
           &--thin {
@@ -78,7 +78,7 @@ $pix-modal-border-radius: 5px;
           margin: 0;
           text-align: center;
           color: $grey-80;
-          font-family: $roboto;
+          font-family: $font-roboto;
           font-weight: 400;
           font-size: 1em;
         }

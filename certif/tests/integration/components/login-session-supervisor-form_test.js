@@ -16,7 +16,7 @@ module('Integration | Component | login-session-supervisor-form', function (hook
 
     // then
     assert.dom(screen.getByLabelText('Numéro de la session')).exists();
-    assert.dom(screen.getByLabelText('Mot de passe de la session')).exists();
+    assert.dom(screen.getByLabelText('Mot de passe de la session Exemple : C-12345')).exists();
     assert.dom(screen.getByText('Surveiller la session')).exists();
   });
 
@@ -25,7 +25,7 @@ module('Integration | Component | login-session-supervisor-form', function (hook
       // given
       this.onFormSubmit = sinon.stub();
       const screen = await renderScreen(hbs`<LoginSessionSupervisorForm @onFormSubmit={{this.onFormSubmit}} />`);
-      await fillIn(screen.getByLabelText('Mot de passe de la session'), '12345');
+      await fillIn(screen.getByLabelText('Mot de passe de la session Exemple : C-12345'), '12345');
 
       // when
       await click(screen.getByText('Surveiller la session'));
@@ -52,7 +52,7 @@ module('Integration | Component | login-session-supervisor-form', function (hook
       this.onFormSubmit = sinon.stub();
       const screen = await renderScreen(hbs`<LoginSessionSupervisorForm @onFormSubmit={{this.onFormSubmit}} />`);
       await fillIn(screen.getByLabelText('Numéro de la session'), '12345');
-      await fillIn(screen.getByLabelText('Mot de passe de la session'), '6789');
+      await fillIn(screen.getByLabelText('Mot de passe de la session Exemple : C-12345'), '6789');
 
       // when
       await click(screen.getByText('Surveiller la session'));

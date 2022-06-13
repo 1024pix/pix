@@ -12,7 +12,7 @@
   }
 
   &__text {
-    font-family: $roboto;
+    font-family: $font-roboto;
     margin: 2px 0 32px 0;
     font-size: 1rem;
     line-height: 1.45rem;
@@ -43,7 +43,6 @@
       margin-bottom: 6px;
       margin-left: 8px;
     }
-
   }
 
   .pix-message {
