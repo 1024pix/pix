@@ -75,6 +75,14 @@ class AllowedCertificationCenterAccess {
   isEndTestScreenRemovalEnabled() {
     return this.isSupervisorAccessEnabled;
   }
+
+  get pixCertifScoBlockedAccessDateLycee() {
+    return features.pixCertifScoBlockedAccessDateLycee ?? null;
+  }
+
+  get pixCertifScoBlockedAccessDateCollege() {
+    return features.pixCertifScoBlockedAccessDateCollege ?? null;
+  }
 }
 
 module.exports = AllowedCertificationCenterAccess;
