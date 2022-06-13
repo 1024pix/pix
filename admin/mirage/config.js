@@ -25,6 +25,7 @@ import {
   getOrganizationPlaces,
 } from './handlers/organizations';
 import { getJuryCertificationSummariesBySessionId } from './handlers/get-jury-certification-summaries-by-session-id';
+import { createAdminMember } from './handlers/admin-members';
 
 export default function () {
   this.logging = true;
@@ -42,6 +43,8 @@ export default function () {
   this.get('/admin/admin-members', (schema) => {
     return schema.adminMembers.all();
   });
+
+  this.post('/admin/admin-members', createAdminMember);
 
   this.get('/admin/admin-members/me', (schema, request) => {
     const userToken = request.requestHeaders.Authorization.replace('Bearer ', '');
