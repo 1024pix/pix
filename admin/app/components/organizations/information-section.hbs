@@ -179,6 +179,7 @@
           <div class="organization-information-section__details">
             <ul>
               <li>Type : {{@organization.type}}</li>
+              <li>Créée par : {{@organization.creatorFullName}} ({{@organization.createdBy}})</li>
               {{#if @organization.externalId}}
                 <li>Identifiant externe : {{@organization.externalId}}</li>
               {{/if}}

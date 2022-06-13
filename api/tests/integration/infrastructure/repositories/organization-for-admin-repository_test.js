@@ -8,7 +8,7 @@ describe('Integration | Repository | Organization-for-admin', function () {
   describe('#get', function () {
     it('should return a organization for admin by provided id', async function () {
       // given
-      const superAdminUserId = databaseBuilder.factory.buildUser().id;
+      const superAdminUser = databaseBuilder.factory.buildUser({ firstName: 'Cécile', lastName: 'Encieux' });
 
       const insertedOrganization = databaseBuilder.factory.buildOrganization({
         type: 'SCO',
@@ -20,7 +20,7 @@ describe('Integration | Repository | Organization-for-admin', function () {
         isManagingStudents: 'true',
         email: 'sco.generic.account@example.net',
         documentationUrl: 'https://pix.fr/',
-        createdBy: superAdminUserId,
+        createdBy: superAdminUser.id,
         showNPS: true,
         formNPSUrl: 'https://pix.fr/',
         showSkills: false,
@@ -54,6 +54,8 @@ describe('Integration | Repository | Organization-for-admin', function () {
         archivedAt: null,
         archivistFirstName: null,
         archivistLastName: null,
+        creatorFirstName: 'Cécile',
+        creatorLastName: 'Encieux',
       });
       expect(foundOrganizationForAdmin).to.deepEqualInstance(expectedOrganizationForAdmin);
     });
@@ -150,6 +152,8 @@ describe('Integration | Repository | Organization-for-admin', function () {
           archivedAt,
           archivistFirstName: archivist.firstName,
           archivistLastName: archivist.lastName,
+          creatorFirstName: superAdminUser.firstName,
+          creatorLastName: superAdminUser.lastName,
         });
         expect(foundOrganizationForAdmin).to.deepEqualInstance(expectedOrganizationForAdmin);
       });

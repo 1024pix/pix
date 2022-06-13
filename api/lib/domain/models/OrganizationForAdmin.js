@@ -17,6 +17,8 @@ class OrganizationForAdmin {
     archivedAt,
     archivistFirstName,
     archivistLastName,
+    creatorFirstName,
+    creatorLastName,
     tags = [],
   } = {}) {
     this.id = id;
@@ -36,6 +38,8 @@ class OrganizationForAdmin {
     this.archivedAt = archivedAt;
     this.archivistFirstName = archivistFirstName;
     this.archivistLastName = archivistLastName;
+    this.creatorFirstName = creatorFirstName;
+    this.creatorLastName = creatorLastName;
     this.tags = tags;
   }
 
@@ -43,6 +47,10 @@ class OrganizationForAdmin {
     return this.archivistFirstName && this.archivistLastName
       ? `${this.archivistFirstName} ${this.archivistLastName}`
       : null;
+  }
+
+  get creatorFullName() {
+    return this.creatorFirstName && this.creatorLastName ? `${this.creatorFirstName} ${this.creatorLastName}` : null;
   }
 }
 
