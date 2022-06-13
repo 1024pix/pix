@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
-import { find, render } from '@ember/test-helpers';
+import { render as renderScreen } from '@1024pix/ember-testing-library';
 import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
@@ -8,9 +8,7 @@ import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 describe('Integration | Component | user certifications detail header', function () {
   setupIntlRenderingTest();
 
-  let certification;
-  const PARENT_SELECTOR = '.user-certifications-detail-header';
-  const CONTENT_SELECTOR = `${PARENT_SELECTOR}__info-certificate`;
+  let certification, screen;
 
   context('when certification is complete', function () {
     beforeEach(async function () {
@@ -33,49 +31,40 @@ describe('Integration | Component | user certifications detail header', function
       this.set('certification', certification);
 
       // when
-      await render(hbs`{{user-certifications-detail-header certification=certification}}`);
-    });
-
-    it('renders', async function () {
-      expect(find(PARENT_SELECTOR)).to.exist;
+      screen = await renderScreen(hbs`{{user-certifications-detail-header certification=certification}}`);
     });
 
     it('should show the certification published date', function () {
-      expect(find(CONTENT_SELECTOR)).to.exist;
-      expect(find(`${CONTENT_SELECTOR} :nth-child(2)`).innerText).to.include('Délivré le 17 février 2018');
+      expect(screen.getByText('Délivré le 17 février 2018')).to.exist;
     });
 
     it('should show the certification exam date', function () {
-      expect(find(`${CONTENT_SELECTOR} :nth-child(7)`).textContent).to.include('Date de passage : 15 février 2018');
+      expect(screen.getByText('Date de passage : 15 février 2018')).to.exist;
     });
 
     it('should show the certification user full name', function () {
-      expect(find(`${CONTENT_SELECTOR} :nth-child(4)`).textContent).to.include('Jean Bon');
+      expect(screen.getByText('Jean Bon')).to.exist;
     });
 
     it('should show the certification user birthdate and birthplace', function () {
-      expect(find(`${CONTENT_SELECTOR} :nth-child(5)`).textContent).to.include('Né(e) le 22 janvier 2000 à Paris');
+      expect(screen.getByText('Né(e) le 22 janvier 2000 à Paris')).to.exist;
     });
 
     it('should show the certification center', function () {
-      expect(find(`${CONTENT_SELECTOR} :nth-child(6)`).textContent).to.include(
-        'Centre de certification : Université de Lyon'
-      );
+      expect(screen.getByText('Centre de certification : Université de Lyon')).to.exist;
     });
 
     it('should show the pix score', function () {
-      const scoreHexagon = find(`${PARENT_SELECTOR} .user-certification-hexagon-score__content-pix-score`);
-      expect(scoreHexagon).to.exist;
-      expect(scoreHexagon.textContent).to.include('654');
+      expect(screen.getByText('654')).to.exist;
     });
   });
 
   context('when certification is not complete', function () {
-    beforeEach(async function () {
+    it('should not render the user-certifications-detail-header component', async function () {
       // given
       certification = EmberObject.create({
         id: 1,
-        birthdate: null,
+        birthdate: '2000-01-22',
         birthplace: null,
         firstName: null,
         lastName: null,
@@ -89,12 +78,10 @@ describe('Integration | Component | user certifications detail header', function
       this.set('certification', certification);
 
       // when
-      await render(hbs`{{user-certifications-detail-header certification=certification}}`);
-    });
+      const screen = await renderScreen(hbs`{{user-certifications-detail-header certification=certification}}`);
 
-    // then
-    it('should not render the user-certifications-detail-header component', function () {
-      expect(find(PARENT_SELECTOR)).to.not.exist;
+      // then
+      expect(screen.queryByText('Né(e) le 22 janvier 2000 à Paris')).to.not.exist;
     });
   });
 });
