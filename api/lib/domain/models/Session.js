@@ -31,6 +31,8 @@ class Session {
     room,
     time,
     examinerGlobalComment,
+    hasIncident,
+    hasJoiningIssue,
     finalizedAt,
     resultsSentToPrescriberAt,
     publishedAt,
@@ -49,6 +51,8 @@ class Session {
     this.room = room;
     this.time = time;
     this.examinerGlobalComment = examinerGlobalComment;
+    this.hasIncident = hasIncident;
+    this.hasJoiningIssue = hasJoiningIssue;
     this.finalizedAt = finalizedAt;
     this.resultsSentToPrescriberAt = resultsSentToPrescriberAt;
     this.publishedAt = publishedAt;
