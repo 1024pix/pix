@@ -109,7 +109,7 @@ describe('Unit | UseCase | reconcile-user-to-organization', function () {
   context('When organizationLearner is found', function () {
     it('should use nationalStudentId of more recent organizationLearner', async function () {
       // given
-      const schoolingRegistrationInOtherOrganization = domainBuilder.buildOrganizationLearner({
+      const organizationLearnerInOtherOrganization = domainBuilder.buildOrganizationLearner({
         userId,
         updatedAt: '2020-07-10',
       });
@@ -119,7 +119,7 @@ describe('Unit | UseCase | reconcile-user-to-organization', function () {
         updatedAt: '2020-07-20',
       });
       findByUserIdStub.resolves([
-        schoolingRegistrationInOtherOrganization,
+        organizationLearnerInOtherOrganization,
         mostRecentOrganizationLearnerInOtherOrganization,
       ]);
       reconcileUserByNationalStudentIdAndOrganizationIdStub

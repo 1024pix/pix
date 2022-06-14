@@ -204,10 +204,10 @@ describe('Acceptance | API | Certifications', function () {
         // given
         server = await createServer();
         const user = buildUser();
-        const schoolingRegistration = buildOrganizationLearner({ userId: user.id, organizationId });
+        const organizationLearner = buildOrganizationLearner({ userId: user.id, organizationId });
         const { session, certificationCourse } = buildValidatedPublishedCertificationData({
           user,
-          schoolingRegistration,
+          schoolingRegistration: organizationLearner,
           verificationCode,
           type,
           pixScore,
@@ -246,12 +246,12 @@ describe('Acceptance | API | Certifications', function () {
               certifications: [
                 {
                   id: certificationCourse.id,
-                  firstName: schoolingRegistration.firstName,
-                  middleName: schoolingRegistration.middleName,
-                  thirdName: schoolingRegistration.thirdName,
-                  lastName: schoolingRegistration.lastName,
-                  nationalStudentId: schoolingRegistration.nationalStudentId,
-                  birthdate: schoolingRegistration.birthdate,
+                  firstName: organizationLearner.firstName,
+                  middleName: organizationLearner.middleName,
+                  thirdName: organizationLearner.thirdName,
+                  lastName: organizationLearner.lastName,
+                  nationalStudentId: organizationLearner.nationalStudentId,
+                  birthdate: organizationLearner.birthdate,
                   date: certificationCourse.createdAt,
                   verificationCode: certificationCourse.verificationCode,
                   deliveredAt: session.publishedAt,

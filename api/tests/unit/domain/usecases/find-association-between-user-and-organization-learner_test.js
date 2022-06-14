@@ -10,7 +10,7 @@ const campaignRepository = require('../../../../lib/infrastructure/repositories/
 const organizationLearnerRepository = require('../../../../lib/infrastructure/repositories/organization-learner-repository');
 
 describe('Unit | UseCase | find-association-between-user-and-organization-learner', function () {
-  let schoolingRegistrationReceivedStub;
+  let organizationLearnerReceivedStub;
   let getCampaignStub;
   let organizationLearner;
   let organization;
@@ -23,7 +23,7 @@ describe('Unit | UseCase | find-association-between-user-and-organization-learne
     campaign = domainBuilder.buildCampaign({ organization });
     organizationLearner = domainBuilder.buildOrganizationLearner({ organization, userId });
     getCampaignStub = sinon.stub(campaignRepository, 'getByCode').throws('unexpected call');
-    schoolingRegistrationReceivedStub = sinon
+    organizationLearnerReceivedStub = sinon
       .stub(organizationLearnerRepository, 'findOneByUserIdAndOrganizationId')
       .throws('unexpected call');
   });
@@ -32,7 +32,7 @@ describe('Unit | UseCase | find-association-between-user-and-organization-learne
     it('should call findOneByUserIdAndOrganizationId', async function () {
       // given
       getCampaignStub.withArgs(campaign.code).resolves(campaign);
-      schoolingRegistrationReceivedStub.resolves({});
+      organizationLearnerReceivedStub.resolves({});
 
       // when
       await usecases.findAssociationBetweenUserAndOrganizationLearner({
@@ -42,13 +42,13 @@ describe('Unit | UseCase | find-association-between-user-and-organization-learne
       });
 
       // then
-      expect(schoolingRegistrationReceivedStub).to.have.been.calledOnce;
+      expect(organizationLearnerReceivedStub).to.have.been.calledOnce;
     });
 
     it('should return the OrganizationLearner', async function () {
       // given
       getCampaignStub.withArgs(campaign.code).resolves(campaign);
-      schoolingRegistrationReceivedStub
+      organizationLearnerReceivedStub
         .withArgs({ userId, organizationId: organization.id })
         .resolves(organizationLearner);
 
@@ -69,7 +69,7 @@ describe('Unit | UseCase | find-association-between-user-and-organization-learne
     it('should return null', async function () {
       // given
       getCampaignStub.withArgs(campaign.code).resolves(campaign);
-      schoolingRegistrationReceivedStub.withArgs({ userId, organizationId: organization.id }).resolves(null);
+      organizationLearnerReceivedStub.withArgs({ userId, organizationId: organization.id }).resolves(null);
 
       // when
       const result = await usecases.findAssociationBetweenUserAndOrganizationLearner({
@@ -92,7 +92,7 @@ describe('Unit | UseCase | find-association-between-user-and-organization-learne
         isDisabled: true,
       });
       getCampaignStub.withArgs(campaign.code).resolves(campaign);
-      schoolingRegistrationReceivedStub
+      organizationLearnerReceivedStub
         .withArgs({ userId, organizationId: organization.id })
         .resolves(disabledOrganizationLearner);
 
@@ -112,7 +112,7 @@ describe('Unit | UseCase | find-association-between-user-and-organization-learne
     it('should return the repositories error', async function () {
       // given
       getCampaignStub.withArgs(campaign.code).resolves(campaign);
-      schoolingRegistrationReceivedStub.withArgs({ userId, organizationId: organization.id }).resolves(null);
+      organizationLearnerReceivedStub.withArgs({ userId, organizationId: organization.id }).resolves(null);
 
       // when
       const result = await catchErr(usecases.findAssociationBetweenUserAndOrganizationLearner)({

@@ -92,26 +92,26 @@ describe('Integration | Repository | Session-for-attendance-sheet', function () 
           time: '12:00:00',
         });
 
-        const schoolingRegistration1 = databaseBuilder.factory.buildOrganizationLearner({ division: '3b' });
-        const schoolingRegistration2 = databaseBuilder.factory.buildOrganizationLearner({ division: '3a' });
-        const schoolingRegistration3 = databaseBuilder.factory.buildOrganizationLearner({ division: '2c' });
+        const organizationLearner1 = databaseBuilder.factory.buildOrganizationLearner({ division: '3b' });
+        const organizationLearner2 = databaseBuilder.factory.buildOrganizationLearner({ division: '3a' });
+        const organizationLearner3 = databaseBuilder.factory.buildOrganizationLearner({ division: '2c' });
         const candidate1 = databaseBuilder.factory.buildCertificationCandidate({
           lastName: 'Jackson',
           firstName: 'Michael',
           sessionId: session.id,
-          organizationLearnerId: schoolingRegistration1.id,
+          organizationLearnerId: organizationLearner1.id,
         });
         const candidate2 = databaseBuilder.factory.buildCertificationCandidate({
           lastName: 'Stardust',
           firstName: 'Ziggy',
           sessionId: session.id,
-          organizationLearnerId: schoolingRegistration2.id,
+          organizationLearnerId: organizationLearner2.id,
         });
         const candidate3 = databaseBuilder.factory.buildCertificationCandidate({
           lastName: 'Jackson',
           firstName: 'Janet',
           sessionId: session.id,
-          organizationLearnerId: schoolingRegistration3.id,
+          organizationLearnerId: organizationLearner3.id,
         });
         await databaseBuilder.commit();
 

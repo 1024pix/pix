@@ -688,8 +688,8 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
 
         // then
         expect(userDetailsForAdmin.schoolingRegistrations.length).to.equal(2);
-        const schoolingRegistrations = userDetailsForAdmin.schoolingRegistrations;
-        expect(schoolingRegistrations[0]).to.be.instanceOf(OrganizationLearnerForAdmin);
+        const organizationLearners = userDetailsForAdmin.schoolingRegistrations;
+        expect(organizationLearners[0]).to.be.instanceOf(OrganizationLearnerForAdmin);
 
         const expectedOrganizationLearners = [
           {
@@ -702,8 +702,8 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
             organizationName: secondOrganizationInDB.name,
             canBeDissociated: secondOrganizationInDB.isManagingStudents,
           },
-        ].map((schoolingRegistration) => pick(schoolingRegistration, expectedUserDetailsForAdminAttributes));
-        expect(schoolingRegistrations).to.deep.equal(expectedOrganizationLearners);
+        ].map((organizationLearner) => pick(organizationLearner, expectedUserDetailsForAdminAttributes));
+        expect(organizationLearners).to.deep.equal(expectedOrganizationLearners);
       });
     });
 
