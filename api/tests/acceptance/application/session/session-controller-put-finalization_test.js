@@ -101,7 +101,7 @@ describe('Acceptance | Controller | sessions-controller', function () {
         await knex('assessment-results').delete();
       });
 
-      it('should return the serialized updated session', async function () {
+      it('should respond OK', async function () {
         // given
         const userId = databaseBuilder.factory.buildUser().id;
         databaseBuilder.factory.buildCertificationCenterMembership({
@@ -112,25 +112,11 @@ describe('Acceptance | Controller | sessions-controller', function () {
         await databaseBuilder.commit();
         options.headers.authorization = generateValidRequestAuthorizationHeader(userId);
 
-        const expectedSessionJSONAPI = {
-          data: {
-            type: 'sessions',
-            id: session.id.toString(),
-            attributes: {
-              status: 'finalized',
-              'examiner-global-comment': examinerGlobalComment,
-              'has-incident': false,
-              'has-joining-issue': false,
-            },
-          },
-        };
-
         // when
         const response = await server.inject(options);
 
         // then
         expect(response.statusCode).to.equal(200);
-        expect(response.result.data).to.deep.equal(expectedSessionJSONAPI.data);
       });
 
       it('should update session', async function () {
