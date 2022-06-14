@@ -22,7 +22,7 @@ module.exports = async function updateExpiredPassword({
     });
   } catch (error) {
     if (error instanceof UserNotFoundError) {
-      logger.warn({ username }, 'Trying to change his password with incorrect username');
+      logger.warn('Trying to change his password with incorrect username');
     }
 
     throw error;

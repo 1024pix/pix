@@ -99,10 +99,7 @@ describe('Unit | UseCase | update-expired-password', function () {
       });
 
       // then
-      expect(logger.warn).to.have.been.calledWith(
-        { username: 'bad-username' },
-        'Trying to change his password with incorrect username'
-      );
+      expect(logger.warn).to.have.been.calledWith('Trying to change his password with incorrect username');
     });
 
     it('should throw PasswordNotMatching when expiredPassword is invalid', async function () {
