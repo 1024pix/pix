@@ -5,21 +5,12 @@ const { UserNotAuthorizedToGenerateUsernamePasswordError } = require('../../../.
 const generateUsernameWithTemporaryPassword = require('../../../../lib/domain/usecases/generate-username-with-temporary-password.js');
 
 describe('Unit | UseCase | generate-username-with-temporary-password', function () {
-  // TODO: Fix this the next time the file is edited.
-  // eslint-disable-next-line mocha/no-setup-in-describe
-  const userRelatedToStudent = domainBuilder.buildUser({
-    username: null,
-  });
-  // TODO: Fix this the next time the file is edited.
-  // eslint-disable-next-line mocha/no-setup-in-describe
-  const organization = userRelatedToStudent.memberships[0].organization;
-  // TODO: Fix this the next time the file is edited.
-  // eslint-disable-next-line mocha/no-setup-in-describe
-  const organizationId = userRelatedToStudent.memberships[0].organization.id;
-
   const expectedUsername = 'john.harry0207';
   const expectedPassword = 'Pix12345';
   const hashedPassword = 'ABC';
+
+  let userRelatedToStudent;
+  let organizationId;
 
   let organizationLearner;
   let organizationLearnerId;
@@ -34,6 +25,12 @@ describe('Unit | UseCase | generate-username-with-temporary-password', function 
   let organizationLearnerRepository;
 
   beforeEach(function () {
+    userRelatedToStudent = domainBuilder.buildUser({
+      username: null,
+    });
+    const organization = userRelatedToStudent.memberships[0].organization;
+    organizationId = userRelatedToStudent.memberships[0].organization.id;
+
     organizationLearner = domainBuilder.buildOrganizationLearner({
       organization,
     });
@@ -57,21 +54,18 @@ describe('Unit | UseCase | generate-username-with-temporary-password', function 
     };
     userRepository = {
       addUsername: sinon.stub(),
-      get: sinon.stub(),
+      get: sinon.stub().resolves(userRelatedToStudent),
       updateUsernameAndPassword: sinon.stub().resolves(),
     };
     organizationLearnerRepository = {
-      get: sinon.stub(),
+      get: sinon.stub().withArgs(organizationLearnerId).resolves(organizationLearner),
     };
-
-    organizationLearnerRepository.get.resolves(organizationLearner);
-    userRepository.get.resolves(userRelatedToStudent);
   });
 
   it('should generate username and temporary password', async function () {
     // when
     const result = await generateUsernameWithTemporaryPassword({
-      schoolingRegistrationId: organizationLearnerId,
+      organizationLearnerId,
       organizationId,
       passwordGenerator,
       encryptionService,
@@ -93,7 +87,7 @@ describe('Unit | UseCase | generate-username-with-temporary-password', function 
 
     // when
     const error = await catchErr(generateUsernameWithTemporaryPassword)({
-      schoolingRegistrationId: organizationLearnerId,
+      organizationLearnerId,
       organizationId,
       passwordGenerator,
       encryptionService,
@@ -118,7 +112,7 @@ describe('Unit | UseCase | generate-username-with-temporary-password', function 
 
     // when
     const error = await catchErr(generateUsernameWithTemporaryPassword)({
-      schoolingRegistrationId: organizationLearnerId,
+      organizationLearnerId,
       organizationId,
       passwordGenerator,
       encryptionService,
@@ -159,7 +153,7 @@ describe('Unit | UseCase | generate-username-with-temporary-password', function 
 
       userReconciliationService.createUsernameByUser.resolves(username);
 
-      organizationLearnerRepository.get.resolves(organizationLearner);
+      organizationLearnerRepository.get.withArgs(organizationLearner.id).resolves(organizationLearner);
       userRepository.get.resolves(userWithEmail);
       userRepository.addUsername.resolves({ ...userWithEmail, username });
 
@@ -169,7 +163,7 @@ describe('Unit | UseCase | generate-username-with-temporary-password', function 
     it('should return an username', async function () {
       // when
       const result = await generateUsernameWithTemporaryPassword({
-        schoolingRegistrationId: organizationLearner.id,
+        organizationLearnerId: organizationLearner.id,
         organizationId,
         passwordGenerator,
         encryptionService,
