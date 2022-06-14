@@ -51,12 +51,12 @@ module.exports = {
     const payload = request.payload.data.attributes;
     const userId = request.auth.credentials.userId;
     const organizationId = payload['organization-id'];
-    const schoolingRegistrationId = payload['schooling-registration-id'];
+    const organizationLearnerId = payload['schooling-registration-id'];
 
     const generatedPassword = await usecases.updateOrganizationLearnerDependentUserPassword({
       userId,
       organizationId,
-      schoolingRegistrationId,
+      organizationLearnerId,
     });
 
     const schoolingRegistrationWithGeneratedPasswordResponse = {
