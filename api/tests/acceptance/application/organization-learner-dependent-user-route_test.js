@@ -2,7 +2,7 @@ const { databaseBuilder, expect, knex, generateValidRequestAuthorizationHeader }
 
 const createServer = require('../../../server');
 
-describe('Acceptance | Route | Schooling-registration-dependent-user', function () {
+describe('Acceptance | Route | organization-learner-dependent-user', function () {
   let server;
 
   beforeEach(async function () {
@@ -31,7 +31,7 @@ describe('Acceptance | Route | Schooling-registration-dependent-user', function 
     });
 
     context('when creation is with email', function () {
-      it('should return an 204 status after having successfully created user and associated user to schoolingRegistration', async function () {
+      it('should return an 204 status after having successfully created user and associated user to organizationLearner', async function () {
         // when
         const response = await server.inject({
           method: 'POST',
@@ -55,7 +55,7 @@ describe('Acceptance | Route | Schooling-registration-dependent-user', function 
         expect(response.statusCode).to.equal(204);
       });
 
-      context('when no schoolingRegistration not linked yet found', function () {
+      context('when no organizationLearner not linked yet found', function () {
         it('should respond with a 409 - Conflict', async function () {
           // given
           const userId = databaseBuilder.factory.buildUser().id;
@@ -124,7 +124,7 @@ describe('Acceptance | Route | Schooling-registration-dependent-user', function 
     });
 
     context('when creation is with username', function () {
-      it('should return a 204 status after having successfully created user and associated user to schoolingRegistration', async function () {
+      it('should return a 204 status after having successfully created user and associated user to organizationLearner', async function () {
         // when
         const response = await server.inject({
           method: 'POST',
@@ -228,7 +228,7 @@ describe('Acceptance | Route | Schooling-registration-dependent-user', function 
       expect(response.statusCode).to.equal(200);
     });
 
-    it('should return a 404 status when schoolingRegistration does not exist', async function () {
+    it('should return a 404 status when organizationLearner does not exist', async function () {
       // given
       options.payload.data.attributes['schooling-registration-id'] = organizationLearnerId + 1;
 
@@ -239,7 +239,7 @@ describe('Acceptance | Route | Schooling-registration-dependent-user', function 
       expect(response.statusCode).to.equal(404);
     });
 
-    it("should return a 404 status when schoolingRegistration's userId does not exist", async function () {
+    it("should return a 404 status when organizationLearner's userId does not exist", async function () {
       // given
       const organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner({
         organizationId,
@@ -256,7 +256,7 @@ describe('Acceptance | Route | Schooling-registration-dependent-user', function 
       expect(response.statusCode).to.equal(404);
     });
 
-    it('should return a 403 status when student does not belong to the same organization as schoolingRegistration', async function () {
+    it('should return a 403 status when student does not belong to the same organization as organizationLearner', async function () {
       // given
       options.payload.data.attributes['organization-id'] = organizationId + 1;
       options.payload.data.attributes['schooling-registration-id'] = organizationLearnerId;
@@ -268,7 +268,7 @@ describe('Acceptance | Route | Schooling-registration-dependent-user', function 
       expect(response.statusCode).to.equal(403);
     });
 
-    it('should return a 403 status when user does not belong to the same organization as schoolingRegistration', async function () {
+    it('should return a 403 status when user does not belong to the same organization as organizationLearner', async function () {
       // given
       const wrongOrganization = databaseBuilder.factory.buildOrganization();
       const organizationLearnerWithWrongOrganization = databaseBuilder.factory.buildOrganizationLearner({
@@ -331,7 +331,7 @@ describe('Acceptance | Route | Schooling-registration-dependent-user', function 
       expect(response.statusCode).to.equal(200);
     });
 
-    it('should return a 404 status when schoolingRegistration does not exist', async function () {
+    it('should return a 404 status when organizationLearner does not exist', async function () {
       // given
       options.payload.data.attributes['schooling-registration-id'] = 1;
 
@@ -342,7 +342,7 @@ describe('Acceptance | Route | Schooling-registration-dependent-user', function 
       expect(response.statusCode).to.equal(404);
     });
 
-    it("should return a 404 status when schoolingRegistration's userId does not exist", async function () {
+    it("should return a 404 status when organizationLearner's userId does not exist", async function () {
       // given
       const organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner({
         organizationId,
@@ -359,7 +359,7 @@ describe('Acceptance | Route | Schooling-registration-dependent-user', function 
       expect(response.statusCode).to.equal(404);
     });
 
-    it('should return a 403 status when user does not belong to the same organization as schoolingRegistration', async function () {
+    it('should return a 403 status when user does not belong to the same organization as organizationLearner', async function () {
       // given
       const wrongOrganization = databaseBuilder.factory.buildOrganization();
       const organizationLearnerWithWrongOrganization = databaseBuilder.factory.buildOrganizationLearner({

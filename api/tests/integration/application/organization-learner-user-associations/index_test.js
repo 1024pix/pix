@@ -3,7 +3,7 @@ const { expect, sinon, HttpTestServer } = require('../../../test-helper');
 const organizationLearnerUserAssociationController = require('../../../../lib/application/organization-learner-user-associations/organization-learner-user-association-controller');
 const moduleUnderTest = require('../../../../lib/application/organization-learner-user-associations');
 
-describe('Integration | Application | Route | schooling-registration-user-associations', function () {
+describe('Integration | Application | Route | organization-learner-user-associations', function () {
   let httpTestServer;
 
   beforeEach(async function () {

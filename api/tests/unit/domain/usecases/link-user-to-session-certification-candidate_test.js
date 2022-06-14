@@ -292,7 +292,7 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candida
 
     context('when the organization behind this session is of type SCO', function () {
       context('when the organization is also managing students', function () {
-        context('when the user does not match with a session candidate and its schooling registration', function () {
+        context('when the user does not match with a session candidate and its organization learner', function () {
           it('throws MatchingReconciledStudentNotFoundError', async function () {
             // given
             const certificationCandidate = domainBuilder.buildCertificationCandidate({
@@ -356,7 +356,7 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candida
           });
         });
 
-        context('when the user matches with a session candidate and its schooling registration', function () {
+        context('when the user matches with a session candidate and its organization learner', function () {
           context('when no other candidates is already linked to that user', function () {
             it('should create a link between the candidate and the user and return an event to notify it, ', async function () {
               // given

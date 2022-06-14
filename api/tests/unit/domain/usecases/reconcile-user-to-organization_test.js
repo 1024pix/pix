@@ -53,7 +53,7 @@ describe('Unit | UseCase | reconcile-user-to-organization', function () {
     });
   });
 
-  context('When no schoolingRegistration is found by userId', function () {
+  context('When no organizationLearner is found by userId', function () {
     it('should throw a UserCouldNotBeReconcile error', async function () {
       // given
       findByUserIdStub.resolves([]);
@@ -70,7 +70,7 @@ describe('Unit | UseCase | reconcile-user-to-organization', function () {
     });
   });
 
-  context('When no schoolingRegistration is found by organizationId', function () {
+  context('When no organizationLearner is found by organizationId', function () {
     it('should throw a UserCouldNotBeReconcile error', async function () {
       // given
       findByUserIdStub.resolves([organizationLearner]);
@@ -88,7 +88,7 @@ describe('Unit | UseCase | reconcile-user-to-organization', function () {
     });
   });
 
-  context('When no schoolingRegistration is found by nationalStudentId', function () {
+  context('When no organizationLearner is found by nationalStudentId', function () {
     it('should throw a UserCouldNotBeReconcile error', async function () {
       // given
       findByUserIdStub.resolves([organizationLearner]);
@@ -106,8 +106,8 @@ describe('Unit | UseCase | reconcile-user-to-organization', function () {
     });
   });
 
-  context('When schoolingRegistration is found', function () {
-    it('should use nationalStudentId of more recent schoolingRegistration', async function () {
+  context('When organizationLearner is found', function () {
+    it('should use nationalStudentId of more recent organizationLearner', async function () {
       // given
       const schoolingRegistrationInOtherOrganization = domainBuilder.buildOrganizationLearner({
         userId,

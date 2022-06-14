@@ -357,7 +357,7 @@ describe('Integration | Repository | Campaign Participation Info', function () {
       });
     });
 
-    context("when the participant has a schooling registration for the campaign's organization", function () {
+    context("when the participant has an organization learner for the campaign's organization", function () {
       let organizationLearner;
       let campaign;
       beforeEach(async function () {
@@ -385,7 +385,7 @@ describe('Integration | Repository | Campaign Participation Info', function () {
         await databaseBuilder.commit();
       });
 
-      it('should return the student number of the schooling registration associated to the given organization', async function () {
+      it('should return the student number of the organization learner associated to the given organization', async function () {
         // when
         const campaignParticipationInfos = await campaignParticipationInfoRepository.findByCampaignId(campaign.id);
 
@@ -393,7 +393,7 @@ describe('Integration | Repository | Campaign Participation Info', function () {
         expect(campaignParticipationInfos[0].studentNumber).to.equal(organizationLearner.studentNumber);
       });
 
-      it('should return the first name and last of the schooling registration associated to the given organization', async function () {
+      it('should return the first name and last of the organization learner associated to the given organization', async function () {
         // when
         const campaignParticipationInfos = await campaignParticipationInfoRepository.findByCampaignId(campaign.id);
 

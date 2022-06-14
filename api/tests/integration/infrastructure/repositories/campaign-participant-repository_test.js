@@ -121,8 +121,8 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
       });
     });
 
-    context('when there is already a schooling registration', function () {
-      it('create a campaign participation linked to this schooling registration', async function () {
+    context('when there is already an organization learner', function () {
+      it('create a campaign participation linked to this organization learner', async function () {
         //GIVEN
         const campaign = databaseBuilder.factory.buildCampaign({ idPixLabel: null });
         const organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner().id;
@@ -153,8 +153,8 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
       });
     });
 
-    context('when there is no schooling registration linked', function () {
-      it('create a new schooling registration', async function () {
+    context('when there is no organization learner linked', function () {
+      it('create a new organization learner', async function () {
         //GIVEN
         userIdentity = databaseBuilder.factory.buildUser({ firstName: 'Valentin', lastName: 'Tamare' });
         const campaign = databaseBuilder.factory.buildCampaign({ idPixLabel: null });
@@ -191,7 +191,7 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
         });
       });
 
-      it('create a campaign participation linked to the new schooling registration', async function () {
+      it('create a campaign participation linked to the new organization learner', async function () {
         //GIVEN
         const campaign = databaseBuilder.factory.buildCampaign({ idPixLabel: null });
         await databaseBuilder.commit();
@@ -773,9 +773,9 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
       });
     });
 
-    context('when there are several schooling registrations', function () {
-      context('when there are several schooling registrations for the same user', function () {
-        it('find the schoolingRegistrationId for the correct organization', async function () {
+    context('when there are several organization learners', function () {
+      context('when there are several organization Learners for the same user', function () {
+        it('find the organizationLearnerId for the correct organization', async function () {
           const campaignToStartParticipation = buildCampaignWithCompleteTargetProfile({ organizationId });
           const { id: userId } = databaseBuilder.factory.buildUser();
           databaseBuilder.factory.buildOrganizationLearner({
@@ -801,7 +801,7 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
       });
 
       context('when there are several organization learners for the same organization', function () {
-        it('find the schoolingRegistrationId for the correct user', async function () {
+        it('find the organizationLearnerId for the correct user', async function () {
           const campaignToStartParticipation = buildCampaignWithCompleteTargetProfile({ organizationId });
           const { id: userId } = databaseBuilder.factory.buildUser();
           databaseBuilder.factory.buildOrganizationLearner({

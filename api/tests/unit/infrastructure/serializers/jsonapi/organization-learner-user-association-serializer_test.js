@@ -4,7 +4,7 @@ const OrganizationLearner = require('../../../../../lib/domain/models/Organizati
 
 describe('Unit | Serializer | JSONAPI | organization-learner-user-association-serializer', function () {
   describe('#serialize', function () {
-    it('should convert a OrganizationLearner model object into JSON API data', function () {
+    it('should convert an organizationLearnermodel object into JSON API data', function () {
       // given
       const organizationLearner = new OrganizationLearner({
         id: 5,

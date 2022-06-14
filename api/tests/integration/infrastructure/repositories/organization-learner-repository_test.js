@@ -507,7 +507,7 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
   });
 
   describe('#isOrganizationLearnerIdLinkedToUserAndSCOOrganization', function () {
-    it('should return true when a organizationLearner matches an id and matches also a given user id and a SCO organization', async function () {
+    it('should return true when an organizationLearnermatches an id and matches also a given user id and a SCO organization', async function () {
       // given
       const userId = databaseBuilder.factory.buildUser().id;
       const otherUserId = databaseBuilder.factory.buildUser().id;
@@ -689,7 +689,7 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
         await databaseBuilder.commit();
       });
 
-      context('when a organizationLearner is already imported', function () {
+      context('when an organizationLearneris already imported', function () {
         let organizationLearner_1_updated;
         let organizationLearners;
 
@@ -810,7 +810,7 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
         });
       });
 
-      context('when a organization learner disabled already exists', function () {
+      context('when an organization learner disabled already exists', function () {
         it('should enable the updated organization learner', async function () {
           // given
           const organizationLearner = databaseBuilder.factory.buildOrganizationLearner({

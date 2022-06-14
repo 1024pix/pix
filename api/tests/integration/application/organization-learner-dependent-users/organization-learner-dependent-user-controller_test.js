@@ -10,7 +10,7 @@ const {
   UserNotAuthorizedToGenerateUsernamePasswordError,
 } = require('../../../../lib/domain/errors');
 
-describe('Integration | Application | Schooling-registration-dependent-users | schooling-registration-dependent-user-controller', function () {
+describe('Integration | Application | organization-learner-dependent-users | organization-learner-dependent-user-controller', function () {
   let sandbox;
   let httpTestServer;
 

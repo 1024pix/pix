@@ -91,7 +91,7 @@ describe('Integration | Repository | Certification-ls ', function () {
       expect(certificationResults).to.deep.equal([expected]);
     });
 
-    it('should not return disabled schooling registration certification results for a given UAI', async function () {
+    it('should not return disabled organization learner certification results for a given UAI', async function () {
       // given
       const organizationId = buildOrganization(uai).id;
       const user = buildUser();

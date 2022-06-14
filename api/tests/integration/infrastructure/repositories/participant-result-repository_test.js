@@ -189,7 +189,7 @@ describe('Integration | Repository | ParticipantResultRepository', function () {
         expect(participantResult.canRetry).to.equal(false);
       });
 
-      it('takes into account only schooling registration for the given userId', async function () {
+      it('takes into account only organization learner for the given userId', async function () {
         const organizationId = databaseBuilder.factory.buildOrganization().id;
         const campaignId = databaseBuilder.factory.buildCampaign({
           organizationId,
@@ -223,7 +223,7 @@ describe('Integration | Repository | ParticipantResultRepository', function () {
         expect(participantResult.canRetry).to.equal(true);
       });
 
-      it('takes into account only schooling registration for the given campaignId', async function () {
+      it('takes into account only organization learner for the given campaignId', async function () {
         const userId = databaseBuilder.factory.buildUser().id;
         const organizationId = databaseBuilder.factory.buildOrganization().id;
         databaseBuilder.factory.buildOrganizationLearner({ userId, organizationId, isDisabled: true });

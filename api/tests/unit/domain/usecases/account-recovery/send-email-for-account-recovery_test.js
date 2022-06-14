@@ -122,7 +122,7 @@ describe('Unit | UseCase | Account-recovery | account-recovery | send-email-for-
       expect(accountRecoveryDemandRepository.save).to.have.been.calledWithExactly(expectedAccountRecoveryDemand);
     });
 
-    it('should send an account recovery email with schooling registration first name', async function () {
+    it('should send an account recovery email with organization learner first name', async function () {
       // given
       const userId = 1;
       const oldEmail = 'old_email@example.net';

@@ -40,7 +40,7 @@ describe('Integration | UseCases | reconcile-sup-organization-learner', function
     });
 
     context(
-      'When no registered schooling registration found with matching student number, firstName, lastName and birthdate',
+      'When no registered organization learner found with matching student number, firstName, lastName and birthdate',
       function () {
         it('should throw an error', async function () {
           // given
@@ -70,9 +70,9 @@ describe('Integration | UseCases | reconcile-sup-organization-learner', function
       }
     );
 
-    context('When a matching registered schooling registration is found', function () {
+    context('When a matching registered organization learner is found', function () {
       context('and is not reconciled yet', function () {
-        it('should reconcile schooling registration with user', async function () {
+        it('should reconcile organization learner with user', async function () {
           // given
           const reconciliationInfo = {
             userId,

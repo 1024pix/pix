@@ -60,7 +60,7 @@ describe('Unit | Infrastructure | OrganizationLearnerParser', function () {
 
   context('when the header is correctly formed', function () {
     context('when there is no line', function () {
-      it('returns no learners', function () {
+      it('returns no organization learners', function () {
         const input = schoolingRegistrationCsvColumns;
         const encodedInput = iconv.encode(input, 'utf8');
         const parser = new OrganizationLearnerParser(encodedInput, 123, i18n);
@@ -74,7 +74,7 @@ describe('Unit | Infrastructure | OrganizationLearnerParser', function () {
     context('when there are lines', function () {
       context('when the data are correct', function () {
         context("when csv has 'Sex code' column", function () {
-          it('returns a schooling registration for each line', function () {
+          it('returns an organization learner for each line', function () {
             const input = `${schoolingRegistrationCsvColumns}
             123F;Beatrix;The;Bride;Kiddo;Black Mamba;1;01/01/1970;97422;;200;99100;ST;MEF1;Division 1;
             456F;O-Ren;;;Ishii;Cottonmouth;2;01/01/1980;;Shangai;99;99132;ST;MEF1;Division 2;
@@ -86,7 +86,7 @@ describe('Unit | Infrastructure | OrganizationLearnerParser', function () {
             expect(learners).to.have.lengthOf(2);
           });
 
-          it('returns schooling learners for each line using the CSV column', function () {
+          it('returns an organization learner for each line using the CSV column', function () {
             const input = `${schoolingRegistrationCsvColumns}
             123F;Beatrix;The;Bride;Kiddo;Black Mamba;M;01/01/1970;97422;;974;99100;ST;MEF1;Division 1;
             0123456789F;O-Ren;;;Ishii;Cottonmouth;f;01/01/1980;;Shangai;99;99132;AP;MEF1;Division 2;
@@ -133,7 +133,7 @@ describe('Unit | Infrastructure | OrganizationLearnerParser', function () {
         });
 
         context("when csv does not have 'Sex code' column", function () {
-          it('returns a schooling registration for each line', function () {
+          it('returns an organization learner for each line', function () {
             const input = `${schoolingRegistrationCsvColumnsWithoutSexCode}
             123F;Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1970;97422;;200;99100;ST;MEF1;Division 1;
             456F;O-Ren;;;Ishii;Cottonmouth;01/01/1980;;Shangai;99;99132;ST;MEF1;Division 2;
@@ -145,7 +145,7 @@ describe('Unit | Infrastructure | OrganizationLearnerParser', function () {
             expect(learners).to.have.lengthOf(2);
           });
 
-          it('returns schooling learners for each line using the CSV column', function () {
+          it('returns organization learner for each line using the CSV column', function () {
             const input = `${schoolingRegistrationCsvColumnsWithoutSexCode}
             123F;Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1970;97422;;974;99100;ST;MEF1;Division 1;
             0123456789F;O-Ren;;;Ishii;Cottonmouth;01/01/1980;;Shangai;99;99132;AP;MEF1;Division 2;
@@ -215,7 +215,7 @@ describe('Unit | Infrastructure | OrganizationLearnerParser', function () {
         });
 
         context('When the organization is Agriculture and file contain status AP', function () {
-          it('should return schooling registration with nationalStudentId', function () {
+          it('should return organization learner with nationalStudentId', function () {
             const input = `${schoolingRegistrationCsvColumns}
             0123456789F;Beatrix;The;Bride;Kiddo;Black Mamba;1;01/01/1970;97422;;974;99100;AP;MEF1;Division 1;
             `;
@@ -266,7 +266,7 @@ describe('Unit | Infrastructure | OrganizationLearnerParser', function () {
         });
 
         context('When the organization is Agriculture and file contain status AP', function () {
-          it('should return schooling registration with nationalStudentId', function () {
+          it('should return organization learner with nationalStudentId', function () {
             const input = `${schoolingRegistrationCsvColumns}
             0123456789F;Beatrix;The;Bride;Kiddo;Black Mamba;1;01/01/1970;97422;;974;99100;AP;MEF1;Division 1;
             `;

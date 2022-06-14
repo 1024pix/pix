@@ -28,7 +28,7 @@ describe('Unit | UseCase | find-association-between-user-and-organization-learne
       .throws('unexpected call');
   });
 
-  describe('There is a schoolingRegistration linked to the given userId', function () {
+  describe('There is an organizationLearnerlinked to the given userId', function () {
     it('should call findOneByUserIdAndOrganizationId', async function () {
       // given
       getCampaignStub.withArgs(campaign.code).resolves(campaign);
@@ -65,7 +65,7 @@ describe('Unit | UseCase | find-association-between-user-and-organization-learne
     });
   });
 
-  describe('There is no schoolingRegistration linked to the given userId', function () {
+  describe('There is no organizationLearner linked to the given userId', function () {
     it('should return null', async function () {
       // given
       getCampaignStub.withArgs(campaign.code).resolves(campaign);
@@ -83,7 +83,7 @@ describe('Unit | UseCase | find-association-between-user-and-organization-learne
     });
   });
 
-  describe('There is a disabled schoolingRegistration linked to the given userId', function () {
+  describe('There is a disabled organizationLearner linked to the given userId', function () {
     it('should throw an error', async function () {
       // given
       const disabledOrganizationLearner = domainBuilder.buildOrganizationLearner({

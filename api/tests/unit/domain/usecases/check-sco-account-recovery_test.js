@@ -27,7 +27,7 @@ describe('Unit | UseCase | check-sco-account-recovery', function () {
   });
 
   context('when user exists', function () {
-    context('when user have only one schooling registration', function () {
+    context('when user have only one organization learner', function () {
       it('should return user account information', async function () {
         // given
         const studentInformation = {
