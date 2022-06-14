@@ -20,13 +20,13 @@ describe('Unit | UseCase | dissociate-user-from-organization-learner', function 
     };
   });
 
-  it('should dissociate user from the schooling registration', async function () {
+  it('should dissociate user from the organization learner', async function () {
     // given
     organizationLearnerRepositoryStub.getOrganizationLearnerForAdmin.resolves({ canBeDissociated: true });
 
     // when
     await usecases.dissociateUserFromOrganizationLearner({
-      schoolingRegistrationId: organizationLearnerId,
+      organizationLearnerId,
       organizationLearnerRepository: organizationLearnerRepositoryStub,
     });
 
@@ -36,13 +36,13 @@ describe('Unit | UseCase | dissociate-user-from-organization-learner', function 
     );
   });
 
-  it('should throw an error when schooling registration cannot be dissociated', async function () {
+  it('should throw an error when organization learner cannot be dissociated', async function () {
     // given
     organizationLearnerRepositoryStub.getOrganizationLearnerForAdmin.resolves({ canBeDissociated: false });
 
     // when
     const error = await catchErr(usecases.dissociateUserFromOrganizationLearner)({
-      schoolingRegistrationId: organizationLearnerId,
+      organizationLearnerId,
       organizationLearnerRepository: organizationLearnerRepositoryStub,
     });
 
