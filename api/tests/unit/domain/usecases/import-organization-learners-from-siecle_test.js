@@ -57,7 +57,7 @@ describe('Unit | UseCase | import-organization-learners-from-siecle', function (
         const organization = Symbol('organization');
         organizationRepositoryStub.get.withArgs(organizationId).resolves(organization);
 
-        const schoolingRegistration1 = new OrganizationLearner({
+        const organizationLearner1 = new OrganizationLearner({
           id: undefined,
           nationalStudentId: '123F',
           firstName: 'Beatrix',
@@ -74,7 +74,7 @@ describe('Unit | UseCase | import-organization-learners-from-siecle', function (
           division: 'Division 1',
           organizationId,
         });
-        const schoolingRegistration2 = new OrganizationLearner({
+        const organizationLearner2 = new OrganizationLearner({
           id: undefined,
           nationalStudentId: '456F',
           firstName: 'O-Ren',
@@ -90,8 +90,8 @@ describe('Unit | UseCase | import-organization-learners-from-siecle', function (
           organizationId,
         });
         organizationLearnersCsvServiceStub.extractOrganizationLearnersInformation.returns([
-          schoolingRegistration1,
-          schoolingRegistration2,
+          organizationLearner1,
+          organizationLearner2,
         ]);
 
         await importOrganizationLearnersFromSIECLEFormat({

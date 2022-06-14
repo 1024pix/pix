@@ -6,11 +6,11 @@ const OrganizationLearnerColumns = require('../../../../../lib/infrastructure/se
 const { getI18n } = require('../../../../tooling/i18n/i18n');
 const i18n = getI18n();
 
-const schoolingRegistrationCsvColumns = new OrganizationLearnerColumns(i18n).columns
+const organizationLearnerCsvColumns = new OrganizationLearnerColumns(i18n).columns
   .map((column) => column.label)
   .join(';');
 const COL_TO_REMOVE = 'Code sexe*';
-const schoolingRegistrationCsvColumnsWithoutSexCode = new OrganizationLearnerColumns(i18n).columns
+const organizationLearnerCsvColumnsWithoutSexCode = new OrganizationLearnerColumns(i18n).columns
   .map((column) => column.label)
   .filter((col) => col !== COL_TO_REMOVE)
   .join(';');
@@ -33,7 +33,7 @@ describe('Unit | Infrastructure | OrganizationLearnerParser', function () {
     fieldList.forEach((field) => {
       context(`when the ${field} column is missing`, function () {
         it('should throw an CsvImportError', async function () {
-          let input = schoolingRegistrationCsvColumns.replace(`${field}`, '');
+          let input = organizationLearnerCsvColumns.replace(`${field}`, '');
           input = input.replace(';;', ';');
           const encodedInput = iconv.encode(input, 'utf8');
           const parser = new OrganizationLearnerParser(encodedInput, organizationId, i18n);
@@ -47,7 +47,7 @@ describe('Unit | Infrastructure | OrganizationLearnerParser', function () {
 
     context('when the Premier prénom* column is missing', function () {
       it('should throw an CsvImportError', async function () {
-        const input = schoolingRegistrationCsvColumns.replace('Premier prénom*;', '');
+        const input = organizationLearnerCsvColumns.replace('Premier prénom*;', '');
         const encodedInput = iconv.encode(input, 'utf8');
         const parser = new OrganizationLearnerParser(encodedInput, organizationId, i18n);
 
@@ -61,7 +61,7 @@ describe('Unit | Infrastructure | OrganizationLearnerParser', function () {
   context('when the header is correctly formed', function () {
     context('when there is no line', function () {
       it('returns no organization learners', function () {
-        const input = schoolingRegistrationCsvColumns;
+        const input = organizationLearnerCsvColumns;
         const encodedInput = iconv.encode(input, 'utf8');
         const parser = new OrganizationLearnerParser(encodedInput, 123, i18n);
 
@@ -75,7 +75,7 @@ describe('Unit | Infrastructure | OrganizationLearnerParser', function () {
       context('when the data are correct', function () {
         context("when csv has 'Sex code' column", function () {
           it('returns an organization learner for each line', function () {
-            const input = `${schoolingRegistrationCsvColumns}
+            const input = `${organizationLearnerCsvColumns}
             123F;Beatrix;The;Bride;Kiddo;Black Mamba;1;01/01/1970;97422;;200;99100;ST;MEF1;Division 1;
             456F;O-Ren;;;Ishii;Cottonmouth;2;01/01/1980;;Shangai;99;99132;ST;MEF1;Division 2;
             `;
@@ -87,7 +87,7 @@ describe('Unit | Infrastructure | OrganizationLearnerParser', function () {
           });
 
           it('returns an organization learner for each line using the CSV column', function () {
-            const input = `${schoolingRegistrationCsvColumns}
+            const input = `${organizationLearnerCsvColumns}
             123F;Beatrix;The;Bride;Kiddo;Black Mamba;M;01/01/1970;97422;;974;99100;ST;MEF1;Division 1;
             0123456789F;O-Ren;;;Ishii;Cottonmouth;f;01/01/1980;;Shangai;99;99132;AP;MEF1;Division 2;
             `;
@@ -134,7 +134,7 @@ describe('Unit | Infrastructure | OrganizationLearnerParser', function () {
 
         context("when csv does not have 'Sex code' column", function () {
           it('returns an organization learner for each line', function () {
-            const input = `${schoolingRegistrationCsvColumnsWithoutSexCode}
+            const input = `${organizationLearnerCsvColumnsWithoutSexCode}
             123F;Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1970;97422;;200;99100;ST;MEF1;Division 1;
             456F;O-Ren;;;Ishii;Cottonmouth;01/01/1980;;Shangai;99;99132;ST;MEF1;Division 2;
             `;
@@ -146,7 +146,7 @@ describe('Unit | Infrastructure | OrganizationLearnerParser', function () {
           });
 
           it('returns organization learner for each line using the CSV column', function () {
-            const input = `${schoolingRegistrationCsvColumnsWithoutSexCode}
+            const input = `${organizationLearnerCsvColumnsWithoutSexCode}
             123F;Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1970;97422;;974;99100;ST;MEF1;Division 1;
             0123456789F;O-Ren;;;Ishii;Cottonmouth;01/01/1980;;Shangai;99;99132;AP;MEF1;Division 2;
             `;
@@ -192,7 +192,7 @@ describe('Unit | Infrastructure | OrganizationLearnerParser', function () {
 
         context('when division has spaces', function () {
           it('should trim division', function () {
-            const input = `${schoolingRegistrationCsvColumns}
+            const input = `${organizationLearnerCsvColumns}
             123F;Beatrix;The;Bride;Kiddo;Black Mamba;1;01/01/1970;97422;;200;99100;ST;MEF1;  Division 1 ;
             `;
             const encodedInput = iconv.encode(input, 'utf8');
@@ -203,7 +203,7 @@ describe('Unit | Infrastructure | OrganizationLearnerParser', function () {
           });
 
           it('should remove extra space on division', function () {
-            const input = `${schoolingRegistrationCsvColumns}
+            const input = `${organizationLearnerCsvColumns}
             123F;Beatrix;The;Bride;Kiddo;Black Mamba;1;01/01/1970;97422;;200;99100;ST;MEF1;Division     1;
             `;
             const encodedInput = iconv.encode(input, 'utf8');
@@ -216,7 +216,7 @@ describe('Unit | Infrastructure | OrganizationLearnerParser', function () {
 
         context('When the organization is Agriculture and file contain status AP', function () {
           it('should return organization learner with nationalStudentId', function () {
-            const input = `${schoolingRegistrationCsvColumns}
+            const input = `${organizationLearnerCsvColumns}
             0123456789F;Beatrix;The;Bride;Kiddo;Black Mamba;1;01/01/1970;97422;;974;99100;AP;MEF1;Division 1;
             `;
             const encodedInput = iconv.encode(input, 'utf8');
@@ -235,7 +235,7 @@ describe('Unit | Infrastructure | OrganizationLearnerParser', function () {
         it('should throw an EntityValidationError with malformated birthCountryCode', async function () {
           //given
           const wrongData = 'FRANC';
-          const input = `${schoolingRegistrationCsvColumns}
+          const input = `${organizationLearnerCsvColumns}
           123F;Beatrix;The;Bride;Kiddo;Black Mamba;1;01/01/1980;97422;;200;${wrongData};ST;MEF1;Division 1;
           `;
           const encodedInput = iconv.encode(input, 'utf8');
@@ -251,7 +251,7 @@ describe('Unit | Infrastructure | OrganizationLearnerParser', function () {
         it('should throw an EntityValidationError with malformated birthCityCode', async function () {
           //given
           const wrongData = 'A1234';
-          const input = `${schoolingRegistrationCsvColumns}
+          const input = `${organizationLearnerCsvColumns}
           123F;Beatrix;The;Bride;Kiddo;Black Mamba;1;01/01/1980;${wrongData};;974;99100;ST;MEF1;Division 1;
           `;
           const encodedInput = iconv.encode(input, 'utf8');
@@ -267,7 +267,7 @@ describe('Unit | Infrastructure | OrganizationLearnerParser', function () {
 
         context('When the organization is Agriculture and file contain status AP', function () {
           it('should return organization learner with nationalStudentId', function () {
-            const input = `${schoolingRegistrationCsvColumns}
+            const input = `${organizationLearnerCsvColumns}
             0123456789F;Beatrix;The;Bride;Kiddo;Black Mamba;1;01/01/1970;97422;;974;99100;AP;MEF1;Division 1;
             `;
             const encodedInput = iconv.encode(input, 'utf8');
@@ -284,7 +284,7 @@ describe('Unit | Infrastructure | OrganizationLearnerParser', function () {
         context('When csv has duplicates on national identifier', function () {
           context('when organization is SCO', function () {
             it('should throw an CsvImportError even with different status', async function () {
-              const input = `${schoolingRegistrationCsvColumns}
+              const input = `${organizationLearnerCsvColumns}
               0123456789F;Beatrix;The;Bride;Kiddo;Black Mamba;1;01/05/1986;97422;;200;99100;ST;MEF1;Division 1;
               0123456789F;Beatrix;The;Bride;Kiddo;Black Mamba;1;01/05/1986;97422;;200;99100;AP;MEF1;Division 1;
               `;

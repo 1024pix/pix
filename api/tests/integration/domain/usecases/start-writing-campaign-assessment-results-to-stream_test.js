@@ -29,7 +29,7 @@ describe('Integration | Domain | Use Cases | start-writing-campaign-assessment-r
     let participant;
     let campaign;
     let campaignParticipation;
-    let schoolingRegistration;
+    let organizationLearner;
     let writableStream;
     let csvPromise;
     let i18n;
@@ -103,9 +103,9 @@ describe('Integration | Domain | Use Cases | start-writing-campaign-assessment-r
         targetProfileId: targetProfile.id,
       });
 
-      schoolingRegistration = { firstName: '@Jean', lastName: '=Bono' };
+      organizationLearner = { firstName: '@Jean', lastName: '=Bono' };
       campaignParticipation = databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
-        schoolingRegistration,
+        organizationLearner,
         {
           createdAt,
           sharedAt: new Date('2019-03-01T23:04:05Z'),
@@ -158,8 +158,8 @@ describe('Integration | Domain | Use Cases | start-writing-campaign-assessment-r
         `${campaign.id};` +
         `"'${campaign.name}";` +
         `"'${targetProfile.name}";` +
-        `"'${schoolingRegistration.lastName}";` +
-        `"'${schoolingRegistration.firstName}";` +
+        `"'${organizationLearner.lastName}";` +
+        `"'${organizationLearner.firstName}";` +
         `"'${campaignParticipation.participantExternalId}";` +
         '1;' +
         '2019-02-25;' +

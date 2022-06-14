@@ -6,11 +6,11 @@ module.exports = {
     const authenticatedUserId = request.auth.credentials.userId;
     const payload = request.payload.data.attributes;
     const campaignCode = payload['campaign-code'];
-    const schoolingRegistration = await usecases.reconcileUserToOrganization({
+    const organizationLearner = await usecases.reconcileUserToOrganization({
       userId: authenticatedUserId,
       campaignCode,
     });
-    return organizationLearnerSerializer.serialize(schoolingRegistration);
+    return organizationLearnerSerializer.serialize(organizationLearner);
   },
 
   async reconcileOrganizationLearnerManually(request, h) {
@@ -26,14 +26,14 @@ module.exports = {
       birthdate: payload['birthdate'],
     };
 
-    const schoolingRegistration = await usecases.reconcileOrganizationLearner({
+    const organizationLearner = await usecases.reconcileOrganizationLearner({
       campaignCode,
       reconciliationInfo,
       withReconciliation,
     });
 
     if (withReconciliation) {
-      return organizationLearnerSerializer.serialize(schoolingRegistration);
+      return organizationLearnerSerializer.serialize(organizationLearner);
     }
 
     return h.response().code(204);
@@ -64,13 +64,13 @@ module.exports = {
     const requestedUserId = parseInt(request.query.userId);
     const campaignCode = request.query.campaignCode;
 
-    const schoolingRegistration = await usecases.findAssociationBetweenUserAndOrganizationLearner({
+    const organizationLearner = await usecases.findAssociationBetweenUserAndOrganizationLearner({
       authenticatedUserId,
       requestedUserId,
       campaignCode,
     });
 
-    return organizationLearnerSerializer.serialize(schoolingRegistration);
+    return organizationLearnerSerializer.serialize(organizationLearner);
   },
 
   async generateUsername(request, h) {
@@ -86,7 +86,7 @@ module.exports = {
     const username = await usecases.generateUsername({ campaignCode, studentInformation });
 
     // we don't persist this ressource, we simulate response by adding the generated username
-    const schoolingRegistrationWithUsernameResponse = {
+    const organizationLearnerWithUsernameResponse = {
       data: {
         attributes: {
           'last-name': payload['last-name'],
@@ -98,7 +98,7 @@ module.exports = {
         type: 'schooling-registration-user-associations',
       },
     };
-    return h.response(schoolingRegistrationWithUsernameResponse).code(200);
+    return h.response(organizationLearnerWithUsernameResponse).code(200);
   },
 
   async dissociate(request, h) {

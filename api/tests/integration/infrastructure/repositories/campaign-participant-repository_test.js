@@ -959,7 +959,7 @@ function getExpectedAssessment(campaignParticipationId, campaignParticipant) {
 async function makeCampaignParticipant({
   campaignAttributes,
   userIdentity,
-  schoolingRegistrationId,
+  organizationLearnerId,
   participantExternalId,
 }) {
   const campaign = databaseBuilder.factory.buildCampaign(campaignAttributes);
@@ -968,7 +968,7 @@ async function makeCampaignParticipant({
 
   const campaignToStartParticipation = new CampaignToStartParticipation(campaign);
   const organizationLearner = {
-    id: schoolingRegistrationId,
+    id: organizationLearnerId,
     hasParticipated: false,
   };
   const campaignParticipant = new CampaignParticipant({

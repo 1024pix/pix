@@ -44,13 +44,13 @@ describe('Integration | Repository | Certification-ls ', function () {
       // given
       const organizationId = buildOrganization(uai).id;
       const user = buildUser();
-      const schoolingRegistration = buildOrganizationLearner({
+      const organizationLearner = buildOrganizationLearner({
         userId: user.id,
         organizationId,
       });
       const { session, certificationCourse } = buildValidatedPublishedCertificationData({
         user,
-        schoolingRegistration,
+        schoolingRegistration: organizationLearner,
         verificationCode,
         pixScore,
         competenceMarks,
@@ -60,12 +60,12 @@ describe('Integration | Repository | Certification-ls ', function () {
 
       const expected = {
         id: certificationCourse.id,
-        firstName: schoolingRegistration.firstName,
-        middleName: schoolingRegistration.middleName,
-        thirdName: schoolingRegistration.thirdName,
-        lastName: schoolingRegistration.lastName,
-        nationalStudentId: schoolingRegistration.nationalStudentId,
-        birthdate: schoolingRegistration.birthdate,
+        firstName: organizationLearner.firstName,
+        middleName: organizationLearner.middleName,
+        thirdName: organizationLearner.thirdName,
+        lastName: organizationLearner.lastName,
+        nationalStudentId: organizationLearner.nationalStudentId,
+        birthdate: organizationLearner.birthdate,
         date: certificationCourse.createdAt,
         verificationCode: certificationCourse.verificationCode,
         deliveredAt: session.publishedAt,
@@ -95,7 +95,7 @@ describe('Integration | Repository | Certification-ls ', function () {
       // given
       const organizationId = buildOrganization(uai).id;
       const user = buildUser();
-      const schoolingRegistration = buildOrganizationLearner({
+      const organizationLearner = buildOrganizationLearner({
         userId: user.id,
         organizationId,
         isDisabled: true,
@@ -103,7 +103,7 @@ describe('Integration | Repository | Certification-ls ', function () {
 
       buildValidatedPublishedCertificationData({
         user,
-        schoolingRegistration,
+        schoolingRegistration: organizationLearner,
         verificationCode,
         pixScore,
         competenceMarks,
@@ -122,13 +122,13 @@ describe('Integration | Repository | Certification-ls ', function () {
       // given
       const organizationId = buildOrganization(uai).id;
       const user = buildUser();
-      const schoolingRegistration = buildOrganizationLearner({
+      const organizationLearner = buildOrganizationLearner({
         userId: user.id,
         organizationId,
       });
       buildCancelledCertificationData({
         user,
-        schoolingRegistration,
+        schoolingRegistration: organizationLearner,
         verificationCode,
         pixScore,
         competenceMarks,
@@ -147,13 +147,13 @@ describe('Integration | Repository | Certification-ls ', function () {
       // given
       const organizationId = buildOrganization(uai).id;
       const user = buildUser();
-      const schoolingRegistration = buildOrganizationLearner({
+      const organizationLearner = buildOrganizationLearner({
         userId: user.id,
         organizationId,
       });
       buildRejectedPublishedCertificationData({
         user,
-        schoolingRegistration,
+        schoolingRegistration: organizationLearner,
         competenceMarks,
       });
 
@@ -172,13 +172,13 @@ describe('Integration | Repository | Certification-ls ', function () {
       // given
       const organizationId = buildOrganization(uai).id;
       const user = buildUser();
-      const schoolingRegistration = buildOrganizationLearner({
+      const organizationLearner = buildOrganizationLearner({
         userId: user.id,
         organizationId,
       });
       buildErrorUnpublishedCertificationData({
         user,
-        schoolingRegistration,
+        schoolingRegistration: organizationLearner,
       });
 
       await databaseBuilder.commit();
@@ -196,13 +196,13 @@ describe('Integration | Repository | Certification-ls ', function () {
       // given
       const organizationId = buildOrganization(uai).id;
       const user = buildUser();
-      const schoolingRegistration = buildOrganizationLearner({
+      const organizationLearner = buildOrganizationLearner({
         userId: user.id,
         organizationId,
       });
       buildValidatedUnpublishedCertificationData({
         user,
-        schoolingRegistration,
+        schoolingRegistration: organizationLearner,
       });
 
       await databaseBuilder.commit();
@@ -220,13 +220,13 @@ describe('Integration | Repository | Certification-ls ', function () {
       // given
       const organizationId = buildOrganization(uai).id;
       const user = buildUser();
-      const schoolingRegistration = buildOrganizationLearner({
+      const organizationLearner = buildOrganizationLearner({
         userId: user.id,
         organizationId,
       });
       buildCertificationDataWithNoCompetenceMarks({
         user,
-        schoolingRegistration,
+        schoolingRegistration: organizationLearner,
       });
 
       await databaseBuilder.commit();
@@ -275,31 +275,31 @@ describe('Integration | Repository | Certification-ls ', function () {
       // given
       const organizationId = buildOrganization(uai).id;
       const user = buildUser();
-      const schoolingRegistration = buildOrganizationLearner({
+      const organizationLearner = buildOrganizationLearner({
         userId: user.id,
         organizationId,
       });
       buildValidatedPublishedCertificationData({
         user,
-        schoolingRegistration,
+        schoolingRegistration: organizationLearner,
         certificationCreatedDate: new Date('2020-02-20T14:23:56Z'),
       });
 
       const { certificationCourse: lastCertificationCourse } = buildValidatedPublishedCertificationData({
         user,
-        schoolingRegistration,
+        schoolingRegistration: organizationLearner,
         certificationCreatedDate: new Date('2020-02-22T14:23:56Z'),
       });
 
       buildValidatedPublishedCertificationData({
         user,
-        schoolingRegistration,
+        schoolingRegistration: organizationLearner,
         certificationCreatedDate: new Date('2020-02-21T14:23:56Z'),
       });
 
       buildCancelledCertificationData({
         user,
-        schoolingRegistration,
+        schoolingRegistration: organizationLearner,
         certificationCreatedDate: new Date('2020-02-23T14:23:56Z'),
       });
 
@@ -317,13 +317,13 @@ describe('Integration | Repository | Certification-ls ', function () {
       // given
       const organizationId = buildOrganization(uai).id;
       const user = buildUser();
-      const schoolingRegistration = buildOrganizationLearner({
+      const organizationLearner = buildOrganizationLearner({
         userId: user.id,
         organizationId,
       });
       buildValidatedPublishedCertificationData({
         user,
-        schoolingRegistration,
+        schoolingRegistration: organizationLearner,
         verificationCode,
         pixScore,
         competenceMarks: [

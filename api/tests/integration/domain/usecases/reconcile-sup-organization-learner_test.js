@@ -100,9 +100,9 @@ describe('Integration | UseCases | reconcile-sup-organization-learner', function
           });
 
           // then
-          const [schoolingRegistration] = await knex('organization-learners');
-          expect(schoolingRegistration.userId).to.equal(userId);
-          expect(schoolingRegistration.firstName).to.equal('first name');
+          const [organizationLearner] = await knex('organization-learners');
+          expect(organizationLearner.userId).to.equal(userId);
+          expect(organizationLearner.firstName).to.equal('first name');
         });
       });
 
