@@ -173,47 +173,4 @@ describe('Unit | Serializer | JSONAPI | session-serializer', function () {
       });
     });
   });
-
-  describe('#serializeForFinalization()', function () {
-    let modelSession;
-    const expectedJsonApi = {
-      data: {
-        type: 'sessions',
-        id: '12',
-        attributes: {
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line mocha/no-setup-in-describe
-          status: statuses.CREATED,
-          'examiner-global-comment': 'It was a fine session my dear',
-          'has-incident': true,
-          'has-joining-issue': true,
-        },
-      },
-    };
-
-    beforeEach(function () {
-      modelSession = new Session({
-        id: 12,
-        address: 'Nice',
-        room: '28D',
-        examiner: 'Antoine Toutvenant',
-        date: '2017-01-20',
-        time: '14:30',
-        description: '',
-        accessCode: '',
-        status: statuses.CREATED,
-        examinerGlobalComment: 'It was a fine session my dear',
-        hasIncident: true,
-        hasJoiningIssue: true,
-      });
-    });
-
-    it('should convert a Session model object into JSON API data', function () {
-      // when
-      const json = serializer.serializeForFinalization(modelSession);
-
-      // then
-      expect(json).to.deep.equal(expectedJsonApi);
-    });
-  });
 });

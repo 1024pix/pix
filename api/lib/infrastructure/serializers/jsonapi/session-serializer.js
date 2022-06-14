@@ -59,15 +59,6 @@ module.exports = {
     }).serialize(sessions);
   },
 
-  serializeForFinalization(sessions) {
-    return new Serializer('session', {
-      attributes: ['status', 'examinerGlobalComment', 'hasIncident', 'hasJoiningIssue'],
-      transform(session) {
-        return { ...session, status: session.status };
-      },
-    }).serialize(sessions);
-  },
-
   deserialize(json) {
     const attributes = json.data.attributes;
     if (!isValidDate(attributes.date, 'YYYY-MM-DD')) {

@@ -256,7 +256,7 @@ module.exports = {
     return event instanceof UserLinkedToCertificationCandidate ? h.response(serialized).created() : serialized;
   },
 
-  async finalize(request) {
+  async finalize(request, h) {
     const sessionId = request.params.id;
     const examinerGlobalComment = request.payload.data.attributes['examiner-global-comment'];
     const hasIncident = request.payload.data.attributes['has-incident'];
@@ -275,9 +275,7 @@ module.exports = {
       certificationReports,
     });
     await events.eventDispatcher.dispatch(event);
-    const { session } = await usecases.getSession({ sessionId });
-
-    return sessionSerializer.serializeForFinalization(session);
+    return h.response().code(200);
   },
 
   async publish(request) {

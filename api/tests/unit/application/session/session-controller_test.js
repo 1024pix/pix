@@ -658,26 +658,20 @@ describe('Unit | Controller | sessionController', function () {
   });
 
   describe('#finalize', function () {
-    let request;
-    const sessionId = 1;
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    const aCertificationReport = Symbol('a certficication report');
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    const updatedSession = Symbol('updatedSession');
-    const examinerGlobalComment = 'It was a fine session my dear';
-    const hasIncident = true;
-    const hasJoiningIssue = true;
-    const certificationReports = [
-      {
-        type: 'certification-reports',
-      },
-    ];
-
-    beforeEach(function () {
+    it('should call the finalizeSession usecase with correct values', async function () {
       // given
-      request = {
+      const sessionId = 1;
+      const aCertificationReport = Symbol('a certficication report');
+      const updatedSession = Symbol('updatedSession');
+      const examinerGlobalComment = 'It was a fine session my dear';
+      const hasIncident = true;
+      const hasJoiningIssue = true;
+      const certificationReports = [
+        {
+          type: 'certification-reports',
+        },
+      ];
+      const request = {
         params: {
           id: sessionId,
         },
@@ -692,16 +686,12 @@ describe('Unit | Controller | sessionController', function () {
           },
         },
       };
-
       sinon.stub(certificationReportSerializer, 'deserialize').resolves(aCertificationReport);
       sinon.stub(usecases, 'finalizeSession').resolves(updatedSession);
       sinon.stub(usecases, 'getSession').resolves(updatedSession);
-      sinon.stub(sessionSerializer, 'serializeForFinalization').withArgs(updatedSession);
-    });
 
-    it('should call the finalizeSession usecase with correct values', async function () {
       // when
-      await sessionController.finalize(request);
+      await sessionController.finalize(request, hFake);
 
       // then
       expect(usecases.finalizeSession).to.have.been.calledWithExactly({
