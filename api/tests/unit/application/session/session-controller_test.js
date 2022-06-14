@@ -667,6 +667,8 @@ describe('Unit | Controller | sessionController', function () {
     // eslint-disable-next-line mocha/no-setup-in-describe
     const updatedSession = Symbol('updatedSession');
     const examinerGlobalComment = 'It was a fine session my dear';
+    const hasIncident = true;
+    const hasJoiningIssue = true;
     const certificationReports = [
       {
         type: 'certification-reports',
@@ -683,6 +685,8 @@ describe('Unit | Controller | sessionController', function () {
           data: {
             attributes: {
               'examiner-global-comment': examinerGlobalComment,
+              'has-incident': hasIncident,
+              'has-joining-issue': hasJoiningIssue,
             },
             included: certificationReports,
           },
@@ -703,6 +707,8 @@ describe('Unit | Controller | sessionController', function () {
       expect(usecases.finalizeSession).to.have.been.calledWithExactly({
         sessionId,
         examinerGlobalComment,
+        hasIncident,
+        hasJoiningIssue,
         certificationReports: [aCertificationReport],
       });
     });
