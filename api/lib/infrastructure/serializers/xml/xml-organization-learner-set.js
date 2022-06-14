@@ -10,7 +10,7 @@ const DIVISION = 'D';
 
 class XMLOrganizationLearnersSet {
   constructor() {
-    this.schoolingRegistrationsByStudentId = new Map();
+    this.organizationLearnersByStudentId = new Map();
     this.studentIds = [];
   }
 
@@ -19,11 +19,11 @@ class XMLOrganizationLearnersSet {
     this._checkNationalStudentIdUniqueness(nationalStudentId);
     this.studentIds.push(nationalStudentId);
 
-    this.schoolingRegistrationsByStudentId.set(id, _mapStudentInformationToOrganizationLearner(xmlNode));
+    this.organizationLearnersByStudentId.set(id, _mapStudentInformationToOrganizationLearner(xmlNode));
   }
 
   updateDivision(xmlNode) {
-    const currentStudent = this.schoolingRegistrationsByStudentId.get(xmlNode.STRUCTURES_ELEVE.$.ELEVE_ID);
+    const currentStudent = this.organizationLearnersByStudentId.get(xmlNode.STRUCTURES_ELEVE.$.ELEVE_ID);
     const structureElement = xmlNode.STRUCTURES_ELEVE.STRUCTURE;
 
     each(structureElement, (structure) => {
@@ -43,11 +43,11 @@ class XMLOrganizationLearnersSet {
   }
 
   has(studentId) {
-    return this.schoolingRegistrationsByStudentId.has(studentId);
+    return this.organizationLearnersByStudentId.has(studentId);
   }
 
-  get schoolingRegistrations() {
-    return Array.from(this.schoolingRegistrationsByStudentId.values());
+  get organizationLearners() {
+    return Array.from(this.organizationLearnersByStudentId.values());
   }
 }
 
