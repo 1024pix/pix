@@ -1,12 +1,16 @@
 import Controller from '@ember/controller';
 
 export default class RestrictedAccessController extends Controller {
-  get pixCertifScoBlockedAccessDateLycee() {
-    return this.model.pixCertifScoBlockedAccessDateLycee;
-  }
+  get certificationOpeningDate() {
+    if (this.model.isAccessBlockedCollege) {
+      return this.model.pixCertifScoBlockedAccessDateCollege;
+    }
 
-  get pixCertifScoBlockedAccessDateCollege() {
-    return this.model.pixCertifScoBlockedAccessDateCollege;
+    if (this.model.isAccessBlockedLycee || this.model.isAccessBlockedAEFE || this.model.isAccessBlockedAgri) {
+      return this.model.pixCertifScoBlockedAccessDateLycee;
+    }
+
+    return null;
   }
 
   get calendarScoLink() {
