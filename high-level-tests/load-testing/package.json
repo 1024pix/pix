@@ -25,7 +25,7 @@
     "arti:test:local": "artillery run --config config/common.yml --environment localhost --quiet scenarios/test-connectivity.yml",
     "arti:test:dev": "artillery run --config config/common.yml --environment development --quiet scenarios/test-connectivity.yml",
     "db:initialize": "cd ../../api && npm run db:prepare",
-    "generate-bulk-data:schooling-registrations": "node ./data/generate-schooling-registrations.js",
+    "generate-bulk-data:siecle-file": "node ./data/generate-siecle-file.js",
     "lint": "npm run lint:code",
     "lint:code": "eslint .",
     "lint:fix": "eslint . --fix",
