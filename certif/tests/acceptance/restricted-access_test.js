@@ -62,7 +62,7 @@ module('Acceptance | Restricted access', function (hooks) {
           isAccessBlockedLycee: false,
           isAccessBlockedAEFE: false,
           isAccessBlockedAgri: false,
-          pixCertifScoBlockedAccessDateLycee: '2022-12-12',
+          pixCertifScoBlockedAccessDateLycee: undefined,
           pixCertifScoBlockedAccessDateCollege: '2022-11-12',
         });
         certificationPointOfContact.update({
@@ -73,8 +73,7 @@ module('Acceptance | Restricted access', function (hooks) {
         const screen = await visitScreen('/espace-ferme');
 
         // then
-        assert.dom(screen.getByText('Ouverture de votre espace PixCertif')).exists();
-        assert.dom(screen.getByText('Le 12/12/2022 pour les lycées et le 12/11/2022 pour les collèges')).exists();
+        assert.dom(screen.getByText('Ouverture de votre espace PixCertif le 12/11/2022')).exists();
       });
     });
   });
