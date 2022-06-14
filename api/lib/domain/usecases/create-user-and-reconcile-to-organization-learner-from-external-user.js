@@ -68,7 +68,7 @@ module.exports = async function createUserAndReconcileToOrganizationLearnerFromE
     if (!userWithSamlId) {
       userId = await userService.createAndReconcileUserToOrganizationLearner({
         user: domainUser,
-        schoolingRegistrationId: matchedOrganizationLearner.id,
+        organizationLearnerId: matchedOrganizationLearner.id,
         samlId: externalUser.samlId,
         authenticationMethodRepository,
         organizationLearnerRepository,
