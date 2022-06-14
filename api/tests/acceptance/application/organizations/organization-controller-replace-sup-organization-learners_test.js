@@ -29,7 +29,7 @@ describe('Acceptance | Application | organization-controller-replace-sup-organiz
     });
 
     context('when the user is an admin for an organization which managing student', function () {
-      it('replaces the schooling-registrations for the given organization', async function () {
+      it('replaces the organizationLearners for the given organization', async function () {
         const organization = databaseBuilder.factory.buildOrganization({ type: 'SUP', isManagingStudents: true });
         databaseBuilder.factory.buildMembership({
           organizationId: organization.id,
