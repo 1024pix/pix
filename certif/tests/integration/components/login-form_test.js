@@ -6,6 +6,7 @@ import Service from '@ember/service';
 import { reject, resolve } from 'rsvp';
 import ENV from 'pix-certif/config/environment';
 import clickByLabel from '../../helpers/extended-ember-test-helpers/click-by-label';
+import sinon from 'sinon';
 
 const errorMessages = {
   NOT_LINKED_CERTIFICATION_MSG:
@@ -16,11 +17,13 @@ module('Integration | Component | login-form', function (hooks) {
   setupRenderingTest(hooks);
 
   let sessionStub;
+  class SessionStub extends Service {
+    authenticate = sinon.stub();
+  }
 
   hooks.beforeEach(function () {
-    // eslint-disable-next-line ember/no-classic-classes, ember/require-tagless-components
-    sessionStub = Service.extend({});
-    this.owner.register('service:session', sessionStub);
+    this.owner.register('service:session', SessionStub);
+    sessionStub = this.owner.lookup('service:session');
   });
 
   test('it should ask for email and password', async function (assert) {
@@ -42,13 +45,13 @@ module('Integration | Component | login-form', function (hooks) {
 
   test('it should call authentication service with appropriate parameters', async function (assert) {
     // given
-    sessionStub.prototype.authenticate = function (authenticator, email, password, scope) {
+    sessionStub.authenticate.callsFake(function (authenticator, email, password, scope) {
       this.authenticator = authenticator;
       this.email = email;
       this.password = password;
       this.scope = scope;
       return resolve();
-    };
+    });
     const sessionServiceObserver = this.owner.lookup('service:session');
     await render(hbs`{{login-form}}`);
     await fillIn('#login-email', 'pix@example.net');
@@ -58,18 +61,10 @@ module('Integration | Component | login-form', function (hooks) {
     await clickByLabel('Je me connecte');
 
     // then
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line qunit/no-assert-equal
-    assert.equal(sessionServiceObserver.authenticator, 'authenticator:oauth2');
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line qunit/no-assert-equal
-    assert.equal(sessionServiceObserver.email, 'pix@example.net');
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line qunit/no-assert-equal
-    assert.equal(sessionServiceObserver.password, 'JeMeLoggue1024');
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line qunit/no-assert-equal
-    assert.equal(sessionServiceObserver.scope, 'pix-certif');
+    assert.strictEqual(sessionServiceObserver.authenticator, 'authenticator:oauth2');
+    assert.strictEqual(sessionServiceObserver.email, 'pix@example.net');
+    assert.strictEqual(sessionServiceObserver.password, 'JeMeLoggue1024');
+    assert.strictEqual(sessionServiceObserver.scope, 'pix-certif');
   });
 
   test('it should display an invalid credentials message if authentication failed', async function (assert) {
@@ -86,7 +81,7 @@ module('Integration | Component | login-form', function (hooks) {
       },
     };
 
-    sessionStub.prototype.authenticate = () => reject(invalidCredentialsErrorMessage);
+    sessionStub.authenticate.callsFake(() => reject(invalidCredentialsErrorMessage));
     await render(hbs`{{login-form}}`);
     await fillIn('#login-email', 'pix@example.net');
     await fillIn('#login-password', 'Mauvais mot de passe');
@@ -107,7 +102,7 @@ module('Integration | Component | login-form', function (hooks) {
       },
     };
 
-    sessionStub.prototype.authenticate = () => reject(notLinkedToOrganizationErrorMessage);
+    sessionStub.authenticate.callsFake(() => reject(notLinkedToOrganizationErrorMessage));
     await render(hbs`{{login-form}}`);
     await fillIn('#login-email', 'pix@example.net');
     await fillIn('#login-password', 'JeMeLoggue1024');
@@ -134,7 +129,7 @@ module('Integration | Component | login-form', function (hooks) {
       },
     };
 
-    sessionStub.prototype.authenticate = () => reject(gatewayTimeoutErrorMessage);
+    sessionStub.authenticate.callsFake(() => reject(gatewayTimeoutErrorMessage));
     await render(hbs`{{login-form}}`);
     await fillIn('#login-email', 'pix@example.net');
     await fillIn('#login-password', 'JeMeLoggue1024');
@@ -153,7 +148,7 @@ module('Integration | Component | login-form', function (hooks) {
       errors: [{ status: '502', title: 'Bad Gateway', detail: 'Bad gateway occured' }],
     };
 
-    sessionStub.prototype.authenticate = () => reject(msgErrorNotLinkedCertification);
+    sessionStub.authenticate.callsFake(() => reject(msgErrorNotLinkedCertification));
     await render(hbs`{{login-form}}`);
     await fillIn('#login-email', 'pix@example.net');
     await fillIn('#login-password', 'JeMeLoggue1024');
