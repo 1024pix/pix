@@ -190,8 +190,20 @@ exports.register = async (server) => {
       path: '/api/sessions/{id}/finalization',
       config: {
         validate: {
+          options: {
+            allowUnknown: true,
+          },
           params: Joi.object({
             id: identifiersType.sessionId,
+          }),
+          payload: Joi.object({
+            data: {
+              attributes: {
+                'examiner-global-comment': Joi.string().optional().allow('').max(500),
+                'has-incident': Joi.boolean().required(),
+                'has-joining-issue': Joi.boolean().required(),
+              },
+            },
           }),
         },
         pre: [
