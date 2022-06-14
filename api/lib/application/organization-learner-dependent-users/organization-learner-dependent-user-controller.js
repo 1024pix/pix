@@ -1,5 +1,5 @@
 const usecases = require('../../domain/usecases');
-const schoolingRegistrationDependentUser = require('../../infrastructure/serializers/jsonapi/organization-learner-dependent-user-serializer');
+const organizationLearnerDependentUserSerializer = require('../../infrastructure/serializers/jsonapi/organization-learner-dependent-user-serializer');
 const { extractLocaleFromRequest } = require('../../infrastructure/utils/request-response-utils');
 const studentInformationForAccountRecoverySerializer = require('../../infrastructure/serializers/jsonapi/student-information-for-account-recovery-serializer');
 
@@ -59,7 +59,7 @@ module.exports = {
       organizationLearnerId,
     });
 
-    const schoolingRegistrationWithGeneratedPasswordResponse = {
+    const organizationLearnerWithGeneratedPasswordResponse = {
       data: {
         attributes: {
           'generated-password': generatedPassword,
@@ -68,7 +68,7 @@ module.exports = {
       },
     };
 
-    return h.response(schoolingRegistrationWithGeneratedPasswordResponse).code(200);
+    return h.response(organizationLearnerWithGeneratedPasswordResponse).code(200);
   },
 
   async generateUsernameWithTemporaryPassword(request, h) {
@@ -81,10 +81,10 @@ module.exports = {
       organizationId,
     });
 
-    const schoolingRegistrationWithGeneratedUsernamePasswordResponse =
-      schoolingRegistrationDependentUser.serialize(result);
+    const organizationLearnerWithGeneratedUsernamePasswordResponse =
+      organizationLearnerDependentUserSerializer.serialize(result);
 
-    return h.response(schoolingRegistrationWithGeneratedUsernamePasswordResponse).code(200);
+    return h.response(organizationLearnerWithGeneratedUsernamePasswordResponse).code(200);
   },
 
   async checkScoAccountRecovery(request) {

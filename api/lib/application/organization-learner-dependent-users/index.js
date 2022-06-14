@@ -9,7 +9,7 @@ const identifiersType = require('../../domain/types/identifiers-type');
 const inePattern = new RegExp('^[0-9]{9}[a-zA-Z]{2}$');
 const inaPattern = new RegExp('^[0-9]{10}[a-zA-Z]{1}$');
 
-const schoolingRegistrationDependentUserController = require('./organization-learner-dependent-user-controller');
+const organizationLearnerDependentUserController = require('./organization-learner-dependent-user-controller');
 
 exports.register = async function (server) {
   server.route([
@@ -18,7 +18,7 @@ exports.register = async function (server) {
       path: '/api/schooling-registration-dependent-users',
       config: {
         auth: false,
-        handler: schoolingRegistrationDependentUserController.createAndReconcileUserToOrganizationLearner,
+        handler: organizationLearnerDependentUserController.createAndReconcileUserToOrganizationLearner,
         validate: {
           options: {
             allowUnknown: true,
@@ -41,7 +41,7 @@ exports.register = async function (server) {
           "Cette route crée un utilisateur et l'associe à l'élève trouvé au sein de l'organisation à laquelle " +
             'appartient la campagne spécifiée',
         ],
-        tags: ['api', 'schoolingRegistrationDependentUser'],
+        tags: ['api', 'organizationLearnerDependentUser'],
       },
     },
     {
@@ -49,8 +49,7 @@ exports.register = async function (server) {
       path: '/api/schooling-registration-dependent-users/external-user-token',
       config: {
         auth: false,
-        handler:
-          schoolingRegistrationDependentUserController.createUserAndReconcileToOrganizationLearnerFromExternalUser,
+        handler: organizationLearnerDependentUserController.createUserAndReconcileToOrganizationLearnerFromExternalUser,
         validate: {
           options: {
             allowUnknown: false,
@@ -72,7 +71,7 @@ exports.register = async function (server) {
             "Les informations sont fournies dans un token. Elle réconcilie également cet utilisateur avec l'inscription " +
             "de l'élève au sein de l'organisation qui a créé la campagne.",
         ],
-        tags: ['api', 'schoolingRegistrationDependentUser'],
+        tags: ['api', 'organizationLearnerDependentUser'],
       },
     },
     {
@@ -85,7 +84,7 @@ exports.register = async function (server) {
             assign: 'belongsToScoOrganizationAndManageStudents',
           },
         ],
-        handler: schoolingRegistrationDependentUserController.updatePassword,
+        handler: organizationLearnerDependentUserController.updatePassword,
         validate: {
           options: {
             allowUnknown: true,
@@ -109,7 +108,7 @@ exports.register = async function (server) {
           "- Met à jour le mot de passe d'un utilisateur identifié par son identifiant élève\n" +
             "- La demande de modification du mot de passe doit être effectuée par un membre de l'organisation à laquelle appartient l'élève.",
         ],
-        tags: ['api', 'schoolingRegistrationDependentUser'],
+        tags: ['api', 'organizationLearnerDependentUser'],
       },
     },
     {
@@ -122,7 +121,7 @@ exports.register = async function (server) {
             assign: 'belongsToScoOrganizationAndManageStudents',
           },
         ],
-        handler: schoolingRegistrationDependentUserController.generateUsernameWithTemporaryPassword,
+        handler: organizationLearnerDependentUserController.generateUsernameWithTemporaryPassword,
         validate: {
           options: {
             allowUnknown: true,
@@ -140,7 +139,7 @@ exports.register = async function (server) {
           "- Génère un identifiant pour l'élève avec un mot de passe temporaire \n" +
             "- La demande de génération d'identifiant doit être effectuée par un membre de l'organisation à laquelle appartient l'élève.",
         ],
-        tags: ['api', 'schoolingRegistrationDependentUser', 'username'],
+        tags: ['api', 'organizationLearnerDependentUser', 'username'],
       },
     },
     {
@@ -148,7 +147,7 @@ exports.register = async function (server) {
       path: '/api/schooling-registration-dependent-users/recover-account',
       config: {
         auth: false,
-        handler: schoolingRegistrationDependentUserController.checkScoAccountRecovery,
+        handler: organizationLearnerDependentUserController.checkScoAccountRecovery,
         validate: {
           payload: Joi.object({
             data: {
@@ -168,7 +167,7 @@ exports.register = async function (server) {
           "- Recherche d'un ancien élève par son ine/ina, prénom, nom, date de naissance \n" +
             '- On renvoie les informations permettant de récupérer son compte Pix.',
         ],
-        tags: ['api', 'schoolingRegistrationDependentUser', 'recovery'],
+        tags: ['api', 'organizationLearnerDependentUser', 'recovery'],
       },
     },
   ]);

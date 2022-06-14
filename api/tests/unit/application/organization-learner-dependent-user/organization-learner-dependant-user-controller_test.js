@@ -2,9 +2,9 @@ const { expect, sinon, hFake } = require('../../../test-helper');
 
 const usecases = require('../../../../lib/domain/usecases');
 const studentInformationForAccountRecoverySerializer = require('../../../../lib/infrastructure/serializers/jsonapi/student-information-for-account-recovery-serializer.js');
-const schoolingRegistrationDependantUserController = require('../../../../lib/application/organization-learner-dependent-users/organization-learner-dependent-user-controller');
+const organizationLearnerDependantUserController = require('../../../../lib/application/organization-learner-dependent-users/organization-learner-dependent-user-controller');
 
-describe('Unit | Application | Controller | schooling-registration-user-associations', function () {
+describe('Unit | Application | Controller | organization-learner-user-associations', function () {
   describe('#checkScoAccountRecovery', function () {
     it('should return student account information serialized', async function () {
       // given
@@ -42,7 +42,7 @@ describe('Unit | Application | Controller | schooling-registration-user-associat
         .returns(studentInformationForAccountRecoveryJSONAPI);
 
       // when
-      const response = await schoolingRegistrationDependantUserController.checkScoAccountRecovery(request);
+      const response = await organizationLearnerDependantUserController.checkScoAccountRecovery(request);
 
       // then
       expect(response).to.deep.equal(studentInformationForAccountRecoveryJSONAPI);
@@ -69,7 +69,7 @@ describe('Unit | Application | Controller | schooling-registration-user-associat
 
       // when
       const response =
-        await schoolingRegistrationDependantUserController.createUserAndReconcileToOrganizationLearnerFromExternalUser(
+        await organizationLearnerDependantUserController.createUserAndReconcileToOrganizationLearnerFromExternalUser(
           request,
           hFake
         );
