@@ -68,6 +68,8 @@ const buildUser = function buildUser({
   isAnonymous = false,
   createdAt = new Date(),
   updatedAt = new Date(),
+  lastLoggedAt = new Date(),
+  emailConfirmedAt = null,
 } = {}) {
   email = isUndefined(email) ? `${firstName}.${lastName}${id}@example.net`.toLowerCase() : email || null;
 
@@ -92,6 +94,8 @@ const buildUser = function buildUser({
     isAnonymous,
     createdAt,
     updatedAt,
+    lastLoggedAt,
+    emailConfirmedAt,
   };
 
   return databaseBuffer.pushInsertable({
@@ -108,7 +112,7 @@ buildUser.withRawPassword = function buildUserWithRawPassword({
   username,
   cgu = true,
   lang = 'fr',
-  lastTermsOfServiceValidatedAt,
+  lastTermsOfServiceValidatedAt = new Date('2019-04-28T02:42:00Z'),
   lastPixOrgaTermsOfServiceValidatedAt = null,
   lastPixCertifTermsOfServiceValidatedAt = null,
   mustValidateTermsOfService = false,
@@ -119,6 +123,8 @@ buildUser.withRawPassword = function buildUserWithRawPassword({
   updatedAt = new Date(),
   rawPassword = DEFAULT_PASSWORD,
   shouldChangePassword = false,
+  lastLoggedAt = new Date('2022-04-28T02:42:00Z'),
+  emailConfirmedAt = new Date('2021-04-28T02:42:00Z'),
 } = {}) {
   email = isUndefined(email) ? `${firstName}.${lastName}${id}@example.net`.toLowerCase() : email || null;
 
@@ -139,6 +145,8 @@ buildUser.withRawPassword = function buildUserWithRawPassword({
     hasSeenAssessmentInstructions,
     createdAt,
     updatedAt,
+    lastLoggedAt,
+    emailConfirmedAt,
   };
 
   const user = databaseBuffer.pushInsertable({
