@@ -53,7 +53,7 @@ describe('Integration | Application | Route | target-profile-router', function (
             type: 'target-profile-templates',
             id: `${targetProfileTemplateId}`,
             attributes: {
-              tubes: [{ 'tube-id': 'tubeId1', level: 8 }],
+              tubes: [{ id: 'tubeId1', level: 8 }],
             },
           },
         });
