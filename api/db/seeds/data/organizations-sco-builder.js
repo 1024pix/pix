@@ -297,6 +297,8 @@ function _buildHighSchools({ databaseBuilder }) {
     provinceCode: '12',
   });
 
+  databaseBuilder.factory.buildOrganizationTag({ organizationId: SCO_HIGH_SCHOOL_ID, tagId: 9 });
+
   databaseBuilder.factory.buildMembership({
     userId: SCO_ADMIN_ID,
     organizationId: SCO_HIGH_SCHOOL_ID,
