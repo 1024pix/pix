@@ -29,6 +29,11 @@
 
       <p>{{t "pages.certificate.exam-date"}} {{moment-format @certification.date "D MMMM YYYY"}}</p>
 
+      {{#if @certification.shouldDisplayProfessionalizingWarning}}
+        <p class="user-certifications-detail-header__info-certificate--professionalizing-warning">
+          {{t "pages.certificate.professionalizing-warning"}}</p>
+      {{/if}}
+
     </div>
   </div>
   {{#if @certification.verificationCode}}
