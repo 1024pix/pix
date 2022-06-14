@@ -36,14 +36,19 @@ exports.register = async function (server) {
         },
         pre: [
           {
-            method: securityPreHandlers.checkUserHasRoleSuperAdmin,
-            assign: 'hasRoleSuperAdmin',
+            method: (request, h) =>
+              securityPreHandlers.userHasAtLeastOneAccessOf([
+                securityPreHandlers.checkUserHasRoleSuperAdmin,
+                securityPreHandlers.checkUserHasRoleCertif,
+                securityPreHandlers.checkUserHasRoleSupport,
+              ])(request, h),
+            assign: 'hasAuthorizationToAccessAdminScope',
           },
         ],
         handler: complementaryCertificationCourseResultsController.saveJuryComplementaryCertificationCourseResult,
         notes: [
-          '- **Cette route est restreinte aux utilisateurs Super Admin authentifiés**\n',
-          "- Elle permet de sauvergarder le volet jury d'une certification complémentaire Pix+ Edu",
+          "- **Cette route est restreinte aux utilisateurs ayant les droits d'accès**\n",
+          "- Elle permet de sauvegarder le volet jury d'une certification complémentaire Pix+ Edu",
         ],
         tags: ['api', 'admin', 'complementary-certification-course-results', 'Pix+ Édu'],
       },
