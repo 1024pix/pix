@@ -5,7 +5,7 @@ const moduleUnderTest = require('../../../../lib/application/organization-learne
 const usecases = require('../../../../lib/domain/usecases');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 
-describe('Integration | Application | Schooling-registration-user-association | organization-learner-user-association-controller', function () {
+describe('Integration | Application | organization-learner-user-association | organization-learner-user-association-controller', function () {
   let sandbox;
   let httpTestServer;
 

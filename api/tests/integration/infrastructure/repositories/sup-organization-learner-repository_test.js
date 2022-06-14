@@ -16,7 +16,7 @@ describe('Integration | Infrastructure | Repository | sup-organization-learner-r
       await databaseBuilder.commit();
     });
 
-    it('should return found schoolingRegistrations with student number', async function () {
+    it('should return found organizationLearners with student number', async function () {
       // when
       const result = await supOrganizationLearnerRepository.findOneByStudentNumber({
         organizationId: organization.id,

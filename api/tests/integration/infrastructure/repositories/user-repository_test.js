@@ -665,8 +665,8 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
       expect(result).to.be.instanceOf(UserNotFoundError);
     });
 
-    context('when user has schoolingRegistrations', function () {
-      it('should return the user with his schoolingRegistrations', async function () {
+    context('when user has organizationLearners', function () {
+      it('should return the user with his organizationLearner', async function () {
         // given
         const userInDB = databaseBuilder.factory.buildUser(userToInsert);
         const firstOrganizationInDB = databaseBuilder.factory.buildOrganization();

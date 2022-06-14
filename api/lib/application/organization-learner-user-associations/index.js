@@ -31,7 +31,7 @@ exports.register = async function (server) {
           "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n" +
             '- Elle dissocie un utilisateur d’une inscription d’élève',
         ],
-        tags: ['api', 'admin', 'schoolingRegistrationUserAssociation'],
+        tags: ['api', 'admin', 'organizationLearnerUserAssociation'],
       },
     },
   ];
@@ -66,7 +66,7 @@ exports.register = async function (server) {
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
             '- Elle associe des données saisies par l’utilisateur à l’inscription de l’élève dans cette organisation',
         ],
-        tags: ['api', 'schoolingRegistrationUserAssociation'],
+        tags: ['api', 'organizationLearnerUserAssociation'],
       },
     },
     {
@@ -98,7 +98,7 @@ exports.register = async function (server) {
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
             '- Elle réconcilie l’utilisateur à l’inscription d’un étudiant dans cette organisation',
         ],
-        tags: ['api', 'schoolingRegistrationUserAssociation'],
+        tags: ['api', 'organizationLearnerUserAssociation'],
       },
     },
     {
@@ -126,7 +126,7 @@ exports.register = async function (server) {
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
             '- Elle essaye d’associer automatiquement l’utilisateur à l’inscription de l’élève dans cette organisation',
         ],
-        tags: ['api', 'schoolingRegistrationUserAssociation'],
+        tags: ['api', 'organizationLearnerUserAssociation'],
       },
     },
     {
@@ -139,7 +139,7 @@ exports.register = async function (server) {
             "- Récupération de l'inscription de l'élève à l'organisation, et de l'utilisateur associé\n" +
             '- L’id demandé doit correspondre à celui de l’utilisateur authentifié',
         ],
-        tags: ['api', 'schoolingRegistrationUserAssociation'],
+        tags: ['api', 'organizationLearnerUserAssociation'],
       },
     },
     {
@@ -170,7 +170,7 @@ exports.register = async function (server) {
           '- Elle permet de savoir si un élève identifié par son nom, prénom et date de naissance est inscrit à ' +
             "l'organisation détenant la campagne. Cet élève n'est, de plus, pas encore associé à l'organisation.",
         ],
-        tags: ['api', 'schoolingRegistrationUserAssociation'],
+        tags: ['api', 'organizationLearnerUserAssociation'],
       },
     },
 
@@ -211,7 +211,7 @@ exports.register = async function (server) {
           "- **Cette route est restreinte aux utilisateurs authentifiés et admin au sein de l'orga**\n" +
             '- Elle met à jour le numéro étudiant',
         ],
-        tags: ['api', 'schoolingRegistrationUserAssociation'],
+        tags: ['api', 'organizationLearnerUserAssociation'],
       },
     },
 

@@ -6,7 +6,7 @@ const CertificationCandidateForAttendanceSheet = require('../../../../../lib/dom
 
 describe('Integration | Repository | Session-for-attendance-sheet', function () {
   describe('#getWithCertificationCandidates', function () {
-    context('when there are no schooling registrations', function () {
+    context('when there are no organization learners', function () {
       it('should return session information with ordered candidates and no division', async function () {
         // given
         databaseBuilder.factory.buildOrganization({ type: 'SCO', externalId: 'EXT1234', isManagingStudents: true });
@@ -71,7 +71,7 @@ describe('Integration | Repository | Session-for-attendance-sheet', function () 
       });
     });
 
-    context('when there are schooling registrations', function () {
+    context('when there are organization learners', function () {
       it('should return session information with with ordered candidates and division', async function () {
         // given
         databaseBuilder.factory.buildOrganization({ type: 'SCO', externalId: 'EXT1234', isManagingStudents: true });

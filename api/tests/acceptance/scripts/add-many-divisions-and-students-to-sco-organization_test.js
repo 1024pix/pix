@@ -15,7 +15,7 @@ describe('Acceptance | Scripts | add-many-divisions-and-students-to-sco-organiza
       return knex('organization-learners').delete();
     });
 
-    it('should insert many divisions and schooling registrations', async function () {
+    it('should insert many divisions and organization learners', async function () {
       // given
       const numberOfDivisionsToCreate = 4;
       const numberOfStudentsPerDivision = 30;

@@ -394,7 +394,7 @@ describe('Acceptance | API | Certification Center', function () {
         expect(response.statusCode).to.equal(200);
       });
 
-      it('should return the schooling registrations asked', async function () {
+      it('should return the organization learners asked', async function () {
         // given
         const { certificationCenter, user } = _buildUserWithCertificationCenterMemberShip(externalId);
         const organization = databaseBuilder.factory.buildOrganization({ type: 'SCO', externalId });

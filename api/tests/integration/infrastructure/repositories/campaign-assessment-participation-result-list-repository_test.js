@@ -124,7 +124,7 @@ describe('Integration | Repository | Campaign Assessment Participation Result Li
       });
     });
 
-    context('when there is a schooling registration', function () {
+    context('when there is an organization learner', function () {
       beforeEach(async function () {
         campaign = databaseBuilder.factory.buildAssessmentCampaignForSkills({}, [{ id: 'Skill1' }]);
 
@@ -160,7 +160,7 @@ describe('Integration | Repository | Campaign Assessment Participation Result Li
         mockLearningContent(learningContentObjects);
       });
 
-      it('returns the name from the schooling registration', async function () {
+      it('returns the name from the organization learner', async function () {
         const { participations } = await campaignAssessmentParticipationResultListRepository.findPaginatedByCampaignId({
           campaignId: campaign.id,
         });
@@ -321,7 +321,7 @@ describe('Integration | Repository | Campaign Assessment Participation Result Li
     });
 
     context('order', function () {
-      it('should return participants data summary ordered by last name then first name asc (including schooling registration data)', async function () {
+      it('should return participants data summary ordered by last name then first name asc (including organization learner data)', async function () {
         // given
         const organizationId = databaseBuilder.factory.buildOrganization().id;
         campaign = databaseBuilder.factory.buildAssessmentCampaignForSkills({ organizationId }, [{ id: 'Skill1' }]);
