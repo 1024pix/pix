@@ -1347,7 +1347,7 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
     });
   });
 
-  describe('#dissociateUserAndOrganizationLearner', function () {
+  describe('#dissociateUserFromOrganizationLearner', function () {
     let organizationLearner;
 
     beforeEach(async function () {
@@ -1361,8 +1361,8 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
       await organizationLearnerRepository.dissociateUserFromOrganizationLearner(organizationLearner.id);
 
       // then
-      const schoolingRegistrationPatched = await organizationLearnerRepository.get(organizationLearner.id);
-      expect(schoolingRegistrationPatched.userId).to.equal(null);
+      const organizationLearnerPatched = await organizationLearnerRepository.get(organizationLearner.id);
+      expect(organizationLearnerPatched.userId).to.equal(null);
     });
   });
 

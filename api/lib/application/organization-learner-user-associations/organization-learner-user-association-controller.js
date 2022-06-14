@@ -102,8 +102,8 @@ module.exports = {
   },
 
   async dissociate(request, h) {
-    const schoolingRegistrationId = request.params.id;
-    await usecases.dissociateUserFromOrganizationLearner({ schoolingRegistrationId });
+    const organizationLearnerId = request.params.id;
+    await usecases.dissociateUserFromOrganizationLearner({ organizationLearnerId });
     return h.response().code(204);
   },
 
