@@ -1,3 +1,4 @@
+require('dotenv').config({ path: `${__dirname}/../.env` });
 const _ = require('lodash');
 const chai = require('chai');
 const expect = chai.expect;

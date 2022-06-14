@@ -94,6 +94,7 @@ jobs:
         environment:
           POSTGRES_USER: circleci
           POSTGRES_HOST_AUTH_METHOD: trust
+      - image: redis:5.0.7-alpine
     resource_class: small
     working_directory: ~/pix/api
     steps:
@@ -115,6 +116,7 @@ jobs:
             npm run test:ci
           environment:
             TEST_DATABASE_URL: postgres://circleci@localhost:5432/circleci
+            TEST_REDIS_URL: redis://localhost:6379
             MOCHA_FILE: /home/circleci/test-results/test-results.[hash].xml
             MOCHA_REPORTER: mocha-junit-reporter
           when: always

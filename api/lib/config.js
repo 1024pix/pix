@@ -300,6 +300,9 @@ module.exports = (function () {
     config.poleEmploi.sendingUrl = 'http://sendingUrl.fr';
     config.poleEmploi.userInfoUrl = 'http://userInfoUrl.fr';
     config.poleEmploi.authUrl = 'http://authurl.fr';
+    config.poleEmploi.temporaryStorage.redisUrl = null;
+
+    config.temporaryStorage.redisUrl = null;
 
     config.cnav.clientId = 'PIX_CNAV_CLIENT_ID';
     config.cnav.authUrl = 'http://idp.cnav/auth';
@@ -338,7 +341,7 @@ module.exports = (function () {
     config.jwtConfig.livretScolaire = { secret: 'secretosmose', tokenLifespan: '1h' };
     config.jwtConfig.poleEmploi = { secret: 'secretPoleEmploi', tokenLifespan: '1h' };
 
-    config.logging.enabled = isBooleanFeatureEnabledElseDefault(process.env.LOG_ENABLED, false);
+    config.logging.enabled = isBooleanFeatureEnabledElseDefault(process.env.TEST_LOG_ENABLED, false);
     config.logging.enableLogKnexQueries = false;
     config.logging.enableLogStartingEventDispatch = false;
     config.logging.enableLogEndingEventDispatch = false;
@@ -348,6 +351,11 @@ module.exports = (function () {
     config.caching.redisCacheLockedWaitBeforeRetry = 0;
 
     config.sentry.enabled = false;
+
+    config.redis = {
+      url: process.env.TEST_REDIS_URL,
+      database: 1,
+    };
   }
 
   return config;
