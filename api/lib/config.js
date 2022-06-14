@@ -160,7 +160,7 @@ module.exports = (function () {
       dayBeforeCompetenceResetV2: _getNumber(process.env.DAY_BEFORE_COMPETENCE_RESET_V2, 7),
       garAccessV2: isFeatureEnabled(process.env.GAR_ACCESS_V2),
       maxReachableLevel: _getNumber(process.env.MAX_REACHABLE_LEVEL, 5),
-      newYearOrganizationLearnersImportDate: _getDate(process.env.NEW_YEAR_SCHOOLING_REGISTRATIONS_IMPORT_DATE),
+      newYearOrganizationLearnersImportDate: _getDate(process.env.NEW_YEAR_ORGANIZATION_LEARNERS_IMPORT_DATE),
       numberOfChallengesForFlashMethod: _getNumber(process.env.NUMBER_OF_CHALLENGES_FOR_FLASH_METHOD),
       pixCertifScoBlockedAccessWhitelist: getArrayOfStrings(process.env.PIX_CERTIF_SCO_BLOCKED_ACCESS_WHITELIST),
       pixCertifScoBlockedAccessDateLycee: process.env.PIX_CERTIF_SCO_BLOCKED_ACCESS_DATE_LYCEE,
@@ -175,7 +175,7 @@ module.exports = (function () {
       concurrencyForHeavyOperations: _getNumber(process.env.INFRA_CONCURRENCY_HEAVY_OPERATIONS, 2),
       chunkSizeForCampaignResultProcessing: _getNumber(process.env.INFRA_CHUNK_SIZE_CAMPAIGN_RESULT_PROCESSING, 10),
       chunkSizeForOrganizationLearnerDataProcessing: _getNumber(
-        process.env.INFRA_CHUNK_SIZE_SCHOOLING_REGISTRATION_DATA_PROCESSING,
+        process.env.INFRA_CHUNK_SIZE_ORGANIZATION_LEARNER_DATA_PROCESSING,
         1000
       ),
     },
