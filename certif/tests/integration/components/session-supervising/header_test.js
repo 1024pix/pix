@@ -92,7 +92,7 @@ module('Integration | Component | SessionSupervising::Header', function (hooks) 
       const screen = await renderScreen(hbs`<SessionSupervising::Header @session={{this.sessionForSupervising}}  />`);
 
       await click(screen.getByRole('button', { name: 'Quitter la surveillance de la session 12345' }));
-      await click(screen.getByRole('button', { name: 'Fermer la fenêtre de confirmation' }));
+      await click(screen.getByRole('button', { name: 'Fermer' }));
 
       // then
       assert.dom(screen.queryByText('Quitter la surveillance de la session 12345')).doesNotExist();

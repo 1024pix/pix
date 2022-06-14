@@ -234,7 +234,7 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
             // when
             await click(screen.getByRole('button', { name: 'Afficher les options du candidat' }));
             await click(screen.getByRole('button', { name: 'Autoriser la reprise du test' }));
-            await click(screen.getByRole('button', { name: 'Fermer la fenêtre de confirmation' }));
+            await click(screen.getByRole('button', { name: 'Fermer' }));
 
             // then
             assert.dom(screen.queryByRole('button', { name: "Je confirme l'autorisation" })).doesNotExist();
@@ -390,7 +390,7 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
             // when
             await click(screen.getByRole('button', { name: 'Afficher les options du candidat' }));
             await click(screen.getByRole('button', { name: 'Autoriser la reprise du test' }));
-            await click(screen.getByRole('button', { name: 'Fermer la fenêtre de confirmation' }));
+            await click(screen.getByRole('button', { name: 'Fermer' }));
 
             // then
             assert.dom(screen.queryByRole('button', { name: 'Terminer le test' })).doesNotExist();
