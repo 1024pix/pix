@@ -3,6 +3,8 @@ const moment = require('moment');
 const getImagePathByBadgeKey = require('./get-image-path-by-badge-key');
 const { toArrayOfFixedLengthStringsConservingWords } = require('../string-utils');
 
+const PROFESSIONALIZING_VALIDITY_START_DATE = new Date('2022-01-01');
+
 class AttestationViewModel {
   constructor({
     pixScore,
@@ -14,7 +16,7 @@ class AttestationViewModel {
     birthplace,
     birth,
     certificationCenter,
-    certificationDate,
+    deliveredAt,
     verificationCode,
     maxReachableLevelOnCertificationDate,
     hasAcquiredAnyComplementaryCertifications,
@@ -36,7 +38,7 @@ class AttestationViewModel {
     this.birthplace = birthplace;
     this.birth = birth;
     this.certificationCenter = certificationCenter;
-    this.certificationDate = certificationDate;
+    this._deliveredAt = deliveredAt;
     this.cleaCertificationImagePath = cleaCertificationImagePath;
     this.pixPlusDroitCertificationImagePath = pixPlusDroitCertificationImagePath;
     this.pixPlusEduCertificationImagePath = pixPlusEduCertificationImagePath;
@@ -48,6 +50,10 @@ class AttestationViewModel {
     this._hasAcquiredPixPlusDroitCertification = hasAcquiredPixPlusDroitCertification;
     this._hasAcquiredCleaCertification = hasAcquiredCleaCertification;
     this._hasAcquiredPixPlusEduCertification = hasAcquiredPixPlusEduCertification;
+  }
+
+  get certificationDate() {
+    return _formatDate(this._deliveredAt);
   }
 
   shouldDisplayComplementaryCertifications() {
@@ -70,6 +76,11 @@ class AttestationViewModel {
     return Boolean(this._hasAcquiredPixPlusEduCertification);
   }
 
+  shouldDisplayProfessionalizingCertificationMessage() {
+    if (!this._deliveredAt) return false;
+    return this._deliveredAt.getTime() >= PROFESSIONALIZING_VALIDITY_START_DATE.getTime();
+  }
+
   static from(certificate) {
     const pixScore = certificate.pixScore.toString();
     const maxReachableScore = certificate.maxReachableScore.toString() + '*';
@@ -85,7 +96,7 @@ class AttestationViewModel {
     const birthplace = certificate.birthplace ? ` à ${certificate.birthplace}` : '';
     const birth = _formatDate(certificate.birthdate) + birthplace;
     const certificationCenter = certificate.certificationCenter;
-    const certificationDate = _formatDate(certificate.deliveredAt);
+    const deliveredAt = certificate.deliveredAt;
 
     const maxReachableLevelOnCertificationDate = certificate.maxReachableLevelOnCertificationDate < 8;
     const hasAcquiredAnyComplementaryCertifications = certificate.hasAcquiredAnyComplementaryCertifications();
@@ -137,7 +148,7 @@ class AttestationViewModel {
       birthplace,
       birth,
       certificationCenter,
-      certificationDate,
+      deliveredAt,
       maxReachableLevelOnCertificationDate,
       hasAcquiredAnyComplementaryCertifications,
       cleaCertificationImagePath,
