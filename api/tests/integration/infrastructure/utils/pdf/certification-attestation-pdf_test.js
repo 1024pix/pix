@@ -1,4 +1,5 @@
 const { domainBuilder, expect } = require('../../../../test-helper');
+const moment = require('moment');
 const { isSameBinary } = require('../../../../tooling/binary-comparator');
 const {
   getCertificationAttestationsPdfBuffer,
@@ -104,38 +105,60 @@ describe('Integration | Infrastructure | Utils | Pdf | Certification Attestation
 
   it('should generate a page per certificate', async function () {
     // given
+    const professionalizingValidityStartDate = new Date('2022-01-01');
+    const deliveredBeforeStartDate = moment(professionalizingValidityStartDate).subtract(1, 'days').toDate();
+    const deliveredAfterStartDate = moment(professionalizingValidityStartDate).add(1, 'days').toDate();
+
     const resultCompetenceTree = domainBuilder.buildResultCompetenceTree();
-    const certificateWithCleaAndPixPlusDroitMaitre = domainBuilder.buildCertificationAttestation({
-      id: 1,
-      firstName: 'Jean',
-      lastName: 'Bon',
-      resultCompetenceTree,
-      certifiedBadges: [{ partnerKey: PIX_EMPLOI_CLEA_V3 }, { partnerKey: PIX_DROIT_MAITRE_CERTIF }],
-    });
-    const certificateWithCleaAndPixPlusDroitExpert = domainBuilder.buildCertificationAttestation({
-      id: 2,
-      firstName: 'Harry',
-      lastName: 'Covert',
-      resultCompetenceTree,
-      certifiedBadges: [{ partnerKey: PIX_EMPLOI_CLEA_V3 }, { partnerKey: PIX_DROIT_EXPERT_CERTIF }],
-    });
-    const certificateWithoutCleaNorPixPlusDroit = domainBuilder.buildCertificationAttestation({
-      ...certificateWithCleaAndPixPlusDroitMaitre,
-      id: 2,
-      firstName: 'Marc',
-      lastName: 'Decaffé',
-      cleaCertificationImagePath: null,
-      pixPlusDroitCertificationImagePath: null,
-      certifiedBadges: [],
-    });
+    const certificateWithComplementaryCertificationsAndWithoutProfessionalizingMessage =
+      domainBuilder.buildCertificationAttestation({
+        id: 1,
+        firstName: 'Jean',
+        lastName: 'Bon',
+        resultCompetenceTree,
+        certifiedBadges: [{ partnerKey: PIX_EMPLOI_CLEA_V3 }, { partnerKey: PIX_DROIT_MAITRE_CERTIF }],
+        deliveredAt: deliveredBeforeStartDate,
+      });
+    const certificateWithComplementaryCertificationsAndWithProfessionalizingMessage =
+      domainBuilder.buildCertificationAttestation({
+        id: 2,
+        firstName: 'Harry',
+        lastName: 'Covert',
+        resultCompetenceTree,
+        certifiedBadges: [{ partnerKey: PIX_EMPLOI_CLEA_V3 }, { partnerKey: PIX_DROIT_EXPERT_CERTIF }],
+        deliveredAt: deliveredAfterStartDate,
+      });
+    const certificateWithoutComplementaryCertificationsAndWithoutProfessionalizingMessage =
+      domainBuilder.buildCertificationAttestation({
+        ...certificateWithComplementaryCertificationsAndWithoutProfessionalizingMessage,
+        id: 2,
+        firstName: 'Marc',
+        lastName: 'Decaffé',
+        cleaCertificationImagePath: null,
+        pixPlusDroitCertificationImagePath: null,
+        certifiedBadges: [],
+        deliveredAt: deliveredBeforeStartDate,
+      });
+    const certificateComplementaryCertificationsAndWithProfessionalizingMessage =
+      domainBuilder.buildCertificationAttestation({
+        ...certificateWithComplementaryCertificationsAndWithoutProfessionalizingMessage,
+        id: 2,
+        firstName: 'Quentin',
+        lastName: 'Bug Arrive En Prod',
+        cleaCertificationImagePath: null,
+        pixPlusDroitCertificationImagePath: null,
+        certifiedBadges: [],
+        deliveredAt: deliveredAfterStartDate,
+      });
     const referencePdfPath = 'certification-attestation-pdf_several_pages.pdf';
 
     // when
     const { buffer } = await getCertificationAttestationsPdfBuffer({
       certificates: [
-        certificateWithCleaAndPixPlusDroitMaitre,
-        certificateWithCleaAndPixPlusDroitExpert,
-        certificateWithoutCleaNorPixPlusDroit,
+        certificateWithComplementaryCertificationsAndWithoutProfessionalizingMessage,
+        certificateWithComplementaryCertificationsAndWithProfessionalizingMessage,
+        certificateWithoutComplementaryCertificationsAndWithoutProfessionalizingMessage,
+        certificateComplementaryCertificationsAndWithProfessionalizingMessage,
       ],
       creationDate: new Date('2021-01-01'),
     });
