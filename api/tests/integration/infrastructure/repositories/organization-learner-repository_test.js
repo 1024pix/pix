@@ -2282,7 +2282,7 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
 
       // when
       const updatedOrganizationLearner = await organizationLearnerRepository.updateUserIdWhereNull({
-        schoolingRegistrationId: organizationLearnerId,
+        organizationLearnerId,
         userId,
       });
 
@@ -2299,7 +2299,7 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
 
       // when
       const error = await catchErr(organizationLearnerRepository.updateUserIdWhereNull)({
-        schoolingRegistrationId: organizationLearnerId,
+        organizationLearnerId,
         userId,
       });
 
