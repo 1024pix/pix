@@ -71,7 +71,7 @@ module.exports = {
       userDetailsForAdministration,
     });
 
-    return userDetailsForAdminSerializer.serialize(updatedUser);
+    return userDetailsForAdminSerializer.serializeForUpdate(updatedUser);
   },
 
   async acceptPixLastTermsOfService(request) {

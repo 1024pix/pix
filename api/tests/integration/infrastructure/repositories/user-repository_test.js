@@ -613,7 +613,24 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
   describe('#getUserDetailsForAdmin', function () {
     it('should return the found user', async function () {
       // given
-      const userInDB = databaseBuilder.factory.buildUser(userToInsert);
+      const emailConfirmedAt = new Date('2022-01-01');
+      const lastTermsOfServiceValidatedAt = new Date('2022-01-02');
+      const lastPixOrgaTermsOfServiceValidatedAt = new Date('2022-01-03');
+      const lastLoggedAt = new Date('2022-01-04');
+      const now = new Date();
+      const userInDB = databaseBuilder.factory.buildUser({
+        firstName: 'Henri',
+        lastName: 'Cochet',
+        email: 'henri-cochet@example.net',
+        cgu: true,
+        lang: 'en',
+        createdAt: now,
+        lastTermsOfServiceValidatedAt,
+        lastPixOrgaTermsOfServiceValidatedAt,
+        lastPixCertifTermsOfServiceValidatedAt: lastLoggedAt,
+        lastLoggedAt,
+        emailConfirmedAt,
+      });
       await databaseBuilder.commit();
 
       // when
@@ -622,10 +639,19 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
       // then
       expect(userDetailsForAdmin).to.be.an.instanceOf(UserDetailsForAdmin);
       expect(userDetailsForAdmin.id).to.equal(userInDB.id);
-      expect(userDetailsForAdmin.firstName).to.equal(userInDB.firstName);
-      expect(userDetailsForAdmin.lastName).to.equal(userInDB.lastName);
-      expect(userDetailsForAdmin.email).to.equal(userInDB.email);
+      expect(userDetailsForAdmin.firstName).to.equal('Henri');
+      expect(userDetailsForAdmin.lastName).to.equal('Cochet');
+      expect(userDetailsForAdmin.email).to.equal('henri-cochet@example.net');
       expect(userDetailsForAdmin.cgu).to.be.true;
+      expect(userDetailsForAdmin.createdAt).to.deep.equal(now);
+      expect(userDetailsForAdmin.lang).to.equal('en');
+      expect(userDetailsForAdmin.lastTermsOfServiceValidatedAt).to.deep.equal(lastTermsOfServiceValidatedAt);
+      expect(userDetailsForAdmin.lastPixOrgaTermsOfServiceValidatedAt).to.deep.equal(
+        lastPixOrgaTermsOfServiceValidatedAt
+      );
+      expect(userDetailsForAdmin.lastPixCertifTermsOfServiceValidatedAt).to.deep.equal(lastLoggedAt);
+      expect(userDetailsForAdmin.lastLoggedAt).to.deep.equal(lastLoggedAt);
+      expect(userDetailsForAdmin.emailConfirmedAt).to.deep.equal(emailConfirmedAt);
     });
 
     it('should return a UserNotFoundError if no user is found', async function () {

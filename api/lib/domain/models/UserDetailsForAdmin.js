@@ -10,6 +10,13 @@ class UserDetailsForAdmin {
     pixCertifTermsOfServiceAccepted,
     schoolingRegistrations,
     authenticationMethods,
+    createdAt,
+    lang,
+    lastTermsOfServiceValidatedAt,
+    lastPixOrgaTermsOfServiceValidatedAt,
+    lastPixCertifTermsOfServiceValidatedAt,
+    lastLoggedAt,
+    emailConfirmedAt,
   } = {}) {
     this.id = id;
     this.cgu = cgu;
@@ -21,6 +28,13 @@ class UserDetailsForAdmin {
     this.pixCertifTermsOfServiceAccepted = pixCertifTermsOfServiceAccepted;
     this.schoolingRegistrations = schoolingRegistrations;
     this.authenticationMethods = authenticationMethods;
+    this.createdAt = createdAt;
+    this.lang = lang;
+    this.lastTermsOfServiceValidatedAt = lastTermsOfServiceValidatedAt;
+    this.lastPixOrgaTermsOfServiceValidatedAt = lastPixOrgaTermsOfServiceValidatedAt;
+    this.lastPixCertifTermsOfServiceValidatedAt = lastPixCertifTermsOfServiceValidatedAt;
+    this.lastLoggedAt = lastLoggedAt;
+    this.emailConfirmedAt = emailConfirmedAt;
   }
 }
 

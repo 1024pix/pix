@@ -1,4 +1,16 @@
-.authentication-method {
+.authentication-method__connexions-information {
+  display: flex;
+
+  dt {
+    font-weight: normal;
+  }
+
+  dd {
+    margin-left: 6px;
+  }
+}
+
+.authentication-method-table {
   width: inherit;
 
   &__caption {

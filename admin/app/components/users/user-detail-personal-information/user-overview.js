@@ -5,6 +5,7 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { getOwner } from '@ember/application';
 import { inject as service } from '@ember/service';
+import dayjs from 'dayjs';
 
 import ENV from 'pix-admin/config/environment';
 
@@ -101,6 +102,21 @@ export default class UserOverview extends Component {
 
   get canModifyEmail() {
     return !!(this.args.user.email || this.args.user.username);
+  }
+
+  get userHasValidatePixAppTermsOfService() {
+    const formattedDate = dayjs(this.args.user.lastTermsOfServiceValidatedAt).format('DD/MM/YYYY');
+    return this.args.user.cgu ? `OUI, le ${formattedDate}` : 'NON';
+  }
+
+  get userHasValidatePixOrgaTermsOfService() {
+    const formattedDate = dayjs(this.args.user.lastPixOrgaTermsOfServiceValidatedAt).format('DD/MM/YYYY');
+    return this.args.user.pixOrgaTermsOfServiceAccepted ? `OUI, le ${formattedDate}` : 'NON';
+  }
+
+  get userHasValidatePixCertifTermsOfService() {
+    const formattedDate = dayjs(this.args.user.lastPixCertifTermsOfServiceValidatedAt).format('DD/MM/YYYY');
+    return this.args.user.pixCertifTermsOfServiceAccepted ? `OUI, le ${formattedDate}` : 'NON';
   }
 
   _initForm() {
