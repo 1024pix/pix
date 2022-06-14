@@ -2,6 +2,7 @@ import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@1024pix/ember-testing-library';
 import hbs from 'htmlbars-inline-precompile';
+import Service from '@ember/service';
 
 module('Integration | Component | menu-bar', function (hooks) {
   setupRenderingTest(hooks);
@@ -98,16 +99,34 @@ module('Integration | Component | menu-bar', function (hooks) {
     assert.dom(screen.getByTitle('Sessions de certifications')).exists();
   });
 
-  test('should contain link to "certifications" management page', async function (assert) {
-    // given
-    const currentUser = this.owner.lookup('service:currentUser');
-    currentUser.adminMember = { isSuperAdmin: true };
+  module('Certifications tab', function () {
+    test('should contain link to "certifications" management page when admin member have access to certification actions scope', async function (assert) {
+      // given
+      class AccessControlStub extends Service {
+        hasAccessToCertificationActionsScope = true;
+      }
+      this.owner.register('service:accessControl', AccessControlStub);
 
-    // when
-    const screen = await render(hbs`{{menu-bar}}`);
+      // when
+      const screen = await render(hbs`{{menu-bar}}`);
 
-    // then
-    assert.dom(screen.getByTitle('Certifications')).exists();
+      // then
+      assert.dom(screen.getByTitle('Certifications')).exists();
+    });
+
+    test('should not contain link to "certifications" management page when admin member does not have access to certification actions scope', async function (assert) {
+      // given
+      class AccessControlStub extends Service {
+        hasAccessToCertificationActionsScope = false;
+      }
+      this.owner.register('service:accessControl', AccessControlStub);
+
+      // when
+      const screen = await render(hbs`{{menu-bar}}`);
+
+      // then
+      assert.dom(screen.queryByText('Certifications')).doesNotExist();
+    });
   });
 
   test('should contain link to "certification centers" management page', async function (assert) {

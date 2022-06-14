@@ -264,17 +264,6 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
 
   module('certification edition actions', function () {
     module('Candidate information edition', function () {
-      test('should not show candidate modify button when user does not have access to certification actions scope', async function (assert) {
-        // given
-        await authenticateAdminMemberWithRole({ isMetier: true })(server);
-
-        // when
-        const screen = await visit(`/certifications/${certification.id}`);
-
-        // then
-        assert.dom(screen.queryByLabelText('Modifier les informations du candidat')).doesNotExist();
-      });
-
       module('when candidate certification was enrolled before the CPF feature was enabled', function () {
         test('should prevent user from editing candidate information', async function (assert) {
           // given
@@ -549,17 +538,6 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
     });
 
     module('Certification results edition', function () {
-      test('should not show certification modify button when user does not have access to certification actions scope', async function (assert) {
-        // given
-        await authenticateAdminMemberWithRole({ isMetier: true })(server);
-
-        // when
-        const screen = await visit(`/certifications/${certification.id}`);
-
-        // then
-        assert.dom(screen.queryByLabelText('Modifier les résultats du candidat')).doesNotExist();
-      });
-
       module('when candidate results edit button is clicked', function () {
         test('it disables candidate informations edit button', async function (assert) {
           // given
@@ -684,17 +662,6 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
       module('Cancel', function (hooks) {
         hooks.beforeEach(async function () {
           certification.update({ status: 'validated' });
-        });
-
-        test('should not show cancellation button when user does not have access to certification actions scope', async function (assert) {
-          // given
-          await authenticateAdminMemberWithRole({ isMetier: true })(server);
-
-          // when
-          const screen = await visit(`/certifications/${certification.id}`);
-
-          // then
-          assert.dom(screen.queryByText('Annuler la certification')).doesNotExist();
         });
 
         test('should display confirmation popup for cancellation when certification is not yet cancelled and cancellation button is clicked', async function (assert) {
