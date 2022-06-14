@@ -16,6 +16,7 @@ const {
 const DomainTransaction = require('../../infrastructure/DomainTransaction');
 const TargetProfile = require('../../domain/models/TargetProfile');
 const TargetProfileTemplate = require('../../domain/models/TargetProfileTemplate');
+const TargetProfileTemplateTube = require('../../domain/models/TargetProfileTemplateTube');
 const { PGSQL_FOREIGN_KEY_VIOLATION_ERROR } = require('../../../db/pgsql-errors');
 
 module.exports = {
@@ -191,10 +192,13 @@ module.exports = {
         return new TargetProfileTemplate({
           id: targetProfileTemplateId,
           targetProfileIds: [savedTargetProfileId],
-          tubes: savedTubes.map((tube) => ({
-            id: tube.tubeId,
-            level: tube.level,
-          })),
+          tubes: savedTubes.map(
+            (tube) =>
+              new TargetProfileTemplateTube({
+                id: tube.tubeId,
+                level: tube.level,
+              })
+          ),
         });
       });
     } catch (e) {
@@ -213,7 +217,13 @@ module.exports = {
 
     return new TargetProfileTemplate({
       id,
-      tubes,
+      tubes: tubes.map(
+        (tube) =>
+          new TargetProfileTemplateTube({
+            id: tube.tubeId,
+            level: tube.level,
+          })
+      ),
     });
   },
 };
