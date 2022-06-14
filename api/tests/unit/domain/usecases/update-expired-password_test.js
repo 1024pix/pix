@@ -10,13 +10,11 @@ describe('Unit | UseCase | update-expired-password', function () {
   const expiredPassword = 'Password01';
   const newPassword = 'Password02';
   const hashedPassword = 'ABCDEF123';
-  const userRepository = {};
 
   let user;
 
-  let pixAuthenticationService;
   let encryptionService;
-  let authenticationMethodRepository;
+  let authenticationMethodRepository, userRepository;
 
   beforeEach(function () {
     user = domainBuilder.buildUser({ username });
@@ -27,18 +25,20 @@ describe('Unit | UseCase | update-expired-password', function () {
     });
     user.authenticationMethods = [authenticationMethod];
 
-    pixAuthenticationService = {
-      getUserByUsernameAndPassword: sinon.stub(),
+    userRepository = {
+      getUserWithPixAuthenticationMethodByUsername: sinon.stub(),
     };
     encryptionService = {
       hashPassword: sinon.stub(),
+      checkPassword: sinon.stub(),
     };
     authenticationMethodRepository = {
       updateExpiredPassword: sinon.stub(),
     };
 
-    pixAuthenticationService.getUserByUsernameAndPassword.resolves(user);
+    userRepository.getUserWithPixAuthenticationMethodByUsername.resolves(user);
     encryptionService.hashPassword.resolves(hashedPassword);
+    encryptionService.checkPassword.resolves();
   });
 
   it('should update user password with a hashed password', async function () {
@@ -47,14 +47,13 @@ describe('Unit | UseCase | update-expired-password', function () {
       expiredPassword,
       newPassword,
       username,
-      pixAuthenticationService,
       encryptionService,
       authenticationMethodRepository,
       userRepository,
     });
 
     // then
-    sinon.assert.calledOnce(pixAuthenticationService.getUserByUsernameAndPassword);
+    sinon.assert.calledOnce(userRepository.getUserWithPixAuthenticationMethodByUsername);
     sinon.assert.calledOnce(encryptionService.hashPassword);
     sinon.assert.calledWith(authenticationMethodRepository.updateExpiredPassword, {
       userId: user.id,
@@ -65,14 +64,13 @@ describe('Unit | UseCase | update-expired-password', function () {
   context('When credentials are invalid', function () {
     it('should throw UserNotFoundError when username is unknown', async function () {
       // given
-      pixAuthenticationService.getUserByUsernameAndPassword.rejects(new UserNotFoundError());
+      userRepository.getUserWithPixAuthenticationMethodByUsername.rejects(new UserNotFoundError());
 
       // when
       const error = await catchErr(updateExpiredPassword)({
         expiredPassword,
         newPassword,
         username,
-        pixAuthenticationService,
         encryptionService,
         authenticationMethodRepository,
         userRepository,
@@ -84,7 +82,7 @@ describe('Unit | UseCase | update-expired-password', function () {
 
     it('should log error with username when username is unknown', async function () {
       // given
-      pixAuthenticationService.getUserByUsernameAndPassword.rejects(new UserNotFoundError());
+      userRepository.getUserWithPixAuthenticationMethodByUsername.rejects(new UserNotFoundError());
       sinon.stub(logger, 'warn');
 
       // when
@@ -92,7 +90,6 @@ describe('Unit | UseCase | update-expired-password', function () {
         expiredPassword,
         newPassword,
         username: 'bad-username',
-        pixAuthenticationService,
         encryptionService,
         authenticationMethodRepository,
         userRepository,
@@ -104,14 +101,13 @@ describe('Unit | UseCase | update-expired-password', function () {
 
     it('should throw PasswordNotMatching when expiredPassword is invalid', async function () {
       // given
-      pixAuthenticationService.getUserByUsernameAndPassword.rejects(new PasswordNotMatching());
+      userRepository.getUserWithPixAuthenticationMethodByUsername.rejects(new PasswordNotMatching());
 
       // when
       const error = await catchErr(updateExpiredPassword)({
         expiredPassword,
         newPassword,
         username,
-        pixAuthenticationService,
         encryptionService,
         authenticationMethodRepository,
         userRepository,
@@ -132,14 +128,13 @@ describe('Unit | UseCase | update-expired-password', function () {
       });
       user.authenticationMethods = [authenticationMethod];
 
-      pixAuthenticationService.getUserByUsernameAndPassword.resolves(user);
+      userRepository.getUserWithPixAuthenticationMethodByUsername.resolves(user);
 
       // when
       const error = await catchErr(updateExpiredPassword)({
         expiredPassword,
         newPassword,
         username,
-        pixAuthenticationService,
         encryptionService,
         authenticationMethodRepository,
         userRepository,

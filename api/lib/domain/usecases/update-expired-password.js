@@ -8,17 +8,18 @@ module.exports = async function updateExpiredPassword({
   expiredPassword,
   newPassword,
   username,
-  pixAuthenticationService,
   encryptionService,
   authenticationMethodRepository,
   userRepository,
 }) {
   let foundUser;
   try {
-    foundUser = await pixAuthenticationService.getUserByUsernameAndPassword({
-      username,
+    foundUser = await userRepository.getUserWithPixAuthenticationMethodByUsername(username);
+    const passwordHash = foundUser.authenticationMethods[0].authenticationComplement.password;
+
+    await encryptionService.checkPassword({
       password: expiredPassword,
-      userRepository,
+      passwordHash,
     });
   } catch (error) {
     if (error instanceof UserNotFoundError) {
