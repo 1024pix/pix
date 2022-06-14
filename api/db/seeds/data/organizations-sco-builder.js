@@ -84,7 +84,7 @@ function _buildMiddleSchools({ databaseBuilder }) {
     disabledAt: new Date(),
   });
 
-  // schooling registration not associated yet
+  // organization learner not associated yet
   databaseBuilder.factory.buildOrganizationLearner({
     firstName: 'First',
     lastName: 'Last',
@@ -96,7 +96,7 @@ function _buildMiddleSchools({ databaseBuilder }) {
     nationalStudentId: '123456789AA',
   });
 
-  // schooling registration not associated yet
+  // organization learner not associated yet
   databaseBuilder.factory.buildOrganizationLearner({
     firstName: 'Prenom',
     lastName: 'Nom',
@@ -108,7 +108,7 @@ function _buildMiddleSchools({ databaseBuilder }) {
     nationalStudentId: '123456789BB',
   });
 
-  // schooling registration associated with username
+  // organization learner associated with username
   const userWithUsername = databaseBuilder.factory.buildUser.withRawPassword({
     id: SCO_FRENCH_USER_ID,
     firstName: 'George',
@@ -130,7 +130,7 @@ function _buildMiddleSchools({ databaseBuilder }) {
     nationalStudentId: '123456789CC',
   });
 
-  // schooling registration associated with username and email
+  // organization learner associated with username and email
   const userWithEmailAndUsername = databaseBuilder.factory.buildUser.withRawPassword({
     id: SCO_FOREIGNER_USER_ID,
     firstName: 'Blue Ivy',
@@ -155,7 +155,7 @@ function _buildMiddleSchools({ databaseBuilder }) {
     nationalStudentId: '123456789DD',
   });
 
-  // schooling registration associated with email
+  // organization learner associated with email
   const userWithEmail = databaseBuilder.factory.buildUser.withRawPassword({
     firstName: 'Lyanna',
     lastName: 'Mormont',
@@ -175,7 +175,7 @@ function _buildMiddleSchools({ databaseBuilder }) {
     nationalStudentId: '123456789EE',
   });
 
-  // schooling registration associated with email used by certification
+  // organization learner associated with email used by certification
   const userCertifWithEmail = databaseBuilder.factory.buildUser.withRawPassword({
     id: SCO_STUDENT_ID,
     firstName: 'Student',
@@ -197,7 +197,7 @@ function _buildMiddleSchools({ databaseBuilder }) {
     nationalStudentId: '123456789FF',
   });
 
-  // schooling registration associated with gar
+  // organization learner associated with gar
   const userWithGAR = databaseBuilder.factory.buildUser({
     firstName: 'user',
     lastName: 'gar',
@@ -222,7 +222,7 @@ function _buildMiddleSchools({ databaseBuilder }) {
     nationalStudentId: '123456789GG',
   });
 
-  // schooling registration disabled
+  // organization learner disabled
   const studentDisabled = databaseBuilder.factory.buildUser.withRawPassword({
     id: SCO_DISABLED_USER_ID,
     firstName: 'student',
@@ -311,7 +311,7 @@ function _buildHighSchools({ databaseBuilder }) {
     organizationRole: Membership.roles.MEMBER,
   });
 
-  // schooling registration also associated in another organization
+  // organization learner also associated in another organization
   databaseBuilder.factory.buildOrganizationLearner({
     userId: SCO_FOREIGNER_USER_ID,
     firstName: 'Same Blue Ivy',
@@ -324,7 +324,7 @@ function _buildHighSchools({ databaseBuilder }) {
     createdAt: new Date('2020-08-14'),
   });
 
-  // schooling registration associated in another organization but not associated yet
+  // organization learner associated in another organization but not associated yet
   databaseBuilder.factory.buildOrganizationLearner({
     userId: null,
     firstName: 'Same George',

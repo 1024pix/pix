@@ -422,7 +422,7 @@ function _buildProfilesCollectionParticipations({ databaseBuilder, users }) {
   //multiple sendings profiles collection campaign
   userIdsShared.forEach((user) => participateToProfilesCollectionCampaign({ databaseBuilder, campaignId: 18, user, organizationLearnerId: user.id, status: SHARED }));
   userIdsNotShared.forEach((user) => participateToProfilesCollectionCampaign({ databaseBuilder, campaignId: 18, user, organizationLearnerId: user.id, status: TO_SHARE, isImprovingOldParticipation: true }));
-  [certifRegularUser1, certifRegularUser2, certifRegularUser3, certifRegularUser4, certifRegularUser5].forEach((user) => participateToProfilesCollectionCampaign({ databaseBuilder, campaignId: 18, user, schoolingRegistrationId: user.id, status: SHARED, isImprovingOldParticipation: true }));
+  [certifRegularUser1, certifRegularUser2, certifRegularUser3, certifRegularUser4, certifRegularUser5].forEach((user) => participateToProfilesCollectionCampaign({ databaseBuilder, campaignId: 18, user, organizationLearnerId: user.id, status: SHARED, isImprovingOldParticipation: true }));
 
   //deleted participations
   participateToProfilesCollectionCampaign({ databaseBuilder, campaignId: 25, user: users[0], organizationLearnerId: users[0].id, status: TO_SHARE, deleted: true });
