@@ -23,6 +23,8 @@ const buildJurySession = function ({
   juryComment = null,
   juryCommentedAt = null,
   juryCommentAuthor = null,
+  hasIncident = false,
+  hasJoiningIssue = false,
 } = {}) {
   if (_.isUndefined(certificationCenterId)) {
     const certificationCenter = domainBuilder.buildCertificationCenter();
@@ -53,6 +55,8 @@ const buildJurySession = function ({
     juryComment,
     juryCommentedAt,
     juryCommentAuthor,
+    hasIncident,
+    hasJoiningIssue,
   });
 };
 

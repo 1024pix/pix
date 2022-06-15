@@ -272,6 +272,8 @@ module.exports = (function () {
     config.features.dayBeforeCompetenceResetV2 = 7;
     config.features.garAccessV2 = false;
     config.features.numberOfChallengesForFlashMethod = 10;
+    config.features.pixCertifScoBlockedAccessDateLycee = null;
+    config.features.pixCertifScoBlockedAccessDateCollege = null;
 
     config.mailing.enabled = false;
     config.mailing.provider = 'sendinblue';

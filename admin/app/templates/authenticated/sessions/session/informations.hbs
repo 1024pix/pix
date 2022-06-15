@@ -97,6 +97,19 @@
             data-test-id="session-info__number-of-started-or-error-certifications"
           >{{this.sessionModel.countStartedAndInErrorCertifications}}</span>
         </li>
+        {{#if this.sessionModel.hasComplementaryInfo}}
+          <li class="session-info__list-item">
+            <span>Informations complémentaires :</span>
+            {{#if this.sessionModel.hasIncident}}
+              <span>Malgré un incident survenu pendant la session, les candidats ont pu terminer leur test de
+                certification. Un temps supplémentaire a été accordé à un ou plusieurs candidats.</span>
+            {{/if}}
+            {{#if this.sessionModel.hasJoiningIssue}}
+              <span>Un ou plusieurs candidats étaient présents en session de certification mais n'ont pas pu rejoindre
+                la session.</span>
+            {{/if}}
+          </li>
+        {{/if}}
         {{#if this.sessionModel.hasExaminerGlobalComment}}
           <li class="session-info__list-item">
             <span>Commentaire global :</span>

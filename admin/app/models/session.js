@@ -44,6 +44,8 @@ export default class Session extends Model {
   @attr() publishedAt;
   @attr() juryComment;
   @attr() juryCommentedAt;
+  @attr('boolean') hasIncident;
+  @attr('boolean') hasJoiningIssue;
   @attr('boolean') hasSupervisorAccess;
 
   @hasMany('jury-certification-summary') juryCertificationSummaries;
@@ -58,6 +60,10 @@ export default class Session extends Model {
   @computed('examinerGlobalComment')
   get hasExaminerGlobalComment() {
     return !isEmpty(trim(this.examinerGlobalComment));
+  }
+
+  get hasComplementaryInfo() {
+    return Boolean(this.hasIncident || this.hasJoiningIssue);
   }
 
   @computed('juryCertificationSummaries.@each.isPublished')

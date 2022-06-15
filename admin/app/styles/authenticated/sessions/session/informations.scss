@@ -18,6 +18,7 @@
 
   &__list-item {
     display: flex;
+    border-bottom: 1px solid $grey-10;
 
     span {
       width: 50%;

@@ -85,6 +85,49 @@ module('Unit | Model | session', function (hooks) {
     });
   });
 
+  module('#hasComplementaryInfo', function () {
+    module('when hasIncident is false', function () {
+      test('it should return false', function (assert) {
+        // given
+        const session = store.createRecord('session', {
+          hasIncident: false,
+        });
+
+        // when
+        const hasComplementaryInfo = session.hasComplementaryInfo;
+
+        // then
+        assert.false(hasComplementaryInfo);
+      });
+    });
+
+    module('when hasJoiningIssue is false', function () {
+      test('it should also return false', function (assert) {
+        // given
+        const session = store.createRecord('session', { hasJoiningIssue: false });
+
+        // when
+        const hasComplementaryInfo = session.hasComplementaryInfo;
+
+        // then
+        assert.false(hasComplementaryInfo);
+      });
+    });
+
+    module('when hasIncident & hasJoiningIssue are true', function () {
+      test('it should return true', function (assert) {
+        // given
+        const session = store.createRecord('session', { hasJoiningIssue: true, hasIncident: true });
+
+        // when
+        const hasComplementaryInfo = session.hasComplementaryInfo;
+
+        // then
+        assert.true(hasComplementaryInfo);
+      });
+    });
+  });
+
   module('#isPublished', function () {
     module('when there is no certification', function () {
       let sessionWithoutCertifications;
