@@ -54,9 +54,7 @@ module.exports = async function authenticatePoleEmploiUser({
 
     if (!user) {
       const authenticationKey = await authenticationSessionService.save(poleEmploiAuthenticationSessionContent);
-      return { authenticationKey }; // todo : refacto, should not return different objects
-      // will be refacto when keycloak will be setup
-      // this return should be replaced by domain error (see controller)
+      return { authenticationKey };
     } else {
       pixAccessToken = await _getPixAccessTokenFromPoleEmploiUser({
         user,
