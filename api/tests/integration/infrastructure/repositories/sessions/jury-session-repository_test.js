@@ -31,6 +31,8 @@ describe('Integration | Repository | JurySession', function () {
           juryComment: 'Les mecs ils font des sessions de certif dans le jardin ??',
           juryCommentAuthorId: juryCommentAuthor.id,
           juryCommentedAt: new Date('2020-02-28T14:30:25Z'),
+          hasIncident: true,
+          hasJoiningIssue: true,
         }).id;
 
         return databaseBuilder.commit();
@@ -52,6 +54,8 @@ describe('Integration | Repository | JurySession', function () {
           accessCode: 'GHKM26',
           description: 'La session se déroule dans le jardin',
           examinerGlobalComment: '',
+          hasIncident: true,
+          hasJoiningIssue: true,
           finalizedAt: null,
           resultsSentToPrescriberAt: null,
           publishedAt: null,

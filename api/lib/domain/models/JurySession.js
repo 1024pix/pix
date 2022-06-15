@@ -22,6 +22,8 @@ class JurySession {
     juryComment,
     juryCommentedAt,
     juryCommentAuthor,
+    hasIncident,
+    hasJoiningIssue,
   } = {}) {
     this.id = id;
     this.certificationCenterName = certificationCenterName;
@@ -43,6 +45,8 @@ class JurySession {
     this.juryComment = juryComment;
     this.juryCommentedAt = juryCommentedAt;
     this.juryCommentAuthor = juryCommentAuthor;
+    this.hasIncident = hasIncident;
+    this.hasJoiningIssue = hasJoiningIssue;
   }
 
   get status() {

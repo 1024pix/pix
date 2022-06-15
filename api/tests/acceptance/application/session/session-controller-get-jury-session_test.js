@@ -75,6 +75,8 @@ describe('Acceptance | Controller | session-controller-get-jury-session', functi
         );
         expect(response.result.data.attributes['published-at']).to.equal(expectedJurySession.publishedAt);
         expect(response.result.data.attributes['has-supervisor-access']).to.be.true;
+        expect(response.result.data.attributes['has-incident']).to.equal(false);
+        expect(response.result.data.attributes['has-joining-issue']).to.equal(false);
         expect(parseInt(response.result.included[0].id)).to.equal(expectedJurySession.assignedCertificationOfficerId);
         expect(response.result.included[0].attributes['first-name']).to.equal('Pix');
         expect(response.result.included[0].attributes['last-name']).to.equal('Doe');
