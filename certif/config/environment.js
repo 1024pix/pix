@@ -93,11 +93,6 @@ module.exports = function (environment) {
   };
 
   if (environment === 'development') {
-    // ENV.APP.LOG_RESOLVER = true;
-    // ENV.APP.LOG_ACTIVE_GENERATION = true;
-    // ENV.APP.LOG_TRANSITIONS = true;
-    // ENV.APP.LOG_TRANSITIONS_INTERNAL = true;
-    // ENV.APP.LOG_VIEW_LOOKUPS = true;
     if (analyticsEnabled) {
       ENV.matomo.url = process.env.WEB_ANALYTICS_URL;
       ENV.matomo.debug = true;
@@ -119,8 +114,6 @@ module.exports = function (environment) {
   }
 
   if (environment === 'production') {
-    // here you can enable a production-specific feature
-    //ENV.APP.API_HOST = 'https://pix.fr/api';
     if (analyticsEnabled) {
       ENV.matomo.url = process.env.WEB_ANALYTICS_URL;
     }
