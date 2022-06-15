@@ -1,5 +1,21 @@
 # Pix Changelog
 
+## v3.221.0 (15/06/2022)
+
+
+### :rocket: Amélioration
+- [#4496](https://github.com/1024pix/pix/pull/4496) [FEATURE] Remplacer le commentaire global de session par une liste de choix (PIX-4951).
+- [#4516](https://github.com/1024pix/pix/pull/4516) [FEATURE] Gérer dynamiquement l'affichage des date de reprise de certification pour le sco dans Pix-certif (PIX-5088)
+- [#4515](https://github.com/1024pix/pix/pull/4515) [FEATURE] Afficher plus d'informations sur les utilisateurs dans Pix Admin (PIX-1389)
+- [#4512](https://github.com/1024pix/pix/pull/4512) [FEATURE] Empêcher les utilisateurs ayant le rôle métier d'accéder aux pages certifications sur Pix Admin (PIX-5062).
+- [#4514](https://github.com/1024pix/pix/pull/4514) [FEATURE] Afficher le nom du créateur de l'organisation dans Pix Admin (PIX-3099)
+
+### :building_construction: Tech
+- [#4483](https://github.com/1024pix/pix/pull/4483) [TECH][ADR] Nommer les contraintes dans la BDD en cas de conflit (PIX-5048)
+- [#4394](https://github.com/1024pix/pix/pull/4394) [TECH] Ajout de méthodes dans les seeds pour rendre un utilisateur certifiable sans avoir à importer des données réelles 
+- [#4210](https://github.com/1024pix/pix/pull/4210) [TECH] Ajout d'un Redis pour les tests dans la CI.
+- [#4427](https://github.com/1024pix/pix/pull/4427) [TECH] Utilisation des Design Tokens Pix UI dans tous les fronts Pix (PIX-4936)
+
 ## v3.220.0 (13/06/2022)
 
 
