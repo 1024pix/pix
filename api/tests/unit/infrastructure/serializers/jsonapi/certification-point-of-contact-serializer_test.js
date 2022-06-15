@@ -1,10 +1,15 @@
 const { expect, domainBuilder, sinon } = require('../../../../test-helper');
+const settings = require('../../../../../lib/config');
 const certificationPointOfContactSerializer = require('../../../../../lib/infrastructure/serializers/jsonapi/certification-point-of-contact-serializer');
 
 describe('Unit | Serializer | JSONAPI | certification-point-of-contact-serializer', function () {
   describe('#serialize()', function () {
     it('should convert a CertificationPointOfContact model into JSON API data', function () {
       // given
+      sinon.stub(settings.features, 'pixCertifScoBlockedAccessDateCollege').value('2022-06-01');
+      sinon.stub(settings.features, 'pixCertifScoBlockedAccessDateLycee').value('2022-08-01');
+
+      settings.features.pixCertifScoBlockedAccessDateLycee = '2022-08-01';
       const allowedCertificationCenterAccess1 = domainBuilder.buildAllowedCertificationCenterAccess({
         id: 123,
         name: 'Sunnydale Center',
@@ -78,6 +83,8 @@ describe('Unit | Serializer | JSONAPI | certification-point-of-contact-serialize
               'is-access-blocked-lycee': false,
               'is-access-blocked-aefe': false,
               'is-access-blocked-agri': false,
+              'pix-certif-sco-blocked-access-date-college': '2022-06-01',
+              'pix-certif-sco-blocked-access-date-lycee': '2022-08-01',
               'related-organization-tags': [],
               habilitations: [
                 { id: 1, name: 'Certif comp 1' },
@@ -98,6 +105,8 @@ describe('Unit | Serializer | JSONAPI | certification-point-of-contact-serialize
               'is-access-blocked-lycee': false,
               'is-access-blocked-aefe': false,
               'is-access-blocked-agri': false,
+              'pix-certif-sco-blocked-access-date-college': '2022-06-01',
+              'pix-certif-sco-blocked-access-date-lycee': '2022-08-01',
               'related-organization-tags': ['tag1'],
               habilitations: [],
               'is-end-test-screen-removal-enabled': true,

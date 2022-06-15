@@ -1,15 +1,16 @@
 import Controller from '@ember/controller';
-import { inject as service } from '@ember/service';
-import { action } from '@ember/object';
 
 export default class RestrictedAccessController extends Controller {
-  @service router;
-  @service currentUser;
+  get certificationOpeningDate() {
+    if (this.model.isAccessBlockedCollege) {
+      return this.model.pixCertifScoBlockedAccessDateCollege;
+    }
 
-  @action
-  async changeCurrentCertificationCenterAccess(certificationCenterAccess) {
-    this.currentUser.currentAllowedCertificationCenterAccess = certificationCenterAccess;
-    this.router.replaceWith('authenticated');
+    if (this.model.isAccessBlockedLycee || this.model.isAccessBlockedAEFE || this.model.isAccessBlockedAgri) {
+      return this.model.pixCertifScoBlockedAccessDateLycee;
+    }
+
+    return null;
   }
 
   get calendarScoLink() {
