@@ -71,6 +71,7 @@ module('Acceptance | Target Profiles | List', function (hooks) {
 
       test('it should redirect to target profile creation form on click "Nouveau profil cible"', async function (assert) {
         // given
+        server.create('framework', { id: 'framework', name: 'Pix' });
         await visit('/target-profiles/list');
 
         // when
@@ -78,16 +79,6 @@ module('Acceptance | Target Profiles | List', function (hooks) {
 
         // then
         assert.strictEqual(currentURL(), '/target-profiles/new');
-      });
-
-      test('it should have a button to redirect to tubes selection', async function (assert) {
-        // when
-        const screen = await visit('/target-profiles/list');
-
-        // then
-        const tubeSelectionLink = screen.getByRole('link', { name: 'Sélection des sujets' });
-        assert.dom(tubeSelectionLink).exists();
-        assert.dom(tubeSelectionLink).hasAttribute('href', '/target-profiles/tubes-selection');
       });
 
       module('when filters are used', function (hooks) {

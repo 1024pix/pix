@@ -9,7 +9,10 @@ export default class NewRoute extends Route {
     this.accessControl.restrictAccessTo(['isSuperAdmin', 'isSupport', 'isMetier'], 'authenticated');
   }
 
-  model() {
-    return this.store.createRecord('target-profile', { category: 'OTHER' });
+  async model() {
+    const targetProfile = await this.store.createRecord('target-profile', { category: 'OTHER' });
+    const frameworks = await this.store.findAll('framework');
+
+    return { frameworks, targetProfile };
   }
 }

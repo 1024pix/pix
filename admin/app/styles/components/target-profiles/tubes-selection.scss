@@ -1,3 +1,31 @@
+.tubes-selection {
+  color: $grey-70;
+  margin-bottom: $spacing-m;
+
+  &__card {
+    margin-bottom: $spacing-m;
+  }
+
+  &__inline-layout {
+    display: flex;
+    align-items: center;
+
+    label {
+      margin: 0;
+    }
+  }
+
+  &__multi-select {
+    max-width: 300px;
+    margin-left: $spacing-s;
+  }
+
+  &__multi-select-label {
+    font-weight: 500;
+    padding-right: $spacing-s;
+  }
+}
+
 .select-tube-table {
 
   .is-responsive {

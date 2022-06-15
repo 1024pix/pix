@@ -52,27 +52,13 @@
       </div>
     </Card>
 
-    <Card class="create-target-profile__card" @title="2. Sélection des sujets">
-      <div class="create-target-profile__inline-layout">
-        <div class="file-upload-group form-field">
-          <div class="file-upload-group__button">
-            <PixButtonUpload
-              @id="skillsList"
-              @onChange={{@onLoadFile}}
-              accept=".json"
-              @backgroundColor="transparent-light"
-              @isBorderVisible="true"
-            >
-              Importer un profil cible .JSON
-            </PixButtonUpload>
-            <span>{{@filename}}</span>
-          </div>
-          {{#if @isFileInvalid}}
-            <p class="form-field__error">Le fichier Pix Editor n'est pas au bon format.</p>
-          {{/if}}
-        </div>
-      </div>
-    </Card>
+    <TargetProfiles::TubesSelection
+      @frameworks={{@frameworks}}
+      @areas={{@areas}}
+      @selectedTubeIds={{@selectedTubeIds}}
+      @tubeLevels={{@tubeLevels}}
+      @refreshAreas={{@refreshAreas}}
+    />
 
     <Card class="create-target-profile__card" @title="3. Personnalisation">
       <PixInput
