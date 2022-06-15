@@ -29,6 +29,8 @@ module.exports = {
         'juryCommentAuthorId',
         'juryCommentedAt',
         'hasSupervisorAccess',
+        'hasJoiningIssue',
+        'hasIncident',
         // included
         'assignedCertificationOfficer',
         'juryCommentAuthor',

@@ -199,7 +199,7 @@ exports.register = async (server) => {
           payload: Joi.object({
             data: {
               attributes: {
-                'examiner-global-comment': Joi.string().optional().allow('').max(500),
+                'examiner-global-comment': Joi.string().optional().allow(null).allow('').max(500),
                 'has-incident': Joi.boolean().required(),
                 'has-joining-issue': Joi.boolean().required(),
               },
