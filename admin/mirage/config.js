@@ -182,8 +182,8 @@ export default function () {
     const email = params.data.attributes.email;
     const lang = params.data.attributes.lang;
     const role = params.data.attributes.role;
-
-    return schema.organizationInvitations.create({ email, lang, role });
+    const updatedAt = Date.now();
+    return schema.organizationInvitations.create({ email, lang, role, updatedAt });
   });
 
   this.patch('/admin/memberships/:id', (schema, request) => {

@@ -1,5 +1,6 @@
 import Model, { attr } from '@ember-data/model';
 import { memberAction } from 'ember-api-actions';
+import dayjs from 'dayjs';
 
 export default class ToBePublishedSession extends Model {
   @attr() certificationCenterName;
@@ -13,7 +14,7 @@ export default class ToBePublishedSession extends Model {
   }
 
   get printableFinalizationDate() {
-    return new Date(this.finalizedAt).toLocaleDateString('fr-FR');
+    return dayjs(this.finalizedAt).format('DD/MM/YYYY');
   }
 
   publish = memberAction({

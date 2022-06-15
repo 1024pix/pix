@@ -5,7 +5,7 @@ import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { visit } from '@1024pix/ember-testing-library';
 import { statusToDisplayName } from 'pix-admin/models/session';
 import { authenticateAdminMemberWithRole } from 'pix-admin/tests/helpers/test-init';
-import moment from 'moment';
+import dayjs from 'dayjs';
 
 module('Integration | Component | routes/authenticated/sessions/session | informations', function (hooks) {
   setupApplicationTest(hooks);
@@ -30,7 +30,7 @@ module('Integration | Component | routes/authenticated/sessions/session | inform
       assert.dom(screen.getByText(session.address)).exists();
       assert.dom(screen.getByText(session.room)).exists();
       assert.dom(screen.getByText(session.examiner)).exists();
-      assert.dom(screen.getByText(moment(session.date, 'YYYY-MM-DD').format('DD/MM/YYYY'))).exists();
+      assert.dom(screen.getByText(dayjs(session.date, 'YYYY-MM-DD').format('DD/MM/YYYY'))).exists();
       assert.dom(screen.getByText(session.time)).exists();
       assert.dom(screen.getByText(session.description)).exists();
       assert.dom(screen.getByText(session.accessCode)).exists();
