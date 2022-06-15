@@ -226,7 +226,7 @@
       "jury-info": "Notes from the examining body are not displayed on the verification page of your certificate.",
       "jury-title": "Notes from the examining body",
       "temporary-badge-info": "--- \"{level}\" ---",
-      "validity": "Certificate valid for 3 years",
+      "professionalizing-warning": "The Pix certificate is recognised as professionalising by France Compétences upon reaching a minimum score of 120 pix.",  
       "verification-code": {
         "title": "Verification code",
         "alt": "Copy",
