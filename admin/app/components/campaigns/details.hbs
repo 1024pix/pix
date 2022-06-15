@@ -10,7 +10,7 @@
   </div>
   <p class="campaign__subtitle">
     Créée le
-    {{moment-format @campaign.createdAt "DD/MM/YYYY"}}
+    {{dayjs-format @campaign.createdAt "DD/MM/YYYY"}}
     par
     {{@campaign.creatorFirstName}}
     {{@campaign.creatorLastName}}
@@ -35,7 +35,7 @@
       <li>Titre du parcours : {{@campaign.title}}</li>
     {{/if}}
     {{#if @campaign.archivedAt}}
-      <li>Archivée le {{moment-format @campaign.archivedAt "DD/MM/YYYY"}}</li>
+      <li>Archivée le {{dayjs-format @campaign.archivedAt "DD/MM/YYYY"}}</li>
     {{/if}}
 
     <br />

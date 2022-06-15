@@ -27,7 +27,7 @@
     <div>
       <span class="jury-comment__author">{{@author}}</span>
       -
-      <time class="jury-comment__date">{{moment-format @date "DD/MM/YYYY à HH:mm"}}</time>
+      <time class="jury-comment__date">{{dayjs-format @date "DD/MM/YYYY à HH:mm"}}</time>
     </div>
     <p class="jury-comment__content">{{this.comment}}</p>
     {{#if this.accessControl.hasAccessToCertificationActionsScope}}
