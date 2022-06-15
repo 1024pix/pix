@@ -313,7 +313,7 @@ describe('Unit | Service | Certification Result Service', function () {
       });
     });
 
-    context('When there are more challenges than answers ', function () {
+    context('When there are less answers than challenges', function () {
       it('should throw', async function () {
         // given
         const certificationAnswersByDate = _.map(
@@ -355,7 +355,9 @@ describe('Unit | Service | Certification Result Service', function () {
 
         // then
         expect(error).to.be.instanceOf(CertificationComputeError);
-        expect(error.message).to.equal('L’utilisateur n’a pas répondu à toutes les questions');
+        expect(error.message).to.equal(
+          "L’utilisateur n’a pas répondu à toutes les questions, alors qu'aucune raison d'abandon n'a été fournie."
+        );
       });
     });
 
