@@ -26,6 +26,8 @@ module.exports = {
           'relatedOrganizationTags',
           'habilitations',
           'isEndTestScreenRemovalEnabled',
+          'pixCertifScoBlockedAccessDateLycee',
+          'pixCertifScoBlockedAccessDateCollege',
         ],
       },
       typeForAttribute: function (attribute) {
@@ -47,6 +49,8 @@ module.exports = {
               isAccessBlockedAEFE: access.isAccessBlockedAEFE(),
               isAccessBlockedAgri: access.isAccessBlockedAgri(),
               isEndTestScreenRemovalEnabled: access.isEndTestScreenRemovalEnabled(),
+              pixCertifScoBlockedAccessDateCollege: access.pixCertifScoBlockedAccessDateCollege,
+              pixCertifScoBlockedAccessDateLycee: access.pixCertifScoBlockedAccessDateLycee,
             };
           }
         );

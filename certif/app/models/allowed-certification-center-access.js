@@ -12,6 +12,8 @@ export default class AllowedCertificationCenterAccess extends Model {
   @attr() relatedOrganizationTags;
   @attr() habilitations;
   @attr() isEndTestScreenRemovalEnabled;
+  @attr() pixCertifScoBlockedAccessDateLycee;
+  @attr() pixCertifScoBlockedAccessDateCollege;
 
   get isSco() {
     return this.type === 'SCO';
