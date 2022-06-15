@@ -18,24 +18,29 @@ describe('Acceptance | Controller | session-controller-get-jury-session', functi
     let expectedJurySession;
     let certificationCenter;
 
-    beforeEach(function () {
+    beforeEach(async function () {
       const assignedCertificationOfficerId = databaseBuilder.factory.buildUser({
+        id: 100002,
         firstName: 'Pix',
         lastName: 'Doe',
       }).id;
-      certificationCenter = databaseBuilder.factory.buildCertificationCenter({ type: 'SCO', externalId: 'EXT_ID' });
+      certificationCenter = databaseBuilder.factory.buildCertificationCenter({
+        id: 100003,
+        type: 'SCO',
+        externalId: 'EXT_ID',
+      });
       expectedJurySession = databaseBuilder.factory.buildSession({
+        id: 100004,
         assignedCertificationOfficerId,
         certificationCenterId: certificationCenter.id,
         certificationCenter: certificationCenter.name,
       });
       databaseBuilder.factory.buildSupervisorAccess({ sessionId: expectedJurySession.id });
-      databaseBuilder.factory.buildSession();
+      databaseBuilder.factory.buildSession({ id: 1000099 });
       options = {
         method: 'GET',
         url: `/api/admin/sessions/${expectedJurySession.id}`,
       };
-
       return databaseBuilder.commit();
     });
 
