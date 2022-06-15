@@ -9,9 +9,6 @@
         {{t "pages.certificate.issued-on"}}
         {{moment-format @certification.deliveredAt "D MMMM YYYY"}}
       </p>
-      <p class="user-certifications-detail-header__info-certificate--grey">
-        {{t "pages.certificate.validity"}}
-      </p>
 
       <p>{{@certification.fullName}}</p>
       <p>
@@ -31,6 +28,11 @@
       {{/if}}
 
       <p>{{t "pages.certificate.exam-date"}} {{moment-format @certification.date "D MMMM YYYY"}}</p>
+
+      {{#if @certification.shouldDisplayProfessionalizingWarning}}
+        <p class="user-certifications-detail-header__info-certificate--professionalizing-warning">
+          {{t "pages.certificate.professionalizing-warning"}}</p>
+      {{/if}}
 
     </div>
   </div>

@@ -70,7 +70,7 @@ exports.seed = async (knex) => {
   await certificationUserProfilesBuilder({ databaseBuilder });
   certificationSessionsBuilder({ databaseBuilder });
   certificationCandidatesBuilder({ databaseBuilder });
-  certificationCoursesBuilder({ databaseBuilder });
+  await certificationCoursesBuilder({ databaseBuilder });
   certificationScoresBuilder({ databaseBuilder });
   badgeAcquisitionBuilder({ databaseBuilder });
   complementaryCertificationCourseResultsBuilder({ databaseBuilder });
