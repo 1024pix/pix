@@ -50,36 +50,43 @@ describe('Acceptance | Controller | session-controller-get-jury-session', functi
 
         // then
         expect(response.statusCode).to.equal(200);
-        expect(response.result.data.type).to.equal('sessions');
-        expect(parseInt(response.result.data.id)).to.equal(expectedJurySession.id);
-        expect(response.result.data.attributes['certification-center-name']).to.equal(
-          expectedJurySession.certificationCenter
-        );
-        expect(response.result.data.attributes['certification-center-type']).to.equal('SCO');
-        expect(response.result.data.attributes['certification-center-external-id']).to.equal(
-          certificationCenter.externalId
-        );
-        expect(response.result.data.attributes['address']).to.equal(expectedJurySession.address);
-        expect(response.result.data.attributes['room']).to.equal(expectedJurySession.room);
-        expect(response.result.data.attributes['examiner']).to.equal(expectedJurySession.examiner);
-        expect(response.result.data.attributes['date']).to.equal(expectedJurySession.date);
-        expect(response.result.data.attributes['time']).to.equal(expectedJurySession.time);
-        expect(response.result.data.attributes['access-code']).to.equal(expectedJurySession.accessCode);
-        expect(response.result.data.attributes['description']).to.equal(expectedJurySession.description);
-        expect(response.result.data.attributes['examiner-global-comment']).to.equal(
-          expectedJurySession.examinerGlobalComment
-        );
-        expect(response.result.data.attributes['finalized-at']).to.equal(expectedJurySession.finalizedAt);
-        expect(response.result.data.attributes['results-sent-to-prescriber-at']).to.equal(
-          expectedJurySession.resultsSentToPrescriberAt
-        );
-        expect(response.result.data.attributes['published-at']).to.equal(expectedJurySession.publishedAt);
-        expect(response.result.data.attributes['has-supervisor-access']).to.be.true;
-        expect(response.result.data.attributes['has-incident']).to.equal(false);
-        expect(response.result.data.attributes['has-joining-issue']).to.equal(false);
-        expect(parseInt(response.result.included[0].id)).to.equal(expectedJurySession.assignedCertificationOfficerId);
-        expect(response.result.included[0].attributes['first-name']).to.equal('Pix');
-        expect(response.result.included[0].attributes['last-name']).to.equal('Doe');
+        expect(response.result).to.deep.equal({
+          included: [{ type: 'user', id: '100002', attributes: { 'first-name': 'Pix', 'last-name': 'Doe' } }],
+          data: {
+            type: 'sessions',
+            id: '100004',
+            attributes: {
+              'certification-center-name': 'some name',
+              'certification-center-type': 'SCO',
+              'certification-center-id': 100003,
+              'certification-center-external-id': 'EXT_ID',
+              address: '3 rue des églantines',
+              room: 'B315',
+              examiner: 'Ginette',
+              date: '2020-01-15',
+              time: '15:30:00',
+              'access-code': 'FMKP39',
+              status: 'in_process',
+              description: 'La session se déroule dans le jardin',
+              'examiner-global-comment': '',
+              'finalized-at': null,
+              'results-sent-to-prescriber-at': null,
+              'published-at': null,
+              'jury-comment': null,
+              'jury-commented-at': null,
+              'has-supervisor-access': true,
+              'has-joining-issue': false,
+              'has-incident': false,
+            },
+            relationships: {
+              'assigned-certification-officer': { data: { type: 'user', id: '100002' } },
+              'jury-comment-author': { data: null },
+              'jury-certification-summaries': {
+                links: { related: '/api/admin/sessions/100004/jury-certification-summaries' },
+              },
+            },
+          },
+        });
       });
     });
 
