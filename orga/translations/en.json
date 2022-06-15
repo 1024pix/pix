@@ -502,6 +502,12 @@
               "value": "{count, plural, =1 {1 tutorial} other {{count} tutorials}}"
             }
           },
+          "recommendations": {
+            "moderately-recommended": "Moderately recommended",
+            "recommended": "Recommended",
+            "strongly-recommended": "Strongly recommended",
+            "very-strongly-recommended": "Very strongly recommended"
+          },
           "row-title": "Topic",
           "sort": {
             "relevance": "Sort by relevance"
