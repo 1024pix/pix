@@ -45,6 +45,8 @@ describe('Unit | Serializer | JSONAPI | jury-session-serializer', function () {
           examinerGlobalComment: 'someComment',
           finalizedAt: new Date('2020-02-17T14:23:56Z'),
           assignedCertificationOfficer,
+          hasJoiningIssue: true,
+          hasIncident: true,
         });
 
         // when
@@ -74,6 +76,8 @@ describe('Unit | Serializer | JSONAPI | jury-session-serializer', function () {
               'results-sent-to-prescriber-at': null,
               'jury-comment': null,
               'jury-commented-at': null,
+              'has-incident': true,
+              'has-joining-issue': true,
             },
             relationships: {
               'jury-certification-summaries': {
@@ -156,6 +160,8 @@ describe('Unit | Serializer | JSONAPI | jury-session-serializer', function () {
               'published-at': null,
               'jury-comment': 'Si on n’avait pas perdu une heure et quart, on serait là depuis une heure et quart.',
               'jury-commented-at': new Date('2021-02-21T14:23:56Z'),
+              'has-incident': false,
+              'has-joining-issue': false,
             },
             relationships: {
               'jury-certification-summaries': {
@@ -234,6 +240,9 @@ describe('Unit | Serializer | JSONAPI | jury-session-serializer', function () {
               'jury-comment': null,
               'jury-commented-at': null,
               'has-supervisor-access': true,
+
+              'has-incident': false,
+              'has-joining-issue': false,
             },
             relationships: {
               'jury-certification-summaries': {
@@ -303,6 +312,8 @@ describe('Unit | Serializer | JSONAPI | jury-session-serializer', function () {
               'published-at': new Date('2020-02-21T14:23:56Z'),
               'jury-comment': null,
               'jury-commented-at': null,
+              'has-incident': false,
+              'has-joining-issue': false,
             },
             relationships: {
               'jury-certification-summaries': {
