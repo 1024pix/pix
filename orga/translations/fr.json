@@ -501,6 +501,12 @@
               "value": "{count, plural, =1 {1 tuto} other {{count} tutos}}"
             }
           },
+          "recommendations": {
+            "moderately-recommended": "Assez recommandé",
+            "recommended": "Recommandé",
+            "strongly-recommended": "Fortement recommandé",
+            "very-strongly-recommended": "Très recommandé"
+          },
           "row-title": "Sujet",
           "sort": {
             "relevance": "Trier par pertinence"

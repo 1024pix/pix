@@ -1,14 +1,17 @@
 import Component from '@glimmer/component';
+import { inject as service } from '@ember/service';
 
 const RECOMMENDED = 75;
-const HIGHLY_RECOMMENDED = 50;
-const STRONGLY_RECOMMENDED = 25;
+const STRONGLY_RECOMMENDED = 50;
+const VERY_STRONGLY_RECOMMENDED = 25;
 
 export default class RecommendationIndicator extends Component {
+  @service intl;
+
   get bubblesCount() {
     const value = this.args.value;
-    if (value <= STRONGLY_RECOMMENDED) return 4;
-    if (value <= HIGHLY_RECOMMENDED) return 3;
+    if (value <= VERY_STRONGLY_RECOMMENDED) return 4;
+    if (value <= STRONGLY_RECOMMENDED) return 3;
     if (value <= RECOMMENDED) return 2;
     return 1;
   }
@@ -19,10 +22,12 @@ export default class RecommendationIndicator extends Component {
 
   get label() {
     const value = this.args.value;
-    if (value <= STRONGLY_RECOMMENDED) return 'Fortement recommandé';
-    if (value <= HIGHLY_RECOMMENDED) return 'Très recommandé';
-    if (value <= RECOMMENDED) return 'Recommandé';
-    return 'Assez recommandé';
+    if (value <= VERY_STRONGLY_RECOMMENDED)
+      return this.intl.t('pages.campaign-review.table.analysis.recommendations.very-strongly-recommended');
+    if (value <= STRONGLY_RECOMMENDED)
+      return this.intl.t('pages.campaign-review.table.analysis.recommendations.strongly-recommended');
+    if (value <= RECOMMENDED) return this.intl.t('pages.campaign-review.table.analysis.recommendations.recommended');
+    return this.intl.t('pages.campaign-review.table.analysis.recommendations.moderately-recommended');
   }
 
   get bubbleWidth() {

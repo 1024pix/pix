@@ -22,14 +22,14 @@ Fonctionnalité: Gestion des Campagnes
     Alors je vois 2 résultats par compétence
     Lorsque je clique sur "Analyse"
     Alors je vois 2 sujets
-    Et je vois que le sujet "Capitales" est "Fortement recommandé"
+    Et je vois que le sujet "Capitales" est "Très recommandé"
     Et je vois que le sujet "Philosophes" est "Assez recommandé"
     Lorsque je retourne au détail de la campagne
     Et je clique sur "Résultats (1)"
     Alors je vois la moyenne des résultats à 50%
     Lorsque je clique sur "Analyse"
     Alors je vois 2 sujets
-    Et je vois que le sujet "Capitales" est "Fortement recommandé"
+    Et je vois que le sujet "Capitales" est "Très recommandé"
     Et je vois que le sujet "Philosophes" est "Assez recommandé"
     Lorsque j'ouvre le sujet "Capitales"
     Alors je vois 1 tutoriel
