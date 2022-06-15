@@ -32,6 +32,8 @@ describe('Acceptance | Controller | sessions-controller', function () {
         data: {
           attributes: {
             'examiner-global-comment': examinerGlobalComment,
+            'has-incident': true,
+            'has-joining-issue': true,
           },
           included: [
             {
@@ -99,7 +101,7 @@ describe('Acceptance | Controller | sessions-controller', function () {
         await knex('assessment-results').delete();
       });
 
-      it('should return the serialized updated session', async function () {
+      it('should respond OK', async function () {
         // given
         const userId = databaseBuilder.factory.buildUser().id;
         databaseBuilder.factory.buildCertificationCenterMembership({
@@ -110,23 +112,31 @@ describe('Acceptance | Controller | sessions-controller', function () {
         await databaseBuilder.commit();
         options.headers.authorization = generateValidRequestAuthorizationHeader(userId);
 
-        const expectedSessionJSONAPI = {
-          data: {
-            type: 'sessions',
-            id: session.id.toString(),
-            attributes: {
-              status: 'finalized',
-              'examiner-global-comment': examinerGlobalComment,
-            },
-          },
-        };
-
         // when
         const response = await server.inject(options);
 
         // then
         expect(response.statusCode).to.equal(200);
-        expect(response.result.data).to.deep.equal(expectedSessionJSONAPI.data);
+      });
+
+      it('should update session', async function () {
+        // given
+        const userId = databaseBuilder.factory.buildUser().id;
+        databaseBuilder.factory.buildCertificationCenterMembership({
+          userId,
+          certificationCenterId: session.certificationCenterId,
+        });
+
+        await databaseBuilder.commit();
+        options.headers.authorization = generateValidRequestAuthorizationHeader(userId);
+
+        // when
+        await server.inject(options);
+
+        // then
+        const finalizedSession = await knex.from('sessions').where({ id: session.id }).first();
+        expect(finalizedSession.hasIncident).to.be.true;
+        expect(finalizedSession.hasJoiningIssue).to.be.true;
       });
 
       it('should neutralize auto-neutralizable challenges', async function () {
@@ -207,6 +217,8 @@ describe('Acceptance | Controller | sessions-controller', function () {
             data: {
               attributes: {
                 'examiner-global-comment': examinerGlobalComment,
+                'has-incident': true,
+                'has-joining-issue': true,
               },
               included: [
                 {
@@ -228,23 +240,11 @@ describe('Acceptance | Controller | sessions-controller', function () {
           url: `/api/sessions/${session.id}/finalization`,
         };
 
-        const expectedSessionJSONAPI = {
-          data: {
-            type: 'sessions',
-            id: session.id.toString(),
-            attributes: {
-              status: 'finalized',
-              'examiner-global-comment': examinerGlobalComment,
-            },
-          },
-        };
-
         // when
         const response = await server.inject(options);
 
         // then
         expect(response.statusCode).to.equal(200);
-        expect(response.result.data).to.deep.equal(expectedSessionJSONAPI.data);
         const actualKoCertificationChallenge = await knex('certification-challenges')
           .where({ id: certificationChallengeKo.id })
           .first();
@@ -328,6 +328,8 @@ describe('Acceptance | Controller | sessions-controller', function () {
             data: {
               attributes: {
                 'examiner-global-comment': '',
+                'has-incident': true,
+                'has-joining-issue': true,
               },
               included: [
                 {
@@ -349,23 +351,11 @@ describe('Acceptance | Controller | sessions-controller', function () {
           url: `/api/sessions/${session.id}/finalization`,
         };
 
-        const expectedSessionJSONAPI = {
-          data: {
-            type: 'sessions',
-            id: session.id.toString(),
-            attributes: {
-              status: 'finalized',
-              'examiner-global-comment': '',
-            },
-          },
-        };
-
         // when
         const response = await server.inject(options);
 
         // then
         expect(response.statusCode).to.equal(200);
-        expect(response.result.data).to.deep.equal(expectedSessionJSONAPI.data);
         const finalizedSession = await knex('finalized-sessions').where({ sessionId: session.id }).first();
         expect(finalizedSession.isPublishable).to.be.true;
       });
@@ -466,6 +456,8 @@ describe('Acceptance | Controller | sessions-controller', function () {
             data: {
               attributes: {
                 'examiner-global-comment': examinerGlobalComment,
+                'has-incident': true,
+                'has-joining-issue': true,
               },
               included: [
                 {
@@ -487,23 +479,11 @@ describe('Acceptance | Controller | sessions-controller', function () {
           url: `/api/sessions/${session.id}/finalization`,
         };
 
-        const expectedSessionJSONAPI = {
-          data: {
-            type: 'sessions',
-            id: session.id.toString(),
-            attributes: {
-              status: 'finalized',
-              'examiner-global-comment': examinerGlobalComment,
-            },
-          },
-        };
-
         // when
         const response = await server.inject(options);
 
         // then
         expect(response.statusCode).to.equal(200);
-        expect(response.result.data).to.deep.equal(expectedSessionJSONAPI.data);
         const actualKoAssessmentResult = await knex('assessment-results')
           .where({ assessmentId, emitter: 'PIX-ALGO-NEUTRALIZATION' })
           .first();

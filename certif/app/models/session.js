@@ -30,6 +30,8 @@ export default class Session extends Model {
   @attr('string') examinerGlobalComment;
   @attr('string') supervisorPassword;
   @attr('boolean') hasSupervisorAccess;
+  @attr('boolean') hasIncident;
+  @attr('boolean') hasJoiningIssue;
   @attr() certificationCenterId;
   @hasMany('certificationReport') certificationReports;
 

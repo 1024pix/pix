@@ -98,6 +98,80 @@ module('Acceptance | Session Finalization', function (hooks) {
       assert.deepEqual(currentURL(), `/sessions/${session.id}`);
     });
 
+    module('when FT_CERTIFICATION_FREE_FIELDS_DELETION is off', function () {
+      test('it should display the comment step section', async function (assert) {
+        // when
+        const screen = await visit(`/sessions/${session.id}/finalisation`);
+
+        // then
+        assert.dom(screen.getByText('Étape 3 : Commenter la session (facultatif)')).exists();
+        assert
+          .dom(
+            screen.getByText(
+              "Aucun problème sur la session, en dehors des signalements individuels renseignés lors de l'étape 1."
+            )
+          )
+          .exists();
+        assert
+          .dom(
+            screen.getByText(
+              'Je souhaite signaler un ou plusieurs incident(s) ayant impacté la session dans son ensemble'
+            )
+          )
+          .exists();
+      });
+    });
+    module('when FT_CERTIFICATION_FREE_FIELDS_DELETION is on', function () {
+      test('it should not display the comment step section', async function (assert) {
+        // given
+        server.create('feature-toggle', { id: 0, isCertificationFreeFieldsDeletionEnabled: true });
+
+        // when
+        const screen = await visit(`/sessions/${session.id}/finalisation`);
+
+        // then
+        assert.dom(screen.queryByText('Étape 3 : Commenter la session (facultatif)')).doesNotExist();
+        assert
+          .dom(
+            screen.queryByText(
+              "Aucun problème sur la session, en dehors des signalements individuels renseignés lors de l'étape 1."
+            )
+          )
+          .doesNotExist();
+        assert
+          .dom(
+            screen.queryByText(
+              'Je souhaite signaler un ou plusieurs incident(s) ayant impacté la session dans son ensemble'
+            )
+          )
+          .doesNotExist();
+      });
+
+      test('it should display the complementary info section', async function (assert) {
+        // given
+        server.create('feature-toggle', { id: 0, isCertificationFreeFieldsDeletionEnabled: true });
+
+        // when
+        const screen = await visit(`/sessions/${session.id}/finalisation`);
+
+        // then
+        assert
+          .dom(
+            screen.getByRole('checkbox', {
+              name: 'Malgré un incident survenu pendant la session, les candidats ont pu terminer leur test de certification. Un temps supplémentaire a été accordé à un ou plusieurs candidats.',
+            })
+          )
+          .exists();
+        assert
+          .dom(
+            screen.getByRole('checkbox', {
+              name: "Un ou plusieurs candidats étaient présents en session de certification mais n'ont pas pu rejoindre la session.",
+            })
+          )
+          .exists();
+      });
+    });
+
     module('When certificationPointOfContact click on "Finaliser" button', function () {
       module('when there is no certification issue reports', function () {
         test('it should show "Ajouter" button', async function (assert) {

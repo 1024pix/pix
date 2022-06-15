@@ -70,6 +70,8 @@ module('Unit | Adapter | session', function (hooks) {
         sinon.stub(adapter, 'ajax').resolves();
         const expectedMethod = 'PUT';
         const examinerGlobalComment = 'Une super session';
+        const hasIncident = true;
+        const hasJoiningIssue = true;
         const certifReportAttributes1 = {
           certificationCourseId: 1,
           firstName: 'Laura',
@@ -93,6 +95,8 @@ module('Unit | Adapter | session', function (hooks) {
         };
         const session = {
           examinerGlobalComment,
+          hasIncident,
+          hasJoiningIssue,
           certificationReports: [certificationReport1, certificationReport2],
         };
         const snapshot = {
@@ -111,6 +115,8 @@ module('Unit | Adapter | session', function (hooks) {
             data: {
               attributes: {
                 'examiner-global-comment': examinerGlobalComment,
+                'has-incident': hasIncident,
+                'has-joining-issue': hasJoiningIssue,
               },
               included: [
                 {

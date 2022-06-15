@@ -18,6 +18,8 @@ module.exports = {
       'description',
       'accessCode',
       'examinerGlobalComment',
+      'hasIncident',
+      'hasJoiningIssue',
       'finalizedAt',
       'resultsSentToPrescriberAt',
       'publishedAt',
@@ -57,15 +59,6 @@ module.exports = {
     }).serialize(sessions);
   },
 
-  serializeForFinalization(sessions) {
-    return new Serializer('session', {
-      attributes: ['status', 'examinerGlobalComment'],
-      transform(session) {
-        return { ...session, status: session.status };
-      },
-    }).serialize(sessions);
-  },
-
   deserialize(json) {
     const attributes = json.data.attributes;
     if (!isValidDate(attributes.date, 'YYYY-MM-DD')) {
@@ -83,6 +76,8 @@ module.exports = {
       status: attributes.status,
       description: attributes.description,
       examinerGlobalComment: attributes['examiner-global-comment'],
+      hasIncident: attributes['has-incident'],
+      hasJoiningIssue: attributes['has-joining-issue'],
     });
 
     if (_.isEmpty(_.trim(result.examinerGlobalComment))) {

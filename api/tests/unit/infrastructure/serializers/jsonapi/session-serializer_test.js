@@ -25,6 +25,8 @@ describe('Unit | Serializer | JSONAPI | session-serializer', function () {
             status: statuses.PROCESSED,
             description: '',
             'examiner-global-comment': 'It was a fine session my dear',
+            'has-incident': true,
+            'has-joining-issue': true,
             'finalized-at': new Date('2020-02-17T14:23:56Z'),
             'results-sent-to-prescriber-at': new Date('2020-02-20T14:23:56Z'),
             'published-at': new Date('2020-02-21T14:23:56Z'),
@@ -56,6 +58,8 @@ describe('Unit | Serializer | JSONAPI | session-serializer', function () {
         accessCode: '',
         supervisorPassword: 'SOWHAT',
         examinerGlobalComment: 'It was a fine session my dear',
+        hasIncident: true,
+        hasJoiningIssue: true,
         finalizedAt: new Date('2020-02-17T14:23:56Z'),
         resultsSentToPrescriberAt: new Date('2020-02-20T14:23:56Z'),
         publishedAt: new Date('2020-02-21T14:23:56Z'),
@@ -107,6 +111,8 @@ describe('Unit | Serializer | JSONAPI | session-serializer', function () {
           description: '',
           'certification-center-id': 42,
           'examiner-global-comment': 'It was a fine session my dear',
+          'has-incident': true,
+          'has-joining-issue': true,
           'finalized-at': new Date('2020-02-17T14:23:56Z'),
           'results-sent-to-prescriber-at': new Date('2020-02-20T14:23:56Z'),
         },
@@ -149,6 +155,8 @@ describe('Unit | Serializer | JSONAPI | session-serializer', function () {
       expect(session.time).to.equal('14:30');
       expect(session.description).to.equal('');
       expect(session.examinerGlobalComment).to.equal('It was a fine session my dear');
+      expect(session.hasIncident).to.be.true;
+      expect(session.hasJoiningIssue).to.be.true;
     });
 
     // eslint-disable-next-line mocha/no-setup-in-describe
@@ -163,45 +171,6 @@ describe('Unit | Serializer | JSONAPI | session-serializer', function () {
         // then
         expect(result.examinerGlobalComment).to.deep.equal(Session.NO_EXAMINER_GLOBAL_COMMENT);
       });
-    });
-  });
-
-  describe('#serializeForFinalization()', function () {
-    let modelSession;
-    const expectedJsonApi = {
-      data: {
-        type: 'sessions',
-        id: '12',
-        attributes: {
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line mocha/no-setup-in-describe
-          status: statuses.CREATED,
-          'examiner-global-comment': 'It was a fine session my dear',
-        },
-      },
-    };
-
-    beforeEach(function () {
-      modelSession = new Session({
-        id: 12,
-        address: 'Nice',
-        room: '28D',
-        examiner: 'Antoine Toutvenant',
-        date: '2017-01-20',
-        time: '14:30',
-        description: '',
-        accessCode: '',
-        status: statuses.CREATED,
-        examinerGlobalComment: 'It was a fine session my dear',
-      });
-    });
-
-    it('should convert a Session model object into JSON API data', function () {
-      // when
-      const json = serializer.serializeForFinalization(modelSession);
-
-      // then
-      expect(json).to.deep.equal(expectedJsonApi);
     });
   });
 });
