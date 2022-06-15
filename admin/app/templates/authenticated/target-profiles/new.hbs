@@ -8,11 +8,13 @@
 <main class="page-body">
   <section class="page-section">
     <TargetProfiles::CreateTargetProfileForm
-      @targetProfile={{this.model}}
-      @isFileInvalid={{this.isFileInvalid}}
-      @filename={{this.filename}}
+      @targetProfile={{this.model.targetProfile}}
+      @frameworks={{this.model.frameworks}}
+      @selectedTubeIds={{this.selectedTubeIds}}
+      @areas={{this.areas}}
+      @tubeLevels={{this.tubeLevels}}
+      @refreshAreas={{this.refreshAreas}}
       @isDisabled={{this.isSaving}}
-      @onLoadFile={{this.saveFileObject}}
       @onSubmit={{this.createTargetProfile}}
       @onCancel={{this.goBackToTargetProfileList}}
     />
