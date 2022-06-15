@@ -20,14 +20,14 @@
     {{/if}}
   </td>
 {{/if}}
-<td>{{moment-format @participation.createdAt "DD/MM/YYYY"}}</td>
+<td>{{dayjs-format @participation.createdAt "DD/MM/YYYY"}}</td>
 <td>{{@participation.displayedStatus}}</td>
 <td>
-  {{if @participation.sharedAt (moment-format @participation.sharedAt "DD/MM/YYYY") "-"}}
+  {{if @participation.sharedAt (dayjs-format @participation.sharedAt "DD/MM/YYYY") "-"}}
 </td>
 {{#if @participation.deletedAt}}
   <td>
-    {{moment-format @participation.deletedAt "DD/MM/YYYY"}}
+    {{dayjs-format @participation.deletedAt "DD/MM/YYYY"}}
     par
     <LinkTo @route="authenticated.users.get" @model={{@participation.deletedBy}}>
       {{@participation.deletedByFullName}}

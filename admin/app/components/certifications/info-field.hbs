@@ -28,7 +28,7 @@
       {{else}}
         <span class={{@class}}>
           {{#if @isDate}}
-            {{moment-format @value "DD/MM/YYYY" allow-empty=true}}
+            {{dayjs-format @value "DD/MM/YYYY" allow-empty=true}}
           {{else}}
             {{if this.valueWithSuffix this.valueWithSuffix " - "}}
           {{/if}}
