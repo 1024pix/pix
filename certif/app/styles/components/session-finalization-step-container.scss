@@ -3,17 +3,24 @@
   flex-direction: column;
   margin-bottom: 24px;
 
-  &__title {
+  &__header {
+    border-radius: 8px;
     display: flex;
     background: $grey-10;
     margin: 8px;
-    color: $grey-50;
+    color: $grey-60;
     font-weight: bold;
     padding: 20px 0 19px 24px;
   }
 
+  &__subtitle {
+    font-size: 0.875rem;
+    font-weight: normal;
+    margin-top: 8px;
+  }
+
   &__icon {
-    margin-right: 12px;
+    margin-right: 24px;
   }
 
   &__border {

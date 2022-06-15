@@ -13,12 +13,16 @@ describe('Unit | UseCase | finalize-session', function () {
   let examinerGlobalComment;
   let sessionRepository;
   let certificationReportRepository;
+  let hasIncident;
+  let hasJoiningIssue;
 
   beforeEach(async function () {
     sessionId = 'dummy session id';
     updatedSession = domainBuilder.buildSession({
       id: sessionId,
       examinerGlobalComment,
+      hasIncident,
+      hasJoiningIssue,
       finalizedAt: new Date(),
     });
     examinerGlobalComment = 'It was a fine session my dear.';
@@ -116,6 +120,8 @@ describe('Unit | UseCase | finalize-session', function () {
           .withArgs({
             id: sessionId,
             examinerGlobalComment,
+            hasIncident,
+            hasJoiningIssue,
             finalizedAt: now,
           })
           .resolves(updatedSession);
@@ -124,6 +130,8 @@ describe('Unit | UseCase | finalize-session', function () {
         await finalizeSession({
           sessionId,
           examinerGlobalComment,
+          hasIncident,
+          hasJoiningIssue,
           sessionRepository,
           certificationReports,
           certificationReportRepository,
@@ -134,6 +142,8 @@ describe('Unit | UseCase | finalize-session', function () {
           sessionRepository.finalize.calledWithExactly({
             id: sessionId,
             examinerGlobalComment,
+            hasIncident,
+            hasJoiningIssue,
             finalizedAt: now,
           })
         ).to.be.true;
@@ -161,6 +171,8 @@ describe('Unit | UseCase | finalize-session', function () {
           .withArgs({
             id: sessionId,
             examinerGlobalComment,
+            hasIncident,
+            hasJoiningIssue,
             finalizedAt: now,
           })
           .resolves(updatedSession);
@@ -169,6 +181,8 @@ describe('Unit | UseCase | finalize-session', function () {
         const event = await finalizeSession({
           sessionId,
           examinerGlobalComment,
+          hasIncident,
+          hasJoiningIssue,
           sessionRepository,
           certificationReports,
           certificationReportRepository,

@@ -123,6 +123,16 @@ export default class SessionsFinalizeController extends Controller {
     this.showConfirmModal = false;
   }
 
+  @action
+  toggleIncidentDuringCertificationSession(hasIncident) {
+    this.session.hasIncident = hasIncident;
+  }
+
+  @action
+  toggleSessionJoiningIssue(hasJoiningIssue) {
+    this.session.hasJoiningIssue = hasJoiningIssue;
+  }
+
   _convertStringToNullIfEmpty(str) {
     return isEmpty(trim(str)) ? null : str;
   }

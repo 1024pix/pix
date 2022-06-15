@@ -142,6 +142,7 @@ module('Unit | Controller | ' + FINALIZE_PATH, function (hooks) {
           isCertificationFreeFieldsDeletionEnabled: true,
         };
       }
+
       this.owner.register('service:feature-toggles', FeatureTogglesStub);
 
       const controller = this.owner.lookup('controller:' + FINALIZE_PATH);
@@ -160,6 +161,7 @@ module('Unit | Controller | ' + FINALIZE_PATH, function (hooks) {
           isCertificationFreeFieldsDeletionEnabled: false,
         };
       }
+
       this.owner.register('service:feature-toggles', FeatureTogglesStub);
 
       const controller = this.owner.lookup('controller:' + FINALIZE_PATH);
@@ -219,7 +221,7 @@ module('Unit | Controller | ' + FINALIZE_PATH, function (hooks) {
     });
   });
 
-  module('#action toggleCertificationReportHasSeenEndTestScreen', function () {
+  module('#toggleCertificationReportHasSeenEndTestScreen', function () {
     test('it should toggle the hasSeenEndTestScreen attribute of the certif parameter', function (assert) {
       // given
       const initialValue = true;
@@ -234,7 +236,7 @@ module('Unit | Controller | ' + FINALIZE_PATH, function (hooks) {
     });
   });
 
-  module('#action toggleAllCertificationReportsHasSeenEndTestScreen', function () {
+  module('#toggleAllCertificationReportsHasSeenEndTestScreen', function () {
     [
       { hasSeenEndTestScreen1: true, hasSeenEndTestScreen2: true, expectedState: false },
       { hasSeenEndTestScreen1: true, hasSeenEndTestScreen2: false, expectedState: false },
@@ -332,6 +334,42 @@ module('Unit | Controller | ' + FINALIZE_PATH, function (hooks) {
       // then
       sinon.assert.calledWithExactly(certificationReport.abort, 'coucou');
       assert.ok(true);
+    });
+  });
+
+  module('#action toggleIncidentDuringCertificationSession', function () {
+    test('it should set hasIncident to true', function (assert) {
+      // given
+      const controller = this.owner.lookup('controller:' + FINALIZE_PATH);
+      const session = {
+        hasIncident: false,
+      };
+      const displayIncidentDuringCertificationSession = true;
+      controller.model = session;
+
+      // when
+      controller.send('toggleIncidentDuringCertificationSession', displayIncidentDuringCertificationSession);
+
+      // then
+      assert.true(session.hasIncident);
+    });
+  });
+
+  module('#action toggleIssueWithJoiningSession', function () {
+    test('it should set hasJoiningIssue to true', function (assert) {
+      // given
+      const controller = this.owner.lookup('controller:' + FINALIZE_PATH);
+      const session = {
+        hasJoiningIssue: false,
+      };
+      const displayJoiningIssue = true;
+      controller.model = session;
+
+      // when
+      controller.send('toggleSessionJoiningIssue', displayJoiningIssue);
+
+      // then
+      assert.true(session.hasJoiningIssue);
     });
   });
 });

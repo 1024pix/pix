@@ -215,15 +215,24 @@ describe('Unit | Application | Sessions | Routes', function () {
   });
 
   describe('PUT /api/sessions/{id}/finalization', function () {
-    it('should exist', async function () {
+    it('should respond OK', async function () {
       // given
       sinon.stub(authorization, 'verifySessionAuthorization').returns(null);
       sinon.stub(sessionController, 'finalize').returns('ok');
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
+      const payload = {
+        data: {
+          attributes: {
+            'examiner-global-comment': 'a comment',
+            'has-incident': false,
+            'has-joining-issue': false,
+          },
+        },
+      };
 
       // when
-      const response = await httpTestServer.request('PUT', '/api/sessions/3/finalization');
+      const response = await httpTestServer.request('PUT', '/api/sessions/3/finalization', payload);
 
       // then
       expect(response.statusCode).to.equal(200);
