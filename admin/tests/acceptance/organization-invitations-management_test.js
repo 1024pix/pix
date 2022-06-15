@@ -2,7 +2,7 @@ import { module, test } from 'qunit';
 import { clickByText, fillByLabel, visit } from '@1024pix/ember-testing-library';
 import { setupApplicationTest } from 'ember-qunit';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
-import moment from 'moment';
+import dayjs from 'dayjs';
 import sinon from 'sinon';
 import { authenticateAdminMemberWithRole } from 'pix-admin/tests/helpers/test-init';
 
@@ -46,7 +46,7 @@ module('Acceptance | organization invitations management', function (hooks) {
 
       // then
       assert.dom(screen.getByText("Un email a bien a été envoyé à l'adresse user@example.com.")).exists();
-      assert.dom(screen.getByText(moment(now).format('DD/MM/YYYY [-] HH:mm'))).exists();
+      assert.dom(screen.getByText(dayjs(now).format('DD/MM/YYYY [-] HH:mm'))).exists();
       assert.dom(screen.getByRole('textbox', { name: 'Adresse e-mail du membre à inviter' })).hasNoValue();
     });
 
@@ -67,7 +67,7 @@ module('Acceptance | organization invitations management', function (hooks) {
       await clickByText('Inviter');
 
       // then
-      assert.dom(screen.queryByText(moment(now).format('DD/MM/YYYY [-] HH:mm'))).doesNotExist();
+      assert.dom(screen.queryByText(dayjs(now).format('DD/MM/YYYY [-] HH:mm'))).doesNotExist();
       assert.dom(screen.getByText('Une erreur s’est produite, veuillez réessayer.')).exists();
     });
   });

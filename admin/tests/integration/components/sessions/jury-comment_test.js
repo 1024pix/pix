@@ -3,7 +3,7 @@ import { setupRenderingTest } from 'ember-qunit';
 import { settled } from '@ember/test-helpers';
 import { fillByLabel, clickByName, render } from '@1024pix/ember-testing-library';
 import { hbs } from 'ember-cli-htmlbars';
-import moment from 'moment';
+import dayjs from 'dayjs';
 import sinon from 'sinon';
 import Service from '@ember/service';
 
@@ -494,5 +494,5 @@ module('Integration | Component | Sessions::JuryComment', function (hooks) {
 });
 
 function _formatDate(dateString) {
-  return moment(dateString).format('DD/MM/YYYY à HH:mm');
+  return dayjs(dateString).format('DD/MM/YYYY à HH:mm');
 }

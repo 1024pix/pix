@@ -1,4 +1,5 @@
 import Model, { attr } from '@ember-data/model';
+import dayjs from 'dayjs';
 
 export default class WithRequiredActionSession extends Model {
   @attr() certificationCenterName;
@@ -13,6 +14,6 @@ export default class WithRequiredActionSession extends Model {
   }
 
   get printableFinalizationDate() {
-    return new Date(this.finalizedAt).toLocaleDateString('fr-FR');
+    return dayjs(this.finalizedAt).format('DD/MM/YYYY');
   }
 }
