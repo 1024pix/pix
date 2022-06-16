@@ -27,6 +27,12 @@ const status = {
   STARTED: 'started',
 };
 
+const emitters = {
+  PIX_ALGO: 'PIX-ALGO',
+  PIX_ALGO_AUTO_JURY: 'PIX-ALGO-AUTO-JURY',
+  PIX_ALGO_NEUTRALIZATION: 'PIX-ALGO-NEUTRALIZATION',
+};
+
 class CertificationResult {
   constructor({
     id,
@@ -254,4 +260,5 @@ class CertificationResult {
 }
 
 CertificationResult.status = status;
+CertificationResult.emitters = emitters;
 module.exports = CertificationResult;

@@ -12,6 +12,7 @@ const {
   CertificationIssueReportSubcategories,
 } = require('../../../../lib/domain/models/CertificationIssueReportCategory');
 const AnswerStatus = require('../../../../lib/domain/models/AnswerStatus');
+const CertificationResult = require('../../../../lib/domain/models/CertificationResult');
 
 describe('Acceptance | Controller | sessions-controller', function () {
   let options;
@@ -485,7 +486,7 @@ describe('Acceptance | Controller | sessions-controller', function () {
         // then
         expect(response.statusCode).to.equal(200);
         const actualKoAssessmentResult = await knex('assessment-results')
-          .where({ assessmentId, emitter: 'PIX-ALGO-NEUTRALIZATION' })
+          .where({ assessmentId, emitter: CertificationResult.emitters.PIX_ALGO_AUTO_JURY })
           .first();
         expect(actualKoAssessmentResult.pixScore).not.to.equal(assessmentResultKo.pixScore);
       });
