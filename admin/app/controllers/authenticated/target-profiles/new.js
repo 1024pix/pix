@@ -23,6 +23,28 @@ export default class NewController extends Controller {
   }
 
   @action
+  fillTubeSelectionFromFile([file]) {
+    const reader = new FileReader();
+    reader.readAsText(file);
+    reader.addEventListener('load', (event) => this._onFileLoad(event));
+  }
+  _onFileLoad(event) {
+    try {
+      const tubeIds = JSON.parse(event.target.result);
+      if (tubeIds.length === 0) {
+        throw new Error('Ce fichier ne contient aucun sujet !');
+      }
+      if (typeof tubeIds[0] !== 'string') {
+        throw new Error("Le format du fichier n'est pas reconnu");
+      }
+      this.selectedTubeIds = EmberArray(tubeIds);
+      this.notifications.success('Fichier bien importé.');
+    } catch (e) {
+      this.notifications.error(e.message);
+    }
+  }
+
+  @action
   async createTargetProfile(event) {
     event.preventDefault();
     const targetProfile = this.model.targetProfile;

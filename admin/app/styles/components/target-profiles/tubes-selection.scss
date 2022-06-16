@@ -13,6 +13,12 @@
     label {
       margin: 0;
     }
+
+    .vertical-delimiter {
+      margin: 0 1em;
+      border-left: 1px solid $grey-90;
+      height: 32px;
+    }
   }
 
   &__multi-select {

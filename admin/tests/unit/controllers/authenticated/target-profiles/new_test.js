@@ -25,6 +25,50 @@ module('Unit | Controller | authenticated/target-profiles/new', function (hooks)
     });
   });
 
+  module('#fillTubeSelectionFromFile', function (hooks) {
+    const files = ['tubeId1', 'tubeId2', 'tubeId3'];
+
+    hooks.beforeEach(function () {
+      sinon.restore();
+      sinon.stub(FileReader.prototype, 'readAsText');
+    });
+
+    test('should read the file', async function (assert) {
+      controller.fillTubeSelectionFromFile(files);
+
+      assert.ok(FileReader.prototype.readAsText.calledWith(files[0]));
+    });
+  });
+
+  module('#_onFileLoad', function (hooks) {
+    hooks.afterEach(function () {
+      sinon.restore();
+    });
+
+    module('when json file is valid', function (hooks) {
+      hooks.beforeEach(function () {
+        sinon.restore();
+
+        // given
+        controller.isFileInvalid = true;
+        const event = {
+          target: {
+            result: ['tubeId1', 'tubeId2', 'tubeId3'],
+          },
+        };
+        const selectionTubeList = ['tubeId1', 'tubeId2', 'tubeId3'];
+
+        // when
+        sinon.stub(JSON, 'parse').returns(selectionTubeList);
+        controller._onFileLoad(event);
+      });
+
+      test('it should fill skillIds list', function (assert) {
+        assert.deepEqual(controller.selectedTubeIds, ['tubeId1', 'tubeId2', 'tubeId3']);
+      });
+    });
+  });
+
   module('#createTargetProfile', function (hooks) {
     hooks.beforeEach(function () {
       const skills1 = Promise.resolve([
