@@ -1,5 +1,5 @@
 import { memberAction } from 'ember-api-actions';
-import Model, { attr, hasMany } from '@ember-data/model';
+import Model, { attr, hasMany, belongsTo } from '@ember-data/model';
 import map from 'lodash/map';
 
 export const categories = {
@@ -35,6 +35,7 @@ export default class TargetProfile extends Model {
   @hasMany('tube') tubes;
   @hasMany('competence') competences;
   @hasMany('area') areas;
+  @belongsTo('target-profile-template') template;
 
   attachOrganizations = memberAction({
     path: 'attach-organizations',

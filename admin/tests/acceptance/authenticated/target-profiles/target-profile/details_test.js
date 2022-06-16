@@ -1,5 +1,5 @@
 import { click, currentURL } from '@ember/test-helpers';
-import { fillByLabel, clickByName, visit } from '@1024pix/ember-testing-library';
+import { fillByLabel, clickByName, visit, within } from '@1024pix/ember-testing-library';
 import { module, test } from 'qunit';
 import { setupApplicationTest } from 'ember-qunit';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
@@ -255,6 +255,46 @@ module('Acceptance | Target Profiles | Target Profile | Details', function (hook
 
           // then
           assert.dom(screen.queryByLabelText('Marquer comme accès simplifié')).doesNotExist();
+        });
+      });
+
+      module('when target profile is attached to a template', function () {
+        test('it should display target profile download modal', async function (assert) {
+          const template = server.create('target-profile-template', { id: 456, tubes: [] });
+          server.create('target-profile', {
+            id: 1,
+            name: 'Profil Cible avec Gabarit',
+            ownerOrganizationId: 123,
+            template,
+          });
+
+          // when
+          const screen = await visit('/target-profiles/1');
+          await clickByName('Télécharger le profil cible (JSON)');
+
+          // then
+          const dialog = screen.getByRole('dialog', { name: 'Télécharger le profil cible' });
+          assert.dom(dialog).exists();
+          assert.dom(within(dialog).getByRole('textbox', { name: 'Nom du fichier' })).exists();
+          assert.dom(within(dialog).getByRole('button', { name: 'Annuler' })).exists();
+          assert.dom(within(dialog).getByRole('link', { name: /Télécharger \(JSON .+ Ko\)/ })).exists();
+        });
+      });
+
+      module('when target profile is not attached to a template', function () {
+        test('it should not display target profile download button', async function (assert) {
+          server.create('target-profile', {
+            id: 1,
+            name: 'Profil Cible sans Gabarit',
+            ownerOrganizationId: 123,
+            template: null,
+          });
+
+          // when
+          const screen = await visit('/target-profiles/1');
+
+          // then
+          assert.dom(screen.queryByRole('button', { name: 'Télécharger le profil cible (JSON)' })).doesNotExist();
         });
       });
     });

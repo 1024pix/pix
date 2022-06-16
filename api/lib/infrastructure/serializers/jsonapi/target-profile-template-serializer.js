@@ -5,7 +5,7 @@ module.exports = {
     return new Serializer('target-profile-template', {
       attributes: ['tubes'],
       tubes: {
-        attributes: ['tubeId', 'level'],
+        attributes: ['id', 'level'],
       },
       meta,
     }).serialize(targetProfileTemplate);
