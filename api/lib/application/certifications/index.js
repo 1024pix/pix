@@ -45,7 +45,7 @@ exports.register = async function (server) {
         notes: [
           "- **Route accessible par n'importe qui**\n" +
             '- Récupération des informations d’une certification d’un utilisateur' +
-            ' via un PixScore et un code de vérification',
+            ' via un code de vérification',
         ],
         tags: ['api', 'certifications', 'shared-certifications'],
       },
