@@ -223,7 +223,7 @@ async function _resolveWithNeitherImageNorEmbedInChallenge(
   certificationIssueReport
 ) {
   certificationIssueReport.resolve(
-    "Cette question n' a pas été neutralisée car elle ne contient ni image ni application/simulateur"
+    "Cette question n'a pas été neutralisée car elle ne contient ni image ni application/simulateur"
   );
   await certificationIssueReportRepository.save(certificationIssueReport);
   return CertificationIssueReportResolutionAttempt.resolvedWithoutEffect();
@@ -231,20 +231,20 @@ async function _resolveWithNeitherImageNorEmbedInChallenge(
 
 async function _resolveWithNoAttachmentInChallenge(certificationIssueReportRepository, certificationIssueReport) {
   certificationIssueReport.resolve(
-    "Cette question n' a pas été neutralisée car elle ne contient pas de fichier à télécharger"
+    "Cette question n'a pas été neutralisée car elle ne contient pas de fichier à télécharger"
   );
   await certificationIssueReportRepository.save(certificationIssueReport);
   return CertificationIssueReportResolutionAttempt.resolvedWithoutEffect();
 }
 
 async function _resolveWithNoFocusedChallenge(certificationIssueReportRepository, certificationIssueReport) {
-  certificationIssueReport.resolve("Cette question n' a pas été neutralisée car ce n'est pas une question focus");
+  certificationIssueReport.resolve("Cette question n'a pas été neutralisée car ce n'est pas une question focus");
   await certificationIssueReportRepository.save(certificationIssueReport);
   return CertificationIssueReportResolutionAttempt.resolvedWithoutEffect();
 }
 
 async function _resolveWithChallengeNotTimed(certificationIssueReportRepository, certificationIssueReport) {
-  certificationIssueReport.resolve("Cette question n' a pas été neutralisée car elle n'est pas chronométrée");
+  certificationIssueReport.resolve("Cette question n'a pas été neutralisée car elle n'est pas chronométrée");
   await certificationIssueReportRepository.save(certificationIssueReport);
   return CertificationIssueReportResolutionAttempt.resolvedWithoutEffect();
 }

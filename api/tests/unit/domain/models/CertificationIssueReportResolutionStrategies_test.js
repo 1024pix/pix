@@ -379,7 +379,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
 
         // then
         expect(certificationIssueReport.resolution).to.equal(
-          "Cette question n' a pas été neutralisée car elle ne contient ni image ni application/simulateur"
+          "Cette question n'a pas été neutralisée car elle ne contient ni image ni application/simulateur"
         );
         expect(neutralizationAttempt).to.deepEqualInstance(
           CertificationIssueReportResolutionAttempt.resolvedWithoutEffect()
@@ -1343,7 +1343,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
         // then
         expect(certificationIssueReport.isResolved()).to.be.true;
         expect(certificationIssueReport.resolution).to.equal(
-          "Cette question n' a pas été neutralisée car ce n'est pas une question focus"
+          "Cette question n'a pas été neutralisée car ce n'est pas une question focus"
         );
         expect(certificationIssueReportRepository.save).to.have.been.calledOnceWithExactly(certificationIssueReport);
       });
