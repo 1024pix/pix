@@ -41,7 +41,7 @@ describe('Unit | Controller | Fill in certificate verification Code', function (
       await controller.actions.checkCertificate.call(controller, event);
 
       // then
-      expect(controller.get('errorMessage')).to.equal('Veuillez vérifier le format de votre code (P-XXXXXXX).');
+      expect(controller.get('errorMessage')).to.equal('Veuillez vérifier le format de votre code (P-XXXXXXXX).');
     });
 
     it('should set showNotFoundCertificationErrorMessage to true when no certificate is found', async () => {
