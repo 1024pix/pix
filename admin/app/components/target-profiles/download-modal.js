@@ -2,12 +2,16 @@ import { action } from '@ember/object';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import dayjs from 'dayjs';
+import kebabCase from 'lodash/kebabCase';
 
 export default class DownloadModal extends Component {
   @tracked
   fileName = 'profil-cible';
 
   get fileNameSuffix() {
+    if (this.args.fileNameSuffix) {
+      return `_${kebabCase(this.args.fileNameSuffix)}.json`;
+    }
     const date = dayjs().format('DD-MM-YYYY_HH-mm-ss');
     return `_${date}.json`;
   }
