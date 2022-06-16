@@ -39,7 +39,7 @@ describe('Unit | Domain | Models | CertificationResult', function () {
         assessmentId: 789,
         resultCreatedAt: new Date('2020-01-03'),
         pixScore: 123,
-        emitter: 'Moi',
+        emitter: CertificationResult.emitters.PIX_ALGO,
         commentForCandidate: 'Un commentaire candidat 1',
         commentForJury: 'Un commentaire jury 1',
         commentForOrganization: 'Un commentaire orga 1',
@@ -90,7 +90,7 @@ describe('Unit | Domain | Models | CertificationResult', function () {
         resultCreatedAt: new Date('2020-01-03'),
         pixScore: 123,
         status: CertificationResult.status.VALIDATED,
-        emitter: 'Moi',
+        emitter: CertificationResult.emitters.PIX_ALGO,
         commentForCandidate: 'Un commentaire candidat 1',
         commentForJury: 'Un commentaire jury 1',
         commentForOrganization: 'Un commentaire orga 1',
@@ -466,6 +466,68 @@ describe('Unit | Domain | Models | CertificationResult', function () {
           // then
           expect(hasAcquired).to.be.false;
         });
+      });
+    });
+  });
+
+  context('#hasBeenRejectedAutomatically', function () {
+    // eslint-disable-next-line mocha/no-setup-in-describe
+    [
+      {
+        // eslint-disable-next-line mocha/no-setup-in-describe
+        emitter: CertificationResult.emitters.PIX_ALGO,
+        // eslint-disable-next-line mocha/no-setup-in-describe
+        status: CertificationResult.status.REJECTED,
+        expectedResult: true,
+      },
+      {
+        // eslint-disable-next-line mocha/no-setup-in-describe
+        emitter: CertificationResult.emitters.PIX_ALGO_AUTO_JURY,
+        // eslint-disable-next-line mocha/no-setup-in-describe
+        status: CertificationResult.status.REJECTED,
+        expectedResult: true,
+      },
+      {
+        // eslint-disable-next-line mocha/no-setup-in-describe
+        emitter: CertificationResult.emitters.PIX_ALGO_NEUTRALIZATION,
+        // eslint-disable-next-line mocha/no-setup-in-describe
+        status: CertificationResult.status.REJECTED,
+        expectedResult: false,
+      },
+      {
+        // eslint-disable-next-line mocha/no-setup-in-describe
+        emitter: CertificationResult.emitters.PIX_ALGO,
+        // eslint-disable-next-line mocha/no-setup-in-describe
+        status: CertificationResult.status.STARTED,
+        expectedResult: false,
+      },
+      {
+        // eslint-disable-next-line mocha/no-setup-in-describe
+        emitter: CertificationResult.emitters.PIX_ALGO_AUTO_JURY,
+        // eslint-disable-next-line mocha/no-setup-in-describe
+        status: CertificationResult.status.STARTED,
+        expectedResult: false,
+      },
+      {
+        // eslint-disable-next-line mocha/no-setup-in-describe
+        emitter: CertificationResult.emitters.PIX_ALGO_NEUTRALIZATION,
+        // eslint-disable-next-line mocha/no-setup-in-describe
+        status: CertificationResult.status.STARTED,
+        expectedResult: false,
+      },
+    ].forEach(function ({ expectedResult, emitter, status }) {
+      it(`should return ${expectedResult} when status is ${status} and emitter is ${emitter}`, async function () {
+        // given
+        const certificationResult = domainBuilder.buildCertificationResult({
+          emitter,
+          status,
+        });
+
+        // when
+        const hasBeenRejectedAutomatically = certificationResult.hasBeenRejectedAutomatically();
+
+        // then
+        expect(hasBeenRejectedAutomatically).to.equal(expectedResult);
       });
     });
   });
