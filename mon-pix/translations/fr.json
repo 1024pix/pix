@@ -515,8 +515,8 @@
       "parts": {
         "answer-input": "Votre réponse",
         "answer-instructions": {
-          "qcm": "Choisissez les bonnes réponses.",
-          "qcu": "Choisissez la bonne réponse."
+          "qcm": "Choisissez plusieurs réponses.",
+          "qcu": "Choisissez une seule réponse."
         },
         "feedback": "Signaler un problème",
         "instruction": "Consigne de l'épreuve",

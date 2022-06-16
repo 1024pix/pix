@@ -515,8 +515,8 @@
       "parts": {
         "answer-input": "Your answer",
         "answer-instructions": {
-          "qcm": "Select the right answers",
-          "qcu": "Select the right answer"
+          "qcm": "Select several answers",
+          "qcu": "Select one answer"
         },
         "feedback": "Report a problem",
         "instruction": "Instructions to answer the question",
