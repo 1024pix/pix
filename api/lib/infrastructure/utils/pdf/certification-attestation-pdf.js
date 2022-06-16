@@ -14,8 +14,14 @@ const fonts = {
 };
 
 const templates = {
-  withoutComplementaryCertifications: 'withoutComplementaryCertifications',
-  withComplementaryCertifications: 'withComplementaryCertifications',
+  withProfessionalizingCertificationMessageAndWithComplementaryCertifications:
+    'withProfessionalizingCertificationMessageAndWithComplementaryCertifications',
+  withProfessionalizingCertificationMessageAndWithoutComplementaryCertifications:
+    'withProfessionalizingCertificationMessageAndWithoutComplementaryCertifications',
+  withoutProfessionalizingCertificationMessageAndWithComplementaryCertifications:
+    'withoutProfessionalizingCertificationMessageAndWithComplementaryCertifications',
+  withoutProfessionalizingCertificationMessageAndWithoutComplementaryCertifications:
+    'withoutProfessionalizingCertificationMessageAndWithoutComplementaryCertifications',
 };
 
 async function getCertificationAttestationsPdfBuffer({
@@ -118,18 +124,45 @@ async function _embedTemplatePagesIntoDocument(viewModels, dirname, pdfDocument)
   const templatePages = {};
 
   if (_atLeastOneWithComplementaryCertifications(viewModels)) {
-    const embededPage = await _embedFirstPageFromTemplateByFilename(
-      'attestation-template-with-complementary-certifications.pdf',
-      pdfDocument,
-      dirname
-    );
-    templatePages[templates.withComplementaryCertifications] = embededPage;
+    if (_atLeastOneWithProfessionalizingCertification(viewModels)) {
+      templatePages[templates.withProfessionalizingCertificationMessageAndWithComplementaryCertifications] =
+        await _embedFirstPageFromTemplateByFilename(
+          'attestation-template-with-professionalizing-message-and-with-complementary-certifications.pdf',
+          pdfDocument,
+          dirname
+        );
+    }
+
+    if (_atLeastOneWithoutProfessionalizingCertification(viewModels)) {
+      templatePages[templates.withoutProfessionalizingCertificationMessageAndWithComplementaryCertifications] =
+        await _embedFirstPageFromTemplateByFilename(
+          'attestation-template-without-professionalizing-message-and-with-complementary-certifications.pdf',
+          pdfDocument,
+          dirname
+        );
+    }
   }
 
   if (_atLeastOneWithoutComplementaryCertifications(viewModels)) {
-    const embededPage = await _embedFirstPageFromTemplateByFilename('attestation-template.pdf', pdfDocument, dirname);
-    templatePages[templates.withoutComplementaryCertifications] = embededPage;
+    if (_atLeastOneWithProfessionalizingCertification(viewModels)) {
+      templatePages[templates.withProfessionalizingCertificationMessageAndWithoutComplementaryCertifications] =
+        await _embedFirstPageFromTemplateByFilename(
+          'attestation-template-with-professionalizing-message-and-without-complementary-certifications.pdf',
+          pdfDocument,
+          dirname
+        );
+    }
+
+    if (_atLeastOneWithoutProfessionalizingCertification(viewModels)) {
+      templatePages[templates.withoutProfessionalizingCertificationMessageAndWithoutComplementaryCertifications] =
+        await _embedFirstPageFromTemplateByFilename(
+          'attestation-template-without-professionalizing-message-and-without-complementary-certifications.pdf',
+          pdfDocument,
+          dirname
+        );
+    }
   }
+
   return templatePages;
 }
 
@@ -145,6 +178,14 @@ function _atLeastOneWithComplementaryCertifications(viewModels) {
 
 function _atLeastOneWithoutComplementaryCertifications(viewModels) {
   return _.some(viewModels, (viewModel) => !viewModel.shouldDisplayComplementaryCertifications());
+}
+
+function _atLeastOneWithProfessionalizingCertification(viewModels) {
+  return _.some(viewModels, (viewModel) => viewModel.shouldDisplayProfessionalizingCertificationMessage());
+}
+
+function _atLeastOneWithoutProfessionalizingCertification(viewModels) {
+  return _.some(viewModels, (viewModel) => !viewModel.shouldDisplayProfessionalizingCertificationMessage());
 }
 
 async function _loadTemplateByFilename(templateFileName, dirname) {
@@ -187,9 +228,16 @@ async function _render({ templatePdfPages, pdfDocument, viewModels, rgb, embedde
 
 async function _getTemplatePage(viewModel, templatePdfPages) {
   if (viewModel.shouldDisplayComplementaryCertifications()) {
-    return templatePdfPages.withComplementaryCertifications;
+    if (viewModel.shouldDisplayProfessionalizingCertificationMessage()) {
+      return templatePdfPages.withProfessionalizingCertificationMessageAndWithComplementaryCertifications;
+    } else {
+      return templatePdfPages.withoutProfessionalizingCertificationMessageAndWithComplementaryCertifications;
+    }
   } else {
-    return templatePdfPages.withoutComplementaryCertifications;
+    if (viewModel.shouldDisplayProfessionalizingCertificationMessage()) {
+      return templatePdfPages.withProfessionalizingCertificationMessageAndWithoutComplementaryCertifications;
+    }
+    return templatePdfPages.withoutProfessionalizingCertificationMessageAndWithoutComplementaryCertifications;
   }
 }
 
