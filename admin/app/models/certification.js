@@ -2,6 +2,7 @@
 import { computed } from '@ember/object';
 import Model, { attr, belongsTo, hasMany } from '@ember-data/model';
 import { memberAction } from 'ember-api-actions';
+import dayjs from 'dayjs';
 
 export const ACQUIRED = 'acquired';
 export const REJECTED = 'rejected';
@@ -50,12 +51,12 @@ export default class Certification extends Model {
 
   @computed('createdAt')
   get creationDate() {
-    return new Date(this.createdAt).toLocaleString('fr-FR');
+    return dayjs(this.createdAt).format('DD/MM/YYYY, HH:mm:ss');
   }
 
   @computed('completedAt')
   get completionDate() {
-    return this.completedAt ? new Date(this.completedAt).toLocaleString('fr-FR') : null;
+    return this.completedAt ? dayjs(this.completedAt).format('DD/MM/YYYY, HH:mm:ss') : null;
   }
 
   @computed('status')
