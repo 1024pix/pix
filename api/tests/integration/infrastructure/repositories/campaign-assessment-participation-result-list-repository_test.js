@@ -884,5 +884,294 @@ describe('Integration | Repository | Campaign Assessment Participation Result Li
         expect(participantExternalIds).to.exactlyContain(['Sans', 'Papyrus']);
       });
     });
+
+    context('when there is a filter on the firstname and lastname', function () {
+      beforeEach(async function () {
+        // given
+        campaign = databaseBuilder.factory.buildAssessmentCampaignForSkills({}, [{ id: 'Skill1' }]);
+
+        await databaseBuilder.commit();
+
+        const learningContent = [
+          {
+            id: 'recArea1',
+            competences: [
+              {
+                id: 'recCompetence1',
+                tubes: [
+                  {
+                    id: 'recTube1',
+                    skills: [{ id: 'Skill1', name: '@Acquis1', challenges: [] }],
+                  },
+                ],
+              },
+            ],
+          },
+        ];
+        const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
+        mockLearningContent(learningContentObjects);
+      });
+
+      it('returns all participants if the filter is empty', async function () {
+        // given
+        databaseBuilder.factory.buildAssessmentFromParticipation(
+          {
+            participantExternalId: 'The girl',
+            campaignId: campaign.id,
+          },
+          {
+            firstName: 'Saphira',
+            lastName: 'Eurasier',
+          }
+        );
+
+        await databaseBuilder.commit();
+
+        // when
+        const { participations } = await campaignAssessmentParticipationResultListRepository.findPaginatedByCampaignId({
+          campaignId: campaign.id,
+          filters: { search: '' },
+        });
+
+        // then
+        expect(participations.length).to.equal(1);
+      });
+
+      it('return Choupette participant when we search part its firstname', async function () {
+        // given
+        databaseBuilder.factory.buildAssessmentFromParticipation(
+          {
+            participantExternalId: 'The girl',
+            campaignId: campaign.id,
+          },
+          {
+            firstName: 'Choupette',
+            lastName: 'Eurasier',
+          }
+        );
+
+        databaseBuilder.factory.buildAssessmentFromParticipation(
+          {
+            participantExternalId: 'The boy',
+            campaignId: campaign.id,
+          },
+          {
+            firstName: 'Salto',
+            lastName: 'Irish terrier',
+          }
+        );
+
+        await databaseBuilder.commit();
+
+        // when
+        const { participations } = await campaignAssessmentParticipationResultListRepository.findPaginatedByCampaignId({
+          campaignId: campaign.id,
+          filters: { search: 'Chou' },
+        });
+
+        // then
+        expect(participations.length).to.equal(1);
+        expect(participations[0].firstName).to.equal('Choupette');
+      });
+
+      it('return Choupette participant when we search contains a space before', async function () {
+        // given
+        databaseBuilder.factory.buildAssessmentFromParticipation(
+          {
+            participantExternalId: 'The girl',
+            campaignId: campaign.id,
+          },
+          {
+            firstName: 'Choupette',
+            lastName: 'Eurasier',
+          }
+        );
+
+        await databaseBuilder.commit();
+
+        // when
+        const { participations } = await campaignAssessmentParticipationResultListRepository.findPaginatedByCampaignId({
+          campaignId: campaign.id,
+          filters: { search: ' Cho' },
+        });
+
+        // then
+        expect(participations.length).to.equal(1);
+        expect(participations[0].firstName).to.equal('Choupette');
+      });
+
+      it('return Choupette participant when we search contains a space after', async function () {
+        // given
+        databaseBuilder.factory.buildAssessmentFromParticipation(
+          {
+            participantExternalId: 'The girl',
+            campaignId: campaign.id,
+          },
+          {
+            firstName: 'Choupette',
+            lastName: 'Eurasier',
+          }
+        );
+
+        await databaseBuilder.commit();
+
+        // when
+        const { participations } = await campaignAssessmentParticipationResultListRepository.findPaginatedByCampaignId({
+          campaignId: campaign.id,
+          filters: { search: 'Cho ' },
+        });
+
+        // then
+        expect(participations.length).to.equal(1);
+        expect(participations[0].firstName).to.equal('Choupette');
+      });
+
+      it('return Choupette participant when we search part its lastname', async function () {
+        // given
+        databaseBuilder.factory.buildAssessmentFromParticipation(
+          {
+            participantExternalId: 'The girl',
+            campaignId: campaign.id,
+          },
+          {
+            firstName: 'Choupette',
+            lastName: 'Eurasier',
+          }
+        );
+
+        databaseBuilder.factory.buildAssessmentFromParticipation(
+          {
+            participantExternalId: 'The boy',
+            campaignId: campaign.id,
+          },
+          {
+            firstName: 'Salto',
+            lastName: 'Irish terrier',
+          }
+        );
+
+        await databaseBuilder.commit();
+        // when
+        const { participations } = await campaignAssessmentParticipationResultListRepository.findPaginatedByCampaignId({
+          campaignId: campaign.id,
+          filters: { search: 'Eura' },
+        });
+
+        // then
+        expect(participations.length).to.equal(1);
+        expect(participations[0].lastName).to.equal('Eurasier');
+      });
+
+      it('return Choupette participant when we search part its fullname', async function () {
+        // given
+        databaseBuilder.factory.buildAssessmentFromParticipation(
+          {
+            participantExternalId: 'The girl',
+            campaignId: campaign.id,
+          },
+          {
+            firstName: 'Choupette',
+            lastName: 'Eurasier',
+          }
+        );
+
+        databaseBuilder.factory.buildAssessmentFromParticipation(
+          {
+            participantExternalId: 'The boy',
+            campaignId: campaign.id,
+          },
+          {
+            firstName: 'Salto',
+            lastName: 'Irish terrier',
+          }
+        );
+
+        await databaseBuilder.commit();
+        // when
+        const { participations } = await campaignAssessmentParticipationResultListRepository.findPaginatedByCampaignId({
+          campaignId: campaign.id,
+          filters: { search: 'Choupette E' },
+        });
+
+        // then
+        expect(participations.length).to.equal(1);
+        expect(participations[0].firstName).to.equal('Choupette');
+      });
+
+      it('return Choupette participant only for the involved campaign when we search part of its full name', async function () {
+        const otherCampaign = databaseBuilder.factory.buildAssessmentCampaignForSkills({}, [{ id: 'Skill2' }]);
+
+        databaseBuilder.factory.buildAssessmentFromParticipation(
+          {
+            participantExternalId: 'The girl',
+            campaignId: campaign.id,
+          },
+          {
+            firstName: 'Choupette',
+            lastName: 'Eurasier',
+          }
+        );
+
+        databaseBuilder.factory.buildAssessmentFromParticipation(
+          {
+            participantExternalId: 'The girl',
+            campaignId: otherCampaign.id,
+          },
+          {
+            firstName: 'Choupette',
+            lastName: 'Wrong',
+          }
+        );
+
+        await databaseBuilder.commit();
+
+        // when
+        const { participations } = await campaignAssessmentParticipationResultListRepository.findPaginatedByCampaignId({
+          campaignId: campaign.id,
+          filters: { search: 'Choupette' },
+        });
+
+        // then
+        expect(participations.length).to.equal(1);
+        expect(participations[0].lastName).to.equal('Eurasier');
+      });
+
+      it('return all participants when we search similar part of firstname', async function () {
+        // given
+        databaseBuilder.factory.buildAssessmentFromParticipation(
+          {
+            participantExternalId: 'The boy',
+            campaignId: campaign.id,
+          },
+          {
+            firstName: 'Salto',
+            lastName: 'Irish terrier',
+          }
+        );
+
+        databaseBuilder.factory.buildAssessmentFromParticipation(
+          {
+            participantExternalId: 'The girl',
+            campaignId: campaign.id,
+          },
+          {
+            firstName: 'Saphira',
+            lastName: 'Young',
+          }
+        );
+
+        await databaseBuilder.commit();
+        // when
+        const { participations } = await campaignAssessmentParticipationResultListRepository.findPaginatedByCampaignId({
+          campaignId: campaign.id,
+          filters: { search: 'Sa' },
+        });
+
+        // then
+        expect(participations.length).to.equal(2);
+        expect(participations[0].firstName).to.equal('Salto');
+        expect(participations[1].firstName).to.equal('Saphira');
+      });
+    });
   });
 });

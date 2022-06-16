@@ -49,38 +49,57 @@ function _getParticipations(qb, campaignId, targetProfile, filters) {
     .modify(_filterByDivisions, filters)
     .modify(_filterByGroups, filters)
     .modify(_addAcquiredBadgeids, filters)
-    .modify(_filterByStage, targetProfile, filters);
+    .modify(_filterByStage, targetProfile, filters)
+    .modify(_filterBySearch, filters);
 }
 
-function _filterByDivisions(qb, filters) {
+function _filterByDivisions(queryBuilder, filters) {
   if (filters.divisions) {
     const divisionsLowerCase = filters.divisions.map((division) => division.toLowerCase());
-    qb.whereRaw('LOWER("organization-learners"."division") = ANY(:divisionsLowerCase)', { divisionsLowerCase });
+    queryBuilder.whereRaw('LOWER("organization-learners"."division") = ANY(:divisionsLowerCase)', {
+      divisionsLowerCase,
+    });
   }
 }
 
-function _filterByGroups(qb, filters) {
+function _filterByGroups(queryBuilder, filters) {
   if (filters.groups) {
     const groupsLowerCase = filters.groups.map((group) => group.toLowerCase());
-    qb.whereIn(knex.raw('LOWER("organization-learners"."group")'), groupsLowerCase);
+    queryBuilder.whereIn(knex.raw('LOWER("organization-learners"."group")'), groupsLowerCase);
   }
 }
 
-function _addAcquiredBadgeids(qb, filters) {
+function _filterBySearch(queryBuilder, filters) {
+  if (filters.search) {
+    const search = filters.search.trim().toLowerCase();
+    queryBuilder.where(function () {
+      this.where(
+        knex.raw(`CONCAT ("organization-learners"."firstName", ' ', "organization-learners"."lastName") <-> ?`, search),
+        '<=',
+        0.8
+      )
+        .orWhereRaw('LOWER("organization-learners"."lastName") LIKE ?', `%${search}%`)
+        .orWhereRaw('LOWER("organization-learners"."firstName") LIKE ?', `%${search}%`);
+    });
+  }
+}
+
+function _addAcquiredBadgeids(queryBuilder, filters) {
   if (filters.badges) {
-    qb.select(knex.raw('ARRAY_AGG("badgeId") OVER (PARTITION BY "campaign-participations"."id") as badges_acquired'))
+    queryBuilder
+      .select(knex.raw('ARRAY_AGG("badgeId") OVER (PARTITION BY "campaign-participations"."id") as badges_acquired'))
       .join('badge-acquisitions', 'badge-acquisitions.campaignParticipationId', 'campaign-participations.id')
       .distinct('campaign-participations.id');
   }
 }
 
-function _filterByBadgeAcquisitionsOut(qb, filters) {
+function _filterByBadgeAcquisitionsOut(queryBuilder, filters) {
   if (filters.badges) {
-    qb.whereRaw(':badgeIds <@ "badges_acquired"', { badgeIds: filters.badges });
+    queryBuilder.whereRaw(':badgeIds <@ "badges_acquired"', { badgeIds: filters.badges });
   }
 }
 
-function _filterByStage(qb, targetProfile, filters) {
+function _filterByStage(queryBuilder, targetProfile, filters) {
   if (!filters.stages) return;
 
   const thresholdBoundaries = targetProfile.getThresholdBoundariesFromStages(filters.stages);
@@ -89,7 +108,7 @@ function _filterByStage(qb, targetProfile, filters) {
     from: boundary.from / 100,
     to: boundary.to / 100,
   }));
-  qb.where((builder) => {
+  queryBuilder.where((builder) => {
     thresholdRateBoundaries.forEach((boundary) => {
       builder.orWhereBetween('campaign-participations.masteryRate', [boundary.from, boundary.to]);
     });
