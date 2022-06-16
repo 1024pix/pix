@@ -704,6 +704,7 @@ describe('Integration | Repository | tutorial-repository', function () {
           id: tutorialEvaluationId,
           userId,
           tutorialId: 'tuto4',
+          status: null,
         });
         expect(results[0].userTutorial).to.include({
           id: userSavedTutorialId,

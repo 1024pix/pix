@@ -9,8 +9,8 @@ describe('Integration | Infrastructure | Repository | tutorialEvaluationReposito
     await databaseBuilder.commit();
   });
 
-  afterEach(function () {
-    knex('tutorial-evaluations').delete();
+  afterEach(async function () {
+    await knex('tutorial-evaluations').delete();
   });
 
   describe('#addEvaluation', function () {
