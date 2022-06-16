@@ -769,7 +769,7 @@
         "missing-code": "Merci de renseigner le code de vérification.",
         "not-found": "Il n'y a pas de certificat Pix correspondant.",
         "unallowed-access": "Merci de renseigner le code de vérification au format P-XXXXXXXX dans le champ ci-dessus.",
-        "wrong-format": "Veuillez vérifier le format de votre code (P-XXXXXXX)."
+        "wrong-format": "Veuillez vérifier le format de votre code (P-XXXXXXXX)."
       },
       "first-title": "Vérifier un certificat Pix",
       "label": "Code de vérification (P-XXXXXXXX)",
