@@ -67,6 +67,7 @@ function _selectCertificationResults() {
       pixScore: 'assessment-results.pixScore',
       assessmentResultStatus: 'assessment-results.status',
       commentForOrganization: 'assessment-results.commentForOrganization',
+      emitter: 'assessment-results.emitter',
     })
     .select(
       knex.raw(`

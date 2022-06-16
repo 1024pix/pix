@@ -114,6 +114,7 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
         commentForOrganization: null,
         competencesWithMark: [],
         complementaryCertificationCourseResults: [],
+        emitter: null,
       });
       const expectedThirdCertificationResult = domainBuilder.buildCertificationResult({
         id: certificationCourseId1,
@@ -481,6 +482,7 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
         commentForOrganization: null,
         competencesWithMark: [],
         complementaryCertificationCourseResults: [],
+        emitter: null,
       });
       const expectedThirdCertificationResult = domainBuilder.buildCertificationResult({
         id: certificationCourseId1,
