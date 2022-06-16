@@ -1,5 +1,23 @@
 # Pix Changelog
 
+## v3.222.0 (16/06/2022)
+
+
+### :rocket: Amélioration
+- [#4520](https://github.com/1024pix/pix/pull/4520) [FEATURE] Mettre à jour les attestations de certification suite au renouvellement France Compétences (PIX-5093)
+- [#4508](https://github.com/1024pix/pix/pull/4508) [FEATURE] Ajouter un bouton d'export JSON sur la page de détail d'un PC (PIX-5082)
+- [#4518](https://github.com/1024pix/pix/pull/4518) [FEATURE] Afficher les infos complémentaires de la session dans PixAdmin (PIX-4952)
+- [#4517](https://github.com/1024pix/pix/pull/4517) [FEATURE] MAJ des certificat et certificat partagé suite au renouvellement France Compétences (PIX-5091)
+
+### :building_construction: Tech
+- [#4527](https://github.com/1024pix/pix/pull/4527) [TECH] Amélioration des consignes des QCU et QCM (PIX-5151).
+
+### :bug: Correction
+- [#4531](https://github.com/1024pix/pix/pull/4531) [BUGFIX] Formattage des dates différents sur certains environnements
+
+### :coffee: Autre
+- [#4526](https://github.com/1024pix/pix/pull/4526) [A11Y] Ajout de traductions pour les recommandations (PIX-5049).
+
 ## v3.221.0 (15/06/2022)
 
 
