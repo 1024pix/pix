@@ -33,9 +33,8 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
     `);
 
     // then
-    assert
-      .dom('.session-supervising-candidate-in-list')
-      .hasText('Zen Whoberi Ben Titan Gamora 28/05/1984 · Temps majoré : 8%');
+    assert.dom(screen.getByText('Zen Whoberi Ben Titan Gamora')).exists();
+    assert.dom(screen.getByText('28/05/1984 · Temps majoré : 8%')).exists();
     assert.dom(screen.getByRole('checkbox', { name: 'Zen Whoberi Ben Titan Gamora' })).isNotChecked();
   });
 
@@ -58,9 +57,11 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
       `);
 
       // then
-      assert.dom('.session-supervising-candidate-in-list').hasText('Lord Star 28/06/1983 · Temps majoré : 12%');
+      assert.dom(screen.getByText('Lord Star')).exists();
+      assert.dom(screen.getByText('28/06/1983 · Temps majoré : 12%')).exists();
       assert.dom(screen.getByRole('checkbox', { name: 'Lord Star' })).isChecked();
     });
+
     test('it does not display neither "en cours" label nor the options menu button', async function (assert) {
       // given
       this.candidate = store.createRecord('certification-candidate-for-supervising', {
@@ -80,7 +81,7 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
 
       // then
       assert.dom(screen.queryByRole('button', { name: 'Afficher les options du candidat' })).doesNotExist();
-      assert.notContains('En cours');
+      assert.dom(screen.queryByText('En cours')).doesNotExist();
     });
   });
 
@@ -103,7 +104,9 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
       `);
 
       // then
-      assert.dom('.session-supervising-candidate-in-list').hasText('Racoon Rocket 28/07/1982 En cours');
+      assert.dom(screen.getByText('Racoon Rocket')).exists();
+      assert.dom(screen.getByText('28/07/1982')).exists();
+      assert.dom(screen.getByText('En cours')).exists();
       assert.dom(screen.queryByRole('checkbox', { name: 'Racoon Rocket' })).doesNotExist();
       assert.dom(screen.queryByRole('button', { name: 'Afficher les options du candidat' })).exists();
     });
@@ -181,10 +184,14 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
 
           // then
           assert.dom(screen.getByRole('button', { name: "Je confirme l'autorisation" })).exists();
-          assert.contains('Autoriser Drax The Destroyer à reprendre son test ?');
-          assert.contains(
-            "Si le candidat a fermé la fenêtre de son test de certification (par erreur, ou à cause d'un problème technique) et est toujours présent dans la salle de test, vous pouvez lui permettre de reprendre son test à l'endroit où il l'avait quitté."
-          );
+          assert.dom(screen.getByText('Autoriser Drax The Destroyer à reprendre son test ?')).exists();
+          assert
+            .dom(
+              screen.getByText(
+                "Si le candidat a fermé la fenêtre de son test de certification (par erreur, ou à cause d'un problème technique) et est toujours présent dans la salle de test, vous pouvez lui permettre de reprendre son test à l'endroit où il l'avait quitté."
+              )
+            )
+            .exists();
         });
 
         module('when the confirmation modal "Annuler" button is clicked', function () {
@@ -268,7 +275,7 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
               // then
               sinon.assert.calledOnce(this.authorizeTestResume);
               assert.dom(screen.queryByRole('button', { name: "Je confirme l'autorisation" })).doesNotExist();
-              assert.contains('Succès ! Yondu Undonta peut reprendre son test de certification.');
+              assert.dom(screen.getByText('Succès ! Yondu Undonta peut reprendre son test de certification.')).exists();
             });
           });
 
@@ -298,7 +305,11 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
               // then
               sinon.assert.calledOnce(this.authorizeTestResume);
               assert.dom(screen.queryByRole('button', { name: "Je confirme l'autorisation" })).doesNotExist();
-              assert.contains("Une erreur est survenue, Vance Astro n'a a pu être autorisé à reprendre son test.");
+              assert
+                .dom(
+                  screen.getByText("Une erreur est survenue, Vance Astro n'a a pu être autorisé à reprendre son test.")
+                )
+                .exists();
             });
           });
         });
@@ -330,11 +341,15 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
           const actions = screen.getAllByRole('button', { name: 'Terminer le test' });
 
           // then
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line qunit/no-assert-equal
-          assert.equal(actions.length, 2);
-          assert.contains('Attention : cette action entraîne la fin de son test de certification et est irréversible.');
-          assert.contains('Terminer le test de Drax The Destroyer ?');
+          assert.strictEqual(actions.length, 2);
+          assert
+            .dom(
+              screen.getByText(
+                'Attention : cette action entraîne la fin de son test de certification et est irréversible.'
+              )
+            )
+            .exists();
+          assert.dom(screen.getByText('Terminer le test de Drax The Destroyer ?')).exists();
         });
 
         module('when the confirmation modal "Annuler" button is clicked', function () {
@@ -426,7 +441,7 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
 
               // then
               sinon.assert.calledOnce(this.endAssessmentForCandidate);
-              assert.contains('Succès ! Le test de Yondu Undonta est terminé.');
+              assert.dom(screen.getByText('Succès ! Le test de Yondu Undonta est terminé.')).exists();
             });
           });
 
@@ -459,7 +474,9 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
               // then
               sinon.assert.calledOnce(this.endAssessmentBySupervisor);
               assert.dom(screen.queryByRole('button', { name: 'Terminer le test' })).doesNotExist();
-              assert.contains("Une erreur est survenue, le test de Vance Astro n'a pas pu être terminé");
+              assert
+                .dom(screen.getByText("Une erreur est survenue, le test de Vance Astro n'a pas pu être terminé."))
+                .exists();
             });
           });
         });
@@ -485,7 +502,9 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
       `);
 
       // then
-      assert.dom('.session-supervising-candidate-in-list').hasText("T'Naga Martinex 27/08/1979 Terminé");
+      assert.dom(screen.getByText("T'Naga Martinex")).exists();
+      assert.dom(screen.getByText('27/08/1979')).exists();
+      assert.dom(screen.getByText('Terminé')).exists();
       assert.dom(screen.queryByRole('checkbox', { name: "T'Naga Martinex" })).doesNotExist();
       assert.dom(screen.queryByRole('button', { name: 'Afficher les options du candidat' })).doesNotExist();
     });
@@ -509,7 +528,9 @@ module('Integration | Component | SessionSupervising::CandidateInList', function
       `);
 
       // then
-      assert.dom('.session-supervising-candidate-in-list').hasText('Ogord Stakar 26/09/1976 Terminé');
+      assert.dom(screen.getByText('Ogord Stakar')).exists();
+      assert.dom(screen.getByText('26/09/1976')).exists();
+      assert.dom(screen.getByText('Terminé')).exists();
       assert.dom(screen.queryByRole('checkbox', { name: 'Ogord Stakar' })).doesNotExist();
       assert.dom(screen.queryByRole('button', { name: 'Afficher les options du candidat' })).doesNotExist();
     });
