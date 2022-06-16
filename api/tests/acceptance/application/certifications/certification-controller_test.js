@@ -7,6 +7,9 @@ const {
 } = require('../../../test-helper');
 const createServer = require('../../../../server');
 const Assessment = require('../../../../lib/domain/models/Assessment');
+const {
+  generateCertificateVerificationCode,
+} = require('../../../../lib/domain/services/verify-certificate-code-service');
 
 describe('Acceptance | API | Certifications', function () {
   let server, options;
@@ -24,6 +27,7 @@ describe('Acceptance | API | Certifications', function () {
       userId,
       isPublished: true,
       maxReachableLevelOnCertificationDate: 3,
+      verificationCode: await generateCertificateVerificationCode(),
     });
     assessment = databaseBuilder.factory.buildAssessment({
       userId,
@@ -503,7 +507,7 @@ describe('Acceptance | API | Certifications', function () {
 
       it('should return notFound 404 HTTP status code when param is incorrect', async function () {
         // given
-        const verificationCode = 'P-WRONG-CODE';
+        const verificationCode = 'P-12345678';
         options = {
           method: 'POST',
           url: '/api/shared-certifications',

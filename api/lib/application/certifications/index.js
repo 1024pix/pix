@@ -40,6 +40,11 @@ exports.register = async function (server) {
       method: 'POST',
       path: '/api/shared-certifications',
       config: {
+        validate: {
+          payload: Joi.object({
+            verificationCode: Joi.string().min(10).max(10),
+          }),
+        },
         auth: false,
         handler: certificationController.getCertificationByVerificationCode,
         notes: [
