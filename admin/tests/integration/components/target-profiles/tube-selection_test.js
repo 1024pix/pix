@@ -164,6 +164,13 @@ module('Integration | Component | targetProfiles::TubesSelection', function (hoo
     assert.dom(screen.getByLabelText('Tube 3 : Description 3')).isChecked();
   });
 
+  module('#import tubes preselection', function () {
+    test('it should display a button ton import tubes preselection', function (assert) {
+      // then
+      assert.dom(screen.getByText('Importer une preselection de sujets')).exists();
+    });
+  });
+
   // TO MOVE IN NEW_TEST
   // module('when no tubes are selected', function () {
   //   test('it should display a disabled download subjects selection button', async function (assert) {

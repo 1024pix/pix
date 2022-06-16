@@ -19,6 +19,17 @@
       >
         {{option.label}}
       </PixMultiSelect>
+      <div class="vertical-delimiter"></div>
+      <PixButtonUpload
+        @onChange={{@fillTubeSelectionFromFile}}
+        @backgroundColor="transparent-light"
+        @isBorderVisible={{true}}
+        @size="small"
+        @id="file-upload"
+        accept=".json"
+      >
+      Importer une preselection de sujets
+      </PixButtonUpload>
     </div>
   </Card>
 
