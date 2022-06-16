@@ -57,8 +57,9 @@
   </section>
 
   {{#if this.isDownloadModalOpened}}
-    <TargetProfiles::TubesSelection::DownloadModal
-      @tubesWithLevelAndSkills={{this.tubesWithLevelAndSkills}}
+    <TargetProfiles::DownloadModal
+      @title="Télécharger la sélection des sujets"
+      @content={{this.tubesWithLevelAndSkills}}
       @close={{this.closeDownloadModal}}
     />
   {{/if}}

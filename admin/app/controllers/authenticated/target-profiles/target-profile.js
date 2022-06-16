@@ -8,6 +8,8 @@ export default class TargetProfileController extends Controller {
   @tracked isEditMode = false;
   @tracked displayConfirm = false;
   @tracked displaySimplifiedAccessPopupConfirm = false;
+  @tracked isDownloadModalOpened = false;
+  @tracked targetProfileContent;
 
   get isPublic() {
     return this.model.isPublic ? 'Oui' : 'Non';
@@ -59,6 +61,26 @@ export default class TargetProfileController extends Controller {
     } catch (responseError) {
       this.notifications.error('Une erreur est survenue.');
     }
+  }
+
+  @action
+  async openDownloadModal() {
+    this.targetProfileContent = await this.getTargetProfileContent();
+    this.isDownloadModalOpened = true;
+  }
+
+  async getTargetProfileContent() {
+    const template = await this.model.template;
+    return template.tubes.map((tube) => ({
+      id: tube.id,
+      level: tube.level,
+      skills: this.model.skills.filter((skill) => skill.tubeId === tube.id).map((skill) => skill.id),
+    }));
+  }
+
+  @action
+  closeDownloadModal() {
+    this.isDownloadModalOpened = false;
   }
 
   _handleResponseError({ errors }) {
