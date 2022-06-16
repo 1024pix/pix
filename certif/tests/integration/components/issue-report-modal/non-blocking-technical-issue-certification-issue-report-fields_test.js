@@ -49,5 +49,31 @@ module(
       // then
       assert.dom(screen.getByText("Décrivez l'incident rencontré")).exists();
     });
+
+    test('it should show information message if category is checked', async function (assert) {
+      // given
+      const toggleOnCategory = sinon.stub();
+      const nonBlockingTechnicalIssueCategory = { isChecked: true };
+      this.set('toggleOnCategory', toggleOnCategory);
+      this.set('nonBlockingTechnicalIssueCategory', nonBlockingTechnicalIssueCategory);
+
+      // when
+      const screen = await renderScreen(hbs`
+      <IssueReportModal::NonBlockingTechnicalIssueCertificationIssueReportFields
+        @nonBlockingTechnicalIssueCategory={{this.nonBlockingTechnicalIssueCategory}}
+        @toggleOnCategory={{this.toggleOnCategory}}
+        @maxlength={{500}}
+      />`);
+      await click(screen.getByRole('radio'));
+
+      // then
+      assert
+        .dom(
+          screen.getByText(
+            "Signalement à titre informatif, le problème rencontré n'a pas empêché le candidat de continuer à répondre aux questions. En cas d’incident sur une question focus, merci de vous reporter à la catégorie E10."
+          )
+        )
+        .exists();
+    });
   }
 );
