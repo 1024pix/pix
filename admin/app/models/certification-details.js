@@ -2,6 +2,7 @@
 import { computed } from '@ember/object';
 import Model, { attr } from '@ember-data/model';
 import { memberAction } from 'ember-api-actions';
+import dayjs from 'dayjs';
 
 export default class CertificationDetails extends Model {
   @attr() competencesWithMark;
@@ -50,12 +51,12 @@ export default class CertificationDetails extends Model {
 
   @computed('createdAt')
   get creationDate() {
-    return new Date(this.createdAt).toLocaleString('fr-FR');
+    return dayjs(this.createdAt).format('DD/MM/YYYY, HH:mm:ss');
   }
 
   @computed('completedAt')
   get completionDate() {
-    return new Date(this.completedAt).toLocaleString('fr-FR');
+    return dayjs(this.completedAt).format('DD/MM/YYYY, HH:mm:ss');
   }
 
   neutralizeChallenge = memberAction({

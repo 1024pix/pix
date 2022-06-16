@@ -3,6 +3,7 @@ import { computed } from '@ember/object';
 import Model, { attr } from '@ember-data/model';
 import find from 'lodash/find';
 import { certificationStatuses } from 'pix-admin/models/certification';
+import dayjs from 'dayjs';
 
 export const ENDED_BY_SUPERVISOR = 'endedBySupervisor';
 export const juryCertificationSummaryStatuses = [{ value: ENDED_BY_SUPERVISOR, label: 'Terminée par le surveillant' }];
@@ -25,12 +26,12 @@ export default class JuryCertificationSummary extends Model {
 
   @computed('createdAt')
   get creationDate() {
-    return new Date(this.createdAt).toLocaleString('fr-FR');
+    return dayjs(this.createdAt).format('DD/MM/YYYY, HH:mm:ss');
   }
 
   @computed('completedAt')
   get completionDate() {
-    return this.completedAt ? new Date(this.completedAt).toLocaleString('fr-FR') : null;
+    return this.completedAt ? dayjs(this.completedAt).format('DD/MM/YYYY, HH:mm:ss') : null;
   }
 
   get complementaryCertificationsLabel() {
