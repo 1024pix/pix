@@ -1,29 +1,29 @@
-const BookshelfTutorialEvaluation = require('../orm-models/TutorialEvaluation');
+const { knex } = require('../../../db/knex-database-connection');
+const TutorialEvaluation = require('../../domain/models/TutorialEvaluation');
 
 module.exports = {
   async addEvaluation({ userId, tutorialId }) {
-    const foundTutorialEvaluation = await BookshelfTutorialEvaluation.where({ userId, tutorialId }).fetch({
-      require: false,
-    });
+    const foundTutorialEvaluation = await knex('tutorial-evaluations').where({ userId, tutorialId }).first();
+
     if (foundTutorialEvaluation) {
       return _toDomain(foundTutorialEvaluation);
     }
 
-    const newTutorialEvaluation = new BookshelfTutorialEvaluation({ userId, tutorialId });
-    const savedTutorialEvaluation = await newTutorialEvaluation.save();
-    return _toDomain(savedTutorialEvaluation);
+    const [newTutorialEvaluation] = await knex('tutorial-evaluations').insert({ userId, tutorialId }).returning('*');
+    return _toDomain(newTutorialEvaluation);
   },
 
   async find({ userId }) {
-    const tutorialEvaluation = await BookshelfTutorialEvaluation.where({ userId }).fetchAll();
+    const tutorialEvaluation = await knex('tutorial-evaluations').where({ userId });
     return tutorialEvaluation.map(_toDomain);
   },
 };
 
-function _toDomain(bookshelfTutorialEvaluation) {
-  return {
-    id: bookshelfTutorialEvaluation.get('id'),
-    tutorialId: bookshelfTutorialEvaluation.get('tutorialId'),
-    userId: bookshelfTutorialEvaluation.get('userId'),
-  };
+function _toDomain(tutorialEvaluationData) {
+  return new TutorialEvaluation({
+    id: tutorialEvaluationData.id,
+    userId: tutorialEvaluationData.userId,
+    tutorialId: tutorialEvaluationData.tutorialId,
+    status: tutorialEvaluationData.status,
+  });
 }
