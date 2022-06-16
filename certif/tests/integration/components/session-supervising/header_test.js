@@ -31,14 +31,13 @@ module('Integration | Component | SessionSupervising::Header', function (hooks) 
     this.set('sessionForSupervising', sessionForSupervising);
 
     // when
-    await renderScreen(hbs`<SessionSupervising::Header @session={{this.sessionForSupervising}}  />`);
+    const screen = await renderScreen(hbs`<SessionSupervising::Header @session={{this.sessionForSupervising}}  />`);
 
     // then
-    assert.contains('12345');
-    assert.contains('Salle 12');
-    assert.contains('Star Lord');
-    assert.contains('01/01/2020');
-    assert.contains('12:00');
+    assert.dom(screen.getByText('Session 12345')).exists();
+    assert.dom(screen.getByText('Salle 12')).exists();
+    assert.dom(screen.getByText('Star Lord')).exists();
+    assert.dom(screen.getByText('01/01/2020 · 12:00')).exists();
   });
 
   module("when 'Quitter' button is clicked", function () {
