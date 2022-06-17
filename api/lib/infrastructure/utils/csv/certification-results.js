@@ -2,6 +2,9 @@ const _ = require('lodash');
 const moment = require('moment');
 const { getCsvContent } = require('./write-csv-utils');
 
+const REJECTED_AUTOMATICALLY_COMMENT =
+  "Le candidat a répondu faux à plus de 50% des questions posées, cela a invalidé l'ensemble de sa certification, et a donc entraîné un score de 0 pix";
+
 async function getDivisionCertificationResultsCsv({ certificationResults }) {
   const data = _buildFileDataWithoutCertificationCenterName({ certificationResults });
   const fileHeaders = _buildFileHeadersWithoutCertificationCenterName();
@@ -30,7 +33,7 @@ function _getRowItemsFromResults(certificationResult) {
     [_headers.EXTERNAL_ID]: certificationResult.externalId,
     [_headers.STATUS]: _formatStatus(certificationResult),
     [_headers.PIX_SCORE]: _formatPixScore(certificationResult),
-    [_headers.JURY_COMMENT_FOR_ORGANIZATION]: certificationResult.commentForOrganization,
+    [_headers.JURY_COMMENT_FOR_ORGANIZATION]: _getCommentForOrganization(certificationResult),
     [_headers.SESSION_ID]: certificationResult.sessionId,
     [_headers.CERTIFICATION_DATE]: _formatDate(certificationResult.createdAt),
   };
@@ -226,7 +229,7 @@ const _getRowItemsFromSessionAndResults = (session) => (certificationResult) => 
       'hasAcquiredPixPlusEdu1erDegreExpert'
     ),
     [_headers.PIX_SCORE]: _formatPixScore(certificationResult),
-    [_headers.JURY_COMMENT_FOR_ORGANIZATION]: certificationResult.commentForOrganization,
+    [_headers.JURY_COMMENT_FOR_ORGANIZATION]: _getCommentForOrganization(certificationResult),
     [_headers.SESSION_ID]: session.id,
     [_headers.CERTIFICATION_CENTER]: session.certificationCenter,
     [_headers.CERTIFICATION_DATE]: _formatDate(certificationResult.createdAt),
@@ -298,6 +301,12 @@ function _isCompetenceFailed(competence) {
   return competence.level <= 0;
 }
 
+function _getCommentForOrganization(certificationResult) {
+  if (certificationResult.hasBeenRejectedAutomatically()) return REJECTED_AUTOMATICALLY_COMMENT;
+
+  return certificationResult.commentForOrganization;
+}
+
 const _competenceIndexes = [
   '1.1',
   '1.2',
@@ -346,4 +355,5 @@ const _headers = {
 module.exports = {
   getSessionCertificationResultsCsv,
   getDivisionCertificationResultsCsv,
+  REJECTED_AUTOMATICALLY_COMMENT,
 };

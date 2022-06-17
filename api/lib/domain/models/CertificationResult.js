@@ -27,6 +27,12 @@ const status = {
   STARTED: 'started',
 };
 
+const emitters = {
+  PIX_ALGO: 'PIX-ALGO',
+  PIX_ALGO_AUTO_JURY: 'PIX-ALGO-AUTO-JURY',
+  PIX_ALGO_NEUTRALIZATION: 'PIX-ALGO-NEUTRALIZATION',
+};
+
 class CertificationResult {
   constructor({
     id,
@@ -39,6 +45,7 @@ class CertificationResult {
     sessionId,
     status,
     pixScore,
+    emitter,
     commentForOrganization,
     competencesWithMark,
     complementaryCertificationCourseResults,
@@ -53,6 +60,7 @@ class CertificationResult {
     this.sessionId = sessionId;
     this.status = status;
     this.pixScore = pixScore;
+    this.emitter = emitter;
     this.commentForOrganization = commentForOrganization;
     this.competencesWithMark = competencesWithMark;
     this.complementaryCertificationCourseResults = complementaryCertificationCourseResults;
@@ -92,6 +100,7 @@ class CertificationResult {
       sessionId: certificationResultDTO.sessionId,
       status: certificationStatus,
       pixScore: certificationResultDTO.pixScore,
+      emitter: certificationResultDTO.emitter,
       commentForOrganization: certificationResultDTO.commentForOrganization,
       competencesWithMark,
       complementaryCertificationCourseResults,
@@ -116,6 +125,13 @@ class CertificationResult {
 
   isStarted() {
     return this.status === status.STARTED;
+  }
+
+  hasBeenRejectedAutomatically() {
+    return (
+      this.status === status.REJECTED &&
+      (this.emitter === emitters.PIX_ALGO || this.emitter === emitters.PIX_ALGO_AUTO_JURY)
+    );
   }
 
   hasTakenClea() {
@@ -254,4 +270,5 @@ class CertificationResult {
 }
 
 CertificationResult.status = status;
+CertificationResult.emitters = emitters;
 module.exports = CertificationResult;

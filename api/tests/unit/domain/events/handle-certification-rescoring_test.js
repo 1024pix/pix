@@ -1,7 +1,10 @@
 const { expect, sinon, domainBuilder } = require('../../../test-helper');
 const { handleCertificationRescoring } = require('../../../../lib/domain/events')._forTestOnly.handlers;
 const ChallengeNeutralized = require('../../../../lib/domain/events/ChallengeNeutralized');
+const ChallengeDeneutralized = require('../../../../lib/domain/events/ChallengeDeneutralized');
+const CertificationJuryDone = require('../../../../lib/domain/events/CertificationJuryDone');
 const CertificationAssessment = require('../../../../lib/domain/models/CertificationAssessment');
+const CertificationResult = require('../../../../lib/domain/models/CertificationResult');
 const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult');
 const { CertificationComputeError } = require('../../../../lib/domain/errors');
 
@@ -347,5 +350,101 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function () 
 
     // then
     expect(assessmentResultRepository.save).to.have.been.calledWith(assessmentResultToBeSaved);
+  });
+
+  // eslint-disable-next-line mocha/no-setup-in-describe
+  [
+    {
+      eventType: CertificationJuryDone,
+      // eslint-disable-next-line mocha/no-setup-in-describe
+      emitter: CertificationResult.emitters.PIX_ALGO_AUTO_JURY,
+    },
+    {
+      eventType: ChallengeNeutralized,
+      // eslint-disable-next-line mocha/no-setup-in-describe
+      emitter: CertificationResult.emitters.PIX_ALGO_NEUTRALIZATION,
+    },
+    {
+      eventType: ChallengeDeneutralized,
+      // eslint-disable-next-line mocha/no-setup-in-describe
+      emitter: CertificationResult.emitters.PIX_ALGO_NEUTRALIZATION,
+    },
+  ].forEach(({ eventType, emitter }) => {
+    context(`when event is of type ${eventType}`, function () {
+      it(`should save an assessment result with a ${emitter} emitter`, async function () {
+        // given
+        const certificationCourseRepository = { get: sinon.stub(), update: sinon.stub() };
+        const assessmentResultRepository = { save: sinon.stub() };
+        const certificationAssessmentRepository = { getByCertificationCourseId: sinon.stub() };
+        const competenceMarkRepository = { save: sinon.stub() };
+        const scoringCertificationService = { calculateCertificationAssessmentScore: sinon.stub() };
+        const certificationCourse = domainBuilder.buildCertificationCourse({
+          isCancelled: false,
+        });
+
+        const event = new eventType({ certificationCourseId: certificationCourse.getId() });
+        const certificationAssessment = new CertificationAssessment({
+          id: 123,
+          userId: 123,
+          certificationCourseId: certificationCourse.getId(),
+          createdAt: new Date('2020-01-01'),
+          completedAt: new Date('2020-01-01'),
+          state: CertificationAssessment.states.STARTED,
+          isV2Certification: true,
+          certificationChallenges: [
+            domainBuilder.buildCertificationChallengeWithType({ isNeutralized: false }),
+            domainBuilder.buildCertificationChallengeWithType({ isNeutralized: false }),
+          ],
+          certificationAnswersByDate: ['answer'],
+        });
+        certificationAssessmentRepository.getByCertificationCourseId
+          .withArgs({ certificationCourseId: certificationCourse.getId() })
+          .resolves(certificationAssessment);
+        certificationCourseRepository.get.withArgs(certificationCourse.getId()).resolves(certificationCourse);
+
+        const competenceMark2 = domainBuilder.buildCompetenceMark({ score: 5 });
+        const competenceMark1 = domainBuilder.buildCompetenceMark({ score: 4 });
+        const certificationAssessmentScore = domainBuilder.buildCertificationAssessmentScore({
+          nbPix: 9,
+          status: AssessmentResult.status.VALIDATED,
+          competenceMarks: [competenceMark1, competenceMark2],
+          percentageCorrectAnswers: 80,
+          hasEnoughNonNeutralizedChallengesToBeTrusted: true,
+        });
+        scoringCertificationService.calculateCertificationAssessmentScore
+          .withArgs({ certificationAssessment, continueOnError: false })
+          .resolves(certificationAssessmentScore);
+
+        const assessmentResultToBeSaved = new AssessmentResult({
+          id: undefined,
+          commentForJury: 'Computed',
+          emitter,
+          pixScore: 9,
+          reproducibilityRate: 80,
+          status: AssessmentResult.status.VALIDATED,
+          assessmentId: 123,
+          juryId: undefined,
+        });
+        const savedAssessmentResult = new AssessmentResult({ ...assessmentResultToBeSaved, id: 4 });
+        assessmentResultRepository.save.resolves(savedAssessmentResult);
+
+        const dependendencies = {
+          assessmentResultRepository,
+          certificationAssessmentRepository,
+          competenceMarkRepository,
+          scoringCertificationService,
+          certificationCourseRepository,
+        };
+
+        // when
+        await handleCertificationRescoring({
+          ...dependendencies,
+          event,
+        });
+
+        // then
+        expect(assessmentResultRepository.save).to.have.been.calledWith(assessmentResultToBeSaved);
+      });
+    });
   });
 });
