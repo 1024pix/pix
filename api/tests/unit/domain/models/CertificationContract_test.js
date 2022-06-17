@@ -59,7 +59,9 @@ describe('Unit | Domain | Models | CertificationContract', function () {
 
         // then
         expect(error).to.be.instanceOf(CertificationComputeError);
-        expect(error.message).to.equal('L’utilisateur n’a pas répondu à toutes les questions');
+        expect(error.message).to.equal(
+          "L’utilisateur n’a pas répondu à toutes les questions, alors qu'aucune raison d'abandon n'a été fournie."
+        );
       });
 
       it('should not throw', async function () {
