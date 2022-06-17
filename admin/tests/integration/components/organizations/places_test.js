@@ -41,7 +41,7 @@ module('Integration | Component | Organizations | places', function (hooks) {
         category: 'FULL_RATE',
         status: 'ACTIVE',
         activationDate: '1997-01-31',
-        expiredDate: '2100-12-31',
+        expirationDate: '2100-12-31',
         createdAt: '1996-01-12',
         creatorFullName: 'Hironobu Sakaguchi',
       });
