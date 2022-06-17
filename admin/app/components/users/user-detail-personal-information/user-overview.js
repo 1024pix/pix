@@ -105,18 +105,26 @@ export default class UserOverview extends Component {
   }
 
   get userHasValidatePixAppTermsOfService() {
-    const formattedDate = dayjs(this.args.user.lastTermsOfServiceValidatedAt).format('DD/MM/YYYY');
-    return this.args.user.cgu ? `OUI, le ${formattedDate}` : 'NON';
+    return this._formatValidatedTermsOfServiceText(this.args.user.lastTermsOfServiceValidatedAt, this.args.user.cgu);
   }
 
   get userHasValidatePixOrgaTermsOfService() {
-    const formattedDate = dayjs(this.args.user.lastPixOrgaTermsOfServiceValidatedAt).format('DD/MM/YYYY');
-    return this.args.user.pixOrgaTermsOfServiceAccepted ? `OUI, le ${formattedDate}` : 'NON';
+    return this._formatValidatedTermsOfServiceText(
+      this.args.user.lastPixOrgaTermsOfServiceValidatedAt,
+      this.args.user.pixOrgaTermsOfServiceAccepted
+    );
   }
 
   get userHasValidatePixCertifTermsOfService() {
-    const formattedDate = dayjs(this.args.user.lastPixCertifTermsOfServiceValidatedAt).format('DD/MM/YYYY');
-    return this.args.user.pixCertifTermsOfServiceAccepted ? `OUI, le ${formattedDate}` : 'NON';
+    return this._formatValidatedTermsOfServiceText(
+      this.args.user.lastPixCertifTermsOfServiceValidatedAt,
+      this.args.user.pixCertifTermsOfServiceAccepted
+    );
+  }
+
+  _formatValidatedTermsOfServiceText(date, hasValidatedTermsOfService) {
+    const formattedDateText = date ? `, le ${dayjs(date).format('DD/MM/YYYY')}` : '';
+    return hasValidatedTermsOfService ? `OUI${formattedDateText}` : 'NON';
   }
 
   _initForm() {
