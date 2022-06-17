@@ -170,24 +170,4 @@ module('Integration | Component | targetProfiles::TubesSelection', function (hoo
       assert.dom(screen.getByText('Importer une preselection de sujets')).exists();
     });
   });
-
-  // TO MOVE IN NEW_TEST
-  // module('when no tubes are selected', function () {
-  //   test('it should display a disabled download subjects selection button', async function (assert) {
-  //     // then
-  //     assert.dom(screen.getByRole('button', { name: 'Télécharger la sélection des sujets (JSON)' })).isDisabled();
-  //   });
-  // });
-
-  // module('when at least one tube is selected', function () {
-  //   test('it should display a download subjects selection button that is not disabled', async function (assert) {
-  //     // when
-  //     await clickByName('1 · Titre domaine');
-  //     await clickByName('1 Titre competence');
-  //     await clickByName('Tube 1 : Description 1');
-
-  //     // then
-  //     assert.dom(screen.getByRole('button', { name: 'Télécharger la sélection des sujets (JSON)' })).isNotDisabled();
-  //   });
-  // });
 });
