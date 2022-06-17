@@ -2,6 +2,7 @@ const { expect, domainBuilder } = require('../../../../test-helper');
 const {
   getSessionCertificationResultsCsv,
   getDivisionCertificationResultsCsv,
+  REJECTED_AUTOMATICALLY_COMMENT,
 } = require('../../../../../lib/infrastructure/utils/csv/certification-results');
 const {
   PIX_EMPLOI_CLEA_V3,
@@ -23,19 +24,15 @@ describe('Integration | Infrastructure | Utils | csv | certification-results', f
       it('should return correct csvContent without complementary certification informations', async function () {
         // given
         const session = domainBuilder.buildSession({ id: 777, certificationCenter: 'CentreCertif' });
-        const competencesWithMark1 = [
+        const competencesWithMark = [
           domainBuilder.buildCompetenceMark({ competence_code: '1.1', level: 0 }),
           domainBuilder.buildCompetenceMark({ competence_code: '1.2', level: 1 }),
           domainBuilder.buildCompetenceMark({ competence_code: '1.3', level: 5 }),
           domainBuilder.buildCompetenceMark({ competence_code: '5.1', level: 0 }),
           domainBuilder.buildCompetenceMark({ competence_code: '5.2', level: -1 }),
         ];
-        const competencesWithMark2 = [
-          domainBuilder.buildCompetenceMark({ competence_code: '5.1', level: 3 }),
-          domainBuilder.buildCompetenceMark({ competence_code: '5.2', level: -1 }),
-        ];
 
-        const certifResult1 = domainBuilder.buildCertificationResult.validated({
+        const certifResult = domainBuilder.buildCertificationResult.validated({
           id: 123,
           lastName: 'Oxford',
           firstName: 'Lili',
@@ -45,10 +42,34 @@ describe('Integration | Infrastructure | Utils | csv | certification-results', f
           createdAt: new Date('2020-01-01'),
           pixScore: 55,
           commentForOrganization: 'RAS',
-          competencesWithMark: competencesWithMark1,
+          competencesWithMark: competencesWithMark,
           complementaryCertificationCourseResults: [],
         });
-        const certifResult2 = domainBuilder.buildCertificationResult.rejected({
+
+        const certificationResults = [certifResult];
+
+        // when
+        const result = await getSessionCertificationResultsCsv({ session, certificationResults });
+
+        // then
+        const expectedResult =
+          '\uFEFF' +
+          '"Numéro de certification";"Prénom";"Nom";"Date de naissance";"Lieu de naissance";"Identifiant Externe";"Statut";"Nombre de Pix";"1.1";"1.2";"1.3";"2.1";"2.2";"2.3";"2.4";"3.1";"3.2";"3.3";"3.4";"4.1";"4.2";"4.3";"5.1";"5.2";"Commentaire jury pour l’organisation";"Session";"Centre de certification";"Date de passage de la certification"\n' +
+          '123;"Lili";"Oxford";"04/01/1990";"Torreilles";"LOLORD";"Validée";55;0;1;5;"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";0;0;"RAS";777;"CentreCertif";"01/01/2020"';
+        expect(result).to.equal(expectedResult);
+      });
+
+      context('when certification has been rejected automatically', function () {});
+      it('should return correct csvContent with automatically rejected comment for organization', async function () {
+        // given
+        const session = domainBuilder.buildSession({ id: 777, certificationCenter: 'CentreCertif' });
+
+        const competencesWithMark = [
+          domainBuilder.buildCompetenceMark({ competence_code: '5.1', level: 3 }),
+          domainBuilder.buildCompetenceMark({ competence_code: '5.2', level: -1 }),
+        ];
+
+        const automaticallyRejectedCertificationResult = domainBuilder.buildCertificationResult.rejected({
           id: 456,
           lastName: 'Cambridge',
           firstName: 'Tom',
@@ -58,10 +79,10 @@ describe('Integration | Infrastructure | Utils | csv | certification-results', f
           createdAt: new Date('2020-02-02'),
           pixScore: 66,
           commentForOrganization: null,
-          competencesWithMark: competencesWithMark2,
+          competencesWithMark: competencesWithMark,
           complementaryCertificationCourseResults: [],
         });
-        const certificationResults = [certifResult1, certifResult2];
+        const certificationResults = [automaticallyRejectedCertificationResult];
 
         // when
         const result = await getSessionCertificationResultsCsv({ session, certificationResults });
@@ -70,8 +91,7 @@ describe('Integration | Infrastructure | Utils | csv | certification-results', f
         const expectedResult =
           '\uFEFF' +
           '"Numéro de certification";"Prénom";"Nom";"Date de naissance";"Lieu de naissance";"Identifiant Externe";"Statut";"Nombre de Pix";"1.1";"1.2";"1.3";"2.1";"2.2";"2.3";"2.4";"3.1";"3.2";"3.3";"3.4";"4.1";"4.2";"4.3";"5.1";"5.2";"Commentaire jury pour l’organisation";"Session";"Centre de certification";"Date de passage de la certification"\n' +
-          '123;"Lili";"Oxford";"04/01/1990";"Torreilles";"LOLORD";"Validée";55;0;1;5;"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";0;0;"RAS";777;"CentreCertif";"01/01/2020"\n' +
-          '456;"Tom";"Cambridge";"21/05/1993";"TheMoon";"TOTODGE";"Rejetée";"0";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";0;0;;777;"CentreCertif";"02/02/2020"';
+          `456;"Tom";"Cambridge";"21/05/1993";"TheMoon";"TOTODGE";"Rejetée";"0";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";0;0;"${REJECTED_AUTOMATICALLY_COMMENT}";777;"CentreCertif";"02/02/2020"`;
         expect(result).to.equal(expectedResult);
       });
     });
@@ -347,19 +367,15 @@ describe('Integration | Infrastructure | Utils | csv | certification-results', f
     context('when at least one candidate has passed a certification', function () {
       it('returns a csv without session informations', async function () {
         // given
-        const competencesWithMark1 = [
+        const competencesWithMark = [
           domainBuilder.buildCompetenceMark({ competence_code: '1.1', level: 0 }),
           domainBuilder.buildCompetenceMark({ competence_code: '1.2', level: 1 }),
           domainBuilder.buildCompetenceMark({ competence_code: '1.3', level: 5 }),
           domainBuilder.buildCompetenceMark({ competence_code: '5.1', level: 0 }),
           domainBuilder.buildCompetenceMark({ competence_code: '5.2', level: -1 }),
         ];
-        const competencesWithMark2 = [
-          domainBuilder.buildCompetenceMark({ competence_code: '5.1', level: 3 }),
-          domainBuilder.buildCompetenceMark({ competence_code: '5.2', level: -1 }),
-        ];
 
-        const certifResult1 = domainBuilder.buildCertificationResult.validated({
+        const certifResult = domainBuilder.buildCertificationResult.validated({
           id: 123,
           lastName: 'Oxford',
           firstName: 'Lili',
@@ -369,11 +385,35 @@ describe('Integration | Infrastructure | Utils | csv | certification-results', f
           createdAt: new Date('2020-01-01'),
           pixScore: 55,
           commentForOrganization: 'RAS',
-          competencesWithMark: competencesWithMark1,
+          competencesWithMark: competencesWithMark,
           sessionId: 777,
           complementaryCertificationCourseResults: [],
         });
-        const certifResult2 = domainBuilder.buildCertificationResult.rejected({
+
+        const certificationResults = [certifResult];
+
+        // when
+        const result = await getDivisionCertificationResultsCsv({ certificationResults });
+
+        // then
+        const expectedResult =
+          '\uFEFF' +
+          '"Numéro de certification";"Prénom";"Nom";"Date de naissance";"Lieu de naissance";"Identifiant Externe";"Statut";"Nombre de Pix";"1.1";"1.2";"1.3";"2.1";"2.2";"2.3";"2.4";"3.1";"3.2";"3.3";"3.4";"4.1";"4.2";"4.3";"5.1";"5.2";"Commentaire jury pour l’organisation";"Session";"Date de passage de la certification"\n' +
+          '123;"Lili";"Oxford";"04/01/1990";"Torreilles";"LOLORD";"Validée";55;0;1;5;"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";0;0;"RAS";777;"01/01/2020"';
+        expect(result).to.equal(expectedResult);
+      });
+    });
+
+    context('when certification has been rejected automatically', function () {
+      it('should return correct csvContent with automatically rejected comment for organization', async function () {
+        // given
+
+        const competencesWithMark = [
+          domainBuilder.buildCompetenceMark({ competence_code: '5.1', level: 3 }),
+          domainBuilder.buildCompetenceMark({ competence_code: '5.2', level: -1 }),
+        ];
+
+        const certifResult = domainBuilder.buildCertificationResult.rejected({
           id: 456,
           lastName: 'Cambridge',
           firstName: 'Tom',
@@ -384,10 +424,10 @@ describe('Integration | Infrastructure | Utils | csv | certification-results', f
           pixScore: 66,
           sessionId: 777,
           commentForOrganization: null,
-          competencesWithMark: competencesWithMark2,
+          competencesWithMark: competencesWithMark,
           complementaryCertificationCourseResults: [],
         });
-        const certificationResults = [certifResult1, certifResult2];
+        const certificationResults = [certifResult];
 
         // when
         const result = await getDivisionCertificationResultsCsv({ certificationResults });
@@ -396,8 +436,7 @@ describe('Integration | Infrastructure | Utils | csv | certification-results', f
         const expectedResult =
           '\uFEFF' +
           '"Numéro de certification";"Prénom";"Nom";"Date de naissance";"Lieu de naissance";"Identifiant Externe";"Statut";"Nombre de Pix";"1.1";"1.2";"1.3";"2.1";"2.2";"2.3";"2.4";"3.1";"3.2";"3.3";"3.4";"4.1";"4.2";"4.3";"5.1";"5.2";"Commentaire jury pour l’organisation";"Session";"Date de passage de la certification"\n' +
-          '123;"Lili";"Oxford";"04/01/1990";"Torreilles";"LOLORD";"Validée";55;0;1;5;"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";0;0;"RAS";777;"01/01/2020"\n' +
-          '456;"Tom";"Cambridge";"21/05/1993";"TheMoon";"TOTODGE";"Rejetée";"0";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";0;0;;777;"02/02/2020"';
+          `456;"Tom";"Cambridge";"21/05/1993";"TheMoon";"TOTODGE";"Rejetée";"0";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";0;0;"${REJECTED_AUTOMATICALLY_COMMENT}";777;"02/02/2020"`;
         expect(result).to.equal(expectedResult);
       });
     });
