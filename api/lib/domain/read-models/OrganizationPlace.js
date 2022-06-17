@@ -13,22 +13,31 @@ const categories = {
 };
 
 class OrganizationPlace {
-  constructor({ id, count, activationDate, expiredDate, reference, category, creatorFirstName, creatorLastName } = {}) {
+  constructor({
+    id,
+    count,
+    activationDate,
+    expirationDate,
+    reference,
+    category,
+    creatorFirstName,
+    creatorLastName,
+  } = {}) {
     this.id = id;
     this.count = count;
     this.activationDate = activationDate;
-    this.expiredDate = expiredDate;
+    this.expirationDate = expirationDate;
     this.reference = reference;
     this.category = categories[category];
     this.creatorFullName = `${creatorFirstName} ${creatorLastName}`;
-    this.status = _setStatus(activationDate, expiredDate);
+    this.status = _setStatus(activationDate, expirationDate);
   }
 }
 
-function _setStatus(activationDate, expiredDate) {
+function _setStatus(activationDate, expirationDate) {
   const today = new Date();
 
-  if (Boolean(expiredDate) && expiredDate < today) {
+  if (Boolean(expirationDate) && expirationDate < today) {
     return statuses.EXPIRED;
   }
 
