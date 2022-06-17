@@ -18,7 +18,7 @@ describe('Acceptance | Route | Organizations', function () {
         organizationId,
         count: 18,
         activationDate: new Date('2020-01-01'),
-        expiredDate: new Date('2021-01-01'),
+        expirationDate: new Date('2021-01-01'),
         reference: 'Godzilla',
         category: 'Toho',
         createdBy: adminUser.id,
