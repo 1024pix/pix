@@ -14,6 +14,14 @@ exports.register = async (server) => {
           params: Joi.object({
             tutorialId: identifiersType.tutorialId,
           }),
+          payload: Joi.object({
+            data: Joi.object({
+              attributes: Joi.object({
+                status: Joi.string().valid('LIKED').allow(null),
+              }).required(),
+              type: Joi.string(),
+            }).required(),
+          }).required(),
           options: {
             allowUnknown: true,
           },

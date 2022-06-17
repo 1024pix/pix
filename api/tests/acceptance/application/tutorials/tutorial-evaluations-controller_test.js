@@ -6,6 +6,7 @@ const {
   generateValidRequestAuthorizationHeader,
 } = require('../../../test-helper');
 const createServer = require('../../../../server');
+const TutorialEvaluation = require('../../../../lib/domain/models/TutorialEvaluation');
 
 describe('Acceptance | Controller | tutorial-evaluations-controller', function () {
   let server;
@@ -48,6 +49,16 @@ describe('Acceptance | Controller | tutorial-evaluations-controller', function (
         headers: {
           authorization: generateValidRequestAuthorizationHeader(4444),
         },
+        payload: {
+          data: {
+            type: 'tutorial-evaluations',
+            attributes: {
+              'tutorial-id': 'tutorialId',
+              'user-id': 4444,
+              status: TutorialEvaluation.status.LIKED,
+            },
+          },
+        },
       };
     });
 
@@ -65,6 +76,7 @@ describe('Acceptance | Controller | tutorial-evaluations-controller', function (
             attributes: {
               'tutorial-id': 'tutorialId',
               'user-id': 4444,
+              status: TutorialEvaluation.status.LIKED,
             },
           },
         };
@@ -80,6 +92,7 @@ describe('Acceptance | Controller | tutorial-evaluations-controller', function (
         expect(response.result.data.attributes['tutorial-id']).to.deep.equal(
           expectedResponse.data.attributes['tutorial-id']
         );
+        expect(response.result.data.attributes.status).to.deep.equal(expectedResponse.data.attributes.status);
       });
     });
 
