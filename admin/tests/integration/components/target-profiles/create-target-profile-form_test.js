@@ -9,9 +9,6 @@ module('Integration | Component | TargetProfiles::CreateTargetProfileForm', func
   setupRenderingTest(hooks);
 
   let targetProfile;
-  let isFileInvalid;
-
-  let onLoadFile;
   let onSubmit;
   let onCancel;
 
@@ -25,9 +22,6 @@ module('Integration | Component | TargetProfiles::CreateTargetProfileForm', func
       category: 'OTHER',
     };
 
-    isFileInvalid = false;
-
-    onLoadFile = sinon.stub();
     onSubmit = sinon.stub();
     const onSubmitWrapper = function (e) {
       e.preventDefault();
@@ -40,9 +34,6 @@ module('Integration | Component | TargetProfiles::CreateTargetProfileForm', func
     const refreshAreas = sinon.stub();
 
     this.set('targetProfile', targetProfile);
-    this.set('isFileInvalid', isFileInvalid);
-
-    this.set('onLoadFile', onLoadFile);
     this.set('onSubmit', onSubmitWrapper);
     this.set('onCancel', onCancel);
     this.set('frameworks', frameworks);
