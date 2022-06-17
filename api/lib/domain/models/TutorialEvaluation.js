@@ -1,3 +1,8 @@
+const status = {
+  LIKED: 'LIKED',
+  NEUTRAL: 'NEUTRAL',
+};
+
 class TutorialEvaluation {
   constructor({ id, userId, tutorialId, status } = {}) {
     this.id = id;
@@ -6,5 +11,7 @@ class TutorialEvaluation {
     this.status = status;
   }
 }
+
+TutorialEvaluation.status = status;
 
 module.exports = TutorialEvaluation;

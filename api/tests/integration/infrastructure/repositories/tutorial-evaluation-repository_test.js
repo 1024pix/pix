@@ -1,11 +1,14 @@
 const { expect, knex, databaseBuilder } = require('../../../test-helper');
 const tutorialEvaluationRepository = require('../../../../lib/infrastructure/repositories/tutorial-evaluation-repository');
+const TutorialEvaluation = require('../../../../lib/domain/models/TutorialEvaluation');
 
 describe('Integration | Infrastructure | Repository | tutorialEvaluationRepository', function () {
-  let userId;
+  let userId, tutorialId, status;
 
   beforeEach(async function () {
     userId = databaseBuilder.factory.buildUser().id;
+    tutorialId = 'tutorialId';
+    status = TutorialEvaluation.status.LIKED;
     await databaseBuilder.commit();
   });
 
@@ -14,11 +17,9 @@ describe('Integration | Infrastructure | Repository | tutorialEvaluationReposito
   });
 
   describe('#addEvaluation', function () {
-    const tutorialId = 'tutorialId';
-
     it('should store the tutorialId in the users list', async function () {
       // when
-      await tutorialEvaluationRepository.addEvaluation({ userId, tutorialId });
+      await tutorialEvaluationRepository.addEvaluation({ userId, tutorialId, status });
 
       // then
       const tutorialEvaluations = await knex('tutorial-evaluations').where({ userId, tutorialId });
@@ -27,23 +28,32 @@ describe('Integration | Infrastructure | Repository | tutorialEvaluationReposito
 
     it('should return the created tutorial evaluation', async function () {
       // when
-      const tutorialEvaluation = await tutorialEvaluationRepository.addEvaluation({ userId, tutorialId });
+      const tutorialEvaluation = await tutorialEvaluationRepository.addEvaluation({
+        userId,
+        tutorialId,
+        status: TutorialEvaluation.status.LIKED,
+      });
 
       // then
-      const tutorialEvaluations = await knex('tutorial-evaluations').where({ userId, tutorialId });
+      const tutorialEvaluations = await knex('tutorial-evaluations').where({
+        userId,
+        tutorialId,
+        status: TutorialEvaluation.status.LIKED,
+      });
       expect(tutorialEvaluation.id).to.deep.equal(tutorialEvaluations[0].id);
       expect(tutorialEvaluation.userId).to.deep.equal(tutorialEvaluations[0].userId);
       expect(tutorialEvaluation.tutorialId).to.deep.equal(tutorialEvaluations[0].tutorialId);
+      expect(tutorialEvaluation.status).to.deep.equal(tutorialEvaluations[0].status);
     });
 
     context('when the tutorialId already exists in the user list', function () {
       it('should not store the tutorialId', async function () {
         // given
-        databaseBuilder.factory.buildTutorialEvaluation({ tutorialId, userId });
+        databaseBuilder.factory.buildTutorialEvaluation({ tutorialId, userId, status });
         await databaseBuilder.commit();
 
         // when
-        const tutorialEvaluation = await tutorialEvaluationRepository.addEvaluation({ userId, tutorialId });
+        const tutorialEvaluation = await tutorialEvaluationRepository.addEvaluation({ userId, tutorialId, status });
 
         // then
         const tutorialEvaluations = await knex('tutorial-evaluations').where({ userId, tutorialId });
