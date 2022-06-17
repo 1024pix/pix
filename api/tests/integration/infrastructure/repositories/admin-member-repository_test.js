@@ -94,6 +94,16 @@ describe('Integration | Infrastructure | Repository | adminMemberRepository', fu
         })
       );
     });
+
+    context('when does not exist', function () {
+      it('should return undefined', async function () {
+        // given & when
+        const member = await adminMemberRepository.get({ userId: 1 });
+
+        // then
+        expect(member).to.be.undefined;
+      });
+    });
   });
 
   describe('#update', function () {
