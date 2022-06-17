@@ -275,6 +275,8 @@ module.exports = (function () {
     config.features.pixCertifScoBlockedAccessDateLycee = null;
     config.features.pixCertifScoBlockedAccessDateCollege = null;
 
+    config.featureToggles.isCertificationFreeFieldsDeletionEnabled = false;
+
     config.mailing.enabled = false;
     config.mailing.provider = 'sendinblue';
 

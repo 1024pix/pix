@@ -1,4 +1,5 @@
 const AssessmentResult = require('../models/AssessmentResult');
+const CertificationResult = require('../models/CertificationResult');
 const CompetenceMark = require('../models/CompetenceMark');
 const CertificationRescoringCompleted = require('./CertificationRescoringCompleted.js');
 const bluebird = require('bluebird');
@@ -9,7 +10,6 @@ const CertificationJuryDone = require('./CertificationJuryDone');
 const { checkEventTypes } = require('./check-event-types');
 
 const eventTypes = [ChallengeNeutralized, ChallengeDeneutralized, CertificationJuryDone];
-const EMITTER = 'PIX-ALGO-NEUTRALIZATION';
 
 async function handleCertificationRescoring({
   event,
@@ -61,6 +61,7 @@ async function handleCertificationRescoring({
       assessmentResultRepository,
       certificationComputeError: error,
       juryId: event.juryId,
+      event,
     });
   }
 }
@@ -85,12 +86,14 @@ async function _saveResultAfterCertificationComputeError({
   assessmentResultRepository,
   certificationComputeError,
   juryId,
+  event,
 }) {
+  const emitter = _getEmitterFromEvent(event);
   const assessmentResult = AssessmentResult.buildAlgoErrorResult({
     error: certificationComputeError,
     assessmentId: certificationAssessment.id,
     juryId,
-    emitter: EMITTER,
+    emitter,
   });
   await assessmentResultRepository.save(assessmentResult);
 }
@@ -102,13 +105,14 @@ async function _saveAssessmentResult(
   assessmentResultRepository
 ) {
   let assessmentResult;
+  const emitter = _getEmitterFromEvent(event);
   if (!certificationAssessmentScore.hasEnoughNonNeutralizedChallengesToBeTrusted) {
     assessmentResult = AssessmentResult.buildNotTrustableAssessmentResult({
       pixScore: certificationAssessmentScore.nbPix,
       reproducibilityRate: certificationAssessmentScore.getPercentageCorrectAnswers(),
       status: certificationAssessmentScore.status,
       assessmentId: certificationAssessment.id,
-      emitter: EMITTER,
+      emitter,
       juryId: event.juryId,
     });
   } else {
@@ -117,7 +121,7 @@ async function _saveAssessmentResult(
       reproducibilityRate: certificationAssessmentScore.getPercentageCorrectAnswers(),
       status: certificationAssessmentScore.status,
       assessmentId: certificationAssessment.id,
-      emitter: EMITTER,
+      emitter,
       juryId: event.juryId,
     });
   }
@@ -130,6 +134,20 @@ async function _saveCompetenceMarks(certificationAssessmentScore, assessmentResu
     const competenceMarkDomain = new CompetenceMark({ ...competenceMark, assessmentResultId });
     return competenceMarkRepository.save(competenceMarkDomain);
   });
+}
+
+function _getEmitterFromEvent(event) {
+  let emitter;
+
+  if (event instanceof ChallengeNeutralized || event instanceof ChallengeDeneutralized) {
+    emitter = CertificationResult.emitters.PIX_ALGO_NEUTRALIZATION;
+  }
+
+  if (event instanceof CertificationJuryDone) {
+    emitter = CertificationResult.emitters.PIX_ALGO_AUTO_JURY;
+  }
+
+  return emitter;
 }
 
 handleCertificationRescoring.eventTypes = eventTypes;
