@@ -25,10 +25,10 @@
             <td>
               Du:
               {{moment-format place.activationDate "DD/MM/YYYY"}}
-              {{#if place.hasExpiredDate}}
+              {{#if place.hasExpirationDate}}
                 <br />
                 Au:
-                {{moment-format place.expiredDate "DD/MM/YYYY"}}
+                {{moment-format place.expirationDate "DD/MM/YYYY"}}
               {{/if}}
             </td>
             <td class="table__column table__column--center">
