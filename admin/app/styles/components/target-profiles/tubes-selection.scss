@@ -19,6 +19,10 @@
       border-left: 1px solid $grey-90;
       height: 32px;
     }
+
+    &--count {
+      margin-left: auto;
+    }
   }
 
   &__multi-select {

@@ -3,7 +3,7 @@ import Component from '@glimmer/component';
 import { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 
-export default class Form extends Component {
+export default class TubesSelection extends Component {
   @service notifications;
 
   @tracked selectedFrameworkIds;
@@ -30,10 +30,6 @@ export default class Form extends Component {
 
   get hasNoFrameworksSelected() {
     return this.selectedFrameworkIds.length === 0;
-  }
-
-  get hasNoTubesSelected() {
-    return this.args.selectedTubeIds.length === 0;
   }
 
   @action
