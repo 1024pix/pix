@@ -1,6 +1,7 @@
 const { sinon, expect, domainBuilder, catchErr } = require('../../../test-helper');
 const addTutorialEvaluation = require('../../../../lib/domain/usecases/add-tutorial-evaluation');
 const { NotFoundError } = require('../../../../lib/domain/errors');
+const TutorialEvaluation = require('../../../../lib/domain/models/TutorialEvaluation');
 
 describe('Unit | UseCase | add-tutorial-evaluation', function () {
   let tutorialRepository;
@@ -8,7 +9,7 @@ describe('Unit | UseCase | add-tutorial-evaluation', function () {
   let userId;
 
   beforeEach(function () {
-    tutorialEvaluationRepository = { addEvaluation: sinon.spy() };
+    tutorialEvaluationRepository = { createOrUpdate: sinon.spy() };
     userId = 'userId';
   });
 
@@ -19,6 +20,7 @@ describe('Unit | UseCase | add-tutorial-evaluation', function () {
         get: domainBuilder.buildTutorial,
       };
       const tutorialId = 'tutorialId';
+      const status = TutorialEvaluation.status.LIKED;
 
       // When
       await addTutorialEvaluation({
@@ -26,10 +28,11 @@ describe('Unit | UseCase | add-tutorial-evaluation', function () {
         tutorialEvaluationRepository,
         userId,
         tutorialId,
+        status,
       });
 
       // Then
-      expect(tutorialEvaluationRepository.addEvaluation).to.have.been.calledWith({ userId, tutorialId });
+      expect(tutorialEvaluationRepository.createOrUpdate).to.have.been.calledWith({ userId, tutorialId, status });
     });
   });
 
@@ -52,7 +55,7 @@ describe('Unit | UseCase | add-tutorial-evaluation', function () {
       });
 
       // Then
-      expect(tutorialEvaluationRepository.addEvaluation).to.not.have.been.called;
+      expect(tutorialEvaluationRepository.createOrUpdate).to.not.have.been.called;
       expect(result).to.be.instanceOf(NotFoundError);
     });
   });
