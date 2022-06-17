@@ -9,6 +9,7 @@ module.exports = {
     const members = await knex
       .select(`${TABLE_NAME}.id`, 'users.id as userId', 'firstName', 'lastName', 'email', 'role')
       .from(TABLE_NAME)
+      .where({ disabledAt: null })
       .join('users', 'users.id', `${TABLE_NAME}.userId`)
       .orderBy(['firstName', 'lastName']);
     return members.map((member) => new AdminMember(member));

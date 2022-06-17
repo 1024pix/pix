@@ -7,10 +7,15 @@ const { AdminMemberRoleUpdateError } = require('../../../../lib/domain/errors');
 
 describe('Integration | Infrastructure | Repository | adminMemberRepository', function () {
   describe('#findAll', function () {
-    it('should return all users with a pix admin role', async function () {
+    it('should return all users with a pix admin role that are not disabled', async function () {
       // given
       const userWithPixAdminRole = _buildUserWithPixAdminRole({ firstName: 'Marie', lastName: 'Tim' });
       const otherUserWithPixAdminRole = _buildUserWithPixAdminRole({ firstName: 'Alain', lastName: 'Verse' });
+      _buildUserWithPixAdminRole({
+        firstName: 'Nordine',
+        lastName: 'Ateur',
+        disabledAt: new Date(),
+      });
       await databaseBuilder.commit();
 
       // when
