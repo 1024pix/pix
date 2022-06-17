@@ -1,6 +1,5 @@
 const { knex } = require('../bookshelf');
 const AdminMember = require('../../domain/models/AdminMember');
-const { NotFoundError } = require('../../domain/errors');
 const { AdminMemberRoleUpdateError } = require('../../domain/errors');
 
 const TABLE_NAME = 'pix-admin-roles';
@@ -23,11 +22,7 @@ module.exports = {
       .join('users', 'users.id', `${TABLE_NAME}.userId`)
       .first();
 
-    if (!member) {
-      throw new NotFoundError();
-    }
-
-    return new AdminMember(member);
+    return member ? new AdminMember(member) : undefined;
   },
 
   async update({ id, attributesToUpdate }) {
