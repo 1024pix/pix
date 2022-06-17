@@ -12,8 +12,27 @@ export default class NewController extends Controller {
 
   @tracked isSaving = false;
   @tracked selectedTubeIds = EmberArray();
+  @tracked totalTubesCount = 0;
   @tracked areas;
   tubeLevels = {};
+
+  get selectedTubesCount() {
+    return this._selectedTubes.length;
+  }
+
+  get _selectedTubes() {
+    return (
+      this.areas
+        ?.flatMap((area) => {
+          const competences = area.competences.toArray();
+          return competences.flatMap((competence) => {
+            const thematics = competence.thematics.toArray();
+            return thematics.flatMap((thematic) => thematic.tubes.toArray());
+          });
+        })
+        .filter((tube) => this.selectedTubeIds.includes(tube.id)) ?? []
+    );
+  }
 
   @action
   goBackToTargetProfileList() {
@@ -28,6 +47,7 @@ export default class NewController extends Controller {
     reader.readAsText(file);
     reader.addEventListener('load', (event) => this._onFileLoad(event));
   }
+
   _onFileLoad(event) {
     try {
       const tubeIds = JSON.parse(event.target.result);
@@ -49,7 +69,7 @@ export default class NewController extends Controller {
     event.preventDefault();
     const targetProfile = this.model.targetProfile;
 
-    const { skillIds, templateTubes } = await this.buildSkillAndTubeBeforeCreateTargetProfile();
+    const { skillIds, templateTubes } = await this.buildSkillsAndTubesBeforeCreateTargetProfile();
     targetProfile.skillIds = skillIds;
     targetProfile.templateTubes = templateTubes;
 
@@ -83,7 +103,7 @@ export default class NewController extends Controller {
     });
   }
 
-  async buildSkillAndTubeBeforeCreateTargetProfile() {
+  async buildSkillsAndTubesBeforeCreateTargetProfile() {
     const tubesWithLevelAndSkills = await this.getSelectedTubesWithLevelAndSkills();
     const skillIds = tubesWithLevelAndSkills.flatMap((tubeWithLevelAndSkills) => tubeWithLevelAndSkills.skills);
     const templateTubes = tubesWithLevelAndSkills.map(({ id, level }) => ({
@@ -95,18 +115,6 @@ export default class NewController extends Controller {
       skillIds,
       templateTubes,
     };
-  }
-
-  get _selectedTubes() {
-    return this.areas
-      .flatMap((area) => {
-        const competences = area.competences.toArray();
-        return competences.flatMap((competence) => {
-          const thematics = competence.thematics.toArray();
-          return thematics.flatMap((thematic) => thematic.tubes.toArray());
-        });
-      })
-      .filter((tube) => this.selectedTubeIds.includes(tube.id));
   }
 
   async getSelectedTubesWithLevelAndSkills() {
@@ -130,15 +138,28 @@ export default class NewController extends Controller {
 
   @action
   async refreshAreas(selectedFrameworks) {
-    const selectedFrameworksAreas = await Promise.all(
-      selectedFrameworks.map(async (framework) => {
-        const frameworkAreas = await framework.areas;
-        return frameworkAreas.toArray();
-      })
-    );
+    const selectedFrameworksAreas = (
+      await Promise.all(
+        selectedFrameworks.map(async (framework) => {
+          const frameworkAreas = await framework.areas;
+          return frameworkAreas.toArray();
+        })
+      )
+    ).flat();
 
-    this.areas = selectedFrameworksAreas.flat().sort((area1, area2) => {
+    this.totalTubesCount = await this._calculateNumberOfTubes(selectedFrameworksAreas);
+
+    this.areas = selectedFrameworksAreas.sort((area1, area2) => {
       return area1.code - area2.code;
     });
+  }
+
+  async _calculateNumberOfTubes(areas) {
+    const competences = (await Promise.all(areas.map(async (area) => await area.competences.toArray()))).flat();
+    const thematics = (
+      await Promise.all(competences.map(async (competence) => await competence.thematics.toArray()))
+    ).flat();
+    const tubes = (await Promise.all(thematics.map(async (thematic) => await thematic.tubes.toArray()))).flat();
+    return tubes.length;
   }
 }

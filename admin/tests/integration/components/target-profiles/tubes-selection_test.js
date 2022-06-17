@@ -1,10 +1,10 @@
 import { module, test } from 'qunit';
-import { render, clickByName, within } from '@1024pix/ember-testing-library';
+import { render, clickByName } from '@1024pix/ember-testing-library';
 import hbs from 'htmlbars-inline-precompile';
 import { setupRenderingTest } from 'ember-qunit';
 import sinon from 'sinon';
 
-module('Integration | Component | targetProfiles::TubesSelection', function (hooks) {
+module('Integration | Component | TargetProfiles::TubesSelection', function (hooks) {
   setupRenderingTest(hooks);
   let screen;
 
@@ -169,5 +169,15 @@ module('Integration | Component | targetProfiles::TubesSelection', function (hoo
       // then
       assert.dom(screen.getByText('Importer une preselection de sujets')).exists();
     });
+  });
+
+  test('it should show the total number of tubes and selected tubes', async function (assert) {
+    // when
+    await clickByName('1 · Titre domaine');
+    await clickByName('1 Titre competence');
+    await clickByName('Tube 1 : Description 1');
+
+    // then
+    assert.dom(screen.getByText('1/3')).exists();
   });
 });

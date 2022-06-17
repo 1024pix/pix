@@ -3,7 +3,7 @@ import Component from '@glimmer/component';
 import { inject as service } from '@ember/service';
 import { optionsCategoryList } from '../../models/target-profile';
 
-export default class UpdateTargetProfile extends Component {
+export default class CreateTargetProfileForm extends Component {
   @service notifications;
 
   constructor() {
