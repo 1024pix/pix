@@ -1,5 +1,6 @@
 const { expect, domainBuilder } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/tutorial-evaluation-serializer');
+const TutorialEvaluation = require('../../../../../lib/domain/models/TutorialEvaluation');
 
 describe('Unit | Serializer | JSONAPI | tutorial-evaluation-serializer', function () {
   describe('#serialize', function () {
@@ -10,6 +11,7 @@ describe('Unit | Serializer | JSONAPI | tutorial-evaluation-serializer', functio
           id: 'tutorialEvaluationId',
           userId: 'userId',
           tutorialId: 'tutorialId',
+          status: TutorialEvaluation.status.LIKED,
         };
         const expectedJsonTutorialEvaluation = {
           data: {
@@ -18,6 +20,7 @@ describe('Unit | Serializer | JSONAPI | tutorial-evaluation-serializer', functio
             attributes: {
               'user-id': 'userId',
               'tutorial-id': 'tutorialId',
+              status: TutorialEvaluation.status.LIKED,
             },
           },
         };
