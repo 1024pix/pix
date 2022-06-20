@@ -583,10 +583,7 @@ describe('Unit | Router | user-router', function () {
         await httpTestServer.register(moduleUnderTest);
 
         // when
-        const response = await httpTestServer.request(
-          'GET',
-          '/api/admin/users/8?include=schoolingRegistrations%2CauthenticationMethods'
-        );
+        const response = await httpTestServer.request('GET', '/api/admin/users/8');
 
         // then
         sinon.assert.calledOnce(securityPreHandlers.userHasAtLeastOneAccessOf);
@@ -606,10 +603,7 @@ describe('Unit | Router | user-router', function () {
         await httpTestServer.register(moduleUnderTest);
 
         // when
-        const response = await httpTestServer.request(
-          'GET',
-          '/api/admin/users/8?include=schoolingRegistrations%2CauthenticationMethods'
-        );
+        const response = await httpTestServer.request('GET', '/api/admin/users/8');
 
         // then
         sinon.assert.calledOnce(securityPreHandlers.userHasAtLeastOneAccessOf);
