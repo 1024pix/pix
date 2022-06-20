@@ -189,26 +189,22 @@ describe('Unit | Controller | certifications-controller', function () {
   });
 
   describe('#getCertificationAttestation', function () {
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    const certification = domainBuilder.buildPrivateCertificateWithCompetenceTree();
-    const attestationPDF = 'binary string';
-    const fileName = 'attestation-pix-20181003.pdf';
-    const userId = 1;
-
-    const request = {
-      auth: { credentials: { userId } },
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line mocha/no-setup-in-describe
-      params: { id: certification.id },
-    };
-
     beforeEach(function () {
       sinon.stub(usecases, 'getCertificationAttestation');
     });
 
     it('should return binary attestation', async function () {
       // given
+      const certification = domainBuilder.buildPrivateCertificateWithCompetenceTree();
+      const attestationPDF = 'binary string';
+      const fileName = 'attestation-pix-20181003.pdf';
+      const userId = 1;
+
+      const request = {
+        auth: { credentials: { userId } },
+        params: { id: certification.id },
+      };
+
       sinon
         .stub(certificationAttestationPdf, 'getCertificationAttestationsPdfBuffer')
         .resolves({ buffer: attestationPDF, fileName });
