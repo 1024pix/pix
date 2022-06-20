@@ -205,7 +205,7 @@ module('Acceptance | Organizations | Memberships management', function (hooks) {
     test('should deactivate a member', async function (assert) {
       // given
       const screen = await visit(`/organizations/${organization.id}/team`);
-      await clickByName('Désactiver le membre');
+      await clickByName("Désactiver l'agent");
 
       // when
       await clickByName('Confirmer');

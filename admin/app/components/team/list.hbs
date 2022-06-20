@@ -33,27 +33,50 @@
               {{/if}}
             </td>
             <td>
-              {{#if member.isInEditionMode}}
+              <div class="admin-member-item-actions">
+                {{#if member.isInEditionMode}}
+                  <PixButton
+                    class="admin-member-item-actions__button"
+                    aria-label="Valider la modification de rôle"
+                    @triggerAction={{fn this.updateMemberRole member}}
+                  >
+                    Valider
+                  </PixButton>
+                {{else}}
+                  <PixButton
+                    class="admin-member-item-actions__button"
+                    aria-label={{concat "Modifier le rôle de l'agent " member.firstName " " member.lastName}}
+                    @triggerAction={{fn this.toggleEditionModeForThisMember member}}
+                  >
+                    <FaIcon @icon="edit" />
+                    Modifier</PixButton>
+                {{/if}}
                 <PixButton
-                  aria-label="Valider la modification de rôle"
-                  @triggerAction={{fn this.updateMemberRole member}}
+                  class="admin-member-item-actions__button"
+                  @backgroundColor="red"
+                  aria-label={{concat "Désactiver l'agent " member.firstName " " member.lastName}}
+                  @triggerAction={{fn this.displayDeactivateConfirmationPopup member}}
                 >
-                  Valider
+                  <FaIcon @icon="trash" />Désactiver
                 </PixButton>
-              {{else}}
-                <PixButton
-                  aria-label={{concat "Modifier le rôle de " member.firstName " " member.lastName}}
-                  @triggerAction={{fn this.toggleEditionModeForThisMember member}}
-                >Modifier</PixButton>
-              {{/if}}
+
+              </div>
             </td>
           </tr>
         {{/each}}
       </tbody>
     {{/if}}
   </table>
-
   {{#unless @members}}
     <div class="table__empty">Aucun résultat</div>
   {{/unless}}
 </div>
+
+<ConfirmPopup
+  @message={{this.confirmPopUpMessage}}
+  @title="Désactivation d'un agent Pix"
+  @submitTitle="Confirmer"
+  @confirm={{fn this.deactivateAdminMember this.adminMemberToDeactivate}}
+  @cancel={{this.toggleDisplayConfirm}}
+  @show={{this.displayConfirm}}
+/>
