@@ -3,10 +3,16 @@
 </header>
 
 <dl>
-  <div class="authentication-method__connexions-information">
-    <dt>Date de dernière connexion :</dt>
-    <dd>{{dayjs-format @user.lastLoggedAt "DD/MM/YYYY"}}</dd>
-  </div>
+  {{#if @user.lastLoggedAt}}
+    <div class="authentication-method__connexions-information">
+      <dt>Date de dernière connexion :</dt>
+      <dd>{{dayjs-format @user.lastLoggedAt "DD/MM/YYYY"}}</dd>
+    </div>
+  {{else}}
+    <div class="authentication-method__connexions-information">
+      L'utilisateur ne s'est jamais connecté
+    </div>
+  {{/if}}
   {{#if @user.emailConfirmedAt}}
     <div class="authentication-method__connexions-information">
       <dt>Adresse e-mail confirmée le :</dt>

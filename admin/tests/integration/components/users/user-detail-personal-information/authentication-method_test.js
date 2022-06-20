@@ -14,9 +14,9 @@ module('Integration | Component | users | user-detail-personal-information/authe
 
     module('When user has authentication methods', function () {
       module('when user has confirmed his email address', function () {
-        test('should display last connection and email confirmed dates', async function (assert) {
+        test('should display email confirmed date', async function (assert) {
           // given
-          this.set('user', { lastLoggedAt: new Date('2022-07-01'), emailConfirmedAt: new Date('2020-10-30') });
+          this.set('user', { emailConfirmedAt: new Date('2020-10-30') });
           this.owner.register('service:access-control', AccessControlStub);
 
           // when
@@ -24,15 +24,14 @@ module('Integration | Component | users | user-detail-personal-information/authe
             <Users::UserDetailPersonalInformation::AuthenticationMethod @user={{this.user}} />`);
 
           // then
-          assert.dom(screen.getByText('01/07/2022')).exists();
           assert.dom(screen.getByText('30/10/2020')).exists();
         });
       });
 
-      module('when user has not confirmed his email address', function () {
+      module('when user has not confirmed their email address', function () {
         test('it should display "Adresse e-mail non confirmée"', async function (assert) {
           // given
-          this.set('user', { lastLoggedAt: null, emailConfirmedAt: null });
+          this.set('user', { emailConfirmedAt: null });
           this.owner.register('service:access-control', AccessControlStub);
 
           // when
@@ -41,6 +40,36 @@ module('Integration | Component | users | user-detail-personal-information/authe
 
           // then
           assert.dom(screen.getByText('Adresse e-mail non confirmée')).exists();
+        });
+      });
+
+      module('when user has logged in', function () {
+        test('should display date of latest connection', async function (assert) {
+          // given
+          this.set('user', { lastLoggedAt: new Date('2022-07-01') });
+          this.owner.register('service:access-control', AccessControlStub);
+
+          // when
+          const screen = await render(hbs`
+            <Users::UserDetailPersonalInformation::AuthenticationMethod @user={{this.user}} />`);
+
+          // then
+          assert.dom(screen.getByText('01/07/2022')).exists();
+        });
+      });
+
+      module('when user never logged in', function () {
+        test("it should display `L'utilisateur ne s'est jamais connecté`", async function (assert) {
+          // given
+          this.set('user', { lastLoggedAt: null });
+          this.owner.register('service:access-control', AccessControlStub);
+
+          // when
+          const screen = await render(hbs`
+            <Users::UserDetailPersonalInformation::AuthenticationMethod @user={{this.user}} />`);
+
+          // then
+          assert.dom(screen.getByText("L'utilisateur ne s'est jamais connecté")).exists();
         });
       });
 
