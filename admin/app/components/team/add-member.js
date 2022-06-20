@@ -25,13 +25,16 @@ export default class AddMember extends Component {
       return this.notifications.error('Cet agent a déjà accès');
     }
 
+    let adminMember;
+
     try {
-      const adminMember = this.store.createRecord('admin-member', { email: this.email, role: this.role });
+      adminMember = this.store.createRecord('admin-member', { email: this.email, role: this.role });
       await adminMember.save();
       this.email = '';
       this.role = 'SUPER_ADMIN';
       this.notifications.success("L'agent a dorénavant accès");
     } catch (error) {
+      this.store.deleteRecord(adminMember);
       let errorMessage = "Une erreur s'est produite, veuillez réessayer.";
 
       if (error?.errors?.length) {
