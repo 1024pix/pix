@@ -1,5 +1,25 @@
 # Pix Changelog
 
+## v3.223.0 (20/06/2022)
+
+
+### :rocket: Amélioration
+- [#4537](https://github.com/1024pix/pix/pull/4537) [FEATURE] Retirer le bandeau de renseignement du mail de destinataire de la certification
+- [#4474](https://github.com/1024pix/pix/pull/4474) [FEATURE] Permettre de donner l'accès à l'application Pix Admin à un nouvel employé Pix (PIX-4004)
+- [#4529](https://github.com/1024pix/pix/pull/4529) [FEATURE] Affichage d'une explication pour les catégories C7 et C8 sur la page de finalisation de session
+- [#4528](https://github.com/1024pix/pix/pull/4528) [FEATURE] Mettre à jour le titre de la section avec les signalements individuels sur la page de finalisation de session (PIX-5148)
+- [#4530](https://github.com/1024pix/pix/pull/4530) [FEATURE] Augmenter la taille des macarons dans les certificats et certificats partagés (PIX-5126).
+- [#4524](https://github.com/1024pix/pix/pull/4524) [FEATURE] Fusionner les stratégies de résolution des signalements E1 et E2 (PIX-5115).
+- [#4534](https://github.com/1024pix/pix/pull/4534) [FEATURE] Ajouter un commentaire jury dans le csv des résultats pour les certifications rejetées automatiquement(PIX-5116)
+
+### :building_construction: Tech
+- [#4523](https://github.com/1024pix/pix/pull/4523) [TECH] Préciser la cause de la certification en erreur lorsque l'utilisateur n'a pas répondu à toutes les questions (PIX-5084)
+
+### :bug: Correction
+- [#4539](https://github.com/1024pix/pix/pull/4539) [BUGFIX] Afficher les dates formattées que si elles existent dans Pix Admin (PIX-5141).
+- [#4533](https://github.com/1024pix/pix/pull/4533) [BUGFIX] Les message de format de code de vérification de l'attestation sont incohérents (PIX-5161).
+- [#4535](https://github.com/1024pix/pix/pull/4535) [BUGFIX] Remettre l'image quand il n'y a pas de campagne(PIX-5135)
+
 ## v3.222.0 (16/06/2022)
 
 
