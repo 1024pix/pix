@@ -181,6 +181,10 @@ module('Unit | Controller | authenticated/certifications', function (hooks) {
         save: sinon.stub(),
       };
 
+      controller.url = {
+        isFrenchDomainExtension: true,
+      };
+
       controller.model = {
         options: [{ label: '3èmeA', value: '3èmeA' }],
       };
@@ -197,7 +201,7 @@ module('Unit | Controller | authenticated/certifications', function (hooks) {
         controller.fileSaver.save.calledWith({
           token,
           fileName,
-          url: `/api/organizations/${organizationId}/certification-attestations?division=${selectedDivision}`,
+          url: `/api/organizations/${organizationId}/certification-attestations?division=${selectedDivision}&isFrenchDomainExtension=true`,
         })
       );
     });

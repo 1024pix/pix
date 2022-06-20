@@ -9,6 +9,7 @@ export default class AuthenticatedCertificationsController extends Controller {
   @service currentUser;
   @service notifications;
   @service intl;
+  @service url;
 
   @tracked selectedDivision = '';
 
@@ -66,7 +67,7 @@ export default class AuthenticatedCertificationsController extends Controller {
       }
 
       const organizationId = this.currentUser.organization.id;
-      const url = `/api/organizations/${organizationId}/certification-attestations?division=${this.selectedDivision}`;
+      const url = `/api/organizations/${organizationId}/certification-attestations?division=${this.selectedDivision}&isFrenchDomainExtension=${this.url.isFrenchDomainExtension}`;
       const fileName = 'attestations_pix.pdf';
 
       let token = '';
