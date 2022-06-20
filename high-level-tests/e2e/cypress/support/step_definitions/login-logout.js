@@ -6,7 +6,7 @@ Given(`je me connecte avec le compte {string}`, (email) => {
 });
 
 Given(`je me connecte avec un mot de passe temporaire`, () => {
-  cy.get('input[name="login"]').type('user.shouldChangePassword1234');
+  cy.get('input[name="login"]').type('tommen.baratheon1234');
   cy.get('input[name="password"]').type('Pix12345');
   cy.get('button[type=submit]').click();
 });

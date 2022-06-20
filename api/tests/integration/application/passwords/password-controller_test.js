@@ -150,7 +150,7 @@ describe('Integration | Application | Passwords | password-controller', function
       data: {
         type: 'organization-invitations',
         attributes: {
-          username: 'firstName.lastName0512',
+          username: 'firstname.lastname0512',
           expiredPassword: 'expiredPassword01',
           newPassword: 'newPassword02',
         },
