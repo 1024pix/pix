@@ -120,6 +120,23 @@ module('Acceptance | Session Finalization', function (hooks) {
           )
           .exists();
       });
+
+      test('it should contain "Etape 1" in title', async function (assert) {
+        // given
+        server.create('feature-toggle', { id: 0, isCertificationFreeFieldsDeletionEnabled: false });
+
+        // when
+        const screen = await visit(`/sessions/${session.id}/finalisation`);
+
+        // then
+        assert
+          .dom(
+            screen.getByText(
+              "Étape 1 : Reporter, pour chaque candidat, les signalements renseignés sur le PV d'incident"
+            )
+          )
+          .exists();
+      });
     });
     module('when FT_CERTIFICATION_FREE_FIELDS_DELETION is on', function () {
       test('it should not display the comment step section', async function (assert) {
@@ -167,6 +184,23 @@ module('Acceptance | Session Finalization', function (hooks) {
             screen.getByRole('checkbox', {
               name: "Un ou plusieurs candidats étaient présents en session de certification mais n'ont pas pu rejoindre la session.",
             })
+          )
+          .exists();
+      });
+
+      test('it should not contain "Etape 1" in title', async function (assert) {
+        // given
+        server.create('feature-toggle', { id: 0, isCertificationFreeFieldsDeletionEnabled: true });
+
+        // when
+        const screen = await visit(`/sessions/${session.id}/finalisation`);
+
+        // then
+        assert
+          .dom(
+            screen.getByText(
+              "Signalements : Reporter, pour chaque candidat, les signalements renseignés sur le PV d'incident"
+            )
           )
           .exists();
       });
