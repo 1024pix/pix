@@ -31,7 +31,7 @@ module('Integration | Component | member-item', function (hooks) {
     assert.dom(screen.getByText('jojo@lagringue.fr')).exists();
     assert.dom(screen.getByText('Administrateur')).exists();
     assert.dom(screen.getByRole('button', { name: 'Modifier le rôle' })).exists();
-    assert.dom(screen.getByRole('button', { name: 'Désactiver le membre' })).exists();
+    assert.dom(screen.getByRole('button', { name: "Désactiver l'agent" })).exists();
   });
 
   module("when editing organization's role", function () {
@@ -111,7 +111,7 @@ module('Integration | Component | member-item', function (hooks) {
       );
 
       // when
-      await clickByName('Désactiver le membre');
+      await clickByName("Désactiver l'agent");
 
       // then
       assert.dom(screen.getByRole('heading', { name: "Désactivation d'un membre" })).exists();
@@ -125,7 +125,7 @@ module('Integration | Component | member-item', function (hooks) {
       const screen = await render(
         hbs`<Organizations::MemberItem @membership={{this.membership}} @disableMembership={{this.disableMembership}} />`
       );
-      await clickByName('Désactiver le membre');
+      await clickByName("Désactiver l'agent");
 
       // when
       await clickByName('Annuler');
@@ -142,7 +142,7 @@ module('Integration | Component | member-item', function (hooks) {
         hbs`<Organizations::MemberItem @membership={{this.membership}} @disableMembership={{this.disableMembership}} />`
       );
 
-      await clickByName('Désactiver le membre');
+      await clickByName("Désactiver l'agent");
 
       // when
       await clickByName('Confirmer');
