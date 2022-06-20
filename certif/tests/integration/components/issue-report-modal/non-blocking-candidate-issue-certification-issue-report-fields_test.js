@@ -50,5 +50,31 @@ module(
       // then
       assert.dom(screen.getByText("Décrivez l'incident rencontré")).exists();
     });
+
+    test('it should show information message if category is checked', async function (assert) {
+      // given
+      const toggleOnCategory = sinon.stub();
+      const nonBlockingCandidateIssueCategory = { isChecked: true };
+      this.set('toggleOnCategory', toggleOnCategory);
+      this.set('nonBlockingCandidateIssueCategory', nonBlockingCandidateIssueCategory);
+
+      // when
+      const screen = await renderScreen(hbs`
+      <IssueReportModal::NonBlockingCandidateIssueCertificationIssueReportFields
+        @nonBlockingCandidateIssueCategory={{this.nonBlockingCandidateIssueCategory}}
+        @toggleOnCategory={{this.toggleOnCategory}}
+        @maxlength={{500}}
+      />`);
+      await click(screen.getByRole('radio'));
+
+      // then
+      assert
+        .dom(
+          screen.getByText(
+            "Signalement à titre informatif, le problème rencontré n'a pas empêché le candidat de continuer à répondre aux questions."
+          )
+        )
+        .exists();
+    });
   }
 );
