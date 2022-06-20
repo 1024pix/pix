@@ -27,15 +27,15 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
       await databaseBuilder.commit();
 
       // when
-      const schoolingRegistrationsResult = await organizationLearnerRepository.findByIds({ ids });
+      const organizationLearnersResult = await organizationLearnerRepository.findByIds({ ids });
 
       // then
-      const anyOrganizationLearner = schoolingRegistrationsResult[0];
+      const anyOrganizationLearner = organizationLearnersResult[0];
       expect(anyOrganizationLearner).to.be.an.instanceOf(OrganizationLearner);
       expect(anyOrganizationLearner.firstName).to.equal(organizationLearner1.firstName);
       expect(anyOrganizationLearner.lastName).to.equal(organizationLearner1.lastName);
       expect(anyOrganizationLearner.birthdate).to.deep.equal(organizationLearner1.birthdate);
-      expect(_.map(schoolingRegistrationsResult, 'id')).to.have.members([
+      expect(_.map(organizationLearnersResult, 'id')).to.have.members([
         organizationLearner1.id,
         organizationLearner2.id,
       ]);
@@ -507,7 +507,7 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
   });
 
   describe('#isOrganizationLearnerIdLinkedToUserAndSCOOrganization', function () {
-    it('should return true when a organizationLearner matches an id and matches also a given user id and a SCO organization', async function () {
+    it('should return true when an organizationLearnermatches an id and matches also a given user id and a SCO organization', async function () {
       // given
       const userId = databaseBuilder.factory.buildUser().id;
       const otherUserId = databaseBuilder.factory.buildUser().id;
@@ -689,7 +689,7 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
         await databaseBuilder.commit();
       });
 
-      context('when a organizationLearner is already imported', function () {
+      context('when an organizationLearneris already imported', function () {
         let organizationLearner_1_updated;
         let organizationLearners;
 
@@ -718,18 +718,18 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
           });
 
           // then
-          const updated_organization_schoolingRegistrations = await knex('organization-learners').where({
+          const updated_organization_organizationLearners = await knex('organization-learners').where({
             organizationId,
           });
 
-          expect(updated_organization_schoolingRegistrations).to.have.lengthOf(1);
-          expect(updated_organization_schoolingRegistrations[0].firstName).to.be.equal(
+          expect(updated_organization_organizationLearners).to.have.lengthOf(1);
+          expect(updated_organization_organizationLearners[0].firstName).to.be.equal(
             organizationLearner_1_updated.firstName
           );
-          expect(updated_organization_schoolingRegistrations[0].lastName).to.be.equal(
+          expect(updated_organization_organizationLearners[0].lastName).to.be.equal(
             organizationLearner_1_updated.lastName
           );
-          expect(updated_organization_schoolingRegistrations[0].birthdate).to.be.equal(
+          expect(updated_organization_organizationLearners[0].birthdate).to.be.equal(
             organizationLearner_1_updated.birthdate
           );
         });
@@ -810,7 +810,7 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
         });
       });
 
-      context('when a organization learner disabled already exists', function () {
+      context('when an organization learner disabled already exists', function () {
         it('should enable the updated organization learner', async function () {
           // given
           const organizationLearner = databaseBuilder.factory.buildOrganizationLearner({
@@ -1347,7 +1347,7 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
     });
   });
 
-  describe('#dissociateUserAndOrganizationLearner', function () {
+  describe('#dissociateUserFromOrganizationLearner', function () {
     let organizationLearner;
 
     beforeEach(async function () {
@@ -1361,8 +1361,8 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
       await organizationLearnerRepository.dissociateUserFromOrganizationLearner(organizationLearner.id);
 
       // then
-      const schoolingRegistrationPatched = await organizationLearnerRepository.get(organizationLearner.id);
-      expect(schoolingRegistrationPatched.userId).to.equal(null);
+      const organizationLearnerPatched = await organizationLearnerRepository.get(organizationLearner.id);
+      expect(organizationLearnerPatched.userId).to.equal(null);
     });
   });
 
@@ -1389,14 +1389,14 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
 
     it('should save association between user and organizationLearner', async function () {
       // when
-      const schoolingRegistrationPatched = await organizationLearnerRepository.reconcileUserToOrganizationLearner({
+      const organizationLearnerPatched = await organizationLearnerRepository.reconcileUserToOrganizationLearner({
         userId: user.id,
         organizationLearnerId: organizationLearner.id,
       });
 
       // then
-      expect(schoolingRegistrationPatched).to.be.instanceof(OrganizationLearner);
-      expect(schoolingRegistrationPatched.userId).to.equal(user.id);
+      expect(organizationLearnerPatched).to.be.instanceof(OrganizationLearner);
+      expect(organizationLearnerPatched.userId).to.equal(user.id);
     });
 
     it('should return an error when we don’t find the organizationLearner to update', async function () {
@@ -1471,7 +1471,7 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
 
       it('should save association between user and organization', async function () {
         // when
-        const schoolingRegistrationPatched =
+        const organizationLearnerPatched =
           await organizationLearnerRepository.reconcileUserByNationalStudentIdAndOrganizationId({
             userId: user.id,
             nationalStudentId: organizationLearner.nationalStudentId,
@@ -1479,8 +1479,8 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
           });
 
         // then
-        expect(schoolingRegistrationPatched).to.be.instanceof(OrganizationLearner);
-        expect(schoolingRegistrationPatched.userId).to.equal(user.id);
+        expect(organizationLearnerPatched).to.be.instanceof(OrganizationLearner);
+        expect(organizationLearnerPatched.userId).to.equal(user.id);
       });
 
       it('should return an error when we don’t find the organizationLearner for this organization to update', async function () {
@@ -2282,7 +2282,7 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
 
       // when
       const updatedOrganizationLearner = await organizationLearnerRepository.updateUserIdWhereNull({
-        schoolingRegistrationId: organizationLearnerId,
+        organizationLearnerId,
         userId,
       });
 
@@ -2299,7 +2299,7 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
 
       // when
       const error = await catchErr(organizationLearnerRepository.updateUserIdWhereNull)({
-        schoolingRegistrationId: organizationLearnerId,
+        organizationLearnerId,
         userId,
       });
 

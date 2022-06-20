@@ -41,7 +41,7 @@ if (require.main === module) {
       console.error(err);
       console.log(
         '\n\n Pour que ce script fonctionne pré-requis :' +
-          '- Une organisation SCO isManagingStudents contenant des schooling registrations' +
+          '- Une organisation SCO isManagingStudents contenant des organization learners' +
           '- Un centre de certif SCO'
       );
       process.exit(1);
@@ -179,7 +179,7 @@ async function _getRegistrationsGroupedByDivisions({ organizationId, transaction
     .whereNotNull('userId');
 
   if (registrationData.length === 0) {
-    throw new Error(`Aucune schooling registration trouvée pour l'organisation ${organizationId}`);
+    throw new Error(`Aucun prescrit trouvé pour l'organisation ${organizationId}`);
   }
 
   return _.groupBy(registrationData, 'division');

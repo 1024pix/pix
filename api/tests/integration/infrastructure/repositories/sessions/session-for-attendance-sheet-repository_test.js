@@ -6,7 +6,7 @@ const CertificationCandidateForAttendanceSheet = require('../../../../../lib/dom
 
 describe('Integration | Repository | Session-for-attendance-sheet', function () {
   describe('#getWithCertificationCandidates', function () {
-    context('when there are no schooling registrations', function () {
+    context('when there are no organization learners', function () {
       it('should return session information with ordered candidates and no division', async function () {
         // given
         databaseBuilder.factory.buildOrganization({ type: 'SCO', externalId: 'EXT1234', isManagingStudents: true });
@@ -71,7 +71,7 @@ describe('Integration | Repository | Session-for-attendance-sheet', function () 
       });
     });
 
-    context('when there are schooling registrations', function () {
+    context('when there are organization learners', function () {
       it('should return session information with with ordered candidates and division', async function () {
         // given
         databaseBuilder.factory.buildOrganization({ type: 'SCO', externalId: 'EXT1234', isManagingStudents: true });
@@ -92,26 +92,26 @@ describe('Integration | Repository | Session-for-attendance-sheet', function () 
           time: '12:00:00',
         });
 
-        const schoolingRegistration1 = databaseBuilder.factory.buildOrganizationLearner({ division: '3b' });
-        const schoolingRegistration2 = databaseBuilder.factory.buildOrganizationLearner({ division: '3a' });
-        const schoolingRegistration3 = databaseBuilder.factory.buildOrganizationLearner({ division: '2c' });
+        const organizationLearner1 = databaseBuilder.factory.buildOrganizationLearner({ division: '3b' });
+        const organizationLearner2 = databaseBuilder.factory.buildOrganizationLearner({ division: '3a' });
+        const organizationLearner3 = databaseBuilder.factory.buildOrganizationLearner({ division: '2c' });
         const candidate1 = databaseBuilder.factory.buildCertificationCandidate({
           lastName: 'Jackson',
           firstName: 'Michael',
           sessionId: session.id,
-          organizationLearnerId: schoolingRegistration1.id,
+          organizationLearnerId: organizationLearner1.id,
         });
         const candidate2 = databaseBuilder.factory.buildCertificationCandidate({
           lastName: 'Stardust',
           firstName: 'Ziggy',
           sessionId: session.id,
-          organizationLearnerId: schoolingRegistration2.id,
+          organizationLearnerId: organizationLearner2.id,
         });
         const candidate3 = databaseBuilder.factory.buildCertificationCandidate({
           lastName: 'Jackson',
           firstName: 'Janet',
           sessionId: session.id,
-          organizationLearnerId: schoolingRegistration3.id,
+          organizationLearnerId: organizationLearner3.id,
         });
         await databaseBuilder.commit();
 

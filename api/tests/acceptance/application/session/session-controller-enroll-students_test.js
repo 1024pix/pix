@@ -72,7 +72,7 @@ describe('Acceptance | Controller | session-controller-enroll-students-to-sessio
       let country;
       const birthCityCode = 'Detroit313';
       const FRANCE_INSEE_CODE = '99100';
-      const FRANCE_SCHOOLING_REGISTRATION_INSEE_CODE = '100';
+      const FRANCE_ORGANIZATION_LEARNER_INSEE_CODE = '100';
 
       afterEach(function () {
         return knex('certification-candidates').delete();
@@ -98,7 +98,7 @@ describe('Acceptance | Controller | session-controller-enroll-students-to-sessio
         organizationLearner = databaseBuilder.factory.buildOrganizationLearner({
           organizationId,
           birthCityCode,
-          birthCountryCode: FRANCE_SCHOOLING_REGISTRATION_INSEE_CODE,
+          birthCountryCode: FRANCE_ORGANIZATION_LEARNER_INSEE_CODE,
         });
 
         await databaseBuilder.commit();

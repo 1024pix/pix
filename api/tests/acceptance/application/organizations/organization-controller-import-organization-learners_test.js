@@ -10,7 +10,7 @@ const OrganizationLearnerColumns = require('../../../../lib/infrastructure/seria
 const { getI18n } = require('../../../tooling/i18n/i18n');
 const i18n = getI18n();
 
-const schoolingRegistrationCsvColumns = new OrganizationLearnerColumns(i18n).columns
+const organizationLearnerCsvColumns = new OrganizationLearnerColumns(i18n).columns
   .map((column) => column.label)
   .join(';');
 
@@ -54,7 +54,7 @@ describe('Acceptance | Application | organization-controller-import-organization
     });
 
     context('When a XML SIECLE file is loaded', function () {
-      context('when no schoolingRegistration has been imported yet, and the file is well formatted', function () {
+      context('when no organizationLearner has been imported yet, and the file is well formatted', function () {
         beforeEach(function () {
           const buffer = iconv.encode(
             '<?xml version="1.0" encoding="ISO-8859-15"?>' +
@@ -121,18 +121,18 @@ describe('Acceptance | Application | organization-controller-import-organization
           expect(response.statusCode).to.equal(204);
         });
 
-        it('should create all schoolingRegistrations', async function () {
+        it('should create all organizationLearners', async function () {
           // when
           await server.inject(options);
 
           // then
-          const schoolingRegistrations = await knex('organization-learners').where({ organizationId });
-          expect(schoolingRegistrations).to.have.lengthOf(2);
-          expect(_.map(schoolingRegistrations, 'firstName')).to.have.members(['Luciole', 'Harry']);
+          const organizationLearners = await knex('organization-learners').where({ organizationId });
+          expect(organizationLearners).to.have.lengthOf(2);
+          expect(_.map(organizationLearners, 'firstName')).to.have.members(['Luciole', 'Harry']);
         });
       });
 
-      context('when schoolingRegistrations have been already imported, and the file is well formatted', function () {
+      context('when organizationLearners have been already imported, and the file is well formatted', function () {
         beforeEach(async function () {
           databaseBuilder.factory.buildOrganizationLearner({ nationalStudentId: '0000000001Y', organizationId });
           await databaseBuilder.commit();
@@ -183,19 +183,19 @@ describe('Acceptance | Application | organization-controller-import-organization
           expect(response.statusCode).to.equal(204);
         });
 
-        it('should disable old schooling registrations', async function () {
+        it('should disable old organization learners', async function () {
           // when
           await server.inject(options);
 
           // then
-          const schoolingRegistration = await knex('organization-learners')
+          const organizationLearner = await knex('organization-learners')
             .where({ nationalStudentId: '0000000001Y' })
             .first();
-          expect(schoolingRegistration.isDisabled).to.be.true;
+          expect(organizationLearner.isDisabled).to.be.true;
         });
       });
 
-      context('when some schoolingRegistrations data are not well formatted', function () {
+      context('when some organizationLearners data are not well formatted', function () {
         beforeEach(function () {
           // given
           const wellFormattedStudent =
@@ -305,18 +305,18 @@ describe('Acceptance | Application | organization-controller-import-organization
           options.payload = malformedStudentsBuffer;
         });
 
-        it('should save well formatted schoolingRegistrations only', async function () {
+        it('should save well formatted organizationLearners only', async function () {
           // when
           await server.inject(options);
 
           // then
-          const schoolingRegistrations = await knex('organization-learners').where({ organizationId });
-          expect(schoolingRegistrations).to.have.lengthOf(1);
-          expect(schoolingRegistrations[0].lastName).to.equal('HANDMADE');
+          const organizationLearners = await knex('organization-learners').where({ organizationId });
+          expect(organizationLearners).to.have.lengthOf(1);
+          expect(organizationLearners[0].lastName).to.equal('HANDMADE');
         });
       });
 
-      context('when the schoolingRegistration has already been imported, but in another organization', function () {
+      context('when the organizationLearner has already been imported, but in another organization', function () {
         beforeEach(async function () {
           // given
           const otherOrganizationId = databaseBuilder.factory.buildOrganization().id;
@@ -363,23 +363,23 @@ describe('Acceptance | Application | organization-controller-import-organization
           options.payload = buffer;
         });
 
-        it('should save the schoolingRegistration in the current organization', async function () {
+        it('should save the organizationLearner in the current organization', async function () {
           // when
           const response = await server.inject(options);
 
           // then
-          const schoolingRegistrations = await knex('organization-learners').where({
+          const organizationLearners = await knex('organization-learners').where({
             nationalStudentId: '00000000124',
           });
-          expect(schoolingRegistrations).to.have.lengthOf(2);
+          expect(organizationLearners).to.have.lengthOf(2);
           expect(response.statusCode).to.equal(204);
         });
       });
 
-      context('when a schoolingRegistration is present twice in the file', function () {
+      context('when an organizationLearneris present twice in the file', function () {
         beforeEach(async function () {
           // given
-          const schoolingRegistration1 =
+          const organizationLearner1 =
             '<ELEVE ELEVE_ID="0001">' +
             '<ID_NATIONAL>00000000123</ID_NATIONAL>' +
             '<NOM_DE_FAMILLE>COVERT</NOM_DE_FAMILLE>' +
@@ -392,7 +392,7 @@ describe('Acceptance | Application | organization-controller-import-organization
             '<CODE_STATUT>ST</CODE_STATUT>' +
             '</ELEVE>';
 
-          const schoolingRegistration2 =
+          const organizationLearner2 =
             '<ELEVE ELEVE_ID="0002">' +
             '<ID_NATIONAL>00000000123</ID_NATIONAL>' +
             '<NOM_DE_FAMILLE>COVERT</NOM_DE_FAMILLE>' +
@@ -413,8 +413,8 @@ describe('Acceptance | Application | organization-controller-import-organization
               '</PARAMETRES>' +
               '<DONNEES>' +
               '<ELEVES>' +
-              schoolingRegistration1 +
-              schoolingRegistration2 +
+              organizationLearner1 +
+              organizationLearner2 +
               '</ELEVES>' +
               '<STRUCTURES>' +
               '<STRUCTURES_ELEVE ELEVE_ID="0001">' +
@@ -438,21 +438,21 @@ describe('Acceptance | Application | organization-controller-import-organization
           options.payload = bufferWithMalformedStudent;
         });
 
-        it('should not import any schoolingRegistration and return a 412', async function () {
+        it('should not import any organizationLearner and return a 412', async function () {
           // when
           const response = await server.inject(options);
 
           // then
-          const schoolingRegistrations = await knex('organization-learners').where({ organizationId });
-          expect(schoolingRegistrations).to.have.lengthOf(0);
+          const organizationLearners = await knex('organization-learners').where({ organizationId });
+          expect(organizationLearners).to.have.lengthOf(0);
           expect(response.statusCode).to.equal(412);
         });
       });
 
-      context('when a schoolingRegistration cant be updated', function () {
+      context('when an organizationLearnercant be updated', function () {
         beforeEach(async function () {
           // given
-          const schoolingRegistrationThatCantBeUpdatedBecauseBirthdateIsMissing =
+          const organizationLearnerThatCantBeUpdatedBecauseBirthdateIsMissing =
             '<ELEVE ELEVE_ID="0001">' +
             '<ID_NATIONAL>00000000456</ID_NATIONAL>' +
             '<NOM_DE_FAMILLE>COVERT</NOM_DE_FAMILLE>' +
@@ -468,7 +468,7 @@ describe('Acceptance | Application | organization-controller-import-organization
             '<CODE_STATUT>ST</CODE_STATUT>' +
             '</ELEVE>';
 
-          const schoolingRegistrationThatCouldBeUpdated =
+          const organizationLearnerThatCouldBeUpdated =
             '<ELEVE ELEVE_ID="0002">' +
             '<ID_NATIONAL>00000000123</ID_NATIONAL>' +
             '<NOM_DE_FAMILLE>JAUNE</NOM_DE_FAMILLE>' +
@@ -492,8 +492,8 @@ describe('Acceptance | Application | organization-controller-import-organization
               '</PARAMETRES>' +
               '<DONNEES>' +
               '<ELEVES>' +
-              schoolingRegistrationThatCantBeUpdatedBecauseBirthdateIsMissing +
-              schoolingRegistrationThatCouldBeUpdated +
+              organizationLearnerThatCantBeUpdatedBecauseBirthdateIsMissing +
+              organizationLearnerThatCouldBeUpdated +
               '</ELEVES>' +
               '<STRUCTURES>' +
               '<STRUCTURES_ELEVE ELEVE_ID="0001">' +
@@ -538,21 +538,21 @@ describe('Acceptance | Application | organization-controller-import-organization
           await databaseBuilder.commit();
         });
 
-        it('should not update any schoolingRegistration and return a 400 - Bad Request', async function () {
+        it('should not update any organizationLearner and return a 400 - Bad Request', async function () {
           // when
           const response = await server.inject(options);
 
           // then
-          const schoolingRegistrations = await knex('organization-learners').where({ organizationId });
-          expect(_.map(schoolingRegistrations, 'lastName')).to.have.members(['LALOUX', 'UEMATSU']);
+          const organizationLearners = await knex('organization-learners').where({ organizationId });
+          expect(_.map(organizationLearners, 'lastName')).to.have.members(['LALOUX', 'UEMATSU']);
           expect(response.statusCode).to.equal(400);
         });
       });
 
-      context('when a schoolingRegistration cant be updated but another could be created', function () {
+      context('when an organizationLearnercant be updated but another could be created', function () {
         beforeEach(async function () {
           // given
-          const schoolingRegistrationThatCouldBeCreated =
+          const organizationLearnerThatCouldBeCreated =
             '<ELEVE ELEVE_ID="0001">' +
             '<ID_NATIONAL>123</ID_NATIONAL>' +
             '<NOM_DE_FAMILLE>COLAGRECO</NOM_DE_FAMILLE>' +
@@ -568,7 +568,7 @@ describe('Acceptance | Application | organization-controller-import-organization
             '<CODE_STATUT>ST</CODE_STATUT>' +
             '</ELEVE>';
 
-          const schoolingRegistrationThatCantBeUpdatedBecauseBirthdateIsMissing =
+          const organizationLearnerThatCantBeUpdatedBecauseBirthdateIsMissing =
             '<ELEVE ELEVE_ID="0002">' +
             '<ID_NATIONAL>456</ID_NATIONAL>' +
             '<NOM_DE_FAMILLE>COVERT</NOM_DE_FAMILLE>' +
@@ -584,7 +584,7 @@ describe('Acceptance | Application | organization-controller-import-organization
             '<CODE_STATUT>ST</CODE_STATUT>' +
             '</ELEVE>';
 
-          const schoolingRegistrationThatCouldBeUpdated =
+          const organizationLearnerThatCouldBeUpdated =
             '<ELEVE ELEVE_ID="0003">' +
             '<ID_NATIONAL>789</ID_NATIONAL>' +
             '<NOM_DE_FAMILLE>JAUNE</NOM_DE_FAMILLE>' +
@@ -608,9 +608,9 @@ describe('Acceptance | Application | organization-controller-import-organization
               '</PARAMETRES>' +
               '<DONNEES>' +
               '<ELEVES>' +
-              schoolingRegistrationThatCouldBeCreated +
-              schoolingRegistrationThatCantBeUpdatedBecauseBirthdateIsMissing +
-              schoolingRegistrationThatCouldBeUpdated +
+              organizationLearnerThatCouldBeCreated +
+              organizationLearnerThatCantBeUpdatedBecauseBirthdateIsMissing +
+              organizationLearnerThatCouldBeUpdated +
               '</ELEVES>' +
               '<STRUCTURES>' +
               '<STRUCTURES_ELEVE ELEVE_ID="0001">' +
@@ -654,17 +654,17 @@ describe('Acceptance | Application | organization-controller-import-organization
           const response = await server.inject(options);
 
           // then
-          const schoolingRegistrations = await knex('organization-learners').where({ organizationId });
-          expect(schoolingRegistrations).to.have.lengthOf(2);
-          expect(_.map(schoolingRegistrations, 'lastName')).to.have.members(['LALOUX', 'UEMATSU']);
+          const organizationLearners = await knex('organization-learners').where({ organizationId });
+          expect(organizationLearners).to.have.lengthOf(2);
+          expect(_.map(organizationLearners, 'lastName')).to.have.members(['LALOUX', 'UEMATSU']);
           expect(response.statusCode).to.equal(400);
         });
       });
 
-      context('when a schoolingRegistration cant be created but another could be updated', function () {
+      context('when an organizationLearnercant be created but another could be updated', function () {
         beforeEach(async function () {
           // given
-          const schoolingRegistrationThatCantBeCreatedBecauseBirthdateIsMissing =
+          const organizationLearnerThatCantBeCreatedBecauseBirthdateIsMissing =
             '<ELEVE ELEVE_ID="0001">' +
             '<ID_NATIONAL>123</ID_NATIONAL>' +
             '<NOM_DE_FAMILLE>COLAGRECO</NOM_DE_FAMILLE>' +
@@ -680,7 +680,7 @@ describe('Acceptance | Application | organization-controller-import-organization
             '<CODE_STATUT>ST</CODE_STATUT>' +
             '</ELEVE>';
 
-          const schoolingRegistrationThatCouldBeCreated =
+          const organizationLearnerThatCouldBeCreated =
             '<ELEVE ELEVE_ID="0002">' +
             '<ID_NATIONAL>456</ID_NATIONAL>' +
             '<NOM_DE_FAMILLE>COVERT</NOM_DE_FAMILLE>' +
@@ -696,7 +696,7 @@ describe('Acceptance | Application | organization-controller-import-organization
             '<CODE_STATUT>ST</CODE_STATUT>' +
             '</ELEVE>';
 
-          const schoolingRegistrationThatCouldBeUpdated =
+          const organizationLearnerThatCouldBeUpdated =
             '<ELEVE ELEVE_ID="0003">' +
             '<ID_NATIONAL>789</ID_NATIONAL>' +
             '<NOM_DE_FAMILLE>JAUNE</NOM_DE_FAMILLE>' +
@@ -720,9 +720,9 @@ describe('Acceptance | Application | organization-controller-import-organization
               '</PARAMETRES>' +
               '<DONNEES>' +
               '<ELEVES>' +
-              schoolingRegistrationThatCantBeCreatedBecauseBirthdateIsMissing +
-              schoolingRegistrationThatCouldBeCreated +
-              schoolingRegistrationThatCouldBeUpdated +
+              organizationLearnerThatCantBeCreatedBecauseBirthdateIsMissing +
+              organizationLearnerThatCouldBeCreated +
+              organizationLearnerThatCouldBeUpdated +
               '</ELEVES>' +
               '<STRUCTURES>' +
               '<STRUCTURES_ELEVE ELEVE_ID="0001">' +
@@ -766,14 +766,14 @@ describe('Acceptance | Application | organization-controller-import-organization
           const response = await server.inject(options);
 
           // then
-          const schoolingRegistrations = await knex('organization-learners').where({ organizationId });
-          expect(schoolingRegistrations).to.have.lengthOf(1);
-          expect(_.map(schoolingRegistrations, 'lastName')).to.have.members(['LALOUX']);
+          const organizationLearners = await knex('organization-learners').where({ organizationId });
+          expect(organizationLearners).to.have.lengthOf(1);
+          expect(_.map(organizationLearners, 'lastName')).to.have.members(['LALOUX']);
           expect(response.statusCode).to.equal(400);
         });
       });
 
-      context('when a schoolingRegistration cant be imported', function () {
+      context('when an organizationLearner cant be imported', function () {
         beforeEach(function () {
           // given
           const malformedStudentsBuffer = iconv.encode(
@@ -805,13 +805,13 @@ describe('Acceptance | Application | organization-controller-import-organization
           options.payload = malformedStudentsBuffer;
         });
 
-        it('should not import the schoolingRegistrations and return a 400 - Bad Request', async function () {
+        it('should not import the organizationLearner and return a 400 - Bad Request', async function () {
           // when
           const response = await server.inject(options);
 
           // then
-          const schoolingRegistrations = await knex('organization-learners').where({ organizationId });
-          expect(schoolingRegistrations).to.have.lengthOf(0);
+          const organizationLearners = await knex('organization-learners').where({ organizationId });
+          expect(organizationLearners).to.have.lengthOf(0);
           expect(response.statusCode).to.equal(400);
         });
       });
@@ -836,8 +836,8 @@ describe('Acceptance | Application | organization-controller-import-organization
           const response = await server.inject(options);
 
           // then
-          const schoolingRegistrations = await knex('organization-learners').where({ organizationId });
-          expect(schoolingRegistrations).to.have.lengthOf(0);
+          const organizationLearners = await knex('organization-learners').where({ organizationId });
+          expect(organizationLearners).to.have.lengthOf(0);
           expect(response.statusCode).to.equal(412);
         });
       });
@@ -861,43 +861,40 @@ describe('Acceptance | Application | organization-controller-import-organization
     });
 
     context('When a CSV SIECLE file is loaded', function () {
-      context(
-        'SCO : when no schooling registration has been imported yet, and the file is well formatted',
-        function () {
-          beforeEach(function () {
-            const input = `${schoolingRegistrationCsvColumns}
+      context('SCO : when no organization learner has been imported yet, and the file is well formatted', function () {
+        beforeEach(function () {
+          const input = `${organizationLearnerCsvColumns}
           123F;Beatrix;The;Bride;Kiddo;Black Mamba;;01/01/1970;97422;;200;99100;ST;MEF1;Division 1;
           456F;O-Ren;;;Ishii;Cottonmouth;;01/01/1980;;Shangai;99;99132;ST;MEF1;Division 2;
           `;
-            const buffer = iconv.encode(input, 'UTF-8');
+          const buffer = iconv.encode(input, 'UTF-8');
 
-            (options.url = `/api/organizations/${organizationId}/schooling-registrations/import-siecle?format=csv`),
-              (options.payload = buffer);
-          });
+          (options.url = `/api/organizations/${organizationId}/schooling-registrations/import-siecle?format=csv`),
+            (options.payload = buffer);
+        });
 
-          it('should respond with a 204 - no content', async function () {
-            // when
-            const response = await server.inject(options);
+        it('should respond with a 204 - no content', async function () {
+          // when
+          const response = await server.inject(options);
 
-            // then
-            expect(response.statusCode).to.equal(204);
-          });
+          // then
+          expect(response.statusCode).to.equal(204);
+        });
 
-          it('should create all schoolingRegistrations', async function () {
-            // when
-            await server.inject(options);
+        it('should create all organizationLearners', async function () {
+          // when
+          await server.inject(options);
 
-            // then
-            const schoolingRegistrations = await knex('organization-learners').where({ organizationId });
-            expect(schoolingRegistrations).to.have.lengthOf(2);
-            expect(_.map(schoolingRegistrations, 'firstName')).to.have.members(['Beatrix', 'O-Ren']);
-          });
-        }
-      );
+          // then
+          const organizationLearners = await knex('organization-learners').where({ organizationId });
+          expect(organizationLearners).to.have.lengthOf(2);
+          expect(_.map(organizationLearners, 'firstName')).to.have.members(['Beatrix', 'O-Ren']);
+        });
+      });
 
-      context('SCO : when no schooling registration has been imported yet', function () {
+      context('SCO : when no organization learner has been imported yet', function () {
         beforeEach(function () {
-          const input = `${schoolingRegistrationCsvColumns}
+          const input = `${organizationLearnerCsvColumns}
             123F;Beatrix;The;Bride;Kiddo;Black Mamba;f;01/01/1970;97422;;200;99100;ST;MEF1;Division 1;
             456F;O-Ren;;;Ishii;Cottonmouth;M;01/01/1980;;Shangai;99;99132;ST;MEF1;Division 2;
             `;
@@ -915,22 +912,22 @@ describe('Acceptance | Application | organization-controller-import-organization
           expect(response.statusCode).to.equal(204);
         });
 
-        it('should create all schoolingRegistrations', async function () {
+        it('should create all organizationLearners', async function () {
           // when
           await server.inject(options);
 
           // then
-          const schoolingRegistrations = await knex('organization-learners').where({ organizationId });
-          expect(schoolingRegistrations).to.have.lengthOf(2);
-          expect(_.map(schoolingRegistrations, 'firstName')).to.have.members(['Beatrix', 'O-Ren']);
-          expect(_.map(schoolingRegistrations, 'sex')).to.have.members(['F', 'M']);
+          const organizationLearners = await knex('organization-learners').where({ organizationId });
+          expect(organizationLearners).to.have.lengthOf(2);
+          expect(_.map(organizationLearners, 'firstName')).to.have.members(['Beatrix', 'O-Ren']);
+          expect(_.map(organizationLearners, 'sex')).to.have.members(['F', 'M']);
         });
       });
 
-      context('when some schooling registrations data are not well formatted', function () {
-        it('should not save any schooling registration with missing family name', async function () {
+      context('when some organization learners data are not well formatted', function () {
+        it('should not save any organization learner with missing family name', async function () {
           // given
-          const input = `${schoolingRegistrationCsvColumns}
+          const input = `${organizationLearnerCsvColumns}
            123F;Beatrix;The;Bride;Kiddo;Black Mamba;;01/01/1970;97422;;200;99100;ST;MEF1;Division 1;
            456F;O-Ren;;;;Cottonmouth;;01/01/1980;;Shangai;99;99132;ST;MEF1;Division 2;
            `;
@@ -943,17 +940,17 @@ describe('Acceptance | Application | organization-controller-import-organization
           const response = await server.inject(options);
 
           // then
-          const schoolingRegistrations = await knex('organization-learners').where({ organizationId });
-          expect(schoolingRegistrations).to.have.lengthOf(0);
+          const organizationLearners = await knex('organization-learners').where({ organizationId });
+          expect(organizationLearners).to.have.lengthOf(0);
           expect(response.statusCode).to.equal(412);
           expect(response.result.errors[0].code).to.equal('FIELD_REQUIRED');
           expect(response.result.errors[0].meta.field).to.equal('Nom de famille*');
         });
 
-        it('should not save any schooling registration with wrong birthCountryCode', async function () {
+        it('should not save any organization learner with wrong birthCountryCode', async function () {
           const wrongData = 'FRANC';
           // given
-          const input = `${schoolingRegistrationCsvColumns}
+          const input = `${organizationLearnerCsvColumns}
            123F;Beatrix;The;Bride;Kiddo;Black Mamba;;01/01/1970;51430;Reims;200;${wrongData};ST;MEF1;Division 1;
            `;
           const buffer = iconv.encode(input, 'UTF-8');
@@ -965,18 +962,18 @@ describe('Acceptance | Application | organization-controller-import-organization
           const response = await server.inject(options);
 
           // then
-          const schoolingRegistrations = await knex('organization-learners').where({ organizationId });
+          const organizationLearners = await knex('organization-learners').where({ organizationId });
 
-          expect(schoolingRegistrations).to.have.lengthOf(0);
+          expect(organizationLearners).to.have.lengthOf(0);
           expect(response.statusCode).to.equal(412);
           expect(response.result.errors[0].code).to.equal('INSEE_CODE_INVALID');
           expect(response.result.errors[0].meta.field).to.equal('Code pays naissance*');
         });
 
-        it('should not save any schooling registration with wrong birthCityCode', async function () {
+        it('should not save any organization learner with wrong birthCityCode', async function () {
           const wrongData = 'A1234';
           // given
-          const input = `${schoolingRegistrationCsvColumns}
+          const input = `${organizationLearnerCsvColumns}
            123F;Beatrix;The;Bride;Kiddo;Black Mamba;;01/01/1970;${wrongData};Reims;200;99100;ST;MEF1;Division 1;
            `;
           const buffer = iconv.encode(input, 'UTF-8');
@@ -988,9 +985,9 @@ describe('Acceptance | Application | organization-controller-import-organization
           const response = await server.inject(options);
 
           // then
-          const schoolingRegistrations = await knex('organization-learners').where({ organizationId });
+          const organizationLearners = await knex('organization-learners').where({ organizationId });
 
-          expect(schoolingRegistrations).to.have.lengthOf(0);
+          expect(organizationLearners).to.have.lengthOf(0);
           expect(response.statusCode).to.equal(412);
           expect(response.result.errors[0].code).to.equal('INSEE_CODE_INVALID');
           expect(response.result.errors[0].meta.field).to.equal('Code commune naissance**');
@@ -998,10 +995,10 @@ describe('Acceptance | Application | organization-controller-import-organization
       });
 
       context(
-        'when a schooling registration has the same national student id than an other one in the file',
+        'when an organization learner has the same national student id than an other one in the file',
         function () {
           beforeEach(function () {
-            const input = `${schoolingRegistrationCsvColumns}
+            const input = `${organizationLearnerCsvColumns}
           123F;Beatrix;The;Bride;Kiddo;Black Mamba;;01/01/1970;97422;;200;99100;ST;MEF1;Division 1;
           123F;O-Ren;;;Ishii;Cottonmouth;;01/01/1980;;Shangai;99;99132;ST;MEF1;Division 2;
           `;
@@ -1011,14 +1008,14 @@ describe('Acceptance | Application | organization-controller-import-organization
               (options.payload = buffer);
           });
 
-          it('should not import any schoolingRegistration and return a 412', async function () {
+          it('should not import any organizationLearner and return a 412', async function () {
             // when
             const response = await server.inject(options);
 
             // then
-            const schoolingRegistrations = await knex('organization-learners').where({ organizationId });
+            const organizationLearners = await knex('organization-learners').where({ organizationId });
 
-            expect(schoolingRegistrations).to.have.lengthOf(0);
+            expect(organizationLearners).to.have.lengthOf(0);
             expect(response.statusCode).to.equal(412);
             expect(response.result.errors[0].code).to.equal('IDENTIFIER_UNIQUE');
           });
@@ -1073,7 +1070,7 @@ describe('Acceptance | Application | organization-controller-import-organization
         });
       });
 
-      context('when Organization does not manage schoolingRegistrations', function () {
+      context('when Organization does not manage organizationLearners', function () {
         beforeEach(async function () {
           // given
           const organizationId = databaseBuilder.factory.buildOrganization({

@@ -113,19 +113,19 @@ describe('Unit | Service | user-service', function () {
   });
 
   describe('#createAndReconcileUserToOrganizationLearner', function () {
-    it('should call user and authenticationMethod create and function, and schoolingRegistration update function', async function () {
+    it('should call user and authenticationMethod create and function, and organizationLearner update function', async function () {
       // given
       const user = domainBuilder.buildUser({
         firstName: 'Mnémosyne',
         lastName: 'Pachidermata',
       });
-      const schoolingRegistrationId = 1;
+      const organizationLearnerId = 1;
       userToCreateRepository.create.resolves(user);
 
       // when
       await userService.createAndReconcileUserToOrganizationLearner({
         samlId: 'SAML_ID',
-        schoolingRegistrationId,
+        organizationLearnerId,
         user,
         authenticationMethodRepository,
         userToCreateRepository,
@@ -146,7 +146,7 @@ describe('Unit | Service | user-service', function () {
         },
       });
       expect(organizationLearnerRepository.updateUserIdWhereNull).to.have.been.calledWithMatch({
-        schoolingRegistrationId,
+        organizationLearnerId,
         userId: user.id,
       });
     });

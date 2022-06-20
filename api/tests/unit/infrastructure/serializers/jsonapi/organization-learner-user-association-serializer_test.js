@@ -4,7 +4,7 @@ const OrganizationLearner = require('../../../../../lib/domain/models/Organizati
 
 describe('Unit | Serializer | JSONAPI | organization-learner-user-association-serializer', function () {
   describe('#serialize', function () {
-    it('should convert a OrganizationLearner model object into JSON API data', function () {
+    it('should convert an organizationLearnermodel object into JSON API data', function () {
       // given
       const organizationLearner = new OrganizationLearner({
         id: 5,
@@ -15,7 +15,7 @@ describe('Unit | Serializer | JSONAPI | organization-learner-user-association-se
 
       organizationLearner.username = 'john.doe0101';
 
-      const expectedSerializedStudent = {
+      const expectedSerializedOrganizationLearner = {
         data: {
           type: 'schooling-registration-user-associations',
           id: '5',
@@ -31,7 +31,7 @@ describe('Unit | Serializer | JSONAPI | organization-learner-user-association-se
       const json = serializer.serialize(organizationLearner);
 
       // then
-      expect(json).to.deep.equal(expectedSerializedStudent);
+      expect(json).to.deep.equal(expectedSerializedOrganizationLearner);
     });
   });
 });

@@ -57,7 +57,7 @@ describe('Integration | UseCases | create-and-reconcile-user-to-organization-lea
     });
   });
 
-  context('When no schoolingRegistration found', function () {
+  context('When no organizationLearner found', function () {
     beforeEach(async function () {
       campaignCode = databaseBuilder.factory.buildCampaign().code;
       await databaseBuilder.commit();
@@ -109,7 +109,7 @@ describe('Integration | UseCases | create-and-reconcile-user-to-organization-lea
     });
 
     context('When association is already done', function () {
-      it('should nor create nor associate schoolingRegistration', async function () {
+      it('should nor create nor associate organizationLearner', async function () {
         // given
         const userId = databaseBuilder.factory.buildUser().id;
         organizationLearner = databaseBuilder.factory.buildOrganizationLearner({
@@ -247,7 +247,7 @@ describe('Integration | UseCases | create-and-reconcile-user-to-organization-lea
       });
 
       context('When email is available', function () {
-        it('should create user and associate schoolingRegistration', async function () {
+        it('should create user and associate organizationLearner', async function () {
           // given
           const email = 'user@organization.org';
           userAttributes.email = email;
@@ -344,7 +344,7 @@ describe('Integration | UseCases | create-and-reconcile-user-to-organization-lea
       });
 
       context('When username is available', function () {
-        it('should create user and associate schoolingRegistration', async function () {
+        it('should create user and associate organizationLearner', async function () {
           // given
           const username =
             organizationLearner.firstName.toLowerCase() + '.' + organizationLearner.lastName.toLowerCase() + '0112';

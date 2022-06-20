@@ -16,7 +16,7 @@ const usecases = require('../../../../lib/domain/usecases');
 
 describe('Unit | UseCase | create-and-reconcile-user-to-organization-learner', function () {
   const organizationId = 1;
-  const schoolingRegistrationId = 1;
+  const organizationLearnerId = 1;
   const password = 'P@ssw0rd';
   const locale = 'fr-fr';
 
@@ -109,7 +109,7 @@ describe('Unit | UseCase | create-and-reconcile-user-to-organization-learner', f
     });
   });
 
-  context('When no schoolingRegistration found', function () {
+  context('When no organizationLearner found', function () {
     it('should throw a Not Found error', async function () {
       // given
       userReconciliationService.findMatchingOrganizationLearnerIdForGivenOrganizationIdAndUser.throws(
@@ -139,7 +139,7 @@ describe('Unit | UseCase | create-and-reconcile-user-to-organization-learner', f
     });
   });
 
-  context('When one schoolingRegistration matched on names', function () {
+  context('When one organizationLearner matched on names', function () {
     const encryptedPassword = 'P@ssw0rd3ncryp73d';
     let createdUser;
 
@@ -147,7 +147,7 @@ describe('Unit | UseCase | create-and-reconcile-user-to-organization-learner', f
       createdUser = domainBuilder.buildUser();
 
       userReconciliationService.findMatchingOrganizationLearnerIdForGivenOrganizationIdAndUser.resolves(
-        schoolingRegistrationId
+        organizationLearnerId
       );
       encryptionService.hashPassword.resolves(encryptedPassword);
 
@@ -241,7 +241,7 @@ describe('Unit | UseCase | create-and-reconcile-user-to-organization-learner', f
           userRepository.get.resolves(createdUser);
         });
 
-        it('should create user and associate schoolingRegistration', async function () {
+        it('should create user and associate organizationLearner', async function () {
           // when
           const result = await usecases.createAndReconcileUserToOrganizationLearner({
             campaignCode,
@@ -293,7 +293,7 @@ describe('Unit | UseCase | create-and-reconcile-user-to-organization-learner', f
         });
 
         context('But association is already done', function () {
-          it('should nor create nor associate schoolingRegistration', async function () {
+          it('should nor create nor associate organizationLearner', async function () {
             // given
             userService.createAndReconcileUserToOrganizationLearner.throws(
               new OrganizationLearnerAlreadyLinkedToUserError()
@@ -357,7 +357,7 @@ describe('Unit | UseCase | create-and-reconcile-user-to-organization-learner', f
       });
 
       context('When username is available', function () {
-        it('should create user and associate schoolingRegistration', async function () {
+        it('should create user and associate organizationLearner', async function () {
           // when
           const result = await usecases.createAndReconcileUserToOrganizationLearner({
             campaignCode,
@@ -380,7 +380,7 @@ describe('Unit | UseCase | create-and-reconcile-user-to-organization-learner', f
         });
 
         context('But association is already done', function () {
-          it('should nor create nor associate schoolingRegistration', async function () {
+          it('should nor create nor associate organizationLearner', async function () {
             // given
             userService.createAndReconcileUserToOrganizationLearner.throws(
               new OrganizationLearnerAlreadyLinkedToUserError()

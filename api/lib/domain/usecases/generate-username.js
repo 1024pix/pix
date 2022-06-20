@@ -65,16 +65,16 @@ async function findMatchedOrganizationLearnerForGivenOrganizationIdAndStudentInf
     );
   }
 
-  const schoolingRegistrationId = await userReconciliationService.findMatchingCandidateIdForGivenUser(
+  const organizationLearnerId = await userReconciliationService.findMatchingCandidateIdForGivenUser(
     organizationLearners,
     { firstName, lastName }
   );
 
-  if (!schoolingRegistrationId) {
+  if (!organizationLearnerId) {
     throw new OrganizationLearnerNotFound('There were no organizationLearners matching with names');
   }
 
-  return find(organizationLearners, { id: schoolingRegistrationId });
+  return find(organizationLearners, { id: organizationLearnerId });
 }
 
 async function checkIfStudentIsAlreadyReconciledOnTheSameOrganization(

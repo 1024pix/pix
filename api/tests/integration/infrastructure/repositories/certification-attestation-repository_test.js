@@ -572,7 +572,7 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
       expect(certificationAttestations).to.be.empty;
     });
 
-    it('should return an empty array when the certification does not belong to a schooling registration in the right division', async function () {
+    it('should return an empty array when the certification does not belong to an organization learner in the right division', async function () {
       // given
       const learningContentObjects = learningContentBuilder.buildLearningContent(minimalLearningContent);
       mockLearningContent(learningContentObjects);
@@ -1000,7 +1000,7 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
       ]);
     });
 
-    it('should take into account the latest certification of a schooling registration', async function () {
+    it('should take into account the latest certification of an organization learner', async function () {
       // given
       const learningContentObjects = learningContentBuilder.buildLearningContent(minimalLearningContent);
       mockLearningContent(learningContentObjects);

@@ -40,7 +40,7 @@ async function findMatchingSupOrganizationLearnerIdForGivenOrganizationIdAndUser
   });
 
   if (!organizationLearner) {
-    throw new NotFoundError('There are no schooling registrations found');
+    throw new NotFoundError('There are no organization learners found');
   }
 
   const organizationLearnerId = findMatchingCandidateIdForGivenUser([organizationLearner], { firstName, lastName });

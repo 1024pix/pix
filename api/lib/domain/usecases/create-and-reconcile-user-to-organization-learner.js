@@ -158,7 +158,7 @@ module.exports = async function createAndReconcileUserToOrganizationLearner({
 
   const userId = await userService.createAndReconcileUserToOrganizationLearner({
     hashedPassword,
-    schoolingRegistrationId: matchedOrganizationLearner.id,
+    organizationLearnerId: matchedOrganizationLearner.id,
     user: domainUser,
     authenticationMethodRepository,
     organizationLearnerRepository,

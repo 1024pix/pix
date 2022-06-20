@@ -82,7 +82,7 @@ describe('Unit | UseCase | generate-username', function () {
     });
   });
 
-  context('When no schoolingRegistration found matching organization and birthdate', function () {
+  context('When no organizationLearner found matching organization and birthdate', function () {
     it('should throw a OrganizationLearnerNotFound error', async function () {
       // given
       organizationLearnerRepository.findByOrganizationIdAndBirthdate.resolves([]);
@@ -105,7 +105,7 @@ describe('Unit | UseCase | generate-username', function () {
     });
   });
 
-  context('When no schoolingRegistration found matching with firstname and lastname', function () {
+  context('When no organizationLearner found matching with firstname and lastname', function () {
     it('should throw a OrganizationLearnerNotFound error', async function () {
       // given
       organizationLearnerRepository.findByOrganizationIdAndBirthdate.resolves([organizationLearner]);
@@ -199,7 +199,7 @@ describe('Unit | UseCase | generate-username', function () {
     });
   });
 
-  context('When schoolingRegistration matched and student is not already reconciled', function () {
+  context('When organizationLearner matched and student is not already reconciled', function () {
     it('should call createUsernameByUser with student information from database', async function () {
       // given
       organizationLearnerRepository.findByOrganizationIdAndBirthdate.resolves([organizationLearner]);

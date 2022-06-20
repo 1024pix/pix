@@ -10,7 +10,7 @@ const ERRORS = {
 };
 
 const NODE_ORGANIZATION_UAI = '/BEE_ELEVES/PARAMETRES/UAJ';
-const NODES_SCHOOLING_REGISTRATIONS = '/BEE_ELEVES/DONNEES/*/*';
+const NODES_ORGANIZATION_LEARNERS = '/BEE_ELEVES/DONNEES/*/*';
 const ELEVE_ELEMENT = '<ELEVE';
 const STRUCTURE_ELEVE_ELEMENT = '<STRUCTURES_ELEVE';
 
@@ -18,7 +18,7 @@ class SiecleParser {
   constructor(organization, path) {
     this.organization = organization;
     this.path = path;
-    this.schoolingRegistrationsSet = new XMLOrganizationLearnerSet();
+    this.organizationLearnersSet = new XMLOrganizationLearnerSet();
   }
 
   async parse() {
@@ -30,8 +30,8 @@ class SiecleParser {
 
     await this.siecleFileStreamer.close();
 
-    return this.schoolingRegistrationsSet.schoolingRegistrations.filter(
-      (schoolingRegistration) => !isUndefined(schoolingRegistration.division)
+    return this.organizationLearnersSet.organizationLearners.filter(
+      (organizationLearner) => !isUndefined(organizationLearner.division)
     );
   }
 
@@ -66,7 +66,7 @@ class SiecleParser {
   }
 
   _extractStudentRegistrationsFromStream(saxParser, resolve, reject) {
-    const streamerToParseOrganizationLearners = new saxPath.SaXPath(saxParser, NODES_SCHOOLING_REGISTRATIONS);
+    const streamerToParseOrganizationLearners = new saxPath.SaXPath(saxParser, NODES_ORGANIZATION_LEARNERS);
     streamerToParseOrganizationLearners.on('match', (xmlNode) => {
       if (_isOrganizationLearnerNode(xmlNode)) {
         xml2js.parseString(xmlNode, (err, nodeData) => {
@@ -74,9 +74,9 @@ class SiecleParser {
             if (err) throw err; // Si j'enleve cette ligne les tests passent
 
             if (_isNodeImportableStudent(nodeData)) {
-              this.schoolingRegistrationsSet.add(nodeData.ELEVE.$.ELEVE_ID, nodeData.ELEVE);
-            } else if (_isNodeImportableStructures(nodeData, this.schoolingRegistrationsSet)) {
-              this.schoolingRegistrationsSet.updateDivision(nodeData);
+              this.organizationLearnersSet.add(nodeData.ELEVE.$.ELEVE_ID, nodeData.ELEVE);
+            } else if (_isNodeImportableStructures(nodeData, this.organizationLearnersSet)) {
+              this.organizationLearnersSet.updateDivision(nodeData);
             }
           } catch (err) {
             reject(err);
@@ -97,8 +97,8 @@ function _isNodeImportableStudent(nodeData) {
   return nodeData.ELEVE && _isImportable(nodeData.ELEVE);
 }
 
-function _isNodeImportableStructures(nodeData, schoolingRegistrationsSet) {
-  return nodeData.STRUCTURES_ELEVE && schoolingRegistrationsSet.has(nodeData.STRUCTURES_ELEVE.$.ELEVE_ID);
+function _isNodeImportableStructures(nodeData, organizationLearnersSet) {
+  return nodeData.STRUCTURES_ELEVE && organizationLearnersSet.has(nodeData.STRUCTURES_ELEVE.$.ELEVE_ID);
 }
 
 function _isImportable(studentData) {

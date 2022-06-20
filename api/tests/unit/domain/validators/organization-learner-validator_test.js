@@ -4,7 +4,7 @@ const {
   FRANCE_COUNTRY_CODE,
 } = require('../../../../lib/domain/validators/organization-learner-validator');
 
-describe('Unit | Domain | Schooling Registration validator', function () {
+describe('Unit | Domain | Organization Learner validator', function () {
   context('#checkValidation', function () {
     const validAttributes = {
       nationalIdentifier: '12345',

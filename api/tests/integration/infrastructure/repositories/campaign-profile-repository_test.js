@@ -76,12 +76,12 @@ describe('Integration | Repository | CampaignProfileRepository', function () {
       });
     });
 
-    context('schooling registration infos', function () {
+    context('organization learner infos', function () {
       beforeEach(function () {
         mockLearningContent({ areas: [], competences: [], skills: [] });
       });
 
-      it('return the first name and last name of the schooling registration', async function () {
+      it('return the first name and last name of the organization learner', async function () {
         const organizationId = databaseBuilder.factory.buildOrganization().id;
         const campaignId = databaseBuilder.factory.buildCampaign({ organizationId }).id;
         const campaignParticipationId = databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
@@ -100,7 +100,7 @@ describe('Integration | Repository | CampaignProfileRepository', function () {
         expect(campaignProfile.lastName).to.equal('Duboire');
       });
 
-      it('return the first name and last name of the current schooling registration', async function () {
+      it('return the first name and last name of the current organization learner', async function () {
         const oldOrganizationId = databaseBuilder.factory.buildOrganization().id;
         const organizationId = databaseBuilder.factory.buildOrganization().id;
         const campaignId = databaseBuilder.factory.buildCampaign({ organizationId }).id;

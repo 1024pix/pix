@@ -3,7 +3,7 @@ const groupRepository = require('../../../../lib/infrastructure/repositories/gro
 
 describe('Integration | Repository | Group', function () {
   describe('#findByCampaignId', function () {
-    it('returns the group from schooling registration associated to the given campaign', async function () {
+    it('returns the group from organization learner associated to the given campaign', async function () {
       const group1 = 'L1';
       const group2 = 'L2';
       const campaign = databaseBuilder.factory.buildCampaign();
@@ -142,7 +142,7 @@ describe('Integration | Repository | Group', function () {
       expect(groups).to.deep.equal([{ name: '5A' }]);
     });
 
-    it('should omit groups for schooling registration disabled', async function () {
+    it('should omit groups for organization learner disabled', async function () {
       const organization = databaseBuilder.factory.buildOrganization();
 
       databaseBuilder.factory.buildOrganizationLearner({
@@ -165,7 +165,7 @@ describe('Integration | Repository | Group', function () {
       expect(groups).to.deep.equal([{ name: '5A' }]);
     });
 
-    it('returns nothing if the schooling registration has no group', async function () {
+    it('returns nothing if the organization learner has no group', async function () {
       const organization = databaseBuilder.factory.buildOrganization();
 
       databaseBuilder.factory.buildOrganizationLearner({

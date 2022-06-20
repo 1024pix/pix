@@ -62,7 +62,7 @@ describe('Unit | UseCase | reconcile-organization-learner', function () {
     });
   });
 
-  context('When no schoolingRegistration found', function () {
+  context('When no organizationLearner found', function () {
     it('should throw a Not Found error', async function () {
       // given
       campaignRepository.getByCode

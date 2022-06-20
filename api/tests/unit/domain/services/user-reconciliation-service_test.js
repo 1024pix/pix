@@ -402,7 +402,7 @@ describe('Unit | Service | user-reconciliation-service', function () {
         });
       });
 
-      context('When one schooling registration matched on names', function () {
+      context('When one organization learner matched on names', function () {
         beforeEach(function () {
           user = {
             firstName: organizationLearners[0].firstName,
@@ -492,7 +492,7 @@ describe('Unit | Service | user-reconciliation-service', function () {
         });
       });
 
-      context('When one schooling registration matched on names', function () {
+      context('When one organization learner matched on names', function () {
         beforeEach(function () {
           user = {
             firstName: organizationLearners[0].firstName,

@@ -4,7 +4,7 @@ const { UserNotAuthorizedToUpdatePasswordError } = require('../errors');
 
 module.exports = async function updateOrganizationLearnerDependentUserPassword({
   organizationId,
-  schoolingRegistrationId,
+  organizationLearnerId,
   userId,
   encryptionService,
   passwordGenerator,
@@ -13,21 +13,21 @@ module.exports = async function updateOrganizationLearnerDependentUserPassword({
   userRepository,
 }) {
   const userWithMemberships = await userRepository.getWithMemberships(userId);
-  const schoolingRegistration = await organizationLearnerRepository.get(schoolingRegistrationId);
+  const organizationLearner = await organizationLearnerRepository.get(organizationLearnerId);
 
   if (
     !userWithMemberships.hasAccessToOrganization(organizationId) ||
-    schoolingRegistration.organizationId !== organizationId
+    organizationLearner.organizationId !== organizationId
   ) {
     throw new UserNotAuthorizedToUpdatePasswordError(
       `L'utilisateur ${userId} n'est pas autorisé à modifier le mot de passe des élèves de l'organisation ${organizationId} car il n'y appartient pas.`
     );
   }
 
-  const userStudent = await userRepository.get(schoolingRegistration.userId);
+  const userStudent = await userRepository.get(organizationLearner.userId);
   if (isEmpty(userStudent.username) && isEmpty(userStudent.email)) {
     throw new UserNotAuthorizedToUpdatePasswordError(
-      `Le changement de mot de passe n'est possible que si l'élève (utilisateur:  ${schoolingRegistration.userId}) utilise les méthodes d'authentification email ou identifiant.`
+      `Le changement de mot de passe n'est possible que si l'élève (utilisateur:  ${organizationLearner.userId}) utilise les méthodes d'authentification email ou identifiant.`
     );
   }
 
