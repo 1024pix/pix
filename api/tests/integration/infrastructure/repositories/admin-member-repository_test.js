@@ -7,10 +7,15 @@ const { AdminMemberRoleUpdateError } = require('../../../../lib/domain/errors');
 
 describe('Integration | Infrastructure | Repository | adminMemberRepository', function () {
   describe('#findAll', function () {
-    it('should return all users with a pix admin role', async function () {
+    it('should return all users with a pix admin role that are not disabled', async function () {
       // given
       const userWithPixAdminRole = _buildUserWithPixAdminRole({ firstName: 'Marie', lastName: 'Tim' });
       const otherUserWithPixAdminRole = _buildUserWithPixAdminRole({ firstName: 'Alain', lastName: 'Verse' });
+      _buildUserWithPixAdminRole({
+        firstName: 'Nordine',
+        lastName: 'Ateur',
+        disabledAt: new Date(),
+      });
       await databaseBuilder.commit();
 
       // when
@@ -91,8 +96,19 @@ describe('Integration | Infrastructure | Repository | adminMemberRepository', fu
           lastName: userWithPixAdminRole.lastName,
           email: userWithPixAdminRole.email,
           role: 'SUPER_ADMIN',
+          disabledAt: null,
         })
       );
+    });
+
+    context('when does not exist', function () {
+      it('should return undefined', async function () {
+        // given & when
+        const member = await adminMemberRepository.get({ userId: 1 });
+
+        // then
+        expect(member).to.be.undefined;
+      });
     });
   });
 
@@ -155,6 +171,28 @@ describe('Integration | Infrastructure | Repository | adminMemberRepository', fu
 
       // then
       expect(error).to.be.instanceOf(AdminMemberRoleUpdateError);
+    });
+  });
+
+  describe('#save', function () {
+    afterEach(async function () {
+      await knex('pix-admin-roles').delete();
+    });
+
+    it('should persist admin member role', async function () {
+      // given
+      const user = databaseBuilder.factory.buildUser();
+      await databaseBuilder.commit();
+      const pixAdminRole = {
+        userId: user.id,
+        role: ROLES.SUPER_ADMIN,
+      };
+
+      // when
+      const result = await adminMemberRepository.save(pixAdminRole);
+
+      // then
+      expect(result).to.be.instanceOf(AdminMember);
     });
   });
 });

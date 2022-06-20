@@ -9,11 +9,6 @@ export default class List extends Component {
   @tracked editionMode = false;
   @tracked newRole;
 
-  get adminRoles() {
-    const allRoles = ['SUPER_ADMIN', 'CERTIF', 'METIER', 'SUPPORT'];
-    return allRoles.map((role) => ({ value: role, label: role }));
-  }
-
   @action
   async toggleEditionModeForThisMember(member) {
     member.isInEditionMode = true;

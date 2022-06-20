@@ -6,6 +6,10 @@
 
 <main class="page-body">
   <section class="page-section">
-    <Team::List @members={{@model}} />
+    <Team::AddMember @roles={{this.roles}} />
+  </section>
+
+  <section class="page-section">
+    <Team::List @members={{@model}} @roles={{this.roles}} />
   </section>
 </main>
