@@ -72,7 +72,7 @@ async function updateUsernameAndAddPassword({
 async function createAndReconcileUserToOrganizationLearner({
   hashedPassword,
   samlId,
-  schoolingRegistrationId,
+  organizationLearnerId,
   user,
   authenticationMethodRepository,
   organizationLearnerRepository,
@@ -106,7 +106,7 @@ async function createAndReconcileUserToOrganizationLearner({
     });
 
     await organizationLearnerRepository.updateUserIdWhereNull({
-      schoolingRegistrationId,
+      organizationLearnerId,
       userId: createdUser.id,
       domainTransaction,
     });

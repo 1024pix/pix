@@ -163,7 +163,7 @@ describe('Integration | Domain | Services | user-service', function () {
         const updatedUserId = await userService.createAndReconcileUserToOrganizationLearner({
           hashedPassword,
           samlId,
-          schoolingRegistrationId: organizationLearnerId,
+          organizationLearnerId,
           user,
           authenticationMethodRepository,
           organizationLearnerRepository,
@@ -190,7 +190,7 @@ describe('Integration | Domain | Services | user-service', function () {
         await userService.createAndReconcileUserToOrganizationLearner({
           hashedPassword,
           samlId,
-          schoolingRegistrationId: organizationLearnerId,
+          organizationLearnerId,
           user,
           authenticationMethodRepository,
           organizationLearnerRepository,
@@ -215,7 +215,7 @@ describe('Integration | Domain | Services | user-service', function () {
           const result = await userService.createAndReconcileUserToOrganizationLearner({
             hashedPassword,
             samlId,
-            schoolingRegistrationId: organizationLearnerId,
+            organizationLearnerId,
             user,
             authenticationMethodRepository,
             organizationLearnerRepository,
@@ -247,7 +247,7 @@ describe('Integration | Domain | Services | user-service', function () {
         const error = await catchErr(userService.createAndReconcileUserToOrganizationLearner)({
           hashedPassword,
           samlId,
-          schoolingRegistrationId: organizationLearnerId,
+          organizationLearnerId,
           user,
           authenticationMethodRepository,
           organizationLearnerRepository,

@@ -212,7 +212,7 @@ class OrganizationLearnersCouldNotBeSavedError extends DomainError {
 }
 
 class MultipleOrganizationLearnersWithDifferentNationalStudentIdError extends DomainError {
-  constructor(message = 'Multiple schooling registrations with different INE') {
+  constructor(message = 'Multiple organization learners with different INE') {
     super(message);
   }
 }

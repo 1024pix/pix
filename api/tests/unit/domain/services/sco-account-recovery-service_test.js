@@ -95,7 +95,7 @@ describe('Unit | Service | sco-account-recovery-service', function () {
     });
 
     context('when user is reconciled to several organizations', function () {
-      context('when all schooling registrations have the same INE', function () {
+      context('when all organization learners have the same INE', function () {
         it('should return the last reconciled user account information', async function () {
           // given
           const studentInformation = {
@@ -177,7 +177,7 @@ describe('Unit | Service | sco-account-recovery-service', function () {
         });
       });
 
-      context('when at least one schooling registrations has a different INE', function () {
+      context('when at least one organization learners has a different INE', function () {
         it('should throw an error', async function () {
           // given
           const studentInformation = {
@@ -320,7 +320,7 @@ describe('Unit | Service | sco-account-recovery-service', function () {
       });
     });
 
-    context('when firstName or lastName does not match schooling registration', function () {
+    context('when firstName or lastName does not match organization learner', function () {
       it('should throw an user not found error', async function () {
         // given
         const studentInformation = {

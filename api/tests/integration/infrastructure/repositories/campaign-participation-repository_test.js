@@ -431,7 +431,7 @@ describe('Integration | Repository | Campaign Participation', function () {
       ]);
     });
 
-    it('should return the campaign participation with firstName and lastName from the schooling registration', async function () {
+    it('should return the campaign participation with firstName and lastName from the organization learner', async function () {
       // given
       const campaignId = campaign1.id;
 

@@ -7,7 +7,7 @@ const updateOrganizationLearnerDependentUserPassword = require('../../../../lib/
 describe('Unit | UseCase | update-organization-learner-dependent-user-password', function () {
   const userId = 1;
   const organizationId = 1;
-  const schoolingRegistrationId = 1;
+  const organizationLearnerId = 1;
 
   const generatedPassword = 'Pix12345';
   const encryptedPassword = '@Pix12345@';
@@ -34,7 +34,7 @@ describe('Unit | UseCase | update-organization-learner-dependent-user-password',
     };
 
     student = {
-      id: schoolingRegistrationId,
+      id: organizationLearnerId,
       userId: userStudent.id,
       organizationId,
     };
@@ -62,7 +62,7 @@ describe('Unit | UseCase | update-organization-learner-dependent-user-password',
     // when
     await updateOrganizationLearnerDependentUserPassword({
       organizationId,
-      schoolingRegistrationId,
+      organizationLearnerId,
       userId,
       encryptionService,
       passwordGenerator,
@@ -79,7 +79,7 @@ describe('Unit | UseCase | update-organization-learner-dependent-user-password',
     // when
     await updateOrganizationLearnerDependentUserPassword({
       organizationId,
-      schoolingRegistrationId,
+      organizationLearnerId,
       userId,
       encryptionService,
       passwordGenerator,
@@ -89,14 +89,14 @@ describe('Unit | UseCase | update-organization-learner-dependent-user-password',
     });
 
     // then
-    expect(organizationLearnerRepository.get).to.have.been.calledWith(schoolingRegistrationId);
+    expect(organizationLearnerRepository.get).to.have.been.calledWith(organizationLearnerId);
   });
 
   it('should update user password with a hashed password', async function () {
     // when
     await updateOrganizationLearnerDependentUserPassword({
       organizationId,
-      schoolingRegistrationId,
+      organizationLearnerId,
       userId,
       encryptionService,
       passwordGenerator,
@@ -117,7 +117,7 @@ describe('Unit | UseCase | update-organization-learner-dependent-user-password',
     // when
     const result = await updateOrganizationLearnerDependentUserPassword({
       organizationId,
-      schoolingRegistrationId,
+      organizationLearnerId,
       userId,
       encryptionService,
       passwordGenerator,
@@ -138,7 +138,7 @@ describe('Unit | UseCase | update-organization-learner-dependent-user-password',
       // when
       const error = await catchErr(updateOrganizationLearnerDependentUserPassword)({
         organizationId,
-        schoolingRegistrationId,
+        organizationLearnerId,
         userId,
         encryptionService,
         passwordGenerator,
@@ -160,7 +160,7 @@ describe('Unit | UseCase | update-organization-learner-dependent-user-password',
       // when
       const error = await catchErr(updateOrganizationLearnerDependentUserPassword)({
         organizationId,
-        schoolingRegistrationId,
+        organizationLearnerId,
         userId,
         encryptionService,
         passwordGenerator,
@@ -182,7 +182,7 @@ describe('Unit | UseCase | update-organization-learner-dependent-user-password',
       // when
       const error = await catchErr(updateOrganizationLearnerDependentUserPassword)({
         organizationId,
-        schoolingRegistrationId,
+        organizationLearnerId,
         userId,
         encryptionService,
         passwordGenerator,
@@ -203,7 +203,7 @@ describe('Unit | UseCase | update-organization-learner-dependent-user-password',
       // when
       const error = await catchErr(updateOrganizationLearnerDependentUserPassword)({
         organizationId,
-        schoolingRegistrationId,
+        organizationLearnerId,
         userId,
         encryptionService,
         passwordGenerator,

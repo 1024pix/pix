@@ -359,8 +359,8 @@ module.exports = {
     };
   },
 
-  updateUserIdWhereNull({ schoolingRegistrationId, userId, domainTransaction = DomainTransaction.emptyTransaction() }) {
-    return BookshelfOrganizationLearner.where({ id: schoolingRegistrationId, userId: null })
+  updateUserIdWhereNull({ organizationLearnerId, userId, domainTransaction = DomainTransaction.emptyTransaction() }) {
+    return BookshelfOrganizationLearner.where({ id: organizationLearnerId, userId: null })
       .save(
         { userId },
         {
@@ -375,7 +375,7 @@ module.exports = {
       .catch((err) => {
         if (err instanceof BookshelfOrganizationLearner.NoRowsUpdatedError) {
           throw new OrganizationLearnerNotFound(
-            `OrganizationLearner not found for ID ${schoolingRegistrationId} and user ID null.`
+            `OrganizationLearner not found for ID ${organizationLearnerId} and user ID null.`
           );
         }
         throw err;

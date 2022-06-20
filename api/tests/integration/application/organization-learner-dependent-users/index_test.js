@@ -4,7 +4,7 @@ const organizationLearnerDependentUserController = require('../../../../lib/appl
 const moduleUnderTest = require('../../../../lib/application/organization-learner-dependent-users');
 const securityPreHandlers = require('../../../../lib/application/security-pre-handlers');
 
-describe('Integration | Application | Route | schooling-registration-dependent-users', function () {
+describe('Integration | Application | Route | organization-learner-dependent-users', function () {
   let httpTestServer;
 
   beforeEach(async function () {

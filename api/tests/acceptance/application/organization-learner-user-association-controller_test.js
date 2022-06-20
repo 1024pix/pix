@@ -11,7 +11,7 @@ const createServer = require('../../../server');
 const Membership = require('../../../lib/domain/models/Membership');
 const AuthenticationMethod = require('../../../lib/domain/models/AuthenticationMethod');
 
-describe('Acceptance | Controller | Schooling-registration-user-associations', function () {
+describe('Acceptance | Controller | organization-learner-user-associations', function () {
   let server;
 
   beforeEach(async function () {
@@ -71,7 +71,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
       });
 
       context('When student is already reconciled in the same organization', function () {
-        it('should return a organization learner already linked error (short code R31 when account with email)', async function () {
+        it('should return an organization learner already linked error (short code R31 when account with email)', async function () {
           // given
           const userWithEmailOnly = databaseBuilder.factory.buildUser({
             username: null,
@@ -110,7 +110,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
           expect(response.result.errors[0]).to.deep.equal(expectedResponse);
         });
 
-        it('should return a organization learner already linked error (short code R32 when connected with username)', async function () {
+        it('should return an organization learner already linked error (short code R32 when connected with username)', async function () {
           // given
           const userWithUsernameOnly = databaseBuilder.factory.buildUser({
             username: 'john.harry0702',
@@ -149,7 +149,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
           expect(response.result.errors[0]).to.deep.equal(expectedResponse);
         });
 
-        it('should return a organization learner already linked error (short code R33 when account with samlId)', async function () {
+        it('should return an organization learner already linked error (short code R33 when account with samlId)', async function () {
           // given
           const userWithSamlOnly = databaseBuilder.factory.buildUser({
             username: null,
@@ -195,7 +195,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
       });
 
       context('When student is already reconciled in another organization', function () {
-        it('should return a organization learner already linked error (short code R13 when account with samlId)', async function () {
+        it('should return an organization learner already linked error (short code R13 when account with samlId)', async function () {
           // given
           const userWithSamlIdOnly = databaseBuilder.factory.buildUser({
             email: null,
@@ -240,7 +240,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
           expect(response.result.errors[0]).to.deep.equal(expectedResponse);
         });
 
-        it('should return a organization learner already linked error (short code R11 when account with email)', async function () {
+        it('should return an organization learner already linked error (short code R11 when account with email)', async function () {
           // given
           const userWithEmailOnly = databaseBuilder.factory.buildUser({
             username: null,
@@ -281,7 +281,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
           expect(response.result.errors[0]).to.deep.equal(expectedResponse);
         });
 
-        it('should return a organization learner already linked error (short code R12 when connected with username)', async function () {
+        it('should return an organization learner already linked error (short code R12 when connected with username)', async function () {
           // given
           const userWithUsernameOnly = databaseBuilder.factory.buildUser({
             email: null,
@@ -438,14 +438,14 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
 
           // then
           expect(response.statusCode).to.equal(204);
-          const schoolingRegistrationInDB = await knex('organization-learners')
+          const organizationLearnerInDB = await knex('organization-learners')
             .where({
               firstName: organizationLearner.firstName,
               lastName: organizationLearner.lastName,
               birthdate: organizationLearner.birthdate,
             })
             .select();
-          expect(schoolingRegistrationInDB.userId).to.be.undefined;
+          expect(organizationLearnerInDB.userId).to.be.undefined;
         });
 
         context('When student is trying to be reconciled on another account', function () {
@@ -1024,7 +1024,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
       });
 
       context('when organizationLearner is already associated in the same organization', function () {
-        it('should return a organization learner already linked error (short code S51 when account with email)', async function () {
+        it('should return an organization learner already linked error (short code S51 when account with email)', async function () {
           // given
           const userWithEmailOnly = databaseBuilder.factory.buildUser({
             username: null,
@@ -1062,7 +1062,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
           expect(response.result.errors[0]).to.deep.equal(expectedResponse);
         });
 
-        it('should return a organization learner already linked error (short code S52 when connected with username)', async function () {
+        it('should return an organization learner already linked error (short code S52 when connected with username)', async function () {
           // given
           const userWithUsernameOnly = databaseBuilder.factory.buildUser({
             username: 'john.harry0702',
@@ -1100,7 +1100,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
           expect(response.result.errors[0]).to.deep.equal(expectedResponse);
         });
 
-        it('should return a organization learner already linked error (short code S53 when account with samlId)', async function () {
+        it('should return an organization learner already linked error (short code S53 when account with samlId)', async function () {
           // given
           const userWithEmailOnly = databaseBuilder.factory.buildUser({
             username: null,
@@ -1176,7 +1176,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
           );
         });
 
-        it('should return a organization learner already linked error (short code S61 when account with email)', async function () {
+        it('should return an organization learner already linked error (short code S61 when account with email)', async function () {
           // given
           const userWithEmailOnly = databaseBuilder.factory.buildUser({
             username: null,
@@ -1217,7 +1217,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
           expect(response.result.errors[0]).to.deep.equal(expectedResponse);
         });
 
-        it('should return a organization learner already linked error (short code S62 when connected with username)', async function () {
+        it('should return an organization learner already linked error (short code S62 when connected with username)', async function () {
           // given
           const userWithUsernameOnly = databaseBuilder.factory.buildUser({
             username: 'john.harry0702',
@@ -1258,7 +1258,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
           expect(response.result.errors[0]).to.deep.equal(expectedResponse);
         });
 
-        it('should return a organization learner already linked error (short code S63 when account with samlId)', async function () {
+        it('should return an organization learner already linked error (short code S63 when account with samlId)', async function () {
           // given
           const userWithSamlIdOnly = databaseBuilder.factory.buildUser({
             email: null,

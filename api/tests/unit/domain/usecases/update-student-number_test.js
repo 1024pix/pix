@@ -9,7 +9,7 @@ describe('Unit | UseCase | update-student-number', function () {
   const studentNumber = '4321A';
   const organizationLearnerId = 1234;
 
-  let schoolingRegistration;
+  let organizationLearner;
 
   const supOrganizationLearnerRepository = {
     // TODO: Fix this the next time the file is edited.
@@ -20,13 +20,13 @@ describe('Unit | UseCase | update-student-number', function () {
     updateStudentNumber: sinon.stub(),
   };
 
-  context('When there is a schooling registration with the same student number', function () {
+  context('When there is an organization learner with the same student number', function () {
     beforeEach(function () {
-      schoolingRegistration = domainBuilder.buildSupOrganizationLearner();
+      organizationLearner = domainBuilder.buildSupOrganizationLearner();
 
       supOrganizationLearnerRepository.findOneByStudentNumber
         .withArgs({ organizationId, studentNumber })
-        .resolves(schoolingRegistration);
+        .resolves(organizationLearner);
     });
 
     it('should throw an AlreadyExistingEntityError', async function () {
@@ -47,7 +47,7 @@ describe('Unit | UseCase | update-student-number', function () {
     });
   });
 
-  context('When there are not schooling registration with the same student number', function () {
+  context('When there are not organization learner with the same student number', function () {
     beforeEach(function () {
       supOrganizationLearnerRepository.findOneByStudentNumber
         .withArgs({ organizationId, studentNumber })

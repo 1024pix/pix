@@ -3,7 +3,7 @@ const divisionRepository = require('../../../../lib/infrastructure/repositories/
 
 describe('Integration | Repository | Division', function () {
   describe('#findByCampaignId', function () {
-    it('returns the division from schooling registration associated to the given campaign', async function () {
+    it('returns the division from organization learner associated to the given campaign', async function () {
       const division1 = '6emeB';
       const division2 = '3emeA';
       const campaign = databaseBuilder.factory.buildCampaign();
@@ -148,7 +148,7 @@ describe('Integration | Repository | Division', function () {
       expect(divisions).to.deep.equal([{ name: '5A' }]);
     });
 
-    it('should omit divisions for schooling registration disabled', async function () {
+    it('should omit divisions for organization learner disabled', async function () {
       const organization = databaseBuilder.factory.buildOrganization();
 
       databaseBuilder.factory.buildOrganizationLearner({
@@ -171,7 +171,7 @@ describe('Integration | Repository | Division', function () {
       expect(divisions).to.deep.equal([{ name: '5A' }]);
     });
 
-    it('returns nothing if the schooling registration has no division', async function () {
+    it('returns nothing if the organization learner has no division', async function () {
       const organization = databaseBuilder.factory.buildOrganization();
 
       databaseBuilder.factory.buildOrganizationLearner({

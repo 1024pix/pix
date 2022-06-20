@@ -115,7 +115,7 @@ describe('Integration | UseCases | create-user-and-reconcile-to-organization-lea
     });
   });
 
-  context('When no schoolingRegistration is found', function () {
+  context('When no organizationLearner is found', function () {
     let campaignCode;
     let token;
 

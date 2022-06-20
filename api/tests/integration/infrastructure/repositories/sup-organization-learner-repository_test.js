@@ -16,7 +16,7 @@ describe('Integration | Infrastructure | Repository | sup-organization-learner-r
       await databaseBuilder.commit();
     });
 
-    it('should return found schoolingRegistrations with student number', async function () {
+    it('should return found organizationLearners with student number', async function () {
       // when
       const result = await supOrganizationLearnerRepository.findOneByStudentNumber({
         organizationId: organization.id,
@@ -178,15 +178,15 @@ describe('Integration | Infrastructure | Repository | sup-organization-learner-r
 
       it('should return the organization learner', async function () {
         // when
-        const schoolingRegistration = await supOrganizationLearnerRepository.findOneByStudentNumberAndBirthdate({
+        const organizationLearner = await supOrganizationLearnerRepository.findOneByStudentNumberAndBirthdate({
           organizationId,
           studentNumber,
           birthdate,
         });
 
         // then
-        expect(schoolingRegistration).to.be.an.instanceOf(OrganizationLearner);
-        expect(schoolingRegistration.id).to.equal(expectedOrganizationLearnerId);
+        expect(organizationLearner).to.be.an.instanceOf(OrganizationLearner);
+        expect(organizationLearner.id).to.equal(expectedOrganizationLearnerId);
       });
     });
   });

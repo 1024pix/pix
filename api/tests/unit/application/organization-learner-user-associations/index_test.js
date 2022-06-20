@@ -1,10 +1,10 @@
 const { expect, generateValidRequestAuthorizationHeader, HttpTestServer, sinon } = require('../../../test-helper');
 
 const securityPreHandlers = require('../../../../lib/application/security-pre-handlers');
-const schoolingRegistrationUserAssociationController = require('../../../../lib/application/organization-learner-user-associations/organization-learner-user-association-controller');
+const organizationLearnerUserAssociationController = require('../../../../lib/application/organization-learner-user-associations/organization-learner-user-association-controller');
 const moduleUnderTest = require('../../../../lib/application/organization-learner-user-associations');
 
-describe('Unit | Application | Router | schooling-registration-user-associations-router', function () {
+describe('Unit | Application | Router | organization-learner-user-associations-router', function () {
   const organizationId = 2;
   const studentId = '1234';
   const userId = 2;
@@ -23,7 +23,7 @@ describe('Unit | Application | Router | schooling-registration-user-associations
         sinon
           .stub(securityPreHandlers, 'checkUserIsAdminInSUPOrganizationManagingStudents')
           .callsFake((request, h) => h.response(true));
-        sinon.stub(schoolingRegistrationUserAssociationController, 'updateStudentNumber').returns('ok');
+        sinon.stub(organizationLearnerUserAssociationController, 'updateStudentNumber').returns('ok');
         const httpTestServer = new HttpTestServer();
         await httpTestServer.register(moduleUnderTest);
 
@@ -149,7 +149,7 @@ describe('Unit | Application | Router | schooling-registration-user-associations
       // given
       sinon.stub(securityPreHandlers, 'userHasAtLeastOneAccessOf').returns(() => true);
       sinon
-        .stub(schoolingRegistrationUserAssociationController, 'dissociate')
+        .stub(organizationLearnerUserAssociationController, 'dissociate')
         .callsFake((request, h) => h.response('ok').code(204));
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -204,7 +204,7 @@ describe('Unit | Application | Router | schooling-registration-user-associations
           .stub(securityPreHandlers, 'checkUserHasRoleSupport')
           .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
         sinon
-          .stub(schoolingRegistrationUserAssociationController, 'dissociate')
+          .stub(organizationLearnerUserAssociationController, 'dissociate')
           .callsFake((request, h) => h.response('ok').code(204));
         const httpTestServer = new HttpTestServer();
         await httpTestServer.register(moduleUnderTest);
@@ -218,7 +218,7 @@ describe('Unit | Application | Router | schooling-registration-user-associations
         // then
         sinon.assert.calledOnce(securityPreHandlers.checkUserHasRoleSuperAdmin);
         sinon.assert.calledOnce(securityPreHandlers.checkUserHasRoleSupport);
-        sinon.assert.calledOnce(schoolingRegistrationUserAssociationController.dissociate);
+        sinon.assert.calledOnce(organizationLearnerUserAssociationController.dissociate);
         expect(response.statusCode).to.equal(204);
       });
 
@@ -229,7 +229,7 @@ describe('Unit | Application | Router | schooling-registration-user-associations
           .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
         sinon.stub(securityPreHandlers, 'checkUserHasRoleSupport').callsFake((request, h) => h.response(true));
         sinon
-          .stub(schoolingRegistrationUserAssociationController, 'dissociate')
+          .stub(organizationLearnerUserAssociationController, 'dissociate')
           .callsFake((request, h) => h.response('ok').code(204));
         const httpTestServer = new HttpTestServer();
         await httpTestServer.register(moduleUnderTest);
@@ -243,7 +243,7 @@ describe('Unit | Application | Router | schooling-registration-user-associations
         // then
         sinon.assert.calledOnce(securityPreHandlers.checkUserHasRoleSuperAdmin);
         sinon.assert.calledOnce(securityPreHandlers.checkUserHasRoleSupport);
-        sinon.assert.calledOnce(schoolingRegistrationUserAssociationController.dissociate);
+        sinon.assert.calledOnce(organizationLearnerUserAssociationController.dissociate);
         expect(response.statusCode).to.equal(204);
       });
 
@@ -256,7 +256,7 @@ describe('Unit | Application | Router | schooling-registration-user-associations
           .stub(securityPreHandlers, 'checkUserHasRoleSupport')
           .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
         sinon
-          .stub(schoolingRegistrationUserAssociationController, 'dissociate')
+          .stub(organizationLearnerUserAssociationController, 'dissociate')
           .callsFake((request, h) => h.response('ok').code(204));
         const httpTestServer = new HttpTestServer();
         await httpTestServer.register(moduleUnderTest);
@@ -270,7 +270,7 @@ describe('Unit | Application | Router | schooling-registration-user-associations
         // then
         sinon.assert.calledOnce(securityPreHandlers.checkUserHasRoleSuperAdmin);
         sinon.assert.calledOnce(securityPreHandlers.checkUserHasRoleSupport);
-        sinon.assert.notCalled(schoolingRegistrationUserAssociationController.dissociate);
+        sinon.assert.notCalled(organizationLearnerUserAssociationController.dissociate);
         expect(response.statusCode).to.equal(403);
       });
 
