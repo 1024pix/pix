@@ -148,7 +148,7 @@ describe('Acceptance | Controller | password-controller', function () {
   });
 
   describe('POST /api/expired-password-updates', function () {
-    const username = 'firstName.lastName0511';
+    const username = 'firstname.lastname0511';
     const expiredPassword = 'Password01';
     const newPassword = 'Password02';
 
