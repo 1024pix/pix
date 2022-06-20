@@ -4,6 +4,10 @@ const UserDetailsForAdmin = require('../../../domain/models/UserDetailsForAdmin'
 module.exports = {
   serialize(usersDetailsForAdmin) {
     return new Serializer('user', {
+      transform(record) {
+        record.schoolingRegistrations = record.organizationLearners;
+        return record;
+      },
       attributes: [
         'firstName',
         'lastName',
@@ -20,9 +24,27 @@ module.exports = {
         'lastLoggedAt',
         'emailConfirmedAt',
         'schoolingRegistrations',
+        'organizationLearners',
         'authenticationMethods',
       ],
       schoolingRegistrations: {
+        ref: 'id',
+        includes: true,
+        attributes: [
+          'firstName',
+          'lastName',
+          'birthdate',
+          'division',
+          'group',
+          'organizationId',
+          'organizationName',
+          'createdAt',
+          'updatedAt',
+          'isDisabled',
+          'canBeDissociated',
+        ],
+      },
+      organizationLearners: {
         ref: 'id',
         includes: true,
         attributes: [
@@ -49,6 +71,10 @@ module.exports = {
 
   serializeForUpdate(usersDetailsForAdmin) {
     return new Serializer('user', {
+      transform(record) {
+        record.schoolingRegistrations = record.organizationLearners;
+        return record;
+      },
       attributes: [
         'firstName',
         'lastName',
@@ -58,9 +84,27 @@ module.exports = {
         'pixOrgaTermsOfServiceAccepted',
         'pixCertifTermsOfServiceAccepted',
         'schoolingRegistrations',
+        'organizationLearners',
         'authenticationMethods',
       ],
       schoolingRegistrations: {
+        ref: 'id',
+        includes: true,
+        attributes: [
+          'firstName',
+          'lastName',
+          'birthdate',
+          'division',
+          'group',
+          'organizationId',
+          'organizationName',
+          'createdAt',
+          'updatedAt',
+          'isDisabled',
+          'canBeDissociated',
+        ],
+      },
+      organizationLearners: {
         ref: 'id',
         includes: true,
         attributes: [
