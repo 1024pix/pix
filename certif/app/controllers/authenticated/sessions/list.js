@@ -18,8 +18,4 @@ export default class ListController extends Controller {
   goToSessionDetails(sessionId) {
     this.transitionToRoute('authenticated.sessions.details', sessionId);
   }
-
-  get shouldDisplayResultRecipientInfoMessage() {
-    return !this.currentUser.currentAllowedCertificationCenterAccess.isScoManagingStudents;
-  }
 }
