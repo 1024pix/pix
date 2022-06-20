@@ -368,7 +368,7 @@ module.exports = (function () {
     config.caching.redisCacheKeyLockTTL = 0;
     config.caching.redisCacheLockedWaitBeforeRetry = 0;
 
-    config.rateLimit.redisUrl = null;
+    config.rateLimit.redisUrl = process.env.TEST_REDIS_URL;
 
     config.sentry.enabled = false;
 

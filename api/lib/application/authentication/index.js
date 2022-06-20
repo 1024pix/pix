@@ -1,8 +1,6 @@
 const Joi = require('joi');
 const crypto = require('crypto');
-const {
-  rateLimit: { enabled: rateLimitEnabled },
-} = require('../../config');
+const config = require('../../config');
 const { sendJsonApiError, BadRequestError } = require('../http-errors');
 const AuthenticationController = require('./authentication-controller');
 const responseAuthenticationObjectDoc = require('../../infrastructure/open-api-doc/authentication/response-authentication-doc');
@@ -16,7 +14,7 @@ exports.register = async (server) => {
       config: {
         plugins: {
           rateLimit: {
-            enabled: rateLimitEnabled,
+            enabled: () => config.rateLimit.enabled,
             key: (request) => {
               const baseKey = (() => {
                 if (request.payload.grant_type === 'password') {
@@ -25,7 +23,10 @@ exports.register = async (server) => {
                   return request.payload.refresh_token;
                 }
               })();
-              return crypto.createHash('sha256').update(baseKey).digest('hex');
+              return crypto
+                .createHash('sha256')
+                .update(baseKey || '')
+                .digest('hex');
             },
           },
         },
