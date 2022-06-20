@@ -15,9 +15,7 @@ module('Unit | Controller | authenticated/sessions/details', function (hooks) {
       const certificationCandidatesCountResult = controller.certificationCandidatesCount;
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(certificationCandidatesCountResult, '(2)');
+      assert.strictEqual(certificationCandidatesCountResult, '(2)');
     });
 
     test('should return an empty string when there are no certification candidates in the session', function (assert) {
@@ -29,9 +27,7 @@ module('Unit | Controller | authenticated/sessions/details', function (hooks) {
       const certificationCandidatesCountResult = controller.certificationCandidatesCount;
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(certificationCandidatesCountResult, '');
+      assert.strictEqual(certificationCandidatesCountResult, '');
     });
   });
 
@@ -131,40 +127,6 @@ module('Unit | Controller | authenticated/sessions/details', function (hooks) {
 
         // then
         assert.ok(shouldDisplayDownloadButton);
-      });
-    });
-  });
-
-  module('#shouldDisplayResultRecipientInfoMessage', function () {
-    module('when the current user certification center does manage students', function () {
-      test('should return false', function (assert) {
-        // given
-        const controller = this.owner.lookup('controller:authenticated/sessions/details');
-        controller.currentUser = {
-          currentAllowedCertificationCenterAccess: { isScoManagingStudents: true },
-        };
-
-        // when
-        const shouldDisplayResultRecipientInfoMessage = controller.shouldDisplayResultRecipientInfoMessage;
-
-        // then
-        assert.notOk(shouldDisplayResultRecipientInfoMessage);
-      });
-    });
-
-    module('when current user does not manage students', function () {
-      test('should return true', function (assert) {
-        // given
-        const controller = this.owner.lookup('controller:authenticated/sessions/details');
-        controller.currentUser = {
-          currentAllowedCertificationCenterAccess: { isScoManagingStudents: false },
-        };
-
-        // when
-        const shouldDisplayResultRecipientInfoMessage = controller.shouldDisplayResultRecipientInfoMessage;
-
-        // then
-        assert.ok(shouldDisplayResultRecipientInfoMessage);
       });
     });
   });
