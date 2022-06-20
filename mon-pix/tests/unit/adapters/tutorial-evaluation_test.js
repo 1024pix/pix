@@ -16,13 +16,21 @@ describe('Unit | Adapters | tutorial-evaluation', function () {
     it('should call API to create a tutorial-evaluation', async function () {
       // given
       const tutorialId = 'tutorialId';
-      const tutorial = { adapterOptions: { tutorialId } };
+      const tutorial = { adapterOptions: { tutorialId, status: 'LIKED' } };
 
       // when
       await adapter.createRecord(null, 'tutorial-evaluation', tutorial);
 
       // then
-      sinon.assert.calledWith(adapter.ajax, 'http://localhost:3000/api/users/tutorials/tutorialId/evaluate', 'PUT');
+      sinon.assert.calledWith(adapter.ajax, `http://localhost:3000/api/users/tutorials/${tutorialId}/evaluate`, 'PUT', {
+        data: {
+          data: {
+            attributes: {
+              status: 'LIKED',
+            },
+          },
+        },
+      });
     });
   });
 });
