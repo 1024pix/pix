@@ -96,6 +96,7 @@ module('Acceptance | Team | Add member', function (hooks) {
 
       // then
       assert.dom(screen.getByText("Cet utilisateur n'existe pas")).exists();
+      assert.dom(screen.getByRole('table', { name: 'Liste des membres' })).doesNotContainText('marie.tim@example.net');
     });
   });
 });
