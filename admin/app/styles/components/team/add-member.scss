@@ -1,0 +1,21 @@
+.add-member-to-team-form {
+
+  &__content {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: end;
+  }
+
+  &__input {
+    min-width: 280px;
+  }
+
+  &__input,
+  &__select {
+    padding-right: 6px;
+  }
+
+  .error-padding {
+    margin-bottom: 22px;
+  }
+}

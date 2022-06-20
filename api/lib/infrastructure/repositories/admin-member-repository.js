@@ -1,37 +1,35 @@
 const { knex } = require('../bookshelf');
 const AdminMember = require('../../domain/models/AdminMember');
-const { NotFoundError } = require('../../domain/errors');
 const { AdminMemberRoleUpdateError } = require('../../domain/errors');
+
+const TABLE_NAME = 'pix-admin-roles';
 
 module.exports = {
   findAll: async function () {
     const members = await knex
-      .select('pix-admin-roles.id', 'users.id as userId', 'firstName', 'lastName', 'email', 'role')
-      .from('pix-admin-roles')
-      .join('users', 'users.id', 'pix-admin-roles.userId')
+      .select(`${TABLE_NAME}.id`, 'users.id as userId', 'firstName', 'lastName', 'email', 'role')
+      .from(TABLE_NAME)
+      .where({ disabledAt: null })
+      .join('users', 'users.id', `${TABLE_NAME}.userId`)
       .orderBy(['firstName', 'lastName']);
     return members.map((member) => new AdminMember(member));
   },
 
   get: async function ({ userId }) {
     const member = await knex
-      .select('pix-admin-roles.id', 'users.id as userId', 'firstName', 'lastName', 'email', 'role')
-      .from('pix-admin-roles')
+      .select(`${TABLE_NAME}.id`, 'users.id as userId', 'firstName', 'lastName', 'email', 'role', 'disabledAt')
+      .from(TABLE_NAME)
       .where({ userId })
-      .join('users', 'users.id', 'pix-admin-roles.userId')
+      .join('users', 'users.id', `${TABLE_NAME}.userId`)
       .first();
 
-    if (!member) {
-      throw new NotFoundError();
-    }
-
-    return new AdminMember(member);
+    return member ? new AdminMember(member) : undefined;
   },
 
   async update({ id, attributesToUpdate }) {
     const now = new Date();
     const [updatedAdminMember] = await knex
-      .from('pix-admin-roles')
+      .from(TABLE_NAME)
       .where({ id })
       .update({ ...attributesToUpdate, updatedAt: now })
       .returning('*');
@@ -40,9 +38,11 @@ module.exports = {
       throw new AdminMemberRoleUpdateError();
     }
 
-    return new AdminMember({
-      id: updatedAdminMember.id,
-      role: updatedAdminMember.role,
-    });
+    return new AdminMember(updatedAdminMember);
+  },
+
+  async save(pixAdminRole) {
+    const [savedAdminMember] = await knex(TABLE_NAME).insert(pixAdminRole).returning('*');
+    return new AdminMember(savedAdminMember);
   },
 };

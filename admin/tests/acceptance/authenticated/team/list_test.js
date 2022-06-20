@@ -108,7 +108,7 @@ module('Acceptance | Team | List', function (hooks) {
 
       // then
       assert.dom(screen.getByText('Erreur lors de la mise à jour du rôle du membre Pix Admin.')).exists();
-      assert.dom(screen.getByText('SUPPORT')).exists();
+      assert.dom(screen.getByRole('row', { name: 'Anne Estésie' })).includesText('SUPPORT');
       assert.dom(screen.queryByRole('button', { name: 'Valider' })).doesNotExist();
     });
   });

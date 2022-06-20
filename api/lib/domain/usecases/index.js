@@ -369,6 +369,7 @@ module.exports = injectDependencies(
     resetScorecard: require('./reset-scorecard'),
     retrieveLastOrCreateCertificationCourse: require('./retrieve-last-or-create-certification-course'),
     revokeRefreshToken: require('./revoke-refresh-token'),
+    saveAdminMember: require('./save-admin-member'),
     saveCertificationIssueReport: require('./save-certification-issue-report'),
     saveJuryComplementaryCertificationCourseResult: require('./save-jury-complementary-certification-course-result'),
     sendEmailForAccountRecovery: require('./account-recovery/send-email-for-account-recovery'),

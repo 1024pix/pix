@@ -1,4 +1,4 @@
-const { expect, sinon, domainBuilder } = require('../../../test-helper');
+const { expect, sinon, domainBuilder, hFake } = require('../../../test-helper');
 
 const adminMemberController = require('../../../../lib/application/admin-members/admin-member-controller');
 const usecases = require('../../../../lib/domain/usecases');
@@ -51,6 +51,7 @@ describe('Unit | Controller | admin-member-controller', function () {
       sinon.stub(usecases, 'updateAdminMember').withArgs({ id, role }).resolves(updatedMember);
 
       const serializedUpdatedMember = Symbol('serializedUpdatedMember');
+      sinon.stub(adminMemberSerializer, 'deserialize').returns({ role });
       sinon.stub(adminMemberSerializer, 'serialize').withArgs(updatedMember).returns(serializedUpdatedMember);
 
       // when
@@ -61,6 +62,29 @@ describe('Unit | Controller | admin-member-controller', function () {
 
       // then
       expect(result).to.equal(serializedUpdatedMember);
+    });
+  });
+
+  describe('#saveAdminMember', function () {
+    it('should return the serialized admin member saved', async function () {
+      // given
+      const attributes = { email: 'green.bot@example.net', role: ROLES.SUPER_ADMIN };
+      const savedAdminMember = Symbol('saved admin member');
+      sinon.stub(usecases, 'saveAdminMember').withArgs(attributes).resolves(savedAdminMember);
+
+      const serializedAdminMember = Symbol('serialized admin member');
+      sinon.stub(adminMemberSerializer, 'deserialize').returns(attributes);
+      sinon.stub(adminMemberSerializer, 'serialize').withArgs(savedAdminMember).returns(serializedAdminMember);
+
+      // when
+      const { statusCode, source } = await adminMemberController.saveAdminMember(
+        { payload: { data: { attributes } } },
+        hFake
+      );
+
+      // then
+      expect(source).to.deep.equal(serializedAdminMember);
+      expect(statusCode).to.equal(201);
     });
   });
 });

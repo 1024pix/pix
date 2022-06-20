@@ -1,10 +1,10 @@
 <div class="content-text content-text--small">
-  <table class="table-admin">
+  <table aria-label="Liste des membres" class="table-admin">
     <thead>
       <tr>
         <th>Prénom</th>
         <th>Nom</th>
-        <th>E-mail</th>
+        <th>Adresse e-mail</th>
         <th>Rôle</th>
         <th>Actions</th>
       </tr>
@@ -21,7 +21,7 @@
                 <PixSelect
                   @onChange={{this.setAdminRoleSelection}}
                   @selectedOption={{member.role}}
-                  @options={{this.adminRoles}}
+                  @options={{@roles}}
                   aria-label="Sélectionner un rôle"
                   @isSearchable={{false}}
                   as |role|
