@@ -134,7 +134,7 @@ module.exports = {
 
   async downloadCertificationAttestationsForDivision(request, h) {
     const organizationId = request.params.id;
-    const { division } = request.query;
+    const { division, isFrenchDomainExtension } = request.query;
 
     const attestations = await usecases.findCertificationAttestationsForDivision({
       organizationId,
@@ -143,6 +143,7 @@ module.exports = {
 
     const { buffer } = await certificationAttestationPdf.getCertificationAttestationsPdfBuffer({
       certificates: attestations,
+      isFrenchDomainExtension,
     });
 
     const now = moment();
