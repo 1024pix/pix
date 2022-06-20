@@ -22,7 +22,7 @@ async function neutralizeIfTimedChallengeStrategy({
   return _neutralizeAndResolve(certificationAssessment, certificationIssueReportRepository, certificationIssueReport);
 }
 
-async function neutralizeIfEmbedStrategy({
+async function neutralizeIfImageOrEmbedStrategy({
   certificationIssueReport,
   certificationAssessment,
   certificationIssueReportRepository,
@@ -37,30 +37,8 @@ async function neutralizeIfEmbedStrategy({
 
   const challenge = await challengeRepository.get(recId);
 
-  if (!challenge.hasEmbed()) {
-    return _resolveWithNoEmbedInChallenge(certificationIssueReportRepository, certificationIssueReport);
-  }
-
-  return _neutralizeAndResolve(certificationAssessment, certificationIssueReportRepository, certificationIssueReport);
-}
-
-async function neutralizeIfImageStrategy({
-  certificationIssueReport,
-  certificationAssessment,
-  certificationIssueReportRepository,
-  challengeRepository,
-}) {
-  const questionNumber = certificationIssueReport.questionNumber;
-  const recId = certificationAssessment.getChallengeRecIdByQuestionNumber(questionNumber);
-
-  if (!recId) {
-    return _resolveWithNoSuchQuestion(certificationIssueReportRepository, certificationIssueReport, questionNumber);
-  }
-
-  const challenge = await challengeRepository.get(recId);
-
-  if (!challenge.hasIllustration()) {
-    return _resolveWithNoImageInChallenge(certificationIssueReportRepository, certificationIssueReport);
+  if (!challenge.hasIllustration() && !challenge.hasEmbed()) {
+    return _resolveWithNeitherImageNorEmbedInChallenge(certificationIssueReportRepository, certificationIssueReport);
   }
 
   return _neutralizeAndResolve(certificationAssessment, certificationIssueReportRepository, certificationIssueReport);
@@ -137,8 +115,7 @@ async function doNotResolveStrategy() {
 class CertificationIssueReportResolutionStrategies {
   constructor({
     neutralizeWithoutChecking = neutralizeWithoutCheckingStrategy,
-    neutralizeIfImage = neutralizeIfImageStrategy,
-    neutralizeIfEmbed = neutralizeIfEmbedStrategy,
+    neutralizeIfImageOrEmbed = neutralizeIfImageOrEmbedStrategy,
     neutralizeIfAttachment = neutralizeIfAttachmentStrategy,
     doNotResolve = doNotResolveStrategy,
     neutralizeIfTimedChallenge = neutralizeIfTimedChallengeStrategy,
@@ -147,8 +124,7 @@ class CertificationIssueReportResolutionStrategies {
     challengeRepository,
   }) {
     this._neutralizeWithoutChecking = neutralizeWithoutChecking;
-    this._neutralizeIfImage = neutralizeIfImage;
-    this._neutralizeIfEmbed = neutralizeIfEmbed;
+    this._neutralizeIfImageOrEmbed = neutralizeIfImageOrEmbed;
     this._neutralizeIfAttachment = neutralizeIfAttachment;
     this._doNotResolve = doNotResolve;
     this._neutralizeIfTimedChallenge = neutralizeIfTimedChallenge;
@@ -173,9 +149,8 @@ class CertificationIssueReportResolutionStrategies {
       case CertificationIssueReportSubcategories.ACCESSIBILITY_ISSUE:
         return await this._neutralizeWithoutChecking(strategyParameters);
       case CertificationIssueReportSubcategories.IMAGE_NOT_DISPLAYING:
-        return await this._neutralizeIfImage(strategyParameters);
       case CertificationIssueReportSubcategories.EMBED_NOT_WORKING:
-        return await this._neutralizeIfEmbed(strategyParameters);
+        return await this._neutralizeIfImageOrEmbed(strategyParameters);
       case CertificationIssueReportSubcategories.FILE_NOT_OPENING:
         return await this._neutralizeIfAttachment(strategyParameters);
       case CertificationIssueReportSubcategories.EXTRA_TIME_EXCEEDED:
@@ -190,8 +165,7 @@ class CertificationIssueReportResolutionStrategies {
 
 module.exports = {
   neutralizeWithoutCheckingStrategy,
-  neutralizeIfImageStrategy,
-  neutralizeIfEmbedStrategy,
+  neutralizeIfImageOrEmbedStrategy,
   neutralizeIfAttachmentStrategy,
   doNotResolveStrategy,
   neutralizeIfTimedChallengeStrategy,
@@ -244,36 +218,33 @@ async function _resolveWithQuestionNeutralized(certificationIssueReportRepositor
   return CertificationIssueReportResolutionAttempt.resolvedWithEffect();
 }
 
-async function _resolveWithNoImageInChallenge(certificationIssueReportRepository, certificationIssueReport) {
-  certificationIssueReport.resolve("Cette question n' a pas été neutralisée car elle ne contient pas d'image");
+async function _resolveWithNeitherImageNorEmbedInChallenge(
+  certificationIssueReportRepository,
+  certificationIssueReport
+) {
+  certificationIssueReport.resolve(
+    "Cette question n'a pas été neutralisée car elle ne contient ni image ni application/simulateur"
+  );
   await certificationIssueReportRepository.save(certificationIssueReport);
   return CertificationIssueReportResolutionAttempt.resolvedWithoutEffect();
 }
 
 async function _resolveWithNoAttachmentInChallenge(certificationIssueReportRepository, certificationIssueReport) {
   certificationIssueReport.resolve(
-    "Cette question n' a pas été neutralisée car elle ne contient pas de fichier à télécharger"
-  );
-  await certificationIssueReportRepository.save(certificationIssueReport);
-  return CertificationIssueReportResolutionAttempt.resolvedWithoutEffect();
-}
-
-async function _resolveWithNoEmbedInChallenge(certificationIssueReportRepository, certificationIssueReport) {
-  certificationIssueReport.resolve(
-    "Cette question n' a pas été neutralisée car elle ne contient pas d'application/simulateur"
+    "Cette question n'a pas été neutralisée car elle ne contient pas de fichier à télécharger"
   );
   await certificationIssueReportRepository.save(certificationIssueReport);
   return CertificationIssueReportResolutionAttempt.resolvedWithoutEffect();
 }
 
 async function _resolveWithNoFocusedChallenge(certificationIssueReportRepository, certificationIssueReport) {
-  certificationIssueReport.resolve("Cette question n' a pas été neutralisée car ce n'est pas une question focus");
+  certificationIssueReport.resolve("Cette question n'a pas été neutralisée car ce n'est pas une question focus");
   await certificationIssueReportRepository.save(certificationIssueReport);
   return CertificationIssueReportResolutionAttempt.resolvedWithoutEffect();
 }
 
 async function _resolveWithChallengeNotTimed(certificationIssueReportRepository, certificationIssueReport) {
-  certificationIssueReport.resolve("Cette question n' a pas été neutralisée car elle n'est pas chronométrée");
+  certificationIssueReport.resolve("Cette question n'a pas été neutralisée car elle n'est pas chronométrée");
   await certificationIssueReportRepository.save(certificationIssueReport);
   return CertificationIssueReportResolutionAttempt.resolvedWithoutEffect();
 }
