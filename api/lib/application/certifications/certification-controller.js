@@ -34,6 +34,7 @@ module.exports = {
   async getPDFAttestation(request, h) {
     const userId = request.auth.credentials.userId;
     const certificationId = request.params.id;
+    const isFrenchDomainExtension = Boolean(request.query?.isFrenchDomainExtension);
     const attestation = await usecases.getCertificationAttestation({
       userId,
       certificationId,
@@ -41,6 +42,7 @@ module.exports = {
 
     const { buffer } = await certificationAttestationPdf.getCertificationAttestationsPdfBuffer({
       certificates: [attestation],
+      isFrenchDomainExtension,
     });
 
     const fileName = `attestation-pix-${moment(attestation.deliveredAt).format('YYYYMMDD')}.pdf`;
