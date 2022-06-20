@@ -63,6 +63,9 @@ function _mapToHttpError(error) {
   if (error instanceof DomainErrors.AccountRecoveryDemandExpired) {
     return new HttpErrors.UnauthorizedError(error.message);
   }
+  if (error instanceof DomainErrors.AdminMemberError) {
+    return new HttpErrors.UnprocessableEntityError(error.message, error.code);
+  }
   if (error instanceof DomainErrors.OrganizationArchivedError) {
     return new HttpErrors.UnprocessableEntityError(error.message);
   }

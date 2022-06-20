@@ -2,6 +2,10 @@ const { expect } = require('../../test-helper');
 const errors = require('../../../lib/domain/errors');
 
 describe('Unit | Domain | Errors', function () {
+  it('should export a AdminMemberError', function () {
+    expect(errors.AdminMemberError).to.exist;
+  });
+
   it('should export a CertificationCandidateAlreadyLinkedToUserError', function () {
     expect(errors.CertificationCandidateAlreadyLinkedToUserError).to.exist;
   });
