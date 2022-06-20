@@ -25,6 +25,10 @@
     </PixTooltip>
   </div>
   {{#if @nonBlockingCandidateIssueCategory.isChecked}}
+    <PixMessage @type="info" @withIcon={{true}}>
+      Signalement à titre informatif, le problème rencontré n'a pas empêché le candidat de continuer à répondre aux
+      questions.
+    </PixMessage>
     <div class="non-blocking-candidate-issue-certification-issue-report-fields__details">
       <label for="text-area-for-category-candidate-issue">Décrivez l'incident rencontré</label>
       <PixTextarea

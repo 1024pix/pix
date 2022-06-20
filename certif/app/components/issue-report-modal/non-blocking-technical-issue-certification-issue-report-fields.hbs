@@ -24,6 +24,10 @@
     </PixTooltip>
   </div>
   {{#if @nonBlockingTechnicalIssueCategory.isChecked}}
+    <PixMessage @type="info" @withIcon={{true}}>
+      Signalement à titre informatif, le problème rencontré n'a pas empêché le candidat de continuer à répondre aux
+      questions. En cas d’incident sur une question focus, merci de vous reporter à la catégorie E10.
+    </PixMessage>
     <div class="non-blocking-technical-issue-certification-issue-report-fields__details">
       <label for="text-area-for-category-technical-issue">Décrivez l'incident rencontré</label>
       <PixTextarea
