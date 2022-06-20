@@ -222,7 +222,7 @@ function _getAttributes(campaignParticipation) {
     validatedSkillsCount: campaignParticipation.validatedSkillsCount,
     pixScore: campaignParticipation.pixScore,
     masteryRate: campaignParticipation.masteryRate,
-    organizationLearnerId: campaignParticipation.schoolingRegistrationId,
+    organizationLearnerId: campaignParticipation.organizationLearnerId,
   };
 }
 

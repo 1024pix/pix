@@ -31,7 +31,7 @@ describe('Unit | Domain | Models | CampaignParticipant', function () {
           campaignId: campaignToStartParticipation.id,
           status: 'STARTED',
           userId: userIdentity.id,
-          schoolingRegistrationId: organizationLearnerId,
+          organizationLearnerId,
         });
       });
 
@@ -174,7 +174,7 @@ describe('Unit | Domain | Models | CampaignParticipant', function () {
           campaignId: campaignToStartParticipation.id,
           status: 'TO_SHARE',
           userId: userIdentity.id,
-          schoolingRegistrationId: organizationLearnerId,
+          organizationLearnerId,
         });
       });
 
