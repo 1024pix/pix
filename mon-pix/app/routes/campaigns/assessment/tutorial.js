@@ -36,7 +36,7 @@ export default class CampaignsAssessmentTutorial extends Route.extend(SecuredRou
     await this.currentUser.user.save({ adapterOptions: { rememberUserHasSeenAssessmentInstructions: true } });
 
     this.tutorialPageId = 0;
-    return this.transitionTo('campaigns.assessment.start-or-resume', this.campaignCode, {
+    this.transitionTo('campaigns.assessment.start-or-resume', this.campaignCode, {
       queryParams: {
         hasConsultedTutorial: true,
       },
