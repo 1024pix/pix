@@ -37,11 +37,6 @@ export default class SessionsDetailsController extends Controller {
     return this.hasOneOrMoreCandidates;
   }
 
-  @computed('shouldDisplayPrescriptionScoStudentRegistrationFeature')
-  get shouldDisplayResultRecipientInfoMessage() {
-    return !this.shouldDisplayPrescriptionScoStudentRegistrationFeature;
-  }
-
   get shouldDisplayPrescriptionScoStudentRegistrationFeature() {
     return this.currentUser.currentAllowedCertificationCenterAccess.isScoManagingStudents;
   }
