@@ -9,8 +9,7 @@ const {
 } = require('../../../../lib/domain/models/CertificationIssueReportResolutionStrategies');
 const {
   neutralizeWithoutCheckingStrategy,
-  neutralizeIfImageStrategy,
-  neutralizeIfEmbedStrategy,
+  neutralizeIfImageOrEmbedStrategy,
   neutralizeIfAttachmentStrategy,
   neutralizeIfTimedChallengeStrategy,
   neutralizeOrValidateIfFocusedChallengeStrategy,
@@ -142,76 +141,150 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
     });
   });
 
-  context('#NEUTRALIZE_IF_IMAGE', function () {
+  context('#NEUTRALIZE_IF_IMAGE_OR_EMBED', function () {
     context('When challenge is neutralizable', function () {
-      it('neutralizes successfully', async function () {
-        // given
-        const certificationChallenge = domainBuilder.buildCertificationChallengeWithType({});
-        const certificationAnswer = domainBuilder.buildAnswer.ko({ challengeId: certificationChallenge.challengeId });
-        const certificationAssessment = domainBuilder.buildCertificationAssessment({
-          certificationChallenges: [certificationChallenge],
-          certificationAnswersByDate: [certificationAnswer],
-        });
-        const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
-          subcategory: CertificationIssueReportSubcategories.SOFTWARE_NOT_WORKING,
-          category: CertificationIssueReportCategories.IN_CHALLENGE,
-          questionNumber: 1,
-        });
-        const challengeWithImage = domainBuilder.buildChallenge({ illustrationUrl: 'image_url' });
-        const certificationIssueReportRepository = {
-          save: sinon.stub(),
-        };
-        const challengeRepository = {
-          get: sinon.stub().resolves(challengeWithImage),
-        };
+      context('When challenge contains an image', function () {
+        it('neutralizes successfully', async function () {
+          // given
+          const certificationChallenge = domainBuilder.buildCertificationChallengeWithType({});
+          const certificationAnswer = domainBuilder.buildAnswer.ko({ challengeId: certificationChallenge.challengeId });
+          const certificationAssessment = domainBuilder.buildCertificationAssessment({
+            certificationChallenges: [certificationChallenge],
+            certificationAnswersByDate: [certificationAnswer],
+          });
+          const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
+            subcategory: CertificationIssueReportSubcategories.SOFTWARE_NOT_WORKING,
+            category: CertificationIssueReportCategories.IN_CHALLENGE,
+            questionNumber: 1,
+          });
+          const challengeWithImage = domainBuilder.buildChallenge({ illustrationUrl: 'image_url' });
+          const certificationIssueReportRepository = {
+            save: sinon.stub(),
+          };
+          const challengeRepository = {
+            get: sinon.stub().resolves(challengeWithImage),
+          };
 
-        // when
-        const neutralizationAttempt = await neutralizeIfImageStrategy({
-          certificationIssueReport,
-          certificationAssessment,
-          certificationIssueReportRepository,
-          challengeRepository,
+          // when
+          const neutralizationAttempt = await neutralizeIfImageOrEmbedStrategy({
+            certificationIssueReport,
+            certificationAssessment,
+            certificationIssueReportRepository,
+            challengeRepository,
+          });
+
+          // then
+          expect(neutralizationAttempt).to.deepEqualInstance(
+            CertificationIssueReportResolutionAttempt.resolvedWithEffect()
+          );
         });
 
-        // then
-        expect(neutralizationAttempt).to.deepEqualInstance(
-          CertificationIssueReportResolutionAttempt.resolvedWithEffect()
-        );
+        it('resolves the issue report', async function () {
+          // given
+          const certificationChallenge = domainBuilder.buildCertificationChallengeWithType({});
+          const certificationAnswer = domainBuilder.buildAnswer.ko({ challengeId: certificationChallenge.challengeId });
+          const certificationAssessment = domainBuilder.buildCertificationAssessment({
+            certificationChallenges: [certificationChallenge],
+            certificationAnswersByDate: [certificationAnswer],
+          });
+          const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
+            subcategory: CertificationIssueReportSubcategories.SOFTWARE_NOT_WORKING,
+            category: CertificationIssueReportCategories.IN_CHALLENGE,
+            questionNumber: 1,
+          });
+          const challengeWithImage = domainBuilder.buildChallenge({ illustrationUrl: 'image_url' });
+
+          const certificationIssueReportRepository = {
+            save: sinon.stub(),
+          };
+          const challengeRepository = {
+            get: sinon.stub().resolves(challengeWithImage),
+          };
+
+          // when
+          await neutralizeIfImageOrEmbedStrategy({
+            certificationIssueReport,
+            certificationAssessment,
+            certificationIssueReportRepository,
+            challengeRepository,
+          });
+
+          // then
+          expect(certificationIssueReport.isResolved()).to.be.true;
+          expect(certificationIssueReportRepository.save).to.have.been.calledOnceWithExactly(certificationIssueReport);
+        });
       });
 
-      it('resolves the issue report', async function () {
-        // given
-        const certificationChallenge = domainBuilder.buildCertificationChallengeWithType({});
-        const certificationAnswer = domainBuilder.buildAnswer.ko({ challengeId: certificationChallenge.challengeId });
-        const certificationAssessment = domainBuilder.buildCertificationAssessment({
-          certificationChallenges: [certificationChallenge],
-          certificationAnswersByDate: [certificationAnswer],
-        });
-        const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
-          subcategory: CertificationIssueReportSubcategories.SOFTWARE_NOT_WORKING,
-          category: CertificationIssueReportCategories.IN_CHALLENGE,
-          questionNumber: 1,
-        });
-        const challengeWithImage = domainBuilder.buildChallenge({ illustrationUrl: 'image_url' });
+      context('When challenge contains an embed', function () {
+        it('neutralizes successfully', async function () {
+          // given
+          const certificationChallenge = domainBuilder.buildCertificationChallengeWithType({});
+          const certificationAnswer = domainBuilder.buildAnswer.ko({ challengeId: certificationChallenge.challengeId });
+          const certificationAssessment = domainBuilder.buildCertificationAssessment({
+            certificationChallenges: [certificationChallenge],
+            certificationAnswersByDate: [certificationAnswer],
+          });
+          const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
+            subcategory: CertificationIssueReportSubcategories.SOFTWARE_NOT_WORKING,
+            category: CertificationIssueReportCategories.IN_CHALLENGE,
+            questionNumber: 1,
+          });
+          const challengeWithEmbed = domainBuilder.buildChallenge({ embedUrl: 'embed_url' });
+          const certificationIssueReportRepository = {
+            save: sinon.stub(),
+          };
+          const challengeRepository = {
+            get: sinon.stub().resolves(challengeWithEmbed),
+          };
 
-        const certificationIssueReportRepository = {
-          save: sinon.stub(),
-        };
-        const challengeRepository = {
-          get: sinon.stub().resolves(challengeWithImage),
-        };
+          // when
+          const neutralizationAttempt = await neutralizeIfImageOrEmbedStrategy({
+            certificationIssueReport,
+            certificationAssessment,
+            certificationIssueReportRepository,
+            challengeRepository,
+          });
 
-        // when
-        await neutralizeIfImageStrategy({
-          certificationIssueReport,
-          certificationAssessment,
-          certificationIssueReportRepository,
-          challengeRepository,
+          // then
+          expect(neutralizationAttempt).to.deepEqualInstance(
+            CertificationIssueReportResolutionAttempt.resolvedWithEffect()
+          );
         });
 
-        // then
-        expect(certificationIssueReport.isResolved()).to.be.true;
-        expect(certificationIssueReportRepository.save).to.have.been.calledOnceWithExactly(certificationIssueReport);
+        it('resolves the issue report', async function () {
+          // given
+          const certificationChallenge = domainBuilder.buildCertificationChallengeWithType({});
+          const certificationAnswer = domainBuilder.buildAnswer.ko({ challengeId: certificationChallenge.challengeId });
+          const certificationAssessment = domainBuilder.buildCertificationAssessment({
+            certificationChallenges: [certificationChallenge],
+            certificationAnswersByDate: [certificationAnswer],
+          });
+          const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
+            subcategory: CertificationIssueReportSubcategories.SOFTWARE_NOT_WORKING,
+            category: CertificationIssueReportCategories.IN_CHALLENGE,
+            questionNumber: 1,
+          });
+          const challengeWithEmbed = domainBuilder.buildChallenge({ embedUrl: 'embed_url' });
+
+          const certificationIssueReportRepository = {
+            save: sinon.stub(),
+          };
+          const challengeRepository = {
+            get: sinon.stub().resolves(challengeWithEmbed),
+          };
+
+          // when
+          await neutralizeIfImageOrEmbedStrategy({
+            certificationIssueReport,
+            certificationAssessment,
+            certificationIssueReportRepository,
+            challengeRepository,
+          });
+
+          // then
+          expect(certificationIssueReport.isResolved()).to.be.true;
+          expect(certificationIssueReportRepository.save).to.have.been.calledOnceWithExactly(certificationIssueReport);
+        });
       });
     });
 
@@ -224,9 +297,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
           questionNumber: 1,
         });
         const certificationIssueReportRepository = {
-          save: () => {
-            return;
-          },
+          save: () => {},
         };
         const certificationAssessment = domainBuilder.buildCertificationAssessment({
           certificationChallenges: [domainBuilder.buildCertificationChallengeWithType()],
@@ -234,7 +305,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
         });
 
         // when
-        const neutralizationAttempt = await neutralizeIfImageStrategy({
+        const neutralizationAttempt = await neutralizeIfImageOrEmbedStrategy({
           certificationIssueReport,
           certificationAssessment,
           certificationIssueReportRepository,
@@ -262,7 +333,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
         });
 
         // when
-        await neutralizeIfImageStrategy({
+        await neutralizeIfImageOrEmbedStrategy({
           certificationIssueReport,
           certificationAssessment,
           certificationIssueReportRepository,
@@ -274,7 +345,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
       });
     });
 
-    context('the challenge does not contain an image', function () {
+    context('the challenge does not contain an image nor an embed', function () {
       it('returns a successful resolution without effect', async function () {
         // given
         const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
@@ -282,12 +353,15 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
           category: CertificationIssueReportCategories.IN_CHALLENGE,
           questionNumber: 1,
         });
-        const challengeWithoutIllustration = domainBuilder.buildChallenge({ illustrationUrl: null });
+        const challengeWithoutIllustrationAndEmbed = domainBuilder.buildChallenge({
+          illustrationUrl: null,
+          embedUrl: null,
+        });
         const certificationIssueReportRepository = {
           save: sinon.stub(),
         };
         const challengeRepository = {
-          get: sinon.stub().resolves(challengeWithoutIllustration),
+          get: sinon.stub().resolves(challengeWithoutIllustrationAndEmbed),
         };
         const certificationChallenge = domainBuilder.buildCertificationChallengeWithType();
         const certificationAssessment = domainBuilder.buildCertificationAssessment({
@@ -296,284 +370,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
         });
 
         // when
-        const neutralizationAttempt = await neutralizeIfImageStrategy({
-          certificationIssueReport,
-          certificationAssessment,
-          certificationIssueReportRepository,
-          challengeRepository,
-        });
-
-        // then
-        expect(neutralizationAttempt).to.deepEqualInstance(
-          CertificationIssueReportResolutionAttempt.resolvedWithoutEffect()
-        );
-      });
-
-      it('resolves the certification issue report anyway', async function () {
-        // given
-        const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
-          subcategory: CertificationIssueReportSubcategories.SOFTWARE_NOT_WORKING,
-          category: CertificationIssueReportCategories.IN_CHALLENGE,
-          questionNumber: 1,
-        });
-        const challengeWithoutIllustration = domainBuilder.buildChallenge({ illustrationUrl: null });
-        const certificationIssueReportRepository = {
-          save: sinon.stub(),
-        };
-        const challengeRepository = {
-          get: sinon.stub().resolves(challengeWithoutIllustration),
-        };
-        const certificationChallenge = domainBuilder.buildCertificationChallengeWithType();
-        const certificationAssessment = domainBuilder.buildCertificationAssessment({
-          certificationChallenges: [certificationChallenge],
-          certificationAnswersByDate: [domainBuilder.buildAnswer({ challengeId: certificationChallenge.challengeId })],
-        });
-
-        // when
-        await neutralizeIfImageStrategy({
-          certificationIssueReport,
-          certificationAssessment,
-          certificationIssueReportRepository,
-          challengeRepository,
-        });
-
-        // then
-        expect(certificationIssueReport.isResolved()).to.be.true;
-        expect(certificationIssueReportRepository.save).to.have.been.calledOnceWithExactly(certificationIssueReport);
-      });
-    });
-
-    context('When challenge is not neutralizable', function () {
-      it('returns a successful resolution attempt without effect', async function () {
-        // given
-        const certificationChallenge = domainBuilder.buildCertificationChallengeWithType({});
-        const certificationAnswer = domainBuilder.buildAnswer.ok({ challengeId: certificationChallenge.challengeId });
-        const certificationAssessment = domainBuilder.buildCertificationAssessment({
-          certificationChallenges: [certificationChallenge],
-          certificationAnswersByDate: [certificationAnswer],
-        });
-        const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
-          subcategory: CertificationIssueReportSubcategories.SOFTWARE_NOT_WORKING,
-          category: CertificationIssueReportCategories.IN_CHALLENGE,
-          questionNumber: 1,
-        });
-        const challengeWithImage = domainBuilder.buildChallenge({ illustrationUrl: 'image_url' });
-        const certificationIssueReportRepository = {
-          save: sinon.stub(),
-        };
-        const challengeRepository = {
-          get: sinon.stub().resolves(challengeWithImage),
-        };
-
-        // when
-        const neutralizationAttempt = await neutralizeIfImageStrategy({
-          certificationIssueReport,
-          certificationAssessment,
-          certificationIssueReportRepository,
-          challengeRepository,
-        });
-
-        // then
-        expect(neutralizationAttempt).to.deepEqualInstance(
-          CertificationIssueReportResolutionAttempt.resolvedWithoutEffect()
-        );
-      });
-
-      it('resolves the certification issue report anyway', async function () {
-        // given
-        const certificationChallenge = domainBuilder.buildCertificationChallengeWithType({});
-        const certificationAnswer = domainBuilder.buildAnswer.ok({ challengeId: certificationChallenge.challengeId });
-        const certificationAssessment = domainBuilder.buildCertificationAssessment({
-          certificationChallenges: [certificationChallenge],
-          certificationAnswersByDate: [certificationAnswer],
-        });
-        const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
-          subcategory: CertificationIssueReportSubcategories.SOFTWARE_NOT_WORKING,
-          category: CertificationIssueReportCategories.IN_CHALLENGE,
-          questionNumber: 1,
-        });
-        const challengeWithImage = domainBuilder.buildChallenge({ illustrationUrl: 'image_url' });
-        const certificationIssueReportRepository = {
-          save: sinon.stub(),
-        };
-        const challengeRepository = {
-          get: sinon.stub().resolves(challengeWithImage),
-        };
-
-        // when
-        await neutralizeIfImageStrategy({
-          certificationIssueReport,
-          certificationAssessment,
-          certificationIssueReportRepository,
-          challengeRepository,
-        });
-
-        // then
-        expect(certificationIssueReport.isResolved()).to.be.true;
-        expect(certificationIssueReportRepository.save).to.have.been.calledOnceWithExactly(certificationIssueReport);
-      });
-    });
-  });
-
-  context('#NEUTRALIZE_IF_EMBED', function () {
-    context('When challenge is neutralizable', function () {
-      it('neutralizes successfully', async function () {
-        // given
-        const certificationChallenge = domainBuilder.buildCertificationChallengeWithType({});
-        const certificationAnswer = domainBuilder.buildAnswer.ko({ challengeId: certificationChallenge.challengeId });
-        const certificationAssessment = domainBuilder.buildCertificationAssessment({
-          certificationChallenges: [certificationChallenge],
-          certificationAnswersByDate: [certificationAnswer],
-        });
-        const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
-          subcategory: CertificationIssueReportSubcategories.EMBED_NOT_WORKING,
-          category: CertificationIssueReportCategories.IN_CHALLENGE,
-          questionNumber: 1,
-        });
-        const challengeWithEmbed = domainBuilder.buildChallenge({ embedUrl: 'embed_url' });
-        const certificationIssueReportRepository = {
-          save: sinon.stub(),
-        };
-        const challengeRepository = {
-          get: sinon.stub().resolves(challengeWithEmbed),
-        };
-
-        // when
-        const neutralizationAttempt = await neutralizeIfEmbedStrategy({
-          certificationIssueReport,
-          certificationAssessment,
-          certificationIssueReportRepository,
-          challengeRepository,
-        });
-
-        // then
-        expect(neutralizationAttempt).to.deepEqualInstance(
-          CertificationIssueReportResolutionAttempt.resolvedWithEffect()
-        );
-      });
-
-      it('resolves the issue report', async function () {
-        // given
-        const certificationChallenge = domainBuilder.buildCertificationChallengeWithType({});
-        const certificationAnswer = domainBuilder.buildAnswer.ko({ challengeId: certificationChallenge.challengeId });
-        const certificationAssessment = domainBuilder.buildCertificationAssessment({
-          certificationChallenges: [certificationChallenge],
-          certificationAnswersByDate: [certificationAnswer],
-        });
-        const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
-          subcategory: CertificationIssueReportSubcategories.SOFTWARE_NOT_WORKING,
-          category: CertificationIssueReportCategories.IN_CHALLENGE,
-          questionNumber: 1,
-        });
-
-        const challengeWithEmbed = domainBuilder.buildChallenge({ embedUrl: 'embed_url' });
-
-        const certificationIssueReportRepository = {
-          save: sinon.stub(),
-        };
-
-        const challengeRepository = {
-          get: sinon.stub().resolves(challengeWithEmbed),
-        };
-
-        // when
-        await neutralizeIfEmbedStrategy({
-          certificationIssueReport,
-          certificationAssessment,
-          certificationIssueReportRepository,
-          challengeRepository,
-        });
-
-        // then
-        expect(certificationIssueReport.isResolved()).to.be.true;
-        expect(certificationIssueReportRepository.save).to.have.been.calledOnceWithExactly(certificationIssueReport);
-      });
-    });
-
-    context('the challenge does not contain the question designated by the question number', function () {
-      it('returns a successful resolution attempt without effect', async function () {
-        // given
-        const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
-          subcategory: CertificationIssueReportSubcategories.SOFTWARE_NOT_WORKING,
-          category: CertificationIssueReportCategories.IN_CHALLENGE,
-          questionNumber: 1,
-        });
-        const certificationIssueReportRepository = {
-          save: () => {
-            return;
-          },
-        };
-        const certificationAssessment = domainBuilder.buildCertificationAssessment({
-          certificationChallenges: [domainBuilder.buildCertificationChallengeWithType()],
-          certificationAnswersByDate: [],
-        });
-
-        // when
-        const neutralizationAttempt = await neutralizeIfEmbedStrategy({
-          certificationIssueReport,
-          certificationAssessment,
-          certificationIssueReportRepository,
-        });
-
-        // then
-        expect(neutralizationAttempt).to.deepEqualInstance(
-          CertificationIssueReportResolutionAttempt.resolvedWithoutEffect()
-        );
-      });
-
-      it('resolves the certification issue report anyway', async function () {
-        // given
-        const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
-          subcategory: CertificationIssueReportSubcategories.SOFTWARE_NOT_WORKING,
-          category: CertificationIssueReportCategories.IN_CHALLENGE,
-          questionNumber: 1,
-        });
-        const certificationIssueReportRepository = {
-          save: sinon.stub(),
-        };
-        const certificationAssessment = domainBuilder.buildCertificationAssessment({
-          certificationChallenges: [domainBuilder.buildCertificationChallengeWithType()],
-          certificationAnswersByDate: [],
-        });
-
-        // when
-        await neutralizeIfEmbedStrategy({
-          certificationIssueReport,
-          certificationAssessment,
-          certificationIssueReportRepository,
-        });
-
-        // then
-        expect(certificationIssueReport.isResolved()).to.be.true;
-        expect(certificationIssueReportRepository.save).to.have.been.calledOnceWithExactly(certificationIssueReport);
-      });
-    });
-
-    context('the challenge does not contain an embed', function () {
-      it('returns a successful resolution without effect', async function () {
-        // given
-        const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
-          subcategory: CertificationIssueReportSubcategories.SOFTWARE_NOT_WORKING,
-          category: CertificationIssueReportCategories.IN_CHALLENGE,
-          questionNumber: 1,
-        });
-        const challengeWithoutEmbed = domainBuilder.buildChallenge({ embedUrl: null });
-        const certificationIssueReportRepository = {
-          save: () => {
-            return;
-          },
-        };
-        const challengeRepository = {
-          get: sinon.stub().resolves(challengeWithoutEmbed),
-        };
-        const certificationChallenge = domainBuilder.buildCertificationChallengeWithType();
-        const certificationAssessment = domainBuilder.buildCertificationAssessment({
-          certificationChallenges: [certificationChallenge],
-          certificationAnswersByDate: [domainBuilder.buildAnswer({ challengeId: certificationChallenge.challengeId })],
-        });
-
-        // when
-        const neutralizationAttempt = await neutralizeIfEmbedStrategy({
+        const neutralizationAttempt = await neutralizeIfImageOrEmbedStrategy({
           certificationIssueReport,
           certificationAssessment,
           certificationIssueReportRepository,
@@ -582,7 +379,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
 
         // then
         expect(certificationIssueReport.resolution).to.equal(
-          "Cette question n' a pas été neutralisée car elle ne contient pas d'application/simulateur"
+          "Cette question n'a pas été neutralisée car elle ne contient ni image ni application/simulateur"
         );
         expect(neutralizationAttempt).to.deepEqualInstance(
           CertificationIssueReportResolutionAttempt.resolvedWithoutEffect()
@@ -596,12 +393,12 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
           category: CertificationIssueReportCategories.IN_CHALLENGE,
           questionNumber: 1,
         });
-        const challengeWithoutEmbed = domainBuilder.buildChallenge({ embedUrl: null });
+        const challengeWithoutIllustration = domainBuilder.buildChallenge({ illustrationUrl: null });
         const certificationIssueReportRepository = {
           save: sinon.stub(),
         };
         const challengeRepository = {
-          get: sinon.stub().resolves(challengeWithoutEmbed),
+          get: sinon.stub().resolves(challengeWithoutIllustration),
         };
         const certificationChallenge = domainBuilder.buildCertificationChallengeWithType();
         const certificationAssessment = domainBuilder.buildCertificationAssessment({
@@ -610,7 +407,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
         });
 
         // when
-        await neutralizeIfEmbedStrategy({
+        await neutralizeIfImageOrEmbedStrategy({
           certificationIssueReport,
           certificationAssessment,
           certificationIssueReportRepository,
@@ -624,7 +421,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
     });
 
     context('When challenge is not neutralizable', function () {
-      it('returns a successful resolution without effect', async function () {
+      it('returns a successful resolution attempt without effect', async function () {
         // given
         const certificationChallenge = domainBuilder.buildCertificationChallengeWithType({});
         const certificationAnswer = domainBuilder.buildAnswer.ok({ challengeId: certificationChallenge.challengeId });
@@ -633,20 +430,20 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
           certificationAnswersByDate: [certificationAnswer],
         });
         const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
-          subcategory: CertificationIssueReportSubcategories.EMBED_NOT_WORKING,
+          subcategory: CertificationIssueReportSubcategories.SOFTWARE_NOT_WORKING,
           category: CertificationIssueReportCategories.IN_CHALLENGE,
           questionNumber: 1,
         });
-        const challengeWithEmbed = domainBuilder.buildChallenge({ embedUrl: 'embed_url' });
+        const challengeWithImage = domainBuilder.buildChallenge({ illustrationUrl: 'image_url' });
         const certificationIssueReportRepository = {
           save: sinon.stub(),
         };
         const challengeRepository = {
-          get: sinon.stub().resolves(challengeWithEmbed),
+          get: sinon.stub().resolves(challengeWithImage),
         };
 
         // when
-        const neutralizationAttempt = await neutralizeIfEmbedStrategy({
+        const neutralizationAttempt = await neutralizeIfImageOrEmbedStrategy({
           certificationIssueReport,
           certificationAssessment,
           certificationIssueReportRepository,
@@ -668,20 +465,20 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
           certificationAnswersByDate: [certificationAnswer],
         });
         const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
-          subcategory: CertificationIssueReportSubcategories.EMBED_NOT_WORKING,
+          subcategory: CertificationIssueReportSubcategories.SOFTWARE_NOT_WORKING,
           category: CertificationIssueReportCategories.IN_CHALLENGE,
           questionNumber: 1,
         });
-        const challengeWithEmbed = domainBuilder.buildChallenge({ embedUrl: 'embed_url' });
+        const challengeWithImage = domainBuilder.buildChallenge({ illustrationUrl: 'image_url' });
         const certificationIssueReportRepository = {
           save: sinon.stub(),
         };
         const challengeRepository = {
-          get: sinon.stub().resolves(challengeWithEmbed),
+          get: sinon.stub().resolves(challengeWithImage),
         };
 
         // when
-        await neutralizeIfEmbedStrategy({
+        await neutralizeIfImageOrEmbedStrategy({
           certificationIssueReport,
           certificationAssessment,
           certificationIssueReportRepository,
@@ -783,9 +580,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
           questionNumber: 1,
         });
         const certificationIssueReportRepository = {
-          save: () => {
-            return;
-          },
+          save: () => {},
         };
         const certificationAssessment = domainBuilder.buildCertificationAssessment({
           certificationChallenges: [domainBuilder.buildCertificationChallengeWithType()],
@@ -834,7 +629,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
     });
 
     context('the challenge does not contain an attachment', function () {
-      it('returns a successful resolution without effect', async function () {
+      it('returns a successful resolution attempt without effect', async function () {
         // given
         const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
           subcategory: CertificationIssueReportSubcategories.FILE_NOT_OPENING,
@@ -843,9 +638,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
         });
         const challengeWithoutAttachment = domainBuilder.buildChallenge({ attachments: [] });
         const certificationIssueReportRepository = {
-          save: () => {
-            return;
-          },
+          save: () => {},
         };
         const challengeRepository = {
           get: sinon.stub().resolves(challengeWithoutAttachment),
@@ -905,7 +698,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
     });
 
     context('When challenge is not neutralizable', function () {
-      it('returns a successful resolution without effect', async function () {
+      it('returns a successful resolution attempt without effect', async function () {
         // given
         const certificationChallenge = domainBuilder.buildCertificationChallengeWithType({});
         const certificationAnswer = domainBuilder.buildAnswer.ok({ challengeId: certificationChallenge.challengeId });
@@ -1068,9 +861,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
           questionNumber: 1,
         });
         const certificationIssueReportRepository = {
-          save: () => {
-            return;
-          },
+          save: () => {},
         };
         const certificationAssessment = domainBuilder.buildCertificationAssessment({
           certificationChallenges: [domainBuilder.buildCertificationChallengeWithType()],
@@ -1119,7 +910,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
     });
 
     context('the challenge is not timed', function () {
-      it('returns a successful resolution without effect', async function () {
+      it('returns a successful resolution attempt without effect', async function () {
         // given
         const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
           subcategory: CertificationIssueReportSubcategories.EXTRA_TIME_EXCEEDED,
@@ -1128,9 +919,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
         });
         const notTimedChallenge = domainBuilder.buildChallenge({});
         const certificationIssueReportRepository = {
-          save: () => {
-            return;
-          },
+          save: () => {},
         };
         const challengeRepository = {
           get: sinon.stub().resolves(notTimedChallenge),
@@ -1190,7 +979,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
     });
 
     context('When challenge is not neutralizable', function () {
-      it('returns a successful resolution without effect', async function () {
+      it('returns a successful resolution attempt without effect', async function () {
         // given
         const certificationChallenge = domainBuilder.buildCertificationChallengeWithType({});
         const certificationAnswer = domainBuilder.buildAnswer.ok({ challengeId: certificationChallenge.challengeId });
@@ -1439,9 +1228,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
           questionNumber: 1,
         });
         const certificationIssueReportRepository = {
-          save: () => {
-            return;
-          },
+          save: () => {},
         };
         const certificationAssessment = domainBuilder.buildCertificationAssessment({
           certificationChallenges: [domainBuilder.buildCertificationChallengeWithType()],
@@ -1491,7 +1278,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
     });
 
     context('When challenge is not focused', function () {
-      it('returns a successful resolution without effect', async function () {
+      it('returns a successful resolution attempt without effect', async function () {
         // given
         const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
           subcategory: CertificationIssueReportSubcategories.UNINTENTIONAL_FOCUS_OUT,
@@ -1500,9 +1287,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
         });
         const notFocusedChallenge = domainBuilder.buildChallenge({ focused: false });
         const certificationIssueReportRepository = {
-          save: () => {
-            return;
-          },
+          save: () => {},
         };
         const challengeRepository = {
           get: sinon.stub().resolves(notFocusedChallenge),
@@ -1558,7 +1343,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
         // then
         expect(certificationIssueReport.isResolved()).to.be.true;
         expect(certificationIssueReport.resolution).to.equal(
-          "Cette question n' a pas été neutralisée car ce n'est pas une question focus"
+          "Cette question n'a pas été neutralisée car ce n'est pas une question focus"
         );
         expect(certificationIssueReportRepository.save).to.have.been.calledOnceWithExactly(certificationIssueReport);
       });
@@ -1637,7 +1422,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
       {
         // eslint-disable-next-line mocha/no-setup-in-describe
         subCategoryToBeResolved: CertificationIssueReportSubcategories.IMAGE_NOT_DISPLAYING,
-        strategyToBeApplied: 'neutralizeIfImage',
+        strategyToBeApplied: 'neutralizeIfImageOrEmbed',
       },
 
       {
@@ -1649,7 +1434,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
       {
         // eslint-disable-next-line mocha/no-setup-in-describe
         subCategoryToBeResolved: CertificationIssueReportSubcategories.EMBED_NOT_WORKING,
-        strategyToBeApplied: 'neutralizeIfEmbed',
+        strategyToBeApplied: 'neutralizeIfImageOrEmbed',
       },
 
       {
