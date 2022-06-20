@@ -11,7 +11,11 @@
   </div>
 
   <SessionFinalizationStepContainer
-    @title="Étape 1 : Reporter, pour chaque candidat, les signalements renseignés sur le PV d'incident"
+    @title={{if
+      this.featureToggles.featureToggles.isCertificationFreeFieldsDeletionEnabled
+      "Signalements : Reporter, pour chaque candidat, les signalements renseignés sur le PV d'incident"
+      "Étape 1 : Reporter, pour chaque candidat, les signalements renseignés sur le PV d'incident"
+    }}
     @icon="/icons/session-finalization-user.svg"
     @iconAlt=""
   >
