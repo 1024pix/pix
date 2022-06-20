@@ -72,7 +72,7 @@ describe('Integration | UseCases | updateUserDetailsForAdministration', function
     });
 
     // then
-    expect(result.schoolingRegistrations.length).to.equal(2);
+    expect(result.organizationLearners.length).to.equal(2);
     expect(result.email).to.equal(userDetailsForAdministration.email);
   });
 

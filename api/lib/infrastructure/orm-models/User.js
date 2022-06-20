@@ -41,7 +41,7 @@ module.exports = Bookshelf.model(
       return this.hasOne('UserOrgaSettings', 'userId', 'id');
     },
 
-    schoolingRegistrations() {
+    organizationLearners() {
       return this.hasMany('OrganizationLearner', 'userId');
     },
 

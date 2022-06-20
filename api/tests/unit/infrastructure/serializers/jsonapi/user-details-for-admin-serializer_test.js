@@ -14,7 +14,7 @@ describe('Unit | Serializer | JSONAPI | user-details-for-admin-serializer', func
         lastPixCertifTermsOfServiceValidatedAt: now,
         lastLoggedAt: now,
         emailConfirmedAt: now,
-        schoolingRegistrations: [domainBuilder.buildOrganizationLearnerForAdmin()],
+        organizationLearners: [domainBuilder.buildOrganizationLearnerForAdmin()],
         authenticationMethods: [{ id: 1, identityProvider: 'PIX' }],
       });
 
@@ -44,8 +44,16 @@ describe('Unit | Serializer | JSONAPI | user-details-for-admin-serializer', func
             'schooling-registrations': {
               data: [
                 {
-                  id: `${userDetailsForAdmin.schoolingRegistrations[0].id}`,
+                  id: `${userDetailsForAdmin.organizationLearners[0].id}`,
                   type: 'schoolingRegistrations',
+                },
+              ],
+            },
+            'organization-learners': {
+              data: [
+                {
+                  id: `${userDetailsForAdmin.organizationLearners[0].id}`,
+                  type: 'organizationLearners',
                 },
               ],
             },
@@ -64,20 +72,37 @@ describe('Unit | Serializer | JSONAPI | user-details-for-admin-serializer', func
         included: [
           {
             attributes: {
-              'first-name': userDetailsForAdmin.schoolingRegistrations[0].firstName,
-              'last-name': userDetailsForAdmin.schoolingRegistrations[0].lastName,
-              birthdate: userDetailsForAdmin.schoolingRegistrations[0].birthdate,
-              division: userDetailsForAdmin.schoolingRegistrations[0].division,
-              group: userDetailsForAdmin.schoolingRegistrations[0].group,
-              'organization-id': userDetailsForAdmin.schoolingRegistrations[0].organizationId,
-              'organization-name': userDetailsForAdmin.schoolingRegistrations[0].organizationName,
-              'created-at': userDetailsForAdmin.schoolingRegistrations[0].createdAt,
-              'updated-at': userDetailsForAdmin.schoolingRegistrations[0].updatedAt,
-              'is-disabled': userDetailsForAdmin.schoolingRegistrations[0].isDisabled,
-              'can-be-dissociated': userDetailsForAdmin.schoolingRegistrations[0].canBeDissociated,
+              'first-name': userDetailsForAdmin.organizationLearners[0].firstName,
+              'last-name': userDetailsForAdmin.organizationLearners[0].lastName,
+              birthdate: userDetailsForAdmin.organizationLearners[0].birthdate,
+              division: userDetailsForAdmin.organizationLearners[0].division,
+              group: userDetailsForAdmin.organizationLearners[0].group,
+              'organization-id': userDetailsForAdmin.organizationLearners[0].organizationId,
+              'organization-name': userDetailsForAdmin.organizationLearners[0].organizationName,
+              'created-at': userDetailsForAdmin.organizationLearners[0].createdAt,
+              'updated-at': userDetailsForAdmin.organizationLearners[0].updatedAt,
+              'is-disabled': userDetailsForAdmin.organizationLearners[0].isDisabled,
+              'can-be-dissociated': userDetailsForAdmin.organizationLearners[0].canBeDissociated,
             },
-            id: `${userDetailsForAdmin.schoolingRegistrations[0].id}`,
+            id: `${userDetailsForAdmin.organizationLearners[0].id}`,
             type: 'schoolingRegistrations',
+          },
+          {
+            attributes: {
+              'first-name': userDetailsForAdmin.organizationLearners[0].firstName,
+              'last-name': userDetailsForAdmin.organizationLearners[0].lastName,
+              birthdate: userDetailsForAdmin.organizationLearners[0].birthdate,
+              division: userDetailsForAdmin.organizationLearners[0].division,
+              group: userDetailsForAdmin.organizationLearners[0].group,
+              'organization-id': userDetailsForAdmin.organizationLearners[0].organizationId,
+              'organization-name': userDetailsForAdmin.organizationLearners[0].organizationName,
+              'created-at': userDetailsForAdmin.organizationLearners[0].createdAt,
+              'updated-at': userDetailsForAdmin.organizationLearners[0].updatedAt,
+              'is-disabled': userDetailsForAdmin.organizationLearners[0].isDisabled,
+              'can-be-dissociated': userDetailsForAdmin.organizationLearners[0].canBeDissociated,
+            },
+            id: `${userDetailsForAdmin.organizationLearners[0].id}`,
+            type: 'organizationLearners',
           },
           {
             attributes: {
@@ -95,7 +120,7 @@ describe('Unit | Serializer | JSONAPI | user-details-for-admin-serializer', func
     it('should serialize user details for Pix Admin', function () {
       // given
       const modelObject = domainBuilder.buildUserDetailsForAdmin({
-        schoolingRegistrations: [domainBuilder.buildOrganizationLearnerForAdmin()],
+        organizationLearners: [domainBuilder.buildOrganizationLearnerForAdmin()],
         authenticationMethods: [{ id: 1, identityProvider: 'PIX' }],
       });
 
@@ -118,8 +143,16 @@ describe('Unit | Serializer | JSONAPI | user-details-for-admin-serializer', func
             'schooling-registrations': {
               data: [
                 {
-                  id: `${modelObject.schoolingRegistrations[0].id}`,
+                  id: `${modelObject.organizationLearners[0].id}`,
                   type: 'schoolingRegistrations',
+                },
+              ],
+            },
+            'organization-learners': {
+              data: [
+                {
+                  id: `${modelObject.organizationLearners[0].id}`,
+                  type: 'organizationLearners',
                 },
               ],
             },
@@ -138,20 +171,37 @@ describe('Unit | Serializer | JSONAPI | user-details-for-admin-serializer', func
         included: [
           {
             attributes: {
-              'first-name': modelObject.schoolingRegistrations[0].firstName,
-              'last-name': modelObject.schoolingRegistrations[0].lastName,
-              birthdate: modelObject.schoolingRegistrations[0].birthdate,
-              division: modelObject.schoolingRegistrations[0].division,
-              group: modelObject.schoolingRegistrations[0].group,
-              'organization-id': modelObject.schoolingRegistrations[0].organizationId,
-              'organization-name': modelObject.schoolingRegistrations[0].organizationName,
-              'created-at': modelObject.schoolingRegistrations[0].createdAt,
-              'updated-at': modelObject.schoolingRegistrations[0].updatedAt,
-              'is-disabled': modelObject.schoolingRegistrations[0].isDisabled,
-              'can-be-dissociated': modelObject.schoolingRegistrations[0].canBeDissociated,
+              'first-name': modelObject.organizationLearners[0].firstName,
+              'last-name': modelObject.organizationLearners[0].lastName,
+              birthdate: modelObject.organizationLearners[0].birthdate,
+              division: modelObject.organizationLearners[0].division,
+              group: modelObject.organizationLearners[0].group,
+              'organization-id': modelObject.organizationLearners[0].organizationId,
+              'organization-name': modelObject.organizationLearners[0].organizationName,
+              'created-at': modelObject.organizationLearners[0].createdAt,
+              'updated-at': modelObject.organizationLearners[0].updatedAt,
+              'is-disabled': modelObject.organizationLearners[0].isDisabled,
+              'can-be-dissociated': modelObject.organizationLearners[0].canBeDissociated,
             },
-            id: `${modelObject.schoolingRegistrations[0].id}`,
+            id: `${modelObject.organizationLearners[0].id}`,
             type: 'schoolingRegistrations',
+          },
+          {
+            attributes: {
+              'first-name': modelObject.organizationLearners[0].firstName,
+              'last-name': modelObject.organizationLearners[0].lastName,
+              birthdate: modelObject.organizationLearners[0].birthdate,
+              division: modelObject.organizationLearners[0].division,
+              group: modelObject.organizationLearners[0].group,
+              'organization-id': modelObject.organizationLearners[0].organizationId,
+              'organization-name': modelObject.organizationLearners[0].organizationName,
+              'created-at': modelObject.organizationLearners[0].createdAt,
+              'updated-at': modelObject.organizationLearners[0].updatedAt,
+              'is-disabled': modelObject.organizationLearners[0].isDisabled,
+              'can-be-dissociated': modelObject.organizationLearners[0].canBeDissociated,
+            },
+            id: `${modelObject.organizationLearners[0].id}`,
+            type: 'organizationLearners',
           },
           {
             attributes: {
