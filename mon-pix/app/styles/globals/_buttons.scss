@@ -6,7 +6,7 @@
   text-align: center;
   border-radius: 5px;
   background-color: $pix-primary;
-  color: $white;
+  color: $pix-neutral-0;
   cursor: pointer;
   border: none;
   outline: none;
@@ -25,7 +25,7 @@
     &:hover,
     &:active,
     &:focus {
-      color: $white;
+      color: $pix-neutral-0;
       text-decoration: none;
     }
   }
@@ -90,7 +90,7 @@
 
   &--red {
     background: $red;
-    color: $white;
+    color: $pix-neutral-0;
 
     &:hover,
     &:active,
@@ -117,7 +117,7 @@
 
   &--dark-grey {
     background-color: $grey-60;
-    color: $white;
+    color: $pix-neutral-0;
     font-weight: $font-bold;
     font-size: 0.938rem;
 
@@ -129,7 +129,7 @@
   }
 
   &--white {
-    background-color: $white;
+    background-color: $pix-neutral-0;
     color: $grey-200;
 
     &:hover,

@@ -1,7 +1,7 @@
 .tutorial-card-v2 {
   display: flex;
   min-height: 170px;
-  background: $white;
+  background: $pix-neutral-0;
   border-radius: 8px;
   box-shadow: 0 2px 5px 0 rgba($grey-90, 0.06);
   padding: 16px;
@@ -57,7 +57,7 @@
 .pix-action-chip {
   width: 36px;
   height: 36px;
-  background: $white;
+  background: $pix-neutral-0;
   border-radius: 50%;
   border: 1px solid $grey-10;
   text-align: center;
@@ -99,10 +99,10 @@
     &:focus-visible {
       background-color: $pix-primary;
       box-shadow: 0 0 0 3px $pix-primary;
-      border-color: $white;
+      border-color: $pix-neutral-0;
 
       .pix-action-chip__icon {
-        color: $white;
+        color: $pix-neutral-0;
       }
     }
   }
@@ -110,11 +110,11 @@
   &:not(.pix-action-chip--selected):focus-visible {
     background-color: $grey-60;
     box-shadow: 0 0 0 3px $grey-60;
-    border-color: $white;
+    border-color: $pix-neutral-0;
     outline: none;
 
     .pix-action-chip__icon {
-      color: $white;
+      color: $pix-neutral-0;
     }
   }
 }

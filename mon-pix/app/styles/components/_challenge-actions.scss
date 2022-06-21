@@ -48,11 +48,11 @@
   }
 
   &__action-validate {
-    @include action-button($white);
+    @include action-button($pix-neutral-0);
   }
 
   &__action-continue {
-    @include action-button($white);
+    @include action-button($pix-neutral-0);
   }
 
   &__already-answered {
