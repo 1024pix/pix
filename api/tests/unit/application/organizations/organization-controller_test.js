@@ -1017,23 +1017,25 @@ describe('Unit | Application | Organizations | organization-controller', functio
       const request = {
         auth: { credentials: { userId } },
         params: { id: organizationId },
-        query: { division },
+        query: { division, isFrenchDomainExtension: true },
       };
 
-      sinon.stub(usecases, 'findCertificationAttestationsForDivision');
+      sinon
+        .stub(usecases, 'findCertificationAttestationsForDivision')
+        .withArgs({
+          division,
+          organizationId,
+        })
+        .resolves(certifications);
       sinon
         .stub(certificationAttestationPdf, 'getCertificationAttestationsPdfBuffer')
+        .withArgs({ certificates: certifications, isFrenchDomainExtension: true })
         .resolves({ buffer: attestationsPDF, fileName });
-      usecases.findCertificationAttestationsForDivision.resolves(certifications);
 
       // when
       const response = await organizationController.downloadCertificationAttestationsForDivision(request, hFake);
 
       // then
-      expect(usecases.findCertificationAttestationsForDivision).to.have.been.calledWith({
-        division,
-        organizationId,
-      });
       expect(response.source).to.deep.equal(attestationsPDF);
       expect(response.headers['Content-Disposition']).to.contains('attachment; filename=20210101_attestations_3b.pdf');
     });

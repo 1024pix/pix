@@ -26,11 +26,12 @@ const templates = {
 
 async function getCertificationAttestationsPdfBuffer({
   certificates,
+  isFrenchDomainExtension,
   dirname = __dirname,
   fontkit = pdfLibFontkit,
   creationDate = new Date(),
 } = {}) {
-  const viewModels = certificates.map(AttestationViewModel.from);
+  const viewModels = certificates.map((certificate) => AttestationViewModel.from(certificate, isFrenchDomainExtension));
   const generatedPdfDoc = await _initializeNewPDFDocument(fontkit);
   generatedPdfDoc.setCreationDate(creationDate);
   generatedPdfDoc.setModificationDate(creationDate);

@@ -189,39 +189,36 @@ describe('Unit | Controller | certifications-controller', function () {
   });
 
   describe('#getCertificationAttestation', function () {
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    const certification = domainBuilder.buildPrivateCertificateWithCompetenceTree();
-    const attestationPDF = 'binary string';
-    const fileName = 'attestation-pix-20181003.pdf';
-    const userId = 1;
-
-    const request = {
-      auth: { credentials: { userId } },
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line mocha/no-setup-in-describe
-      params: { id: certification.id },
-    };
-
-    beforeEach(function () {
-      sinon.stub(usecases, 'getCertificationAttestation');
-    });
-
-    it('should return binary attestation', async function () {
+    it('should return attestation in PDF binary format', async function () {
       // given
+      const certification = domainBuilder.buildPrivateCertificateWithCompetenceTree();
+      const attestationPDF = 'binary string';
+      const fileName = 'attestation-pix-20181003.pdf';
+      const userId = 1;
+
+      const request = {
+        auth: { credentials: { userId } },
+        params: { id: certification.id },
+        query: { isFrenchDomainExtension: true },
+      };
+
+      sinon
+        .stub(usecases, 'getCertificationAttestation')
+        .withArgs({
+          userId,
+          certificationId: certification.id,
+        })
+        .resolves(certification);
+
       sinon
         .stub(certificationAttestationPdf, 'getCertificationAttestationsPdfBuffer')
+        .withArgs({ certificates: [certification], isFrenchDomainExtension: true })
         .resolves({ buffer: attestationPDF, fileName });
-      usecases.getCertificationAttestation.resolves(certification);
 
       // when
       const response = await certificationController.getPDFAttestation(request, hFake);
 
       // then
-      expect(usecases.getCertificationAttestation).to.have.been.calledWith({
-        userId,
-        certificationId: certification.id,
-      });
       expect(response.source).to.deep.equal(attestationPDF);
       expect(response.headers['Content-Disposition']).to.contains('attachment; filename=attestation-pix-20181003.pdf');
     });

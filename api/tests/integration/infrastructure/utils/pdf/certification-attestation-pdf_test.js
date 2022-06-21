@@ -160,6 +160,7 @@ describe('Integration | Infrastructure | Utils | Pdf | Certification Attestation
         certificateWithoutComplementaryCertificationsAndWithoutProfessionalizingMessage,
         certificateComplementaryCertificationsAndWithProfessionalizingMessage,
       ],
+      isFrenchDomainExtension: true,
       creationDate: new Date('2021-01-01'),
     });
 
