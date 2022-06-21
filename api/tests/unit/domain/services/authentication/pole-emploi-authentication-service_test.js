@@ -4,11 +4,40 @@ const settings = require('../../../../../lib/config');
 const httpAgent = require('../../../../../lib/infrastructure/http/http-agent');
 
 const poleEmploiAuthenticationService = require('../../../../../lib/domain/services/authentication/pole-emploi-authentication-service');
-const PoleEmploiTokens = require('../../../../../lib/domain/models/PoleEmploiTokens');
+const AuthenticationSessionContent = require('../../../../../lib/domain/models/AuthenticationSessionContent');
+const UserToCreate = require('../../../../../lib/domain/models/UserToCreate');
 const jsonwebtoken = require('jsonwebtoken');
 const { POLE_EMPLOI } = require('../../../../../lib/domain/constants').SOURCE;
+const DomainTransaction = require('../../../../../lib/infrastructure/DomainTransaction');
+const AuthenticationMethod = require('../../../../../lib/domain/models/AuthenticationMethod');
+const moment = require('moment');
 
 describe('Unit | Domain | Services | pole-emploi-authentication-service', function () {
+  let userToCreateRepository, authenticationMethodRepository;
+  let domainTransaction;
+  let clock;
+  const now = new Date('2021-01-02');
+
+  beforeEach(function () {
+    domainTransaction = Symbol();
+    DomainTransaction.execute = (lambda) => {
+      return lambda(domainTransaction);
+    };
+
+    clock = sinon.useFakeTimers(now);
+
+    userToCreateRepository = {
+      create: sinon.stub(),
+    };
+    authenticationMethodRepository = {
+      create: sinon.stub(),
+    };
+  });
+
+  afterEach(function () {
+    clock.restore();
+  });
+
   describe('#createAccessToken', function () {
     it('should create access token with user id and source', function () {
       // given
@@ -28,6 +57,7 @@ describe('Unit | Domain | Services | pole-emploi-authentication-service', functi
       expect(result).to.equal(accessToken);
     });
   });
+
   describe('#exchangeCodeForTokens', function () {
     beforeEach(function () {
       sinon.stub(httpAgent, 'post');
@@ -39,7 +69,7 @@ describe('Unit | Domain | Services | pole-emploi-authentication-service', functi
       sinon.stub(settings.poleEmploi, 'tokenUrl').value('http://paul-emploi.net/api/token');
       sinon.stub(settings.poleEmploi, 'clientSecret').value('PE_CLIENT_SECRET');
 
-      const poleEmploiTokens = new PoleEmploiTokens({
+      const poleEmploiAuthenticationSessionContent = new AuthenticationSessionContent({
         accessToken: 'accessToken',
         expiresIn: 60,
         idToken: 'idToken',
@@ -49,10 +79,10 @@ describe('Unit | Domain | Services | pole-emploi-authentication-service', functi
       const response = {
         isSuccessful: true,
         data: {
-          access_token: poleEmploiTokens.accessToken,
-          expires_in: poleEmploiTokens.expiresIn,
-          id_token: poleEmploiTokens.idToken,
-          refresh_token: poleEmploiTokens.refreshToken,
+          access_token: poleEmploiAuthenticationSessionContent.accessToken,
+          expires_in: poleEmploiAuthenticationSessionContent.expiresIn,
+          id_token: poleEmploiAuthenticationSessionContent.idToken,
+          refresh_token: poleEmploiAuthenticationSessionContent.refreshToken,
         },
       };
       httpAgent.post.resolves(response);
@@ -72,8 +102,8 @@ describe('Unit | Domain | Services | pole-emploi-authentication-service', functi
         payload: expectedData,
         headers: expectedHeaders,
       });
-      expect(result).to.be.an.instanceOf(PoleEmploiTokens);
-      expect(result).to.deep.equal(poleEmploiTokens);
+      expect(result).to.be.an.instanceOf(AuthenticationSessionContent);
+      expect(result).to.deep.equal(poleEmploiAuthenticationSessionContent);
     });
 
     context('when pole emploi tokens retrieval fails', function () {
@@ -110,6 +140,33 @@ describe('Unit | Domain | Services | pole-emploi-authentication-service', functi
       });
     });
   });
+
+  describe('#getAuthUrl', function () {
+    it('should return auth url', async function () {
+      // given
+      const redirectUri = 'https://example.org/please-redirect-to-me';
+
+      // when
+      const { redirectTarget } = poleEmploiAuthenticationService.getAuthUrl({ redirectUri });
+
+      // then
+      const parsedRedirectTarget = new URL(redirectTarget);
+      const queryParams = parsedRedirectTarget.searchParams;
+      const uuidV4Regex = /^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i;
+      expect(parsedRedirectTarget.protocol).to.equal('http:');
+      expect(parsedRedirectTarget.hostname).to.equal('authurl.fr');
+      expect(queryParams.get('state')).to.match(uuidV4Regex);
+      expect(queryParams.get('nonce')).to.match(uuidV4Regex);
+      expect(queryParams.get('realm')).to.equal('/individu');
+      expect(queryParams.get('client_id')).to.equal('PIX_POLE_EMPLOI_CLIENT_ID');
+      expect(queryParams.get('redirect_uri')).to.equal('https://example.org/please-redirect-to-me');
+      expect(queryParams.get('response_type')).to.equal('code');
+      expect(queryParams.get('scope')).to.equal(
+        'application_PIX_POLE_EMPLOI_CLIENT_ID api_peconnect-individuv1 openid profile serviceDigitauxExposition api_peconnect-servicesdigitauxv1'
+      );
+    });
+  });
+
   describe('#getUserInfo', function () {
     it('should return email, firstName, lastName and external identity id', async function () {
       // given
@@ -135,7 +192,7 @@ describe('Unit | Domain | Services | pole-emploi-authentication-service', functi
       });
 
       // when
-      const result = await poleEmploiAuthenticationService.getUserInfo(idToken);
+      const result = await poleEmploiAuthenticationService.getUserInfo({ idToken });
 
       // then
       expect(result).to.deep.equal({
@@ -144,6 +201,52 @@ describe('Unit | Domain | Services | pole-emploi-authentication-service', functi
         nonce,
         externalIdentityId: idIdentiteExterne,
       });
+    });
+  });
+
+  describe('#createUserAccount', function () {
+    it('should return id token and user id', async function () {
+      // given
+      const externalIdentityId = '1233BBBC';
+      const sessionContent = {
+        accessToken: 'accessToken',
+        idToken: 'idToken',
+        expiresIn: 10,
+        refreshToken: 'refreshToken',
+      };
+      const user = new UserToCreate({
+        firstName: 'Adam',
+        lastName: 'Troisjours',
+      });
+      const userId = 1;
+      userToCreateRepository.create.withArgs({ user, domainTransaction }).resolves({ id: userId });
+
+      const expectedAuthenticationMethod = new AuthenticationMethod({
+        identityProvider: AuthenticationMethod.identityProviders.POLE_EMPLOI,
+        externalIdentifier: externalIdentityId,
+        authenticationComplement: new AuthenticationMethod.PoleEmploiAuthenticationComplement({
+          accessToken: sessionContent.accessToken,
+          refreshToken: sessionContent.refreshToken,
+          expiredDate: moment().add(sessionContent.expiresIn, 's').toDate(),
+        }),
+        userId,
+      });
+
+      // when
+      const result = await poleEmploiAuthenticationService.createUserAccount({
+        user,
+        sessionContent,
+        externalIdentityId,
+        userToCreateRepository,
+        authenticationMethodRepository,
+      });
+
+      // then
+      expect(authenticationMethodRepository.create).to.have.been.calledWith({
+        authenticationMethod: expectedAuthenticationMethod,
+        domainTransaction,
+      });
+      expect(result).to.be.deep.equal({ idToken: sessionContent.idToken, userId });
     });
   });
 });

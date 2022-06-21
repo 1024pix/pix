@@ -28,7 +28,7 @@ describe('Acceptance | Route | cnav users', function () {
         },
         'secret'
       );
-      const userAuthenticationKey = await authenticationSessionService.save(idToken);
+      const userAuthenticationKey = await authenticationSessionService.save({ idToken });
 
       const request = {
         method: 'POST',
@@ -53,7 +53,7 @@ describe('Acceptance | Route | cnav users', function () {
     context('when authentication key has expired', function () {
       it('should return 401 HTTP status', async function () {
         // given
-        const userAuthenticationKey = 'authentication_expired';
+        const userAuthenticationKey = { idToken: 'authentication_expired' };
 
         const request = {
           method: 'POST',
