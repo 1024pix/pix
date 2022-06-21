@@ -3,6 +3,7 @@ const campaignToJoinRepository = require('../../../../lib/infrastructure/reposit
 const CampaignToJoin = require('../../../../lib/domain/read-models/CampaignToJoin');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
+const constants = require('../../../../lib/domain/constants');
 
 describe('Integration | Repository | CampaignToJoin', function () {
   describe('#get', function () {
@@ -105,40 +106,7 @@ describe('Integration | Repository | CampaignToJoin', function () {
       expect(actualCampaign.targetProfileName).to.equal(targetProfile.name);
       expect(actualCampaign.targetProfileImageUrl).to.equal(targetProfile.imageUrl);
       expect(actualCampaign.isSimplifiedAccess).to.equal(targetProfile.isSimplifiedAccess);
-    });
-
-    context('when the organization of the campaign has the POLE_EMPLOI identity provider', function () {
-      it('should return true for isRestrictedByPoleEmploiIdentityProvider', async function () {
-        // given
-        const code = 'LAURA456';
-        const organization = databaseBuilder.factory.buildOrganization({ identityProviderForCampaigns: Organization.identityProviderForCampaigns.POLE_EMPLOI });
-        databaseBuilder.factory.buildCampaign({ code, organizationId: organization.id });
-        await databaseBuilder.commit();
-
-        // when
-        const actualCampaign = await campaignToJoinRepository.getByCode(code);
-
-        // then
-        expect(actualCampaign).to.be.instanceOf(CampaignToJoin);
-        expect(actualCampaign.isRestrictedByPoleEmploiIdentityProvider).to.be.true;
-      });
-    });
-
-    context('when the organization of the campaign does not have the POLE EMPLOI identity provider', function () {
-      it('should return false for isRestrictedByPoleEmploiIdentityProvider', async function () {
-        // given
-        const code = 'LAURA456';
-        const organization = databaseBuilder.factory.buildOrganization();
-        databaseBuilder.factory.buildCampaign({ code, organizationId: organization.id });
-        await databaseBuilder.commit();
-
-        // when
-        const actualCampaign = await campaignToJoinRepository.getByCode(code);
-
-        // then
-        expect(actualCampaign).to.be.instanceOf(CampaignToJoin);
-        expect(actualCampaign.isRestrictedByPoleEmploiIdentityProvider).to.be.false;
-      });
+      expect(actualCampaign.identityProvider).to.equal(constants.IDENTITY_PROVIDER.POLE_EMPLOI);
     });
 
     it('should throw a NotFoundError when no campaign exists with given code', async function () {

@@ -20,6 +20,7 @@ import { currentSession } from 'ember-simple-auth/test-support';
 import ENV from 'mon-pix/config/environment';
 import setupIntl from '../helpers/setup-intl';
 import { t } from 'ember-intl/test-support';
+import { identityProviders } from 'mon-pix/model/campaign';
 
 const AUTHENTICATED_SOURCE_FROM_MEDIACENTRE = ENV.APP.AUTHENTICATED_SOURCE_FROM_MEDIACENTRE;
 
@@ -379,7 +380,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
                 replace: replaceLocationStub,
               })
             );
-            campaign = server.create('campaign', { organizationIsPoleEmploi: true });
+            campaign = server.create('campaign', { identityProvider: identityProviders.POLE_EMPLOI });
           });
 
           it('should redirect to landing page', async function () {
@@ -730,7 +731,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
               replace: replaceLocationStub,
             })
           );
-          campaign = server.create('campaign', { organizationIsPoleEmploi: true });
+          campaign = server.create('campaign', { identityProvider: identityProviders.POLE_EMPLOI });
         });
 
         context('When user is logged in with Pole emploi', function () {

@@ -258,7 +258,7 @@ describe('Unit | Application | Controller | Campaign', function () {
     it('should return the serialized campaign', async function () {
       // given
       const code = 'AZERTY123';
-      const campaignToJoin = domainBuilder.buildCampaignToJoin({ code });
+      const campaignToJoin = domainBuilder.buildCampaignToJoin({ code, identityProvider: 'SUPER_IDP' });
       const request = {
         query: { 'filter[code]': code },
       };
@@ -283,7 +283,7 @@ describe('Unit | Application | Controller | Campaign', function () {
           'is-restricted': campaignToJoin.isRestricted,
           'is-simplified-access': campaignToJoin.isSimplifiedAccess,
           'is-for-absolute-novice': campaignToJoin.isForAbsoluteNovice,
-          'organization-is-pole-emploi': campaignToJoin.organizationIsPoleEmploi,
+          'identity-provider': campaignToJoin.identityProvider,
           'organization-name': campaignToJoin.organizationName,
           'organization-type': campaignToJoin.organizationType,
           'organization-logo-url': campaignToJoin.organizationLogoUrl,
