@@ -17,9 +17,9 @@ exports.register = async (server) => {
           payload: Joi.object({
             data: Joi.object({
               attributes: Joi.object({
-                status: Joi.string().valid('LIKED').allow(null),
-              }).required(),
-              type: Joi.string(),
+                status: Joi.string().valid('LIKED', 'NEUTRAL').allow(null),
+              }),
+              type: Joi.string().valid('tutorial-evaluations'),
             }).required(),
           }).required(),
           options: {
