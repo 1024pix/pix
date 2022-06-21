@@ -96,12 +96,12 @@
     &:active,
     &:focus {
       background-color: $red-hover;
-      border: 2px solid $yellow;
+      border: 2px solid $pix-warning-40;
     }
   }
 
   &--yellow {
-    background: $yellow;
+    background: $pix-warning-40;
     color: $grey-100;
     font-weight: $font-bold;
     font-size: 0.906rem;
