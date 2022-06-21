@@ -73,23 +73,56 @@ const pixPlusEdu1erDegreBadgesInfos = {
 describe('Unit | Domain | Models | CertifiedBadgeImage', function () {
   describe('#fromPartnerKey', function () {
     context('when badge is final', function () {
-      const badges = {
-        ...pixPlusDroitBadgesInfos,
-        ...pixPlusEdu2ndDegreBadgesInfos,
-        ...pixPlusEdu1erDegreBadgesInfos,
-      };
-      for (const badgeKey in badges) {
-        it(`returns final badge image for partner key ${badgeKey}`, function () {
-          // when
-          const isTemporaryBadge = false;
-          const result = CertifiedBadgeImage.fromPartnerKey(badgeKey, isTemporaryBadge);
+      context('when badge is Pix+Edu', function () {
+        const badges = {
+          ...pixPlusEdu2ndDegreBadgesInfos,
+          ...pixPlusEdu1erDegreBadgesInfos,
+        };
+        for (const badgeKey in badges) {
+          it(`returns final badge image for partner key ${badgeKey}`, function () {
+            // when
+            const isTemporaryBadge = false;
+            const result = CertifiedBadgeImage.fromPartnerKey(badgeKey, isTemporaryBadge);
 
-          // then
-          const { path, levelName } = badges[badgeKey];
+            // then
+            const { path, levelName } = badges[badgeKey];
 
-          expect(result).to.deepEqualInstance(new CertifiedBadgeImage({ path, levelName, isTemporaryBadge: false }));
-        });
-      }
+            expect(result).to.deepEqualInstance(
+              new CertifiedBadgeImage({
+                path,
+                levelName,
+                isTemporaryBadge,
+                message: `Vous avez obtenu la certification Pix+Edu niveau "${levelName}"`,
+              })
+            );
+          });
+        }
+      });
+
+      context('when badge is not Pix+Edu', function () {
+        const badges = {
+          ...pixPlusDroitBadgesInfos,
+        };
+        for (const badgeKey in badges) {
+          it(`returns final badge image for partner key ${badgeKey}`, function () {
+            // when
+            const isTemporaryBadge = false;
+            const result = CertifiedBadgeImage.fromPartnerKey(badgeKey, isTemporaryBadge);
+
+            // then
+            const { path, levelName } = badges[badgeKey];
+
+            expect(result).to.deepEqualInstance(
+              new CertifiedBadgeImage({
+                path,
+                levelName,
+                isTemporaryBadge,
+                message: null,
+              })
+            );
+          });
+        }
+      });
     });
     context('when badge is temporary', function () {
       const badges = { ...pixPlusEdu2ndDegreBadgesInfos, ...pixPlusEdu1erDegreBadgesInfos };
@@ -102,7 +135,14 @@ describe('Unit | Domain | Models | CertifiedBadgeImage', function () {
           // then
           const { path, levelName } = badges[badgeKey];
 
-          expect(result).to.deepEqualInstance(new CertifiedBadgeImage({ path, levelName, isTemporaryBadge: true }));
+          expect(result).to.deepEqualInstance(
+            new CertifiedBadgeImage({
+              path,
+              levelName,
+              isTemporaryBadge,
+              message: `Vous avez obtenu le niveau “${levelName}” dans le cadre du volet 1 de la certification Pix+Édu. Votre niveau final sera déterminé à l’issue du volet 2`,
+            })
+          );
         });
       }
     });

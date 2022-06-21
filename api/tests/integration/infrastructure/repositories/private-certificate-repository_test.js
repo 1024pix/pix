@@ -646,6 +646,8 @@ describe('Integration | Infrastructure | Repository | Private Certificate', func
           domainBuilder.buildCertifiedBadgeImage.temporary({
             path: 'https://images.pix.fr/badges/Pix_plus_Edu-1-Initie-certif.svg',
             levelName: 'Initié (entrée dans le métier)',
+            message:
+              'Vous avez obtenu le niveau “Initié (entrée dans le métier)” dans le cadre du volet 1 de la certification Pix+Édu. Votre niveau final sera déterminé à l’issue du volet 2',
           }),
         ],
       };

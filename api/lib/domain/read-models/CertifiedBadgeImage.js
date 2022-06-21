@@ -14,8 +14,9 @@ const {
 } = require('../../domain/models/Badge').keys;
 
 class CertifiedBadgeImage {
-  constructor({ path, isTemporaryBadge, levelName }) {
+  constructor({ path, isTemporaryBadge, message = null, levelName }) {
     this.path = path;
+    this.message = message;
     this.isTemporaryBadge = isTemporaryBadge;
     this.levelName = levelName;
   }
@@ -39,73 +40,95 @@ class CertifiedBadgeImage {
     }
 
     if (badgeKey === PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE) {
+      const levelName = 'Initié (entrée dans le métier)';
       return new CertifiedBadgeImage({
         path: 'https://images.pix.fr/badges/Pix_plus_Edu-1-Initie-certif.svg',
+        message: _getBadgeMessage(isTemporaryBadge, levelName),
         isTemporaryBadge,
-        levelName: 'Initié (entrée dans le métier)',
+        levelName,
       });
     }
 
     if (badgeKey === PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_INITIE) {
+      const levelName = 'Initié (entrée dans le métier)';
       return new CertifiedBadgeImage({
         path: 'https://images.pix.fr/badges/Pix_plus_Edu-certif-Autonome_PREMIER-DEGRE.svg',
+        message: _getBadgeMessage(isTemporaryBadge, levelName),
         isTemporaryBadge,
-        levelName: 'Initié (entrée dans le métier)',
+        levelName,
       });
     }
 
     if (
       [PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME, PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME].includes(badgeKey)
     ) {
+      const levelName = 'Confirmé';
       return new CertifiedBadgeImage({
         path: 'https://images.pix.fr/badges/Pix_plus_Edu-2-Confirme-certif.svg',
+        message: _getBadgeMessage(isTemporaryBadge, levelName),
         isTemporaryBadge,
-        levelName: 'Confirmé',
+        levelName,
       });
     }
 
     if (
       [PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_CONFIRME, PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_CONFIRME].includes(badgeKey)
     ) {
+      const levelName = 'Confirmé';
       return new CertifiedBadgeImage({
         path: 'https://images.pix.fr/badges/Pix_plus_Edu-certif-confirme_PREMIER-DEGRE.svg',
+        message: _getBadgeMessage(isTemporaryBadge, levelName),
         isTemporaryBadge,
-        levelName: 'Confirmé',
+        levelName,
       });
     }
 
     if (badgeKey === PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE) {
+      const levelName = 'Avancé';
       return new CertifiedBadgeImage({
         path: 'https://images.pix.fr/badges/Pix_plus_Edu-3-Avance-certif.svg',
+        message: _getBadgeMessage(isTemporaryBadge, levelName),
         isTemporaryBadge,
-        levelName: 'Avancé',
+        levelName,
       });
     }
 
     if (badgeKey === PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE) {
+      const levelName = 'Avancé';
       return new CertifiedBadgeImage({
         path: 'https://images.pix.fr/badges/Pix_plus_Edu-certif-avance_PREMIER-DEGRE.svg',
+        message: _getBadgeMessage(isTemporaryBadge, levelName),
         isTemporaryBadge,
-        levelName: 'Avancé',
+        levelName,
       });
     }
 
     if (badgeKey === PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT) {
+      const levelName = 'Expert';
       return new CertifiedBadgeImage({
         path: 'https://images.pix.fr/badges/Pix_plus_Edu-4-Expert-certif.svg',
+        message: _getBadgeMessage(isTemporaryBadge, levelName),
         isTemporaryBadge,
-        levelName: 'Expert',
+        levelName,
       });
     }
 
     if (badgeKey === PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT) {
+      const levelName = 'Expert';
       return new CertifiedBadgeImage({
         path: 'https://images.pix.fr/badges/Pix_plus_Edu-certif-Expert_PREMIER-DEGRE.svg',
+        message: _getBadgeMessage(isTemporaryBadge, levelName),
         isTemporaryBadge,
-        levelName: 'Expert',
+        levelName,
       });
     }
   }
+}
+
+function _getBadgeMessage(isTemporaryBadge, levelName) {
+  return isTemporaryBadge
+    ? `Vous avez obtenu le niveau “${levelName}” dans le cadre du volet 1 de la certification Pix+Édu. Votre niveau final sera déterminé à l’issue du volet 2`
+    : `Vous avez obtenu la certification Pix+Edu niveau "${levelName}"`;
 }
 
 module.exports = CertifiedBadgeImage;
