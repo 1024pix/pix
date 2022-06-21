@@ -16,6 +16,10 @@
       "Signalements : Reporter, pour chaque candidat, les signalements renseignés sur le PV d'incident"
       "Étape 1 : Reporter, pour chaque candidat, les signalements renseignés sur le PV d'incident"
     }}
+    @subtitle={{if
+      this.featureToggles.featureToggles.isCertificationFreeFieldsDeletionEnabled
+      "Pour que le signalement soit pris en compte, il est nécessaire d’utiliser la catégorie de signalement appropriée (exemples : C1, C2, etc)."
+    }}
     @icon="/icons/session-finalization-user.svg"
     @iconAlt=""
   >

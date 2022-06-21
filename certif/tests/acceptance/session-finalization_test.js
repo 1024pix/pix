@@ -137,7 +137,25 @@ module('Acceptance | Session Finalization', function (hooks) {
           )
           .exists();
       });
+
+      test('it should not contain a subtitle', async function (assert) {
+        // given
+        server.create('feature-toggle', { id: 0, isCertificationFreeFieldsDeletionEnabled: false });
+
+        // when
+        const screen = await visit(`/sessions/${session.id}/finalisation`);
+
+        // then
+        assert
+          .dom(
+            screen.queryByText(
+              'Pour que le signalement soit pris en compte, il est nécessaire d’utiliser la catégorie de signalement appropriée (exemples : C1, C2, etc).'
+            )
+          )
+          .doesNotExist();
+      });
     });
+
     module('when FT_CERTIFICATION_FREE_FIELDS_DELETION is on', function () {
       test('it should not display the comment step section', async function (assert) {
         // given
@@ -188,7 +206,7 @@ module('Acceptance | Session Finalization', function (hooks) {
           .exists();
       });
 
-      test('it should not contain "Etape 1" in title', async function (assert) {
+      test('it should display the uncompleted reports title and subtitle', async function (assert) {
         // given
         server.create('feature-toggle', { id: 0, isCertificationFreeFieldsDeletionEnabled: true });
 
@@ -203,6 +221,20 @@ module('Acceptance | Session Finalization', function (hooks) {
             )
           )
           .exists();
+        assert
+          .dom(
+            screen.getByText(
+              'Pour que le signalement soit pris en compte, il est nécessaire d’utiliser la catégorie de signalement appropriée (exemples : C1, C2, etc).'
+            )
+          )
+          .exists();
+        assert
+          .dom(
+            screen.queryByText(
+              "Étape 1 : Reporter, pour chaque candidat, les signalements renseignés sur le PV d'incident"
+            )
+          )
+          .doesNotExist();
       });
     });
 
