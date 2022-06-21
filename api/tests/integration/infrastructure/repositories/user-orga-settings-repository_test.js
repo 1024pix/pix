@@ -32,6 +32,7 @@ describe('Integration | Repository | UserOrgaSettings', function () {
     'createdBy',
     'archivedAt',
     'archivedBy',
+    'identityProviderForCampaigns',
   ];
 
   let user;
