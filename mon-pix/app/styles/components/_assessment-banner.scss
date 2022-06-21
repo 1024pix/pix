@@ -52,10 +52,10 @@
   font-weight: $font-medium;
   margin-left: auto;
   text-align: right;
-  color: $white;
+  color: $pix-neutral-0;
   width: 100px;
 
   &:hover {
-    color: rgb($white, 0.8);
+    color: rgb($pix-neutral-0, 0.8);
   }
 }
