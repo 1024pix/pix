@@ -7,6 +7,10 @@ module('Unit | Controller | authenticated/target-profiles/new', function (hooks)
   setupTest(hooks);
 
   let controller;
+  const tube1 = {
+    id: 'tubeId1',
+    level: 4,
+  };
 
   hooks.beforeEach(function () {
     controller = this.owner.lookup('controller:authenticated/target-profiles/new');
@@ -22,50 +26,6 @@ module('Unit | Controller | authenticated/target-profiles/new', function (hooks)
 
       assert.ok(controller.store.deleteRecord.calledWith(controller.model.targetProfile));
       assert.ok(controller.router.transitionTo.calledWith('authenticated.target-profiles.list'));
-    });
-  });
-
-  module('#fillTubeSelectionFromFile', function (hooks) {
-    const files = ['tubeId1', 'tubeId2', 'tubeId3'];
-
-    hooks.beforeEach(function () {
-      sinon.restore();
-      sinon.stub(FileReader.prototype, 'readAsText');
-    });
-
-    test('should read the file', async function (assert) {
-      controller.fillTubeSelectionFromFile(files);
-
-      assert.ok(FileReader.prototype.readAsText.calledWith(files[0]));
-    });
-  });
-
-  module('#_onFileLoad', function (hooks) {
-    hooks.afterEach(function () {
-      sinon.restore();
-    });
-
-    module('when json file is valid', function (hooks) {
-      hooks.beforeEach(function () {
-        sinon.restore();
-
-        // given
-        controller.isFileInvalid = true;
-        const event = {
-          target: {
-            result: ['tubeId1', 'tubeId2', 'tubeId3'],
-          },
-        };
-        const selectionTubeList = ['tubeId1', 'tubeId2', 'tubeId3'];
-
-        // when
-        sinon.stub(JSON, 'parse').returns(selectionTubeList);
-        controller._onFileLoad(event);
-      });
-
-      test('it should fill skillIds list', function (assert) {
-        assert.deepEqual(controller.selectedTubeIds, ['tubeId1', 'tubeId2', 'tubeId3']);
-      });
     });
   });
 
@@ -136,6 +96,7 @@ module('Unit | Controller | authenticated/target-profiles/new', function (hooks)
         targetProfile: {
           id: 3,
           save: sinon.stub().resolves(),
+          templateTubes: [tube1],
         },
       };
 
@@ -176,6 +137,7 @@ module('Unit | Controller | authenticated/target-profiles/new', function (hooks)
       controller.model = {
         targetProfile: {
           save: sinon.stub().rejects(),
+          templateTubes: [tube1],
         },
       };
 
@@ -194,6 +156,7 @@ module('Unit | Controller | authenticated/target-profiles/new', function (hooks)
           save: sinon.stub().rejects({
             errors: [{ status: '404', detail: 'Organisation non trouvée' }],
           }),
+          templateTubes: [tube1],
         },
       };
 
@@ -212,87 +175,6 @@ module('Unit | Controller | authenticated/target-profiles/new', function (hooks)
       assert.ok(event.preventDefault.called);
       assert.ok(controller.model.targetProfile.save.called);
       assert.ok(controller.notifications.error.calledWith('Organisation non trouvée'));
-    });
-  });
-
-  module('#getSelectedTubesWithLevelAndSkills', function () {
-    test('it should return selected tubes', async function (assert) {
-      // given
-      const skills1 = Promise.resolve([
-        { id: 'skillId1', level: 1 },
-        { id: 'skillId2', level: 2 },
-        { id: 'skillId3', level: 3 },
-      ]);
-
-      const skills2 = Promise.resolve([
-        { id: 'skillId4', level: 1 },
-        { id: 'skillId5', level: 3 },
-        { id: 'skillId6', level: 7 },
-      ]);
-
-      const tubes1 = [
-        { id: 'tubeId1' },
-        {
-          id: 'tubeId2',
-          skills: skills1,
-        },
-      ];
-
-      const tubes2 = [
-        {
-          id: 'tubeId3',
-          practicalTitle: 'Tube 3',
-          practicalDescription: 'Description 3',
-          skills: skills2,
-        },
-        {
-          id: 'tubeId4',
-          practicalTitle: 'Tube 4',
-          practicalDescription: 'Description 4',
-        },
-      ];
-
-      const thematics = [
-        { id: 'thematicId1', tubes: tubes1 },
-        { id: 'thematicId2', tubes: tubes2 },
-      ];
-
-      const competences = [
-        {
-          id: 'competenceId',
-          thematics,
-        },
-      ];
-
-      controller.areas = [
-        {
-          id: 'areaId',
-          competences,
-        },
-      ];
-
-      controller.selectedTubeIds = EmberArray(['tubeId2', 'tubeId3']);
-
-      controller.tubeLevels = {
-        tubeId2: 2,
-      };
-
-      // when
-      const result = await controller.getSelectedTubesWithLevelAndSkills();
-
-      // then
-      assert.deepEqual(result, [
-        {
-          id: 'tubeId2',
-          level: 2,
-          skills: ['skillId1', 'skillId2'],
-        },
-        {
-          id: 'tubeId3',
-          level: 8,
-          skills: ['skillId4', 'skillId5', 'skillId6'],
-        },
-      ]);
     });
   });
 });

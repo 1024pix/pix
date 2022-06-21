@@ -30,4 +30,15 @@ export default class CreateTargetProfileForm extends Component {
   updateImageUrl(event) {
     this.args.targetProfile.imageUrl = event.target.value;
   }
+
+  @action
+  updateTubesAndSkills(tubesWithLevelAndSkills) {
+    this.args.targetProfile.skillIds = tubesWithLevelAndSkills.flatMap(
+      (tubeWithLevelAndSkills) => tubeWithLevelAndSkills.skills
+    );
+    this.args.targetProfile.templateTubes = tubesWithLevelAndSkills.map(({ id, level }) => ({
+      id,
+      level,
+    }));
+  }
 }

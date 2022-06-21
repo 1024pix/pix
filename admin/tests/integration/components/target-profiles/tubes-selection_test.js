@@ -60,18 +60,15 @@ module('Integration | Component | TargetProfiles::TubesSelection', function (hoo
         competences,
       },
     ];
-    this.set('areas', areas);
 
     const frameworks = [{ id: 'frameworkId', name: 'Pix', areas }];
     this.set('frameworks', frameworks);
 
-    const refreshAreas = sinon.stub();
-    this.set('refreshAreas', refreshAreas);
-
-    this.set('selectedTubeIds', []);
+    const onChangeFunction = sinon.stub();
+    this.set('onChangeFunction', onChangeFunction);
 
     screen = await render(
-      hbs`<TargetProfiles::TubesSelection @frameworks={{this.frameworks}} @areas={{this.areas}} @selectedTubeIds={{this.selectedTubeIds}} @refreshAreas={{this.refreshAreas}} />`
+      hbs`<TargetProfiles::TubesSelection @frameworks={{this.frameworks}} @onChange={{this.onChangeFunction}}/>`
     );
   });
 
@@ -165,9 +162,9 @@ module('Integration | Component | TargetProfiles::TubesSelection', function (hoo
   });
 
   module('#import tubes preselection', function () {
-    test('it should display a button ton import tubes preselection', function (assert) {
+    test('it should display a button to import tubes preselection', function (assert) {
       // then
-      assert.dom(screen.getByText('Importer une preselection de sujets')).exists();
+      assert.dom(screen.getByText('Importer une présélection de sujets')).exists();
     });
   });
 
