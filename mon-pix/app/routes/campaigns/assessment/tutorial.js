@@ -4,20 +4,21 @@
 import Route from '@ember/routing/route';
 import SecuredRouteMixin from 'mon-pix/mixins/secured-route-mixin';
 import { inject as service } from '@ember/service';
+import { action } from '@ember/object';
 
-export default Route.extend(SecuredRouteMixin, {
-  currentUser: service(),
-  intl: service(),
+export default class CampaignsAssessmentTutorial extends Route.extend(SecuredRouteMixin) {
+  @service currentUser;
+  @service intl;
 
-  campaignCode: null,
-  tutorialPageId: 0,
-  tutorialPageCount: 5,
+  campaignCode = null;
+  tutorialPageId = 0;
+  tutorialPageCount = 5;
 
   _setupPaging(numberOfPages, currentTutorialPageId) {
     const classOfTutorialPages = new Array(numberOfPages);
     classOfTutorialPages[currentTutorialPageId] = 'dot__active';
     return classOfTutorialPages;
-  },
+  }
 
   model() {
     this.campaignCode = this.paramsFor('campaigns').code;
@@ -28,26 +29,26 @@ export default Route.extend(SecuredRouteMixin, {
       showNextButton: this.tutorialPageId < this.tutorialPageCount - 1,
       paging: this._setupPaging(this.tutorialPageCount, this.tutorialPageId),
     };
-  },
+  }
 
-  actions: {
-    async submit() {
-      await this.currentUser.user.save({ adapterOptions: { rememberUserHasSeenAssessmentInstructions: true } });
+  @action
+  async submit() {
+    await this.currentUser.user.save({ adapterOptions: { rememberUserHasSeenAssessmentInstructions: true } });
 
-      this.tutorialPageId = 0;
-      return this.transitionTo('campaigns.assessment.start-or-resume', this.campaignCode, {
-        queryParams: {
-          hasConsultedTutorial: true,
-        },
-      });
-    },
+    this.tutorialPageId = 0;
+    this.transitionTo('campaigns.assessment.start-or-resume', this.campaignCode, {
+      queryParams: {
+        hasConsultedTutorial: true,
+      },
+    });
+  }
 
-    next() {
-      const nextTutorialPageId = this.tutorialPageId + 1;
-      if (nextTutorialPageId < this.tutorialPageCount) {
-        this.tutorialPageId = nextTutorialPageId;
-        this.refresh();
-      }
-    },
-  },
-});
+  @action
+  next() {
+    const nextTutorialPageId = this.tutorialPageId + 1;
+    if (nextTutorialPageId < this.tutorialPageCount) {
+      this.tutorialPageId = nextTutorialPageId;
+      this.refresh();
+    }
+  }
+}
