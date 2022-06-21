@@ -30,6 +30,7 @@ function buildOrganization({
   formNPSUrl = 'https://pix.fr',
   showSkills = false,
   archivedAt = null,
+  identityProviderForCampaigns = null,
 } = {}) {
   return new Organization({
     id,
@@ -50,6 +51,7 @@ function buildOrganization({
     formNPSUrl,
     showSkills,
     archivedAt,
+    identityProviderForCampaigns,
   });
 }
 
