@@ -11,6 +11,10 @@ export default class Tube extends Component {
     return isTubeSelected(this.args.selectedTubeIds, this.args.tube) ? 'checked' : 'unchecked';
   }
 
+  get selectedLevel() {
+    return this.args.tubeLevels[this.args.tube.id] ?? 8;
+  }
+
   get checked() {
     return this.state === 'checked';
   }
