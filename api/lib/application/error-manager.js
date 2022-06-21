@@ -316,6 +316,9 @@ function _mapToHttpError(error) {
   if (error instanceof DomainErrors.SessionAlreadyFinalizedError) {
     return new HttpErrors.BadRequestError(error.message);
   }
+  if (error instanceof DomainErrors.SessionStartedDeletionError) {
+    return new HttpErrors.ConflictError(error.message);
+  }
   if (error instanceof DomainErrors.OrganizationLearnerAlreadyLinkedToUserError) {
     return new HttpErrors.ConflictError(error.message, error.code, error.meta);
   }
