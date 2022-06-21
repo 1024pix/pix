@@ -2,7 +2,7 @@ const { knex } = require('../../../db/knex-database-connection');
 const TutorialEvaluation = require('../../domain/models/TutorialEvaluation');
 
 module.exports = {
-  async addEvaluation({ userId, tutorialId, status }) {
+  async createOrUpdate({ userId, tutorialId, status }) {
     const foundTutorialEvaluation = await knex('tutorial-evaluations').where({ userId, tutorialId, status }).first();
 
     if (foundTutorialEvaluation) {

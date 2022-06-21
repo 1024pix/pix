@@ -16,10 +16,10 @@ describe('Integration | Infrastructure | Repository | tutorialEvaluationReposito
     await knex('tutorial-evaluations').delete();
   });
 
-  describe('#addEvaluation', function () {
+  describe('#createOrUpdate', function () {
     it('should store the tutorialId in the users list', async function () {
       // when
-      await tutorialEvaluationRepository.addEvaluation({ userId, tutorialId, status });
+      await tutorialEvaluationRepository.createOrUpdate({ userId, tutorialId, status });
 
       // then
       const tutorialEvaluations = await knex('tutorial-evaluations').where({ userId, tutorialId });
@@ -28,7 +28,7 @@ describe('Integration | Infrastructure | Repository | tutorialEvaluationReposito
 
     it('should return the created tutorial evaluation', async function () {
       // when
-      const tutorialEvaluation = await tutorialEvaluationRepository.addEvaluation({
+      const tutorialEvaluation = await tutorialEvaluationRepository.createOrUpdate({
         userId,
         tutorialId,
         status: TutorialEvaluation.status.LIKED,
@@ -53,7 +53,7 @@ describe('Integration | Infrastructure | Repository | tutorialEvaluationReposito
         await databaseBuilder.commit();
 
         // when
-        const tutorialEvaluation = await tutorialEvaluationRepository.addEvaluation({ userId, tutorialId, status });
+        const tutorialEvaluation = await tutorialEvaluationRepository.createOrUpdate({ userId, tutorialId, status });
 
         // then
         const tutorialEvaluations = await knex('tutorial-evaluations').where({ userId, tutorialId });
