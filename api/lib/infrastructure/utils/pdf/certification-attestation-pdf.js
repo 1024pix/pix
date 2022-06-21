@@ -348,8 +348,8 @@ function _renderPixPlusCertificationCertification(viewModel, page, embeddedImage
     });
     yCoordinate -= 89 + 15;
 
-    if (viewModel.pixPlusEduTemporaryBadgeMessage) {
-      viewModel.pixPlusEduTemporaryBadgeMessage.forEach((text, index) => {
+    if (viewModel.pixPlusEduBadgeMessage) {
+      viewModel.pixPlusEduBadgeMessage.forEach((text, index) => {
         page.drawText(text, {
           x: 350,
           y: yCoordinate - index * 10,
