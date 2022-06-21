@@ -68,7 +68,9 @@ describe('Integration | Repository | CampaignToJoin', function () {
       // given
       const code = 'LAURA123';
       const targetProfile = databaseBuilder.factory.buildTargetProfile();
-      const organization = databaseBuilder.factory.buildOrganization();
+      const organization = databaseBuilder.factory.buildOrganization({
+        identityProviderForCampaigns: constants.IDENTITY_PROVIDER.POLE_EMPLOI,
+      });
       const expectedCampaign = databaseBuilder.factory.buildCampaign({
         code,
         organizationId: organization.id,
@@ -105,16 +107,12 @@ describe('Integration | Repository | CampaignToJoin', function () {
       expect(actualCampaign.isSimplifiedAccess).to.equal(targetProfile.isSimplifiedAccess);
     });
 
-    context('when the organization of the campaign has the POLE EMPLOI tag', function () {
-      it('should return true for organizationIsPoleEmploi', async function () {
+    context('when the organization of the campaign has the POLE_EMPLOI identity provider', function () {
+      it('should return true for isRestrictedByPoleEmploiIdentityProvider', async function () {
         // given
         const code = 'LAURA456';
-        const organization = databaseBuilder.factory.buildOrganization();
+        const organization = databaseBuilder.factory.buildOrganization({ identityProviderForCampaigns: Organization.identityProviderForCampaigns.POLE_EMPLOI });
         databaseBuilder.factory.buildCampaign({ code, organizationId: organization.id });
-        databaseBuilder.factory.buildOrganizationTag({
-          organizationId: organization.id,
-          tagId: databaseBuilder.factory.buildTag({ name: 'POLE EMPLOI' }).id,
-        });
         await databaseBuilder.commit();
 
         // when
@@ -122,12 +120,12 @@ describe('Integration | Repository | CampaignToJoin', function () {
 
         // then
         expect(actualCampaign).to.be.instanceOf(CampaignToJoin);
-        expect(actualCampaign.organizationIsPoleEmploi).to.be.true;
+        expect(actualCampaign.isRestrictedByPoleEmploiIdentityProvider).to.be.true;
       });
     });
 
-    context('when the organization of the campaign does not have the POLE EMPLOI tag', function () {
-      it('should return false for organizationIsPoleEmploi', async function () {
+    context('when the organization of the campaign does not have the POLE EMPLOI identity provider', function () {
+      it('should return false for isRestrictedByPoleEmploiIdentityProvider', async function () {
         // given
         const code = 'LAURA456';
         const organization = databaseBuilder.factory.buildOrganization();
@@ -139,7 +137,7 @@ describe('Integration | Repository | CampaignToJoin', function () {
 
         // then
         expect(actualCampaign).to.be.instanceOf(CampaignToJoin);
-        expect(actualCampaign.organizationIsPoleEmploi).to.be.false;
+        expect(actualCampaign.isRestrictedByPoleEmploiIdentityProvider).to.be.false;
       });
     });
 
