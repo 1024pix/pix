@@ -16,7 +16,7 @@
   "main": "bin/www",
   "homepage": "https://github.com/1024pix/pix#readme",
   "dependencies": {
-    "@hapi/accept": "^5.0.2",
+    "@hapi/accept": "^6.0.0",
     "@hapi/hapi": "^20.2.1",
     "@hapi/inert": "^6.0.5",
     "@hapi/oppsy": "^3.0.0",
