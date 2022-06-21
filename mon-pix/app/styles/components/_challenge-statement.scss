@@ -41,7 +41,7 @@
 
     a {
       text-decoration: underline;
-      color: $blue;
+      color: $pix-primary;
 
       @include device-is('tablet') {
         display: inline-block;
@@ -82,7 +82,7 @@
   display: inline-block;
   margin: 0 5px;
   cursor: pointer;
-  color: $blue;
+  color: $pix-primary;
   position: relative;
 }
 
@@ -180,7 +180,7 @@
   width: 156px;
   height: 46px;
   border-radius: 23px;
-  background-color: $blue;
+  background-color: $pix-primary;
   color: $white;
   cursor: pointer;
   text-align: center;
@@ -207,7 +207,7 @@
     }
 
     &:visited {
-      color: $blue;
+      color: $pix-primary;
     }
 
     &::after {
@@ -235,7 +235,7 @@
   button {
     padding: 0;
     font-size: 1rem;
-    color: $blue;
+    color: $pix-primary;
     font-weight: 500;
     border: none;
     background-color: transparent;

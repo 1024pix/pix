@@ -247,7 +247,7 @@
   }
 
   &__link {
-    background-color: $blue;
+    background-color: $pix-primary;
     border-radius: 4px;
     color: $white;
     padding: 8px 12px;
@@ -282,7 +282,7 @@
     }
 
     > strong {
-      color: $blue;
+      color: $pix-primary;
       display: inline-block;
       font-weight: 300;
     }

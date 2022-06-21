@@ -19,7 +19,7 @@
   }
 
   &__title {
-    color: $blue;
+    color: $pix-primary;
     font-family: $font-open-sans;
     font-size: 1.25rem;
     font-weight: 600;
@@ -73,7 +73,7 @@
       display: inline-block;
 
       &__active {
-        background-color: $blue;
+        background-color: $pix-primary;
       }
     }
   }

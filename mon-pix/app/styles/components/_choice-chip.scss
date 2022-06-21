@@ -1,6 +1,3 @@
-$blue-alert-light: #DCF1FF;
-$blue-alert-dark: #0D25B3;
-
 .pix-choice-chip {
   border-radius: 50px;
   font-size: 0.875rem;
@@ -18,8 +15,8 @@ $blue-alert-dark: #0D25B3;
   color: $grey-50;
 
   &--active {
-    background: $blue-alert-light;
-    color: $blue-alert-dark;
+    background: $pix-primary-10;
+    color: $pix-primary-70;
   }
 
   &:hover {

@@ -31,7 +31,7 @@
 
     &:hover,
     &:focus {
-      color: $blue;
+      color: $pix-primary;
     }
   }
 
@@ -55,8 +55,6 @@
 }
 
 .pix-action-chip {
-  $dark-blue: #2044DC;
-
   width: 36px;
   height: 36px;
   background: $white;
@@ -84,23 +82,23 @@
   }
 
   &--selected {
-    border-color: $blue;
+    border-color: $pix-primary;
 
     .pix-action-chip__icon {
-      color: $blue;
+      color: $pix-primary;
     }
 
     &:hover {
-      border-color: $dark-blue;
+      border-color: $pix-primary-60;
 
       .pix-action-chip__icon {
-        color: $dark-blue;
+        color: $pix-primary-60;
       }
     }
 
     &:focus-visible {
-      background-color: $blue;
-      box-shadow: 0 0 0 3px $blue;
+      background-color: $pix-primary;
+      box-shadow: 0 0 0 3px $pix-primary;
       border-color: $white;
 
       .pix-action-chip__icon {

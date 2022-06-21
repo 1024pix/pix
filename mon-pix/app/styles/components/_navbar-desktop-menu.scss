@@ -55,8 +55,8 @@
   border-radius: 20px;
   font-size: 0.813rem;
   text-align: center;
-  color: $blue;
-  border: 2px solid $blue;
+  color: $pix-primary;
+  border: 2px solid $pix-primary;
   width: 140px;
   padding: 10px;
   background-color: transparent;
@@ -66,18 +66,18 @@
   &:active {
     color: $white;
     text-decoration: none;
-    background-color: $blue;
+    background-color: $pix-primary;
   }
 }
 
 .navbar-header--white .navbar-menu-signup-link {
-  color: $blue;
-  border: 2px solid $blue;
+  color: $pix-primary;
+  border: 2px solid $pix-primary;
 
   &:hover,
   &:focus,
   &:active {
     color: $white;
-    background-color: $blue;
+    background-color: $pix-primary;
   }
 }
