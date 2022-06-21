@@ -320,7 +320,6 @@ function _buildHighSchools({ databaseBuilder }) {
     division: '2B',
     group: null,
     organizationId: SCO_HIGH_SCHOOL_ID,
-    nationalStudentId: '123456789CC',
     createdAt: new Date('2020-08-14'),
   });
 
