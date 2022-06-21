@@ -26,7 +26,7 @@ class AttestationViewModel {
     pixPlusDroitCertificationImagePath,
     hasAcquiredPixPlusEduCertification,
     pixPlusEduCertificationImagePath,
-    pixPlusEduTemporaryBadgeMessage,
+    pixPlusEduBadgeMessage,
     competenceDetailViewModels,
     isFrenchDomainExtension,
   }) {
@@ -43,7 +43,7 @@ class AttestationViewModel {
     this.cleaCertificationImagePath = cleaCertificationImagePath;
     this.pixPlusDroitCertificationImagePath = pixPlusDroitCertificationImagePath;
     this.pixPlusEduCertificationImagePath = pixPlusEduCertificationImagePath;
-    this.pixPlusEduTemporaryBadgeMessage = pixPlusEduTemporaryBadgeMessage;
+    this.pixPlusEduBadgeMessage = pixPlusEduBadgeMessage;
     this.competenceDetailViewModels = competenceDetailViewModels;
     this.verificationCode = verificationCode;
     this._maxReachableLevelOnCertificationDate = maxReachableLevelOnCertificationDate;
@@ -120,13 +120,13 @@ class AttestationViewModel {
 
     let hasAcquiredPixPlusEduCertification = false;
     let pixPlusEduCertificationImagePath;
-    let pixPlusEduTemporaryBadgeMessage;
+    let pixPlusEduBadgeMessage;
     if (certificate.getAcquiredPixPlusEduCertification()) {
       hasAcquiredPixPlusEduCertification = true;
       const { partnerKey, isTemporaryBadge } = certificate.getAcquiredPixPlusEduCertification();
       pixPlusEduCertificationImagePath = getImagePathByBadgeKey(partnerKey);
       if (isTemporaryBadge) {
-        pixPlusEduTemporaryBadgeMessage = toArrayOfFixedLengthStringsConservingWords(
+        pixPlusEduBadgeMessage = toArrayOfFixedLengthStringsConservingWords(
           `Vous avez obtenu le niveau “${certificate.getPixPlusEduBadgeDisplayName()}” dans le cadre du volet 1 de la certification Pix+Édu. Votre niveau final sera déterminé à l’issue du volet 2`,
           45
         );
@@ -157,7 +157,7 @@ class AttestationViewModel {
       cleaCertificationImagePath,
       pixPlusDroitCertificationImagePath,
       pixPlusEduCertificationImagePath,
-      pixPlusEduTemporaryBadgeMessage,
+      pixPlusEduBadgeMessage,
       hasAcquiredPixPlusDroitCertification,
       hasAcquiredCleaCertification,
       hasAcquiredPixPlusEduCertification,
