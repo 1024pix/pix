@@ -56,7 +56,7 @@ describe('Unit | Route | Access', function () {
       it('should override authentication route with login-pole-emploi', async function () {
         // given
         route.session.data.externalUser = 'some external user';
-        campaign.organizationIsPoleEmploi = true;
+        campaign.isRestrictedByPoleEmploiIdentityProvider = true;
 
         // when
         await route.beforeModel({ from: 'campaigns.campaign-landing-page' });

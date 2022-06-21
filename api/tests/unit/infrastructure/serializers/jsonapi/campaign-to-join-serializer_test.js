@@ -5,7 +5,7 @@ describe('Unit | Serializer | JSONAPI | campaign-to-join-serializer', function (
   describe('#serialize()', function () {
     it('should convert a CampaignToJoin model object into JSON API data', function () {
       // given
-      const campaignToJoin = domainBuilder.buildCampaignToJoin();
+      const campaignToJoin = domainBuilder.buildCampaignToJoin({ identityProvider: 'SUPER_IDP' });
 
       // when
       const jsonApi = campaignToJoinSerializer.serialize(campaignToJoin);
@@ -27,7 +27,7 @@ describe('Unit | Serializer | JSONAPI | campaign-to-join-serializer', function (
             'is-restricted': campaignToJoin.isRestricted,
             'is-simplified-access': campaignToJoin.isSimplifiedAccess,
             'is-for-absolute-novice': campaignToJoin.isForAbsoluteNovice,
-            'organization-is-pole-emploi': campaignToJoin.organizationIsPoleEmploi,
+            'identity-provider': campaignToJoin.identityProvider,
             'organization-name': campaignToJoin.organizationName,
             'organization-type': campaignToJoin.organizationType,
             'organization-logo-url': campaignToJoin.organizationLogoUrl,
