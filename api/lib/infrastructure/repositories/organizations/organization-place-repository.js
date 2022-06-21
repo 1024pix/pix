@@ -7,7 +7,7 @@ async function find(organizationId) {
       'organization-places.id AS id',
       'count',
       'activationDate',
-      'expiredDate',
+      'expirationDate',
       'reference',
       'category',
       'users.firstName AS creatorFirstName',
@@ -16,7 +16,7 @@ async function find(organizationId) {
     .join('users', 'users.id', 'createdBy')
     .where({ organizationId })
     .orderBy('activationDate', 'desc')
-    .orderBy('expiredDate', 'desc')
+    .orderBy('expirationDate', 'desc')
     .orderBy('organization-places.createdAt', 'desc');
 
   return results.map((result) => {

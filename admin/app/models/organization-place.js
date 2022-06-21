@@ -19,7 +19,7 @@ export default class OrganizationPlace extends Model {
   @attr('string') category;
   @attr('string') status;
   @attr('date') activationDate;
-  @attr('date') expiredDate;
+  @attr('date') expirationDate;
   @attr('date') createdAt;
   @attr('string') creatorFullName;
 
@@ -31,7 +31,7 @@ export default class OrganizationPlace extends Model {
     return categories[this.category];
   }
 
-  get hasExpiredDate() {
-    return Boolean(this.expiredDate);
+  get hasExpirationDate() {
+    return Boolean(this.expirationDate);
   }
 }

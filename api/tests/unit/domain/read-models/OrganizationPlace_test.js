@@ -9,7 +9,7 @@ describe('Unit | Domain | ReadModels | OrganizationPlace', function () {
         id: 1,
         count: 777,
         activationDate: new Date('1986-05-01'),
-        expiredDate: new Date('2086-01-01'),
+        expirationDate: new Date('2086-01-01'),
         reference: 'Stargate',
         category: 'T1',
         creatorFirstName: 'Jack',
@@ -23,7 +23,7 @@ describe('Unit | Domain | ReadModels | OrganizationPlace', function () {
       expect(organizationPlace.id).to.equal(rawData.id);
       expect(organizationPlace.count).to.equal(rawData.count);
       expect(organizationPlace.activationDate).to.equal(rawData.activationDate);
-      expect(organizationPlace.expiredDate).to.equal(rawData.expiredDate);
+      expect(organizationPlace.expirationDate).to.equal(rawData.expirationDate);
       expect(organizationPlace.reference).to.equal(rawData.reference);
       expect(organizationPlace.category).to.equal(OrganizationPlace.categories[rawData.category]);
       expect(organizationPlace.creatorFullName).to.equal(`${rawData.creatorFirstName} ${rawData.creatorLastName}`);
@@ -42,11 +42,11 @@ describe('Unit | Domain | ReadModels | OrganizationPlace', function () {
       clock.restore();
     });
 
-    it('have expired status when expiredDate has passed.', function () {
+    it('have expired status when expirationDate has passed.', function () {
       // given
       const rawData = {
         activationDate: new Date('2020-01-12'),
-        expiredDate: new Date('2021-01-01'),
+        expirationDate: new Date('2021-01-01'),
       };
 
       // when
@@ -60,7 +60,7 @@ describe('Unit | Domain | ReadModels | OrganizationPlace', function () {
       // given
       const rawData = {
         activationDate: new Date('2020-01-12'),
-        expiredDate: new Date('2021-05-15'),
+        expirationDate: new Date('2021-05-15'),
       };
 
       // when
@@ -74,7 +74,7 @@ describe('Unit | Domain | ReadModels | OrganizationPlace', function () {
       // given
       const rawData = {
         activationDate: new Date('2021-05-04'),
-        expiredDate: new Date('2022-05-04'),
+        expirationDate: new Date('2022-05-04'),
       };
 
       // when
@@ -84,13 +84,13 @@ describe('Unit | Domain | ReadModels | OrganizationPlace', function () {
       expect(organizationPlace.status).to.equal(OrganizationPlace.statuses.PENDING);
     });
 
-    describe('#ExpiredDate to null', function () {
+    describe('#expirationDate to null', function () {
       it('have active status when place is currently active', function () {
-        const expiredDate = null;
+        const expirationDate = null;
         // given
         const rawData = {
           activationDate: new Date('2020-01-12'),
-          expiredDate,
+          expirationDate,
         };
 
         // when
@@ -101,11 +101,11 @@ describe('Unit | Domain | ReadModels | OrganizationPlace', function () {
       });
 
       it('have pending status when the place is not yet active', function () {
-        const expiredDate = null;
+        const expirationDate = null;
         // given
         const rawData = {
           activationDate: new Date('2021-05-28'),
-          expiredDate,
+          expirationDate,
         };
 
         // when

@@ -14,7 +14,7 @@ describe('Integration | Repository | Organization Place', function () {
         category: 'T2',
         reference: 'Godzilla',
         activationDate: new Date('2014-05-13'),
-        expiredDate: new Date('2021-07-01'),
+        expirationDate: new Date('2021-07-01'),
         createdBy: user.id,
       });
 
@@ -32,7 +32,7 @@ describe('Integration | Repository | Organization Place', function () {
       expect(foundOrganizationPlace[0].creatorFullName).to.equal(`${user.firstName} ${user.lastName}`);
 
       expect(foundOrganizationPlace[0].activationDate).to.deep.equal(placeGZ.activationDate);
-      expect(foundOrganizationPlace[0].expiredDate).to.deep.equal(placeGZ.expiredDate);
+      expect(foundOrganizationPlace[0].expirationDate).to.deep.equal(placeGZ.expirationDate);
     });
 
     it('should return organization places for given id', async function () {
@@ -127,20 +127,20 @@ describe('Integration | Repository | Organization Place', function () {
     });
 
     describe('When activationDate are identical', function () {
-      it('should return organization places in descending order for expiredDate', async function () {
+      it('should return organization places in descending order for expirationDate', async function () {
         // given
         const organizationId = databaseBuilder.factory.buildOrganization().id;
 
         const organizationPlace1 = databaseBuilder.factory.buildOrganizationPlace({
           organizationId,
           activationDate: new Date('1997-07-27'),
-          expiredDate: new Date('2011-05-09'),
+          expirationDate: new Date('2011-05-09'),
         });
 
         const organizationPlace2 = databaseBuilder.factory.buildOrganizationPlace({
           organizationId,
           activationDate: new Date('1997-07-27'),
-          expiredDate: new Date('2007-03-13'),
+          expirationDate: new Date('2007-03-13'),
         });
 
         await databaseBuilder.commit();
@@ -154,7 +154,7 @@ describe('Integration | Repository | Organization Place', function () {
       });
     });
 
-    describe('When activationDate and expiredDate are identical', function () {
+    describe('When activationDate and expirationDate are identical', function () {
       it('should return organization places in descending order for createdAt', async function () {
         // given
         const organizationId = databaseBuilder.factory.buildOrganization().id;
@@ -162,14 +162,14 @@ describe('Integration | Repository | Organization Place', function () {
         const organizationPlace1 = databaseBuilder.factory.buildOrganizationPlace({
           organizationId,
           activationDate: new Date('1997-07-27'),
-          expiredDate: new Date('2007-03-13'),
+          expirationDate: new Date('2007-03-13'),
           createdAt: new Date('1994-10-28'),
         });
 
         const organizationPlace2 = databaseBuilder.factory.buildOrganizationPlace({
           organizationId,
           activationDate: new Date('1997-07-27'),
-          expiredDate: new Date('2007-03-13'),
+          expirationDate: new Date('2007-03-13'),
           createdAt: new Date('1997-07-27'),
         });
 

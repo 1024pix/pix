@@ -2,7 +2,7 @@ const { PRO_COMPANY_ID } = require('./organizations-pro-builder');
 const { PIX_SUPER_ADMIN_ID } = require('./users-builder');
 function organizationPlacesProBuilder({ databaseBuilder }) {
   const activationDate = new Date();
-  const expiredDate = new Date();
+  const expirationDate = new Date();
   const createdDate = new Date();
 
   // Expired
@@ -10,7 +10,7 @@ function organizationPlacesProBuilder({ databaseBuilder }) {
     organizationId: PRO_COMPANY_ID,
     count: 20,
     activationDate: new Date('2020-01-01'),
-    expiredDate: new Date('2020-12-31'),
+    expirationDate: new Date('2020-12-31'),
     reference: 'TheOfficeS02EP01',
     category: 'T1',
     createdBy: PIX_SUPER_ADMIN_ID,
@@ -22,7 +22,7 @@ function organizationPlacesProBuilder({ databaseBuilder }) {
     organizationId: PRO_COMPANY_ID,
     count: 19,
     activationDate: new Date('2021-01-01'),
-    expiredDate: new Date('2022-01-01'),
+    expirationDate: new Date('2022-01-01'),
     reference: 'TheOfficeS02EP01',
     category: 'T0',
     createdBy: PIX_SUPER_ADMIN_ID,
@@ -34,7 +34,7 @@ function organizationPlacesProBuilder({ databaseBuilder }) {
     organizationId: PRO_COMPANY_ID,
     count: 700,
     activationDate: new Date(activationDate.setMonth(activationDate.getMonth() - 1)),
-    expiredDate: new Date(expiredDate.setMonth(expiredDate.getMonth() + 8)),
+    expirationDate: new Date(expirationDate.setMonth(expirationDate.getMonth() + 8)),
     reference: 'TheOfficeS02EP02',
     category: 'T2',
     createdBy: PIX_SUPER_ADMIN_ID,
@@ -46,7 +46,7 @@ function organizationPlacesProBuilder({ databaseBuilder }) {
     organizationId: PRO_COMPANY_ID,
     count: 45,
     activationDate: new Date(activationDate),
-    expiredDate: new Date(expiredDate.setMonth(expiredDate.getMonth() + 2)),
+    expirationDate: new Date(expirationDate.setMonth(expirationDate.getMonth() + 2)),
     reference: 'TheOfficeS02EP03',
     category: 'T3',
     createdBy: PIX_SUPER_ADMIN_ID,
@@ -58,7 +58,7 @@ function organizationPlacesProBuilder({ databaseBuilder }) {
     organizationId: PRO_COMPANY_ID,
     count: 77,
     activationDate: new Date(activationDate.setMonth(activationDate.getMonth() - 1)),
-    expiredDate: new Date(expiredDate),
+    expirationDate: new Date(expirationDate),
     reference: 'TheOfficeS02EP06',
     category: 'T2',
     createdBy: PIX_SUPER_ADMIN_ID,
