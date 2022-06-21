@@ -29,15 +29,12 @@ module('Integration | Component | TargetProfiles::CreateTargetProfileForm', func
     };
     onCancel = sinon.stub();
 
-    const frameworks = [{ id: 'framework1', name: 'Pix' }];
-
-    const refreshAreas = sinon.stub();
+    const frameworks = [{ id: 'framework1', name: 'Pix', areas: [] }];
 
     this.set('targetProfile', targetProfile);
     this.set('onSubmit', onSubmitWrapper);
     this.set('onCancel', onCancel);
     this.set('frameworks', frameworks);
-    this.set('refreshAreas', refreshAreas);
   });
 
   test('it should display the items', async function (assert) {
@@ -45,7 +42,6 @@ module('Integration | Component | TargetProfiles::CreateTargetProfileForm', func
     const screen = await render(hbs`<TargetProfiles::CreateTargetProfileForm
       @targetProfile={{this.targetProfile}}
       @frameworks={{this.frameworks}}
-      @refreshAreas={{this.refreshAreas}}
       @onSubmit={{this.onSubmit}}
       @onCancel={{this.onCancel}}/>`);
 

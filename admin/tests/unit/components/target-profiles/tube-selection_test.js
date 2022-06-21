@@ -15,6 +15,7 @@ module('Unit | Component | target-profiles/tubes-selection', function (hooks) {
         { name: 'Pix', id: 'id1' },
         { name: 'framework2', id: 'id2' },
       ],
+      onChange: sinon.stub(),
     });
   });
 
@@ -41,23 +42,10 @@ module('Unit | Component | target-profiles/tubes-selection', function (hooks) {
     });
   });
 
-  module('#goBackToTargetProfileList', function () {
-    test('should delete record and go back to target profile list page', async function (assert) {
-      // given
-      component.router.transitionTo = sinon.stub();
-
-      // when
-      component.goBackToTargetProfileList();
-
-      // then
-      assert.ok(component.router.transitionTo.calledWith('authenticated.target-profiles.list'));
-    });
-  });
-
   module('#checkTube', function () {
     test('it should add tube to the selected tubes', function (assert) {
       // given
-      component.args.selectedTubeIds = EmberArray(['otherTubeId']);
+      component.selectedTubeIds = EmberArray(['otherTubeId']);
 
       // when
       component.checkTube({
@@ -65,13 +53,13 @@ module('Unit | Component | target-profiles/tubes-selection', function (hooks) {
       });
 
       // then
-      assert.deepEqual(component.args.selectedTubeIds, ['otherTubeId', 'tubeId']);
+      assert.deepEqual(component.selectedTubeIds, ['otherTubeId', 'tubeId']);
     });
 
     module('when tube is already in the selected tubes', function () {
       test('it should do nothing', function (assert) {
         // given
-        component.args.selectedTubeIds = ['tubeId'];
+        component.selectedTubeIds = ['tubeId'];
 
         // when
         component.checkTube({
@@ -79,7 +67,7 @@ module('Unit | Component | target-profiles/tubes-selection', function (hooks) {
         });
 
         // then
-        assert.deepEqual(component.args.selectedTubeIds, ['tubeId']);
+        assert.deepEqual(component.selectedTubeIds, ['tubeId']);
       });
     });
   });
@@ -87,7 +75,7 @@ module('Unit | Component | target-profiles/tubes-selection', function (hooks) {
   module('#uncheckTube', function () {
     test('it should remove tube from selectedTubeIds if element is not checked', function (assert) {
       // given
-      component.args.selectedTubeIds = EmberArray(['tubeId', 'otherTubeId']);
+      component.selectedTubeIds = EmberArray(['tubeId', 'otherTubeId']);
 
       // when
       component.uncheckTube({
@@ -95,13 +83,13 @@ module('Unit | Component | target-profiles/tubes-selection', function (hooks) {
       });
 
       // then
-      assert.deepEqual(component.args.selectedTubeIds, ['otherTubeId']);
+      assert.deepEqual(component.selectedTubeIds, ['otherTubeId']);
     });
 
     module('when tube is not in the selected tubes', function () {
       test('it should do nothing', function (assert) {
         // given
-        component.args.selectedTubeIds = EmberArray(['otherTubeId']);
+        component.selectedTubeIds = EmberArray(['otherTubeId']);
 
         // when
         component.uncheckTube({
@@ -109,7 +97,7 @@ module('Unit | Component | target-profiles/tubes-selection', function (hooks) {
         });
 
         // then
-        assert.deepEqual(component.args.selectedTubeIds, ['otherTubeId']);
+        assert.deepEqual(component.selectedTubeIds, ['otherTubeId']);
       });
     });
   });
@@ -117,7 +105,7 @@ module('Unit | Component | target-profiles/tubes-selection', function (hooks) {
   module('#setLevelTube', function () {
     test('it should set a level on tube', function (assert) {
       // given
-      component.args.tubeLevels = {
+      component.tubeLevels = {
         tubeId2: 3,
       };
 
@@ -125,7 +113,7 @@ module('Unit | Component | target-profiles/tubes-selection', function (hooks) {
       component.setLevelTube('tubeId1', 5);
 
       // then
-      assert.deepEqual(component.args.tubeLevels, {
+      assert.deepEqual(component.tubeLevels, {
         tubeId1: 5,
         tubeId2: 3,
       });
@@ -151,6 +139,131 @@ module('Unit | Component | target-profiles/tubes-selection', function (hooks) {
         // then
         assert.true(component.hasNoFrameworksSelected);
       });
+    });
+  });
+
+  module('#fillTubesSelectionFromFile', function (hooks) {
+    const files = ['tubeId1', 'tubeId2', 'tubeId3'];
+
+    hooks.beforeEach(function () {
+      sinon.restore();
+      sinon.stub(FileReader.prototype, 'readAsText');
+    });
+
+    test('should read the file', async function (assert) {
+      component.fillTubesSelectionFromFile(files);
+
+      assert.ok(FileReader.prototype.readAsText.calledWith(files[0]));
+    });
+  });
+
+  module('#_onFileLoad', function (hooks) {
+    hooks.afterEach(function () {
+      sinon.restore();
+    });
+
+    module('when json file is valid', function (hooks) {
+      hooks.beforeEach(function () {
+        sinon.restore();
+
+        // given
+        component.isFileInvalid = true;
+        const event = {
+          target: {
+            result: ['tubeId1', 'tubeId2', 'tubeId3'],
+          },
+        };
+        const selectionTubeList = ['tubeId1', 'tubeId2', 'tubeId3'];
+
+        // when
+        sinon.stub(JSON, 'parse').returns(selectionTubeList);
+        component._onFileLoad(event);
+      });
+
+      test('it should fill skillIds list', function (assert) {
+        assert.deepEqual(component.selectedTubeIds, ['tubeId1', 'tubeId2', 'tubeId3']);
+      });
+    });
+  });
+
+  module('#getSelectedTubesWithLevelAndSkills', function () {
+    test('it should return selected tubes', async function (assert) {
+      // given
+      const skills1 = Promise.resolve([
+        { id: 'skillId1', level: 1 },
+        { id: 'skillId2', level: 2 },
+        { id: 'skillId3', level: 3 },
+      ]);
+
+      const skills2 = Promise.resolve([
+        { id: 'skillId4', level: 1 },
+        { id: 'skillId5', level: 3 },
+        { id: 'skillId6', level: 7 },
+      ]);
+
+      const tubes1 = [
+        { id: 'tubeId1' },
+        {
+          id: 'tubeId2',
+          skills: skills1,
+        },
+      ];
+
+      const tubes2 = [
+        {
+          id: 'tubeId3',
+          practicalTitle: 'Tube 3',
+          practicalDescription: 'Description 3',
+          skills: skills2,
+        },
+        {
+          id: 'tubeId4',
+          practicalTitle: 'Tube 4',
+          practicalDescription: 'Description 4',
+        },
+      ];
+
+      const thematics = [
+        { id: 'thematicId1', tubes: tubes1 },
+        { id: 'thematicId2', tubes: tubes2 },
+      ];
+
+      const competences = [
+        {
+          id: 'competenceId',
+          thematics,
+        },
+      ];
+
+      component.areas = [
+        {
+          id: 'areaId',
+          competences,
+        },
+      ];
+
+      component.selectedTubeIds = EmberArray(['tubeId2', 'tubeId3']);
+
+      component.tubeLevels = {
+        tubeId2: 2,
+      };
+
+      // when
+      const result = await component._getSelectedTubesWithLevelAndSkills();
+
+      // then
+      assert.deepEqual(result, [
+        {
+          id: 'tubeId2',
+          level: 2,
+          skills: ['skillId1', 'skillId2'],
+        },
+        {
+          id: 'tubeId3',
+          level: 8,
+          skills: ['skillId4', 'skillId5', 'skillId6'],
+        },
+      ]);
     });
   });
 });

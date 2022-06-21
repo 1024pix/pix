@@ -52,16 +52,7 @@
       </div>
     </Card>
 
-    <TargetProfiles::TubesSelection
-      @frameworks={{@frameworks}}
-      @areas={{@areas}}
-      @selectedTubeIds={{@selectedTubeIds}}
-      @tubeLevels={{@tubeLevels}}
-      @refreshAreas={{@refreshAreas}}
-      @fillTubeSelectionFromFile={{@fillTubeSelectionFromFile}}
-      @totalTubesCount={{@totalTubesCount}}
-      @selectedTubesCount={{@selectedTubesCount}}
-    />
+    <TargetProfiles::TubesSelection @frameworks={{@frameworks}} @onChange={{this.updateTubesAndSkills}} />
 
     <Card class="create-target-profile__card" @title="3. Personnalisation">
       <PixInput
