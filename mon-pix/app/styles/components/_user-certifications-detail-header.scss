@@ -122,10 +122,10 @@
         background: none;
         cursor: pointer;
         padding: 0;
-        color: $blue;
+        color: $pix-primary;
         font-size: 1.25rem;
 
-        &:hover { color: darken($blue, 20%); }
+        &:hover { color: darken($pix-primary, 20%); }
       }
     }
 

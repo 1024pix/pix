@@ -23,7 +23,7 @@
 
   a {
     text-decoration: underline;
-    color: $blue;
+    color: $pix-primary;
 
     @include device-is('tablet') {
       display: inline-block;
