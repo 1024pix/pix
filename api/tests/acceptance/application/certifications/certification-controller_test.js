@@ -541,7 +541,7 @@ describe('Acceptance | API | Certifications', function () {
         // given
         options = {
           method: 'GET',
-          url: `/api/attestation/${certificationCourse.id}`,
+          url: `/api/attestation/${certificationCourse.id}?isFrenchDomainExtension=true`,
           headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
         };
 

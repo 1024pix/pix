@@ -26,7 +26,7 @@ const templates = {
 
 async function getCertificationAttestationsPdfBuffer({
   certificates,
-  isFrenchDomainExtension = false,
+  isFrenchDomainExtension,
   dirname = __dirname,
   fontkit = pdfLibFontkit,
   creationDate = new Date(),
