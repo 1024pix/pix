@@ -16,7 +16,7 @@ export default class TubesSelection extends Component {
   @tracked selectedTubeIds = EmberArray();
   @tracked totalTubesCount = 0;
   @tracked areas;
-  tubeLevels = {};
+  @tracked tubeLevels = {};
 
   constructor(...args) {
     super(...args);
