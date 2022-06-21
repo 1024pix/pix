@@ -63,6 +63,9 @@ exports.register = async function (server) {
           params: Joi.object({
             id: identifiersType.certificationCourseId,
           }),
+          query: Joi.object({
+            isFrenchDomainExtension: Joi.boolean().required(),
+          }),
         },
         handler: certificationController.getPDFAttestation,
         notes: [

@@ -1598,7 +1598,7 @@ describe('Acceptance | Application | organization-controller', function () {
 
       const options = {
         method: 'GET',
-        url: `/api/organizations/${organization.id}/certification-attestations?division=aDivision`,
+        url: `/api/organizations/${organization.id}/certification-attestations?division=aDivision&isFrenchDomainExtension=true`,
         headers: { authorization: generateValidRequestAuthorizationHeader(adminIsManagingStudent.id) },
       };
 

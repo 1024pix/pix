@@ -34,7 +34,7 @@ module.exports = {
   async getPDFAttestation(request, h) {
     const userId = request.auth.credentials.userId;
     const certificationId = request.params.id;
-    const isFrenchDomainExtension = Boolean(request.query?.isFrenchDomainExtension);
+    const isFrenchDomainExtension = request.query.isFrenchDomainExtension;
     const attestation = await usecases.getCertificationAttestation({
       userId,
       certificationId,
