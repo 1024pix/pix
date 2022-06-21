@@ -1,5 +1,5 @@
 const { expect, sinon, hFake } = require('../../../test-helper');
-
+const AuthenticationMethod = require('../../../../lib/domain/models/AuthenticationMethod');
 const poleEmploiController = require('../../../../lib/application/pole-emploi/pole-emploi-controller');
 const usecases = require('../../../../lib/domain/usecases');
 const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
@@ -64,7 +64,7 @@ describe('Unit | Controller | pole-emploi-controller', function () {
       // given
       const request = { query: { 'authentication-key': 'abcde' } };
       const userId = 7;
-      sinon.stub(usecases, 'createUserFromPoleEmploi').resolves({ userId, idToken: 1 });
+      sinon.stub(usecases, 'createUserFromExternalIdentityProvider').resolves({ userId, idToken: 1 });
       sinon.stub(poleEmploiAuthenticationService, 'createAccessToken').resolves('an access token');
       sinon.stub(userRepository, 'updateLastLoggedAt');
 
@@ -82,8 +82,8 @@ describe('Unit | Controller | pole-emploi-controller', function () {
       const idToken = 1;
       const accessToken = 'access.token';
       sinon
-        .stub(usecases, 'createUserFromPoleEmploi')
-        .withArgs({ authenticationKey: 'abcde' })
+        .stub(usecases, 'createUserFromExternalIdentityProvider')
+        .withArgs({ authenticationKey: 'abcde', identityProvider: AuthenticationMethod.identityProviders.POLE_EMPLOI })
         .resolves({ userId, idToken });
       sinon.stub(userRepository, 'updateLastLoggedAt');
       sinon.stub(poleEmploiAuthenticationService, 'createAccessToken').withArgs(userId).returns(accessToken);

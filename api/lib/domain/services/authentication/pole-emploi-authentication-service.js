@@ -3,9 +3,13 @@ const { v4: uuidv4 } = require('uuid');
 const httpAgent = require('../../../infrastructure/http/http-agent');
 const querystring = require('querystring');
 const { AuthenticationTokenRetrievalError } = require('../../errors');
-const PoleEmploiTokens = require('../../models/PoleEmploiTokens');
+const AuthenticationSessionContent = require('../../models/AuthenticationSessionContent');
 const jsonwebtoken = require('jsonwebtoken');
 const { POLE_EMPLOI } = require('../../constants').SOURCE;
+
+const DomainTransaction = require('../../../infrastructure/DomainTransaction');
+const AuthenticationMethod = require('../../models/AuthenticationMethod');
+const moment = require('moment');
 
 function createAccessToken(userId) {
   const expirationDelaySeconds = settings.poleEmploi.accessTokenLifespanMs / 1000;
@@ -23,27 +27,27 @@ async function exchangeCodeForTokens({ code, redirectUri }) {
     redirect_uri: redirectUri,
   };
 
-  const response = await httpAgent.post({
+  const tokensResponse = await httpAgent.post({
     url: settings.poleEmploi.tokenUrl,
     payload: querystring.stringify(data),
     headers: { 'content-type': 'application/x-www-form-urlencoded' },
   });
 
-  if (!response.isSuccessful) {
-    const errorMessage = JSON.stringify(response.data);
-    throw new AuthenticationTokenRetrievalError(errorMessage, response.code);
+  if (!tokensResponse.isSuccessful) {
+    const errorMessage = JSON.stringify(tokensResponse.data);
+    throw new AuthenticationTokenRetrievalError(errorMessage, tokensResponse.code);
   }
 
-  return new PoleEmploiTokens({
-    accessToken: response.data['access_token'],
-    idToken: response.data['id_token'],
-    expiresIn: response.data['expires_in'],
-    refreshToken: response.data['refresh_token'],
+  return new AuthenticationSessionContent({
+    accessToken: tokensResponse.data['access_token'],
+    idToken: tokensResponse.data['id_token'],
+    expiresIn: tokensResponse.data['expires_in'],
+    refreshToken: tokensResponse.data['refresh_token'],
   });
 }
 
 function getAuthUrl({ redirectUri }) {
-  const redirectTarget = new URL(`${settings.poleEmploi.authUrl}`);
+  const redirectTarget = new URL(settings.poleEmploi.authUrl);
   const state = uuidv4();
   const nonce = uuidv4();
   const clientId = settings.poleEmploi.clientId;
@@ -65,7 +69,7 @@ function getAuthUrl({ redirectUri }) {
   return { redirectTarget: redirectTarget.toString(), state, nonce };
 }
 
-async function getUserInfo(idToken) {
+async function getUserInfo({ idToken }) {
   const { given_name, family_name, nonce, idIdentiteExterne } = await _extractClaimsFromIdToken(idToken);
 
   return {
@@ -81,9 +85,39 @@ async function _extractClaimsFromIdToken(idToken) {
   return { given_name, family_name, nonce, idIdentiteExterne };
 }
 
+async function createUserAccount({
+  user,
+  sessionContent,
+  externalIdentityId,
+  userToCreateRepository,
+  authenticationMethodRepository,
+}) {
+  let createdUserId;
+  await DomainTransaction.execute(async (domainTransaction) => {
+    createdUserId = (await userToCreateRepository.create({ user, domainTransaction })).id;
+
+    const authenticationMethod = new AuthenticationMethod({
+      identityProvider: AuthenticationMethod.identityProviders.POLE_EMPLOI,
+      userId: createdUserId,
+      externalIdentifier: externalIdentityId,
+      authenticationComplement: new AuthenticationMethod.PoleEmploiAuthenticationComplement({
+        accessToken: sessionContent.accessToken,
+        refreshToken: sessionContent.refreshToken,
+        expiredDate: moment().add(sessionContent.expiresIn, 's').toDate(),
+      }),
+    });
+    await authenticationMethodRepository.create({ authenticationMethod, domainTransaction });
+  });
+  return {
+    userId: createdUserId,
+    idToken: sessionContent.idToken,
+  };
+}
+
 module.exports = {
   createAccessToken,
   exchangeCodeForTokens,
   getAuthUrl,
   getUserInfo,
+  createUserAccount,
 };

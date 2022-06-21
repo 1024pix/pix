@@ -3,7 +3,7 @@ const { expect, knex } = require('../../../test-helper');
 const authenticationSessionService = require('../../../../lib/domain/services/authentication/authentication-session-service');
 
 const createServer = require('../../../../server');
-const PoleEmploiTokens = require('../../../../lib/domain/models/PoleEmploiTokens');
+const AuthenticationSessionContent = require('../../../../lib/domain/models/AuthenticationSessionContent');
 
 describe('Acceptance | Route | pole emploi users', function () {
   let server;
@@ -34,13 +34,13 @@ describe('Acceptance | Route | pole emploi users', function () {
         'secret'
       );
 
-      const poleEmploiTokens = new PoleEmploiTokens({
+      const poleEmploiAuthenticationSessionContent = new AuthenticationSessionContent({
         accessToken: 'accessToken',
         expiresIn: 10,
         idToken,
         refreshToken: 'refreshToken',
       });
-      const userAuthenticationKey = await authenticationSessionService.save(poleEmploiTokens);
+      const userAuthenticationKey = await authenticationSessionService.save(poleEmploiAuthenticationSessionContent);
 
       const request = {
         method: 'POST',
