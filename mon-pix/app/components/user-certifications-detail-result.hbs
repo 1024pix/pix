@@ -22,8 +22,8 @@
     {{#each @certification.certifiedBadgeImages as |certifiedBadgeImage|}}
       <div class="user-certifications-detail-result__complementary-certification">
         <img src={{certifiedBadgeImage.path}} alt="{{t "pages.certificate.complementary.alternative"}}" />
-        {{#if certifiedBadgeImage.isTemporaryBadge}}
-          <span>{{t "pages.certificate.temporary-badge-info" level=certifiedBadgeImage.levelName}}</span>
+        {{#if certifiedBadgeImage.message}}
+          <span>{{certifiedBadgeImage.message}}</span>
         {{/if}}
       </div>
     {{/each}}

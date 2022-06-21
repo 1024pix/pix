@@ -154,8 +154,8 @@ describe('Integration | Component | user certifications detail result', function
       expect(find('img[alt="Certification complémentaire"]')).to.exist;
     });
 
-    context('when the certified badge image is a temporary badge', function () {
-      it('should display the temporary badge message', async function () {
+    context('when the certified badge image has a message', function () {
+      it('should display the message', async function () {
         // given
         certification = EmberObject.create({
           id: 1,
@@ -170,7 +170,7 @@ describe('Integration | Component | user certifications detail result', function
           certifiedBadgeImages: [
             {
               url: '/some/img',
-              isTemporaryBadge: true,
+              message: 'Bravo Coco!',
               levelName: 'Level Name',
             },
           ],
@@ -181,11 +181,7 @@ describe('Integration | Component | user certifications detail result', function
         await render(hbs`<UserCertificationsDetailResult @certification={{this.certification}}/>`);
 
         // then
-        expect(
-          contains(
-            'Vous avez obtenu le niveau "Level Name" dans le cadre du volet 1 de la certification Pix+Édu. Votre niveau final sera déterminé à l’issue du volet 2'
-          )
-        ).to.exist;
+        expect(contains('Bravo Coco!')).to.exist;
       });
     });
   });
