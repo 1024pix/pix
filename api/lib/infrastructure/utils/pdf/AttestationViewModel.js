@@ -28,6 +28,7 @@ class AttestationViewModel {
     pixPlusEduCertificationImagePath,
     pixPlusEduTemporaryBadgeMessage,
     competenceDetailViewModels,
+    isFrenchDomainExtension,
   }) {
     this.pixScore = pixScore;
     this.maxReachableScore = maxReachableScore;
@@ -50,6 +51,7 @@ class AttestationViewModel {
     this._hasAcquiredPixPlusDroitCertification = hasAcquiredPixPlusDroitCertification;
     this._hasAcquiredCleaCertification = hasAcquiredCleaCertification;
     this._hasAcquiredPixPlusEduCertification = hasAcquiredPixPlusEduCertification;
+    this._isFrenchDomainExtension = isFrenchDomainExtension;
   }
 
   get certificationDate() {
@@ -77,11 +79,12 @@ class AttestationViewModel {
   }
 
   shouldDisplayProfessionalizingCertificationMessage() {
+    if (!this._isFrenchDomainExtension) return false;
     if (!this._deliveredAt) return false;
     return this._deliveredAt.getTime() >= PROFESSIONALIZING_VALIDITY_START_DATE.getTime();
   }
 
-  static from(certificate) {
+  static from(certificate, isFrenchDomainExtension) {
     const pixScore = certificate.pixScore.toString();
     const maxReachableScore = certificate.maxReachableScore.toString() + '*';
 
@@ -159,6 +162,7 @@ class AttestationViewModel {
       hasAcquiredCleaCertification,
       hasAcquiredPixPlusEduCertification,
       competenceDetailViewModels,
+      isFrenchDomainExtension,
     });
   }
 }

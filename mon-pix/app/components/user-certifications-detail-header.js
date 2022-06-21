@@ -8,6 +8,7 @@ export default class UserCertificationsDetailHeader extends Component {
   @service intl;
   @service fileSaver;
   @service session;
+  @service url;
 
   @tracked tooltipText = this.intl.t('pages.certificate.verification-code.copy');
 
@@ -23,7 +24,7 @@ export default class UserCertificationsDetailHeader extends Component {
   @action
   downloadAttestation() {
     const certifId = this.args.certification.id;
-    const url = `/api/attestation/${certifId}`;
+    const url = `/api/attestation/${certifId}?isFrenchDomainExtension=${this.url.isFrenchDomainExtension}`;
     const fileName = 'attestation_pix.pdf';
     const token = this.session.data.authenticated.access_token;
     this.fileSaver.save({ url, fileName, token });

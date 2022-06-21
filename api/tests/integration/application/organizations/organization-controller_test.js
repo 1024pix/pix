@@ -311,7 +311,7 @@ describe('Integration | Application | Organizations | organization-controller', 
         // when
         const response = await httpTestServer.request(
           'GET',
-          '/api/organizations/1234/certification-attestations?division=3b'
+          '/api/organizations/1234/certification-attestations?division=3b&isFrenchDomainExtension=true'
         );
 
         // then
@@ -330,7 +330,7 @@ describe('Integration | Application | Organizations | organization-controller', 
           // when
           const response = await httpTestServer.request(
             'GET',
-            '/api/organizations/1234/certification-attestations?division=3b'
+            '/api/organizations/1234/certification-attestations?division=3b&isFrenchDomainExtension=true'
           );
 
           // then
@@ -341,7 +341,23 @@ describe('Integration | Application | Organizations | organization-controller', 
       context('when no division is provided as query', function () {
         it('should resolve a 400 HTTP response', async function () {
           // when
-          const response = await httpTestServer.request('GET', '/api/organizations/1234/certification-attestations');
+          const response = await httpTestServer.request(
+            'GET',
+            '/api/organizations/1234/certification-attestations?isFrenchDomainExtension=true'
+          );
+
+          // then
+          expect(response.statusCode).to.equal(400);
+        });
+      });
+
+      context('when no isFrenchDomainExtension is provided as query', function () {
+        it('should resolve a 400 HTTP response', async function () {
+          // when
+          const response = await httpTestServer.request(
+            'GET',
+            '/api/organizations/1234/certification-attestations?division=3A'
+          );
 
           // then
           expect(response.statusCode).to.equal(400);
@@ -360,7 +376,7 @@ describe('Integration | Application | Organizations | organization-controller', 
           // when
           const response = await httpTestServer.request(
             'GET',
-            '/api/organizations/1234/certification-attestations?division=3b'
+            '/api/organizations/1234/certification-attestations?division=3b&isFrenchDomainExtension=true'
           );
 
           // then

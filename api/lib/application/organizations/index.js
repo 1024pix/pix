@@ -526,6 +526,7 @@ exports.register = async (server) => {
           }),
           query: Joi.object({
             division: Joi.string().required(),
+            isFrenchDomainExtension: Joi.boolean().required(),
           }),
         },
         handler: organizationController.downloadCertificationAttestationsForDivision,
