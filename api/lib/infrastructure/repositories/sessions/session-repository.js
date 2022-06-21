@@ -142,6 +142,24 @@ module.exports = {
 
     return result.type === CertificationCenter.types.SCO;
   },
+
+  async delete(sessionId) {
+    await knex.transaction(async (trx) => {
+      const certificationCandidateIdsInSession = await knex('certification-candidates')
+        .where({ sessionId })
+        .pluck('id');
+      if (certificationCandidateIdsInSession.length) {
+        await trx('complementary-certification-subscriptions')
+          .whereIn('certificationCandidateId', certificationCandidateIdsInSession)
+          .del();
+        await trx('certification-candidates').whereIn('id', certificationCandidateIdsInSession).del();
+      }
+      const nbSessionsDeleted = await trx('sessions').where('id', sessionId).del();
+      if (nbSessionsDeleted === 0) throw new NotFoundError();
+    });
+
+    return;
+  },
 };
 
 function _toDomain(results) {

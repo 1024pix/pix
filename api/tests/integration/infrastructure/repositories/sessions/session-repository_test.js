@@ -576,4 +576,86 @@ describe('Integration | Repository | Session', function () {
       });
     });
   });
+
+  describe('#delete', function () {
+    context('when session exists', function () {
+      context('when the session has candidates', function () {
+        it('should remove candidates and delete the session', async function () {
+          // given
+          const sessionId = databaseBuilder.factory.buildSession().id;
+          databaseBuilder.factory.buildCertificationCandidate({ sessionId });
+          databaseBuilder.factory.buildCertificationCandidate({ sessionId });
+
+          await databaseBuilder.commit();
+
+          // when
+          await sessionRepository.delete(sessionId);
+
+          // then
+          const foundSession = await knex('sessions').select('id').where({ id: sessionId }).first();
+          const candidates = await knex('certification-candidates').where({ sessionId });
+          expect(foundSession).to.be.undefined;
+          expect(candidates).to.be.empty;
+        });
+
+        context('when candidates have complementary certification subscriptions', function () {
+          it('should remove complementary certification subscriptions', async function () {
+            // given
+            const sessionId = databaseBuilder.factory.buildSession().id;
+            const certificationCandidateId = databaseBuilder.factory.buildCertificationCandidate({ sessionId }).id;
+
+            const complementaryCertificationId = databaseBuilder.factory.buildComplementaryCertification({
+              id: 123,
+            }).id;
+            databaseBuilder.factory.buildComplementaryCertificationSubscription({
+              complementaryCertificationId: complementaryCertificationId,
+              certificationCandidateId,
+            });
+
+            await databaseBuilder.commit();
+
+            // when
+            await sessionRepository.delete(sessionId);
+
+            // then
+            const foundSession = await knex('sessions').select('id').where({ id: sessionId }).first();
+            const foundSubscriptions = await knex('complementary-certification-subscriptions').where({
+              certificationCandidateId,
+            });
+            expect(foundSession).to.be.undefined;
+            expect(foundSubscriptions).to.be.empty;
+          });
+        });
+      });
+
+      context('when the session has no candidates', function () {
+        it('should delete the session', async function () {
+          // given
+          const sessionId = databaseBuilder.factory.buildSession().id;
+
+          await databaseBuilder.commit();
+
+          // when
+          await sessionRepository.delete(sessionId);
+
+          // then
+          const foundSession = await knex('sessions').select('id').where({ id: sessionId }).first();
+          expect(foundSession).to.be.undefined;
+        });
+      });
+    });
+
+    context('when session does not exist', function () {
+      it('should throw a not found error', async function () {
+        // given
+        const sessionId = 123456;
+
+        // when
+        const error = await catchErr(sessionRepository.delete)(sessionId);
+
+        // then
+        expect(error).to.be.instanceOf(NotFoundError);
+      });
+    });
+  });
 });
