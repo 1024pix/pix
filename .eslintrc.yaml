@@ -49,7 +49,7 @@ rules:
       message: "Use import fetch from 'fetch'"
   no-unused-vars:
     - error
-    - {argsIgnorePattern: _}
+    - {argsIgnorePattern: "^_", varsIgnorePattern: "^_"}
   no-var:
     - error
   object-curly-spacing:

@@ -11,10 +11,12 @@ module.exports = {
     let expirationDelaySeconds;
 
     if (request.payload.grant_type === 'refresh_token') {
-      refreshToken = request.payload.refresh_token;
-      const accessTokenAndExpirationDelaySeconds = await usecases.createAccessTokenFromRefreshToken({ refreshToken });
-      accessToken = accessTokenAndExpirationDelaySeconds.accessToken;
-      expirationDelaySeconds = accessTokenAndExpirationDelaySeconds.expirationDelaySeconds;
+      const tokensAndExpirationDelaySeconds = await usecases.refreshAccessToken({
+        refreshToken: request.payload.refresh_token,
+      });
+      accessToken = tokensAndExpirationDelaySeconds.accessToken;
+      refreshToken = tokensAndExpirationDelaySeconds.refreshToken;
+      expirationDelaySeconds = tokensAndExpirationDelaySeconds.expirationDelaySeconds;
     } else if (request.payload.grant_type === 'password') {
       const { username, password, scope } = request.payload;
 
