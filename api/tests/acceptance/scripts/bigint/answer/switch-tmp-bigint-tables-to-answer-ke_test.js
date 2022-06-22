@@ -62,7 +62,7 @@ describe('#switchTmpBigintTablesToAnswerKeTables', function () {
     await databaseBuilder.commit();
     await copyAnswerKeDataInsertedBeforeTrigger();
 
-    [answerIdInsertedBeforeSwitch] = await knex('answers')
+    [{ id: answerIdInsertedBeforeSwitch }] = await knex('answers')
       .insert({
         value: 'Some value for answer',
         result: 'Some result for answer',
@@ -277,7 +277,7 @@ describe('#switchTmpBigintTablesToAnswerKeTables', function () {
 
   it('should sequence are correctly reassigned', async function () {
     // when
-    const [answerIdInsertedAfterSwitch] = await knex('answers')
+    const [{ id: answerIdInsertedAfterSwitch }] = await knex('answers')
       .insert({
         value: 'Some value for answer',
         result: 'Some result for answer',
