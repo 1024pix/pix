@@ -1,9 +1,11 @@
 const { knex } = require('../../../db/knex-database-connection');
 const TutorialEvaluation = require('../../domain/models/TutorialEvaluation');
 
+const TABLE_NAME = 'tutorial-evaluations';
+
 module.exports = {
   async createOrUpdate({ userId, tutorialId, status }) {
-    const tutorialEvaluation = await knex('tutorial-evaluations')
+    const tutorialEvaluation = await knex(TABLE_NAME)
       .insert({
         userId,
         tutorialId,
@@ -19,7 +21,7 @@ module.exports = {
   },
 
   async find({ userId }) {
-    const tutorialEvaluation = await knex('tutorial-evaluations').where({ userId });
+    const tutorialEvaluation = await knex(TABLE_NAME).where({ userId });
     return tutorialEvaluation.map(_toDomain);
   },
 };
