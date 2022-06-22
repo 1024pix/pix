@@ -1,5 +1,25 @@
 # Pix Changelog
 
+## v3.224.0 (22/06/2022)
+
+
+### :rocket: Amélioration
+- [#4553](https://github.com/1024pix/pix/pull/4553) [FEATURE] Mettre à jour le nom de l'étape des signalements dans la finalisation de session (PIX-5186)
+- [#4545](https://github.com/1024pix/pix/pull/4545) [FEATURE] Ne pas mentionner la valeur professionnalisante de la certification Pix par France Compétences dans les attestations téléchargées depuis le domaine .org (PIX-5162).
+- [#4546](https://github.com/1024pix/pix/pull/4546) [FEATURE] Ajout de la colonne 'identityProviderForCampaigns' dans la table 'organizations' (PIX-5111)
+
+### :building_construction: Tech
+- [#4497](https://github.com/1024pix/pix/pull/4497) [TECH] Mutualiser le code des interconnexions openid (PIX-5078)
+- [#4521](https://github.com/1024pix/pix/pull/4521) [TECH] Supprimer des exemples de configuration de debug front
+- [#4538](https://github.com/1024pix/pix/pull/4538) [TECH] Renommer expiredDate en expirationDate dans la table organization-places (PIX-5065).
+- [#4525](https://github.com/1024pix/pix/pull/4525) [TECH] Renommer les ultimes mentions dans l'API de schooling-registrations (sauf les routes) (PIX-5152).
+
+### :bug: Correction
+- [#4555](https://github.com/1024pix/pix/pull/4555) [BUGFIX] Garder le champ vide quand l'information de dernière connexion n'est pas disponible (PIX-5193).
+- [#4532](https://github.com/1024pix/pix/pull/4532) [BUGFIX] Admin: Tooltips de la navbar cachées par les infos de la certification
+- [#4540](https://github.com/1024pix/pix/pull/4540) [BUGFIX] Supprimer l'erreur `TransitionAborted` lors du passage du didacticiel (PIX-5167).
+- [#4543](https://github.com/1024pix/pix/pull/4543) [BUGFIX] Ne pas afficher le nouveau membre dans la liste si une erreur survient (PIX-5183)
+
 ## v3.223.0 (20/06/2022)
 
 
