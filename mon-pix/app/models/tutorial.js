@@ -24,8 +24,8 @@ export default class Tutorial extends Model {
     return Boolean(this.userTutorial);
   }
 
-  @computed('tutorialEvaluation')
+  @computed('tutorialEvaluation.{isLiked,status}')
   get isEvaluated() {
-    return Boolean(this.tutorialEvaluation);
+    return this.tutorialEvaluation?.isLiked;
   }
 }
