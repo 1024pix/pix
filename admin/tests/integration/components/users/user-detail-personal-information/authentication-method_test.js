@@ -43,7 +43,7 @@ module('Integration | Component | users | user-detail-personal-information/authe
         });
       });
 
-      module('when user has logged in', function () {
+      module('when last logged date exists', function () {
         test('should display date of latest connection', async function (assert) {
           // given
           this.set('user', { lastLoggedAt: new Date('2022-07-01') });
@@ -54,12 +54,13 @@ module('Integration | Component | users | user-detail-personal-information/authe
             <Users::UserDetailPersonalInformation::AuthenticationMethod @user={{this.user}} />`);
 
           // then
+          assert.dom(screen.getByText('Date de dernière connexion :')).exists();
           assert.dom(screen.getByText('01/07/2022')).exists();
         });
       });
 
-      module('when user never logged in', function () {
-        test("it should display `L'utilisateur ne s'est jamais connecté`", async function (assert) {
+      module('when last logged date does not exist', function () {
+        test('it should only display label', async function (assert) {
           // given
           this.set('user', { lastLoggedAt: null });
           this.owner.register('service:access-control', AccessControlStub);
@@ -69,7 +70,8 @@ module('Integration | Component | users | user-detail-personal-information/authe
             <Users::UserDetailPersonalInformation::AuthenticationMethod @user={{this.user}} />`);
 
           // then
-          assert.dom(screen.getByText("L'utilisateur ne s'est jamais connecté")).exists();
+          assert.dom(screen.getByText('Date de dernière connexion :')).exists();
+          assert.dom(screen.queryByText('Invalid date')).doesNotExist();
         });
       });
 
