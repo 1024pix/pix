@@ -74,10 +74,18 @@ jobs:
     working_directory: ~/pix
     steps:
       - checkout
+      - run: cat package*.json > cachekey
+      - restore_cache:
+          keys:
+            - v7-api-npm-{{ checksum "cachekey" }}
+      - run: npm ci
+      - save_cache:
+          key: v7-api-npm-{{ checksum "cachekey" }}
+          paths:
+            - ~/.npm
       - run:
           name: Lint and test root
           command: |
-            npm ci
             npm run lint:scripts
             npm run lint:yaml
             npm run test:root
@@ -100,15 +108,6 @@ jobs:
     steps:
       - attach_workspace:
           at: ~/pix
-      - run: cat package*.json > cachekey
-      - restore_cache:
-          keys:
-            - v7-api-npm-{{ checksum "cachekey" }}
-      - run: npm ci
-      - save_cache:
-          key: v7-api-npm-{{ checksum "cachekey" }}
-          paths:
-            - ~/.npm
       - run:
           name: Lint and test
           command: |
@@ -137,15 +136,6 @@ jobs:
       - browser-tools/install-chrome
       - attach_workspace:
           at: ~/pix
-      - run: cat package*.json > cachekey
-      - restore_cache:
-          keys:
-            - v7-mon-pix-npm-{{ checksum "cachekey" }}
-      - run: npm ci
-      - save_cache:
-          key: v7-mon-pix-npm-{{ checksum "cachekey" }}
-          paths:
-            - ~/.npm
       - run:
           name: Lint
           command: npm run lint
@@ -164,15 +154,6 @@ jobs:
       - browser-tools/install-chrome
       - attach_workspace:
           at: ~/pix
-      - run: cat package*.json > cachekey
-      - restore_cache:
-          keys:
-            - v7-orga-npm-{{ checksum "cachekey" }}
-      - run: npm ci
-      - save_cache:
-          key: v7-orga-npm-{{ checksum "cachekey" }}
-          paths:
-            - ~/.npm
       - run:
           name: Lint
           command: npm run lint
@@ -191,15 +172,6 @@ jobs:
       - browser-tools/install-chrome
       - attach_workspace:
           at: ~/pix
-      - run: cat package*.json > cachekey
-      - restore_cache:
-          keys:
-            - v7-certif-npm-{{ checksum "cachekey" }}
-      - run: npm ci
-      - save_cache:
-          key: v7-certif-npm-{{ checksum "cachekey" }}
-          paths:
-            - ~/.npm
       - run:
           name: Lint
           command: npm run lint
@@ -218,15 +190,6 @@ jobs:
       - browser-tools/install-chrome
       - attach_workspace:
           at: ~/pix
-      - run: cat package*.json > cachekey
-      - restore_cache:
-          keys:
-            - v7-admin-npm-{{ checksum "cachekey" }}
-      - run: npm ci
-      - save_cache:
-          key: v7-admin-npm-{{ checksum "cachekey" }}
-          paths:
-            - ~/.npm
       - run:
           name: Lint
           command: npm run lint
