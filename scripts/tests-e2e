@@ -9,7 +9,7 @@ if [ "$1" == "open" ]; then
     DC_CYPRESS_ARGS=" --volume /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=unix:0"
 fi
 
-npm run ci:all
+npm ci
 cd high-level-tests/e2e
 docker-compose stop
 docker-compose up -d postgres redis api monpix certif orga

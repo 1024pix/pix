@@ -36,7 +36,6 @@
     "build:front": "run-p --print-label build:mon-pix build:orga build:certif build:admin",
     "build:mon-pix": "npm run build --workspace mon-pix && mkdir -p dist && cp -R mon-pix/dist dist/app",
     "build:orga": "npm run build --workspace orga && mkdir -p dist && cp -R orga/dist dist/orga",
-    "ci:all": "npm ci",
     "signal-github": "./scripts/signal_deploy_to_pr.sh",
     "signal-jira": "node ./scripts/jira/comment-with-review-app-url.js",
     "compute-lead-times": "node ./scripts/compute-lead-times",

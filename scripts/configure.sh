@@ -88,7 +88,7 @@ function install_apps_dependencies() {
   echo "Installing Pix apps dependencies…"
 
   npm install
-  npm run ci:all
+  npm ci
 
   echo "✅ Dependencies installed."
   echo ""
