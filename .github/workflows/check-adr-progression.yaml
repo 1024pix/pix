@@ -1,0 +1,23 @@
+name: Check Adr Progression
+on:
+  schedule:
+    - cron: '0 9 * * 1'
+  push:
+    branches:
+      - '*'
+
+jobs:
+  check-adr-bookshelf:
+    name: Check ADR Bookshelf Progression
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@master
+      - name: Check Progression
+        run: echo "::set-output name=ADR_PROGRESSION::$(grep -r -l -i 'api/lib' -e 'bookshelf' | wc -l)"
+        id: check_progression
+      - name: Send information to slack
+        run: |
+          curl -X POST -H 'Content-type: application/json' --data '{"text":"Nombre de fichiers contenant \"bookshelf\" : ${{ steps.check_progression.outputs.ADR_PROGRESSION }}"}' "$SLACK_WEBHOOK_URL"
+        env:
+          SLACK_WEBHOOK_URL: '${{ secrets.SLACK_WEBHOOK_URL }}'
