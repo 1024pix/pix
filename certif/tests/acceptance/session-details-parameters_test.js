@@ -49,9 +49,7 @@ module('Acceptance | Session Details Parameters', function (hooks) {
         await visit(`/sessions/${sessionCreated.id}`);
 
         // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(currentURL(), '/espace-ferme');
+        assert.strictEqual(currentURL(), '/espace-ferme');
       });
     });
 
@@ -80,9 +78,7 @@ module('Acceptance | Session Details Parameters', function (hooks) {
             await clickByLabel('Finaliser la session');
 
             // then
-            // TODO: Fix this the next time the file is edited.
-            // eslint-disable-next-line qunit/no-assert-equal
-            assert.equal(currentURL(), `/sessions/${sessionCreatedAndStarted.id}/finalisation`);
+            assert.strictEqual(currentURL(), `/sessions/${sessionCreatedAndStarted.id}/finalisation`);
           });
 
           module('when the certification center is not in the end test screen removal whitelist', function () {
@@ -136,9 +132,7 @@ module('Acceptance | Session Details Parameters', function (hooks) {
           await clickByLabel('Finaliser la session');
 
           // then
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line qunit/no-assert-equal
-          assert.equal(currentURL(), `/sessions/${sessionFinalized.id}`);
+          assert.strictEqual(currentURL(), `/sessions/${sessionFinalized.id}`);
         });
 
         test('it should throw an error on visiting /finalisation url', async function (assert) {
