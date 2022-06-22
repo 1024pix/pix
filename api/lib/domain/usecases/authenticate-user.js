@@ -59,10 +59,8 @@ module.exports = async function authenticateUser({
     }
 
     await _checkUserAccessScope(scope, foundUser, adminMemberRepository);
+    const { accessToken, expirationDelaySeconds } = await tokenService.createAccessTokenFromUser(foundUser.id, source);
     const refreshToken = await refreshTokenService.createRefreshTokenFromUserId({ userId: foundUser.id, source });
-    const { accessToken, expirationDelaySeconds } = await refreshTokenService.createAccessTokenFromRefreshToken({
-      refreshToken,
-    });
 
     await userRepository.updateLastLoggedAt({ userId: foundUser.id });
     return { accessToken, refreshToken, expirationDelaySeconds };

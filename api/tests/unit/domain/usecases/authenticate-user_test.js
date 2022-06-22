@@ -15,6 +15,7 @@ const endTestScreenRemovalService = require('../../../../lib/domain/services/end
 const appMessages = require('../../../../lib/domain/constants');
 
 describe('Unit | Application | UseCase | authenticate-user', function () {
+  let tokenService;
   let refreshTokenService;
   let userRepository;
   let adminMemberRepository;
@@ -24,9 +25,11 @@ describe('Unit | Application | UseCase | authenticate-user', function () {
   const password = 'Password1234';
 
   beforeEach(function () {
+    tokenService = {
+      createAccessTokenFromUser: sinon.stub(),
+    };
     refreshTokenService = {
       createRefreshTokenFromUserId: sinon.stub(),
-      createAccessTokenFromRefreshToken: sinon.stub(),
     };
     userRepository = {
       getByUsernameOrEmailWithRoles: sinon.stub(),
@@ -150,8 +153,8 @@ describe('Unit | Application | UseCase | authenticate-user', function () {
             source,
           })
           .returns(refreshToken);
-        refreshTokenService.createAccessTokenFromRefreshToken
-          .withArgs({ refreshToken })
+        tokenService.createAccessTokenFromUser
+          .withArgs(user.id, source)
           .resolves({ accessToken, expirationDelaySeconds });
 
         // when
@@ -163,6 +166,7 @@ describe('Unit | Application | UseCase | authenticate-user', function () {
           pixAuthenticationService,
           userRepository,
           adminMemberRepository,
+          tokenService,
           refreshTokenService,
         });
 
@@ -219,8 +223,8 @@ describe('Unit | Application | UseCase | authenticate-user', function () {
               source,
             })
             .returns(refreshToken);
-          refreshTokenService.createAccessTokenFromRefreshToken
-            .withArgs({ refreshToken })
+          tokenService.createAccessTokenFromUser
+            .withArgs(user.id, source)
             .resolves({ accessToken, expirationDelaySeconds });
 
           // when
@@ -230,6 +234,7 @@ describe('Unit | Application | UseCase | authenticate-user', function () {
             scope,
             source,
             pixAuthenticationService,
+            tokenService,
             refreshTokenService,
             userRepository,
             endTestScreenRemovalService,
@@ -261,9 +266,7 @@ describe('Unit | Application | UseCase | authenticate-user', function () {
         source,
       })
       .returns(refreshToken);
-    refreshTokenService.createAccessTokenFromRefreshToken
-      .withArgs({ refreshToken })
-      .resolves({ accessToken, expirationDelaySeconds });
+    tokenService.createAccessTokenFromUser.withArgs(user.id, source).resolves({ accessToken, expirationDelaySeconds });
 
     // when
     const result = await authenticateUser({
@@ -271,6 +274,7 @@ describe('Unit | Application | UseCase | authenticate-user', function () {
       password,
       source,
       pixAuthenticationService,
+      tokenService,
       refreshTokenService,
       userRepository,
     });
@@ -292,7 +296,7 @@ describe('Unit | Application | UseCase | authenticate-user', function () {
     const user = domainBuilder.buildUser({ email: userEmail });
 
     pixAuthenticationService.getUserByUsernameAndPassword.resolves(user);
-    refreshTokenService.createAccessTokenFromRefreshToken.resolves({ accessToken, expirationDelaySeconds });
+    tokenService.createAccessTokenFromUser.resolves({ accessToken, expirationDelaySeconds });
 
     // when
     await authenticateUser({
@@ -300,6 +304,7 @@ describe('Unit | Application | UseCase | authenticate-user', function () {
       password,
       source,
       pixAuthenticationService,
+      tokenService,
       refreshTokenService,
       userRepository,
     });
