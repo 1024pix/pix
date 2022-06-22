@@ -2,12 +2,6 @@ const { expect, domainBuilder, sinon } = require('../../../test-helper');
 const settings = require('../../../../lib/config');
 
 describe('Unit | Domain | Read-Models | AllowedCertificationCenterAccess', function () {
-  let clock;
-
-  beforeEach(function () {
-    clock = sinon.useFakeTimers(new Date('2020-01-01'));
-  });
-
   context('#isInWhitelist', function () {
     let originalEnvValueWhitelist, originalEnvValueDateCollege, originalEnvValueDateLycee;
 
@@ -219,6 +213,7 @@ describe('Unit | Domain | Read-Models | AllowedCertificationCenterAccess', funct
       expect(isLycee).to.be.true;
     });
   });
+
   context('#isAEFE', function () {
     it('should return false when certification center does not have the tag AEFE', function () {
       // given
@@ -248,6 +243,7 @@ describe('Unit | Domain | Read-Models | AllowedCertificationCenterAccess', funct
       expect(isAEFE).to.be.true;
     });
   });
+
   context('#isAgri', function () {
     it('should return false when certification center is not of type SCO', function () {
       // given
@@ -338,6 +334,7 @@ describe('Unit | Domain | Read-Models | AllowedCertificationCenterAccess', funct
 
   context('#isAccessBlockedCollege', function () {
     let validData;
+    let clock;
 
     beforeEach(function () {
       settings.features.pixCertifScoBlockedAccessWhitelist = ['WHITELISTED'];
@@ -356,6 +353,7 @@ describe('Unit | Domain | Read-Models | AllowedCertificationCenterAccess', funct
 
     it('should return false when certification center is not a college', function () {
       // given
+      clock = sinon.useFakeTimers(new Date('2020-01-01'));
       const allowedCertificationCenterAccess = domainBuilder.buildAllowedCertificationCenterAccess({
         ...validData,
         relatedOrganizationTags: ['COLLEGEee', 'some_other_tag'],
@@ -370,6 +368,7 @@ describe('Unit | Domain | Read-Models | AllowedCertificationCenterAccess', funct
 
     it('should return false when certification center is also a lycee', function () {
       // given
+      clock = sinon.useFakeTimers(new Date('2020-01-01'));
       const allowedCertificationCenterAccess = domainBuilder.buildAllowedCertificationCenterAccess({
         ...validData,
         relatedOrganizationTags: ['COLLEGE', 'LYCEE', 'some_other_tag'],
@@ -384,6 +383,7 @@ describe('Unit | Domain | Read-Models | AllowedCertificationCenterAccess', funct
 
     it('should return false when certification center is whitelisted', function () {
       // given
+      clock = sinon.useFakeTimers(new Date('2020-01-01'));
       const allowedCertificationCenterAccess = domainBuilder.buildAllowedCertificationCenterAccess({
         ...validData,
         externalId: 'WHITELISTED',
@@ -410,6 +410,7 @@ describe('Unit | Domain | Read-Models | AllowedCertificationCenterAccess', funct
 
     it('should return true otherwise all above conditions', function () {
       // given
+      clock = sinon.useFakeTimers(new Date('2020-01-01'));
       const allowedCertificationCenterAccess = domainBuilder.buildAllowedCertificationCenterAccess(validData);
 
       // when
@@ -422,6 +423,7 @@ describe('Unit | Domain | Read-Models | AllowedCertificationCenterAccess', funct
 
   context('#isAccessBlockedLycee', function () {
     let validData;
+    let clock;
 
     beforeEach(function () {
       settings.features.pixCertifScoBlockedAccessWhitelist = ['WHITELISTED'];
@@ -440,6 +442,7 @@ describe('Unit | Domain | Read-Models | AllowedCertificationCenterAccess', funct
 
     it('should return false when certification center is not a lycee', function () {
       // given
+      clock = sinon.useFakeTimers(new Date('2020-01-01'));
       const allowedCertificationCenterAccess = domainBuilder.buildAllowedCertificationCenterAccess({
         ...validData,
         relatedOrganizationTags: ['LYCEE PROU', 'some_other_tag'],
@@ -454,6 +457,7 @@ describe('Unit | Domain | Read-Models | AllowedCertificationCenterAccess', funct
 
     it('should return false when certification center is whitelisted', function () {
       // given
+      clock = sinon.useFakeTimers(new Date('2020-01-01'));
       const allowedCertificationCenterAccess = domainBuilder.buildAllowedCertificationCenterAccess({
         ...validData,
         externalId: 'WHITELISTED',
@@ -480,6 +484,7 @@ describe('Unit | Domain | Read-Models | AllowedCertificationCenterAccess', funct
 
     it('should return true otherwise all above conditions', function () {
       // given
+      clock = sinon.useFakeTimers(new Date('2020-01-01'));
       const allowedCertificationCenterAccessLycee = domainBuilder.buildAllowedCertificationCenterAccess({
         ...validData,
         relatedOrganizationTags: ['LYCEE'],
@@ -501,6 +506,7 @@ describe('Unit | Domain | Read-Models | AllowedCertificationCenterAccess', funct
 
   context('#isAccessBlockedAEFE', function () {
     let validData;
+    let clock;
 
     beforeEach(function () {
       settings.features.pixCertifScoBlockedAccessWhitelist = ['WHITELISTED'];
@@ -519,6 +525,7 @@ describe('Unit | Domain | Read-Models | AllowedCertificationCenterAccess', funct
 
     it('should return false when certification center is not AEFE', function () {
       // given
+      clock = sinon.useFakeTimers(new Date('2020-01-01'));
       const allowedCertificationCenterAccess = domainBuilder.buildAllowedCertificationCenterAccess({
         ...validData,
         relatedOrganizationTags: ['LYCEE PROU', 'some_other_tag'],
@@ -533,6 +540,7 @@ describe('Unit | Domain | Read-Models | AllowedCertificationCenterAccess', funct
 
     it('should return false when certification center is whitelisted', function () {
       // given
+      clock = sinon.useFakeTimers(new Date('2020-01-01'));
       const allowedCertificationCenterAccess = domainBuilder.buildAllowedCertificationCenterAccess({
         ...validData,
         externalId: 'WHITELISTED',
@@ -559,6 +567,7 @@ describe('Unit | Domain | Read-Models | AllowedCertificationCenterAccess', funct
 
     it('should return true otherwise all above conditions', function () {
       // given
+      clock = sinon.useFakeTimers(new Date('2020-01-01'));
       const allowedCertificationCenterAccessAEFE = domainBuilder.buildAllowedCertificationCenterAccess({
         ...validData,
         relatedOrganizationTags: ['AEFE'],
@@ -574,6 +583,7 @@ describe('Unit | Domain | Read-Models | AllowedCertificationCenterAccess', funct
 
   context('#isAccessBlockedAgri', function () {
     let validData;
+    let clock;
 
     beforeEach(function () {
       settings.features.pixCertifScoBlockedAccessWhitelist = ['WHITELISTED'];
@@ -592,6 +602,7 @@ describe('Unit | Domain | Read-Models | AllowedCertificationCenterAccess', funct
 
     it('should return false when certification center is not AGRICULTURE', function () {
       // given
+      clock = sinon.useFakeTimers(new Date('2020-01-01'));
       const allowedCertificationCenterAccess = domainBuilder.buildAllowedCertificationCenterAccess({
         ...validData,
         relatedOrganizationTags: ['LYCEE PROU', 'some_other_tag'],
@@ -606,6 +617,7 @@ describe('Unit | Domain | Read-Models | AllowedCertificationCenterAccess', funct
 
     it('should return false when certification center is whitelisted', function () {
       // given
+      clock = sinon.useFakeTimers(new Date('2020-01-01'));
       const allowedCertificationCenterAccess = domainBuilder.buildAllowedCertificationCenterAccess({
         ...validData,
         externalId: 'WHITELISTED',
@@ -632,6 +644,7 @@ describe('Unit | Domain | Read-Models | AllowedCertificationCenterAccess', funct
 
     it('should return true otherwise all above conditions', function () {
       // given
+      clock = sinon.useFakeTimers(new Date('2020-01-01'));
       const allowedCertificationCenterAccessAgri = domainBuilder.buildAllowedCertificationCenterAccess({
         ...validData,
         relatedOrganizationTags: ['AGRICULTURE'],
