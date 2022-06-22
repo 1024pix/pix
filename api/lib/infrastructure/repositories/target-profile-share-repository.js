@@ -6,12 +6,13 @@ module.exports = {
       return { organizationId, targetProfileId };
     });
 
-    const attachedTargetProfileIds = await knex('target-profile-shares')
+    const insertedTargetProfileShares = await knex('target-profile-shares')
       .insert(targetProfileShareToAdd)
       .onConflict(['targetProfileId', 'organizationId'])
       .ignore()
       .returning('targetProfileId');
 
+    const attachedTargetProfileIds = insertedTargetProfileShares.map(({ targetProfileId }) => targetProfileId);
     const duplicatedTargetProfileIds = targetProfileIdList.filter(
       (targetProfileId) => !attachedTargetProfileIds.includes(targetProfileId)
     );
