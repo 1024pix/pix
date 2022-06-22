@@ -6,11 +6,12 @@ async function markUsersRequiringTermsOfServiceValidationForRevalidation() {
     cgu: true,
   });
 
-  return Bookshelf.knex
+  const result = await Bookshelf.knex
     .table('users')
     .update({ mustValidateTermsOfService: true })
     .whereIn('id', subquery)
     .returning('id');
+  return result.map(({ id }) => id);
 }
 
 async function main() {
