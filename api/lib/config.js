@@ -110,6 +110,7 @@ module.exports = (function () {
       refreshTokenLifespanMs: ms(process.env.REFRESH_TOKEN_LIFESPAN || '7d'),
       tokenForCampaignResultLifespan: '1h',
       tokenForStudentReconciliationLifespan: '1h',
+      passwordResetTokenLifespan: '1h',
     },
 
     apiManager: {

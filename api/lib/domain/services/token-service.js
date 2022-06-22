@@ -93,6 +93,16 @@ function createCertificationResultsLinkToken({ sessionId, daysBeforeExpiration }
   );
 }
 
+function createPasswordResetToken(userId) {
+  return jsonwebtoken.sign(
+    {
+      user_id: userId,
+    },
+    settings.authentication.secret,
+    { expiresIn: settings.authentication.passwordResetTokenLifespan }
+  );
+}
+
 function extractTokenFromAuthChain(authChain) {
   if (!authChain) {
     return authChain;
@@ -186,6 +196,7 @@ module.exports = {
   createIdTokenForUserReconciliation,
   createCertificationResultsByRecipientEmailLinkToken,
   createCertificationResultsLinkToken,
+  createPasswordResetToken,
   decodeIfValid,
   getDecodedToken,
   extractExternalUserFromIdToken,
