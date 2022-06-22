@@ -23,4 +23,10 @@ export default Factory.extend({
       server.schema.create('user-tutorial', { tutorial });
     },
   }),
+
+  withTutorialEvaluation: trait({
+    afterCreate(tutorial, server) {
+      server.schema.create('tutorial-evaluation', { tutorial, status: 'LIKED' });
+    },
+  }),
 });
