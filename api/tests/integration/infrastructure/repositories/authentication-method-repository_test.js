@@ -7,15 +7,6 @@ const DomainTransaction = require('../../../../lib/infrastructure/DomainTransact
 describe('Integration | Repository | AuthenticationMethod', function () {
   const hashedPassword = 'ABCDEF1234';
   const newHashedPassword = '1234ABCDEF';
-  let clock;
-  afterEach(function () {
-    clock.restore();
-  });
-
-  beforeEach(function () {
-    const now = new Date('2020-01-02');
-    clock = sinon.useFakeTimers(now);
-  });
 
   describe('#create', function () {
     afterEach(function () {
@@ -151,10 +142,16 @@ describe('Integration | Repository | AuthenticationMethod', function () {
 
   describe('#updateChangedPassword', function () {
     let userId;
+    let clock;
 
     beforeEach(async function () {
+      clock = sinon.useFakeTimers(new Date('2020-01-02'));
       userId = databaseBuilder.factory.buildUser().id;
       await databaseBuilder.commit();
+    });
+
+    afterEach(function () {
+      clock.restore();
     });
 
     it('should update the password in database', async function () {
@@ -438,6 +435,16 @@ describe('Integration | Repository | AuthenticationMethod', function () {
 
   describe('#updateExternalIdentifierByUserIdAndIdentityProvider', function () {
     context('When authentication method exists', function () {
+      let clock;
+
+      beforeEach(async function () {
+        clock = sinon.useFakeTimers(new Date('2020-01-02'));
+      });
+
+      afterEach(function () {
+        clock.restore();
+      });
+
       it('should update external identifier by userId and identity provider', async function () {
         // given
         const userId = databaseBuilder.factory.buildUser().id;
@@ -507,10 +514,16 @@ describe('Integration | Repository | AuthenticationMethod', function () {
 
   describe('#updatePasswordThatShouldBeChanged', function () {
     let userId;
+    let clock;
 
     beforeEach(async function () {
+      clock = sinon.useFakeTimers(new Date('2020-01-02'));
       userId = databaseBuilder.factory.buildUser().id;
       await databaseBuilder.commit();
+    });
+
+    afterEach(function () {
+      clock.restore();
     });
 
     it('should update password in database and set shouldChangePassword to true', async function () {
@@ -701,8 +714,10 @@ describe('Integration | Repository | AuthenticationMethod', function () {
 
   describe('#updateExpiredPassword', function () {
     let userId;
+    let clock;
 
     beforeEach(async function () {
+      clock = sinon.useFakeTimers(new Date('2020-01-02'));
       userId = databaseBuilder.factory.buildUser({ shouldChangePassword: true }).id;
       databaseBuilder.factory.buildAuthenticationMethod.withPixAsIdentityProviderAndHashedPassword({
         id: 123,
@@ -711,6 +726,10 @@ describe('Integration | Repository | AuthenticationMethod', function () {
         shouldChangePassword: true,
       });
       await databaseBuilder.commit();
+    });
+
+    afterEach(function () {
+      clock.restore();
     });
 
     it('should update the password in database and set shouldChangePassword to false', async function () {
@@ -767,8 +786,10 @@ describe('Integration | Repository | AuthenticationMethod', function () {
   describe('#updatePoleEmploiAuthenticationComplementByUserId', function () {
     context('When authentication method exists', function () {
       let poleEmploiAuthenticationMethod;
+      let clock;
 
       beforeEach(function () {
+        clock = sinon.useFakeTimers(new Date('2020-01-02'));
         const userId = databaseBuilder.factory.buildUser().id;
         poleEmploiAuthenticationMethod =
           databaseBuilder.factory.buildAuthenticationMethod.withPoleEmploiAsIdentityProvider({
@@ -780,6 +801,10 @@ describe('Integration | Repository | AuthenticationMethod', function () {
             userId,
           });
         return databaseBuilder.commit();
+      });
+
+      afterEach(function () {
+        clock.restore();
       });
 
       it('should update the pole emploi authentication complement in database', async function () {
