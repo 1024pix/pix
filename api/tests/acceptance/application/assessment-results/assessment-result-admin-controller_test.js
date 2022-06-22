@@ -114,8 +114,8 @@ describe('Acceptance | Controller | assessment-results-controller', function () 
     });
 
     context('when assessment has already the assessment-result compute', function () {
-      before(async function () {
-        const results = await knex('assessment-results').insert(
+      beforeEach(async function () {
+        const [{ id: assessmentResultId }] = await knex('assessment-results').insert(
           {
             level: -1,
             pixScore: 0,
@@ -126,9 +126,8 @@ describe('Acceptance | Controller | assessment-results-controller', function () 
           'id'
         );
 
-        const resultId = results[0];
         await knex('competence-marks').insert({
-          assessmentResultId: resultId,
+          assessmentResultId,
           level: -1,
           score: 0,
           area_code: 2,
