@@ -5,6 +5,7 @@ module.exports = function buildTutorialEvaluation({
   tutorialId,
   userId,
   status = 'LIKED',
+  updatedAt = new Date(),
 } = {}) {
   return databaseBuffer.pushInsertable({
     tableName: 'tutorial-evaluations',
@@ -13,6 +14,7 @@ module.exports = function buildTutorialEvaluation({
       userId,
       tutorialId,
       status,
+      updatedAt,
     },
   });
 };
