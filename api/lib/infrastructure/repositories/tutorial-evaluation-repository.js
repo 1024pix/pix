@@ -3,16 +3,19 @@ const TutorialEvaluation = require('../../domain/models/TutorialEvaluation');
 
 module.exports = {
   async createOrUpdate({ userId, tutorialId, status }) {
-    const foundTutorialEvaluation = await knex('tutorial-evaluations').where({ userId, tutorialId, status }).first();
-
-    if (foundTutorialEvaluation) {
-      return _toDomain(foundTutorialEvaluation);
-    }
-
-    const [newTutorialEvaluation] = await knex('tutorial-evaluations')
-      .insert({ userId, tutorialId, status })
+    const tutorialEvaluation = await knex('tutorial-evaluations')
+      .insert({
+        userId,
+        tutorialId,
+        status,
+      })
+      .onConflict(['userId', 'tutorialId'])
+      .merge({
+        status,
+        updatedAt: knex.fn.now(),
+      })
       .returning('*');
-    return _toDomain(newTutorialEvaluation);
+    return _toDomain(tutorialEvaluation[0]);
   },
 
   async find({ userId }) {
@@ -27,5 +30,6 @@ function _toDomain(tutorialEvaluationData) {
     userId: tutorialEvaluationData.userId,
     tutorialId: tutorialEvaluationData.tutorialId,
     status: tutorialEvaluationData.status,
+    updatedAt: tutorialEvaluationData.updatedAt,
   });
 }

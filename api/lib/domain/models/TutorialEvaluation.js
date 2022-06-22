@@ -4,11 +4,12 @@ const status = {
 };
 
 class TutorialEvaluation {
-  constructor({ id, userId, tutorialId, status } = {}) {
+  constructor({ id, userId, tutorialId, status, updatedAt } = {}) {
     this.id = id;
     this.userId = userId;
     this.tutorialId = tutorialId;
     this.status = status;
+    this.updatedAt = updatedAt;
   }
 }
 
