@@ -173,7 +173,7 @@ module.exports = {
   async createTemplateAndTargetProfile({ targetProfileTemplate, targetProfileForCreation }) {
     try {
       return await knex.transaction(async (trx) => {
-        const [targetProfileTemplateId] = await knex('target-profile-templates').insert({}).returning('id');
+        const [{ id: targetProfileTemplateId }] = await knex('target-profile-templates').insert({}).returning('id');
 
         const tubes = targetProfileTemplate.tubes.map((tube) => ({
           targetProfileTemplateId,
@@ -266,7 +266,7 @@ async function _createTargetProfile({ trx, targetProfileForCreation }) {
     'targetProfileTemplateId',
   ]);
 
-  const [targetProfileId] = await trx('target-profiles').insert(targetProfileRawData).returning('id');
+  const [{ id: targetProfileId }] = await trx('target-profiles').insert(targetProfileRawData).returning('id');
 
   const skillsIdList = _.uniq(targetProfileForCreation.skillIds);
 
