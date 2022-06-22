@@ -126,13 +126,12 @@ module('Acceptance | Session Details Parameters', function (hooks) {
           server.createList('certification-candidate', 3, { isLinked: true, sessionId: sessionFinalized.id });
         });
 
-        test('it should not redirect to finalize page on click on finalize button', async function (assert) {
+        test('it should session already finalized warning', async function (assert) {
           // when
           await visit(`/sessions/${sessionFinalized.id}`);
-          await clickByLabel('Finaliser la session');
 
           // then
-          assert.strictEqual(currentURL(), `/sessions/${sessionFinalized.id}`);
+          assert.contains('Les informations de finalisation de la session ont déjà été transmises aux équipes de Pix');
         });
 
         test('it should throw an error on visiting /finalisation url', async function (assert) {
