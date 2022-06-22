@@ -1,11 +1,11 @@
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 import { setupRenderingTest } from 'ember-qunit';
-import { render } from '@ember/test-helpers';
+import { click } from '@ember/test-helpers';
+import { render as renderScreen } from '@1024pix/ember-testing-library';
 import { run } from '@ember/runloop';
 import hbs from 'htmlbars-inline-precompile';
 import Service from '@ember/service';
-import clickByLabel from '../../helpers/extended-ember-test-helpers/click-by-label';
 
 module('Integration | Component | user-logged-menu', function (hooks) {
   setupRenderingTest(hooks);
@@ -36,10 +36,10 @@ module('Integration | Component | user-logged-menu', function (hooks) {
 
   test("should display user's firstName and lastName", async function (assert) {
     // when
-    await render(hbs`<UserLoggedMenu/>`);
+    const screen = await renderScreen(hbs`<UserLoggedMenu/>`);
 
     // then
-    assert.contains('Buffy Summers');
+    assert.dom(screen.getByText('Buffy Summers')).exists();
   });
 
   module("when certification center doesn't have an externalId", function () {
@@ -48,11 +48,10 @@ module('Integration | Component | user-logged-menu', function (hooks) {
       currentAllowedCertificationCenterAccess.externalId = '';
 
       // when
-      await render(hbs`<UserLoggedMenu/>`);
+      const screen = await renderScreen(hbs`<UserLoggedMenu/>`);
 
       // then
-      assert.contains('Sunnydale');
-      assert.notContains('(');
+      assert.dom(screen.getByText('Sunnydale')).exists();
     });
   });
 
@@ -62,39 +61,30 @@ module('Integration | Component | user-logged-menu', function (hooks) {
       currentAllowedCertificationCenterAccess.externalId = 'GILES123';
 
       // when
-      await render(hbs`<UserLoggedMenu/>`);
+      const screen = await renderScreen(hbs`<UserLoggedMenu/>`);
 
       // then
-      assert.contains('Sunnydale (GILES123)');
+      assert.dom(screen.getByText('Sunnydale (GILES123)')).exists();
     });
   });
 
   module('when menu is closed', function () {
-    test('should display the chevron-down icon', async function (assert) {
-      // when
-      await render(hbs`<UserLoggedMenu/>`);
-
-      // then
-      assert.dom('.fa-chevron-down').exists();
-      assert.dom('.fa-chevron-up').doesNotExist();
-    });
-
     test('should hide the disconnect link', async function (assert) {
       // when
-      await render(hbs`<UserLoggedMenu/>`);
-      await clickByLabel('Buffy Summers Sunnydale');
-      await clickByLabel('Buffy Summers Sunnydale');
+      const screen = await renderScreen(hbs`<UserLoggedMenu/>`);
+      await click(screen.getByRole('link', { name: 'Buffy Summers Sunnydale' }));
+      await click(screen.getByRole('link', { name: 'Buffy Summers Sunnydale' }));
 
       // then
-      assert.dom('.logged-user-menu-item__last').doesNotExist();
+      assert.dom(screen.queryByRole('link', { name: 'Se déconnecter' })).doesNotExist();
     });
   });
 
   module('when menu is open', function () {
     test('should display the chevron-up icon', async function (assert) {
       // when
-      await render(hbs`<UserLoggedMenu/>`);
-      await clickByLabel('Buffy Summers Sunnydale');
+      const screen = await renderScreen(hbs`<UserLoggedMenu/>`);
+      await click(screen.getByRole('link', { name: 'Buffy Summers Sunnydale' }));
 
       // then
       assert.dom('.fa-chevron-up').exists();
@@ -103,12 +93,11 @@ module('Integration | Component | user-logged-menu', function (hooks) {
 
     test('should display the disconnect link', async function (assert) {
       // when
-      await render(hbs`<UserLoggedMenu/>`);
-      await clickByLabel('Buffy Summers Sunnydale');
+      const screen = await renderScreen(hbs`<UserLoggedMenu/>`);
+      await click(screen.getByRole('link', { name: 'Buffy Summers Sunnydale' }));
 
       // then
-      assert.dom('.logged-user-menu-item__last').exists();
-      assert.contains('Se déconnecter');
+      assert.dom(screen.getByRole('link', { name: 'Se déconnecter' })).exists();
     });
 
     test('should display the certification centers name and externalId of all allowed ones of the user', async function (assert) {
@@ -134,14 +123,14 @@ module('Integration | Component | user-logged-menu', function (hooks) {
       ]);
 
       // when
-      await render(hbs`<UserLoggedMenu />`);
-      await clickByLabel('Buffy Summers Sunnydale');
+      const screen = await renderScreen(hbs`<UserLoggedMenu/>`);
+      await click(screen.getByRole('link', { name: 'Buffy Summers Sunnydale' }));
 
       // then
-      assert.contains('Torreilles');
-      assert.contains('(externalId1)');
-      assert.contains('Paris');
-      assert.contains('(ILPlEUT)');
+      assert.dom(screen.getByText('Torreilles')).exists();
+      assert.dom(screen.getByText('(externalId1)')).exists();
+      assert.dom(screen.getByText('Paris')).exists();
+      assert.dom(screen.getByText('(ILPlEUT)')).exists();
     });
   });
 
@@ -162,15 +151,15 @@ module('Integration | Component | user-logged-menu', function (hooks) {
       this.onCertificationAccessChangedStub = sinon.stub();
 
       // when
-      await render(
+      const screen = await renderScreen(
         hbs`<UserLoggedMenu @onCertificationCenterAccessChanged={{this.onCertificationAccessChangedStub}}/>`
       );
-      await clickByLabel('Buffy Summers Sunnydale');
-      await clickByLabel('Torreilles (externalId1)');
+      await click(screen.getByRole('link', { name: 'Buffy Summers Sunnydale' }));
+      await click(screen.getByRole('button', { name: 'Torreilles (externalId1)' }));
 
       // then
-      assert.dom('.fa-chevron-down').exists();
-      assert.dom('.fa-chevron-up').doesNotExist();
+      assert.dom(screen.queryByRole('button', { name: 'Torreilles (externalId1)' })).doesNotExist();
+      assert.dom(screen.queryByRole('button', { name: 'Se déconnecter' })).doesNotExist();
     });
 
     test('should call the "onCertificationCenterAccessChanged" function', async function (assert) {
@@ -189,11 +178,11 @@ module('Integration | Component | user-logged-menu', function (hooks) {
       this.onCertificationAccessChangedStub = sinon.stub();
 
       // when
-      await render(
+      const screen = await renderScreen(
         hbs`<UserLoggedMenu @onCertificationCenterAccessChanged={{this.onCertificationAccessChangedStub}}/>`
       );
-      await clickByLabel('Buffy Summers Sunnydale');
-      await clickByLabel('Torreilles (externalId1)');
+      await click(screen.getByRole('link', { name: 'Buffy Summers Sunnydale' }));
+      await click(screen.getByRole('button', { name: 'Torreilles (externalId1)' }));
 
       // then
       sinon.assert.calledWithExactly(this.onCertificationAccessChangedStub, allowedCertificationCenterAccessA);
