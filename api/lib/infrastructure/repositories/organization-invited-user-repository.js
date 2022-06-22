@@ -48,11 +48,13 @@ module.exports = {
         })
         .where({ id: organizationInvitedUser.currentMembershipId });
     } else {
-      const [membershipId] = await knex('memberships').returning('id').insert({
-        organizationRole: organizationInvitedUser.currentRole,
-        organizationId: organizationInvitedUser.invitation.organizationId,
-        userId: organizationInvitedUser.userId,
-      });
+      const [{ id: membershipId }] = await knex('memberships')
+        .insert({
+          organizationRole: organizationInvitedUser.currentRole,
+          organizationId: organizationInvitedUser.invitation.organizationId,
+          userId: organizationInvitedUser.userId,
+        })
+        .returning('id');
 
       organizationInvitedUser.currentMembershipId = membershipId;
     }
