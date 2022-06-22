@@ -1,11 +1,11 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, fillIn } from '@ember/test-helpers';
+import { click, fillIn } from '@ember/test-helpers';
+import { render as renderScreen } from '@1024pix/ember-testing-library';
 import hbs from 'htmlbars-inline-precompile';
 import Service from '@ember/service';
 import { reject, resolve } from 'rsvp';
 import ENV from 'pix-certif/config/environment';
-import clickByLabel from '../../helpers/extended-ember-test-helpers/click-by-label';
 import sinon from 'sinon';
 
 const errorMessages = {
@@ -28,16 +28,17 @@ module('Integration | Component | login-form', function (hooks) {
 
   test('it should ask for email and password', async function (assert) {
     // when
-    await render(hbs`{{login-form}}`);
+    const screen = await renderScreen(hbs`{{login-form}}`);
 
     // then
-    assert.dom('#login-email').exists();
-    assert.dom('#login-password').exists();
+    assert.dom(screen.getByRole('heading', { name: 'Connectez-vous' })).exists();
+    assert.dom(screen.getByRole('textbox', { name: 'Adresse e-mail' })).exists();
+    assert.dom(screen.getByText('Adresse e-mail')).exists();
   });
 
   test('it should not display error message', async function (assert) {
     // when
-    await render(hbs`{{login-form}}`);
+    await renderScreen(hbs`{{login-form}}`);
 
     // then
     assert.dom('#login-form-error-message').doesNotExist();
@@ -53,12 +54,12 @@ module('Integration | Component | login-form', function (hooks) {
       return resolve();
     });
     const sessionServiceObserver = this.owner.lookup('service:session');
-    await render(hbs`{{login-form}}`);
-    await fillIn('#login-email', 'pix@example.net');
+    const screen = await renderScreen(hbs`{{login-form}}`);
+    await fillIn(screen.getByRole('textbox', { name: 'Adresse e-mail' }), 'pix@example.net');
     await fillIn('#login-password', 'JeMeLoggue1024');
 
     //  when
-    await clickByLabel('Je me connecte');
+    await click(screen.getByRole('button', { name: 'Je me connecte' }));
 
     // then
     assert.strictEqual(sessionServiceObserver.authenticator, 'authenticator:oauth2');
@@ -82,16 +83,16 @@ module('Integration | Component | login-form', function (hooks) {
     };
 
     sessionStub.authenticate.callsFake(() => reject(invalidCredentialsErrorMessage));
-    await render(hbs`{{login-form}}`);
+    const screen = await renderScreen(hbs`{{login-form}}`);
     await fillIn('#login-email', 'pix@example.net');
     await fillIn('#login-password', 'Mauvais mot de passe');
 
     //  when
-    await clickByLabel('Je me connecte');
+    await click(screen.getByRole('button', { name: 'Je me connecte' }));
 
     // then
     assert.dom('#login-form-error-message').exists();
-    assert.dom('#login-form-error-message').hasText(ENV.APP.API_ERROR_MESSAGES.UNAUTHORIZED.MESSAGE);
+    assert.dom(screen.getByText(ENV.APP.API_ERROR_MESSAGES.UNAUTHORIZED.MESSAGE)).exists();
   });
 
   test('it should display an not linked certification message when authentication fails with Forbidden Access', async function (assert) {
@@ -103,16 +104,16 @@ module('Integration | Component | login-form', function (hooks) {
     };
 
     sessionStub.authenticate.callsFake(() => reject(notLinkedToOrganizationErrorMessage));
-    await render(hbs`{{login-form}}`);
+    const screen = await renderScreen(hbs`{{login-form}}`);
     await fillIn('#login-email', 'pix@example.net');
     await fillIn('#login-password', 'JeMeLoggue1024');
 
     //  when
-    await clickByLabel('Je me connecte');
+    await click(screen.getByRole('button', { name: 'Je me connecte' }));
 
     // then
     assert.dom('#login-form-error-message').exists();
-    assert.dom('#login-form-error-message').hasText(errorMessages.NOT_LINKED_CERTIFICATION_MSG);
+    assert.dom(screen.getByText(errorMessages.NOT_LINKED_CERTIFICATION_MSG)).exists();
   });
 
   test('it should display a 504 message when authentication fails with gateway Timeout', async function (assert) {
@@ -130,16 +131,16 @@ module('Integration | Component | login-form', function (hooks) {
     };
 
     sessionStub.authenticate.callsFake(() => reject(gatewayTimeoutErrorMessage));
-    await render(hbs`{{login-form}}`);
+    const screen = await renderScreen(hbs`{{login-form}}`);
     await fillIn('#login-email', 'pix@example.net');
     await fillIn('#login-password', 'JeMeLoggue1024');
 
     //  when
-    await clickByLabel('Je me connecte');
+    await click(screen.getByRole('button', { name: 'Je me connecte' }));
 
     // then
     assert.dom('#login-form-error-message').exists();
-    assert.dom('#login-form-error-message').hasText(ENV.APP.API_ERROR_MESSAGES.GATEWAY_TIMEOUT.MESSAGE);
+    assert.dom(screen.getByText(ENV.APP.API_ERROR_MESSAGES.GATEWAY_TIMEOUT.MESSAGE)).exists();
   });
 
   test('it should display an internal server error message when unhandled error', async function (assert) {
@@ -149,15 +150,15 @@ module('Integration | Component | login-form', function (hooks) {
     };
 
     sessionStub.authenticate.callsFake(() => reject(msgErrorNotLinkedCertification));
-    await render(hbs`{{login-form}}`);
-    await fillIn('#login-email', 'pix@example.net');
+    const screen = await renderScreen(hbs`{{login-form}}`);
+    await fillIn(screen.getByRole('textbox', { name: 'Adresse e-mail' }), 'pix@example.net');
     await fillIn('#login-password', 'JeMeLoggue1024');
 
     //  when
-    await clickByLabel('Je me connecte');
+    await click(screen.getByRole('button', { name: 'Je me connecte' }));
 
     // then
     assert.dom('#login-form-error-message').exists();
-    assert.dom('#login-form-error-message').hasText(ENV.APP.API_ERROR_MESSAGES.INTERNAL_SERVER_ERROR.MESSAGE);
+    assert.dom(screen.getByText(ENV.APP.API_ERROR_MESSAGES.INTERNAL_SERVER_ERROR.MESSAGE)).exists();
   });
 });
