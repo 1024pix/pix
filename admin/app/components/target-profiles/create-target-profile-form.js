@@ -2,9 +2,12 @@ import { action } from '@ember/object';
 import Component from '@glimmer/component';
 import { inject as service } from '@ember/service';
 import { optionsCategoryList } from '../../models/target-profile';
+import { tracked } from '@glimmer/tracking';
 
 export default class CreateTargetProfileForm extends Component {
   @service notifications;
+
+  @tracked submitting = false;
 
   constructor() {
     super(...arguments);
@@ -41,4 +44,17 @@ export default class CreateTargetProfileForm extends Component {
       level,
     }));
   }
+
+  @action
+  async onSubmit(...args) {
+    try {
+      this.submitting = true;
+      await this.args.onSubmit(...args);
+    } finally {
+      this.submitting = false;
+    }
+  }
+
+  // on a une explication rationnelle
+  noop() {}
 }

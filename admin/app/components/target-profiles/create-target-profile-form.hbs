@@ -1,4 +1,4 @@
-<form class="form create-target-profile" {{on "submit" @onSubmit}}>
+<form class="form create-target-profile" {{on "submit" this.onSubmit}}>
 
   <section class="form-section">
     <Card class="create-target-profile__card" @title="1. Information sur le profil cible">
@@ -87,7 +87,13 @@
       @size="big"
       @triggerAction={{@onCancel}}
     >Annuler</PixButton>
-    <PixButton @backgroundColor="green" @size="big" @type="submit" @isDisabled={{@isDisabled}}>
+    <PixButton
+      @backgroundColor="green"
+      @size="big"
+      @type="submit"
+      @isLoading={{this.submitting}}
+      @triggerAction={{this.noop}}
+    >
       Créer le profil cible
     </PixButton>
   </section>
