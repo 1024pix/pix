@@ -24,7 +24,7 @@ export default class NewController extends Controller {
     const targetProfile = this.model.targetProfile;
 
     if (targetProfile.templateTubes.length === 0) {
-      this.notifications.error('Aucun sujets sélectionnés !');
+      this.notifications.error('Aucun sujet sélectionné !');
       return;
     }
 
