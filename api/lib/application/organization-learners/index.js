@@ -67,6 +67,33 @@ exports.register = async function (server) {
         tags: ['api', 'admin', 'schoolingRegistrationUserAssociation'],
       },
     },
+    {
+      method: 'GET',
+      path: '/api/schooling-registration-user-associations',
+      config: {
+        handler: organizationLearnerController.findAssociation,
+        notes: [
+          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
+            "- Récupération de l'inscription de l'élève à l'organisation, et de l'utilisateur associé\n" +
+            '- L’id demandé doit correspondre à celui de l’utilisateur authentifié',
+          "- L'usage de cette route est **dépréciée** en faveur de /api/organization-learners",
+        ],
+        tags: ['api', 'organizationLearnerUserAssociation'],
+      },
+    },
+    {
+      method: 'GET',
+      path: '/api/organization-learners',
+      config: {
+        handler: organizationLearnerController.findAssociation,
+        notes: [
+          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
+            '- Récupération du prescrit\n' +
+            '- L’id demandé doit correspondre à celui de l’utilisateur authentifié',
+        ],
+        tags: ['api', 'organization-learners'],
+      },
+    },
   ]);
 };
 

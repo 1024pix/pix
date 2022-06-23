@@ -28,7 +28,7 @@ describe('Unit | UseCase | find-association-between-user-and-organization-learne
       .throws('unexpected call');
   });
 
-  describe('There is an organizationLearnerlinked to the given userId', function () {
+  describe('There is an organizationLearner linked to the given userId', function () {
     it('should call findOneByUserIdAndOrganizationId', async function () {
       // given
       getCampaignStub.withArgs(campaign.code).resolves(campaign);
@@ -70,6 +70,25 @@ describe('Unit | UseCase | find-association-between-user-and-organization-learne
       // given
       getCampaignStub.withArgs(campaign.code).resolves(campaign);
       organizationLearnerReceivedStub.withArgs({ userId, organizationId: organization.id }).resolves(null);
+
+      // when
+      const result = await usecases.findAssociationBetweenUserAndOrganizationLearner({
+        authenticatedUserId: userId,
+        requestedUserId: userId,
+        campaignCode: campaign.code,
+      });
+
+      // then
+      expect(result).to.equal(null);
+    });
+  });
+
+  describe('There is no organizationLearner linked to the organization owning the campaign', function () {
+    it('should return null', async function () {
+      // given
+      const otherCampaign = domainBuilder.buildCampaign();
+      getCampaignStub.withArgs(campaign.code).resolves(otherCampaign);
+      organizationLearnerReceivedStub.withArgs({ userId, organizationId: otherCampaign.organizationId }).resolves(null);
 
       // when
       const result = await usecases.findAssociationBetweenUserAndOrganizationLearner({

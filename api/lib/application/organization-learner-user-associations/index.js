@@ -99,19 +99,6 @@ exports.register = async function (server) {
       },
     },
     {
-      method: 'GET',
-      path: '/api/schooling-registration-user-associations',
-      config: {
-        handler: organizationLearnerUserAssociationController.findAssociation,
-        notes: [
-          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-            "- Récupération de l'inscription de l'élève à l'organisation, et de l'utilisateur associé\n" +
-            '- L’id demandé doit correspondre à celui de l’utilisateur authentifié',
-        ],
-        tags: ['api', 'organizationLearnerUserAssociation'],
-      },
-    },
-    {
       method: 'PUT',
       path: '/api/schooling-registration-user-associations/possibilities',
       config: {

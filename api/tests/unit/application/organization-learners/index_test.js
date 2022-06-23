@@ -133,4 +133,25 @@ describe('Unit | Application | Router | organization-learner-router', function (
       expect(response.statusCode).to.equal(400);
     });
   });
+
+  describe('GET /api/organization-learners', function () {
+    const method = 'GET';
+
+    it('should return a HTTP status code 200', async function () {
+      // given
+      sinon
+        .stub(organizationLearnerController, 'findAssociation')
+        .callsFake((request, h) => h.response('ok').code(200));
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      const url = '/api/organization-learners?userId=1&campaignCode=ABCDEF123';
+
+      // when
+      const response = await httpTestServer.request(method, url);
+
+      // then
+      expect(response.statusCode).to.equal(200);
+    });
+  });
 });

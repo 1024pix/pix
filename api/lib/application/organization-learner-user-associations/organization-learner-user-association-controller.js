@@ -58,21 +58,6 @@ module.exports = {
     return h.response(null).code(204);
   },
 
-  async findAssociation(request) {
-    const authenticatedUserId = request.auth.credentials.userId;
-    // eslint-disable-next-line no-restricted-syntax
-    const requestedUserId = parseInt(request.query.userId);
-    const campaignCode = request.query.campaignCode;
-
-    const organizationLearner = await usecases.findAssociationBetweenUserAndOrganizationLearner({
-      authenticatedUserId,
-      requestedUserId,
-      campaignCode,
-    });
-
-    return organizationLearnerSerializer.serialize(organizationLearner);
-  },
-
   async generateUsername(request, h) {
     const payload = request.payload.data.attributes;
     const { 'campaign-code': campaignCode } = payload;
