@@ -1,10 +1,9 @@
 import get from 'lodash/get';
 import { inject as service } from '@ember/service';
 import Route from '@ember/routing/route';
-import SecuredRouteMixin from 'mon-pix/mixins/secured-route-mixin';
 import IdentityProviders from 'mon-pix/identity-providers';
 
-export default class AccessRoute extends Route.extend(SecuredRouteMixin) {
+export default class AccessRoute extends Route {
   @service currentUser;
   @service session;
   @service campaignStorage;
@@ -35,8 +34,17 @@ export default class AccessRoute extends Route.extend(SecuredRouteMixin) {
     } else if (this._shouldJoinSimplifiedCampaignAsAnonymous(campaign)) {
       this.authenticationRoute = 'campaigns.join.anonymous';
     }
-
-    super.beforeModel(...arguments);
+    const isUserLoaded = !!this.currentUser.user;
+    const isAuthenticated = this.session.get('isAuthenticated');
+    if (!isAuthenticated || !isUserLoaded) {
+      this.session.set('attemptedTransition', transition);
+      this.router.transitionTo(this.authenticationRoute);
+    } else if (this.currentUser.user.mustValidateTermsOfService) {
+      this.session.set('attemptedTransition', transition);
+      this.router.transitionTo('terms-of-service');
+    } else {
+      return super.beforeModel(...arguments);
+    }
   }
 
   model() {
