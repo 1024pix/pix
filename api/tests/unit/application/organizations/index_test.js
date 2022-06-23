@@ -579,13 +579,12 @@ describe('Unit | Router | organization-router', function () {
   });
 
   describe('POST /api/organizations/{id}/schooling-registrations/replace-csv', function () {
+    afterEach(function () {
+      sinon.restore();
+    });
     context(
       'when the user is an admin for the organization and the organization is SUP and manages student',
       function () {
-        afterEach(function () {
-          sinon.restore();
-        });
-
         it('responds 200', async function () {
           sinon.stub(organizationController, 'replaceSupOrganizationLearners');
           sinon.stub(securityPreHandlers, 'checkUserIsAdminInSUPOrganizationManagingStudents');
@@ -605,10 +604,6 @@ describe('Unit | Router | organization-router', function () {
     );
 
     context('when the user is not admin for the organization', function () {
-      afterEach(function () {
-        sinon.restore();
-      });
-
       it('responds 403', async function () {
         sinon.stub(organizationController, 'replaceSupOrganizationLearners');
         sinon.stub(securityPreHandlers, 'checkUserIsAdminInSUPOrganizationManagingStudents');
@@ -625,6 +620,88 @@ describe('Unit | Router | organization-router', function () {
         const response = await httpTestServer.request(method, url);
 
         expect(response.statusCode).to.equal(403);
+      });
+    });
+
+    context('when the organization id is not an id', function () {
+      it('responds 400', async function () {
+        sinon.stub(organizationController, 'replaceSupOrganizationLearners');
+        sinon.stub(securityPreHandlers, 'checkUserIsAdminInSUPOrganizationManagingStudents');
+        organizationController.replaceSupOrganizationLearners.resolves('ok');
+        securityPreHandlers.checkUserIsAdminInSUPOrganizationManagingStudents.resolves(true);
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        const method = 'POST';
+        const url = '/api/organizations/asgfs/schooling-registrations/replace-csv';
+
+        const response = await httpTestServer.request(method, url);
+
+        expect(response.statusCode).to.equal(400);
+      });
+    });
+  });
+
+  describe('POST /api/organizations/{id}/sup-organization-learners/replace-csv', function () {
+    afterEach(function () {
+      sinon.restore();
+    });
+    context(
+      'when the user is an admin for the organization and the organization is SUP and manages student',
+      function () {
+        it('responds 200', async function () {
+          sinon.stub(organizationController, 'replaceSupOrganizationLearners');
+          sinon.stub(securityPreHandlers, 'checkUserIsAdminInSUPOrganizationManagingStudents');
+          organizationController.replaceSupOrganizationLearners.resolves('ok');
+          securityPreHandlers.checkUserIsAdminInSUPOrganizationManagingStudents.resolves(true);
+          const httpTestServer = new HttpTestServer();
+          await httpTestServer.register(moduleUnderTest);
+
+          const method = 'POST';
+          const url = '/api/organizations/1/sup-organization-learners/replace-csv';
+
+          const response = await httpTestServer.request(method, url);
+
+          expect(response.statusCode).to.equal(200);
+        });
+      }
+    );
+
+    context('when the user is not admin for the organization', function () {
+      it('responds 403', async function () {
+        sinon.stub(organizationController, 'replaceSupOrganizationLearners');
+        sinon.stub(securityPreHandlers, 'checkUserIsAdminInSUPOrganizationManagingStudents');
+        organizationController.replaceSupOrganizationLearners.resolves('ok');
+        securityPreHandlers.checkUserIsAdminInSUPOrganizationManagingStudents.callsFake((request, h) =>
+          h.response().code(403).takeover()
+        );
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        const method = 'POST';
+        const url = '/api/organizations/1/sup-organization-learners/replace-csv';
+
+        const response = await httpTestServer.request(method, url);
+
+        expect(response.statusCode).to.equal(403);
+      });
+    });
+
+    context('when the organization id is not an id', function () {
+      it('responds 400', async function () {
+        sinon.stub(organizationController, 'replaceSupOrganizationLearners');
+        sinon.stub(securityPreHandlers, 'checkUserIsAdminInSUPOrganizationManagingStudents');
+        organizationController.replaceSupOrganizationLearners.resolves('ok');
+        securityPreHandlers.checkUserIsAdminInSUPOrganizationManagingStudents.resolves(true);
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        const method = 'POST';
+        const url = '/api/organizations/asgfs/sup-organization-learners/replace-csv';
+
+        const response = await httpTestServer.request(method, url);
+
+        expect(response.statusCode).to.equal(400);
       });
     });
   });
