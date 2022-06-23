@@ -611,14 +611,19 @@ describe('Unit | Router | organization-router', function () {
   });
 
   describe('GET /api/organizations/{id}/schooling-registrations/csv-template', function () {
-    it('should call the organization controller to csv template', async function () {
-      // given
+    let httpTestServer;
+
+    beforeEach(async function () {
       sinon
         .stub(organizationController, 'getOrganizationLearnersCsvTemplate')
         .callsFake((request, h) => h.response('ok').code(200));
-      const httpTestServer = new HttpTestServer();
-      await httpTestServer.register(moduleUnderTest);
 
+      httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+    });
+
+    it('should call the organization controller to csv template', async function () {
+      // given
       const method = 'GET';
       const url = '/api/organizations/1/schooling-registrations/csv-template?accessToken=token';
 
@@ -633,9 +638,6 @@ describe('Unit | Router | organization-router', function () {
     describe('When parameters are not valid', function () {
       it('should throw an error when id is not a number', async function () {
         // given
-        const httpTestServer = new HttpTestServer();
-        await httpTestServer.register(moduleUnderTest);
-
         const method = 'GET';
         const url = '/api/organizations/ABC/schooling-registrations/csv-template?accessToken=token';
 
@@ -648,9 +650,6 @@ describe('Unit | Router | organization-router', function () {
 
       it('should throw an error when id is null', async function () {
         // given
-        const httpTestServer = new HttpTestServer();
-        await httpTestServer.register(moduleUnderTest);
-
         const method = 'GET';
         const url = '/api/organizations/null/schooling-registrations/csv-template?accessToken=token';
 
@@ -663,11 +662,48 @@ describe('Unit | Router | organization-router', function () {
 
       it('should throw an error when access token is not specified', async function () {
         // given
-        const httpTestServer = new HttpTestServer();
-        await httpTestServer.register(moduleUnderTest);
-
         const method = 'GET';
-        const url = '/api/organizations/ABC/schooling-registrations/csv-template';
+        const url = '/api/organizations/1/schooling-registrations/csv-template';
+
+        // when
+        const response = await httpTestServer.request(method, url);
+
+        // then
+        expect(response.statusCode).to.equal(400);
+      });
+    });
+  });
+
+  describe('GET /api/organizations/{id}/sup-organization-learners/csv-template', function () {
+    let httpTestServer;
+
+    beforeEach(async function () {
+      sinon
+        .stub(organizationController, 'getOrganizationLearnersCsvTemplate')
+        .callsFake((request, h) => h.response('ok').code(200));
+
+      httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+    });
+
+    it('should call the organization controller to csv template', async function () {
+      // given
+      const method = 'GET';
+      const url = '/api/organizations/1/sup-organization-learners/csv-template?accessToken=token';
+
+      // when
+      const response = await httpTestServer.request(method, url);
+
+      // then
+      expect(response.statusCode).to.equal(200);
+      expect(organizationController.getOrganizationLearnersCsvTemplate).to.have.been.calledOnce;
+    });
+
+    describe('When parameters are not valid', function () {
+      it('should throw an error when id is not a number', async function () {
+        // given
+        const method = 'GET';
+        const url = '/api/organizations/ABC/sup-organization-learners/csv-template?accessToken=token';
 
         // when
         const response = await httpTestServer.request(method, url);
@@ -676,13 +712,22 @@ describe('Unit | Router | organization-router', function () {
         expect(response.statusCode).to.equal(400);
       });
 
-      it('should throw an error when access token is null', async function () {
+      it('should throw an error when id is null', async function () {
         // given
-        const httpTestServer = new HttpTestServer();
-        await httpTestServer.register(moduleUnderTest);
-
         const method = 'GET';
-        const url = '/api/organizations/null/schooling-registrations/csv-template?accessToken=null';
+        const url = '/api/organizations/null/sup-organization-learners/csv-template?accessToken=token';
+
+        // when
+        const response = await httpTestServer.request(method, url);
+
+        // then
+        expect(response.statusCode).to.equal(400);
+      });
+
+      it('should throw an error when access token is not specified', async function () {
+        // given
+        const method = 'GET';
+        const url = '/api/organizations/1/sup-organization-learners/csv-template';
 
         // when
         const response = await httpTestServer.request(method, url);
