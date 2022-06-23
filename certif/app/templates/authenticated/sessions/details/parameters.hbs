@@ -114,13 +114,16 @@
           Modifier
         </PixButtonLink>
       </div>
-      <div
-        class="session-details-buttons session-details-buttons--push-right
-          {{if this.session.isFinalized 'button--disabled'}}"
-      >
-        <PixButtonLink @route="authenticated.sessions.finalize" @model={{this.session.id}} class="push-right">
-          Finaliser la session
-        </PixButtonLink>
+      <div class="session-details-buttons session-details-buttons--push-right">
+        {{#if this.session.isFinalized}}
+          <p class="session-details-row__session-finalized-warning">
+            Les informations de finalisation de la session ont déjà été transmises aux équipes de Pix
+          </p>
+        {{else}}
+          <PixButtonLink @route="authenticated.sessions.finalize" @model={{this.session.id}} class="push-right">
+            Finaliser la session
+          </PixButtonLink>
+        {{/if}}
       </div>
     {{else}}
       <div class="session-details-buttons">

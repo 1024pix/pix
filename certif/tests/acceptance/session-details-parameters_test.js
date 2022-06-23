@@ -49,9 +49,7 @@ module('Acceptance | Session Details Parameters', function (hooks) {
         await visit(`/sessions/${sessionCreated.id}`);
 
         // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(currentURL(), '/espace-ferme');
+        assert.strictEqual(currentURL(), '/espace-ferme');
       });
     });
 
@@ -64,10 +62,10 @@ module('Acceptance | Session Details Parameters', function (hooks) {
             server.createList('certification-candidate', 2, { isLinked: false, sessionId: sessionCreated.id });
 
             // when
-            await visit(`/sessions/${sessionCreated.id}`);
+            const screen = await visit(`/sessions/${sessionCreated.id}`);
 
             // then
-            assert.notContains('Finaliser la session');
+            assert.dom(screen.queryByRole('button', { name: 'Finaliser la session' })).doesNotExist();
           });
 
           test('it should redirect to finalize page on click on finalize button', async function (assert) {
@@ -80,9 +78,7 @@ module('Acceptance | Session Details Parameters', function (hooks) {
             await clickByLabel('Finaliser la session');
 
             // then
-            // TODO: Fix this the next time the file is edited.
-            // eslint-disable-next-line qunit/no-assert-equal
-            assert.equal(currentURL(), `/sessions/${sessionCreatedAndStarted.id}/finalisation`);
+            assert.strictEqual(currentURL(), `/sessions/${sessionCreatedAndStarted.id}/finalisation`);
           });
 
           module('when the certification center is not in the end test screen removal whitelist', function () {
@@ -130,15 +126,19 @@ module('Acceptance | Session Details Parameters', function (hooks) {
           server.createList('certification-candidate', 3, { isLinked: true, sessionId: sessionFinalized.id });
         });
 
-        test('it should not redirect to finalize page on click on finalize button', async function (assert) {
+        test('it should show a "session already finalized" warning', async function (assert) {
           // when
-          await visit(`/sessions/${sessionFinalized.id}`);
-          await clickByLabel('Finaliser la session');
+          const screen = await visit(`/sessions/${sessionFinalized.id}`);
 
           // then
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line qunit/no-assert-equal
-          assert.equal(currentURL(), `/sessions/${sessionFinalized.id}`);
+          assert
+            .dom(
+              screen.getByText(
+                'Les informations de finalisation de la session ont déjà été transmises aux équipes de Pix'
+              )
+            )
+            .exists();
+          assert.dom(screen.queryByRole('button', { name: 'Finaliser la session' })).doesNotExist();
         });
 
         test('it should throw an error on visiting /finalisation url', async function (assert) {
