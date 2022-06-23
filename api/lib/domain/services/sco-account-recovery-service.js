@@ -4,7 +4,7 @@ const {
   UserNotFoundError,
   UserHasAlreadyLeftSCO,
 } = require('../errors');
-const _ = require('lodash');
+const { uniqBy } = require('lodash');
 
 async function retrieveOrganizationLearner({
   accountRecoveryDemandRepository,
@@ -92,8 +92,9 @@ async function _getUserIdByMatchingStudentInformationWithOrganizationLearner({
 
 async function _checkIfThereAreMultipleUserForTheSameAccount({ userId, organizationLearnerRepository }) {
   const organizationLearners = await organizationLearnerRepository.findByUserId({ userId });
+  const nonEmptyNationalStudentIds = organizationLearners.filter((learner) => !!learner.nationalStudentId);
 
-  if (_.uniqBy(organizationLearners, 'nationalStudentId').length > 1) {
+  if (uniqBy(nonEmptyNationalStudentIds, 'nationalStudentId').length > 1) {
     throw new MultipleOrganizationLearnersWithDifferentNationalStudentIdError();
   }
 }
