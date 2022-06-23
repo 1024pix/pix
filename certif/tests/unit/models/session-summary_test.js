@@ -17,9 +17,7 @@ module('Unit | Model | session-summary', function (hooks) {
       );
 
       // when/then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(sessionSummary.statusLabel, 'Finalisée');
+      assert.strictEqual(sessionSummary.statusLabel, 'Finalisée');
     });
 
     test('it should return "Résultats transmis par Pix" when status is processed', function (assert) {
@@ -33,9 +31,7 @@ module('Unit | Model | session-summary', function (hooks) {
       );
 
       // when/then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(sessionSummary.statusLabel, 'Résultats transmis par Pix');
+      assert.strictEqual(sessionSummary.statusLabel, 'Résultats transmis par Pix');
     });
 
     test('it should return Créée else', function (assert) {
@@ -49,9 +45,39 @@ module('Unit | Model | session-summary', function (hooks) {
       );
 
       // when/then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(sessionSummary.statusLabel, 'Créée');
+      assert.strictEqual(sessionSummary.statusLabel, 'Créée');
+    });
+  });
+
+  module('#hasEffectiveCandidates', function () {
+    module('when at least one candidate has joined the session', function () {
+      test('it should return true', function (assert) {
+        // given
+        const store = this.owner.lookup('service:store');
+        const sessionSummary = run(() =>
+          store.createRecord('session-summary', {
+            effectiveCandidatesCount: 2,
+          })
+        );
+
+        // when/then
+        assert.true(sessionSummary.hasEffectiveCandidates);
+      });
+    });
+
+    module('when no candidate has joined the session', function () {
+      test('it should return false ', function (assert) {
+        // given
+        const store = this.owner.lookup('service:store');
+        const sessionSummary = run(() =>
+          store.createRecord('session-summary', {
+            effectiveCandidatesCount: 0,
+          })
+        );
+
+        // when/then
+        assert.false(sessionSummary.hasEffectiveCandidates);
+      });
     });
   });
 });
