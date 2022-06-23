@@ -1,5 +1,17 @@
 # Pix Changelog
 
+## v3.225.0 (23/06/2022)
+
+
+### :rocket: Amélioration
+- [#4554](https://github.com/1024pix/pix/pull/4554) [FEATURE] Ignorer les INEs vides quand on vérifie si plusieurs utilisateurs sont associés au même compte (PIX-5072).
+- [#4559](https://github.com/1024pix/pix/pull/4559) [FEATURE] Améliorer l'info pour les sessions déjà finalisées sur la page de détails (PIX-5182)
+- [#4552](https://github.com/1024pix/pix/pull/4552) [FEATURE] Afficher une phrase avec le niveau final obtenu à la certification Pix sur le certificat/certificat partagé et attestation (PIX-5136)
+
+### :building_construction: Tech
+- [#4519](https://github.com/1024pix/pix/pull/4519) [TECH] Mettre à jour les dépendances certif (PIX-5107)
+- [#4502](https://github.com/1024pix/pix/pull/4502) [TECH] Assurer l'homogénéité de l'inflection dans les noms de table en BDD (PIX-5069).
+
 ## v3.224.0 (22/06/2022)
 
 
