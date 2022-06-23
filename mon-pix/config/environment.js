@@ -116,12 +116,6 @@ module.exports = function (environment) {
       }),
     },
 
-    googleFonts: [
-      'Open+Sans:300,400,600', // used for ex. on buttons
-      'Roboto:300,400,500', // used for campaign
-      'Roboto+Mono', //used for monospaced needs
-    ],
-
     fontawesome: {
       warnIfNoIconsIncluded: false,
     },
@@ -198,7 +192,6 @@ module.exports = function (environment) {
     ENV.APP.rootElement = '#ember-testing';
     ENV.APP.autoboot = false;
 
-    ENV.googleFonts = null;
     ENV.APP.API_HOST = 'http://localhost:3000';
     ENV.APP.isChallengeTimerEnable = false;
     ENV.APP.MESSAGE_DISPLAY_DURATION = 0;
