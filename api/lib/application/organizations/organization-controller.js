@@ -232,7 +232,17 @@ module.exports = {
       format,
       i18n: request.i18n,
     });
-    return h.response(null).code(204);
+
+    const response = h.response(null).code(204);
+    if (h.request.path === `/api/organizations/${request.params.id}/schooling-registrations/import-siecle`) {
+      response
+        .header('Deprecation', 'true')
+        .header(
+          'Link',
+          `/api/organizations/${request.params.id}/sco-organization-learners/import-siecle; rel="successor-version"`
+        );
+    }
+    return response;
   },
 
   async importSupOrganizationLearners(request, h) {
