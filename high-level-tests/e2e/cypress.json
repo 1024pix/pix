@@ -14,5 +14,6 @@
   "nodeVersion": "system",
   "retries": {
     "runMode": 2
-  }
+  },
+  "pluginsFile": "cypress/plugins/index.ts"
 }
