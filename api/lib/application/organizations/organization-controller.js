@@ -273,8 +273,19 @@ module.exports = {
       organizationId,
       supOrganizationLearnerParser,
     });
-    const response = supOrganizationLearnerWarningSerializer.serialize({ id: organizationId, warnings });
-    return h.response(response).code(200);
+
+    const response = h
+      .response(supOrganizationLearnerWarningSerializer.serialize({ id: organizationId, warnings }))
+      .code(200);
+    if (h.request.path === `/api/organizations/${request.params.id}/schooling-registrations/replace-csv`) {
+      response
+        .header('Deprecation', 'true')
+        .header(
+          'Link',
+          `/api/organizations/${request.params.id}/sup-organization-learners/replace-csv; rel="successor-version"`
+        );
+    }
+    return response;
   },
 
   async sendInvitations(request, h) {
