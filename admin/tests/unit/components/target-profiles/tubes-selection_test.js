@@ -162,13 +162,12 @@ module('Unit | Component | target-profiles/tubes-selection', function (hooks) {
       sinon.restore();
     });
 
-    module('when json file is valid', function (hooks) {
-      hooks.beforeEach(function () {
-        sinon.restore();
+    module('when json file is valid', function () {
+      test('it should fill skillIds list', async function (assert) {
+        // given
+        component.selectedFrameworkIds = [];
         component.selectedTubeIds = ['oldTube1'];
         component.tubeLevels = { oldTube1: 8 };
-
-        // given
         component.isFileInvalid = true;
         const event = {
           target: {
@@ -176,15 +175,15 @@ module('Unit | Component | target-profiles/tubes-selection', function (hooks) {
           },
         };
         const selectionTubeList = ['tubeId1', 'tubeId2', 'tubeId3'];
+        sinon.stub(JSON, 'parse').returns(selectionTubeList);
 
         // when
-        sinon.stub(JSON, 'parse').returns(selectionTubeList);
-        component._onFileLoad(event);
-      });
+        await component._onFileLoad(event);
 
-      test('it should fill skillIds list', function (assert) {
+        // then
         assert.deepEqual(component.selectedTubeIds, ['tubeId1', 'tubeId2', 'tubeId3']);
         assert.deepEqual(component.tubeLevels, {});
+        assert.deepEqual(component.selectedFrameworkIds, ['id1']);
       });
     });
   });

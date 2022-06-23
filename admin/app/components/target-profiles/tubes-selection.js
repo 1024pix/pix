@@ -20,6 +20,10 @@ export default class TubesSelection extends Component {
 
   constructor(...args) {
     super(...args);
+    this.setDefaultFrameworks();
+  }
+
+  setDefaultFrameworks() {
     const pixFramework = this.args.frameworks.find((framework) => framework.name === 'Pix');
     this.selectedFrameworkIds = [pixFramework.id];
   }
@@ -137,6 +141,7 @@ export default class TubesSelection extends Component {
       this.tubeLevels = {};
       this.notifications.success('Fichier bien importé.');
       await this._triggerOnChange();
+      this.setDefaultFrameworks();
     } catch (e) {
       this.notifications.error(e.message);
     }
