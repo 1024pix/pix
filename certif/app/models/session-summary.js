@@ -18,4 +18,8 @@ export default class Session extends Model {
     if (this.status === 'processed') return 'Résultats transmis par Pix';
     return 'Créée';
   }
+
+  get hasEffectiveCandidates() {
+    return this.effectiveCandidatesCount > 0;
+  }
 }

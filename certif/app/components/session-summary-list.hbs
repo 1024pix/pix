@@ -31,6 +31,9 @@
             <th class="table__column table__column--small">
               Statut
             </th>
+            <th class="table__column table__column--small">
+              Action
+            </th>
           </tr>
         </thead>
 
@@ -59,6 +62,26 @@
               <td>{{sessionSummary.enrolledCandidatesCount}}</td>
               <td>{{sessionSummary.effectiveCandidatesCount}}</td>
               <td>{{sessionSummary.statusLabel}}</td>
+              <td>
+
+                <PixTooltip @position="left" @isInline={{true}} @id="tooltip-delete-session-button">
+                  <:triggerElement>
+                    <PixIconButton
+                      @icon="trash-alt"
+                      class="session-summary-list__delete-button"
+                      aria-label="Supprimer la session {{sessionSummary.id}}"
+                      disabled={{sessionSummary.hasEffectiveCandidates}}
+                      aria-describedby="tooltip-delete-session-button"
+                      @withBackground={{true}}
+                    />
+                  </:triggerElement>
+                  <:tooltip>{{if
+                      sessionSummary.hasEffectiveCandidates
+                      "Au moins un candidat a rejoint la session, vous ne pouvez pas la supprimer."
+                      "Supprimer la session."
+                    }}</:tooltip>
+                </PixTooltip>
+              </td>
             </tr>
           {{/each}}
         </tbody>

@@ -1,6 +1,7 @@
 import { module, test } from 'qunit';
 import sinon from 'sinon';
 import { render, click } from '@ember/test-helpers';
+import { render as renderScreen } from '@1024pix/ember-testing-library';
 import hbs from 'htmlbars-inline-precompile';
 import { setupRenderingTest } from 'ember-qunit';
 import { run } from '@ember/runloop';
@@ -21,7 +22,7 @@ module('Integration | Component | session-summary-list', function (hooks) {
 
       // when
       await render(hbs`<SessionSummaryList
-                  @sessionSummaries={{sessionSummaries}}
+                  @sessionSummaries={{this.sessionSummaries}}
                   @goToSessionDetails={{this.goToSessionDetailsSpy}} />`);
 
       // then
@@ -146,6 +147,60 @@ module('Integration | Component | session-summary-list', function (hooks) {
 
       // then
       assert.dom('a[href="/sessions/123"]').exists();
+    });
+
+    module('when there is at least one effective candidate', function () {
+      test('it should disable the delete button', async function (assert) {
+        // given
+        this.goToSessionDetailsSpy = sinon.stub();
+        const store = this.owner.lookup('service:store');
+        const sessionSummary = run(() =>
+          store.createRecord('session-summary', {
+            id: 123,
+            enrolledCandidatesCount: 1,
+            effectiveCandidatesCount: 1,
+          })
+        );
+        const sessionSummaries = [sessionSummary];
+        sessionSummaries.meta = {
+          rowCount: 1,
+        };
+        this.sessionSummaries = sessionSummaries;
+
+        // when
+        const screen = await renderScreen(hbs`<SessionSummaryList
+                  @sessionSummaries={{this.sessionSummaries}}
+                  @goToSessionDetails={{this.goToSessionDetailsSpy}} />`);
+
+        // then
+        assert.dom(screen.getByRole('button', { name: 'Supprimer la session 123' })).isDisabled();
+      });
+    });
+
+    module('when there are no effective candidates', function () {
+      test('it should display an enabled delete button', async function (assert) {
+        // given
+        this.goToSessionDetailsSpy = sinon.stub();
+        const store = this.owner.lookup('service:store');
+        const sessionSummary = run(() =>
+          store.createRecord('session-summary', {
+            id: 123,
+          })
+        );
+        const sessionSummaries = [sessionSummary];
+        sessionSummaries.meta = {
+          rowCount: 1,
+        };
+        this.sessionSummaries = sessionSummaries;
+
+        // when
+        const screen = await renderScreen(hbs`<SessionSummaryList
+                  @sessionSummaries={{this.sessionSummaries}}
+                  @goToSessionDetails={{this.goToSessionDetailsSpy}} />`);
+
+        // then
+        assert.dom(screen.getByRole('button', { name: 'Supprimer la session 123' })).isEnabled();
+      });
     });
   });
 });
