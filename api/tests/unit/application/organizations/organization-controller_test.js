@@ -12,13 +12,13 @@ const OrganizationInvitation = require('../../../../lib/domain/models/Organizati
 const Membership = require('../../../../lib/domain/models/Membership');
 
 const organizationController = require('../../../../lib/application/organizations/organization-controller');
-
 const usecases = require('../../../../lib/domain/usecases');
 const tokenService = require('../../../../lib/domain/services/token-service');
 
 const campaignManagementSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/campaign-management-serializer');
 const campaignReportSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/campaign-report-serializer');
 const organizationInvitationSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/organization-invitation-serializer');
+const organizationParticipantsSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/organization/organization-participants-serializer');
 const organizationSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/organization-serializer');
 const organizationForAdminSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/organization-for-admin-serializer');
 const organizationPlacesSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/organization/organization-place-serializer');
@@ -1236,6 +1236,63 @@ describe('Unit | Application | Organizations | organization-controller', functio
       // then
       expect(usecases.archiveOrganization).to.have.been.calledOnceWithExactly({ organizationId, userId });
       expect(response).to.deep.equal(archivedOrganizationSerialized);
+    });
+  });
+
+  describe('#getPaginatedParticipantsForAnOrganization', function () {
+    it('should call the usecase to get the participants of the organization', async function () {
+      const organizationId = 1;
+      const expectedPage = { page: 2 };
+      const organizationLearner = domainBuilder.buildOrganizationLearner();
+      domainBuilder.buildCampaignParticipation({ organizationLearnerId: organizationLearner.id });
+
+      const request = {
+        params: { id: organizationId },
+        auth: {
+          credentials: {
+            userId: 1,
+          },
+        },
+        query: expectedPage,
+      };
+
+      const participant = {
+        id: organizationLearner.id,
+        firstName: organizationLearner.firstName,
+        lastName: organizationLearner.lastName,
+      };
+
+      const serializedOrganizationParticipants = [
+        {
+          id: organizationLearner.id,
+          'first-name': organizationLearner.firstName,
+          'last-name': organizationLearner.lastName,
+        },
+      ];
+      const expectedPagination = { ...expectedPage, pageSize: 25, itemsCount: 100, pagesCount: 4 };
+      const expectedResponse = { data: serializedOrganizationParticipants, meta: {} };
+
+      sinon.stub(queryParamsUtils, 'extractParameters').withArgs(request.query).returns(expectedPage);
+      sinon
+        .stub(usecases, 'getPaginatedParticipantsForAnOrganization')
+        .withArgs({ organizationId, page: 2 })
+        .returns({
+          organizationParticipants: [participant],
+          pagination: expectedPagination,
+        });
+      sinon
+        .stub(organizationParticipantsSerializer, 'serialize')
+        .withArgs({
+          organizationParticipants: [participant],
+          pagination: expectedPagination,
+        })
+        .returns(expectedResponse);
+
+      // when
+      const response = await organizationController.getPaginatedParticipantsForAnOrganization(request, hFake);
+
+      // then
+      expect(response).to.deep.equal(expectedResponse);
     });
   });
 });

@@ -14,6 +14,7 @@ const organizationAttachTargetProfilesSerializer = require('../../infrastructure
 const TargetProfileForSpecifierSerializer = require('../../infrastructure/serializers/jsonapi/campaign/target-profile-for-specifier-serializer');
 const organizationMemberIdentitySerializer = require('../../infrastructure/serializers/jsonapi/organization-member-identity-serializer');
 const organizationPlaceSerializer = require('../../infrastructure/serializers/jsonapi/organization/organization-place-serializer');
+const organizationParticipantsSerializer = require('../../infrastructure/serializers/jsonapi/organization/organization-participants-serializer');
 const SupOrganizationLearnerParser = require('../../infrastructure/serializers/csv/sup-organization-learner-parser');
 const queryParamsUtils = require('../../infrastructure/utils/query-params-utils');
 const {
@@ -317,7 +318,7 @@ module.exports = {
     return h.response(organizationInvitationSerializer.serialize(organizationInvitation)).created();
   },
 
-  async findPendingInvitations(request) {
+  findPendingInvitations(request) {
     const organizationId = request.params.id;
 
     return usecases
@@ -355,5 +356,15 @@ module.exports = {
     const userId = extractUserIdFromRequest(request);
     const archivedOrganization = await usecases.archiveOrganization({ organizationId, userId });
     return organizationForAdminSerializer.serialize(archivedOrganization);
+  },
+
+  async getPaginatedParticipantsForAnOrganization(request) {
+    const organizationId = request.params.id;
+    const options = queryParamsUtils.extractParameters(request.query);
+    const results = await usecases.getPaginatedParticipantsForAnOrganization({
+      organizationId,
+      page: options.page,
+    });
+    return organizationParticipantsSerializer.serialize(results);
   },
 };
