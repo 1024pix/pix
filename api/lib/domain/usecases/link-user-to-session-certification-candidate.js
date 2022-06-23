@@ -146,7 +146,7 @@ async function _checkCandidateMatchTheReconciledStudent({
   const isOrganizationLearnerIdLinkedToUserAndSCOOrganization =
     await organizationLearnerRepository.isOrganizationLearnerIdLinkedToUserAndSCOOrganization({
       userId,
-      organizationLearnerId: certificationCandidate.schoolingRegistrationId,
+      organizationLearnerId: certificationCandidate.organizationLearnerId,
     });
 
   if (!isOrganizationLearnerIdLinkedToUserAndSCOOrganization) {

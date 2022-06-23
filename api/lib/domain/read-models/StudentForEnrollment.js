@@ -9,7 +9,7 @@ class StudentForEnrollment {
   }
 
   static fromStudentsAndCertificationCandidates({ student, certificationCandidates }) {
-    const isEnrolled = certificationCandidates.some((candidate) => candidate.schoolingRegistrationId === student.id);
+    const isEnrolled = certificationCandidates.some((candidate) => candidate.organizationLearnerId === student.id);
 
     return new StudentForEnrollment({
       id: student.id,
