@@ -49,6 +49,10 @@
   flex-wrap: wrap;
   padding: 0 8px;
 
+  &__session-finalized-warning {
+    font-weight: 500;
+  }
+
   &:not(:last-child) {
     border-bottom: 1px solid $grey-20;
   }
