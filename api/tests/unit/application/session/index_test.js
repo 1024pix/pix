@@ -1002,4 +1002,19 @@ describe('Unit | Application | Sessions | Routes', function () {
       });
     });
   });
+
+  describe('DELETE /api/sessions/{id}', function () {
+    it('returns a 404 NOT_FOUND error if verifySessionAuthorization fails', async function () {
+      // given
+      sinon.stub(authorization, 'verifySessionAuthorization').throws(new NotFoundError());
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      // when
+      const response = await httpTestServer.request('DELETE', '/api/sessions/3');
+
+      // then
+      expect(response.statusCode).to.equal(404);
+    });
+  });
 });
