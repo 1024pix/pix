@@ -66,13 +66,9 @@ function _makePlusCompetenceCertifiable({ databaseBuilder, userId, competence, a
 
 function _findSkillsToValidateSpecificLevel(competence, expectedLevel) {
   const skills = skillsByCompetenceId[competence.id];
-  const orderedByDifficultySkills = _(skills)
-    .map((skill) => {
-      skill.difficulty = parseInt(skill.name.slice(-1));
-      return skill;
-    })
-    .sortBy('difficulty')
-    .value();
+
+  const orderedByDifficultySkills = _.sortBy(skills, 'difficulty');
+
   const pickedSkills = [];
   let pixScore = 0;
   while ((pixScore < 8 * expectedLevel || pickedSkills.length < 3) && orderedByDifficultySkills.length > 0) {
