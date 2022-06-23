@@ -1,12 +1,27 @@
 import { inject as service } from '@ember/service';
-import SecuredRouteMixin from 'mon-pix/mixins/secured-route-mixin';
 import Route from '@ember/routing/route';
 import { action } from '@ember/object';
 import { isEmpty } from '@ember/utils';
 
-export default class UserTestsRoute extends Route.extend(SecuredRouteMixin) {
+export default class UserTestsRoute extends Route {
+  @service currentUser;
+  @service session;
   @service store;
   @service router;
+
+  beforeModel(transition) {
+    const isUserLoaded = !!this.currentUser.user;
+    const isAuthenticated = this.session.get('isAuthenticated');
+    if (!isAuthenticated || !isUserLoaded) {
+      this.session.set('attemptedTransition', transition);
+      this.router.transitionTo('login');
+    } else if (this.currentUser.user.mustValidateTermsOfService) {
+      this.session.set('attemptedTransition', transition);
+      this.router.transitionTo('terms-of-service');
+    } else {
+      return super.beforeModel(...arguments);
+    }
+  }
 
   model() {
     const user = this.currentUser.user;

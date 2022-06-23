@@ -1,19 +1,30 @@
 import Route from '@ember/routing/route';
-import SecuredRouteMixin from 'mon-pix/mixins/secured-route-mixin';
 import { inject as service } from '@ember/service';
 import get from 'lodash/get';
 
-export default class Entrance extends Route.extend(SecuredRouteMixin) {
+export default class Entrance extends Route {
   @service campaignStorage;
   @service store;
   @service currentUser;
+  @service session;
   @service router;
 
   beforeModel(transition) {
     if (!transition.from) {
       return this.router.replaceWith('campaigns.entry-point');
     }
-    super.beforeModel(...arguments);
+
+    const isUserLoaded = !!this.currentUser.user;
+    const isAuthenticated = this.session.get('isAuthenticated');
+    if (!isAuthenticated || !isUserLoaded) {
+      this.session.set('attemptedTransition', transition);
+      this.router.transitionTo('login');
+    } else if (this.currentUser.user.mustValidateTermsOfService) {
+      this.session.set('attemptedTransition', transition);
+      this.router.transitionTo('terms-of-service');
+    } else {
+      return super.beforeModel(...arguments);
+    }
   }
 
   model() {
