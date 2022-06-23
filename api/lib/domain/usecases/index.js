@@ -222,6 +222,7 @@ module.exports = injectDependencies(
     deleteCampaignParticipation: require('./delete-campaign-participation'),
     deleteCertificationIssueReport: require('./delete-certification-issue-report'),
     deleteSessionJuryComment: require('./delete-session-jury-comment'),
+    deleteSession: require('./delete-session'),
     deleteUnassociatedBadge: require('./delete-unassociated-badge'),
     deleteUnlinkedCertificationCandidate: require('./delete-unlinked-certification-candidate'),
     deneutralizeChallenge: require('./deneutralize-challenge'),
