@@ -304,10 +304,19 @@ module.exports = {
       i18n: request.i18n,
     });
 
-    return h
+    const response = h
       .response(template)
       .header('Content-Type', 'text/csv;charset=utf-8')
       .header('Content-Disposition', `attachment; filename=${request.i18n.__('csv-template.template-name')}.csv`);
+    if (h.request.path === `/api/organizations/${request.params.id}/schooling-registrations/csv-template`) {
+      response
+        .header('Deprecation', 'true')
+        .header(
+          'Link',
+          `/api/organizations/${request.params.id}/sup-organization-learners/csv-template; rel="successor-version"`
+        );
+    }
+    return response;
   },
 
   async archiveOrganization(request) {
