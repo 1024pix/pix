@@ -66,7 +66,10 @@ export default class TubesSelection extends Component {
 
   @action
   async setLevelTube(tubeId, level) {
-    this.tubeLevels[tubeId] = parseInt(level);
+    this.tubeLevels = {
+      ...this.tubeLevels,
+      [tubeId]: parseInt(level),
+    };
 
     await this._triggerOnChange();
   }
@@ -131,7 +134,7 @@ export default class TubesSelection extends Component {
         throw new Error("Le format du fichier n'est pas reconnu");
       }
       this.selectedTubeIds = EmberArray(tubeIds);
-      // FIXME reset tubeLevels?
+      this.tubeLevels = {};
       this.notifications.success('Fichier bien importé.');
       await this._triggerOnChange();
     } catch (e) {

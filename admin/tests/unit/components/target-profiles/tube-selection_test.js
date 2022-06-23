@@ -165,6 +165,8 @@ module('Unit | Component | target-profiles/tubes-selection', function (hooks) {
     module('when json file is valid', function (hooks) {
       hooks.beforeEach(function () {
         sinon.restore();
+        component.selectedTubeIds = ['oldTube1'];
+        component.tubeLevels = { oldTube1: 8 };
 
         // given
         component.isFileInvalid = true;
@@ -182,6 +184,7 @@ module('Unit | Component | target-profiles/tubes-selection', function (hooks) {
 
       test('it should fill skillIds list', function (assert) {
         assert.deepEqual(component.selectedTubeIds, ['tubeId1', 'tubeId2', 'tubeId3']);
+        assert.deepEqual(component.tubeLevels, {});
       });
     });
   });
