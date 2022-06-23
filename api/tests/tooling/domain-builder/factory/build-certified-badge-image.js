@@ -4,16 +4,18 @@ const buildCertifiedBadgeImage = function buildCertifiedBadgeImage({
   path = 'path',
   isTemporaryBadge = false,
   levelName,
+  message = null,
 } = {}) {
   return new CertifiedBadgeImage({
     path,
     isTemporaryBadge,
     levelName,
+    message,
   });
 };
 
-buildCertifiedBadgeImage.temporary = function ({ path, levelName }) {
-  return buildCertifiedBadgeImage({ path, levelName, isTemporaryBadge: true });
+buildCertifiedBadgeImage.temporary = function ({ path, levelName, message }) {
+  return buildCertifiedBadgeImage({ path, levelName, isTemporaryBadge: true, message });
 };
 
 buildCertifiedBadgeImage.notTemporary = function ({ path }) {

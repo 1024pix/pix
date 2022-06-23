@@ -1,8 +1,7 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
-import { find, render } from '@ember/test-helpers';
-import { contains } from '../../helpers/contains';
+import { render as renderScreen } from '@1024pix/ember-testing-library';
 import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
 
@@ -11,15 +10,10 @@ describe('Integration | Component | user certifications detail result', function
 
   let certification;
 
-  it('renders', async function () {
-    await render(hbs`<UserCertificationsDetailResult @certification={{this.certification}}/>`);
-    expect(find('.user-certifications-detail-result')).to.exist;
-  });
-
   context('when certification is complete', function () {
-    beforeEach(async function () {
+    it('should show the comment for candidate', async function () {
       // given
-      certification = EmberObject.create({
+      const certification = EmberObject.create({
         id: 1,
         birthdate: new Date('2000-01-22T15:15:52Z'),
         firstName: 'Jean',
@@ -34,19 +28,17 @@ describe('Integration | Component | user certifications detail result', function
       this.set('certification', certification);
 
       // when
-      await render(hbs`<UserCertificationsDetailResult @certification={{this.certification}}/>`);
-    });
+      const screen = await renderScreen(hbs`<UserCertificationsDetailResult @certification={{this.certification}}/>`);
 
-    it('should show the comment for candidate', function () {
-      expect(find('.user-certifications-detail-result__jury__comment')).to.exist;
-      expect(find('.user-certifications-detail-result__jury__comment').textContent).to.include('Comment for candidate');
+      // then
+      expect(screen.getByText('Comment for candidate')).to.exist;
     });
   });
 
   context('when certification has no comment for user', function () {
-    beforeEach(async function () {
+    it('should not show the comment for candidate', async function () {
       // given
-      certification = EmberObject.create({
+      const certification = EmberObject.create({
         id: 1,
         birthdate: new Date('2000-01-22T15:15:52Z'),
         firstName: 'Jean',
@@ -61,18 +53,15 @@ describe('Integration | Component | user certifications detail result', function
       this.set('certification', certification);
 
       // when
-      await render(hbs`<UserCertificationsDetailResult @certification={{this.certification}}/>`);
-    });
-
-    it('should not show the comment for candidate', function () {
-      expect(find('.user-certifications-detail-result__jury__comment')).to.not.exist;
+      const screen = await renderScreen(hbs`<UserCertificationsDetailResult @certification={{this.certification}}/>`);
+      expect(screen.queryByText(this.intl.t('pages.certificate.jury-title'))).to.not.exist;
     });
   });
 
   context('when certification has Cléa', function () {
-    beforeEach(async function () {
+    it('should show the CLEA badge', async function () {
       // given
-      certification = EmberObject.create({
+      const certification = EmberObject.create({
         id: 1,
         birthdate: new Date('2000-01-22T15:15:52Z'),
         firstName: 'Jean',
@@ -88,17 +77,15 @@ describe('Integration | Component | user certifications detail result', function
       this.set('certification', certification);
 
       // when
-      await render(hbs`<UserCertificationsDetailResult @certification={{this.certification}}/>`);
-    });
+      const screen = await renderScreen(hbs`<UserCertificationsDetailResult @certification={{this.certification}}/>`);
 
-    // then
-    it('should show the CLEA badge', function () {
-      expect(find('img[alt="Certification cléA numérique"]')).to.exist;
+      // then
+      expect(screen.getByRole('img', { name: 'Certification cléA numérique' })).to.exist;
     });
   });
 
   context('when certification does not have Cléa', function () {
-    beforeEach(async function () {
+    it('should not show the CLEA badge', async function () {
       // given
       certification = EmberObject.create({
         id: 1,
@@ -116,12 +103,10 @@ describe('Integration | Component | user certifications detail result', function
       this.set('certification', certification);
 
       // when
-      await render(hbs`<UserCertificationsDetailResult @certification={{this.certification}}/>`);
-    });
+      const screen = await renderScreen(hbs`<UserCertificationsDetailResult @certification={{this.certification}}/>`);
 
-    // then
-    it('should not show the CLEA badge', function () {
-      expect(find('img[alt="Certification cléA numérique"]')).not.to.exist;
+      // then
+      expect(screen.queryByRole('img', { name: 'Certification cléA numérique' })).to.not.exist;
     });
   });
 
@@ -148,14 +133,14 @@ describe('Integration | Component | user certifications detail result', function
       this.set('certification', certification);
 
       // when
-      await render(hbs`<UserCertificationsDetailResult @certification={{this.certification}}/>`);
+      const screen = await renderScreen(hbs`<UserCertificationsDetailResult @certification={{this.certification}}/>`);
 
       // then
-      expect(find('img[alt="Certification complémentaire"]')).to.exist;
+      expect(screen.getByRole('img', { name: 'Certification complémentaire' })).to.exist;
     });
 
-    context('when the certified badge image is a temporary badge', function () {
-      it('should display the temporary badge message', async function () {
+    context('when the certified badge image has a message', function () {
+      it('should display the message', async function () {
         // given
         certification = EmberObject.create({
           id: 1,
@@ -170,7 +155,7 @@ describe('Integration | Component | user certifications detail result', function
           certifiedBadgeImages: [
             {
               url: '/some/img',
-              isTemporaryBadge: true,
+              message: 'Bravo Coco!',
               levelName: 'Level Name',
             },
           ],
@@ -178,20 +163,16 @@ describe('Integration | Component | user certifications detail result', function
         this.set('certification', certification);
 
         // when
-        await render(hbs`<UserCertificationsDetailResult @certification={{this.certification}}/>`);
+        const screen = await renderScreen(hbs`<UserCertificationsDetailResult @certification={{this.certification}}/>`);
 
         // then
-        expect(
-          contains(
-            'Vous avez obtenu le niveau "Level Name" dans le cadre du volet 1 de la certification Pix+Édu. Votre niveau final sera déterminé à l’issue du volet 2'
-          )
-        ).to.exist;
+        expect(screen.getByText('Bravo Coco!')).to.exist;
       });
     });
   });
 
   context('when certification has no certifed badge image', function () {
-    beforeEach(async function () {
+    it('should not show the complementary certification badge', async function () {
       // given
       certification = EmberObject.create({
         id: 1,
@@ -210,12 +191,9 @@ describe('Integration | Component | user certifications detail result', function
       this.set('certification', certification);
 
       // when
-      await render(hbs`<UserCertificationsDetailResult @certification={{this.certification}}/>`);
-    });
-
-    // then
-    it('should not show the complementary certification badge', function () {
-      expect(find('img[alt="Certification complémentaire"]')).not.to.exist;
+      const screen = await renderScreen(hbs`<UserCertificationsDetailResult @certification={{this.certification}}/>`);
+      // then
+      expect(screen.queryByRole('img', { name: 'Certification complémentaire' })).to.not.exist;
     });
   });
 });
