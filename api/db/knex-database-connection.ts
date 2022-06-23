@@ -25,7 +25,7 @@ types.setTypeParser(types.builtins.INT8, (value) => parseInt(value));
 
 const _ = require('lodash');
 
-const knexConfigs = require('./knexfile');
+import * as knexConfigs from './knexfile';
 const { environment } = require('../lib/config');
 
 /* QueryBuilder Extension */
