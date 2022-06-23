@@ -1,0 +1,20 @@
+{
+    "extends": "@tsconfig/node16/tsconfig.json",
+    "ts-node": {
+        "swc": true,
+        "files": true,
+        "compilerOptions": {
+            "esModuleInterop": true,
+            "outDir": "./dist",
+            "allowJs": true,
+            "resolveJsonModule": true,
+            "strict": false,
+        },
+        "include": [
+            "./lib/**/*",
+            "./bin/**/*",
+            "./translations/**/*",
+            "./server"
+        ]
+    }
+}

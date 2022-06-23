@@ -11,6 +11,7 @@ globals:
 
 plugins:
   - knex
+  - '@typescript-eslint'
 
 rules:
   no-console: error
@@ -32,3 +33,19 @@ rules:
   mocha/no-skipped-tests: error
   mocha/no-top-level-hooks: error
   no-empty-function: warn
+
+overrides:
+  - files:
+      - '**/*.ts'
+    extends:
+      - plugin:@typescript-eslint/eslint-recommended
+      - plugin:@typescript-eslint/recommended
+    parser: '@typescript-eslint/parser'
+    parserOptions:
+      project: ./tsconfig.json
+    plugins:
+      - '@typescript-eslint'
+    rules:
+      '@typescript-eslint/no-unsafe-return': warn
+      '@typescript-eslint/explicit-function-return-type': warn
+      '@typescript-eslint/no-var-requires': warn
