@@ -101,12 +101,6 @@ module.exports = {
     return h.response(organizationLearnerWithUsernameResponse).code(200);
   },
 
-  async dissociate(request, h) {
-    const organizationLearnerId = request.params.id;
-    await usecases.dissociateUserFromOrganizationLearner({ organizationLearnerId });
-    return h.response().code(204);
-  },
-
   async updateStudentNumber(request, h) {
     const payload = request.payload.data.attributes;
     const organizationId = request.params.id;

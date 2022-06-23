@@ -6,38 +6,7 @@ const organizationLearnerUserAssociationController = require('./organization-lea
 const identifiersType = require('../../domain/types/identifiers-type');
 
 exports.register = async function (server) {
-  const adminRoutes = [
-    {
-      method: 'DELETE',
-      path: '/api/admin/organization-learners/{id}/association',
-      config: {
-        pre: [
-          {
-            method: (request, h) =>
-              securityPreHandlers.userHasAtLeastOneAccessOf([
-                securityPreHandlers.checkUserHasRoleSuperAdmin,
-                securityPreHandlers.checkUserHasRoleSupport,
-              ])(request, h),
-            assign: 'hasAuthorizationToAccessAdminScope',
-          },
-        ],
-        handler: organizationLearnerUserAssociationController.dissociate,
-        validate: {
-          params: Joi.object({
-            id: identifiersType.organizationLearnerId,
-          }),
-        },
-        notes: [
-          "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n" +
-            '- Elle dissocie un utilisateur d’un prescrit',
-        ],
-        tags: ['api', 'admin', 'organization-learners'],
-      },
-    },
-  ];
-
   server.route([
-    ...adminRoutes,
     {
       method: 'POST',
       path: '/api/schooling-registration-user-associations',
@@ -212,36 +181,6 @@ exports.register = async function (server) {
             '- Elle met à jour le numéro étudiant',
         ],
         tags: ['api', 'organizationLearnerUserAssociation'],
-      },
-    },
-
-    {
-      method: 'DELETE',
-      path: '/api/schooling-registration-user-associations/{id}',
-      config: {
-        pre: [
-          {
-            method: (request, h) =>
-              securityPreHandlers.userHasAtLeastOneAccessOf([
-                securityPreHandlers.checkUserHasRoleSuperAdmin,
-                securityPreHandlers.checkUserHasRoleCertif,
-                securityPreHandlers.checkUserHasRoleSupport,
-                securityPreHandlers.checkUserHasRoleMetier,
-              ])(request, h),
-            assign: 'hasAuthorizationToAccessAdminScope',
-          },
-        ],
-        handler: organizationLearnerUserAssociationController.dissociate,
-        validate: {
-          params: Joi.object({
-            id: identifiersType.schoolingRegistrationId,
-          }),
-        },
-        notes: [
-          "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n" +
-            '- Elle dissocie un utilisateur d’une inscription d’élève',
-        ],
-        tags: ['api', 'admin', 'schoolingRegistrationUserAssociation'],
       },
     },
   ]);
