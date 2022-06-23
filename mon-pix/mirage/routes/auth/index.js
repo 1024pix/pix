@@ -14,7 +14,7 @@ export default function index(config) {
     }
 
     if (foundUser.shouldChangePassword) {
-      return new Response(401, {}, { errors: [{ title: 'PasswordShouldChange' }] });
+      return new Response(401, {}, { errors: [{ title: 'PasswordShouldChange', meta: foundUser.id }] });
     }
 
     const response = {

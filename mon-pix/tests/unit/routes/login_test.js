@@ -62,12 +62,10 @@ describe('Unit | Route | login page', function () {
   });
 
   describe('#updateExpiredPassword', function () {
-    it('should create a reset expired password demand', async function () {
+    it('should redirect to password update page with token', async function () {
       // given
-      const username = 'Alice';
-      const oneTimePassword = 'ExpiredPassword123';
+      const passwordResetToken = 'PASSWORD_RESET_TOKEN';
       const route = this.owner.lookup('route:login');
-
       const createRecordStub = sinon.stub();
       const storeStub = { createRecord: createRecordStub };
 
@@ -75,10 +73,12 @@ describe('Unit | Route | login page', function () {
       route.router = { replaceWith: sinon.stub() };
 
       // when
-      await route.actions.updateExpiredPassword.call(route, username, oneTimePassword);
+      await route.actions.updateExpiredPassword.call(route, passwordResetToken);
 
       // then
-      sinon.assert.calledWith(createRecordStub, 'reset-expired-password-demand', { username, oneTimePassword });
+      sinon.assert.calledWith(createRecordStub, 'reset-expired-password-demand', {
+        passwordResetToken: 'PASSWORD_RESET_TOKEN',
+      });
     });
   });
 });

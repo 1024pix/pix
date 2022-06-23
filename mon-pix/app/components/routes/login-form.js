@@ -48,12 +48,11 @@ export default class LoginForm extends Component {
     } catch (response) {
       const shouldChangePassword = get(response, 'responseJSON.errors[0].title') === 'PasswordShouldChange';
       if (shouldChangePassword) {
-        this.store.createRecord('reset-expired-password-demand', {
-          username: this.login,
-          oneTimePassword: this.password,
-        });
+        const passwordResetToken = response.responseJSON.errors[0].meta;
+        this.store.createRecord('reset-expired-password-demand', { passwordResetToken });
         return this.router.replaceWith('update-expired-password');
       }
+
       this.isErrorMessagePresent = true;
     }
   }
@@ -67,18 +66,15 @@ export default class LoginForm extends Component {
         expectedUserId: this.expectedUserId,
       });
       await this.args.addGarAuthenticationMethodToUser(externalUserAuthenticationRequest);
-    } catch (err) {
-      const title = 'errors' in err ? err.errors.get('firstObject').title : null;
-
-      if (title === 'PasswordShouldChange') {
-        this.store.createRecord('reset-expired-password-demand', {
-          username: this.login,
-          oneTimePassword: this.password,
-        });
+    } catch (response) {
+      const shouldChangePassword = get(response, 'errors[0].title') === 'PasswordShouldChange';
+      if (shouldChangePassword) {
+        const passwordResetToken = response.errors[0].meta;
+        this.store.createRecord('reset-expired-password-demand', { passwordResetToken });
         return this.router.replaceWith('update-expired-password');
       }
 
-      this._manageErrorsApi(err);
+      this._manageErrorsApi(response);
       this.hasUpdateUserError = true;
     }
   }

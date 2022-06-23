@@ -1,10 +1,10 @@
-import get from 'lodash/get';
 import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 
 import ENV from 'mon-pix/config/environment';
+import get from 'lodash/get';
 
 export default class SigninForm extends Component {
   @service url;
@@ -34,7 +34,8 @@ export default class SigninForm extends Component {
     } catch (response) {
       const shouldChangePassword = get(response, 'responseJSON.errors[0].title') === 'PasswordShouldChange';
       if (shouldChangePassword) {
-        await this.args.updateExpiredPassword(this.username, this.password);
+        const passwordResetToken = response.responseJSON.errors[0].meta;
+        await this.args.updateExpiredPassword(passwordResetToken);
       } else {
         this.errorMessage = this._findErrorMessage(response.status);
       }
