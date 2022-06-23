@@ -9,7 +9,7 @@ exports.register = async function (server) {
   const adminRoutes = [
     {
       method: 'DELETE',
-      path: '/api/admin/schooling-registration-user-associations/{id}',
+      path: '/api/admin/organization-learners/{id}/association',
       config: {
         pre: [
           {
@@ -24,14 +24,14 @@ exports.register = async function (server) {
         handler: organizationLearnerUserAssociationController.dissociate,
         validate: {
           params: Joi.object({
-            id: identifiersType.schoolingRegistrationId,
+            id: identifiersType.organizationLearnerId,
           }),
         },
         notes: [
           "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n" +
-            '- Elle dissocie un utilisateur d’une inscription d’élève',
+            '- Elle dissocie un utilisateur d’un prescrit',
         ],
-        tags: ['api', 'admin', 'organizationLearnerUserAssociation'],
+        tags: ['api', 'admin', 'organization-learners'],
       },
     },
   ];
