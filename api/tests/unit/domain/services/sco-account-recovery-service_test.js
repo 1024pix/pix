@@ -95,7 +95,7 @@ describe('Unit | Service | sco-account-recovery-service', function () {
     });
 
     context('when user is reconciled to several organizations', function () {
-      context('when all organization learners have the same INE', function () {
+      context('when all organization learners have the same INE, some are empty', function () {
         it('should return the last reconciled user account information', async function () {
           // given
           const studentInformation = {
@@ -114,21 +114,29 @@ describe('Unit | Service | sco-account-recovery-service', function () {
           });
           const firstOrganization = domainBuilder.buildOrganization({ id: 8, name: 'Collège Beauxbâtons' });
           const secondOrganization = domainBuilder.buildOrganization({ id: 7, name: 'Lycée Poudlard' });
+          const thirdOrganization = domainBuilder.buildOrganization({ id: 9, name: 'Lycée The Night Watch' });
           const firstOrganizationLearner = domainBuilder.buildOrganizationLearner({
             id: 2,
             userId: expectedUser.id,
             organization: firstOrganization,
             updatedAt: new Date('2000-01-01T15:00:00Z'),
             ...studentInformation,
-            nationalStudentId: studentInformation.inaIna,
+            nationalStudentId: studentInformation.ineIna,
           });
-          const lastOrganizationLearner = domainBuilder.buildOrganizationLearner({
+          const secondOrganizationLearner = domainBuilder.buildOrganizationLearner({
             id: 3,
             userId: expectedUser.id,
             organization: secondOrganization,
+            updatedAt: new Date('2004-01-01T15:00:00Z'),
+            ...studentInformation,
+            nationalStudentId: studentInformation.ineIna,
+          });
+          const lastOrganizationLearner = domainBuilder.buildOrganizationLearner({
+            id: 4,
+            userId: expectedUser.id,
+            organization: thirdOrganization,
             updatedAt: new Date('2005-01-01T15:00:00Z'),
             ...studentInformation,
-            nationalStudentId: studentInformation.inaIna,
           });
           const accountRecoveryDemand = domainBuilder.buildAccountRecoveryDemand({
             userId: expectedUser.id,
@@ -148,7 +156,7 @@ describe('Unit | Service | sco-account-recovery-service', function () {
 
           organizationLearnerRepository.findByUserId
             .withArgs({ userId: expectedUser.id })
-            .resolves([firstOrganizationLearner, lastOrganizationLearner]);
+            .resolves([firstOrganizationLearner, secondOrganizationLearner, lastOrganizationLearner]);
 
           accountRecoveryDemandRepository.findByUserId.withArgs(expectedUser.id).resolves([accountRecoveryDemand]);
 
@@ -169,15 +177,15 @@ describe('Unit | Service | sco-account-recovery-service', function () {
             lastName: 'Monchose',
             username: 'nanou.monchose0705',
             email: 'nanou.monchose@example.net',
-            id: 3,
+            id: 4,
             userId: 9,
-            organizationId: 7,
+            organizationId: 9,
           };
           expect(result).to.deep.equal(expectedResult);
         });
       });
 
-      context('when at least one organization learners has a different INE', function () {
+      context('when at least one organization learner has a different INE with some empty', function () {
         it('should throw an error', async function () {
           // given
           const studentInformation = {
@@ -209,6 +217,13 @@ describe('Unit | Service | sco-account-recovery-service', function () {
             lastName: 'Monchose',
             birthdate: '2004-05-07',
           });
+          const thirdOrganizationLearner = domainBuilder.buildOrganizationLearner({
+            id: 9,
+            userId: user.id,
+            firstName: 'Nanou',
+            lastName: 'Monchose',
+            birthdate: '2004-05-07',
+          });
           const accountRecoveryDemand = domainBuilder.buildAccountRecoveryDemand({
             userId: user.id,
             schoolingRegistrationId: secondOrganizationLearner.id,
@@ -227,7 +242,7 @@ describe('Unit | Service | sco-account-recovery-service', function () {
 
           organizationLearnerRepository.findByUserId
             .withArgs({ userId: user.id })
-            .resolves([firstOrganizationLearner, secondOrganizationLearner]);
+            .resolves([firstOrganizationLearner, secondOrganizationLearner, thirdOrganizationLearner]);
 
           accountRecoveryDemandRepository.findByUserId.withArgs(user.id).resolves([accountRecoveryDemand]);
 
