@@ -26,6 +26,7 @@ import putSaveTutorial from './routes/put-save-tutorial';
 import deleteUserTutorial from './routes/delete-user-tutorial';
 import putTutorialEvaluation from './routes/put-tutorial-evaluation';
 import postPoleEmploiUser from './routes/post-pole-emploi-user';
+import postPoleEmploiToken from './routes/post-pole-emploi-token';
 import postSharedCertifications from './routes/post-shared-certifications';
 import loadUserTutorialsRoutes from './routes/get-user-tutorials';
 import loadSavedTutorialsRoutes from './routes/get-saved-tutorials';
@@ -78,6 +79,7 @@ export default function () {
   this.put('/users/tutorials/:tutorialId/evaluate', putTutorialEvaluation);
 
   this.post('/pole-emploi/users', postPoleEmploiUser);
+  this.post('/pole-emploi/token', postPoleEmploiToken);
 
   this.get('/feature-toggles', getFeatureToggles);
 

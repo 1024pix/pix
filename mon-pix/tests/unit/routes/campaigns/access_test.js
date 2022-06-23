@@ -66,6 +66,21 @@ describe('Unit | Route | Access', function () {
       });
     });
 
+    context('when campaign belongs to pole emploi and user is connected with pole emploi', function () {
+      it('should not override authentication route with login-pole-emploi', async function () {
+        // given
+        route.session.data.externalUser = 'some external user';
+        route.session.data.authenticated.identity_provider = 'POLE_EMPLOI';
+        campaign.isRestrictedByPoleEmploiIdentityProvider = true;
+
+        // when
+        await route.beforeModel({ from: 'campaigns.campaign-landing-page' });
+
+        // then
+        sinon.assert.neverCalledWith(route.replaceWith, 'login-pole-emploi');
+      });
+    });
+
     context(
       'when campaign is SCO restricted and user is neither authenticated from Pix nor a user from an external platform',
       function () {
