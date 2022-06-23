@@ -8,7 +8,7 @@ module.exports = function buildSCOCertificationCandidate({
   sex = 'F',
   birthINSEECode = '66001',
   sessionId = 456,
-  schoolingRegistrationId = 789,
+  organizationLearnerId = 789,
 } = {}) {
   return new SCOCertificationCandidate({
     id,
@@ -18,6 +18,6 @@ module.exports = function buildSCOCertificationCandidate({
     sex,
     birthINSEECode,
     sessionId,
-    schoolingRegistrationId,
+    organizationLearnerId,
   });
 };

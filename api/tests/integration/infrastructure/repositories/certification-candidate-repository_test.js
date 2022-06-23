@@ -404,7 +404,7 @@ describe('Integration | Repository | CertificationCandidate', function () {
           createdAt: new Date('2020-01-01'),
           extraTimePercentage: null,
           userId: null,
-          schoolingRegistrationId: null,
+          organizationLearnerId: null,
           complementaryCertifications: [],
         });
         databaseBuilder.factory.buildCertificationCandidate(certificationCandidate);
@@ -446,7 +446,7 @@ describe('Integration | Repository | CertificationCandidate', function () {
           createdAt: new Date('2020-01-01'),
           extraTimePercentage: null,
           userId: null,
-          schoolingRegistrationId: null,
+          organizationLearnerId: null,
           complementaryCertifications: [],
         });
         databaseBuilder.factory.buildCertificationCandidate(certificationCandidate);
@@ -537,10 +537,7 @@ describe('Integration | Repository | CertificationCandidate', function () {
         expect(actualCandidates).to.have.lengthOf(2);
         expect(actualCandidates[0].lastName).to.equal(commonCandidateInfo.lastName);
         expect(actualCandidates[1].lastName).to.equal(commonCandidateInfo.lastName);
-        expect([
-          actualCandidates[0].schoolingRegistrationId,
-          actualCandidates[1].schoolingRegistrationId,
-        ]).to.have.members([
+        expect([actualCandidates[0].organizationLearnerId, actualCandidates[1].organizationLearnerId]).to.have.members([
           certificationCandidates1.organizationLearnerId,
           certificationCandidates2.organizationLearnerId,
         ]);
