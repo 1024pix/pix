@@ -11,7 +11,9 @@ module.exports = {
       version: packageJSON.version,
       description: packageJSON.description,
       environment: settings.environment,
+      // eslint-disable-next-line node/no-process-env
       'container-version': process.env.CONTAINER_VERSION,
+      // eslint-disable-next-line node/no-process-env
       'container-app-name': process.env.APP,
       'current-lang': request.i18n.__('current-lang'),
     };
