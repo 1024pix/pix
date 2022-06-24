@@ -957,6 +957,7 @@ describe('Acceptance | Application | organization-controller', function () {
                 'student-number': organizationLearner.studentNumber,
                 division: organizationLearner.division,
                 group: organizationLearner.group,
+                'participation-count': 0,
               },
               id: organizationLearner.id.toString(),
               type: 'students',
