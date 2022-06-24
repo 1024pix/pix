@@ -1,3 +1,4 @@
+/* eslint-disable node/no-process-env*/
 const path = require('path');
 const moment = require('moment');
 const ms = require('ms');
@@ -381,3 +382,4 @@ module.exports = (function () {
 
   return config;
 })();
+/* eslint-enable node/no-process-env*/
