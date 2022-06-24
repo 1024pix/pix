@@ -201,6 +201,63 @@ module('Integration | Component | session-summary-list', function (hooks) {
         // then
         assert.dom(screen.getByRole('button', { name: 'Supprimer la session 123' })).isEnabled();
       });
+
+      module('when clicking on delete button', function () {
+        test('it should open the modal', async function (assert) {
+          // given
+          this.goToSessionDetailsSpy = sinon.stub();
+          const store = this.owner.lookup('service:store');
+          const sessionSummary = store.createRecord('session-summary', {
+            id: 123,
+            meta: {
+              rowCount: 1,
+            },
+          });
+          this.sessionSummaries = [sessionSummary];
+
+          const screen = await renderScreen(hbs`<SessionSummaryList
+                  @sessionSummaries={{this.sessionSummaries}}
+                  @goToSessionDetails={{this.goToSessionDetailsSpy}}/>`);
+
+          // when
+          await click(screen.getByRole('button', { name: 'Supprimer la session 123' }));
+
+          // then
+          assert.dom(screen.getByRole('heading', { name: 'Supprimer la session' })).exists();
+          assert
+            .dom(screen.getByText('Souhaitez-vous supprimer la session', { exact: false }))
+            .hasText('Souhaitez-vous supprimer la session 123 ?');
+        });
+
+        module('when clicking on modal delete button', function () {
+          test('it should close the modal', async function (assert) {
+            // given
+            this.goToSessionDetailsSpy = sinon.stub();
+            const store = this.owner.lookup('service:store');
+            const sessionSummary = run(() =>
+              store.createRecord('session-summary', {
+                id: 123,
+              })
+            );
+            const sessionSummaries = [sessionSummary];
+            sessionSummaries.meta = {
+              rowCount: 1,
+            };
+            this.sessionSummaries = sessionSummaries;
+
+            const screen = await renderScreen(hbs`<SessionSummaryList
+                  @sessionSummaries={{this.sessionSummaries}}
+                  @goToSessionDetails={{this.goToSessionDetailsSpy}}/>`);
+            await click(screen.getByRole('button', { name: 'Supprimer la session 123' }));
+
+            // when
+            await click(screen.getByRole('button', { name: 'Fermer' }));
+
+            // then
+            assert.dom(screen.queryByText('Supprimer la session')).doesNotExist();
+          });
+        });
+      });
     });
   });
 });
