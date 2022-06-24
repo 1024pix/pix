@@ -84,7 +84,6 @@ describe('Unit | UseCase | finalize-session', function () {
       let clock;
 
       beforeEach(function () {
-        clock = sinon.useFakeTimers(now);
         const validReportForFinalization = domainBuilder.buildCertificationReport({
           examinerComment: 'signalement sur le candidat',
           hasSeenEndTestScreen: false,
