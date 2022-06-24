@@ -12,6 +12,7 @@ class UserWithOrganizationLearner {
     studentNumber,
     division,
     group,
+    participationCount,
   } = {}) {
     this.id = id;
     this.lastName = lastName;
@@ -25,6 +26,7 @@ class UserWithOrganizationLearner {
     this.studentNumber = studentNumber;
     this.division = division;
     this.group = group;
+    this.participationCount = participationCount;
   }
 }
 

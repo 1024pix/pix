@@ -313,10 +313,13 @@ module.exports = {
 
   async findPaginatedFilteredOrganizationLearners({ organizationId, filter, page = {} }) {
     const query = knex('organization-learners')
+      .distinct('organization-learners.id')
       .select(
         'organization-learners.id',
         'organization-learners.firstName',
         'organization-learners.lastName',
+        knex.raw('LOWER("organization-learners"."firstName") AS "lowerFirstName"'),
+        knex.raw('LOWER("organization-learners"."lastName") AS "lowerLastName"'),
         'organization-learners.birthdate',
         'organization-learners.division',
         'organization-learners.group',
@@ -325,8 +328,12 @@ module.exports = {
         'organization-learners.organizationId',
         'users.username',
         'users.email',
-        'authentication-methods.externalIdentifier as samlId'
+        'authentication-methods.externalIdentifier as samlId',
+        knex.raw(
+          'COUNT(*) FILTER (WHERE "campaign-participations"."id" IS NOT NULL AND "campaign-participations"."isImproved" IS FALSE AND "campaign-participations"."deletedAt" IS NULL) OVER (partition by "organization-learners"."id") AS "participationCount"'
+        )
       )
+      .leftJoin('campaign-participations', 'campaign-participations.organizationLearnerId', 'organization-learners.id')
       .leftJoin('users', 'organization-learners.userId', 'users.id')
       .leftJoin('authentication-methods', function () {
         this.on('users.id', 'authentication-methods.userId').andOnVal(
@@ -337,7 +344,7 @@ module.exports = {
       .where({ organizationId })
       .where('organization-learners.isDisabled', false)
       .modify(_setOrganizationLearnerFilters, filter)
-      .orderByRaw('LOWER("organization-learners"."lastName") ASC, LOWER("organization-learners"."firstName") ASC');
+      .orderByRaw('?? ASC, ?? ASC', ['lowerLastName', 'lowerFirstName']);
 
     const { results, pagination } = await fetchPage(query, page);
 
