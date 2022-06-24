@@ -12,7 +12,7 @@ module.exports = {
         .select('id')
         .where(badgeAcquisitionToCreate);
       if (alreadyCreatedBadgeAcquisition.length === 0) {
-        return knexConn('badge-acquisitions').insert(badgeAcquisitionsToCreate, 'id');
+        return knexConn('badge-acquisitions').insert(badgeAcquisitionsToCreate);
       } else {
         return knexConn('badge-acquisitions')
           .update({ updatedAt: Bookshelf.knex.raw('CURRENT_TIMESTAMP') })

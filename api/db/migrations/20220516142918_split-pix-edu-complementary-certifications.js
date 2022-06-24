@@ -9,7 +9,7 @@ const {
 exports.up = async function (knex) {
   await knex('complementary-certifications').update({ name: 'Pix+ Édu 2nd degré' }).where({ name: 'Pix+ Édu' });
 
-  const [pixEdu1erDegreComplementaryCertificationId] = await knex('complementary-certifications')
+  const [{ id: pixEdu1erDegreComplementaryCertificationId }] = await knex('complementary-certifications')
     .insert({ name: 'Pix+ Édu 1er degré' })
     .returning('id');
 

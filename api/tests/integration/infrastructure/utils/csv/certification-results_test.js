@@ -59,40 +59,41 @@ describe('Integration | Infrastructure | Utils | csv | certification-results', f
         expect(result).to.equal(expectedResult);
       });
 
-      context('when certification has been rejected automatically', function () {});
-      it('should return correct csvContent with automatically rejected comment for organization', async function () {
-        // given
-        const session = domainBuilder.buildSession({ id: 777, certificationCenter: 'CentreCertif' });
+      context('when certification has been rejected automatically', function () {
+        it('should return correct csvContent with automatically rejected comment for organization', async function () {
+          // given
+          const session = domainBuilder.buildSession({ id: 777, certificationCenter: 'CentreCertif' });
 
-        const competencesWithMark = [
-          domainBuilder.buildCompetenceMark({ competence_code: '5.1', level: 3 }),
-          domainBuilder.buildCompetenceMark({ competence_code: '5.2', level: -1 }),
-        ];
+          const competencesWithMark = [
+            domainBuilder.buildCompetenceMark({ competence_code: '5.1', level: 3 }),
+            domainBuilder.buildCompetenceMark({ competence_code: '5.2', level: -1 }),
+          ];
 
-        const automaticallyRejectedCertificationResult = domainBuilder.buildCertificationResult.rejected({
-          id: 456,
-          lastName: 'Cambridge',
-          firstName: 'Tom',
-          birthdate: '1993-05-21',
-          birthplace: 'TheMoon',
-          externalId: 'TOTODGE',
-          createdAt: new Date('2020-02-02'),
-          pixScore: 66,
-          commentForOrganization: null,
-          competencesWithMark: competencesWithMark,
-          complementaryCertificationCourseResults: [],
+          const automaticallyRejectedCertificationResult = domainBuilder.buildCertificationResult.rejected({
+            id: 456,
+            lastName: 'Cambridge',
+            firstName: 'Tom',
+            birthdate: '1993-05-21',
+            birthplace: 'TheMoon',
+            externalId: 'TOTODGE',
+            createdAt: new Date('2020-02-02'),
+            pixScore: 66,
+            commentForOrganization: null,
+            competencesWithMark: competencesWithMark,
+            complementaryCertificationCourseResults: [],
+          });
+          const certificationResults = [automaticallyRejectedCertificationResult];
+
+          // when
+          const result = await getSessionCertificationResultsCsv({ session, certificationResults });
+
+          // then
+          const expectedResult =
+            '\uFEFF' +
+            '"Numéro de certification";"Prénom";"Nom";"Date de naissance";"Lieu de naissance";"Identifiant Externe";"Statut";"Nombre de Pix";"1.1";"1.2";"1.3";"2.1";"2.2";"2.3";"2.4";"3.1";"3.2";"3.3";"3.4";"4.1";"4.2";"4.3";"5.1";"5.2";"Commentaire jury pour l’organisation";"Session";"Centre de certification";"Date de passage de la certification"\n' +
+            `456;"Tom";"Cambridge";"21/05/1993";"TheMoon";"TOTODGE";"Rejetée";"0";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";0;0;"${REJECTED_AUTOMATICALLY_COMMENT}";777;"CentreCertif";"02/02/2020"`;
+          expect(result).to.equal(expectedResult);
         });
-        const certificationResults = [automaticallyRejectedCertificationResult];
-
-        // when
-        const result = await getSessionCertificationResultsCsv({ session, certificationResults });
-
-        // then
-        const expectedResult =
-          '\uFEFF' +
-          '"Numéro de certification";"Prénom";"Nom";"Date de naissance";"Lieu de naissance";"Identifiant Externe";"Statut";"Nombre de Pix";"1.1";"1.2";"1.3";"2.1";"2.2";"2.3";"2.4";"3.1";"3.2";"3.3";"3.4";"4.1";"4.2";"4.3";"5.1";"5.2";"Commentaire jury pour l’organisation";"Session";"Centre de certification";"Date de passage de la certification"\n' +
-          `456;"Tom";"Cambridge";"21/05/1993";"TheMoon";"TOTODGE";"Rejetée";"0";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";0;0;"${REJECTED_AUTOMATICALLY_COMMENT}";777;"CentreCertif";"02/02/2020"`;
-        expect(result).to.equal(expectedResult);
       });
     });
 
