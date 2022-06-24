@@ -58,10 +58,9 @@ describe('Integration | Application | Password | Routes', function () {
       const url = '/api/expired-password-updates';
       const payload = {
         data: {
-          type: 'organization-invitations',
           attributes: {
-            username: 'firstName.lastName0512',
-            expiredPassword: 'expiredPassword01',
+            username: 'firstname.lastname0512',
+            oneTimePassword: 'expiredPassword01',
             newPassword: 'newPassword02',
           },
         },

@@ -5,24 +5,25 @@ const { UserNotFoundError } = require('../../domain/errors');
 const logger = require('../../../lib/infrastructure/logger');
 
 module.exports = async function updateExpiredPassword({
-  expiredPassword,
+  oneTimePassword,
   newPassword,
   username,
-  pixAuthenticationService,
   encryptionService,
   authenticationMethodRepository,
   userRepository,
 }) {
   let foundUser;
   try {
-    foundUser = await pixAuthenticationService.getUserByUsernameAndPassword({
-      username,
-      password: expiredPassword,
-      userRepository,
+    foundUser = await userRepository.getUserWithPixAuthenticationMethodByUsername(username);
+    const passwordHash = foundUser.authenticationMethods[0].authenticationComplement.password;
+
+    await encryptionService.checkPassword({
+      password: oneTimePassword,
+      passwordHash,
     });
   } catch (error) {
     if (error instanceof UserNotFoundError) {
-      logger.warn({ username }, 'Trying to change his password with incorrect username');
+      logger.warn('Trying to change his password with incorrect username');
     }
 
     throw error;
