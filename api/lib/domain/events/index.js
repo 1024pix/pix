@@ -5,6 +5,7 @@ const MonitoringTools = require('../../infrastructure/monitoring-tools');
 const settings = require('../../config');
 const _ = require('lodash');
 const { performance } = require('perf_hooks');
+const eventBusBuilder = require('../../infrastructure/events/EventBusBuilder');
 
 const dependencies = {
   assessmentRepository: require('../../infrastructure/repositories/assessment-repository'),
@@ -90,6 +91,7 @@ function buildEventDispatcher(handlersStubs) {
 
 module.exports = {
   eventDispatcher: buildEventDispatcher({}),
+  eventBus: eventBusBuilder.build(),
   _forTestOnly: {
     handlers: handlersToBeInjected,
     buildEventDispatcher: function (stubbedHandlers) {

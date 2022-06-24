@@ -56,6 +56,9 @@ describe('Acceptance | API | Campaign Participations', function () {
         headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
       };
     });
+    afterEach(async function () {
+      await knex('pgboss.job').where({ name: 'ParticipationResultCalculationJob' }).delete();
+    });
 
     it('shares the campaign participation', async function () {
       // given
