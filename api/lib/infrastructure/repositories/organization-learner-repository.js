@@ -20,15 +20,7 @@ const BookshelfOrganizationLearner = require('../orm-models/OrganizationLearner'
 
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
 const DomainTransaction = require('../DomainTransaction');
-
-function _toUserWithOrganizationLearnerDTO(BookshelfOrganizationLearner) {
-  const rawUserWithOrganizationLearner = BookshelfOrganizationLearner.toJSON();
-
-  return new UserWithOrganizationLearner({
-    ...rawUserWithOrganizationLearner,
-    isAuthenticatedFromGAR: !!rawUserWithOrganizationLearner.samlId,
-  });
-}
+const { fetchPage } = require('../utils/knex-utils');
 
 function _setOrganizationLearnerFilters(
   qb,
@@ -320,41 +312,43 @@ module.exports = {
   },
 
   async findPaginatedFilteredOrganizationLearners({ organizationId, filter, page = {} }) {
-    const { models, pagination } = await BookshelfOrganizationLearner.where({ organizationId })
-      .query((qb) => {
-        qb.select(
-          'organization-learners.id',
-          'organization-learners.firstName',
-          'organization-learners.lastName',
-          'organization-learners.birthdate',
-          'organization-learners.division',
-          'organization-learners.group',
-          'organization-learners.studentNumber',
-          'organization-learners.userId',
-          'organization-learners.organizationId',
-          'users.username',
-          'users.email',
-          'authentication-methods.externalIdentifier as samlId'
+    const query = knex('organization-learners')
+      .select(
+        'organization-learners.id',
+        'organization-learners.firstName',
+        'organization-learners.lastName',
+        'organization-learners.birthdate',
+        'organization-learners.division',
+        'organization-learners.group',
+        'organization-learners.studentNumber',
+        'organization-learners.userId',
+        'organization-learners.organizationId',
+        'users.username',
+        'users.email',
+        'authentication-methods.externalIdentifier as samlId'
+      )
+      .leftJoin('users', 'organization-learners.userId', 'users.id')
+      .leftJoin('authentication-methods', function () {
+        this.on('users.id', 'authentication-methods.userId').andOnVal(
+          'authentication-methods.identityProvider',
+          AuthenticationMethod.identityProviders.GAR
         );
-        qb.orderByRaw('LOWER("organization-learners"."lastName") ASC, LOWER("organization-learners"."firstName") ASC');
-        qb.leftJoin('users', 'organization-learners.userId', 'users.id');
-        qb.leftJoin('authentication-methods', function () {
-          this.on('users.id', 'authentication-methods.userId').andOnVal(
-            'authentication-methods.identityProvider',
-            AuthenticationMethod.identityProviders.GAR
-          );
-        });
-        qb.where('organization-learners.isDisabled', false);
-        qb.modify(_setOrganizationLearnerFilters, filter);
       })
-      .fetchPage({
-        page: page.number,
-        pageSize: page.size,
-        withRelated: ['user'],
-      });
+      .where({ organizationId })
+      .where('organization-learners.isDisabled', false)
+      .modify(_setOrganizationLearnerFilters, filter)
+      .orderByRaw('LOWER("organization-learners"."lastName") ASC, LOWER("organization-learners"."firstName") ASC');
 
+    const { results, pagination } = await fetchPage(query, page);
+
+    const organizationLearners = results.map((result) => {
+      return new UserWithOrganizationLearner({
+        ...result,
+        isAuthenticatedFromGAR: !!result.samlId,
+      });
+    });
     return {
-      data: models.map(_toUserWithOrganizationLearnerDTO),
+      data: organizationLearners,
       pagination,
     };
   },
