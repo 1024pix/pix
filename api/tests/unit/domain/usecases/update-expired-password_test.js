@@ -7,7 +7,7 @@ const logger = require('../../../../lib/infrastructure/logger');
 
 describe('Unit | UseCase | update-expired-password', function () {
   const username = 'firstName.lastName0511';
-  const expiredPassword = 'Password01';
+  const oneTimePassword = 'Password01';
   const newPassword = 'Password02';
   const hashedPassword = 'ABCDEF123';
 
@@ -20,7 +20,7 @@ describe('Unit | UseCase | update-expired-password', function () {
     user = domainBuilder.buildUser({ username });
     const authenticationMethod = domainBuilder.buildAuthenticationMethod.withPixAsIdentityProviderAndRawPassword({
       userId: user.id,
-      rawPassword: expiredPassword,
+      rawPassword: oneTimePassword,
       shouldChangePassword: true,
     });
     user.authenticationMethods = [authenticationMethod];
@@ -44,7 +44,7 @@ describe('Unit | UseCase | update-expired-password', function () {
   it('should update user password with a hashed password', async function () {
     // when
     await updateExpiredPassword({
-      expiredPassword,
+      oneTimePassword,
       newPassword,
       username,
       encryptionService,
@@ -68,7 +68,7 @@ describe('Unit | UseCase | update-expired-password', function () {
 
       // when
       const error = await catchErr(updateExpiredPassword)({
-        expiredPassword,
+        oneTimePassword,
         newPassword,
         username,
         encryptionService,
@@ -87,7 +87,7 @@ describe('Unit | UseCase | update-expired-password', function () {
 
       // when
       await catchErr(updateExpiredPassword)({
-        expiredPassword,
+        oneTimePassword,
         newPassword,
         username: 'bad-username',
         encryptionService,
@@ -99,13 +99,13 @@ describe('Unit | UseCase | update-expired-password', function () {
       expect(logger.warn).to.have.been.calledWith('Trying to change his password with incorrect username');
     });
 
-    it('should throw PasswordNotMatching when expiredPassword is invalid', async function () {
+    it('should throw PasswordNotMatching when oneTimePassword is invalid', async function () {
       // given
       userRepository.getUserWithPixAuthenticationMethodByUsername.rejects(new PasswordNotMatching());
 
       // when
       const error = await catchErr(updateExpiredPassword)({
-        expiredPassword,
+        oneTimePassword,
         newPassword,
         username,
         encryptionService,
@@ -123,7 +123,7 @@ describe('Unit | UseCase | update-expired-password', function () {
       // given
       const authenticationMethod = domainBuilder.buildAuthenticationMethod.withPixAsIdentityProviderAndRawPassword({
         userId: user.id,
-        rawPassword: expiredPassword,
+        rawPassword: oneTimePassword,
         shouldChangePassword: false,
       });
       user.authenticationMethods = [authenticationMethod];
@@ -132,7 +132,7 @@ describe('Unit | UseCase | update-expired-password', function () {
 
       // when
       const error = await catchErr(updateExpiredPassword)({
-        expiredPassword,
+        oneTimePassword,
         newPassword,
         username,
         encryptionService,
