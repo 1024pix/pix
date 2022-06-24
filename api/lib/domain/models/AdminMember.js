@@ -36,18 +36,18 @@ module.exports = class AdminMember {
   }
 
   get isSuperAdmin() {
-    return this.role === ROLES.SUPER_ADMIN;
+    return this.role === ROLES.SUPER_ADMIN && isNil(this.disabledAt);
   }
 
   get isCertif() {
-    return this.role === ROLES.CERTIF;
+    return this.role === ROLES.CERTIF && isNil(this.disabledAt);
   }
 
   get isMetier() {
-    return this.role === ROLES.METIER;
+    return this.role === ROLES.METIER && isNil(this.disabledAt);
   }
 
   get isSupport() {
-    return this.role === ROLES.SUPPORT;
+    return this.role === ROLES.SUPPORT && isNil(this.disabledAt);
   }
 };

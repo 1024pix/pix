@@ -52,7 +52,6 @@ describe('Integration | Application | SecurityPreHandlers', function () {
       };
 
       const response = await httpServerTest.requestObject(options);
-
       expect(response.statusCode).to.equal(403);
     });
 
@@ -68,7 +67,19 @@ describe('Integration | Application | SecurityPreHandlers', function () {
       };
 
       const response = await httpServerTest.requestObject(options);
+      expect(response.statusCode).to.equal(403);
+    });
 
+    it('returns 403 when user is and admin member with one of the allowed roles but is disabled', async function () {
+      const user = databaseBuilder.factory.buildUser.withRole({ disabledAt: new Date() });
+
+      await databaseBuilder.commit();
+
+      const response = await httpServerTest.requestObject({
+        method: 'GET',
+        url: '/api/admin/users',
+        headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
+      });
       expect(response.statusCode).to.equal(403);
     });
 
@@ -84,7 +95,6 @@ describe('Integration | Application | SecurityPreHandlers', function () {
       };
 
       const response = await httpServerTest.requestObject(options);
-
       expect(response.statusCode).to.equal(200);
     });
   });
