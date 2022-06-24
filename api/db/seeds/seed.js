@@ -1,5 +1,4 @@
 'use strict';
-require('dotenv').config();
 const bluebird = require('bluebird');
 const DatabaseBuilder = require('../database-builder/database-builder');
 
@@ -95,7 +94,7 @@ exports.seed = async (knex) => {
   await alterSequenceIfPG(knex);
   const campaignParticipationData = await getEligibleCampaignParticipations(50000);
   await generateKnowledgeElementSnapshots(campaignParticipationData, 1);
-  await computeParticipationsResults(process.ENV.DATABASE_CONNECTION_POOL_MAX_SIZE - 1, false);
+  await computeParticipationsResults(10, false);
 };
 
 /**
