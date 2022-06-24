@@ -6,13 +6,10 @@ module.exports = {
       complementaryCertificationId: complementaryCertification.complementaryCertificationId,
       certificationCenterId: complementaryCertification.certificationCenterId,
     };
-    return await knex('complementary-certification-habilitations').insert(columnsToSave).returning('id');
+    return knex('complementary-certification-habilitations').insert(columnsToSave);
   },
 
   async deleteByCertificationCenterId(certificationCenterId) {
-    return await knex('complementary-certification-habilitations')
-      .delete()
-      .where({ certificationCenterId })
-      .returning('id');
+    return knex('complementary-certification-habilitations').delete().where({ certificationCenterId });
   },
 };

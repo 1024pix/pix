@@ -28,7 +28,7 @@ async function save(campaignParticipant, domainTransaction) {
 
 async function _createNewOrganizationLearner(organizationLearner, queryBuilder) {
   if (organizationLearner) {
-    const [newlyCreatedOrganizationLearnerId] = await queryBuilder('organization-learners')
+    const [{ id }] = await queryBuilder('organization-learners')
       .insert({
         userId: organizationLearner.userId,
         organizationId: organizationLearner.organizationId,
@@ -36,7 +36,7 @@ async function _createNewOrganizationLearner(organizationLearner, queryBuilder) 
         lastName: organizationLearner.lastName,
       })
       .returning('id');
-    return newlyCreatedOrganizationLearnerId;
+    return id;
   }
 }
 
@@ -50,7 +50,7 @@ async function _updatePreviousParticipation(campaignParticipation, queryBuilder)
 
 async function _createNewCampaignParticipation(queryBuilder, campaignParticipation) {
   try {
-    const [id] = await queryBuilder('campaign-participations')
+    const [{ id }] = await queryBuilder('campaign-participations')
       .insert({
         campaignId: campaignParticipation.campaignId,
         userId: campaignParticipation.userId,

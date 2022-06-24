@@ -23,11 +23,13 @@ module.exports = {
 
 async function _createTargetProfileShares(targetProfileShares) {
   try {
-    return await knex('target-profile-shares')
+    const insertedTargetProfileShares = await knex('target-profile-shares')
       .insert(targetProfileShares)
       .onConflict(['targetProfileId', 'organizationId'])
       .ignore()
       .returning('organizationId');
+
+    return insertedTargetProfileShares.map(({ organizationId }) => organizationId);
   } catch (error) {
     if (foreignKeyConstraintViolated(error)) {
       const organizationId = error.detail.match(/=\((\d+)\)/)[1];
