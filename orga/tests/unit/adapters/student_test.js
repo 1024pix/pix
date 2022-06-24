@@ -21,9 +21,7 @@ module('Unit | Adapters | student', function (hooks) {
       const url = await adapter.urlForQuery(query);
 
       assert.ok(url.endsWith('/api/organizations/organizationId1/students'));
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(query.organizationId, undefined);
+      assert.strictEqual(query.organizationId, undefined);
     });
   });
 
