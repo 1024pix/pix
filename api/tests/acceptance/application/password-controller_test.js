@@ -149,7 +149,7 @@ describe('Acceptance | Controller | password-controller', function () {
 
   describe('POST /api/expired-password-updates', function () {
     const username = 'firstname.lastname0511';
-    const expiredPassword = 'Password01';
+    const oneTimePassword = 'Password01';
     const newPassword = 'Password02';
 
     const options = {
@@ -157,7 +157,7 @@ describe('Acceptance | Controller | password-controller', function () {
       url: '/api/expired-password-updates',
       payload: {
         data: {
-          attributes: { username, expiredPassword, newPassword },
+          attributes: { username, oneTimePassword, newPassword },
         },
       },
     };
@@ -165,7 +165,7 @@ describe('Acceptance | Controller | password-controller', function () {
     beforeEach(async function () {
       databaseBuilder.factory.buildUser.withRawPassword({
         username,
-        rawPassword: expiredPassword,
+        rawPassword: oneTimePassword,
         shouldChangePassword: true,
       });
       await databaseBuilder.commit();
@@ -189,7 +189,7 @@ describe('Acceptance | Controller | password-controller', function () {
       context('when username does not exist', function () {
         it('should respond 404 HTTP status code', async function () {
           // given
-          options.payload.data.attributes = { username: 'unknow', expiredPassword, newPassword };
+          options.payload.data.attributes = { username: 'unknow', oneTimePassword, newPassword };
 
           // when
           const response = await server.inject(options);
@@ -203,7 +203,7 @@ describe('Acceptance | Controller | password-controller', function () {
       context('when password is invalid', function () {
         it('should respond 401 HTTP status code', async function () {
           // given
-          options.payload.data.attributes = { username, expiredPassword: 'wrongPassword01', newPassword };
+          options.payload.data.attributes = { username, oneTimePassword: 'wrongPassword01', newPassword };
 
           // when
           const response = await server.inject(options);
@@ -219,11 +219,11 @@ describe('Acceptance | Controller | password-controller', function () {
           const username = 'jean.oubliejamais0105';
           databaseBuilder.factory.buildUser.withRawPassword({
             username,
-            rawPassword: expiredPassword,
+            rawPassword: oneTimePassword,
             shouldChangePassword: false,
           });
 
-          options.payload.data.attributes = { username, expiredPassword, newPassword };
+          options.payload.data.attributes = { username, oneTimePassword, newPassword };
 
           await databaseBuilder.commit();
 

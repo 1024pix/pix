@@ -151,7 +151,7 @@ describe('Integration | Application | Passwords | password-controller', function
         type: 'organization-invitations',
         attributes: {
           username: 'firstname.lastname0512',
-          expiredPassword: 'expiredPassword01',
+          oneTimePassword: 'expiredPassword01',
           newPassword: 'newPassword02',
         },
       },

@@ -60,7 +60,7 @@ describe('Integration | Application | Password | Routes', function () {
         data: {
           attributes: {
             username: 'firstname.lastname0512',
-            expiredPassword: 'expiredPassword01',
+            oneTimePassword: 'expiredPassword01',
             newPassword: 'newPassword02',
           },
         },

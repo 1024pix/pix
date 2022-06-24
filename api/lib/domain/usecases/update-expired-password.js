@@ -5,7 +5,7 @@ const { UserNotFoundError } = require('../../domain/errors');
 const logger = require('../../../lib/infrastructure/logger');
 
 module.exports = async function updateExpiredPassword({
-  expiredPassword,
+  oneTimePassword,
   newPassword,
   username,
   encryptionService,
@@ -18,7 +18,7 @@ module.exports = async function updateExpiredPassword({
     const passwordHash = foundUser.authenticationMethods[0].authenticationComplement.password;
 
     await encryptionService.checkPassword({
-      password: expiredPassword,
+      password: oneTimePassword,
       passwordHash,
     });
   } catch (error) {
