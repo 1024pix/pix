@@ -28,6 +28,14 @@
         {{t "navigation.main.students-sco"}}
       </LinkTo>
     {{/if}}
+    {{#if this.isNotManagingStudents}}
+      <LinkTo @route="authenticated.organization-participants" class="sidebar-nav__item">
+        <span class="sidebar-nav__item-icon">
+          <img src="{{this.rootURL}}/icons/address-book-light.svg" alt="" role="none" />
+        </span>
+        {{t "navigation.main.organization-participants"}}
+      </LinkTo>
+    {{/if}}
     {{#if this.currentUser.isSUPManagingStudents}}
       <LinkTo @route="authenticated.sup-students" class="sidebar-nav__item">
         <span class="sidebar-nav__item-icon">

@@ -25,9 +25,7 @@ module('Acceptance | authentication', function (hooks) {
       await visit('/');
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(currentURL(), '/connexion');
+      assert.strictEqual(currentURL(), '/connexion');
       assert.notOk(currentSession(this.application).get('isAuthenticated'), 'The user is still unauthenticated');
     });
   });
@@ -45,9 +43,7 @@ module('Acceptance | authentication', function (hooks) {
       await visit('/connexion');
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(currentURL(), '/campagnes/les-miennes');
+      assert.strictEqual(currentURL(), '/campagnes/les-miennes');
       assert.ok(currentSession(this.application).get('isAuthenticated'), 'The user is still unauthenticated');
     });
   });
@@ -70,9 +66,7 @@ module('Acceptance | authentication', function (hooks) {
       await clickByName('Je me connecte');
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(currentURL(), '/cgu');
+      assert.strictEqual(currentURL(), '/cgu');
       assert.ok(currentSession(this.application).get('isAuthenticated'), 'The user is authenticated');
     });
 
@@ -115,9 +109,7 @@ module('Acceptance | authentication', function (hooks) {
       await clickByName('Je me connecte');
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(currentURL(), '/campagnes/les-miennes');
+      assert.strictEqual(currentURL(), '/campagnes/les-miennes');
       assert.ok(currentSession(this.application).get('isAuthenticated'), 'The user is authenticated');
     });
 
@@ -189,9 +181,7 @@ module('Acceptance | authentication', function (hooks) {
         await visit('/');
 
         // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(currentURL(), '/campagnes/les-miennes');
+        assert.strictEqual(currentURL(), '/campagnes/les-miennes');
       });
     });
 
@@ -207,8 +197,9 @@ module('Acceptance | authentication', function (hooks) {
         // when
         await visit('/');
         // then
-        assert.dom('.sidebar-nav a').exists({ count: 3 });
+        assert.dom('.sidebar-nav a').exists({ count: 4 });
         assert.dom('.sidebar-nav').containsText('Campagnes');
+        assert.dom('.sidebar-nav').containsText('Participants');
         assert.dom('.sidebar-nav').containsText('Équipe');
         assert.dom('.sidebar-nav').containsText('Documentation');
         assert.dom('.sidebar-nav a:first-child').hasClass('active');
@@ -224,7 +215,7 @@ module('Acceptance | authentication', function (hooks) {
         // then
         assert.dom('.sidebar-nav a:first-child').hasText('Campagnes');
         assert.dom('.sidebar-nav').containsText('Équipe');
-        assert.dom('.sidebar-nav a:nth-child(2)').hasClass('active');
+        assert.dom('.sidebar-nav a:nth-child(3)').hasClass('active');
         assert.dom('.sidebar-nav a:first-child').hasNoClass('active');
       });
 
@@ -318,8 +309,9 @@ module('Acceptance | authentication', function (hooks) {
 
         // then
 
-        assert.dom('.sidebar-nav a').exists({ count: 3 });
+        assert.dom('.sidebar-nav a').exists({ count: 4 });
         assert.dom('.sidebar-nav').containsText('Campagnes');
+        assert.dom('.sidebar-nav').containsText('Participants');
         assert.dom('.sidebar-nav').containsText('Documentation');
         assert.dom('.sidebar-nav a:first-child ').hasClass('active');
       });
@@ -378,9 +370,7 @@ module('Acceptance | authentication', function (hooks) {
       await visit('/certifications');
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(currentURL(), '/campagnes/les-miennes');
+      assert.strictEqual(currentURL(), '/campagnes/les-miennes');
     });
   });
 });

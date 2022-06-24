@@ -68,6 +68,23 @@ module('Integration | Component | Layout::Sidebar', function (hooks) {
     assert.dom(screen.getByText('Certifications')).exists();
   });
 
+  test('it should display Participants menu in the sidebar-menu when user is neither a SCOManagingStudents nor SUPManagingStudents', async function (assert) {
+    // given
+    class CurrentUserStub extends Service {
+      organization = Object.create({ id: 1, type: 'PRO' });
+    }
+
+    this.owner.register('service:current-user', CurrentUserStub);
+    const intl = this.owner.lookup('service:intl');
+    intl.setLocale(['fr', 'fr']);
+
+    // when
+    const screen = await renderScreen(hbs`<Layout::Sidebar />`);
+
+    // then
+    assert.dom(screen.getByText('Participants')).exists();
+  });
+
   test('it should hide Certification menu in the sidebar-menu', async function (assert) {
     // given
     class CurrentUserStub extends Service {
