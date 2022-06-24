@@ -137,7 +137,7 @@ const dependencies = {
   stageRepository: require('../../infrastructure/repositories/stage-repository'),
   studentRepository: require('../../infrastructure/repositories/student-repository'),
   supervisorAccessRepository: require('../../infrastructure/repositories/supervisor-access-repository'),
-  tagRepository: require('../../infrastructure/repositories/tag-repository'),
+  tagRepository: require('../../infrastructure/repositories/tag-repository').tagRepository,
   TargetProfileForSpecifierRepository: require('../../infrastructure/repositories/campaign/target-profile-for-specifier-repository'),
   targetProfileRepository: require('../../infrastructure/repositories/target-profile-repository'),
   targetProfileSummaryForAdminRepository: require('../../infrastructure/repositories/target-profile-summary-for-admin-repository'),

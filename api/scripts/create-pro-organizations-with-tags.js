@@ -11,7 +11,7 @@ const domainTransaction = require('../lib/infrastructure/DomainTransaction');
 const organizationInvitationRepository = require('../lib/infrastructure/repositories/organization-invitation-repository');
 const organizationRepository = require('../lib/infrastructure/repositories/organization-repository');
 const organizationTagRepository = require('../lib/infrastructure/repositories/organization-tag-repository');
-const tagRepository = require('../lib/infrastructure/repositories/tag-repository');
+const { tagRepository } = require('../lib/infrastructure/repositories/tag-repository');
 
 const REQUIRED_FIELD_NAMES = [
   'externalId',
