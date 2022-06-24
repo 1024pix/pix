@@ -62,7 +62,7 @@ describe('Unit | Component | Update Expired Password', () => {
 
   describe('#handleUpdatePasswordAndAuthenticate', () => {
     const username = 'username.123';
-    const expiredPassword = 'Pix12345';
+    const oneTimePassword = 'Pix12345';
     const newPassword = 'Pix67890';
     const scope = 'mon-pix';
 
@@ -73,7 +73,7 @@ describe('Unit | Component | Update Expired Password', () => {
 
       const resetExpiredPasswordDemand = {
         username,
-        password: expiredPassword,
+        password: oneTimePassword,
         save: sinon.stub().resolves(),
         set: sinon.stub().resolves(),
         unloadRecord: sinon.stub().resolves(),

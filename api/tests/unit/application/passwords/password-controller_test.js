@@ -85,7 +85,7 @@ describe('Unit | Controller | PasswordController', function () {
         data: {
           attributes: {
             username: 'uzinagaz.hheer1206',
-            expiredPassword: 'expiredPassword01',
+            oneTimePassword: 'expiredPassword01',
             newPassword: 'Password123',
           },
         },

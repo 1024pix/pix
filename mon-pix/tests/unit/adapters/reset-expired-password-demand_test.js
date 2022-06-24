@@ -9,15 +9,15 @@ describe('Unit | Adapters | reset-expired-password-demand', function () {
     it('should call expired-password-updates ', async function () {
       // given
       const username = 'username123';
-      const expiredPassword = 'Password123';
+      const oneTimePassword = 'Password123';
       const newPassword = 'Password456';
-      const resetExpiredPasswordDemand = { username, newPassword, oneTimePassword: expiredPassword };
+      const resetExpiredPasswordDemand = { username, newPassword, oneTimePassword };
       const expectedUrl = 'http://localhost:3000/api/expired-password-updates';
       const expectedMethod = 'POST';
       const expectedData = {
         data: {
           data: {
-            attributes: { username, expiredPassword, newPassword },
+            attributes: { username, oneTimePassword, newPassword },
           },
         },
       };
