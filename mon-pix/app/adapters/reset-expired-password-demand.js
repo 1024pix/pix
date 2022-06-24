@@ -4,10 +4,10 @@ export default class ResetExpiredPasswordDemand extends ApplicationAdapter {
   createRecord(store, type, snapshot) {
     const url = this.buildURL('expired-password-update', null, snapshot, 'createRecord');
 
-    const { username, oneTimePassword, newPassword } = snapshot.record;
+    const { passwordResetToken, newPassword } = snapshot.record;
     const payload = {
       data: {
-        attributes: { username, oneTimePassword, newPassword },
+        attributes: { passwordResetToken, newPassword },
       },
     };
 

@@ -8,19 +8,7 @@ describe('Unit | Adapters | reset-expired-password-demand', function () {
   describe('#createRecord', function () {
     it('should call expired-password-updates ', async function () {
       // given
-      const username = 'username123';
-      const oneTimePassword = 'Password123';
-      const newPassword = 'Password456';
-      const resetExpiredPasswordDemand = { username, newPassword, oneTimePassword };
-      const expectedUrl = 'http://localhost:3000/api/expired-password-updates';
-      const expectedMethod = 'POST';
-      const expectedData = {
-        data: {
-          data: {
-            attributes: { username, oneTimePassword, newPassword },
-          },
-        },
-      };
+      const resetExpiredPasswordDemand = { passwordResetToken: 'passwordResetToken', oneTimePassword: 'Password123' };
       const adapter = this.owner.lookup('adapter:reset-expired-password-demand');
       adapter.ajax = sinon.stub().resolves();
 
@@ -29,7 +17,13 @@ describe('Unit | Adapters | reset-expired-password-demand', function () {
       await adapter.createRecord(null, null, snapshot);
 
       // then
-      sinon.assert.calledWith(adapter.ajax, expectedUrl, expectedMethod, expectedData);
+      sinon.assert.calledWith(adapter.ajax, 'http://localhost:3000/api/expired-password-updates', 'POST', {
+        data: {
+          data: {
+            attributes: { passwordResetToken: 'passwordResetToken', oneTimePassword: 'Password123' },
+          },
+        },
+      });
     });
   });
 });
