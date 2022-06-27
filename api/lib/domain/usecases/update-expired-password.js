@@ -1,35 +1,35 @@
 const get = require('lodash/get');
-
+const AuthenticationMethod = require('../../domain/models/AuthenticationMethod');
 const { ForbiddenAccess } = require('../../domain/errors');
 const { UserNotFoundError } = require('../../domain/errors');
 const logger = require('../../../lib/infrastructure/logger');
 
 module.exports = async function updateExpiredPassword({
-  oneTimePassword,
+  passwordResetToken,
   newPassword,
-  username,
   encryptionService,
+  tokenService,
   authenticationMethodRepository,
   userRepository,
 }) {
+  const userId = await tokenService.extractUserId(passwordResetToken);
+
   let foundUser;
   try {
-    foundUser = await userRepository.getUserWithPixAuthenticationMethodByUsername(username);
-    const passwordHash = foundUser.authenticationMethods[0].authenticationComplement.password;
-
-    await encryptionService.checkPassword({
-      password: oneTimePassword,
-      passwordHash,
-    });
+    foundUser = await userRepository.getById(userId);
   } catch (error) {
     if (error instanceof UserNotFoundError) {
-      logger.warn('Trying to change his password with incorrect username');
+      logger.warn('Trying to change his password with incorrect user id');
     }
-
     throw error;
   }
 
-  const shouldChangePassword = get(foundUser, 'authenticationMethods[0].authenticationComplement.shouldChangePassword');
+  const authenticationMethod = await authenticationMethodRepository.findOneByUserIdAndIdentityProvider({
+    userId: foundUser.id,
+    identityProvider: AuthenticationMethod.identityProviders.PIX,
+  });
+
+  const shouldChangePassword = get(authenticationMethod, 'authenticationComplement.shouldChangePassword');
 
   if (!shouldChangePassword) {
     throw new ForbiddenAccess();
