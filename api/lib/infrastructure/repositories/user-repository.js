@@ -80,6 +80,9 @@ module.exports = {
     return new User({ id: foundUser.userId, authenticationMethods: [authenticationMethod] });
   },
 
+  /**
+   * @deprecated Use getById instead
+   */
   get(userId) {
     return BookshelfUser.where({ id: userId })
       .fetch()
