@@ -101,7 +101,7 @@
   }
 
   &--yellow {
-    background: $pix-warning-40;
+    background: $pix-warning-10;
     color: $grey-100;
     font-weight: $font-bold;
     font-size: 0.906rem;
@@ -110,7 +110,7 @@
     &:hover,
     &:active,
     &:focus {
-      background-color: $warning;
+      background-color: $pix-warning-10;
       color: $grey-100;
     }
   }
