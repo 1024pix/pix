@@ -2,7 +2,7 @@
   border: 3px solid transparent;
 
   &--focused {
-    border: 3px dashed $grey-70;
+    border: 3px dashed $pix-neutral-70;
     border-radius: 10px;
     z-index: 1;
   }
@@ -10,7 +10,7 @@
 
 .challenge-response {
   font-size: 0.938rem;
-  background-color: $grey-10;
+  background-color: $pix-neutral-10;
   margin: 6px;
 
   @include device-is('desktop') {
@@ -47,7 +47,7 @@
 
   &__proposal {
     font-size: 1.25rem;
-    color: $grey-80;
+    color: $pix-neutral-80;
     margin-bottom: 10px;
     margin-top: 10px;
 

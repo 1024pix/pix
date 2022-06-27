@@ -65,15 +65,15 @@
   }
 
   &--grey {
-    background: $grey-15;
-    border: 2px solid $grey-40;
-    color: $grey-80;
+    background: $pix-neutral-15;
+    border: 2px solid $pix-neutral-40;
+    color: $pix-neutral-80;
 
     &:hover,
     &:active,
     &:focus {
-      background-color: $grey-20;
-      border: 2px solid $grey-80;
+      background-color: $pix-neutral-20;
+      border: 2px solid $pix-neutral-80;
     }
   }
 
@@ -102,7 +102,7 @@
 
   &--yellow {
     background: $pix-warning-10;
-    color: $grey-100;
+    color: $pix-neutral-100;
     font-weight: $font-bold;
     font-size: 0.906rem;
     box-shadow: 0 2px 6px 0 rgba(12, 22, 58, 0.11), 0 1px 3px 0 rgba(0, 0, 0, 0.08);
@@ -111,12 +111,12 @@
     &:active,
     &:focus {
       background-color: $pix-warning-10;
-      color: $grey-100;
+      color: $pix-neutral-100;
     }
   }
 
   &--dark-grey {
-    background-color: $grey-60;
+    background-color: $pix-neutral-60;
     color: $pix-neutral-0;
     font-weight: $font-bold;
     font-size: 0.938rem;
@@ -124,29 +124,29 @@
     &:hover,
     &:active,
     &:focus {
-      background-color: $grey-80;
+      background-color: $pix-neutral-80;
     }
   }
 
   &--white {
     background-color: $pix-neutral-0;
-    color: $grey-200;
+    color: $pix-neutral-110;
 
     &:hover,
     &:active,
     &:focus {
-      background-color: $grey-20;
+      background-color: $pix-neutral-20;
     }
   }
 
   &--no-color {
     background-color: transparent;
-    color: $grey-100;
+    color: $pix-neutral-100;
 
     &:hover,
     &:active,
     &:focus {
-      background-color: $grey-20;
+      background-color: $pix-neutral-20;
     }
   }
 
@@ -167,7 +167,7 @@
 }
 
 .icon-button {
-  color: $grey-60;
+  color: $pix-neutral-60;
   padding: 4px 8px;
   border: none;
   font-size: 1rem;
@@ -179,7 +179,7 @@
 
   &:hover,
   &:active {
-    background-color: $grey-20;
+    background-color: $pix-neutral-20;
   }
 }
 
@@ -209,6 +209,6 @@
   }
 
   &--grey {
-    color: $grey-60;
+    color: $pix-neutral-60;
   }
 }

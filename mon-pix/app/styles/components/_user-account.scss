@@ -16,7 +16,7 @@
     text-align: center;
     font-size: 1.5rem;
     padding-bottom: 16px;
-    color: $grey-90;
+    color: $pix-neutral-90;
     font-family: $font-open-sans;
     font-weight: 400;
 
@@ -45,7 +45,7 @@
       flex-direction: column;
 
       ul li {
-        border-bottom: 1.5px solid $grey-10;
+        border-bottom: 1.5px solid $pix-neutral-10;
         border-radius: 4px;
 
         &:first-child a {
@@ -60,7 +60,7 @@
 
       &__link {
         display: block;
-        color: $grey-60;
+        color: $pix-neutral-60;
         padding: 16px 60px 16px 20px;
 
         svg {
@@ -68,15 +68,15 @@
         }
 
         &:hover {
-          background-color: $grey-15;
+          background-color: $pix-neutral-15;
         }
 
         &:focus-within {
-          background-color: $grey-15;
+          background-color: $pix-neutral-15;
         }
 
         &.active {
-          background-color: $grey-15;
+          background-color: $pix-neutral-15;
         }
       }
     }

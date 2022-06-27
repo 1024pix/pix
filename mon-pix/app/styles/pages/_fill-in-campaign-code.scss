@@ -22,7 +22,7 @@
   }
 
   &__instruction {
-    color: $grey-100;
+    color: $pix-neutral-100;
     font-family: $font-open-sans;
     font-size: 1.219rem;
     text-align: center;
@@ -70,7 +70,7 @@
   }
 
   &__warning {
-    color: $grey-90;
+    color: $pix-neutral-90;
     font-size: 0.875rem;
     text-align: center;
     margin-top: 40px;
@@ -80,7 +80,7 @@
     text-align: center;
     padding-top: 25px;
     margin-top: 25px;
-    border-top: 1px solid $grey-15;
+    border-top: 1px solid $pix-neutral-15;
     max-width: 600px;
 
     @include device-is('tablet') {

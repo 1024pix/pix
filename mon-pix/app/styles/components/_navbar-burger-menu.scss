@@ -98,7 +98,7 @@
     white-space: nowrap;
     overflow: hidden;
     padding: 6px 32px;
-    color: $grey-70;
+    color: $pix-neutral-70;
     margin: 0 0 20px 0;
   }
 
@@ -106,7 +106,7 @@
     margin-bottom: 20px;
     background: none;
     cursor: pointer;
-    color: $grey-50;
+    color: $pix-neutral-50;
     font-size: 1.25rem;
     border: none;
   }
@@ -116,7 +116,7 @@
   margin-bottom: auto;
 
   &__link {
-    color: $grey-35;
+    color: $pix-neutral-35;
     font-size: 1.125rem;
     padding: 12px 32px;
     font-family: $font-roboto;
@@ -128,7 +128,7 @@
     }
 
     &:focus {
-      color: $grey-35;
+      color: $pix-neutral-35;
       text-decoration: none;
     }
 

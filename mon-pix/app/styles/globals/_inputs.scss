@@ -1,6 +1,6 @@
 input.input-code {
   box-sizing: content-box;
-  border: solid 2px $grey-20;
+  border: solid 2px $pix-neutral-20;
   border-radius: 3px;
   min-height: 50px;
   padding: 0 1px 1px 0.5ch;
@@ -8,13 +8,13 @@ input.input-code {
   background:
     repeating-linear-gradient(
         90deg,
-        $grey-22 0,
-        $grey-22 1ch,
+        $pix-neutral-22 0,
+        $pix-neutral-22 1ch,
         transparent 0,
         transparent 1.5ch
       ) 0 96%/98% 2px no-repeat;
   background-origin: content-box;
-  color: $grey-70;
+  color: $pix-neutral-70;
   font-size: 1.875rem;
   font-family: $font-roboto-mono;
   letter-spacing: 0.5ch;
@@ -26,8 +26,8 @@ input.input-code {
     background:
       repeating-linear-gradient(
           90deg,
-          $grey-22 0,
-          $grey-22 1.33ch,
+          $pix-neutral-22 0,
+          $pix-neutral-22 1.33ch,
           transparent 0,
           transparent 1.733ch
         ) 0 96%/98% 2px no-repeat;

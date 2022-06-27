@@ -1,5 +1,5 @@
 @mixin add-dashboard-content-separator() {
-  border-bottom: 1px solid $grey-20;
+  border-bottom: 1px solid $pix-neutral-20;
   padding: 24px 0;
 }
 
@@ -149,7 +149,7 @@
 .dashboard-section {
 
   &__title {
-    color: $grey-80;
+    color: $pix-neutral-80;
     font-size: 1.125rem;
     font-family: $font-open-sans;
     font-weight: $font-semi-bold;
@@ -158,7 +158,7 @@
   }
 
   &__subtitle {
-    color: $grey-50;
+    color: $pix-neutral-50;
     font-size: 0.8125rem;
     font-family: $font-roboto;
     letter-spacing: 0.009rem;
@@ -176,14 +176,14 @@
 
   &__button {
     display: none;
-    color: $grey-90;
-    border: 1px solid $grey-50;
+    color: $pix-neutral-90;
+    border: 1px solid $pix-neutral-50;
     padding: 10px 16px;
     border-radius: 4px;
     font-size: 0.875rem;
 
     &:hover {
-      background-color: darken($grey-10, 5%);
+      background-color: darken($pix-neutral-10, 5%);
     }
 
     @include device-is('tablet') {

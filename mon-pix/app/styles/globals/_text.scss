@@ -2,14 +2,14 @@
   font-size: 0.625rem;
   letter-spacing: 0.156rem;
   text-transform: uppercase;
-  color: $grey-100;
+  color: $pix-neutral-100;
 }
 
 .score-value {
   font-size: 2.875rem;
   line-height: 2.875rem;
   font-family: $font-open-sans;
-  color: $grey-200;
+  color: $pix-neutral-110;
 }
 
 @mixin tutorial-panel-title($color) {
@@ -17,7 +17,7 @@
   font-family: $font-open-sans;
   font-size: 1.375rem;
   text-align: center;
-  color: $grey-80;
+  color: $pix-neutral-80;
   font-weight: $font-semi-bold;
   margin-bottom: 20px;
   position: relative;

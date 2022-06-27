@@ -9,7 +9,7 @@
   thead {
     display: none;
     width: 100%;
-    color: $grey-80;
+    color: $pix-neutral-80;
 
     @include device-is('tablet') {
       display: table-header-group;
@@ -17,14 +17,14 @@
   }
 
   tbody {
-    color: $grey-60;
+    color: $pix-neutral-60;
   }
 
   tr {
     display: flex;
     flex-direction: column;
     width: 100%;
-    border-bottom: 1px solid $grey-10;
+    border-bottom: 1px solid $pix-neutral-10;
 
     @include device-is('tablet') {
       display: table-row;
@@ -33,7 +33,7 @@
   }
 
   th {
-    border-top: 1px solid $grey-10;
+    border-top: 1px solid $pix-neutral-10;
   }
 
   td,

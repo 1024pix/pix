@@ -1,5 +1,5 @@
 .feedback-panel {
-  color: $grey-60;
+  color: $pix-neutral-60;
   font-size: 0.938rem;
   margin-top: 16px;
   z-index: 1;
@@ -16,7 +16,7 @@
   background-color: transparent;
   padding: 0;
   cursor: pointer;
-  color: $grey-50;
+  color: $pix-neutral-50;
   font-family: $font-roboto;
   font-weight: $font-medium;
   font-size: 0.875rem;
@@ -26,7 +26,7 @@
 .feedback-panel__open-button:hover,
 .feedback-panel__open-button:focus,
 .feedback-panel__open-button:active {
-  color: $grey-80;
+  color: $pix-neutral-80;
 }
 
 /* "Form" view
@@ -67,7 +67,7 @@
   width: 100%;
   border-radius: 3px;
   background-color: $pix-neutral-0;
-  border: solid 1px $grey-20;
+  border: solid 1px $pix-neutral-20;
   box-sizing: border-box;
   padding: 8px;
   font-size: 0.875rem;
@@ -81,7 +81,7 @@
 .feedback-panel__dropdown {
   font-family: $font-roboto;
   font-size: 0.938rem;
-  color: $grey-80;
+  color: $pix-neutral-80;
   margin: 5px 0;
   width: 100%;
 
@@ -97,7 +97,7 @@
   word-break: break-word;
   background-color: $pix-neutral-0;
   padding: 20px;
-  border: dashed $grey-70;
+  border: dashed $pix-neutral-70;
 
   & .tuto-icon {
     width: 15px;
@@ -119,8 +119,8 @@
   border-radius: 3px;
   box-sizing: border-box;
   padding: 10px 20px;
-  background-color: $grey-20;
-  border: 1px solid $grey-40;
+  background-color: $pix-neutral-20;
+  border: 1px solid $pix-neutral-40;
   margin: 0 10px 20px 0;
 
   &[disabled] {
@@ -129,18 +129,18 @@
 }
 
 .feedback-panel__button--send {
-  background-color: $grey-50;
+  background-color: $pix-neutral-50;
   color: white;
 
   &:hover,
   &:focus {
-    background-color: $grey-70;
+    background-color: $pix-neutral-70;
   }
 }
 
 .feedback-panel__form-legal-notice {
   padding-top: 15px;
-  border-top: 1px solid $grey-20;
+  border-top: 1px solid $pix-neutral-20;
 
   & p {
     font-size: 0.75rem;
@@ -157,7 +157,7 @@
 .feedback-panel__view--mercix {
   text-align: center;
   font-size: 1.125rem;
-  color: $grey-80;
+  color: $pix-neutral-80;
   padding-top: 20px;
   padding-bottom: 10px;
 }

@@ -148,7 +148,7 @@
   &__bottom-decoration {
     width: 100%;
     text-align: center;
-    border-bottom: 1.5px solid $grey-20;
+    border-bottom: 1.5px solid $pix-neutral-20;
     line-height: 0.1rem;
     margin: 30px 0 40px;
 
@@ -158,7 +158,7 @@
 
     span {
       font-size: 16px;
-      color: $grey-80;
+      color: $pix-neutral-80;
       background: $pix-neutral-0;
       padding: 0 10px;
     }
@@ -202,7 +202,7 @@
 
 .sign-form-title {
   font-family: $font-open-sans;
-  color: $grey-80;
+  color: $pix-neutral-80;
   margin: 0;
   font-size: 1.563rem;
   font-weight: $font-light;
@@ -214,7 +214,7 @@
 
 .sign-form-subtitle {
   font-family: $font-open-sans;
-  color: $grey-80;
+  color: $pix-neutral-80;
   font-size: 0.938rem;
   font-weight: $font-light;
   line-height: 28px;
@@ -228,11 +228,11 @@
 .sign-form-instruction {
   font-size: 0.938rem;
   font-weight: $font-light;
-  color: $grey-80;
+  color: $pix-neutral-80;
 }
 
 .sign-form-text {
-  color: $grey-80;
+  color: $pix-neutral-80;
   font-family: $font-open-sans;
   font-size: 0.625rem;
 
