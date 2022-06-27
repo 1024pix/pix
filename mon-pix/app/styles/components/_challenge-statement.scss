@@ -13,7 +13,7 @@
   margin-bottom: 20px;
 
   hr {
-    border-top: 1px solid $grey-15;
+    border-top: 1px solid $pix-neutral-15;
     border-bottom: none;
   }
 
@@ -63,13 +63,13 @@
 .challenge-statement__illustration-section {
   display: block;
   text-align: center;
-  border-top: 1px solid $grey-20;
+  border-top: 1px solid $pix-neutral-20;
   box-sizing: content-box;
   padding: 10px 0;
 }
 
 .challenge-statement__attachments-section {
-  background-color: $grey-15;
+  background-color: $pix-neutral-15;
   text-align: center;
   padding: 20px;
 }
@@ -88,7 +88,7 @@
 
 .challenge-statement__help-tooltip {
   visibility: hidden;
-  color: $grey-22;
+  color: $pix-neutral-22;
   text-align: justify;
   border-radius: 6px;
   padding: 15px;
@@ -96,7 +96,7 @@
   height: auto;
   background-color: $pix-neutral-0;
   box-shadow: 1px 1px 1px 0 rgba(0, 0, 0, 0.1);
-  border: solid 1px $grey-20;
+  border: solid 1px $pix-neutral-20;
   position: absolute;
   z-index: 999;
   left: 50%;
@@ -113,7 +113,7 @@
   margin-left: -10px;
   width: 0;
   height: 0;
-  border-top: 10px solid $grey-20;
+  border-top: 10px solid $pix-neutral-20;
   border-right: 10px solid transparent;
   border-left: 10px solid transparent;
 }
@@ -138,7 +138,7 @@
 
 .challenge-statement__help-text {
   font-size: 0.875rem;
-  color: $grey-80;
+  color: $pix-neutral-80;
 }
 
 .challenge-statement__file-options {

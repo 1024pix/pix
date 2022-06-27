@@ -23,7 +23,7 @@
   }
 
   &__candidate-name {
-    color: $grey-60;
+    color: $pix-neutral-60;
     display: block;
     font-family: $font-open-sans;
     font-weight: normal;
@@ -40,7 +40,7 @@
   }
 
   &__candidate-message {
-    color: $grey-50;
+    color: $pix-neutral-50;
     display: block;
     font-family: $font-roboto;
     font-size: 1rem;
@@ -58,7 +58,7 @@
   }
 
   &__candidate-disconnect-tip {
-    color: $grey-50;
+    color: $pix-neutral-50;
     display: block;
     font-family: $font-roboto;
     font-size: 0.875rem;
@@ -68,7 +68,7 @@
   }
 
   &__results {
-    background-color: $grey-10;
+    background-color: $pix-neutral-10;
     border-radius: 10px;
     box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.05);
     margin: 8px;
@@ -86,7 +86,7 @@
   }
 
   &__results-title {
-    color: $grey-90;
+    color: $pix-neutral-90;
     display: block;
     font-family: $font-open-sans;
     font-size: 1.25rem;
@@ -94,7 +94,7 @@
   }
 
   &__results-steps {
-    color: $grey-60;
+    color: $pix-neutral-60;
     display: block;
     font-family: $font-roboto;
     font-size: 0.875rem;

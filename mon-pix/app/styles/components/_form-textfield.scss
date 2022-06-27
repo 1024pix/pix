@@ -8,7 +8,7 @@
 .form-textfield__label {
   font-size: 0.938rem;
   font-weight: $font-medium;
-  color: $grey-80;
+  color: $pix-neutral-80;
   letter-spacing: 0.031rem;
 }
 
@@ -36,7 +36,7 @@
   height: 46px;
   border-radius: 3px;
   align-items: center;
-  border: 2px solid $grey-20;
+  border: 2px solid $pix-neutral-20;
   background-color: $pix-neutral-0;
   width: 100%;
 
@@ -52,7 +52,7 @@
 }
 
 .form-textfield__input-container--default {
-  border: 2px solid $grey-20;
+  border: 2px solid $pix-neutral-20;
 }
 
 .form-textfield__input-container--error {
@@ -64,7 +64,7 @@
 }
 
 .form-textfield__input-container--disabled {
-  background-color: $grey-20;
+  background-color: $pix-neutral-20;
 }
 
 .form-textfield__input-container--password {
@@ -80,7 +80,7 @@
   border: none;
   border-radius: 3px;
   outline: none;
-  color: $grey-50;
+  color: $pix-neutral-50;
   padding: 0 10px;
 
   &:focus {
@@ -93,7 +93,7 @@
   }
 
   &[disabled] {
-    background-color: $grey-20;
+    background-color: $pix-neutral-20;
   }
 }
 
@@ -160,13 +160,13 @@
 .form-textfield-icon-button {
 
   &__eye {
-    color: $grey-60;
+    color: $pix-neutral-60;
     transition: 0.5s;
     font-size: 1.125rem;
     margin-top: 1px;
 
     &:hover {
-      color: $grey-100;
+      color: $pix-neutral-100;
       cursor: pointer;
     }
   }

@@ -2,7 +2,7 @@
   text-rendering: optimizeLegibility;
   background: $green-certif;
   position: relative;
-  color: $grey-10;
+  color: $pix-neutral-10;
   border-radius: 6px;
   box-sizing: border-box;
   height: 194px;
@@ -30,12 +30,12 @@
 
   &:hover,
   &:active {
-    color: $grey-60;
+    color: $pix-neutral-60;
   }
 }
 
 @mixin textBannerStyle {
-  color: $grey-10;
+  color: $pix-neutral-10;
   font-weight: $font-normal;
   font-family: $font-open-sans;
   line-height: 2rem;

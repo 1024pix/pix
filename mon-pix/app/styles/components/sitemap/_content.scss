@@ -33,7 +33,7 @@
     font-weight: $font-normal;
     font-size: 3rem;
     line-height: 4.125rem;
-    color: $grey-90;
+    color: $pix-neutral-90;
   }
 
   &__items {
@@ -60,7 +60,7 @@
     margin-top: 32px;
 
     &--title {
-      color: $grey-60;
+      color: $pix-neutral-60;
     }
   }
 }
@@ -71,7 +71,7 @@
 
     li::before {
       content: "•";
-      color: $grey-45;
+      color: $pix-neutral-45;
     }
   }
 }
@@ -80,7 +80,7 @@
 
   li::before {
     content: "•";
-    color: $grey-45;
+    color: $pix-neutral-45;
   }
 
   &__skill {

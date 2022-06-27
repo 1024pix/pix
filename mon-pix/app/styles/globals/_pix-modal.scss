@@ -52,7 +52,7 @@ $pix-modal-border-radius: 5px;
 
     .pix-modal__container {
       border-radius: $pix-modal-border-radius;
-      background-color: $grey-10;
+      background-color: $pix-neutral-10;
       box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.2);
       font-size: 1rem;
       position: relative;
@@ -88,7 +88,7 @@ $pix-modal-border-radius: 5px;
         &__subtitle {
           margin: 0;
           text-align: center;
-          color: $grey-100;
+          color: $pix-neutral-100;
           font-family: $font-roboto;
           font-weight: $font-normal;
           font-size: 1rem;
@@ -96,7 +96,7 @@ $pix-modal-border-radius: 5px;
       }
 
       .pix-modal-body {
-        border-top: $grey-20;
+        border-top: $pix-neutral-20;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -133,8 +133,8 @@ $pix-modal-border-radius: 5px;
   padding: 15px;
   border-radius: $pix-modal-border-radius;
   background-color: $pix-neutral-0;
-  border: 2px solid $grey-20;
-  color: $grey-50;
+  border: 2px solid $pix-neutral-20;
+  color: $pix-neutral-50;
   letter-spacing: 0.125rem;
   box-sizing: border-box;
   margin-bottom: 5px;
@@ -155,7 +155,7 @@ $pix-modal-border-radius: 5px;
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 
 .ember-modal-overlay.translucent {
-  background-color: rgba(red($grey-80), green($grey-80), blue($grey-80), 0.95);
+  background-color: rgba(red($pix-neutral-80), green($pix-neutral-80), blue($pix-neutral-80), 0.95);
 }
 
 /* Scrolling

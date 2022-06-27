@@ -12,7 +12,7 @@
     font-style: normal;
     font-stretch: normal;
     margin-top: 22px;
-    color: $grey-80;
+    color: $pix-neutral-80;
   }
 
   &__secondary {
@@ -21,7 +21,7 @@
     margin-bottom: 50px;
     font-style: normal;
     font-stretch: normal;
-    color: $grey-80;
+    color: $pix-neutral-80;
   }
 
   &__time {
@@ -29,7 +29,7 @@
   }
 
   &__allocated-time {
-    color: $grey-80;
+    color: $pix-neutral-80;
     font-size: 1.7375rem;
   }
 
@@ -49,7 +49,7 @@
     width: fit-content;
     height: 50px;
     border-radius: 7px;
-    background-color: $grey-20;
+    background-color: $pix-neutral-20;
     margin: 0 auto;
     padding: 4px 12px;
     line-height: 3.125rem;

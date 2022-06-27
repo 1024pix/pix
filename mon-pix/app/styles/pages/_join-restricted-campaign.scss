@@ -10,11 +10,11 @@
     width: 100%;
     height: 50px;
     border-radius: 4px;
-    border: 2px solid $grey-20;
+    border: 2px solid $pix-neutral-20;
     padding-left: 10px;
 
     &[disabled] {
-      background-color: $grey-20;
+      background-color: $pix-neutral-20;
     }
 
     &.input--error {
@@ -32,7 +32,7 @@
 
   &__title,
   &__sco-title {
-    color: $grey-100;
+    color: $pix-neutral-100;
     font-family: $font-open-sans;
     font-weight: $font-light;
     text-align: center;
@@ -54,7 +54,7 @@
   }
 
   &__subtitle {
-    color: $grey-100;
+    color: $pix-neutral-100;
     font-family: $font-open-sans;
     font-size: 1.125rem;
     font-weight: $font-light;
@@ -123,7 +123,7 @@
 }
 
 .ember-modal-overlay.translucent {
-  background-color: rgba(red($grey-200), green($grey-200), blue($grey-200), 0.4);
+  background-color: rgba(red($pix-neutral-110), green($pix-neutral-110), blue($pix-neutral-110), 0.4);
 }
 
 .join-error-modal {
@@ -141,7 +141,7 @@
 
   &__body {
     padding: 24px 30px 0;
-    background-color: $grey-10;
+    background-color: $pix-neutral-10;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -149,7 +149,7 @@
 
   &__footer {
     padding: 24px 30px;
-    background-color: $grey-10;
+    background-color: $pix-neutral-10;
     display: flex;
     justify-content: center;
 
@@ -175,7 +175,7 @@
     font-size: 1.25rem;
     font-weight: $font-normal;
     line-height: 1.875rem;
-    color: $grey-90;
+    color: $pix-neutral-90;
   }
 }
 
@@ -185,8 +185,8 @@
     height: 32px;
     width: 32px;
     padding: 8px;
-    color: $grey-45;
-    background-color: $grey-15;
+    color: $pix-neutral-45;
+    background-color: $pix-neutral-15;
     border-radius: 50px;
   }
 }
@@ -198,7 +198,7 @@
     font-family: $font-roboto;
     font-size: 0.875rem;
     font-weight: $font-normal;
-    color: $grey-200;
+    color: $pix-neutral-110;
   }
 
   &__list li {

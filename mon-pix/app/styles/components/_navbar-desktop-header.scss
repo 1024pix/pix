@@ -40,7 +40,7 @@
   &__link {
     font-size: 1rem;
     font-family: $font-roboto;
-    color: $grey-60;
+    color: $pix-neutral-60;
     text-decoration: none;
 
     &.active {
@@ -52,7 +52,7 @@
 
     &:focus {
       text-decoration: none;
-      color: $grey-60;
+      color: $pix-neutral-60;
     }
 
     &:hover {

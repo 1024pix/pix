@@ -5,14 +5,14 @@
   white-space: nowrap;
   letter-spacing: 0.028rem;
   cursor: pointer;
-  background: $grey-10;
+  background: $pix-neutral-10;
   border: 2px solid transparent;
   display: flex;
   justify-content: center;
   align-items: center;
   text-decoration: none;
   padding: 6px 16px;
-  color: $grey-50;
+  color: $pix-neutral-50;
 
   &--active {
     background: $pix-primary-10;
@@ -20,8 +20,8 @@
   }
 
   &:hover {
-    background: $grey-20;
-    color: $grey-90;
+    background: $pix-neutral-20;
+    color: $pix-neutral-90;
   }
 
   &:focus-visible {

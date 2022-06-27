@@ -11,7 +11,7 @@
   background-color: $pix-neutral-0;
 
   &:nth-child(odd) {
-    background: $grey-10;
+    background: $pix-neutral-10;
   }
 
   @include device-is('tablet') {
@@ -80,6 +80,6 @@
   }
 
   &--grey {
-    color: $grey-60;
+    color: $pix-neutral-60;
   }
 }
