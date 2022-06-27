@@ -1,7 +1,7 @@
 @mixin whiteBlock {
-  background: $white;
+  background: $pix-neutral-0;
   border-radius: 4px;
-  box-shadow: 0 1px 1px 0 rgba($grey-100, 0.1), 0 2px 5px 0 rgba($grey-100, 0.1);
+  box-shadow: 0 1px 1px 0 rgba($pix-neutral-100, 0.1), 0 2px 5px 0 rgba($pix-neutral-100, 0.1);
 }
 
 .navbar {
@@ -22,18 +22,18 @@
     display: flex;
     justify-content: center;
     cursor: pointer;
-    color: $grey-45;
+    color: $pix-neutral-45;
     font-weight: 500;
     transition: all ease-in-out 0.2s;
 
     &:hover {
-      color: $communication-dark;
+      color: $pix-communication-dark;
     }
   }
 
   &-item.active {
-    border-bottom: 2px solid $communication-dark;
-    color: $communication-dark;
+    border-bottom: 2px solid $pix-communication-dark;
+    color: $pix-communication-dark;
   }
 }
 

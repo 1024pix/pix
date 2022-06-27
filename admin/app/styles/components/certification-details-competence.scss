@@ -2,7 +2,7 @@
   margin-bottom: 20px;
 
   .jury {
-    color: $error;
+    color: $pix-error-70;
   }
 
   .card-deck {
@@ -12,13 +12,13 @@
   .progress-bar {
 
     &.certificate {
-      background-color: $information-light;
-      color: $white;
+      background-color: $pix-information-light;
+      color: $pix-neutral-0;
     }
 
     &.jury {
-      background-color: $error;
-      color: $white;
+      background-color: $pix-information-dark;
+      color: $pix-neutral-0;
     }
   }
 }
