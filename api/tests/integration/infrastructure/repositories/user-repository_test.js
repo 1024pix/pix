@@ -287,6 +287,34 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
       });
     });
 
+    describe('#getById', function () {
+      it('should return the found user', async function () {
+        // given
+        const user = databaseBuilder.factory.buildUser({
+          id: 1092,
+        });
+        await databaseBuilder.commit();
+
+        // when
+        const result = await userRepository.getById(user.id);
+
+        // then
+        expect(result).to.be.an.instanceOf(User);
+        expect(result.id).to.equal(1092);
+      });
+
+      it('should return a UserNotFoundError if no user is found', async function () {
+        // given
+        const nonExistentUserId = 678;
+
+        // when
+        const result = await catchErr(userRepository.getById)(nonExistentUserId);
+
+        // then
+        expect(result).to.be.instanceOf(UserNotFoundError);
+      });
+    });
+
     describe('#getByUsernameOrEmailWithRolesAndPassword', function () {
       beforeEach(async function () {
         await _insertUserWithOrganizationsAndCertificationCenterAccesses();

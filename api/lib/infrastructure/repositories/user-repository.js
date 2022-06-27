@@ -92,6 +92,14 @@ module.exports = {
       });
   },
 
+  async getById(userId) {
+    const foundUser = await knex.from('users').where({ id: userId }).first();
+    if (!foundUser) {
+      throw new UserNotFoundError();
+    }
+    return new User(foundUser);
+  },
+
   getForObfuscation(userId) {
     return BookshelfUser.where({ id: userId })
       .fetch({ columns: ['id', 'email', 'username'] })
