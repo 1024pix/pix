@@ -13,7 +13,7 @@
     margin-bottom: 10px;
 
     &--link {
-      color: $dark-blue-pro;
+      color: $dark-blue-pro; // FIXME deprecated
       text-decoration: underline;
     }
   }
@@ -35,7 +35,7 @@
   &__action-buttons {
     display: flex;
     padding-top: 24px;
-    border-top: 1px solid $grey-22;
+    border-top: 1px solid $pix-neutral-22;
   }
 
   &-action-buttons__cancel {

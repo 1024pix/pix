@@ -1,5 +1,5 @@
 .generate-target-profile {
-  color: $grey-70;
+  color: $pix-neutral-70;
 
   &__card {
     margin-bottom: $spacing-m;
@@ -26,7 +26,7 @@
 
   // WORKAROUND: bootstrap messing with PixButtonLink hover style
   a.pix-button--background-green:hover {
-    color: $white;
+    color: $pix-neutral-0;
     text-decoration: none;
   }
 }

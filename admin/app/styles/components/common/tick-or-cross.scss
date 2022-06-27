@@ -1,10 +1,10 @@
 .tick-or-cross {
 
   &--valid {
-    color: $success;
+    color: $pix-success-70;
   }
 
   &--invalid {
-    color: $error;
+    color: $pix-error-70;
   }
 }

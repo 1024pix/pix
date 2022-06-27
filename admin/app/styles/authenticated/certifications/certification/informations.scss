@@ -7,7 +7,7 @@
     margin-bottom: 20px;
 
     a:hover {
-      color: $white;
+      color: $pix-neutral-0;
       text-decoration: none;
     }
   }
@@ -32,7 +32,7 @@
 
       span {
         display: inline-block;
-        color: $grey-40;
+        color: $pix-neutral-40;
         min-width: 180px;
       }
 
@@ -64,7 +64,7 @@
             border: none;
             cursor: pointer;
             font-size: 19px;
-            color: $grey-60;
+            color: $pix-neutral-60;
           }
         }
 
@@ -88,19 +88,19 @@
 
         .card {
           width: 550px;
-          background-color: $grey-5;
+          background-color: $pix-neutral-5;
           text-align: center;
           box-shadow: none;
-          border: 2px solid $grey-20;
+          border: 2px solid $pix-neutral-20;
           font-weight: 500;
 
           p {
-            color: $grey-40;
+            color: $pix-neutral-40;
           }
 
           .card-body-text {
             font-size: 18px;
-            color: $grey-90;
+            color: $pix-neutral-90;
           }
         }
       }
@@ -128,7 +128,7 @@
 
     &__warning-cpf-message {
       font-style: italic;
-      color: $red;
+      color: $red; // FIXME deprecated
       margin-top: 8px;
       margin-left: 5px;
     }

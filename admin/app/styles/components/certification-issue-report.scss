@@ -9,11 +9,11 @@
     margin-bottom: 24px;
 
     &--resolved {
-      color: $success;
+      color: $pix-success-70;
     }
 
     &--unresolved {
-      color: $error;
+      color: $pix-error-70;
     }
   }
 
@@ -23,13 +23,13 @@
     &__label {
       font-family: $font-roboto;
       font-weight: $font-medium;
-      color: $blue-zodiac;
+      color: $pix-neutral-60;
     }
 
     &__resolution-message {
       font-family: $font-roboto;
       font-weight: $font-light;
-      color: $grey-30;
+      color: $pix-neutral-30;
     }
   }
 }

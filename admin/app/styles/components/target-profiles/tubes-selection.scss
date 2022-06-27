@@ -1,7 +1,7 @@
 .select-tube-table {
 
   .is-responsive {
-    color: $green;
+    color: $green; // FIXME deprecated
   }
 
   .not-responsive {
@@ -9,16 +9,16 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    color: $red;
+    color: $red; // FIXME deprecated
   }
 
   table {
-    color: $grey-70;
+    color: $pix-neutral-70;
   }
 
   th {
     font-weight: 500;
-    color: $grey-100;
+    color: $pix-neutral-100;
 
     p {
       margin-bottom: 0.5rem;
@@ -45,7 +45,7 @@
   }
 
   thead {
-    background: $grey-10;
+    background: $pix-neutral-10;
   }
 }
 
@@ -61,26 +61,26 @@
     top: 12px;
     left: 1rem;
     z-index: 2;
-    background-color: $dark-blue-pro;
+    background-color: $dark-blue-pro; // FIXME deprecated
 
     &.jaffa {
-      background-color: $information-light;
+      background-color: $pix-information-light;
     }
 
     &.emerald {
-      background-color: $content-light;
+      background-color: $pix-content-light;
     }
 
     &.cerulean {
-      background-color: $communication-light;
+      background-color: $pix-communication-light;
     }
 
     &.wild-strawberry {
-      background-color: $security-light;
+      background-color: $pix-security-light;
     }
 
     &.butterfly-bush {
-      background-color: $environment-light;
+      background-color: $pix-environment-light;
     }
   }
 }
@@ -98,10 +98,10 @@
     font-weight: 500;
     position: relative;
     padding-left: 2rem;
-    background-color: $white;
+    background-color: $pix-neutral-0;
 
     &:hover {
-      background-color: $grey-10;
+      background-color: $pix-neutral-10;
     }
   }
 
