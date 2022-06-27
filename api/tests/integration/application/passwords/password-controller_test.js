@@ -3,7 +3,6 @@ const { domainBuilder, expect, sinon, HttpTestServer } = require('../../../test-
 const {
   ForbiddenAccess,
   InvalidTemporaryKeyError,
-  PasswordNotMatching,
   PasswordResetDemandNotFoundError,
   UserNotFoundError,
 } = require('../../../../lib/domain/errors');
@@ -150,9 +149,8 @@ describe('Integration | Application | Passwords | password-controller', function
       data: {
         type: 'organization-invitations',
         attributes: {
-          username: 'firstname.lastname0512',
-          oneTimePassword: 'expiredPassword01',
-          newPassword: 'newPassword02',
+          'password-reset-token': 'PASSWORD_RESET_TOKEN',
+          'new-password': 'Password02',
         },
       },
     };
@@ -180,17 +178,6 @@ describe('Integration | Application | Passwords | password-controller', function
 
         // then
         expect(response.statusCode).to.equal(404);
-      });
-
-      it('should respond an HTTP response with status code 401 when PasswordNotMatching', async function () {
-        // given
-        usecases.updateExpiredPassword.rejects(new PasswordNotMatching());
-
-        // when
-        const response = await httpTestServer.request(method, url, payload);
-
-        // then
-        expect(response.statusCode).to.equal(401);
       });
 
       it('should respond an HTTP response with status code 403 when ForbiddenAccess', async function () {
