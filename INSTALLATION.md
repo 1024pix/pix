@@ -8,7 +8,8 @@ Vous devez au préalable avoir correctement installé les logiciels suivants :
 - [Node.js](https://nodejs.org/) (v16.14.0) et NPM (8.3.1)
 - [Docker](https://docs.docker.com/get-started/) (20.10) avec [Docker Compose](https://docs.docker.com/compose/install/)
 
-> ⚠️ Les versions indiquées sont celles utilisées et préconisées par l'équipe de développement. Il est possible que l'application fonctionne avec des versions différentes.
+> ⚠️ Les versions indiquées sont celles utilisées et préconisées par l'équipe de développement. Il est possible que
+> l'application fonctionne avec des versions différentes.
 
 Assurez-vous aussi de ne pas avoir de process:
 
@@ -78,7 +79,32 @@ npm run configure
 ⚠️ Compter entre 10 et 15mn pour l'exécution du script.
 
 Pix s'appuie sur la bibliothèque [Dotenv](https://github.com/motdotla/dotenv) pour gérer les variables d'environnement
-en local. Si besoin, éditer le fichier `.env` généré par le script pour l'adapter à vos besoins.
+en local.
+
+Le script `scripts/configure.sh` génére un fichier `.env` standard.
+
+Vous pouvez l'adapter à vos besoins:
+
+- configurer le logging :
+
+```dotenv
+LOG_ENABLED=true
+LOG_LEVEL=debug
+LOG_FOR_HUMANS=true
+```
+
+- permettre la suppression du schéma de la base de données sans attendre le fin des connexions :
+
+```dotenv
+FORCE_DROP_DATABASE=true
+```
+
+- se connecter à un autre référentiel pédagogique que celui de base (test):
+
+```dotenv
+LCMS_API_KEY=<SOME_KEY>
+LCMS_API_URL=<SOME_URL>
+```
 
 Vérifier les connexions à la base de donnée :
 
