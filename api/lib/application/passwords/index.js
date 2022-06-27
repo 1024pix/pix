@@ -47,9 +47,8 @@ exports.register = async function (server) {
           payload: Joi.object({
             data: {
               attributes: {
-                username: Joi.string().required(),
-                oneTimePassword: Joi.string().required(),
-                newPassword: Joi.string().pattern(XRegExp(passwordValidationPattern)).required(),
+                'password-reset-token': Joi.string().required(),
+                'new-password': Joi.string().pattern(XRegExp(passwordValidationPattern)).required(),
               },
               type: Joi.string(),
             },

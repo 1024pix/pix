@@ -26,8 +26,9 @@ module.exports = {
   },
 
   async updateExpiredPassword(request, h) {
-    const { username, oneTimePassword, newPassword } = request.payload.data.attributes;
-    await usecases.updateExpiredPassword({ username, oneTimePassword, newPassword });
+    const passwordResetToken = request.payload.data.attributes['password-reset-token'];
+    const newPassword = request.payload.data.attributes['new-password'];
+    await usecases.updateExpiredPassword({ passwordResetToken, newPassword });
 
     return h.response({ data: { type: 'reset-expired-password-demands' } }).created();
   },

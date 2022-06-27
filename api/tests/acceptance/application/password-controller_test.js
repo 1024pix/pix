@@ -1,5 +1,5 @@
 const { databaseBuilder, expect, knex, sinon } = require('../../test-helper');
-
+const tokenService = require('../../../lib/domain/services/token-service');
 const resetPasswordService = require('../../../lib/domain/services/reset-password-service');
 const resetPasswordDemandRepository = require('../../../lib/infrastructure/repositories/reset-password-demands-repository');
 
@@ -148,35 +148,32 @@ describe('Acceptance | Controller | password-controller', function () {
   });
 
   describe('POST /api/expired-password-updates', function () {
-    const username = 'firstname.lastname0511';
-    const oneTimePassword = 'Password01';
-    const newPassword = 'Password02';
-
-    const options = {
-      method: 'POST',
-      url: '/api/expired-password-updates',
-      payload: {
-        data: {
-          attributes: { username, oneTimePassword, newPassword },
-        },
-      },
-    };
-
-    beforeEach(async function () {
-      databaseBuilder.factory.buildUser.withRawPassword({
-        username,
-        rawPassword: oneTimePassword,
-        shouldChangePassword: true,
-      });
-      await databaseBuilder.commit();
-    });
-
     afterEach(async function () {
       await knex('authentication-methods').delete();
     });
 
     context('Success cases', function () {
       it('should return 201 HTTP status code', async function () {
+        // given
+        const user = databaseBuilder.factory.buildUser.withRawPassword({
+          shouldChangePassword: true,
+        });
+        await databaseBuilder.commit();
+        const passwordResetToken = tokenService.createPasswordResetToken(user.id);
+
+        const options = {
+          method: 'POST',
+          url: '/api/expired-password-updates',
+          payload: {
+            data: {
+              attributes: {
+                'password-reset-token': passwordResetToken,
+                'new-password': 'Password02',
+              },
+            },
+          },
+        };
+
         // when
         const response = await server.inject(options);
 
@@ -186,46 +183,27 @@ describe('Acceptance | Controller | password-controller', function () {
     });
 
     context('Error cases', function () {
-      context('when username does not exist', function () {
-        it('should respond 404 HTTP status code', async function () {
-          // given
-          options.payload.data.attributes = { username: 'unknow', oneTimePassword, newPassword };
-
-          // when
-          const response = await server.inject(options);
-
-          // then
-          expect(response.statusCode).to.equal(404);
-          expect(response.result.errors[0].code).to.equal('USER_ACCOUNT_NOT_FOUND');
-        });
-      });
-
-      context('when password is invalid', function () {
-        it('should respond 401 HTTP status code', async function () {
-          // given
-          options.payload.data.attributes = { username, oneTimePassword: 'wrongPassword01', newPassword };
-
-          // when
-          const response = await server.inject(options);
-
-          // then
-          expect(response.statusCode).to.equal(401);
-        });
-      });
-
       context('when shouldChangePassword is false', function () {
         it('should respond 403 HTTP status code', async function () {
           // given
-          const username = 'jean.oubliejamais0105';
-          databaseBuilder.factory.buildUser.withRawPassword({
-            username,
-            rawPassword: oneTimePassword,
+          const user = databaseBuilder.factory.buildUser.withRawPassword({
             shouldChangePassword: false,
           });
-
-          options.payload.data.attributes = { username, oneTimePassword, newPassword };
-
           await databaseBuilder.commit();
+          const passwordResetToken = tokenService.createPasswordResetToken(user.id);
+
+          const options = {
+            method: 'POST',
+            url: '/api/expired-password-updates',
+            payload: {
+              data: {
+                attributes: {
+                  'password-reset-token': passwordResetToken,
+                  'new-password': 'Password02',
+                },
+              },
+            },
+          };
 
           // when
           const response = await server.inject(options);
