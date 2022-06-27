@@ -154,6 +154,14 @@ module.exports = (function () {
       numbers: '2346789',
     },
 
+    rateLimit: {
+      redisUrl: process.env.REDIS_URL,
+      enabled: isFeatureEnabled(process.env.RATE_LIMIT_ENABLED),
+      logOnly: isFeatureEnabled(process.env.RATE_LIMIT_LOG_ONLY),
+      limit: _getNumber(process.env.RATE_LIMIT_DEFAULT_LIMIT, 10),
+      window: _getNumber(process.env.RATE_LIMIT_DEFAULT_WINDOW, 60),
+    },
+
     caching: {
       redisUrl: process.env.REDIS_URL,
       redisCacheKeyLockTTL: parseInt(process.env.REDIS_CACHE_KEY_LOCK_TTL, 10) || 60000,
@@ -359,6 +367,8 @@ module.exports = (function () {
     config.caching.redisUrl = null;
     config.caching.redisCacheKeyLockTTL = 0;
     config.caching.redisCacheLockedWaitBeforeRetry = 0;
+
+    config.rateLimit.redisUrl = process.env.TEST_REDIS_URL;
 
     config.sentry.enabled = false;
 
