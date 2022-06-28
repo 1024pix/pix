@@ -1,6 +1,7 @@
 const { expect } = require('../../../../test-helper');
 const UserWithOrganizationLearnerSerializer = require('../../../../../lib/infrastructure/serializers/jsonapi/user-with-organization-learner-serializer');
 const UserWithOrganizationLearner = require('../../../../../lib/domain/models/UserWithOrganizationLearner');
+const CampaignParticipationStatuses = require('../../../../../lib/domain/models/CampaignParticipationStatuses');
 
 describe('Unit | Serializer | JSONAPI | UserWithOrganizationLearner-serializer', function () {
   describe('#serialize', function () {
@@ -20,6 +21,9 @@ describe('Unit | Serializer | JSONAPI | UserWithOrganizationLearner-serializer',
         group: 'AB1',
         participationCount: 2,
         lastParticipationDate: new Date('2021-10-10'),
+        campaignName: 'Campagne présidentielle',
+        campaignType: UserWithOrganizationLearner.campaignTypes.PROFILES_COLLECTION,
+        participationStatus: CampaignParticipationStatuses.SHARED,
       });
 
       const expectedSerializedUserWithOrganizationLearner = {
@@ -39,6 +43,9 @@ describe('Unit | Serializer | JSONAPI | UserWithOrganizationLearner-serializer',
             group: userWithOrganizationLearner.group,
             'participation-count': userWithOrganizationLearner.participationCount,
             'last-participation-date': userWithOrganizationLearner.lastParticipationDate,
+            'campaign-name': userWithOrganizationLearner.campaignName,
+            'campaign-type': userWithOrganizationLearner.campaignType,
+            'participation-status': userWithOrganizationLearner.participationStatus,
           },
         },
       };

@@ -931,12 +931,17 @@ describe('Acceptance | Application | organization-controller', function () {
     });
 
     context('Expected output', function () {
-      let organizationLearner;
+      let organizationLearner, campaign, participation;
 
       beforeEach(async function () {
+        campaign = databaseBuilder.factory.buildCampaign({ organizationId: organization.id });
         organizationLearner = databaseBuilder.factory.buildOrganizationLearner({
           organizationId: organization.id,
           userId: user.id,
+        });
+        participation = databaseBuilder.factory.buildCampaignParticipation({
+          campaignId: campaign.id,
+          organizationLearnerId: organizationLearner.id,
         });
 
         await databaseBuilder.commit();
@@ -958,8 +963,11 @@ describe('Acceptance | Application | organization-controller', function () {
                 'student-number': organizationLearner.studentNumber,
                 division: organizationLearner.division,
                 group: organizationLearner.group,
-                'participation-count': 0,
-                'last-participation-date': null,
+                'participation-count': 1,
+                'last-participation-date': participation.createdAt,
+                'campaign-name': campaign.name,
+                'campaign-type': campaign.type,
+                'participation-status': participation.status,
               },
               id: organizationLearner.id.toString(),
               type: 'students',
