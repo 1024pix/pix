@@ -353,6 +353,7 @@ module('Integration | Component | Campaign::Results::AssessmentList', function (
       // then
       assert.dom(screen.getByLabelText('Recherche sur le nom et prénom')).hasValue('chichi');
     });
+
     test('that while filling the search input we will trigger the filtering', async function (assert) {
       const campaign = store.createRecord('campaign', {
         id: 1,
