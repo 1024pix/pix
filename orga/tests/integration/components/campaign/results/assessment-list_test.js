@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
-import { clickByName } from '@1024pix/ember-testing-library';
+import { clickByName, render as renderScreen, fillByLabel } from '@1024pix/ember-testing-library';
 import { render, click } from '@ember/test-helpers';
 import sinon from 'sinon';
 import Service from '@ember/service';
@@ -335,6 +335,38 @@ module('Integration | Component | Campaign::Results::AssessmentList', function (
 
       // then
       assert.ok(resetFilters.called);
+    });
+  });
+
+  module('when user set a search filter', function () {
+    test('that in the fullname search input we will have the value that we put', async function (assert) {
+      const campaign = store.createRecord('campaign', {
+        id: 1,
+        name: 'campagne 1',
+      });
+      this.set('campaign', campaign);
+      this.set('searchFilter', 'chichi');
+      const screen = await renderScreen(
+        hbs`<Campaign::Results::AssessmentList  @campaign={{campaign}} @searchFilter={{searchFilter}}/>`
+      );
+
+      // then
+      assert.dom(screen.getByLabelText('Recherche sur le nom et prénom')).hasValue('chichi');
+    });
+    test('that while filling the search input we will trigger the filtering', async function (assert) {
+      const campaign = store.createRecord('campaign', {
+        id: 1,
+        name: 'campagne 1',
+      });
+      const triggerFiltering = sinon.stub();
+      this.set('campaign', campaign);
+      this.set('triggerFiltering', triggerFiltering);
+      await renderScreen(
+        hbs`<Campaign::Results::AssessmentList  @campaign={{campaign}} @onFilter={{triggerFiltering}} />`
+      );
+      await fillByLabel('Recherche sur le nom et prénom', 'Chichi');
+      // then
+      assert.ok(triggerFiltering.calledWith({ search: 'Chichi' }));
     });
   });
 });

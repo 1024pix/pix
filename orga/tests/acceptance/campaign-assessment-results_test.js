@@ -125,4 +125,16 @@ module('Acceptance | Campaign Assessment Results', function (hooks) {
       assert.dom('.page-size option:checked').hasText(changedPageSize.toString());
     });
   });
+
+  module('when prescriber is already on participants page and set filters', () => {
+    test('should set search filter', async function (assert) {
+      // when
+      await visit('/campagnes/1/resultats-evaluation');
+
+      await fillByLabel('Recherche sur le nom et prénom', 'Choupette');
+
+      // then
+      assert.strictEqual(currentURL(), '/campagnes/1/resultats-evaluation?search=Choupette');
+    });
+  });
 });

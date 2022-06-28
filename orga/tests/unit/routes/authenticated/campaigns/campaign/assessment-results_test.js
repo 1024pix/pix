@@ -35,6 +35,7 @@ module('Unit | Route | authenticated/campaigns/campaign/assessment-results', fun
         groups: [],
         badges: [],
         stages: [],
+        search: null,
         campaignId: 3,
       };
       const expectedParticipations = [
@@ -54,6 +55,7 @@ module('Unit | Route | authenticated/campaigns/campaign/assessment-results', fun
             groups: params.groups,
             badges: params.badges,
             stages: params.stages,
+            search: params.search,
           },
           campaignId: params.campaignId,
         })
@@ -61,9 +63,7 @@ module('Unit | Route | authenticated/campaigns/campaign/assessment-results', fun
 
       const participations = route.fetchResultMinimalList(params);
 
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(participations, expectedParticipations);
+      assert.strictEqual(participations, expectedParticipations);
     });
   });
 
@@ -72,17 +72,13 @@ module('Unit | Route | authenticated/campaigns/campaign/assessment-results', fun
       test('it reset pageNumber', function (assert) {
         const controller = { pageNumber: 2 };
         route.resetController(controller, true);
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(controller.pageNumber, 1);
+        assert.strictEqual(controller.pageNumber, 1);
       });
 
       test('it reset pageSize', function (assert) {
         const controller = { pageSize: 10 };
         route.resetController(controller, true);
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(controller.pageSize, 25);
+        assert.strictEqual(controller.pageSize, 25);
       });
 
       test('it reset divisions', function (assert) {
@@ -108,23 +104,25 @@ module('Unit | Route | authenticated/campaigns/campaign/assessment-results', fun
         route.resetController(controller, true);
         assert.deepEqual(controller.stages, []);
       });
+
+      test('it reset search', function (assert) {
+        const controller = { search: 'Dalida' };
+        route.resetController(controller, true);
+        assert.deepEqual(controller.search, null);
+      });
     });
 
     module('when isExiting is false', function () {
       test('it does not reset pageNumber', function (assert) {
         const controller = { pageNumber: 2 };
         route.resetController(controller, false);
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(controller.pageNumber, 2);
+        assert.strictEqual(controller.pageNumber, 2);
       });
 
       test('it does not reset pageSize', function (assert) {
         const controller = { pageSize: 10 };
         route.resetController(controller, false);
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(controller.pageSize, 10);
+        assert.strictEqual(controller.pageSize, 10);
       });
 
       test('it does not reset divisions', function (assert) {
@@ -149,6 +147,12 @@ module('Unit | Route | authenticated/campaigns/campaign/assessment-results', fun
         const controller = { stages: ['10'] };
         route.resetController(controller, false);
         assert.deepEqual(controller.stages, ['10']);
+      });
+
+      test('it does not reset search', function (assert) {
+        const controller = { search: 'Dalida' };
+        route.resetController(controller, false);
+        assert.deepEqual(controller.search, 'Dalida');
       });
     });
   });

@@ -46,6 +46,31 @@ module('Unit | Controller | authenticated/campaigns/campaign/assessment-results'
       });
     });
 
+    module('search filter', function () {
+      test('update the search filter', function (assert) {
+        // given
+        controller.triggerFiltering({ search: 'Something' });
+        // then
+        assert.deepEqual(controller.search, 'Something');
+      });
+
+      test('it removes the search filter', function (assert) {
+        // given
+        controller.triggerFiltering({ search: '' });
+        // then
+        assert.deepEqual(controller.search, '');
+      });
+
+      test('should keep other filters when is stage updated', function (assert) {
+        // when
+        controller.set('divisions', ['division1']);
+        // given
+        controller.triggerFiltering({ search: 'Something' });
+        // then
+        assert.deepEqual(controller.divisions, ['division1']);
+      });
+    });
+
     module('stage filter', function () {
       test('update the stage filter', function (assert) {
         // given
