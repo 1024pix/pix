@@ -94,5 +94,20 @@ describe('Acceptance | API | Campaign Participations | Results', function () {
       expect(response.result.data).to.have.lengthOf(1);
       expect(participation['first-name']).to.equal(participant1.firstName);
     });
+
+    it('should return the participation results for an assessment campaign filtered by search as JSONAPI', async function () {
+      const options = {
+        method: 'GET',
+        url: `/api/campaigns/${campaign.id}/assessment-results?page[number]=1&page[size]=10&filter[search]=Holly M`,
+        headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
+      };
+
+      const response = await server.inject(options);
+
+      expect(response.statusCode).to.equal(200);
+      const participation = response.result.data[0].attributes;
+      expect(response.result.data).to.have.lengthOf(1);
+      expect(participation['first-name']).to.equal(participant2.firstName);
+    });
   });
 });
