@@ -1,6 +1,7 @@
 import { inject as service } from '@ember/service';
 import SecuredRouteMixin from 'mon-pix/mixins/secured-route-mixin';
 import Route from '@ember/routing/route';
+import { action } from '@ember/object';
 import { isEmpty } from '@ember/utils';
 
 export default class UserTestsRoute extends Route.extend(SecuredRouteMixin) {
@@ -23,5 +24,10 @@ export default class UserTestsRoute extends Route.extend(SecuredRouteMixin) {
     if (isEmpty(model)) {
       this.replaceWith('');
     }
+  }
+
+  @action
+  loading() {
+    return false;
   }
 }
