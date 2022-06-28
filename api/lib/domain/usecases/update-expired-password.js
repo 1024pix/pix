@@ -37,7 +37,7 @@ module.exports = async function updateExpiredPassword({
 
   const hashedPassword = await encryptionService.hashPassword(newPassword);
 
-  return authenticationMethodRepository.updateExpiredPassword({
+  await authenticationMethodRepository.updateExpiredPassword({
     userId: foundUser.id,
     hashedPassword,
   });
