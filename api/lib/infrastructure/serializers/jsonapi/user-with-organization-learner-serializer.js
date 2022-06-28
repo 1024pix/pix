@@ -15,6 +15,7 @@ module.exports = {
         'division',
         'group',
         'participationCount',
+        'lastParticipationDate',
       ],
       meta,
     }).serialize(students);

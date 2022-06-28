@@ -331,6 +331,9 @@ module.exports = {
         'authentication-methods.externalIdentifier as samlId',
         knex.raw(
           'COUNT(*) FILTER (WHERE "campaign-participations"."id" IS NOT NULL AND "campaign-participations"."isImproved" IS FALSE AND "campaign-participations"."deletedAt" IS NULL) OVER (partition by "organization-learners"."id") AS "participationCount"'
+        ),
+        knex.raw(
+          'max("campaign-participations"."createdAt") FILTER (WHERE "campaign-participations"."id" IS NOT NULL AND "campaign-participations"."isImproved" IS FALSE AND "campaign-participations"."deletedAt" IS NULL) OVER (partition by "organization-learners"."id") AS "lastParticipationDate"'
         )
       )
       .leftJoin('campaign-participations', 'campaign-participations.organizationLearnerId', 'organization-learners.id')
