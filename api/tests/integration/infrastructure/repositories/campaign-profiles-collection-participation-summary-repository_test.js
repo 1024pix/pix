@@ -333,6 +333,131 @@ describe('Integration | Repository | Campaign Profiles Collection Participation 
         ]);
       });
     });
+
+    describe('when there is a filter on the firstname and lastname', function () {
+      beforeEach(async function () {
+        // given
+        const { id: organizationLearnerId1 } = databaseBuilder.factory.buildOrganizationLearner({
+          organizationId,
+          group: 'Barry',
+          firstName: 'Laa-Laa',
+          lastName: 'Teletubbies',
+        });
+        const participation1 = {
+          participantExternalId: "Can't get Enough Of Your Love, Baby",
+          campaignId,
+          organizationLearnerId: organizationLearnerId1,
+        };
+        databaseBuilder.factory.buildCampaignParticipation(participation1);
+
+        const { id: organizationLearnerId2 } = databaseBuilder.factory.buildOrganizationLearner({
+          organizationId,
+          group: 'White',
+          firstName: 'Dipsy',
+          lastName: 'Teletubbies',
+        });
+        const participation2 = {
+          participantExternalId: "You're The First, The last, My Everything",
+          campaignId,
+          organizationLearnerId: organizationLearnerId2,
+        };
+        databaseBuilder.factory.buildCampaignParticipation(participation2);
+
+        const { id: organizationLearnerId3 } = databaseBuilder.factory.buildOrganizationLearner({
+          organizationId,
+          group: 'Barry',
+          firstName: 'Po',
+          lastName: 'Teletubbies',
+        });
+        const participation3 = {
+          participantExternalId: "Ain't No Mountain High Enough",
+          campaignId,
+          organizationLearnerId: organizationLearnerId3,
+        };
+        databaseBuilder.factory.buildCampaignParticipation(participation3);
+
+        await databaseBuilder.commit();
+      });
+
+      it('returns all participants if the filter is empty', async function () {
+        // when
+        const results = await campaignProfilesCollectionParticipationSummaryRepository.findPaginatedByCampaignId(
+          campaignId,
+          undefined,
+          { search: '' }
+        );
+
+        // then
+        expect(results.data.length).to.equal(3);
+      });
+
+      it('returns Laa-Laa when we search part of its firstname', async function () {
+        // when
+        const results = await campaignProfilesCollectionParticipationSummaryRepository.findPaginatedByCampaignId(
+          campaignId,
+          undefined,
+          { search: 'La' }
+        );
+
+        // then
+        expect(results.data.length).to.equal(1);
+        expect(results.data[0].firstName).to.equal('Laa-Laa');
+      });
+
+      it('returns Laa-Laa when we search part of its firstname with a space before', async function () {
+        // when
+        const results = await campaignProfilesCollectionParticipationSummaryRepository.findPaginatedByCampaignId(
+          campaignId,
+          undefined,
+          { search: ' La' }
+        );
+
+        // then
+        expect(results.data.length).to.equal(1);
+        expect(results.data[0].firstName).to.equal('Laa-Laa');
+      });
+
+      it('returns Laa-Laa when we search part of its firstname with a space after', async function () {
+        // when
+        const results = await campaignProfilesCollectionParticipationSummaryRepository.findPaginatedByCampaignId(
+          campaignId,
+          undefined,
+          { search: 'La ' }
+        );
+
+        // then
+        expect(results.data.length).to.equal(1);
+        expect(results.data[0].firstName).to.equal('Laa-Laa');
+      });
+
+      it('returns Laa-Laa when we search part of its fullname', async function () {
+        // when
+        const results = await campaignProfilesCollectionParticipationSummaryRepository.findPaginatedByCampaignId(
+          campaignId,
+          undefined,
+          { search: 'Laa-Laa Tel' }
+        );
+
+        // then
+        expect(results.data.length).to.equal(1);
+        expect(results.data[0].firstName).to.equal('Laa-Laa');
+      });
+
+      it('returns Laa-Laa when we search similar part of lastname', async function () {
+        // when
+        const results = await campaignProfilesCollectionParticipationSummaryRepository.findPaginatedByCampaignId(
+          campaignId,
+          undefined,
+          { search: 'Teletub' }
+        );
+
+        // then
+        expect(results.data.length).to.equal(3);
+        expect(results.data[0].firstName).to.equal('Dipsy');
+        expect(results.data[1].firstName).to.equal('Laa-Laa');
+        expect(results.data[2].firstName).to.equal('Po');
+      });
+    });
   });
 });
 
