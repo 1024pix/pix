@@ -771,7 +771,8 @@
           "division": "Classe",
           "first-name": "Prénom",
           "last-name": "Nom",
-          "login-method": "Méthode(s) de connexion"
+          "login-method": "Méthode(s) de connexion",
+          "participation-count": "Nombre de participations"
         },
         "empty": "Aucun élève.",
         "filter": {

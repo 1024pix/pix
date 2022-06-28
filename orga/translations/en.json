@@ -772,7 +772,8 @@
           "division": "Class",
           "first-name": "First name",
           "last-name": "Last name",
-          "login-method": "Log in method(s)"
+          "login-method": "Log in method(s)",
+          "participation-count": "Number of participations"
         },
         "empty": "No students.",
         "filter": {
