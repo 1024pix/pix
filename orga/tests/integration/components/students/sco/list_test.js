@@ -59,7 +59,7 @@ module('Integration | Component | Student::Sco::List', function (hooks) {
     assert.dom('[aria-label="Élève"]').exists({ count: 2 });
   });
 
-  test('it should display the firstName, lastName, birthdate, division and participation count of student', async function (assert) {
+  test('it should display the firstName, lastName, birthdate, division, participation count and last participation date of student', async function (assert) {
     // given
     const students = [
       {
@@ -68,6 +68,7 @@ module('Integration | Component | Student::Sco::List', function (hooks) {
         division: '3B',
         birthdate: new Date('2010-02-01'),
         participationCount: 42,
+        lastParticipationDate: new Date('2022-01-03'),
       },
     ];
     this.set('students', students);
@@ -81,6 +82,7 @@ module('Integration | Component | Student::Sco::List', function (hooks) {
     assert.contains('01/02/2010');
     assert.contains('3B');
     assert.contains('42');
+    assert.contains('03/01/2022');
   });
 
   module('when user is filtering some users', function () {
