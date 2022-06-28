@@ -1,0 +1,11 @@
+.last-participation-date-tooltip {
+  display: inline-block;
+
+  &__icon {
+    color: $grey-30;
+  }
+
+  [role="tooltip"] {
+    text-align: left;
+  }
+}
