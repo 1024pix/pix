@@ -583,13 +583,76 @@ exports.register = async (server) => {
           "- **Cette route est restreinte via un token dédié passé en paramètre avec l'id de l'utilisateur.**\n" +
             "- Récupération d'un template CSV qui servira à téléverser les inscriptions d’étudiants\n" +
             '- L‘utilisateur doit avoir les droits d‘accès ADMIN à l‘organisation',
+          "- L'usage de cette route est **dépréciée** en faveur de /api/organizations/{id}/sup-organization-learners/csv-template",
+        ],
+        tags: ['api', 'schooling-registrations'],
+      },
+    },
+    {
+      method: 'GET',
+      path: '/api/organizations/{id}/sup-organization-learners/csv-template',
+      config: {
+        auth: false,
+        validate: {
+          params: Joi.object({
+            id: identifiersType.organizationId,
+          }),
+          query: Joi.object({
+            accessToken: Joi.string().required(),
+          }).options({ allowUnknown: true }),
+        },
+        handler: organizationController.getOrganizationLearnersCsvTemplate,
+        notes: [
+          "- **Cette route est restreinte via un token dédié passé en paramètre avec l'id de l'utilisateur.**",
+          "- Récupération d'un template CSV qui servira à téléverser les inscriptions d’étudiants",
+          '- L‘utilisateur doit avoir les droits d‘accès ADMIN à l‘organisation',
+        ],
+        tags: ['api', 'organization-learners'],
+      },
+    },
+    {
+      method: 'POST',
+      path: '/api/organizations/{id}/schooling-registrations/import-siecle',
+      config: {
+        pre: [
+          {
+            method: securityPreHandlers.checkUserIsAdminInSCOOrganizationManagingStudents,
+            assign: 'isAdminInOrganizationManagingStudents',
+          },
+        ],
+        validate: {
+          params: Joi.object({
+            id: identifiersType.organizationId,
+          }),
+          query: Joi.object({
+            format: Joi.string().default('xml'),
+          }),
+        },
+        payload: {
+          maxBytes: 1048576 * 20, // 20MB
+          output: 'file',
+          failAction: (request, h) => {
+            return sendJsonApiError(
+              new PayloadTooLargeError('An error occurred, payload is too large', ERRORS.PAYLOAD_TOO_LARGE, {
+                maxSize: '20',
+              }),
+              h
+            );
+          },
+        },
+        handler: organizationController.importOrganizationLearnersFromSIECLE,
+        notes: [
+          "- **Cette route est restreinte aux utilisateurs authentifiés et responsables de l'organisation**\n" +
+            "- Elle permet d'importer des inscriptions d'élèves, en masse, depuis un fichier au format XML ou CSV de SIECLE\n" +
+            '- Elle ne retourne aucune valeur de retour',
+          "- L'usage de cette route est **dépréciée** en faveur de /api/organizations/{id}/sco-organization-learners/import-siecle",
         ],
         tags: ['api', 'schooling-registrations'],
       },
     },
     {
       method: 'POST',
-      path: '/api/organizations/{id}/schooling-registrations/import-siecle',
+      path: '/api/organizations/{id}/sco-organization-learners/import-siecle',
       config: {
         pre: [
           {
@@ -658,6 +721,43 @@ exports.register = async (server) => {
           "- **Cette route est restreinte aux utilisateurs authentifiés et responsables de l'organisation**\n" +
             "- Elle permet d'importer des inscriptions d'étudiants, en masse, depuis un fichier au format csv\n" +
             '- Elle ne retourne aucune valeur de retour',
+          "- L'usage de cette route est **dépréciée** en faveur de /api/organizations/{id}/sup-organization-learners/import-csv",
+        ],
+        tags: ['api', 'schooling-registrations'],
+      },
+    },
+    {
+      method: 'POST',
+      path: '/api/organizations/{id}/sup-organization-learners/import-csv',
+      config: {
+        pre: [
+          {
+            method: securityPreHandlers.checkUserIsAdminInSUPOrganizationManagingStudents,
+            assign: 'isAdminInOrganizationManagingStudents',
+          },
+        ],
+        validate: {
+          params: Joi.object({
+            id: identifiersType.organizationId,
+          }),
+        },
+        payload: {
+          maxBytes: 1048576 * 10, // 10MB
+          parse: 'gunzip',
+          failAction: (request, h) => {
+            return sendJsonApiError(
+              new PayloadTooLargeError('An error occurred, payload is too large', ERRORS.PAYLOAD_TOO_LARGE, {
+                maxSize: '10',
+              }),
+              h
+            );
+          },
+        },
+        handler: organizationController.importSupOrganizationLearners,
+        notes: [
+          "- **Cette route est restreinte aux utilisateurs authentifiés et responsables de l'organisation**\n" +
+            "- Elle permet d'importer des inscriptions d'étudiants, en masse, depuis un fichier au format csv\n" +
+            '- Elle ne retourne aucune valeur de retour',
         ],
         tags: ['api', 'organization-learners'],
       },
@@ -694,8 +794,45 @@ exports.register = async (server) => {
           "- **Cette route est restreinte aux utilisateurs authentifiés et responsables de l'organisation**\n" +
             "- Elle désactive les inscriptions existantes et importe de nouvelles inscriptions d'étudiants, en masse, depuis un fichier au format csv\n" +
             '- Elle ne retourne aucune valeur de retour',
+          "- L'usage de cette route est **dépréciée** en faveur de /api/organizations/{id}/sup-organization-learners/replace-csv",
         ],
         tags: ['api', 'schooling-registrations'],
+      },
+    },
+    {
+      method: 'POST',
+      path: '/api/organizations/{id}/sup-organization-learners/replace-csv',
+      config: {
+        pre: [
+          {
+            method: securityPreHandlers.checkUserIsAdminInSUPOrganizationManagingStudents,
+            assign: 'isAdminInOrganizationManagingStudents',
+          },
+        ],
+        validate: {
+          params: Joi.object({
+            id: identifiersType.organizationId,
+          }),
+        },
+        payload: {
+          maxBytes: 1048576 * 10, // 10MB
+          parse: 'gunzip',
+          failAction: (request, h) => {
+            return sendJsonApiError(
+              new PayloadTooLargeError('An error occurred, payload is too large', ERRORS.PAYLOAD_TOO_LARGE, {
+                maxSize: '10',
+              }),
+              h
+            );
+          },
+        },
+        handler: organizationController.replaceSupOrganizationLearners,
+        notes: [
+          "- **Cette route est restreinte aux utilisateurs authentifiés et responsables de l'organisation**\n" +
+            "- Elle désactive les inscriptions existantes et importe de nouvelles inscriptions d'étudiants, en masse, depuis un fichier au format csv\n" +
+            '- Elle ne retourne aucune valeur de retour',
+        ],
+        tags: ['api', 'organization-learners'],
       },
     },
   ];

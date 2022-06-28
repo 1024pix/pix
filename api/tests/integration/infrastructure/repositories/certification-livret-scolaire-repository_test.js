@@ -50,7 +50,7 @@ describe('Integration | Repository | Certification-ls ', function () {
       });
       const { session, certificationCourse } = buildValidatedPublishedCertificationData({
         user,
-        schoolingRegistration: organizationLearner,
+        organizationLearner,
         verificationCode,
         pixScore,
         competenceMarks,
@@ -103,7 +103,7 @@ describe('Integration | Repository | Certification-ls ', function () {
 
       buildValidatedPublishedCertificationData({
         user,
-        schoolingRegistration: organizationLearner,
+        organizationLearner,
         verificationCode,
         pixScore,
         competenceMarks,
@@ -128,7 +128,7 @@ describe('Integration | Repository | Certification-ls ', function () {
       });
       buildCancelledCertificationData({
         user,
-        schoolingRegistration: organizationLearner,
+        organizationLearner,
         verificationCode,
         pixScore,
         competenceMarks,
@@ -153,7 +153,7 @@ describe('Integration | Repository | Certification-ls ', function () {
       });
       buildRejectedPublishedCertificationData({
         user,
-        schoolingRegistration: organizationLearner,
+        organizationLearner,
         competenceMarks,
       });
 
@@ -178,7 +178,7 @@ describe('Integration | Repository | Certification-ls ', function () {
       });
       buildErrorUnpublishedCertificationData({
         user,
-        schoolingRegistration: organizationLearner,
+        organizationLearner,
       });
 
       await databaseBuilder.commit();
@@ -202,7 +202,7 @@ describe('Integration | Repository | Certification-ls ', function () {
       });
       buildValidatedUnpublishedCertificationData({
         user,
-        schoolingRegistration: organizationLearner,
+        organizationLearner,
       });
 
       await databaseBuilder.commit();
@@ -226,7 +226,7 @@ describe('Integration | Repository | Certification-ls ', function () {
       });
       buildCertificationDataWithNoCompetenceMarks({
         user,
-        schoolingRegistration: organizationLearner,
+        organizationLearner,
       });
 
       await databaseBuilder.commit();
@@ -254,7 +254,7 @@ describe('Integration | Repository | Certification-ls ', function () {
 
       buildValidatedPublishedCertificationData({
         user,
-        schoolingRegistration: formerOrganizationLearner,
+        organizationLearner: formerOrganizationLearner,
         verificationCode,
         pixScore,
         competenceMarks,
@@ -281,25 +281,25 @@ describe('Integration | Repository | Certification-ls ', function () {
       });
       buildValidatedPublishedCertificationData({
         user,
-        schoolingRegistration: organizationLearner,
+        organizationLearner,
         certificationCreatedDate: new Date('2020-02-20T14:23:56Z'),
       });
 
       const { certificationCourse: lastCertificationCourse } = buildValidatedPublishedCertificationData({
         user,
-        schoolingRegistration: organizationLearner,
+        organizationLearner,
         certificationCreatedDate: new Date('2020-02-22T14:23:56Z'),
       });
 
       buildValidatedPublishedCertificationData({
         user,
-        schoolingRegistration: organizationLearner,
+        organizationLearner,
         certificationCreatedDate: new Date('2020-02-21T14:23:56Z'),
       });
 
       buildCancelledCertificationData({
         user,
-        schoolingRegistration: organizationLearner,
+        organizationLearner,
         certificationCreatedDate: new Date('2020-02-23T14:23:56Z'),
       });
 
@@ -323,7 +323,7 @@ describe('Integration | Repository | Certification-ls ', function () {
       });
       buildValidatedPublishedCertificationData({
         user,
-        schoolingRegistration: organizationLearner,
+        organizationLearner,
         verificationCode,
         pixScore,
         competenceMarks: [

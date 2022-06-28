@@ -17,7 +17,7 @@ module.exports = function buildUserDetailsForAdmin({
   lastPixCertifTermsOfServiceValidatedAt,
   lastLoggedAt,
   emailConfirmedAt,
-  schoolingRegistrations = [],
+  organizationLearners = [],
   authenticationMethods = [],
 } = {}) {
   return new UserDetailsForAdmin({
@@ -37,7 +37,7 @@ module.exports = function buildUserDetailsForAdmin({
     lastLoggedAt,
     emailConfirmedAt,
     isAuthenticatedFromGAR,
-    schoolingRegistrations,
+    organizationLearners,
     authenticationMethods,
   });
 };

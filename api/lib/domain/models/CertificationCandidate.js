@@ -60,7 +60,7 @@ const certificationCandidateParticipationJoiSchema = Joi.object({
   extraTimePercentage: Joi.any().allow(null).optional(),
   sessionId: Joi.number().required(),
   userId: Joi.any().allow(null).optional(),
-  schoolingRegistrationId: Joi.any().allow(null).optional(),
+  organizationLearnerId: Joi.any().allow(null).optional(),
   complementaryCertifications: Joi.array(),
   billingMode: Joi.string()
     .valid(...Object.values(BILLING_MODES))
@@ -88,7 +88,7 @@ class CertificationCandidate {
     authorizedToStart,
     sessionId,
     userId,
-    schoolingRegistrationId = null,
+    organizationLearnerId = null,
     complementaryCertifications = [],
     billingMode = null,
     prepaymentCode = null,
@@ -111,7 +111,7 @@ class CertificationCandidate {
     this.authorizedToStart = authorizedToStart;
     this.sessionId = sessionId;
     this.userId = userId;
-    this.schoolingRegistrationId = schoolingRegistrationId;
+    this.organizationLearnerId = organizationLearnerId;
     this.complementaryCertifications = complementaryCertifications;
     this.billingMode = billingMode;
     this.prepaymentCode = prepaymentCode;

@@ -8,7 +8,7 @@ class UserDetailsForAdmin {
     email,
     pixOrgaTermsOfServiceAccepted,
     pixCertifTermsOfServiceAccepted,
-    schoolingRegistrations,
+    organizationLearners,
     authenticationMethods,
     createdAt,
     lang,
@@ -26,7 +26,7 @@ class UserDetailsForAdmin {
     this.email = email;
     this.pixOrgaTermsOfServiceAccepted = pixOrgaTermsOfServiceAccepted;
     this.pixCertifTermsOfServiceAccepted = pixCertifTermsOfServiceAccepted;
-    this.schoolingRegistrations = schoolingRegistrations;
+    this.organizationLearners = organizationLearners;
     this.authenticationMethods = authenticationMethods;
     this.createdAt = createdAt;
     this.lang = lang;

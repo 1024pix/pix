@@ -11,7 +11,7 @@ async function save(campaignParticipant, domainTransaction) {
     domainTransaction.knexTransaction
   );
   if (newlyCreatedOrganizationLearnerId) {
-    campaignParticipant.campaignParticipation.schoolingRegistrationId = newlyCreatedOrganizationLearnerId;
+    campaignParticipant.campaignParticipation.organizationLearnerId = newlyCreatedOrganizationLearnerId;
   }
 
   await _updatePreviousParticipation(
@@ -55,7 +55,7 @@ async function _createNewCampaignParticipation(queryBuilder, campaignParticipati
         campaignId: campaignParticipation.campaignId,
         userId: campaignParticipation.userId,
         status: campaignParticipation.status,
-        organizationLearnerId: campaignParticipation.schoolingRegistrationId,
+        organizationLearnerId: campaignParticipation.organizationLearnerId,
         participantExternalId: campaignParticipation.participantExternalId,
       })
       .returning('id');

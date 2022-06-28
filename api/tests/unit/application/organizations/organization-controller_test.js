@@ -741,25 +741,29 @@ describe('Unit | Application | Organizations | organization-controller', functio
   });
 
   describe('#importorganizationLearnersFromSIECLE', function () {
+    const connectedUserId = 1;
+    const organizationId = 145;
+    const payload = { path: 'path-to-file' };
+    const format = 'xml';
+
+    const request = {
+      auth: { credentials: { userId: connectedUserId } },
+      params: { id: organizationId },
+      query: { format },
+      payload,
+    };
+
+    beforeEach(function () {
+      sinon.stub(usecases, 'importOrganizationLearnersFromSIECLEFormat');
+      usecases.importOrganizationLearnersFromSIECLEFormat.resolves();
+    });
+
     it('should call the usecase to import organizationLearners', async function () {
       // given
-      const connectedUserId = 1;
-      const organizationId = 145;
-      const payload = { path: 'path-to-file' };
-      const format = 'xml';
-      const i18n = getI18n();
-
-      const request = {
-        auth: { credentials: { userId: connectedUserId } },
-        params: { id: organizationId },
-        query: { format },
-        payload: { path: 'path-to-file' },
-        i18n,
+      request.i18n = getI18n();
+      hFake.request = {
+        path: '/api/organizations/145/sco-organization-learners/import-siecle',
       };
-
-      sinon.stub(usecases, 'importOrganizationLearnersFromSIECLEFormat');
-
-      usecases.importOrganizationLearnersFromSIECLEFormat.resolves();
 
       // when
       await organizationController.importOrganizationLearnersFromSIECLE(request, hFake);
@@ -769,8 +773,121 @@ describe('Unit | Application | Organizations | organization-controller', functio
         organizationId,
         payload,
         format,
-        i18n,
+        i18n: request.i18n,
       });
+    });
+
+    it('should return information about deprecation when old route is used', async function () {
+      // when
+      request.i18n = getI18n();
+      hFake.request = {
+        path: '/api/organizations/145/schooling-registrations/import-siecle',
+      };
+      const response = await organizationController.importOrganizationLearnersFromSIECLE(request, hFake);
+
+      // then
+      expect(response.headers['Deprecation']).to.equal('true');
+      expect(response.headers['Link']).to.equal(
+        '/api/organizations/145/sco-organization-learners/import-siecle; rel="successor-version"'
+      );
+    });
+
+    it('should not return information about deprecation when new route is used', async function () {
+      // when
+      request.i18n = getI18n();
+      hFake.request = {
+        path: '/api/organizations/145/sco-organization-learners/import-siecle',
+      };
+      const response = await organizationController.importOrganizationLearnersFromSIECLE(request, hFake);
+
+      // then
+      expect(response.headers['Deprecation']).to.not.exist;
+    });
+  });
+
+  describe('#importSupOrganizationLearners', function () {
+    const connectedUserId = 1;
+    const organizationId = 145;
+
+    const request = {
+      auth: { credentials: { userId: connectedUserId } },
+      params: { id: organizationId },
+      payload: { path: 'path-to-file' },
+    };
+
+    beforeEach(function () {
+      sinon.stub(usecases, 'importSupOrganizationLearners');
+      usecases.importSupOrganizationLearners.resolves();
+    });
+
+    it('should return information about deprecation when old route is used', async function () {
+      // when
+      request.i18n = getI18n();
+      hFake.request = {
+        path: '/api/organizations/145/schooling-registrations/import-csv',
+      };
+      const response = await organizationController.importSupOrganizationLearners(request, hFake);
+
+      // then
+      expect(response.headers['Deprecation']).to.equal('true');
+      expect(response.headers['Link']).to.equal(
+        '/api/organizations/145/sup-organization-learners/import-csv; rel="successor-version"'
+      );
+    });
+
+    it('should not return information about deprecation when new route is used', async function () {
+      // when
+      request.i18n = getI18n();
+      hFake.request = {
+        path: '/api/organizations/145/sup-organization-learners/import-csv',
+      };
+      const response = await organizationController.importSupOrganizationLearners(request, hFake);
+
+      // then
+      expect(response.headers['Deprecation']).to.not.exist;
+    });
+  });
+
+  describe('#replaceSupOrganizationLearners', function () {
+    const connectedUserId = 1;
+    const organizationId = 145;
+
+    const request = {
+      auth: { credentials: { userId: connectedUserId } },
+      params: { id: organizationId },
+      payload: { path: 'path-to-file' },
+    };
+
+    beforeEach(function () {
+      sinon.stub(usecases, 'replaceSupOrganizationLearners');
+      usecases.replaceSupOrganizationLearners.resolves();
+    });
+
+    it('should return information about deprecation when old route is used', async function () {
+      // when
+      request.i18n = getI18n();
+      hFake.request = {
+        path: '/api/organizations/145/schooling-registrations/replace-csv',
+      };
+      const response = await organizationController.replaceSupOrganizationLearners(request, hFake);
+
+      // then
+      expect(response.headers['Deprecation']).to.equal('true');
+      expect(response.headers['Link']).to.equal(
+        '/api/organizations/145/sup-organization-learners/replace-csv; rel="successor-version"'
+      );
+    });
+
+    it('should not return information about deprecation when new route is used', async function () {
+      // when
+      request.i18n = getI18n();
+      hFake.request = {
+        path: '/api/organizations/145/sup-organization-learners/replace-csv',
+      };
+      const response = await organizationController.replaceSupOrganizationLearners(request, hFake);
+
+      // then
+      expect(response.headers['Deprecation']).to.not.exist;
     });
   });
 
@@ -948,11 +1065,41 @@ describe('Unit | Application | Organizations | organization-controller', functio
     it('should return a response with correct headers', async function () {
       // when
       request.i18n = getI18n();
+      hFake.request = {
+        path: '/api/organizations/2/schooling-registrations/csv-template',
+      };
       const response = await organizationController.getOrganizationLearnersCsvTemplate(request, hFake);
 
       // then
       expect(response.headers['Content-Type']).to.equal('text/csv;charset=utf-8');
       expect(response.headers['Content-Disposition']).to.equal('attachment; filename=modele-import.csv');
+    });
+
+    it('should return information about deprecation when old route is used', async function () {
+      // when
+      request.i18n = getI18n();
+      hFake.request = {
+        path: '/api/organizations/2/schooling-registrations/csv-template',
+      };
+      const response = await organizationController.getOrganizationLearnersCsvTemplate(request, hFake);
+
+      // then
+      expect(response.headers['Deprecation']).to.equal('true');
+      expect(response.headers['Link']).to.equal(
+        '/api/organizations/2/sup-organization-learners/csv-template; rel="successor-version"'
+      );
+    });
+
+    it('should not return information about deprecation when new route is used', async function () {
+      // when
+      request.i18n = getI18n();
+      hFake.request = {
+        path: '/api/organizations/2/sup-organization-learners/csv-template',
+      };
+      const response = await organizationController.getOrganizationLearnersCsvTemplate(request, hFake);
+
+      // then
+      expect(response.headers['Deprecation']).to.not.exist;
     });
   });
 

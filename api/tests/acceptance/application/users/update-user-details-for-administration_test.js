@@ -138,6 +138,9 @@ describe('Acceptance | Controller | users-controller-update-user-details-for-adm
             'schooling-registrations': {
               data: [],
             },
+            'organization-learners': {
+              data: [],
+            },
             'authentication-methods': {
               data: [
                 {

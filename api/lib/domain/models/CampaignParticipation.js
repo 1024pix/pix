@@ -22,7 +22,7 @@ class CampaignParticipation {
     userId,
     validatedSkillsCount,
     pixScore,
-    schoolingRegistrationId,
+    organizationLearnerId,
   } = {}) {
     this.id = id;
     this.createdAt = createdAt;
@@ -37,11 +37,11 @@ class CampaignParticipation {
     this.status = status;
     this.validatedSkillsCount = validatedSkillsCount;
     this.pixScore = pixScore;
-    this.schoolingRegistrationId = schoolingRegistrationId;
+    this.organizationLearnerId = organizationLearnerId;
   }
 
   static start(campaignParticipation) {
-    const { schoolingRegistrationId = null } = campaignParticipation;
+    const { organizationLearnerId = null } = campaignParticipation;
     const { isAssessment } = campaignParticipation.campaign;
     const { STARTED, TO_SHARE } = CampaignParticipationStatuses;
 
@@ -50,7 +50,7 @@ class CampaignParticipation {
     return new CampaignParticipation({
       ...campaignParticipation,
       status,
-      schoolingRegistrationId,
+      organizationLearnerId,
     });
   }
 

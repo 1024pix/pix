@@ -17,9 +17,6 @@ describe('Integration | Application | Route | organization-learner-user-associat
       .stub(organizationLearnerUserAssociationController, 'reconcileOrganizationLearnerAutomatically')
       .callsFake((request, h) => h.response('ok').code(204));
     sinon
-      .stub(organizationLearnerUserAssociationController, 'findAssociation')
-      .callsFake((request, h) => h.response('ok').code(200));
-    sinon
       .stub(organizationLearnerUserAssociationController, 'generateUsername')
       .callsFake((request, h) => h.response('ok').code(200));
 
@@ -462,19 +459,6 @@ describe('Integration | Application | Route | organization-learner-user-associat
 
       // then
       expect(response.statusCode).to.equal(422);
-    });
-  });
-
-  describe('GET /api/schooling-registration-user-associations', function () {
-    const method = 'GET';
-    const url = '/api/schooling-registration-user-associations';
-
-    it('should exist', async function () {
-      // when
-      const response = await httpTestServer.request(method, url);
-
-      // then
-      expect(response.statusCode).to.equal(200);
     });
   });
 

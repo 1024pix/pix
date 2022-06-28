@@ -2,7 +2,7 @@ const { knex } = require('../../../db/knex-database-connection');
 
 module.exports = {
   async addNonEnrolledCandidatesToSession({ sessionId, scoCertificationCandidates }) {
-    const organizationLearnerIds = scoCertificationCandidates.map((candidate) => candidate.schoolingRegistrationId);
+    const organizationLearnerIds = scoCertificationCandidates.map((candidate) => candidate.organizationLearnerId);
 
     const alreadyEnrolledCandidate = await knex
       .select(['organizationLearnerId'])
@@ -16,9 +16,7 @@ module.exports = {
 
     const scoCandidateToDTO = _scoCandidateToDTOForSession(sessionId);
     const candidatesToBeEnrolledDTOs = scoCertificationCandidates
-      .filter(
-        (candidate) => !alreadyEnrolledCandidateOrganizationLearnerIds.includes(candidate.schoolingRegistrationId)
-      )
+      .filter((candidate) => !alreadyEnrolledCandidateOrganizationLearnerIds.includes(candidate.organizationLearnerId))
       .map(scoCandidateToDTO);
 
     await knex.batchInsert('certification-candidates', candidatesToBeEnrolledDTOs);
@@ -47,7 +45,7 @@ function _scoCandidateToDTOForSession(sessionId) {
       firstName: scoCandidate.firstName,
       lastName: scoCandidate.lastName,
       birthdate: scoCandidate.birthdate,
-      organizationLearnerId: scoCandidate.schoolingRegistrationId,
+      organizationLearnerId: scoCandidate.organizationLearnerId,
       sex: scoCandidate.sex,
       birthINSEECode: scoCandidate.birthINSEECode,
       birthCity: scoCandidate.birthCity,

@@ -50,7 +50,7 @@ class CampaignParticipant {
     this.campaignParticipation = CampaignParticipation.start({
       campaign: this.campaignToStartParticipation,
       userId: this.userIdentity.id,
-      schoolingRegistrationId: this.organizationLearnerId,
+      organizationLearnerId: this.organizationLearnerId,
       participantExternalId: participantExternalIdToUse,
     });
   }

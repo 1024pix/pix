@@ -559,14 +559,32 @@ describe('Unit | Router | organization-router', function () {
     });
   });
 
+  describe('POST /api/organizations/{id}/sup-organization-learners/import-csv', function () {
+    context('when the id not an integer', function () {
+      it('responds 400', async function () {
+        // given
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        const method = 'POST';
+        const url = '/api/organizations/qsdqsd/sup-organization-learners/import-csv';
+
+        // when
+        const response = await httpTestServer.request(method, url);
+
+        // then
+        expect(response.statusCode).to.equal(400);
+      });
+    });
+  });
+
   describe('POST /api/organizations/{id}/schooling-registrations/replace-csv', function () {
+    afterEach(function () {
+      sinon.restore();
+    });
     context(
       'when the user is an admin for the organization and the organization is SUP and manages student',
       function () {
-        afterEach(function () {
-          sinon.restore();
-        });
-
         it('responds 200', async function () {
           sinon.stub(organizationController, 'replaceSupOrganizationLearners');
           sinon.stub(securityPreHandlers, 'checkUserIsAdminInSUPOrganizationManagingStudents');
@@ -586,10 +604,6 @@ describe('Unit | Router | organization-router', function () {
     );
 
     context('when the user is not admin for the organization', function () {
-      afterEach(function () {
-        sinon.restore();
-      });
-
       it('responds 403', async function () {
         sinon.stub(organizationController, 'replaceSupOrganizationLearners');
         sinon.stub(securityPreHandlers, 'checkUserIsAdminInSUPOrganizationManagingStudents');
@@ -608,17 +622,104 @@ describe('Unit | Router | organization-router', function () {
         expect(response.statusCode).to.equal(403);
       });
     });
+
+    context('when the organization id is not an id', function () {
+      it('responds 400', async function () {
+        sinon.stub(organizationController, 'replaceSupOrganizationLearners');
+        sinon.stub(securityPreHandlers, 'checkUserIsAdminInSUPOrganizationManagingStudents');
+        organizationController.replaceSupOrganizationLearners.resolves('ok');
+        securityPreHandlers.checkUserIsAdminInSUPOrganizationManagingStudents.resolves(true);
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        const method = 'POST';
+        const url = '/api/organizations/asgfs/schooling-registrations/replace-csv';
+
+        const response = await httpTestServer.request(method, url);
+
+        expect(response.statusCode).to.equal(400);
+      });
+    });
+  });
+
+  describe('POST /api/organizations/{id}/sup-organization-learners/replace-csv', function () {
+    afterEach(function () {
+      sinon.restore();
+    });
+    context(
+      'when the user is an admin for the organization and the organization is SUP and manages student',
+      function () {
+        it('responds 200', async function () {
+          sinon.stub(organizationController, 'replaceSupOrganizationLearners');
+          sinon.stub(securityPreHandlers, 'checkUserIsAdminInSUPOrganizationManagingStudents');
+          organizationController.replaceSupOrganizationLearners.resolves('ok');
+          securityPreHandlers.checkUserIsAdminInSUPOrganizationManagingStudents.resolves(true);
+          const httpTestServer = new HttpTestServer();
+          await httpTestServer.register(moduleUnderTest);
+
+          const method = 'POST';
+          const url = '/api/organizations/1/sup-organization-learners/replace-csv';
+
+          const response = await httpTestServer.request(method, url);
+
+          expect(response.statusCode).to.equal(200);
+        });
+      }
+    );
+
+    context('when the user is not admin for the organization', function () {
+      it('responds 403', async function () {
+        sinon.stub(organizationController, 'replaceSupOrganizationLearners');
+        sinon.stub(securityPreHandlers, 'checkUserIsAdminInSUPOrganizationManagingStudents');
+        organizationController.replaceSupOrganizationLearners.resolves('ok');
+        securityPreHandlers.checkUserIsAdminInSUPOrganizationManagingStudents.callsFake((request, h) =>
+          h.response().code(403).takeover()
+        );
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        const method = 'POST';
+        const url = '/api/organizations/1/sup-organization-learners/replace-csv';
+
+        const response = await httpTestServer.request(method, url);
+
+        expect(response.statusCode).to.equal(403);
+      });
+    });
+
+    context('when the organization id is not an id', function () {
+      it('responds 400', async function () {
+        sinon.stub(organizationController, 'replaceSupOrganizationLearners');
+        sinon.stub(securityPreHandlers, 'checkUserIsAdminInSUPOrganizationManagingStudents');
+        organizationController.replaceSupOrganizationLearners.resolves('ok');
+        securityPreHandlers.checkUserIsAdminInSUPOrganizationManagingStudents.resolves(true);
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        const method = 'POST';
+        const url = '/api/organizations/asgfs/sup-organization-learners/replace-csv';
+
+        const response = await httpTestServer.request(method, url);
+
+        expect(response.statusCode).to.equal(400);
+      });
+    });
   });
 
   describe('GET /api/organizations/{id}/schooling-registrations/csv-template', function () {
-    it('should call the organization controller to csv template', async function () {
-      // given
+    let httpTestServer;
+
+    beforeEach(async function () {
       sinon
         .stub(organizationController, 'getOrganizationLearnersCsvTemplate')
         .callsFake((request, h) => h.response('ok').code(200));
-      const httpTestServer = new HttpTestServer();
-      await httpTestServer.register(moduleUnderTest);
 
+      httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+    });
+
+    it('should call the organization controller to csv template', async function () {
+      // given
       const method = 'GET';
       const url = '/api/organizations/1/schooling-registrations/csv-template?accessToken=token';
 
@@ -633,9 +734,6 @@ describe('Unit | Router | organization-router', function () {
     describe('When parameters are not valid', function () {
       it('should throw an error when id is not a number', async function () {
         // given
-        const httpTestServer = new HttpTestServer();
-        await httpTestServer.register(moduleUnderTest);
-
         const method = 'GET';
         const url = '/api/organizations/ABC/schooling-registrations/csv-template?accessToken=token';
 
@@ -648,9 +746,6 @@ describe('Unit | Router | organization-router', function () {
 
       it('should throw an error when id is null', async function () {
         // given
-        const httpTestServer = new HttpTestServer();
-        await httpTestServer.register(moduleUnderTest);
-
         const method = 'GET';
         const url = '/api/organizations/null/schooling-registrations/csv-template?accessToken=token';
 
@@ -663,11 +758,8 @@ describe('Unit | Router | organization-router', function () {
 
       it('should throw an error when access token is not specified', async function () {
         // given
-        const httpTestServer = new HttpTestServer();
-        await httpTestServer.register(moduleUnderTest);
-
         const method = 'GET';
-        const url = '/api/organizations/ABC/schooling-registrations/csv-template';
+        const url = '/api/organizations/1/schooling-registrations/csv-template';
 
         // when
         const response = await httpTestServer.request(method, url);
@@ -675,14 +767,39 @@ describe('Unit | Router | organization-router', function () {
         // then
         expect(response.statusCode).to.equal(400);
       });
+    });
+  });
 
-      it('should throw an error when access token is null', async function () {
+  describe('GET /api/organizations/{id}/sup-organization-learners/csv-template', function () {
+    let httpTestServer;
+
+    beforeEach(async function () {
+      sinon
+        .stub(organizationController, 'getOrganizationLearnersCsvTemplate')
+        .callsFake((request, h) => h.response('ok').code(200));
+
+      httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+    });
+
+    it('should call the organization controller to csv template', async function () {
+      // given
+      const method = 'GET';
+      const url = '/api/organizations/1/sup-organization-learners/csv-template?accessToken=token';
+
+      // when
+      const response = await httpTestServer.request(method, url);
+
+      // then
+      expect(response.statusCode).to.equal(200);
+      expect(organizationController.getOrganizationLearnersCsvTemplate).to.have.been.calledOnce;
+    });
+
+    describe('When parameters are not valid', function () {
+      it('should throw an error when id is not a number', async function () {
         // given
-        const httpTestServer = new HttpTestServer();
-        await httpTestServer.register(moduleUnderTest);
-
         const method = 'GET';
-        const url = '/api/organizations/null/schooling-registrations/csv-template?accessToken=null';
+        const url = '/api/organizations/ABC/sup-organization-learners/csv-template?accessToken=token';
 
         // when
         const response = await httpTestServer.request(method, url);
@@ -690,6 +807,112 @@ describe('Unit | Router | organization-router', function () {
         // then
         expect(response.statusCode).to.equal(400);
       });
+
+      it('should throw an error when id is null', async function () {
+        // given
+        const method = 'GET';
+        const url = '/api/organizations/null/sup-organization-learners/csv-template?accessToken=token';
+
+        // when
+        const response = await httpTestServer.request(method, url);
+
+        // then
+        expect(response.statusCode).to.equal(400);
+      });
+
+      it('should throw an error when access token is not specified', async function () {
+        // given
+        const method = 'GET';
+        const url = '/api/organizations/1/sup-organization-learners/csv-template';
+
+        // when
+        const response = await httpTestServer.request(method, url);
+
+        // then
+        expect(response.statusCode).to.equal(400);
+      });
+    });
+  });
+
+  describe('POST /api/organizations/{id}/schooling-registrations/import-siecle', function () {
+    it('should call the organization controller to import organizationLearners', async function () {
+      // given
+      const method = 'POST';
+      const url = '/api/organizations/1/schooling-registrations/import-siecle';
+      const payload = {};
+
+      sinon
+        .stub(securityPreHandlers, 'checkUserIsAdminInSCOOrganizationManagingStudents')
+        .callsFake((request, h) => h.response(true));
+      sinon
+        .stub(organizationController, 'importOrganizationLearnersFromSIECLE')
+        .callsFake((request, h) => h.response('ok').code(201));
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      // when
+      const response = await httpTestServer.request(method, url, payload);
+
+      // then
+      expect(response.statusCode).to.equal(201);
+      expect(organizationController.importOrganizationLearnersFromSIECLE).to.have.been.calledOnce;
+    });
+
+    it('should throw an error when id is invalid', async function () {
+      // given
+      const method = 'POST';
+      const url = '/api/organizations/wrongId/schooling-registrations/import-siecle';
+      const payload = {};
+
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      // when
+      const response = await httpTestServer.request(method, url, payload);
+
+      // then
+      expect(response.statusCode).to.equal(400);
+    });
+  });
+
+  describe('POST /api/organizations/{id}/sco-organization-learners/import-siecle', function () {
+    it('should call the organization controller to import organizationLearners', async function () {
+      // given
+      const method = 'POST';
+      const url = '/api/organizations/1/sco-organization-learners/import-siecle';
+      const payload = {};
+
+      sinon
+        .stub(securityPreHandlers, 'checkUserIsAdminInSCOOrganizationManagingStudents')
+        .callsFake((request, h) => h.response(true));
+      sinon
+        .stub(organizationController, 'importOrganizationLearnersFromSIECLE')
+        .callsFake((request, h) => h.response('ok').code(201));
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      // when
+      const response = await httpTestServer.request(method, url, payload);
+
+      // then
+      expect(response.statusCode).to.equal(201);
+      expect(organizationController.importOrganizationLearnersFromSIECLE).to.have.been.calledOnce;
+    });
+
+    it('should throw an error when id is invalid', async function () {
+      // given
+      const method = 'POST';
+      const url = '/api/organizations/wrongId/sco-organization-learners/import-siecle';
+      const payload = {};
+
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      // when
+      const response = await httpTestServer.request(method, url, payload);
+
+      // then
+      expect(response.statusCode).to.equal(400);
     });
   });
 

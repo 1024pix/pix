@@ -352,7 +352,7 @@ describe('Acceptance | API | Certification Center', function () {
     let request;
     const externalId = 'XXXX';
 
-    function _buildSchoolinRegistrationsWithConnectedUserRequest(user, certificationCenter, session) {
+    function _buildOrganizationLearnersWithConnectedUserRequest(user, certificationCenter, session) {
       return {
         method: 'GET',
         url:
@@ -364,7 +364,7 @@ describe('Acceptance | API | Certification Center', function () {
         headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
       };
     }
-    function _buildSchoolinRegistrationsNotConnectedUserRequest(certificationCenter, session) {
+    function _buildOrganizationLearnersNotConnectedUserRequest(certificationCenter, session) {
       return {
         method: 'GET',
         url:
@@ -385,7 +385,7 @@ describe('Acceptance | API | Certification Center', function () {
         _buildOrganizationLearners(organization, { firstName: 'Laura', lastName: 'certifForEver', division: '2ndB' });
         await databaseBuilder.commit();
 
-        const request = _buildSchoolinRegistrationsWithConnectedUserRequest(user, certificationCenter, session);
+        const request = _buildOrganizationLearnersWithConnectedUserRequest(user, certificationCenter, session);
 
         // when
         const response = await server.inject(request);
@@ -409,7 +409,7 @@ describe('Acceptance | API | Certification Center', function () {
         );
         await databaseBuilder.commit();
 
-        const request = _buildSchoolinRegistrationsWithConnectedUserRequest(user, certificationCenter, session);
+        const request = _buildOrganizationLearnersWithConnectedUserRequest(user, certificationCenter, session);
 
         // when
         const response = await server.inject(request);
@@ -432,7 +432,7 @@ describe('Acceptance | API | Certification Center', function () {
         });
         await databaseBuilder.commit();
 
-        request = _buildSchoolinRegistrationsNotConnectedUserRequest(
+        request = _buildOrganizationLearnersNotConnectedUserRequest(
           certificationCenterWhereUserDoesNotHaveAccess,
           session
         );

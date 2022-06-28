@@ -6,38 +6,7 @@ const organizationLearnerUserAssociationController = require('./organization-lea
 const identifiersType = require('../../domain/types/identifiers-type');
 
 exports.register = async function (server) {
-  const adminRoutes = [
-    {
-      method: 'DELETE',
-      path: '/api/admin/schooling-registration-user-associations/{id}',
-      config: {
-        pre: [
-          {
-            method: (request, h) =>
-              securityPreHandlers.userHasAtLeastOneAccessOf([
-                securityPreHandlers.checkUserHasRoleSuperAdmin,
-                securityPreHandlers.checkUserHasRoleSupport,
-              ])(request, h),
-            assign: 'hasAuthorizationToAccessAdminScope',
-          },
-        ],
-        handler: organizationLearnerUserAssociationController.dissociate,
-        validate: {
-          params: Joi.object({
-            id: identifiersType.schoolingRegistrationId,
-          }),
-        },
-        notes: [
-          "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n" +
-            '- Elle dissocie un utilisateur d’une inscription d’élève',
-        ],
-        tags: ['api', 'admin', 'organizationLearnerUserAssociation'],
-      },
-    },
-  ];
-
   server.route([
-    ...adminRoutes,
     {
       method: 'POST',
       path: '/api/schooling-registration-user-associations',
@@ -130,19 +99,6 @@ exports.register = async function (server) {
       },
     },
     {
-      method: 'GET',
-      path: '/api/schooling-registration-user-associations',
-      config: {
-        handler: organizationLearnerUserAssociationController.findAssociation,
-        notes: [
-          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-            "- Récupération de l'inscription de l'élève à l'organisation, et de l'utilisateur associé\n" +
-            '- L’id demandé doit correspondre à celui de l’utilisateur authentifié',
-        ],
-        tags: ['api', 'organizationLearnerUserAssociation'],
-      },
-    },
-    {
       method: 'PUT',
       path: '/api/schooling-registration-user-associations/possibilities',
       config: {
@@ -212,36 +168,6 @@ exports.register = async function (server) {
             '- Elle met à jour le numéro étudiant',
         ],
         tags: ['api', 'organizationLearnerUserAssociation'],
-      },
-    },
-
-    {
-      method: 'DELETE',
-      path: '/api/schooling-registration-user-associations/{id}',
-      config: {
-        pre: [
-          {
-            method: (request, h) =>
-              securityPreHandlers.userHasAtLeastOneAccessOf([
-                securityPreHandlers.checkUserHasRoleSuperAdmin,
-                securityPreHandlers.checkUserHasRoleCertif,
-                securityPreHandlers.checkUserHasRoleSupport,
-                securityPreHandlers.checkUserHasRoleMetier,
-              ])(request, h),
-            assign: 'hasAuthorizationToAccessAdminScope',
-          },
-        ],
-        handler: organizationLearnerUserAssociationController.dissociate,
-        validate: {
-          params: Joi.object({
-            id: identifiersType.schoolingRegistrationId,
-          }),
-        },
-        notes: [
-          "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n" +
-            '- Elle dissocie un utilisateur d’une inscription d’élève',
-        ],
-        tags: ['api', 'admin', 'schoolingRegistrationUserAssociation'],
       },
     },
   ]);

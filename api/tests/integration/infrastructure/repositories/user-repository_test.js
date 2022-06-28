@@ -786,8 +786,8 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
         const userDetailsForAdmin = await userRepository.getUserDetailsForAdmin(userInDB.id);
 
         // then
-        expect(userDetailsForAdmin.schoolingRegistrations.length).to.equal(2);
-        const organizationLearners = userDetailsForAdmin.schoolingRegistrations;
+        expect(userDetailsForAdmin.organizationLearners.length).to.equal(2);
+        const organizationLearners = userDetailsForAdmin.organizationLearners;
         expect(organizationLearners[0]).to.be.instanceOf(OrganizationLearnerForAdmin);
 
         const expectedOrganizationLearners = [

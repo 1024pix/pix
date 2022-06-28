@@ -33,7 +33,7 @@ describe('Unit | UseCase | enroll-students-to-session', function () {
           birthCity: sr.birthCity,
           sex: sr.sex,
           sessionId: sessionId,
-          schoolingRegistrationId: sr.id,
+          organizationLearnerId: sr.id,
         });
       });
 
@@ -105,7 +105,7 @@ describe('Unit | UseCase | enroll-students-to-session', function () {
         birthCountry: country.name,
         birthCity: organizationLearner.birthCity,
         sessionId: sessionId,
-        schoolingRegistrationId: 1,
+        organizationLearnerId: 1,
       });
 
       const scoCertificationCandidateRepository = new InMemorySCOCertificationCandidateRepository();

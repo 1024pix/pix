@@ -232,7 +232,17 @@ module.exports = {
       format,
       i18n: request.i18n,
     });
-    return h.response(null).code(204);
+
+    const response = h.response(null).code(204);
+    if (h.request.path === `/api/organizations/${request.params.id}/schooling-registrations/import-siecle`) {
+      response
+        .header('Deprecation', 'true')
+        .header(
+          'Link',
+          `/api/organizations/${request.params.id}/sco-organization-learners/import-siecle; rel="successor-version"`
+        );
+    }
+    return response;
   },
 
   async importSupOrganizationLearners(request, h) {
@@ -241,8 +251,18 @@ module.exports = {
     const supOrganizationLearnerParser = new SupOrganizationLearnerParser(buffer, organizationId, request.i18n);
     const warnings = await usecases.importSupOrganizationLearners({ supOrganizationLearnerParser });
 
-    const response = supOrganizationLearnerWarningSerializer.serialize({ id: organizationId, warnings });
-    return h.response(response).code(200);
+    const response = h
+      .response(supOrganizationLearnerWarningSerializer.serialize({ id: organizationId, warnings }))
+      .code(200);
+    if (h.request.path === `/api/organizations/${request.params.id}/schooling-registrations/import-csv`) {
+      response
+        .header('Deprecation', 'true')
+        .header(
+          'Link',
+          `/api/organizations/${request.params.id}/sup-organization-learners/import-csv; rel="successor-version"`
+        );
+    }
+    return response;
   },
 
   async replaceSupOrganizationLearners(request, h) {
@@ -253,8 +273,19 @@ module.exports = {
       organizationId,
       supOrganizationLearnerParser,
     });
-    const response = supOrganizationLearnerWarningSerializer.serialize({ id: organizationId, warnings });
-    return h.response(response).code(200);
+
+    const response = h
+      .response(supOrganizationLearnerWarningSerializer.serialize({ id: organizationId, warnings }))
+      .code(200);
+    if (h.request.path === `/api/organizations/${request.params.id}/schooling-registrations/replace-csv`) {
+      response
+        .header('Deprecation', 'true')
+        .header(
+          'Link',
+          `/api/organizations/${request.params.id}/sup-organization-learners/replace-csv; rel="successor-version"`
+        );
+    }
+    return response;
   },
 
   async sendInvitations(request, h) {
@@ -304,10 +335,19 @@ module.exports = {
       i18n: request.i18n,
     });
 
-    return h
+    const response = h
       .response(template)
       .header('Content-Type', 'text/csv;charset=utf-8')
       .header('Content-Disposition', `attachment; filename=${request.i18n.__('csv-template.template-name')}.csv`);
+    if (h.request.path === `/api/organizations/${request.params.id}/schooling-registrations/csv-template`) {
+      response
+        .header('Deprecation', 'true')
+        .header(
+          'Link',
+          `/api/organizations/${request.params.id}/sup-organization-learners/csv-template; rel="successor-version"`
+        );
+    }
+    return response;
   },
 
   async archiveOrganization(request) {

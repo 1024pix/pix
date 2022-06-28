@@ -12,7 +12,7 @@ describe('Unit | Domain | Models | SCO Certification Candidate', function () {
       sex: 'F',
       birthINSEECode: '75101',
       sessionId: 123,
-      schoolingRegistrationId: 456,
+      organizationLearnerId: 456,
     };
 
     context('when all required fields are presents', function () {
@@ -64,7 +64,7 @@ describe('Unit | Domain | Models | SCO Certification Candidate', function () {
     });
 
     // eslint-disable-next-line mocha/no-setup-in-describe
-    ['sessionId', 'schoolingRegistrationId'].forEach((field) => {
+    ['sessionId', 'organizationLearnerId'].forEach((field) => {
       it(`should throw an error when field ${field} is not a number`, async function () {
         const error = await catchErr(buildSCOCertificationCandidate)({ ...validAttributes, [field]: 'salut' });
 

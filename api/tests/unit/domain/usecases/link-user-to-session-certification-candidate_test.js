@@ -333,7 +333,7 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candida
 
             const organizationLearnerRepository =
               _buildFakeOrganizationLearnerRepository().withIsOrganizationLearnerIdLinkedToUserAndSCOOrganization({
-                args: { userId, organizationLearnerId: certificationCandidate.schoolingRegistrationId },
+                args: { userId, organizationLearnerId: certificationCandidate.organizationLearnerId },
                 resolves: false,
               });
 
@@ -366,7 +366,7 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candida
                 firstName,
                 lastName,
                 birthdate,
-                schoolingRegistrationId: organizationLearner.id,
+                organizationLearnerId: organizationLearner.id,
               });
               const certificationCandidateRepository = _buildFakeCertificationCandidateRepository()
                 .withFindBySessionIdAndPersonalInfo({
@@ -407,7 +407,7 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candida
 
               const organizationLearnerRepository =
                 _buildFakeOrganizationLearnerRepository().withIsOrganizationLearnerIdLinkedToUserAndSCOOrganization({
-                  args: { userId, organizationLearnerId: certificationCandidate.schoolingRegistrationId },
+                  args: { userId, organizationLearnerId: certificationCandidate.organizationLearnerId },
                   resolves: true,
                 });
 
@@ -446,7 +446,7 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candida
                 firstName,
                 lastName,
                 birthdate,
-                schoolingRegistrationId: organizationLearner.id,
+                organizationLearnerId: organizationLearner.id,
               });
               const certificationCandidateRepository = _buildFakeCertificationCandidateRepository()
                 .withFindBySessionIdAndPersonalInfo({
@@ -487,7 +487,7 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candida
 
               const organizationLearnerRepository =
                 _buildFakeOrganizationLearnerRepository().withIsOrganizationLearnerIdLinkedToUserAndSCOOrganization({
-                  args: { userId, organizationLearnerId: certificationCandidate.schoolingRegistrationId },
+                  args: { userId, organizationLearnerId: certificationCandidate.organizationLearnerId },
                   resolves: true,
                 });
 
@@ -553,7 +553,7 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candida
 
           const organizationLearnerRepository =
             _buildFakeOrganizationLearnerRepository().withIsOrganizationLearnerIdLinkedToUserAndSCOOrganization({
-              args: { userId, organizationLearnerId: certificationCandidate.schoolingRegistrationId },
+              args: { userId, organizationLearnerId: certificationCandidate.organizationLearnerId },
               resolves: true,
             });
 
