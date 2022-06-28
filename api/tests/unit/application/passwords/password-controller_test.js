@@ -109,7 +109,7 @@ describe('Unit | Controller | PasswordController', function () {
         data: {
           type: 'reset-expired-password-demands',
           attributes: {
-            username: 'beth.rave1221',
+            login: 'beth.rave1221',
           },
         },
       });
