@@ -50,6 +50,7 @@ module('Unit | Route | authenticated/campaigns/campaign/profile-results', functi
             divisions: params.divisions,
             groups: params.groups,
             campaignId: params.campaignId,
+            search: params.search,
           },
         })
         .returns(expectedSummaries);

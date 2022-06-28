@@ -335,7 +335,7 @@ describe('Integration | Repository | Campaign Profiles Collection Participation 
     });
 
     describe('when there is a filter on the firstname and lastname', function () {
-      beforeEach(async function () {
+      it('returns all participants if the filter is empty', async function () {
         // given
         const { id: organizationLearnerId1 } = databaseBuilder.factory.buildOrganizationLearner({
           organizationId,
@@ -343,6 +343,7 @@ describe('Integration | Repository | Campaign Profiles Collection Participation 
           firstName: 'Laa-Laa',
           lastName: 'Teletubbies',
         });
+
         const participation1 = {
           participantExternalId: "Can't get Enough Of Your Love, Baby",
           campaignId,
@@ -356,6 +357,7 @@ describe('Integration | Repository | Campaign Profiles Collection Participation 
           firstName: 'Dipsy',
           lastName: 'Teletubbies',
         });
+
         const participation2 = {
           participantExternalId: "You're The First, The last, My Everything",
           campaignId,
@@ -363,23 +365,8 @@ describe('Integration | Repository | Campaign Profiles Collection Participation 
         };
         databaseBuilder.factory.buildCampaignParticipation(participation2);
 
-        const { id: organizationLearnerId3 } = databaseBuilder.factory.buildOrganizationLearner({
-          organizationId,
-          group: 'Barry',
-          firstName: 'Po',
-          lastName: 'Teletubbies',
-        });
-        const participation3 = {
-          participantExternalId: "Ain't No Mountain High Enough",
-          campaignId,
-          organizationLearnerId: organizationLearnerId3,
-        };
-        databaseBuilder.factory.buildCampaignParticipation(participation3);
-
         await databaseBuilder.commit();
-      });
 
-      it('returns all participants if the filter is empty', async function () {
         // when
         const results = await campaignProfilesCollectionParticipationSummaryRepository.findPaginatedByCampaignId(
           campaignId,
@@ -388,10 +375,41 @@ describe('Integration | Repository | Campaign Profiles Collection Participation 
         );
 
         // then
-        expect(results.data.length).to.equal(3);
+        expect(results.data.length).to.equal(2);
       });
 
       it('returns Laa-Laa when we search part of its firstname', async function () {
+        // given
+        const { id: organizationLearnerId1 } = databaseBuilder.factory.buildOrganizationLearner({
+          organizationId,
+          group: 'Barry',
+          firstName: 'Laa-Laa',
+          lastName: 'Teletubbies',
+        });
+
+        const participation1 = {
+          participantExternalId: "Can't get Enough Of Your Love, Baby",
+          campaignId,
+          organizationLearnerId: organizationLearnerId1,
+        };
+        databaseBuilder.factory.buildCampaignParticipation(participation1);
+
+        const { id: organizationLearnerId2 } = databaseBuilder.factory.buildOrganizationLearner({
+          organizationId,
+          group: 'White',
+          firstName: 'Dipsy',
+          lastName: 'Teletubbies',
+        });
+
+        const participation2 = {
+          participantExternalId: "You're The First, The last, My Everything",
+          campaignId,
+          organizationLearnerId: organizationLearnerId2,
+        };
+        databaseBuilder.factory.buildCampaignParticipation(participation2);
+
+        await databaseBuilder.commit();
+
         // when
         const results = await campaignProfilesCollectionParticipationSummaryRepository.findPaginatedByCampaignId(
           campaignId,
@@ -405,6 +423,37 @@ describe('Integration | Repository | Campaign Profiles Collection Participation 
       });
 
       it('returns Laa-Laa when we search part of its firstname with a space before', async function () {
+        // given
+        const { id: organizationLearnerId1 } = databaseBuilder.factory.buildOrganizationLearner({
+          organizationId,
+          group: 'Barry',
+          firstName: 'Laa-Laa',
+          lastName: 'Teletubbies',
+        });
+
+        const participation1 = {
+          participantExternalId: "Can't get Enough Of Your Love, Baby",
+          campaignId,
+          organizationLearnerId: organizationLearnerId1,
+        };
+        databaseBuilder.factory.buildCampaignParticipation(participation1);
+
+        const { id: organizationLearnerId2 } = databaseBuilder.factory.buildOrganizationLearner({
+          organizationId,
+          group: 'White',
+          firstName: 'Dipsy',
+          lastName: 'Teletubbies',
+        });
+
+        const participation2 = {
+          participantExternalId: "You're The First, The last, My Everything",
+          campaignId,
+          organizationLearnerId: organizationLearnerId2,
+        };
+        databaseBuilder.factory.buildCampaignParticipation(participation2);
+
+        await databaseBuilder.commit();
+
         // when
         const results = await campaignProfilesCollectionParticipationSummaryRepository.findPaginatedByCampaignId(
           campaignId,
@@ -418,6 +467,37 @@ describe('Integration | Repository | Campaign Profiles Collection Participation 
       });
 
       it('returns Laa-Laa when we search part of its firstname with a space after', async function () {
+        // given
+        const { id: organizationLearnerId1 } = databaseBuilder.factory.buildOrganizationLearner({
+          organizationId,
+          group: 'Barry',
+          firstName: 'Laa-Laa',
+          lastName: 'Teletubbies',
+        });
+
+        const participation1 = {
+          participantExternalId: "Can't get Enough Of Your Love, Baby",
+          campaignId,
+          organizationLearnerId: organizationLearnerId1,
+        };
+        databaseBuilder.factory.buildCampaignParticipation(participation1);
+
+        const { id: organizationLearnerId2 } = databaseBuilder.factory.buildOrganizationLearner({
+          organizationId,
+          group: 'White',
+          firstName: 'Dipsy',
+          lastName: 'Teletubbies',
+        });
+
+        const participation2 = {
+          participantExternalId: "You're The First, The last, My Everything",
+          campaignId,
+          organizationLearnerId: organizationLearnerId2,
+        };
+        databaseBuilder.factory.buildCampaignParticipation(participation2);
+
+        await databaseBuilder.commit();
+
         // when
         const results = await campaignProfilesCollectionParticipationSummaryRepository.findPaginatedByCampaignId(
           campaignId,
@@ -431,6 +511,37 @@ describe('Integration | Repository | Campaign Profiles Collection Participation 
       });
 
       it('returns Laa-Laa when we search part of its fullname', async function () {
+        // given
+        const { id: organizationLearnerId1 } = databaseBuilder.factory.buildOrganizationLearner({
+          organizationId,
+          group: 'Barry',
+          firstName: 'Laa-Laa',
+          lastName: 'Teletubbies',
+        });
+
+        const participation1 = {
+          participantExternalId: "Can't get Enough Of Your Love, Baby",
+          campaignId,
+          organizationLearnerId: organizationLearnerId1,
+        };
+        databaseBuilder.factory.buildCampaignParticipation(participation1);
+
+        const { id: organizationLearnerId2 } = databaseBuilder.factory.buildOrganizationLearner({
+          organizationId,
+          group: 'White',
+          firstName: 'Dipsy',
+          lastName: 'Teletubbies',
+        });
+
+        const participation2 = {
+          participantExternalId: "You're The First, The last, My Everything",
+          campaignId,
+          organizationLearnerId: organizationLearnerId2,
+        };
+        databaseBuilder.factory.buildCampaignParticipation(participation2);
+
+        await databaseBuilder.commit();
+
         // when
         const results = await campaignProfilesCollectionParticipationSummaryRepository.findPaginatedByCampaignId(
           campaignId,
@@ -444,6 +555,45 @@ describe('Integration | Repository | Campaign Profiles Collection Participation 
       });
 
       it('returns Laa-Laa when we search similar part of lastname', async function () {
+        // given
+        const { id: organizationLearnerId1 } = databaseBuilder.factory.buildOrganizationLearner({
+          organizationId,
+          group: 'Barry',
+          firstName: 'Laa-Laa',
+          lastName: 'Teletubbies',
+        });
+        const participation1 = {
+          participantExternalId: "Can't get Enough Of Your Love, Baby",
+          campaignId,
+          organizationLearnerId: organizationLearnerId1,
+        };
+        databaseBuilder.factory.buildCampaignParticipation(participation1);
+        const { id: organizationLearnerId2 } = databaseBuilder.factory.buildOrganizationLearner({
+          organizationId,
+          group: 'White',
+          firstName: 'Dipsy',
+          lastName: 'Teletubbies',
+        });
+        const participation2 = {
+          participantExternalId: "You're The First, The last, My Everything",
+          campaignId,
+          organizationLearnerId: organizationLearnerId2,
+        };
+        databaseBuilder.factory.buildCampaignParticipation(participation2);
+        const { id: organizationLearnerId3 } = databaseBuilder.factory.buildOrganizationLearner({
+          organizationId,
+          group: 'Barry',
+          firstName: 'Maya',
+          lastName: 'L abeille',
+        });
+        const participation3 = {
+          participantExternalId: "Ain't No Mountain High Enough",
+          campaignId,
+          organizationLearnerId: organizationLearnerId3,
+        };
+        databaseBuilder.factory.buildCampaignParticipation(participation3);
+        await databaseBuilder.commit();
+
         // when
         const results = await campaignProfilesCollectionParticipationSummaryRepository.findPaginatedByCampaignId(
           campaignId,
@@ -452,10 +602,9 @@ describe('Integration | Repository | Campaign Profiles Collection Participation 
         );
 
         // then
-        expect(results.data.length).to.equal(3);
+        expect(results.data.length).to.equal(2);
         expect(results.data[0].firstName).to.equal('Dipsy');
         expect(results.data[1].firstName).to.equal('Laa-Laa');
-        expect(results.data[2].firstName).to.equal('Po');
       });
     });
   });
