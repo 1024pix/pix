@@ -6,6 +6,7 @@ const dependenciesBuilder = require('../infrastructure/events/DependenciesBuilde
 const PgBoss = require('pg-boss');
 
 async function runJobs() {
+  // eslint-disable-next-line node/no-process-env
   const pgBoss = new PgBoss(process.env.DATABASE_URL);
   await pgBoss.start();
   const jobQueue = new JobQueue(pgBoss, dependenciesBuilder);

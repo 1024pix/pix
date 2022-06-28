@@ -1,3 +1,4 @@
+/* eslint-disable node/no-process-env*/
 const path = require('path');
 const moment = require('moment');
 const ms = require('ms');
@@ -179,6 +180,7 @@ module.exports = (function () {
       pixCertifScoBlockedAccessWhitelist: getArrayOfStrings(process.env.PIX_CERTIF_SCO_BLOCKED_ACCESS_WHITELIST),
       pixCertifScoBlockedAccessDateLycee: process.env.PIX_CERTIF_SCO_BLOCKED_ACCESS_DATE_LYCEE,
       pixCertifScoBlockedAccessDateCollege: process.env.PIX_CERTIF_SCO_BLOCKED_ACCESS_DATE_COLLEGE,
+      scoAccountRecoveryKeyLifetimeMinutes: process.env.SCO_ACCOUNT_RECOVERY_KEY_LIFETIME_MINUTES,
     },
 
     featureToggles: {
@@ -380,3 +382,4 @@ module.exports = (function () {
 
   return config;
 })();
+/* eslint-enable node/no-process-env*/
