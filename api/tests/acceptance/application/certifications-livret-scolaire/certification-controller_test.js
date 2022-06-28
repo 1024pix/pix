@@ -207,7 +207,7 @@ describe('Acceptance | API | Certifications', function () {
         const organizationLearner = buildOrganizationLearner({ userId: user.id, organizationId });
         const { session, certificationCourse } = buildValidatedPublishedCertificationData({
           user,
-          schoolingRegistration: organizationLearner,
+          organizationLearner,
           verificationCode,
           type,
           pixScore,

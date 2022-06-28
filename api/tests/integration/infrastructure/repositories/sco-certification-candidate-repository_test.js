@@ -36,11 +36,11 @@ describe('Integration | Repository | SCOCertificationCandidate', function () {
       const scoCandidates = [
         domainBuilder.buildSCOCertificationCandidate({
           ...scoCandidateAlreadySaved1,
-          schoolingRegistrationId: scoCandidateAlreadySaved1.organizationLearnerId,
+          organizationLearnerId: scoCandidateAlreadySaved1.organizationLearnerId,
         }),
         domainBuilder.buildSCOCertificationCandidate({
           ...scoCandidateAlreadySaved2,
-          schoolingRegistrationId: scoCandidateAlreadySaved2.organizationLearnerId,
+          organizationLearnerId: scoCandidateAlreadySaved2.organizationLearnerId,
         }),
         domainBuilder.buildSCOCertificationCandidate({
           id: null,
@@ -49,12 +49,12 @@ describe('Integration | Repository | SCOCertificationCandidate', function () {
           birthdate: '2001-01-04',
           sex: 'M',
           birthINSEECode: '75005',
-          schoolingRegistrationId: organizationLearnerId3,
+          organizationLearnerId: organizationLearnerId3,
           sessionId,
         }),
         domainBuilder.buildSCOCertificationCandidate({
           id: null,
-          schoolingRegistrationId: organizationLearnerId4,
+          organizationLearnerId: organizationLearnerId4,
           sessionId,
         }),
       ];
@@ -72,7 +72,7 @@ describe('Integration | Repository | SCOCertificationCandidate', function () {
         'birthdate',
         'sex',
         'birthINSEECode',
-        'organizationLearnerId AS schoolingRegistrationId',
+        'organizationLearnerId',
         'sessionId',
       ]);
       const actualCandidates = candidatesToBeCompared(candidates);
@@ -246,7 +246,7 @@ function fieldsToBeCompared(candidate) {
     'birthdate',
     'sex',
     'birthINSEECode',
-    'schoolingRegistrationId',
+    'organizationLearnerId',
     'sessionId',
   ]);
 }

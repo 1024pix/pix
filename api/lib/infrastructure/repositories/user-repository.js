@@ -129,11 +129,11 @@ module.exports = {
         ],
         withRelated: [
           {
-            schoolingRegistrations: (query) => {
+            organizationLearners: (query) => {
               query.leftJoin('organizations', 'organization-learners.organizationId', 'organizations.id').orderBy('id');
             },
           },
-          'schoolingRegistrations.organization',
+          'organizationLearners.organization',
           'authenticationMethods',
         ],
       })
@@ -451,7 +451,7 @@ function _toUserDetailsForAdminDomain(bookshelfUser) {
     lastPixCertifTermsOfServiceValidatedAt: rawUserDetailsForAdmin.lastPixCertifTermsOfServiceValidatedAt,
     lastLoggedAt: rawUserDetailsForAdmin.lastLoggedAt,
     emailConfirmedAt: rawUserDetailsForAdmin.emailConfirmedAt,
-    schoolingRegistrations: _toOrganizationLearnersForAdmin(rawUserDetailsForAdmin.schoolingRegistrations),
+    organizationLearners: _toOrganizationLearnersForAdmin(rawUserDetailsForAdmin.organizationLearners),
     authenticationMethods: rawUserDetailsForAdmin.authenticationMethods,
   });
 }

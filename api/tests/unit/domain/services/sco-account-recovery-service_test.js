@@ -142,7 +142,7 @@ describe('Unit | Service | sco-account-recovery-service', function () {
           });
           const accountRecoveryDemand = domainBuilder.buildAccountRecoveryDemand({
             userId: expectedUser.id,
-            schoolingRegistrationId: lastOrganizationLearner.id,
+            organizationLearnerId: lastOrganizationLearner.id,
           });
 
           organizationLearnerRepository.getLatestOrganizationLearner
@@ -228,7 +228,7 @@ describe('Unit | Service | sco-account-recovery-service', function () {
           });
           const accountRecoveryDemand = domainBuilder.buildAccountRecoveryDemand({
             userId: user.id,
-            schoolingRegistrationId: secondOrganizationLearner.id,
+            organizationLearnerId: secondOrganizationLearner.id,
           });
 
           organizationLearnerRepository.getLatestOrganizationLearner
@@ -292,7 +292,7 @@ describe('Unit | Service | sco-account-recovery-service', function () {
         });
         const accountRecoveryDemand = domainBuilder.buildAccountRecoveryDemand({
           userId: expectedUser.id,
-          schoolingRegistrationId: organizationLearner.id,
+          organizationLearnerId: organizationLearner.id,
         });
 
         organizationLearnerRepository.getLatestOrganizationLearner
@@ -408,11 +408,11 @@ describe('Unit | Service | sco-account-recovery-service', function () {
         });
         const accountRecoveryDemandNotUsed = domainBuilder.buildAccountRecoveryDemand({
           userId: expectedUser.id,
-          schoolingRegistrationId: organizationLearner.id,
+          organizationLearnerId: organizationLearner.id,
         });
         const accountRecoveryDemandUsed = domainBuilder.buildAccountRecoveryDemand({
           userId: expectedUser.id,
-          schoolingRegistrationId: organizationLearner.id,
+          organizationLearnerId: organizationLearner.id,
           used: true,
         });
 

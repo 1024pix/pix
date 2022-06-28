@@ -10,7 +10,7 @@ const scoCertificationCandidateValidationJoiSchema = Joi.object({
   birthCity: Joi.string().allow(null, '').optional(),
   sex: Joi.string().allow(null).optional(),
   sessionId: Joi.number().required().empty(null),
-  schoolingRegistrationId: Joi.number().required().empty(null),
+  organizationLearnerId: Joi.number().required().empty(null),
 });
 
 class SCOCertificationCandidate {
@@ -24,7 +24,7 @@ class SCOCertificationCandidate {
     birthCity,
     sex,
     sessionId,
-    schoolingRegistrationId,
+    organizationLearnerId,
   } = {}) {
     this.id = id;
     this.firstName = firstName;
@@ -35,7 +35,7 @@ class SCOCertificationCandidate {
     this.birthCity = birthCity;
     this.sex = sex;
     this.sessionId = sessionId;
-    this.schoolingRegistrationId = schoolingRegistrationId;
+    this.organizationLearnerId = organizationLearnerId;
     this.validate();
   }
 

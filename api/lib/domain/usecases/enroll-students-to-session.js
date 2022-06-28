@@ -51,7 +51,7 @@ module.exports = async function enrollStudentsToSession({
       birthCity: student.birthCity,
       sex: student.sex,
       sessionId,
-      schoolingRegistrationId: student.id,
+      organizationLearnerId: student.id,
     });
   });
 

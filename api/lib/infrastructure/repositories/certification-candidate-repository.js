@@ -211,7 +211,7 @@ module.exports = {
 function _buildCertificationCandidates(results) {
   if (results?.models[0]) {
     results.models.forEach((model, index) => {
-      results.models[index].attributes.schoolingRegistrationId = model.attributes.organizationLearnerId;
+      results.models[index].attributes.organizationLearnerId = model.attributes.organizationLearnerId;
     });
   }
 
@@ -235,7 +235,7 @@ function _adaptModelToDb(certificationCandidateToSave) {
     lastName: certificationCandidateToSave.lastName,
     prepaymentCode: certificationCandidateToSave.prepaymentCode,
     resultRecipientEmail: certificationCandidateToSave.resultRecipientEmail,
-    organizationLearnerId: certificationCandidateToSave.schoolingRegistrationId,
+    organizationLearnerId: certificationCandidateToSave.organizationLearnerId,
     sex: certificationCandidateToSave.sex,
   };
 }
@@ -247,7 +247,6 @@ function _toDomain(candidateData) {
 
   return new CertificationCandidate({
     ...candidateData,
-    schoolingRegistrationId: candidateData.organizationLearnerId,
     complementaryCertifications,
   });
 }

@@ -11,7 +11,7 @@ const campaignParticipationDBAttributes = [
   'campaignId',
   'userId',
   'status',
-  'organizationLearnerId AS schoolingRegistrationId',
+  'organizationLearnerId',
   'participantExternalId',
 ];
 
@@ -131,7 +131,7 @@ describe('Integration | Infrastructure | Repository | CampaignParticipant', func
         const campaignToStartParticipation = new CampaignToStartParticipation(campaign);
         const campaignParticipant = new CampaignParticipant({
           campaignToStartParticipation,
-          schoolingRegistrationId: organizationLearnerId,
+          organizationLearnerId,
           organizationLearner: {
             id: organizationLearnerId,
             hasParticipated: false,
@@ -942,7 +942,7 @@ function getExpectedCampaignParticipation(campaignParticipationId, campaignParti
       'campaignId',
       'userId',
       'status',
-      'schoolingRegistrationId',
+      'organizationLearnerId',
       'participantExternalId',
     ]),
     id: campaignParticipationId,

@@ -20,14 +20,14 @@ module.exports = async function findAssociationBetweenUserAndOrganizationLearner
     throw new CampaignCodeError();
   }
 
-  const registration = await organizationLearnerRepository.findOneByUserIdAndOrganizationId({
+  const organizationLearner = await organizationLearnerRepository.findOneByUserIdAndOrganizationId({
     userId: authenticatedUserId,
     organizationId: campaign.organizationId,
   });
 
-  if (registration && registration.isDisabled) {
+  if (organizationLearner && organizationLearner.isDisabled) {
     throw new OrganizationLearnerDisabledError();
   }
 
-  return registration;
+  return organizationLearner;
 };

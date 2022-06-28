@@ -499,8 +499,8 @@ describe('Unit | UseCase | reconcile-organization-learner', function () {
     );
   });
 
-  context('When one schoolingRegistration matched on names', function () {
-    it('should associate user with schoolingRegistration', async function () {
+  context('When one organizationLearner matched on names', function () {
+    it('should associate user with organizationLearner', async function () {
       // given
       const withReconciliation = true;
       organizationLearner.userId = user.id;
@@ -538,7 +538,7 @@ describe('Unit | UseCase | reconcile-organization-learner', function () {
   });
 
   context('When withReconciliation is false', function () {
-    it('should not associate user with schoolingRegistration', async function () {
+    it('should not associate user with organizationLearner', async function () {
       // given
       const withReconciliation = false;
       organizationLearner.userId = user.id;
