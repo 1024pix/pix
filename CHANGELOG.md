@@ -1,5 +1,26 @@
 # Pix Changelog
 
+## v3.226.0 (28/06/2022)
+
+
+### :rocket: Amélioration
+- [#4576](https://github.com/1024pix/pix/pull/4576) [FEATURE] Affichage du nombre de participations dans l'onglet élèves (PIX-5169).
+- [#4416](https://github.com/1024pix/pix/pull/4416) [FEATURE] Limiter les requêtes par utilisateur sur /api/token
+
+### :building_construction: Tech
+- [#4572](https://github.com/1024pix/pix/pull/4572) [TECH] Renommer "schooling-registrations" dans les paramètres & certaines routes (PIX-5218).
+- [#4574](https://github.com/1024pix/pix/pull/4574) [TECH] Lire les variables d'environnement à un seul endroit.
+- [#4548](https://github.com/1024pix/pix/pull/4548) [TECH] Mentionner les configurations de développement les plus utiles.
+- [#4343](https://github.com/1024pix/pix/pull/4343) [TECH] Calculer les résultats d'une participation à une campagne de manière asynchrone avec PgBoss (PIX-4520).
+- [#4522](https://github.com/1024pix/pix/pull/4522) [TECH] Créer un nouvelle méthode pour le scénario de changement de mot de passe sur Pix App (PIX-4977).
+- [#4167](https://github.com/1024pix/pix/pull/4167) [TECH] API : Logguer en pretty-print 👩‍💻 si la sortie standard est envoyée vers un terminal
+- [#4564](https://github.com/1024pix/pix/pull/4564) [TECH] Met à jour knex en 2.1.0 (PIX-5209)
+- [#4558](https://github.com/1024pix/pix/pull/4558) [TECH] Mise à jour des dépendances de l'API (PIX-5212)
+
+### :bug: Correction
+- [#4556](https://github.com/1024pix/pix/pull/4556) [BUGFIX] Supprimer le flickering en arrivant sur certaines pages de Pix App (PIX-4684).
+- [#4573](https://github.com/1024pix/pix/pull/4573) [BUGFIX] L'API ne se déploie plus à cause d'une vérification de version Hapi en échec (PIX-5219)
+
 ## v3.225.0 (23/06/2022)
 
 
