@@ -44,9 +44,9 @@ describe('Unit | UseCase | update-expired-password', function () {
     encryptionService.hashPassword.resolves(hashedPassword);
   });
 
-  it('should update user password with a hashed password', async function () {
+  it('should update user password with a hashed password and return username', async function () {
     // when
-    await updateExpiredPassword({
+    const login = await updateExpiredPassword({
       passwordResetToken,
       newPassword,
       tokenService,
@@ -66,6 +66,28 @@ describe('Unit | UseCase | update-expired-password', function () {
     expect(authenticationMethodRepository.updateExpiredPassword).to.have.been.calledOnceWith({
       userId: user.id,
       hashedPassword,
+    });
+    expect(login).to.equal('armand.talo1806');
+  });
+
+  context('when user does not have a username', function () {
+    it('should return user email', async function () {
+      // given
+      const user = domainBuilder.buildUser({ username: null, email: 'armand.talo@example.net' });
+      userRepository.getById.resolves(user);
+
+      // when
+      const login = await updateExpiredPassword({
+        passwordResetToken,
+        newPassword,
+        tokenService,
+        encryptionService,
+        authenticationMethodRepository,
+        userRepository,
+      });
+
+      // then
+      expect(login).to.equal('armand.talo@example.net');
     });
   });
 

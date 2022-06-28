@@ -41,4 +41,6 @@ module.exports = async function updateExpiredPassword({
     userId: foundUser.id,
     hashedPassword,
   });
+
+  return foundUser.username ?? foundUser.email;
 };
