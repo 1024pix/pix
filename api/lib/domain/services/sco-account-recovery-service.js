@@ -1,3 +1,4 @@
+const { features } = require('../../config');
 const {
   AccountRecoveryDemandExpired,
   MultipleOrganizationLearnersWithDifferentNationalStudentIdError,
@@ -63,7 +64,7 @@ async function retrieveAndValidateAccountRecoveryDemand({
 
 function _demandHasExpired(demandCreationDate) {
   const minutesInADay = 60 * 24;
-  const lifetimeInMinutes = parseInt(process.env.SCO_ACCOUNT_RECOVERY_KEY_LIFETIME_MINUTES) || minutesInADay;
+  const lifetimeInMinutes = parseInt(features.scoAccountRecoveryKeyLifetimeMinutes) || minutesInADay;
   const millisecondsInAMinute = 60 * 1000;
   const lifetimeInMilliseconds = lifetimeInMinutes * millisecondsInAMinute;
 
