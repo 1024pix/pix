@@ -6,7 +6,7 @@ module.exports = {
   async evaluate(request, h) {
     const { userId } = request.auth.credentials;
     const { tutorialId } = request.params;
-    const { status = TutorialEvaluation.status.LIKED } = tutorialEvaluationSerializer.deserialize(request.payload);
+    const { status = TutorialEvaluation.statuses.LIKED } = tutorialEvaluationSerializer.deserialize(request.payload);
 
     const tutorialEvaluation = await usecases.addTutorialEvaluation({ userId, tutorialId, status });
 

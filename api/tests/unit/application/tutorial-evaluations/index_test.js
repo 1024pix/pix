@@ -13,7 +13,7 @@ describe('Unit | Router | tutorial-evaluations-router', function () {
 
       const method = 'PUT';
       const url = '/api/users/tutorials/{tutorialId}/evaluate';
-      const payload = { data: { attributes: { status: TutorialEvaluation.status.LIKED } } };
+      const payload = { data: { attributes: { status: TutorialEvaluation.statuses.LIKED } } };
 
       // when
       const response = await httpTestServer.request(method, url, payload);

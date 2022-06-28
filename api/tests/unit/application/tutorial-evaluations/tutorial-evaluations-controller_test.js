@@ -10,7 +10,7 @@ describe('Unit | Controller | Tutorial-evaluations', function () {
       // given
       const tutorialId = 'tutorialId';
       const userId = 'userId';
-      const status = TutorialEvaluation.status.LIKED;
+      const status = TutorialEvaluation.statuses.LIKED;
       sinon.stub(tutorialEvaluationSerializer, 'deserialize').returns({
         status,
       });

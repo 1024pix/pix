@@ -1,4 +1,4 @@
-const status = {
+const statuses = {
   LIKED: 'LIKED',
   NEUTRAL: 'NEUTRAL',
 };
@@ -13,6 +13,6 @@ class TutorialEvaluation {
   }
 }
 
-TutorialEvaluation.status = status;
+TutorialEvaluation.statuses = statuses;
 
 module.exports = TutorialEvaluation;

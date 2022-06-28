@@ -61,7 +61,7 @@ describe('Acceptance | Controller | tutorial-evaluations-controller', function (
               attributes: {
                 'tutorial-id': 'tutorialId',
                 'user-id': 4444,
-                status: TutorialEvaluation.status.LIKED,
+                status: TutorialEvaluation.statuses.LIKED,
               },
             },
           },
@@ -74,7 +74,7 @@ describe('Acceptance | Controller | tutorial-evaluations-controller', function (
             attributes: {
               'tutorial-id': 'tutorialId',
               'user-id': 4444,
-              status: TutorialEvaluation.status.LIKED,
+              status: TutorialEvaluation.statuses.LIKED,
             },
           },
         };
@@ -119,7 +119,7 @@ describe('Acceptance | Controller | tutorial-evaluations-controller', function (
             attributes: {
               'tutorial-id': 'tutorialId',
               'user-id': 4444,
-              status: TutorialEvaluation.status.LIKED,
+              status: TutorialEvaluation.statuses.LIKED,
             },
           },
         };

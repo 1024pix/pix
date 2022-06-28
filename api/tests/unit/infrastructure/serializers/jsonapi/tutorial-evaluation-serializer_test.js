@@ -11,7 +11,7 @@ describe('Unit | Serializer | JSONAPI | tutorial-evaluation-serializer', functio
           id: 'tutorialEvaluationId',
           userId: 'userId',
           tutorialId: 'tutorialId',
-          status: TutorialEvaluation.status.LIKED,
+          status: TutorialEvaluation.statuses.LIKED,
         };
         const expectedJsonTutorialEvaluation = {
           data: {
@@ -20,7 +20,7 @@ describe('Unit | Serializer | JSONAPI | tutorial-evaluation-serializer', functio
             attributes: {
               'user-id': 'userId',
               'tutorial-id': 'tutorialId',
-              status: TutorialEvaluation.status.LIKED,
+              status: TutorialEvaluation.statuses.LIKED,
             },
           },
         };
@@ -105,7 +105,7 @@ describe('Unit | Serializer | JSONAPI | tutorial-evaluation-serializer', functio
       expect(tutorialEvaluation.id).to.be.equal(123);
       expect(tutorialEvaluation.userId).to.be.equal(456);
       expect(tutorialEvaluation.tutorialId).to.be.equal('tutorial123');
-      expect(tutorialEvaluation.status).to.be.equal('LIKED');
+      expect(tutorialEvaluation.status).to.be.equal(TutorialEvaluation.statuses.LIKED);
     });
   });
 });
