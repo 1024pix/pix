@@ -14,7 +14,7 @@ export default class SigninForm extends Component {
   @tracked hasFailed = false;
   @tracked errorMessage;
 
-  username = '';
+  login = '';
   password = '';
 
   get homeUrl() {
@@ -30,7 +30,7 @@ export default class SigninForm extends Component {
     event && event.preventDefault();
     this.hasFailed = false;
     try {
-      await this.args.authenticateUser(this.username, this.password);
+      await this.args.authenticateUser(this.login, this.password);
     } catch (response) {
       const shouldChangePassword = get(response, 'responseJSON.errors[0].title') === 'PasswordShouldChange';
       if (shouldChangePassword) {
