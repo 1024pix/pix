@@ -7,6 +7,7 @@
       <col />
       <col />
       <col class="table__column--right" />
+      <col />
       <col class="hide-on-mobile" />
     </colgroup>
     <thead>
@@ -17,6 +18,7 @@
         <Table::Header>{{t "pages.students-sco.table.column.division"}}</Table::Header>
         <Table::Header>{{t "pages.students-sco.table.column.login-method"}}</Table::Header>
         <Table::Header @align="right">{{t "pages.students-sco.table.column.participation-count"}}</Table::Header>
+        <Table::Header>{{t "pages.students-sco.table.column.last-participation-date"}}</Table::Header>
         <Table::Header @size="small" class="hide-on-mobile" />
       </tr>
       <tr class="hide-on-mobile">
@@ -55,6 +57,7 @@
         />
         <Table::Header class="table__column--right" />
         <Table::Header />
+        <Table::Header />
       </tr>
     </thead>
 
@@ -72,6 +75,7 @@
               {{/each}}
             </td>
             <td class="table__column--right">{{student.participationCount}}</td>
+            <td>{{moment-format student.lastParticipationDate "DD/MM/YYYY" allow-empty=true}}</td>
             <td class="list-students-page__actions hide-on-mobile">
               {{#if student.isStudentAssociated}}
                 <Dropdown::IconTrigger
