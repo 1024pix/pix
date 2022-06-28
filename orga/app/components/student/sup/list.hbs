@@ -2,11 +2,16 @@
   <table class="table content-text content-text--small">
     <thead>
       <tr>
-        <Table::Header>{{t "pages.students-sup.table.column.student-number"}}</Table::Header>
-        <Table::Header>{{t "pages.students-sup.table.column.last-name"}}</Table::Header>
-        <Table::Header>{{t "pages.students-sup.table.column.first-name"}}</Table::Header>
-        <Table::Header>{{t "pages.students-sup.table.column.date-of-birth"}}</Table::Header>
-        <Table::Header>{{t "pages.students-sup.table.column.group"}}</Table::Header>
+        <Table::Header @size="wide">{{t "pages.students-sup.table.column.student-number"}}</Table::Header>
+        <Table::Header @size="wide">{{t "pages.students-sup.table.column.last-name"}}</Table::Header>
+        <Table::Header @size="wide">{{t "pages.students-sup.table.column.first-name"}}</Table::Header>
+        <Table::Header @size="medium" @align="center">
+          {{t "pages.students-sup.table.column.date-of-birth"}}
+        </Table::Header>
+        <Table::Header @size="wide">{{t "pages.students-sup.table.column.group"}}</Table::Header>
+        <Table::Header @size="medium" @align="right">
+          {{t "pages.students-sup.table.column.participation-count"}}
+        </Table::Header>
         <Table::Header @size="small" class="hide-on-mobile" />
       </tr>
       <tr class="hide-on-mobile">
@@ -42,6 +47,7 @@
           @ariaLabel={{t "pages.students-sup.table.filter.group.aria-label"}}
           @emptyMessage={{t "pages.students-sup.table.filter.group.empty"}}
         />
+        <Table::Header class="table__column--right" />
         <Table::Header />
       </tr>
     </thead>
@@ -50,11 +56,12 @@
       <tbody>
         {{#each @students as |student|}}
           <tr aria-label={{t "pages.students-sup.table.row-title"}}>
-            <td>{{student.studentNumber}}</td>
-            <td>{{student.lastName}}</td>
-            <td>{{student.firstName}}</td>
-            <td>{{moment-format student.birthdate "DD/MM/YYYY"}}</td>
-            <td>{{student.group}}</td>
+            <td class="ellipsis">{{student.studentNumber}}</td>
+            <td class="ellipsis">{{student.lastName}}</td>
+            <td class="ellipsis">{{student.firstName}}</td>
+            <td class="table__column--center">{{moment-format student.birthdate "DD/MM/YYYY"}}</td>
+            <td class="ellipsis">{{student.group}}</td>
+            <td class="table__column--right">{{student.participationCount}}</td>
             <td class="list-students-page__actions hide-on-mobile">
               {{#if this.currentUser.isAdminInOrganization}}
                 <Dropdown::IconTrigger
