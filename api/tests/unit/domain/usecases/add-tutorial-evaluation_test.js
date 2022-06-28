@@ -20,7 +20,7 @@ describe('Unit | UseCase | add-tutorial-evaluation', function () {
         get: domainBuilder.buildTutorial,
       };
       const tutorialId = 'tutorialId';
-      const status = TutorialEvaluation.status.LIKED;
+      const status = TutorialEvaluation.statuses.LIKED;
 
       // When
       await addTutorialEvaluation({

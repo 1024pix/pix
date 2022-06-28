@@ -705,7 +705,7 @@ describe('Integration | Repository | tutorial-repository', function () {
           id: tutorialEvaluationId,
           userId,
           tutorialId: 'tuto4',
-          status: TutorialEvaluation.status.LIKED,
+          status: TutorialEvaluation.statuses.LIKED,
         });
         expect(results[0].userTutorial).to.include({
           id: userSavedTutorialId,

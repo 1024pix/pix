@@ -8,7 +8,7 @@ describe('Integration | Infrastructure | Repository | tutorialEvaluationReposito
   beforeEach(async function () {
     userId = databaseBuilder.factory.buildUser().id;
     tutorialId = 'tutorialId';
-    status = TutorialEvaluation.status.LIKED;
+    status = TutorialEvaluation.statuses.LIKED;
     await databaseBuilder.commit();
   });
 
@@ -31,14 +31,14 @@ describe('Integration | Infrastructure | Repository | tutorialEvaluationReposito
       const tutorialEvaluation = await tutorialEvaluationRepository.createOrUpdate({
         userId,
         tutorialId,
-        status: TutorialEvaluation.status.LIKED,
+        status: TutorialEvaluation.statuses.LIKED,
       });
 
       // then
       const tutorialEvaluations = await knex('tutorial-evaluations').where({
         userId,
         tutorialId,
-        status: TutorialEvaluation.status.LIKED,
+        status: TutorialEvaluation.statuses.LIKED,
       });
       expect(tutorialEvaluation.id).to.deep.equal(tutorialEvaluations[0].id);
       expect(tutorialEvaluation.userId).to.deep.equal(tutorialEvaluations[0].userId);
@@ -53,7 +53,7 @@ describe('Integration | Infrastructure | Repository | tutorialEvaluationReposito
         databaseBuilder.factory.buildTutorialEvaluation({
           tutorialId,
           userId,
-          status: 'LIKED',
+          status: TutorialEvaluation.statuses.LIKED,
           updatedAt: initialDate,
         });
         await databaseBuilder.commit();
@@ -62,7 +62,7 @@ describe('Integration | Infrastructure | Repository | tutorialEvaluationReposito
         const tutorialEvaluation = await tutorialEvaluationRepository.createOrUpdate({
           userId,
           tutorialId,
-          status: 'NEUTRAL',
+          status: TutorialEvaluation.statuses.NEUTRAL,
         });
 
         // then
@@ -71,7 +71,7 @@ describe('Integration | Infrastructure | Repository | tutorialEvaluationReposito
         expect(tutorialEvaluation.id).to.equal(tutorialEvaluations[0].id);
         expect(tutorialEvaluation.userId).to.equal(tutorialEvaluations[0].userId);
         expect(tutorialEvaluation.tutorialId).to.equal(tutorialEvaluations[0].tutorialId);
-        expect(tutorialEvaluation.status).to.equal('NEUTRAL');
+        expect(tutorialEvaluation.status).to.equal(TutorialEvaluation.statuses.NEUTRAL);
         expect(tutorialEvaluation.updatedAt).to.be.above(initialDate);
       });
     });
