@@ -741,6 +741,15 @@
         "global-error": "<div>Import has failed.<br/>Please try again or contact us through <a target=\"_blank\" rel=\"noopener noreferrer\" href=\"https://pix.org/en-gb/contact-form\">the help form</a>.</div>",
         "global-success": "The list has been successfully imported."
       },
+      "latest-participation-information": {
+        "aria-label": "Latest participation's information",
+        "campaign-name": "Campaign: {campaignName}",
+        "campaign-ASSESSMENT-type": "Type: Assessment",
+        "campaign-PROFILES_COLLECTION-type": "Type : Collecte de profils",
+        "participation-SHARED-status": "Status: Submitted",
+        "participation-STARTED-status": "Status: In progress",
+        "participation-TO_SHARE-status": "Status: Pending"
+      },
       "manage-authentication-method-modal": {
         "title": "Managing the student's Pix account",
         "authentication-methods": "Log in methods",
