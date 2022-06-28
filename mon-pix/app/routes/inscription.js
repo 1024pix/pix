@@ -1,12 +1,10 @@
-/* eslint ember/no-actions-hash: 0 */
-/* eslint ember/no-classic-classes: 0 */
-
 import { inject as service } from '@ember/service';
 import UnauthenticatedRouteMixin from 'ember-simple-auth/mixins/unauthenticated-route-mixin';
 import Route from '@ember/routing/route';
+import { action } from '@ember/object';
 
-export default Route.extend(UnauthenticatedRouteMixin, {
-  session: service(),
+export default class Inscription extends Route.extend(UnauthenticatedRouteMixin) {
+  @service session;
 
   model() {
     // XXX: Model needs to be initialize with empty to handle validations on all fields from Api
@@ -17,17 +15,17 @@ export default Route.extend(UnauthenticatedRouteMixin, {
       password: '',
       cgu: false,
     });
-  },
+  }
 
-  actions: {
-    refresh() {
-      this.refresh();
-    },
+  @action
+  refresh() {
+    this.refresh();
+  }
 
-    authenticateUser(credentials) {
-      const { login, password } = credentials;
-      const scope = 'mon-pix';
-      return this.session.authenticate('authenticator:oauth2', { login, password, scope });
-    },
-  },
-});
+  @action
+  authenticateUser(credentials) {
+    const { login, password } = credentials;
+    const scope = 'mon-pix';
+    return this.session.authenticate('authenticator:oauth2', { login, password, scope });
+  }
+}

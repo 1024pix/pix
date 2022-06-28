@@ -1,5 +1,3 @@
-/* eslint ember/no-classic-classes: 0 */
-
 import ApplicationRouteMixin from 'ember-simple-auth/mixins/application-route-mixin';
 
 import Route from '@ember/routing/route';
@@ -7,19 +5,19 @@ import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
 import get from 'lodash/get';
 
-export default Route.extend(ApplicationRouteMixin, {
-  splash: service(),
-  currentUser: service(),
-  session: service(),
-  intl: service(),
-  moment: service(),
-  headData: service(),
-  featureToggles: service(),
-  currentDomain: service(),
+export default class Application extends Route.extend(ApplicationRouteMixin) {
+  @service splash;
+  @service currentUser;
+  @service session;
+  @service intl;
+  @service moment;
+  @service headData;
+  @service featureToggles;
+  @service currentDomain;
 
   activate() {
     this.splash.hide();
-  },
+  }
 
   async _checkForURLAuthentication(transition) {
     if (transition.to.queryParams && transition.to.queryParams.externalUser) {
@@ -32,7 +30,7 @@ export default Route.extend(ApplicationRouteMixin, {
       await this._logoutUser();
       return this.session.authenticate('authenticator:oauth2', { token: transition.to.queryParams.token });
     }
-  },
+  }
 
   async _checkAnonymousAccess(transition) {
     const allowedRoutesForAnonymousAccess = [
@@ -55,7 +53,7 @@ export default Route.extend(ApplicationRouteMixin, {
       await this._logoutUser();
       this.replaceWith('/campagnes');
     }
-  },
+  }
 
   async beforeModel(transition) {
     this.headData.description = this.intl.t('application.description');
@@ -68,10 +66,10 @@ export default Route.extend(ApplicationRouteMixin, {
 
     await this._loadCurrentUser();
     await this._handleLocale(locale);
-  },
+  }
 
   async sessionAuthenticated() {
-    const _super = this._super;
+    const _super = super.sessionAuthenticated;
 
     await this._loadCurrentUser();
     await this._handleLocale();
@@ -83,13 +81,13 @@ export default Route.extend(ApplicationRouteMixin, {
     } else {
       _super.call(this, ...arguments);
     }
-  },
+  }
 
   // We need to override the sessionInvalidated from ApplicationRouteMixin
   // to avoid the automatic redirection to login
   // when coming from the GAR authentication
   // https://github.com/simplabs/ember-simple-auth/blob/a3d51d65b7d8e3a2e069c0af24aca2e12c7c3a95/addon/mixins/application-route-mixin.js#L132
-  sessionInvalidated() {},
+  sessionInvalidated() {}
 
   async _handleLocale(localeFromQueryParam = null) {
     const isUserLoaded = !!this.currentUser.user;
@@ -126,21 +124,21 @@ export default Route.extend(ApplicationRouteMixin, {
         await this._setLocale(defaultLocale);
       }
     }
-  },
+  }
 
   _setLocale(locale) {
     const defaultLocale = 'fr';
     this.intl.setLocale([locale, defaultLocale]);
     this.moment.setLocale(locale);
-  },
+  }
 
   _loadCurrentUser() {
     return this.currentUser.load().catch(() => this.session.invalidate());
-  },
+  }
 
   _logoutUser() {
     delete this.session.data.expectedUserId;
     delete this.session.data.externalUser;
     return this.session.invalidate();
-  },
-});
+  }
+}
