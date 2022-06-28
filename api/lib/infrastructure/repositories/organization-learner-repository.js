@@ -312,9 +312,9 @@ module.exports = {
   },
 
   async findPaginatedFilteredOrganizationLearners({ organizationId, filter, page = {} }) {
-    const query = knex('organization-learners')
+    const query = knex
       .distinct('organization-learners.id')
-      .select(
+      .select([
         'organization-learners.id',
         'organization-learners.firstName',
         'organization-learners.lastName',
@@ -330,22 +330,45 @@ module.exports = {
         'users.email',
         'authentication-methods.externalIdentifier as samlId',
         knex.raw(
-          'COUNT(*) FILTER (WHERE "campaign-participations"."id" IS NOT NULL AND "campaign-participations"."isImproved" IS FALSE AND "campaign-participations"."deletedAt" IS NULL) OVER (partition by "organization-learners"."id") AS "participationCount"'
+          'FIRST_VALUE("name") OVER(PARTITION BY "organizationLearnerId" ORDER BY "campaign-participations"."createdAt" DESC) AS "campaignName"'
         ),
         knex.raw(
-          'max("campaign-participations"."createdAt") FILTER (WHERE "campaign-participations"."id" IS NOT NULL AND "campaign-participations"."isImproved" IS FALSE AND "campaign-participations"."deletedAt" IS NULL) OVER (partition by "organization-learners"."id") AS "lastParticipationDate"'
-        )
-      )
+          'FIRST_VALUE("campaign-participations"."status") OVER(PARTITION BY "organizationLearnerId" ORDER BY "campaign-participations"."createdAt" DESC) AS "participationStatus"'
+        ),
+        knex.raw(
+          'FIRST_VALUE("type") OVER(PARTITION BY "organizationLearnerId" ORDER BY "campaign-participations"."createdAt" DESC) AS "campaignType"'
+        ),
+        knex.raw(
+          'COUNT(*) FILTER (WHERE "campaign-participations"."id" IS NOT NULL) OVER(PARTITION BY "organizationLearnerId") AS "participationCount"'
+        ),
+        knex.raw(
+          'max("campaign-participations"."createdAt") OVER(PARTITION BY "organizationLearnerId") AS "lastParticipationDate"'
+        ),
+      ])
+      .from('organization-learners')
       .leftJoin('campaign-participations', 'campaign-participations.organizationLearnerId', 'organization-learners.id')
-      .leftJoin('users', 'organization-learners.userId', 'users.id')
+      .leftJoin('users', 'users.id', 'organization-learners.userId')
       .leftJoin('authentication-methods', function () {
         this.on('users.id', 'authentication-methods.userId').andOnVal(
           'authentication-methods.identityProvider',
           AuthenticationMethod.identityProviders.GAR
         );
       })
-      .where({ organizationId })
+      .leftJoin('campaigns', function () {
+        this.on('campaigns.id', 'campaign-participations.campaignId').andOn(
+          'campaigns.organizationId',
+          'organization-learners.organizationId'
+        );
+      })
+      .where(function (qb) {
+        qb.where({ 'campaign-participations.id': null });
+        qb.orWhere({
+          'campaign-participations.isImproved': false,
+          'campaign-participations.deletedAt': null,
+        });
+      })
       .where('organization-learners.isDisabled', false)
+      .where('organization-learners.organizationId', organizationId)
       .modify(_setOrganizationLearnerFilters, filter)
       .orderByRaw('?? ASC, ?? ASC', ['lowerLastName', 'lowerFirstName']);
 

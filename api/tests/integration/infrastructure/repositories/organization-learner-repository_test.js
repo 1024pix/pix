@@ -2,6 +2,8 @@ const _ = require('lodash');
 
 const { expect, domainBuilder, databaseBuilder, knex, catchErr } = require('../../../test-helper');
 
+const Campaign = require('../../../../lib/domain/models/Campaign');
+const CampaignParticipationStatuses = require('../../../../lib/domain/models/CampaignParticipationStatuses');
 const OrganizationLearner = require('../../../../lib/domain/models/OrganizationLearner');
 const UserWithOrganizationLearner = require('../../../../lib/domain/models/UserWithOrganizationLearner');
 const OrganizationLearnerForAdmin = require('../../../../lib/domain/read-models/OrganizationLearnerForAdmin');
@@ -1804,6 +1806,27 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
       expect(_.map(data, 'id')).to.have.members([organizationLearner_1.id, organizationLearner_2.id]);
     });
 
+    it('should return only once the same organization learner', async function () {
+      // given
+      const organizationId = databaseBuilder.factory.buildOrganization().id;
+      const campaignId = databaseBuilder.factory.buildCampaign({ organizationId, name: 'some campaign' }).id;
+      const otherCampaignId = databaseBuilder.factory.buildCampaign({ organizationId, name: 'other campaign' }).id;
+      const organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner({ organizationId }).id;
+
+      databaseBuilder.factory.buildCampaignParticipation({ campaignId, organizationLearnerId });
+      databaseBuilder.factory.buildCampaignParticipation({ campaignId: otherCampaignId, organizationLearnerId });
+      await databaseBuilder.commit();
+
+      // when
+      const { data } = await organizationLearnerRepository.findPaginatedFilteredOrganizationLearners({
+        organizationId,
+      });
+
+      // then
+
+      expect(data).to.have.lengthOf(1);
+    });
+
     it('should return the organization learners not disabled', async function () {
       // given
       const organization = databaseBuilder.factory.buildOrganization();
@@ -2152,9 +2175,7 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
       it('should return all organizationLearner properties including the reconciled user:email,username', async function () {
         // given
         const organization = databaseBuilder.factory.buildOrganization();
-        const user = databaseBuilder.factory.buildUser({
-          organizationId: organization.id,
-        });
+        const user = databaseBuilder.factory.buildUser();
         const organizationLearner = databaseBuilder.factory.buildOrganizationLearner({
           organizationId: organization.id,
           userId: user.id,
@@ -2174,6 +2195,9 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
           group: organizationLearner.group,
           participationCount: 0,
           lastParticipationDate: null,
+          campaignName: null,
+          campaignType: null,
+          participationStatus: null,
         });
         await databaseBuilder.commit();
 
@@ -2192,7 +2216,6 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
         // given
         const organization = databaseBuilder.factory.buildOrganization();
         const user = databaseBuilder.factory.buildUser({
-          organizationId: organization.id,
           username: null,
           email: null,
         });
@@ -2219,6 +2242,9 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
           group: organizationLearner.group,
           participationCount: 0,
           lastParticipationDate: null,
+          campaignName: null,
+          campaignType: null,
+          participationStatus: null,
         });
         await databaseBuilder.commit();
 
@@ -2256,6 +2282,9 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
           group: organizationLearner.group,
           participationCount: 0,
           lastParticipationDate: null,
+          campaignName: null,
+          campaignType: null,
+          participationStatus: null,
         });
         await databaseBuilder.commit();
 
@@ -2266,6 +2295,117 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
 
         // then
         expect(data[0]).to.deep.equal(expectedUserWithOrganizationLearner);
+      });
+    });
+
+    context('campaign information', function () {
+      it('should return campaign name and type when there is at least a participation', async function () {
+        // given
+        const organizationId = databaseBuilder.factory.buildOrganization().id;
+        const campaignId = databaseBuilder.factory.buildCampaign({
+          organizationId,
+          name: 'some campaign name',
+          type: Campaign.types.PROFILES_COLLECTION,
+        }).id;
+        const userId = databaseBuilder.factory.buildUser().id;
+        const organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner({ organizationId, userId }).id;
+        databaseBuilder.factory.buildCampaignParticipation({ campaignId, organizationLearnerId });
+        await databaseBuilder.commit();
+
+        const expectedAttributes = {
+          campaignName: 'some campaign name',
+          campaignType: UserWithOrganizationLearner.campaignTypes.PROFILES_COLLECTION,
+        };
+
+        // when
+        const { data } = await organizationLearnerRepository.findPaginatedFilteredOrganizationLearners({
+          organizationId,
+        });
+
+        // then
+        expect(data[0].campaignName).to.deep.equal(expectedAttributes.campaignName);
+        expect(data[0].campaignType).to.deep.equal(expectedAttributes.campaignType);
+      });
+
+      it('should return null when there is no participation', async function () {
+        // given
+        const organizationId = databaseBuilder.factory.buildOrganization().id;
+        const userId = databaseBuilder.factory.buildUser().id;
+        databaseBuilder.factory.buildOrganizationLearner({ organizationId, userId }).id;
+        await databaseBuilder.commit();
+
+        // when
+        const { data } = await organizationLearnerRepository.findPaginatedFilteredOrganizationLearners({
+          organizationId,
+        });
+
+        // then
+        expect(data[0].campaignName).to.deep.equal(null);
+        expect(data[0].campaignType).to.deep.equal(null);
+      });
+
+      it('should return campaign name and type only for a campaign in the given organization', async function () {
+        // given
+        const organizationId = databaseBuilder.factory.buildOrganization().id;
+        const campaignId = databaseBuilder.factory.buildCampaign({
+          name: 'some campaign name',
+        }).id;
+        const userId = databaseBuilder.factory.buildUser().id;
+        const organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner({ organizationId, userId }).id;
+        databaseBuilder.factory.buildCampaignParticipation({ campaignId, organizationLearnerId });
+        await databaseBuilder.commit();
+
+        // when
+        const { data } = await organizationLearnerRepository.findPaginatedFilteredOrganizationLearners({
+          organizationId,
+        });
+
+        // then
+        expect(data[0].campaignName).to.equal(null);
+      });
+    });
+
+    context('#participationStatus', function () {
+      it('should return participation status when there is at least a participation', async function () {
+        // given
+        const organizationId = databaseBuilder.factory.buildOrganization().id;
+        const campaignId = databaseBuilder.factory.buildCampaign({
+          organizationId,
+          name: 'some campaign name',
+          type: Campaign.types.PROFILES_COLLECTION,
+        }).id;
+        const userId = databaseBuilder.factory.buildUser().id;
+        const organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner({ organizationId, userId }).id;
+        databaseBuilder.factory.buildCampaignParticipation({
+          campaignId,
+          organizationLearnerId,
+          status: CampaignParticipationStatuses.TO_SHARE,
+        });
+        await databaseBuilder.commit();
+
+        // when
+        const { data } = await organizationLearnerRepository.findPaginatedFilteredOrganizationLearners({
+          organizationId,
+        });
+
+        // then
+        expect(data[0].participationStatus).to.deep.equal(CampaignParticipationStatuses.TO_SHARE);
+      });
+
+      it('should return null when there is no participation', async function () {
+        // given
+        const organizationId = databaseBuilder.factory.buildOrganization().id;
+        const userId = databaseBuilder.factory.buildUser().id;
+        databaseBuilder.factory.buildOrganizationLearner({ organizationId, userId }).id;
+        await databaseBuilder.commit();
+
+        // when
+        const { data } = await organizationLearnerRepository.findPaginatedFilteredOrganizationLearners({
+          organizationId,
+        });
+
+        // then
+        expect(data[0].participationStatus).to.deep.equal(null);
       });
     });
 
