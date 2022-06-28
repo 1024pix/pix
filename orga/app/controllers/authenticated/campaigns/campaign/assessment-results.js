@@ -11,6 +11,7 @@ export default class AssessmentResultsController extends Controller {
   @tracked groups = [];
   @tracked badges = [];
   @tracked stages = [];
+  @tracked search = null;
 
   @action
   goToAssessmentPage(campaignId, participantId, event) {
@@ -31,6 +32,9 @@ export default class AssessmentResultsController extends Controller {
     this.groups = filters.groups || this.groups;
     this.badges = filters.badges || this.badges;
     this.stages = filters.stages || this.stages;
+    if (filters.search !== undefined) {
+      this.search = filters.search;
+    }
   }
 
   @action
@@ -40,5 +44,6 @@ export default class AssessmentResultsController extends Controller {
     this.groups = [];
     this.badges = [];
     this.stages = [];
+    this.search = null;
   }
 }
