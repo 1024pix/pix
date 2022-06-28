@@ -3,22 +3,28 @@
     <colgroup class="table__column">
       <col />
       <col />
-      <col />
+      <col class="table__column--center" />
       <col />
       <col />
       <col class="table__column--right" />
-      <col />
+      <col class="table__column--center" />
       <col class="hide-on-mobile" />
     </colgroup>
     <thead>
       <tr>
-        <Table::Header>{{t "pages.students-sco.table.column.last-name"}}</Table::Header>
-        <Table::Header>{{t "pages.students-sco.table.column.first-name"}}</Table::Header>
-        <Table::Header>{{t "pages.students-sco.table.column.date-of-birth"}}</Table::Header>
-        <Table::Header>{{t "pages.students-sco.table.column.division"}}</Table::Header>
-        <Table::Header>{{t "pages.students-sco.table.column.login-method"}}</Table::Header>
-        <Table::Header @align="right">{{t "pages.students-sco.table.column.participation-count"}}</Table::Header>
-        <Table::Header>{{t "pages.students-sco.table.column.last-participation-date"}}</Table::Header>
+        <Table::Header @size="wide">{{t "pages.students-sco.table.column.last-name"}}</Table::Header>
+        <Table::Header @size="wide">{{t "pages.students-sco.table.column.first-name"}}</Table::Header>
+        <Table::Header @size="medium" @align="center">
+          {{t "pages.students-sco.table.column.date-of-birth"}}
+        </Table::Header>
+        <Table::Header @size="wide">{{t "pages.students-sco.table.column.division"}}</Table::Header>
+        <Table::Header @size="wide">{{t "pages.students-sco.table.column.login-method"}}</Table::Header>
+        <Table::Header @size="medium" @align="right">
+          {{t "pages.students-sco.table.column.participation-count"}}
+        </Table::Header>
+        <Table::Header @size="medium" @align="center">
+          {{t "pages.students-sco.table.column.last-participation-date"}}
+        </Table::Header>
         <Table::Header @size="small" class="hide-on-mobile" />
       </tr>
       <tr class="hide-on-mobile">
@@ -67,15 +73,17 @@
           <tr aria-label={{t "pages.students-sco.table.row-title"}}>
             <td class="ellipsis" title={{student.lastName}}>{{student.lastName}}</td>
             <td class="ellipsis" title={{student.firstName}}>{{student.firstName}}</td>
-            <td>{{moment-format student.birthdate "DD/MM/YYYY" allow-empty=true}}</td>
-            <td>{{student.division}}</td>
+            <td class="table__column--center">{{moment-format student.birthdate "DD/MM/YYYY" allow-empty=true}}</td>
+            <td class="ellipsis">{{student.division}}</td>
             <td class="list-students-page__authentication-methods">
               {{#each student.authenticationMethods as |authenticationMethod|}}
                 <p>{{t authenticationMethod}}</p>
               {{/each}}
             </td>
             <td class="table__column--right">{{student.participationCount}}</td>
-            <td>{{moment-format student.lastParticipationDate "DD/MM/YYYY" allow-empty=true}}</td>
+            <td class="table__column--center">
+              {{moment-format student.lastParticipationDate "DD/MM/YYYY" allow-empty=true}}
+            </td>
             <td class="list-students-page__actions hide-on-mobile">
               {{#if student.isStudentAssociated}}
                 <Dropdown::IconTrigger
