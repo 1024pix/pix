@@ -1,3 +1,5 @@
+const EuropeanNumericLevelFactory = require('./EuropeanNumericLevelFactory');
+
 class CpfCertificationResult {
   constructor({
     id,
@@ -21,6 +23,10 @@ class CpfCertificationResult {
     this.publishedAt = publishedAt;
     this.pixScore = pixScore;
     this.competenceMarks = competenceMarks;
+  }
+
+  get europeanNumericLevels() {
+    return EuropeanNumericLevelFactory.buildFromCompetenceMarks(this.competenceMarks);
   }
 }
 
