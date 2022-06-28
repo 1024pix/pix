@@ -2173,6 +2173,7 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
           division: organizationLearner.division,
           group: organizationLearner.group,
           participationCount: 0,
+          lastParticipationDate: null,
         });
         await databaseBuilder.commit();
 
@@ -2217,6 +2218,7 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
           division: organizationLearner.division,
           group: organizationLearner.group,
           participationCount: 0,
+          lastParticipationDate: null,
         });
         await databaseBuilder.commit();
 
@@ -2253,6 +2255,7 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
           division: organizationLearner.division,
           group: organizationLearner.group,
           participationCount: 0,
+          lastParticipationDate: null,
         });
         await databaseBuilder.commit();
 
@@ -2354,6 +2357,117 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
         // then
         const participationCountAsArray = data.map((result) => result.participationCount);
         expect(participationCountAsArray).to.deep.equal([0]);
+      });
+    });
+
+    context('#lastParticipationDate', function () {
+      it('should take the last participation date', async function () {
+        // given
+        const organizationId = databaseBuilder.factory.buildOrganization().id;
+        const campaignId = databaseBuilder.factory.buildCampaign({ organizationId }).id;
+        const otherCampaignId = databaseBuilder.factory.buildCampaign({ organizationId }).id;
+        const organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner({ organizationId }).id;
+
+        const campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
+          campaignId,
+          organizationLearnerId,
+          createdAt: new Date('2022-01-01'),
+        });
+        databaseBuilder.factory.buildCampaignParticipation({
+          campaignId: otherCampaignId,
+          organizationLearnerId,
+          createdAt: new Date('2021-01-01'),
+        });
+        await databaseBuilder.commit();
+
+        // when
+        const { data } = await organizationLearnerRepository.findPaginatedFilteredOrganizationLearners({
+          organizationId,
+        });
+
+        // then
+        const lastParticipationDatesAsArray = data.map((result) => result.lastParticipationDate);
+        expect(lastParticipationDatesAsArray).to.deep.equal([campaignParticipation.createdAt]);
+      });
+
+      it('should take the last participation date not deleted', async function () {
+        // given
+        const deletedBy = databaseBuilder.factory.buildUser().id;
+        const organizationId = databaseBuilder.factory.buildOrganization().id;
+        const campaignId = databaseBuilder.factory.buildCampaign({ organizationId }).id;
+        const otherCampaignId = databaseBuilder.factory.buildCampaign({ organizationId }).id;
+        const organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner({ organizationId }).id;
+
+        const campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
+          campaignId,
+          organizationLearnerId,
+          deletedAt: null,
+          deletedBy: null,
+          createdAt: new Date('2021-01-01'),
+        });
+        databaseBuilder.factory.buildCampaignParticipation({
+          campaignId: otherCampaignId,
+          organizationLearnerId,
+          deletedAt: new Date(),
+          deletedBy,
+          createdAt: new Date('2022-01-01'),
+        });
+        await databaseBuilder.commit();
+
+        // when
+        const { data } = await organizationLearnerRepository.findPaginatedFilteredOrganizationLearners({
+          organizationId,
+        });
+
+        // then
+        const lastParticipationDatesAsArray = data.map((result) => result.lastParticipationDate);
+        expect(lastParticipationDatesAsArray).to.deep.equal([campaignParticipation.createdAt]);
+      });
+
+      it('should take the last participation date not improved', async function () {
+        // given
+        const organizationId = databaseBuilder.factory.buildOrganization().id;
+        const campaignId = databaseBuilder.factory.buildCampaign({ organizationId }).id;
+        const organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner({ organizationId }).id;
+
+        databaseBuilder.factory.buildCampaignParticipation({
+          campaignId,
+          organizationLearnerId,
+          isImproved: true,
+          createdAt: new Date('2022-01-01'),
+        });
+        const campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
+          campaignId,
+          organizationLearnerId,
+          isImproved: false,
+          createdAt: new Date('2021-01-01'),
+        });
+        await databaseBuilder.commit();
+
+        // when
+        const { data } = await organizationLearnerRepository.findPaginatedFilteredOrganizationLearners({
+          organizationId,
+        });
+
+        // then
+        const lastParticipationDatesAsArray = data.map((result) => result.lastParticipationDate);
+        expect(lastParticipationDatesAsArray).to.deep.equal([campaignParticipation.createdAt]);
+      });
+
+      it('should be null when organizationLearner has no participation', async function () {
+        // given
+        const organizationId = databaseBuilder.factory.buildOrganization().id;
+        databaseBuilder.factory.buildOrganizationLearner({ organizationId }).id;
+        await databaseBuilder.commit();
+
+        // when
+        const { data } = await organizationLearnerRepository.findPaginatedFilteredOrganizationLearners({
+          organizationId,
+        });
+
+        // then
+        const lastParticipationDatesAsArray = data.map((result) => result.lastParticipationDate);
+        expect(lastParticipationDatesAsArray).to.deep.equal([null]);
       });
     });
   });

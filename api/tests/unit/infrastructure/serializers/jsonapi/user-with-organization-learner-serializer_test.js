@@ -19,6 +19,7 @@ describe('Unit | Serializer | JSONAPI | UserWithOrganizationLearner-serializer',
         division: '3A',
         group: 'AB1',
         participationCount: 2,
+        lastParticipationDate: new Date('2021-10-10'),
       });
 
       const expectedSerializedUserWithOrganizationLearner = {
@@ -36,7 +37,8 @@ describe('Unit | Serializer | JSONAPI | UserWithOrganizationLearner-serializer',
             'student-number': userWithOrganizationLearner.studentNumber,
             division: userWithOrganizationLearner.division,
             group: userWithOrganizationLearner.group,
-            'participation-count': 2,
+            'participation-count': userWithOrganizationLearner.participationCount,
+            'last-participation-date': userWithOrganizationLearner.lastParticipationDate,
           },
         },
       };
