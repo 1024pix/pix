@@ -65,6 +65,30 @@ describe('Unit | Controller | admin-member-controller', function () {
     });
   });
 
+  describe('#deactivateAdminMember', function () {
+    it('should return an empty reponse', async function () {
+      // given
+      const id = 7;
+
+      const deactivatedMember = Symbol('deactivatedMember');
+      sinon.stub(usecases, 'deactivateAdminMember').withArgs({ id }).resolves(deactivatedMember);
+
+      const serializedDeactivatedMember = Symbol('serializedDeactivatedMember');
+      sinon.stub(adminMemberSerializer, 'serialize').withArgs(deactivatedMember).returns(serializedDeactivatedMember);
+
+      // when
+      const { statusCode } = await adminMemberController.deactivateAdminMember(
+        {
+          params: { id },
+        },
+        hFake
+      );
+
+      // then
+      expect(statusCode).to.equal(204);
+    });
+  });
+
   describe('#saveAdminMember', function () {
     it('should return the serialized admin member saved', async function () {
       // given
