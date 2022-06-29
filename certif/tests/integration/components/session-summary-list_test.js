@@ -13,6 +13,29 @@ module('Integration | Component | session-summary-list', function (hooks) {
     this.set('goToSessionDetailsSpy', () => {});
   });
 
+  test('it should display an header', async function (assert) {
+    // given
+    const sessionSummaries = [];
+    sessionSummaries.meta = { rowCount: 0 };
+    this.sessionSummaries = sessionSummaries;
+
+    // when
+    const screen = await renderScreen(hbs`<SessionSummaryList
+                  @sessionSummaries={{this.sessionSummaries}}
+                  @goToSessionDetails={{this.goToSessionDetailsSpy}} />`);
+
+    // then
+    assert.dom(screen.getByRole('columnheader', { name: 'ID session' })).exists();
+    assert.dom(screen.getByRole('columnheader', { name: 'Nom du site' })).exists();
+    assert.dom(screen.getByRole('columnheader', { name: 'Salle' })).exists();
+    assert.dom(screen.getByRole('columnheader', { name: 'Date' })).exists();
+    assert.dom(screen.getByRole('columnheader', { name: 'Heure' })).exists();
+    assert.dom(screen.getByRole('columnheader', { name: 'Surveillant(s)' })).exists();
+    assert.dom(screen.getByRole('columnheader', { name: 'Nombre de candidats inscrits' })).exists();
+    assert.dom(screen.getByRole('columnheader', { name: 'Nombre de certifications passées' })).exists();
+    assert.dom(screen.getByRole('columnheader', { name: 'Action' })).exists();
+  });
+
   module('When there are no sessions to display', function () {
     test('it should display an empty list message', async function (assert) {
       // given
