@@ -25,15 +25,14 @@ module('Integration | Component | session-summary-list', function (hooks) {
                   @goToSessionDetails={{this.goToSessionDetailsSpy}} />`);
 
     // then
-    assert.dom(screen.getByRole('columnheader', { name: 'ID session' })).exists();
+    assert.dom(screen.getByRole('columnheader', { name: 'Numéro de session' })).exists();
     assert.dom(screen.getByRole('columnheader', { name: 'Nom du site' })).exists();
     assert.dom(screen.getByRole('columnheader', { name: 'Salle' })).exists();
     assert.dom(screen.getByRole('columnheader', { name: 'Date' })).exists();
     assert.dom(screen.getByRole('columnheader', { name: 'Heure' })).exists();
     assert.dom(screen.getByRole('columnheader', { name: 'Surveillant(s)' })).exists();
-    assert.dom(screen.getByRole('columnheader', { name: 'Nombre de candidats inscrits' })).exists();
-    assert.dom(screen.getByRole('columnheader', { name: 'Nombre de certifications passées' })).exists();
-    assert.dom(screen.getByRole('columnheader', { name: 'Action' })).exists();
+    assert.dom(screen.getByRole('columnheader', { name: 'Candidats inscrits' })).exists();
+    assert.dom(screen.getByRole('columnheader', { name: 'Certifications passées' })).exists();
   });
 
   module('When there are no sessions to display', function () {
