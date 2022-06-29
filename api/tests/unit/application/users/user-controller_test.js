@@ -774,6 +774,35 @@ describe('Unit | Controller | user-controller', function () {
     });
   });
 
+  describe('#getProfileForAdmin', function () {
+    beforeEach(function () {
+      sinon.stub(usecases, 'getUserProfile').resolves({
+        pixScore: 3,
+        scorecards: [],
+      });
+      sinon.stub(profileSerializer, 'serialize').resolves();
+    });
+
+    it('should call the expected usecase', async function () {
+      // given
+      const userId = '12';
+      const locale = 'fr';
+
+      const request = {
+        params: {
+          id: userId,
+        },
+        headers: { 'accept-language': locale },
+      };
+
+      // when
+      await userController.getProfileForAdmin(request);
+
+      // then
+      expect(usecases.getUserProfile).to.have.been.calledWith({ userId, locale });
+    });
+  });
+
   describe('#resetScorecard', function () {
     beforeEach(function () {
       sinon.stub(usecases, 'resetScorecard').resolves({
