@@ -1,5 +1,3 @@
-const Campaign = require('./Campaign');
-
 class UserWithOrganizationLearner {
   constructor({
     id,
@@ -39,7 +37,5 @@ class UserWithOrganizationLearner {
     this.participationStatus = participationStatus;
   }
 }
-
-UserWithOrganizationLearner.campaignTypes = Campaign.types;
 
 module.exports = UserWithOrganizationLearner;

@@ -1,6 +1,6 @@
 const { expect, catchErr } = require('../../../test-helper');
 const CampaignForCreation = require('../../../../lib/domain/models/CampaignForCreation');
-const Campaign = require('../../../../lib/domain/models/Campaign');
+const CampaignTypes = require('../../../../lib/domain/models/CampaignTypes');
 
 describe('Unit | Domain | Models | CampaignForCreation', function () {
   describe('#create', function () {
@@ -9,7 +9,7 @@ describe('Unit | Domain | Models | CampaignForCreation', function () {
         it('creates the campaign', function () {
           const attributes = {
             name: 'CampaignName',
-            type: Campaign.types.ASSESSMENT,
+            type: CampaignTypes.ASSESSMENT,
             targetProfileId: 1,
             creatorId: 2,
             ownerId: 2,
@@ -25,7 +25,7 @@ describe('Unit | Domain | Models | CampaignForCreation', function () {
         beforeEach(function () {
           attributes = {
             name: 'CampaignName',
-            type: Campaign.types.ASSESSMENT,
+            type: CampaignTypes.ASSESSMENT,
             targetProfileId: 1,
             creatorId: 2,
             ownerId: 2,
@@ -94,7 +94,7 @@ describe('Unit | Domain | Models | CampaignForCreation', function () {
         it('should create the campaign', function () {
           const attributes = {
             name: 'CampaignName',
-            type: Campaign.types.PROFILES_COLLECTION,
+            type: CampaignTypes.PROFILES_COLLECTION,
             creatorId: 2,
             ownerId: 2,
             organizationId: 3,
@@ -109,7 +109,7 @@ describe('Unit | Domain | Models | CampaignForCreation', function () {
         beforeEach(function () {
           attributes = {
             name: 'CampaignName',
-            type: Campaign.types.PROFILES_COLLECTION,
+            type: CampaignTypes.PROFILES_COLLECTION,
             creatorId: 2,
             ownerId: 2,
             organizationId: 3,

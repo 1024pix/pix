@@ -7,6 +7,7 @@ const campaignCreatorRepository = require('../../../../lib/infrastructure/reposi
 const createCampaign = require('../../../../lib/domain/usecases/create-campaign');
 
 const Campaign = require('../../../../lib/domain/models/Campaign');
+const CampaignTypes = require('../../../../lib/domain/models/CampaignTypes');
 
 describe('Integration | UseCases | create-campaign', function () {
   let userId;
@@ -41,7 +42,7 @@ describe('Integration | UseCases | create-campaign', function () {
     // given
     const campaign = {
       name: 'a name',
-      type: Campaign.types.ASSESSMENT,
+      type: CampaignTypes.ASSESSMENT,
       title: 'a title',
       idPixLabel: 'id Pix label',
       customLandingPageText: 'Hello',
@@ -73,7 +74,7 @@ describe('Integration | UseCases | create-campaign', function () {
     // given
     const campaign = {
       name: 'a name',
-      type: Campaign.types.PROFILES_COLLECTION,
+      type: CampaignTypes.PROFILES_COLLECTION,
       idPixLabel: 'id Pix label',
       customLandingPageText: 'Hello',
       creatorId: userId,

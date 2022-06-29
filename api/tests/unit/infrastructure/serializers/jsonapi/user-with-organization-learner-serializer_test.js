@@ -2,6 +2,7 @@ const { expect } = require('../../../../test-helper');
 const UserWithOrganizationLearnerSerializer = require('../../../../../lib/infrastructure/serializers/jsonapi/user-with-organization-learner-serializer');
 const UserWithOrganizationLearner = require('../../../../../lib/domain/models/UserWithOrganizationLearner');
 const CampaignParticipationStatuses = require('../../../../../lib/domain/models/CampaignParticipationStatuses');
+const CampaignTypes = require('../../../../../lib/domain/models/CampaignTypes');
 
 describe('Unit | Serializer | JSONAPI | UserWithOrganizationLearner-serializer', function () {
   describe('#serialize', function () {
@@ -22,7 +23,7 @@ describe('Unit | Serializer | JSONAPI | UserWithOrganizationLearner-serializer',
         participationCount: 2,
         lastParticipationDate: new Date('2021-10-10'),
         campaignName: 'Campagne présidentielle',
-        campaignType: UserWithOrganizationLearner.campaignTypes.PROFILES_COLLECTION,
+        campaignType: CampaignTypes.PROFILES_COLLECTION,
         participationStatus: CampaignParticipationStatuses.SHARED,
       });
 

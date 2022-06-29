@@ -1,5 +1,5 @@
 const CampaignForCreation = require('./CampaignForCreation');
-const Campaign = require('./Campaign');
+const CampaignTypes = require('./CampaignTypes');
 const { UserNotAuthorizedToCreateCampaignError } = require('../errors');
 
 class CampaignCreator {
@@ -10,7 +10,7 @@ class CampaignCreator {
   createCampaign(campaignAttributes) {
     const { type, targetProfileId } = campaignAttributes;
 
-    if (type === Campaign.types.ASSESSMENT) {
+    if (type === CampaignTypes.ASSESSMENT) {
       _checkAssessmentCampaignCreatationAllowed(targetProfileId, this.availableTargetProfileIds);
     }
 

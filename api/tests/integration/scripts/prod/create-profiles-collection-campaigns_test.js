@@ -1,7 +1,7 @@
 const { expect, databaseBuilder, catchErr } = require('../../../test-helper');
 const { EntityValidationError } = require('../../../../lib/domain/errors');
 
-const Campaign = require('../../../../lib/domain/models/Campaign');
+const CampaignTypes = require('../../../../lib/domain/models/CampaignTypes');
 
 const { prepareCampaigns, checkData } = require('../../../../scripts/prod/create-profiles-collection-campaigns');
 
@@ -48,7 +48,7 @@ describe('Integration | Scripts | create-profile-collection-campaigns', function
       const campaigns = await prepareCampaigns([campaignData]);
 
       // then
-      expect(campaigns[0].type).to.equal(Campaign.types.PROFILES_COLLECTION);
+      expect(campaigns[0].type).to.equal(CampaignTypes.PROFILES_COLLECTION);
     });
 
     it('should create campaigns for each organizationId', async function () {

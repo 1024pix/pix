@@ -2,8 +2,8 @@ const _ = require('lodash');
 
 const { expect, domainBuilder, databaseBuilder, knex, catchErr } = require('../../../test-helper');
 
-const Campaign = require('../../../../lib/domain/models/Campaign');
 const CampaignParticipationStatuses = require('../../../../lib/domain/models/CampaignParticipationStatuses');
+const CampaignTypes = require('../../../../lib/domain/models/CampaignTypes');
 const OrganizationLearner = require('../../../../lib/domain/models/OrganizationLearner');
 const UserWithOrganizationLearner = require('../../../../lib/domain/models/UserWithOrganizationLearner');
 const OrganizationLearnerForAdmin = require('../../../../lib/domain/read-models/OrganizationLearnerForAdmin');
@@ -2305,7 +2305,7 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
         const campaignId = databaseBuilder.factory.buildCampaign({
           organizationId,
           name: 'some campaign name',
-          type: Campaign.types.PROFILES_COLLECTION,
+          type: CampaignTypes.PROFILES_COLLECTION,
         }).id;
         const userId = databaseBuilder.factory.buildUser().id;
         const organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner({ organizationId, userId }).id;
@@ -2314,7 +2314,7 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
 
         const expectedAttributes = {
           campaignName: 'some campaign name',
-          campaignType: UserWithOrganizationLearner.campaignTypes.PROFILES_COLLECTION,
+          campaignType: CampaignTypes.PROFILES_COLLECTION,
         };
 
         // when
@@ -2372,7 +2372,7 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
         const campaignId = databaseBuilder.factory.buildCampaign({
           organizationId,
           name: 'some campaign name',
-          type: Campaign.types.PROFILES_COLLECTION,
+          type: CampaignTypes.PROFILES_COLLECTION,
         }).id;
         const userId = databaseBuilder.factory.buildUser().id;
         const organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner({ organizationId, userId }).id;

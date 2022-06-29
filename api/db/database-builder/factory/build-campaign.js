@@ -1,7 +1,7 @@
 const buildOrganization = require('./build-organization');
 const buildTargetProfile = require('./build-target-profile');
 const buildUser = require('./build-user');
-const Campaign = require('../../../lib/domain/models/Campaign');
+const CampaignTypes = require('../../../lib/domain/models/CampaignTypes');
 const Assessment = require('../../../lib/domain/models/Assessment');
 const databaseBuffer = require('../database-buffer');
 const _ = require('lodash');
@@ -29,7 +29,7 @@ module.exports = function buildCampaign({
   multipleSendings = false,
   assessmentMethod,
 } = {}) {
-  if (type === Campaign.types.ASSESSMENT && !assessmentMethod) {
+  if (type === CampaignTypes.ASSESSMENT && !assessmentMethod) {
     targetProfileId = _.isUndefined(targetProfileId)
       ? buildTargetProfile({ ownerOrganizationId: organizationId }).id
       : targetProfileId;
