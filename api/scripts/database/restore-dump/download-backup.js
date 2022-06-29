@@ -46,7 +46,9 @@ async function getScalingoBackup(configuration) {
 
   const backups = await dbClient.getBackups();
 
-  const backupByLastDate = backups.sort((a, b) => {
+  const backupsCompleted = backups.filter((backup) => backup.status === 'done');
+
+  const backupByLastDate = backupsCompleted.sort((a, b) => {
     return new Date(b['created_at']) - new Date(a['created_at']);
   });
 
