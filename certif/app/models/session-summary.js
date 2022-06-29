@@ -2,7 +2,7 @@ import Model, { attr } from '@ember-data/model';
 // eslint-disable-next-line ember/no-computed-properties-in-native-classes
 import { computed } from '@ember/object';
 
-export default class Session extends Model {
+export default class SessionSummary extends Model {
   @attr() address;
   @attr() room;
   @attr('date-only') date;
