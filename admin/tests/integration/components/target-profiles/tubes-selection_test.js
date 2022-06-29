@@ -1,13 +1,14 @@
 import { module, test } from 'qunit';
-import { render, clickByName, within } from '@1024pix/ember-testing-library';
+import { render, clickByName } from '@1024pix/ember-testing-library';
 import hbs from 'htmlbars-inline-precompile';
 import { setupRenderingTest } from 'ember-qunit';
+import sinon from 'sinon';
 
-module('Integration | Component | targetProfiles::TubesSelection::Form', function (hooks) {
+module('Integration | Component | TargetProfiles::TubesSelection', function (hooks) {
   setupRenderingTest(hooks);
-  let frameworks;
+  let screen;
 
-  hooks.beforeEach(() => {
+  hooks.beforeEach(async function () {
     const tubes1 = [
       {
         id: 'tubeId1',
@@ -60,15 +61,19 @@ module('Integration | Component | targetProfiles::TubesSelection::Form', functio
       },
     ];
 
-    frameworks = [{ id: 'frameworkId', name: 'Pix', areas }];
+    const frameworks = [{ id: 'frameworkId', name: 'Pix', areas }];
+    this.set('frameworks', frameworks);
+
+    const onChangeFunction = sinon.stub();
+    this.set('onChangeFunction', onChangeFunction);
+
+    screen = await render(
+      hbs`<TargetProfiles::TubesSelection @frameworks={{this.frameworks}} @onChange={{this.onChangeFunction}}/>`
+    );
   });
 
   test('it should display a list of tubes', async function (assert) {
-    // given
-    this.set('frameworks', frameworks);
-
     // when
-    const screen = await render(hbs`<TargetProfiles::TubesSelection::Form @frameworks={{this.frameworks}} />`);
     await clickByName('1 · Titre domaine');
     await clickByName('1 Titre competence');
 
@@ -79,12 +84,7 @@ module('Integration | Component | targetProfiles::TubesSelection::Form', functio
   });
 
   test('it should check the tubes if selected', async function (assert) {
-    // given
-    this.set('frameworks', frameworks);
-
     // when
-    const screen = await render(hbs`<TargetProfiles::TubesSelection::Form @frameworks={{this.frameworks}} />`);
-
     await clickByName('1 · Titre domaine');
     await clickByName('1 Titre competence');
     await clickByName('Tube 1 : Description 1');
@@ -94,11 +94,7 @@ module('Integration | Component | targetProfiles::TubesSelection::Form', functio
   });
 
   test('it should check all tubes corresponding to the thematics if a thematic is selected', async function (assert) {
-    // given
-    this.set('frameworks', frameworks);
-
     // when
-    const screen = await render(hbs`<TargetProfiles::TubesSelection::Form @frameworks={{this.frameworks}} />`);
     await clickByName('1 · Titre domaine');
     await clickByName('1 Titre competence');
     await clickByName('Thématique 1');
@@ -111,11 +107,7 @@ module('Integration | Component | targetProfiles::TubesSelection::Form', functio
   });
 
   test('it should check the thematic if all corresponding tubes are selected', async function (assert) {
-    // given
-    this.set('frameworks', frameworks);
-
     // when
-    const screen = await render(hbs`<TargetProfiles::TubesSelection::Form @frameworks={{this.frameworks}} />`);
     await clickByName('1 · Titre domaine');
     await clickByName('1 Titre competence');
     await clickByName('Tube 1 : Description 1');
@@ -128,11 +120,7 @@ module('Integration | Component | targetProfiles::TubesSelection::Form', functio
   });
 
   test('it should indeterminate the thematic if not all of corresponding tubes are selected', async function (assert) {
-    // given
-    this.set('frameworks', frameworks);
-
     // when
-    const screen = await render(hbs`<TargetProfiles::TubesSelection::Form @frameworks={{this.frameworks}} />`);
     await clickByName('1 · Titre domaine');
     await clickByName('1 Titre competence');
     await clickByName('Tube 1 : Description 1');
@@ -145,11 +133,7 @@ module('Integration | Component | targetProfiles::TubesSelection::Form', functio
   });
 
   test('it should check the competence if all corresponding thematics are selected', async function (assert) {
-    // given
-    this.set('frameworks', frameworks);
-
     // when
-    const screen = await render(hbs`<TargetProfiles::TubesSelection::Form @frameworks={{this.frameworks}} />`);
     await clickByName('1 · Titre domaine');
     await clickByName('1 Titre competence');
     await clickByName('Thématique 1');
@@ -160,11 +144,7 @@ module('Integration | Component | targetProfiles::TubesSelection::Form', functio
   });
 
   test('it should check the thematics and tubes if competence is selected', async function (assert) {
-    // given
-    this.set('frameworks', frameworks);
-
     // when
-    const screen = await render(hbs`<TargetProfiles::TubesSelection::Form @frameworks={{this.frameworks}} />`);
     await clickByName('1 · Titre domaine');
     await clickByName('1 Titre competence');
     await clickByName('Thématiques');
@@ -181,66 +161,20 @@ module('Integration | Component | targetProfiles::TubesSelection::Form', functio
     assert.dom(screen.getByLabelText('Tube 3 : Description 3')).isChecked();
   });
 
-  module('form actions section', function () {
-    test('it should display a return button', async function (assert) {
-      // given
-      this.set('frameworks', frameworks);
-
-      // when
-      const screen = await render(hbs`<TargetProfiles::TubesSelection::Form @frameworks={{this.frameworks}} />`);
-
+  module('#import tubes preselection', function () {
+    test('it should display a button to import tubes preselection', function (assert) {
       // then
-      assert.dom(screen.getByRole('button', { name: 'Retour' })).exists();
+      assert.dom(screen.getByText('Importer une présélection de sujets')).exists();
     });
+  });
 
-    module('when no tubes are selected', function () {
-      test('it should display a disabled download subjects selection button', async function (assert) {
-        // given
-        this.set('frameworks', frameworks);
+  test('it should show the total number of tubes and selected tubes', async function (assert) {
+    // when
+    await clickByName('1 · Titre domaine');
+    await clickByName('1 Titre competence');
+    await clickByName('Tube 1 : Description 1');
 
-        // when
-        const screen = await render(hbs`<TargetProfiles::TubesSelection::Form @frameworks={{this.frameworks}} />`);
-
-        // then
-        assert.dom(screen.getByRole('button', { name: 'Télécharger la sélection des sujets (JSON)' })).isDisabled();
-      });
-    });
-
-    module('when at least one tube is selected', function () {
-      test('it should display a download subjects selection button that is not disabled', async function (assert) {
-        // given
-        this.set('frameworks', frameworks);
-
-        // when
-        const screen = await render(hbs`<TargetProfiles::TubesSelection::Form @frameworks={{this.frameworks}} />`);
-        await clickByName('1 · Titre domaine');
-        await clickByName('1 Titre competence');
-        await clickByName('Tube 1 : Description 1');
-
-        // then
-        assert.dom(screen.getByRole('button', { name: 'Télécharger la sélection des sujets (JSON)' })).isNotDisabled();
-      });
-    });
-
-    module('when download button is clicked', function () {
-      test('it display a download subjects selection modal', async function (assert) {
-        // given
-        this.set('frameworks', frameworks);
-
-        // when
-        const screen = await render(hbs`<TargetProfiles::TubesSelection::Form @frameworks={{this.frameworks}} />`);
-        await clickByName('1 · Titre domaine');
-        await clickByName('1 Titre competence');
-        await clickByName('Tube 1 : Description 1');
-        await clickByName('Télécharger la sélection des sujets (JSON)');
-
-        // then
-        const dialog = screen.getByRole('dialog', { name: 'Télécharger la sélection des sujets' });
-        assert.dom(dialog).exists();
-        assert.dom(within(dialog).getByRole('textbox', { name: 'Nom du fichier' })).exists();
-        assert.dom(within(dialog).getByRole('button', { name: 'Annuler' })).exists();
-        assert.dom(within(dialog).getByRole('link', { name: /Télécharger \(JSON .+ Ko\)/ })).exists();
-      });
-    });
+    // then
+    assert.dom(screen.getByText('1/3')).exists();
   });
 });

@@ -9,9 +9,6 @@ module('Integration | Component | TargetProfiles::CreateTargetProfileForm', func
   setupRenderingTest(hooks);
 
   let targetProfile;
-  let isFileInvalid;
-
-  let onLoadFile;
   let onSubmit;
   let onCancel;
 
@@ -25,9 +22,6 @@ module('Integration | Component | TargetProfiles::CreateTargetProfileForm', func
       category: 'OTHER',
     };
 
-    isFileInvalid = false;
-
-    onLoadFile = sinon.stub();
     onSubmit = sinon.stub();
     const onSubmitWrapper = function (e) {
       e.preventDefault();
@@ -35,28 +29,25 @@ module('Integration | Component | TargetProfiles::CreateTargetProfileForm', func
     };
     onCancel = sinon.stub();
 
-    this.set('targetProfile', targetProfile);
-    this.set('isFileInvalid', isFileInvalid);
+    const frameworks = [{ id: 'framework1', name: 'Pix', areas: [] }];
 
-    this.set('onLoadFile', onLoadFile);
+    this.set('targetProfile', targetProfile);
     this.set('onSubmit', onSubmitWrapper);
     this.set('onCancel', onCancel);
+    this.set('frameworks', frameworks);
   });
 
   test('it should display the items', async function (assert) {
     // when
     const screen = await render(hbs`<TargetProfiles::CreateTargetProfileForm
       @targetProfile={{this.targetProfile}}
-      @isFileInvalid={{this.isFileInvalid}}
-
-      @onLoadFile={{this.onLoadFile}}
+      @frameworks={{this.frameworks}}
       @onSubmit={{this.onSubmit}}
       @onCancel={{this.onCancel}}/>`);
 
     // then
     assert.dom(screen.getByLabelText('Nom (obligatoire) :')).exists();
     assert.dom(screen.getByLabelText('Public :')).exists();
-    assert.dom(screen.getByLabelText('Importer un profil cible .JSON')).exists();
     assert.dom(screen.getByLabelText("Identifiant de l'organisation de référence :")).exists();
     assert.dom(screen.getByLabelText("Lien de l'image du profil cible :", { exact: false })).exists();
     assert.dom(screen.getByRole('button', { name: 'Annuler' })).exists();
@@ -64,30 +55,12 @@ module('Integration | Component | TargetProfiles::CreateTargetProfileForm', func
     assert.dom(screen.getByLabelText('Commentaire (usage interne) :')).exists();
   });
 
-  test('it should display json file error text', async function (assert) {
-    // given
-    this.set('isFileInvalid', true);
-
-    // when
-    const screen = await render(hbs`<TargetProfiles::CreateTargetProfileForm
-      @targetProfile={{this.targetProfile}}
-      @isFileInvalid={{this.isFileInvalid}}
-
-      @onLoadFile={{this.onLoadFile}}
-      @onSubmit={{this.onSubmit}}
-      @onCancel={{this.onCancel}}/>`);
-
-    // then
-    assert.dom(screen.getByText("Le fichier Pix Editor n'est pas au bon format.")).exists();
-  });
-
   test('it should call onSubmit when form is valid', async function (assert) {
     // when
     await render(hbs`<TargetProfiles::CreateTargetProfileForm
       @targetProfile={{this.targetProfile}}
-      @isFileInvalid={{this.isFileInvalid}}
-
-      @onLoadFile={{this.onLoadFile}}
+      @frameworks={{this.frameworks}}
+      @refreshAreas={{this.refreshAreas}}
       @onSubmit={{this.onSubmit}}
       @onCancel={{this.onCancel}}/>`);
 
@@ -101,9 +74,8 @@ module('Integration | Component | TargetProfiles::CreateTargetProfileForm', func
     // when
     await render(hbs`<TargetProfiles::CreateTargetProfileForm
       @targetProfile={{this.targetProfile}}
-      @isFileInvalid={{this.isFileInvalid}}
-
-      @onLoadFile={{this.onLoadFile}}
+      @frameworks={{this.frameworks}}
+      @refreshAreas={{this.refreshAreas}}
       @onSubmit={{this.onSubmit}}
       @onCancel={{this.onCancel}}/>`);
 
@@ -111,21 +83,5 @@ module('Integration | Component | TargetProfiles::CreateTargetProfileForm', func
 
     // then
     assert.ok(onCancel.called);
-  });
-
-  test('it should call onLoadFile when file is selected', async function (assert) {
-    // when
-    await render(hbs`<TargetProfiles::CreateTargetProfileForm
-      @targetProfile={{this.targetProfile}}
-      @isFileInvalid={{this.isFileInvalid}}
-
-      @onLoadFile={{this.onLoadFile}}
-      @onSubmit={{this.onSubmit}}
-      @onCancel={{this.onCancel}}/>`);
-
-    await triggerEvent('#skillsList', 'change', { files: [new Blob(['file'])] });
-
-    // then
-    assert.ok(onLoadFile.called);
   });
 });

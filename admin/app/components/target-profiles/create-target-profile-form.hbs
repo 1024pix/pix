@@ -1,4 +1,4 @@
-<form class="form create-target-profile" {{on "submit" @onSubmit}}>
+<form class="form create-target-profile" {{on "submit" this.onSubmit}}>
 
   <section class="form-section">
     <Card class="create-target-profile__card" @title="1. Information sur le profil cible">
@@ -52,27 +52,7 @@
       </div>
     </Card>
 
-    <Card class="create-target-profile__card" @title="2. Sélection des sujets">
-      <div class="create-target-profile__inline-layout">
-        <div class="file-upload-group form-field">
-          <div class="file-upload-group__button">
-            <PixButtonUpload
-              @id="skillsList"
-              @onChange={{@onLoadFile}}
-              accept=".json"
-              @backgroundColor="transparent-light"
-              @isBorderVisible="true"
-            >
-              Importer un profil cible .JSON
-            </PixButtonUpload>
-            <span>{{@filename}}</span>
-          </div>
-          {{#if @isFileInvalid}}
-            <p class="form-field__error">Le fichier Pix Editor n'est pas au bon format.</p>
-          {{/if}}
-        </div>
-      </div>
-    </Card>
+    <TargetProfiles::TubesSelection @frameworks={{@frameworks}} @onChange={{this.updateTubesAndSkills}} />
 
     <Card class="create-target-profile__card" @title="3. Personnalisation">
       <PixInput
@@ -107,7 +87,13 @@
       @size="big"
       @triggerAction={{@onCancel}}
     >Annuler</PixButton>
-    <PixButton @backgroundColor="green" @size="big" @type="submit" @isDisabled={{@isDisabled}}>
+    <PixButton
+      @backgroundColor="green"
+      @size="big"
+      @type="submit"
+      @isLoading={{this.submitting}}
+      @triggerAction={{this.noop}}
+    >
       Créer le profil cible
     </PixButton>
   </section>

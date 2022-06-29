@@ -2,9 +2,12 @@ import { action } from '@ember/object';
 import Component from '@glimmer/component';
 import { inject as service } from '@ember/service';
 import { optionsCategoryList } from '../../models/target-profile';
+import { tracked } from '@glimmer/tracking';
 
-export default class UpdateTargetProfile extends Component {
+export default class CreateTargetProfileForm extends Component {
   @service notifications;
+
+  @tracked submitting = false;
 
   constructor() {
     super(...arguments);
@@ -30,4 +33,28 @@ export default class UpdateTargetProfile extends Component {
   updateImageUrl(event) {
     this.args.targetProfile.imageUrl = event.target.value;
   }
+
+  @action
+  updateTubesAndSkills(tubesWithLevelAndSkills) {
+    this.args.targetProfile.skillIds = tubesWithLevelAndSkills.flatMap(
+      (tubeWithLevelAndSkills) => tubeWithLevelAndSkills.skills
+    );
+    this.args.targetProfile.templateTubes = tubesWithLevelAndSkills.map(({ id, level }) => ({
+      id,
+      level,
+    }));
+  }
+
+  @action
+  async onSubmit(...args) {
+    try {
+      this.submitting = true;
+      await this.args.onSubmit(...args);
+    } finally {
+      this.submitting = false;
+    }
+  }
+
+  // on a une explication rationnelle
+  noop() {}
 }

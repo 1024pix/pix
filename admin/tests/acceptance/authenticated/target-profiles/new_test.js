@@ -23,6 +23,7 @@ module('Acceptance | Target Profiles | New', function (hooks) {
     module('when admin member has role "SUPER_ADMIN", "SUPPORT" or "METIER"', function () {
       test('it should be accessible for an authenticated user', async function (assert) {
         // given
+        server.create('framework', { id: 'framework', name: 'Pix' });
         await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
 
         // when
