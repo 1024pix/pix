@@ -17,14 +17,12 @@ module('Unit | Controller | authenticated/target-profiles/new', function (hooks)
   });
 
   module('#goBackToTargetProfileList', function () {
-    test('should delete record and go back target profile list page', async function (assert) {
-      controller.store.deleteRecord = sinon.stub();
+    test('should go back target profile list page', async function (assert) {
       controller.router.transitionTo = sinon.stub();
       controller.model = { targetProfile: Symbol('targetProfile') };
 
       controller.goBackToTargetProfileList();
 
-      assert.ok(controller.store.deleteRecord.calledWith(controller.model.targetProfile));
       assert.ok(controller.router.transitionTo.calledWith('authenticated.target-profiles.list'));
     });
   });

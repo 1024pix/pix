@@ -9,8 +9,6 @@ export default class NewController extends Controller {
 
   @action
   goBackToTargetProfileList() {
-    this.store.deleteRecord(this.model.targetProfile);
-
     this.router.transitionTo('authenticated.target-profiles.list');
   }
 
