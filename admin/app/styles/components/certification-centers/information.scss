@@ -4,6 +4,12 @@
     padding-bottom: 16px;
   }
 
+  &__button-section {
+    display: flex;
+    gap: 8px;
+    max-height: 60px;
+  }
+
   &__display {
 
     &__name {
@@ -20,10 +26,6 @@
       &:last-child {
         border-bottom: none;
       }
-    }
-
-    button {
-      margin: 16px 0;
     }
   }
 

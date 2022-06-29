@@ -51,6 +51,24 @@ module('Integration | Component | certification-centers/information', function (
     assert.dom(screen.getByLabelText('Non-habilité pour Cléa')).exists();
   });
 
+  test('it should show button to direct user to metabase dashboard', async function (assert) {
+    // given
+    const store = this.owner.lookup('service:store');
+    this.certificationCenter = store.createRecord('certification-center', {
+      name: 'Centre SCO',
+      type: 'SCO',
+      externalId: 'AX129',
+    });
+
+    // when
+    const screen = await render(
+      hbs`<CertificationCenters::Information @certificationCenter={{this.certificationCenter}} />`
+    );
+
+    // then
+    assert.dom(screen.getByText('Tableau de bord')).exists();
+  });
+
   test('it enters edition mode when click on Edit button', async function (assert) {
     // given
     const store = this.owner.lookup('service:store');
