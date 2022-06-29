@@ -1,5 +1,5 @@
 import { module, test } from 'qunit';
-import setupIntlRenderingTest from '../../helpers/setup-intl-rendering'
+import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 import { render as renderScreen } from '@1024pix/ember-testing-library';
 import { hbs } from 'ember-cli-htmlbars';
 
@@ -13,6 +13,33 @@ module('Integration | Component | enrolled-candidates', function (hooks) {
 
   hooks.beforeEach(async function () {
     store = this.owner.lookup('service:store');
+  });
+
+  test('it should have an accessible table description', async function (assert) {
+    //given
+    const candidate = _buildCertificationCandidate({
+      birthdate: new Date('2019-04-28'),
+    });
+
+    const certificationCandidate = store.createRecord('certification-candidate', candidate);
+
+    this.set('certificationCandidates', [certificationCandidate]);
+
+    // when
+    const screen = await renderScreen(hbs`
+        <EnrolledCandidates
+          @sessionId="1"
+          @certificationCandidates={{certificationCandidates}}
+          >
+        </EnrolledCandidates>
+      `);
+
+    // then
+    assert
+      .dom(
+        screen.getByRole('table', { name: this.intl.t('pages.sessions.enrolled-candidates.with-details-description') })
+      )
+      .exists();
   });
 
   test('it displays candidate information', async function (assert) {
