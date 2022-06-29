@@ -1504,7 +1504,7 @@
           "actions": {
             "evaluate": {
               "extra-information": "Marquer ce tuto comme utile",
-              "label": "Ce tuto m'a été utile"
+              "label": "Ne plus considérer ce tuto comme utile"
             },
             "remove": {
               "label": "Retirer de ma liste de tutos"

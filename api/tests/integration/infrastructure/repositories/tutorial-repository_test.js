@@ -1,6 +1,7 @@
 const _ = require('lodash');
 const { expect, mockLearningContent, databaseBuilder, catchErr, domainBuilder } = require('../../../test-helper');
 const Tutorial = require('../../../../lib/domain/models/Tutorial');
+const TutorialEvaluation = require('../../../../lib/domain/models/TutorialEvaluation');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 const tutorialRepository = require('../../../../lib/infrastructure/repositories/tutorial-repository');
 const TutorialForUser = require('../../../../lib/domain/read-models/TutorialForUser');
@@ -700,10 +701,11 @@ describe('Integration | Repository | tutorial-repository', function () {
         const { results } = await tutorialRepository.findPaginatedRecommendedByUserId({ userId });
 
         // then
-        expect(results[0].tutorialEvaluation).to.deep.equal({
+        expect(results[0].tutorialEvaluation).to.include({
           id: tutorialEvaluationId,
           userId,
           tutorialId: 'tuto4',
+          status: TutorialEvaluation.statuses.LIKED,
         });
         expect(results[0].userTutorial).to.include({
           id: userSavedTutorialId,

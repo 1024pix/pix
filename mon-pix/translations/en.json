@@ -1504,7 +1504,7 @@
           "actions": {
             "evaluate": {
               "extra-information": "Mark this tutorial as helpful",
-              "label": "This tutorial was helpful to me"
+              "label": "Unmark this tutorial as helpful"
             },
             "remove": {
               "label": "Remove from my saved tutorials"

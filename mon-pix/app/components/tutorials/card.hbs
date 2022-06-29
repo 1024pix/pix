@@ -23,7 +23,7 @@
           aria-label={{this.evaluateInformation}}
           type="button"
           {{on "click" this.evaluateTutorial}}
-          disabled={{this.isTutorialEvaluated}}
+          disabled={{this.isEvaluationButtonDisabled}}
           aria-disabled="{{this.isTutorialEvaluated}}"
         >
           <FaIcon class="pix-action-chip__icon" @prefix={{if this.isTutorialEvaluated "fas" "far"}} @icon="thumbs-up" />

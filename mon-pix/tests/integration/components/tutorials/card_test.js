@@ -33,8 +33,8 @@ describe('Integration | Component | Tutorials | Card', function () {
       .and.contains('vidéo')
       .and.contains('une minute');
     expect(find('.tutorial-card-v2-content__actions')).to.exist;
-    expect(find('[aria-label="Ce tuto m\'a été utile"]')).to.exist;
+    expect(find('[aria-label="Ne plus considérer ce tuto comme utile"]')).to.exist;
     expect(find('[aria-label="Retirer de ma liste de tutos"]')).to.exist;
-    expect(find('[title="Ce tuto m\'a été utile"]')).to.exist;
+    expect(find('[title="Ne plus considérer ce tuto comme utile"]')).to.exist;
   });
 });
