@@ -107,6 +107,10 @@ export default class CertificationIssueReportModel extends Model {
     return this.isImpactful && !this.isResolved;
   }
 
+  get canBeModified() {
+    return this.isResolved && this.isImpactful;
+  }
+
   resolve = memberAction({
     type: 'patch',
     before(resolution) {
