@@ -4,7 +4,6 @@ import { render, click } from '@ember/test-helpers';
 import { render as renderScreen } from '@1024pix/ember-testing-library';
 import hbs from 'htmlbars-inline-precompile';
 import { setupRenderingTest } from 'ember-qunit';
-import { run } from '@ember/runloop';
 
 module('Integration | Component | session-summary-list', function (hooks) {
   setupRenderingTest(hooks);
@@ -56,16 +55,12 @@ module('Integration | Component | session-summary-list', function (hooks) {
     test('it should display a list of sessions', async function (assert) {
       // given
       const store = this.owner.lookup('service:store');
-      const sessionSummary1 = run(() =>
-        store.createRecord('session-summary', {
-          id: 123,
-        })
-      );
-      const sessionSummary2 = run(() =>
-        store.createRecord('session-summary', {
-          id: 456,
-        })
-      );
+      const sessionSummary1 = store.createRecord('session-summary', {
+        id: 123,
+      });
+      const sessionSummary2 = store.createRecord('session-summary', {
+        id: 456,
+      });
       const sessionSummaries = [sessionSummary1, sessionSummary2];
       sessionSummaries.meta = {
         rowCount: 2,
@@ -85,19 +80,17 @@ module('Integration | Component | session-summary-list', function (hooks) {
     test('it should display all the attributes of the session summary in the row', async function (assert) {
       // given
       const store = this.owner.lookup('service:store');
-      const sessionSummary = run(() =>
-        store.createRecord('session-summary', {
-          id: 123,
-          address: 'TicTac',
-          room: 'Jambon',
-          date: '2020-12-01',
-          time: '15:00:00',
-          examiner: 'Bibiche',
-          enrolledCandidatesCount: 3,
-          effectiveCandidatesCount: 2,
-          status: 'finalized',
-        })
-      );
+      const sessionSummary = store.createRecord('session-summary', {
+        id: 123,
+        address: 'TicTac',
+        room: 'Jambon',
+        date: '2020-12-01',
+        time: '15:00:00',
+        examiner: 'Bibiche',
+        enrolledCandidatesCount: 3,
+        effectiveCandidatesCount: 2,
+        status: 'finalized',
+      });
       const sessionSummaries = [sessionSummary];
       sessionSummaries.meta = {
         rowCount: 1,
@@ -125,11 +118,9 @@ module('Integration | Component | session-summary-list', function (hooks) {
       // given
       this.goToSessionDetailsSpy = sinon.stub();
       const store = this.owner.lookup('service:store');
-      const sessionSummary = run(() =>
-        store.createRecord('session-summary', {
-          id: 123,
-        })
-      );
+      const sessionSummary = store.createRecord('session-summary', {
+        id: 123,
+      });
       const sessionSummaries = [sessionSummary];
       sessionSummaries.meta = {
         rowCount: 1,
@@ -151,11 +142,9 @@ module('Integration | Component | session-summary-list', function (hooks) {
       // given
       this.goToSessionDetailsSpy = sinon.stub();
       const store = this.owner.lookup('service:store');
-      const sessionSummary = run(() =>
-        store.createRecord('session-summary', {
-          id: 123,
-        })
-      );
+      const sessionSummary = store.createRecord('session-summary', {
+        id: 123,
+      });
       const sessionSummaries = [sessionSummary];
       sessionSummaries.meta = {
         rowCount: 1,
@@ -176,13 +165,11 @@ module('Integration | Component | session-summary-list', function (hooks) {
         // given
         this.goToSessionDetailsSpy = sinon.stub();
         const store = this.owner.lookup('service:store');
-        const sessionSummary = run(() =>
-          store.createRecord('session-summary', {
-            id: 123,
-            enrolledCandidatesCount: 1,
-            effectiveCandidatesCount: 1,
-          })
-        );
+        const sessionSummary = store.createRecord('session-summary', {
+          id: 123,
+          enrolledCandidatesCount: 1,
+          effectiveCandidatesCount: 1,
+        });
         const sessionSummaries = [sessionSummary];
         sessionSummaries.meta = {
           rowCount: 1,
@@ -204,11 +191,9 @@ module('Integration | Component | session-summary-list', function (hooks) {
         // given
         this.goToSessionDetailsSpy = sinon.stub();
         const store = this.owner.lookup('service:store');
-        const sessionSummary = run(() =>
-          store.createRecord('session-summary', {
-            id: 123,
-          })
-        );
+        const sessionSummary = store.createRecord('session-summary', {
+          id: 123,
+        });
         const sessionSummaries = [sessionSummary];
         sessionSummaries.meta = {
           rowCount: 1,
@@ -256,11 +241,9 @@ module('Integration | Component | session-summary-list', function (hooks) {
             // given
             this.goToSessionDetailsSpy = sinon.stub();
             const store = this.owner.lookup('service:store');
-            const sessionSummary = run(() =>
-              store.createRecord('session-summary', {
-                id: 123,
-              })
-            );
+            const sessionSummary = store.createRecord('session-summary', {
+              id: 123,
+            });
             const sessionSummaries = [sessionSummary];
             sessionSummaries.meta = {
               rowCount: 1,
