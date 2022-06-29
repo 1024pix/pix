@@ -29,4 +29,18 @@ module('Unit | Adapters | session-summary', function (hooks) {
       assert.true(url.endsWith('/api/certification-centers/123/session-summaries'));
     });
   });
+
+  module('#urlForDeleteRecord', function () {
+    test('it should return the modified URL from session id', async function (assert) {
+      // given
+      const adapter = this.owner.lookup('adapter:session-summary');
+      const sessionId = 123;
+
+      // when
+      const url = adapter.urlForDeleteRecord(sessionId);
+
+      // then
+      assert.true(url.endsWith(`/sessions/${sessionId}`));
+    });
+  });
 });

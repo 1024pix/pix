@@ -252,4 +252,8 @@ export default function () {
     await candidate.update({ authorizedToStart: true });
     return new Response(204);
   });
+
+  this.delete('/sessions/:id', async () => {
+    return new Response(204);
+  });
 }
