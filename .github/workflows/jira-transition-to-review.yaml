@@ -11,8 +11,9 @@ jobs:
       JIRA_BASE_URL: ${{ secrets.JIRA_BASE_URL }}
       JIRA_USER_EMAIL: ${{ secrets.JIRA_USER_EMAIL }}
       JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
-    if: >
-      contains(github.event.pull_request.labels.*.name, ':eyes: Tech Review Needed')
+    if: |
+      !github.event.pull_requests.draft
+        && contains(github.event.pull_request.labels.*.name, ':eyes: Tech Review Needed')
     steps:
       - name: Login
         if: env.JIRA_BASE_URL != ''
