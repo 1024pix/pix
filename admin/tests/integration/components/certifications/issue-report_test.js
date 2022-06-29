@@ -99,6 +99,28 @@ module('Integration | Component | certifications/issue-report', function (hooks)
       // Then
       assert.dom(screen.queryByText('Résoudre le signalement')).doesNotExist();
     });
+
+    test('it should display resolution modification button', async function (assert) {
+      // Given
+      const store = this.owner.lookup('service:store');
+      const issueReport = store.createRecord('certification-issue-report', {
+        isImpactful: true,
+        resolvedAt: new Date('2020-01-01'),
+      });
+      this.set('issueReport', issueReport);
+
+      class AccessControlStub extends Service {
+        hasAccessToCertificationActionsScope = true;
+      }
+
+      this.owner.register('service:access-control', AccessControlStub);
+
+      // When
+      const screen = await renderScreen(hbs`<Certifications::IssueReport @issueReport={{this.issueReport}}/>`);
+
+      // Then
+      assert.dom(screen.queryByText('Modifier la résolution')).exists();
+    });
   });
 
   [
