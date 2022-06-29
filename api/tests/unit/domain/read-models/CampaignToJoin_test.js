@@ -1,11 +1,11 @@
 const { expect, domainBuilder } = require('../../../test-helper');
-const { types } = require('../../../../lib/domain/models/Campaign');
+const CampaignTypes = require('../../../../lib/domain/models/CampaignTypes');
 
 describe('Unit | Domain | Models | CampaignToJoin', function () {
   describe('#isAssessment', function () {
     it('should return true if the campaign is of type ASSESSMENT', function () {
       // given
-      const campaignToJoin = domainBuilder.buildCampaignToJoin({ type: types.ASSESSMENT });
+      const campaignToJoin = domainBuilder.buildCampaignToJoin({ type: CampaignTypes.ASSESSMENT });
 
       // when / then
       expect(campaignToJoin.isAssessment).to.be.true;
@@ -13,7 +13,7 @@ describe('Unit | Domain | Models | CampaignToJoin', function () {
 
     it('should return false if the campaign is not of type ASSESSMENT', function () {
       // given
-      const campaignToJoin = domainBuilder.buildCampaignToJoin({ type: types.PROFILES_COLLECTION });
+      const campaignToJoin = domainBuilder.buildCampaignToJoin({ type: CampaignTypes.PROFILES_COLLECTION });
 
       // when / then
       expect(campaignToJoin.isAssessment).to.be.false;
@@ -23,7 +23,7 @@ describe('Unit | Domain | Models | CampaignToJoin', function () {
   describe('#isProfilesCollection', function () {
     it('should return true if the campaign is of type PROFILES_COLLECTION', function () {
       // given
-      const campaignToJoin = domainBuilder.buildCampaignToJoin({ type: types.PROFILES_COLLECTION });
+      const campaignToJoin = domainBuilder.buildCampaignToJoin({ type: CampaignTypes.PROFILES_COLLECTION });
 
       // when / then
       expect(campaignToJoin.isProfilesCollection).to.be.true;
@@ -31,7 +31,7 @@ describe('Unit | Domain | Models | CampaignToJoin', function () {
 
     it('should return false if the campaign is not of type PROFILES_COLLECTION', function () {
       // given
-      const campaignToJoin = domainBuilder.buildCampaignToJoin({ type: types.ASSESSMENT });
+      const campaignToJoin = domainBuilder.buildCampaignToJoin({ type: CampaignTypes.ASSESSMENT });
 
       // when / then
       expect(campaignToJoin.isProfilesCollection).to.be.false;

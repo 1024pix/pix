@@ -1,7 +1,7 @@
 const { expect, sinon } = require('../../../test-helper');
 const createCampaign = require('../../../../lib/domain/usecases/create-campaign');
 const campaignCodeGenerator = require('../../../../lib/domain/services/campaigns/campaign-code-generator');
-const Campaign = require('../../../../lib/domain/models/Campaign');
+const CampaignTypes = require('../../../../lib/domain/models/CampaignTypes');
 const CampaignCreator = require('../../../../lib/domain/models/CampaignCreator');
 const CampaignForCreation = require('../../../../lib/domain/models/CampaignForCreation');
 
@@ -24,7 +24,7 @@ describe('Unit | UseCase | create-campaign', function () {
     const organizationId = 14;
     const campaignData = {
       name: 'campagne utilisateur',
-      type: Campaign.types.ASSESSMENT,
+      type: CampaignTypes.ASSESSMENT,
       creatorId,
       ownerId,
       targetProfileId,
@@ -58,7 +58,7 @@ describe('Unit | UseCase | create-campaign', function () {
     const organizationId = 14;
     const campaignData = {
       name: 'campagne utilisateur',
-      type: Campaign.types.ASSESSMENT,
+      type: CampaignTypes.ASSESSMENT,
       creatorId,
       ownerId,
       targetProfileId,

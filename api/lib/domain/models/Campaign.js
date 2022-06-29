@@ -1,9 +1,5 @@
 const _ = require('lodash');
-
-const types = {
-  ASSESSMENT: 'ASSESSMENT',
-  PROFILES_COLLECTION: 'PROFILES_COLLECTION',
-};
+const CampaignTypes = require('./CampaignTypes');
 
 class Campaign {
   constructor({
@@ -61,18 +57,16 @@ class Campaign {
   }
 
   isAssessment() {
-    return this.type === types.ASSESSMENT;
+    return this.type === CampaignTypes.ASSESSMENT;
   }
 
   isProfilesCollection() {
-    return this.type === types.PROFILES_COLLECTION;
+    return this.type === CampaignTypes.PROFILES_COLLECTION;
   }
 
   isArchived() {
     return Boolean(this.archivedAt);
   }
 }
-
-Campaign.types = types;
 
 module.exports = Campaign;

@@ -1,4 +1,4 @@
-const Campaign = require('../../../../lib/domain/models/Campaign');
+const CampaignTypes = require('../../../../lib/domain/models/CampaignTypes');
 const CampaignReport = require('../../../../lib/domain/read-models/CampaignReport');
 
 module.exports = function buildCampaignReport({
@@ -10,7 +10,7 @@ module.exports = function buildCampaignReport({
   createdAt = new Date(),
   customLandingPageText = 'Une custom landing page',
   archivedAt = null,
-  type = Campaign.types.ASSESSMENT,
+  type = CampaignTypes.ASSESSMENT,
   creatorFirstName = 'Un prénom',
   creatorLastName = 'Un nom',
   ownerId = 2,

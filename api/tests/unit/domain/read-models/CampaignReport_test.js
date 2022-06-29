@@ -1,5 +1,5 @@
 const { expect, domainBuilder } = require('../../../test-helper');
-const { types } = require('../../../../lib/domain/models/Campaign');
+const CampaignTypes = require('../../../../lib/domain/models/CampaignTypes');
 
 describe('Unit | Domain | Models | CampaignReport', function () {
   it('should define target profile informations', function () {
@@ -23,7 +23,7 @@ describe('Unit | Domain | Models | CampaignReport', function () {
   describe('#isAssessment', function () {
     it('should return true if the campaign is of type ASSESSMENT', function () {
       // given
-      const campaignReport = domainBuilder.buildCampaignReport({ type: types.ASSESSMENT });
+      const campaignReport = domainBuilder.buildCampaignReport({ type: CampaignTypes.ASSESSMENT });
 
       // when / then
       expect(campaignReport.isAssessment).to.be.true;
@@ -31,7 +31,7 @@ describe('Unit | Domain | Models | CampaignReport', function () {
 
     it('should return false if the campaign is not of type ASSESSMENT', function () {
       // given
-      const campaignReport = domainBuilder.buildCampaignReport({ type: types.PROFILES_COLLECTION });
+      const campaignReport = domainBuilder.buildCampaignReport({ type: CampaignTypes.PROFILES_COLLECTION });
 
       // when / then
       expect(campaignReport.isAssessment).to.be.false;
@@ -41,7 +41,7 @@ describe('Unit | Domain | Models | CampaignReport', function () {
   describe('#isProfilesCollection', function () {
     it('should return true if the campaign is of type PROFILES_COLLECTION', function () {
       // given
-      const campaignReport = domainBuilder.buildCampaignReport({ type: types.PROFILES_COLLECTION });
+      const campaignReport = domainBuilder.buildCampaignReport({ type: CampaignTypes.PROFILES_COLLECTION });
 
       // when / then
       expect(campaignReport.isProfilesCollection).to.be.true;
@@ -49,7 +49,7 @@ describe('Unit | Domain | Models | CampaignReport', function () {
 
     it('should return false if the campaign is not of type PROFILES_COLLECTION', function () {
       // given
-      const campaignReport = domainBuilder.buildCampaignReport({ type: types.ASSESSMENT });
+      const campaignReport = domainBuilder.buildCampaignReport({ type: CampaignTypes.ASSESSMENT });
 
       // when / then
       expect(campaignReport.isProfilesCollection).to.be.false;

@@ -1,5 +1,5 @@
 const _ = require('lodash');
-const { types } = require('../models/Campaign');
+const CampaignTypes = require('../models/CampaignTypes');
 
 class CampaignReport {
   constructor({
@@ -51,11 +51,11 @@ class CampaignReport {
   }
 
   get isAssessment() {
-    return this.type === types.ASSESSMENT;
+    return this.type === CampaignTypes.ASSESSMENT;
   }
 
   get isProfilesCollection() {
-    return this.type === types.PROFILES_COLLECTION;
+    return this.type === CampaignTypes.PROFILES_COLLECTION;
   }
 
   get isArchived() {

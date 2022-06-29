@@ -1,6 +1,6 @@
 const BookshelfCampaignParticipation = require('../orm-models/CampaignParticipation');
 const CampaignParticipationStatuses = require('../../domain/models/CampaignParticipationStatuses');
-const Campaign = require('../../domain/models/Campaign');
+const CampaignTypes = require('../../domain/models/CampaignTypes');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
 const { knex } = require('../../../db/knex-database-connection');
 const knowledgeElementRepository = require('./knowledge-element-repository');
@@ -16,7 +16,7 @@ module.exports = {
     const { count } = await knex('campaign-participations')
       .count('campaign-participations.id')
       .join('campaigns', 'campaigns.id', 'campaignId')
-      .where('campaigns.type', '=', Campaign.types.ASSESSMENT)
+      .where('campaigns.type', '=', CampaignTypes.ASSESSMENT)
       .andWhere({ userId })
       .first();
     return count > 0;
@@ -29,7 +29,7 @@ module.exports = {
       .whereNull('deletedAt')
       .whereNull('archivedAt')
       .andWhere({ status: TO_SHARE })
-      .andWhere({ 'campaigns.type': Campaign.types.PROFILES_COLLECTION })
+      .andWhere({ 'campaigns.type': CampaignTypes.PROFILES_COLLECTION })
       .orderBy('campaign-participations.createdAt', 'desc')
       .first();
     return result?.code || null;
@@ -231,7 +231,7 @@ function mapToParticipationByStatus(row = {}, campaignType) {
     shared: row.shared || 0,
     completed: row.completed || 0,
   };
-  if (campaignType === Campaign.types.ASSESSMENT) {
+  if (campaignType === CampaignTypes.ASSESSMENT) {
     participationByStatus.started = row.started || 0;
   }
   return participationByStatus;

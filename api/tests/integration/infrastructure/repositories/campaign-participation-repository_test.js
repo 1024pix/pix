@@ -1,6 +1,7 @@
 const _ = require('lodash');
 const { sinon, expect, knex, databaseBuilder, catchErr } = require('../../../test-helper');
 const Campaign = require('../../../../lib/domain/models/Campaign');
+const CampaignTypes = require('../../../../lib/domain/models/CampaignTypes');
 const Assessment = require('../../../../lib/domain/models/Assessment');
 const CampaignParticipation = require('../../../../lib/domain/models/CampaignParticipation');
 const CampaignParticipationStatuses = require('../../../../lib/domain/models/CampaignParticipationStatuses');
@@ -20,7 +21,7 @@ describe('Integration | Repository | Campaign Participation', function () {
 
     it('should return true if the user has participations to campaigns of type assement', async function () {
       // given
-      const campaign = databaseBuilder.factory.buildCampaign({ type: Campaign.types.ASSESSMENT });
+      const campaign = databaseBuilder.factory.buildCampaign({ type: CampaignTypes.ASSESSMENT });
       databaseBuilder.factory.buildCampaignParticipation({
         campaignId: campaign.id,
         userId,
@@ -37,7 +38,7 @@ describe('Integration | Repository | Campaign Participation', function () {
     it('should return false if the user does not have participations', async function () {
       // given
       const otherUser = databaseBuilder.factory.buildUser();
-      const campaign = databaseBuilder.factory.buildCampaign({ type: Campaign.types.ASSESSMENT });
+      const campaign = databaseBuilder.factory.buildCampaign({ type: CampaignTypes.ASSESSMENT });
       databaseBuilder.factory.buildCampaignParticipation({
         campaignId: campaign.id,
         userId: otherUser.id,
@@ -53,7 +54,7 @@ describe('Integration | Repository | Campaign Participation', function () {
 
     it('should return false if the user does not have participations to campaigns of type assement', async function () {
       // given
-      const campaign = databaseBuilder.factory.buildCampaign({ type: Campaign.types.PROFILES_COLLECTION });
+      const campaign = databaseBuilder.factory.buildCampaign({ type: CampaignTypes.PROFILES_COLLECTION });
       databaseBuilder.factory.buildCampaignParticipation({
         campaignId: campaign.id,
         userId,
@@ -360,8 +361,8 @@ describe('Integration | Repository | Campaign Participation', function () {
 
     beforeEach(async function () {
       organizationId = databaseBuilder.factory.buildOrganization().id;
-      campaign1 = databaseBuilder.factory.buildCampaign({ organizationId, type: Campaign.types.PROFILES_COLLECTION });
-      campaign2 = databaseBuilder.factory.buildCampaign({ organizationId, type: Campaign.types.PROFILES_COLLECTION });
+      campaign1 = databaseBuilder.factory.buildCampaign({ organizationId, type: CampaignTypes.PROFILES_COLLECTION });
+      campaign2 = databaseBuilder.factory.buildCampaign({ organizationId, type: CampaignTypes.PROFILES_COLLECTION });
 
       campaignParticipation1 = databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
         { organizationId, firstName: 'Hubert', lastName: 'Parterre', division: '6emeD' },
@@ -496,7 +497,7 @@ describe('Integration | Repository | Campaign Participation', function () {
 
       beforeEach(async function () {
         campaignId = databaseBuilder.factory.buildCampaign({
-          type: Campaign.types.PROFILES_COLLECTION,
+          type: CampaignTypes.PROFILES_COLLECTION,
           multipleSendings: true,
         }).id;
 
@@ -1123,7 +1124,7 @@ describe('Integration | Repository | Campaign Participation', function () {
       let campaignType;
 
       beforeEach(async function () {
-        const campaign = databaseBuilder.factory.buildCampaign({ type: Campaign.types.PROFILES_COLLECTION });
+        const campaign = databaseBuilder.factory.buildCampaign({ type: CampaignTypes.PROFILES_COLLECTION });
         campaignId = campaign.id;
         campaignType = campaign.type;
         await databaseBuilder.commit();

@@ -1,6 +1,6 @@
 const CampaignCreator = require('../../../../lib/domain/models/CampaignCreator');
 const { expect, catchErr } = require('../../../test-helper');
-const Campaign = require('../../../../lib/domain/models/Campaign');
+const CampaignTypes = require('../../../../lib/domain/models/CampaignTypes');
 const CampaignForCreation = require('../../../../lib/domain/models/CampaignForCreation');
 const { UserNotAuthorizedToCreateCampaignError, EntityValidationError } = require('../../../../lib/domain/errors');
 
@@ -12,7 +12,7 @@ describe('Unit | Domain | Models | CampaignCreator', function () {
         const creator = new CampaignCreator(availableTargetProfileIds);
         const campaignData = {
           name: 'campagne utilisateur',
-          type: Campaign.types.ASSESSMENT,
+          type: CampaignTypes.ASSESSMENT,
           creatorId: 1,
           ownerId: 1,
           organizationId: 2,
@@ -33,7 +33,7 @@ describe('Unit | Domain | Models | CampaignCreator', function () {
           const creator = new CampaignCreator(availableTargetProfileIds);
           const campaignData = {
             name: 'campagne utilisateur',
-            type: Campaign.types.ASSESSMENT,
+            type: CampaignTypes.ASSESSMENT,
             creatorId: 1,
             ownerId: 1,
             organizationId: 2,
@@ -54,7 +54,7 @@ describe('Unit | Domain | Models | CampaignCreator', function () {
           const creator = new CampaignCreator(availableTargetProfileIds);
           const campaignData = {
             name: 'campagne utilisateur',
-            type: Campaign.types.ASSESSMENT,
+            type: CampaignTypes.ASSESSMENT,
             creatorId: 1,
             ownerId: 1,
             organizationId: 2,

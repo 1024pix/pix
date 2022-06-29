@@ -1,6 +1,6 @@
 const { expect } = require('../../../test-helper');
 const campaignValidator = require('../../../../lib/domain/validators/campaign-validator');
-const Campaign = require('../../../../lib/domain/models/Campaign');
+const CampaignTypes = require('../../../../lib/domain/models/CampaignTypes');
 
 const MISSING_VALUE = null;
 const EMPTY_VALUE = '';
@@ -17,7 +17,7 @@ describe('Unit | Domain | Validators | campaign-validator', function () {
     name: 'campagne de collecte de profils',
     // TODO: Fix this the next time the file is edited.
     // eslint-disable-next-line mocha/no-setup-in-describe
-    type: Campaign.types.PROFILES_COLLECTION,
+    type: CampaignTypes.PROFILES_COLLECTION,
     creatorId: 4,
     organizationId: 12,
     idPixLabel: 'Mail Pro',
@@ -30,7 +30,7 @@ describe('Unit | Domain | Validators | campaign-validator', function () {
     name: "campagne d'évaluation",
     // TODO: Fix this the next time the file is edited.
     // eslint-disable-next-line mocha/no-setup-in-describe
-    type: Campaign.types.ASSESSMENT,
+    type: CampaignTypes.ASSESSMENT,
     title: "Campagne d'évaluation",
     creatorId: 4,
     organizationId: 12,
