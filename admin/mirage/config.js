@@ -371,4 +371,6 @@ export default function () {
   this.put('/admin/target-profiles/:id/simplified-access', markTargetProfileAsSimplifiedAccess);
 
   this.post('/admin/organizations/:id/archive', archiveOrganization);
+
+  this.get('/admin/frameworks');
 }

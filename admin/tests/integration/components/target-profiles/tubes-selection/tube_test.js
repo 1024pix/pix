@@ -30,6 +30,7 @@ module('Integration | Component | TargetProfiles:TubesSelection::Tube', function
     this.set('thematic', thematic);
     this.set('competence', competence);
     this.set('setLevelTube', setLevelTube);
+    this.set('tubeLevels', {});
   });
 
   test('it should disable level select if tube is not selected', async function (assert) {
@@ -43,7 +44,8 @@ module('Integration | Component | TargetProfiles:TubesSelection::Tube', function
                           @thematic={{this.thematic}}
                           @tube={{this.tube}}
                           @setLevelTube={{this.setLevelTube}}
-                          @selectedTubeIds={{this.selectedTubeIds}}/>`
+                          @selectedTubeIds={{this.selectedTubeIds}}
+                          @tubeLevels={{this.tubeLevels}}/>`
     );
     const select = document.getElementById('select-level-tube-tubeId1');
 
@@ -62,7 +64,8 @@ module('Integration | Component | TargetProfiles:TubesSelection::Tube', function
                           @thematic={{this.thematic}}
                           @tube={{this.tube}}
                           @setLevelTube={{this.setLevelTube}}
-                          @selectedTubeIds={{this.selectedTubeIds}}/>`
+                          @selectedTubeIds={{this.selectedTubeIds}}
+                          @tubeLevels={{this.tubeLevels}}/>`
     );
     const select = document.getElementById('select-level-tube-tubeId1');
 

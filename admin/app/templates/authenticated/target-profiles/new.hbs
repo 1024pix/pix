@@ -8,11 +8,8 @@
 <main class="page-body">
   <section class="page-section">
     <TargetProfiles::CreateTargetProfileForm
-      @targetProfile={{this.model}}
-      @isFileInvalid={{this.isFileInvalid}}
-      @filename={{this.filename}}
-      @isDisabled={{this.isSaving}}
-      @onLoadFile={{this.saveFileObject}}
+      @targetProfile={{this.model.targetProfile}}
+      @frameworks={{this.model.frameworks}}
       @onSubmit={{this.createTargetProfile}}
       @onCancel={{this.goBackToTargetProfileList}}
     />

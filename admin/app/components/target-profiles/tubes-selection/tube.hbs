@@ -15,7 +15,7 @@
     id="select-level-tube-{{@tube.id}}"
     @options={{this.levelOptions}}
     @onChange={{this.setLevelTube}}
-    @selectedOption={{8}}
+    @selectedOption={{this.selectedLevel}}
     disabled={{not this.checked}}
   />
   <label for="select-level-tube-{{@tube.id}}" class="sr-only">Sélection du niveau du sujet</label>

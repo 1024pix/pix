@@ -1,0 +1,49 @@
+<div
+  {{did-insert this.refreshAreas}}
+  {{did-update this.refreshAreas this.selectedFrameworkIds}}
+  class="tubes-selection"
+>
+  <Card class="tubes-selection__card" @title="2. Sélection des sujets">
+    <div class="tubes-selection__inline-layout">
+      <label for="framework-list" class="tubes-selection__multi-select-label">Référentiel :</label>
+      <PixMultiSelect
+        class="tubes-selection__multi-select"
+        @id="framework-list"
+        @isSearchable={{true}}
+        @showOptionsOnInput={{true}}
+        @onSelect={{this.setSelectedFrameworkIds}}
+        @emptyMessage={{"Pas de résultat"}}
+        @selected={{this.selectedFrameworkIds}}
+        @options={{this.frameworkOptions}}
+        as |option|
+      >
+        {{option.label}}
+      </PixMultiSelect>
+      <div class="vertical-delimiter"></div>
+      <PixButtonUpload
+        @onChange={{this.fillTubesSelectionFromFile}}
+        @backgroundColor="transparent-light"
+        @isBorderVisible={{true}}
+        @size="small"
+        @id="file-upload"
+        accept=".json"
+      >
+        Importer une présélection de sujets
+      </PixButtonUpload>
+      <div class="tubes-selection__inline-layout--count">{{this.selectedTubesCount}}/{{this.totalTubesCount}}</div>
+    </div>
+  </Card>
+
+  {{#if this.hasNoFrameworksSelected}}
+    Aucun référentiel de sélectionné
+  {{else}}
+    <TargetProfiles::TubesSelection::Areas
+      @areas={{this.areas}}
+      @setLevelTube={{this.setLevelTube}}
+      @selectedTubeIds={{this.selectedTubeIds}}
+      @checkTube={{this.checkTube}}
+      @uncheckTube={{this.uncheckTube}}
+      @tubeLevels={{this.tubeLevels}}
+    />
+  {{/if}}
+</div>

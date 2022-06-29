@@ -1,20 +1,21 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
-import createComponent from '../../../../helpers/create-glimmer-component';
+import createComponent from '../../../helpers/create-glimmer-component';
 import sinon from 'sinon';
 import { A as EmberArray } from '@ember/array';
 
-module('Unit | Component | target-profiles/tubes-selection/form', function (hooks) {
+module('Unit | Component | target-profiles/tubes-selection', function (hooks) {
   setupTest(hooks);
 
   let component;
 
   hooks.beforeEach(function () {
-    component = createComponent('component:target-profiles/tubes-selection/form', {
+    component = createComponent('component:target-profiles/tubes-selection', {
       frameworks: [
         { name: 'Pix', id: 'id1' },
         { name: 'framework2', id: 'id2' },
       ],
+      onChange: sinon.stub(),
     });
   });
 
@@ -38,19 +39,6 @@ module('Unit | Component | target-profiles/tubes-selection/form', function (hook
 
       // then
       assert.deepEqual(result, [{ name: 'Pix', id: 'id1' }]);
-    });
-  });
-
-  module('#goBackToTargetProfileList', function () {
-    test('should delete record and go back to target profile list page', async function (assert) {
-      // given
-      component.router.transitionTo = sinon.stub();
-
-      // when
-      component.goBackToTargetProfileList();
-
-      // then
-      assert.ok(component.router.transitionTo.calledWith('authenticated.target-profiles.list'));
     });
   });
 
@@ -154,94 +142,49 @@ module('Unit | Component | target-profiles/tubes-selection/form', function (hook
     });
   });
 
-  module('#hasNoTubesSelected', function () {
-    module('when some tubes are selected', function () {
-      test('it should return false', function (assert) {
-        // given
-        component.selectedTubeIds = ['tubeId1', 'tubeId2'];
+  module('#fillTubesSelectionFromFile', function (hooks) {
+    const files = ['tubeId1', 'tubeId2', 'tubeId3'];
 
-        // then
-        assert.false(component.hasNoTubesSelected);
-      });
+    hooks.beforeEach(function () {
+      sinon.restore();
+      sinon.stub(FileReader.prototype, 'readAsText');
     });
 
-    module('when no tubes are selected', function () {
-      test('it should return true', function (assert) {
-        // given
-        component.selectedTubeIds = [];
+    test('should read the file', async function (assert) {
+      component.fillTubesSelectionFromFile(files);
 
-        // then
-        assert.true(component.hasNoTubesSelected);
-      });
+      assert.ok(FileReader.prototype.readAsText.calledWith(files[0]));
     });
   });
 
-  module('#selectedTubes', function () {
-    test('it should return selected tubes', function (assert) {
-      // given
-      const tubes1 = [
-        {
-          id: 'tubeId1',
-          practicalTitle: 'Tube 1',
-          practicalDescription: 'Description 1',
-        },
-        {
-          id: 'tubeId2',
-          practicalTitle: 'Tube 2',
-          practicalDescription: 'Description 2',
-        },
-      ];
+  module('#_onFileLoad', function (hooks) {
+    hooks.afterEach(function () {
+      sinon.restore();
+    });
 
-      const tubes2 = [
-        {
-          id: 'tubeId3',
-          practicalTitle: 'Tube 3',
-          practicalDescription: 'Description 3',
-        },
-        {
-          id: 'tubeId4',
-          practicalTitle: 'Tube 4',
-          practicalDescription: 'Description 4',
-        },
-      ];
+    module('when json file is valid', function () {
+      test('it should fill skillIds list', async function (assert) {
+        // given
+        component.selectedFrameworkIds = [];
+        component.selectedTubeIds = ['oldTube1'];
+        component.tubeLevels = { oldTube1: 8 };
+        component.isFileInvalid = true;
+        const event = {
+          target: {
+            result: ['tubeId1', 'tubeId2', 'tubeId3'],
+          },
+        };
+        const selectionTubeList = ['tubeId1', 'tubeId2', 'tubeId3'];
+        sinon.stub(JSON, 'parse').returns(selectionTubeList);
 
-      const thematics = [
-        { id: 'thematicId1', tubes: tubes1 },
-        { id: 'thematicId2', tubes: tubes2 },
-      ];
+        // when
+        await component._onFileLoad(event);
 
-      const competences = [
-        {
-          id: 'competenceId',
-          thematics,
-        },
-      ];
-
-      component.areas = [
-        {
-          id: 'areaId',
-          competences,
-        },
-      ];
-
-      component.selectedTubeIds = EmberArray(['tubeId1', 'tubeId4']);
-
-      // when
-      const result = component.selectedTubes;
-
-      // then
-      assert.deepEqual(result, [
-        {
-          id: 'tubeId1',
-          practicalTitle: 'Tube 1',
-          practicalDescription: 'Description 1',
-        },
-        {
-          id: 'tubeId4',
-          practicalTitle: 'Tube 4',
-          practicalDescription: 'Description 4',
-        },
-      ]);
+        // then
+        assert.deepEqual(component.selectedTubeIds, ['tubeId1', 'tubeId2', 'tubeId3']);
+        assert.deepEqual(component.tubeLevels, {});
+        assert.deepEqual(component.selectedFrameworkIds, ['id1']);
+      });
     });
   });
 
@@ -308,7 +251,7 @@ module('Unit | Component | target-profiles/tubes-selection/form', function (hook
       };
 
       // when
-      const result = await component.getSelectedTubesWithLevelAndSkills();
+      const result = await component._getSelectedTubesWithLevelAndSkills();
 
       // then
       assert.deepEqual(result, [
