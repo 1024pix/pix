@@ -1,7 +1,7 @@
 const { sinon, expect, catchErr, hFake } = require('../../../test-helper');
 const tokenService = require('../../../../lib/domain/services/token-service');
 const usecases = require('../../../../lib/domain/usecases');
-const authenticationRegistry = require('../../../../lib/domain/services/authentication/authentication-service-registry');
+const authenticationServiceRegistry = require('../../../../lib/domain/services/authentication/authentication-service-registry');
 
 const { UnauthorizedError } = require('../../../../lib/application/http-errors');
 
@@ -77,7 +77,7 @@ describe('Unit | Application | Controller | Authentication', function () {
       sinon.stub(usecases, 'authenticateCnavUser').resolves({ pixAccessToken, isAuthenticationComplete: true });
       const oidcAuthenticationService = {};
       sinon
-        .stub(authenticationRegistry, 'lookupAuthenticationService')
+        .stub(authenticationServiceRegistry, 'lookupAuthenticationService')
         .withArgs('CNAV')
         .returns({ oidcAuthenticationService });
 
@@ -213,7 +213,7 @@ describe('Unit | Application | Controller | Authentication', function () {
       // given
       const oidcAuthenticationService = {};
       sinon
-        .stub(authenticationRegistry, 'lookupAuthenticationService')
+        .stub(authenticationServiceRegistry, 'lookupAuthenticationService')
         .withArgs('POLE_EMPLOI')
         .returns({ oidcAuthenticationService });
 
