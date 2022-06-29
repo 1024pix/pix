@@ -385,6 +385,7 @@ module.exports = injectDependencies(
     unpublishSession: require('./unpublish-session'),
     reassignAuthenticationMethodToAnotherUser: require('./reassign-authentication-method-to-another-user'),
     updateAdminMember: require('./update-admin-member'),
+    deactivateAdminMember: require('./deactivate-admin-member'),
     updateBadge: require('./update-badge'),
     updateCampaign: require('./update-campaign'),
     updateCampaignDetailsManagement: require('./update-campaign-details-management'),

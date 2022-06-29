@@ -32,7 +32,9 @@ export default class AddMember extends Component {
       await adminMember.save();
       this.email = '';
       this.role = 'SUPER_ADMIN';
-      this.notifications.success("L'agent a dorénavant accès");
+      this.notifications.success(
+        `L'agent ${adminMember.firstName} ${adminMember.lastName} a dorénavant accès à Pix Admin`
+      );
     } catch (error) {
       this.store.deleteRecord(adminMember);
       let errorMessage = "Une erreur s'est produite, veuillez réessayer.";

@@ -17,7 +17,7 @@ exports.register = async function (server) {
           },
         ],
         notes: [
-          "- **Cette route est restreinte aux utilisateurs ayant les droits d'accès**\n" +
+          "- **Cette route est restreinte aux utilisateurs ayant le droit d'accès SUPER_ADMIN**\n" +
             '- Lister les utilisateurs ayant accès à Pix Admin \n',
         ],
         tags: ['api', 'admin-members'],
@@ -91,10 +91,33 @@ exports.register = async function (server) {
         },
         handler: adminMemberController.updateAdminMember,
         notes: [
-          "- Cette route est restreinte aux utilisateurs ayant les droits d'accès\n" +
+          "- Cette route est restreinte aux utilisateurs ayant le droit d'accès SUPER_ADMIN\n" +
             "- Elle permet de changer le rôle d'un membre Pix Admin",
         ],
         tags: ['api', 'admin-members'],
+      },
+    },
+    {
+      method: 'PUT',
+      path: '/api/admin/admin-members/{id}/deactivate',
+      config: {
+        pre: [
+          {
+            method: securityPreHandlers.checkUserHasRoleSuperAdmin,
+            assign: 'hasAuthorizationToAccessAdminScope',
+          },
+        ],
+        validate: {
+          params: Joi.object({
+            id: identifiersType.adminMemberId,
+          }),
+        },
+        handler: adminMemberController.deactivateAdminMember,
+        notes: [
+          "- Cette route est restreinte aux utilisateurs ayant le droit d'accès SUPER_ADMIN\n" +
+            '- Elle permet de désactiver un membre Pix Admin',
+        ],
+        tags: ['api', 'admin-members', 'deactivate'],
       },
     },
   ]);

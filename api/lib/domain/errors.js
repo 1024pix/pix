@@ -806,6 +806,14 @@ class PasswordResetDemandNotFoundError extends DomainError {
   }
 }
 
+class AdminMemberError extends DomainError {
+  constructor(message = 'An error occured on admin member', code = 'ADMIN_MEMBER_ERROR') {
+    super(message, code);
+    this.code = code;
+    this.message = message;
+  }
+}
+
 class AdminMemberRoleUpdateError extends DomainError {
   constructor(message = 'Erreur lors de la mise à jour du rôle du membre Pix Admin.') {
     super(message);
@@ -1108,6 +1116,7 @@ module.exports = {
   AccountRecoveryDemandExpired,
   AccountRecoveryUserAlreadyConfirmEmail,
   AcquiredBadgeForbiddenDeletionError,
+  AdminMemberError,
   AdminMemberRoleUpdateError,
   AlreadyAcceptedOrCancelledOrganizationInvitationError,
   AlreadyExistingAdminMemberError,

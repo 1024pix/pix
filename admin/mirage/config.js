@@ -60,6 +60,8 @@ export default function () {
     return adminMember.update({ role });
   });
 
+  this.put('/admin/admin-members/:id/deactivate', () => {});
+
   this.get('/admin/sessions', findPaginatedAndFilteredSessions);
   this.get('/admin/sessions/to-publish', (schema) => {
     const toBePublishedSessions = schema.toBePublishedSessions.all();

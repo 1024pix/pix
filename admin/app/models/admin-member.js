@@ -1,4 +1,5 @@
 import Model, { attr } from '@ember-data/model';
+import { memberAction } from 'ember-api-actions';
 
 export default class AdminMember extends Model {
   @attr() userId;
@@ -6,6 +7,7 @@ export default class AdminMember extends Model {
   @attr('string') firstName;
   @attr('string') email;
   @attr('string') role;
+  @attr('string') disabledAt;
   @attr() isSuperAdmin;
   @attr() isCertif;
   @attr() isSupport;
@@ -16,4 +18,13 @@ export default class AdminMember extends Model {
   get fullName() {
     return `${this.firstName} ${this.lastName}`;
   }
+
+  deactivate = memberAction({
+    path: 'deactivate',
+    type: 'put',
+    urlType: 'updateRecord',
+    after() {
+      this.unloadRecord();
+    },
+  });
 }

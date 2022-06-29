@@ -20,6 +20,12 @@ module.exports = {
     return adminMemberSerializer.serialize(updatedAdminMember);
   },
 
+  async deactivateAdminMember(request, h) {
+    const id = request.params.id;
+    await usecases.deactivateAdminMember({ id });
+    return h.response().code(204);
+  },
+
   async saveAdminMember(request, h) {
     const attributes = await adminMemberSerializer.deserialize(request.payload);
     const savedAdminMember = await usecases.saveAdminMember(attributes);
