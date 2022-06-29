@@ -13,6 +13,7 @@ class UserWithOrganizationLearner {
     division,
     group,
     participationCount,
+    lastParticipationDate,
   } = {}) {
     this.id = id;
     this.lastName = lastName;
@@ -27,6 +28,7 @@ class UserWithOrganizationLearner {
     this.division = division;
     this.group = group;
     this.participationCount = participationCount;
+    this.lastParticipationDate = lastParticipationDate;
   }
 }
 
