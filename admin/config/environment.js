@@ -57,6 +57,7 @@ module.exports = function (environment) {
         minValue: 1,
       }),
       ORGANIZATION_DASHBOARD_URL: process.env.ORGANIZATION_DASHBOARD_URL,
+      CERTIFICATION_CENTER_DASHBOARD_URL: process.env.CERTIFICATION_CENTER_DASHBOARD_URL,
       USER_DASHBOARD_URL: process.env.USER_DASHBOARD_URL,
       MAX_LEVEL: 8,
       MAX_REACHABLE_LEVEL: _getEnvironmentVariableAsNumber({

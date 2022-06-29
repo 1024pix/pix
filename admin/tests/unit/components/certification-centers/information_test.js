@@ -1,6 +1,7 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import createGlimmerComponent from '../../../helpers/create-glimmer-component';
+import ENV from 'pix-admin/config/environment';
 
 module('Unit | Component | certification-center informations', function (hooks) {
   setupTest(hooks);
@@ -41,5 +42,14 @@ module('Unit | Component | certification-center informations', function (hooks) 
       // then
       assert.false(component.form.habilitations.includes(pixSurfHabilitation));
     });
+  });
+
+  test('it should generate link based on environment and object', async function (assert) {
+    // given
+    ENV.APP.CERTIFICATION_CENTER_DASHBOARD_URL = 'https://superdashboard?id=';
+    component.args = { certificationCenter: { id: 7 } };
+
+    // when & then
+    assert.strictEqual(component.externalURL, 'https://superdashboard?id=7');
   });
 });

@@ -5,6 +5,7 @@ import { tracked } from '@glimmer/tracking';
 import { validator, buildValidations } from 'ember-cp-validations';
 import { getOwner } from '@ember/application';
 import { types } from '../../models/certification-center';
+import ENV from 'pix-admin/config/environment';
 
 const Validations = buildValidations({
   name: {
@@ -57,6 +58,11 @@ export default class Information extends Component {
   @computed('args.availableHabilitations.@each.id')
   get availableHabilitations() {
     return this.args.availableHabilitations?.sortBy('id');
+  }
+
+  get externalURL() {
+    const urlDashboardPrefix = ENV.APP.CERTIFICATION_CENTER_DASHBOARD_URL;
+    return urlDashboardPrefix && urlDashboardPrefix + this.args.certificationCenter.id;
   }
 
   constructor() {
