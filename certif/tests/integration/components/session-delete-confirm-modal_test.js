@@ -24,6 +24,7 @@ module('Integration | Component | session-delete-confirm-modal', function (hooks
 
       // then
       assert.dom(screen.getByRole('heading', { name: 'Supprimer la session' })).exists();
+      assert.dom(screen.getByText('Attention, cette action est irréversible.')).exists();
       assert
         .dom(screen.getByText('Souhaitez-vous supprimer la session', { exact: false }))
         .hasText('Souhaitez-vous supprimer la session 123 ?');
