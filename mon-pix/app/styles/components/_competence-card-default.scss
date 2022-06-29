@@ -39,8 +39,8 @@
 
     &--cerulean,
     &--cerulean::after {
-      background: radial-gradient($communication-dark 25%, $communication-light 100%);
-      background-color: $communication-dark;
+      background: radial-gradient($pix-communication-dark 25%, $communication-light 100%);
+      background-color: $pix-communication-dark;
     }
 
     &--wild-strawberry,
