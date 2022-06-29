@@ -1042,6 +1042,69 @@ describe('Acceptance | API | Campaign Controller', function () {
         });
       });
     });
+
+    context('Search filter', function () {
+      it('should returns profiles collection campaign participations', async function () {
+        // given
+        const userId = databaseBuilder.factory.buildUser().id;
+        const organization = databaseBuilder.factory.buildOrganization();
+
+        databaseBuilder.factory.buildMembership({
+          userId,
+          organizationId: organization.id,
+          organizationRole: Membership.roles.MEMBER,
+        });
+        const targetProfile = databaseBuilder.factory.buildTargetProfile({
+          ownerOrganizationId: organization.id,
+          name: 'Profile 3',
+        });
+        const campaign = databaseBuilder.factory.buildCampaign({
+          name: 'Campagne de Test N°3',
+          organizationId: organization.id,
+          targetProfileId: targetProfile.id,
+        });
+
+        databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
+          {
+            firstName: 'Barry',
+            lastName: 'White',
+            organizationId: organization.id,
+            group: 'L1',
+          },
+          {
+            campaignId: campaign.id,
+          }
+        );
+
+        databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
+          {
+            firstName: 'Marvin',
+            lastName: 'Gaye',
+            organizationId: organization.id,
+            group: 'L2',
+          },
+          {
+            campaignId: campaign.id,
+          }
+        );
+
+        await databaseBuilder.commit();
+
+        // when
+        const options = {
+          method: 'GET',
+          url: `/api/campaigns/${campaign.id}/profiles-collection-participations?filter[search]=Marvin G`,
+          headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
+        };
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(200);
+        expect(response.result.data).to.have.lengthOf(1);
+        expect(response.result.data[0].attributes['last-name']).to.equal('Gaye');
+      });
+    });
   });
 
   describe('GET /api/campaigns/{id}/divisions', function () {
