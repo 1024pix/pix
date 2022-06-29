@@ -22,7 +22,7 @@ jobs:
         uses: atlassian/gajira-find-issue-key@master
         continue-on-error: true
         with:
-          string: ${{ github.event.pull_request.title }}
+          from: branch
 
       - name: Transition issue
         uses: atlassian/gajira-transition@master
