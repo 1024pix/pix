@@ -98,6 +98,11 @@ describe('Acceptance | Controller | users-controller-get-user-profile', function
               'schooling-registrations': {
                 data: [],
               },
+              profile: {
+                links: {
+                  related: `/api/admin/users/${user.id}/profile`,
+                },
+              },
             },
             type: 'users',
           },
