@@ -15,4 +15,10 @@ export default class NewRoute extends Route {
 
     return { frameworks, targetProfile };
   }
+
+  resetController(controller, isExiting) {
+    if (isExiting && controller.model.targetProfile.id === null) {
+      this.store.deleteRecord(controller.model.targetProfile);
+    }
+  }
 }
