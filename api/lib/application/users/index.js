@@ -236,6 +236,33 @@ exports.register = async function (server) {
         tags: ['api', 'admin', 'user'],
       },
     },
+    {
+      method: 'GET',
+      path: '/api/admin/users/{id}/profile',
+      config: {
+        pre: [
+          {
+            method: (request, h) =>
+              securityPreHandlers.userHasAtLeastOneAccessOf([
+                securityPreHandlers.checkUserHasRoleSuperAdmin,
+                securityPreHandlers.checkUserHasRoleCertif,
+                securityPreHandlers.checkUserHasRoleSupport,
+                securityPreHandlers.checkUserHasRoleMetier,
+              ])(request, h),
+          },
+        ],
+        validate: {
+          params: Joi.object({
+            id: identifiersType.userId,
+          }),
+        },
+        handler: userController.getProfileForAdmin,
+        notes: [
+          "- Permet à un administrateur de récupérer le nombre total de Pix d'un utilisateur\n et de ses scorecards",
+        ],
+        tags: ['api', 'user', 'profile'],
+      },
+    },
   ];
 
   server.route([

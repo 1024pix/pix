@@ -193,6 +193,13 @@ module.exports = {
     return usecases.getUserProfile({ userId: authenticatedUserId, locale }).then(profileSerializer.serialize);
   },
 
+  getProfileForAdmin(request) {
+    const userId = request.params.id;
+    const locale = extractLocaleFromRequest(request);
+
+    return usecases.getUserProfile({ userId, locale }).then(profileSerializer.serialize);
+  },
+
   resetScorecard(request) {
     const authenticatedUserId = request.auth.credentials.userId;
     const competenceId = request.params.competenceId;
