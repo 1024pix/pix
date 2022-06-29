@@ -43,5 +43,20 @@ describe('Acceptance | User-tutorials-v2 | Recommended', function () {
         expect(findAll('.tutorial-card-v2')).to.be.lengthOf(1);
       });
     });
+
+    describe('when a tutorial is liked', function () {
+      it('should retrieve the appropriate status when changing page', async function () {
+        // given
+        server.createList('tutorial', 1, 'withUserTutorial', 'withTutorialEvaluation');
+        await visit('/mes-tutos/recommandes');
+
+        // when
+        await click(find('[aria-label="Ne plus considérer ce tuto comme utile"]'));
+        await visit('/mes-tutos/enregistres');
+
+        // then
+        expect(find('[aria-label="Marquer ce tuto comme utile"]')).to.exist;
+      });
+    });
   });
 });

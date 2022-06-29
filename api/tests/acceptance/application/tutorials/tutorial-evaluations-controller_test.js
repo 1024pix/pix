@@ -6,6 +6,7 @@ const {
   generateValidRequestAuthorizationHeader,
 } = require('../../../test-helper');
 const createServer = require('../../../../server');
+const TutorialEvaluation = require('../../../../lib/domain/models/TutorialEvaluation');
 
 describe('Acceptance | Controller | tutorial-evaluations-controller', function () {
   let server;
@@ -41,23 +42,31 @@ describe('Acceptance | Controller | tutorial-evaluations-controller', function (
   describe('PUT /api/users/tutorials/{tutorialId}/evaluate', function () {
     let options;
 
-    beforeEach(async function () {
-      options = {
-        method: 'PUT',
-        url: '/api/users/tutorials/tutorialId/evaluate',
-        headers: {
-          authorization: generateValidRequestAuthorizationHeader(4444),
-        },
-      };
-    });
-
     afterEach(async function () {
       return knex('tutorial-evaluations').delete();
     });
 
     describe('nominal case', function () {
-      it('should respond with a 201', async function () {
+      it('should respond with a 201 when a status is provided', async function () {
         // given
+        options = {
+          method: 'PUT',
+          url: '/api/users/tutorials/tutorialId/evaluate',
+          headers: {
+            authorization: generateValidRequestAuthorizationHeader(4444),
+          },
+          payload: {
+            data: {
+              type: 'tutorial-evaluations',
+              attributes: {
+                'tutorial-id': 'tutorialId',
+                'user-id': 4444,
+                status: TutorialEvaluation.statuses.LIKED,
+              },
+            },
+          },
+        };
+
         const expectedResponse = {
           data: {
             type: 'tutorial-evaluations',
@@ -65,6 +74,7 @@ describe('Acceptance | Controller | tutorial-evaluations-controller', function (
             attributes: {
               'tutorial-id': 'tutorialId',
               'user-id': 4444,
+              status: TutorialEvaluation.statuses.LIKED,
             },
           },
         };
@@ -80,6 +90,52 @@ describe('Acceptance | Controller | tutorial-evaluations-controller', function (
         expect(response.result.data.attributes['tutorial-id']).to.deep.equal(
           expectedResponse.data.attributes['tutorial-id']
         );
+        expect(response.result.data.attributes.status).to.deep.equal(expectedResponse.data.attributes.status);
+      });
+
+      it('should respond with a 201 when no status is provided', async function () {
+        // given
+        options = {
+          method: 'PUT',
+          url: '/api/users/tutorials/tutorialId/evaluate',
+          headers: {
+            authorization: generateValidRequestAuthorizationHeader(4444),
+          },
+          payload: {
+            data: {
+              type: 'tutorial-evaluations',
+              attributes: {
+                'tutorial-id': 'tutorialId',
+                'user-id': 4444,
+              },
+            },
+          },
+        };
+
+        const expectedResponse = {
+          data: {
+            type: 'tutorial-evaluations',
+            id: '1',
+            attributes: {
+              'tutorial-id': 'tutorialId',
+              'user-id': 4444,
+              status: TutorialEvaluation.statuses.LIKED,
+            },
+          },
+        };
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(201);
+        expect(response.result.data.type).to.equal(expectedResponse.data.type);
+        expect(response.result.data.id).to.exist;
+        expect(response.result.data.attributes['user-id']).to.equal(expectedResponse.data.attributes['user-id']);
+        expect(response.result.data.attributes['tutorial-id']).to.equal(
+          expectedResponse.data.attributes['tutorial-id']
+        );
+        expect(response.result.data.attributes.status).to.equal(expectedResponse.data.attributes.status);
       });
     });
 

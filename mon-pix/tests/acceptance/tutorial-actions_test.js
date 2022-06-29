@@ -34,12 +34,15 @@ describe('Acceptance | Tutorial | Actions', function () {
       expect(find('[aria-label="Enregistrer dans ma liste de tutos"]')).to.exist;
     });
 
-    it('should disable evaluate action on click', async function () {
-      // when
+    it('should toggle evaluation label on click', async function () {
+      // given
       await click('[aria-label="Marquer ce tuto comme utile"]');
+      expect(find('[aria-label="Ne plus considérer ce tuto comme utile"]')).to.exist;
 
+      // when
+      await click('[aria-label="Ne plus considérer ce tuto comme utile"]');
       // then
-      expect(find('[aria-label="Ce tuto m\'a été utile"]').disabled).to.be.true;
+      expect(find('[aria-label="Marquer ce tuto comme utile"]')).to.exist;
     });
 
     describe('when save action is clicked', function () {

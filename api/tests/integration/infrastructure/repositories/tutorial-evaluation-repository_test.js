@@ -1,24 +1,25 @@
 const { expect, knex, databaseBuilder } = require('../../../test-helper');
 const tutorialEvaluationRepository = require('../../../../lib/infrastructure/repositories/tutorial-evaluation-repository');
+const TutorialEvaluation = require('../../../../lib/domain/models/TutorialEvaluation');
 
 describe('Integration | Infrastructure | Repository | tutorialEvaluationRepository', function () {
-  let userId;
+  let userId, tutorialId, status;
 
   beforeEach(async function () {
     userId = databaseBuilder.factory.buildUser().id;
+    tutorialId = 'tutorialId';
+    status = TutorialEvaluation.statuses.LIKED;
     await databaseBuilder.commit();
   });
 
-  afterEach(function () {
-    knex('tutorial-evaluations').delete();
+  afterEach(async function () {
+    await knex('tutorial-evaluations').delete();
   });
 
-  describe('#addEvaluation', function () {
-    const tutorialId = 'tutorialId';
-
+  describe('#createOrUpdate', function () {
     it('should store the tutorialId in the users list', async function () {
       // when
-      await tutorialEvaluationRepository.addEvaluation({ userId, tutorialId });
+      await tutorialEvaluationRepository.createOrUpdate({ userId, tutorialId, status });
 
       // then
       const tutorialEvaluations = await knex('tutorial-evaluations').where({ userId, tutorialId });
@@ -27,30 +28,51 @@ describe('Integration | Infrastructure | Repository | tutorialEvaluationReposito
 
     it('should return the created tutorial evaluation', async function () {
       // when
-      const tutorialEvaluation = await tutorialEvaluationRepository.addEvaluation({ userId, tutorialId });
+      const tutorialEvaluation = await tutorialEvaluationRepository.createOrUpdate({
+        userId,
+        tutorialId,
+        status: TutorialEvaluation.statuses.LIKED,
+      });
 
       // then
-      const tutorialEvaluations = await knex('tutorial-evaluations').where({ userId, tutorialId });
+      const tutorialEvaluations = await knex('tutorial-evaluations').where({
+        userId,
+        tutorialId,
+        status: TutorialEvaluation.statuses.LIKED,
+      });
       expect(tutorialEvaluation.id).to.deep.equal(tutorialEvaluations[0].id);
       expect(tutorialEvaluation.userId).to.deep.equal(tutorialEvaluations[0].userId);
       expect(tutorialEvaluation.tutorialId).to.deep.equal(tutorialEvaluations[0].tutorialId);
+      expect(tutorialEvaluation.status).to.deep.equal(tutorialEvaluations[0].status);
     });
 
     context('when the tutorialId already exists in the user list', function () {
-      it('should not store the tutorialId', async function () {
+      it('should update the status', async function () {
         // given
-        databaseBuilder.factory.buildTutorialEvaluation({ tutorialId, userId });
+        const initialDate = new Date('2022-06-06');
+        databaseBuilder.factory.buildTutorialEvaluation({
+          tutorialId,
+          userId,
+          status: TutorialEvaluation.statuses.LIKED,
+          updatedAt: initialDate,
+        });
         await databaseBuilder.commit();
 
         // when
-        const tutorialEvaluation = await tutorialEvaluationRepository.addEvaluation({ userId, tutorialId });
+        const tutorialEvaluation = await tutorialEvaluationRepository.createOrUpdate({
+          userId,
+          tutorialId,
+          status: TutorialEvaluation.statuses.NEUTRAL,
+        });
 
         // then
         const tutorialEvaluations = await knex('tutorial-evaluations').where({ userId, tutorialId });
         expect(tutorialEvaluations).to.have.length(1);
-        expect(tutorialEvaluation.id).to.deep.equal(tutorialEvaluations[0].id);
-        expect(tutorialEvaluation.userId).to.deep.equal(tutorialEvaluations[0].userId);
-        expect(tutorialEvaluation.tutorialId).to.deep.equal(tutorialEvaluations[0].tutorialId);
+        expect(tutorialEvaluation.id).to.equal(tutorialEvaluations[0].id);
+        expect(tutorialEvaluation.userId).to.equal(tutorialEvaluations[0].userId);
+        expect(tutorialEvaluation.tutorialId).to.equal(tutorialEvaluations[0].tutorialId);
+        expect(tutorialEvaluation.status).to.equal(TutorialEvaluation.statuses.NEUTRAL);
+        expect(tutorialEvaluation.updatedAt).to.be.above(initialDate);
       });
     });
   });

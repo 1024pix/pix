@@ -3,8 +3,9 @@ module.exports = async function addTutorialEvaluation({
   tutorialEvaluationRepository,
   userId,
   tutorialId,
+  status,
 } = {}) {
   await tutorialRepository.get(tutorialId);
 
-  return tutorialEvaluationRepository.addEvaluation({ userId, tutorialId });
+  return tutorialEvaluationRepository.createOrUpdate({ userId, tutorialId, status });
 };

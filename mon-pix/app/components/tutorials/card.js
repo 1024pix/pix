@@ -37,6 +37,10 @@ export default class Card extends Component {
     return this.evaluationStatus !== buttonStatusTypes.unrecorded;
   }
 
+  get isEvaluationButtonDisabled() {
+    return this.evaluationStatus === buttonStatusTypes.pending;
+  }
+
   get isTutorialSaved() {
     return this.savingStatus !== buttonStatusTypes.unrecorded;
   }
@@ -79,12 +83,17 @@ export default class Card extends Component {
   @action
   async evaluateTutorial() {
     this.evaluationStatus = buttonStatusTypes.pending;
+    const tutorial = this.args.tutorial;
+    const tutorialEvaluation =
+      tutorial.tutorialEvaluation ?? this.store.createRecord('tutorialEvaluation', { tutorial: tutorial });
     try {
-      const tutorialEvaluation = this.store.createRecord('tutorialEvaluation', { tutorial: this.args.tutorial });
-      await tutorialEvaluation.save({ adapterOptions: { tutorialId: this.args.tutorial.id } });
-      this.evaluationStatus = buttonStatusTypes.recorded;
+      await tutorialEvaluation.save({
+        adapterOptions: { tutorialId: tutorial.id, status: tutorialEvaluation.nextStatus },
+      });
     } catch (e) {
-      this.evaluationStatus = buttonStatusTypes.unrecorded;
+      throw new Error("Un problème est survenu lors de la mise à jour de l'évaluation du tutoriel");
+    } finally {
+      this.evaluationStatus = tutorialEvaluation.isLiked ? buttonStatusTypes.recorded : buttonStatusTypes.unrecorded;
     }
   }
 }
