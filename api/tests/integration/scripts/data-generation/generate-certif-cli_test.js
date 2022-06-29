@@ -1,5 +1,8 @@
-const { expect, databaseBuilder, knex } = require('../../../test-helper');
+const { expect, databaseBuilder, knex, sinon } = require('../../../test-helper');
 const { main } = require('../../../../scripts/data-generation/generate-certif-cli');
+const skillRepository = require('../../../../lib/infrastructure/repositories/skill-repository');
+const competenceRepository = require('../../../../lib/infrastructure/repositories/competence-repository');
+const challengeRepository = require('../../../../lib/infrastructure/repositories/challenge-repository');
 
 describe('Integration | Scripts | generate-certif-cli.js', function () {
   const certificationCenterSup = { id: 3, type: 'SUP' };
@@ -11,6 +14,9 @@ describe('Integration | Scripts | generate-certif-cli.js', function () {
   };
 
   beforeEach(function () {
+    sinon.stub(skillRepository, 'findActiveByCompetenceId').resolves([]);
+    sinon.stub(competenceRepository, 'list').resolves([]);
+    sinon.stub(challengeRepository, 'list').resolves([]);
     databaseBuilder.factory.buildCertificationCenter(certificationCenterSco);
     databaseBuilder.factory.buildCertificationCenter(certificationCenterPro);
     databaseBuilder.factory.buildCertificationCenter(certificationCenterSup);
@@ -29,6 +35,7 @@ describe('Integration | Scripts | generate-certif-cli.js', function () {
     await knex('certification-candidates').delete();
     await knex('organization-learners').delete();
     await knex('organizations').delete();
+    await knex('authentication-methods').delete();
     await knex('users').delete();
     await knex('sessions').delete();
     await knex('certification-centers').delete();
@@ -50,6 +57,11 @@ describe('Integration | Scripts | generate-certif-cli.js', function () {
 
             // then
             const session = await knex('sessions').select('id', 'certificationCenterId', 'accessCode').first();
+            const user = await knex('users').select('id').where({ firstName: 'c0', lastName: 'c0' }).first();
+            const hasAuthenticationMethod = !!(await knex('authentication-methods')
+              .select(1)
+              .where({ userId: user.id })
+              .first());
             const certificationCandidates = await knex('certification-candidates').select(
               'birthdate',
               'firstName',
@@ -58,6 +70,7 @@ describe('Integration | Scripts | generate-certif-cli.js', function () {
             );
             expect(session.accessCode).to.exist;
             expect(session.certificationCenterId).to.equal(certificationCenterId);
+            expect(hasAuthenticationMethod).to.exist;
             expect(certificationCandidates).to.have.length(2);
             expect(certificationCandidates[0]).to.deep.equals({
               birthdate: '2000-01-01',
@@ -93,6 +106,11 @@ describe('Integration | Scripts | generate-certif-cli.js', function () {
 
           // then
           const session = await knex('sessions').select('id', 'certificationCenterId', 'accessCode').first();
+          const user = await knex('users').select('id').where({ firstName: 'c0', lastName: 'c0' }).first();
+          const hasAuthenticationMethod = !!(await knex('authentication-methods')
+            .select(1)
+            .where({ userId: user.id })
+            .first());
           const certificationCandidates = await knex('certification-candidates').select(
             'birthdate',
             'firstName',
@@ -102,6 +120,7 @@ describe('Integration | Scripts | generate-certif-cli.js', function () {
 
           expect(session.accessCode).to.exist;
           expect(session.certificationCenterId).to.equal(1);
+          expect(hasAuthenticationMethod).to.exist;
           expect(certificationCandidates).to.have.length(2);
           expect(certificationCandidates[0]).to.deep.equals({
             birthdate: '2000-01-01',

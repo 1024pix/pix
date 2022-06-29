@@ -6,10 +6,17 @@ const { knex, disconnect } = require(`../../db/knex-database-connection`);
 const bluebird = require('bluebird');
 const domainBuilder = require('../../tests/tooling/domain-builder/factory');
 const omit = require('lodash/omit');
+const maxBy = require('lodash/maxBy');
 const isEmpty = require('lodash/isEmpty');
 const logger = require('../../lib/infrastructure/logger');
 const { getNewSessionCode } = require('../../lib/domain/services/session-code-service');
-const UserToCreate = require('../../lib/domain/models/UserToCreate');
+const encryptionService = require('../../lib/domain/services/encryption-service');
+const userService = require('../../lib/domain/services/user-service');
+const userToCreateRepository = require('../../lib/infrastructure/repositories/user-to-create-repository');
+const authenticationMethodRepository = require('../../lib/infrastructure/repositories/authentication-method-repository');
+const { makeUserPixCertifiable } = require('../../db/seeds/data/certification/tooling');
+const DatabaseBuilder = require('../../db/database-builder/database-builder');
+const databaseBuffer = require('../../db/database-builder/database-buffer');
 
 const cache = require('../../lib/infrastructure/caches/learning-content-cache');
 
@@ -46,7 +53,7 @@ const questions = [
     type: 'confirm',
     name: 'isSupervisorAccessEnabled',
     message: "As tu besoin de l'espace surveillant ?",
-    default: false,
+    default: true,
   },
   {
     type: 'input',
@@ -104,8 +111,9 @@ const questions = [
 ];
 
 async function main({ centerType, candidateNumber, complementaryCertifications, isSupervisorAccessEnabled }) {
-  const certificationCenterId = CERTIFICATION_CENTER_IDS_BY_TYPE[centerType];
+  await _updateDatabaseBuilderSequenceNumber();
 
+  const certificationCenterId = CERTIFICATION_CENTER_IDS_BY_TYPE[centerType];
   await _updateCertificationCenterSupervisorPortalAccess(certificationCenterId, isSupervisorAccessEnabled);
 
   if (complementaryCertifications?.length) {
@@ -127,6 +135,7 @@ async function main({ centerType, candidateNumber, complementaryCertifications, 
     }
 
     await _createNonScoCertificationCandidates(
+      centerType,
       candidateNumber,
       sessionId,
       complementaryCertificationGroupedByCandidateIndex
@@ -135,6 +144,19 @@ async function main({ centerType, candidateNumber, complementaryCertifications, 
 
   const results = await _getResults(sessionId);
   logger.info({ results });
+}
+
+async function _updateDatabaseBuilderSequenceNumber() {
+  // need to update databaseBuffer to avoid uniq ids conflicts
+  const maxSequenceId = await _getMaxSequenceId();
+  databaseBuffer.nextId = maxSequenceId + 1;
+}
+
+async function _getMaxSequenceId() {
+  const sequences = await knex('information_schema.sequences').pluck('sequence_name');
+  const maxValues = await bluebird.map(sequences, (sequence) => knex(sequence).select('last_value').first());
+  const { last_value: max } = maxBy(maxValues, 'last_value');
+  return max;
 }
 
 async function _updateCertificationCenterSupervisorPortalAccess(id, isSupervisorAccessEnabled) {
@@ -169,24 +191,19 @@ async function _createSessionAndReturnId(certificationCenterId) {
 }
 
 async function _createNonScoCertificationCandidates(
+  centerType,
   candidateNumber,
   sessionId,
   complementaryCertificationGroupedByCandidateIndex
 ) {
+  let maxUserId = await _getMaxUserId();
   for (let i = 0; i < candidateNumber; i++) {
-    const firstName = `c${i}`;
-    const lastName = `c${i}`;
+    maxUserId++;
+    const firstName = `${centerType}${maxUserId}`;
+    const lastName = `${centerType}${maxUserId}`;
     const birthdate = new Date('2000-01-01');
-    const user = UserToCreate.createWithTermsOfServiceAccepted({
-      id: null,
-      firstName,
-      lastName,
-      birthdate,
-      email: `${firstName}@example.net`,
-      mustValidateTermsOfService: false,
-    });
-    await knex('users').insert(user).returning('id');
-
+    const email = `${firstName}@example.net`;
+    await _createUser({ firstName, lastName, birthdate, email });
     const certificationCandidate = domainBuilder.buildCertificationCandidate({
       firstName,
       lastName,
@@ -213,6 +230,11 @@ async function _createNonScoCertificationCandidates(
   }
 }
 
+async function _getMaxUserId() {
+  const { max } = await knex('users').max('id').first();
+  return max;
+}
+
 async function _createScoCertificationCandidates(certificationCenterId, candidateNumber, sessionId) {
   const organizationLearner = await knex('organization-learners')
     .select('organization-learners.*')
@@ -221,22 +243,23 @@ async function _createScoCertificationCandidates(certificationCenterId, candidat
     .where('certification-centers.id', certificationCenterId)
     .first();
 
-  for (let i = 0; i < candidateNumber; i++) {
-    const firstName = `c${i}`;
-    const lastName = `c${i}`;
-    const birthdate = new Date('2000-01-01');
+  const centerType = 'SCO';
+  let maxUserId = await _getMaxUserId();
 
-    const user = UserToCreate.createWithTermsOfServiceAccepted(
-      domainBuilder.buildUser({ firstName, lastName, birthdate, email: `${firstName}@example.net` })
-    );
-    const [{ id: userId }] = await knex('users')
-      .insert({ ...user, id: undefined })
-      .returning('id');
+  for (let i = 0; i < candidateNumber; i++) {
+    maxUserId++;
+    const firstName = `${centerType}${maxUserId}`;
+    const lastName = `${centerType}${maxUserId}`;
+    const birthdate = new Date('2000-01-01');
+    const email = `${firstName}@example.net`;
+    const { id: userId } = await _createUser({ firstName, lastName, birthdate, email });
+
     const organizationLearnerToPersist = {
       ...organizationLearner,
       firstName,
       lastName,
       birthdate,
+      email,
       nationalStudentId: firstName,
       studentNumber: i,
       userId,
@@ -249,6 +272,7 @@ async function _createScoCertificationCandidates(certificationCenterId, candidat
       firstName,
       lastName,
       birthdate,
+      email,
       organizationLearnerId,
       sessionId,
     });
@@ -273,6 +297,7 @@ async function _getResults(sessionId) {
       accessCode: 'sessions.accessCode',
       firstName: 'certification-candidates.firstName',
       lastName: 'certification-candidates.lastName',
+      email: 'certification-candidates.email',
       birthdate: 'certification-candidates.birthdate',
       complementaryCertifications: knex.raw('json_agg("complementary-certifications"."name")'),
     })
@@ -296,6 +321,33 @@ function _groupByCandidateIndex(complementaryCertifications) {
     acc[candidateNumber] = (acc[candidateNumber] || []).concat(name);
     return acc;
   }, {});
+}
+
+async function _createUser({ firstName, lastName, birthdate, email }) {
+  const user = domainBuilder.buildUser({
+    firstName,
+    lastName,
+    birthdate,
+    email,
+    mustValidateTermsOfService: false,
+  });
+
+  const hashedPassword = await encryptionService.hashPassword('pix123');
+  const persistedUser = await userService.createUserWithPassword({
+    user,
+    hashedPassword,
+    userToCreateRepository,
+    authenticationMethodRepository,
+  });
+  const databaseBuilder = new DatabaseBuilder({ knex, emptyFirst: false });
+  await makeUserPixCertifiable({
+    userId: persistedUser.id,
+    databaseBuilder,
+    countCertifiableCompetences: 16,
+    levelOnEachCompetence: 6,
+  });
+  await databaseBuilder.commit();
+  return persistedUser;
 }
 
 if (process.argv.length > 2) {
