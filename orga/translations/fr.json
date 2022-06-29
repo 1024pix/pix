@@ -824,6 +824,7 @@
           "first-name": "Prénom",
           "group": "Groupes",
           "last-name": "Nom",
+          "participation-count": "Nombre de participations",
           "student-number": "Numéro étudiant"
         },
         "empty": "Aucun étudiant.",
