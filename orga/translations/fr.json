@@ -771,6 +771,7 @@
           "division": "Classe",
           "first-name": "Prénom",
           "last-name": "Nom",
+          "last-participation-date": "Dernière participation",
           "login-method": "Méthode(s) de connexion",
           "participation-count": "Nombre de participations"
         },

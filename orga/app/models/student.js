@@ -18,6 +18,7 @@ export default class Student extends Model {
   @attr('string') division;
   @attr('string') group;
   @attr('number') participationCount;
+  @attr('date') lastParticipationDate;
   @attr('boolean') isAuthenticatedFromGar;
   @belongsTo('organization') organization;
 
