@@ -20,7 +20,7 @@ let config;
 const setupServer = async () => {
   loadConfiguration();
 
-  const server = await createServer();
+  const server = createServer();
 
   if (settings.logOpsMetrics) await enableOpsMetrics(server);
 
@@ -35,7 +35,7 @@ const setupServer = async () => {
   return server;
 };
 
-const createServer = async function () {
+const createServer = function () {
   const serverConfiguration = {
     compression: false,
     debug: { request: false, log: false },
