@@ -7,6 +7,7 @@ const profileSerializer = require('../../infrastructure/serializers/jsonapi/prof
 const participantResultSerializer = require('../../infrastructure/serializers/jsonapi/participant-result-serializer');
 const sharedProfileForCampaignSerializer = require('../../infrastructure/serializers/jsonapi/shared-profile-for-campaign-serializer');
 const userSerializer = require('../../infrastructure/serializers/jsonapi/user-serializer');
+const userForAdminSerializer = require('../../infrastructure/serializers/jsonapi/user-for-admin-serializer');
 const userWithActivitySerializer = require('../../infrastructure/serializers/jsonapi/user-with-activity-serializer');
 const emailVerificationSerializer = require('../../infrastructure/serializers/jsonapi/email-verification-serializer');
 const userDetailsForAdminSerializer = require('../../infrastructure/serializers/jsonapi/user-details-for-admin-serializer');
@@ -155,7 +156,7 @@ module.exports = {
       filter: options.filter,
       page: options.page,
     });
-    return userSerializer.serialize(users, pagination);
+    return userForAdminSerializer.serialize(users, pagination);
   },
 
   getCampaignParticipations(request) {

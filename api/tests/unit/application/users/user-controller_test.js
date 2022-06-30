@@ -15,6 +15,7 @@ const membershipSerializer = require('../../../../lib/infrastructure/serializers
 const scorecardSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/scorecard-serializer');
 const profileSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/profile-serializer');
 const userSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/user-serializer');
+const userForAdminSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/user-for-admin-serializer');
 const userWithActivitySerializer = require('../../../../lib/infrastructure/serializers/jsonapi/user-with-activity-serializer');
 const userAnonymizedDetailsForAdminSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/user-anonymized-details-for-admin-serializer');
 const userDetailsForAdminSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/user-details-for-admin-serializer');
@@ -514,7 +515,7 @@ describe('Unit | Controller | user-controller', function () {
     beforeEach(function () {
       sinon.stub(queryParamsUtils, 'extractParameters');
       sinon.stub(usecases, 'findPaginatedFilteredUsers');
-      sinon.stub(userSerializer, 'serialize');
+      sinon.stub(userForAdminSerializer, 'serialize');
     });
 
     it('should return a list of JSON API users fetched from the data repository', async function () {
@@ -522,14 +523,14 @@ describe('Unit | Controller | user-controller', function () {
       const request = { query: {} };
       queryParamsUtils.extractParameters.withArgs({}).returns({});
       usecases.findPaginatedFilteredUsers.resolves({ models: {}, pagination: {} });
-      userSerializer.serialize.returns({ data: {}, meta: {} });
+      userForAdminSerializer.serialize.returns({ data: {}, meta: {} });
 
       // when
       await userController.findPaginatedFilteredUsers(request, hFake);
 
       // then
       expect(usecases.findPaginatedFilteredUsers).to.have.been.calledOnce;
-      expect(userSerializer.serialize).to.have.been.calledOnce;
+      expect(userForAdminSerializer.serialize).to.have.been.calledOnce;
     });
 
     it('should return a JSON API response with pagination information', async function () {
@@ -544,7 +545,7 @@ describe('Unit | Controller | user-controller', function () {
       await userController.findPaginatedFilteredUsers(request, hFake);
 
       // then
-      expect(userSerializer.serialize).to.have.been.calledWithExactly(expectedResults, expectedPagination);
+      expect(userForAdminSerializer.serialize).to.have.been.calledWithExactly(expectedResults, expectedPagination);
     });
 
     it('should allow to filter users by first name', async function () {
