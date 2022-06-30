@@ -82,7 +82,7 @@ describe('Unit | Router | organization-router', function () {
   describe('POST /api/admin/organizations', function () {
     it('returns forbidden access if admin member has CERTIF role', async function () {
       // given
-      sinon.stub(securityPreHandlers, 'checkUserHasRoleCertif').callsFake((request, h) => h.response(true));
+      sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleCertif').callsFake((request, h) => h.response(true));
       sinon
         .stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin')
         .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
@@ -115,7 +115,7 @@ describe('Unit | Router | organization-router', function () {
   describe('PATCH /api/admin/organizations/{id}', function () {
     it('returns forbidden access if admin member has CERTIF role', async function () {
       // given
-      sinon.stub(securityPreHandlers, 'checkUserHasRoleCertif').callsFake((request, h) => h.response(true));
+      sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleCertif').callsFake((request, h) => h.response(true));
       sinon
         .stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin')
         .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
@@ -151,7 +151,7 @@ describe('Unit | Router | organization-router', function () {
       // given
       sinon.stub(organizationController, 'archiveOrganization').resolves('ok');
 
-      sinon.stub(securityPreHandlers, 'checkUserHasRoleCertif').callsFake((request, h) => h.response(true));
+      sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleCertif').callsFake((request, h) => h.response(true));
       sinon
         .stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin')
         .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
@@ -179,7 +179,7 @@ describe('Unit | Router | organization-router', function () {
       // given
       sinon.stub(organizationController, 'attachTargetProfiles').returns('ok');
       sinon
-        .stub(securityPreHandlers, 'checkUserHasRoleCertif')
+        .stub(securityPreHandlers, 'checkAdminMemberHasRoleCertif')
         .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
       sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin').callsFake((request, h) => h.response(true));
       sinon.stub(securityPreHandlers, 'checkUserHasRoleSupport').callsFake((request, h) => h.response(true));
@@ -207,7 +207,7 @@ describe('Unit | Router | organization-router', function () {
 
     it('returns forbidden access if admin member has CERTIF role', async function () {
       // given
-      sinon.stub(securityPreHandlers, 'checkUserHasRoleCertif').callsFake((request, h) => h.response(true));
+      sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleCertif').callsFake((request, h) => h.response(true));
       sinon
         .stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin')
         .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
@@ -452,7 +452,7 @@ describe('Unit | Router | organization-router', function () {
 
     it('returns forbidden access if admin member has CERTIF role', async function () {
       // given
-      sinon.stub(securityPreHandlers, 'checkUserHasRoleCertif').callsFake((request, h) => h.response(true));
+      sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleCertif').callsFake((request, h) => h.response(true));
       sinon
         .stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin')
         .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
