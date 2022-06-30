@@ -4,6 +4,7 @@ const TargetProfileWithLearningContent = require('../../../../lib/domain/models/
 const targetProfileWithLearningContentRepository = require('../../../../lib/infrastructure/repositories/target-profile-with-learning-content-repository');
 const { ENGLISH_SPOKEN } = require('../../../../lib/domain/constants').LOCALE;
 const { NotFoundError, TargetProfileInvalidError } = require('../../../../lib/domain/errors');
+const TargetProfileTube = require('../../../../lib/domain/models/TargetProfileTube');
 
 async function _buildDomainAndDatabaseBadge(key, targetProfileId) {
   const badgeCriterion1 = domainBuilder.buildBadgeCriterion();
@@ -156,7 +157,6 @@ describe('Integration | Repository | Target-profile-with-learning-content', func
         competences: [competence1_1, competence1_2],
         areas: [area1],
         isSimplifiedAccess: targetProfileDB.isSimplifiedAccess,
-        template: null,
       });
 
       const learningContent = {
@@ -215,96 +215,6 @@ describe('Integration | Repository | Target-profile-with-learning-content', func
             status: 'actif',
             tubeId: 'recArea1_Competence2_Tube1',
             competenceId: 'recArea1_Competence2',
-            tutorialIds: [],
-          },
-        ],
-      };
-
-      mockLearningContent(learningContent);
-      await databaseBuilder.commit();
-
-      // when
-      const targetProfile = await targetProfileWithLearningContentRepository.get({ id: targetProfileDB.id });
-
-      // then
-      expect(targetProfile).to.be.instanceOf(TargetProfileWithLearningContent);
-      expect(targetProfile).to.deep.equal(expectedTargetProfile);
-    });
-
-    it('should return target profile with template', async function () {
-      // given
-      const skill1_1_1_2 = domainBuilder.buildTargetedSkill({
-        id: 'recArea1_Competence1_Tube1_Skill2',
-        name: 'skill1_1_1_2_name',
-        tubeId: 'recArea1_Competence1_Tube1',
-      });
-      const tube1_1_1 = domainBuilder.buildTargetedTube({
-        id: 'recArea1_Competence1_Tube1',
-        practicalTitle: 'tube1_1_1_practicalTitle',
-        description: 'tube1_1_1_practicalDescription',
-        competenceId: 'recArea1_Competence1',
-        skills: [skill1_1_1_2],
-      });
-
-      const targetProfileTemplateDB = databaseBuilder.factory.buildTargetProfileTemplate({ id: 123 });
-
-      const targetProfileDB = databaseBuilder.factory.buildTargetProfile({
-        outdated: false,
-        isPublic: true,
-        imageUrl: 'data:,',
-        description: 'Super profil cible.',
-        comment: 'Red Notice',
-        isSimplifiedAccess: false,
-        targetProfileTemplateId: targetProfileTemplateDB.id,
-      });
-      databaseBuilder.factory.buildTargetProfileSkill({
-        targetProfileId: targetProfileDB.id,
-        skillId: 'recArea1_Competence1_Tube1_Skill2',
-      });
-      databaseBuilder.factory.buildTargetProfileSkill({
-        targetProfileId: targetProfileDB.id,
-        skillId: 'recArea1_Competence2_Tube1_Skill1',
-      });
-      const expectedTargetProfile = domainBuilder.buildTargetProfileWithLearningContent({
-        id: targetProfileDB.id,
-        name: targetProfileDB.name,
-        createdAt: targetProfileDB.createdAt,
-        outdated: targetProfileDB.outdated,
-        isPublic: targetProfileDB.isPublic,
-        ownerOrganizationId: targetProfileDB.ownerOrganizationId,
-        description: targetProfileDB.description,
-        comment: targetProfileDB.comment,
-        imageUrl: targetProfileDB.imageUrl,
-        skills: [skill1_1_1_2],
-        tubes: [tube1_1_1],
-        competences: [],
-        areas: [],
-        isSimplifiedAccess: targetProfileDB.isSimplifiedAccess,
-        template: {
-          id: 123,
-          targetProfileIds: [],
-          tubes: [],
-        },
-      });
-
-      const learningContent = {
-        areas: [],
-        competences: [],
-        tubes: [
-          {
-            id: 'recArea1_Competence1_Tube1',
-            competenceId: 'recArea1_Competence1',
-            practicalTitleFrFr: 'tube1_1_1_practicalTitle',
-            practicalDescriptionFrFr: 'tube1_1_1_practicalDescription',
-          },
-        ],
-        skills: [
-          {
-            id: 'recArea1_Competence1_Tube1_Skill2',
-            name: 'skill1_1_1_2_name',
-            status: 'actif',
-            tubeId: 'recArea1_Competence1_Tube1',
-            competenceId: 'recArea1_Competence1',
             tutorialIds: [],
           },
         ],
@@ -458,7 +368,6 @@ describe('Integration | Repository | Target-profile-with-learning-content', func
         createdAt: targetProfileDB.createdAt,
         ownerOrganizationId: targetProfileDB.ownerOrganizationId,
         imageUrl: targetProfileDB.imageUrl,
-        template: null,
       });
       databaseBuilder.factory.buildTargetProfileSkill({
         targetProfileId: targetProfileDB.id,
@@ -515,6 +424,80 @@ describe('Integration | Repository | Target-profile-with-learning-content', func
       // then
       expect(targetProfile).to.be.instanceOf(TargetProfileWithLearningContent);
       expect(targetProfile).to.deep.equal(expectedTargetProfile);
+    });
+
+    it('should return target profile with tubes selection', async function () {
+      const basicTargetProfile = domainBuilder.buildTargetProfileWithLearningContent.withSimpleLearningContent();
+      const targetProfileDB = databaseBuilder.factory.buildTargetProfile();
+      const expectedTubesSelection = [
+        new TargetProfileTube({ id: 'tubeId123', level: 6 }),
+        new TargetProfileTube({ id: 'tubeId456', level: 2 }),
+      ];
+      domainBuilder.buildTargetProfileWithLearningContent({
+        id: targetProfileDB.id,
+        tubesSelection: expectedTubesSelection,
+      });
+      databaseBuilder.factory.buildTargetProfileTube({
+        targetProfileId: targetProfileDB.id,
+        tubeId: expectedTubesSelection[0].id,
+        level: expectedTubesSelection[0].level,
+      });
+      databaseBuilder.factory.buildTargetProfileTube({
+        targetProfileId: targetProfileDB.id,
+        tubeId: expectedTubesSelection[1].id,
+        level: expectedTubesSelection[1].level,
+      });
+      databaseBuilder.factory.buildTargetProfileSkill({
+        targetProfileId: targetProfileDB.id,
+        skillId: basicTargetProfile.skills[0].id,
+      });
+
+      const learningContent = {
+        areas: [
+          {
+            id: 'recArea1',
+            titleFrFr: 'someTitle',
+            color: 'someColor',
+            competenceIds: ['recArea1_Competence1'],
+          },
+        ],
+        competences: [
+          {
+            id: 'recArea1_Competence1',
+            nameFrFr: 'someName',
+            index: 'someIndex',
+            areaId: 'recArea1',
+            skillIds: [basicTargetProfile.skills[0].id],
+            origin: 'Pix',
+          },
+        ],
+        tubes: [
+          {
+            id: 'recArea1_Competence1_Tube1',
+            competenceId: 'recArea1_Competence1',
+            practicalTitleFrFr: 'somePracticalTitle',
+          },
+        ],
+        skills: [
+          {
+            id: basicTargetProfile.skills[0].id,
+            name: 'someSkillName5',
+            status: 'actif',
+            tubeId: 'recArea1_Competence1_Tube1',
+            competenceId: 'recArea1_Competence1',
+            tutorialIds: [],
+          },
+        ],
+      };
+
+      mockLearningContent(learningContent);
+      await databaseBuilder.commit();
+
+      // when
+      const targetProfile = await targetProfileWithLearningContentRepository.get({ id: targetProfileDB.id });
+
+      // then
+      expect(targetProfile.tubesSelection).to.deep.eq(expectedTubesSelection);
     });
 
     it('should throw a NotFoundError when targetProfile does not exists', async function () {
@@ -859,7 +842,6 @@ describe('Integration | Repository | Target-profile-with-learning-content', func
         createdAt: targetProfileDB.createdAt,
         ownerOrganizationId: targetProfileDB.ownerOrganizationId,
         imageUrl: targetProfileDB.imageUrl,
-        template: null,
       });
       databaseBuilder.factory.buildTargetProfileSkill({
         targetProfileId: targetProfileDB.id,

@@ -9,7 +9,6 @@ export default class TargetProfileController extends Controller {
   @tracked displayConfirm = false;
   @tracked displaySimplifiedAccessPopupConfirm = false;
   @tracked isDownloadModalOpened = false;
-  @tracked targetProfileContent;
 
   get isPublic() {
     return this.model.isPublic ? 'Oui' : 'Non';
@@ -64,14 +63,12 @@ export default class TargetProfileController extends Controller {
   }
 
   @action
-  async openDownloadModal() {
-    this.targetProfileContent = await this.getTargetProfileContent();
+  openDownloadModal() {
     this.isDownloadModalOpened = true;
   }
 
-  async getTargetProfileContent() {
-    const template = await this.model.template;
-    return template.tubes.map((tube) => ({
+  get targetProfileContent() {
+    return this.model.tubesSelection.map((tube) => ({
       id: tube.id,
       level: tube.level,
       skills: this.model.skills.filter((skill) => skill.tubeId === tube.id).map((skill) => skill.id),
