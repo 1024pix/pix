@@ -18,7 +18,7 @@
 
   &__list-item {
     display: flex;
-    border-bottom: 1px solid $grey-10;
+    border-bottom: 1px solid $pix-neutral-10;
 
     span {
       width: 50%;
@@ -30,7 +30,7 @@
     justify-content: flex-end;
 
     span {
-      color: $content-dark;
+      color: $pix-content-dark;
       font-style: italic;
     }
   }
@@ -48,9 +48,9 @@
     margin-left: auto;
 
     p {
-      background-color: $black;
+      background-color: $pix-neutral-110;
       border-radius: 6px;
-      color: $white;
+      color: $pix-neutral-0;
       padding: 5px 10px;
       position: absolute;
       top: calc(-23px + -10px + -10px);
@@ -60,7 +60,7 @@
         position: absolute;
         border-width: 5px;
         border-style: solid;
-        border-color: $black transparent transparent transparent;
+        border-color: $pix-neutral-110 transparent transparent transparent;
         bottom: -10px;
         left: calc(50% - 5px);
       }

@@ -15,7 +15,7 @@
   }
 
   .form-section--actions {
-    border-top: 1px solid $grey-22;
+    border-top: 1px solid $pix-neutral-22;
     padding: 20px;
   }
 
@@ -25,14 +25,14 @@
     .form-field__select {
 
       &.is-invalid > .ember-power-select-trigger {
-        border-color: $error;
+        border-color: $pix-error-70;
       }
     }
 
     .form-field__error {
       width: 100%;
       font-size: 0.8em;
-      color: $error;
+      color: $pix-error-70;
     }
 
     &__label {
@@ -61,16 +61,16 @@
 }
 
 .input {
-  border: 2px solid $grey-20;
+  border: 2px solid $pix-neutral-20;
   border-radius: 4px;
   height: 40px;
   font-size: 1rem;
   padding-left: 15px;
-  color: $grey-80;
+  color: $pix-neutral-80;
   outline: none;
 
   &:focus {
-    border: 2px solid $communication-dark;
+    border: 2px solid $pix-communication-dark;
   }
 
   &--small {

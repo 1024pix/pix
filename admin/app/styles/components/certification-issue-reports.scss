@@ -13,13 +13,13 @@
     margin: 0;
 
     &--with-action-required {
-      background-color: $yellow-alert-light;
-      color: $yellow-alert-dark;
+      background-color: $pix-warning-10;
+      color: $pix-secondary-60;
     }
 
     &--without-action-required {
-      background-color: $grey-10;
-      color: $grey-60;
+      background-color: $pix-neutral-10;
+      color: $pix-neutral-60;
     }
   }
 
