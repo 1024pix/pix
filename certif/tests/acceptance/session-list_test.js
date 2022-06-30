@@ -1,5 +1,6 @@
 import { module, test } from 'qunit';
 import { click, currentURL, visit } from '@ember/test-helpers';
+import { visit as visitScreen } from '@1024pix/ember-testing-library';
 import { setupApplicationTest } from 'ember-qunit';
 import {
   createCertificationPointOfContactWithCustomCenters,
@@ -21,9 +22,7 @@ module('Acceptance | Session List', function (hooks) {
       await visit('/sessions/liste');
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(currentURL(), '/connexion');
+      assert.strictEqual(currentURL(), '/connexion');
     });
   });
 
@@ -57,9 +56,7 @@ module('Acceptance | Session List', function (hooks) {
         await visit('/sessions/liste');
 
         // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(currentURL(), '/espace-ferme');
+        assert.strictEqual(currentURL(), '/espace-ferme');
       });
     });
 
@@ -68,9 +65,7 @@ module('Acceptance | Session List', function (hooks) {
       await visit('/sessions/liste');
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(currentURL(), '/sessions/liste');
+      assert.strictEqual(currentURL(), '/sessions/liste');
     });
 
     test('it should show title indicating that the certificationPointOfContact can create a session', async function (assert) {
@@ -115,9 +110,7 @@ module('Acceptance | Session List', function (hooks) {
         await click('[aria-label="Session de certification"]');
 
         // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(currentURL(), '/sessions/123');
+        assert.strictEqual(currentURL(), '/sessions/123');
       });
 
       test('it should update message display when selected certif center changes', async function (assert) {
@@ -146,6 +139,134 @@ module('Acceptance | Session List', function (hooks) {
 
         // then
         assert.dom('.pix-message').doesNotExist();
+      });
+
+      test('it should delete the session of clicked session-summary', async function (assert) {
+        // given
+        server.create('session-summary', {
+          id: 123,
+          address: 'Adresse',
+          certificationCenterId: 123,
+          date: '2020-01-01',
+          time: '14:00',
+        });
+        server.create('session-summary', {
+          id: 456,
+          address: 'Adresse',
+          certificationCenterId: 123,
+          date: '2020-02-02',
+          time: '16:00',
+        });
+        const screen = await visitScreen('/sessions/liste');
+        await click(screen.getByRole('button', { name: 'Supprimer la session 123' }));
+
+        // when
+        await click(screen.getByRole('button', { name: 'Supprimer la session' }));
+
+        // then
+        assert.strictEqual(currentURL(), '/sessions/liste');
+        assert.dom(screen.getByText('La session a été supprimée.')).exists();
+        assert.dom(screen.queryByRole('button', { name: 'Supprimer la session 123' })).doesNotExist();
+        assert.dom(screen.queryByRole('button', { name: 'Supprimer la session 456' })).exists();
+      });
+
+      test('it should display an error notification when the session deletion goes wrong', async function (assert) {
+        // given
+        server.create('session-summary', {
+          id: 123,
+          address: 'Adresse',
+          certificationCenterId: 123,
+          date: '2020-01-01',
+          time: '14:00',
+        });
+        this.server.delete(
+          '/sessions/:id',
+          () => ({
+            errors: [
+              {
+                status: '400',
+                detail: 'Bad request',
+              },
+            ],
+          }),
+          400
+        );
+        const screen = await visitScreen('/sessions/liste');
+        await click(screen.getByRole('button', { name: 'Supprimer la session 123' }));
+
+        // when
+        await click(screen.getByRole('button', { name: 'Supprimer la session' }));
+
+        // then
+        assert.strictEqual(currentURL(), '/sessions/liste');
+        assert.dom(screen.getByText("Une erreur s'est produite lors de la suppression de la session.")).exists();
+        assert.dom(screen.getByRole('button', { name: 'Supprimer la session 123' })).exists();
+      });
+
+      test('it should display an error notification when the session deletion returns a not found error', async function (assert) {
+        // given
+        server.create('session-summary', {
+          id: 123,
+          address: 'Adresse',
+          certificationCenterId: 123,
+          date: '2020-01-01',
+          time: '14:00',
+        });
+        this.server.delete(
+          '/sessions/:id',
+          () => ({
+            errors: [
+              {
+                status: '404',
+                detail: 'Session not found',
+              },
+            ],
+          }),
+          422
+        );
+        const screen = await visitScreen('/sessions/liste');
+        await click(screen.getByRole('button', { name: 'Supprimer la session 123' }));
+
+        // when
+        await click(screen.getByRole('button', { name: 'Supprimer la session' }));
+
+        // then
+        assert.strictEqual(currentURL(), '/sessions/liste');
+        assert.dom(screen.getByText("La session que vous tentez de supprimer n'existe pas.")).exists();
+        assert.dom(screen.getByRole('button', { name: 'Supprimer la session 123' })).exists();
+      });
+
+      test('it should display an error notification when the session deletion returns a conflict error', async function (assert) {
+        // given
+        server.create('session-summary', {
+          id: 123,
+          address: 'Adresse',
+          certificationCenterId: 123,
+          date: '2020-01-01',
+          time: '14:00',
+        });
+        this.server.delete(
+          '/sessions/:id',
+          () => ({
+            errors: [
+              {
+                status: '409',
+                detail: 'La session a déjà commencé',
+              },
+            ],
+          }),
+          422
+        );
+        const screen = await visitScreen('/sessions/liste');
+        await click(screen.getByRole('button', { name: 'Supprimer la session 123' }));
+
+        // when
+        await click(screen.getByRole('button', { name: 'Supprimer la session' }));
+
+        // then
+        assert.strictEqual(currentURL(), '/sessions/liste');
+        assert.dom(screen.getByText('La session a déjà commencé.')).exists();
+        assert.dom(screen.getByRole('button', { name: 'Supprimer la session 123' })).exists();
       });
     });
   });

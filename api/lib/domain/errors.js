@@ -1111,6 +1111,12 @@ class CampaignParticipationDeletedError extends DomainError {
   }
 }
 
+class SessionStartedDeletionError extends DomainError {
+  constructor(message = 'La session a déjà commencé.') {
+    super(message);
+  }
+}
+
 module.exports = {
   AccountRecoveryDemandNotCreatedError,
   AccountRecoveryDemandExpired,
@@ -1232,6 +1238,7 @@ module.exports = {
   SessionAlreadyFinalizedError,
   SessionAlreadyPublishedError,
   SessionNotAccessible,
+  SessionStartedDeletionError,
   SiecleXmlImportError,
   SupervisorAccessNotAuthorizedError,
   TargetProfileInvalidError,

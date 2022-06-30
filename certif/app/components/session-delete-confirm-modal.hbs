@@ -1,0 +1,29 @@
+{{#if @show}}
+  <PixModal @title="Supprimer la session" @onCloseButtonClick={{@close}}>
+    <:content>
+      <p>Souhaitez-vous supprimer la session <span>{{@sessionId}}</span> ?</p>
+      <PixMessage @type="warning" @withIcon={{true}}>
+        Attention, cette action est irréversible.
+      </PixMessage>
+    </:content>
+    <:footer>
+      <PixButton
+        aria-label="Annuler la suppression de la session"
+        @backgroundColor="transparent-light"
+        @isBorderVisible={{true}}
+        @triggerAction={{@close}}
+      >
+        Annuler
+      </PixButton>
+
+      <PixButton
+        aria-label="Supprimer la session"
+        @triggerAction={{@confirm}}
+        @loadingColor="white"
+        @backgroundColor="blue"
+      >
+        Supprimer
+      </PixButton>
+    </:footer>
+  </PixModal>
+{{/if}}

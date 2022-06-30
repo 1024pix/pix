@@ -733,6 +733,29 @@ exports.register = async (server) => {
       },
     },
     {
+      method: 'DELETE',
+      path: '/api/sessions/{id}',
+      config: {
+        validate: {
+          params: Joi.object({
+            id: identifiersType.sessionId,
+          }),
+        },
+        pre: [
+          {
+            method: authorization.verifySessionAuthorization,
+            assign: 'authorizationCheck',
+          },
+        ],
+        handler: sessionController.delete,
+        notes: [
+          "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès au centre de certification**\n" +
+            "- Supprime la session et les candidats si la session n'a pas démarrée",
+        ],
+        tags: ['api', 'session'],
+      },
+    },
+    {
       method: 'PUT',
       path: '/api/sessions/{id}/enroll-students-to-session',
       config: {

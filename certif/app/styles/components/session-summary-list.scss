@@ -4,4 +4,10 @@
     color: $grey-80;
     text-decoration: none;
   }
+
+  &__delete {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 }
