@@ -18,7 +18,7 @@ tbody {
     &:hover,
     &:focus,
     &:active {
-      background-color: $grey-15;
+      background-color: $pix-neutral-15;
       transition: 0.25s ease;
     }
   }
@@ -71,5 +71,5 @@ td.td--bold {
   align-items: center;
   height: 180px;
   text-align: center;
-  border-top: 2px solid $grey-22;
+  border-top: 2px solid $pix-neutral-22;
 }

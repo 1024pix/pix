@@ -8,7 +8,7 @@
 
     h1 {
       font-size: 1.25rem;
-      color: $grey-80;
+      color: $pix-neutral-80;
       margin: 0;
       margin-bottom: 4px;
     }
@@ -16,10 +16,10 @@
 
   &__content {
     font-size: 0.875rem;
-    color: $grey-70;
-    border-top: 1px solid $grey-20;
-    border-bottom: 1px solid $grey-20;
-    background-color: $grey-10;
+    color: $pix-neutral-70;
+    border-top: 1px solid $pix-neutral-20;
+    border-bottom: 1px solid $pix-neutral-20;
+    background-color: $pix-neutral-10;
     border-bottom-left-radius: 4px;
     border-bottom-right-radius: 4px;
     padding: 8px 32px;
@@ -32,7 +32,7 @@
     }
 
     .required-field-indicator {
-      color: $red;
+      color: $pix-error-60;
     }
 
     &__field {
@@ -50,7 +50,7 @@
       }
 
       input {
-        border: 1.2px $grey-35 solid;
+        border: 1.2px $pix-neutral-35 solid;
         box-sizing: border-box;
         width: 248px;
         height: 36px;
@@ -62,7 +62,7 @@
       }
 
       .birth-country-selector {
-        border: 1.2px $grey-35 solid;
+        border: 1.2px $pix-neutral-35 solid;
         height: 36px;
         width: 248px;
       }
@@ -85,7 +85,7 @@
   }
 
   &__actions {
-    background-color: $grey-10;
+    background-color: $pix-neutral-10;
     padding: 16px 0;
     display: flex;
     justify-content: flex-end;

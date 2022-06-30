@@ -1,6 +1,6 @@
 .menu-bar {
   width: 100%;
-  color: $white;
+  color: $pix-neutral-0;
 
   .menu-bar__entries {
     margin: 0;
@@ -14,7 +14,7 @@
       .menu-bar__link {
         width: 50px;
         position: relative;
-        color: $grey-22;
+        color: $pix-neutral-22;
         display: block;
         line-height: 50px;
         padding: 0;
@@ -30,13 +30,13 @@
 
         &:hover {
           text-decoration: none;
-          color: $white;
+          color: $pix-neutral-0;
         }
 
         &.active {
           font-weight: 600;
-          background-color: $grey-40;
-          color: $white;
+          background-color: $pix-neutral-40;
+          color: $pix-neutral-0;
         }
       }
     }

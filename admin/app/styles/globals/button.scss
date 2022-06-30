@@ -19,28 +19,28 @@
 
 .btn-primary {
   text-align: center;
-  background-color: $blue;
-  color: $white;
+  background-color: $pix-primary;
+  color: $pix-neutral-0;
   transition: background-color 0.2s ease;
 
   &:hover,
   &:active,
   &:focus {
-    background-color: darken($blue, 10%);
+    background-color: darken($pix-primary, 10%);
   }
 }
 
 .btn-secondary {
   background-color: transparent;
-  color: $grey-90;
-  border: 2px solid $grey-50;
+  color: $pix-neutral-90;
+  border: 2px solid $pix-neutral-50;
 
   &:hover,
   &:active,
   &:focus {
-    border-color: $grey-80;
-    background-color: $grey-15;
-    color: $grey-90;
+    border-color: $pix-neutral-80;
+    background-color: $pix-neutral-15;
+    color: $pix-neutral-90;
   }
 }
 

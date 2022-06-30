@@ -7,7 +7,7 @@ body {
 
 html {
   font-family: 'Roboto', Arial, sans-serif;
-  color: $grey-90;
+  color: $pix-neutral-90;
 }
 
 body {
@@ -36,7 +36,7 @@ input:invalid {
 
 abbr.mandatory-mark {
   cursor: help;
-  color: $pink-alert-dark;
+  color: $pix-error-70;
   display: contents;
   margin: 1.25rem;
   text-decoration: none;
