@@ -2,7 +2,7 @@ import Model, { attr } from '@ember-data/model';
 // eslint-disable-next-line ember/no-computed-properties-in-native-classes
 import { computed } from '@ember/object';
 
-export default class Session extends Model {
+export default class SessionSummary extends Model {
   @attr() address;
   @attr() room;
   @attr('date-only') date;
@@ -17,5 +17,9 @@ export default class Session extends Model {
     if (this.status === 'finalized') return 'Finalisée';
     if (this.status === 'processed') return 'Résultats transmis par Pix';
     return 'Créée';
+  }
+
+  get hasEffectiveCandidates() {
+    return this.effectiveCandidatesCount > 0;
   }
 }
