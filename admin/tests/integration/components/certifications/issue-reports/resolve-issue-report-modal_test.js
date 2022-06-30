@@ -7,6 +7,28 @@ import sinon from 'sinon';
 module('Integration | Component | certifications/issue-reports/resolve-issue-report-modal', function (hooks) {
   setupRenderingTest(hooks);
 
+  test('it should display a report resolution title', async function (assert) {
+    // Given
+    const store = this.owner.lookup('service:store');
+    const issueReport = store.createRecord('certification-issue-report', { isImpactful: true, resolvedAt: null });
+    this.set('issueReport', issueReport);
+
+    this.toggleResolveModal = sinon.stub().returns();
+    this.resolveIssueReport = sinon.stub().resolves();
+    this.closeResolveModal = sinon.stub().returns();
+
+    // When
+    const screen = await renderScreen(hbs`<Certifications::IssueReports::ResolveIssueReportModal
+                   @toggleResolveModal={{this.toggleResolveModal}}
+                   @issueReport={{this.issueReport}}
+                   @resolveIssueReport={{this.resolveIssueReport}}
+                   @closeResolveModal={{this.closeResolveModal}}
+                  />`);
+
+    // Then
+    assert.dom(screen.getByRole('dialog', { name: 'Résoudre un signalement' })).exists();
+  });
+
   test('it should display resolve button', async function (assert) {
     // Given
     const store = this.owner.lookup('service:store');
