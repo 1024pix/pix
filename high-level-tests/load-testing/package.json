@@ -6,7 +6,7 @@
   "author": "GIP Pix",
   "engines": {
     "node": "16.14.0",
-    "npm": "8.3.1"
+    "npm": "^8.3.1"
   },
   "license": "ISC",
   "repository": {
