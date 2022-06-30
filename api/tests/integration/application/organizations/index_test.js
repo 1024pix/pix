@@ -112,7 +112,7 @@ describe('Integration | Application | Organizations | Routes', function () {
       const method = 'GET';
       const url = '/api/admin/organizations/1/places';
 
-      sinon.stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin').callsFake((request, h) => h.response(true));
+      sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin').callsFake((request, h) => h.response(true));
       sinon
         .stub(organizationController, 'findOrganizationPlaces')
         .callsFake((request, h) => h.response('ok').code(200));

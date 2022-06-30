@@ -19,7 +19,7 @@ exports.register = async (server) => {
           {
             method: (request, h) =>
               securityPreHandlers.userHasAtLeastOneAccessOf([
-                securityPreHandlers.checkUserHasRoleSuperAdmin,
+                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
                 securityPreHandlers.checkUserHasRoleSupport,
                 securityPreHandlers.checkUserHasRoleMetier,
               ])(request, h),
@@ -43,7 +43,7 @@ exports.register = async (server) => {
           {
             method: (request, h) =>
               securityPreHandlers.userHasAtLeastOneAccessOf([
-                securityPreHandlers.checkUserHasRoleSuperAdmin,
+                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
                 securityPreHandlers.checkUserHasRoleCertif,
                 securityPreHandlers.checkUserHasRoleSupport,
                 securityPreHandlers.checkUserHasRoleMetier,
@@ -82,7 +82,7 @@ exports.register = async (server) => {
           {
             method: (request, h) =>
               securityPreHandlers.userHasAtLeastOneAccessOf([
-                securityPreHandlers.checkUserHasRoleSuperAdmin,
+                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
                 securityPreHandlers.checkUserHasRoleCertif,
                 securityPreHandlers.checkUserHasRoleSupport,
                 securityPreHandlers.checkUserHasRoleMetier,
@@ -111,7 +111,7 @@ exports.register = async (server) => {
           {
             method: (request, h) =>
               securityPreHandlers.userHasAtLeastOneAccessOf([
-                securityPreHandlers.checkUserHasRoleSuperAdmin,
+                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
                 securityPreHandlers.checkUserHasRoleSupport,
                 securityPreHandlers.checkUserHasRoleMetier,
               ])(request, h),
@@ -139,7 +139,7 @@ exports.register = async (server) => {
           {
             method: (request, h) =>
               securityPreHandlers.userHasAtLeastOneAccessOf([
-                securityPreHandlers.checkUserHasRoleSuperAdmin,
+                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
                 securityPreHandlers.checkUserHasRoleSupport,
                 securityPreHandlers.checkUserHasRoleMetier,
               ])(request, h),
@@ -167,7 +167,7 @@ exports.register = async (server) => {
           {
             method: (request, h) =>
               securityPreHandlers.userHasAtLeastOneAccessOf([
-                securityPreHandlers.checkUserHasRoleSuperAdmin,
+                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
                 securityPreHandlers.checkUserHasRoleCertif,
                 securityPreHandlers.checkUserHasRoleSupport,
                 securityPreHandlers.checkUserHasRoleMetier,
@@ -196,7 +196,7 @@ exports.register = async (server) => {
           {
             method: (request, h) =>
               securityPreHandlers.userHasAtLeastOneAccessOf([
-                securityPreHandlers.checkUserHasRoleSuperAdmin,
+                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
                 securityPreHandlers.checkUserHasRoleCertif,
                 securityPreHandlers.checkUserHasRoleSupport,
                 securityPreHandlers.checkUserHasRoleMetier,
@@ -225,7 +225,7 @@ exports.register = async (server) => {
           {
             method: (request, h) =>
               securityPreHandlers.userHasAtLeastOneAccessOf([
-                securityPreHandlers.checkUserHasRoleSuperAdmin,
+                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
                 securityPreHandlers.checkUserHasRoleCertif,
                 securityPreHandlers.checkUserHasRoleSupport,
                 securityPreHandlers.checkUserHasRoleMetier,
@@ -254,7 +254,7 @@ exports.register = async (server) => {
           {
             method: (request, h) =>
               securityPreHandlers.userHasAtLeastOneAccessOf([
-                securityPreHandlers.checkUserHasRoleSuperAdmin,
+                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
                 securityPreHandlers.checkUserHasRoleSupport,
                 securityPreHandlers.checkUserHasRoleMetier,
               ])(request, h),
@@ -294,7 +294,7 @@ exports.register = async (server) => {
           {
             method: (request, h) =>
               securityPreHandlers.userHasAtLeastOneAccessOf([
-                securityPreHandlers.checkUserHasRoleSuperAdmin,
+                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
                 securityPreHandlers.checkUserHasRoleSupport,
                 securityPreHandlers.checkUserHasRoleMetier,
               ])(request, h),
@@ -849,7 +849,7 @@ exports.register = async (server) => {
             method: (request, h) =>
               securityPreHandlers.userHasAtLeastOneAccessOf([
                 securityPreHandlers.checkUserBelongsToOrganization,
-                securityPreHandlers.checkUserHasRoleSuperAdmin,
+                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
                 securityPreHandlers.checkUserHasRoleCertif,
                 securityPreHandlers.checkUserHasRoleSupport,
                 securityPreHandlers.checkUserHasRoleMetier,

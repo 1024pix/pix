@@ -2,7 +2,7 @@ const { expect, sinon, hFake, domainBuilder } = require('../../test-helper');
 
 const securityPreHandlers = require('../../../lib/application/security-pre-handlers');
 const tokenService = require('../../../lib/domain/services/token-service');
-const checkUserHasRoleSuperAdminUseCase = require('../../../lib/application/usecases/checkUserHasRoleSuperAdmin');
+const checkAdminMemberHasRoleSuperAdminUseCase = require('../../../lib/application/usecases/checkAdminMemberHasRoleSuperAdmin');
 const checkUserHasRoleCertifUseCase = require('../../../lib/application/usecases/checkUserHasRoleCertif');
 const checkUserHasRoleSupportUseCase = require('../../../lib/application/usecases/checkUserHasRoleSupport');
 const checkUserHasRoleMetierUseCase = require('../../../lib/application/usecases/checkUserHasRoleMetier');
@@ -17,13 +17,13 @@ const certificationIssueReportRepository = require('../../../lib/infrastructure/
 const checkUserOwnsCertificationCourseUseCase = require('../../../lib/application/usecases/checkUserOwnsCertificationCourse');
 
 describe('Unit | Application | SecurityPreHandlers', function () {
-  describe('#checkUserHasRoleSuperAdmin', function () {
+  describe('#checkAdminMemberHasRoleSuperAdmin', function () {
     let hasRoleSuperAdminStub;
     let request;
 
     beforeEach(function () {
       sinon.stub(tokenService, 'extractTokenFromAuthChain');
-      hasRoleSuperAdminStub = sinon.stub(checkUserHasRoleSuperAdminUseCase, 'execute');
+      hasRoleSuperAdminStub = sinon.stub(checkAdminMemberHasRoleSuperAdminUseCase, 'execute');
       request = { auth: { credentials: { accessToken: 'valid.access.token', userId: 1234 } } };
     });
 
@@ -36,7 +36,7 @@ describe('Unit | Application | SecurityPreHandlers', function () {
         // given
 
         // when
-        const response = await securityPreHandlers.checkUserHasRoleSuperAdmin(request, hFake);
+        const response = await securityPreHandlers.checkAdminMemberHasRoleSuperAdmin(request, hFake);
 
         // then
         expect(response.source).to.equal(true);
@@ -49,7 +49,7 @@ describe('Unit | Application | SecurityPreHandlers', function () {
         delete request.auth.credentials;
 
         // when
-        const response = await securityPreHandlers.checkUserHasRoleSuperAdmin(request, hFake);
+        const response = await securityPreHandlers.checkAdminMemberHasRoleSuperAdmin(request, hFake);
 
         // then
         expect(response.statusCode).to.equal(403);
@@ -58,10 +58,10 @@ describe('Unit | Application | SecurityPreHandlers', function () {
 
       it('should forbid resource access when user does not have role Super Admin', async function () {
         // given
-        checkUserHasRoleSuperAdminUseCase.execute.resolves(false);
+        checkAdminMemberHasRoleSuperAdminUseCase.execute.resolves(false);
 
         // when
-        const response = await securityPreHandlers.checkUserHasRoleSuperAdmin(request, hFake);
+        const response = await securityPreHandlers.checkAdminMemberHasRoleSuperAdmin(request, hFake);
 
         // then
         expect(response.statusCode).to.equal(403);
@@ -70,10 +70,10 @@ describe('Unit | Application | SecurityPreHandlers', function () {
 
       it('should forbid resource access when an error is thrown by use case', async function () {
         // given
-        checkUserHasRoleSuperAdminUseCase.execute.rejects(new Error('Some error'));
+        checkAdminMemberHasRoleSuperAdminUseCase.execute.rejects(new Error('Some error'));
 
         // when
-        const response = await securityPreHandlers.checkUserHasRoleSuperAdmin(request, hFake);
+        const response = await securityPreHandlers.checkAdminMemberHasRoleSuperAdmin(request, hFake);
 
         // then
         expect(response.statusCode).to.equal(403);
@@ -589,7 +589,7 @@ describe('Unit | Application | SecurityPreHandlers', function () {
 
     beforeEach(function () {
       belongsToOrganizationStub = sinon.stub(securityPreHandlers, 'checkUserBelongsToOrganization');
-      hasRoleSuperAdminStub = sinon.stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin');
+      hasRoleSuperAdminStub = sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin');
       request = {
         auth: {
           credentials: {

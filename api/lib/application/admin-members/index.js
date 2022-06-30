@@ -12,7 +12,7 @@ exports.register = async function (server) {
         handler: adminMemberController.findAll,
         pre: [
           {
-            method: securityPreHandlers.checkUserHasRoleSuperAdmin,
+            method: securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
             assign: 'hasAuthorizationToAccessAdminScope',
           },
         ],
@@ -40,7 +40,7 @@ exports.register = async function (server) {
       method: 'POST',
       path: '/api/admin/admin-members',
       config: {
-        pre: [{ method: securityPreHandlers.checkUserHasRoleSuperAdmin }],
+        pre: [{ method: securityPreHandlers.checkAdminMemberHasRoleSuperAdmin }],
         validate: {
           payload: Joi.object({
             data: Joi.object({
@@ -70,7 +70,7 @@ exports.register = async function (server) {
       config: {
         pre: [
           {
-            method: securityPreHandlers.checkUserHasRoleSuperAdmin,
+            method: securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
             assign: 'hasAuthorizationToAccessAdminScope',
           },
         ],
@@ -103,7 +103,7 @@ exports.register = async function (server) {
       config: {
         pre: [
           {
-            method: securityPreHandlers.checkUserHasRoleSuperAdmin,
+            method: securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
             assign: 'hasAuthorizationToAccessAdminScope',
           },
         ],

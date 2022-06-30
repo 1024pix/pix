@@ -518,7 +518,7 @@ describe('Unit | Application | Sessions | Routes', function () {
       it('should exist', async function () {
         // given
         sinon.stub(sessionController, 'publish').returns('ok');
-        sinon.stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin').resolves(true);
+        sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin').resolves(true);
         const httpTestServer = new HttpTestServer();
         await httpTestServer.register(moduleUnderTest);
 
@@ -540,7 +540,7 @@ describe('Unit | Application | Sessions | Routes', function () {
         sinon
           .stub(securityPreHandlers, 'userHasAtLeastOneAccessOf')
           .withArgs([
-            securityPreHandlers.checkUserHasRoleSuperAdmin,
+            securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
             securityPreHandlers.checkUserHasRoleCertif,
             securityPreHandlers.checkUserHasRoleSupport,
           ])
@@ -589,7 +589,7 @@ describe('Unit | Application | Sessions | Routes', function () {
         sinon
           .stub(securityPreHandlers, 'userHasAtLeastOneAccessOf')
           .withArgs([
-            securityPreHandlers.checkUserHasRoleSuperAdmin,
+            securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
             securityPreHandlers.checkUserHasRoleCertif,
             securityPreHandlers.checkUserHasRoleSupport,
           ])
@@ -640,7 +640,7 @@ describe('Unit | Application | Sessions | Routes', function () {
         sinon
           .stub(securityPreHandlers, 'userHasAtLeastOneAccessOf')
           .withArgs([
-            securityPreHandlers.checkUserHasRoleSuperAdmin,
+            securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
             securityPreHandlers.checkUserHasRoleCertif,
             securityPreHandlers.checkUserHasRoleSupport,
           ])
@@ -729,7 +729,7 @@ describe('Unit | Application | Sessions | Routes', function () {
         sinon
           .stub(securityPreHandlers, 'userHasAtLeastOneAccessOf')
           .withArgs([
-            securityPreHandlers.checkUserHasRoleSuperAdmin,
+            securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
             securityPreHandlers.checkUserHasRoleCertif,
             securityPreHandlers.checkUserHasRoleSupport,
           ])
@@ -788,7 +788,7 @@ describe('Unit | Application | Sessions | Routes', function () {
         sinon
           .stub(securityPreHandlers, 'userHasAtLeastOneAccessOf')
           .withArgs([
-            securityPreHandlers.checkUserHasRoleSuperAdmin,
+            securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
             securityPreHandlers.checkUserHasRoleCertif,
             securityPreHandlers.checkUserHasRoleSupport,
           ])
@@ -909,7 +909,7 @@ describe('Unit | Application | Sessions | Routes', function () {
         sinon
           .stub(securityPreHandlers, 'userHasAtLeastOneAccessOf')
           .withArgs([
-            securityPreHandlers.checkUserHasRoleSuperAdmin,
+            securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
             securityPreHandlers.checkUserHasRoleCertif,
             securityPreHandlers.checkUserHasRoleSupport,
           ])
@@ -952,7 +952,7 @@ describe('Unit | Application | Sessions | Routes', function () {
         sinon
           .stub(securityPreHandlers, 'userHasAtLeastOneAccessOf')
           .withArgs([
-            securityPreHandlers.checkUserHasRoleSuperAdmin,
+            securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
             securityPreHandlers.checkUserHasRoleCertif,
             securityPreHandlers.checkUserHasRoleSupport,
           ])
@@ -980,7 +980,7 @@ describe('Unit | Application | Sessions | Routes', function () {
         sinon
           .stub(securityPreHandlers, 'userHasAtLeastOneAccessOf')
           .withArgs([
-            securityPreHandlers.checkUserHasRoleSuperAdmin,
+            securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
             securityPreHandlers.checkUserHasRoleCertif,
             securityPreHandlers.checkUserHasRoleSupport,
           ])

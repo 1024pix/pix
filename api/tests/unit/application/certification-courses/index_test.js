@@ -119,7 +119,7 @@ describe('Unit | Application | Certifications Course | Route', function () {
         .stub(securityPreHandlers, 'userHasAtLeastOneAccessOf')
         .withArgs([
           securityPreHandlers.checkUserOwnsCertificationCourse,
-          securityPreHandlers.checkUserHasRoleSuperAdmin,
+          securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
           securityPreHandlers.checkUserHasRoleCertif,
           securityPreHandlers.checkUserHasRoleSupport,
         ])
@@ -178,7 +178,7 @@ describe('Unit | Application | Certifications Course | Route', function () {
       sinon
         .stub(securityPreHandlers, 'userHasAtLeastOneAccessOf')
         .withArgs([
-          securityPreHandlers.checkUserHasRoleSuperAdmin,
+          securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
           securityPreHandlers.checkUserHasRoleCertif,
           securityPreHandlers.checkUserHasRoleSupport,
         ])
@@ -220,7 +220,7 @@ describe('Unit | Application | Certifications Course | Route', function () {
       sinon
         .stub(securityPreHandlers, 'userHasAtLeastOneAccessOf')
         .withArgs([
-          securityPreHandlers.checkUserHasRoleSuperAdmin,
+          securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
           securityPreHandlers.checkUserHasRoleCertif,
           securityPreHandlers.checkUserHasRoleSupport,
         ])

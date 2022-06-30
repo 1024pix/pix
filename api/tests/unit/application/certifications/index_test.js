@@ -11,7 +11,7 @@ describe('Unit | Application | Certification | Routes', function () {
       sinon
         .stub(securityPreHandlers, 'userHasAtLeastOneAccessOf')
         .withArgs([
-          securityPreHandlers.checkUserHasRoleSuperAdmin,
+          securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
           securityPreHandlers.checkUserHasRoleCertif,
           securityPreHandlers.checkUserHasRoleSupport,
         ])
@@ -91,7 +91,7 @@ describe('Unit | Application | Certification | Routes', function () {
       sinon
         .stub(securityPreHandlers, 'userHasAtLeastOneAccessOf')
         .withArgs([
-          securityPreHandlers.checkUserHasRoleSuperAdmin,
+          securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
           securityPreHandlers.checkUserHasRoleCertif,
           securityPreHandlers.checkUserHasRoleSupport,
         ])

@@ -25,7 +25,7 @@ describe('Integration | Application | SecurityPreHandlers', function () {
                   {
                     method: (request, h) =>
                       securityPreHandlers.userHasAtLeastOneAccessOf([
-                        securityPreHandlers.checkUserHasRoleSuperAdmin,
+                        securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
                         securityPreHandlers.checkUserHasRoleCertif,
                       ])(request, h),
                   },
