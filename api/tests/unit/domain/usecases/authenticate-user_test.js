@@ -2,6 +2,7 @@ const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper
 
 const authenticateUser = require('../../../../lib/domain/usecases/authenticate-user');
 const User = require('../../../../lib/domain/models/User');
+const AdminMember = require('../../../../lib/domain/models/AdminMember');
 
 const {
   UserNotFoundError,
@@ -16,6 +17,7 @@ const appMessages = require('../../../../lib/domain/constants');
 describe('Unit | Application | UseCase | authenticate-user', function () {
   let refreshTokenService;
   let userRepository;
+  let adminMemberRepository;
   let pixAuthenticationService;
 
   const userEmail = 'user@example.net';
@@ -30,10 +32,218 @@ describe('Unit | Application | UseCase | authenticate-user', function () {
       getByUsernameOrEmailWithRoles: sinon.stub(),
       updateLastLoggedAt: sinon.stub(),
     };
+    adminMemberRepository = {
+      get: sinon.stub(),
+    };
     pixAuthenticationService = {
       getUserByUsernameAndPassword: sinon.stub(),
     };
     sinon.stub(endTestScreenRemovalService, 'isEndTestScreenRemovalEnabledForSomeCertificationCenter');
+  });
+
+  context('check acces by pix scope', function () {
+    context('when scope is pix-orga', function () {
+      it('should rejects an error when user is not linked to any organizations', async function () {
+        // given
+        const scope = appMessages.PIX_ORGA.SCOPE;
+        const user = new User({ email: userEmail, memberships: [] });
+        pixAuthenticationService.getUserByUsernameAndPassword.resolves(user);
+
+        // when
+        const error = await catchErr(authenticateUser)({
+          username: userEmail,
+          password,
+          scope,
+          pixAuthenticationService,
+          userRepository,
+        });
+
+        // then
+        expect(error).to.be.an.instanceOf(ForbiddenAccess);
+        expect(error.message).to.be.equal(appMessages.PIX_ORGA.NOT_LINKED_ORGANIZATION_MSG);
+      });
+    });
+
+    context('when scope is pix-admin', function () {
+      it('should throw an error when user has no role and is therefore not an admin member', async function () {
+        // given
+        const scope = appMessages.PIX_ADMIN.SCOPE;
+        const user = new User({ email: userEmail });
+        pixAuthenticationService.getUserByUsernameAndPassword.resolves(user);
+        adminMemberRepository.get.withArgs({ userId: user.id }).resolves();
+
+        // when
+        const error = await catchErr(authenticateUser)({
+          username: userEmail,
+          password,
+          scope,
+          pixAuthenticationService,
+          userRepository,
+          adminMemberRepository,
+        });
+
+        // then
+        expect(error).to.be.an.instanceOf(ForbiddenAccess);
+        expect(error.message).to.be.equal(appMessages.PIX_ADMIN.NOT_ALLOWED_MSG);
+      });
+
+      it('should throw an error when user has a role but admin membership is disabled', async function () {
+        // given
+        const scope = appMessages.PIX_ADMIN.SCOPE;
+        const user = new User({ email: userEmail });
+        const adminMember = new AdminMember({
+          id: 567,
+          userId: user.id,
+          firstName: user.firstName,
+          lastName: user.lastName,
+          email: user.email,
+          role: 'CERTIF',
+          createdAt: undefined,
+          updatedAt: undefined,
+          disabledAt: new Date(),
+        });
+        pixAuthenticationService.getUserByUsernameAndPassword.resolves(user);
+        adminMemberRepository.get.withArgs({ userId: user.id }).resolves(adminMember);
+
+        // when
+        const error = await catchErr(authenticateUser)({
+          username: userEmail,
+          password,
+          scope,
+          pixAuthenticationService,
+          userRepository,
+          adminMemberRepository,
+        });
+
+        // then
+        expect(error).to.be.an.instanceOf(ForbiddenAccess);
+        expect(error.message).to.be.equal(appMessages.PIX_ADMIN.NOT_ALLOWED_MSG);
+      });
+
+      it('should resolve a valid JWT access token when admin member is not disabled and has a valid role', async function () {
+        // given
+        const scope = appMessages.PIX_ADMIN.SCOPE;
+        const source = 'pix';
+        const user = new User({ id: 123, email: userEmail });
+        const adminMember = new AdminMember({
+          id: 567,
+          userId: user.id,
+          firstName: user.firstName,
+          lastName: user.lastName,
+          email: user.email,
+          role: 'CERTIF',
+          createdAt: undefined,
+          updatedAt: undefined,
+          disabledAt: null,
+        });
+
+        pixAuthenticationService.getUserByUsernameAndPassword.resolves(user);
+        adminMemberRepository.get.withArgs({ userId: user.id }).resolves(adminMember);
+
+        const refreshToken = '';
+        const accessToken = '';
+        const expirationDelaySeconds = '';
+
+        refreshTokenService.createRefreshTokenFromUserId
+          .withArgs({
+            userId: user.id,
+            source,
+          })
+          .returns(refreshToken);
+        refreshTokenService.createAccessTokenFromRefreshToken
+          .withArgs({ refreshToken })
+          .resolves({ accessToken, expirationDelaySeconds });
+
+        // when
+        const result = await authenticateUser({
+          username: userEmail,
+          password,
+          scope,
+          source,
+          pixAuthenticationService,
+          userRepository,
+          adminMemberRepository,
+          refreshTokenService,
+        });
+
+        // then
+        expect(pixAuthenticationService.getUserByUsernameAndPassword).to.have.been.calledWithExactly({
+          username: userEmail,
+          password,
+          userRepository,
+        });
+        expect(result).to.deep.equal({ accessToken, refreshToken, expirationDelaySeconds });
+      });
+    });
+
+    context('when scope is pix-certif', function () {
+      context('when user is not linked to any certification centers', function () {
+        it('should rejects an error when feature toggle is disabled for all certification center', async function () {
+          // given
+          const scope = appMessages.PIX_CERTIF.SCOPE;
+          const user = domainBuilder.buildUser({ email: userEmail, certificationCenterMemberships: [] });
+          pixAuthenticationService.getUserByUsernameAndPassword.resolves(user);
+          endTestScreenRemovalService.isEndTestScreenRemovalEnabledForSomeCertificationCenter.resolves(false);
+
+          // when
+          const error = await catchErr(authenticateUser)({
+            username: userEmail,
+            password,
+            scope,
+            pixAuthenticationService,
+            userRepository,
+          });
+
+          // then
+          expect(error).to.be.an.instanceOf(ForbiddenAccess);
+          expect(error.message).to.be.equal(appMessages.PIX_CERTIF.NOT_LINKED_CERTIFICATION_MSG);
+        });
+
+        it('should resolves a valid JWT access token when feature toggle is enabled', async function () {
+          // given
+          const scope = appMessages.PIX_CERTIF.SCOPE;
+          const accessToken = 'jwt.access.token';
+          const refreshToken = 'jwt.refresh.token';
+          const expirationDelaySeconds = 1;
+          const source = 'pix';
+          const user = domainBuilder.buildUser({
+            email: userEmail,
+            certificationCenterMemberships: [Symbol('certificationCenterMembership')],
+          });
+
+          endTestScreenRemovalService.isEndTestScreenRemovalEnabledForSomeCertificationCenter.resolves(true);
+          pixAuthenticationService.getUserByUsernameAndPassword.resolves(user);
+          refreshTokenService.createRefreshTokenFromUserId
+            .withArgs({
+              userId: user.id,
+              source,
+            })
+            .returns(refreshToken);
+          refreshTokenService.createAccessTokenFromRefreshToken
+            .withArgs({ refreshToken })
+            .resolves({ accessToken, expirationDelaySeconds });
+
+          // when
+          await authenticateUser({
+            username: userEmail,
+            password,
+            scope,
+            source,
+            pixAuthenticationService,
+            refreshTokenService,
+            userRepository,
+            endTestScreenRemovalService,
+          });
+
+          // then
+          expect(pixAuthenticationService.getUserByUsernameAndPassword).to.have.been.calledWithExactly({
+            username: userEmail,
+            password,
+            userRepository,
+          });
+        });
+      });
+    });
   });
 
   it('should resolves a valid JWT access token when authentication succeeded', async function () {
@@ -127,120 +337,6 @@ describe('Unit | Application | UseCase | authenticate-user', function () {
 
     // then
     expect(error).to.be.an.instanceOf(MissingOrInvalidCredentialsError);
-  });
-
-  context('scope access', function () {
-    it('should rejects an error when scope is pix-orga and user is not linked to any organizations', async function () {
-      // given
-      const scope = appMessages.PIX_ORGA.SCOPE;
-      const user = new User({ email: userEmail, memberships: [] });
-      pixAuthenticationService.getUserByUsernameAndPassword.resolves(user);
-
-      const expectedErrorMessage = appMessages.PIX_ORGA.NOT_LINKED_ORGANIZATION_MSG;
-
-      // when
-      const error = await catchErr(authenticateUser)({
-        username: userEmail,
-        password,
-        scope,
-        pixAuthenticationService,
-        userRepository,
-      });
-
-      // then
-      expect(error).to.be.an.instanceOf(ForbiddenAccess);
-      expect(error.message).to.be.equal(expectedErrorMessage);
-    });
-
-    it('should throw an error when scope is pix-admin and user has no role', async function () {
-      // given
-      const scope = appMessages.PIX_ADMIN.SCOPE;
-      const user = new User({ email: userEmail, pixAdminRoles: [] });
-      pixAuthenticationService.getUserByUsernameAndPassword.resolves(user);
-
-      const expectedErrorMessage = appMessages.PIX_ADMIN.NOT_ALLOWED_MSG;
-
-      // when
-      const error = await catchErr(authenticateUser)({
-        username: userEmail,
-        password,
-        scope,
-        pixAuthenticationService,
-        userRepository,
-      });
-
-      // then
-      expect(error).to.be.an.instanceOf(ForbiddenAccess);
-      expect(error.message).to.be.equal(expectedErrorMessage);
-    });
-
-    context('when scope is pix-certif and user is not linked to any certification centers', function () {
-      it('should rejects an error when feature toggle is disabled for all certification center', async function () {
-        // given
-        const scope = appMessages.PIX_CERTIF.SCOPE;
-        const user = domainBuilder.buildUser({ email: userEmail, certificationCenterMemberships: [] });
-        pixAuthenticationService.getUserByUsernameAndPassword.resolves(user);
-        endTestScreenRemovalService.isEndTestScreenRemovalEnabledForSomeCertificationCenter.resolves(false);
-
-        const expectedErrorMessage = appMessages.PIX_CERTIF.NOT_LINKED_CERTIFICATION_MSG;
-        // when
-        const error = await catchErr(authenticateUser)({
-          username: userEmail,
-          password,
-          scope,
-          pixAuthenticationService,
-          userRepository,
-        });
-
-        // then
-        expect(error).to.be.an.instanceOf(ForbiddenAccess);
-        expect(error.message).to.be.equal(expectedErrorMessage);
-      });
-
-      it('should resolves a valid JWT access token when feature toggle is enabled', async function () {
-        // given
-        const scope = appMessages.PIX_CERTIF.SCOPE;
-        const accessToken = 'jwt.access.token';
-        const refreshToken = 'jwt.refresh.token';
-        const expirationDelaySeconds = 1;
-        const source = 'pix';
-        const user = domainBuilder.buildUser({
-          email: userEmail,
-          certificationCenterMemberships: [Symbol('certificationCenterMembership')],
-        });
-
-        endTestScreenRemovalService.isEndTestScreenRemovalEnabledForSomeCertificationCenter.resolves(true);
-        pixAuthenticationService.getUserByUsernameAndPassword.resolves(user);
-        refreshTokenService.createRefreshTokenFromUserId
-          .withArgs({
-            userId: user.id,
-            source,
-          })
-          .returns(refreshToken);
-        refreshTokenService.createAccessTokenFromRefreshToken
-          .withArgs({ refreshToken })
-          .resolves({ accessToken, expirationDelaySeconds });
-
-        // when
-        await authenticateUser({
-          username: userEmail,
-          password,
-          scope,
-          source,
-          pixAuthenticationService,
-          refreshTokenService,
-          userRepository,
-          endTestScreenRemovalService,
-        });
-
-        // then
-        expect(pixAuthenticationService.getUserByUsernameAndPassword).to.have.been.calledWithExactly({
-          username: userEmail,
-          password,
-          userRepository,
-        });
-      });
-    });
   });
 
   context('when user should change password', function () {
