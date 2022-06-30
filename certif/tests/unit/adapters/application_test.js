@@ -40,6 +40,17 @@ module('Unit | Adapters | ApplicationAdapter', function (hooks) {
       // Then
       assert.notOk(applicationAdapter.headers['Authorization']);
     });
+
+    ['fr', 'fr-fr', 'en'].forEach((locale) =>
+      test(`should add Accept-Language header from the ${locale}`, function (assert) {
+        // Given
+        const applicationAdapter = this.owner.lookup('adapter:application');
+        applicationAdapter.intl = { get: () => [locale] };
+
+        // Then
+        assert.strictEqual(applicationAdapter.headers['Accept-Language'], locale);
+      })
+    );
   });
 
   module('#ajax()', function () {
