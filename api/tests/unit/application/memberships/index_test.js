@@ -29,7 +29,7 @@ describe('Unit | Router | membership-router', function () {
       // given
       sinon.stub(securityPreHandlers, 'checkUserHasRoleCertif').callsFake((request, h) => h.response(true));
       sinon
-        .stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin')
+        .stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin')
         .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
       sinon
         .stub(securityPreHandlers, 'checkUserHasRoleSupport')
@@ -92,7 +92,7 @@ describe('Unit | Router | membership-router', function () {
       // given
       sinon.stub(securityPreHandlers, 'checkUserHasRoleCertif').callsFake((request, h) => h.response(true));
       sinon
-        .stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin')
+        .stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin')
         .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
       sinon
         .stub(securityPreHandlers, 'checkUserHasRoleSupport')
@@ -136,7 +136,7 @@ describe('Unit | Router | membership-router', function () {
 
       sinon.stub(securityPreHandlers, 'checkUserHasRoleCertif').callsFake((request, h) => h.response(true));
       sinon
-        .stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin')
+        .stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin')
         .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
       sinon
         .stub(securityPreHandlers, 'checkUserHasRoleSupport')

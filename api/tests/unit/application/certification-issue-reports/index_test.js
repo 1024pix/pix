@@ -51,7 +51,7 @@ describe('Unit | Application | Certifications Issue Report | Route', function ()
       sinon
         .stub(securityPreHandlers, 'userHasAtLeastOneAccessOf')
         .withArgs([
-          securityPreHandlers.checkUserHasRoleSuperAdmin,
+          securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
           securityPreHandlers.checkUserHasRoleCertif,
           securityPreHandlers.checkUserHasRoleSupport,
         ])

@@ -15,7 +15,7 @@ exports.register = async (server) => {
             method: (request, h) =>
               securityPreHandlers.userHasAtLeastOneAccessOf([
                 securityPreHandlers.checkUserIsMemberOfCertificationCenterSessionFromCertificationCourseId,
-                securityPreHandlers.checkUserHasRoleSuperAdmin,
+                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
                 securityPreHandlers.checkUserHasRoleCertif,
                 securityPreHandlers.checkUserHasRoleSupport,
                 securityPreHandlers.checkUserHasRoleMetier,

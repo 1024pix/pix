@@ -10,7 +10,7 @@ describe('Unit | Application | Assessmnet results | Route', function () {
       sinon
         .stub(securityPreHandlers, 'userHasAtLeastOneAccessOf')
         .withArgs([
-          securityPreHandlers.checkUserHasRoleSuperAdmin,
+          securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
           securityPreHandlers.checkUserHasRoleCertif,
           securityPreHandlers.checkUserHasRoleSupport,
         ])

@@ -10,7 +10,7 @@ describe('Integration | Application | complementary-certification-course-results
   beforeEach(async function () {
     sandbox = sinon.createSandbox();
     sandbox.stub(usecases, 'saveJuryComplementaryCertificationCourseResult');
-    sandbox.stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin');
+    sandbox.stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin');
     sandbox.stub(securityPreHandlers, 'checkUserHasRoleCertif');
     sandbox.stub(securityPreHandlers, 'checkUserHasRoleSupport');
     httpTestServer = new HttpTestServer();
@@ -48,7 +48,7 @@ describe('Integration | Application | complementary-certification-course-results
             },
           };
           usecases.saveJuryComplementaryCertificationCourseResult.resolves();
-          securityPreHandlers.checkUserHasRoleSuperAdmin.callsFake((request, h) => h.response(true));
+          securityPreHandlers.checkAdminMemberHasRoleSuperAdmin.callsFake((request, h) => h.response(true));
 
           // when
           const response = await httpTestServer.request(
@@ -76,7 +76,7 @@ describe('Integration | Application | complementary-certification-course-results
             },
           };
           usecases.saveJuryComplementaryCertificationCourseResult.resolves();
-          securityPreHandlers.checkUserHasRoleSuperAdmin.callsFake((request, h) => h.response(true));
+          securityPreHandlers.checkAdminMemberHasRoleSuperAdmin.callsFake((request, h) => h.response(true));
 
           // when
           const response = await httpTestServer.request(
@@ -101,7 +101,7 @@ describe('Integration | Application | complementary-certification-course-results
               },
             },
           };
-          securityPreHandlers.checkUserHasRoleSuperAdmin.callsFake((request, h) =>
+          securityPreHandlers.checkAdminMemberHasRoleSuperAdmin.callsFake((request, h) =>
             h.response({ errors: new Error('forbidden') }).code(403)
           );
           securityPreHandlers.checkUserHasRoleSupport.callsFake((request, h) =>

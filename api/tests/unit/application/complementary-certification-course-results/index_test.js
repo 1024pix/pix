@@ -10,7 +10,7 @@ describe('Unit | Application | Complementary Certification Course Results | Rout
       sinon
         .stub(securityPreHandlers, 'userHasAtLeastOneAccessOf')
         .withArgs([
-          securityPreHandlers.checkUserHasRoleSuperAdmin,
+          securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
           securityPreHandlers.checkUserHasRoleCertif,
           securityPreHandlers.checkUserHasRoleSupport,
         ])

@@ -13,7 +13,7 @@ describe('Unit | Application | Badges | Routes', function () {
         sinon
           .stub(securityPreHandlers, 'userHasAtLeastOneAccessOf')
           .withArgs([
-            securityPreHandlers.checkUserHasRoleSuperAdmin,
+            securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
             securityPreHandlers.checkUserHasRoleSupport,
             securityPreHandlers.checkUserHasRoleMetier,
           ])
@@ -49,7 +49,7 @@ describe('Unit | Application | Badges | Routes', function () {
         sinon
           .stub(securityPreHandlers, 'userHasAtLeastOneAccessOf')
           .withArgs([
-            securityPreHandlers.checkUserHasRoleSuperAdmin,
+            securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
             securityPreHandlers.checkUserHasRoleSupport,
             securityPreHandlers.checkUserHasRoleMetier,
           ])
@@ -79,7 +79,7 @@ describe('Unit | Application | Badges | Routes', function () {
         sinon
           .stub(securityPreHandlers, 'userHasAtLeastOneAccessOf')
           .withArgs([
-            securityPreHandlers.checkUserHasRoleSuperAdmin,
+            securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
             securityPreHandlers.checkUserHasRoleSupport,
             securityPreHandlers.checkUserHasRoleMetier,
           ])
@@ -116,7 +116,7 @@ describe('Unit | Application | Badges | Routes', function () {
         sinon
           .stub(securityPreHandlers, 'userHasAtLeastOneAccessOf')
           .withArgs([
-            securityPreHandlers.checkUserHasRoleSuperAdmin,
+            securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
             securityPreHandlers.checkUserHasRoleSupport,
             securityPreHandlers.checkUserHasRoleMetier,
           ])

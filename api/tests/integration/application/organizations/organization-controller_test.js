@@ -29,7 +29,7 @@ describe('Integration | Application | Organizations | organization-controller', 
     sandbox.stub(certificationAttestationPdf, 'getCertificationAttestationsPdfBuffer');
 
     sandbox.stub(securityPreHandlers, 'checkUserIsAdminInOrganization');
-    sandbox.stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin');
+    sandbox.stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin');
     sandbox.stub(securityPreHandlers, 'checkUserBelongsToOrganizationManagingStudents');
     sandbox.stub(securityPreHandlers, 'checkUserBelongsToScoOrganizationAndManagesStudents');
     sandbox.stub(securityPreHandlers, 'checkUserBelongsToSupOrganizationAndManagesStudents');

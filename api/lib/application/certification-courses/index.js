@@ -15,7 +15,7 @@ exports.register = async function (server) {
           {
             method: (request, h) =>
               securityPreHandlers.userHasAtLeastOneAccessOf([
-                securityPreHandlers.checkUserHasRoleSuperAdmin,
+                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
                 securityPreHandlers.checkUserHasRoleCertif,
                 securityPreHandlers.checkUserHasRoleSupport,
                 securityPreHandlers.checkUserHasRoleMetier,
@@ -45,7 +45,7 @@ exports.register = async function (server) {
           {
             method: (request, h) =>
               securityPreHandlers.userHasAtLeastOneAccessOf([
-                securityPreHandlers.checkUserHasRoleSuperAdmin,
+                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
                 securityPreHandlers.checkUserHasRoleCertif,
                 securityPreHandlers.checkUserHasRoleSupport,
                 securityPreHandlers.checkUserHasRoleMetier,
@@ -79,7 +79,7 @@ exports.register = async function (server) {
           {
             method: (request, h) =>
               securityPreHandlers.userHasAtLeastOneAccessOf([
-                securityPreHandlers.checkUserHasRoleSuperAdmin,
+                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
                 securityPreHandlers.checkUserHasRoleCertif,
                 securityPreHandlers.checkUserHasRoleSupport,
                 securityPreHandlers.checkUserHasRoleMetier,
@@ -107,7 +107,7 @@ exports.register = async function (server) {
             method: (request, h) =>
               securityPreHandlers.userHasAtLeastOneAccessOf([
                 securityPreHandlers.checkUserOwnsCertificationCourse,
-                securityPreHandlers.checkUserHasRoleSuperAdmin,
+                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
                 securityPreHandlers.checkUserHasRoleCertif,
                 securityPreHandlers.checkUserHasRoleSupport,
               ])(request, h),
@@ -138,7 +138,7 @@ exports.register = async function (server) {
             method: (request, h) =>
               securityPreHandlers.userHasAtLeastOneAccessOf([
                 securityPreHandlers.checkUserOwnsCertificationCourse,
-                securityPreHandlers.checkUserHasRoleSuperAdmin,
+                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
                 securityPreHandlers.checkUserHasRoleCertif,
                 securityPreHandlers.checkUserHasRoleSupport,
                 securityPreHandlers.checkUserHasRoleMetier,
@@ -168,7 +168,7 @@ exports.register = async function (server) {
           {
             method: (request, h) =>
               securityPreHandlers.userHasAtLeastOneAccessOf([
-                securityPreHandlers.checkUserHasRoleSuperAdmin,
+                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
                 securityPreHandlers.checkUserHasRoleCertif,
                 securityPreHandlers.checkUserHasRoleSupport,
               ])(request, h),
@@ -192,7 +192,7 @@ exports.register = async function (server) {
           {
             method: (request, h) =>
               securityPreHandlers.userHasAtLeastOneAccessOf([
-                securityPreHandlers.checkUserHasRoleSuperAdmin,
+                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
                 securityPreHandlers.checkUserHasRoleCertif,
                 securityPreHandlers.checkUserHasRoleSupport,
               ])(request, h),

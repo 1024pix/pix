@@ -192,7 +192,7 @@ exports.register = async function (server) {
           {
             method: (request, h) =>
               securityPreHandlers.userHasAtLeastOneAccessOf([
-                securityPreHandlers.checkUserHasRoleSuperAdmin,
+                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
                 securityPreHandlers.checkUserHasRoleSupport,
                 securityPreHandlers.checkUserHasRoleMetier,
               ])(request, h),

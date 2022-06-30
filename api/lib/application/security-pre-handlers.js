@@ -1,6 +1,6 @@
 /* eslint-disable  no-restricted-syntax */
 const bluebird = require('bluebird');
-const checkUserHasRoleSuperAdminUseCase = require('./usecases/checkUserHasRoleSuperAdmin');
+const checkAdminMemberHasRoleSuperAdminUseCase = require('./usecases/checkAdminMemberHasRoleSuperAdmin');
 const checkUserHasRoleCertifUseCase = require('./usecases/checkUserHasRoleCertif');
 const checkUserHasRoleSupportUseCase = require('./usecases/checkUserHasRoleSupport');
 const checkUserHasRoleMetierUseCase = require('./usecases/checkUserHasRoleMetier');
@@ -35,7 +35,7 @@ function _replyForbiddenError(h) {
   return h.response(jsonApiError).code(errorHttpStatusCode).takeover();
 }
 
-async function checkUserHasRoleSuperAdmin(request, h) {
+async function checkAdminMemberHasRoleSuperAdmin(request, h) {
   if (!request.auth.credentials || !request.auth.credentials.userId) {
     return _replyForbiddenError(h);
   }
@@ -43,7 +43,7 @@ async function checkUserHasRoleSuperAdmin(request, h) {
   const userId = request.auth.credentials.userId;
 
   try {
-    const hasRoleSuperAdmin = await checkUserHasRoleSuperAdminUseCase.execute(userId);
+    const hasRoleSuperAdmin = await checkAdminMemberHasRoleSuperAdminUseCase.execute(userId);
     if (!hasRoleSuperAdmin) {
       throw new ForbiddenAccess(apps.PIX_ADMIN.NOT_ALLOWED_MSG);
     }
@@ -370,7 +370,7 @@ module.exports = {
   checkUserBelongsToOrganizationManagingStudents,
   checkUserBelongsToScoOrganizationAndManagesStudents,
   checkUserBelongsToSupOrganizationAndManagesStudents,
-  checkUserHasRoleSuperAdmin,
+  checkAdminMemberHasRoleSuperAdmin,
   checkUserHasRoleCertif,
   checkUserHasRoleSupport,
   checkUserHasRoleMetier,
