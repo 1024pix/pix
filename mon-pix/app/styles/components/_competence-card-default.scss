@@ -27,32 +27,32 @@
 
     &--jaffa,
     &--jaffa::after {
-      background: radial-gradient($information-dark 25%, $information-light 100%);
-      background-color: $information-dark;
+      background: radial-gradient($pix-information-dark 25%, $pix-information-light 100%);
+      background-color: $pix-information-dark;
     }
 
     &--emerald,
     &--emerald::after {
-      background: radial-gradient($content-dark 25%, $content-light 100%);
-      background-color: $content-dark;
+      background: radial-gradient($pix-content-dark 25%, $pix-content-light 100%);
+      background-color: $pix-content-dark;
     }
 
     &--cerulean,
     &--cerulean::after {
-      background: radial-gradient($pix-communication-dark 25%, $communication-light 100%);
+      background: radial-gradient($pix-communication-dark 25%, $pix-communication-light 100%);
       background-color: $pix-communication-dark;
     }
 
     &--wild-strawberry,
     &--wild-strawberry::after {
-      background: radial-gradient($security-dark 25%, $security-light 100%);
-      background-color: $security-dark;
+      background: radial-gradient($pix-security-dark 25%, $pix-security-light 100%);
+      background-color: $pix-security-dark;
     }
 
     &--butterfly-bush,
     &--butterfly-bush::after {
-      background: radial-gradient($environment-dark 25%, $environment-light 100%);
-      background-color: $environment-dark;
+      background: radial-gradient($pix-environment-dark 25%, $pix-environment-light 100%);
+      background-color: $pix-environment-dark;
     }
   }
 

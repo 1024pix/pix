@@ -167,28 +167,28 @@
     border-radius: 1.5px;
 
     &--jaffa {
-      color: $information-light;
-      background: $information-light;
+      color: $pix-information-light;
+      background: $pix-information-light;
     }
 
     &--emerald {
-      color: $content-light;
-      background: $content-light;
+      color: $pix-content-light;
+      background: $pix-content-light;
     }
 
     &--cerulean {
-      color: $communication-light;
-      background: $communication-light;
+      color: $pix-communication-light;
+      background: $pix-communication-light;
     }
 
     &--wild-strawberry {
-      color: $security-light;
-      background: $security-light;
+      color: $pix-security-light;
+      background: $pix-security-light;
     }
 
     &--butterfly-bush {
-      color: $environment-light;
-      background: $environment-light;
+      color: $pix-environment-light;
+      background: $pix-environment-light;
     }
   }
 }
@@ -480,7 +480,7 @@
   }
 
   .progression-gauge__marker {
-    border-bottom: 4px solid $information-light;
+    border-bottom: 4px solid $pix-information-light;
   }
 
   .default-table thead {

@@ -137,11 +137,11 @@
     letter-spacing: 0.125rem;
 
     &--jaffa {
-      color: darken($information-dark, 15%);
+      color: darken($pix-information-dark, 15%);
     }
 
     &--emerald {
-      color: darken($content-dark, 10%);
+      color: darken($pix-content-dark, 10%);
     }
 
     &--cerulean {
@@ -149,11 +149,11 @@
     }
 
     &--wild-strawberry {
-      color: $security-dark;
+      color: $pix-security-dark;
     }
 
     &--butterfly-bush {
-      color: $environment-light;
+      color: $pix-environment-light;
     }
   }
 
