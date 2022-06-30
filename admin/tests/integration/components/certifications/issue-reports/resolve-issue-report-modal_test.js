@@ -7,49 +7,52 @@ import sinon from 'sinon';
 module('Integration | Component | certifications/issue-reports/resolve-issue-report-modal', function (hooks) {
   setupRenderingTest(hooks);
 
-  test('it should display a report resolution title', async function (assert) {
-    // Given
-    const store = this.owner.lookup('service:store');
-    const issueReport = store.createRecord('certification-issue-report', { isImpactful: true, resolvedAt: null });
-    this.set('issueReport', issueReport);
+  module('when the issue is not resolved', function () {
+    test('it should display a report resolution title', async function (assert) {
+      // Given
+      const store = this.owner.lookup('service:store');
+      const issueReport = store.createRecord('certification-issue-report', { isImpactful: true, resolvedAt: null });
+      this.set('issueReport', issueReport);
 
-    this.toggleResolveModal = sinon.stub().returns();
-    this.resolveIssueReport = sinon.stub().resolves();
-    this.closeResolveModal = sinon.stub().returns();
+      this.toggleResolveModal = sinon.stub().returns();
+      this.resolveIssueReport = sinon.stub().resolves();
+      this.closeResolveModal = sinon.stub().returns();
 
-    // When
-    const screen = await renderScreen(hbs`<Certifications::IssueReports::ResolveIssueReportModal
+      // When
+      const screen = await renderScreen(hbs`<Certifications::IssueReports::ResolveIssueReportModal
                    @toggleResolveModal={{this.toggleResolveModal}}
                    @issueReport={{this.issueReport}}
                    @resolveIssueReport={{this.resolveIssueReport}}
                    @closeResolveModal={{this.closeResolveModal}}
                   />`);
 
-    // Then
-    assert.dom(screen.getByRole('dialog', { name: 'Résoudre un signalement' })).exists();
-  });
+      // Then
+      assert.dom(screen.getByRole('dialog', { name: 'Résoudre un signalement' })).exists();
+    });
 
-  test('it should display resolve button', async function (assert) {
-    // Given
-    const store = this.owner.lookup('service:store');
-    const issueReport = store.createRecord('certification-issue-report', { isImpactful: true, resolvedAt: null });
-    this.set('issueReport', issueReport);
+    test('it should display resolve button', async function (assert) {
+      // Given
+      const store = this.owner.lookup('service:store');
+      const issueReport = store.createRecord('certification-issue-report', { isImpactful: true, resolvedAt: null });
+      this.set('issueReport', issueReport);
 
-    this.toggleResolveModal = sinon.stub().returns();
-    this.resolveIssueReport = sinon.stub().resolves();
-    this.closeResolveModal = sinon.stub().returns();
+      this.toggleResolveModal = sinon.stub().returns();
+      this.resolveIssueReport = sinon.stub().resolves();
+      this.closeResolveModal = sinon.stub().returns();
 
-    // When
-    const screen = await renderScreen(hbs`<Certifications::IssueReports::ResolveIssueReportModal
+      // When
+      const screen = await renderScreen(hbs`<Certifications::IssueReports::ResolveIssueReportModal
                    @toggleResolveModal={{this.toggleResolveModal}}
                    @issueReport={{this.issueReport}}
                    @resolveIssueReport={{this.resolveIssueReport}}
                    @closeResolveModal={{this.closeResolveModal}}
                   />`);
 
-    // Then
-    assert.dom(screen.getByRole('button', { name: 'Résoudre le signalement' })).exists();
+      // Then
+      assert.dom(screen.getByRole('button', { name: 'Résoudre le signalement' })).exists();
+    });
   });
+
   module('when clicking on Cancel button', function () {
     test('it should close the modal', async function (assert) {
       // Given
@@ -154,6 +157,84 @@ module('Integration | Component | certifications/issue-reports/resolve-issue-rep
         );
         assert.ok(true);
       });
+    });
+  });
+
+  module('when the issue report is already resolved', function () {
+    test('it should display a report resolution title', async function (assert) {
+      // Given
+      const store = this.owner.lookup('service:store');
+      const issueReport = store.createRecord('certification-issue-report', {
+        isImpactful: true,
+        resolvedAt: new Date(),
+        resolution: 'resolved',
+      });
+      this.set('issueReport', issueReport);
+
+      this.toggleResolveModal = sinon.stub().returns();
+      this.resolveIssueReport = sinon.stub().resolves();
+      this.closeResolveModal = sinon.stub().returns();
+
+      // When
+      const screen = await renderScreen(hbs`<Certifications::IssueReports::ResolveIssueReportModal
+                     @toggleResolveModal={{this.toggleResolveModal}}
+                     @issueReport={{this.issueReport}}
+                     @resolveIssueReport={{this.resolveIssueReport}}
+                     @closeResolveModal={{this.closeResolveModal}}
+                    />`);
+
+      // Then
+      assert.dom(screen.getByRole('dialog', { name: 'Modifier le signalement' })).exists();
+    });
+    test('it should display modification button', async function (assert) {
+      // Given
+      const store = this.owner.lookup('service:store');
+      const issueReport = store.createRecord('certification-issue-report', {
+        isImpactful: true,
+        resolvedAt: new Date(),
+        resolution: '',
+      });
+      this.set('issueReport', issueReport);
+
+      this.toggleResolveModal = sinon.stub().returns();
+      this.resolveIssueReport = sinon.stub().resolves();
+      this.closeResolveModal = sinon.stub().returns();
+
+      // When
+      const screen = await renderScreen(hbs`<Certifications::IssueReports::ResolveIssueReportModal
+                   @toggleResolveModal={{this.toggleResolveModal}}
+                   @issueReport={{this.issueReport}}
+                   @resolveIssueReport={{this.resolveIssueReport}}
+                   @closeResolveModal={{this.closeResolveModal}}
+                  />`);
+
+      // Then
+      assert.dom(screen.getByRole('button', { name: 'Modifier le signalement' })).exists();
+    });
+    test('it should display actual resolution text', async function (assert) {
+      // Given
+      const store = this.owner.lookup('service:store');
+      const issueReport = store.createRecord('certification-issue-report', {
+        isImpactful: true,
+        resolvedAt: new Date(),
+        resolution: 'resolved by John Doe',
+      });
+      this.set('issueReport', issueReport);
+
+      this.toggleResolveModal = sinon.stub().returns();
+      this.resolveIssueReport = sinon.stub().resolves();
+      this.closeResolveModal = sinon.stub().returns();
+
+      // When
+      const screen = await renderScreen(hbs`<Certifications::IssueReports::ResolveIssueReportModal
+                   @toggleResolveModal={{this.toggleResolveModal}}
+                   @issueReport={{this.issueReport}}
+                   @resolveIssueReport={{this.resolveIssueReport}}
+                   @closeResolveModal={{this.closeResolveModal}}
+                  />`);
+
+      // Then
+      assert.dom(screen.getByRole('textbox', { name: 'Résolution' })).hasValue('resolved by John Doe');
     });
   });
 });
