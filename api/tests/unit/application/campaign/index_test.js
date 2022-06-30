@@ -158,7 +158,7 @@ describe('Unit | Application | Router | campaign-router ', function () {
         .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
       sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin').callsFake((request, h) => h.response(true));
       sinon.stub(securityPreHandlers, 'checkUserHasRoleSupport').callsFake((request, h) => h.response(true));
-      sinon.stub(securityPreHandlers, 'checkUserHasRoleMetier').callsFake((request, h) => h.response(true));
+      sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleMetier').callsFake((request, h) => h.response(true));
       sinon
         .stub(campaignManagementController, 'updateCampaignDetailsManagement')
         .callsFake((request, h) => h.response('ok').code(204));
@@ -269,7 +269,7 @@ describe('Unit | Application | Router | campaign-router ', function () {
         .stub(securityPreHandlers, 'checkUserHasRoleSupport')
         .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
       sinon
-        .stub(securityPreHandlers, 'checkUserHasRoleMetier')
+        .stub(securityPreHandlers, 'checkAdminMemberHasRoleMetier')
         .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);

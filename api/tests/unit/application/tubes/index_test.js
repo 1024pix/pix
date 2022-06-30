@@ -16,7 +16,7 @@ describe('Unit | Application | Tubes | Routes', function () {
         .withArgs([
           securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
           securityPreHandlers.checkUserHasRoleSupport,
-          securityPreHandlers.checkUserHasRoleMetier,
+          securityPreHandlers.checkAdminMemberHasRoleMetier,
         ])
         .callsFake(() => (request, h) => h.response(true));
       sinon.stub(tubeController, 'listSkills').callsFake((request, h) => h.response('ok').code(200));
@@ -37,7 +37,7 @@ describe('Unit | Application | Tubes | Routes', function () {
         .withArgs([
           securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
           securityPreHandlers.checkUserHasRoleSupport,
-          securityPreHandlers.checkUserHasRoleMetier,
+          securityPreHandlers.checkAdminMemberHasRoleMetier,
         ])
         .callsFake(
           () => (request, h) =>

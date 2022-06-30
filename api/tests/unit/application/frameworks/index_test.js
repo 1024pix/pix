@@ -16,7 +16,7 @@ describe('Unit | Application | Frameworks | Routes', function () {
         .withArgs([
           securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
           securityPreHandlers.checkUserHasRoleSupport,
-          securityPreHandlers.checkUserHasRoleMetier,
+          securityPreHandlers.checkAdminMemberHasRoleMetier,
         ])
         .callsFake(() => (request, h) => h.response(true));
       sinon.stub(frameworksController, 'getFrameworks').callsFake((request, h) => h.response('ok').code(200));
@@ -37,7 +37,7 @@ describe('Unit | Application | Frameworks | Routes', function () {
         .withArgs([
           securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
           securityPreHandlers.checkUserHasRoleSupport,
-          securityPreHandlers.checkUserHasRoleMetier,
+          securityPreHandlers.checkAdminMemberHasRoleMetier,
         ])
         .callsFake(
           () => (request, h) =>
@@ -68,7 +68,7 @@ describe('Unit | Application | Frameworks | Routes', function () {
         .withArgs([
           securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
           securityPreHandlers.checkUserHasRoleSupport,
-          securityPreHandlers.checkUserHasRoleMetier,
+          securityPreHandlers.checkAdminMemberHasRoleMetier,
         ])
         .callsFake(() => (request, h) => h.response(true));
       sinon.stub(frameworksController, 'getFrameworkAreas').callsFake((request, h) => h.response('ok').code(200));
@@ -89,7 +89,7 @@ describe('Unit | Application | Frameworks | Routes', function () {
         .withArgs([
           securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
           securityPreHandlers.checkUserHasRoleSupport,
-          securityPreHandlers.checkUserHasRoleMetier,
+          securityPreHandlers.checkAdminMemberHasRoleMetier,
         ])
         .callsFake(
           () => (request, h) =>

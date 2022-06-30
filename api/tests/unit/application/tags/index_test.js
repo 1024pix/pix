@@ -38,7 +38,7 @@ describe('Unit | Application | Router | tag-router', function () {
         .callsFake((request, h) => h.response().code(403).takeover());
       sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleCertif').callsFake((request, h) => h.response(true));
       sinon.stub(securityPreHandlers, 'checkUserHasRoleSupport').callsFake((request, h) => h.response(true));
-      sinon.stub(securityPreHandlers, 'checkUserHasRoleMetier').callsFake((request, h) => h.response(true));
+      sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleMetier').callsFake((request, h) => h.response(true));
 
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);

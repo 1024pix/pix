@@ -13,7 +13,7 @@ describe('Unit | Application | Stages | Routes', function () {
           .withArgs([
             securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
             securityPreHandlers.checkUserHasRoleSupport,
-            securityPreHandlers.checkUserHasRoleMetier,
+            securityPreHandlers.checkAdminMemberHasRoleMetier,
           ])
           .callsFake(() => (request, h) => h.response(true));
         sinon.stub(stagesController, 'create').callsFake((request, h) => h.response('ok').code(201));
@@ -36,7 +36,7 @@ describe('Unit | Application | Stages | Routes', function () {
           .withArgs([
             securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
             securityPreHandlers.checkUserHasRoleSupport,
-            securityPreHandlers.checkUserHasRoleMetier,
+            securityPreHandlers.checkAdminMemberHasRoleMetier,
           ])
           .callsFake(
             () => (request, h) =>
@@ -101,7 +101,7 @@ describe('Unit | Application | Stages | Routes', function () {
           .withArgs([
             securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
             securityPreHandlers.checkUserHasRoleSupport,
-            securityPreHandlers.checkUserHasRoleMetier,
+            securityPreHandlers.checkAdminMemberHasRoleMetier,
           ])
           .callsFake(() => (request, h) => h.response(true));
         sinon.stub(stagesController, 'updateStage').callsFake((request, h) => h.response('ok').code(201));
@@ -266,7 +266,7 @@ describe('Unit | Application | Stages | Routes', function () {
           .withArgs([
             securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
             securityPreHandlers.checkUserHasRoleSupport,
-            securityPreHandlers.checkUserHasRoleMetier,
+            securityPreHandlers.checkAdminMemberHasRoleMetier,
           ])
           .callsFake(
             () => (request, h) =>
