@@ -12,6 +12,7 @@ class TargetProfileForCreation {
     isPublic,
     imageUrl,
     ownerOrganizationId,
+    tubes,
   }) {
     this.name = name;
     this.category = category;
@@ -21,6 +22,7 @@ class TargetProfileForCreation {
     this.isPublic = isPublic;
     this.imageUrl = imageUrl || DEFAULT_IMAGE_URL;
     this.ownerOrganizationId = ownerOrganizationId;
+    this.tubes = tubes;
     validate(this);
   }
 }

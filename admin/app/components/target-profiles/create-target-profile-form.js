@@ -39,7 +39,7 @@ export default class CreateTargetProfileForm extends Component {
     this.args.targetProfile.skillIds = tubesWithLevelAndSkills.flatMap(
       (tubeWithLevelAndSkills) => tubeWithLevelAndSkills.skills
     );
-    this.args.targetProfile.templateTubes = tubesWithLevelAndSkills.map(({ id, level }) => ({
+    this.args.targetProfile.tubesSelection = tubesWithLevelAndSkills.map(({ id, level }) => ({
       id,
       level,
     }));

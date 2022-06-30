@@ -514,7 +514,7 @@ describe('Unit | Application | Target Profiles | Routes', function () {
           'is-public': false,
           'skill-ids': ['skill1', 'skill2'],
           comment: 'comment',
-          'template-tubes': [
+          'tubes-selection': [
             {
               id: 'tube1',
               level: 7,
@@ -567,7 +567,7 @@ describe('Unit | Application | Target Profiles | Routes', function () {
               'is-public': false,
               'skill-ids': ['skill1', 'skill2'],
               comment: 'comment',
-              'template-tubes': [
+              'tubes-selection': [
                 {
                   id: 'tube1',
                   level: 7,
@@ -600,7 +600,7 @@ describe('Unit | Application | Target Profiles | Routes', function () {
               'is-public': false,
               'skill-ids': ['skill1', 'skill2'],
               comment: 'comment',
-              'template-tubes': [
+              'tubes-selection': [
                 {
                   id: 'tube1',
                   level: 7,
@@ -629,7 +629,7 @@ describe('Unit | Application | Target Profiles | Routes', function () {
               'is-public': false,
               'skill-ids': ['skill1', 'skill2'],
               comment: 'comment',
-              'template-tubes': [
+              'tubes-selection': [
                 {
                   id: 'tube1',
                   level: 7,

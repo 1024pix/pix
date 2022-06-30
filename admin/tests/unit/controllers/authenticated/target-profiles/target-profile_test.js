@@ -10,17 +10,15 @@ module('Unit | Controller | authenticated/target-profiles/target-profile', funct
     controller = this.owner.lookup('controller:authenticated/target-profiles/target-profile');
   });
 
-  module('#getTargetProfileContent', function () {
+  module('#get targetProfileContent', function () {
     test('should build target profile content for download', async function (assert) {
       const store = this.owner.lookup('service:store');
       controller.model = store.createRecord('target-profile', {
-        template: store.createRecord('target-profile-template', {
-          tubes: [
-            { id: 'tubeId1', level: 5 },
-            { id: 'tubeId2', level: 8 },
-            { id: 'tubeId3', level: 7 },
-          ],
-        }),
+        tubesSelection: [
+          { id: 'tubeId1', level: 5 },
+          { id: 'tubeId2', level: 8 },
+          { id: 'tubeId3', level: 7 },
+        ],
         skills: [
           store.createRecord('skill', { id: 'skillId1', tubeId: 'tubeId1' }),
           store.createRecord('skill', { id: 'skillId2', tubeId: 'tubeId1' }),
@@ -28,7 +26,7 @@ module('Unit | Controller | authenticated/target-profiles/target-profile', funct
         ],
       });
 
-      const result = await controller.getTargetProfileContent();
+      const result = controller.targetProfileContent;
 
       assert.deepEqual(result, [
         { id: 'tubeId1', level: 5, skills: ['skillId1', 'skillId2'] },
