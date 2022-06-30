@@ -65,6 +65,11 @@ describe('Unit | Serializer | JSONAPI | user-details-for-admin-serializer', func
                 },
               ],
             },
+            profile: {
+              links: {
+                related: `/api/admin/users/${userDetailsForAdmin.id}/profile`,
+              },
+            },
           },
           id: `${userDetailsForAdmin.id}`,
           type: 'users',

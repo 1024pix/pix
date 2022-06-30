@@ -1,4 +1,4 @@
-import Model, { hasMany, attr } from '@ember-data/model';
+import Model, { belongsTo, hasMany, attr } from '@ember-data/model';
 // eslint-disable-next-line ember/no-computed-properties-in-native-classes
 import { computed } from '@ember/object';
 
@@ -17,6 +17,9 @@ export default class User extends Model {
   @attr() lastPixCertifTermsOfServiceValidatedAt;
   @attr() lastLoggedAt;
   @attr() emailConfirmedAt;
+
+  // includes
+  @belongsTo('profile', { async: false }) profile;
 
   @hasMany('membership') memberships;
   @hasMany('certification-center-membership') certificationCenterMemberships;
