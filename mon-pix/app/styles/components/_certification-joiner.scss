@@ -84,7 +84,7 @@
   }
 
   p.certification-joiner__validation-error {
-    color: $pure-orange;
+    color: $pix-warning-60;
     font-size: 0.875rem;
     margin-top: 6px;
     margin-bottom: 0;
@@ -114,7 +114,7 @@
   .certification-course-page {
 
     &__errors {
-      color: $pure-orange;
+      color: $pix-warning-60;
       font-size: 0.875rem;
       text-align: start;
       margin: 5px 5px 5px 5px;
@@ -130,7 +130,7 @@
 
       a,
       a:visited {
-        color: $pure-orange;
+        color: $pix-warning-60;
         text-decoration: underline;
       }
     }
