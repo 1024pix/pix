@@ -47,23 +47,23 @@
   }
 
   &--jaffa::after {
-    background: linear-gradient(90deg, $information-dark 45%, $information-light 100%);
+    background: linear-gradient(90deg, $pix-information-dark 45%, $pix-information-light 100%);
   }
 
   &--emerald::after {
-    background: linear-gradient(90deg, $content-dark 45%, $content-light 100%);
+    background: linear-gradient(90deg, $pix-content-dark 45%, $pix-content-light 100%);
   }
 
   &--cerulean::after {
-    background: linear-gradient(90deg, $pix-primary 45%, $communication-light 100%);
+    background: linear-gradient(90deg, $pix-primary 45%, $pix-communication-light 100%);
   }
 
   &--wild-strawberry::after {
-    background: linear-gradient(90deg, $security-dark 45%, $security-light 100%);
+    background: linear-gradient(90deg, $pix-security-dark 45%, $pix-security-light 100%);
   }
 
   &--butterfly-bush::after {
-    background: linear-gradient(90deg, $environment-dark 45%, $environment-light 100%);
+    background: linear-gradient(90deg, $pix-environment-dark 45%, $pix-environment-light 100%);
   }
 }
 
