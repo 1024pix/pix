@@ -1,5 +1,21 @@
 # Pix Changelog
 
+## v3.227.0 (30/06/2022)
+
+
+### :rocket: Amélioration
+- [#4583](https://github.com/1024pix/pix/pull/4583) [FEATURE] Ajouter un bouton raccourcis pour le dashboard metabase (PIX-3861)
+- [#4566](https://github.com/1024pix/pix/pull/4566) [FEATURE] ETQ Pix Certif user, JV pouvoir supprimer une session (PIX-5150)
+- [#4547](https://github.com/1024pix/pix/pull/4547) [FEATURE] Intégrer la sélection de sujets dans la création de profil cible (PIX-5012)
+- [#4579](https://github.com/1024pix/pix/pull/4579) [FEATURE] Affichage du nombre de participations dans l'onglet étudiants (PIX-5172).
+- [#4577](https://github.com/1024pix/pix/pull/4577) [FEATURE] Affichage de la date de dernière participation dans l'onglet élèves (PIX-5170).
+- [#4560](https://github.com/1024pix/pix/pull/4560) [FEATURE] Retirer son évaluation d'un tutoriel (PIX-4725).
+- [#4511](https://github.com/1024pix/pix/pull/4511) [FEATURE] Permettre de désactiver l'accès à Pix Admin (PIX-4195) 
+
+### :building_construction: Tech
+- [#4585](https://github.com/1024pix/pix/pull/4585) [TECH] Linter les fonctionnalités de NodeJs dans l'API.
+- [#4550](https://github.com/1024pix/pix/pull/4550) [TECH] Glimmerizer les dernières routes de Pix APP.
+
 ## v3.226.0 (28/06/2022)
 
 
