@@ -1,7 +1,7 @@
 require('dotenv').config();
 
-const { knex } = require('../db/knex-database-connection');
-const logger = require('../lib/infrastructure/logger');
+const { knex } = require('../../../db/knex-database-connection');
+const logger = require('../../../lib/infrastructure/logger');
 
 const migrateExistingData = async () => {
   const chunkSize = parseInt(process.env.KNOWLEDGE_ELEMENTS_BIGINT_MIGRATION_CHUNK_SIZE);
