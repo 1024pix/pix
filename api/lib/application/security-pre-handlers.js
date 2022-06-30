@@ -1,7 +1,7 @@
 /* eslint-disable  no-restricted-syntax */
 const bluebird = require('bluebird');
 const checkAdminMemberHasRoleSuperAdminUseCase = require('./usecases/checkAdminMemberHasRoleSuperAdmin');
-const checkUserHasRoleCertifUseCase = require('./usecases/checkUserHasRoleCertif');
+const checkAdminMemberHasRoleCertifUseCase = require('./usecases/checkAdminMemberHasRoleCertif');
 const checkUserHasRoleSupportUseCase = require('./usecases/checkUserHasRoleSupport');
 const checkUserHasRoleMetierUseCase = require('./usecases/checkUserHasRoleMetier');
 const checkUserIsAdminInOrganizationUseCase = require('./usecases/checkUserIsAdminInOrganization');
@@ -53,7 +53,7 @@ async function checkAdminMemberHasRoleSuperAdmin(request, h) {
   }
 }
 
-async function checkUserHasRoleCertif(request, h) {
+async function checkAdminMemberHasRoleCertif(request, h) {
   if (!request.auth.credentials || !request.auth.credentials.userId) {
     return _replyForbiddenError(h);
   }
@@ -61,7 +61,7 @@ async function checkUserHasRoleCertif(request, h) {
   const userId = request.auth.credentials.userId;
 
   try {
-    const hasRoleCertif = await checkUserHasRoleCertifUseCase.execute(userId);
+    const hasRoleCertif = await checkAdminMemberHasRoleCertifUseCase.execute(userId);
     if (!hasRoleCertif) {
       throw new ForbiddenAccess(apps.PIX_ADMIN.NOT_ALLOWED_MSG);
     }
@@ -371,7 +371,7 @@ module.exports = {
   checkUserBelongsToScoOrganizationAndManagesStudents,
   checkUserBelongsToSupOrganizationAndManagesStudents,
   checkAdminMemberHasRoleSuperAdmin,
-  checkUserHasRoleCertif,
+  checkAdminMemberHasRoleCertif,
   checkUserHasRoleSupport,
   checkUserHasRoleMetier,
   checkUserIsAdminInOrganization,

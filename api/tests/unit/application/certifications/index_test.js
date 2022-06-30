@@ -12,7 +12,7 @@ describe('Unit | Application | Certification | Routes', function () {
         .stub(securityPreHandlers, 'userHasAtLeastOneAccessOf')
         .withArgs([
           securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
-          securityPreHandlers.checkUserHasRoleCertif,
+          securityPreHandlers.checkAdminMemberHasRoleCertif,
           securityPreHandlers.checkUserHasRoleSupport,
         ])
         .callsFake(
@@ -92,7 +92,7 @@ describe('Unit | Application | Certification | Routes', function () {
         .stub(securityPreHandlers, 'userHasAtLeastOneAccessOf')
         .withArgs([
           securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
-          securityPreHandlers.checkUserHasRoleCertif,
+          securityPreHandlers.checkAdminMemberHasRoleCertif,
           securityPreHandlers.checkUserHasRoleSupport,
         ])
         .callsFake(

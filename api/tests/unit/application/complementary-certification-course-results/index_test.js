@@ -11,7 +11,7 @@ describe('Unit | Application | Complementary Certification Course Results | Rout
         .stub(securityPreHandlers, 'userHasAtLeastOneAccessOf')
         .withArgs([
           securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
-          securityPreHandlers.checkUserHasRoleCertif,
+          securityPreHandlers.checkAdminMemberHasRoleCertif,
           securityPreHandlers.checkUserHasRoleSupport,
         ])
         .callsFake(

@@ -154,7 +154,7 @@ describe('Unit | Application | Router | campaign-router ', function () {
     it('should return 204', async function () {
       // given
       sinon
-        .stub(securityPreHandlers, 'checkUserHasRoleCertif')
+        .stub(securityPreHandlers, 'checkAdminMemberHasRoleCertif')
         .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
       sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin').callsFake((request, h) => h.response(true));
       sinon.stub(securityPreHandlers, 'checkUserHasRoleSupport').callsFake((request, h) => h.response(true));
@@ -261,7 +261,7 @@ describe('Unit | Application | Router | campaign-router ', function () {
 
     it('returns forbidden access if admin member has CERTIF role', async function () {
       // given
-      sinon.stub(securityPreHandlers, 'checkUserHasRoleCertif').callsFake((request, h) => h.response(true));
+      sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleCertif').callsFake((request, h) => h.response(true));
       sinon
         .stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin')
         .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
