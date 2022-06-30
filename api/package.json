@@ -7,7 +7,7 @@
   "author": "GIP Pix",
   "engines": {
     "node": "16.14.0",
-    "npm": "8.3.1"
+    "npm": "^8.3.1"
   },
   "repository": {
     "type": "git",
@@ -107,6 +107,11 @@
     "sinon": "^14.0.0",
     "sinon-chai": "^3.7.0",
     "stream-to-promise": "^3.0.0"
+  },
+  "overrides": {
+    "bookshelf": {
+      "knex": "^2.1.0"
+    }
   },
   "scripts": {
     "clean": "rm -rf node_modules",
