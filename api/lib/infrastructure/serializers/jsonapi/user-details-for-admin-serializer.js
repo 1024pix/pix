@@ -6,6 +6,7 @@ module.exports = {
     return new Serializer('user', {
       transform(record) {
         record.schoolingRegistrations = record.organizationLearners;
+        record.profile = null;
         return record;
       },
       attributes: [
@@ -26,6 +27,7 @@ module.exports = {
         'schoolingRegistrations',
         'organizationLearners',
         'authenticationMethods',
+        'profile',
       ],
       schoolingRegistrations: {
         ref: 'id',
@@ -65,6 +67,15 @@ module.exports = {
         ref: 'id',
         includes: true,
         attributes: ['identityProvider'],
+      },
+      profile: {
+        ref: 'id',
+        ignoreRelationshipData: true,
+        relationshipLinks: {
+          related: function (record, current, parent) {
+            return `/api/admin/users/${parent.id}/profile`;
+          },
+        },
       },
     }).serialize(usersDetailsForAdmin);
   },
