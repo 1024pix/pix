@@ -21,6 +21,10 @@
   />
 </section>
 
+<section class="page-section mb_10">
+  <Users::UserDetailPersonalInformation::UserProfile @profile={{@user.profile}} />
+</section>
+
 <ConfirmPopup
   @message="Êtes-vous sûr de vouloir anonymiser cet utilisateur ? Ceci n’est pas réversible."
   @confirm={{this.anonymizeUser}}
