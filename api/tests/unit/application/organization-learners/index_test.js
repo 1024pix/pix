@@ -13,7 +13,7 @@ describe('Unit | Application | Router | organization-learner-router', function (
           .stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin')
           .callsFake((request, h) => h.response(true));
         sinon
-          .stub(securityPreHandlers, 'checkUserHasRoleSupport')
+          .stub(securityPreHandlers, 'checkAdminMemberHasRoleSupport')
           .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
         sinon.stub(organizationLearnerController, 'dissociate').callsFake((request, h) => h.response('ok').code(204));
         const httpTestServer = new HttpTestServer();
@@ -24,7 +24,7 @@ describe('Unit | Application | Router | organization-learner-router', function (
 
         // then
         sinon.assert.calledOnce(securityPreHandlers.checkAdminMemberHasRoleSuperAdmin);
-        sinon.assert.calledOnce(securityPreHandlers.checkUserHasRoleSupport);
+        sinon.assert.calledOnce(securityPreHandlers.checkAdminMemberHasRoleSupport);
         sinon.assert.calledOnce(organizationLearnerController.dissociate);
         expect(response.statusCode).to.equal(204);
       });
@@ -34,7 +34,7 @@ describe('Unit | Application | Router | organization-learner-router', function (
         sinon
           .stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin')
           .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
-        sinon.stub(securityPreHandlers, 'checkUserHasRoleSupport').callsFake((request, h) => h.response(true));
+        sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleSupport').callsFake((request, h) => h.response(true));
         sinon.stub(organizationLearnerController, 'dissociate').callsFake((request, h) => h.response('ok').code(204));
         const httpTestServer = new HttpTestServer();
         await httpTestServer.register(moduleUnderTest);
@@ -44,7 +44,7 @@ describe('Unit | Application | Router | organization-learner-router', function (
 
         // then
         sinon.assert.calledOnce(securityPreHandlers.checkAdminMemberHasRoleSuperAdmin);
-        sinon.assert.calledOnce(securityPreHandlers.checkUserHasRoleSupport);
+        sinon.assert.calledOnce(securityPreHandlers.checkAdminMemberHasRoleSupport);
         sinon.assert.calledOnce(organizationLearnerController.dissociate);
         expect(response.statusCode).to.equal(204);
       });
@@ -55,7 +55,7 @@ describe('Unit | Application | Router | organization-learner-router', function (
           .stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin')
           .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
         sinon
-          .stub(securityPreHandlers, 'checkUserHasRoleSupport')
+          .stub(securityPreHandlers, 'checkAdminMemberHasRoleSupport')
           .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
         sinon.stub(organizationLearnerController, 'dissociate').callsFake((request, h) => h.response('ok').code(204));
         const httpTestServer = new HttpTestServer();
@@ -66,7 +66,7 @@ describe('Unit | Application | Router | organization-learner-router', function (
 
         // then
         sinon.assert.calledOnce(securityPreHandlers.checkAdminMemberHasRoleSuperAdmin);
-        sinon.assert.calledOnce(securityPreHandlers.checkUserHasRoleSupport);
+        sinon.assert.calledOnce(securityPreHandlers.checkAdminMemberHasRoleSupport);
         sinon.assert.notCalled(organizationLearnerController.dissociate);
         expect(response.statusCode).to.equal(403);
       });

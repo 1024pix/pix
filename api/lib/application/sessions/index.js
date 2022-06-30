@@ -21,7 +21,7 @@ exports.register = async (server) => {
               securityPreHandlers.userHasAtLeastOneAccessOf([
                 securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
                 securityPreHandlers.checkAdminMemberHasRoleCertif,
-                securityPreHandlers.checkUserHasRoleSupport,
+                securityPreHandlers.checkAdminMemberHasRoleSupport,
                 securityPreHandlers.checkAdminMemberHasRoleMetier,
               ])(request, h),
             assign: 'hasAuthorizationToAccessAdminScope',
@@ -50,7 +50,7 @@ exports.register = async (server) => {
               securityPreHandlers.userHasAtLeastOneAccessOf([
                 securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
                 securityPreHandlers.checkAdminMemberHasRoleCertif,
-                securityPreHandlers.checkUserHasRoleSupport,
+                securityPreHandlers.checkAdminMemberHasRoleSupport,
                 securityPreHandlers.checkAdminMemberHasRoleMetier,
               ])(request, h),
             assign: 'hasAuthorizationToAccessAdminScope',
@@ -89,7 +89,7 @@ exports.register = async (server) => {
               securityPreHandlers.userHasAtLeastOneAccessOf([
                 securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
                 securityPreHandlers.checkAdminMemberHasRoleCertif,
-                securityPreHandlers.checkUserHasRoleSupport,
+                securityPreHandlers.checkAdminMemberHasRoleSupport,
                 securityPreHandlers.checkAdminMemberHasRoleMetier,
               ])(request, h),
             assign: 'hasAuthorizationToAccessAdminScope',
@@ -109,7 +109,7 @@ exports.register = async (server) => {
               securityPreHandlers.userHasAtLeastOneAccessOf([
                 securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
                 securityPreHandlers.checkAdminMemberHasRoleCertif,
-                securityPreHandlers.checkUserHasRoleSupport,
+                securityPreHandlers.checkAdminMemberHasRoleSupport,
                 securityPreHandlers.checkAdminMemberHasRoleMetier,
               ])(request, h),
             assign: 'hasAuthorizationToAccessAdminScope',
@@ -360,7 +360,7 @@ exports.register = async (server) => {
               securityPreHandlers.userHasAtLeastOneAccessOf([
                 securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
                 securityPreHandlers.checkAdminMemberHasRoleCertif,
-                securityPreHandlers.checkUserHasRoleSupport,
+                securityPreHandlers.checkAdminMemberHasRoleSupport,
                 securityPreHandlers.checkAdminMemberHasRoleMetier,
               ])(request, h),
             assign: 'hasAuthorizationToAccessAdminScope',
@@ -389,7 +389,7 @@ exports.register = async (server) => {
               securityPreHandlers.userHasAtLeastOneAccessOf([
                 securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
                 securityPreHandlers.checkAdminMemberHasRoleCertif,
-                securityPreHandlers.checkUserHasRoleSupport,
+                securityPreHandlers.checkAdminMemberHasRoleSupport,
               ])(request, h),
             assign: 'hasAuthorizationToAccessAdminScope',
           },
@@ -545,7 +545,7 @@ exports.register = async (server) => {
               securityPreHandlers.userHasAtLeastOneAccessOf([
                 securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
                 securityPreHandlers.checkAdminMemberHasRoleCertif,
-                securityPreHandlers.checkUserHasRoleSupport,
+                securityPreHandlers.checkAdminMemberHasRoleSupport,
               ])(request, h),
             assign: 'hasAuthorizationToAccessAdminScope',
           },
@@ -577,7 +577,7 @@ exports.register = async (server) => {
               securityPreHandlers.userHasAtLeastOneAccessOf([
                 securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
                 securityPreHandlers.checkAdminMemberHasRoleCertif,
-                securityPreHandlers.checkUserHasRoleSupport,
+                securityPreHandlers.checkAdminMemberHasRoleSupport,
               ])(request, h),
             assign: 'hasAuthorizationToAccessAdminScope',
           },
@@ -605,7 +605,7 @@ exports.register = async (server) => {
               securityPreHandlers.userHasAtLeastOneAccessOf([
                 securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
                 securityPreHandlers.checkAdminMemberHasRoleCertif,
-                securityPreHandlers.checkUserHasRoleSupport,
+                securityPreHandlers.checkAdminMemberHasRoleSupport,
               ])(request, h),
             assign: 'hasAuthorizationToAccessAdminScope',
           },
@@ -633,7 +633,7 @@ exports.register = async (server) => {
               securityPreHandlers.userHasAtLeastOneAccessOf([
                 securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
                 securityPreHandlers.checkAdminMemberHasRoleCertif,
-                securityPreHandlers.checkUserHasRoleSupport,
+                securityPreHandlers.checkAdminMemberHasRoleSupport,
               ])(request, h),
             assign: 'hasAuthorizationToAccessAdminScope',
           },
@@ -663,7 +663,7 @@ exports.register = async (server) => {
               securityPreHandlers.userHasAtLeastOneAccessOf([
                 securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
                 securityPreHandlers.checkAdminMemberHasRoleCertif,
-                securityPreHandlers.checkUserHasRoleSupport,
+                securityPreHandlers.checkAdminMemberHasRoleSupport,
               ])(request, h),
             assign: 'hasAuthorizationToAccessAdminScope',
           },
@@ -691,7 +691,7 @@ exports.register = async (server) => {
               securityPreHandlers.userHasAtLeastOneAccessOf([
                 securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
                 securityPreHandlers.checkAdminMemberHasRoleCertif,
-                securityPreHandlers.checkUserHasRoleSupport,
+                securityPreHandlers.checkAdminMemberHasRoleSupport,
               ])(request, h),
             assign: 'hasAuthorizationToAccessAdminScope',
           },
@@ -719,7 +719,7 @@ exports.register = async (server) => {
               securityPreHandlers.userHasAtLeastOneAccessOf([
                 securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
                 securityPreHandlers.checkAdminMemberHasRoleCertif,
-                securityPreHandlers.checkUserHasRoleSupport,
+                securityPreHandlers.checkAdminMemberHasRoleSupport,
               ])(request, h),
             assign: 'hasAuthorizationToAccessAdminScope',
           },

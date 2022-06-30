@@ -13,7 +13,7 @@ describe('Unit | Application | Certification | Routes', function () {
         .withArgs([
           securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
           securityPreHandlers.checkAdminMemberHasRoleCertif,
-          securityPreHandlers.checkUserHasRoleSupport,
+          securityPreHandlers.checkAdminMemberHasRoleSupport,
         ])
         .callsFake(
           () => (request, h) =>
@@ -93,7 +93,7 @@ describe('Unit | Application | Certification | Routes', function () {
         .withArgs([
           securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
           securityPreHandlers.checkAdminMemberHasRoleCertif,
-          securityPreHandlers.checkUserHasRoleSupport,
+          securityPreHandlers.checkAdminMemberHasRoleSupport,
         ])
         .callsFake(
           () => (request, h) =>

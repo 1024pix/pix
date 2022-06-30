@@ -542,7 +542,7 @@ describe('Unit | Application | Sessions | Routes', function () {
           .withArgs([
             securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
             securityPreHandlers.checkAdminMemberHasRoleCertif,
-            securityPreHandlers.checkUserHasRoleSupport,
+            securityPreHandlers.checkAdminMemberHasRoleSupport,
           ])
           .callsFake(
             () => (request, h) =>
@@ -591,7 +591,7 @@ describe('Unit | Application | Sessions | Routes', function () {
           .withArgs([
             securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
             securityPreHandlers.checkAdminMemberHasRoleCertif,
-            securityPreHandlers.checkUserHasRoleSupport,
+            securityPreHandlers.checkAdminMemberHasRoleSupport,
           ])
           .callsFake(
             () => (request, h) =>
@@ -642,7 +642,7 @@ describe('Unit | Application | Sessions | Routes', function () {
           .withArgs([
             securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
             securityPreHandlers.checkAdminMemberHasRoleCertif,
-            securityPreHandlers.checkUserHasRoleSupport,
+            securityPreHandlers.checkAdminMemberHasRoleSupport,
           ])
           .callsFake(
             () => (request, h) =>
@@ -731,7 +731,7 @@ describe('Unit | Application | Sessions | Routes', function () {
           .withArgs([
             securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
             securityPreHandlers.checkAdminMemberHasRoleCertif,
-            securityPreHandlers.checkUserHasRoleSupport,
+            securityPreHandlers.checkAdminMemberHasRoleSupport,
           ])
           .callsFake(
             () => (request, h) =>
@@ -790,7 +790,7 @@ describe('Unit | Application | Sessions | Routes', function () {
           .withArgs([
             securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
             securityPreHandlers.checkAdminMemberHasRoleCertif,
-            securityPreHandlers.checkUserHasRoleSupport,
+            securityPreHandlers.checkAdminMemberHasRoleSupport,
           ])
           .callsFake(
             () => (request, h) =>
@@ -911,7 +911,7 @@ describe('Unit | Application | Sessions | Routes', function () {
           .withArgs([
             securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
             securityPreHandlers.checkAdminMemberHasRoleCertif,
-            securityPreHandlers.checkUserHasRoleSupport,
+            securityPreHandlers.checkAdminMemberHasRoleSupport,
           ])
           .callsFake(
             () => (request, h) =>
@@ -954,7 +954,7 @@ describe('Unit | Application | Sessions | Routes', function () {
           .withArgs([
             securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
             securityPreHandlers.checkAdminMemberHasRoleCertif,
-            securityPreHandlers.checkUserHasRoleSupport,
+            securityPreHandlers.checkAdminMemberHasRoleSupport,
           ])
           .callsFake(
             () => (request, h) =>
@@ -982,7 +982,7 @@ describe('Unit | Application | Sessions | Routes', function () {
           .withArgs([
             securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
             securityPreHandlers.checkAdminMemberHasRoleCertif,
-            securityPreHandlers.checkUserHasRoleSupport,
+            securityPreHandlers.checkAdminMemberHasRoleSupport,
           ])
           .callsFake(
             () => (request, h) =>

@@ -121,7 +121,7 @@ describe('Unit | Application | Certifications Course | Route', function () {
           securityPreHandlers.checkUserOwnsCertificationCourse,
           securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
           securityPreHandlers.checkAdminMemberHasRoleCertif,
-          securityPreHandlers.checkUserHasRoleSupport,
+          securityPreHandlers.checkAdminMemberHasRoleSupport,
         ])
         .callsFake(
           () => (request, h) =>
@@ -180,7 +180,7 @@ describe('Unit | Application | Certifications Course | Route', function () {
         .withArgs([
           securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
           securityPreHandlers.checkAdminMemberHasRoleCertif,
-          securityPreHandlers.checkUserHasRoleSupport,
+          securityPreHandlers.checkAdminMemberHasRoleSupport,
         ])
         .callsFake(
           () => (request, h) =>
@@ -222,7 +222,7 @@ describe('Unit | Application | Certifications Course | Route', function () {
         .withArgs([
           securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
           securityPreHandlers.checkAdminMemberHasRoleCertif,
-          securityPreHandlers.checkUserHasRoleSupport,
+          securityPreHandlers.checkAdminMemberHasRoleSupport,
         ])
         .callsFake(
           () => (request, h) =>

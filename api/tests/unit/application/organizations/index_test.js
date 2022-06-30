@@ -87,7 +87,7 @@ describe('Unit | Router | organization-router', function () {
         .stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin')
         .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
       sinon
-        .stub(securityPreHandlers, 'checkUserHasRoleSupport')
+        .stub(securityPreHandlers, 'checkAdminMemberHasRoleSupport')
         .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
       sinon
         .stub(securityPreHandlers, 'checkAdminMemberHasRoleMetier')
@@ -120,7 +120,7 @@ describe('Unit | Router | organization-router', function () {
         .stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin')
         .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
       sinon
-        .stub(securityPreHandlers, 'checkUserHasRoleSupport')
+        .stub(securityPreHandlers, 'checkAdminMemberHasRoleSupport')
         .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
       sinon
         .stub(securityPreHandlers, 'checkAdminMemberHasRoleMetier')
@@ -156,7 +156,7 @@ describe('Unit | Router | organization-router', function () {
         .stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin')
         .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
       sinon
-        .stub(securityPreHandlers, 'checkUserHasRoleSupport')
+        .stub(securityPreHandlers, 'checkAdminMemberHasRoleSupport')
         .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
       sinon
         .stub(securityPreHandlers, 'checkAdminMemberHasRoleMetier')
@@ -182,7 +182,7 @@ describe('Unit | Router | organization-router', function () {
         .stub(securityPreHandlers, 'checkAdminMemberHasRoleCertif')
         .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
       sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin').callsFake((request, h) => h.response(true));
-      sinon.stub(securityPreHandlers, 'checkUserHasRoleSupport').callsFake((request, h) => h.response(true));
+      sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleSupport').callsFake((request, h) => h.response(true));
       sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleMetier').callsFake((request, h) => h.response(true));
 
       const httpTestServer = new HttpTestServer();
@@ -212,7 +212,7 @@ describe('Unit | Router | organization-router', function () {
         .stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin')
         .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
       sinon
-        .stub(securityPreHandlers, 'checkUserHasRoleSupport')
+        .stub(securityPreHandlers, 'checkAdminMemberHasRoleSupport')
         .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
       sinon
         .stub(securityPreHandlers, 'checkAdminMemberHasRoleMetier')
@@ -457,7 +457,7 @@ describe('Unit | Router | organization-router', function () {
         .stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin')
         .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
       sinon
-        .stub(securityPreHandlers, 'checkUserHasRoleSupport')
+        .stub(securityPreHandlers, 'checkAdminMemberHasRoleSupport')
         .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
       sinon
         .stub(securityPreHandlers, 'checkAdminMemberHasRoleMetier')

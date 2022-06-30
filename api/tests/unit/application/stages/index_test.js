@@ -12,7 +12,7 @@ describe('Unit | Application | Stages | Routes', function () {
           .stub(securityPreHandlers, 'userHasAtLeastOneAccessOf')
           .withArgs([
             securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
-            securityPreHandlers.checkUserHasRoleSupport,
+            securityPreHandlers.checkAdminMemberHasRoleSupport,
             securityPreHandlers.checkAdminMemberHasRoleMetier,
           ])
           .callsFake(() => (request, h) => h.response(true));
@@ -35,7 +35,7 @@ describe('Unit | Application | Stages | Routes', function () {
           .stub(securityPreHandlers, 'userHasAtLeastOneAccessOf')
           .withArgs([
             securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
-            securityPreHandlers.checkUserHasRoleSupport,
+            securityPreHandlers.checkAdminMemberHasRoleSupport,
             securityPreHandlers.checkAdminMemberHasRoleMetier,
           ])
           .callsFake(
@@ -100,7 +100,7 @@ describe('Unit | Application | Stages | Routes', function () {
           .stub(securityPreHandlers, 'userHasAtLeastOneAccessOf')
           .withArgs([
             securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
-            securityPreHandlers.checkUserHasRoleSupport,
+            securityPreHandlers.checkAdminMemberHasRoleSupport,
             securityPreHandlers.checkAdminMemberHasRoleMetier,
           ])
           .callsFake(() => (request, h) => h.response(true));
@@ -265,7 +265,7 @@ describe('Unit | Application | Stages | Routes', function () {
           .stub(securityPreHandlers, 'userHasAtLeastOneAccessOf')
           .withArgs([
             securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
-            securityPreHandlers.checkUserHasRoleSupport,
+            securityPreHandlers.checkAdminMemberHasRoleSupport,
             securityPreHandlers.checkAdminMemberHasRoleMetier,
           ])
           .callsFake(
