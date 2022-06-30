@@ -5,7 +5,7 @@ const tokenService = require('../../../lib/domain/services/token-service');
 const checkAdminMemberHasRoleSuperAdminUseCase = require('../../../lib/application/usecases/checkAdminMemberHasRoleSuperAdmin');
 const checkAdminMemberHasRoleCertifUseCase = require('../../../lib/application/usecases/checkAdminMemberHasRoleCertif');
 const checkUserHasRoleSupportUseCase = require('../../../lib/application/usecases/checkUserHasRoleSupport');
-const checkUserHasRoleMetierUseCase = require('../../../lib/application/usecases/checkUserHasRoleMetier');
+const checkAdminMemberHasRoleMetierUseCase = require('../../../lib/application/usecases/checkAdminMemberHasRoleMetier');
 const checkUserIsAdminInOrganizationUseCase = require('../../../lib/application/usecases/checkUserIsAdminInOrganization');
 const checkUserBelongsToOrganizationManagingStudentsUseCase = require('../../../lib/application/usecases/checkUserBelongsToOrganizationManagingStudents');
 const checkUserBelongsToScoOrganizationAndManagesStudentsUseCase = require('../../../lib/application/usecases/checkUserBelongsToScoOrganizationAndManagesStudents');
@@ -212,13 +212,13 @@ describe('Unit | Application | SecurityPreHandlers', function () {
     });
   });
 
-  describe('#checkUserHasRoleMetier', function () {
+  describe('#checkAdminMemberHasRoleMetier', function () {
     let hasRoleMetierStub;
     let request;
 
     beforeEach(function () {
       sinon.stub(tokenService, 'extractTokenFromAuthChain');
-      hasRoleMetierStub = sinon.stub(checkUserHasRoleMetierUseCase, 'execute');
+      hasRoleMetierStub = sinon.stub(checkAdminMemberHasRoleMetierUseCase, 'execute');
       request = { auth: { credentials: { accessToken: 'valid.access.token', userId: 1234 } } };
     });
 
@@ -231,7 +231,7 @@ describe('Unit | Application | SecurityPreHandlers', function () {
         // given
 
         // when
-        const response = await securityPreHandlers.checkUserHasRoleMetier(request, hFake);
+        const response = await securityPreHandlers.checkAdminMemberHasRoleMetier(request, hFake);
 
         // then
         expect(response.source).to.equal(true);
@@ -244,7 +244,7 @@ describe('Unit | Application | SecurityPreHandlers', function () {
         delete request.auth.credentials;
 
         // when
-        const response = await securityPreHandlers.checkUserHasRoleMetier(request, hFake);
+        const response = await securityPreHandlers.checkAdminMemberHasRoleMetier(request, hFake);
 
         // then
         expect(response.statusCode).to.equal(403);
@@ -253,10 +253,10 @@ describe('Unit | Application | SecurityPreHandlers', function () {
 
       it('should forbid resource access when user does not have role Metier', async function () {
         // given
-        checkUserHasRoleMetierUseCase.execute.resolves(false);
+        checkAdminMemberHasRoleMetierUseCase.execute.resolves(false);
 
         // when
-        const response = await securityPreHandlers.checkUserHasRoleMetier(request, hFake);
+        const response = await securityPreHandlers.checkAdminMemberHasRoleMetier(request, hFake);
 
         // then
         expect(response.statusCode).to.equal(403);
@@ -265,10 +265,10 @@ describe('Unit | Application | SecurityPreHandlers', function () {
 
       it('should forbid resource access when an error is thrown by use case', async function () {
         // given
-        checkUserHasRoleMetierUseCase.execute.rejects(new Error('Some error'));
+        checkAdminMemberHasRoleMetierUseCase.execute.rejects(new Error('Some error'));
 
         // when
-        const response = await securityPreHandlers.checkUserHasRoleMetier(request, hFake);
+        const response = await securityPreHandlers.checkAdminMemberHasRoleMetier(request, hFake);
 
         // then
         expect(response.statusCode).to.equal(403);

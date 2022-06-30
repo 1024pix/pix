@@ -15,7 +15,7 @@ describe('Unit | Application | Badges | Routes', function () {
           .withArgs([
             securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
             securityPreHandlers.checkUserHasRoleSupport,
-            securityPreHandlers.checkUserHasRoleMetier,
+            securityPreHandlers.checkAdminMemberHasRoleMetier,
           ])
           .callsFake(() => (request, h) => h.response(true));
         const httpTestServer = new HttpTestServer();
@@ -51,7 +51,7 @@ describe('Unit | Application | Badges | Routes', function () {
           .withArgs([
             securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
             securityPreHandlers.checkUserHasRoleSupport,
-            securityPreHandlers.checkUserHasRoleMetier,
+            securityPreHandlers.checkAdminMemberHasRoleMetier,
           ])
           .callsFake(
             () => (request, h) =>
@@ -81,7 +81,7 @@ describe('Unit | Application | Badges | Routes', function () {
           .withArgs([
             securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
             securityPreHandlers.checkUserHasRoleSupport,
-            securityPreHandlers.checkUserHasRoleMetier,
+            securityPreHandlers.checkAdminMemberHasRoleMetier,
           ])
           .callsFake(() => (request, h) => h.response(true));
         sinon.stub(badgesController, 'deleteUnassociatedBadge').returns(null);
@@ -118,7 +118,7 @@ describe('Unit | Application | Badges | Routes', function () {
           .withArgs([
             securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
             securityPreHandlers.checkUserHasRoleSupport,
-            securityPreHandlers.checkUserHasRoleMetier,
+            securityPreHandlers.checkAdminMemberHasRoleMetier,
           ])
           .callsFake(
             () => (request, h) =>

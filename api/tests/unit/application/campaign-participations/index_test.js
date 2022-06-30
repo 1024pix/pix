@@ -57,7 +57,7 @@ describe('Unit | Application | Router | campaign-participation-router ', functio
         .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
       sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin').callsFake((request, h) => h.response(true));
       sinon.stub(securityPreHandlers, 'checkUserHasRoleSupport').callsFake((request, h) => h.response(true));
-      sinon.stub(securityPreHandlers, 'checkUserHasRoleMetier').callsFake((request, h) => h.response(true));
+      sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleMetier').callsFake((request, h) => h.response(true));
       sinon
         .stub(campaignParticipationController, 'updateParticipantExternalId')
         .callsFake((request, h) => h.response('ok').code(204));
@@ -87,7 +87,7 @@ describe('Unit | Application | Router | campaign-participation-router ', functio
         .stub(securityPreHandlers, 'checkUserHasRoleSupport')
         .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
       sinon
-        .stub(securityPreHandlers, 'checkUserHasRoleMetier')
+        .stub(securityPreHandlers, 'checkAdminMemberHasRoleMetier')
         .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
       sinon
         .stub(campaignParticipationController, 'updateParticipantExternalId')
