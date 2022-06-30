@@ -61,12 +61,12 @@
     }
 
     &--error {
-      color: $dark-error;
+      color: $pix-error-70;
     }
   }
 
   &__validation-error {
-    color: $dark-error;
+    color: $pix-error-70;
     font-weight: normal;
   }
 }

@@ -78,24 +78,24 @@
   }
 
   &--green {
-    background: $pix-success-10;
+    background: $pix-success-60;
     color: white;
 
     &:hover,
     &:active,
     &:focus {
-      background-color: $green-hover;
+      background-color: $pix-success-70;
     }
   }
 
   &--red {
-    background: $red;
+    background: $pix-error-60;
     color: $pix-neutral-0;
 
     &:hover,
     &:active,
     &:focus {
-      background-color: $red-hover;
+      background-color: $pix-error-70;
       border: 2px solid $pix-warning-40;
     }
   }
