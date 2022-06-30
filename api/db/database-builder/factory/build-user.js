@@ -217,7 +217,7 @@ buildUser.withRole = function buildUserWithRole({
     updatedAt,
   });
 
-  buildPixAdminRole({ userId: user.id, role, disabledAt });
+  buildPixAdminRole({ userId: user.id, role, disabledAt, createdAt, updatedAt });
 
   return user;
 };

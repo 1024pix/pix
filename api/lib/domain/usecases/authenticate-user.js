@@ -9,13 +9,16 @@ const {
 const apps = require('../constants');
 const endTestScreenRemovalService = require('../../domain/services/end-test-screen-removal-service');
 
-async function _checkUserAccessScope(scope, user) {
+async function _checkUserAccessScope(scope, user, adminMemberRepository) {
   if (scope === apps.PIX_ORGA.SCOPE && !user.isLinkedToOrganizations()) {
     throw new ForbiddenAccess(apps.PIX_ORGA.NOT_LINKED_ORGANIZATION_MSG);
   }
 
-  if (scope === apps.PIX_ADMIN.SCOPE && !user.hasAccessToAdminScope) {
-    throw new ForbiddenAccess(apps.PIX_ADMIN.NOT_ALLOWED_MSG);
+  if (scope === apps.PIX_ADMIN.SCOPE) {
+    const adminMember = await adminMemberRepository.get({ userId: user.id });
+    if (!adminMember?.hasAccessToAdminScope) {
+      throw new ForbiddenAccess(apps.PIX_ADMIN.NOT_ALLOWED_MSG);
+    }
   }
 
   if (scope === apps.PIX_CERTIF.SCOPE && !user.isLinkedToCertificationCenters()) {
@@ -35,6 +38,7 @@ module.exports = async function authenticateUser({
   refreshTokenService,
   pixAuthenticationService,
   userRepository,
+  adminMemberRepository,
 }) {
   try {
     const foundUser = await pixAuthenticationService.getUserByUsernameAndPassword({
@@ -48,18 +52,18 @@ module.exports = async function authenticateUser({
       'authenticationMethods[0].authenticationComplement.shouldChangePassword'
     );
 
-    if (!shouldChangePassword) {
-      await _checkUserAccessScope(scope, foundUser);
-      const refreshToken = await refreshTokenService.createRefreshTokenFromUserId({ userId: foundUser.id, source });
-      const { accessToken, expirationDelaySeconds } = await refreshTokenService.createAccessTokenFromRefreshToken({
-        refreshToken,
-      });
-
-      await userRepository.updateLastLoggedAt({ userId: foundUser.id });
-      return { accessToken, refreshToken, expirationDelaySeconds };
-    } else {
+    if (shouldChangePassword) {
       throw new UserShouldChangePasswordError();
     }
+
+    await _checkUserAccessScope(scope, foundUser, adminMemberRepository);
+    const refreshToken = await refreshTokenService.createRefreshTokenFromUserId({ userId: foundUser.id, source });
+    const { accessToken, expirationDelaySeconds } = await refreshTokenService.createAccessTokenFromRefreshToken({
+      refreshToken,
+    });
+
+    await userRepository.updateLastLoggedAt({ userId: foundUser.id });
+    return { accessToken, refreshToken, expirationDelaySeconds };
   } catch (error) {
     if (error instanceof ForbiddenAccess || error instanceof UserShouldChangePasswordError) {
       throw error;

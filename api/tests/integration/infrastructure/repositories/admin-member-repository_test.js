@@ -78,7 +78,7 @@ describe('Integration | Infrastructure | Repository | adminMemberRepository', fu
   });
 
   describe('#get', function () {
-    it('should return user for given user id', async function () {
+    it('should return admin member for given user id', async function () {
       // given
       await _buildUserWithPixAdminRole({ role: ROLES.METIER });
       const userWithPixAdminRole = await _buildUserWithPixAdminRole({ role: ROLES.SUPER_ADMIN });
@@ -108,6 +108,45 @@ describe('Integration | Infrastructure | Repository | adminMemberRepository', fu
 
         // then
         expect(member).to.be.undefined;
+      });
+    });
+
+    context('when admin member is disabled', function () {
+      let clock;
+      const now = new Date('2022-02-16');
+
+      beforeEach(async function () {
+        clock = sinon.useFakeTimers(now);
+      });
+
+      afterEach(async function () {
+        clock.restore();
+      });
+
+      it('should return admin member details', async function () {
+        // given
+        await _buildUserWithPixAdminRole({ role: ROLES.CERTIF });
+        const userWithPixAdminRole = await _buildUserWithPixAdminRole({
+          role: ROLES.METIER,
+          disabledAt: new Date(),
+        });
+        await databaseBuilder.commit();
+
+        // when
+        const member = await adminMemberRepository.get({ userId: userWithPixAdminRole.userId });
+
+        // then
+        expect(member).to.deep.include(
+          new AdminMember({
+            id: userWithPixAdminRole.id,
+            userId: userWithPixAdminRole.userId,
+            firstName: userWithPixAdminRole.firstName,
+            lastName: userWithPixAdminRole.lastName,
+            email: userWithPixAdminRole.email,
+            role: 'METIER',
+            disabledAt: now,
+          })
+        );
       });
     });
   });
