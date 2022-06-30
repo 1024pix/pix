@@ -3,7 +3,7 @@
   &__user-info {
     display: flex;
     flex-direction: column;
-    background-color: $light-blue;
+    background-color: $pix-primary-40;
     padding: 20px 0;
   }
 
@@ -122,8 +122,8 @@
     font-family: $font-roboto;
 
     &.active {
-      color: $light-blue;
-      border-left: 5px solid $light-blue;
+      color: $pix-primary-40;
+      border-left: 5px solid $pix-primary-40;
       padding-left: 27px;
     }
 
@@ -133,7 +133,7 @@
     }
 
     &:hover {
-      color: $light-blue;
+      color: $pix-primary-40;
       text-decoration: none;
     }
   }

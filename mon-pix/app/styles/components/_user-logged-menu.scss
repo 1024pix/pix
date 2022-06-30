@@ -28,10 +28,10 @@
 
   &:hover {
     text-decoration: none;
-    color: $light-blue;
+    color: $pix-primary-40;
 
     > .caret {
-      border-color: $light-blue transparent transparent transparent;
+      border-color: $pix-primary-40 transparent transparent transparent;
     }
   }
 }

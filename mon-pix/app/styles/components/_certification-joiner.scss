@@ -35,17 +35,17 @@
     outline-width: 1px;
 
     &:hover {
-      box-shadow: 0 0 0 2px $light-blue;
+      box-shadow: 0 0 0 2px $pix-primary-40;
     }
 
     &:focus {
-      box-shadow: 0 0 0 2px $light-blue;
-      outline: 1px solid $light-blue;
+      box-shadow: 0 0 0 2px $pix-primary-40;
+      outline: 1px solid $pix-primary-40;
     }
 
     &:focus-within {
-      box-shadow: 0 0 0 2px $light-blue;
-      outline: 1px solid $light-blue;
+      box-shadow: 0 0 0 2px $pix-primary-40;
+      outline: 1px solid $pix-primary-40;
     }
 
     &.certification-joiner__input--invalid:not(:hover) {
