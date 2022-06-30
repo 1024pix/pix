@@ -43,7 +43,7 @@
   &:hover,
   &:focus,
   &:focus-within {
-    border: 2px solid $light-blue;
+    border: 2px solid $pix-primary-40;
   }
 
   @include device-is('desktop') {
