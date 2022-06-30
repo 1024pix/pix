@@ -53,7 +53,7 @@ describe('Unit | Application | Certifications Issue Report | Route', function ()
         .withArgs([
           securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
           securityPreHandlers.checkAdminMemberHasRoleCertif,
-          securityPreHandlers.checkUserHasRoleSupport,
+          securityPreHandlers.checkAdminMemberHasRoleSupport,
         ])
         .callsFake(
           () => (request, h) =>

@@ -12,7 +12,7 @@ describe('Unit | Application | Complementary Certification Course Results | Rout
         .withArgs([
           securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
           securityPreHandlers.checkAdminMemberHasRoleCertif,
-          securityPreHandlers.checkUserHasRoleSupport,
+          securityPreHandlers.checkAdminMemberHasRoleSupport,
         ])
         .callsFake(
           () => (request, h) =>

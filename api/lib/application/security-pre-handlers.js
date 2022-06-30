@@ -2,7 +2,7 @@
 const bluebird = require('bluebird');
 const checkAdminMemberHasRoleSuperAdminUseCase = require('./usecases/checkAdminMemberHasRoleSuperAdmin');
 const checkAdminMemberHasRoleCertifUseCase = require('./usecases/checkAdminMemberHasRoleCertif');
-const checkUserHasRoleSupportUseCase = require('./usecases/checkUserHasRoleSupport');
+const checkAdminMemberHasRoleSupportUseCase = require('./usecases/checkAdminMemberHasRoleSupport');
 const checkAdminMemberHasRoleMetierUseCase = require('./usecases/checkAdminMemberHasRoleMetier');
 const checkUserIsAdminInOrganizationUseCase = require('./usecases/checkUserIsAdminInOrganization');
 const checkUserBelongsToOrganizationManagingStudentsUseCase = require('./usecases/checkUserBelongsToOrganizationManagingStudents');
@@ -71,7 +71,7 @@ async function checkAdminMemberHasRoleCertif(request, h) {
   }
 }
 
-async function checkUserHasRoleSupport(request, h) {
+async function checkAdminMemberHasRoleSupport(request, h) {
   if (!request.auth.credentials || !request.auth.credentials.userId) {
     return _replyForbiddenError(h);
   }
@@ -79,7 +79,7 @@ async function checkUserHasRoleSupport(request, h) {
   const userId = request.auth.credentials.userId;
 
   try {
-    const hasRoleSupport = await checkUserHasRoleSupportUseCase.execute(userId);
+    const hasRoleSupport = await checkAdminMemberHasRoleSupportUseCase.execute(userId);
     if (!hasRoleSupport) {
       throw new ForbiddenAccess(apps.PIX_ADMIN.NOT_ALLOWED_MSG);
     }
@@ -372,7 +372,7 @@ module.exports = {
   checkUserBelongsToSupOrganizationAndManagesStudents,
   checkAdminMemberHasRoleSuperAdmin,
   checkAdminMemberHasRoleCertif,
-  checkUserHasRoleSupport,
+  checkAdminMemberHasRoleSupport,
   checkAdminMemberHasRoleMetier,
   checkUserIsAdminInOrganization,
   checkAuthorizationToManageCampaign,

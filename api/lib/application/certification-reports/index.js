@@ -17,7 +17,7 @@ exports.register = async (server) => {
                 securityPreHandlers.checkUserIsMemberOfCertificationCenterSessionFromCertificationCourseId,
                 securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
                 securityPreHandlers.checkAdminMemberHasRoleCertif,
-                securityPreHandlers.checkUserHasRoleSupport,
+                securityPreHandlers.checkAdminMemberHasRoleSupport,
                 securityPreHandlers.checkAdminMemberHasRoleMetier,
               ])(request, h),
             assign: 'hasAuthorizationToAccessAdminScope',

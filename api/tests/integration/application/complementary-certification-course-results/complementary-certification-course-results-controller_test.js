@@ -12,7 +12,7 @@ describe('Integration | Application | complementary-certification-course-results
     sandbox.stub(usecases, 'saveJuryComplementaryCertificationCourseResult');
     sandbox.stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin');
     sandbox.stub(securityPreHandlers, 'checkAdminMemberHasRoleCertif');
-    sandbox.stub(securityPreHandlers, 'checkUserHasRoleSupport');
+    sandbox.stub(securityPreHandlers, 'checkAdminMemberHasRoleSupport');
     httpTestServer = new HttpTestServer();
     await httpTestServer.register(moduleUnderTest);
   });
@@ -104,7 +104,7 @@ describe('Integration | Application | complementary-certification-course-results
           securityPreHandlers.checkAdminMemberHasRoleSuperAdmin.callsFake((request, h) =>
             h.response({ errors: new Error('forbidden') }).code(403)
           );
-          securityPreHandlers.checkUserHasRoleSupport.callsFake((request, h) =>
+          securityPreHandlers.checkAdminMemberHasRoleSupport.callsFake((request, h) =>
             h.response({ errors: new Error('forbidden') }).code(403)
           );
           securityPreHandlers.checkAdminMemberHasRoleCertif.callsFake((request, h) =>

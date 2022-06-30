@@ -619,7 +619,7 @@ describe('Unit | Router | user-router', function () {
           .stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin')
           .callsFake((request, h) => h.response(true));
         sinon
-          .stub(securityPreHandlers, 'checkUserHasRoleSupport')
+          .stub(securityPreHandlers, 'checkAdminMemberHasRoleSupport')
           .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
         const httpTestServer = new HttpTestServer();
         await httpTestServer.register(moduleUnderTest);
@@ -632,7 +632,7 @@ describe('Unit | Router | user-router', function () {
 
         // then
         sinon.assert.calledOnce(securityPreHandlers.checkAdminMemberHasRoleSuperAdmin);
-        sinon.assert.calledOnce(securityPreHandlers.checkUserHasRoleSupport);
+        sinon.assert.calledOnce(securityPreHandlers.checkAdminMemberHasRoleSupport);
         sinon.assert.calledOnce(userController.updateUserDetailsForAdministration);
         expect(result.statusCode).to.equal(200);
       });
@@ -643,7 +643,7 @@ describe('Unit | Router | user-router', function () {
         sinon
           .stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin')
           .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
-        sinon.stub(securityPreHandlers, 'checkUserHasRoleSupport').callsFake((request, h) => h.response(true));
+        sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleSupport').callsFake((request, h) => h.response(true));
         const httpTestServer = new HttpTestServer();
         await httpTestServer.register(moduleUnderTest);
 
@@ -655,7 +655,7 @@ describe('Unit | Router | user-router', function () {
 
         // then
         sinon.assert.calledOnce(securityPreHandlers.checkAdminMemberHasRoleSuperAdmin);
-        sinon.assert.calledOnce(securityPreHandlers.checkUserHasRoleSupport);
+        sinon.assert.calledOnce(securityPreHandlers.checkAdminMemberHasRoleSupport);
         sinon.assert.calledOnce(userController.updateUserDetailsForAdministration);
         expect(result.statusCode).to.equal(200);
       });
@@ -693,7 +693,7 @@ describe('Unit | Router | user-router', function () {
           .stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin')
           .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
         sinon
-          .stub(securityPreHandlers, 'checkUserHasRoleSupport')
+          .stub(securityPreHandlers, 'checkAdminMemberHasRoleSupport')
           .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
         const httpTestServer = new HttpTestServer();
         await httpTestServer.register(moduleUnderTest);
@@ -706,7 +706,7 @@ describe('Unit | Router | user-router', function () {
 
         // then
         sinon.assert.calledOnce(securityPreHandlers.checkAdminMemberHasRoleSuperAdmin);
-        sinon.assert.calledOnce(securityPreHandlers.checkUserHasRoleSupport);
+        sinon.assert.calledOnce(securityPreHandlers.checkAdminMemberHasRoleSupport);
         sinon.assert.notCalled(userController.updateUserDetailsForAdministration);
         expect(result.statusCode).to.equal(403);
       });
@@ -720,7 +720,7 @@ describe('Unit | Router | user-router', function () {
           .stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin')
           .callsFake((request, h) => h.response(true));
         sinon
-          .stub(securityPreHandlers, 'checkUserHasRoleSupport')
+          .stub(securityPreHandlers, 'checkAdminMemberHasRoleSupport')
           .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
         const httpTestServer = new HttpTestServer();
         await httpTestServer.register(moduleUnderTest);
@@ -730,7 +730,7 @@ describe('Unit | Router | user-router', function () {
 
         // then
         sinon.assert.calledOnce(securityPreHandlers.checkAdminMemberHasRoleSuperAdmin);
-        sinon.assert.calledOnce(securityPreHandlers.checkUserHasRoleSupport);
+        sinon.assert.calledOnce(securityPreHandlers.checkAdminMemberHasRoleSupport);
         sinon.assert.calledOnce(userController.anonymizeUser);
         expect(statusCode).to.equal(200);
       });
@@ -741,7 +741,7 @@ describe('Unit | Router | user-router', function () {
         sinon
           .stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin')
           .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
-        sinon.stub(securityPreHandlers, 'checkUserHasRoleSupport').callsFake((request, h) => h.response(true));
+        sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleSupport').callsFake((request, h) => h.response(true));
         const httpTestServer = new HttpTestServer();
         await httpTestServer.register(moduleUnderTest);
 
@@ -750,7 +750,7 @@ describe('Unit | Router | user-router', function () {
 
         // then
         sinon.assert.calledOnce(securityPreHandlers.checkAdminMemberHasRoleSuperAdmin);
-        sinon.assert.calledOnce(securityPreHandlers.checkUserHasRoleSupport);
+        sinon.assert.calledOnce(securityPreHandlers.checkAdminMemberHasRoleSupport);
         sinon.assert.calledOnce(userController.anonymizeUser);
         expect(statusCode).to.equal(200);
       });
@@ -775,7 +775,7 @@ describe('Unit | Router | user-router', function () {
           .stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin')
           .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
         sinon
-          .stub(securityPreHandlers, 'checkUserHasRoleSupport')
+          .stub(securityPreHandlers, 'checkAdminMemberHasRoleSupport')
           .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
         const httpTestServer = new HttpTestServer();
         await httpTestServer.register(moduleUnderTest);
@@ -788,7 +788,7 @@ describe('Unit | Router | user-router', function () {
 
         // then
         sinon.assert.calledOnce(securityPreHandlers.checkAdminMemberHasRoleSuperAdmin);
-        sinon.assert.calledOnce(securityPreHandlers.checkUserHasRoleSupport);
+        sinon.assert.calledOnce(securityPreHandlers.checkAdminMemberHasRoleSupport);
         sinon.assert.notCalled(userController.anonymizeUser);
         expect(result.statusCode).to.equal(403);
       });
@@ -804,7 +804,7 @@ describe('Unit | Router | user-router', function () {
           .stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin')
           .callsFake((request, h) => h.response(true));
         sinon
-          .stub(securityPreHandlers, 'checkUserHasRoleSupport')
+          .stub(securityPreHandlers, 'checkAdminMemberHasRoleSupport')
           .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
         const httpTestServer = new HttpTestServer();
         await httpTestServer.register(moduleUnderTest);
@@ -819,7 +819,7 @@ describe('Unit | Router | user-router', function () {
 
         // then
         sinon.assert.calledOnce(securityPreHandlers.checkAdminMemberHasRoleSuperAdmin);
-        sinon.assert.calledOnce(securityPreHandlers.checkUserHasRoleSupport);
+        sinon.assert.calledOnce(securityPreHandlers.checkAdminMemberHasRoleSupport);
         sinon.assert.calledOnce(userController.addPixAuthenticationMethodByEmail);
         expect(statusCode).to.equal(201);
       });
@@ -832,7 +832,7 @@ describe('Unit | Router | user-router', function () {
         sinon
           .stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin')
           .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
-        sinon.stub(securityPreHandlers, 'checkUserHasRoleSupport').callsFake((request, h) => h.response(true));
+        sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleSupport').callsFake((request, h) => h.response(true));
         const httpTestServer = new HttpTestServer();
         await httpTestServer.register(moduleUnderTest);
         const payload = { data: { attributes: { email: 'user@rexample.net' } } };
@@ -846,7 +846,7 @@ describe('Unit | Router | user-router', function () {
 
         // then
         sinon.assert.calledOnce(securityPreHandlers.checkAdminMemberHasRoleSuperAdmin);
-        sinon.assert.calledOnce(securityPreHandlers.checkUserHasRoleSupport);
+        sinon.assert.calledOnce(securityPreHandlers.checkAdminMemberHasRoleSupport);
         sinon.assert.calledOnce(userController.addPixAuthenticationMethodByEmail);
         expect(statusCode).to.equal(201);
       });
@@ -874,7 +874,7 @@ describe('Unit | Router | user-router', function () {
           .stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin')
           .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
         sinon
-          .stub(securityPreHandlers, 'checkUserHasRoleSupport')
+          .stub(securityPreHandlers, 'checkAdminMemberHasRoleSupport')
           .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
         const httpTestServer = new HttpTestServer();
         await httpTestServer.register(moduleUnderTest);
@@ -889,7 +889,7 @@ describe('Unit | Router | user-router', function () {
 
         // then
         sinon.assert.calledOnce(securityPreHandlers.checkAdminMemberHasRoleSuperAdmin);
-        sinon.assert.calledOnce(securityPreHandlers.checkUserHasRoleSupport);
+        sinon.assert.calledOnce(securityPreHandlers.checkAdminMemberHasRoleSupport);
         sinon.assert.notCalled(userController.addPixAuthenticationMethodByEmail);
         expect(result.statusCode).to.equal(403);
       });
@@ -905,7 +905,7 @@ describe('Unit | Router | user-router', function () {
             .stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin')
             .callsFake((request, h) => h.response(true));
           sinon
-            .stub(securityPreHandlers, 'checkUserHasRoleSupport')
+            .stub(securityPreHandlers, 'checkAdminMemberHasRoleSupport')
             .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
           const httpTestServer = new HttpTestServer();
           await httpTestServer.register(moduleUnderTest);
@@ -921,7 +921,7 @@ describe('Unit | Router | user-router', function () {
 
           // then
           sinon.assert.calledOnce(securityPreHandlers.checkAdminMemberHasRoleSuperAdmin);
-          sinon.assert.calledOnce(securityPreHandlers.checkUserHasRoleSupport);
+          sinon.assert.calledOnce(securityPreHandlers.checkAdminMemberHasRoleSupport);
           sinon.assert.calledOnce(userController.removeAuthenticationMethod);
           expect(result.statusCode).to.equal(200);
         });
@@ -932,7 +932,7 @@ describe('Unit | Router | user-router', function () {
           sinon
             .stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin')
             .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
-          sinon.stub(securityPreHandlers, 'checkUserHasRoleSupport').callsFake((request, h) => h.response(true));
+          sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleSupport').callsFake((request, h) => h.response(true));
           const httpTestServer = new HttpTestServer();
           await httpTestServer.register(moduleUnderTest);
 
@@ -947,7 +947,7 @@ describe('Unit | Router | user-router', function () {
 
           // then
           sinon.assert.calledOnce(securityPreHandlers.checkAdminMemberHasRoleSuperAdmin);
-          sinon.assert.calledOnce(securityPreHandlers.checkUserHasRoleSupport);
+          sinon.assert.calledOnce(securityPreHandlers.checkAdminMemberHasRoleSupport);
           sinon.assert.calledOnce(userController.removeAuthenticationMethod);
           expect(result.statusCode).to.equal(200);
         });
@@ -996,7 +996,7 @@ describe('Unit | Router | user-router', function () {
           .stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin')
           .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
         sinon
-          .stub(securityPreHandlers, 'checkUserHasRoleSupport')
+          .stub(securityPreHandlers, 'checkAdminMemberHasRoleSupport')
           .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
         const httpTestServer = new HttpTestServer();
         await httpTestServer.register(moduleUnderTest);
@@ -1012,7 +1012,7 @@ describe('Unit | Router | user-router', function () {
 
         // then
         sinon.assert.calledOnce(securityPreHandlers.checkAdminMemberHasRoleSuperAdmin);
-        sinon.assert.calledOnce(securityPreHandlers.checkUserHasRoleSupport);
+        sinon.assert.calledOnce(securityPreHandlers.checkAdminMemberHasRoleSupport);
         sinon.assert.notCalled(userController.removeAuthenticationMethod);
         expect(result.statusCode).to.equal(403);
       });
@@ -1030,7 +1030,7 @@ describe('Unit | Router | user-router', function () {
             .stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin')
             .callsFake((request, h) => h.response(true));
           sinon
-            .stub(securityPreHandlers, 'checkUserHasRoleSupport')
+            .stub(securityPreHandlers, 'checkAdminMemberHasRoleSupport')
             .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
           const httpTestServer = new HttpTestServer();
           await httpTestServer.register(moduleUnderTest);
@@ -1052,7 +1052,7 @@ describe('Unit | Router | user-router', function () {
 
           // then
           sinon.assert.calledOnce(securityPreHandlers.checkAdminMemberHasRoleSuperAdmin);
-          sinon.assert.calledOnce(securityPreHandlers.checkUserHasRoleSupport);
+          sinon.assert.calledOnce(securityPreHandlers.checkAdminMemberHasRoleSupport);
           sinon.assert.calledOnce(userController.reassignAuthenticationMethods);
           expect(statusCode).to.equal(204);
         });
@@ -1065,7 +1065,7 @@ describe('Unit | Router | user-router', function () {
           sinon
             .stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin')
             .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
-          sinon.stub(securityPreHandlers, 'checkUserHasRoleSupport').callsFake((request, h) => h.response(true));
+          sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleSupport').callsFake((request, h) => h.response(true));
           const httpTestServer = new HttpTestServer();
           await httpTestServer.register(moduleUnderTest);
           const payload = {
@@ -1086,7 +1086,7 @@ describe('Unit | Router | user-router', function () {
 
           // then
           sinon.assert.calledOnce(securityPreHandlers.checkAdminMemberHasRoleSuperAdmin);
-          sinon.assert.calledOnce(securityPreHandlers.checkUserHasRoleSupport);
+          sinon.assert.calledOnce(securityPreHandlers.checkAdminMemberHasRoleSupport);
           sinon.assert.calledOnce(userController.reassignAuthenticationMethods);
           expect(statusCode).to.equal(204);
         });
@@ -1155,7 +1155,7 @@ describe('Unit | Router | user-router', function () {
           .stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin')
           .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
         sinon
-          .stub(securityPreHandlers, 'checkUserHasRoleSupport')
+          .stub(securityPreHandlers, 'checkAdminMemberHasRoleSupport')
           .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
         const httpTestServer = new HttpTestServer();
         await httpTestServer.register(moduleUnderTest);
@@ -1173,7 +1173,7 @@ describe('Unit | Router | user-router', function () {
 
         // then
         sinon.assert.calledOnce(securityPreHandlers.checkAdminMemberHasRoleSuperAdmin);
-        sinon.assert.calledOnce(securityPreHandlers.checkUserHasRoleSupport);
+        sinon.assert.calledOnce(securityPreHandlers.checkAdminMemberHasRoleSupport);
         sinon.assert.notCalled(userController.reassignAuthenticationMethods);
         expect(result.statusCode).to.equal(403);
       });
