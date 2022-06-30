@@ -16,7 +16,7 @@
   &:hover,
   &:active,
   &:focus {
-    background-color: $blue-hover;
+    background-color: $pix-primary-60;
   }
 
   &--link {
@@ -200,7 +200,7 @@
   &:focus,
   &:active {
     text-decoration: underline;
-    color: $blue-hover;
+    color: $pix-primary-60;
     cursor: pointer;
   }
 

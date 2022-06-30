@@ -46,8 +46,8 @@
     &.active {
       text-decoration: none;
       padding-bottom: 5px;
-      color: $blue-hover;
-      border-bottom: 2px solid $blue-hover;
+      color: $pix-primary-60;
+      border-bottom: 2px solid $pix-primary-60;
     }
 
     &:focus {
@@ -58,7 +58,7 @@
     &:hover {
       text-decoration: none;
       cursor: pointer;
-      color: $blue-hover;
+      color: $pix-primary-60;
     }
   }
 }
