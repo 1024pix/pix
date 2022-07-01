@@ -81,7 +81,6 @@
     "xregexp": "^5.1.1",
     "yargs": "^17.5.1"
   },
-  "babel": {},
   "devDependencies": {
     "@babel/eslint-parser": "^7.18.2",
     "@ls-lint/ls-lint": "^1.11.2",
