@@ -6,3 +6,5 @@ env:
 rules:
   no-console:
     - off
+  # Refer to scripts/_template.js for reliable alternatives to process.exit()
+  node/no-process-exit: warn
