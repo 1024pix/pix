@@ -3,6 +3,8 @@ const events = require('../../domain/events');
 const privateCertificateSerializer = require('../../infrastructure/serializers/jsonapi/private-certificate-serializer');
 const shareableCertificateSerializer = require('../../infrastructure/serializers/jsonapi/shareable-certificate-serializer');
 const certificationAttestationPdf = require('../../infrastructure/utils/pdf/certification-attestation-pdf');
+const requestResponseUtils = require('../../infrastructure/utils/request-response-utils');
+
 const moment = require('moment');
 
 module.exports = {
@@ -16,10 +18,12 @@ module.exports = {
   async getCertification(request) {
     const userId = request.auth.credentials.userId;
     const certificationId = request.params.id;
+    const locale = requestResponseUtils.extractLocaleFromRequest(request);
 
     const privateCertificate = await usecases.getPrivateCertificate({
       userId,
       certificationId,
+      locale,
     });
     return privateCertificateSerializer.serialize(privateCertificate);
   },
