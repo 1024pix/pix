@@ -5,6 +5,7 @@ extends:
   - 'plugin:prettier/recommended'
 parserOptions:
   ecmaVersion: 2020
+  requireConfigFile: false
 
 parser: "@babel/eslint-parser"
 
