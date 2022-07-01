@@ -30,8 +30,9 @@ module.exports = {
 
   async getCertificationByVerificationCode(request) {
     const verificationCode = request.payload.verificationCode;
+    const locale = requestResponseUtils.extractLocaleFromRequest(request);
 
-    const shareableCertificate = await usecases.getShareableCertificate({ verificationCode });
+    const shareableCertificate = await usecases.getShareableCertificate({ verificationCode, locale });
     return shareableCertificateSerializer.serialize(shareableCertificate);
   },
 
