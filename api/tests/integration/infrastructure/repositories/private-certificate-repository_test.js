@@ -38,7 +38,7 @@ describe('Integration | Infrastructure | Repository | Private Certificate', func
   describe('#get', function () {
     it('should throw a NotFoundError when private certificate does not exist', async function () {
       // when
-      const error = await catchErr(privateCertificateRepository.get)(123);
+      const error = await catchErr(privateCertificateRepository.get)(123, { locale: 'fr' });
 
       // then
       expect(error).to.be.instanceOf(NotFoundError);
@@ -84,89 +84,242 @@ describe('Integration | Infrastructure | Repository | Private Certificate', func
       );
     });
 
-    it('should return a PrivateCertificate with resultCompetenceTree', async function () {
-      // given
+    describe('when "locale" is french', function () {
+      it('should return a PrivateCertificate with french resultCompetenceTree', async function () {
+        // given
 
-      const userId = databaseBuilder.factory.buildUser().id;
-      const privateCertificateData = {
-        firstName: 'Sarah Michelle',
-        lastName: 'Gellar',
-        birthdate: '1977-04-14',
-        birthplace: 'Saint-Ouen',
-        isPublished: true,
-        userId,
-        date: new Date('2020-01-01'),
-        verificationCode: 'ABCDE-F',
-        maxReachableLevelOnCertificationDate: 5,
-        deliveredAt: new Date('2021-05-05'),
-        certificationCenter: 'Centre des poules bien dodues',
-        pixScore: 51,
-        commentForCandidate: 'Il aime beaucoup les mangues, et ça se voit !',
-        cleaCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
-      };
+        const userId = databaseBuilder.factory.buildUser().id;
+        const privateCertificateData = {
+          firstName: 'Sarah Michelle',
+          lastName: 'Gellar',
+          birthdate: '1977-04-14',
+          birthplace: 'Saint-Ouen',
+          isPublished: true,
+          userId,
+          date: new Date('2020-01-01'),
+          verificationCode: 'ABCDE-F',
+          maxReachableLevelOnCertificationDate: 5,
+          deliveredAt: new Date('2021-05-05'),
+          certificationCenter: 'Centre des poules bien dodues',
+          pixScore: 51,
+          commentForCandidate: 'Il aime beaucoup les mangues, et ça se voit !',
+          cleaCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
+        };
 
-      const { certificateId, assessmentResultId } = await _buildValidPrivateCertificate(privateCertificateData, false);
+        const { certificateId, assessmentResultId } = await _buildValidPrivateCertificate(
+          privateCertificateData,
+          false
+        );
 
-      const competenceMarks1 = domainBuilder.buildCompetenceMark({
-        id: 1234,
-        level: 4,
-        score: 32,
-        area_code: '1',
-        competence_code: '1.1',
-        competenceId: 'recComp1',
-        assessmentResultId,
+        const competenceMarks1 = domainBuilder.buildCompetenceMark({
+          id: 1234,
+          level: 4,
+          score: 32,
+          area_code: '1',
+          competence_code: '1.1',
+          competenceId: 'recComp1',
+          assessmentResultId,
+        });
+        databaseBuilder.factory.buildCompetenceMark(competenceMarks1);
+
+        const competenceMarks2 = domainBuilder.buildCompetenceMark({
+          id: 4567,
+          level: 5,
+          score: 40,
+          area_code: '1',
+          competence_code: '1.2',
+          competenceId: 'recComp2',
+          assessmentResultId,
+        });
+        databaseBuilder.factory.buildCompetenceMark(competenceMarks2);
+
+        await databaseBuilder.commit();
+
+        const competence1 = domainBuilder.buildCompetence({
+          id: 'recComp1',
+          index: '1.1',
+          name: 'Traiter des données',
+        });
+        const competence2 = domainBuilder.buildCompetence({
+          id: 'recComp2',
+          index: '1.2',
+          name: 'Traiter des choux',
+        });
+        const area1 = domainBuilder.buildArea({
+          id: 'recArea1',
+          code: '1',
+          title: 'titre test',
+          competences: [competence1, competence2],
+        });
+
+        const learningContentObjects = learningContentBuilder.buildLearningContent([
+          {
+            ...area1,
+            titleFr: area1.title,
+            titleEn: 'title en',
+            competences: [
+              {
+                id: 'recComp1',
+                index: '1.1',
+                nameFr: 'Traiter des données',
+                nameEn: 'Process data',
+                descriptionFr: 'competence1DescriptionFr',
+                descriptionEn: 'competence1DescriptionEn',
+              },
+              {
+                id: 'recComp2',
+                index: '1.2',
+                nameFr: 'Traiter des choux',
+                nameEn: 'Process sprouts',
+                descriptionFr: 'competence2DescriptionFr',
+                descriptionEn: 'competence2DescriptionEn',
+              },
+            ],
+          },
+        ]);
+        mockLearningContent(learningContentObjects);
+
+        // when
+        const privateCertificate = await privateCertificateRepository.get(certificateId, { locale: 'fr' });
+
+        // then
+        const resultCompetenceTree = domainBuilder.buildResultCompetenceTree({
+          id: `${certificateId}-${assessmentResultId}`,
+          competenceMarks: [competenceMarks1, competenceMarks2],
+          competenceTree: domainBuilder.buildCompetenceTree({ areas: [area1] }),
+        });
+        const expectedPrivateCertificate = domainBuilder.buildPrivateCertificate.validated({
+          id: certificateId,
+          resultCompetenceTree,
+          ...privateCertificateData,
+        });
+        expect(privateCertificate).to.be.instanceOf(PrivateCertificate);
+        expect(privateCertificate).to.deep.equal(expectedPrivateCertificate);
       });
-      databaseBuilder.factory.buildCompetenceMark(competenceMarks1);
+    });
 
-      const competenceMarks2 = domainBuilder.buildCompetenceMark({
-        id: 4567,
-        level: 5,
-        score: 40,
-        area_code: '1',
-        competence_code: '1.2',
-        competenceId: 'recComp2',
-        assessmentResultId,
-      });
-      databaseBuilder.factory.buildCompetenceMark(competenceMarks2);
+    describe('when "locale" is english', function () {
+      it('should return a PrivateCertificate with english resultCompetenceTree', async function () {
+        // given
 
-      await databaseBuilder.commit();
+        const userId = databaseBuilder.factory.buildUser().id;
+        const privateCertificateData = {
+          firstName: 'Sarah Michelle',
+          lastName: 'Gellar',
+          birthdate: '1977-04-14',
+          birthplace: 'Saint-Ouen',
+          isPublished: true,
+          userId,
+          date: new Date('2020-01-01'),
+          verificationCode: 'ABCDE-F',
+          maxReachableLevelOnCertificationDate: 5,
+          deliveredAt: new Date('2021-05-05'),
+          certificationCenter: 'Centre des poules bien dodues',
+          pixScore: 51,
+          commentForCandidate: 'Il aime beaucoup les mangues, et ça se voit !',
+          cleaCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
+        };
 
-      const competence1 = domainBuilder.buildCompetence({
-        id: 'recComp1',
-        index: '1.1',
-        name: 'Traiter des données',
-      });
-      const competence2 = domainBuilder.buildCompetence({
-        id: 'recComp2',
-        index: '1.2',
-        name: 'Traiter des choux',
-      });
-      const area1 = domainBuilder.buildArea({
-        id: 'recArea1',
-        code: '1',
-        competences: [competence1, competence2],
-        title: 'titre test',
-      });
+        const { certificateId, assessmentResultId } = await _buildValidPrivateCertificate(
+          privateCertificateData,
+          false
+        );
 
-      const learningContentObjects = learningContentBuilder.buildLearningContent([{ ...area1, titleFr: area1.title }]);
-      mockLearningContent(learningContentObjects);
+        const competenceMarks1 = domainBuilder.buildCompetenceMark({
+          id: 1234,
+          level: 4,
+          score: 32,
+          area_code: '1',
+          competence_code: '1.1',
+          competenceId: 'recComp1',
+          assessmentResultId,
+        });
+        databaseBuilder.factory.buildCompetenceMark(competenceMarks1);
 
-      // when
-      const privateCertificate = await privateCertificateRepository.get(certificateId);
+        const competenceMarks2 = domainBuilder.buildCompetenceMark({
+          id: 4567,
+          level: 5,
+          score: 40,
+          area_code: '1',
+          competence_code: '1.2',
+          competenceId: 'recComp2',
+          assessmentResultId,
+        });
+        databaseBuilder.factory.buildCompetenceMark(competenceMarks2);
 
-      // then
-      const resultCompetenceTree = domainBuilder.buildResultCompetenceTree({
-        id: `${certificateId}-${assessmentResultId}`,
-        competenceMarks: [competenceMarks1, competenceMarks2],
-        competenceTree: domainBuilder.buildCompetenceTree({ areas: [area1] }),
+        await databaseBuilder.commit();
+
+        const competence1 = domainBuilder.buildCompetence({
+          id: 'recComp1',
+          index: '1.1',
+          name: 'Traiter des données',
+        });
+        const competence2 = domainBuilder.buildCompetence({
+          id: 'recComp2',
+          index: '1.2',
+          name: 'Traiter des choux',
+        });
+        const area1 = domainBuilder.buildArea({
+          id: 'recArea1',
+          code: '1',
+          title: 'titre test',
+          competences: [competence1, competence2],
+        });
+
+        const learningContentObjects = learningContentBuilder.buildLearningContent([
+          {
+            ...area1,
+            titleFr: area1.title,
+            titleEn: 'title en',
+            competences: [
+              {
+                id: 'recComp1',
+                index: '1.1',
+                nameFr: 'Traiter des données',
+                nameEn: 'Process data',
+                descriptionFr: 'competence1DescriptionFr',
+                descriptionEn: 'competence1DescriptionEn',
+              },
+              {
+                id: 'recComp2',
+                index: '1.2',
+                nameFr: 'Traiter des choux',
+                nameEn: 'Process sprouts',
+                descriptionFr: 'competence2DescriptionFr',
+                descriptionEn: 'competence2DescriptionEn',
+              },
+            ],
+          },
+        ]);
+        mockLearningContent(learningContentObjects);
+
+        // when
+        const privateCertificate = await privateCertificateRepository.get(certificateId, { locale: 'en' });
+
+        // then
+        const resultCompetenceTree = domainBuilder.buildResultCompetenceTree({
+          id: `${certificateId}-${assessmentResultId}`,
+          competenceMarks: [competenceMarks1, competenceMarks2],
+          competenceTree: domainBuilder.buildCompetenceTree({
+            areas: [
+              {
+                ...area1,
+                title: 'title en',
+                competences: [
+                  { ...area1.competences[0], name: 'Process data' },
+                  { ...area1.competences[1], name: 'Process sprouts' },
+                ],
+              },
+            ],
+          }),
+        });
+        const expectedPrivateCertificate = domainBuilder.buildPrivateCertificate.validated({
+          id: certificateId,
+          resultCompetenceTree,
+          ...privateCertificateData,
+        });
+        expect(privateCertificate).to.deepEqualInstance(expectedPrivateCertificate);
       });
-      const expectedPrivateCertificate = domainBuilder.buildPrivateCertificate.validated({
-        id: certificateId,
-        resultCompetenceTree,
-        ...privateCertificateData,
-      });
-      expect(privateCertificate).to.be.instanceOf(PrivateCertificate);
-      expect(privateCertificate).to.deep.equal(expectedPrivateCertificate);
     });
 
     it('should build from the latest assessment result if any', async function () {
