@@ -1,6 +1,5 @@
 import { module, test } from 'qunit';
 import { visit, currentURL, click } from '@ember/test-helpers';
-import clickByLabel from '../helpers/extended-ember-test-helpers/click-by-label';
 import { setupApplicationTest } from 'ember-qunit';
 import {
   createCertificationPointOfContactWithTermsOfServiceAccepted,
@@ -28,9 +27,7 @@ module('Acceptance | authenticated', function (hooks) {
       await click('.sidebar__logo a');
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(currentURL(), '/sessions/liste');
+      assert.strictEqual(currentURL(), '/sessions/liste');
     });
   });
 
@@ -44,13 +41,11 @@ module('Acceptance | authenticated', function (hooks) {
       await authenticateSession(certificationPointOfContact.id);
 
       // when
-      await visit(`/sessions/${session.id}`);
-      await clickByLabel('Sessions de certification');
+      const screen = await visitScreen(`/sessions/${session.id}`);
+      await click(screen.getByRole('link', { name: 'Sessions de certification' }));
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(currentURL(), '/sessions/liste');
+      assert.strictEqual(currentURL(), '/sessions/liste');
     });
 
     module('when end test screen removal is enabled', function () {
@@ -70,10 +65,10 @@ module('Acceptance | authenticated', function (hooks) {
         await authenticateSession(certificationPointOfContact.id);
 
         // when
-        await visit('/sessions/liste');
+        const screen = await visitScreen('/sessions/liste');
 
         // then
-        assert.contains('Espace surveillant');
+        assert.dom(screen.getByRole('link', { name: 'Espace surveillant' })).exists();
       });
 
       test('it should redirect to the login session supervisor', async function (assert) {
@@ -92,13 +87,11 @@ module('Acceptance | authenticated', function (hooks) {
         await authenticateSession(certificationPointOfContact.id);
 
         // when
-        await visit('/sessions/liste');
-        await clickByLabel('Espace surveillant');
+        const screen = await visitScreen('/sessions/liste');
+        await click(screen.getByRole('link', { name: 'Espace surveillant' }));
 
         // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(currentURL(), '/connexion-espace-surveillant');
+        assert.strictEqual(currentURL(), '/connexion-espace-surveillant');
       });
     });
 
@@ -119,10 +112,10 @@ module('Acceptance | authenticated', function (hooks) {
         await authenticateSession(certificationPointOfContact.id);
 
         // when
-        await visit('/sessions/liste');
+        const screen = await visitScreen('/sessions/liste');
 
         // then
-        assert.notContains('Espace surveillant');
+        assert.dom(screen.queryByRole('link', { name: 'Espace surveillant' })).doesNotExist();
       });
     });
   });
@@ -192,7 +185,7 @@ module('Acceptance | authenticated', function (hooks) {
       await click(screen.getByRole('button', { name: 'Poupoune (DEF456)' }));
 
       // then
-      assert.contains('Poupoune (DEF456)');
+      assert.dom(screen.getByRole('link', { name: 'Buffy Summers Poupoune (DEF456)' })).exists();
     });
 
     test('should redirect to sessions/liste URL when changing the current certification center', async function (assert) {
@@ -228,9 +221,7 @@ module('Acceptance | authenticated', function (hooks) {
       await click(screen.getByRole('button', { name: 'Poupoune (DEF456)' }));
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(currentURL(), '/sessions/liste');
+      assert.strictEqual(currentURL(), '/sessions/liste');
     });
 
     test('should redirect to espace-ferme URL when changing the current certification center to a blocked one', async function (assert) {
@@ -267,9 +258,7 @@ module('Acceptance | authenticated', function (hooks) {
       await click(screen.getByRole('button', { name: 'Poupoune (DEF456)' }));
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(currentURL(), '/espace-ferme');
+      assert.strictEqual(currentURL(), '/espace-ferme');
     });
 
     test('should redirect to sessions/liste URL when changing from a blocked certification center to a not blocked one', async function (assert) {
@@ -306,9 +295,7 @@ module('Acceptance | authenticated', function (hooks) {
       await click(screen.getByRole('button', { name: 'Poupoune (DEF456)' }));
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(currentURL(), '/sessions/liste');
+      assert.strictEqual(currentURL(), '/sessions/liste');
     });
   });
 });
