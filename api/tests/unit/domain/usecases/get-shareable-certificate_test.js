@@ -18,11 +18,15 @@ describe('Unit | UseCase | get-shareable-certificate', function () {
       verificationCode: 'P-123456CC',
       resultCompetenceTree,
     });
-    shareableCertificateRepository.getByVerificationCode.withArgs('P-123456CC').resolves(shareableCertificate);
+    const locale = 'fr';
+    shareableCertificateRepository.getByVerificationCode
+      .withArgs('P-123456CC', { locale })
+      .resolves(shareableCertificate);
 
     // when
     const finalShareableCertificate = await getCertificationByVerificationCode({
       verificationCode: 'P-123456CC',
+      locale,
       shareableCertificateRepository,
     });
 
