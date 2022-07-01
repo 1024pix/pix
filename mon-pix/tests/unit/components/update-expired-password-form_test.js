@@ -20,7 +20,7 @@ const VALIDATION_MAP = {
   },
 };
 
-describe('Unit | Component | Update Expired Password', () => {
+describe('Unit | Component | Update Expired Password Form', () => {
   setupTest();
   setupIntl();
 
