@@ -18,12 +18,14 @@ describe('Unit | UseCase | getPrivateCertificate', function () {
         id: 123,
         userId: 789,
       });
-      privateCertificateRepository.get.withArgs(123).resolves(privateCertificate);
+      const locale = 'fr';
+      privateCertificateRepository.get.withArgs(123, { locale }).resolves(privateCertificate);
 
       // when
       const error = await catchErr(getPrivateCertificate)({
         certificationId: 123,
         userId: 456,
+        locale,
         privateCertificateRepository,
       });
 
@@ -39,12 +41,14 @@ describe('Unit | UseCase | getPrivateCertificate', function () {
         id: 123,
         userId: 456,
       });
-      privateCertificateRepository.get.withArgs(123).resolves(privateCertificate);
+      const locale = 'fr';
+      privateCertificateRepository.get.withArgs(123, { locale }).resolves(privateCertificate);
 
       // when
       const actualPrivateCertificate = await getPrivateCertificate({
         certificationId: 123,
         userId: 456,
+        locale,
         privateCertificateRepository,
       });
 
