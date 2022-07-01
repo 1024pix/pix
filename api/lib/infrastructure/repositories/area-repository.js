@@ -18,13 +18,16 @@ function _toDomain({ areaData, locale }) {
   });
 }
 
-async function list() {
+async function list({ locale } = {}) {
   const areaDataObjects = await areaDatasource.list();
-  return areaDataObjects.map((areaData) => _toDomain({ areaData }));
+  return areaDataObjects.map((areaData) => _toDomain({ areaData, locale }));
 }
 
 async function listWithPixCompetencesOnly({ locale } = {}) {
-  const [areas, competences] = await Promise.all([list(), competenceRepository.listPixCompetencesOnly({ locale })]);
+  const [areas, competences] = await Promise.all([
+    list({ locale }),
+    competenceRepository.listPixCompetencesOnly({ locale }),
+  ]);
   areas.forEach((area) => {
     area.competences = _.filter(competences, { area: { id: area.id } });
   });

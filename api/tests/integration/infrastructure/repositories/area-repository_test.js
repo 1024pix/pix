@@ -56,6 +56,33 @@ describe('Integration | Repository | area-repository', function () {
         },
       ]);
     });
+
+    describe('when locale is "en"', function () {
+      it('should return all areas with english title', async function () {
+        // given
+        const locale = 'en';
+        // when
+        const areas = await areaRepository.list({ locale });
+
+        // then
+        expect(areas[0].title).to.equal(area0.titleEnUs);
+        expect(areas[1].title).to.equal(area1.titleEnUs);
+      });
+    });
+
+    describe('when locale is not "en"', function () {
+      it('should return all areas with french title', async function () {
+        // given
+        const locale = 'fr';
+
+        // when
+        const areas = await areaRepository.list({ locale });
+
+        // then
+        expect(areas[0].title).to.equal(area0.titleFrFr);
+        expect(areas[1].title).to.equal(area1.titleFrFr);
+      });
+    });
   });
 
   describe('#listWithPixCompetencesOnly', function () {
