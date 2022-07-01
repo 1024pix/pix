@@ -1,6 +1,5 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
-import { run } from '@ember/runloop';
 import map from 'lodash/map';
 import ENV from 'pix-admin/config/environment';
 
@@ -21,7 +20,7 @@ module('Unit | Model | certification issue report', function (hooks) {
     const store = this.owner.lookup('service:store');
 
     const models = map(certificationIssueReportCategories, (category) => {
-      return run(() => store.createRecord('certification-issue-report', { category }));
+      return store.createRecord('certification-issue-report', { category });
     });
 
     // when / then
@@ -36,7 +35,7 @@ module('Unit | Model | certification issue report', function (hooks) {
     const store = this.owner.lookup('service:store');
 
     const models = map(certificationIssueReportSubcategories, (subcategory) => {
-      return run(() => store.createRecord('certification-issue-report', { subcategory }));
+      return store.createRecord('certification-issue-report', { subcategory });
     });
 
     // when / then
@@ -49,7 +48,7 @@ module('Unit | Model | certification issue report', function (hooks) {
     // given
     const store = this.owner.lookup('service:store');
 
-    const model = run(() => store.createRecord('certification-issue-report', { subcategory: null }));
+    const model = store.createRecord('certification-issue-report', { subcategory: null });
 
     // when / then
     assert.strictEqual(model.subcategoryLabel, '');
@@ -59,13 +58,11 @@ module('Unit | Model | certification issue report', function (hooks) {
       // given
       const store = this.owner.lookup('service:store');
 
-      const model = run(() =>
-        store.createRecord('certification-issue-report', {
-          isImpactful: true,
-          resolvedAt: new Date('2020-01-01'),
-          resolution: 'resolved',
-        })
-      );
+      const model = store.createRecord('certification-issue-report', {
+        isImpactful: true,
+        resolvedAt: new Date('2020-01-01'),
+        resolution: 'resolved',
+      });
 
       // when / then
       assert.false(model.canBeResolved);
@@ -74,13 +71,11 @@ module('Unit | Model | certification issue report', function (hooks) {
       // given
       const store = this.owner.lookup('service:store');
 
-      const model = run(() =>
-        store.createRecord('certification-issue-report', {
-          isImpactful: true,
-          resolvedAt: null,
-          resolution: null,
-        })
-      );
+      const model = store.createRecord('certification-issue-report', {
+        isImpactful: true,
+        resolvedAt: null,
+        resolution: null,
+      });
 
       // when / then
       assert.true(model.canBeResolved);
@@ -92,13 +87,11 @@ module('Unit | Model | certification issue report', function (hooks) {
       // given
       const store = this.owner.lookup('service:store');
 
-      const model = run(() =>
-        store.createRecord('certification-issue-report', {
-          isImpactful: true,
-          resolvedAt: null,
-          resolution: null,
-        })
-      );
+      const model = store.createRecord('certification-issue-report', {
+        isImpactful: true,
+        resolvedAt: null,
+        resolution: null,
+      });
 
       // when / then
       assert.false(model.canBeModified);
@@ -108,13 +101,11 @@ module('Unit | Model | certification issue report', function (hooks) {
       // given
       const store = this.owner.lookup('service:store');
 
-      const model = run(() =>
-        store.createRecord('certification-issue-report', {
-          isImpactful: true,
-          resolvedAt: new Date(),
-          resolution: 'resolved',
-        })
-      );
+      const model = store.createRecord('certification-issue-report', {
+        isImpactful: true,
+        resolvedAt: new Date(),
+        resolution: 'resolved',
+      });
 
       // when / then
       assert.true(model.canBeModified);
@@ -123,13 +114,11 @@ module('Unit | Model | certification issue report', function (hooks) {
       // given
       const store = this.owner.lookup('service:store');
 
-      const model = run(() =>
-        store.createRecord('certification-issue-report', {
-          isImpactful: false,
-          resolvedAt: null,
-          resolution: null,
-        })
-      );
+      const model = store.createRecord('certification-issue-report', {
+        isImpactful: false,
+        resolvedAt: null,
+        resolution: null,
+      });
 
       // when / then
       assert.false(model.canBeModified);
@@ -144,13 +133,11 @@ module('Unit | Model | certification issue report', function (hooks) {
       sinon.stub(adapter, 'ajax');
       adapter.ajax.resolves({});
 
-      const model = run(() =>
-        store.createRecord('certification-issue-report', {
-          id: 1,
-          isImpactful: true,
-          resolvedAt: null,
-        })
-      );
+      const model = store.createRecord('certification-issue-report', {
+        id: 1,
+        isImpactful: true,
+        resolvedAt: null,
+      });
       // when
       model.resolve('resolved!');
 
