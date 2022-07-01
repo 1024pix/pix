@@ -246,90 +246,243 @@ describe('Integration | Infrastructure | Repository | Shareable Certificate', fu
       expect(error.message).to.equal('There is no certification course with verification code "P-SOMECODE"');
     });
 
-    it('should return a ShareableCertificate', async function () {
-      // given
-      const userId = databaseBuilder.factory.buildUser().id;
-      const shareableCertificateData = {
-        id: 123,
-        firstName: 'Sarah Michelle',
-        lastName: 'Gellar',
-        birthdate: '1977-04-14',
-        birthplace: 'Saint-Ouen',
-        isPublished: true,
-        userId,
-        date: new Date('2020-01-01'),
-        verificationCode: 'P-SOMECODE',
-        maxReachableLevelOnCertificationDate: 5,
-        deliveredAt: new Date('2021-05-05'),
-        certificationCenter: 'Centre des poules bien dodues',
-        pixScore: 51,
-        cleaCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
-      };
+    describe('when "locale" is french', function () {
+      it('should return a french ShareableCertificate', async function () {
+        // given
+        const userId = databaseBuilder.factory.buildUser().id;
+        const shareableCertificateData = {
+          id: 123,
+          firstName: 'Sarah Michelle',
+          lastName: 'Gellar',
+          birthdate: '1977-04-14',
+          birthplace: 'Saint-Ouen',
+          isPublished: true,
+          userId,
+          date: new Date('2020-01-01'),
+          verificationCode: 'P-SOMECODE',
+          maxReachableLevelOnCertificationDate: 5,
+          deliveredAt: new Date('2021-05-05'),
+          certificationCenter: 'Centre des poules bien dodues',
+          pixScore: 51,
+          cleaCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
+        };
 
-      const { certificateId, assessmentResultId } = await _buildValidShareableCertificate(
-        shareableCertificateData,
-        false
-      );
+        const { certificateId, assessmentResultId } = await _buildValidShareableCertificate(
+          shareableCertificateData,
+          false
+        );
 
-      const competenceMarks1 = domainBuilder.buildCompetenceMark({
-        id: 1234,
-        level: 4,
-        score: 32,
-        area_code: '1',
-        competence_code: '1.1',
-        competenceId: 'recComp1',
-        assessmentResultId,
+        const competenceMarks1 = domainBuilder.buildCompetenceMark({
+          id: 1234,
+          level: 4,
+          score: 32,
+          area_code: '1',
+          competence_code: '1.1',
+          competenceId: 'recComp1',
+          assessmentResultId,
+        });
+        databaseBuilder.factory.buildCompetenceMark(competenceMarks1);
+
+        const competenceMarks2 = domainBuilder.buildCompetenceMark({
+          id: 4567,
+          level: 5,
+          score: 40,
+          area_code: '1',
+          competence_code: '1.2',
+          competenceId: 'recComp2',
+          assessmentResultId,
+        });
+        databaseBuilder.factory.buildCompetenceMark(competenceMarks2);
+
+        await databaseBuilder.commit();
+
+        const competence1 = domainBuilder.buildCompetence({
+          id: 'recComp1',
+          index: '1.1',
+          name: 'Traiter des données',
+        });
+        const competence2 = domainBuilder.buildCompetence({
+          id: 'recComp2',
+          index: '1.2',
+          name: 'Traiter des choux',
+        });
+        const area1 = domainBuilder.buildArea({
+          id: 'recArea1',
+          code: '1',
+          competences: [competence1, competence2],
+          title: 'titre test',
+        });
+
+        const learningContentObjects = learningContentBuilder.buildLearningContent([
+          {
+            ...area1,
+            titleFr: area1.title,
+            titleEn: 'title en',
+            competences: [
+              {
+                id: 'recComp1',
+                index: '1.1',
+                nameFr: 'Traiter des données',
+                nameEn: 'Process data',
+                descriptionFr: 'competence1DescriptionFr',
+                descriptionEn: 'competence1DescriptionEn',
+              },
+              {
+                id: 'recComp2',
+                index: '1.2',
+                nameFr: 'Traiter des choux',
+                nameEn: 'Process sprouts',
+                descriptionFr: 'competence2DescriptionFr',
+                descriptionEn: 'competence2DescriptionEn',
+              },
+            ],
+          },
+        ]);
+        mockLearningContent(learningContentObjects);
+
+        // when
+        const shareableCertificate = await shareableCertificateRepository.getByVerificationCode('P-SOMECODE', {
+          locale: 'fr',
+        });
+
+        // then
+        const resultCompetenceTree = domainBuilder.buildResultCompetenceTree({
+          id: `${certificateId}-${assessmentResultId}`,
+          competenceMarks: [competenceMarks1, competenceMarks2],
+          competenceTree: domainBuilder.buildCompetenceTree({ areas: [area1] }),
+        });
+        const expectedShareableCertificate = domainBuilder.buildShareableCertificate({
+          id: certificateId,
+          ...shareableCertificateData,
+          resultCompetenceTree,
+        });
+        expect(shareableCertificate).to.deepEqualInstance(expectedShareableCertificate);
       });
-      databaseBuilder.factory.buildCompetenceMark(competenceMarks1);
+    });
 
-      const competenceMarks2 = domainBuilder.buildCompetenceMark({
-        id: 4567,
-        level: 5,
-        score: 40,
-        area_code: '1',
-        competence_code: '1.2',
-        competenceId: 'recComp2',
-        assessmentResultId,
-      });
-      databaseBuilder.factory.buildCompetenceMark(competenceMarks2);
+    describe('when "locale" is english', function () {
+      it('should return an english ShareableCertificate', async function () {
+        // given
+        const userId = databaseBuilder.factory.buildUser().id;
+        const shareableCertificateData = {
+          id: 123,
+          firstName: 'Sarah Michelle',
+          lastName: 'Gellar',
+          birthdate: '1977-04-14',
+          birthplace: 'Saint-Ouen',
+          isPublished: true,
+          userId,
+          date: new Date('2020-01-01'),
+          verificationCode: 'P-SOMECODE',
+          maxReachableLevelOnCertificationDate: 5,
+          deliveredAt: new Date('2021-05-05'),
+          certificationCenter: 'Centre des poules bien dodues',
+          pixScore: 51,
+          cleaCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
+        };
 
-      await databaseBuilder.commit();
+        const { certificateId, assessmentResultId } = await _buildValidShareableCertificate(
+          shareableCertificateData,
+          false
+        );
 
-      const competence1 = domainBuilder.buildCompetence({
-        id: 'recComp1',
-        index: '1.1',
-        name: 'Traiter des données',
-      });
-      const competence2 = domainBuilder.buildCompetence({
-        id: 'recComp2',
-        index: '1.2',
-        name: 'Traiter des choux',
-      });
-      const area1 = domainBuilder.buildArea({
-        id: 'recArea1',
-        code: '1',
-        competences: [competence1, competence2],
-        title: 'titre test',
-      });
+        const competenceMarks1 = domainBuilder.buildCompetenceMark({
+          id: 1234,
+          level: 4,
+          score: 32,
+          area_code: '1',
+          competence_code: '1.1',
+          competenceId: 'recComp1',
+          assessmentResultId,
+        });
+        databaseBuilder.factory.buildCompetenceMark(competenceMarks1);
 
-      const learningContentObjects = learningContentBuilder.buildLearningContent([{ ...area1, titleFr: area1.title }]);
-      mockLearningContent(learningContentObjects);
+        const competenceMarks2 = domainBuilder.buildCompetenceMark({
+          id: 4567,
+          level: 5,
+          score: 40,
+          area_code: '1',
+          competence_code: '1.2',
+          competenceId: 'recComp2',
+          assessmentResultId,
+        });
+        databaseBuilder.factory.buildCompetenceMark(competenceMarks2);
 
-      // when
-      const shareableCertificate = await shareableCertificateRepository.getByVerificationCode('P-SOMECODE');
+        await databaseBuilder.commit();
 
-      // then
-      const resultCompetenceTree = domainBuilder.buildResultCompetenceTree({
-        id: `${certificateId}-${assessmentResultId}`,
-        competenceMarks: [competenceMarks1, competenceMarks2],
-        competenceTree: domainBuilder.buildCompetenceTree({ areas: [area1] }),
+        const competence1 = domainBuilder.buildCompetence({
+          id: 'recComp1',
+          index: '1.1',
+          name: 'Traiter des données',
+        });
+        const competence2 = domainBuilder.buildCompetence({
+          id: 'recComp2',
+          index: '1.2',
+          name: 'Traiter des choux',
+        });
+        const area1 = domainBuilder.buildArea({
+          id: 'recArea1',
+          code: '1',
+          competences: [competence1, competence2],
+          title: 'titre test',
+        });
+
+        const learningContentObjects = learningContentBuilder.buildLearningContent([
+          {
+            ...area1,
+            titleFr: area1.title,
+            titleEn: 'title en',
+            competences: [
+              {
+                id: 'recComp1',
+                index: '1.1',
+                nameFr: 'Traiter des données',
+                nameEn: 'Process data',
+                descriptionFr: 'competence1DescriptionFr',
+                descriptionEn: 'competence1DescriptionEn',
+              },
+              {
+                id: 'recComp2',
+                index: '1.2',
+                nameFr: 'Traiter des choux',
+                nameEn: 'Process sprouts',
+                descriptionFr: 'competence2DescriptionFr',
+                descriptionEn: 'competence2DescriptionEn',
+              },
+            ],
+          },
+        ]);
+        mockLearningContent(learningContentObjects);
+
+        // when
+        const shareableCertificate = await shareableCertificateRepository.getByVerificationCode('P-SOMECODE', {
+          locale: 'en',
+        });
+
+        // then
+        const resultCompetenceTree = domainBuilder.buildResultCompetenceTree({
+          id: `${certificateId}-${assessmentResultId}`,
+          competenceMarks: [competenceMarks1, competenceMarks2],
+          competenceTree: domainBuilder.buildCompetenceTree({
+            areas: [
+              {
+                ...area1,
+                title: 'title en',
+                competences: [
+                  { ...area1.competences[0], name: 'Process data' },
+                  { ...area1.competences[1], name: 'Process sprouts' },
+                ],
+              },
+            ],
+          }),
+        });
+        const expectedShareableCertificate = domainBuilder.buildShareableCertificate({
+          id: certificateId,
+          ...shareableCertificateData,
+          resultCompetenceTree,
+        });
+        expect(shareableCertificate).to.deepEqualInstance(expectedShareableCertificate);
       });
-      const expectedShareableCertificate = domainBuilder.buildShareableCertificate({
-        id: certificateId,
-        ...shareableCertificateData,
-        resultCompetenceTree,
-      });
-      expect(shareableCertificate).to.deepEqualInstance(expectedShareableCertificate);
     });
 
     it('should get the clea certification result if taken with badge V1', async function () {

@@ -28,7 +28,7 @@ const ComplementaryCertificationCourseResult = require('../../domain/models/Comp
 const CertifiedBadges = require('../../domain/read-models/CertifiedBadges');
 
 module.exports = {
-  async getByVerificationCode(verificationCode) {
+  async getByVerificationCode(verificationCode, { locale } = {}) {
     const shareableCertificateDTO = await _selectShareableCertificates()
       .groupBy('certification-courses.id', 'sessions.id', 'assessments.id', 'assessment-results.id')
       .where({ verificationCode })
@@ -38,7 +38,7 @@ module.exports = {
       throw new NotFoundError(`There is no certification course with verification code "${verificationCode}"`);
     }
 
-    const competenceTree = await competenceTreeRepository.get();
+    const competenceTree = await competenceTreeRepository.get({ locale });
 
     const cleaCertificationResult = await _getCleaCertificationResult(shareableCertificateDTO.id);
     const certifiedBadgeImages = await _getCertifiedBadgeImages(shareableCertificateDTO.id);
