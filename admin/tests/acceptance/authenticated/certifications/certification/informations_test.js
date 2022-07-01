@@ -617,7 +617,8 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
                 await fillByLabel('Résolution', resolution);
 
                 // when
-                await click(screen.getAllByRole('button', { name: 'Résoudre le signalement' }).at(1));
+                await click(screen.getAllByRole('button', { name: 'Résoudre ce signalement' }).at(0));
+                assert.true(true);
 
                 // then
                 assert.dom(screen.getByText('Le signalement a été résolu.')).exists();
@@ -648,7 +649,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
               await fillByLabel('Résolution', 'Fraude');
 
               // when
-              await click(screen.getAllByRole('button', { name: 'Résoudre le signalement' }).at(1));
+              await click(screen.getAllByRole('button', { name: 'Résoudre ce signalement' }).at(0));
 
               // then
               assert.dom(screen.getByText(/une erreur est survenue/i)).exists();

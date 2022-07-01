@@ -27,7 +27,7 @@ module('Integration | Component | certifications/issue-reports/resolve-issue-rep
                   />`);
 
       // Then
-      assert.dom(screen.getByRole('dialog', { name: 'Résoudre un signalement' })).exists();
+      assert.dom(screen.getByRole('dialog', { name: 'Résoudre ce signalement' })).exists();
     });
 
     test('it should display resolve button', async function (assert) {
@@ -49,7 +49,7 @@ module('Integration | Component | certifications/issue-reports/resolve-issue-rep
                   />`);
 
       // Then
-      assert.dom(screen.getByRole('button', { name: 'Résoudre le signalement' })).exists();
+      assert.dom(screen.getByRole('button', { name: 'Résoudre ce signalement' })).exists();
     });
   });
 
@@ -78,7 +78,7 @@ module('Integration | Component | certifications/issue-reports/resolve-issue-rep
       assert.ok(true);
     });
   });
-  module('when clicking on "Résoudre le signalement" button', function () {
+  module('when clicking on "Résoudre ce signalement" button', function () {
     test('it should close the modal', async function (assert) {
       // Given
       const store = this.owner.lookup('service:store');
@@ -96,7 +96,7 @@ module('Integration | Component | certifications/issue-reports/resolve-issue-rep
                   />`);
 
       // When
-      await clickByName('Résoudre le signalement');
+      await clickByName('Résoudre ce signalement');
 
       // Then
       sinon.assert.calledOnce(this.closeResolveModal);
@@ -121,7 +121,7 @@ module('Integration | Component | certifications/issue-reports/resolve-issue-rep
                   />`);
 
         // When
-        await clickByName('Résoudre le signalement');
+        await clickByName('Résoudre ce signalement');
 
         // Then
         sinon.assert.calledWith(this.resolveIssueReport, this.issueReport);
@@ -147,7 +147,7 @@ module('Integration | Component | certifications/issue-reports/resolve-issue-rep
 
         // When
         await fillByLabel('Résolution', 'This is a fraud, its certification has been revoked');
-        await clickByName('Résoudre le signalement');
+        await clickByName('Résoudre ce signalement');
 
         // Then
         sinon.assert.calledWith(
