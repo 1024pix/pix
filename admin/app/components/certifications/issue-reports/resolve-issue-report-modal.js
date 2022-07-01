@@ -19,11 +19,7 @@ export default class CertificationIssueReportModal extends Component {
     this.label = event.target.value;
   }
 
-  get title() {
-    return this.args.issueReport.isResolved ? 'Modifier le signalement' : 'Résoudre un signalement';
-  }
-
-  get buttonName() {
-    return this.args.issueReport.isResolved ? 'Modifier le signalement' : 'Résoudre le signalement';
+  get actionName() {
+    return this.args.issueReport.isResolved ? 'Modifier le signalement' : 'Résoudre ce signalement';
   }
 }
