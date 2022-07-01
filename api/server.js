@@ -17,10 +17,10 @@ monitoringTools.installHapiHook();
 
 let config;
 
-const setupServer = async () => {
+const createServer = async () => {
   loadConfiguration();
 
-  const server = createServer();
+  const server = createBareServer();
 
   if (settings.logOpsMetrics) await enableOpsMetrics(server);
 
@@ -35,7 +35,7 @@ const setupServer = async () => {
   return server;
 };
 
-const createServer = function () {
+const createBareServer = function () {
   const serverConfiguration = {
     compression: false,
     debug: { request: false, log: false },
@@ -98,4 +98,4 @@ const setupOpenApiSpecification = async function (server) {
   }
 };
 
-module.exports = setupServer;
+module.exports = createServer;
