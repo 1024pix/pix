@@ -10,17 +10,27 @@ const skillsByCompetenceId = {};
 
 async function makeUserPixCertifiable({ userId, countCertifiableCompetences, levelOnEachCompetence, databaseBuilder }) {
   await _cacheLearningContent();
+  const assessmentId = _createComplementeCompetenceEvaluationAssessment({ userId, databaseBuilder });
   const pickedCompetences = _pickRandomPixCompetences(countCertifiableCompetences);
   _.each(pickedCompetences, (competence) => {
-    _makePixCompetenceCertifiable({ userId, databaseBuilder, competence, levelOnEachCompetence });
+    _makePixCompetenceCertifiable({ userId, databaseBuilder, competence, levelOnEachCompetence, assessmentId });
   });
 }
 
 async function makeUserPixDroitCertifiable({ userId, databaseBuilder }) {
   await _cacheLearningContent();
+  const assessmentId = _createComplementeCompetenceEvaluationAssessment({ userId, databaseBuilder });
   _.each(allDroitCompetences, (competence) => {
-    _makePlusCompetenceCertifiable({ userId, databaseBuilder, competence });
+    _makePlusCompetenceCertifiable({ userId, databaseBuilder, competence, assessmentId });
   });
+}
+
+function _createComplementeCompetenceEvaluationAssessment({ databaseBuilder, userId }) {
+  return databaseBuilder.factory.buildAssessment({
+    userId,
+    type: 'COMPETENCE_EVALUATION',
+    state: 'completed',
+  }).id;
 }
 
 async function _cacheLearningContent() {
@@ -40,25 +50,15 @@ function _pickRandomPixCompetences(countCompetences) {
   return _.slice(shuffledCompetences, 0, countCompetences);
 }
 
-function _makePixCompetenceCertifiable({ databaseBuilder, userId, competence, levelOnEachCompetence }) {
+function _makePixCompetenceCertifiable({ databaseBuilder, userId, competence, levelOnEachCompetence, assessmentId }) {
   const skillsToValidate = _findSkillsToValidateSpecificLevel(competence, levelOnEachCompetence);
-  const assessmentId = databaseBuilder.factory.buildAssessment({
-    userId,
-    type: 'COMPETENCE_EVALUATION',
-    state: 'completed',
-  }).id;
   _.each(skillsToValidate, (skill) => {
     _addAnswerAndKnowledgeElementForSkill({ assessmentId, userId, skill, databaseBuilder });
   });
 }
 
-function _makePlusCompetenceCertifiable({ databaseBuilder, userId, competence }) {
+function _makePlusCompetenceCertifiable({ databaseBuilder, userId, competence, assessmentId }) {
   const skillsToValidate = skillsByCompetenceId[competence.id];
-  const assessmentId = databaseBuilder.factory.buildAssessment({
-    userId,
-    type: 'COMPETENCE_EVALUATION',
-    state: 'completed',
-  }).id;
   _.each(skillsToValidate, (skill) => {
     _addAnswerAndKnowledgeElementForSkill({ assessmentId, userId, skill, databaseBuilder });
   });
