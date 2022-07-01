@@ -1,4 +1,5 @@
 const _ = require('lodash');
+const bluebird = require('bluebird');
 const factory = require('./factory/index');
 const databaseBuffer = require('./database-buffer');
 
@@ -43,6 +44,50 @@ module.exports = class DatabaseBuilder {
     }
     this.databaseBuffer.purge();
     this._purgeDirtiness();
+  }
+
+  /**
+   * Inserting elements in PGSQL when specifying their ID does not update the sequence for that id.
+   * THis results in id conflict errors when trying to insert a new elements in the base.
+   * Making the sequences start at an arbitrary high number prevents the problem from happening for a time.
+   * (time being enough for dev ou review apps - seed are not run on staging or prod)
+   */
+  async fixSequences() {
+    const dirtyTables = this._selectDirtyTables();
+    if (dirtyTables.length === 0) {
+      return;
+    }
+    const dirtyTablesSequencesInfo = await this._getSequencesInfo(dirtyTables);
+
+    return bluebird.mapSeries(dirtyTablesSequencesInfo, async ({ tableName, sequenceName }) => {
+      const sequenceRestartAtNumber = (await this._getTableMaxId(tableName)) + 1;
+      if (sequenceRestartAtNumber !== 0) {
+        /* eslint-disable-next-line knex/avoid-injections */
+        await this.knex.raw(`ALTER SEQUENCE "${sequenceName}" RESTART WITH ${sequenceRestartAtNumber};`);
+      }
+    });
+  }
+
+  async _getSequencesInfo(dirtyTables) {
+    const database = this.knex.client.database();
+
+    const rawSequencesInfo = await this.knex
+      .from('information_schema.columns')
+      .select('table_name', 'column_default')
+      .whereRaw("column_default like 'nextval%'")
+      .where({ table_catalog: database, column_name: 'id' })
+      .whereIn('table_name', dirtyTables);
+
+    const sequencesInfo = rawSequencesInfo.map(({ table_name, column_default }) => ({
+      tableName: table_name,
+      sequenceName: column_default.replaceAll('"', '').slice("nextval('".length, -"'::regclass)".length),
+    }));
+    return sequencesInfo;
+  }
+
+  async _getTableMaxId(tableName) {
+    const { max } = await this.knex.from(tableName).max('id').first();
+    return max;
   }
 
   async _init() {

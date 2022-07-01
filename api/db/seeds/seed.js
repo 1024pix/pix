@@ -1,5 +1,4 @@
 'use strict';
-const bluebird = require('bluebird');
 const DatabaseBuilder = require('../database-builder/database-builder');
 
 const answersBuilder = require('./data/answers-builder');
@@ -39,7 +38,6 @@ const {
 const computeParticipationsResults = require('../../scripts/prod/compute-participation-results');
 
 const poleEmploiSendingsBuilder = require('./data/pole-emploi-sendings-builder');
-const SEQUENCE_RESTART_AT_NUMBER = 10000;
 
 exports.seed = async (knex) => {
   const databaseBuilder = new DatabaseBuilder({ knex });
@@ -91,24 +89,8 @@ exports.seed = async (knex) => {
   poleEmploiSendingsBuilder({ databaseBuilder });
 
   await databaseBuilder.commit();
-  await alterSequenceIfPG(knex);
+  await databaseBuilder.fixSequences();
   const campaignParticipationData = await getEligibleCampaignParticipations(50000);
   await generateKnowledgeElementSnapshots(campaignParticipationData, 1);
   await computeParticipationsResults(10, false);
 };
-
-/**
- * Inserting elements in PGSQL when specifying their ID does not update the sequence for that id.
- * THis results in id conflict errors when trying to insert a new elements in the base.
- * Making the sequences start at an arbitrary high number prevents the problem from happening for a time.
- * (time being enough for dev ou review apps - seed are not run on staging or prod)
- */
-async function alterSequenceIfPG(knex) {
-  let sequenceRestartAtNumber = SEQUENCE_RESTART_AT_NUMBER;
-  const sequenceNameQueryResult = await knex.raw('SELECT sequence_name FROM information_schema.sequences;');
-  const sequenceNames = sequenceNameQueryResult.rows.map((row) => row.sequence_name);
-  return bluebird.mapSeries(sequenceNames, async (sequenceName) => {
-    await knex.raw(`ALTER SEQUENCE "${sequenceName}" RESTART WITH ${sequenceRestartAtNumber};`);
-    sequenceRestartAtNumber += SEQUENCE_RESTART_AT_NUMBER / 10;
-  });
-}
