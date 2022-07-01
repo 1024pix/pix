@@ -56,6 +56,10 @@ module.exports = {
     POLE_EMPLOI: 'pole_emploi_connect',
   },
 
+  IDENTITY_PROVIDER: {
+    POLE_EMPLOI: 'POLE_EMPLOI',
+  },
+
   STUDENT_RECONCILIATION_ERRORS: {
     RECONCILIATION: {
       IN_OTHER_ORGANIZATION: {

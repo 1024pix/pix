@@ -1,7 +1,7 @@
 export default function (schema) {
   const createdUser = schema.users.create({
-    firstName: 'Paul',
-    lastName: 'Emploi',
+    firstName: 'Johnny',
+    lastName: 'Ive',
   });
 
   return {
