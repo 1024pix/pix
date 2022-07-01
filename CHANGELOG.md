@@ -1,5 +1,22 @@
 # Pix Changelog
 
+## v3.228.0 (01/07/2022)
+
+
+### :rocket: Amélioration
+- [#4600](https://github.com/1024pix/pix/pull/4600) [FEATURE] Ramener le profil utilisateur dans Pix Admin - Partie 1 (PIX-5130).
+- [#4549](https://github.com/1024pix/pix/pull/4549) [FEATURE] Les agents PIX désactivés ne peuvent plus accéder à Pix Admin (PIX-5189) 
+
+### :building_construction: Tech
+- [#4601](https://github.com/1024pix/pix/pull/4601) [TECH] Permettre l'utilisation npm@^8.3.1
+- [#4599](https://github.com/1024pix/pix/pull/4599) [TECH] Arrêter gracieusement les exécutions.
+- [#4551](https://github.com/1024pix/pix/pull/4551) [TECH] Remplacer l'utilisation du tag POLE EMPLOI par l'identity provider for campaigns (PIX-5113)
+- [#4581](https://github.com/1024pix/pix/pull/4581) [TECH] Mettre à jour pix-ui en v14.7.0 pour Admin
+
+### :bug: Correction
+- [#4603](https://github.com/1024pix/pix/pull/4603) [BUGFIX] Erreur de fichier de config babel manquant lors du lint de l'API en local
+- [#4595](https://github.com/1024pix/pix/pull/4595) [BUGFIX] Rendre le bouton "J'envoie mes résultats" lisible par les lecteurs d'écran (PIX-5251)
+
 ## v3.227.0 (30/06/2022)
 
 
