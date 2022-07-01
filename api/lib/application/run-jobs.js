@@ -13,7 +13,7 @@ async function runJobs() {
 
   process.on('SIGINT', async () => {
     await jobQueue.stop();
-    // eslint-disable-next-line no-process-exit
+    // eslint-disable-next-line node/no-process-exit,no-process-exit
     process.exit(0);
   });
 
