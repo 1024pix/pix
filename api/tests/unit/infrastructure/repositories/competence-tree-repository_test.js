@@ -9,7 +9,7 @@ describe('Unit | Repository | competence-tree-repository', function () {
   });
 
   describe('#get', function () {
-    it('should return a competence tree populated with Areas and Competences', function () {
+    it('should return a competence tree populated with Areas and Competences', async function () {
       // given
       const area = {
         id: 'recvoGdo7z2z7pXWa',
@@ -29,7 +29,7 @@ describe('Unit | Repository | competence-tree-repository', function () {
         ],
       };
 
-      areaRepository.listWithPixCompetencesOnly.resolves([area]);
+      areaRepository.listWithPixCompetencesOnly.withArgs({ locale: 'fr' }).resolves([area]);
 
       const expectedTree = {
         id: 1,
@@ -55,13 +55,11 @@ describe('Unit | Repository | competence-tree-repository', function () {
       };
 
       // when
-      const promise = competenceTreeRepository.get();
+      const competenceTree = await competenceTreeRepository.get({ locale: 'fr' });
 
       // then
-      return promise.then((result) => {
-        expect(result).to.be.an.instanceof(CompetenceTree);
-        expect(result).to.deep.equal(expectedTree);
-      });
+      expect(competenceTree).to.be.an.instanceof(CompetenceTree);
+      expect(competenceTree).to.deep.equal(expectedTree);
     });
   });
 });
