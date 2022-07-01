@@ -22,7 +22,7 @@
     "build:uncached:assets": "cp dist/assets/pix-admin-*.css dist/assets/pix-admin.uncached.css && cp dist/assets/vendor-*.css dist/assets/vendor.uncached.css",
     "clean": "rm -rf tmp dist node_modules",
     "dev": "ember serve",
-    "lint": "npm-run-all --parallel lint:*",
+    "lint": "npm-run-all --parallel --continue-on-error lint:*",
     "lint:hbs": "ember-template-lint .",
     "lint:js": "eslint . --cache --cache-strategy content",
     "lint:js:uncached": "eslint .",

@@ -125,7 +125,7 @@
     "db:prepare": "npm run db:delete && npm run db:create && npm run db:migrate",
     "db:seed": "knex --knexfile db/knexfile.js seed:run",
     "db:reset": "npm run db:prepare && npm run db:seed",
-    "lint": "npm-run-all --parallel lint:*",
+    "lint": "npm-run-all --parallel --continue-on-error lint:*",
     "lint:dependencies": "depcheck",
     "lint:database": "NODE_ENV=test npm run db:prepare && schemalint --config tests/acceptance/database/configuration.js",
     "lint:file-and-directory-names": "ls-lint",
