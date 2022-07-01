@@ -1,5 +1,9 @@
 import Model, { attr } from '@ember-data/model';
 
+export const identityProviders = {
+  POLE_EMPLOI: 'POLE_EMPLOI',
+};
+
 export default class Campaign extends Model {
   @attr('string') code;
   @attr('string') title;
@@ -15,7 +19,7 @@ export default class Campaign extends Model {
   @attr('string') organizationName;
   @attr('string') organizationType;
   @attr('string') organizationLogoUrl;
-  @attr('boolean') organizationIsPoleEmploi;
+  @attr() identityProvider;
   @attr('boolean') organizationShowNPS;
   @attr('string') organizationFormNPSUrl;
   @attr('string') targetProfileName;
@@ -40,5 +44,9 @@ export default class Campaign extends Model {
 
   get isOrganizationSUP() {
     return this.organizationType === 'SUP';
+  }
+
+  get isRestrictedByPoleEmploiIdentityProvider() {
+    return this.identityProvider === 'POLE_EMPLOI';
   }
 }

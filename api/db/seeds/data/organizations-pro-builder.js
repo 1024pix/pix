@@ -1,3 +1,4 @@
+const constants = require('../../../lib/domain/constants');
 const Membership = require('../../../lib/domain/models/Membership');
 const OrganizationInvitation = require('../../../lib/domain/models/OrganizationInvitation');
 const { DEFAULT_PASSWORD } = require('./users-builder');
@@ -76,6 +77,7 @@ function organizationsProBuilder({ databaseBuilder }) {
     externalId: null,
     provinceCode: null,
     email: null,
+    identityProviderForCampaigns: constants.IDENTITY_PROVIDER.POLE_EMPLOI,
   });
   databaseBuilder.factory.buildOrganizationTag({ organizationId: PRO_POLE_EMPLOI_ID, tagId: 4 });
 

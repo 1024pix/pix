@@ -61,8 +61,8 @@ export default class AccessRoute extends Route.extend(SecuredRouteMixin) {
   }
 
   _shouldVisitPoleEmploiLoginPage(campaign) {
-    const isUserLoggedInPoleEmploi = get(this.session, 'data.authenticated.source') === 'pole_emploi_connect';
-    return campaign.organizationIsPoleEmploi && !isUserLoggedInPoleEmploi;
+    const isUserLoggedInPoleEmploi = get(this.session, 'data.authenticated.identity_provider') === 'POLE_EMPLOI';
+    return campaign.isRestrictedByPoleEmploiIdentityProvider && !isUserLoggedInPoleEmploi;
   }
 
   _shouldJoinFromMediacentre(campaign) {
