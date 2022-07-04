@@ -6,10 +6,10 @@ const SCO_AGRI_ID = 7;
 const SCO_AEFE_ID = 9;
 const SCO_STUDENT_ID = 99;
 const CANADA_INSEE_CODE = '401';
-const SCO_FOREIGNER_USER_ID = 9912;
-const SCO_FOREIGNER_USER_ID_IN_ANOTHER_ORGANIZATION = 9913;
-const SCO_FRENCH_USER_ID = 2339213;
-const SCO_DISABLED_USER_ID = 777;
+const SCO_FOREIGNER_USER_ID = 301;
+const SCO_FOREIGNER_USER_ID_IN_ANOTHER_ORGANIZATION = 302;
+const SCO_FRENCH_USER_ID = 311;
+const SCO_DISABLED_USER_ID = 321;
 const SCO_ADMIN_ID = 4;
 const SCO_MEMBER_ID = 5;
 
@@ -366,7 +366,6 @@ function _buildHighSchools({ databaseBuilder }) {
     userId: null,
     nationalStudentId: '987654321NN',
   });
-
 }
 
 function _buildAgri({ databaseBuilder }) {
