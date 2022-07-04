@@ -15,6 +15,38 @@ module(
         hasAccessToUsersActionsScope = true;
       }
 
+      module('When user has no schoolingRegistrations', function () {
+        test('should display no result in schooling registrations table', async function (assert) {
+          // given
+          this.toggleDisplayDissociateModal = sinon.spy();
+          this.set('user', { schoolingRegistrations: [] });
+          this.owner.register('service:access-control', AccessControlStub);
+
+          // when
+          const screen = await render(
+            hbs`<Users::UserDetailPersonalInformation::SchoolingRegistrationInformation @user={{this.user}} @toggleDisplayDissociateModal={{this.toggleDisplayDissociateModal}}/>`
+          );
+
+          // then
+          assert.dom(screen.getByText('Aucun résultat')).exists();
+        });
+      });
+
+      test('should display schooling registrations in table', async function (assert) {
+        // given
+        this.toggleDisplayDissociateModal = sinon.spy();
+        this.set('user', { schoolingRegistrations: [{ id: 1 }, { id: 2 }] });
+        this.owner.register('service:access-control', AccessControlStub);
+
+        // when
+        const screen = await render(
+          hbs`<Users::UserDetailPersonalInformation::SchoolingRegistrationInformation @user={{this.user}} @toggleDisplayDissociateModal={{this.toggleDisplayDissociateModal}}/>`
+        );
+
+        // then
+        assert.strictEqual(screen.getAllByLabelText('Inscription').length, 2);
+      });
+
       test('should display schooling registration’s info', async function (assert) {
         // given
         this.toggleDisplayDissociateModal = sinon.spy();
