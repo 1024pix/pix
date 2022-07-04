@@ -185,6 +185,7 @@ module.exports = (function () {
 
     featureToggles: {
       isCertificationFreeFieldsDeletionEnabled: isFeatureEnabled(process.env.FT_CERTIFICATION_FREE_FIELDS_DELETION),
+      isPixAppTutoFiltersEnabled: isFeatureEnabled(process.env.FT_TUTOS_V2_1_FILTERS),
     },
 
     infra: {
@@ -292,6 +293,7 @@ module.exports = (function () {
     config.features.pixCertifScoBlockedAccessDateCollege = null;
 
     config.featureToggles.isCertificationFreeFieldsDeletionEnabled = false;
+    config.featureToggles.isPixAppTutoFiltersEnabled = false;
 
     config.mailing.enabled = false;
     config.mailing.provider = 'sendinblue';
