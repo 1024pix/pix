@@ -1,6 +1,7 @@
 import Response from 'ember-cli-mirage/response';
 import { upload } from 'ember-file-upload/mirage';
 import { findPaginatedStudents } from './handlers/find-paginated-students';
+import { findPaginatedSessionSummaries } from './handlers/find-paginated-session-summaries';
 
 function parseQueryString(queryString) {
   const result = Object.create(null);
@@ -215,14 +216,7 @@ export default function () {
     return schema.divisions.all();
   });
 
-  this.get('/certification-centers/:id/session-summaries', (schema, request) => {
-    const certificationCenterId = request.params.id;
-    const results = schema.sessionSummaries.where({ certificationCenterId });
-    const json = this.serializerOrRegistry.serialize(results, request);
-    json.meta = { hasSessions: results.length > 0 };
-
-    return json;
-  });
+  this.get('/certification-centers/:id/session-summaries', findPaginatedSessionSummaries);
 
   this.get('/countries', (schema, _) => {
     return schema.countries.all();
