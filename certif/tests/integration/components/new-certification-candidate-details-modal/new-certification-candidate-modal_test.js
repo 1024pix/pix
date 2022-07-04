@@ -1,9 +1,8 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, fillIn } from '@ember/test-helpers';
+import { click, fillIn } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import sinon from 'sinon';
-import clickByLabel from '../../../helpers/extended-ember-test-helpers/click-by-label';
 import { render as renderScreen } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
 
@@ -231,7 +230,7 @@ module('Integration | Component | new-certification-candidate-modal', function (
       });
 
       // when
-      await render(hbs`
+      const screen = await renderScreen(hbs`
         <NewCertificationCandidateModal
           @closeModal={{this.closeModal}}
           @countries={{this.countries}}
@@ -241,7 +240,7 @@ module('Integration | Component | new-certification-candidate-modal', function (
         />
       `);
 
-      await clickByLabel('Fermer');
+      await click(screen.getByRole('button', { name: 'Fermer' }));
 
       // then
       sinon.assert.calledOnce(closeModalStub);
@@ -274,7 +273,7 @@ module('Integration | Component | new-certification-candidate-modal', function (
       });
 
       // when
-      await render(hbs`
+      const screen = await renderScreen(hbs`
         <NewCertificationCandidateModal
           @closeModal={{this.closeModal}}
           @countries={{this.countries}}
@@ -284,7 +283,7 @@ module('Integration | Component | new-certification-candidate-modal', function (
         />
       `);
 
-      await clickByLabel('Fermer');
+      await click(screen.getByRole('button', { name: 'Fermer' }));
 
       // then
       sinon.assert.calledOnce(closeModalStub);
@@ -370,8 +369,7 @@ module('Integration | Component | new-certification-candidate-modal', function (
           @candidateData={{this.candidateData}}
         />
       `);
-
-      await clickByLabel('Code INSEE');
+      await click(screen.getByRole('radio', { name: 'Code INSEE' }));
 
       // then
       assert.dom(screen.getByLabelText('* Code INSEE de naissance')).isVisible();
@@ -415,7 +413,7 @@ module('Integration | Component | new-certification-candidate-modal', function (
         />
       `);
 
-      await clickByLabel('Code postal');
+      await click(screen.getByRole('radio', { name: 'Code postal' }));
 
       // then
       assert.dom(screen.queryByLabelText('* Code INSEE de naissance')).isNotVisible();
@@ -467,9 +465,9 @@ module('Integration | Component | new-certification-candidate-modal', function (
       await fillIn(screen.getByLabelText('* Prénom'), 'Guybrush');
       await fillIn(screen.getByLabelText('* Nom de famille'), 'Threepwood');
       await fillIn(screen.getByLabelText('* Date de naissance'), '28/04/2019');
-      await clickByLabel('Homme');
+      await click(screen.getByRole('radio', { name: 'Homme' }));
       await fillIn(screen.getByLabelText('* Pays de naissance'), 99100);
-      await clickByLabel('Code INSEE');
+      await click(screen.getByRole('radio', { name: 'Code INSEE' }));
       await fillIn(screen.getByLabelText('Identifiant externe'), '44AA3355');
       await fillIn(screen.getByLabelText('* Code INSEE de naissance'), '75100');
       await fillIn(screen.getByLabelText('Temps majoré (%)'), '20');
@@ -479,15 +477,11 @@ module('Integration | Component | new-certification-candidate-modal', function (
       );
       await fillIn(screen.getByLabelText('E-mail de convocation'), 'roooooar@example.net');
 
-      await clickByLabel('Inscrire le candidat');
+      await click(screen.getByRole('button', { name: 'Inscrire le candidat' }));
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(updateCandidateFromValueStub.callCount, 7);
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(updateCandidateFromEventStub.callCount, 8);
+      assert.strictEqual(updateCandidateFromValueStub.callCount, 7);
+      assert.strictEqual(updateCandidateFromEventStub.callCount, 8);
       sinon.assert.calledOnce(saveCandidateStub);
     });
   });

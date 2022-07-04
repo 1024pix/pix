@@ -1,8 +1,9 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
+import { click } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import sinon from 'sinon';
-import { clickByName, render as renderScreen } from '@1024pix/ember-testing-library';
+import { render as renderScreen } from '@1024pix/ember-testing-library';
 
 module('Integration | Component | finalization-confirmation-modal', function (hooks) {
   setupRenderingTest(hooks);
@@ -73,7 +74,7 @@ module('Integration | Component | finalization-confirmation-modal', function (ho
       this.set('finalizeSession', sinon.stub());
 
       // when
-      await renderScreen(hbs`
+      const screen = await renderScreen(hbs`
       <SessionFinalization::FinalizationConfirmationModal
         @closeModal={{this.closeModal}}
         @hasUncheckedHasSeenEndTestScreen={{this.hasUncheckedHasSeenEndTestScreen}}
@@ -83,7 +84,7 @@ module('Integration | Component | finalization-confirmation-modal', function (ho
       />
       `);
 
-      await clickByName('Fermer');
+      await click(screen.getByRole('button', { name: 'Fermer' }));
 
       // then
       sinon.assert.calledOnce(closeModalStub);
@@ -102,7 +103,7 @@ module('Integration | Component | finalization-confirmation-modal', function (ho
       this.set('finalizeSession', sinon.stub());
 
       // when
-      await renderScreen(hbs`
+      const screen = await renderScreen(hbs`
       <SessionFinalization::FinalizationConfirmationModal
         @closeModal={{this.closeModal}}
         @hasUncheckedHasSeenEndTestScreen={{this.hasUncheckedHasSeenEndTestScreen}}
@@ -112,7 +113,7 @@ module('Integration | Component | finalization-confirmation-modal', function (ho
       />
       `);
 
-      await clickByName('Annuler');
+      await click(screen.getByRole('button', { name: 'Annuler' }));
 
       // then
       sinon.assert.calledOnce(closeModalStub);
@@ -131,7 +132,7 @@ module('Integration | Component | finalization-confirmation-modal', function (ho
       this.set('finalizeSession', finalizeSessionStub);
 
       // when
-      await renderScreen(hbs`
+      const screen = await renderScreen(hbs`
     <SessionFinalization::FinalizationConfirmationModal
       @closeModal={{this.closeModal}}
       @hasUncheckedHasSeenEndTestScreen={{this.hasUncheckedHasSeenEndTestScreen}}
@@ -141,7 +142,7 @@ module('Integration | Component | finalization-confirmation-modal', function (ho
     />
     `);
 
-      await clickByName('Confirmer la finalisation');
+      await click(screen.getByRole('button', { name: 'Confirmer la finalisation' }));
 
       sinon.assert.calledOnce(finalizeSessionStub);
       assert.ok(true);

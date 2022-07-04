@@ -2,7 +2,7 @@ import { module, test } from 'qunit';
 import { click, currentURL, visit } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { authenticateSession } from '../helpers/test-init';
-import clickByLabel from '../helpers/extended-ember-test-helpers/click-by-label';
+import { visit as visitScreen } from '@1024pix/ember-testing-library';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
@@ -70,19 +70,19 @@ module('Acceptance | Session Add Sco Students', function (hooks) {
 
     test('it should be possible to access student add page', async function (assert) {
       // when
-      await visit(`/sessions/${session.id}/candidats`);
-      await clickByLabel('Inscrire des candidats');
+      const screen = await visitScreen(`/sessions/${session.id}/candidats`);
+      await click(screen.getByRole('link', { name: 'Inscrire des candidats' }));
 
       // then
       assert.strictEqual(currentURL(), `/sessions/${session.id}/inscription-eleves`);
-      assert.dom('.add-student__title').hasText('Inscrire des candidats');
+      assert.dom(screen.getByRole('heading', { name: 'Inscrire des candidats' })).exists();
     });
 
     test('it should be possible to return to candidates page from add student page', async function (assert) {
       // when
-      await visit(`/sessions/${session.id}/candidats`);
-      await clickByLabel('Inscrire des candidats');
-      await clickByLabel('Retour à la session');
+      const screen = await visitScreen(`/sessions/${session.id}/candidats`);
+      await click(screen.getByRole('link', { name: 'Inscrire des candidats' }));
+      await click(screen.getByRole('link', { name: 'Retour à la session' }));
 
       // then
       assert.strictEqual(currentURL(), `/sessions/${session.id}/candidats`);
@@ -91,11 +91,14 @@ module('Acceptance | Session Add Sco Students', function (hooks) {
     module('when there are no students', function () {
       test('it should show a empty list', async function (assert) {
         // when
-        await visit(`/sessions/${session.id}/candidats`);
-        await clickByLabel('Inscrire des candidats');
+        const screen = await visitScreen(`/sessions/${session.id}/candidats`);
+        await click(screen.getByRole('link', { name: 'Inscrire des candidats' }));
 
         // then
-        assert.dom('.add-student-list').doesNotExist();
+        assert.dom(screen.queryByRole('columnheader', { name: 'Nom' })).doesNotExist();
+        assert.dom(screen.queryByRole('columnheader', { name: 'Prénom' })).doesNotExist();
+        assert.dom(screen.queryByRole('columnheader', { name: 'Classe' })).doesNotExist();
+        assert.dom(screen.queryByRole('columnheader', { name: 'Date de naissance' })).doesNotExist();
       });
     });
 
@@ -112,14 +115,16 @@ module('Acceptance | Session Add Sco Students', function (hooks) {
         server.create('division', { name: '3B' });
 
         // when
-        await visit(`/sessions/${session.id}/candidats`);
-        await clickByLabel('Inscrire des candidats');
-        await click('.pix-multi-select-header__search-input');
-        await clickByLabel('3A');
+        const screen = await visitScreen(`/sessions/${session.id}/candidats`);
+        await click(screen.getByRole('link', { name: 'Inscrire des candidats' }));
+        await click(
+          screen.getByRole('textbox', { name: 'Filtrer la liste des élèves en cochant la ou les classes souhaitées' })
+        );
+        await click(screen.getByRole('checkbox', { name: '3A' }));
 
         // then
-        const studentRows = document.querySelectorAll(rowSelector);
-        assert.strictEqual(studentRows.length, 2);
+        const studentRowsLength = screen.getAllByRole('row').length;
+        assert.strictEqual(studentRowsLength, 3);
       });
 
       module('when there are no enrolled students', function () {
@@ -130,12 +135,12 @@ module('Acceptance | Session Add Sco Students', function (hooks) {
           server.createList('student', DEFAULT_PAGE_SIZE + 2, { isSelected: false, isEnrolled: false });
 
           // when
-          await visit(`/sessions/${session.id}/candidats`);
-          await clickByLabel('Inscrire des candidats');
+          const screen = await visitScreen(`/sessions/${session.id}/candidats`);
+          await click(screen.getByRole('link', { name: 'Inscrire des candidats' }));
 
           // then
-          const allRow = document.querySelectorAll(rowSelector);
-          assert.strictEqual(allRow.length, DEFAULT_PAGE_SIZE);
+          const allRowLength = screen.getAllByRole('row').length;
+          assert.strictEqual(allRowLength, DEFAULT_PAGE_SIZE + 1);
         });
 
         module('when selecting some students', function () {
@@ -144,37 +149,58 @@ module('Acceptance | Session Add Sco Students', function (hooks) {
 
           test('it should be possible to select 3 students', async function (assert) {
             // given
+            server.create('student', {
+              firstName: 'Quentin',
+              lastName: 'Lebouquetin',
+              division: '3B',
+              birthdate: '2000-01-01',
+              isSelected: false,
+              isEnrolled: false,
+            });
+            server.create('student', {
+              firstName: 'Quentdeux',
+              lastName: 'Lemouton',
+              division: '3B',
+              birthdate: '2000-01-01',
+              isSelected: false,
+              isEnrolled: false,
+            });
+            server.create('student', {
+              firstName: 'Quenttrois',
+              lastName: 'Lecabri',
+              division: '3B',
+              birthdate: '2000-01-01',
+              isSelected: false,
+              isEnrolled: false,
+            });
             server.createList('student', DEFAULT_PAGE_SIZE, { isSelected: false, isEnrolled: false });
-            await visit(`/sessions/${session.id}/candidats`);
-            await clickByLabel('Inscrire des candidats');
+            const screen = await visitScreen(`/sessions/${session.id}/candidats`);
+            await click(screen.getByRole('link', { name: 'Inscrire des candidats' }));
 
             // when
-            const firstCheckbox = document.querySelector(rowSelector + ':nth-child(1) ' + checkboxSelector);
-            const secondCheckbox = document.querySelector(rowSelector + ':nth-child(2) ' + checkboxSelector);
-            const thirdCheckbox = document.querySelector(rowSelector + ':nth-child(3) ' + checkboxSelector);
-            await click(firstCheckbox);
-            await click(secondCheckbox);
-            await click(thirdCheckbox);
+            await click(screen.getByRole('row', { name: '3B Lebouquetin Quentin 01/01/2000' }));
+            await click(screen.getByRole('row', { name: '3B Lemouton Quentdeux 01/01/2000' }));
+            await click(screen.getByRole('row', { name: '3B Lecabri Quenttrois 01/01/2000' }));
 
             // then
-            const allRow = document.querySelectorAll(rowSelector);
-            assert.strictEqual(allRow.length, DEFAULT_PAGE_SIZE);
+            const allRowLength = screen.getAllByRole('row').length;
+            assert.strictEqual(allRowLength, DEFAULT_PAGE_SIZE + 1);
             const checkboxChecked = document.querySelectorAll(checkboxCheckedSelector);
             assert.strictEqual(checkboxChecked.length, 3);
           });
 
-          test('it should be possible to cancel enrolling students', async function (assert) {
+          test('it should cancel students enrollment', async function (assert) {
             // given
             server.createList('student', DEFAULT_PAGE_SIZE, { isSelected: false, isEnrolled: false });
-            await visit(`/sessions/${session.id}/candidats`);
-            await clickByLabel('Inscrire des candidats');
+            const screen = await visitScreen(`/sessions/${session.id}/candidats`);
+            await click(screen.getByRole('link', { name: 'Inscrire des candidats' }));
 
             // given
             const checkbox = document.querySelector(rowSelector + ' ' + checkboxSelector);
             await click(checkbox);
 
             // when
-            await clickByLabel('Annuler');
+            await click(screen.getByRole('link', { name: 'Annuler' }));
 
             // then
             assert.strictEqual(currentURL(), `/sessions/${session.id}/candidats`);
@@ -184,13 +210,13 @@ module('Acceptance | Session Add Sco Students', function (hooks) {
             test('it redirect to previous page', async function (assert) {
               // given
               server.createList('student', DEFAULT_PAGE_SIZE, { isSelected: false, isEnrolled: false });
-              await visit(`/sessions/${session.id}/candidats`);
-              await clickByLabel('Inscrire des candidats');
+              const screen = await visitScreen(`/sessions/${session.id}/candidats`);
+              await click(screen.getByRole('link', { name: 'Inscrire des candidats' }));
               const checkbox = document.querySelector(rowSelector + ' ' + checkboxSelector);
               await click(checkbox);
 
               // when
-              await clickByLabel('Inscrire');
+              await click(screen.getByRole('button', { name: 'Inscrire' }));
 
               // then
               assert.strictEqual(currentURL(), `/sessions/${session.id}/candidats`);
@@ -199,8 +225,8 @@ module('Acceptance | Session Add Sco Students', function (hooks) {
             test('it should add students as certification candidates', async function (assert) {
               // given
               server.createList('student', DEFAULT_PAGE_SIZE, { isSelected: false, isEnrolled: false });
-              await visit(`/sessions/${session.id}/candidats`);
-              await clickByLabel('Inscrire des candidats');
+              const screen = await visitScreen(`/sessions/${session.id}/candidats`);
+              await click(screen.getByRole('link', { name: 'Inscrire des candidats' }));
               const firstCheckbox = document.querySelector(rowSelector + ':nth-child(1) ' + checkboxSelector);
               const secondCheckbox = document.querySelector(rowSelector + ':nth-child(2) ' + checkboxSelector);
               const thirdCheckbox = document.querySelector(rowSelector + ':nth-child(3) ' + checkboxSelector);
@@ -210,7 +236,7 @@ module('Acceptance | Session Add Sco Students', function (hooks) {
               const detailController = this.owner.lookup('controller:authenticated.sessions.details');
 
               // when
-              await clickByLabel('Inscrire');
+              await click(screen.getByRole('button', { name: 'Inscrire' }));
 
               // then
               const certificationCandidates = await detailController.model.certificationCandidates;
@@ -220,8 +246,8 @@ module('Acceptance | Session Add Sco Students', function (hooks) {
             test('it should display confirmation message', async function (assert) {
               // given
               server.createList('student', DEFAULT_PAGE_SIZE, { isSelected: false, isEnrolled: false });
-              await visit(`/sessions/${session.id}/candidats`);
-              await clickByLabel('Inscrire des candidats');
+              const screen = await visitScreen(`/sessions/${session.id}/candidats`);
+              await click(screen.getByRole('link', { name: 'Inscrire des candidats' }));
               const firstCheckbox = document.querySelector(rowSelector + ':nth-child(1) ' + checkboxSelector);
               const secondCheckbox = document.querySelector(rowSelector + ':nth-child(2) ' + checkboxSelector);
               const thirdCheckbox = document.querySelector(rowSelector + ':nth-child(3) ' + checkboxSelector);
@@ -230,7 +256,7 @@ module('Acceptance | Session Add Sco Students', function (hooks) {
               await click(thirdCheckbox);
 
               // when
-              await clickByLabel('Inscrire');
+              await click(screen.getByRole('button', { name: 'Inscrire' }));
 
               // then
               assert
@@ -256,8 +282,8 @@ module('Acceptance | Session Add Sco Students', function (hooks) {
             schoolingRegistrationId: enrolledStudent.id,
             sessionId: sessionWithEnrolledStudent.id,
           });
-          await visit(`/sessions/${sessionWithEnrolledStudent.id}/candidats`);
-          await clickByLabel('Inscrire des candidats');
+          const screen = await visitScreen(`/sessions/${sessionWithEnrolledStudent.id}/candidats`);
+          await click(screen.getByRole('link', { name: 'Inscrire des candidats' }));
         });
 
         test('it should show label accordingly', async function (assert) {

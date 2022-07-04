@@ -1,12 +1,11 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { A } from '@ember/array';
-import { render, find, fillIn } from '@ember/test-helpers';
+import { click, render, find, fillIn } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import { run } from '@ember/runloop';
 import sinon from 'sinon';
 import { certificationIssueReportCategories } from 'pix-certif/models/certification-issue-report';
-import clickByLabel from '../../../helpers/extended-ember-test-helpers/click-by-label';
 import { render as renderScreen } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
 
@@ -81,7 +80,7 @@ module('Integration | Component | SessionFinalization::UncompletedReportsInforma
     this.set('abort', abortStub);
 
     // when
-    await render(hbs`
+    const screen = await renderScreen(hbs`
         <SessionFinalization::UncompletedReportsInformationStep
           @certificationReports={{this.certificationReports}}
           @issueReportDescriptionMaxLength={{this.issueReportDescriptionMaxLength}}
@@ -90,9 +89,8 @@ module('Integration | Component | SessionFinalization::UncompletedReportsInforma
       `);
 
     // then
-    assert
-      .dom(`[data-test-id="finalization-report-has-examiner-comment_${certificationReport.certificationCourseId}"]`)
-      .hasText('1 signalement');
+    assert.dom(screen.getByText("Ces candidats n'ont pas fini leur test de certification")).exists();
+    assert.dom(screen.getByText('1 signalement')).exists();
   });
 
   test('it shows "X signalements" (plural) if there is more than one certification issue reports', async function (assert) {
@@ -124,7 +122,7 @@ module('Integration | Component | SessionFinalization::UncompletedReportsInforma
     this.set('abort', abortStub);
 
     // when
-    await render(hbs`
+    const screen = await renderScreen(hbs`
         <SessionFinalization::UncompletedReportsInformationStep
           @certificationReports={{this.certificationReports}}
           @issueReportDescriptionMaxLength={{this.issueReportDescriptionMaxLength}}
@@ -133,9 +131,8 @@ module('Integration | Component | SessionFinalization::UncompletedReportsInforma
       `);
 
     // then
-    assert
-      .dom(`[data-test-id="finalization-report-has-examiner-comment_${certificationReport.certificationCourseId}"]`)
-      .hasText('2 signalements');
+    assert.dom(screen.getByText("Ces candidats n'ont pas fini leur test de certification")).exists();
+    assert.dom(screen.getByText('2 signalements')).exists();
   });
 
   test('it calls certificationReport.abort on select update', async function (assert) {
@@ -193,17 +190,17 @@ module('Integration | Component | SessionFinalization::UncompletedReportsInforma
     this.set('abort', abortStub);
 
     // when
-    await render(hbs`
+    const screen = await renderScreen(hbs`
         <SessionFinalization::UncompletedReportsInformationStep
           @certificationReports={{this.certificationReports}}
           @issueReportDescriptionMaxLength={{this.issueReportDescriptionMaxLength}}
           @onChangeAbortReason = {{this.abort}}
         />
       `);
-    await clickByLabel('Ajouter / supprimer');
+    await click(screen.getByRole('button', { name: 'Ajouter / supprimer' }));
 
     // then
-    assert.contains('Mes signalements (1)');
+    assert.dom(screen.getByRole('heading', { name: 'Mes signalements (1)' })).exists();
   });
 
   test('it should open the issue modal', async function (assert) {
@@ -224,7 +221,7 @@ module('Integration | Component | SessionFinalization::UncompletedReportsInforma
     this.set('abort', abortStub);
 
     // when
-    await render(hbs`
+    const screen = await renderScreen(hbs`
         <SessionFinalization::UncompletedReportsInformationStep
           @certificationReports={{this.certificationReports}}
           @issueReportDescriptionMaxLength={{this.issueReportDescriptionMaxLength}}
@@ -232,10 +229,11 @@ module('Integration | Component | SessionFinalization::UncompletedReportsInforma
         />
       `);
 
-    await clickByLabel('Ajouter');
+    await click(screen.getByRole('button', { name: 'Ajouter' }));
 
     // then
-    assert.contains('Retard, absence ou départ');
+    assert.dom(screen.getByRole('heading', { name: 'Signalement du candidat : Alice Alister' })).exists();
+    assert.dom(screen.getByText('Modification infos candidat')).exists();
   });
 
   test('it has an accessible label', async function (assert) {
