@@ -6,6 +6,7 @@ const certificationAttestationPdf = require('../../../../lib/infrastructure/util
 const events = require('../../../../lib/domain/events');
 const ChallengeNeutralized = require('../../../../lib/domain/events/ChallengeNeutralized');
 const ChallengeDeneutralized = require('../../../../lib/domain/events/ChallengeDeneutralized');
+const requestResponseUtils = require('../../../../lib/infrastructure/utils/request-response-utils');
 
 describe('Unit | Controller | certifications-controller', function () {
   describe('#findUserCertifications', function () {
@@ -79,6 +80,9 @@ describe('Unit | Controller | certifications-controller', function () {
         auth: { credentials: { userId } },
         params: { id: certificationId },
       };
+      const locale = 'fr-fr';
+      sinon.stub(requestResponseUtils, 'extractLocaleFromRequest');
+
       const privateCertificate = domainBuilder.buildPrivateCertificate.validated({
         id: certificationId,
         firstName: 'Dorothé',
@@ -97,7 +101,8 @@ describe('Unit | Controller | certifications-controller', function () {
         maxReachableLevelOnCertificationDate: 6,
       });
       sinon.stub(usecases, 'getPrivateCertificate');
-      usecases.getPrivateCertificate.withArgs({ userId, certificationId }).resolves(privateCertificate);
+      usecases.getPrivateCertificate.withArgs({ userId, certificationId, locale }).resolves(privateCertificate);
+      requestResponseUtils.extractLocaleFromRequest.withArgs(request).returns(locale);
 
       // when
       const response = await certificationController.getCertification(request, hFake);
@@ -138,6 +143,8 @@ describe('Unit | Controller | certifications-controller', function () {
     it('should return a serialized shareable certificate given by verification code', async function () {
       // given
       const request = { payload: { verificationCode: 'P-123456BB' } };
+      const locale = 'fr-fr';
+      sinon.stub(requestResponseUtils, 'extractLocaleFromRequest');
       const shareableCertificate = domainBuilder.buildShareableCertificate({
         id: 123,
         firstName: 'Dorothé',
@@ -154,7 +161,10 @@ describe('Unit | Controller | certifications-controller', function () {
         maxReachableLevelOnCertificationDate: 6,
       });
       sinon.stub(usecases, 'getShareableCertificate');
-      usecases.getShareableCertificate.withArgs({ verificationCode: 'P-123456BB' }).resolves(shareableCertificate);
+      usecases.getShareableCertificate
+        .withArgs({ verificationCode: 'P-123456BB', locale })
+        .resolves(shareableCertificate);
+      requestResponseUtils.extractLocaleFromRequest.withArgs(request).returns(locale);
 
       // when
       const response = await certificationController.getCertificationByVerificationCode(request, hFake);

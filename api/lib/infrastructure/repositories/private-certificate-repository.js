@@ -28,7 +28,7 @@ const CompetenceMark = require('../../domain/models/CompetenceMark');
 const ComplementaryCertificationCourseResult = require('../../domain/models/ComplementaryCertificationCourseResult');
 
 module.exports = {
-  async get(id) {
+  async get(id, { locale } = {}) {
     const certificationCourseDTO = await _selectPrivateCertificates()
       .where('certification-courses.id', '=', id)
       .groupBy('certification-courses.id', 'sessions.id', 'assessments.id', 'assessment-results.id')
@@ -41,7 +41,7 @@ module.exports = {
     const cleaCertificationResult = await _getCleaCertificationResult(id);
     const certifiedBadgeImages = await _getCertifiedBadgeImages(id);
 
-    const competenceTree = await competenceTreeRepository.get();
+    const competenceTree = await competenceTreeRepository.get({ locale });
 
     return _toDomain({
       certificationCourseDTO,
