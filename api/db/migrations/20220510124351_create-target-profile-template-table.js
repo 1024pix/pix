@@ -23,6 +23,6 @@ exports.down = async function (knex) {
   await knex.schema.table(TARGET_PROFILE_TABLE_NAME, (t) => {
     t.dropColumn('targetProfileTemplateId');
   });
-  await knex.dropTable(TEMPLATE_TUBES_TABLE_NAME);
-  await knex.dropTable(TEMPLATE_TABLE_NAME);
+  await knex.schema.dropTable(TEMPLATE_TUBES_TABLE_NAME);
+  await knex.schema.dropTable(TEMPLATE_TABLE_NAME);
 };
