@@ -582,7 +582,7 @@ describe('Unit | Application | SecurityPreHandlers', function () {
     });
   });
 
-  describe('#userHasAtLeastOneAccessOf', function () {
+  describe('#adminMemberHasAtLeastOneAccessOf', function () {
     let belongsToOrganizationStub;
     let hasRoleSuperAdminStub;
     let request;
@@ -608,7 +608,7 @@ describe('Unit | Application | SecurityPreHandlers', function () {
         hasRoleSuperAdminStub.callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
 
         // when
-        const response = await securityPreHandlers.userHasAtLeastOneAccessOf([
+        const response = await securityPreHandlers.adminMemberHasAtLeastOneAccessOf([
           belongsToOrganizationStub,
           hasRoleSuperAdminStub,
         ])(request, hFake);
@@ -623,7 +623,7 @@ describe('Unit | Application | SecurityPreHandlers', function () {
         hasRoleSuperAdminStub.callsFake((request, h) => h.response(true));
 
         // when
-        const response = await securityPreHandlers.userHasAtLeastOneAccessOf([
+        const response = await securityPreHandlers.adminMemberHasAtLeastOneAccessOf([
           belongsToOrganizationStub,
           hasRoleSuperAdminStub,
         ])(request, hFake);
@@ -638,7 +638,7 @@ describe('Unit | Application | SecurityPreHandlers', function () {
         hasRoleSuperAdminStub.callsFake((request, h) => h.response(true));
 
         // when
-        const response = await securityPreHandlers.userHasAtLeastOneAccessOf([
+        const response = await securityPreHandlers.adminMemberHasAtLeastOneAccessOf([
           belongsToOrganizationStub,
           hasRoleSuperAdminStub,
         ])(request, hFake);
@@ -655,7 +655,7 @@ describe('Unit | Application | SecurityPreHandlers', function () {
         hasRoleSuperAdminStub.callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
 
         // when
-        const response = await securityPreHandlers.userHasAtLeastOneAccessOf([
+        const response = await securityPreHandlers.adminMemberHasAtLeastOneAccessOf([
           belongsToOrganizationStub,
           hasRoleSuperAdminStub,
         ])(request, hFake);

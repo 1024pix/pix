@@ -11,7 +11,7 @@ describe('Unit | Application | Badges | Routes', function () {
         const badge = domainBuilder.buildBadge();
         sinon.stub(badgesController, 'getBadge').returns(badge);
         sinon
-          .stub(securityPreHandlers, 'userHasAtLeastOneAccessOf')
+          .stub(securityPreHandlers, 'adminMemberHasAtLeastOneAccessOf')
           .withArgs([
             securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
             securityPreHandlers.checkAdminMemberHasRoleSupport,
@@ -47,7 +47,7 @@ describe('Unit | Application | Badges | Routes', function () {
       it('should return a response with an HTTP status code 403', async function () {
         // given
         sinon
-          .stub(securityPreHandlers, 'userHasAtLeastOneAccessOf')
+          .stub(securityPreHandlers, 'adminMemberHasAtLeastOneAccessOf')
           .withArgs([
             securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
             securityPreHandlers.checkAdminMemberHasRoleSupport,
@@ -77,7 +77,7 @@ describe('Unit | Application | Badges | Routes', function () {
       it('should return an HTTP status code 204', async function () {
         // given
         sinon
-          .stub(securityPreHandlers, 'userHasAtLeastOneAccessOf')
+          .stub(securityPreHandlers, 'adminMemberHasAtLeastOneAccessOf')
           .withArgs([
             securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
             securityPreHandlers.checkAdminMemberHasRoleSupport,
@@ -114,7 +114,7 @@ describe('Unit | Application | Badges | Routes', function () {
       it('should return a response with an HTTP status code 403', async function () {
         // given
         sinon
-          .stub(securityPreHandlers, 'userHasAtLeastOneAccessOf')
+          .stub(securityPreHandlers, 'adminMemberHasAtLeastOneAccessOf')
           .withArgs([
             securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
             securityPreHandlers.checkAdminMemberHasRoleSupport,

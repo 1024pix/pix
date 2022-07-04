@@ -534,7 +534,7 @@ describe('Unit | Router | user-router', function () {
     describe('GET /api/admin/users', function () {
       it('should return an HTTP status code 200', async function () {
         // given
-        sinon.stub(securityPreHandlers, 'userHasAtLeastOneAccessOf').returns(() => true);
+        sinon.stub(securityPreHandlers, 'adminMemberHasAtLeastOneAccessOf').returns(() => true);
         sinon.stub(userController, 'findPaginatedFilteredUsers').returns('ok');
         const httpTestServer = new HttpTestServer();
         await httpTestServer.register(moduleUnderTest);
@@ -546,14 +546,14 @@ describe('Unit | Router | user-router', function () {
         );
 
         // then
-        sinon.assert.calledOnce(securityPreHandlers.userHasAtLeastOneAccessOf);
+        sinon.assert.calledOnce(securityPreHandlers.adminMemberHasAtLeastOneAccessOf);
         sinon.assert.calledOnce(userController.findPaginatedFilteredUsers);
         expect(response.statusCode).to.equal(200);
       });
 
       it('should return an HTTP status code 403', async function () {
         // given
-        sinon.stub(securityPreHandlers, 'userHasAtLeastOneAccessOf').returns((request, h) =>
+        sinon.stub(securityPreHandlers, 'adminMemberHasAtLeastOneAccessOf').returns((request, h) =>
           h
             .response({ errors: new Error('') })
             .code(403)
@@ -569,7 +569,7 @@ describe('Unit | Router | user-router', function () {
         );
 
         // then
-        sinon.assert.calledOnce(securityPreHandlers.userHasAtLeastOneAccessOf);
+        sinon.assert.calledOnce(securityPreHandlers.adminMemberHasAtLeastOneAccessOf);
         expect(response.statusCode).to.equal(403);
       });
     });
@@ -577,7 +577,7 @@ describe('Unit | Router | user-router', function () {
     describe('GET /api/admin/users/{id}', function () {
       it('should return an HTTP status code 200', async function () {
         // given
-        sinon.stub(securityPreHandlers, 'userHasAtLeastOneAccessOf').returns(() => true);
+        sinon.stub(securityPreHandlers, 'adminMemberHasAtLeastOneAccessOf').returns(() => true);
         sinon.stub(userController, 'getUserDetailsForAdmin').resolves('ok');
         const httpTestServer = new HttpTestServer();
         await httpTestServer.register(moduleUnderTest);
@@ -586,14 +586,14 @@ describe('Unit | Router | user-router', function () {
         const response = await httpTestServer.request('GET', '/api/admin/users/8');
 
         // then
-        sinon.assert.calledOnce(securityPreHandlers.userHasAtLeastOneAccessOf);
+        sinon.assert.calledOnce(securityPreHandlers.adminMemberHasAtLeastOneAccessOf);
         sinon.assert.calledOnce(userController.getUserDetailsForAdmin);
         expect(response.statusCode).to.equal(200);
       });
 
       it('should return an HTTP status code 403', async function () {
         // given
-        sinon.stub(securityPreHandlers, 'userHasAtLeastOneAccessOf').returns((request, h) =>
+        sinon.stub(securityPreHandlers, 'adminMemberHasAtLeastOneAccessOf').returns((request, h) =>
           h
             .response({ errors: new Error('') })
             .code(403)
@@ -606,7 +606,7 @@ describe('Unit | Router | user-router', function () {
         const response = await httpTestServer.request('GET', '/api/admin/users/8');
 
         // then
-        sinon.assert.calledOnce(securityPreHandlers.userHasAtLeastOneAccessOf);
+        sinon.assert.calledOnce(securityPreHandlers.adminMemberHasAtLeastOneAccessOf);
         expect(response.statusCode).to.equal(403);
       });
     });

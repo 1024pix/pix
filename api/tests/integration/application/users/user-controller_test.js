@@ -13,7 +13,7 @@ describe('Integration | Application | Users | user-controller', function () {
   beforeEach(async function () {
     sandbox = sinon.createSandbox();
     sandbox.stub(securityPreHandlers, 'checkRequestedUserIsAuthenticatedUser');
-    sandbox.stub(securityPreHandlers, 'userHasAtLeastOneAccessOf');
+    sandbox.stub(securityPreHandlers, 'adminMemberHasAtLeastOneAccessOf');
 
     sandbox.stub(usecases, 'getUserCampaignParticipationToCampaign');
     sandbox.stub(usecases, 'getUserProfileSharedForCampaign');
@@ -180,7 +180,7 @@ describe('Integration | Application | Users | user-controller', function () {
     };
 
     beforeEach(function () {
-      securityPreHandlers.userHasAtLeastOneAccessOf.returns(() => true);
+      securityPreHandlers.adminMemberHasAtLeastOneAccessOf.returns(() => true);
     });
 
     context('Success cases', function () {
@@ -199,7 +199,7 @@ describe('Integration | Application | Users | user-controller', function () {
     context('Error cases', function () {
       it('should return a 403 HTTP response when when user is not allowed to access resource', async function () {
         // given
-        securityPreHandlers.userHasAtLeastOneAccessOf.returns((request, h) => h.response().code(403).takeover());
+        securityPreHandlers.adminMemberHasAtLeastOneAccessOf.returns((request, h) => h.response().code(403).takeover());
 
         // when
         const response = await httpTestServer.request(method, url, payload);
