@@ -1,2 +1,8 @@
-/* Deprecated */
-$font-roboto-mono: 'Roboto Mono', monospace;
+@font-face {
+  font-family: "Roboto Mono";
+  src: url("/fonts/RobotoMono/RobotoMono-Regular.ttf");
+  font-weight: normal;
+  font-style: normal;
+}
+
+$font-roboto-mono: 'Roboto Mono', Arial, sans-serif;
