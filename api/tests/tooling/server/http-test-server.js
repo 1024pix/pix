@@ -19,7 +19,7 @@ const routesConfig = {
  *
  * beforeEach(() => {
  *   sinon.stub(usecases, 'updateOrganizationInformation');
- *   sinon.stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin').callsFake((request, reply) => reply(true));
+ *   sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin').callsFake((request, reply) => reply(true));
  *   httpTestServer = new HttpTestServer();
  *   await httpTestServer.register(moduleUnderTest);
  * });

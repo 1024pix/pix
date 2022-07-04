@@ -12,7 +12,7 @@ describe('Unit | Router | organization-router', function () {
 
     it('should return OK (200) when request is valid', async function () {
       // given
-      sinon.stub(securityPreHandlers, 'userHasAtLeastOneAccessOf').returns(() => true);
+      sinon.stub(securityPreHandlers, 'adminMemberHasAtLeastOneAccessOf').returns(() => true);
       sinon.stub(organizationController, 'findPaginatedFilteredOrganizations').returns('ok');
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -82,15 +82,15 @@ describe('Unit | Router | organization-router', function () {
   describe('POST /api/admin/organizations', function () {
     it('returns forbidden access if admin member has CERTIF role', async function () {
       // given
-      sinon.stub(securityPreHandlers, 'checkUserHasRoleCertif').callsFake((request, h) => h.response(true));
+      sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleCertif').callsFake((request, h) => h.response(true));
       sinon
-        .stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin')
+        .stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin')
         .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
       sinon
-        .stub(securityPreHandlers, 'checkUserHasRoleSupport')
+        .stub(securityPreHandlers, 'checkAdminMemberHasRoleSupport')
         .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
       sinon
-        .stub(securityPreHandlers, 'checkUserHasRoleMetier')
+        .stub(securityPreHandlers, 'checkAdminMemberHasRoleMetier')
         .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
 
       const httpTestServer = new HttpTestServer();
@@ -115,15 +115,15 @@ describe('Unit | Router | organization-router', function () {
   describe('PATCH /api/admin/organizations/{id}', function () {
     it('returns forbidden access if admin member has CERTIF role', async function () {
       // given
-      sinon.stub(securityPreHandlers, 'checkUserHasRoleCertif').callsFake((request, h) => h.response(true));
+      sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleCertif').callsFake((request, h) => h.response(true));
       sinon
-        .stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin')
+        .stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin')
         .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
       sinon
-        .stub(securityPreHandlers, 'checkUserHasRoleSupport')
+        .stub(securityPreHandlers, 'checkAdminMemberHasRoleSupport')
         .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
       sinon
-        .stub(securityPreHandlers, 'checkUserHasRoleMetier')
+        .stub(securityPreHandlers, 'checkAdminMemberHasRoleMetier')
         .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
 
       const httpTestServer = new HttpTestServer();
@@ -151,15 +151,15 @@ describe('Unit | Router | organization-router', function () {
       // given
       sinon.stub(organizationController, 'archiveOrganization').resolves('ok');
 
-      sinon.stub(securityPreHandlers, 'checkUserHasRoleCertif').callsFake((request, h) => h.response(true));
+      sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleCertif').callsFake((request, h) => h.response(true));
       sinon
-        .stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin')
+        .stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin')
         .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
       sinon
-        .stub(securityPreHandlers, 'checkUserHasRoleSupport')
+        .stub(securityPreHandlers, 'checkAdminMemberHasRoleSupport')
         .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
       sinon
-        .stub(securityPreHandlers, 'checkUserHasRoleMetier')
+        .stub(securityPreHandlers, 'checkAdminMemberHasRoleMetier')
         .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
 
       const httpTestServer = new HttpTestServer();
@@ -179,11 +179,11 @@ describe('Unit | Router | organization-router', function () {
       // given
       sinon.stub(organizationController, 'attachTargetProfiles').returns('ok');
       sinon
-        .stub(securityPreHandlers, 'checkUserHasRoleCertif')
+        .stub(securityPreHandlers, 'checkAdminMemberHasRoleCertif')
         .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
-      sinon.stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin').callsFake((request, h) => h.response(true));
-      sinon.stub(securityPreHandlers, 'checkUserHasRoleSupport').callsFake((request, h) => h.response(true));
-      sinon.stub(securityPreHandlers, 'checkUserHasRoleMetier').callsFake((request, h) => h.response(true));
+      sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin').callsFake((request, h) => h.response(true));
+      sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleSupport').callsFake((request, h) => h.response(true));
+      sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleMetier').callsFake((request, h) => h.response(true));
 
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -207,15 +207,15 @@ describe('Unit | Router | organization-router', function () {
 
     it('returns forbidden access if admin member has CERTIF role', async function () {
       // given
-      sinon.stub(securityPreHandlers, 'checkUserHasRoleCertif').callsFake((request, h) => h.response(true));
+      sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleCertif').callsFake((request, h) => h.response(true));
       sinon
-        .stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin')
+        .stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin')
         .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
       sinon
-        .stub(securityPreHandlers, 'checkUserHasRoleSupport')
+        .stub(securityPreHandlers, 'checkAdminMemberHasRoleSupport')
         .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
       sinon
-        .stub(securityPreHandlers, 'checkUserHasRoleMetier')
+        .stub(securityPreHandlers, 'checkAdminMemberHasRoleMetier')
         .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
 
       const httpTestServer = new HttpTestServer();
@@ -360,7 +360,7 @@ describe('Unit | Router | organization-router', function () {
 
     it('should return HTTP code 201', async function () {
       // given
-      sinon.stub(securityPreHandlers, 'userHasAtLeastOneAccessOf').returns(() => true);
+      sinon.stub(securityPreHandlers, 'adminMemberHasAtLeastOneAccessOf').returns(() => true);
       sinon
         .stub(organizationController, 'sendInvitationByLangAndRole')
         .callsFake((request, h) => h.response().created());
@@ -452,15 +452,15 @@ describe('Unit | Router | organization-router', function () {
 
     it('returns forbidden access if admin member has CERTIF role', async function () {
       // given
-      sinon.stub(securityPreHandlers, 'checkUserHasRoleCertif').callsFake((request, h) => h.response(true));
+      sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleCertif').callsFake((request, h) => h.response(true));
       sinon
-        .stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin')
+        .stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin')
         .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
       sinon
-        .stub(securityPreHandlers, 'checkUserHasRoleSupport')
+        .stub(securityPreHandlers, 'checkAdminMemberHasRoleSupport')
         .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
       sinon
-        .stub(securityPreHandlers, 'checkUserHasRoleMetier')
+        .stub(securityPreHandlers, 'checkAdminMemberHasRoleMetier')
         .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
 
       const httpTestServer = new HttpTestServer();
@@ -503,7 +503,7 @@ describe('Unit | Router | organization-router', function () {
 
     it('should return an empty list when no places is found', async function () {
       // given
-      sinon.stub(securityPreHandlers, 'userHasAtLeastOneAccessOf').returns(() => true);
+      sinon.stub(securityPreHandlers, 'adminMemberHasAtLeastOneAccessOf').returns(() => true);
       sinon.stub(usecases, 'findOrganizationPlaces').returns([]);
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);

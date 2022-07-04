@@ -9,7 +9,7 @@ describe('Integration | Application | Route | target-profile-router', function (
   beforeEach(async function () {
     httpTestServer = new HttpTestServer();
     await httpTestServer.register(targetProfilesRouter);
-    sinon.stub(securityPreHandlers, 'userHasAtLeastOneAccessOf').returns(() => true);
+    sinon.stub(securityPreHandlers, 'adminMemberHasAtLeastOneAccessOf').returns(() => true);
   });
 
   describe('GET /api/admin/target-profile-templates/{id}', function () {

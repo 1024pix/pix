@@ -11,11 +11,11 @@ describe('Unit | Application | Badges | Routes', function () {
         const badge = domainBuilder.buildBadge();
         sinon.stub(badgesController, 'getBadge').returns(badge);
         sinon
-          .stub(securityPreHandlers, 'userHasAtLeastOneAccessOf')
+          .stub(securityPreHandlers, 'adminMemberHasAtLeastOneAccessOf')
           .withArgs([
-            securityPreHandlers.checkUserHasRoleSuperAdmin,
-            securityPreHandlers.checkUserHasRoleSupport,
-            securityPreHandlers.checkUserHasRoleMetier,
+            securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+            securityPreHandlers.checkAdminMemberHasRoleSupport,
+            securityPreHandlers.checkAdminMemberHasRoleMetier,
           ])
           .callsFake(() => (request, h) => h.response(true));
         const httpTestServer = new HttpTestServer();
@@ -47,11 +47,11 @@ describe('Unit | Application | Badges | Routes', function () {
       it('should return a response with an HTTP status code 403', async function () {
         // given
         sinon
-          .stub(securityPreHandlers, 'userHasAtLeastOneAccessOf')
+          .stub(securityPreHandlers, 'adminMemberHasAtLeastOneAccessOf')
           .withArgs([
-            securityPreHandlers.checkUserHasRoleSuperAdmin,
-            securityPreHandlers.checkUserHasRoleSupport,
-            securityPreHandlers.checkUserHasRoleMetier,
+            securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+            securityPreHandlers.checkAdminMemberHasRoleSupport,
+            securityPreHandlers.checkAdminMemberHasRoleMetier,
           ])
           .callsFake(
             () => (request, h) =>
@@ -77,11 +77,11 @@ describe('Unit | Application | Badges | Routes', function () {
       it('should return an HTTP status code 204', async function () {
         // given
         sinon
-          .stub(securityPreHandlers, 'userHasAtLeastOneAccessOf')
+          .stub(securityPreHandlers, 'adminMemberHasAtLeastOneAccessOf')
           .withArgs([
-            securityPreHandlers.checkUserHasRoleSuperAdmin,
-            securityPreHandlers.checkUserHasRoleSupport,
-            securityPreHandlers.checkUserHasRoleMetier,
+            securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+            securityPreHandlers.checkAdminMemberHasRoleSupport,
+            securityPreHandlers.checkAdminMemberHasRoleMetier,
           ])
           .callsFake(() => (request, h) => h.response(true));
         sinon.stub(badgesController, 'deleteUnassociatedBadge').returns(null);
@@ -114,11 +114,11 @@ describe('Unit | Application | Badges | Routes', function () {
       it('should return a response with an HTTP status code 403', async function () {
         // given
         sinon
-          .stub(securityPreHandlers, 'userHasAtLeastOneAccessOf')
+          .stub(securityPreHandlers, 'adminMemberHasAtLeastOneAccessOf')
           .withArgs([
-            securityPreHandlers.checkUserHasRoleSuperAdmin,
-            securityPreHandlers.checkUserHasRoleSupport,
-            securityPreHandlers.checkUserHasRoleMetier,
+            securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+            securityPreHandlers.checkAdminMemberHasRoleSupport,
+            securityPreHandlers.checkAdminMemberHasRoleMetier,
           ])
           .callsFake(
             () => (request, h) =>

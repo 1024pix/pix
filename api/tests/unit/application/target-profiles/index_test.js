@@ -13,11 +13,11 @@ describe('Unit | Application | Target Profiles | Routes', function () {
       it('should return a response with an HTTP status code 200', async function () {
         // given
         sinon
-          .stub(securityPreHandlers, 'userHasAtLeastOneAccessOf')
+          .stub(securityPreHandlers, 'adminMemberHasAtLeastOneAccessOf')
           .withArgs([
-            securityPreHandlers.checkUserHasRoleSuperAdmin,
-            securityPreHandlers.checkUserHasRoleSupport,
-            securityPreHandlers.checkUserHasRoleMetier,
+            securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+            securityPreHandlers.checkAdminMemberHasRoleSupport,
+            securityPreHandlers.checkAdminMemberHasRoleMetier,
           ])
           .callsFake(() => (request, h) => h.response(true));
         sinon
@@ -38,11 +38,11 @@ describe('Unit | Application | Target Profiles | Routes', function () {
       it('should return a response with an HTTP status code 403', async function () {
         // given
         sinon
-          .stub(securityPreHandlers, 'userHasAtLeastOneAccessOf')
+          .stub(securityPreHandlers, 'adminMemberHasAtLeastOneAccessOf')
           .withArgs([
-            securityPreHandlers.checkUserHasRoleSuperAdmin,
-            securityPreHandlers.checkUserHasRoleSupport,
-            securityPreHandlers.checkUserHasRoleMetier,
+            securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+            securityPreHandlers.checkAdminMemberHasRoleSupport,
+            securityPreHandlers.checkAdminMemberHasRoleMetier,
           ])
           .callsFake(
             () => (request, h) =>
@@ -65,7 +65,7 @@ describe('Unit | Application | Target Profiles | Routes', function () {
     context('when there is no filter nor pagination', function () {
       it('should resolve with HTTP code 200', async function () {
         // given
-        sinon.stub(securityPreHandlers, 'userHasAtLeastOneAccessOf').returns(() => true);
+        sinon.stub(securityPreHandlers, 'adminMemberHasAtLeastOneAccessOf').returns(() => true);
         sinon
           .stub(targetProfileController, 'findPaginatedFilteredTargetProfiles')
           .callsFake((request, h) => h.response('ok').code(200));
@@ -83,7 +83,7 @@ describe('Unit | Application | Target Profiles | Routes', function () {
     context('when there are filters and pagination', function () {
       it('should resolve with HTTP code 200', async function () {
         // given
-        sinon.stub(securityPreHandlers, 'userHasAtLeastOneAccessOf').returns(() => true);
+        sinon.stub(securityPreHandlers, 'adminMemberHasAtLeastOneAccessOf').returns(() => true);
         sinon
           .stub(targetProfileController, 'findPaginatedFilteredTargetProfiles')
           .callsFake((request, h) => h.response('ok').code(200));
@@ -152,11 +152,11 @@ describe('Unit | Application | Target Profiles | Routes', function () {
       it('should return a response with an HTTP status code 200', async function () {
         // given
         sinon
-          .stub(securityPreHandlers, 'userHasAtLeastOneAccessOf')
+          .stub(securityPreHandlers, 'adminMemberHasAtLeastOneAccessOf')
           .withArgs([
-            securityPreHandlers.checkUserHasRoleSuperAdmin,
-            securityPreHandlers.checkUserHasRoleSupport,
-            securityPreHandlers.checkUserHasRoleMetier,
+            securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+            securityPreHandlers.checkAdminMemberHasRoleSupport,
+            securityPreHandlers.checkAdminMemberHasRoleMetier,
           ])
           .callsFake(() => (request, h) => h.response(true));
         sinon
@@ -191,11 +191,11 @@ describe('Unit | Application | Target Profiles | Routes', function () {
       it('should return a response with an HTTP status code 403', async function () {
         // given
         sinon
-          .stub(securityPreHandlers, 'userHasAtLeastOneAccessOf')
+          .stub(securityPreHandlers, 'adminMemberHasAtLeastOneAccessOf')
           .withArgs([
-            securityPreHandlers.checkUserHasRoleSuperAdmin,
-            securityPreHandlers.checkUserHasRoleSupport,
-            securityPreHandlers.checkUserHasRoleMetier,
+            securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+            securityPreHandlers.checkAdminMemberHasRoleSupport,
+            securityPreHandlers.checkAdminMemberHasRoleMetier,
           ])
           .callsFake(
             () => (request, h) =>
@@ -224,11 +224,11 @@ describe('Unit | Application | Target Profiles | Routes', function () {
       it('should return a response with an HTTP status code 200', async function () {
         // given
         sinon
-          .stub(securityPreHandlers, 'userHasAtLeastOneAccessOf')
+          .stub(securityPreHandlers, 'adminMemberHasAtLeastOneAccessOf')
           .withArgs([
-            securityPreHandlers.checkUserHasRoleSuperAdmin,
-            securityPreHandlers.checkUserHasRoleSupport,
-            securityPreHandlers.checkUserHasRoleMetier,
+            securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+            securityPreHandlers.checkAdminMemberHasRoleSupport,
+            securityPreHandlers.checkAdminMemberHasRoleMetier,
           ])
           .callsFake(() => (request, h) => h.response(true));
         sinon
@@ -247,7 +247,7 @@ describe('Unit | Application | Target Profiles | Routes', function () {
       context('when there is no filter nor pagination', function () {
         it('should resolve with an HTTP status code 200', async function () {
           // given
-          sinon.stub(securityPreHandlers, 'userHasAtLeastOneAccessOf').returns(() => true);
+          sinon.stub(securityPreHandlers, 'adminMemberHasAtLeastOneAccessOf').returns(() => true);
           sinon
             .stub(targetProfileController, 'findPaginatedFilteredTargetProfileOrganizations')
             .callsFake((request, h) => h.response('ok').code(200));
@@ -265,7 +265,7 @@ describe('Unit | Application | Target Profiles | Routes', function () {
       context('when there are filters and pagination', function () {
         it('should resolve with an HTTP status code 200', async function () {
           // given
-          sinon.stub(securityPreHandlers, 'userHasAtLeastOneAccessOf').returns(() => true);
+          sinon.stub(securityPreHandlers, 'adminMemberHasAtLeastOneAccessOf').returns(() => true);
           sinon
             .stub(targetProfileController, 'findPaginatedFilteredTargetProfileOrganizations')
             .callsFake((request, h) => h.response('ok').code(200));
@@ -333,11 +333,11 @@ describe('Unit | Application | Target Profiles | Routes', function () {
       it('should return a response with an HTTP status code 403', async function () {
         // given
         sinon
-          .stub(securityPreHandlers, 'userHasAtLeastOneAccessOf')
+          .stub(securityPreHandlers, 'adminMemberHasAtLeastOneAccessOf')
           .withArgs([
-            securityPreHandlers.checkUserHasRoleSuperAdmin,
-            securityPreHandlers.checkUserHasRoleSupport,
-            securityPreHandlers.checkUserHasRoleMetier,
+            securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+            securityPreHandlers.checkAdminMemberHasRoleSupport,
+            securityPreHandlers.checkAdminMemberHasRoleMetier,
           ])
           .callsFake(
             () => (request, h) =>
@@ -366,11 +366,11 @@ describe('Unit | Application | Target Profiles | Routes', function () {
       it('should return a response with an HTTP status code 200', async function () {
         // given
         sinon
-          .stub(securityPreHandlers, 'userHasAtLeastOneAccessOf')
+          .stub(securityPreHandlers, 'adminMemberHasAtLeastOneAccessOf')
           .withArgs([
-            securityPreHandlers.checkUserHasRoleSuperAdmin,
-            securityPreHandlers.checkUserHasRoleSupport,
-            securityPreHandlers.checkUserHasRoleMetier,
+            securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+            securityPreHandlers.checkAdminMemberHasRoleSupport,
+            securityPreHandlers.checkAdminMemberHasRoleMetier,
           ])
           .callsFake(() => (request, h) => h.response(true));
         sinon
@@ -405,11 +405,11 @@ describe('Unit | Application | Target Profiles | Routes', function () {
       it('should return a response with an HTTP status code 403', async function () {
         // given
         sinon
-          .stub(securityPreHandlers, 'userHasAtLeastOneAccessOf')
+          .stub(securityPreHandlers, 'adminMemberHasAtLeastOneAccessOf')
           .withArgs([
-            securityPreHandlers.checkUserHasRoleSuperAdmin,
-            securityPreHandlers.checkUserHasRoleSupport,
-            securityPreHandlers.checkUserHasRoleMetier,
+            securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+            securityPreHandlers.checkAdminMemberHasRoleSupport,
+            securityPreHandlers.checkAdminMemberHasRoleMetier,
           ])
           .callsFake(
             () => (request, h) =>
@@ -438,11 +438,11 @@ describe('Unit | Application | Target Profiles | Routes', function () {
       it('should return a response with an HTTP status code 200', async function () {
         // given
         sinon
-          .stub(securityPreHandlers, 'userHasAtLeastOneAccessOf')
+          .stub(securityPreHandlers, 'adminMemberHasAtLeastOneAccessOf')
           .withArgs([
-            securityPreHandlers.checkUserHasRoleSuperAdmin,
-            securityPreHandlers.checkUserHasRoleSupport,
-            securityPreHandlers.checkUserHasRoleMetier,
+            securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+            securityPreHandlers.checkAdminMemberHasRoleSupport,
+            securityPreHandlers.checkAdminMemberHasRoleMetier,
           ])
           .callsFake(() => (request, h) => h.response(true));
         sinon
@@ -477,11 +477,11 @@ describe('Unit | Application | Target Profiles | Routes', function () {
       it('should return a response with an HTTP status code 403', async function () {
         // given
         sinon
-          .stub(securityPreHandlers, 'userHasAtLeastOneAccessOf')
+          .stub(securityPreHandlers, 'adminMemberHasAtLeastOneAccessOf')
           .withArgs([
-            securityPreHandlers.checkUserHasRoleSuperAdmin,
-            securityPreHandlers.checkUserHasRoleSupport,
-            securityPreHandlers.checkUserHasRoleMetier,
+            securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+            securityPreHandlers.checkAdminMemberHasRoleSupport,
+            securityPreHandlers.checkAdminMemberHasRoleMetier,
           ])
           .callsFake(
             () => (request, h) =>
@@ -528,11 +528,11 @@ describe('Unit | Application | Target Profiles | Routes', function () {
       it('should return a response with an HTTP status code 200', async function () {
         // given
         sinon
-          .stub(securityPreHandlers, 'userHasAtLeastOneAccessOf')
+          .stub(securityPreHandlers, 'adminMemberHasAtLeastOneAccessOf')
           .withArgs([
-            securityPreHandlers.checkUserHasRoleSuperAdmin,
-            securityPreHandlers.checkUserHasRoleSupport,
-            securityPreHandlers.checkUserHasRoleMetier,
+            securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+            securityPreHandlers.checkAdminMemberHasRoleSupport,
+            securityPreHandlers.checkAdminMemberHasRoleMetier,
           ])
           .callsFake(() => (request, h) => h.response(true));
         sinon
@@ -550,7 +550,7 @@ describe('Unit | Application | Target Profiles | Routes', function () {
 
       it('should resolve with owner organization id to null', async function () {
         // given
-        sinon.stub(securityPreHandlers, 'userHasAtLeastOneAccessOf').returns(() => true);
+        sinon.stub(securityPreHandlers, 'adminMemberHasAtLeastOneAccessOf').returns(() => true);
         sinon
           .stub(targetProfileController, 'createTargetProfile')
           .callsFake((request, h) => h.response('ok').code(200));
@@ -583,7 +583,7 @@ describe('Unit | Application | Target Profiles | Routes', function () {
 
       it('should resolve with owner organization id to empty', async function () {
         // given
-        sinon.stub(securityPreHandlers, 'userHasAtLeastOneAccessOf').returns(() => true);
+        sinon.stub(securityPreHandlers, 'adminMemberHasAtLeastOneAccessOf').returns(() => true);
         sinon
           .stub(targetProfileController, 'createTargetProfile')
           .callsFake((request, h) => h.response('ok').code(200));
@@ -648,11 +648,11 @@ describe('Unit | Application | Target Profiles | Routes', function () {
       it('should return a response with an HTTP status code 403', async function () {
         // given
         sinon
-          .stub(securityPreHandlers, 'userHasAtLeastOneAccessOf')
+          .stub(securityPreHandlers, 'adminMemberHasAtLeastOneAccessOf')
           .withArgs([
-            securityPreHandlers.checkUserHasRoleSuperAdmin,
-            securityPreHandlers.checkUserHasRoleSupport,
-            securityPreHandlers.checkUserHasRoleMetier,
+            securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+            securityPreHandlers.checkAdminMemberHasRoleSupport,
+            securityPreHandlers.checkAdminMemberHasRoleMetier,
           ])
           .callsFake(
             () => (request, h) =>
@@ -682,11 +682,11 @@ describe('Unit | Application | Target Profiles | Routes', function () {
       it('should return a response with an HTTP status code 204', async function () {
         // given
         sinon
-          .stub(securityPreHandlers, 'userHasAtLeastOneAccessOf')
+          .stub(securityPreHandlers, 'adminMemberHasAtLeastOneAccessOf')
           .withArgs([
-            securityPreHandlers.checkUserHasRoleSuperAdmin,
-            securityPreHandlers.checkUserHasRoleSupport,
-            securityPreHandlers.checkUserHasRoleMetier,
+            securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+            securityPreHandlers.checkAdminMemberHasRoleSupport,
+            securityPreHandlers.checkAdminMemberHasRoleMetier,
           ])
           .callsFake(() => (request, h) => h.response(true));
         sinon
@@ -753,11 +753,11 @@ describe('Unit | Application | Target Profiles | Routes', function () {
       it('should return a response with an HTTP status code 403', async function () {
         // given
         sinon
-          .stub(securityPreHandlers, 'userHasAtLeastOneAccessOf')
+          .stub(securityPreHandlers, 'adminMemberHasAtLeastOneAccessOf')
           .withArgs([
-            securityPreHandlers.checkUserHasRoleSuperAdmin,
-            securityPreHandlers.checkUserHasRoleSupport,
-            securityPreHandlers.checkUserHasRoleMetier,
+            securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+            securityPreHandlers.checkAdminMemberHasRoleSupport,
+            securityPreHandlers.checkAdminMemberHasRoleMetier,
           ])
           .callsFake(
             () => (request, h) =>
@@ -787,11 +787,11 @@ describe('Unit | Application | Target Profiles | Routes', function () {
       it('should return a response with an HTTP status code 204', async function () {
         // given
         sinon
-          .stub(securityPreHandlers, 'userHasAtLeastOneAccessOf')
+          .stub(securityPreHandlers, 'adminMemberHasAtLeastOneAccessOf')
           .withArgs([
-            securityPreHandlers.checkUserHasRoleSuperAdmin,
-            securityPreHandlers.checkUserHasRoleSupport,
-            securityPreHandlers.checkUserHasRoleMetier,
+            securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+            securityPreHandlers.checkAdminMemberHasRoleSupport,
+            securityPreHandlers.checkAdminMemberHasRoleMetier,
           ])
           .callsFake(() => (request, h) => h.response(true));
         sinon
@@ -845,11 +845,11 @@ describe('Unit | Application | Target Profiles | Routes', function () {
       it('should return a response with an HTTP status code 403', async function () {
         // given
         sinon
-          .stub(securityPreHandlers, 'userHasAtLeastOneAccessOf')
+          .stub(securityPreHandlers, 'adminMemberHasAtLeastOneAccessOf')
           .withArgs([
-            securityPreHandlers.checkUserHasRoleSuperAdmin,
-            securityPreHandlers.checkUserHasRoleSupport,
-            securityPreHandlers.checkUserHasRoleMetier,
+            securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+            securityPreHandlers.checkAdminMemberHasRoleSupport,
+            securityPreHandlers.checkAdminMemberHasRoleMetier,
           ])
           .callsFake(
             () => (request, h) =>
@@ -892,11 +892,11 @@ describe('Unit | Application | Target Profiles | Routes', function () {
       it('should return a response with an HTTP status code 201', async function () {
         // given
         sinon
-          .stub(securityPreHandlers, 'userHasAtLeastOneAccessOf')
+          .stub(securityPreHandlers, 'adminMemberHasAtLeastOneAccessOf')
           .withArgs([
-            securityPreHandlers.checkUserHasRoleSuperAdmin,
-            securityPreHandlers.checkUserHasRoleSupport,
-            securityPreHandlers.checkUserHasRoleMetier,
+            securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+            securityPreHandlers.checkAdminMemberHasRoleSupport,
+            securityPreHandlers.checkAdminMemberHasRoleMetier,
           ])
           .callsFake(() => (request, h) => h.response(true));
         sinon.stub(targetProfileController, 'createBadge').callsFake((request, h) => h.response('ok').code(201));
@@ -929,11 +929,11 @@ describe('Unit | Application | Target Profiles | Routes', function () {
       it('should return a response with an HTTP status code 403', async function () {
         // given
         sinon
-          .stub(securityPreHandlers, 'userHasAtLeastOneAccessOf')
+          .stub(securityPreHandlers, 'adminMemberHasAtLeastOneAccessOf')
           .withArgs([
-            securityPreHandlers.checkUserHasRoleSuperAdmin,
-            securityPreHandlers.checkUserHasRoleSupport,
-            securityPreHandlers.checkUserHasRoleMetier,
+            securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+            securityPreHandlers.checkAdminMemberHasRoleSupport,
+            securityPreHandlers.checkAdminMemberHasRoleMetier,
           ])
           .callsFake(
             () => (request, h) =>
@@ -972,11 +972,11 @@ describe('Unit | Application | Target Profiles | Routes', function () {
       it('should return a response with an HTTP status code 204', async function () {
         // given
         sinon
-          .stub(securityPreHandlers, 'userHasAtLeastOneAccessOf')
+          .stub(securityPreHandlers, 'adminMemberHasAtLeastOneAccessOf')
           .withArgs([
-            securityPreHandlers.checkUserHasRoleSuperAdmin,
-            securityPreHandlers.checkUserHasRoleSupport,
-            securityPreHandlers.checkUserHasRoleMetier,
+            securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+            securityPreHandlers.checkAdminMemberHasRoleSupport,
+            securityPreHandlers.checkAdminMemberHasRoleMetier,
           ])
           .callsFake(() => (request, h) => h.response(true));
         sinon
@@ -1057,11 +1057,11 @@ describe('Unit | Application | Target Profiles | Routes', function () {
       it('should return a response with an HTTP status code 403', async function () {
         // given
         sinon
-          .stub(securityPreHandlers, 'userHasAtLeastOneAccessOf')
+          .stub(securityPreHandlers, 'adminMemberHasAtLeastOneAccessOf')
           .withArgs([
-            securityPreHandlers.checkUserHasRoleSuperAdmin,
-            securityPreHandlers.checkUserHasRoleSupport,
-            securityPreHandlers.checkUserHasRoleMetier,
+            securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+            securityPreHandlers.checkAdminMemberHasRoleSupport,
+            securityPreHandlers.checkAdminMemberHasRoleMetier,
           ])
           .callsFake(
             () => (request, h) =>
@@ -1091,11 +1091,11 @@ describe('Unit | Application | Target Profiles | Routes', function () {
       it('should return a response with an HTTP status code 204', async function () {
         // given
         sinon
-          .stub(securityPreHandlers, 'userHasAtLeastOneAccessOf')
+          .stub(securityPreHandlers, 'adminMemberHasAtLeastOneAccessOf')
           .withArgs([
-            securityPreHandlers.checkUserHasRoleSuperAdmin,
-            securityPreHandlers.checkUserHasRoleSupport,
-            securityPreHandlers.checkUserHasRoleMetier,
+            securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+            securityPreHandlers.checkAdminMemberHasRoleSupport,
+            securityPreHandlers.checkAdminMemberHasRoleMetier,
           ])
           .callsFake(() => (request, h) => h.response(true));
         sinon
@@ -1130,11 +1130,11 @@ describe('Unit | Application | Target Profiles | Routes', function () {
       it('should return a response with an HTTP status code 403', async function () {
         // given
         sinon
-          .stub(securityPreHandlers, 'userHasAtLeastOneAccessOf')
+          .stub(securityPreHandlers, 'adminMemberHasAtLeastOneAccessOf')
           .withArgs([
-            securityPreHandlers.checkUserHasRoleSuperAdmin,
-            securityPreHandlers.checkUserHasRoleSupport,
-            securityPreHandlers.checkUserHasRoleMetier,
+            securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+            securityPreHandlers.checkAdminMemberHasRoleSupport,
+            securityPreHandlers.checkAdminMemberHasRoleMetier,
           ])
           .callsFake(
             () => (request, h) =>
@@ -1164,11 +1164,11 @@ describe('Unit | Application | Target Profiles | Routes', function () {
       it('should return a response with an HTTP status code 200', async function () {
         // given
         sinon
-          .stub(securityPreHandlers, 'userHasAtLeastOneAccessOf')
+          .stub(securityPreHandlers, 'adminMemberHasAtLeastOneAccessOf')
           .withArgs([
-            securityPreHandlers.checkUserHasRoleSuperAdmin,
-            securityPreHandlers.checkUserHasRoleSupport,
-            securityPreHandlers.checkUserHasRoleMetier,
+            securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+            securityPreHandlers.checkAdminMemberHasRoleSupport,
+            securityPreHandlers.checkAdminMemberHasRoleMetier,
           ])
           .callsFake(() => (request, h) => h.response(true));
         sinon
@@ -1206,11 +1206,11 @@ describe('Unit | Application | Target Profiles | Routes', function () {
       it('should return a response with an HTTP status code 403', async function () {
         // given
         sinon
-          .stub(securityPreHandlers, 'userHasAtLeastOneAccessOf')
+          .stub(securityPreHandlers, 'adminMemberHasAtLeastOneAccessOf')
           .withArgs([
-            securityPreHandlers.checkUserHasRoleSuperAdmin,
-            securityPreHandlers.checkUserHasRoleSupport,
-            securityPreHandlers.checkUserHasRoleMetier,
+            securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+            securityPreHandlers.checkAdminMemberHasRoleSupport,
+            securityPreHandlers.checkAdminMemberHasRoleMetier,
           ])
           .callsFake(
             () => (request, h) =>

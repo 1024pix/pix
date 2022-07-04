@@ -1,9 +1,9 @@
 const { expect, sinon } = require('../../../test-helper');
-const useCase = require('../../../../lib/application/usecases/checkUserHasRoleCertif');
+const useCase = require('../../../../lib/application/usecases/checkAdminMemberHasRoleCertif');
 const tokenService = require('../../../../lib/domain/services/token-service');
 const adminMemberRepository = require('../../../../lib/infrastructure/repositories/admin-member-repository');
 
-describe('Unit | Application | Use Case | checkUserHasRoleCertifUseCase', function () {
+describe('Unit | Application | Use Case | checkAdminMemberHasRoleCertifUseCase', function () {
   const userId = '1234';
 
   beforeEach(function () {

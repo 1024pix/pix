@@ -27,7 +27,7 @@ describe('Unit | Application | Router | admin-members-router', function () {
       // given
       const adminMembers = [domainBuilder.buildAdminMember()];
       sinon.stub(adminMemberController, 'findAll').returns(adminMembers);
-      sinon.stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin').returns(true);
+      sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin').returns(true);
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(adminMembersRouter);
 
@@ -35,7 +35,7 @@ describe('Unit | Application | Router | admin-members-router', function () {
       const { statusCode } = await httpTestServer.request('GET', '/api/admin/admin-members');
 
       // then
-      expect(securityPreHandlers.checkUserHasRoleSuperAdmin).to.have.be.called;
+      expect(securityPreHandlers.checkAdminMemberHasRoleSuperAdmin).to.have.be.called;
       expect(adminMemberController.findAll).to.have.be.called;
       expect(statusCode).to.equal(200);
     });
@@ -43,7 +43,7 @@ describe('Unit | Application | Router | admin-members-router', function () {
     it('should return a response with an HTTP status code 403 if user does not have the rights', async function () {
       // given
       sinon
-        .stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin')
+        .stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin')
         .callsFake((request, h) => h.response().code(403).takeover());
 
       const httpTestServer = new HttpTestServer();
@@ -53,7 +53,7 @@ describe('Unit | Application | Router | admin-members-router', function () {
       const { statusCode } = await httpTestServer.request('GET', '/api/admin/admin-members');
 
       // then
-      expect(securityPreHandlers.checkUserHasRoleSuperAdmin).to.have.be.called;
+      expect(securityPreHandlers.checkAdminMemberHasRoleSuperAdmin).to.have.be.called;
       expect(statusCode).to.equal(403);
     });
   });
@@ -66,7 +66,7 @@ describe('Unit | Application | Router | admin-members-router', function () {
         sinon
           .stub(adminMemberController, 'saveAdminMember')
           .callsFake((request, h) => h.response(adminMember).created());
-        sinon.stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin').returns(true);
+        sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin').returns(true);
         const httpTestServer = new HttpTestServer();
         await httpTestServer.register(adminMembersRouter);
 
@@ -82,7 +82,7 @@ describe('Unit | Application | Router | admin-members-router', function () {
       context('when role attribute is missing', function () {
         it('should return a response with an HTTP status code 400', async function () {
           // given
-          sinon.stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin').returns(true);
+          sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin').returns(true);
           const httpTestServer = new HttpTestServer();
           await httpTestServer.register(adminMembersRouter);
 
@@ -101,7 +101,7 @@ describe('Unit | Application | Router | admin-members-router', function () {
           // given
           const adminMember = domainBuilder.buildAdminMember();
           sinon.stub(adminMemberController, 'saveAdminMember').returns(adminMember);
-          sinon.stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin').returns(true);
+          sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin').returns(true);
           const httpTestServer = new HttpTestServer();
           await httpTestServer.register(adminMembersRouter);
 
@@ -120,7 +120,7 @@ describe('Unit | Application | Router | admin-members-router', function () {
           // given
           const adminMember = domainBuilder.buildAdminMember();
           sinon.stub(adminMemberController, 'saveAdminMember').returns(adminMember);
-          sinon.stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin').returns(true);
+          sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin').returns(true);
           const httpTestServer = new HttpTestServer();
           await httpTestServer.register(adminMembersRouter);
 
@@ -139,7 +139,7 @@ describe('Unit | Application | Router | admin-members-router', function () {
           // given
           const adminMember = domainBuilder.buildAdminMember();
           sinon.stub(adminMemberController, 'saveAdminMember').returns(adminMember);
-          sinon.stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin').returns(true);
+          sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin').returns(true);
           const httpTestServer = new HttpTestServer();
           await httpTestServer.register(adminMembersRouter);
 
@@ -158,7 +158,7 @@ describe('Unit | Application | Router | admin-members-router', function () {
           // given
           const adminMember = domainBuilder.buildAdminMember();
           sinon.stub(adminMemberController, 'saveAdminMember').returns(adminMember);
-          sinon.stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin').returns(true);
+          sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin').returns(true);
           const httpTestServer = new HttpTestServer();
           await httpTestServer.register(adminMembersRouter);
 
@@ -177,7 +177,7 @@ describe('Unit | Application | Router | admin-members-router', function () {
       it('should return a response with an HTTP status code 403', async function () {
         // given
         sinon
-          .stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin')
+          .stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin')
           .callsFake((request, h) => h.response().code(403).takeover());
         const httpTestServer = new HttpTestServer();
         await httpTestServer.register(adminMembersRouter);
@@ -189,7 +189,7 @@ describe('Unit | Application | Router | admin-members-router', function () {
 
         // then
         expect(statusCode).to.equal(403);
-        expect(securityPreHandlers.checkUserHasRoleSuperAdmin).to.have.be.called;
+        expect(securityPreHandlers.checkAdminMemberHasRoleSuperAdmin).to.have.be.called;
       });
     });
   });
@@ -200,7 +200,7 @@ describe('Unit | Application | Router | admin-members-router', function () {
         // given
         const updatedAdminMember = domainBuilder.buildAdminMember();
         sinon.stub(adminMemberController, 'updateAdminMember').returns(updatedAdminMember);
-        sinon.stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin').returns(true);
+        sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin').returns(true);
         const httpTestServer = new HttpTestServer();
         await httpTestServer.register(adminMembersRouter);
 
@@ -210,13 +210,13 @@ describe('Unit | Application | Router | admin-members-router', function () {
         });
 
         // then
-        expect(securityPreHandlers.checkUserHasRoleSuperAdmin).to.have.be.called;
+        expect(securityPreHandlers.checkAdminMemberHasRoleSuperAdmin).to.have.be.called;
         expect(statusCode).to.equal(200);
       });
 
       it('should return 400 if the role value to update is invalid', async function () {
         // given
-        sinon.stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin').returns(true);
+        sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin').returns(true);
         const httpTestServer = new HttpTestServer();
         await httpTestServer.register(adminMembersRouter);
 
@@ -226,7 +226,7 @@ describe('Unit | Application | Router | admin-members-router', function () {
         });
 
         // then
-        expect(securityPreHandlers.checkUserHasRoleSuperAdmin).not.to.have.be.called;
+        expect(securityPreHandlers.checkAdminMemberHasRoleSuperAdmin).not.to.have.be.called;
         expect(statusCode).to.equal(400);
       });
     });
@@ -235,7 +235,7 @@ describe('Unit | Application | Router | admin-members-router', function () {
       // given
       sinon.stub(adminMemberController, 'updateAdminMember').returns('ok');
       sinon
-        .stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin')
+        .stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin')
         .callsFake((request, h) => h.response().code(403).takeover());
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(adminMembersRouter);
@@ -246,7 +246,7 @@ describe('Unit | Application | Router | admin-members-router', function () {
       });
 
       // then
-      expect(securityPreHandlers.checkUserHasRoleSuperAdmin).to.have.be.called;
+      expect(securityPreHandlers.checkAdminMemberHasRoleSuperAdmin).to.have.be.called;
       expect(statusCode).to.equal(403);
     });
   });
@@ -261,7 +261,7 @@ describe('Unit | Application | Router | admin-members-router', function () {
         sinon
           .stub(adminMemberController, 'deactivateAdminMember')
           .callsFake((request, h) => h.response('ok').code(204));
-        sinon.stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin').returns(true);
+        sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin').returns(true);
         const httpTestServer = new HttpTestServer();
         await httpTestServer.register(adminMembersRouter);
 
@@ -269,14 +269,14 @@ describe('Unit | Application | Router | admin-members-router', function () {
         const { statusCode } = await httpTestServer.request(method, url);
 
         // then
-        expect(securityPreHandlers.checkUserHasRoleSuperAdmin).to.have.be.called;
+        expect(securityPreHandlers.checkAdminMemberHasRoleSuperAdmin).to.have.be.called;
         expect(adminMemberController.deactivateAdminMember).to.have.be.called;
         expect(statusCode).to.equal(204);
       });
 
       it('should return a 400 error when ID is invalid', async function () {
         // given
-        sinon.stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin').returns(true);
+        sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin').returns(true);
         const httpTestServer = new HttpTestServer();
         await httpTestServer.register(adminMembersRouter);
 
@@ -284,7 +284,7 @@ describe('Unit | Application | Router | admin-members-router', function () {
         const { statusCode } = await httpTestServer.request(method, '/api/admin/admin-members/invalidID/deactivate');
 
         // then
-        expect(securityPreHandlers.checkUserHasRoleSuperAdmin).not.to.have.be.called;
+        expect(securityPreHandlers.checkAdminMemberHasRoleSuperAdmin).not.to.have.be.called;
         expect(statusCode).to.equal(400);
       });
     });
@@ -293,7 +293,7 @@ describe('Unit | Application | Router | admin-members-router', function () {
       // given
       sinon.stub(adminMemberController, 'updateAdminMember').returns('ok');
       sinon
-        .stub(securityPreHandlers, 'checkUserHasRoleSuperAdmin')
+        .stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin')
         .callsFake((request, h) => h.response().code(403).takeover());
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(adminMembersRouter);
@@ -302,7 +302,7 @@ describe('Unit | Application | Router | admin-members-router', function () {
       const { statusCode } = await httpTestServer.request(method, url);
 
       // then
-      expect(securityPreHandlers.checkUserHasRoleSuperAdmin).to.have.be.called;
+      expect(securityPreHandlers.checkAdminMemberHasRoleSuperAdmin).to.have.be.called;
       expect(statusCode).to.equal(403);
     });
   });
