@@ -6,6 +6,7 @@
       @value={{@issueReport.resolution}}
       type="text"
       maxLength="255"
+      @errorMessage={{this.errorMessage}}
       {{on "change" this.onChangeLabel}}
       {{focus}}
     />

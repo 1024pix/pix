@@ -186,6 +186,35 @@ module('Integration | Component | certifications/issue-reports/resolve-issue-rep
       // Then
       assert.dom(screen.getByRole('dialog', { name: 'Modifier le signalement' })).exists();
     });
+    module('when updating the resolution with an empty text', function () {
+      test('it should display an error message', async function (assert) {
+        // Given
+        const store = this.owner.lookup('service:store');
+        const issueReport = store.createRecord('certification-issue-report', {
+          isImpactful: true,
+          resolvedAt: new Date(),
+          resolution: 'resolved',
+        });
+        this.set('issueReport', issueReport);
+
+        this.toggleResolveModal = sinon.stub().returns();
+        this.resolveIssueReport = sinon.stub().resolves();
+        this.closeResolveModal = sinon.stub().returns();
+
+        const screen = await renderScreen(hbs`<Certifications::IssueReports::ResolveIssueReportModal
+                     @toggleResolveModal={{this.toggleResolveModal}}
+                     @issueReport={{this.issueReport}}
+                     @resolvecandidateIssueReport={{this.resolveIssueReport}}
+                     @closeResolveModal={{this.closeResolveModal}}
+                    />`);
+
+        // when
+        await clickByName('Modifier le signalement');
+
+        // Then
+        assert.dom(screen.getByText('Le motif de résolution doit être renseigné.')).exists();
+      });
+    });
     test('it should display modification button', async function (assert) {
       // Given
       const store = this.owner.lookup('service:store');
