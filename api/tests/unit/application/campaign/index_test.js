@@ -299,7 +299,7 @@ describe('Unit | Application | Router | campaign-router ', function () {
   describe('GET /api/admin/campaigns/{id}', function () {
     it('should return 200', async function () {
       // given
-      sinon.stub(securityPreHandlers, 'userHasAtLeastOneAccessOf').returns(() => true);
+      sinon.stub(securityPreHandlers, 'adminMemberHasAtLeastOneAccessOf').returns(() => true);
       sinon
         .stub(campaignManagementController, 'getCampaignDetails')
         .callsFake((request, h) => h.response('ok').code(200));
@@ -328,7 +328,7 @@ describe('Unit | Application | Router | campaign-router ', function () {
     it('should return 403 when unauthorized', async function () {
       // given
       sinon
-        .stub(securityPreHandlers, 'userHasAtLeastOneAccessOf')
+        .stub(securityPreHandlers, 'adminMemberHasAtLeastOneAccessOf')
         .returns((request, h) => h.response().code(403).takeover());
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -344,7 +344,7 @@ describe('Unit | Application | Router | campaign-router ', function () {
   describe('GET /api/admin/campaigns/{id}/participations', function () {
     it('should return 200', async function () {
       // given
-      sinon.stub(securityPreHandlers, 'userHasAtLeastOneAccessOf').returns(() => true);
+      sinon.stub(securityPreHandlers, 'adminMemberHasAtLeastOneAccessOf').returns(() => true);
       sinon
         .stub(campaignManagementController, 'findPaginatedParticipationsForCampaignManagement')
         .callsFake((request, h) => h.response('ok').code(200));
@@ -373,7 +373,7 @@ describe('Unit | Application | Router | campaign-router ', function () {
     it('should return 403 when unauthorized', async function () {
       // given
       sinon
-        .stub(securityPreHandlers, 'userHasAtLeastOneAccessOf')
+        .stub(securityPreHandlers, 'adminMemberHasAtLeastOneAccessOf')
         .returns((request, h) => h.response().code(403).takeover());
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);

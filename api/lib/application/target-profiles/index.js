@@ -14,7 +14,7 @@ exports.register = async (server) => {
         pre: [
           {
             method: (request, h) =>
-              securityPreHandlers.userHasAtLeastOneAccessOf([
+              securityPreHandlers.adminMemberHasAtLeastOneAccessOf([
                 securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
                 securityPreHandlers.checkAdminMemberHasRoleSupport,
                 securityPreHandlers.checkAdminMemberHasRoleMetier,
@@ -52,7 +52,7 @@ exports.register = async (server) => {
         pre: [
           {
             method: (request, h) =>
-              securityPreHandlers.userHasAtLeastOneAccessOf([
+              securityPreHandlers.adminMemberHasAtLeastOneAccessOf([
                 securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
                 securityPreHandlers.checkAdminMemberHasRoleSupport,
                 securityPreHandlers.checkAdminMemberHasRoleMetier,
@@ -80,7 +80,7 @@ exports.register = async (server) => {
         pre: [
           {
             method: (request, h) =>
-              securityPreHandlers.userHasAtLeastOneAccessOf([
+              securityPreHandlers.adminMemberHasAtLeastOneAccessOf([
                 securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
                 securityPreHandlers.checkAdminMemberHasRoleSupport,
                 securityPreHandlers.checkAdminMemberHasRoleMetier,
@@ -108,7 +108,7 @@ exports.register = async (server) => {
         pre: [
           {
             method: (request, h) =>
-              securityPreHandlers.userHasAtLeastOneAccessOf([
+              securityPreHandlers.adminMemberHasAtLeastOneAccessOf([
                 securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
                 securityPreHandlers.checkAdminMemberHasRoleSupport,
                 securityPreHandlers.checkAdminMemberHasRoleMetier,
@@ -136,7 +136,7 @@ exports.register = async (server) => {
         pre: [
           {
             method: (request, h) =>
-              securityPreHandlers.userHasAtLeastOneAccessOf([
+              securityPreHandlers.adminMemberHasAtLeastOneAccessOf([
                 securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
                 securityPreHandlers.checkAdminMemberHasRoleSupport,
                 securityPreHandlers.checkAdminMemberHasRoleMetier,
@@ -173,7 +173,7 @@ exports.register = async (server) => {
         pre: [
           {
             method: (request, h) =>
-              securityPreHandlers.userHasAtLeastOneAccessOf([
+              securityPreHandlers.adminMemberHasAtLeastOneAccessOf([
                 securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
                 securityPreHandlers.checkAdminMemberHasRoleSupport,
                 securityPreHandlers.checkAdminMemberHasRoleMetier,
@@ -219,7 +219,7 @@ exports.register = async (server) => {
         pre: [
           {
             method: (request, h) =>
-              securityPreHandlers.userHasAtLeastOneAccessOf([
+              securityPreHandlers.adminMemberHasAtLeastOneAccessOf([
                 securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
                 securityPreHandlers.checkAdminMemberHasRoleSupport,
                 securityPreHandlers.checkAdminMemberHasRoleMetier,
@@ -250,7 +250,7 @@ exports.register = async (server) => {
         pre: [
           {
             method: (request, h) =>
-              securityPreHandlers.userHasAtLeastOneAccessOf([
+              securityPreHandlers.adminMemberHasAtLeastOneAccessOf([
                 securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
                 securityPreHandlers.checkAdminMemberHasRoleSupport,
                 securityPreHandlers.checkAdminMemberHasRoleMetier,
@@ -281,7 +281,7 @@ exports.register = async (server) => {
         pre: [
           {
             method: (request, h) =>
-              securityPreHandlers.userHasAtLeastOneAccessOf([
+              securityPreHandlers.adminMemberHasAtLeastOneAccessOf([
                 securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
                 securityPreHandlers.checkAdminMemberHasRoleSupport,
                 securityPreHandlers.checkAdminMemberHasRoleMetier,
@@ -328,7 +328,7 @@ exports.register = async (server) => {
         pre: [
           {
             method: (request, h) =>
-              securityPreHandlers.userHasAtLeastOneAccessOf([
+              securityPreHandlers.adminMemberHasAtLeastOneAccessOf([
                 securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
                 securityPreHandlers.checkAdminMemberHasRoleSupport,
                 securityPreHandlers.checkAdminMemberHasRoleMetier,
@@ -356,7 +356,7 @@ exports.register = async (server) => {
         pre: [
           {
             method: (request, h) =>
-              securityPreHandlers.userHasAtLeastOneAccessOf([
+              securityPreHandlers.adminMemberHasAtLeastOneAccessOf([
                 securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
                 securityPreHandlers.checkAdminMemberHasRoleSupport,
                 securityPreHandlers.checkAdminMemberHasRoleMetier,
@@ -385,7 +385,7 @@ exports.register = async (server) => {
         pre: [
           {
             method: (request, h) =>
-              securityPreHandlers.userHasAtLeastOneAccessOf([
+              securityPreHandlers.adminMemberHasAtLeastOneAccessOf([
                 securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
                 securityPreHandlers.checkAdminMemberHasRoleSupport,
                 securityPreHandlers.checkAdminMemberHasRoleMetier,
@@ -423,10 +423,9 @@ exports.register = async (server) => {
         pre: [
           {
             method: (request, h) =>
-              securityPreHandlers.userHasAtLeastOneAccessOf([securityPreHandlers.checkAdminMemberHasRoleSuperAdmin])(
-                request,
-                h
-              ),
+              securityPreHandlers.adminMemberHasAtLeastOneAccessOf([
+                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+              ])(request, h),
             assign: 'hasAuthorizationToAccessAdminScope',
           },
         ],

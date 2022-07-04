@@ -90,7 +90,7 @@ describe('Unit | Application | Router | organization-learner-router', function (
 
     it('should return a HTTP status code 204', async function () {
       // given
-      sinon.stub(securityPreHandlers, 'userHasAtLeastOneAccessOf').returns(() => true);
+      sinon.stub(securityPreHandlers, 'adminMemberHasAtLeastOneAccessOf').returns(() => true);
       sinon.stub(organizationLearnerController, 'dissociate').callsFake((request, h) => h.response('ok').code(204));
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -107,7 +107,7 @@ describe('Unit | Application | Router | organization-learner-router', function (
     it('should return a HTTP status code 403 when user does not have rights to Pix Admin', async function () {
       // given
       sinon
-        .stub(securityPreHandlers, 'userHasAtLeastOneAccessOf')
+        .stub(securityPreHandlers, 'adminMemberHasAtLeastOneAccessOf')
         .returns((request, h) => h.response().code(403).takeover());
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);

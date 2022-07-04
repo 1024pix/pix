@@ -8,7 +8,7 @@ describe('Unit | Application | Complementary Certification Course Results | Rout
     it('return forbidden access if user has METIER role', async function () {
       // given
       sinon
-        .stub(securityPreHandlers, 'userHasAtLeastOneAccessOf')
+        .stub(securityPreHandlers, 'adminMemberHasAtLeastOneAccessOf')
         .withArgs([
           securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
           securityPreHandlers.checkAdminMemberHasRoleCertif,

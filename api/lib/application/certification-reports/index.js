@@ -13,7 +13,7 @@ exports.register = async (server) => {
         pre: [
           {
             method: (request, h) =>
-              securityPreHandlers.userHasAtLeastOneAccessOf([
+              securityPreHandlers.adminMemberHasAtLeastOneAccessOf([
                 securityPreHandlers.checkUserIsMemberOfCertificationCenterSessionFromCertificationCourseId,
                 securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
                 securityPreHandlers.checkAdminMemberHasRoleCertif,

@@ -8,7 +8,7 @@ describe('Unit | Application | Assessmnet results | Route', function () {
     it('return forbidden access if user has METIER role', async function () {
       // given
       sinon
-        .stub(securityPreHandlers, 'userHasAtLeastOneAccessOf')
+        .stub(securityPreHandlers, 'adminMemberHasAtLeastOneAccessOf')
         .withArgs([
           securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
           securityPreHandlers.checkAdminMemberHasRoleCertif,

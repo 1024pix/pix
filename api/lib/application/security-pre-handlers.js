@@ -336,7 +336,7 @@ async function checkAuthorizationToManageCampaign(request, h) {
   return _replyForbiddenError(h);
 }
 
-function userHasAtLeastOneAccessOf(securityChecks) {
+function adminMemberHasAtLeastOneAccessOf(securityChecks) {
   return async (request, h) => {
     const responses = await bluebird.map(securityChecks, (securityCheck) => securityCheck(request, h));
     const hasAccess = responses.some((response) => !response.source?.errors);
@@ -384,5 +384,5 @@ module.exports = {
   checkUserOwnsCertificationCourse,
   checkUserIsMemberOfCertificationCenterSessionFromCertificationCourseId,
   checkUserIsMemberOfCertificationCenterSessionFromCertificationIssueReportId,
-  userHasAtLeastOneAccessOf,
+  adminMemberHasAtLeastOneAccessOf,
 };
