@@ -5,6 +5,8 @@ export default class EntryPoint extends Route {
   @service currentUser;
   @service campaignStorage;
   @service session;
+  @service router;
+  @service store;
 
   async beforeModel() {
     if (this.session.isAuthenticated && this.currentUser.user.isAnonymous) {
@@ -39,11 +41,11 @@ export default class EntryPoint extends Route {
     }
 
     if (campaign.isArchived && !hasParticipated) {
-      this.replaceWith('campaigns.archived-error', campaign.code);
+      this.router.replaceWith('campaigns.archived-error', campaign.code);
     } else if (hasParticipated) {
-      this.replaceWith('campaigns.entrance', campaign.code);
+      this.router.replaceWith('campaigns.entrance', campaign.code);
     } else {
-      this.replaceWith('campaigns.campaign-landing-page', campaign.code);
+      this.router.replaceWith('campaigns.campaign-landing-page', campaign.code);
     }
   }
 }

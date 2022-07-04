@@ -5,6 +5,7 @@ import Route from '@ember/routing/route';
 export default class ResumeRoute extends Route.extend(SecuredRouteMixin) {
   @service session;
   @service router;
+  @service store;
 
   competenceId = null;
 
@@ -14,6 +15,6 @@ export default class ResumeRoute extends Route.extend(SecuredRouteMixin) {
   }
 
   afterModel(competenceEvaluation) {
-    return this.replaceWith('assessments.resume', competenceEvaluation.get('assessment.id'));
+    return this.router.replaceWith('assessments.resume', competenceEvaluation.get('assessment.id'));
   }
 }

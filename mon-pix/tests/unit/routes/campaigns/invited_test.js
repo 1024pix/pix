@@ -11,7 +11,7 @@ describe('Unit | Route | Invited', function () {
   beforeEach(function () {
     route = this.owner.lookup('route:campaigns.invited');
     route.modelFor = sinon.stub();
-    route.replaceWith = sinon.stub();
+    route.router = { replaceWith: sinon.stub(), transitionTo: sinon.stub() };
     route.campaignStorage = { get: sinon.stub() };
   });
 
@@ -21,7 +21,7 @@ describe('Unit | Route | Invited', function () {
       await route.beforeModel({ from: null });
 
       //then
-      sinon.assert.calledWith(route.replaceWith, 'campaigns.entry-point');
+      sinon.assert.calledWith(route.router.replaceWith, 'campaigns.entry-point');
     });
 
     it('should continue en entrance route when from is set', async function () {
@@ -29,7 +29,7 @@ describe('Unit | Route | Invited', function () {
       await route.beforeModel({ from: 'campaigns.entry-point' });
 
       //then
-      sinon.assert.notCalled(route.replaceWith);
+      sinon.assert.notCalled(route.router.replaceWith);
     });
   });
 
@@ -56,7 +56,7 @@ describe('Unit | Route | Invited', function () {
       await route.afterModel(campaign);
 
       //then
-      sinon.assert.calledWith(route.replaceWith, 'campaigns.invited.student-sco', campaign.code);
+      sinon.assert.calledWith(route.router.replaceWith, 'campaigns.invited.student-sco', campaign.code);
     });
 
     it('should redirect to student sup invited page when association is needed', async function () {
@@ -71,7 +71,7 @@ describe('Unit | Route | Invited', function () {
       await route.afterModel(campaign);
 
       //then
-      sinon.assert.calledWith(route.replaceWith, 'campaigns.invited.student-sup', campaign.code);
+      sinon.assert.calledWith(route.router.replaceWith, 'campaigns.invited.student-sup', campaign.code);
     });
 
     it('should redirect to fill in participant external otherwise', async function () {
@@ -85,7 +85,11 @@ describe('Unit | Route | Invited', function () {
       await route.afterModel(campaign);
 
       //then
-      sinon.assert.calledWith(route.replaceWith, 'campaigns.invited.fill-in-participant-external-id', campaign.code);
+      sinon.assert.calledWith(
+        route.router.replaceWith,
+        'campaigns.invited.fill-in-participant-external-id',
+        campaign.code
+      );
     });
   });
 });

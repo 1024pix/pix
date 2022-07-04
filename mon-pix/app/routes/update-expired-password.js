@@ -4,13 +4,14 @@ import UnauthenticatedRouteMixin from 'ember-simple-auth/mixins/unauthenticated-
 
 export default class UpdateExpiredPasswordRoute extends Route.extend(UnauthenticatedRouteMixin) {
   @service store;
+  @service router;
 
   model() {
     const resetExpiredPasswordDemands = this.store.peekAll('reset-expired-password-demand');
     const resetExpiredPasswordDemand = resetExpiredPasswordDemands.firstObject;
 
     if (!resetExpiredPasswordDemand) {
-      return this.replaceWith('');
+      return this.router.replaceWith('');
     }
 
     return resetExpiredPasswordDemand;

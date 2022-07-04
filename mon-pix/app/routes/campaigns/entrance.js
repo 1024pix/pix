@@ -7,10 +7,11 @@ export default class Entrance extends Route.extend(SecuredRouteMixin) {
   @service campaignStorage;
   @service store;
   @service currentUser;
+  @service router;
 
   beforeModel(transition) {
     if (!transition.from) {
-      return this.replaceWith('campaigns.entry-point');
+      return this.router.replaceWith('campaigns.entry-point');
     }
     super.beforeModel(...arguments);
   }
@@ -30,9 +31,9 @@ export default class Entrance extends Route.extend(SecuredRouteMixin) {
     }
 
     if (campaign.isProfilesCollection) {
-      this.replaceWith('campaigns.profiles-collection.start-or-resume', campaign.code);
+      this.router.replaceWith('campaigns.profiles-collection.start-or-resume', campaign.code);
     } else {
-      this.replaceWith('campaigns.assessment.start-or-resume', campaign.code);
+      this.router.replaceWith('campaigns.assessment.start-or-resume', campaign.code);
     }
   }
 
@@ -52,10 +53,10 @@ export default class Entrance extends Route.extend(SecuredRouteMixin) {
 
       if (error.status == 400 && error.detail.includes('participant-external-id')) {
         this.campaignStorage.set(campaign.code, 'participantExternalId', null);
-        return this.replaceWith('campaigns.invited.fill-in-participant-external-id', campaign.code);
+        return this.router.replaceWith('campaigns.invited.fill-in-participant-external-id', campaign.code);
       }
       if (error.detail === 'ORGANIZATION_LEARNER_HAS_ALREADY_PARTICIPATED') {
-        return this.replaceWith('campaigns.existing-participation', campaign.code);
+        return this.router.replaceWith('campaigns.existing-participation', campaign.code);
       }
 
       throw err;

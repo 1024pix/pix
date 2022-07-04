@@ -3,6 +3,7 @@ import { inject as service } from '@ember/service';
 
 export default class UserTutorialsRecommendedRoute extends Route {
   @service router;
+  @service store;
 
   queryParams = {
     pageNumber: { refreshModel: true },

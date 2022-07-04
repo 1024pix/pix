@@ -15,8 +15,7 @@ describe('Unit | Route | Access', function () {
     route = this.owner.lookup('route:campaigns.access');
     route.modelFor = sinon.stub().returns(campaign);
     route.campaignStorage = { get: sinon.stub() };
-    route.router.transitionTo = sinon.stub();
-    route.replaceWith = sinon.stub();
+    route.router = { replaceWith: sinon.stub(), transitionTo: sinon.stub() };
   });
 
   describe('#beforeModel', function () {
@@ -25,7 +24,7 @@ describe('Unit | Route | Access', function () {
       await route.beforeModel({ from: null });
 
       //then
-      sinon.assert.calledWith(route.replaceWith, 'campaigns.entry-point');
+      sinon.assert.calledWith(route.router.replaceWith, 'campaigns.entry-point');
     });
 
     it('should continue on access route when from is set', async function () {
@@ -33,7 +32,7 @@ describe('Unit | Route | Access', function () {
       await route.beforeModel({ from: 'campaigns.campaign-landing-page' });
 
       //then
-      sinon.assert.notCalled(route.replaceWith);
+      sinon.assert.notCalled(route.router.replaceWith);
     });
 
     it('should override authentication route', async function () {
@@ -62,7 +61,7 @@ describe('Unit | Route | Access', function () {
         await route.beforeModel({ from: 'campaigns.campaign-landing-page' });
 
         // then
-        sinon.assert.calledWith(route.replaceWith, 'login-pole-emploi');
+        sinon.assert.calledWith(route.router.replaceWith, 'login-pole-emploi');
       });
     });
 
@@ -77,7 +76,7 @@ describe('Unit | Route | Access', function () {
         await route.beforeModel({ from: 'campaigns.campaign-landing-page' });
 
         // then
-        sinon.assert.neverCalledWith(route.replaceWith, 'login-pole-emploi');
+        sinon.assert.neverCalledWith(route.router.replaceWith, 'login-pole-emploi');
       });
     });
 

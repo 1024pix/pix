@@ -10,13 +10,13 @@ describe('Unit | Route | login-cnav', function () {
       it("should redirect to cgu's cnav page", async function () {
         // given
         const route = this.owner.lookup('route:login-cnav');
-        route.replaceWith = sinon.stub();
+        route.router = { replaceWith: sinon.stub() };
 
         // when
         await route.afterModel({ authenticationKey: '123', shouldValidateCgu: true });
 
         // then
-        sinon.assert.calledWith(route.replaceWith, 'terms-of-service-cnav', {
+        sinon.assert.calledWith(route.router.replaceWith, 'terms-of-service-cnav', {
           queryParams: { authenticationKey: '123' },
         });
       });
@@ -26,13 +26,13 @@ describe('Unit | Route | login-cnav', function () {
       it("should not redirect to cgu's cnav page", async function () {
         // given
         const route = this.owner.lookup('route:login-cnav');
-        route.replaceWith = sinon.stub();
+        route.router = { replaceWith: sinon.stub() };
 
         // when
         await route.afterModel({ authenticationKey: null, shouldValidateCgu: false });
 
         // then
-        sinon.assert.notCalled(route.replaceWith);
+        sinon.assert.notCalled(route.router.replaceWith);
       });
     });
   });

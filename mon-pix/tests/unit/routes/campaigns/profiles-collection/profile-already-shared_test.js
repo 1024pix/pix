@@ -16,7 +16,7 @@ describe('Unit | Route | Campaign | Profiles Collection | Profile already shared
   beforeEach(function () {
     route = this.owner.lookup('route:campaigns.profiles-collection.profile-already-shared');
     route.modelFor = sinon.stub().returns(campaign);
-    route.transitionTo = sinon.stub();
+    route.router = { transitionTo: sinon.stub() };
     route.store = storeStub;
     route.currentUser = currentUserStub;
   });
@@ -30,7 +30,7 @@ describe('Unit | Route | Campaign | Profiles Collection | Profile already shared
       it('should redirect to start or resume', async function () {
         await route.model();
 
-        sinon.assert.calledWith(route.transitionTo, 'campaigns.entry-point', 'NEW_CODE');
+        sinon.assert.calledWith(route.router.transitionTo, 'campaigns.entry-point', 'NEW_CODE');
       });
     });
 
@@ -44,7 +44,7 @@ describe('Unit | Route | Campaign | Profiles Collection | Profile already shared
       it('should not redirect', async function () {
         await route.model();
 
-        sinon.assert.notCalled(route.transitionTo);
+        sinon.assert.notCalled(route.router.transitionTo);
       });
     });
   });

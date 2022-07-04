@@ -72,7 +72,7 @@ describe('Unit | Route | login page', function () {
       const storeStub = { createRecord: createRecordStub };
 
       route.set('store', storeStub);
-      route.replaceWith = sinon.stub();
+      route.router = { replaceWith: sinon.stub() };
 
       // when
       await route.actions.updateExpiredPassword.call(route, username, oneTimePassword);

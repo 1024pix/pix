@@ -7,10 +7,10 @@ describe('Unit | Route | shared-certification', function () {
 
   it('should redirect if there a no data (direct access)', function () {
     const route = this.owner.lookup('route:shared-certification');
-    sinon.stub(route, 'replaceWith');
+    sinon.stub(route.router, 'replaceWith');
 
     route.redirect({}, {});
-    sinon.assert.calledWithExactly(route.replaceWith, '/verification-certificat?unallowedAccess=true');
+    sinon.assert.calledWithExactly(route.router.replaceWith, '/verification-certificat?unallowedAccess=true');
   });
 
   it('should not redirect with certification', function () {
@@ -18,9 +18,9 @@ describe('Unit | Route | shared-certification', function () {
     const model = store.createRecord('certification', {});
 
     const route = this.owner.lookup('route:shared-certification');
-    sinon.stub(route, 'replaceWith');
+    sinon.stub(route.router, 'replaceWith');
 
     route.redirect(model, {});
-    sinon.assert.notCalled(route.replaceWith);
+    sinon.assert.notCalled(route.router.replaceWith);
   });
 });

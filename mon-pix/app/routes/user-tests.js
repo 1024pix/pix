@@ -6,6 +6,7 @@ import { isEmpty } from '@ember/utils';
 
 export default class UserTestsRoute extends Route.extend(SecuredRouteMixin) {
   @service store;
+  @service router;
 
   model() {
     const user = this.currentUser.user;
@@ -22,7 +23,7 @@ export default class UserTestsRoute extends Route.extend(SecuredRouteMixin) {
 
   redirect(model) {
     if (isEmpty(model)) {
-      this.replaceWith('');
+      this.router.replaceWith('');
     }
   }
 
