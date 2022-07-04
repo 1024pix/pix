@@ -12,10 +12,10 @@ exports.register = async function (server) {
         pre: [
           {
             method: (request, h) =>
-              securityPreHandlers.userHasAtLeastOneAccessOf([
-                securityPreHandlers.checkUserHasRoleSuperAdmin,
-                securityPreHandlers.checkUserHasRoleSupport,
-                securityPreHandlers.checkUserHasRoleMetier,
+              securityPreHandlers.adminMemberHasAtLeastOneAccessOf([
+                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+                securityPreHandlers.checkAdminMemberHasRoleSupport,
+                securityPreHandlers.checkAdminMemberHasRoleMetier,
               ])(request, h),
             assign: 'hasAuthorizationToAccessAdminScope',
           },
@@ -31,11 +31,11 @@ exports.register = async function (server) {
         pre: [
           {
             method: (request, h) =>
-              securityPreHandlers.userHasAtLeastOneAccessOf([
-                securityPreHandlers.checkUserHasRoleSuperAdmin,
-                securityPreHandlers.checkUserHasRoleCertif,
-                securityPreHandlers.checkUserHasRoleSupport,
-                securityPreHandlers.checkUserHasRoleMetier,
+              securityPreHandlers.adminMemberHasAtLeastOneAccessOf([
+                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+                securityPreHandlers.checkAdminMemberHasRoleCertif,
+                securityPreHandlers.checkAdminMemberHasRoleSupport,
+                securityPreHandlers.checkAdminMemberHasRoleMetier,
               ])(request, h),
             assign: 'hasAuthorizationToAccessAdminScope',
           },
@@ -60,10 +60,10 @@ exports.register = async function (server) {
         pre: [
           {
             method: (request, h) =>
-              securityPreHandlers.userHasAtLeastOneAccessOf([
-                securityPreHandlers.checkUserHasRoleSuperAdmin,
-                securityPreHandlers.checkUserHasRoleSupport,
-                securityPreHandlers.checkUserHasRoleMetier,
+              securityPreHandlers.adminMemberHasAtLeastOneAccessOf([
+                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+                securityPreHandlers.checkAdminMemberHasRoleSupport,
+                securityPreHandlers.checkAdminMemberHasRoleMetier,
               ])(request, h),
             assign: 'hasAuthorizationToAccessAdminScope',
           },

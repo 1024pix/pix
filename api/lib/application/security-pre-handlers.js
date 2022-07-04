@@ -1,9 +1,9 @@
 /* eslint-disable  no-restricted-syntax */
 const bluebird = require('bluebird');
-const checkUserHasRoleSuperAdminUseCase = require('./usecases/checkUserHasRoleSuperAdmin');
-const checkUserHasRoleCertifUseCase = require('./usecases/checkUserHasRoleCertif');
-const checkUserHasRoleSupportUseCase = require('./usecases/checkUserHasRoleSupport');
-const checkUserHasRoleMetierUseCase = require('./usecases/checkUserHasRoleMetier');
+const checkAdminMemberHasRoleSuperAdminUseCase = require('./usecases/checkAdminMemberHasRoleSuperAdmin');
+const checkAdminMemberHasRoleCertifUseCase = require('./usecases/checkAdminMemberHasRoleCertif');
+const checkAdminMemberHasRoleSupportUseCase = require('./usecases/checkAdminMemberHasRoleSupport');
+const checkAdminMemberHasRoleMetierUseCase = require('./usecases/checkAdminMemberHasRoleMetier');
 const checkUserIsAdminInOrganizationUseCase = require('./usecases/checkUserIsAdminInOrganization');
 const checkUserBelongsToOrganizationManagingStudentsUseCase = require('./usecases/checkUserBelongsToOrganizationManagingStudents');
 const checkUserBelongsToScoOrganizationAndManagesStudentsUseCase = require('./usecases/checkUserBelongsToScoOrganizationAndManagesStudents');
@@ -35,7 +35,7 @@ function _replyForbiddenError(h) {
   return h.response(jsonApiError).code(errorHttpStatusCode).takeover();
 }
 
-async function checkUserHasRoleSuperAdmin(request, h) {
+async function checkAdminMemberHasRoleSuperAdmin(request, h) {
   if (!request.auth.credentials || !request.auth.credentials.userId) {
     return _replyForbiddenError(h);
   }
@@ -43,7 +43,7 @@ async function checkUserHasRoleSuperAdmin(request, h) {
   const userId = request.auth.credentials.userId;
 
   try {
-    const hasRoleSuperAdmin = await checkUserHasRoleSuperAdminUseCase.execute(userId);
+    const hasRoleSuperAdmin = await checkAdminMemberHasRoleSuperAdminUseCase.execute(userId);
     if (!hasRoleSuperAdmin) {
       throw new ForbiddenAccess(apps.PIX_ADMIN.NOT_ALLOWED_MSG);
     }
@@ -53,7 +53,7 @@ async function checkUserHasRoleSuperAdmin(request, h) {
   }
 }
 
-async function checkUserHasRoleCertif(request, h) {
+async function checkAdminMemberHasRoleCertif(request, h) {
   if (!request.auth.credentials || !request.auth.credentials.userId) {
     return _replyForbiddenError(h);
   }
@@ -61,7 +61,7 @@ async function checkUserHasRoleCertif(request, h) {
   const userId = request.auth.credentials.userId;
 
   try {
-    const hasRoleCertif = await checkUserHasRoleCertifUseCase.execute(userId);
+    const hasRoleCertif = await checkAdminMemberHasRoleCertifUseCase.execute(userId);
     if (!hasRoleCertif) {
       throw new ForbiddenAccess(apps.PIX_ADMIN.NOT_ALLOWED_MSG);
     }
@@ -71,7 +71,7 @@ async function checkUserHasRoleCertif(request, h) {
   }
 }
 
-async function checkUserHasRoleSupport(request, h) {
+async function checkAdminMemberHasRoleSupport(request, h) {
   if (!request.auth.credentials || !request.auth.credentials.userId) {
     return _replyForbiddenError(h);
   }
@@ -79,7 +79,7 @@ async function checkUserHasRoleSupport(request, h) {
   const userId = request.auth.credentials.userId;
 
   try {
-    const hasRoleSupport = await checkUserHasRoleSupportUseCase.execute(userId);
+    const hasRoleSupport = await checkAdminMemberHasRoleSupportUseCase.execute(userId);
     if (!hasRoleSupport) {
       throw new ForbiddenAccess(apps.PIX_ADMIN.NOT_ALLOWED_MSG);
     }
@@ -89,7 +89,7 @@ async function checkUserHasRoleSupport(request, h) {
   }
 }
 
-async function checkUserHasRoleMetier(request, h) {
+async function checkAdminMemberHasRoleMetier(request, h) {
   if (!request.auth.credentials || !request.auth.credentials.userId) {
     return _replyForbiddenError(h);
   }
@@ -97,7 +97,7 @@ async function checkUserHasRoleMetier(request, h) {
   const userId = request.auth.credentials.userId;
 
   try {
-    const hasRoleMetier = await checkUserHasRoleMetierUseCase.execute(userId);
+    const hasRoleMetier = await checkAdminMemberHasRoleMetierUseCase.execute(userId);
     if (!hasRoleMetier) {
       throw new ForbiddenAccess(apps.PIX_ADMIN.NOT_ALLOWED_MSG);
     }
@@ -336,7 +336,7 @@ async function checkAuthorizationToManageCampaign(request, h) {
   return _replyForbiddenError(h);
 }
 
-function userHasAtLeastOneAccessOf(securityChecks) {
+function adminMemberHasAtLeastOneAccessOf(securityChecks) {
   return async (request, h) => {
     const responses = await bluebird.map(securityChecks, (securityCheck) => securityCheck(request, h));
     const hasAccess = responses.some((response) => !response.source?.errors);
@@ -370,10 +370,10 @@ module.exports = {
   checkUserBelongsToOrganizationManagingStudents,
   checkUserBelongsToScoOrganizationAndManagesStudents,
   checkUserBelongsToSupOrganizationAndManagesStudents,
-  checkUserHasRoleSuperAdmin,
-  checkUserHasRoleCertif,
-  checkUserHasRoleSupport,
-  checkUserHasRoleMetier,
+  checkAdminMemberHasRoleSuperAdmin,
+  checkAdminMemberHasRoleCertif,
+  checkAdminMemberHasRoleSupport,
+  checkAdminMemberHasRoleMetier,
   checkUserIsAdminInOrganization,
   checkAuthorizationToManageCampaign,
   checkUserIsAdminInSCOOrganizationManagingStudents,
@@ -384,5 +384,5 @@ module.exports = {
   checkUserOwnsCertificationCourse,
   checkUserIsMemberOfCertificationCenterSessionFromCertificationCourseId,
   checkUserIsMemberOfCertificationCenterSessionFromCertificationIssueReportId,
-  userHasAtLeastOneAccessOf,
+  adminMemberHasAtLeastOneAccessOf,
 };

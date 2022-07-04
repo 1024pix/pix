@@ -10,7 +10,7 @@ exports.register = async (server) => {
       config: {
         pre: [
           {
-            method: securityPreHandlers.checkUserHasRoleSuperAdmin,
+            method: securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
             assign: 'hasRoleSuperAdmin',
           },
         ],
@@ -42,11 +42,11 @@ exports.register = async (server) => {
         pre: [
           {
             method: (request, h) =>
-              securityPreHandlers.userHasAtLeastOneAccessOf([
-                securityPreHandlers.checkUserHasRoleSuperAdmin,
-                securityPreHandlers.checkUserHasRoleCertif,
-                securityPreHandlers.checkUserHasRoleSupport,
-                securityPreHandlers.checkUserHasRoleMetier,
+              securityPreHandlers.adminMemberHasAtLeastOneAccessOf([
+                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+                securityPreHandlers.checkAdminMemberHasRoleCertif,
+                securityPreHandlers.checkAdminMemberHasRoleSupport,
+                securityPreHandlers.checkAdminMemberHasRoleMetier,
               ])(request, h),
             assign: 'hasAuthorizationToAccessAdminScope',
           },

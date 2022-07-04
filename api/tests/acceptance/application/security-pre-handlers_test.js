@@ -20,7 +20,7 @@ describe('Acceptance | Application | SecurityPreHandlers', function () {
     server = await createServer();
   });
 
-  describe('#checkUserHasRoleSuperAdmin', function () {
+  describe('#checkAdminMemberHasRoleSuperAdmin', function () {
     it('should return a well formed JSON API error when user is not authorized', async function () {
       // given
       const options = {
@@ -292,7 +292,7 @@ describe('Acceptance | Application | SecurityPreHandlers', function () {
     });
   });
 
-  describe('#userHasAtLeastOneAccessOf', function () {
+  describe('#adminMemberHasAtLeastOneAccessOf', function () {
     let userId;
     let organizationId;
     let options;

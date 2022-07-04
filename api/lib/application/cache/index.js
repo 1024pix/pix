@@ -9,7 +9,7 @@ exports.register = async function (server) {
       config: {
         pre: [
           {
-            method: securityPreHandlers.checkUserHasRoleSuperAdmin,
+            method: securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
             assign: 'hasRoleSuperAdmin',
           },
         ],
@@ -28,7 +28,7 @@ exports.register = async function (server) {
       config: {
         pre: [
           {
-            method: securityPreHandlers.checkUserHasRoleSuperAdmin,
+            method: securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
             assign: 'hasRoleSuperAdmin',
           },
         ],

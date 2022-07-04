@@ -8,7 +8,7 @@ describe('Unit | Application | Certifications Course | Route', function () {
   describe('GET /api/admin/certifications/{id}/details', function () {
     it('should exist', async function () {
       // given
-      sinon.stub(securityPreHandlers, 'userHasAtLeastOneAccessOf').returns(() => true);
+      sinon.stub(securityPreHandlers, 'adminMemberHasAtLeastOneAccessOf').returns(() => true);
       sinon.stub(certificationCoursesController, 'getCertificationDetails').returns('ok');
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -24,7 +24,7 @@ describe('Unit | Application | Certifications Course | Route', function () {
   describe('GET /api/admin/certifications/{id}/certified-profile', function () {
     it('should exist', async function () {
       // given
-      sinon.stub(securityPreHandlers, 'userHasAtLeastOneAccessOf').returns(() => true);
+      sinon.stub(securityPreHandlers, 'adminMemberHasAtLeastOneAccessOf').returns(() => true);
       sinon.stub(certificationCoursesController, 'getCertifiedProfile').returns('ok');
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -41,7 +41,7 @@ describe('Unit | Application | Certifications Course | Route', function () {
     it('should reject with 403 code when user is not Super Admin', async function () {
       // given
       sinon
-        .stub(securityPreHandlers, 'userHasAtLeastOneAccessOf')
+        .stub(securityPreHandlers, 'adminMemberHasAtLeastOneAccessOf')
         .returns((request, h) => h.response().code(403).takeover());
       sinon.stub(certificationCoursesController, 'getJuryCertification').throws(new Error('I should not be here'));
       const httpTestServer = new HttpTestServer();
@@ -57,7 +57,7 @@ describe('Unit | Application | Certifications Course | Route', function () {
 
     it('should call handler when user is ', async function () {
       // given
-      sinon.stub(securityPreHandlers, 'userHasAtLeastOneAccessOf').returns(() => true);
+      sinon.stub(securityPreHandlers, 'adminMemberHasAtLeastOneAccessOf').returns(() => true);
       sinon.stub(certificationCoursesController, 'getJuryCertification').returns('ok');
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -101,7 +101,7 @@ describe('Unit | Application | Certifications Course | Route', function () {
   describe('PATCH /api/certification-courses/id', function () {
     it('should exist', async function () {
       // given
-      sinon.stub(securityPreHandlers, 'userHasAtLeastOneAccessOf').returns(() => true);
+      sinon.stub(securityPreHandlers, 'adminMemberHasAtLeastOneAccessOf').returns(() => true);
       sinon.stub(certificationCoursesController, 'update').returns('ok');
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -116,12 +116,12 @@ describe('Unit | Application | Certifications Course | Route', function () {
     it('should return a forbidden access if user has METIER role', async function () {
       // given
       sinon
-        .stub(securityPreHandlers, 'userHasAtLeastOneAccessOf')
+        .stub(securityPreHandlers, 'adminMemberHasAtLeastOneAccessOf')
         .withArgs([
           securityPreHandlers.checkUserOwnsCertificationCourse,
-          securityPreHandlers.checkUserHasRoleSuperAdmin,
-          securityPreHandlers.checkUserHasRoleCertif,
-          securityPreHandlers.checkUserHasRoleSupport,
+          securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+          securityPreHandlers.checkAdminMemberHasRoleCertif,
+          securityPreHandlers.checkAdminMemberHasRoleSupport,
         ])
         .callsFake(
           () => (request, h) =>
@@ -176,11 +176,11 @@ describe('Unit | Application | Certifications Course | Route', function () {
     it('return forbidden access if user has METIER role', async function () {
       // given
       sinon
-        .stub(securityPreHandlers, 'userHasAtLeastOneAccessOf')
+        .stub(securityPreHandlers, 'adminMemberHasAtLeastOneAccessOf')
         .withArgs([
-          securityPreHandlers.checkUserHasRoleSuperAdmin,
-          securityPreHandlers.checkUserHasRoleCertif,
-          securityPreHandlers.checkUserHasRoleSupport,
+          securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+          securityPreHandlers.checkAdminMemberHasRoleCertif,
+          securityPreHandlers.checkAdminMemberHasRoleSupport,
         ])
         .callsFake(
           () => (request, h) =>
@@ -201,7 +201,7 @@ describe('Unit | Application | Certifications Course | Route', function () {
 
     it('should call handler when user is ', async function () {
       // given
-      sinon.stub(securityPreHandlers, 'userHasAtLeastOneAccessOf').returns(() => true);
+      sinon.stub(securityPreHandlers, 'adminMemberHasAtLeastOneAccessOf').returns(() => true);
       sinon.stub(certificationCoursesController, 'cancel').returns('ok');
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -218,11 +218,11 @@ describe('Unit | Application | Certifications Course | Route', function () {
     it('return forbidden access if user has METIER role', async function () {
       // given
       sinon
-        .stub(securityPreHandlers, 'userHasAtLeastOneAccessOf')
+        .stub(securityPreHandlers, 'adminMemberHasAtLeastOneAccessOf')
         .withArgs([
-          securityPreHandlers.checkUserHasRoleSuperAdmin,
-          securityPreHandlers.checkUserHasRoleCertif,
-          securityPreHandlers.checkUserHasRoleSupport,
+          securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+          securityPreHandlers.checkAdminMemberHasRoleCertif,
+          securityPreHandlers.checkAdminMemberHasRoleSupport,
         ])
         .callsFake(
           () => (request, h) =>
@@ -244,7 +244,7 @@ describe('Unit | Application | Certifications Course | Route', function () {
 
     it('should call handler when user is ', async function () {
       // given
-      sinon.stub(securityPreHandlers, 'userHasAtLeastOneAccessOf').returns(() => true);
+      sinon.stub(securityPreHandlers, 'adminMemberHasAtLeastOneAccessOf').returns(() => true);
       sinon.stub(certificationCoursesController, 'uncancel').returns('ok');
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);

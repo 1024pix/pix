@@ -9,11 +9,11 @@ describe('Unit | Application | Stages | Routes', function () {
       it('should return a response with an HTTP status code 201', async function () {
         // given
         sinon
-          .stub(securityPreHandlers, 'userHasAtLeastOneAccessOf')
+          .stub(securityPreHandlers, 'adminMemberHasAtLeastOneAccessOf')
           .withArgs([
-            securityPreHandlers.checkUserHasRoleSuperAdmin,
-            securityPreHandlers.checkUserHasRoleSupport,
-            securityPreHandlers.checkUserHasRoleMetier,
+            securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+            securityPreHandlers.checkAdminMemberHasRoleSupport,
+            securityPreHandlers.checkAdminMemberHasRoleMetier,
           ])
           .callsFake(() => (request, h) => h.response(true));
         sinon.stub(stagesController, 'create').callsFake((request, h) => h.response('ok').code(201));
@@ -32,11 +32,11 @@ describe('Unit | Application | Stages | Routes', function () {
       it('should return a response with an HTTP status code 403', async function () {
         // given
         sinon
-          .stub(securityPreHandlers, 'userHasAtLeastOneAccessOf')
+          .stub(securityPreHandlers, 'adminMemberHasAtLeastOneAccessOf')
           .withArgs([
-            securityPreHandlers.checkUserHasRoleSuperAdmin,
-            securityPreHandlers.checkUserHasRoleSupport,
-            securityPreHandlers.checkUserHasRoleMetier,
+            securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+            securityPreHandlers.checkAdminMemberHasRoleSupport,
+            securityPreHandlers.checkAdminMemberHasRoleMetier,
           ])
           .callsFake(
             () => (request, h) =>
@@ -60,7 +60,7 @@ describe('Unit | Application | Stages | Routes', function () {
   describe('GET /api/admin/stages/:id', function () {
     it('should exist', async function () {
       // given
-      sinon.stub(securityPreHandlers, 'userHasAtLeastOneAccessOf').returns(() => true);
+      sinon.stub(securityPreHandlers, 'adminMemberHasAtLeastOneAccessOf').returns(() => true);
       sinon.stub(stagesController, 'getStageDetails').callsFake((request, h) => h.response('ok').code(200));
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -97,11 +97,11 @@ describe('Unit | Application | Stages | Routes', function () {
       it('should return a response with an HTTP status code 201', async function () {
         // given
         sinon
-          .stub(securityPreHandlers, 'userHasAtLeastOneAccessOf')
+          .stub(securityPreHandlers, 'adminMemberHasAtLeastOneAccessOf')
           .withArgs([
-            securityPreHandlers.checkUserHasRoleSuperAdmin,
-            securityPreHandlers.checkUserHasRoleSupport,
-            securityPreHandlers.checkUserHasRoleMetier,
+            securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+            securityPreHandlers.checkAdminMemberHasRoleSupport,
+            securityPreHandlers.checkAdminMemberHasRoleMetier,
           ])
           .callsFake(() => (request, h) => h.response(true));
         sinon.stub(stagesController, 'updateStage').callsFake((request, h) => h.response('ok').code(201));
@@ -127,7 +127,7 @@ describe('Unit | Application | Stages | Routes', function () {
 
       it('should update the stage with attributes', async function () {
         // given
-        sinon.stub(securityPreHandlers, 'userHasAtLeastOneAccessOf').returns(() => true);
+        sinon.stub(securityPreHandlers, 'adminMemberHasAtLeastOneAccessOf').returns(() => true);
         sinon.stub(stagesController, 'updateStage').callsFake((request, h) => h.response('ok').code(204));
         const httpTestServer = new HttpTestServer();
         await httpTestServer.register(moduleUnderTest);
@@ -155,7 +155,7 @@ describe('Unit | Application | Stages | Routes', function () {
 
       it('should update the stage even if there is null', async function () {
         // given
-        sinon.stub(securityPreHandlers, 'userHasAtLeastOneAccessOf').returns(() => true);
+        sinon.stub(securityPreHandlers, 'adminMemberHasAtLeastOneAccessOf').returns(() => true);
         sinon.stub(stagesController, 'updateStage').callsFake((request, h) => h.response('ok').code(204));
         const httpTestServer = new HttpTestServer();
         await httpTestServer.register(moduleUnderTest);
@@ -262,11 +262,11 @@ describe('Unit | Application | Stages | Routes', function () {
       it('should return a response with an HTTP status code 403', async function () {
         // given
         sinon
-          .stub(securityPreHandlers, 'userHasAtLeastOneAccessOf')
+          .stub(securityPreHandlers, 'adminMemberHasAtLeastOneAccessOf')
           .withArgs([
-            securityPreHandlers.checkUserHasRoleSuperAdmin,
-            securityPreHandlers.checkUserHasRoleSupport,
-            securityPreHandlers.checkUserHasRoleMetier,
+            securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+            securityPreHandlers.checkAdminMemberHasRoleSupport,
+            securityPreHandlers.checkAdminMemberHasRoleMetier,
           ])
           .callsFake(
             () => (request, h) =>
