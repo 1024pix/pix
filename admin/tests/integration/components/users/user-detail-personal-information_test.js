@@ -13,62 +13,6 @@ module('Integration | Component | users | user-detail-personal-information', fun
     hasAccessToUsersActionsScope = true;
   }
 
-  module('schooling registrations', function () {
-    module('When user has no schoolingRegistrations', function () {
-      test('should display no result in schooling registrations table', async function (assert) {
-        // given
-        this.set('user', { schoolingRegistrations: [] });
-        this.owner.register('service:access-control', AccessControlStub);
-
-        // when
-        const screen = await render(hbs`<Users::UserDetailPersonalInformation @user={{this.user}}/>`);
-
-        // then
-        assert.dom(screen.getByText('Aucun résultat')).exists();
-      });
-    });
-
-    module('When user has schoolingRegistrations', function () {
-      test('should display schooling registrations in table', async function (assert) {
-        // given
-        this.set('user', { schoolingRegistrations: [{ id: 1 }, { id: 2 }] });
-        this.owner.register('service:access-control', AccessControlStub);
-
-        // when
-        const screen = await render(hbs`<Users::UserDetailPersonalInformation @user={{this.user}}/>`);
-
-        // then
-        assert.strictEqual(screen.getAllByLabelText('Inscription').length, 2);
-      });
-
-      module('Display the schooling registrations status', function () {
-        test('Should display a green tick mark on the table when "isDisabled = false"', async function (assert) {
-          // given
-          this.set('user', { schoolingRegistrations: [{ id: 1, isDisabled: false }] });
-          this.owner.register('service:access-control', AccessControlStub);
-
-          // when
-          const screen = await render(hbs`<Users::UserDetailPersonalInformation @user={{this.user}}/>`);
-
-          // then
-          assert.dom(screen.getByLabelText('Inscription activée')).exists();
-        });
-
-        test('Should display a red cross on the table when "isDisabled= true"', async function (assert) {
-          // given
-          this.set('user', { schoolingRegistrations: [{ id: 1, isDisabled: true }] });
-          this.owner.register('service:access-control', AccessControlStub);
-
-          // when
-          const screen = await render(hbs`<Users::UserDetailPersonalInformation @user={{this.user}}/>`);
-
-          // then
-          assert.dom(screen.getByLabelText('Inscription désactivée')).exists();
-        });
-      });
-    });
-  });
-
   module('when the admin member click on anonymize button', function (hooks) {
     let user = null;
 
