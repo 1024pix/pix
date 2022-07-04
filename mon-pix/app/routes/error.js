@@ -4,6 +4,7 @@ import get from 'lodash/get';
 
 export default class ErrorRoute extends Route {
   @service session;
+  @service router;
 
   hasUnauthorizedError(error) {
     const statusCode = get(error, 'errors[0].status');
@@ -27,7 +28,7 @@ export default class ErrorRoute extends Route {
     }
 
     if (this.hasUnauthorizedError(error)) {
-      return this.transitionTo('logout');
+      return this.router.transitionTo('logout');
     }
   }
 }

@@ -29,7 +29,7 @@ describe('Unit | Route | Certification | Resume', function () {
       storeStub = Service.create({ query: queryStub, peekRecord: peekRecordStub });
       route = this.owner.lookup('route:certifications.resume');
       route.set('store', storeStub);
-      route.replaceWith = sinon.stub();
+      route.router = { replaceWith: sinon.stub() };
     });
 
     it('should peekRecord the certification course', async function () {
@@ -45,7 +45,7 @@ describe('Unit | Route | Certification | Resume', function () {
       await route.model(params);
 
       // then
-      sinon.assert.calledWith(route.replaceWith, 'assessments.resume', assessment);
+      sinon.assert.calledWith(route.router.replaceWith, 'assessments.resume', assessment);
     });
   });
 });

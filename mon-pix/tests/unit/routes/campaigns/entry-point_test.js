@@ -16,7 +16,7 @@ describe('Unit | Route | Entry Point', function () {
     route = this.owner.lookup('route:campaigns.entry-point');
 
     route.store = { queryRecord: sinon.stub() };
-    route.replaceWith = sinon.stub();
+    route.router = { replaceWith: sinon.stub() };
     route.modelFor = sinon.stub();
     route.campaignStorage = { set: sinon.stub(), clear: sinon.stub() };
     route.session = { isAuthenticated: false, invalidate: sinon.stub() };
@@ -92,7 +92,7 @@ describe('Unit | Route | Entry Point', function () {
         await route.afterModel(campaign, transition);
 
         //then
-        sinon.assert.calledWith(route.replaceWith, 'campaigns.campaign-landing-page');
+        sinon.assert.calledWith(route.router.replaceWith, 'campaigns.campaign-landing-page');
       });
 
       describe('archived campaign', function () {
@@ -105,7 +105,7 @@ describe('Unit | Route | Entry Point', function () {
           await route.afterModel(campaign, transition);
 
           //then
-          sinon.assert.calledWith(route.replaceWith, 'campaigns.archived-error');
+          sinon.assert.calledWith(route.router.replaceWith, 'campaigns.archived-error');
         });
       });
     });
@@ -140,7 +140,7 @@ describe('Unit | Route | Entry Point', function () {
         await route.afterModel(campaign, transition);
 
         //then
-        sinon.assert.calledWith(route.replaceWith, 'campaigns.campaign-landing-page');
+        sinon.assert.calledWith(route.router.replaceWith, 'campaigns.campaign-landing-page');
       });
 
       it('should redirect to entrance when ongoing campaign participation is existing', async function () {
@@ -156,7 +156,7 @@ describe('Unit | Route | Entry Point', function () {
         await route.afterModel(campaign, transition);
 
         //then
-        sinon.assert.calledWith(route.replaceWith, 'campaigns.entrance');
+        sinon.assert.calledWith(route.router.replaceWith, 'campaigns.entrance');
       });
 
       describe('archived campaign', function () {
@@ -177,7 +177,7 @@ describe('Unit | Route | Entry Point', function () {
           await route.afterModel(campaign, transition);
 
           //then
-          sinon.assert.calledWith(route.replaceWith, 'campaigns.archived-error');
+          sinon.assert.calledWith(route.router.replaceWith, 'campaigns.archived-error');
         });
 
         it('should redirect to entrance with participation', async function () {
@@ -193,7 +193,7 @@ describe('Unit | Route | Entry Point', function () {
           await route.afterModel(campaign, transition);
 
           //then
-          sinon.assert.calledWith(route.replaceWith, 'campaigns.entrance');
+          sinon.assert.calledWith(route.router.replaceWith, 'campaigns.entrance');
         });
       });
     });

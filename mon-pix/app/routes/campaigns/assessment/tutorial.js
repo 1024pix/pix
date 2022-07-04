@@ -6,6 +6,7 @@ import { action } from '@ember/object';
 export default class CampaignsAssessmentTutorial extends Route.extend(SecuredRouteMixin) {
   @service currentUser;
   @service intl;
+  @service router;
 
   campaignCode = null;
   tutorialPageId = 0;
@@ -33,7 +34,7 @@ export default class CampaignsAssessmentTutorial extends Route.extend(SecuredRou
     await this.currentUser.user.save({ adapterOptions: { rememberUserHasSeenAssessmentInstructions: true } });
 
     this.tutorialPageId = 0;
-    this.transitionTo('campaigns.assessment.start-or-resume', this.campaignCode, {
+    this.router.transitionTo('campaigns.assessment.start-or-resume', this.campaignCode, {
       queryParams: {
         hasConsultedTutorial: true,
       },

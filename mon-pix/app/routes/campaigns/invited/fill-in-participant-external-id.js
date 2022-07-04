@@ -4,6 +4,7 @@ import SecuredRouteMixin from 'mon-pix/mixins/secured-route-mixin';
 
 export default class FillInParticipantExternalIdRoute extends Route.extend(SecuredRouteMixin) {
   @service campaignStorage;
+  @service router;
 
   async model() {
     return this.modelFor('campaigns');
@@ -11,7 +12,7 @@ export default class FillInParticipantExternalIdRoute extends Route.extend(Secur
 
   afterModel(campaign) {
     if (!this.shouldProvideExternalId(campaign)) {
-      this.replaceWith('campaigns.entrance', campaign.code);
+      this.router.replaceWith('campaigns.entrance', campaign.code);
     }
   }
 

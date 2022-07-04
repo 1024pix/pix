@@ -5,6 +5,7 @@ import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-rout
 export default class TermsOfServiceRoute extends Route.extend(AuthenticatedRouteMixin) {
   @service currentUser;
   @service session;
+  @service router;
 
   beforeModel() {
     const isUserExternal = Boolean(this.session.data.externalUser);
@@ -12,7 +13,7 @@ export default class TermsOfServiceRoute extends Route.extend(AuthenticatedRoute
       if (this.session.attemptedTransition) {
         this.session.attemptedTransition.retry();
       } else {
-        this.replaceWith('');
+        this.router.replaceWith('');
       }
     }
   }

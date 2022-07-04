@@ -111,7 +111,7 @@ describe("Acceptance | Competence details | Afficher la page de détails d'une 
 
       it('should not display pixScoreAheadOfNextLevel when next level is over the max level', async () => {
         // when
-        await visit(`/competence/${scorecardWithMaxLevel.competenceId}/details`);
+        await visit(`/competences/${scorecardWithMaxLevel.competenceId}/details`);
 
         // then
         expect(findAll('.scorecard-details-content-right__level-info')).to.have.lengthOf(0);

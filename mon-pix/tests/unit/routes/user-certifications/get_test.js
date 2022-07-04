@@ -22,7 +22,7 @@ describe('Unit | Route | user certifications/get', function () {
 
     route = this.owner.lookup('route:user-certifications/get');
     route.set('store', storeStub);
-    route.replaceWith = sinon.stub().resolves();
+    route.router.replaceWith = sinon.stub().resolves();
   });
 
   it('exists', function () {
@@ -64,7 +64,7 @@ describe('Unit | Route | user certifications/get', function () {
 
       // then
       return promise.then(() => {
-        expect(route.replaceWith.notCalled).to.be.true;
+        expect(route.router.replaceWith.notCalled).to.be.true;
       });
     });
 
@@ -86,8 +86,8 @@ describe('Unit | Route | user certifications/get', function () {
 
       // then
       return promise.then(() => {
-        sinon.assert.calledOnce(route.replaceWith);
-        sinon.assert.calledWith(route.replaceWith, '/mes-certifications');
+        sinon.assert.calledOnce(route.router.replaceWith);
+        sinon.assert.calledWith(route.router.replaceWith, '/mes-certifications');
       });
     });
 
@@ -109,8 +109,8 @@ describe('Unit | Route | user certifications/get', function () {
 
       // then
       return promise.then(() => {
-        sinon.assert.calledOnce(route.replaceWith);
-        sinon.assert.calledWith(route.replaceWith, '/mes-certifications');
+        sinon.assert.calledOnce(route.router.replaceWith);
+        sinon.assert.calledWith(route.router.replaceWith, '/mes-certifications');
       });
     });
   });

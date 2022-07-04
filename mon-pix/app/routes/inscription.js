@@ -5,6 +5,7 @@ import { action } from '@ember/object';
 
 export default class Inscription extends Route.extend(UnauthenticatedRouteMixin) {
   @service session;
+  @service store;
 
   model() {
     // XXX: Model needs to be initialize with empty to handle validations on all fields from Api

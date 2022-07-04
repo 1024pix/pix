@@ -6,6 +6,7 @@ export default class StudentSupRoute extends Route.extend(SecuredRouteMixin) {
   @service currentUser;
   @service campaignStorage;
   @service store;
+  @service router;
 
   model() {
     return this.modelFor('campaigns');
@@ -19,7 +20,7 @@ export default class StudentSupRoute extends Route.extend(SecuredRouteMixin) {
 
     if (schoolingRegistration) {
       this.campaignStorage.set(campaign.code, 'associationDone', true);
-      this.replaceWith('campaigns.invited.fill-in-participant-external-id', campaign.code);
+      this.router.replaceWith('campaigns.invited.fill-in-participant-external-id', campaign.code);
     }
   }
 }

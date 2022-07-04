@@ -4,10 +4,11 @@ import { inject as service } from '@ember/service';
 
 export default class InvitedRoute extends Route.extend(SecuredRouteMixin) {
   @service campaignStorage;
+  @service router;
 
   beforeModel(transition) {
     if (!transition.from) {
-      return this.replaceWith('campaigns.entry-point');
+      return this.router.replaceWith('campaigns.entry-point');
     }
     super.beforeModel(...arguments);
   }
@@ -18,11 +19,11 @@ export default class InvitedRoute extends Route.extend(SecuredRouteMixin) {
 
   afterModel(campaign) {
     if (this.shouldAssociateWithScoInformation(campaign)) {
-      this.replaceWith('campaigns.invited.student-sco', campaign.code);
+      this.router.replaceWith('campaigns.invited.student-sco', campaign.code);
     } else if (this.shouldAssociateWithSupInformation(campaign)) {
-      this.replaceWith('campaigns.invited.student-sup', campaign.code);
+      this.router.replaceWith('campaigns.invited.student-sup', campaign.code);
     } else {
-      this.replaceWith('campaigns.invited.fill-in-participant-external-id', campaign.code);
+      this.router.replaceWith('campaigns.invited.fill-in-participant-external-id', campaign.code);
     }
   }
 

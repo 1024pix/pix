@@ -11,7 +11,7 @@ describe('Unit | Route | Join', function () {
   beforeEach(function () {
     route = this.owner.lookup('route:campaigns.join');
     route.modelFor = sinon.stub();
-    route.replaceWith = sinon.stub();
+    route.router = { replaceWith: sinon.stub() };
   });
 
   describe('#beforeModel', function () {
@@ -20,7 +20,7 @@ describe('Unit | Route | Join', function () {
       await route.beforeModel({ from: null });
 
       //then
-      sinon.assert.calledWith(route.replaceWith, 'campaigns.entry-point');
+      sinon.assert.calledWith(route.router.replaceWith, 'campaigns.entry-point');
     });
 
     it('should continue en entrance route when from is set', async function () {
@@ -28,7 +28,7 @@ describe('Unit | Route | Join', function () {
       await route.beforeModel({ from: 'campaigns.entry-point' });
 
       //then
-      sinon.assert.notCalled(route.replaceWith);
+      sinon.assert.notCalled(route.router.replaceWith);
     });
 
     it('should redefine routeIfAlreadyAuthenticated', async function () {

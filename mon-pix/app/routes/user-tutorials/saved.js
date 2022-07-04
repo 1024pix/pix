@@ -4,6 +4,7 @@ import { action } from '@ember/object';
 
 export default class UserTutorialsSavedRoute extends Route {
   @service router;
+  @service store;
 
   queryParams = {
     pageNumber: { refreshModel: true },

@@ -1,9 +1,12 @@
 import Route from '@ember/routing/route';
+import { inject as service } from '@ember/service';
 
 export default class CampaignLandingPageRoute extends Route {
+  @service router;
+
   beforeModel(transition) {
     if (!transition.from) {
-      return this.replaceWith('campaigns.entry-point');
+      return this.router.replaceWith('campaigns.entry-point');
     }
   }
 
@@ -13,7 +16,7 @@ export default class CampaignLandingPageRoute extends Route {
 
   afterModel(campaign) {
     if (campaign.isForAbsoluteNovice) {
-      this.replaceWith('campaigns.access', campaign.code);
+      this.router.replaceWith('campaigns.access', campaign.code);
     }
   }
 }

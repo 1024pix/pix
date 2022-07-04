@@ -6,6 +6,7 @@ import Route from '@ember/routing/route';
 export default class LoginRoute extends Route.extend(UnauthenticatedRouteMixin) {
   @service session;
   @service store;
+  @service router;
 
   @action
   async authenticate(login, password) {
@@ -19,7 +20,7 @@ export default class LoginRoute extends Route.extend(UnauthenticatedRouteMixin) 
   @action
   async updateExpiredPassword(username, password) {
     this.store.createRecord('reset-expired-password-demand', { username, oneTimePassword: password });
-    return this.replaceWith('update-expired-password');
+    return this.router.replaceWith('update-expired-password');
   }
 
   async _removeExternalUserContext() {

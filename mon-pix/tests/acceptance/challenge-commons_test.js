@@ -108,7 +108,7 @@ describe('Acceptance | Common behavior to all challenges', function () {
       await authenticateByEmail(user);
 
       // when
-      await visit(`/assessments/${assessment.id}/challenges/`);
+      await visit(`/assessments/${assessment.id}/challenges/0`);
 
       // then
       expect(find('.assessment-banner__home-link')).to.not.exist;

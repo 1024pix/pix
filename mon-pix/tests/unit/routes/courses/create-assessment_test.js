@@ -22,7 +22,7 @@ describe('Unit | Route | Courses | Create Assessment', function () {
     storeStub = Service.create({ createRecord: createRecordStub });
     route = this.owner.lookup('route:courses.create-assessment');
     route.set('store', storeStub);
-    route.replaceWith = sinon.stub();
+    route.router = { replaceWith: sinon.stub() };
   });
 
   describe('#afterModel', function () {
@@ -39,7 +39,7 @@ describe('Unit | Route | Courses | Create Assessment', function () {
       await route.afterModel(course);
 
       // then
-      sinon.assert.calledWith(route.replaceWith, 'assessments.resume', createdAssessment.id);
+      sinon.assert.calledWith(route.router.replaceWith, 'assessments.resume', createdAssessment.id);
     });
   });
 });
