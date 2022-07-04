@@ -1,8 +1,7 @@
 import { module, test } from 'qunit';
-import { currentURL } from '@ember/test-helpers';
+import { click, currentURL } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { authenticateSession } from '../helpers/test-init';
-import clickByLabel from '../helpers/extended-ember-test-helpers/click-by-label';
 import { visit } from '@1024pix/ember-testing-library';
 
 import { CREATED, FINALIZED } from 'pix-certif/models/session';
@@ -65,6 +64,7 @@ module('Acceptance | Session Details Parameters', function (hooks) {
             const screen = await visit(`/sessions/${sessionCreated.id}`);
 
             // then
+            assert.dom(screen.getByRole('link', { name: 'Modifier' })).exists();
             assert.dom(screen.queryByRole('button', { name: 'Finaliser la session' })).doesNotExist();
           });
 
@@ -74,8 +74,8 @@ module('Acceptance | Session Details Parameters', function (hooks) {
             server.createList('certification-candidate', 2, { isLinked: true, sessionId: sessionCreatedAndStarted.id });
 
             // when
-            await visit(`/sessions/${sessionCreatedAndStarted.id}`);
-            await clickByLabel('Finaliser la session');
+            const screen = await visit(`/sessions/${sessionCreatedAndStarted.id}`);
+            await click(screen.getByRole('link', { name: 'Finaliser la session' }));
 
             // then
             assert.strictEqual(currentURL(), `/sessions/${sessionCreatedAndStarted.id}/finalisation`);

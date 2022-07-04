@@ -49,14 +49,14 @@ module('Integration | Component | SessionSupervising::CandidateList', function (
       });
 
       // when
-      await renderScreen(
+      const screen = await renderScreen(
         hbs`<SessionSupervising::CandidateList @candidates={{this.sessionForSupervising.certificationCandidates}}  />`
       );
 
       // then
-      assert.contains('Zen Whoberi Ben Titan Gamora');
-      assert.contains('Lord Star');
-      assert.contains('Racoon Rocket');
+      assert.dom(screen.getByText('Zen Whoberi Ben Titan Gamora')).exists();
+      assert.dom(screen.getByText('Lord Star')).exists();
+      assert.dom(screen.getByText('Racoon Rocket')).exists();
     });
 
     module('when there is no candidate', function () {
@@ -67,12 +67,12 @@ module('Integration | Component | SessionSupervising::CandidateList', function (
         });
 
         // when
-        await renderScreen(
+        const screen = await renderScreen(
           hbs`<SessionSupervising::CandidateList @candidates={{this.sessionForSupervising.certificationCandidates}} />`
         );
 
         // then
-        assert.contains('Aucun candidat inscrit à cette session');
+        assert.dom(screen.getByText('Aucun candidat inscrit à cette session')).exists();
       });
     });
   });

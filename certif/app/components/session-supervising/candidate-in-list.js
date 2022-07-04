@@ -90,7 +90,7 @@ export default class CandidateInList extends Component {
       );
     } catch (error) {
       this.notifications.error(
-        `Une erreur est survenue, le test de ${this.args.candidate.firstName} ${this.args.candidate.lastName} n'a pas pu être terminé`
+        `Une erreur est survenue, le test de ${this.args.candidate.firstName} ${this.args.candidate.lastName} n'a pas pu être terminé.`
       );
     }
   }
