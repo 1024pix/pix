@@ -46,6 +46,7 @@ const plugins = [
     options: {
       serializers: {
         req: logObjectSerializer,
+        res: logObjectSerializer,
       },
       instance: require('./infrastructure/logger'),
       logQueryParams: true,
