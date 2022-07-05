@@ -289,7 +289,7 @@ export default function () {
     return schema.featureToggles.findOrCreateBy({ id: 0 });
   });
 
-  this.delete('/schooling-registration-user-associations/:id', (schema, request) => {
+  this.delete('/admin/organization-learners/:id/association', (schema, request) => {
     const schoolingRegistrationId = request.params.id;
     schema.db.schoolingRegistrations.remove(schoolingRegistrationId);
     return new Response(204);
