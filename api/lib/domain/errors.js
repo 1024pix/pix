@@ -735,8 +735,9 @@ class UserCouldNotBeReconciledError extends DomainError {
 }
 
 class UserShouldChangePasswordError extends DomainError {
-  constructor(message = 'Erreur, vous devez changer votre mot de passe.') {
+  constructor(message = 'Erreur, vous devez changer votre mot de passe.', meta) {
     super(message);
+    this.meta = meta;
   }
 }
 

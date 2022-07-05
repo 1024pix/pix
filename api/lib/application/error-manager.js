@@ -284,7 +284,7 @@ function _mapToHttpError(error) {
     return new HttpErrors.NotFoundError(error.message);
   }
   if (error instanceof DomainErrors.UserShouldChangePasswordError) {
-    return new HttpErrors.PasswordShouldChangeError(error.message);
+    return new HttpErrors.PasswordShouldChangeError(error.message, error.meta);
   }
   if (error instanceof DomainErrors.PasswordResetDemandNotFoundError) {
     return new HttpErrors.NotFoundError(error.message);
