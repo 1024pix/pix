@@ -12,6 +12,7 @@ function _toDomain(skillData) {
     tubeId: skillData.tubeId,
     version: skillData.version,
     level: skillData.level,
+    learningMoreTutorialIds: skillData.learningMoreTutorialIds,
   });
 }
 
