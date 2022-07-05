@@ -2,9 +2,9 @@ const {
   MissingOrInvalidCredentialsError,
   UserNotFoundError,
   PasswordNotMatching,
-  UserShouldChangePasswordError,
   UnexpectedUserAccountError,
   UserAlreadyExistsWithAuthenticationMethodError,
+  UserShouldChangePasswordError,
 } = require('../errors');
 
 const AuthenticationMethod = require('../models/AuthenticationMethod');
@@ -47,7 +47,8 @@ async function authenticateExternalUser({
     });
 
     if (userFromCredentials.shouldChangePassword) {
-      throw new UserShouldChangePasswordError();
+      const passwordResetToken = tokenService.createPasswordResetToken(userFromCredentials.id);
+      throw new UserShouldChangePasswordError(undefined, passwordResetToken);
     }
 
     const token = tokenService.createAccessTokenForSaml(userFromCredentials.id);
