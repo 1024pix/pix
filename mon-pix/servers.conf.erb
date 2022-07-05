@@ -90,6 +90,13 @@ server {
     expires max;
   }
 
+  location /@1024pix/pix-ui/fonts/ {
+    # Design System fonts are not hash-suffixed but can be cached for a long time
+    expires 1y;
+    add_header Cache-Control "public";
+    add_header ETag "";
+  }
+
   location /images/ {
     expires 24h;
   }
