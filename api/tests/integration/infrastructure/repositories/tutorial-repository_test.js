@@ -584,6 +584,7 @@ describe('Integration | Repository | tutorial-repository', function () {
           title: 'Mon super tuto',
           format: 'video',
           duration: '2min',
+          skillId: 'recSkill1',
         });
         expect(results.map((tutorial) => tutorial.id)).to.exactlyContain(['tuto1', 'tuto2', 'tuto5']);
       });
