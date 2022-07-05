@@ -432,30 +432,60 @@ describe('Integration | Scripts | fill-skillId-in-user-saved-tutorials', functio
   });
 
   describe('#associateSkillsToTutorial', function () {
-    it('should associate skillIds to related tutorial', async function () {
-      // given
-      const tutorials = [
-        domainBuilder.buildTutorial({ id: 'tutorial1_skill1_and_skill2' }),
-        domainBuilder.buildTutorial({ id: 'tutorial2_skill1' }),
-        domainBuilder.buildTutorial({ id: 'tutorial3_skill2' }),
-      ];
-      const skills = [
-        domainBuilder.buildSkill({ id: 'skill1', tutorialIds: ['tutorial1_skill1_and_skill2', 'tutorial2_skill1'] }),
-        domainBuilder.buildSkill({ id: 'skill2', tutorialIds: ['tutorial1_skill1_and_skill2', 'tutorial3_skill2'] }),
-      ];
+    context('when skills have tutorial ids', function () {
+      it('should associate skillIds to related tutorial', function () {
+        // given
+        const tutorials = [
+          domainBuilder.buildTutorial({ id: 'tutorial1_skill1_and_skill2' }),
+          domainBuilder.buildTutorial({ id: 'tutorial2_skill1' }),
+          domainBuilder.buildTutorial({ id: 'tutorial3_skill2' }),
+        ];
+        const skills = [
+          domainBuilder.buildSkill({ id: 'skill1', tutorialIds: ['tutorial1_skill1_and_skill2', 'tutorial2_skill1'] }),
+          domainBuilder.buildSkill({ id: 'skill2', tutorialIds: ['tutorial1_skill1_and_skill2', 'tutorial3_skill2'] }),
+        ];
 
-      // when
-      const tutorialsWithSkillIds = associateSkillsToTutorial(skills, tutorials);
+        // when
+        const tutorialsWithSkillIds = associateSkillsToTutorial(skills, tutorials);
 
-      // then
-      expect(tutorialsWithSkillIds[0].skillIds).to.deep.equal(['skill1', 'skill2']);
-      expect(tutorialsWithSkillIds[1].skillIds).to.deep.equal(['skill1']);
-      expect(tutorialsWithSkillIds[2].skillIds).to.deep.equal(['skill2']);
+        // then
+        expect(tutorialsWithSkillIds[0].skillIds).to.deep.equal(['skill1', 'skill2']);
+        expect(tutorialsWithSkillIds[1].skillIds).to.deep.equal(['skill1']);
+        expect(tutorialsWithSkillIds[2].skillIds).to.deep.equal(['skill2']);
+      });
+    });
+    context('when skills have learning more tutorials ids', function () {
+      it('should associate learning more tutorial ids to related tutorial', function () {
+        // given
+        const tutorials = [
+          domainBuilder.buildTutorial({ id: 'tutorial1_skill1_and_skill2' }),
+          domainBuilder.buildTutorial({ id: 'tutorial2_skill1' }),
+          domainBuilder.buildTutorial({ id: 'tutorial3_skill2' }),
+        ];
+        const skills = [
+          domainBuilder.buildSkill({
+            id: 'skill1',
+            learningMoreTutorialIds: ['tutorial1_skill1_and_skill2', 'tutorial2_skill1'],
+          }),
+          domainBuilder.buildSkill({
+            id: 'skill2',
+            learningMoreTutorialIds: ['tutorial1_skill1_and_skill2', 'tutorial3_skill2'],
+          }),
+        ];
+
+        // when
+        const tutorialsWithSkillIds = associateSkillsToTutorial(skills, tutorials);
+
+        // then
+        expect(tutorialsWithSkillIds[0].referenceBySkillsIdsForLearningMore).to.deep.equal(['skill1', 'skill2']);
+        expect(tutorialsWithSkillIds[1].referenceBySkillsIdsForLearningMore).to.deep.equal(['skill1']);
+        expect(tutorialsWithSkillIds[2].referenceBySkillsIdsForLearningMore).to.deep.equal(['skill2']);
+      });
     });
   });
 
   describe('#associateTutorialToUserSagedTutorial', function () {
-    it('should retrieve one UserSavedTutorialWithTutorial', async function () {
+    it('should retrieve one UserSavedTutorialWithTutorial', function () {
       // given
       const tutorials = [domainBuilder.buildTutorial({ id: 'tuto1' }), domainBuilder.buildTutorial({ id: 'tuto2' })];
       const userSavedTutorial = domainBuilder.buildUserSavedTutorial({ tutorialId: 'tuto1' });
