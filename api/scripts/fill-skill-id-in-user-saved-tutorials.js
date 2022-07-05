@@ -61,12 +61,20 @@ function _skillHasTutorialId(skill, tutorialId) {
   return skill.tutorialIds.includes(tutorialId);
 }
 
+function _skillHasLearningMoreTutorialId(skill, tutorialId) {
+  return skill.learningMoreTutorialIds.includes(tutorialId);
+}
+
 function associateSkillsToTutorial(skills, tutorials) {
   return tutorials.map((tutorial) => {
     const skillIds = skills.filter((skill) => _skillHasTutorialId(skill, tutorial.id)).map((skill) => skill.id);
+    const referenceBySkillsIdsForLearningMore = skills
+      .filter((skill) => _skillHasLearningMoreTutorialId(skill, tutorial.id))
+      .map((skill) => skill.id);
     return {
       ...tutorial,
       skillIds,
+      referenceBySkillsIdsForLearningMore,
     };
   });
 }
