@@ -599,13 +599,14 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
                   resolvedAt: null,
                 });
                 certification.update({ certificationIssueReports: [certificationIssueReport] });
+                const resolution = 'Fraude';
                 this.server.patch(
                   `/certification-issue-reports/${certificationIssueReport.id}`,
                   (schema) => {
                     const certificationIssueReportToUpdate = schema.certificationIssueReports.find(
                       certificationIssueReport.id
                     );
-                    certificationIssueReportToUpdate.update({ resolvedAt: new Date(), resolution: 'Fraud' });
+                    certificationIssueReportToUpdate.update({ resolvedAt: new Date(), resolution });
                     return new Response({});
                   },
                   204
@@ -613,14 +614,15 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
 
                 const screen = await visit(`/certifications/${certification.id}`);
                 await click(screen.getAllByRole('button', { name: 'Résoudre le signalement' }).at(0));
-                await fillByLabel('Résolution', 'Fraude');
+                await fillByLabel('Résolution', resolution);
 
                 // when
-                await click(screen.getAllByRole('button', { name: 'Résoudre le signalement' }).at(1));
+                await click(screen.getAllByRole('button', { name: 'Résoudre ce signalement' }).at(0));
+                assert.true(true);
 
                 // then
                 assert.dom(screen.getByText('Le signalement a été résolu.')).exists();
-                assert.dom(screen.getByText('Résolution : Fraud')).exists();
+                assert.dom(screen.getByText('Résolution : Fraude')).exists();
               });
             });
           });
@@ -647,7 +649,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
               await fillByLabel('Résolution', 'Fraude');
 
               // when
-              await click(screen.getAllByRole('button', { name: 'Résoudre le signalement' }).at(1));
+              await click(screen.getAllByRole('button', { name: 'Résoudre ce signalement' }).at(0));
 
               // then
               assert.dom(screen.getByText(/une erreur est survenue/i)).exists();
