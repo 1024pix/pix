@@ -1,5 +1,27 @@
 # Pix Changelog
 
+## v3.229.0 (05/07/2022)
+
+
+### :rocket: Amélioration
+- [#4598](https://github.com/1024pix/pix/pull/4598) [FEATURE] Modifier les signalements (PIX-5192).
+- [#4609](https://github.com/1024pix/pix/pull/4609) [FEATURE] Afficher les informations d'un profil utilisateur dans Pix Admin (PIX-5268)
+- [#4602](https://github.com/1024pix/pix/pull/4602) [FEATURE] Traduire les compétences sur le certificat/certificat partagé en EN (PIX-5231)
+
+### :building_construction: Tech
+- [#4611](https://github.com/1024pix/pix/pull/4611) [TECH] Tutos v2.1 - Ajoute le feature toggle pour la sidebar de filtres (PIX-4916)
+- [#4481](https://github.com/1024pix/pix/pull/4481) [TECH] Renommer les préhandlers des membres Pix Admin (user -> adminMember) 
+- [#4536](https://github.com/1024pix/pix/pull/4536) [TECH] Utiliser Ember Testing Library dans l'application Certif
+- [#4571](https://github.com/1024pix/pix/pull/4571) [TECH] Utiliser les fontes de Pix-Ui sur Pix App (PIX-5128)
+- [#4065](https://github.com/1024pix/pix/pull/4065) [TECH] Remonter toutes les violations de lint.
+
+### :bug: Correction
+- [#4610](https://github.com/1024pix/pix/pull/4610) [BUGFIX] Corriger le design de la checkbox sur la page d'inscription de Pix App (PIX-5241)
+- [#4542](https://github.com/1024pix/pix/pull/4542) [BUGFIX] Corrige le down de la migration 20220510124351_create-target-profile-template-table.js
+- [#4613](https://github.com/1024pix/pix/pull/4613) [BUGFIX] Ajoute un point manquant dans le texte de la page de maintenance planifiée
+- [#4612](https://github.com/1024pix/pix/pull/4612) [BUGFIX] Restaurer les informations des requêtes dans l'API
+- [#4596](https://github.com/1024pix/pix/pull/4596) [BUGFIX] Rendre ses couleurs au certificat/certificat partagé (PIX-5230)
+
 ## v3.228.0 (01/07/2022)
 
 
