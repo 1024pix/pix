@@ -544,6 +544,11 @@ describe('Integration | Repository | tutorial-repository', function () {
             {
               id: 'tuto1',
               locale: 'fr-fr',
+              link: 'https//example.net/tuto1',
+              source: 'wikipedia',
+              title: 'Mon super tuto',
+              format: 'video',
+              duration: '2min',
             },
             {
               id: 'tuto2',
@@ -572,7 +577,15 @@ describe('Integration | Repository | tutorial-repository', function () {
         const { results } = await tutorialRepository.findPaginatedRecommendedByUserId({ userId });
 
         // then
-        expect(results.map((tutorial) => tutorial.id)).to.exactlyContain(['tuto2', 'tuto1', 'tuto5']);
+        expect(_.omit(results[0], ['userTutorial', 'tutorialEvaluation'])).to.deep.equal({
+          id: 'tuto1',
+          link: 'https//example.net/tuto1',
+          source: 'wikipedia',
+          title: 'Mon super tuto',
+          format: 'video',
+          duration: '2min',
+        });
+        expect(results.map((tutorial) => tutorial.id)).to.exactlyContain(['tuto1', 'tuto2', 'tuto5']);
       });
 
       it('should return tutorial related to user locale', async function () {
