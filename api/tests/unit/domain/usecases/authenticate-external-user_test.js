@@ -6,8 +6,8 @@ const {
   MissingOrInvalidCredentialsError,
   UserNotFoundError,
   PasswordNotMatching,
-  UserShouldChangePasswordError,
   UnexpectedUserAccountError,
+  UserShouldChangePasswordError,
   UserAlreadyExistsWithAuthenticationMethodError,
 } = require('../../../../lib/domain/errors');
 const AuthenticationMethod = require('../../../../lib/domain/models/AuthenticationMethod');
@@ -23,6 +23,7 @@ describe('Unit | Application | UseCase | authenticate-external-user', function (
     tokenService = {
       createAccessTokenForSaml: sinon.stub(),
       extractExternalUserFromIdToken: sinon.stub(),
+      createPasswordResetToken: sinon.stub(),
     };
     pixAuthenticationService = {
       getUserByUsernameAndPassword: sinon.stub(),
@@ -290,8 +291,9 @@ describe('Unit | Application | UseCase | authenticate-external-user', function (
         });
       });
 
-      it('should throw UserShouldChangePasswordError', async function () {
+      it('should create and return password reset token', async function () {
         // given
+        tokenService.createPasswordResetToken.returns('token');
         const oneTimePassword = 'Azerty123*';
         const user = createUserWithValidCredentialsWhoShouldChangePassword({
           oneTimePassword,
@@ -324,6 +326,8 @@ describe('Unit | Application | UseCase | authenticate-external-user', function (
 
         // then
         expect(error).to.be.an.instanceOf(UserShouldChangePasswordError);
+        expect(error.message).to.equal('Erreur, vous devez changer votre mot de passe.');
+        expect(error.meta).to.equal('token');
       });
     });
   });
