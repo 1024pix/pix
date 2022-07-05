@@ -1,10 +1,12 @@
-<PixModal @title="Résoudre un signalement" @onCloseButtonClick={{@toggleResolveModal}}>
+<PixModal @title="{{this.actionName}}" @onCloseButtonClick={{@toggleResolveModal}}>
   <:content>
     <PixTextarea
       @id="resolve-reason"
       @label="Résolution"
+      @value={{@issueReport.resolution}}
       type="text"
       maxLength="255"
+      @errorMessage={{this.errorMessage}}
       {{on "change" this.onChangeLabel}}
       {{focus}}
     />
@@ -19,6 +21,6 @@
     >
       Annuler
     </PixButton>
-    <PixButton @size="small" @triggerAction={{this.resolve}}>Résoudre le signalement</PixButton>
+    <PixButton @size="small" @triggerAction={{this.resolve}}>{{this.actionName}}</PixButton>
   </:footer>
 </PixModal>
