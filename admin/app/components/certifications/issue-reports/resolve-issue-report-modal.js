@@ -24,7 +24,7 @@ export default class CertificationIssueReportModal extends Component {
   }
 
   get actionName() {
-    return this.args.issueReport.isResolved ? 'Modifier le signalement' : 'Résoudre ce signalement';
+    return this.args.issueReport.isResolved ? 'Modifier la résolution' : 'Résoudre ce signalement';
   }
 
   _isInvalid() {
