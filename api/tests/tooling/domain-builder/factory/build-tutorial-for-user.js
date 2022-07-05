@@ -6,6 +6,7 @@ module.exports = function buildTutorialForUser({
   tutorial = buildTutorial(),
   userTutorial = buildUserSavedTutorial(),
   tutorialEvaluation,
+  skillId,
 } = {}) {
-  return new TutorialForUser({ ...tutorial, tutorialEvaluation, userTutorial });
+  return new TutorialForUser({ ...tutorial, tutorialEvaluation, userTutorial, skillId });
 };

@@ -298,6 +298,7 @@ describe('Acceptance | Controller | user-tutorial-controller', function () {
               link: 'http://www.example.com/this-is-an-example.html',
               source: 'tuto.com',
               title: 'tuto1',
+              'skill-id': 'recSkill1',
             },
             id: 'tuto1',
             relationships: {
@@ -323,6 +324,7 @@ describe('Acceptance | Controller | user-tutorial-controller', function () {
               link: 'http://www.example.com/this-is-an-example2.html',
               source: 'tuto.com',
               title: 'tuto2',
+              'skill-id': 'recSkill1',
             },
             id: 'tuto2',
             relationships: {
@@ -342,6 +344,7 @@ describe('Acceptance | Controller | user-tutorial-controller', function () {
               link: 'http://www.example.com/this-is-an-example4.html',
               source: 'tuto.com',
               title: 'tuto4',
+              'skill-id': 'recSkill3',
             },
             id: 'tuto4',
             relationships: {
@@ -408,6 +411,7 @@ describe('Acceptance | Controller | user-tutorial-controller', function () {
               link: 'http://www.example.com/this-is-an-example.html',
               source: 'tuto.com',
               title: 'tuto1',
+              'skill-id': 'recSkill1',
             },
             id: 'tuto1',
             relationships: {
@@ -427,6 +431,7 @@ describe('Acceptance | Controller | user-tutorial-controller', function () {
               link: 'http://www.example.com/this-is-an-example2.html',
               source: 'tuto.com',
               title: 'tuto2',
+              'skill-id': 'recSkill1',
             },
             id: 'tuto2',
             relationships: {
@@ -561,7 +566,11 @@ describe('Acceptance | Controller | user-tutorial-controller', function () {
         // given
         mockLearningContent(learningContentObjects);
 
-        databaseBuilder.factory.buildUserSavedTutorial({ id: 101, userId: 4444, tutorialId: 'tuto1' });
+        databaseBuilder.factory.buildUserSavedTutorial({
+          id: 101,
+          userId: 4444,
+          tutorialId: 'tuto1',
+        });
 
         await databaseBuilder.commit();
 
@@ -573,6 +582,7 @@ describe('Acceptance | Controller | user-tutorial-controller', function () {
               link: 'http://www.example.com/this-is-an-example.html',
               source: 'tuto.com',
               title: 'tuto1',
+              'skill-id': undefined,
             },
             relationships: {
               'user-tutorial': { data: { id: '101', type: 'user-tutorial' } },
@@ -636,6 +646,7 @@ describe('Acceptance | Controller | user-tutorial-controller', function () {
               link: 'http://www.example.com/this-is-an-example3.html',
               source: 'tuto.com',
               title: 'tuto3',
+              'skill-id': undefined,
             },
             id: 'tuto3',
             relationships: {
@@ -658,6 +669,7 @@ describe('Acceptance | Controller | user-tutorial-controller', function () {
               link: 'http://www.example.com/this-is-an-example2.html',
               source: 'tuto.com',
               title: 'tuto2',
+              'skill-id': undefined,
             },
             id: 'tuto2',
             relationships: {
