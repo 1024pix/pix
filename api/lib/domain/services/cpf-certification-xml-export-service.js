@@ -7,7 +7,7 @@ const bluebird = require('bluebird');
 const schemaVersion = '1.0.0';
 
 // prettier-ignore
-function getXmlExport({ cpfCertificationResults, writableStream, opts = {} }) {
+function buildXmlExport({ cpfCertificationResults, writableStream, opts = {} }) {
   const xmlBuilder = createCB({
     data: (text) => writableStream.write(text),
     end: () => writableStream.end(),
@@ -118,5 +118,5 @@ function getXmlExport({ cpfCertificationResults, writableStream, opts = {} }) {
 }
 
 module.exports = {
-  getXmlExport,
+  buildXmlExport,
 };

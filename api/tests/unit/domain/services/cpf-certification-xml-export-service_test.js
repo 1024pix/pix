@@ -61,7 +61,7 @@ describe('Unit | Services | cpf-certification-xml-export-service', function () {
       const writableStream = new PassThrough();
 
       // when
-      cpfCertificationXmlExportService.getXmlExport({
+      cpfCertificationXmlExportService.buildXmlExport({
         cpfCertificationResults: [firstCpfCertificationResult, secondCpfCertificationResult],
         writableStream,
         opts: { prettyPrint: true },

@@ -410,7 +410,7 @@ describe('Unit | Controller | certifications-controller', function () {
         auth: { credentials: { userId: 7 } },
       };
       sinon.stub(usecases, 'getCpfCertificationResults');
-      sinon.stub(cpfCertificationXmlExportService, 'getXmlExport');
+      sinon.stub(cpfCertificationXmlExportService, 'buildXmlExport');
 
       const cpfCertificationResults = [
         domainBuilder.buildCpfCertificationResult(),
@@ -423,7 +423,7 @@ describe('Unit | Controller | certifications-controller', function () {
       await certificationController.getCpfExport(request, hFake);
 
       // then
-      expect(cpfCertificationXmlExportService.getXmlExport).to.have.been.calledWith({
+      expect(cpfCertificationXmlExportService.buildXmlExport).to.have.been.calledWith({
         cpfCertificationResults,
         writableStream: sinon.match(PassThrough),
       });
@@ -441,7 +441,7 @@ describe('Unit | Controller | certifications-controller', function () {
         auth: { credentials: { userId: 7 } },
       };
       sinon.stub(usecases, 'getCpfCertificationResults');
-      sinon.stub(cpfCertificationXmlExportService, 'getXmlExport');
+      sinon.stub(cpfCertificationXmlExportService, 'buildXmlExport');
 
       // when
       const response = await certificationController.getCpfExport(request, hFake);
