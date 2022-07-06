@@ -61,8 +61,7 @@ describe('Unit | Component | Update Expired Password', () => {
   });
 
   describe('#handleUpdatePasswordAndAuthenticate', () => {
-    const username = 'username.123';
-    const oneTimePassword = 'Pix12345';
+    const login = 'beth.rave1203';
     const newPassword = 'Pix67890';
     const scope = 'mon-pix';
 
@@ -72,11 +71,8 @@ describe('Unit | Component | Update Expired Password', () => {
       });
 
       const resetExpiredPasswordDemand = {
-        username,
-        password: oneTimePassword,
-        save: sinon.stub().resolves(),
-        set: sinon.stub().resolves(),
         unloadRecord: sinon.stub().resolves(),
+        updateExpiredPassword: sinon.stub().resolves(login),
       };
 
       component.session = sessionStub;
@@ -105,7 +101,7 @@ describe('Unit | Component | Update Expired Password', () => {
         // given
         const expectedAuthenticator = 'authenticator:oauth2';
         const expectedParameters = {
-          login: username,
+          login,
           password: newPassword,
           scope,
         };
@@ -124,7 +120,7 @@ describe('Unit | Component | Update Expired Password', () => {
         const response = {
           errors: [{ status: '400' }],
         };
-        component.resetExpiredPasswordDemand.save.rejects(response);
+        component.resetExpiredPasswordDemand.updateExpiredPassword.rejects(response);
 
         // when
         await component.actions.handleUpdatePasswordAndAuthenticate.call(component);
@@ -139,7 +135,7 @@ describe('Unit | Component | Update Expired Password', () => {
         const response = {
           errors: [{ status: '401' }],
         };
-        component.resetExpiredPasswordDemand.save.rejects(response);
+        component.resetExpiredPasswordDemand.updateExpiredPassword.rejects(response);
 
         // when
         await component.actions.handleUpdatePasswordAndAuthenticate.call(component);
@@ -151,7 +147,7 @@ describe('Unit | Component | Update Expired Password', () => {
       it('should set validation with errors data', async () => {
         // given
         const expectedErrorMessage = component.intl.t('api-error-messages.internal-server-error');
-        component.resetExpiredPasswordDemand.save.rejects();
+        component.resetExpiredPasswordDemand.updateExpiredPassword.rejects();
 
         // when
         await component.actions.handleUpdatePasswordAndAuthenticate.call(component);
