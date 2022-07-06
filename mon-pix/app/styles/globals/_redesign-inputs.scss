@@ -69,7 +69,7 @@ input[type=checkbox]::before {
   position: relative;
   height: 18px;
   width: 18px;
-  top: calc(50% - 9px);
+  top: -3px;
   border: 2px solid $pix-neutral-40;
   content: ' ';
   display: block;
@@ -87,7 +87,7 @@ input[type=checkbox]:checked::after {
   height: 18px;
   width: 18px;
   position: relative;
-  top: -9px;
+  top: -21px;
   font-size: 0.875rem;
   color: $pix-neutral-0;
   font-weight: $font-bold;
