@@ -11,11 +11,11 @@ const {
   InvalidSkillSetError,
   OrganizationNotFoundError,
 } = require('../../../../lib/domain/errors');
-const TargetProfileTemplate = require('../../../../lib/domain/models/TargetProfileTemplate');
 
 describe('Integration | Repository | Target-profile', function () {
   describe('#create', function () {
     afterEach(async function () {
+      await knex('target-profile_tubes').delete();
       await knex('target-profiles_skills').delete();
       await knex('target-profiles').delete();
     });
@@ -30,6 +30,7 @@ describe('Integration | Repository | Target-profile', function () {
         description: 'public description of target profile',
         comment: 'This is a high level target profile',
         category: TargetProfile.categories.SUBJECT,
+        tubes: [],
       });
       // when
       const targetProfileId = await targetProfileRepository.create(targetProfileForCreation);
@@ -58,10 +59,11 @@ describe('Integration | Repository | Target-profile', function () {
       expect(targetProfile.category).to.equal(TargetProfile.categories.SUBJECT);
     });
 
-    it('should attached each skillId once to target profile', async function () {
+    it('should attach each skillId once to target profile', async function () {
       const targetProfileForCreation = new TargetProfileForCreation({
         name: 'myFirstTargetProfile',
         skillIds: ['skills1', 'skills2', 'skills2'],
+        tubes: [],
       });
       // when
       const targetProfileId = await targetProfileRepository.create(targetProfileForCreation);
@@ -73,6 +75,43 @@ describe('Integration | Repository | Target-profile', function () {
       const skillsId = skillsList.map((skill) => skill.skillId);
       // then
       expect(skillsId).to.exactlyContain(['skills1', 'skills2']);
+    });
+
+    describe('with tubes', function () {
+      it('should save the target profile and its tubes', async function () {
+        // given
+        const targetProfileForCreation = new TargetProfileForCreation({
+          name: 'myFirstTargetProfile',
+          imageUrl: 'someUrl',
+          isPublic: true,
+          ownerOrganizationId: null,
+          skillIds: [1],
+          description: 'public description of target profile',
+          comment: 'This is a high level target profile',
+          category: TargetProfile.categories.SUBJECT,
+          tubes: [
+            { id: 'tubeId1', level: 8 },
+            { id: 'tubeId2', level: 4 },
+            { id: 'tubeId3', level: 5 },
+          ],
+        });
+
+        // when
+        const targetProfileId = await targetProfileRepository.create(targetProfileForCreation);
+
+        // then
+        const tubesList = await knex('target-profile_tubes')
+          .select(['tubeId', 'level'])
+          .where({ targetProfileId })
+          .orderBy('tubeId');
+
+        // then
+        expect(tubesList).to.exactlyContain([
+          { tubeId: 'tubeId1', level: 8 },
+          { tubeId: 'tubeId2', level: 4 },
+          { tubeId: 'tubeId3', level: 5 },
+        ]);
+      });
     });
 
     describe("when organization doesn't exist", function () {
@@ -699,96 +738,6 @@ describe('Integration | Repository | Target-profile', function () {
         expect(error).to.be.instanceOf(InvalidSkillSetError);
         expect(error).to.haveOwnProperty('message', 'Unknown skillIds : recSkill666');
       });
-    });
-  });
-
-  describe('#createTemplate', function () {
-    afterEach(async function () {
-      await knex('target-profiles_skills').delete();
-      await knex('target-profiles').delete();
-      await knex('target-profile-templates_tubes').delete();
-      await knex('target-profile-templates').delete();
-    });
-
-    it('should return the saved target profile template', async function () {
-      // given
-      const targetProfileTemplate = {
-        tubes: [
-          { id: 'tubeId1', level: 8 },
-          { id: 'tubeId2', level: 4 },
-          { id: 'tubeId3', level: 5 },
-        ],
-      };
-
-      const targetProfileForCreation = new TargetProfileForCreation({
-        name: 'myFirstTargetProfile',
-        imageUrl: 'someUrl',
-        isPublic: true,
-        ownerOrganizationId: null,
-        skillIds: [1],
-        description: 'public description of target profile',
-        comment: 'This is a high level target profile',
-        category: TargetProfile.categories.SUBJECT,
-      });
-
-      // when
-      const savedTargetProfileTemplate = await targetProfileRepository.createTemplateAndTargetProfile({
-        targetProfileTemplate,
-        targetProfileForCreation,
-      });
-
-      // then
-      expect(savedTargetProfileTemplate).to.be.instanceOf(TargetProfileTemplate);
-      expect(savedTargetProfileTemplate.id).to.be.a('number');
-      expect(savedTargetProfileTemplate.tubes).to.have.lengthOf(3);
-      expect(savedTargetProfileTemplate.tubes).to.deep.include({ id: 'tubeId1', level: 8 });
-      expect(savedTargetProfileTemplate.tubes).to.deep.include({ id: 'tubeId2', level: 4 });
-      expect(savedTargetProfileTemplate.tubes).to.deep.include({ id: 'tubeId3', level: 5 });
-      expect(savedTargetProfileTemplate.targetProfileIds).to.have.lengthOf(1);
-    });
-
-    it('should save the target profile template and a target profile', async function () {
-      // given
-      const targetProfileTemplate = {
-        tubes: [
-          { id: 'tubeId1', level: 8 },
-          { id: 'tubeId2', level: 4 },
-          { id: 'tubeId3', level: 5 },
-        ],
-      };
-
-      const targetProfileForCreation = new TargetProfileForCreation({
-        name: 'myFirstTargetProfile',
-        imageUrl: 'someUrl',
-        isPublic: true,
-        ownerOrganizationId: null,
-        skillIds: [1],
-        description: 'public description of target profile',
-        comment: 'This is a high level target profile',
-        category: TargetProfile.categories.SUBJECT,
-      });
-
-      // when
-      const { id } = await targetProfileRepository.createTemplateAndTargetProfile({
-        targetProfileTemplate,
-        targetProfileForCreation,
-      });
-
-      // then
-      const savedTargetProfileTemplate = await knex('target-profile-templates').select().where({ id }).first();
-      const savedTargetProfile = await knex('target-profiles').select().where({ name: 'myFirstTargetProfile' }).first();
-      const savedTargetProfileTemplateTubes = await knex('target-profile-templates_tubes')
-        .select()
-        .where({ targetProfileTemplateId: id })
-        .orderBy('tubeId');
-
-      expect(savedTargetProfileTemplate.id).to.equal(id);
-      expect(savedTargetProfileTemplateTubes).to.have.lengthOf(3);
-      expect(savedTargetProfileTemplateTubes[0]).to.include({ tubeId: 'tubeId1', level: 8 });
-      expect(savedTargetProfileTemplateTubes[1]).to.include({ tubeId: 'tubeId2', level: 4 });
-      expect(savedTargetProfileTemplateTubes[2]).to.include({ tubeId: 'tubeId3', level: 5 });
-      expect(savedTargetProfile).to.exist;
-      expect(savedTargetProfile.targetProfileTemplateId).to.equal(id);
     });
   });
 });

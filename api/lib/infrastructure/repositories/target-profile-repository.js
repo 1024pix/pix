@@ -15,15 +15,41 @@ const {
 } = require('../../domain/errors');
 const DomainTransaction = require('../../infrastructure/DomainTransaction');
 const TargetProfile = require('../../domain/models/TargetProfile');
-const TargetProfileTemplate = require('../../domain/models/TargetProfileTemplate');
-const TargetProfileTemplateTube = require('../../domain/models/TargetProfileTemplateTube');
 const { PGSQL_FOREIGN_KEY_VIOLATION_ERROR } = require('../../../db/pgsql-errors');
 
 module.exports = {
   async create(targetProfileForCreation) {
     try {
-      return await knex.transaction((trx) => {
-        return _createTargetProfile({ trx, targetProfileForCreation });
+      return await knex.transaction(async (trx) => {
+        const targetProfileRawData = _.pick(targetProfileForCreation, [
+          'name',
+          'isPublic',
+          'imageUrl',
+          'ownerOrganizationId',
+          'comment',
+          'description',
+          'category',
+          'targetProfileTemplateId',
+        ]);
+
+        const [{ id: targetProfileId }] = await trx('target-profiles').insert(targetProfileRawData).returning('id');
+
+        const skillsIdList = _.uniq(targetProfileForCreation.skillIds);
+
+        const skillToAdd = skillsIdList.map((skillId) => {
+          return { targetProfileId, skillId };
+        });
+
+        await trx.batchInsert('target-profiles_skills', skillToAdd);
+
+        const tubes = targetProfileForCreation.tubes.map((tube) => ({
+          targetProfileId,
+          tubeId: tube.id,
+          level: tube.level,
+        }));
+        await trx.batchInsert('target-profile_tubes', tubes);
+
+        return targetProfileId;
       });
     } catch (e) {
       if (e.code === PGSQL_FOREIGN_KEY_VIOLATION_ERROR) {
@@ -169,63 +195,6 @@ module.exports = {
 
     return true;
   },
-
-  async createTemplateAndTargetProfile({ targetProfileTemplate, targetProfileForCreation }) {
-    try {
-      return await knex.transaction(async (trx) => {
-        const [{ id: targetProfileTemplateId }] = await knex('target-profile-templates').insert({}).returning('id');
-
-        const tubes = targetProfileTemplate.tubes.map((tube) => ({
-          targetProfileTemplateId,
-          tubeId: tube.id,
-          level: tube.level,
-        }));
-
-        const savedTubes = await knex.batchInsert('target-profile-templates_tubes', tubes).returning('*');
-        const savedTargetProfileId = await _createTargetProfile({
-          trx,
-          targetProfileForCreation: {
-            ...targetProfileForCreation,
-            targetProfileTemplateId,
-          },
-        });
-        return new TargetProfileTemplate({
-          id: targetProfileTemplateId,
-          targetProfileIds: [savedTargetProfileId],
-          tubes: savedTubes.map(
-            (tube) =>
-              new TargetProfileTemplateTube({
-                id: tube.tubeId,
-                level: tube.level,
-              })
-          ),
-        });
-      });
-    } catch (e) {
-      throw new TargetProfileCannotBeCreated();
-    }
-  },
-
-  async getTargetProfileTemplate({ id }) {
-    const targetProfileTemplate = await knex('target-profile-templates').where({ id }).first();
-    if (!targetProfileTemplate) {
-      return null;
-    }
-    const tubes = await knex('target-profile-templates_tubes')
-      .where({ targetProfileTemplateId: id })
-      .orderBy('id', 'asc');
-
-    return new TargetProfileTemplate({
-      id,
-      tubes: tubes.map(
-        (tube) =>
-          new TargetProfileTemplateTube({
-            id: tube.tubeId,
-            level: tube.level,
-          })
-      ),
-    });
-  },
 };
 
 async function _getWithLearningContentSkills(targetProfile) {
@@ -252,29 +221,4 @@ function _setSearchFiltersForQueryBuilder(filter, qb) {
   if (id) {
     qb.where({ id });
   }
-}
-
-async function _createTargetProfile({ trx, targetProfileForCreation }) {
-  const targetProfileRawData = _.pick(targetProfileForCreation, [
-    'name',
-    'isPublic',
-    'imageUrl',
-    'ownerOrganizationId',
-    'comment',
-    'description',
-    'category',
-    'targetProfileTemplateId',
-  ]);
-
-  const [{ id: targetProfileId }] = await trx('target-profiles').insert(targetProfileRawData).returning('id');
-
-  const skillsIdList = _.uniq(targetProfileForCreation.skillIds);
-
-  const skillToAdd = skillsIdList.map((skillId) => {
-    return { targetProfileId, skillId };
-  });
-
-  await trx.batchInsert('target-profiles_skills', skillToAdd);
-
-  return targetProfileId;
 }

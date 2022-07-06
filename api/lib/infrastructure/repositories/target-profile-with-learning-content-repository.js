@@ -16,7 +16,7 @@ const areaDatasource = require('../datasources/learning-content/area-datasource'
 const { NotFoundError, TargetProfileInvalidError } = require('../../domain/errors');
 const { FRENCH_FRANCE } = require('../../domain/constants').LOCALE;
 const { getTranslatedText } = require('../../domain/services/get-translated-text');
-const TargetProfileTemplate = require('../../domain/models/TargetProfileTemplate');
+const TargetProfileTube = require('../../domain/models/TargetProfileTube');
 
 module.exports = {
   async get({ id, locale = FRENCH_FRANCE }) {
@@ -51,49 +51,63 @@ async function _get(whereClauseFnc, locale) {
       'target-profiles.comment',
       'target-profiles.ownerOrganizationId',
       'target-profiles.category',
-      'target-profiles.isSimplifiedAccess',
-      'target-profiles.targetProfileTemplateId',
-      'target-profiles_skills.skillId'
+      'target-profiles.isSimplifiedAccess'
     )
-    .leftJoin('target-profiles_skills', 'target-profiles_skills.targetProfileId', 'target-profiles.id');
+    .first();
   const finalQueryBuilder = whereClauseFnc(baseQueryBuilder);
-  const results = await finalQueryBuilder;
+  const result = await finalQueryBuilder;
 
-  if (_.isEmpty(results)) {
+  if (result == null) {
     throw new NotFoundError("Le profil cible n'existe pas");
   }
 
-  const badges = await _findBadges(results[0].id);
-  const stages = await _findStages(results[0].id);
-  return _toDomain(results, badges, stages, locale);
+  const skills = await knex('target-profiles_skills').select('skillId').where('targetProfileId', result.id);
+  const tubes = await knex('target-profile_tubes').select('tubeId', 'level').where('targetProfileId', result.id);
+
+  const badges = await _findBadges(result.id);
+  const stages = await _findStages(result.id);
+
+  return _toDomain({
+    targetProfile: result,
+    targetProfileTubes: tubes,
+    targetProfileSkills: skills,
+    badges,
+    stages,
+    locale,
+  });
 }
 
-async function _toDomain(results, badges, stages, locale) {
-  const skillIds = _.compact(results.map(({ skillId }) => skillId));
+async function _toDomain({ targetProfile, targetProfileTubes, targetProfileSkills, badges, stages, locale }) {
+  const skillIds = targetProfileSkills.map(({ skillId }) => skillId);
   const { skills, tubes, competences, areas } = await _getTargetedLearningContent(skillIds, locale);
-  const template = results[0].targetProfileTemplateId
-    ? new TargetProfileTemplate({ id: results[0].targetProfileTemplateId, targetProfileIds: [], tubes: [] })
-    : null;
+
+  const tubesSelection = targetProfileTubes.map(
+    (tube) =>
+      new TargetProfileTube({
+        id: tube.tubeId,
+        level: tube.level,
+      })
+  );
 
   return new TargetProfileWithLearningContent({
-    id: results[0].id,
-    name: results[0].name,
-    outdated: results[0].outdated,
-    isPublic: results[0].isPublic,
-    createdAt: results[0].createdAt,
-    ownerOrganizationId: results[0].ownerOrganizationId,
-    imageUrl: results[0].imageUrl,
-    description: results[0].description,
-    comment: results[0].comment,
-    category: results[0].category,
-    isSimplifiedAccess: results[0].isSimplifiedAccess,
+    id: targetProfile.id,
+    name: targetProfile.name,
+    outdated: targetProfile.outdated,
+    isPublic: targetProfile.isPublic,
+    createdAt: targetProfile.createdAt,
+    ownerOrganizationId: targetProfile.ownerOrganizationId,
+    imageUrl: targetProfile.imageUrl,
+    description: targetProfile.description,
+    comment: targetProfile.comment,
+    category: targetProfile.category,
+    isSimplifiedAccess: targetProfile.isSimplifiedAccess,
+    tubesSelection,
     skills,
     tubes,
     competences,
     areas,
     badges,
     stages,
-    template,
   });
 }
 
