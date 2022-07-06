@@ -7,8 +7,12 @@ describe('Unit | Serializer | JSONAPI | tutorial-serializer', function () {
       // given
       const tutorialId = 123;
 
-      const tutorial = domainBuilder.buildTutorial({
-        id: tutorialId,
+      const skillId = 'rec123';
+
+      const tutorial = domainBuilder.buildTutorialForUser({
+        tutorial: domainBuilder.buildTutorial({ id: tutorialId }),
+        userTutorial: null,
+        skillId,
       });
 
       const expectedSerializedResult = {
@@ -21,6 +25,15 @@ describe('Unit | Serializer | JSONAPI | tutorial-serializer', function () {
             link: 'https://youtube.fr',
             source: 'Youtube',
             title: 'Savoir regarder des vidéos youtube.',
+            'skill-id': 'rec123',
+          },
+          relationships: {
+            'tutorial-evaluation': {
+              data: null,
+            },
+            'user-tutorial': {
+              data: null,
+            },
           },
         },
       };
@@ -31,6 +44,7 @@ describe('Unit | Serializer | JSONAPI | tutorial-serializer', function () {
       // then
       expect(result).to.deep.equal(expectedSerializedResult);
     });
+
     it('should return a serialized JSON data object, enhanced by tube information', function () {
       // given
       const tutorialId = 123;
@@ -74,12 +88,14 @@ describe('Unit | Serializer | JSONAPI | tutorial-serializer', function () {
       const tutorialId = 123;
       const tutorialEvaluationId = `${userId}_${tutorialId}`;
       const userTutorialId = `${userId}_${tutorialId}`;
+      const skillId = 'rec123';
 
-      const tutorial = domainBuilder.buildTutorial({
-        id: tutorialId,
+      const tutorial = domainBuilder.buildTutorialForUser({
+        tutorial: domainBuilder.buildTutorial({ id: tutorialId }),
+        tutorialEvaluation: { userId, id: tutorialEvaluationId, tutorialId },
+        userTutorial: { userId, id: userTutorialId, tutorialId },
+        skillId,
       });
-      tutorial.tutorialEvaluation = { userId, id: tutorialEvaluationId, tutorialId };
-      tutorial.userTutorial = { userId, id: userTutorialId, tutorialId };
 
       const expectedSerializedResult = {
         data: {
@@ -91,6 +107,7 @@ describe('Unit | Serializer | JSONAPI | tutorial-serializer', function () {
             link: 'https://youtube.fr',
             source: 'Youtube',
             title: 'Savoir regarder des vidéos youtube.',
+            'skill-id': 'rec123',
           },
           relationships: {
             'tutorial-evaluation': {

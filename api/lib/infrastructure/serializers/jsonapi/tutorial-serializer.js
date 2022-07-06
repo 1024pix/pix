@@ -16,6 +16,7 @@ module.exports = {
         'tubePracticalDescription',
         'tutorialEvaluation',
         'userTutorial',
+        'skillId',
       ],
       tutorialEvaluation: tutorialEvaluationAttributes,
       userTutorial: userTutorialAttributes,

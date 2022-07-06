@@ -544,6 +544,11 @@ describe('Integration | Repository | tutorial-repository', function () {
             {
               id: 'tuto1',
               locale: 'fr-fr',
+              link: 'https//example.net/tuto1',
+              source: 'wikipedia',
+              title: 'Mon super tuto',
+              format: 'video',
+              duration: '2min',
             },
             {
               id: 'tuto2',
@@ -572,7 +577,16 @@ describe('Integration | Repository | tutorial-repository', function () {
         const { results } = await tutorialRepository.findPaginatedRecommendedByUserId({ userId });
 
         // then
-        expect(results.map((tutorial) => tutorial.id)).to.exactlyContain(['tuto2', 'tuto1', 'tuto5']);
+        expect(_.omit(results[0], ['userTutorial', 'tutorialEvaluation'])).to.deep.equal({
+          id: 'tuto1',
+          link: 'https//example.net/tuto1',
+          source: 'wikipedia',
+          title: 'Mon super tuto',
+          format: 'video',
+          duration: '2min',
+          skillId: 'recSkill1',
+        });
+        expect(results.map((tutorial) => tutorial.id)).to.exactlyContain(['tuto1', 'tuto2', 'tuto5']);
       });
 
       it('should return tutorial related to user locale', async function () {
@@ -658,6 +672,59 @@ describe('Integration | Repository | tutorial-repository', function () {
 
         // then
         expect(results).to.deep.equal([]);
+      });
+    });
+
+    describe('when there is one invalidated KE and two skills referencing the same tutorial', function () {
+      it('should return the same tutorial related to each skill', async function () {
+        // given
+        databaseBuilder.factory.buildKnowledgeElement({
+          skillId: 'recSkill1',
+          userId,
+          status: KnowledgeElement.StatusType.INVALIDATED,
+        });
+        databaseBuilder.factory.buildKnowledgeElement({
+          skillId: 'recSkill2',
+          userId,
+          status: KnowledgeElement.StatusType.INVALIDATED,
+        });
+        await databaseBuilder.commit();
+
+        mockLearningContent({
+          tutorials: [
+            {
+              id: 'tuto1',
+              locale: 'fr-fr',
+            },
+          ],
+          skills: [
+            {
+              id: 'recSkill1',
+              tutorialIds: ['tuto1'],
+              status: 'actif',
+            },
+            {
+              id: 'recSkill2',
+              tutorialIds: ['tuto1'],
+              status: 'actif',
+            },
+          ],
+        });
+
+        // when
+        const { results } = await tutorialRepository.findPaginatedRecommendedByUserId({ userId });
+
+        // then
+        expect(results.map(({ id, skillId }) => ({ id, skillId }))).to.exactlyContain([
+          {
+            id: 'tuto1',
+            skillId: 'recSkill1',
+          },
+          {
+            id: 'tuto1',
+            skillId: 'recSkill2',
+          },
+        ]);
       });
     });
 

@@ -13,6 +13,7 @@ export default class Tutorial extends Model {
   @attr('string') tubeName;
   @attr('string') tubePracticalTitle;
   @attr('string') tubePracticalDescription;
+  @attr('string') skillId;
 
   // includes
   @belongsTo('scorecard') scorecard;
