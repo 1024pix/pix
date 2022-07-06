@@ -1,7 +1,6 @@
 import { expect } from 'chai';
-import { describe, it, beforeEach } from 'mocha';
-import { resolve, reject } from 'rsvp';
-
+import { describe, it } from 'mocha';
+import sinon from 'sinon';
 import { fillIn, find, render, triggerEvent } from '@ember/test-helpers';
 import EmberObject from '@ember/object';
 import hbs from 'htmlbars-inline-precompile';
@@ -15,26 +14,6 @@ const PASSWORD_INPUT_CLASS = '.form-textfield__input';
 describe('Integration | Component | update-expired-password-form', function () {
   setupIntlRenderingTest();
 
-  let isSaveMethodCalled;
-
-  const save = () => {
-    isSaveMethodCalled = true;
-    return resolve();
-  };
-
-  const saveWithRejection = () => {
-    isSaveMethodCalled = true;
-    return reject();
-  };
-
-  const unloadRecord = () => {
-    return resolve();
-  };
-
-  beforeEach(function () {
-    isSaveMethodCalled = false;
-  });
-
   it('renders', async function () {
     // when
     await render(hbs`{{update-expired-password-form}}`);
@@ -47,10 +26,10 @@ describe('Integration | Component | update-expired-password-form', function () {
     it('should save the new password, when button is clicked', async function () {
       // given
       const resetExpiredPasswordDemand = EmberObject.create({
-        username: 'toto',
+        login: 'toto',
         password: 'Password123',
-        save,
-        unloadRecord,
+        updateExpiredPassword: sinon.stub(),
+        unloadRecord: sinon.stub(),
       });
       this.set('resetExpiredPasswordDemand', resetExpiredPasswordDemand);
       const newPassword = 'Pix12345!';
@@ -64,7 +43,6 @@ describe('Integration | Component | update-expired-password-form', function () {
       await clickByLabel(this.intl.t('pages.update-expired-password.button'));
 
       // then
-      expect(isSaveMethodCalled).to.be.true;
       expect(find(PASSWORD_INPUT_CLASS)).to.not.exist;
       expect(find('.password-reset-demand-form__body')).to.exist;
     });
@@ -76,10 +54,10 @@ describe('Integration | Component | update-expired-password-form', function () {
       const expectedErrorMessage = this.intl.t('api-error-messages.internal-server-error');
 
       const resetExpiredPasswordDemand = EmberObject.create({
-        username: 'toto',
+        login: 'toto',
         password: 'Password123',
-        save: saveWithRejection,
-        unloadRecord,
+        updateExpiredPassword: sinon.stub().rejects(),
+        unloadRecord: sinon.stub(),
       });
       this.set('resetExpiredPasswordDemand', resetExpiredPasswordDemand);
       const newPassword = 'Pix12345!';
@@ -93,7 +71,6 @@ describe('Integration | Component | update-expired-password-form', function () {
       await clickByLabel(this.intl.t('pages.update-expired-password.button'));
 
       // then
-      expect(isSaveMethodCalled).to.be.true;
       expect(contains(expectedErrorMessage)).to.exist;
     });
   });

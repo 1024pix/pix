@@ -67,11 +67,11 @@ export default class UpdateExpiredPasswordForm extends Component {
 
       try {
         this.resetExpiredPasswordDemand.newPassword = this.newPassword;
-        await this.resetExpiredPasswordDemand.save();
+        const login = await this.resetExpiredPasswordDemand.updateExpiredPassword();
         this.resetExpiredPasswordDemand.unloadRecord();
 
         await this._authenticateWithUpdatedPassword({
-          login: this.resetExpiredPasswordDemand.username,
+          login,
           password: this.newPassword,
         });
 

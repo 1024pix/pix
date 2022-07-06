@@ -1,29 +1,18 @@
 import { describe, it } from 'mocha';
-import sinon from 'sinon';
 import { setupTest } from 'ember-mocha';
+import { expect } from 'chai';
 
 describe('Unit | Adapters | reset-expired-password-demand', function () {
   setupTest();
 
-  describe('#createRecord', function () {
-    it('should call expired-password-updates ', async function () {
-      // given
-      const resetExpiredPasswordDemand = { passwordResetToken: 'passwordResetToken', oneTimePassword: 'Password123' };
-      const adapter = this.owner.lookup('adapter:reset-expired-password-demand');
-      adapter.ajax = sinon.stub().resolves();
-
+  describe('#buildUrl', function () {
+    it('should build url', function () {
       // when
-      const snapshot = { record: resetExpiredPasswordDemand };
-      await adapter.createRecord(null, null, snapshot);
+      const adapter = this.owner.lookup('adapter:reset-expired-password-demand');
+      const url = adapter.buildURL();
 
       // then
-      sinon.assert.calledWith(adapter.ajax, 'http://localhost:3000/api/expired-password-updates', 'POST', {
-        data: {
-          data: {
-            attributes: { passwordResetToken: 'passwordResetToken', oneTimePassword: 'Password123' },
-          },
-        },
-      });
+      expect(url.endsWith('api/')).to.be.true;
     });
   });
 });
