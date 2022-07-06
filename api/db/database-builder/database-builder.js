@@ -47,10 +47,16 @@ module.exports = class DatabaseBuilder {
   }
 
   /**
+   * Database builder is used to create data:
+   *   - for automated tests;
+   *   - for manual tests (aka "seeds").
+   *
+   * To make tests and seeds easier to write, identifiers are defined in the file and passed to the database builder.
+   * (In a production environment, this never happens. The database is the only in charge of supplying an identifier
+   * using a sequence).
    * Inserting elements in PGSQL when specifying their ID does not update the sequence for that id.
-   * THis results in id conflict errors when trying to insert a new elements in the base.
-   * Making the sequences start at an arbitrary high number prevents the problem from happening for a time.
-   * (time being enough for dev ou review apps - seed are not run on staging or prod)
+   * It is hence important to update sequences to avoid conflict with hard coded identifier
+   * i.e. ERROR: duplicate key value violates unique constraint "pk_***"
    */
   async fixSequences() {
     const dirtyTables = this._selectDirtyTables();
