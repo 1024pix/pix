@@ -91,7 +91,7 @@ module.exports = {
     const cpfCertificationResults = await usecases.getCpfCertificationResults({ startDate, endDate });
 
     const writableStream = new PassThrough();
-    cpfCertificationXmlExportService.getXmlExport({ cpfCertificationResults, writableStream });
+    cpfCertificationXmlExportService.buildXmlExport({ cpfCertificationResults, writableStream });
 
     const filename = `pix-cpf-export-from-${startDate}-to-${endDate}.xml`;
     writableStream.headers = {
