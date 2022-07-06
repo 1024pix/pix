@@ -77,6 +77,80 @@ describe('Integration | Infrastructure | Repository | adminMemberRepository', fu
     });
   });
 
+  describe('#getById', function () {
+    it('should return admin member for given id', async function () {
+      // given
+      await _buildUserWithPixAdminRole({ role: ROLES.METIER });
+      const adminMember = await _buildUserWithPixAdminRole({ role: ROLES.SUPER_ADMIN });
+      await databaseBuilder.commit();
+
+      // when
+      const member = await adminMemberRepository.getById(adminMember.id);
+
+      // then
+      expect(member).to.deep.include(
+        new AdminMember({
+          id: adminMember.id,
+          userId: adminMember.userId,
+          firstName: adminMember.firstName,
+          lastName: adminMember.lastName,
+          email: adminMember.email,
+          role: 'SUPER_ADMIN',
+          disabledAt: null,
+        })
+      );
+    });
+
+    context('when does not exist', function () {
+      it('should return undefined', async function () {
+        // given & when
+        const member = await adminMemberRepository.getById(1);
+
+        // then
+        expect(member).to.be.undefined;
+      });
+    });
+
+    context('when admin member is disabled', function () {
+      let clock;
+      const now = new Date('2022-02-16');
+
+      beforeEach(async function () {
+        clock = sinon.useFakeTimers(now);
+      });
+
+      afterEach(async function () {
+        clock.restore();
+      });
+
+      it('should return admin member details', async function () {
+        // given
+        await _buildUserWithPixAdminRole({ role: ROLES.CERTIF });
+        const userWithPixAdminRole = await _buildUserWithPixAdminRole({
+          role: ROLES.METIER,
+          disabledAt: new Date(),
+        });
+        await databaseBuilder.commit();
+
+        // when
+        const member = await adminMemberRepository.getById(userWithPixAdminRole.id);
+
+        // then
+        expect(member).to.deep.include(
+          new AdminMember({
+            id: userWithPixAdminRole.id,
+            userId: userWithPixAdminRole.userId,
+            firstName: userWithPixAdminRole.firstName,
+            lastName: userWithPixAdminRole.lastName,
+            email: userWithPixAdminRole.email,
+            role: 'METIER',
+            disabledAt: now,
+          })
+        );
+      });
+    });
+  });
+
   describe('#get', function () {
     it('should return admin member for given user id', async function () {
       // given
