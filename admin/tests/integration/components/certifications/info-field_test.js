@@ -33,19 +33,6 @@ module('Integration | Component | certifications/info-field', function (hooks) {
       assert.dom(screen.getByText('Session:')).containsText('commencé unit(s)');
     });
 
-    test('it should format value as date with format "DD/MM/YYYY" when @isDate (optional) argument is set to "true"', async function (assert) {
-      // given
-      this.set('value', new Date('1961-08-04'));
-
-      // when
-      const screen = await render(
-        hbs`<Certifications::InfoField @label='Date de naissance:' @value={{this.value}} @isDate=true />`
-      );
-
-      // then
-      assert.dom(screen.getByText('Date de naissance:')).containsText('04/08/1961');
-    });
-
     test('it should display value as link when @linkRoute (optional) argument is provided', async function (assert) {
       // given & when
       const screen = await render(
