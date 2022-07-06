@@ -81,25 +81,29 @@ async function _do({ organizationId, certificationCenterId }) {
     console.log('Vérification existence organisation et centre de certification...');
     await _checkOrgaAndCertifCenterExist({ organizationId, certificationCenterId, transaction });
     console.log('OK');
-    console.log("Récupération des registrations réconciliées de l'organisation...");
-    const schoolingRegistrationsGroupedByDivision = await _getRegistrationsGroupedByDivisions({
+    console.log("Récupération des prescrits réconciliés de l'organisation...");
+    const organizationLearnersGroupedByDivision = await _getOrganizationLearnersGroupedByDivisions({
       organizationId,
       transaction,
     });
     console.log('OK');
     console.log('Création des données de certification...');
     let allAssessmentIds = [];
-    for (const [division, registrations] of Object.entries(schoolingRegistrationsGroupedByDivision)) {
+    for (const [division, organizationLearners] of Object.entries(organizationLearnersGroupedByDivision)) {
       console.log(
-        `\tCréation des données de certification pour la classe ${division} contenant ${registrations.length} registrations...`
+        `\tCréation des données de certification pour la classe ${division} contenant ${organizationLearners.length} prescrits...`
       );
       const sessionId = await _createSessionsWithCandidates({
         certificationCenterId,
-        registrations,
+        organizationLearners,
         name: division,
         transaction,
       });
-      const assessmentIds = await _createCertificationCoursesAndAssessments({ registrations, sessionId, transaction });
+      const assessmentIds = await _createCertificationCoursesAndAssessments({
+        organizationLearners,
+        sessionId,
+        transaction,
+      });
       allAssessmentIds = [...allAssessmentIds, ...assessmentIds];
       console.log('\tOK');
     }
@@ -161,8 +165,8 @@ async function _checkOrgaAndCertifCenterExist({ organizationId, certificationCen
   }
 }
 
-async function _getRegistrationsGroupedByDivisions({ organizationId, transaction }) {
-  const registrationData = await transaction
+async function _getOrganizationLearnersGroupedByDivisions({ organizationId, transaction }) {
+  const organizationLearnerData = await transaction
     .select({
       id: 'organization-learners.id',
       firstName: 'organization-learners.firstName',
@@ -178,14 +182,14 @@ async function _getRegistrationsGroupedByDivisions({ organizationId, transaction
     .where({ organizationId })
     .whereNotNull('userId');
 
-  if (registrationData.length === 0) {
+  if (organizationLearnerData.length === 0) {
     throw new Error(`Aucun prescrit trouvé pour l'organisation ${organizationId}`);
   }
 
-  return _.groupBy(registrationData, 'division');
+  return _.groupBy(organizationLearnerData, 'division');
 }
 
-async function _createSessionsWithCandidates({ certificationCenterId, registrations, name, transaction }) {
+async function _createSessionsWithCandidates({ certificationCenterId, organizationLearners, name, transaction }) {
   const [sessionId] = await transaction('sessions')
     .returning('id')
     .insert({
@@ -201,17 +205,17 @@ async function _createSessionsWithCandidates({ certificationCenterId, registrati
     });
 
   const certificationCandidatesData = [];
-  for (const registration of registrations) {
+  for (const organizationLearner of organizationLearners) {
     certificationCandidatesData.push({
       sessionId,
-      firstName: registration.firstName,
-      lastName: registration.lastName,
-      birthdate: registration.birthdate,
-      birthCity: registration.birthCity,
-      birthProvinceCode: registration.birthProvinceCode,
-      birthCountry: registration.birthCountry,
-      userId: registration.userId,
-      organizationLearnerId: registration.id,
+      firstName: organizationLearner.firstName,
+      lastName: organizationLearner.lastName,
+      birthdate: organizationLearner.birthdate,
+      birthCity: organizationLearner.birthCity,
+      birthProvinceCode: organizationLearner.birthProvinceCode,
+      birthCountry: organizationLearner.birthCountry,
+      userId: organizationLearner.userId,
+      organizationLearnerId: organizationLearner.id,
     });
   }
   const chunkSize = _getChunkSize(certificationCandidatesData[0]);
@@ -219,17 +223,17 @@ async function _createSessionsWithCandidates({ certificationCenterId, registrati
   return sessionId;
 }
 
-async function _createCertificationCoursesAndAssessments({ registrations, sessionId, transaction }) {
+async function _createCertificationCoursesAndAssessments({ organizationLearners, sessionId, transaction }) {
   const certificationCoursesData = [];
-  for (const registration of registrations) {
+  for (const organizationLearner of organizationLearners) {
     certificationCoursesData.push({
       sessionId,
-      firstName: registration.firstName,
-      lastName: registration.lastName,
-      birthdate: registration.birthdate,
-      birthplace: registration.birthCity,
+      firstName: organizationLearner.firstName,
+      lastName: organizationLearner.lastName,
+      birthdate: organizationLearner.birthdate,
+      birthplace: organizationLearner.birthCity,
       isV2Certification: true,
-      userId: registration.userId,
+      userId: organizationLearner.userId,
       maxReachableLevelOnCertificationDate: 6,
     });
   }
