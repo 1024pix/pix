@@ -60,12 +60,12 @@ function _setOrganizationLearnerFilters(
 }
 
 function _canReconcile(existingOrganizationLearners, student) {
-  const existingRegistrationForUserId = existingOrganizationLearners.find((currentOrganizationLearner) => {
+  const existingOrganizationLearnerForUserId = existingOrganizationLearners.find((currentOrganizationLearner) => {
     return currentOrganizationLearner.userId === student.account.userId;
   });
   return (
-    existingRegistrationForUserId == null ||
-    existingRegistrationForUserId.nationalStudentId === student.nationalStudentId
+    existingOrganizationLearnerForUserId == null ||
+    existingOrganizationLearnerForUserId.nationalStudentId === student.nationalStudentId
   );
 }
 

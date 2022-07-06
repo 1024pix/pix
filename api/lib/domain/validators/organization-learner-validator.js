@@ -44,8 +44,8 @@ const validationSchema = Joi.object({
 
 module.exports = {
   FRANCE_COUNTRY_CODE,
-  checkValidation(registration) {
-    const { error } = validationSchema.validate(registration, validationConfiguration);
+  checkValidation(organizationLearner) {
+    const { error } = validationSchema.validate(organizationLearner, validationConfiguration);
 
     if (error) {
       const err = EntityValidationError.fromJoiErrors(error.details);
