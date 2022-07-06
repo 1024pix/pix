@@ -138,6 +138,17 @@ module('Acceptance | Session Finalization', function (hooks) {
           .exists();
       });
 
+      test('it should contain a 3-step subtitle', async function (assert) {
+        // given
+        server.create('feature-toggle', { id: 0, isCertificationFreeFieldsDeletionEnabled: false });
+
+        // when
+        const screen = await visit(`/sessions/${session.id}/finalisation`);
+
+        // then
+        assert.dom(screen.getByText('Pour finaliser la session, complétez les trois étapes puis validez.')).exists();
+      });
+
       test('it should not contain a subtitle', async function (assert) {
         // given
         server.create('feature-toggle', { id: 0, isCertificationFreeFieldsDeletionEnabled: false });
@@ -157,6 +168,19 @@ module('Acceptance | Session Finalization', function (hooks) {
     });
 
     module('when FT_CERTIFICATION_FREE_FIELDS_DELETION is on', function () {
+      test('it should not contain a 3-step subtitle', async function (assert) {
+        // given
+        server.create('feature-toggle', { id: 0, isCertificationFreeFieldsDeletionEnabled: true });
+
+        // when
+        const screen = await visit(`/sessions/${session.id}/finalisation`);
+
+        // then
+        assert
+          .dom(screen.queryByText('Pour finaliser la session, complétez les trois étapes puis validez.'))
+          .doesNotExist();
+      });
+
       test('it should not display the comment step section', async function (assert) {
         // given
         server.create('feature-toggle', { id: 0, isCertificationFreeFieldsDeletionEnabled: true });
