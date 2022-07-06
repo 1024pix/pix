@@ -6,7 +6,7 @@
     </PixReturnTo>
     <h1 class="page-title">Finaliser la session {{this.session.id}}</h1>
   </div>
-  {{#unless this.featureToggles.featureToggles.isCertificationFreeFieldsDeletionEnabled}}
+  {{#unless this.isCertificationFreeFieldsDeletionEnabled}}
     <div class="finalize__subtitle">
       Pour finaliser la session, complétez les trois étapes puis validez.
     </div>
@@ -14,12 +14,12 @@
 
   <SessionFinalizationStepContainer
     @title={{if
-      this.featureToggles.featureToggles.isCertificationFreeFieldsDeletionEnabled
+      this.isCertificationFreeFieldsDeletionEnabled
       "Signalements : Reporter, pour chaque candidat, les signalements renseignés sur le PV d'incident"
       "Étape 1 : Reporter, pour chaque candidat, les signalements renseignés sur le PV d'incident"
     }}
     @subtitle={{if
-      this.featureToggles.featureToggles.isCertificationFreeFieldsDeletionEnabled
+      this.isCertificationFreeFieldsDeletionEnabled
       "Pour que le signalement soit pris en compte, il est nécessaire d’utiliser la catégorie de signalement appropriée (exemples : C1, C2, etc)."
     }}
     @icon="/icons/session-finalization-user.svg"
@@ -56,7 +56,7 @@
     </SessionFinalizationStepContainer>
   {{/if}}
 
-  {{#if this.featureToggles.featureToggles.isCertificationFreeFieldsDeletionEnabled}}
+  {{#if this.isCertificationFreeFieldsDeletionEnabled}}
     <SessionFinalizationStepContainer
       @title="Informations complémentaires (facultatif)"
       @subtitle="Vous pouvez indiquer, le cas échéant, les événements survenus lors de la session. Il n'est pas nécessaire de renseigner les candidats absents."
