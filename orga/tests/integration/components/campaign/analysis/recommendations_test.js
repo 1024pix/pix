@@ -1,5 +1,6 @@
 import { module, test } from 'qunit';
-import { click, render } from '@ember/test-helpers';
+import { click } from '@ember/test-helpers';
+import { render } from '@1024pix/ember-testing-library';
 import hbs from 'htmlbars-inline-precompile';
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
 
@@ -66,6 +67,10 @@ module('Integration | Component | Campaign::Analysis::Recommendations', function
       await click('[aria-label="Trier par pertinence"]');
 
       assert.dom('[aria-label="Sujet"]:first-child').containsText('Tube A');
+    });
+
+    test('it should have a caption to desbribe the table', async function (assert) {
+      assert.contains(this.intl.t('pages.campaign-review.table.analysis.caption'));
     });
   });
 
