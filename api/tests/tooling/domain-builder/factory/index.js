@@ -65,6 +65,7 @@ module.exports = {
   buildComplementaryCertificationHabilitation: require('./build-complementary-certification-habilitation'),
   buildCountry: require('./build-country'),
   buildCourse: require('./build-course'),
+  buildCpfCertificationResult: require('./build-cpf-certification-result'),
   buildFinalizedSession: require('./build-finalized-session'),
   buildHint: require('./build-hint'),
   buildSupOrganizationLearner: require('./build-sup-organization-learner'),

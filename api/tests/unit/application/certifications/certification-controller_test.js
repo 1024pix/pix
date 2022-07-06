@@ -6,6 +6,8 @@ const certificationAttestationPdf = require('../../../../lib/infrastructure/util
 const events = require('../../../../lib/domain/events');
 const ChallengeNeutralized = require('../../../../lib/domain/events/ChallengeNeutralized');
 const ChallengeDeneutralized = require('../../../../lib/domain/events/ChallengeDeneutralized');
+const cpfCertificationXmlExportService = require('../../../../lib/domain/services/cpf-certification-xml-export-service');
+const { PassThrough } = require('stream');
 const requestResponseUtils = require('../../../../lib/infrastructure/utils/request-response-utils');
 
 describe('Unit | Controller | certifications-controller', function () {
@@ -392,6 +394,64 @@ describe('Unit | Controller | certifications-controller', function () {
 
       // then
       expect(events.eventDispatcher.dispatch).to.have.been.calledWith(eventToBeDispatched);
+    });
+  });
+
+  describe('#getCPFExport', function () {
+    it('should call cpfCertificationXmlExportService with the cpf certification results and a stream', async function () {
+      // given
+      const startDate = '2022-01-01';
+      const endDate = '2022-01-10';
+      const request = {
+        query: {
+          startDate,
+          endDate,
+        },
+        auth: { credentials: { userId: 7 } },
+      };
+      sinon.stub(usecases, 'getCpfCertificationResults');
+      sinon.stub(cpfCertificationXmlExportService, 'getXmlExport');
+
+      const cpfCertificationResults = [
+        domainBuilder.buildCpfCertificationResult(),
+        domainBuilder.buildCpfCertificationResult(),
+      ];
+
+      usecases.getCpfCertificationResults.withArgs({ startDate, endDate }).resolves(cpfCertificationResults);
+
+      // when
+      await certificationController.getCpfExport(request, hFake);
+
+      // then
+      expect(cpfCertificationXmlExportService.getXmlExport).to.have.been.calledWith({
+        cpfCertificationResults,
+        writableStream: sinon.match(PassThrough),
+      });
+    });
+
+    it('should return an xml export file', async function () {
+      // given
+      const startDate = '2022-01-01';
+      const endDate = '2022-01-10';
+      const request = {
+        query: {
+          startDate,
+          endDate,
+        },
+        auth: { credentials: { userId: 7 } },
+      };
+      sinon.stub(usecases, 'getCpfCertificationResults');
+      sinon.stub(cpfCertificationXmlExportService, 'getXmlExport');
+
+      // when
+      const response = await certificationController.getCpfExport(request, hFake);
+
+      // then
+      expect(response.headers).to.deep.equal({
+        'content-type': 'text/xml;charset=utf-8',
+        'content-disposition': 'attachment; filename="pix-cpf-export-from-2022-01-01-to-2022-01-10.xml"',
+        'content-encoding': 'identity',
+      });
     });
   });
 });
