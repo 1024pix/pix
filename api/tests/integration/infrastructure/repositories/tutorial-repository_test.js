@@ -675,6 +675,59 @@ describe('Integration | Repository | tutorial-repository', function () {
       });
     });
 
+    describe('when there is one invalidated KE and two skills referencing the same tutorial', function () {
+      it('should return the same tutorial related to each skill', async function () {
+        // given
+        databaseBuilder.factory.buildKnowledgeElement({
+          skillId: 'recSkill1',
+          userId,
+          status: KnowledgeElement.StatusType.INVALIDATED,
+        });
+        databaseBuilder.factory.buildKnowledgeElement({
+          skillId: 'recSkill2',
+          userId,
+          status: KnowledgeElement.StatusType.INVALIDATED,
+        });
+        await databaseBuilder.commit();
+
+        mockLearningContent({
+          tutorials: [
+            {
+              id: 'tuto1',
+              locale: 'fr-fr',
+            },
+          ],
+          skills: [
+            {
+              id: 'recSkill1',
+              tutorialIds: ['tuto1'],
+              status: 'actif',
+            },
+            {
+              id: 'recSkill2',
+              tutorialIds: ['tuto1'],
+              status: 'actif',
+            },
+          ],
+        });
+
+        // when
+        const { results } = await tutorialRepository.findPaginatedRecommendedByUserId({ userId });
+
+        // then
+        expect(results.map(({ id, skillId }) => ({ id, skillId }))).to.exactlyContain([
+          {
+            id: 'tuto1',
+            skillId: 'recSkill1',
+          },
+          {
+            id: 'tuto1',
+            skillId: 'recSkill2',
+          },
+        ]);
+      });
+    });
+
     describe('when there are associated tutorial evaluations and saved tutorials', function () {
       it('should return both information', async function () {
         // given
