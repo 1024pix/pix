@@ -1,5 +1,5 @@
 import { module, test } from 'qunit';
-import { click, currentURL, fillIn } from '@ember/test-helpers';
+import { click, currentURL } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { authenticateSession } from '../helpers/test-init';
 import { visit as visitScreen, visit } from '@1024pix/ember-testing-library';
@@ -279,10 +279,7 @@ module('Acceptance | Session Finalization', function (hooks) {
           const addOrDeleteCertificationIssueReportsButtonsBeforeFilling = screen.queryAllByText('Ajouter / supprimer');
 
           await click(addCertificationIssueReportsButtonsBeforeFilling[1]);
-          await click(
-            screen.getByLabelText('A2 Autre (si aucune des catégories ci-dessus ne correspond au signalement)', {})
-          );
-          await fillIn(screen.getByLabelText('Décrivez l’incident', {}), 'Coucou');
+          await click(screen.getByLabelText('C6 Suspicion de fraude'));
           await click(screen.getByLabelText('Ajouter le signalement'));
 
           const addOrDeleteCertificationIssueReportsButtonsAfterFilling = screen.getAllByText('Ajouter / supprimer');
