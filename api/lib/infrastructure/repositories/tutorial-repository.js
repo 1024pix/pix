@@ -56,17 +56,22 @@ module.exports = {
 
   async findPaginatedRecommendedByUserId({ userId, page, locale = FRENCH_FRANCE } = {}) {
     const invalidatedKnowledgeElements = await knowledgeElementRepository.findInvalidatedAndDirectByUserId(userId);
-    const skills = await skillRepository.findOperativeByIds(invalidatedKnowledgeElements.map(({ skillId }) => skillId));
 
-    const tutorialsIds = skills.flatMap((skill) => skill.tutorialIds);
-
-    const [tutorials, userTutorials, tutorialEvaluations] = await Promise.all([
-      _findByRecordIds({ ids: tutorialsIds, locale }),
+    const [userTutorials, tutorialEvaluations, skills] = await Promise.all([
       userTutorialRepository.find({ userId }),
       tutorialEvaluationRepository.find({ userId }),
+      skillRepository.findOperativeByIds(invalidatedKnowledgeElements.map(({ skillId }) => skillId)),
     ]);
+    const tutorialsForUser = [];
 
-    const tutorialsForUser = _toTutorialsForUser({ tutorials, tutorialEvaluations, userTutorials });
+    for (const skill of skills) {
+      const tutorials = await _findByRecordIds({ ids: skill.tutorialIds, locale });
+
+      tutorialsForUser.push(
+        ..._toTutorialsForUser({ tutorials, tutorialEvaluations, userTutorials, skillId: skill.id })
+      );
+    }
+
     return paginateModule.paginate(tutorialsForUser, page);
   },
 };
@@ -82,11 +87,11 @@ function _toDomain(tutorialData) {
   });
 }
 
-function _toTutorialsForUser({ tutorials, tutorialEvaluations, userTutorials }) {
+function _toTutorialsForUser({ tutorials, tutorialEvaluations, userTutorials, skillId }) {
   return tutorials.map((tutorial) => {
     const userTutorial = userTutorials.find(({ tutorialId }) => tutorialId === tutorial.id);
     const tutorialEvaluation = tutorialEvaluations.find(({ tutorialId }) => tutorialId === tutorial.id);
-    return new TutorialForUser({ ...tutorial, userTutorial, tutorialEvaluation });
+    return new TutorialForUser({ ...tutorial, userTutorial, tutorialEvaluation, skillId });
   });
 }
 
