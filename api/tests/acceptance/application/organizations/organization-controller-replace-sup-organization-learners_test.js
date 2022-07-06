@@ -55,7 +55,7 @@ describe('Acceptance | Application | organization-controller-replace-sup-organiz
         };
 
         const response = await server.inject(options);
-        const registrations = await knex('organization-learners').where({ organizationId: organization.id });
+        const organizationLearners = await knex('organization-learners').where({ organizationId: organization.id });
         expect(response.statusCode).to.equal(200);
         expect(response.result).to.deep.equal({
           data: {
@@ -74,7 +74,7 @@ describe('Acceptance | Application | organization-controller-replace-sup-organiz
             },
           },
         });
-        expect(registrations).to.have.lengthOf(2);
+        expect(organizationLearners).to.have.lengthOf(2);
       });
 
       it('fails when the file payload is too large', async function () {
@@ -131,7 +131,7 @@ describe('Acceptance | Application | organization-controller-replace-sup-organiz
         };
 
         const response = await server.inject(options);
-        const registrations = await knex('organization-learners').where({ organizationId: organization.id });
+        const organizationLearners = await knex('organization-learners').where({ organizationId: organization.id });
         expect(response.statusCode).to.equal(200);
         expect(response.result).to.deep.equal({
           data: {
@@ -150,7 +150,7 @@ describe('Acceptance | Application | organization-controller-replace-sup-organiz
             },
           },
         });
-        expect(registrations).to.have.lengthOf(2);
+        expect(organizationLearners).to.have.lengthOf(2);
       });
 
       it('fails when the file payload is too large', async function () {

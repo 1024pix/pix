@@ -72,7 +72,7 @@ function _createTempDir() {
   return fsPromises.mkdtemp(directory);
 }
 async function _unzipFile(directory, path) {
-  const extractedFileName = Path.join(directory, 'registrations.xml');
+  const extractedFileName = Path.join(directory, 'organization-learners.xml');
   const zip = new StreamZip.async({ file: path });
   const fileName = await _getFileToExtractName(zip);
   try {

@@ -218,7 +218,7 @@ describe('Unit | Domain | Models | SupOrganizationLearnerSet', function () {
     context('When group has spaces', function () {
       it('should trim group', async function () {
         const supOrganizationLearnerSet = new SupOrganizationLearnerSet(i18n);
-        const registration = {
+        const organizationLearner = {
           firstName: 'Beatrix',
           lastName: 'Kiddo',
           birthdate: '1990-04-01',
@@ -229,7 +229,7 @@ describe('Unit | Domain | Models | SupOrganizationLearnerSet', function () {
           group: ' some group ',
         };
 
-        supOrganizationLearnerSet.addLearner(registration);
+        supOrganizationLearnerSet.addLearner(organizationLearner);
         const { learners } = supOrganizationLearnerSet;
 
         expect(learners[0].group).to.equal('some group');
