@@ -4,6 +4,7 @@ const {
   generateValidRequestAuthorizationHeader,
   mockLearningContent,
   learningContentBuilder,
+  insertUserWithRoleSuperAdmin,
 } = require('../../../test-helper');
 const createServer = require('../../../../server');
 const Assessment = require('../../../../lib/domain/models/Assessment');
@@ -554,6 +555,28 @@ describe('Acceptance | API | Certifications', function () {
         expect(response.headers['content-disposition']).to.include('filename=attestation-pix');
         expect(response.file).not.to.be.null;
       });
+    });
+  });
+
+  describe('GET /api/admin/cpf/export', function () {
+    it('should return a XML file with the certification information for the CPF', async function () {
+      // given
+      const admin = await insertUserWithRoleSuperAdmin();
+      options = {
+        method: 'GET',
+        url: `/api/admin/cpf/export?startDate=2022-01-01&endDate=2022-01-10`,
+        headers: { authorization: generateValidRequestAuthorizationHeader(admin.id) },
+      };
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(200);
+      expect(response.headers['content-type']).to.equal('text/xml;charset=utf-8');
+      expect(response.headers['content-disposition']).to.include(
+        'attachment; filename="pix-cpf-export-from-2022-01-01-to-2022-01-10.xml"'
+      );
     });
   });
 });

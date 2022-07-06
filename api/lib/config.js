@@ -269,6 +269,12 @@ module.exports = (function () {
         source: 'poleEmploi',
       },
     ],
+
+    cpf: {
+      idClient: '03VML243',
+      idContrat: 'MCFCER000209',
+      codeFranceConnect: 'RS5875',
+    },
   };
 
   if (config.environment === 'development') {
