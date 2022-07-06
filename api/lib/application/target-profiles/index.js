@@ -196,7 +196,7 @@ exports.register = async (server) => {
                 'skill-ids': Joi.array().required(),
                 comment: Joi.string().optional().allow(null).max(500).empty(''),
                 description: Joi.string().optional().allow(null).max(500).empty(''),
-                'template-tubes': Joi.array().required(),
+                'tubes-selection': Joi.array().required(),
               },
             },
           }),
@@ -413,32 +413,6 @@ exports.register = async (server) => {
         notes: [
           "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n" +
             "- Elle permet de mettre à jour les attributs d'un profil cible",
-        ],
-      },
-    },
-    {
-      method: 'GET',
-      path: '/api/admin/target-profile-templates/{id}',
-      config: {
-        pre: [
-          {
-            method: (request, h) =>
-              securityPreHandlers.adminMemberHasAtLeastOneAccessOf([
-                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
-              ])(request, h),
-            assign: 'hasAuthorizationToAccessAdminScope',
-          },
-        ],
-        validate: {
-          params: Joi.object({
-            id: identifiersType.targetProfileTemplateId,
-          }),
-        },
-        handler: targetProfileController.getTargetProfileTemplate,
-        tags: ['api', 'target-profiles'],
-        notes: [
-          "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n" +
-            '- Elle permet de récupérer les informations d’un gabarit de profil cible',
         ],
       },
     },

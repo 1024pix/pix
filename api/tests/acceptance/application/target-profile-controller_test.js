@@ -66,6 +66,7 @@ describe('Acceptance | Controller | target-profile-controller', function () {
     });
 
     afterEach(async function () {
+      await knex('target-profile_tubes').delete();
       await knex('target-profiles_skills').delete();
       await knex('target-profiles').delete();
     });
@@ -83,7 +84,7 @@ describe('Acceptance | Controller | target-profile-controller', function () {
               'owner-organization-id': null,
               'skill-ids': [skillId],
               comment: 'comment',
-              'template-tubes': [
+              'tubes-selection': [
                 { id: 'tubeId1', level: 5 },
                 { id: 'tubeId2', level: 7 },
               ],

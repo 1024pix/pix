@@ -94,7 +94,7 @@ module('Unit | Controller | authenticated/target-profiles/new', function (hooks)
         targetProfile: {
           id: 3,
           save: sinon.stub().resolves(),
-          templateTubes: [tube1],
+          tubesSelection: [tube1],
         },
       };
 
@@ -135,7 +135,7 @@ module('Unit | Controller | authenticated/target-profiles/new', function (hooks)
       controller.model = {
         targetProfile: {
           save: sinon.stub().rejects(),
-          templateTubes: [tube1],
+          tubesSelection: [tube1],
         },
       };
 
@@ -154,7 +154,7 @@ module('Unit | Controller | authenticated/target-profiles/new', function (hooks)
           save: sinon.stub().rejects({
             errors: [{ status: '404', detail: 'Organisation non trouvée' }],
           }),
-          templateTubes: [tube1],
+          tubesSelection: [tube1],
         },
       };
 

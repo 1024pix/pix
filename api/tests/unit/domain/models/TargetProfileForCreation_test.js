@@ -3,7 +3,7 @@ const TargetProfileForCreation = require('../../../../lib/domain/models/TargetPr
 const TargetProfile = require('../../../../lib/domain/models/TargetProfile');
 const { EntityValidationError } = require('../../../../lib/domain/errors');
 
-describe('Unit | Domain | Models | TargetProfileForUpdate', function () {
+describe('Unit | Domain | Models | TargetProfileForCreation', function () {
   describe('#new', function () {
     it('creates a target profile', function () {
       const targetProfile = new TargetProfileForCreation({
@@ -15,6 +15,7 @@ describe('Unit | Domain | Models | TargetProfileForUpdate', function () {
         isPublic: true,
         imageUrl: 'url',
         ownerOrganizationId: 1,
+        tubes: [{ id: 'tubeId1', level: 6 }],
       });
 
       expect(targetProfile).to.deep.eq({
@@ -26,6 +27,7 @@ describe('Unit | Domain | Models | TargetProfileForUpdate', function () {
         isPublic: true,
         imageUrl: 'url',
         ownerOrganizationId: 1,
+        tubes: [{ id: 'tubeId1', level: 6 }],
       });
     });
 

@@ -258,14 +258,13 @@ module('Acceptance | Target Profiles | Target Profile | Details', function (hook
         });
       });
 
-      module('when target profile is attached to a template', function () {
+      module('when target profile has a tubes selection', function () {
         test('it should display target profile download modal', async function (assert) {
-          const template = server.create('target-profile-template', { id: 456, tubes: [] });
           server.create('target-profile', {
             id: 1,
             name: 'Profil Cible avec Gabarit',
             ownerOrganizationId: 123,
-            template,
+            tubesSelection: [{ id: 'tubeId1', level: 7 }],
           });
 
           // when
@@ -281,13 +280,13 @@ module('Acceptance | Target Profiles | Target Profile | Details', function (hook
         });
       });
 
-      module('when target profile is not attached to a template', function () {
+      module("when target profile doesn't have a tubes selection", function () {
         test('it should not display target profile download button', async function (assert) {
           server.create('target-profile', {
             id: 1,
             name: 'Profil Cible sans Gabarit',
             ownerOrganizationId: 123,
-            template: null,
+            tubesSelection: [],
           });
 
           // when

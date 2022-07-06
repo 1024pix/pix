@@ -1,6 +1,7 @@
 const { expect } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/target-profile-with-learning-content-serializer');
 const TargetProfileWithLearningContent = require('../../../../../lib/domain/models/TargetProfileWithLearningContent');
+const TargetProfileTube = require('../../../../../lib/domain/models/TargetProfileTube');
 const buildTargetedSkill = require('../../../../tooling/domain-builder/factory/build-targeted-skill');
 
 describe('Unit | Serializer | JSONAPI | target-profile-with-learning-content-serializer', function () {
@@ -23,6 +24,10 @@ describe('Unit | Serializer | JSONAPI | target-profile-with-learning-content-ser
         organizations: [{ id: 42 }],
         category: 'OTHER',
         isSimplifiedAccess: false,
+        tubesSelection: [
+          new TargetProfileTube({ id: 'tubeId1', level: 6 }),
+          new TargetProfileTube({ id: 'tubeId2', level: 3 }),
+        ],
       });
 
       const expectedTargetProfile = {
@@ -40,6 +45,10 @@ describe('Unit | Serializer | JSONAPI | target-profile-with-learning-content-ser
             category: targetProfileWithLearningContent.category,
             'created-at': targetProfileWithLearningContent.createdAt,
             'is-simplified-access': targetProfileWithLearningContent.isSimplifiedAccess,
+            'tubes-selection': [
+              { id: 'tubeId1', level: 6 },
+              { id: 'tubeId2', level: 3 },
+            ],
           },
           relationships: {
             skills: {
@@ -83,9 +92,6 @@ describe('Unit | Serializer | JSONAPI | target-profile-with-learning-content-ser
               links: {
                 related: `/api/admin/target-profiles/${targetProfileWithLearningContent.id}/stages`,
               },
-            },
-            template: {
-              data: null,
             },
           },
         },
