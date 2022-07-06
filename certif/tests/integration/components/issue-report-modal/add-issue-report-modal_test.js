@@ -1,6 +1,9 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render, click } from '@ember/test-helpers';
+import { render as renderScreen } from '@1024pix/ember-testing-library';
+import omit from 'lodash/omit';
+
 import { hbs } from 'ember-cli-htmlbars';
 import Service from '@ember/service';
 import sinon from 'sinon';
@@ -55,11 +58,63 @@ module('Integration | Component | add-issue-report-modal', function (hooks) {
       // then
       assert.contains(`E1-E10\u00a0${categoryToLabel['IN_CHALLENGE']}`);
     });
+
+    test('it should show OTHER category', async function (assert) {
+      // given
+      const report = EmberObject.create({
+        certificationCourseId: 1,
+        firstName: 'Lisa',
+        lastName: 'Monpud',
+        hasSeenEndTestScreen: false,
+      });
+      const closeAddIssueReportModalStub = sinon.stub();
+      this.set('closeAddIssueReportModal', closeAddIssueReportModalStub);
+      this.set('reportToEdit', report);
+      this.set('maxlength', 500);
+
+      // when
+      await render(hbs`
+          <IssueReportModal::AddIssueReportModal
+            @closeModal={{this.closeAddIssueReportModal}}
+            @report={{this.reportToEdit}}
+            @maxlength={{@issueReportDescriptionMaxLength}}
+          />
+        `);
+
+      // then
+      assert.contains(`Autre (si aucune des catégories ci-dessus ne correspond au signalement)`);
+    });
   });
 
   module('when FT_CERTIFICATION_FREE_FIELDS_DELETION is enabled', function (hooks) {
     hooks.beforeEach(function () {
       sinon.stub(featureToggles, 'isCertificationFreeFieldsDeletionEnabled').value(true);
+    });
+
+    test('it should not show OTHER category', async function (assert) {
+      // given
+      const report = EmberObject.create({
+        certificationCourseId: 1,
+        firstName: 'Lisa',
+        lastName: 'Monpud',
+        hasSeenEndTestScreen: false,
+      });
+      const closeAddIssueReportModalStub = sinon.stub();
+      this.set('closeAddIssueReportModal', closeAddIssueReportModalStub);
+      this.set('reportToEdit', report);
+      this.set('maxlength', 500);
+
+      // when
+      await render(hbs`
+          <IssueReportModal::AddIssueReportModal
+            @closeModal={{this.closeAddIssueReportModal}}
+            @report={{this.reportToEdit}}
+            @maxlength={{@issueReportDescriptionMaxLength}}
+          />
+        `);
+
+      // then
+      assert.notContains(`Autre (si aucune des catégories ci-dessus ne correspond au signalement)`);
     });
 
     test('it show candidate informations in title', async function (assert) {
@@ -112,7 +167,7 @@ module('Integration | Component | add-issue-report-modal', function (hooks) {
       `);
 
       // then
-      for (const category of Object.values(certificationIssueReportCategories)) {
+      for (const category of Object.values(omit(certificationIssueReportCategories, ['OTHER']))) {
         assert.contains(`${categoryToCode[category]}\u00a0${categoryToLabel[category]}`);
       }
     });

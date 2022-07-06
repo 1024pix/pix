@@ -112,6 +112,7 @@ export class RadioButtonCategoryWithSubcategoryAndQuestionNumber extends RadioBu
 
 export default class AddIssueReportModal extends Component {
   @service store;
+  @service featureToggles;
 
   @tracked otherCategory = new RadioButtonCategoryWithDescription({ name: certificationIssueReportCategories.OTHER });
   @tracked lateOrLeavingCategory = new RadioButtonCategoryWithSubcategoryWithDescription({
@@ -174,5 +175,9 @@ export default class AddIssueReportModal extends Component {
       issueReportToSave.rollbackAttributes();
       this.showIssueReportSubmitError = true;
     }
+  }
+
+  get isCertificationFreeFieldsDeletionEnabled() {
+    return this.featureToggles.featureToggles.isCertificationFreeFieldsDeletionEnabled;
   }
 }
