@@ -491,6 +491,7 @@
       "sub-title": "Recommendations of topics to focus on",
       "table": {
         "analysis": {
+          "caption": "Table of topics to work on, sorted by relevance. Some have additional columns showing the number of tutorials that exist related to the topic and how to access these tutorials",
           "title": "Review by topic",
           "column": {
             "relevance": "Relevance",
