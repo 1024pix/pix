@@ -1,5 +1,21 @@
 # Pix Changelog
 
+## v3.230.0 (06/07/2022)
+
+
+### :rocket: Amélioration
+- [#4616](https://github.com/1024pix/pix/pull/4616) [FEATURE] Rajouter le contexte pour les tutoriels (PIX-4649).
+- [#4618](https://github.com/1024pix/pix/pull/4618) [FEATURE] App - Allonge le cache pour les polices de Pix UI
+
+### :building_construction: Tech
+- [#4557](https://github.com/1024pix/pix/pull/4557) [TECH] Intégrer les couleurs du design system via Pix-UI pour Pix App ( PIX-4826 )
+- [#4605](https://github.com/1024pix/pix/pull/4605) [TECH] Supprimer le gabarit de profil cible (PIX-5246)
+- [#4597](https://github.com/1024pix/pix/pull/4597) [TECH] Ajouter le système de traduction dans pix certif (PIX-5205)
+- [#4588](https://github.com/1024pix/pix/pull/4588) [TECH] Attendre la fin des requêtes http à la réception de signal d'arrêt sur l'API.
+
+### :bug: Correction
+- [#4623](https://github.com/1024pix/pix/pull/4623) [BUGFIX] Corriger la checkbox seulement sur la page d'inscription (PIX-5294)
+
 ## v3.229.0 (05/07/2022)
 
 
