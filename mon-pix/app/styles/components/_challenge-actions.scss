@@ -26,7 +26,7 @@
 }
 
 .challenge-actions {
-  background-color: $grey-10;
+  background-color: $pix-neutral-10;
   margin: 6px;
   display: flex;
   justify-content: center;
@@ -44,22 +44,22 @@
   }
 
   &__action-skip {
-    @include action-button($grey-50);
+    @include action-button($pix-neutral-50);
   }
 
   &__action-validate {
-    @include action-button($white);
+    @include action-button($pix-neutral-0);
   }
 
   &__action-continue {
-    @include action-button($white);
+    @include action-button($pix-neutral-0);
   }
 
   &__already-answered {
     font-family: $font-roboto;
     font-size: 1rem;
     font-weight: $font-semi-bold;
-    color: $grey-70;
+    color: $pix-neutral-70;
     letter-spacing: 0.031rem;
     margin-right: 20px;
   }
@@ -68,7 +68,7 @@
     display: flex;
     align-items: center;
     max-width: 600px;
-    color: $grey-90;
+    color: $pix-neutral-90;
     font-family: $font-roboto;
     font-size: 0.875rem;
     font-weight: $font-normal;
@@ -88,6 +88,6 @@
     font-size: 1rem;
     margin-left: 0;
     margin-right: 20px;
-    color: $grey-45;
+    color: $pix-neutral-45;
   }
 }

@@ -46,7 +46,7 @@
   }
 
   &--blue-gradient-background {
-    background-image: $default-gradient;
+    background-image: $pix-primary-app-gradient;
     background-color: rgb(5, 108, 255);
   }
 
@@ -55,11 +55,11 @@
   }
 
   &--white-text {
-    color: $white;
+    color: $pix-neutral-0;
   }
 
   &--black-text {
-    color: $grey-80;
+    color: $pix-neutral-80;
   }
 
   &--align-text-center {
@@ -147,7 +147,7 @@
 
     &:focus span,
     &:hover span {
-      border-bottom: 1px solid $white;
+      border-bottom: 1px solid $pix-neutral-0;
     }
   }
 }

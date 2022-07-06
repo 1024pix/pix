@@ -2,7 +2,7 @@
 
   a {
     text-decoration: underline;
-    color: $blue;
+    color: $pix-primary;
 
     @include device-is('tablet') {
       display: inline-block;
@@ -11,7 +11,7 @@
     &:active,
     &:focus,
     &:hover {
-      color: $blue-hover;
+      color: $pix-primary-60;
     }
 
     &::after {
@@ -53,7 +53,7 @@
       display: inline-block;
 
       &[data-goodness='good'] {
-        color: $green;
+        color: $pix-success-70;
         font-weight: $font-heavy;
       }
 

@@ -15,7 +15,7 @@
   }
 
   &__errors {
-    color: $pure-orange;
+    color: $pix-warning-60;
     font-size: 0.875rem;
     text-align: start;
     margin: 5px 5px 5px 5px;
@@ -31,15 +31,15 @@
 
     a,
     a:visited {
-      color: $pure-orange;
+      color: $pix-warning-60;
       text-decoration: underline;
     }
   }
 
   &__link-to-user-certifications {
-    background-color: $grey-10;
+    background-color: $pix-neutral-10;
     border-radius: 8px;
-    color: $grey-70;
+    color: $pix-neutral-70;
     display: flex;
     gap: 8px;
     justify-content: center;
@@ -48,13 +48,13 @@
 
     a,
     a:visited {
-      color: $grey-70;
+      color: $pix-neutral-70;
       text-decoration-line: underline;
     }
   }
 
   &__title {
-    color: $grey-100;
+    color: $pix-neutral-100;
     font-family: $font-open-sans;
     font-size: 2.625rem;
     font-weight: $font-light;
@@ -64,12 +64,12 @@
 }
 
 .certification-starter-subscriptions {
-  color: $grey-90;
+  color: $pix-neutral-90;
   font-size: 0.875rem;
   margin-bottom: 32px;
 
   &-container {
-    background-color: $grey-10;
+    background-color: $pix-neutral-10;
     padding: 16px 0;
     text-align: center;
 
@@ -88,12 +88,12 @@
       }
 
       &__eligible-icon {
-        color: $green;
+        color: $pix-success-70;
       }
 
       &__non-eligible-item,
       &__non-eligible-icon {
-        color: $grey-50;
+        color: $pix-neutral-50;
       }
     }
 
@@ -112,7 +112,7 @@
 }
 
 .certification-start-page__order {
-  color: $grey-80;
+  color: $pix-neutral-80;
   display: block;
   font-family: $font-open-sans;
   font-weight: $font-light;
@@ -124,7 +124,7 @@
 }
 
 .certification-start-page__cgu {
-  color: $grey-80;
+  color: $pix-neutral-80;
   font-size: 0.75rem;
   line-height: 18px;
   text-align: justify;
@@ -147,7 +147,7 @@
 
   text-transform: uppercase;
   box-sizing: content-box;
-  border: solid 2px $grey-20;
+  border: solid 2px $pix-neutral-20;
   border-radius: 3px;
   outline: none;
   height: 50px;
@@ -155,8 +155,8 @@
   display: inline-block;
   width: $total-width;
   background: repeating-linear-gradient(90deg,
-    $grey-22 0,
-    $grey-22 1ch,
+    $pix-neutral-22 0,
+    $pix-neutral-22 1ch,
     transparent 0,
     transparent 1ch + $space-between-dashes) 0 100% / #{$total-width - $space-between-dashes} 2px no-repeat;
   font-size: 1.875rem;
@@ -175,8 +175,8 @@
     padding: 0 0 1px 1ch;
     letter-spacing: $space-between-dashes;
     background: repeating-linear-gradient(90deg,
-      $grey-22 0,
-      $grey-22 1.3ch,
+      $pix-neutral-22 0,
+      $pix-neutral-22 1.3ch,
       transparent 0,
       transparent 1.3ch + $space-between-dashes) 0 100% / #{$total-width - $space-between-dashes} 2px no-repeat;
     background-origin: content-box;
@@ -186,7 +186,7 @@
 
   &:focus {
     outline: none;
-    color: $grey-70;
+    color: $pix-neutral-70;
   }
 }
 

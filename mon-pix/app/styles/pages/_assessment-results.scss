@@ -14,7 +14,7 @@
   width: 100%;
   padding: 30px;
   margin-top: -175px;
-  background: $white;
+  background: $pix-neutral-0;
   border-radius: 10px;
   box-shadow: 0 7px 14px 0 rgba(12, 22, 58, 0.1), 0 3px 6px 0 rgba(0, 0, 0, 0.1);
 }
@@ -57,7 +57,7 @@
   width: 275px;
   height: 46px;
   border-radius: 23px;
-  background-color: $blue;
+  background-color: $pix-primary;
   border: none;
 }
 
@@ -66,7 +66,7 @@
 }
 
 .assessment-results__index-link__element:hover {
-  background-color: $blue-hover;
+  background-color: $pix-primary-60;
 }
 
 .assessment-results__link-back {
@@ -75,5 +75,5 @@
   font-weight: $font-semi-bold;
   text-align: center;
   font-family: $font-open-sans;
-  color: $white;
+  color: $pix-neutral-0;
 }

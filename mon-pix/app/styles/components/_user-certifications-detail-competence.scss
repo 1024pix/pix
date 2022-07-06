@@ -29,14 +29,14 @@
     &--level {
       @include rightElement;
 
-      color: $grey-60;
+      color: $pix-neutral-60;
     }
   }
 
   &__competence {
     @include leftElement;
 
-    color: $grey-80;
+    color: $pix-neutral-80;
     height: 100%;
     font-family: $font-open-sans;
     font-size: 1rem;
@@ -70,7 +70,7 @@
   }
 
   > * {
-    border-bottom: 1.5px $grey-10 solid;
+    border-bottom: 1.5px $pix-neutral-10 solid;
     height: 75px;
     min-height: 60px;
   }

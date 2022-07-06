@@ -3,7 +3,7 @@
   width: 100%;
   height: 100px;
   min-height: 100vh;
-  background: $default-gradient;
+  background: $pix-primary-app-gradient;
   align-items: center;
 }
 
@@ -29,7 +29,7 @@
   &__description,
   &__conditions {
     text-align: center;
-    color: $grey-80;
+    color: $pix-neutral-80;
     font-family: $font-roboto;
   }
 

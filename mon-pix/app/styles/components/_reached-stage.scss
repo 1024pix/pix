@@ -1,7 +1,7 @@
 .reached-stage {
   display: flex;
   flex-direction: column;
-  background: $white;
+  background: $pix-neutral-0;
   border: 1px solid rgb(231, 231, 231);
   border-radius: 16px;
   margin: 0 auto;
@@ -35,7 +35,7 @@
     font-family: $font-roboto;
     font-size: 0.875rem;
     font-weight: $font-medium;
-    color: $grey-40;
+    color: $pix-neutral-40;
     text-align: center;
   }
 }

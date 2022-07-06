@@ -74,7 +74,7 @@
   }
 
   &__copyrights {
-    color: $grey-50;
+    color: $pix-neutral-50;
     font-size: 0.75rem;
     letter-spacing: 0.008rem;
     font-family: $font-roboto;
@@ -90,7 +90,7 @@
 
   &__item {
     margin: 3px 0;
-    color: $grey-60;
+    color: $pix-neutral-60;
     font-size: 0.8125rem;
     font-family: $font-roboto;
     letter-spacing: 0.009rem;
@@ -99,7 +99,7 @@
     &--internal-link {
 
       &:visited {
-        color: $grey-60;
+        color: $pix-neutral-60;
       }
     }
 
@@ -109,18 +109,18 @@
 
     &.active {
       text-decoration: none;
-      color: $blue;
+      color: $pix-primary;
     }
 
     &:focus {
       text-decoration: none;
-      color: $grey-50;
+      color: $pix-neutral-50;
     }
 
     &:hover {
       text-decoration: none;
       cursor: pointer;
-      color: $blue;
+      color: $pix-primary;
     }
   }
 }

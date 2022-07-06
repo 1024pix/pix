@@ -2,8 +2,8 @@
   position: absolute;
   padding: 0.5em;
   margin: 8px;
-  color: $white;
-  background-color: $blue;
+  color: $pix-neutral-0;
+  background-color: $pix-primary;
   transform: translateY(calc(-100% - 8px));
   transition: transform 0.3s;
   z-index: 1;
