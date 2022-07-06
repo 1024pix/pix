@@ -6,9 +6,9 @@
   height: 26px;
   line-height: 1.5rem;
   border-radius: 3px;
-  background-color: $white;
+  background-color: $pix-neutral-0;
   box-shadow: inset 0 1px 3px 0 rgba(0, 0, 0, 0.15);
-  border: solid 1px $grey-20;
+  border: solid 1px $pix-neutral-20;
   padding: 0 10px;
   font-size: 1rem;
   max-width: 100%;
@@ -25,16 +25,16 @@
 
   &--correct {
     font-weight: $font-bold;
-    color: $green;
+    color: $pix-success-70;
   }
 
   &--wrong {
-    color: $grey-80;
+    color: $pix-neutral-80;
     text-decoration: line-through;
   }
 
   &--aband {
-    color: $grey-80;
+    color: $pix-neutral-80;
     font-style: italic;
   }
 }

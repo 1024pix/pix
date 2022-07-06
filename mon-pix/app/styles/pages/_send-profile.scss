@@ -18,7 +18,7 @@
   }
 
   &__title {
-    color: $grey-90;
+    color: $pix-neutral-90;
     font-family: $font-open-sans;
     font-size: 2rem;
     text-align: center;
@@ -26,7 +26,7 @@
   }
 
   &__instruction {
-    color: $grey-90;
+    color: $pix-neutral-90;
     font-size: 1.25rem;
     font-family: $font-open-sans;
     line-height: 2.5rem;
@@ -40,12 +40,12 @@
     flex-flow: column;
     align-items: center;
     border-radius: 6px;
-    background-color: $grey-10;
+    background-color: $pix-neutral-10;
     padding: 20px;
   }
 
   &__profile {
-    border-top: 1px dashed  $grey-22;
+    border-top: 1px dashed  $pix-neutral-22;
     padding-top: 36px;
     padding-bottom: 22px;
     margin-top: 24px;
@@ -55,7 +55,7 @@
     align-items: center;
 
     &--with-border-bottom {
-      border-bottom: 1px dashed  $grey-22;
+      border-bottom: 1px dashed  $pix-neutral-22;
     }
 
     &__cards {
@@ -65,7 +65,7 @@
   }
 
   &__recipient {
-    color: $grey-90;
+    color: $pix-neutral-90;
     font-family: $font-open-sans;
     font-size: 1.25rem;
     font-weight: $font-medium;
@@ -81,7 +81,7 @@
     margin: 30px auto 60px;
     font-family: $font-open-sans;
     font-weight: $font-light;
-    color: $grey-35;
+    color: $pix-neutral-35;
     text-align: center;
   }
 

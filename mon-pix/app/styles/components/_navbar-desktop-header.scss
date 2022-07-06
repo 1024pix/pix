@@ -40,25 +40,25 @@
   &__link {
     font-size: 1rem;
     font-family: $font-roboto;
-    color: $grey-60;
+    color: $pix-neutral-60;
     text-decoration: none;
 
     &.active {
       text-decoration: none;
       padding-bottom: 5px;
-      color: $blue-hover;
-      border-bottom: 2px solid $blue-hover;
+      color: $pix-primary-60;
+      border-bottom: 2px solid $pix-primary-60;
     }
 
     &:focus {
       text-decoration: none;
-      color: $grey-60;
+      color: $pix-neutral-60;
     }
 
     &:hover {
       text-decoration: none;
       cursor: pointer;
-      color: $blue-hover;
+      color: $pix-primary-60;
     }
   }
 }

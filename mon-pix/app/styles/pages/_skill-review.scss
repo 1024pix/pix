@@ -19,8 +19,8 @@
   }
 
   &__retry {
-    border-top: 1px dashed $grey-22;
-    color: $grey-100;
+    border-top: 1px dashed $pix-neutral-22;
+    color: $pix-neutral-100;
     text-align: center;
     font-size: 1.125rem;
     font-family: $font-open-sans;
@@ -43,7 +43,7 @@
   &__organization-message,
   &__net-promoter-score {
     padding: 40px 10px;
-    box-shadow: 0 7px 14px 0 rgba($grey-200, 0.1), 0 3px 6px 0 rgba(black, 0.1);
+    box-shadow: 0 7px 14px 0 rgba($pix-neutral-110, 0.1), 0 3px 6px 0 rgba(black, 0.1);
 
     @include device-is('tablet') {
       padding: 32px 48px;
@@ -72,7 +72,7 @@
   }
 
   &__begin-improvement {
-    border-bottom: 1px dashed $grey-22;
+    border-bottom: 1px dashed $pix-neutral-22;
     padding: 30px;
     display: flex;
     flex-direction: row;
@@ -83,7 +83,7 @@
 
   &__explain-text {
     font-size: 1.5rem;
-    color: $grey-60;
+    color: $pix-neutral-60;
     line-height: 33px;
     font-weight: $font-light;
   }
@@ -114,7 +114,7 @@
     flex-direction: column;
 
     > h2 {
-      color: $grey-60;
+      color: $pix-neutral-60;
       font-size: 16px;
     }
 
@@ -137,14 +137,14 @@
 
   &__info-icon {
     float: left;
-    color: $grey-60;
+    color: $pix-neutral-60;
     font-size: 0.938em;
   }
 
   &__text {
     padding-left: 14px;
     margin-top: 14px;
-    color: $grey-60;
+    color: $pix-neutral-60;
     font-family: $font-open-sans;
     font-size: 0.875rem;
   }
@@ -167,28 +167,28 @@
     border-radius: 1.5px;
 
     &--jaffa {
-      color: $information-light;
-      background: $information-light;
+      color: $pix-information-light;
+      background: $pix-information-light;
     }
 
     &--emerald {
-      color: $content-light;
-      background: $content-light;
+      color: $pix-content-light;
+      background: $pix-content-light;
     }
 
     &--cerulean {
-      color: $communication-light;
-      background: $communication-light;
+      color: $pix-communication-light;
+      background: $pix-communication-light;
     }
 
     &--wild-strawberry {
-      color: $security-light;
-      background: $security-light;
+      color: $pix-security-light;
+      background: $pix-security-light;
     }
 
     &--butterfly-bush {
-      color: $environment-light;
-      background: $environment-light;
+      color: $pix-environment-light;
+      background: $pix-environment-light;
     }
   }
 }
@@ -196,7 +196,7 @@
 .skill-review-table-header {
 
   &__circle-chart-value {
-    color: $grey-100;
+    color: $pix-neutral-100;
     font-family: $font-roboto;
     font-size: 1.938rem;
   }
@@ -220,7 +220,7 @@
   }
 
   &__title {
-    color: $grey-60;
+    color: $pix-neutral-60;
     font-family: $font-open-sans;
     font-size: 1rem;
     font-weight: $font-bold;
@@ -228,7 +228,7 @@
   }
 
   &__organization-name {
-    color: $grey-90;
+    color: $pix-neutral-90;
     font-size: 1.5rem;
     font-family: $font-open-sans;
     font-weight: $font-normal;
@@ -236,7 +236,7 @@
   }
 
   &__text {
-    color: $grey-90;
+    color: $pix-neutral-90;
     font-family: $font-roboto;
     font-size: 1rem;
     line-height: 1.625rem;
@@ -247,9 +247,9 @@
   }
 
   &__link {
-    background-color: $blue;
+    background-color: $pix-primary;
     border-radius: 4px;
-    color: $white;
+    color: $pix-neutral-0;
     padding: 8px 12px;
     text-decoration: none;
     display: inline-block;
@@ -270,7 +270,7 @@
     text-transform: none;
     margin: 16px 0;
     font-size: 1.625rem;
-    color: $grey-90;
+    color: $pix-neutral-90;
     font-family: $font-open-sans;
     font-weight: $font-light;
     letter-spacing: 0.009rem;
@@ -282,14 +282,14 @@
     }
 
     > strong {
-      color: $blue;
+      color: $pix-primary;
       display: inline-block;
       font-weight: 300;
     }
   }
 
   &__subtext {
-    color: $grey-90;
+    color: $pix-neutral-90;
     font-weight: $font-bold;
     margin: 40px 0;
     text-align: center;
@@ -314,7 +314,7 @@
 }
 
 .badge-container {
-  border-bottom: 1px dashed $grey-22;
+  border-bottom: 1px dashed $pix-neutral-22;
   padding-bottom: 24px;
   margin-bottom: 24px;
 }
@@ -322,7 +322,7 @@
 .skill-review-result-detail {
 
   &__badge-subtitle {
-    color: $grey-100;
+    color: $pix-neutral-100;
     font-family: $font-open-sans;
     font-size: 1.5rem;
     font-weight: $font-normal;
@@ -360,7 +360,7 @@
   }
 
   &__subtitle {
-    color: $grey-100;
+    color: $pix-neutral-100;
     font-family: $font-open-sans;
     font-size: 1.5rem;
     font-weight: $font-normal;
@@ -386,7 +386,7 @@
   &__legal {
     font-family: $font-roboto;
     font-size: 0.85rem;
-    color: $grey-45;
+    color: $pix-neutral-45;
     line-height: 2rem;
     font-weight: $font-normal;
   }
@@ -400,7 +400,7 @@
   }
 
   &__error {
-    color: $pure-orange;
+    color: $pix-warning-60;
     font-size: 0.938rem;
     padding-bottom: 10px;
   }
@@ -446,7 +446,7 @@
     margin: 30px auto 60px;
     font-family: $font-open-sans;
     font-weight: $font-light;
-    color: $grey-35;
+    color: $pix-neutral-35;
   }
 }
 
@@ -456,7 +456,7 @@
     font-family: $font-open-sans;
     font-size: 1.875rem;
     font-weight: $font-bold;
-    color: $grey-100;
+    color: $pix-neutral-100;
     padding-bottom: 10px;
   }
 
@@ -464,7 +464,7 @@
     font-family: $font-open-sans;
     font-size: 1.125rem;
     font-weight: $font-normal;
-    color: $grey-45;
+    color: $pix-neutral-45;
     line-height: 1.8rem;
   }
 }
@@ -476,11 +476,11 @@
   }
 
   .progression-gauge {
-    border-bottom: 4px solid $grey-20;
+    border-bottom: 4px solid $pix-neutral-20;
   }
 
   .progression-gauge__marker {
-    border-bottom: 4px solid $information-light;
+    border-bottom: 4px solid $pix-information-light;
   }
 
   .default-table thead {

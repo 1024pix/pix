@@ -23,7 +23,7 @@
   }
 
   &__feedback-panel {
-    background-color: $grey-20;
+    background-color: $pix-neutral-20;
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
     padding: 20px 40px;
@@ -41,11 +41,11 @@
     }
 
     &--green {
-      color: $green;
+      color: $pix-success-70;
     }
 
     &--orange {
-      color: $information-light;
+      color: $pix-information-light;
     }
 
     &--red {
@@ -53,7 +53,7 @@
     }
 
     &--grey {
-      color: $grey-60;
+      color: $pix-neutral-60;
     }
   }
 
@@ -64,14 +64,14 @@
     font-family: $font-open-sans;
     font-size: 1.125rem;
     font-weight: $font-heavy;
-    color: $grey-80;
+    color: $pix-neutral-80;
   }
 }
 
 .comparison-window-content {
 
   &__body {
-    background-color: $grey-10;
+    background-color: $pix-neutral-10;
     display: flex;
     flex-direction: column;
   }
@@ -100,7 +100,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    border: 1.3px dashed $grey-40;
+    border: 1.3px dashed $pix-neutral-40;
     max-width: 991px;
     border-radius: 5px;
     padding: 36px 0 28px;
@@ -118,7 +118,7 @@
     font-family: $font-open-sans;
     font-size: 1.063rem;
     text-align: center;
-    color: $grey-200;
+    color: $pix-neutral-110;
     font-weight: $font-semi-bold;
     margin: 10px 25px 40px 25px;
 
@@ -135,7 +135,7 @@
   &__text {
     font-size: 1rem;
     font-weight: $font-bold;
-    color: $green;
+    color: $pix-success-70;
     display: flex;
     margin-left: 10px;
     margin-top: 10px;

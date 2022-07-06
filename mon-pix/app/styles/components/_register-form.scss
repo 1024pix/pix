@@ -11,11 +11,11 @@
     font-size: 0.875rem;
     font-family: $font-roboto;
     font-weight: $font-bold;
-    color: $grey-80;
+    color: $pix-neutral-80;
   }
 
   &__required-inputs {
-    color: $grey-60;
+    color: $pix-neutral-60;
     font-family: $font-roboto;
     font-size: 1rem;
     font-weight: $font-normal;
@@ -38,7 +38,7 @@
   }
 
   &__validation-error {
-    color: $dark-error;
+    color: $pix-error-70;
     font-weight: normal;
   }
 
@@ -54,8 +54,8 @@
   hr {
     height: 2px;
     border: none;
-    color: $grey-20;
-    background-color: $grey-20;
+    color: $pix-neutral-20;
+    background-color: $pix-neutral-20;
     margin: 20px 0;
   }
 
@@ -70,13 +70,13 @@
   &__return-button:hover {
 
     > .register-form-return-button__icon {
-      background-color: $grey-20;
+      background-color: $pix-neutral-20;
     }
   }
 
   &__error {
     text-align: center;
-    color: $pure-orange;
+    color: $pix-warning-60;
     font-size: 0.938rem;
     padding: 4px 10px;
 
@@ -93,15 +93,15 @@
     &__label {
       font-size: 0.938rem;
       font-weight: $font-medium;
-      color: $grey-80;
+      color: $pix-neutral-80;
       letter-spacing: 0.031rem;
     }
 
     &__span {
-      color: $grey-50;
+      color: $pix-neutral-50;
       font-family: $font-roboto;
       font-size: 0.875rem;
-      background-color: $grey-20;
+      background-color: $pix-neutral-20;
       border-radius: 3px;
       padding: 15px 10px;
     }

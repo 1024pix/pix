@@ -18,12 +18,12 @@
       font-size: 2rem;
       font-weight: $font-light;
       font-family: $font-open-sans;
-      color: $grey-80;
+      color: $pix-neutral-80;
     }
 
     .form__description {
       max-width: 500px;
-      color: $grey-60;
+      color: $pix-neutral-60;
       font-weight: $font-light;
       margin-bottom: 32px;
       line-height: 22px;
@@ -34,7 +34,7 @@
       flex-direction: column;
 
       label {
-        color: $grey-100;
+        color: $pix-neutral-100;
         font-size: 0.875rem;
         font-weight: $font-normal;
         margin-bottom: 6px;
@@ -62,7 +62,7 @@
     }
 
     .form__error--validation {
-      color: $red;
+      color: $pix-error-60;
       font-size: 0.875rem;
       margin: 16px 10px 0 10px;
     }

@@ -8,10 +8,10 @@
   border: none;
   outline: none;
   padding: 8px 0;
-  background-color: $white;
+  background-color: $pix-neutral-0;
 
   &:nth-child(odd) {
-    background: $grey-10;
+    background: $pix-neutral-10;
   }
 
   @include device-is('tablet') {
@@ -45,7 +45,7 @@
 .result-item__correction-button {
   font-weight: $font-normal;
   font-size: 0.875rem;
-  color: $blue-hover;
+  color: $pix-primary-60;
   border: none;
   outline: none;
   background-color: transparent;
@@ -68,11 +68,11 @@
   }
 
   &--green {
-    color: $green;
+    color: $pix-success-70;
   }
 
   &--orange {
-    color: $information-light;
+    color: $pix-information-light;
   }
 
   &--red {
@@ -80,6 +80,6 @@
   }
 
   &--grey {
-    color: $grey-60;
+    color: $pix-neutral-60;
   }
 }

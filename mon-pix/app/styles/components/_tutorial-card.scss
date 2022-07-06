@@ -1,9 +1,9 @@
 .tutorial-card-v2 {
   display: flex;
   min-height: 170px;
-  background: $white;
+  background: $pix-neutral-0;
   border-radius: 8px;
-  box-shadow: 0 2px 5px 0 rgba($grey-90, 0.06);
+  box-shadow: 0 2px 5px 0 rgba($pix-neutral-90, 0.06);
   padding: 16px;
   gap: 12px;
 
@@ -19,7 +19,7 @@
   &__link {
     display: -webkit-box;
     margin-bottom: 4px;
-    color: $grey-90;
+    color: $pix-neutral-90;
     font-size: 1.25rem;
     font-family: $font-open-sans;
     font-weight: $font-semi-bold;
@@ -31,13 +31,13 @@
 
     &:hover,
     &:focus {
-      color: $blue;
+      color: $pix-primary;
     }
   }
 
   &__details {
     height: 24px;
-    color: $grey-50;
+    color: $pix-neutral-50;
     font-size: 0.813rem;
     font-family: $font-roboto;
     font-weight: $font-normal;
@@ -55,27 +55,25 @@
 }
 
 .pix-action-chip {
-  $dark-blue: #2044DC;
-
   width: 36px;
   height: 36px;
-  background: $white;
+  background: $pix-neutral-0;
   border-radius: 50%;
-  border: 1px solid $grey-10;
+  border: 1px solid $pix-neutral-10;
   text-align: center;
 
   &__icon {
     left: calc(50% - 20px / 2);
     top: 0%;
     bottom: 0%;
-    color: $grey-50;
+    color: $pix-neutral-50;
     font-size: 18px;
   }
 
   &:hover {
     cursor: pointer;
-    border: 1.4px solid $grey-50;
-    background: $grey-10;
+    border: 1.4px solid $pix-neutral-50;
+    background: $pix-neutral-10;
   }
 
   &:disabled {
@@ -84,39 +82,39 @@
   }
 
   &--selected {
-    border-color: $blue;
+    border-color: $pix-primary;
 
     .pix-action-chip__icon {
-      color: $blue;
+      color: $pix-primary;
     }
 
     &:hover {
-      border-color: $dark-blue;
+      border-color: $pix-primary-60;
 
       .pix-action-chip__icon {
-        color: $dark-blue;
+        color: $pix-primary-60;
       }
     }
 
     &:focus-visible {
-      background-color: $blue;
-      box-shadow: 0 0 0 3px $blue;
-      border-color: $white;
+      background-color: $pix-primary;
+      box-shadow: 0 0 0 3px $pix-primary;
+      border-color: $pix-neutral-0;
 
       .pix-action-chip__icon {
-        color: $white;
+        color: $pix-neutral-0;
       }
     }
   }
 
   &:not(.pix-action-chip--selected):focus-visible {
-    background-color: $grey-60;
-    box-shadow: 0 0 0 3px $grey-60;
-    border-color: $white;
+    background-color: $pix-neutral-60;
+    box-shadow: 0 0 0 3px $pix-neutral-60;
+    border-color: $pix-neutral-0;
     outline: none;
 
     .pix-action-chip__icon {
-      color: $white;
+      color: $pix-neutral-0;
     }
   }
 }

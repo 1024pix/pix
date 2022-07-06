@@ -1,20 +1,9 @@
 // See https://zeroheight.com/8dd127da7/p/839645-couleurs/b/21317a
 
 /* Deprecated */
-$green-certif: #1A8C89;
-$green-hover: darken($green, 4%);
-$red-hover: darken($red, 4%);
-$light-blue: #388AFF;
-$pure-orange: #F45C00;
 $pole-emploi: #1B2E57;
-$blue-10: #C4E6FF;
-$blue-60: #0D25B3;
-$default-gradient: linear-gradient(135deg, $blue 0%, $purple 100%);
-$green-gradient: linear-gradient(0deg, #52D987 0%, #1A8C89 100%);
-$yellow-gradient: linear-gradient(180deg, #FEDC41 0%, #F45C00 100%);
-$dark-error: darken($error, 8%);
 
-$box-shadow-competence-cards: 0 3px 4px 0 rgba(12, 22, 58, 0.1), 0 1px 3px 0 rgba($grey-200, 0.1);
-$box-shadow-competence-cards-hover: 0 7px 14px 0 rgba(12, 22, 58, 0.2), 0 3px 6px 0 rgba($grey-200, 0.2);
+$box-shadow-competence-cards: 0 3px 4px 0 rgba(12, 22, 58, 0.1), 0 1px 3px 0 rgba($pix-neutral-110, 0.1);
+$box-shadow-competence-cards-hover: 0 7px 14px 0 rgba(12, 22, 58, 0.2), 0 3px 6px 0 rgba($pix-neutral-110, 0.2);
 
 $blur-30: blur(30px);

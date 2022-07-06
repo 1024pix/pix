@@ -65,12 +65,12 @@
 
   &__legal {
     font-size: 0.75rem;
-    color: $grey-60;
+    color: $pix-neutral-60;
   }
 }
 
 .campaign-landing-page__start__custom-text {
-  border-top: 1px dashed $grey-22;
+  border-top: 1px dashed $pix-neutral-22;
   width: 80%;
   margin-top: 50px;
   padding: 50px 5px 5px 5px;
@@ -105,7 +105,7 @@
 }
 
 .campaign-landing-page__start__warning {
-  color: $grey-90;
+  color: $pix-neutral-90;
   font-size: 0.875rem;
   text-align: center;
   margin-top: 40px;
@@ -134,13 +134,13 @@
       position: relative;
       height: 15px;
       width: 100px;
-      border-bottom: 2px solid $blue;
+      border-bottom: 2px solid $pix-primary;
       margin: 35px auto;
     }
   }
 
   .article-title {
-    color: $grey-100;
+    color: $pix-neutral-100;
     font-size: 1.5rem;
     font-weight: $font-semi-bold;
     line-height: 30px;
@@ -148,14 +148,14 @@
 
   .article-list {
     display: block;
-    color: $grey-100;
+    color: $pix-neutral-100;
     font-size: 0.875rem;
     line-height: 22px;
   }
 
   .article-text {
     margin: auto;
-    color: $grey-100;
+    color: $pix-neutral-100;
     font-size: 1rem;
     line-height: 24px;
   }
@@ -177,7 +177,7 @@
   }
 
   &--dashline {
-    border-top: 1px dashed $grey-22;
+    border-top: 1px dashed $pix-neutral-22;
     margin-top: 50px;
     padding: 50px 10px 10px 10px;
   }

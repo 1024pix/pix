@@ -1,7 +1,7 @@
 @import "certifications-list";
 
 .certifications-list-item {
-  border-bottom: 1px solid $grey-20;
+  border-bottom: 1px solid $pix-neutral-20;
   text-align: center;
   padding: 5px;
 }
@@ -26,7 +26,7 @@
 }
 
 .certifications-list-item__clickable:hover {
-  background-color: $grey-10;
+  background-color: $pix-neutral-10;
   color: inherit;
 }
 
@@ -68,9 +68,9 @@
   @extend .certifications-list-item__cell;
 
   padding: 10px 0;
-  border-top: 1px solid $grey-20;
+  border-top: 1px solid $pix-neutral-20;
   font-size: 1rem;
-  color: $grey-60;
+  color: $pix-neutral-60;
   text-align: left;
 }
 
@@ -85,11 +85,11 @@
 }
 
 .certifications-list-item__unpublished-item {
-  color: $grey-35;
+  color: $pix-neutral-35;
 }
 
 .certifications-list-item__published-item {
-  color: $grey-80;
+  color: $pix-neutral-80;
 }
 
 .certifications-list-item__cell-pix-score {
@@ -116,7 +116,7 @@
     vertical-align: middle;
     line-height: normal;
     letter-spacing: -1px;
-    color: $grey-70;
+    color: $pix-neutral-70;
     font-size: 0.5rem;
     font-weight: 300;
 
@@ -142,7 +142,7 @@
   & :first-child {
     text-transform: uppercase;
     font-size: 0.813rem;
-    color: $blue;
+    color: $pix-primary;
     border: none;
     background: none;
     cursor: pointer;

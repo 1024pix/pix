@@ -9,7 +9,7 @@
   padding: 32px 0;
 
   &__info-certificate {
-    color: $grey-80;
+    color: $pix-neutral-80;
     align-self: center;
 
     & > * {
@@ -27,7 +27,7 @@
     }
 
     &--grey {
-      color: $grey-45;
+      color: $pix-neutral-45;
       font-size: 0.875rem;
       line-height: 23px;
 
@@ -42,7 +42,7 @@
 
     &--professionalizing-warning {
       padding-top: 12px;
-      color: $grey-45;
+      color: $pix-neutral-45;
       font-size: 0.875rem;
       line-height: 23px;
     }
@@ -64,7 +64,7 @@
 }
 
 .attestation-and-verification-code {
-  background-color: $grey-10;
+  background-color: $pix-neutral-10;
   border-radius: 8px;
   padding: 16px 20px;
 
@@ -81,12 +81,12 @@
 
   hr {
     margin: 24px 0;
-    border: 1px solid $grey-15;
+    border: 1px solid $pix-neutral-15;
   }
 
   .verification-code {
     font-family: $font-open-sans;
-    color: $grey-90;
+    color: $pix-neutral-90;
     max-width: 250px;
     margin: auto;
     letter-spacing: 0;
@@ -101,9 +101,9 @@
 
     &__box {
       padding: 10px 20px;
-      border: 1.5px $grey-22 dashed;
+      border: 1.5px $pix-neutral-22 dashed;
       border-radius: 4px;
-      background-color: $grey-5;
+      background-color: $pix-neutral-5;
       display: flex;
       align-items: baseline;
       justify-content: center;
@@ -122,10 +122,10 @@
         background: none;
         cursor: pointer;
         padding: 0;
-        color: $blue;
+        color: $pix-primary;
         font-size: 1.25rem;
 
-        &:hover { color: darken($blue, 20%); }
+        &:hover { color: darken($pix-primary, 20%); }
       }
     }
 

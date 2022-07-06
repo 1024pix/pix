@@ -1,6 +1,6 @@
 .communication-banner {
   text-align: center;
-  color: $white;
+  color: $pix-neutral-0;
   height: 56px;
   font-family: $font-open-sans;
   font-weight: 400;
@@ -21,19 +21,19 @@
   }
 
   a {
-    color: $white;
+    color: $pix-neutral-0;
     text-decoration: underline;
   }
 
   &--info {
-    background-color: darken($blue, 5%);
+    background-color: darken($pix-primary, 5%);
   }
 
   &--warning {
-    background-color: $information-light;
+    background-color: $pix-information-light;
   }
 
   &--error {
-    background-color: darken($dark-error, 10%);
+    background-color: darken($pix-error-60, 10%);
   }
 }

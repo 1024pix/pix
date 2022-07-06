@@ -48,7 +48,7 @@
 
     &__title {
       margin: 0;
-      color: $grey-100;
+      color: $pix-neutral-100;
       font-family: $font-roboto;
       font-size: 1.12rem;
       font-weight: $font-medium;
@@ -57,7 +57,7 @@
 
     &__message {
       margin-bottom: 0;
-      color: $grey-45;
+      color: $pix-neutral-45;
       font-family: $font-roboto;
       font-size: 0.85rem;
       font-weight: $font-normal;
@@ -73,7 +73,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: $grey-10;
+    background-color: $pix-neutral-10;
 
     img {
       width: 90px;
@@ -88,12 +88,12 @@
 .badge-card-status {
 
   &__acquired-icon {
-    color: $green;
+    color: $pix-success-70;
     margin-right: 4px;
   }
 
   &__not-acquired-icon {
-    color: $grey-45;
+    color: $pix-neutral-45;
     margin-right: 4px;
   }
 }

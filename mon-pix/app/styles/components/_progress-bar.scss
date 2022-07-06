@@ -18,11 +18,11 @@
 
 .progress-bar-stepnum {
   opacity: 0.3;
-  color: $grey-200;
+  color: $pix-neutral-110;
 
   &.active {
     opacity: 1;
-    color: $white;
+    color: $pix-neutral-0;
   }
 }
 
@@ -58,7 +58,7 @@
 
 .assessment-progress {
   text-align: right;
-  color: $white;
+  color: $pix-neutral-0;
   margin-bottom: 10px;
 
   &__label {

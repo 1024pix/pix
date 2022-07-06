@@ -35,7 +35,7 @@
     margin: 0 0 8px;
     padding-top: 64px;
     font-size: 3rem;
-    color: $white;
+    color: $pix-neutral-0;
   }
 
   &__description {
@@ -64,7 +64,7 @@
   }
 
   &__title {
-    color: $grey-90;
+    color: $pix-neutral-90;
     font-size: 2rem;
     font-family: $font-open-sans;
     font-weight: $font-normal;
@@ -75,7 +75,7 @@
   &__description {
     margin: 0;
     padding: 8px 0 32px 0;
-    color: $grey-60;
+    color: $pix-neutral-60;
     font-family: $font-roboto;
     font-weight: $font-normal;
     font-size: 1rem;
@@ -147,7 +147,7 @@
 
   &__title,
   &__description {
-    color: $grey-90;
+    color: $pix-neutral-90;
     font-family: $font-open-sans;
   }
 
@@ -168,7 +168,7 @@
   max-width: 980px;
   margin: 24px auto;
   padding: 0 32px;
-  color: $grey-90;
+  color: $pix-neutral-90;
 
   @include device-is('tablet') {
     padding: 40px 0;
@@ -180,13 +180,13 @@
 }
 
 .user-tutorials-no-tutorial {
-  background: $grey-20;
+  background: $pix-neutral-20;
   max-width: 980px;
   margin: 24px 16px;
   padding: 32px 16px 24px;
   text-align: center;
   align-items: center;
-  color: $grey-80;
+  color: $pix-neutral-80;
   display: flex;
   flex-direction: column;
 
