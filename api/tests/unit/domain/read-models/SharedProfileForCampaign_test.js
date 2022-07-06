@@ -56,7 +56,7 @@ describe('Unit | Domain | Models | SharedProfileForCampaign', function () {
             sharedAt: new Date('2020-01-01'),
           },
           campaignAllowsRetry: true,
-          isRegistrationActive: false,
+          isOrganizationLearnerActive: false,
         });
 
         expect(sharedProfileForCampaign.canRetry).to.equal(false);
@@ -70,7 +70,7 @@ describe('Unit | Domain | Models | SharedProfileForCampaign', function () {
             sharedAt: new Date('2020-01-01'),
           },
           campaignAllowsRetry: false,
-          isRegistrationActive: true,
+          isOrganizationLearnerActive: true,
         });
 
         expect(sharedProfileForCampaign.canRetry).to.equal(false);
@@ -83,7 +83,7 @@ describe('Unit | Domain | Models | SharedProfileForCampaign', function () {
             deletedAt: new Date('2020-01-01'),
           },
           campaignAllowsRetry: true,
-          isRegistrationActive: true,
+          isOrganizationLearnerActive: true,
         });
 
         expect(sharedProfileForCampaign.canRetry).to.equal(false);
@@ -98,7 +98,7 @@ describe('Unit | Domain | Models | SharedProfileForCampaign', function () {
               sharedAt: null,
             },
             campaignAllowsRetry: true,
-            isRegistrationActive: true,
+            isOrganizationLearnerActive: true,
           });
 
           expect(sharedProfileForCampaign.canRetry).to.equal(false);
@@ -112,7 +112,7 @@ describe('Unit | Domain | Models | SharedProfileForCampaign', function () {
               sharedAt: new Date('2020-01-01'),
             },
             campaignAllowsRetry: true,
-            isRegistrationActive: true,
+            isOrganizationLearnerActive: true,
           });
 
           expect(sharedProfileForCampaign.canRetry).to.equal(true);

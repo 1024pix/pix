@@ -9,7 +9,7 @@ class AssessmentResult {
     participationResults,
     targetProfile,
     isCampaignMultipleSendings,
-    isRegistrationActive,
+    isOrganizationLearnerActive,
     isCampaignArchived
   ) {
     const { knowledgeElements, sharedAt, assessmentCreatedAt } = participationResults;
@@ -43,7 +43,7 @@ class AssessmentResult {
     this.canRetry = this._computeCanRetry(
       isCampaignMultipleSendings,
       sharedAt,
-      isRegistrationActive,
+      isOrganizationLearnerActive,
       this.masteryRate,
       this.isDisabled
     );
@@ -71,12 +71,12 @@ class AssessmentResult {
     return isImprovementPossible && !isShared;
   }
 
-  _computeCanRetry(isCampaignMultipleSendings, sharedAt, isRegistrationActive, masteryRate, isDisabled) {
+  _computeCanRetry(isCampaignMultipleSendings, sharedAt, isOrganizationLearnerActive, masteryRate, isDisabled) {
     return (
       isCampaignMultipleSendings &&
       this._timeBeforeRetryingPassed(sharedAt) &&
       masteryRate < constants.MAX_MASTERY_RATE &&
-      isRegistrationActive &&
+      isOrganizationLearnerActive &&
       !isDisabled
     );
   }
