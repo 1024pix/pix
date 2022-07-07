@@ -628,6 +628,26 @@ describe('Integration | Repository | Session', function () {
         });
       });
 
+      context('when the session has been accessed by one or more supervisor', function () {
+        it('should remove supervisor accesses and delete the session', async function () {
+          // given
+          const sessionId = databaseBuilder.factory.buildSession().id;
+          databaseBuilder.factory.buildSupervisorAccess({ sessionId });
+          databaseBuilder.factory.buildSupervisorAccess({ sessionId });
+
+          await databaseBuilder.commit();
+
+          // when
+          await sessionRepository.delete(sessionId);
+
+          // then
+          const foundSession = await knex('sessions').select('id').where({ id: sessionId }).first();
+          const supervisorAccesses = await knex('supervisor-accesses').where({ sessionId });
+          expect(foundSession).to.be.undefined;
+          expect(supervisorAccesses).to.be.empty;
+        });
+      });
+
       context('when the session has no candidates', function () {
         it('should delete the session', async function () {
           // given
