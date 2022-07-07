@@ -184,7 +184,7 @@ module('Integration | Component | certifications/issue-reports/resolve-issue-rep
                     />`);
 
       // Then
-      assert.dom(screen.getByRole('dialog', { name: 'Modifier le signalement' })).exists();
+      assert.dom(screen.getByRole('dialog', { name: 'Modifier la résolution' })).exists();
     });
     module('when updating the resolution with an empty text', function () {
       test('it should display an error message', async function (assert) {
@@ -209,7 +209,7 @@ module('Integration | Component | certifications/issue-reports/resolve-issue-rep
                     />`);
 
         // when
-        await clickByName('Modifier le signalement');
+        await clickByName('Modifier la résolution');
 
         // Then
         assert.dom(screen.getByText('Le motif de résolution doit être renseigné.')).exists();
@@ -238,7 +238,7 @@ module('Integration | Component | certifications/issue-reports/resolve-issue-rep
                   />`);
 
       // Then
-      assert.dom(screen.getByRole('button', { name: 'Modifier le signalement' })).exists();
+      assert.dom(screen.getByRole('button', { name: 'Modifier la résolution' })).exists();
     });
     test('it should display actual resolution text', async function (assert) {
       // Given
