@@ -1,7 +1,11 @@
 import SecuredRouteMixin from 'mon-pix/mixins/secured-route-mixin';
 import Route from '@ember/routing/route';
+import { inject as service } from '@ember/service';
 
 export default class ProfileAlreadySharedRoute extends Route.extend(SecuredRouteMixin) {
+  @service router;
+  @service store;
+
   async model() {
     const user = this.currentUser.user;
     const campaign = this.modelFor('campaigns');
@@ -17,7 +21,7 @@ export default class ProfileAlreadySharedRoute extends Route.extend(SecuredRoute
       };
     } catch (error) {
       if (error.errors?.[0]?.status === '412') {
-        return this.transitionTo('campaigns.entry-point', campaign.code);
+        return this.router.transitionTo('campaigns.entry-point', campaign.code);
       } else throw error;
     }
   }

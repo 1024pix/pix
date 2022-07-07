@@ -9,6 +9,7 @@ export default class LogoutRoute extends Route {
   @service session;
   @service url;
   @service campaignStorage;
+  @service router;
 
   beforeModel() {
     const session = this.session;
@@ -30,7 +31,7 @@ export default class LogoutRoute extends Route {
   }
 
   _redirectToDisconnectedPage() {
-    return this.transitionTo('not-connected');
+    return this.router.transitionTo('not-connected');
   }
 
   _redirectToHome() {

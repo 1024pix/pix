@@ -10,13 +10,13 @@ describe('Unit | Route | login-pole-emploi', function () {
       it("should redirect to cgu's pole emploi page", async function () {
         // given
         const route = this.owner.lookup('route:login-pole-emploi');
-        route.replaceWith = sinon.stub();
+        route.router = { replaceWith: sinon.stub() };
 
         // when
         await route.afterModel({ authenticationKey: '123', shouldValidateCgu: true });
 
         // then
-        sinon.assert.calledWith(route.replaceWith, 'terms-of-service-pole-emploi', {
+        sinon.assert.calledWith(route.router.replaceWith, 'terms-of-service-pole-emploi', {
           queryParams: { authenticationKey: '123' },
         });
       });
@@ -26,13 +26,13 @@ describe('Unit | Route | login-pole-emploi', function () {
       it("should not redirect to cgu's pole emploi page", async function () {
         // given
         const route = this.owner.lookup('route:login-pole-emploi');
-        route.replaceWith = sinon.stub();
+        route.router = { replaceWith: sinon.stub() };
 
         // when
         await route.afterModel({ authenticationKey: null, shouldValidateCgu: false });
 
         // then
-        sinon.assert.notCalled(route.replaceWith);
+        sinon.assert.notCalled(route.router.replaceWith);
       });
     });
   });

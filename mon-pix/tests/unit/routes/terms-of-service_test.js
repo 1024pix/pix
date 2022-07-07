@@ -9,7 +9,7 @@ describe('Unit | Route | Terms-of-service', function () {
 
   beforeEach(function () {
     route = this.owner.lookup('route:terms-of-service');
-    route.replaceWith = sinon.stub();
+    route.router = { replaceWith: sinon.stub() };
     route.currentUser = { user: { mustValidateTermsOfService: true } };
     route.session = { attemptedTransition: null, data: {} };
   });
@@ -25,7 +25,7 @@ describe('Unit | Route | Terms-of-service', function () {
         await route.beforeModel();
 
         // then
-        sinon.assert.calledWith(route.replaceWith, '');
+        sinon.assert.calledWith(route.router.replaceWith, '');
       });
 
       it('should redirect to attempted transition if there is one', async function () {
@@ -49,7 +49,7 @@ describe('Unit | Route | Terms-of-service', function () {
         await route.beforeModel();
 
         // then
-        sinon.assert.calledWith(route.replaceWith, '');
+        sinon.assert.calledWith(route.router.replaceWith, '');
       });
 
       it('should redirect to attempted transition if there is one', async function () {

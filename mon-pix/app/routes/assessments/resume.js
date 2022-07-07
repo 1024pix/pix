@@ -1,8 +1,11 @@
 import { action } from '@ember/object';
 import Route from '@ember/routing/route';
 import ENV from 'mon-pix/config/environment';
+import { inject as service } from '@ember/service';
 
 export default class ResumeRoute extends Route {
+  @service router;
+
   hasSeenCheckpoint = false;
   campaignCode = null;
   newLevel = null;
@@ -82,7 +85,7 @@ export default class ResumeRoute extends Route {
   }
 
   _routeToNextChallenge(assessment) {
-    this.replaceWith('assessments.challenge', assessment.id, assessment.currentChallengeNumber, {
+    this.router.replaceWith('assessments.challenge', assessment.id, assessment.currentChallengeNumber, {
       queryParams: { newLevel: this.newLevel, competenceLeveled: this.competenceLeveled },
     });
   }
@@ -95,24 +98,24 @@ export default class ResumeRoute extends Route {
 
   _routeToResults(assessment) {
     if (assessment.isCertification) {
-      this.replaceWith('certifications.results', assessment.certificationNumber);
+      this.router.replaceWith('certifications.results', assessment.certificationNumber);
     } else if (assessment.isForCampaign) {
-      this.replaceWith('campaigns.assessment.skill-review', assessment.codeCampaign);
+      this.router.replaceWith('campaigns.assessment.skill-review', assessment.codeCampaign);
     } else if (assessment.isCompetenceEvaluation) {
-      this.replaceWith('competences.results', assessment.competenceId, assessment.id);
+      this.router.replaceWith('competences.results', assessment.competenceId, assessment.id);
     } else {
-      this.replaceWith('assessments.results', assessment.id);
+      this.router.replaceWith('assessments.results', assessment.id);
     }
   }
 
   _routeToCheckpoint(assessment) {
-    this.replaceWith('assessments.checkpoint', assessment.id, {
+    this.router.replaceWith('assessments.checkpoint', assessment.id, {
       queryParams: { newLevel: this.newLevel, competenceLeveled: this.competenceLeveled },
     });
   }
 
   _routeToFinalCheckpoint(assessment) {
-    this.replaceWith('assessments.checkpoint', assessment.id, {
+    this.router.replaceWith('assessments.checkpoint', assessment.id, {
       queryParams: { finalCheckpoint: true, newLevel: this.newLevel, competenceLeveled: this.competenceLeveled },
     });
   }

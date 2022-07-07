@@ -28,7 +28,7 @@ describe('Unit | Route | Competences | Results', function () {
       route = this.owner.lookup('route:competences.results');
       route.set('store', storeStub);
       route.set('session', sessionStub);
-      route.transitionTo = sinon.stub();
+      route.router = { transitionTo: sinon.stub() };
     });
 
     it('should return the most recent competence-evaluation for a given assessment', async function () {

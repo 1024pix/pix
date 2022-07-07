@@ -46,7 +46,7 @@ describe('Unit | Route | Assessments | Challenge', function () {
     currentUserStub = { user: { firstName: 'John', lastname: 'Doe' } };
     route.currentUser = currentUserStub;
     route.store = storeStub;
-    route.transitionTo = sinon.stub();
+    route.router = { transitionTo: sinon.stub() };
     route.modelFor = sinon.stub().returns(assessment);
   });
 
@@ -276,7 +276,7 @@ describe('Unit | Route | Assessments | Challenge', function () {
         );
 
         // then
-        sinon.assert.calledWithExactly(route.transitionTo, 'assessments.resume', assessment.get('id'), {
+        sinon.assert.calledWithExactly(route.router.transitionTo, 'assessments.resume', assessment.get('id'), {
           queryParams: {},
         });
       });
@@ -312,7 +312,7 @@ describe('Unit | Route | Assessments | Challenge', function () {
 
           // then
           sinon.assert.calledWithExactly(
-            route.transitionTo,
+            route.router.transitionTo,
             'assessments.resume',
             assessment.get('id'),
             expectedQueryParams
@@ -337,7 +337,7 @@ describe('Unit | Route | Assessments | Challenge', function () {
 
           // then
           sinon.assert.calledWithExactly(
-            route.transitionTo,
+            route.router.transitionTo,
             'assessments.resume',
             assessment.get('id'),
             expectedQueryParams
@@ -361,7 +361,7 @@ describe('Unit | Route | Assessments | Challenge', function () {
 
           // then
           sinon.assert.calledWithExactly(
-            route.transitionTo,
+            route.router.transitionTo,
             'assessments.resume',
             assessment.get('id'),
             expectedQueryParams
@@ -417,7 +417,7 @@ describe('Unit | Route | Assessments | Challenge', function () {
 
         // then
         sinon.assert.calledWithExactly(
-          route.transitionTo,
+          route.router.transitionTo,
           'certifications.results',
           assessment.certificationCourse.get('id')
         );

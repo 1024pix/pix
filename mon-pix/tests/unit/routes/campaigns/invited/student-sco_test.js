@@ -24,13 +24,17 @@ describe('Unit | Route | campaigns/invited/student-sco', function () {
           user: { id: 'id' },
         })
       );
-      route.replaceWith = sinon.stub();
+      route.router = { replaceWith: sinon.stub() };
 
       // when
       await route.afterModel(campaign);
 
       // then
-      sinon.assert.calledWith(route.replaceWith, 'campaigns.invited.fill-in-participant-external-id', campaign.code);
+      sinon.assert.calledWith(
+        route.router.replaceWith,
+        'campaigns.invited.fill-in-participant-external-id',
+        campaign.code
+      );
     });
   });
 });

@@ -5,6 +5,8 @@ import { inject as service } from '@ember/service';
 
 export default class ChallengeRoute extends Route {
   @service currentUser;
+  @service router;
+  @service store;
 
   async model(params) {
     const assessment = await this.modelFor('assessments');
@@ -44,14 +46,14 @@ export default class ChallengeRoute extends Route {
     }).catch((err) => {
       const meta = 'errors' in err ? err.errors.get('firstObject').meta : null;
       if (meta.field === 'authorization') {
-        return this.transitionTo('index');
+        return this.router.transitionTo('index');
       }
     });
   }
 
   async redirect(model) {
     if (!model.challenge) {
-      return this.replaceWith('assessments.resume', model.assessment.id, {
+      return this.router.replaceWith('assessments.resume', model.assessment.id, {
         queryParams: { assessmentHasNoMoreQuestions: true },
       });
     }
@@ -96,12 +98,12 @@ export default class ChallengeRoute extends Route {
         };
       }
 
-      this.transitionTo('assessments.resume', assessment.get('id'), queryParams);
+      this.router.transitionTo('assessments.resume', assessment.get('id'), queryParams);
     } catch (error) {
       answer.rollbackAttributes();
 
       if (this._isAssessmentEndedBySupervisorOrByFinalization(error)) {
-        return this.transitionTo('certifications.results', assessment.certificationCourse.get('id'));
+        return this.router.transitionTo('certifications.results', assessment.certificationCourse.get('id'));
       }
 
       return this.intermediateTransitionTo('error', error);
@@ -110,7 +112,7 @@ export default class ChallengeRoute extends Route {
 
   @action
   resumeAssessment(assessment) {
-    return this.transitionTo('assessments.resume', assessment.get('id'));
+    return this.router.transitionTo('assessments.resume', assessment.get('id'));
   }
 
   @action

@@ -13,7 +13,7 @@ describe('Unit | Route | campaigns | evaluation | tutorial', function () {
 
   beforeEach(function () {
     route = this.owner.lookup('route:campaigns.assessment.tutorial');
-    route.transitionTo = sinon.stub();
+    route.router = { transitionTo: sinon.stub() };
   });
 
   describe('#model', function () {
@@ -76,7 +76,7 @@ describe('Unit | Route | campaigns | evaluation | tutorial', function () {
       sinon.assert.calledWith(route.currentUser.user.save, {
         adapterOptions: { rememberUserHasSeenAssessmentInstructions: true },
       });
-      sinon.assert.calledWith(route.transitionTo, 'campaigns.assessment.start-or-resume', 'AZERTY123');
+      sinon.assert.calledWith(route.router.transitionTo, 'campaigns.assessment.start-or-resume', 'AZERTY123');
     });
   });
 });
