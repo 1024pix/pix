@@ -15,16 +15,14 @@ module('Unit | Adapter | schooling-registration', function (hooks) {
   module('#urlForDeleteRecord', function () {
     test('it performs the request to dissociate user from student', async function (assert) {
       // given
-      const schoolingRegistration = { id: 12345 };
-      const expectedUrl = `${ENV.APP.API_HOST}/api/schooling-registration-user-associations/${schoolingRegistration.id}`;
+      const organizationLearner = { id: 12345 };
+      const expectedUrl = `${ENV.APP.API_HOST}/api/admin/organization-learners/${organizationLearner.id}/association`;
 
       // when
-      const url = adapter.urlForDeleteRecord(schoolingRegistration.id);
+      const url = adapter.urlForDeleteRecord(organizationLearner.id);
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(url, expectedUrl);
+      assert.strictEqual(url, expectedUrl);
     });
   });
 });
