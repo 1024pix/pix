@@ -46,7 +46,7 @@
 .finalization-report-abort-reason {
 
   select:invalid {
-    border: $red 1px solid;
+    border: $pix-error-70 1px solid;
   }
 
   .pix-select {
