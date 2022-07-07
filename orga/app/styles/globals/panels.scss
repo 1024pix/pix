@@ -138,7 +138,7 @@
 
     &:hover,
     &:focus {
-      color: $blue;
+      color: $pix-primary;
     }
 
     &-separator {
@@ -149,8 +149,8 @@
   }
 
   &-item.active {
-    border-bottom: 2px solid $blue;
-    color: $blue;
+    border-bottom: 2px solid $pix-primary;
+    color: $pix-primary;
   }
 }
 
@@ -167,7 +167,7 @@
 
     &-item.active {
       border-bottom-width: 0px;
-      background-color: lighten($blue, 32%);
+      background-color: lighten($pix-primary, 32%);
     }
   }
 

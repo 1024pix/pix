@@ -99,7 +99,7 @@
     overflow: hidden;
 
     &:focus-visible + .campaign-filters__tab {
-      box-shadow: $pix-neutral-0 0 0 0 2px, $blue 0 0 0 4px;
+      box-shadow: $pix-neutral-0 0 0 0 2px, $pix-primary 0 0 0 4px;
       z-index: 1;
     }
   }

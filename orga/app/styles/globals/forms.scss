@@ -57,7 +57,7 @@
     }
 
     &-icon {
-      color: $blue;
+      color: $pix-primary;
       margin-right: 8px;
     }
 
@@ -171,7 +171,7 @@ p.label {
   outline: none;
 
   &:focus {
-    border: 1px solid $blue;
+    border: 1px solid $pix-primary;
   }
 
   &--error {
@@ -208,19 +208,19 @@ input[type='radio']:checked::after {
   width: 9px;
   top: -18px;
   left: 1px;
-  background-color: $blue;
+  background-color: $pix-primary;
 }
 
 input[type='radio']:checked::before {
-  border-color: $blue;
+  border-color: $pix-primary;
 }
 
 input[type='radio']:focus::before,
 input[type='radio']:hover::before {
-  box-shadow: 0 0 0 8px rgba($blue, 0.1);
-  border-color: $blue;
+  box-shadow: 0 0 0 8px rgba($pix-primary, 0.1);
+  border-color: $pix-primary;
 }
 
 input[type='radio']:active::before {
-  box-shadow: 0 0 0 8px rgba($blue, 0.3);
+  box-shadow: 0 0 0 8px rgba($pix-primary, 0.3);
 }
