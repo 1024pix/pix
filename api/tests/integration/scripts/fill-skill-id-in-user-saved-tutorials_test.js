@@ -498,21 +498,6 @@ describe('Integration | Scripts | fill-skillId-in-user-saved-tutorials', functio
   });
 
   describe('#getMostRelevantSkillId', function () {
-    describe('when there is only one skillId in tutorial', function () {
-      it('should return it', async function () {
-        // given
-        const tutorial = domainBuilder.buildTutorial();
-        tutorial.skillIds = ['skill1'];
-        const userSavedTutorialWithTutorial = domainBuilder.buildUserSavedTutorialWithTutorial({ tutorial });
-
-        // when
-        const skillId = await getMostRelevantSkillId(userSavedTutorialWithTutorial);
-
-        // then
-        expect(skillId).to.equal('skill1');
-      });
-    });
-
     describe('when there are skillIds in tutorial', function () {
       it('should return invalidate direct skill', async function () {
         // given

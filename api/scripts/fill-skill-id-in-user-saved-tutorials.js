@@ -1,4 +1,5 @@
-const { knex } = require('../tests/test-helper');
+require('dotenv').config();
+const { knex } = require('../db/knex-database-connection');
 const UserSavedTutorial = require('../lib/domain/models/UserSavedTutorial');
 const KnowledgeElement = require('../lib/domain/models/KnowledgeElement');
 const UserSavedTutorialWithTutorial = require('../lib/domain/models/UserSavedTutorialWithTutorial');
@@ -63,7 +64,7 @@ function _skillHasTutorialId(skill, tutorialId) {
 }
 
 function _skillHasLearningMoreTutorialId(skill, tutorialId) {
-  return skill.learningMoreTutorialIds.includes(tutorialId);
+  return skill.learningMoreTutorialIds?.includes(tutorialId);
 }
 
 function associateSkillsToTutorial(skills, tutorials) {
@@ -90,10 +91,6 @@ async function getMostRelevantSkillId(userSavedTutorialWithTutorial) {
   const tutorialSkillIds = userSavedTutorialWithTutorial.tutorial.skillIds;
   const tutorialReferenceBySkillsIdsForLearningMore =
     userSavedTutorialWithTutorial.tutorial.referenceBySkillsIdsForLearningMore;
-
-  if (tutorialSkillIds.length === 1) {
-    return tutorialSkillIds[0];
-  }
 
   const knowledgeElements = await knowledgeElementRepository.findUniqByUserId({ userId });
 
