@@ -3,7 +3,7 @@
   flex-direction: column;
   margin: auto;
   align-items: center;
-  background-color: $white;
+  background-color: $pix-neutral-0;
   border-radius: 10px;
   padding: 20px 30px;
   max-width: 500px;
@@ -75,7 +75,7 @@
     height: 42px;
     border-radius: 3px;
     align-items: center;
-    background-color: $white;
+    background-color: $pix-neutral-0;
     border: 2px solid $pix-neutral-20;
 
     &:focus-within {
