@@ -165,7 +165,7 @@ module('Acceptance | Session List', function (hooks) {
 
         // then
         assert.strictEqual(currentURL(), '/sessions/liste');
-        assert.dom(screen.getByText('La session a été supprimée.')).exists();
+        assert.dom(screen.getByText('La session a été supprimée avec succès.')).exists();
         assert.dom(screen.queryByRole('button', { name: 'Supprimer la session 123' })).doesNotExist();
         assert.dom(screen.queryByRole('button', { name: 'Supprimer la session 456' })).exists();
       });
