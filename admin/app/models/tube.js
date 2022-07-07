@@ -6,6 +6,7 @@ export default class Tube extends Model {
   @attr('string') competenceId;
   @attr('boolean') mobile;
   @attr('boolean') tablet;
+  @attr('number') level;
 
   @hasMany('skill') skills;
 }
