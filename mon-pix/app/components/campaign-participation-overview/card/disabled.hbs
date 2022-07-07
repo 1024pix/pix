@@ -13,7 +13,7 @@
     <div
       class="campaign-participation-overview-card-content__content campaign-participation-overview-card-content__content-archived"
     >
-      {{#if this.isCompleted}}
+      {{#if @model.isShared}}
         {{#if this.hasStages}}
           <PixStars
             @count={{@model.validatedStagesCount}}
