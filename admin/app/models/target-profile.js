@@ -35,6 +35,7 @@ export default class TargetProfile extends Model {
   @hasMany('tube') tubes;
   @hasMany('competence') competences;
   @hasMany('area') areas;
+  @hasMany('area') tubesSelectionAreas;
 
   attachOrganizations = memberAction({
     path: 'attach-organizations',
