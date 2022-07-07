@@ -23,7 +23,7 @@ describe('Unit | Route | Assessments | Resume', function () {
 
     route = this.owner.lookup('route:assessments.resume');
     route.set('store', storeStub);
-    route.replaceWith = sinon.stub();
+    route.router = { replaceWith: sinon.stub() };
   });
 
   describe('#redirect', function () {
@@ -69,8 +69,8 @@ describe('Unit | Route | Assessments | Resume', function () {
 
               // then
               return promise.then(() => {
-                sinon.assert.calledOnce(route.replaceWith);
-                sinon.assert.calledWith(route.replaceWith, 'assessments.challenge', 123);
+                sinon.assert.calledOnce(route.router.replaceWith);
+                sinon.assert.calledWith(route.router.replaceWith, 'assessments.challenge', 123);
               });
             });
           });
@@ -86,8 +86,8 @@ describe('Unit | Route | Assessments | Resume', function () {
 
               // then
               return promise.then(() => {
-                sinon.assert.calledOnce(route.replaceWith);
-                sinon.assert.calledWith(route.replaceWith, 'assessments.checkpoint', 123);
+                sinon.assert.calledOnce(route.router.replaceWith);
+                sinon.assert.calledWith(route.router.replaceWith, 'assessments.checkpoint', 123);
               });
             });
           });
@@ -100,8 +100,8 @@ describe('Unit | Route | Assessments | Resume', function () {
 
             // then
             return promise.then(() => {
-              sinon.assert.calledOnce(route.replaceWith);
-              sinon.assert.calledWith(route.replaceWith, 'assessments.challenge', 123);
+              sinon.assert.calledOnce(route.router.replaceWith);
+              sinon.assert.calledWith(route.router.replaceWith, 'assessments.challenge', 123);
             });
           });
         });
@@ -117,8 +117,8 @@ describe('Unit | Route | Assessments | Resume', function () {
 
           // then
           return promise.then(() => {
-            sinon.assert.calledOnce(route.replaceWith);
-            sinon.assert.calledWith(route.replaceWith, 'assessments.challenge', 123);
+            sinon.assert.calledOnce(route.router.replaceWith);
+            sinon.assert.calledWith(route.router.replaceWith, 'assessments.challenge', 123);
           });
         });
       });
@@ -155,7 +155,7 @@ describe('Unit | Route | Assessments | Resume', function () {
 
               // then
               return promise.then(() => {
-                sinon.assert.calledWith(route.replaceWith, 'campaigns.assessment.skill-review', 'konami');
+                sinon.assert.calledWith(route.router.replaceWith, 'campaigns.assessment.skill-review', 'konami');
               });
             });
           });
@@ -171,8 +171,8 @@ describe('Unit | Route | Assessments | Resume', function () {
 
               // then
               return promise.then(() => {
-                sinon.assert.calledOnce(route.replaceWith);
-                sinon.assert.calledWith(route.replaceWith, 'assessments.checkpoint', 123, {
+                sinon.assert.calledOnce(route.router.replaceWith);
+                sinon.assert.calledWith(route.router.replaceWith, 'assessments.checkpoint', 123, {
                   queryParams: { finalCheckpoint: true, newLevel: null, competenceLeveled: null },
                 });
               });
@@ -191,7 +191,7 @@ describe('Unit | Route | Assessments | Resume', function () {
             route.redirect(assessment);
 
             // then
-            sinon.assert.calledWith(route.replaceWith, 'campaigns.assessment.skill-review', 'konami');
+            sinon.assert.calledWith(route.router.replaceWith, 'campaigns.assessment.skill-review', 'konami');
           });
         });
       });
@@ -208,7 +208,7 @@ describe('Unit | Route | Assessments | Resume', function () {
 
           // then
           return promise.then(() => {
-            sinon.assert.calledWith(route.replaceWith, 'certifications.results', 666);
+            sinon.assert.calledWith(route.router.replaceWith, 'certifications.results', 666);
           });
         });
       });
@@ -225,7 +225,7 @@ describe('Unit | Route | Assessments | Resume', function () {
 
           // then
           return promise.then(() => {
-            sinon.assert.calledWith(route.replaceWith, 'competences.results', competenceId, 123);
+            sinon.assert.calledWith(route.router.replaceWith, 'competences.results', competenceId, 123);
           });
         });
       });
@@ -237,7 +237,7 @@ describe('Unit | Route | Assessments | Resume', function () {
 
           // then
           return promise.then(() => {
-            sinon.assert.calledWith(route.replaceWith, 'assessments.results', 123);
+            sinon.assert.calledWith(route.router.replaceWith, 'assessments.results', 123);
           });
         });
       });

@@ -9,13 +9,13 @@ describe('Unit | Route | index', function () {
     it('should redirect to /accueil', async function () {
       // Given
       const route = this.owner.lookup('route:index');
-      route.replaceWith = sinon.spy();
+      route.router = { replaceWith: sinon.spy() };
 
       // When
       await route.redirect();
 
       // Then
-      sinon.assert.calledWith(route.replaceWith, 'user-dashboard');
+      sinon.assert.calledWith(route.router.replaceWith, 'user-dashboard');
     });
   });
 });

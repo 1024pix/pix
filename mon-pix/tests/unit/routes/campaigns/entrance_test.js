@@ -12,7 +12,7 @@ describe('Unit | Route | Entrance', function () {
     route = this.owner.lookup('route:campaigns.entrance');
     route.campaignStorage = { get: sinon.stub(), set: sinon.stub() };
     route.modelFor = sinon.stub();
-    route.replaceWith = sinon.stub();
+    route.router = { replaceWith: sinon.stub(), transitionTo: sinon.stub() };
   });
 
   describe('#beforeModel', function () {
@@ -21,7 +21,7 @@ describe('Unit | Route | Entrance', function () {
       await route.beforeModel({ from: null });
 
       //then
-      sinon.assert.calledWith(route.replaceWith, 'campaigns.entry-point');
+      sinon.assert.calledWith(route.router.replaceWith, 'campaigns.entry-point');
     });
 
     it('should continue en entrance route when from is set', async function () {
@@ -29,7 +29,7 @@ describe('Unit | Route | Entrance', function () {
       await route.beforeModel({ from: 'campaigns.entry-point' });
 
       //then
-      sinon.assert.notCalled(route.replaceWith);
+      sinon.assert.notCalled(route.router.replaceWith);
     });
   });
 
@@ -129,7 +129,11 @@ describe('Unit | Route | Entrance', function () {
 
       //then
       sinon.assert.calledWith(route.campaignStorage.set, campaign.code, 'participantExternalId', null);
-      sinon.assert.calledWith(route.replaceWith, 'campaigns.invited.fill-in-participant-external-id', campaign.code);
+      sinon.assert.calledWith(
+        route.router.replaceWith,
+        'campaigns.invited.fill-in-participant-external-id',
+        campaign.code
+      );
     });
 
     it('should abort campaign participation and redirect to already participated', async function () {
@@ -145,7 +149,7 @@ describe('Unit | Route | Entrance', function () {
       //when
       await route.afterModel(campaign);
 
-      sinon.assert.calledWith(route.replaceWith, 'campaigns.existing-participation', campaign.code);
+      sinon.assert.calledWith(route.router.replaceWith, 'campaigns.existing-participation', campaign.code);
     });
 
     it('should redirect to profiles-collection when campaign is of type PROFILES COLLECTION', async function () {
@@ -160,7 +164,7 @@ describe('Unit | Route | Entrance', function () {
       await route.afterModel(campaign);
 
       //then
-      sinon.assert.calledWith(route.replaceWith, 'campaigns.profiles-collection.start-or-resume');
+      sinon.assert.calledWith(route.router.replaceWith, 'campaigns.profiles-collection.start-or-resume');
     });
 
     it('should redirect to assessment when campaign is of type ASSESSMENT', async function () {
@@ -175,7 +179,7 @@ describe('Unit | Route | Entrance', function () {
       await route.afterModel(campaign);
 
       //then
-      sinon.assert.calledWith(route.replaceWith, 'campaigns.assessment.start-or-resume');
+      sinon.assert.calledWith(route.router.replaceWith, 'campaigns.assessment.start-or-resume');
     });
   });
 });

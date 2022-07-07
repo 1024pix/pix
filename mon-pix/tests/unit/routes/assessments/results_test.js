@@ -16,7 +16,7 @@ describe('Unit | Route | Assessments | Results', function () {
     it('should redirect to homepage if assessment is a certification', function () {
       // given
       const route = this.owner.lookup('route:assessments.results');
-      route.transitionTo = sinon.spy();
+      route.router = { transitionTo: sinon.spy() };
 
       const assessment = EmberObject.create({ id: 123, isCertification: true });
 
@@ -24,13 +24,13 @@ describe('Unit | Route | Assessments | Results', function () {
       route.afterModel(assessment);
 
       // then
-      sinon.assert.calledWith(route.transitionTo, 'index');
+      sinon.assert.calledWith(route.router.transitionTo, 'index');
     });
 
     it('should not redirect to homepage if assessment is not a certification', function () {
       // given
       const route = this.owner.lookup('route:assessments.results');
-      route.transitionTo = sinon.spy();
+      route.router = { transitionTo: sinon.spy() };
 
       const assessment = EmberObject.create({ id: 123, isCertification: false, answers: [] });
 
@@ -38,7 +38,7 @@ describe('Unit | Route | Assessments | Results', function () {
       route.afterModel(assessment);
 
       // then
-      sinon.assert.notCalled(route.transitionTo);
+      sinon.assert.notCalled(route.router.transitionTo);
     });
   });
 });

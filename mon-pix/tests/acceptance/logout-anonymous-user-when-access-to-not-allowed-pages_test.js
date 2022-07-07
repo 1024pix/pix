@@ -42,21 +42,21 @@ describe('Acceptance | Campaigns | Simplified access | Anonymous user access to 
         expect(currentSession(this.application).get('isAuthenticated')).to.be.true;
 
         // when
-        const CHALLENGE_ROUTE = `/assessments/${ID_ASSESSMENT}/challenges/`;
+        const CHALLENGE_ROUTE = `/assessments/${ID_ASSESSMENT}/challenges/0`;
         await visit(`${CHALLENGE_ROUTE}`);
         // then
         expect(currentURL()).to.equal(CHALLENGE_ROUTE);
         expect(currentSession(this.application).get('isAuthenticated')).to.be.true;
 
         // when
-        const CAMPAIGN_DIDACTICIEL_ROUTE = `campagnes/${SIMPLIFIED_CODE_CAMPAIGN}/evaluation/didacticiel`;
+        const CAMPAIGN_DIDACTICIEL_ROUTE = `/campagnes/${SIMPLIFIED_CODE_CAMPAIGN}/evaluation/didacticiel`;
         await visit(CAMPAIGN_DIDACTICIEL_ROUTE);
         // then
         expect(currentURL()).to.equal(CAMPAIGN_DIDACTICIEL_ROUTE);
         expect(currentSession(this.application).get('isAuthenticated')).to.be.true;
 
         // when
-        const CAMPAIGN_ROUTE = `campagnes/${SIMPLIFIED_CODE_CAMPAIGN}`;
+        const CAMPAIGN_ROUTE = `/campagnes/${SIMPLIFIED_CODE_CAMPAIGN}`;
         await visit(CAMPAIGN_ROUTE);
         // then
         expect(currentURL()).to.equal(CAMPAIGN_ROUTE);

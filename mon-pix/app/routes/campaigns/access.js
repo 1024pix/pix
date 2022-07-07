@@ -7,10 +7,12 @@ export default class AccessRoute extends Route.extend(SecuredRouteMixin) {
   @service currentUser;
   @service session;
   @service campaignStorage;
+  @service router;
+  @service store;
 
   beforeModel(transition) {
     if (!transition.from) {
-      return this.replaceWith('campaigns.entry-point');
+      return this.router.replaceWith('campaigns.entry-point');
     }
 
     this.authenticationRoute = 'inscription';
@@ -18,7 +20,7 @@ export default class AccessRoute extends Route.extend(SecuredRouteMixin) {
 
     if (this._shouldVisitPoleEmploiLoginPage(campaign)) {
       this.session.set('attemptedTransition', transition);
-      return this.replaceWith('login-pole-emploi');
+      return this.router.replaceWith('login-pole-emploi');
     } else if (this._shouldLoginToAccessSCORestrictedCampaign(campaign)) {
       this.authenticationRoute = 'campaigns.join.student-sco';
     } else if (this._shouldJoinFromMediacentre(campaign)) {
@@ -43,9 +45,9 @@ export default class AccessRoute extends Route.extend(SecuredRouteMixin) {
     this.campaignStorage.set(campaign.code, 'hasParticipated', hasParticipated);
 
     if (hasParticipated) {
-      this.replaceWith('campaigns.entrance', campaign.code);
+      this.router.replaceWith('campaigns.entrance', campaign.code);
     } else {
-      this.replaceWith('campaigns.invited', campaign.code);
+      this.router.replaceWith('campaigns.invited', campaign.code);
     }
   }
 

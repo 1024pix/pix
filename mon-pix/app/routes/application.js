@@ -14,6 +14,7 @@ export default class Application extends Route.extend(ApplicationRouteMixin) {
   @service headData;
   @service featureToggles;
   @service currentDomain;
+  @service router;
 
   activate() {
     this.splash.hide();
@@ -51,7 +52,7 @@ export default class Application extends Route.extend(ApplicationRouteMixin) {
 
     if (isUserAnonymous && isRouteAccessNotAllowedForAnonymousUser) {
       await this._logoutUser();
-      this.replaceWith('/campagnes');
+      this.router.replaceWith('/campagnes');
     }
   }
 
@@ -77,7 +78,7 @@ export default class Application extends Route.extend(ApplicationRouteMixin) {
     const nextURL = this.session.data.nextURL;
     if (nextURL && get(this.session, 'data.authenticated.source') === 'pole_emploi_connect') {
       this.session.set('data.nextURL', undefined);
-      this.replaceWith(nextURL);
+      this.router.replaceWith(nextURL);
     } else {
       _super.call(this, ...arguments);
     }

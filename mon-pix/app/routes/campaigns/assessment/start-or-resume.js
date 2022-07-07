@@ -5,6 +5,7 @@ import SecuredRouteMixin from 'mon-pix/mixins/secured-route-mixin';
 export default class EvaluationStartOrResumeRoute extends Route.extend(SecuredRouteMixin) {
   @service currentUser;
   @service session;
+  @service router;
 
   userHasJustConsultedTutorial = false;
 
@@ -19,9 +20,9 @@ export default class EvaluationStartOrResumeRoute extends Route.extend(SecuredRo
 
   async redirect({ assessment, campaign }) {
     if (this._shouldShowTutorial(assessment, campaign.isForAbsoluteNovice)) {
-      this.replaceWith('campaigns.assessment.tutorial', campaign.code);
+      this.router.replaceWith('campaigns.assessment.tutorial', campaign.code);
     } else {
-      this.replaceWith('assessments.resume', assessment.id);
+      this.router.replaceWith('assessments.resume', assessment.id);
     }
   }
 
