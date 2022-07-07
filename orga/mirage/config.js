@@ -3,6 +3,7 @@ import { findPaginatedCampaignProfilesCollectionParticipationSummaries } from '.
 import { findPaginatedOrganizationMemberships } from './handlers/find-paginated-organization-memberships';
 import { findFilteredPaginatedStudents } from './handlers/find-filtered-paginated-students';
 import { findPaginatedAssessmentResults } from './handlers/find-paginated-assessment-results';
+import { findFilteredPaginatedOrganizationParticipants } from './handlers/find-filtered-paginated-organization-participants';
 
 const emptyData = {
   data: {
@@ -249,6 +250,8 @@ export default function () {
   });
 
   this.get('/organizations/:id/students', findFilteredPaginatedStudents);
+
+  this.get('/organizations/:id/participants', findFilteredPaginatedOrganizationParticipants);
 
   this.post('/organizations/:id/schooling-registrations/import-siecle', (schema, request) => {
     const type = request.requestBody.type;
