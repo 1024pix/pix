@@ -24,11 +24,11 @@
             <td class="td--bold" scope="row">{{place.categoryLabel}}</td>
             <td>
               Du:
-              {{moment-format place.activationDate "DD/MM/YYYY"}}
+              {{dayjs-format place.activationDate "DD/MM/YYYY"}}
               {{#if place.hasExpirationDate}}
                 <br />
                 Au:
-                {{moment-format place.expirationDate "DD/MM/YYYY"}}
+                {{dayjs-format place.expirationDate "DD/MM/YYYY"}}
               {{/if}}
             </td>
             <td class="table__column table__column--center">
