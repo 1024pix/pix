@@ -61,24 +61,33 @@
               <td>{{sessionSummary.effectiveCandidatesCount}}</td>
               <td>{{sessionSummary.statusLabel}}</td>
               <td>
-                <PixTooltip @position="left" @isInline={{true}} @id="tooltip-delete-session-button">
-                  <:triggerElement>
+                <div class="session-summary-list__delete">
+                  {{#if sessionSummary.hasEffectiveCandidates}}
+                    <PixTooltip @position="left" @isInline={{true}} @id="tooltip-delete-session-button">
+                      <:triggerElement>
+                        <PixIconButton
+                          @icon="trash-alt"
+                          aria-label="Supprimer la session {{sessionSummary.id}}"
+                          disabled={{true}}
+                          aria-describedby="tooltip-delete-session-button"
+                          @withBackground={{true}}
+                          @triggerAction={{fn this.openSessionDeletionConfirmModal sessionSummary.id}}
+                        />
+                      </:triggerElement>
+                      <:tooltip
+                      >{{"Au moins un candidat a rejoint la session, vous ne pouvez pas la supprimer."}}</:tooltip>
+                    </PixTooltip>
+                  {{else}}
                     <PixIconButton
                       @icon="trash-alt"
-                      class="session-summary-list__delete-button"
                       aria-label="Supprimer la session {{sessionSummary.id}}"
-                      disabled={{sessionSummary.hasEffectiveCandidates}}
+                      disabled={{false}}
                       aria-describedby="tooltip-delete-session-button"
                       @withBackground={{true}}
                       @triggerAction={{fn this.openSessionDeletionConfirmModal sessionSummary.id}}
                     />
-                  </:triggerElement>
-                  <:tooltip>{{if
-                      sessionSummary.hasEffectiveCandidates
-                      "Au moins un candidat a rejoint la session, vous ne pouvez pas la supprimer."
-                      "Supprimer la session."
-                    }}</:tooltip>
-                </PixTooltip>
+                  {{/if}}
+                </div>
               </td>
             </tr>
           {{/each}}
