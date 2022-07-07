@@ -28,7 +28,7 @@ export default class SessionSummaryList extends Component {
     const sessionSummary = this.store.peekRecord('session-summary', this.currentSessionToBeDeletedId);
     try {
       await sessionSummary.destroyRecord();
-      this.notifications.success('La session a été supprimée.');
+      this.notifications.success('La session a été supprimée avec succès.');
     } catch (err) {
       if (this._doesNotExist(err)) {
         this._handleSessionDoesNotExistsError();
