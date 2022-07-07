@@ -136,7 +136,7 @@
 
 .certification-candidates-input-wrapper input {
   &:required.focused:not(:focus):invalid, &:not(:required):not(:focus):invalid {
-    border: 2px solid $error;
+    border: 2px solid $pix-error-70;
   }
 }
 
