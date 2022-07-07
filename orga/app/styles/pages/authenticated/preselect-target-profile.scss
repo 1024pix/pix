@@ -43,23 +43,23 @@
       }
 
       &.jaffa:before {
-        border-color: $information-light;
+        border-color: $pix-information-light;
       }
 
       &.emerald:before {
-        border-color: $content-light;
+        border-color: $pix-content-light;
       }
 
       &.cerulean:before {
-        border-color: $communication-light;
+        border-color: $pix-communication-light;
       }
 
       &.wild-strawberry:before {
-        border-color: $security-light;
+        border-color: $pix-security-light;
       }
 
       &.butterfly-bush:before {
-        border-color: $environment-light;
+        border-color: $pix-environment-light;
       }
     }
     &__content {
