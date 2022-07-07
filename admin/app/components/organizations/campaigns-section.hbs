@@ -32,12 +32,12 @@
                   {{if (eq campaign.type "ASSESSMENT") "Évaluation" "Collecte de profils"}}
                 </td>
                 <td>{{campaign.name}}</td>
-                <td>{{moment-format campaign.createdAt "DD/MM/YYYY"}}</td>
+                <td>{{dayjs-format campaign.createdAt "DD/MM/YYYY"}}</td>
                 <td>{{campaign.creatorFirstName}} {{campaign.creatorLastName}}</td>
                 <td>{{campaign.ownerFirstName}} {{campaign.ownerLastName}}</td>
                 <td>
                   {{#if campaign.archivedAt}}
-                    {{moment-format campaign.archivedAt "DD/MM/YYYY"}}
+                    {{dayjs-format campaign.archivedAt "DD/MM/YYYY"}}
                   {{else}}
                     -
                   {{/if}}

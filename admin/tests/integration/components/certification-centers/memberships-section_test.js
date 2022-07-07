@@ -1,4 +1,4 @@
-import moment from 'moment';
+import dayjs from 'dayjs';
 import { render } from '@1024pix/ember-testing-library';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
@@ -25,7 +25,7 @@ module('Integration | Component | certification-centers/memberships-section', fu
     this.set('certificationCenterMemberships', [certificationCenterMembership]);
     this.set('disableCertificationCenterMembership', sinon.stub());
 
-    const expectedDate = moment(certificationCenterMembership.createdAt).format('DD-MM-YYYY - HH:mm:ss');
+    const expectedDate = dayjs(certificationCenterMembership.createdAt).format('DD-MM-YYYY - HH:mm:ss');
 
     // when
     const screen = await render(
