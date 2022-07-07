@@ -4,7 +4,7 @@
   box-shadow: 0 1px 1px 0 rgba(12, 22, 58, 0.1), 0 2px 5px 0 rgba(0, 0, 0, 0.1);
 
   &__filters {
-    background-color: $white;
+    background-color: $pix-neutral-0;
     color: $pix-neutral-60;
     padding: 18px 24px;
 
@@ -26,7 +26,7 @@
   thead tr {
     background: $pix-neutral-10;
     border-radius: 4px;
-    outline: 4px solid $white;
+    outline: 4px solid $pix-neutral-0;
     outline-offset: -4px;
     border-bottom: 4px solid $pix-neutral-10;
   }
@@ -42,7 +42,7 @@
   }
 
   &__row {
-    background-color: $white;
+    background-color: $pix-neutral-0;
     color: $pix-neutral-60;
 
     &:hover {
@@ -90,7 +90,7 @@
     left: 0;
     bottom: 0;
     box-shadow: -2px 2px 9px 0 rgba(0, 0, 0, 0.22);
-    background-color: $white;
+    background-color: $pix-neutral-0;
     color: $pix-neutral-60;
     font-family: $font-roboto;
 
