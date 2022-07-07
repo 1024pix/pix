@@ -23,7 +23,7 @@
     font-size: 1.5rem;
 
     &--blue {
-      @include colorize($blue, 0%, 32%);
+      @include colorize($pix-primary, 0%, 32%);
     }
     &--purple {
       @include colorize($purple, 6%, 32%);
