@@ -6,6 +6,11 @@
     </p>
 
     <div class="user-tutorials-banner-v2__filters">
+      {{#if this.featureToggles.featureToggles.isPixAppTutoFiltersEnabled}}
+        <PixButton @backgroundColor="transparent-light" @isBorderVisible={{false}}>
+          {{t "pages.user-tutorials.filter"}}
+        </PixButton>
+      {{/if}}
       <ChoiceChip @route="user-tutorials.recommended">
         {{t "pages.user-tutorials.recommended"}}
       </ChoiceChip>
