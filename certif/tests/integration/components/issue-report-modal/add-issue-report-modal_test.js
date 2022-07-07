@@ -1,6 +1,9 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, click } from '@ember/test-helpers';
+import { click } from '@ember/test-helpers';
+import { render as renderScreen } from '@1024pix/ember-testing-library';
+import omit from 'lodash/omit';
+
 import { hbs } from 'ember-cli-htmlbars';
 import Service from '@ember/service';
 import sinon from 'sinon';
@@ -44,7 +47,7 @@ module('Integration | Component | add-issue-report-modal', function (hooks) {
       this.set('maxlength', 500);
 
       // when
-      await render(hbs`
+      const screen = await renderScreen(hbs`
           <IssueReportModal::AddIssueReportModal
             @closeModal={{this.closeAddIssueReportModal}}
             @report={{this.reportToEdit}}
@@ -53,13 +56,65 @@ module('Integration | Component | add-issue-report-modal', function (hooks) {
         `);
 
       // then
-      assert.contains(`E1-E10\u00a0${categoryToLabel['IN_CHALLENGE']}`);
+      assert.dom(screen.getByLabelText(`E1-E10 ${categoryToLabel['IN_CHALLENGE']}`, { exact: false })).exists();
+    });
+
+    test('it should show OTHER category', async function (assert) {
+      // given
+      const report = EmberObject.create({
+        certificationCourseId: 1,
+        firstName: 'Lisa',
+        lastName: 'Monpud',
+        hasSeenEndTestScreen: false,
+      });
+      const closeAddIssueReportModalStub = sinon.stub();
+      this.set('closeAddIssueReportModal', closeAddIssueReportModalStub);
+      this.set('reportToEdit', report);
+      this.set('maxlength', 500);
+
+      // when
+      const screen = await renderScreen(hbs`
+          <IssueReportModal::AddIssueReportModal
+            @closeModal={{this.closeAddIssueReportModal}}
+            @report={{this.reportToEdit}}
+            @maxlength={{@issueReportDescriptionMaxLength}}
+          />
+        `);
+
+      // then
+      assert.dom(screen.getByLabelText(`A2 ${categoryToLabel['OTHER']}`, { exact: false })).exists();
     });
   });
 
   module('when FT_CERTIFICATION_FREE_FIELDS_DELETION is enabled', function (hooks) {
     hooks.beforeEach(function () {
       sinon.stub(featureToggles, 'isCertificationFreeFieldsDeletionEnabled').value(true);
+    });
+
+    test('it should not show OTHER category', async function (assert) {
+      // given
+      const report = EmberObject.create({
+        certificationCourseId: 1,
+        firstName: 'Lisa',
+        lastName: 'Monpud',
+        hasSeenEndTestScreen: false,
+      });
+      const closeAddIssueReportModalStub = sinon.stub();
+      this.set('closeAddIssueReportModal', closeAddIssueReportModalStub);
+      this.set('reportToEdit', report);
+      this.set('maxlength', 500);
+
+      // when
+      const screen = await renderScreen(hbs`
+          <IssueReportModal::AddIssueReportModal
+            @closeModal={{this.closeAddIssueReportModal}}
+            @report={{this.reportToEdit}}
+            @maxlength={{@issueReportDescriptionMaxLength}}
+          />
+        `);
+
+      // then
+      assert.dom(screen.queryByLabelText(`A2 ${categoryToLabel['OTHER']}`, { exact: false })).doesNotExist();
     });
 
     test('it show candidate informations in title', async function (assert) {
@@ -76,17 +131,16 @@ module('Integration | Component | add-issue-report-modal', function (hooks) {
       this.set('maxlength', 500);
 
       // when
-      await render(hbs`
-      <IssueReportModal::AddIssueReportModal
-        @closeModal={{this.closeAddIssueReportModal}}
-        @report={{this.reportToEdit}}
-        @maxlength={{@issueReportDescriptionMaxLength}}
-      />
-    `);
+      const screen = await renderScreen(hbs`
+          <IssueReportModal::AddIssueReportModal
+            @closeModal={{this.closeAddIssueReportModal}}
+            @report={{this.reportToEdit}}
+            @maxlength={{@issueReportDescriptionMaxLength}}
+          />
+        `);
 
       // then
-      assert.contains('Signalement du candidat');
-      assert.contains('Lisa Monpud');
+      assert.dom(screen.getByText('Signalement du candidat : Lisa Monpud', { exact: false })).exists();
     });
 
     test('it should show all categories code & label', async function (assert) {
@@ -103,17 +157,19 @@ module('Integration | Component | add-issue-report-modal', function (hooks) {
       this.set('maxlength', 500);
 
       // when
-      await render(hbs`
-        <IssueReportModal::AddIssueReportModal
-          @closeModal={{this.closeAddIssueReportModal}}
-          @report={{this.reportToEdit}}
-          @maxlength={{@issueReportDescriptionMaxLength}}
-        />
-      `);
+      const screen = await renderScreen(hbs`
+          <IssueReportModal::AddIssueReportModal
+            @closeModal={{this.closeAddIssueReportModal}}
+            @report={{this.reportToEdit}}
+            @maxlength={{@issueReportDescriptionMaxLength}}
+          />
+        `);
 
       // then
-      for (const category of Object.values(certificationIssueReportCategories)) {
-        assert.contains(`${categoryToCode[category]}\u00a0${categoryToLabel[category]}`);
+      for (const category of Object.values(omit(certificationIssueReportCategories, ['OTHER']))) {
+        assert
+          .dom(screen.getByLabelText(`${categoryToCode[category]} ${categoryToLabel[category]}`, { exact: false }))
+          .exists();
       }
     });
 
@@ -129,19 +185,21 @@ module('Integration | Component | add-issue-report-modal', function (hooks) {
       this.set('closeAddIssueReportModal', closeAddIssueReportModalStub);
       this.set('reportToEdit', report);
       this.set('maxlength', 500);
-      await render(hbs`
-        <IssueReportModal::AddIssueReportModal
-          @closeModal={{this.closeAddIssueReportModal}}
-          @report={{this.reportToEdit}}
-          @maxlength={{@issueReportDescriptionMaxLength}}
-        />
-      `);
 
       // when
-      await click('[aria-label="Ajouter le signalement"]');
+      const screen = await renderScreen(hbs`
+          <IssueReportModal::AddIssueReportModal
+            @closeModal={{this.closeAddIssueReportModal}}
+            @report={{this.reportToEdit}}
+            @maxlength={{@issueReportDescriptionMaxLength}}
+          />
+        `);
+
+      // when
+      await click(screen.getByLabelText('Ajouter le signalement'));
 
       // then
-      assert.contains('Veuillez selectionner une catégorie');
+      assert.dom(screen.getByText('Veuillez selectionner une catégorie')).exists();
     });
   });
 });
