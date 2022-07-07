@@ -71,16 +71,16 @@
         font-size: 1.125rem;
         padding: 1rem;
         margin: 0;
-        color: $grey-90;
+        color: $pix-neutral-90;
       }
 
       table {
-        color: $grey-70;
+        color: $pix-neutral-70;
       }
 
       th {
         font-weight: 500;
-        color: $grey-100;
+        color: $pix-neutral-100;
       }
 
       th,
@@ -92,7 +92,7 @@
         text-align: center;
       }
       thead {
-        background: $grey-10;
+        background: $pix-neutral-10;
       }
     }
   }

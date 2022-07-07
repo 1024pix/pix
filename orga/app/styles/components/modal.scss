@@ -6,7 +6,7 @@
 
   .modal-dialog {
     border-radius: 4px;
-    background-color: $white;
+    background-color: $pix-neutral-0;
     box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.2);
     font-size: 1rem;
     width: 500px;
@@ -27,13 +27,13 @@
       .modal-header {
         position: relative;
         padding: 32px 48px;
-        border-bottom: 1px solid $grey-20;
+        border-bottom: 1px solid $pix-neutral-20;
 
         &__title {
           font-family: $font-open-sans;
           align-items: center;
           justify-content: space-between;
-          color: $grey-90;
+          color: $pix-neutral-90;
           display: flex;
           font-size: 1.5rem;
           font-weight: 600;
@@ -69,7 +69,7 @@
 }
 
 .ember-modal-overlay.translucent {
-  background-color: rgba(red($grey-200), green($grey-200), blue($grey-200), 0.2);
+  background-color: rgba(red($pix-neutral-110), green($pix-neutral-110), blue($pix-neutral-110), 0.2);
 }
 
 .modal__translucent {

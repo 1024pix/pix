@@ -15,7 +15,7 @@
   padding: 35px 0;
   justify-content: center;
 
-  background-color: $white;
+  background-color: $pix-neutral-0;
   border-radius: 10px;
 
   @include device-is('mobile') {
@@ -34,7 +34,7 @@
   &__title {
     margin-bottom: 30px;
     text-align: center;
-    color: $grey-100;
+    color: $pix-neutral-100;
     font-family: $font-roboto;
     font-size: 1.15em;
     font-weight: 300;
@@ -45,7 +45,7 @@
     height: 1px;
     margin-bottom: 30px;
     border: none;
-    background-color: $grey-20;
+    background-color: $pix-neutral-20;
   }
 
   &__text {

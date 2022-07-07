@@ -18,8 +18,8 @@
     max-width: 350px;
     height: 230px;
     border-radius: 8px;
-    box-shadow: 0 2px 5px 0 rgba($black, 0.05);
-    background-color: $white;
+    box-shadow: 0 2px 5px 0 rgba($pix-neutral-110, 0.05);
+    background-color: $pix-neutral-0;
     padding: 16px;
     margin: 16px;
   }
@@ -31,7 +31,7 @@
   }
 
   &__details {
-    color: $grey-50;
+    color: $pix-neutral-50;
     font-family: $font-roboto;
     font-size: 1rem;
     font-weight: 300;
@@ -45,7 +45,7 @@
 
 .import-students-page-section {
   &__title {
-    color: $grey-90;
+    color: $pix-neutral-90;
     font-family: $font-open-sans;
     font-size: 1.25rem;
     font-weight: 500;
@@ -53,7 +53,7 @@
   }
 
   &__details {
-    color: $grey-50;
+    color: $pix-neutral-50;
     font-family: $font-roboto;
     font-size: 0.875rem;
     text-align: center;

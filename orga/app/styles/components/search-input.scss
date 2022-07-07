@@ -6,7 +6,7 @@
   box-sizing: border-box;
 
   svg {
-    color: $grey-70;
+    color: $pix-neutral-70;
   }
 
   &__invisible-field {
@@ -26,16 +26,16 @@
 
     /* IE 11 */
     &:-ms-input-placeholder {
-      color: $grey-30;
+      color: $pix-neutral-30;
     }
 
     /* older Chrome/Safari/Opera and Edge */
     &::-webkit-input-placeholder {
-      color: $grey-30;
+      color: $pix-neutral-30;
     }
 
     &::placeholder {
-      color: $grey-30;
+      color: $pix-neutral-30;
       opacity: 1; /* Firefox */
     }
   }

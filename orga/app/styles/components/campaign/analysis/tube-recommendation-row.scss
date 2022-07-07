@@ -1,12 +1,12 @@
 .tube-recommendation-title {
   font-family: $font-open-sans;
-  color: $grey-80;
+  color: $pix-neutral-80;
   font-weight: 600;
   font-size: 0.875rem;
 
   &--open {
     margin-left: 16px;
-    color: $grey-100;
+    color: $pix-neutral-100;
     font-weight: 700;
   }
 }
@@ -15,10 +15,10 @@
   font-family: $font-open-sans;
   font-weight: 400;
   font-size: 0.75rem;
-  color: $grey-50;
+  color: $pix-neutral-50;
 
   &--open {
-    color: $grey-60;
+    color: $pix-neutral-60;
   }
 }
 
@@ -32,7 +32,7 @@
 
   &__description {
     font-family: $font-open-sans;
-    color: $grey-60;
+    color: $pix-neutral-60;
     font-size: 0.875rem;
   }
 
@@ -75,7 +75,7 @@
   }
 
   &__details {
-    color: $grey-80;
+    color: $pix-neutral-80;
     font-family: $font-roboto;
     font-size: 0.75rem;
     font-weight: normal;
