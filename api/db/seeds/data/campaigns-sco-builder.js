@@ -5,7 +5,7 @@ const {
 } = require('./target-profiles-builder');
 const { PRO_BASICS_BADGE_ID, PRO_TOOLS_BADGE_ID } = require('./badges-builder');
 const { SCO_MIDDLE_SCHOOL_ID, SCO_HIGH_SCHOOL_ID, SCO_AGRI_ID, SCO_AEFE_ID } = require('./organizations-sco-builder');
-const { SCO_STUDENT_ID, SCO_FRENCH_USER_ID, SCO_FOREIGNER_USER_ID, SCO_DISABLED_USER_ID } = require('./organizations-sco-builder');
+const { SCO_STUDENT_ID, SCO_FRENCH_USER_ID, SCO_FOREIGNER_USER_ID, SCO_FOREIGNER_USER_ID_IN_ANOTHER_ORGANIZATION, SCO_DISABLED_USER_ID } = require('./organizations-sco-builder');
 const { participateToAssessmentCampaign, participateToProfilesCollectionCampaign } = require('./campaign-participations-builder');
 const CampaignParticipationStatuses = require('../../../lib/domain/models/CampaignParticipationStatuses');
 const { SHARED, TO_SHARE, STARTED } = CampaignParticipationStatuses;
@@ -130,7 +130,7 @@ function _buildScoAssessmentParticipations({ databaseBuilder }) {
   participateToAssessmentCampaign({ databaseBuilder, campaignId: 4, user: scoStudentForeigner, organizationLearnerId: SCO_FOREIGNER_USER_ID, status: STARTED });
   participateToAssessmentCampaign({ databaseBuilder, campaignId: 4, user: scoStudentDisabled, organizationLearnerId: SCO_DISABLED_USER_ID, status: SHARED });
 
-  participateToAssessmentCampaign({ databaseBuilder, campaignId: 8, user: scoStudentForeigner, organizationLearnerId: SCO_FOREIGNER_USER_ID, status: SHARED });
+  participateToAssessmentCampaign({ databaseBuilder, campaignId: 8, user: scoStudentForeigner, organizationLearnerId: SCO_FOREIGNER_USER_ID_IN_ANOTHER_ORGANIZATION, status: SHARED });
 }
 
 function _buildScoProfilesCollectionParticipations({ databaseBuilder }) {
