@@ -55,7 +55,7 @@
   &__forgotten-password {
     text-align: left;
     font-size: 0.875rem;
-    color: $communication-dark;
+    color: $pix-communication-dark;
 
     a {
       text-decoration: none;
@@ -65,7 +65,7 @@
       &:focus,
       &:visited {
         text-decoration: underline;
-        color: $communication-dark;
+        color: $pix-communication-dark;
       }
     }
   }
@@ -79,7 +79,7 @@
     border: 2px solid $pix-neutral-20;
 
     &:focus-within {
-      border: 2px solid $communication-dark;
+      border: 2px solid $pix-communication-dark;
     }
 
     input {
