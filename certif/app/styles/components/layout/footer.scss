@@ -56,7 +56,7 @@
     }
 
     &.active {
-      color: $blue;
+      color: $pix-primary;
     }
 
     &:focus {
@@ -65,7 +65,7 @@
 
     &:hover {
       cursor: pointer;
-      color: $blue;
+      color: $pix-primary;
     }
   }
 }
