@@ -15,9 +15,7 @@ module('Unit | Route | authenticated/sessions/session', function (hooks) {
     route.setupController(sessions, { id });
 
     // then
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line qunit/no-assert-equal
-    assert.equal(sessions.inputId, id);
+    assert.deepEqual(sessions.inputId, id);
   });
 
   test('#error', function (assert) {
