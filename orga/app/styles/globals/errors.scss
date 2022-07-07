@@ -48,14 +48,14 @@
   }
 
   &--error {
-    border: 1.5px solid $error;
+    border: 1.5px solid $pix-error-70;
 
     div:first-child {
-      background-color: $error;
+      background-color: $pix-error-10;
     }
 
     div:nth-child(2) {
-      background-color: lighten($error, 35%);
+      background-color: lighten($pix-error-10, 35%);
     }
   }
 
@@ -92,7 +92,7 @@
   font-size: 0.75rem;
 
   &--error {
-    color: $error;
+    color: $pix-error-70;
   }
 
   &--left {

@@ -137,7 +137,7 @@
 
   abbr.mandatory-mark {
     cursor: help;
-    color: $pink-alert-dark;
+    color: $pix-error-70;
     text-decoration: none;
     border: none;
   }
@@ -175,12 +175,12 @@ p.label {
   }
 
   &--error {
-    border: 1px solid $error;
+    border: 1px solid $pix-error-70;
   }
 }
 
 .error-message {
-  color: $red;
+  color: $pix-error-70;
   font-family: $font-roboto;
   font-size: 0.75rem;
 }
