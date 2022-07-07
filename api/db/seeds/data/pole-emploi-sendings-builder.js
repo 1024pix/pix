@@ -1,5 +1,6 @@
 const _ = require('lodash');
 const { POLE_EMPLOI_CAMPAIGN_ID } = require('./campaigns-pro-builder');
+const { PRO_POLE_EMPLOI_ID } = require('./organizations-pro-builder');
 
 module.exports = function poleEmploiSendingsBuilder({ databaseBuilder }) {
   const _generateStatus = () => {
@@ -15,7 +16,8 @@ module.exports = function poleEmploiSendingsBuilder({ databaseBuilder }) {
   _.times(10, async (index) => {
     const user = await databaseBuilder.factory.buildUser({ firstName: `FirstName-${index}`, lastName: `LastName-${index}` });
     await databaseBuilder.factory.buildAuthenticationMethod.withPoleEmploiAsIdentityProvider({ userId: user.id, externalIdentifier: `externalUserId${user.id}` });
-    const campaignParticipationId = await databaseBuilder.factory.buildCampaignParticipation({ userId: user.id, campaignId: POLE_EMPLOI_CAMPAIGN_ID, status: 'TO_SHARE' }).id;
+    const organizationLearnerId = await databaseBuilder.factory.buildOrganizationLearner({ organizationId: PRO_POLE_EMPLOI_ID }).id;
+    const campaignParticipationId = await databaseBuilder.factory.buildCampaignParticipation({ userId: user.id, campaignId: POLE_EMPLOI_CAMPAIGN_ID, status: 'TO_SHARE', organizationLearnerId }).id;
     await databaseBuilder.factory.buildAssessment({ userId: user.id, campaignParticipationId, type: 'CAMPAIGN', state: 'completed', method: 'SMART_RANDOM' });
     await databaseBuilder.factory.poleEmploiSendingFactory.build({ ..._generateStatus(), campaignParticipationId, type: 'CAMPAIGN_PARTICIPATION_START', createdAt: _generateDate(index), payload: {
       campagne: {
