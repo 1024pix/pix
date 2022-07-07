@@ -27,12 +27,12 @@
     text-decoration: none;
 
     &:hover {
-      color: $communication-dark;
+      color: $pix-communication-dark;
     }
   }
 
   &-item.active {
-    border-bottom: 2px solid $communication-dark;
-    color: $communication-dark;
+    border-bottom: 2px solid $pix-communication-dark;
+    color: $pix-communication-dark;
   }
 }
