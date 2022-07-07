@@ -82,7 +82,7 @@
   &:focus,
   &:active {
     text-decoration: underline;
-    color: $blue-hover;
+    color: $pix-primary-60;
   }
 
   &--bold {
@@ -104,7 +104,7 @@
     &:focus,
     &:active {
       color: $pix-neutral-110;
-      background-color: $yellow;
+      background-color: $pix-warning-40;
     }
   }
 
