@@ -29,7 +29,7 @@
       @include colorize($purple, 6%, 32%);
     }
     &--green {
-      @include colorize($green, 0%, 70%);
+      @include colorize($pix-success-70, 0%, 70%);
     }
   }
 

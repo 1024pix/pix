@@ -72,14 +72,14 @@
   }
 
   &--success {
-    border: 1.5px solid $success;
+    border: 1.5px solid $pix-success-70;
 
     div:first-child {
-      background-color: $success;
+      background-color: $pix-success-10;
     }
 
     div:nth-child(2) {
-      background-color: lighten($success, 35%);
+      background-color: lighten($pix-success-10, 35%);
     }
   }
 }
