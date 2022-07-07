@@ -44,6 +44,11 @@ const schema = Joi.object({
   RATE_LIMIT_LOG_ONLY: Joi.string().optional().valid('true', 'false'),
   RATE_LIMIT_DEFAULT_LIMIT: Joi.number().optional(),
   RATE_LIMIT_DEFAULT_WINDOW: Joi.number().optional(),
+  CPF_STORAGE_ACCESS_KEY_ID: Joi.string().optional(),
+  CPF_STORAGE_SECRET_ACCESS_KEY: Joi.string().optional(),
+  CPF_STORAGE_ENDPOINT: Joi.string().optional(),
+  CPF_STORAGE_REGION: Joi.string().optional(),
+  CPF_STORAGE_BUCKET_NAME: Joi.string().optional(),
 }).options({ allowUnknown: true });
 
 const validateEnvironmentVariables = function () {

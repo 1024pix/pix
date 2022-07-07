@@ -277,6 +277,13 @@ module.exports = (function () {
       idClient: '03VML243',
       idContrat: 'MCFCER000209',
       codeFranceConnect: 'RS5875',
+      storage: {
+        accessKeyId: process.env.CPF_STORAGE_ACCESS_KEY_ID,
+        secretAccessKey: process.env.CPF_STORAGE_SECRET_ACCESS_KEY,
+        endpoint: process.env.CPF_STORAGE_ENDPOINT,
+        region: process.env.CPF_STORAGE_REGION,
+        bucket: process.env.CPF_STORAGE_BUCKET_NAME,
+      },
     },
   };
 
@@ -368,6 +375,14 @@ module.exports = (function () {
         source: 'poleEmploi',
       },
     ];
+
+    config.cpf.storage = {
+      accessKeyId: 'accessKeyId',
+      secretAccessKey: 'secretAccessKey',
+      endpoint: 'http://fake.endpoint.example.net',
+      region: 'region',
+      bucket: 'bucket',
+    };
 
     config.jwtConfig.livretScolaire = { secret: 'secretosmose', tokenLifespan: '1h' };
     config.jwtConfig.poleEmploi = { secret: 'secretPoleEmploi', tokenLifespan: '1h' };
