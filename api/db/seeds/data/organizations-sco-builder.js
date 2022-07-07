@@ -7,6 +7,7 @@ const SCO_AEFE_ID = 9;
 const SCO_STUDENT_ID = 99;
 const CANADA_INSEE_CODE = '401';
 const SCO_FOREIGNER_USER_ID = 9912;
+const SCO_FOREIGNER_USER_ID_IN_ANOTHER_ORGANIZATION = 9913;
 const SCO_FRENCH_USER_ID = 2339213;
 const SCO_DISABLED_USER_ID = 777;
 const SCO_ADMIN_ID = 4;
@@ -313,6 +314,7 @@ function _buildHighSchools({ databaseBuilder }) {
 
   // organization learner also associated in another organization
   databaseBuilder.factory.buildOrganizationLearner({
+    id: SCO_FOREIGNER_USER_ID_IN_ANOTHER_ORGANIZATION,
     userId: SCO_FOREIGNER_USER_ID,
     firstName: 'Same Blue Ivy',
     lastName: 'Same Carter',
@@ -320,6 +322,7 @@ function _buildHighSchools({ databaseBuilder }) {
     division: '2B',
     group: null,
     organizationId: SCO_HIGH_SCHOOL_ID,
+    nationalStudentId: '123456789DD',
     createdAt: new Date('2020-08-14'),
   });
 
@@ -429,6 +432,7 @@ module.exports = {
   SCO_AEFE_ID,
   SCO_STUDENT_ID,
   SCO_FOREIGNER_USER_ID,
+  SCO_FOREIGNER_USER_ID_IN_ANOTHER_ORGANIZATION,
   SCO_FRENCH_USER_ID,
   SCO_DISABLED_USER_ID,
 };
