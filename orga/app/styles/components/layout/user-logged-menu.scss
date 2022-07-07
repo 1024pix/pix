@@ -1,5 +1,5 @@
 .user-logged-button {
-  color: $grey-60;
+  color: $pix-neutral-60;
   cursor: pointer;
   height: 100%;
   display: flex;
@@ -7,12 +7,12 @@
   padding: 0 30px;
   background-color: transparent;
   border-width: 0;
-  border-left: 1px solid $grey-20;
+  border-left: 1px solid $pix-neutral-20;
 
   &:hover,
   &:active,
   &:focus {
-    color: $grey-70;
+    color: $pix-neutral-70;
     text-decoration: none;
   }
 

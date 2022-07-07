@@ -6,7 +6,7 @@
 .indicator-card {
   display: flex;
   width: 100%;
-  background-color: $white;
+  background-color: $pix-neutral-0;
   border-radius: 8px;
   box-shadow: $shadow-base;
   min-height: 112px;
@@ -17,8 +17,8 @@
     justify-content: center;
     align-items: center;
     border-radius: 8px 0 0 8px;
-    background-color: $grey-20;
-    color: $grey-60;
+    background-color: $pix-neutral-20;
+    color: $pix-neutral-60;
     min-width: 96px;
     font-size: 1.5rem;
 
@@ -37,7 +37,7 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    color: $grey-60;
+    color: $pix-neutral-60;
     margin: 16px 32px;
   }
 
@@ -63,7 +63,7 @@
   }
 
   &__tooltip-icon {
-    color: $grey-30;
+    color: $pix-neutral-30;
     margin: 0 8px;
   }
 }

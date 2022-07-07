@@ -3,19 +3,19 @@
   font-size: 1rem;
   font-weight: 500;
   border-radius: 6px;
-  border: 1.5px solid $grey-60;
-  color: $grey-70;
+  border: 1.5px solid $pix-neutral-60;
+  color: $pix-neutral-70;
   line-height: 1.3125rem;
 
   > div:first-child {
-    background-color: $grey-60;
+    background-color: $pix-neutral-60;
     display: flex;
     align-items: center;
     justify-content: center;
   }
 
   > div:nth-child(2) {
-    background-color: $grey-20;
+    background-color: $pix-neutral-20;
     padding: 8px 12px;
     align-items: center;
 
@@ -27,7 +27,7 @@
   }
 
   a {
-    color: $grey-70;
+    color: $pix-neutral-70;
   }
 
   .fa {
@@ -35,15 +35,15 @@
   }
 
   .fa-exclamation-circle {
-    color: $white;
+    color: $pix-neutral-0;
   }
 
   .c-notification__close svg {
-    fill: $grey-60;
+    fill: $pix-neutral-60;
 
     &:hover,
     &:active {
-      fill: $grey-70;
+      fill: $pix-neutral-70;
     }
   }
 

@@ -29,7 +29,7 @@
     font-family: $font-roboto;
     font-size: 1.125rem;
     font-weight: 500;
-    color: $grey-100;
+    color: $pix-neutral-100;
     text-align: center;
     margin-top: 24px;
   }
@@ -63,7 +63,7 @@
 
   &__divider {
     margin-top: 30px;
-    border-left: 1px solid $grey-30;
+    border-left: 1px solid $pix-neutral-30;
 
     @include device-is('tablet') {
       margin: 30px;

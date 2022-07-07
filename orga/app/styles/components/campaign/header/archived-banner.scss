@@ -1,12 +1,12 @@
 .campaign-archived-banner {
   font-family: $font-open-sans;
   font-weight: 600;
-  background: $blue-zodiac;
+  background: $pix-neutral-60;
   display: flex;
   padding: 8px 10px;
   margin-bottom: 24px;
   border-radius: 6px;
-  color: $white;
+  color: $pix-neutral-0;
   flex-flow: row nowrap;
   align-items: center;
   justify-content: space-between;
@@ -25,15 +25,15 @@
   }
 
   &__unarchive-button {
-    background: $blue-zodiac;
-    border: 2px solid $white;
+    background: $pix-neutral-60;
+    border: 2px solid $pix-neutral-0;
     margin-left: auto;
     &:hover {
       opacity: 0.8;
-      background: $blue-zodiac;
+      background: $pix-neutral-60;
     }
     &:focus {
-      background: $blue-zodiac;
+      background: $pix-neutral-60;
     }
   }
 }
