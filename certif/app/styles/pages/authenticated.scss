@@ -40,26 +40,26 @@
         align-items: center;
         padding-left: 20px;
         height: 40px;
-        color: $grey-80;
+        color: $pix-neutral-80;
         text-decoration: none;
 
         &-icon {
-          color: $grey-80;
+          color: $pix-neutral-80;
           width: 15px;
           margin-right: 8px;
         }
 
         &.active {
-          background-color: $grey-15;
+          background-color: $pix-neutral-15;
         }
 
         &:active {
-          background-color: $grey-20;
+          background-color: $pix-neutral-20;
         }
       }
 
       li:hover {
-        background-color: $grey-15;
+        background-color: $pix-neutral-15;
       }
     }
   }
@@ -84,6 +84,6 @@
 
   &__user-logged-menu {
     padding: 0 30px;
-    border-left: 1px solid $grey-20;
+    border-left: 1px solid $pix-neutral-20;
   }
 }

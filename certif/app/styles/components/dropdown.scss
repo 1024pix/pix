@@ -16,7 +16,7 @@
   &__item {
     align-items: center;
     border-radius: 4px;
-    color: $grey-60;
+    color: $pix-neutral-60;
     cursor: pointer;
     display: flex;
     font-size: 0.875rem;
@@ -40,8 +40,8 @@
     &:hover,
     &:active,
     &:focus {
-      background-color: $grey-10;
-      color: $grey-60;
+      background-color: $pix-neutral-10;
+      color: $pix-neutral-60;
     }
   }
 }

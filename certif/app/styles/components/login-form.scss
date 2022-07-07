@@ -17,7 +17,7 @@
     font-family: $font-open-sans;
     font-weight: 400;
     font-size: 2rem;
-    color: $grey-80;
+    color: $pix-neutral-80;
     margin-top: 32px;
     margin-bottom: 8px;
   }
@@ -76,7 +76,7 @@
     border-radius: 3px;
     align-items: center;
     background-color: $white;
-    border: 2px solid $grey-20;
+    border: 2px solid $pix-neutral-20;
 
     &:focus-within {
       border: 2px solid $communication-dark;
@@ -115,13 +115,13 @@
   &-icon {
 
     &__eye {
-      color: $grey-45;
+      color: $pix-neutral-45;
       transition: 0.5s;
       font-size: 1.1rem;
       margin-top: 2px;
 
       &:hover {
-        color: $grey-80;
+        color: $pix-neutral-80;
         cursor: pointer;
       }
     }
