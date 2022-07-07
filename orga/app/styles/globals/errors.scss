@@ -60,14 +60,14 @@
   }
 
   &--warning {
-    border: 1.5px solid $warning;
+    border: 1.5px solid $pix-warning-60;
 
     div:first-child {
-      background-color: $warning;
+      background-color: $pix-warning-10;
     }
 
     div:nth-child(2) {
-      background-color: lighten($warning, 40%);
+      background-color: lighten($pix-warning-10, 40%);
     }
   }
 
