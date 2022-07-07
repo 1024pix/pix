@@ -225,7 +225,7 @@
       "issued-on": "Delivered on",
       "jury-info": "Notes from the examining body are not displayed on the verification page of your certificate.",
       "jury-title": "Notes from the examining body",
-      "professionalizing-warning": "The Pix certificate is recognised as professionalising by France Compétences upon reaching a minimum score of 120 pix.",  
+      "professionalizing-warning": "The Pix certificate is recognised as professionalising by France Compétences upon reaching a minimum score of 120 pix.",
       "verification-code": {
         "title": "Verification code",
         "alt": "Copy",
@@ -1497,6 +1497,7 @@
         },
         "image-link": "images/illustrations/user-tutorials/illustration-en.svg"
       },
+      "filter": "Filter",
       "label": "Tutorials",
       "list": {
         "title": "My list",

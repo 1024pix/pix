@@ -225,7 +225,7 @@
       "issued-on": "Délivré le",
       "jury-info": "Les observations du jury ne sont pas partagées sur la page de vérification de votre certificat.",
       "jury-title": "Observations du jury",
-      "professionalizing-warning": "Le certificat Pix est reconnu comme professionnalisant par France compétences à compter d’un score minimal de 120 pix",  
+      "professionalizing-warning": "Le certificat Pix est reconnu comme professionnalisant par France compétences à compter d’un score minimal de 120 pix",
         "verification-code": {
         "title": "Code de vérification",
         "alt": "Copier",
@@ -1497,6 +1497,7 @@
         },
         "image-link": "images/illustrations/user-tutorials/illustration-fr.svg"
       },
+      "filter": "Filtrer",
       "label": "tutoriels",
       "list": {
         "title": "Ma liste",
