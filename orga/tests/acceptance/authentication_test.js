@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
-import { visit, currentURL } from '@ember/test-helpers';
-import { fillByLabel, clickByName } from '@1024pix/ember-testing-library';
+import { currentURL } from '@ember/test-helpers';
+import { fillByLabel, clickByName, visit } from '@1024pix/ember-testing-library';
 import authenticateSession from '../helpers/authenticate-session';
 import { setupApplicationTest } from 'ember-qunit';
 import { currentSession } from 'ember-simple-auth/test-support';
@@ -8,7 +8,6 @@ import {
   createUserMembershipWithRole,
   createUserWithMembership,
   createUserWithMembershipAndTermsOfServiceAccepted,
-  createUserManagingStudents,
   createPrescriberByUser,
   createPrescriberForOrganization,
 } from '../helpers/test-init';
@@ -25,9 +24,7 @@ module('Acceptance | authentication', function (hooks) {
       await visit('/');
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(currentURL(), '/connexion');
+      assert.strictEqual(currentURL(), '/connexion');
       assert.notOk(currentSession(this.application).get('isAuthenticated'), 'The user is still unauthenticated');
     });
   });
@@ -45,9 +42,7 @@ module('Acceptance | authentication', function (hooks) {
       await visit('/connexion');
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(currentURL(), '/campagnes/les-miennes');
+      assert.strictEqual(currentURL(), '/campagnes/les-miennes');
       assert.ok(currentSession(this.application).get('isAuthenticated'), 'The user is still unauthenticated');
     });
   });
@@ -70,9 +65,7 @@ module('Acceptance | authentication', function (hooks) {
       await clickByName('Je me connecte');
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(currentURL(), '/cgu');
+      assert.strictEqual(currentURL(), '/cgu');
       assert.ok(currentSession(this.application).get('isAuthenticated'), 'The user is authenticated');
     });
 
@@ -115,9 +108,7 @@ module('Acceptance | authentication', function (hooks) {
       await clickByName('Je me connecte');
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(currentURL(), '/campagnes/les-miennes');
+      assert.strictEqual(currentURL(), '/campagnes/les-miennes');
       assert.ok(currentSession(this.application).get('isAuthenticated'), 'The user is authenticated');
     });
 
@@ -155,6 +146,7 @@ module('Acceptance | authentication', function (hooks) {
         // when
         await visit('/');
         // then
+
         assert.dom('.organization-credit-info').doesNotExist();
       });
     });
@@ -189,118 +181,26 @@ module('Acceptance | authentication', function (hooks) {
         await visit('/');
 
         // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(currentURL(), '/campagnes/les-miennes');
+        assert.strictEqual(currentURL(), '/campagnes/les-miennes');
       });
     });
 
-    module('When prescriber is admin', function (hooks) {
+    module('When the organization has credits and prescriber is ADMIN', function (hooks) {
       hooks.beforeEach(async () => {
-        const user = createUserMembershipWithRole('ADMIN');
-        createPrescriberByUser(user);
+        const user = createPrescriberForOrganization(
+          { firstName: 'Harry', lastName: 'Cover', email: 'harry@cover.com' },
+          { name: 'BRO & Evil Associates', credit: 10000 },
+          'ADMIN'
+        );
 
         await authenticateSession(user.id);
       });
 
-      test('should display team menu', async function (assert) {
+      test('should show organization credit info', async function (assert) {
         // when
         await visit('/');
         // then
-        assert.dom('.sidebar-nav a').exists({ count: 3 });
-        assert.dom('.sidebar-nav').containsText('Campagnes');
-        assert.dom('.sidebar-nav').containsText('Équipe');
-        assert.dom('.sidebar-nav').containsText('Documentation');
-        assert.dom('.sidebar-nav a:first-child').hasClass('active');
-      });
-
-      test('should redirect to team page', async function (assert) {
-        // given
-        await visit('/');
-
-        // when
-        await clickByName('Équipe');
-
-        // then
-        assert.dom('.sidebar-nav a:first-child').hasText('Campagnes');
-        assert.dom('.sidebar-nav').containsText('Équipe');
-        assert.dom('.sidebar-nav a:nth-child(2)').hasClass('active');
-        assert.dom('.sidebar-nav a:first-child').hasNoClass('active');
-      });
-
-      module('When the organization has credits and prescriber is ADMIN', function (hooks) {
-        hooks.beforeEach(async () => {
-          const user = createPrescriberForOrganization(
-            { firstName: 'Harry', lastName: 'Cover', email: 'harry@cover.com' },
-            { name: 'BRO & Evil Associates', credit: 10000 },
-            'ADMIN'
-          );
-
-          await authenticateSession(user.id);
-        });
-
-        test('should show organization credit info', async function (assert) {
-          // when
-          await visit('/');
-          // then
-          assert.dom('.organization-credit-info').exists();
-        });
-      });
-
-      module('When prescriber belongs to an organization that is managing students', function (hooks) {
-        hooks.beforeEach(async () => {
-          const user = createUserManagingStudents('ADMIN');
-          createPrescriberByUser(user);
-
-          await authenticateSession(user.id);
-        });
-
-        test('should display team and students menu', async function (assert) {
-          // when
-          await visit('/');
-
-          // then
-          assert.dom('.sidebar-nav a').exists({ count: 5 });
-          assert.dom('.sidebar-nav').containsText('Campagnes');
-          assert.dom('.sidebar-nav').containsText('Certifications');
-          assert.dom('.sidebar-nav').containsText('Équipe');
-          assert.dom('.sidebar-nav').containsText('Élèves');
-          assert.dom('.sidebar-nav a:first-child ').hasClass('active');
-        });
-
-        test('should redirect to students page', async function (assert) {
-          await visit('/');
-
-          // when
-          await clickByName('Élèves');
-
-          // then
-          assert.dom('.sidebar-nav').containsText('Campagnes');
-          assert.dom('.sidebar-nav').containsText('Certifications');
-          assert.dom('.sidebar-nav').containsText('Équipe');
-          assert.dom('.sidebar-nav').containsText('Élèves');
-          assert.dom('.sidebar-nav a:nth-child(3)').hasClass('active');
-          assert.dom('.sidebar-nav a:first-child').hasNoClass('active');
-        });
-
-        test('should redirect to certifications page', async function (assert) {
-          // when
-          await visit('/');
-          await clickByName('Certifications');
-
-          // then
-          assert.dom('.sidebar-nav').containsText('Certifications');
-          assert.dom('.sidebar-nav a:nth-child(2)').hasClass('active');
-          assert.dom('.sidebar-nav a:first-child').hasNoClass('active');
-        });
-
-        test('should have resources link', async function (assert) {
-          // given
-          await visit('/');
-
-          // then
-          assert.contains('Documentation');
-        });
+        assert.dom('.organization-credit-info').exists();
       });
     });
 
@@ -310,18 +210,6 @@ module('Acceptance | authentication', function (hooks) {
         createPrescriberByUser(user);
 
         await authenticateSession(user.id);
-      });
-
-      test('should not display team menu', async function (assert) {
-        // when
-        await visit('/');
-
-        // then
-
-        assert.dom('.sidebar-nav a').exists({ count: 3 });
-        assert.dom('.sidebar-nav').containsText('Campagnes');
-        assert.dom('.sidebar-nav').containsText('Documentation');
-        assert.dom('.sidebar-nav a:first-child ').hasClass('active');
       });
 
       module('When the organization has credits and prescriber is MEMBER', function (hooks) {
@@ -342,26 +230,6 @@ module('Acceptance | authentication', function (hooks) {
           assert.dom('.organization-credit-info').doesNotExist();
         });
       });
-
-      module('When user belongs to an organization that is managing students', function (hooks) {
-        hooks.beforeEach(async () => {
-          const user = createUserManagingStudents('MEMBER');
-          createPrescriberByUser(user);
-
-          await authenticateSession(user.id);
-        });
-
-        test('should display students menu', async function (assert) {
-          // when
-          await visit('/');
-
-          // then
-          assert.dom('.sidebar-nav a').exists({ count: 4 });
-          assert.dom('.sidebar-nav').containsText('Campagnes');
-          assert.dom('.sidebar-nav').containsText('Élèves');
-          assert.dom('.sidebar-nav a:first-child ').hasClass('active');
-        });
-      });
     });
 
     test('should redirect to main page when trying to access /certifications URL', async function (assert) {
@@ -378,9 +246,7 @@ module('Acceptance | authentication', function (hooks) {
       await visit('/certifications');
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(currentURL(), '/campagnes/les-miennes');
+      assert.strictEqual(currentURL(), '/campagnes/les-miennes');
     });
   });
 });

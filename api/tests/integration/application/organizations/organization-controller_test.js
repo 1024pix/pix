@@ -25,6 +25,7 @@ describe('Integration | Application | Organizations | organization-controller', 
     sandbox.stub(usecases, 'findGroupsByOrganization');
     sandbox.stub(usecases, 'findDivisionsByOrganization');
     sandbox.stub(usecases, 'findOrganizationPlaces');
+    sandbox.stub(usecases, 'getPaginatedParticipantsForAnOrganization');
 
     sandbox.stub(certificationAttestationPdf, 'getCertificationAttestationsPdfBuffer');
 
@@ -458,10 +459,43 @@ describe('Integration | Application | Organizations | organization-controller', 
     });
 
     context('when the organization id is invalid', function () {
-      it('returns organizations groups', async function () {
+      it('returns returns an error 400', async function () {
         const response = await httpTestServer.request('GET', `/api/organizations/ABC/groups`);
 
         expect(response.statusCode).to.equal(400);
+      });
+    });
+  });
+
+  describe('#getPaginatedParticipantsForAnOrganization', function () {
+    context('when the organization has participants', function () {
+      it('returns organization participants', async function () {
+        const organizationId = 5678;
+        usecases.getPaginatedParticipantsForAnOrganization.withArgs({ organizationId, page: {} }).resolves({
+          organizationParticipants: [
+            {
+              id: 5678,
+              firstName: 'Mei',
+              lastName: 'Lee',
+            },
+          ],
+          pagination: 1,
+        });
+        securityPreHandlers.checkUserBelongsToOrganization.returns(() => true);
+
+        const response = await httpTestServer.request('GET', `/api/organizations/${organizationId}/participants`);
+
+        expect(response.statusCode).to.equal(200);
+        expect(response.result.data).to.deep.equal([
+          {
+            id: '5678',
+            type: 'organization-participants',
+            attributes: {
+              'first-name': 'Mei',
+              'last-name': 'Lee',
+            },
+          },
+        ]);
       });
     });
   });

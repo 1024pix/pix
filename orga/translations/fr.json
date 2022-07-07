@@ -198,6 +198,7 @@
       "campaigns": "Campagnes",
       "certifications": "Certifications",
       "documentation": "Documentation",
+      "organization-participants": "Participants",
       "students-sco": "Élèves",
       "students-sup": "Étudiants",
       "team": "Équipe",
@@ -646,6 +647,17 @@
           "default": "Le service est momentanément indisponible. Veuillez réessayer ultérieurement.",
           "email-already-exists": "Cette adresse e-mail est déjà enregistrée, connectez-vous."
         }
+      }
+    },
+    "organization-participants": {
+      "title": "Participants",
+      "table": {
+        "column": {
+          "first-name": "Prénom",
+          "last-name": "Nom"
+        },
+        "empty": "Aucun participant",
+        "row-title": "Participant"
       }
     },
     "preselect-target-profile": {

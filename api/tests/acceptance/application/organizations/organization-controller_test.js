@@ -1,4 +1,5 @@
-const _ = require('lodash');
+const _map = require('lodash/map');
+const _omit = require('lodash/omit');
 const dragonLogo = require('../../../../db/seeds/src/dragonAndCoBase64');
 
 const {
@@ -392,7 +393,7 @@ describe('Acceptance | Application | organization-controller', function () {
       organizationId = databaseBuilder.factory.buildOrganization({}).id;
       databaseBuilder.factory.buildMembership({ organizationId, userId });
       otherOrganizationId = databaseBuilder.factory.buildOrganization({}).id;
-      campaignsData = _.map(
+      campaignsData = _map(
         [
           { name: 'Quand Peigne numba one', code: 'ATDGRK343', organizationId },
           { name: 'Quand Peigne numba two', code: 'KFCTSU984', organizationId },
@@ -473,8 +474,8 @@ describe('Acceptance | Application | organization-controller', function () {
         expect(response.statusCode).to.equal(200);
         const campaigns = response.result.data;
         expect(campaigns).to.have.lengthOf(2);
-        expect(_.map(campaigns, 'attributes.name')).to.have.members([campaignsData[0].name, campaignsData[1].name]);
-        expect(_.map(campaigns, 'attributes.code')).to.have.members([campaignsData[0].code, campaignsData[1].code]);
+        expect(_map(campaigns, 'attributes.name')).to.have.members([campaignsData[0].name, campaignsData[1].name]);
+        expect(_map(campaigns, 'attributes.code')).to.have.members([campaignsData[0].code, campaignsData[1].code]);
       });
 
       it('should return campaigns with its owner', async function () {
@@ -1089,10 +1090,10 @@ describe('Acceptance | Application | organization-controller', function () {
         expect(response.statusCode).to.equal(201);
         expect(response.result.data.length).equal(2);
         expect(
-          _.omit(response.result.data[0], 'id', 'attributes.updated-at', 'attributes.organization-name')
+          _omit(response.result.data[0], 'id', 'attributes.updated-at', 'attributes.organization-name')
         ).to.deep.equal(expectedResults[0]);
         expect(
-          _.omit(response.result.data[1], 'id', 'attributes.updated-at', 'attributes.organization-name')
+          _omit(response.result.data[1], 'id', 'attributes.updated-at', 'attributes.organization-name')
         ).to.deep.equal(expectedResults[1]);
       });
     });
@@ -1210,7 +1211,7 @@ describe('Acceptance | Application | organization-controller', function () {
 
         // then
         expect(response.statusCode).to.equal(200);
-        const omittedResult = _.omit(
+        const omittedResult = _omit(
           response.result,
           'data[0].id',
           'data[0].attributes.organization-name',
@@ -1399,7 +1400,7 @@ describe('Acceptance | Application | organization-controller', function () {
       expect(response.statusCode).to.equal(201);
       const targetProfileShares = await knex('target-profile-shares').where({ organizationId });
       expect(targetProfileShares).to.have.lengthOf(2);
-      expect(_.map(targetProfileShares, 'targetProfileId')).to.have.members([targetProfileId1, targetProfileId2]);
+      expect(_map(targetProfileShares, 'targetProfileId')).to.have.members([targetProfileId1, targetProfileId2]);
     });
 
     it('should return a 404 error and insert none of the target profiles', async function () {
@@ -1699,6 +1700,34 @@ describe('Acceptance | Application | organization-controller', function () {
       const request = {
         method: 'GET',
         url: '/api/organizations/' + organization.id + '/divisions',
+        headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
+      };
+
+      // when
+      const response = await server.inject(request);
+
+      // then
+      expect(response.statusCode).to.equal(200);
+    });
+  });
+
+  describe('GET /api/organizations/{organizationId}/participants', function () {
+    it('should return the participants', async function () {
+      // given
+      const organizationId = databaseBuilder.factory.buildOrganization().id;
+      const organizationLearnersId = databaseBuilder.factory.buildOrganizationLearner({ organizationId });
+      databaseBuilder.factory.buildCampaignParticipation({ organizationLearnersId });
+      const userId = databaseBuilder.factory.buildUser().id;
+      databaseBuilder.factory.buildMembership({
+        userId,
+        organizationId,
+        organizationRole: Membership.roles.ADMIN,
+      });
+      await databaseBuilder.commit();
+
+      const request = {
+        method: 'GET',
+        url: `/api/organizations/${organizationId}/participants`,
         headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
       };
 
