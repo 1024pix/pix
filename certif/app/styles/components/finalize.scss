@@ -20,25 +20,25 @@
 .app-modal-body {
 
   &__attention {
-    color: $grey-100;
+    color: $pix-neutral-100;
     font-weight: 500;
     font-size: 1.2rem;
   }
 
   &__warning {
-    color: $grey-90;
+    color: $pix-neutral-90;
     font-weight: 300;
     font-size: 1em;
   }
 
   &__contextual {
-    border: 2px solid $grey-20;
-    background-color: $grey-20;
+    border: 2px solid $pix-neutral-20;
+    background-color: $pix-neutral-20;
     border-radius: 4px;
     padding: 10px 0;
     font-size: 1rem;
     font-weight: bold;
-    color: $grey-80;
+    color: $pix-neutral-80;
     outline: 0;
   }
 }

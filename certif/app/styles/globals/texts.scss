@@ -1,30 +1,30 @@
 .paragraph {
-  color: $grey-45;
+  color: $pix-neutral-45;
   font-family: $font-open-sans;
   font-size: 0.875rem;
   line-height: 20px;
 }
 
 .one-line-text {
-  color: $grey-45;
+  color: $pix-neutral-45;
   font-family: $font-roboto;
   font-size: 0.75rem;
 }
 
 .label-text {
-  color: $grey-35;
+  color: $pix-neutral-35;
   font-family: $font-roboto;
   font-size: 0.8125rem;
   font-weight: 400;
 }
 
 .content-text {
-  color: $grey-60;
+  color: $pix-neutral-60;
   font-family: $font-roboto;
   font-size: 1rem;
 
   &--bold {
-    color: $grey-80;
+    color: $pix-neutral-80;
     font-weight: 700;
   }
 

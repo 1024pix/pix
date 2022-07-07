@@ -9,12 +9,12 @@
   }
 
   thead {
-    color: $grey-70;
+    color: $pix-neutral-70;
   }
 
   tr {
     height: 60px;
-    border-top: 2px solid $grey-10;
+    border-top: 2px solid $pix-neutral-10;
   }
 
   td,
@@ -46,19 +46,19 @@
   }
 
   tbody {
-    color: $grey-45;
+    color: $pix-neutral-45;
 
     tr:hover,
     tr:focus,
     tr:focus-within,
     tr:active {
-      color: $grey-80;
-      background-color: $grey-10;
+      color: $pix-neutral-80;
+      background-color: $pix-neutral-10;
       transition: 0.25s ease;
     }
 
     tr:hover .checkbox--unchecked {
-      border-color: $grey-40;
+      border-color: $pix-neutral-40;
     }
   }
 
