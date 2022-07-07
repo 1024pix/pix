@@ -7,10 +7,15 @@ import isEmailValid from '../../utils/email-validator';
 export default class AddMember extends Component {
   @service notifications;
   @service store;
+  @service errorResponseHandler;
 
   @tracked email = '';
   @tracked role = 'SUPER_ADMIN';
   @tracked inviteErrorRaised;
+
+  CUSTOM_ERROR_STATUS_MESSAGES = {
+    STATUS_404: "Cet utilisateur n'existe pas.",
+  };
 
   @action
   async inviteMember(event) {
@@ -22,7 +27,8 @@ export default class AddMember extends Component {
 
     const members = this.store.peekAll('admin-member');
     if (members.find((member) => member.email === this.email)) {
-      return this.notifications.error('Cet agent a déjà accès');
+      this.errorResponseHandler.notify('Cet agent a déjà accès');
+      return;
     }
 
     let adminMember;
@@ -35,21 +41,9 @@ export default class AddMember extends Component {
       this.notifications.success(
         `L'agent ${adminMember.firstName} ${adminMember.lastName} a dorénavant accès à Pix Admin`
       );
-    } catch (error) {
+    } catch (errorResponse) {
       this.store.deleteRecord(adminMember);
-      let errorMessage = "Une erreur s'est produite, veuillez réessayer.";
-
-      if (error?.errors?.length) {
-        const { code, detail } = error.errors[0];
-
-        if (code === 'USER_ACCOUNT_NOT_FOUND') {
-          errorMessage = "Cet utilisateur n'existe pas";
-        } else {
-          errorMessage = detail;
-        }
-      }
-
-      this.notifications.error(errorMessage);
+      this.errorResponseHandler.notify(errorResponse, this.CUSTOM_ERROR_STATUS_MESSAGES);
     }
   }
 

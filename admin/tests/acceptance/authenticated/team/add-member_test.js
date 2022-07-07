@@ -80,6 +80,7 @@ module('Acceptance | Team | Add member', function (hooks) {
                 {
                   status: '404',
                   code: 'USER_ACCOUNT_NOT_FOUND',
+                  title: 'User not found',
                 },
               ],
             }
@@ -95,7 +96,7 @@ module('Acceptance | Team | Add member', function (hooks) {
       await click(screen.getByRole('button', { name: 'Donner accès à un agent Pix' }));
 
       // then
-      assert.dom(screen.getByText("Cet utilisateur n'existe pas")).exists();
+      assert.dom(screen.getByText("Cet utilisateur n'existe pas.")).exists();
       assert.dom(screen.getByRole('table', { name: 'Liste des membres' })).doesNotContainText('marie.tim@example.net');
     });
   });

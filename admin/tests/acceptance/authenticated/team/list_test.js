@@ -111,9 +111,16 @@ module('Acceptance | Team | List', function (hooks) {
       this.server.patch(
         '/admin/admin-members/:id',
         () => ({
-          errors: [{ detail: 'Erreur lors de la mise à jour du rôle de cet agent Pix.' }],
+          errors: [
+            {
+              code: 'UPDATE_ADMIN_MEMBER_ERROR',
+              detail: 'A problem occured while trying to update an admin member role',
+              status: '422',
+              title: 'Unprocessable entity',
+            },
+          ],
         }),
-        400
+        422
       );
 
       // when
