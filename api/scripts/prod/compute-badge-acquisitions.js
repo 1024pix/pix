@@ -1,17 +1,25 @@
 require('dotenv').config();
 const _ = require('lodash');
+const bluebird = require('bluebird');
 const { performance } = require('perf_hooks');
 const yargs = require('yargs/yargs');
 const { hideBin } = require('yargs/helpers');
 const { knex, disconnect } = require('../../db/knex-database-connection');
 const CampaignParticipation = require('../../lib/domain/models/CampaignParticipation');
 const logger = require('../../lib/infrastructure/logger');
+const badgeCriteriaService = require('../../lib/domain/services/badge-criteria-service');
+const badgeAcquisitionRepository = require('../../lib/infrastructure/repositories/badge-acquisition-repository');
+const badgeRepository = require('../../lib/infrastructure/repositories/badge-repository');
+const knowledgeElementRepository = require('../../lib/infrastructure/repositories/knowledge-element-repository');
+const targetProfileRepository = require('../../lib/infrastructure/repositories/target-profile-repository');
+const cache = require('../../lib/infrastructure/caches/learning-content-cache');
 
 async function main() {
   const startTime = performance.now();
   logger.info(`Script compute badge acquisitions has started`);
-  const args = _getAllArgs();
-
+  const { idMin, idMax, dryRun } = _getAllArgs();
+  const numberOfCreatedBadges = await computeAllBadgeAcquisitions({ idMin, idMax, dryRun });
+  logger.info(`${numberOfCreatedBadges} badges created`);
   const endTime = performance.now();
   const duration = Math.round(endTime - startTime);
   logger.info(`Script has ended: took ${duration} milliseconds`);
@@ -34,6 +42,26 @@ function _getAllArgs() {
       description: 'permet de lancer le script sans créer les badges manquants',
     })
     .help().argv;
+}
+
+async function computeAllBadgeAcquisitions({ idMin, idMax, dryRun }) {
+  const campaignParticipations = await getCampaignParticipationsBetweenIds({ idMin, idMax });
+  const numberOfBadgeCreatedByCampaignParticipation = await bluebird.mapSeries(
+    campaignParticipations,
+    async (campaignParticipation, index) => {
+      logger.info(`${index}/${campaignParticipations.length}`);
+      return computeBadgeAcquisition({
+        campaignParticipation,
+        dryRun,
+        badgeCriteriaService,
+        badgeAcquisitionRepository,
+        badgeRepository,
+        knowledgeElementRepository,
+        targetProfileRepository,
+      });
+    }
+  );
+  return _.sum(numberOfBadgeCreatedByCampaignParticipation);
 }
 
 async function computeBadgeAcquisition({
@@ -91,8 +119,9 @@ const isLaunchedFromCommandLine = require.main === module;
       process.exitCode = 1;
     } finally {
       await disconnect();
+      cache.quit();
     }
   }
 })();
 
-module.exports = { computeBadgeAcquisition, getCampaignParticipationsBetweenIds };
+module.exports = { computeAllBadgeAcquisitions, computeBadgeAcquisition, getCampaignParticipationsBetweenIds };
