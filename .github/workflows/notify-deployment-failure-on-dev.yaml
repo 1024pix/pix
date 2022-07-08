@@ -1,4 +1,4 @@
-on: check_suite
+on: deployment_status
 jobs:
   check_status:
     runs-on: ubuntu-latest
