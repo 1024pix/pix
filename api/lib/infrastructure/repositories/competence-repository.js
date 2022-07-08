@@ -77,6 +77,13 @@ module.exports = {
       throw err;
     }
   },
+
+  async findByRecordIds({ competenceIds, locale }) {
+    const [competenceDatas, areaDatas] = await Promise.all([competenceDatasource.list(), areaDatasource.list()]);
+    return competenceDatas
+      .filter(({ id }) => competenceIds.includes(id))
+      .map((competenceData) => _toDomain({ competenceData, areaDatas, locale }));
+  },
 };
 
 function _list({ locale }) {

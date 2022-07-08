@@ -1,14 +1,20 @@
 const _ = require('lodash');
+const fp = require('lodash/fp');
 const { knex } = require('../bookshelf');
 const TargetProfileWithLearningContent = require('../../domain/models/TargetProfileWithLearningContent');
 const TargetedSkill = require('../../domain/models/TargetedSkill');
 const TargetedTube = require('../../domain/models/TargetedTube');
+const TargetedThematic = require('../../domain/models/TargetedThematic');
 const TargetedCompetence = require('../../domain/models/TargetedCompetence');
 const TargetedArea = require('../../domain/models/TargetedArea');
 const Badge = require('../../domain/models/Badge');
 const BadgeCriterion = require('../../domain/models/BadgeCriterion');
 const SkillSet = require('../../domain/models/SkillSet');
 const Stage = require('../../domain/models/Stage');
+const tubeRepository = require('./tube-repository');
+const competenceRepository = require('./competence-repository');
+const thematicRepository = require('./thematic-repository');
+const challengeRepository = require('./challenge-repository');
 const skillDatasource = require('../datasources/learning-content/skill-datasource');
 const tubeDatasource = require('../datasources/learning-content/tube-datasource');
 const competenceDatasource = require('../datasources/learning-content/competence-datasource');
@@ -89,6 +95,8 @@ async function _toDomain({ targetProfile, targetProfileTubes, targetProfileSkill
       })
   );
 
+  const tubesSelectionAreas = await _getTubesSelectionTargetedLearningContent(tubesSelection, locale);
+
   return new TargetProfileWithLearningContent({
     id: targetProfile.id,
     name: targetProfile.name,
@@ -102,6 +110,7 @@ async function _toDomain({ targetProfile, targetProfileTubes, targetProfileSkill
     category: targetProfile.category,
     isSimplifiedAccess: targetProfile.isSimplifiedAccess,
     tubesSelection,
+    tubesSelectionAreas,
     skills,
     tubes,
     competences,
@@ -110,6 +119,84 @@ async function _toDomain({ targetProfile, targetProfileTubes, targetProfileSkill
     stages,
   });
 }
+
+async function _getTubesSelectionTargetedLearningContent(tubesSelection, locale) {
+  const tubeIds = tubesSelection.map(({ id }) => id);
+  const tubes = await tubeRepository.findActiveByRecordIds(tubeIds, locale);
+
+  const competenceIds = tubes.map(({ competenceId }) => competenceId);
+  const competences = await competenceRepository.findByRecordIds({ competenceIds, locale });
+
+  const thematics = await thematicRepository.findByCompetenceIds(competenceIds, locale);
+
+  const challenges = await challengeRepository.findValidatedPrototype();
+
+  const tubeLevels = Object.fromEntries(tubesSelection.map(({ id, level }) => [id, level]));
+
+  return _competencesToTargetedAreas({ competences, thematics, tubes, challenges, tubeLevels });
+}
+
+const _competencesToTargetedAreas = ({ competences, thematics, tubes, challenges, tubeLevels }) =>
+  fp.flow(
+    fp.map('area'),
+    fp.sortBy(['code', 'id']),
+    fp.sortedUniqBy('id'),
+    fp.map((area) => {
+      const targetedArea = new TargetedArea(area);
+      targetedArea.competences = _areaCompetencesToTargetedCompetences({
+        area,
+        competences,
+        thematics,
+        tubes,
+        challenges,
+        tubeLevels,
+      });
+      return targetedArea;
+    })
+  )(competences);
+
+const _areaCompetencesToTargetedCompetences = ({ area, competences, thematics, tubes, challenges, tubeLevels }) =>
+  fp.flow(
+    fp.filter(['area.id', area.id]),
+    fp.sortBy(['index']),
+    fp.map((competence) => {
+      const targetedCompetence = new TargetedCompetence({ ...competence, areaId: area.id });
+      targetedCompetence.thematics = _competenceThematicsToTargetedThematics({
+        competence,
+        thematics,
+        tubes,
+        challenges,
+        tubeLevels,
+      });
+      return targetedCompetence;
+    })
+  )(competences);
+
+const _competenceThematicsToTargetedThematics = ({ competence, thematics, tubes, challenges, tubeLevels }) =>
+  fp.flow(
+    fp.filter((thematic) => competence.thematicIds.includes(thematic.id)),
+    fp.sortBy(['index']),
+    fp.map((thematic) => {
+      const targetedThematic = new TargetedThematic(thematic);
+      targetedThematic.tubes = _thematicTubesToTargetedTubes({ thematic, tubes, challenges, tubeLevels });
+      return targetedThematic;
+    })
+  )(thematics);
+
+const _thematicTubesToTargetedTubes = ({ thematic, tubes, challenges, tubeLevels }) =>
+  fp.flow(
+    fp.filter((tube) => thematic.tubeIds.includes(tube.id)),
+    fp.map(
+      (tube) =>
+        new TargetedTube({
+          id: tube.id,
+          practicalTitle: tube.practicalTitle,
+          practicalDescription: tube.practicalDescription,
+          level: tubeLevels[tube.id],
+          challenges: challenges.filter((challenge) => challenge.skill.tubeId === tube.id),
+        })
+    )
+  )(tubes);
 
 async function _getTargetedLearningContent(skillIds, locale) {
   const skills = await _findTargetedSkills(skillIds);
