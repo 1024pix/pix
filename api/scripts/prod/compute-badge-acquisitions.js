@@ -14,11 +14,14 @@ const knowledgeElementRepository = require('../../lib/infrastructure/repositorie
 const targetProfileRepository = require('../../lib/infrastructure/repositories/target-profile-repository');
 const cache = require('../../lib/infrastructure/caches/learning-content-cache');
 
+const MAX_RANGE_SIZE = 100_000;
+
 async function main() {
   const startTime = performance.now();
   logger.info(`Script compute badge acquisitions has started`);
   const { idMin, idMax, dryRun } = _getAllArgs();
-  const numberOfCreatedBadges = await computeAllBadgeAcquisitions({ idMin, idMax, dryRun });
+  const range = normalizeRange({ idMin, idMax });
+  const numberOfCreatedBadges = await computeAllBadgeAcquisitions({ ...range, dryRun });
   logger.info(`${numberOfCreatedBadges} badges created`);
   const endTime = performance.now();
   const duration = Math.round(endTime - startTime);
@@ -42,6 +45,16 @@ function _getAllArgs() {
       description: 'permet de lancer le script sans créer les badges manquants',
     })
     .help().argv;
+}
+
+function normalizeRange({ idMin, idMax }) {
+  const rangeSize = idMax - idMin;
+  if (rangeSize > MAX_RANGE_SIZE) {
+    const newIdMax = idMin + MAX_RANGE_SIZE;
+    logger.info(`Max range size exceeded : new idMax is ${newIdMax}`);
+    return { idMin, idMax: newIdMax };
+  }
+  return { idMin, idMax };
 }
 
 async function computeAllBadgeAcquisitions({ idMin, idMax, dryRun }) {
@@ -124,4 +137,9 @@ const isLaunchedFromCommandLine = require.main === module;
   }
 })();
 
-module.exports = { computeAllBadgeAcquisitions, computeBadgeAcquisition, getCampaignParticipationsBetweenIds };
+module.exports = {
+  normalizeRange,
+  computeAllBadgeAcquisitions,
+  computeBadgeAcquisition,
+  getCampaignParticipationsBetweenIds,
+};
