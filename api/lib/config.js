@@ -168,7 +168,9 @@ module.exports = (function () {
       redisCacheKeyLockTTL: parseInt(process.env.REDIS_CACHE_KEY_LOCK_TTL, 10) || 60000,
       redisCacheLockedWaitBeforeRetry: parseInt(process.env.REDIS_CACHE_LOCKED_WAIT_BEFORE_RETRY, 10) || 1000,
     },
-
+    pgBoss: {
+      connexionPoolMaxSize: parseInt(process.env.PGBOSS_CONNECTION_POOL_MAX_SIZE, 10) || 2,
+    },
     features: {
       dayBeforeImproving: _getNumber(process.env.DAY_BEFORE_IMPROVING, 4),
       dayBeforeRetrying: _getNumber(process.env.DAY_BEFORE_RETRYING, 4),
