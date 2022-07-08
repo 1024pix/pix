@@ -1,6 +1,6 @@
 on:
-  check_suite:
-    types: [completed]
+  check_run:
+    types: [created, rerequested, completed, requested_action]
 
 jobs:
   check_status:
