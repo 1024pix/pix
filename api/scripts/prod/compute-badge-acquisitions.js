@@ -38,12 +38,13 @@ function _getAllArgs() {
 
 async function computeBadgeAcquisition({
   campaignParticipation,
+  dryRun = false,
   badgeCriteriaService,
   badgeAcquisitionRepository,
   badgeRepository,
   knowledgeElementRepository,
   targetProfileRepository,
-}) {
+} = {}) {
   const associatedBadges = await _fetchPossibleCampaignAssociatedBadges(campaignParticipation, badgeRepository);
   if (_.isEmpty(associatedBadges)) {
     return 0;
@@ -63,7 +64,7 @@ async function computeBadgeAcquisition({
     };
   });
 
-  if (!_.isEmpty(badgesAcquisitionToCreate)) {
+  if (!_.isEmpty(badgesAcquisitionToCreate) && !dryRun) {
     await badgeAcquisitionRepository.createOrUpdate(badgesAcquisitionToCreate);
   }
 

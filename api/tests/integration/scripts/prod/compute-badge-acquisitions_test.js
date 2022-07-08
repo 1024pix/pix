@@ -242,6 +242,56 @@ describe('Script | Prod | Compute Badge Acquisitions', function () {
         expect(numberOfCreatedBadges).to.equal(0);
       });
     });
+
+    context('when dry-run option is provided', function () {
+      let badge;
+      let targetProfile;
+      let knowledgeElements;
+      let badgeId;
+
+      beforeEach(function () {
+        badgeId = Symbol('badgeId');
+        targetProfile = Symbol('targetProfile');
+        knowledgeElements = Symbol('knowledgeElements');
+
+        sinon.stub(badgeRepository, 'findByCampaignParticipationId');
+        badge = {
+          id: badgeId,
+          badgeCriteria: Symbol('badgeCriteria'),
+        };
+        badgeRepository.findByCampaignParticipationId.withArgs(campaignParticipation.id).resolves([badge]);
+
+        sinon.stub(targetProfileRepository, 'getByCampaignParticipationId');
+        targetProfileRepository.getByCampaignParticipationId.withArgs(campaignParticipation.id).resolves(targetProfile);
+
+        sinon.stub(knowledgeElementRepository, 'findUniqByUserId');
+        knowledgeElementRepository.findUniqByUserId
+          .withArgs({ userId: campaignParticipation.userId })
+          .resolves(knowledgeElements);
+        sinon.stub(badgeCriteriaService, 'areBadgeCriteriaFulfilled');
+        sinon.stub(badgeAcquisitionRepository, 'createOrUpdate');
+      });
+
+      context('when badge requirements are fulfilled and return number of badge created', function () {
+        it('should not create a badge but should return number of supposedly created badges', async function () {
+          // given
+          badgeCriteriaService.areBadgeCriteriaFulfilled
+            .withArgs({ targetProfile, knowledgeElements, badge })
+            .returns(true);
+
+          // when
+          const numberOfSupposedlyCreatedBadges = await computeBadgeAcquisition({
+            campaignParticipation,
+            dryRun: true,
+            ...dependencies,
+          });
+
+          // then
+          expect(badgeAcquisitionRepository.createOrUpdate).to.have.not.been.called;
+          expect(numberOfSupposedlyCreatedBadges).to.equal(1);
+        });
+      });
+    });
   });
 
   describe('Integration | #computeBadgeAcquisition', function () {
