@@ -1,7 +1,7 @@
 const { Serializer } = require('jsonapi-serializer');
 
 module.exports = {
-  serialize(targetProfiles, meta) {
+  serialize(targetProfiles) {
     return new Serializer('target-profile', {
       attributes: [
         'name',
@@ -21,7 +21,32 @@ module.exports = {
         'category',
         'isSimplifiedAccess',
         'tubesSelection',
+        'tubesSelectionAreas',
       ],
+      typeForAttribute(attribute) {
+        if (attribute === 'tubesSelectionAreas') return 'areas';
+        return undefined;
+      },
+      tubesSelectionAreas: {
+        ref: 'id',
+        included: true,
+        attributes: ['title', 'color', 'code', 'competences'],
+        competences: {
+          ref: 'id',
+          included: true,
+          attributes: ['name', 'index', 'thematics'],
+          thematics: {
+            ref: 'id',
+            included: true,
+            attributes: ['name', 'index', 'tubes'],
+            tubes: {
+              ref: 'id',
+              included: true,
+              attributes: ['practicalTitle', 'practicalDescription', 'level', 'mobile', 'tablet'],
+            },
+          },
+        },
+      },
       skills: {
         ref: 'id',
         included: true,
@@ -62,7 +87,6 @@ module.exports = {
           },
         },
       },
-      meta,
     }).serialize(targetProfiles);
   },
 };

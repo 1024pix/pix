@@ -136,12 +136,14 @@ describe('Integration | Domain | Use Cases | start-writing-campaign-assessment-r
             origin: 'Pix',
           },
         ],
+        thematics: [],
         tubes: [{ id: 'recTube1', competenceId: 'recCompetence1' }],
         skills: [
           { id: 'recSkillWeb1', name: '@web1', tubeId: 'recTube1', status: 'actif', competenceId: 'recCompetence1' },
           { id: 'recSkillWeb2', name: '@web2', tubeId: 'recTube1', status: 'actif', competenceId: 'recCompetence1' },
           { id: 'recSkillWeb3', name: '@web3', tubeId: 'recTube1', status: 'actif', competenceId: 'recCompetence1' },
         ],
+        challenges: [],
       };
 
       mockLearningContent(learningContent);

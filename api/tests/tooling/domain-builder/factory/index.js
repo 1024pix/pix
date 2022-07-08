@@ -111,6 +111,7 @@ module.exports = {
   buildTargetedArea: require('./build-targeted-area'),
   buildTargetedCompetence: require('./build-targeted-competence'),
   buildTargetedSkill: require('./build-targeted-skill'),
+  buildTargetedThematic: require('./build-targeted-thematic'),
   buildTargetedTube: require('./build-targeted-tube'),
   buildTargetProfile: require('./build-target-profile'),
   buildOrganizationsToAttachToTargetProfile: require('./build-organizations-to-attach-to-target-profile'),

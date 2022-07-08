@@ -24,6 +24,7 @@ describe('Acceptance | Controller | target-profile-controller', function () {
         origin: 'Pix',
       },
     ],
+    thematics: [],
     tubes: [
       {
         id: 'recArea1_Competence1_Tube1',
