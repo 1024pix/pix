@@ -1,3 +1,6 @@
+---
+title: Tests
+---
 ## Introduction
 Ce document rassemble les pratiques constatées et faisant consensus, afin de faciliter le développement, et notamment les revues de code.
 Son but n'est pas d'imposer une pratique, mais de capitaliser les bonnes pratiques. 

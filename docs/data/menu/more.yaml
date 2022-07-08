@@ -1,0 +1,10 @@
+---
+more:
+  - name: sources
+    ref: "https://github.com/1024pix/pix"
+    external: true
+    icon: "gdoc_github"
+  - name: Pix ui 
+    ref: "https://ui.pix.fr/?path=/story/utiliser-pix-ui-installation--page"
+    external: true
+    icon: "gdoc_website"

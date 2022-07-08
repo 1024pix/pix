@@ -1,4 +1,6 @@
-# Use-case
+---
+title: Use-case
+---
 
 ## Définition
 

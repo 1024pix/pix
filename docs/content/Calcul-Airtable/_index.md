@@ -1,6 +1,8 @@
-# Calcul des Pix dans Airtable
+---
+title: Calcul des Pix dans Airtable
+---
 
-# Règle de calcul des Pix
+## Règle de calcul des Pix
 
 Rappel de la règle de calcul :
 
@@ -14,7 +16,7 @@ Rappel de la règle de calcul :
         2.  et de même niveau.
     2.  On divise 8 par ce nombre pour obtenir la valeur en Pix ; si le résultat est supérieur à 4 la valeur est limitée à 4.
 
-# Ajouter les champs de calcul des Pix
+## Ajouter les champs de calcul des Pix
 
 Rappel : la hiérarchie d'objets concernée est la suivante :
 

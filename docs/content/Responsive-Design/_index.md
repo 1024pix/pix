@@ -1,4 +1,6 @@
-# Responsive Design
+---
+title: Responsive Design
+---
 
 ## Dimensionnement
 

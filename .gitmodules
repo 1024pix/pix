@@ -1,0 +1,3 @@
+[submodule "docs/themes/hugo-geekdoc"]
+	path = docs/themes/hugo-geekdoc
+	url = https://github.com/thegeeklab/hugo-geekdoc.git

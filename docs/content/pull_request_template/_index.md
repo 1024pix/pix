@@ -1,3 +1,7 @@
+---
+title:  Pull request template
+---
+
 ## :unicorn: Problème
 > _Décrivez ici le besoin ou l'intention couvert par cette Pull Request._
 

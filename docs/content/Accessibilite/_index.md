@@ -1,4 +1,6 @@
-# Accessibilité
+---
+title: Accessibilité
+---
 
 ## Vérifier l'accessibilité d'un site
 

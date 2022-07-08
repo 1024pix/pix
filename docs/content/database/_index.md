@@ -1,4 +1,6 @@
-# Conventions
+---
+title: Base de données
+---
 
 Ces conventions sont vérifiées dans la tâche de `lint` de l'API.
 

@@ -1,4 +1,6 @@
-# Classes CSS
+---
+title: Classes CSS
+---
 
 ## Conventions de nommage
 

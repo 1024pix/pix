@@ -1,4 +1,6 @@
-# Anatomie de la plateforme
+---
+title: Anatomie de la plateforme
+---
 
 ## Organisation générale du code
 
