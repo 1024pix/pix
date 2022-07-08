@@ -58,28 +58,6 @@ module.exports = {
       });
   },
 
-  async getUserWithPixAuthenticationMethodByUsername(username) {
-    const normalizeUsername = username.toLowerCase().trim();
-    const foundUser = await knex
-      .select('users.id as userId', 'authentication-methods.*')
-      .from('users')
-      .join('authentication-methods', 'authentication-methods.userId', 'users.id')
-      .where((queryBuilder) => {
-        queryBuilder.where({ username: normalizeUsername }).orWhere({ email: normalizeUsername });
-      })
-      .andWhere('authentication-methods.identityProvider', '=', AuthenticationMethod.identityProviders.PIX)
-      .first();
-    if (!foundUser) {
-      throw new UserNotFoundError();
-    }
-    const authenticationMethod = AuthenticationMethod.buildPixAuthenticationMethod({
-      userId: foundUser.userId,
-      password: foundUser.authenticationComplement.password,
-      shouldChangePassword: foundUser.authenticationComplement.shouldChangePassword,
-    });
-    return new User({ id: foundUser.userId, authenticationMethods: [authenticationMethod] });
-  },
-
   /**
    * @deprecated Use getById instead
    */
