@@ -114,7 +114,7 @@
     }
   },
   "scripts": {
-    "clean": "rm -rf node_modules",
+    "clean": "rm -rf node_modules"
     "cache:refresh": "node scripts/refresh-cache",
     "db:new-migration": "npx knex --knexfile db/knexfile.js migrate:make $migrationname",
     "db:create": "node scripts/database/create-database",
