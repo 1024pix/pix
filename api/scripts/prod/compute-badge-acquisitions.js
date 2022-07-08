@@ -46,7 +46,7 @@ async function computeBadgeAcquisition({
 }) {
   const associatedBadges = await _fetchPossibleCampaignAssociatedBadges(campaignParticipation, badgeRepository);
   if (_.isEmpty(associatedBadges)) {
-    return;
+    return 0;
   }
   const targetProfile = await targetProfileRepository.getByCampaignParticipationId(campaignParticipation.id);
   const knowledgeElements = await knowledgeElementRepository.findUniqByUserId({ userId: campaignParticipation.userId });
@@ -66,6 +66,8 @@ async function computeBadgeAcquisition({
   if (!_.isEmpty(badgesAcquisitionToCreate)) {
     await badgeAcquisitionRepository.createOrUpdate(badgesAcquisitionToCreate);
   }
+
+  return badgesAcquisitionToCreate.length;
 }
 
 function _fetchPossibleCampaignAssociatedBadges(campaignParticipation, badgeRepository) {

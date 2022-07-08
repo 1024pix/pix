@@ -104,14 +104,14 @@ describe('Script | Prod | Compute Badge Acquisitions', function () {
         sinon.stub(badgeAcquisitionRepository, 'createOrUpdate');
       });
 
-      it('should create a badge when badge requirements are fulfilled', async function () {
+      it('should create a badge when badge requirements are fulfilled and return number of badge created', async function () {
         // given
         badgeCriteriaService.areBadgeCriteriaFulfilled
           .withArgs({ targetProfile, knowledgeElements, badge })
           .returns(true);
 
         // when
-        await computeBadgeAcquisition({ campaignParticipation, ...dependencies });
+        const numberOfCreatedBadges = await computeBadgeAcquisition({ campaignParticipation, ...dependencies });
 
         // then
         expect(badgeAcquisitionRepository.createOrUpdate).to.have.been.calledWithExactly([
@@ -121,6 +121,7 @@ describe('Script | Prod | Compute Badge Acquisitions', function () {
             campaignParticipationId: campaignParticipation.id,
           },
         ]);
+        expect(numberOfCreatedBadges).to.equal(1);
       });
 
       it('should not create a badge when badge requirements are not fulfilled', async function () {
@@ -130,10 +131,11 @@ describe('Script | Prod | Compute Badge Acquisitions', function () {
           .returns(false);
 
         // when
-        await computeBadgeAcquisition({ campaignParticipation, ...dependencies });
+        const numberOfCreatedBadges = await computeBadgeAcquisition({ campaignParticipation, ...dependencies });
 
         // then
         expect(badgeAcquisitionRepository.createOrUpdate).to.not.have.been.called;
+        expect(numberOfCreatedBadges).to.equal(0);
       });
     });
 
@@ -182,7 +184,7 @@ describe('Script | Prod | Compute Badge Acquisitions', function () {
           .returns(false);
 
         // when
-        await computeBadgeAcquisition({ campaignParticipation, ...dependencies });
+        const numberOfCreatedBadges = await computeBadgeAcquisition({ campaignParticipation, ...dependencies });
 
         // then
         expect(badgeAcquisitionRepository.createOrUpdate).to.have.been.calledWithExactly([
@@ -192,6 +194,7 @@ describe('Script | Prod | Compute Badge Acquisitions', function () {
             campaignParticipationId: campaignParticipation.id,
           },
         ]);
+        expect(numberOfCreatedBadges).to.equal(1);
       });
 
       it('should create two badges when both badges requirements are fulfilled', async function () {
@@ -204,7 +207,7 @@ describe('Script | Prod | Compute Badge Acquisitions', function () {
           .returns(true);
 
         // when
-        await computeBadgeAcquisition({ campaignParticipation, ...dependencies });
+        const numberOfCreatedBadges = await computeBadgeAcquisition({ campaignParticipation, ...dependencies });
 
         // then
         expect(badgeAcquisitionRepository.createOrUpdate).to.have.been.calledWithExactly([
@@ -219,6 +222,7 @@ describe('Script | Prod | Compute Badge Acquisitions', function () {
             campaignParticipationId: campaignParticipation.id,
           },
         ]);
+        expect(numberOfCreatedBadges).to.equal(2);
       });
     });
 
@@ -231,10 +235,11 @@ describe('Script | Prod | Compute Badge Acquisitions', function () {
         sinon.stub(badgeAcquisitionRepository, 'createOrUpdate');
 
         // when
-        await computeBadgeAcquisition({ campaignParticipation, ...dependencies });
+        const numberOfCreatedBadges = await computeBadgeAcquisition({ campaignParticipation, ...dependencies });
 
         // then
         expect(badgeAcquisitionRepository.createOrUpdate).to.not.have.been.called;
+        expect(numberOfCreatedBadges).to.equal(0);
       });
     });
   });
@@ -342,7 +347,7 @@ describe('Script | Prod | Compute Badge Acquisitions', function () {
 
     it('should save only the validated badges', async function () {
       // when
-      await computeBadgeAcquisition({
+      const numberOfCreatedBadges = await computeBadgeAcquisition({
         campaignParticipation,
         badgeCriteriaService,
         badgeAcquisitionRepository,
@@ -356,6 +361,7 @@ describe('Script | Prod | Compute Badge Acquisitions', function () {
       expect(badgeAcquisitions.length).to.equal(1);
       expect(badgeAcquisitions[0].userId).to.equal(userId);
       expect(badgeAcquisitions[0].badgeId).to.equal(badgeCompleted.id);
+      expect(numberOfCreatedBadges).to.equal(1);
     });
   });
 });
