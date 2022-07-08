@@ -1,11 +1,11 @@
 require('dotenv').config();
+const _ = require('lodash');
 const { performance } = require('perf_hooks');
-const logger = require('../../lib/infrastructure/logger');
-const { disconnect } = require('../../db/knex-database-connection');
 const yargs = require('yargs/yargs');
 const { hideBin } = require('yargs/helpers');
-const { knex } = require('../../db/knex-database-connection');
+const { knex, disconnect } = require('../../db/knex-database-connection');
 const CampaignParticipation = require('../../lib/domain/models/CampaignParticipation');
+const logger = require('../../lib/infrastructure/logger');
 
 async function main() {
   const startTime = performance.now();
@@ -36,6 +36,42 @@ function _getAllArgs() {
     .help().argv;
 }
 
+async function computeBadgeAcquisition({
+  campaignParticipation,
+  badgeCriteriaService,
+  badgeAcquisitionRepository,
+  badgeRepository,
+  knowledgeElementRepository,
+  targetProfileRepository,
+}) {
+  const associatedBadges = await _fetchPossibleCampaignAssociatedBadges(campaignParticipation, badgeRepository);
+  if (_.isEmpty(associatedBadges)) {
+    return;
+  }
+  const targetProfile = await targetProfileRepository.getByCampaignParticipationId(campaignParticipation.id);
+  const knowledgeElements = await knowledgeElementRepository.findUniqByUserId({ userId: campaignParticipation.userId });
+
+  const validatedBadgesByUser = associatedBadges.filter((badge) =>
+    badgeCriteriaService.areBadgeCriteriaFulfilled({ knowledgeElements, targetProfile, badge })
+  );
+
+  const badgesAcquisitionToCreate = validatedBadgesByUser.map((badge) => {
+    return {
+      badgeId: badge.id,
+      userId: campaignParticipation.userId,
+      campaignParticipationId: campaignParticipation.id,
+    };
+  });
+
+  if (!_.isEmpty(badgesAcquisitionToCreate)) {
+    await badgeAcquisitionRepository.createOrUpdate(badgesAcquisitionToCreate);
+  }
+}
+
+function _fetchPossibleCampaignAssociatedBadges(campaignParticipation, badgeRepository) {
+  return badgeRepository.findByCampaignParticipationId(campaignParticipation.id);
+}
+
 async function getCampaignParticipationsBetweenIds({ idMin, idMax }) {
   const campaignParticipations = await knex('campaign-participations').whereBetween('id', [idMin, idMax]);
   return campaignParticipations.map((campaignParticipation) => new CampaignParticipation(campaignParticipation));
@@ -56,4 +92,4 @@ const isLaunchedFromCommandLine = require.main === module;
   }
 })();
 
-module.exports = { getCampaignParticipationsBetweenIds };
+module.exports = { computeBadgeAcquisition, getCampaignParticipationsBetweenIds };
