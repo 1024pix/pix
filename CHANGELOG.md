@@ -1,5 +1,22 @@
 # Pix Changelog
 
+## v3.231.0 (08/07/2022)
+
+
+### :rocket: Amélioration
+- [#4541](https://github.com/1024pix/pix/pull/4541) [FEATURE] Ajout de la page participants sur PixOrga (PIX-5120).
+- [#4630](https://github.com/1024pix/pix/pull/4630) [FEATURE] Ajouter le bouton de filtre sur Pix App (PIX-4930)
+- [#4624](https://github.com/1024pix/pix/pull/4624) [FEATURE] Supprimer la catégorie "A2 - Autres" dans la modale de signalements  (PIX-5282)
+- [#4604](https://github.com/1024pix/pix/pull/4604) [FEATURE] Ajouter un endpoint permettant de télécharger un export XML pour le CPF (PIX-5260)
+
+### :building_construction: Tech
+- [#4614](https://github.com/1024pix/pix/pull/4614) [TECH] Eviter les injections implicites dans les routes de Pix App (PIX-5270).
+- [#4617](https://github.com/1024pix/pix/pull/4617) [TECH] Utiliser la bonne route avec les bons droits d'accès pour la dissociation des schoolings registrations (PIX-5217)
+- [#4625](https://github.com/1024pix/pix/pull/4625) [TECH] Remplacer moment par dayjs dans Pix Admin (PIX-5297)
+
+### :bug: Correction
+- [#4619](https://github.com/1024pix/pix/pull/4619) [BUGFIX] Uniformisation du wording sur la modale de mise à jour de résolution (PIX-5276).
+
 ## v3.230.0 (06/07/2022)
 
 
