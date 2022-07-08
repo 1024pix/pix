@@ -4,6 +4,8 @@ const logger = require('../../lib/infrastructure/logger');
 const { disconnect } = require('../../db/knex-database-connection');
 const yargs = require('yargs/yargs');
 const { hideBin } = require('yargs/helpers');
+const { knex } = require('../../db/knex-database-connection');
+const CampaignParticipation = require('../../lib/domain/models/CampaignParticipation');
 
 async function main() {
   const startTime = performance.now();
@@ -34,6 +36,11 @@ function _getAllArgs() {
     .help().argv;
 }
 
+async function getCampaignParticipationsBetweenIds({ idMin, idMax }) {
+  const campaignParticipations = await knex('campaign-participations').whereBetween('id', [idMin, idMax]);
+  return campaignParticipations.map((campaignParticipation) => new CampaignParticipation(campaignParticipation));
+}
+
 const isLaunchedFromCommandLine = require.main === module;
 
 (async () => {
@@ -49,4 +56,4 @@ const isLaunchedFromCommandLine = require.main === module;
   }
 })();
 
-module.exports = {};
+module.exports = { getCampaignParticipationsBetweenIds };
