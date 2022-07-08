@@ -1,0 +1,9 @@
+on: check_suite
+jobs:
+  check_status:
+    runs-on: ubuntu-latest
+    steps:
+      - env:
+          DESCRIPTION: ${{ github.event.description }}
+        run: |
+          echo $DESCRIPTION
