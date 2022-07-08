@@ -1,4 +1,4 @@
-on: deployment_status
+on: push
 jobs:
   check_status:
     runs-on: ubuntu-latest
