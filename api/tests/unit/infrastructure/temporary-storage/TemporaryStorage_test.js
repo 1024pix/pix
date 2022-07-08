@@ -68,16 +68,20 @@ describe('Unit | Infrastructure | temporary-storage | TemporaryStorage', functio
     it('should return a wrapper that adds a prefix to all methods', async function () {
       // given
       const store = {};
+
       class TestStorage extends TemporaryStorage {
         async save({ key, value }) {
           store[key] = value;
         }
+
         async get(key) {
           return store[key];
         }
+
         async delete(key) {
           delete store[key];
         }
+
         async deleteByPrefix(prefix) {
           for (const key in store) {
             if (key.startsWith(prefix)) {
@@ -86,6 +90,7 @@ describe('Unit | Infrastructure | temporary-storage | TemporaryStorage', functio
           }
         }
       }
+
       const storage = new TestStorage().withPrefix('a-prefix:');
 
       // when & then
@@ -117,6 +122,19 @@ describe('Unit | Infrastructure | temporary-storage | TemporaryStorage', functio
 
       // then
       expect(result).to.be.rejected;
+    });
+  });
+
+  describe('#quit', function () {
+    it('should throw an error (because this class actually mocks an interface)', function () {
+      // given
+      const temporaryStorageInstance = new TemporaryStorage();
+
+      // when
+      const call = () => temporaryStorageInstance.quit();
+
+      // then
+      expect(call).to.throw();
     });
   });
 });
