@@ -7,6 +7,7 @@ const {
   knex,
 } = require('../../../test-helper');
 const {
+  normalizeRange,
   computeAllBadgeAcquisitions,
   computeBadgeAcquisition,
   getCampaignParticipationsBetweenIds,
@@ -14,12 +15,44 @@ const {
 const _ = require('lodash');
 const CampaignParticipation = require('../../../../lib/domain/models/CampaignParticipation');
 const badgeCriteriaService = require('../../../../lib/domain/services/badge-criteria-service');
+const logger = require('../../../../lib/infrastructure/logger');
 const badgeAcquisitionRepository = require('../../../../lib/infrastructure/repositories/badge-acquisition-repository');
 const badgeRepository = require('../../../../lib/infrastructure/repositories/badge-repository');
 const knowledgeElementRepository = require('../../../../lib/infrastructure/repositories/knowledge-element-repository');
 const targetProfileRepository = require('../../../../lib/infrastructure/repositories/target-profile-repository');
 
 describe('Script | Prod | Compute Badge Acquisitions', function () {
+  describe('#validateRange', function () {
+    it('should truncate idMax when is superior to MAX_RANGE_SIZE', function () {
+      // given
+      sinon.stub(logger, 'info').returns();
+      const range = {
+        idMin: 0,
+        idMax: 1_000_000,
+      };
+
+      // when
+      const normalizedRange = normalizeRange(range);
+
+      // then
+      expect(normalizedRange).to.deep.equal({ idMin: 0, idMax: 100_000 });
+    });
+
+    it('should not truncate range when it is below MAX_RANGE_SIZE', function () {
+      // given
+      const range = {
+        idMin: 0,
+        idMax: 9000,
+      };
+
+      // when
+      const normalizedRange = normalizeRange(range);
+
+      // then
+      expect(normalizedRange).to.deep.equal(range);
+    });
+  });
+
   describe('#getCampaignParticipationsBetweenIds', function () {
     it('should return campaign participation between idMin and idMax', async function () {
       // given
