@@ -1,4 +1,5 @@
 require('dotenv').config();
+const config = require('../../lib/config');
 const JobQueue = require('../infrastructure/jobs/JobQueue');
 const ParticipationResultCalculationJob = require('../infrastructure/jobs/campaign-result/ParticipationResultCalculationJob');
 const ParticipationResultCalculationJobHandler = require('../infrastructure/jobs/campaign-result/ParticipationResultCalculationJobHandler');
@@ -6,8 +7,11 @@ const dependenciesBuilder = require('../infrastructure/events/DependenciesBuilde
 const PgBoss = require('pg-boss');
 
 async function runJobs() {
-  // eslint-disable-next-line node/no-process-env
-  const pgBoss = new PgBoss(process.env.DATABASE_URL);
+  const pgBoss = new PgBoss({
+    // eslint-disable-next-line node/no-process-env
+    connectionString: process.env.DATABASE_URL,
+    max: config.pgBoss.connexionPoolMaxSize,
+  });
   await pgBoss.start();
   const jobQueue = new JobQueue(pgBoss, dependenciesBuilder);
 
