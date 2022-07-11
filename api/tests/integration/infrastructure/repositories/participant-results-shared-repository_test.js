@@ -1,14 +1,14 @@
 const { expect, databaseBuilder, mockLearningContent } = require('../../../test-helper');
 
 const participantResultsSharedRepository = require('../../../../lib/infrastructure/repositories/participant-results-shared-repository');
-const Campaign = require('../../../../lib/domain/models/Campaign');
+const CampaignTypes = require('../../../../lib/domain/models/CampaignTypes');
 const { MAX_REACHABLE_PIX_BY_COMPETENCE } = require('../../../../lib/domain/constants');
 
 describe('Integration | Repository | Campaign Participant Result Shared Repository', function () {
   describe('#get', function () {
     describe('when there is no target profile', function () {
       it('computes the participant results for the complete learning content', async function () {
-        const { id: campaignId } = databaseBuilder.factory.buildCampaign({ type: Campaign.types.PROFILES_COLLECTION });
+        const { id: campaignId } = databaseBuilder.factory.buildCampaign({ type: CampaignTypes.PROFILES_COLLECTION });
 
         const participation = _buildParticipationWithSnapshot({ campaignId, sharedAt: new Date('2020-01-02') }, [
           { skillId: 'skill_1', status: 'validated', earnedPix: 0 },
@@ -160,7 +160,7 @@ function _buildCampaignForSkills(skillIds) {
     databaseBuilder.factory.buildTargetProfileSkill({ skillId, targetProfileId });
   });
 
-  return databaseBuilder.factory.buildCampaign({ targetProfileId, type: Campaign.types.ASSESSMENT });
+  return databaseBuilder.factory.buildCampaign({ targetProfileId, type: CampaignTypes.ASSESSMENT });
 }
 
 function _buildParticipationWithSnapshot(participationAttributes, knowledgeElementsAttributes) {

@@ -2,7 +2,7 @@
 // To use on file with columns |name, organizationId, customLandingPageText, creatorId|, those headers included
 const bluebird = require('bluebird');
 const { knex } = require('../../db/knex-database-connection');
-const Campaign = require('../../lib/domain/models/Campaign');
+const CampaignTypes = require('../../lib/domain/models/CampaignTypes');
 const campaignCodeGenerator = require('../../lib/domain/services/campaigns/campaign-code-generator');
 const campaignValidator = require('../../lib/domain/validators/campaign-validator');
 const campaignRepository = require('../../lib/infrastructure/repositories/campaign-repository');
@@ -34,7 +34,7 @@ async function prepareCampaigns(campaignsData) {
       const campaign = {
         creatorId: campaignData.creatorId,
         organizationId: campaignData.organizationId,
-        type: Campaign.types.PROFILES_COLLECTION,
+        type: CampaignTypes.PROFILES_COLLECTION,
         name: campaignData.name,
         customLandingPageText: campaignData.customLandingPageText,
         multipleSendings: campaignData.multipleSendings,

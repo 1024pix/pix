@@ -1,11 +1,13 @@
 const { expect, domainBuilder } = require('../../../test-helper');
-const { types } = require('../../../../lib/domain/models/Campaign');
+const CampaignTypes = require('../../../../lib/domain/models/CampaignTypes');
 
 describe('Unit | Domain | Models | CampaignToStartParticipation', function () {
   describe('#isAssessment', function () {
     it('should return true if the campaign is of type ASSESSMENT', function () {
       // given
-      const campaignToStartParticipation = domainBuilder.buildCampaignToStartParticipation({ type: types.ASSESSMENT });
+      const campaignToStartParticipation = domainBuilder.buildCampaignToStartParticipation({
+        type: CampaignTypes.ASSESSMENT,
+      });
 
       // when / then
       expect(campaignToStartParticipation.isAssessment).to.be.true;
@@ -14,7 +16,7 @@ describe('Unit | Domain | Models | CampaignToStartParticipation', function () {
     it('should return false if the campaign is not of type ASSESSMENT', function () {
       // given
       const campaignToStartParticipation = domainBuilder.buildCampaignToStartParticipation({
-        type: types.PROFILES_COLLECTION,
+        type: CampaignTypes.PROFILES_COLLECTION,
       });
 
       // when / then

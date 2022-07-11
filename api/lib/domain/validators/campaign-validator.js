@@ -1,7 +1,7 @@
 const Joi = require('joi');
 const { first } = require('lodash');
 const { EntityValidationError } = require('../errors');
-const Campaign = require('../models/Campaign');
+const CampaignTypes = require('../models/CampaignTypes');
 
 const validationConfiguration = { abortEarly: false, allowUnknown: true };
 
@@ -12,7 +12,7 @@ const campaignValidationJoiSchema = Joi.object({
   }),
 
   type: Joi.string()
-    .valid(Campaign.types.ASSESSMENT, Campaign.types.PROFILES_COLLECTION)
+    .valid(CampaignTypes.ASSESSMENT, CampaignTypes.PROFILES_COLLECTION)
     .required()
     .error((errors) => first(errors))
     .messages({
@@ -35,11 +35,11 @@ const campaignValidationJoiSchema = Joi.object({
     .when('type', {
       switch: [
         {
-          is: Joi.string().required().valid(Campaign.types.PROFILES_COLLECTION),
+          is: Joi.string().required().valid(CampaignTypes.PROFILES_COLLECTION),
           then: Joi.valid(null).optional(),
         },
         {
-          is: Joi.string().required().valid(Campaign.types.ASSESSMENT),
+          is: Joi.string().required().valid(CampaignTypes.ASSESSMENT),
           then: Joi.required(),
         },
       ],
@@ -61,7 +61,7 @@ const campaignValidationJoiSchema = Joi.object({
     .allow(null)
     .max(50)
     .when('type', {
-      is: Joi.string().required().valid(Campaign.types.PROFILES_COLLECTION),
+      is: Joi.string().required().valid(CampaignTypes.PROFILES_COLLECTION),
       then: Joi.valid(null),
       otherwise: Joi.optional(),
     })
@@ -74,7 +74,7 @@ const campaignValidationJoiSchema = Joi.object({
     .allow(null)
     .max(5000)
     .when('type', {
-      is: Joi.string().required().valid(Campaign.types.PROFILES_COLLECTION),
+      is: Joi.string().required().valid(CampaignTypes.PROFILES_COLLECTION),
       then: Joi.valid(null),
       otherwise: Joi.optional(),
     })
@@ -83,7 +83,7 @@ const campaignValidationJoiSchema = Joi.object({
     }),
 
   customResultPageButtonText: Joi.when('type', {
-    is: Joi.string().required().valid(Campaign.types.PROFILES_COLLECTION),
+    is: Joi.string().required().valid(CampaignTypes.PROFILES_COLLECTION),
     then: Joi.valid(null),
     otherwise: Joi.when('customResultPageButtonUrl', {
       then: Joi.string().required(),
@@ -97,7 +97,7 @@ const campaignValidationJoiSchema = Joi.object({
   }),
 
   customResultPageButtonUrl: Joi.when('type', {
-    is: Joi.string().required().valid(Campaign.types.PROFILES_COLLECTION),
+    is: Joi.string().required().valid(CampaignTypes.PROFILES_COLLECTION),
     then: Joi.valid(null),
     otherwise: Joi.when('customResultPageButtonText', {
       then: Joi.string().uri().required(),

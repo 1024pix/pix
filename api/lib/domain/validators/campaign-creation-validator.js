@@ -1,11 +1,11 @@
 const Joi = require('joi');
 const { first } = require('lodash');
 const { EntityValidationError } = require('../errors');
-const Campaign = require('../models/Campaign');
+const CampaignTypes = require('../models/CampaignTypes');
 
 const schema = Joi.object({
   type: Joi.string()
-    .valid(Campaign.types.ASSESSMENT, Campaign.types.PROFILES_COLLECTION)
+    .valid(CampaignTypes.ASSESSMENT, CampaignTypes.PROFILES_COLLECTION)
     .required()
     .error((errors) => first(errors))
     .messages({
@@ -38,11 +38,11 @@ const schema = Joi.object({
     .when('type', {
       switch: [
         {
-          is: Joi.string().required().valid(Campaign.types.PROFILES_COLLECTION),
+          is: Joi.string().required().valid(CampaignTypes.PROFILES_COLLECTION),
           then: Joi.valid(null).optional(),
         },
         {
-          is: Joi.string().required().valid(Campaign.types.ASSESSMENT),
+          is: Joi.string().required().valid(CampaignTypes.ASSESSMENT),
           then: Joi.required(),
         },
       ],
@@ -57,7 +57,7 @@ const schema = Joi.object({
   title: Joi.string()
     .allow(null)
     .when('type', {
-      is: Joi.string().required().valid(Campaign.types.PROFILES_COLLECTION),
+      is: Joi.string().required().valid(CampaignTypes.PROFILES_COLLECTION),
       then: Joi.valid(null),
       otherwise: Joi.optional(),
     })

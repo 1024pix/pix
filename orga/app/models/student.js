@@ -20,6 +20,9 @@ export default class Student extends Model {
   @attr('number') participationCount;
   @attr('date') lastParticipationDate;
   @attr('boolean') isAuthenticatedFromGar;
+  @attr('string') campaignName;
+  @attr('string') campaignType;
+  @attr('string') participationStatus;
   @belongsTo('organization') organization;
 
   get hasUsername() {

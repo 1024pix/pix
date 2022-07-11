@@ -1,7 +1,7 @@
 const CampaignParticipation = require('../../../../lib/domain/models/CampaignParticipation');
 const CampaignParticipationStatuses = require('../../../../lib/domain/models/CampaignParticipationStatuses');
 const { expect, domainBuilder, sinon, catchErr } = require('../../../test-helper');
-const Campaign = require('../../../../lib/domain/models/Campaign');
+const CampaignTypes = require('../../../../lib/domain/models/CampaignTypes');
 const Assessment = require('../../../../lib/domain/models/Assessment');
 const {
   ArchivedCampaignError,
@@ -62,7 +62,7 @@ describe('Unit | Domain | Models | CampaignParticipation', function () {
   describe('improve', function () {
     context('when the campaign has the type PROFILES_COLLECTION', function () {
       it('throws an CantImproveCampaignParticipationError', async function () {
-        const campaign = domainBuilder.buildCampaign({ type: Campaign.types.PROFILES_COLLECTION });
+        const campaign = domainBuilder.buildCampaign({ type: CampaignTypes.PROFILES_COLLECTION });
         const campaignParticipation = new CampaignParticipation({ campaign });
 
         const error = await catchErr(campaignParticipation.improve, campaignParticipation)();
@@ -73,7 +73,7 @@ describe('Unit | Domain | Models | CampaignParticipation', function () {
 
     context('when the campaign participation status is different from STARTED', function () {
       it('changes the status to STARTED', async function () {
-        const campaign = domainBuilder.buildCampaign({ type: Campaign.types.ASSESSMENT });
+        const campaign = domainBuilder.buildCampaign({ type: CampaignTypes.ASSESSMENT });
         const campaignParticipation = new CampaignParticipation({ campaign, status: TO_SHARE });
 
         campaignParticipation.improve();
@@ -98,7 +98,7 @@ describe('Unit | Domain | Models | CampaignParticipation', function () {
 
       context('when the campaign is already shared', function () {
         it('throws an AlreadySharedCampaignParticipationError error', async function () {
-          const campaign = domainBuilder.buildCampaign({ type: Campaign.types.PROFILES_COLLECTION });
+          const campaign = domainBuilder.buildCampaign({ type: CampaignTypes.PROFILES_COLLECTION });
           const campaignParticipation = new CampaignParticipation({ campaign, status: SHARED });
 
           const error = await catchErr(campaignParticipation.share, campaignParticipation)();
@@ -109,7 +109,7 @@ describe('Unit | Domain | Models | CampaignParticipation', function () {
 
       context('when the campaign has the type PROFILES_COLLECTION', function () {
         it('share the CampaignParticipation', function () {
-          const campaign = domainBuilder.buildCampaign({ type: Campaign.types.PROFILES_COLLECTION });
+          const campaign = domainBuilder.buildCampaign({ type: CampaignTypes.PROFILES_COLLECTION });
           const campaignParticipation = new CampaignParticipation({ campaign });
 
           campaignParticipation.share();
@@ -123,7 +123,7 @@ describe('Unit | Domain | Models | CampaignParticipation', function () {
       context('when the campaign as the type ASSESSMENT', function () {
         context('when there is no assessment', function () {
           it('throws an AssessmentNotCompletedError', async function () {
-            const campaign = domainBuilder.buildCampaign({ type: Campaign.types.ASSESSMENT });
+            const campaign = domainBuilder.buildCampaign({ type: CampaignTypes.ASSESSMENT });
             const campaignParticipation = new CampaignParticipation({ campaign, assessments: [] });
 
             const error = await catchErr(campaignParticipation.share, campaignParticipation)();
@@ -134,7 +134,7 @@ describe('Unit | Domain | Models | CampaignParticipation', function () {
 
         context('when the last assessment is not completed', function () {
           it('throws an AssessmentNotCompletedError', async function () {
-            const campaign = domainBuilder.buildCampaign({ type: Campaign.types.ASSESSMENT });
+            const campaign = domainBuilder.buildCampaign({ type: CampaignTypes.ASSESSMENT });
             const assessments = [
               domainBuilder.buildAssessment({ createdAt: new Date('2020-01-01'), state: Assessment.states.COMPLETED }),
               domainBuilder.buildAssessment({ createdAt: new Date('2020-01-02'), state: Assessment.states.STARTED }),
@@ -149,7 +149,7 @@ describe('Unit | Domain | Models | CampaignParticipation', function () {
 
         context('when the last assessment is completed', function () {
           it('share the CampaignParticipation', function () {
-            const campaign = domainBuilder.buildCampaign({ type: Campaign.types.ASSESSMENT });
+            const campaign = domainBuilder.buildCampaign({ type: CampaignTypes.ASSESSMENT });
             const assessments = [
               domainBuilder.buildAssessment({ createdAt: new Date('2020-03-01'), state: Assessment.states.COMPLETED }),
               domainBuilder.buildAssessment({ createdAt: new Date('2020-01-01'), state: Assessment.states.STARTED }),
@@ -219,7 +219,7 @@ describe('Unit | Domain | Models | CampaignParticipation', function () {
     context('status', function () {
       context('when the campaign as the type PROFILES_COLLECTION', function () {
         it('status to TO_SHARE', function () {
-          const campaign = domainBuilder.buildCampaignToJoin({ type: Campaign.types.PROFILES_COLLECTION });
+          const campaign = domainBuilder.buildCampaignToJoin({ type: CampaignTypes.PROFILES_COLLECTION });
           const campaignParticipation = CampaignParticipation.start({ campaign });
 
           expect(campaignParticipation.status).to.be.equal(CampaignParticipationStatuses.TO_SHARE);
@@ -228,7 +228,7 @@ describe('Unit | Domain | Models | CampaignParticipation', function () {
 
       context('when the campaign as the type ASSESSMENT', function () {
         it('status to STARTED', function () {
-          const campaign = domainBuilder.buildCampaignToJoin({ type: Campaign.types.ASSESSMENT });
+          const campaign = domainBuilder.buildCampaignToJoin({ type: CampaignTypes.ASSESSMENT });
           const campaignParticipation = CampaignParticipation.start({ campaign });
 
           expect(campaignParticipation.status).to.be.equal(CampaignParticipationStatuses.STARTED);

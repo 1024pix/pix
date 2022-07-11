@@ -1,4 +1,4 @@
-const Campaign = require('../../../../lib/domain/models/Campaign');
+const CampaignTypes = require('../../../../lib/domain/models/CampaignTypes');
 const CampaignManagement = require('../../../../lib/domain/read-models/CampaignManagement');
 
 module.exports = function buildCampaignManagement({
@@ -7,7 +7,7 @@ module.exports = function buildCampaignManagement({
   code = 'AZERTY123',
   createdAt = new Date(),
   archivedAt = null,
-  type = Campaign.types.ASSESSMENT,
+  type = CampaignTypes.ASSESSMENT,
   creatorId = 2,
   creatorFirstName = 'Un prénom',
   creatorLastName = 'Un nom',

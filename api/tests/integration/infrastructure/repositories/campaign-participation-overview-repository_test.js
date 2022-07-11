@@ -4,7 +4,7 @@ const Assessment = require('../../../../lib/domain/models/Assessment');
 const campaignParticipationOverviewRepository = require('../../../../lib/infrastructure/repositories/campaign-participation-overview-repository');
 const _ = require('lodash');
 const CampaignParticipationStatuses = require('../../../../lib/domain/models/CampaignParticipationStatuses');
-const Campaign = require('../../../../lib/domain/models/Campaign');
+const CampaignTypes = require('../../../../lib/domain/models/CampaignTypes');
 
 let userId;
 
@@ -110,7 +110,7 @@ describe('Integration | Repository | Campaign Participation Overview', function 
       it('should retrieve only campaign participation linked to ASSESSMENT', async function () {
         const { id: campaign1Id } = databaseBuilder.factory.buildCampaign({ targetProfileId: targetProfile.id });
         const { id: campaign2Id } = databaseBuilder.factory.buildCampaign({ targetProfileId: targetProfile.id });
-        const { id: campaign3Id } = databaseBuilder.factory.buildCampaign({ type: Campaign.types.PROFILES_COLLECTION });
+        const { id: campaign3Id } = databaseBuilder.factory.buildCampaign({ type: CampaignTypes.PROFILES_COLLECTION });
         const { id: participation1Id } = campaignParticipationOverviewFactory.build({
           userId,
           campaignId: campaign1Id,

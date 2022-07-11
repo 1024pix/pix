@@ -1,0 +1,23 @@
+<PixTooltip
+  @id="last-participation-date-tooltip"
+  @position="left"
+  @isWide={{true}}
+  class="last-participation-date-tooltip"
+>
+  <:triggerElement>
+    <FaIcon
+      @icon="info-circle"
+      tabindex="0"
+      aria-label={{t "pages.students-sco.latest-participation-information.aria-label"}}
+      aria-describedby="last-participation-date-tooltip"
+      class="last-participation-date-tooltip__icon"
+    />
+  </:triggerElement>
+  <:tooltip>
+    <ul>
+      <li>{{t "pages.students-sco.latest-participation-information.campaign-name" campaignName=@campaignName}}</li>
+      <li>{{this.campaignTypeLabel}}</li>
+      <li>{{this.participationStatusLabel}}</li>
+    </ul>
+  </:tooltip>
+</PixTooltip>
