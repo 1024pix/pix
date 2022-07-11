@@ -90,22 +90,35 @@ async function computeBadgeAcquisition({
   if (_.isEmpty(associatedBadges)) {
     return 0;
   }
+
+  const userId = campaignParticipation.userId;
   const targetProfile = await targetProfileRepository.getByCampaignParticipationId(campaignParticipation.id);
-  const knowledgeElements = await knowledgeElementRepository.findUniqByUserId({ userId: campaignParticipation.userId });
+  const knowledgeElements = await knowledgeElementRepository.findUniqByUserId({ userId });
 
   const validatedBadgesByUser = associatedBadges.filter((badge) =>
     badgeCriteriaService.areBadgeCriteriaFulfilled({ knowledgeElements, targetProfile, badge })
   );
 
-  const badgesAcquisitionToCreate = validatedBadgesByUser.map((badge) => {
-    return {
-      badgeId: badge.id,
-      userId: campaignParticipation.userId,
-      campaignParticipationId: campaignParticipation.id,
-    };
+  const acquiredBadgeIds = await badgeAcquisitionRepository.getAcquiredBadgeIds({
+    badgeIds: validatedBadgesByUser.map(({ id }) => id),
+    userId,
   });
 
-  if (!_.isEmpty(badgesAcquisitionToCreate) && !dryRun) {
+  const badgesAcquisitionToCreate = validatedBadgesByUser
+    .filter((badge) => !acquiredBadgeIds.includes(badge.id))
+    .map((badge) => {
+      return {
+        badgeId: badge.id,
+        userId,
+        campaignParticipationId: campaignParticipation.id,
+      };
+    });
+
+  if (_.isEmpty(badgesAcquisitionToCreate)) {
+    return 0;
+  }
+
+  if (!dryRun) {
     await badgeAcquisitionRepository.createOrUpdate(badgesAcquisitionToCreate);
   }
 

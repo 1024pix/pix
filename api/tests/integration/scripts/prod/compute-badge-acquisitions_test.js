@@ -236,6 +236,7 @@ describe('Script | Prod | Compute Badge Acquisitions', function () {
       };
       badgeAcquisitionRepository = {
         createOrUpdate: _.noop,
+        getAcquiredBadgeIds: _.noop,
       };
       badgeCriteriaService = {
         areBadgeCriteriaFulfilled: _.noop,
@@ -277,6 +278,7 @@ describe('Script | Prod | Compute Badge Acquisitions', function () {
           .resolves(knowledgeElements);
         sinon.stub(badgeCriteriaService, 'areBadgeCriteriaFulfilled');
         sinon.stub(badgeAcquisitionRepository, 'createOrUpdate');
+        sinon.stub(badgeAcquisitionRepository, 'getAcquiredBadgeIds');
       });
 
       it('should create a badge when badge requirements are fulfilled and return number of badge created', async function () {
@@ -284,6 +286,7 @@ describe('Script | Prod | Compute Badge Acquisitions', function () {
         badgeCriteriaService.areBadgeCriteriaFulfilled
           .withArgs({ targetProfile, knowledgeElements, badge })
           .returns(true);
+        badgeAcquisitionRepository.getAcquiredBadgeIds.resolves([]);
 
         // when
         const numberOfCreatedBadges = await computeBadgeAcquisition({ campaignParticipation, ...dependencies });
@@ -347,57 +350,107 @@ describe('Script | Prod | Compute Badge Acquisitions', function () {
 
         sinon.stub(badgeCriteriaService, 'areBadgeCriteriaFulfilled');
         sinon.stub(badgeAcquisitionRepository, 'createOrUpdate');
+        sinon.stub(badgeAcquisitionRepository, 'getAcquiredBadgeIds');
       });
 
-      it('should create one badge when only one badge requirements are fulfilled', async function () {
-        // given
-        badgeCriteriaService.areBadgeCriteriaFulfilled
-          .withArgs({ targetProfile, knowledgeElements, badge: badge1 })
-          .returns(true);
-        badgeCriteriaService.areBadgeCriteriaFulfilled
-          .withArgs({ targetProfile, knowledgeElements, badge: badge2 })
-          .returns(false);
+      context('when only one badge requirements are fulfilled', function () {
+        it('should create one badge', async function () {
+          // given
+          badgeCriteriaService.areBadgeCriteriaFulfilled
+            .withArgs({ targetProfile, knowledgeElements, badge: badge1 })
+            .returns(true);
+          badgeCriteriaService.areBadgeCriteriaFulfilled
+            .withArgs({ targetProfile, knowledgeElements, badge: badge2 })
+            .returns(false);
+          badgeAcquisitionRepository.getAcquiredBadgeIds
+            .withArgs({
+              badgeIds: [badge1.id],
+              userId: campaignParticipation.userId,
+            })
+            .resolves([]);
 
-        // when
-        const numberOfCreatedBadges = await computeBadgeAcquisition({ campaignParticipation, ...dependencies });
+          // when
+          const numberOfCreatedBadges = await computeBadgeAcquisition({ campaignParticipation, ...dependencies });
 
-        // then
-        expect(badgeAcquisitionRepository.createOrUpdate).to.have.been.calledWithExactly([
-          {
-            badgeId: badge1.id,
-            userId: campaignParticipation.userId,
-            campaignParticipationId: campaignParticipation.id,
-          },
-        ]);
-        expect(numberOfCreatedBadges).to.equal(1);
+          // then
+          expect(badgeAcquisitionRepository.createOrUpdate).to.have.been.calledWithExactly([
+            {
+              badgeId: badge1.id,
+              userId: campaignParticipation.userId,
+              campaignParticipationId: campaignParticipation.id,
+            },
+          ]);
+          expect(numberOfCreatedBadges).to.equal(1);
+        });
       });
 
-      it('should create two badges when both badges requirements are fulfilled', async function () {
-        // given
-        badgeCriteriaService.areBadgeCriteriaFulfilled
-          .withArgs({ targetProfile, knowledgeElements, badge: badge1 })
-          .returns(true);
-        badgeCriteriaService.areBadgeCriteriaFulfilled
-          .withArgs({ targetProfile, knowledgeElements, badge: badge2 })
-          .returns(true);
+      context('when both badges requirements are fulfilled', function () {
+        context('when user does not have these badges yet', function () {
+          it('should create two badges', async function () {
+            // given
+            badgeCriteriaService.areBadgeCriteriaFulfilled
+              .withArgs({ targetProfile, knowledgeElements, badge: badge1 })
+              .returns(true);
+            badgeCriteriaService.areBadgeCriteriaFulfilled
+              .withArgs({ targetProfile, knowledgeElements, badge: badge2 })
+              .returns(true);
+            badgeAcquisitionRepository.getAcquiredBadgeIds
+              .withArgs({
+                badgeIds: [badge1.id, badge2.id],
+                userId: campaignParticipation.userId,
+              })
+              .resolves([]);
 
-        // when
-        const numberOfCreatedBadges = await computeBadgeAcquisition({ campaignParticipation, ...dependencies });
+            // when
+            const numberOfCreatedBadges = await computeBadgeAcquisition({ campaignParticipation, ...dependencies });
 
-        // then
-        expect(badgeAcquisitionRepository.createOrUpdate).to.have.been.calledWithExactly([
-          {
-            badgeId: badge1.id,
-            userId: campaignParticipation.userId,
-            campaignParticipationId: campaignParticipation.id,
-          },
-          {
-            badgeId: badge2.id,
-            userId: campaignParticipation.userId,
-            campaignParticipationId: campaignParticipation.id,
-          },
-        ]);
-        expect(numberOfCreatedBadges).to.equal(2);
+            // then
+            expect(badgeAcquisitionRepository.createOrUpdate).to.have.been.calledWithExactly([
+              {
+                badgeId: badge1.id,
+                userId: campaignParticipation.userId,
+                campaignParticipationId: campaignParticipation.id,
+              },
+              {
+                badgeId: badge2.id,
+                userId: campaignParticipation.userId,
+                campaignParticipationId: campaignParticipation.id,
+              },
+            ]);
+            expect(numberOfCreatedBadges).to.equal(2);
+          });
+        });
+
+        context('when user already have one badge', function () {
+          it('should create the other one', async function () {
+            // given
+            badgeCriteriaService.areBadgeCriteriaFulfilled
+              .withArgs({ targetProfile, knowledgeElements, badge: badge1 })
+              .returns(true);
+            badgeCriteriaService.areBadgeCriteriaFulfilled
+              .withArgs({ targetProfile, knowledgeElements, badge: badge2 })
+              .returns(true);
+            badgeAcquisitionRepository.getAcquiredBadgeIds
+              .withArgs({
+                badgeIds: [badge1.id, badge2.id],
+                userId: campaignParticipation.userId,
+              })
+              .resolves([badge1.id]);
+
+            // when
+            const numberOfCreatedBadges = await computeBadgeAcquisition({ campaignParticipation, ...dependencies });
+
+            // then
+            expect(badgeAcquisitionRepository.createOrUpdate).to.have.been.calledWithExactly([
+              {
+                badgeId: badge2.id,
+                userId: campaignParticipation.userId,
+                campaignParticipationId: campaignParticipation.id,
+              },
+            ]);
+            expect(numberOfCreatedBadges).to.equal(1);
+          });
+        });
       });
     });
 
@@ -445,6 +498,7 @@ describe('Script | Prod | Compute Badge Acquisitions', function () {
           .resolves(knowledgeElements);
         sinon.stub(badgeCriteriaService, 'areBadgeCriteriaFulfilled');
         sinon.stub(badgeAcquisitionRepository, 'createOrUpdate');
+        sinon.stub(badgeAcquisitionRepository, 'getAcquiredBadgeIds');
       });
 
       context('when badge requirements are fulfilled and return number of badge created', function () {
@@ -453,6 +507,7 @@ describe('Script | Prod | Compute Badge Acquisitions', function () {
           badgeCriteriaService.areBadgeCriteriaFulfilled
             .withArgs({ targetProfile, knowledgeElements, badge })
             .returns(true);
+          badgeAcquisitionRepository.getAcquiredBadgeIds.resolves([]);
 
           // when
           const numberOfSupposedlyCreatedBadges = await computeBadgeAcquisition({
@@ -472,6 +527,7 @@ describe('Script | Prod | Compute Badge Acquisitions', function () {
   describe('Integration | #computeBadgeAcquisition', function () {
     let userId;
     let badgeCompleted;
+    let badgeCompletedAndAcquired;
     let campaignParticipation;
 
     beforeEach(async function () {
@@ -554,11 +610,19 @@ describe('Script | Prod | Compute Badge Acquisitions', function () {
         threshold: 90,
       });
 
-      databaseBuilder.factory.buildBadge({
+      badgeCompletedAndAcquired = databaseBuilder.factory.buildBadge({
         targetProfileId,
-        badgeCriteria: [],
         key: 'Badge3',
-      }).id;
+      });
+      databaseBuilder.factory.buildBadgeCriterion({
+        scope: 'CampaignParticipation',
+        badgeId: badgeCompletedAndAcquired.id,
+        threshold: 40,
+      });
+      databaseBuilder.factory.buildBadgeAcquisition({
+        badgeId: badgeCompletedAndAcquired.id,
+        userId,
+      });
 
       const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
       mockLearningContent(learningContentObjects);
@@ -570,7 +634,7 @@ describe('Script | Prod | Compute Badge Acquisitions', function () {
       await knex('badge-acquisitions').delete();
     });
 
-    it('should save only the validated badges', async function () {
+    it('should save only the validated badges not yet acquired', async function () {
       // when
       const numberOfCreatedBadges = await computeBadgeAcquisition({
         campaignParticipation,
@@ -582,7 +646,7 @@ describe('Script | Prod | Compute Badge Acquisitions', function () {
       });
 
       // then
-      const badgeAcquisitions = await knex('badge-acquisitions').where({ userId: userId });
+      const badgeAcquisitions = await knex('badge-acquisitions').where({ userId: userId, badgeId: badgeCompleted.id });
       expect(badgeAcquisitions.length).to.equal(1);
       expect(badgeAcquisitions[0].userId).to.equal(userId);
       expect(badgeAcquisitions[0].badgeId).to.equal(badgeCompleted.id);
