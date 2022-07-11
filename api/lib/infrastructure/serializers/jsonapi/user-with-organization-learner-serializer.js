@@ -16,6 +16,9 @@ module.exports = {
         'group',
         'participationCount',
         'lastParticipationDate',
+        'campaignName',
+        'campaignType',
+        'participationStatus',
       ],
       meta,
     }).serialize(students);

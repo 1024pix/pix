@@ -82,7 +82,16 @@
             </td>
             <td class="table__column--right">{{student.participationCount}}</td>
             <td class="table__column--center">
-              {{moment-format student.lastParticipationDate "DD/MM/YYYY" allow-empty=true}}
+              {{#if student.lastParticipationDate}}
+                <div class="list-students-page__last-participation">
+                  <span>{{moment-format student.lastParticipationDate "DD/MM/YYYY" allow-empty=true}}</span>
+                  <Student::Sco::LastParticipationDateTooltip
+                    @campaignName={{student.campaignName}}
+                    @campaignType={{student.campaignType}}
+                    @participationStatus={{student.participationStatus}}
+                  />
+                </div>
+              {{/if}}
             </td>
             <td class="list-students-page__actions hide-on-mobile">
               {{#if student.isStudentAssociated}}

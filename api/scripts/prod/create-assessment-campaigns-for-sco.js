@@ -3,7 +3,7 @@
 const bluebird = require('bluebird');
 const _ = require('lodash');
 const { knex } = require('../../db/knex-database-connection');
-const Campaign = require('../../lib/domain/models/Campaign');
+const CampaignTypes = require('../../lib/domain/models/CampaignTypes');
 const campaignCodeGenerator = require('../../lib/domain/services/campaigns/campaign-code-generator');
 const campaignValidator = require('../../lib/domain/validators/campaign-validator');
 const campaignRepository = require('../../lib/infrastructure/repositories/campaign-repository');
@@ -37,7 +37,7 @@ async function prepareCampaigns(campaignsData) {
     const campaign = {
       creatorId: campaignData.creatorId,
       organizationId: organization.id,
-      type: Campaign.types.ASSESSMENT,
+      type: CampaignTypes.ASSESSMENT,
       targetProfileId: campaignData.targetProfileId,
       name: campaignData.name,
       title: campaignData.title,

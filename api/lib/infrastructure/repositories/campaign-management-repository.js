@@ -4,7 +4,7 @@ const CampaignManagement = require('../../domain/read-models/CampaignManagement'
 const { fetchPage } = require('../utils/knex-utils');
 const CampaignParticipationStatuses = require('../../../lib/domain/models/CampaignParticipationStatuses');
 
-const Campaign = require('../../domain/models/Campaign');
+const CampaignTypes = require('../../domain/models/CampaignTypes');
 
 const { SHARED, TO_SHARE, STARTED } = CampaignParticipationStatuses;
 
@@ -111,7 +111,7 @@ function _mapToParticipationByStatus(row = {}, campaignType) {
     shared: row.shared || 0,
     completed: row.completed || 0,
   };
-  if (campaignType === Campaign.types.ASSESSMENT) {
+  if (campaignType === CampaignTypes.ASSESSMENT) {
     participationByStatus.started = row.started || 0;
   }
   return participationByStatus;

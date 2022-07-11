@@ -14,6 +14,9 @@ class UserWithOrganizationLearner {
     group,
     participationCount,
     lastParticipationDate,
+    campaignName,
+    campaignType,
+    participationStatus,
   } = {}) {
     this.id = id;
     this.lastName = lastName;
@@ -29,6 +32,9 @@ class UserWithOrganizationLearner {
     this.group = group;
     this.participationCount = participationCount;
     this.lastParticipationDate = lastParticipationDate;
+    this.campaignName = campaignName;
+    this.campaignType = campaignType;
+    this.participationStatus = participationStatus;
   }
 }
 

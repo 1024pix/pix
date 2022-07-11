@@ -1,11 +1,11 @@
-const Campaign = require('../../../../lib/domain/models/Campaign');
+const CampaignTypes = require('../../../../lib/domain/models/CampaignTypes');
 const CampaignToStartParticipation = require('../../../../lib/domain/models/CampaignToStartParticipation');
 
 module.exports = function buildCampaignToStartParticipation({
   id = 1,
   idPixLabel = 'Un id pix label',
   archivedAt = null,
-  type = Campaign.types.ASSESSMENT,
+  type = CampaignTypes.ASSESSMENT,
   isRestricted = false,
   multipleSendings = false,
   assessmentMethod = 'SMART_RANDOM',
@@ -20,7 +20,7 @@ module.exports = function buildCampaignToStartParticipation({
     isRestricted,
     multipleSendings,
     assessmentMethod,
-    skillCount: type === Campaign.types.ASSESSMENT ? skillCount : null,
+    skillCount: type === CampaignTypes.ASSESSMENT ? skillCount : null,
     organizationId,
   });
 };

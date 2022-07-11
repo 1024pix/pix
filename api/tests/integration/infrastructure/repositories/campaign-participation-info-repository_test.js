@@ -1,5 +1,5 @@
 const { expect, databaseBuilder } = require('../../../test-helper');
-const Campaign = require('../../../../lib/domain/models/Campaign');
+const CampaignTypes = require('../../../../lib/domain/models/CampaignTypes');
 const campaignParticipationInfoRepository = require('../../../../lib/infrastructure/repositories/campaign-participation-info-repository');
 const CampaignParticipationStatuses = require('../../../../lib/domain/models/CampaignParticipationStatuses');
 
@@ -13,7 +13,7 @@ describe('Integration | Repository | Campaign Participation Info', function () {
       beforeEach(async function () {
         const userId = databaseBuilder.factory.buildUser().id;
 
-        campaign1 = databaseBuilder.factory.buildCampaign({ type: Campaign.types.ASSESSMENT });
+        campaign1 = databaseBuilder.factory.buildCampaign({ type: CampaignTypes.ASSESSMENT });
 
         campaignParticipation1 = databaseBuilder.factory.buildCampaignParticipationWithOrganizationLearner(
           {
@@ -37,7 +37,7 @@ describe('Integration | Repository | Campaign Participation Info', function () {
           createdAt: new Date('2020-01-01'),
         });
 
-        const campaign2 = databaseBuilder.factory.buildCampaign({ type: Campaign.types.ASSESSMENT });
+        const campaign2 = databaseBuilder.factory.buildCampaign({ type: CampaignTypes.ASSESSMENT });
 
         const campaignParticipation2 = databaseBuilder.factory.buildCampaignParticipation(
           {
@@ -92,7 +92,7 @@ describe('Integration | Repository | Campaign Participation Info', function () {
       let campaignParticipation2;
 
       beforeEach(async function () {
-        campaign = databaseBuilder.factory.buildCampaign({ type: Campaign.types.ASSESSMENT });
+        campaign = databaseBuilder.factory.buildCampaign({ type: CampaignTypes.ASSESSMENT });
 
         const user1Id = databaseBuilder.factory.buildUser().id;
         const user2Id = databaseBuilder.factory.buildUser().id;
@@ -194,7 +194,7 @@ describe('Integration | Repository | Campaign Participation Info', function () {
       let campaignParticipation;
 
       beforeEach(async function () {
-        campaign = databaseBuilder.factory.buildCampaign({ type: Campaign.types.ASSESSMENT });
+        campaign = databaseBuilder.factory.buildCampaign({ type: CampaignTypes.ASSESSMENT });
 
         const userId = databaseBuilder.factory.buildUser().id;
 
@@ -253,7 +253,7 @@ describe('Integration | Repository | Campaign Participation Info', function () {
       let campaignParticipation2;
 
       beforeEach(async function () {
-        campaign = databaseBuilder.factory.buildCampaign({ type: Campaign.types.ASSESSMENT });
+        campaign = databaseBuilder.factory.buildCampaign({ type: CampaignTypes.ASSESSMENT });
 
         const userId = databaseBuilder.factory.buildUser().id;
         const organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner({

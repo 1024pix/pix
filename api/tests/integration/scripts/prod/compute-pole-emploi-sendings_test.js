@@ -9,7 +9,7 @@ const {
   sinon,
 } = require('../../../test-helper');
 const computePoleEmploiSendings = require('../../../../scripts/prod/compute-pole-emploi-sendings');
-const Campaign = require('../../../../lib/domain/models/Campaign');
+const CampaignTypes = require('../../../../lib/domain/models/CampaignTypes');
 const PoleEmploiSending = require('../../../../lib/domain/models/PoleEmploiSending');
 const CampaignParticipationStatuses = require('../../../../lib/domain/models/CampaignParticipationStatuses');
 
@@ -72,7 +72,7 @@ describe('computePoleEmploiSendings', function () {
     campaignId = databaseBuilder.factory.buildCampaign({
       name: 'Campagne Pôle Emploi',
       code,
-      type: Campaign.types.ASSESSMENT,
+      type: CampaignTypes.ASSESSMENT,
       organizationId,
       targetProfileId,
     }).id;

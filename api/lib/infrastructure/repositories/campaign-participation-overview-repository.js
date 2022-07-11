@@ -1,5 +1,5 @@
 const { knex } = require('../bookshelf');
-const Campaign = require('../../domain/models/Campaign');
+const CampaignTypes = require('../../domain/models/CampaignTypes');
 const CampaignParticipationOverview = require('../../domain/read-models/CampaignParticipationOverview');
 const { fetchPage } = require('../utils/knex-utils');
 const targetProfileWithLearningContentRepository = require('../../../lib/infrastructure/repositories/target-profile-with-learning-content-repository.js');
@@ -47,7 +47,7 @@ function _findByUserId({ userId }) {
         .innerJoin('organizations', 'organizations.id', 'campaigns.organizationId')
         .where('campaign-participations.userId', userId)
         .where('campaign-participations.isImproved', false)
-        .where('campaigns.type', Campaign.types.ASSESSMENT)
+        .where('campaigns.type', CampaignTypes.ASSESSMENT)
         .whereNot('campaigns.isForAbsoluteNovice', true);
     })
     .from('campaign-participation-overviews')

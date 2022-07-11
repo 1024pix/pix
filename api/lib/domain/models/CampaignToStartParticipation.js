@@ -1,4 +1,4 @@
-const { types } = require('../models/Campaign');
+const CampaignTypes = require('../models/CampaignTypes');
 
 class CampaignToStartParticipation {
   constructor({
@@ -24,7 +24,7 @@ class CampaignToStartParticipation {
   }
 
   get isAssessment() {
-    return this.type === types.ASSESSMENT;
+    return this.type === CampaignTypes.ASSESSMENT;
   }
 
   get isArchived() {

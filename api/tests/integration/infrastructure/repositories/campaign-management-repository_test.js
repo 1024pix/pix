@@ -1,7 +1,7 @@
 const { expect, databaseBuilder } = require('../../../test-helper');
 const campaignManagementRepository = require('../../../../lib/infrastructure/repositories/campaign-management-repository');
 const _ = require('lodash');
-const Campaign = require('../../../../lib/domain/models/Campaign');
+const CampaignTypes = require('../../../../lib/domain/models/CampaignTypes');
 const { knex } = require('../../../../lib/infrastructure/bookshelf');
 const CampaignParticipationStatuses = require('../../../../lib/domain/models/CampaignParticipationStatuses');
 
@@ -62,7 +62,7 @@ describe('Integration | Repository | Campaign-Management', function () {
       const owner = databaseBuilder.factory.buildUser();
       const organization = databaseBuilder.factory.buildOrganization({});
       const campaign = databaseBuilder.factory.buildCampaign({
-        type: Campaign.types.PROFILES_COLLECTION,
+        type: CampaignTypes.PROFILES_COLLECTION,
         creatorId: user.id,
         ownerId: owner.id,
         organizationId: organization.id,
@@ -105,7 +105,7 @@ describe('Integration | Repository | Campaign-Management', function () {
       context('when campaign type is ASSESSMENT', function () {
         it('should return total and shared participations count', async function () {
           //given
-          const campaign = databaseBuilder.factory.buildCampaign({ type: Campaign.types.ASSESSMENT });
+          const campaign = databaseBuilder.factory.buildCampaign({ type: CampaignTypes.ASSESSMENT });
 
           databaseBuilder.factory.buildCampaignParticipation({
             campaignId: campaign.id,
@@ -132,7 +132,7 @@ describe('Integration | Repository | Campaign-Management', function () {
 
         it('should not count neither total nor shared participations for deleted participations', async function () {
           //given
-          const campaign = databaseBuilder.factory.buildCampaign({ type: Campaign.types.ASSESSMENT });
+          const campaign = databaseBuilder.factory.buildCampaign({ type: CampaignTypes.ASSESSMENT });
 
           databaseBuilder.factory.buildCampaignParticipation({
             campaignId: campaign.id,
@@ -168,7 +168,7 @@ describe('Integration | Repository | Campaign-Management', function () {
           const campaign = databaseBuilder.factory.buildCampaign({
             creatorId: userId,
             organizationId: organization.id,
-            type: Campaign.types.PROFILES_COLLECTION,
+            type: CampaignTypes.PROFILES_COLLECTION,
           });
 
           databaseBuilder.factory.buildCampaignParticipation({
@@ -192,7 +192,7 @@ describe('Integration | Repository | Campaign-Management', function () {
           const campaign = databaseBuilder.factory.buildCampaign({
             creatorId: userId,
             organizationId: organization.id,
-            type: Campaign.types.PROFILES_COLLECTION,
+            type: CampaignTypes.PROFILES_COLLECTION,
           });
 
           databaseBuilder.factory.buildCampaignParticipation({

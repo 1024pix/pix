@@ -1,6 +1,7 @@
 const { expect, domainBuilder, databaseBuilder, knex } = require('../../../test-helper');
 const campaignRepository = require('../../../../lib/infrastructure/repositories/campaign-repository');
 const Campaign = require('../../../../lib/domain/models/Campaign');
+const CampaignTypes = require('../../../../lib/domain/models/CampaignTypes');
 const BookshelfCampaign = require('../../../../lib/infrastructure/orm-models/Campaign');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 const _ = require('lodash');
@@ -96,7 +97,7 @@ describe('Integration | Repository | Campaign', function () {
         ownerId,
         organizationId,
         multipleSendings: true,
-        type: Campaign.types.ASSESSMENT,
+        type: CampaignTypes.ASSESSMENT,
         targetProfileId,
         title: 'Parcours recherche internet',
       };
@@ -143,7 +144,7 @@ describe('Integration | Repository | Campaign', function () {
         multipleSendings: true,
       };
 
-      const campaignToSave = { ...campaignAttributes, type: Campaign.types.PROFILES_COLLECTION };
+      const campaignToSave = { ...campaignAttributes, type: CampaignTypes.PROFILES_COLLECTION };
 
       // when
       const savedCampaign = await campaignRepository.save(campaignToSave);
