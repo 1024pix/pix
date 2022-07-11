@@ -1,7 +1,6 @@
 import { module, test } from 'qunit';
-import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
-import { clickByName } from '@1024pix/ember-testing-library';
+import { clickByName, render } from '@1024pix/ember-testing-library';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 import moment from 'moment';
 import sinon from 'sinon';
@@ -55,12 +54,12 @@ module('Integration | Component | tube:list', function (hooks) {
     this.set('areas', areas);
 
     // when
-    await render(hbs`<Tube::list @areas={{this.areas}}/>`);
-
+    const screen = await render(hbs`<Tube::list @areas={{this.areas}}/>`);
+    await clickByName('1 · Titre domaine');
     // then
-    assert.dom('.row-tube').exists({ count: 2 });
-    assert.dom(this.element.querySelector('[for="tube-tubeId1"]')).hasText('Titre 1 : Description 1');
-    assert.dom(this.element.querySelector('[for="tube-tubeId2"]')).hasText('Titre 2 : Description 2');
+
+    assert.dom(screen.getByLabelText('Titre 1 : Description 1')).exists();
+    assert.dom(screen.getByLabelText('Titre 2 : Description 2')).exists();
   });
 
   test('it should disable the download button if not tube is selected', async function (assert) {
@@ -68,10 +67,10 @@ module('Integration | Component | tube:list', function (hooks) {
     this.set('areas', areas);
 
     // when
-    await render(hbs`<Tube::list @areas={{this.areas}}/>`);
+    const screen = await render(hbs`<Tube::list @areas={{this.areas}}/>`);
 
     // then
-    assert.dom('.download-file__button').hasClass('pix-button--disabled');
+    assert.dom(screen.getByText('Télécharger la sélection des sujets (JSON, 0.00ko)')).hasClass('pix-button--disabled');
   });
 
   test('it should enable the download button if a tube is selected', async function (assert) {
@@ -80,13 +79,19 @@ module('Integration | Component | tube:list', function (hooks) {
     this.set('organization', { name: 'mon orga' });
 
     // when
-    await render(hbs`<Tube::list @areas={{this.areas}} @organization={{this.organization}}/>`);
+    const screen = await render(hbs`<Tube::list @areas={{this.areas}} @organization={{this.organization}}/>`);
+
     await clickByName('1 · Titre domaine');
     await clickByName('Titre 1 : Description 1');
 
     // then
-    assert.dom('.download-file__button').doesNotHaveClass('pix-button--disabled');
-    assert.dom(`.download-file__button[download="${expectedAttr}"]`).exists();
+    assert
+      .dom(screen.getByText('Télécharger la sélection des sujets (1) (JSON, 0.01ko)'))
+      .doesNotHaveClass('pix-button--disabled');
+
+    assert
+      .dom(screen.getByText('Télécharger la sélection des sujets (1) (JSON, 0.01ko)'))
+      .hasAttribute('download', expectedAttr);
   });
 
   test('Enable the download button if a thematic is selected', async function (assert) {
@@ -95,6 +100,7 @@ module('Integration | Component | tube:list', function (hooks) {
 
     // when
     await render(hbs`<Tube::list @areas={{this.areas}}/>`);
+
     await clickByName('1 · Titre domaine');
     await clickByName('thematic1');
 
@@ -107,15 +113,14 @@ module('Integration | Component | tube:list', function (hooks) {
     this.set('areas', areas);
 
     // when
-    await render(hbs`<Tube::list @areas={{this.areas}}/>`);
-    const tube1 = document.getElementById('tube-tubeId1');
-    const tube2 = document.getElementById('tube-tubeId2');
+    const screen = await render(hbs`<Tube::list @areas={{this.areas}}/>`);
+
     await clickByName('1 · Titre domaine');
     await clickByName('thematic1');
 
     // then
-    assert.dom(tube1).isChecked();
-    assert.dom(tube2).isChecked();
+    assert.dom(screen.getByLabelText('Titre 1 : Description 1')).isChecked();
+    assert.dom(screen.getByLabelText('Titre 2 : Description 2')).isChecked();
   });
 
   test('Should check the thematics if all corresponding tubes are selected', async function (assert) {
@@ -123,13 +128,13 @@ module('Integration | Component | tube:list', function (hooks) {
     this.set('areas', areas);
 
     // when
-    await render(hbs`<Tube::list @areas={{this.areas}}/>`);
-    const thematic = document.getElementById('thematic-thematicId');
+    const screen = await render(hbs`<Tube::list @areas={{this.areas}}/>`);
+
     await clickByName('1 · Titre domaine');
     await clickByName('Titre 1 : Description 1');
     await clickByName('Titre 2 : Description 2');
 
     // then
-    assert.dom(thematic).isChecked();
+    assert.dom(screen.getByLabelText('thematic1')).isChecked();
   });
 });
