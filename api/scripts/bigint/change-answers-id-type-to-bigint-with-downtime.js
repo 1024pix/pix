@@ -7,6 +7,10 @@ const changeAnswerIdTypeToBigint = async () => {
   await knex.raw(`ALTER TABLE "knowledge-elements" ALTER COLUMN "answerId" TYPE BIGINT`);
   logger.info('Altering knowledge-elements.answerId type to BIGINT - Done');
 
+  logger.info('Altering flash-assessment-results.answerId type to BIGINT - In progress');
+  await knex.raw(`ALTER TABLE "flash-assessment-results" ALTER COLUMN "answerId" TYPE BIGINT`);
+  logger.info('Altering flash-assessment-results.answerId type to BIGINT - Done');
+
   logger.info('Altering answers.id type to BIGINT - In progress');
   await knex.raw(`ALTER TABLE "answers" ALTER COLUMN "id" TYPE BIGINT`);
   logger.info('Altering answers.id type to BIGINT - Done');
