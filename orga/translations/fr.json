@@ -490,6 +490,7 @@
       "sub-title": "Recommandation de sujets à travailler",
       "table": {
         "analysis": {
+          "caption": "Tableau des sujets à travailler, certains présentent des colonnes supplémentaires indiquant le nombre de tutoriels existant en lien avec le sujet et un accès à ces tutoriels",
           "title": "Analyse par sujet",
           "column": {
             "relevance": "Pertinence",
