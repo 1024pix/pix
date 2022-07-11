@@ -148,6 +148,12 @@ module.exports = {
       const certificationCandidateIdsInSession = await knex('certification-candidates')
         .where({ sessionId })
         .pluck('id');
+      const supervisorAccessIds = await knex('supervisor-accesses').where({ sessionId }).pluck('id');
+
+      if (supervisorAccessIds) {
+        await trx('supervisor-accesses').whereIn('id', supervisorAccessIds).del();
+      }
+
       if (certificationCandidateIdsInSession.length) {
         await trx('complementary-certification-subscriptions')
           .whereIn('certificationCandidateId', certificationCandidateIdsInSession)
