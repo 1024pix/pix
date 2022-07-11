@@ -1,10 +1,13 @@
 import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
-import UnauthenticatedRouteMixin from 'ember-simple-auth/mixins/unauthenticated-route-mixin';
 
-export default class AnonymousRoute extends Route.extend(UnauthenticatedRouteMixin) {
+export default class AnonymousRoute extends Route {
   @service session;
   @service currentUser;
+
+  beforeModel() {
+    this.session.prohibitAuthentication('user-dashboard');
+  }
 
   model() {
     return this.modelFor('campaigns');
