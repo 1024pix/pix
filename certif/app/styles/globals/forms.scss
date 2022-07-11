@@ -1,6 +1,6 @@
 .label {
   display: inline-block;
-  color: $grey-70;
+  color: $pix-neutral-70;
   font-size: 0.94rem;
   font-weight: 500;
   padding-bottom: 5px;
@@ -8,16 +8,16 @@
 }
 
 .input {
-  border: 2px solid $grey-20;
+  border: 2px solid $pix-neutral-20;
   border-radius: 4px;
   height: 40px;
   font-size: 1rem;
   padding-left: 15px;
-  color: $grey-80;
+  color: $pix-neutral-80;
   outline: none;
 
   &:focus {
-    border: 2px solid $communication-dark;
+    border: 2px solid $pix-communication-dark;
   }
 
   &--small {
@@ -38,16 +38,16 @@ input[type=number] {
 }
 
 .textarea {
-  border: 2px solid $grey-20;
+  border: 2px solid $pix-neutral-20;
   border-radius: 4px;
   font-size: 1rem;
   padding: 8px;
-  color: $grey-80;
+  color: $pix-neutral-80;
   outline: none;
   resize: none;
 
   &:focus {
-    border: 2px solid $communication-dark;
+    border: 2px solid $pix-communication-dark;
   }
 }
 
@@ -59,13 +59,13 @@ input[type=number] {
 
 .select {
   font-size: 1rem;
-  border: 2px $grey-20 solid;
+  border: 2px $pix-neutral-20 solid;
   height: 46px;
   background-color: white;
   outline: none;
 
   &:focus {
-    border: 2px solid $communication-dark;
+    border: 2px solid $pix-communication-dark;
   }
 }
 
@@ -82,17 +82,17 @@ input[type=number] {
     background: none;
     font-family: $font-roboto;
     font-size: 0.875rem;
-    color: $blue-zodiac;
+    color: $pix-neutral-60;
 
     &:hover {
       cursor: pointer;
-      color: $communication-dark;
+      color: $pix-communication-dark;
     }
   }
 }
 
 .icon-button {
-  color: $grey-45;
+  color: $pix-neutral-45;
   padding: 6px 8px;
   border: none;
   font-size: 1rem;
@@ -102,7 +102,7 @@ input[type=number] {
 
   &:hover,
   &:active {
-    background-color: $grey-20;
+    background-color: $pix-neutral-20;
     border-radius: 16px;
     transition: background-color 0.2s ease;
   }
@@ -120,17 +120,17 @@ input[type=number] {
   transition: box-shadow 0.1s linear;
 
   &--unchecked {
-    border: 2px solid $grey-60;
+    border: 2px solid $pix-neutral-60;
 
     &:hover {
-      background-color: $grey-10;
-      box-shadow: 0 0 0 8px rgba($grey-40, 0.1);
-      border-color: $grey-40;
+      background-color: $pix-neutral-10;
+      box-shadow: 0 0 0 8px rgba($pix-neutral-40, 0.1);
+      border-color: $pix-neutral-40;
     }
   }
 
   &--checked {
-    background-color: $communication-dark;
-    border: 2px solid $communication-dark;
+    background-color: $pix-communication-dark;
+    border: 2px solid $pix-communication-dark;
   }
 }

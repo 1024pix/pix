@@ -12,8 +12,8 @@
   &__frame {
     max-height: 50vh;
     overflow-y: scroll;
-    background-color: $white;
-    border: 1px solid $grey-22;
+    background-color: $pix-neutral-0;
+    border: 1px solid $pix-neutral-22;
     border-radius: 4px;
     padding: 24px;
 
@@ -47,7 +47,7 @@
 
   &__subcategory-label {
     font-family: $font-roboto;
-    color: $grey-50;
+    color: $pix-neutral-50;
     padding: 0 0 0 16px;
     margin: 8px 0 0 0;
   }

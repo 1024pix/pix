@@ -9,14 +9,14 @@
     min-width: 10px;
     height: 4px;
     border-radius: 1px;
-    background-color: $grey-22;
+    background-color: $pix-neutral-22;
   }
 
   &--unchecked {
-    background-color: $white;
+    background-color: $pix-neutral-0;
   }
 
   &--partial:hover &__dash-icon {
-    background-color: $grey-40;
+    background-color: $pix-neutral-40;
   }
 }
