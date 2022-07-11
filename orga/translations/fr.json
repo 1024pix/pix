@@ -847,6 +847,7 @@
           "first-name": "Prénom",
           "group": "Groupes",
           "last-name": "Nom",
+          "last-participation-date": "Dernière participation",
           "participation-count": "Nombre de participations",
           "student-number": "Numéro étudiant"
         },

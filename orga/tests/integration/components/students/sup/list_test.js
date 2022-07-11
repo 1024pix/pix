@@ -52,7 +52,7 @@ module('Integration | Component | Student::Sup::List', function (hooks) {
     assert.dom('[aria-label="Étudiant"]').exists({ count: 2 });
   });
 
-  test('it should display the student number, firstName, lastName, birthdate, group and participation count of student', async function (assert) {
+  test('it should display the student number, firstName, lastName, birthdate, group, participation count and and last participation date of student', async function (assert) {
     // given
     const students = [
       {
@@ -62,6 +62,7 @@ module('Integration | Component | Student::Sup::List', function (hooks) {
         birthdate: new Date('2010-02-01'),
         group: 'AB1',
         participationCount: 88,
+        lastParticipationDate: new Date('2022-01-03'),
       },
     ];
 
@@ -78,6 +79,7 @@ module('Integration | Component | Student::Sup::List', function (hooks) {
     assert.contains('01/02/2010');
     assert.contains('AB1');
     assert.contains('88');
+    assert.contains('03/01/2022');
   });
 
   module('when user is filtering some users', function () {
