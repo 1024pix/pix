@@ -78,6 +78,6 @@ export default class ChallengeStatement extends Component {
 
   _insertLinkTitle(markdownLink) {
     const markdownLinkWithoutLastChar = markdownLink.substring(0, markdownLink.length - 1);
-    return markdownLinkWithoutLastChar + ' "' + this.linkTitle + '")';
+    return `${markdownLinkWithoutLastChar} "${this.linkTitle}")`;
   }
 }
