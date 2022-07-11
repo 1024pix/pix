@@ -815,12 +815,6 @@ class AdminMemberError extends DomainError {
   }
 }
 
-class AdminMemberRoleUpdateError extends DomainError {
-  constructor(message = 'Erreur lors de la mise à jour du rôle du membre Pix Admin.') {
-    super(message);
-  }
-}
-
 class SessionAlreadyFinalizedError extends DomainError {
   constructor(message = 'Erreur, tentatives de finalisation multiples de la session.') {
     super(message);
@@ -1124,7 +1118,6 @@ module.exports = {
   AccountRecoveryUserAlreadyConfirmEmail,
   AcquiredBadgeForbiddenDeletionError,
   AdminMemberError,
-  AdminMemberRoleUpdateError,
   AlreadyAcceptedOrCancelledOrganizationInvitationError,
   AlreadyExistingAdminMemberError,
   AlreadyExistingEntityError,
