@@ -564,7 +564,7 @@
         },
         "sr-only": {
           "embed": "Cette épreuve contient un simulateur.",
-          "alternative-instruction": "Cette épreuve a une consigne alternative."
+          "alternative-instruction": "Cette épreuve contient une illustration avec une alternative textuelle."
         }
       },
       "timed": {
