@@ -564,7 +564,7 @@
         },
         "sr-only": {
           "embed": "This question uses a simulator.",
-          "alternative-instruction": "This question has an alternative instruction."
+          "alternative-instruction": "This question contains an illustration with a text alternative."
         }
       },
       "timed": {
