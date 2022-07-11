@@ -35,7 +35,7 @@ describe('Integration | Component | user certifications detail result', function
     });
   });
 
-  context('when certification has no comment for user', function () {
+  context('when certification has no comment for the user', function () {
     it('should not show the comment for candidate', async function () {
       // given
       const certification = EmberObject.create({
@@ -54,7 +54,7 @@ describe('Integration | Component | user certifications detail result', function
 
       // when
       const screen = await renderScreen(hbs`<UserCertificationsDetailResult @certification={{this.certification}}/>`);
-      expect(screen.queryByText(this.intl.t('pages.certificate.jury-title'))).to.not.exist;
+      expect(screen.queryByRole('heading', { name: this.intl.t('pages.certificate.jury-title') })).to.not.exist;
     });
   });
 
