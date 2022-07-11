@@ -1,8 +1,8 @@
 import Route from '@ember/routing/route';
-import UnauthenticatedRouteMixin from 'ember-simple-auth/mixins/unauthenticated-route-mixin';
 import { inject as service } from '@ember/service';
 
-export default class JoinRoute extends Route.extend(UnauthenticatedRouteMixin) {
+export default class JoinRoute extends Route {
+  @service session;
   @service router;
 
   beforeModel(transition) {
@@ -10,6 +10,8 @@ export default class JoinRoute extends Route.extend(UnauthenticatedRouteMixin) {
       return this.router.replaceWith('campaigns.entry-point');
     }
     this.routeIfAlreadyAuthenticated = 'campaigns.access';
+
+    this.session.prohibitAuthentication('user-dashboard');
     super.beforeModel(...arguments);
   }
 
