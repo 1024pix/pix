@@ -23,16 +23,10 @@
         @selected={{@selectedDivisions}}
         @onSelect={{this.onSelectDivision}}
         @placeholder={{t "pages.campaign-results.filters.type.divisions.placeholder"}}
-        class="participant-filter-banner__multi-select"
       />
     {{/if}}
     {{#if this.displayGroupsFilter}}
-      <Ui::GroupsFilter
-        @campaign={{@campaign}}
-        @onSelect={{this.onSelectGroup}}
-        @selectedGroups={{@selectedGroups}}
-        class="participant-filter-banner__multi-select"
-      />
+      <Ui::GroupsFilter @campaign={{@campaign}} @onSelect={{this.onSelectGroup}} @selectedGroups={{@selectedGroups}} />
     {{/if}}
     {{#if this.displaySearchFilter}}
       <Ui::SearchInput
@@ -50,6 +44,7 @@
         @onSelect={{this.onSelectStage}}
         @selected={{@selectedStages}}
         @options={{this.stageOptions}}
+        class="participant-filter-banner__stages"
         as |stage|
       >
         <Campaign::StageStars @result={{stage.threshold}} @stages={{@campaign.stages}} />
@@ -62,6 +57,7 @@
         @onSelect={{this.onSelectBadge}}
         @selected={{@selectedBadges}}
         @options={{this.badgeOptions}}
+        class="participant-filter-banner__badges"
         as |badge|
       >
         {{badge.label}}
