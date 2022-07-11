@@ -3,7 +3,7 @@
   border-radius: 0.195em;
   padding: 9px;
   margin-bottom: 11px;
-  color: $pix-neutral-0;
+  color: $pix-neutral-110;
   text-shadow: none;
   font-size: 0.875rem;
   font-weight: $font-normal;
@@ -15,6 +15,7 @@
   &--danger {
     border: 1px solid $pix-error-70;
     background-color: $pix-error-10;
+    color: $pix-error-70;
   }
 }
 
