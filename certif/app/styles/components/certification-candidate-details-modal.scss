@@ -9,7 +9,7 @@
 
   &__row {
     align-items: center;
-    border-bottom: 1px solid $grey-20;
+    border-bottom: 1px solid $pix-neutral-20;
     display: flex;
     list-style: none;
     line-height: 22px;
@@ -25,7 +25,7 @@
 
     &__value {
       font-weight: 400;
-      color: $blue-zodiac;
+      color: $pix-neutral-60;
     }
   }
 

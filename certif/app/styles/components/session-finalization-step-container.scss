@@ -7,9 +7,9 @@
     align-items: center;
     border-radius: 8px;
     display: flex;
-    background: $grey-10;
+    background: $pix-neutral-10;
     margin: 8px;
-    color: $grey-60;
+    color: $pix-neutral-60;
     font-weight: bold;
     padding: 20px 0 19px 24px;
   }
@@ -25,6 +25,6 @@
   }
 
   &__border {
-    border-top: 1px solid $grey-20;
+    border-top: 1px solid $pix-neutral-20;
   }
 }

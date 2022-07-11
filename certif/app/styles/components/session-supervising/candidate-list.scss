@@ -1,10 +1,5 @@
-$yellow-30: #FFBE00;
-$grey-85: rgb(37, 56, 88);
-$green-0: #EFFFD8;
-$green-70: #006134;
-
 .session-supervising-candidate-list-background {
-  background: $grey-100;
+  background: $pix-neutral-100;
   border-radius: 18px 18px 0 0;
   flex-grow: 1;
   padding: 24px 8px;
@@ -23,7 +18,7 @@ $green-70: #006134;
     &__description {
       display: flex;
       justify-content: flex-start;
-      color: $grey-15;
+      color: $pix-neutral-15;
       font-size: 12px;
       font-weight: normal;
       height: 14px;
@@ -36,7 +31,7 @@ $green-70: #006134;
       font-weight: 600;
       margin-top: 0;
       font-family: $font-open-sans;
-      color: $grey-15;
+      color: $pix-neutral-15;
       font-size: 1.125rem;
       padding: 0 8px;
     }
@@ -46,11 +41,11 @@ $green-70: #006134;
       padding: 0;
 
       > li:nth-child(odd) {
-        background: $grey-80;
+        background: $pix-neutral-80;
       }
 
       > li:nth-child(even) {
-        background: $grey-90;
+        background: $pix-neutral-90;
       }
     }
 
@@ -60,7 +55,7 @@ $green-70: #006134;
     }
 
     &__empty-message {
-      color: $grey-15;
+      color: $pix-neutral-15;
       font-family: $font-open-sans;
       font-size: 1.125rem;
       font-weight: 600;

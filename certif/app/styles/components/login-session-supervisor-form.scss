@@ -15,7 +15,7 @@
   }
 
   &__title {
-    color: $grey-30;
+    color: $pix-neutral-30;
     font-size: 0.8rem;
     font-weight: normal;
     margin: 8px 0 0;
@@ -23,7 +23,7 @@
   }
 
   &__subtitle {
-    color: $grey-80;
+    color: $pix-neutral-80;
     font-family: $font-open-sans;
     font-weight: normal;
     font-size: 1.75rem;
@@ -31,7 +31,7 @@
   }
 
   &__required-fields-notice {
-    color: $grey-30;
+    color: $pix-neutral-30;
     font-size: 0.8rem;
     margin: 8px 0 24px;
   }
@@ -54,7 +54,7 @@
   }
 
   &__description {
-    color: $grey-30;
+    color: $pix-neutral-30;
     font-size: 0.8rem;
     margin: 0;
     text-align: center;

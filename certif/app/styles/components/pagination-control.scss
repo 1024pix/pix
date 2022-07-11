@@ -17,12 +17,12 @@
     position: relative;
     display: flex;
     align-items: center;
-    color: $grey-70;
+    color: $pix-neutral-70;
 
     select {
       height: 35px;
       width: 70px;
-      background-color: $grey-20;
+      background-color: $pix-neutral-20;
       border: none;
       border-radius: 5px;
       padding-left: 8px;
@@ -51,7 +51,7 @@
   &__arrow {
 
     &--disabled .icon-button {
-      color: $grey-22;
+      color: $pix-neutral-22;
       cursor: default;
 
       &.icon-button:hover,
