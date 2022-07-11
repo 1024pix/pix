@@ -73,6 +73,7 @@ describe('Integration | Component | user certifications detail result', function
         status: 'validated',
         commentForCandidate: null,
         hasCleaCertif: true,
+        hasAcquiredComplementaryCertifications: true,
       });
       this.set('certification', certification);
 
@@ -123,6 +124,7 @@ describe('Integration | Component | user certifications detail result', function
         isPublished: true,
         pixScore: 654,
         status: 'validated',
+        hasAcquiredComplementaryCertifications: true,
         certifiedBadgeImages: [
           {
             url: '/some/img',
@@ -152,6 +154,7 @@ describe('Integration | Component | user certifications detail result', function
           isPublished: true,
           pixScore: 654,
           status: 'validated',
+          hasAcquiredComplementaryCertifications: true,
           certifiedBadgeImages: [
             {
               url: '/some/img',
@@ -194,6 +197,35 @@ describe('Integration | Component | user certifications detail result', function
       const screen = await renderScreen(hbs`<UserCertificationsDetailResult @certification={{this.certification}}/>`);
       // then
       expect(screen.queryByRole('img', { name: 'Certification complémentaire' })).to.not.exist;
+    });
+  });
+
+  context('when certification has jury comments but no complementary certifed badges', function () {
+    it('should not show the complementary certification badge section', async function () {
+      // given
+      certification = EmberObject.create({
+        id: 1,
+        birthdate: new Date('2000-01-22T15:15:52Z'),
+        firstName: 'Jean',
+        lastName: 'Bon',
+        date: new Date('2018-02-15T15:15:52Z'),
+        certificationCenter: 'Université de Lyon',
+        isPublished: true,
+        pixScore: 654,
+        status: 'validated',
+        commentForCandidate: 'Commentaire du jury',
+        hasCleaCertif: false,
+        certifiedBadgeImages: [],
+      });
+      this.set('certification', certification);
+
+      // when
+      const screen = await renderScreen(hbs`<UserCertificationsDetailResult @certification={{this.certification}}/>`);
+
+      // then
+      expect(
+        screen.queryByRole('heading', { name: this.intl.t('pages.certificate.complementary.title') })
+      ).to.not.exist;
     });
   });
 });
