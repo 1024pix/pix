@@ -1,20 +1,12 @@
 .certification-info-field {
-  padding: 0 15px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
 
   &__label {
     margin-right: 5px;
-
-    &--editing {
-      width: 160px;
-    }
-
-    &--large {
-      min-width: 100%;
-    }
-
-    &--small {
-      max-width: 54px;
-    }
   }
 
   p {
