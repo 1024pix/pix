@@ -4,6 +4,9 @@
       <tr>
         <Table::Header>{{t "pages.organization-participants.table.column.last-name"}}</Table::Header>
         <Table::Header>{{t "pages.organization-participants.table.column.first-name"}}</Table::Header>
+        <Table::Header @align="right">{{t
+            "pages.organization-participants.table.column.participation-count"
+          }}</Table::Header>
       </tr>
     </thead>
 
@@ -13,6 +16,7 @@
           <tr aria-label={{t "pages.organization-participants.table.row-title"}}>
             <td class="ellipsis" title={{participant.lastName}}>{{participant.lastName}}</td>
             <td class="ellipsis" title={{participant.firstName}}>{{participant.firstName}}</td>
+            <td class="table__column--right">{{participant.participationCount}}</td>
           </tr>
         {{/each}}
       </tbody>
