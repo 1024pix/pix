@@ -60,4 +60,47 @@ module.exports = {
     }
     return h.response(scoOrganizationLearnerSerializer.serializeIdentity(organizationLearner));
   },
+
+  async generateUsername(request, h) {
+    const payload = request.payload.data.attributes;
+    const { 'campaign-code': campaignCode } = payload;
+
+    const studentInformation = {
+      firstName: payload['first-name'],
+      lastName: payload['last-name'],
+      birthdate: payload['birthdate'],
+    };
+
+    const username = await usecases.generateUsername({ campaignCode, studentInformation });
+
+    const scoOrganizationLearner = {
+      ...studentInformation,
+      username,
+      campaignCode,
+    };
+
+    if (h.request.path === '/api/schooling-registration-user-associations/possibilities') {
+      // we don't persist this ressource, we simulate response by adding the generated username
+      const organizationLearnerWithUsernameResponse = {
+        data: {
+          attributes: {
+            'last-name': payload['last-name'],
+            'first-name': payload['first-name'],
+            birthdate: payload['birthdate'],
+            'campaign-code': campaignCode,
+            username,
+          },
+          type: 'schooling-registration-user-associations',
+        },
+      };
+      return h
+        .response(organizationLearnerWithUsernameResponse)
+        .code(200)
+        .header('Deprecation', 'true')
+        .header('Link', '/api/sco-organization-learners/possibilities; rel="successor-version"');
+    }
+    return h
+      .response(scoOrganizationLearnerSerializer.serializeWithUsernameGeneration(scoOrganizationLearner))
+      .code(200);
+  },
 };
