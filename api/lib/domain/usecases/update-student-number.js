@@ -6,12 +6,12 @@ module.exports = async function updateStudentNumber({
   organizationId,
   supOrganizationLearnerRepository,
 }) {
-  const registration = await supOrganizationLearnerRepository.findOneByStudentNumber({
+  const supOrganizationLearner = await supOrganizationLearnerRepository.findOneByStudentNumber({
     organizationId,
     studentNumber,
   });
 
-  if (registration) {
+  if (supOrganizationLearner) {
     throw new AlreadyExistingEntityError('STUDENT_NUMBER_EXISTS');
   }
 

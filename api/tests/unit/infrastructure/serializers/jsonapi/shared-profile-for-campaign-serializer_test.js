@@ -46,7 +46,7 @@ describe('Unit | Serializer | JSONAPI | shared-profile-for-campaign-serializer',
       profileSharedForCampaign = new SharedProfileForCampaign({
         campaignParticipation,
         campaignAllowsRetry: true,
-        isRegistrationActive: true,
+        isOrganizationLearnerActive: true,
         competencesWithArea,
         knowledgeElementsGroupedByCompetenceId,
       });

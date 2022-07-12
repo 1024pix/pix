@@ -22,7 +22,7 @@ module.exports = async function getUserProfileSharedForCampaign({
 
   const [
     { multipleSendings: campaignAllowsRetry },
-    isRegistrationActive,
+    isOrganizationLearnerActive,
     competencesWithArea,
     knowledgeElementsGroupedByCompetenceId,
   ] = await Promise.all([
@@ -38,7 +38,7 @@ module.exports = async function getUserProfileSharedForCampaign({
   return new SharedProfileForCampaign({
     campaignParticipation,
     campaignAllowsRetry,
-    isRegistrationActive,
+    isOrganizationLearnerActive,
     competencesWithArea,
     knowledgeElementsGroupedByCompetenceId,
     userId,

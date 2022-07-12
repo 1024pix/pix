@@ -57,29 +57,29 @@ module.exports = {
 
   async replaceStudents(organizationId, supOrganizationLearners) {
     await knex.transaction(async (transaction) => {
-      await _disableAllRegistrations(transaction, organizationId);
+      await _disableAllOrganizationLearners(transaction, organizationId);
       await _upsertStudents(transaction, supOrganizationLearners);
     });
   },
 };
 
-async function _disableAllRegistrations(queryBuilder, organizationId) {
+async function _disableAllOrganizationLearners(queryBuilder, organizationId) {
   await queryBuilder('organization-learners')
     .update({ isDisabled: true, updatedAt: knex.raw('CURRENT_TIMESTAMP') })
     .where({ organizationId, isDisabled: false });
 }
 
 async function _upsertStudents(queryBuilder, supOrganizationLearners) {
-  const registrationsToInsert = supOrganizationLearners.map((registration) => ({
-    ..._.pick(registration, ATTRIBUTES_TO_SAVE),
-    status: registration.studyScheme,
+  const supOrganizationLearnersToInsert = supOrganizationLearners.map((supOrganizationLearner) => ({
+    ..._.pick(supOrganizationLearner, ATTRIBUTES_TO_SAVE),
+    status: supOrganizationLearner.studyScheme,
     isDisabled: false,
     updatedAt: knex.raw('CURRENT_TIMESTAMP'),
   }));
 
   try {
     await queryBuilder('organization-learners')
-      .insert(registrationsToInsert)
+      .insert(supOrganizationLearnersToInsert)
       .onConflict(['organizationId', 'studentNumber'])
       .merge();
   } catch (error) {

@@ -243,29 +243,29 @@ async function _createUsers({ count, uniqId, trx }) {
 
 async function _createOrganizationLearners({ userIds, organizationId, uniqId, trx }) {
   const { type } = await trx.select('type').from('organizations').where({ id: organizationId }).first();
-  let schoolingRegistrationSpecificBuilder;
+  let organizationLearnerSpecificBuilder;
   switch (type) {
     case 'SCO':
-      schoolingRegistrationSpecificBuilder = _buildSCOOrganizationLearner;
+      organizationLearnerSpecificBuilder = _buildSCOOrganizationLearner;
       break;
     case 'SUP': {
-      schoolingRegistrationSpecificBuilder = _buildSUPOrganizationLearner;
+      organizationLearnerSpecificBuilder = _buildSUPOrganizationLearner;
       break;
     }
     case 'PRO': {
-      schoolingRegistrationSpecificBuilder = _buildPROOrganizationLearner;
+      organizationLearnerSpecificBuilder = _buildPROOrganizationLearner;
       break;
     }
     default:
       throw new Error(`L'organisation d'id ${organizationId} présente le type inconnu : ${type}`);
   }
-  const schoolingRegistrationData = [];
+  const organizationLearnerData = [];
   for (const userId of userIds) {
     const identifier = _getIdentifier(uniqId);
-    schoolingRegistrationData.push(schoolingRegistrationSpecificBuilder({ userId, organizationId, identifier }));
+    organizationLearnerData.push(organizationLearnerSpecificBuilder({ userId, organizationId, identifier }));
   }
-  const chunkSize = _getChunkSize(schoolingRegistrationData[0]);
-  return trx.batchInsert('organization-learners', schoolingRegistrationData.flat(), chunkSize).returning('id');
+  const chunkSize = _getChunkSize(organizationLearnerData[0]);
+  return trx.batchInsert('organization-learners', organizationLearnerData.flat(), chunkSize).returning('id');
 }
 
 function _buildBaseOrganizationLearner({ userId, organizationId, identifier }) {

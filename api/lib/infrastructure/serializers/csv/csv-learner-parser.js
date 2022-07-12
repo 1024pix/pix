@@ -57,7 +57,7 @@ class CsvOrganizationLearnerParser {
 
     this._checkColumns(fields);
     learnerLines.forEach((line, index) => {
-      const learnerAttributes = this._lineToRegistrationAttributes(line);
+      const learnerAttributes = this._lineToOrganizationLearnerAttributes(line);
       try {
         this.learnerSet.addLearner(learnerAttributes);
       } catch (err) {
@@ -112,7 +112,7 @@ class CsvOrganizationLearnerParser {
     return { learnerLines, fields };
   }
 
-  _lineToRegistrationAttributes(line) {
+  _lineToOrganizationLearnerAttributes(line) {
     const learnerAttributes = {
       organizationId: this._organizationId,
     };

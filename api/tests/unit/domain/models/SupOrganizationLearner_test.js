@@ -3,7 +3,7 @@ const { expect, catchErr } = require('../../../test-helper');
 
 describe('Unit | Domain | Models | SupOrganizationLearner', function () {
   describe('#validate', function () {
-    const buildRegistration = (attributes) => new SupOrganizationLearner(attributes);
+    const buildOrganizationLearner = (attributes) => new SupOrganizationLearner(attributes);
 
     const validAttributes = {
       studentNumber: 'A12345',
@@ -26,7 +26,7 @@ describe('Unit | Domain | Models | SupOrganizationLearner', function () {
     // eslint-disable-next-line mocha/no-setup-in-describe
     ['firstName', 'lastName', 'birthdate', 'studentNumber'].forEach((field) => {
       it(`throw an error when ${field} is required`, async function () {
-        const error = await catchErr(buildRegistration)({ ...validAttributes, [field]: undefined });
+        const error = await catchErr(buildOrganizationLearner)({ ...validAttributes, [field]: undefined });
 
         expect(error.key).to.equal(field);
         expect(error.why).to.equal('required');
@@ -49,7 +49,7 @@ describe('Unit | Domain | Models | SupOrganizationLearner', function () {
       'studyScheme',
     ].forEach((field) => {
       it(`throw an error when string ${field} exceeds 255 characters`, async function () {
-        const error = await catchErr(buildRegistration)({ ...validAttributes, [field]: '1'.repeat(256) });
+        const error = await catchErr(buildOrganizationLearner)({ ...validAttributes, [field]: '1'.repeat(256) });
 
         expect(error.key).to.equal(field);
         expect(error.why).to.equal('max_length');
@@ -73,7 +73,7 @@ describe('Unit | Domain | Models | SupOrganizationLearner', function () {
       'studyScheme',
     ].forEach((field) => {
       it(`throw an error when ${field} is not a string`, async function () {
-        const error = await catchErr(buildRegistration)({ ...validAttributes, [field]: null });
+        const error = await catchErr(buildOrganizationLearner)({ ...validAttributes, [field]: null });
 
         expect(error.key).to.equal(field);
         expect(error.why).to.equal('not_a_string');
@@ -81,7 +81,7 @@ describe('Unit | Domain | Models | SupOrganizationLearner', function () {
     });
 
     it('throw an error when organizationId is not an integer', async function () {
-      const error = await catchErr(buildRegistration)({ ...validAttributes, organizationId: 12.5 });
+      const error = await catchErr(buildOrganizationLearner)({ ...validAttributes, organizationId: 12.5 });
 
       expect(error.key).to.equal('organizationId');
       expect(error.why).to.equal('not_an_integer');
@@ -89,7 +89,7 @@ describe('Unit | Domain | Models | SupOrganizationLearner', function () {
 
     context('when birthdate is not a date', function () {
       it('throws an error', async function () {
-        const error = await catchErr(buildRegistration)({ ...validAttributes, birthdate: null });
+        const error = await catchErr(buildOrganizationLearner)({ ...validAttributes, birthdate: null });
 
         expect(error.key).to.equal('birthdate');
         expect(error.why).to.equal('required');
@@ -98,7 +98,7 @@ describe('Unit | Domain | Models | SupOrganizationLearner', function () {
 
     context('when birthdate has not a valid format', function () {
       it('throws an error', async function () {
-        const error = await catchErr(buildRegistration)({ ...validAttributes, birthdate: '2020/02/01' });
+        const error = await catchErr(buildOrganizationLearner)({ ...validAttributes, birthdate: '2020/02/01' });
 
         expect(error.key).to.equal('birthdate');
         expect(error.why).to.equal('date_format');
@@ -107,7 +107,7 @@ describe('Unit | Domain | Models | SupOrganizationLearner', function () {
 
     context('when birthdate is null', function () {
       it('throws an error', async function () {
-        const error = await catchErr(buildRegistration)({ ...validAttributes, birthdate: null });
+        const error = await catchErr(buildOrganizationLearner)({ ...validAttributes, birthdate: null });
 
         expect(error.key).to.equal('birthdate');
         expect(error.why).to.equal('required');
@@ -116,7 +116,7 @@ describe('Unit | Domain | Models | SupOrganizationLearner', function () {
 
     context('when email is not correctly formed', function () {
       it('throws an error', async function () {
-        const error = await catchErr(buildRegistration)({ ...validAttributes, email: 'sdfsfsdf' });
+        const error = await catchErr(buildOrganizationLearner)({ ...validAttributes, email: 'sdfsfsdf' });
 
         expect(error.key).to.equal('email');
         expect(error.why).to.equal('email_format');
@@ -128,7 +128,7 @@ describe('Unit | Domain | Models | SupOrganizationLearner', function () {
         // eslint-disable-next-line mocha/no-setup-in-describe
         ['#123457', '1 23457', '1.23457', '1,23457E+11', 'gégé'].forEach((value) => {
           it(`throw an error when student number is ${value}`, async function () {
-            const error = await catchErr(buildRegistration)({ ...validAttributes, studentNumber: value });
+            const error = await catchErr(buildOrganizationLearner)({ ...validAttributes, studentNumber: value });
 
             expect(error.why).to.equal('student_number_format');
             expect(error.key).to.equal('studentNumber');
@@ -141,7 +141,7 @@ describe('Unit | Domain | Models | SupOrganizationLearner', function () {
         ['123456', '1234aA', '1-a-B', '1_a_B'].forEach((value) => {
           it(`throw an error when student number is ${value}`, async function () {
             try {
-              await buildRegistration({ ...validAttributes, studentNumber: value });
+              await buildOrganizationLearner({ ...validAttributes, studentNumber: value });
             } catch (e) {
               expect.fail('supOrganizationLearner is valid when student number is correctly formed');
             }

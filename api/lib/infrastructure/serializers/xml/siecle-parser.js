@@ -61,11 +61,11 @@ class SiecleParser {
 
   async _parseStudents() {
     await this.siecleFileStreamer.perform((stream, resolve, reject) =>
-      this._extractStudentRegistrationsFromStream(stream, resolve, reject)
+      this._extractOrganizationLearnersFromStream(stream, resolve, reject)
     );
   }
 
-  _extractStudentRegistrationsFromStream(saxParser, resolve, reject) {
+  _extractOrganizationLearnersFromStream(saxParser, resolve, reject) {
     const streamerToParseOrganizationLearners = new saxPath.SaXPath(saxParser, NODES_ORGANIZATION_LEARNERS);
     streamerToParseOrganizationLearners.on('match', (xmlNode) => {
       if (_isOrganizationLearnerNode(xmlNode)) {

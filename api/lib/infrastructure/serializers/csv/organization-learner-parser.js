@@ -27,7 +27,7 @@ class OrganizationLearnerSet {
     const organizationLearner = new OrganizationLearner(transformedAttributes);
     this.learners.push(organizationLearner);
 
-    this._checkRegistrationsUnicity(organizationLearner);
+    this._checkOrganizationLearnersUnicity(organizationLearner);
   }
 
   _transform(learnerAttributes) {
@@ -49,18 +49,18 @@ class OrganizationLearnerSet {
     };
   }
 
-  _checkRegistrationsUnicity(registration) {
+  _checkOrganizationLearnersUnicity(organizationLearner) {
     // we removed JOI unicity validation (uniq)
     // because it took too much time (2h30  for 10000 learners)
     // we did the same validation but manually
-    if (this.existingNationalStudentIds.includes(registration.nationalStudentId)) {
+    if (this.existingNationalStudentIds.includes(organizationLearner.nationalStudentId)) {
       const err = new DomainError();
       err.key = 'nationalIdentifier';
       err.why = 'uniqueness';
 
       throw err;
     }
-    this.existingNationalStudentIds.push(registration.nationalStudentId);
+    this.existingNationalStudentIds.push(organizationLearner.nationalStudentId);
   }
 }
 
