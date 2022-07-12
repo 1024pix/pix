@@ -158,7 +158,6 @@ module.exports = {
         updatedAt: knexConn.raw('CURRENT_TIMESTAMP'),
         isDisabled: false,
       }));
-
       await knexConn('organization-learners')
         .insert(organizationLearnersToSave)
         .onConflict(['organizationId', 'nationalStudentId'])
@@ -169,25 +168,25 @@ module.exports = {
   },
 
   async _reconcileOrganizationLearners(organizationLearnersToImport, existingOrganizationLearners, domainTransaction) {
-    const nationalStudentIdsFromFile = organizationLearnersToImport.map(
-      (organizationLearnerData) => organizationLearnerData.nationalStudentId
-    );
+    const nationalStudentIdsFromFile = organizationLearnersToImport
+      .map((organizationLearnerData) => organizationLearnerData.nationalStudentId)
+      .filter(Boolean);
     const students = await studentRepository.findReconciledStudentsByNationalStudentId(
-      _.compact(nationalStudentIdsFromFile),
+      nationalStudentIdsFromFile,
       domainTransaction
     );
 
-    _.each(students, (student) => {
-      const alreadyReconciledOrganizationLearner = _.find(organizationLearnersToImport, {
-        userId: student.account.userId,
-      });
+    students.forEach((student) => {
+      const alreadyReconciledOrganizationLearner = organizationLearnersToImport.find(
+        (organizationLearner) => organizationLearner.userId === student.account.userId
+      );
 
       if (alreadyReconciledOrganizationLearner) {
         alreadyReconciledOrganizationLearner.userId = null;
       } else if (_canReconcile(existingOrganizationLearners, student)) {
-        const organizationLearner = _.find(organizationLearnersToImport, {
-          nationalStudentId: student.nationalStudentId,
-        });
+        const organizationLearner = organizationLearnersToImport.find(
+          (organizationLearner) => organizationLearner.nationalStudentId === student.nationalStudentId
+        );
         organizationLearner.userId = student.account.userId;
       }
     });
