@@ -1,5 +1,34 @@
 # Pix Changelog
 
+## v3.232.0 (12/07/2022)
+
+
+### :rocket: Amélioration
+- [#4567](https://github.com/1024pix/pix/pull/4567) [FEATURE] Générer un token lors du changement de mot de passe temporaire (PIX-5202)
+- [#4642](https://github.com/1024pix/pix/pull/4642) [FEATURE] Modifier le libellé d'un signalement de sous-catégorie E11 (PIX-5290)
+- [#4621](https://github.com/1024pix/pix/pull/4621) [FEATURE] Revenir sur la page d'origine de la liste des sessions (PIX-5259).
+- [#4646](https://github.com/1024pix/pix/pull/4646) [FEATURE] Ramener le contexte des tutoriels lorsqu'ils sont présentés au moment de la correction (PIX-5326).
+- [#4584](https://github.com/1024pix/pix/pull/4584) [FEATURE] Affichage du petit "i" sur la date de dernière participation dans l'onglet élèves (PIX-5171).
+
+### :building_construction: Tech
+- [#4626](https://github.com/1024pix/pix/pull/4626) [TECH] Intégrer les couleurs du design system via Pix-UI pour Pix Orga( PIX-5154 ).
+- [#4627](https://github.com/1024pix/pix/pull/4627) [TECH] Suppression de mentions aux schooling-registrations dans l'API (PIX-5314).
+- [#4632](https://github.com/1024pix/pix/pull/4632) [TECH] Intégrer les couleurs du design system via Pix-UI pour Pix Certif (PIX-5155)
+
+### :bug: Correction
+- [#4648](https://github.com/1024pix/pix/pull/4648) [BUGFIX] Après être réconcilié on ne peut pas accéder a une autre campagne SCO de la même organisation (PIX-5328). 
+- [#4645](https://github.com/1024pix/pix/pull/4645) [BUGFIX] Suppression de la section "Autres certif comp" sur un certificat avec un commentaire (PIX-5274).
+- [#4644](https://github.com/1024pix/pix/pull/4644) [BUGFIX] Complète le `title` des liens des consignes d'épreuves (PIX-5324)
+- [#4633](https://github.com/1024pix/pix/pull/4633) [BUGFIX] Afficher le résultat d'une campagne inactive seulement pour les participations partagées (PIX-5296)
+- [#4638](https://github.com/1024pix/pix/pull/4638) [BUGFIX] Améliorer le message indiquant la présence d'une alternative textuelle sur les illustrations dans une épreuve sur Pix App (PIX-5271)
+- [#4640](https://github.com/1024pix/pix/pull/4640) [BUGFIX] Changer la couleur du texte de la bannière d'alerte sur Pix App (PIX-5231)
+- [#4631](https://github.com/1024pix/pix/pull/4631) [BUGFIX] Permettre la suppression de session lorsqu'un surveillant a rejoint l'espace surveillant (PIX-5280)
+
+### :coffee: Autre
+- [#4503](https://github.com/1024pix/pix/pull/4503) [ADMIN] Supprimer les références à Bootstrap dans la page Informations des certifications (PIX-5070)
+- [#4641](https://github.com/1024pix/pix/pull/4641) [A11Y] Ajouter une description au tableau d'analyse pour les lecteurs d'écrans(PIX-4252)
+- [#4587](https://github.com/1024pix/pix/pull/4587) [API]Utiliser une variable d'évènement pour définir le nombre de connexion à la BDD de PgBoss (PIX-5250).
+
 ## v3.231.0 (08/07/2022)
 
 
