@@ -1,10 +1,10 @@
 import { module, test } from 'qunit';
-import { setupRenderingTest } from 'ember-qunit';
+import setupIntlRenderingTest from '../../helpers/setup-intl-rendering'
 import { render as renderScreen } from '@1024pix/ember-testing-library';
 import { hbs } from 'ember-cli-htmlbars';
 
 module('Integration | Component | enrolled-candidates', function (hooks) {
-  setupRenderingTest(hooks);
+  setupIntlRenderingTest(hooks);
 
   const DELETE_BUTTON_SELECTOR = 'certification-candidates-actions__delete-button';
   const DELETE_BUTTON_DISABLED_SELECTOR = `${DELETE_BUTTON_SELECTOR}--disabled`;
