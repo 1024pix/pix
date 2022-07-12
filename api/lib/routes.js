@@ -41,6 +41,7 @@ module.exports = [
   require('./application/organization-learner-user-associations'),
   require('./application/organization-learners'),
   require('./application/scorecards'),
+  require('./application/sco-organization-learners'),
   require('./application/sessions'),
   require('./application/simulateErrors'),
   require('./application/stages'),

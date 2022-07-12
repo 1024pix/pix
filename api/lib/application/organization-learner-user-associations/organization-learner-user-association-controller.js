@@ -13,32 +13,6 @@ module.exports = {
     return organizationLearnerSerializer.serialize(organizationLearner);
   },
 
-  async reconcileOrganizationLearnerManually(request, h) {
-    const authenticatedUserId = request.auth.credentials.userId;
-    const payload = request.payload.data.attributes;
-    const campaignCode = payload['campaign-code'];
-    const withReconciliation = request.query.withReconciliation === 'true';
-
-    const reconciliationInfo = {
-      id: authenticatedUserId,
-      firstName: payload['first-name'],
-      lastName: payload['last-name'],
-      birthdate: payload['birthdate'],
-    };
-
-    const organizationLearner = await usecases.reconcileOrganizationLearner({
-      campaignCode,
-      reconciliationInfo,
-      withReconciliation,
-    });
-
-    if (withReconciliation) {
-      return organizationLearnerSerializer.serialize(organizationLearner);
-    }
-
-    return h.response().code(204);
-  },
-
   async reconcileSupOrganizationLearner(request, h) {
     const userId = request.auth.credentials.userId;
     const payload = request.payload.data.attributes;
