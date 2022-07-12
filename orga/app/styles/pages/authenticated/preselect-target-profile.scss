@@ -12,14 +12,14 @@
 }
 .preselect-tube-table {
   .is-responsive {
-    color: $green;
+    color: $pix-success-70;
   }
   .not-responsive {
     position: absolute;
     top: 50%;
     left: calc(50% + 12px);
     transform: translate(-50%, -50%);
-    color: $red;
+    color: $pix-error-70;
   }
 }
 
@@ -43,23 +43,23 @@
       }
 
       &.jaffa:before {
-        border-color: $information-light;
+        border-color: $pix-information-light;
       }
 
       &.emerald:before {
-        border-color: $content-light;
+        border-color: $pix-content-light;
       }
 
       &.cerulean:before {
-        border-color: $communication-light;
+        border-color: $pix-communication-light;
       }
 
       &.wild-strawberry:before {
-        border-color: $security-light;
+        border-color: $pix-security-light;
       }
 
       &.butterfly-bush:before {
-        border-color: $environment-light;
+        border-color: $pix-environment-light;
       }
     }
     &__content {
@@ -71,16 +71,16 @@
         font-size: 1.125rem;
         padding: 1rem;
         margin: 0;
-        color: $grey-90;
+        color: $pix-neutral-90;
       }
 
       table {
-        color: $grey-70;
+        color: $pix-neutral-70;
       }
 
       th {
         font-weight: 500;
-        color: $grey-100;
+        color: $pix-neutral-100;
       }
 
       th,
@@ -92,7 +92,7 @@
         text-align: center;
       }
       thead {
-        background: $grey-10;
+        background: $pix-neutral-10;
       }
     }
   }

@@ -23,7 +23,7 @@
   }
 
   &__values {
-    color: $grey-50;
+    color: $pix-neutral-50;
     font-size: 0.75rem;
     min-width: 140px;
     margin-left: 32px;
@@ -59,16 +59,16 @@
   &__bar {
     height: 16px;
     border-radius: 3px;
-    border: 1px solid $blue;
-    background-color: lighten($blue, 20%);
+    border: 1px solid $pix-primary;
+    background-color: lighten($pix-primary, 20%);
   }
 
   &__graph:hover &__bar {
-    background-color: lighten($blue, 10%);
+    background-color: lighten($pix-primary, 10%);
   }
 
   &__percentage {
-    color: $grey-50;
+    color: $pix-neutral-50;
     font-size: 0.75rem;
     margin-left: 8px;
     white-space: nowrap;

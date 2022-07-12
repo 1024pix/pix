@@ -2,7 +2,7 @@
   border-radius: 4px;
   border: none;
   box-shadow: $shadow-base;
-  background-color: $white;
+  background-color: $pix-neutral-0;
 
   &--header {
     width: 100%;
@@ -18,7 +18,7 @@
   align-items: center;
   width: 100%;
   box-sizing: border-box;
-  border-bottom: 1px solid $grey-20;
+  border-bottom: 1px solid $pix-neutral-20;
   padding-bottom: 24px;
 
   .panel-header-title {
@@ -42,7 +42,7 @@
   font-family: $font-roboto;
 
   &--highlight {
-    background-color: $grey-10;
+    background-color: $pix-neutral-10;
     border-radius: 8px;
   }
 }
@@ -54,7 +54,7 @@
     flex-direction: column;
     align-items: flex-start;
     padding: 0 16px;
-    border-right: 1px solid $grey-20;
+    border-right: 1px solid $pix-neutral-20;
   }
 
   &__content:last-child {
@@ -129,7 +129,7 @@
     border-bottom: 2px solid transparent;
     outline: none;
     cursor: pointer;
-    color: $grey-50;
+    color: $pix-neutral-50;
     font-family: $font-roboto;
     font-size: 0.9rem;
     font-weight: 500;
@@ -138,19 +138,19 @@
 
     &:hover,
     &:focus {
-      color: $blue;
+      color: $pix-primary;
     }
 
     &-separator {
       height: 30px;
-      border-left: 1px solid $grey-25;
+      border-left: 1px solid $pix-neutral-25;
       margin: 15px 0px;
     }
   }
 
   &-item.active {
-    border-bottom: 2px solid $blue;
-    color: $blue;
+    border-bottom: 2px solid $pix-primary;
+    color: $pix-primary;
   }
 }
 
@@ -167,7 +167,7 @@
 
     &-item.active {
       border-bottom-width: 0px;
-      background-color: lighten($blue, 32%);
+      background-color: lighten($pix-primary, 32%);
     }
   }
 

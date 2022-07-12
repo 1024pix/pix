@@ -42,10 +42,10 @@
     display: flex;
     flex-direction: column;
     border-radius: 8px;
-    background: $grey-15;
+    background: $pix-neutral-15;
     height: max-content;
     padding: 16px;
-    color: $grey-60;
+    color: $pix-neutral-60;
     font-size: 0.875rem;
     margin: 16px 0 0 0;
 
@@ -57,7 +57,7 @@
     }
 
     &-icon {
-      color: $blue;
+      color: $pix-primary;
       margin-right: 8px;
     }
 
@@ -65,12 +65,12 @@
       font-weight: 500;
       font-size: 0.875rem;
       margin-bottom: 8px;
-      color: $grey-90;
+      color: $pix-neutral-90;
     }
 
     &-message {
       font-size: 0.8125rem;
-      color: $grey-60;
+      color: $pix-neutral-60;
     }
   }
 
@@ -81,7 +81,7 @@
 
     > legend {
       font-size: 0.875rem;
-      color: $grey-50;
+      color: $pix-neutral-50;
       margin-bottom: 2px;
     }
 
@@ -132,12 +132,12 @@
   &__mandatory-fields-information {
     font-size: 0.875rem;
     margin: 0 0 35px 0;
-    color: $grey-70;
+    color: $pix-neutral-70;
   }
 
   abbr.mandatory-mark {
     cursor: help;
-    color: $pink-alert-dark;
+    color: $pix-error-70;
     text-decoration: none;
     border: none;
   }
@@ -145,7 +145,7 @@
 
 .label {
   display: inline-block;
-  color: $grey-70;
+  color: $pix-neutral-70;
   font-size: 0.875rem;
   padding-bottom: 5px;
 }
@@ -163,24 +163,24 @@ p.label {
 
 .input {
   height: 38px;
-  border: 1px solid $grey-40;
+  border: 1px solid $pix-neutral-40;
   border-radius: 4px;
   font-size: 1rem;
   padding-left: 15px;
-  color: $grey-100;
+  color: $pix-neutral-100;
   outline: none;
 
   &:focus {
-    border: 1px solid $blue;
+    border: 1px solid $pix-primary;
   }
 
   &--error {
-    border: 1px solid $error;
+    border: 1px solid $pix-error-70;
   }
 }
 
 .error-message {
-  color: $red;
+  color: $pix-error-70;
   font-family: $font-roboto;
   font-size: 0.75rem;
 }
@@ -198,9 +198,9 @@ input[type='radio']::before {
   width: 17px;
   top: -3px;
   left: -5px;
-  border: solid 2px $grey-30;
+  border: solid 2px $pix-neutral-30;
   border-radius: 10px;
-  background-color: $white;
+  background-color: $pix-neutral-0;
 }
 
 input[type='radio']:checked::after {
@@ -208,19 +208,19 @@ input[type='radio']:checked::after {
   width: 9px;
   top: -18px;
   left: 1px;
-  background-color: $blue;
+  background-color: $pix-primary;
 }
 
 input[type='radio']:checked::before {
-  border-color: $blue;
+  border-color: $pix-primary;
 }
 
 input[type='radio']:focus::before,
 input[type='radio']:hover::before {
-  box-shadow: 0 0 0 8px rgba($blue, 0.1);
-  border-color: $blue;
+  box-shadow: 0 0 0 8px rgba($pix-primary, 0.1);
+  border-color: $pix-primary;
 }
 
 input[type='radio']:active::before {
-  box-shadow: 0 0 0 8px rgba($blue, 0.3);
+  box-shadow: 0 0 0 8px rgba($pix-primary, 0.3);
 }

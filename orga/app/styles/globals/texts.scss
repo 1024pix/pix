@@ -1,37 +1,37 @@
 .paragraph {
-  color: $grey-60;
+  color: $pix-neutral-60;
   font-family: $font-open-sans;
   font-size: 0.875rem;
   line-height: 20px;
 }
 
 .help-text {
-  color: $grey-60;
+  color: $pix-neutral-60;
   font-family: $font-roboto;
   font-size: 0.75rem;
 }
 
 .legal-text {
-  color: $grey-60;
+  color: $pix-neutral-60;
   font-family: $font-roboto;
   font-size: 0.6875rem;
   font-weight: 300;
 }
 
 .information-text {
-  color: $grey-60;
+  color: $pix-neutral-60;
   font-family: $font-open-sans;
   font-size: 1.2rem;
 }
 
 .label-text {
-  color: $grey-50;
+  color: $pix-neutral-50;
   font-family: $font-roboto;
   font-size: 0.875rem;
   font-weight: 400;
 
   &--dark {
-    color: $grey-60;
+    color: $pix-neutral-60;
   }
 
   &--small {
@@ -40,24 +40,24 @@
 }
 
 .value-text {
-  color: $grey-80;
+  color: $pix-neutral-80;
   font-family: $font-roboto;
   font-size: 0.875rem;
   font-weight: 500;
 
   &--highlight {
-    color: $grey-90;
+    color: $pix-neutral-90;
     font-size: 1.125rem;
   }
 }
 
 .content-text {
-  color: $grey-60;
+  color: $pix-neutral-60;
   font-family: $font-roboto;
   font-size: 1rem;
 
   &--bold {
-    color: $grey-100;
+    color: $pix-neutral-100;
     font-weight: 700;
   }
 
@@ -75,14 +75,14 @@
   outline: none;
   border: none;
   background-color: inherit;
-  color: $blue;
+  color: $pix-primary;
   text-decoration: none;
 
   &:hover,
   &:focus,
   &:active {
     text-decoration: underline;
-    color: $blue-hover;
+    color: $pix-primary-60;
   }
 
   &--bold {
@@ -94,17 +94,17 @@
   }
 
   &--white {
-    color: $white;
+    color: $pix-neutral-0;
 
     &:hover {
-      color: $white;
+      color: $pix-neutral-0;
       opacity: 0.85;
     }
 
     &:focus,
     &:active {
-      color: $black;
-      background-color: $yellow;
+      color: $pix-neutral-110;
+      background-color: $pix-warning-40;
     }
   }
 

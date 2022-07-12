@@ -1,15 +1,15 @@
 .edit-student-number-modal {
   .content-text {
-    color: $grey-90;
+    color: $pix-neutral-90;
 
     &--info {
       font-size: 0.875rem;
-      color: $grey-60;
+      color: $pix-neutral-60;
     }
   }
 
   &__content, &__actions {
-    background: $grey-10;
+    background: $pix-neutral-10;
   }
 
   &__content{
