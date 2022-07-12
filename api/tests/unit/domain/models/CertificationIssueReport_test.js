@@ -498,7 +498,7 @@ describe('Unit | Domain | Models | CertificationIssueReport', function () {
       expect(isResolved).to.be.true;
     });
   });
-  describe('#resolve', function () {
+  describe('#resolveManually', function () {
     it('Sets the issue report as resolved', function () {
       // given
       const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
@@ -506,10 +506,11 @@ describe('Unit | Domain | Models | CertificationIssueReport', function () {
       });
 
       // when
-      certificationIssueReport.resolve('RESOLVED');
+      certificationIssueReport.resolveManually('RESOLVED');
 
       // then
       expect(certificationIssueReport.resolvedAt).not.to.be.null;
+      expect(certificationIssueReport.hasBeenAutomaticallyResolved).to.be.false;
       expect(certificationIssueReport.resolution).to.equal('RESOLVED');
     });
   });
