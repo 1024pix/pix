@@ -207,13 +207,13 @@ async function _resolveWithNoSuchQuestion(
   certificationIssueReport,
   questionNumber
 ) {
-  certificationIssueReport.resolve(`Aucune question ne correspond au numéro ${questionNumber}`);
+  certificationIssueReport.resolveAutomatically(`Aucune question ne correspond au numéro ${questionNumber}`);
   await certificationIssueReportRepository.save(certificationIssueReport);
   return CertificationIssueReportResolutionAttempt.resolvedWithoutEffect();
 }
 
 async function _resolveWithQuestionNeutralized(certificationIssueReportRepository, certificationIssueReport) {
-  certificationIssueReport.resolve('Cette question a été neutralisée automatiquement');
+  certificationIssueReport.resolveAutomatically('Cette question a été neutralisée automatiquement');
   await certificationIssueReportRepository.save(certificationIssueReport);
   return CertificationIssueReportResolutionAttempt.resolvedWithEffect();
 }
@@ -222,7 +222,7 @@ async function _resolveWithNeitherImageNorEmbedInChallenge(
   certificationIssueReportRepository,
   certificationIssueReport
 ) {
-  certificationIssueReport.resolve(
+  certificationIssueReport.resolveAutomatically(
     "Cette question n'a pas été neutralisée car elle ne contient ni image ni application/simulateur"
   );
   await certificationIssueReportRepository.save(certificationIssueReport);
@@ -230,7 +230,7 @@ async function _resolveWithNeitherImageNorEmbedInChallenge(
 }
 
 async function _resolveWithNoAttachmentInChallenge(certificationIssueReportRepository, certificationIssueReport) {
-  certificationIssueReport.resolve(
+  certificationIssueReport.resolveAutomatically(
     "Cette question n'a pas été neutralisée car elle ne contient pas de fichier à télécharger"
   );
   await certificationIssueReportRepository.save(certificationIssueReport);
@@ -238,19 +238,23 @@ async function _resolveWithNoAttachmentInChallenge(certificationIssueReportRepos
 }
 
 async function _resolveWithNoFocusedChallenge(certificationIssueReportRepository, certificationIssueReport) {
-  certificationIssueReport.resolve("Cette question n'a pas été neutralisée car ce n'est pas une question focus");
+  certificationIssueReport.resolveAutomatically(
+    "Cette question n'a pas été neutralisée car ce n'est pas une question focus"
+  );
   await certificationIssueReportRepository.save(certificationIssueReport);
   return CertificationIssueReportResolutionAttempt.resolvedWithoutEffect();
 }
 
 async function _resolveWithChallengeNotTimed(certificationIssueReportRepository, certificationIssueReport) {
-  certificationIssueReport.resolve("Cette question n'a pas été neutralisée car elle n'est pas chronométrée");
+  certificationIssueReport.resolveAutomatically(
+    "Cette question n'a pas été neutralisée car elle n'est pas chronométrée"
+  );
   await certificationIssueReportRepository.save(certificationIssueReport);
   return CertificationIssueReportResolutionAttempt.resolvedWithoutEffect();
 }
 
 async function _resolveWithAnswerIsCorrect(certificationIssueReportRepository, certificationIssueReport) {
-  certificationIssueReport.resolve("Cette question n'a pas été neutralisée car la réponse est correcte");
+  certificationIssueReport.resolveAutomatically("Cette question n'a pas été neutralisée car la réponse est correcte");
   await certificationIssueReportRepository.save(certificationIssueReport);
   return CertificationIssueReportResolutionAttempt.resolvedWithoutEffect();
 }
@@ -259,7 +263,7 @@ async function _resolveWithNeitherSkippedNorFocusedOutAnswer(
   certificationIssueReportRepository,
   certificationIssueReport
 ) {
-  certificationIssueReport.resolve(
+  certificationIssueReport.resolveAutomatically(
     "Cette question n'a pas été neutralisée car la réponse n'a pas été abandonnée ou le focus n'a pas été perdu"
   );
   await certificationIssueReportRepository.save(certificationIssueReport);
@@ -267,7 +271,7 @@ async function _resolveWithNeitherSkippedNorFocusedOutAnswer(
 }
 
 async function _resolveWithAnswerValidated(certificationIssueReportRepository, certificationIssueReport) {
-  certificationIssueReport.resolve('Cette réponse a été acceptée automatiquement');
+  certificationIssueReport.resolveAutomatically('Cette réponse a été acceptée automatiquement');
   await certificationIssueReportRepository.save(certificationIssueReport);
   return CertificationIssueReportResolutionAttempt.resolvedWithEffect();
 }
