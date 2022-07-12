@@ -23,6 +23,7 @@ describe('Unit | Serializer | JSONAPI | correction-serializer', function () {
               title: 'Comment dresser un panda',
             }),
             userTutorial: { id: 'userTutorial1', userId: 'userId', tutorialId: 'recTuto1' },
+            skillId: 'skill1',
           },
           {
             ...new Tutorial({
@@ -133,6 +134,7 @@ describe('Unit | Serializer | JSONAPI | correction-serializer', function () {
               id: 'recTuto1',
               link: 'https://youtube.fr',
               source: 'Youtube',
+              'skill-id': 'skill1',
               title: 'Comment dresser un panda',
             },
             id: 'recTuto1',
