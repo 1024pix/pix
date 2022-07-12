@@ -90,10 +90,10 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
 
       const user = databaseBuilder.factory.buildUser();
 
-      const organizationLearner_1 = databaseBuilder.factory.buildOrganizationLearner({
+      const firstOrganizationLearner = databaseBuilder.factory.buildOrganizationLearner({
         organizationId: organization_1.id,
       });
-      const organizationLearner_2 = databaseBuilder.factory.buildOrganizationLearner({
+      const secondOrganizationLearner = databaseBuilder.factory.buildOrganizationLearner({
         organizationId: organization_1.id,
         userId: user.id,
       });
@@ -107,28 +107,31 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
       });
 
       // then
-      expect(_.map(organizationLearners, 'id')).to.have.members([organizationLearner_1.id, organizationLearner_2.id]);
+      expect(_.map(organizationLearners, 'id')).to.have.members([
+        firstOrganizationLearner.id,
+        secondOrganizationLearner.id,
+      ]);
     });
 
     it('should order organizationLearners by lastName and then by firstName with no sensitive case', async function () {
       // given
       const organization = databaseBuilder.factory.buildOrganization();
 
-      const organizationLearner_1 = databaseBuilder.factory.buildOrganizationLearner({
+      const firstOrganizationLearner = databaseBuilder.factory.buildOrganizationLearner({
         organizationId: organization.id,
         lastName: 'Grenier',
       });
-      const organizationLearner_2 = databaseBuilder.factory.buildOrganizationLearner({
+      const secondOrganizationLearner = databaseBuilder.factory.buildOrganizationLearner({
         organizationId: organization.id,
         lastName: 'Avatar',
         firstName: 'Xavier',
       });
-      const organizationLearner_3 = databaseBuilder.factory.buildOrganizationLearner({
+      const thirdOrganizationLearner = databaseBuilder.factory.buildOrganizationLearner({
         organizationId: organization.id,
         lastName: 'Avatar',
         firstName: 'Arthur',
       });
-      const organizationLearner_4 = databaseBuilder.factory.buildOrganizationLearner({
+      const fourthOrganizationLearner = databaseBuilder.factory.buildOrganizationLearner({
         organizationId: organization.id,
         lastName: 'Avatar',
         firstName: 'MATHURIN',
@@ -143,10 +146,10 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
 
       // then
       expect(_.map(organizationLearners, 'id')).to.deep.include.ordered.members([
-        organizationLearner_3.id,
-        organizationLearner_4.id,
-        organizationLearner_2.id,
-        organizationLearner_1.id,
+        thirdOrganizationLearner.id,
+        fourthOrganizationLearner.id,
+        secondOrganizationLearner.id,
+        firstOrganizationLearner.id,
       ]);
     });
 
@@ -206,12 +209,12 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
 
       const user = databaseBuilder.factory.buildUser();
 
-      const organizationLearner_1 = databaseBuilder.factory.buildOrganizationLearner({
+      const firstOrganizationLearner = databaseBuilder.factory.buildOrganizationLearner({
         organizationId: organization_1.id,
         division: '3A',
         updatedAt: new Date(AFTER_BEGINNING_OF_THE_2020_SCHOOL_YEAR),
       });
-      const organizationLearner_2 = databaseBuilder.factory.buildOrganizationLearner({
+      const secondOrganizationLearner = databaseBuilder.factory.buildOrganizationLearner({
         organizationId: organization_1.id,
         userId: user.id,
         division: '3A',
@@ -232,17 +235,17 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
       });
 
       // then
-      const expectedOrganizationLearner_1 = domainBuilder.buildOrganizationLearner({
-        ...organizationLearner_1,
+      const expectedFirstOrganizationLearner = domainBuilder.buildOrganizationLearner({
+        ...firstOrganizationLearner,
         organization: organization_1,
       });
-      const expectedOrganizationLearner_2 = domainBuilder.buildOrganizationLearner({
-        ...organizationLearner_2,
+      const expectedSecondOrganizationLearner = domainBuilder.buildOrganizationLearner({
+        ...secondOrganizationLearner,
         organization: organization_1,
       });
       expect(organizationLearners.data).to.deepEqualArray([
-        expectedOrganizationLearner_1,
-        expectedOrganizationLearner_2,
+        expectedFirstOrganizationLearner,
+        expectedSecondOrganizationLearner,
       ]);
     });
 
@@ -473,8 +476,8 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
       // given
       const userId = databaseBuilder.factory.buildUser().id;
 
-      const organizationLearner_1 = databaseBuilder.factory.buildOrganizationLearner({ userId });
-      const organizationLearner_2 = databaseBuilder.factory.buildOrganizationLearner({ userId });
+      const firstOrganizationLearner = databaseBuilder.factory.buildOrganizationLearner({ userId });
+      const secondOrganizationLearner = databaseBuilder.factory.buildOrganizationLearner({ userId });
 
       await databaseBuilder.commit();
 
@@ -482,16 +485,19 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
       const organizationLearners = await organizationLearnerRepository.findByUserId({ userId });
 
       // then
-      expect(_.map(organizationLearners, 'id')).to.have.members([organizationLearner_1.id, organizationLearner_2.id]);
+      expect(_.map(organizationLearners, 'id')).to.have.members([
+        firstOrganizationLearner.id,
+        secondOrganizationLearner.id,
+      ]);
     });
 
     it('should order organizationLearners by id', async function () {
       // given
       const userId = databaseBuilder.factory.buildUser().id;
-      const organizationLearner_1 = databaseBuilder.factory.buildOrganizationLearner({ userId });
-      const organizationLearner_2 = databaseBuilder.factory.buildOrganizationLearner({ userId });
-      const organizationLearner_3 = databaseBuilder.factory.buildOrganizationLearner({ userId });
-      const organizationLearner_4 = databaseBuilder.factory.buildOrganizationLearner({ userId });
+      const firstOrganizationLearner = databaseBuilder.factory.buildOrganizationLearner({ userId });
+      const secondOrganizationLearner = databaseBuilder.factory.buildOrganizationLearner({ userId });
+      const thirdOrganizationLearner = databaseBuilder.factory.buildOrganizationLearner({ userId });
+      const fourthOrganizationLearner = databaseBuilder.factory.buildOrganizationLearner({ userId });
 
       await databaseBuilder.commit();
 
@@ -500,10 +506,10 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
 
       // then
       expect(_.map(organizationLearners, 'id')).to.deep.include.ordered.members([
-        organizationLearner_1.id,
-        organizationLearner_2.id,
-        organizationLearner_3.id,
-        organizationLearner_4.id,
+        firstOrganizationLearner.id,
+        secondOrganizationLearner.id,
+        thirdOrganizationLearner.id,
+        fourthOrganizationLearner.id,
       ]);
     });
   });
@@ -556,7 +562,7 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
       const organizationLearner = databaseBuilder.factory.buildOrganizationLearner({
         organizationId: organization.id,
       });
-      const otherOrganizationLearner = databaseBuilder.factory.buildOrganizationLearner();
+      const otherFirstOrganizationLearner = databaseBuilder.factory.buildOrganizationLearner();
       await databaseBuilder.commit();
 
       await DomainTransaction.execute((domainTransaction) => {
@@ -569,7 +575,7 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
       const results = await knex('organization-learners').select();
       const expectedDisabled = results.find((result) => result.id === organizationLearner.id);
       expect(expectedDisabled.isDisabled).to.be.true;
-      const expectedActive = results.find((result) => result.id === otherOrganizationLearner.id);
+      const expectedActive = results.find((result) => result.id === otherFirstOrganizationLearner.id);
       expect(expectedActive.isDisabled).to.be.false;
     });
 
@@ -617,13 +623,13 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
     context('when there are only organizationLearners to create', function () {
       let organizationLearners;
       let organizationId;
-      let organizationLearner_1;
+      let firstOrganizationLearner;
 
       beforeEach(async function () {
         organizationId = databaseBuilder.factory.buildOrganization().id;
         await databaseBuilder.commit();
 
-        organizationLearner_1 = new OrganizationLearner({
+        firstOrganizationLearner = new OrganizationLearner({
           lastName: 'Pipeau',
           preferredLastName: 'Toto',
           firstName: 'Corinne',
@@ -644,7 +650,7 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
           organizationId,
         });
 
-        organizationLearners = [organizationLearner_1];
+        organizationLearners = [firstOrganizationLearner];
       });
 
       afterEach(function () {
@@ -667,18 +673,18 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
         });
         expect(actualOrganizationLearners).to.have.length(1);
         expect(_.omit(actualOrganizationLearners[0], ['updatedAt', 'id'])).to.deep.equal(
-          _.omit(organizationLearner_1, ['updatedAt', 'id'])
+          _.omit(firstOrganizationLearner, ['updatedAt', 'id'])
         );
       });
     });
 
     context('when there are only organizationLearners to update', function () {
-      let organizationLearner_1;
+      let firstOrganizationLearner;
       let organizationId;
 
       beforeEach(async function () {
         organizationId = databaseBuilder.factory.buildOrganization().id;
-        organizationLearner_1 = {
+        firstOrganizationLearner = {
           firstName: 'Lucy',
           lastName: 'Handmade',
           birthdate: '1990-12-31',
@@ -686,30 +692,25 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
           organizationId,
         };
 
-        databaseBuilder.factory.buildOrganizationLearner(organizationLearner_1);
+        databaseBuilder.factory.buildOrganizationLearner(firstOrganizationLearner);
 
         await databaseBuilder.commit();
       });
 
-      context('when an organizationLearneris already imported', function () {
-        let organizationLearner_1_updated;
-        let organizationLearners;
-
-        beforeEach(function () {
-          // given
-          organizationLearner_1_updated = new OrganizationLearner({
-            firstName: 'Boba',
-            lastName: 'Fett',
-            birthdate: '1986-01-05',
-            nationalStudentId: 'INE1',
-            status: organizationLearner_1.status,
-            organizationId,
-          });
-
-          organizationLearners = [organizationLearner_1_updated];
-        });
-
+      context('when an organizationLearner is already imported', function () {
         it('should update organizationLearners attributes', async function () {
+          // given
+          const organizationLearners = [
+            new OrganizationLearner({
+              firstName: 'Boba',
+              lastName: 'Fett',
+              birthdate: '1986-01-05',
+              nationalStudentId: 'INE1',
+              status: firstOrganizationLearner.status,
+              organizationId,
+            }),
+          ];
+
           // when
           await DomainTransaction.execute((domainTransaction) => {
             return organizationLearnerRepository.addOrUpdateOrganizationOfOrganizationLearners(
@@ -720,52 +721,46 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
           });
 
           // then
-          const updated_organization_organizationLearners = await knex('organization-learners').where({
+          const [updatedOrganizationLearner] = await knex('organization-learners').where({
             organizationId,
           });
 
-          expect(updated_organization_organizationLearners).to.have.lengthOf(1);
-          expect(updated_organization_organizationLearners[0].firstName).to.be.equal(
-            organizationLearner_1_updated.firstName
-          );
-          expect(updated_organization_organizationLearners[0].lastName).to.be.equal(
-            organizationLearner_1_updated.lastName
-          );
-          expect(updated_organization_organizationLearners[0].birthdate).to.be.equal(
-            organizationLearner_1_updated.birthdate
-          );
+          expect(updatedOrganizationLearner).to.not.be.null;
+          expect(updatedOrganizationLearner.firstName).to.be.equal(organizationLearners[0].firstName);
+          expect(updatedOrganizationLearner.lastName).to.be.equal(organizationLearners[0].lastName);
+          expect(updatedOrganizationLearner.birthdate).to.be.equal(organizationLearners[0].birthdate);
         });
       });
 
       context('when an organizationLearner is already imported in several organizations', function () {
-        let organizationLearner_1_updated;
-        let organizationLearner_1_bis;
+        let firstUpdatedOrganizationLearner;
+        let otherFirstOrganizationLearner;
         let otherOrganizationId;
         let organizationLearners;
 
         beforeEach(async function () {
           otherOrganizationId = databaseBuilder.factory.buildOrganization().id;
-          organizationLearner_1_bis = databaseBuilder.factory.buildOrganizationLearner({
+          otherFirstOrganizationLearner = databaseBuilder.factory.buildOrganizationLearner({
             firstName: 'Lucie',
             lastName: 'Handmad',
             birthdate: '1990-12-31',
-            nationalStudentId: organizationLearner_1.nationalStudentId,
-            status: organizationLearner_1.status,
+            nationalStudentId: firstOrganizationLearner.nationalStudentId,
+            status: firstOrganizationLearner.status,
             organizationId: otherOrganizationId,
           });
 
           await databaseBuilder.commit();
 
-          organizationLearner_1_updated = new OrganizationLearner({
+          firstUpdatedOrganizationLearner = new OrganizationLearner({
             firstName: 'Lili',
-            lastName: organizationLearner_1.lastName,
-            birthdate: organizationLearner_1.birthdate,
-            nationalStudentId: organizationLearner_1.nationalStudentId,
+            lastName: firstOrganizationLearner.lastName,
+            birthdate: firstOrganizationLearner.birthdate,
+            nationalStudentId: firstOrganizationLearner.nationalStudentId,
             organizationId,
-            status: organizationLearner_1.status,
+            status: firstOrganizationLearner.status,
           });
 
-          organizationLearners = [organizationLearner_1_updated];
+          organizationLearners = [firstUpdatedOrganizationLearner];
         });
 
         it('should update the organizationLearner only in the organization that imports the file', async function () {
@@ -779,36 +774,22 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
           });
 
           // then
-          const updated_organization_organizationLearners = await knex('organization-learners').where({
+          const [updatedOrganizationLearner] = await knex('organization-learners').where({
             organizationId,
           });
-          const not_updated_organization_organizationLearners = await knex('organization-learners').where({
+          const [notUpdatedOrganizationLearner] = await knex('organization-learners').where({
             organizationId: otherOrganizationId,
           });
 
-          expect(updated_organization_organizationLearners).to.have.lengthOf(1);
+          expect(updatedOrganizationLearner).to.not.be.null;
+          expect(updatedOrganizationLearner.firstName).to.equal(firstUpdatedOrganizationLearner.firstName);
+          expect(updatedOrganizationLearner.lastName).to.equal(firstUpdatedOrganizationLearner.lastName);
+          expect(updatedOrganizationLearner.birthdate).to.equal(firstUpdatedOrganizationLearner.birthdate);
 
-          expect(updated_organization_organizationLearners[0].firstName).to.equal(
-            organizationLearner_1_updated.firstName
-          );
-          expect(updated_organization_organizationLearners[0].lastName).to.equal(
-            organizationLearner_1_updated.lastName
-          );
-          expect(updated_organization_organizationLearners[0].birthdate).to.equal(
-            organizationLearner_1_updated.birthdate
-          );
-
-          expect(not_updated_organization_organizationLearners).to.have.lengthOf(1);
-
-          expect(not_updated_organization_organizationLearners[0].firstName).to.equal(
-            organizationLearner_1_bis.firstName
-          );
-          expect(not_updated_organization_organizationLearners[0].lastName).to.equal(
-            organizationLearner_1_bis.lastName
-          );
-          expect(not_updated_organization_organizationLearners[0].birthdate).to.equal(
-            organizationLearner_1_bis.birthdate
-          );
+          expect(notUpdatedOrganizationLearner).to.not.be.null;
+          expect(notUpdatedOrganizationLearner.firstName).to.equal(otherFirstOrganizationLearner.firstName);
+          expect(notUpdatedOrganizationLearner.lastName).to.equal(otherFirstOrganizationLearner.lastName);
+          expect(notUpdatedOrganizationLearner.birthdate).to.equal(otherFirstOrganizationLearner.birthdate);
         });
       });
 
@@ -910,7 +891,7 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
       });
     });
 
-    context('when several imported organization learners are reconciliated with the same userId', function () {
+    context('when several imported organization learners are reconciled with the same userId', function () {
       it('should save both organization learners with userId as null', async function () {
         const { id: organizationId } = databaseBuilder.factory.buildOrganization();
         const { id: userId } = databaseBuilder.factory.buildUser();
@@ -949,7 +930,7 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
     });
 
     context('when there are organizationLearners in another organization', function () {
-      let organizationLearnerInOtherOrganization, organizationLearners;
+      let organizationLearners;
       let organizationId;
       let organizationLearnerFromFile;
       let userId;
@@ -957,13 +938,13 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
 
       beforeEach(async function () {
         userId = databaseBuilder.factory.buildUser().id;
+        nationalStudentId = 'salut';
         organizationId = databaseBuilder.factory.buildOrganization().id;
         const otherOrganizationId = databaseBuilder.factory.buildOrganization().id;
-        organizationLearnerInOtherOrganization = databaseBuilder.factory.buildOrganizationLearner({
+        databaseBuilder.factory.buildOrganizationLearner({
           organizationId: otherOrganizationId,
-          nationalStudentId: 'salut',
+          nationalStudentId,
         });
-        nationalStudentId = organizationLearnerInOtherOrganization.nationalStudentId;
         await databaseBuilder.commit();
 
         organizationLearnerFromFile = new OrganizationLearner({
@@ -1122,14 +1103,14 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
     context('when an error occurs', function () {
       let organizationLearners;
       let organizationId;
-      let organizationLearner_1, organizationLearner_2;
+      let firstOrganizationLearner, secondOrganizationLearner;
       const sameNationalStudentId = 'SAMEID123';
 
       beforeEach(async function () {
         organizationId = databaseBuilder.factory.buildOrganization().id;
         await databaseBuilder.commit();
 
-        organizationLearner_1 = new OrganizationLearner({
+        firstOrganizationLearner = new OrganizationLearner({
           firstName: 'Lucy',
           lastName: 'Handmade',
           birthdate: '1990-12-31',
@@ -1137,7 +1118,7 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
           organizationId,
         });
 
-        organizationLearner_2 = new OrganizationLearner({
+        secondOrganizationLearner = new OrganizationLearner({
           firstName: 'Harry',
           lastName: 'Covert',
           birthdate: '1990-01-01',
@@ -1145,7 +1126,7 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
           organizationId,
         });
 
-        organizationLearners = [organizationLearner_1, organizationLearner_2];
+        organizationLearners = [firstOrganizationLearner, secondOrganizationLearner];
       });
 
       afterEach(function () {
@@ -1786,10 +1767,10 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
 
       const user = databaseBuilder.factory.buildUser();
 
-      const organizationLearner_1 = databaseBuilder.factory.buildOrganizationLearner({
+      const firstOrganizationLearner = databaseBuilder.factory.buildOrganizationLearner({
         organizationId: organization_1.id,
       });
-      const organizationLearner_2 = databaseBuilder.factory.buildOrganizationLearner({
+      const secondOrganizationLearner = databaseBuilder.factory.buildOrganizationLearner({
         organizationId: organization_1.id,
         userId: user.id,
       });
@@ -1803,7 +1784,7 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
       });
 
       // then
-      expect(_.map(data, 'id')).to.have.members([organizationLearner_1.id, organizationLearner_2.id]);
+      expect(_.map(data, 'id')).to.have.members([firstOrganizationLearner.id, secondOrganizationLearner.id]);
     });
 
     it('should return only once the same organization learner', async function () {
@@ -1851,21 +1832,21 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
       // given
       const organization = databaseBuilder.factory.buildOrganization();
 
-      const organizationLearner_1 = databaseBuilder.factory.buildOrganizationLearner({
+      const firstOrganizationLearner = databaseBuilder.factory.buildOrganizationLearner({
         organizationId: organization.id,
         lastName: 'Grenier',
       });
-      const organizationLearner_2 = databaseBuilder.factory.buildOrganizationLearner({
+      const secondOrganizationLearner = databaseBuilder.factory.buildOrganizationLearner({
         organizationId: organization.id,
         lastName: 'Avatar',
         firstName: 'Xavier',
       });
-      const organizationLearner_3 = databaseBuilder.factory.buildOrganizationLearner({
+      const thirdOrganizationLearner = databaseBuilder.factory.buildOrganizationLearner({
         organizationId: organization.id,
         lastName: 'Avatar',
         firstName: 'Arthur',
       });
-      const organizationLearner_4 = databaseBuilder.factory.buildOrganizationLearner({
+      const fourthOrganizationLearner = databaseBuilder.factory.buildOrganizationLearner({
         organizationId: organization.id,
         lastName: 'Avatar',
         firstName: 'MATHURIN',
@@ -1880,10 +1861,10 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
 
       // then
       expect(_.map(data, 'id')).to.deep.include.ordered.members([
-        organizationLearner_3.id,
-        organizationLearner_4.id,
-        organizationLearner_2.id,
-        organizationLearner_1.id,
+        thirdOrganizationLearner.id,
+        fourthOrganizationLearner.id,
+        secondOrganizationLearner.id,
+        firstOrganizationLearner.id,
       ]);
     });
 
