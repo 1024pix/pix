@@ -32,4 +32,34 @@ describe('Unit | Serializer | JSONAPI | sco-organization-learner-serializer', fu
       expect(json).to.deep.equal(expectedSerializedOrganizationLearner);
     });
   });
+
+  describe('#serializeWithUsernameGeneration', function () {
+    it('should convert into JSON API data', function () {
+      // given
+      const organizationLearner = {
+        firstName: 'John',
+        lastName: 'Doe',
+        birthdate: '2020-01-01',
+        username: 'john.doe0101',
+      };
+
+      const expectedSerializedOrganizationLearner = {
+        data: {
+          type: 'sco-organization-learners',
+          attributes: {
+            'first-name': organizationLearner.firstName,
+            'last-name': organizationLearner.lastName,
+            birthdate: organizationLearner.birthdate,
+            username: organizationLearner.username,
+          },
+        },
+      };
+
+      // when
+      const json = serializer.serializeWithUsernameGeneration(organizationLearner);
+
+      // then
+      expect(json).to.deep.equal(expectedSerializedOrganizationLearner);
+    });
+  });
 });

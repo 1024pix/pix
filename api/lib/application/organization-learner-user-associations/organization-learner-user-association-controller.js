@@ -20,34 +20,6 @@ module.exports = {
     return h.response(null).code(204);
   },
 
-  async generateUsername(request, h) {
-    const payload = request.payload.data.attributes;
-    const { 'campaign-code': campaignCode } = payload;
-
-    const studentInformation = {
-      firstName: payload['first-name'],
-      lastName: payload['last-name'],
-      birthdate: payload['birthdate'],
-    };
-
-    const username = await usecases.generateUsername({ campaignCode, studentInformation });
-
-    // we don't persist this ressource, we simulate response by adding the generated username
-    const organizationLearnerWithUsernameResponse = {
-      data: {
-        attributes: {
-          'last-name': payload['last-name'],
-          'first-name': payload['first-name'],
-          birthdate: payload['birthdate'],
-          'campaign-code': campaignCode,
-          username,
-        },
-        type: 'schooling-registration-user-associations',
-      },
-    };
-    return h.response(organizationLearnerWithUsernameResponse).code(200);
-  },
-
   async updateStudentNumber(request, h) {
     const payload = request.payload.data.attributes;
     const organizationId = request.params.id;
