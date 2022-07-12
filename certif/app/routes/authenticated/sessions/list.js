@@ -30,10 +30,14 @@ export default class ListRoute extends Route {
     );
   }
 
-  resetController(controller, isExiting) {
-    if (isExiting) {
+  resetController(controller, isExiting, transition) {
+    if (this._isNotComingFromSessionsDetails(isExiting, transition)) {
       controller.pageNumber = 1;
       controller.pageSize = 25;
     }
+  }
+
+  _isNotComingFromSessionsDetails(isExiting, transition) {
+    return isExiting && transition.to.parent.name !== 'authenticated.sessions.details';
   }
 }

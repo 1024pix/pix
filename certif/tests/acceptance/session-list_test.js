@@ -268,6 +268,34 @@ module('Acceptance | Session List', function (hooks) {
         assert.dom(screen.getByText('La session a déjà commencé.')).exists();
         assert.dom(screen.getByRole('button', { name: 'Supprimer la session 123' })).exists();
       });
+
+      test('it should redirect to the same page of session list', async function (assert) {
+        // given
+        server.createList('session-summary', 30, {
+          address: 'Adresse',
+          certificationCenterId: 123,
+          date: '2020-01-01',
+          time: '14:00',
+        });
+        server.create('session', {
+          id: 26,
+          address: 'Adresse',
+          certificationCenterId: 123,
+          date: '2020-01-01',
+          time: '14:00',
+        });
+
+        const screen = await visitScreen('/sessions/liste');
+        await click(screen.getByRole('link', { name: 'Aller à la page suivante' }));
+        await click(screen.getByRole('link', { name: 'Session 26' }));
+
+        // when
+        await click(screen.getByRole('link', { name: 'Retour à la liste des sessions' }));
+
+        // then
+        assert.contains('Page 2 / 2');
+        assert.strictEqual(currentURL(), '/sessions/liste?pageNumber=2');
+      });
     });
   });
 });
