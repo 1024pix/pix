@@ -16,7 +16,7 @@ function buildLearnerWithParticipation(organizationId, learnerAttributes = {}, p
 }
 
 describe('Integration | Infrastructure | Repository | OrganizationParticipant', function () {
-  describe('getParticipantsByOrganizationId', function () {
+  describe('#getParticipantsByOrganizationId', function () {
     let organizationId;
     beforeEach(async function () {
       organizationId = databaseBuilder.factory.buildOrganization().id;
@@ -47,6 +47,35 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
 
       // then
       expect(organizationParticipants.length).to.equal(1);
+    });
+
+    it('should return the count of participations for each participant', async function () {
+      const organizationLearnerId = buildLearnerWithParticipation(organizationId).id;
+      const campaignId = databaseBuilder.factory.buildCampaign({ organizationId }).id;
+      databaseBuilder.factory.buildCampaignParticipation({ campaignId, organizationLearnerId });
+      await databaseBuilder.commit();
+
+      // when
+      const { organizationParticipants } = await organizationParticipantRepository.getParticipantsByOrganizationId({
+        organizationId,
+      });
+
+      // then
+      expect(organizationParticipants[0].participationCount).to.equal(2);
+    });
+
+    it('should return only 1 participation even when the participant has improved its participation', async function () {
+      const organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner({ organizationId }).id;
+      const campaignId = databaseBuilder.factory.buildCampaign({ organizationId }).id;
+      databaseBuilder.factory.buildCampaignParticipation({ organizationLearnerId, campaignId, isImproved: true });
+      databaseBuilder.factory.buildCampaignParticipation({ organizationLearnerId, campaignId, isImproved: false });
+      await databaseBuilder.commit();
+      // when
+      const { organizationParticipants } = await organizationParticipantRepository.getParticipantsByOrganizationId({
+        organizationId,
+      });
+      // then
+      expect(organizationParticipants[0].participationCount).to.equal(1);
     });
 
     it('should return only 1 result even when the participant has participated to several campaigns of the organization', async function () {
