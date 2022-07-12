@@ -4,14 +4,14 @@ const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult
 
 describe('Integration | Repository | CpfCertificationResult', function () {
   describe('#findByTimeRange', function () {
-    it('should return an array of CpfCertificationResult', async function () {
+    it('should return an array of CpfCertificationResult ordered by certification course id', async function () {
       // given
       const startDate = new Date('2022-01-01');
       const endDate = new Date('2022-01-10');
 
       const firstPublishedSessionId = databaseBuilder.factory.buildSession({ publishedAt: new Date('2022-01-04') }).id;
       databaseBuilder.factory.buildCertificationCourse({
-        id: 145,
+        id: 545,
         firstName: 'Barack',
         lastName: 'Afritt',
         birthdate: '2004-10-22',
@@ -25,7 +25,7 @@ describe('Integration | Repository | CpfCertificationResult', function () {
         id: 2244,
         pixScore: 132,
         assessmentId: databaseBuilder.factory.buildAssessment({
-          certificationCourseId: 145,
+          certificationCourseId: 545,
         }).id,
       });
       databaseBuilder.factory.buildCompetenceMark({
@@ -108,27 +108,6 @@ describe('Integration | Repository | CpfCertificationResult', function () {
       // then
       expect(cpfCertificationResults).to.deepEqualArray([
         domainBuilder.buildCpfCertificationResult({
-          id: 145,
-          firstName: 'Barack',
-          lastName: 'Afritt',
-          birthdate: '2004-10-22',
-          sex: 'M',
-          birthINSEECode: '75116',
-          birthPostalCode: null,
-          pixScore: 132,
-          publishedAt: new Date('2022-01-04'),
-          competenceMarks: [
-            {
-              competenceCode: '1.2',
-              level: 5,
-            },
-            {
-              competenceCode: '2.3',
-              level: 5,
-            },
-          ],
-        }),
-        domainBuilder.buildCpfCertificationResult({
           id: 245,
           firstName: 'Ahmed',
           lastName: 'Épan',
@@ -167,6 +146,27 @@ describe('Integration | Repository | CpfCertificationResult', function () {
             {
               competenceCode: '3.1',
               level: 4,
+            },
+          ],
+        }),
+        domainBuilder.buildCpfCertificationResult({
+          id: 545,
+          firstName: 'Barack',
+          lastName: 'Afritt',
+          birthdate: '2004-10-22',
+          sex: 'M',
+          birthINSEECode: '75116',
+          birthPostalCode: null,
+          pixScore: 132,
+          publishedAt: new Date('2022-01-04'),
+          competenceMarks: [
+            {
+              competenceCode: '1.2',
+              level: 5,
+            },
+            {
+              competenceCode: '2.3',
+              level: 5,
             },
           ],
         }),
