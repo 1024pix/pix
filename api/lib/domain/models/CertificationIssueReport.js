@@ -135,6 +135,7 @@ class CertificationIssueReport {
     description,
     subcategory,
     questionNumber,
+    hasBeenAutomaticallyResolved,
     resolvedAt,
     resolution,
   } = {}) {
@@ -144,6 +145,7 @@ class CertificationIssueReport {
     this.subcategory = subcategory;
     this.description = description;
     this.questionNumber = questionNumber;
+    this.hasBeenAutomaticallyResolved = hasBeenAutomaticallyResolved;
     this.resolvedAt = resolvedAt;
     this.resolution = resolution;
     this.isImpactful = _isImpactful({ category, subcategory });
@@ -176,6 +178,7 @@ class CertificationIssueReport {
       description,
       subcategory,
       questionNumber,
+      hasBeenAutomaticallyResolved: null,
       resolvedAt: null,
       resolution: null,
     });

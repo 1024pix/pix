@@ -89,6 +89,7 @@ describe('Integration | Repository | JuryCertificationSummary', function () {
               subcategory: null,
               questionNumber: null,
               category: CertificationIssueReportCategories.OTHER,
+              hasBeenAutomaticallyResolved: null,
               resolvedAt: null,
               resolution: null,
             }),
@@ -200,11 +201,13 @@ describe('Integration | Repository | JuryCertificationSummary', function () {
           certificationCourseId: manyAsrCertification.id,
           category: CertificationIssueReportCategories.OTHER,
           description: 'first certification issue report',
+          hasBeenAutomaticallyResolved: false,
         });
         const issueReport2 = dbf.buildCertificationIssueReport({
           certificationCourseId: manyAsrCertification.id,
           category: CertificationIssueReportCategories.OTHER,
           description: 'second certification issue report',
+          hasBeenAutomaticallyResolved: false,
         });
 
         dbf.buildAssessmentResult({
@@ -228,6 +231,7 @@ describe('Integration | Repository | JuryCertificationSummary', function () {
             category: issueReport1.category,
             certificationCourseId: manyAsrCertification.id,
             description: 'first certification issue report',
+            hasBeenAutomaticallyResolved: false,
             subcategory: null,
             questionNumber: null,
             resolvedAt: null,
@@ -238,6 +242,7 @@ describe('Integration | Repository | JuryCertificationSummary', function () {
             category: issueReport2.category,
             certificationCourseId: manyAsrCertification.id,
             description: 'second certification issue report',
+            hasBeenAutomaticallyResolved: false,
             subcategory: null,
             questionNumber: null,
             resolvedAt: null,
