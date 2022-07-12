@@ -1,17 +1,23 @@
-const { expect, domainBuilder } = require('../../../../../test-helper');
+const { expect } = require('../../../../../test-helper');
+const OrganizationParticipant = require('../../../../../../lib/domain/read-models/OrganizationParticipant');
 const serializer = require('../../../../../../lib/infrastructure/serializers/jsonapi/organization/organization-participants-serializer');
+
 describe('Unit | Serializer | JSONAPI | organization-participants-serializer', function () {
   describe('#serialize', function () {
     it('should convert an organization participant model object into JSON API data', function () {
       // given
       const organizationParticipants = [
-        domainBuilder.buildOrganizationLearner({
+        new OrganizationParticipant({
           id: 777,
-          organizationId: 2,
+          firstName: 'Alex',
+          lastName: 'Vasquez',
+          participationCount: 4,
         }),
-        domainBuilder.buildOrganizationLearner({
+        new OrganizationParticipant({
           id: 778,
-          organizationId: 2,
+          firstName: 'Sam',
+          lastName: 'Simpson',
+          participationCount: 3,
         }),
       ];
       const pagination = { page: { number: 1, pageSize: 2 } };
@@ -24,6 +30,7 @@ describe('Unit | Serializer | JSONAPI | organization-participants-serializer', f
             attributes: {
               'first-name': organizationParticipants[0].firstName,
               'last-name': organizationParticipants[0].lastName,
+              'participation-count': organizationParticipants[0].participationCount,
             },
           },
           {
@@ -32,6 +39,7 @@ describe('Unit | Serializer | JSONAPI | organization-participants-serializer', f
             attributes: {
               'first-name': organizationParticipants[1].firstName,
               'last-name': organizationParticipants[1].lastName,
+              'participation-count': organizationParticipants[1].participationCount,
             },
           },
         ],
