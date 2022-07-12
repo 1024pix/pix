@@ -210,9 +210,10 @@ class CertificationIssueReport {
     return Boolean(this.resolvedAt);
   }
 
-  resolve(resolution) {
+  resolveManually(resolution) {
     this.resolvedAt = new Date();
     this.resolution = resolution;
+    this.hasBeenAutomaticallyResolved = false;
   }
 
   resolveAutomatically(resolution) {

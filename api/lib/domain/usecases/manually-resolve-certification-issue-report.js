@@ -4,6 +4,6 @@ module.exports = async function manuallyResolveCertificationIssueReport({
   certificationIssueReportRepository,
 }) {
   const certificationIssueReport = await certificationIssueReportRepository.get(certificationIssueReportId);
-  certificationIssueReport.resolve(resolution);
+  certificationIssueReport.resolveManually(resolution);
   await certificationIssueReportRepository.save(certificationIssueReport);
 };

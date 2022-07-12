@@ -10,7 +10,7 @@ describe('Unit | UseCase | manually-resolve-certification-issue-report', functio
     };
     const resolution = 'issue solved';
     const certificationIssueReportId = 1;
-    const expectedCertificationIssueReport = { resolve: sinon.stub() };
+    const expectedCertificationIssueReport = { resolveManually: sinon.stub() };
     certificationIssueReportRepository.get.resolves(expectedCertificationIssueReport);
     certificationIssueReportRepository.save.resolves(expectedCertificationIssueReport);
 
@@ -24,6 +24,6 @@ describe('Unit | UseCase | manually-resolve-certification-issue-report', functio
     // then
     expect(certificationIssueReportRepository.get).to.have.been.called;
     expect(certificationIssueReportRepository.save).to.have.been.calledWith(expectedCertificationIssueReport);
-    expect(expectedCertificationIssueReport.resolve).to.have.been.calledWith(resolution);
+    expect(expectedCertificationIssueReport.resolveManually).to.have.been.calledWith(resolution);
   });
 });
