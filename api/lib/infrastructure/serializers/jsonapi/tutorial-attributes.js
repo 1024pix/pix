@@ -4,7 +4,7 @@ const userTutorialAttributes = require('./user-tutorial-attributes');
 module.exports = {
   ref: 'id',
   includes: true,
-  attributes: ['id', 'duration', 'format', 'link', 'source', 'title', 'tutorialEvaluation', 'userTutorial'],
+  attributes: ['id', 'duration', 'format', 'link', 'source', 'title', 'tutorialEvaluation', 'userTutorial', 'skillId'],
   tutorialEvaluation: tutorialEvaluationAttributes,
   userTutorial: userTutorialAttributes,
 };

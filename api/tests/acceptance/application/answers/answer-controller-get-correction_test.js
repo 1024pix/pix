@@ -125,6 +125,7 @@ describe('Acceptance | Controller | answer-controller-get-correction', function 
                 format: 'vidéo',
                 id: 'french-tutorial-id',
                 link: 'http://www.example.com/this-is-an-example.html',
+                'skill-id': 'q_first_acquis',
                 source: 'Source Example, Example',
                 title: 'Communiquer',
               },
