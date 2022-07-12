@@ -10,20 +10,25 @@ const { NotFoundError } = require('../../domain/errors');
 
 const ParticipantResultRepository = {
   async getByUserIdAndCampaignId({ userId, campaignId, locale }) {
-    const [participationResults, targetProfile, isCampaignMultipleSendings, isRegistrationActive, isCampaignArchived] =
-      await Promise.all([
-        _getParticipationResults(userId, campaignId),
-        _getTargetProfile(campaignId, locale),
-        _isCampaignMultipleSendings(campaignId),
-        _isRegistrationActive(userId, campaignId),
-        _isCampaignArchived(campaignId),
-      ]);
+    const [
+      participationResults,
+      targetProfile,
+      isCampaignMultipleSendings,
+      isOrganizationLearnerActive,
+      isCampaignArchived,
+    ] = await Promise.all([
+      _getParticipationResults(userId, campaignId),
+      _getTargetProfile(campaignId, locale),
+      _isCampaignMultipleSendings(campaignId),
+      _isOrganizationLearnerActive(userId, campaignId),
+      _isCampaignArchived(campaignId),
+    ]);
 
     return new AssessmentResult(
       participationResults,
       targetProfile,
       isCampaignMultipleSendings,
-      isRegistrationActive,
+      isOrganizationLearnerActive,
       isCampaignArchived
     );
   },
@@ -203,15 +208,15 @@ async function _isCampaignArchived(campaignId) {
   return Boolean(campaign.archivedAt);
 }
 
-async function _isRegistrationActive(userId, campaignId) {
-  const registration = await knex('organization-learners')
+async function _isOrganizationLearnerActive(userId, campaignId) {
+  const organizationLearner = await knex('organization-learners')
     .select('organization-learners.isDisabled')
     .join('organizations', 'organizations.id', 'organization-learners.organizationId')
     .join('campaigns', 'campaigns.organizationId', 'organizations.id')
     .where({ 'campaigns.id': campaignId })
     .andWhere({ 'organization-learners.userId': userId })
     .first();
-  return !registration?.isDisabled;
+  return !organizationLearner?.isDisabled;
 }
 
 async function _getEstimatedFlashLevel(assessmentId) {

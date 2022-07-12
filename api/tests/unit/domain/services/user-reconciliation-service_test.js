@@ -20,11 +20,11 @@ describe('Unit | Service | user-reconciliation-service', function () {
         preferredLastName: 'preferredLastName',
       }),
       domainBuilder.buildOrganizationLearner({
-        firstName: 'secondRegistration_firstName',
-        middleName: 'secondRegistration_middleName',
-        thirdName: 'secondRegistration_thirdName',
-        lastName: 'secondRegistration_lastName',
-        preferredLastName: 'secondRegistration_preferredLastName',
+        firstName: 'secondLearner_firstName',
+        middleName: 'secondLearner_middleName',
+        thirdName: 'secondLearner_thirdName',
+        lastName: 'secondLearner_lastName',
+        preferredLastName: 'secondLearner_preferredLastName',
       }),
     ];
   });

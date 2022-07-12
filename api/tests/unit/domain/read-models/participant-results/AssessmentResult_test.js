@@ -288,7 +288,7 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
     context('when the campaign does not allow multiple sendings', function () {
       it('returns false', function () {
         const isCampaignMultipleSendings = false;
-        const isRegistrationActive = true;
+        const isOrganizationLearnerActive = true;
         const isCampaignArchived = false;
         const participationResults = {
           knowledgeElements: [],
@@ -302,7 +302,7 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
           participationResults,
           targetProfile,
           isCampaignMultipleSendings,
-          isRegistrationActive,
+          isOrganizationLearnerActive,
           isCampaignArchived
         );
 
@@ -313,7 +313,7 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
     context('when participant is disabled', function () {
       it('returns false', function () {
         const isCampaignMultipleSendings = true;
-        const isRegistrationActive = false;
+        const isOrganizationLearnerActive = false;
         const isCampaignArchived = false;
         const participationResults = {
           knowledgeElements: [],
@@ -327,7 +327,7 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
           participationResults,
           targetProfile,
           isCampaignMultipleSendings,
-          isRegistrationActive,
+          isOrganizationLearnerActive,
           isCampaignArchived
         );
 
@@ -338,7 +338,7 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
     context('when the participation is not shared', function () {
       it('returns false', function () {
         const isCampaignMultipleSendings = true;
-        const isRegistrationActive = true;
+        const isOrganizationLearnerActive = true;
         const isCampaignArchived = false;
         const participationResults = {
           knowledgeElements: [],
@@ -352,7 +352,7 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
           participationResults,
           targetProfile,
           isCampaignMultipleSendings,
-          isRegistrationActive,
+          isOrganizationLearnerActive,
           isCampaignArchived
         );
 
@@ -363,7 +363,7 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
     context('when the participation is deleted', function () {
       it('returns false', function () {
         const isCampaignMultipleSendings = true;
-        const isRegistrationActive = true;
+        const isOrganizationLearnerActive = true;
         const isCampaignArchived = false;
         const participationResults = {
           knowledgeElements: [],
@@ -377,7 +377,7 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
           participationResults,
           targetProfile,
           isCampaignMultipleSendings,
-          isRegistrationActive,
+          isOrganizationLearnerActive,
           isCampaignArchived
         );
 
@@ -388,7 +388,7 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
     context('when campaign is archived', function () {
       it('returns false', function () {
         const isCampaignMultipleSendings = true;
-        const isRegistrationActive = true;
+        const isOrganizationLearnerActive = true;
         const isCampaignArchived = true;
         const participationResults = {
           knowledgeElements: [],
@@ -402,7 +402,7 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
           participationResults,
           targetProfile,
           isCampaignMultipleSendings,
-          isRegistrationActive,
+          isOrganizationLearnerActive,
           isCampaignArchived
         );
 
@@ -415,7 +415,7 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
       function () {
         it('returns false', function () {
           const isCampaignMultipleSendings = true;
-          const isRegistrationActive = true;
+          const isOrganizationLearnerActive = true;
           const isCampaignArchived = false;
           const participationResults = {
             knowledgeElements: [],
@@ -429,7 +429,7 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
             participationResults,
             targetProfile,
             isCampaignMultipleSendings,
-            isRegistrationActive,
+            isOrganizationLearnerActive,
             isCampaignArchived
           );
 
@@ -441,7 +441,7 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
     context('when the mastery rate equals to 1', function () {
       it('returns false', function () {
         const isCampaignMultipleSendings = true;
-        const isRegistrationActive = true;
+        const isOrganizationLearnerActive = true;
         const isCampaignArchived = false;
         const participationResults = {
           knowledgeElements: [],
@@ -456,7 +456,7 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
           participationResults,
           targetProfile,
           isCampaignMultipleSendings,
-          isRegistrationActive,
+          isOrganizationLearnerActive,
           isCampaignArchived
         );
 
@@ -469,7 +469,7 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
       function () {
         it('returns true', function () {
           const isCampaignMultipleSendings = true;
-          const isRegistrationActive = true;
+          const isOrganizationLearnerActive = true;
           const isCampaignArchived = false;
           const participationResults = {
             knowledgeElements: [],
@@ -483,7 +483,7 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
             participationResults,
             targetProfile,
             isCampaignMultipleSendings,
-            isRegistrationActive,
+            isOrganizationLearnerActive,
             isCampaignArchived
           );
 
@@ -497,7 +497,7 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
       function () {
         it('returns true', function () {
           const isCampaignMultipleSendings = true;
-          const isRegistrationActive = true;
+          const isOrganizationLearnerActive = true;
           const isCampaignArchived = false;
           const participationResults = {
             knowledgeElements: [],
@@ -511,7 +511,7 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
             participationResults,
             targetProfile,
             isCampaignMultipleSendings,
-            isRegistrationActive,
+            isOrganizationLearnerActive,
             isCampaignArchived
           );
 

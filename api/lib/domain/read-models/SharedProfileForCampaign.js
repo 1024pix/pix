@@ -6,7 +6,7 @@ class SharedProfileForCampaign {
   constructor({
     campaignParticipation,
     campaignAllowsRetry,
-    isRegistrationActive,
+    isOrganizationLearnerActive,
     competencesWithArea,
     knowledgeElementsGroupedByCompetenceId,
     userId,
@@ -18,7 +18,7 @@ class SharedProfileForCampaign {
     this.canRetry = this._computeCanRetry(
       campaignAllowsRetry,
       this.sharedAt,
-      isRegistrationActive,
+      isOrganizationLearnerActive,
       campaignParticipation?.deletedAt
     );
   }
@@ -37,8 +37,8 @@ class SharedProfileForCampaign {
     });
   }
 
-  _computeCanRetry(campaignAllowsRetry, sharedAt, isRegistrationActive, deletedAt) {
-    return campaignAllowsRetry && Boolean(sharedAt) && isRegistrationActive && !deletedAt;
+  _computeCanRetry(campaignAllowsRetry, sharedAt, isOrganizationLearnerActive, deletedAt) {
+    return campaignAllowsRetry && Boolean(sharedAt) && isOrganizationLearnerActive && !deletedAt;
   }
 }
 

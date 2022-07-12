@@ -9,7 +9,7 @@ describe('Unit | Serializer | JSON API | participant-result-serializer', functio
 
     beforeEach(function () {
       const isCampaignMultipleSendings = true;
-      const isRegistrationActive = true;
+      const isOrganizationLearnerActive = true;
       const isCampaignArchived = false;
       const knowledgeElements = [
         domainBuilder.buildKnowledgeElement({
@@ -70,7 +70,7 @@ describe('Unit | Serializer | JSON API | participant-result-serializer', functio
         participationResults,
         targetProfile,
         isCampaignMultipleSendings,
-        isRegistrationActive,
+        isOrganizationLearnerActive,
         isCampaignArchived
       );
     });
