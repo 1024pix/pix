@@ -162,7 +162,8 @@ describe('Unit | Application | ErrorManager', function () {
     it('should instantiate PasswordShouldChangeError when UserShouldChangePasswordError', async function () {
       // given
       const message = 'Erreur, vous devez changer votre mot de passe.';
-      const error = new UserShouldChangePasswordError(message);
+      const meta = 'RESET_PASSWORD_TOKEN';
+      const error = new UserShouldChangePasswordError(message, meta);
       sinon.stub(HttpErrors, 'PasswordShouldChangeError');
       const params = { request: {}, h: hFake, error };
 
@@ -170,7 +171,7 @@ describe('Unit | Application | ErrorManager', function () {
       await handle(params.request, params.h, params.error);
 
       // then
-      expect(HttpErrors.PasswordShouldChangeError).to.have.been.calledWithExactly(message);
+      expect(HttpErrors.PasswordShouldChangeError).to.have.been.calledWithExactly(message, meta);
     });
 
     it('should instantiate ConflictError when UnexpectedUserAccountError', async function () {

@@ -67,11 +67,12 @@ class UnauthorizedError extends BaseHttpError {
 }
 
 class PasswordShouldChangeError extends BaseHttpError {
-  constructor(message) {
+  constructor(message, meta) {
     super(message);
     this.title = 'PasswordShouldChange';
     this.status = 401;
     this.code = 'SHOULD_CHANGE_PASSWORD';
+    this.meta = meta;
   }
 }
 

@@ -287,6 +287,34 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
       });
     });
 
+    describe('#getById', function () {
+      it('should return the found user', async function () {
+        // given
+        const user = databaseBuilder.factory.buildUser({
+          id: 1092,
+        });
+        await databaseBuilder.commit();
+
+        // when
+        const result = await userRepository.getById(user.id);
+
+        // then
+        expect(result).to.be.an.instanceOf(User);
+        expect(result.id).to.equal(1092);
+      });
+
+      it('should return a UserNotFoundError if no user is found', async function () {
+        // given
+        const nonExistentUserId = 678;
+
+        // when
+        const result = await catchErr(userRepository.getById)(nonExistentUserId);
+
+        // then
+        expect(result).to.be.instanceOf(UserNotFoundError);
+      });
+    });
+
     describe('#getByUsernameOrEmailWithRolesAndPassword', function () {
       beforeEach(async function () {
         await _insertUserWithOrganizationsAndCertificationCenterAccesses();
@@ -462,105 +490,6 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
 
         // then
         expect(result).to.be.instanceOf(UserNotFoundError);
-      });
-    });
-
-    describe('#getUserWithPixAuthenticationMethodByUsername', function () {
-      it('should return user information for the given username', async function () {
-        // given
-        const user = databaseBuilder.factory.buildUser({
-          id: 123,
-          username: 'jean.registre1010',
-        });
-        databaseBuilder.factory.buildAuthenticationMethod.withPoleEmploiAsIdentityProvider({
-          id: 27634,
-          userId: user.id,
-        });
-        databaseBuilder.factory.buildAuthenticationMethod.withPixAsIdentityProviderAndHashedPassword({
-          id: 234,
-          userId: user.id,
-          hashedPassword: 'ABCDEF1234',
-          shouldChangePassword: true,
-        });
-
-        await databaseBuilder.commit();
-
-        // when
-        const foundUser = await userRepository.getUserWithPixAuthenticationMethodByUsername(user.username);
-
-        // then
-        expect(foundUser).to.be.an.instanceof(User);
-        expect(foundUser.id).to.equal(123);
-        expect(foundUser.authenticationMethods[0].identityProvider).to.equal('PIX');
-        expect(foundUser.authenticationMethods[0].authenticationComplement.password).to.equal('ABCDEF1234');
-        expect(foundUser.authenticationMethods[0].authenticationComplement.shouldChangePassword).to.equal(true);
-      });
-
-      it('should return user information for the given email', async function () {
-        // given
-        const user = databaseBuilder.factory.buildUser({
-          id: 123,
-          email: 'jean.registre@example.net',
-        });
-        databaseBuilder.factory.buildAuthenticationMethod.withPoleEmploiAsIdentityProvider({
-          id: 27634,
-          userId: user.id,
-        });
-        databaseBuilder.factory.buildAuthenticationMethod.withPixAsIdentityProviderAndHashedPassword({
-          id: 234,
-          userId: user.id,
-          hashedPassword: 'ABCDEF1234',
-          shouldChangePassword: true,
-        });
-
-        await databaseBuilder.commit();
-
-        // when
-        const foundUser = await userRepository.getUserWithPixAuthenticationMethodByUsername(user.email);
-
-        // then
-        expect(foundUser).to.be.an.instanceof(User);
-        expect(foundUser.id).to.equal(123);
-        expect(foundUser.authenticationMethods[0].identityProvider).to.equal('PIX');
-        expect(foundUser.authenticationMethods[0].authenticationComplement.password).to.equal('ABCDEF1234');
-        expect(foundUser.authenticationMethods[0].authenticationComplement.shouldChangePassword).to.equal(true);
-      });
-
-      context('when no user was found with the given username', function () {
-        it('should reject with a UserNotFound error', async function () {
-          // given
-          const notExistingUsername = 'john.doe0909';
-
-          // when
-          const result = await catchErr(userRepository.getUserWithPixAuthenticationMethodByUsername)(
-            notExistingUsername
-          );
-
-          // then
-          expect(result).to.be.instanceOf(UserNotFoundError);
-        });
-      });
-
-      context('when user has no pix authentication method', function () {
-        it('should reject with a UserNotFound error', async function () {
-          // given
-          const user = databaseBuilder.factory.buildUser({
-            id: 123,
-            username: 'toto1010',
-          });
-          databaseBuilder.factory.buildAuthenticationMethod.withPoleEmploiAsIdentityProvider({
-            id: 27634,
-            userId: user.id,
-          });
-
-          await databaseBuilder.commit();
-
-          // when
-          const result = await catchErr(userRepository.getUserWithPixAuthenticationMethodByUsername)(user.username);
-
-          // then
-          expect(result).to.be.instanceOf(UserNotFoundError);
-        });
       });
     });
 

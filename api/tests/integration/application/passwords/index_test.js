@@ -59,9 +59,8 @@ describe('Integration | Application | Password | Routes', function () {
       const payload = {
         data: {
           attributes: {
-            username: 'firstname.lastname0512',
-            oneTimePassword: 'expiredPassword01',
-            newPassword: 'newPassword02',
+            'password-reset-token': 'PASSWORD_RESET_TOKEN',
+            'new-password': 'Password123',
           },
         },
       };

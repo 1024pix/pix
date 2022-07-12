@@ -73,26 +73,12 @@ describe('Acceptance | Controller | authentication-controller', function () {
 
       it('should return http code 401 when user should change password', async function () {
         // given
-        const username = 'username123';
-        const shouldChangePassword = true;
-
         databaseBuilder.factory.buildUser.withRawPassword({
-          username,
+          username: 'beth.rave1212',
           rawPassword: userPassword,
           cgu: true,
-          shouldChangePassword,
+          shouldChangePassword: true,
         });
-
-        const expectedResponseError = {
-          errors: [
-            {
-              code: 'SHOULD_CHANGE_PASSWORD',
-              detail: 'Erreur, vous devez changer votre mot de passe.',
-              status: '401',
-              title: 'PasswordShouldChange',
-            },
-          ],
-        };
 
         await databaseBuilder.commit();
 
@@ -105,15 +91,17 @@ describe('Acceptance | Controller | authentication-controller', function () {
           },
           payload: querystring.stringify({
             grant_type: 'password',
-            username,
+            username: 'beth.rave1212',
             password: userPassword,
-            scope: 'pix-orga',
+            scope: 'pix',
           }),
         });
 
         // then
         expect(response.statusCode).to.equal(401);
-        expect(response.result).to.deep.equal(expectedResponseError);
+        expect(response.result.errors[0].title).equal('PasswordShouldChange');
+        expect(response.result.errors[0].detail).equal('Erreur, vous devez changer votre mot de passe.');
+        expect(response.result.errors[0].meta).to.exist;
       });
     }
 

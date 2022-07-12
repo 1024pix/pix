@@ -1,11 +1,16 @@
 export default function (schema, request) {
   const params = JSON.parse(request.requestBody);
-  const { username, oneTimePassword, newPassword } = params.data.attributes;
+  const newPassword = params.data.attributes['new-password'];
+  const passwordResetToken = params.data.attributes['password-reset-token'];
+  const user = schema.users.findBy({ id: passwordResetToken });
+  user.update({ password: newPassword, shouldChangePassword: false });
 
-  const foundUser = schema.users.findBy({ username, password: oneTimePassword });
-
-  if (foundUser) {
-    foundUser.update({ password: newPassword, shouldChangePassword: false });
-    return { data: { type: 'reset-expired-password-demands' } };
-  }
+  return {
+    data: {
+      type: 'reset-expired-password-demands',
+      attributes: {
+        login: user.username,
+      },
+    },
+  };
 }

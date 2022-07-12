@@ -63,21 +63,30 @@ describe('Unit | Component | routes/login-form', function () {
         expect(component.hasUpdateUserError).to.be.false;
       });
 
-      it('should redirect to update-expired-password if user should change password', async () => {
-        // given
-        const expectedRouteName = 'update-expired-password';
-        const response = {
-          responseJSON: {
-            errors: [{ title: 'PasswordShouldChange' }],
-          },
-        };
-        sessionStub.authenticate.rejects(response);
+      context('when user should change password', () => {
+        it('should save reset password token and redirect to update-expired-password', async () => {
+          // given
+          const expectedRouteName = 'update-expired-password';
+          sessionStub.authenticate.rejects({
+            responseJSON: {
+              errors: [
+                {
+                  title: 'PasswordShouldChange',
+                  meta: 'PASSWORD_RESET_TOKEN',
+                },
+              ],
+            },
+          });
 
-        // when
-        await component.authenticate(eventStub);
+          // when
+          await component.authenticate(eventStub);
 
-        // then
-        sinon.assert.calledWith(component.router.replaceWith, expectedRouteName);
+          // then
+          sinon.assert.calledWith(storeStub.createRecord, 'reset-expired-password-demand', {
+            passwordResetToken: 'PASSWORD_RESET_TOKEN',
+          });
+          sinon.assert.calledWith(component.router.replaceWith, expectedRouteName);
+        });
       });
     });
 
@@ -100,6 +109,30 @@ describe('Unit | Component | routes/login-form', function () {
         // then
         expect(component.isErrorMessagePresent).to.be.false;
         expect(component.hasUpdateUserError).to.be.true;
+      });
+
+      context('when user should change password', () => {
+        it('should save reset password token and redirect to update-expired-password', async () => {
+          // given
+          const response = {
+            errors: [
+              {
+                title: 'PasswordShouldChange',
+                meta: 'PASSWORD_RESET_TOKEN',
+              },
+            ],
+          };
+          addGarAuthenticationMethodToUserStub.rejects(response);
+
+          // when
+          await component.authenticate(eventStub);
+
+          // then
+          sinon.assert.calledWith(storeStub.createRecord, 'reset-expired-password-demand', {
+            passwordResetToken: 'PASSWORD_RESET_TOKEN',
+          });
+          sinon.assert.calledWith(component.router.replaceWith, 'update-expired-password');
+        });
       });
     });
   });

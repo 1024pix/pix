@@ -54,15 +54,17 @@ describe('Acceptance | Authentication', function () {
       expect(currentURL()).to.equal('/connexion');
     });
 
-    it('should redirect to /update-expired-password, when user use one time password', async function () {
-      // given
-      user = server.create('user', 'withUsername', 'shouldChangePassword');
+    describe('when user should change password', function () {
+      it('should redirect to /update-expired-password', async function () {
+        // given
+        user = server.create('user', 'withUsername', 'shouldChangePassword');
 
-      // when
-      await authenticateByUsername(user);
+        // when
+        await authenticateByUsername(user);
 
-      // then
-      expect(currentURL()).to.equal('/mise-a-jour-mot-de-passe-expire');
+        // then
+        expect(currentURL()).to.equal('/mise-a-jour-mot-de-passe-expire');
+      });
     });
   });
 });

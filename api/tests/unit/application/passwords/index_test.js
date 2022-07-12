@@ -83,11 +83,9 @@ describe('Unit | Router | Password router', function () {
       const payload = {
         data: {
           attributes: {
-            username: 'firstName.lastName0110',
-            oneTimePassword: 'expiredPassword01',
-            newPassword: 'Password123',
+            'password-reset-token': 'PASSWORD_RESET_TOKEN',
+            'new-password': 'Password123',
           },
-          type: 'password-reset',
         },
       };
 
@@ -98,32 +96,27 @@ describe('Unit | Router | Password router', function () {
       expect(response.statusCode).to.equal(201);
     });
 
-    context(
-      'When the payload has the wrong format or no username or oneTimePassword or newPassword is provided.',
-      function () {
-        it('should return 400 http status code', async function () {
-          // given
-          const httpTestServer = new HttpTestServer();
-          await httpTestServer.register(moduleUnderTest);
+    context('When the payload has the wrong format or no passwordResetToken or newPassword is provided.', function () {
+      it('should return 400 http status code', async function () {
+        // given
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
 
-          const payload = {
-            data: {
-              attributes: {
-                username: 'firstName.lastName0110',
-                oneTimePassword: 'expiredPassword01',
-                newPassword: null,
-              },
-              type: 'password-reset',
+        const payload = {
+          data: {
+            attributes: {
+              'password-reset-token': 'PASSWORD_RESET_TOKEN',
+              newPassword: null,
             },
-          };
+          },
+        };
 
-          // when
-          const response = await httpTestServer.request(method, url, payload);
+        // when
+        const response = await httpTestServer.request(method, url, payload);
 
-          // then
-          expect(response.statusCode).to.equal(400);
-        });
-      }
-    );
+        // then
+        expect(response.statusCode).to.equal(400);
+      });
+    });
   });
 });

@@ -26,7 +26,7 @@ export default function (schema, request) {
         user_id: foundUser.id,
       };
     }
-    return new Response(401, {}, { errors: [{ title: 'PasswordShouldChange' }] });
+    return new Response(401, {}, { errors: [{ title: 'PasswordShouldChange', meta: foundUser.id }] });
   }
   return new Response(401, {}, 'Authentication failed');
 }

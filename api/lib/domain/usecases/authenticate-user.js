@@ -37,6 +37,7 @@ module.exports = async function authenticateUser({
   username,
   refreshTokenService,
   pixAuthenticationService,
+  tokenService,
   userRepository,
   adminMemberRepository,
 }) {
@@ -53,7 +54,8 @@ module.exports = async function authenticateUser({
     );
 
     if (shouldChangePassword) {
-      throw new UserShouldChangePasswordError();
+      const passwordResetToken = tokenService.createPasswordResetToken(foundUser.id);
+      throw new UserShouldChangePasswordError(undefined, passwordResetToken);
     }
 
     await _checkUserAccessScope(scope, foundUser, adminMemberRepository);
