@@ -59,7 +59,7 @@ export const subcategoryToLabel = {
   [certificationIssueReportSubcategories.UNINTENTIONAL_FOCUS_OUT]:
     'Le candidat a été contraint de cliquer en dehors du cadre autorisé pour une question en mode focus',
   [certificationIssueReportSubcategories.SKIP_ON_OOPS]:
-    'Une page affichant “Oups une erreur est survenue” a contraint le candidat à passer la question',
+    'Une page affichant “Oups une erreur est survenue” a contraint le candidat à ne pas répondre à la question',
   [certificationIssueReportSubcategories.ACCESSIBILITY_ISSUE]:
     'Problème avec l’accessibilité de la question (ex : daltonisme)',
 };
