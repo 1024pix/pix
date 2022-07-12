@@ -98,7 +98,7 @@ describe('Integration | Component | ChallengeStatement', function () {
       expect(find('.challenge-statement-instruction__text')).to.not.exist;
     });
 
-    it('should add title "Nouvelle fenêtre" to external links', async function () {
+    it('should add title "destination (nouvelle fenêtre)" to external links', async function () {
       // given
       addAssessmentToContext(this, { id: '267845' });
       addChallengeToContext(this, {
@@ -110,10 +110,8 @@ describe('Integration | Component | ChallengeStatement', function () {
       await renderChallengeStatement(this);
 
       // then
-      const linkCount = find('.challenge-statement-instruction__text').innerHTML.match(
-        /title="Nouvelle fenêtre"/g
-      ).length;
-      expect(linkCount).to.equal(2);
+      expect(find('.challenge-statement-instruction__text a[title="lien 1 (nouvelle fenêtre)"]')).to.exist;
+      expect(find('.challenge-statement-instruction__text a[title="lien 2 (nouvelle fenêtre)"]')).to.exist;
     });
 
     it('should display a specific style', async function () {
