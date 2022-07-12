@@ -1,6 +1,6 @@
 .participant-list {
   &__mastery-percentage {
-    color: $blue;
+    color: $pix-primary;
     font-size: 1.25rem;
     margin-left: 26px;
   }
@@ -17,7 +17,7 @@
     align-content: center;
     height: 60px;
     padding-left: 30px;
-    color: $grey-60;
+    color: $pix-neutral-60;
     font-family: $font-roboto;
     font-size: 0.875rem;
   }

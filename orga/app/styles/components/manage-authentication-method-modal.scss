@@ -1,30 +1,30 @@
 .manage-authentication-window {
   display: flex;
   flex-direction: column;
-  background-color: $grey-10;
+  background-color: $pix-neutral-10;
   padding: 24px;
 
   h6 {
     font-size: 1.125rem;
     font-weight: normal;
-    color: $grey-90;
+    color: $pix-neutral-90;
     margin: 0px;
   }
 
   label {
-    color: $grey-60;
+    color: $pix-neutral-60;
     font-size: .88rem;
     font-weight: 500;
     padding-bottom: 5px;
   }
 
   .disabled {
-    background-color: $grey-10;
+    background-color: $pix-neutral-10;
     border: none;
   }
 
   .help {
-    color: $grey-100;
+    color: $pix-neutral-100;
     text-transform: none;
     font-weight: normal;
     letter-spacing: normal;
@@ -51,7 +51,7 @@
 
   &__warning {
     display: flex;
-    color: $white;
+    color: $pix-neutral-0;
     font-size: .875rem;
 
     span {
@@ -61,7 +61,7 @@
 
   &__informations {
     display: flex;
-    color: $white;
+    color: $pix-neutral-0;
     flex-direction: column;
     font-size: .875rem;
     padding-left: 16px;
@@ -72,7 +72,7 @@
   }
 
   &__footer {
-    background-color: $grey-70;
+    background-color: $pix-neutral-70;
     border-radius: 8px;
     padding: 16px 24px;
     margin-top: 16px;
@@ -83,18 +83,18 @@
     }
 
     label {
-      color: $white;
+      color: $pix-neutral-0;
     }
   }
 
   &__box {
-    background-color: $white;
+    background-color: $pix-neutral-0;
     border-radius: 8px;
     margin-top: 16px;
     padding: 16px 24px 16px 24px;
 
     hr {
-      color: $grey-22;
+      color: $pix-neutral-22;
       margin-bottom: 16px;
     }
 
@@ -109,11 +109,11 @@
     margin-bottom: 16px;
 
     .green-icon {
-      color: $green;
+      color: $pix-success-70;
     }
 
     .grey-icon {
-      color: $grey-45;
+      color: $pix-neutral-45;
     }
   }
 }

@@ -18,12 +18,12 @@
                 flex-basis: 100%;
                 margin-bottom: 0;
             }
-    
+
             &--add-separator {
                 &::before {
                     content: "";
                     height: 0.3125rem;
-                    border-left: 1px solid $grey-25;
+                    border-left: 1px solid $pix-neutral-25;
                     margin: auto 10px;
                 }
             }

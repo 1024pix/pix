@@ -7,7 +7,7 @@
 
   &__tabs {
     display: flex;
-    border-bottom: 1px solid $grey-20;
+    border-bottom: 1px solid $pix-neutral-20;
     margin-bottom: 16px;
   }
 
@@ -16,7 +16,7 @@
     margin: 2px 0 32px 0;
     font-size: 1rem;
     line-height: 1.45rem;
-    color: $grey-60;
+    color: $pix-neutral-60;
   }
 
   &__action {
@@ -28,7 +28,7 @@
     margin-bottom: 40px;
 
     label {
-      color: $grey-90;
+      color: $pix-neutral-90;
       margin-left: 2px;
       min-width: 100%;
       padding: 4px 0;
