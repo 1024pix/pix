@@ -144,7 +144,12 @@ describe('Integration | Component | routes/login-form', function () {
 
       const response = {
         responseJSON: {
-          errors: [{ title: 'PasswordShouldChange' }],
+          errors: [
+            {
+              title: 'PasswordShouldChange',
+              meta: 'PASSWORD_RESET_TOKEN',
+            },
+          ],
         },
       };
 

@@ -18,8 +18,8 @@ export default class LoginRoute extends Route.extend(UnauthenticatedRouteMixin) 
   }
 
   @action
-  async updateExpiredPassword(username, password) {
-    this.store.createRecord('reset-expired-password-demand', { username, oneTimePassword: password });
+  async updateExpiredPassword(passwordResetToken) {
+    this.store.createRecord('reset-expired-password-demand', { passwordResetToken });
     return this.router.replaceWith('update-expired-password');
   }
 

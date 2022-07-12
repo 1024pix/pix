@@ -342,27 +342,39 @@ describe('Unit | Application | UseCase | authenticate-user', function () {
   context('when user should change password', function () {
     it('should throw UserShouldChangePasswordError', async function () {
       // given
-      const user = domainBuilder.buildUser({ email: userEmail });
+      const tokenService = { createPasswordResetToken: sinon.stub() };
+
+      const user = domainBuilder.buildUser({ username: 'jean.neymar2008' });
       const authenticationMethod = domainBuilder.buildAuthenticationMethod.withPixAsIdentityProviderAndRawPassword({
         userId: user.id,
-        rawPassword: password,
+        rawPassword: 'Password1234',
         shouldChangePassword: true,
       });
       user.authenticationMethods = [authenticationMethod];
 
-      pixAuthenticationService.getUserByUsernameAndPassword.resolves(user);
+      pixAuthenticationService.getUserByUsernameAndPassword
+        .withArgs({
+          username: 'jean.neymar2008',
+          password: 'Password1234',
+          userRepository,
+        })
+        .resolves(user);
+      tokenService.createPasswordResetToken.withArgs(user.id).returns('RESET_PASSWORD_TOKEN');
 
       // when
       const error = await catchErr(authenticateUser)({
-        username: userEmail,
-        password,
+        username: 'jean.neymar2008',
+        password: 'Password1234',
         userRepository,
         pixAuthenticationService,
         endTestScreenRemovalService,
+        tokenService,
       });
 
       // then
       expect(error).to.be.an.instanceOf(UserShouldChangePasswordError);
+      expect(error.message).to.equal('Erreur, vous devez changer votre mot de passe.');
+      expect(error.meta).to.equal('RESET_PASSWORD_TOKEN');
     });
   });
 });
