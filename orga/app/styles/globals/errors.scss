@@ -51,23 +51,43 @@
     border: 1.5px solid $pix-error-70;
 
     div:first-child {
-      background-color: $pix-error-10;
+      background-color: $pix-error-70;
     }
 
     div:nth-child(2) {
-      background-color: lighten($pix-error-10, 35%);
+      background-color: $pix-error-5;
+      color: $pix-error-70;
+    }
+
+    .c-notification__close svg {
+      fill: $pix-error-70;
+
+      &:hover,
+      &:active {
+        fill: $pix-error-80;
+      }
     }
   }
 
   &--warning {
-    border: 1.5px solid $pix-warning-60;
+    border: 1.5px solid $pix-warning-70;
 
     div:first-child {
-      background-color: $pix-warning-10;
+      background-color: $pix-warning-70;
     }
 
     div:nth-child(2) {
-      background-color: lighten($pix-warning-10, 40%);
+      background-color: $pix-warning-5;
+      color: $pix-warning-70;
+    }
+
+    .c-notification__close svg {
+      fill: $pix-warning-70;
+
+      &:hover,
+      &:active {
+        fill: $pix-warning-80;
+      }
     }
   }
 
@@ -75,11 +95,20 @@
     border: 1.5px solid $pix-success-70;
 
     div:first-child {
-      background-color: $pix-success-10;
+      background-color: $pix-success-70;
     }
 
     div:nth-child(2) {
-      background-color: lighten($pix-success-10, 35%);
+      background-color: $pix-success-5;
+      color: $pix-success-70;
+    }
+    .c-notification__close svg {
+      fill: $pix-success-70;
+
+      &:hover,
+      &:active {
+        fill: $pix-success-80;
+      }
     }
   }
 }
