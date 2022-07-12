@@ -214,6 +214,12 @@ class CertificationIssueReport {
     this.resolvedAt = new Date();
     this.resolution = resolution;
   }
+
+  resolveAutomatically(resolution) {
+    this.resolvedAt = new Date();
+    this.resolution = resolution;
+    this.hasBeenAutomaticallyResolved = true;
+  }
 }
 
 module.exports = CertificationIssueReport;

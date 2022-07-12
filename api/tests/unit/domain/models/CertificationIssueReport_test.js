@@ -513,4 +513,20 @@ describe('Unit | Domain | Models | CertificationIssueReport', function () {
       expect(certificationIssueReport.resolution).to.equal('RESOLVED');
     });
   });
+  describe('#resolveAutomatically', function () {
+    it('sets the issue report as resolved automatically', function () {
+      // given
+      const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
+        resolvedAt: null,
+      });
+
+      // when
+      certificationIssueReport.resolveAutomatically('RESOLVED');
+
+      // then
+      expect(certificationIssueReport.resolvedAt).not.to.be.null;
+      expect(certificationIssueReport.hasBeenAutomaticallyResolved).to.be.true;
+      expect(certificationIssueReport.resolution).to.equal('RESOLVED');
+    });
+  });
 });
