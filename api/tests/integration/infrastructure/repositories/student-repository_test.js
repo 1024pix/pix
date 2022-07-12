@@ -5,11 +5,14 @@ describe('Integration | Infrastructure | Repository | student-repository', funct
   describe('#findReconciledStudentsByNationalStudentId', function () {
     it('should return instances of Student', async function () {
       // given
+      const organizationId = 1;
       const firstNationalStudentId = '123456789AB';
       const firstAccount = databaseBuilder.factory.buildUser();
+      databaseBuilder.factory.buildOrganization({ id: organizationId, isManagingStudents: true });
       databaseBuilder.factory.buildCertificationCourse({ userId: firstAccount.id });
       databaseBuilder.factory.buildCertificationCourse({ userId: firstAccount.id });
-      databaseBuilder.factory.buildOrganizationLearner({
+      const firstOrganizationLearner = databaseBuilder.factory.buildOrganizationLearner({
+        organizationId,
         userId: firstAccount.id,
         nationalStudentId: firstNationalStudentId,
       });
@@ -23,7 +26,8 @@ describe('Integration | Infrastructure | Repository | student-repository', funct
 
       const secondNationalStudentId = '567891234CD';
       const thirdAccount = databaseBuilder.factory.buildUser();
-      databaseBuilder.factory.buildOrganizationLearner({
+      const secondOrganizationLearner = databaseBuilder.factory.buildOrganizationLearner({
+        organizationId,
         userId: thirdAccount.id,
         nationalStudentId: secondNationalStudentId,
       });
@@ -31,21 +35,24 @@ describe('Integration | Infrastructure | Repository | student-repository', funct
       await databaseBuilder.commit();
 
       // when
-      const students = await studentRepository.findReconciledStudentsByNationalStudentId([
+      const [firstStudent, secondStudent] = await studentRepository.findReconciledStudentsByNationalStudentId([
         firstNationalStudentId,
         secondNationalStudentId,
       ]);
 
       // then
-      expect(students.length).to.equal(2);
-      expect(students[0].nationalStudentId).to.equal(firstNationalStudentId);
-      expect(students[0].account).to.deep.equal({
+      expect(firstStudent.nationalStudentId).to.equal(firstNationalStudentId);
+      expect(firstStudent.account).to.deep.equal({
+        organizationId,
+        birthdate: firstOrganizationLearner.birthdate,
         userId: firstAccount.id,
         updatedAt: firstAccount.updatedAt,
         certificationCount: 2,
       });
-      expect(students[1].nationalStudentId).to.equal(secondNationalStudentId);
-      expect(students[1].account).to.deep.equal({
+      expect(secondStudent.nationalStudentId).to.equal(secondNationalStudentId);
+      expect(secondStudent.account).to.deep.equal({
+        organizationId,
+        birthdate: secondOrganizationLearner.birthdate,
         userId: thirdAccount.id,
         updatedAt: thirdAccount.updatedAt,
         certificationCount: 0,
@@ -57,10 +64,16 @@ describe('Integration | Infrastructure | Repository | student-repository', funct
     it('should return instance of Student', async function () {
       // given
       const nationalStudentId = '123456789AB';
+      const organizationId = 1;
       const account = databaseBuilder.factory.buildUser();
+      databaseBuilder.factory.buildOrganization({ id: organizationId, isManagingStudents: true });
       databaseBuilder.factory.buildCertificationCourse({ userId: account.id });
       databaseBuilder.factory.buildCertificationCourse({ userId: account.id });
-      databaseBuilder.factory.buildOrganizationLearner({ userId: account.id, nationalStudentId: nationalStudentId });
+      const organizationLearner = databaseBuilder.factory.buildOrganizationLearner({
+        organizationId,
+        userId: account.id,
+        nationalStudentId,
+      });
 
       await databaseBuilder.commit();
 
@@ -70,6 +83,8 @@ describe('Integration | Infrastructure | Repository | student-repository', funct
       // then
       expect(student.nationalStudentId).to.equal(nationalStudentId);
       expect(student.account).to.deep.equal({
+        organizationId,
+        birthdate: organizationLearner.birthdate,
         userId: account.id,
         updatedAt: account.updatedAt,
         certificationCount: 2,
