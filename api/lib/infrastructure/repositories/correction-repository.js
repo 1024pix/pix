@@ -57,7 +57,9 @@ function _convertSkillToHint({ skill, locale }) {
 async function _getTutorials({ userId, skill, tutorialIdsProperty, locale }) {
   const tutorialIds = skill[tutorialIdsProperty];
   if (!_.isEmpty(tutorialIds)) {
-    return tutorialRepository.findByRecordIdsForCurrentUser({ ids: tutorialIds, userId, locale });
+    const tutorials = await tutorialRepository.findByRecordIdsForCurrentUser({ ids: tutorialIds, userId, locale });
+    tutorials.forEach((tutorial) => (tutorial.skillId = skill.id));
+    return tutorials;
   }
   return [];
 }
