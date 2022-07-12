@@ -11,6 +11,14 @@ module.exports = {
 
     return certificationCourses.map((certificationCourse) => new CpfCertificationResult(certificationCourse));
   },
+
+  async findByIdRange({ startId, endId }) {
+    const certificationCourses = await _selectCpfCertificationResults()
+      .whereBetween('certification-courses.id', [startId, endId])
+      .orderBy(['sessions.publishedAt', 'certification-courses.lastName', 'certification-courses.firstName']);
+
+    return certificationCourses.map((certificationCourse) => new CpfCertificationResult(certificationCourse));
+  },
 };
 
 function _selectCpfCertificationResults() {
