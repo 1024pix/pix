@@ -76,6 +76,10 @@
     font-weight: $font-normal;
     width: 100%;
   }
+
+  &__alert {
+    margin: 4px;
+  }
 }
 
 .proposal-text {

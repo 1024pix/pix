@@ -80,9 +80,9 @@
                   />
                 </div>
                 {{#if this.emptyTextBoxMessageError}}
-                  <div class="alert alert--danger" role="alert">
+                  <PixMessage class="feedback-panel__alert" @type="error" @withIcon={{true}}>
                     {{this.emptyTextBoxMessageError}}
-                  </div>
+                  </PixMessage>
                 {{/if}}
                 <PixButton @type="submit" @backgroundColor="grey" @isDisabled={{this.isSendButtonDisabled}}>
                   {{t "pages.challenge.feedback-panel.form.actions.submit"}}
