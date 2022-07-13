@@ -42,7 +42,9 @@ export default function index(config) {
     return {
       access_token:
         'aaa.' +
-        btoa(`{"user_id":${createdUser.id},"source":"pole_emploi_connect","iat":1545321469,"exp":4702193958}`) +
+        btoa(
+          `{"user_id":${createdUser.id},"source":"pole_emploi_connect","iat":1545321469,"exp":4702193958,"identity_provider":"POLE_EMPLOI"}`
+        ) +
         '.bbb',
       logout_url_uuid: '1f3dbb71-f399-4c1c-85ae-0a863c78aeea',
       user_id: createdUser.id,
