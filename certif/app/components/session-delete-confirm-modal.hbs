@@ -1,7 +1,11 @@
 {{#if @show}}
   <PixModal @title="Supprimer la session" @onCloseButtonClick={{@close}}>
     <:content>
-      <p>Souhaitez-vous supprimer la session <span>{{@sessionId}}</span> ?</p>
+      <p class="session-delete-confirmation-modal">Souhaitez-vous supprimer la session <span>{{@sessionId}}</span> ?</p>
+      {{#if (gt @enrolledCandidatesCount 0)}}
+        <p class="session-delete-confirmation-modal"><span>{{@enrolledCandidatesCount}} candidats</span>
+          sont inscrits à cette session</p>
+      {{/if}}
       <PixMessage @type="warning" @withIcon={{true}}>
         Attention, cette action est irréversible.
       </PixMessage>

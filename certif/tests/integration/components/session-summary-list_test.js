@@ -236,6 +236,62 @@ module('Integration | Component | session-summary-list', function (hooks) {
             .hasText('Souhaitez-vous supprimer la session 123 ?');
         });
 
+        module('when there are enrolled candidates', function () {
+          test('it should open the modal with the number of enrolled candidates', async function (assert) {
+            // given
+            this.goToSessionDetailsSpy = sinon.stub();
+            const store = this.owner.lookup('service:store');
+            const sessionSummary = store.createRecord('session-summary', {
+              id: 123,
+              enrolledCandidatesCount: 5,
+              meta: {
+                rowCount: 1,
+              },
+            });
+            this.sessionSummaries = [sessionSummary];
+
+            const screen = await renderScreen(hbs`<SessionSummaryList
+                    @sessionSummaries={{this.sessionSummaries}}
+                    @goToSessionDetails={{this.goToSessionDetailsSpy}}/>`);
+
+            // when
+            await click(screen.getByRole('button', { name: 'Supprimer la session 123' }));
+
+            // then
+            assert.dom(screen.getByRole('heading', { name: 'Supprimer la session' })).exists();
+            assert
+              .dom(screen.getByText('sont inscrits à cette session', { exact: false }))
+              .hasText('5 candidats sont inscrits à cette session');
+          });
+        });
+
+        module('when there are no enrolled candidates', function () {
+          test('it should open the modal without the number of enrolled candidates', async function (assert) {
+            // given
+            this.goToSessionDetailsSpy = sinon.stub();
+            const store = this.owner.lookup('service:store');
+            const sessionSummary = store.createRecord('session-summary', {
+              id: 123,
+              enrolledCandidatesCount: 0,
+              meta: {
+                rowCount: 1,
+              },
+            });
+            this.sessionSummaries = [sessionSummary];
+
+            const screen = await renderScreen(hbs`<SessionSummaryList
+                      @sessionSummaries={{this.sessionSummaries}}
+                      @goToSessionDetails={{this.goToSessionDetailsSpy}}/>`);
+
+            // when
+            await click(screen.getByRole('button', { name: 'Supprimer la session 123' }));
+
+            // then
+            assert.dom(screen.getByRole('heading', { name: 'Supprimer la session' })).exists();
+            assert.dom(screen.queryByText('sont inscrits à cette session', { exact: false })).doesNotExist();
+          });
+        });
+
         module('when clicking on modal delete button', function () {
           test('it should close the modal', async function (assert) {
             // given
