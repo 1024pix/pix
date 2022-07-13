@@ -25,7 +25,12 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', function () {
     poleEmploiAuthenticationService = {
       exchangeCodeForTokens: sinon.stub(),
       getUserInfo: sinon.stub(),
+      createAccessToken: sinon.stub(),
+      saveIdToken: sinon.stub(),
     };
+    poleEmploiAuthenticationService.saveIdToken
+      .withArgs({ idToken: 'idToken', userId: 1 })
+      .resolves('ce945751-b7f5-4786-8979-63e25a4f182b');
 
     authenticationMethodRepository = {
       create: sinon.stub().resolves(),
@@ -136,9 +141,9 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', function () {
       expect(poleEmploiAuthenticationService.getUserInfo).to.have.been.calledWith({ idToken: 'idToken' });
     });
 
-    it('should return accessToken and idToken', async function () {
+    it('should return accessToken and logoutUrlUUID', async function () {
       // given
-      const { poleEmploiAuthenticationSessionContent } = _fakePoleEmploiAPI({ poleEmploiAuthenticationService });
+      _fakePoleEmploiAPI({ poleEmploiAuthenticationService });
       const authenticatedUserId = 1;
       const oidcAuthenticationService = {
         createAccessToken: sinon.stub(),
@@ -163,7 +168,7 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', function () {
       // then
       const expectedResult = {
         pixAccessToken: 'access-token',
-        poleEmploiAuthenticationSessionContent,
+        logoutUrlUUID: 'ce945751-b7f5-4786-8979-63e25a4f182b',
       };
       expect(result).to.deep.equal(expectedResult);
     });
