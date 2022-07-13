@@ -6,15 +6,19 @@ import { tracked } from '@glimmer/tracking';
 export default class List extends Component {
   @service store;
   @service notifications;
+  @service errorResponseHandler;
   @tracked displayConfirm = false;
-
   @tracked editionMode = false;
   @tracked newRole;
   @tracked confirmPopUpMessage;
 
-  ERROR_MESSAGES = {
-    DEFAULT: 'Une erreur est survenue.',
-    STATUS_422: 'Impossible de désactiver cet agent.',
+  CUSTOM_ERROR_STATUS_MESSAGES = {
+    DEACTIVATE: {
+      STATUS_422: 'Impossible de désactiver cet agent.',
+    },
+    UPDATE: {
+      STATUS_422: 'Erreur lors de la mise à jour du rôle de cet agent Pix.',
+    },
   };
 
   @action
@@ -36,9 +40,8 @@ export default class List extends Component {
       this.notifications.success(
         `L'agent ${adminMember.firstName} ${adminMember.lastName} a désormais le rôle ${this.newRole}`
       );
-    } catch (err) {
-      const { detail } = err.errors?.[0] || {};
-      this.notifications.error(detail);
+    } catch (errorResponse) {
+      this.errorResponseHandler.notify(errorResponse, this.CUSTOM_ERROR_STATUS_MESSAGES.UPDATE);
       adminMember.role = previousRole;
     } finally {
       adminMember.isInEditionMode = false;
@@ -55,7 +58,8 @@ export default class List extends Component {
       );
     } catch (errorResponse) {
       this.toggleDisplayConfirm();
-      this._handleResponseError(errorResponse);
+
+      this.errorResponseHandler.notify(errorResponse, this.CUSTOM_ERROR_STATUS_MESSAGES.DEACTIVATE);
     }
   }
 
@@ -69,24 +73,5 @@ export default class List extends Component {
   @action
   toggleDisplayConfirm() {
     this.displayConfirm = !this.displayConfirm;
-  }
-
-  _handleResponseError(errorResponse) {
-    const { errors } = errorResponse;
-
-    if (errors) {
-      errors.map((error) => {
-        switch (error.status) {
-          case 422:
-            this.notifications.error(this.ERROR_MESSAGES.STATUS_422);
-            break;
-          default:
-            this.notifications.error(this.ERROR_MESSAGES.DEFAULT);
-            break;
-        }
-      });
-    } else {
-      this.notifications.error(this.ERROR_MESSAGES.DEFAULT);
-    }
   }
 }
