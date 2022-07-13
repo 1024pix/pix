@@ -25,6 +25,7 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
     // then
     assert.contains('Nom');
     assert.contains('Prénom');
+    assert.contains('Nombre de participations');
   });
 
   test('it should display a list of participants', async function (assert) {
@@ -60,5 +61,23 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
     // then
     assert.contains('La Terreur');
     assert.contains('Gigi');
+  });
+
+  test('it should display the number of participations for each participant', async function (assert) {
+    // given
+    const participants = [
+      { lastName: 'La Terreur', firstName: 'Gigi', id: 34, participationCount: 4 },
+      { lastName: "L'asticot", firstName: 'Gogo', id: 56, participationCount: 1 },
+    ];
+
+    this.set('participants', participants);
+
+    // when
+    const screen = await render(hbs`<OrganizationParticipant::List @participants={{participants}} />`);
+    const allRows = screen.getAllByLabelText(this.intl.t('pages.organization-participants.table.row-title'));
+
+    // then
+    assert.dom(allRows[0]).containsText(4);
+    assert.dom(allRows[1]).containsText(1);
   });
 });

@@ -656,7 +656,8 @@
       "table": {
         "column": {
           "first-name": "First name",
-          "last-name": "Last name"
+          "last-name": "Last name",
+          "participation-count": "Number of participations"
         },
         "empty": "No participants",
         "row-title": "Participant"
