@@ -172,6 +172,7 @@ exports.register = async function (server) {
             'filter[groups][]': [Joi.string(), Joi.array().items(Joi.string())],
             'filter[badges][]': [Joi.number().integer(), Joi.array().items(Joi.number().integer())],
             'filter[stages][]': [Joi.number().integer(), Joi.array().items(Joi.number().integer())],
+            'filter[search]': Joi.string().empty(''),
             'page[number]': Joi.number().integer().empty(''),
             'page[size]': Joi.number().integer().empty(''),
           }),

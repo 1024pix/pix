@@ -1,5 +1,5 @@
 import { module, test } from 'qunit';
-import { visit } from '@ember/test-helpers';
+import { visit, currentURL } from '@ember/test-helpers';
 import { fillByLabel, clickByName } from '@1024pix/ember-testing-library';
 import { setupApplicationTest } from 'ember-qunit';
 import authenticateSession from '../helpers/authenticate-session';
@@ -94,6 +94,18 @@ module('Acceptance | Campaign Profiles', function (hooks) {
       assert.dom('table tbody tr').exists({ count: changedPageSize });
       assert.contains('Page 1 / 2');
       assert.dom('.page-size option:checked').hasText(changedPageSize.toString());
+    });
+  });
+
+  module('when  user is already on profiles page and set filters', () => {
+    test('should set search filter', async function (assert) {
+      // when
+      await visit('/campagnes/1/profils');
+
+      await fillByLabel('Recherche sur le nom et prénom', 'Choupette');
+
+      // then
+      assert.strictEqual(currentURL(), '/campagnes/1/profils?search=Choupette');
     });
   });
 });

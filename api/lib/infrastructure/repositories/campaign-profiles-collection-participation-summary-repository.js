@@ -76,14 +76,28 @@ async function _makeMemoizedGetPlacementProfileForUser(results) {
   return (userId) => placementProfiles.find((placementProfile) => placementProfile.userId === userId);
 }
 
-function _filterQuery(qb, filters) {
+function _filterQuery(queryBuilder, filters) {
   if (filters.divisions) {
     const divisionsLowerCase = filters.divisions.map((division) => division.toLowerCase());
-    qb.whereRaw('LOWER("organization-learners"."division") = ANY(:divisionsLowerCase)', { divisionsLowerCase });
+    queryBuilder.whereRaw('LOWER("organization-learners"."division") = ANY(:divisionsLowerCase)', {
+      divisionsLowerCase,
+    });
   }
   if (filters.groups) {
     const groupsLowerCase = filters.groups.map((group) => group.toLowerCase());
-    qb.whereIn(knex.raw('LOWER("organization-learners"."group")'), groupsLowerCase);
+    queryBuilder.whereIn(knex.raw('LOWER("organization-learners"."group")'), groupsLowerCase);
+  }
+  if (filters.search) {
+    const search = filters.search.trim().toLowerCase();
+    queryBuilder.where(function () {
+      this.where(
+        knex.raw(`CONCAT ("organization-learners"."firstName", ' ', "organization-learners"."lastName") <-> ?`, search),
+        '<=',
+        0.8
+      )
+        .orWhereRaw('LOWER("organization-learners"."lastName") LIKE ?', `%${search}%`)
+        .orWhereRaw('LOWER("organization-learners"."firstName") LIKE ?', `%${search}%`);
+    });
   }
 }
 

@@ -22,6 +22,9 @@ export default class AssessmentResultsRoute extends Route {
     stages: {
       refreshModel: true,
     },
+    search: {
+      refreshModel: true,
+    },
   };
 
   async model(params) {
@@ -50,6 +53,7 @@ export default class AssessmentResultsRoute extends Route {
         groups: params.groups,
         badges: params.badges,
         stages: params.stages,
+        search: params.search,
       },
       campaignId: params.campaignId,
     });
@@ -63,6 +67,7 @@ export default class AssessmentResultsRoute extends Route {
       controller.groups = [];
       controller.badges = [];
       controller.stages = [];
+      controller.search = null;
     }
   }
 }
