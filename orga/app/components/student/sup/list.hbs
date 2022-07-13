@@ -12,7 +12,10 @@
         <Table::Header @size="medium" @align="right">
           {{t "pages.students-sup.table.column.participation-count"}}
         </Table::Header>
-        <Table::Header @size="small" class="hide-on-mobile" />
+        <Table::Header @size="medium" @align="center">
+          {{t "pages.students-sup.table.column.last-participation-date"}}
+        </Table::Header>
+        <Table::Header @size="medium" class="hide-on-mobile" />
       </tr>
       <tr class="hide-on-mobile">
         <Table::HeaderFilterInput
@@ -49,6 +52,7 @@
         />
         <Table::Header class="table__column--right" />
         <Table::Header />
+        <Table::Header />
       </tr>
     </thead>
 
@@ -62,6 +66,9 @@
             <td class="table__column--center">{{moment-format student.birthdate "DD/MM/YYYY"}}</td>
             <td class="ellipsis">{{student.group}}</td>
             <td class="table__column--right">{{student.participationCount}}</td>
+            <td class="table__column--center">
+              {{moment-format student.lastParticipationDate "DD/MM/YYYY" allow-empty=true}}
+            </td>
             <td class="list-students-page__actions hide-on-mobile">
               {{#if this.currentUser.isAdminInOrganization}}
                 <Dropdown::IconTrigger

@@ -848,6 +848,7 @@
           "first-name": "First name",
           "group": "Groups",
           "last-name": "Last name",
+          "last-participation-date": "Latest participation",
           "participation-count": "Number of participations",
           "student-number": "Student number"
         },
