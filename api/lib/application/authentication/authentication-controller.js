@@ -110,10 +110,10 @@ module.exports = {
       oidcAuthenticationService,
     });
 
-    if (result.pixAccessToken && result.poleEmploiAuthenticationSessionContent) {
+    if (result.pixAccessToken && result.logoutUrlUUID) {
       return {
         access_token: result.pixAccessToken,
-        id_token: result.poleEmploiAuthenticationSessionContent.idToken,
+        logout_url_uuid: result.logoutUrlUUID,
       };
     } else {
       const message = "L'utilisateur n'a pas de compte Pix";
