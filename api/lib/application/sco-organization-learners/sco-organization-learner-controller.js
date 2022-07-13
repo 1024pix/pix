@@ -42,4 +42,22 @@ module.exports = {
     }
     return response;
   },
+
+  async reconcileScoOrganizationLearnerAutomatically(request, h) {
+    const authenticatedUserId = request.auth.credentials.userId;
+    const payload = request.payload.data.attributes;
+    const campaignCode = payload['campaign-code'];
+    const organizationLearner = await usecases.reconcileScoOrganizationLearnerAutomatically({
+      userId: authenticatedUserId,
+      campaignCode,
+    });
+
+    if (h.request.path === '/api/schooling-registration-user-associations/auto') {
+      return h
+        .response(organizationLearnerUserAssociationSerializer.serialize(organizationLearner))
+        .header('Deprecation', 'true')
+        .header('Link', '/api/sco-organization-learners/association/auto; rel="successor-version"');
+    }
+    return h.response(scoOrganizationLearnerSerializer.serializeIdentity(organizationLearner));
+  },
 };
