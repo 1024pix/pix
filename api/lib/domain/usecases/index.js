@@ -365,7 +365,7 @@ module.exports = injectDependencies(
     publishSessionsInBatch: require('./publish-sessions-in-batch'),
     reconcileScoOrganizationLearnerManually: require('./reconcile-sco-organization-learner-manually'),
     reconcileSupOrganizationLearner: require('./reconcile-sup-organization-learner'),
-    reconcileUserToOrganization: require('./reconcile-user-to-organization'),
+    reconcileScoOrganizationLearnerAutomatically: require('./reconcile-sco-organization-learner-automatically'),
     rememberUserHasSeenAssessmentInstructions: require('./remember-user-has-seen-assessment-instructions'),
     rememberUserHasSeenChallengeTooltip: require('./remember-user-has-seen-challenge-tooltip'),
     rememberUserHasSeenNewDashboardInfo: require('./remember-user-has-seen-new-dashboard-info'),

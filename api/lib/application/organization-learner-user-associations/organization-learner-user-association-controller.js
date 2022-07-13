@@ -1,18 +1,6 @@
 const usecases = require('../../domain/usecases');
-const organizationLearnerSerializer = require('../../infrastructure/serializers/jsonapi/organization-learner-user-association-serializer');
 
 module.exports = {
-  async reconcileOrganizationLearnerAutomatically(request) {
-    const authenticatedUserId = request.auth.credentials.userId;
-    const payload = request.payload.data.attributes;
-    const campaignCode = payload['campaign-code'];
-    const organizationLearner = await usecases.reconcileUserToOrganization({
-      userId: authenticatedUserId,
-      campaignCode,
-    });
-    return organizationLearnerSerializer.serialize(organizationLearner);
-  },
-
   async reconcileSupOrganizationLearner(request, h) {
     const userId = request.auth.credentials.userId;
     const payload = request.payload.data.attributes;
