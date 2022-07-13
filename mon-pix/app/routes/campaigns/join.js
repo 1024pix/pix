@@ -9,9 +9,9 @@ export default class JoinRoute extends Route {
     if (!transition.from) {
       return this.router.replaceWith('campaigns.entry-point');
     }
+    this.session.prohibitAuthentication('user-dashboard');
     this.routeIfAlreadyAuthenticated = 'campaigns.access';
 
-    this.session.prohibitAuthentication('user-dashboard');
     super.beforeModel(...arguments);
   }
 
