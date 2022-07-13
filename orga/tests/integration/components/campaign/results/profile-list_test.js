@@ -1,5 +1,6 @@
 import sinon from 'sinon';
 import { module, test } from 'qunit';
+import { render as renderScreen, fillByLabel } from '@1024pix/ember-testing-library';
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
 import { render, click } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
@@ -203,6 +204,45 @@ module('Integration | Component | Campaign::Results::ProfileList', function (hoo
 
       // then
       assert.ok(this.onFilter.calledWith({ divisions: ['d1'] }));
+    });
+
+    module('when user set a search filter', function () {
+      test('that in the fullname search input we will have the value that we put', async function (assert) {
+        console.log('hi');
+        const campaign = store.createRecord('campaign', {
+          id: 1,
+          name: 'campagne 1',
+          stages: [],
+          participationsCount: 1,
+        });
+        this.set('campaign', campaign);
+        this.set('searchFilter', 'chichi');
+        const screen = await renderScreen(
+          hbs`<Campaign::Results::ProfileList  @campaign={{campaign}} @searchFilter={{searchFilter}}/>`
+        );
+
+        // then
+        assert.dom(screen.getByLabelText('Recherche sur le nom et prénom')).hasValue('chichi');
+      });
+
+      test('that while filling the search input we will trigger the filtering', async function (assert) {
+        const campaign = store.createRecord('campaign', {
+          id: 1,
+          name: 'campagne 1',
+          stages: [],
+          participationsCount: 1,
+        });
+        const triggerFiltering = sinon.stub();
+        this.set('campaign', campaign);
+        this.set('triggerFiltering', triggerFiltering);
+        await renderScreen(
+          hbs`<Campaign::Results::ProfileList  @campaign={{campaign}} @onFilter={{triggerFiltering}} />`
+        );
+        await fillByLabel('Recherche sur le nom et prénom', 'Chichi');
+
+        // then
+        assert.ok(triggerFiltering.calledWith({ search: 'Chichi' }));
+      });
     });
   });
 });

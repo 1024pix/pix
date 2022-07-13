@@ -6,18 +6,12 @@ table {
   box-sizing: border-box;
 
   .table__input {
-    height: 36px;
-    width: 100%;
-
     &:focus-within {
       border: 1px solid $pix-primary;
     }
   }
 
   .table__multi-select {
-    height: 36px;
-    min-width: 100%;
-
     > label {
       > input[type='text']::placeholder {
         color: $pix-neutral-30;

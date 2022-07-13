@@ -8,6 +8,7 @@ export default class ProfilesController extends Controller {
   @tracked pageSize = 25;
   @tracked divisions = [];
   @tracked groups = [];
+  @tracked search = null;
 
   @action
   goToProfilePage(campaignId, campaignParticipationId, event) {
@@ -19,8 +20,11 @@ export default class ProfilesController extends Controller {
   @action
   triggerFiltering(filters) {
     this.pageNumber = null;
-    this.divisions = filters.divisions;
-    this.groups = filters.groups;
+    this.divisions = filters.divisions || this.divisions;
+    this.groups = filters.groups || this.groups;
+    if (filters.search !== undefined) {
+      this.search = filters.search;
+    }
   }
 
   @action
@@ -28,5 +32,6 @@ export default class ProfilesController extends Controller {
     this.pageNumber = null;
     this.divisions = [];
     this.groups = [];
+    this.search = null;
   }
 }
