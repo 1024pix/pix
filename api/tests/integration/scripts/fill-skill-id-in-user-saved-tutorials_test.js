@@ -167,9 +167,7 @@ describe('Integration | Scripts | fill-skillId-in-user-saved-tutorials', functio
         await main();
 
         // then
-
         const [updatedUserSavedTutorial1] = await knex('user-saved-tutorials').where({ id: userSavedTutorialId1 });
-
         const [updatedUserSavedTutorial2] = await knex('user-saved-tutorials').where({ id: userSavedTutorialId2 });
 
         expect(updatedUserSavedTutorial1.skillId).to.equal(mostRecentDirectInvalidatedSkillId);
@@ -432,30 +430,60 @@ describe('Integration | Scripts | fill-skillId-in-user-saved-tutorials', functio
   });
 
   describe('#associateSkillsToTutorial', function () {
-    it('should associate skillIds to related tutorial', async function () {
-      // given
-      const tutorials = [
-        domainBuilder.buildTutorial({ id: 'tutorial1_skill1_and_skill2' }),
-        domainBuilder.buildTutorial({ id: 'tutorial2_skill1' }),
-        domainBuilder.buildTutorial({ id: 'tutorial3_skill2' }),
-      ];
-      const skills = [
-        domainBuilder.buildSkill({ id: 'skill1', tutorialIds: ['tutorial1_skill1_and_skill2', 'tutorial2_skill1'] }),
-        domainBuilder.buildSkill({ id: 'skill2', tutorialIds: ['tutorial1_skill1_and_skill2', 'tutorial3_skill2'] }),
-      ];
+    context('when skills have tutorial ids', function () {
+      it('should associate skillIds to related tutorial', function () {
+        // given
+        const tutorials = [
+          domainBuilder.buildTutorial({ id: 'tutorial1_skill1_and_skill2' }),
+          domainBuilder.buildTutorial({ id: 'tutorial2_skill1' }),
+          domainBuilder.buildTutorial({ id: 'tutorial3_skill2' }),
+        ];
+        const skills = [
+          domainBuilder.buildSkill({ id: 'skill1', tutorialIds: ['tutorial1_skill1_and_skill2', 'tutorial2_skill1'] }),
+          domainBuilder.buildSkill({ id: 'skill2', tutorialIds: ['tutorial1_skill1_and_skill2', 'tutorial3_skill2'] }),
+        ];
 
-      // when
-      const tutorialsWithSkillIds = associateSkillsToTutorial(skills, tutorials);
+        // when
+        const tutorialsWithSkillIds = associateSkillsToTutorial(skills, tutorials);
 
-      // then
-      expect(tutorialsWithSkillIds[0].skillIds).to.deep.equal(['skill1', 'skill2']);
-      expect(tutorialsWithSkillIds[1].skillIds).to.deep.equal(['skill1']);
-      expect(tutorialsWithSkillIds[2].skillIds).to.deep.equal(['skill2']);
+        // then
+        expect(tutorialsWithSkillIds[0].skillIds).to.deep.equal(['skill1', 'skill2']);
+        expect(tutorialsWithSkillIds[1].skillIds).to.deep.equal(['skill1']);
+        expect(tutorialsWithSkillIds[2].skillIds).to.deep.equal(['skill2']);
+      });
+    });
+    context('when skills have learning more tutorials ids', function () {
+      it('should associate learning more tutorial ids to related tutorial', function () {
+        // given
+        const tutorials = [
+          domainBuilder.buildTutorial({ id: 'tutorial1_skill1_and_skill2' }),
+          domainBuilder.buildTutorial({ id: 'tutorial2_skill1' }),
+          domainBuilder.buildTutorial({ id: 'tutorial3_skill2' }),
+        ];
+        const skills = [
+          domainBuilder.buildSkill({
+            id: 'skill1',
+            learningMoreTutorialIds: ['tutorial1_skill1_and_skill2', 'tutorial2_skill1'],
+          }),
+          domainBuilder.buildSkill({
+            id: 'skill2',
+            learningMoreTutorialIds: ['tutorial1_skill1_and_skill2', 'tutorial3_skill2'],
+          }),
+        ];
+
+        // when
+        const tutorialsWithSkillIds = associateSkillsToTutorial(skills, tutorials);
+
+        // then
+        expect(tutorialsWithSkillIds[0].referenceBySkillsIdsForLearningMore).to.deep.equal(['skill1', 'skill2']);
+        expect(tutorialsWithSkillIds[1].referenceBySkillsIdsForLearningMore).to.deep.equal(['skill1']);
+        expect(tutorialsWithSkillIds[2].referenceBySkillsIdsForLearningMore).to.deep.equal(['skill2']);
+      });
     });
   });
 
   describe('#associateTutorialToUserSagedTutorial', function () {
-    it('should retrieve one UserSavedTutorialWithTutorial', async function () {
+    it('should retrieve one UserSavedTutorialWithTutorial', function () {
       // given
       const tutorials = [domainBuilder.buildTutorial({ id: 'tuto1' }), domainBuilder.buildTutorial({ id: 'tuto2' })];
       const userSavedTutorial = domainBuilder.buildUserSavedTutorial({ tutorialId: 'tuto1' });
@@ -470,21 +498,6 @@ describe('Integration | Scripts | fill-skillId-in-user-saved-tutorials', functio
   });
 
   describe('#getMostRelevantSkillId', function () {
-    describe('when there is only one skillId in tutorial', function () {
-      it('should return it', async function () {
-        // given
-        const tutorial = domainBuilder.buildTutorial();
-        tutorial.skillIds = ['skill1'];
-        const userSavedTutorialWithTutorial = domainBuilder.buildUserSavedTutorialWithTutorial({ tutorial });
-
-        // when
-        const skillId = await getMostRelevantSkillId(userSavedTutorialWithTutorial);
-
-        // then
-        expect(skillId).to.equal('skill1');
-      });
-    });
-
     describe('when there are skillIds in tutorial', function () {
       it('should return invalidate direct skill', async function () {
         // given
@@ -521,11 +534,110 @@ describe('Integration | Scripts | fill-skillId-in-user-saved-tutorials', functio
       });
 
       describe('when user does not have invalidated direct knowledge element', function () {
+        describe('when there are referenceBySkillsIdsForLearningMore', function () {
+          it('should return the skillId related to the last passed knowledge element ', async function () {
+            // given
+            const directSkillIdYoungest = 'directSkillYoungest';
+            const directSkillIdOldest = 'directSkillOldest';
+            const userId = databaseBuilder.factory.buildUser().id;
+            databaseBuilder.factory.buildKnowledgeElement({
+              userId,
+              source: KnowledgeElement.SourceType.DIRECT,
+              status: KnowledgeElement.StatusType.VALIDATED,
+              skillId: directSkillIdYoungest,
+              createdAt: new Date('2022-03-18'),
+            });
+            databaseBuilder.factory.buildKnowledgeElement({
+              userId,
+              source: KnowledgeElement.SourceType.DIRECT,
+              status: KnowledgeElement.StatusType.VALIDATED,
+              skillId: directSkillIdOldest,
+              createdAt: new Date('2022-03-16'),
+            });
+            await databaseBuilder.commit();
+            const tutorial = domainBuilder.buildTutorial();
+            tutorial.skillIds = ['skill1', 'skill2'];
+            tutorial.referenceBySkillsIdsForLearningMore = ['directSkillOldest', 'directSkillYoungest'];
+            const userSavedTutorialWithTutorial = domainBuilder.buildUserSavedTutorialWithTutorial({
+              userId,
+              tutorial,
+            });
+
+            // when
+            const result = await getMostRelevantSkillId(userSavedTutorialWithTutorial);
+
+            // then
+            expect(result).to.equal(directSkillIdYoungest);
+          });
+        });
+
+        describe('when there are no referenceBySkillsIdsForLearningMore', function () {
+          it('should return undefined', async function () {
+            // given
+            await databaseBuilder.commit();
+            const tutorial = domainBuilder.buildTutorial();
+            tutorial.skillIds = ['skill1', 'skill2'];
+            tutorial.referenceBySkillsIdsForLearningMore = [];
+            const userSavedTutorialWithTutorial = domainBuilder.buildUserSavedTutorialWithTutorial({
+              userId: 123,
+              tutorial,
+            });
+
+            // when
+            const result = await getMostRelevantSkillId(userSavedTutorialWithTutorial);
+
+            // then
+            expect(result).to.equal(undefined);
+          });
+        });
+      });
+    });
+
+    describe('when there are no skillIds in tutorial', function () {
+      describe('when there are referenceBySkillsIdsForLearningMore', function () {
+        it('should return the skillId related to the last passed knowledge element ', async function () {
+          // given
+          const directSkillIdYoungest = 'directSkillYoungest';
+          const directSkillIdOldest = 'directSkillOldest';
+          const userId = databaseBuilder.factory.buildUser().id;
+          databaseBuilder.factory.buildKnowledgeElement({
+            userId,
+            source: KnowledgeElement.SourceType.DIRECT,
+            status: KnowledgeElement.StatusType.VALIDATED,
+            skillId: directSkillIdYoungest,
+            createdAt: new Date('2022-03-18'),
+          });
+          databaseBuilder.factory.buildKnowledgeElement({
+            userId,
+            source: KnowledgeElement.SourceType.DIRECT,
+            status: KnowledgeElement.StatusType.VALIDATED,
+            skillId: directSkillIdOldest,
+            createdAt: new Date('2022-03-16'),
+          });
+          await databaseBuilder.commit();
+          const tutorial = domainBuilder.buildTutorial();
+          tutorial.skillIds = [];
+          tutorial.referenceBySkillsIdsForLearningMore = ['directSkillOldest', 'directSkillYoungest'];
+          const userSavedTutorialWithTutorial = domainBuilder.buildUserSavedTutorialWithTutorial({
+            userId,
+            tutorial,
+          });
+
+          // when
+          const result = await getMostRelevantSkillId(userSavedTutorialWithTutorial);
+
+          // then
+          expect(result).to.equal(directSkillIdYoungest);
+        });
+      });
+
+      describe('when there are no referenceBySkillsIdsForLearningMore', function () {
         it('should return undefined', async function () {
           // given
           await databaseBuilder.commit();
           const tutorial = domainBuilder.buildTutorial();
-          tutorial.skillIds = ['skill1', 'skill2'];
+          tutorial.skillIds = [];
+          tutorial.referenceBySkillsIdsForLearningMore = [];
           const userSavedTutorialWithTutorial = domainBuilder.buildUserSavedTutorialWithTutorial({
             userId: 123,
             tutorial,

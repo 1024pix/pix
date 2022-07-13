@@ -1,5 +1,7 @@
-const { knex } = require('../tests/test-helper');
+require('dotenv').config();
+const { knex } = require('../db/knex-database-connection');
 const UserSavedTutorial = require('../lib/domain/models/UserSavedTutorial');
+const KnowledgeElement = require('../lib/domain/models/KnowledgeElement');
 const UserSavedTutorialWithTutorial = require('../lib/domain/models/UserSavedTutorialWithTutorial');
 const knowledgeElementRepository = require('../lib/infrastructure/repositories/knowledge-element-repository');
 const tutorialDatasource = require('../lib/infrastructure/datasources/learning-content/tutorial-datasource');
@@ -61,12 +63,20 @@ function _skillHasTutorialId(skill, tutorialId) {
   return skill.tutorialIds.includes(tutorialId);
 }
 
+function _skillHasLearningMoreTutorialId(skill, tutorialId) {
+  return skill.learningMoreTutorialIds?.includes(tutorialId);
+}
+
 function associateSkillsToTutorial(skills, tutorials) {
   return tutorials.map((tutorial) => {
     const skillIds = skills.filter((skill) => _skillHasTutorialId(skill, tutorial.id)).map((skill) => skill.id);
+    const referenceBySkillsIdsForLearningMore = skills
+      .filter((skill) => _skillHasLearningMoreTutorialId(skill, tutorial.id))
+      .map((skill) => skill.id);
     return {
       ...tutorial,
       skillIds,
+      referenceBySkillsIdsForLearningMore,
     };
   });
 }
@@ -77,20 +87,32 @@ function associateTutorialToUserSavedTutorial(userSavedTutorial, tutorials) {
 }
 
 async function getMostRelevantSkillId(userSavedTutorialWithTutorial) {
+  const userId = userSavedTutorialWithTutorial.userId;
   const tutorialSkillIds = userSavedTutorialWithTutorial.tutorial.skillIds;
+  const tutorialReferenceBySkillsIdsForLearningMore =
+    userSavedTutorialWithTutorial.tutorial.referenceBySkillsIdsForLearningMore;
 
-  if (tutorialSkillIds.length === 1) {
-    return tutorialSkillIds[0];
-  }
+  const knowledgeElements = await knowledgeElementRepository.findUniqByUserId({ userId });
 
-  const invalidatedDirectKnowledgeElements = await knowledgeElementRepository.findInvalidatedAndDirectByUserId(
-    userSavedTutorialWithTutorial.userId
-  );
+  const invalidatedDirectKnowledgeElements = knowledgeElements.filter(_isInvalidatedAndDirect);
 
   const mostRelevantKnowledgeElement = invalidatedDirectKnowledgeElements.find((knowledgeElement) =>
     tutorialSkillIds.includes(knowledgeElement.skillId)
   );
-  return mostRelevantKnowledgeElement?.skillId;
+  if (mostRelevantKnowledgeElement) {
+    return mostRelevantKnowledgeElement.skillId;
+  }
+
+  if (!tutorialReferenceBySkillsIdsForLearningMore?.length) {
+    return undefined;
+  }
+
+  return knowledgeElements.find(({ skillId }) => tutorialReferenceBySkillsIdsForLearningMore.includes(skillId))
+    ?.skillId;
+}
+
+function _isInvalidatedAndDirect({ status, source }) {
+  return status === KnowledgeElement.StatusType.INVALIDATED && source === KnowledgeElement.SourceType.DIRECT;
 }
 
 if (require.main === module) {
