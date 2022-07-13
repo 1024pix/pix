@@ -3,6 +3,7 @@ import sinon from 'sinon';
 import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 import ENV from 'mon-pix/config/environment';
+import { expect } from 'chai';
 
 const AUTHENTICATED_SOURCE_FROM_MEDIACENTRE = ENV.APP.AUTHENTICATED_SOURCE_FROM_MEDIACENTRE;
 
@@ -28,7 +29,6 @@ describe('Unit | Route | logout', () => {
         },
       },
     });
-
     const route = this.owner.lookup('route:logout');
     route.set('session', sessionStub);
     route.set('campaignStorage', campaignStorageStub);
@@ -65,37 +65,51 @@ describe('Unit | Route | logout', () => {
     // given
     const invalidateStub = sinon.stub();
 
-    sessionStub = Service.create({ isAuthenticated: true, invalidate: invalidateStub });
+    sessionStub = Service.create({
+      isAuthenticated: true,
+      invalidate: invalidateStub,
+      data: {
+        authenticated: {
+          source: 'pix',
+        },
+      },
+    });
 
     const route = this.owner.lookup('route:logout');
     route.set('session', sessionStub);
     route.set('campaignStorage', campaignStorageStub);
     route._redirectToHome = sinon.stub();
-    route.source = 'pix';
 
     // when
     route.afterModel();
 
     // then
-    sinon.assert.calledOnce(route._redirectToHome);
+    expect(route.session.alternativeRootURL).to.equal(null);
   });
 
   it('should redirect to disconnected page when source of connexion is external', function () {
     // given
     const invalidateStub = sinon.stub();
 
-    sessionStub = Service.create({ isAuthenticated: true, invalidate: invalidateStub });
+    sessionStub = Service.create({
+      isAuthenticated: true,
+      invalidate: invalidateStub,
+      data: {
+        authenticated: {
+          source: AUTHENTICATED_SOURCE_FROM_MEDIACENTRE,
+        },
+      },
+    });
 
     const route = this.owner.lookup('route:logout');
     route.set('session', sessionStub);
     route.set('campaignStorage', campaignStorageStub);
     route._redirectToDisconnectedPage = sinon.stub();
-    route.source = AUTHENTICATED_SOURCE_FROM_MEDIACENTRE;
 
     // when
     route.afterModel();
 
     // then
-    sinon.assert.calledOnce(route._redirectToDisconnectedPage);
+    expect(route.session.alternativeRootURL).to.equal('/nonconnecte');
   });
 });

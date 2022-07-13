@@ -14,17 +14,7 @@ export default class Entrance extends Route {
       return this.router.replaceWith('campaigns.entry-point');
     }
 
-    const isUserLoaded = !!this.currentUser.user;
-    const isAuthenticated = this.session.get('isAuthenticated');
-    if (!isAuthenticated || !isUserLoaded) {
-      this.session.set('attemptedTransition', transition);
-      this.router.transitionTo('login');
-    } else if (this.currentUser.user.mustValidateTermsOfService) {
-      this.session.set('attemptedTransition', transition);
-      this.router.transitionTo('terms-of-service');
-    } else {
-      return super.beforeModel(...arguments);
-    }
+    this.session.requireAuthenticationAndApprovedTermsOfService(transition);
   }
 
   model() {
