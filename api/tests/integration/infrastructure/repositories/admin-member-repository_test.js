@@ -3,7 +3,7 @@ const { expect, databaseBuilder, knex, catchErr } = require('../../../test-helpe
 const { ROLES } = require('../../../../lib/domain/constants').PIX_ADMIN;
 const adminMemberRepository = require('../../../../lib/infrastructure/repositories/admin-member-repository');
 const AdminMember = require('../../../../lib/domain/models/AdminMember');
-const { AdminMemberRoleUpdateError, AdminMemberError } = require('../../../../lib/domain/errors');
+const { AdminMemberError } = require('../../../../lib/domain/errors');
 
 describe('Integration | Infrastructure | Repository | adminMemberRepository', function () {
   describe('#findAll', function () {
@@ -209,7 +209,7 @@ describe('Integration | Infrastructure | Repository | adminMemberRepository', fu
       const error = await catchErr(adminMemberRepository.update)(nonExistingAdminMember);
 
       // then
-      expect(error).to.be.instanceOf(AdminMemberRoleUpdateError);
+      expect(error).to.be.instanceOf(AdminMemberError);
     });
   });
 

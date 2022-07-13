@@ -78,18 +78,10 @@ module('Unit | Route | authenticated/target-profiles/list', function (hooks) {
         route.resetController(controller, true);
 
         // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(controller.pageNumber, 1);
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(controller.pageSize, 10);
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(controller.name, null);
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(controller.id, null);
+        assert.deepEqual(controller.pageNumber, 1);
+        assert.deepEqual(controller.pageSize, 10);
+        assert.deepEqual(controller.name, null);
+        assert.deepEqual(controller.id, null);
       });
     });
 
@@ -99,18 +91,10 @@ module('Unit | Route | authenticated/target-profiles/list', function (hooks) {
         route.resetController(controller, false);
 
         // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(controller.pageNumber, 'somePageNumber');
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(controller.pageSize, 'somePageSize');
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(controller.name, 'someName');
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(controller.id, 'someId');
+        assert.deepEqual(controller.pageNumber, 'somePageNumber');
+        assert.deepEqual(controller.pageSize, 'somePageSize');
+        assert.deepEqual(controller.name, 'someName');
+        assert.deepEqual(controller.id, 'someId');
       });
     });
   });

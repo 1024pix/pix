@@ -1,6 +1,6 @@
 const { knex } = require('../bookshelf');
 const AdminMember = require('../../domain/models/AdminMember');
-const { AdminMemberRoleUpdateError, AdminMemberError } = require('../../domain/errors');
+const { AdminMemberError } = require('../../domain/errors');
 
 const TABLE_NAME = 'pix-admin-roles';
 
@@ -36,7 +36,10 @@ module.exports = {
       .returning('*');
 
     if (!updatedAdminMember) {
-      throw new AdminMemberRoleUpdateError();
+      throw new AdminMemberError(
+        'A problem occured while trying to update an admin member role',
+        'UPDATE_ADMIN_MEMBER_ERROR'
+      );
     }
 
     return new AdminMember(updatedAdminMember);

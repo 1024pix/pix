@@ -134,7 +134,9 @@ module('Integration | Component | team | list', function (hooks) {
 
         test('should display an error message and close the modal when an error occurs while disabling', async function (assert) {
           // given
-          const deactivateAdminMemberModelStub = sinon.stub().throws({ errors: [{ status: 422 }] });
+          const deactivateAdminMemberModelStub = sinon
+            .stub()
+            .throws({ errors: [{ status: '422', title: 'Erreur inconnue' }] });
 
           const notificationErrorStub = sinon.stub();
           class NotificationsStub extends Service {
