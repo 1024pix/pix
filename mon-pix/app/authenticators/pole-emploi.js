@@ -52,7 +52,8 @@ export default class PoleEmploiAuthenticator extends BaseAuthenticator {
       // We want to authorize users connected to Pix to connect to Pole Emploi as well
       // in order to link their Pole Emploi account to the Pix one.
       if (this.session.isAuthenticated) {
-        request.headers['Authorization'] = `Bearer ${this.session.data.authenticated.access_token}`;
+        const accessToken = this.session.get('data.authenticated.access_token');
+        request.headers['Authorization'] = `Bearer ${accessToken}`;
         // We must ensure to disconnect the Pix user in order for the session service to fire
         // the authenticationSucceeded event (and thus execute the ApplicationRouteMixin sessionAuthenticated() method).
         // see: https://github.com/simplabs/ember-simple-auth/blob/92268fdcb9ac3d1c9f7b0abde4923dade7a0cd62/packages/ember-simple-auth/addon/internal-session.js#L95L106
@@ -87,9 +88,13 @@ export default class PoleEmploiAuthenticator extends BaseAuthenticator {
     });
   }
 
-  async invalidate() {
-    const idToken = this.session.get('data.authenticated.id_token');
-
+  /**
+   * @deprecated
+   * @param idToken
+   * @returns {string}
+   * @private
+   */
+  _generateRedirectLogoutUrl(idToken) {
     if (!endSessionEndpoint) {
       return;
     }
@@ -103,6 +108,33 @@ export default class PoleEmploiAuthenticator extends BaseAuthenticator {
     if (idToken) {
       params.push(`id_token_hint=${idToken}`);
     }
-    this.location.replace(`${host}${endSessionEndpoint}?${params.join('&')}`);
+
+    return `${host}${endSessionEndpoint}?${params.join('&')}`;
+  }
+
+  async invalidate() {
+    let url = '';
+    const { access_token, id_token, logout_url_uuid } = this.session.data.authenticated;
+
+    if (id_token) {
+      url = this._generateRedirectLogoutUrl(id_token);
+    } else {
+      const response = await fetch(
+        `${
+          ENV.APP.API_HOST
+        }/api/oidc/redirect-logout-url?identity_provider=POLE_EMPLOI&redirect_uri=${encodeURIComponent(
+          afterLogoutUri
+        )}&logout_url_uuid=${logout_url_uuid}`,
+        {
+          headers: {
+            Authorization: `Bearer ${access_token}`,
+          },
+        }
+      );
+      const { redirectLogoutUrl } = await response.json();
+      url = redirectLogoutUrl;
+    }
+
+    this.location.replace(url);
   }
 }
