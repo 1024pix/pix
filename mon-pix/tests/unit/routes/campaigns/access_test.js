@@ -6,17 +6,24 @@ import sinon from 'sinon';
 describe('Unit | Route | Access', function () {
   setupTest();
 
-  let route, campaign;
+  let route, campaign, sessionStub;
 
   beforeEach(function () {
     campaign = {
       code: 'NEW_CODE',
       isRestrictedByIdentityProvider: sinon.stub(),
     };
+    sessionStub = {
+      requireAuthenticationAndApprovedTermsOfService: sinon.stub(),
+      setAttemptedTransition: sinon.stub(),
+      data: { externalUser: null, authenticated: {} },
+    };
     route = this.owner.lookup('route:campaigns.access');
     route.modelFor = sinon.stub().returns(campaign);
     route.campaignStorage = { get: sinon.stub() };
+
     route.router = { replaceWith: sinon.stub(), transitionTo: sinon.stub() };
+    route.session = sessionStub;
   });
 
   describe('#beforeModel', function () {
@@ -49,7 +56,11 @@ describe('Unit | Route | Access', function () {
       await route.beforeModel({ from: 'campaigns.campaign-landing-page' });
 
       // then
-      sinon.assert.calledWith(route.router.transitionTo, 'inscription');
+      sinon.assert.calledWith(
+        sessionStub.requireAuthenticationAndApprovedTermsOfService,
+        { from: 'campaigns.campaign-landing-page' },
+        'inscription'
+      );
     });
 
     context('when campaign belongs to pole emploi and user is not connected with pole emploi', function () {

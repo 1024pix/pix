@@ -25,7 +25,7 @@ export default class AccessRoute extends Route {
     });
 
     if (identityProviderToVisit) {
-      this.session.set('attemptedTransition', transition);
+      this.session.setAttemptedTransition(transition);
       return this.router.replaceWith('authentication.login-oidc', identityProviderToVisit);
     } else if (this._shouldLoginToAccessSCORestrictedCampaign(campaign)) {
       this.authenticationRoute = 'campaigns.join.student-sco';
@@ -34,17 +34,8 @@ export default class AccessRoute extends Route {
     } else if (this._shouldJoinSimplifiedCampaignAsAnonymous(campaign)) {
       this.authenticationRoute = 'campaigns.join.anonymous';
     }
-    const isUserLoaded = !!this.currentUser.user;
-    const isAuthenticated = this.session.get('isAuthenticated');
-    if (!isAuthenticated || !isUserLoaded) {
-      this.session.set('attemptedTransition', transition);
-      this.router.transitionTo(this.authenticationRoute);
-    } else if (this.currentUser.user.mustValidateTermsOfService) {
-      this.session.set('attemptedTransition', transition);
-      this.router.transitionTo('terms-of-service');
-    } else {
-      return super.beforeModel(...arguments);
-    }
+
+    this.session.requireAuthenticationAndApprovedTermsOfService(transition, this.authenticationRoute);
   }
 
   model() {

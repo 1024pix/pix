@@ -11,7 +11,7 @@ describe('Unit | Route | Terms-of-service', function () {
     route = this.owner.lookup('route:terms-of-service');
     route.router = { replaceWith: sinon.stub() };
     route.currentUser = { user: { mustValidateTermsOfService: true } };
-    route.session = { attemptedTransition: null, data: {} };
+    route.session = { attemptedTransition: null, data: {}, requireAuthentication: sinon.stub().returns() };
   });
 
   describe('#beforeModel', function () {
