@@ -16,6 +16,8 @@ const AuthenticationMethod = require('../../../../lib/domain/models/Authenticati
 const AuthenticationSessionContent = require('../../../../lib/domain/models/AuthenticationSessionContent');
 const authenticationSessionService = require('../../../../lib/domain/services/authentication/authentication-session-service');
 
+const uuidPattern = new RegExp(/^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i);
+
 describe('Acceptance | Route | pole emploi token', function () {
   describe('POST /api/pole-emploi/token', function () {
     let server;
@@ -315,7 +317,7 @@ describe('Acceptance | Route | pole emploi token', function () {
           );
         });
 
-        it('should return an 200 with access_token and id_token when authentication is ok', async function () {
+        it('should return an 200 with access_token and logout_url_uuid when authentication is ok', async function () {
           // given
           const firstName = 'John';
           const lastName = 'John';
@@ -369,7 +371,7 @@ describe('Acceptance | Route | pole emploi token', function () {
           expect(response.statusCode).to.equal(200);
           expect(getAccessTokenRequest.isDone()).to.be.true;
           expect(response.result['access_token']).to.exist;
-          expect(response.result['id_token']).to.equal(idToken);
+          expect(response.result['logout_url_uuid']).to.match(uuidPattern);
         });
       });
     });
@@ -478,7 +480,7 @@ describe('Acceptance | Route | pole emploi token', function () {
           expect(response.statusCode).to.equal(200);
           expect(getAccessTokenRequest.isDone()).to.be.true;
           expect(response.result['access_token']).to.exist;
-          expect(response.result['id_token']).to.equal(idToken);
+          expect(response.result['logout_url_uuid']).to.match(uuidPattern);
         });
       });
 
@@ -631,7 +633,7 @@ describe('Acceptance | Route | pole emploi token', function () {
         expect(response.statusCode).to.equal(200);
         expect(getAccessTokenRequest.isDone()).to.be.true;
         expect(response.result['access_token']).to.exist;
-        expect(response.result['id_token']).to.equal(idToken);
+        expect(response.result['logout_url_uuid']).to.match(uuidPattern);
       });
     });
 

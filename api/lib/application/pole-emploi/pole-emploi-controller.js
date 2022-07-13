@@ -17,11 +17,12 @@ module.exports = {
       AuthenticationMethod.identityProviders.POLE_EMPLOI
     );
     const accessToken = oidcAuthenticationService.createAccessToken(userId);
+    const logoutUrlUUID = await poleEmploiAuthenticationService.saveIdToken({ idToken, userId });
     await userRepository.updateLastLoggedAt({ userId });
 
     const response = {
       access_token: accessToken,
-      id_token: idToken,
+      logout_url_uuid: logoutUrlUUID,
     };
     return h.response(response).code(200);
   },
