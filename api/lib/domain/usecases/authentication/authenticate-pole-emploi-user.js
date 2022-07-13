@@ -37,6 +37,7 @@ module.exports = async function authenticatePoleEmploiUser({
   });
 
   let pixAccessToken;
+  let userId = authenticatedUserId;
 
   if (authenticatedUserId) {
     pixAccessToken = await _getPixAccessTokenFromAlreadyAuthenticatedPixUser({
@@ -58,6 +59,7 @@ module.exports = async function authenticatePoleEmploiUser({
       const authenticationKey = await authenticationSessionService.save(poleEmploiAuthenticationSessionContent);
       return { authenticationKey };
     } else {
+      userId = user.id;
       pixAccessToken = await _getPixAccessTokenFromPoleEmploiUser({
         user,
         authenticationComplement,
@@ -69,9 +71,14 @@ module.exports = async function authenticatePoleEmploiUser({
     }
   }
 
+  const logoutUrlUUID = await poleEmploiAuthenticationService.saveIdToken({
+    idToken: poleEmploiAuthenticationSessionContent.idToken,
+    userId,
+  });
+
   return {
     pixAccessToken,
-    poleEmploiAuthenticationSessionContent,
+    logoutUrlUUID,
   };
 };
 
