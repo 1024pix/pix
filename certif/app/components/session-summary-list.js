@@ -7,13 +7,15 @@ import get from 'lodash/get';
 export default class SessionSummaryList extends Component {
   @tracked shouldDisplaySessionDeletionModal = false;
   @tracked currentSessionToBeDeletedId = null;
+  @tracked currentEnrolledCandidatesCount = null;
   @service store;
   @service notifications;
 
   @action
-  openSessionDeletionConfirmModal(sessionId, event) {
+  openSessionDeletionConfirmModal(sessionId, enrolledCandidatesCount, event) {
     event.stopPropagation();
     this.currentSessionToBeDeletedId = sessionId;
+    this.currentEnrolledCandidatesCount = enrolledCandidatesCount;
     this.shouldDisplaySessionDeletionModal = true;
   }
 

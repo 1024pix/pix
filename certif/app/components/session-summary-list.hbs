@@ -71,7 +71,6 @@
                           disabled={{true}}
                           aria-describedby="tooltip-delete-session-button"
                           @withBackground={{true}}
-                          @triggerAction={{fn this.openSessionDeletionConfirmModal sessionSummary.id}}
                         />
                       </:triggerElement>
                       <:tooltip
@@ -84,7 +83,11 @@
                       disabled={{false}}
                       aria-describedby="tooltip-delete-session-button"
                       @withBackground={{true}}
-                      @triggerAction={{fn this.openSessionDeletionConfirmModal sessionSummary.id}}
+                      @triggerAction={{fn
+                        this.openSessionDeletionConfirmModal
+                        sessionSummary.id
+                        sessionSummary.enrolledCandidatesCount
+                      }}
                     />
                   {{/if}}
                 </div>
@@ -108,5 +111,6 @@
   @show={{this.shouldDisplaySessionDeletionModal}}
   @close={{this.closeSessionDeletionConfirmModal}}
   @sessionId={{this.currentSessionToBeDeletedId}}
+  @enrolledCandidatesCount="{{this.currentEnrolledCandidatesCount}}"
   @confirm={{this.deleteSession}}
 />
