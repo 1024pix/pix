@@ -56,6 +56,7 @@ async function _getTutorialsWithTubesList(easiestSkills, tubes, tutorialReposito
         tutorial.tubeName = tube.name;
         tutorial.tubePracticalTitle = tube.practicalTitle;
         tutorial.tubePracticalDescription = tube.practicalDescription;
+        tutorial.skillId = skill.id;
         return tutorial;
       });
     })
