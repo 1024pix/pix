@@ -224,7 +224,7 @@ describe('Unit | Application | Controller | Authentication', function () {
       await authenticationController.authenticatePoleEmploiUser(request, hFake);
 
       // then
-      expect(usecases.authenticatePoleEmploiUser).to.have.been.calledWith(expectedParameters);
+      expect(usecases.authenticatePoleEmploiUser).to.have.been.calledWithMatch(expectedParameters);
     });
 
     it('should return PIX access token and Pole emploi ID token', async function () {
