@@ -18,7 +18,7 @@ export default class FocusedCertificationChallengeWarningManager extends Service
     this._localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(this._hasConfirmedFocusChallengeScreen));
   }
 
-  hasConfirmed() {
+  get hasConfirmed() {
     return this._hasConfirmedFocusChallengeScreen;
   }
 }
