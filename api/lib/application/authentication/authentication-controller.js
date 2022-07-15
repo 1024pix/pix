@@ -2,6 +2,7 @@ const get = require('lodash/get');
 const { UnauthorizedError, BadRequestError } = require('../http-errors');
 const tokenService = require('../../domain/services/token-service');
 const usecases = require('../../domain/usecases');
+const PoleEmploiOidcAuthenticationService = require('../../domain/services/authentication/pole-emploi-oidc-authentication-service');
 
 module.exports = {
   /**
@@ -91,6 +92,7 @@ module.exports = {
   async authenticatePoleEmploiUser(request) {
     const authenticatedUserId = get(request.auth, 'credentials.userId');
     const { code, redirect_uri: redirectUri, state_sent: stateSent, state_received: stateReceived } = request.payload;
+    const poleEmploiOidcAuthenticationService = new PoleEmploiOidcAuthenticationService();
 
     const result = await usecases.authenticatePoleEmploiUser({
       authenticatedUserId,
@@ -98,6 +100,7 @@ module.exports = {
       redirectUri,
       stateReceived,
       stateSent,
+      poleEmploiOidcAuthenticationService,
     });
 
     if (result.pixAccessToken && result.poleEmploiAuthenticationSessionContent) {
