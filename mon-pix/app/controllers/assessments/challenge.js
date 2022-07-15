@@ -95,8 +95,7 @@ export default class ChallengeController extends Controller {
   }
 
   get hasConfirmedFocusChallengeWarningScreen() {
-    const hasUserConfirmedFocusChallenge = this.focusedCertificationChallengeWarningManager.hasConfirmed();
-    return hasUserConfirmedFocusChallenge;
+    return this.focusedCertificationChallengeWarningManager.hasConfirmed;
   }
 
   @action
