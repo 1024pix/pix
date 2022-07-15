@@ -127,10 +127,6 @@ export default class ChallengeController extends Controller {
   }
 
   get displayChallenge() {
-    if (!this._isFocusedCertificationChallenge) {
-      this.focusedCertificationChallengeWarningManager.reset();
-    }
-
     if (this._hasAlreadyAnswered()) {
       return true;
     }
