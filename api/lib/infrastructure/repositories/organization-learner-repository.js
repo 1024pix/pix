@@ -59,14 +59,28 @@ function _setOrganizationLearnerFilters(
   }
 }
 
-function _canReconcile(existingOrganizationLearners, student) {
-  const existingOrganizationLearnerForUserId = existingOrganizationLearners.find((currentOrganizationLearner) => {
-    return currentOrganizationLearner.userId === student.account.userId;
-  });
-  return (
-    existingOrganizationLearnerForUserId == null ||
-    existingOrganizationLearnerForUserId.nationalStudentId === student.nationalStudentId
+function _shouldStudentToImportBeReconciled(
+  allOrganizationLearnersInSameOrganization,
+  organizationLearner,
+  studentToImport
+) {
+  const organizationLearnerWithSameUserId = allOrganizationLearnersInSameOrganization.find(
+    (organizationLearnerInSameOrganization) => {
+      return organizationLearnerInSameOrganization.userId === organizationLearner.account.userId;
+    }
   );
+  const isOrganizationLearnerReconciled = organizationLearnerWithSameUserId != null;
+  const organizationLearnerHasSameUserIdAndNationalStudentId =
+    organizationLearnerWithSameUserId?.nationalStudentId === organizationLearner.nationalStudentId;
+
+  if (isOrganizationLearnerReconciled && !organizationLearnerHasSameUserIdAndNationalStudentId) {
+    return false;
+  }
+
+  const isFromSameOrganization = studentToImport.organizationId === organizationLearner.account.organizationId;
+  const isFromDifferentOrganizationWithSameBirthday =
+    !isFromSameOrganization && studentToImport.birthdate === organizationLearner.account.birthdate;
+  return isFromSameOrganization || isFromDifferentOrganizationWithSameBirthday;
 }
 
 module.exports = {
@@ -167,30 +181,38 @@ module.exports = {
     }
   },
 
-  async _reconcileOrganizationLearners(organizationLearnersToImport, existingOrganizationLearners, domainTransaction) {
-    const nationalStudentIdsFromFile = organizationLearnersToImport
+  async _reconcileOrganizationLearners(studentsToImport, allOrganizationLearnersInSameOrganization, domainTransaction) {
+    const nationalStudentIdsFromFile = studentsToImport
       .map((organizationLearnerData) => organizationLearnerData.nationalStudentId)
       .filter(Boolean);
-    const students = await studentRepository.findReconciledStudentsByNationalStudentId(
-      nationalStudentIdsFromFile,
-      domainTransaction
-    );
+    const organizationLearnersWithSameNationalStudentIdsAsImported =
+      await studentRepository.findReconciledStudentsByNationalStudentId(nationalStudentIdsFromFile, domainTransaction);
 
-    students.forEach((student) => {
-      const alreadyReconciledOrganizationLearner = organizationLearnersToImport.find(
-        (organizationLearner) => organizationLearner.userId === student.account.userId
+    organizationLearnersWithSameNationalStudentIdsAsImported.forEach((organizationLearner) => {
+      const alreadyReconciledStudentToImport = studentsToImport.find(
+        (studentToImport) => studentToImport.userId === organizationLearner.account.userId
       );
 
-      if (alreadyReconciledOrganizationLearner) {
-        alreadyReconciledOrganizationLearner.userId = null;
-      } else if (_canReconcile(existingOrganizationLearners, student)) {
-        const organizationLearner = organizationLearnersToImport.find(
-          (organizationLearner) => organizationLearner.nationalStudentId === student.nationalStudentId
-        );
-        organizationLearner.userId = student.account.userId;
+      if (alreadyReconciledStudentToImport) {
+        alreadyReconciledStudentToImport.userId = null;
+        return;
+      }
+
+      const studentToImport = studentsToImport.find(
+        (studentToImport) => studentToImport.nationalStudentId === organizationLearner.nationalStudentId
+      );
+
+      if (
+        _shouldStudentToImportBeReconciled(
+          allOrganizationLearnersInSameOrganization,
+          organizationLearner,
+          studentToImport
+        )
+      ) {
+        studentToImport.userId = organizationLearner.account.userId;
       }
     });
-    return organizationLearnersToImport;
+    return studentsToImport;
   },
 
   async findByOrganizationIdAndBirthdate({ organizationId, birthdate }) {

@@ -620,6 +620,117 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
   });
 
   describe('#addOrUpdateOrganizationOfOrganizationLearners', function () {
+    context(
+      'when imported organization learner is in a different organization as an existing organization learner with the same national student id',
+      function () {
+        afterEach(function () {
+          return knex('organization-learners').delete();
+        });
+
+        context('and same birthday', function () {
+          it('should save the imported organization learner with the user id of the existing one', async function () {
+            // given
+            const nationalStudentId = '123456A';
+            const birthdate = '2000-01-01';
+            const anotherOrganizationId = databaseBuilder.factory.buildOrganization().id;
+            const existingOrganizationLearner = databaseBuilder.factory.buildOrganizationLearner({
+              id: 1,
+              organizationId: databaseBuilder.factory.buildOrganization().id,
+              nationalStudentId,
+              birthdate,
+              userId: databaseBuilder.factory.buildUser().id,
+            });
+            await databaseBuilder.commit();
+
+            const importedOrganizationLearners = [
+              new OrganizationLearner({
+                lastName: 'Pipeau',
+                firstName: 'Peaupi',
+                birthdate,
+                nationalStudentId,
+                userId: null,
+                isDisabled: false,
+                organizationId: anotherOrganizationId,
+              }),
+            ];
+
+            // when
+            await DomainTransaction.execute((domainTransaction) => {
+              return organizationLearnerRepository.addOrUpdateOrganizationOfOrganizationLearners(
+                importedOrganizationLearners,
+                anotherOrganizationId,
+                domainTransaction
+              );
+            });
+
+            // then
+            const [newOrganizationLearner] = await organizationLearnerRepository.findByOrganizationId({
+              organizationId: anotherOrganizationId,
+            });
+            expect(newOrganizationLearner).to.not.be.null;
+            expect(newOrganizationLearner.userId).to.equal(existingOrganizationLearner.userId);
+            expect(newOrganizationLearner.id).to.not.equal(existingOrganizationLearner.id);
+            expect(newOrganizationLearner.organizationId).to.not.equal(existingOrganizationLearner.organizationId);
+            expect(newOrganizationLearner.nationalStudentId).to.equal(existingOrganizationLearner.nationalStudentId);
+            expect(newOrganizationLearner.birthdate).to.equal(existingOrganizationLearner.birthdate);
+          });
+        });
+
+        context('and different birthday', function () {
+          it('should save the organization learner without a user id', async function () {
+            // given
+            const nationalStudentId = '123456A';
+            const anotherOrganizationId = databaseBuilder.factory.buildOrganization().id;
+            const existingOrganizationLearner = databaseBuilder.factory.buildOrganizationLearner({
+              organizationId: databaseBuilder.factory.buildOrganization().id,
+              nationalStudentId,
+              birthdate: '2000-01-01',
+              userId: databaseBuilder.factory.buildUser().id,
+            });
+            await databaseBuilder.commit();
+
+            const importedOrganizationLearners = [
+              new OrganizationLearner({
+                lastName: 'Pipeau',
+                firstName: 'Peaupi',
+                birthdate: '2003-01-01',
+                nationalStudentId,
+                userId: null,
+                isDisabled: false,
+                organizationId: anotherOrganizationId,
+              }),
+            ];
+
+            // when
+            await DomainTransaction.execute((domainTransaction) => {
+              return organizationLearnerRepository.addOrUpdateOrganizationOfOrganizationLearners(
+                importedOrganizationLearners,
+                anotherOrganizationId,
+                domainTransaction
+              );
+            });
+
+            // then
+            const existingOrganizationLearners = await organizationLearnerRepository.findByIds({
+              ids: [existingOrganizationLearner.id],
+            });
+            expect(existingOrganizationLearners).to.have.length(1);
+            expect(existingOrganizationLearner).to.deep.contain(existingOrganizationLearners[0]);
+
+            const [newOrganizationLearner] = await organizationLearnerRepository.findByOrganizationId({
+              organizationId: anotherOrganizationId,
+            });
+            expect(newOrganizationLearner).to.not.be.null;
+            expect(newOrganizationLearner.userId).to.be.null;
+            expect(newOrganizationLearner.id).to.not.equal(existingOrganizationLearner.id);
+            expect(newOrganizationLearner.organizationId).to.equal(anotherOrganizationId);
+            expect(newOrganizationLearner.nationalStudentId).to.equal(existingOrganizationLearner.nationalStudentId);
+            expect(newOrganizationLearner.birthdate).to.not.equal(existingOrganizationLearner.birthdate);
+          });
+        });
+      }
+    );
+
     context('when there are only organizationLearners to create', function () {
       let organizationLearners;
       let organizationId;
@@ -935,6 +1046,7 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
       let organizationLearnerFromFile;
       let userId;
       let nationalStudentId;
+      const birthdate = '1990-12-31';
 
       beforeEach(async function () {
         userId = databaseBuilder.factory.buildUser().id;
@@ -950,7 +1062,7 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
         organizationLearnerFromFile = new OrganizationLearner({
           firstName: 'Lucy',
           lastName: 'Handmade',
-          birthdate: '1990-12-31',
+          birthdate,
           nationalStudentId,
           organizationId,
         });
@@ -964,7 +1076,7 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
 
       it('should create organizationLearner and reconcile it with the help of another organizationLearner', async function () {
         // given
-        databaseBuilder.factory.buildOrganizationLearner({ nationalStudentId, userId });
+        databaseBuilder.factory.buildOrganizationLearner({ nationalStudentId, birthdate, userId });
         databaseBuilder.factory.buildCertificationCourse({ userId });
         await databaseBuilder.commit();
 
@@ -987,8 +1099,13 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
 
       it('should update and reconcile organizationLearner with the help of another organizationLearner', async function () {
         // given
-        databaseBuilder.factory.buildOrganizationLearner({ organizationId, nationalStudentId, userId: null });
-        databaseBuilder.factory.buildOrganizationLearner({ nationalStudentId, userId });
+        databaseBuilder.factory.buildOrganizationLearner({
+          organizationId,
+          nationalStudentId,
+          birthdate,
+          userId: null,
+        });
+        databaseBuilder.factory.buildOrganizationLearner({ nationalStudentId, birthdate, userId });
         databaseBuilder.factory.buildCertificationCourse({ userId });
         await databaseBuilder.commit();
 
