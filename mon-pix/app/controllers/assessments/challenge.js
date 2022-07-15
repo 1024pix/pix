@@ -94,13 +94,6 @@ export default class ChallengeController extends Controller {
     return this._isFocusedCertificationChallenge && !this.model.answer;
   }
 
-  get hasConfirmedFocusScreenForCurrentChallenge() {
-    const challengeId = this.model.challenge.id;
-    const hasUserConfirmedFocusChallenge = this.focusedCertificationChallengesManager.has(challengeId);
-
-    return hasUserConfirmedFocusChallenge;
-  }
-
   get hasConfirmedFocusChallengeWarningScreen() {
     const hasUserConfirmedFocusChallenge = this.focusedCertificationChallengeWarningManager.hasConfirmed();
     return hasUserConfirmedFocusChallenge;
