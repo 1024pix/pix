@@ -3,7 +3,8 @@
   "navigation": {
     "footer": {
       "a11y": "Accessibilité : partiellement conforme",
-      "legal-notice": "Mentions légales"
+      "legal-notice": "Mentions légales",
+      "current-year": "© {currentYear} Pix"
     }
   },
   "pages": {
