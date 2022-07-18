@@ -112,12 +112,6 @@ export default class CertificationIssueReport extends Model {
   }
 
   get subcategoryLabel() {
-    if (
-      this.subcategory === certificationIssueReportSubcategories.FILE_NOT_OPENING &&
-      !this.featureToggles.featureToggles.isCertificationFreeFieldsDeletionEnabled
-    ) {
-      return "Le fichier à télécharger ne s'ouvre pas";
-    }
     return this.subcategory ? subcategoryToLabel[this.subcategory] : '';
   }
 

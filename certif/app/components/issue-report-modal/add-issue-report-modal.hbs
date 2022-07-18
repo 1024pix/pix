@@ -44,14 +44,6 @@
           @toggleOnCategory={{this.toggleOnCategory}}
           @maxlength={{@maxlength}}
         />
-
-        {{#unless this.isCertificationFreeFieldsDeletionEnabled}}
-          <IssueReportModal::OtherCertificationIssueReportFields
-            @otherCategory={{this.otherCategory}}
-            @toggleOnCategory={{this.toggleOnCategory}}
-            @maxlength={{@maxlength}}
-          />
-        {{/unless}}
       </div>
 
       {{#if this.showCategoryMissingError}}

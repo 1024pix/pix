@@ -11,20 +11,13 @@
       >{{@fraudCategory.categoryCode}}&nbsp;</span>{{@fraudCategory.categoryLabel}}</label>
   </div>
   {{#if @fraudCategory.isChecked}}
-    {{#if this.featureToggles.featureToggles.isCertificationFreeFieldsDeletionEnabled}}
-      <div class="fraud-certification-issue-report-fields__details">
-        <p>Merci de transmettre le procès-verbal de fraude rempli pendant la session de certification en utilisant
-          <span>
-            <a href="https://form-eu.123formbuilder.com/41052/form" target="_blank" rel="noreferrer noopener">
-              ce formulaire</a>
-          </span>
-        </p>
-      </div>
-    {{else}}
-      <div class="fraud-certification-issue-report-fields__details">
-        <p>Merci de joindre le procès-verbal de fraude rempli pendant la session de certification en utilisant le
-          formulaire 123formbuilder accessible à l'étape suivante de cette finalisation de session.</p>
-      </div>
-    {{/if}}
+    <div class="fraud-certification-issue-report-fields__details">
+      <p>Merci de transmettre le procès-verbal de fraude rempli pendant la session de certification en utilisant
+        <span>
+          <a href="https://form-eu.123formbuilder.com/41052/form" target="_blank" rel="noreferrer noopener">
+            ce formulaire</a>
+        </span>
+      </p>
+    </div>
   {{/if}}
 </fieldset>
