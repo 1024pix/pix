@@ -253,7 +253,7 @@ describe('Integration | Component | feedback-panel', function () {
       await clickByLabel(this.intl.t('pages.challenge.feedback-panel.form.actions.submit'));
 
       // then
-      expect(find('.alert')).to.exist;
+      expect(find('.feedback-panel__alert')).to.exist;
     });
 
     it('should display error if "content" is blank', async function () {
@@ -264,7 +264,7 @@ describe('Integration | Component | feedback-panel', function () {
       await clickByLabel(this.intl.t('pages.challenge.feedback-panel.form.actions.submit'));
 
       // then
-      expect(find('.alert')).to.exist;
+      expect(find('.feedback-panel__alert')).to.exist;
     });
 
     it('should not display error if "form" view (with error) was closed and re-opened', async function () {
@@ -277,7 +277,7 @@ describe('Integration | Component | feedback-panel', function () {
       await click(OPEN_FEEDBACK_BUTTON);
 
       // then
-      expect(find('.alert')).to.not.exist;
+      expect(find('.feedback-panel__alert')).to.not.exist;
     });
   });
 });

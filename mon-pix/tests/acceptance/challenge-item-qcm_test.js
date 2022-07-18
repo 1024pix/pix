@@ -39,7 +39,7 @@ describe('Acceptance | Displaying a QCM challenge', () => {
       );
       expect(proposalsText[3].textContent.trim()).to.equal('possibilite 4');
 
-      expect(find('.alert')).to.not.exist;
+      expect(find('.challenge-response__alert')).to.not.exist;
     });
 
     it('should display the alert box if user validates without checking a checkbox', async () => {
@@ -47,8 +47,8 @@ describe('Acceptance | Displaying a QCM challenge', () => {
       await click('.challenge-actions__action-validate');
 
       // then
-      expect(find('.alert')).to.exist;
-      expect(find('.alert').textContent.trim()).to.equal(
+      expect(find('.challenge-response__alert')).to.exist;
+      expect(find('.challenge-response__alert').textContent.trim()).to.equal(
         'Pour valider, sélectionnez au moins une réponse. Sinon, passez.'
       );
     });
@@ -61,7 +61,7 @@ describe('Acceptance | Displaying a QCM challenge', () => {
       await click(findAll('.proposal-text')[1]);
 
       // then
-      expect(find('.alert')).to.not.exist;
+      expect(find('.challenge-response__alert')).to.not.exist;
     });
 
     it('should go to checkpoint when user validated', async () => {

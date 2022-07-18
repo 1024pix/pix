@@ -34,12 +34,12 @@ describe('Acceptance | Displaying a QROC challenge', () => {
 
       it('should display the alert box when user validates without successfully finishing the embed', async () => {
         // when
-        expect(find('.alert')).to.not.exist;
+        expect(find('.challenge-response__alert')).to.not.exist;
         await click(find('.challenge-actions__action-validate'));
 
         // then
-        expect(find('.alert')).to.exist;
-        expect(find('.alert').textContent.trim()).to.equal(
+        expect(find('.challenge-response__alert')).to.exist;
+        expect(find('.challenge-response__alert').textContent.trim()).to.equal(
           '“Vous pouvez valider” s‘affiche quand l‘épreuve est réussie. Essayez encore ou passez.'
         );
       });
@@ -78,7 +78,7 @@ describe('Acceptance | Displaying a QROC challenge', () => {
 
         // then
         await click('.challenge-actions__action-validate');
-        expect(find('.alert').textContent.trim()).to.equal(
+        expect(find('.challenge-response__alert').textContent.trim()).to.equal(
           'Pour valider, veuillez remplir le champ texte. Sinon, passez.'
         );
       });
@@ -99,18 +99,18 @@ describe('Acceptance | Displaying a QROC challenge', () => {
 
         expect(findAll('.qroc_input-label')[0].innerHTML).to.contain('Entrez le <em>prénom</em> de B. Gates :');
 
-        expect(find('.alert')).to.not.exist;
+        expect(find('.challenge-response__alert')).to.not.exist;
       });
 
       it('should display the alert box if user validates without write an answer in input', async () => {
         // when
         await fillIn('input[data-uid="qroc-proposal-uid"]', '');
-        expect(find('.alert')).to.not.exist;
+        expect(find('.challenge-response__alert')).to.not.exist;
         await click(find('.challenge-actions__action-validate'));
 
         // then
-        expect(find('.alert')).to.exist;
-        expect(find('.alert').textContent.trim()).to.equal(
+        expect(find('.challenge-response__alert')).to.exist;
+        expect(find('.challenge-response__alert').textContent.trim()).to.equal(
           'Pour valider, veuillez remplir le champ texte. Sinon, passez.'
         );
       });
@@ -124,7 +124,7 @@ describe('Acceptance | Displaying a QROC challenge', () => {
         await fillIn('input[data-uid="qroc-proposal-uid"]', 'Test');
 
         // then
-        expect(find('.alert')).to.not.exist;
+        expect(find('.challenge-response__alert')).to.not.exist;
       });
 
       it('should go to checkpoint when user validated', async () => {
@@ -277,18 +277,18 @@ describe('Acceptance | Displaying a QROC challenge', () => {
         expect(find('.challenge-response__proposal').disabled).to.be.false;
         expect(findAll('.qroc_input-label')[0].innerHTML).to.contain('Entrez le <em>prénom</em> de B. Gates :');
 
-        expect(find('.alert')).to.not.exist;
+        expect(find('.challenge-response__alert')).to.not.exist;
       });
 
       it('should display the alert box if user validates without write an answer in input', async () => {
         // when
         await fillIn('textarea[data-uid="qroc-proposal-uid"]', '');
-        expect(find('.alert')).to.not.exist;
+        expect(find('.challenge-response__alert')).to.not.exist;
         await click(find('.challenge-actions__action-validate'));
 
         // then
-        expect(find('.alert')).to.exist;
-        expect(find('.alert').textContent.trim()).to.equal(
+        expect(find('.challenge-response__alert')).to.exist;
+        expect(find('.challenge-response__alert').textContent.trim()).to.equal(
           'Pour valider, veuillez remplir le champ texte. Sinon, passez.'
         );
       });
@@ -302,7 +302,7 @@ describe('Acceptance | Displaying a QROC challenge', () => {
         await fillIn('textarea[data-uid="qroc-proposal-uid"]', 'Test');
 
         // then
-        expect(find('.alert')).to.not.exist;
+        expect(find('.challenge-response__alert')).to.not.exist;
       });
 
       it('should go to checkpoint when user validated', async () => {
@@ -394,13 +394,13 @@ describe('Acceptance | Displaying a QROC challenge', () => {
         expect(find('[data-test="challenge-response-proposal-selector"]').disabled).to.be.false;
         expect(findAll('.qroc_input-label')[0].innerHTML).to.contain('Select: ');
 
-        expect(find('.alert')).to.not.exist;
+        expect(find('.challenge-response__alert')).to.not.exist;
       });
 
       it('should hide the alert error after the user interact with input text', async () => {
         // given
         await click('.challenge-actions__action-validate');
-        expect(find('.alert')).to.exist;
+        expect(find('.challenge-response__alert')).to.exist;
         const selectOptions = findAll('select[data-test="challenge-response-proposal-selector"] option');
         const optionToFillIn = selectOptions[1];
 
@@ -408,7 +408,7 @@ describe('Acceptance | Displaying a QROC challenge', () => {
         await fillIn('select[data-test="challenge-response-proposal-selector"]', optionToFillIn.value);
 
         // then
-        expect(find('.alert')).to.not.exist;
+        expect(find('.challenge-response__alert')).to.not.exist;
       });
 
       it('should go to checkpoint when user validated', async () => {
