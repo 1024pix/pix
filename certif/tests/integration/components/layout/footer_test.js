@@ -1,10 +1,10 @@
 import { module, test } from 'qunit';
-import { render } from '@ember/test-helpers';
+import { render as renderScreen } from '@1024pix/ember-testing-library';
 import { hbs } from 'ember-cli-htmlbars';
-import { setupRenderingTest } from 'ember-qunit';
+import setupRenderingIntlTest from '../../../helpers/setup-intl-rendering';
 
 module('Integration | Component | Layout::Footer', function (hooks) {
-  setupRenderingTest(hooks);
+  setupRenderingIntlTest(hooks);
 
   test('should display copyright with current year', async function (assert) {
     //given
@@ -12,7 +12,7 @@ module('Integration | Component | Layout::Footer', function (hooks) {
     const expectedYear = date.getFullYear().toString();
 
     // when
-    await render(hbs`<Layout::Footer />}`);
+    await renderScreen(hbs`<Layout::Footer />}`);
 
     // then
     assert.contains(`© ${expectedYear} Pix`);
@@ -20,7 +20,7 @@ module('Integration | Component | Layout::Footer', function (hooks) {
 
   test('should display legal notice link', async function (assert) {
     // when
-    await render(hbs`<Layout::Footer />}`);
+    await renderScreen(hbs`<Layout::Footer />}`);
 
     // then
     assert.contains('Mentions légales');
@@ -29,7 +29,7 @@ module('Integration | Component | Layout::Footer', function (hooks) {
 
   test('should display accessibility link', async function (assert) {
     // when
-    await render(hbs`<Layout::Footer />}`);
+    const screen = await renderScreen(hbs`<Layout::Footer />}`);
 
     // then
     assert.contains('Accessibilité : non conforme');
