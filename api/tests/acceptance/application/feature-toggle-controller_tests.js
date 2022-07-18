@@ -22,7 +22,6 @@ describe('Acceptance | Controller | feature-toggle-controller', function () {
           id: '0',
           type: 'feature-toggles',
           attributes: {
-            'is-certification-free-fields-deletion-enabled': false,
             'is-pix-app-tuto-filters-enabled': false,
           },
         },
