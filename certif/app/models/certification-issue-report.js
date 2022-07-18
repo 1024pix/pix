@@ -2,7 +2,6 @@ import Model, { attr, belongsTo } from '@ember-data/model';
 import { inject as service } from '@ember/service';
 
 export const certificationIssueReportCategories = {
-  OTHER: 'OTHER',
   CANDIDATE_INFORMATIONS_CHANGES: 'CANDIDATE_INFORMATIONS_CHANGES',
   LATE_OR_LEAVING: 'LATE_OR_LEAVING',
   IN_CHALLENGE: 'IN_CHALLENGE',
@@ -29,7 +28,6 @@ export const certificationIssueReportSubcategories = {
 };
 
 export const categoryToLabel = {
-  [certificationIssueReportCategories.OTHER]: 'Autre (si aucune des catégories ci-dessus ne correspond au signalement)',
   [certificationIssueReportCategories.CANDIDATE_INFORMATIONS_CHANGES]: 'Modification infos candidat',
   [certificationIssueReportCategories.LATE_OR_LEAVING]: 'Retard, absence ou départ',
   [certificationIssueReportCategories.FRAUD]: 'Suspicion de fraude',
@@ -71,7 +69,6 @@ export const categoryToCode = {
   [certificationIssueReportCategories.NON_BLOCKING_TECHNICAL_ISSUE]: 'C7',
   [certificationIssueReportCategories.NON_BLOCKING_CANDIDATE_ISSUE]: 'C8',
   [certificationIssueReportCategories.IN_CHALLENGE]: 'E1-E12',
-  [certificationIssueReportCategories.OTHER]: 'A2',
 };
 
 export const subcategoryToCode = {

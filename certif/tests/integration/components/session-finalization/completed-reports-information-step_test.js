@@ -1,43 +1,18 @@
 import { module, test } from 'qunit';
 import sinon from 'sinon';
-import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
-import { A } from '@ember/array';
+import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import { certificationIssueReportCategories } from 'pix-certif/models/certification-issue-report';
 import { render as renderScreen } from '@1024pix/ember-testing-library';
 
 module('Integration | Component | SessionFinalization::CompletedReportsInformationStep', function (hooks) {
-  setupIntlRenderingTest(hooks);
-  let reportA;
-  let reportB;
+  setupRenderingTest(hooks);
   let store;
-  let certificationIssueReportA;
 
   hooks.beforeEach(async function () {
     store = this.owner.lookup('service:store');
 
-    certificationIssueReportA = store.createRecord('certification-issue-report', {
-      description: 'Coucou',
-      category: certificationIssueReportCategories.OTHER,
-    });
-
-    reportA = store.createRecord('certification-report', {
-      certificationCourseId: 1234,
-      firstName: 'Alice',
-      lastName: 'Alister',
-      certificationIssueReports: A([certificationIssueReportA]),
-      hasSeenEndTestScreen: null,
-    });
-
-    reportB = store.createRecord('certification-report', {
-      certificationCourseId: 3,
-      firstName: 'Bob',
-      lastName: 'Bober',
-      hasSeenEndTestScreen: true,
-    });
-
-    this.set('certificationReports', [reportA, reportB]);
     this.set('issueReportDescriptionMaxLength', 500);
     this.set('toggleCertificationReportHasSeenEndTestScreen', sinon.stub().returns());
     this.set('toggleAllCertificationReportsHasSeenEndTestScreen', sinon.stub().returns());
@@ -47,7 +22,7 @@ module('Integration | Component | SessionFinalization::CompletedReportsInformati
     // given
     const certificationIssueReport = store.createRecord('certification-issue-report', {
       description: 'Coucou',
-      category: certificationIssueReportCategories.OTHER,
+      category: certificationIssueReportCategories.FRAUD,
     });
     const certificationReport = store.createRecord('certification-report', {
       certificationCourseId: 1234,
@@ -78,7 +53,7 @@ module('Integration | Component | SessionFinalization::CompletedReportsInformati
     // given
     const certificationIssueReport1 = store.createRecord('certification-issue-report', {
       description: 'Coucou',
-      category: certificationIssueReportCategories.OTHER,
+      category: certificationIssueReportCategories.FRAUD,
     });
     const certificationIssueReport2 = store.createRecord('certification-issue-report', {
       description: 'Les zouzous',
