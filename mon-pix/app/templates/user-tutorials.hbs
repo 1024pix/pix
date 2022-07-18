@@ -1,9 +1,13 @@
 {{page-title (t "pages.user-tutorials.title")}}
 <BurgerMenu @animation="push" @translucentOverlay={{true}} as |burger|>
   <burger.outlet>
-    <NavbarHeader @burger={{burger}} />
-    <Tutorials::Header />
-    <main id="main" class="main">
+
+    <header role="banner">
+      <NavbarHeader @burger={{burger}} />
+      <Tutorials::Header />
+    </header>
+
+    <main id="main" class="main" role="main">
       <div class="user-tutorials-content-v2">
         {{outlet}}
       </div>

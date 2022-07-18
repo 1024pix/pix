@@ -3,15 +3,17 @@
 <BurgerMenu @animation="push" @translucentOverlay={{true}} as |burger|>
   <burger.outlet>
 
-    <NavbarHeader @burger={{burger}} @campaignParticipations={{@model.campaignParticipations}} />
+    <header role="banner">
+      <NavbarHeader @burger={{burger}} @campaignParticipations={{@model.campaignParticipations}} />
+    </header>
 
-    <main id="main" class="main">
+    <main id="main" class="main" role="main">
       <PixBackgroundHeader>
 
         <h1 class="user-account__title">{{t "pages.user-account.title"}}</h1>
         <div class="user-account__menu-and-content">
           <PixBlock class="user-account__menu-block">
-            <nav class="user-account-menu">
+            <nav class="user-account-menu" role="navigation">
               <ul>
                 <li>
                   <LinkTo @route="user-account.personal-information" class="user-account-menu__link">
