@@ -2,7 +2,8 @@
   "current-lang": "en",
   "navigation": {
     "footer": {
-      "a11y": "Accessibilité : partiellement conforme"
+      "a11y": "Accessibilité : partiellement conforme",
+      "legal-notice": "Mentions légales"
     }
   },
   "pages": {
