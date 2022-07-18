@@ -2,7 +2,8 @@ const get = require('lodash/get');
 const { UnauthorizedError, BadRequestError } = require('../http-errors');
 const tokenService = require('../../domain/services/token-service');
 const usecases = require('../../domain/usecases');
-const PoleEmploiOidcAuthenticationService = require('../../domain/services/authentication/pole-emploi-oidc-authentication-service');
+const authenticationRegistry = require('../../domain/services/authentication/authentication-service-registry');
+const AuthenticationMethod = require('../../domain/models/AuthenticationMethod');
 
 module.exports = {
   /**
@@ -92,7 +93,9 @@ module.exports = {
   async authenticatePoleEmploiUser(request) {
     const authenticatedUserId = get(request.auth, 'credentials.userId');
     const { code, redirect_uri: redirectUri, state_sent: stateSent, state_received: stateReceived } = request.payload;
-    const poleEmploiOidcAuthenticationService = new PoleEmploiOidcAuthenticationService();
+    const { oidcAuthenticationService } = authenticationRegistry.lookupAuthenticationService(
+      AuthenticationMethod.identityProviders.POLE_EMPLOI
+    );
 
     const result = await usecases.authenticatePoleEmploiUser({
       authenticatedUserId,
@@ -100,7 +103,7 @@ module.exports = {
       redirectUri,
       stateReceived,
       stateSent,
-      poleEmploiOidcAuthenticationService,
+      oidcAuthenticationService,
     });
 
     if (result.pixAccessToken && result.poleEmploiAuthenticationSessionContent) {
