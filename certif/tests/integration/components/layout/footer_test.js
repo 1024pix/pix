@@ -32,7 +32,7 @@ module('Integration | Component | Layout::Footer', function (hooks) {
     const screen = await renderScreen(hbs`<Layout::Footer />}`);
 
     // then
-    assert.contains('Accessibilité : non conforme');
+    assert.dom(screen.getByText(this.intl.t('navigation.footer.a11y'))).exists();
     assert.dom('a[href="https://pix.fr/accessibilite-pix-certif/"]').exists();
   });
 });

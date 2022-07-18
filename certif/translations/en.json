@@ -1,5 +1,10 @@
 {
   "current-lang": "en",
+  "navigation": {
+    "footer": {
+      "a11y": "Accessibilité : partiellement conforme"
+    }
+  },
   "pages": {
     "login": {
       "title": "Login"
