@@ -1,6 +1,7 @@
 require('dotenv').config();
 const { performance } = require('perf_hooks');
 const logger = require('../lib/infrastructure/logger');
+const cache = require('../lib/infrastructure/caches/learning-content-cache');
 const { knex, disconnect } = require('../db/knex-database-connection');
 
 const doSomething = async ({ throwError }) => {
@@ -31,6 +32,7 @@ async function main() {
       process.exitCode = 1;
     } finally {
       await disconnect();
+      cache.quit();
     }
   }
 })();
