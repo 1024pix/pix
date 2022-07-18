@@ -8,6 +8,7 @@ module.exports = async function authenticateCnavUser({
   stateReceived,
   stateSent,
   cnavAuthenticationService,
+  oidcAuthenticationService,
   authenticationSessionService,
   userRepository,
 }) {
@@ -25,7 +26,7 @@ module.exports = async function authenticateCnavUser({
   });
 
   if (user) {
-    const pixAccessToken = cnavAuthenticationService.createAccessToken(user.id);
+    const pixAccessToken = oidcAuthenticationService.createAccessToken(user.id);
 
     await userRepository.updateLastLoggedAt({ userId: user.id });
 
