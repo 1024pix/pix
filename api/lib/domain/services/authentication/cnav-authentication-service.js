@@ -4,16 +4,8 @@ const httpAgent = require('../../../infrastructure/http/http-agent');
 const querystring = require('querystring');
 const { AuthenticationTokenRetrievalError } = require('../../errors');
 const jsonwebtoken = require('jsonwebtoken');
-const { CNAV } = require('../../constants').SOURCE;
 const DomainTransaction = require('../../../infrastructure/DomainTransaction');
 const AuthenticationMethod = require('../../models/AuthenticationMethod');
-
-function createAccessToken(userId) {
-  const expirationDelaySeconds = settings.cnav.accessTokenLifespanMs / 1000;
-  return jsonwebtoken.sign({ user_id: userId, source: CNAV }, settings.authentication.secret, {
-    expiresIn: expirationDelaySeconds,
-  });
-}
 
 async function exchangeCodeForIdToken({ code, redirectUri }) {
   const data = {
@@ -92,7 +84,6 @@ async function createUserAccount({ user, externalIdentityId, userToCreateReposit
 }
 
 module.exports = {
-  createAccessToken,
   exchangeCodeForIdToken,
   getAuthUrl,
   getUserInfo,
