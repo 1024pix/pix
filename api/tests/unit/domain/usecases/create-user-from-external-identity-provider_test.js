@@ -65,7 +65,7 @@ describe('Unit | UseCase | create-user-from-external-identity-provider', functio
       authenticationSessionService.getByKey.withArgs('AUTHENTICATION_KEY').resolves('SESSION_CONTENT');
       authenticationServiceRegistry.lookupAuthenticationService
         .withArgs('SOME_IDP')
-        .resolves(externalAuthenticationService);
+        .resolves({ authenticationService: externalAuthenticationService });
       externalAuthenticationService.getUserInfo
         .withArgs('SESSION_CONTENT')
         .resolves({ firstName: 'Jean', lastName: 'Heymar', externalIdentityId: 'duGAR' });
@@ -94,7 +94,9 @@ describe('Unit | UseCase | create-user-from-external-identity-provider', functio
       // given
       const authenticationSessionContent = 'SESSION_CONTENT';
       authenticationSessionService.getByKey.resolves(authenticationSessionContent);
-      authenticationServiceRegistry.lookupAuthenticationService.resolves(externalAuthenticationService);
+      authenticationServiceRegistry.lookupAuthenticationService.resolves({
+        authenticationService: externalAuthenticationService,
+      });
       externalAuthenticationService.getUserInfo.resolves({
         firstName: 'Jean',
         lastName: undefined,
@@ -128,7 +130,7 @@ describe('Unit | UseCase | create-user-from-external-identity-provider', functio
     authenticationSessionService.getByKey.withArgs('AUTHENTICATION_KEY').resolves('SESSION_CONTENT');
     authenticationServiceRegistry.lookupAuthenticationService
       .withArgs('SOME_IDP')
-      .resolves(externalAuthenticationService);
+      .resolves({ authenticationService: externalAuthenticationService });
     externalAuthenticationService.getUserInfo
       .withArgs('SESSION_CONTENT')
       .resolves({ firstName: 'Jean', lastName: 'Heymar', externalIdentityId: 'duGAR' });

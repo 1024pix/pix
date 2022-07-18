@@ -2,6 +2,7 @@ const { sinon, expect, catchErr, hFake } = require('../../../test-helper');
 const tokenService = require('../../../../lib/domain/services/token-service');
 const usecases = require('../../../../lib/domain/usecases');
 const AuthenticationSessionContent = require('../../../../lib/domain/models/AuthenticationSessionContent');
+const authenticationRegistry = require('../../../../lib/domain/services/authentication/authentication-service-registry');
 
 const { UnauthorizedError } = require('../../../../lib/application/http-errors');
 
@@ -211,6 +212,12 @@ describe('Unit | Application | Controller | Authentication', function () {
 
     it('should call usecase with payload parameters', async function () {
       // given
+      const oidcAuthenticationService = {};
+      sinon
+        .stub(authenticationRegistry, 'lookupAuthenticationService')
+        .withArgs('POLE_EMPLOI')
+        .returns({ oidcAuthenticationService });
+
       usecases.authenticatePoleEmploiUser.resolves({ pixAccessToken, poleEmploiAuthenticationSessionContent });
       const expectedParameters = {
         authenticatedUserId: undefined,
@@ -218,13 +225,14 @@ describe('Unit | Application | Controller | Authentication', function () {
         redirectUri: redirect_uri,
         stateReceived: state_received,
         stateSent: state_sent,
+        oidcAuthenticationService,
       };
 
       // when
       await authenticationController.authenticatePoleEmploiUser(request, hFake);
 
       // then
-      expect(usecases.authenticatePoleEmploiUser).to.have.been.calledWithMatch(expectedParameters);
+      expect(usecases.authenticatePoleEmploiUser).to.have.been.calledWith(expectedParameters);
     });
 
     it('should return PIX access token and Pole emploi ID token', async function () {
