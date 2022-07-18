@@ -108,7 +108,6 @@ export default class AddIssueReportModal extends Component {
   @service store;
   @service featureToggles;
 
-  @tracked otherCategory = new RadioButtonCategoryWithDescription({ name: certificationIssueReportCategories.OTHER });
   @tracked lateOrLeavingCategory = new RadioButtonCategoryWithSubcategoryWithDescription({
     name: certificationIssueReportCategories.LATE_OR_LEAVING,
     subcategory: certificationIssueReportSubcategories.LEFT_EXAM_ROOM,
@@ -131,7 +130,6 @@ export default class AddIssueReportModal extends Component {
     name: certificationIssueReportCategories.NON_BLOCKING_CANDIDATE_ISSUE,
   });
   categories = [
-    this.otherCategory,
     this.lateOrLeavingCategory,
     this.candidateInformationChangeCategory,
     this.inChallengeCategory,

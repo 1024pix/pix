@@ -2,7 +2,6 @@ import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { click } from '@ember/test-helpers';
 import { render as renderScreen } from '@1024pix/ember-testing-library';
-import omit from 'lodash/omit';
 
 import { hbs } from 'ember-cli-htmlbars';
 import Service from '@ember/service';
@@ -77,7 +76,7 @@ module('Integration | Component | add-issue-report-modal', function (hooks) {
         `);
 
     // then
-    for (const category of Object.values(omit(certificationIssueReportCategories, ['OTHER']))) {
+    for (const category of Object.values(certificationIssueReportCategories)) {
       assert
         .dom(screen.getByLabelText(`${categoryToCode[category]} ${categoryToLabel[category]}`, { exact: false }))
         .exists();
