@@ -77,6 +77,7 @@ describe('Unit | UseCase | find-tutorials', function () {
               tubeName: '@wikipédia',
               tubePracticalTitle: 'Practical Title wikipédia',
               tubePracticalDescription: 'Practical Description wikipédia',
+              skillId: 'rec2',
             };
 
             const expectedTutorial2 = {
@@ -85,6 +86,7 @@ describe('Unit | UseCase | find-tutorials', function () {
               tubePracticalTitle: 'Practical Title wikipédia',
               tubePracticalDescription: 'Practical Description wikipédia',
               userTutorial: userSavedTutorial,
+              skillId: 'rec2',
             };
 
             const expectedTutorial3 = {
@@ -92,6 +94,7 @@ describe('Unit | UseCase | find-tutorials', function () {
               tubeName: '@recherche',
               tubePracticalTitle: 'Practical Title recherche',
               tubePracticalDescription: 'Practical Description recherche',
+              skillId: 'rec8',
             };
 
             expectedTutorialList = [expectedTutorial3, expectedTutorial1, expectedTutorial2];

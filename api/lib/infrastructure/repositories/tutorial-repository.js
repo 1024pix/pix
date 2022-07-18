@@ -13,10 +13,9 @@ const paginateModule = require('../utils/paginate');
 module.exports = {
   async findByRecordIdsForCurrentUser({ ids, userId, locale }) {
     const tutorials = await _findByRecordIds({ ids, locale });
-    const userSavedTutorials = await userTutorialRepository.find({ userId });
+    const userTutorials = await userTutorialRepository.find({ userId });
     const tutorialEvaluations = await tutorialEvaluationRepository.find({ userId });
-    _.forEach(tutorials, _assignUserInformation(userSavedTutorials, tutorialEvaluations));
-    return tutorials;
+    return _toTutorialsForUser({ tutorials, tutorialEvaluations, userTutorials });
   },
 
   async findByRecordIds(ids) {
@@ -106,25 +105,4 @@ async function _findByRecordIds({ ids, locale }) {
 
 function _extractLangFromLocale(locale) {
   return locale && locale.split('-')[0];
-}
-
-function _getUserSavedTutorial(userSavedTutorials, tutorial) {
-  return _.find(userSavedTutorials, (userSavedTutorial) => userSavedTutorial.tutorialId === tutorial.id);
-}
-
-function _getTutorialEvaluation(tutorialEvaluations, tutorial) {
-  return _.find(tutorialEvaluations, (tutorialEvaluation) => tutorialEvaluation.tutorialId === tutorial.id);
-}
-
-function _assignUserInformation(userSavedTutorials, tutorialEvaluations) {
-  return (tutorial) => {
-    const userSavedTutorial = _getUserSavedTutorial(userSavedTutorials, tutorial);
-    if (userSavedTutorial) {
-      tutorial.userTutorial = userSavedTutorial;
-    }
-    const tutorialEvaluation = _getTutorialEvaluation(tutorialEvaluations, tutorial);
-    if (tutorialEvaluation) {
-      tutorial.tutorialEvaluation = tutorialEvaluation;
-    }
-  };
 }

@@ -292,8 +292,12 @@ describe('Acceptance | Controller | scorecard-controller', function () {
                 'tube-name': '@web',
                 'tube-practical-description': 'Ceci est une description pratique',
                 'tube-practical-title': 'Ceci est un titre pratique',
+                'skill-id': 'recAcquisWeb1',
               },
               relationships: {
+                'tutorial-evaluation': {
+                  data: null,
+                },
                 'user-tutorial': {
                   data: {
                     id: '10500',
@@ -314,6 +318,15 @@ describe('Acceptance | Controller | scorecard-controller', function () {
                 'tube-name': '@web',
                 'tube-practical-description': 'Ceci est une description pratique',
                 'tube-practical-title': 'Ceci est un titre pratique',
+                'skill-id': 'recAcquisWeb1',
+              },
+              relationships: {
+                'tutorial-evaluation': {
+                  data: null,
+                },
+                'user-tutorial': {
+                  data: null,
+                },
               },
             },
           ],
