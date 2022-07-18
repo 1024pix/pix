@@ -11,6 +11,9 @@ async function getParticipantsByOrganizationId({ organizationId, page }) {
       knex.raw(
         'COUNT(*) FILTER (WHERE "campaign-participations"."id" IS NOT NULL) OVER(PARTITION BY "organizationLearnerId") AS "participationCount"'
       ),
+      knex.raw(
+        'max("campaign-participations"."createdAt") OVER(PARTITION BY "organizationLearnerId") AS "lastParticipationDate"'
+      ),
     ])
     .join('campaign-participations', 'organization-learners.id', 'campaign-participations.organizationLearnerId')
     .leftJoin('users', 'organization-learners.userId', 'users.id')
