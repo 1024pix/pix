@@ -71,7 +71,7 @@ export default class PoleEmploiAuthenticator extends BaseAuthenticator {
 
     return {
       access_token: data.access_token,
-      id_token: data.id_token,
+      logout_url_uuid: data.logout_url_uuid,
       source: decodedAccessToken.source,
       user_id: decodedAccessToken.user_id,
       identity_provider: decodedAccessToken.identity_provider,
