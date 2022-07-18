@@ -1,5 +1,32 @@
 # Pix Changelog
 
+## v3.233.0 (18/07/2022)
+
+
+### :rocket: Amélioration
+- [#4652](https://github.com/1024pix/pix/pull/4652) [FEATURE] Ramener le contexte des tutoriels lorsqu'ils sont présentés dans la page de détail d'une compétence (PIX-5338).
+- [#4661](https://github.com/1024pix/pix/pull/4661) [FEATURE] Mise à jour du niveau d'accessibilité de Pix-Certif (PIX-5356).
+- [#4634](https://github.com/1024pix/pix/pull/4634) [FEATURE] Ajouter une condition dans la réconciliation automatique lors de l'import SIECLE (PIX-4594).
+- [#4620](https://github.com/1024pix/pix/pull/4620) [FEATURE] A11Y - Ajouter une description aux tableaux complexes (PIX-3920)
+- [#4650](https://github.com/1024pix/pix/pull/4650) [FEATURE] Tracer la résolution automatique sur les signalements (PIX-5258)
+- [#4639](https://github.com/1024pix/pix/pull/4639) [FEATURE] Nouvel affichage page détails d'un profil cible (PIX-5311)
+- [#4643](https://github.com/1024pix/pix/pull/4643) [FEATURE] Affichage de la date de dernière participation dans l'onglet étudiants (PIX-5173). 
+- [#4649](https://github.com/1024pix/pix/pull/4649) [FEATURE] Afficher le nombre de participations dans l'onglet "Participants"(PIX-5123)
+- [#4570](https://github.com/1024pix/pix/pull/4570) [FEATURE]  Rajouter un filtre pour chercher par nom et prénom sur la liste des participations de la page résultats (PIX-5060).
+- [#4628](https://github.com/1024pix/pix/pull/4628) [FEATURE] Gérer plus de cas dans le script de reprise des `skillId` dans la table `user-saved-tutorials` (PIX-4680). 
+
+### :building_construction: Tech
+- [#4662](https://github.com/1024pix/pix/pull/4662) [TECH] Corrige le format du fichier package-lock.json
+- [#4655](https://github.com/1024pix/pix/pull/4655) [TECH] Intégrer le composant PixMessage dans Pix-App (PIX-5322)
+- [#4637](https://github.com/1024pix/pix/pull/4637) [TECH] Recalculer l'acquisitions des badges grâce à un script (PIX-5310).
+- [#4608](https://github.com/1024pix/pix/pull/4608) [TECH] Empêcher le chevauchement :horse: des seeds et des données de test automatiques.
+- [#4593](https://github.com/1024pix/pix/pull/4593) [TECH] Déplacer le ticket Jira en review seulement si la PR n'est pas en draft (PIX-5253).
+- [#4582](https://github.com/1024pix/pix/pull/4582) [TECH] Utiliser l'attribut responseTime au lieu de duration dans les métriques remontés à Datadog.
+- [#4586](https://github.com/1024pix/pix/pull/4586) [TECH][ADMIN]Ajouter un service pour intercepter et notifier des erreurs de requêtes api (PIX-5244)
+- [#4589](https://github.com/1024pix/pix/pull/4589) [TECH] Télécharger le dernier backup terminé dans le script de restauration de BDD.
+- [#4647](https://github.com/1024pix/pix/pull/4647) [TECH] Ajouter la colonne "level" à la table complementary-certification-badges (PIX-5203)
+- [#4651](https://github.com/1024pix/pix/pull/4651) [TECH] Monter la version des BDD de tests de 13.3 à 13.7
+
 ## v3.232.0 (12/07/2022)
 
 
