@@ -20,10 +20,10 @@ module('Integration | Component | Layout::Footer', function (hooks) {
 
   test('should display legal notice link', async function (assert) {
     // when
-    await renderScreen(hbs`<Layout::Footer />}`);
+    const screen = await renderScreen(hbs`<Layout::Footer />}`);
 
     // then
-    assert.contains('Mentions légales');
+    assert.dom(screen.getByText(this.intl.t('navigation.footer.legal-notice'))).exists();
     assert.dom('a[href="https://pix.fr/mentions-legales/"]').exists();
   });
 
