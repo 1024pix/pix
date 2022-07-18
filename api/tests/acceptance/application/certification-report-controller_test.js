@@ -31,7 +31,7 @@ describe('Acceptance | Controller | certification-report-controller', function (
         payload: {
           data: {
             attributes: {
-              category: 'OTHER',
+              category: 'FRAUD',
               description: 'Houston nous avons un problème',
             },
             relationships: {
@@ -57,7 +57,7 @@ describe('Acceptance | Controller | certification-report-controller', function (
       // then
       expect(response.statusCode).to.equal(201);
       expect(response.result.data.type).to.equal('certification-issue-reports');
-      expect(response.result.data.attributes.category).to.equal('OTHER');
+      expect(response.result.data.attributes.category).to.equal('FRAUD');
       expect(response.result.data.attributes.description).to.equal('Houston nous avons un problème');
     });
   });
