@@ -18,9 +18,12 @@ export default class AccessRoute extends Route.extend(SecuredRouteMixin) {
     this.authenticationRoute = 'inscription';
     const campaign = this.modelFor('campaigns');
 
-    if (this._shouldVisitPoleEmploiLoginPage(campaign)) {
+    if (this._shouldVisitIdentityProviderLoginPage(campaign, 'POLE_EMPLOI')) {
       this.session.set('attemptedTransition', transition);
       return this.router.replaceWith('login-pole-emploi');
+    } else if (this._shouldVisitIdentityProviderLoginPage(campaign, 'CNAV')) {
+      this.session.set('attemptedTransition', transition);
+      return this.router.replaceWith('login-cnav');
     } else if (this._shouldLoginToAccessSCORestrictedCampaign(campaign)) {
       this.authenticationRoute = 'campaigns.join.student-sco';
     } else if (this._shouldJoinFromMediacentre(campaign)) {
@@ -62,9 +65,10 @@ export default class AccessRoute extends Route.extend(SecuredRouteMixin) {
     );
   }
 
-  _shouldVisitPoleEmploiLoginPage(campaign) {
-    const isUserLoggedInPoleEmploi = get(this.session, 'data.authenticated.identity_provider') === 'POLE_EMPLOI';
-    return campaign.isRestrictedByPoleEmploiIdentityProvider && !isUserLoggedInPoleEmploi;
+  _shouldVisitIdentityProviderLoginPage(campaign, identityProvider) {
+    const isUserLoggedInToIdentityProvider =
+      get(this.session, 'data.authenticated.identity_provider') === identityProvider;
+    return campaign.isRestrictedByIdentityProvider(identityProvider) && !isUserLoggedInToIdentityProvider;
   }
 
   _shouldJoinFromMediacentre(campaign) {
