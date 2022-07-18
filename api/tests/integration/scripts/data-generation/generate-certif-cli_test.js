@@ -75,6 +75,43 @@ describe('Integration | Scripts | generate-certif-cli.js', function () {
               email: `${name}@example.net`,
             });
           });
+
+          context(`when asking for complementary certifications`, function () {
+            it(`should add complementary certifications`, async function () {
+              // given
+              databaseBuffer.nextId = 0;
+              buildTypedCertificationCenters();
+              buildComplementaryCertifications();
+              await databaseBuilderCli.commit();
+              databaseBuilderCli.factory.buildOrganization({ id: 1, externalId: certificationCenterSco.externalId });
+              databaseBuilderCli.factory.buildOrganizationLearner({
+                organizationId: 1,
+                userId: null,
+              });
+              databaseBuilderCli.factory.buildOrganizationLearner({ organizationId: 1, userId: null });
+              await databaseBuilderCli.commit();
+              await databaseBuilderCli.fixSequences();
+
+              // when
+              await main({
+                centerType: type,
+                candidateNumber: 2,
+                complementaryCertifications: [
+                  { candidateNumber: 1, name: 'CléA Numérique' },
+                  { candidateNumber: 1, name: 'Pix+ Droit' },
+                  { candidateNumber: 1, name: 'Pix+ Édu 2nd degré' },
+                  { candidateNumber: 1, name: 'Pix+ Édu 1er degré' },
+                ],
+                isSupervisorAccessEnabled: false,
+              });
+
+              // then
+              const { count: habilitations } = await knex('complementary-certification-habilitations')
+                .count('*')
+                .first();
+              expect(habilitations).to.equal(4);
+            });
+          });
         });
       });
 
@@ -129,6 +166,41 @@ describe('Integration | Scripts | generate-certif-cli.js', function () {
             email: 'sco1@example.net',
           });
         });
+
+        context(`when asking for complementary certifications`, function () {
+          it(`should not add complementary certifications`, async function () {
+            // given
+            databaseBuffer.nextId = 0;
+            buildTypedCertificationCenters();
+            buildComplementaryCertifications();
+            await databaseBuilderCli.commit();
+            databaseBuilderCli.factory.buildOrganization({ id: 1, externalId: certificationCenterSco.externalId });
+            databaseBuilderCli.factory.buildOrganizationLearner({
+              organizationId: 1,
+              userId: null,
+            });
+            databaseBuilderCli.factory.buildOrganizationLearner({ organizationId: 1, userId: null });
+            await databaseBuilderCli.commit();
+            await databaseBuilderCli.fixSequences();
+
+            // when
+            await main({
+              centerType: 'SCO',
+              candidateNumber: 2,
+              complementaryCertifications: [
+                { candidateNumber: 1, name: 'CléA Numérique' },
+                { candidateNumber: 1, name: 'Pix+ Droit' },
+                { candidateNumber: 1, name: 'Pix+ Édu 2nd degré' },
+                { candidateNumber: 1, name: 'Pix+ Édu 1er degré' },
+              ],
+              isSupervisorAccessEnabled: false,
+            });
+
+            // then
+            const { count: habilitations } = await knex('complementary-certification-habilitations').count('*').first();
+            expect(habilitations).to.equal(0);
+          });
+        });
       });
     });
   });
@@ -140,9 +212,19 @@ describe('Integration | Scripts | generate-certif-cli.js', function () {
   }
 
   function buildComplementaryCertifications() {
-    databaseBuilderCli.factory.buildComplementaryCertification({ id: 52 });
-    databaseBuilderCli.factory.buildComplementaryCertification({ id: 53 });
-    databaseBuilderCli.factory.buildComplementaryCertification({ id: 54 });
-    databaseBuilderCli.factory.buildComplementaryCertification({ id: 55 });
+    databaseBuilderCli.factory.buildBadge({ key: 'PIX_EMPLOI_CLEA_V3', targetProfileId: null });
+    databaseBuilderCli.factory.buildBadge({ key: 'PIX_DROIT_EXPERT_CERTIF', targetProfileId: null });
+    databaseBuilderCli.factory.buildBadge({
+      key: 'PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_CONFIRME',
+      targetProfileId: null,
+    });
+    databaseBuilderCli.factory.buildBadge({
+      key: 'PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME',
+      targetProfileId: null,
+    });
+    databaseBuilderCli.factory.buildComplementaryCertification({ id: 52, name: 'CléA Numérique' });
+    databaseBuilderCli.factory.buildComplementaryCertification({ id: 53, name: 'Pix+ Droit' });
+    databaseBuilderCli.factory.buildComplementaryCertification({ id: 54, name: 'Pix+ Édu 1er degré' });
+    databaseBuilderCli.factory.buildComplementaryCertification({ id: 55, name: 'Pix+ Édu 2nd degré' });
   }
 });
