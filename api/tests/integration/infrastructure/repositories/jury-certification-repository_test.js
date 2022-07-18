@@ -170,6 +170,7 @@ describe('Integration | Infrastructure | Repository | Jury Certification', funct
         questionNumber: 1,
         resolvedAt: new Date('2022-05-05'),
         resolution: 'super',
+        hasBeenAutomaticallyResolved: false,
       });
       const expectedCertificationIssueReportB = domainBuilder.buildCertificationIssueReport.notImpactful({
         id: 123,
@@ -178,6 +179,7 @@ describe('Integration | Infrastructure | Repository | Jury Certification', funct
         questionNumber: 12,
         resolvedAt: new Date('2021-12-25'),
         resolution: 'les doigts dans le nez',
+        hasBeenAutomaticallyResolved: false,
       });
       const anotherIssueReport = domainBuilder.buildCertificationIssueReport.notImpactful({
         id: 789,

@@ -11,6 +11,7 @@ const buildCertificationIssueReport = function ({
   subcategory = CertificationIssueReportSubcategories.NAME_OR_BIRTHDATE,
   description = 'Une super description',
   questionNumber = null,
+  hasBeenAutomaticallyResolved = null,
   resolvedAt = null,
   resolution = null,
 } = {}) {
@@ -21,6 +22,7 @@ const buildCertificationIssueReport = function ({
     subcategory,
     description,
     questionNumber,
+    hasBeenAutomaticallyResolved,
     resolvedAt,
     resolution,
   });
@@ -33,6 +35,7 @@ buildCertificationIssueReport.impactful = function ({
   questionNumber,
   resolvedAt,
   resolution,
+  hasBeenAutomaticallyResolved,
 } = {}) {
   return buildCertificationIssueReport({
     id,
@@ -43,6 +46,7 @@ buildCertificationIssueReport.impactful = function ({
     resolution,
     category: CertificationIssueReportCategories.FRAUD,
     subcategory: null,
+    hasBeenAutomaticallyResolved,
   });
 };
 
@@ -53,6 +57,7 @@ buildCertificationIssueReport.notImpactful = function ({
   questionNumber,
   resolvedAt,
   resolution,
+  hasBeenAutomaticallyResolved,
 } = {}) {
   return buildCertificationIssueReport({
     id,
@@ -63,6 +68,7 @@ buildCertificationIssueReport.notImpactful = function ({
     resolution,
     category: CertificationIssueReportCategories.CONNECTION_OR_END_SCREEN,
     subcategory: null,
+    hasBeenAutomaticallyResolved,
   });
 };
 

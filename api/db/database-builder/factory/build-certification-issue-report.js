@@ -9,6 +9,7 @@ module.exports = function buildCertificationIssueReport({
   category = CertificationIssueReportCategories.OTHER,
   description = 'Une super description',
   subcategory = null,
+  hasBeenAutomaticallyResolved = null,
   questionNumber = null,
   resolvedAt = null,
   resolution = null,
@@ -22,6 +23,7 @@ module.exports = function buildCertificationIssueReport({
     description,
     subcategory,
     questionNumber,
+    hasBeenAutomaticallyResolved,
     resolvedAt,
     resolution,
   };
