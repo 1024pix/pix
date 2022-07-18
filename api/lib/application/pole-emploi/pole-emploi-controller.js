@@ -1,8 +1,8 @@
 const usecases = require('../../domain/usecases');
 const userRepository = require('../../infrastructure/repositories/user-repository');
-const authenticationService = require('../../../lib/domain/services/authentication/pole-emploi-authentication-service');
-const PoleEmploiOidcAuthenticationService = require('../../../lib/domain/services/authentication/pole-emploi-oidc-authentication-service');
+const poleEmploiAuthenticationService = require('../../../lib/domain/services/authentication/pole-emploi-authentication-service');
 const AuthenticationMethod = require('../../domain/models/AuthenticationMethod');
+const authenticationRegistry = require('../../domain/services/authentication/authentication-service-registry');
 
 module.exports = {
   async createUser(request, h) {
@@ -13,8 +13,10 @@ module.exports = {
       identityProvider: AuthenticationMethod.identityProviders.POLE_EMPLOI,
     });
 
-    const poleEmploiOidcAuthenticationService = new PoleEmploiOidcAuthenticationService();
-    const accessToken = poleEmploiOidcAuthenticationService.createAccessToken(userId);
+    const { oidcAuthenticationService } = authenticationRegistry.lookupAuthenticationService(
+      AuthenticationMethod.identityProviders.POLE_EMPLOI
+    );
+    const accessToken = oidcAuthenticationService.createAccessToken(userId);
     await userRepository.updateLastLoggedAt({ userId });
 
     const response = {
@@ -32,7 +34,7 @@ module.exports = {
   },
 
   async getAuthUrl(request, h) {
-    const result = authenticationService.getAuthUrl({
+    const result = poleEmploiAuthenticationService.getAuthUrl({
       redirectUri: request.query['redirect_uri'],
     });
     return h.response(result).code(200);
