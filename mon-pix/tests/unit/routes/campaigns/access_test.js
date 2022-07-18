@@ -11,6 +11,7 @@ describe('Unit | Route | Access', function () {
   beforeEach(function () {
     campaign = {
       code: 'NEW_CODE',
+      isRestrictedByIdentityProvider: sinon.stub(),
     };
     route = this.owner.lookup('route:campaigns.access');
     route.modelFor = sinon.stub().returns(campaign);
@@ -19,7 +20,7 @@ describe('Unit | Route | Access', function () {
   });
 
   describe('#beforeModel', function () {
-    it('should redirect to entry point when /acces is directly set in the url', async function () {
+    it('should redirect to entry point when /access is directly set in the url', async function () {
       //when
       await route.beforeModel({ from: null });
 
@@ -55,7 +56,8 @@ describe('Unit | Route | Access', function () {
       it('should override authentication route with login-pole-emploi', async function () {
         // given
         route.session.data.externalUser = 'some external user';
-        campaign.isRestrictedByPoleEmploiIdentityProvider = true;
+        const POLE_EMPLOI = 'POLE_EMPLOI';
+        campaign.isRestrictedByIdentityProvider.withArgs(POLE_EMPLOI).returns(true);
 
         // when
         await route.beforeModel({ from: 'campaigns.campaign-landing-page' });
@@ -69,14 +71,45 @@ describe('Unit | Route | Access', function () {
       it('should not override authentication route with login-pole-emploi', async function () {
         // given
         route.session.data.externalUser = 'some external user';
-        route.session.data.authenticated.identity_provider = 'POLE_EMPLOI';
-        campaign.isRestrictedByPoleEmploiIdentityProvider = true;
+        const POLE_EMPLOI = 'POLE_EMPLOI';
+        route.session.data.authenticated.identity_provider = POLE_EMPLOI;
+        campaign.isRestrictedByIdentityProvider.withArgs(POLE_EMPLOI).returns(true);
 
         // when
         await route.beforeModel({ from: 'campaigns.campaign-landing-page' });
 
         // then
         sinon.assert.neverCalledWith(route.router.replaceWith, 'login-pole-emploi');
+      });
+    });
+
+    context('when campaign belongs to cnav and user is not connected with cnav', function () {
+      it('should override authentication route with login-cnav', async function () {
+        // given
+        route.session.data.externalUser = 'some external user';
+        campaign.isRestrictedByIdentityProvider.withArgs('CNAV').returns(true);
+
+        // when
+        await route.beforeModel({ from: 'campaigns.campaign-landing-page' });
+
+        // then
+        sinon.assert.calledWith(route.router.replaceWith, 'login-cnav');
+      });
+    });
+
+    context('when campaign belongs to cnav and user is connected with cnav', function () {
+      it('should not override authentication route with login-cnav', async function () {
+        // given
+        route.session.data.externalUser = 'some external user';
+        const CNAV = 'CNAV';
+        route.session.data.authenticated.identity_provider = CNAV;
+        campaign.isRestrictedByIdentityProvider.withArgs(CNAV).returns(true);
+
+        // when
+        await route.beforeModel({ from: 'campaigns.campaign-landing-page' });
+
+        // then
+        sinon.assert.neverCalledWith(route.router.replaceWith, 'login-cnav');
       });
     });
 
