@@ -387,4 +387,70 @@ describe('Unit | Tooling | DatabaseBuilder | database-builder', function () {
       expect(databaseBuilder.databaseBuffer.objectsToInsert).to.be.empty;
     });
   });
+
+  describe('#fixSequences', function () {
+    let databaseBuilder;
+
+    beforeEach(function () {
+      databaseBuilder = new DatabaseBuilder({ knex: null });
+      sinon.stub(console, 'error');
+    });
+
+    describe('when there are dirty tables', function () {
+      it('should update sequences to the highest id of each dirty table', async function () {
+        // given
+        const knexFn = {
+          from: sinon.stub(),
+          client: { database: sinon.stub() },
+        };
+
+        knexFn.client.database.returns('pix');
+
+        const columnsResponse = [{ table_name: 'users', column_default: "nextval('users_id_seq'::regclass)" }];
+        const whereIn = sinon.stub();
+        whereIn.withArgs('table_name', ['users']).resolves(columnsResponse);
+        const where = sinon.stub();
+        where.withArgs({ table_catalog: 'pix', column_name: 'id' }).returns({ whereIn });
+        const whereRaw = sinon.stub().returns({ where });
+        const select = sinon.stub().returns({ whereRaw });
+        knexFn.from.withArgs('information_schema.columns').returns({ select });
+
+        const maxResponse = { max: 5 };
+        const first = sinon.stub().resolves(maxResponse);
+        const max = sinon.stub().returns({ first });
+        knexFn.from.withArgs('users').callsFake(() => {
+          return {
+            max,
+          };
+        });
+        knexFn.raw = sinon.spy();
+        databaseBuilder.knex = knexFn;
+        databaseBuilder.tablesOrderedByDependencyWithDirtinessMap = [
+          { table: 'assessments', isDirty: false },
+          { table: 'users', isDirty: true },
+        ];
+
+        // when
+        await databaseBuilder.fixSequences();
+        expect(knexFn.raw).to.have.been.calledOnceWithExactly('ALTER SEQUENCE "users_id_seq" RESTART WITH 6;');
+      });
+    });
+
+    describe('when there are no dirty table', function () {
+      it('should not update any sequences', async function () {
+        // given
+        const knexFn = sinon.stub();
+        knexFn.raw = sinon.spy();
+        databaseBuilder.knex = knexFn;
+        databaseBuilder.tablesOrderedByDependencyWithDirtinessMap = [
+          { table: 'assessments', isDirty: false },
+          { table: 'users', isDirty: false },
+        ];
+
+        // when
+        await databaseBuilder.fixSequences();
+        expect(knexFn.raw).not.to.have.been.called;
+      });
+    });
+  });
 });
