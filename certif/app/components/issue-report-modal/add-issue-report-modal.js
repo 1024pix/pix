@@ -61,12 +61,6 @@ export class RadioButtonCategoryWithSubcategory extends RadioButtonCategory {
   }
 
   get subcategoryLabel() {
-    if (
-      this.subcategory === certificationIssueReportSubcategories.FILE_NOT_OPENING &&
-      !this.featureToggles.featureToggles.isCertificationFreeFieldsDeletionEnabled
-    ) {
-      return "Le fichier à télécharger ne s'ouvre pas";
-    }
     return subcategoryToLabel[this.subcategory];
   }
 
@@ -175,9 +169,5 @@ export default class AddIssueReportModal extends Component {
       issueReportToSave.rollbackAttributes();
       this.showIssueReportSubmitError = true;
     }
-  }
-
-  get isCertificationFreeFieldsDeletionEnabled() {
-    return this.featureToggles.featureToggles.isCertificationFreeFieldsDeletionEnabled;
   }
 }
