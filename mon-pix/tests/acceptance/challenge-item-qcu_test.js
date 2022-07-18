@@ -38,7 +38,7 @@ describe('Acceptance | Displaying a QCU challenge', () => {
       );
       expect(findAll('.proposal-text')[3].textContent.trim()).to.equal('4eme possibilite');
 
-      expect(find('.alert')).to.not.exist;
+      expect(find('.challenge-reponse__alert')).to.not.exist;
     });
 
     it('should display the alert box if user validates without checking a radio button', async () => {
@@ -46,8 +46,10 @@ describe('Acceptance | Displaying a QCU challenge', () => {
       await click('.challenge-actions__action-validate');
 
       // then
-      expect(find('.alert')).to.exist;
-      expect(find('.alert').textContent.trim()).to.equal('Pour valider, sélectionnez une réponse. Sinon, passez.');
+      expect(find('.challenge-response__alert')).to.exist;
+      expect(find('.challenge-response__alert').textContent.trim()).to.equal(
+        'Pour valider, sélectionnez une réponse. Sinon, passez.'
+      );
     });
 
     it('should hide the alert error after the user interact with radio button', async () => {
@@ -58,7 +60,7 @@ describe('Acceptance | Displaying a QCU challenge', () => {
       await click(findAll('.proposal-text')[1]);
 
       // then
-      expect(find('.alert')).to.not.exist;
+      expect(find('.challenge-response__alert')).to.not.exist;
     });
 
     it('should go to checkpoint when user selects an answer and validates', async () => {

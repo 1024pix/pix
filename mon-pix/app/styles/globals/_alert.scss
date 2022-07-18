@@ -1,28 +1,3 @@
-.alert {
-  outline: none;
-  border-radius: 0.195em;
-  padding: 9px;
-  margin-bottom: 11px;
-  color: $pix-neutral-110;
-  text-shadow: none;
-  font-size: 0.875rem;
-  font-weight: $font-normal;
-  letter-spacing: 0.009rem;
-  line-height: 1.375rem;
-  display: flex;
-  align-items: center;
-
-  &--danger {
-    border: 1px solid $pix-error-70;
-    background-color: $pix-error-10;
-    color: $pix-error-70;
-  }
-}
-
-.challenge-response + .alert {
-  margin: 0 5px;
-}
-
 abbr.mandatory-mark {
   cursor: help;
   color: $pix-error-70;

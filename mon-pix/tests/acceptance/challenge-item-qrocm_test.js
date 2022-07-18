@@ -34,7 +34,7 @@ describe('Acceptance | Displaying a QROCM challenge', () => {
         expect(find('div[data-test="qrocm-label-0"]').innerHTML).to.contains('Station <strong>1</strong> :');
         expect(find('div[data-test="qrocm-label-1"]').innerHTML).to.contains('Station <em>2</em> :');
 
-        expect(find('.alert')).to.not.exist;
+        expect(find('.challenge-response__alert')).to.not.exist;
       });
 
       it('should display the alert box if user validates without write an answer for each input', async () => {
@@ -44,8 +44,8 @@ describe('Acceptance | Displaying a QROCM challenge', () => {
 
         await click(find('.challenge-actions__action-validate'));
 
-        expect(find('.alert')).to.exist;
-        expect(find('.alert').textContent.trim()).to.equal(
+        expect(find('.challenge-response__alert')).to.exist;
+        expect(find('.challenge-response__alert').textContent.trim()).to.equal(
           'Pour valider, veuillez remplir tous les champs réponse. Sinon, passez.'
         );
       });
@@ -60,7 +60,7 @@ describe('Acceptance | Displaying a QROCM challenge', () => {
         await fillIn(findAll('input')[1], 'ANSWER');
 
         // then
-        expect(find('.alert')).to.not.exist;
+        expect(find('.challenge-response__alert')).to.not.exist;
       });
 
       it('should go to checkpoint when user validated', async () => {
@@ -86,7 +86,7 @@ describe('Acceptance | Displaying a QROCM challenge', () => {
         await click(find('.challenge-actions__action-validate'));
 
         // then
-        expect(find('.alert--danger')).to.exist;
+        expect(find('.challenge-response__alert')).to.exist;
         expect(currentURL()).to.contains(`/assessments/${assessment.id}/challenges/0`);
       });
 
@@ -100,7 +100,7 @@ describe('Acceptance | Displaying a QROCM challenge', () => {
         await click(find('.challenge-actions__action-validate'));
 
         // then
-        expect(find('.alert--danger')).to.exist;
+        expect(find('.challenge-response__alert')).to.exist;
         expect(currentURL()).to.contains(`/assessments/${assessment.id}/challenges/0`);
       });
 

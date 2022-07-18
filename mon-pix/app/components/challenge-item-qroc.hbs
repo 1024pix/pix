@@ -115,9 +115,9 @@
   {{/if}}
 
   {{#if this.errorMessage}}
-    <div class="alert alert--danger" role="alert">
+    <PixMessage class="challenge-response__alert" @type="error" @withIcon={{true}}>
       {{this.errorMessage}}
-    </div>
+    </PixMessage>
   {{/if}}
 
   {{#if @assessment}}
