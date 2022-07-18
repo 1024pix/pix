@@ -4,6 +4,7 @@ const OrganizationInvitation = require('../../../lib/domain/models/OrganizationI
 const { DEFAULT_PASSWORD } = require('./users-builder');
 const PRO_COMPANY_ID = 1;
 const PRO_POLE_EMPLOI_ID = 4;
+const PRO_CNAV_ID = 17;
 const PRO_MED_NUM_ID = 5;
 const PRO_ARCHIVED_ID = 15;
 
@@ -87,6 +88,23 @@ function organizationsProBuilder({ databaseBuilder }) {
     organizationRole: Membership.roles.ADMIN,
   });
 
+  /* CNAV */
+  databaseBuilder.factory.buildOrganization({
+    id: PRO_CNAV_ID,
+    type: 'PRO',
+    name: 'CNAV',
+    externalId: null,
+    provinceCode: null,
+    email: null,
+    identityProviderForCampaigns: 'CNAV',
+  });
+
+  databaseBuilder.factory.buildMembership({
+    userId: proUser1.id,
+    organizationId: PRO_CNAV_ID,
+    organizationRole: Membership.roles.ADMIN,
+  });
+
   /* MEDIATION NUMERIQUE */
   databaseBuilder.factory.buildOrganization({
     id: PRO_MED_NUM_ID,
@@ -152,5 +170,6 @@ module.exports = {
   organizationsProBuilder,
   PRO_COMPANY_ID,
   PRO_POLE_EMPLOI_ID,
+  PRO_CNAV_ID,
   PRO_MED_NUM_ID,
 };
