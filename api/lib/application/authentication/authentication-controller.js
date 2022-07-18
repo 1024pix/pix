@@ -46,12 +46,16 @@ module.exports = {
 
   async authenticateCnavUser(request) {
     const { code, redirect_uri: redirectUri, state_sent: stateSent, state_received: stateReceived } = request.payload;
+    const { oidcAuthenticationService } = authenticationRegistry.lookupAuthenticationService(
+      AuthenticationMethod.identityProviders.CNAV
+    );
 
     const result = await usecases.authenticateCnavUser({
       code,
       redirectUri,
       stateReceived,
       stateSent,
+      oidcAuthenticationService,
     });
 
     if (result.isAuthenticationComplete) {

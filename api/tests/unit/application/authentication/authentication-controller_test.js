@@ -76,6 +76,11 @@ describe('Unit | Application | Controller | Authentication', function () {
       };
       const pixAccessToken = 'pixAccessToken';
       sinon.stub(usecases, 'authenticateCnavUser').resolves({ pixAccessToken, isAuthenticationComplete: true });
+      const oidcAuthenticationService = {};
+      sinon
+        .stub(authenticationRegistry, 'lookupAuthenticationService')
+        .withArgs('CNAV')
+        .returns({ oidcAuthenticationService });
 
       // when
       await authenticationController.authenticateCnavUser(request, hFake);
@@ -86,6 +91,7 @@ describe('Unit | Application | Controller | Authentication', function () {
         redirectUri: 'http://redirectUri.fr',
         stateReceived: 'state',
         stateSent: 'state',
+        oidcAuthenticationService,
       });
     });
 
