@@ -5,10 +5,9 @@ require('dotenv').config({ path: `${__dirname}/../../.env` });
 const { knex, disconnect } = require(`../../db/knex-database-connection`);
 const bluebird = require('bluebird');
 const maxBy = require('lodash/maxBy');
-const isEmpty = require('lodash/isEmpty');
 const logger = require('../../lib/infrastructure/logger');
 const { getNewSessionCode } = require('../../lib/domain/services/session-code-service');
-const { makeUserPixCertifiable } = require('../../db/seeds/data/certification/tooling');
+const { makeUserPixCertifiable, makeUserPixDroitCertifiable } = require('../../db/seeds/data/certification/tooling');
 const DatabaseBuilder = require('../../db/database-builder/database-builder');
 const databaseBuffer = require('../../db/database-builder/database-buffer');
 const databaseBuilder = new DatabaseBuilder({ knex, emptyFirst: false });
@@ -35,6 +34,12 @@ const COMPLEMENTARY_CERTIFICATION_IDS_BY_NAME = {
   [PIXDROIT]: 53,
   [PIXEDU1ERDEGRE]: 54,
   [PIXEDU2NDDEGRE]: 55,
+};
+const COMPLEMENTARY_CERTIFICATION_BADGES_BY_NAME = {
+  [PIXCLEA]: 'PIX_EMPLOI_CLEA_V2',
+  [PIXDROIT]: 'PIX_DROIT_EXPERT_CERTIF',
+  [PIXEDU1ERDEGRE]: 'PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_CONFIRME',
+  [PIXEDU2NDDEGRE]: 'PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME',
 };
 
 const questions = [
@@ -111,25 +116,22 @@ async function main({ centerType, candidateNumber, complementaryCertifications, 
   const certificationCenterId = CERTIFICATION_CENTER_IDS_BY_TYPE[centerType];
   await _updateCertificationCenterSupervisorPortalAccess(certificationCenterId, isSupervisorAccessEnabled);
 
-  if (complementaryCertifications?.length) {
-    const complementaryCertificationIds = complementaryCertifications.map((complementaryCertification) => {
-      return COMPLEMENTARY_CERTIFICATION_IDS_BY_NAME[complementaryCertification.name];
-    });
-
-    await _createComplementaryCertificationHabilitations(
-      new Set(complementaryCertificationIds),
-      certificationCenterId,
-      databaseBuilder
-    );
-  }
-
   const sessionId = await _createSessionAndReturnId(certificationCenterId, databaseBuilder);
 
   if (centerType === 'SCO') {
     await _createScoCertificationCandidates(certificationCenterId, candidateNumber, sessionId, databaseBuilder);
   } else {
     let complementaryCertificationGroupedByCandidateIndex;
-    if (!isEmpty(complementaryCertifications)) {
+    if (complementaryCertifications?.length) {
+      const complementaryCertificationIds = complementaryCertifications.map((complementaryCertification) => {
+        return COMPLEMENTARY_CERTIFICATION_IDS_BY_NAME[complementaryCertification.name];
+      });
+
+      await _createComplementaryCertificationHabilitations(
+        new Set(complementaryCertificationIds),
+        certificationCenterId,
+        databaseBuilder
+      );
       complementaryCertificationGroupedByCandidateIndex = _groupByCandidateIndex(complementaryCertifications);
     }
 
@@ -198,14 +200,15 @@ async function _createNonScoCertificationCandidates(
   databaseBuilder
 ) {
   let maxUserId = await _getMaxUserId();
+
   for (let i = 0; i < candidateNumber; i++) {
     maxUserId++;
     const firstName = `${centerType}${maxUserId}`.toLowerCase();
     const lastName = firstName;
     const birthdate = new Date('2000-01-01');
     const email = `${firstName}@example.net`;
-    await _createUser({ firstName, lastName, birthdate, email }, databaseBuilder);
-    const { id } = databaseBuilder.factory.buildCertificationCandidate({
+    const { id: userId } = await _createUser({ firstName, lastName, birthdate, email }, databaseBuilder);
+    const { id: candidateId } = databaseBuilder.factory.buildCertificationCandidate({
       firstName,
       lastName,
       birthdate,
@@ -216,11 +219,15 @@ async function _createNonScoCertificationCandidates(
       authorizedToStart: true,
     });
 
-    if (complementaryCertificationGroupedByCandidateIndex) {
-      const complementaryCertifications =
-        complementaryCertificationGroupedByCandidateIndex && complementaryCertificationGroupedByCandidateIndex[i + 1];
+    if (complementaryCertificationGroupedByCandidateIndex && complementaryCertificationGroupedByCandidateIndex[i + 1]) {
+      const complementaryCertifications = complementaryCertificationGroupedByCandidateIndex[i + 1];
 
-      await _createComplementaryCertificationSubscriptions(complementaryCertifications, id, databaseBuilder);
+      await _createComplementaryCertificationHability(
+        complementaryCertifications,
+        candidateId,
+        userId,
+        databaseBuilder
+      );
     }
   }
 }
@@ -276,9 +283,10 @@ async function _createScoCertificationCandidates(certificationCenterId, candidat
   }
 }
 
-async function _createComplementaryCertificationSubscriptions(
+async function _createComplementaryCertificationHability(
   complementaryCertifications,
   certificationCandidateId,
+  userId,
   databaseBuilder
 ) {
   return bluebird.mapSeries(complementaryCertifications, async (name) => {
@@ -288,6 +296,17 @@ async function _createComplementaryCertificationSubscriptions(
       complementaryCertificationId,
       certificationCandidateId,
     });
+
+    if (complementaryCertificationId === COMPLEMENTARY_CERTIFICATION_IDS_BY_NAME[PIXDROIT]) {
+      const { id: badgeId } = await knex('badges')
+        .where({ key: COMPLEMENTARY_CERTIFICATION_BADGES_BY_NAME[PIXDROIT] })
+        .first();
+      databaseBuilder.factory.buildBadgeAcquisition({ badgeId, userId });
+      await makeUserPixDroitCertifiable({
+        userId,
+        databaseBuilder,
+      });
+    }
   });
 }
 
@@ -344,8 +363,14 @@ async function _createUser({ firstName, lastName, birthdate, email }, databaseBu
 }
 
 if (process.argv.length > 2 && process.env.NODE_ENV !== 'test') {
-  const [centerType, candidateNumber, isSupervisorAccessEnabled] = process.argv.slice(2);
-  main({ centerType, candidateNumber, complementaryCertifications: [], isSupervisorAccessEnabled })
+  const [centerType, candidateNumber, complementaryCertifications, isSupervisorAccessEnabled] = process.argv.slice(2);
+
+  main({
+    centerType,
+    candidateNumber,
+    complementaryCertifications: JSON.parse(complementaryCertifications),
+    isSupervisorAccessEnabled,
+  })
     .catch((error) => {
       logger.error(error);
       throw error;
