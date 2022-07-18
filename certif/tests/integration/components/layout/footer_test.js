@@ -9,13 +9,13 @@ module('Integration | Component | Layout::Footer', function (hooks) {
   test('should display copyright with current year', async function (assert) {
     //given
     const date = new Date();
-    const expectedYear = date.getFullYear().toString();
+    const expectedYear = date.getFullYear();
 
     // when
-    await renderScreen(hbs`<Layout::Footer />}`);
+    const screen = await renderScreen(hbs`<Layout::Footer />}`);
 
     // then
-    assert.contains(`© ${expectedYear} Pix`);
+    assert.dom(screen.getByText(this.intl.t('navigation.footer.current-year', { currentYear: expectedYear }))).exists();
   });
 
   test('should display legal notice link', async function (assert) {
