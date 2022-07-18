@@ -1178,5 +1178,42 @@ describe('Unit | Router | user-router', function () {
         expect(result.statusCode).to.equal(403);
       });
     });
+
+    describe('GET /api/admin/users/{id}/participations', function () {
+      it('should return an HTTP status code 200', async function () {
+        // given
+        sinon.stub(securityPreHandlers, 'adminMemberHasAtLeastOneAccessOf').returns(() => true);
+        sinon.stub(userController, 'findCampaignParticipationsForUserManagement').resolves('ok');
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        // when
+        const response = await httpTestServer.request('GET', '/api/admin/users/8/participations');
+
+        // then
+        sinon.assert.calledOnce(securityPreHandlers.adminMemberHasAtLeastOneAccessOf);
+        sinon.assert.calledOnce(userController.findCampaignParticipationsForUserManagement);
+        expect(response.statusCode).to.equal(200);
+      });
+
+      it('should return an HTTP status code 403', async function () {
+        // given
+        sinon.stub(securityPreHandlers, 'adminMemberHasAtLeastOneAccessOf').returns((request, h) =>
+          h
+            .response({ errors: new Error('') })
+            .code(403)
+            .takeover()
+        );
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        // when
+        const response = await httpTestServer.request('GET', '/api/admin/users/8/participations');
+
+        // then
+        sinon.assert.calledOnce(securityPreHandlers.adminMemberHasAtLeastOneAccessOf);
+        expect(response.statusCode).to.equal(403);
+      });
+    });
   });
 });
