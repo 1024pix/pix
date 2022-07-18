@@ -2,7 +2,6 @@ import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { click, render, find, fillIn } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
-import { run } from '@ember/runloop';
 import sinon from 'sinon';
 import { certificationIssueReportCategories } from 'pix-certif/models/certification-issue-report';
 import { render as renderScreen } from '@1024pix/ember-testing-library';
@@ -14,21 +13,17 @@ module('Integration | Component | SessionFinalization::UncompletedReportsInforma
     // given
     const store = this.owner.lookup('service:store');
     this.set('issueReportDescriptionMaxLength', 500);
-    const certificationIssueReport = run(() =>
-      store.createRecord('certification-issue-report', {
-        description: 'Coucou',
-        category: certificationIssueReportCategories.FRAUD,
-      })
-    );
-    const certificationReport = run(() =>
-      store.createRecord('certification-report', {
-        certificationCourseId: 1234,
-        firstName: 'Alice',
-        lastName: 'Alister',
-        certificationIssueReports: [certificationIssueReport],
-        hasSeenEndTestScreen: null,
-      })
-    );
+    const certificationIssueReport = store.createRecord('certification-issue-report', {
+      description: 'Coucou',
+      category: certificationIssueReportCategories.FRAUD,
+    });
+    const certificationReport = store.createRecord('certification-report', {
+      certificationCourseId: 1234,
+      firstName: 'Alice',
+      lastName: 'Alister',
+      certificationIssueReports: [certificationIssueReport],
+      hasSeenEndTestScreen: null,
+    });
 
     const abortStub = sinon.stub();
 
@@ -53,27 +48,21 @@ module('Integration | Component | SessionFinalization::UncompletedReportsInforma
     // given
     const store = this.owner.lookup('service:store');
     this.set('issueReportDescriptionMaxLength', 500);
-    const certificationIssueReport1 = run(() =>
-      store.createRecord('certification-issue-report', {
-        description: 'Coucou',
-        category: certificationIssueReportCategories.FRAUD,
-      })
-    );
-    const certificationIssueReport2 = run(() =>
-      store.createRecord('certification-issue-report', {
-        description: 'Les zouzous',
-        category: certificationIssueReportCategories.CANDIDATE_INFORMATIONS_CHANGES,
-      })
-    );
-    const certificationReport = run(() =>
-      store.createRecord('certification-report', {
-        certificationCourseId: 1234,
-        firstName: 'Alice',
-        lastName: 'Alister',
-        certificationIssueReports: [certificationIssueReport1, certificationIssueReport2],
-        hasSeenEndTestScreen: null,
-      })
-    );
+    const certificationIssueReport1 = store.createRecord('certification-issue-report', {
+      description: 'Coucou',
+      category: certificationIssueReportCategories.FRAUD,
+    });
+    const certificationIssueReport2 = store.createRecord('certification-issue-report', {
+      description: 'Les zouzous',
+      category: certificationIssueReportCategories.CANDIDATE_INFORMATIONS_CHANGES,
+    });
+    const certificationReport = store.createRecord('certification-report', {
+      certificationCourseId: 1234,
+      firstName: 'Alice',
+      lastName: 'Alister',
+      certificationIssueReports: [certificationIssueReport1, certificationIssueReport2],
+      hasSeenEndTestScreen: null,
+    });
     const abortStub = sinon.stub();
 
     this.set('certificationReports', [certificationReport]);
@@ -97,13 +86,11 @@ module('Integration | Component | SessionFinalization::UncompletedReportsInforma
     // given
     const store = this.owner.lookup('service:store');
     this.set('issueReportDescriptionMaxLength', 500);
-    const certificationReport = run(() =>
-      store.createRecord('certification-report', {
-        id: 1234,
-        isCompleted: false,
-        abort: sinon.stub(),
-      })
-    );
+    const certificationReport = store.createRecord('certification-report', {
+      id: 1234,
+      isCompleted: false,
+      abort: sinon.stub(),
+    });
 
     const abortStub = sinon.stub();
 
@@ -130,21 +117,17 @@ module('Integration | Component | SessionFinalization::UncompletedReportsInforma
     // given
     const store = this.owner.lookup('service:store');
     this.set('issueReportDescriptionMaxLength', 500);
-    const certificationIssueReport = run(() =>
-      store.createRecord('certification-issue-report', {
-        description: 'Coucou',
-        category: certificationIssueReportCategories.FRAUD,
-      })
-    );
-    const certificationReport = run(() =>
-      store.createRecord('certification-report', {
-        certificationCourseId: 1234,
-        firstName: 'Alice',
-        lastName: 'Alister',
-        certificationIssueReports: [certificationIssueReport],
-        hasSeenEndTestScreen: null,
-      })
-    );
+    const certificationIssueReport = store.createRecord('certification-issue-report', {
+      description: 'Coucou',
+      category: certificationIssueReportCategories.FRAUD,
+    });
+    const certificationReport = store.createRecord('certification-report', {
+      certificationCourseId: 1234,
+      firstName: 'Alice',
+      lastName: 'Alister',
+      certificationIssueReports: [certificationIssueReport],
+      hasSeenEndTestScreen: null,
+    });
 
     const abortStub = sinon.stub();
 
@@ -169,15 +152,13 @@ module('Integration | Component | SessionFinalization::UncompletedReportsInforma
     // given
     const store = this.owner.lookup('service:store');
     this.set('issueReportDescriptionMaxLength', 500);
-    const certificationReport = run(() =>
-      store.createRecord('certification-report', {
-        certificationCourseId: 1234,
-        firstName: 'Alice',
-        lastName: 'Alister',
-        certificationIssueReports: [],
-        hasSeenEndTestScreen: null,
-      })
-    );
+    const certificationReport = store.createRecord('certification-report', {
+      certificationCourseId: 1234,
+      firstName: 'Alice',
+      lastName: 'Alister',
+      certificationIssueReports: [],
+      hasSeenEndTestScreen: null,
+    });
 
     const abortStub = sinon.stub();
 
@@ -205,13 +186,11 @@ module('Integration | Component | SessionFinalization::UncompletedReportsInforma
     const store = this.owner.lookup('service:store');
     this.set('issueReportDescriptionMaxLength', 500);
     this.certificationReports = [
-      run(() =>
-        store.createRecord('certification-report', {
-          certificationCourseId: 1234,
-          certificationIssueReports: [],
-          hasSeenEndTestScreen: null,
-        })
-      ),
+      store.createRecord('certification-report', {
+        certificationCourseId: 1234,
+        certificationIssueReports: [],
+        hasSeenEndTestScreen: null,
+      }),
     ];
     this.abort = sinon.stub();
 

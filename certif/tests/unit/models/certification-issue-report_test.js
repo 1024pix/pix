@@ -1,6 +1,5 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
-import { run } from '@ember/runloop';
 import map from 'lodash/map';
 
 import {
@@ -21,9 +20,9 @@ module('Unit | Model | certification issue report', function (hooks) {
     // given
     const store = this.owner.lookup('service:store');
 
-    const models = map(certificationIssueReportCategories, (category) => {
-      return run(() => store.createRecord('certification-issue-report', { category }));
-    });
+    const models = map(certificationIssueReportCategories, (category) =>
+      store.createRecord('certification-issue-report', { category })
+    );
 
     // when / then
     for (const model of models) {
@@ -37,9 +36,9 @@ module('Unit | Model | certification issue report', function (hooks) {
     // given
     const store = this.owner.lookup('service:store');
 
-    const models = map(certificationIssueReportSubcategories, (subcategory) => {
-      return run(() => store.createRecord('certification-issue-report', { subcategory }));
-    });
+    const models = map(certificationIssueReportSubcategories, (subcategory) =>
+      store.createRecord('certification-issue-report', { subcategory })
+    );
 
     // when / then
     for (const model of models) {
@@ -53,9 +52,9 @@ module('Unit | Model | certification issue report', function (hooks) {
     // given
     const store = this.owner.lookup('service:store');
 
-    const models = map(certificationIssueReportCategories, (category) => {
-      return run(() => store.createRecord('certification-issue-report', { category }));
-    });
+    const models = map(certificationIssueReportCategories, (category) =>
+      store.createRecord('certification-issue-report', { category })
+    );
 
     // when / then
     for (const model of models) {
@@ -69,9 +68,9 @@ module('Unit | Model | certification issue report', function (hooks) {
     // given
     const store = this.owner.lookup('service:store');
 
-    const models = map(certificationIssueReportSubcategories, (subcategory) => {
-      return run(() => store.createRecord('certification-issue-report', { subcategory }));
-    });
+    const models = map(certificationIssueReportSubcategories, (subcategory) =>
+      store.createRecord('certification-issue-report', { subcategory })
+    );
 
     // when / then
     for (const model of models) {
@@ -83,7 +82,7 @@ module('Unit | Model | certification issue report', function (hooks) {
     // given
     const store = this.owner.lookup('service:store');
 
-    const model = run(() => store.createRecord('certification-issue-report', { subcategory: null }));
+    const model = store.createRecord('certification-issue-report', { subcategory: null });
 
     // when / then
     assert.strictEqual(model.subcategoryLabel, '');
