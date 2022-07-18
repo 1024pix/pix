@@ -21,6 +21,9 @@ describe('Integration | Repository | tutorial-repository', function () {
           source: 'tuto.fr',
           title: 'tuto0',
           id: 'recTutorial0',
+          skillId: undefined,
+          userTutorial: undefined,
+          tutorialEvaluation: undefined,
         },
         {
           duration: '00:01:54',
@@ -29,6 +32,9 @@ describe('Integration | Repository | tutorial-repository', function () {
           source: 'tuto.com',
           title: 'tuto1',
           id: 'recTutorial1',
+          skillId: undefined,
+          userTutorial: undefined,
+          tutorialEvaluation: undefined,
         },
       ];
       const learningContent = { tutorials: tutorialsList };
@@ -42,7 +48,7 @@ describe('Integration | Repository | tutorial-repository', function () {
 
       // then
       expect(tutorials).to.have.lengthOf(2);
-      expect(tutorials[0]).to.be.instanceof(Tutorial);
+      expect(tutorials[0]).to.be.instanceof(TutorialForUser);
       expect(tutorials).to.deep.include.members(tutorialsList);
     });
 
