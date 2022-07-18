@@ -1,5 +1,5 @@
 import { module, test } from 'qunit';
-import { setupRenderingTest } from 'ember-qunit';
+import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 import { A } from '@ember/array';
 import { click, render, find, fillIn } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
@@ -10,7 +10,7 @@ import { render as renderScreen } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
 
 module('Integration | Component | SessionFinalization::UncompletedReportsInformationStep', function (hooks) {
-  setupRenderingTest(hooks);
+  setupIntlRenderingTest(hooks);
   let reportA;
   let reportB;
   let store;
@@ -236,7 +236,7 @@ module('Integration | Component | SessionFinalization::UncompletedReportsInforma
     assert.dom(screen.getByText('Modification infos candidat')).exists();
   });
 
-  test('it has an accessible label', async function (assert) {
+  test('it has an accessible label and caption', async function (assert) {
     // given
     this.certificationReports = [
       run(() =>
@@ -259,6 +259,14 @@ module('Integration | Component | SessionFinalization::UncompletedReportsInforma
     `);
 
     // then
-    assert.dom(screen.getByRole('table', { name: "Ces candidats n'ont pas fini leur test de certification" })).exists();
+    assert
+      .dom(
+        screen.getByRole('table', {
+          name: `Ces candidats n'ont pas fini leur test de certification ${this.intl.t(
+            'pages.sessions.finalize.unfinished-test-list-description'
+          )}`,
+        })
+      )
+      .exists();
   });
 });

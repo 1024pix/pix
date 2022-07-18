@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import sinon from 'sinon';
-import { setupRenderingTest } from 'ember-qunit';
+import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 import { A } from '@ember/array';
 import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
@@ -8,7 +8,7 @@ import { certificationIssueReportCategories } from 'pix-certif/models/certificat
 import { render as renderScreen } from '@1024pix/ember-testing-library';
 
 module('Integration | Component | SessionFinalization::CompletedReportsInformationStep', function (hooks) {
-  setupRenderingTest(hooks);
+  setupIntlRenderingTest(hooks);
   let reportA;
   let reportB;
   let store;
@@ -120,7 +120,7 @@ module('Integration | Component | SessionFinalization::CompletedReportsInformati
     this.set('session', session);
 
     // when
-    await render(hbs`
+    const screen = await renderScreen(hbs`
         <SessionFinalization::CompletedReportsInformationStep
           @session={{this.session}}
           @certificationReports={{this.certificationReports}}
@@ -131,7 +131,13 @@ module('Integration | Component | SessionFinalization::CompletedReportsInformati
       `);
 
     // then
-    assert.contains('Certification(s) terminée(s)');
+    assert
+      .dom(
+        screen.getByRole('table', {
+          name: `Certification(s) terminée(s) ${this.intl.t('pages.sessions.finalize.finished-test-list-description')}`,
+        })
+      )
+      .exists();
   });
 
   test('it does not show "Certification(s) terminée(s)" if there is no uncomplete certification report', async function (assert) {
@@ -157,31 +163,6 @@ module('Integration | Component | SessionFinalization::CompletedReportsInformati
 
     // then
     assert.dom('.session-finalization-reports-information-step__title-completed').doesNotExist();
-  });
-
-  test('it has an accessible label', async function (assert) {
-    // given
-    this.certificationReports = [
-      store.createRecord('certification-report', {
-        hasSeenEndTestScreen: null,
-      }),
-    ];
-    this.issueReportDescriptionMaxLength = 500;
-    this.toggleCertificationReportHasSeenEndTestScreen = sinon.stub().returns();
-    this.toggleAllCertificationReportsHasSeenEndTestScreen = sinon.stub().returns();
-
-    // when
-    const screen = await renderScreen(hbs`
-      <SessionFinalization::CompletedReportsInformationStep
-        @certificationReports={{this.certificationReports}}
-        @issueReportDescriptionMaxLength={{this.issueReportDescriptionMaxLength}}
-        @onHasSeenEndTestScreenCheckboxClicked={{this.toggleCertificationReportHasSeenEndTestScreen}}
-        @onAllHasSeenEndTestScreenCheckboxesClicked={{this.toggleAllCertificationReportsHasSeenEndTestScreen}}
-      />
-    `);
-
-    // then
-    assert.dom(screen.getByRole('table', { name: 'Certification(s) terminée(s)' })).exists();
   });
 
   module('when the end test screen removal feature is disabled', function () {
