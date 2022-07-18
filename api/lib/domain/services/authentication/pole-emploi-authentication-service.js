@@ -66,6 +66,19 @@ function getAuthUrl({ redirectUri }) {
   return { redirectTarget: redirectTarget.toString(), state, nonce };
 }
 
+async function getRedirectLogoutUrl({ userId, logoutUrlUUID, redirectUri }) {
+  const redirectTarget = new URL(settings.poleEmploi.logoutUrl);
+  const idToken = await logoutUrlTemporaryStorage.get(`${userId}:${logoutUrlUUID}`);
+  const params = [
+    { key: 'id_token_hint', value: idToken },
+    { key: 'redirect_uri', value: redirectUri },
+  ];
+
+  params.forEach(({ key, value }) => redirectTarget.searchParams.append(key, value));
+
+  return redirectTarget.toString();
+}
+
 async function getUserInfo({ idToken }) {
   const { given_name, family_name, nonce, idIdentiteExterne } = await _extractClaimsFromIdToken(idToken);
 
@@ -122,6 +135,7 @@ async function saveIdToken({ idToken, userId }) {
 module.exports = {
   exchangeCodeForTokens,
   getAuthUrl,
+  getRedirectLogoutUrl,
   getUserInfo,
   createUserAccount,
   saveIdToken,
