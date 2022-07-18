@@ -51,10 +51,6 @@ module.exports = {
     FRENCH_SPOKEN: 'fr',
   },
 
-  SOURCE: {
-    CNAV: 'cnav',
-  },
-
   IDENTITY_PROVIDER: {
     POLE_EMPLOI: 'POLE_EMPLOI',
   },
