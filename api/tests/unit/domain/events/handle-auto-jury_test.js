@@ -89,6 +89,7 @@ describe('Unit | Domain | Events | handle-auto-jury', function () {
 
     // then
     expect(certificationIssueReport.isResolved()).to.be.true;
+    expect(certificationIssueReport.hasBeenAutomaticallyResolved).to.be.true;
     expect(certificationAssessmentRepository.save).to.have.been.calledWith(certificationAssessment);
   });
 

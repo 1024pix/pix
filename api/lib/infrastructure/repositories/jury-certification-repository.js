@@ -106,6 +106,7 @@ async function _toDomainWithComplementaryCertifications({
         questionNumber: certificationIssueReport.questionNumber,
         resolvedAt: certificationIssueReport.resolvedAt,
         resolution: certificationIssueReport.resolution,
+        hasBeenAutomaticallyResolved: certificationIssueReport.hasBeenAutomaticallyResolved,
       })
   );
 
