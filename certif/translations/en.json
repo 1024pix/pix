@@ -1,5 +1,12 @@
 {
   "current-lang": "en",
+  "navigation": {
+    "footer": {
+      "a11y": "Accessibilité : partiellement conforme",
+      "legal-notice": "Mentions légales",
+      "current-year": "© {currentYear} Pix"
+    }
+  },
   "pages": {
     "login": {
       "title": "Login"
