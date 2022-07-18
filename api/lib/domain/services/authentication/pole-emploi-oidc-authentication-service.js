@@ -4,8 +4,7 @@ const OidcAuthenticationService = require('./oidc-authentication-service');
 
 class PoleEmploiOidcAuthenticationService extends OidcAuthenticationService {
   constructor() {
-    // todo : remove constants from constants file (enter value directly here)
-    const source = constants.SOURCE.POLE_EMPLOI;
+    const source = 'pole_emploi_connect';
     const identityProvider = constants.IDENTITY_PROVIDER.POLE_EMPLOI;
     const expirationDelaySeconds = settings.poleEmploi.accessTokenLifespanMs / 1000;
     const jwtOptions = { expiresIn: expirationDelaySeconds };

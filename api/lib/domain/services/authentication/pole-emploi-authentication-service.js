@@ -5,7 +5,6 @@ const querystring = require('querystring');
 const { AuthenticationTokenRetrievalError } = require('../../errors');
 const AuthenticationSessionContent = require('../../models/AuthenticationSessionContent');
 const jsonwebtoken = require('jsonwebtoken');
-const constants = require('../../constants');
 
 const DomainTransaction = require('../../../infrastructure/DomainTransaction');
 const AuthenticationMethod = require('../../models/AuthenticationMethod');
