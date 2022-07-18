@@ -314,4 +314,6 @@ module.exports = {
     });
     return h.response().code(204);
   },
+
+  async findCampaignParticipationsForUserManagement() {},
 };

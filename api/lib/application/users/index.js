@@ -263,6 +263,31 @@ exports.register = async function (server) {
         tags: ['api', 'user', 'profile'],
       },
     },
+    {
+      method: 'GET',
+      path: '/api/admin/users/{id}/participations',
+      config: {
+        pre: [
+          {
+            method: (request, h) =>
+              securityPreHandlers.adminMemberHasAtLeastOneAccessOf([
+                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+                securityPreHandlers.checkAdminMemberHasRoleCertif,
+                securityPreHandlers.checkAdminMemberHasRoleSupport,
+                securityPreHandlers.checkAdminMemberHasRoleMetier,
+              ])(request, h),
+          },
+        ],
+        validate: {
+          params: Joi.object({
+            id: identifiersType.userId,
+          }),
+        },
+        handler: userController.findCampaignParticipationsForUserManagement,
+        notes: ["- Permet à un administrateur de lister les participations d'un utilisateur à une campagne"],
+        tags: ['api', 'user', 'campaign-participations'],
+      },
+    },
   ];
 
   server.route([
