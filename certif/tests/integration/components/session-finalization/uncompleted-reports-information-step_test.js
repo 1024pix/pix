@@ -1,5 +1,6 @@
 import { module, test } from 'qunit';
-import { setupRenderingTest } from 'ember-qunit';
+import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
+
 import { click, render, find, fillIn } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import sinon from 'sinon';
@@ -7,7 +8,7 @@ import { certificationIssueReportCategories } from 'pix-certif/models/certificat
 import { render as renderScreen } from '@1024pix/ember-testing-library';
 
 module('Integration | Component | SessionFinalization::UncompletedReportsInformationStep', function (hooks) {
-  setupRenderingTest(hooks);
+  setupIntlRenderingTest(hooks);
 
   test('it shows "1 signalement" if there is exactly one certification issue report', async function (assert) {
     // given
