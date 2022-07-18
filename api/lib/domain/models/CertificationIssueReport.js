@@ -9,12 +9,6 @@ const {
   CertificationIssueReportSubcategories,
 } = require('./CertificationIssueReportCategory');
 
-const categoryOtherJoiSchema = Joi.object({
-  certificationCourseId: Joi.number().required().empty(null),
-  category: Joi.string().required().valid(CertificationIssueReportCategories.OTHER),
-  description: Joi.string().trim().required(),
-});
-
 const categoryNonBlockingTechnicalIssueJoiSchema = Joi.object({
   certificationCourseId: Joi.number().required().empty(null),
   category: Joi.string().required().valid(CertificationIssueReportCategories.NON_BLOCKING_TECHNICAL_ISSUE),
@@ -87,7 +81,6 @@ const categoryTechnicalProblemJoiSchema = Joi.object({
 });
 
 const categorySchemas = {
-  [CertificationIssueReportCategories.OTHER]: categoryOtherJoiSchema,
   [CertificationIssueReportCategories.LATE_OR_LEAVING]: categoryLateOrLeavingJoiSchema,
   [CertificationIssueReportCategories.CANDIDATE_INFORMATIONS_CHANGES]: categoryCandidateInformationChangesJoiSchema,
   [CertificationIssueReportCategories.IN_CHALLENGE]: categoryInChallengeJoiSchema,
@@ -125,7 +118,10 @@ const deprecatedSubcategories = [
   CertificationIssueReportSubcategories.OTHER,
 ];
 
-const deprecatedCategories = [CertificationIssueReportCategories.TECHNICAL_PROBLEM];
+const deprecatedCategories = [
+  CertificationIssueReportCategories.TECHNICAL_PROBLEM,
+  CertificationIssueReportCategories.OTHER,
+];
 
 class CertificationIssueReport {
   constructor({
@@ -153,7 +149,6 @@ class CertificationIssueReport {
     if (
       [
         CertificationIssueReportCategories.CONNECTION_OR_END_SCREEN,
-        CertificationIssueReportCategories.OTHER,
         CertificationIssueReportCategories.NON_BLOCKING_CANDIDATE_ISSUE,
         CertificationIssueReportCategories.NON_BLOCKING_TECHNICAL_ISSUE,
       ].includes(this.category)
