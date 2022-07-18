@@ -7,7 +7,6 @@ const poleEmploiAuthenticationService = require('../../../../../lib/domain/servi
 const AuthenticationSessionContent = require('../../../../../lib/domain/models/AuthenticationSessionContent');
 const UserToCreate = require('../../../../../lib/domain/models/UserToCreate');
 const jsonwebtoken = require('jsonwebtoken');
-const constants = require('../../../../../lib/domain/constants');
 const DomainTransaction = require('../../../../../lib/infrastructure/DomainTransaction');
 const AuthenticationMethod = require('../../../../../lib/domain/models/AuthenticationMethod');
 const moment = require('moment');
@@ -36,30 +35,6 @@ describe('Unit | Domain | Services | pole-emploi-authentication-service', functi
 
   afterEach(function () {
     clock.restore();
-  });
-
-  describe('#createAccessToken', function () {
-    it('should create access token with user id, source and identityProvider', function () {
-      // given
-      const userId = 123;
-      settings.authentication.secret = 'a secret';
-      settings.poleEmploi.accessTokenLifespanMs = 1000;
-      const accessToken = 'valid access token';
-      const firstParameter = {
-        user_id: userId,
-        source: constants.SOURCE.POLE_EMPLOI,
-        identity_provider: constants.IDENTITY_PROVIDER.POLE_EMPLOI,
-      };
-      const secondParameter = 'a secret';
-      const thirdParameter = { expiresIn: 1 };
-      sinon.stub(jsonwebtoken, 'sign').withArgs(firstParameter, secondParameter, thirdParameter).returns(accessToken);
-
-      // when
-      const result = poleEmploiAuthenticationService.createAccessToken(userId);
-
-      // then
-      expect(result).to.equal(accessToken);
-    });
   });
 
   describe('#exchangeCodeForTokens', function () {
