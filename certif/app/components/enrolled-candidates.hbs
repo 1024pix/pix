@@ -25,6 +25,13 @@
   <div class="table content-text content-text--small certification-candidates-table">
     {{#if (or @certificationCandidates this.candidatesInStaging)}}
       <table class="certification-candidates-table-cpf-toggle-enabled">
+        <caption class="sr-only">
+          {{#if @shouldDisplayPrescriptionScoStudentRegistrationFeature}}
+            {{t "pages.sessions.enrolled-candidates.without-details-description"}}
+          {{else}}
+            {{t "pages.sessions.enrolled-candidates.with-details-description"}}
+          {{/if}}
+        </caption>
         <thead>
           <tr>
             <th class="certification-candidates-table__column-last-name">
