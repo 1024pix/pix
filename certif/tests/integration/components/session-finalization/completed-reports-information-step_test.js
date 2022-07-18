@@ -1,13 +1,13 @@
 import { module, test } from 'qunit';
 import sinon from 'sinon';
-import { setupRenderingTest } from 'ember-qunit';
+import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import { certificationIssueReportCategories } from 'pix-certif/models/certification-issue-report';
 import { render as renderScreen } from '@1024pix/ember-testing-library';
 
 module('Integration | Component | SessionFinalization::CompletedReportsInformationStep', function (hooks) {
-  setupRenderingTest(hooks);
+  setupIntlRenderingTest(hooks);
   let store;
 
   hooks.beforeEach(async function () {
