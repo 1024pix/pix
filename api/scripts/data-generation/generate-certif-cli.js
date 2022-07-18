@@ -7,9 +7,14 @@ const bluebird = require('bluebird');
 const maxBy = require('lodash/maxBy');
 const logger = require('../../lib/infrastructure/logger');
 const { getNewSessionCode } = require('../../lib/domain/services/session-code-service');
-const { makeUserPixCertifiable, makeUserPixDroitCertifiable } = require('../../db/seeds/data/certification/tooling');
+const {
+  makeUserPixCertifiable,
+  makeUserPixDroitCertifiable,
+  makeUserCleaCertifiable,
+} = require('../../db/seeds/data/certification/tooling');
 const DatabaseBuilder = require('../../db/database-builder/database-builder');
 const databaseBuffer = require('../../db/database-builder/database-buffer');
+const { CLEA } = require('../../lib/domain/models/ComplementaryCertification');
 const databaseBuilder = new DatabaseBuilder({ knex, emptyFirst: false });
 
 const cache = require('../../lib/infrastructure/caches/learning-content-cache');
@@ -36,7 +41,7 @@ const COMPLEMENTARY_CERTIFICATION_IDS_BY_NAME = {
   [PIXEDU2NDDEGRE]: 55,
 };
 const COMPLEMENTARY_CERTIFICATION_BADGES_BY_NAME = {
-  [PIXCLEA]: 'PIX_EMPLOI_CLEA_V2',
+  [PIXCLEA]: 'PIX_EMPLOI_CLEA_V3',
   [PIXDROIT]: 'PIX_DROIT_EXPERT_CERTIF',
   [PIXEDU1ERDEGRE]: 'PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_CONFIRME',
   [PIXEDU2NDDEGRE]: 'PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME',
@@ -297,7 +302,7 @@ async function _createComplementaryCertificationHability(
       certificationCandidateId,
     });
 
-    if (complementaryCertificationId === COMPLEMENTARY_CERTIFICATION_IDS_BY_NAME[PIXDROIT]) {
+    if (_isDroit(complementaryCertificationId)) {
       const { id: badgeId } = await knex('badges')
         .where({ key: COMPLEMENTARY_CERTIFICATION_BADGES_BY_NAME[PIXDROIT] })
         .first();
@@ -306,8 +311,21 @@ async function _createComplementaryCertificationHability(
         userId,
         databaseBuilder,
       });
+    } else if (_isClea(complementaryCertificationId)) {
+      const { id: badgeId } = await knex('badges')
+        .where({ key: COMPLEMENTARY_CERTIFICATION_BADGES_BY_NAME[CLEA] })
+        .first();
+      databaseBuilder.factory.buildBadgeAcquisition({ badgeId, userId });
+      await makeUserCleaCertifiable({ userId, databaseBuilder });
     }
   });
+}
+
+function _isDroit(complementaryCertificationId) {
+  return complementaryCertificationId === COMPLEMENTARY_CERTIFICATION_IDS_BY_NAME[PIXDROIT];
+}
+function _isClea(complementaryCertificationId) {
+  return complementaryCertificationId === COMPLEMENTARY_CERTIFICATION_IDS_BY_NAME[PIXCLEA];
 }
 
 async function _getResults(sessionId) {

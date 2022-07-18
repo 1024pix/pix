@@ -3,6 +3,10 @@ const bluebird = require('bluebird');
 const skillRepository = require('../../../../lib/infrastructure/repositories/skill-repository');
 const competenceRepository = require('../../../../lib/infrastructure/repositories/competence-repository');
 const challengeRepository = require('../../../../lib/infrastructure/repositories/challenge-repository');
+const badgeRepository = require('../../../../lib/infrastructure/repositories/badge-repository');
+const logger = require('../../../../lib/infrastructure/logger');
+const { keys } = require('../../../../lib/domain/models/Badge');
+
 let allChallenges = [];
 let allPixCompetences = [];
 let allDroitCompetences = [];
@@ -22,6 +26,17 @@ async function makeUserPixDroitCertifiable({ userId, databaseBuilder }) {
   const assessmentId = _createComplementeCompetenceEvaluationAssessment({ userId, databaseBuilder });
   _.each(allDroitCompetences, (competence) => {
     _makePlusCompetenceCertifiable({ userId, databaseBuilder, competence, assessmentId });
+  });
+}
+
+async function makeUserCleaCertifiable({ userId, databaseBuilder }) {
+  await _cacheLearningContent();
+  const assessmentId = _createComplementeCompetenceEvaluationAssessment({ userId, databaseBuilder });
+  const { skillSets } = await badgeRepository.getByKey(keys.PIX_EMPLOI_CLEA_V3);
+  const skillIds = skillSets.flatMap(({ skillIds }) => skillIds);
+  return bluebird.mapSeries(skillIds, async (skillId) => {
+    const skill = await skillRepository.get(skillId);
+    return _addAnswerAndKnowledgeElementForSkill({ assessmentId, userId, skill, databaseBuilder });
   });
 }
 
@@ -85,6 +100,10 @@ function _findSkillsToValidateSpecificLevel(competence, expectedLevel) {
 
 function _addAnswerAndKnowledgeElementForSkill({ assessmentId, userId, skill, databaseBuilder }) {
   const challenge = _findFirstChallengeValidatedBySkillId(skill.id);
+  if (!challenge) {
+    logger.warn(`There is no challenge for skill ${skill.id}`);
+    return;
+  }
   const answerId = databaseBuilder.factory.buildAnswer({
     value: 'dummy value',
     result: 'ok',
@@ -112,4 +131,4 @@ function _findFirstChallengeValidatedBySkillId(skillId) {
   return _.find(allChallenges, { status: 'validé', skill: { id: skillId } });
 }
 
-module.exports = { makeUserPixCertifiable, makeUserPixDroitCertifiable };
+module.exports = { makeUserPixCertifiable, makeUserPixDroitCertifiable, makeUserCleaCertifiable };
