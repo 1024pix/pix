@@ -12,12 +12,14 @@ describe('Unit | Serializer | JSONAPI | organization-participants-serializer', f
           firstName: 'Alex',
           lastName: 'Vasquez',
           participationCount: 4,
+          lastParticipationDate: '2021-03-05',
         }),
         new OrganizationParticipant({
           id: 778,
           firstName: 'Sam',
           lastName: 'Simpson',
           participationCount: 3,
+          lastParticipationDate: '2021-03-05',
         }),
       ];
       const pagination = { page: { number: 1, pageSize: 2 } };
@@ -31,6 +33,7 @@ describe('Unit | Serializer | JSONAPI | organization-participants-serializer', f
               'first-name': organizationParticipants[0].firstName,
               'last-name': organizationParticipants[0].lastName,
               'participation-count': organizationParticipants[0].participationCount,
+              'last-participation-date': organizationParticipants[0].lastParticipationDate,
             },
           },
           {
@@ -40,6 +43,7 @@ describe('Unit | Serializer | JSONAPI | organization-participants-serializer', f
               'first-name': organizationParticipants[1].firstName,
               'last-name': organizationParticipants[1].lastName,
               'participation-count': organizationParticipants[1].participationCount,
+              'last-participation-date': organizationParticipants[1].lastParticipationDate,
             },
           },
         ],
