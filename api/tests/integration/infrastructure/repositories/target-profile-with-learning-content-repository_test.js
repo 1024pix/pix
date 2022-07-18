@@ -69,6 +69,8 @@ describe('Integration | Repository | Target-profile-with-learning-content', func
         competences: [{ id: 'competence1', skillIds: [skillId], origin: 'Pix' }],
         tubes: [{ id: 'tube1', competenceId: 'competence1' }],
         skills: [{ id: skillId, tubeId: 'tube1', status: 'actif' }],
+        thematics: [],
+        challenges: [],
       };
 
       mockLearningContent(learningContent);
@@ -124,6 +126,8 @@ describe('Integration | Repository | Target-profile-with-learning-content', func
       const area1 = domainBuilder.buildTargetedArea({
         id: 'recArea1',
         title: 'area1_Title',
+        color: 'area1_color',
+        code: 'area1_code',
         competences: [competence1_1, competence1_2],
       });
       const targetProfileDB = databaseBuilder.factory.buildTargetProfile({
@@ -164,7 +168,8 @@ describe('Integration | Repository | Target-profile-with-learning-content', func
           {
             id: 'recArea1',
             titleFrFr: 'area1_Title',
-            color: 'someColor',
+            color: 'area1_color',
+            code: 'area1_code',
             competenceIds: ['recArea1_Competence1', 'recArea1_Competence2'],
           },
         ],
@@ -218,6 +223,8 @@ describe('Integration | Repository | Target-profile-with-learning-content', func
             tutorialIds: [],
           },
         ],
+        thematics: [],
+        challenges: [],
       };
 
       mockLearningContent(learningContent);
@@ -274,6 +281,8 @@ describe('Integration | Repository | Target-profile-with-learning-content', func
             tutorialIds: [],
           },
         ],
+        thematics: [],
+        challenges: [],
       };
 
       mockLearningContent(learningContent);
@@ -342,6 +351,8 @@ describe('Integration | Repository | Target-profile-with-learning-content', func
             tutorialIds: [],
           },
         ],
+        thematics: [],
+        challenges: [],
       };
 
       mockLearningContent(learningContent);
@@ -380,6 +391,7 @@ describe('Integration | Repository | Target-profile-with-learning-content', func
             id: 'areaId',
             titleEnUs: 'someTitle',
             color: 'someColor',
+            code: 'someCode',
             competenceIds: ['competenceId'],
           },
         ],
@@ -411,6 +423,8 @@ describe('Integration | Repository | Target-profile-with-learning-content', func
             tutorialIds: [],
           },
         ],
+        thematics: [],
+        challenges: [],
       };
       mockLearningContent(learningContent);
       await databaseBuilder.commit();
@@ -452,11 +466,29 @@ describe('Integration | Repository | Target-profile-with-learning-content', func
         skillId: basicTargetProfile.skills[0].id,
       });
 
+      const expectedTubesSelectionAreas = [
+        domainBuilder.buildTargetedArea({
+          id: 'recArea1',
+          competences: [
+            {
+              id: 'recArea1_Competence1',
+              name: 'someName',
+              index: 'someIndex',
+              areaId: 'recArea1',
+              origin: 'Pix',
+              thematics: [],
+              tubes: [],
+            },
+          ],
+        }),
+      ];
+
       const learningContent = {
         areas: [
           {
             id: 'recArea1',
             titleFrFr: 'someTitle',
+            code: 'someCode',
             color: 'someColor',
             competenceIds: ['recArea1_Competence1'],
           },
@@ -473,7 +505,12 @@ describe('Integration | Repository | Target-profile-with-learning-content', func
         ],
         tubes: [
           {
-            id: 'recArea1_Competence1_Tube1',
+            id: 'tubeId123',
+            competenceId: 'recArea1_Competence1',
+            practicalTitleFrFr: 'somePracticalTitle',
+          },
+          {
+            id: 'tubeId456',
             competenceId: 'recArea1_Competence1',
             practicalTitleFrFr: 'somePracticalTitle',
           },
@@ -483,11 +520,13 @@ describe('Integration | Repository | Target-profile-with-learning-content', func
             id: basicTargetProfile.skills[0].id,
             name: 'someSkillName5',
             status: 'actif',
-            tubeId: 'recArea1_Competence1_Tube1',
+            tubeId: 'tubeId123',
             competenceId: 'recArea1_Competence1',
             tutorialIds: [],
           },
         ],
+        thematics: [],
+        challenges: [],
       };
 
       mockLearningContent(learningContent);
@@ -498,6 +537,7 @@ describe('Integration | Repository | Target-profile-with-learning-content', func
 
       // then
       expect(targetProfile.tubesSelection).to.deep.eq(expectedTubesSelection);
+      expect(targetProfile.tubesSelectionAreas).to.deep.eq(expectedTubesSelectionAreas);
     });
 
     it('should throw a NotFoundError when targetProfile does not exists', async function () {
@@ -549,6 +589,8 @@ describe('Integration | Repository | Target-profile-with-learning-content', func
             tutorialIds: [],
           },
         ],
+        thematics: [],
+        challenges: [],
       };
       mockLearningContent(learningContent);
 
@@ -604,6 +646,8 @@ describe('Integration | Repository | Target-profile-with-learning-content', func
       const area1 = domainBuilder.buildTargetedArea({
         id: 'recArea1',
         title: 'area1_Title',
+        code: 'area1_code',
+        color: 'area1_color',
         competences: [competence1_1, competence1_2],
       });
       const targetProfileDB = databaseBuilder.factory.buildTargetProfile();
@@ -636,7 +680,8 @@ describe('Integration | Repository | Target-profile-with-learning-content', func
           {
             id: 'recArea1',
             titleFrFr: 'area1_Title',
-            color: 'someColor',
+            code: 'area1_code',
+            color: 'area1_color',
             competenceIds: ['recArea1_Competence1', 'recArea1_Competence2'],
           },
         ],
@@ -690,6 +735,8 @@ describe('Integration | Repository | Target-profile-with-learning-content', func
             tutorialIds: [],
           },
         ],
+        thematics: [],
+        challenges: [],
       };
 
       mockLearningContent(learningContent);
@@ -747,6 +794,8 @@ describe('Integration | Repository | Target-profile-with-learning-content', func
             tutorialIds: [],
           },
         ],
+        thematics: [],
+        challenges: [],
       };
       mockLearningContent(learningContent);
       const campaignId = databaseBuilder.factory.buildCampaign({ targetProfileId: targetProfileDB.id }).id;
@@ -807,6 +856,8 @@ describe('Integration | Repository | Target-profile-with-learning-content', func
             tutorialIds: [],
           },
         ],
+        thematics: [],
+        challenges: [],
       };
       mockLearningContent(learningContent);
       const campaignId = databaseBuilder.factory.buildCampaign({ targetProfileId: targetProfileDB.id }).id;
@@ -854,6 +905,7 @@ describe('Integration | Repository | Target-profile-with-learning-content', func
             id: 'areaId',
             titleEnUs: 'someTitle',
             color: 'someColor',
+            code: 'someCode',
             competenceIds: ['competenceId'],
           },
         ],
@@ -885,6 +937,8 @@ describe('Integration | Repository | Target-profile-with-learning-content', func
             tutorialIds: [],
           },
         ],
+        thematics: [],
+        challenges: [],
       };
       mockLearningContent(learningContent);
       await databaseBuilder.commit();
@@ -950,6 +1004,8 @@ describe('Integration | Repository | Target-profile-with-learning-content', func
             tutorialIds: [],
           },
         ],
+        thematics: [],
+        challenges: [],
       };
       mockLearningContent(learningContent);
 

@@ -8,76 +8,95 @@ const buildLearningContent = function (learningContent) {
   const allChallenges = [];
   const allCourses = [];
   const allTutorials = [];
+  const allThematics = [];
 
   const areas = learningContent.map((area) => {
     const competences = area.competences.map((competence) => {
-      const tubes =
-        competence.tubes &&
-        competence.tubes.map((tube) => {
-          const skills = tube.skills.map((skill) => {
-            const tutorials =
-              skill.tutorials &&
-              skill.tutorials.map((tutorial) => {
-                return {
-                  id: tutorial.id,
-                  title: tutorial.title,
-                  format: tutorial.format,
-                  source: tutorial.source,
-                  link: tutorial.link,
-                  locale: tutorial.locale,
-                  duration: tutorial.duration,
-                };
-              });
-            allTutorials.push(tutorials);
-            const challenges =
-              skill.challenges &&
-              skill.challenges.map((challenge) => {
-                return {
-                  id: challenge.id,
-                  competenceId: competence.id,
-                  skillId: skill.id,
-                  status: challenge.statut || 'validé',
-                  solution: challenge.solution,
-                  locales: _convertLanguesToLocales(challenge.langues || ['Francophone']),
-                  type: challenge.type,
-                  focusable: challenge.focusable,
-                  instruction: challenge.instruction,
-                  proposals: challenge.proposals,
-                  autoReply: challenge.autoReply,
-                  alpha: challenge.alpha,
-                  delta: challenge.delta,
-                };
-              });
-            allChallenges.push(challenges);
+      const competenceSkills = [];
+      function mapTubes(pTubes) {
+        return (
+          pTubes &&
+          pTubes.map((tube) => {
+            const skills = tube.skills.map((skill) => {
+              const tutorials =
+                skill.tutorials &&
+                skill.tutorials.map((tutorial) => {
+                  return {
+                    id: tutorial.id,
+                    title: tutorial.title,
+                    format: tutorial.format,
+                    source: tutorial.source,
+                    link: tutorial.link,
+                    locale: tutorial.locale,
+                    duration: tutorial.duration,
+                  };
+                });
+              allTutorials.push(tutorials);
+              const challenges =
+                skill.challenges &&
+                skill.challenges.map((challenge) => {
+                  return {
+                    id: challenge.id,
+                    competenceId: competence.id,
+                    skillId: skill.id,
+                    status: challenge.statut || 'validé',
+                    solution: challenge.solution,
+                    locales: _convertLanguesToLocales(challenge.langues || ['Francophone']),
+                    type: challenge.type,
+                    focusable: challenge.focusable,
+                    instruction: challenge.instruction,
+                    proposals: challenge.proposals,
+                    autoReply: challenge.autoReply,
+                    alpha: challenge.alpha,
+                    delta: challenge.delta,
+                  };
+                });
+              allChallenges.push(challenges);
+              return {
+                id: skill.id,
+                tubeId: tube.id,
+                status: skill.status || 'actif',
+                competenceId: competence.id,
+                name: skill.nom,
+                pixValue: skill.pixValue,
+                tutorialIds: skill.tutorials && _.map(skill.tutorials, 'id'),
+                version: skill.version,
+                level: skill.level,
+              };
+            });
+            competenceSkills.push(skills);
+            allSkills.push(skills);
             return {
-              id: skill.id,
-              tubeId: tube.id,
-              status: skill.status || 'actif',
+              id: tube.id,
+              name: tube.name,
+              description: tube.description,
+              title: tube.title,
+              practicalTitleFrFr: tube.practicalTitleFr || tube.practicalTitle,
+              practicalDescriptionFrFr: tube.practicalDescriptionFr || tube.practicalDescription,
+              practicalTitleEnUs: tube.practicalTitleEn || tube.practicalTitle,
+              practicalDescriptionEnUs: tube.practicalDescriptionEn || tube.practicalDescription,
               competenceId: competence.id,
-              name: skill.nom,
-              pixValue: skill.pixValue,
-              tutorialIds: skill.tutorials && _.map(skill.tutorials, 'id'),
-              version: skill.version,
-              level: skill.level,
             };
-          });
-          allSkills.push(skills);
-          return {
-            id: tube.id,
-            name: tube.name,
-            description: tube.description,
-            title: tube.title,
-            practicalTitleFrFr: tube.practicalTitleFr || tube.practicalTitle,
-            practicalDescriptionFrFr: tube.practicalDescriptionFr || tube.practicalDescription,
-            practicalTitleEnUs: tube.practicalTitleEn || tube.practicalTitle,
-            practicalDescriptionEnUs: tube.practicalDescriptionEn || tube.practicalDescription,
-            competenceId: competence.id,
-          };
-        });
+          })
+        );
+      }
+      const tubes = mapTubes(competence.tubes);
       allTubes.push(tubes);
+      const thematics =
+        competence.thematics?.map((thematic) => {
+          const tubes = mapTubes(thematic.tubes);
+          allTubes.push(tubes);
+          return {
+            id: thematic.id,
+            name: thematic.name,
+            index: thematic.index,
+            tubeIds: [],
+          };
+        }) ?? [];
+      allThematics.push(thematics);
       return {
         id: competence.id,
-        skillIds: competence.tubes && competence.tubes.flatMap((tube) => tube.skills).map((skill) => skill.id),
+        skillIds: competence.tubes && competenceSkills.flat().map((skill) => skill.id),
         areaId: area.id,
         origin: competence.origin || 'Pix',
         index: competence.index,
@@ -85,6 +104,7 @@ const buildLearningContent = function (learningContent) {
         nameEnUs: competence.nameEn || competence.name,
         descriptionFrFr: competence.descriptionFr || competence.description,
         descriptionEnUs: competence.descriptionEn || competence.description,
+        thematicIds: thematics.map(({ id }) => id),
       };
     });
     allCompetences.push(competences);
@@ -117,6 +137,7 @@ const buildLearningContent = function (learningContent) {
     challenges: _.compact(allChallenges.flat()),
     courses: _.compact(allCourses.flat()),
     tutorials: _.compact(allTutorials.flat()),
+    thematics: allThematics.flat(),
   };
 };
 

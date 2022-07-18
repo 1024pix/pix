@@ -5,12 +5,14 @@ const buildTargetedArea = function buildTargetedArea({
   id = 'someAreaId',
   title = 'someTitle',
   color = 'someColor',
+  code = 'someCode',
   competences = [buildTargetedCompetence()],
 } = {}) {
   return new TargetedArea({
     id,
     title,
     color,
+    code,
     competences,
   });
 };
