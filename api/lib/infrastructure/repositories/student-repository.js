@@ -12,7 +12,13 @@ module.exports = {
       students.push(
         new Student({
           nationalStudentId,
-          account: _.pick(mostRelevantAccount, ['userId', 'certificationCount', 'updatedAt']),
+          account: _.pick(mostRelevantAccount, [
+            'userId',
+            'certificationCount',
+            'organizationId',
+            'birthdate',
+            'updatedAt',
+          ]),
         })
       );
     }
@@ -28,6 +34,8 @@ module.exports = {
       .select({
         nationalStudentId: 'organization-learners.nationalStudentId',
         userId: 'users.id',
+        birthdate: 'organization-learners.birthdate',
+        organizationId: 'organization-learners.organizationId',
         updatedAt: 'users.updatedAt',
       })
       .count('certification-courses.id as certificationCount')
@@ -35,15 +43,21 @@ module.exports = {
       .join('users', 'users.id', 'organization-learners.userId')
       .leftJoin('certification-courses', 'certification-courses.userId', 'users.id')
       .whereIn('nationalStudentId', nationalStudentIds)
-      .groupBy('organization-learners.nationalStudentId', 'users.id', 'users.updatedAt')
+      .groupBy(
+        'organization-learners.nationalStudentId',
+        'users.id',
+        'organization-learners.organizationId',
+        'organization-learners.birthdate',
+        'users.updatedAt'
+      )
       .orderBy('users.id');
 
     return this._toStudents(results);
   },
 
   async getReconciledStudentByNationalStudentId(nationalStudentId) {
-    const result = await this.findReconciledStudentsByNationalStudentId([nationalStudentId]);
+    const [result] = await this.findReconciledStudentsByNationalStudentId([nationalStudentId]);
 
-    return _.isEmpty(result) ? null : result[0];
+    return result ?? null;
   },
 };
