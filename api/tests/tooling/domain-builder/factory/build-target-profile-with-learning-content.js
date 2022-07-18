@@ -23,6 +23,7 @@ const buildTargetProfileWithLearningContent = function buildTargetProfileWithLea
   imageUrl,
   category = 'OTHER',
   tubesSelection = [],
+  tubesSelectionAreas = [],
 } = {}) {
   return new TargetProfileWithLearningContent({
     id,
@@ -43,6 +44,7 @@ const buildTargetProfileWithLearningContent = function buildTargetProfileWithLea
     imageUrl,
     category,
     tubesSelection,
+    tubesSelectionAreas,
   });
 };
 
@@ -61,6 +63,7 @@ buildTargetProfileWithLearningContent.withSimpleLearningContent = function withS
   stages = [],
   category = 'OTHER',
   tubesSelection = [],
+  tubesSelectionAreas = [],
 } = {}) {
   const skill = buildTargetedSkill({ id: 'skillId', tubeId: 'tubeId' });
   const tube = buildTargetedTube({ id: 'tubeId', competenceId: 'competenceId', skills: [skill] });
@@ -78,6 +81,7 @@ buildTargetProfileWithLearningContent.withSimpleLearningContent = function withS
     description,
     comment,
     tubesSelection,
+    tubesSelectionAreas,
     skills: [skill],
     tubes: [tube],
     competences: [competence],

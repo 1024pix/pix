@@ -41,6 +41,7 @@ describe('Integration | Repository | Campaign Assessment Participation Result', 
             nameEnUs: 'English competence 2',
           },
         ],
+        thematics: [],
         tubes: [
           {
             id: 'recTube1',
@@ -67,6 +68,7 @@ describe('Integration | Repository | Campaign Assessment Participation Result', 
             competenceId: 'rec1',
           },
         ],
+        challenges: [],
       };
 
       mockLearningContent(learningContent);

@@ -119,6 +119,18 @@ class Challenge {
     return this.focused;
   }
 
+  get isMobileCompliant() {
+    return this._isCompliant('Smartphone');
+  }
+
+  get isTabletCompliant() {
+    return this._isCompliant('Tablet');
+  }
+
+  _isCompliant(type) {
+    return this.responsive?.includes(type);
+  }
+
   static createValidatorForChallengeType({ challengeType, solution }) {
     switch (challengeType) {
       case ChallengeType.QCU:
