@@ -3,8 +3,12 @@
 
 <BurgerMenu @animation="push" @translucentOverlay={{true}} as |burger|>
   <burger.outlet>
-    <NavbarHeader @burger={{burger}} />
-    <main>
+
+    <header role="banner">
+      <NavbarHeader @burger={{burger}} />
+    </header>
+
+    <main role="main">
       <PixBackgroundHeader id="main">
         <PixBlock class="fill-in-certificate-verification-code">
           <form class="fill-in-certificate-verification-code__form" autocomplete="off">

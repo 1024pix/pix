@@ -1,7 +1,10 @@
 <BurgerMenu @animation="push" @translucentOverlay={{true}} as |burger|>
   <burger.outlet>
 
-    <NavbarHeader @burger={{burger}} />
+    <header role="banner">
+      <NavbarHeader @burger={{burger}} />
+    </header>
+
     <div class="background-banner-wrapper">
       <div class="background-banner"></div>
 
