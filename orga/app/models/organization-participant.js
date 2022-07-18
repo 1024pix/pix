@@ -4,4 +4,5 @@ export default class OrganizationParticipant extends Model {
   @attr('string') lastName;
   @attr('string') firstName;
   @attr('number') participationCount;
+  @attr('date') lastParticipationDate;
 }
