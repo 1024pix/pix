@@ -2,8 +2,10 @@ const AuthenticationMethod = require('../../models/AuthenticationMethod');
 const poleEmploiAuthenticationService = require('./pole-emploi-authentication-service');
 const cnavAuthenticationService = require('./cnav-authentication-service');
 const PoleEmploiOidcAuthenticationService = require('./pole-emploi-oidc-authentication-service');
+const CnavOidcAuthenticationService = require('./cnav-oidc-authentication-service');
 
 const poleEmploiOidcAuthenticationService = new PoleEmploiOidcAuthenticationService();
+const cnavOidcAuthenticationService = new CnavOidcAuthenticationService();
 
 function lookupAuthenticationService(identityProvider) {
   switch (identityProvider) {
@@ -13,7 +15,10 @@ function lookupAuthenticationService(identityProvider) {
         oidcAuthenticationService: poleEmploiOidcAuthenticationService,
       };
     case AuthenticationMethod.identityProviders.CNAV:
-      return { authenticationService: cnavAuthenticationService };
+      return {
+        authenticationService: cnavAuthenticationService,
+        oidcAuthenticationService: cnavOidcAuthenticationService,
+      };
     default:
       throw new Error();
   }
