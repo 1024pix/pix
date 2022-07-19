@@ -14,12 +14,12 @@ const categories = {
   FULL_RATE: 'Tarif plein',
 };
 export default class OrganizationPlace extends Model {
-  @attr('number') count;
+  @attr('string') count;
   @attr('string') reference;
   @attr('string') category;
   @attr('string') status;
-  @attr('date') activationDate;
-  @attr('date') expirationDate;
+  @attr('string') activationDate;
+  @attr('string') expirationDate;
   @attr('date') createdAt;
   @attr('string') creatorFullName;
 
