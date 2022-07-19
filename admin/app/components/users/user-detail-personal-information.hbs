@@ -1,11 +1,11 @@
-<section class="page-section mb_10">
+<section class="page-section">
   <Users::UserDetailPersonalInformation::UserOverview
     @user={{@user}}
     @toggleDisplayAnonymizeModal={{this.toggleDisplayAnonymizeModal}}
   />
 </section>
 
-<section class="page-section mb_10 user-authentication-method">
+<section class="page-section user-authentication-method">
   <Users::UserDetailPersonalInformation::AuthenticationMethod
     @user={{@user}}
     @toggleDisplayRemoveAuthenticationMethodModal={{this.toggleDisplayRemoveAuthenticationMethodModal}}
@@ -14,18 +14,18 @@
   />
 </section>
 
-<section class="page-section mb_10">
+<section class="page-section">
   <Users::UserDetailPersonalInformation::SchoolingRegistrationInformation
     @user={{@user}}
     @toggleDisplayDissociateModal={{this.toggleDisplayDissociateModal}}
   />
 </section>
 
-<section class="page-section mb_10">
+<section class="page-section">
   <Users::UserDetailPersonalInformation::UserProfile @profile={{@user.profile}} />
 </section>
 
-<section class="page-section mb_10">
+<section class="page-section">
   <Users::UserDetailPersonalInformation::CampaignParticipations @participations={{@user.participations}} />
 </section>
 
