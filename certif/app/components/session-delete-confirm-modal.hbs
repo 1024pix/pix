@@ -1,9 +1,20 @@
 {{#if @show}}
-  <PixModal @title="Supprimer la session" @onCloseButtonClick={{@close}}>
+  <PixModal @title={{t "pages.sessions.list.delete-modal.title"}} @onCloseButtonClick={{@close}}>
     <:content>
-      <p>Souhaitez-vous supprimer la session <span>{{@sessionId}}</span> ?</p>
+      <p class="session-delete-confirmation-modal">{{t
+          "pages.sessions.list.delete-modal.label"
+          sessionId=@sessionId
+          htmlSafe=true
+        }}</p>
+      {{#if (gt @enrolledCandidatesCount 0)}}
+        <p class="session-delete-confirmation-modal">{{t
+            "pages.sessions.list.delete-modal.enrolled-candidates"
+            enrolledCandidatesCount=@enrolledCandidatesCount
+            htmlSafe=true
+          }}</p>
+      {{/if}}
       <PixMessage @type="warning" @withIcon={{true}}>
-        Attention, cette action est irréversible.
+        {{t "pages.sessions.list.delete-modal.disclaimer"}}
       </PixMessage>
     </:content>
     <:footer>
@@ -13,7 +24,7 @@
         @isBorderVisible={{true}}
         @triggerAction={{@close}}
       >
-        Annuler
+        {{t "common.actions.cancel"}}
       </PixButton>
 
       <PixButton
@@ -22,7 +33,7 @@
         @loadingColor="white"
         @backgroundColor="blue"
       >
-        Supprimer
+        {{t "common.actions.delete"}}
       </PixButton>
     </:footer>
   </PixModal>
