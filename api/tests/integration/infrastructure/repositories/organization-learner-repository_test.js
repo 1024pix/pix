@@ -2641,7 +2641,7 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
           organizationLearnerId,
           deletedAt: null,
           deletedBy: null,
-          createdAt: new Date('2021-01-01'),
+          createdAt: new Date('2021-02-01'),
         });
         databaseBuilder.factory.buildCampaignParticipation({
           campaignId: otherCampaignId,

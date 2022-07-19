@@ -78,6 +78,28 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
       expect(organizationParticipants[0].participationCount).to.equal(1);
     });
 
+    it('should return the date of the last participation ', async function () {
+      const organizationLearnerId = buildLearnerWithParticipation(
+        organizationId,
+        {},
+        { createdAt: new Date('2021-03-17') }
+      ).id;
+      const campaignId = databaseBuilder.factory.buildCampaign({ organizationId }).id;
+      const lastParticipation = databaseBuilder.factory.buildCampaignParticipation({
+        organizationLearnerId,
+        campaignId,
+        createdAt: new Date('2022-03-17'),
+      });
+      await databaseBuilder.commit();
+      // when
+      const { organizationParticipants } = await organizationParticipantRepository.getParticipantsByOrganizationId({
+        organizationId,
+      });
+
+      // // then
+      expect(organizationParticipants[0].lastParticipationDate).to.deep.equal(lastParticipation.createdAt);
+    });
+
     it('should return only 1 result even when the participant has participated to several campaigns of the organization', async function () {
       const organizationLearnerId = buildLearnerWithParticipation(organizationId).id;
       const campaignId = databaseBuilder.factory.buildCampaign({ organizationId }).id;

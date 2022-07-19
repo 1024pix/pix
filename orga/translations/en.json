@@ -657,6 +657,7 @@
         "column": {
           "first-name": "First name",
           "last-name": "Last name",
+          "lastest-participation": "Lastest participation",
           "participation-count": "Number of participations"
         },
         "empty": "No participants",

@@ -7,6 +7,9 @@
         <Table::Header @align="right">{{t
             "pages.organization-participants.table.column.participation-count"
           }}</Table::Header>
+        <Table::Header @size="medium">{{t
+            "pages.organization-participants.table.column.lastest-participation"
+          }}</Table::Header>
       </tr>
     </thead>
 
@@ -17,6 +20,7 @@
             <td class="ellipsis" title={{participant.lastName}}>{{participant.lastName}}</td>
             <td class="ellipsis" title={{participant.firstName}}>{{participant.firstName}}</td>
             <td class="table__column--right">{{participant.participationCount}}</td>
+            <td class="table__column--center">{{moment-format participant.lastParticipationDate "DD/MM/YYYY"}}</td>
           </tr>
         {{/each}}
       </tbody>
