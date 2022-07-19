@@ -1,20 +1,20 @@
 const { expect, sinon } = require('../../../test-helper');
-const findOrganizationPlaces = require('../../../../lib/domain/usecases/find-organization-places');
+const findOrganizationPlaceLot = require('../../../../lib/domain/usecases/find-organization-places-lot');
 
 describe('Unit | Domain | Use Cases | find-organization-places', function () {
   it('should get the organization places', async function () {
     // given
     const organizationId = Symbol('organizationId');
     const expectedOrganizationPlaces = Symbol('OrganizationPlaces');
-    const organizationPlaceRepository = {
-      find: sinon.stub(),
+    const organizationPlacesLotRepository = {
+      findByOrganizationId: sinon.stub(),
     };
-    organizationPlaceRepository.find.withArgs(organizationId).resolves(expectedOrganizationPlaces);
+    organizationPlacesLotRepository.findByOrganizationId.withArgs(organizationId).resolves(expectedOrganizationPlaces);
 
     // when
-    const organizationPlace = await findOrganizationPlaces({
+    const organizationPlace = await findOrganizationPlaceLot({
       organizationId,
-      organizationPlaceRepository,
+      organizationPlacesLotRepository,
     });
 
     // then
