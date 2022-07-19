@@ -1,5 +1,6 @@
 import { module, test } from 'qunit';
 import { visit } from '@1024pix/ember-testing-library';
+import { click, currentURL } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { authenticateAdminMemberWithRole } from 'pix-admin/tests/helpers/test-init';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
@@ -31,5 +32,18 @@ module('Acceptance | Organizations | places', function (hooks) {
 
     // then
     assert.dom(screen.getByText('FFVII')).exists();
+  });
+
+  test('should go to add places lot page', async function (assert) {
+    // given
+    const ownerOrganizationId = this.server.create('organization').id;
+
+    const screen = await visit(`/organizations/${ownerOrganizationId}/places`);
+
+    // when
+    await click(screen.getByRole('link', { name: 'Ajouter des places' }));
+
+    // then
+    assert.strictEqual(currentURL(), `/organizations/${ownerOrganizationId}/places/new`);
   });
 });
