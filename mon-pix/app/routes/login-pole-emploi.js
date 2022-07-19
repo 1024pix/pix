@@ -36,7 +36,12 @@ export default class LoginPoleEmploiRoute extends Route {
 
   afterModel({ shouldValidateCgu, authenticationKey } = {}) {
     if (shouldValidateCgu && authenticationKey) {
-      return this.router.replaceWith('terms-of-service-pole-emploi', { queryParams: { authenticationKey } });
+      return this.router.replaceWith('terms-of-service-oidc', {
+        queryParams: {
+          authenticationKey,
+          identityProviderName: 'pole-emploi',
+        },
+      });
     }
   }
 

@@ -16,8 +16,8 @@ describe('Unit | Route | login-cnav', function () {
         await route.afterModel({ authenticationKey: '123', shouldValidateCgu: true });
 
         // then
-        sinon.assert.calledWith(route.router.replaceWith, 'terms-of-service-cnav', {
-          queryParams: { authenticationKey: '123' },
+        sinon.assert.calledWith(route.router.replaceWith, 'terms-of-service-oidc', {
+          queryParams: { authenticationKey: '123', identityProviderName: 'cnav' },
         });
       });
     });
