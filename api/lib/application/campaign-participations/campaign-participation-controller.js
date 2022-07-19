@@ -158,5 +158,16 @@ module.exports = {
     return h.response({}).code(204);
   },
 
-  deleteCampaignParticipationForAdmin() {},
+  async deleteCampaignParticipationForAdmin(request, h) {
+    const { userId } = request.auth.credentials;
+    const { id: campaignParticipationId } = request.params;
+    await DomainTransaction.execute(async (domainTransaction) => {
+      await usecases.deleteCampaignParticipationForAdmin({
+        userId,
+        campaignParticipationId,
+        domainTransaction,
+      });
+    });
+    return h.response({}).code(204);
+  },
 };
