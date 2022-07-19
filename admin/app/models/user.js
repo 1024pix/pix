@@ -25,6 +25,7 @@ export default class User extends Model {
   @hasMany('certification-center-membership') certificationCenterMemberships;
   @hasMany('schooling-registration') schoolingRegistrations;
   @hasMany('authentication-method') authenticationMethods;
+  @hasMany('user-participation') participations;
 
   @computed('firstName', 'lastName')
   get fullName() {
