@@ -835,6 +835,28 @@ exports.register = async (server) => {
         tags: ['api', 'organization-learners'],
       },
     },
+    {
+      method: 'GET',
+      path: '/api/organizations/{id}/participants',
+      config: {
+        pre: [
+          {
+            method: securityPreHandlers.checkUserBelongsToOrganization,
+          },
+        ],
+        validate: {
+          params: Joi.object({
+            id: identifiersType.organizationId,
+          }),
+        },
+        handler: organizationController.getPaginatedParticipantsForAnOrganization,
+        tags: ['api', 'organization-participants'],
+        notes: [
+          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
+            "- Récupération des participants d'une organisation sans import\n",
+        ],
+      },
+    },
   ];
 
   server.route([
@@ -884,28 +906,6 @@ exports.register = async (server) => {
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
             '- Récupération des profiles cibles utilisables par l‘organisation\n',
-        ],
-      },
-    },
-    {
-      method: 'GET',
-      path: '/api/organizations/{id}/participants',
-      config: {
-        pre: [
-          {
-            method: securityPreHandlers.checkUserBelongsToOrganization,
-          },
-        ],
-        validate: {
-          params: Joi.object({
-            id: identifiersType.organizationId,
-          }),
-        },
-        handler: organizationController.getPaginatedParticipantsForAnOrganization,
-        tags: ['api', 'organization-participants'],
-        notes: [
-          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-            "- Récupération des participants d'une organisation sans import\n",
         ],
       },
     },
