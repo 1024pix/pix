@@ -13,53 +13,6 @@ module('Integration | Component | users | user-detail-personal-information', fun
     hasAccessToUsersActionsScope = true;
   }
 
-  module('when the admin member click on anonymize button', function (hooks) {
-    let user = null;
-
-    hooks.beforeEach(function () {
-      user = EmberObject.create({
-        lastName: 'Harry',
-        firstName: 'John',
-        email: 'john.harry@gmail.com',
-        username: null,
-      });
-    });
-
-    test('should show modal', async function (assert) {
-      // given
-      this.set('user', user);
-      this.owner.register('service:access-control', AccessControlStub);
-      const screen = await render(hbs`<Users::UserDetailPersonalInformation @user={{this.user}}/>`);
-
-      // when
-      await clickByName('Anonymiser cet utilisateur');
-
-      // then
-      assert.dom(screen.getByRole('heading', { name: 'Merci de confirmer' })).exists();
-      assert.dom(screen.getByRole('button', { name: 'Annuler' })).exists();
-      assert.dom(screen.getByRole('button', { name: 'Confirmer' })).exists();
-      assert
-        .dom(screen.getByText('Êtes-vous sûr de vouloir anonymiser cet utilisateur ? Ceci n’est pas réversible.'))
-        .exists();
-    });
-
-    test('should close the modal to cancel action', async function (assert) {
-      // given
-      this.set('user', user);
-      this.owner.register('service:access-control', AccessControlStub);
-      const screen = await render(hbs`<Users::UserDetailPersonalInformation @user={{this.user}}/>`);
-      await clickByName('Anonymiser cet utilisateur');
-
-      // when
-      await clickByName('Annuler');
-
-      // then
-      assert.dom(screen.queryByRole('heading', { name: 'Merci de confirmer' })).doesNotExist();
-      assert.dom(screen.queryByRole('button', { name: 'Confirmer' })).doesNotExist();
-      assert.dom(screen.queryByRole('button', { name: 'Annuler' })).doesNotExist();
-    });
-  });
-
   module('when the admin member click on dissociate button', function () {
     test('should display dissociate confirm modal', async function (assert) {
       // given

@@ -154,10 +154,18 @@
         >
           Modifier
         </PixButton>
-        <PixButton @size="small" @backgroundColor="red" @triggerAction={{@toggleDisplayAnonymizeModal}}>
+        <PixButton @size="small" @backgroundColor="red" @triggerAction={{this.toggleDisplayAnonymizeModal}}>
           Anonymiser cet utilisateur
         </PixButton>
       {{/if}}
     </div>
   </form>
 {{/if}}
+
+<ConfirmPopup
+  @message="Êtes-vous sûr de vouloir anonymiser cet utilisateur ? Ceci n’est pas réversible."
+  @confirm={{this.anonymizeUser}}
+  @cancel={{this.toggleDisplayAnonymizeModal}}
+  @submitButtonType="danger"
+  @show={{this.displayAnonymizeModal}}
+/>

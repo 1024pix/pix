@@ -5,13 +5,17 @@ import EmberObject from '@ember/object';
 import { clickByName, render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
 
-module('Integration | Component | users | user-detail-personal-information/user-overview', function (hooks) {
+module('Integration | Component | users | user-overview', function (hooks) {
   setupRenderingTest(hooks);
 
-  module('When the admin member has access to users actions scope', function () {
+  module('When the admin member has access to users actions scope', function (hooks) {
     class AccessControlStub extends Service {
       hasAccessToUsersActionsScope = true;
     }
+
+    hooks.beforeEach(function () {
+      this.owner.register('service:access-control', AccessControlStub);
+    });
 
     module('When the admin look at user details', function () {
       test('should display the update button', async function (assert) {
@@ -22,10 +26,9 @@ module('Integration | Component | users | user-detail-personal-information/user-
           email: 'john.harry@example.net',
           username: 'john.harry0102',
         });
-        this.owner.register('service:access-control', AccessControlStub);
 
         // when
-        const screen = await render(hbs`<Users::UserDetailPersonalInformation::UserOverview @user={{this.user}}/>`);
+        const screen = await render(hbs`<Users::UserOverview @user={{this.user}}/>`);
 
         // then
         assert.dom(screen.getByRole('button', { name: 'Modifier' })).exists();
@@ -43,10 +46,9 @@ module('Integration | Component | users | user-detail-personal-information/user-
           createdAt: new Date('2021-12-10'),
         });
         this.set('user', user);
-        this.owner.register('service:access-control', AccessControlStub);
 
         // when
-        const screen = await render(hbs`<Users::UserDetailPersonalInformation::UserOverview @user={{this.user}}/>`);
+        const screen = await render(hbs`<Users::UserOverview @user={{this.user}}/>`);
 
         // then
         assert.dom(screen.getByText(this.user.firstName)).exists();
@@ -61,10 +63,9 @@ module('Integration | Component | users | user-detail-personal-information/user-
         test('should display "OUI" with date when user accepted Pix App terms of service', async function (assert) {
           // given
           this.set('user', { cgu: true, lastTermsOfServiceValidatedAt: new Date('2021-12-10') });
-          this.owner.register('service:access-control', AccessControlStub);
 
           // when
-          const screen = await render(hbs`<Users::UserDetailPersonalInformation::UserOverview @user={{this.user}}/>`);
+          const screen = await render(hbs`<Users::UserOverview @user={{this.user}}/>`);
 
           // then
           assert.dom(screen.getByText('OUI, le 10/12/2021')).exists();
@@ -73,10 +74,9 @@ module('Integration | Component | users | user-detail-personal-information/user-
         test('should display "NON" when user not accepted Pix App terms of service', async function (assert) {
           // given
           this.set('user', { pixCertifTermsOfServiceAccepted: true, pixOrgaTermsOfServiceAccepted: true, cgu: false });
-          this.owner.register('service:access-control', AccessControlStub);
 
           // when
-          const screen = await render(hbs`<Users::UserDetailPersonalInformation::UserOverview @user={{this.user}}/>`);
+          const screen = await render(hbs`<Users::UserOverview @user={{this.user}}/>`);
 
           // then
           assert.dom(screen.getByText('NON')).exists();
@@ -88,10 +88,9 @@ module('Integration | Component | users | user-detail-personal-information/user-
             pixOrgaTermsOfServiceAccepted: true,
             lastPixOrgaTermsOfServiceValidatedAt: new Date('2021-12-14'),
           });
-          this.owner.register('service:access-control', AccessControlStub);
 
           // when
-          const screen = await render(hbs`<Users::UserDetailPersonalInformation::UserOverview @user={{this.user}}/>`);
+          const screen = await render(hbs`<Users::UserOverview @user={{this.user}}/>`);
 
           // then
           assert.dom(screen.getByText('OUI, le 14/12/2021')).exists();
@@ -100,10 +99,9 @@ module('Integration | Component | users | user-detail-personal-information/user-
         test('should display "NON" when user not accepted Pix Orga terms of service', async function (assert) {
           // given
           this.set('user', { pixCertifTermsOfServiceAccepted: true, pixOrgaTermsOfServiceAccepted: false, cgu: true });
-          this.owner.register('service:access-control', AccessControlStub);
 
           // when
-          const screen = await render(hbs`<Users::UserDetailPersonalInformation::UserOverview @user={{this.user}}/>`);
+          const screen = await render(hbs`<Users::UserOverview @user={{this.user}}/>`);
 
           // then
           assert.dom(screen.getByText('NON')).exists();
@@ -115,10 +113,9 @@ module('Integration | Component | users | user-detail-personal-information/user-
             pixCertifTermsOfServiceAccepted: true,
             lastPixCertifTermsOfServiceValidatedAt: new Date('2021-12-14'),
           });
-          this.owner.register('service:access-control', AccessControlStub);
 
           // when
-          const screen = await render(hbs`<Users::UserDetailPersonalInformation::UserOverview @user={{this.user}}/>`);
+          const screen = await render(hbs`<Users::UserOverview @user={{this.user}}/>`);
 
           // then
           assert.dom(screen.getByText('OUI, le 14/12/2021')).exists();
@@ -127,10 +124,9 @@ module('Integration | Component | users | user-detail-personal-information/user-
         test('should display "NON" when user not accepted Pix Certif terms of service', async function (assert) {
           // given
           this.set('user', { pixCertifTermsOfServiceAccepted: false, pixOrgaTermsOfServiceAccepted: true, cgu: true });
-          this.owner.register('service:access-control', AccessControlStub);
 
           // when
-          const screen = await render(hbs`<Users::UserDetailPersonalInformation::UserOverview @user={{this.user}}/>`);
+          const screen = await render(hbs`<Users::UserOverview @user={{this.user}}/>`);
 
           // then
           assert.dom(screen.getByText('NON')).exists();
@@ -158,10 +154,9 @@ module('Integration | Component | users | user-detail-personal-information/user-
           email: 'john.harry@example.net',
           username: null,
         });
-        this.owner.register('service:access-control', AccessControlStub);
 
         // when
-        const screen = await render(hbs`<Users::UserDetailPersonalInformation::UserOverview @user={{this.user}} />`);
+        const screen = await render(hbs`<Users::UserOverview @user={{this.user}} />`);
         await clickByName('Modifier');
 
         // then
@@ -172,10 +167,9 @@ module('Integration | Component | users | user-detail-personal-information/user-
       test('should display user’s first name and last name in edit mode', async function (assert) {
         // given
         this.set('user', user);
-        this.owner.register('service:access-control', AccessControlStub);
 
         // when
-        const screen = await render(hbs`<Users::UserDetailPersonalInformation::UserOverview @user={{this.user}}/>`);
+        const screen = await render(hbs`<Users::UserOverview @user={{this.user}}/>`);
         await clickByName('Modifier');
 
         // then
@@ -187,10 +181,9 @@ module('Integration | Component | users | user-detail-personal-information/user-
         test('should display user’s email in edit mode', async function (assert) {
           // given
           this.set('user', user);
-          this.owner.register('service:access-control', AccessControlStub);
 
           // when
-          const screen = await render(hbs`<Users::UserDetailPersonalInformation::UserOverview @user={{this.user}}/>`);
+          const screen = await render(hbs`<Users::UserOverview @user={{this.user}}/>`);
           await clickByName('Modifier');
 
           // then
@@ -200,10 +193,9 @@ module('Integration | Component | users | user-detail-personal-information/user-
         test('should not display username in edit mode', async function (assert) {
           // given
           this.set('user', user);
-          this.owner.register('service:access-control', AccessControlStub);
 
           // when
-          const screen = await render(hbs`<Users::UserDetailPersonalInformation::UserOverview @user={{this.user}}/>`);
+          const screen = await render(hbs`<Users::UserOverview @user={{this.user}}/>`);
           await clickByName('Modifier');
 
           // then
@@ -221,10 +213,9 @@ module('Integration | Component | users | user-detail-personal-information/user-
             username: 'user.name1212',
           });
           this.set('user', user);
-          this.owner.register('service:access-control', AccessControlStub);
 
           // when
-          const screen = await render(hbs`<Users::UserDetailPersonalInformation::UserOverview @user={{this.user}} />`);
+          const screen = await render(hbs`<Users::UserOverview @user={{this.user}} />`);
           await clickByName('Modifier');
 
           // then
@@ -240,10 +231,9 @@ module('Integration | Component | users | user-detail-personal-information/user-
             username: 'user.name1212',
           });
           this.set('user', user);
-          this.owner.register('service:access-control', AccessControlStub);
 
           // when
-          const screen = await render(hbs`<Users::UserDetailPersonalInformation::UserOverview @user={{this.user}} />`);
+          const screen = await render(hbs`<Users::UserOverview @user={{this.user}} />`);
           await clickByName('Modifier');
 
           // then
@@ -261,10 +251,9 @@ module('Integration | Component | users | user-detail-personal-information/user-
             username: undefined,
           });
           this.set('user', user);
-          this.owner.register('service:access-control', AccessControlStub);
 
           // when
-          const screen = await render(hbs`<Users::UserDetailPersonalInformation::UserOverview @user={{this.user}} />`);
+          const screen = await render(hbs`<Users::UserOverview @user={{this.user}} />`);
           await clickByName('Modifier');
 
           // then
@@ -275,15 +264,59 @@ module('Integration | Component | users | user-detail-personal-information/user-
       test('should not display user’s terms of service', async function (assert) {
         // given
         this.set('user', user);
-        this.owner.register('service:access-control', AccessControlStub);
 
         // when
-        const screen = await render(hbs`<Users::UserDetailPersonalInformation::UserOverview @user={{this.user}}/>`);
+        const screen = await render(hbs`<Users::UserOverview @user={{this.user}}/>`);
         await clickByName('Modifier');
 
         // then
         assert.dom(screen.queryByText('CGU Pix Orga validé :')).doesNotExist();
         assert.dom(screen.queryByText('CGU Pix Certif validé :')).doesNotExist();
+      });
+    });
+
+    module('when the admin member click on anonymize button', function (hooks) {
+      let user = null;
+
+      hooks.beforeEach(function () {
+        user = EmberObject.create({
+          lastName: 'Harry',
+          firstName: 'John',
+          email: 'john.harry@gmail.com',
+          username: null,
+        });
+      });
+
+      test('should show modal', async function (assert) {
+        // given
+        this.set('user', user);
+        const screen = await render(hbs`<Users::UserOverview @user={{this.user}}/>`);
+
+        // when
+        await clickByName('Anonymiser cet utilisateur');
+
+        // then
+        assert.dom(screen.getByRole('heading', { name: 'Merci de confirmer' })).exists();
+        assert.dom(screen.getByRole('button', { name: 'Annuler' })).exists();
+        assert.dom(screen.getByRole('button', { name: 'Confirmer' })).exists();
+        assert
+          .dom(screen.getByText('Êtes-vous sûr de vouloir anonymiser cet utilisateur ? Ceci n’est pas réversible.'))
+          .exists();
+      });
+
+      test('should close the modal to cancel action', async function (assert) {
+        // given
+        this.set('user', user);
+        const screen = await render(hbs`<Users::UserOverview @user={{this.user}}/>`);
+        await clickByName('Anonymiser cet utilisateur');
+
+        // when
+        await clickByName('Annuler');
+
+        // then
+        assert.dom(screen.queryByRole('heading', { name: 'Merci de confirmer' })).doesNotExist();
+        assert.dom(screen.queryByRole('button', { name: 'Confirmer' })).doesNotExist();
+        assert.dom(screen.queryByRole('button', { name: 'Annuler' })).doesNotExist();
       });
     });
   });
@@ -303,7 +336,7 @@ module('Integration | Component | users | user-detail-personal-information/user-
       this.owner.register('service:access-control', AccessControlStub);
 
       // when
-      const screen = await render(hbs`<Users::UserDetailPersonalInformation::UserOverview @user={{this.user}}/>`);
+      const screen = await render(hbs`<Users::UserOverview @user={{this.user}}/>`);
 
       // then
       assert.dom(screen.queryByRole('button', { name: 'Modifier' })).doesNotExist();

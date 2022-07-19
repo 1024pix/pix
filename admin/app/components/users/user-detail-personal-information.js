@@ -14,7 +14,6 @@ const typesLabel = {
 };
 
 export default class UserDetailPersonalInformationComponent extends Component {
-  @tracked displayAnonymizeModal = false;
   @tracked displayDissociateModal = false;
   @tracked displayRemoveAuthenticationMethodModal = false;
   @tracked isLoading = false;
@@ -29,11 +28,6 @@ export default class UserDetailPersonalInformationComponent extends Component {
   }
 
   @action
-  toggleDisplayAnonymizeModal() {
-    this.displayAnonymizeModal = !this.displayAnonymizeModal;
-  }
-
-  @action
   toggleDisplayDissociateModal(schoolingRegistration) {
     this.schoolingRegistrationToDissociate = schoolingRegistration;
     this.displayDissociateModal = !this.displayDissociateModal;
@@ -43,12 +37,6 @@ export default class UserDetailPersonalInformationComponent extends Component {
   toggleDisplayRemoveAuthenticationMethodModal(type) {
     this.authenticationMethodType = type;
     this.displayRemoveAuthenticationMethodModal = !this.displayRemoveAuthenticationMethodModal;
-  }
-
-  @action
-  async anonymizeUser() {
-    await this.args.user.save({ adapterOptions: { anonymizeUser: true } });
-    this.toggleDisplayAnonymizeModal();
   }
 
   @action

@@ -8,11 +8,15 @@
 </header>
 
 <main class="page-body">
-  <Users::UserDetailPersonalInformation
-    @user={{@model}}
-    @removeAuthenticationMethod={{this.removeAuthenticationMethod}}
-    @addPixAuthenticationMethod={{this.addPixAuthenticationMethod}}
-    @reassignAuthenticationMethod={{this.reassignAuthenticationMethod}}
-    @removeParticipation={{this.removeParticipation}}
-  />
+  <section class="page-section">
+    <Users::UserOverview @user={{@model}} />
+  </section>
+
+  <nav class="navbar">
+    <LinkTo @route="authenticated.users.get.information" @model={{@model}} class="navbar-item">
+      Informations
+    </LinkTo>
+  </nav>
+
+  {{outlet}}
 </main>
