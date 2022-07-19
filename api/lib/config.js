@@ -288,6 +288,11 @@ module.exports = (function () {
         region: process.env.CPF_STORAGE_REGION,
         bucket: process.env.CPF_STORAGE_BUCKET_NAME,
       },
+      plannerJob: {
+        chunkSize: process.env.CPF_PLANNER_JOB_CHUNK_SIZE || 50000,
+        monthsToProcess: process.env.CPF_PLANNER_JOB_MONTHS_TO_PROCESS || 1,
+        minimumReliabilityPeriod: process.env.CPF_PLANNER_JOB_MINIMUM_RELIABILITY_PERIOD || 3,
+      },
     },
   };
 
