@@ -76,7 +76,10 @@ export default class Application extends Route.extend(ApplicationRouteMixin) {
     await this._handleLocale();
 
     const nextURL = this.session.data.nextURL;
-    if (nextURL && get(this.session, 'data.authenticated.source') === 'pole_emploi_connect') {
+    if (
+      this._isFromIdentityProviderLoginPage(nextURL, 'CNAV') ||
+      this._isFromIdentityProviderLoginPage(nextURL, 'POLE_EMPLOI')
+    ) {
       this.session.set('data.nextURL', undefined);
       this.router.replaceWith(nextURL);
     } else {
@@ -141,5 +144,11 @@ export default class Application extends Route.extend(ApplicationRouteMixin) {
     delete this.session.data.expectedUserId;
     delete this.session.data.externalUser;
     return this.session.invalidate();
+  }
+
+  _isFromIdentityProviderLoginPage(nextUrl, identityProvider) {
+    const isUserLoggedInToIdentityProvider =
+      get(this.session, 'data.authenticated.identity_provider') === identityProvider;
+    return nextUrl && isUserLoggedInToIdentityProvider;
   }
 }

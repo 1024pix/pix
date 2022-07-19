@@ -30,22 +30,46 @@ describe('Unit | Route | application', function () {
     expect(splashStub.hideCount).to.equal(1);
   });
 
-  it('should load the current user', function () {
-    // given
-    const currentUserStub = {
-      called: false,
-      load() {
-        this.called = true;
-      },
-    };
-    const route = this.owner.lookup('route:application');
-    route.set('currentUser', currentUserStub);
+  describe('#sessionAuthenticated', function () {
+    it('should load the current user', function () {
+      // given
+      const currentUserStub = {
+        called: false,
+        load() {
+          this.called = true;
+        },
+      };
+      const route = this.owner.lookup('route:application');
+      route.set('currentUser', currentUserStub);
 
-    // when
-    route.sessionAuthenticated();
+      // when
+      route.sessionAuthenticated();
 
-    // then
-    expect(currentUserStub.called).to.be.true;
+      // then
+      expect(currentUserStub.called).to.be.true;
+    });
+
+    it('should redirect to campaign after login in external oidc page', async function () {
+      // given
+      const route = this.owner.lookup('route:application');
+      const sessionStub = Service.create({
+        data: {
+          nextURL: '/campagnes/PIXCNAV01/access',
+          authenticated: {
+            identity_provider: 'CNAV',
+          },
+        },
+      });
+      route.set('session', sessionStub);
+      sinon.stub(route.router, 'replaceWith');
+      route.router.replaceWith.resolves();
+
+      // when
+      await route.sessionAuthenticated();
+
+      // then
+      sinon.assert.calledWith(route.router.replaceWith, '/campagnes/PIXCNAV01/access');
+    });
   });
 
   describe('#__handleLocale', function () {
