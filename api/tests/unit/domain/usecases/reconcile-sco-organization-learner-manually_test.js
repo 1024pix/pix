@@ -9,7 +9,7 @@ const {
   UserShouldNotBeReconciledOnAnotherAccountError,
 } = require('../../../../lib/domain/errors');
 
-describe('Unit | UseCase | reconcile-organization-learner', function () {
+describe('Unit | UseCase | reconcile-sco-organization-learner-manually', function () {
   let campaignCode;
 
   let campaignRepository;
@@ -51,7 +51,7 @@ describe('Unit | UseCase | reconcile-organization-learner', function () {
       campaignRepository.getByCode.withArgs(campaignCode).resolves(null);
 
       // when
-      const result = await catchErr(usecases.reconcileOrganizationLearner)({
+      const result = await catchErr(usecases.reconcileScoOrganizationLearnerManually)({
         reconciliationInfo: user,
         campaignCode,
         campaignRepository,
@@ -73,7 +73,7 @@ describe('Unit | UseCase | reconcile-organization-learner', function () {
       );
 
       // when
-      const result = await catchErr(usecases.reconcileOrganizationLearner)({
+      const result = await catchErr(usecases.reconcileScoOrganizationLearnerManually)({
         reconciliationInfo: user,
         campaignCode,
         campaignRepository,
@@ -100,7 +100,7 @@ describe('Unit | UseCase | reconcile-organization-learner', function () {
       );
 
       // when
-      const result = await catchErr(usecases.reconcileOrganizationLearner)({
+      const result = await catchErr(usecases.reconcileScoOrganizationLearnerManually)({
         reconciliationInfo: user,
         campaignCode,
         campaignRepository,
@@ -141,7 +141,7 @@ describe('Unit | UseCase | reconcile-organization-learner', function () {
         .resolves(alreadyReconciledOrganizationLearnerWithAnotherStudent);
 
       // when
-      const result = await catchErr(usecases.reconcileOrganizationLearner)({
+      const result = await catchErr(usecases.reconcileScoOrganizationLearnerManually)({
         reconciliationInfo: user,
         campaignCode,
         campaignRepository,
@@ -194,7 +194,7 @@ describe('Unit | UseCase | reconcile-organization-learner', function () {
           organizationLearnerRepository.reconcileUserToOrganizationLearner.resolves(currentOrganizationLearner);
 
           // when
-          await usecases.reconcileOrganizationLearner({
+          await usecases.reconcileScoOrganizationLearnerManually({
             reconciliationInfo,
             withReconciliation: true,
             campaignCode,
@@ -247,7 +247,7 @@ describe('Unit | UseCase | reconcile-organization-learner', function () {
           organizationLearnerRepository.findByUserId.withArgs({ userId: 1 }).resolves([previousOrganizationLearner]);
 
           // when
-          const error = await catchErr(usecases.reconcileOrganizationLearner)({
+          const error = await catchErr(usecases.reconcileScoOrganizationLearnerManually)({
             reconciliationInfo,
             withReconciliation: true,
             campaignCode,
@@ -299,7 +299,7 @@ describe('Unit | UseCase | reconcile-organization-learner', function () {
         organizationLearnerRepository.reconcileUserToOrganizationLearner.resolves(currentOrganizationLearner);
 
         // when
-        await usecases.reconcileOrganizationLearner({
+        await usecases.reconcileScoOrganizationLearnerManually({
           reconciliationInfo,
           withReconciliation: true,
           campaignCode,
@@ -353,7 +353,7 @@ describe('Unit | UseCase | reconcile-organization-learner', function () {
         organizationLearnerRepository.reconcileUserToOrganizationLearner.resolves(currentOrganizationLearner);
 
         // when
-        await usecases.reconcileOrganizationLearner({
+        await usecases.reconcileScoOrganizationLearnerManually({
           reconciliationInfo,
           withReconciliation: true,
           campaignCode,
@@ -418,7 +418,7 @@ describe('Unit | UseCase | reconcile-organization-learner', function () {
               .resolves([previousOrganizationLearner, otherOrganizationLearner]);
 
             // when
-            const error = await catchErr(usecases.reconcileOrganizationLearner)({
+            const error = await catchErr(usecases.reconcileScoOrganizationLearnerManually)({
               reconciliationInfo,
               withReconciliation: true,
               campaignCode,
@@ -477,7 +477,7 @@ describe('Unit | UseCase | reconcile-organization-learner', function () {
               .resolves([previousOrganizationLearner, otherOrganizationLearner]);
 
             // when
-            await usecases.reconcileOrganizationLearner({
+            await usecases.reconcileScoOrganizationLearnerManually({
               reconciliationInfo,
               withReconciliation: true,
               campaignCode,
@@ -522,7 +522,7 @@ describe('Unit | UseCase | reconcile-organization-learner', function () {
       organizationLearnerRepository.findByUserId.resolves([organizationLearner]);
 
       // when
-      const result = await usecases.reconcileOrganizationLearner({
+      const result = await usecases.reconcileScoOrganizationLearnerManually({
         reconciliationInfo: user,
         withReconciliation,
         campaignCode,
@@ -554,7 +554,7 @@ describe('Unit | UseCase | reconcile-organization-learner', function () {
       userReconciliationService.checkIfStudentHasAnAlreadyReconciledAccount.resolves();
 
       // when
-      const result = await usecases.reconcileOrganizationLearner({
+      const result = await usecases.reconcileScoOrganizationLearnerManually({
         reconciliationInfo: user,
         withReconciliation,
         campaignCode,

@@ -6,7 +6,7 @@ const {
 const { STUDENT_RECONCILIATION_ERRORS } = require('../constants');
 const isEmpty = require('lodash/isEmpty');
 
-module.exports = async function reconcileOrganizationLearner({
+module.exports = async function reconcileScoOrganizationLearnerManually({
   campaignCode,
   reconciliationInfo,
   withReconciliation,

@@ -5,7 +5,7 @@ const campaignRepository = require('../../../../lib/infrastructure/repositories/
 const organizationLearnerRepository = require('../../../../lib/infrastructure/repositories/organization-learner-repository');
 const { CampaignCodeError, UserCouldNotBeReconciledError } = require('../../../../lib/domain/errors');
 
-describe('Unit | UseCase | reconcile-user-to-organization', function () {
+describe('Unit | UseCase | reconcile-sco-organization-learner-automatically', function () {
   let reconcileUserByNationalStudentIdAndOrganizationIdStub;
   let campaignCode;
   let findByUserIdStub;
@@ -43,7 +43,7 @@ describe('Unit | UseCase | reconcile-user-to-organization', function () {
       getCampaignStub.withArgs(campaignCode).resolves(null);
 
       // when
-      const result = await catchErr(usecases.reconcileUserToOrganization)({
+      const result = await catchErr(usecases.reconcileScoOrganizationLearnerAutomatically)({
         userId,
         campaignCode,
       });
@@ -59,7 +59,7 @@ describe('Unit | UseCase | reconcile-user-to-organization', function () {
       findByUserIdStub.resolves([]);
 
       // when
-      const result = await catchErr(usecases.reconcileUserToOrganization)({
+      const result = await catchErr(usecases.reconcileScoOrganizationLearnerAutomatically)({
         userId,
         campaignCode,
       });
@@ -77,7 +77,7 @@ describe('Unit | UseCase | reconcile-user-to-organization', function () {
       reconcileUserByNationalStudentIdAndOrganizationIdStub.throws(new UserCouldNotBeReconciledError());
 
       // when
-      const result = await catchErr(usecases.reconcileUserToOrganization)({
+      const result = await catchErr(usecases.reconcileScoOrganizationLearnerAutomatically)({
         userId,
         campaignCode,
       });
@@ -95,7 +95,7 @@ describe('Unit | UseCase | reconcile-user-to-organization', function () {
       reconcileUserByNationalStudentIdAndOrganizationIdStub.throws(new UserCouldNotBeReconciledError());
 
       // when
-      const result = await catchErr(usecases.reconcileUserToOrganization)({
+      const result = await catchErr(usecases.reconcileScoOrganizationLearnerAutomatically)({
         userId,
         campaignCode,
       });
@@ -131,7 +131,7 @@ describe('Unit | UseCase | reconcile-user-to-organization', function () {
         .resolves(organizationLearner);
 
       // when
-      const result = await usecases.reconcileUserToOrganization({
+      const result = await usecases.reconcileScoOrganizationLearnerAutomatically({
         userId,
         campaignCode,
       });
