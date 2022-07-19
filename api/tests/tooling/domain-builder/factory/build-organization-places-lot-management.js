@@ -1,6 +1,6 @@
-const OrganizationPlace = require('../../../../lib/domain/read-models/OrganizationPlace');
+const OrganizationPlacesLotManagement = require('../../../../lib/domain/read-models/OrganizationPlacesLotManagement');
 
-function buildOrganizationPlace({
+function buildOrganizationPlacesLotManagement({
   id,
   count,
   organizationId,
@@ -12,7 +12,7 @@ function buildOrganizationPlace({
   creatorFirstName,
   createdAt,
 } = {}) {
-  return new OrganizationPlace({
+  return new OrganizationPlacesLotManagement({
     id,
     count,
     organizationId,
@@ -26,4 +26,4 @@ function buildOrganizationPlace({
   });
 }
 
-module.exports = buildOrganizationPlace;
+module.exports = buildOrganizationPlacesLotManagement;
