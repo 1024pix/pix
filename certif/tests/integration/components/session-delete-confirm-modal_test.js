@@ -3,10 +3,10 @@ import sinon from 'sinon';
 import { click } from '@ember/test-helpers';
 import { render as renderScreen } from '@1024pix/ember-testing-library';
 import hbs from 'htmlbars-inline-precompile';
-import { setupRenderingTest } from 'ember-qunit';
+import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 
 module('Integration | Component | session-delete-confirm-modal', function (hooks) {
-  setupRenderingTest(hooks);
+  setupIntlRenderingTest(hooks);
 
   module('when shouldDisplaySessionDeletionModal is true', function () {
     test('it should render the modal', async function (assert) {
@@ -23,8 +23,7 @@ module('Integration | Component | session-delete-confirm-modal', function (hooks
     />`);
 
       // then
-      assert.dom(screen.getByRole('heading', { name: 'Supprimer la session' })).exists();
-      assert.dom(screen.getByText('Attention, cette action est irréversible.')).exists();
+      assert.dom(screen.getByRole('heading', { name: this.intl.t('pages.sessions.list.delete-modal.title') })).exists();
       assert
         .dom(screen.getByText('Souhaitez-vous supprimer la session', { exact: false }))
         .hasText('Souhaitez-vous supprimer la session 123 ?');
@@ -46,7 +45,9 @@ module('Integration | Component | session-delete-confirm-modal', function (hooks
     />`);
 
       // then
-      assert.dom(screen.queryByText('Supprimer la session')).doesNotExist();
+      assert
+        .dom(screen.queryByRole('heading', { name: this.intl.t('pages.sessions.list.delete-modal.title') }))
+        .doesNotExist();
     });
   });
 

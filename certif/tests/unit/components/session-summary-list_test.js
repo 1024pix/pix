@@ -22,7 +22,7 @@ module('Unit | Component | session-summary', function (hooks) {
       };
 
       // when
-      await component.openSessionDeletionConfirmModal(sessionId, event);
+      await component.openSessionDeletionConfirmModal(sessionId, 1, event);
 
       // then
       assert.true(component.shouldDisplaySessionDeletionModal);
@@ -37,11 +37,26 @@ module('Unit | Component | session-summary', function (hooks) {
       };
 
       // when
-      await component.openSessionDeletionConfirmModal(sessionId, event);
+      await component.openSessionDeletionConfirmModal(sessionId, 1, event);
 
       // then
       sinon.assert.calledOnce(event.stopPropagation);
       assert.ok(true);
+    });
+
+    test('should set the currentEnrolledCandidatesCount value', async function (assert) {
+      // given
+      const sessionId = null;
+      component.shouldDisplaySessionDeletionModal = false;
+      const event = {
+        stopPropagation: sinon.stub(),
+      };
+
+      // when
+      await component.openSessionDeletionConfirmModal(sessionId, 99, event);
+
+      // then
+      assert.strictEqual(component.currentEnrolledCandidatesCount, 99);
     });
   });
 

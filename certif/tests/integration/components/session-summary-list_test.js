@@ -3,10 +3,10 @@ import sinon from 'sinon';
 import { render, click } from '@ember/test-helpers';
 import { render as renderScreen } from '@1024pix/ember-testing-library';
 import hbs from 'htmlbars-inline-precompile';
-import { setupRenderingTest } from 'ember-qunit';
+import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 
 module('Integration | Component | session-summary-list', function (hooks) {
-  setupRenderingTest(hooks);
+  setupIntlRenderingTest(hooks);
 
   hooks.beforeEach(function () {
     this.set('goToSessionDetailsSpy', () => {});
@@ -68,13 +68,13 @@ module('Integration | Component | session-summary-list', function (hooks) {
       this.sessionSummaries = sessionSummaries;
 
       // when
-      await render(hbs`<SessionSummaryList
+      const screen = await renderScreen(hbs`<SessionSummaryList
                   @sessionSummaries={{this.sessionSummaries}}
                   @goToSessionDetails={{this.goToSessionDetailsSpy}} />`);
 
       // then
       assert.notContains('Aucune session trouvée');
-      assert.dom('[aria-label="Session de certification"]').exists({ count: 2 });
+      assert.strictEqual(screen.getAllByRole('row', { name: 'Session de certification' }).length, 2);
     });
 
     test('it should display all the attributes of the session summary in the row', async function (assert) {
@@ -126,12 +126,12 @@ module('Integration | Component | session-summary-list', function (hooks) {
         rowCount: 1,
       };
       this.sessionSummaries = sessionSummaries;
-      await render(hbs`<SessionSummaryList
+      const screen = await renderScreen(hbs`<SessionSummaryList
                   @sessionSummaries={{this.sessionSummaries}}
                   @goToSessionDetails={{this.goToSessionDetailsSpy}} />`);
 
       // when
-      await click('[aria-label="Session de certification"]');
+      await click(screen.getByRole('row', { name: 'Session de certification' }));
 
       // then
       sinon.assert.calledWith(this.goToSessionDetailsSpy, '123');
@@ -152,12 +152,12 @@ module('Integration | Component | session-summary-list', function (hooks) {
       this.sessionSummaries = sessionSummaries;
 
       // when
-      await render(hbs`<SessionSummaryList
+      const screen = await renderScreen(hbs`<SessionSummaryList
                   @sessionSummaries={{this.sessionSummaries}}
                   @goToSessionDetails={{this.goToSessionDetailsSpy}} />`);
 
       // then
-      assert.dom('a[href="/sessions/123"]').exists();
+      assert.dom(screen.getByRole('link', { name: 'Session 123' })).exists();
     });
 
     module('when there is at least one effective candidate', function () {
@@ -230,10 +230,101 @@ module('Integration | Component | session-summary-list', function (hooks) {
           await click(screen.getByRole('button', { name: 'Supprimer la session 123' }));
 
           // then
-          assert.dom(screen.getByRole('heading', { name: 'Supprimer la session' })).exists();
+          assert
+            .dom(screen.getByRole('heading', { name: this.intl.t('pages.sessions.list.delete-modal.title') }))
+            .exists();
           assert
             .dom(screen.getByText('Souhaitez-vous supprimer la session', { exact: false }))
             .hasText('Souhaitez-vous supprimer la session 123 ?');
+        });
+
+        module('when there are enrolled candidates', function () {
+          test('it should open the modal with the number of enrolled candidates (plural)', async function (assert) {
+            // given
+            this.goToSessionDetailsSpy = sinon.stub();
+            const store = this.owner.lookup('service:store');
+            const sessionSummary = store.createRecord('session-summary', {
+              id: 123,
+              enrolledCandidatesCount: 5,
+              meta: {
+                rowCount: 1,
+              },
+            });
+            this.sessionSummaries = [sessionSummary];
+
+            const screen = await renderScreen(hbs`<SessionSummaryList
+                    @sessionSummaries={{this.sessionSummaries}}
+                    @goToSessionDetails={{this.goToSessionDetailsSpy}}/>`);
+
+            // when
+            await click(screen.getByRole('button', { name: 'Supprimer la session 123' }));
+
+            // then
+            assert
+              .dom(screen.getByRole('heading', { name: this.intl.t('pages.sessions.list.delete-modal.title') }))
+              .exists();
+            assert
+              .dom(screen.getByText('sont inscrits à cette session', { exact: false }))
+              .hasText('5 candidats sont inscrits à cette session');
+          });
+
+          test('it should open the modal with the number of enrolled candidates (singular)', async function (assert) {
+            // given
+            this.goToSessionDetailsSpy = sinon.stub();
+            const store = this.owner.lookup('service:store');
+            const sessionSummary = store.createRecord('session-summary', {
+              id: 123,
+              enrolledCandidatesCount: 1,
+              meta: {
+                rowCount: 1,
+              },
+            });
+            this.sessionSummaries = [sessionSummary];
+
+            const screen = await renderScreen(hbs`<SessionSummaryList
+                    @sessionSummaries={{this.sessionSummaries}}
+                    @goToSessionDetails={{this.goToSessionDetailsSpy}}/>`);
+
+            // when
+            await click(screen.getByRole('button', { name: 'Supprimer la session 123' }));
+
+            // then
+            assert
+              .dom(screen.getByRole('heading', { name: this.intl.t('pages.sessions.list.delete-modal.title') }))
+              .exists();
+            assert
+              .dom(screen.getByText('est inscrit à cette session', { exact: false }))
+              .hasText('1 candidat est inscrit à cette session');
+          });
+        });
+
+        module('when there are no enrolled candidates', function () {
+          test('it should open the modal without the number of enrolled candidates', async function (assert) {
+            // given
+            this.goToSessionDetailsSpy = sinon.stub();
+            const store = this.owner.lookup('service:store');
+            const sessionSummary = store.createRecord('session-summary', {
+              id: 123,
+              enrolledCandidatesCount: 0,
+              meta: {
+                rowCount: 1,
+              },
+            });
+            this.sessionSummaries = [sessionSummary];
+
+            const screen = await renderScreen(hbs`<SessionSummaryList
+                      @sessionSummaries={{this.sessionSummaries}}
+                      @goToSessionDetails={{this.goToSessionDetailsSpy}}/>`);
+
+            // when
+            await click(screen.getByRole('button', { name: 'Supprimer la session 123' }));
+
+            // then
+            assert
+              .dom(screen.getByRole('heading', { name: this.intl.t('pages.sessions.list.delete-modal.title') }))
+              .exists();
+            assert.dom(screen.queryByText('sont inscrits à cette session', { exact: false })).doesNotExist();
+          });
         });
 
         module('when clicking on modal delete button', function () {
@@ -259,7 +350,7 @@ module('Integration | Component | session-summary-list', function (hooks) {
             await click(screen.getByRole('button', { name: 'Fermer' }));
 
             // then
-            assert.dom(screen.queryByText('Supprimer la session')).doesNotExist();
+            assert.dom(screen.queryByText(this.intl.t('pages.sessions.list.delete-modal.title'))).doesNotExist();
           });
         });
       });
