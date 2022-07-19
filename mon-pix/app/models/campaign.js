@@ -46,7 +46,7 @@ export default class Campaign extends Model {
     return this.organizationType === 'SUP';
   }
 
-  get isRestrictedByPoleEmploiIdentityProvider() {
-    return this.identityProvider === 'POLE_EMPLOI';
+  isRestrictedByIdentityProvider(identityProvider) {
+    return this.identityProvider === identityProvider;
   }
 }

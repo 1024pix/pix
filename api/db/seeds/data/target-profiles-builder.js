@@ -181,6 +181,7 @@ const TARGET_PROFILE_PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE = 9;
 const TARGET_PROFILE_PIX_EDU_FORMATION_INITIALE_1ER_DEGRE = 10;
 const TARGET_PROFILE_PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE = 11;
 const TARGET_PROFILE_PIX_EMPLOI_CLEA_ID_V3 = 12;
+const TARGET_PROFILE_CNAV_ID = 13;
 
 function targetProfilesBuilder({ databaseBuilder }) {
   _buildTargetProfilePICDiagnosticInitial(databaseBuilder);
@@ -195,6 +196,7 @@ function targetProfilesBuilder({ databaseBuilder }) {
   _buildTargetProfilePixEduFormationInitiale1erDegre(databaseBuilder);
   _buildTargetProfilePixEduFormationContinue2ndDegre(databaseBuilder);
   _buildTargetProfilePixEduFormationContinue1erDegre(databaseBuilder);
+  _buildTargetProfileCnav(databaseBuilder);
 }
 
 function _buildTargetProfilePICDiagnosticInitial(databaseBuilder) {
@@ -843,6 +845,18 @@ function _buildTargetProfilePixEduFormationContinue1erDegre(databaseBuilder) {
   });
 }
 
+function _buildTargetProfileCnav(databaseBuilder) {
+  databaseBuilder.factory.buildTargetProfile({
+    id: TARGET_PROFILE_CNAV_ID,
+    name: 'Parcours Cnav',
+    isPublic: false,
+  });
+
+  ['recAzV1ljhCdjrasn', 'recx7WnZJCXVgCvN4'].forEach((skillId) => {
+    databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: TARGET_PROFILE_CNAV_ID, skillId });
+  });
+}
+
 module.exports = {
   targetProfilesBuilder,
   TARGET_PROFILE_PIC_DIAG_INITIAL_ID,
@@ -857,6 +871,7 @@ module.exports = {
   TARGET_PROFILE_PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE,
   TARGET_PROFILE_PIX_EDU_FORMATION_INITIALE_1ER_DEGRE,
   TARGET_PROFILE_PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE,
+  TARGET_PROFILE_CNAV_ID,
   targetProfileSkillIdsForCleaBadgeV1,
   targetProfileSkillIdsForCleaBadgeV2,
   targetProfileSkillIdsForCleaBadgeV3,

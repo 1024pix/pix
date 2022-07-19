@@ -2,6 +2,8 @@ const get = require('lodash/get');
 const { UnauthorizedError, BadRequestError } = require('../http-errors');
 const tokenService = require('../../domain/services/token-service');
 const usecases = require('../../domain/usecases');
+const authenticationRegistry = require('../../domain/services/authentication/authentication-service-registry');
+const AuthenticationMethod = require('../../domain/models/AuthenticationMethod');
 
 module.exports = {
   /**
@@ -44,12 +46,16 @@ module.exports = {
 
   async authenticateCnavUser(request) {
     const { code, redirect_uri: redirectUri, state_sent: stateSent, state_received: stateReceived } = request.payload;
+    const { oidcAuthenticationService } = authenticationRegistry.lookupAuthenticationService(
+      AuthenticationMethod.identityProviders.CNAV
+    );
 
     const result = await usecases.authenticateCnavUser({
       code,
       redirectUri,
       stateReceived,
       stateSent,
+      oidcAuthenticationService,
     });
 
     if (result.isAuthenticationComplete) {
@@ -91,6 +97,9 @@ module.exports = {
   async authenticatePoleEmploiUser(request) {
     const authenticatedUserId = get(request.auth, 'credentials.userId');
     const { code, redirect_uri: redirectUri, state_sent: stateSent, state_received: stateReceived } = request.payload;
+    const { oidcAuthenticationService } = authenticationRegistry.lookupAuthenticationService(
+      AuthenticationMethod.identityProviders.POLE_EMPLOI
+    );
 
     const result = await usecases.authenticatePoleEmploiUser({
       authenticatedUserId,
@@ -98,6 +107,7 @@ module.exports = {
       redirectUri,
       stateReceived,
       stateSent,
+      oidcAuthenticationService,
     });
 
     if (result.pixAccessToken && result.poleEmploiAuthenticationSessionContent) {
