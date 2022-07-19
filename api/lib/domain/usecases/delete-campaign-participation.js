@@ -7,11 +7,12 @@ module.exports = async function deleteCampaignParticipation({
   campaignParticipationId,
   campaignParticipationRepository,
 }) {
-  const campaignParticipations = await campaignParticipationRepository.getAllCampaignParticipationsForAUser({
-    campaignId,
-    campaignParticipationId,
-    domainTransaction,
-  });
+  const campaignParticipations =
+    await campaignParticipationRepository.getAllCampaignParticipationsInCampaignForASameLearner({
+      campaignId,
+      campaignParticipationId,
+      domainTransaction,
+    });
 
   await bluebird.mapSeries(campaignParticipations, async (campaignParticipation) => {
     campaignParticipation.delete(userId);

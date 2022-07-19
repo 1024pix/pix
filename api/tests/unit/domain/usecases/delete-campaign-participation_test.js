@@ -17,7 +17,7 @@ describe('Unit | UseCase | delete-campaign-participation', function () {
 
   it('should call repository method to delete a campaign participation', async function () {
     const campaignParticipationRepository = {
-      getAllCampaignParticipationsForAUser: sinon.stub(),
+      getAllCampaignParticipationsInCampaignForASameLearner: sinon.stub(),
       delete: sinon.stub(),
     };
     const campaignParticipationId = 1234;
@@ -42,7 +42,7 @@ describe('Unit | UseCase | delete-campaign-participation', function () {
 
     const campaignParticipations = [campaignParticipation1, campaignParticipation2];
 
-    await campaignParticipationRepository.getAllCampaignParticipationsForAUser
+    await campaignParticipationRepository.getAllCampaignParticipationsInCampaignForASameLearner
       .withArgs({
         campaignId,
         campaignParticipationId,
