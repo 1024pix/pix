@@ -45,6 +45,7 @@ Router.map(function () {
       this.route('list');
       this.route('get', { path: '/:user_id' }, function () {
         this.route('information', { path: '/' });
+        this.route('profile');
       });
     });
 
