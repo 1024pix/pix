@@ -1193,7 +1193,7 @@ describe('Integration | Repository | Campaign Participation', function () {
     });
   });
 
-  describe('#getAllCampaignParticipationsForAUser', function () {
+  describe('#getAllCampaignParticipationsInCampaignForASameLearner', function () {
     let campaignId;
     let organizationLearnerId;
     let organizationId;
@@ -1218,7 +1218,7 @@ describe('Integration | Repository | Campaign Participation', function () {
 
         const error = await catchErr(async function () {
           await DomainTransaction.execute(async (domainTransaction) => {
-            await campaignParticipationRepository.getAllCampaignParticipationsForAUser({
+            await campaignParticipationRepository.getAllCampaignParticipationsInCampaignForASameLearner({
               campaignId,
               campaignParticipationId: campaignParticipationToDelete.id,
               domainTransaction,
@@ -1248,7 +1248,7 @@ describe('Integration | Repository | Campaign Participation', function () {
         await databaseBuilder.commit();
 
         const participations = await DomainTransaction.execute((domainTransaction) => {
-          return campaignParticipationRepository.getAllCampaignParticipationsForAUser({
+          return campaignParticipationRepository.getAllCampaignParticipationsInCampaignForASameLearner({
             campaignId,
             campaignParticipationId: campaignParticipationToDelete.id,
             domainTransaction,
@@ -1281,7 +1281,7 @@ describe('Integration | Repository | Campaign Participation', function () {
         await databaseBuilder.commit();
 
         const participations = await DomainTransaction.execute((domainTransaction) => {
-          return campaignParticipationRepository.getAllCampaignParticipationsForAUser({
+          return campaignParticipationRepository.getAllCampaignParticipationsInCampaignForASameLearner({
             campaignId,
             campaignParticipationId: campaignParticipationToDelete.id,
             domainTransaction,
@@ -1315,7 +1315,7 @@ describe('Integration | Repository | Campaign Participation', function () {
         await databaseBuilder.commit();
 
         const participations = await DomainTransaction.execute((domainTransaction) => {
-          return campaignParticipationRepository.getAllCampaignParticipationsForAUser({
+          return campaignParticipationRepository.getAllCampaignParticipationsInCampaignForASameLearner({
             campaignId,
             campaignParticipationId: campaignParticipationToDelete.id,
             domainTransaction,
