@@ -151,7 +151,7 @@ exports.register = async function (server) {
         handler: certificationController.getCpfExport,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés ayant un rôle SUPER_ADMIN OU CERTIF **\n' +
-            '- Récupération des certifications publiées entre deux dates au format XML pour le CPF',
+            '- Envoi des certifications publiées entre deux dates dans un bucket OVH pour le CPF',
         ],
         tags: ['api', 'certifications', 'CPF'],
       },

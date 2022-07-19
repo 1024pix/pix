@@ -6,6 +6,7 @@ const shareableCertificateSerializer = require('../../infrastructure/serializers
 const certificationAttestationPdf = require('../../infrastructure/utils/pdf/certification-attestation-pdf');
 const cpfCertificationXmlExportService = require('../../domain/services/cpf-certification-xml-export-service');
 const requestResponseUtils = require('../../infrastructure/utils/request-response-utils');
+const cpfExternalStorage = require('../../infrastructure/external-storage/cpf-external-storage');
 
 const moment = require('moment');
 
@@ -85,24 +86,17 @@ module.exports = {
     return h.response().code(204);
   },
 
-  async getCpfExport(request) {
+  async getCpfExport(request, h) {
     const { startDate, endDate } = request.query;
 
     const cpfCertificationResults = await usecases.getCpfCertificationResults({ startDate, endDate });
 
     const writableStream = new PassThrough();
-    cpfCertificationXmlExportService.getXmlExport({ cpfCertificationResults, writableStream });
+    cpfCertificationXmlExportService.buildXmlExport({ cpfCertificationResults, writableStream });
 
     const filename = `pix-cpf-export-from-${startDate}-to-${endDate}.xml`;
-    writableStream.headers = {
-      'content-type': 'text/xml;charset=utf-8',
-      'content-disposition': `attachment; filename="${filename}"`,
+    cpfExternalStorage.upload({ filename, writableStream });
 
-      // WHY: to avoid compression because when compressing, the server buffers
-      // for too long causing a response timeout.
-      'content-encoding': 'identity',
-    };
-
-    return writableStream;
+    return h.response().code(204);
   },
 };
