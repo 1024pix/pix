@@ -7,6 +7,7 @@ export default class ChallengeRoute extends Route {
   @service currentUser;
   @service router;
   @service store;
+  @service focusedCertificationChallengeWarningManager;
 
   async model(params) {
     const assessment = await this.modelFor('assessments');
@@ -37,6 +38,10 @@ export default class ChallengeRoute extends Route {
 
     // WORKAROUND for PIX-4471 (wrongly displayed focusedout message)
     if (assessment.lastQuestionState === 'focusedout') await assessment.reload();
+
+    if (assessment.isCertification && challenge.focused) {
+      this.focusedCertificationChallengeWarningManager.reset();
+    }
 
     return RSVP.hash({
       assessment,
