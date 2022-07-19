@@ -42,6 +42,29 @@ describe('Unit | Domain | Models | CertificationCenter', function () {
     });
   });
 
+  describe('#isHabilitatedPixPlusEdu1erDegre', function () {
+    it('should return false when the certification center does not have Pix+ Edu 1er degre habilitation', function () {
+      // given
+      const certificationCenter = domainBuilder.buildCertificationCenter({ habilitations: [] });
+
+      // then
+      expect(certificationCenter.isHabilitatedPixPlusEdu1erDegre).to.be.false;
+    });
+
+    it('should return true when the certification center has Pix+ Edu 1er degre habilitation', function () {
+      // given
+      const pixPlusEdu1erDegreComplementaryCertification = domainBuilder.buildComplementaryCertification({
+        name: 'Pix+ Édu 1er degré',
+      });
+      const certificationCenter = domainBuilder.buildCertificationCenter({
+        habilitations: [pixPlusEdu1erDegreComplementaryCertification],
+      });
+
+      // then
+      expect(certificationCenter.isHabilitatedPixPlusEdu1erDegre).to.be.true;
+    });
+  });
+
   describe('#isHabilitatedClea', function () {
     it('should return false when the certification center does not have Cléa numérique complementary certification', function () {
       // given
