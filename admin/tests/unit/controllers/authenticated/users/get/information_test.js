@@ -3,14 +3,14 @@ import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
 import EmberObject from '@ember/object';
 
-module('Unit | Controller | authenticated/users/get', function (hooks) {
+module('Unit | Controller | authenticated/users/get/information', function (hooks) {
   setupTest(hooks);
   module('#reassignAuthenticationMethodToAnotherUser', function () {
     module('With Pole Emploi identity provider', function () {
       test('should display error message when an 422 error occurred', async function (assert) {
         // given
         const identityProvider = 'POLE_EMPLOI';
-        const controller = this.owner.lookup('controller:authenticated.users.get');
+        const controller = this.owner.lookup('controller:authenticated.users.get.information');
 
         const originUserId = 1;
         const targetUserId = 2;
