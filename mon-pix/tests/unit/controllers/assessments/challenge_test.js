@@ -139,9 +139,8 @@ describe('Unit | Controller | Assessments | Challenge', function () {
           const focusedCertificationChallengeWarningManager = this.owner.lookup(
             'service:focused-certification-challenge-warning-manager'
           );
-          sinon
-            .stub(focusedCertificationChallengeWarningManager, 'hasConfirmed')
-            .returns(data.hasUserConfirmedCertificationFocusWarning);
+          focusedCertificationChallengeWarningManager._hasConfirmedFocusChallengeScreen =
+            data.hasUserConfirmedCertificationFocusWarning;
 
           const challenge = {
             id: 'rec_123',
@@ -154,7 +153,6 @@ describe('Unit | Controller | Assessments | Challenge', function () {
           const assessment = { isCertification: true };
 
           controller.model = { challenge, answer, assessment };
-          controller.hasUserConfirmedCertificationFocusWarning = data.hasUserConfirmedCertificationFocusWarning;
 
           // when
           const result = controller.displayChallenge;
