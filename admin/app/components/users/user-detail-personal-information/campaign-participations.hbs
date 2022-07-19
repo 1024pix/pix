@@ -13,6 +13,9 @@
         <th>Statut</th>
         <th>Date d'envoi</th>
         <th>Supprimé le</th>
+        {{#if this.accessControl.hasAccessToUsersActionsScope}}
+          <th>Actions</th>
+        {{/if}}
       </tr>
     </thead>
     <tbody>
@@ -45,6 +48,19 @@
           {{else}}
             <td>-</td>
           {{/if}}
+          {{#if this.accessControl.hasAccessToUsersActionsScope}}
+            <td>
+              {{#unless participation.deletedAt}}
+                <PixButton
+                  @triggerAction={{fn this.toggleDisplayRemoveParticipationModal participation}}
+                  @size="small"
+                  @backgroundColor="red"
+                >
+                  Supprimer
+                </PixButton>
+              {{/unless}}
+            </td>
+          {{/if}}
         </tr>
       {{/each}}
     </tbody>
@@ -53,3 +69,13 @@
     <div class="table__empty">Aucune participation</div>
   {{/unless}}
 </div>
+
+<ConfirmPopup
+  @message="Vous êtes sur le point de supprimer la ou les participation(s) de {{this.participationToDelete.organizationLearnerFullName}} (y compris celles améliorées), celle-ci ne sera plus visible ni comprise dans les statistiques de la campagne de Pix Orga. Le participant pourra terminer son parcours mais ne pourra plus envoyer ses résultats. Il ne pourra pas non plus participer de nouveau à cette campagne."
+  @title="Supprimer cette participation ?"
+  @submitTitle="Oui, je supprime"
+  @submitButtonType="danger"
+  @confirm={{this.removeParticipation}}
+  @cancel={{this.toggleDisplayRemoveParticipationModal}}
+  @show={{this.displayRemoveParticipationModal}}
+/>
