@@ -12,6 +12,17 @@ module('Integration | Component | Organizations | places', function (hooks) {
     store = this.owner.lookup('service:store');
   });
 
+  module('Display add places', function () {
+    test('it should display button to add places', async function (assert) {
+      //Given
+      this.set('places', []);
+      // when
+      const screen = await render(hbs`<Organizations::Places @places={{this.places}}/>`);
+      // then
+      assert.dom(screen.getByText('Ajouter des places')).exists();
+    });
+  });
+
   module('Display places', function () {
     test('it should display title and no results text', async function (assert) {
       //Given
