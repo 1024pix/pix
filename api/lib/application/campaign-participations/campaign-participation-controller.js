@@ -157,4 +157,6 @@ module.exports = {
     await usecases.updateParticipantExternalId({ campaignParticipationId, participantExternalId });
     return h.response({}).code(204);
   },
+
+  deleteCampaignParticipationForAdmin() {},
 };
