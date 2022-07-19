@@ -13,8 +13,10 @@ const supOrganizationLearnerWarningSerializer = require('../../infrastructure/se
 const organizationAttachTargetProfilesSerializer = require('../../infrastructure/serializers/jsonapi/organization-attach-target-profiles-serializer');
 const TargetProfileForSpecifierSerializer = require('../../infrastructure/serializers/jsonapi/campaign/target-profile-for-specifier-serializer');
 const organizationMemberIdentitySerializer = require('../../infrastructure/serializers/jsonapi/organization-member-identity-serializer');
-const organizationPlaceSerializer = require('../../infrastructure/serializers/jsonapi/organization/organization-place-serializer');
+const organizationPlacesLotManagmentSerializer = require('../../infrastructure/serializers/jsonapi/organization/organization-places-lot-management-serializer');
+const organizationPlacesLotSerializer = require('../../infrastructure/serializers/jsonapi/organization/organization-places-lot-serializer');
 const organizationParticipantsSerializer = require('../../infrastructure/serializers/jsonapi/organization/organization-participants-serializer');
+
 const SupOrganizationLearnerParser = require('../../infrastructure/serializers/csv/sup-organization-learner-parser');
 const queryParamsUtils = require('../../infrastructure/utils/query-params-utils');
 const {
@@ -127,10 +129,22 @@ module.exports = {
     return organizationMemberIdentitySerializer.serialize(members);
   },
 
-  async findOrganizationPlaces(request) {
+  async findOrganizationPlacesLot(request) {
     const organizationId = request.params.id;
-    const places = await usecases.findOrganizationPlaces({ organizationId });
-    return organizationPlaceSerializer.serialize(places);
+    const places = await usecases.findOrganizationPlacesLot({ organizationId });
+    return organizationPlacesLotManagmentSerializer.serialize(places);
+  },
+
+  async createOrganizationPlacesLot(request, h) {
+    const organizationId = request.params.id;
+    const createdBy = request.auth.credentials.userId;
+    const organizationPlacesLotData = await organizationPlacesLotSerializer.deserialize(request.payload);
+    const organizationPlacesLot = await usecases.createOrganizationPlacesLot({
+      organizationPlacesLotData,
+      organizationId,
+      createdBy,
+    });
+    return h.response(organizationPlacesLotManagmentSerializer.serialize(organizationPlacesLot)).code(201);
   },
 
   async downloadCertificationAttestationsForDivision(request, h) {

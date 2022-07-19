@@ -5,6 +5,7 @@ const {
   insertUserWithRoleSuperAdmin,
 } = require('../../../test-helper');
 const createServer = require('../../../../server');
+const organizationPlacesLotCategories = require('../../../../lib/domain/constants/organization-places-categories');
 
 describe('Acceptance | Route | Organizations', function () {
   describe('GET /api/admin/organizations/{id}/places', function () {
@@ -20,7 +21,7 @@ describe('Acceptance | Route | Organizations', function () {
         activationDate: new Date('2020-01-01'),
         expirationDate: new Date('2021-01-01'),
         reference: 'Godzilla',
-        category: 'Toho',
+        category: organizationPlacesLotCategories.FULL_RATE,
         createdBy: adminUser.id,
       });
 

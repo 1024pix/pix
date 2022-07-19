@@ -20,8 +20,9 @@ const campaignReportSerializer = require('../../../../lib/infrastructure/seriali
 const organizationInvitationSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/organization-invitation-serializer');
 const organizationParticipantsSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/organization/organization-participants-serializer');
 const organizationSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/organization-serializer');
+const organizationPlacesLotManagementSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/organization/organization-places-lot-management-serializer');
+const organizationPlacesLotSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/organization/organization-places-lot-serializer');
 const organizationForAdminSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/organization-for-admin-serializer');
-const organizationPlacesSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/organization/organization-place-serializer');
 const TargetProfileForSpecifierSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/campaign/target-profile-for-specifier-serializer');
 const userWithOrganizationLearnerSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/user-with-organization-learner-serializer');
 const organizationAttachTargetProfilesSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/organization-attach-target-profiles-serializer');
@@ -57,7 +58,7 @@ describe('Unit | Application | Organizations | organization-controller', functio
     });
   });
 
-  describe('#findOrganizationPlaces', function () {
+  describe('#findOrganizationPlacesLot', function () {
     it('should call the usecase and serialize the response', async function () {
       // given
       const organizationId = 1234;
@@ -65,17 +66,75 @@ describe('Unit | Application | Organizations | organization-controller', functio
 
       const organizationPlaces = Symbol('organizationPlaces');
       const organizationPlacesSerialized = Symbol('organizationPlacesSerialized');
-      sinon.stub(usecases, 'findOrganizationPlaces').withArgs({ organizationId }).resolves(organizationPlaces);
+      sinon.stub(usecases, 'findOrganizationPlacesLot').withArgs({ organizationId }).resolves(organizationPlaces);
       sinon
-        .stub(organizationPlacesSerializer, 'serialize')
+        .stub(organizationPlacesLotManagementSerializer, 'serialize')
         .withArgs(organizationPlaces)
         .returns(organizationPlacesSerialized);
 
       // when
-      const result = await organizationController.findOrganizationPlaces(request, hFake);
+      const result = await organizationController.findOrganizationPlacesLot(request, hFake);
 
       // then
       expect(result).to.equal(organizationPlacesSerialized);
+    });
+  });
+
+  describe('#createOrganizationPlacesLot', function () {
+    beforeEach(function () {
+      sinon.stub(usecases, 'createOrganizationPlacesLot');
+      sinon.stub(organizationPlacesLotManagementSerializer, 'serialize');
+      sinon.stub(organizationPlacesLotSerializer, 'deserialize');
+    });
+
+    context('successful case', function () {
+      it('should create a lot of organization places', async function () {
+        // given
+        const OrganizationPlacesLotToCreate = domainBuilder.buildOrganizationPlacesLot();
+
+        const createdBy = Symbol('createdBy');
+        const organizationId = Symbol('organizationId');
+        const organizationPlacesLotData = Symbol('organizationPlacesLotData');
+        const organizationPlacesLot = Symbol('organizationPlacesLot');
+        const organizationPlacesLotSerialized = Symbol('OrganizationPlacesSetSerlialized');
+
+        const request = {
+          params: {
+            id: organizationId,
+          },
+          auth: { credentials: { accessToken: 'valid.access.token', userId: createdBy } },
+          payload: {
+            data: {
+              attributes: {
+                'organization-id': OrganizationPlacesLotToCreate.organizationId,
+                count: OrganizationPlacesLotToCreate.count,
+                'activation-date': OrganizationPlacesLotToCreate.activationDate,
+                'expiration-date': OrganizationPlacesLotToCreate.expirationDate,
+                reference: OrganizationPlacesLotToCreate.reference,
+                category: OrganizationPlacesLotToCreate.category,
+                'created-by': OrganizationPlacesLotToCreate.createdBy,
+              },
+            },
+          },
+        };
+
+        organizationPlacesLotSerializer.deserialize.withArgs(request.payload).returns(organizationPlacesLotData);
+        usecases.createOrganizationPlacesLot
+          .withArgs({
+            organizationPlacesLotData,
+            organizationId,
+            createdBy,
+          })
+          .returns(organizationPlacesLot);
+        organizationPlacesLotManagementSerializer.serialize
+          .withArgs(organizationPlacesLot)
+          .returns(organizationPlacesLotSerialized);
+
+        // when
+        const response = await organizationController.createOrganizationPlacesLot(request, hFake);
+        // then
+        expect(response.source).to.be.equal(organizationPlacesLotSerialized);
+      });
     });
   });
 

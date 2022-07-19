@@ -1,4 +1,4 @@
-const Joi = require('joi');
+const Joi = require('joi').extend(require('@joi/date'));
 
 const { sendJsonApiError, PayloadTooLargeError, NotFoundError, BadRequestError } = require('../http-errors');
 const securityPreHandlers = require('../security-pre-handlers');
@@ -238,12 +238,38 @@ exports.register = async (server) => {
             id: identifiersType.organizationId,
           }),
         },
-        handler: organizationController.findOrganizationPlaces,
+        handler: organizationController.findOrganizationPlacesLot,
         tags: ['api', 'organizations'],
         notes: [
           "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n" +
             "- Elle retourne la liste des commandes de places faites par l'organisation",
         ],
+      },
+    },
+    {
+      method: 'POST',
+      path: '/api/admin/organizations/{id}/places',
+      config: {
+        pre: [
+          {
+            method: (request, h) =>
+              securityPreHandlers.adminMemberHasAtLeastOneAccessOf([
+                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+                securityPreHandlers.checkAdminMemberHasRoleMetier,
+              ])(request, h),
+          },
+        ],
+        handler: organizationController.createOrganizationPlacesLot,
+        validate: {
+          params: Joi.object({
+            id: identifiersType.organizationId,
+          }),
+        },
+        notes: [
+          "- **Cette route est restreinte aux utilisateurs authentifiés en tant que responsables de l'organisation**\n" +
+            "- Elle permet d'ajouter un lot des places à une organization",
+        ],
+        tags: ['api', 'organizations'],
       },
     },
     {
