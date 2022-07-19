@@ -9,7 +9,6 @@ export default class AuthenticatedUsersGetRoute extends Route {
     const user = await this.store.findRecord('user', params.user_id, {
       include: 'schoolingRegistrations,authenticationMethods',
     });
-    await user.belongsTo('profile').reload();
     await user.hasMany('participations').reload();
     return user;
   }
