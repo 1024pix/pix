@@ -1,18 +1,20 @@
+const categories = require('../constants/organization-places-categories');
+
 const statuses = {
   ACTIVE: 'ACTIVE',
   EXPIRED: 'EXPIRED',
   PENDING: 'PENDING',
 };
 
-const categories = {
-  T0: 'FREE_RATE',
-  T1: 'PUBLIC_RATE',
-  T2: 'REDUCE_RATE',
-  T2bis: 'SPECIAL_REDUCE_RATE',
-  T3: 'FULL_RATE',
+const categoriesByCode = {
+  [categories.T0]: categories.FREE_RATE,
+  [categories.T1]: categories.PUBLIC_RATE,
+  [categories.T2]: categories.REDUCE_RATE,
+  [categories.T2bis]: categories.SPECIAL_REDUCE_RATE,
+  [categories.T3]: categories.FULL_RATE,
 };
 
-class OrganizationPlace {
+class OrganizationPlacesLotManagement {
   constructor({
     id,
     count,
@@ -28,7 +30,7 @@ class OrganizationPlace {
     this.activationDate = activationDate;
     this.expirationDate = expirationDate;
     this.reference = reference;
-    this.category = categories[category];
+    this.category = categoriesByCode[category];
     this.creatorFullName = `${creatorFirstName} ${creatorLastName}`;
     this.status = _setStatus(activationDate, expirationDate);
   }
@@ -48,7 +50,7 @@ function _setStatus(activationDate, expirationDate) {
   return statuses.PENDING;
 }
 
-OrganizationPlace.statuses = statuses;
-OrganizationPlace.categories = categories;
+OrganizationPlacesLotManagement.statuses = statuses;
+OrganizationPlacesLotManagement.categories = categoriesByCode;
 
-module.exports = OrganizationPlace;
+module.exports = OrganizationPlacesLotManagement;
