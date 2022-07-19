@@ -222,6 +222,7 @@ module.exports = injectDependencies(
     createUserAndReconcileToOrganizationLearnerFromExternalUser: require('./create-user-and-reconcile-to-organization-learner-from-external-user'),
     createUserFromExternalIdentityProvider: require('./create-user-from-external-identity-provider'),
     deleteCampaignParticipation: require('./delete-campaign-participation'),
+    deleteCampaignParticipationForAdmin: require('./delete-campaign-participation-for-admin'),
     deleteCertificationIssueReport: require('./delete-certification-issue-report'),
     deleteSessionJuryComment: require('./delete-session-jury-comment'),
     deleteSession: require('./delete-session'),
