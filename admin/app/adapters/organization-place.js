@@ -8,4 +8,9 @@ export default class OrganizationPlaceAdapter extends ApplicationAdapter {
     delete query.organizationId;
     return `${this.host}/${this.namespace}/organizations/${organizationId}/places`;
   }
+
+  urlForCreateRecord(modelName, { adapterOptions }) {
+    const { organizationId } = adapterOptions;
+    return `${this.host}/${this.namespace}/organizations/${organizationId}/places`;
+  }
 }
