@@ -26,6 +26,7 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
     assert.contains('Nom');
     assert.contains('Prénom');
     assert.contains('Nombre de participations');
+    assert.contains('Dernière participation');
   });
 
   test('it should display a list of participants', async function (assert) {
@@ -79,5 +80,22 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
     // then
     assert.dom(allRows[0]).containsText(4);
     assert.dom(allRows[1]).containsText(1);
+  });
+  test('it should display the date of the last participation for each participant', async function (assert) {
+    // given
+    const participants = [
+      { lastName: 'La Terreur', firstName: 'Gigi', id: 34, lastParticipationDate: new Date('2022-05-15') },
+      { lastName: "L'asticot", firstName: 'Gogo', id: 56, lastParticipationDate: new Date('2022-01-07') },
+    ];
+
+    this.set('participants', participants);
+
+    // when
+    const screen = await render(hbs`<OrganizationParticipant::List @participants={{participants}} />`);
+    const allRows = screen.getAllByLabelText(this.intl.t('pages.organization-participants.table.row-title'));
+
+    // then
+    assert.dom(allRows[0]).containsText('15/05/2022');
+    assert.dom(allRows[1]).containsText('07/01/2022');
   });
 });
