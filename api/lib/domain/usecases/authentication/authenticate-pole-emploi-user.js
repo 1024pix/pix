@@ -12,6 +12,7 @@ module.exports = async function authenticatePoleEmploiUser({
   stateSent,
   authenticationSessionService,
   poleEmploiAuthenticationService,
+  oidcAuthenticationService,
   authenticationMethodRepository,
   userRepository,
 }) {
@@ -43,6 +44,7 @@ module.exports = async function authenticatePoleEmploiUser({
       authenticatedUserId,
       authenticationComplement,
       poleEmploiAuthenticationService,
+      oidcAuthenticationService,
       authenticationMethodRepository,
       userRepository,
     });
@@ -60,6 +62,7 @@ module.exports = async function authenticatePoleEmploiUser({
         user,
         authenticationComplement,
         poleEmploiAuthenticationService,
+        oidcAuthenticationService,
         authenticationMethodRepository,
         userRepository,
       });
@@ -85,7 +88,7 @@ async function _getPixAccessTokenFromAlreadyAuthenticatedPixUser({
   userInfo,
   authenticatedUserId,
   authenticationComplement,
-  poleEmploiAuthenticationService,
+  oidcAuthenticationService,
   authenticationMethodRepository,
   userRepository,
 }) {
@@ -111,7 +114,8 @@ async function _getPixAccessTokenFromAlreadyAuthenticatedPixUser({
     });
     await authenticationMethodRepository.create({ authenticationMethod });
   }
-  const pixAccessToken = poleEmploiAuthenticationService.createAccessToken(authenticatedUserId);
+
+  const pixAccessToken = oidcAuthenticationService.createAccessToken(authenticatedUserId);
   await userRepository.updateLastLoggedAt({ userId: authenticatedUserId });
   return pixAccessToken;
 }
@@ -119,7 +123,7 @@ async function _getPixAccessTokenFromAlreadyAuthenticatedPixUser({
 async function _getPixAccessTokenFromPoleEmploiUser({
   user,
   authenticationComplement,
-  poleEmploiAuthenticationService,
+  oidcAuthenticationService,
   authenticationMethodRepository,
   userRepository,
 }) {
@@ -127,7 +131,8 @@ async function _getPixAccessTokenFromPoleEmploiUser({
     authenticationComplement,
     userId: user.id,
   });
-  const pixAccessToken = poleEmploiAuthenticationService.createAccessToken(user.id);
+
+  const pixAccessToken = oidcAuthenticationService.createAccessToken(user.id);
 
   await userRepository.updateLastLoggedAt({ userId: user.id });
   return pixAccessToken;

@@ -5,26 +5,10 @@ const querystring = require('querystring');
 const { AuthenticationTokenRetrievalError } = require('../../errors');
 const AuthenticationSessionContent = require('../../models/AuthenticationSessionContent');
 const jsonwebtoken = require('jsonwebtoken');
-const constants = require('../../constants');
 
 const DomainTransaction = require('../../../infrastructure/DomainTransaction');
 const AuthenticationMethod = require('../../models/AuthenticationMethod');
 const moment = require('moment');
-
-function createAccessToken(userId) {
-  const expirationDelaySeconds = settings.poleEmploi.accessTokenLifespanMs / 1000;
-  return jsonwebtoken.sign(
-    {
-      user_id: userId,
-      source: constants.SOURCE.POLE_EMPLOI,
-      identity_provider: constants.IDENTITY_PROVIDER.POLE_EMPLOI,
-    },
-    settings.authentication.secret,
-    {
-      expiresIn: expirationDelaySeconds,
-    }
-  );
-}
 
 async function exchangeCodeForTokens({ code, redirectUri }) {
   const data = {
@@ -123,7 +107,6 @@ async function createUserAccount({
 }
 
 module.exports = {
-  createAccessToken,
   exchangeCodeForTokens,
   getAuthUrl,
   getUserInfo,

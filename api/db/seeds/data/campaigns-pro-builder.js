@@ -5,6 +5,7 @@ const {
   TARGET_PROFILE_SIMPLIFIED_ACCESS_ID,
   TARGET_PROFILE_PIX_EMPLOI_CLEA_ID,
   TARGET_PROFILE_PIX_DROIT_ID,
+  TARGET_PROFILE_CNAV_ID,
 } = require('./target-profiles-builder');
 const {
   CERTIF_REGULAR_USER1_ID,
@@ -14,7 +15,7 @@ const {
   CERTIF_REGULAR_USER5_ID,
 } = require('./certification/users');
 const { PRO_BASICS_BADGE_ID, PRO_TOOLS_BADGE_ID } = require('./badges-builder');
-const { PRO_COMPANY_ID, PRO_POLE_EMPLOI_ID, PRO_MED_NUM_ID } = require('./organizations-pro-builder');
+const { PRO_COMPANY_ID, PRO_POLE_EMPLOI_ID, PRO_MED_NUM_ID, PRO_CNAV_ID } = require('./organizations-pro-builder');
 const { DEFAULT_PASSWORD } = require('./users-builder');
 const {
   participateToAssessmentCampaign,
@@ -97,6 +98,23 @@ __Plus d'infos :)__
     customLandingPageText: null,
     idPixLabel: null,
     createdAt: new Date('2020-01-11'),
+    multipleSendings: true,
+  });
+
+  databaseBuilder.factory.buildCampaign({
+    id: 27,
+    name: 'Pro - Campagne Pix CNAV',
+    code: 'PIXCNAV01',
+    organizationId: PRO_CNAV_ID,
+    creatorId: 2,
+    ownerId: 2,
+    targetProfileId: TARGET_PROFILE_CNAV_ID,
+    assessmentMethod: 'SMART_RANDOM',
+    createdAt: new Date('2020-01-11'),
+    type: 'ASSESSMENT',
+    title: null,
+    customLandingPageText: null,
+    idPixLabel: null,
     multipleSendings: true,
   });
 

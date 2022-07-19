@@ -55,6 +55,7 @@ export default class CnavAuthenticator extends BaseAuthenticator {
       access_token: data.access_token,
       source: decodedAccessToken.source,
       user_id: decodedAccessToken.user_id,
+      identity_provider: decodedAccessToken.identity_provider,
     };
   }
 }

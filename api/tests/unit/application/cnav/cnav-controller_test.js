@@ -3,7 +3,7 @@ const AuthenticationMethod = require('../../../../lib/domain/models/Authenticati
 const cnavController = require('../../../../lib/application/cnav/cnav-controller');
 const usecases = require('../../../../lib/domain/usecases');
 const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
-const cnavAuthenticationService = require('../../../../lib/domain/services/authentication/cnav-authentication-service');
+const authenticationRegistry = require('../../../../lib/domain/services/authentication/authentication-service-registry');
 
 describe('Unit | Controller | cnav-controller', function () {
   describe('#createUser', function () {
@@ -12,7 +12,11 @@ describe('Unit | Controller | cnav-controller', function () {
       const request = { query: { 'authentication-key': 'abcde' } };
       const userId = 7;
       sinon.stub(usecases, 'createUserFromExternalIdentityProvider').resolves({ userId });
-      sinon.stub(cnavAuthenticationService, 'createAccessToken').resolves('an access token');
+      sinon.stub(authenticationRegistry, 'lookupAuthenticationService').returns({
+        oidcAuthenticationService: {
+          createAccessToken: sinon.stub(),
+        },
+      });
       sinon.stub(userRepository, 'updateLastLoggedAt');
 
       // when
@@ -32,8 +36,16 @@ describe('Unit | Controller | cnav-controller', function () {
         .withArgs({ authenticationKey: 'abcde', identityProvider: AuthenticationMethod.identityProviders.CNAV })
         .resolves({ userId });
       sinon.stub(userRepository, 'updateLastLoggedAt');
-      sinon.stub(cnavAuthenticationService, 'createAccessToken').withArgs(userId).returns(accessToken);
-
+      const createAccessTokenStub = sinon.stub();
+      sinon
+        .stub(authenticationRegistry, 'lookupAuthenticationService')
+        .withArgs('CNAV')
+        .returns({
+          oidcAuthenticationService: {
+            createAccessToken: createAccessTokenStub,
+          },
+        });
+      createAccessTokenStub.withArgs(userId).returns(accessToken);
       // when
       const result = await cnavController.createUser(request, hFake);
 
