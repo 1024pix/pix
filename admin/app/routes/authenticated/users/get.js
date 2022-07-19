@@ -10,6 +10,7 @@ export default class AuthenticatedUsersGetRoute extends Route {
       include: 'schoolingRegistrations,authenticationMethods',
     });
     await user.belongsTo('profile').reload();
+    await user.hasMany('participations').reload();
     return user;
   }
 

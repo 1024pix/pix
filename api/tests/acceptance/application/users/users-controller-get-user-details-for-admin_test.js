@@ -8,7 +8,7 @@ const {
 
 const createServer = require('../../../../server');
 
-describe('Acceptance | Controller | users-controller-get-user-profile', function () {
+describe('Acceptance | Controller | users-controller-get-user-details-for-admin', function () {
   let options;
   let server;
   let user;
@@ -101,6 +101,11 @@ describe('Acceptance | Controller | users-controller-get-user-profile', function
               profile: {
                 links: {
                   related: `/api/admin/users/${user.id}/profile`,
+                },
+              },
+              participations: {
+                links: {
+                  related: `/api/admin/users/${user.id}/participations`,
                 },
               },
             },

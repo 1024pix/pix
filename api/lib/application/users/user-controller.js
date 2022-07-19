@@ -14,6 +14,7 @@ const userDetailsForAdminSerializer = require('../../infrastructure/serializers/
 const userAnonymizedDetailsForAdminSerializer = require('../../infrastructure/serializers/jsonapi/user-anonymized-details-for-admin-serializer');
 const updateEmailSerializer = require('../../infrastructure/serializers/jsonapi/update-email-serializer');
 const authenticationMethodsSerializer = require('../../infrastructure/serializers/jsonapi/authentication-methods-serializer');
+const campaignParticipationForUserManagementSerializer = require('../../infrastructure/serializers/jsonapi/campaign-participation-for-user-management-serializer');
 const queryParamsUtils = require('../../infrastructure/utils/query-params-utils');
 const { extractLocaleFromRequest } = require('../../infrastructure/utils/request-response-utils');
 
@@ -313,5 +314,13 @@ module.exports = {
       authenticationMethodId,
     });
     return h.response().code(204);
+  },
+
+  async findCampaignParticipationsForUserManagement(request, h) {
+    const userId = request.params.id;
+    const campaignParticipations = await usecases.findCampaignParticipationsForUserManagement({
+      userId,
+    });
+    return h.response(campaignParticipationForUserManagementSerializer.serialize(campaignParticipations));
   },
 };

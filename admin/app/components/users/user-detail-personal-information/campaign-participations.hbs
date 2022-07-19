@@ -1,0 +1,55 @@
+<header class="page-section__header">
+  <h2 class="page-section__title">Participations à des campagnes</h2>
+</header>
+
+<div class="campaign-participations-table content-text content-text--small">
+  <table class="table-admin">
+    <thead>
+      <tr>
+        <th>Prescrit</th>
+        <th>Campagne</th>
+        <th>Identifiant externe</th>
+        <th>Date de début</th>
+        <th>Statut</th>
+        <th>Date d'envoi</th>
+        <th>Supprimé le</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each @participations as |participation|}}
+        <tr aria-label="Participation">
+          <td>{{participation.organizationLearnerFullName}}</td>
+          <td>
+            <LinkTo @route="authenticated.campaigns.campaign" @model={{participation.campaignId}}>
+              {{participation.campaignCode}}
+            </LinkTo>
+          </td>
+          {{#if participation.participantExternalId}}
+            <td>{{participation.participantExternalId}}</td>
+          {{else}}
+            <td>-</td>
+          {{/if}}
+          <td>{{dayjs-format participation.createdAt "DD/MM/YYYY"}}</td>
+          <td>{{participation.displayedStatus}}</td>
+          <td>
+            {{if participation.sharedAt (dayjs-format participation.sharedAt "DD/MM/YYYY") "-"}}
+          </td>
+          {{#if participation.deletedAt}}
+            <td>
+              {{dayjs-format participation.deletedAt "DD/MM/YYYY"}}
+              par
+              <LinkTo @route="authenticated.users.get" @model={{participation.deletedBy}}>
+                {{participation.deletedByFullName}}
+              </LinkTo>
+            </td>
+          {{else}}
+            <td>-</td>
+          {{/if}}
+        </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  {{#unless @participations}}
+    <div class="table__empty">Aucune participation</div>
+  {{/unless}}
+</div>
