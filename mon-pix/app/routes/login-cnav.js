@@ -36,7 +36,12 @@ export default class LoginCnavRoute extends Route {
 
   afterModel({ shouldValidateCgu, authenticationKey } = {}) {
     if (shouldValidateCgu && authenticationKey) {
-      return this.router.replaceWith('terms-of-service-cnav', { queryParams: { authenticationKey } });
+      return this.router.replaceWith('terms-of-service-oidc', {
+        queryParams: {
+          authenticationKey,
+          identityProviderName: 'cnav',
+        },
+      });
     }
   }
 
