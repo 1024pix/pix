@@ -114,7 +114,7 @@ describe('Integration | Application | Organizations | Routes', function () {
 
       sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin').callsFake((request, h) => h.response(true));
       sinon
-        .stub(organizationController, 'findOrganizationPlaces')
+        .stub(organizationController, 'findOrganizationPlacesLot')
         .callsFake((request, h) => h.response('ok').code(200));
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -124,7 +124,7 @@ describe('Integration | Application | Organizations | Routes', function () {
 
       // then
       expect(response.statusCode).to.equal(200);
-      expect(organizationController.findOrganizationPlaces).to.have.been.calledOnce;
+      expect(organizationController.findOrganizationPlacesLot).to.have.been.calledOnce;
     });
   });
 
