@@ -1,5 +1,5 @@
 {{#each this.certifiedCompetenceList as |certifiedCompetence|}}
-  <section class="page-section mb_10 competence">
+  <section class="page-section competence">
     <span class="competence__border competence__border--{{certifiedCompetence.certifiedArea.color}}"></span>
     <div>
       <header class="competence__header">
@@ -51,7 +51,7 @@
     </div>
   </section>
 {{else}}
-  <section class="page-section mb_10">
+  <section class="page-section">
     <div class="table__empty">Profil certifié vide.</div>
   </section>
 {{/each}}
