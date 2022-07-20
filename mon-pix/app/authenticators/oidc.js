@@ -11,24 +11,23 @@ import fetch from 'fetch';
 
 const { host, afterLogoutUri, endSessionEndpoint } = ENV.poleEmploi;
 
-export default class PoleEmploiAuthenticator extends BaseAuthenticator {
+export default class OidcAuthenticator extends BaseAuthenticator {
   @service session;
   @service location;
 
-  async authenticate({ code, redirectUri, state, authenticationKey }) {
-    let request;
+  async authenticate({ code, redirectUri, state, identityProviderName, authenticationKey }) {
+    const request = {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+      },
+    };
     let serverTokenEndpoint;
 
     if (authenticationKey) {
-      serverTokenEndpoint = `${ENV.APP.API_HOST}/api/pole-emploi/users?authentication-key=${authenticationKey}`;
-      request = {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-        },
-      };
+      serverTokenEndpoint = `${ENV.APP.API_HOST}/api/${identityProviderName}/users?authentication-key=${authenticationKey}`;
     } else {
-      serverTokenEndpoint = `${ENV.APP.API_HOST}/api/pole-emploi/token`;
+      serverTokenEndpoint = `${ENV.APP.API_HOST}/api/${identityProviderName}/token`;
       const bodyObject = {
         code,
         redirect_uri: redirectUri,
@@ -36,27 +35,14 @@ export default class PoleEmploiAuthenticator extends BaseAuthenticator {
         state_received: state,
       };
 
-      const body = Object.keys(bodyObject)
+      request.headers['Content-Type'] = 'application/x-www-form-urlencoded';
+      request.body = Object.keys(bodyObject)
         .map((k) => `${k}=${encodeURIComponent(bodyObject[k])}`)
         .join('&');
 
-      request = {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body,
-      };
-
-      // We want to authorize users connected to Pix to connect to Pole Emploi as well
-      // in order to link their Pole Emploi account to the Pix one.
       if (this.session.isAuthenticated) {
         const accessToken = this.session.get('data.authenticated.access_token');
         request.headers['Authorization'] = `Bearer ${accessToken}`;
-        // We must ensure to disconnect the Pix user in order for the session service to fire
-        // the authenticationSucceeded event (and thus execute the ApplicationRouteMixin sessionAuthenticated() method).
-        // see: https://github.com/simplabs/ember-simple-auth/blob/92268fdcb9ac3d1c9f7b0abde4923dade7a0cd62/packages/ember-simple-auth/addon/internal-session.js#L95L106
         await this.session.invalidate();
       }
     }
@@ -112,7 +98,9 @@ export default class PoleEmploiAuthenticator extends BaseAuthenticator {
     return `${host}${endSessionEndpoint}?${params.join('&')}`;
   }
 
-  async invalidate() {
+  async invalidate(data) {
+    if (data?.identity_provider !== 'POLE_EMPLOI') return;
+
     let url = '';
     const { access_token, id_token, logout_url_uuid } = this.session.data.authenticated;
 
