@@ -7,6 +7,9 @@ const securityPreHandlers = require('../security-pre-handlers');
 const identifiersType = require('../../domain/types/identifiers-type');
 const { passwordValidationPattern } = require('../../config').account;
 
+const inePattern = new RegExp('^[0-9]{9}[a-zA-Z]{2}$');
+const inaPattern = new RegExp('^[0-9]{10}[a-zA-Z]{1}$');
+
 exports.register = async function (server) {
   server.route([
     {
@@ -450,6 +453,63 @@ exports.register = async function (server) {
         notes: [
           "- Génère un identifiant pour l'élève avec un mot de passe temporaire \n" +
             "- La demande de génération d'identifiant doit être effectuée par un membre de l'organisation à laquelle appartient l'élève.",
+        ],
+        tags: ['api', 'sco-organization-learners'],
+      },
+    },
+    {
+      method: 'POST',
+      path: '/api/schooling-registration-dependent-users/recover-account',
+      config: {
+        auth: false,
+        handler: scoOrganizationLearnerController.checkScoAccountRecovery,
+        validate: {
+          payload: Joi.object({
+            data: {
+              attributes: {
+                'first-name': Joi.string().empty(Joi.string().regex(/^\s*$/)).required(),
+                'last-name': Joi.string().empty(Joi.string().regex(/^\s*$/)).required(),
+                'ine-ina': Joi.alternatives().try(
+                  Joi.string().regex(inePattern).required(),
+                  Joi.string().regex(inaPattern).required()
+                ),
+                birthdate: Joi.date().format('YYYY-MM-DD').required(),
+              },
+            },
+          }).options({ allowUnknown: true }),
+        },
+        notes: [
+          "- Recherche d'un ancien élève par son ine/ina, prénom, nom, date de naissance \n" +
+            '- On renvoie les informations permettant de récupérer son compte Pix.',
+          "- L'usage de cette route est **dépréciée** en faveur de /api/sco-organization-learners/account-recovery",
+        ],
+        tags: ['api', 'organizationLearnerDependentUser', 'recovery'],
+      },
+    },
+    {
+      method: 'POST',
+      path: '/api/sco-organization-learners/account-recovery',
+      config: {
+        auth: false,
+        handler: scoOrganizationLearnerController.checkScoAccountRecovery,
+        validate: {
+          payload: Joi.object({
+            data: {
+              attributes: {
+                'first-name': Joi.string().empty(Joi.string().regex(/^\s*$/)).required(),
+                'last-name': Joi.string().empty(Joi.string().regex(/^\s*$/)).required(),
+                'ine-ina': Joi.alternatives().try(
+                  Joi.string().regex(inePattern).required(),
+                  Joi.string().regex(inaPattern).required()
+                ),
+                birthdate: Joi.date().format('YYYY-MM-DD').required(),
+              },
+            },
+          }).options({ allowUnknown: true }),
+        },
+        notes: [
+          "- Recherche d'un ancien élève par son ine/ina, prénom, nom, date de naissance \n" +
+            '- On renvoie les informations permettant de récupérer son compte Pix.',
         ],
         tags: ['api', 'sco-organization-learners'],
       },
