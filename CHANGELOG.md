@@ -1,5 +1,23 @@
 # Pix Changelog
 
+## v3.234.0 (20/07/2022)
+
+
+### :rocket: Amélioration
+- [#4654](https://github.com/1024pix/pix/pull/4654) [FEATURE] Afficher les candidat inscrits lors de la suppression d'une session (PIX-5337)
+- [#4663](https://github.com/1024pix/pix/pull/4663) [FEATURE] Restreindre l'accès aux campagnes de l'organisation CNAV sur Pix App(PIX-5114).
+- [#4665](https://github.com/1024pix/pix/pull/4665) [FEATURE] Ajouter la colonne 'Dernière participation' au tableau des Participants(PIX-5124)
+- [#4667](https://github.com/1024pix/pix/pull/4667) [FEATURE] Afficher la liste des participations aux campagne pour un utilisateur dans Pix Admin (PIX-5365).
+- [#4629](https://github.com/1024pix/pix/pull/4629) [FEATURE] Envoyer le fichier d'export des certification pour le CPF sur un espace de stockage OVH (PIX-5309)
+
+### :building_construction: Tech
+- [#4658](https://github.com/1024pix/pix/pull/4658) [TECH] Supprimer le feature toggle de la suppression des champs libres (PIX-5333)
+- [#4653](https://github.com/1024pix/pix/pull/4653) [TECH] Déprécier les routes schooling-registration-user-associations (PIX-5340).
+- [#4656](https://github.com/1024pix/pix/pull/4656) [TECH] Rétablir la preview des challenges focus en local (PIX-5353).
+- [#3839](https://github.com/1024pix/pix/pull/3839) [TECH] Migrer la colonne answers.id de INTEGER en BIG INTEGER avec downtime.
+- [#4659](https://github.com/1024pix/pix/pull/4659) [TECH] Prévenir une résolution de nom réseau dans les tests unitaires.
+- [#4607](https://github.com/1024pix/pix/pull/4607) [TECH] Renommer www en index.js
+
 ## v3.233.0 (18/07/2022)
 
 
