@@ -1,8 +1,10 @@
 const Joi = require('joi').extend(require('@joi/date'));
 
-const { sendJsonApiError, UnprocessableEntityError } = require('../http-errors');
+const { sendJsonApiError, UnprocessableEntityError, BadRequestError } = require('../http-errors');
 const scoOrganizationLearnerController = require('./sco-organization-learner-controller');
 const XRegExp = require('xregexp');
+const securityPreHandlers = require('../security-pre-handlers');
+const identifiersType = require('../../domain/types/identifiers-type');
 const { passwordValidationPattern } = require('../../config').account;
 
 exports.register = async function (server) {
@@ -310,6 +312,81 @@ exports.register = async function (server) {
           "Cette route crée un compte utilisateur suite à une connexion provenant d'un IDP externe (GAR). " +
             "Les informations sont fournies dans un token. Elle réconcilie également cet utilisateur avec l'inscription " +
             "de l'élève au sein de l'organisation qui a créé la campagne.",
+        ],
+        tags: ['api', 'sco-organization-learners'],
+      },
+    },
+    {
+      method: 'POST',
+      path: '/api/schooling-registration-dependent-users/password-update',
+      config: {
+        pre: [
+          {
+            method: securityPreHandlers.checkUserBelongsToScoOrganizationAndManagesStudents,
+            assign: 'belongsToScoOrganizationAndManageStudents',
+          },
+        ],
+        handler: scoOrganizationLearnerController.updatePassword,
+        validate: {
+          options: {
+            allowUnknown: true,
+          },
+          payload: Joi.object({
+            data: {
+              attributes: {
+                'organization-id': identifiersType.campaignId,
+                'schooling-registration-id': identifiersType.schoolingRegistrationId,
+              },
+            },
+          }),
+          failAction: (request, h) => {
+            return sendJsonApiError(
+              new BadRequestError('The server could not understand the request due to invalid syntax.'),
+              h
+            );
+          },
+        },
+        notes: [
+          "- Met à jour le mot de passe d'un utilisateur identifié par son identifiant élève\n" +
+            "- La demande de modification du mot de passe doit être effectuée par un membre de l'organisation à laquelle appartient l'élève.",
+          "- L'usage de cette route est **dépréciée** en faveur de /api/sco-organization-learners/password-update",
+        ],
+        tags: ['api', 'organizationLearnerDependentUser'],
+      },
+    },
+    {
+      method: 'POST',
+      path: '/api/sco-organization-learners/password-update',
+      config: {
+        pre: [
+          {
+            method: securityPreHandlers.checkUserBelongsToScoOrganizationAndManagesStudents,
+            assign: 'belongsToScoOrganizationAndManageStudents',
+          },
+        ],
+        handler: scoOrganizationLearnerController.updatePassword,
+        validate: {
+          options: {
+            allowUnknown: true,
+          },
+          payload: Joi.object({
+            data: {
+              attributes: {
+                'organization-id': identifiersType.campaignId,
+                'organization-learner-id': identifiersType.organizationLearnerId,
+              },
+            },
+          }),
+          failAction: (request, h) => {
+            return sendJsonApiError(
+              new BadRequestError('The server could not understand the request due to invalid syntax.'),
+              h
+            );
+          },
+        },
+        notes: [
+          "- Met à jour le mot de passe d'un utilisateur identifié par son identifiant élève\n" +
+            "- La demande de modification du mot de passe doit être effectuée par un membre de l'organisation à laquelle appartient l'élève.",
         ],
         tags: ['api', 'sco-organization-learners'],
       },

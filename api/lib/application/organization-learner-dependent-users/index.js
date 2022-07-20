@@ -1,7 +1,6 @@
 const Joi = require('joi').extend(require('@joi/date'));
 
 const securityPreHandlers = require('../security-pre-handlers');
-const { sendJsonApiError, BadRequestError } = require('../http-errors');
 const identifiersType = require('../../domain/types/identifiers-type');
 
 const inePattern = new RegExp('^[0-9]{9}[a-zA-Z]{2}$');
@@ -11,43 +10,6 @@ const organizationLearnerDependentUserController = require('./organization-learn
 
 exports.register = async function (server) {
   server.route([
-    {
-      method: 'POST',
-      path: '/api/schooling-registration-dependent-users/password-update',
-      config: {
-        pre: [
-          {
-            method: securityPreHandlers.checkUserBelongsToScoOrganizationAndManagesStudents,
-            assign: 'belongsToScoOrganizationAndManageStudents',
-          },
-        ],
-        handler: organizationLearnerDependentUserController.updatePassword,
-        validate: {
-          options: {
-            allowUnknown: true,
-          },
-          payload: Joi.object({
-            data: {
-              attributes: {
-                'organization-id': identifiersType.campaignId,
-                'schooling-registration-id': identifiersType.schoolingRegistrationId,
-              },
-            },
-          }),
-          failAction: (request, h) => {
-            return sendJsonApiError(
-              new BadRequestError('The server could not understand the request due to invalid syntax.'),
-              h
-            );
-          },
-        },
-        notes: [
-          "- Met à jour le mot de passe d'un utilisateur identifié par son identifiant élève\n" +
-            "- La demande de modification du mot de passe doit être effectuée par un membre de l'organisation à laquelle appartient l'élève.",
-        ],
-        tags: ['api', 'organizationLearnerDependentUser'],
-      },
-    },
     {
       method: 'POST',
       path: '/api/schooling-registration-dependent-users/generate-username-password',

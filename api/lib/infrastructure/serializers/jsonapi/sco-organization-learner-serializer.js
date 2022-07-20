@@ -18,4 +18,10 @@ module.exports = {
       attributes: ['accessToken'],
     }).serialize(scoOrganizationLearner);
   },
+
+  serializeCredentialsForDependent(scoOrganizationLearner) {
+    return new Serializer('dependent-users', {
+      attributes: ['generatedPassword'],
+    }).serialize(scoOrganizationLearner);
+  },
 };
