@@ -71,7 +71,7 @@ describe('Unit | Component | Navbar Desktop Header Component', function () {
     context('#menu', function () {
       it('should set with default values (including connexion link)', function () {
         // given
-        const expectedMenu = [{ link: 'login' }, { link: 'inscription' }];
+        const expectedMenu = [{ link: 'authentication.login' }, { link: 'inscription' }];
 
         // then
         expect(component.menu).to.have.lengthOf(expectedMenu.length);

@@ -29,7 +29,7 @@ describe('Unit | Route | login page', function () {
           queryRecord: queryRecordStub,
         });
 
-        route = this.owner.lookup('route:login');
+        route = this.owner.lookup('route:authentication/login');
         route.set('store', storeStub);
         route.set('session', sessionStub);
         sinon.stub(route, 'transitionTo').throws('Must not be called');
@@ -65,7 +65,7 @@ describe('Unit | Route | login page', function () {
     it('should redirect to password update page with token', async function () {
       // given
       const passwordResetToken = 'PASSWORD_RESET_TOKEN';
-      const route = this.owner.lookup('route:login');
+      const route = this.owner.lookup('route:authentication/login');
       const createRecordStub = sinon.stub();
       const storeStub = { createRecord: createRecordStub };
 
