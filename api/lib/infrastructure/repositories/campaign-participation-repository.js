@@ -164,11 +164,15 @@ module.exports = {
     return mapToParticipationByStatus(row, campaignType);
   },
 
-  async getAllCampaignParticipationsForAUser({ campaignId, campaignParticipationId, domainTransaction }) {
+  async getAllCampaignParticipationsInCampaignForASameLearner({
+    campaignId,
+    campaignParticipationId,
+    domainTransaction,
+  }) {
     const knexConn = domainTransaction.knexTransaction;
     const result = await knexConn('campaign-participations')
       .select('organizationLearnerId')
-      .where({ id: campaignParticipationId, campaignId: campaignId })
+      .where({ id: campaignParticipationId, campaignId })
       .first();
 
     if (!result) {

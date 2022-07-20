@@ -105,4 +105,15 @@ module.exports = {
     if (!campaign) return null;
     return campaign.code;
   },
+
+  async getCampaignIdByCampaignParticipationId(campaignParticipationId) {
+    const campaign = await knex('campaigns')
+      .select('campaigns.id')
+      .join('campaign-participations', 'campaign-participations.campaignId', 'campaigns.id')
+      .where({ 'campaign-participations.id': campaignParticipationId })
+      .first();
+
+    if (!campaign) return null;
+    return campaign.id;
+  },
 };
