@@ -3,6 +3,7 @@ const scoOrganizationLearnerSerializer = require('../../infrastructure/serialize
 const organizationLearnerUserAssociationSerializer = require('../../infrastructure/serializers/jsonapi/organization-learner-user-association-serializer');
 const { extractLocaleFromRequest } = require('../../infrastructure/utils/request-response-utils');
 const organizationLearnerDependentUserSerializer = require('../../infrastructure/serializers/jsonapi/organization-learner-dependent-user-serializer');
+const studentInformationForAccountRecoverySerializer = require('../../infrastructure/serializers/jsonapi/student-information-for-account-recovery-serializer');
 
 module.exports = {
   async reconcileScoOrganizationLearnerManually(request, h) {
@@ -214,5 +215,24 @@ module.exports = {
     }
 
     return h.response(scoOrganizationLearnerSerializer.serializeCredentialsForDependent(result)).code(200);
+  },
+
+  async checkScoAccountRecovery(request, h) {
+    const studentInformation = await studentInformationForAccountRecoverySerializer.deserialize(request.payload);
+
+    const studentInformationForAccountRecovery = await usecases.checkScoAccountRecovery({
+      studentInformation,
+    });
+
+    const response = h.response(
+      studentInformationForAccountRecoverySerializer.serialize(studentInformationForAccountRecovery)
+    );
+    if (h.request.path === '/api/schooling-registration-dependent-users/recover-account') {
+      return response
+        .header('Deprecation', 'true')
+        .header('Link', '/api/sco-organization-learners/account-recovery; rel="successor-version"');
+    }
+
+    return response;
   },
 };
