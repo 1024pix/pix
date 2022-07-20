@@ -52,6 +52,7 @@ const schema = Joi.object({
   CPF_PLANNER_JOB_CHUNK_SIZE: Joi.number().optional(),
   CPF_PLANNER_JOB_MONTHS_TO_PROCESS: Joi.number().optional(),
   CPF_PLANNER_JOB_MINIMUM_RELIABILITY_PERIOD: Joi.number().optional(),
+  CPF_PLANNER_JOB_CRON: Joi.string().optional(),
 }).options({ allowUnknown: true });
 
 const validateEnvironmentVariables = function () {
