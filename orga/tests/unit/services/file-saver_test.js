@@ -33,8 +33,9 @@ module('Unit | Service | file-saver', function (hooks) {
       test('should use fileName and fileContent from response', async function (assert) {
         // given
         const headers = {
-          get: sinon.stub().withArgs('Content-Disposition').returns(`attachment; filename=${responseFileName}`),
+          get: sinon.stub(),
         };
+        headers.get.withArgs('Content-Disposition').returns(`attachment; filename=${responseFileName}`);
         const jsonStub = sinon.stub().resolves('a json');
 
         const response = { headers, blob: blobStub, status: 200, json: jsonStub };
@@ -59,8 +60,9 @@ module('Unit | Service | file-saver', function (hooks) {
       test('should throw', async function (assert) {
         // given
         const headers = {
-          get: sinon.stub().withArgs('Content-Disposition').returns(`attachment; filename=${responseFileName}`),
+          get: sinon.stub(),
         };
+        headers.get.withArgs('Content-Disposition').returns(`attachment; filename=${responseFileName}`);
         const jsonStub = sinon.stub().resolves({ errors: [] });
         const response = { headers, blob: blobStub, status: 403, json: jsonStub };
         fetchStub = sinon.stub().resolves(response);
