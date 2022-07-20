@@ -206,8 +206,9 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
           function () {
             beforeEach(async function () {
               const reachedStage = {
-                get: sinon.stub().withArgs('threshold').returns([75]),
+                get: sinon.stub(),
               };
+              reachedStage.get.withArgs('threshold').returns([75]);
               campaign = {
                 customResultPageButtonUrl: 'http://www.my-url.net/resultats',
                 customResultPageButtonText: 'Next step',
