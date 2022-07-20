@@ -5,12 +5,10 @@ import { inject as service } from '@ember/service';
 export default class AuthenticatedUsersGetRoute extends Route {
   @service store;
 
-  async model(params) {
-    const user = await this.store.findRecord('user', params.user_id, {
+  model(params) {
+    return this.store.findRecord('user', params.user_id, {
       include: 'schoolingRegistrations,authenticationMethods',
     });
-    await user.hasMany('participations').reload();
-    return user;
   }
 
   @action
