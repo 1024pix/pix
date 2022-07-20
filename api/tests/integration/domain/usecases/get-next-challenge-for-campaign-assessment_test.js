@@ -170,6 +170,7 @@ describe('Integration | Domain | Use Cases | get-next-challenge-for-campaign-ass
       estimatedLevel;
 
     beforeEach(async function () {
+      // given
       userId = 'dummyUserId';
       assessmentId = 21;
       campaignParticipationId = 456;
@@ -216,6 +217,7 @@ describe('Integration | Domain | Use Cases | get-next-challenge-for-campaign-ass
         possibleChallenges,
       });
 
+      // when
       actualNextChallenge = await getNextChallengeForCampaignAssessment({
         assessment,
         answerRepository,
@@ -228,14 +230,17 @@ describe('Integration | Domain | Use Cases | get-next-challenge-for-campaign-ass
     });
 
     it('should have fetched the answers', function () {
+      // then
       expect(answerRepository.findByAssessment).to.have.been.calledWithExactly(assessmentId);
     });
 
     it('should have fetched the challenges', function () {
+      // then
       expect(challengeRepository.findFlashCompatible).to.have.been.called;
     });
 
     it('should have fetched the next challenge with only most recent knowledge elements', function () {
+      // then
       const allAnswers = [lastAnswer];
       expect(flash.getPossibleNextChallenges).to.have.been.calledWithExactly({
         allAnswers,
@@ -245,6 +250,7 @@ describe('Integration | Domain | Use Cases | get-next-challenge-for-campaign-ass
     });
 
     it('should have returned the next challenge', function () {
+      // then
       expect(actualNextChallenge.id).to.equal(challengeWeb22.id);
     });
   });
