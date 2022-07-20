@@ -46,8 +46,9 @@ module('Unit | Service | session', function (hooks) {
           };
           service.intl = {
             setLocale: sinon.stub(),
-            get: sinon.stub().withArgs('locales').returns(['fr', 'en']),
+            get: sinon.stub(),
           };
+          service.intl.get.withArgs('locales').returns(['fr', 'en']);
           service.moment = {
             setLocale: sinon.stub(),
           };
