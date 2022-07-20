@@ -8,13 +8,13 @@ import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { Response } from 'ember-cli-mirage';
 
-import { clickByLabel } from '../helpers/click-by-label';
+import { clickByLabel } from '../../helpers/click-by-label';
 import sinon from 'sinon';
 import Service from '@ember/service';
 
-import { authenticateByEmail } from '../helpers/authentication';
+import { authenticateByEmail } from '../../helpers/authentication';
 import { currentSession } from 'ember-simple-auth/test-support';
-import setupIntl from '../helpers/setup-intl';
+import setupIntl from '../../helpers/setup-intl';
 import { t } from 'ember-intl/test-support';
 import { identityProviders } from 'mon-pix/models/campaign';
 
@@ -63,7 +63,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow | Pôle Emploi', fun
 
             // then
             sinon.assert.called(replaceLocationStub);
-            expect(currentURL()).to.equal('/connexion-pole-emploi');
+            expect(currentURL()).to.equal('/connexion/pole-emploi');
           });
 
           it('should redirect to terms of service Pole Emploi page', async function () {
@@ -89,7 +89,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow | Pôle Emploi', fun
             });
 
             // when
-            await visit(`/connexion-pole-emploi?code=test&state=${state}`);
+            await visit(`/connexion/pole-emploi?code=test&state=${state}`);
 
             // then
             expect(currentURL()).to.equal(`/cgu-oidc?authenticationKey=key&identityProviderName=pole-emploi`);
@@ -197,7 +197,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow | Pôle Emploi', fun
 
             // then
             sinon.assert.called(replaceLocationStub);
-            expect(currentURL()).to.equal('/connexion-pole-emploi');
+            expect(currentURL()).to.equal('/connexion/pole-emploi');
           });
 
           it('should begin campaign participation once user is authenticated', async function () {
@@ -213,7 +213,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow | Pôle Emploi', fun
             sessionStorage.setItem('campaigns', JSON.stringify(data));
 
             // when
-            await visit(`/connexion-pole-emploi?code=test&state=${state}`);
+            await visit(`/connexion/pole-emploi?code=test&state=${state}`);
 
             // then
             sinon.assert.notCalled(replaceLocationStub);

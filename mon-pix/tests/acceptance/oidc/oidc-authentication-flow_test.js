@@ -8,7 +8,7 @@ import Service from '@ember/service';
 import sinon from 'sinon';
 import setupIntl from '../../helpers/setup-intl';
 
-describe('Acceptance | Pôle Emploi | authentication flow', function () {
+describe('Acceptance | OIDC | authentication flow', function () {
   setupApplicationTest();
   setupMirage();
   setupIntl();
@@ -16,7 +16,7 @@ describe('Acceptance | Pôle Emploi | authentication flow', function () {
   context('when user is logged in with Pole Emploi and logs out', function () {
     it('should redirect the user to logout url', async function () {
       // given
-      const screen = await visit('/connexion-pole-emploi?code=code&state=state');
+      const screen = await visit('/connexion/pole-emploi?code=code&state=state');
       const replaceLocationStub = sinon.stub().resolves();
       this.owner.register(
         'service:location',

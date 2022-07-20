@@ -1,9 +1,8 @@
 import ApplicationRouteMixin from 'ember-simple-auth/mixins/application-route-mixin';
-
 import Route from '@ember/routing/route';
-
 import { inject as service } from '@ember/service';
 import get from 'lodash/get';
+import IdentityProviders from 'mon-pix/identity-providers';
 
 export default class Application extends Route.extend(ApplicationRouteMixin) {
   @service splash;
@@ -76,10 +75,10 @@ export default class Application extends Route.extend(ApplicationRouteMixin) {
     await this._handleLocale();
 
     const nextURL = this.session.data.nextURL;
-    if (
-      this._isFromIdentityProviderLoginPage(nextURL, 'CNAV') ||
-      this._isFromIdentityProviderLoginPage(nextURL, 'POLE_EMPLOI')
-    ) {
+    const isFromIdentityProviderLoginPage = Object.keys(IdentityProviders).some((identityProvider) =>
+      this._isFromIdentityProviderLoginPage(nextURL, identityProvider)
+    );
+    if (isFromIdentityProviderLoginPage) {
       this.session.set('data.nextURL', undefined);
       this.router.replaceWith(nextURL);
     } else {
