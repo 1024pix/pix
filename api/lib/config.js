@@ -187,7 +187,6 @@ module.exports = (function () {
     },
 
     featureToggles: {
-      isCertificationFreeFieldsDeletionEnabled: isFeatureEnabled(process.env.FT_CERTIFICATION_FREE_FIELDS_DELETION),
       isPixAppTutoFiltersEnabled: isFeatureEnabled(process.env.FT_TUTOS_V2_1_FILTERS),
     },
 
@@ -308,7 +307,6 @@ module.exports = (function () {
     config.features.pixCertifScoBlockedAccessDateLycee = null;
     config.features.pixCertifScoBlockedAccessDateCollege = null;
 
-    config.featureToggles.isCertificationFreeFieldsDeletionEnabled = false;
     config.featureToggles.isPixAppTutoFiltersEnabled = false;
 
     config.mailing.enabled = false;

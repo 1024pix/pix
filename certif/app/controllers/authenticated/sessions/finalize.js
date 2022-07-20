@@ -37,14 +37,6 @@ export default class SessionsFinalizeController extends Controller {
     return this.uncheckedHasSeenEndTestScreenCount > 0;
   }
 
-  get shouldDisplayFormStep() {
-    return !this.featureToggles.featureToggles.isCertificationFreeFieldsDeletionEnabled;
-  }
-
-  get isCertificationFreeFieldsDeletionEnabled() {
-    return this.featureToggles.featureToggles.isCertificationFreeFieldsDeletionEnabled;
-  }
-
   showErrorNotification(message, options = {}) {
     this.notifications.error(message, options);
   }
