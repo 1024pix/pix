@@ -2,6 +2,7 @@ const { expect, sinon, HttpTestServer } = require('../../../test-helper');
 
 const scoOrganizationLearnerController = require('../../../../lib/application/sco-organization-learners/sco-organization-learner-controller');
 const moduleUnderTest = require('../../../../lib/application/sco-organization-learners');
+const securityPreHandlers = require('../../../../lib/application/security-pre-handlers');
 
 describe('Integration | Application | Route | sco-organization-learners', function () {
   let httpTestServer;
@@ -21,6 +22,12 @@ describe('Integration | Application | Route | sco-organization-learners', functi
       .callsFake((request, h) => h.response().code(204));
     sinon
       .stub(scoOrganizationLearnerController, 'createUserAndReconcileToOrganizationLearnerFromExternalUser')
+      .callsFake((request, h) => h.response('ok').code(200));
+    sinon
+      .stub(securityPreHandlers, 'checkUserBelongsToScoOrganizationAndManagesStudents')
+      .callsFake((request, h) => h.response(true));
+    sinon
+      .stub(scoOrganizationLearnerController, 'updatePassword')
       .callsFake((request, h) => h.response('ok').code(200));
 
     httpTestServer = new HttpTestServer();
@@ -1405,4 +1412,47 @@ describe('Integration | Application | Route | sco-organization-learners', functi
     });
   });
 
+  describe('POST /api/schooling-registration-dependent-users/password-update', function () {
+    it('should succeed', async function () {
+      // given
+      const method = 'POST';
+      const url = '/api/schooling-registration-dependent-users/password-update';
+      const payload = {
+        data: {
+          attributes: {
+            'schooling-registration-id': 1,
+            'organization-id': 3,
+          },
+        },
+      };
+
+      // when
+      const response = await httpTestServer.request(method, url, payload);
+
+      // then
+      expect(response.statusCode).to.equal(200);
+    });
+  });
+
+  describe('POST /api/sco-organization-learners/password-update', function () {
+    it('should succeed', async function () {
+      // given
+      const method = 'POST';
+      const url = '/api/sco-organization-learners/password-update';
+      const payload = {
+        data: {
+          attributes: {
+            'organization-learner-id': 1,
+            'organization-id': 3,
+          },
+        },
+      };
+
+      // when
+      const response = await httpTestServer.request(method, url, payload);
+
+      // then
+      expect(response.statusCode).to.equal(200);
+    });
+  });
 });

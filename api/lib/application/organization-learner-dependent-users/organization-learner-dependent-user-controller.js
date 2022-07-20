@@ -3,30 +3,6 @@ const organizationLearnerDependentUserSerializer = require('../../infrastructure
 const studentInformationForAccountRecoverySerializer = require('../../infrastructure/serializers/jsonapi/student-information-for-account-recovery-serializer');
 
 module.exports = {
-  async updatePassword(request, h) {
-    const payload = request.payload.data.attributes;
-    const userId = request.auth.credentials.userId;
-    const organizationId = payload['organization-id'];
-    const organizationLearnerId = payload['schooling-registration-id'];
-
-    const generatedPassword = await usecases.updateOrganizationLearnerDependentUserPassword({
-      userId,
-      organizationId,
-      organizationLearnerId,
-    });
-
-    const organizationLearnerWithGeneratedPasswordResponse = {
-      data: {
-        attributes: {
-          'generated-password': generatedPassword,
-        },
-        type: 'schooling-registration-dependent-user',
-      },
-    };
-
-    return h.response(organizationLearnerWithGeneratedPasswordResponse).code(200);
-  },
-
   async generateUsernameWithTemporaryPassword(request, h) {
     const payload = request.payload.data.attributes;
     const organizationId = payload['organization-id'];

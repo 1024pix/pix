@@ -4,7 +4,10 @@ const moduleUnderTest = require('../../../../lib/application/sco-organization-le
 
 const usecases = require('../../../../lib/domain/usecases');
 const securityPreHandlers = require('../../../../lib/application/security-pre-handlers');
-const { NotFoundError } = require('../../../../lib/domain/errors');
+const {
+  NotFoundError,
+  UserNotAuthorizedToUpdatePasswordError,
+} = require('../../../../lib/domain/errors');
 
 describe('Integration | Application | sco-organization-learners | sco-organization-learner-controller', function () {
   let sandbox;
@@ -13,6 +16,7 @@ describe('Integration | Application | sco-organization-learners | sco-organizati
   beforeEach(async function () {
     sandbox = sinon.createSandbox();
     sandbox.stub(usecases, 'createAndReconcileUserToOrganizationLearner').rejects(new Error('not expected error'));
+    sandbox.stub(usecases, 'updateOrganizationLearnerDependentUserPassword').rejects(new Error('not expected error'));
     sandbox.stub(securityPreHandlers, 'checkUserBelongsToScoOrganizationAndManagesStudents');
     httpTestServer = new HttpTestServer();
     await httpTestServer.register(moduleUnderTest);
@@ -153,6 +157,158 @@ describe('Integration | Application | sco-organization-learners | sco-organizati
 
           // then
           expect(response.statusCode).to.equal(404);
+        });
+      });
+    });
+  });
+
+  describe('#updatePassword for api/schooling-registration-dependent-users/password-update', function () {
+    const payload = { data: { attributes: {} } };
+    const auth = { credentials: {}, strategy: {} };
+    const generatedPassword = 'Passw0rd';
+
+    beforeEach(function () {
+      securityPreHandlers.checkUserBelongsToScoOrganizationAndManagesStudents.callsFake((request, h) =>
+        h.response(true)
+      );
+
+      payload.data.attributes = {
+        'schooling-registration-id': 1,
+        'organization-id': 3,
+      };
+
+      auth.credentials.userId = domainBuilder.buildUser().id;
+    });
+
+    context('Success cases', function () {
+      it('should return an HTTP response with status code 200', async function () {
+        // given
+        usecases.updateOrganizationLearnerDependentUserPassword.resolves(generatedPassword);
+
+        // when
+        const response = await httpTestServer.request(
+          'POST',
+          '/api/schooling-registration-dependent-users/password-update',
+          payload,
+          auth
+        );
+
+        // then
+        expect(response.statusCode).to.equal(200);
+        expect(response.result.data.attributes['generated-password']).to.equal(generatedPassword);
+      });
+    });
+
+    context('Error cases', function () {
+      context('when a NotFoundError is thrown', function () {
+        it('should resolve a 404 HTTP response', async function () {
+          // given
+          usecases.updateOrganizationLearnerDependentUserPassword.rejects(new NotFoundError());
+
+          // when
+          const response = await httpTestServer.request(
+            'POST',
+            '/api/schooling-registration-dependent-users/password-update',
+            payload,
+            auth
+          );
+
+          // then
+          expect(response.statusCode).to.equal(404);
+        });
+      });
+
+      context('when a UserNotAuthorizedToUpdatePasswordError is thrown', function () {
+        it('should resolve a 403 HTTP response', async function () {
+          // given
+          usecases.updateOrganizationLearnerDependentUserPassword.rejects(new UserNotAuthorizedToUpdatePasswordError());
+
+          // when
+          const response = await httpTestServer.request(
+            'POST',
+            '/api/schooling-registration-dependent-users/password-update',
+            payload,
+            auth
+          );
+
+          // then
+          expect(response.statusCode).to.equal(403);
+        });
+      });
+    });
+  });
+
+  describe('#updatePassword for api/sco-organization-learners/password-update', function () {
+    const payload = { data: { attributes: {} } };
+    const auth = { credentials: {}, strategy: {} };
+    const generatedPassword = 'Passw0rd';
+
+    beforeEach(function () {
+      securityPreHandlers.checkUserBelongsToScoOrganizationAndManagesStudents.callsFake((request, h) =>
+        h.response(true)
+      );
+
+      payload.data.attributes = {
+        'organization-learner-id': 1,
+        'organization-id': 3,
+      };
+
+      auth.credentials.userId = domainBuilder.buildUser().id;
+    });
+
+    context('Success cases', function () {
+      it('should return an HTTP response with status code 200', async function () {
+        // given
+        usecases.updateOrganizationLearnerDependentUserPassword.resolves(generatedPassword);
+
+        // when
+        const response = await httpTestServer.request(
+          'POST',
+          '/api/sco-organization-learners/password-update',
+          payload,
+          auth
+        );
+
+        // then
+        expect(response.statusCode).to.equal(200);
+        expect(response.result.data.attributes['generated-password']).to.equal(generatedPassword);
+      });
+    });
+
+    context('Error cases', function () {
+      context('when a NotFoundError is thrown', function () {
+        it('should resolve a 404 HTTP response', async function () {
+          // given
+          usecases.updateOrganizationLearnerDependentUserPassword.rejects(new NotFoundError());
+
+          // when
+          const response = await httpTestServer.request(
+            'POST',
+            '/api/sco-organization-learners/password-update',
+            payload,
+            auth
+          );
+
+          // then
+          expect(response.statusCode).to.equal(404);
+        });
+      });
+
+      context('when a UserNotAuthorizedToUpdatePasswordError is thrown', function () {
+        it('should resolve a 403 HTTP response', async function () {
+          // given
+          usecases.updateOrganizationLearnerDependentUserPassword.rejects(new UserNotAuthorizedToUpdatePasswordError());
+
+          // when
+          const response = await httpTestServer.request(
+            'POST',
+            '/api/sco-organization-learners/password-update',
+            payload,
+            auth
+          );
+
+          // then
+          expect(response.statusCode).to.equal(403);
         });
       });
     });
