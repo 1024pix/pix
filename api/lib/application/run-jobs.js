@@ -5,6 +5,7 @@ const ParticipationResultCalculationJob = require('../infrastructure/jobs/campai
 const ParticipationResultCalculationJobHandler = require('../infrastructure/jobs/campaign-result/ParticipationResultCalculationJobHandler');
 const dependenciesBuilder = require('../infrastructure/events/DependenciesBuilder');
 const PgBoss = require('pg-boss');
+const scheduleCpfJobs = require('../infrastructure/jobs/cpf-export/schedule-cpf-jobs');
 
 async function runJobs() {
   const pgBoss = new PgBoss({
@@ -22,6 +23,8 @@ async function runJobs() {
   });
 
   await jobQueue.performJob(ParticipationResultCalculationJob.name, ParticipationResultCalculationJobHandler);
+
+  await scheduleCpfJobs(pgBoss);
 }
 
 runJobs();
