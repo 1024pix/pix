@@ -187,11 +187,11 @@ class CertificationCandidate {
   }
 
   isGrantedPixPlusDroit() {
-    return this.complementaryCertifications.find((comp) => comp.name === PIX_PLUS_DROIT);
+    return this.complementaryCertifications.some((comp) => comp.name === PIX_PLUS_DROIT);
   }
 
   isGrantedCleA() {
-    return this.complementaryCertifications.find((comp) => comp.name === CLEA);
+    return this.complementaryCertifications.some((comp) => comp.name === CLEA);
   }
 
   isBillingModePrepaid() {
