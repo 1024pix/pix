@@ -14,7 +14,7 @@ describe('Unit | UseCase | save-certification-issue-report', function () {
       const aCertificationCourse = domainBuilder.buildCertificationCourse({ sessionId });
       const certificationIssueReportDTO = {
         certificationCourseId: aCertificationCourse.getId(),
-        category: CertificationIssueReportCategories.OTHER,
+        category: CertificationIssueReportCategories.FRAUD,
         description: 'une description',
       };
       const expectedCertificationIssueReport = new CertificationIssueReport(certificationIssueReportDTO);

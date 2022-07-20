@@ -17,44 +17,6 @@ const UNDEFINED_VALUE = undefined;
 
 describe('Unit | Domain | Models | CertificationIssueReport', function () {
   describe('#create', function () {
-    context('CATEGORY: OTHER', function () {
-      let certificationIssueReportDTO;
-
-      beforeEach(function () {
-        certificationIssueReportDTO = {
-          certificationCourseId: 123,
-          category: CertificationIssueReportCategories.OTHER,
-          description: 'Une description obligatoire',
-        };
-      });
-
-      it('should create an OTHER CertificationIssueReport', function () {
-        expect(CertificationIssueReport.create(certificationIssueReportDTO)).to.be.an.instanceOf(
-          CertificationIssueReport
-        );
-      });
-
-      // eslint-disable-next-line mocha/no-setup-in-describe
-      [MISSING_VALUE, EMPTY_VALUE, UNDEFINED_VALUE, WHITESPACES_VALUE].forEach((emptyValue) => {
-        it(`should throw an InvalidCertificationIssueReportForSaving when description is of value ${emptyValue}`, function () {
-          // when
-          expect(() =>
-            CertificationIssueReport.create({ ...certificationIssueReportDTO, description: emptyValue })
-          ).to.throw(InvalidCertificationIssueReportForSaving);
-        });
-      });
-
-      // eslint-disable-next-line mocha/no-setup-in-describe
-      [MISSING_VALUE, EMPTY_VALUE, UNDEFINED_VALUE].forEach((emptyValue) => {
-        it(`should create an OTHER CertificationIssueReport when subcategory is empty with value ${emptyValue}`, function () {
-          // when
-          expect(
-            CertificationIssueReport.create({ ...certificationIssueReportDTO, subcategory: emptyValue })
-          ).to.be.an.instanceOf(CertificationIssueReport);
-        });
-      });
-    });
-
     context('CATEGORY: NON_BLOCKING_TECHNICAL_ISSUE', function () {
       let certificationIssueReportDTO;
 

@@ -98,168 +98,46 @@ module('Acceptance | Session Finalization', function (hooks) {
       assert.deepEqual(currentURL(), `/sessions/${session.id}`);
     });
 
-    module('when FT_CERTIFICATION_FREE_FIELDS_DELETION is off', function () {
-      test('it should display the comment step section', async function (assert) {
-        // when
-        const screen = await visit(`/sessions/${session.id}/finalisation`);
+    test('it should display the complementary info section', async function (assert) {
+      // given when
+      const screen = await visit(`/sessions/${session.id}/finalisation`);
 
-        // then
-        assert.dom(screen.getByText('Étape 3 : Commenter la session (facultatif)')).exists();
-        assert
-          .dom(
-            screen.getByText(
-              "Aucun problème sur la session, en dehors des signalements individuels renseignés lors de l'étape 1."
-            )
-          )
-          .exists();
-        assert
-          .dom(
-            screen.getByText(
-              'Je souhaite signaler un ou plusieurs incident(s) ayant impacté la session dans son ensemble'
-            )
-          )
-          .exists();
-      });
-
-      test('it should contain "Etape 1" in title', async function (assert) {
-        // given
-        server.create('feature-toggle', { id: 0, isCertificationFreeFieldsDeletionEnabled: false });
-
-        // when
-        const screen = await visit(`/sessions/${session.id}/finalisation`);
-
-        // then
-        assert
-          .dom(
-            screen.getByText(
-              "Étape 1 : Reporter, pour chaque candidat, les signalements renseignés sur le PV d'incident"
-            )
-          )
-          .exists();
-      });
-
-      test('it should contain a 3-step subtitle', async function (assert) {
-        // given
-        server.create('feature-toggle', { id: 0, isCertificationFreeFieldsDeletionEnabled: false });
-
-        // when
-        const screen = await visit(`/sessions/${session.id}/finalisation`);
-
-        // then
-        assert.dom(screen.getByText('Pour finaliser la session, complétez les trois étapes puis validez.')).exists();
-      });
-
-      test('it should not contain a subtitle', async function (assert) {
-        // given
-        server.create('feature-toggle', { id: 0, isCertificationFreeFieldsDeletionEnabled: false });
-
-        // when
-        const screen = await visit(`/sessions/${session.id}/finalisation`);
-
-        // then
-        assert
-          .dom(
-            screen.queryByText(
-              'Pour que le signalement soit pris en compte, il est nécessaire d’utiliser la catégorie de signalement appropriée (exemples : C1, C2, etc).'
-            )
-          )
-          .doesNotExist();
-      });
+      // then
+      assert
+        .dom(
+          screen.getByRole('checkbox', {
+            name: 'Malgré un incident survenu pendant la session, les candidats ont pu terminer leur test de certification. Un temps supplémentaire a été accordé à un ou plusieurs candidats.',
+          })
+        )
+        .exists();
+      assert
+        .dom(
+          screen.getByRole('checkbox', {
+            name: "Un ou plusieurs candidats étaient présents en session de certification mais n'ont pas pu rejoindre la session.",
+          })
+        )
+        .exists();
     });
 
-    module('when FT_CERTIFICATION_FREE_FIELDS_DELETION is on', function () {
-      test('it should not contain a 3-step subtitle', async function (assert) {
-        // given
-        server.create('feature-toggle', { id: 0, isCertificationFreeFieldsDeletionEnabled: true });
+    test('it should display the uncompleted reports title and subtitle', async function (assert) {
+      // given when
+      const screen = await visit(`/sessions/${session.id}/finalisation`);
 
-        // when
-        const screen = await visit(`/sessions/${session.id}/finalisation`);
-
-        // then
-        assert
-          .dom(screen.queryByText('Pour finaliser la session, complétez les trois étapes puis validez.'))
-          .doesNotExist();
-      });
-
-      test('it should not display the comment step section', async function (assert) {
-        // given
-        server.create('feature-toggle', { id: 0, isCertificationFreeFieldsDeletionEnabled: true });
-
-        // when
-        const screen = await visit(`/sessions/${session.id}/finalisation`);
-
-        // then
-        assert.dom(screen.queryByText('Étape 3 : Commenter la session (facultatif)')).doesNotExist();
-        assert
-          .dom(
-            screen.queryByText(
-              "Aucun problème sur la session, en dehors des signalements individuels renseignés lors de l'étape 1."
-            )
+      // then
+      assert
+        .dom(
+          screen.getByText(
+            "Signalements : Reporter, pour chaque candidat, les signalements renseignés sur le PV d'incident"
           )
-          .doesNotExist();
-        assert
-          .dom(
-            screen.queryByText(
-              'Je souhaite signaler un ou plusieurs incident(s) ayant impacté la session dans son ensemble'
-            )
+        )
+        .exists();
+      assert
+        .dom(
+          screen.getByText(
+            'Pour que le signalement soit pris en compte, il est nécessaire d’utiliser la catégorie de signalement appropriée (exemples : C1, C2, etc).'
           )
-          .doesNotExist();
-      });
-
-      test('it should display the complementary info section', async function (assert) {
-        // given
-        server.create('feature-toggle', { id: 0, isCertificationFreeFieldsDeletionEnabled: true });
-
-        // when
-        const screen = await visit(`/sessions/${session.id}/finalisation`);
-
-        // then
-        assert
-          .dom(
-            screen.getByRole('checkbox', {
-              name: 'Malgré un incident survenu pendant la session, les candidats ont pu terminer leur test de certification. Un temps supplémentaire a été accordé à un ou plusieurs candidats.',
-            })
-          )
-          .exists();
-        assert
-          .dom(
-            screen.getByRole('checkbox', {
-              name: "Un ou plusieurs candidats étaient présents en session de certification mais n'ont pas pu rejoindre la session.",
-            })
-          )
-          .exists();
-      });
-
-      test('it should display the uncompleted reports title and subtitle', async function (assert) {
-        // given
-        server.create('feature-toggle', { id: 0, isCertificationFreeFieldsDeletionEnabled: true });
-
-        // when
-        const screen = await visit(`/sessions/${session.id}/finalisation`);
-
-        // then
-        assert
-          .dom(
-            screen.getByText(
-              "Signalements : Reporter, pour chaque candidat, les signalements renseignés sur le PV d'incident"
-            )
-          )
-          .exists();
-        assert
-          .dom(
-            screen.getByText(
-              'Pour que le signalement soit pris en compte, il est nécessaire d’utiliser la catégorie de signalement appropriée (exemples : C1, C2, etc).'
-            )
-          )
-          .exists();
-        assert
-          .dom(
-            screen.queryByText(
-              "Étape 1 : Reporter, pour chaque candidat, les signalements renseignés sur le PV d'incident"
-            )
-          )
-          .doesNotExist();
-      });
+        )
+        .exists();
     });
 
     module('When certificationPointOfContact click on "Finaliser" button', function () {
@@ -518,38 +396,6 @@ module('Acceptance | Session Finalization', function (hooks) {
             assert.dom(screen.getByText(MODAL_TITLE)).exists();
             assert.dom(screen.getByText('Finalisation de la session')).exists();
           });
-        });
-      });
-
-      module('when the feature toggle isCertificationFreeFieldsDeletionEnabled is enabled', function () {
-        test('it should not display the step two block', async function (assert) {
-          // given
-          server.create('feature-toggle', { id: 0, isCertificationFreeFieldsDeletionEnabled: true });
-
-          const certificationReport = server.create('certification-report');
-          session.update({ certificationReports: [certificationReport] });
-
-          // when
-          const screen = await visitScreen(`/sessions/${session.id}/finalisation`);
-
-          // then
-          assert.dom(screen.queryByText('Étape 2 : Transmettre des documents (facultatif)')).doesNotExist();
-        });
-      });
-
-      module('when the feature toggle isCertificationFreeFieldsDeletionEnabled is not enabled', function () {
-        test('it should display the form step block', async function (assert) {
-          // given
-          server.create('feature-toggle', { id: 0, isCertificationFreeFieldsDeletionEnabled: false });
-
-          const certificationReport = server.create('certification-report');
-          session.update({ certificationReports: [certificationReport] });
-
-          // when
-          const screen = await visitScreen(`/sessions/${session.id}/finalisation`);
-
-          // then
-          assert.dom(screen.getByText('Étape 2 : Transmettre des documents (facultatif)')).exists();
         });
       });
     });
