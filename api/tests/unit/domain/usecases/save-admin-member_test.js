@@ -10,7 +10,7 @@ describe('Unit | UseCase | save-admin-member', function () {
       // given
       const attributes = { email: 'ice.bot@example.net', role: ROLES.SUPER_ADMIN };
       const adminMemberRepository = {};
-      const userRepository = { getByEmail: sinon.stub().withArgs(attributes.email).rejects(new UserNotFoundError()) };
+      const userRepository = { getByEmail: sinon.stub().rejects(new UserNotFoundError()) };
 
       // when
       const error = await catchErr(saveAdminMember)({ ...attributes, adminMemberRepository, userRepository });
@@ -33,11 +33,13 @@ describe('Unit | UseCase | save-admin-member', function () {
         role: ROLES.SUPER_ADMIN,
         createdAt: new Date(),
       });
-      const userRepository = { getByEmail: sinon.stub().withArgs(attributes.email).resolves(user) };
+      const userRepository = { getByEmail: sinon.stub() };
+      userRepository.getByEmail.withArgs(attributes.email).resolves(user);
       const adminMemberRepository = {
-        get: sinon.stub().withArgs({ userId: user.id }).resolves(undefined),
-        save: sinon.stub().withArgs({ userId: user.id, role: ROLES.SUPER_ADMIN }).resolves(savedAdminMember),
+        get: sinon.stub().resolves(undefined),
+        save: sinon.stub(),
       };
+      adminMemberRepository.save.withArgs({ userId: user.id, role: ROLES.SUPER_ADMIN }).resolves(savedAdminMember);
 
       // when
       const result = await saveAdminMember({ ...attributes, adminMemberRepository, userRepository });
@@ -59,8 +61,10 @@ describe('Unit | UseCase | save-admin-member', function () {
         email: user.email,
         role: ROLES.SUPER_ADMIN,
       });
-      const userRepository = { getByEmail: sinon.stub().withArgs(attributes.email).resolves(user) };
-      const adminMemberRepository = { get: sinon.stub().withArgs({ userId: user.id }).resolves(adminMember) };
+      const userRepository = { getByEmail: sinon.stub() };
+      userRepository.getByEmail.withArgs(attributes.email).resolves(user);
+      const adminMemberRepository = { get: sinon.stub() };
+      adminMemberRepository.get.withArgs({ userId: user.id }).resolves(adminMember);
 
       // when
       const error = await catchErr(saveAdminMember)({ ...attributes, adminMemberRepository, userRepository });
