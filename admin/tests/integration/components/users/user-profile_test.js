@@ -3,7 +3,7 @@ import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 import { render } from '@1024pix/ember-testing-library';
 
-module('Integration | Component |  users | user-detail-personal-information/user-profile', function (hooks) {
+module('Integration | Component |  users | user-profile', function (hooks) {
   setupRenderingTest(hooks);
 
   test('should display user’s profile', async function (assert) {
@@ -17,7 +17,7 @@ module('Integration | Component |  users | user-detail-personal-information/user
     });
 
     //  when
-    const component = await render(hbs`<Users::UserDetailPersonalInformation::UserProfile @profile={{profile}} />`);
+    const component = await render(hbs`<Users::UserProfile @profile={{profile}} />`);
 
     // then
     assert.dom(component.getByText(this.profile.pixScore)).exists();
@@ -37,7 +37,7 @@ module('Integration | Component |  users | user-detail-personal-information/user
       });
 
       //  when
-      const component = await render(hbs`<Users::UserDetailPersonalInformation::UserProfile @profile={{profile}} />`);
+      const component = await render(hbs`<Users::UserProfile @profile={{profile}} />`);
 
       // then
       assert.dom(component.getByText('Aucun résultat')).exists();
