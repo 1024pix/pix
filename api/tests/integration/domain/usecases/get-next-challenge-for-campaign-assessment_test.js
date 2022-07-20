@@ -191,8 +191,9 @@ describe('Integration | Domain | Use Cases | get-next-challenge-for-campaign-ass
 
       estimatedLevel = Symbol('estimatedLevel');
       flashAssessmentResultRepository = {
-        getLatestByAssessmentId: sinon.stub().withArgs(assessmentId).resolves({ estimatedLevel }),
+        getLatestByAssessmentId: sinon.stub(),
       };
+      flashAssessmentResultRepository.getLatestByAssessmentId.withArgs(assessmentId).resolves({ estimatedLevel });
 
       const web2 = domainBuilder.buildSkill({ name: '@web2' });
       challengeWeb21 = domainBuilder.buildChallenge({ id: 'challenge_web2_1' });
