@@ -11,6 +11,7 @@ const {
   makeUserPixCertifiable,
   makeUserPixDroitCertifiable,
   makeUserCleaCertifiable,
+  makeUserPixEduCertifiable,
 } = require('../../db/seeds/data/certification/tooling');
 const DatabaseBuilder = require('../../db/database-builder/database-builder');
 const databaseBuffer = require('../../db/database-builder/database-buffer');
@@ -317,6 +318,18 @@ async function _createComplementaryCertificationHability(
         .first();
       databaseBuilder.factory.buildBadgeAcquisition({ badgeId, userId });
       await makeUserCleaCertifiable({ userId, databaseBuilder });
+    } else if (_isEdu1erDegre(complementaryCertificationId)) {
+      const { id: badgeId } = await knex('badges')
+        .where({ key: COMPLEMENTARY_CERTIFICATION_BADGES_BY_NAME[PIXEDU1ERDEGRE] })
+        .first();
+      databaseBuilder.factory.buildBadgeAcquisition({ badgeId, userId });
+      await makeUserPixEduCertifiable({ userId, databaseBuilder });
+    } else if (_isEdu2ndDegre(complementaryCertificationId)) {
+      const { id: badgeId } = await knex('badges')
+        .where({ key: COMPLEMENTARY_CERTIFICATION_BADGES_BY_NAME[PIXEDU2NDDEGRE] })
+        .first();
+      databaseBuilder.factory.buildBadgeAcquisition({ badgeId, userId });
+      await makeUserPixEduCertifiable({ userId, databaseBuilder });
     }
   });
 }
@@ -326,6 +339,12 @@ function _isDroit(complementaryCertificationId) {
 }
 function _isClea(complementaryCertificationId) {
   return complementaryCertificationId === COMPLEMENTARY_CERTIFICATION_IDS_BY_NAME[PIXCLEA];
+}
+function _isEdu1erDegre(complementaryCertificationId) {
+  return complementaryCertificationId === COMPLEMENTARY_CERTIFICATION_IDS_BY_NAME[PIXEDU1ERDEGRE];
+}
+function _isEdu2ndDegre(complementaryCertificationId) {
+  return complementaryCertificationId === COMPLEMENTARY_CERTIFICATION_IDS_BY_NAME[PIXEDU2NDDEGRE];
 }
 
 async function _getResults(sessionId) {
