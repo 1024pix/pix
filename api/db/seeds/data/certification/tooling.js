@@ -10,6 +10,7 @@ const { keys } = require('../../../../lib/domain/models/Badge');
 let allChallenges = [];
 let allPixCompetences = [];
 let allDroitCompetences = [];
+let allEduCompetences = [];
 const skillsByCompetenceId = {};
 
 async function makeUserPixCertifiable({ userId, countCertifiableCompetences, levelOnEachCompetence, databaseBuilder }) {
@@ -25,6 +26,14 @@ async function makeUserPixDroitCertifiable({ userId, databaseBuilder }) {
   await _cacheLearningContent();
   const assessmentId = _createComplementeCompetenceEvaluationAssessment({ userId, databaseBuilder });
   _.each(allDroitCompetences, (competence) => {
+    _makePlusCompetenceCertifiable({ userId, databaseBuilder, competence, assessmentId });
+  });
+}
+
+async function makeUserPixEduCertifiable({ userId, databaseBuilder }) {
+  await _cacheLearningContent();
+  const assessmentId = _createComplementeCompetenceEvaluationAssessment({ userId, databaseBuilder });
+  _.each(allEduCompetences, (competence) => {
     _makePlusCompetenceCertifiable({ userId, databaseBuilder, competence, assessmentId });
   });
 }
@@ -54,6 +63,7 @@ async function _cacheLearningContent() {
     allChallenges = await challengeRepository.list();
     allPixCompetences = _.filter(allCompetences, { origin: 'Pix' });
     allDroitCompetences = _.filter(allCompetences, { origin: 'Droit' });
+    allEduCompetences = _.filter(allCompetences, { origin: 'Edu' });
     await bluebird.mapSeries(allCompetences, async (competence) => {
       skillsByCompetenceId[competence.id] = await skillRepository.findActiveByCompetenceId(competence.id);
     });
@@ -131,4 +141,9 @@ function _findFirstChallengeValidatedBySkillId(skillId) {
   return _.find(allChallenges, { status: 'validé', skill: { id: skillId } });
 }
 
-module.exports = { makeUserPixCertifiable, makeUserPixDroitCertifiable, makeUserCleaCertifiable };
+module.exports = {
+  makeUserPixCertifiable,
+  makeUserPixDroitCertifiable,
+  makeUserCleaCertifiable,
+  makeUserPixEduCertifiable,
+};
