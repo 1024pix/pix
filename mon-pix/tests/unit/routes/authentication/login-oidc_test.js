@@ -12,7 +12,7 @@ describe('Unit | Route | login-oidc', function () {
     context('when receives error from identity provider', function () {
       it('should throw an error', function () {
         // given
-        const route = this.owner.lookup('route:login-oidc');
+        const route = this.owner.lookup('route:authentication/login-oidc');
 
         // when & then
         expect(() => {
@@ -59,7 +59,7 @@ describe('Unit | Route | login-oidc', function () {
             authenticate: authenticateStub,
             data: {},
           });
-          const route = this.owner.lookup('route:login-oidc');
+          const route = this.owner.lookup('route:authentication/login-oidc');
           route.set('session', sessionStub);
           route.location = { replace: sinon.stub() };
 
@@ -83,7 +83,7 @@ describe('Unit | Route | login-oidc', function () {
             authenticate: authenticateStub,
             data: {},
           });
-          const route = this.owner.lookup('route:login-oidc');
+          const route = this.owner.lookup('route:authentication/login-oidc');
           route.set('session', sessionStub);
           route.location = { replace: sinon.stub() };
 
@@ -107,7 +107,7 @@ describe('Unit | Route | login-oidc', function () {
           authenticate: authenticateStub,
           data: {},
         });
-        const route = this.owner.lookup('route:login-oidc');
+        const route = this.owner.lookup('route:authentication/login-oidc');
         route.set('session', sessionStub);
         route.location = { replace: sinon.stub() };
 
@@ -125,7 +125,7 @@ describe('Unit | Route | login-oidc', function () {
     describe('when user has no pix account', function () {
       it("should redirect to cgu's oidc page", async function () {
         // given
-        const route = this.owner.lookup('route:login-oidc');
+        const route = this.owner.lookup('route:authentication/login-oidc');
         route.router = { replaceWith: sinon.stub() };
         const identityProviderName = 'super-idp-name';
 
@@ -142,7 +142,7 @@ describe('Unit | Route | login-oidc', function () {
     describe('when user has a pix account', function () {
       it("should not redirect to cgu's oidc page", async function () {
         // given
-        const route = this.owner.lookup('route:login-oidc');
+        const route = this.owner.lookup('route:authentication/login-oidc');
         route.router = { replaceWith: sinon.stub() };
         const identityProviderName = 'super-idp-name';
 
@@ -163,7 +163,7 @@ describe('Unit | Route | login-oidc', function () {
         authenticate: authenticateStub,
         data: {},
       });
-      const route = this.owner.lookup('route:login-oidc');
+      const route = this.owner.lookup('route:authentication/login-oidc');
       route.set('session', sessionStub);
 
       // when
@@ -187,7 +187,7 @@ describe('Unit | Route | login-oidc', function () {
         authenticate: authenticateStub,
         data: {},
       });
-      const route = this.owner.lookup('route:login-oidc');
+      const route = this.owner.lookup('route:authentication/login-oidc');
       route.set('session', sessionStub);
       route.router = { replaceWith: sinon.stub() };
 
@@ -210,7 +210,7 @@ describe('Unit | Route | login-oidc', function () {
         authenticate: authenticateStub,
         data: {},
       });
-      const route = this.owner.lookup('route:login-oidc');
+      const route = this.owner.lookup('route:authentication/login-oidc');
       route.set('session', sessionStub);
       route.router = { replaceWith: sinon.stub() };
 
