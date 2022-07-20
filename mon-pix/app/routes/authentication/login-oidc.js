@@ -44,10 +44,11 @@ export default class LoginOidcRoute extends Route {
   async _handleCallbackRequest(code, state, identityProviderName) {
     try {
       const redirectUri = this._getRedirectUri(identityProviderName);
-      await this.session.authenticate(`authenticator:${identityProviderName}`, {
+      await this.session.authenticate('authenticator:oidc', {
         code,
         redirectUri,
         state,
+        identityProviderName,
       });
     } catch (response) {
       const shouldValidateCgu = get(response, 'errors[0].code') === 'SHOULD_VALIDATE_CGU';

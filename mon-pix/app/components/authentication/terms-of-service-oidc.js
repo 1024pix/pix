@@ -28,8 +28,9 @@ export default class TermsOfServiceOidcComponent extends Component {
     if (this.isTermsOfServiceValidated) {
       this.errorMessage = null;
       try {
-        await this.session.authenticate(`authenticator:${this.args.identityProviderName}`, {
+        await this.session.authenticate('authenticator:oidc', {
           authenticationKey: this.args.authenticationKey,
+          identityProviderName: this.args.identityProviderName,
         });
       } catch (error) {
         const status = get(error, 'errors[0].status');

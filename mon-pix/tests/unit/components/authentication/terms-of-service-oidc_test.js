@@ -43,8 +43,9 @@ describe('Unit | Component | authentication::terms-of-service-oidc', function ()
       component.submit();
 
       // then
-      sinon.assert.calledWith(authenticateStub, 'authenticator:super-idp', {
+      sinon.assert.calledWith(authenticateStub, 'authenticator:oidc', {
         authenticationKey: 'super-key',
+        identityProviderName: 'super-idp',
       });
     });
 
