@@ -184,7 +184,7 @@ module('Acceptance | authenticated/users/get', function (hooks) {
       });
       await createAuthenticateSession({ userId: user.id });
 
-      const screen = await visit(`/users/${user.id}`);
+      const screen = await visit(`/users/${user.id}/participations`);
 
       // when
       await click(screen.getByRole('button', { name: 'Supprimer' }));

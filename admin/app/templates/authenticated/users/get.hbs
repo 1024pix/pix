@@ -20,6 +20,10 @@
     <LinkTo @route="authenticated.users.get.profile" @model={{@model}} class="navbar-item">
       Profil
     </LinkTo>
+
+    <LinkTo @route="authenticated.users.get.campaign-participations" @model={{@model}} class="navbar-item">
+      Participations
+    </LinkTo>
   </nav>
 
   {{outlet}}
