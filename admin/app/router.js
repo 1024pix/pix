@@ -43,7 +43,11 @@ Router.map(function () {
 
     this.route('users', function () {
       this.route('list');
-      this.route('get', { path: '/:user_id' });
+      this.route('get', { path: '/:user_id' }, function () {
+        this.route('information', { path: '/' });
+        this.route('profile');
+        this.route('campaign-participations', { path: '/participations' });
+      });
     });
 
     this.route('team', { path: '/equipe' }, function () {

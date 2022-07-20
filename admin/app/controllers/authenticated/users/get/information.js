@@ -2,7 +2,7 @@ import Controller from '@ember/controller';
 import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 
-export default class GetController extends Controller {
+export default class UserInformationController extends Controller {
   @service notifications;
 
   AUTHENTICATION_METHODS = {
@@ -50,18 +50,6 @@ export default class GetController extends Controller {
     } catch (errors) {
       authenticationMethod.rollbackAttributes();
       this._handleResponseError(errors, identityProvider);
-    }
-  }
-
-  @action
-  async removeParticipation(campaignParticipation) {
-    try {
-      await campaignParticipation.deleteRecord();
-      await campaignParticipation.save();
-      await this.model.participations.reload();
-      this.notifications.success('La participation du prescrit a été supprimée avec succès.');
-    } catch (e) {
-      this.notifications.error('Une erreur est survenue lors de la suppression de la participation.');
     }
   }
 

@@ -86,6 +86,7 @@ class Form extends Object.extend(Validations) {
 
 export default class UserOverview extends Component {
   @tracked isEditionMode = false;
+  @tracked displayAnonymizeModal = false;
 
   @service notifications;
   @service accessControl;
@@ -170,5 +171,16 @@ export default class UserOverview extends Component {
         response.errors[0].detail || "une erreur est survenue, vos modifications n'ont pas été enregistrées";
       this.notifications.error(messageValidationError);
     }
+  }
+
+  @action
+  toggleDisplayAnonymizeModal() {
+    this.displayAnonymizeModal = !this.displayAnonymizeModal;
+  }
+
+  @action
+  async anonymizeUser() {
+    await this.args.user.save({ adapterOptions: { anonymizeUser: true } });
+    this.toggleDisplayAnonymizeModal();
   }
 }

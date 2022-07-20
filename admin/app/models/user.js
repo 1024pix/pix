@@ -19,7 +19,7 @@ export default class User extends Model {
   @attr() emailConfirmedAt;
 
   // includes
-  @belongsTo('profile', { async: false }) profile;
+  @belongsTo('profile') profile;
 
   @hasMany('membership') memberships;
   @hasMany('certification-center-membership') certificationCenterMemberships;
