@@ -1,7 +1,7 @@
 const isNil = require('lodash/isNil');
 const endsWith = require('lodash/endsWith');
 const Joi = require('joi').extend(require('@joi/date'));
-const { PIX_PLUS_DROIT, CLEA } = require('./ComplementaryCertification');
+const { PIX_PLUS_DROIT, CLEA, PIX_PLUS_EDU_1ER_DEGRE } = require('./ComplementaryCertification');
 const {
   InvalidCertificationCandidate,
   CertificationCandidatePersonalInfoFieldMissingError,
@@ -192,6 +192,10 @@ class CertificationCandidate {
 
   isGrantedCleA() {
     return this.complementaryCertifications.some((comp) => comp.name === CLEA);
+  }
+
+  isGrantedPixPlusEdu1erDegre() {
+    return this.complementaryCertifications.some((comp) => comp.name === PIX_PLUS_EDU_1ER_DEGRE);
   }
 
   isBillingModePrepaid() {
