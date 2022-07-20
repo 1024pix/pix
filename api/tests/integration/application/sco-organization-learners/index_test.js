@@ -29,6 +29,9 @@ describe('Integration | Application | Route | sco-organization-learners', functi
     sinon
       .stub(scoOrganizationLearnerController, 'updatePassword')
       .callsFake((request, h) => h.response('ok').code(200));
+    sinon
+      .stub(scoOrganizationLearnerController, 'generateUsernameWithTemporaryPassword')
+      .callsFake((request, h) => h.response('ok').code(200));
 
     httpTestServer = new HttpTestServer();
     await httpTestServer.register(moduleUnderTest);
@@ -1439,6 +1442,50 @@ describe('Integration | Application | Route | sco-organization-learners', functi
       // given
       const method = 'POST';
       const url = '/api/sco-organization-learners/password-update';
+      const payload = {
+        data: {
+          attributes: {
+            'organization-learner-id': 1,
+            'organization-id': 3,
+          },
+        },
+      };
+
+      // when
+      const response = await httpTestServer.request(method, url, payload);
+
+      // then
+      expect(response.statusCode).to.equal(200);
+    });
+  });
+
+  describe('POST /api/schooling-registration-dependent-users/generate-username-password', function () {
+    it('should succeed', async function () {
+      // given
+      const method = 'POST';
+      const url = '/api/schooling-registration-dependent-users/generate-username-password';
+      const payload = {
+        data: {
+          attributes: {
+            'schooling-registration-id': 1,
+            'organization-id': 3,
+          },
+        },
+      };
+
+      // when
+      const response = await httpTestServer.request(method, url, payload);
+
+      // then
+      expect(response.statusCode).to.equal(200);
+    });
+  });
+
+  describe('POST /api/sco-organization-learners/username-password-generation', function () {
+    it('should succeed', async function () {
+      // given
+      const method = 'POST';
+      const url = '/api/sco-organization-learners/username-password-generation';
       const payload = {
         data: {
           attributes: {

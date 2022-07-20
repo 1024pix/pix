@@ -21,7 +21,7 @@ module.exports = {
 
   serializeCredentialsForDependent(scoOrganizationLearner) {
     return new Serializer('dependent-users', {
-      attributes: ['generatedPassword'],
+      attributes: ['username', 'generatedPassword'],
     }).serialize(scoOrganizationLearner);
   },
 };
