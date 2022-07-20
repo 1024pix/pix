@@ -108,6 +108,7 @@ Router.map(function () {
 
   this.route('terms-of-service', { path: '/cgu' });
   this.route('terms-of-service-oidc', { path: '/cgu-oidc' });
+  this.route('login-oidc', { path: '/connexion/:identity_provider_name' });
   this.route('login-pole-emploi', { path: '/connexion-pole-emploi' });
   this.route('login-cnav', { path: '/connexion-cnav' });
 
