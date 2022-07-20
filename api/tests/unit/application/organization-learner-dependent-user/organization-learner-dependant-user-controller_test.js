@@ -48,35 +48,4 @@ describe('Unit | Application | Controller | organization-learner-user-associatio
       expect(response).to.deep.equal(studentInformationForAccountRecoveryJSONAPI);
     });
   });
-
-  describe('#createUserAndReconcileToOrganizationLearnerFromExternalUser', function () {
-    it('should return 200 response with an access token', async function () {
-      // given
-      const request = {
-        payload: {
-          data: {
-            attributes: {
-              birthdate: '01-01-2000',
-              'campaign-code': 'BADGES123',
-              'external-user-token': '123SamlId',
-            },
-          },
-        },
-      };
-      const token = Symbol('token');
-
-      sinon.stub(usecases, 'createUserAndReconcileToOrganizationLearnerFromExternalUser').resolves(token);
-
-      // when
-      const response =
-        await organizationLearnerDependantUserController.createUserAndReconcileToOrganizationLearnerFromExternalUser(
-          request,
-          hFake
-        );
-
-      // then
-      expect(response.source.data.attributes['access-token']).to.deep.equal(token);
-      expect(response.statusCode).to.equal(200);
-    });
-  });
 });

@@ -3,27 +3,6 @@ const organizationLearnerDependentUserSerializer = require('../../infrastructure
 const studentInformationForAccountRecoverySerializer = require('../../infrastructure/serializers/jsonapi/student-information-for-account-recovery-serializer');
 
 module.exports = {
-  async createUserAndReconcileToOrganizationLearnerFromExternalUser(request, h) {
-    const { birthdate, 'campaign-code': campaignCode, 'external-user-token': token } = request.payload.data.attributes;
-
-    const accessToken = await usecases.createUserAndReconcileToOrganizationLearnerFromExternalUser({
-      birthdate,
-      campaignCode,
-      token,
-    });
-
-    const response = {
-      data: {
-        attributes: {
-          'access-token': accessToken,
-        },
-        type: 'external-users',
-      },
-    };
-
-    return h.response(response).code(200);
-  },
-
   async updatePassword(request, h) {
     const payload = request.payload.data.attributes;
     const userId = request.auth.credentials.userId;

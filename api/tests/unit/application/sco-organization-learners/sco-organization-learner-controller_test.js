@@ -177,4 +177,78 @@ describe('Unit | Application | Controller | sco-organization-learner', function 
       expect(response.headers['Deprecation']).to.not.exist;
     });
   });
+
+  describe('#createUserAndReconcileToOrganizationLearnerFromExternalUser', function () {
+    const userId = 2;
+    let request = {
+      auth: { credentials: { userId } },
+      payload: { data: { attributes: {} } },
+    };
+
+    beforeEach(function () {
+      sinon.stub(usecases, 'createUserAndReconcileToOrganizationLearnerFromExternalUser');
+      usecases.createUserAndReconcileToOrganizationLearnerFromExternalUser.resolves();
+    });
+
+    it('should return 200 response with an access token', async function () {
+      // given
+      hFake.request = { path: {} };
+      request = {
+        payload: {
+          data: {
+            attributes: {
+              birthdate: '01-01-2000',
+              'campaign-code': 'BADGES123',
+              'external-user-token': '123SamlId',
+            },
+          },
+        },
+      };
+      const token = Symbol('token');
+
+      usecases.createUserAndReconcileToOrganizationLearnerFromExternalUser.resolves(token);
+
+      // when
+      const response =
+        await scoOrganizationLearnerController.createUserAndReconcileToOrganizationLearnerFromExternalUser(
+          request,
+          hFake
+        );
+
+      // then
+      expect(response.source.data.attributes['access-token']).to.deep.equal(token);
+      expect(response.statusCode).to.equal(200);
+    });
+
+    it('should return information about deprecation when old route is used', async function () {
+      // when
+      hFake.request = {
+        path: '/api/schooling-registration-dependent-users/external-user-token',
+      };
+      const response =
+        await scoOrganizationLearnerController.createUserAndReconcileToOrganizationLearnerFromExternalUser(
+          request,
+          hFake
+        );
+
+      // then
+      expect(response.headers['Deprecation']).to.equal('true');
+      expect(response.headers['Link']).to.equal('/api/sco-organization-learners/external; rel="successor-version"');
+    });
+
+    it('should not return information about deprecation when new route is used', async function () {
+      // when
+      hFake.request = {
+        path: '/api/sco-organization-learners/external',
+      };
+      const response =
+        await scoOrganizationLearnerController.createUserAndReconcileToOrganizationLearnerFromExternalUser(
+          request,
+          hFake
+        );
+
+      // then
+      expect(response.headers['Deprecation']).to.not.exist;
+    });
+  });
 });

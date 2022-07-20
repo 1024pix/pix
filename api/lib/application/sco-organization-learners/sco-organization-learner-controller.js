@@ -132,4 +132,26 @@ module.exports = {
     }
     return response;
   },
+
+  async createUserAndReconcileToOrganizationLearnerFromExternalUser(request, h) {
+    const { birthdate, 'campaign-code': campaignCode, 'external-user-token': token } = request.payload.data.attributes;
+
+    const accessToken = await usecases.createUserAndReconcileToOrganizationLearnerFromExternalUser({
+      birthdate,
+      campaignCode,
+      token,
+    });
+
+    const scoOrganizationLearner = {
+      accessToken,
+    };
+
+    const response = h.response(scoOrganizationLearnerSerializer.serializeExternal(scoOrganizationLearner)).code(200);
+    if (h.request.path === '/api/schooling-registration-dependent-users/external-user-token') {
+      return response
+        .header('Deprecation', 'true')
+        .header('Link', '/api/sco-organization-learners/external; rel="successor-version"');
+    }
+    return response;
+  },
 };
