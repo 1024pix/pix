@@ -189,20 +189,25 @@ async function _startNewCertification({
     }
   }
 
-  const pixEdu1erDegreBadgeAcquisition = highestCertifiableBadgeAcquisitions.find((badgeAcquisition) =>
-    badgeAcquisition.isPixEdu1erDegre()
-  );
-  if (pixEdu1erDegreBadgeAcquisition) {
-    const certificationChallengesForPixEdu = await certificationChallengesService.pickCertificationChallengesForPixPlus(
-      pixEdu1erDegreBadgeAcquisition.badge,
-      userId,
-      locale
+  if (certificationCenter.isHabilitatedPixPlusEdu1erDegre && certificationCandidate.isGrantedPixPlusEdu1erDegre()) {
+    const pixEdu1erDegreBadgeAcquisition = highestCertifiableBadgeAcquisitions.find((badgeAcquisition) =>
+      badgeAcquisition.isPixEdu1erDegre()
     );
-    challengesForCertification.push(...certificationChallengesForPixEdu);
-    if (certificationChallengesForPixEdu.length) {
-      const pixEduComplementaryCertification = complementaryCertifications.find((comp) => comp.isPixPlusEdu1erDegre());
-      if (pixEduComplementaryCertification) {
-        complementaryCertificationIds.push(pixEduComplementaryCertification.id);
+    if (pixEdu1erDegreBadgeAcquisition) {
+      const certificationChallengesForPixEdu =
+        await certificationChallengesService.pickCertificationChallengesForPixPlus(
+          pixEdu1erDegreBadgeAcquisition.badge,
+          userId,
+          locale
+        );
+      challengesForCertification.push(...certificationChallengesForPixEdu);
+      if (certificationChallengesForPixEdu.length) {
+        const pixEduComplementaryCertification = complementaryCertifications.find((comp) =>
+          comp.isPixPlusEdu1erDegre()
+        );
+        if (pixEduComplementaryCertification) {
+          complementaryCertificationIds.push(pixEduComplementaryCertification.id);
+        }
       }
     }
   }
