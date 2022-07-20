@@ -48,20 +48,20 @@ export default class GetTeamController extends Controller {
     const matchingUsers = await this.store.query('user', { filter: { email } });
 
     // GET /users?filter[email] makes an approximative request ("LIKE %email%") and not a strict request
-    return matchingUsers.findBy('email', email);
+    return matchingUsers.find((user) => user.email.toLowerCase() == email.toLowerCase());
   }
 
   @action
   async addMembership() {
     const organization = this.model;
     const email = this.userEmailToAdd.trim();
-    if (await organization.hasMember(email)) {
-      return this.notifications.error('Compte déjà associé.');
-    }
-
     const user = await this._getUser(email);
     if (!user) {
       return this.notifications.error('Compte inconnu.');
+    }
+
+    if (await organization.hasMember(user.id)) {
+      return this.notifications.error('Compte déjà associé.');
     }
 
     try {

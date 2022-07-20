@@ -29,9 +29,9 @@ export default class Organization extends Model {
   @hasMany('targetProfile') targetProfiles;
   @hasMany('tag') tags;
 
-  async hasMember(userEmail) {
+  async hasMember(userId) {
     const memberships = await this.memberships;
-    return !!memberships.findBy('user.email', userEmail);
+    return !!memberships.findBy('user.id', userId);
   }
 
   get archivedFormattedDate() {
