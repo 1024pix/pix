@@ -1,6 +1,7 @@
 const usecases = require('../../domain/usecases');
 const scoOrganizationLearnerSerializer = require('../../infrastructure/serializers/jsonapi/sco-organization-learner-serializer');
 const organizationLearnerUserAssociationSerializer = require('../../infrastructure/serializers/jsonapi/organization-learner-user-association-serializer');
+const { extractLocaleFromRequest } = require('../../infrastructure/utils/request-response-utils');
 
 module.exports = {
   async reconcileScoOrganizationLearnerManually(request, h) {
@@ -102,5 +103,33 @@ module.exports = {
     return h
       .response(scoOrganizationLearnerSerializer.serializeWithUsernameGeneration(scoOrganizationLearner))
       .code(200);
+  },
+
+  async createAndReconcileUserToOrganizationLearner(request, h) {
+    const payload = request.payload.data.attributes;
+    const userAttributes = {
+      firstName: payload['first-name'],
+      lastName: payload['last-name'],
+      birthdate: payload['birthdate'],
+      email: payload.email,
+      username: payload.username,
+      withUsername: payload['with-username'],
+    };
+    const locale = extractLocaleFromRequest(request);
+
+    await usecases.createAndReconcileUserToOrganizationLearner({
+      userAttributes,
+      password: payload.password,
+      campaignCode: payload['campaign-code'],
+      locale,
+    });
+
+    const response = h.response().code(204);
+    if (h.request.path === '/api/schooling-registration-dependent-users') {
+      return response
+        .header('Deprecation', 'true')
+        .header('Link', '/api/sco-organization-learners/dependent; rel="successor-version"');
+    }
+    return response;
   },
 };

@@ -1,9 +1,7 @@
 const Joi = require('joi').extend(require('@joi/date'));
-const XRegExp = require('xregexp');
 
 const securityPreHandlers = require('../security-pre-handlers');
 const { sendJsonApiError, BadRequestError } = require('../http-errors');
-const { passwordValidationPattern } = require('../../config').account;
 const identifiersType = require('../../domain/types/identifiers-type');
 
 const inePattern = new RegExp('^[0-9]{9}[a-zA-Z]{2}$');
@@ -13,37 +11,6 @@ const organizationLearnerDependentUserController = require('./organization-learn
 
 exports.register = async function (server) {
   server.route([
-    {
-      method: 'POST',
-      path: '/api/schooling-registration-dependent-users',
-      config: {
-        auth: false,
-        handler: organizationLearnerDependentUserController.createAndReconcileUserToOrganizationLearner,
-        validate: {
-          options: {
-            allowUnknown: true,
-          },
-          payload: Joi.object({
-            data: {
-              attributes: {
-                'first-name': Joi.string().empty(Joi.string().regex(/^\s*$/)).required(),
-                'last-name': Joi.string().empty(Joi.string().regex(/^\s*$/)).required(),
-                birthdate: Joi.date().format('YYYY-MM-DD').raw().required(),
-                'campaign-code': Joi.string().empty(Joi.string().regex(/^\s*$/)).required(),
-                password: Joi.string().pattern(XRegExp(passwordValidationPattern)).required(),
-                'with-username': Joi.boolean().required(),
-                username: Joi.string().pattern(XRegExp('^([a-z]+[.]+[a-z]+[0-9]{4})$')).allow(null),
-              },
-            },
-          }),
-        },
-        notes: [
-          "Cette route crée un utilisateur et l'associe à l'élève trouvé au sein de l'organisation à laquelle " +
-            'appartient la campagne spécifiée',
-        ],
-        tags: ['api', 'organizationLearnerDependentUser'],
-      },
-    },
     {
       method: 'POST',
       path: '/api/schooling-registration-dependent-users/external-user-token',

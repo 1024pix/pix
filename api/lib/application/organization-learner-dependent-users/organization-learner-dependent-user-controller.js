@@ -1,31 +1,8 @@
 const usecases = require('../../domain/usecases');
 const organizationLearnerDependentUserSerializer = require('../../infrastructure/serializers/jsonapi/organization-learner-dependent-user-serializer');
-const { extractLocaleFromRequest } = require('../../infrastructure/utils/request-response-utils');
 const studentInformationForAccountRecoverySerializer = require('../../infrastructure/serializers/jsonapi/student-information-for-account-recovery-serializer');
 
 module.exports = {
-  async createAndReconcileUserToOrganizationLearner(request, h) {
-    const payload = request.payload.data.attributes;
-    const userAttributes = {
-      firstName: payload['first-name'],
-      lastName: payload['last-name'],
-      birthdate: payload['birthdate'],
-      email: payload.email,
-      username: payload.username,
-      withUsername: payload['with-username'],
-    };
-    const locale = extractLocaleFromRequest(request);
-
-    await usecases.createAndReconcileUserToOrganizationLearner({
-      userAttributes,
-      password: payload.password,
-      campaignCode: payload['campaign-code'],
-      locale,
-    });
-
-    return h.response().code(204);
-  },
-
   async createUserAndReconcileToOrganizationLearnerFromExternalUser(request, h) {
     const { birthdate, 'campaign-code': campaignCode, 'external-user-token': token } = request.payload.data.attributes;
 
