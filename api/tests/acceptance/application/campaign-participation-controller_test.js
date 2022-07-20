@@ -8,6 +8,7 @@ const {
   learningContentBuilder,
   generateValidRequestAuthorizationHeader,
   knex,
+  insertUserWithRoleSuperAdmin,
 } = require('../../test-helper');
 
 const { SHARED, STARTED } = CampaignParticipationStatuses;
@@ -339,6 +340,27 @@ describe('Acceptance | API | Campaign Participations', function () {
       expect(response.statusCode).to.equal(200);
       const campaignProfile = response.result.data.attributes;
       expect(campaignProfile['external-id']).to.equal('Die Hard');
+    });
+  });
+
+  describe('DELETE /api/admin/campaign-participations/{id}', function () {
+    it('should return 204 HTTP status code', async function () {
+      // given
+      const superAdmin = await insertUserWithRoleSuperAdmin();
+      const campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation().id;
+      await databaseBuilder.commit();
+
+      options = {
+        method: 'DELETE',
+        url: `/api/admin/campaign-participations/${campaignParticipationId}`,
+        headers: { authorization: generateValidRequestAuthorizationHeader(superAdmin.id) },
+      };
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(204);
     });
   });
 });

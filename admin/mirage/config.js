@@ -205,6 +205,20 @@ export default function () {
   this.patch('/admin/organizations/:id');
 
   this.get('/admin/users/:id');
+  this.get('/admin/users/:id/participations', (schema) => {
+    return schema.userParticipations.all();
+  });
+
+  this.delete('/admin/campaign-participations/:id', (schema, request) => {
+    const participationId = request.params.id;
+    const participation = schema.userParticipations.find(participationId);
+    participation.update({
+      deletedAt: new Date('2012-12-12'),
+      deletedByFullName: 'Terry Dicule',
+    });
+
+    return new Response(204);
+  });
 
   this.patch('/admin/users/:id', (schema, request) => {
     const userId = request.params.id;

@@ -158,4 +158,30 @@ module('Acceptance | User details personal information', function (hooks) {
       assert.dom(screen.queryByText('Supprimer')).doesNotExist();
     });
   });
+
+  module('when administrator click on delete participation button', function () {
+    test('should mark participation as deleted', async function (assert) {
+      // given
+      const userParticipation = this.server.create('user-participation', { deletedAt: null });
+      const user = server.create('user');
+      user.participations = [userParticipation];
+      user.save();
+      this.server.create('admin-member', {
+        userId: user.id,
+        isSuperAdmin: true,
+      });
+      await createAuthenticateSession({ userId: user.id });
+
+      const screen = await visit(`/users/${user.id}`);
+
+      // when
+      await click(screen.getByRole('button', { name: 'Supprimer' }));
+      await clickByName('Oui, je supprime');
+
+      // then
+      assert.dom(screen.getByText('La participation du prescrit a été supprimée avec succès.')).exists();
+      assert.dom(screen.getByText('12/12/2012 par')).exists();
+      assert.dom(screen.getByRole('link', { name: 'Terry Dicule' })).exists();
+    });
+  });
 });

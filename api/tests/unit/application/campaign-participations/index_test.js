@@ -187,4 +187,41 @@ describe('Unit | Application | Router | campaign-participation-router ', functio
       });
     });
   });
+
+  describe('DELETE /api/admin/campaign-participations/{id}', function () {
+    it('should return an HTTP status code 200', async function () {
+      // given
+      sinon.stub(securityPreHandlers, 'adminMemberHasAtLeastOneAccessOf').returns(() => true);
+      sinon.stub(campaignParticipationController, 'deleteCampaignParticipationForAdmin').resolves('ok');
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      // when
+      const response = await httpTestServer.request('DELETE', '/api/admin/campaign-participations/2');
+
+      // then
+      sinon.assert.calledOnce(securityPreHandlers.adminMemberHasAtLeastOneAccessOf);
+      sinon.assert.calledOnce(campaignParticipationController.deleteCampaignParticipationForAdmin);
+      expect(response.statusCode).to.equal(200);
+    });
+
+    it('should return an HTTP status code 403', async function () {
+      // given
+      sinon.stub(securityPreHandlers, 'adminMemberHasAtLeastOneAccessOf').returns((request, h) =>
+        h
+          .response({ errors: new Error('') })
+          .code(403)
+          .takeover()
+      );
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      // when
+      const response = await httpTestServer.request('DELETE', '/api/admin/campaign-participations/2');
+
+      // then
+      sinon.assert.calledOnce(securityPreHandlers.adminMemberHasAtLeastOneAccessOf);
+      expect(response.statusCode).to.equal(403);
+    });
+  });
 });

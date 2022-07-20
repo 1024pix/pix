@@ -1,8 +1,8 @@
 const { expect, sinon, domainBuilder } = require('../../../test-helper');
-const { deleteCampaignParticipation } = require('../../../../lib/domain/usecases');
+const { deleteCampaignParticipationForAdmin } = require('../../../../lib/domain/usecases');
 const CampaignParticipation = require('../../../../lib/domain/models/CampaignParticipation');
 
-describe('Unit | UseCase | delete-campaign-participation', function () {
+describe('Unit | UseCase | delete-campaign-participation-for-admin', function () {
   //given
   let clock;
   const now = new Date('2021-09-25');
@@ -16,6 +16,9 @@ describe('Unit | UseCase | delete-campaign-participation', function () {
   });
 
   it('should call repository method to delete a campaign participation', async function () {
+    const campaignRepository = {
+      getCampaignIdByCampaignParticipationId: sinon.stub(),
+    };
     const campaignParticipationRepository = {
       getAllCampaignParticipationsInCampaignForASameLearner: sinon.stub(),
       delete: sinon.stub(),
@@ -42,7 +45,8 @@ describe('Unit | UseCase | delete-campaign-participation', function () {
 
     const campaignParticipations = [campaignParticipation1, campaignParticipation2];
 
-    await campaignParticipationRepository.getAllCampaignParticipationsInCampaignForASameLearner
+    campaignRepository.getCampaignIdByCampaignParticipationId.withArgs(campaignParticipationId).resolves(campaignId);
+    campaignParticipationRepository.getAllCampaignParticipationsInCampaignForASameLearner
       .withArgs({
         campaignId,
         campaignParticipationId,
@@ -51,12 +55,12 @@ describe('Unit | UseCase | delete-campaign-participation', function () {
       .resolves(campaignParticipations);
 
     //when
-    await deleteCampaignParticipation({
+    await deleteCampaignParticipationForAdmin({
       userId: ownerId,
-      campaignId,
       campaignParticipationId,
-      campaignParticipationRepository,
       domainTransaction,
+      campaignRepository,
+      campaignParticipationRepository,
     });
 
     //then
