@@ -17,29 +17,18 @@
       {{moment-duration @tutorial.duration}}
     </p>
     <div class="tutorial-card-v2-content__actions">
-      <div title={{this.evaluateInformation}}>
-        <button
-          class="pix-action-chip {{if this.isTutorialEvaluated "pix-action-chip--selected"}}"
-          aria-label={{this.evaluateInformation}}
-          type="button"
-          {{on "click" this.evaluateTutorial}}
-          disabled={{this.isEvaluationButtonDisabled}}
-          aria-disabled="{{this.isTutorialEvaluated}}"
-        >
-          <FaIcon class="pix-action-chip__icon" @prefix={{if this.isTutorialEvaluated "fas" "far"}} @icon="thumbs-up" />
-        </button>
-      </div>
-      <button
-        class="pix-action-chip {{if this.isTutorialSaved "pix-action-chip--selected"}}"
-        aria-label={{this.saveInformation}}
-        title={{this.saveInformation}}
-        type="button"
-        {{on "click" this.toggleSaveTutorial}}
-        disabled={{this.isSaveButtonDisabled}}
-        aria-disabled="{{this.isSaveButtonDisabled}}"
-      >
-        <FaIcon class="pix-action-chip__icon" @prefix={{if this.isTutorialSaved "fas" "far"}} @icon="bookmark" />
-      </button>
+      <ActionChip
+        @title={{this.evaluateInformation}}
+        @isCompleted={{this.isTutorialEvaluated}}
+        @triggerAction={{this.evaluateTutorial}}
+        @icon="thumbs-up"
+      />
+      <ActionChip
+        @title={{this.saveInformation}}
+        @isCompleted={{this.isTutorialSaved}}
+        @triggerAction={{this.toggleSaveTutorial}}
+        @icon="bookmark"
+      />
     </div>
   </div>
 </article>
