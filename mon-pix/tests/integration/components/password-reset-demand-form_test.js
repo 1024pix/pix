@@ -53,7 +53,7 @@ describe('Integration | Component | password reset demand form', function () {
     await clickByLabel(this.intl.t('pages.password-reset-demand.actions.reset'));
 
     // then
-    expect(find('.sign-form__notification-message--error')).to.exist;
+    expect(find('div[id="password-reset-demand-failed-message"]')).to.exist;
   });
 
   it('should display success message when there is no error on password reset demand', async function () {
@@ -76,6 +76,7 @@ describe('Integration | Component | password reset demand form', function () {
     await clickByLabel(this.intl.t('pages.password-reset-demand.actions.reset'));
 
     // then
+    expect(find('div[id="password-reset-demand-failed-message"]')).to.not.exist;
     expect(find('.password-reset-demand-form__body')).to.exist;
   });
 
