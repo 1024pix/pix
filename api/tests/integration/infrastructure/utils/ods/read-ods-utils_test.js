@@ -191,13 +191,15 @@ describe('Integration | Infrastructure | Utils | Ods | read-ods-utils', function
         odsBuffer = await readFile(DEFAULT_ODS_FILE_PATH);
 
         // when
-        await validateOdsHeaders({
-          odsBuffer,
-          headers: VALID_HEADERS,
-        });
+        const call = async () => {
+          await validateOdsHeaders({
+            odsBuffer,
+            headers: VALID_HEADERS,
+          });
+        };
 
         // then
-        expect(true).to.be.true;
+        expect(call).to.not.throw();
       });
     });
 
@@ -218,18 +220,19 @@ describe('Integration | Infrastructure | Utils | Ods | read-ods-utils', function
     });
 
     context('when newlines are present in file headers', function () {
-      it('should not throw a UnprocessableEntityError', async function () {
+      it('should not throw', async function () {
         // given
         odsBuffer = await readFile(NEW_LINE_ODS_FILE_PATH);
 
         // when
-        await validateOdsHeaders({
-          odsBuffer,
-          headers: VALID_HEADERS,
-        });
-
+        const call = () => {
+          validateOdsHeaders({
+            odsBuffer,
+            headers: VALID_HEADERS,
+          });
+        };
         // then
-        expect(true).to.be.true;
+        expect(call).to.not.throw();
       });
     });
   });
