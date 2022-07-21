@@ -1,7 +1,7 @@
 const { expect, sinon } = require('../../../test-helper');
-const OrganizationPlace = require('../../../../lib/domain/read-models/OrganizationPlace');
+const OrganizationPlacesLotManagement = require('../../../../lib/domain/read-models/OrganizationPlacesLotManagement');
 
-describe('Unit | Domain | ReadModels | OrganizationPlace', function () {
+describe('Unit | Domain | ReadModels | organizationPlacesLotManagement', function () {
   describe('constructor', function () {
     it('should build an Organization Place from raw JSON', function () {
       // given
@@ -17,16 +17,20 @@ describe('Unit | Domain | ReadModels | OrganizationPlace', function () {
       };
 
       // when
-      const organizationPlace = new OrganizationPlace(rawData);
+      const organizationPlacesLotManagement = new OrganizationPlacesLotManagement(rawData);
 
       // then
-      expect(organizationPlace.id).to.equal(rawData.id);
-      expect(organizationPlace.count).to.equal(rawData.count);
-      expect(organizationPlace.activationDate).to.equal(rawData.activationDate);
-      expect(organizationPlace.expirationDate).to.equal(rawData.expirationDate);
-      expect(organizationPlace.reference).to.equal(rawData.reference);
-      expect(organizationPlace.category).to.equal(OrganizationPlace.categories[rawData.category]);
-      expect(organizationPlace.creatorFullName).to.equal(`${rawData.creatorFirstName} ${rawData.creatorLastName}`);
+      expect(organizationPlacesLotManagement.id).to.equal(rawData.id);
+      expect(organizationPlacesLotManagement.count).to.equal(rawData.count);
+      expect(organizationPlacesLotManagement.activationDate).to.equal(rawData.activationDate);
+      expect(organizationPlacesLotManagement.expirationDate).to.equal(rawData.expirationDate);
+      expect(organizationPlacesLotManagement.reference).to.equal(rawData.reference);
+      expect(organizationPlacesLotManagement.category).to.equal(
+        OrganizationPlacesLotManagement.categories[rawData.category]
+      );
+      expect(organizationPlacesLotManagement.creatorFullName).to.equal(
+        `${rawData.creatorFirstName} ${rawData.creatorLastName}`
+      );
     });
   });
 
@@ -50,10 +54,10 @@ describe('Unit | Domain | ReadModels | OrganizationPlace', function () {
       };
 
       // when
-      const organizationPlace = new OrganizationPlace(rawData);
+      const organizationPlacesLotManagement = new OrganizationPlacesLotManagement(rawData);
 
       // then
-      expect(organizationPlace.status).to.equal(OrganizationPlace.statuses.EXPIRED);
+      expect(organizationPlacesLotManagement.status).to.equal(OrganizationPlacesLotManagement.statuses.EXPIRED);
     });
 
     it('have active status when place is currently active', function () {
@@ -64,10 +68,10 @@ describe('Unit | Domain | ReadModels | OrganizationPlace', function () {
       };
 
       // when
-      const organizationPlace = new OrganizationPlace(rawData);
+      const organizationPlacesLotManagement = new OrganizationPlacesLotManagement(rawData);
 
       // then
-      expect(organizationPlace.status).to.equal(OrganizationPlace.statuses.ACTIVE);
+      expect(organizationPlacesLotManagement.status).to.equal(OrganizationPlacesLotManagement.statuses.ACTIVE);
     });
 
     it('have pending status when the place is not yet active', function () {
@@ -78,10 +82,10 @@ describe('Unit | Domain | ReadModels | OrganizationPlace', function () {
       };
 
       // when
-      const organizationPlace = new OrganizationPlace(rawData);
+      const organizationPlacesLotManagement = new OrganizationPlacesLotManagement(rawData);
 
       // then
-      expect(organizationPlace.status).to.equal(OrganizationPlace.statuses.PENDING);
+      expect(organizationPlacesLotManagement.status).to.equal(OrganizationPlacesLotManagement.statuses.PENDING);
     });
 
     describe('#expirationDate to null', function () {
@@ -94,10 +98,10 @@ describe('Unit | Domain | ReadModels | OrganizationPlace', function () {
         };
 
         // when
-        const organizationPlace = new OrganizationPlace(rawData);
+        const organizationPlacesLotManagement = new OrganizationPlacesLotManagement(rawData);
 
         // then
-        expect(organizationPlace.status).to.equal(OrganizationPlace.statuses.ACTIVE);
+        expect(organizationPlacesLotManagement.status).to.equal(OrganizationPlacesLotManagement.statuses.ACTIVE);
       });
 
       it('have pending status when the place is not yet active', function () {
@@ -109,10 +113,10 @@ describe('Unit | Domain | ReadModels | OrganizationPlace', function () {
         };
 
         // when
-        const organizationPlace = new OrganizationPlace(rawData);
+        const organizationPlacesLotManagement = new OrganizationPlacesLotManagement(rawData);
 
         // then
-        expect(organizationPlace.status).to.equal(OrganizationPlace.statuses.PENDING);
+        expect(organizationPlacesLotManagement.status).to.equal(OrganizationPlacesLotManagement.statuses.PENDING);
       });
     });
   });
@@ -125,10 +129,10 @@ describe('Unit | Domain | ReadModels | OrganizationPlace', function () {
       };
 
       // when
-      const organizationPlace = new OrganizationPlace(rawData);
+      const organizationPlacesLotManagement = new OrganizationPlacesLotManagement(rawData);
 
       // then
-      expect(organizationPlace.category).to.equal(OrganizationPlace.categories.T0);
+      expect(organizationPlacesLotManagement.category).to.equal(OrganizationPlacesLotManagement.categories.T0);
     });
 
     it('have a public rate category when the given category is T1', function () {
@@ -138,10 +142,10 @@ describe('Unit | Domain | ReadModels | OrganizationPlace', function () {
       };
 
       // when
-      const organizationPlace = new OrganizationPlace(rawData);
+      const organizationPlacesLotManagement = new OrganizationPlacesLotManagement(rawData);
 
       // then
-      expect(organizationPlace.category).to.equal(OrganizationPlace.categories.T1);
+      expect(organizationPlacesLotManagement.category).to.equal(OrganizationPlacesLotManagement.categories.T1);
     });
 
     it('have a reduce rate category when the given category is T2', function () {
@@ -151,10 +155,10 @@ describe('Unit | Domain | ReadModels | OrganizationPlace', function () {
       };
 
       // when
-      const organizationPlace = new OrganizationPlace(rawData);
+      const organizationPlacesLotManagement = new OrganizationPlacesLotManagement(rawData);
 
       // then
-      expect(organizationPlace.category).to.equal(OrganizationPlace.categories.T2);
+      expect(organizationPlacesLotManagement.category).to.equal(OrganizationPlacesLotManagement.categories.T2);
     });
 
     it('have a special reduce rate category when the given category is T2bis', function () {
@@ -164,10 +168,10 @@ describe('Unit | Domain | ReadModels | OrganizationPlace', function () {
       };
 
       // when
-      const organizationPlace = new OrganizationPlace(rawData);
+      const organizationPlacesLotManagement = new OrganizationPlacesLotManagement(rawData);
 
       // then
-      expect(organizationPlace.category).to.equal(OrganizationPlace.categories.T2bis);
+      expect(organizationPlacesLotManagement.category).to.equal(OrganizationPlacesLotManagement.categories.T2bis);
     });
 
     it('have a full rate category when the given category is T3', function () {
@@ -177,10 +181,10 @@ describe('Unit | Domain | ReadModels | OrganizationPlace', function () {
       };
 
       // when
-      const organizationPlace = new OrganizationPlace(rawData);
+      const organizationPlacesLotManagement = new OrganizationPlacesLotManagement(rawData);
 
       // then
-      expect(organizationPlace.category).to.equal(OrganizationPlace.categories.T3);
+      expect(organizationPlacesLotManagement.category).to.equal(OrganizationPlacesLotManagement.categories.T3);
     });
   });
 });

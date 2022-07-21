@@ -24,8 +24,8 @@ describe('Integration | Application | Organizations | organization-controller', 
     sandbox.stub(usecases, 'findCertificationAttestationsForDivision');
     sandbox.stub(usecases, 'findGroupsByOrganization');
     sandbox.stub(usecases, 'findDivisionsByOrganization');
-    sandbox.stub(usecases, 'findOrganizationPlaces');
     sandbox.stub(usecases, 'getPaginatedParticipantsForAnOrganization');
+    sandbox.stub(usecases, 'findOrganizationPlacesLot');
 
     sandbox.stub(certificationAttestationPdf, 'getCertificationAttestationsPdfBuffer');
 
@@ -224,12 +224,12 @@ describe('Integration | Application | Organizations | organization-controller', 
     });
   });
 
-  describe('#findOrganizationPlaces', function () {
+  describe('#findOrganizationPlacesLot', function () {
     context('Success cases', function () {
       it('should return an HTTP response with status code 200', async function () {
         // given
         const organizationId = domainBuilder.buildOrganization().id;
-        const place = domainBuilder.buildOrganizationPlace({
+        const place = domainBuilder.buildOrganizationPlacesLotManagement({
           organizationId,
           count: 18,
           activationDate: new Date('2020-01-01'),
@@ -237,7 +237,7 @@ describe('Integration | Application | Organizations | organization-controller', 
           reference: 'Toho Godzilla',
           category: 'T2',
         });
-        usecases.findOrganizationPlaces.resolves([place]);
+        usecases.findOrganizationPlacesLot.resolves([place]);
         securityPreHandlers.adminMemberHasAtLeastOneAccessOf.returns(() => true);
 
         // when

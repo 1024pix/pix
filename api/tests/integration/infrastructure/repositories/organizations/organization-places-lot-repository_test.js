@@ -1,9 +1,13 @@
-const { expect, databaseBuilder } = require('../../../../test-helper');
-const organizationPlaceRepository = require('../../../../../lib/infrastructure/repositories/organizations/organization-place-repository');
-const OrganizationPlace = require('../../../../../lib/domain/read-models/OrganizationPlace');
+const { expect, databaseBuilder, catchErr } = require('../../../../test-helper');
+const { knex } = require('../../../../../db/knex-database-connection');
+const organizationPlacesLotRepository = require('../../../../../lib/infrastructure/repositories/organizations/organization-places-lot-repository');
+const OrganizationPlacesLotManagement = require('../../../../../lib/domain/read-models/OrganizationPlacesLotManagement');
+const OrganizationPlacesLot = require('../../../../../lib/domain/models/OrganizationPlacesLot');
+const categories = require('../../../../../lib/domain/constants/organization-places-categories');
+const { NotFoundError } = require('../../../../../lib/domain/errors');
 
 describe('Integration | Repository | Organization Place', function () {
-  describe('#find', function () {
+  describe('#findByOrganizationId', function () {
     it('should return organization place model for given id', async function () {
       // given
       const organizationId = databaseBuilder.factory.buildOrganization().id;
@@ -21,13 +25,13 @@ describe('Integration | Repository | Organization Place', function () {
       await databaseBuilder.commit();
 
       // when
-      const foundOrganizationPlace = await organizationPlaceRepository.find(organizationId);
+      const foundOrganizationPlace = await organizationPlacesLotRepository.findByOrganizationId(organizationId);
 
       // then
       expect(foundOrganizationPlace[0].id).to.equal(placeGZ.id);
       expect(foundOrganizationPlace[0].count).to.equal(placeGZ.count);
-      expect(foundOrganizationPlace[0].status).to.equal(OrganizationPlace.statuses.EXPIRED);
-      expect(foundOrganizationPlace[0].category).to.equal(OrganizationPlace.categories[placeGZ.category]);
+      expect(foundOrganizationPlace[0].status).to.equal(OrganizationPlacesLotManagement.statuses.EXPIRED);
+      expect(foundOrganizationPlace[0].category).to.equal(OrganizationPlacesLotManagement.categories[placeGZ.category]);
       expect(foundOrganizationPlace[0].reference).to.equal(placeGZ.reference);
       expect(foundOrganizationPlace[0].creatorFullName).to.equal(`${user.firstName} ${user.lastName}`);
 
@@ -58,7 +62,7 @@ describe('Integration | Repository | Organization Place', function () {
       await databaseBuilder.commit();
 
       // when
-      const foundOrganizationPlace = await organizationPlaceRepository.find(organizationId);
+      const foundOrganizationPlace = await organizationPlacesLotRepository.findByOrganizationId(organizationId);
 
       // then
       expect(foundOrganizationPlace.length).to.equal(2);
@@ -75,7 +79,7 @@ describe('Integration | Repository | Organization Place', function () {
       await databaseBuilder.commit();
 
       // when
-      const foundOrganizationPlace = await organizationPlaceRepository.find(organizationId);
+      const foundOrganizationPlace = await organizationPlacesLotRepository.findByOrganizationId(organizationId);
       // then
       expect(foundOrganizationPlace.length).to.equal(0);
     });
@@ -94,7 +98,7 @@ describe('Integration | Repository | Organization Place', function () {
       await databaseBuilder.commit();
 
       // when
-      const foundOrganizationPlace = await organizationPlaceRepository.find(organizationId);
+      const foundOrganizationPlace = await organizationPlacesLotRepository.findByOrganizationId(organizationId);
 
       // then
       expect(foundOrganizationPlace[0].creatorFullName).to.equal(`${user.firstName} ${user.lastName}`);
@@ -118,7 +122,7 @@ describe('Integration | Repository | Organization Place', function () {
         await databaseBuilder.commit();
 
         // when
-        const foundOrganizationPlace = await organizationPlaceRepository.find(organizationId);
+        const foundOrganizationPlace = await organizationPlacesLotRepository.findByOrganizationId(organizationId);
 
         // then
         expect(foundOrganizationPlace[0].id).to.deep.equal(organizationPlace2.id);
@@ -146,7 +150,7 @@ describe('Integration | Repository | Organization Place', function () {
         await databaseBuilder.commit();
 
         // when
-        const foundOrganizationPlace = await organizationPlaceRepository.find(organizationId);
+        const foundOrganizationPlace = await organizationPlacesLotRepository.findByOrganizationId(organizationId);
 
         // then
         expect(foundOrganizationPlace[0].id).to.deep.equal(organizationPlace1.id);
@@ -176,12 +180,64 @@ describe('Integration | Repository | Organization Place', function () {
         await databaseBuilder.commit();
 
         // when
-        const foundOrganizationPlace = await organizationPlaceRepository.find(organizationId);
+        const foundOrganizationPlace = await organizationPlacesLotRepository.findByOrganizationId(organizationId);
 
         // then
         expect(foundOrganizationPlace[0].id).to.deep.equal(organizationPlace2.id);
         expect(foundOrganizationPlace[1].id).to.deep.equal(organizationPlace1.id);
       });
+    });
+  });
+
+  describe('#create', function () {
+    afterEach(function () {
+      return knex('organization-places').delete();
+    });
+
+    it('should create the given lot of places', async function () {
+      // given
+      const organizationId = databaseBuilder.factory.buildOrganization().id;
+      const user = databaseBuilder.factory.buildUser.withRole({ firstName: 'Gareth', lastName: 'Edwards' });
+
+      const placesToSave = new OrganizationPlacesLot({
+        organizationId,
+        count: 66,
+        category: categories.FREE_RATE,
+        reference: 'Godzilla',
+        activationDate: new Date('2014-05-13'),
+        expirationDate: new Date('2021-07-01'),
+        createdBy: user.id,
+      });
+
+      await databaseBuilder.commit();
+
+      // when
+      const createdOrganizationPlacesLotId = await organizationPlacesLotRepository.create(placesToSave);
+
+      // then
+      const places = await knex('organization-places').where('id', createdOrganizationPlacesLotId).first();
+      expect(places).to.deep.include(placesToSave);
+    });
+  });
+
+  describe('#get', function () {
+    it('finds an organizationPlace by id', async function () {
+      const organizationPlaceId = databaseBuilder.factory.buildOrganizationPlace().id;
+
+      await databaseBuilder.commit();
+      //when
+      const organizationPlaceSet = await organizationPlacesLotRepository.get(organizationPlaceId);
+
+      expect(organizationPlaceSet.id).to.equal(organizationPlaceId);
+    });
+
+    it('throws a not found error when organization Places lot is not found ', async function () {
+      //given
+      const organizationPlaceId = 0;
+      //when
+      const error = await catchErr(organizationPlacesLotRepository.get)(organizationPlaceId);
+
+      expect(error).to.be.an.instanceOf(NotFoundError);
     });
   });
 });

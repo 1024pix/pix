@@ -56,6 +56,10 @@
       &__title {
         font-size: 1.2rem;
         font-weight: 600;
+
+        &--sub {
+          margin-bottom: $spacing-s;
+        }
       }
 
       &__content {

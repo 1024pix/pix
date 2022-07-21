@@ -5,6 +5,7 @@ const organizationController = require('../../../../lib/application/organization
 const usecases = require('../../../../lib/domain/usecases');
 const identifiersType = require('../../../../lib/domain/types/identifiers-type');
 const moduleUnderTest = require('../../../../lib/application/organizations');
+const organizationPlacesCategories = require('../../../../lib/domain/constants/organization-places-categories');
 
 describe('Unit | Router | organization-router', function () {
   describe('GET /api/admin/organizations', function () {
@@ -504,7 +505,7 @@ describe('Unit | Router | organization-router', function () {
     it('should return an empty list when no places is found', async function () {
       // given
       sinon.stub(securityPreHandlers, 'adminMemberHasAtLeastOneAccessOf').returns(() => true);
-      sinon.stub(usecases, 'findOrganizationPlaces').returns([]);
+      sinon.stub(usecases, 'findOrganizationPlacesLot').returns([]);
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
 
@@ -517,6 +518,93 @@ describe('Unit | Router | organization-router', function () {
       // then
       expect(response.statusCode).to.equal(200);
       expect(response.result.data).to.deep.equal([]);
+    });
+  });
+
+  describe('POST /api/admin/organizations/{id}/places', function () {
+    const method = 'POST';
+    const url = '/api/admin/organizations/1/places';
+
+    it('should return HTTP code 201', async function () {
+      // given
+      sinon.stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin').callsFake((request, h) => h.response(true));
+
+      sinon
+        .stub(organizationController, 'createOrganizationPlacesLot')
+        .callsFake((request, h) => h.response().created());
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      const payload = {
+        data: {
+          attributes: {
+            'organization-id': 2,
+            count: 10,
+            category: organizationPlacesCategories.FREE_RATE,
+            'activation-date': '2022-01-02',
+            'expiration-date': '2023-01-01',
+            reference: 'ABC123',
+            'created-by': 122,
+          },
+        },
+      };
+
+      // when
+      const response = await httpTestServer.request(method, url, payload);
+      // then
+      expect(response.statusCode).to.equal(201);
+    });
+
+    it('returns forbidden access if admin member has a non super admin role', async function () {
+      // given
+      sinon
+        .stub(securityPreHandlers, 'checkAdminMemberHasRoleSuperAdmin')
+        .callsFake((request, h) => h.response({ errors: new Error('forbidden') }).code(403));
+
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      const payload = {
+        data: {
+          attributes: {
+            'organization-id': 2,
+            count: 10,
+            category: organizationPlacesCategories.FREE_RATE,
+            'activation-date': '2022-01-02',
+            'expiration-date': '2023-01-01',
+            reference: 'ABC123',
+            'created-by': 122,
+          },
+        },
+      };
+
+      // when
+      const response = await httpTestServer.request(method, url, payload);
+
+      // then
+      expect(response.statusCode).to.equal(403);
+    });
+
+    it('should reject request with HTTP code 403, when payload is incomplete', async function () {
+      // given
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      const payload = {
+        data: {
+          attributes: {
+            'organization-id': 2,
+            count: 10,
+            category: organizationPlacesCategories.FREE_RATE,
+          },
+        },
+      };
+
+      // when
+      const response = await httpTestServer.request(method, url, payload);
+
+      // then
+      expect(response.statusCode).to.equal(403);
     });
   });
 

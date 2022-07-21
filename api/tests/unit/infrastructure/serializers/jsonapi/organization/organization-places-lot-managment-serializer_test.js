@@ -1,25 +1,27 @@
 const { expect, domainBuilder } = require('../../../../../test-helper');
-const serializer = require('../../../../../../lib/infrastructure/serializers/jsonapi/organization/organization-place-serializer');
-const OrganizationPlace = require('../../../../../../lib/domain/read-models/OrganizationPlace');
-describe('Unit | Serializer | JSONAPI | organization-place-serializer', function () {
+const organizationPlaceLotManagementSerializer = require('../../../../../../lib/infrastructure/serializers/jsonapi/organization/organization-places-lot-management-serializer');
+const OrganizationPlacesLotManagement = require('../../../../../../lib/domain/read-models/OrganizationPlacesLotManagement');
+const organizationPlacesLotCategories = require('../../../../../../lib/domain/constants/organization-places-categories');
+
+describe('Unit | Serializer | JSONAPI | organization-places-lot-serializer', function () {
   describe('#serialize', function () {
     it('should convert an Organization model object into JSON API data', function () {
       // given
       const organizationPlaces = [
-        domainBuilder.buildOrganizationPlace({
+        domainBuilder.buildOrganizationPlacesLotManagement({
           id: 777,
           count: 77,
-          category: 'T1',
+          category: organizationPlacesLotCategories.T1,
           reference: 'Independance Day',
           activationDate: new Date('1996-07-04'),
           expirationDate: new Date('2016-07-04'),
           creatorFirstName: 'Roland',
           creatorLastName: 'Emmerich',
         }),
-        domainBuilder.buildOrganizationPlace({
+        domainBuilder.buildOrganizationPlacesLotManagement({
           id: 666,
           count: 66,
-          category: 'T2',
+          category: organizationPlacesLotCategories.T2,
           reference: 'Godzilla',
           activationDate: new Date('2014-05-13'),
           expirationDate: new Date('2021-07-01'),
@@ -35,12 +37,12 @@ describe('Unit | Serializer | JSONAPI | organization-place-serializer', function
             id: organizationPlaces[0].id.toString(),
             attributes: {
               count: organizationPlaces[0].count,
-              category: OrganizationPlace.categories.T1,
+              category: OrganizationPlacesLotManagement.categories.T1,
               reference: organizationPlaces[0].reference,
               'activation-date': organizationPlaces[0].activationDate,
               'expiration-date': organizationPlaces[0].expirationDate,
               'creator-full-name': organizationPlaces[0].creatorFullName,
-              status: OrganizationPlace.statuses.EXPIRED,
+              status: OrganizationPlacesLotManagement.statuses.EXPIRED,
             },
           },
           {
@@ -48,19 +50,19 @@ describe('Unit | Serializer | JSONAPI | organization-place-serializer', function
             id: organizationPlaces[1].id.toString(),
             attributes: {
               count: organizationPlaces[1].count,
-              category: OrganizationPlace.categories.T2,
+              category: OrganizationPlacesLotManagement.categories.T2,
               reference: organizationPlaces[1].reference,
               'activation-date': organizationPlaces[1].activationDate,
               'expiration-date': organizationPlaces[1].expirationDate,
               'creator-full-name': organizationPlaces[1].creatorFullName,
-              status: OrganizationPlace.statuses.EXPIRED,
+              status: OrganizationPlacesLotManagement.statuses.EXPIRED,
             },
           },
         ],
       };
 
       // when
-      const json = serializer.serialize(organizationPlaces);
+      const json = organizationPlaceLotManagementSerializer.serialize(organizationPlaces);
 
       // then
       expect(json).to.deep.equal(expectedJSON);
