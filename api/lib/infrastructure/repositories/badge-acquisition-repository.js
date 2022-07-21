@@ -1,8 +1,13 @@
 const Bookshelf = require('../bookshelf');
+const { knex } = require('../bookshelf');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
 const BookshelfBadgeAcquisition = require('../orm-models/BadgeAcquisition');
 const DomainTransaction = require('../DomainTransaction');
 const bluebird = require('bluebird');
+const BadgeAcquisition = require('../../domain/models/BadgeAcquisition');
+const Badge = require('../../domain/models/Badge');
+const BadgeCriterion = require('../../domain/models/BadgeCriterion');
+const SkillSet = require('../../domain/models/SkillSet');
 
 module.exports = {
   async createOrUpdate(badgeAcquisitionsToCreate = [], domainTransaction = DomainTransaction.emptyTransaction()) {
@@ -85,16 +90,47 @@ module.exports = {
   },
 
   async findCertifiable({ userId, domainTransaction = DomainTransaction.emptyTransaction() }) {
-    const results = await BookshelfBadgeAcquisition.query((qb) => {
-      qb.join('badges', 'badges.id', 'badge-acquisitions.badgeId');
-      qb.where('badge-acquisitions.userId', '=', userId);
-      qb.where('badges.isCertifiable', '=', true);
-    }).fetchAll({
-      withRelated: ['badge', 'badge.skillSets', 'badge.badgeCriteria'],
-      require: false,
-      transacting: domainTransaction.knexTransaction,
-    });
+    const knexConn = domainTransaction.knexTransaction || knex;
+    const certifiableBadgeAcquisitions = await knexConn('badge-acquisitions')
+      .leftJoin('badges', 'badges.id', 'badge-acquisitions.badgeId')
+      .where('badge-acquisitions.userId', userId)
+      .where('badges.isCertifiable', true);
 
-    return bookshelfToDomainConverter.buildDomainObjects(BookshelfBadgeAcquisition, results);
+    const certifiableBadgeAcquisitionBadgeIds = certifiableBadgeAcquisitions.map(
+      (certifiableBadgeAcquisition) => certifiableBadgeAcquisition.badgeId
+    );
+
+    const badgeCriteria = await knex('badge-criteria').whereIn('badgeId', certifiableBadgeAcquisitionBadgeIds);
+
+    const skillSetIds = badgeCriteria.flatMap((badgeCriterion) => badgeCriterion.skillSetIds);
+
+    const uniqueSkillSetIds = [...new Set(skillSetIds)];
+
+    const skillSets = await knex('skill-sets').whereIn('id', uniqueSkillSetIds);
+
+    return _toDomain(certifiableBadgeAcquisitions, badgeCriteria, skillSets);
   },
 };
+
+function _toDomain(certifiableBadgeAcquisitionsDto, badgeCriteriaDto, skillSetsDto) {
+  return certifiableBadgeAcquisitionsDto.map((certifiableBadgeAcquisitionDto) => {
+    const skillSets = skillSetsDto
+      .filter((skillSetDto) => skillSetDto.badgeId === certifiableBadgeAcquisitionDto.badgeId)
+      .map((skillSetDto) => new SkillSet({ ...skillSetDto }));
+
+    const badgeCriteria = badgeCriteriaDto
+      .filter((badgeCriterionDto) => badgeCriterionDto.badgeId === certifiableBadgeAcquisitionDto.badgeId)
+      .map((badgeCriterionDto) => new BadgeCriterion({ ...badgeCriterionDto }));
+
+    const badge = new Badge({
+      ...certifiableBadgeAcquisitionDto,
+      skillSets,
+      badgeCriteria,
+    });
+
+    return new BadgeAcquisition({
+      ...certifiableBadgeAcquisitionDto,
+      badge,
+    });
+  });
+}
