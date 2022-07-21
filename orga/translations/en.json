@@ -652,6 +652,21 @@
       }
     },
     "organization-participants": {
+      "filters": {
+        "actions": {
+          "clear": "Clear filters"
+        },
+        "aria-label": "Filters on participants",
+        "title": "Filters",
+        "participations-count": "{count, plural, =0 {0 participants} =1 {1 participant} other {{count} participants}}",
+        "type": {
+          "fullName": {
+            "title": "Search by lastname and firstname",
+            "placeholder": "Lastname, firstname"
+          }
+        }
+
+      },
       "title": "Participants",
       "table": {
         "column": {
