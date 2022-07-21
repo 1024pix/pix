@@ -5,6 +5,7 @@ export default class ListRoute extends Route {
   queryParams = {
     pageNumber: { refreshModel: true },
     pageSize: { refreshModel: true },
+    fullName: { refreshModel: true },
   };
 
   @service currentUser;
@@ -13,6 +14,7 @@ export default class ListRoute extends Route {
     return this.store.query('organization-participant', {
       filter: {
         organizationId: this.currentUser.organization.id,
+        fullName: params.fullName,
       },
       page: {
         number: params.pageNumber,
@@ -24,5 +26,6 @@ export default class ListRoute extends Route {
   resetController(controller) {
     controller.pageNumber = 1;
     controller.pageSize = 25;
+    controller.fullName = null;
   }
 }
