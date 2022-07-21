@@ -3,16 +3,18 @@
     <h2 class="page-section__title">Places</h2>
   </header>
   <div class="places__resume">
-    <PixButtonLink
-      class="places__button"
-      @backgroundColor="blue"
-      @route="authenticated.organizations.get.places.new"
-      @model={{@model}}
-      @isBorderVisible={{true}}
-    >
-      <FaIcon @icon="plus" class="places__button-icon" />
-      Ajouter des places
-    </PixButtonLink>
+    {{#if this.accessControl.hasAccessToOrganizationPlacesActionsScope}}
+      <PixButtonLink
+        class="places__button"
+        @backgroundColor="blue"
+        @route="authenticated.organizations.get.places.new"
+        @model={{@model}}
+        @isBorderVisible={{true}}
+      >
+        <FaIcon @icon="plus" class="places__button-icon" />
+        Ajouter des places
+      </PixButtonLink>
+    {{/if}}
   </div>
 
   <h3 class="page-section__title page-section__title--sub">Historique des lots</h3>
