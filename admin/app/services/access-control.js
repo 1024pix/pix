@@ -39,4 +39,8 @@ export default class AccessControlService extends Service {
       this.currentUser.adminMember.isCertif
     );
   }
+
+  get hasAccessToOrganizationPlacesActionsScope() {
+    return !!(this.currentUser.adminMember.isSuperAdmin || this.currentUser.adminMember.isMetier);
+  }
 }
