@@ -5,4 +5,7 @@ export default class OrganizationParticipant extends Model {
   @attr('string') firstName;
   @attr('number') participationCount;
   @attr('date') lastParticipationDate;
+  @attr('string') campaignName;
+  @attr('string') campaignType;
+  @attr('string') participationStatus;
 }
