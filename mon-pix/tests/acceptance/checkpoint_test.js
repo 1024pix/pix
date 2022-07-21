@@ -55,7 +55,7 @@ describe('Acceptance | Checkpoint', () => {
       expect(find('.checkpoint__continue')).to.exist;
       expect(find('.checkpoint__continue').textContent).to.contain('Voir mes résultats');
       expect(find('.checkpoint-no-answer__info').textContent).to.contain(
-        'Vous avez déjà répondu aux questions, lors de vos parcours précédents. Vous pouvez directement accéder à vos résultats.'
+        'Vous avez déjà répondu à ces questions lors de vos tests précédents : vous pouvez directement accéder à vos résultats.\n\nVous souhaitez améliorer votre score ? En cliquant sur  “Voir mes résultats”, vous aurez la possibilité de retenter le parcours.'
       );
     });
   });
