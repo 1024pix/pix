@@ -309,10 +309,8 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
       const certificationCandidate = domainBuilder.buildCertificationCandidate();
 
       // when
-      certificationCandidate.validateParticipation();
-
       // then
-      expect(true).to.be.true;
+      certificationCandidate.validateParticipation();
     });
 
     it('should return an error if firstName is not defined', function () {

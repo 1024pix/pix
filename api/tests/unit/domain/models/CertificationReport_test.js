@@ -30,10 +30,8 @@ describe('Unit | Domain | Models | CertificationReport', function () {
       });
 
       // when
-      certificationReport.validateForFinalization();
-
       // then
-      expect(true).to.be.true;
+      certificationReport.validateForFinalization();
     });
 
     // eslint-disable-next-line mocha/no-setup-in-describe
