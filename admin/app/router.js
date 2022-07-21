@@ -30,7 +30,10 @@ Router.map(function () {
         this.route('target-profiles');
         this.route('campaigns');
         this.route('all-tags');
-        this.route('places');
+        this.route('places', function () {
+          this.route('list', { path: '/' });
+          this.route('new');
+        });
         this.route('invitations');
       });
     });

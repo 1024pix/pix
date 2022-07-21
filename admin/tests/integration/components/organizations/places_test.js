@@ -7,68 +7,104 @@ module('Integration | Component | Organizations | places', function (hooks) {
   setupRenderingTest(hooks);
 
   let store;
+  let currentUser;
 
   hooks.beforeEach(async function () {
     store = this.owner.lookup('service:store');
+    currentUser = this.owner.lookup('service:currentUser');
   });
 
-  module('Display places', function () {
-    test('it should display title and no results text', async function (assert) {
-      //Given
-      this.set('places', []);
-
-      // when
-      const screen = await render(hbs`<Organizations::Places @places={{this.places}}/>`);
-
-      // then
-      assert.dom(screen.getByText('Historique des lots')).exists();
-
-      assert.dom(screen.queryByText('Nombre')).doesNotExist();
-      assert.dom(screen.queryByText('Catégorie')).doesNotExist();
-      assert.dom(screen.queryByText("Date d'activation")).doesNotExist();
-      assert.dom(screen.queryByText('Référence')).doesNotExist();
-      assert.dom(screen.queryByText('Statut')).doesNotExist();
-      assert.dom(screen.queryByText('Créé par')).doesNotExist();
-
-      assert.dom(screen.getByText('Aucun lot de places saisi')).exists();
+  module('When user is superAdmin', function (hooks) {
+    hooks.beforeEach(async function () {
+      currentUser.adminMember = { isSuperAdmin: true };
     });
 
-    test('it should display places', async function (assert) {
-      // given
-      const places = store.createRecord('organizationPlace', {
-        count: 7777,
-        reference: 'FFVII',
-        category: 'FULL_RATE',
-        status: 'ACTIVE',
-        activationDate: '1997-01-31',
-        expirationDate: '2100-12-31',
-        createdAt: '1996-01-12',
-        creatorFullName: 'Hironobu Sakaguchi',
+    module('Display add places', function () {
+      test('it should display button to add places', async function (assert) {
+        //Given
+        this.set('places', []);
+        // when
+        const screen = await render(hbs`<Organizations::Places @places={{this.places}}/>`);
+        // then
+        assert.dom(screen.getByText('Ajouter des places')).exists();
+      });
+    });
+
+    module('Display places', function () {
+      test('it should display title and no results text', async function (assert) {
+        //Given
+        this.set('places', []);
+
+        // when
+        const screen = await render(hbs`<Organizations::Places @places={{this.places}}/>`);
+
+        // then
+        assert.dom(screen.getByText('Historique des lots')).exists();
+
+        assert.dom(screen.queryByText('Nombre')).doesNotExist();
+        assert.dom(screen.queryByText('Catégorie')).doesNotExist();
+        assert.dom(screen.queryByText("Date d'activation")).doesNotExist();
+        assert.dom(screen.queryByText('Référence')).doesNotExist();
+        assert.dom(screen.queryByText('Statut')).doesNotExist();
+        assert.dom(screen.queryByText('Créé par')).doesNotExist();
+
+        assert.dom(screen.getByText('Aucun lot de places saisi')).exists();
       });
 
-      this.set('places', [places]);
+      test('it should display places', async function (assert) {
+        // given
+        const places = store.createRecord('organizationPlace', {
+          count: 7777,
+          reference: 'FFVII',
+          category: 'FULL_RATE',
+          status: 'ACTIVE',
+          activationDate: '1997-01-31',
+          expirationDate: '2100-12-31',
+          createdAt: '1996-01-12',
+          creatorFullName: 'Hironobu Sakaguchi',
+        });
 
-      // when
-      const screen = await render(hbs`<Organizations::Places @places={{this.places}}/>`);
+        this.set('places', [places]);
 
-      // then
-      assert.dom(screen.queryByText('Aucun résultat')).doesNotExist();
+        // when
+        const screen = await render(hbs`<Organizations::Places @places={{this.places}}/>`);
 
-      assert.dom(screen.getByText('Nombre')).exists();
-      assert.dom(screen.getByText('Catégorie')).exists();
-      assert.dom(screen.getByText("Date d'activation")).exists();
-      assert.dom(screen.getByText('Référence')).exists();
-      assert.dom(screen.getByText('Statut')).exists();
-      assert.dom(screen.getByText('Créé par')).exists();
+        // then
+        assert.dom(screen.queryByText('Aucun résultat')).doesNotExist();
 
-      assert.dom(screen.getByText('7777')).exists();
-      assert.dom(screen.getByText('FFVII')).exists();
-      assert.dom(screen.getByText('Tarif plein')).exists();
-      assert.dom(screen.getByText('Actif')).exists();
-      assert.dom(screen.getByText('Hironobu Sakaguchi')).exists();
+        assert.dom(screen.getByText('Nombre')).exists();
+        assert.dom(screen.getByText('Catégorie')).exists();
+        assert.dom(screen.getByText("Date d'activation")).exists();
+        assert.dom(screen.getByText('Référence')).exists();
+        assert.dom(screen.getByText('Statut')).exists();
+        assert.dom(screen.getByText('Créé par')).exists();
 
-      assert.dom(screen.getByText(/Du: 31\/01\/1997/)).exists();
-      assert.dom(screen.getByText(/Au: 31\/12\/2100/)).exists();
+        assert.dom(screen.getByText('7777')).exists();
+        assert.dom(screen.getByText('FFVII')).exists();
+        assert.dom(screen.getByText('Tarif plein')).exists();
+        assert.dom(screen.getByText('Actif')).exists();
+        assert.dom(screen.getByText('Hironobu Sakaguchi')).exists();
+
+        assert.dom(screen.getByText(/Du: 31\/01\/1997/)).exists();
+        assert.dom(screen.getByText(/Au: 31\/12\/2100/)).exists();
+      });
+    });
+  });
+
+  module('When user is support', function (hooks) {
+    hooks.beforeEach(async function () {
+      currentUser.adminMember = { isSupport: true };
+    });
+
+    module('not display add places', function () {
+      test('it should display button to add places', async function (assert) {
+        //Given
+        this.set('places', []);
+        // when
+        const screen = await render(hbs`<Organizations::Places @places={{this.places}}/>`);
+        // then
+        assert.dom(screen.queryByText('Ajouter des places')).doesNotExist();
+      });
     });
   });
 });

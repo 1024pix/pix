@@ -1,0 +1,21 @@
+.places {
+
+  &__resume {
+    border-bottom: 3px solid $pix-neutral-20;
+    padding-bottom: $spacing-s;
+    margin-bottom: $spacing-s;
+  }
+
+  &__button {
+    display: inline-flex;
+
+    &:hover {
+      color: $pix-neutral-0;
+      text-decoration: none;
+    }
+  }
+
+  &__button-icon {
+    margin: 0 $spacing-xxs;
+  }
+}

@@ -1,0 +1,12 @@
+.places__add-form {
+  width: 30%;
+}
+
+.action-buttons__cancel {
+  margin-right: $spacing-xs;
+
+  &:hover {
+    text-decoration: none;
+    color: inherit;
+  }
+}
