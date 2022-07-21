@@ -34,6 +34,12 @@ export default class List extends Component {
   @action
   async updateMemberRole(adminMember) {
     const previousRole = adminMember.role;
+
+    if (!this.newRole || this.newRole === previousRole) {
+      adminMember.isInEditionMode = false;
+      return;
+    }
+
     adminMember.role = this.newRole;
     try {
       await adminMember.save();
