@@ -53,12 +53,12 @@
         />
       {{else}}
         <div class="checkpoint-no-answer">
-          <div class="checkpoint-no-answer__header">
+          <h1 class="checkpoint-no-answer__header">
             {{t "pages.checkpoint.answers.already-finished.info"}}
-          </div>
-          <div class="checkpoint-no-answer__info">
+          </h1>
+          <p class="checkpoint-no-answer__info">
             {{t "pages.checkpoint.answers.already-finished.explanation"}}
-          </div>
+          </p>
           <CheckpointContinue
             @assessmentId={{@model.id}}
             @nextPageButtonText={{this.nextPageButtonText}}
