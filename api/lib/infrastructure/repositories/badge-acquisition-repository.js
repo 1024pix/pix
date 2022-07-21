@@ -92,9 +92,16 @@ module.exports = {
   async findCertifiable({ userId, domainTransaction = DomainTransaction.emptyTransaction() }) {
     const knexConn = domainTransaction.knexTransaction || knex;
     const certifiableBadgeAcquisitions = await knexConn('badge-acquisitions')
-      .leftJoin('badges', 'badges.id', 'badge-acquisitions.badgeId')
-      .where('badge-acquisitions.userId', userId)
-      .where('badges.isCertifiable', true);
+      .join('badges', 'badges.id', 'badge-acquisitions.badgeId')
+      .join('complementary-certification-badges', 'badges.id', 'complementary-certification-badges.badgeId')
+      .where({
+        'badge-acquisitions.userId': userId,
+        'badges.isCertifiable': true,
+      })
+      .whereRaw(
+        '"complementary-certification-badges".level = (select max(level) from "complementary-certification-badges" ccb join "badges" b on ccb."badgeId" = b.id join "badge-acquisitions" ba on ba."badgeId" = b.id where "complementary-certification-badges"."complementaryCertificationId" = ccb."complementaryCertificationId" and ba."userId" = ? and b."isCertifiable" = true)',
+        userId
+      );
 
     const certifiableBadgeAcquisitionBadgeIds = certifiableBadgeAcquisitions.map(
       (certifiableBadgeAcquisition) => certifiableBadgeAcquisition.badgeId
@@ -121,11 +128,11 @@ function _toDomain(certifiableBadgeAcquisitionsDto, badgeCriteriaDto, skillSetsD
     const badgeCriteria = badgeCriteriaDto
       .filter((badgeCriterionDto) => badgeCriterionDto.badgeId === certifiableBadgeAcquisitionDto.badgeId)
       .map((badgeCriterionDto) => new BadgeCriterion({ ...badgeCriterionDto }));
-
     const badge = new Badge({
       ...certifiableBadgeAcquisitionDto,
-      skillSets,
+      id: certifiableBadgeAcquisitionDto.badgeId,
       badgeCriteria,
+      skillSets,
     });
 
     return new BadgeAcquisition({
