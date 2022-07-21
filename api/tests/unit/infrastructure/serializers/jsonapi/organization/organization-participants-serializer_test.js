@@ -1,7 +1,7 @@
 const { expect } = require('../../../../../test-helper');
 const OrganizationParticipant = require('../../../../../../lib/domain/read-models/OrganizationParticipant');
 const serializer = require('../../../../../../lib/infrastructure/serializers/jsonapi/organization/organization-participants-serializer');
-
+const campaignPartcipationsStatuses = require('../../../../../../lib/domain/models/CampaignParticipationStatuses');
 describe('Unit | Serializer | JSONAPI | organization-participants-serializer', function () {
   describe('#serialize', function () {
     it('should convert an organization participant model object into JSON API data', function () {
@@ -13,6 +13,9 @@ describe('Unit | Serializer | JSONAPI | organization-participants-serializer', f
           lastName: 'Vasquez',
           participationCount: 4,
           lastParticipationDate: '2021-03-05',
+          campaignName: 'King Karam',
+          campaignType: 'ASSESSMENT',
+          participationStatus: campaignPartcipationsStatuses.TO_SHARE,
         }),
         new OrganizationParticipant({
           id: 778,
@@ -20,6 +23,9 @@ describe('Unit | Serializer | JSONAPI | organization-participants-serializer', f
           lastName: 'Simpson',
           participationCount: 3,
           lastParticipationDate: '2021-03-05',
+          campaignName: 'King Xavier',
+          campaignType: 'PROFILES_COLLECTION',
+          participationStatus: campaignPartcipationsStatuses.SHARED,
         }),
       ];
       const pagination = { page: { number: 1, pageSize: 2 } };
@@ -34,6 +40,9 @@ describe('Unit | Serializer | JSONAPI | organization-participants-serializer', f
               'last-name': organizationParticipants[0].lastName,
               'participation-count': organizationParticipants[0].participationCount,
               'last-participation-date': organizationParticipants[0].lastParticipationDate,
+              'campaign-name': organizationParticipants[0].campaignName,
+              'campaign-type': organizationParticipants[0].campaignType,
+              'participation-status': organizationParticipants[0].participationStatus,
             },
           },
           {
@@ -44,6 +53,9 @@ describe('Unit | Serializer | JSONAPI | organization-participants-serializer', f
               'last-name': organizationParticipants[1].lastName,
               'participation-count': organizationParticipants[1].participationCount,
               'last-participation-date': organizationParticipants[1].lastParticipationDate,
+              'campaign-name': organizationParticipants[1].campaignName,
+              'campaign-type': organizationParticipants[1].campaignType,
+              'participation-status': organizationParticipants[1].participationStatus,
             },
           },
         ],
