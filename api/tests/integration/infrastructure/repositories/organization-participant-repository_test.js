@@ -1,5 +1,6 @@
 const { expect, databaseBuilder } = require('../../../test-helper');
 const organizationParticipantRepository = require('../../../../lib/infrastructure/repositories/organization-participant-repository');
+const campaignParticipationStatuses = require('../../../../lib/domain/models/CampaignParticipationStatuses');
 
 function buildLearnerWithParticipation(organizationId, learnerAttributes = {}, participationAttributes = {}) {
   const learner = databaseBuilder.factory.buildOrganizationLearner({
@@ -23,138 +24,213 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
       await databaseBuilder.commit();
     });
 
-    it('should return no participants', async function () {
-      databaseBuilder.factory.buildOrganizationLearner({ organizationId });
-      await databaseBuilder.commit();
+    context('display participants', function () {
+      it('should return no participants', async function () {
+        databaseBuilder.factory.buildOrganizationLearner({ organizationId }).id;
+        await databaseBuilder.commit();
 
-      // when
-      const { organizationParticipants } = await organizationParticipantRepository.getParticipantsByOrganizationId({
-        organizationId,
+        // when
+        const { organizationParticipants } = await organizationParticipantRepository.getParticipantsByOrganizationId({
+          organizationId,
+        });
+
+        // then
+        expect(organizationParticipants.length).to.equal(0);
       });
 
-      // then
-      expect(organizationParticipants.length).to.equal(0);
+      it('should return participants', async function () {
+        buildLearnerWithParticipation(organizationId);
+        await databaseBuilder.commit();
+
+        // when
+        const { organizationParticipants } = await organizationParticipantRepository.getParticipantsByOrganizationId({
+          organizationId,
+        });
+
+        // then
+        expect(organizationParticipants.length).to.equal(1);
+      });
+
+      it('should not return participants from other organization', async function () {
+        // given
+        const otherOrganizationId = databaseBuilder.factory.buildOrganization().id;
+        buildLearnerWithParticipation(otherOrganizationId);
+        await databaseBuilder.commit();
+
+        // when
+        const { organizationParticipants } = await organizationParticipantRepository.getParticipantsByOrganizationId({
+          organizationId,
+        });
+
+        // then
+        expect(organizationParticipants.length).to.equal(0);
+      });
+
+      it('should not take into account deleted participations', async function () {
+        buildLearnerWithParticipation(organizationId, {}, { deletedAt: '2022-01-01' });
+        await databaseBuilder.commit();
+
+        // when
+        const { organizationParticipants } = await organizationParticipantRepository.getParticipantsByOrganizationId({
+          organizationId,
+        });
+
+        // then
+        expect(organizationParticipants.length).to.equal(0);
+      });
+
+      it('should not take into account anonymous users', async function () {
+        // given
+        const anonymousUserId = databaseBuilder.factory.buildUser({ isAnonymous: true }).id;
+        buildLearnerWithParticipation(organizationId, { userId: anonymousUserId });
+
+        await databaseBuilder.commit();
+
+        // when
+        const { organizationParticipants } = await organizationParticipantRepository.getParticipantsByOrganizationId({
+          organizationId,
+        });
+
+        // then
+        expect(organizationParticipants.length).to.equal(0);
+      });
     });
 
-    it('should return participants', async function () {
-      buildLearnerWithParticipation(organizationId);
-      await databaseBuilder.commit();
+    context('display number of participations', function () {
+      it('should return the count of participations for each participant', async function () {
+        const organizationLearnerId = buildLearnerWithParticipation(organizationId).id;
+        const campaignId = databaseBuilder.factory.buildCampaign({ organizationId }).id;
+        databaseBuilder.factory.buildCampaignParticipation({ campaignId, organizationLearnerId });
+        await databaseBuilder.commit();
 
-      // when
-      const { organizationParticipants } = await organizationParticipantRepository.getParticipantsByOrganizationId({
-        organizationId,
+        // when
+        const { organizationParticipants } = await organizationParticipantRepository.getParticipantsByOrganizationId({
+          organizationId,
+        });
+
+        // then
+        expect(organizationParticipants[0].participationCount).to.equal(2);
       });
 
-      // then
-      expect(organizationParticipants.length).to.equal(1);
+      it('should return only 1 participation even when the participant has improved its participation', async function () {
+        const organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner({ organizationId }).id;
+        const campaignId = databaseBuilder.factory.buildCampaign({ organizationId }).id;
+        databaseBuilder.factory.buildCampaignParticipation({ organizationLearnerId, campaignId, isImproved: true });
+        databaseBuilder.factory.buildCampaignParticipation({ organizationLearnerId, campaignId, isImproved: false });
+        await databaseBuilder.commit();
+        // when
+        const { organizationParticipants } = await organizationParticipantRepository.getParticipantsByOrganizationId({
+          organizationId,
+        });
+        // then
+        expect(organizationParticipants[0].participationCount).to.equal(1);
+      });
+
+      it('should return only 1 result even when the participant has participated to several campaigns of the organization', async function () {
+        const organizationLearnerId = buildLearnerWithParticipation(organizationId).id;
+        const campaignId = databaseBuilder.factory.buildCampaign({ organizationId }).id;
+        databaseBuilder.factory.buildCampaignParticipation({ organizationLearnerId, campaignId });
+        await databaseBuilder.commit();
+        // when
+        const { organizationParticipants } = await organizationParticipantRepository.getParticipantsByOrganizationId({
+          organizationId,
+        });
+        // then
+        expect(organizationParticipants.length).to.equal(1);
+      });
+
+      it('should return 1 as result even when the participant has participated to several campaigns from different the organization with the same organizationLearner', async function () {
+        const organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner({ organizationId }).id;
+        const campaignId = databaseBuilder.factory.buildCampaign({ organizationId }).id;
+        databaseBuilder.factory.buildCampaignParticipation({ organizationLearnerId, campaignId });
+        databaseBuilder.factory.buildCampaignParticipation({ organizationLearnerId });
+        await databaseBuilder.commit();
+        // when
+        const { organizationParticipants } = await organizationParticipantRepository.getParticipantsByOrganizationId({
+          organizationId,
+        });
+        // then
+        expect(organizationParticipants[0].participationCount).to.equal(1);
+      });
     });
 
-    it('should return the count of participations for each participant', async function () {
-      const organizationLearnerId = buildLearnerWithParticipation(organizationId).id;
-      const campaignId = databaseBuilder.factory.buildCampaign({ organizationId }).id;
-      databaseBuilder.factory.buildCampaignParticipation({ campaignId, organizationLearnerId });
-      await databaseBuilder.commit();
+    context('Display last participation informations', function () {
+      it('should return the name of the campaign for the most recent participation', async function () {
+        const organizationLearnerId = buildLearnerWithParticipation(organizationId, {}, { createdAt: '2022-03-14' }).id;
+        const campaignId = databaseBuilder.factory.buildCampaign({ organizationId, name: 'King Arthur Campaign' }).id;
+        databaseBuilder.factory.buildCampaignParticipation({
+          organizationLearnerId,
+          campaignId,
+          createdAt: new Date('2022-03-17'),
+        });
+        await databaseBuilder.commit();
+        // when
+        const { organizationParticipants } = await organizationParticipantRepository.getParticipantsByOrganizationId({
+          organizationId,
+        });
 
-      // when
-      const { organizationParticipants } = await organizationParticipantRepository.getParticipantsByOrganizationId({
-        organizationId,
+        //then
+        expect(organizationParticipants[0].campaignName).to.equal('King Arthur Campaign');
       });
 
-      // then
-      expect(organizationParticipants[0].participationCount).to.equal(2);
-    });
+      it('should return the type of the campaign for the most recent participation', async function () {
+        const organizationLearnerId = buildLearnerWithParticipation(organizationId, {}, { createdAt: '2022-03-14' }).id;
+        const campaignId = databaseBuilder.factory.buildCampaign({ organizationId, type: 'PROFILES_COLLECTION' }).id;
+        databaseBuilder.factory.buildCampaignParticipation({
+          organizationLearnerId,
+          campaignId,
+          createdAt: new Date('2022-03-17'),
+        });
+        await databaseBuilder.commit();
+        // when
+        const { organizationParticipants } = await organizationParticipantRepository.getParticipantsByOrganizationId({
+          organizationId,
+        });
 
-    it('should return only 1 participation even when the participant has improved its participation', async function () {
-      const organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner({ organizationId }).id;
-      const campaignId = databaseBuilder.factory.buildCampaign({ organizationId }).id;
-      databaseBuilder.factory.buildCampaignParticipation({ organizationLearnerId, campaignId, isImproved: true });
-      databaseBuilder.factory.buildCampaignParticipation({ organizationLearnerId, campaignId, isImproved: false });
-      await databaseBuilder.commit();
-      // when
-      const { organizationParticipants } = await organizationParticipantRepository.getParticipantsByOrganizationId({
-        organizationId,
-      });
-      // then
-      expect(organizationParticipants[0].participationCount).to.equal(1);
-    });
-
-    it('should return the date of the last participation ', async function () {
-      const organizationLearnerId = buildLearnerWithParticipation(
-        organizationId,
-        {},
-        { createdAt: new Date('2021-03-17') }
-      ).id;
-      const campaignId = databaseBuilder.factory.buildCampaign({ organizationId }).id;
-      const lastParticipation = databaseBuilder.factory.buildCampaignParticipation({
-        organizationLearnerId,
-        campaignId,
-        createdAt: new Date('2022-03-17'),
-      });
-      await databaseBuilder.commit();
-      // when
-      const { organizationParticipants } = await organizationParticipantRepository.getParticipantsByOrganizationId({
-        organizationId,
+        //then
+        expect(organizationParticipants[0].campaignType).to.equal('PROFILES_COLLECTION');
       });
 
-      // // then
-      expect(organizationParticipants[0].lastParticipationDate).to.deep.equal(lastParticipation.createdAt);
-    });
+      it('should return the status of the most recent participation', async function () {
+        const organizationLearnerId = buildLearnerWithParticipation(organizationId, {}, { createdAt: '2022-03-14' }).id;
+        const campaignId = databaseBuilder.factory.buildCampaign({ organizationId }).id;
+        databaseBuilder.factory.buildCampaignParticipation({
+          organizationLearnerId,
+          status: campaignParticipationStatuses.TO_SHARE,
+          campaignId,
+          createdAt: new Date('2022-03-17'),
+        });
+        await databaseBuilder.commit();
+        // when
+        const { organizationParticipants } = await organizationParticipantRepository.getParticipantsByOrganizationId({
+          organizationId,
+        });
 
-    it('should return only 1 result even when the participant has participated to several campaigns of the organization', async function () {
-      const organizationLearnerId = buildLearnerWithParticipation(organizationId).id;
-      const campaignId = databaseBuilder.factory.buildCampaign({ organizationId }).id;
-      databaseBuilder.factory.buildCampaignParticipation({ organizationLearnerId, campaignId });
-      await databaseBuilder.commit();
-      // when
-      const { organizationParticipants } = await organizationParticipantRepository.getParticipantsByOrganizationId({
-        organizationId,
-      });
-      // then
-      expect(organizationParticipants.length).to.equal(1);
-    });
-
-    it('should not return participants from other organization', async function () {
-      // given
-      const otherOrganizationId = databaseBuilder.factory.buildOrganization().id;
-      buildLearnerWithParticipation(otherOrganizationId);
-      await databaseBuilder.commit();
-
-      // when
-      const { organizationParticipants } = await organizationParticipantRepository.getParticipantsByOrganizationId({
-        organizationId,
+        //then
+        expect(organizationParticipants[0].participationStatus).to.equal(campaignParticipationStatuses.TO_SHARE);
       });
 
-      // then
-      expect(organizationParticipants.length).to.equal(0);
-    });
+      it('should return the date of the last participation', async function () {
+        const organizationLearnerId = buildLearnerWithParticipation(
+          organizationId,
+          {},
+          { createdAt: new Date('2021-03-17') }
+        ).id;
+        const campaignId = databaseBuilder.factory.buildCampaign({ organizationId }).id;
+        const lastParticipation = databaseBuilder.factory.buildCampaignParticipation({
+          organizationLearnerId,
+          campaignId,
+          createdAt: new Date('2022-03-17'),
+        });
+        await databaseBuilder.commit();
+        // when
+        const { organizationParticipants } = await organizationParticipantRepository.getParticipantsByOrganizationId({
+          organizationId,
+        });
 
-    it('should not take into account deleted participations', async function () {
-      buildLearnerWithParticipation(organizationId, {}, { deletedAt: '2022-01-01' });
-      await databaseBuilder.commit();
-
-      // when
-      const { organizationParticipants } = await organizationParticipantRepository.getParticipantsByOrganizationId({
-        organizationId,
+        // // then
+        expect(organizationParticipants[0].lastParticipationDate).to.deep.equal(lastParticipation.createdAt);
       });
-
-      // then
-      expect(organizationParticipants.length).to.equal(0);
-    });
-
-    it('should not take into account anonymous users', async function () {
-      // given
-      const anonymousUserId = databaseBuilder.factory.buildUser({ isAnonymous: true }).id;
-      buildLearnerWithParticipation(organizationId, { userId: anonymousUserId });
-
-      await databaseBuilder.commit();
-
-      // when
-      const { organizationParticipants } = await organizationParticipantRepository.getParticipantsByOrganizationId({
-        organizationId,
-      });
-
-      // then
-      expect(organizationParticipants.length).to.equal(0);
     });
 
     context('order', function () {
