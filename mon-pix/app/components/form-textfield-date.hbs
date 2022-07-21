@@ -18,7 +18,7 @@
         name={{@dayTextfieldName}}
         {{on "focusout" (fn @onValidateDay @dayTextfieldName @dayInputBindingValue)}}
         class="form-textfield__input {{this.dayInputValidationStatus}}"
-        ariaDescribedBy={{@dayValidationMessage}}
+        aria-describedby={{@aria-describedby @dayValidationMessage}}
         required={{@require}}
         disabled={{@disabled}}
         placeholder="JJ"
