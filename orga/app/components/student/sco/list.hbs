@@ -69,7 +69,7 @@
 
     {{#if @students}}
       <tbody>
-        {{#each @students as |student|}}
+        {{#each @students as |student index|}}
           <tr aria-label={{t "pages.students-sco.table.row-title"}}>
             <td class="ellipsis" title={{student.lastName}}>{{student.lastName}}</td>
             <td class="ellipsis" title={{student.firstName}}>{{student.firstName}}</td>
@@ -85,7 +85,8 @@
               {{#if student.lastParticipationDate}}
                 <div class="list-students-page__last-participation">
                   <span>{{moment-format student.lastParticipationDate "DD/MM/YYYY" allow-empty=true}}</span>
-                  <Student::Sco::LastParticipationDateTooltip
+                  <Ui::LastParticipationDateTooltip
+                    @id={{index}}
                     @campaignName={{student.campaignName}}
                     @campaignType={{student.campaignType}}
                     @participationStatus={{student.participationStatus}}
