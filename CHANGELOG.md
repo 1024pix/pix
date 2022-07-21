@@ -1,5 +1,20 @@
 # Pix Changelog
 
+## v3.235.0 (21/07/2022)
+
+
+### :rocket: Amélioration
+- [#4678](https://github.com/1024pix/pix/pull/4678) [FEATURE] Mettre à jour le message de fin de campagne (PIX-5320)
+- [#4672](https://github.com/1024pix/pix/pull/4672) [FEATURE] Afficher des onglets dans la page utilisateurs de Pix Admin (PIX-5378).
+- [#4664](https://github.com/1024pix/pix/pull/4664) [FEATURE] Utilise la `PixBanner` pour le bandeau de communication sur Pix App (PIX-5361)
+- [#4671](https://github.com/1024pix/pix/pull/4671) [FEATURE] Permettre la suppression d'une participation pour un prescrit depuis la page utilisateurs de Pix Admin (PIX-5369).
+
+### :building_construction: Tech
+- [#4670](https://github.com/1024pix/pix/pull/4670) [TECH] Supprimer un fichier de données de test non utilisé.
+
+### :bug: Correction
+- [#4673](https://github.com/1024pix/pix/pull/4673) [BUGFIX] Suppression temporaire du test d'acceptance du script de migration BIGINT
+
 ## v3.234.0 (20/07/2022)
 
 
