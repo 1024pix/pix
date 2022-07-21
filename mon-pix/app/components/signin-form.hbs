@@ -14,7 +14,11 @@
   </div>
 
   {{#if this.hasFailed}}
-    <div class="sign-form__notification-message sign-form__notification-message--error" role="alert">
+    <div
+      class="sign-form__notification-message sign-form__notification-message--error"
+      role="alert"
+      id="sign-in-error-message"
+    >
       {{this.errorMessage}}
     </div>
   {{/if}}
@@ -33,6 +37,7 @@
           @autocomplete="username"
           @hideRequired={{true}}
           @require={{true}}
+          @aria-describedby="sign-in-error-message"
         />
       </div>
 
@@ -45,6 +50,7 @@
           @autocomplete="current-password"
           @hideRequired={{true}}
           @require={{true}}
+          @aria-describedby="sign-in-error-message"
         />
       </div>
     </fieldset>

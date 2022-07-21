@@ -14,6 +14,7 @@
         @autocomplete="firstname"
         @disabled={{this.matchingStudentFound}}
         @require={{true}}
+        @aria-describedby="register-error-message register-display-error-message"
       />
     </div>
 
@@ -28,6 +29,7 @@
         @autocomplete="lastname"
         @disabled={{this.matchingStudentFound}}
         @require={{true}}
+        @aria-describedby="register-error-message register-display-error-message"
       />
     </div>
 
@@ -51,11 +53,12 @@
         @yearValidationMessage={{this.validation.yearOfBirth.message}}
         @disabled={{this.matchingStudentFound}}
         @require={{true}}
+        @aria-describedby="register-error-message register-display-error-message"
       />
     </div>
 
     {{#if this.errorMessage}}
-      <div class="register-form__error" aria-live="polite">{{{this.errorMessage}}}</div>
+      <div class="register-form__error" aria-live="polite" id="register-error-message">{{{this.errorMessage}}}</div>
     {{/if}}
 
     {{#unless this.matchingStudentFound}}
@@ -104,6 +107,7 @@
             @validationStatus={{this.validation.email.status}}
             @validationMessage={{this.validation.email.message}}
             @require={{true}}
+            @aria-describedby="register-error-message register-display-error-message"
           />
         </div>
       {{/if}}
@@ -117,11 +121,15 @@
           @validationStatus={{this.validation.password.status}}
           @validationMessage={{this.validation.password.message}}
           @require={{true}}
+          @aria-describedby="register-error-message register-display-error-message"
         />
       </div>
 
       {{#if this.displayRegisterErrorMessage}}
-        <div class="register-form__error" aria-live="polite">{{t "pages.login-or-register.register-form.error"}}</div>
+        <div class="register-form__error" aria-live="polite" id="register-display-error-message">{{t
+            "pages.login-or-register.register-form.error"
+          }}
+        </div>
       {{/if}}
 
       <div class="register-button-container">

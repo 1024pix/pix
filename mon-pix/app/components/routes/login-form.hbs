@@ -2,7 +2,7 @@
 
 <div class="login-form">
   {{#if this.isErrorMessagePresent}}
-    <div id="login-form-error-message" class="login-form__error-message error-message">{{t
+    <div id="login-error-message" class="login-form__error-message error-message">{{t
         "pages.login-or-register.login-form.error"
       }}</div>
   {{/if}}
@@ -23,6 +23,7 @@
         @validationStatus="default"
         @inputBindingValue={{this.login}}
         @autocomplete="username"
+        @aria-describedby="login-error-message update-form-error-message"
       />
     </div>
 
@@ -33,6 +34,7 @@
         @validationStatus="default"
         @inputBindingValue={{this.password}}
         @autocomplete="current-password"
+        @aria-describedby="login-error-message update-form-error-message"
       />
     </div>
 
