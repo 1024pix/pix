@@ -15,7 +15,7 @@ describe('Acceptance | Route | pole emploi users', function () {
   describe('POST /api/pole-emploi/users?authentication-key=key', function () {
     const firstName = 'firstName';
     const lastName = 'lastName';
-    const externalIdentifier = 'idIdentiteExterne';
+    const externalIdentifier = 'sub';
 
     afterEach(async function () {
       await knex('authentication-methods').delete();
@@ -29,7 +29,7 @@ describe('Acceptance | Route | pole emploi users', function () {
           given_name: firstName,
           family_name: lastName,
           nonce: 'nonce',
-          idIdentiteExterne: externalIdentifier,
+          sub: externalIdentifier,
         },
         'secret'
       );
