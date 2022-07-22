@@ -72,9 +72,8 @@ Le script d'installation effectue les tâches suivantes :
 
 - créer la base de données et le cache (conteneurs Docker)
 - installer les librairies
-- exécuter les tests automatisés
 
-⚠️ Il prend entre 10 et 15 minutes.
+Il prend moins de 5 minutes.
 Exécutez-le avec  `npm run configure`
 
 Vérifiez que le script s'est bien terminé : le message "🎉 Congratulations! Your environment has been set up." doit être
