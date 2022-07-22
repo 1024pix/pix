@@ -18,8 +18,21 @@ des compétences numériques.
 Pix cherche à susciter l’envie de se former tout au long de la vie en proposant un standard ainsi que des méthodes
 d’évaluation innovantes, exigeantes et bienveillantes.
 
-## Licence
+## Changelog
+
+Les changements apportés dans chaque version sont documentés dans le [CHANGELOG](./CHANGELOG.md).
+
+## Restez en contact
+
+- [Twitter](https://twitter.com/pix_officiel)
+- [Blog](https://engineering.pix.fr)
+- [Job Board](https://www.welcometothejungle.com/fr/companies/pix)
+
+## Contribution
+
+Assurez-vous de lire le [guide de contribution](./docs/CONTRIBUTING.md) avant d'ouvrir une pull request.
+
+## License
 
 [![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
-
 Ce logiciel et son code source sont distribués sous [licence AGPL](https://www.gnu.org/licenses/why-affero-gpl.fr.html).
