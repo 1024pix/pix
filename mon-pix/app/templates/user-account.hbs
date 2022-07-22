@@ -1,6 +1,6 @@
 {{! template-lint-disable no-implicit-this  }}
 {{page-title (t "pages.user-account.title")}}
-<BurgerMenu @animation="push" @translucentOverlay={{true}} as |burger|>
+<BurgerMenu @animation="push" @translucentOverlay={{true}} {{add-dir this.currentUser.user.lang}} as |burger|>
   <burger.outlet>
 
     <NavbarHeader @burger={{burger}} @campaignParticipations={{@model.campaignParticipations}} />
