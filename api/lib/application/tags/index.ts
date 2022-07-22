@@ -1,13 +1,15 @@
+import { Server } from "@hapi/hapi";
 const securityPreHandlers = require('../security-pre-handlers');
-const tagController = require('./tag-controller');
+const { tagController } = require('./tag-controller');
 const Joi = require('joi');
 
-exports.register = async (server) => {
+exports.register = async (server: Server) => {
+  server.bind(tagController);
   server.route([
     {
       method: 'POST',
       path: '/api/admin/tags',
-      config: {
+      options: {
         pre: [
           {
             method: securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
@@ -38,7 +40,7 @@ exports.register = async (server) => {
     {
       method: 'GET',
       path: '/api/admin/tags',
-      config: {
+      options: {
         pre: [
           {
             method: (request, h) =>

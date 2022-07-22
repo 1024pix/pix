@@ -93,6 +93,7 @@
     "@babel/eslint-parser": "^7.18.2",
     "@ls-lint/ls-lint": "^1.11.2",
     "@tsconfig/node16": "^1.0.3",
+    "@types/hapi__hapi": "^20.0.12",
     "@types/lodash": "^4.14.182",
     "@types/mocha": "^9.1.1",
     "@types/node": "^18.0.6",

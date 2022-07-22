@@ -1,8 +1,8 @@
 const { expect, sinon, domainBuilder, hFake } = require('../../../test-helper');
 
-const tagController = require('../../../../lib/application/tags/tag-controller');
+const { tagController } = require('../../../../lib/application/tags/tag-controller');
 const usecases = require('../../../../lib/domain/usecases');
-const tagSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/tag-serializer');
+const { tagSerializer } = require('../../../../lib/infrastructure/serializers/jsonapi/tag-serializer');
 
 describe('Unit | Application | Tags | tag-controller', function () {
   describe('#create', function () {
@@ -12,6 +12,7 @@ describe('Unit | Application | Tags | tag-controller', function () {
       const serializedTag = Symbol('a serialized tag');
 
       sinon.stub(usecases.createTag, 'execute').resolves(createdTag);
+
       sinon.stub(tagSerializer, 'serialize').withArgs(createdTag).returns(serializedTag);
 
       const request = { payload: { data: { attributes: { name: 'tag1' } } } };
@@ -22,6 +23,7 @@ describe('Unit | Application | Tags | tag-controller', function () {
       // then
       expect(usecases.createTag.execute).to.have.been.calledOnce;
       expect(result.source).to.be.equal(serializedTag);
+      expect(usecases.createTag.execute).to.have.been.calledOnce;
     });
   });
 

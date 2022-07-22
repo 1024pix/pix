@@ -1,5 +1,5 @@
 const { expect, domainBuilder } = require('../../../../test-helper');
-const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/tag-serializer');
+const {tagSerializer} = require('../../../../../lib/infrastructure/serializers/jsonapi/tag-serializer');
 
 describe('Unit | Serializer | JSONAPI | tag-serializer', function () {
   describe('#serialize', function () {
@@ -18,7 +18,7 @@ describe('Unit | Serializer | JSONAPI | tag-serializer', function () {
       };
 
       // when
-      const json = serializer.serialize(tag);
+      const json = tagSerializer.serialize(tag);
 
       // then
       expect(json).to.deep.equal(expectedSerializedTag);
