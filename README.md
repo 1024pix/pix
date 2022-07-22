@@ -30,7 +30,7 @@ Les changements apportés dans chaque version sont documentés dans le [CHANGELO
 
 ## Contribution
 
-Assurez-vous de lire le [guide de contribution](./docs/CONTRIBUTING.md) avant d'ouvrir une pull request.
+Assurez-vous de lire le [guide de contribution](./CONTRIBUTING.md) avant d'ouvrir une pull request.
 
 ## License
 
