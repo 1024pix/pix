@@ -24,7 +24,6 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', function () {
     clock = sinon.useFakeTimers(Date.now());
 
     poleEmploiAuthenticationService = {
-      getUserInfo: sinon.stub(),
       saveIdToken: sinon.stub(),
     };
     poleEmploiAuthenticationService.saveIdToken
@@ -44,6 +43,7 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', function () {
     oidcAuthenticationService = {
       createAccessToken: sinon.stub(),
       exchangeCodeForTokens: sinon.stub(),
+      getUserInfo: sinon.stub(),
     };
 
     userRepository = {
@@ -92,7 +92,7 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', function () {
   context('When user has an account', function () {
     it('should call authenticate pole emploi user with code and redirectUri parameters', async function () {
       // given
-      _fakePoleEmploiAPI({ poleEmploiAuthenticationService, oidcAuthenticationService });
+      _fakePoleEmploiAPI({ oidcAuthenticationService });
 
       // when
       await authenticatePoleEmploiUser({
@@ -118,7 +118,7 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', function () {
 
     it('should call get pole emploi user info with id token parameter', async function () {
       // given
-      _fakePoleEmploiAPI({ poleEmploiAuthenticationService, oidcAuthenticationService });
+      _fakePoleEmploiAPI({ oidcAuthenticationService });
 
       // when
       await authenticatePoleEmploiUser({
@@ -136,15 +136,12 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', function () {
       });
 
       // then
-      expect(poleEmploiAuthenticationService.getUserInfo).to.have.been.calledWith({ idToken: 'idToken' });
+      expect(oidcAuthenticationService.getUserInfo).to.have.been.calledWith({ idToken: 'idToken' });
     });
 
     it('should return accessToken and logoutUrlUUID', async function () {
       // given
-      _fakePoleEmploiAPI({
-        poleEmploiAuthenticationService,
-        oidcAuthenticationService,
-      });
+      _fakePoleEmploiAPI({ oidcAuthenticationService });
       const authenticatedUserId = 1;
 
       oidcAuthenticationService.createAccessToken.withArgs(1).resolves('access-token');
@@ -174,7 +171,7 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', function () {
 
     it('should save last logged at date', async function () {
       // given
-      _fakePoleEmploiAPI({ poleEmploiAuthenticationService, oidcAuthenticationService });
+      _fakePoleEmploiAPI({ oidcAuthenticationService });
 
       // when
       await authenticatePoleEmploiUser({
@@ -199,10 +196,7 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', function () {
       it('should call authentication repository updatePoleEmploiAuthenticationComplementByUserId function', async function () {
         // given
         userRepository.findByExternalIdentifier.resolves({ id: 1 });
-        const { poleEmploiAuthenticationSessionContent } = _fakePoleEmploiAPI({
-          poleEmploiAuthenticationService,
-          oidcAuthenticationService,
-        });
+        const { poleEmploiAuthenticationSessionContent } = _fakePoleEmploiAPI({ oidcAuthenticationService });
 
         // when
         await authenticatePoleEmploiUser({
@@ -236,7 +230,7 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', function () {
       it('should also save last logged at date', async function () {
         // given
         userRepository.findByExternalIdentifier.resolves({ id: 123 });
-        _fakePoleEmploiAPI({ poleEmploiAuthenticationService, oidcAuthenticationService });
+        _fakePoleEmploiAPI({ oidcAuthenticationService });
 
         // when
         await authenticatePoleEmploiUser({
@@ -262,10 +256,7 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', function () {
       context('When the user does not have a pole emploi authentication method', function () {
         it('should call authentication method repository create function with pole emploi authentication method in domain transaction', async function () {
           // given
-          const { poleEmploiAuthenticationSessionContent } = _fakePoleEmploiAPI({
-            poleEmploiAuthenticationService,
-            oidcAuthenticationService,
-          });
+          const { poleEmploiAuthenticationSessionContent } = _fakePoleEmploiAPI({ oidcAuthenticationService });
           userRepository.findByExternalIdentifier.resolves(null);
 
           // when
@@ -303,10 +294,7 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', function () {
       context('When the user does have a pole emploi authentication method', function () {
         it('should call authentication repository updatePoleEmploiAuthenticationComplementByUserId function', async function () {
           // given
-          const { poleEmploiAuthenticationSessionContent } = _fakePoleEmploiAPI({
-            poleEmploiAuthenticationService,
-            oidcAuthenticationService,
-          });
+          const { poleEmploiAuthenticationSessionContent } = _fakePoleEmploiAPI({ oidcAuthenticationService });
           authenticationMethodRepository.findOneByUserIdAndIdentityProvider.resolves(
             domainBuilder.buildAuthenticationMethod.withPoleEmploiAsIdentityProvider({
               externalIdentifier: '094b83ac-2e20-4aa8-b438-0bc91748e4a6',
@@ -344,7 +332,7 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', function () {
 
         it('should throw an UnexpectedUserAccountError error if the external identifier does not match the one in the pole emploi id token', async function () {
           // given
-          _fakePoleEmploiAPI({ poleEmploiAuthenticationService, oidcAuthenticationService });
+          _fakePoleEmploiAPI({ oidcAuthenticationService });
 
           authenticationMethodRepository.findOneByUserIdAndIdentityProvider.resolves(
             domainBuilder.buildAuthenticationMethod.withPoleEmploiAsIdentityProvider({
@@ -377,10 +365,7 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', function () {
   context('When user has no account', function () {
     it('should call AuthenticationSessionContent repository save method', async function () {
       // given
-      const { poleEmploiAuthenticationSessionContent } = _fakePoleEmploiAPI({
-        poleEmploiAuthenticationService,
-        oidcAuthenticationService,
-      });
+      const { poleEmploiAuthenticationSessionContent } = _fakePoleEmploiAPI({ oidcAuthenticationService });
       const key = 'aaa-bbb-ccc';
       authenticationSessionService.save.resolves(key);
       userRepository.findByExternalIdentifier.resolves(null);
@@ -407,7 +392,7 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', function () {
     it('should return an authenticationKey', async function () {
       // given
       const key = 'aaa-bbb-ccc';
-      _fakePoleEmploiAPI({ poleEmploiAuthenticationService, oidcAuthenticationService });
+      _fakePoleEmploiAPI({ oidcAuthenticationService });
       authenticationSessionService.save.resolves(key);
       userRepository.findByExternalIdentifier.resolves(null);
 
@@ -432,7 +417,7 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', function () {
   });
 });
 
-function _fakePoleEmploiAPI({ poleEmploiAuthenticationService, oidcAuthenticationService }) {
+function _fakePoleEmploiAPI({ oidcAuthenticationService }) {
   const poleEmploiAuthenticationSessionContent = new AuthenticationSessionContent({
     accessToken: 'poleEmploiAccessToken',
     expiresIn: 60,
@@ -446,7 +431,7 @@ function _fakePoleEmploiAPI({ poleEmploiAuthenticationService, oidcAuthenticatio
   };
 
   oidcAuthenticationService.exchangeCodeForTokens.resolves(poleEmploiAuthenticationSessionContent);
-  poleEmploiAuthenticationService.getUserInfo.resolves(userInfo);
+  oidcAuthenticationService.getUserInfo.resolves(userInfo);
 
   return { poleEmploiAuthenticationSessionContent };
 }
