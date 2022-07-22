@@ -20,6 +20,23 @@
   }
 }
 
-.target-profile_title {
-  margin-right: 8px;
+.target-profile {
+
+  &__title {
+    margin-right: 8px;
+  }
+
+  &__actions {
+    display: flex;
+    gap: 16px;
+
+    &-separator {
+      background-color: $pix-neutral-22;
+      width: 1px;
+    }
+
+    &-spacer {
+      flex-grow: 1;
+    }
+  }
 }
