@@ -10,19 +10,17 @@ module('Unit | Route | authenticated/sessions/update', function (hooks) {
     route = this.owner.lookup('route:authenticated/sessions/update');
   });
 
-  module('#model', function (hooks) {
-    const session_id = 1;
-
-    hooks.beforeEach(function () {
-      route.store.findRecord = sinon.stub().withArgs('session', session_id).resolves({});
-    });
-
+  module('#model', function () {
     test('it should return session with time', async function (assert) {
+      // given
+      const session_id = 1;
+      route.store.findRecord = sinon.stub().resolves({});
+
       // when
       const actualSession = await route.model({ session_id });
 
       // then
-      sinon.assert.calledOnce(route.store.findRecord);
+      sinon.assert.calledOnceWithExactly(route.store.findRecord, 'session', session_id);
       assert.ok(actualSession.time);
     });
   });

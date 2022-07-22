@@ -34,8 +34,9 @@ describe('Unit | Service | file-saver', function () {
       it('should give fileName from response', async function () {
         // given
         const headers = {
-          get: sinon.stub().withArgs('Content-Disposition').returns(`attachment; filename=${responseFileName}`),
+          get: sinon.stub(),
         };
+        headers.get.withArgs('Content-Disposition').returns(`attachment; filename=${responseFileName}`);
         const response = { headers, blob: blobStub };
         fetchStub = sinon.stub().resolves(response);
 
