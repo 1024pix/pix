@@ -132,10 +132,10 @@ module('Acceptance | Target Profiles | Target Profile | Details', function (hook
 
         // when
         const screen = await visit('/target-profiles/1');
-        await clickByName('Editer');
+        await clickByName('Éditer');
 
         // then
-        assert.dom(screen.queryByLabelText('Editer')).doesNotExist();
+        assert.dom(screen.queryByLabelText('Éditer')).doesNotExist();
       });
 
       test('it should outdate target profile', async function (assert) {
@@ -191,7 +191,7 @@ module('Acceptance | Target Profiles | Target Profile | Details', function (hook
 
         // when
         const screen = await visit('/target-profiles/1');
-        await clickByName('Editer');
+        await clickByName('Éditer');
         await fillByLabel('* Nom', 'Profil Cible Fantastix Edited');
         await clickByName('Enregistrer');
 
@@ -213,7 +213,7 @@ module('Acceptance | Target Profiles | Target Profile | Details', function (hook
 
         // when
         const screen = await visit('/target-profiles/1');
-        await clickByName('Editer');
+        await clickByName('Éditer');
         await fillByLabel('Catégorie :', 'CUSTOM');
         await clickByName('Enregistrer');
 
