@@ -1,15 +1,11 @@
+import { FindAllTags } from '../../../../lib/domain/usecases/find-all-tags';
+import { tagRepository } from '../../../../lib/infrastructure/repositories/tag-repository';
+
 const { expect, sinon, domainBuilder } = require('../../../test-helper');
 
-const findAllTags = require('../../../../lib/domain/usecases/find-all-tags');
+
 
 describe('Unit | UseCase | find-all-tags', function () {
-  let tagRepository;
-
-  beforeEach(function () {
-    tagRepository = {
-      findAll: sinon.stub(),
-    };
-  });
 
   it('should return tags', async function () {
     // given
@@ -18,10 +14,12 @@ describe('Unit | UseCase | find-all-tags', function () {
       domainBuilder.buildTag({ name: 'TAG2' }),
       domainBuilder.buildTag({ name: 'TAG3' }),
     ];
-    tagRepository.findAll.returns(tags);
+    sinon.stub(tagRepository, 'findAll').resolves(tags);
+
+    const findAllTagsUsecase = new FindAllTags(tagRepository)
 
     // when
-    const allTags = await findAllTags({ tagRepository });
+    const allTags = await findAllTagsUsecase.execute();
 
     // then
     expect(allTags).to.deep.equal(tags);
@@ -30,10 +28,13 @@ describe('Unit | UseCase | find-all-tags', function () {
 
   it('should return an empty array when no tags found', async function () {
     // given
-    tagRepository.findAll.returns([]);
+    const findAllTagsUsecase = new FindAllTags(tagRepository)
+    sinon.stub(tagRepository, 'findAll').resolves([]);
+
+
 
     // when
-    const allTags = await findAllTags({ tagRepository });
+    const allTags = await findAllTagsUsecase.execute();
 
     // then
     expect(allTags).to.be.an('array').that.is.empty;

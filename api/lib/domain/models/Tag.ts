@@ -1,10 +1,10 @@
 type TagAttributes = {
-  id: number;
+  id?: number;
   name: string;
-}
+};
 
 export class Tag {
-  id: number;
+  id?: number | null;
   name: string;
   static AGRICULTURE = 'AGRICULTURE';
   static POLE_EMPLOI = 'POLE EMPLOI';
@@ -14,7 +14,7 @@ export class Tag {
   static MLF = 'MLF';
 
   constructor({ id, name }: TagAttributes) {
-    this.id = id;
+    this.id = id || null;
     this.name = name;
   }
 }

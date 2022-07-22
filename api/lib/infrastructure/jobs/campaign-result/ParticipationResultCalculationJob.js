@@ -6,6 +6,4 @@ class ParticipationResultCalculationJob extends Job {
   }
 }
 
-ParticipationResultCalculationJob.name = 'ParticipationResultCalculationJob';
-
 module.exports = ParticipationResultCalculationJob;

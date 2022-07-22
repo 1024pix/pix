@@ -11,7 +11,7 @@ describe('Unit | Application | Tags | tag-controller', function () {
       const createdTag = domainBuilder.buildTag({ id: 1, name: 'TAG1' });
       const serializedTag = Symbol('a serialized tag');
 
-      sinon.stub(usecases, 'createTag').resolves(createdTag);
+      sinon.stub(usecases.createTag, 'execute').resolves(createdTag);
       sinon.stub(tagSerializer, 'serialize').withArgs(createdTag).returns(serializedTag);
 
       const request = { payload: { data: { attributes: { name: 'tag1' } } } };
@@ -20,7 +20,7 @@ describe('Unit | Application | Tags | tag-controller', function () {
       const result = await tagController.create(request, hFake);
 
       // then
-      expect(result.statusCode).to.be.equal(201);
+      expect(usecases.createTag.execute).to.have.been.calledOnce;
       expect(result.source).to.be.equal(serializedTag);
     });
   });
@@ -34,14 +34,14 @@ describe('Unit | Application | Tags | tag-controller', function () {
 
       const tags = [tag1, tag2, tag3];
 
-      sinon.stub(usecases, 'findAllTags').resolves(tags);
+      sinon.stub(usecases.findAllTags, 'execute').resolves(tags);
       sinon.stub(tagSerializer, 'serialize').resolves();
 
       // when
       await tagController.findAllTags();
 
       // then
-      expect(usecases.findAllTags).to.have.been.calledOnce;
+      expect(usecases.findAllTags.execute).to.have.been.calledOnce;
       expect(tagSerializer.serialize).to.have.been.calledWithExactly(tags);
     });
   });

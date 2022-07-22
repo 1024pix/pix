@@ -11,7 +11,7 @@ export interface TagRepositoryInterface {
   get(id: number): Promise<Tag>;
 }
 
-export class TagRepository implements TagRepositoryInterface {
+export class TagRepository implements TagRepositoryInterface{
   async create({ name }: Tag): Promise<Tag> {
     try {
       const [row] = await knex('tags').insert({ name }).returning('*');
