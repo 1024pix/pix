@@ -118,18 +118,7 @@ function setup_and_run_infrastructure() {
 }
 
 function display_footer {
-  echo "🎉 Congratulations! Your environment is now running."
-  echo ""
-  echo "In this terminal window, execute the following command:"
-  echo ""
-  echo "  $ npx run-p start:api start:mon-pix"
-  echo ""
-  echo "Then navigate to http://localhost:4200"
-  echo ""
-  echo "Other links:"
-  echo "  - Website: https://pix.fr"
-  echo "  - GitHub: https://github.com/1024pix/pix"
-  echo ""
+  echo "🎉 Congratulations! Your environment has been set up."
 }
 
 # Main
