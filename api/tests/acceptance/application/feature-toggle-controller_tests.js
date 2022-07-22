@@ -23,6 +23,7 @@ describe('Acceptance | Controller | feature-toggle-controller', function () {
           type: 'feature-toggles',
           attributes: {
             'is-pix-app-tuto-filters-enabled': false,
+            'is-sso-account-reconciliation-enabled': false,
           },
         },
       };
