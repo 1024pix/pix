@@ -1,46 +1,14 @@
 const { v4: uuidv4 } = require('uuid');
-const querystring = require('querystring');
 const jsonwebtoken = require('jsonwebtoken');
 const moment = require('moment');
 const AuthenticationMethod = require('../../models/AuthenticationMethod');
-const AuthenticationSessionContent = require('../../models/AuthenticationSessionContent');
 const settings = require('../../../config');
-const { AuthenticationTokenRetrievalError } = require('../../errors');
 const DomainTransaction = require('../../../infrastructure/DomainTransaction');
-const httpAgent = require('../../../infrastructure/http/http-agent');
 const logoutUrlTemporaryStorage = require('../../../infrastructure/temporary-storage').withPrefix('logout-url:');
 
 async function _extractClaimsFromIdToken(idToken) {
   const { given_name, family_name, nonce, sub } = await jsonwebtoken.decode(idToken);
   return { given_name, family_name, nonce, sub };
-}
-
-async function exchangeCodeForTokens({ code, redirectUri }) {
-  const data = {
-    client_secret: settings.poleEmploi.clientSecret,
-    grant_type: 'authorization_code',
-    code,
-    client_id: settings.poleEmploi.clientId,
-    redirect_uri: redirectUri,
-  };
-
-  const tokensResponse = await httpAgent.post({
-    url: settings.poleEmploi.tokenUrl,
-    payload: querystring.stringify(data),
-    headers: { 'content-type': 'application/x-www-form-urlencoded' },
-  });
-
-  if (!tokensResponse.isSuccessful) {
-    const errorMessage = JSON.stringify(tokensResponse.data);
-    throw new AuthenticationTokenRetrievalError(errorMessage, tokensResponse.code);
-  }
-
-  return new AuthenticationSessionContent({
-    accessToken: tokensResponse.data['access_token'],
-    idToken: tokensResponse.data['id_token'],
-    expiresIn: tokensResponse.data['expires_in'],
-    refreshToken: tokensResponse.data['refresh_token'],
-  });
 }
 
 function getAuthUrl({ redirectUri }) {
@@ -136,7 +104,6 @@ async function saveIdToken({ idToken, userId }) {
 }
 
 module.exports = {
-  exchangeCodeForTokens,
   getAuthUrl,
   getRedirectLogoutUrl,
   getUserInfo,
