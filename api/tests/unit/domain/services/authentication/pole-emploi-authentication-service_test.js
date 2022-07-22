@@ -33,32 +33,6 @@ describe('Unit | Domain | Services | pole-emploi-authentication-service', functi
     clock.restore();
   });
 
-  describe('#getAuthUrl', function () {
-    it('should return auth url', async function () {
-      // given
-      const redirectUri = 'https://example.org/please-redirect-to-me';
-
-      // when
-      const { redirectTarget } = poleEmploiAuthenticationService.getAuthUrl({ redirectUri });
-
-      // then
-      const parsedRedirectTarget = new URL(redirectTarget);
-      const queryParams = parsedRedirectTarget.searchParams;
-      const uuidV4Regex = /^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i;
-      expect(parsedRedirectTarget.protocol).to.equal('http:');
-      expect(parsedRedirectTarget.hostname).to.equal('authurl.fr');
-      expect(queryParams.get('state')).to.match(uuidV4Regex);
-      expect(queryParams.get('nonce')).to.match(uuidV4Regex);
-      expect(queryParams.get('realm')).to.equal('/individu');
-      expect(queryParams.get('client_id')).to.equal('PIX_POLE_EMPLOI_CLIENT_ID');
-      expect(queryParams.get('redirect_uri')).to.equal('https://example.org/please-redirect-to-me');
-      expect(queryParams.get('response_type')).to.equal('code');
-      expect(queryParams.get('scope')).to.equal(
-        'application_PIX_POLE_EMPLOI_CLIENT_ID api_peconnect-individuv1 openid profile serviceDigitauxExposition api_peconnect-servicesdigitauxv1'
-      );
-    });
-  });
-
   describe('#getUserInfo', function () {
     it('should return email, firstName, lastName and external identity id', async function () {
       // given
