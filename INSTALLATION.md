@@ -108,8 +108,10 @@ LCMS_API_URL=<SOME_URL>
 
 Vérifier les connexions à la base de donnée :
 
-- de test manuel (présence de table et de données) `docker exec -it pix-api-postgres psql -U postgres pix`;
-- de test automatique (présence de tables) `docker exec -it pix-api-postgres psql -U postgres pix_test`.
+- de test manuel (présence de table et de
+  données) `docker exec -it pix-api-postgres psql postgres://postgresql:secret@localhost:5432/pix`;
+- de test automatique (présence de
+  tables) `docker exec -it pix-api-postgres psql postgres://postgresql:secret@localhost:5432/pix_test`.
 
 ### 4. Démarrer les applications.
 
