@@ -532,7 +532,7 @@ exports.register = async function (server) {
         validate: {
           params: Joi.object({
             id: identifiersType.userId,
-            lang: Joi.string().valid('fr', 'en'),
+            lang: Joi.string().valid('fr', 'en', 'ar'),
           }),
         },
         pre: [
