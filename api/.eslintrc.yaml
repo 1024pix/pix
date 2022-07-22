@@ -16,7 +16,8 @@ globals:
 plugins:
   - knex
   - node
-  - unicorn
+    - unicorn
+  - '@typescript-eslint'
 
 rules:
   no-console: error
@@ -40,4 +41,19 @@ rules:
   no-empty-function: warn
   # Refer to scripts/_template.js for reliable alternatives to process.exit()
   node/no-process-exit: error
-  unicorn/no-empty-file: error
+
+overrides:
+  - files:
+      - '**/*.ts'
+    extends:
+      - plugin:@typescript-eslint/eslint-recommended
+      - plugin:@typescript-eslint/recommended
+    parser: '@typescript-eslint/parser'
+    parserOptions:
+      project: ./tsconfig.json
+    plugins:
+      - '@typescript-eslint'
+    rules:
+      '@typescript-eslint/no-unsafe-return': warn
+      '@typescript-eslint/explicit-function-return-type': warn
+      '@typescript-eslint/no-var-requires': warn
