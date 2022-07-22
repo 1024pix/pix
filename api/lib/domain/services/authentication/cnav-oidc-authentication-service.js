@@ -7,8 +7,11 @@ class CnavOidcAuthenticationService extends OidcAuthenticationService {
     const identityProvider = 'CNAV';
     const expirationDelaySeconds = settings.cnav.accessTokenLifespanMs / 1000;
     const jwtOptions = { expiresIn: expirationDelaySeconds };
+    const clientSecret = settings.cnav.clientSecret;
+    const clientId = settings.cnav.clientId;
+    const tokenUrl = settings.cnav.tokenUrl;
 
-    super({ source, identityProvider, jwtOptions });
+    super({ source, identityProvider, jwtOptions, clientSecret, clientId, tokenUrl });
   }
 }
 
