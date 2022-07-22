@@ -85,6 +85,17 @@ class OidcAuthenticationService {
 
     return { redirectTarget: redirectTarget.toString(), state, nonce };
   }
+
+  async getUserInfo({ idToken }) {
+    const { given_name, family_name, nonce, sub } = await jsonwebtoken.decode(idToken);
+
+    return {
+      firstName: given_name,
+      lastName: family_name,
+      externalIdentityId: sub,
+      nonce,
+    };
+  }
 }
 
 module.exports = OidcAuthenticationService;

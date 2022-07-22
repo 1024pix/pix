@@ -157,4 +157,38 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
       expect(queryParams.get('realm')).to.equal('/individu');
     });
   });
+
+  describe('#getUserInfo', function () {
+    it('should return email, firstName, lastName and external identity id', async function () {
+      // given
+      function generateIdToken(payload) {
+        return jsonwebtoken.sign(
+          {
+            ...payload,
+          },
+          'secret'
+        );
+      }
+
+      const idToken = generateIdToken({
+        given_name: 'givenName',
+        family_name: 'familyName',
+        nonce: 'bb041272-d6e6-457c-99fb-ff1aa02217fd',
+        sub: '094b83ac-2e20-4aa8-b438-0bc91748e4a6',
+      });
+
+      const oidcAuthenticationService = new OidcAuthenticationService({});
+
+      // when
+      const result = await oidcAuthenticationService.getUserInfo({ idToken });
+
+      // then
+      expect(result).to.deep.equal({
+        firstName: 'givenName',
+        lastName: 'familyName',
+        nonce: 'bb041272-d6e6-457c-99fb-ff1aa02217fd',
+        externalIdentityId: '094b83ac-2e20-4aa8-b438-0bc91748e4a6',
+      });
+    });
+  });
 });
