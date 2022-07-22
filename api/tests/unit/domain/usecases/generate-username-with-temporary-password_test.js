@@ -58,8 +58,9 @@ describe('Unit | UseCase | generate-username-with-temporary-password', function 
       updateUsernameAndPassword: sinon.stub().resolves(),
     };
     organizationLearnerRepository = {
-      get: sinon.stub().withArgs(organizationLearnerId).resolves(organizationLearner),
+      get: sinon.stub(),
     };
+    organizationLearnerRepository.get.withArgs(organizationLearnerId).resolves(organizationLearner);
   });
 
   it('should generate username and temporary password', async function () {

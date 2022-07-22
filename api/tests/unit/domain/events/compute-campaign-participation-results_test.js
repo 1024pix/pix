@@ -22,7 +22,8 @@ describe('Unit | Domain | Events | compute-campaign-participation-results', func
     // given
     const participationResultsShared = Symbol('participation results shared');
     const event = new CampaignParticipationResultsShared({ campaignParticipationId: 1 });
-    const participantResultsSharedRepository = { get: sinon.stub().withArgs(1).resolves(participationResultsShared) };
+    const participantResultsSharedRepository = { get: sinon.stub() };
+    participantResultsSharedRepository.get.withArgs(1).resolves(participationResultsShared);
     const campaignParticipationRepository = { update: sinon.stub() };
 
     // when
