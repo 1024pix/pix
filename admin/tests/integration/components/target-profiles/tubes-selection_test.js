@@ -12,14 +12,14 @@ module('Integration | Component | TargetProfiles::TubesSelection', function (hoo
     const tubes1 = [
       {
         id: 'tubeId1',
+        name: '@tubeName1',
         practicalTitle: 'Tube 1',
-        practicalDescription: 'Description 1',
         skills: [],
       },
       {
         id: 'tubeId2',
+        name: '@tubeName2',
         practicalTitle: 'Tube 2',
-        practicalDescription: 'Description 2',
         skills: [],
       },
     ];
@@ -27,8 +27,8 @@ module('Integration | Component | TargetProfiles::TubesSelection', function (hoo
     const tubes2 = [
       {
         id: 'tubeId3',
+        name: '@tubeName3',
         practicalTitle: 'Tube 3',
-        practicalDescription: 'Description 3',
         skills: [],
       },
     ];
@@ -78,19 +78,19 @@ module('Integration | Component | TargetProfiles::TubesSelection', function (hoo
     await clickByName('1 Titre competence');
 
     // then
-    assert.dom(screen.getByText('Tube 1 : Description 1')).exists();
-    assert.dom(screen.getByText('Tube 2 : Description 2')).exists();
-    assert.dom(screen.getByText('Tube 3 : Description 3')).exists();
+    assert.dom(screen.getByText('@tubeName1 : Tube 1')).exists();
+    assert.dom(screen.getByText('@tubeName2 : Tube 2')).exists();
+    assert.dom(screen.getByText('@tubeName3 : Tube 3')).exists();
   });
 
   test('it should check the tubes if selected', async function (assert) {
     // when
     await clickByName('1 · Titre domaine');
     await clickByName('1 Titre competence');
-    await clickByName('Tube 1 : Description 1');
+    await clickByName('@tubeName1 : Tube 1');
 
     // then
-    assert.dom(screen.getByLabelText('Tube 1 : Description 1')).isChecked();
+    assert.dom(screen.getByLabelText('@tubeName1 : Tube 1')).isChecked();
   });
 
   test('it should check all tubes corresponding to the thematics if a thematic is selected', async function (assert) {
@@ -100,8 +100,8 @@ module('Integration | Component | TargetProfiles::TubesSelection', function (hoo
     await clickByName('Thématique 1');
 
     // then
-    assert.dom(screen.getByLabelText('Tube 1 : Description 1')).isChecked();
-    assert.dom(screen.getByLabelText('Tube 2 : Description 2')).isChecked();
+    assert.dom(screen.getByLabelText('@tubeName1 : Tube 1')).isChecked();
+    assert.dom(screen.getByLabelText('@tubeName2 : Tube 2')).isChecked();
     assert.dom(screen.getByLabelText('Thématiques')).isNotChecked();
     assert.dom(screen.getByLabelText('Thématiques')).hasProperty('indeterminate', true);
   });
@@ -110,8 +110,8 @@ module('Integration | Component | TargetProfiles::TubesSelection', function (hoo
     // when
     await clickByName('1 · Titre domaine');
     await clickByName('1 Titre competence');
-    await clickByName('Tube 1 : Description 1');
-    await clickByName('Tube 2 : Description 2');
+    await clickByName('@tubeName1 : Tube 1');
+    await clickByName('@tubeName2 : Tube 2');
 
     // then
     assert.dom(screen.getByLabelText('Thématique 1')).isChecked();
@@ -123,7 +123,7 @@ module('Integration | Component | TargetProfiles::TubesSelection', function (hoo
     // when
     await clickByName('1 · Titre domaine');
     await clickByName('1 Titre competence');
-    await clickByName('Tube 1 : Description 1');
+    await clickByName('@tubeName1 : Tube 1');
 
     // then
     assert.dom(screen.getByLabelText('Thématique 1')).isNotChecked();
@@ -156,9 +156,9 @@ module('Integration | Component | TargetProfiles::TubesSelection', function (hoo
     assert.dom(screen.getByLabelText('Thématique 2')).isChecked();
     assert.dom(screen.getByLabelText('Thématique 2')).hasProperty('indeterminate', false);
 
-    assert.dom(screen.getByLabelText('Tube 1 : Description 1')).isChecked();
-    assert.dom(screen.getByLabelText('Tube 2 : Description 2')).isChecked();
-    assert.dom(screen.getByLabelText('Tube 3 : Description 3')).isChecked();
+    assert.dom(screen.getByLabelText('@tubeName1 : Tube 1')).isChecked();
+    assert.dom(screen.getByLabelText('@tubeName2 : Tube 2')).isChecked();
+    assert.dom(screen.getByLabelText('@tubeName3 : Tube 3')).isChecked();
   });
 
   module('#import tubes preselection', function () {
@@ -172,7 +172,7 @@ module('Integration | Component | TargetProfiles::TubesSelection', function (hoo
     // when
     await clickByName('1 · Titre domaine');
     await clickByName('1 Titre competence');
-    await clickByName('Tube 1 : Description 1');
+    await clickByName('@tubeName1 : Tube 1');
 
     // then
     assert.dom(screen.getByText('1/3')).exists();
