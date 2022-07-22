@@ -25,10 +25,8 @@ module('Integration | Component | team | list', function (hooks) {
       const screen = await render(hbs`<Team::List @members={{this.members}}/>`);
 
       // then
-      assert.dom(screen.getByText('Marie')).exists();
-      assert.dom(screen.getByText('Tim')).exists();
-      assert.dom(screen.getByText('marie.tim@example.net')).exists();
-      assert.dom(screen.getByText('SUPER_ADMIN')).exists();
+      assert.dom(screen.getByRole('row', { name: 'Marie Tim' })).includesText('marie.tim@example.net');
+      assert.dom(screen.getByRole('row', { name: 'Marie Tim' })).includesText('SUPER_ADMIN');
     });
 
     test('should display action buttons for a member', async function (assert) {
