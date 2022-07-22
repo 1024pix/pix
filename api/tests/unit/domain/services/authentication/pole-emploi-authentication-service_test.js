@@ -161,13 +161,13 @@ describe('Unit | Domain | Services | pole-emploi-authentication-service', functi
       const given_name = 'givenName';
       const family_name = 'familyName';
       const nonce = 'bb041272-d6e6-457c-99fb-ff1aa02217fd';
-      const idIdentiteExterne = '094b83ac-2e20-4aa8-b438-0bc91748e4a6';
+      const sub = '094b83ac-2e20-4aa8-b438-0bc91748e4a6';
 
       const idToken = generateIdToken({
         given_name,
         family_name,
         nonce,
-        idIdentiteExterne,
+        sub,
       });
 
       // when
@@ -178,7 +178,7 @@ describe('Unit | Domain | Services | pole-emploi-authentication-service', functi
         firstName: given_name,
         lastName: family_name,
         nonce,
-        externalIdentityId: idIdentiteExterne,
+        externalIdentityId: sub,
       });
     });
   });

@@ -11,8 +11,8 @@ const httpAgent = require('../../../infrastructure/http/http-agent');
 const logoutUrlTemporaryStorage = require('../../../infrastructure/temporary-storage').withPrefix('logout-url:');
 
 async function _extractClaimsFromIdToken(idToken) {
-  const { given_name, family_name, nonce, idIdentiteExterne } = await jsonwebtoken.decode(idToken);
-  return { given_name, family_name, nonce, idIdentiteExterne };
+  const { given_name, family_name, nonce, sub } = await jsonwebtoken.decode(idToken);
+  return { given_name, family_name, nonce, sub };
 }
 
 async function exchangeCodeForTokens({ code, redirectUri }) {
@@ -83,12 +83,12 @@ async function getRedirectLogoutUrl({ userId, logoutUrlUUID }) {
 }
 
 async function getUserInfo({ idToken }) {
-  const { given_name, family_name, nonce, idIdentiteExterne } = await _extractClaimsFromIdToken(idToken);
+  const { given_name, family_name, nonce, sub } = await _extractClaimsFromIdToken(idToken);
 
   return {
     firstName: given_name,
     lastName: family_name,
-    externalIdentityId: idIdentiteExterne,
+    externalIdentityId: sub,
     nonce,
   };
 }
