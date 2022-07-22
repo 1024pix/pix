@@ -1,7 +1,5 @@
 # Pix mono-repo
 
-[![CircleCI](https://circleci.com/gh/1024pix/pix/tree/dev.svg?style=shield&circle-token=:circle-token)](https://circleci.com/gh/1024pix/pix)
-
 Plateforme d'évaluation et de certification des compétences numériques pour tous.
 ![Screenshot Pix App](./docs/assets/pix-app-screenshot.png)
 
