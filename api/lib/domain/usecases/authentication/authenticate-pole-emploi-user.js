@@ -21,7 +21,7 @@ module.exports = async function authenticatePoleEmploiUser({
     throw new UnexpectedOidcStateError();
   }
 
-  const poleEmploiAuthenticationSessionContent = await poleEmploiAuthenticationService.exchangeCodeForTokens({
+  const poleEmploiAuthenticationSessionContent = await oidcAuthenticationService.exchangeCodeForTokens({
     code,
     redirectUri,
   });
