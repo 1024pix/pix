@@ -26,7 +26,7 @@ module.exports = async function authenticatePoleEmploiUser({
     redirectUri,
   });
 
-  const userInfo = await poleEmploiAuthenticationService.getUserInfo({
+  const userInfo = await oidcAuthenticationService.getUserInfo({
     idToken: poleEmploiAuthenticationSessionContent.idToken,
   });
 
@@ -44,7 +44,6 @@ module.exports = async function authenticatePoleEmploiUser({
       userInfo,
       authenticatedUserId,
       authenticationComplement,
-      poleEmploiAuthenticationService,
       oidcAuthenticationService,
       authenticationMethodRepository,
       userRepository,
@@ -63,7 +62,6 @@ module.exports = async function authenticatePoleEmploiUser({
       pixAccessToken = await _getPixAccessTokenFromPoleEmploiUser({
         user,
         authenticationComplement,
-        poleEmploiAuthenticationService,
         oidcAuthenticationService,
         authenticationMethodRepository,
         userRepository,
