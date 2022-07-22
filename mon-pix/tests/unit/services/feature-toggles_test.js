@@ -10,7 +10,9 @@ describe('Unit | Service | feature-toggles', function () {
   setupTest();
 
   describe('feature toggles are loaded', function () {
-    const featureToggles = Object.create({});
+    const featureToggles = Object.create({
+      isSSOAccountReconciliationEnabled: false,
+    });
 
     let storeStub;
 
