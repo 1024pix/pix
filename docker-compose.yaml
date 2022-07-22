@@ -2,12 +2,11 @@ version: '3'
 
 services:
   postgres:
-    image: postgres:13.7-alpine
+    image: scalingo/postgresql:13.7.0-1
     container_name: pix-api-postgres
+    command: /postgresql
     ports:
       - '${PIX_DATABASE_PORT:-5432}:5432'
-    environment:
-      POSTGRES_HOST_AUTH_METHOD: trust
 
   redis:
     image: redis:5.0.7-alpine
