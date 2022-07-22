@@ -94,7 +94,7 @@ jobs:
         environment:
           POSTGRES_USER: circleci
           POSTGRES_HOST_AUTH_METHOD: trust
-      - image: redis:5.0.7-alpine
+      - image: redis:6.2.7-alpine
     resource_class: small
     working_directory: ~/pix/api
     steps:
@@ -241,7 +241,7 @@ jobs:
         environment:
           POSTGRES_USER: circleci
           POSTGRES_HOST_AUTH_METHOD: trust
-      - image: redis:5.0.7-alpine
+      - image: redis:6.2.7-alpine
     resource_class: medium+
     parallelism: 5
     working_directory: ~/pix/high-level-tests/e2e
