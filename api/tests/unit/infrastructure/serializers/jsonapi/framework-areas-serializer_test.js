@@ -50,6 +50,7 @@ describe('Unit | Serializer | JSONAPI | pix-framework-serializer', function () {
             type: 'tubes',
             id: 'tubeId',
             attributes: {
+              name: '@tubeName',
               'practical-title': 'titre pratique',
               'practical-description': 'description pratique',
             },

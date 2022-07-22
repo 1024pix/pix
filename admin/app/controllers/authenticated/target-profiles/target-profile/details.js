@@ -26,7 +26,7 @@ export default class TargetProfileDetailsController extends Controller {
 
   buildTubeViewModel(tube) {
     return {
-      title: `${tube.practicalTitle} : ${tube.practicalDescription}`,
+      title: `${tube.name} : ${tube.practicalTitle}`,
       level: tube.level,
       mobile: tube.mobile,
       tablet: tube.tablet,
