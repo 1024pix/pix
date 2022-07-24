@@ -161,10 +161,10 @@ describe('Integration | Repository | EndTestScreenRemovalRepository', function (
         //given
         databaseBuilder.factory.buildCertificationCenter({
           isSupervisorAccessEnabled: true,
-        }).id;
+        });
         databaseBuilder.factory.buildCertificationCenter({
           isSupervisorAccessEnabled: true,
-        }).id;
+        });
         await databaseBuilder.commit();
 
         //when
@@ -180,10 +180,10 @@ describe('Integration | Repository | EndTestScreenRemovalRepository', function (
         // given
         databaseBuilder.factory.buildCertificationCenter({
           isSupervisorAccessEnabled: true,
-        }).id;
+        });
         databaseBuilder.factory.buildCertificationCenter({
           isSupervisorAccessEnabled: false,
-        }).id;
+        });
         await databaseBuilder.commit();
 
         // when
@@ -199,10 +199,10 @@ describe('Integration | Repository | EndTestScreenRemovalRepository', function (
         // given
         databaseBuilder.factory.buildCertificationCenter({
           isSupervisorAccessEnabled: false,
-        }).id;
+        });
         databaseBuilder.factory.buildCertificationCenter({
           isSupervisorAccessEnabled: false,
-        }).id;
+        });
         await databaseBuilder.commit();
 
         // when

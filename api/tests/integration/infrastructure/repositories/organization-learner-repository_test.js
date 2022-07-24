@@ -2429,7 +2429,7 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
         // given
         const organizationId = databaseBuilder.factory.buildOrganization().id;
         const userId = databaseBuilder.factory.buildUser().id;
-        databaseBuilder.factory.buildOrganizationLearner({ organizationId, userId }).id;
+        databaseBuilder.factory.buildOrganizationLearner({ organizationId, userId });
         await databaseBuilder.commit();
 
         // when
@@ -2494,7 +2494,7 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
         // given
         const organizationId = databaseBuilder.factory.buildOrganization().id;
         const userId = databaseBuilder.factory.buildUser().id;
-        databaseBuilder.factory.buildOrganizationLearner({ organizationId, userId }).id;
+        databaseBuilder.factory.buildOrganizationLearner({ organizationId, userId });
         await databaseBuilder.commit();
 
         // when
@@ -2584,7 +2584,7 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
       it('should count 0 participation when organizationLearner has no participation', async function () {
         // given
         const organizationId = databaseBuilder.factory.buildOrganization().id;
-        databaseBuilder.factory.buildOrganizationLearner({ organizationId }).id;
+        databaseBuilder.factory.buildOrganizationLearner({ organizationId });
         await databaseBuilder.commit();
 
         // when
@@ -2695,7 +2695,7 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
       it('should be null when organizationLearner has no participation', async function () {
         // given
         const organizationId = databaseBuilder.factory.buildOrganization().id;
-        databaseBuilder.factory.buildOrganizationLearner({ organizationId }).id;
+        databaseBuilder.factory.buildOrganizationLearner({ organizationId });
         await databaseBuilder.commit();
 
         // when

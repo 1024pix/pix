@@ -1087,7 +1087,7 @@ async function _buildIncomplete(certificationAttestationData) {
     publishedAt: certificationAttestationData.deliveredAt,
     certificationCenter: certificationAttestationData.certificationCenter,
     certificationCenterId,
-  }).id;
+  });
   databaseBuilder.factory.buildCertificationCourse({
     id: certificationAttestationData.id,
     firstName: certificationAttestationData.firstName,
@@ -1101,8 +1101,8 @@ async function _buildIncomplete(certificationAttestationData) {
     maxReachableLevelOnCertificationDate: certificationAttestationData.maxReachableLevelOnCertificationDate,
     sessionId: certificationAttestationData.sessionId,
     userId: certificationAttestationData.userId,
-  }).id;
-  databaseBuilder.factory.buildAssessment({ certificationCourseId: certificationAttestationData.id }).id;
+  });
+  databaseBuilder.factory.buildAssessment({ certificationCourseId: certificationAttestationData.id });
   await databaseBuilder.commit();
 }
 
@@ -1114,7 +1114,7 @@ async function _buildRejected(certificationAttestationData) {
     publishedAt: certificationAttestationData.deliveredAt,
     certificationCenter: certificationAttestationData.certificationCenter,
     certificationCenterId,
-  }).id;
+  });
   databaseBuilder.factory.buildCertificationCourse({
     id: certificationAttestationData.id,
     firstName: certificationAttestationData.firstName,
@@ -1128,7 +1128,7 @@ async function _buildRejected(certificationAttestationData) {
     maxReachableLevelOnCertificationDate: certificationAttestationData.maxReachableLevelOnCertificationDate,
     sessionId: certificationAttestationData.sessionId,
     userId: certificationAttestationData.userId,
-  }).id;
+  });
   const assessmentId = databaseBuilder.factory.buildAssessment({
     certificationCourseId: certificationAttestationData.id,
   }).id;
@@ -1148,7 +1148,7 @@ async function _buildCancelled(certificationAttestationData) {
     publishedAt: certificationAttestationData.deliveredAt,
     certificationCenter: certificationAttestationData.certificationCenter,
     certificationCenterId,
-  }).id;
+  });
   databaseBuilder.factory.buildCertificationCourse({
     id: certificationAttestationData.id,
     firstName: certificationAttestationData.firstName,
@@ -1162,7 +1162,7 @@ async function _buildCancelled(certificationAttestationData) {
     maxReachableLevelOnCertificationDate: certificationAttestationData.maxReachableLevelOnCertificationDate,
     sessionId: certificationAttestationData.sessionId,
     userId: certificationAttestationData.userId,
-  }).id;
+  });
   const assessmentId = databaseBuilder.factory.buildAssessment({
     certificationCourseId: certificationAttestationData.id,
   }).id;
@@ -1182,7 +1182,7 @@ async function _buildValidCertificationAttestation(certificationAttestationData,
     publishedAt: certificationAttestationData.deliveredAt,
     certificationCenter: certificationAttestationData.certificationCenter,
     certificationCenterId,
-  }).id;
+  });
   databaseBuilder.factory.buildCertificationCourse({
     id: certificationAttestationData.id,
     firstName: certificationAttestationData.firstName,
@@ -1196,7 +1196,7 @@ async function _buildValidCertificationAttestation(certificationAttestationData,
     maxReachableLevelOnCertificationDate: certificationAttestationData.maxReachableLevelOnCertificationDate,
     sessionId: certificationAttestationData.sessionId,
     userId: certificationAttestationData.userId,
-  }).id;
+  });
   const assessmentId = databaseBuilder.factory.buildAssessment({
     certificationCourseId: certificationAttestationData.id,
   }).id;

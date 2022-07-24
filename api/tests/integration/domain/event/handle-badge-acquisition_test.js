@@ -95,7 +95,7 @@ describe('Integration | Event | Handle Badge Acquisition Service', function () {
         targetProfileId,
         badgeCriteria: [],
         key: 'Badge3',
-      }).id;
+      });
 
       event = new AsessmentCompletedEvent();
       event.userId = userId;

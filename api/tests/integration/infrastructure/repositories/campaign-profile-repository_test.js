@@ -192,7 +192,7 @@ describe('Integration | Repository | CampaignProfileRepository', function () {
       });
 
       it('return the number of competences certifiable', async function () {
-        databaseBuilder.factory.buildCampaign().id;
+        databaseBuilder.factory.buildCampaign();
         const campaignId = databaseBuilder.factory.buildCampaign().id;
 
         const user = databaseBuilder.factory.buildUser({ firstName: 'John', lastName: 'Shaft' });
@@ -220,7 +220,7 @@ describe('Integration | Repository | CampaignProfileRepository', function () {
       });
 
       it('return the total pix score', async function () {
-        databaseBuilder.factory.buildCampaign().id;
+        databaseBuilder.factory.buildCampaign();
         const campaignId = databaseBuilder.factory.buildCampaign().id;
 
         const user = databaseBuilder.factory.buildUser({ firstName: 'John', lastName: 'Shaft' });
@@ -257,7 +257,7 @@ describe('Integration | Repository | CampaignProfileRepository', function () {
       });
 
       it('computes certifiable competences acquired before the sharing date of the campaign participation', async function () {
-        databaseBuilder.factory.buildCampaign().id;
+        databaseBuilder.factory.buildCampaign();
         const campaignId = databaseBuilder.factory.buildCampaign().id;
 
         const user = databaseBuilder.factory.buildUser({ firstName: 'John', lastName: 'Shaft' });

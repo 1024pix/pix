@@ -14,7 +14,7 @@ describe('Acceptance | Controller | certification-issue-report-controller', func
       const server = await createServer();
       const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
       const userId = databaseBuilder.factory.buildUser().id;
-      databaseBuilder.factory.buildCertificationCenterMembership({ userId, certificationCenterId }).id;
+      databaseBuilder.factory.buildCertificationCenterMembership({ userId, certificationCenterId });
       const sessionId = databaseBuilder.factory.buildSession({ certificationCenterId }).id;
       const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({ sessionId }).id;
       const certificationIssueReportId = databaseBuilder.factory.buildCertificationIssueReport({

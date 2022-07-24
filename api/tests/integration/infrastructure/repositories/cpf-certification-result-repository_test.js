@@ -20,7 +20,7 @@ describe('Integration | Repository | CpfCertificationResult', function () {
         birthPostalCode: null,
         isPublished: true,
         sessionId: firstPublishedSessionId,
-      }).id;
+      });
       databaseBuilder.factory.buildAssessmentResult({
         id: 2244,
         pixScore: 132,
@@ -190,7 +190,7 @@ describe('Integration | Repository | CpfCertificationResult', function () {
           birthPostalCode: null,
           isPublished: false,
           sessionId: publishedSessionId,
-        }).id;
+        });
         await databaseBuilder.commit();
 
         // when
@@ -222,7 +222,7 @@ describe('Integration | Repository | CpfCertificationResult', function () {
           isPublished: true,
           isCancelled: true,
           sessionId: publishedSessionId,
-        }).id;
+        });
         await databaseBuilder.commit();
 
         // when
@@ -302,7 +302,7 @@ describe('Integration | Repository | CpfCertificationResult', function () {
           birthPostalCode: null,
           isPublished: true,
           sessionId: publishedSessionId,
-        }).id;
+        });
         await databaseBuilder.commit();
 
         // when

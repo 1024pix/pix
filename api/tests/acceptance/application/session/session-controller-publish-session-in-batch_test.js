@@ -39,7 +39,7 @@ describe('POST /api/admin/sessions/publish-in-batch', function () {
         sessionId = databaseBuilder.factory.buildSession({ publishedAt: null }).id;
         databaseBuilder.factory.buildFinalizedSession({ sessionId });
         options.payload = { data: { attributes: { ids: [sessionId] } } };
-        databaseBuilder.factory.buildCertificationCourse({ sessionId, isPublished: false }).id;
+        databaseBuilder.factory.buildCertificationCourse({ sessionId, isPublished: false });
         return databaseBuilder.commit();
       });
 

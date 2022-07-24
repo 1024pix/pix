@@ -866,8 +866,8 @@ describe('Acceptance | Application | organization-controller', function () {
       const member2 = databaseBuilder.factory.buildUser();
       const otherOrganizationMember = databaseBuilder.factory.buildUser();
 
-      databaseBuilder.factory.buildMembership({ userId: member1.id, organizationId }).id;
-      databaseBuilder.factory.buildMembership({ userId: member2.id, organizationId }).id;
+      databaseBuilder.factory.buildMembership({ userId: member1.id, organizationId });
+      databaseBuilder.factory.buildMembership({ userId: member2.id, organizationId });
       databaseBuilder.factory.buildMembership({
         userId: otherOrganizationMember.id,
         organizationId: otherOrganizationId,

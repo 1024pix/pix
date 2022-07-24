@@ -46,7 +46,7 @@ describe('Acceptance | API | Progressions', function () {
 
       userId = databaseBuilder.factory.buildUser({}).id;
       const targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
-      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId }).id;
+      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId });
       const campaignId = databaseBuilder.factory.buildCampaign({
         name: 'Campaign',
         targetProfileId,
