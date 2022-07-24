@@ -12,7 +12,7 @@ async function findChallengesWithSkills() {
     knowledgeElementsToCreateForEachChallenges[challenge.id] = [];
     const skillsOfChallenges = _getSkillsOfChallenge(challenge.skills, skills);
     const skillsValidatedIfChallengeIsSuccessful = _getValidatedSkills(skillsOfChallenges);
-    const skillsInvalidatedIfChallengeIsFailed = _getInvalidatedSkills(skillsOfChallenges, skills);
+    const skillsInvalidatedIfChallengeIsFailed = _getInvalidatedSkills(skillsOfChallenges);
 
     const knowledgeElementsValidatedDirect = _.map(skillsOfChallenges, (skill) => _createObjectValidatedDirect(skill));
     const knowledgeElementsValidatedInferred = _.map(skillsValidatedIfChallengeIsSuccessful, (skill) =>
