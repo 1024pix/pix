@@ -42,8 +42,8 @@ async function extractCertificationCandidatesFromCandidatesImportSheet({
       odsBuffer,
       tableHeaderTargetPropertyMap,
     });
-  } catch (err) {
-    _handleParsingError(err);
+  } catch {
+    _handleParsingError();
   }
 
   certificationCandidatesDataByLine = _filterOutEmptyCandidateData(certificationCandidatesDataByLine);
