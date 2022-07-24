@@ -79,7 +79,7 @@ describe('Integration | Infrastructure | Repository | Shareable Certificate', fu
         sessionId,
         userId,
       }).id;
-      databaseBuilder.factory.buildAssessment({ certificationCourseId: certificateId }).id;
+      databaseBuilder.factory.buildAssessment({ certificationCourseId: certificateId });
       await databaseBuilder.commit();
 
       // when

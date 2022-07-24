@@ -470,15 +470,15 @@ describe('Integration | Repository | Campaign Participation', function () {
           organizationId: otherOrganizationId,
           division: '2nd',
         }).id;
-        databaseBuilder.factory.buildCampaignParticipation({ campaignId: campaign.id, organizationLearnerId }).id;
+        databaseBuilder.factory.buildCampaignParticipation({ campaignId: campaign.id, organizationLearnerId });
         databaseBuilder.factory.buildCampaignParticipation({
           campaignId: otherCampaign.id,
           organizationLearnerId,
-        }).id;
+        });
         databaseBuilder.factory.buildCampaignParticipation({
           campaignId: otherCampaign.id,
           organizationLearnerId: otherOrganizationLearnerId,
-        }).id;
+        });
 
         await databaseBuilder.commit();
       });

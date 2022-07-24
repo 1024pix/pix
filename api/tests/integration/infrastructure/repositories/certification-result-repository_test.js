@@ -69,7 +69,7 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
         pixScore: 0,
         status: CertificationResult.status.REJECTED,
         commentForOrganization: 'Un commentaire orga 2',
-      }).id;
+      });
       databaseBuilder.factory.buildCompetenceMark({
         id: 123,
         score: 10,
@@ -413,7 +413,7 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
         pixScore: 0,
         status: CertificationResult.status.REJECTED,
         commentForOrganization: 'Un commentaire orga 2',
-      }).id;
+      });
       databaseBuilder.factory.buildCompetenceMark({
         id: 123,
         score: 10,

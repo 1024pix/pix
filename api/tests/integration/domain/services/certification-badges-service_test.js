@@ -64,10 +64,10 @@ describe('Integration | Service | Certification-Badges Service', function () {
         badgeId: badge.id,
         threshold: 40,
       });
-      databaseBuilder.factory.buildKnowledgeElement({ userId, skillId: 'web1', status: 'validated' }).id;
-      databaseBuilder.factory.buildKnowledgeElement({ userId, skillId: 'web2', status: 'validated' }).id;
-      databaseBuilder.factory.buildKnowledgeElement({ userId, skillId: 'web3', status: 'validated' }).id;
-      databaseBuilder.factory.buildKnowledgeElement({ userId, skillId: 'web4', status: 'invalidated' }).id;
+      databaseBuilder.factory.buildKnowledgeElement({ userId, skillId: 'web1', status: 'validated' });
+      databaseBuilder.factory.buildKnowledgeElement({ userId, skillId: 'web2', status: 'validated' });
+      databaseBuilder.factory.buildKnowledgeElement({ userId, skillId: 'web3', status: 'validated' });
+      databaseBuilder.factory.buildKnowledgeElement({ userId, skillId: 'web4', status: 'invalidated' });
       const skillSet = databaseBuilder.factory.buildSkillSet({
         badgeId: badge.id,
         skillIds: ['web1', 'web2', 'web3', 'web4'],

@@ -187,7 +187,7 @@ describe('Integration | Infrastructure | Repositories | certification-assessment
           assessmentId: expectedCertificationAssessmentId,
           createdAt: new Date('2020-06-25T00:00:01Z'),
           challengeId: 'recChalA',
-        }).id;
+        });
         dbf.buildCertificationChallenge({ challengeId: 'recChalA', courseId: certificationCourseId, id: 123 });
         dbf.buildCertificationChallenge({ challengeId: 'recChalB', courseId: certificationCourseId, id: 456 });
 
