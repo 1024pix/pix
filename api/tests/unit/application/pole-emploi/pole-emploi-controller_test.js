@@ -115,17 +115,26 @@ describe('Unit | Controller | pole-emploi-controller', function () {
     });
   });
 
-  describe('#getAuthUrl', function () {
+  describe('#getAuthenticationUrl', function () {
     it('should call pole emploi authentication service to generate url', async function () {
       // given
       const request = { query: { redirect_uri: 'http:/exemple.net/' } };
-      sinon.stub(poleEmploiAuthenticationService, 'getAuthUrl').resolves('an authentication url');
+      const getAuthenticationUrlStub = sinon.stub();
+      const oidcAuthenticationService = {
+        getAuthenticationUrl: getAuthenticationUrlStub,
+      };
+      sinon.stub(authenticationRegistry, 'lookupAuthenticationService').withArgs('POLE_EMPLOI').returns({
+        oidcAuthenticationService,
+      });
+      getAuthenticationUrlStub.returns('an authentication url');
 
       // when
-      await poleEmploiController.getAuthUrl(request, hFake);
+      await poleEmploiController.getAuthenticationUrl(request, hFake);
 
       //then
-      expect(poleEmploiAuthenticationService.getAuthUrl).to.have.been.calledWith({ redirectUri: 'http:/exemple.net/' });
+      expect(oidcAuthenticationService.getAuthenticationUrl).to.have.been.calledWith({
+        redirectUri: 'http:/exemple.net/',
+      });
     });
   });
 });

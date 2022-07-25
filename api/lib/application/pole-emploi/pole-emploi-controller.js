@@ -1,7 +1,7 @@
 const usecases = require('../../domain/usecases');
 const userRepository = require('../../infrastructure/repositories/user-repository');
-const poleEmploiAuthenticationService = require('../../../lib/domain/services/authentication/pole-emploi-authentication-service');
 const AuthenticationMethod = require('../../domain/models/AuthenticationMethod');
+const poleEmploiAuthenticationService = require('../../../lib/domain/services/authentication/pole-emploi-authentication-service');
 const authenticationRegistry = require('../../domain/services/authentication/authentication-service-registry');
 
 module.exports = {
@@ -34,8 +34,11 @@ module.exports = {
     return h.response(sendings).header('link', link).code(200);
   },
 
-  async getAuthUrl(request, h) {
-    const result = poleEmploiAuthenticationService.getAuthUrl({
+  async getAuthenticationUrl(request, h) {
+    const { oidcAuthenticationService } = authenticationRegistry.lookupAuthenticationService(
+      AuthenticationMethod.identityProviders.POLE_EMPLOI
+    );
+    const result = oidcAuthenticationService.getAuthenticationUrl({
       redirectUri: request.query['redirect_uri'],
     });
     return h.response(result).code(200);
