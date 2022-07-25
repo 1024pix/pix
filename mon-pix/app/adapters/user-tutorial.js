@@ -1,12 +1,14 @@
 import ApplicationAdapter from './application';
 
 export default class UserTutorial extends ApplicationAdapter {
-  createRecord(store, type, { adapterOptions }) {
-    const url = `${this.host}/${this.namespace}/users/tutorials/${adapterOptions.tutorialId}`;
+  createRecord(store, type, snapshot) {
+    const tutorial = snapshot.belongsTo('tutorial');
+    const url = `${this.host}/${this.namespace}/users/tutorials/${tutorial.id}`;
     return this.ajax(url, 'PUT');
   }
 
-  urlForDeleteRecord(id, modelName, { adapterOptions }) {
-    return `${this.host}/${this.namespace}/users/tutorials/${adapterOptions.tutorialId}`;
+  urlForDeleteRecord(id, modelName, snapshot) {
+    const tutorial = snapshot.belongsTo('tutorial');
+    return `${this.host}/${this.namespace}/users/tutorials/${tutorial.id}`;
   }
 }
