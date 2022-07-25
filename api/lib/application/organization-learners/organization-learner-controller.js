@@ -27,10 +27,8 @@ module.exports = {
     });
 
     const response = h.response(organizationLearnerIdentitySerializer.serialize(organizationLearner)).code(200);
-    if (h.request.path === `/api/schooling-registration-user-associations/${request.params.id}`) {
-      response
-        .header('Deprecation', 'true')
-        .header('Link', `/api/organization-learners/${request.params.id}; rel="successor-version"`);
+    if (h.request.path === `/api/schooling-registration-user-associations`) {
+      response.header('Deprecation', 'true').header('Link', `/api/organization-learners; rel="successor-version"`);
     }
     return response;
   },
