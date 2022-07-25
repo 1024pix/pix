@@ -28,7 +28,6 @@ describe('Integration | Domain | Services | pole-emploi-authentication-service',
   describe('#getRedirectLogoutUrl', function () {
     it('should return a redirect logout url', async function () {
       // given
-      const redirectUri = 'https://example.org/please-redirect-to-pix';
       const idToken =
         'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c';
       const userId = '1';
@@ -40,12 +39,11 @@ describe('Integration | Domain | Services | pole-emploi-authentication-service',
       const redirectTarget = await poleEmploiAuthenticationService.getRedirectLogoutUrl({
         userId,
         logoutUrlUUID,
-        redirectUri,
       });
 
       // then
       expect(redirectTarget).to.equal(
-        'http://logout-url.fr/?id_token_hint=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c&redirect_uri=https%3A%2F%2Fexample.org%2Fplease-redirect-to-pix'
+        'http://logout-url.fr/?id_token_hint=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c&redirect_uri=http%3A%2F%2Fafter-logout.url'
       );
     });
   });

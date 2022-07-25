@@ -217,6 +217,7 @@ module.exports = (function () {
       userInfoUrl: process.env.POLE_EMPLOI_USER_INFO_URL,
       authUrl: process.env.POLE_EMPLOI_OIDC_AUTHENTICATION_URL,
       logoutUrl: process.env.POLE_EMPLOI_OIDC_LOGOUT_URL,
+      afterLogoutUrl: process.env.POLE_EMPLOI_OIDC_AFTER_LOGOUT_URL,
       temporaryStorage: {
         expirationDelaySeconds:
           parseInt(process.env.POLE_EMPLOI_TEMPORARY_STORAGE_EXPIRATION_DELAY_SECONDS, 10) || 1140,
@@ -341,6 +342,7 @@ module.exports = (function () {
     config.poleEmploi.userInfoUrl = 'http://userInfoUrl.fr';
     config.poleEmploi.authUrl = 'http://authurl.fr';
     config.poleEmploi.logoutUrl = 'http://logout-url.fr';
+    config.poleEmploi.afterLogoutUrl = 'http://after-logout.url';
     config.poleEmploi.temporaryStorage.redisUrl = null;
 
     config.temporaryStorage.redisUrl = null;
