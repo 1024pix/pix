@@ -4,17 +4,19 @@
 
 <div class="account-recovery__content--step--content">
   {{#if @existingEmail}}
-    <p class="account-recovery__content--information-text">
-      {{t "pages.account-recovery.find-sco-record.backup-email-confirmation.email-already-exist-for-account-message"}}
-      <strong>{{@existingEmail}}</strong>
-    </p>
-    <p class="account-recovery__content--information-text--details">
-      {{t "pages.account-recovery.find-sco-record.backup-email-confirmation.email-is-valid-message"}}
-      <LinkTo @route="password-reset-demand">
-        {{t "pages.account-recovery.find-sco-record.backup-email-confirmation.email-reset-message"}}
-      </LinkTo>
-      {{t "pages.account-recovery.find-sco-record.backup-email-confirmation.ask-for-new-email-message"}}
-    </p>
+    <div id="backup-email-confirmation-already-associated-error-message">
+      <p class="account-recovery__content--information-text">
+        {{t "pages.account-recovery.find-sco-record.backup-email-confirmation.email-already-exist-for-account-message"}}
+        <strong>{{@existingEmail}}</strong>
+      </p>
+      <p class="account-recovery__content--information-text--details">
+        {{t "pages.account-recovery.find-sco-record.backup-email-confirmation.email-is-valid-message"}}
+        <LinkTo @route="password-reset-demand">
+          {{t "pages.account-recovery.find-sco-record.backup-email-confirmation.email-reset-message"}}
+        </LinkTo>
+        {{t "pages.account-recovery.find-sco-record.backup-email-confirmation.ask-for-new-email-message"}}
+      </p>
+    </div>
   {{else}}
     <p class="account-recovery__content--information-text">
       {{t "pages.account-recovery.find-sco-record.backup-email-confirmation.email-sent-to-choose-password-message"}}
@@ -32,10 +34,15 @@
       @autocomplete="off"
       @require={{true}}
       @hideRequired={{true}}
+      @aria-describedby="backup-email-confirmation-already-use-error-message backup-email-confirmation-already-associated-error-message"
     />
 
     {{#if @showAlreadyRegisteredEmailError}}
-      <PixMessage @type="alert" class="account-recovery__content--not-found-error">
+      <PixMessage
+        @type="alert"
+        class="account-recovery__content--not-found-error"
+        id="backup-email-confirmation-already-use-error-message"
+      >
         {{t "pages.account-recovery.find-sco-record.backup-email-confirmation.form.error.new-email-already-exist"}}
       </PixMessage>
     {{/if}}

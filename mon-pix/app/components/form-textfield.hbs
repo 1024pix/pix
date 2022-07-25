@@ -20,7 +20,7 @@
       {{on "focusout" (fn this.onValidate @textfieldName @inputBindingValue)}}
       class="form-textfield__input {{this.inputValidationStatus}}"
       autocomplete={{@autocomplete}}
-      aria-describedby="validationMessage-{{@textfieldName}}"
+      aria-describedby="{{@aria-describedby}} validationMessage-{{@textfieldName}}"
       required={{@require}}
       disabled={{@disabled}}
       placeholder={{@placeholder}}

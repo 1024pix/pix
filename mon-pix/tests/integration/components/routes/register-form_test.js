@@ -128,7 +128,6 @@ describe('Integration | Component | routes/register-form', function () {
         // given
         const expectedRegisterErrorMessage = this.intl.t('pages.login-or-register.register-form.error');
         saveDependentUserStub.rejects({ errors: [{ status: '400' }] });
-
         // when
         await render(hbs`<Routes::RegisterForm />`);
 
@@ -141,12 +140,10 @@ describe('Integration | Component | routes/register-form', function () {
         await clickByLabel(this.intl.t('pages.login-or-register.register-form.button-form'));
 
         await fillIn('#password', 'Mypassword1');
-
         await clickByLabel(this.intl.t('pages.login-or-register.register-form.button-form'));
-
         // then
-        expect(find('.register-form__error')).to.exist;
-        expect(find('.register-form__error').innerHTML).to.equal(expectedRegisterErrorMessage);
+        expect(find('div[id="register-display-error-message"')).to.exist;
+        expect(find('div[id="register-display-error-message"').innerHTML).to.contains(expectedRegisterErrorMessage);
       });
     });
 
@@ -367,7 +364,7 @@ describe('Integration | Component | routes/register-form', function () {
         await clickByLabel(this.intl.t('pages.login-or-register.register-form.button-form'));
 
         // then
-        expect(find('.register-form__error').innerHTML).to.equal(errorMessage);
+        expect(find('div[id="register-error-message"').innerHTML).to.equal(errorMessage);
       });
     });
 
@@ -395,7 +392,7 @@ describe('Integration | Component | routes/register-form', function () {
           await clickByLabel(this.intl.t('pages.login-or-register.register-form.button-form'));
 
           // then
-          expect(find('.register-form__error').innerHTML).to.equal(expectedErrorMessage);
+          expect(find('div[id="register-error-message"').innerHTML).to.equal(expectedErrorMessage);
         });
       });
 
@@ -422,7 +419,7 @@ describe('Integration | Component | routes/register-form', function () {
           await clickByLabel(this.intl.t('pages.login-or-register.register-form.button-form'));
 
           // then
-          expect(find('.register-form__error').innerHTML).to.equal(expectedErrorMessage);
+          expect(find('div[id="register-error-message"').innerHTML).to.equal(expectedErrorMessage);
         });
       });
 
@@ -449,7 +446,7 @@ describe('Integration | Component | routes/register-form', function () {
           await clickByLabel(this.intl.t('pages.login-or-register.register-form.button-form'));
 
           // then
-          expect(find('.register-form__error').innerHTML).to.equal(expectedErrorMessage);
+          expect(find('div[id="register-error-message"').innerHTML).to.equal(expectedErrorMessage);
         });
       });
 
@@ -476,7 +473,7 @@ describe('Integration | Component | routes/register-form', function () {
           await clickByLabel(this.intl.t('pages.login-or-register.register-form.button-form'));
 
           // then
-          expect(find('.register-form__error').innerHTML).to.equal(expectedErrorMessage);
+          expect(find('div[id="register-error-message"').innerHTML).to.equal(expectedErrorMessage);
         });
       });
 
@@ -503,7 +500,7 @@ describe('Integration | Component | routes/register-form', function () {
           await clickByLabel(this.intl.t('pages.login-or-register.register-form.button-form'));
 
           // then
-          expect(find('.register-form__error').innerHTML).to.equal(expectedErrorMessage);
+          expect(find('div[id="register-error-message"').innerHTML).to.equal(expectedErrorMessage);
         });
       });
 
@@ -530,7 +527,7 @@ describe('Integration | Component | routes/register-form', function () {
           await clickByLabel(this.intl.t('pages.login-or-register.register-form.button-form'));
 
           // then
-          expect(find('.register-form__error').innerHTML).to.equal(expectedErrorMessage);
+          expect(find('div[id="register-error-message"').innerHTML).to.equal(expectedErrorMessage);
         });
       });
 
@@ -557,7 +554,7 @@ describe('Integration | Component | routes/register-form', function () {
           await clickByLabel(this.intl.t('pages.login-or-register.register-form.button-form'));
 
           // then
-          expect(find('.register-form__error').innerHTML).to.equal(expectedErrorMessage);
+          expect(find('div[id="register-error-message"').innerHTML).to.equal(expectedErrorMessage);
         });
       });
     });
@@ -586,7 +583,7 @@ describe('Integration | Component | routes/register-form', function () {
           await clickByLabel(this.intl.t('pages.login-or-register.register-form.button-form'));
 
           // then
-          expect(find('.register-form__error').innerHTML).to.equal(expectedErrorMessage);
+          expect(find('div[id="register-error-message"').innerHTML).to.equal(expectedErrorMessage);
         });
       });
 
@@ -613,7 +610,7 @@ describe('Integration | Component | routes/register-form', function () {
           await clickByLabel(this.intl.t('pages.login-or-register.register-form.button-form'));
 
           // then
-          expect(find('.register-form__error').innerHTML).to.equal(expectedErrorMessage);
+          expect(find('div[id="register-error-message"').innerHTML).to.equal(expectedErrorMessage);
         });
       });
 
@@ -640,7 +637,7 @@ describe('Integration | Component | routes/register-form', function () {
           await clickByLabel(this.intl.t('pages.login-or-register.register-form.button-form'));
 
           // then
-          expect(find('.register-form__error').innerHTML).to.equal(expectedErrorMessage);
+          expect(find('div[id="register-error-message"').innerHTML).to.equal(expectedErrorMessage);
         });
       });
 
@@ -667,7 +664,7 @@ describe('Integration | Component | routes/register-form', function () {
           await clickByLabel(this.intl.t('pages.login-or-register.register-form.button-form'));
 
           // then
-          expect(find('.register-form__error').innerHTML).to.equal(expectedErrorMessage);
+          expect(find('div[id="register-error-message"').innerHTML).to.equal(expectedErrorMessage);
         });
       });
 
@@ -694,7 +691,7 @@ describe('Integration | Component | routes/register-form', function () {
           await clickByLabel(this.intl.t('pages.login-or-register.register-form.button-form'));
 
           // then
-          expect(find('.register-form__error').innerHTML).to.equal(expectedErrorMessage);
+          expect(find('div[id="register-error-message"').innerHTML).to.equal(expectedErrorMessage);
         });
       });
 
@@ -721,7 +718,7 @@ describe('Integration | Component | routes/register-form', function () {
           await clickByLabel(this.intl.t('pages.login-or-register.register-form.button-form'));
 
           // then
-          expect(find('.register-form__error').innerHTML).to.equal(expectedErrorMessage);
+          expect(find('div[id="register-error-message"').innerHTML).to.equal(expectedErrorMessage);
         });
       });
 
@@ -747,7 +744,7 @@ describe('Integration | Component | routes/register-form', function () {
           // when
           await clickByLabel(this.intl.t('pages.login-or-register.register-form.button-form'));
           // then
-          expect(find('.register-form__error').innerHTML).to.equal(expectedErrorMessage);
+          expect(find('div[id="register-error-message"').innerHTML).to.equal(expectedErrorMessage);
         });
       });
     });

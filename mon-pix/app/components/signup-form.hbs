@@ -12,7 +12,11 @@
   </div>
 
   {{#if this.errorMessage}}
-    <div class="sign-form__notification-message sign-form__notification-message--error" aria-live="polite">
+    <div
+      class="sign-form__notification-message sign-form__notification-message--error"
+      aria-live="polite"
+      id="sign-up-error-message"
+    >
       {{this.errorMessage}}
     </div>
   {{/if}}
@@ -39,6 +43,7 @@
           @autocomplete="given-name"
           @hideRequired={{true}}
           @require={{true}}
+          @aria-describedby="sign-up-error-message"
         />
       </div>
 
@@ -53,6 +58,7 @@
           @autocomplete="family-name"
           @hideRequired={{true}}
           @require={{true}}
+          @aria-describedby="sign-up-error-message"
         />
       </div>
 
@@ -68,6 +74,7 @@
           @autocomplete="email"
           @hideRequired={{true}}
           @require={{true}}
+          @aria-describedby="sign-up-error-message"
         />
       </div>
 
@@ -83,6 +90,7 @@
           @autocomplete="new-password"
           @hideRequired={{true}}
           @require={{true}}
+          @aria-describedby="sign-up-error-message"
         />
       </div>
 
@@ -98,7 +106,7 @@
           </a>
           {{t "pages.sign-up.fields.cgu.pix"}}
           {{#if @user.errors.cgu}}
-            <div id="validationMessage-cgu" class="sign-form__validation-error" aria-live="polite">
+            <div class="sign-form__validation-error" aria-live="polite" id="sign-up-cgu-error-message">
               {{t "pages.sign-up.fields.cgu.error"}}
             </div>
           {{/if}}
@@ -108,6 +116,7 @@
           class="signup-form__cgu"
           @checked={{@user.cgu}}
           aria-label={{t "pages.sign-up.fields.cgu.label"}}
+          aria-describedby="sign-up-cgu-error-message"
         />
       </div>
 

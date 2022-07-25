@@ -136,10 +136,8 @@ describe('Integration | Component | SignupForm', function () {
       await clickByLabel(this.intl.t('pages.sign-up.actions.submit'));
 
       // then
-      expect(find('.sign-form__notification-message--error')).to.exist;
-      expect(find('.sign-form__notification-message--error').textContent.trim()).to.equal(
-        this.intl.t(expectedErrorMessage)
-      );
+      expect(find('div[id="sign-up-error-message"]')).to.exist;
+      expect(find('div[id="sign-up-error-message"]').textContent.trim()).to.equal(this.intl.t(expectedErrorMessage));
     });
 
     it('should display related error message if internal server error', async function () {
@@ -169,10 +167,8 @@ describe('Integration | Component | SignupForm', function () {
       await clickByLabel(this.intl.t('pages.sign-up.actions.submit'));
 
       // then
-      expect(find('.sign-form__notification-message--error')).to.exist;
-      expect(find('.sign-form__notification-message--error').textContent.trim()).to.equal(
-        this.intl.t(expectedErrorMessage)
-      );
+      expect(find('div[id="sign-up-error-message"]')).to.exist;
+      expect(find('div[id="sign-up-error-message"]').textContent.trim()).to.equal(this.intl.t(expectedErrorMessage));
     });
 
     it('should display related error message if bad gateway error', async function () {
@@ -201,10 +197,8 @@ describe('Integration | Component | SignupForm', function () {
       await clickByLabel(this.intl.t('pages.sign-up.actions.submit'));
 
       // then
-      expect(find('.sign-form__notification-message--error')).to.exist;
-      expect(find('.sign-form__notification-message--error').textContent.trim()).to.equal(
-        this.intl.t(expectedErrorMessage)
-      );
+      expect(find('div[id="sign-up-error-message"]')).to.exist;
+      expect(find('div[id="sign-up-error-message"]').textContent.trim()).to.equal(this.intl.t(expectedErrorMessage));
     });
 
     it('should display related error message if gateway timeout error', async function () {
@@ -233,10 +227,8 @@ describe('Integration | Component | SignupForm', function () {
       await clickByLabel(this.intl.t('pages.sign-up.actions.submit'));
 
       // then
-      expect(find('.sign-form__notification-message--error')).to.exist;
-      expect(find('.sign-form__notification-message--error').textContent.trim()).to.equal(
-        this.intl.t(expectedErrorMessage)
-      );
+      expect(find('div[id="sign-up-error-message"]')).to.exist;
+      expect(find('div[id="sign-up-error-message"]').textContent.trim()).to.equal(this.intl.t(expectedErrorMessage));
     });
 
     it('should display related error message if not implemented error', async function () {
@@ -265,10 +257,8 @@ describe('Integration | Component | SignupForm', function () {
       await clickByLabel(this.intl.t('pages.sign-up.actions.submit'));
 
       // then
-      expect(find('.sign-form__notification-message--error')).to.exist;
-      expect(find('.sign-form__notification-message--error').textContent.trim()).to.equal(
-        this.intl.t(expectedErrorMessage)
-      );
+      expect(find('div[id="sign-up-error-message"]')).to.exist;
+      expect(find('div[id="sign-up-error-message"]').textContent.trim()).to.equal(this.intl.t(expectedErrorMessage));
     });
   });
 
