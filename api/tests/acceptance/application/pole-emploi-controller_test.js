@@ -184,7 +184,7 @@ describe('Acceptance | API | Pole Emploi Controller', function () {
         expect(redirectTargetUrl.searchParams.get('response_type')).to.equal('code');
         expect(redirectTargetUrl.searchParams.get('realm')).to.equal('/individu');
         expect(redirectTargetUrl.searchParams.get('scope')).to.equal(
-          'application_PIX_POLE_EMPLOI_CLIENT_ID api_peconnect-individuv1 openid profile serviceDigitauxExposition api_peconnect-servicesdigitauxv1'
+          'application_PIX_POLE_EMPLOI_CLIENT_ID api_peconnect-individuv1 openid profile'
         );
       });
     });
