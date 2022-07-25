@@ -1301,7 +1301,7 @@ describe('Unit | Application | Organizations | organization-controller', functio
   describe('#getPaginatedParticipantsForAnOrganization', function () {
     it('should call the usecase to get the participants of the organization', async function () {
       const organizationId = 1;
-      const expectedPage = { page: 2 };
+      const parameters = { page: 2, filter: { fullName: 'name' } };
       const organizationLearner = domainBuilder.buildOrganizationLearner();
       domainBuilder.buildCampaignParticipation({ organizationLearnerId: organizationLearner.id });
 
@@ -1312,7 +1312,7 @@ describe('Unit | Application | Organizations | organization-controller', functio
             userId: 1,
           },
         },
-        query: expectedPage,
+        query: parameters,
       };
 
       const participant = {
@@ -1328,13 +1328,13 @@ describe('Unit | Application | Organizations | organization-controller', functio
           'last-name': organizationLearner.lastName,
         },
       ];
-      const expectedPagination = { ...expectedPage, pageSize: 25, itemsCount: 100, pagesCount: 4 };
+      const expectedPagination = { ...parameters, pageSize: 25, itemsCount: 100, pagesCount: 4 };
       const expectedResponse = { data: serializedOrganizationParticipants, meta: {} };
 
-      sinon.stub(queryParamsUtils, 'extractParameters').withArgs(request.query).returns(expectedPage);
+      sinon.stub(queryParamsUtils, 'extractParameters').withArgs(request.query).returns(parameters);
       sinon
         .stub(usecases, 'getPaginatedParticipantsForAnOrganization')
-        .withArgs({ organizationId, page: 2 })
+        .withArgs({ organizationId, page: 2, filters: parameters.filter })
         .returns({
           organizationParticipants: [participant],
           pagination: expectedPagination,
