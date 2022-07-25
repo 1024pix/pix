@@ -62,4 +62,54 @@ describe('Unit | Serializer | JSONAPI | sco-organization-learner-serializer', fu
       expect(json).to.deep.equal(expectedSerializedOrganizationLearner);
     });
   });
+
+  describe('#serializeExternal', function () {
+    it('should convert into JSON API data', function () {
+      // given
+      const organizationLearner = {
+        accessToken: 'some token',
+      };
+
+      const expectedSerializedOrganizationLearner = {
+        data: {
+          attributes: {
+            'access-token': organizationLearner.accessToken,
+          },
+          type: 'external-users',
+        },
+      };
+
+      // when
+      const json = serializer.serializeExternal(organizationLearner);
+
+      // then
+      expect(json).to.deep.equal(expectedSerializedOrganizationLearner);
+    });
+  });
+
+  describe('#serializeCredentialsForDependent', function () {
+    it('should convert into JSON API data', function () {
+      // given
+      const organizationLearner = {
+        generatedPassword: 'generated passw0rd',
+        username: 'us3rnam3',
+      };
+
+      const expectedSerializedOrganizationLearner = {
+        data: {
+          attributes: {
+            'generated-password': organizationLearner.generatedPassword,
+            username: organizationLearner.username,
+          },
+          type: 'dependent-users',
+        },
+      };
+
+      // when
+      const json = serializer.serializeCredentialsForDependent(organizationLearner);
+
+      // then
+      expect(json).to.deep.equal(expectedSerializedOrganizationLearner);
+    });
+  });
 });
