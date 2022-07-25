@@ -10,7 +10,10 @@ services:
       POSTGRES_HOST_AUTH_METHOD: trust
 
   redis:
-    image: redis:5.0.7-alpine
+    image: scalingo/redis:6.2.5-1
     container_name: pix-api-redis
+    command: /redis
     ports:
       - '${PIX_CACHE_PORT:-6379}:6379'
+    environment:
+      DB_PASSWORD: secret
