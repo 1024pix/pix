@@ -6,7 +6,7 @@ const CampaignParticipationStatuses = require('../../domain/models/CampaignParti
 const { fetchPage } = require('../utils/knex-utils');
 const { NotFoundError } = require('../../domain/errors');
 const _ = require('lodash');
-
+const { filterByFullName } = require('../utils/filter-utils');
 const skillDataSource = require('../datasources/learning-content/skill-datasource');
 
 const { SHARED } = CampaignParticipationStatuses;
@@ -21,12 +21,7 @@ function _setSearchFiltersForQueryBuilder(qb, { name, ongoing = true, ownerName,
     qb.whereNotNull('campaigns.archivedAt');
   }
   if (ownerName) {
-    qb.where(function () {
-      const search = ownerName.toLowerCase().trim();
-      this.where(knex.raw(`CONCAT ("users"."firstName", ' ', "users"."lastName") <-> ?`, search), '<=', 0.8)
-        .orWhereRaw('LOWER("users"."lastName") LIKE ?', `%${search}%`)
-        .orWhereRaw('LOWER("users"."firstName") LIKE ?', `%${search}%`);
-    });
+    filterByFullName(qb, ownerName, 'users.firstName', 'users.lastName');
   }
   if (isOwnedByMe) {
     qb.where('users.id', '=', userId);
