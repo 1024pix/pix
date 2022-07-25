@@ -17,10 +17,14 @@ describe('Unit | Adapters | user-tutorial', function () {
     it('should call API to create a user-tutorial', async function () {
       // given
       const tutorialId = 'tutorialId';
-      const tutorial = { adapterOptions: { tutorialId } };
+      const tutorial = { id: tutorialId };
+      const snapshot = {
+        belongsTo: sinon.stub(),
+      };
+      snapshot.belongsTo.withArgs('tutorial').returns(tutorial);
 
       // when
-      await adapter.createRecord(null, 'user-tutorial', tutorial);
+      await adapter.createRecord(null, 'user-tutorial', snapshot);
 
       // then
       sinon.assert.calledWith(adapter.ajax, 'http://localhost:3000/api/users/tutorials/tutorialId', 'PUT');
@@ -31,10 +35,14 @@ describe('Unit | Adapters | user-tutorial', function () {
     it('should return API to delete a user-tutorial', async function () {
       // given
       const tutorialId = 'tutorialId';
-      const tutorial = { adapterOptions: { tutorialId } };
+      const tutorial = { id: tutorialId };
+      const snapshot = {
+        belongsTo: sinon.stub(),
+      };
+      snapshot.belongsTo.withArgs('tutorial').returns(tutorial);
 
       // when
-      const url = adapter.urlForDeleteRecord(null, 'user-tutorial', tutorial);
+      const url = adapter.urlForDeleteRecord(null, 'user-tutorial', snapshot);
 
       // then
       expect(url).to.equal('http://localhost:3000/api/users/tutorials/tutorialId');
