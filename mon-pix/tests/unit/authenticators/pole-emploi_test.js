@@ -43,7 +43,7 @@ describe('Unit | Authenticator | pole-emploi', function () {
 
         // then
         expect(replaceLocationStub.getCall(0).args[0]).to.equal(
-          'https://authentification-candidat-r.pe-qvr.fr/compte/deconnexion?redirect_uri=http://localhost.fr:4200/&id_token_hint=ID_TOKEN'
+          'https://authentification-candidat-r.pe-qvr.fr/compte/deconnexion?id_token_hint=ID_TOKEN'
         );
       });
     });
