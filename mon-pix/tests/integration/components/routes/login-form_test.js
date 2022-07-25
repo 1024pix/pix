@@ -26,7 +26,7 @@ describe('Integration | Component | routes/login-form', function () {
     await render(hbs`<Routes::LoginForm/>`);
 
     // then
-    expect(find('#login-form-error-message')).to.not.exist;
+    expect(find('div[id="error-message"]')).to.not.exist;
   });
 
   it('should display an error message when authentication fails', async function () {
@@ -43,8 +43,8 @@ describe('Integration | Component | routes/login-form', function () {
     await clickByLabel(this.intl.t('pages.login-or-register.login-form.button'));
 
     // then
-    expect(find('#login-form-error-message')).to.exist;
-    expect(find('#login-form-error-message').textContent).to.equal(
+    expect(find('div[id="login-error-message"]')).to.exist;
+    expect(find('#login-error-message').textContent).to.equal(
       "L'adresse e-mail ou l'identifiant et/ou le mot de passe saisis sont incorrects"
     );
   });

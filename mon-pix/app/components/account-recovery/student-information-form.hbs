@@ -43,6 +43,7 @@
         @require={{true}}
         @hideRequired="true"
         @placeholder="123456789XX"
+        @aria-describedby="student-information-error-message"
       />
 
       <FormTextfield
@@ -55,6 +56,7 @@
         @autocomplete="off"
         @require={{true}}
         @hideRequired="true"
+        @aria-describedby="student-information-error-message"
       />
 
       <FormTextfield
@@ -67,6 +69,7 @@
         @autocomplete="off"
         @require={{true}}
         @hideRequired="true"
+        @aria-describedby="student-information-error-message"
       />
 
       <div>
@@ -118,7 +121,11 @@
     </div>
 
     {{#if @showAccountNotFoundError}}
-      <PixMessage @type="alert" class="account-recovery__content--not-found-error">
+      <PixMessage
+        @type="alert"
+        class="account-recovery__content--not-found-error"
+        id="student-information-error-message"
+      >
         {{t "pages.account-recovery.find-sco-record.student-information.errors.not-found"}}
         <a
           href="{{t "pages.account-recovery.find-sco-record.contact-support.link-url"}}"

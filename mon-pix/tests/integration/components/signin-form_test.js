@@ -73,9 +73,7 @@ describe('Integration | Component | signin form', function () {
         await clickByLabel(this.intl.t('pages.sign-in.actions.submit'));
 
         // then
-        expect(find('.sign-form__notification-message--error').textContent.trim()).to.equal(
-          this.intl.t(expectedErrorMessage)
-        );
+        expect(find('div[id="sign-in-error-message"]').textContent.trim()).to.equal(this.intl.t(expectedErrorMessage));
       });
 
       it('should display related error message if bad request error', async function () {
@@ -90,9 +88,7 @@ describe('Integration | Component | signin form', function () {
         await clickByLabel(this.intl.t('pages.sign-in.actions.submit'));
 
         // then
-        expect(find('.sign-form__notification-message--error').textContent.trim()).to.equal(
-          this.intl.t(expectedErrorMessage)
-        );
+        expect(find('div[id="sign-in-error-message"]').textContent.trim()).to.equal(this.intl.t(expectedErrorMessage));
       });
 
       it('should display an error if api cannot be reached', async function () {
@@ -108,7 +104,7 @@ describe('Integration | Component | signin form', function () {
 
         // then
         expect(document.querySelector('div.sign-form__notification-message--error')).to.exist;
-        expect(find('.sign-form__notification-message--error').textContent.trim()).to.equal(
+        expect(find('div[id="sign-in-error-message"]').textContent.trim()).to.equal(
           this.intl.t(ApiErrorMessages.INTERNAL_SERVER_ERROR.MESSAGE)
         );
       });
