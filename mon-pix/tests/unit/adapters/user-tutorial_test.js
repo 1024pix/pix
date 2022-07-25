@@ -14,20 +14,36 @@ describe('Unit | Adapters | user-tutorial', function () {
   });
 
   describe('#createRecord', () => {
-    it('should call API to create a user-tutorial', async function () {
+    it('should call API to create a user-tutorial with skill-id from tutorial', async function () {
       // given
       const tutorialId = 'tutorialId';
-      const tutorial = { id: tutorialId };
+      const skillId = 'skillId';
+      const tutorial = { id: tutorialId, attr: sinon.stub() };
       const snapshot = {
         belongsTo: sinon.stub(),
       };
       snapshot.belongsTo.withArgs('tutorial').returns(tutorial);
+      tutorial.attr.withArgs('skillId').returns(skillId);
 
       // when
       await adapter.createRecord(null, 'user-tutorial', snapshot);
 
       // then
-      sinon.assert.calledWith(adapter.ajax, 'http://localhost:3000/api/users/tutorials/tutorialId', 'PUT');
+      const expectedOptions = {
+        data: {
+          data: {
+            attributes: {
+              'skill-id': skillId,
+            },
+          },
+        },
+      };
+      sinon.assert.calledWith(
+        adapter.ajax,
+        'http://localhost:3000/api/users/tutorials/tutorialId',
+        'PUT',
+        expectedOptions
+      );
     });
   });
 
