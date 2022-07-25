@@ -5,6 +5,8 @@ const querystring = require('querystring');
 const { AuthenticationTokenRetrievalError } = require('../../errors');
 const AuthenticationSessionContent = require('../../models/AuthenticationSessionContent');
 const { v4: uuidv4 } = require('uuid');
+const DomainTransaction = require('../../../infrastructure/DomainTransaction');
+const AuthenticationMethod = require('../../models/AuthenticationMethod');
 
 class OidcAuthenticationService {
   constructor({
@@ -95,6 +97,21 @@ class OidcAuthenticationService {
       externalIdentityId: sub,
       nonce,
     };
+  }
+
+  async createUserAccount({ user, externalIdentityId, userToCreateRepository, authenticationMethodRepository }) {
+    let createdUserId;
+    await DomainTransaction.execute(async (domainTransaction) => {
+      createdUserId = (await userToCreateRepository.create({ user, domainTransaction })).id;
+
+      const authenticationMethod = new AuthenticationMethod({
+        identityProvider: this.identityProvider,
+        userId: createdUserId,
+        externalIdentifier: externalIdentityId,
+      });
+      await authenticationMethodRepository.create({ authenticationMethod, domainTransaction });
+    });
+    return { userId: createdUserId };
   }
 }
 

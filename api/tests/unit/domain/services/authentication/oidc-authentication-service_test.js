@@ -6,6 +6,9 @@ const jsonwebtoken = require('jsonwebtoken');
 const httpAgent = require('../../../../../lib/infrastructure/http/http-agent');
 const AuthenticationSessionContent = require('../../../../../lib/domain/models/AuthenticationSessionContent');
 const { AuthenticationTokenRetrievalError } = require('../../../../../lib/domain/errors');
+const DomainTransaction = require('../../../../../lib/infrastructure/DomainTransaction');
+const UserToCreate = require('../../../../../lib/domain/models/UserToCreate');
+const AuthenticationMethod = require('../../../../../lib/domain/models/AuthenticationMethod');
 
 describe('Unit | Domain | Services | oidc-authentication-service', function () {
   describe('#createAccessToken', function () {
@@ -188,6 +191,61 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
         lastName: 'familyName',
         nonce: 'bb041272-d6e6-457c-99fb-ff1aa02217fd',
         externalIdentityId: '094b83ac-2e20-4aa8-b438-0bc91748e4a6',
+      });
+    });
+  });
+
+  describe('#createUserAccount', function () {
+    let userToCreateRepository, authenticationMethodRepository;
+    let domainTransaction;
+
+    beforeEach(function () {
+      domainTransaction = Symbol();
+      DomainTransaction.execute = (lambda) => {
+        return lambda(domainTransaction);
+      };
+
+      userToCreateRepository = {
+        create: sinon.stub(),
+      };
+      authenticationMethodRepository = {
+        create: sinon.stub(),
+      };
+    });
+
+    describe('#createUserAccount', function () {
+      it('should return user id', async function () {
+        // given
+        const externalIdentityId = '1233BBBC';
+        const user = new UserToCreate({
+          firstName: 'Adam',
+          lastName: 'Troisjours',
+        });
+        const userId = 1;
+        userToCreateRepository.create.withArgs({ user, domainTransaction }).resolves({ id: userId });
+
+        const identityProvider = 'CNAV';
+        const expectedAuthenticationMethod = new AuthenticationMethod({
+          identityProvider,
+          externalIdentifier: externalIdentityId,
+          userId,
+        });
+        const oidcAuthenticationService = new OidcAuthenticationService({ identityProvider });
+
+        // when
+        const result = await oidcAuthenticationService.createUserAccount({
+          user,
+          externalIdentityId,
+          userToCreateRepository,
+          authenticationMethodRepository,
+        });
+
+        // then
+        expect(authenticationMethodRepository.create).to.have.been.calledWith({
+          authenticationMethod: expectedAuthenticationMethod,
+          domainTransaction,
+        });
+        expect(result).to.be.deep.equal({ userId });
       });
     });
   });
