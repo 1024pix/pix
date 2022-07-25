@@ -120,11 +120,7 @@ export default class PoleEmploiAuthenticator extends BaseAuthenticator {
       url = this._generateRedirectLogoutUrl(id_token);
     } else {
       const response = await fetch(
-        `${
-          ENV.APP.API_HOST
-        }/api/oidc/redirect-logout-url?identity_provider=POLE_EMPLOI&redirect_uri=${encodeURIComponent(
-          afterLogoutUri
-        )}&logout_url_uuid=${logout_url_uuid}`,
+        `${ENV.APP.API_HOST}/api/oidc/redirect-logout-url?identity_provider=POLE_EMPLOI&logout_url_uuid=${logout_url_uuid}`,
         {
           headers: {
             Authorization: `Bearer ${access_token}`,
