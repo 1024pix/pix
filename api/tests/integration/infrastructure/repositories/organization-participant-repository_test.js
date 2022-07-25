@@ -321,5 +321,101 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
         expect(pagination).to.deep.equals({ page: 2, pageCount: 2, pageSize: 1, rowCount: 2 });
       });
     });
+
+    context('fullName', function () {
+      it('returns the participants which match by first name', async function () {
+        // given
+        const { id: id1 } = buildLearnerWithParticipation(organizationId, { firstName: 'Anton' });
+        const { id: id2 } = buildLearnerWithParticipation(organizationId, { firstName: 'anton' });
+        buildLearnerWithParticipation(organizationId, { firstName: 'Llewelyn' });
+
+        await databaseBuilder.commit();
+
+        // when
+        const { organizationParticipants } = await organizationParticipantRepository.getParticipantsByOrganizationId({
+          organizationId,
+          filters: { fullName: ' Anton ' },
+        });
+
+        const ids = organizationParticipants.map(({ id }) => id);
+
+        // then
+        expect(ids).to.exactlyContain([id1, id2]);
+      });
+
+      it('returns the participants which match by last name when fullName text is a part of first name', async function () {
+        // given
+        const { id: id1 } = buildLearnerWithParticipation(organizationId, { firstName: 'Anton' });
+        buildLearnerWithParticipation(organizationId, { firstName: 'Llewelyn' });
+
+        await databaseBuilder.commit();
+
+        // when
+        const { organizationParticipants } = await organizationParticipantRepository.getParticipantsByOrganizationId({
+          organizationId,
+          filters: { fullName: 'nt' },
+        });
+
+        const ids = organizationParticipants.map(({ id }) => id);
+
+        // then
+        expect(ids).to.exactlyContain([id1]);
+      });
+
+      it('returns the participants which match by last name', async function () {
+        // given
+        const { id: id1 } = buildLearnerWithParticipation(organizationId, { lastName: 'Chigurh' });
+        const { id: id2 } = buildLearnerWithParticipation(organizationId, { lastName: 'chigurh' });
+        buildLearnerWithParticipation(organizationId, { lastName: 'Moss' });
+
+        await databaseBuilder.commit();
+
+        // when
+        const { organizationParticipants } = await organizationParticipantRepository.getParticipantsByOrganizationId({
+          organizationId,
+          filters: { fullName: ' chigurh ' },
+        });
+
+        const ids = organizationParticipants.map(({ id }) => id);
+
+        // then
+        expect(ids).to.exactlyContain([id1, id2]);
+      });
+
+      it('returns the participants which match by last name when fullName text is a part of last name', async function () {
+        // given
+        // given
+        buildLearnerWithParticipation(organizationId, { lastName: 'Moss' });
+        const { id: id1 } = buildLearnerWithParticipation(organizationId, { lastName: 'Chigur' });
+
+        await databaseBuilder.commit();
+
+        // when
+        const { organizationParticipants } = await organizationParticipantRepository.getParticipantsByOrganizationId({
+          organizationId,
+          filters: { fullName: 'gu' },
+        });
+
+        const ids = organizationParticipants.map(({ id }) => id);
+
+        // then
+        expect(ids).to.exactlyContain([id1]);
+      });
+
+      it('returns the participants which match by full name', async function () {
+        const { id: id1 } = buildLearnerWithParticipation(organizationId, { firstName: 'Anton', lastName: 'Chigurh' });
+
+        await databaseBuilder.commit();
+
+        const { organizationParticipants } = await organizationParticipantRepository.getParticipantsByOrganizationId({
+          organizationId,
+          filters: { fullName: 'anton chur' },
+        });
+
+        const ids = organizationParticipants.map(({ id }) => id);
+
+        expect(ids).to.exactlyContain([id1]);
+      });
+    });
   });
 });
