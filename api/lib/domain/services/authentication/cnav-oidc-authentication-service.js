@@ -10,8 +10,19 @@ class CnavOidcAuthenticationService extends OidcAuthenticationService {
     const clientSecret = settings.cnav.clientSecret;
     const clientId = settings.cnav.clientId;
     const tokenUrl = settings.cnav.tokenUrl;
+    const authenticationUrl = settings.cnav.authenticationUrl;
+    const authenticationUrlParameters = [{ key: 'scope', value: 'openid profile' }];
 
-    super({ source, identityProvider, jwtOptions, clientSecret, clientId, tokenUrl });
+    super({
+      source,
+      identityProvider,
+      jwtOptions,
+      clientSecret,
+      clientId,
+      tokenUrl,
+      authenticationUrl,
+      authenticationUrlParameters,
+    });
   }
 }
 

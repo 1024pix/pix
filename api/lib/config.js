@@ -215,7 +215,7 @@ module.exports = (function () {
       tokenUrl: process.env.POLE_EMPLOI_TOKEN_URL,
       sendingUrl: process.env.POLE_EMPLOI_SENDING_URL,
       userInfoUrl: process.env.POLE_EMPLOI_USER_INFO_URL,
-      authUrl: process.env.POLE_EMPLOI_OIDC_AUTHENTICATION_URL,
+      authenticationUrl: process.env.POLE_EMPLOI_OIDC_AUTHENTICATION_URL,
       logoutUrl: process.env.POLE_EMPLOI_OIDC_LOGOUT_URL,
       afterLogoutUrl: process.env.POLE_EMPLOI_OIDC_AFTER_LOGOUT_URL,
       temporaryStorage: {
@@ -231,7 +231,7 @@ module.exports = (function () {
 
     cnav: {
       clientId: process.env.CNAV_CLIENT_ID,
-      authUrl: process.env.CNAV_AUTHENTICATION_URL,
+      authenticationUrl: process.env.CNAV_AUTHENTICATION_URL,
       tokenUrl: process.env.CNAV_TOKEN_URL,
       clientSecret: process.env.CNAV_CLIENT_SECRET,
       accessTokenLifespanMs: ms(process.env.CNAV_ACCESS_TOKEN_LIFESPAN || '7d'),
@@ -340,7 +340,7 @@ module.exports = (function () {
     config.poleEmploi.tokenUrl = 'http://tokenUrl.fr';
     config.poleEmploi.sendingUrl = 'http://sendingUrl.fr';
     config.poleEmploi.userInfoUrl = 'http://userInfoUrl.fr';
-    config.poleEmploi.authUrl = 'http://authurl.fr';
+    config.poleEmploi.authenticationUrl = 'http://authurl.fr';
     config.poleEmploi.logoutUrl = 'http://logout-url.fr';
     config.poleEmploi.afterLogoutUrl = 'http://after-logout.url';
     config.poleEmploi.temporaryStorage.redisUrl = null;
@@ -348,7 +348,7 @@ module.exports = (function () {
     config.temporaryStorage.redisUrl = null;
 
     config.cnav.clientId = 'PIX_CNAV_CLIENT_ID';
-    config.cnav.authUrl = 'http://idp.cnav/auth';
+    config.cnav.authenticationUrl = 'http://idp.cnav/auth';
     config.cnav.tokenUrl = 'http://idp.cnav/token';
     config.cnav.clientSecret = 'PIX_CNAV_CLIENT_SECRET';
 
