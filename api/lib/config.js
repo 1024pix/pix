@@ -188,6 +188,7 @@ module.exports = (function () {
 
     featureToggles: {
       isPixAppTutoFiltersEnabled: isFeatureEnabled(process.env.FT_TUTOS_V2_1_FILTERS),
+      isSSOAccountReconciliationEnabled: isFeatureEnabled(process.env.FT_SSO_ACCOUNT_RECONCILIATION),
     },
 
     infra: {
@@ -308,6 +309,7 @@ module.exports = (function () {
     config.features.pixCertifScoBlockedAccessDateCollege = null;
 
     config.featureToggles.isPixAppTutoFiltersEnabled = false;
+    config.featureToggles.isSSOAccountReconciliationEnabled = false;
 
     config.mailing.enabled = false;
     config.mailing.provider = 'sendinblue';
