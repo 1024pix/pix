@@ -37,7 +37,6 @@ module.exports = [
   require('./application/prescribers'),
   require('./application/progressions'),
   require('./application/saml'),
-  require('./application/organization-learner-dependent-users'),
   require('./application/organization-learners'),
   require('./application/scorecards'),
   require('./application/sco-organization-learners'),
