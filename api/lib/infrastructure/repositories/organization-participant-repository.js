@@ -1,8 +1,9 @@
 const OrganizationParticipant = require('../../domain/read-models/OrganizationParticipant');
 const { knex } = require('../../../db/knex-database-connection');
 const { fetchPage } = require('../utils/knex-utils');
+const { filterByFullName } = require('../utils/filter-utils');
 
-async function getParticipantsByOrganizationId({ organizationId, page }) {
+async function getParticipantsByOrganizationId({ organizationId, page, filters = {} }) {
   const query = knex('organization-learners')
     .select([
       'organization-learners.id',
@@ -35,13 +36,24 @@ async function getParticipantsByOrganizationId({ organizationId, page }) {
     .whereNull('campaign-participations.deletedAt')
     .where('campaign-participations.isImproved', '=', false)
     .orderBy(['organization-learners.lastName', 'organization-learners.firstName', 'organization-learners.id'])
-    .distinct('organization-learners.id');
+    .distinct('organization-learners.id')
+    .modify(_filterBySearch, filters);
 
   const { results, pagination } = await fetchPage(query, page);
   const organizationParticipants = results.map((rawParticipant) => new OrganizationParticipant(rawParticipant));
   return { organizationParticipants, pagination };
 }
 
+function _filterBySearch(queryBuilder, filters) {
+  if (filters.fullName) {
+    filterByFullName(
+      queryBuilder,
+      filters.fullName,
+      'organization-learners.firstName',
+      'organization-learners.lastName'
+    );
+  }
+}
 module.exports = {
   getParticipantsByOrganizationId,
 };
