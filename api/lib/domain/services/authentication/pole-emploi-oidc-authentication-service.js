@@ -1,6 +1,9 @@
 const settings = require('../../../config');
 const constants = require('../../constants');
 const OidcAuthenticationService = require('./oidc-authentication-service');
+const DomainTransaction = require('../../../infrastructure/DomainTransaction');
+const AuthenticationMethod = require('../../models/AuthenticationMethod');
+const moment = require('moment');
 
 class PoleEmploiOidcAuthenticationService extends OidcAuthenticationService {
   constructor() {
@@ -30,6 +33,38 @@ class PoleEmploiOidcAuthenticationService extends OidcAuthenticationService {
       authenticationUrl,
       authenticationUrlParameters,
     });
+  }
+
+  // Overrided because we need idToken to send results after a campaign
+  // Sending campaign results is specific for Pole Emploi
+  async createUserAccount({
+    user,
+    sessionContent,
+    externalIdentityId,
+    userToCreateRepository,
+    authenticationMethodRepository,
+  }) {
+    let createdUserId;
+    await DomainTransaction.execute(async (domainTransaction) => {
+      createdUserId = (await userToCreateRepository.create({ user, domainTransaction })).id;
+
+      const authenticationMethod = new AuthenticationMethod({
+        identityProvider: AuthenticationMethod.identityProviders.POLE_EMPLOI,
+        userId: createdUserId,
+        externalIdentifier: externalIdentityId,
+        authenticationComplement: new AuthenticationMethod.PoleEmploiAuthenticationComplement({
+          accessToken: sessionContent.accessToken,
+          refreshToken: sessionContent.refreshToken,
+          expiredDate: moment().add(sessionContent.expiresIn, 's').toDate(),
+        }),
+      });
+      await authenticationMethodRepository.create({ authenticationMethod, domainTransaction });
+    });
+
+    return {
+      userId: createdUserId,
+      idToken: sessionContent.idToken,
+    };
   }
 }
 
