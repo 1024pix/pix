@@ -1,7 +1,7 @@
 const databaseBuffer = require('../database-buffer');
 const buildTargetProfile = require('./build-target-profile');
 
-module.exports = function buildBadge({
+function buildBadge({
   id = databaseBuffer.getNextId(),
   altMessage = 'alt message',
   imageUrl = '/img_funny.svg',
@@ -29,4 +29,52 @@ module.exports = function buildBadge({
     tableName: 'badges',
     values,
   });
+}
+
+buildBadge.certifiable = function ({
+  id = databaseBuffer.getNextId(),
+  altMessage = 'alt message',
+  imageUrl = '/img_funny.svg',
+  message = 'message',
+  title = 'title',
+  key = 'key',
+  targetProfileId,
+  isAlwaysVisible = false,
+}) {
+  return buildBadge({
+    id,
+    altMessage,
+    imageUrl,
+    message,
+    title,
+    key,
+    isCertifiable: true,
+    targetProfileId,
+    isAlwaysVisible,
+  });
 };
+
+buildBadge.notCertifiable = function ({
+  id = databaseBuffer.getNextId(),
+  altMessage = 'alt message',
+  imageUrl = '/img_funny.svg',
+  message = 'message',
+  title = 'title',
+  key = 'key',
+  targetProfileId,
+  isAlwaysVisible = false,
+}) {
+  return buildBadge({
+    id,
+    altMessage,
+    imageUrl,
+    message,
+    title,
+    key,
+    isCertifiable: false,
+    targetProfileId,
+    isAlwaysVisible,
+  });
+};
+
+module.exports = buildBadge;
