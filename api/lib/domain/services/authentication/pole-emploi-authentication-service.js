@@ -1,15 +1,9 @@
 const { v4: uuidv4 } = require('uuid');
-const jsonwebtoken = require('jsonwebtoken');
 const moment = require('moment');
 const AuthenticationMethod = require('../../models/AuthenticationMethod');
 const settings = require('../../../config');
 const DomainTransaction = require('../../../infrastructure/DomainTransaction');
 const logoutUrlTemporaryStorage = require('../../../infrastructure/temporary-storage').withPrefix('logout-url:');
-
-async function _extractClaimsFromIdToken(idToken) {
-  const { given_name, family_name, nonce, sub } = await jsonwebtoken.decode(idToken);
-  return { given_name, family_name, nonce, sub };
-}
 
 async function getRedirectLogoutUrl({ userId, logoutUrlUUID }) {
   const redirectTarget = new URL(settings.poleEmploi.logoutUrl);
@@ -25,17 +19,6 @@ async function getRedirectLogoutUrl({ userId, logoutUrlUUID }) {
   await logoutUrlTemporaryStorage.delete(key);
 
   return redirectTarget.toString();
-}
-
-async function getUserInfo({ idToken }) {
-  const { given_name, family_name, nonce, sub } = await _extractClaimsFromIdToken(idToken);
-
-  return {
-    firstName: given_name,
-    lastName: family_name,
-    externalIdentityId: sub,
-    nonce,
-  };
 }
 
 async function createUserAccount({
@@ -82,7 +65,6 @@ async function saveIdToken({ idToken, userId }) {
 
 module.exports = {
   getRedirectLogoutUrl,
-  getUserInfo,
   createUserAccount,
   saveIdToken,
 };

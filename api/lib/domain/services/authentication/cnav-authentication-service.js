@@ -1,22 +1,5 @@
-const jsonwebtoken = require('jsonwebtoken');
 const DomainTransaction = require('../../../infrastructure/DomainTransaction');
 const AuthenticationMethod = require('../../models/AuthenticationMethod');
-
-async function getUserInfo({ idToken }) {
-  const { given_name, family_name, nonce, sub } = await _extractClaimsFromIdToken(idToken);
-
-  return {
-    firstName: given_name,
-    lastName: family_name,
-    externalIdentityId: sub,
-    nonce,
-  };
-}
-
-async function _extractClaimsFromIdToken(idToken) {
-  const { given_name, family_name, nonce, sub } = await jsonwebtoken.decode(idToken);
-  return { given_name, family_name, nonce, sub };
-}
 
 async function createUserAccount({ user, externalIdentityId, userToCreateRepository, authenticationMethodRepository }) {
   let createdUserId;
@@ -34,6 +17,5 @@ async function createUserAccount({ user, externalIdentityId, userToCreateReposit
 }
 
 module.exports = {
-  getUserInfo,
   createUserAccount,
 };

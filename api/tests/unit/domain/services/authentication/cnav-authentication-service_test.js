@@ -1,5 +1,4 @@
 const { expect, sinon } = require('../../../../test-helper');
-const jsonwebtoken = require('jsonwebtoken');
 const cnavAuthenticationService = require('../../../../../lib/domain/services/authentication/cnav-authentication-service');
 const UserToCreate = require('../../../../../lib/domain/models/UserToCreate');
 const AuthenticationMethod = require('../../../../../lib/domain/models/AuthenticationMethod');
@@ -21,43 +20,6 @@ describe('Unit | Domain | Services | cnav-authentication-service', function () {
     authenticationMethodRepository = {
       create: sinon.stub(),
     };
-  });
-
-  describe('#getUserInfo', function () {
-    it('should return firstName, lastName, nonce and external identity id', async function () {
-      // given
-      function generateIdToken(payload) {
-        return jsonwebtoken.sign(
-          {
-            ...payload,
-          },
-          'secret'
-        );
-      }
-
-      const given_name = 'givenName';
-      const family_name = 'familyName';
-      const nonce = 'bb041272-d6e6-457c-99fb-ff1aa02217fd';
-      const sub = '094b83ac-2e20-4aa8-b438-0bc91748e4a6';
-
-      const idToken = generateIdToken({
-        given_name,
-        family_name,
-        nonce,
-        sub,
-      });
-
-      // when
-      const result = await cnavAuthenticationService.getUserInfo({ idToken });
-
-      // then
-      expect(result).to.deep.equal({
-        firstName: given_name,
-        lastName: family_name,
-        nonce,
-        externalIdentityId: sub,
-      });
-    });
   });
 
   describe('#createUserAccount', function () {
