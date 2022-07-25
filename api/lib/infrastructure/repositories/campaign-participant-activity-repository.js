@@ -1,6 +1,7 @@
 const { knex } = require('../../../db/knex-database-connection');
 const CampaignParticipantActivity = require('../../domain/read-models/CampaignParticipantActivity');
 const { fetchPage } = require('../utils/knex-utils');
+const { filterByFullName } = require('../utils/filter-utils');
 
 const campaignParticipantActivityRepository = {
   async findPaginatedByCampaignId({ page = { size: 25 }, campaignId, filters = {} }) {
@@ -55,16 +56,7 @@ function _filterParticipations(queryBuilder, filters, campaignId) {
 
 function _filterBySearch(queryBuilder, filters) {
   if (filters.search) {
-    const search = filters.search.trim().toLowerCase();
-    queryBuilder.where(function () {
-      this.where(
-        knex.raw(`CONCAT ("organization-learners"."firstName", ' ', "organization-learners"."lastName") <-> ?`, search),
-        '<=',
-        0.8
-      )
-        .orWhereRaw('LOWER("organization-learners"."lastName") LIKE ?', `%${search}%`)
-        .orWhereRaw('LOWER("organization-learners"."firstName") LIKE ?', `%${search}%`);
-    });
+    filterByFullName(queryBuilder, filters.search, 'organization-learners.firstName', 'organization-learners.lastName');
   }
 }
 
