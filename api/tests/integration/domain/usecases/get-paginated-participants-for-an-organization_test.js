@@ -6,7 +6,10 @@ describe('Integration | UseCases | get-paginated-participants-for-an-organizatio
   it('should get all participations for an organization', async function () {
     // given
     const organizationId = databaseBuilder.factory.buildOrganization().id;
-    const organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner({ organizationId }).id;
+    const organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner({
+      firstName: 'Ah',
+      organizationId,
+    }).id;
     const campaignId = databaseBuilder.factory.buildCampaign({ organizationId }).id;
     databaseBuilder.factory.buildCampaignParticipation({
       organizationLearnerId,
@@ -18,6 +21,7 @@ describe('Integration | UseCases | get-paginated-participants-for-an-organizatio
     // when
     const results = await getPaginatedParticipantsForAnOrganization({
       organizationId,
+      filters: { fullName: 'Ah' },
       page: { number: 1, size: 10 },
       organizationParticipantRepository,
     });
