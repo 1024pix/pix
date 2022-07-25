@@ -66,12 +66,12 @@ function getAuthUrl({ redirectUri }) {
   return { redirectTarget: redirectTarget.toString(), state, nonce };
 }
 
-async function getRedirectLogoutUrl({ userId, logoutUrlUUID, redirectUri }) {
+async function getRedirectLogoutUrl({ userId, logoutUrlUUID }) {
   const redirectTarget = new URL(settings.poleEmploi.logoutUrl);
   const idToken = await logoutUrlTemporaryStorage.get(`${userId}:${logoutUrlUUID}`);
   const params = [
     { key: 'id_token_hint', value: idToken },
-    { key: 'redirect_uri', value: redirectUri },
+    { key: 'redirect_uri', value: settings.poleEmploi.afterLogoutUrl },
   ];
 
   params.forEach(({ key, value }) => redirectTarget.searchParams.append(key, value));
