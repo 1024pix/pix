@@ -121,4 +121,40 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
       });
     });
   });
+
+  describe('#getAuthenticationUrl', function () {
+    it('should return auth url', async function () {
+      // given
+      const authenticationUrl = 'http://authenticationurl.net';
+      const clientId = 'OIDC_CLIENT_ID';
+      const authenticationUrlParameters = [
+        { key: 'realm', value: '/individu' },
+        { key: 'scope', value: `openid profile` },
+      ];
+      const redirectUri = 'https://example.org/please-redirect-to-me';
+
+      const oidcAuthenticationService = new OidcAuthenticationService({
+        authenticationUrl,
+        clientId,
+        authenticationUrlParameters,
+      });
+
+      // when
+      const { redirectTarget } = oidcAuthenticationService.getAuthenticationUrl({ redirectUri });
+
+      // then
+      const parsedRedirectTarget = new URL(redirectTarget);
+      const queryParams = parsedRedirectTarget.searchParams;
+      const uuidV4Regex = /^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i;
+      expect(parsedRedirectTarget.protocol).to.equal('http:');
+      expect(parsedRedirectTarget.hostname).to.equal('authenticationurl.net');
+      expect(queryParams.get('state')).to.match(uuidV4Regex);
+      expect(queryParams.get('nonce')).to.match(uuidV4Regex);
+      expect(queryParams.get('client_id')).to.equal('OIDC_CLIENT_ID');
+      expect(queryParams.get('redirect_uri')).to.equal('https://example.org/please-redirect-to-me');
+      expect(queryParams.get('response_type')).to.equal('code');
+      expect(queryParams.get('scope')).to.equal('openid profile');
+      expect(queryParams.get('realm')).to.equal('/individu');
+    });
+  });
 });

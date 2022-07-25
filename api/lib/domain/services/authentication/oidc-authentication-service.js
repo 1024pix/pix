@@ -4,15 +4,27 @@ const httpAgent = require('../../../infrastructure/http/http-agent');
 const querystring = require('querystring');
 const { AuthenticationTokenRetrievalError } = require('../../errors');
 const AuthenticationSessionContent = require('../../models/AuthenticationSessionContent');
+const { v4: uuidv4 } = require('uuid');
 
 class OidcAuthenticationService {
-  constructor({ source, identityProvider, jwtOptions, clientSecret, clientId, tokenUrl }) {
+  constructor({
+    source,
+    identityProvider,
+    jwtOptions,
+    clientSecret,
+    clientId,
+    tokenUrl,
+    authenticationUrl,
+    authenticationUrlParameters,
+  }) {
     this.source = source;
     this.identityProvider = identityProvider;
     this.jwtOptions = jwtOptions;
     this.clientSecret = clientSecret;
     this.clientId = clientId;
     this.tokenUrl = tokenUrl;
+    this.authenticationUrl = authenticationUrl;
+    this.authenticationUrlParameters = authenticationUrlParameters;
   }
 
   createAccessToken(userId) {
@@ -53,6 +65,25 @@ class OidcAuthenticationService {
       expiresIn: response.data['expires_in'],
       refreshToken: response.data['refresh_token'],
     });
+  }
+
+  getAuthenticationUrl({ redirectUri }) {
+    const redirectTarget = new URL(this.authenticationUrl);
+    const state = uuidv4();
+    const nonce = uuidv4();
+
+    const params = [
+      { key: 'state', value: state },
+      { key: 'nonce', value: nonce },
+      { key: 'client_id', value: this.clientId },
+      { key: 'redirect_uri', value: redirectUri },
+      { key: 'response_type', value: 'code' },
+      ...this.authenticationUrlParameters,
+    ];
+
+    params.forEach(({ key, value }) => redirectTarget.searchParams.append(key, value));
+
+    return { redirectTarget: redirectTarget.toString(), state, nonce };
   }
 }
 
