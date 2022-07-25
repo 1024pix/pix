@@ -339,6 +339,18 @@ function _buildHighSchools({ databaseBuilder }) {
     createdAt: new Date('2020-08-14'),
   });
 
+  // organization learner associated in another organization but not associated yet and should be associated automatically
+  databaseBuilder.factory.buildOrganizationLearner({
+    firstName: 'Same Lyanna',
+    lastName: 'Same Mormont',
+    birthdate: '2002-01-07',
+    division: '2D',
+    group: null,
+    organizationId: SCO_HIGH_SCHOOL_ID,
+    userId: null,
+    nationalStudentId: '123456789EE',
+  });
+
   // siblings using the same computer and in different school
   const bigSister = databaseBuilder.factory.buildUser.withRawPassword({
     firstName: 'Sister',
