@@ -3,8 +3,11 @@
 <BurgerMenu @animation="push" @translucentOverlay={{true}} as |burger|>
   <burger.outlet>
 
-    <NavbarHeader @burger={{burger}} />
-    <main id="main" class="main background-banner-wrapper competence-details">
+    <header role="banner">
+      <NavbarHeader @burger={{burger}} />
+    </header>
+
+    <main id="main" class="main background-banner-wrapper competence-details" role="main">
       <div class="background-banner"></div>
 
       <div class="rounded-panel rounded-panel--strong rounded-panel--over-background-banner">

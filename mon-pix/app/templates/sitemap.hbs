@@ -1,7 +1,10 @@
 {{page-title (t "pages.sitemap.title")}}
 <BurgerMenu @animation="push" @translucentOverlay={{true}} as |burger|>
   <burger.outlet>
-    <NavbarHeader @burger={{burger}} />
+
+    <header role="banner">
+      <NavbarHeader @burger={{burger}} />
+    </header>
 
     <Sitemap::Content @model={{@model}} />
 

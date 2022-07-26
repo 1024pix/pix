@@ -2,7 +2,7 @@
 
 <div class="background-banner-wrapper">
   <div class="background-banner"></div>
-  <div class="campaign-landing-page__container rounded-panel--over-background-banner">
+  <main class="campaign-landing-page__container rounded-panel--over-background-banner" role="main">
     <CampaignStartBlock @campaign={{@model}} @startCampaignParticipation={{this.startCampaignParticipation}} />
 
     {{#if @model.isAssessment}}
@@ -65,5 +65,5 @@
         </div>
       </div>
     {{/if}}
-  </div>
+  </main>
 </div>

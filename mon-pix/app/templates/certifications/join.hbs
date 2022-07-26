@@ -2,8 +2,11 @@
 <BurgerMenu @animation="push" @translucentOverlay={{true}} as |burger|>
   <burger.outlet>
 
-    <NavbarHeader @burger={{burger}} />
-    <main class="main">
+    <header role="banner">
+      <NavbarHeader @burger={{burger}} />
+    </header>
+
+    <main class="main" role="main">
       <PixBackgroundHeader id="main">
 
         {{#if this.model.isCertifiable}}
