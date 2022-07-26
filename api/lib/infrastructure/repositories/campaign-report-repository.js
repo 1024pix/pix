@@ -103,13 +103,7 @@ module.exports = {
         'campaigns.*',
         'users.id AS "ownerId"',
         'users.firstName AS ownerFirstName',
-        'users.lastName AS ownerLastName',
-        knex.raw(
-          'COUNT(*) FILTER (WHERE "campaign-participations"."id" IS NOT NULL AND "campaign-participations"."isImproved" IS FALSE AND "campaign-participations"."deletedAt" IS NULL) OVER (partition by "campaigns"."id") AS "participationsCount"'
-        ),
-        knex.raw(
-          'COUNT(*) FILTER (WHERE "campaign-participations"."id" IS NOT NULL AND "campaign-participations"."status" = \'SHARED\' AND "campaign-participations"."isImproved" IS FALSE AND "campaign-participations"."deletedAt" IS NULL) OVER (partition by "campaigns"."id") AS "sharedParticipationsCount"'
-        )
+        'users.lastName AS ownerLastName'
       )
       .join('users', 'users.id', 'campaigns.ownerId')
       .leftJoin('campaign-participations', 'campaign-participations.campaignId', 'campaigns.id')
