@@ -7,8 +7,10 @@ describe('Integration | UseCases | get-paginated-participants-for-an-organizatio
     // given
     const organizationId = databaseBuilder.factory.buildOrganization().id;
     const organizationLearnerId = databaseBuilder.factory.buildOrganizationLearner({ organizationId }).id;
+    const campaignId = databaseBuilder.factory.buildCampaign({ organizationId }).id;
     databaseBuilder.factory.buildCampaignParticipation({
       organizationLearnerId,
+      campaignId,
     });
 
     await databaseBuilder.commit();

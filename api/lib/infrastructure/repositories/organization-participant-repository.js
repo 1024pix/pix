@@ -14,10 +14,23 @@ async function getParticipantsByOrganizationId({ organizationId, page }) {
       knex.raw(
         'max("campaign-participations"."createdAt") OVER(PARTITION BY "organizationLearnerId") AS "lastParticipationDate"'
       ),
+      knex.raw(
+        'FIRST_VALUE("name") OVER(PARTITION BY "organizationLearnerId" ORDER BY "campaign-participations"."createdAt" DESC) AS "campaignName"'
+      ),
+      knex.raw(
+        'FIRST_VALUE("type") OVER(PARTITION BY "organizationLearnerId" ORDER BY "campaign-participations"."createdAt" DESC) AS "campaignType"'
+      ),
+      knex.raw(
+        'FIRST_VALUE("campaign-participations"."status") OVER(PARTITION BY "organizationLearnerId" ORDER BY "campaign-participations"."createdAt" DESC) AS "participationStatus"'
+      ),
     ])
     .join('campaign-participations', 'organization-learners.id', 'campaign-participations.organizationLearnerId')
+    .join('campaigns', function () {
+      this.on('campaign-participations.campaignId', 'campaigns.id');
+      this.on('campaigns.organizationId', organizationId);
+    })
     .leftJoin('users', 'organization-learners.userId', 'users.id')
-    .where({ organizationId })
+    .where('organization-learners.organizationId', organizationId)
     .where('users.isAnonymous', '=', false)
     .whereNull('campaign-participations.deletedAt')
     .where('campaign-participations.isImproved', '=', false)

@@ -81,7 +81,8 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
     assert.dom(allRows[0]).containsText(4);
     assert.dom(allRows[1]).containsText(1);
   });
-  test('it should display the date of the last participation for each participant', async function (assert) {
+
+  test('it should display the date of the last participation and the tooltip informations for each participant', async function (assert) {
     // given
     const participants = [
       { lastName: 'La Terreur', firstName: 'Gigi', id: 34, lastParticipationDate: new Date('2022-05-15') },
@@ -97,5 +98,11 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
     // then
     assert.dom(allRows[0]).containsText('15/05/2022');
     assert.dom(allRows[1]).containsText('07/01/2022');
+    assert.strictEqual(
+      screen.getAllByLabelText(
+        this.intl.t('pages.participants-list.latest-participation-information-tooltip.aria-label')
+      ).length,
+      2
+    );
   });
 });
