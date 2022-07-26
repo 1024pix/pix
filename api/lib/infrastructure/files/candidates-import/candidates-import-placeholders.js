@@ -104,6 +104,14 @@ const IMPORT_CANDIDATES_TEMPLATE_VALUES = [
     placeholder: 'Pix+ Droit',
     propertyName: 'pixPlusDroit',
   },
+  {
+    placeholder: 'Pix+ Édu 1er degré',
+    propertyName: 'pixPlusEdu1erDegre',
+  },
+  {
+    placeholder: 'Pix+ Édu 2nd degré',
+    propertyName: 'pixPlusEdu2ndDegre',
+  },
 ];
 
 const EXTRA_EMPTY_CANDIDATE_ROWS = 20;

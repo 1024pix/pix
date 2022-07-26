@@ -213,13 +213,19 @@ describe('Integration | Infrastructure | Utils | Ods | fillCandidatesImportSheet
       expect(actualResult).to.deep.equal(expectedResult);
     });
 
-    it('should return a candidate import sheet with session data, certification candidates data prefilled with two complementary certifications', async function () {
+    it('should return a candidate import sheet with session data, certification candidates data prefilled with all complementary certifications', async function () {
       // given
-      expectedOdsFilePath = `${__dirname}/1.5/candidates_import_template-with-two-complementary-certifications-sco.ods`;
-      actualOdsFilePath = `${__dirname}/1.5/candidates_import_template-with-two-complementary-certifications-sco.tmp.ods`;
+      expectedOdsFilePath = `${__dirname}/1.5/candidates_import_template-with-all-complementary-certifications-sco.ods`;
+      actualOdsFilePath = `${__dirname}/1.5/candidates_import_template-with-all-complementary-certifications-sco.tmp.ods`;
 
       const cleaNumerique = databaseBuilder.factory.buildComplementaryCertification({ name: 'CléA Numérique' });
       const pixPlusDroit = databaseBuilder.factory.buildComplementaryCertification({ name: 'Pix+ Droit' });
+      const pixPlusEdu1erDegre = databaseBuilder.factory.buildComplementaryCertification({
+        name: 'Pix+ Édu 1er degré',
+      });
+      const pixPlusEdu2ndDegre = databaseBuilder.factory.buildComplementaryCertification({
+        name: 'Pix+ Édu 2nd degré',
+      });
 
       const certificationCenterName = 'Centre de certification';
       const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({
@@ -230,6 +236,14 @@ describe('Integration | Infrastructure | Utils | Ods | fillCandidatesImportSheet
       databaseBuilder.factory.buildComplementaryCertificationHabilitation({
         certificationCenterId,
         complementaryCertificationId: cleaNumerique.id,
+      });
+      databaseBuilder.factory.buildComplementaryCertificationHabilitation({
+        certificationCenterId,
+        complementaryCertificationId: pixPlusEdu1erDegre.id,
+      });
+      databaseBuilder.factory.buildComplementaryCertificationHabilitation({
+        certificationCenterId,
+        complementaryCertificationId: pixPlusEdu2ndDegre.id,
       });
       databaseBuilder.factory.buildComplementaryCertificationHabilitation({
         certificationCenterId,
@@ -275,6 +289,14 @@ describe('Integration | Infrastructure | Utils | Ods | fillCandidatesImportSheet
       databaseBuilder.factory.buildComplementaryCertificationSubscription({
         certificationCandidateId: allComplementaryCertificationCandidate.id,
         complementaryCertificationId: pixPlusDroit.id,
+      });
+      databaseBuilder.factory.buildComplementaryCertificationSubscription({
+        certificationCandidateId: allComplementaryCertificationCandidate.id,
+        complementaryCertificationId: pixPlusEdu1erDegre.id,
+      });
+      databaseBuilder.factory.buildComplementaryCertificationSubscription({
+        certificationCandidateId: allComplementaryCertificationCandidate.id,
+        complementaryCertificationId: pixPlusEdu2ndDegre.id,
       });
 
       const onlyPixPlusDroitCandidate = databaseBuilder.factory.buildCertificationCandidate({
