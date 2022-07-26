@@ -337,7 +337,7 @@ describe('Integration | Repository | Badge Acquisition', function () {
     });
   });
 
-  describe('#findCertifiable', function () {
+  describe('#findHighestCertifiable', function () {
     describe('when the user has a certifiable acquired badge', function () {
       it('should return the highest level certifiable acquired badge', async function () {
         //given
@@ -365,7 +365,7 @@ describe('Integration | Repository | Badge Acquisition', function () {
         await databaseBuilder.commit();
 
         // when
-        const certifiableBadgesAcquiredByUser = await badgeAcquisitionRepository.findCertifiable({
+        const certifiableBadgesAcquiredByUser = await badgeAcquisitionRepository.findHighestCertifiable({
           userId: user.id,
         });
 
@@ -463,7 +463,7 @@ describe('Integration | Repository | Badge Acquisition', function () {
         await databaseBuilder.commit();
 
         // when
-        const certifiableBadgesAcquiredByUser = await badgeAcquisitionRepository.findCertifiable({
+        const certifiableBadgesAcquiredByUser = await badgeAcquisitionRepository.findHighestCertifiable({
           userId: user.id,
         });
 
@@ -487,7 +487,7 @@ describe('Integration | Repository | Badge Acquisition', function () {
         await databaseBuilder.commit();
 
         // when
-        const certifiableBadgesAcquiredByUser = await badgeAcquisitionRepository.findCertifiable({
+        const certifiableBadgesAcquiredByUser = await badgeAcquisitionRepository.findHighestCertifiable({
           userId: userWithoutCertifiableBadge.id,
         });
 
