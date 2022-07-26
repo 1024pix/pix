@@ -15,9 +15,7 @@ describe('Integration | Application | Route | OidcRouter', function () {
       // given & when
       const { statusCode } = await server.inject({
         method: 'GET',
-        url:
-          '/api/oidc/redirect-logout-url?identity_provider=POLE_EMPLOI&logout_url_uuid=b45cb781-4e9a-49b6-8c7e-ff5f02e07720&redirect_uri=' +
-          encodeURIComponent('https://pix.fr'),
+        url: '/api/oidc/redirect-logout-url?identity_provider=POLE_EMPLOI&logout_url_uuid=b45cb781-4e9a-49b6-8c7e-ff5f02e07720',
         headers: { authorization: generateValidRequestAuthorizationHeader() },
       });
 
@@ -45,9 +43,7 @@ describe('Integration | Application | Route | OidcRouter', function () {
           // given & when
           const { statusCode } = await server.inject({
             method: 'GET',
-            url:
-              '/api/oidc/redirect-logout-url?logout_url_uuid=b45cb781-4e9a-49b6-8c7e-ff5f02e07720&redirect_uri=' +
-              encodeURIComponent('https://pix.fr'),
+            url: '/api/oidc/redirect-logout-url?logout_url_uuid=b45cb781-4e9a-49b6-8c7e-ff5f02e07720',
             headers: { authorization: generateValidRequestAuthorizationHeader() },
           });
 
@@ -61,23 +57,7 @@ describe('Integration | Application | Route | OidcRouter', function () {
           // given & when
           const { statusCode } = await server.inject({
             method: 'GET',
-            url:
-              '/api/oidc/redirect-logout-url?identity_provider=POLE_EMPLOI&redirect_uri=' +
-              encodeURIComponent('https://pix.fr'),
-            headers: { authorization: generateValidRequestAuthorizationHeader() },
-          });
-
-          // then
-          expect(statusCode).to.equal(400);
-        });
-      });
-
-      context('redirect_uri', function () {
-        it('should return a response with HTTP status code 400', async function () {
-          // given & when
-          const { statusCode } = await server.inject({
-            method: 'GET',
-            url: '/api/oidc/redirect-logout-url?identity_provider=POLE_EMPLOI&logout_url_uuid=b45cb781-4e9a-49b6-8c7e-ff5f02e07720',
+            url: '/api/oidc/redirect-logout-url?identity_provider=POLE_EMPLOI',
             headers: { authorization: generateValidRequestAuthorizationHeader() },
           });
 
@@ -92,9 +72,7 @@ describe('Integration | Application | Route | OidcRouter', function () {
         // given & when
         const { statusCode } = await server.inject({
           method: 'GET',
-          url:
-            '/api/oidc/redirect-logout-url?identity_provider=MY_IDP&logout_url_uuid=b45cb781-4e9a-49b6-8c7e-ff5f02e07720&redirect_uri=' +
-            encodeURIComponent('https://pix.fr'),
+          url: '/api/oidc/redirect-logout-url?identity_provider=MY_IDP&logout_url_uuid=b45cb781-4e9a-49b6-8c7e-ff5f02e07720',
           headers: { authorization: generateValidRequestAuthorizationHeader() },
         });
 

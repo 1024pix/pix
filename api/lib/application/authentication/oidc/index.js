@@ -10,7 +10,6 @@ exports.register = async (server) => {
         validate: {
           query: Joi.object({
             identity_provider: Joi.string().required().valid('POLE_EMPLOI'),
-            redirect_uri: Joi.string().uri().required(),
             logout_url_uuid: Joi.string()
               .regex(/^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i)
               .required(),
