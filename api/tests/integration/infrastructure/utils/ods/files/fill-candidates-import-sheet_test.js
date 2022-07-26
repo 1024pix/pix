@@ -170,7 +170,7 @@ describe('Integration | Infrastructure | Utils | Ods | fillCandidatesImportSheet
         sessionId,
         externalId: 'GHI789',
         extraTimePercentage: 1.5,
-        complementaryCertifications: [cleaNumerique],
+        complementaryCertifications: [],
       });
       databaseBuilder.factory.buildComplementaryCertificationSubscription({
         certificationCandidateId: cleaNumeriqueCandidate.id,
@@ -266,7 +266,7 @@ describe('Integration | Infrastructure | Utils | Ods | fillCandidatesImportSheet
         sessionId,
         externalId: 'ABC123',
         extraTimePercentage: 0.6,
-        complementaryCertifications: [cleaNumerique, pixPlusDroit],
+        complementaryCertifications: [],
       });
       databaseBuilder.factory.buildComplementaryCertificationSubscription({
         certificationCandidateId: allComplementaryCertificationCandidate.id,
