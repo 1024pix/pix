@@ -253,7 +253,7 @@ describe('Integration | Repository | Badge', function () {
     it('should not return a badge from another campaign', async function () {
       // given
       const targetProfileId = targetProfileWithSeveralBadges.id;
-      databaseBuilder.factory.buildCampaign({ targetProfileId }).id;
+      databaseBuilder.factory.buildCampaign({ targetProfileId });
       const anotherCampaignId = databaseBuilder.factory.buildCampaign().id;
       await databaseBuilder.commit();
 

@@ -94,7 +94,7 @@ describe('Integration | Scripts | create-certification-center-memberships-from-o
     it('should return an empty array if organization has no admin membership', async function () {
       // given
       const externalId = '1212121A';
-      databaseBuilder.factory.buildOrganization({ externalId }).id;
+      databaseBuilder.factory.buildOrganization({ externalId });
       await databaseBuilder.commit();
 
       // when

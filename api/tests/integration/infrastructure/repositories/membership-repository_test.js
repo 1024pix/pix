@@ -513,7 +513,7 @@ describe('Integration | Infrastructure | Repository | membership-repository', fu
         // given
         const userId = databaseBuilder.factory.buildUser().id;
         const organizationId = databaseBuilder.factory.buildOrganization().id;
-        databaseBuilder.factory.buildOrganizationTag({ organizationId }).id;
+        databaseBuilder.factory.buildOrganizationTag({ organizationId });
         databaseBuilder.factory.buildMembership({ userId, organizationId });
 
         await databaseBuilder.commit();

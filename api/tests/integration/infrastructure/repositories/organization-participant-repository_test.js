@@ -24,7 +24,7 @@ describe('Integration | Infrastructure | Repository | OrganizationParticipant', 
     });
 
     it('should return no participants', async function () {
-      databaseBuilder.factory.buildOrganizationLearner({ organizationId }).id;
+      databaseBuilder.factory.buildOrganizationLearner({ organizationId });
       await databaseBuilder.commit();
 
       // when

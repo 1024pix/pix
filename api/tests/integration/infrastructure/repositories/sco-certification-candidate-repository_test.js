@@ -141,7 +141,7 @@ describe('Integration | Repository | SCOCertificationCandidate', function () {
       databaseBuilder.factory.buildCertificationCandidate({
         sessionId,
         organizationLearnerId: disabledOrganizationLearnerId,
-      }).id;
+      });
       await databaseBuilder.commit();
 
       // when
@@ -173,7 +173,7 @@ describe('Integration | Repository | SCOCertificationCandidate', function () {
       databaseBuilder.factory.buildCertificationCandidate({
         sessionId,
         organizationLearnerId: anotherOrganizationLearnerId,
-      }).id;
+      });
       await databaseBuilder.commit();
 
       // when

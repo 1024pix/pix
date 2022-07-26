@@ -168,7 +168,7 @@ describe('Script | Prod | Compute Badge Acquisitions', function () {
         targetProfileId,
         badgeCriteria: [],
         key: 'Badge3',
-      }).id;
+      });
 
       const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
       mockLearningContent(learningContentObjects);

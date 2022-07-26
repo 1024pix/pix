@@ -471,7 +471,7 @@ describe('Integration | Repository | Campaign', function () {
       const otherCampaignId = databaseBuilder.factory.buildCampaign().id;
       databaseBuilder.factory.buildCampaignParticipation({
         campaignId: otherCampaignId,
-      }).id;
+      });
       await databaseBuilder.commit();
 
       // when
