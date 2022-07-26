@@ -5,12 +5,14 @@ export default class LastParticipationDateTooltip extends Component {
   @service intl;
 
   get campaignTypeLabel() {
-    return this.intl.t(`pages.students-sco.latest-participation-information.campaign-${this.args.campaignType}-type`);
+    return this.intl.t(
+      `pages.participants-list.latest-participation-information-tooltip.campaign-${this.args.campaignType}-type`
+    );
   }
 
   get participationStatusLabel() {
     return this.intl.t(
-      `pages.students-sco.latest-participation-information.participation-${this.args.participationStatus}-status`
+      `pages.participants-list.latest-participation-information-tooltip.participation-${this.args.participationStatus}-status`
     );
   }
 }

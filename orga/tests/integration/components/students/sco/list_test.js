@@ -59,7 +59,7 @@ module('Integration | Component | Student::Sco::List', function (hooks) {
     assert.dom('[aria-label="Élève"]').exists({ count: 2 });
   });
 
-  test('it should display the firstName, lastName, birthdate, division, participation count and last participation date of student', async function (assert) {
+  test('it should display the firstName, lastName, birthdate, division, participation count, last participation date of student and the last participation tooltip', async function (assert) {
     // given
     const students = [
       {
@@ -74,7 +74,7 @@ module('Integration | Component | Student::Sco::List', function (hooks) {
     this.set('students', students);
 
     // when
-    await render(hbs`<Student::Sco::List @students={{students}} @onFilter={{noop}}/>`);
+    const screen = await render(hbs`<Student::Sco::List @students={{students}} @onFilter={{noop}}/>`);
 
     // then
     assert.contains('La Terreur');
@@ -83,6 +83,13 @@ module('Integration | Component | Student::Sco::List', function (hooks) {
     assert.contains('3B');
     assert.contains('42');
     assert.contains('03/01/2022');
+    assert
+      .dom(
+        screen.getByLabelText(
+          this.intl.t('pages.participants-list.latest-participation-information-tooltip.aria-label')
+        )
+      )
+      .exists();
   });
 
   module('when user is filtering some users', function () {
