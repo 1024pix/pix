@@ -12,6 +12,7 @@ const authentication = require('./lib/infrastructure/authentication');
 
 const { handleFailAction } = require('./lib/validate');
 const monitoringTools = require('./lib/infrastructure/monitoring-tools');
+const deserializer = require('./lib/infrastructure/serializers/jsonapi/deserializer');
 
 monitoringTools.installHapiHook();
 
@@ -31,6 +32,8 @@ const createServer = async () => {
   await setupRoutesAndPlugins(server);
 
   await setupOpenApiSpecification(server);
+
+  setupDeserialization(server);
 
   return server;
 };
@@ -77,6 +80,15 @@ const loadConfiguration = function () {
 
 const setupErrorHandling = function (server) {
   server.ext('onPreResponse', preResponseUtils.handleDomainAndHttpErrors);
+};
+
+const setupDeserialization = function (server) {
+  server.ext('onPreHandler', async (request, h) => {
+    if (request.payload?.data) {
+      request.deserializedPayload = await deserializer.deserialize(request.payload);
+    }
+    return h.continue;
+  });
 };
 
 const setupAuthentication = function (server) {
