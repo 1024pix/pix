@@ -16,15 +16,26 @@ module.exports = {
     return members.map((member) => new AdminMember(member));
   },
 
+  getById: async function (id) {
+    const adminMember = await knex
+      .select(`${TABLE_NAME}.id`, 'users.id as userId', 'firstName', 'lastName', 'email', 'role', 'disabledAt')
+      .from(TABLE_NAME)
+      .where({ 'pix-admin-roles.id': id })
+      .join('users', 'users.id', `${TABLE_NAME}.userId`)
+      .first();
+
+    return adminMember ? new AdminMember(adminMember) : undefined;
+  },
+
   get: async function ({ userId }) {
-    const member = await knex
+    const adminMember = await knex
       .select(`${TABLE_NAME}.id`, 'users.id as userId', 'firstName', 'lastName', 'email', 'role', 'disabledAt')
       .from(TABLE_NAME)
       .where({ userId })
       .join('users', 'users.id', `${TABLE_NAME}.userId`)
       .first();
 
-    return member ? new AdminMember(member) : undefined;
+    return adminMember ? new AdminMember(adminMember) : undefined;
   },
 
   async update({ id, attributesToUpdate }) {
