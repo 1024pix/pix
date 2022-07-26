@@ -190,6 +190,12 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
       const pixPlusDroitComplementaryCertification = databaseBuilder.factory.buildComplementaryCertification({
         name: 'Pix+ Droit',
       });
+      const pixPlusEdu1erDegreComplementaryCertification = databaseBuilder.factory.buildComplementaryCertification({
+        name: 'Pix+ Édu 1er degré',
+      });
+      const pixPlusEdu2ndDegreComplementaryCertification = databaseBuilder.factory.buildComplementaryCertification({
+        name: 'Pix+ Édu 2nd degré',
+      });
 
       const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({}).id;
       databaseBuilder.factory.buildComplementaryCertificationHabilitation({
@@ -199,6 +205,14 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
       databaseBuilder.factory.buildComplementaryCertificationHabilitation({
         certificationCenterId,
         complementaryCertificationId: pixPlusDroitComplementaryCertification.id,
+      });
+      databaseBuilder.factory.buildComplementaryCertificationHabilitation({
+        certificationCenterId,
+        complementaryCertificationId: pixPlusEdu1erDegreComplementaryCertification.id,
+      });
+      databaseBuilder.factory.buildComplementaryCertificationHabilitation({
+        certificationCenterId,
+        complementaryCertificationId: pixPlusEdu2ndDegreComplementaryCertification.id,
       });
 
       const userId = databaseBuilder.factory.buildUser().id;
@@ -225,9 +239,10 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
             externalId: null,
             extraTimePercentage: 0.15,
             sessionId,
+            billingMode: 'FREE',
             complementaryCertifications: [
               domainBuilder.buildComplementaryCertification(cleaComplementaryCertification),
-              domainBuilder.buildComplementaryCertification(pixPlusDroitComplementaryCertification),
+              domainBuilder.buildComplementaryCertification(pixPlusEdu1erDegreComplementaryCertification),
             ],
           },
           {
@@ -244,8 +259,9 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
             externalId: 'DEF456',
             extraTimePercentage: null,
             sessionId,
+            billingMode: 'FREE',
             complementaryCertifications: [
-              domainBuilder.buildComplementaryCertification(cleaComplementaryCertification),
+              domainBuilder.buildComplementaryCertification(pixPlusDroitComplementaryCertification),
             ],
           },
           {
@@ -262,8 +278,12 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
             externalId: 'ABC123',
             extraTimePercentage: 0.6,
             sessionId,
+            billingMode: 'FREE',
             complementaryCertifications: [
+              domainBuilder.buildComplementaryCertification(cleaComplementaryCertification),
               domainBuilder.buildComplementaryCertification(pixPlusDroitComplementaryCertification),
+              domainBuilder.buildComplementaryCertification(pixPlusEdu1erDegreComplementaryCertification),
+              domainBuilder.buildComplementaryCertification(pixPlusEdu2ndDegreComplementaryCertification),
             ],
           },
           {
@@ -280,7 +300,10 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
             externalId: 'GHI789',
             extraTimePercentage: 1.5,
             sessionId,
-            complementaryCertifications: [],
+            billingMode: 'FREE',
+            complementaryCertifications: [
+              domainBuilder.buildComplementaryCertification(pixPlusEdu2ndDegreComplementaryCertification),
+            ],
           },
         ],
         (candidate) => new CertificationCandidate(candidate)
@@ -296,7 +319,7 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
           certificationCpfCityRepository,
           certificationCenterRepository,
           complementaryCertificationRepository,
-          isSco: true,
+          isSco: false,
         });
 
       // then
