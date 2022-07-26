@@ -89,7 +89,7 @@ module.exports = {
     return acquiredBadgesByUsers;
   },
 
-  async findCertifiable({ userId, domainTransaction = DomainTransaction.emptyTransaction() }) {
+  async findHighestCertifiable({ userId, domainTransaction = DomainTransaction.emptyTransaction() }) {
     const knexConn = domainTransaction.knexTransaction || knex;
     const certifiableBadgeAcquisitions = await knexConn('badge-acquisitions')
       .join('badges', 'badges.id', 'badge-acquisitions.badgeId')

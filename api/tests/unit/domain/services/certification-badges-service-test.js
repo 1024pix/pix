@@ -11,7 +11,7 @@ const { PIX_EMPLOI_CLEA_V1, PIX_EMPLOI_CLEA_V2, PIX_EMPLOI_CLEA_V3 } =
 describe('Unit | Service | Certification Badges Service', function () {
   describe('#findStillValidBadgeAcquisitions', function () {
     beforeEach(function () {
-      sinon.stub(badgeAcquisitionRepository, 'findCertifiable');
+      sinon.stub(badgeAcquisitionRepository, 'findHighestCertifiable');
       sinon.stub(badgeCriteriaService, 'areBadgeCriteriaFulfilled');
       sinon.stub(targetProfileRepository, 'get');
       sinon.stub(knowledgeElementRepository, 'findUniqByUserId');
@@ -22,7 +22,7 @@ describe('Unit | Service | Certification Badges Service', function () {
         // given
         const userId = 12;
         const domainTransaction = Symbol('someDomainTransaction');
-        badgeAcquisitionRepository.findCertifiable.withArgs({ userId, domainTransaction }).resolves([]);
+        badgeAcquisitionRepository.findHighestCertifiable.withArgs({ userId, domainTransaction }).resolves([]);
 
         // when
         const badgesAcquisitions = await certificationBadgesService.findStillValidBadgeAcquisitions({
@@ -45,7 +45,9 @@ describe('Unit | Service | Certification Badges Service', function () {
         targetProfile = { id: 12 };
         badge = domainBuilder.buildBadge({ targetProfileId: targetProfile.id });
         badgeAcquisition = domainBuilder.buildBadgeAcquisition({ id: 'badgeId', userId, badge });
-        badgeAcquisitionRepository.findCertifiable.withArgs({ userId, domainTransaction }).resolves([badgeAcquisition]);
+        badgeAcquisitionRepository.findHighestCertifiable
+          .withArgs({ userId, domainTransaction })
+          .resolves([badgeAcquisition]);
         knowledgeElementRepository.findUniqByUserId.withArgs({ userId, domainTransaction }).resolves(knowledgeElements);
         targetProfileRepository.get.withArgs(targetProfile.id, domainTransaction).resolves(targetProfile);
       });
@@ -110,7 +112,7 @@ describe('Unit | Service | Certification Badges Service', function () {
             userId,
             badge: badgeLevel1,
           });
-          badgeAcquisitionRepository.findCertifiable
+          badgeAcquisitionRepository.findHighestCertifiable
             .withArgs({ userId, domainTransaction })
             .resolves([badgeAcquisitionLevel1]);
           knowledgeElementRepository.findUniqByUserId
@@ -155,7 +157,7 @@ describe('Unit | Service | Certification Badges Service', function () {
             userId,
             badge: badgeLevel2,
           });
-          badgeAcquisitionRepository.findCertifiable
+          badgeAcquisitionRepository.findHighestCertifiable
             .withArgs({ userId, domainTransaction })
             .resolves([badgeAcquisitionLevel2]);
           knowledgeElementRepository.findUniqByUserId
@@ -197,7 +199,7 @@ describe('Unit | Service | Certification Badges Service', function () {
         const pixDroitMaitreBadgeAcquisition = domainBuilder.buildBadgeAcquisition.forPixDroitMaitre();
         const pixDroitExpertBadgeAcquisition = domainBuilder.buildBadgeAcquisition.forPixDroitExpert();
 
-        badgeAcquisitionRepository.findCertifiable
+        badgeAcquisitionRepository.findHighestCertifiable
           .withArgs({ userId, domainTransaction })
           .resolves([
             pixEduFormationContinue1erDegreExpertBadgeAcquisition,

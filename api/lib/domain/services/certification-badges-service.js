@@ -9,7 +9,7 @@ const { PIX_EMPLOI_CLEA_V1, PIX_EMPLOI_CLEA_V2, PIX_EMPLOI_CLEA_V3 } = require('
 
 module.exports = {
   async findStillValidBadgeAcquisitions({ userId, domainTransaction }) {
-    const highestCertifiableBadgeAcquisitions = await badgeAcquisitionRepository.findCertifiable({
+    const highestCertifiableBadgeAcquisitions = await badgeAcquisitionRepository.findHighestCertifiable({
       userId,
       domainTransaction,
     });
