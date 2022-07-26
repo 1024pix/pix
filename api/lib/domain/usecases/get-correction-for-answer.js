@@ -17,7 +17,7 @@ module.exports = async function getCorrectionForAnswer({
     throw new NotFoundError(`Not found correction for answer of ID ${answerId}`);
   }
 
-  _validateCorrectionIsAccessible(assessment, userId, integerAnswerId);
+  _validateCorrectionIsAccessible(assessment);
 
   return correctionRepository.getByChallengeId({ challengeId: answer.challengeId, userId, locale });
 };
