@@ -5,7 +5,7 @@ const badgeRepository = require('../../../../lib/infrastructure/repositories/bad
 const targetProfileRepository = require('../../../../lib/infrastructure/repositories/target-profile-repository');
 const knowledgeElementRepository = require('../../../../lib/infrastructure/repositories/knowledge-element-repository');
 const badgeCriteriaService = require('../../../../lib/domain/services/badge-criteria-service');
-const { PIX_DROIT_MAITRE_CERTIF, PIX_DROIT_EXPERT_CERTIF, PIX_EMPLOI_CLEA_V1, PIX_EMPLOI_CLEA_V2, PIX_EMPLOI_CLEA_V3 } =
+const { PIX_EMPLOI_CLEA_V1, PIX_EMPLOI_CLEA_V2, PIX_EMPLOI_CLEA_V3 } =
   require('../../../../lib/domain/models/Badge').keys;
 
 describe('Unit | Service | Certification Badges Service', function () {
@@ -97,37 +97,28 @@ describe('Unit | Service | Certification Badges Service', function () {
         targetProfile = { id: 12 };
       });
 
-      context('has maitreBadgeAcquisition', function () {
-        it('should return badge-acquisitions with maitreBadgeAcquisition', async function () {
+      context('has one badge acquisition', function () {
+        it('should return badge-acquisition with highest level', async function () {
           // given
-          const maitreBadge = domainBuilder.buildBadge({
+          const badgeLevel1 = domainBuilder.buildBadge({
             id: 'maitre',
             targetProfileId: targetProfile.id,
-            key: PIX_DROIT_MAITRE_CERTIF,
+            key: 'LEVEL_1',
           });
-          const otherBadge = domainBuilder.buildBadge({ id: 'other', targetProfileId: targetProfile.id });
-          const maitreBadgeAcquisition = domainBuilder.buildBadgeAcquisition({
+          const badgeAcquisitionLevel1 = domainBuilder.buildBadgeAcquisition({
             id: 'badgeId1',
             userId,
-            badge: maitreBadge,
-          });
-          const otherBadgeAcquisition = domainBuilder.buildBadgeAcquisition({
-            id: 'badgeId2',
-            userId,
-            badge: otherBadge,
+            badge: badgeLevel1,
           });
           badgeAcquisitionRepository.findCertifiable
             .withArgs({ userId, domainTransaction })
-            .resolves([maitreBadgeAcquisition, otherBadgeAcquisition]);
+            .resolves([badgeAcquisitionLevel1]);
           knowledgeElementRepository.findUniqByUserId
             .withArgs({ userId, domainTransaction })
             .resolves(knowledgeElements);
           targetProfileRepository.get.withArgs(targetProfile.id, domainTransaction).resolves(targetProfile);
           badgeCriteriaService.areBadgeCriteriaFulfilled
-            .withArgs({ targetProfile, badge: maitreBadge, knowledgeElements })
-            .returns(true);
-          badgeCriteriaService.areBadgeCriteriaFulfilled
-            .withArgs({ targetProfile, badge: otherBadge, knowledgeElements })
+            .withArgs({ targetProfile, badge: badgeLevel1, knowledgeElements })
             .returns(true);
 
           // when
@@ -137,45 +128,42 @@ describe('Unit | Service | Certification Badges Service', function () {
           });
 
           // then
-          expect(badgesAcquisitions).to.deep.equal([otherBadgeAcquisition, maitreBadgeAcquisition]);
+          expect(badgesAcquisitions).to.deep.equal([badgeAcquisitionLevel1]);
         });
       });
 
-      context('has maitreBadgeAcquisition and expertBadgeAcquisition', function () {
-        it('should return badge-acquisitions with expertBadgeAcquisition', async function () {
+      context('has several badge acquisition', function () {
+        it('should return the badge-acquisition with the highest level', async function () {
           // given
-          const maitreBadge = domainBuilder.buildBadge({
+          const badgeLevel1 = domainBuilder.buildBadge({
             id: 'maitre',
             targetProfileId: targetProfile.id,
-            key: PIX_DROIT_MAITRE_CERTIF,
+            key: 'LEVEL_1',
           });
-          const expertBadge = domainBuilder.buildBadge({
+          const badgeLevel2 = domainBuilder.buildBadge({
             id: 'expert',
             targetProfileId: targetProfile.id,
-            key: PIX_DROIT_EXPERT_CERTIF,
+            key: 'LEVEL_2',
           });
-          const maitreBadgeAcquisition = domainBuilder.buildBadgeAcquisition({
+          domainBuilder.buildBadgeAcquisition({
             id: 'badgeId1',
             userId,
-            badge: maitreBadge,
+            badge: badgeLevel1,
           });
-          const expertBadgeAcquisition = domainBuilder.buildBadgeAcquisition({
+          const badgeAcquisitionLevel2 = domainBuilder.buildBadgeAcquisition({
             id: 'badgeId2',
             userId,
-            badge: expertBadge,
+            badge: badgeLevel2,
           });
           badgeAcquisitionRepository.findCertifiable
             .withArgs({ userId, domainTransaction })
-            .resolves([maitreBadgeAcquisition, expertBadgeAcquisition]);
+            .resolves([badgeAcquisitionLevel2]);
           knowledgeElementRepository.findUniqByUserId
             .withArgs({ userId, domainTransaction })
             .resolves(knowledgeElements);
           targetProfileRepository.get.withArgs(targetProfile.id, domainTransaction).resolves(targetProfile);
           badgeCriteriaService.areBadgeCriteriaFulfilled
-            .withArgs({ targetProfile, badge: maitreBadge, knowledgeElements })
-            .returns(true);
-          badgeCriteriaService.areBadgeCriteriaFulfilled
-            .withArgs({ targetProfile, badge: expertBadge, knowledgeElements })
+            .withArgs({ targetProfile, badge: badgeLevel2, knowledgeElements })
             .returns(true);
 
           // when
@@ -185,107 +173,13 @@ describe('Unit | Service | Certification Badges Service', function () {
           });
 
           // then
-          expect(badgesAcquisitions).to.deep.equal([expertBadgeAcquisition]);
+          expect(badgesAcquisitions).to.deep.equal([badgeAcquisitionLevel2]);
         });
       });
     });
 
-    context('has certifiable badges including Pix+ Édu 2nd degre', function () {
-      it('should return badge-acquisitions with highest Pix+ Édu badge and other badge acquisitions', async function () {
-        // given
-        const userId = 12;
-        const domainTransaction = Symbol('someDomainTransaction');
-        const knowledgeElements = [];
-        const targetProfile = { id: 456 };
-
-        const pixEduFormationContinueAvanceBadgeAcquisition =
-          domainBuilder.buildBadgeAcquisition.forPixEduFormationContinue2ndDegreAvance();
-        const pixEduFormationContinueConfirmeBadgeAcquisition =
-          domainBuilder.buildBadgeAcquisition.forPixEduFormationContinue2ndDegreConfirme();
-        const otherBadgeAcquisition = domainBuilder.buildBadgeAcquisition();
-
-        badgeAcquisitionRepository.findCertifiable
-          .withArgs({ userId, domainTransaction })
-          .resolves([
-            pixEduFormationContinueConfirmeBadgeAcquisition,
-            pixEduFormationContinueAvanceBadgeAcquisition,
-            otherBadgeAcquisition,
-          ]);
-        knowledgeElementRepository.findUniqByUserId.withArgs({ userId, domainTransaction }).resolves(knowledgeElements);
-        targetProfileRepository.get.withArgs(targetProfile.id, domainTransaction).resolves(targetProfile);
-        badgeCriteriaService.areBadgeCriteriaFulfilled
-          .withArgs({ targetProfile, badge: pixEduFormationContinueAvanceBadgeAcquisition.badge, knowledgeElements })
-          .returns(true);
-        badgeCriteriaService.areBadgeCriteriaFulfilled
-          .withArgs({ targetProfile, badge: pixEduFormationContinueConfirmeBadgeAcquisition.badge, knowledgeElements })
-          .returns(true);
-        badgeCriteriaService.areBadgeCriteriaFulfilled
-          .withArgs({ targetProfile, badge: otherBadgeAcquisition.badge, knowledgeElements })
-          .returns(true);
-
-        // when
-        const badgesAcquisitions = await certificationBadgesService.findStillValidBadgeAcquisitions({
-          userId,
-          domainTransaction,
-        });
-
-        // then
-        expect(badgesAcquisitions).to.deep.equal([
-          otherBadgeAcquisition,
-          pixEduFormationContinueAvanceBadgeAcquisition,
-        ]);
-      });
-    });
-
-    context('has certifiable badges including Pix+ Édu 1er degre', function () {
-      it('should return badge-acquisitions with highest Pix+ Édu badge and other badge acquisitions', async function () {
-        // given
-        const userId = 12;
-        const domainTransaction = Symbol('someDomainTransaction');
-        const knowledgeElements = [];
-        const targetProfile = { id: 456 };
-
-        const pixEduFormationContinueAvanceBadgeAcquisition =
-          domainBuilder.buildBadgeAcquisition.forPixEduFormationContinue1erDegreAvance();
-        const pixEduFormationContinueConfirmeBadgeAcquisition =
-          domainBuilder.buildBadgeAcquisition.forPixEduFormationContinue1erDegreConfirme();
-        const otherBadgeAcquisition = domainBuilder.buildBadgeAcquisition();
-
-        badgeAcquisitionRepository.findCertifiable
-          .withArgs({ userId, domainTransaction })
-          .resolves([
-            pixEduFormationContinueConfirmeBadgeAcquisition,
-            pixEduFormationContinueAvanceBadgeAcquisition,
-            otherBadgeAcquisition,
-          ]);
-        knowledgeElementRepository.findUniqByUserId.withArgs({ userId, domainTransaction }).resolves(knowledgeElements);
-        targetProfileRepository.get.withArgs(targetProfile.id, domainTransaction).resolves(targetProfile);
-        badgeCriteriaService.areBadgeCriteriaFulfilled
-          .withArgs({ targetProfile, badge: pixEduFormationContinueAvanceBadgeAcquisition.badge, knowledgeElements })
-          .returns(true);
-        badgeCriteriaService.areBadgeCriteriaFulfilled
-          .withArgs({ targetProfile, badge: pixEduFormationContinueConfirmeBadgeAcquisition.badge, knowledgeElements })
-          .returns(true);
-        badgeCriteriaService.areBadgeCriteriaFulfilled
-          .withArgs({ targetProfile, badge: otherBadgeAcquisition.badge, knowledgeElements })
-          .returns(true);
-
-        // when
-        const badgesAcquisitions = await certificationBadgesService.findStillValidBadgeAcquisitions({
-          userId,
-          domainTransaction,
-        });
-
-        // then
-        expect(badgesAcquisitions).to.deep.equal([
-          otherBadgeAcquisition,
-          pixEduFormationContinueAvanceBadgeAcquisition,
-        ]);
-      });
-    });
-
-    context('has certifiable badges including Pix+ Édu and Pix+ Droit', function () {
-      it('should return badge-acquisitions with highest Pix+ Édu badge and highest Pix+ Droit badge', async function () {
+    context('has different types of certifiable badges', function () {
+      it('should return badge-acquisitions with highest level for each type of certifiable badge', async function () {
         // given
         const userId = 12;
         const domainTransaction = Symbol('someDomainTransaction');
@@ -306,11 +200,8 @@ describe('Unit | Service | Certification Badges Service', function () {
         badgeAcquisitionRepository.findCertifiable
           .withArgs({ userId, domainTransaction })
           .resolves([
-            pixEduFormationContinue1erAvanceBadgeAcquisition,
             pixEduFormationContinue1erDegreExpertBadgeAcquisition,
-            pixEduFormationContinue2ndAvanceBadgeAcquisition,
             pixEduFormationContinue2ndDegreExpertBadgeAcquisition,
-            pixDroitMaitreBadgeAcquisition,
             pixDroitExpertBadgeAcquisition,
           ]);
         knowledgeElementRepository.findUniqByUserId.withArgs({ userId, domainTransaction }).resolves(knowledgeElements);
@@ -337,9 +228,9 @@ describe('Unit | Service | Certification Badges Service', function () {
 
         // then
         expect(badgesAcquisitions).to.deep.equal([
-          pixDroitExpertBadgeAcquisition,
-          pixEduFormationContinue2ndDegreExpertBadgeAcquisition,
           pixEduFormationContinue1erDegreExpertBadgeAcquisition,
+          pixEduFormationContinue2ndDegreExpertBadgeAcquisition,
+          pixDroitExpertBadgeAcquisition,
         ]);
       });
     });
