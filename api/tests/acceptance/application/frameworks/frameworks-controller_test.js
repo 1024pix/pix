@@ -49,7 +49,7 @@ describe('Acceptance | Controller | frameworks-controller', function () {
     tubes: [
       {
         id: 'tubeId',
-        title: '@tube',
+        name: '@tube',
         description: 'Description tube',
         practicalTitleFrFr: 'Titre pratique',
         practicalDescriptionFrFr: 'description pratique',
@@ -126,6 +126,7 @@ describe('Acceptance | Controller | frameworks-controller', function () {
               id: 'tubeId',
               type: 'tubes',
               attributes: {
+                name: '@tube',
                 'practical-title': 'Titre pratique',
                 'practical-description': 'description pratique',
                 mobile: false,
