@@ -18,7 +18,7 @@ module.exports = {
 
 function _pickLocaleChallengeAtIndex(challenges, locale, index) {
   const localeChallenges = _.filter(challenges, (challenge) => _.includes(challenge.locales, locale));
-  const possibleChallenges = _findPreferablyValidatedChallenges(localeChallenges, locale);
+  const possibleChallenges = _findPreferablyValidatedChallenges(localeChallenges);
   return _.isEmpty(possibleChallenges) ? null : _pickChallengeAtIndex(possibleChallenges, index);
 }
 
