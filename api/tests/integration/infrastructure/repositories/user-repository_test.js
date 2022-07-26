@@ -1172,6 +1172,8 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
             { email: 'otter@pix.fr' },
             { email: 'playpus@example.net' },
             { email: 'panda@example.net' },
+            { email: 'PANDA@example.net' },
+            { email: 'PANDA@PIX.be' },
           ],
           (user) => {
             databaseBuilder.factory.buildUser(user);
@@ -1179,6 +1181,26 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
         );
 
         await databaseBuilder.commit();
+      });
+
+      it('should return only users matching "email" if given in filter even if it is in uppercase in database', async function () {
+        // Search returns emails in lowcase even if they are in uppercase in dbb !
+        // given
+        const filter = { email: 'panda' };
+        const page = { number: 1, size: 10 };
+        const expectedPagination = { page: page.number, pageSize: page.size, pageCount: 1, rowCount: 4 };
+
+        // when
+        const { models: matchingUsers, pagination } = await userRepository.findPaginatedFiltered({ filter, page });
+
+        // then
+        expect(map(matchingUsers, 'email')).to.have.members([
+          'panda@pix.fr',
+          'panda@example.net',
+          'panda@example.net',
+          'panda@pix.be',
+        ]);
+        expect(pagination).to.deep.equal(expectedPagination);
       });
 
       it('should return only users matching "email" if given in filter', async function () {
