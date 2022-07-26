@@ -355,38 +355,21 @@ describe('Unit | Application | Controller | Campaign', function () {
       const request = {
         auth: { credentials: { userId: 1 } },
         params: { id: 1 },
-        payload: {
-          data: {
-            attributes: {
-              name: 'New name',
-              title: 'New title',
-              'custom-landing-page-text': 'New text',
-              'owner-id': 5,
-            },
-          },
+        deserializedPayload: {
+          name: 'New name',
+          title: 'New title',
+          customLandingPageText: 'New text',
+          ownerId: 5,
         },
       };
 
-      const updatedCampaign = {
-        id: request.params.id,
-        name: request.payload.data.attributes.name,
-        title: request.payload.data.attributes.title,
-        customLandingPageText: request.payload.data.attributes['custom-landing-page-text'],
-        ownerId: request.payload.data.attributes['owner-id'],
-      };
-
-      const updateCampaignArgs = {
-        userId: request.auth.credentials.userId,
-        campaignId: updatedCampaign.id,
-        name: updatedCampaign.name,
-        title: updatedCampaign.title,
-        customLandingPageText: updatedCampaign.customLandingPageText,
-        ownerId: updatedCampaign.ownerId,
-      };
-
+      const updatedCampaign = Symbol('campaign');
       const updatedCampaignSerialized = Symbol('campaign serialized');
 
-      sinon.stub(usecases, 'updateCampaign').withArgs(updateCampaignArgs).resolves(updatedCampaign);
+      sinon
+        .stub(usecases, 'updateCampaign')
+        .withArgs({ userId: 1, campaignId: 1, ...request.deserializedPayload })
+        .resolves(updatedCampaign);
       sinon.stub(campaignReportSerializer, 'serialize').withArgs(updatedCampaign).returns(updatedCampaignSerialized);
 
       // when

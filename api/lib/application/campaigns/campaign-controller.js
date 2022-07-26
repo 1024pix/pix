@@ -127,15 +127,9 @@ module.exports = {
   update(request) {
     const { userId } = request.auth.credentials;
     const campaignId = request.params.id;
-    const {
-      name,
-      title,
-      'custom-landing-page-text': customLandingPageText,
-      'owner-id': ownerId,
-    } = request.payload.data.attributes;
 
     return usecases
-      .updateCampaign({ userId, campaignId, name, title, customLandingPageText, ownerId })
+      .updateCampaign({ userId, campaignId, ...request.deserializedPayload })
       .then(campaignReportSerializer.serialize);
   },
 
