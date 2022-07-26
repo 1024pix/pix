@@ -1,5 +1,25 @@
 # Pix Changelog
 
+## v3.236.0 (26/07/2022)
+
+
+### :rocket: Amélioration
+- [#4684](https://github.com/1024pix/pix/pull/4684) [FEATURE] Ajouter une tooltip avec les informations de la dernière participation (PIX-5138)
+- [#4615](https://github.com/1024pix/pix/pull/4615) [FEATURE] Déconnecter un agent Pix qui a été désactivé sur Pix Admin (PIX-5279).
+- [#4657](https://github.com/1024pix/pix/pull/4657) [FEATURE] Ajout d'un id sur le message d'erreur sur la page de connexion de Pix App (PIX-5357)
+- [#4494](https://github.com/1024pix/pix/pull/4494) [FEATURE] Permettre l'ajout d'un lots de places d'une organisation (Pix-4776).
+
+### :building_construction: Tech
+- [#4698](https://github.com/1024pix/pix/pull/4698) [TECH] Clean : retirer les params inutiles
+- [#4699](https://github.com/1024pix/pix/pull/4699) [TECH] Ne plus récupérer de propriété id ignorée dans les tests
+- [#4676](https://github.com/1024pix/pix/pull/4676) [TECH] Déprécier les routes schooling-registration-dependent-users (PIX-5381).
+- [#4687](https://github.com/1024pix/pix/pull/4687) [TECH] Ajout d'un feature toggle pour la réconciliation de compte SSO sur Pix App (PIX-5351).
+- [#4694](https://github.com/1024pix/pix/pull/4694) [TECH] Mettre à jour le serveur redis de test de 5.0.7 à 6.2.7
+- [#4675](https://github.com/1024pix/pix/pull/4675) [TECH] Corriger les sinon.stub().withArgs() qui ne fonctionnent pas
+
+### :bug: Correction
+- [#4677](https://github.com/1024pix/pix/pull/4677) [BUGFIX] Ne pas mettre à jour le rôle d'un agent Pix si aucun nouveau rôle n'est choisi (PIX-5387).
+
 ## v3.235.0 (21/07/2022)
 
 
