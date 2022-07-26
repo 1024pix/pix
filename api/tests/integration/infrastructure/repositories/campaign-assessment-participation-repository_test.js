@@ -103,13 +103,13 @@ describe('Integration | Repository | Campaign Assessment Participation', functio
           userId,
           createdAt: new Date('2020-10-10'),
           state: Assessment.states.COMPLETED,
-        }).id;
+        });
         databaseBuilder.factory.buildAssessment({
           campaignParticipationId,
           userId,
           createdAt: new Date('2020-11-11'),
           state: Assessment.states.STARTED,
-        }).id;
+        });
 
         databaseBuilder.factory.buildKnowledgeElement({
           userId,

@@ -78,7 +78,7 @@ describe('Integration | Repository | Campaign', function () {
         const otherUserId = databaseBuilder.factory.buildUser().id;
         const organizationId = databaseBuilder.factory.buildOrganization().id;
         const campaignId = databaseBuilder.factory.buildCampaign({ organizationId }).id;
-        databaseBuilder.factory.buildMembership({ userId: otherUserId, organizationId }).id;
+        databaseBuilder.factory.buildMembership({ userId: otherUserId, organizationId });
         await databaseBuilder.commit();
 
         // when
@@ -93,7 +93,7 @@ describe('Integration | Repository | Campaign', function () {
         const userId = databaseBuilder.factory.buildUser().id;
         const otherOrganizationId = databaseBuilder.factory.buildOrganization().id;
         const campaignId = databaseBuilder.factory.buildCampaign().id;
-        databaseBuilder.factory.buildMembership({ userId: userId, organizationId: otherOrganizationId }).id;
+        databaseBuilder.factory.buildMembership({ userId: userId, organizationId: otherOrganizationId });
         await databaseBuilder.commit();
 
         // when
@@ -108,7 +108,7 @@ describe('Integration | Repository | Campaign', function () {
         const userId = databaseBuilder.factory.buildUser().id;
         const organizationId = databaseBuilder.factory.buildOrganization().id;
         const campaignId = databaseBuilder.factory.buildCampaign({ organizationId }).id;
-        databaseBuilder.factory.buildMembership({ userId, organizationId, disabledAt: new Date() }).id;
+        databaseBuilder.factory.buildMembership({ userId, organizationId, disabledAt: new Date() });
         await databaseBuilder.commit();
 
         // when

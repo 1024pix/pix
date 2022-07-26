@@ -85,10 +85,10 @@ describe('Integration | Repository | Session Summary', function () {
 
       it('should sort sessions by descending date and time, and finally by ID ascending', async function () {
         // given
-        databaseBuilder.factory.buildSession({ id: 1, certificationCenterId, date: '2020-01-01', time: '18:00:00' }).id;
-        databaseBuilder.factory.buildSession({ id: 2, certificationCenterId, date: '2020-01-01', time: '15:00:00' }).id;
-        databaseBuilder.factory.buildSession({ id: 3, certificationCenterId, date: '2021-01-01' }).id;
-        databaseBuilder.factory.buildSession({ id: 4, certificationCenterId, date: '2020-01-01', time: '15:00:00' }).id;
+        databaseBuilder.factory.buildSession({ id: 1, certificationCenterId, date: '2020-01-01', time: '18:00:00' });
+        databaseBuilder.factory.buildSession({ id: 2, certificationCenterId, date: '2020-01-01', time: '15:00:00' });
+        databaseBuilder.factory.buildSession({ id: 3, certificationCenterId, date: '2021-01-01' });
+        databaseBuilder.factory.buildSession({ id: 4, certificationCenterId, date: '2020-01-01', time: '15:00:00' });
         await databaseBuilder.commit();
 
         // when
