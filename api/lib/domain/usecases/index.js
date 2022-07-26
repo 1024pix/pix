@@ -93,6 +93,7 @@ const dependencies = {
   organizationForAdminRepository: require('../../infrastructure/repositories/organization-for-admin-repository'),
   organizationRepository: require('../../infrastructure/repositories/organization-repository'),
   organizationPlacesLotRepository: require('../../infrastructure/repositories/organizations/organization-places-lot-repository'),
+  organizationPlacesCapacityRepository: require('../../infrastructure/repositories/organization-places-capacity-repository'),
   organizationInvitationRepository: require('../../infrastructure/repositories/organization-invitation-repository'),
   organizationInvitedUserRepository: require('../../infrastructure/repositories/organization-invited-user-repository'),
   organizationTagRepository: require('../../infrastructure/repositories/organization-tag-repository'),
@@ -408,6 +409,7 @@ module.exports = injectDependencies(
     updateUserDetailsForAdministration: require('./update-user-details-for-administration'),
     updateUserEmailWithValidation: require('./update-user-email-with-validation'),
     updateUserPassword: require('./update-user-password'),
+    getOrganizationPlacesCapacity: require('./get-organization-places-capacity'),
   },
   dependencies
 );
