@@ -2,7 +2,10 @@
 <BurgerMenu @animation="push" @translucentOverlay={{true}} as |burger|>
   <burger.outlet>
 
-    <NavbarHeader @burger={{burger}} />
+    <header role="banner">
+      <NavbarHeader @burger={{burger}} />
+    </header>
+
     <Dashboard::Content @model={{this.model}} />
 
     <Footer />

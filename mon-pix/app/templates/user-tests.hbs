@@ -1,8 +1,12 @@
 {{page-title (t "pages.user-tests.title")}}
 <BurgerMenu @animation="push" @translucentOverlay={{true}} as |burger|>
   <burger.outlet>
-    <NavbarHeader @burger={{burger}} />
-    <main id="main">
+
+    <header role="banner">
+      <NavbarHeader @burger={{burger}} />
+    </header>
+
+    <main id="main" role="main">
       <PixBackgroundHeader>
         <div class="user-tests-banner">
           <img
