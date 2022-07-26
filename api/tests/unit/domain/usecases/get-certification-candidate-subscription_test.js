@@ -195,4 +195,96 @@ describe('Unit | UseCase | get-certification-candidate-subscription', function (
       );
     });
   });
+
+  context('when the candidate is registered and eligible to Pix+Edu 1er Degré', function () {
+    it('should return the candidate with Pix+Edu 1er Degré as eligible complementary certifications', async function () {
+      // given
+      const certificationCandidateId = 123;
+      const userId = 456;
+      const sessionId = 789;
+
+      const pixPlusEdu1erDegreComplementaryCertification = domainBuilder.buildComplementaryCertification({
+        name: ComplementaryCertification.PIX_PLUS_EDU_1ER_DEGRE,
+      });
+      const candidateWithComplementaryCertifications = domainBuilder.buildCertificationCandidate({
+        id: certificationCandidateId,
+        userId,
+        sessionId,
+        complementaryCertifications: [pixPlusEdu1erDegreComplementaryCertification],
+      });
+      certificationCandidateRepository.getWithComplementaryCertifications
+        .withArgs(certificationCandidateId)
+        .resolves(candidateWithComplementaryCertifications);
+
+      const pixPlusEdu1erDegreAvanceBadgeAcquisition = domainBuilder.buildBadgeAcquisition({
+        badge: domainBuilder.buildBadge({ key: Badge.keys.PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE }),
+      });
+      certificationBadgesService.findStillValidBadgeAcquisitions
+        .withArgs({ userId })
+        .resolves([pixPlusEdu1erDegreAvanceBadgeAcquisition]);
+
+      // when
+      const certificationCandidateSubscription = await getCertificationCandidateSubscription({
+        certificationCandidateId,
+        certificationBadgesService,
+        certificationCandidateRepository,
+      });
+
+      // then
+      expect(certificationCandidateSubscription).to.deep.equal(
+        domainBuilder.buildCertificationCandidateSubscription({
+          id: certificationCandidateId,
+          sessionId,
+          eligibleSubscriptions: [pixPlusEdu1erDegreComplementaryCertification],
+          nonEligibleSubscriptions: [],
+        })
+      );
+    });
+  });
+
+  context('when the candidate is registered and eligible to Pix+Edu 2nd Degré', function () {
+    it('should return the candidate with Pix+Edu 2nd Degré as eligible complementary certifications', async function () {
+      // given
+      const certificationCandidateId = 123;
+      const userId = 456;
+      const sessionId = 789;
+
+      const pixPlusEdu2ndDegreComplementaryCertification = domainBuilder.buildComplementaryCertification({
+        name: ComplementaryCertification.PIX_PLUS_EDU_2ND_DEGRE,
+      });
+      const candidateWithComplementaryCertifications = domainBuilder.buildCertificationCandidate({
+        id: certificationCandidateId,
+        userId,
+        sessionId,
+        complementaryCertifications: [pixPlusEdu2ndDegreComplementaryCertification],
+      });
+      certificationCandidateRepository.getWithComplementaryCertifications
+        .withArgs(certificationCandidateId)
+        .resolves(candidateWithComplementaryCertifications);
+
+      const pixPlusEdu2ndDegreAvanceBadgeAcquisition = domainBuilder.buildBadgeAcquisition({
+        badge: domainBuilder.buildBadge({ key: Badge.keys.PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE }),
+      });
+      certificationBadgesService.findStillValidBadgeAcquisitions
+        .withArgs({ userId })
+        .resolves([pixPlusEdu2ndDegreAvanceBadgeAcquisition]);
+
+      // when
+      const certificationCandidateSubscription = await getCertificationCandidateSubscription({
+        certificationCandidateId,
+        certificationBadgesService,
+        certificationCandidateRepository,
+      });
+
+      // then
+      expect(certificationCandidateSubscription).to.deep.equal(
+        domainBuilder.buildCertificationCandidateSubscription({
+          id: certificationCandidateId,
+          sessionId,
+          eligibleSubscriptions: [pixPlusEdu2ndDegreComplementaryCertification],
+          nonEligibleSubscriptions: [],
+        })
+      );
+    });
+  });
 });
