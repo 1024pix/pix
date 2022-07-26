@@ -19,7 +19,7 @@ module.exports = {
           tubes: {
             include: true,
             ref: 'id',
-            attributes: ['practicalTitle', 'practicalDescription', 'mobile', 'tablet', 'skills'],
+            attributes: ['name', 'practicalTitle', 'practicalDescription', 'mobile', 'tablet', 'skills'],
             skills: {
               ref: true,
               ignoreRelationshipData: true,
