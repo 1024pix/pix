@@ -111,38 +111,6 @@ describe('Unit | Component | Tutorial | card item', function () {
     });
   });
 
-  describe('#isSaveButtonDisabled', function () {
-    it('should return false when the tutorial has not already been saved', function () {
-      // when
-      const result = component.isSaveButtonDisabled;
-
-      // then
-      expect(result).to.equal(false);
-    });
-
-    it('should return false when the tutorial has already been saved', function () {
-      // given
-      component.savingStatus = 'recorded';
-
-      // when
-      const result = component.isSaveButtonDisabled;
-
-      // then
-      expect(result).to.equal(false);
-    });
-
-    it('should return true when the save/unsave operation is in progress', function () {
-      // given
-      component.savingStatus = 'pending';
-
-      // when
-      const result = component.isSaveButtonDisabled;
-
-      // then
-      expect(result).to.equal(true);
-    });
-  });
-
   describe('#toggleSaveTutorial', function () {
     describe('when user has not saved a tutorial', function () {
       let store;

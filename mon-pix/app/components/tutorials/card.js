@@ -37,16 +37,8 @@ export default class Card extends Component {
     return this.evaluationStatus !== buttonStatusTypes.unrecorded;
   }
 
-  get isEvaluationButtonDisabled() {
-    return this.evaluationStatus === buttonStatusTypes.pending;
-  }
-
   get isTutorialSaved() {
     return this.savingStatus !== buttonStatusTypes.unrecorded;
-  }
-
-  get isSaveButtonDisabled() {
-    return this.savingStatus === buttonStatusTypes.pending;
   }
 
   @action
@@ -59,7 +51,6 @@ export default class Card extends Component {
   }
 
   async _saveTutorial() {
-    this.savingStatus = buttonStatusTypes.pending;
     try {
       const userTutorial = this.store.createRecord('userTutorial', { tutorial: this.args.tutorial });
       await userTutorial.save({ adapterOptions: { tutorialId: this.args.tutorial.id } });
@@ -70,7 +61,6 @@ export default class Card extends Component {
   }
 
   async _removeTutorial() {
-    this.savingStatus = buttonStatusTypes.pending;
     try {
       await this.args.tutorial.userTutorial.destroyRecord({ adapterOptions: { tutorialId: this.args.tutorial.id } });
       this.savingStatus = buttonStatusTypes.unrecorded;
@@ -82,7 +72,6 @@ export default class Card extends Component {
 
   @action
   async evaluateTutorial() {
-    this.evaluationStatus = buttonStatusTypes.pending;
     const tutorial = this.args.tutorial;
     const tutorialEvaluation =
       tutorial.tutorialEvaluation ?? this.store.createRecord('tutorialEvaluation', { tutorial: tutorial });
