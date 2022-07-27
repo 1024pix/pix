@@ -22,6 +22,10 @@ export default class TargetProfileController extends Controller {
     return this.model.isSimplifiedAccess ? 'Oui' : 'Non';
   }
 
+  get displayActionsSeparator() {
+    return !this.model.isSimplifiedAccess || this.model.tubesSelection;
+  }
+
   @action
   toggleEditMode() {
     this.isEditMode = !this.isEditMode;

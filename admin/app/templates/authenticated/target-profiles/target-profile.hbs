@@ -15,7 +15,7 @@
   {{else}}
     <section class="page-section">
       <div class="page-section__header">
-        <h1 class="page-section__title target-profile_title">{{@model.name}}</h1>
+        <h1 class="page-section__title target-profile__title">{{@model.name}}</h1>
         <TargetProfiles::Category @category={{@model.category}} />
       </div>
       <div class="page-section__container">
@@ -46,22 +46,23 @@
           {{/if}}
         </div>
       </div>
-      <div class="form-actions">
+      <div class="target-profile__actions">
         <PixButton
           @size="small"
           @backgroundColor="transparent-light"
           @isBorderVisible={{true}}
           @triggerAction={{this.toggleEditMode}}
-        >Editer</PixButton>
-        {{#unless @model.outdated}}
-          <PixButton @size="small" @backgroundColor="red" @triggerAction={{this.toggleDisplayConfirm}}>
-            Marquer comme obsolète
-          </PixButton>
-        {{/unless}}
+        >
+          Éditer
+        </PixButton>
+        {{#if this.displayActionsSeparator}}
+          <div class="target-profile__actions-separator"></div>
+        {{/if}}
         {{#unless @model.isSimplifiedAccess}}
           <PixButton
             @size="small"
-            @backgroundColor="yellow"
+            @backgroundColor="transparent-light"
+            @isBorderVisible={{true}}
             @triggerAction={{this.toggleDisplaySimplifiedAccessPopupConfirm}}
           >
             Marquer comme accès simplifié
@@ -72,6 +73,12 @@
             Télécharger le profil cible (JSON)
           </PixButton>
         {{/if}}
+        {{#unless @model.outdated}}
+          <div class="target-profile__actions-spacer"></div>
+          <PixButton @size="small" @backgroundColor="red" @triggerAction={{this.toggleDisplayConfirm}}>
+            Marquer comme obsolète
+          </PixButton>
+        {{/unless}}
       </div>
     </section>
 
