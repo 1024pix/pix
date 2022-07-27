@@ -11,7 +11,6 @@ module.exports = async function authenticatePoleEmploiUser({
   stateReceived,
   stateSent,
   authenticationSessionService,
-  poleEmploiAuthenticationService,
   oidcAuthenticationService,
   authenticationMethodRepository,
   userRepository,
@@ -69,7 +68,7 @@ module.exports = async function authenticatePoleEmploiUser({
     }
   }
 
-  const logoutUrlUUID = await poleEmploiAuthenticationService.saveIdToken({
+  const logoutUrlUUID = await oidcAuthenticationService.saveIdToken({
     idToken: poleEmploiAuthenticationSessionContent.idToken,
     userId,
   });

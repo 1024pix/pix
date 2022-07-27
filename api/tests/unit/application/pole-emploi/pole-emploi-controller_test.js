@@ -3,7 +3,6 @@ const AuthenticationMethod = require('../../../../lib/domain/models/Authenticati
 const poleEmploiController = require('../../../../lib/application/pole-emploi/pole-emploi-controller');
 const usecases = require('../../../../lib/domain/usecases');
 const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
-const poleEmploiAuthenticationService = require('../../../../lib/domain/services/authentication/pole-emploi-authentication-service');
 const authenticationRegistry = require('../../../../lib/domain/services/authentication/authentication-service-registry');
 
 describe('Unit | Controller | pole-emploi-controller', function () {
@@ -68,6 +67,7 @@ describe('Unit | Controller | pole-emploi-controller', function () {
       sinon.stub(usecases, 'createUserFromExternalIdentityProvider').resolves({ userId, idToken: 1 });
       sinon.stub(authenticationRegistry, 'lookupAuthenticationService').returns({
         createAccessToken: sinon.stub(),
+        saveIdToken: sinon.stub(),
       });
       sinon.stub(userRepository, 'updateLastLoggedAt');
 
@@ -90,14 +90,13 @@ describe('Unit | Controller | pole-emploi-controller', function () {
         .resolves({ userId, idToken });
       sinon.stub(userRepository, 'updateLastLoggedAt');
       const createAccessTokenStub = sinon.stub();
+      const saveIdTokenStub = sinon.stub();
       sinon.stub(authenticationRegistry, 'lookupAuthenticationService').withArgs('POLE_EMPLOI').returns({
         createAccessToken: createAccessTokenStub,
+        saveIdToken: saveIdTokenStub,
       });
       createAccessTokenStub.withArgs(userId).returns(accessToken);
-      sinon
-        .stub(poleEmploiAuthenticationService, 'saveIdToken')
-        .withArgs({ idToken, userId })
-        .resolves('842213eb-d19b-45a1-9842-787276f34f6c');
+      saveIdTokenStub.withArgs({ idToken, userId }).resolves('842213eb-d19b-45a1-9842-787276f34f6c');
 
       // when
       const result = await poleEmploiController.createUser(request, hFake);
