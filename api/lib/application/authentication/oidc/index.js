@@ -1,5 +1,5 @@
 const Joi = require('joi');
-const OidcController = require('./oidc-controller');
+const oidcController = require('./oidc-controller');
 
 exports.register = async (server) => {
   server.route([
@@ -15,7 +15,7 @@ exports.register = async (server) => {
               .required(),
           }),
         },
-        handler: OidcController.getRedirectLogoutUrl,
+        handler: oidcController.getRedirectLogoutUrl,
         notes: [
           "Cette route reçoit un identity provider ainsi qu'une uri de redirection" +
             " et renvoie une uri de déconnexion auprès de l'identity provider renseigné.",
