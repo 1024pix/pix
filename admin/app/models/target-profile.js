@@ -16,13 +16,13 @@ export const optionsCategoryList = map(categories, function (key, value) {
 });
 
 export default class TargetProfile extends Model {
-  @attr('string') name;
+  @attr('nullable-string') name;
   @attr('boolean') isPublic;
   @attr('date') createdAt;
   @attr('string') imageUrl;
   @attr('boolean') outdated;
-  @attr('string') description;
-  @attr('string') comment;
+  @attr('nullable-string') description;
+  @attr('nullable-string') comment;
   @attr('string') ownerOrganizationId;
   @attr('string') category;
   @attr('boolean') isSimplifiedAccess;
