@@ -34,7 +34,7 @@ describe('Unit | Component | authentication::terms-of-service-oidc', function ()
         authenticate = authenticateStub;
       }
       this.owner.register('service:session', SessionStub);
-      component.args.identityProviderName = 'super-idp';
+      component.args.identityProviderSlug = 'super-idp';
       component.args.authenticationKey = 'super-key';
       component.isTermsOfServiceValidated = true;
       component.errorMessage = null;
@@ -45,7 +45,7 @@ describe('Unit | Component | authentication::terms-of-service-oidc', function ()
       // then
       sinon.assert.calledWith(authenticateStub, 'authenticator:oidc', {
         authenticationKey: 'super-key',
-        identityProviderName: 'super-idp',
+        identityProviderSlug: 'super-idp',
       });
     });
 
@@ -58,7 +58,7 @@ describe('Unit | Component | authentication::terms-of-service-oidc', function ()
           authenticate = authenticateStub;
         }
         this.owner.register('service:session', SessionStub);
-        component.args.identityProviderName = 'super-idp';
+        component.args.identityProviderSlug = 'super-idp';
         component.args.authenticationKey = 'super-key';
         component.isTermsOfServiceValidated = true;
         component.isAuthenticationKeyExpired = false;
@@ -83,7 +83,7 @@ describe('Unit | Component | authentication::terms-of-service-oidc', function ()
         authenticate = authenticateStub;
       }
       this.owner.register('service:session', SessionStub);
-      component.args.identityProviderName = 'super-idp';
+      component.args.identityProviderSlug = 'super-idp';
       component.args.authenticationKey = 'super-key';
       component.isTermsOfServiceValidated = true;
       component.errorMessage = null;
@@ -105,7 +105,7 @@ describe('Unit | Component | authentication::terms-of-service-oidc', function ()
         authenticate = authenticateStub;
       }
       this.owner.register('service:session', SessionStub);
-      component.args.identityProviderName = 'super-idp';
+      component.args.identityProviderSlug = 'super-idp';
       component.args.authenticationKey = 'super-key';
       component.isTermsOfServiceValidated = true;
       component.errorMessage = null;

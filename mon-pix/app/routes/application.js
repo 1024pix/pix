@@ -75,8 +75,8 @@ export default class Application extends Route.extend(ApplicationRouteMixin) {
     await this._handleLocale();
 
     const nextURL = this.session.data.nextURL;
-    const isFromIdentityProviderLoginPage = Object.keys(IdentityProviders).some((identityProvider) =>
-      this._isFromIdentityProviderLoginPage(nextURL, identityProvider)
+    const isFromIdentityProviderLoginPage = Object.keys(IdentityProviders).some((key) =>
+      this._isFromIdentityProviderLoginPage(nextURL, IdentityProviders[key].code)
     );
     if (isFromIdentityProviderLoginPage) {
       this.session.set('data.nextURL', undefined);
@@ -145,9 +145,9 @@ export default class Application extends Route.extend(ApplicationRouteMixin) {
     return this.session.invalidate();
   }
 
-  _isFromIdentityProviderLoginPage(nextUrl, identityProvider) {
+  _isFromIdentityProviderLoginPage(nextUrl, identityProviderCode) {
     const isUserLoggedInToIdentityProvider =
-      get(this.session, 'data.authenticated.identity_provider') === identityProvider;
+      get(this.session, 'data.authenticated.identity_provider_code') === identityProviderCode;
     return nextUrl && isUserLoggedInToIdentityProvider;
   }
 }

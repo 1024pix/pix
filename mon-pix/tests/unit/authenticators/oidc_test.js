@@ -16,8 +16,8 @@ describe('Unit | Authenticator | oidc', function () {
     const userId = 1;
     const source = 'source';
     const logoutUrlUuid = 'uuid';
-    const identityProvider = 'OIDC';
-    const identityProviderName = 'oidc';
+    const identityProviderCode = 'OIDC';
+    const identityProviderSlug = 'oidc';
     const request = {
       method: 'POST',
       headers: {
@@ -29,7 +29,7 @@ describe('Unit | Authenticator | oidc', function () {
       btoa(`{
         "user_id": ${userId},
         "source": "${source}",
-        "identity_provider": "${identityProvider}",
+        "identity_provider_code": "${identityProviderCode}",
         "iat": 1545321469,
         "exp": 4702193958
       }`) +
@@ -51,12 +51,12 @@ describe('Unit | Authenticator | oidc', function () {
       const authenticator = this.owner.lookup('authenticator:oidc');
 
       // when
-      const token = await authenticator.authenticate({ identityProviderName, authenticationKey: 'key' });
+      const token = await authenticator.authenticate({ identityProviderSlug, authenticationKey: 'key' });
 
       // then
       sinon.assert.calledWith(
         fetch.default,
-        `http://localhost:3000/api/${identityProviderName}/users?authentication-key=key`,
+        `http://localhost:3000/api/${identityProviderSlug}/users?authentication-key=key`,
         request
       );
       expect(token).to.deep.equal({
@@ -64,7 +64,7 @@ describe('Unit | Authenticator | oidc', function () {
         logout_url_uuid: logoutUrlUuid,
         source,
         user_id: userId,
-        identity_provider: identityProvider,
+        identity_provider_code: identityProviderCode,
       });
     });
 
@@ -76,18 +76,18 @@ describe('Unit | Authenticator | oidc', function () {
       const authenticator = this.owner.lookup('authenticator:oidc');
 
       // when
-      const token = await authenticator.authenticate({ code, redirectUri, state, identityProviderName });
+      const token = await authenticator.authenticate({ code, redirectUri, state, identityProviderSlug });
 
       // then
       request.headers['Content-Type'] = 'application/x-www-form-urlencoded';
       request.body = `code=${code}&redirect_uri=${redirectUri}&state_sent=undefined&state_received=${state}`;
-      sinon.assert.calledWith(fetch.default, `http://localhost:3000/api/${identityProviderName}/token`, request);
+      sinon.assert.calledWith(fetch.default, `http://localhost:3000/api/${identityProviderSlug}/token`, request);
       expect(token).to.deep.equal({
         access_token: accessToken,
         logout_url_uuid: logoutUrlUuid,
         source,
         user_id: userId,
-        identity_provider: identityProvider,
+        identity_provider_code: identityProviderCode,
       });
     });
 
@@ -113,20 +113,20 @@ describe('Unit | Authenticator | oidc', function () {
       authenticator.session = sessionStub;
 
       // when
-      const token = await authenticator.authenticate({ code, redirectUri, state, identityProviderName });
+      const token = await authenticator.authenticate({ code, redirectUri, state, identityProviderSlug });
 
       // then
       request.headers['Content-Type'] = 'application/x-www-form-urlencoded';
       request.headers['Authorization'] = `Bearer ${accessToken}`;
       request.body = `code=${code}&redirect_uri=${redirectUri}&state_sent=undefined&state_received=${state}`;
-      sinon.assert.calledWith(fetch.default, `http://localhost:3000/api/${identityProviderName}/token`, request);
+      sinon.assert.calledWith(fetch.default, `http://localhost:3000/api/${identityProviderSlug}/token`, request);
       sinon.assert.calledOnce(sessionStub.invalidate);
       expect(token).to.deep.equal({
         access_token: accessToken,
         logout_url_uuid: logoutUrlUuid,
         source,
         user_id: userId,
-        identity_provider: identityProvider,
+        identity_provider_code: identityProviderCode,
       });
     });
   });
@@ -158,7 +158,7 @@ describe('Unit | Authenticator | oidc', function () {
         authenticator.session = sessionStub;
 
         // when
-        await authenticator.invalidate({ identity_provider: 'POLE_EMPLOI' });
+        await authenticator.invalidate({ identity_provider_code: 'POLE_EMPLOI' });
 
         // then
         expect(replaceLocationStub.getCall(0).args[0]).to.equal(
@@ -196,7 +196,7 @@ describe('Unit | Authenticator | oidc', function () {
         });
 
         // when
-        await authenticator.invalidate({ identity_provider: 'POLE_EMPLOI' });
+        await authenticator.invalidate({ identity_provider_code: 'POLE_EMPLOI' });
 
         // then
         expect(replaceLocationStub.getCall(0).args[0]).to.equal(redirectLogoutUrl);
