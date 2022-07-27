@@ -31,7 +31,6 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
         expect(oidcAuthenticationService.getRedirectLogoutUrl).to.have.been.calledWith({
           userId: '123',
           logoutUrlUUID: '1f3dbb71-f399-4c1c-85ae-0a863c78aeea',
-          redirectUri: 'http://example.net/',
         });
       });
     });
