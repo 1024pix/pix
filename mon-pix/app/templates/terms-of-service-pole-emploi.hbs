@@ -1,2 +1,2 @@
-{{page-title (t "pages.terms-of-service-pole-emploi.title")}}
-<Authentication::TermsOfServicePoleEmploi @createSession={{this.createSession}} />
+{{page-title (t "pages.terms-of-service-oidc.title")}}
+<Authentication::TermsOfServiceOidc @identityProviderName="pole-emploi" @authenticationKey={{this.authenticationKey}} />

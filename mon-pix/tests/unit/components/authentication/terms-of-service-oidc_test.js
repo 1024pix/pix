@@ -4,15 +4,16 @@ import createGlimmerComponent from '../../../helpers/create-glimmer-component';
 import { setupTest } from 'ember-mocha';
 import setupIntl from '../../../helpers/setup-intl';
 import sinon from 'sinon';
+import Service from '@ember/service';
 
-describe('Unit | Component | authentication::terms-of-service-pole-emploi', function () {
+describe('Unit | Component | authentication::terms-of-service-oidc', function () {
   setupTest();
   setupIntl();
 
   describe('when terms of service are not selected', function () {
     it('should display error', function () {
       // given
-      const component = createGlimmerComponent('component:authentication/terms-of-service-pole-emploi');
+      const component = createGlimmerComponent('component:authentication/terms-of-service-oidc');
       component.isTermsOfServiceValidated = false;
       component.errorMessage = null;
 
@@ -25,11 +26,16 @@ describe('Unit | Component | authentication::terms-of-service-pole-emploi', func
   });
 
   describe('#submit', function () {
-    it('should call createSession', function () {
+    it('should create session', function () {
       // given
-      const component = createGlimmerComponent('component:authentication/terms-of-service-pole-emploi');
-      const createSession = sinon.stub();
-      component.args.createSession = createSession;
+      const component = createGlimmerComponent('component:authentication/terms-of-service-oidc');
+      const authenticateStub = sinon.stub();
+      class SessionStub extends Service {
+        authenticate = authenticateStub;
+      }
+      this.owner.register('service:session', SessionStub);
+      component.args.identityProviderName = 'super-idp';
+      component.args.authenticationKey = 'super-key';
       component.isTermsOfServiceValidated = true;
       component.errorMessage = null;
 
@@ -37,15 +43,22 @@ describe('Unit | Component | authentication::terms-of-service-pole-emploi', func
       component.submit();
 
       // then
-      sinon.assert.calledWith(createSession);
+      sinon.assert.calledWith(authenticateStub, 'authenticator:super-idp', {
+        authenticationKey: 'super-key',
+      });
     });
 
     describe('when authentication key has expired', function () {
       it('should display error', async function () {
         // given
-        const component = createGlimmerComponent('component:authentication/terms-of-service-pole-emploi');
-        const createSession = sinon.stub().rejects({ errors: [{ status: '401' }] });
-        component.args.createSession = createSession;
+        const component = createGlimmerComponent('component:authentication/terms-of-service-oidc');
+        const authenticateStub = sinon.stub().rejects({ errors: [{ status: '401' }] });
+        class SessionStub extends Service {
+          authenticate = authenticateStub;
+        }
+        this.owner.register('service:session', SessionStub);
+        component.args.identityProviderName = 'super-idp';
+        component.args.authenticationKey = 'super-key';
         component.isTermsOfServiceValidated = true;
         component.isAuthenticationKeyExpired = false;
         component.errorMessage = null;
@@ -63,9 +76,14 @@ describe('Unit | Component | authentication::terms-of-service-pole-emploi', func
 
     it('it should display detailed error', async function () {
       // given
-      const component = createGlimmerComponent('component:authentication/terms-of-service-pole-emploi');
-      const createSession = sinon.stub().rejects({ errors: [{ status: '500', detail: 'some detail' }] });
-      component.args.createSession = createSession;
+      const component = createGlimmerComponent('component:authentication/terms-of-service-oidc');
+      const authenticateStub = sinon.stub().rejects({ errors: [{ status: '500', detail: 'some detail' }] });
+      class SessionStub extends Service {
+        authenticate = authenticateStub;
+      }
+      this.owner.register('service:session', SessionStub);
+      component.args.identityProviderName = 'super-idp';
+      component.args.authenticationKey = 'super-key';
       component.isTermsOfServiceValidated = true;
       component.errorMessage = null;
 
@@ -80,9 +98,14 @@ describe('Unit | Component | authentication::terms-of-service-pole-emploi', func
 
     it('it should display generic error', async function () {
       // given
-      const component = createGlimmerComponent('component:authentication/terms-of-service-pole-emploi');
-      const createSession = sinon.stub().rejects({ errors: [{ status: '500' }] });
-      component.args.createSession = createSession;
+      const component = createGlimmerComponent('component:authentication/terms-of-service-oidc');
+      const authenticateStub = sinon.stub().rejects({ errors: [{ status: '500' }] });
+      class SessionStub extends Service {
+        authenticate = authenticateStub;
+      }
+      this.owner.register('service:session', SessionStub);
+      component.args.identityProviderName = 'super-idp';
+      component.args.authenticationKey = 'super-key';
       component.isTermsOfServiceValidated = true;
       component.errorMessage = null;
 
