@@ -135,7 +135,7 @@ describe('Unit | Component | Tutorial | card item', function () {
         await component.toggleSaveTutorial();
 
         // then
-        sinon.assert.calledWith(userTutorial.save, { adapterOptions: { tutorialId: tutorial.id } });
+        sinon.assert.called(userTutorial.save);
       });
 
       it('should set status to recorded', async function () {
@@ -165,7 +165,7 @@ describe('Unit | Component | Tutorial | card item', function () {
         await component.toggleSaveTutorial();
 
         // then
-        sinon.assert.calledWith(userTutorial.destroyRecord, { adapterOptions: { tutorialId: tutorial.id } });
+        sinon.assert.called(userTutorial.destroyRecord);
       });
 
       it('should set status to unrecorded', async function () {
