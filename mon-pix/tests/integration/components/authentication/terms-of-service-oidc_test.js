@@ -4,18 +4,18 @@ import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
-describe('Integration | Component | authentication::terms-of-service-pole-emploi', function () {
+describe('Integration | Component | authentication::terms-of-service-oidc', function () {
   setupIntlRenderingTest();
 
-  it("should display cgu's pole emploi page", async function () {
+  it('should display terms of service for OIDC identity provider', async function () {
     // given & when
-    await render(hbs`<Authentication::TermsOfServicePoleEmploi />`);
+    await render(hbs`<Authentication::TermsOfServiceOidc />`);
 
     // then
-    const heading = this.intl.t('pages.terms-of-service-pole-emploi.title');
-    const checkboxLabel = this.intl.t('pages.terms-of-service-pole-emploi.cgu');
+    const heading = this.intl.t('pages.terms-of-service-oidc.title');
+    const checkboxLabel = this.intl.t('pages.terms-of-service-oidc.cgu');
     const cancelButton = this.intl.t('common.actions.back');
-    const submitButton = this.intl.t('pages.terms-of-service-pole-emploi.form.button');
+    const submitButton = this.intl.t('pages.terms-of-service-oidc.form.button');
     expect(heading).to.exist;
     expect(checkboxLabel).to.exist;
     expect(cancelButton).to.exist;

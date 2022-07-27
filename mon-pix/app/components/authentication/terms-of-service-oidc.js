@@ -5,14 +5,15 @@ import { tracked } from '@glimmer/tracking';
 import get from 'lodash/get';
 
 const ERROR_INPUT_MESSAGE_MAP = {
-  termsOfServiceNotSelected: 'pages.terms-of-service-pole-emploi.form.error-message',
+  termsOfServiceNotSelected: 'pages.terms-of-service-oidc.form.error-message',
   unknownError: 'common.error',
-  expiredAuthenticationKey: 'pages.terms-of-service-pole-emploi.form.expired-authentication-key',
+  expiredAuthenticationKey: 'pages.terms-of-service-oidc.form.expired-authentication-key',
 };
 
-export default class TermsOfServicePoleEmploiComponent extends Component {
+export default class TermsOfServiceOidcComponent extends Component {
   @service url;
   @service intl;
+  @service session;
 
   @tracked isTermsOfServiceValidated = false;
   @tracked isAuthenticationKeyExpired = false;
@@ -27,7 +28,9 @@ export default class TermsOfServicePoleEmploiComponent extends Component {
     if (this.isTermsOfServiceValidated) {
       this.errorMessage = null;
       try {
-        await this.args.createSession();
+        await this.session.authenticate(`authenticator:${this.args.identityProviderName}`, {
+          authenticationKey: this.args.authenticationKey,
+        });
       } catch (error) {
         const status = get(error, 'errors[0].status');
         if (status === '401') {
