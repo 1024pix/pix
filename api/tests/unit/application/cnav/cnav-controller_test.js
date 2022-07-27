@@ -13,9 +13,7 @@ describe('Unit | Controller | cnav-controller', function () {
       const userId = 7;
       sinon.stub(usecases, 'createUserFromExternalIdentityProvider').resolves({ userId });
       sinon.stub(authenticationRegistry, 'lookupAuthenticationService').returns({
-        oidcAuthenticationService: {
-          createAccessToken: sinon.stub(),
-        },
+        createAccessToken: sinon.stub(),
       });
       sinon.stub(userRepository, 'updateLastLoggedAt');
 
@@ -37,14 +35,9 @@ describe('Unit | Controller | cnav-controller', function () {
         .resolves({ userId });
       sinon.stub(userRepository, 'updateLastLoggedAt');
       const createAccessTokenStub = sinon.stub();
-      sinon
-        .stub(authenticationRegistry, 'lookupAuthenticationService')
-        .withArgs('CNAV')
-        .returns({
-          oidcAuthenticationService: {
-            createAccessToken: createAccessTokenStub,
-          },
-        });
+      sinon.stub(authenticationRegistry, 'lookupAuthenticationService').withArgs('CNAV').returns({
+        createAccessToken: createAccessTokenStub,
+      });
       createAccessTokenStub.withArgs(userId).returns(accessToken);
       // when
       const result = await cnavController.createUser(request, hFake);
@@ -62,9 +55,10 @@ describe('Unit | Controller | cnav-controller', function () {
       const oidcAuthenticationService = {
         getAuthenticationUrl: getAuthenticationUrlStub,
       };
-      sinon.stub(authenticationRegistry, 'lookupAuthenticationService').withArgs('CNAV').returns({
-        oidcAuthenticationService,
-      });
+      sinon
+        .stub(authenticationRegistry, 'lookupAuthenticationService')
+        .withArgs('CNAV')
+        .returns(oidcAuthenticationService);
       getAuthenticationUrlStub.returns('an authentication url');
 
       // when

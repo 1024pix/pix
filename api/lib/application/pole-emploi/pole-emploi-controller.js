@@ -13,7 +13,7 @@ module.exports = {
       identityProvider: AuthenticationMethod.identityProviders.POLE_EMPLOI,
     });
 
-    const { oidcAuthenticationService } = authenticationRegistry.lookupAuthenticationService(
+    const oidcAuthenticationService = authenticationRegistry.lookupAuthenticationService(
       AuthenticationMethod.identityProviders.POLE_EMPLOI
     );
     const accessToken = oidcAuthenticationService.createAccessToken(userId);
@@ -35,7 +35,7 @@ module.exports = {
   },
 
   async getAuthenticationUrl(request, h) {
-    const { oidcAuthenticationService } = authenticationRegistry.lookupAuthenticationService(
+    const oidcAuthenticationService = authenticationRegistry.lookupAuthenticationService(
       AuthenticationMethod.identityProviders.POLE_EMPLOI
     );
     const result = oidcAuthenticationService.getAuthenticationUrl({

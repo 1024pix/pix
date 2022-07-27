@@ -18,9 +18,7 @@ module.exports = async function createUserFromExternalIdentityProvider({
   if (!sessionContent) {
     throw new AuthenticationKeyExpired();
   }
-  const { oidcAuthenticationService } = await authenticationServiceRegistry.lookupAuthenticationService(
-    identityProvider
-  );
+  const oidcAuthenticationService = await authenticationServiceRegistry.lookupAuthenticationService(identityProvider);
   const userInfo = await oidcAuthenticationService.getUserInfo(sessionContent);
 
   if (!userInfo.firstName || !userInfo.lastName || !userInfo.externalIdentityId) {

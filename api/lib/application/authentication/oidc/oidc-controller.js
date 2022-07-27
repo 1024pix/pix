@@ -8,8 +8,12 @@ module.exports = {
       redirect_uri: redirectUri,
       logout_url_uuid: logoutUrlUUID,
     } = request.query;
-    const { authenticationService } = authenticationServiceRegistry.lookupAuthenticationService(identityProvider);
-    const redirectLogoutUrl = await authenticationService.getRedirectLogoutUrl({ userId, logoutUrlUUID, redirectUri });
+    const oidcAuthenticationService = authenticationServiceRegistry.lookupAuthenticationService(identityProvider);
+    const redirectLogoutUrl = await oidcAuthenticationService.getRedirectLogoutUrl({
+      userId,
+      logoutUrlUUID,
+      redirectUri,
+    });
 
     return h.response({ redirectLogoutUrl }).code(200);
   },
