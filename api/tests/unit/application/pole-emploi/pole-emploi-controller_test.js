@@ -80,7 +80,7 @@ describe('Unit | Controller | pole-emploi-controller', function () {
       expect(userRepository.updateLastLoggedAt).to.have.been.calledWith({ userId: 7 });
     });
 
-    it('should return access token and id token', async function () {
+    it('should return access token and logout url UUID', async function () {
       // given
       const request = { query: { 'authentication-key': 'abcde' } };
       const userId = 7;
@@ -101,13 +101,17 @@ describe('Unit | Controller | pole-emploi-controller', function () {
           },
         });
       createAccessTokenStub.withArgs(userId).returns(accessToken);
+      sinon
+        .stub(poleEmploiAuthenticationService, 'saveIdToken')
+        .withArgs({ idToken, userId })
+        .resolves('842213eb-d19b-45a1-9842-787276f34f6c');
 
       // when
       const result = await poleEmploiController.createUser(request, hFake);
 
       // then
       expect(result.source.access_token).to.equal(accessToken);
-      expect(result.source.id_token).to.equal(idToken);
+      expect(result.source.logout_url_uuid).to.equal('842213eb-d19b-45a1-9842-787276f34f6c');
     });
   });
 

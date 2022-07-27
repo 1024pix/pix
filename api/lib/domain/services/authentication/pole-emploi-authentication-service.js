@@ -1,14 +1,19 @@
-const settings = require('../../../config');
 const { v4: uuidv4 } = require('uuid');
-const httpAgent = require('../../../infrastructure/http/http-agent');
 const querystring = require('querystring');
-const { AuthenticationTokenRetrievalError } = require('../../errors');
-const AuthenticationSessionContent = require('../../models/AuthenticationSessionContent');
 const jsonwebtoken = require('jsonwebtoken');
-
-const DomainTransaction = require('../../../infrastructure/DomainTransaction');
-const AuthenticationMethod = require('../../models/AuthenticationMethod');
 const moment = require('moment');
+const AuthenticationMethod = require('../../models/AuthenticationMethod');
+const AuthenticationSessionContent = require('../../models/AuthenticationSessionContent');
+const settings = require('../../../config');
+const { AuthenticationTokenRetrievalError } = require('../../errors');
+const DomainTransaction = require('../../../infrastructure/DomainTransaction');
+const httpAgent = require('../../../infrastructure/http/http-agent');
+const logoutUrlTemporaryStorage = require('../../../infrastructure/temporary-storage').withPrefix('logout-url:');
+
+async function _extractClaimsFromIdToken(idToken) {
+  const { given_name, family_name, nonce, idIdentiteExterne } = await jsonwebtoken.decode(idToken);
+  return { given_name, family_name, nonce, idIdentiteExterne };
+}
 
 async function exchangeCodeForTokens({ code, redirectUri }) {
   const data = {
@@ -61,6 +66,19 @@ function getAuthUrl({ redirectUri }) {
   return { redirectTarget: redirectTarget.toString(), state, nonce };
 }
 
+async function getRedirectLogoutUrl({ userId, logoutUrlUUID }) {
+  const redirectTarget = new URL(settings.poleEmploi.logoutUrl);
+  const idToken = await logoutUrlTemporaryStorage.get(`${userId}:${logoutUrlUUID}`);
+  const params = [
+    { key: 'id_token_hint', value: idToken },
+    { key: 'redirect_uri', value: settings.poleEmploi.afterLogoutUrl },
+  ];
+
+  params.forEach(({ key, value }) => redirectTarget.searchParams.append(key, value));
+
+  return redirectTarget.toString();
+}
+
 async function getUserInfo({ idToken }) {
   const { given_name, family_name, nonce, idIdentiteExterne } = await _extractClaimsFromIdToken(idToken);
 
@@ -70,11 +88,6 @@ async function getUserInfo({ idToken }) {
     externalIdentityId: idIdentiteExterne,
     nonce,
   };
-}
-
-async function _extractClaimsFromIdToken(idToken) {
-  const { given_name, family_name, nonce, idIdentiteExterne } = await jsonwebtoken.decode(idToken);
-  return { given_name, family_name, nonce, idIdentiteExterne };
 }
 
 async function createUserAccount({
@@ -106,9 +119,24 @@ async function createUserAccount({
   };
 }
 
+async function saveIdToken({ idToken, userId }) {
+  const uuid = uuidv4();
+  const { idTokenLifespanMs } = settings.poleEmploi.temporaryStorage;
+
+  await logoutUrlTemporaryStorage.save({
+    key: `${userId}:${uuid}`,
+    value: idToken,
+    expirationDelaySeconds: idTokenLifespanMs / 1000,
+  });
+
+  return uuid;
+}
+
 module.exports = {
   exchangeCodeForTokens,
   getAuthUrl,
+  getRedirectLogoutUrl,
   getUserInfo,
   createUserAccount,
+  saveIdToken,
 };
