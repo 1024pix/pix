@@ -438,7 +438,7 @@ describe('Acceptance | Route | pole emploi token', function () {
           );
         });
 
-        it('should return an 200 with access_token and id_token when authentication is ok', async function () {
+        it('should return an 200 with access_token and logout_url_uuid when authentication is ok', async function () {
           // given
           const authenticatedUser = databaseBuilder.factory.buildUser();
           await databaseBuilder.commit();
@@ -592,7 +592,7 @@ describe('Acceptance | Route | pole emploi token', function () {
         });
       });
 
-      it('should return an 200 with access_token and id_token when authentication is ok', async function () {
+      it('should return an 200 with access_token and logout_url_uuid when authentication is ok', async function () {
         const idToken = jsonwebtoken.sign(
           {
             given_name: 'John',
