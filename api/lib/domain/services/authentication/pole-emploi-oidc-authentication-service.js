@@ -4,6 +4,7 @@ const OidcAuthenticationService = require('./oidc-authentication-service');
 const DomainTransaction = require('../../../infrastructure/DomainTransaction');
 const AuthenticationMethod = require('../../models/AuthenticationMethod');
 const moment = require('moment');
+const { v4: uuidv4 } = require('uuid');
 const logoutUrlTemporaryStorage = require('../../../infrastructure/temporary-storage').withPrefix('logout-url:');
 
 class PoleEmploiOidcAuthenticationService extends OidcAuthenticationService {
@@ -37,6 +38,7 @@ class PoleEmploiOidcAuthenticationService extends OidcAuthenticationService {
 
     this.logoutUrl = settings.poleEmploi.logoutUrl;
     this.afterLogoutUrl = settings.poleEmploi.afterLogoutUrl;
+    this.temporaryStorage = settings.poleEmploi.temporaryStorage;
   }
 
   // Overrided because we need idToken to send results after a campaign
@@ -85,6 +87,19 @@ class PoleEmploiOidcAuthenticationService extends OidcAuthenticationService {
     await logoutUrlTemporaryStorage.delete(key);
 
     return redirectTarget.toString();
+  }
+
+  async saveIdToken({ idToken, userId }) {
+    const uuid = uuidv4();
+    const { idTokenLifespanMs } = this.temporaryStorage;
+
+    await logoutUrlTemporaryStorage.save({
+      key: `${userId}:${uuid}`,
+      value: idToken,
+      expirationDelaySeconds: idTokenLifespanMs / 1000,
+    });
+
+    return uuid;
   }
 }
 
