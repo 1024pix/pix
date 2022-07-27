@@ -216,10 +216,13 @@ module.exports = (function () {
       sendingUrl: process.env.POLE_EMPLOI_SENDING_URL,
       userInfoUrl: process.env.POLE_EMPLOI_USER_INFO_URL,
       authUrl: process.env.POLE_EMPLOI_OIDC_AUTHENTICATION_URL,
+      logoutUrl: process.env.POLE_EMPLOI_OIDC_LOGOUT_URL,
+      afterLogoutUrl: process.env.POLE_EMPLOI_OIDC_AFTER_LOGOUT_URL,
       temporaryStorage: {
         expirationDelaySeconds:
           parseInt(process.env.POLE_EMPLOI_TEMPORARY_STORAGE_EXPIRATION_DELAY_SECONDS, 10) || 1140,
         redisUrl: process.env.REDIS_URL,
+        idTokenLifespanMs: ms(process.env.POLE_EMPLOI_ID_TOKEN_LIFESPAN || '7d'),
       },
       poleEmploiSendingsLimit: _getNumber(process.env.POLE_EMPLOI_SENDING_LIMIT, 100),
       poleEmploiIdentityProvider: process.env.POLE_EMPLOI_IDENTITY_PROVIDER || 'POLE_EMPLOI',
@@ -338,6 +341,8 @@ module.exports = (function () {
     config.poleEmploi.sendingUrl = 'http://sendingUrl.fr';
     config.poleEmploi.userInfoUrl = 'http://userInfoUrl.fr';
     config.poleEmploi.authUrl = 'http://authurl.fr';
+    config.poleEmploi.logoutUrl = 'http://logout-url.fr';
+    config.poleEmploi.afterLogoutUrl = 'http://after-logout.url';
     config.poleEmploi.temporaryStorage.redisUrl = null;
 
     config.temporaryStorage.redisUrl = null;

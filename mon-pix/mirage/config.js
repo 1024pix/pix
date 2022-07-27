@@ -26,7 +26,6 @@ import putSaveTutorial from './routes/put-save-tutorial';
 import deleteUserTutorial from './routes/delete-user-tutorial';
 import putTutorialEvaluation from './routes/put-tutorial-evaluation';
 import postPoleEmploiUser from './routes/post-pole-emploi-user';
-import postPoleEmploiToken from './routes/post-pole-emploi-token';
 import postSharedCertifications from './routes/post-shared-certifications';
 import loadUserTutorialsRoutes from './routes/get-user-tutorials';
 import loadSavedTutorialsRoutes from './routes/get-saved-tutorials';
@@ -79,7 +78,6 @@ export default function () {
   this.put('/users/tutorials/:tutorialId/evaluate', putTutorialEvaluation);
 
   this.post('/pole-emploi/users', postPoleEmploiUser);
-  this.post('/pole-emploi/token', postPoleEmploiToken);
 
   this.get('/feature-toggles', getFeatureToggles);
 
@@ -95,6 +93,13 @@ export default function () {
       redirectTarget: `https://pole-emploi/connexion/oauth2/authorize?redirect_uri=${redirectUri}`,
       state: 'a8a3344f-6d7c-469d-9f84-bdd791e04fdf',
       nonce: '555c86fe-ed0a-4a80-80f3-45b1f7c2df8c',
+    };
+  });
+
+  this.get('/oidc/redirect-logout-url', () => {
+    return {
+      redirectLogoutUrl:
+        'http://identity_provider_base_url/deconnexion?id_token_hint=ID_TOKEN&redirect_uri=http%3A%2F%2Flocalhost.fr%3A4200%2Fconnexion',
     };
   });
 }

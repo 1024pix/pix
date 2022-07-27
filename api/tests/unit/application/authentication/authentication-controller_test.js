@@ -1,8 +1,7 @@
 const { sinon, expect, catchErr, hFake } = require('../../../test-helper');
 const tokenService = require('../../../../lib/domain/services/token-service');
 const usecases = require('../../../../lib/domain/usecases');
-const AuthenticationSessionContent = require('../../../../lib/domain/models/AuthenticationSessionContent');
-const authenticationRegistry = require('../../../../lib/domain/services/authentication/authentication-service-registry');
+const authenticationServiceRegistry = require('../../../../lib/domain/services/authentication/authentication-service-registry');
 
 const { UnauthorizedError } = require('../../../../lib/application/http-errors');
 
@@ -78,7 +77,7 @@ describe('Unit | Application | Controller | Authentication', function () {
       sinon.stub(usecases, 'authenticateCnavUser').resolves({ pixAccessToken, isAuthenticationComplete: true });
       const oidcAuthenticationService = {};
       sinon
-        .stub(authenticationRegistry, 'lookupAuthenticationService')
+        .stub(authenticationServiceRegistry, 'lookupAuthenticationService')
         .withArgs('CNAV')
         .returns({ oidcAuthenticationService });
 
@@ -194,12 +193,6 @@ describe('Unit | Application | Controller | Authentication', function () {
     const state_received = 'state';
 
     const pixAccessToken = 'pixAccessToken';
-    const poleEmploiAuthenticationSessionContent = new AuthenticationSessionContent({
-      accessToken: 'poleEmploiAccessToken',
-      expiresIn: 60,
-      idToken: 'idToken',
-      refreshToken: 'refreshToken',
-    });
 
     let request;
 
@@ -220,11 +213,14 @@ describe('Unit | Application | Controller | Authentication', function () {
       // given
       const oidcAuthenticationService = {};
       sinon
-        .stub(authenticationRegistry, 'lookupAuthenticationService')
+        .stub(authenticationServiceRegistry, 'lookupAuthenticationService')
         .withArgs('POLE_EMPLOI')
         .returns({ oidcAuthenticationService });
 
-      usecases.authenticatePoleEmploiUser.resolves({ pixAccessToken, poleEmploiAuthenticationSessionContent });
+      usecases.authenticatePoleEmploiUser.resolves({
+        pixAccessToken,
+        logoutUrlUUID: '0208f50b-f612-46aa-89a0-7cdb5fb0d312',
+      });
       const expectedParameters = {
         authenticatedUserId: undefined,
         code,
@@ -243,10 +239,13 @@ describe('Unit | Application | Controller | Authentication', function () {
 
     it('should return PIX access token and Pole emploi ID token', async function () {
       // given
-      usecases.authenticatePoleEmploiUser.resolves({ pixAccessToken, poleEmploiAuthenticationSessionContent });
+      usecases.authenticatePoleEmploiUser.resolves({
+        pixAccessToken,
+        logoutUrlUUID: '0208f50b-f612-46aa-89a0-7cdb5fb0d312',
+      });
       const expectedResult = {
         access_token: pixAccessToken,
-        id_token: poleEmploiAuthenticationSessionContent.idToken,
+        logout_url_uuid: '0208f50b-f612-46aa-89a0-7cdb5fb0d312',
       };
 
       // when
