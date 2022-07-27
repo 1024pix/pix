@@ -12,7 +12,6 @@ const logger = require('../../../../../lib/infrastructure/logger');
 const authenticatePoleEmploiUser = require('../../../../../lib/domain/usecases/authentication/authenticate-pole-emploi-user');
 
 describe('Unit | UseCase | authenticate-pole-emploi-user', function () {
-  let poleEmploiAuthenticationService;
   let authenticationSessionService;
   let oidcAuthenticationService;
   let authenticationMethodRepository;
@@ -22,13 +21,6 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', function () {
 
   beforeEach(function () {
     clock = sinon.useFakeTimers(Date.now());
-
-    poleEmploiAuthenticationService = {
-      saveIdToken: sinon.stub(),
-    };
-    poleEmploiAuthenticationService.saveIdToken
-      .withArgs({ idToken: 'idToken', userId: 1 })
-      .resolves('ce945751-b7f5-4786-8979-63e25a4f182b');
 
     authenticationMethodRepository = {
       create: sinon.stub().resolves(),
@@ -44,6 +36,7 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', function () {
       createAccessToken: sinon.stub(),
       exchangeCodeForTokens: sinon.stub(),
       getUserInfo: sinon.stub(),
+      saveIdToken: sinon.stub(),
     };
 
     userRepository = {
@@ -102,7 +95,6 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', function () {
         redirectUri: 'redirectUri',
         stateReceived: 'state',
         stateSent: 'state',
-        poleEmploiAuthenticationService,
         oidcAuthenticationService,
         authenticationSessionService,
         authenticationMethodRepository,
@@ -128,7 +120,6 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', function () {
         redirectUri: 'redirectUri',
         stateReceived: 'state',
         stateSent: 'state',
-        poleEmploiAuthenticationService,
         oidcAuthenticationService,
         authenticationSessionService,
         authenticationMethodRepository,
@@ -143,7 +134,9 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', function () {
       // given
       _fakePoleEmploiAPI({ oidcAuthenticationService });
       const authenticatedUserId = 1;
-
+      oidcAuthenticationService.saveIdToken
+        .withArgs({ idToken: 'idToken', userId: 1 })
+        .resolves('ce945751-b7f5-4786-8979-63e25a4f182b');
       oidcAuthenticationService.createAccessToken.withArgs(1).resolves('access-token');
 
       // when
@@ -154,7 +147,6 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', function () {
         redirectUri: 'redirectUri',
         stateReceived: 'state',
         stateSent: 'state',
-        poleEmploiAuthenticationService,
         oidcAuthenticationService,
         authenticationSessionService,
         authenticationMethodRepository,
@@ -181,7 +173,6 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', function () {
         redirectUri: 'redirectUri',
         stateReceived: 'state',
         stateSent: 'state',
-        poleEmploiAuthenticationService,
         oidcAuthenticationService,
         authenticationSessionService,
         authenticationMethodRepository,
@@ -206,7 +197,6 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', function () {
           redirectUri: 'redirectUri',
           stateReceived: 'state',
           stateSent: 'state',
-          poleEmploiAuthenticationService,
           oidcAuthenticationService,
           authenticationSessionService,
           authenticationMethodRepository,
@@ -240,7 +230,6 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', function () {
           redirectUri: 'redirectUri',
           stateReceived: 'state',
           stateSent: 'state',
-          poleEmploiAuthenticationService,
           oidcAuthenticationService,
           authenticationSessionService,
           authenticationMethodRepository,
@@ -267,7 +256,6 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', function () {
             redirectUri: 'redirectUri',
             stateReceived: 'state',
             stateSent: 'state',
-            poleEmploiAuthenticationService,
             oidcAuthenticationService,
             authenticationSessionService,
             authenticationMethodRepository,
@@ -309,7 +297,6 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', function () {
             redirectUri: 'redirectUri',
             stateReceived: 'state',
             stateSent: 'state',
-            poleEmploiAuthenticationService,
             oidcAuthenticationService,
             authenticationSessionService,
             authenticationMethodRepository,
@@ -348,7 +335,6 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', function () {
             redirectUri: 'redirectUri',
             stateReceived: 'state',
             stateSent: 'state',
-            poleEmploiAuthenticationService,
             oidcAuthenticationService,
             authenticationSessionService,
             authenticationMethodRepository,
@@ -378,7 +364,6 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', function () {
         redirectUri: 'redirectUri',
         stateReceived: 'state',
         stateSent: 'state',
-        poleEmploiAuthenticationService,
         oidcAuthenticationService,
         authenticationSessionService,
         authenticationMethodRepository,
@@ -404,7 +389,6 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', function () {
         redirectUri: 'redirectUri',
         stateReceived: 'state',
         stateSent: 'state',
-        poleEmploiAuthenticationService,
         oidcAuthenticationService,
         authenticationSessionService,
         authenticationMethodRepository,

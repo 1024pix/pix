@@ -1,7 +1,6 @@
 const usecases = require('../../domain/usecases');
 const userRepository = require('../../infrastructure/repositories/user-repository');
 const AuthenticationMethod = require('../../domain/models/AuthenticationMethod');
-const poleEmploiAuthenticationService = require('../../../lib/domain/services/authentication/pole-emploi-authentication-service');
 const authenticationRegistry = require('../../domain/services/authentication/authentication-service-registry');
 
 module.exports = {
@@ -17,7 +16,7 @@ module.exports = {
       AuthenticationMethod.identityProviders.POLE_EMPLOI
     );
     const accessToken = oidcAuthenticationService.createAccessToken(userId);
-    const logoutUrlUUID = await poleEmploiAuthenticationService.saveIdToken({ idToken, userId });
+    const logoutUrlUUID = await oidcAuthenticationService.saveIdToken({ idToken, userId });
     await userRepository.updateLastLoggedAt({ userId });
 
     const response = {
