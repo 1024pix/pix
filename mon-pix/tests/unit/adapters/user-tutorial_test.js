@@ -14,16 +14,36 @@ describe('Unit | Adapters | user-tutorial', function () {
   });
 
   describe('#createRecord', () => {
-    it('should call API to create a user-tutorial', async function () {
+    it('should call API to create a user-tutorial with skill-id from tutorial', async function () {
       // given
       const tutorialId = 'tutorialId';
-      const tutorial = { adapterOptions: { tutorialId } };
+      const skillId = 'skillId';
+      const tutorial = { id: tutorialId, attr: sinon.stub() };
+      const snapshot = {
+        belongsTo: sinon.stub(),
+      };
+      snapshot.belongsTo.withArgs('tutorial').returns(tutorial);
+      tutorial.attr.withArgs('skillId').returns(skillId);
 
       // when
-      await adapter.createRecord(null, 'user-tutorial', tutorial);
+      await adapter.createRecord(null, 'user-tutorial', snapshot);
 
       // then
-      sinon.assert.calledWith(adapter.ajax, 'http://localhost:3000/api/users/tutorials/tutorialId', 'PUT');
+      const expectedOptions = {
+        data: {
+          data: {
+            attributes: {
+              'skill-id': skillId,
+            },
+          },
+        },
+      };
+      sinon.assert.calledWith(
+        adapter.ajax,
+        'http://localhost:3000/api/users/tutorials/tutorialId',
+        'PUT',
+        expectedOptions
+      );
     });
   });
 
@@ -31,10 +51,14 @@ describe('Unit | Adapters | user-tutorial', function () {
     it('should return API to delete a user-tutorial', async function () {
       // given
       const tutorialId = 'tutorialId';
-      const tutorial = { adapterOptions: { tutorialId } };
+      const tutorial = { id: tutorialId };
+      const snapshot = {
+        belongsTo: sinon.stub(),
+      };
+      snapshot.belongsTo.withArgs('tutorial').returns(tutorial);
 
       // when
-      const url = adapter.urlForDeleteRecord(null, 'user-tutorial', tutorial);
+      const url = adapter.urlForDeleteRecord(null, 'user-tutorial', snapshot);
 
       // then
       expect(url).to.equal('http://localhost:3000/api/users/tutorials/tutorialId');
