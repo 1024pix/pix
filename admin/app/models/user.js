@@ -33,7 +33,7 @@ export default class User extends Model {
   }
 
   get language() {
-    return this.lang.toUpperCase();
+    return this.lang?.toUpperCase();
   }
 
   get hasPixAuthenticationMethod() {
