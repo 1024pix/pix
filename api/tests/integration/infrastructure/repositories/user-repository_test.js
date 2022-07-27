@@ -1184,7 +1184,6 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
       });
 
       it('should return only users matching "email" if given in filter even if it is in uppercase in database', async function () {
-        // Search returns emails in lowcase even if they are in uppercase in dbb !
         // given
         const filter = { email: 'panda' };
         const page = { number: 1, size: 10 };
