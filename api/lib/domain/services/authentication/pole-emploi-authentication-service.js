@@ -1,8 +1,5 @@
 const { v4: uuidv4 } = require('uuid');
-const moment = require('moment');
-const AuthenticationMethod = require('../../models/AuthenticationMethod');
 const settings = require('../../../config');
-const DomainTransaction = require('../../../infrastructure/DomainTransaction');
 const logoutUrlTemporaryStorage = require('../../../infrastructure/temporary-storage').withPrefix('logout-url:');
 
 async function getRedirectLogoutUrl({ userId, logoutUrlUUID }) {
@@ -21,35 +18,6 @@ async function getRedirectLogoutUrl({ userId, logoutUrlUUID }) {
   return redirectTarget.toString();
 }
 
-async function createUserAccount({
-  user,
-  sessionContent,
-  externalIdentityId,
-  userToCreateRepository,
-  authenticationMethodRepository,
-}) {
-  let createdUserId;
-  await DomainTransaction.execute(async (domainTransaction) => {
-    createdUserId = (await userToCreateRepository.create({ user, domainTransaction })).id;
-
-    const authenticationMethod = new AuthenticationMethod({
-      identityProvider: AuthenticationMethod.identityProviders.POLE_EMPLOI,
-      userId: createdUserId,
-      externalIdentifier: externalIdentityId,
-      authenticationComplement: new AuthenticationMethod.PoleEmploiAuthenticationComplement({
-        accessToken: sessionContent.accessToken,
-        refreshToken: sessionContent.refreshToken,
-        expiredDate: moment().add(sessionContent.expiresIn, 's').toDate(),
-      }),
-    });
-    await authenticationMethodRepository.create({ authenticationMethod, domainTransaction });
-  });
-  return {
-    userId: createdUserId,
-    idToken: sessionContent.idToken,
-  };
-}
-
 async function saveIdToken({ idToken, userId }) {
   const uuid = uuidv4();
   const { idTokenLifespanMs } = settings.poleEmploi.temporaryStorage;
@@ -65,6 +33,5 @@ async function saveIdToken({ idToken, userId }) {
 
 module.exports = {
   getRedirectLogoutUrl,
-  createUserAccount,
   saveIdToken,
 };
