@@ -11,30 +11,23 @@ module('Unit | Controller | authenticated/organizations/get/team', function (hoo
   hooks.beforeEach(function () {
     controller = this.owner.lookup('controller:authenticated/organizations/get/team');
     store = this.owner.lookup('service:store');
-    const notificationsStubs = {
-      error: sinon.stub().returns(),
-      success: sinon.stub().returns(),
+
+    controller.notifications = {
+      error: sinon.stub(),
+      success: sinon.stub(),
     };
-    controller.notifications = notificationsStubs;
   });
 
   module('#addMembership', function () {
     module('when user is not existing', function () {
       test('it should return an error', async function (assert) {
         // given
-        const email = 'a-user-not-in-store@example.net';
-
-        const storeQueryStub = sinon.stub();
-        storeQueryStub.resolves([]);
-        store.query = storeQueryStub;
+        store.query = sinon.stub().resolves([]);
 
         controller.model = {
-          organization: {
-            id: 1,
-          },
+          organization: { id: 1 },
         };
-
-        controller.userEmailToAdd = email;
+        controller.userEmailToAdd = 'a-user-not-in-store@example.net';
 
         // when
         await controller.addMembership();
@@ -46,24 +39,18 @@ module('Unit | Controller | authenticated/organizations/get/team', function (hoo
     });
 
     module('when user has a membership in the organization', function () {
-      test('it should return an error (even if searched email is in uppercase', async function (assert) {
+      test('it should return an error (even if searched email is in uppercase)', async function (assert) {
         // given
         const emailInLowerCase = 'a-user-already-in-organization@example.net';
-        const user = { email: emailInLowerCase, id: 5 };
-        const storeQueryStub = sinon.stub();
-        storeQueryStub.resolves([user]);
-        store.query = storeQueryStub;
+        const user = store.createRecord('user', { email: emailInLowerCase, id: 5 });
 
-        const hasMemberStub = sinon.stub();
-        hasMemberStub.resolves(true);
-
+        store.query = sinon.stub().resolves([user]);
         controller.model = {
-          hasMember: hasMemberStub,
+          hasMember: sinon.stub().resolves(true),
           organization: {
             id: 1,
           },
         };
-
         controller.userEmailToAdd = emailInLowerCase.toUpperCase();
 
         // when
@@ -76,38 +63,24 @@ module('Unit | Controller | authenticated/organizations/get/team', function (hoo
     });
 
     module('when user has not yet a membership in the organization', function () {
-      test('it should give acces to the organization', async function (assert) {
+      test('it should give access to the organization', async function (assert) {
         // given
         const email = 'a-user-not-in-organization@example.net';
-        const user = { email };
-        const storeQueryStub = sinon.stub();
-        storeQueryStub.resolves([user]);
-        store.query = storeQueryStub;
+        const user = store.createRecord('user', { email, id: 5 });
 
-        const hasMemberStub = sinon.stub();
-        const reloadStub = sinon.stub().resolves(true);
-        hasMemberStub.resolves(false);
+        store.query = sinon.stub().resolves([user]);
+        store.createRecord = sinon.stub().returns({ save: sinon.stub() });
+
         controller.model = {
-          hasMember: hasMemberStub,
+          hasMember: sinon.stub().resolves(false),
           memberships: {
-            reload: reloadStub,
+            reload: sinon.stub().resolves(true),
           },
           organization: {
             id: 1,
           },
         };
-
         controller.userEmailToAdd = email;
-
-        const createRecordStub = sinon.stub();
-        const saveStub = sinon.stub();
-
-        saveStub.resolves();
-        createRecordStub.returns({
-          save: saveStub,
-        });
-
-        store.createRecord = createRecordStub;
 
         // when
         await controller.addMembership();
@@ -122,35 +95,20 @@ module('Unit | Controller | authenticated/organizations/get/team', function (hoo
       test('it should notify when error', async function (assert) {
         // given
         const email = 'a-user-not-in-organization@example.net';
-        const user = { email };
-        const storeQueryStub = sinon.stub();
-        storeQueryStub.resolves([user]);
-        store.query = storeQueryStub;
+        const user = store.createRecord('user', { email, id: 5 });
 
-        const hasMemberStub = sinon.stub();
-        const reloadStub = sinon.stub().rejects('some error');
-        hasMemberStub.resolves(false);
+        store.query = sinon.stub().resolves([user]);
+        store.createRecord = sinon.stub().returns({ save: sinon.stub() });
         controller.model = {
-          hasMember: hasMemberStub,
+          hasMember: sinon.stub().resolves(false),
           memberships: {
-            reload: reloadStub,
+            reload: sinon.stub().rejects('some error'),
           },
           organization: {
             id: 1,
           },
         };
-
         controller.userEmailToAdd = email;
-
-        const createRecordStub = sinon.stub();
-        const saveStub = sinon.stub();
-
-        saveStub.resolves();
-        createRecordStub.returns({
-          save: saveStub,
-        });
-
-        store.createRecord = createRecordStub;
 
         // when
         await controller.addMembership();
