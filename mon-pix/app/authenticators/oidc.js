@@ -15,7 +15,7 @@ export default class OidcAuthenticator extends BaseAuthenticator {
   @service session;
   @service location;
 
-  async authenticate({ code, redirectUri, state, identityProviderName, authenticationKey }) {
+  async authenticate({ code, redirectUri, state, identityProviderSlug, authenticationKey }) {
     const request = {
       method: 'POST',
       headers: {
@@ -25,9 +25,9 @@ export default class OidcAuthenticator extends BaseAuthenticator {
     let serverTokenEndpoint;
 
     if (authenticationKey) {
-      serverTokenEndpoint = `${ENV.APP.API_HOST}/api/${identityProviderName}/users?authentication-key=${authenticationKey}`;
+      serverTokenEndpoint = `${ENV.APP.API_HOST}/api/${identityProviderSlug}/users?authentication-key=${authenticationKey}`;
     } else {
-      serverTokenEndpoint = `${ENV.APP.API_HOST}/api/${identityProviderName}/token`;
+      serverTokenEndpoint = `${ENV.APP.API_HOST}/api/${identityProviderSlug}/token`;
       const bodyObject = {
         code,
         redirect_uri: redirectUri,
@@ -61,7 +61,8 @@ export default class OidcAuthenticator extends BaseAuthenticator {
       logout_url_uuid: data.logout_url_uuid,
       source: decodedAccessToken.source,
       user_id: decodedAccessToken.user_id,
-      identity_provider: decodedAccessToken.identity_provider,
+      // for backwards compatibility TODO remove after a couple days in production
+      identity_provider_code: decodedAccessToken.identity_provider || decodedAccessToken.identity_provider_code,
     };
   }
 
@@ -99,7 +100,7 @@ export default class OidcAuthenticator extends BaseAuthenticator {
   }
 
   async invalidate(data) {
-    if (data?.identity_provider !== 'POLE_EMPLOI') return;
+    if (data?.identity_provider_code !== 'POLE_EMPLOI') return;
 
     let url = '';
     const { access_token, id_token, logout_url_uuid } = this.session.data.authenticated;

@@ -56,8 +56,7 @@ describe('Unit | Route | Access', function () {
       it('should override authentication route with login-pole-emploi', async function () {
         // given
         route.session.data.externalUser = 'some external user';
-        const POLE_EMPLOI = 'POLE_EMPLOI';
-        campaign.isRestrictedByIdentityProvider.withArgs(POLE_EMPLOI).returns(true);
+        campaign.isRestrictedByIdentityProvider.withArgs('POLE_EMPLOI').returns(true);
 
         // when
         await route.beforeModel({ from: 'campaigns.campaign-landing-page' });
@@ -72,7 +71,7 @@ describe('Unit | Route | Access', function () {
         // given
         route.session.data.externalUser = 'some external user';
         const POLE_EMPLOI = 'POLE_EMPLOI';
-        route.session.data.authenticated.identity_provider = POLE_EMPLOI;
+        route.session.data.authenticated.identity_provider_code = POLE_EMPLOI;
         campaign.isRestrictedByIdentityProvider.withArgs(POLE_EMPLOI).returns(true);
 
         // when
@@ -102,7 +101,7 @@ describe('Unit | Route | Access', function () {
         // given
         route.session.data.externalUser = 'some external user';
         const CNAV = 'CNAV';
-        route.session.data.authenticated.identity_provider = CNAV;
+        route.session.data.authenticated.identity_provider_code = CNAV;
         campaign.isRestrictedByIdentityProvider.withArgs(CNAV).returns(true);
 
         // when

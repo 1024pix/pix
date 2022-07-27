@@ -46,7 +46,7 @@ export default class Campaign extends Model {
     return this.organizationType === 'SUP';
   }
 
-  isRestrictedByIdentityProvider(identityProvider) {
-    return this.identityProvider === identityProvider;
+  isRestrictedByIdentityProvider(identityProviderCode) {
+    return this.identityProvider === identityProviderCode;
   }
 }

@@ -64,7 +64,7 @@ describe('Unit | Route | login-oidc', function () {
           route.location = { replace: sinon.stub() };
 
           // when
-          await route.beforeModel({ to: { queryParams: {}, params: { identity_provider_name: 'oidc' } } });
+          await route.beforeModel({ to: { queryParams: {}, params: { identity_provider_slug: 'oidc' } } });
 
           // then
           expect(sessionStub.data.nextURL).to.equal('/campagnes/PIXEMPLOI/acces');
@@ -88,7 +88,7 @@ describe('Unit | Route | login-oidc', function () {
           route.location = { replace: sinon.stub() };
 
           // when
-          await route.beforeModel({ to: { queryParams: {}, params: { identity_provider_name: 'oidc' } } });
+          await route.beforeModel({ to: { queryParams: {}, params: { identity_provider_slug: 'oidc' } } });
 
           // then
           expect(sessionStub.data.nextURL).to.equal('/campagnes/PIXEMPLOI/acces');
@@ -112,7 +112,7 @@ describe('Unit | Route | login-oidc', function () {
         route.location = { replace: sinon.stub() };
 
         // when
-        await route.beforeModel({ to: { queryParams: {}, params: { identity_provider_name: 'oidc' } } });
+        await route.beforeModel({ to: { queryParams: {}, params: { identity_provider_slug: 'oidc' } } });
 
         // then
         sinon.assert.calledWithMatch(route.location.replace, 'https://oidc/connexion');
@@ -127,14 +127,14 @@ describe('Unit | Route | login-oidc', function () {
         // given
         const route = this.owner.lookup('route:authentication/login-oidc');
         route.router = { replaceWith: sinon.stub() };
-        const identityProviderName = 'super-idp-name';
+        const identityProviderSlug = 'super-idp-name';
 
         // when
-        await route.afterModel({ authenticationKey: '123', shouldValidateCgu: true, identityProviderName });
+        await route.afterModel({ authenticationKey: '123', shouldValidateCgu: true, identityProviderSlug });
 
         // then
         sinon.assert.calledWith(route.router.replaceWith, 'terms-of-service-oidc', {
-          queryParams: { authenticationKey: '123', identityProviderName },
+          queryParams: { authenticationKey: '123', identityProviderSlug },
         });
       });
     });
@@ -144,10 +144,10 @@ describe('Unit | Route | login-oidc', function () {
         // given
         const route = this.owner.lookup('route:authentication/login-oidc');
         route.router = { replaceWith: sinon.stub() };
-        const identityProviderName = 'super-idp-name';
+        const identityProviderSlug = 'super-idp-name';
 
         // when
-        await route.afterModel({ authenticationKey: null, shouldValidateCgu: false, identityProviderName });
+        await route.afterModel({ authenticationKey: null, shouldValidateCgu: false, identityProviderSlug });
 
         // then
         sinon.assert.notCalled(route.router.replaceWith);
@@ -167,7 +167,7 @@ describe('Unit | Route | login-oidc', function () {
       route.set('session', sessionStub);
 
       // when
-      await route.model({ identity_provider_name: 'oidc' }, { to: { queryParams: { code: 'test' } } });
+      await route.model({ identity_provider_slug: 'oidc' }, { to: { queryParams: { code: 'test' } } });
 
       // then
       sinon.assert.calledWithMatch(authenticateStub, 'authenticator:oidc', {
@@ -192,14 +192,14 @@ describe('Unit | Route | login-oidc', function () {
       route.router = { replaceWith: sinon.stub() };
 
       // when
-      const response = await route.model({ identity_provider_name: 'oidc' }, { to: { queryParams: { code: 'test' } } });
+      const response = await route.model({ identity_provider_slug: 'oidc' }, { to: { queryParams: { code: 'test' } } });
 
       // then
       sinon.assert.calledOnce(authenticateStub);
       expect(response).to.deep.equal({
         shouldValidateCgu: true,
         authenticationKey: 'key',
-        identityProviderName: 'oidc',
+        identityProviderSlug: 'oidc',
       });
     });
 
@@ -216,7 +216,7 @@ describe('Unit | Route | login-oidc', function () {
 
       try {
         // when
-        await route.model({ identity_provider_name: 'oidc' }, { to: { queryParams: { code: 'test' } } });
+        await route.model({ identity_provider_slug: 'oidc' }, { to: { queryParams: { code: 'test' } } });
       } catch (error) {
         // then
         sinon.assert.calledOnce(authenticateStub);

@@ -109,14 +109,14 @@ Router.map(function () {
   this.route('terms-of-service-oidc', { path: '/cgu-oidc' });
 
   /**
-   * @deprecated use the new route connexion/:identity_provider_name
+   * @deprecated use the new route connexion/:identity_provider_slug
    */
   this.route('login-pole-emploi', { path: '/connexion-pole-emploi' });
   this.route('login-cnav', { path: '/connexion-cnav' });
 
   this.route('authentication', { path: '/connexion' }, function () {
     this.route('login', { path: '' });
-    this.route('login-oidc', { path: '/:identity_provider_name' });
+    this.route('login-oidc', { path: '/:identity_provider_slug' });
   });
 
   this.route('sitemap', { path: '/plan-du-site' });

@@ -2,7 +2,7 @@ import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
 
 /**
- * @deprecated use the new route connexion/:identity_provider_name
+ * @deprecated use the new route connexion/:identity_provider_slug
  */
 export default class LoginPoleEmploiRoute extends Route {
   @service router;

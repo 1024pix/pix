@@ -1323,7 +1323,7 @@
         "error-message": "Vous devez accepter les conditions d’utilisation de Pix.",
         "expired-authentication-key": "Votre demande d'authentification a expiré, merci de renouveler votre connexion en cliquant sur le bouton retour."
       },
-      "message": "Votre compte Pix est sur le point d’être créé à partir des éléments transmis par votre organisme."
+      "message": "Votre compte Pix est sur le point d’être créé à partir des éléments transmis par l'organisme : {identityProviderOrganizationName}."
     },
     "timed-challenge-instructions": {
       "action": "Commencer",

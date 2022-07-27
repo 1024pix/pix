@@ -19,15 +19,15 @@ export default class AccessRoute extends Route.extend(SecuredRouteMixin) {
     this.authenticationRoute = 'inscription';
     const campaign = this.modelFor('campaigns');
 
-    const identityProviderToVisit = Object.keys(IdentityProviders).find((identityProvider) => {
+    const identityProviderToVisit = Object.keys(IdentityProviders).find((key) => {
       const isUserLoggedInToIdentityProvider =
-        get(this.session, 'data.authenticated.identity_provider') === identityProvider;
-      return campaign.isRestrictedByIdentityProvider(identityProvider) && !isUserLoggedInToIdentityProvider;
+        get(this.session, 'data.authenticated.identity_provider_code') === IdentityProviders[key].code;
+      return campaign.isRestrictedByIdentityProvider(IdentityProviders[key].code) && !isUserLoggedInToIdentityProvider;
     });
 
     if (identityProviderToVisit) {
       this.session.set('attemptedTransition', transition);
-      return this.router.replaceWith('authentication.login-oidc', IdentityProviders[identityProviderToVisit]);
+      return this.router.replaceWith('authentication.login-oidc', identityProviderToVisit);
     } else if (this._shouldLoginToAccessSCORestrictedCampaign(campaign)) {
       this.authenticationRoute = 'campaigns.join.student-sco';
     } else if (this._shouldJoinFromMediacentre(campaign)) {

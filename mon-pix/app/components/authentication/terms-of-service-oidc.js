@@ -3,6 +3,7 @@ import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 import get from 'lodash/get';
+import IdentityProviders from 'mon-pix/identity-providers';
 
 const ERROR_INPUT_MESSAGE_MAP = {
   termsOfServiceNotSelected: 'pages.terms-of-service-oidc.form.error-message',
@@ -23,6 +24,10 @@ export default class TermsOfServiceOidcComponent extends Component {
     return this.url.homeUrl;
   }
 
+  get identityProviderOrganizationName() {
+    return IdentityProviders[this.args.identityProviderSlug].organizationName;
+  }
+
   @action
   async submit() {
     if (this.isTermsOfServiceValidated) {
@@ -30,7 +35,7 @@ export default class TermsOfServiceOidcComponent extends Component {
       try {
         await this.session.authenticate('authenticator:oidc', {
           authenticationKey: this.args.authenticationKey,
-          identityProviderName: this.args.identityProviderName,
+          identityProviderSlug: this.args.identityProviderSlug,
         });
       } catch (error) {
         const status = get(error, 'errors[0].status');
