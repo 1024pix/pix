@@ -1,5 +1,24 @@
 # Pix Changelog
 
+## v3.237.0 (27/07/2022)
+
+
+### :rocket: Amélioration
+- [#4704](https://github.com/1024pix/pix/pull/4704) [FEATURE] Envoyer le contexte du tutorial lors de l'enregistrement de ce dernier (PIX-5339).
+- [#4682](https://github.com/1024pix/pix/pull/4682) [FEATURE] Extraire le composant action chip (PIX-4827)
+- [#4689](https://github.com/1024pix/pix/pull/4689) [FEATURE] Pix admin - Page détail d'un nouveau PC : reprendre les CTA (PIX-5313)
+- [#4681](https://github.com/1024pix/pix/pull/4681) [FEATURE] Ne plus centrer la PixBanner de comm' sur Orga (PIX-5390)
+- [#4680](https://github.com/1024pix/pix/pull/4680) [FEATURE] Ne plus centrer la `PixBanner` de comm' sur Certif (PIX-5391)
+- [#4679](https://github.com/1024pix/pix/pull/4679) [FEATURE] Ajouter des roles WAI-ARIA structurant la page (PIX-5364)
+- [#4688](https://github.com/1024pix/pix/pull/4688) [FEATURE] Pix admin - Profil cible : Retirer la description du sujet dans l'affichage de ce dernier (PIX-5312)
+
+### :building_construction: Tech
+- [#4711](https://github.com/1024pix/pix/pull/4711) [TECH] Supprimer l'idToken dans redis après utilisation (PIX-4950).
+- [#4575](https://github.com/1024pix/pix/pull/4575) [TECH] Générer l'url de déconnexion de Pôle Emploi depuis l'API (PIX-4950)
+
+### :bug: Correction
+- [#4702](https://github.com/1024pix/pix/pull/4702) [BUGFIX] Passer l'adresse e-mail en minuscule lors de l'ajout de membre à une organisation dans Pix Admin (PIX-1772).
+
 ## v3.236.0 (26/07/2022)
 
 
