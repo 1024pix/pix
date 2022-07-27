@@ -557,7 +557,7 @@ function _setSearchFiltersForQueryBuilder(filter, qb) {
     qb.whereRaw('LOWER("lastName") LIKE ?', `%${lastName.toLowerCase()}%`);
   }
   if (email) {
-    qb.whereRaw('email LIKE ?', `%${email.toLowerCase()}%`);
+    qb.whereRaw('LOWER("email") LIKE ?', `%${email.toLowerCase()}%`);
   }
   if (username) {
     qb.whereRaw('LOWER("username") LIKE ?', `%${username.toLowerCase()}%`);
