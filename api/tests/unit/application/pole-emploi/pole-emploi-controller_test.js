@@ -67,9 +67,7 @@ describe('Unit | Controller | pole-emploi-controller', function () {
       const userId = 7;
       sinon.stub(usecases, 'createUserFromExternalIdentityProvider').resolves({ userId, idToken: 1 });
       sinon.stub(authenticationRegistry, 'lookupAuthenticationService').returns({
-        oidcAuthenticationService: {
-          createAccessToken: sinon.stub(),
-        },
+        createAccessToken: sinon.stub(),
       });
       sinon.stub(userRepository, 'updateLastLoggedAt');
 
@@ -92,14 +90,9 @@ describe('Unit | Controller | pole-emploi-controller', function () {
         .resolves({ userId, idToken });
       sinon.stub(userRepository, 'updateLastLoggedAt');
       const createAccessTokenStub = sinon.stub();
-      sinon
-        .stub(authenticationRegistry, 'lookupAuthenticationService')
-        .withArgs('POLE_EMPLOI')
-        .returns({
-          oidcAuthenticationService: {
-            createAccessToken: createAccessTokenStub,
-          },
-        });
+      sinon.stub(authenticationRegistry, 'lookupAuthenticationService').withArgs('POLE_EMPLOI').returns({
+        createAccessToken: createAccessTokenStub,
+      });
       createAccessTokenStub.withArgs(userId).returns(accessToken);
       sinon
         .stub(poleEmploiAuthenticationService, 'saveIdToken')
@@ -123,9 +116,10 @@ describe('Unit | Controller | pole-emploi-controller', function () {
       const oidcAuthenticationService = {
         getAuthenticationUrl: getAuthenticationUrlStub,
       };
-      sinon.stub(authenticationRegistry, 'lookupAuthenticationService').withArgs('POLE_EMPLOI').returns({
-        oidcAuthenticationService,
-      });
+      sinon
+        .stub(authenticationRegistry, 'lookupAuthenticationService')
+        .withArgs('POLE_EMPLOI')
+        .returns(oidcAuthenticationService);
       getAuthenticationUrlStub.returns('an authentication url');
 
       // when

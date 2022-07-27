@@ -12,7 +12,7 @@ module.exports = {
       identityProvider: AuthenticationMethod.identityProviders.CNAV,
     });
 
-    const { oidcAuthenticationService } = authenticationRegistry.lookupAuthenticationService(
+    const oidcAuthenticationService = authenticationRegistry.lookupAuthenticationService(
       AuthenticationMethod.identityProviders.CNAV
     );
     const accessToken = oidcAuthenticationService.createAccessToken(userId);
@@ -23,7 +23,7 @@ module.exports = {
   },
 
   async getAuthenticationUrl(request, h) {
-    const { oidcAuthenticationService } = authenticationRegistry.lookupAuthenticationService(
+    const oidcAuthenticationService = authenticationRegistry.lookupAuthenticationService(
       AuthenticationMethod.identityProviders.CNAV
     );
     const result = oidcAuthenticationService.getAuthenticationUrl({

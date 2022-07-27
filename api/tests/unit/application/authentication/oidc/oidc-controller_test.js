@@ -15,29 +15,20 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
             logout_url_uuid: '1f3dbb71-f399-4c1c-85ae-0a863c78aeea',
           },
         };
-        const authenticationService = {
+        const oidcAuthenticationService = {
           getRedirectLogoutUrl: sinon.stub(),
         };
-        authenticationService.getRedirectLogoutUrl
-          .withArgs({
-            userId: '123',
-            logoutUrlUUID: '1f3dbb71-f399-4c1c-85ae-0a863c78aeea',
-            redirectUri: 'http://example.net/',
-          })
-          .resolves(
-            'http://logoutUrl.fr/id_token_hint=ID_TOKEN_HINT&redirect_uri=' + encodeURIComponent('http://example.net/')
-          );
         sinon
           .stub(authenticationServiceRegistry, 'lookupAuthenticationService')
           .withArgs('POLE_EMPLOI')
-          .returns({ authenticationService });
+          .returns(oidcAuthenticationService);
 
         // when
         await oidcController.getRedirectLogoutUrl(request, hFake);
 
         // then
         expect(authenticationServiceRegistry.lookupAuthenticationService).to.have.been.calledWith('POLE_EMPLOI');
-        expect(authenticationService.getRedirectLogoutUrl).to.have.been.calledWith({
+        expect(oidcAuthenticationService.getRedirectLogoutUrl).to.have.been.calledWith({
           userId: '123',
           logoutUrlUUID: '1f3dbb71-f399-4c1c-85ae-0a863c78aeea',
           redirectUri: 'http://example.net/',
