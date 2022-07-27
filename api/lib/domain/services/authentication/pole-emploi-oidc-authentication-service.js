@@ -4,6 +4,7 @@ const OidcAuthenticationService = require('./oidc-authentication-service');
 const DomainTransaction = require('../../../infrastructure/DomainTransaction');
 const AuthenticationMethod = require('../../models/AuthenticationMethod');
 const moment = require('moment');
+const logoutUrlTemporaryStorage = require('../../../infrastructure/temporary-storage').withPrefix('logout-url:');
 
 class PoleEmploiOidcAuthenticationService extends OidcAuthenticationService {
   constructor() {
@@ -33,6 +34,9 @@ class PoleEmploiOidcAuthenticationService extends OidcAuthenticationService {
       authenticationUrl,
       authenticationUrlParameters,
     });
+
+    this.logoutUrl = settings.poleEmploi.logoutUrl;
+    this.afterLogoutUrl = settings.poleEmploi.afterLogoutUrl;
   }
 
   // Overrided because we need idToken to send results after a campaign
@@ -65,6 +69,22 @@ class PoleEmploiOidcAuthenticationService extends OidcAuthenticationService {
       userId: createdUserId,
       idToken: sessionContent.idToken,
     };
+  }
+
+  async getRedirectLogoutUrl({ userId, logoutUrlUUID }) {
+    const redirectTarget = new URL(this.logoutUrl);
+    const key = `${userId}:${logoutUrlUUID}`;
+    const idToken = await logoutUrlTemporaryStorage.get(key);
+    const params = [
+      { key: 'id_token_hint', value: idToken },
+      { key: 'redirect_uri', value: this.afterLogoutUrl },
+    ];
+
+    params.forEach(({ key, value }) => redirectTarget.searchParams.append(key, value));
+
+    await logoutUrlTemporaryStorage.delete(key);
+
+    return redirectTarget.toString();
   }
 }
 
