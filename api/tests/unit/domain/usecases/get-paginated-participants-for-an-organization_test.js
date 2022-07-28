@@ -9,10 +9,14 @@ describe('Unit | UseCase | get-participants-by-organization-id', function () {
     const organizationParticipantRepository = {
       getParticipantsByOrganizationId: sinon.stub(),
     };
+    const filters = {
+      fullName: 'name',
+    };
 
     // when
     await getPaginatedParticipantsForAnOrganization({
       organizationId,
+      filters,
       page,
       organizationParticipantRepository,
     });
@@ -21,6 +25,7 @@ describe('Unit | UseCase | get-participants-by-organization-id', function () {
     expect(organizationParticipantRepository.getParticipantsByOrganizationId).to.have.been.calledWithExactly({
       organizationId,
       page,
+      filters,
     });
   });
 });

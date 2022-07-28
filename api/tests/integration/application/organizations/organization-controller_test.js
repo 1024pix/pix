@@ -471,16 +471,18 @@ describe('Integration | Application | Organizations | organization-controller', 
     context('when the organization has participants', function () {
       it('returns organization participants', async function () {
         const organizationId = 5678;
-        usecases.getPaginatedParticipantsForAnOrganization.withArgs({ organizationId, page: {} }).resolves({
-          organizationParticipants: [
-            {
-              id: 5678,
-              firstName: 'Mei',
-              lastName: 'Lee',
-            },
-          ],
-          pagination: 1,
-        });
+        usecases.getPaginatedParticipantsForAnOrganization
+          .withArgs({ organizationId, page: {}, filters: {} })
+          .resolves({
+            organizationParticipants: [
+              {
+                id: 5678,
+                firstName: 'Mei',
+                lastName: 'Lee',
+              },
+            ],
+            pagination: 1,
+          });
         securityPreHandlers.checkUserBelongsToOrganization.returns(() => true);
 
         const response = await httpTestServer.request('GET', `/api/organizations/${organizationId}/participants`);

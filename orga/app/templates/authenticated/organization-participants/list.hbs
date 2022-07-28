@@ -1,4 +1,9 @@
 <div class="list-organization-participants-page">
   <h1 class="page__title page-title">{{t "pages.organization-participants.title"}}</h1>
-  <OrganizationParticipant::List @participants={{@model}} />
+  <OrganizationParticipant::List
+    @participants={{@model}}
+    @triggerFiltering={{this.triggerFiltering}}
+    @onResetFilter={{this.resetFilters}}
+    @fullName={{this.fullName}}
+  />
 </div>
