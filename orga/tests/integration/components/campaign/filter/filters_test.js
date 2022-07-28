@@ -1,8 +1,9 @@
 import { module, test } from 'qunit';
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
 import hbs from 'htmlbars-inline-precompile';
-import { clickByName, render as renderScreen } from '@1024pix/ember-testing-library';
+import { clickByName, fillByLabel, render as renderScreen } from '@1024pix/ember-testing-library';
 import sinon from 'sinon';
+import { t } from 'ember-intl/test-support';
 
 module('Integration | Component | Campaign::Filter::Filters', function (hooks) {
   setupIntlRenderingTest(hooks);
@@ -67,6 +68,46 @@ module('Integration | Component | Campaign::Filter::Filters', function (hooks) {
       // then
       assert.dom(screen.queryByLabelText('Rechercher un propriétaire')).doesNotExist();
     });
+  });
+
+  test('it triggers the filter when a text is searched for campaign name', async function (assert) {
+    // given
+    const triggerFiltering = sinon.stub();
+    this.set('triggerFiltering', triggerFiltering);
+
+    // when
+    await renderScreen(
+      hbs`<Campaign::Filter::Filters
+        @onFilter={{triggerFiltering}}
+        @onClickStatusFilter={{this.onClickStatusFilterSpy}}
+        @onClearFilters={{this.onClickClearFiltersSpy}}
+        @numResults={{1}} />`
+    );
+
+    await fillByLabel(t('pages.campaigns-list.filter.by-name'), 'Sal');
+
+    // then
+    assert.ok(triggerFiltering.calledWith('name', 'Sal'));
+  });
+
+  test('it triggers the filter when a text is searched for owner', async function (assert) {
+    // given
+    const triggerFiltering = sinon.stub();
+    this.set('triggerFiltering', triggerFiltering);
+
+    // when
+    await renderScreen(
+      hbs`<Campaign::Filter::Filters
+        @onFilter={{triggerFiltering}}
+        @onClickStatusFilter={{this.onClickStatusFilterSpy}}
+        @onClearFilters={{this.onClickClearFiltersSpy}}
+        @numResults={{1}} />`
+    );
+
+    await fillByLabel(t('pages.campaigns-list.filter.by-owner'), 'Sal');
+
+    // then
+    assert.ok(triggerFiltering.calledWith('ownerName', 'Sal'));
   });
 
   test('[A11Y] it should make filters container accessible', async function (assert) {
