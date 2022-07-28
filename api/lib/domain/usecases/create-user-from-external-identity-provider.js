@@ -18,8 +18,8 @@ module.exports = async function createUserFromExternalIdentityProvider({
   if (!sessionContent) {
     throw new AuthenticationKeyExpired();
   }
-  const { authenticationService } = await authenticationServiceRegistry.lookupAuthenticationService(identityProvider);
-  const userInfo = await authenticationService.getUserInfo(sessionContent);
+  const oidcAuthenticationService = await authenticationServiceRegistry.lookupAuthenticationService(identityProvider);
+  const userInfo = await oidcAuthenticationService.getUserInfo(sessionContent);
 
   if (!userInfo.firstName || !userInfo.lastName || !userInfo.externalIdentityId) {
     logger.error(`Un des champs obligatoires n'a pas été renvoyé : ${JSON.stringify(userInfo)}.`);
@@ -42,7 +42,7 @@ module.exports = async function createUserFromExternalIdentityProvider({
     lastName: userInfo.lastName,
   });
 
-  return await authenticationService.createUserAccount({
+  return await oidcAuthenticationService.createUserAccount({
     user,
     sessionContent,
     externalIdentityId: userInfo.externalIdentityId,

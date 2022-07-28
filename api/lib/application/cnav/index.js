@@ -7,7 +7,7 @@ exports.register = async function (server) {
       path: '/api/cnav/auth-url',
       config: {
         auth: false,
-        handler: cnavController.getAuthUrl,
+        handler: cnavController.getAuthenticationUrl,
         notes: [
           "- Cette route permet de récupérer l'url d'authentification de la CNAV.\n" +
             '- Elle retournera également les valeurs state et nonce.',

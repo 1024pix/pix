@@ -79,7 +79,7 @@ describe('Unit | Application | Controller | Authentication', function () {
       sinon
         .stub(authenticationServiceRegistry, 'lookupAuthenticationService')
         .withArgs('CNAV')
-        .returns({ oidcAuthenticationService });
+        .returns(oidcAuthenticationService);
 
       // when
       await authenticationController.authenticateCnavUser(request, hFake);
@@ -215,7 +215,7 @@ describe('Unit | Application | Controller | Authentication', function () {
       sinon
         .stub(authenticationServiceRegistry, 'lookupAuthenticationService')
         .withArgs('POLE_EMPLOI')
-        .returns({ oidcAuthenticationService });
+        .returns(oidcAuthenticationService);
 
       usecases.authenticatePoleEmploiUser.resolves({
         pixAccessToken,

@@ -18,7 +18,7 @@ note right: Génération d'un access_token Pôle Emploi
 Pole_Emploi_Connect --> API_Pix: Envoi de l'access_token et de l'id_token
 
 API_Pix -> API_Pix: Décodage de l'id_token
-note left: Récupération de family_name, given_name,\nnonce et idIdentiteExterne
+note left: Récupération de family_name, given_name, nonce et sub
 
 API_Pix -> API_Pix: Création du user en BDD
 API_Pix -> API_Pix: Génération d'un access_token Pix

@@ -19,7 +19,7 @@ Pole_Emploi_Connect --> MonPix: Envoie de l'access_token
 MonPix -> Pole_Emploi_Connect: GET <API_PoleEmploi>/partenaire/peconnect-individu/v1/userinfo\nAuthorization: Bearer [Access token]
 note right: Demande d'information candidat Pôle Emploi
 Pole_Emploi_Connect --> MonPix: Envoie des informations du Candidat PE
-note right: email, family_name, given_name et idIdentiteExterne
+note right: email, family_name, given_name et sub
 
 Candidat_PE -> MonPix: Demande de déconnexion de Mon-Pix (et de Pôle emploi)
 MonPix -> Pole_Emploi_Connect: GET <PoleEmploi>/deconnexion

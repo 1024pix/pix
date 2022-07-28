@@ -7,7 +7,6 @@ module.exports = async function authenticateCnavUser({
   redirectUri,
   stateReceived,
   stateSent,
-  cnavAuthenticationService,
   oidcAuthenticationService,
   authenticationSessionService,
   userRepository,
@@ -16,9 +15,9 @@ module.exports = async function authenticateCnavUser({
     logger.error(`State sent ${stateSent} did not match the state received ${stateReceived}`);
     throw new UnexpectedOidcStateError();
   }
-  const idToken = await cnavAuthenticationService.exchangeCodeForIdToken({ code, redirectUri });
+  const { idToken } = await oidcAuthenticationService.exchangeCodeForTokens({ code, redirectUri });
 
-  const userInfo = await cnavAuthenticationService.getUserInfo({ idToken });
+  const userInfo = await oidcAuthenticationService.getUserInfo({ idToken });
 
   const user = await userRepository.findByExternalIdentifier({
     externalIdentityId: userInfo.externalIdentityId,

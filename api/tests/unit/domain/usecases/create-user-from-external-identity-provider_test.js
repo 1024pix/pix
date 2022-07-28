@@ -9,7 +9,7 @@ const createUserFromExternalIdentityProvider = require('../../../../lib/domain/u
 
 describe('Unit | UseCase | create-user-from-external-identity-provider', function () {
   let authenticationMethodRepository, userToCreateRepository;
-  let authenticationSessionService, externalAuthenticationService;
+  let authenticationSessionService, oidcAuthenticationService;
   let authenticationServiceRegistry;
   let clock;
   const now = new Date('2021-01-02');
@@ -25,7 +25,7 @@ describe('Unit | UseCase | create-user-from-external-identity-provider', functio
       getByKey: sinon.stub(),
     };
 
-    externalAuthenticationService = {
+    oidcAuthenticationService = {
       getUserInfo: sinon.stub(),
       createUserAccount: sinon.stub(),
     };
@@ -65,8 +65,8 @@ describe('Unit | UseCase | create-user-from-external-identity-provider', functio
       authenticationSessionService.getByKey.withArgs('AUTHENTICATION_KEY').resolves('SESSION_CONTENT');
       authenticationServiceRegistry.lookupAuthenticationService
         .withArgs('SOME_IDP')
-        .resolves({ authenticationService: externalAuthenticationService });
-      externalAuthenticationService.getUserInfo
+        .resolves(oidcAuthenticationService);
+      oidcAuthenticationService.getUserInfo
         .withArgs('SESSION_CONTENT')
         .resolves({ firstName: 'Jean', lastName: 'Heymar', externalIdentityId: 'duGAR' });
       authenticationMethodRepository.findOneByExternalIdentifierAndIdentityProvider
@@ -94,10 +94,8 @@ describe('Unit | UseCase | create-user-from-external-identity-provider', functio
       // given
       const authenticationSessionContent = 'SESSION_CONTENT';
       authenticationSessionService.getByKey.resolves(authenticationSessionContent);
-      authenticationServiceRegistry.lookupAuthenticationService.resolves({
-        authenticationService: externalAuthenticationService,
-      });
-      externalAuthenticationService.getUserInfo.resolves({
+      authenticationServiceRegistry.lookupAuthenticationService.resolves(oidcAuthenticationService);
+      oidcAuthenticationService.getUserInfo.resolves({
         firstName: 'Jean',
         lastName: undefined,
         externalIdentityId: 'externalIdentityId',
@@ -128,10 +126,8 @@ describe('Unit | UseCase | create-user-from-external-identity-provider', functio
   it('should call createUserAccount method to return user id and id token', async function () {
     // given
     authenticationSessionService.getByKey.withArgs('AUTHENTICATION_KEY').resolves('SESSION_CONTENT');
-    authenticationServiceRegistry.lookupAuthenticationService
-      .withArgs('SOME_IDP')
-      .resolves({ authenticationService: externalAuthenticationService });
-    externalAuthenticationService.getUserInfo
+    authenticationServiceRegistry.lookupAuthenticationService.withArgs('SOME_IDP').resolves(oidcAuthenticationService);
+    oidcAuthenticationService.getUserInfo
       .withArgs('SESSION_CONTENT')
       .resolves({ firstName: 'Jean', lastName: 'Heymar', externalIdentityId: 'duGAR' });
     authenticationMethodRepository.findOneByExternalIdentifierAndIdentityProvider
@@ -155,7 +151,7 @@ describe('Unit | UseCase | create-user-from-external-identity-provider', functio
       cgu: true,
       lastTermsOfServiceValidatedAt: now,
     };
-    expect(externalAuthenticationService.createUserAccount).to.have.been.calledWithMatch({
+    expect(oidcAuthenticationService.createUserAccount).to.have.been.calledWithMatch({
       user: expectedUser,
       sessionContent: 'SESSION_CONTENT',
       externalIdentityId: 'duGAR',
