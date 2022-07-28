@@ -11,6 +11,7 @@ describe('Unit | Serializer | JSONAPI | jury-certification-serializer', function
         certificationCourseId,
         resolvedAt: new Date(),
         resolution: 'le challenge est neutralisé',
+        hasBeenAutomaticallyResolved: true,
       });
       const certificationIssueReports = [certificationIssueReport];
       const competenceMarks = [domainBuilder.buildCompetenceMark()];
@@ -172,6 +173,7 @@ describe('Unit | Serializer | JSONAPI | jury-certification-serializer', function
               resolution: certificationIssueReport.resolution,
               'question-number': certificationIssueReport.questionNumber,
               subcategory: certificationIssueReport.subcategory,
+              'has-been-automatically-resolved': certificationIssueReport.hasBeenAutomaticallyResolved,
             },
           },
         ],

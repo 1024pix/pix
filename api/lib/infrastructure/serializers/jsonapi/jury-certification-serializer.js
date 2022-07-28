@@ -61,6 +61,7 @@ module.exports = {
           'isImpactful',
           'resolvedAt',
           'resolution',
+          'hasBeenAutomaticallyResolved',
         ],
       },
     }).serialize(juryCertification);
