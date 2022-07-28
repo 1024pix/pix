@@ -21,11 +21,6 @@ export default class AuthenticatedCampaignsListMyCampaignsController extends Con
     return isSearchInputEmpty && activeCampainsDisplayed;
   }
 
-  updateFilters(filters) {
-    Object.keys(filters).forEach((filterKey) => (this[filterKey] = filters[filterKey]));
-    this.pageNumber = null;
-  }
-
   @action
   clearFilters() {
     this.name = '';
