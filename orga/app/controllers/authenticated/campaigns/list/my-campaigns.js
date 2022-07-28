@@ -7,8 +7,7 @@ const DEFAULT_PAGE_NUMBER = 1;
 export default class AuthenticatedCampaignsListMyCampaignsController extends Controller {
   @tracked pageNumber = DEFAULT_PAGE_NUMBER;
   @tracked pageSize = 25;
-  @tracked name = '';
-  @tracked ownerName = '';
+  @tracked name = null;
   @tracked status = null;
 
   get isArchived() {
@@ -16,22 +15,19 @@ export default class AuthenticatedCampaignsListMyCampaignsController extends Con
   }
 
   get isClearFiltersButtonDisabled() {
-    const isSearchInputEmpty = !this.name;
-    const activeCampainsDisplayed = this.status === null;
-    return isSearchInputEmpty && activeCampainsDisplayed;
+    return !this.name && !this.status;
   }
 
   @action
   clearFilters() {
-    this.name = '';
-    this.ownerName = '';
+    this.name = null;
     this.status = null;
     this.pageNumber = null;
   }
 
   @action
   triggerFiltering(fieldName, value) {
-    this[fieldName] = value;
+    this[fieldName] = value || undefined;
     this.pageNumber = null;
   }
 

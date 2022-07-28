@@ -10,61 +10,41 @@ module('Unit | Controller | authenticated/campaigns/campaign/profile-results', f
     controller = this.owner.lookup('controller:authenticated/campaigns/campaign/profile-results');
   });
 
-  module('triggerFiltering', function () {
-    test('update the divisions', function (assert) {
-      const fetchCampaign = sinon.stub();
-      controller.set('fetchCampaign', fetchCampaign);
-      controller.set('model', { id: 12 });
-      controller.set('pageNumber', 11);
+  module('#triggerFiltering', function () {
+    module('when the filters contain a valued field', function () {
+      test('updates the value', async function (assert) {
+        // given
+        controller.someField = 'old-value';
 
-      controller.triggerFiltering('divisions', ['6eme']);
+        // when
+        controller.triggerFiltering('someField', 'new-value');
 
-      assert.deepEqual(controller.divisions, ['6eme']);
-      assert.deepEqual(controller.pageNumber, null);
+        // then
+        assert.strictEqual(controller.someField, 'new-value');
+      });
     });
 
-    test('update the groups', function (assert) {
-      const fetchCampaign = sinon.stub();
-      controller.set('fetchCampaign', fetchCampaign);
-      controller.set('model', { id: 12 });
+    module('when the filters contain an empty string', function () {
+      test('clear the searched value', async function (assert) {
+        // given
+        controller.someField = 'old-value';
 
-      controller.triggerFiltering('groups', ['M2']);
+        // when
+        controller.triggerFiltering('someField', '');
 
-      assert.deepEqual(controller.groups, ['M2']);
-    });
-  });
-
-  module('search filter', function () {
-    test('update the search filter', function (assert) {
-      // given
-      controller.triggerFiltering('search', 'Something');
-      // then
-      assert.deepEqual(controller.search, 'Something');
-    });
-
-    test('it removes the search filter', function (assert) {
-      // given
-      controller.triggerFiltering('search', '');
-      // then
-      assert.deepEqual(controller.search, '');
-    });
-
-    test('should keep other filters when is stage updated', function (assert) {
-      // when
-      controller.set('divisions', ['division1']);
-      // given
-      controller.triggerFiltering('search', 'Something');
-      // then
-      assert.deepEqual(controller.divisions, ['division1']);
+        // then
+        assert.strictEqual(controller.someField, undefined);
+      });
     });
   });
 
-  module('resetFiltering', function () {
+  module('#resetFiltering', function () {
     test('reset params', function (assert) {
       //given
       controller.set('pageNumber', 1);
       controller.set('divisions', ['3eme']);
       controller.set('groups', ['M2']);
+      controller.set('search', 'fra');
 
       //when
       controller.resetFiltering();
@@ -72,11 +52,12 @@ module('Unit | Controller | authenticated/campaigns/campaign/profile-results', f
       //then
       assert.deepEqual(controller.divisions, []);
       assert.deepEqual(controller.groups, []);
+      assert.deepEqual(controller.search, null);
       assert.deepEqual(controller.pageNumber, null);
     });
   });
 
-  module('#action goToProfilePage', function () {
+  module('#goToProfilePage', function () {
     test('it should call transitionToRoute with appropriate arguments', function (assert) {
       // given
       const event = {
