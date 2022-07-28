@@ -26,15 +26,9 @@ export default class AssessmentResultsController extends Controller {
   }
 
   @action
-  triggerFiltering(filters) {
+  triggerFiltering(fieldName, value) {
+    this[fieldName] = value;
     this.pageNumber = null;
-    this.divisions = filters.divisions || this.divisions;
-    this.groups = filters.groups || this.groups;
-    this.badges = filters.badges || this.badges;
-    this.stages = filters.stages || this.stages;
-    if (filters.search !== undefined) {
-      this.search = filters.search;
-    }
   }
 
   @action

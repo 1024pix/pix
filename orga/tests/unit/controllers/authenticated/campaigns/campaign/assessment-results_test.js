@@ -13,7 +13,7 @@ module('Unit | Controller | authenticated/campaigns/campaign/assessment-results'
     module('division filter', function () {
       test('update the division filter', function (assert) {
         // given
-        controller.triggerFiltering({ divisions: ['6eme'] });
+        controller.triggerFiltering('divisions', ['6eme']);
         // then
         assert.deepEqual(controller.divisions, ['6eme']);
       });
@@ -22,7 +22,7 @@ module('Unit | Controller | authenticated/campaigns/campaign/assessment-results'
         // when
         controller.set('badges', ['badge1']);
         // given
-        controller.triggerFiltering({ divisions: ['6eme'] });
+        controller.triggerFiltering('divisions', ['6eme']);
         // then
         assert.deepEqual(controller.badges, ['badge1']);
       });
@@ -31,7 +31,7 @@ module('Unit | Controller | authenticated/campaigns/campaign/assessment-results'
     module('badge filter', function () {
       test('update the badge filter', function (assert) {
         // given
-        controller.triggerFiltering({ badges: ['badge1'] });
+        controller.triggerFiltering('badges', ['badge1']);
         // then
         assert.deepEqual(controller.badges, ['badge1']);
       });
@@ -40,7 +40,7 @@ module('Unit | Controller | authenticated/campaigns/campaign/assessment-results'
         // when
         controller.set('divisions', ['division1']);
         // given
-        controller.triggerFiltering({ badges: ['badge1'] });
+        controller.triggerFiltering('badges', ['badge1']);
         // then
         assert.deepEqual(controller.divisions, ['division1']);
       });
@@ -49,14 +49,14 @@ module('Unit | Controller | authenticated/campaigns/campaign/assessment-results'
     module('search filter', function () {
       test('update the search filter', function (assert) {
         // given
-        controller.triggerFiltering({ search: 'Something' });
+        controller.triggerFiltering('search', 'Something');
         // then
         assert.deepEqual(controller.search, 'Something');
       });
 
       test('it removes the search filter', function (assert) {
         // given
-        controller.triggerFiltering({ search: '' });
+        controller.triggerFiltering('search', '');
         // then
         assert.deepEqual(controller.search, '');
       });
@@ -65,7 +65,7 @@ module('Unit | Controller | authenticated/campaigns/campaign/assessment-results'
         // when
         controller.set('divisions', ['division1']);
         // given
-        controller.triggerFiltering({ search: 'Something' });
+        controller.triggerFiltering('search', 'Something');
         // then
         assert.deepEqual(controller.divisions, ['division1']);
       });
@@ -74,7 +74,7 @@ module('Unit | Controller | authenticated/campaigns/campaign/assessment-results'
     module('stage filter', function () {
       test('update the stage filter', function (assert) {
         // given
-        controller.triggerFiltering({ stages: ['stage1'] });
+        controller.triggerFiltering('stages', ['stage1']);
         // then
         assert.deepEqual(controller.stages, ['stage1']);
       });
@@ -83,7 +83,7 @@ module('Unit | Controller | authenticated/campaigns/campaign/assessment-results'
         // when
         controller.set('divisions', ['division1']);
         // given
-        controller.triggerFiltering({ stages: ['stage1'] });
+        controller.triggerFiltering('stages', ['stage1']);
         // then
         assert.deepEqual(controller.divisions, ['division1']);
       });

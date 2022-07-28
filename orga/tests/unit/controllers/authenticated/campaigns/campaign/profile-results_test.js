@@ -17,7 +17,7 @@ module('Unit | Controller | authenticated/campaigns/campaign/profile-results', f
       controller.set('model', { id: 12 });
       controller.set('pageNumber', 11);
 
-      controller.triggerFiltering({ divisions: ['6eme'] });
+      controller.triggerFiltering('divisions', ['6eme']);
 
       assert.deepEqual(controller.divisions, ['6eme']);
       assert.deepEqual(controller.pageNumber, null);
@@ -28,7 +28,7 @@ module('Unit | Controller | authenticated/campaigns/campaign/profile-results', f
       controller.set('fetchCampaign', fetchCampaign);
       controller.set('model', { id: 12 });
 
-      controller.triggerFiltering({ groups: ['M2'] });
+      controller.triggerFiltering('groups', ['M2']);
 
       assert.deepEqual(controller.groups, ['M2']);
     });
@@ -37,14 +37,14 @@ module('Unit | Controller | authenticated/campaigns/campaign/profile-results', f
   module('search filter', function () {
     test('update the search filter', function (assert) {
       // given
-      controller.triggerFiltering({ search: 'Something' });
+      controller.triggerFiltering('search', 'Something');
       // then
       assert.deepEqual(controller.search, 'Something');
     });
 
     test('it removes the search filter', function (assert) {
       // given
-      controller.triggerFiltering({ search: '' });
+      controller.triggerFiltering('search', '');
       // then
       assert.deepEqual(controller.search, '');
     });
@@ -53,7 +53,7 @@ module('Unit | Controller | authenticated/campaigns/campaign/profile-results', f
       // when
       controller.set('divisions', ['division1']);
       // given
-      controller.triggerFiltering({ search: 'Something' });
+      controller.triggerFiltering('search', 'Something');
       // then
       assert.deepEqual(controller.divisions, ['division1']);
     });

@@ -28,16 +28,9 @@ export default class ActivityController extends Controller {
   }
 
   @action
-  triggerFiltering(filters) {
+  triggerFiltering(fieldName, value) {
+    this[fieldName] = value;
     this.pageNumber = null;
-    this.divisions = filters.divisions || this.divisions;
-    this.groups = filters.groups || this.groups;
-    if (filters.status !== undefined) {
-      this.status = filters.status;
-    }
-    if (filters.search !== undefined) {
-      this.search = filters.search;
-    }
   }
 
   @action

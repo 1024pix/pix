@@ -68,25 +68,6 @@ module('Unit | Controller | authenticated/campaigns/campaign/activity', function
       controller.model = { campaign: { isTypeAssessment: false } };
     });
 
-    test('it updates all filters', function (assert) {
-      // given
-      controller.pageNumber = 5;
-      controller.divisions = ['A2'];
-      controller.status = 'SHARED';
-      controller.groups = ['L3'];
-      controller.search = 'Jean';
-
-      // when
-      controller.send('triggerFiltering', { divisions: ['A1'], status: 'STARTED', groups: ['L3'], search: 'Jean' });
-
-      // then
-      assert.strictEqual(controller.pageNumber, null);
-      assert.deepEqual(controller.divisions, ['A1']);
-      assert.strictEqual(controller.status, 'STARTED');
-      assert.deepEqual(controller.groups, ['L3']);
-      assert.strictEqual(controller.search, 'Jean');
-    });
-
     module('when division filter does not change', function () {
       test('it does not update divisions', function (assert) {
         // given
@@ -96,7 +77,7 @@ module('Unit | Controller | authenticated/campaigns/campaign/activity', function
         controller.search = 'Jean';
 
         // when
-        controller.send('triggerFiltering', { status: 'COMPLETED' });
+        controller.send('triggerFiltering', 'status', 'COMPLETED');
 
         // then
         assert.strictEqual(controller.pageNumber, null);
@@ -115,7 +96,7 @@ module('Unit | Controller | authenticated/campaigns/campaign/activity', function
         controller.search = 'Jean';
 
         // when
-        controller.send('triggerFiltering', { status: 'COMPLETED' });
+        controller.send('triggerFiltering', 'status', 'COMPLETED');
 
         // then
         assert.strictEqual(controller.pageNumber, null);
@@ -134,7 +115,7 @@ module('Unit | Controller | authenticated/campaigns/campaign/activity', function
         controller.search = 'Jean';
 
         // when
-        controller.send('triggerFiltering', { divisions: ['A1'] });
+        controller.send('triggerFiltering', 'divisions', ['A1']);
 
         // then
         assert.strictEqual(controller.pageNumber, null);
@@ -153,7 +134,7 @@ module('Unit | Controller | authenticated/campaigns/campaign/activity', function
         controller.search = 'Jean';
 
         // when
-        controller.send('triggerFiltering', { divisions: ['A1'] });
+        controller.send('triggerFiltering', 'divisions', ['A1']);
 
         // then
         assert.strictEqual(controller.pageNumber, null);
@@ -170,7 +151,7 @@ module('Unit | Controller | authenticated/campaigns/campaign/activity', function
         controller.status = 'SHARED';
 
         // when
-        controller.send('triggerFiltering', { status: '' });
+        controller.send('triggerFiltering', 'status', '');
 
         // then
         assert.strictEqual(controller.status, '');
@@ -184,7 +165,7 @@ module('Unit | Controller | authenticated/campaigns/campaign/activity', function
         controller.search = 'Jean';
 
         // when
-        controller.send('triggerFiltering', { search: 'Paul' });
+        controller.send('triggerFiltering', 'search', 'Paul');
 
         // then
         assert.strictEqual(controller.search, 'Paul');
