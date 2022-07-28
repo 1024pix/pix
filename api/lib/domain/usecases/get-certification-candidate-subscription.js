@@ -10,6 +10,28 @@ function _hasStillValidPixPlusDroit(badgeAcquisitions) {
   );
 }
 
+function _hasStillValidPixPlusEdu1erDegre(badgeAcquisitions) {
+  return badgeAcquisitions.some(
+    (badgeAcquisition) =>
+      badgeAcquisition.badgeKey === Badge.keys.PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_INITIE ||
+      badgeAcquisition.badgeKey === Badge.keys.PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_CONFIRME ||
+      badgeAcquisition.badgeKey === Badge.keys.PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE ||
+      badgeAcquisition.badgeKey === Badge.keys.PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_CONFIRME ||
+      badgeAcquisition.badgeKey === Badge.keys.PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT
+  );
+}
+
+function _hasStillValidPixPlusEdu2ndDegre(badgeAcquisitions) {
+  return badgeAcquisitions.some(
+    (badgeAcquisition) =>
+      badgeAcquisition.badgeKey === Badge.keys.PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE ||
+      badgeAcquisition.badgeKey === Badge.keys.PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME ||
+      badgeAcquisition.badgeKey === Badge.keys.PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE ||
+      badgeAcquisition.badgeKey === Badge.keys.PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME ||
+      badgeAcquisition.badgeKey === Badge.keys.PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT
+  );
+}
+
 module.exports = async function getCertificationCandidateSubscription({
   certificationCandidateId,
   certificationBadgesService,
@@ -46,6 +68,26 @@ module.exports = async function getCertificationCandidateSubscription({
         userId: certificationCandidate.userId,
       });
       if (hasStillValidCleaBadge) {
+        eligibleSubscriptions.push(complementaryCertification);
+      } else {
+        nonEligibleSubscriptions.push(complementaryCertification);
+      }
+    }
+    if (complementaryCertification.isPixPlusEdu1erDegre()) {
+      const stillValidCertifiableBadgeAcquisitions = await certificationBadgesService.findStillValidBadgeAcquisitions({
+        userId: certificationCandidate.userId,
+      });
+      if (_hasStillValidPixPlusEdu1erDegre(stillValidCertifiableBadgeAcquisitions)) {
+        eligibleSubscriptions.push(complementaryCertification);
+      } else {
+        nonEligibleSubscriptions.push(complementaryCertification);
+      }
+    }
+    if (complementaryCertification.isPixPlusEdu2ndDegre()) {
+      const stillValidCertifiableBadgeAcquisitions = await certificationBadgesService.findStillValidBadgeAcquisitions({
+        userId: certificationCandidate.userId,
+      });
+      if (_hasStillValidPixPlusEdu2ndDegre(stillValidCertifiableBadgeAcquisitions)) {
         eligibleSubscriptions.push(complementaryCertification);
       } else {
         nonEligibleSubscriptions.push(complementaryCertification);

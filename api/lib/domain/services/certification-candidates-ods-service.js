@@ -3,7 +3,12 @@ const {
   getTransformationStructsForPixCertifCandidatesImport,
 } = require('../../infrastructure/files/candidates-import/candidates-import-transformation-structures');
 const CertificationCandidate = require('../models/CertificationCandidate');
-const { CLEA, PIX_PLUS_DROIT } = require('../models/ComplementaryCertification');
+const {
+  CLEA,
+  PIX_PLUS_DROIT,
+  PIX_PLUS_EDU_1ER_DEGRE,
+  PIX_PLUS_EDU_2ND_DEGRE,
+} = require('../models/ComplementaryCertification');
 const { CertificationCandidatesImportError } = require('../errors');
 const _ = require('lodash');
 const bluebird = require('bluebird');
@@ -52,7 +57,8 @@ async function extractCertificationCandidatesFromCandidatesImportSheet({
     Object.entries(certificationCandidatesDataByLine),
     async ([line, certificationCandidateData]) => {
       let { sex, birthCountry, birthINSEECode, birthPostalCode, birthCity, billingMode } = certificationCandidateData;
-      const { hasCleaNumerique, hasPixPlusDroit } = certificationCandidateData;
+      const { hasCleaNumerique, hasPixPlusDroit, hasPixPlusEdu1erDegre, hasPixPlusEdu2ndDegre } =
+        certificationCandidateData;
 
       if (certificationCandidateData.sex?.toUpperCase() === 'M') sex = 'M';
       if (certificationCandidateData.sex?.toUpperCase() === 'F') sex = 'F';
@@ -75,6 +81,8 @@ async function extractCertificationCandidatesFromCandidatesImportSheet({
       const complementaryCertifications = await _buildComplementaryCertificationsForLine({
         hasCleaNumerique,
         hasPixPlusDroit,
+        hasPixPlusEdu1erDegre,
+        hasPixPlusEdu2ndDegre,
         complementaryCertificationRepository,
       });
 
@@ -149,6 +157,8 @@ function _handleParsingError() {
 async function _buildComplementaryCertificationsForLine({
   hasCleaNumerique,
   hasPixPlusDroit,
+  hasPixPlusEdu1erDegre,
+  hasPixPlusEdu2ndDegre,
   complementaryCertificationRepository,
 }) {
   const complementaryCertifications = [];
@@ -162,6 +172,20 @@ async function _buildComplementaryCertificationsForLine({
     complementaryCertifications.push(
       complementaryCertificationsInDB.find(
         (complementaryCertification) => complementaryCertification.name === PIX_PLUS_DROIT
+      )
+    );
+  }
+  if (hasPixPlusEdu1erDegre) {
+    complementaryCertifications.push(
+      complementaryCertificationsInDB.find(
+        (complementaryCertification) => complementaryCertification.name === PIX_PLUS_EDU_1ER_DEGRE
+      )
+    );
+  }
+  if (hasPixPlusEdu2ndDegre) {
+    complementaryCertifications.push(
+      complementaryCertificationsInDB.find(
+        (complementaryCertification) => complementaryCertification.name === PIX_PLUS_EDU_2ND_DEGRE
       )
     );
   }
