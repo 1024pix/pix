@@ -46,7 +46,6 @@ Router.map(function () {
     this.route('checkpoint');
   });
 
-  this.route('login', { path: '/connexion' });
   this.route('logout', { path: '/deconnexion' });
   this.route('not-connected', { path: '/nonconnecte' });
   this.route('reset-password', { path: '/changer-mot-de-passe/:temporary_key' });
@@ -107,10 +106,18 @@ Router.map(function () {
   });
 
   this.route('terms-of-service', { path: '/cgu' });
+  this.route('terms-of-service-oidc', { path: '/cgu-oidc' });
+
+  /**
+   * @deprecated use the new route connexion/:identity_provider_slug
+   */
   this.route('login-pole-emploi', { path: '/connexion-pole-emploi' });
-  this.route('terms-of-service-pole-emploi', { path: '/cgu-pole-emploi' });
   this.route('login-cnav', { path: '/connexion-cnav' });
-  this.route('terms-of-service-cnav', { path: '/cgu-cnav' });
+
+  this.route('authentication', { path: '/connexion' }, function () {
+    this.route('login', { path: '' });
+    this.route('login-oidc', { path: '/:identity_provider_slug' });
+  });
 
   this.route('sitemap', { path: '/plan-du-site' });
   // XXX: this route is used for any request that did not match any of the previous routes. SHOULD ALWAYS BE THE LAST ONE

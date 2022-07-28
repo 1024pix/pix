@@ -85,7 +85,7 @@ describe('Unit | Mixin | secured-route-mixin', function () {
         it('does not transition to the authentication route', function () {
           route.beforeModel(transition);
 
-          sinon.assert.neverCalledWith(router.transitionTo, 'login');
+          sinon.assert.neverCalledWith(router.transitionTo, 'authentication.login');
         });
 
         it('does not transition to the terms-of-service route', function () {
@@ -108,7 +108,7 @@ describe('Unit | Mixin | secured-route-mixin', function () {
         it('does not transition to the authentication route', function () {
           route.beforeModel(transition);
 
-          sinon.assert.neverCalledWith(router.transitionTo, 'login');
+          sinon.assert.neverCalledWith(router.transitionTo, 'authentication.login');
         });
 
         it('transitions to terms-of-service route', function () {
@@ -126,7 +126,7 @@ describe('Unit | Mixin | secured-route-mixin', function () {
 
       it('transitions to "login" as the default authentication route', function () {
         route.beforeModel(transition);
-        sinon.assert.calledWith(router.transitionTo, 'login');
+        sinon.assert.calledWith(router.transitionTo, 'authentication.login');
       });
 
       it('does not transition to the terms-of-service route', function () {

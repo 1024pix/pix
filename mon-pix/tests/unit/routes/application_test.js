@@ -56,7 +56,7 @@ describe('Unit | Route | application', function () {
         data: {
           nextURL: '/campagnes/PIXCNAV01/access',
           authenticated: {
-            identity_provider: 'CNAV',
+            identity_provider_code: 'CNAV',
           },
         },
       });

@@ -1,9 +1,8 @@
 import ApplicationRouteMixin from 'ember-simple-auth/mixins/application-route-mixin';
-
 import Route from '@ember/routing/route';
-
 import { inject as service } from '@ember/service';
 import get from 'lodash/get';
+import IdentityProviders from 'mon-pix/identity-providers';
 
 export default class Application extends Route.extend(ApplicationRouteMixin) {
   @service splash;
@@ -76,10 +75,10 @@ export default class Application extends Route.extend(ApplicationRouteMixin) {
     await this._handleLocale();
 
     const nextURL = this.session.data.nextURL;
-    if (
-      this._isFromIdentityProviderLoginPage(nextURL, 'CNAV') ||
-      this._isFromIdentityProviderLoginPage(nextURL, 'POLE_EMPLOI')
-    ) {
+    const isFromIdentityProviderLoginPage = Object.keys(IdentityProviders).some((key) =>
+      this._isFromIdentityProviderLoginPage(nextURL, IdentityProviders[key].code)
+    );
+    if (isFromIdentityProviderLoginPage) {
       this.session.set('data.nextURL', undefined);
       this.router.replaceWith(nextURL);
     } else {
@@ -146,9 +145,9 @@ export default class Application extends Route.extend(ApplicationRouteMixin) {
     return this.session.invalidate();
   }
 
-  _isFromIdentityProviderLoginPage(nextUrl, identityProvider) {
+  _isFromIdentityProviderLoginPage(nextUrl, identityProviderCode) {
     const isUserLoggedInToIdentityProvider =
-      get(this.session, 'data.authenticated.identity_provider') === identityProvider;
+      get(this.session, 'data.authenticated.identity_provider_code') === identityProviderCode;
     return nextUrl && isUserLoggedInToIdentityProvider;
   }
 }

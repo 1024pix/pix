@@ -56,14 +56,13 @@ describe('Unit | Route | Access', function () {
       it('should override authentication route with login-pole-emploi', async function () {
         // given
         route.session.data.externalUser = 'some external user';
-        const POLE_EMPLOI = 'POLE_EMPLOI';
-        campaign.isRestrictedByIdentityProvider.withArgs(POLE_EMPLOI).returns(true);
+        campaign.isRestrictedByIdentityProvider.withArgs('POLE_EMPLOI').returns(true);
 
         // when
         await route.beforeModel({ from: 'campaigns.campaign-landing-page' });
 
         // then
-        sinon.assert.calledWith(route.router.replaceWith, 'login-pole-emploi');
+        sinon.assert.calledWith(route.router.replaceWith, 'authentication.login-oidc', 'pole-emploi');
       });
     });
 
@@ -72,14 +71,14 @@ describe('Unit | Route | Access', function () {
         // given
         route.session.data.externalUser = 'some external user';
         const POLE_EMPLOI = 'POLE_EMPLOI';
-        route.session.data.authenticated.identity_provider = POLE_EMPLOI;
+        route.session.data.authenticated.identity_provider_code = POLE_EMPLOI;
         campaign.isRestrictedByIdentityProvider.withArgs(POLE_EMPLOI).returns(true);
 
         // when
         await route.beforeModel({ from: 'campaigns.campaign-landing-page' });
 
         // then
-        sinon.assert.neverCalledWith(route.router.replaceWith, 'login-pole-emploi');
+        sinon.assert.neverCalledWith(route.router.replaceWith, 'authentication.login-oidc', 'pole-emploi');
       });
     });
 
@@ -93,7 +92,7 @@ describe('Unit | Route | Access', function () {
         await route.beforeModel({ from: 'campaigns.campaign-landing-page' });
 
         // then
-        sinon.assert.calledWith(route.router.replaceWith, 'login-cnav');
+        sinon.assert.calledWith(route.router.replaceWith, 'authentication.login-oidc', 'cnav');
       });
     });
 
@@ -102,14 +101,14 @@ describe('Unit | Route | Access', function () {
         // given
         route.session.data.externalUser = 'some external user';
         const CNAV = 'CNAV';
-        route.session.data.authenticated.identity_provider = CNAV;
+        route.session.data.authenticated.identity_provider_code = CNAV;
         campaign.isRestrictedByIdentityProvider.withArgs(CNAV).returns(true);
 
         // when
         await route.beforeModel({ from: 'campaigns.campaign-landing-page' });
 
         // then
-        sinon.assert.neverCalledWith(route.router.replaceWith, 'login-cnav');
+        sinon.assert.neverCalledWith(route.router.replaceWith, 'authentication.login-oidc', 'cnav');
       });
     });
 

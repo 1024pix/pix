@@ -5,7 +5,7 @@ export default Mixin.create({
   router: service(),
   session: service('session'),
   currentUser: service(),
-  authenticationRoute: 'login',
+  authenticationRoute: 'authentication.login',
 
   beforeModel(transition) {
     const isUserLoaded = !!this.currentUser.user;

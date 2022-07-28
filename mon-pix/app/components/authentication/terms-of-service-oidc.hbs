@@ -1,4 +1,3 @@
-{{page-title (t "pages.terms-of-service-cnav.title")}}
 <div class="terms-of-service-page">
   <div class="terms-of-service-form">
 
@@ -8,11 +7,14 @@
       </a>
     </div>
 
-    <h1 class="terms-of-service-form__title">{{t "pages.terms-of-service-cnav.title"}}</h1>
+    <h1 class="terms-of-service-form__title">{{t "pages.terms-of-service-oidc.title"}}</h1>
 
     <div class="terms-of-service-form__description">
       <p>
-        {{t "pages.terms-of-service-cnav.message"}}
+        {{t
+          "pages.terms-of-service-oidc.message"
+          identityProviderOrganizationName=this.identityProviderOrganizationName
+        }}
       </p>
     </div>
 
@@ -24,7 +26,7 @@
           class="terms-of-service-form-conditions__check"
           @checked={{this.isTermsOfServiceValidated}}
         />
-        {{t "pages.terms-of-service-cnav.cgu" htmlSafe=true}}
+        {{t "pages.terms-of-service-oidc.cgu" htmlSafe=true}}
       </label>
     </div>
 
@@ -40,7 +42,7 @@
       </PixButtonLink>
       {{#unless this.isAuthenticationKeyExpired}}
         <PixButton @type="submit" @triggerAction={{this.submit}} class="terms-of-service-form-actions__submit">
-          {{t "pages.terms-of-service-cnav.form.button"}}
+          {{t "pages.terms-of-service-oidc.form.button"}}
         </PixButton>
       {{/unless}}
     </div>
