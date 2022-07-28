@@ -35,11 +35,6 @@ export default class AuthenticatedCampaignsListMyCampaignsController extends Con
   }
 
   @action
-  updateCampaignStatus(newStatus) {
-    this.status = newStatus;
-  }
-
-  @action
   goToCampaignPage(campaignId, event) {
     event.preventDefault();
     event.stopPropagation();

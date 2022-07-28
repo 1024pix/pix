@@ -47,6 +47,7 @@ export default class AuthenticatedCampaignsListAllCampaignsRoute extends Route {
       controller.pageSize = 25;
       controller.name = null;
       controller.ownerName = null;
+      controller.status = null;
     }
   }
 }

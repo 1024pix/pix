@@ -43,21 +43,6 @@ module('Unit | Controller | authenticated/campaigns/list/all-campaigns', functio
     });
   });
 
-  module('#action updateCampaignStatus', function () {
-    test('it should update controller status field', function (assert) {
-      // given
-      controller.status = 'someStatus';
-
-      // when
-      controller.send('updateCampaignStatus', 'someOtherStatus');
-
-      // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(controller.status, 'someOtherStatus');
-    });
-  });
-
   module('#action goToCampaignPage', function () {
     test('it should call transitionToRoute with appropriate arguments', function (assert) {
       // given
