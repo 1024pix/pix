@@ -15,9 +15,9 @@ module.exports = async function authenticateCnavUser({
     logger.error(`State sent ${stateSent} did not match the state received ${stateReceived}`);
     throw new UnexpectedOidcStateError();
   }
-  const { idToken } = await oidcAuthenticationService.exchangeCodeForTokens({ code, redirectUri });
+  const authenticationSessionContent = await oidcAuthenticationService.exchangeCodeForTokens({ code, redirectUri });
 
-  const userInfo = await oidcAuthenticationService.getUserInfo({ idToken });
+  const userInfo = await oidcAuthenticationService.getUserInfo({ idToken: authenticationSessionContent.idToken });
 
   const user = await userRepository.findByExternalIdentifier({
     externalIdentityId: userInfo.externalIdentityId,
@@ -31,7 +31,9 @@ module.exports = async function authenticateCnavUser({
 
     return { pixAccessToken, isAuthenticationComplete: true };
   } else {
-    const authenticationKey = await authenticationSessionService.save({ idToken });
+    const authenticationKey = await authenticationSessionService.save({
+      idToken: authenticationSessionContent.idToken,
+    });
 
     return { authenticationKey, isAuthenticationComplete: false };
   }

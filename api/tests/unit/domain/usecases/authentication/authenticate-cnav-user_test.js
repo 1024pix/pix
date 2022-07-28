@@ -3,6 +3,7 @@ const { UnexpectedOidcStateError } = require('../../../../../lib/domain/errors')
 const logger = require('../../../../../lib/infrastructure/logger');
 
 const authenticateCnavUser = require('../../../../../lib/domain/usecases/authentication/authenticate-cnav-user');
+const AuthenticationSessionContent = require('../../../../../lib/domain/models/AuthenticationSessionContent');
 
 describe('Unit | UseCase | authenticate-cnav-user', function () {
   let oidcAuthenticationService;
@@ -132,7 +133,7 @@ describe('Unit | UseCase | authenticate-cnav-user', function () {
   context('When user has no account', function () {
     it('should save the id token', async function () {
       // given
-      const idToken = _fakeCnavAPI({ oidcAuthenticationService });
+      const { authenticationSessionContent } = _fakeCnavAPI({ oidcAuthenticationService });
       userRepository.findByExternalIdentifier.resolves(null);
 
       // when
@@ -147,7 +148,9 @@ describe('Unit | UseCase | authenticate-cnav-user', function () {
       });
 
       // then
-      expect(authenticationSessionService.save).to.have.been.calledWith({ idToken });
+      expect(authenticationSessionService.save).to.have.been.calledWith({
+        idToken: authenticationSessionContent.idToken,
+      });
     });
 
     it('should return an authentication key', async function () {
@@ -175,15 +178,18 @@ describe('Unit | UseCase | authenticate-cnav-user', function () {
 });
 
 function _fakeCnavAPI({ oidcAuthenticationService }) {
-  const idToken = 'idToken';
+  const authenticationSessionContent = new AuthenticationSessionContent({
+    accessToken: 'accessToken',
+    idToken: 'idToken',
+  });
   const userInfo = {
     family_name: 'Morris',
     given_name: 'Tuck',
     externalIdentityId: '094b83ac-2e20-4aa8-b438-0bc91748e4a6',
   };
 
-  oidcAuthenticationService.exchangeCodeForTokens.resolves({ idToken });
+  oidcAuthenticationService.exchangeCodeForTokens.resolves(authenticationSessionContent);
   oidcAuthenticationService.getUserInfo.resolves(userInfo);
 
-  return idToken;
+  return { authenticationSessionContent };
 }
