@@ -26,6 +26,7 @@ export default class AuthenticatedCampaignsListAllCampaignsController extends Co
     this.name = '';
     this.ownerName = '';
     this.status = null;
+    this.pageNumber = null;
   }
 
   @action

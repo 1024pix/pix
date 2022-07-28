@@ -64,6 +64,7 @@ module('Unit | Controller | authenticated/campaigns/list/all-campaigns', functio
       controller.status = 'archived';
       controller.name = 'a name';
       controller.ownerName = 'an owner bame';
+      controller.pageNumber = 4;
 
       // when
       await controller.clearFilters();
@@ -72,6 +73,7 @@ module('Unit | Controller | authenticated/campaigns/list/all-campaigns', functio
       assert.strictEqual(controller.status, null);
       assert.strictEqual(controller.name, '');
       assert.strictEqual(controller.ownerName, '');
+      assert.strictEqual(controller.pageNumber, null);
     });
   });
 
