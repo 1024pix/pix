@@ -1,5 +1,18 @@
 # Pix Changelog
 
+## v3.238.0 (28/07/2022)
+
+
+### :rocket: Amélioration
+- [#4707](https://github.com/1024pix/pix/pull/4707) [FEATURE] Filtrer les participants par nom et prénom (PIX-5122).
+- [#4668](https://github.com/1024pix/pix/pull/4668) [FEATURE] Ne permettre le passage de Pix+Edu que si le candidat est inscrit (PIX-5240)
+
+### :building_construction: Tech
+- [#4692](https://github.com/1024pix/pix/pull/4692) [TECH] Utiliser le nouveau service d'authentification OIDC pour la CNAV et Pôle Emploi (PIX-5388).
+- [#4669](https://github.com/1024pix/pix/pull/4669) [TECH] Mutualiser le code OIDC sur Pix App (PIX-5355).
+- [#4713](https://github.com/1024pix/pix/pull/4713) [TECH] Ajoute les complementary-certification-badges manquant des seeds (PIX-5430)
+- [#4710](https://github.com/1024pix/pix/pull/4710) [TECH] Mutualiser la déserialisation des payload avec un middleware (PIX-5415).
+
 ## v3.237.0 (27/07/2022)
 
 
