@@ -2,7 +2,7 @@
   <div>
     <span class="sr-only">{{t "pages.campaigns-list.filter.legend"}}</span>
     <label class="campaign-filters__title">{{t "pages.campaigns-list.filter.title"}}</label>
-    <Campaign::Filter::SearchInputFilter
+    <Ui::SearchInputFilter
       @field="name"
       @value={{@nameFilter}}
       @placeholder={{t "pages.campaigns-list.filter.by-name"}}
@@ -10,7 +10,7 @@
       @triggerFiltering={{@onFilter}}
     />
     {{#unless @listOnlyCampaignsOfCurrentUser}}
-      <Campaign::Filter::SearchInputFilter
+      <Ui::SearchInputFilter
         @field="ownerName"
         @value={{@ownerNameFilter}}
         @placeholder={{t "pages.campaigns-list.filter.by-owner"}}
