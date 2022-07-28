@@ -339,6 +339,11 @@ class InvalidCertificationIssueReportForSaving extends DomainError {
     super(message);
   }
 }
+class CertificationIssueReportAutomaticallyResolvedShouldNotBeUpdatedManually extends DomainError {
+  constructor(message = 'Le signalement ne peut pas être modifié manuellement') {
+    super(message);
+  }
+}
 
 class DeprecatedCertificationIssueReportCategoryError extends DomainError {
   constructor(message = 'La catégorie de signalement choisie est dépréciée.') {
@@ -1172,6 +1177,7 @@ module.exports = {
   ChallengeNotAskedError,
   ChallengeToBeNeutralizedNotFoundError,
   ChallengeToBeDeneutralizedNotFoundError,
+  CertificationIssueReportAutomaticallyResolvedShouldNotBeUpdatedManually,
   CompetenceResetError,
   CpfBirthInformationValidationError,
   CsvImportError,
