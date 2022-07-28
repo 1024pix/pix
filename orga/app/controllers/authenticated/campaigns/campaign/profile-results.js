@@ -3,7 +3,6 @@ import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 
 export default class ProfilesController extends Controller {
-  queryParams = ['pageNumber', 'pageSize', 'divisions', 'groups'];
   @tracked pageNumber = 1;
   @tracked pageSize = 25;
   @tracked divisions = [];

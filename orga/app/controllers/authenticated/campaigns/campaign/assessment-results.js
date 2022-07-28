@@ -3,8 +3,6 @@ import Controller from '@ember/controller';
 import { tracked } from '@glimmer/tracking';
 
 export default class AssessmentResultsController extends Controller {
-  queryParams = ['pageNumber', 'pageSize', 'divisions', 'groups', 'badges', 'stages'];
-
   @tracked pageNumber = 1;
   @tracked pageSize = 25;
   @tracked divisions = [];
