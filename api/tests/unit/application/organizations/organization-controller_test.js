@@ -795,7 +795,22 @@ describe('Unit | Application | Organizations | organization-controller', functio
       const response = await organizationController.findPaginatedFilteredOrganizationLearners(request, hFake);
 
       // then
-      expect(response).to.deep.equal(serializedStudentsWithUsersInfos);
+      expect(response.source).to.deep.equal(serializedStudentsWithUsersInfos);
+    });
+
+    it('should return information about deprecation', async function () {
+      //given
+      usecases.findPaginatedFilteredOrganizationLearners.resolves({ data: [] });
+      userWithOrganizationLearnerSerializer.serialize.returns();
+
+      // when
+      const response = await organizationController.findPaginatedFilteredOrganizationLearners(request, hFake);
+
+      // then
+      expect(response.headers['Deprecation']).to.equal('true');
+      expect(response.headers['Link']).to.equal(
+        '/api/organizations/145/sco-participants or /api/organizations/145/sup-participants; rel="successor-version"'
+      );
     });
   });
 

@@ -157,7 +157,7 @@ describe('Integration | Application | Organizations | organization-controller', 
     });
   });
 
-  describe('#findOrganizationsStudentsWithUserInfo', function () {
+  describe('#findPaginatedFilteredOrganizationLearners', function () {
     context('Success cases', function () {
       it('should return an HTTP response with status code 200', async function () {
         // given

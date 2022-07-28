@@ -645,6 +645,7 @@ exports.register = async (server) => {
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
             '- Récupération des élèves liés à une organisation\n',
+          "- L'usage de cette route est **dépréciée** en faveur de /api/organizations/{id}/sco-participants and /api/organizations/{id}/sup-participants",
         ],
       },
     },
