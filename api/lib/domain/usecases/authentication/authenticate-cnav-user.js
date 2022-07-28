@@ -17,7 +17,10 @@ module.exports = async function authenticateCnavUser({
   }
   const authenticationSessionContent = await oidcAuthenticationService.exchangeCodeForTokens({ code, redirectUri });
 
-  const userInfo = await oidcAuthenticationService.getUserInfo({ idToken: authenticationSessionContent.idToken });
+  const userInfo = await oidcAuthenticationService.getUserInfo({
+    idToken: authenticationSessionContent.idToken,
+    accessToken: authenticationSessionContent.accessToken,
+  });
 
   const user = await userRepository.findByExternalIdentifier({
     externalIdentityId: userInfo.externalIdentityId,

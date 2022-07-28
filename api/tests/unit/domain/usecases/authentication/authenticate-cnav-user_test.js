@@ -133,7 +133,7 @@ describe('Unit | UseCase | authenticate-cnav-user', function () {
   context('When user has no account', function () {
     it('should save the id token', async function () {
       // given
-      const { authenticationSessionContent } = _fakeCnavAPI({ oidcAuthenticationService });
+      const authenticationSessionContent = _fakeCnavAPI({ oidcAuthenticationService });
       userRepository.findByExternalIdentifier.resolves(null);
 
       // when
@@ -189,7 +189,9 @@ function _fakeCnavAPI({ oidcAuthenticationService }) {
   };
 
   oidcAuthenticationService.exchangeCodeForTokens.resolves(authenticationSessionContent);
-  oidcAuthenticationService.getUserInfo.resolves(userInfo);
+  oidcAuthenticationService.getUserInfo
+    .withArgs({ idToken: authenticationSessionContent.idToken, accessToken: authenticationSessionContent.accessToken })
+    .resolves(userInfo);
 
-  return { authenticationSessionContent };
+  return authenticationSessionContent;
 }
