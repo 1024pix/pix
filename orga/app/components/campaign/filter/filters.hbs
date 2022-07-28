@@ -24,7 +24,7 @@
         type="radio"
         class="campaign-filters__radio"
         checked={{not @isArchived}}
-        {{on "click" (fn @onClickStatusFilter null)}}
+        {{on "click" (fn @onFilter "status" null)}}
       />
       <label
         for="ongoing-campaigns"
@@ -37,7 +37,7 @@
         type="radio"
         class="campaign-filters__radio"
         checked={{@isArchived}}
-        {{on "click" (fn @onClickStatusFilter "archived")}}
+        {{on "click" (fn @onFilter "status" "archived")}}
       />
       <label for="archived-campaigns" class="campaign-filters__tab {{if @isArchived "campaign-filters__tab--active"}}">
         {{t "pages.campaigns-list.action.archived.label"}}

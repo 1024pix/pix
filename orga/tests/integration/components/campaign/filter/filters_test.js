@@ -10,7 +10,6 @@ module('Integration | Component | Campaign::Filter::Filters', function (hooks) {
 
   hooks.beforeEach(function () {
     this.set('triggerFilteringSpy', () => {});
-    this.set('onClickStatusFilterSpy', () => {});
     this.set('onClickClearFiltersSpy', sinon.stub());
   });
 
@@ -19,7 +18,6 @@ module('Integration | Component | Campaign::Filter::Filters', function (hooks) {
     const screen = await renderScreen(
       hbs`<Campaign::Filter::Filters
         @onFilter={{this.triggerFilteringSpy}}
-        @onClickStatusFilter={{this.onClickStatusFilterSpy}}
         @onClearFilters={{this.onClickClearFiltersSpy}}
         @numResults={{1}} />`
     );
@@ -39,7 +37,6 @@ module('Integration | Component | Campaign::Filter::Filters', function (hooks) {
       await renderScreen(
         hbs`<Campaign::Filter::Filters
         @onFilter={{this.triggerFilteringSpy}}
-        @onClickStatusFilter={{this.onClickStatusFilterSpy}}
         @onClearFilters={{this.onClickClearFiltersSpy}}
         @numResults={{1}} />`
       );
@@ -59,7 +56,6 @@ module('Integration | Component | Campaign::Filter::Filters', function (hooks) {
       const screen = await renderScreen(
         hbs`<Campaign::Filter::Filters
         @onFilter={{this.triggerFilteringSpy}}
-        @onClickStatusFilter={{this.onClickStatusFilterSpy}}
         @onClearFilters={{this.onClickClearFiltersSpy}}
         @numResults={{1}}
         @listOnlyCampaignsOfCurrentUser={{true}} />`
@@ -79,7 +75,6 @@ module('Integration | Component | Campaign::Filter::Filters', function (hooks) {
     await renderScreen(
       hbs`<Campaign::Filter::Filters
         @onFilter={{triggerFiltering}}
-        @onClickStatusFilter={{this.onClickStatusFilterSpy}}
         @onClearFilters={{this.onClickClearFiltersSpy}}
         @numResults={{1}} />`
     );
@@ -99,7 +94,6 @@ module('Integration | Component | Campaign::Filter::Filters', function (hooks) {
     await renderScreen(
       hbs`<Campaign::Filter::Filters
         @onFilter={{triggerFiltering}}
-        @onClickStatusFilter={{this.onClickStatusFilterSpy}}
         @onClearFilters={{this.onClickClearFiltersSpy}}
         @numResults={{1}} />`
     );
@@ -115,7 +109,6 @@ module('Integration | Component | Campaign::Filter::Filters', function (hooks) {
     const screen = await renderScreen(
       hbs`<Campaign::Filter::Filters
         @onFilter={{this.triggerFilteringSpy}}
-        @onClickStatusFilter={{this.onClickStatusFilterSpy}}
         @onClearFilters={{this.onClickClearFiltersSpy}}
         @numResults={{1}} />`
     );
