@@ -1,6 +1,11 @@
 const _ = require('lodash');
 const { convertDateValue } = require('../../utils/date-utils');
-const { CLEA, PIX_PLUS_DROIT } = require('../../../domain/models/ComplementaryCertification');
+const {
+  CLEA,
+  PIX_PLUS_DROIT,
+  PIX_PLUS_EDU_1ER_DEGRE,
+  PIX_PLUS_EDU_2ND_DEGRE,
+} = require('../../../domain/models/ComplementaryCertification');
 
 // These are transformation structures. They provide all the necessary info
 // on how to transform cell values in an attendance sheet into a target JS object.
@@ -98,6 +103,12 @@ function _includeComplementaryCertificationColumns(complementaryCertifications, 
   const containsPixPlusDroit = complementaryCertifications.some(
     (complementaryCertification) => complementaryCertification.name === PIX_PLUS_DROIT
   );
+  const containsPixPlusEdu1erDegre = complementaryCertifications.some(
+    (complementaryCertification) => complementaryCertification.name === PIX_PLUS_EDU_1ER_DEGRE
+  );
+  const containsPixPlusEdu2ndDegre = complementaryCertifications.some(
+    (complementaryCertification) => complementaryCertification.name === PIX_PLUS_EDU_2ND_DEGRE
+  );
 
   if (containsClea) {
     transformationStruct.push({
@@ -111,6 +122,22 @@ function _includeComplementaryCertificationColumns(complementaryCertifications, 
     transformationStruct.push({
       header: 'Pix+ Droit\n("oui" ou laisser vide)',
       property: 'hasPixPlusDroit',
+      transformFn: _toBooleanIfValueEqualsOuiOrNull,
+    });
+  }
+
+  if (containsPixPlusEdu1erDegre) {
+    transformationStruct.push({
+      header: 'Pix+ Édu 1er degré\n("oui" ou laisser vide)',
+      property: 'hasPixPlusEdu1erDegre',
+      transformFn: _toBooleanIfValueEqualsOuiOrNull,
+    });
+  }
+
+  if (containsPixPlusEdu2ndDegre) {
+    transformationStruct.push({
+      header: 'Pix+ Édu 2nd degré\n("oui" ou laisser vide)',
+      property: 'hasPixPlusEdu2ndDegre',
       transformFn: _toBooleanIfValueEqualsOuiOrNull,
     });
   }

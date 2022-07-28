@@ -60,6 +60,14 @@ module.exports = class CandidateData {
       complementaryCertifications,
       'Pix+ Droit'
     );
+    this.pixPlusEdu1erDegre = this._displayYesIfCandidateHasComplementaryCertification(
+      complementaryCertifications,
+      'Pix+ Édu 1er degré'
+    );
+    this.pixPlusEdu2ndDegre = this._displayYesIfCandidateHasComplementaryCertification(
+      complementaryCertifications,
+      'Pix+ Édu 2nd degré'
+    );
     this.count = number;
     this._clearBirthInformationDataForExport();
   }
