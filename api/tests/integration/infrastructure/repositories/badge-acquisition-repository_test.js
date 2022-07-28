@@ -1,4 +1,4 @@
-const { expect, databaseBuilder, knex } = require('../../../test-helper');
+const { expect, databaseBuilder, knex, domainBuilder } = require('../../../test-helper');
 const _ = require('lodash');
 const badgeAcquisitionRepository = require('../../../../lib/infrastructure/repositories/badge-acquisition-repository');
 const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
@@ -337,70 +337,163 @@ describe('Integration | Repository | Badge Acquisition', function () {
     });
   });
 
-  describe('#findCertifiable', function () {
-    let badgeCertifiable, badgeNonCertifiable, skillSet, badgePartnerCriterion, user, userWithoutBadge;
-    beforeEach(async function () {
-      const targetProfile = databaseBuilder.factory.buildTargetProfile();
-      badgeCertifiable = databaseBuilder.factory.buildBadge({
-        key: 'key1',
-        targetProfileId: targetProfile.id,
-        isCertifiable: true,
+  describe('#findHighestCertifiable', function () {
+    describe('when the user has a certifiable acquired badge', function () {
+      it('should return the highest level certifiable acquired badge', async function () {
+        //given
+        const user = databaseBuilder.factory.buildUser();
+        const acquiredBadge = databaseBuilder.factory.buildBadge.certifiable({
+          key: 'PIX_DROIT_MAITRE_CERTIF',
+        });
+
+        databaseBuilder.factory.buildBadgeAcquisition({ badgeId: acquiredBadge.id, userId: user.id });
+
+        const { id: complementaryCertificationId } = databaseBuilder.factory.buildComplementaryCertification();
+        databaseBuilder.factory.buildComplementaryCertificationBadge({
+          badgeId: acquiredBadge.id,
+          complementaryCertificationId,
+          level: 2,
+        });
+
+        const skillSet = databaseBuilder.factory.buildSkillSet({ badgeId: acquiredBadge.id });
+
+        const badgeCriterion = databaseBuilder.factory.buildBadgeCriterion({
+          badgeId: acquiredBadge.id,
+          skillSetIds: [skillSet.id],
+        });
+
+        await databaseBuilder.commit();
+
+        // when
+        const certifiableBadgesAcquiredByUser = await badgeAcquisitionRepository.findHighestCertifiable({
+          userId: user.id,
+        });
+
+        // then
+        const expectedSkillSetsForCertifiableBadge = [
+          {
+            id: skillSet.id,
+            badgeId: acquiredBadge.id,
+            name: skillSet.name,
+            skillIds: skillSet.skillIds,
+          },
+        ];
+
+        const expectedBadgeCriteria = [
+          {
+            id: badgeCriterion.id,
+            scope: badgeCriterion.scope,
+            threshold: badgeCriterion.threshold,
+            skillSetIds: badgeCriterion.skillSetIds,
+            badgeId: acquiredBadge.id,
+          },
+        ];
+
+        expect(certifiableBadgesAcquiredByUser.length).to.equal(1);
+        expect(certifiableBadgesAcquiredByUser[0]).to.deepEqualInstanceOmitting(
+          domainBuilder.buildBadgeAcquisition({
+            badge: domainBuilder.buildBadge({
+              ...acquiredBadge,
+              skillSets: expectedSkillSetsForCertifiableBadge,
+              badgeCriteria: expectedBadgeCriteria,
+            }),
+            userId: user.id,
+            badgeId: acquiredBadge.id,
+            campaignParticipationId: null,
+          }),
+          ['id']
+        );
       });
-      databaseBuilder.factory.buildBadge({ targetProfileId: targetProfile.id, isCertifiable: true });
-      badgeNonCertifiable = databaseBuilder.factory.buildBadge({
-        key: 'key2',
-        targetProfileId: targetProfile.id,
-        isCertifiable: false,
-      });
-      user = databaseBuilder.factory.buildUser();
-      userWithoutBadge = databaseBuilder.factory.buildUser();
-      databaseBuilder.factory.buildBadgeAcquisition({ badgeId: badgeCertifiable.id, userId: user.id });
-      databaseBuilder.factory.buildBadgeAcquisition({ badgeId: badgeNonCertifiable.id, userId: user.id });
-      skillSet = databaseBuilder.factory.buildSkillSet({ badgeId: badgeCertifiable.id });
-      badgePartnerCriterion = databaseBuilder.factory.buildBadgeCriterion({ badgeId: badgeCertifiable.id });
-      await databaseBuilder.commit();
     });
 
-    it('should return certifiable badges acquired by the user', async function () {
-      // when
-      const certifiableBadgesAcquiredByUser = await badgeAcquisitionRepository.findCertifiable({
-        userId: user.id,
+    describe('when the user has several acquired badges', function () {
+      it('should return the highest level certifiable badge acquired for each complementary certification', async function () {
+        //given
+        const user = databaseBuilder.factory.buildUser();
+        const badgeLevel1 = databaseBuilder.factory.buildBadge.certifiable({
+          key: 'level-1',
+        });
+        const badgeLevel2 = databaseBuilder.factory.buildBadge.certifiable({
+          key: 'level-2',
+        });
+        const badgeLevel3 = databaseBuilder.factory.buildBadge.certifiable({
+          key: 'level-3',
+        });
+
+        databaseBuilder.factory.buildBadgeAcquisition({ badgeId: badgeLevel1.id, userId: user.id });
+        databaseBuilder.factory.buildBadgeAcquisition({ badgeId: badgeLevel2.id, userId: user.id });
+
+        const { id: complementaryCertificationId } = databaseBuilder.factory.buildComplementaryCertification();
+        databaseBuilder.factory.buildComplementaryCertificationBadge({
+          badgeId: badgeLevel2.id,
+          complementaryCertificationId,
+          level: 2,
+        });
+
+        databaseBuilder.factory.buildComplementaryCertificationBadge({
+          badgeId: badgeLevel1.id,
+          complementaryCertificationId,
+          level: 1,
+        });
+
+        databaseBuilder.factory.buildComplementaryCertificationBadge({
+          badgeId: badgeLevel3.id,
+          complementaryCertificationId,
+          level: 3,
+        });
+
+        const badgeLevel1skillSet = databaseBuilder.factory.buildSkillSet({ badgeId: badgeLevel1.id });
+        const badgeLevel2skillSet = databaseBuilder.factory.buildSkillSet({ badgeId: badgeLevel2.id });
+        const badgeLevel3SkillSet = databaseBuilder.factory.buildSkillSet({
+          badgeId: badgeLevel3.id,
+        });
+
+        databaseBuilder.factory.buildBadgeCriterion({
+          badgeId: badgeLevel1.id,
+          skillSetIds: [badgeLevel1skillSet.id],
+        });
+        databaseBuilder.factory.buildBadgeCriterion({
+          badgeId: badgeLevel2.id,
+          skillSetIds: [badgeLevel2skillSet.id],
+        });
+        databaseBuilder.factory.buildBadgeCriterion({
+          badgeId: badgeLevel3.id,
+          skillSetIds: [badgeLevel3SkillSet.id],
+        });
+        await databaseBuilder.commit();
+
+        // when
+        const certifiableBadgesAcquiredByUser = await badgeAcquisitionRepository.findHighestCertifiable({
+          userId: user.id,
+        });
+
+        // then
+        expect(certifiableBadgesAcquiredByUser.length).to.equal(1);
+        expect(certifiableBadgesAcquiredByUser.map(({ badgeId }) => badgeId)).to.deep.equal([badgeLevel2.id]);
       });
-
-      // then
-      const expectedSkillSets = [
-        {
-          id: skillSet.id,
-          badgeId: badgeCertifiable.id,
-          name: skillSet.name,
-          skillIds: skillSet.skillIds,
-        },
-      ];
-
-      const expectedBadgeCriteria = [
-        {
-          id: badgePartnerCriterion.id,
-          scope: badgePartnerCriterion.scope,
-          threshold: badgePartnerCriterion.threshold,
-          skillSetIds: badgePartnerCriterion.skillSetIds,
-          badgeId: badgeCertifiable.id,
-        },
-      ];
-
-      expect(certifiableBadgesAcquiredByUser.length).to.equal(1);
-      expect(certifiableBadgesAcquiredByUser[0].badge).to.includes(badgeCertifiable);
-      expect(certifiableBadgesAcquiredByUser[0].badge.skillSets).to.deep.equal(expectedSkillSets);
-      expect(certifiableBadgesAcquiredByUser[0].badge.badgeCriteria).to.deep.equal(expectedBadgeCriteria);
     });
+    describe('when the user has no certifiable acquired badge', function () {
+      it('should return an empty array', async function () {
+        // given
+        const userWithoutCertifiableBadge = databaseBuilder.factory.buildUser();
+        const badgeNonCertifiable = databaseBuilder.factory.buildBadge.notCertifiable({
+          key: 'PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT',
+        });
 
-    it('should return an empty array when user has no certifiable acquired badge', async function () {
-      // when
-      const certifiableBadgesAcquiredByUser = await badgeAcquisitionRepository.findCertifiable({
-        userId: userWithoutBadge.id,
+        databaseBuilder.factory.buildBadgeAcquisition({
+          badgeId: badgeNonCertifiable.id,
+          userId: userWithoutCertifiableBadge.id,
+        });
+        await databaseBuilder.commit();
+
+        // when
+        const certifiableBadgesAcquiredByUser = await badgeAcquisitionRepository.findHighestCertifiable({
+          userId: userWithoutCertifiableBadge.id,
+        });
+
+        // then
+        expect(certifiableBadgesAcquiredByUser).to.be.empty;
       });
-
-      // then
-      expect(certifiableBadgesAcquiredByUser).to.deep.equal([]);
     });
   });
 });

@@ -55,22 +55,36 @@ describe('Integration | Service | Certification-Badges Service', function () {
     it('should return one badgeAcquisition', async function () {
       // given
       const { id: userId } = databaseBuilder.factory.buildUser();
+
       const targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
+
       listSkill.forEach((skillId) => databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId }));
-      const badge = databaseBuilder.factory.buildBadge({ isCertifiable: true, targetProfileId: targetProfileId });
+
+      const badge = databaseBuilder.factory.buildBadge.certifiable({ targetProfileId: targetProfileId });
+
       databaseBuilder.factory.buildBadgeAcquisition({ userId, badgeId: badge.id });
-      const badgeCriterion = databaseBuilder.factory.buildBadgeCriterion({
-        scope: 'CampaignParticipation',
+      const { id: complementaryCertificationId } = databaseBuilder.factory.buildComplementaryCertification();
+      databaseBuilder.factory.buildComplementaryCertificationBadge({
+        userId,
         badgeId: badge.id,
-        threshold: 40,
+        complementaryCertificationId,
+        level: 2,
       });
       databaseBuilder.factory.buildKnowledgeElement({ userId, skillId: 'web1', status: 'validated' });
       databaseBuilder.factory.buildKnowledgeElement({ userId, skillId: 'web2', status: 'validated' });
       databaseBuilder.factory.buildKnowledgeElement({ userId, skillId: 'web3', status: 'validated' });
       databaseBuilder.factory.buildKnowledgeElement({ userId, skillId: 'web4', status: 'invalidated' });
+
       const skillSet = databaseBuilder.factory.buildSkillSet({
         badgeId: badge.id,
         skillIds: ['web1', 'web2', 'web3', 'web4'],
+      });
+
+      const badgeCriterion = databaseBuilder.factory.buildBadgeCriterion({
+        scope: 'CampaignParticipation',
+        badgeId: badge.id,
+        threshold: 40,
+        skillSetIds: [skillSet.id],
       });
 
       await databaseBuilder.commit();
