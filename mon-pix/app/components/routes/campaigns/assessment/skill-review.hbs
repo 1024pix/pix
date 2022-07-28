@@ -85,8 +85,12 @@
               <div class="skill-review-share-error__message" aria-live="polite">
                 {{t "pages.skill-review.error"}}
               </div>
-              <LinkTo @route="login" class="skill-review-share-error__button button button--big button--link">
-                {{t "navigation.back-to-homepage"}}</LinkTo>
+              <LinkTo
+                @route="authentication.login"
+                class="skill-review-share-error__button button button--big button--link"
+              >
+                {{t "navigation.back-to-homepage"}}
+              </LinkTo>
             </div>
           {{else}}
             {{#if @model.campaign.isForAbsoluteNovice}}

@@ -96,6 +96,15 @@ export default function () {
     };
   });
 
+  this.get('/oidc/auth-url', (schema, request) => {
+    const redirectUri = request.queryParams.redirect_uri;
+    return {
+      redirectTarget: `https://oidc/connexion/oauth2/authorize?redirect_uri=${redirectUri}`,
+      state: 'a8a3344f-6d7c-469d-9f84-bdd791e04fdf',
+      nonce: '555c86fe-ed0a-4a80-80f3-45b1f7c2df8c',
+    };
+  });
+
   this.get('/oidc/redirect-logout-url', () => {
     return {
       redirectLogoutUrl:

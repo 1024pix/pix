@@ -2,6 +2,7 @@ import get from 'lodash/get';
 import { inject as service } from '@ember/service';
 import Route from '@ember/routing/route';
 import SecuredRouteMixin from 'mon-pix/mixins/secured-route-mixin';
+import IdentityProviders from 'mon-pix/identity-providers';
 
 export default class AccessRoute extends Route.extend(SecuredRouteMixin) {
   @service currentUser;
@@ -18,12 +19,15 @@ export default class AccessRoute extends Route.extend(SecuredRouteMixin) {
     this.authenticationRoute = 'inscription';
     const campaign = this.modelFor('campaigns');
 
-    if (this._shouldVisitIdentityProviderLoginPage(campaign, 'POLE_EMPLOI')) {
+    const identityProviderToVisit = Object.keys(IdentityProviders).find((key) => {
+      const isUserLoggedInToIdentityProvider =
+        get(this.session, 'data.authenticated.identity_provider_code') === IdentityProviders[key].code;
+      return campaign.isRestrictedByIdentityProvider(IdentityProviders[key].code) && !isUserLoggedInToIdentityProvider;
+    });
+
+    if (identityProviderToVisit) {
       this.session.set('attemptedTransition', transition);
-      return this.router.replaceWith('login-pole-emploi');
-    } else if (this._shouldVisitIdentityProviderLoginPage(campaign, 'CNAV')) {
-      this.session.set('attemptedTransition', transition);
-      return this.router.replaceWith('login-cnav');
+      return this.router.replaceWith('authentication.login-oidc', identityProviderToVisit);
     } else if (this._shouldLoginToAccessSCORestrictedCampaign(campaign)) {
       this.authenticationRoute = 'campaigns.join.student-sco';
     } else if (this._shouldJoinFromMediacentre(campaign)) {
@@ -63,12 +67,6 @@ export default class AccessRoute extends Route.extend(SecuredRouteMixin) {
       !this.session.isAuthenticated &&
       (!isUserExternal || hasUserSeenJoinPage)
     );
-  }
-
-  _shouldVisitIdentityProviderLoginPage(campaign, identityProvider) {
-    const isUserLoggedInToIdentityProvider =
-      get(this.session, 'data.authenticated.identity_provider') === identityProvider;
-    return campaign.isRestrictedByIdentityProvider(identityProvider) && !isUserLoggedInToIdentityProvider;
   }
 
   _shouldJoinFromMediacentre(campaign) {
