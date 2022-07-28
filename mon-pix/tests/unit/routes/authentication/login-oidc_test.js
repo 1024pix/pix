@@ -46,6 +46,20 @@ describe('Unit | Route | login-oidc', function () {
         sinon.restore();
       });
 
+      context('when identity provider is not supported', function () {
+        it('should redirect the user to main login page', async function () {
+          // given
+          const route = this.owner.lookup('route:authentication/login-oidc');
+          route.router = { replaceWith: sinon.stub() };
+
+          // when
+          await route.beforeModel({ to: { queryParams: {}, params: { identity_provider_slug: 'oidc' } } });
+
+          // then
+          sinon.assert.calledWith(route.router.replaceWith, 'authentication.login');
+        });
+      });
+
       context('when attempting transition', function () {
         it('should store the intent url in session data nextUrl', async function () {
           // given
@@ -64,7 +78,7 @@ describe('Unit | Route | login-oidc', function () {
           route.location = { replace: sinon.stub() };
 
           // when
-          await route.beforeModel({ to: { queryParams: {}, params: { identity_provider_slug: 'oidc' } } });
+          await route.beforeModel({ to: { queryParams: {}, params: { identity_provider_slug: 'cnav' } } });
 
           // then
           expect(sessionStub.data.nextURL).to.equal('/campagnes/PIXEMPLOI/acces');
@@ -88,7 +102,7 @@ describe('Unit | Route | login-oidc', function () {
           route.location = { replace: sinon.stub() };
 
           // when
-          await route.beforeModel({ to: { queryParams: {}, params: { identity_provider_slug: 'oidc' } } });
+          await route.beforeModel({ to: { queryParams: {}, params: { identity_provider_slug: 'cnav' } } });
 
           // then
           expect(sessionStub.data.nextURL).to.equal('/campagnes/PIXEMPLOI/acces');
@@ -112,7 +126,7 @@ describe('Unit | Route | login-oidc', function () {
         route.location = { replace: sinon.stub() };
 
         // when
-        await route.beforeModel({ to: { queryParams: {}, params: { identity_provider_slug: 'oidc' } } });
+        await route.beforeModel({ to: { queryParams: {}, params: { identity_provider_slug: 'cnav' } } });
 
         // then
         sinon.assert.calledWithMatch(route.location.replace, 'https://oidc/connexion');
