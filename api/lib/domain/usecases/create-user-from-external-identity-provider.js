@@ -1,10 +1,5 @@
 const UserToCreate = require('../models/UserToCreate');
-const {
-  InvalidExternalAPIResponseError,
-  AuthenticationKeyExpired,
-  UserAlreadyExistsWithAuthenticationMethodError,
-} = require('../errors');
-const logger = require('../../infrastructure/logger');
+const { AuthenticationKeyExpired, UserAlreadyExistsWithAuthenticationMethodError } = require('../errors');
 
 module.exports = async function createUserFromExternalIdentityProvider({
   identityProvider,
@@ -23,11 +18,6 @@ module.exports = async function createUserFromExternalIdentityProvider({
     idToken: sessionContent.idToken,
     accessToken: sessionContent.accessToken,
   });
-
-  if (!userInfo.firstName || !userInfo.lastName || !userInfo.externalIdentityId) {
-    logger.error(`Un des champs obligatoires n'a pas été renvoyé : ${JSON.stringify(userInfo)}.`);
-    throw new InvalidExternalAPIResponseError('Les informations utilisateurs récupérées sont incorrectes.');
-  }
 
   const authenticationMethod = await authenticationMethodRepository.findOneByExternalIdentifierAndIdentityProvider({
     externalIdentifier: userInfo.externalIdentityId,
