@@ -17,6 +17,7 @@ const organizationPlacesLotManagmentSerializer = require('../../infrastructure/s
 const organizationPlacesLotSerializer = require('../../infrastructure/serializers/jsonapi/organization/organization-places-lot-serializer');
 const organizationPlacesCapacitySerializer = require('../../infrastructure/serializers/jsonapi/organization-places-capacity-serializer');
 const organizationParticipantsSerializer = require('../../infrastructure/serializers/jsonapi/organization/organization-participants-serializer');
+const scoOrganizationParticipantsSerializer = require('../../infrastructure/serializers/jsonapi/organization/sco-organization-participants-serializer');
 
 const SupOrganizationLearnerParser = require('../../infrastructure/serializers/csv/sup-organization-learner-parser');
 const queryParamsUtils = require('../../infrastructure/utils/query-params-utils');
@@ -248,6 +249,21 @@ module.exports = {
         'Link',
         `/api/organizations/${request.params.id}/sco-participants or /api/organizations/${request.params.id}/sup-participants; rel="successor-version"`
       );
+  },
+
+  async findPaginatedFilteredScoParticipants(request) {
+    const organizationId = request.params.id;
+    const { filter, page } = queryParamsUtils.extractParameters(request.query);
+    if (filter.divisions && !Array.isArray(filter.divisions)) {
+      filter.divisions = [filter.divisions];
+    }
+
+    const { data: scoOrganizationParticipants, pagination } = await usecases.findPaginatedFilteredScoParticipants({
+      organizationId,
+      filter,
+      page,
+    });
+    return scoOrganizationParticipantsSerializer.serialize({ scoOrganizationParticipants, pagination });
   },
 
   async importOrganizationLearnersFromSIECLE(request, h) {

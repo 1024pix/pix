@@ -10,6 +10,7 @@ const {
 const Organization = require('../../../../lib/domain/models/Organization');
 const OrganizationInvitation = require('../../../../lib/domain/models/OrganizationInvitation');
 const Membership = require('../../../../lib/domain/models/Membership');
+const ScoOrganizationParticipant = require('../../../../lib/domain/read-models/ScoOrganizationParticipant');
 
 const organizationController = require('../../../../lib/application/organizations/organization-controller');
 const usecases = require('../../../../lib/domain/usecases');
@@ -32,6 +33,7 @@ const queryParamsUtils = require('../../../../lib/infrastructure/utils/query-par
 const certificationAttestationPdf = require('../../../../lib/infrastructure/utils/pdf/certification-attestation-pdf');
 
 const { getI18n } = require('../../../tooling/i18n/i18n');
+const scoOrganizationParticipantsSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/organization/sco-organization-participants-serializer');
 
 describe('Unit | Application | Organizations | organization-controller', function () {
   let request;
@@ -811,6 +813,102 @@ describe('Unit | Application | Organizations | organization-controller', functio
       expect(response.headers['Link']).to.equal(
         '/api/organizations/145/sco-participants or /api/organizations/145/sup-participants; rel="successor-version"'
       );
+    });
+  });
+
+  describe('#findPaginatedFilteredScoParticipants', function () {
+    const connectedUserId = 1;
+    const organizationId = 145;
+
+    let scoOrganizationParticipant;
+    let serializedScoOrganizationParticipant;
+    let request;
+
+    beforeEach(function () {
+      request = {
+        auth: { credentials: { userId: connectedUserId } },
+        params: { id: organizationId },
+      };
+
+      sinon.stub(usecases, 'findPaginatedFilteredScoParticipants');
+      sinon.stub(scoOrganizationParticipantsSerializer, 'serialize');
+
+      scoOrganizationParticipant = new ScoOrganizationParticipant();
+      serializedScoOrganizationParticipant = {
+        data: [
+          {
+            ...scoOrganizationParticipant,
+            isAuthenticatedFromGAR: false,
+          },
+        ],
+      };
+    });
+
+    it('should call the usecase to find sco participants with users infos related to the organization id', async function () {
+      // given
+      usecases.findPaginatedFilteredScoParticipants.resolves({});
+
+      // when
+      await organizationController.findPaginatedFilteredScoParticipants(request, hFake);
+
+      // then
+      expect(usecases.findPaginatedFilteredScoParticipants).to.have.been.calledWith({
+        organizationId,
+        filter: {},
+        page: {},
+      });
+    });
+
+    it('should call the usecase to find sco participants with users infos related to filters', async function () {
+      // given
+      request = {
+        ...request,
+        query: {
+          'filter[lastName]': 'Bob',
+          'filter[firstName]': 'Tom',
+          'filter[connexionType]': 'email',
+          'filter[divisions][]': 'D1',
+        },
+      };
+      usecases.findPaginatedFilteredScoParticipants.resolves({});
+
+      // when
+      await organizationController.findPaginatedFilteredScoParticipants(request, hFake);
+
+      // then
+      expect(usecases.findPaginatedFilteredScoParticipants).to.have.been.calledWith({
+        organizationId,
+        filter: { lastName: 'Bob', firstName: 'Tom', connexionType: 'email', divisions: ['D1'] },
+        page: {},
+      });
+    });
+
+    it('should call the usecase to find sco participants with users infos related to pagination', async function () {
+      // given
+      request = { ...request, query: { 'page[size]': 10, 'page[number]': 1 } };
+      usecases.findPaginatedFilteredScoParticipants.resolves({});
+
+      // when
+      await organizationController.findPaginatedFilteredScoParticipants(request, hFake);
+
+      // then
+      expect(usecases.findPaginatedFilteredScoParticipants).to.have.been.calledWith({
+        organizationId,
+        filter: {},
+        page: { size: 10, number: 1 },
+      });
+    });
+
+    it('should return the serialized sco participants belonging to the organization', async function () {
+      // given
+      usecases.findPaginatedFilteredScoParticipants.resolves({ data: [scoOrganizationParticipant] });
+      scoOrganizationParticipantsSerializer.serialize.returns(serializedScoOrganizationParticipant);
+
+      // when
+      const response = await organizationController.findPaginatedFilteredScoParticipants(request, hFake);
+
+      // then
+      expect(response).to.deep.equal(serializedScoOrganizationParticipant);
     });
   });
 
