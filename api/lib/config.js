@@ -214,7 +214,7 @@ module.exports = (function () {
       clientSecret: process.env.POLE_EMPLOI_CLIENT_SECRET,
       tokenUrl: process.env.POLE_EMPLOI_TOKEN_URL,
       sendingUrl: process.env.POLE_EMPLOI_SENDING_URL,
-      userInfoUrl: process.env.POLE_EMPLOI_USER_INFO_URL,
+      userInfoUrl: process.env.POLE_EMPLOI_OIDC_USER_INFO_URL,
       authenticationUrl: process.env.POLE_EMPLOI_OIDC_AUTHENTICATION_URL,
       logoutUrl: process.env.POLE_EMPLOI_OIDC_LOGOUT_URL,
       afterLogoutUrl: process.env.POLE_EMPLOI_OIDC_AFTER_LOGOUT_URL,
@@ -232,6 +232,7 @@ module.exports = (function () {
     cnav: {
       clientId: process.env.CNAV_CLIENT_ID,
       authenticationUrl: process.env.CNAV_AUTHENTICATION_URL,
+      userInfoUrl: process.env.CNAV_OIDC_USER_INFO_URL,
       tokenUrl: process.env.CNAV_TOKEN_URL,
       clientSecret: process.env.CNAV_CLIENT_SECRET,
       accessTokenLifespanMs: ms(process.env.CNAV_ACCESS_TOKEN_LIFESPAN || '7d'),
@@ -349,6 +350,7 @@ module.exports = (function () {
 
     config.cnav.clientId = 'PIX_CNAV_CLIENT_ID';
     config.cnav.authenticationUrl = 'http://idp.cnav/auth';
+    config.cnav.userInfoUrl = 'http://userInfoUrl.fr';
     config.cnav.tokenUrl = 'http://idp.cnav/token';
     config.cnav.clientSecret = 'PIX_CNAV_CLIENT_SECRET';
 
