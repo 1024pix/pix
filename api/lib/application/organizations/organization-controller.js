@@ -226,7 +226,7 @@ module.exports = {
     return groupSerializer.serialize(groups);
   },
 
-  async findPaginatedFilteredOrganizationLearners(request) {
+  async findPaginatedFilteredOrganizationLearners(request, h) {
     const organizationId = request.params.id;
     const { filter, page } = queryParamsUtils.extractParameters(request.query);
     if (filter.divisions && !Array.isArray(filter.divisions)) {
@@ -241,7 +241,13 @@ module.exports = {
       filter,
       page,
     });
-    return userWithOrganizationLearnerSerializer.serialize(data, pagination);
+    return h
+      .response(userWithOrganizationLearnerSerializer.serialize(data, pagination))
+      .header('Deprecation', 'true')
+      .header(
+        'Link',
+        `/api/organizations/${request.params.id}/sco-participants or /api/organizations/${request.params.id}/sup-participants; rel="successor-version"`
+      );
   },
 
   async importOrganizationLearnersFromSIECLE(request, h) {
