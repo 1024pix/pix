@@ -3,7 +3,6 @@ const AuthenticationMethod = require('../../../../lib/domain/models/Authenticati
 const poleEmploiController = require('../../../../lib/application/pole-emploi/pole-emploi-controller');
 const usecases = require('../../../../lib/domain/usecases');
 const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
-const poleEmploiAuthenticationService = require('../../../../lib/domain/services/authentication/pole-emploi-authentication-service');
 const authenticationRegistry = require('../../../../lib/domain/services/authentication/authentication-service-registry');
 
 describe('Unit | Controller | pole-emploi-controller', function () {
@@ -67,9 +66,8 @@ describe('Unit | Controller | pole-emploi-controller', function () {
       const userId = 7;
       sinon.stub(usecases, 'createUserFromExternalIdentityProvider').resolves({ userId, idToken: 1 });
       sinon.stub(authenticationRegistry, 'lookupAuthenticationService').returns({
-        oidcAuthenticationService: {
-          createAccessToken: sinon.stub(),
-        },
+        createAccessToken: sinon.stub(),
+        saveIdToken: sinon.stub(),
       });
       sinon.stub(userRepository, 'updateLastLoggedAt');
 
@@ -92,19 +90,13 @@ describe('Unit | Controller | pole-emploi-controller', function () {
         .resolves({ userId, idToken });
       sinon.stub(userRepository, 'updateLastLoggedAt');
       const createAccessTokenStub = sinon.stub();
-      sinon
-        .stub(authenticationRegistry, 'lookupAuthenticationService')
-        .withArgs('POLE_EMPLOI')
-        .returns({
-          oidcAuthenticationService: {
-            createAccessToken: createAccessTokenStub,
-          },
-        });
+      const saveIdTokenStub = sinon.stub();
+      sinon.stub(authenticationRegistry, 'lookupAuthenticationService').withArgs('POLE_EMPLOI').returns({
+        createAccessToken: createAccessTokenStub,
+        saveIdToken: saveIdTokenStub,
+      });
       createAccessTokenStub.withArgs(userId).returns(accessToken);
-      sinon
-        .stub(poleEmploiAuthenticationService, 'saveIdToken')
-        .withArgs({ idToken, userId })
-        .resolves('842213eb-d19b-45a1-9842-787276f34f6c');
+      saveIdTokenStub.withArgs({ idToken, userId }).resolves('842213eb-d19b-45a1-9842-787276f34f6c');
 
       // when
       const result = await poleEmploiController.createUser(request, hFake);
@@ -115,17 +107,27 @@ describe('Unit | Controller | pole-emploi-controller', function () {
     });
   });
 
-  describe('#getAuthUrl', function () {
+  describe('#getAuthenticationUrl', function () {
     it('should call pole emploi authentication service to generate url', async function () {
       // given
       const request = { query: { redirect_uri: 'http:/exemple.net/' } };
-      sinon.stub(poleEmploiAuthenticationService, 'getAuthUrl').resolves('an authentication url');
+      const getAuthenticationUrlStub = sinon.stub();
+      const oidcAuthenticationService = {
+        getAuthenticationUrl: getAuthenticationUrlStub,
+      };
+      sinon
+        .stub(authenticationRegistry, 'lookupAuthenticationService')
+        .withArgs('POLE_EMPLOI')
+        .returns(oidcAuthenticationService);
+      getAuthenticationUrlStub.returns('an authentication url');
 
       // when
-      await poleEmploiController.getAuthUrl(request, hFake);
+      await poleEmploiController.getAuthenticationUrl(request, hFake);
 
       //then
-      expect(poleEmploiAuthenticationService.getAuthUrl).to.have.been.calledWith({ redirectUri: 'http:/exemple.net/' });
+      expect(oidcAuthenticationService.getAuthenticationUrl).to.have.been.calledWith({
+        redirectUri: 'http:/exemple.net/',
+      });
     });
   });
 });

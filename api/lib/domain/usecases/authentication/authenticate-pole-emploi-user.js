@@ -11,7 +11,6 @@ module.exports = async function authenticatePoleEmploiUser({
   stateReceived,
   stateSent,
   authenticationSessionService,
-  poleEmploiAuthenticationService,
   oidcAuthenticationService,
   authenticationMethodRepository,
   userRepository,
@@ -21,12 +20,12 @@ module.exports = async function authenticatePoleEmploiUser({
     throw new UnexpectedOidcStateError();
   }
 
-  const poleEmploiAuthenticationSessionContent = await poleEmploiAuthenticationService.exchangeCodeForTokens({
+  const poleEmploiAuthenticationSessionContent = await oidcAuthenticationService.exchangeCodeForTokens({
     code,
     redirectUri,
   });
 
-  const userInfo = await poleEmploiAuthenticationService.getUserInfo({
+  const userInfo = await oidcAuthenticationService.getUserInfo({
     idToken: poleEmploiAuthenticationSessionContent.idToken,
   });
 
@@ -44,7 +43,6 @@ module.exports = async function authenticatePoleEmploiUser({
       userInfo,
       authenticatedUserId,
       authenticationComplement,
-      poleEmploiAuthenticationService,
       oidcAuthenticationService,
       authenticationMethodRepository,
       userRepository,
@@ -63,7 +61,6 @@ module.exports = async function authenticatePoleEmploiUser({
       pixAccessToken = await _getPixAccessTokenFromPoleEmploiUser({
         user,
         authenticationComplement,
-        poleEmploiAuthenticationService,
         oidcAuthenticationService,
         authenticationMethodRepository,
         userRepository,
@@ -71,7 +68,7 @@ module.exports = async function authenticatePoleEmploiUser({
     }
   }
 
-  const logoutUrlUUID = await poleEmploiAuthenticationService.saveIdToken({
+  const logoutUrlUUID = await oidcAuthenticationService.saveIdToken({
     idToken: poleEmploiAuthenticationSessionContent.idToken,
     userId,
   });

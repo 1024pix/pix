@@ -46,7 +46,7 @@ module.exports = {
 
   async authenticateCnavUser(request) {
     const { code, redirect_uri: redirectUri, state_sent: stateSent, state_received: stateReceived } = request.payload;
-    const { oidcAuthenticationService } = authenticationRegistry.lookupAuthenticationService(
+    const oidcAuthenticationService = authenticationRegistry.lookupAuthenticationService(
       AuthenticationMethod.identityProviders.CNAV
     );
 
@@ -97,7 +97,7 @@ module.exports = {
   async authenticatePoleEmploiUser(request) {
     const authenticatedUserId = get(request.auth, 'credentials.userId');
     const { code, redirect_uri: redirectUri, state_sent: stateSent, state_received: stateReceived } = request.payload;
-    const { oidcAuthenticationService } = authenticationRegistry.lookupAuthenticationService(
+    const oidcAuthenticationService = authenticationRegistry.lookupAuthenticationService(
       AuthenticationMethod.identityProviders.POLE_EMPLOI
     );
 

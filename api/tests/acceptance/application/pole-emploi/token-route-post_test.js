@@ -43,7 +43,7 @@ describe('Acceptance | Route | pole emploi token', function () {
             given_name: 'John',
             family_name: 'Doe',
             nonce: 'nonce',
-            idIdentiteExterne: 'idIdentiteExterne',
+            sub: 'sub',
           },
           'secret'
         );
@@ -89,7 +89,7 @@ describe('Acceptance | Route | pole emploi token', function () {
               given_name: 'John',
               family_name: 'Doe',
               nonce: 'nonce',
-              idIdentiteExterne: 'idIdentiteExterne',
+              sub: 'sub',
             },
             'secret'
           );
@@ -129,7 +129,7 @@ describe('Acceptance | Route | pole emploi token', function () {
               given_name: 'John',
               family_name: 'Doe',
               nonce: 'nonce',
-              idIdentiteExterne: 'idIdentiteExterne',
+              sub: 'sub',
             },
             'secret'
           );
@@ -169,7 +169,7 @@ describe('Acceptance | Route | pole emploi token', function () {
               given_name: 'John',
               family_name: 'Doe',
               nonce: 'nonce',
-              idIdentiteExterne: 'idIdentiteExterne',
+              sub: 'sub',
             },
             'secret'
           );
@@ -210,7 +210,7 @@ describe('Acceptance | Route | pole emploi token', function () {
               given_name: 'John',
               family_name: 'Doe',
               nonce: 'nonce',
-              idIdentiteExterne: 'idIdentiteExterne',
+              sub: 'sub',
             },
             'secret'
           );
@@ -258,13 +258,13 @@ describe('Acceptance | Route | pole emploi token', function () {
           // given
           const firstName = 'John';
           const lastName = 'Doe';
-          const externalIdentifier = 'idIdentiteExterne';
+          const externalIdentifier = 'sub';
           const idToken = jsonwebtoken.sign(
             {
               given_name: firstName,
               family_name: lastName,
               nonce: 'nonce',
-              idIdentiteExterne: externalIdentifier,
+              sub: externalIdentifier,
             },
             'secret'
           );
@@ -321,13 +321,13 @@ describe('Acceptance | Route | pole emploi token', function () {
           // given
           const firstName = 'John';
           const lastName = 'John';
-          const externalIdentifier = 'idIdentiteExterne';
+          const externalIdentifier = 'sub';
           const idToken = jsonwebtoken.sign(
             {
               given_name: firstName,
               family_name: lastName,
               nonce: 'nonce',
-              idIdentiteExterne: externalIdentifier,
+              sub: externalIdentifier,
             },
             'secret'
           );
@@ -393,7 +393,7 @@ describe('Acceptance | Route | pole emploi token', function () {
               given_name: 'John',
               family_name: 'Doe',
               nonce: 'nonce',
-              idIdentiteExterne: 'idIdentiteExterne',
+              sub: 'sub',
             },
             'secret'
           );
@@ -426,7 +426,7 @@ describe('Acceptance | Route | pole emploi token', function () {
           expect(authenticationMethods[0].identityProvider).to.equal(
             AuthenticationMethod.identityProviders.POLE_EMPLOI
           );
-          expect(authenticationMethods[0].externalIdentifier).to.equal('idIdentiteExterne');
+          expect(authenticationMethods[0].externalIdentifier).to.equal('sub');
           expect(authenticationMethods[0].authenticationComplement.accessToken).to.equal(
             getAccessTokenResponse['access_token']
           );
@@ -448,7 +448,7 @@ describe('Acceptance | Route | pole emploi token', function () {
               given_name: 'John',
               family_name: 'Doe',
               nonce: 'nonce',
-              idIdentiteExterne: 'idIdentiteExterne',
+              sub: 'sub',
             },
             'secret'
           );
@@ -487,7 +487,7 @@ describe('Acceptance | Route | pole emploi token', function () {
       context('When the user does have a POLE_EMPLOI authentication method', function () {
         it('should update POLE_EMPLOI authentication method authentication complement', async function () {
           // given
-          const externalIdentifier = 'idIdentiteExterne';
+          const externalIdentifier = 'sub';
           const authenticatedUser = databaseBuilder.factory.buildUser();
           databaseBuilder.factory.buildAuthenticationMethod.withPoleEmploiAsIdentityProvider({
             externalIdentifier,
@@ -503,7 +503,7 @@ describe('Acceptance | Route | pole emploi token', function () {
               given_name: 'John',
               family_name: 'Doe',
               nonce: 'nonce',
-              idIdentiteExterne: externalIdentifier,
+              sub: externalIdentifier,
             },
             'secret'
           );
@@ -559,7 +559,7 @@ describe('Acceptance | Route | pole emploi token', function () {
               given_name: 'John',
               family_name: 'Doe',
               nonce: 'nonce',
-              idIdentiteExterne: 'idIdentiteExterne',
+              sub: 'sub',
             },
             'secret'
           );
@@ -598,7 +598,7 @@ describe('Acceptance | Route | pole emploi token', function () {
             given_name: 'John',
             family_name: 'Doe',
             nonce: 'nonce',
-            idIdentiteExterne: 'idIdentiteExterne',
+            sub: 'sub',
           },
           'secret'
         );
@@ -645,7 +645,7 @@ describe('Acceptance | Route | pole emploi token', function () {
             given_name: 'John',
             family_name: 'Doe',
             nonce: 'nonce',
-            idIdentiteExterne: 'idIdentiteExterne',
+            sub: 'sub',
           },
           'secret'
         );
