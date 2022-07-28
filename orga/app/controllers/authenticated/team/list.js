@@ -6,7 +6,6 @@ const DEFAULT_PAGE_NUMBER = 1;
 
 export default class ListController extends Controller {
   @service currentUser;
-  queryParams = ['pageNumber', 'pageSize'];
 
   @tracked pageNumber = DEFAULT_PAGE_NUMBER;
   @tracked pageSize = 10;

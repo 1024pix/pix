@@ -8,7 +8,6 @@ export default class ActivityController extends Controller {
   @service notifications;
   @service intl;
 
-  queryParams = ['pageNumber', 'pageSize'];
   @tracked pageNumber = 1;
   @tracked pageSize = 25;
   @tracked divisions = [];
