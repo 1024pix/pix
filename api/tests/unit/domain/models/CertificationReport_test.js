@@ -30,10 +30,12 @@ describe('Unit | Domain | Models | CertificationReport', function () {
       });
 
       // when
-      certificationReport.validateForFinalization();
+      const call = () => {
+        certificationReport.validateForFinalization();
+      };
 
       // then
-      expect(true).to.be.true;
+      expect(call).to.not.throw();
     });
 
     // eslint-disable-next-line mocha/no-setup-in-describe

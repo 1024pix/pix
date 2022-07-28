@@ -31,7 +31,7 @@ describe('Integration | Scripts | create-assessment-campaigns', function () {
       const campaigns = await prepareCampaigns([campaignData]);
 
       // then
-      expect(typeof campaigns[0].code === 'string').to.be.true;
+      expect(campaigns[0].code).to.be.a('string');
       expect(campaigns[0].code.length).to.equal(9);
     });
 

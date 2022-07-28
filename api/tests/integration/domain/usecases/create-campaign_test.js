@@ -66,8 +66,8 @@ describe('Integration | UseCases | create-campaign', function () {
 
     expect(_.pick(result, expectedAttributes)).to.deep.equal(_.pick(campaign, expectedAttributes));
 
-    expect('code').to.be.ok;
-    expect('id').to.be.ok;
+    expect(result.code).to.be.ok;
+    expect(result.id).to.be.ok;
   });
 
   it('should save a new campaign of type PROFILES_COLLECTION', async function () {
@@ -96,7 +96,7 @@ describe('Integration | UseCases | create-campaign', function () {
 
     expect(_.pick(result, expectedAttributes)).to.deep.equal(_.pick(campaign, expectedAttributes));
 
-    expect('code').to.be.ok;
-    expect('id').to.be.ok;
+    expect(result.code).to.be.ok;
+    expect(result.id).to.be.ok;
   });
 });

@@ -106,10 +106,12 @@ describe('Integration | Scripts | add-tags-to-organizations.js', function () {
         const checkedData = [{ organizationId: firstOrganizationId, tagName: firstTag.name }];
 
         // when
-        await addTagsToOrganizations({ tagsByName, checkedData });
+        const call = () => {
+          addTagsToOrganizations({ tagsByName, checkedData });
+        };
 
         // then
-        expect(true).to.be.true;
+        expect(call).to.not.throw();
       });
     });
   });

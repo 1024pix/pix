@@ -191,13 +191,15 @@ describe('Integration | Infrastructure | Utils | Ods | read-ods-utils', function
         odsBuffer = await readFile(DEFAULT_ODS_FILE_PATH);
 
         // when
-        await validateOdsHeaders({
-          odsBuffer,
-          headers: VALID_HEADERS,
-        });
+        const call = () => {
+          validateOdsHeaders({
+            odsBuffer,
+            headers: VALID_HEADERS,
+          });
+        };
 
         // then
-        expect(true).to.be.true;
+        expect(call).to.not.throw();
       });
     });
 
@@ -223,13 +225,15 @@ describe('Integration | Infrastructure | Utils | Ods | read-ods-utils', function
         odsBuffer = await readFile(NEW_LINE_ODS_FILE_PATH);
 
         // when
-        await validateOdsHeaders({
-          odsBuffer,
-          headers: VALID_HEADERS,
-        });
+        const call = () => {
+          validateOdsHeaders({
+            odsBuffer,
+            headers: VALID_HEADERS,
+          });
+        };
 
         // then
-        expect(true).to.be.true;
+        expect(call).to.not.throw();
       });
     });
   });

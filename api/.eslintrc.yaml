@@ -3,6 +3,8 @@ extends:
   - 'plugin:i18n-json/recommended'
   - 'plugin:mocha/recommended'
   - 'plugin:prettier/recommended'
+  - 'plugin:chai-expect/recommended'
+
 parserOptions:
   ecmaVersion: 2020
   requireConfigFile: false
@@ -15,6 +17,7 @@ globals:
 plugins:
   - knex
   - node
+  - chai-expect
 
 rules:
   no-console: error
