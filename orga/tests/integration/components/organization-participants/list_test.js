@@ -1,8 +1,9 @@
 import { module, test } from 'qunit';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
-import { render } from '@1024pix/ember-testing-library';
+import { render, fillByLabel } from '@1024pix/ember-testing-library';
 import hbs from 'htmlbars-inline-precompile';
 import Service from '@ember/service';
+import sinon from 'sinon';
 
 module('Integration | Component | OrganizationParticipant::List', function (hooks) {
   setupIntlRenderingTest(hooks);
@@ -13,6 +14,7 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
       organization = organization;
     }
     this.owner.register('service:current-user', CurrentUserStub);
+    this.set('stub', () => {});
   });
 
   test('it should display the header labels', async function (assert) {
@@ -20,7 +22,7 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
     this.set('participants', []);
 
     // when
-    await render(hbs`<OrganizationParticipant::List @participants={{participants}} />`);
+    await render(hbs`<OrganizationParticipant::List @participants={{participants}} @triggerFiltering={{stub}} />`);
 
     // then
     assert.contains('Nom');
@@ -38,7 +40,7 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
     this.set('participants', participants);
 
     // when
-    await render(hbs`<OrganizationParticipant::List @participants={{participants}} />`);
+    await render(hbs`<OrganizationParticipant::List @participants={{participants}} @triggerFiltering={{stub}}/>`);
 
     // then
     assert.contains('La Terreur');
@@ -57,7 +59,7 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
     this.set('participants', participants);
 
     // when
-    await render(hbs`<OrganizationParticipant::List @participants={{participants}} />`);
+    await render(hbs`<OrganizationParticipant::List @participants={{participants}} @triggerFiltering={{stub}}/>`);
 
     // then
     assert.contains('La Terreur');
@@ -74,7 +76,9 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
     this.set('participants', participants);
 
     // when
-    const screen = await render(hbs`<OrganizationParticipant::List @participants={{participants}} />`);
+    const screen = await render(
+      hbs`<OrganizationParticipant::List @participants={{participants}} @triggerFiltering={{stub}}/>`
+    );
     const allRows = screen.getAllByLabelText(this.intl.t('pages.organization-participants.table.row-title'));
 
     // then
@@ -92,7 +96,9 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
     this.set('participants', participants);
 
     // when
-    const screen = await render(hbs`<OrganizationParticipant::List @participants={{participants}} />`);
+    const screen = await render(
+      hbs`<OrganizationParticipant::List @participants={{participants}} @triggerFiltering={{stub}}/>`
+    );
     const allRows = screen.getAllByLabelText(this.intl.t('pages.organization-participants.table.row-title'));
 
     // then
@@ -104,5 +110,27 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
       ).length,
       2
     );
+  });
+
+  test('it filters participant when the input is filled', async function (assert) {
+    // given
+    const participants = [
+      {
+        lastName: 'La Terreur',
+        firstName: 'Gigi',
+      },
+    ];
+
+    this.set('participants', participants);
+    this.triggerFiltering = sinon.stub();
+
+    // when
+    await render(
+      hbs`<OrganizationParticipant::List @participants={{participants}} @triggerFiltering={{triggerFiltering}}/>`
+    );
+    await fillByLabel('Recherche sur le nom et prénom', 'Karam');
+    // then
+    sinon.assert.calledWith(this.triggerFiltering, { fullName: 'Karam' });
+    assert.ok(true);
   });
 });

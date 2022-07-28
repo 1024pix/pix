@@ -378,6 +378,7 @@ module.exports = {
     const results = await usecases.getPaginatedParticipantsForAnOrganization({
       organizationId,
       page: options.page,
+      filters: options.filter,
     });
     return organizationParticipantsSerializer.serialize(results);
   },
