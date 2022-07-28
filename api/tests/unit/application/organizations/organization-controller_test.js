@@ -11,6 +11,7 @@ const Organization = require('../../../../lib/domain/models/Organization');
 const OrganizationInvitation = require('../../../../lib/domain/models/OrganizationInvitation');
 const Membership = require('../../../../lib/domain/models/Membership');
 const ScoOrganizationParticipant = require('../../../../lib/domain/read-models/ScoOrganizationParticipant');
+const SupOrganizationParticipant = require('../../../../lib/domain/read-models/SupOrganizationParticipant');
 
 const organizationController = require('../../../../lib/application/organizations/organization-controller');
 const usecases = require('../../../../lib/domain/usecases');
@@ -34,6 +35,7 @@ const certificationAttestationPdf = require('../../../../lib/infrastructure/util
 
 const { getI18n } = require('../../../tooling/i18n/i18n');
 const scoOrganizationParticipantsSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/organization/sco-organization-participants-serializer');
+const supOrganizationParticipantsSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/organization/sup-organization-participants-serializer');
 
 describe('Unit | Application | Organizations | organization-controller', function () {
   let request;
@@ -909,6 +911,100 @@ describe('Unit | Application | Organizations | organization-controller', functio
 
       // then
       expect(response).to.deep.equal(serializedScoOrganizationParticipant);
+    });
+  });
+
+  describe('#findPaginatedFilteredSupParticipants', function () {
+    const connectedUserId = 1;
+    const organizationId = 145;
+
+    let supOrganizationParticipant;
+    let serializedSupOrganizationParticipant;
+    let request;
+
+    beforeEach(function () {
+      request = {
+        auth: { credentials: { userId: connectedUserId } },
+        params: { id: organizationId },
+      };
+
+      sinon.stub(usecases, 'findPaginatedFilteredSupParticipants');
+      sinon.stub(supOrganizationParticipantsSerializer, 'serialize');
+
+      supOrganizationParticipant = new SupOrganizationParticipant();
+      serializedSupOrganizationParticipant = {
+        data: [
+          {
+            ...supOrganizationParticipant,
+          },
+        ],
+      };
+    });
+
+    it('should call the usecase to find sup participants with users infos related to the organization id', async function () {
+      // given
+      usecases.findPaginatedFilteredSupParticipants.resolves({});
+
+      // when
+      await organizationController.findPaginatedFilteredSupParticipants(request, hFake);
+
+      // then
+      expect(usecases.findPaginatedFilteredSupParticipants).to.have.been.calledWith({
+        organizationId,
+        filter: {},
+        page: {},
+      });
+    });
+
+    it('should call the usecase to find sup participants with users infos related to filters', async function () {
+      // given
+      request = {
+        ...request,
+        query: {
+          'filter[lastName]': 'Bob',
+          'filter[firstName]': 'Tom',
+          'filter[group]': 'L1',
+        },
+      };
+      usecases.findPaginatedFilteredSupParticipants.resolves({});
+
+      // when
+      await organizationController.findPaginatedFilteredSupParticipants(request, hFake);
+
+      // then
+      expect(usecases.findPaginatedFilteredSupParticipants).to.have.been.calledWith({
+        organizationId,
+        filter: { lastName: 'Bob', firstName: 'Tom', group: 'L1' },
+        page: {},
+      });
+    });
+
+    it('should call the usecase to find sup participants with users infos related to pagination', async function () {
+      // given
+      request = { ...request, query: { 'page[size]': 10, 'page[number]': 1 } };
+      usecases.findPaginatedFilteredSupParticipants.resolves({});
+
+      // when
+      await organizationController.findPaginatedFilteredSupParticipants(request, hFake);
+
+      // then
+      expect(usecases.findPaginatedFilteredSupParticipants).to.have.been.calledWith({
+        organizationId,
+        filter: {},
+        page: { size: 10, number: 1 },
+      });
+    });
+
+    it('should return the serialized sup participants belonging to the organization', async function () {
+      // given
+      usecases.findPaginatedFilteredSupParticipants.resolves({ data: [supOrganizationParticipant] });
+      supOrganizationParticipantsSerializer.serialize.returns(serializedSupOrganizationParticipant);
+
+      // when
+      const response = await organizationController.findPaginatedFilteredSupParticipants(request, hFake);
+
+      // then
+      expect(response).to.deep.equal(serializedSupOrganizationParticipant);
     });
   });
 
