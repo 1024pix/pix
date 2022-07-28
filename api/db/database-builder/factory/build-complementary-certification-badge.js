@@ -5,6 +5,7 @@ const databaseBuffer = require('../database-buffer');
 
 module.exports = function buildComplementaryCertificationBadge({
   id = databaseBuffer.getNextId(),
+  level = 1,
   complementaryCertificationId,
   badgeId,
   createdAt = new Date('2020-01-01'),
@@ -16,6 +17,7 @@ module.exports = function buildComplementaryCertificationBadge({
 
   const values = {
     id,
+    level,
     complementaryCertificationId,
     badgeId,
     createdAt,
