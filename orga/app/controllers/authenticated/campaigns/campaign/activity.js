@@ -28,7 +28,7 @@ export default class ActivityController extends Controller {
 
   @action
   triggerFiltering(fieldName, value) {
-    this[fieldName] = value;
+    this[fieldName] = value || undefined;
     this.pageNumber = null;
   }
 

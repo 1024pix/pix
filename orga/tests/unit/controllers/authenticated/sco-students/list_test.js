@@ -111,4 +111,32 @@ module('Unit | Controller | authenticated/sco-students/list', function (hooks) {
       });
     });
   });
+
+  module('#triggerFiltering', function () {
+    module('when the filters contain a valued field', function () {
+      test('updates the value', async function (assert) {
+        // given
+        controller.someField = 'old-value';
+
+        // when
+        controller.triggerFiltering('someField', 'new-value');
+
+        // then
+        assert.strictEqual(controller.someField, 'new-value');
+      });
+    });
+
+    module('when the filters contain an empty string', function () {
+      test('clear the searched value', async function (assert) {
+        // given
+        controller.someField = 'old-value';
+
+        // when
+        controller.triggerFiltering('someField', '');
+
+        // then
+        assert.strictEqual(controller.someField, undefined);
+      });
+    });
+  });
 });
