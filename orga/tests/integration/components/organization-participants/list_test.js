@@ -130,7 +130,7 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
     );
     await fillByLabel('Recherche sur le nom et prénom', 'Karam');
     // then
-    sinon.assert.calledWith(this.triggerFiltering, { fullName: 'Karam' });
+    sinon.assert.calledWith(this.triggerFiltering, 'fullName', 'Karam');
     assert.ok(true);
   });
 });

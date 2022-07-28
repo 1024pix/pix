@@ -23,9 +23,11 @@ export default class ListRoute extends Route {
     });
   }
 
-  resetController(controller) {
-    controller.pageNumber = 1;
-    controller.pageSize = 25;
-    controller.fullName = null;
+  resetController(controller, isExiting) {
+    if (isExiting) {
+      controller.pageNumber = 1;
+      controller.pageSize = 25;
+      controller.fullName = null;
+    }
   }
 }
