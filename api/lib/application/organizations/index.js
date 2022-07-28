@@ -622,6 +622,33 @@ exports.register = async (server) => {
     },
     {
       method: 'GET',
+      path: '/api/organizations/{id}/sup-participants',
+      config: {
+        pre: [
+          {
+            method: securityPreHandlers.checkUserBelongsToSupOrganizationAndManagesStudents,
+            assign: 'belongsToSupOrganizationAndManagesStudents',
+          },
+        ],
+        validate: {
+          params: Joi.object({
+            id: identifiersType.organizationId,
+          }),
+          query: Joi.object({
+            'page[size]': Joi.number().integer().empty(''),
+            'page[number]': Joi.number().integer().empty(''),
+          }).options({ allowUnknown: true }),
+        },
+        handler: organizationController.findPaginatedFilteredSupParticipants,
+        tags: ['api', 'organization', 'sup-participants'],
+        notes: [
+          "- **Cette route est restreinte aux utilisateurs authentifiés membres d'un espace Orga**\n" +
+            '- Récupération des étudiants liés à une organisation SUP\n',
+        ],
+      },
+    },
+    {
+      method: 'GET',
       path: '/api/organizations/{id}/students',
       config: {
         pre: [
