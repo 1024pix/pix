@@ -52,9 +52,10 @@ module.exports = {
         refreshToken: tokenResponse.data['refresh_token'],
         expiredDate: moment().add(tokenResponse.data['expires_in'], 's').toDate(),
       });
-      await authenticationMethodRepository.updatePoleEmploiAuthenticationComplementByUserId({
+      await authenticationMethodRepository.updateAuthenticationComplementByUserIdAndIdentityProvider({
         authenticationComplement,
         userId,
+        identityProvider: 'POLE_EMPLOI',
       });
     }
 

@@ -42,7 +42,7 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
       clock = sinon.useFakeTimers(Date.now());
       sinon.stub(httpAgent, 'post');
       sinon.stub(authenticationMethodRepository, 'findOneByUserIdAndIdentityProvider');
-      sinon.stub(authenticationMethodRepository, 'updatePoleEmploiAuthenticationComplementByUserId');
+      sinon.stub(authenticationMethodRepository, 'updateAuthenticationComplementByUserIdAndIdentityProvider');
       sinon.stub(monitoringTools, 'logErrorWithCorrelationIds');
 
       settings.poleEmploi.tokenUrl = 'someTokenUrlToPoleEmploi';
@@ -56,7 +56,7 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
 
       httpAgent.post.restore();
       authenticationMethodRepository.findOneByUserIdAndIdentityProvider.restore();
-      authenticationMethodRepository.updatePoleEmploiAuthenticationComplementByUserId.restore();
+      authenticationMethodRepository.updateAuthenticationComplementByUserIdAndIdentityProvider.restore();
     });
 
     it('should throw an error if the user is not known as PoleEmploi user', async function () {
@@ -147,8 +147,8 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
 
           // then
           expect(
-            authenticationMethodRepository.updatePoleEmploiAuthenticationComplementByUserId
-          ).to.have.been.calledWith({ authenticationComplement, userId });
+            authenticationMethodRepository.updateAuthenticationComplementByUserIdAndIdentityProvider
+          ).to.have.been.calledWith({ authenticationComplement, userId, identityProvider: 'POLE_EMPLOI' });
         });
 
         it('should send the notification to Pole Emploi', async function () {
@@ -166,7 +166,7 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
             'Service-source': 'Pix',
           };
 
-          authenticationMethodRepository.updatePoleEmploiAuthenticationComplementByUserId
+          authenticationMethodRepository.updateAuthenticationComplementByUserIdAndIdentityProvider
             .withArgs({ authenticationComplement, userId })
             .resolves();
 
@@ -248,7 +248,7 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
           };
 
           authenticationMethodRepository.findOneByUserIdAndIdentityProvider.resolves(authenticationMethod);
-          authenticationMethodRepository.updatePoleEmploiAuthenticationComplementByUserId.resolves();
+          authenticationMethodRepository.updateAuthenticationComplementByUserIdAndIdentityProvider.resolves();
 
           httpAgent.post
             .withArgs({
