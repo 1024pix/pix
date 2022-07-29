@@ -146,4 +146,23 @@ describe('Unit | Domain | Services | pole-emploi-oidc-authentication-service', f
       );
     });
   });
+
+  describe('#createAuthenticationComplement', function () {
+    it('should create pole emploi authentication complement', function () {
+      // given
+      const sessionContent = {
+        accessToken: 'accessToken',
+        idToken: 'idToken',
+        expiresIn: 10,
+        refreshToken: 'refreshToken',
+      };
+      const poleEmploiOidcAuthenticationService = new PoleEmploiOidcAuthenticationService();
+
+      // when
+      const result = poleEmploiOidcAuthenticationService.createAuthenticationComplement({ sessionContent });
+
+      // then
+      expect(result).to.be.instanceOf(AuthenticationMethod.PoleEmploiAuthenticationComplement);
+    });
+  });
 });
