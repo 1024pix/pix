@@ -143,7 +143,6 @@ export default class TubesSelection extends Component {
         throw new Error("Le format du fichier n'est pas reconnu.");
       }
 
-      this.setDefaultFrameworks();
       await this._triggerOnChange();
       this.notifications.success('Fichier bien importé.');
     } catch (e) {
@@ -154,11 +153,17 @@ export default class TubesSelection extends Component {
   _loadTubesPreselection(tubeIds) {
     this.selectedTubeIds = EmberArray(tubeIds);
     this.tubeLevels = {};
+    this.setDefaultFrameworks();
   }
 
   _loadTargetProfile(tubes) {
     this.selectedTubeIds = EmberArray(tubes.map(({ id }) => id));
     this.tubeLevels = Object.fromEntries(tubes.map(({ id, level }) => [id, level]));
+    if (tubes[0].frameworkId) {
+      this.selectedFrameworkIds = [...new Set(tubes.map(({ frameworkId }) => frameworkId))];
+    } else {
+      this.setDefaultFrameworks();
+    }
   }
 
   async _calculateNumberOfTubes(areas) {

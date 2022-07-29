@@ -22,7 +22,9 @@ describe('Unit | Serializer | JSONAPI | target-profile-with-learning-content-ser
         competences: [
           domainBuilder.buildTargetedCompetence({ id: 'rec3', name: 'Comprendre', areaId: 'rec4', index: '1.1' }),
         ],
-        areas: [domainBuilder.buildTargetedArea({ id: 'rec4', title: 'Connaître', color: 'blue' })],
+        areas: [
+          domainBuilder.buildTargetedArea({ id: 'rec4', title: 'Connaître', color: 'blue', frameworkId: 'fmkId1' }),
+        ],
         organizations: [{ id: 42 }],
         category: 'OTHER',
         isSimplifiedAccess: false,
@@ -190,6 +192,7 @@ describe('Unit | Serializer | JSONAPI | target-profile-with-learning-content-ser
               title: targetProfileWithLearningContent.areas[0].title,
               color: targetProfileWithLearningContent.areas[0].color,
               code: targetProfileWithLearningContent.tubesSelectionAreas[0].code,
+              'framework-id': targetProfileWithLearningContent.areas[0].frameworkId,
             },
             relationships: {
               competences: {

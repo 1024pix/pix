@@ -128,6 +128,7 @@ describe('Integration | Repository | Target-profile-with-learning-content', func
         title: 'area1_Title',
         color: 'area1_color',
         code: 'area1_code',
+        frameworkId: 'fmk1',
         competences: [competence1_1, competence1_2],
       });
       const targetProfileDB = databaseBuilder.factory.buildTargetProfile({
@@ -170,6 +171,7 @@ describe('Integration | Repository | Target-profile-with-learning-content', func
             titleFrFr: 'area1_Title',
             color: 'area1_color',
             code: 'area1_code',
+            frameworkId: 'fmk1',
             competenceIds: ['recArea1_Competence1', 'recArea1_Competence2'],
           },
         ],
@@ -392,6 +394,7 @@ describe('Integration | Repository | Target-profile-with-learning-content', func
             titleEnUs: 'someTitle',
             color: 'someColor',
             code: 'someCode',
+            frameworkId: 'someFmkId',
             competenceIds: ['competenceId'],
           },
         ],
@@ -490,6 +493,7 @@ describe('Integration | Repository | Target-profile-with-learning-content', func
             titleFrFr: 'someTitle',
             code: 'someCode',
             color: 'someColor',
+            frameworkId: 'someFmkId',
             competenceIds: ['recArea1_Competence1'],
           },
         ],
@@ -648,6 +652,7 @@ describe('Integration | Repository | Target-profile-with-learning-content', func
         title: 'area1_Title',
         code: 'area1_code',
         color: 'area1_color',
+        frameworkId: 'area1_fmkId',
         competences: [competence1_1, competence1_2],
       });
       const targetProfileDB = databaseBuilder.factory.buildTargetProfile();
@@ -682,6 +687,7 @@ describe('Integration | Repository | Target-profile-with-learning-content', func
             titleFrFr: 'area1_Title',
             code: 'area1_code',
             color: 'area1_color',
+            frameworkId: 'area1_fmkId',
             competenceIds: ['recArea1_Competence1', 'recArea1_Competence2'],
           },
         ],
@@ -906,6 +912,7 @@ describe('Integration | Repository | Target-profile-with-learning-content', func
             titleEnUs: 'someTitle',
             color: 'someColor',
             code: 'someCode',
+            frameworkId: 'someFmkId',
             competenceIds: ['competenceId'],
           },
         ],

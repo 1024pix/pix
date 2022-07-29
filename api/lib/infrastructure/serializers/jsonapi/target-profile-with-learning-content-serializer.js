@@ -65,7 +65,7 @@ module.exports = {
       areas: {
         ref: 'id',
         included: true,
-        attributes: ['title', 'color'],
+        attributes: ['title', 'color', 'frameworkId'],
       },
       badges: {
         ref: 'id',
