@@ -82,11 +82,8 @@ describe('Acceptance | Application | Admin-members | Routes', function () {
     it('should return 200 http status code if admin member has role "SUPER_ADMIN"', async function () {
       // given
       const superAdmin = databaseBuilder.factory.buildUser.withRole();
-      const pixAdminUserToUpdate = databaseBuilder.factory.buildUser.withRole();
-      const pixAdminRole = databaseBuilder.factory.buildPixAdminRole({
-        userId: pixAdminUserToUpdate.id,
-        role: ROLES.SUPPORT,
-      });
+      const user = databaseBuilder.factory.buildUser();
+      const { id } = databaseBuilder.factory.buildPixAdminRole({ userId: user.id, role: ROLES.SUPPORT });
       await databaseBuilder.commit();
       const server = await createServer();
 
@@ -96,7 +93,7 @@ describe('Acceptance | Application | Admin-members | Routes', function () {
           authorization: generateValidRequestAuthorizationHeader(superAdmin.id),
         },
         method: 'PATCH',
-        url: `/api/admin/admin-members/${pixAdminRole.id}`,
+        url: `/api/admin/admin-members/${id}`,
         payload: {
           data: {
             attributes: {
@@ -135,52 +132,6 @@ describe('Acceptance | Application | Admin-members | Routes', function () {
 
       // then
       expect(response.statusCode).to.equal(204);
-    });
-  });
-
-  describe('POST /api/admin/admin-members', function () {
-    context('when admin member has role "SUPER_ADMIN"', function () {
-      it('should return a response with an HTTP status code 201', async function () {
-        // given
-        const adminMemberWithRoleSuperAdmin = databaseBuilder.factory.buildUser.withRole({
-          firstName: 'jaune',
-          lastName: 'attends',
-          email: 'jaune.attends@example.net',
-          password: 'j@Un3@Tt3nds',
-          role: ROLES.SUPER_ADMIN,
-        });
-        const user = databaseBuilder.factory.buildUser({
-          id: 1101,
-          firstName: '11',
-          lastName: '01',
-          email: '11.01@example.net',
-        });
-        await databaseBuilder.commit();
-        const server = await createServer();
-
-        // when
-        const { statusCode, result } = await server.inject({
-          headers: {
-            authorization: generateValidRequestAuthorizationHeader(adminMemberWithRoleSuperAdmin.id),
-          },
-          method: 'POST',
-          url: '/api/admin/admin-members',
-          payload: {
-            data: {
-              attributes: {
-                email: user.email,
-                role: ROLES.CERTIF,
-              },
-            },
-          },
-        });
-
-        // then
-        expect(statusCode).to.equal(201);
-        expect(result.data.attributes['user-id']).to.equal(1101);
-        expect(result.data.attributes.role).to.equal('CERTIF');
-        expect(result.data.attributes.email).to.equal('11.01@example.net');
-      });
     });
   });
 });
