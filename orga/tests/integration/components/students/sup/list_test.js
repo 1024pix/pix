@@ -82,6 +82,28 @@ module('Integration | Component | Student::Sup::List', function (hooks) {
     assert.contains('03/01/2022');
   });
 
+  test('it should display campaign name, type and status as tooltip information', async function (assert) {
+    // given
+    const students = [
+      {
+        lastParticipationDate: new Date('2022-01-03'),
+        campaignName: 'SUP - Campagne de collecte de profils',
+        campaignType: 'PROFILES_COLLECTION',
+        participationStatus: 'SHARED',
+      },
+    ];
+
+    this.set('students', students);
+
+    // when
+    await render(hbs`<Student::Sup::List @students={{students}} @onFilter={{noop}} />`);
+
+    // then
+    assert.contains('SUP - Campagne de collecte de profils');
+    assert.contains('Collecte de profils');
+    assert.contains('reçu');
+  });
+
   module('when user is filtering some users', function () {
     test('it should trigger filtering with lastname', async function (assert) {
       const triggerFiltering = sinon.spy();
