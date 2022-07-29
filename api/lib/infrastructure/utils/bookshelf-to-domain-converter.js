@@ -4,6 +4,7 @@ const Models = require('../../domain/models');
 const path = require('path');
 const fs = require('fs');
 
+// eslint-disable-next-line no-sync
 const typescriptModelList = fs
   .readdirSync(path.join(__dirname, '..', '..', 'domain', 'models'))
   .filter((file) => file.endsWith('.ts'))

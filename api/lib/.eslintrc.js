@@ -13,5 +13,6 @@ module.exports = {
       },
     ],
     'node/no-process-env': 'error',
+    'node/no-missing-require': 'warn',
   },
 };

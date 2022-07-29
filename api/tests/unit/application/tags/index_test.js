@@ -2,7 +2,7 @@ const { domainBuilder, expect, sinon, HttpTestServer } = require('../../../test-
 
 const moduleUnderTest = require('../../../../lib/application/tags');
 const securityPreHandlers = require('../../../../lib/application/security-pre-handlers');
-const {tagController} = require('../../../../lib/application/tags/tag-controller');
+const { tagController } = require('../../../../lib/application/tags/tag-controller');
 
 describe('Unit | Application | Router | tag-router', function () {
   describe('GET /api/admin/tags', function () {

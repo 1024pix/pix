@@ -22,25 +22,20 @@ describe('Acceptance | Route | tag-router', function () {
 
       const userId = (await insertUserWithRoleSuperAdmin()).id;
 
-      let response;
       // when
-      try {
-        response = await server.inject({
-          method: 'POST',
-          url: '/api/admin/tags',
-          payload: {
-            data: {
-              type: 'tags',
-              attributes: {
-                name: tagName,
-              },
+      const response = await server.inject({
+        method: 'POST',
+        url: '/api/admin/tags',
+        payload: {
+          data: {
+            type: 'tags',
+            attributes: {
+              name: tagName,
             },
           },
-          headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
-        });
-      } catch (error) {
-        console.log(error);
-      }
+        },
+        headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
+      });
 
       // then
       expect(response.statusCode).to.equal(201);

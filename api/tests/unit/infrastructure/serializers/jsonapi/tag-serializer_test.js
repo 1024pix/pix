@@ -1,5 +1,5 @@
 const { expect, domainBuilder } = require('../../../../test-helper');
-const {tagSerializer} = require('../../../../../lib/infrastructure/serializers/jsonapi/tag-serializer');
+const { tagSerializer } = require('../../../../../lib/infrastructure/serializers/jsonapi/tag-serializer');
 
 describe('Unit | Serializer | JSONAPI | tag-serializer', function () {
   describe('#serialize', function () {
