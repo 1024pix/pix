@@ -7,6 +7,7 @@ module.exports = function buildArea({
   competences = [],
   color = 'red',
   name,
+  frameworkId = 'recFmk123',
 } = {}) {
   name = name || `${code}. ${title}`;
   return new Area({
@@ -16,5 +17,6 @@ module.exports = function buildArea({
     title,
     competences,
     color,
+    frameworkId,
   });
 };

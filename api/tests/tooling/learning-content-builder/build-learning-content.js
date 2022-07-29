@@ -128,6 +128,7 @@ const buildLearningContent = function (learningContent) {
       titleFrFr: area.titleFr,
       titleEnUs: area.titleEn,
       color: area.color,
+      frameworkId: area.frameworkId,
       competenceIds: competences.map((competence) => competence.id),
     };
   });
