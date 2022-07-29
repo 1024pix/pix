@@ -263,6 +263,24 @@ module.exports = {
     return _toDomain(authenticationMethodDTO);
   },
 
+  async updateAuthenticationComplementByUserIdAndIdentityProvider({
+    authenticationComplement,
+    userId,
+    identityProvider,
+  }) {
+    const [authenticationMethodDTO] = await knex(AUTHENTICATION_METHODS_TABLE)
+      .where({ userId, identityProvider })
+      .update({ authenticationComplement, updatedAt: new Date() })
+      .returning(COLUMNS);
+
+    if (!authenticationMethodDTO) {
+      throw new AuthenticationMethodNotFoundError(
+        `No rows updated for authentication method of type ${identityProvider} for user ${userId}.`
+      );
+    }
+    return _toDomain(authenticationMethodDTO);
+  },
+
   async updateAuthenticationMethodUserId({ originUserId, identityProvider, targetUserId }) {
     await knex(AUTHENTICATION_METHODS_TABLE)
       .where({ userId: originUserId, identityProvider })

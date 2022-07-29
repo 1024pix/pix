@@ -881,6 +881,108 @@ describe('Integration | Repository | AuthenticationMethod', function () {
     });
   });
 
+  describe('#updateAuthenticationComplementByUserIdAndIdentityProvider', function () {
+    context('When authentication method exists for Pole Emploi', function () {
+      let authenticationMethod;
+      let clock;
+
+      beforeEach(function () {
+        clock = sinon.useFakeTimers(new Date('2020-01-02'));
+        const userId = databaseBuilder.factory.buildUser().id;
+        authenticationMethod = databaseBuilder.factory.buildAuthenticationMethod.withPoleEmploiAsIdentityProvider({
+          id: 123,
+          externalIdentifier: 'identifier',
+          accessToken: 'to_be_updated',
+          refreshToken: 'to_be_updated',
+          expiredDate: Date.now(),
+          userId,
+        });
+        return databaseBuilder.commit();
+      });
+
+      afterEach(function () {
+        clock.restore();
+      });
+
+      it('should update the authentication complement in database for pole emploi', async function () {
+        // given
+        const userId = authenticationMethod.userId;
+        const expiredDate = Date.now();
+        const authenticationComplement = new AuthenticationMethod.PoleEmploiAuthenticationComplement({
+          accessToken: 'new_access_token',
+          refreshToken: 'new_refresh_token',
+          expiredDate,
+        });
+
+        // when
+        await authenticationMethodRepository.updateAuthenticationComplementByUserIdAndIdentityProvider({
+          authenticationComplement,
+          userId,
+          identityProvider: 'POLE_EMPLOI',
+        });
+
+        // then
+        const [updatedAuthenticationComplement] = await knex('authentication-methods')
+          .pluck('authenticationComplement')
+          .where({ id: 123 });
+        expect(updatedAuthenticationComplement.accessToken).to.equal('new_access_token');
+        expect(updatedAuthenticationComplement.refreshToken).to.equal('new_refresh_token');
+        expect(updatedAuthenticationComplement.expiredDate).to.deep.equal(expiredDate);
+      });
+
+      it('should return the updated AuthenticationMethod', async function () {
+        // given
+        const userId = authenticationMethod.userId;
+        const expiredDate = Date.now();
+        const authenticationComplement = new AuthenticationMethod.PoleEmploiAuthenticationComplement({
+          accessToken: 'new_access_token',
+          refreshToken: 'new_refresh_token',
+          expiredDate,
+        });
+
+        // when
+        const updatedAuthenticationMethod =
+          await authenticationMethodRepository.updateAuthenticationComplementByUserIdAndIdentityProvider({
+            authenticationComplement,
+            userId,
+            identityProvider: 'POLE_EMPLOI',
+          });
+
+        // then
+        const expectedAuthenticationMethod = domainBuilder.buildAuthenticationMethod.withPoleEmploiAsIdentityProvider({
+          id: 123,
+          externalIdentifier: 'identifier',
+          accessToken: 'new_access_token',
+          refreshToken: 'new_refresh_token',
+          expiredDate,
+          userId,
+          updatedAt: new Date(),
+        });
+        expect(updatedAuthenticationMethod).to.deepEqualInstance(expectedAuthenticationMethod);
+      });
+    });
+
+    context('When authentication method does not exist', function () {
+      it('should throw a AuthenticationMethodNotFoundError', async function () {
+        // given
+        const userId = 12345;
+        const authenticationComplement = {};
+
+        // when
+        const error = await catchErr(
+          authenticationMethodRepository.updateAuthenticationComplementByUserIdAndIdentityProvider
+        )({
+          authenticationComplement,
+          userId,
+          identityProvider: 'POLE_EMPLOI',
+        });
+
+        // then
+        expect(error).to.be.instanceOf(AuthenticationMethodNotFoundError);
+      });
+    });
+  });
+
   describe('#hasIdentityProviderPIX', function () {
     it('should return true if user have an authenticationMethod with an IdentityProvider PIX ', async function () {
       // given
