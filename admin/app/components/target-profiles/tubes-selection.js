@@ -130,21 +130,35 @@ export default class TubesSelection extends Component {
 
   async _onFileLoad(event) {
     try {
-      const tubeIds = JSON.parse(event.target.result);
-      if (tubeIds.length === 0) {
-        throw new Error('Ce fichier ne contient aucun sujet !');
+      const data = JSON.parse(event.target.result);
+
+      if (!Array.isArray(data)) throw new Error("Le format du fichier n'est pas reconnu.");
+      if (data.length === 0) throw new Error('Le fichier ne contient aucun élément.');
+
+      if (typeof data[0] === 'string') {
+        this._loadTubesPreselection(data);
+      } else if (typeof data[0] === 'object' && typeof data[0].id === 'string') {
+        this._loadTargetProfile(data);
+      } else {
+        throw new Error("Le format du fichier n'est pas reconnu.");
       }
-      if (typeof tubeIds[0] !== 'string') {
-        throw new Error("Le format du fichier n'est pas reconnu");
-      }
-      this.selectedTubeIds = EmberArray(tubeIds);
-      this.tubeLevels = {};
-      this.notifications.success('Fichier bien importé.');
-      await this._triggerOnChange();
+
       this.setDefaultFrameworks();
+      await this._triggerOnChange();
+      this.notifications.success('Fichier bien importé.');
     } catch (e) {
       this.notifications.error(e.message);
     }
+  }
+
+  _loadTubesPreselection(tubeIds) {
+    this.selectedTubeIds = EmberArray(tubeIds);
+    this.tubeLevels = {};
+  }
+
+  _loadTargetProfile(tubes) {
+    this.selectedTubeIds = EmberArray(tubes.map(({ id }) => id));
+    this.tubeLevels = Object.fromEntries(tubes.map(({ id, level }) => [id, level]));
   }
 
   async _calculateNumberOfTubes(areas) {
