@@ -6,7 +6,7 @@ describe('Unit | Domain | Models | ComplementaryCertification', function () {
     it('should return true id name equals CléA Numérique', function () {
       // given
       const complementaryCertification = domainBuilder.buildComplementaryCertification({
-        name: ComplementaryCertification.CLEA,
+        key: ComplementaryCertification.CLEA,
       });
 
       // when
@@ -19,7 +19,7 @@ describe('Unit | Domain | Models | ComplementaryCertification', function () {
     it('should return false otherwise', function () {
       // given
       const complementaryCertification = domainBuilder.buildComplementaryCertification({
-        name: 'Not cléa',
+        key: 'Not cléa',
       });
 
       // when
@@ -34,7 +34,7 @@ describe('Unit | Domain | Models | ComplementaryCertification', function () {
     it('should return true id name equals Pix+ Droit', function () {
       // given
       const complementaryCertification = domainBuilder.buildComplementaryCertification({
-        name: ComplementaryCertification.PIX_PLUS_DROIT,
+        key: ComplementaryCertification.PIX_PLUS_DROIT,
       });
 
       // when
@@ -47,7 +47,7 @@ describe('Unit | Domain | Models | ComplementaryCertification', function () {
     it('should return false otherwise', function () {
       // given
       const complementaryCertification = domainBuilder.buildComplementaryCertification({
-        name: 'Not pix+ droit',
+        key: 'Not pix+ droit',
       });
 
       // when
@@ -62,7 +62,7 @@ describe('Unit | Domain | Models | ComplementaryCertification', function () {
     it('should return true if name equals Pix+ Édu 2nd degré', function () {
       // given
       const complementaryCertification = domainBuilder.buildComplementaryCertification({
-        name: ComplementaryCertification.PIX_PLUS_EDU_1ER_DEGRE,
+        key: ComplementaryCertification.PIX_PLUS_EDU_1ER_DEGRE,
       });
 
       // when
@@ -75,7 +75,7 @@ describe('Unit | Domain | Models | ComplementaryCertification', function () {
     it('should return false otherwise', function () {
       // given
       const complementaryCertification = domainBuilder.buildComplementaryCertification({
-        name: 'Not pix+ Édu',
+        key: 'Not pix+ Édu',
       });
 
       // when
@@ -87,10 +87,10 @@ describe('Unit | Domain | Models | ComplementaryCertification', function () {
   });
 
   describe('#isPixPlusEdu2ndDegre', function () {
-    it('should return true id name equals Pix+ Édu 1er degré', function () {
+    it('should return true id key equals Pix+ Édu 1er degré', function () {
       // given
       const complementaryCertification = domainBuilder.buildComplementaryCertification({
-        name: ComplementaryCertification.PIX_PLUS_EDU_2ND_DEGRE,
+        key: ComplementaryCertification.PIX_PLUS_EDU_2ND_DEGRE,
       });
 
       // when
@@ -103,7 +103,7 @@ describe('Unit | Domain | Models | ComplementaryCertification', function () {
     it('should return false otherwise', function () {
       // given
       const complementaryCertification = domainBuilder.buildComplementaryCertification({
-        name: 'Not pix+ Édu',
+        key: 'Not pix+ Édu',
       });
 
       // when

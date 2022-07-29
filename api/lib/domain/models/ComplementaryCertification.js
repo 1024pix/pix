@@ -1,28 +1,29 @@
-const PIX_PLUS_DROIT = 'Pix+ Droit';
-const CLEA = 'CléA Numérique';
-const PIX_PLUS_EDU_1ER_DEGRE = 'Pix+ Édu 1er degré';
-const PIX_PLUS_EDU_2ND_DEGRE = 'Pix+ Édu 2nd degré';
+const PIX_PLUS_DROIT = 'DROIT';
+const CLEA = 'CLEA';
+const PIX_PLUS_EDU_1ER_DEGRE = 'EDU_1ER_DEGRE';
+const PIX_PLUS_EDU_2ND_DEGRE = 'EDU_2ND_DEGRE';
 
 class ComplementaryCertification {
-  constructor({ id, name }) {
+  constructor({ id, label, key }) {
     this.id = id;
-    this.name = name;
+    this.label = label;
+    this.key = key;
   }
 
   isClea() {
-    return this.name === CLEA;
+    return this.key === CLEA;
   }
 
   isPixPlusDroit() {
-    return this.name === PIX_PLUS_DROIT;
+    return this.key === PIX_PLUS_DROIT;
   }
 
   isPixPlusEdu1erDegre() {
-    return this.name === PIX_PLUS_EDU_1ER_DEGRE;
+    return this.key === PIX_PLUS_EDU_1ER_DEGRE;
   }
 
   isPixPlusEdu2ndDegre() {
-    return this.name === PIX_PLUS_EDU_2ND_DEGRE;
+    return this.key === PIX_PLUS_EDU_2ND_DEGRE;
   }
 }
 
