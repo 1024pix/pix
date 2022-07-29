@@ -24,6 +24,10 @@ const schema = Joi.object({
     'number.base': 'MISSING_CREATOR',
   }),
 
+  customLandingPageText: Joi.string().allow(null).default(null).max(5000).messages({
+    'string.max': 'CUSTOM_LANDING_PAGE_TEXT_IS_TOO_LONG',
+  }),
+
   ownerId: Joi.number().integer().required().messages({
     'any.required': 'MISSING_OWNER',
     'number.base': 'MISSING_OWNER',
