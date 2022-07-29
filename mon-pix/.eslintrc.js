@@ -11,12 +11,13 @@ module.exports = {
       legacyDecorators: true,
     },
   },
-  plugins: ['ember', 'mocha'],
+  plugins: ['ember'],
   extends: [
     ...(fs.existsSync('../.eslintrc.yaml') ? ['../.eslintrc.yaml'] : []),
     'plugin:ember/recommended',
     'plugin:i18n-json/recommended',
     'plugin:prettier/recommended',
+    'plugin:qunit/recommended',
   ],
   env: {
     browser: true,
@@ -36,9 +37,6 @@ module.exports = {
         order: ['attribute', 'relationship', 'single-line-function', 'multi-line-function'],
       },
     ],
-    'mocha/no-exclusive-tests': 'error',
-    'mocha/no-identical-title': 'error',
-    'mocha/no-skipped-tests': 'warn',
     /* Recommended rules */
     'ember/no-mixins': 'off',
     'i18n-json/sorted-keys': [
@@ -86,7 +84,6 @@ module.exports = {
       excludedFiles: ['tests/dummy/**/*.js'],
       env: {
         embertest: true,
-        mocha: true,
       },
       globals: {
         server: false,
