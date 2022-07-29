@@ -108,9 +108,9 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', function () {
       });
     });
 
-    it('should call get pole emploi user info with id token parameter', async function () {
+    it('should call get pole emploi user info with id token and access token parameters', async function () {
       // given
-      _fakePoleEmploiAPI({ oidcAuthenticationService });
+      const poleEmploiAuthenticationSessionContent = _fakePoleEmploiAPI({ oidcAuthenticationService });
 
       // when
       await authenticatePoleEmploiUser({
@@ -127,7 +127,10 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', function () {
       });
 
       // then
-      expect(oidcAuthenticationService.getUserInfo).to.have.been.calledWith({ idToken: 'idToken' });
+      expect(oidcAuthenticationService.getUserInfo).to.have.been.calledWith({
+        idToken: poleEmploiAuthenticationSessionContent.idToken,
+        accessToken: poleEmploiAuthenticationSessionContent.accessToken,
+      });
     });
 
     it('should return accessToken and logoutUrlUUID', async function () {
@@ -187,7 +190,7 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', function () {
       it('should call authentication repository updatePoleEmploiAuthenticationComplementByUserId function', async function () {
         // given
         userRepository.findByExternalIdentifier.resolves({ id: 1 });
-        const { poleEmploiAuthenticationSessionContent } = _fakePoleEmploiAPI({ oidcAuthenticationService });
+        const poleEmploiAuthenticationSessionContent = _fakePoleEmploiAPI({ oidcAuthenticationService });
 
         // when
         await authenticatePoleEmploiUser({
@@ -245,7 +248,7 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', function () {
       context('When the user does not have a pole emploi authentication method', function () {
         it('should call authentication method repository create function with pole emploi authentication method in domain transaction', async function () {
           // given
-          const { poleEmploiAuthenticationSessionContent } = _fakePoleEmploiAPI({ oidcAuthenticationService });
+          const poleEmploiAuthenticationSessionContent = _fakePoleEmploiAPI({ oidcAuthenticationService });
           userRepository.findByExternalIdentifier.resolves(null);
 
           // when
@@ -282,7 +285,7 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', function () {
       context('When the user does have a pole emploi authentication method', function () {
         it('should call authentication repository updatePoleEmploiAuthenticationComplementByUserId function', async function () {
           // given
-          const { poleEmploiAuthenticationSessionContent } = _fakePoleEmploiAPI({ oidcAuthenticationService });
+          const poleEmploiAuthenticationSessionContent = _fakePoleEmploiAPI({ oidcAuthenticationService });
           authenticationMethodRepository.findOneByUserIdAndIdentityProvider.resolves(
             domainBuilder.buildAuthenticationMethod.withPoleEmploiAsIdentityProvider({
               externalIdentifier: '094b83ac-2e20-4aa8-b438-0bc91748e4a6',
@@ -351,7 +354,7 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', function () {
   context('When user has no account', function () {
     it('should call AuthenticationSessionContent repository save method', async function () {
       // given
-      const { poleEmploiAuthenticationSessionContent } = _fakePoleEmploiAPI({ oidcAuthenticationService });
+      const poleEmploiAuthenticationSessionContent = _fakePoleEmploiAPI({ oidcAuthenticationService });
       const key = 'aaa-bbb-ccc';
       authenticationSessionService.save.resolves(key);
       userRepository.findByExternalIdentifier.resolves(null);
@@ -417,5 +420,5 @@ function _fakePoleEmploiAPI({ oidcAuthenticationService }) {
   oidcAuthenticationService.exchangeCodeForTokens.resolves(poleEmploiAuthenticationSessionContent);
   oidcAuthenticationService.getUserInfo.resolves(userInfo);
 
-  return { poleEmploiAuthenticationSessionContent };
+  return poleEmploiAuthenticationSessionContent;
 }

@@ -12,6 +12,7 @@ class CnavOidcAuthenticationService extends OidcAuthenticationService {
     const tokenUrl = settings.cnav.tokenUrl;
     const authenticationUrl = settings.cnav.authenticationUrl;
     const authenticationUrlParameters = [{ key: 'scope', value: 'openid profile' }];
+    const userInfoUrl = settings.cnav.userInfoUrl;
 
     super({
       source,
@@ -22,6 +23,7 @@ class CnavOidcAuthenticationService extends OidcAuthenticationService {
       tokenUrl,
       authenticationUrl,
       authenticationUrlParameters,
+      userInfoUrl,
     });
   }
 }

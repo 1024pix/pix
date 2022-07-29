@@ -2,11 +2,12 @@ const jsonwebtoken = require('jsonwebtoken');
 const settings = require('../../../config');
 const httpAgent = require('../../../infrastructure/http/http-agent');
 const querystring = require('querystring');
-const { AuthenticationTokenRetrievalError } = require('../../errors');
+const { AuthenticationTokenRetrievalError, InvalidExternalAPIResponseError } = require('../../errors');
 const AuthenticationSessionContent = require('../../models/AuthenticationSessionContent');
 const { v4: uuidv4 } = require('uuid');
 const DomainTransaction = require('../../../infrastructure/DomainTransaction');
 const AuthenticationMethod = require('../../models/AuthenticationMethod');
+const logger = require('../../../infrastructure/logger');
 
 class OidcAuthenticationService {
   constructor({
@@ -18,6 +19,7 @@ class OidcAuthenticationService {
     tokenUrl,
     authenticationUrl,
     authenticationUrlParameters,
+    userInfoUrl,
   }) {
     this.source = source;
     this.identityProvider = identityProvider;
@@ -27,6 +29,7 @@ class OidcAuthenticationService {
     this.tokenUrl = tokenUrl;
     this.authenticationUrl = authenticationUrl;
     this.authenticationUrlParameters = authenticationUrlParameters;
+    this.userInfoUrl = userInfoUrl;
   }
 
   createAccessToken(userId) {
@@ -88,14 +91,48 @@ class OidcAuthenticationService {
     return { redirectTarget: redirectTarget.toString(), state, nonce };
   }
 
-  async getUserInfo({ idToken }) {
-    const { given_name, family_name, nonce, sub } = await jsonwebtoken.decode(idToken);
+  async _getContentFromUserInfoEndpoint({ accessToken, userInfoUrl }) {
+    let userInfoContent;
+
+    try {
+      const { data } = await httpAgent.get({
+        url: userInfoUrl,
+        headers: { Authorization: `Bearer ${accessToken}` },
+      });
+      userInfoContent = data;
+    } catch (error) {
+      logger.error('Une erreur est survenue en récupérant les information des utilisateurs.');
+      throw new InvalidExternalAPIResponseError(
+        'Une erreur est survenue en récupérant les information des utilisateurs'
+      );
+    }
+
+    if (!userInfoContent.family_name || !userInfoContent.given_name || !userInfoContent.sub) {
+      logger.error(`Un des champs obligatoires n'a pas été renvoyé : ${JSON.stringify(userInfoContent)}.`);
+      throw new InvalidExternalAPIResponseError('Les informations utilisateurs récupérées sont incorrectes.');
+    }
 
     return {
-      firstName: given_name,
-      lastName: family_name,
-      externalIdentityId: sub,
-      nonce,
+      given_name: userInfoContent?.given_name,
+      family_name: userInfoContent?.family_name,
+      sub: userInfoContent?.sub,
+      nonce: userInfoContent?.nonce,
+    };
+  }
+
+  async getUserInfo({ idToken, accessToken }) {
+    const { family_name, given_name, sub, nonce } = await jsonwebtoken.decode(idToken);
+    let userInfoContent;
+
+    if (!family_name || !given_name || !sub) {
+      userInfoContent = await this._getContentFromUserInfoEndpoint({ accessToken, userInfoUrl: this.userInfoUrl });
+    }
+
+    return {
+      firstName: given_name || userInfoContent?.given_name,
+      lastName: family_name || userInfoContent?.family_name,
+      externalIdentityId: sub || userInfoContent?.sub,
+      nonce: nonce || userInfoContent?.nonce,
     };
   }
 

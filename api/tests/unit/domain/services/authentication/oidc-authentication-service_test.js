@@ -5,10 +5,14 @@ const OidcAuthenticationService = require('../../../../../lib/domain/services/au
 const jsonwebtoken = require('jsonwebtoken');
 const httpAgent = require('../../../../../lib/infrastructure/http/http-agent');
 const AuthenticationSessionContent = require('../../../../../lib/domain/models/AuthenticationSessionContent');
-const { AuthenticationTokenRetrievalError } = require('../../../../../lib/domain/errors');
+const {
+  AuthenticationTokenRetrievalError,
+  InvalidExternalAPIResponseError,
+} = require('../../../../../lib/domain/errors');
 const DomainTransaction = require('../../../../../lib/infrastructure/DomainTransaction');
 const UserToCreate = require('../../../../../lib/domain/models/UserToCreate');
 const AuthenticationMethod = require('../../../../../lib/domain/models/AuthenticationMethod');
+const logger = require('../../../../../lib/infrastructure/logger');
 
 describe('Unit | Domain | Services | oidc-authentication-service', function () {
   describe('#createAccessToken', function () {
@@ -126,7 +130,7 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
   });
 
   describe('#getAuthenticationUrl', function () {
-    it('should return auth url', async function () {
+    it('should return authentication url', async function () {
       // given
       const authenticationUrl = 'http://authenticationurl.net';
       const clientId = 'OIDC_CLIENT_ID';
@@ -162,7 +166,7 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
   });
 
   describe('#getUserInfo', function () {
-    it('should return email, firstName, lastName and external identity id', async function () {
+    it('should return nonce, firstName, lastName and external identity id', async function () {
       // given
       function generateIdToken(payload) {
         return jsonwebtoken.sign(
@@ -183,7 +187,10 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
       const oidcAuthenticationService = new OidcAuthenticationService({});
 
       // when
-      const result = await oidcAuthenticationService.getUserInfo({ idToken });
+      const result = await oidcAuthenticationService.getUserInfo({
+        idToken,
+        accessToken: 'accessToken',
+      });
 
       // then
       expect(result).to.deep.equal({
@@ -191,6 +198,127 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
         lastName: 'familyName',
         nonce: 'bb041272-d6e6-457c-99fb-ff1aa02217fd',
         externalIdentityId: '094b83ac-2e20-4aa8-b438-0bc91748e4a6',
+      });
+    });
+
+    describe('when required properties are not returned in id token', function () {
+      it('should call userInfo endpoint', async function () {
+        // given
+        function generateIdToken(payload) {
+          return jsonwebtoken.sign(
+            {
+              ...payload,
+            },
+            'secret'
+          );
+        }
+        const idToken = generateIdToken({
+          nonce: 'bb041272-d6e6-457c-99fb-ff1aa02217fd',
+          sub: '094b83ac-2e20-4aa8-b438-0bc91748e4a6',
+        });
+        const userInfoUrl = 'infoUrl';
+
+        const oidcAuthenticationService = new OidcAuthenticationService({ userInfoUrl });
+        sinon.stub(oidcAuthenticationService, '_getContentFromUserInfoEndpoint');
+
+        // when
+        await oidcAuthenticationService.getUserInfo({
+          idToken,
+          accessToken: 'accessToken',
+        });
+
+        // then
+        expect(oidcAuthenticationService._getContentFromUserInfoEndpoint).to.have.been.calledOnceWithExactly({
+          accessToken: 'accessToken',
+          userInfoUrl,
+        });
+      });
+    });
+  });
+
+  describe('#_getContentFromUserInfoEndpoint', function () {
+    it('should return nonce, firstName, lastName and external identity id', async function () {
+      // given
+      sinon.stub(httpAgent, 'get').resolves({
+        isSuccessful: true,
+        data: {
+          given_name: 'givenName',
+          family_name: 'familyName',
+          nonce: 'bb041272-d6e6-457c-99fb-ff1aa02217fd',
+          sub: '094b83ac-2e20-4aa8-b438-0bc91748e4a6',
+        },
+      });
+
+      const oidcAuthenticationService = new OidcAuthenticationService({ userInfoUrl: 'userInfoUrl' });
+
+      // when
+      const result = await oidcAuthenticationService._getContentFromUserInfoEndpoint({
+        accessToken: 'accessToken',
+        userInfoUrl: 'userInfoUrl',
+      });
+
+      // then
+      expect(result).to.deep.equal({
+        given_name: 'givenName',
+        family_name: 'familyName',
+        sub: '094b83ac-2e20-4aa8-b438-0bc91748e4a6',
+        nonce: 'bb041272-d6e6-457c-99fb-ff1aa02217fd',
+      });
+    });
+
+    describe('when required properties are not returned by external API', function () {
+      it('should throw error', async function () {
+        // given
+        sinon.stub(httpAgent, 'get').resolves({
+          isSuccessful: true,
+          data: {
+            given_name: 'givenName',
+            family_name: undefined,
+            nonce: 'bb041272-d6e6-457c-99fb-ff1aa02217fd',
+            sub: '094b83ac-2e20-4aa8-b438-0bc91748e4a6',
+          },
+        });
+        sinon.stub(logger, 'error');
+        const oidcAuthenticationService = new OidcAuthenticationService({ userInfoUrl: 'userInfoUrl' });
+
+        // when
+        const error = await catchErr(oidcAuthenticationService._getContentFromUserInfoEndpoint)({
+          accessToken: 'accessToken',
+          userInfoUrl: 'userInfoUrl',
+        });
+
+        // then
+        expect(error).to.be.instanceOf(InvalidExternalAPIResponseError);
+        expect(error.message).to.be.equal('Les informations utilisateurs récupérées sont incorrectes.');
+        const expectedMessage = `Un des champs obligatoires n'a pas été renvoyé : ${JSON.stringify({
+          given_name: 'givenName',
+          nonce: 'bb041272-d6e6-457c-99fb-ff1aa02217fd',
+          sub: '094b83ac-2e20-4aa8-b438-0bc91748e4a6',
+        })}.`;
+        expect(logger.error).to.have.been.calledWith(expectedMessage);
+      });
+    });
+
+    describe('when call to external API fails', function () {
+      it('should throw error', async function () {
+        // given
+        const anError = new Error('something bad happened');
+        sinon.stub(httpAgent, 'get').rejects(anError);
+        sinon.stub(logger, 'error');
+        const oidcAuthenticationService = new OidcAuthenticationService({ userInfoUrl: 'userInfoUrl' });
+
+        // when
+        const error = await catchErr(oidcAuthenticationService._getContentFromUserInfoEndpoint)({
+          accessToken: 'accessToken',
+          userInfoUrl: 'userInfoUrl',
+        });
+
+        // then
+        expect(error).to.be.instanceOf(InvalidExternalAPIResponseError);
+        expect(error.message).to.be.equal('Une erreur est survenue en récupérant les information des utilisateurs');
+        expect(logger.error).to.have.been.calledWith(
+          'Une erreur est survenue en récupérant les information des utilisateurs.'
+        );
       });
     });
   });

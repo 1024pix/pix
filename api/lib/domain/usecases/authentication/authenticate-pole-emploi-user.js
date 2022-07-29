@@ -27,6 +27,7 @@ module.exports = async function authenticatePoleEmploiUser({
 
   const userInfo = await oidcAuthenticationService.getUserInfo({
     idToken: poleEmploiAuthenticationSessionContent.idToken,
+    accessToken: poleEmploiAuthenticationSessionContent.accessToken,
   });
 
   const authenticationComplement = new AuthenticationMethod.PoleEmploiAuthenticationComplement({
