@@ -24,6 +24,7 @@ class PoleEmploiOidcAuthenticationService extends OidcAuthenticationService {
         value: `application_${clientId} api_peconnect-individuv1 openid profile`,
       },
     ];
+    const userInfoUrl = settings.poleEmploi.userInfoUrl;
 
     super({
       source,
@@ -34,6 +35,7 @@ class PoleEmploiOidcAuthenticationService extends OidcAuthenticationService {
       tokenUrl,
       authenticationUrl,
       authenticationUrlParameters,
+      userInfoUrl,
     });
 
     this.logoutUrl = settings.poleEmploi.logoutUrl;
