@@ -1,0 +1,81 @@
+
+version: '3'
+
+services:
+
+  postgres:
+    image: postgres:13.3-alpine
+    container_name: pix-api-postgres
+    ports:
+      - '${PIX_DATABASE_PORT:-5432}:5432'
+    volumes:
+      - ./data/pg:/var/lib/postgresql/data
+    environment:
+      POSTGRES_HOST_AUTH_METHOD: trust
+
+  redis:
+    image: redis:5.0.7-alpine
+    container_name: pix-api-redis
+    ports:
+      - '${PIX_CACHE_PORT:-6379}:6379'
+
+  api:
+    image: pix/api
+    depends_on:
+      - postgres
+      - redis 
+    build: 
+      dockerfile: ../docker/dockerfiles/Dockerfile.hapi
+      context: ../api/
+    volumes:
+      - .env:/code/.env 
+    ports:
+      - "3000:3000"
+
+  orga:
+    image: pix/orga
+    depends_on:
+      - api
+    build: 
+      dockerfile: ../docker/dockerfiles/Dockerfile.ember
+      context: ../orga
+    ports:
+      - "4201:80"
+    volumes:
+      - ./dockerfiles/config/ember-nginx.conf:/etc/nginx/conf.d/default.conf
+
+  admin:
+    image: pix/admin
+    depends_on:
+      - api
+    build: 
+      dockerfile: ../docker/dockerfiles/Dockerfile.ember
+      context: ../admin/
+    ports:
+      - "4202:80"
+    volumes:
+      - ./dockerfiles/config/ember-nginx.conf:/etc/nginx/conf.d/default.conf
+
+  certif:
+    image: pix/certif
+    depends_on:
+      - api
+    build: 
+      dockerfile: ../docker/dockerfiles/Dockerfile.ember
+      context: ../certif/
+    ports:
+      - "4203:80"
+    volumes:
+      - ./dockerfiles/config/ember-nginx.conf:/etc/nginx/conf.d/default.conf
+
+  mon-pix:
+    image: pix/mon-pix
+    depends_on:
+      - api
+    build: 
+      dockerfile: ../docker/dockerfiles/Dockerfile.ember
+      context: ../mon-pix/
+    ports:
+      - "4200:80"
+    volumes:
+      - ./dockerfiles/config/ember-nginx.conf:/etc/nginx/conf.d/default.conf
