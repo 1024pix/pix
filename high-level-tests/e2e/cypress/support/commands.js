@@ -126,4 +126,27 @@ Cypress.Commands.overwrite('visit', (originalFn, url, options) => {
   return originalFn(url, options);
 });
 
+Cypress.Commands.add('checkA11yAndShowViolations', ({ context = {}, options = {}, skipFailures = false }) => {
+  const logViolations = (violations) => {
+    cy.task(
+      'log',
+      `${violations.length} accessibility violation${violations.length === 1 ? '' : 's'} ${violations.length === 1 ? 'was' : 'were'} detected`
+    )
+
+    const violationData = violations.map(
+      ({ id, impact, description, nodes, help, helpUrl }) => ({
+        id,
+        impact,
+        description,
+        help,
+        helpUrl,
+        nodes: nodes.map(({ target }) => target).join(','),
+      })
+    )
+    cy.task('log', violationData)
+  }
+
+  return cy.checkA11y(context, options, logViolations, skipFailures);
+})
+
 compareSnapshotCommand();
