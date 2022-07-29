@@ -86,6 +86,19 @@ describe('Unit | Domain | Models | CampaignForCreation', function () {
             ]);
           });
         });
+
+        context('customLandingPageText max length over 5000 character', function () {
+          it('throws an error', async function () {
+            // given
+            attributes.customLandingPageText = 'Godzilla vs Kong'.repeat(335);
+
+            const error = await catchErr(() => new CampaignForCreation(attributes))();
+            expect(error.message).to.equal("Échec de validation de l'entité.");
+            expect(error.invalidAttributes).to.deep.equal([
+              { attribute: 'customLandingPageText', message: 'CUSTOM_LANDING_PAGE_TEXT_IS_TOO_LONG' },
+            ]);
+          });
+        });
       });
     });
 
