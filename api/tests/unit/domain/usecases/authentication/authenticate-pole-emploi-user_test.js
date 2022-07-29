@@ -24,7 +24,7 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', function () {
 
     authenticationMethodRepository = {
       create: sinon.stub().resolves(),
-      updatePoleEmploiAuthenticationComplementByUserId: sinon.stub().resolves(),
+      updateAuthenticationComplementByUserIdAndIdentityProvider: sinon.stub().resolves(),
       findOneByUserIdAndIdentityProvider: sinon.stub(),
     };
 
@@ -187,7 +187,7 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', function () {
     });
 
     context('When user has an pole emploi authentication method', function () {
-      it('should call authentication repository updatePoleEmploiAuthenticationComplementByUserId function', async function () {
+      it('should call authentication repository updateAuthenticationComplementByUserIdAndIdentityProvider function', async function () {
         // given
         userRepository.findByExternalIdentifier.resolves({ id: 1 });
         const poleEmploiAuthenticationSessionContent = _fakePoleEmploiAPI({ oidcAuthenticationService });
@@ -212,12 +212,13 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', function () {
           refreshToken: poleEmploiAuthenticationSessionContent.refreshToken,
           expiredDate: moment().add(poleEmploiAuthenticationSessionContent.expiresIn, 's').toDate(),
         });
-        expect(authenticationMethodRepository.updatePoleEmploiAuthenticationComplementByUserId).to.have.been.calledWith(
-          {
-            authenticationComplement: expectedAuthenticationComplement,
-            userId: 1,
-          }
-        );
+        expect(
+          authenticationMethodRepository.updateAuthenticationComplementByUserIdAndIdentityProvider
+        ).to.have.been.calledWith({
+          authenticationComplement: expectedAuthenticationComplement,
+          userId: 1,
+          identityProvider: 'POLE_EMPLOI',
+        });
       });
 
       it('should also save last logged at date', async function () {
@@ -283,7 +284,7 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', function () {
       });
 
       context('When the user does have a pole emploi authentication method', function () {
-        it('should call authentication repository updatePoleEmploiAuthenticationComplementByUserId function', async function () {
+        it('should call authentication repository updateAuthenticationComplementByUserIdAndIdentityProvider function', async function () {
           // given
           const poleEmploiAuthenticationSessionContent = _fakePoleEmploiAPI({ oidcAuthenticationService });
           authenticationMethodRepository.findOneByUserIdAndIdentityProvider.resolves(
@@ -313,10 +314,11 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', function () {
             expiredDate: moment().add(poleEmploiAuthenticationSessionContent.expiresIn, 's').toDate(),
           });
           expect(
-            authenticationMethodRepository.updatePoleEmploiAuthenticationComplementByUserId
+            authenticationMethodRepository.updateAuthenticationComplementByUserIdAndIdentityProvider
           ).to.have.been.calledWith({
             authenticationComplement: expectedAuthenticationComplement,
             userId: 1,
+            identityProvider: 'POLE_EMPLOI',
           });
         });
 

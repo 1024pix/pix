@@ -107,9 +107,10 @@ async function _getPixAccessTokenFromAlreadyAuthenticatedPixUser({
       throw new UnexpectedUserAccountError({ message: "Le compte Pix connecté n'est pas celui qui est attendu." });
     }
 
-    await authenticationMethodRepository.updatePoleEmploiAuthenticationComplementByUserId({
+    await authenticationMethodRepository.updateAuthenticationComplementByUserIdAndIdentityProvider({
       authenticationComplement,
       userId: authenticatedUserId,
+      identityProvider: AuthenticationMethod.identityProviders.POLE_EMPLOI,
     });
   } else {
     const authenticationMethod = _buildPoleEmploiAuthenticationMethod({
@@ -132,9 +133,10 @@ async function _getPixAccessTokenFromPoleEmploiUser({
   authenticationMethodRepository,
   userRepository,
 }) {
-  await authenticationMethodRepository.updatePoleEmploiAuthenticationComplementByUserId({
+  await authenticationMethodRepository.updateAuthenticationComplementByUserIdAndIdentityProvider({
     authenticationComplement,
     userId: user.id,
+    identityProvider: AuthenticationMethod.identityProviders.POLE_EMPLOI,
   });
 
   const pixAccessToken = oidcAuthenticationService.createAccessToken(user.id);
