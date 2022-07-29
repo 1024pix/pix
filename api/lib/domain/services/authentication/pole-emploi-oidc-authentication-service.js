@@ -43,7 +43,7 @@ class PoleEmploiOidcAuthenticationService extends OidcAuthenticationService {
     this.temporaryStorage = settings.poleEmploi.temporaryStorage;
   }
 
-  // Overrided because we need idToken to send results after a campaign
+  // Override because we need idToken to send results after a campaign
   // Sending campaign results is specific for Pole Emploi
   async createUserAccount({
     user,
@@ -60,11 +60,7 @@ class PoleEmploiOidcAuthenticationService extends OidcAuthenticationService {
         identityProvider: AuthenticationMethod.identityProviders.POLE_EMPLOI,
         userId: createdUserId,
         externalIdentifier: externalIdentityId,
-        authenticationComplement: new AuthenticationMethod.PoleEmploiAuthenticationComplement({
-          accessToken: sessionContent.accessToken,
-          refreshToken: sessionContent.refreshToken,
-          expiredDate: moment().add(sessionContent.expiresIn, 's').toDate(),
-        }),
+        authenticationComplement: this.createAuthenticationComplement({ sessionContent }),
       });
       await authenticationMethodRepository.create({ authenticationMethod, domainTransaction });
     });
@@ -102,6 +98,14 @@ class PoleEmploiOidcAuthenticationService extends OidcAuthenticationService {
     });
 
     return uuid;
+  }
+
+  createAuthenticationComplement({ sessionContent }) {
+    return new AuthenticationMethod.PoleEmploiAuthenticationComplement({
+      accessToken: sessionContent.accessToken,
+      refreshToken: sessionContent.refreshToken,
+      expiredDate: moment().add(sessionContent.expiresIn, 's').toDate(),
+    });
   }
 }
 
