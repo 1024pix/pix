@@ -74,7 +74,7 @@ module('Integration | Component | certifications/issue-report', function (hooks)
         const screen = await renderScreen(hbs`<Certifications::IssueReport @issueReport={{this.issueReport}}/>`);
 
         // Then
-        assert.dom(screen.queryByText('Résoudre le signalement')).doesNotExist();
+        assert.dom(screen.queryByRole('button', { name: 'Résoudre le signalement' })).doesNotExist();
       });
     });
   });
@@ -97,7 +97,7 @@ module('Integration | Component | certifications/issue-report', function (hooks)
       const screen = await renderScreen(hbs`<Certifications::IssueReport @issueReport={{this.issueReport}}/>`);
 
       // Then
-      assert.dom(screen.queryByText('Résoudre le signalement')).doesNotExist();
+      assert.dom(screen.queryByRole('button', { name: 'Résoudre le signalement' })).doesNotExist();
     });
 
     test('it should display resolution modification button', async function (assert) {
@@ -119,7 +119,7 @@ module('Integration | Component | certifications/issue-report', function (hooks)
       const screen = await renderScreen(hbs`<Certifications::IssueReport @issueReport={{this.issueReport}}/>`);
 
       // Then
-      assert.dom(screen.queryByText('Modifier la résolution')).exists();
+      assert.dom(screen.queryByRole('button', { name: 'Modifier la résolution' })).exists();
     });
   });
 

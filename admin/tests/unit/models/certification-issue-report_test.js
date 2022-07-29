@@ -83,45 +83,64 @@ module('Unit | Model | certification issue report', function (hooks) {
   });
 
   module('#canBeModified', function () {
-    test('it should return false if the issue is impactful but not resolved', function (assert) {
-      // given
-      const store = this.owner.lookup('service:store');
-
-      const model = store.createRecord('certification-issue-report', {
-        isImpactful: true,
-        resolvedAt: null,
-        resolution: null,
+    module('when the issue is impactful', function () {
+      module('when the issue is not resolved', function () {
+        test('it should return false', function (assert) {
+          // given
+          const store = this.owner.lookup('service:store');
+          const model = store.createRecord('certification-issue-report', {
+            isImpactful: true,
+            resolvedAt: null,
+            resolution: null,
+          });
+          // when / then
+          assert.false(model.canBeModified);
+        });
       });
 
-      // when / then
-      assert.false(model.canBeModified);
+      module('when the issue is resolved', function () {
+        test('it should return true', function (assert) {
+          // given
+          const store = this.owner.lookup('service:store');
+          const model = store.createRecord('certification-issue-report', {
+            isImpactful: true,
+            resolvedAt: new Date(),
+            resolution: 'resolved',
+          });
+          // when / then
+          assert.true(model.canBeModified);
+        });
+      });
     });
 
-    test('it should return true if the issue is impactful and resolved', function (assert) {
-      // given
-      const store = this.owner.lookup('service:store');
-
-      const model = store.createRecord('certification-issue-report', {
-        isImpactful: true,
-        resolvedAt: new Date(),
-        resolution: 'resolved',
+    module('when the issue is not impactful', function () {
+      module('when the issue is not resolved', function () {
+        test('it should return false', function (assert) {
+          // given
+          const store = this.owner.lookup('service:store');
+          const model = store.createRecord('certification-issue-report', {
+            isImpactful: false,
+            resolvedAt: null,
+            resolution: null,
+          });
+          // when / then
+          assert.false(model.canBeModified);
+        });
       });
 
-      // when / then
-      assert.true(model.canBeModified);
-    });
-    test('it should return false if the issue is not impactful and not resolved', function (assert) {
-      // given
-      const store = this.owner.lookup('service:store');
-
-      const model = store.createRecord('certification-issue-report', {
-        isImpactful: false,
-        resolvedAt: null,
-        resolution: null,
+      module('when the issue is resolved', function () {
+        test('it should return false', function (assert) {
+          // given
+          const store = this.owner.lookup('service:store');
+          const model = store.createRecord('certification-issue-report', {
+            isImpactful: false,
+            resolvedAt: new Date(),
+            resolution: 'resolved',
+          });
+          // when / then
+          assert.false(model.canBeModified);
+        });
       });
-
-      // when / then
-      assert.false(model.canBeModified);
     });
   });
 
