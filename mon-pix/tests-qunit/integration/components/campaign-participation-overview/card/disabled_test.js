@@ -35,9 +35,9 @@ module('Integration | Component | CampaignParticipationOverview | Card | Archive
         // then
         assert.dom(contains('My organization')).exists();
         assert.dom(contains('My campaign')).exists();
-        assert.dom(
-          contains('Parcours désactivé par votre organisation.\nVous ne pouvez plus envoyer vos résultats.')
-        ).exists();
+        assert
+          .dom(contains('Parcours désactivé par votre organisation.\nVous ne pouvez plus envoyer vos résultats.'))
+          .exists();
         assert
           .dom(contains(this.intl.t('pages.campaign-participation-overview.card.tag.disabled').toUpperCase()))
           .exists();

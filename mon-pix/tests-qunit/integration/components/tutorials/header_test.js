@@ -23,7 +23,7 @@ module('Integration | Component | Tutorials | Header', function (hooks) {
     assert.dom(find('.user-tutorials-banner-v2__title')).exists();
     assert.dom(find('.user-tutorials-banner-v2__description')).exists();
     assert.dom(find('.user-tutorials-banner-v2__filters')).exists();
-    assert.equal(findAll('a.pix-choice-chip'), 2);
+    assert.equal(findAll('a.pix-choice-chip').length, 2);
     assert.dom(find('a.pix-choice-chip,a.pix-choice-chip--active')).exists();
     assert.dom(find('a.pix-choice-chip,a.pix-choice-chip--active')).hasProperty('textContent').hasValue('Recommandés');
   });
