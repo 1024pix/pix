@@ -31,7 +31,7 @@ describe('Unit | Domain | Models | CertificationCenter', function () {
     it('should return true when the certification center has Pix+ Droit complementary certification', function () {
       // given
       const pixPlusDroitComplementaryCertification = domainBuilder.buildComplementaryCertification({
-        name: 'Pix+ Droit',
+        key: 'DROIT',
       });
       const certificationCenter = domainBuilder.buildCertificationCenter({
         habilitations: [pixPlusDroitComplementaryCertification],
@@ -54,7 +54,7 @@ describe('Unit | Domain | Models | CertificationCenter', function () {
     it('should return true when the certification center has Pix+ Edu 1er degre habilitation', function () {
       // given
       const pixPlusEdu1erDegreComplementaryCertification = domainBuilder.buildComplementaryCertification({
-        name: 'Pix+ Édu 1er degré',
+        key: 'EDU_1ER_DEGRE',
       });
       const certificationCenter = domainBuilder.buildCertificationCenter({
         habilitations: [pixPlusEdu1erDegreComplementaryCertification],
@@ -77,7 +77,7 @@ describe('Unit | Domain | Models | CertificationCenter', function () {
     it('should return true when the certification center has Pix+ Edu 2nd degre habilitation', function () {
       // given
       const complementaryCertification = domainBuilder.buildComplementaryCertification({
-        name: 'Pix+ Édu 2nd degré',
+        key: 'EDU_2ND_DEGRE',
       });
       const certificationCenter = domainBuilder.buildCertificationCenter({
         habilitations: [complementaryCertification],
@@ -99,11 +99,11 @@ describe('Unit | Domain | Models | CertificationCenter', function () {
 
     it('should return true when the certification center has Cléa numérique complementary certification', function () {
       // given
-      const pixPlusDroitComplementaryCertification = domainBuilder.buildComplementaryCertification({
-        name: 'CléA Numérique',
+      const cleaComplementaryCertification = domainBuilder.buildComplementaryCertification({
+        key: 'CLEA',
       });
       const certificationCenter = domainBuilder.buildCertificationCenter({
-        habilitations: [pixPlusDroitComplementaryCertification],
+        habilitations: [cleaComplementaryCertification],
       });
 
       // then
