@@ -30,15 +30,15 @@
 
     <div class="account-recovery__content--information-text--details checkbox-with-label with-links">
       <label for="pix-cgu">
-        {{t "pages.sign-up.fields.cgu.accept"}}
+        {{t "common.cgu.accept"}}
         <a href={{this.cguUrl}} class="link" target="_blank" rel="noopener noreferrer">
-          {{t "pages.sign-up.fields.cgu.cgu"}}
+          {{t "common.cgu.cgu"}}
         </a>
-        {{t "pages.sign-up.fields.cgu.and"}}
+        {{t "common.cgu.and"}}
         <a href={{this.dataProtectionPolicyUrl}} class="link" target="_blank" rel="noopener noreferrer">
-          {{t "pages.sign-up.fields.cgu.data-protection-policy"}}
+          {{t "common.cgu.data-protection-policy"}}
         </a>
-        {{t "pages.sign-up.fields.cgu.pix"}}
+        {{t "common.cgu.pix"}}
       </label>
       <Input @type="checkbox" @checked={{this.cguAndProtectionPoliciesAccepted}} id="pix-cgu" />
     </div>
