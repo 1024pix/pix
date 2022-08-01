@@ -39,7 +39,7 @@ describe('a11y', () => {
         cy.injectAxe();
 
         // then
-        cy.checkA11yAndShowViolations({ skipFailures });
+        cy.checkA11yAndShowViolations({ skipFailures, url });
       });
     });
   });
@@ -68,7 +68,7 @@ describe('a11y', () => {
         // then
         viewports.forEach(({ width, height}) => {
           cy.viewport(width, height);
-          cy.checkA11yAndShowViolations({ skipFailures });
+          cy.checkA11yAndShowViolations({ skipFailures, url });
         })
       });
     });

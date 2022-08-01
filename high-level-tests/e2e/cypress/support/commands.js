@@ -126,11 +126,11 @@ Cypress.Commands.overwrite('visit', (originalFn, url, options) => {
   return originalFn(url, options);
 });
 
-Cypress.Commands.add('checkA11yAndShowViolations', ({ context = {}, options = {}, skipFailures = false }) => {
+Cypress.Commands.add('checkA11yAndShowViolations', ({ context = {}, options = {}, url, skipFailures = false }) => {
   const logViolations = (violations) => {
     cy.task(
       'log',
-      `${violations.length} accessibility violation${violations.length === 1 ? '' : 's'} ${violations.length === 1 ? 'was' : 'were'} detected`
+      `${violations.length} accessibility violation${violations.length === 1 ? '' : 's'} ${violations.length === 1 ? 'was' : 'were'} detected on ${url}`
     )
 
     const violationData = violations.map(
