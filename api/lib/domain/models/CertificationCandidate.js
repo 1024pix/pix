@@ -192,19 +192,19 @@ class CertificationCandidate {
   }
 
   isGrantedPixPlusDroit() {
-    return this.complementaryCertifications.some((comp) => comp.name === PIX_PLUS_DROIT);
+    return this.complementaryCertifications.some((comp) => comp.key === PIX_PLUS_DROIT);
   }
 
   isGrantedCleA() {
-    return this.complementaryCertifications.some((comp) => comp.name === CLEA);
+    return this.complementaryCertifications.some((comp) => comp.key === CLEA);
   }
 
   isGrantedPixPlusEdu1erDegre() {
-    return this.complementaryCertifications.some((comp) => comp.name === PIX_PLUS_EDU_1ER_DEGRE);
+    return this.complementaryCertifications.some((comp) => comp.key === PIX_PLUS_EDU_1ER_DEGRE);
   }
 
   isGrantedPixPlusEdu2ndDegre() {
-    return this.complementaryCertifications.some((comp) => comp.name === PIX_PLUS_EDU_2ND_DEGRE);
+    return this.complementaryCertifications.some((comp) => comp.key === PIX_PLUS_EDU_2ND_DEGRE);
   }
 
   isBillingModePrepaid() {
