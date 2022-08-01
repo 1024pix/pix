@@ -304,7 +304,6 @@ module.exports = injectDependencies(
     getCertificationPointOfContact: require('./get-certification-point-of-contact'),
     getChallengeForPixAutoAnswer: require('./get-challenge-for-pix-auto-answer'),
     getCorrectionForAnswer: require('./get-correction-for-answer'),
-    getCpfCertificationResults: require('./get-cpf-certification-results'),
     getCurrentUser: require('./get-current-user'),
     getExternalAuthenticationRedirectionUrl: require('./get-external-authentication-redirection-url'),
     getJurySession: require('./get-jury-session'),

@@ -4,7 +4,7 @@ const { cpf } = require('../../config');
 const logger = require('../logger');
 
 module.exports = {
-  upload: function ({ filename, writableStream }) {
+  upload: async function ({ filename, writableStream }) {
     const { accessKeyId, secretAccessKey, endpoint, region, bucket } = cpf.storage;
     const s3Client = new S3Client({
       credentials: { accessKeyId, secretAccessKey },
@@ -19,6 +19,6 @@ module.exports = {
 
     upload.on('httpUploadProgress', (progress) => logger.trace(progress));
 
-    upload.done();
+    await upload.done();
   },
 };
