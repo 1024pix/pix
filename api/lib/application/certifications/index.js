@@ -134,28 +134,6 @@ exports.register = async function (server) {
         tags: ['api'],
       },
     },
-    {
-      method: 'GET',
-      path: '/api/admin/cpf/export',
-      config: {
-        pre: [
-          {
-            method: (request, h) =>
-              securityPreHandlers.adminMemberHasAtLeastOneAccessOf([
-                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
-                securityPreHandlers.checkAdminMemberHasRoleCertif,
-              ])(request, h),
-            assign: 'hasAuthorizationToAccessAdminScope',
-          },
-        ],
-        handler: certificationController.getCpfExport,
-        notes: [
-          '- **Cette route est restreinte aux utilisateurs authentifiés ayant un rôle SUPER_ADMIN OU CERTIF **\n' +
-            '- Envoi des certifications publiées entre deux dates dans un bucket OVH pour le CPF',
-        ],
-        tags: ['api', 'certifications', 'CPF'],
-      },
-    },
   ]);
 };
 

@@ -6,10 +6,7 @@ const certificationAttestationPdf = require('../../../../lib/infrastructure/util
 const events = require('../../../../lib/domain/events');
 const ChallengeNeutralized = require('../../../../lib/domain/events/ChallengeNeutralized');
 const ChallengeDeneutralized = require('../../../../lib/domain/events/ChallengeDeneutralized');
-const cpfCertificationXmlExportService = require('../../../../lib/domain/services/cpf-certification-xml-export-service');
-const { PassThrough } = require('stream');
 const requestResponseUtils = require('../../../../lib/infrastructure/utils/request-response-utils');
-const cpfExternalStorage = require('../../../../lib/infrastructure/external-storage/cpf-external-storage');
 
 describe('Unit | Controller | certifications-controller', function () {
   describe('#findUserCertifications', function () {
@@ -395,99 +392,6 @@ describe('Unit | Controller | certifications-controller', function () {
 
       // then
       expect(events.eventDispatcher.dispatch).to.have.been.calledWith(eventToBeDispatched);
-    });
-  });
-
-  describe('#getCPFExport', function () {
-    it('should call cpfCertificationXmlExportService with the cpf certification results and a stream', async function () {
-      // given
-      const startDate = '2022-01-01';
-      const endDate = '2022-01-10';
-      const request = {
-        query: {
-          startDate,
-          endDate,
-        },
-        auth: { credentials: { userId: 7 } },
-      };
-      sinon.stub(usecases, 'getCpfCertificationResults');
-      sinon.stub(cpfCertificationXmlExportService, 'buildXmlExport');
-
-      const cpfCertificationResults = [
-        domainBuilder.buildCpfCertificationResult(),
-        domainBuilder.buildCpfCertificationResult(),
-      ];
-
-      usecases.getCpfCertificationResults.withArgs({ startDate, endDate }).resolves(cpfCertificationResults);
-
-      // when
-      await certificationController.getCpfExport(request, hFake);
-
-      // then
-      expect(cpfCertificationXmlExportService.buildXmlExport).to.have.been.calledWith({
-        cpfCertificationResults,
-        writableStream: sinon.match(PassThrough),
-      });
-    });
-
-    it('should call cpfExternalStorage with the filename and a stream', async function () {
-      // given
-      const startDate = '2022-01-01';
-      const endDate = '2022-01-10';
-      const request = {
-        query: {
-          startDate,
-          endDate,
-        },
-        auth: { credentials: { userId: 7 } },
-      };
-      sinon.stub(usecases, 'getCpfCertificationResults');
-      sinon.stub(cpfCertificationXmlExportService, 'buildXmlExport');
-      sinon.stub(cpfExternalStorage, 'upload');
-
-      const cpfCertificationResults = [
-        domainBuilder.buildCpfCertificationResult(),
-        domainBuilder.buildCpfCertificationResult(),
-      ];
-
-      usecases.getCpfCertificationResults.withArgs({ startDate, endDate }).resolves(cpfCertificationResults);
-      cpfCertificationXmlExportService.buildXmlExport
-        .withArgs({
-          cpfCertificationResults,
-          writableStream: sinon.match(PassThrough),
-        })
-        .resolves();
-
-      // when
-      await certificationController.getCpfExport(request, hFake);
-
-      // then
-      expect(cpfExternalStorage.upload).to.have.been.calledWith({
-        filename: 'pix-cpf-export-from-2022-01-01-to-2022-01-10.xml',
-        writableStream: sinon.match(PassThrough),
-      });
-    });
-
-    it('should return an 204 No Content', async function () {
-      // given
-      const startDate = '2022-01-01';
-      const endDate = '2022-01-10';
-      const request = {
-        query: {
-          startDate,
-          endDate,
-        },
-        auth: { credentials: { userId: 7 } },
-      };
-      sinon.stub(usecases, 'getCpfCertificationResults');
-      sinon.stub(cpfCertificationXmlExportService, 'buildXmlExport');
-      sinon.stub(cpfExternalStorage, 'upload');
-
-      // when
-      const response = await certificationController.getCpfExport(request, hFake);
-
-      // then
-      expect(response.statusCode).to.equal(204);
     });
   });
 });
