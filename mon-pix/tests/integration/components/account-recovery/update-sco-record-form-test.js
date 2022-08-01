@@ -1,5 +1,4 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
+import { module, test } from 'qunit';
 import { find, render, triggerEvent } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import { contains } from '../../../helpers/contains';
@@ -8,10 +7,10 @@ import { fillInByLabel } from '../../../helpers/fill-in-by-label';
 import { clickByLabel } from '../../../helpers/click-by-label';
 import findByLabel from '../../../helpers/find-by-label';
 
-describe('Integration | Component | account-recovery | update-sco-record', function () {
-  setupIntlRenderingTest();
+module('Integration | Component | account-recovery | update-sco-record', function (hooks) {
+  setupIntlRenderingTest(hooks);
 
-  it('should display a reset password form', async function () {
+  test('should display a reset password form', async function (assert) {
     // given
     const newEmail = 'philippe.example.net';
     const firstName = 'Philippe';
@@ -22,24 +21,26 @@ describe('Integration | Component | account-recovery | update-sco-record', funct
     await render(hbs`<AccountRecovery::UpdateScoRecordForm @firstName={{this.firstName}} @email={{this.email}}/>`);
 
     // then
-    expect(contains(this.intl.t('pages.account-recovery.update-sco-record.welcome-message', { firstName }))).to.exist;
-    expect(contains(this.intl.t('pages.account-recovery.update-sco-record.fill-password'))).to.exist;
-    expect(contains(this.intl.t('pages.account-recovery.update-sco-record.form.email-label'))).to.exist;
-    expect(contains(this.intl.t('pages.account-recovery.update-sco-record.form.password-label'))).to.exist;
+    assert
+      .dom(contains(this.intl.t('pages.account-recovery.update-sco-record.welcome-message', { firstName })))
+      .exists();
+    assert.dom(contains(this.intl.t('pages.account-recovery.update-sco-record.fill-password'))).exists();
+    assert.dom(contains(this.intl.t('pages.account-recovery.update-sco-record.form.email-label'))).exists();
+    assert.dom(contains(this.intl.t('pages.account-recovery.update-sco-record.form.password-label'))).exists();
     const submitButton = findByLabel(this.intl.t('pages.account-recovery.update-sco-record.form.login-button'));
-    expect(submitButton).to.exist;
-    expect(submitButton.disabled).to.be.true;
-    expect(contains('philippe.example.net'));
+    assert.dom(submitButton).exists();
+    assert.true(submitButton.disabled);
+    assert.dom(contains('philippe.example.net'));
 
-    expect(find('input[type="checkbox"]')).to.exist;
-    expect(contains(this.intl.t('pages.sign-up.fields.cgu.accept'))).to.exist;
-    expect(contains(this.intl.t('pages.sign-up.fields.cgu.cgu'))).to.exist;
-    expect(contains(this.intl.t('pages.sign-up.fields.cgu.and'))).to.exist;
-    expect(contains(this.intl.t('pages.sign-up.fields.cgu.data-protection-policy'))).to.exist;
+    assert.dom(find('input[type="checkbox"]')).exists();
+    assert.dom(contains(this.intl.t('pages.sign-up.fields.cgu.accept'))).exists();
+    assert.dom(contains(this.intl.t('pages.sign-up.fields.cgu.cgu'))).exists();
+    assert.dom(contains(this.intl.t('pages.sign-up.fields.cgu.and'))).exists();
+    assert.dom(contains(this.intl.t('pages.sign-up.fields.cgu.data-protection-policy'))).exists();
   });
 
-  context('Form submission', function () {
-    it('should disable submission if password is not valid', async function () {
+  module('Form submission', function () {
+    test('should disable submission if password is not valid', async function (assert) {
       // given
       await render(hbs`<AccountRecovery::UpdateScoRecordForm />`);
 
@@ -48,10 +49,10 @@ describe('Integration | Component | account-recovery | update-sco-record', funct
 
       // then
       const submitButton = findByLabel(this.intl.t('pages.account-recovery.update-sco-record.form.login-button'));
-      expect(submitButton.disabled).to.be.true;
+      assert.true(submitButton.disabled);
     });
 
-    it('should disable submission if password is valid and cgu and data protection policy are not accepted', async function () {
+    test('should disable submission if password is valid and cgu and data protection policy are not accepted', async function (assert) {
       // given
       await render(hbs`<AccountRecovery::UpdateScoRecordForm />`);
 
@@ -60,10 +61,10 @@ describe('Integration | Component | account-recovery | update-sco-record', funct
 
       // then
       const submitButton = findByLabel(this.intl.t('pages.account-recovery.update-sco-record.form.login-button'));
-      expect(submitButton.disabled).to.be.true;
+      assert.true(submitButton.disabled);
     });
 
-    it('should disable submission on form when is loading', async function () {
+    test('should disable submission on form when is loading', async function (assert) {
       // given
       await render(hbs`<AccountRecovery::UpdateScoRecordForm @isLoading={{true}} />`);
 
@@ -73,10 +74,10 @@ describe('Integration | Component | account-recovery | update-sco-record', funct
 
       // then
       const submitButton = findByLabel(this.intl.t('pages.account-recovery.update-sco-record.form.login-button'));
-      expect(submitButton.disabled).to.be.true;
+      assert.true(submitButton.disabled);
     });
 
-    it('should enable submission if password is valid and cgu and data protection policy are accepted', async function () {
+    test('should enable submission if password is valid and cgu and data protection policy are accepted', async function (assert) {
       // given
       await render(hbs`<AccountRecovery::UpdateScoRecordForm />`);
 
@@ -86,13 +87,13 @@ describe('Integration | Component | account-recovery | update-sco-record', funct
 
       // then
       const submitButton = findByLabel(this.intl.t('pages.account-recovery.update-sco-record.form.login-button'));
-      expect(submitButton.disabled).to.be.false;
+      assert.false(submitButton.disabled);
     });
   });
 
-  context('Error messages', function () {
-    context('when the user enters a valid password', function () {
-      it('should not display an error message on focus-out', async function () {
+  module('Error messages', function () {
+    module('when the user enters a valid password', function () {
+      test('should not display an error message on focus-out', async function (assert) {
         // given
         const validPassword = 'pix123A*';
         await render(hbs`<AccountRecovery::UpdateScoRecordForm />`);
@@ -102,14 +103,14 @@ describe('Integration | Component | account-recovery | update-sco-record', funct
         await triggerEvent('#password', 'focusout');
 
         // then
-        expect(
-          contains(this.intl.t('pages.account-recovery.update-sco-record.form.errors.invalid-password'))
-        ).to.not.exist;
+        assert
+          .dom(contains(this.intl.t('pages.account-recovery.update-sco-record.form.errors.invalid-password')))
+          .doesNotExist();
       });
     });
 
-    context('when the user enters an invalid password', function () {
-      it('should display an invalid format error message on focus-out', async function () {
+    module('when the user enters an invalid password', function () {
+      test('should display an invalid format error message on focus-out', async function (assert) {
         // given
         const newEmail = 'philippe.example.net';
         const firstName = 'Philippe';
@@ -127,10 +128,12 @@ describe('Integration | Component | account-recovery | update-sco-record', funct
         await triggerEvent('#password', 'focusout');
 
         // then
-        expect(contains(this.intl.t('pages.account-recovery.update-sco-record.form.errors.invalid-password'))).to.exist;
+        assert
+          .dom(contains(this.intl.t('pages.account-recovery.update-sco-record.form.errors.invalid-password')))
+          .exists();
       });
 
-      it('should display a required field error message on focus-out if password field is empty', async function () {
+      test('should display a required field error message on focus-out if password field is empty', async function (assert) {
         // given
         const password = '';
         await render(hbs`<AccountRecovery::UpdateScoRecordForm />`);
@@ -140,7 +143,9 @@ describe('Integration | Component | account-recovery | update-sco-record', funct
         await triggerEvent('#password', 'focusout');
 
         // then
-        expect(contains(this.intl.t('pages.account-recovery.update-sco-record.form.errors.empty-password'))).to.exist;
+        assert
+          .dom(contains(this.intl.t('pages.account-recovery.update-sco-record.form.errors.empty-password')))
+          .exists();
       });
     });
   });

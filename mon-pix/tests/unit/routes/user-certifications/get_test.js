@@ -1,19 +1,18 @@
 import EmberObject from '@ember/object';
 import Service from '@ember/service';
 import sinon from 'sinon';
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
-import { setupTest } from 'ember-mocha';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 
-describe('Unit | Route | user certifications/get', function () {
-  setupTest();
+module('Unit | Route | user certifications/get', function (hooks) {
+  setupTest(hooks);
 
   let route;
   let storeStub;
   let findRecordStub;
   const certificationId = 'certification_id';
 
-  beforeEach(function () {
+  hooks.beforeEach(function () {
     // define stubs
     findRecordStub = sinon.stub();
     storeStub = Service.create({
@@ -25,12 +24,12 @@ describe('Unit | Route | user certifications/get', function () {
     route.router.replaceWith = sinon.stub().resolves();
   });
 
-  it('exists', function () {
-    expect(route).to.be.ok;
+  test('exists', function (assert) {
+    assert.ok(route);
   });
 
-  describe('#model', function () {
-    it('should get the certification', function () {
+  module('#model', function () {
+    test('should get the certification', function (assert) {
       // given
       const params = { id: certificationId };
       const retreivedCertification = [EmberObject.create({ id: certificationId })];
@@ -41,12 +40,13 @@ describe('Unit | Route | user certifications/get', function () {
 
       // then
       return promise.then(() => {
+        assert.expect(0);
         sinon.assert.calledOnce(findRecordStub);
         sinon.assert.calledWith(findRecordStub, 'certification', certificationId);
       });
     });
 
-    it('should not return to /mes-certifications when the certification is published and validated', function () {
+    test('should not return to /mes-certifications when the certification is published and validated', function (assert) {
       // given
       const params = { id: certificationId };
       const retrievedCertification = EmberObject.create({
@@ -64,11 +64,11 @@ describe('Unit | Route | user certifications/get', function () {
 
       // then
       return promise.then(() => {
-        expect(route.router.replaceWith.notCalled).to.be.true;
+        assert.true(route.router.replaceWith.notCalled);
       });
     });
 
-    it('should return to /mes-certifications when the certification is not published', function () {
+    test('should return to /mes-certifications when the certification is not published', function (assert) {
       // given
       const params = { id: certificationId };
       const retreivedCertification = EmberObject.create({
@@ -86,12 +86,13 @@ describe('Unit | Route | user certifications/get', function () {
 
       // then
       return promise.then(() => {
+        assert.expect(0);
         sinon.assert.calledOnce(route.router.replaceWith);
         sinon.assert.calledWith(route.router.replaceWith, '/mes-certifications');
       });
     });
 
-    it('should return to /mes-certifications when the certification is not validated', function () {
+    test('should return to /mes-certifications when the certification is not validated', function (assert) {
       // given
       const params = { id: certificationId };
       const retreivedCertification = EmberObject.create({
@@ -109,6 +110,7 @@ describe('Unit | Route | user certifications/get', function () {
 
       // then
       return promise.then(() => {
+        assert.expect(0);
         sinon.assert.calledOnce(route.router.replaceWith);
         sinon.assert.calledWith(route.router.replaceWith, '/mes-certifications');
       });

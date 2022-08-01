@@ -1,17 +1,16 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
-import { setupTest } from 'ember-mocha';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 
 import createComponent from '../../../../helpers/create-glimmer-component';
 import setupIntl from '../../../../helpers/setup-intl';
 
-describe('Unit | Component | routes/campaigns/join-sco-information-modal', function () {
-  setupTest();
-  setupIntl();
+module('Unit | Component | routes/campaigns/join-sco-information-modal', function (hooks) {
+  setupTest(hooks);
+  setupIntl(hooks);
 
-  describe('When reconciliation error is provided', function () {
-    describe('When error is a 422 status', function () {
-      it('should set isAccountBelongingToAnotherUser to true', function () {
+  module('When reconciliation error is provided', function () {
+    module('When error is a 422 status', function () {
+      test('should set isAccountBelongingToAnotherUser to true', function (assert) {
         // given
         const reconciliationError = {
           status: '422',
@@ -23,10 +22,10 @@ describe('Unit | Component | routes/campaigns/join-sco-information-modal', funct
         });
 
         // then
-        expect(component.isAccountBelongingToAnotherUser).to.be.true;
+        assert.true(component.isAccountBelongingToAnotherUser);
       });
 
-      it('should not display continue button', function () {
+      test('should not display continue button', function (assert) {
         // given
         const reconciliationError = {
           status: '422',
@@ -38,10 +37,10 @@ describe('Unit | Component | routes/campaigns/join-sco-information-modal', funct
         });
 
         // then
-        expect(component.displayContinueButton).to.be.false;
+        assert.false(component.displayContinueButton);
       });
 
-      it('should set is isInformationMode to false', function () {
+      test('should set is isInformationMode to false', function (assert) {
         // given
         const reconciliationError = {
           status: '422',
@@ -53,27 +52,27 @@ describe('Unit | Component | routes/campaigns/join-sco-information-modal', funct
         });
 
         // then
-        expect(component.isInformationMode).to.be.false;
+        assert.false(component.isInformationMode);
       });
     });
 
-    describe('When error is a 409 status', function () {
+    module('When error is a 409 status', function () {
       const reconciliationError = {
         status: '409',
         meta: { shortCode: 'R11', value: 'j***@example.net', userId: 1 },
       };
 
-      it('should set is isInformationMode to false', function () {
+      test('should set is isInformationMode to false', function (assert) {
         // when
         const component = createComponent('component:routes/campaigns/join-sco-information-modal', {
           reconciliationError,
         });
 
         // then
-        expect(component.isInformationMode).to.be.false;
+        assert.false(component.isInformationMode);
       });
 
-      it('should display error message', function () {
+      test('should display error message', function (assert) {
         // given
         const expectedErrorMessage = this.intl.t('api-error-messages.join-error.r11', {
           value: reconciliationError.meta.value,
@@ -86,11 +85,11 @@ describe('Unit | Component | routes/campaigns/join-sco-information-modal', funct
         });
 
         // then
-        expect(component.message).to.deep.equal(expectedErrorMessage);
+        assert.deepEqual(component.message, expectedErrorMessage);
       });
 
-      describe('When error is not related to samlId', function () {
-        it('should display continue button', function () {
+      module('When error is not related to samlId', function () {
+        test('should display continue button', function (assert) {
           // given
           reconciliationError.meta.shortCode = 'R12';
 
@@ -100,12 +99,12 @@ describe('Unit | Component | routes/campaigns/join-sco-information-modal', funct
           });
 
           // then
-          expect(component.displayContinueButton).to.be.true;
+          assert.true(component.displayContinueButton);
         });
       });
 
-      describe('When error is related to samlId', function () {
-        it('should not display continue button', function () {
+      module('When error is related to samlId', function () {
+        test('should not display continue button', function (assert) {
           // given
           reconciliationError.meta.shortCode = 'R13';
 
@@ -115,30 +114,30 @@ describe('Unit | Component | routes/campaigns/join-sco-information-modal', funct
           });
 
           // then
-          expect(component.displayContinueButton).to.be.false;
+          assert.false(component.displayContinueButton);
         });
       });
     });
   });
 
-  describe('When reconciliation warning is provided', function () {
+  module('When reconciliation warning is provided', function () {
     const reconciliationWarning = {
       connectionMethod: 'test@example.net',
       firstName: 'John',
       lastName: 'Doe',
     };
 
-    it('should set is isInformationMode to true', function () {
+    test('should set is isInformationMode to true', function (assert) {
       // when
       const component = createComponent('component:routes/campaigns/join-sco-information-modal', {
         reconciliationWarning,
       });
 
       // then
-      expect(component.isInformationMode).to.be.true;
+      assert.true(component.isInformationMode);
     });
 
-    it('should display an information message', function () {
+    test('should display an information message', function (assert) {
       // given
       const expectedWarningMessage = this.intl.t('pages.join.sco.login-information-message', {
         ...reconciliationWarning,
@@ -151,7 +150,7 @@ describe('Unit | Component | routes/campaigns/join-sco-information-modal', funct
       });
 
       // then
-      expect(component.message).to.deep.equal(expectedWarningMessage);
+      assert.deepEqual(component.message, expectedWarningMessage);
     });
   });
 });

@@ -1,16 +1,15 @@
-import { describe, it } from 'mocha';
-import { setupTest } from 'ember-mocha';
-import { expect } from 'chai';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 
-describe('Unit | Model | Email-Verification-Code', function () {
-  setupTest();
+module('Unit | Model | Email-Verification-Code', function (hooks) {
+  setupTest(hooks);
 
-  it('exists', function () {
+  test('exists', function (assert) {
     // given
     const store = this.owner.lookup('service:store');
     const emailVerificationCode = store.createRecord('email-verification-code');
 
     // when & then
-    expect(emailVerificationCode).to.be.ok;
+    assert.ok(emailVerificationCode);
   });
 });

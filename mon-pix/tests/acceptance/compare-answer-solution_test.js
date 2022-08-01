@@ -1,15 +1,14 @@
 import { click, find, findAll, visit } from '@ember/test-helpers';
-import { describe, it, beforeEach } from 'mocha';
-import { expect } from 'chai';
-import { setupApplicationTest } from 'ember-mocha';
+import { module, test } from 'qunit';
+import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 
-describe('Compare answers and solutions for QCM questions', function () {
-  setupApplicationTest();
-  setupMirage();
+module('Compare answers and solutions for QCM questions', function (hooks) {
+  setupApplicationTest(hooks);
+  setupMirage(hooks);
   let assessment;
 
-  beforeEach(function () {
+  hooks.beforeEach(function () {
     assessment = server.create('assessment', 'ofCompetenceEvaluationType');
     let challenge = server.create('challenge', 'forCompetenceEvaluation', 'QCU');
     server.create('answer', {
@@ -48,34 +47,34 @@ describe('Compare answers and solutions for QCM questions', function () {
     });
   });
 
-  describe('From the results page', function () {
-    it('should display the REPONSE link from the results screen for all known types of question', async function () {
+  module('From the results page', function () {
+    test('should display the REPONSE link from the results screen for all known types of question', async function (assert) {
       await visit(`/assessments/${assessment.id}/results`);
-      expect(findAll('.result-item')[0].textContent).to.contain('Réponses et tutos'); //QCU
-      expect(findAll('.result-item')[1].textContent).to.contain('Réponses et tutos'); //QCM
-      expect(findAll('.result-item')[2].textContent).to.contain('Réponses et tutos'); //QROC
-      expect(findAll('.result-item')[3].textContent).not.to.contain('Réponses et tutos'); //QROCM
-      expect(findAll('.result-item')[4].textContent).to.contain('Réponses et tutos'); //QROCMind
+      assert.dom(findAll('.result-item')[0].textContent).hasText('Réponses et tutos'); //QCU
+      assert.dom(findAll('.result-item')[1].textContent).hasText('Réponses et tutos'); //QCM
+      assert.dom(findAll('.result-item')[2].textContent).hasText('Réponses et tutos'); //QROC
+      assert.dom(findAll('.result-item')[3].textContent).doesNotHaveText('Réponses et tutos'); //QROCM
+      assert.dom(findAll('.result-item')[4].textContent).hasText('Réponses et tutos'); //QROCMind
     });
   });
 
-  describe('Content of the correction modal', function () {
-    it('should be able to open the correction modal', async function () {
+  module('Content of the correction modal', function () {
+    test('should be able to open the correction modal', async function (assert) {
       await visit(`/assessments/${assessment.id}/results`);
-      expect(find('.comparison-window')).to.not.exist;
+      assert.dom(find('.comparison-window')).doesNotExist();
 
       await click('.result-item__correction-button');
-      expect(find('.comparison-window')).to.exist;
+      assert.dom(find('.comparison-window')).exists();
     });
   });
 
-  describe('Content of the correction modal: results and instructions', function () {
-    it('should check the presence of instruction, text and image', async function () {
+  module('Content of the correction modal: results and instructions', function () {
+    test('should check the presence of instruction, text and image', async function (assert) {
       await visit(`/assessments/${assessment.id}/results`);
       await click('.result-item__correction-button');
 
-      expect(find('.comparison-window-content__body .challenge-statement-instruction__text')).to.exist;
-      expect(find('.comparison-window-content__body .challenge-statement__illustration-section')).to.exist;
+      assert.dom(find('.comparison-window-content__body .challenge-statement-instruction__text')).exists();
+      assert.dom(find('.comparison-window-content__body .challenge-statement__illustration-section')).exists();
     });
   });
 });

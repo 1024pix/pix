@@ -1,13 +1,12 @@
-import { describe, it } from 'mocha';
-import { expect } from 'chai';
+import { module, test } from 'qunit';
 import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
-describe('Integration | Component | authentication::terms-of-service-oidc', function () {
-  setupIntlRenderingTest();
+module('Integration | Component | authentication::terms-of-service-oidc', function (hooks) {
+  setupIntlRenderingTest(hooks);
 
-  it('should display terms of service for OIDC identity provider', async function () {
+  test('should display terms of service for OIDC identity provider', async function (assert) {
     // given & when
     await render(hbs`<Authentication::TermsOfServiceOidc />`);
 
@@ -16,9 +15,9 @@ describe('Integration | Component | authentication::terms-of-service-oidc', func
     const checkboxLabel = this.intl.t('pages.terms-of-service-oidc.cgu');
     const cancelButton = this.intl.t('common.actions.back');
     const submitButton = this.intl.t('pages.terms-of-service-oidc.form.button');
-    expect(heading).to.exist;
-    expect(checkboxLabel).to.exist;
-    expect(cancelButton).to.exist;
-    expect(submitButton).to.exist;
+    assert.dom(heading).exists();
+    assert.dom(checkboxLabel).exists();
+    assert.dom(cancelButton).exists();
+    assert.dom(submitButton).exists();
   });
 });

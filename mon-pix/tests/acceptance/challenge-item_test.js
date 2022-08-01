@@ -1,21 +1,20 @@
-import { beforeEach, describe, it } from 'mocha';
-import { setupApplicationTest } from 'ember-mocha';
+import { module, test } from 'qunit';
+import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { getPageTitle } from 'ember-page-title/test-support';
 import { authenticateByEmail } from '../helpers/authentication';
-import { expect } from 'chai';
 import { click, find, triggerEvent, visit } from '@ember/test-helpers';
 
-describe('Acceptance | Displaying a challenge of any type', () => {
-  setupApplicationTest();
-  setupMirage();
+module('Acceptance | Displaying a challenge of any type', (hooks) => {
+  setupApplicationTest(hooks);
+  setupMirage(hooks);
 
   let assessment;
 
   [{ challengeType: 'QROC' }, { challengeType: 'QROCM' }, { challengeType: 'QCM' }, { challengeType: 'QCU' }].forEach(
     function (data) {
-      describe(`when ${data.challengeType} challenge is focused`, function () {
-        it('should display a specific page title', async function () {
+      module(`when ${data.challengeType} challenge is focused`, function () {
+        test('should display a specific page title', async function (assert) {
           // given
           assessment = server.create('assessment', 'ofCompetenceEvaluationType');
           server.create('challenge', 'forCompetenceEvaluation', data.challengeType, 'withFocused');
@@ -24,12 +23,12 @@ describe('Acceptance | Displaying a challenge of any type', () => {
           await visit(`/assessments/${assessment.id}/challenges/0`);
 
           // then
-          expect(getPageTitle()).to.contain('Mode focus');
+          assert.dom(getPageTitle()).hasText('Mode focus');
         });
 
-        describe('when user has not answered the question', function () {
-          describe('when user has not seen the challenge tooltip yet', function () {
-            beforeEach(async () => {
+        module('when user has not answered the question', function () {
+          module('when user has not seen the challenge tooltip yet', function (hooks) {
+            hooks.beforeEach(async function () {
               // given
               const user = server.create('user', 'withEmail', {
                 hasSeenFocusedChallengeTooltip: false,
@@ -43,24 +42,24 @@ describe('Acceptance | Displaying a challenge of any type', () => {
               await visit(`/assessments/${assessment.id}/challenges/0`);
             });
 
-            it('should display a tooltip', async () => {
+            test('should display a tooltip', async (assert) => {
               // then
-              expect(find('.tooltip-tag__information')).to.exist;
+              assert.dom(find('.tooltip-tag__information')).exists();
             });
 
-            it('should display an info alert with dashed border and overlay', async function () {
+            test('should display an info alert with dashed border and overlay', async function (assert) {
               // when
               const challengeItem = find('.challenge-item');
               await triggerEvent(challengeItem, 'mouseleave', { relatedTarget: challengeItem });
 
               // then
-              expect(find('.challenge__info-alert--show')).to.exist;
-              expect(find('.challenge-item--focused')).to.exist;
-              expect(find('.challenge__focused-out-overlay')).to.exist;
+              assert.dom(find('.challenge__info-alert--show')).exists();
+              assert.dom(find('.challenge-item--focused')).exists();
+              assert.dom(find('.challenge__focused-out-overlay')).exists();
             });
 
-            describe('when user closes tooltip', () => {
-              beforeEach(async function () {
+            module('when user closes tooltip', (hooks) => {
+              hooks.beforeEach(async function () {
                 // given
                 assessment = server.create('assessment', 'ofCompetenceEvaluationType');
                 server.create('challenge', 'forCompetenceEvaluation', data.challengeType, 'withFocused');
@@ -70,61 +69,62 @@ describe('Acceptance | Displaying a challenge of any type', () => {
                 await click('.tooltip-tag-information__button');
               });
 
-              it('should hide a tooltip', async () => {
+              test('should hide a tooltip', async (assert) => {
                 // then
-                expect(find('#challenge-statement-tag--tooltip')).to.not.exist;
+                assert.dom(find('#challenge-statement-tag--tooltip')).doesNotExist();
               });
 
-              it('should enable input and buttons', async () => {
+              test('should enable input and buttons', async (assert) => {
                 // then
-                expect(find('.challenge-actions__action-skip').getAttribute('disabled')).to.not.exist;
-                expect(find('.challenge-actions__action-validate').getAttribute('disabled')).to.not.exist;
-                expect(find('[data-test="challenge-response-proposal-selector"]').getAttribute('disabled')).to.not
-                  .exist;
+                assert.dom(find('.challenge-actions__action-skip').getAttribute('disabled')).doesNotExist();
+                assert.dom(find('.challenge-actions__action-validate').getAttribute('disabled')).doesNotExist();
+                assert
+                  .dom(find('[data-test="challenge-response-proposal-selector"]').getAttribute('disabled'))
+                  .doesNotExist();
               });
 
-              it('should display a warning alert', async function () {
+              test('should display a warning alert', async function (assert) {
                 // when
                 await triggerEvent(document, 'focusedout');
 
                 // then
-                expect(find('[data-test="alert-message-focused-out-of-window"]')).to.exist;
+                assert.dom(find('[data-test="alert-message-focused-out-of-window"]')).exists();
               });
 
-              it('should display an info alert with dashed border and overlay', async function () {
+              test('should display an info alert with dashed border and overlay', async function (assert) {
                 // when
                 const challengeItem = find('.challenge-item');
                 await triggerEvent(challengeItem, 'mouseleave', { relatedTarget: challengeItem });
 
                 // then
-                expect(find('.challenge__info-alert--could-show')).to.exist;
-                expect(find('.challenge-item--focused')).to.exist;
-                expect(find('.challenge__focused-out-overlay')).to.exist;
+                assert.dom(find('.challenge__info-alert--could-show')).exists();
+                assert.dom(find('.challenge-item--focused')).exists();
+                assert.dom(find('.challenge__focused-out-overlay')).exists();
               });
 
-              it('should display only the warning alert when it has been triggered', async function () {
+              test('should display only the warning alert when it has been triggered', async function (assert) {
                 // given
                 const challengeItem = find('.challenge-item');
                 await triggerEvent(challengeItem, 'mouseleave', { relatedTarget: challengeItem });
 
-                expect(find('.challenge__info-alert--could-show')).to.exist;
-                expect(find('.challenge-item--focused')).to.exist;
-                expect(find('.challenge__focused-out-overlay')).to.exist;
+                assert.dom(find('.challenge__info-alert--could-show')).exists();
+                assert.dom(find('.challenge-item--focused')).exists();
+                assert.dom(find('.challenge__focused-out-overlay')).exists();
 
                 // when
                 await triggerEvent(document, 'focusedout');
 
                 // then
-                expect(find('.challenge__info-alert--could-show')).to.not.exist;
-                expect(find('[data-test="alert-message-focused-out-of-window"]')).to.exist;
-                expect(find('.challenge-item--focused')).to.exist;
-                expect(find('.challenge__focused-out-overlay')).to.exist;
+                assert.dom(find('.challenge__info-alert--could-show')).doesNotExist();
+                assert.dom(find('[data-test="alert-message-focused-out-of-window"]')).exists();
+                assert.dom(find('.challenge-item--focused')).exists();
+                assert.dom(find('.challenge__focused-out-overlay')).exists();
               });
             });
           });
 
-          describe('when user has already seen challenge tooltip', function () {
-            beforeEach(async () => {
+          module('when user has already seen challenge tooltip', function (hooks) {
+            hooks.beforeEach(async function () {
               const user = server.create('user', 'withEmail', {
                 hasSeenFocusedChallengeTooltip: true,
               });
@@ -136,22 +136,22 @@ describe('Acceptance | Displaying a challenge of any type', () => {
               await visit(`/assessments/${assessment.id}/challenges/0`);
             });
 
-            it('should hide the tooltip', async function () {
+            test('should hide the tooltip', async function (assert) {
               // then
-              expect(find('#challenge-statement-tag--tooltip')).to.not.exist;
+              assert.dom(find('#challenge-statement-tag--tooltip')).doesNotExist();
             });
 
-            it('should enable input and buttons', async function () {
+            test('should enable input and buttons', async function (assert) {
               // then
-              expect(find('.challenge-actions__action-skip').getAttribute('disabled')).to.not.exist;
-              expect(find('.challenge-actions__action-validate').getAttribute('disabled')).to.not.exist;
-              expect(find('[data-test="challenge-response-proposal-selector"]').getAttribute('disabled')).to.not.exist;
+              assert.dom(find('.challenge-actions__action-skip')).doesNotHaveAttribute('disabled');
+              assert.dom(find('.challenge-actions__action-validate')).doesNotHaveAttribute('disabled');
+              assert.dom(find('[data-test="challenge-response-proposal-selector"]')).doesNotHaveAttribute('disabled');
             });
           });
         });
 
-        describe('when user has already answered the question', function () {
-          it('should not display the overlay, dashed-border and warning messages', async function () {
+        module('when user has already answered the question', function () {
+          test('should not display the overlay, dashed-border and warning messages', async function (assert) {
             // given
             assessment = server.create('assessment', 'ofCompetenceEvaluationType');
             server.create('answer', {
@@ -167,15 +167,15 @@ describe('Acceptance | Displaying a challenge of any type', () => {
             await triggerEvent(challengeItem, 'mouseleave');
 
             // then
-            expect(find('.challenge__info-alert--could-show')).to.not.exist;
-            expect(find('.challenge__focused-out-overlay')).to.not.exist;
-            expect(find('.challenge-actions__focused-out-of-window')).to.not.exist;
-            expect(find('.challenge-actions__already-answered')).to.exist;
+            assert.dom(find('.challenge__info-alert--could-show')).doesNotExist();
+            assert.dom(find('.challenge__focused-out-overlay')).doesNotExist();
+            assert.dom(find('.challenge-actions__focused-out-of-window')).doesNotExist();
+            assert.dom(find('.challenge-actions__already-answered')).exists();
           });
         });
 
-        describe('when user has focused out of the window', function () {
-          beforeEach(async function () {
+        module('when user has focused out of the window', function (hooks) {
+          hooks.beforeEach(async function () {
             // given
             const user = server.create('user', 'withEmail', {
               hasSeenFocusedChallengeTooltip: true,
@@ -183,8 +183,8 @@ describe('Acceptance | Displaying a challenge of any type', () => {
             await authenticateByEmail(user);
           });
 
-          describe('when assessment is of type certification', function () {
-            beforeEach(async function () {
+          module('when assessment is of type certification', function (hooks) {
+            hooks.beforeEach(async function () {
               // given
               assessment = server.create('assessment', 'ofCertificationType');
               server.create('challenge', 'forCertification', data.challengeType, 'withFocused');
@@ -202,20 +202,20 @@ describe('Acceptance | Displaying a challenge of any type', () => {
               await triggerEvent(document, 'focusedout');
             });
 
-            it('should display the certification warning alert', async function () {
+            test('should display the certification warning alert', async function (assert) {
               // then
-              expect(find('[data-test="certification-focused-out-error-message"]')).to.exist;
-              expect(find('[data-test="default-focused-out-error-message"]')).not.to.exist;
+              assert.dom(find('[data-test="certification-focused-out-error-message"]')).exists();
+              assert.dom(find('[data-test="default-focused-out-error-message"]')).doesNotExist();
             });
 
-            it('should add failure to the page title', async function () {
+            test('should add failure to the page title', async function (assert) {
               // then
-              expect(getPageTitle()).to.contain('Échoué');
+              assert.dom(getPageTitle()).hasText('Échoué');
             });
           });
 
-          describe('when assessment is not of type certification', function () {
-            beforeEach(async function () {
+          module('when assessment is not of type certification', function (hooks) {
+            hooks.beforeEach(async function () {
               // given
               assessment = server.create('assessment', 'ofCompetenceEvaluationType');
               server.create('challenge', 'forCompetenceEvaluation', data.challengeType, 'withFocused');
@@ -226,21 +226,21 @@ describe('Acceptance | Displaying a challenge of any type', () => {
               await triggerEvent(document, 'focusedout');
             });
 
-            it('should display the default warning alert', async function () {
+            test('should display the default warning alert', async function (assert) {
               // then
-              expect(find('[data-test="default-focused-out-error-message"]')).to.exist;
-              expect(find('[data-test="certification-focused-out-error-message"]')).not.to.exist;
+              assert.dom(find('[data-test="default-focused-out-error-message"]')).exists();
+              assert.dom(find('[data-test="certification-focused-out-error-message"]')).doesNotExist();
             });
 
-            it('should not add failure to the page title', async function () {
+            test('should not add failure to the page title', async function (assert) {
               // then
-              expect(getPageTitle()).to.not.contain('Échoué');
+              assert.dom(getPageTitle()).doesNotHaveTextContaining('Échoué');
             });
           });
         });
 
-        describe('when user has already focusedout the challenge', function () {
-          beforeEach(async () => {
+        module('when user has already focusedout the challenge', function (hooks) {
+          hooks.beforeEach(async function () {
             // given
             const user = server.create('user', 'withEmail', {
               hasSeenFocusedChallengeTooltip: true,
@@ -253,29 +253,29 @@ describe('Acceptance | Displaying a challenge of any type', () => {
             await visit(`/assessments/${assessment.id}/challenges/0`);
           });
 
-          it('should enable input and buttons', async () => {
+          test('should enable input and buttons', async (assert) => {
             // then
-            expect(find('.challenge-actions__action-skip').getAttribute('disabled')).to.not.exist;
-            expect(find('.challenge-actions__action-validate').getAttribute('disabled')).to.not.exist;
-            expect(find('[data-test="challenge-response-proposal-selector"]').getAttribute('disabled')).to.not.exist;
+            assert.dom(find('.challenge-actions__action-skip')).doesNotHaveAttribute('disabled');
+            assert.dom(find('.challenge-actions__action-validate')).doesNotHaveAttribute('disabled');
+            assert.dom(find('[data-test="challenge-response-proposal-selector"]')).doesNotHaveAttribute('disabled');
           });
 
-          it('should display the warning alert to say it has been focusedouted', async function () {
+          test('should display the warning alert to say it has been focusedouted', async function (assert) {
             // then
-            expect(find('[data-test="default-focused-out-error-message"]')).to.exist;
+            assert.dom(find('[data-test="default-focused-out-error-message"]')).exists();
           });
         });
 
-        describe('when user has focused out of the window and leaves the challenge', function () {
-          beforeEach(async function () {
+        module('when user has focused out of the window and leaves the challenge', function (hooks) {
+          hooks.beforeEach(async function () {
             const user = server.create('user', 'withEmail', {
               hasSeenFocusedChallengeTooltip: true,
             });
             await authenticateByEmail(user);
           });
 
-          describe('when user goes to another assessment', () => {
-            it('should not display a warning alert saying it has been focused out', async function () {
+          module('when user goes to another assessment', function () {
+            test('should not display a warning alert saying it has been focused out', async function (assert) {
               // given
               const assessment1 = server.create(
                 'assessment',
@@ -292,12 +292,12 @@ describe('Acceptance | Displaying a challenge of any type', () => {
               await visit(`/assessments/${assessment2.id}/challenges/0`);
 
               // then
-              expect(find('[data-test="default-focused-out-error-message"]')).not.to.exist;
+              assert.dom(find('[data-test="default-focused-out-error-message"]')).doesNotExist();
             });
           });
 
-          describe('when user returns to the same assessment', () => {
-            it('should display a warning alert saying it has been focused out', async function () {
+          module('when user returns to the same assessment', function () {
+            test('should display a warning alert saying it has been focused out', async function (assert) {
               // given
               const assessment = server.create('assessment', 'ofCompetenceEvaluationType');
               server.create('challenge', 'forCompetenceEvaluation', data.challengeType, 'withFocused');
@@ -309,7 +309,7 @@ describe('Acceptance | Displaying a challenge of any type', () => {
               await visit(`/assessments/${assessment.id}/challenges/0`);
 
               // then
-              expect(find('[data-test="default-focused-out-error-message"]')).to.exist;
+              assert.dom(find('[data-test="default-focused-out-error-message"]')).exists();
             });
           });
         });
@@ -321,10 +321,10 @@ describe('Acceptance | Displaying a challenge of any type', () => {
         { challengeType: 'QCM' },
         { challengeType: 'QCU' },
       ].forEach(function (data) {
-        describe(`when ${data.challengeType} challenge is not focused`, function () {
-          describe('when user has not answered the question', function () {
-            describe('when user has not seen the challenge tooltip yet', function () {
-              beforeEach(async () => {
+        module(`when ${data.challengeType} challenge is not focused`, function () {
+          module('when user has not answered the question', function () {
+            module('when user has not seen the challenge tooltip yet', function () {
+              hooks.beforeEach(async function () {
                 // given
                 const user = server.create('user', 'withEmail', {
                   hasSeenOtherChallengesTooltip: false,
@@ -338,13 +338,13 @@ describe('Acceptance | Displaying a challenge of any type', () => {
                 await visit(`/assessments/${assessment.id}/challenges/0`);
               });
 
-              it('should display a tooltip', async () => {
+              test('should display a tooltip', async (assert) => {
                 // then
-                expect(find('.tooltip-tag__information')).to.exist;
+                assert.dom(find('.tooltip-tag__information')).exists();
               });
 
-              describe('when user closes tooltip', () => {
-                beforeEach(async function () {
+              module('when user closes tooltip', (hooks) => {
+                hooks.beforeEach(async function () {
                   // given
                   assessment = server.create('assessment', 'ofCompetenceEvaluationType');
                   server.create('challenge', 'forCompetenceEvaluation', data.challengeType);
@@ -354,23 +354,24 @@ describe('Acceptance | Displaying a challenge of any type', () => {
                   await click('.tooltip-tag-information__button');
                 });
 
-                it('should hide a tooltip', async () => {
+                test('should hide a tooltip', async (assert) => {
                   // then
-                  expect(find('#challenge-statement-tag--tooltip')).to.not.exist;
+                  assert.dom(find('#challenge-statement-tag--tooltip')).doesNotExist();
                 });
 
-                it('should enable input and buttons', async () => {
+                test('should enable input and buttons', async (assert) => {
                   // then
-                  expect(find('.challenge-actions__action-skip').getAttribute('disabled')).to.not.exist;
-                  expect(find('.challenge-actions__action-validate').getAttribute('disabled')).to.not.exist;
-                  expect(find('[data-test="challenge-response-proposal-selector"]').getAttribute('disabled')).to.not
-                    .exist;
+                  assert.dom(find('.challenge-actions__action-skip')).doesNotHaveAttribute('disabled');
+                  assert.dom(find('.challenge-actions__action-validate')).doesNotHaveAttribute('disabled');
+                  assert
+                    .dom(find('[data-test="challenge-response-proposal-selector"]'))
+                    .doesNotHaveAttribute('disabled');
                 });
               });
             });
 
-            describe('when user has already seen challenge tooltip', function () {
-              beforeEach(async () => {
+            module('when user has already seen challenge tooltip', function (hooks) {
+              hooks.beforeEach(async function () {
                 const user = server.create('user', 'withEmail', {
                   hasSeenOtherChallengesTooltip: true,
                 });
@@ -382,25 +383,23 @@ describe('Acceptance | Displaying a challenge of any type', () => {
                 await visit(`/assessments/${assessment.id}/challenges/0`);
               });
 
-              it('should hide the overlay and tooltip', async function () {
+              test('should hide the overlay and tooltip', async function (assert) {
                 // then
-                expect(find('.challenge__overlay')).to.not.exist;
-                expect(find('#challenge-statement-tag--tooltip')).to.not.exist;
+                assert.dom(find('.challenge__overlay')).doesNotExist();
+                assert.dom(find('#challenge-statement-tag--tooltip')).doesNotExist();
               });
 
-              it('should enable input and buttons', async function () {
+              test('should enable input and buttons', async function (assert) {
                 // then
-                expect(find('.challenge-actions__action-skip').getAttribute('disabled')).to.not.exist;
-                expect(find('.challenge-actions__action-validate').getAttribute('disabled')).to.not.exist;
-                expect(
-                  find('[data-test="challenge-response-proposal-selector"]').getAttribute('disabled')
-                ).to.not.exist;
+                assert.dom(find('.challenge-actions__action-skip')).doesNotHaveAttribute('disabled');
+                assert.dom(find('.challenge-actions__action-validate')).doesNotHaveAttribute('disabled');
+                assert.dom(find('[data-test="challenge-response-proposal-selector"]')).doesNotHaveAttribute('disabled');
               });
             });
           });
 
-          describe('when user has already answered the question', function () {
-            it('should not display the overlay, dashed-border and warning messages', async function () {
+          module('when user has already answered the question', function () {
+            test('should not display the overlay, dashed-border and warning messages', async function (assert) {
               // given
               assessment = server.create('assessment', 'ofCompetenceEvaluationType');
               server.create('answer', {
@@ -421,14 +420,14 @@ describe('Acceptance | Displaying a challenge of any type', () => {
               await triggerEvent(challengeItem, 'mouseleave');
 
               // then
-              expect(find('.challenge__info-alert--could-show')).to.not.exist;
-              expect(find('.challenge__focused-out-overlay')).to.not.exist;
-              expect(find('.challenge-actions__focused-out-of-window')).to.not.exist;
-              expect(find('.challenge-actions__already-answered')).to.exist;
+              assert.dom(find('.challenge__info-alert--could-show')).doesNotExist();
+              assert.dom(find('.challenge__focused-out-overlay')).doesNotExist();
+              assert.dom(find('.challenge-actions__focused-out-of-window')).doesNotExist();
+              assert.dom(find('.challenge-actions__already-answered')).exists();
             });
           });
 
-          it('should not display warning block', async function () {
+          test('should not display warning block', async function (assert) {
             // given
             assessment = server.create('assessment', 'ofCompetenceEvaluationType');
             server.create('challenge', 'forCompetenceEvaluation', data.challengeType);
@@ -437,11 +436,11 @@ describe('Acceptance | Displaying a challenge of any type', () => {
             await visit(`/assessments/${assessment.id}/challenges/0`);
 
             // then
-            expect(find('.challenge__info-alert')).to.not.exist;
+            assert.dom(find('.challenge__info-alert')).doesNotExist();
           });
 
-          describe('when user has focused out of document', function () {
-            beforeEach(async function () {
+          module('when user has focused out of document', function (hooks) {
+            hooks.beforeEach(async function () {
               // given
               const user = server.create('user', 'withEmail');
               await authenticateByEmail(user);
@@ -452,16 +451,16 @@ describe('Acceptance | Displaying a challenge of any type', () => {
               await visit(`/assessments/${assessment.id}/challenges/0`);
             });
 
-            it('should not display instructions', async function () {
+            test('should not display instructions', async function (assert) {
               // then
-              expect(find('.focused-challenge-instructions-action__confirmation-button')).to.not.exist;
+              assert.dom(find('.focused-challenge-instructions-action__confirmation-button')).doesNotExist();
             });
 
-            it('should not display a warning alert', async function () {
+            test('should not display a warning alert', async function (assert) {
               // when
               await triggerEvent(document, 'focusedout');
               // then
-              expect(find('.challenge-actions__focused-out-of-window')).to.not.exist;
+              assert.dom(find('.challenge-actions__focused-out-of-window')).doesNotExist();
             });
           });
         });

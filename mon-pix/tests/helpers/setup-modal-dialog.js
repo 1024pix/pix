@@ -1,7 +1,7 @@
-import { setupTest } from 'ember-mocha';
+import { setupTest } from 'ember-qunit';
 
-export default function setupModalDialog(options) {
-  const hooks = setupTest(options);
+export default function setupModalDialog(hooks) {
+  setupTest(hooks);
 
   hooks.beforeEach(function () {
     this.rootEl = document.querySelector(this.owner.rootElement);

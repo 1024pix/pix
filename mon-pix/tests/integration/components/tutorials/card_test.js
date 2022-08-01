@@ -1,13 +1,12 @@
-import { describe, it } from 'mocha';
-import { expect } from 'chai';
+import { module, test } from 'qunit';
 import { find, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
-describe('Integration | Component | Tutorials | Card', function () {
-  setupIntlRenderingTest();
+module('Integration | Component | Tutorials | Card', function (hooks) {
+  setupIntlRenderingTest(hooks);
 
-  it('renders component', async function () {
+  test('renders component', async function (assert) {
     // given
     this.set('tutorial', {
       title: 'Mon super tutoriel',
@@ -23,18 +22,14 @@ describe('Integration | Component | Tutorials | Card', function () {
     await render(hbs`<Tutorials::Card @tutorial={{this.tutorial}} />`);
 
     // then
-    expect(find('.tutorial-card-v2')).to.exist;
-    expect(find('.tutorial-card-v2__content')).to.exist;
-    expect(find('.tutorial-card-v2-content__link')).to.have.property('textContent').that.contains('Mon super tutoriel');
-    expect(find('.tutorial-card-v2-content__link')).to.have.property('href').that.equals('https://exemple.net/');
-    expect(find('.tutorial-card-v2-content__details'))
-      .to.have.property('textContent')
-      .that.contains('mon-tuto')
-      .and.contains('vidéo')
-      .and.contains('une minute');
-    expect(find('.tutorial-card-v2-content__actions')).to.exist;
-    expect(find('[aria-label="Ne plus considérer ce tuto comme utile"]')).to.exist;
-    expect(find('[aria-label="Retirer de ma liste de tutos"]')).to.exist;
-    expect(find('[title="Ne plus considérer ce tuto comme utile"]')).to.exist;
+    assert.dom(find('.tutorial-card-v2')).exists();
+    assert.dom(find('.tutorial-card-v2__content')).exists();
+    assert.dom(find('.tutorial-card-v2-content__link')).hasProperty('textContent').hasValue('Mon super tutoriel');
+    assert.dom(find('.tutorial-card-v2-content__link')).hasProperty('href').hasValue('https://exemple.net/');
+    assert.dom(find('.tutorial-card-v2-content__details')).hasProperty('textContent').hasText('mon-tuto • vidéo • une minute');
+    assert.dom(find('.tutorial-card-v2-content__actions')).exists();
+    assert.dom(find('[aria-label="Ne plus considérer ce tuto comme utile"]')).exists();
+    assert.dom(find('[aria-label="Retirer de ma liste de tutos"]')).exists();
+    assert.dom(find('[title="Ne plus considérer ce tuto comme utile"]')).exists();
   });
 });

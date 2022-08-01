@@ -1,14 +1,14 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 import EmberObject from '@ember/object';
-import { setupTest } from 'ember-mocha';
 import createGlimmerComponent from 'mon-pix/tests/helpers/create-glimmer-component';
+import { endsWith } from 'lodash';
 
-describe('Unit | Component | challenge statement', function () {
-  setupTest();
+module('Unit | Component | challenge statement', function (hooks) {
+  setupTest(hooks);
 
-  describe('[CP] #challengeEmbedDocument', function () {
-    it('should return a JSON object with the challenge embedded document when the challenge has a valid one', function () {
+  module('[CP] #challengeEmbedDocument', function () {
+    test('should return a JSON object with the challenge embedded document when the challenge has a valid one', function (assert) {
       // given
       const challenge = EmberObject.create({
         hasValidEmbedDocument: true,
@@ -24,14 +24,14 @@ describe('Unit | Component | challenge statement', function () {
       const challengeEmbedDocument = component.challengeEmbedDocument;
 
       // then
-      expect(challengeEmbedDocument).to.deep.equal({
+      assert.deepEqual(challengeEmbedDocument, {
         url: 'https://challenge-embed.url',
         title: 'Challenge embed document title',
         height: 300,
       });
     });
 
-    it('should return "undefined" when the challenge does not have a (valid) embedded document', function () {
+    test('should return "undefined" when the challenge does not have a (valid) embedded document', function (assert) {
       // given
       const challenge = EmberObject.create({
         hasValidEmbedDocument: false,
@@ -43,12 +43,12 @@ describe('Unit | Component | challenge statement', function () {
       const challengeEmbedDocument = component.challengeEmbedDocument;
 
       // then
-      expect(challengeEmbedDocument).to.be.undefined;
+      assert.equal(challengeEmbedDocument, undefined);
     });
   });
 
-  describe('#orderedAttachments', () => {
-    it('should return empty array if no attachments', () => {
+  module('#orderedAttachments', function () {
+    test('should return empty array if no attachments', function (assert) {
       // given
       const challenge = EmberObject.create({});
       const component = createGlimmerComponent('component:challenge-statement', { challenge });
@@ -57,10 +57,10 @@ describe('Unit | Component | challenge statement', function () {
       const orderedAttachments = component.orderedAttachments;
 
       // then
-      expect(orderedAttachments.length).to.equal(0);
+      assert.equal(orderedAttachments.length, 0);
     });
 
-    it('should return files using the preferred formats first, then the others', () => {
+    test('should return files using the preferred formats first, then the others', function (assert) {
       // given
       const attachments = ['https://dl.airtable.com/test.odp', 'https://dl.airtable.com/test.docx'];
       const challenge = EmberObject.create({ attachments });
@@ -70,12 +70,12 @@ describe('Unit | Component | challenge statement', function () {
       const orderedAttachments = component.orderedAttachments;
 
       // then
-      expect(orderedAttachments.length).to.equal(attachments.length);
-      expect(orderedAttachments[0]).to.contains('docx');
-      expect(orderedAttachments[1]).to.contains('odp');
+      assert.equal(orderedAttachments.length, attachments.length);
+      assert.true(orderedAttachments[0].endsWith('docx'));
+      assert.true(orderedAttachments[1].endsWith('odp'));
     });
 
-    it('should return the attachments ordered alphabetically in each group', () => {
+    test('should return the attachments ordered alphabetically in each group', function (assert) {
       // given
       const attachments = [
         'https://dl.airtable.com/test1.ods',
@@ -90,11 +90,11 @@ describe('Unit | Component | challenge statement', function () {
       const orderedAttachments = component.orderedAttachments;
 
       // then
-      expect(orderedAttachments.length).to.equal(attachments.length);
-      expect(orderedAttachments[0]).to.contain('docx');
-      expect(orderedAttachments[1]).to.contain('pptx');
-      expect(orderedAttachments[2]).to.contain('odp');
-      expect(orderedAttachments[3]).to.contain('ods');
+      assert.equal(orderedAttachments.length, attachments.length);
+      assert.true(orderedAttachments[0].endsWith('docx'));
+      assert.true(orderedAttachments[1].endsWith('pptx'));
+      assert.true(orderedAttachments[2].endsWith('odp'));
+      assert.true(orderedAttachments[3].endsWith('ods'));
     });
   });
 });

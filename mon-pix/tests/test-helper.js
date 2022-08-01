@@ -8,7 +8,7 @@ setup(QUnit.assert);
 setApplication(Application.create(config.APP));
 start();
 
-afterEach(() => {
-  sessionStorage.clear();
-  window.localStorage.removeItem('hasConfirmedFocusChallengeScreen');
-});
+// afterEach(() => {
+//   sessionStorage.clear();
+//   window.localStorage.removeItem('hasConfirmedFocusChallengeScreen');
+// });

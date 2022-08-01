@@ -1,16 +1,16 @@
-import { describe, it, beforeEach } from 'mocha';
-import { setupTest } from 'ember-mocha';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
 
-describe('Unit | Service | file-saver', function () {
-  setupTest();
+module('Unit | Service | file-saver', function (hooks) {
+  setupTest(hooks);
   let fileSaver;
 
-  beforeEach(function () {
+  hooks.beforeEach(function () {
     fileSaver = this.owner.lookup('service:file-saver');
   });
 
-  describe('#save', function () {
+  module('#save', function (hooks) {
     const id = 123456;
     const url = `/attestation/${id}`;
     const token = 'mytoken';
@@ -23,15 +23,15 @@ describe('Unit | Service | file-saver', function () {
     let downloadFileForIEBrowserStub;
     let downloadFileForModernBrowsersStub;
 
-    beforeEach(function () {
+    hooks.beforeEach(function () {
       fileSaver = this.owner.lookup('service:file-saver');
       blobStub = sinon.stub().resolves(responseContent);
       downloadFileForIEBrowserStub = sinon.stub().returns();
       downloadFileForModernBrowsersStub = sinon.stub().returns();
     });
 
-    describe('when response does have a fileName info in headers', function () {
-      it('should give fileName from response', async function () {
+    module('when response does have a fileName info in headers', function () {
+      test('should give fileName from response', async function (assert) {
         // given
         const headers = {
           get: sinon.stub(),
@@ -52,12 +52,13 @@ describe('Unit | Service | file-saver', function () {
 
         // then
         const expectedArgs = { fileContent: responseContent, fileName: responseFileName };
+        assert.expect(0);
         sinon.assert.calledWith(downloadFileForModernBrowsersStub, expectedArgs);
       });
     });
 
-    describe('when response does not have a fileName info in headers', function () {
-      it('should give default fileName', async function () {
+    module('when response does not have a fileName info in headers', function () {
+      test('should give default fileName', async function (assert) {
         // given
         const response = { blob: blobStub };
         fetchStub = sinon.stub().resolves(response);
@@ -74,6 +75,7 @@ describe('Unit | Service | file-saver', function () {
 
         // then
         const expectedArgs = { fileContent: responseContent, fileName: defaultFileName };
+        assert.expect(0);
         sinon.assert.calledWith(downloadFileForModernBrowsersStub, expectedArgs);
       });
     });

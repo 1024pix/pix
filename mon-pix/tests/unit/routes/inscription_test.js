@@ -1,17 +1,16 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
-import { setupTest } from 'ember-mocha';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
 
-describe('Unit | Route | inscription', function () {
-  setupTest();
+module('Unit | Route | inscription', function (hooks) {
+  setupTest(hooks);
 
-  it('exists', function () {
+  test('exists', function (assert) {
     const route = this.owner.lookup('route:inscription');
-    expect(route).to.be.ok;
+    assert.ok(route);
   });
 
-  it('should automatically authenticated user', async function () {
+  test('should automatically authenticated user', async function (assert) {
     // Given
     const expectedAuthenticator = 'authenticator:oauth2';
     const login = 'email@example.net';
@@ -31,6 +30,7 @@ describe('Unit | Route | inscription', function () {
     await route.actions.authenticateUser.call(route, { login, password });
 
     // Then
+    assert.expect(0);
     sinon.assert.calledWith(authenticateStub, expectedAuthenticator, { login, password, scope });
   });
 });

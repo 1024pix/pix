@@ -1,16 +1,15 @@
-import { expect } from 'chai';
-import { beforeEach, describe, it } from 'mocha';
+import { module, test } from 'qunit';
 import { A } from '@ember/array';
 import EmberObject from '@ember/object';
 import { find, findAll, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 
-describe('Integration | Component | scorecard-details', function () {
-  setupIntlRenderingTest();
+module('Integration | Component | scorecard-details', function (hooks) {
+  setupIntlRenderingTest(hooks);
 
-  describe('Component rendering', function () {
-    it('should render component', async function () {
+  module('Component rendering', function () {
+    test('should render component', async function (assert) {
       // given
       const scorecard = {};
 
@@ -20,10 +19,10 @@ describe('Integration | Component | scorecard-details', function () {
       await render(hbs`<ScorecardDetails @scorecard={{this.scorecard}} />`);
 
       // then
-      expect(find('.scorecard-details__content')).to.exist;
+      assert.dom(find('.scorecard-details__content')).exists();
     });
 
-    it('should display the scorecard header with area color', async function () {
+    test('should display the scorecard header with area color', async function (assert) {
       // given
       const scorecard = {
         area: {
@@ -39,11 +38,11 @@ describe('Integration | Component | scorecard-details', function () {
 
       // then
       const element = find('.scorecard-details-content-left__area');
-      expect(element.getAttribute('class')).to.contains('scorecard-details-content-left__area--jaffa');
-      expect(element.textContent).to.contains(scorecard.area.title);
+      assert.dom(element.getAttribute('class')).hasValue('scorecard-details-content-left__area--jaffa');
+      assert.dom(element.textContent).hasText(scorecard.area.title);
     });
 
-    it('should display the competence informations', async function () {
+    test('should display the competence informations', async function (assert) {
       // given
       const scorecard = {
         name: 'Scorecard name',
@@ -56,11 +55,11 @@ describe('Integration | Component | scorecard-details', function () {
       await render(hbs`<ScorecardDetails @scorecard={{this.scorecard}} />`);
 
       // then
-      expect(find('.scorecard-details-content-left__name').textContent).to.contain(scorecard.name);
-      expect(find('.scorecard-details-content-left__description').textContent).to.contain(scorecard.description);
+      assert.dom(find('.scorecard-details-content-left__name').textContent).hasText(scorecard.name);
+      assert.dom(find('.scorecard-details-content-left__description').textContent).hasText(scorecard.description);
     });
 
-    it('should display the scorecard level, earnedPix and remainingPixToNextLevel', async function () {
+    test('should display the scorecard level, earnedPix and remainingPixToNextLevel', async function (assert) {
       // given
       const scorecard = {
         level: 2,
@@ -74,14 +73,14 @@ describe('Integration | Component | scorecard-details', function () {
       await render(hbs`<ScorecardDetails @scorecard={{this.scorecard}} />`);
 
       // then
-      expect(find('.score-value').textContent).to.contain(scorecard.level);
-      expect(findAll('.score-value')[1].textContent).to.contain(scorecard.earnedPix);
-      expect(find('.scorecard-details-content-right__level-info').textContent).to.contain(
-        `${scorecard.remainingPixToNextLevel} pix avant le niveau ${scorecard.level + 1}`
-      );
+      assert.dom(find('.score-value').textContent).hasText(scorecard.level);
+      assert.dom(findAll('.score-value')[1].textContent).hasText(scorecard.earnedPix);
+      assert
+        .dom(find('.scorecard-details-content-right__level-info').textContent)
+        .hasText(`${scorecard.remainingPixToNextLevel} pix avant le niveau ${scorecard.level + 1}`);
     });
 
-    it('should display a dash instead of the scorecard level and earnedPix if they are set to zero', async function () {
+    test('should display a dash instead of the scorecard level and earnedPix if they are set to zero', async function (assert) {
       // given
       const scorecard = {
         level: 0,
@@ -94,14 +93,14 @@ describe('Integration | Component | scorecard-details', function () {
       await render(hbs`<ScorecardDetails @scorecard={{this.scorecard}} />`);
 
       // then
-      expect(find('.score-value').textContent).to.contain('–');
-      expect(find('.score-value').textContent).to.contain('–');
+      assert.dom(find('.score-value').textContent).hasText('–');
+      assert.dom(find('.score-value').textContent).hasText('–');
     });
 
-    context('When the user has finished a competence', async function () {
+    module('When the user has finished a competence', async function (hooks) {
       let scorecard;
 
-      beforeEach(function () {
+      hooks.beforeEach(function () {
         // given
         scorecard = {
           remainingPixToNextLevel: 1,
@@ -110,25 +109,25 @@ describe('Integration | Component | scorecard-details', function () {
         };
       });
 
-      it('should not display remainingPixToNextLevel', async function () {
+      test('should not display remainingPixToNextLevel', async function (assert) {
         // when
         this.set('scorecard', scorecard);
         await render(hbs`<ScorecardDetails @scorecard={{this.scorecard}} />`);
 
         // then
-        expect(find('.scorecard-details-content-right__level-info')).to.not.exist;
+        assert.dom(find('.scorecard-details-content-right__level-info')).doesNotExist();
       });
 
-      it('should not display a button', async function () {
+      test('should not display a button', async function (assert) {
         // when
         this.set('scorecard', scorecard);
         await render(hbs`<ScorecardDetails @scorecard={{this.scorecard}} />`);
 
         // then
-        expect(find('.scorecard-details__resume-or-start-button')).to.not.exist;
+        assert.dom(find('.scorecard-details__resume-or-start-button')).doesNotExist();
       });
 
-      it('should show the improving button if the remaining days before improving are equal to 0', async function () {
+      test('should show the improving button if the remaining days before improving are equal to 0', async function (assert) {
         // given
         scorecard.remainingDaysBeforeImproving = 0;
 
@@ -137,10 +136,10 @@ describe('Integration | Component | scorecard-details', function () {
         await render(hbs`<ScorecardDetails @scorecard={{this.scorecard}} />`);
 
         // then
-        expect(find('.scorecard-details__improve-button')).to.exist;
+        assert.dom(find('.scorecard-details__improve-button')).exists();
       });
 
-      it('should show the improving countdown if the remaining days before improving are different than 0', async function () {
+      test('should show the improving countdown if the remaining days before improving are different than 0', async function (assert) {
         // given
         scorecard.remainingDaysBeforeImproving = 3;
 
@@ -149,12 +148,12 @@ describe('Integration | Component | scorecard-details', function () {
         await render(hbs`<ScorecardDetails @scorecard={{this.scorecard}} />`);
 
         // then
-        expect(find('.scorecard-details__improvement-countdown')).to.exist;
-        expect(find('.scorecard-details__improvement-countdown').textContent).to.contains('3 jours');
+        assert.dom(find('.scorecard-details__improvement-countdown')).exists();
+        assert.dom(find('.scorecard-details__improvement-countdown').textContent).hasText('3 jours');
       });
 
-      context('and the user has reached the max level', async function () {
-        beforeEach(async function () {
+      module('and the user has reached the max level', async function () {
+        hooks.beforeEach(async function () {
           // given
           const scorecard = {
             remainingPixToNextLevel: 1,
@@ -169,25 +168,25 @@ describe('Integration | Component | scorecard-details', function () {
           await render(hbs`<ScorecardDetails @scorecard={{this.scorecard}} />`);
         });
 
-        it('should not display remainingPixToNextLevel', function () {
+        test('should not display remainingPixToNextLevel', function (assert) {
           // then
-          expect(find('.scorecard-details-content-right__level-info')).to.not.exist;
+          assert.dom(find('.scorecard-details-content-right__level-info')).doesNotExist();
         });
 
-        it('should show congrats design', function () {
+        test('should show congrats design', function (assert) {
           // then
-          expect(find('.competence-card__congrats')).to.exist;
+          assert.dom(find('.competence-card__congrats')).exists();
         });
 
-        it('should not show the improving button', function () {
+        test('should not show the improving button', function (assert) {
           // then
-          expect(find('.scorecard-details__improve-button')).to.not.exist;
+          assert.dom(find('.scorecard-details__improve-button')).doesNotExist();
         });
       });
     });
 
-    context('When the user did not started a competence', function () {
-      it('should not display the level and remainingPixToNextLevel if scorecard.isNotStarted is true', async function () {
+    module('When the user did not started a competence', function () {
+      test('should not display the level and remainingPixToNextLevel if scorecard.isNotStarted is true', async function (assert) {
         // given
         const scorecard = {
           remainingPixToNextLevel: 1,
@@ -200,11 +199,11 @@ describe('Integration | Component | scorecard-details', function () {
         await render(hbs`<ScorecardDetails @scorecard={{this.scorecard}} />`);
 
         // then
-        expect(find('.scorecard-details-content-right__score-container')).to.not.exist;
-        expect(find('.scorecard-details-content-right__level-info')).to.not.exist;
+        assert.dom(find('.scorecard-details-content-right__score-container')).doesNotExist();
+        assert.dom(find('.scorecard-details-content-right__level-info')).doesNotExist();
       });
 
-      it('should display a button stating "Commencer" if scorecard.isStarted is false', async function () {
+      test('should display a button stating "Commencer" if scorecard.isStarted is false', async function (assert) {
         // given
         const scorecard = {
           competenceId: 1,
@@ -218,13 +217,13 @@ describe('Integration | Component | scorecard-details', function () {
 
         // then
         const element = find('.scorecard-details__resume-or-start-button');
-        expect(element).to.exist;
-        expect(element.textContent).to.contain('Commencer');
+        assert.dom(element).exists();
+        assert.dom(element.textContent).hasText('Commencer');
       });
     });
 
-    context('When the user has started a competence', async function () {
-      it('should display a button stating "Reprendre"', async function () {
+    module('When the user has started a competence', async function () {
+      test('should display a button stating "Reprendre"', async function (assert) {
         // given
         const scorecard = {
           competenceId: 1,
@@ -238,11 +237,11 @@ describe('Integration | Component | scorecard-details', function () {
 
         // then
         const element = find('.scorecard-details__resume-or-start-button');
-        expect(element).to.exist;
-        expect(element.textContent).to.contain('Reprendre');
+        assert.dom(element).exists();
+        assert.dom(element.textContent).hasText('Reprendre');
       });
 
-      it('should not display the tutorial section when there is no tutorial to show', async function () {
+      test('should not display the tutorial section when there is no tutorial to show', async function (assert) {
         // given
         const scorecard = {
           competenceId: 1,
@@ -255,11 +254,11 @@ describe('Integration | Component | scorecard-details', function () {
         await render(hbs`<ScorecardDetails @scorecard={{this.scorecard}} />`);
 
         // then
-        expect(find('.tutorials')).to.not.exist;
+        assert.dom(find('.tutorials')).doesNotExist();
       });
 
-      context('and the user has some tutorials', async function () {
-        it('should display the tutorial section and the related tutorials', async function () {
+      module('and the user has some tutorials', async function () {
+        test('should display the tutorial section and the related tutorials', async function (assert) {
           // given
           const tuto1 = EmberObject.create({
             title: 'Tuto 1.1',
@@ -294,13 +293,13 @@ describe('Integration | Component | scorecard-details', function () {
           await render(hbs`<ScorecardDetails @scorecard={{this.scorecard}} />`);
 
           // then
-          expect(find('.tutorials')).to.exist;
-          expect(findAll('.tube')).to.have.lengthOf(2);
-          expect(findAll('.tutorial-card-v2')).to.have.lengthOf(3);
+          assert.dom(find('.tutorials')).exists();
+          assert.equal(findAll('.tube').length, 2);
+          assert.equal(findAll('.tutorial-card-v2').length, 3);
         });
 
-        context('when newTutorials FT is enabled', function () {
-          it('should display the tutorial section and related tutorials', async function () {
+        module('when newTutorials FT is enabled', function () {
+          test('should display the tutorial section and related tutorials', async function (assert) {
             // given
             const tuto1 = EmberObject.create({
               title: 'Tuto 1.1',
@@ -335,9 +334,9 @@ describe('Integration | Component | scorecard-details', function () {
             await render(hbs`<ScorecardDetails @scorecard={{this.scorecard}} />`);
 
             // then
-            expect(find('.tutorials')).to.exist;
-            expect(findAll('.tube')).to.have.lengthOf(2);
-            expect(findAll('.tutorial-card-v2')).to.have.lengthOf(3);
+            assert.dom(find('.tutorials')).exists();
+            assert.equal(findAll('.tube').length, 2);
+            assert.equal(findAll('.tutorial-card-v2').length, 3);
           });
         });
       });

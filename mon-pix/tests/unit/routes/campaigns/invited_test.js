@@ -1,50 +1,53 @@
 import EmberObject from '@ember/object';
-import { describe, it, beforeEach } from 'mocha';
-import { setupTest } from 'ember-mocha';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
 
-describe('Unit | Route | Invited', function () {
-  setupTest();
+module('Unit | Route | Invited', function (hooks) {
+  setupTest(hooks);
 
   let route, campaign;
 
-  beforeEach(function () {
+  hooks.beforeEach(function () {
     route = this.owner.lookup('route:campaigns.invited');
     route.modelFor = sinon.stub();
     route.router = { replaceWith: sinon.stub(), transitionTo: sinon.stub() };
     route.campaignStorage = { get: sinon.stub() };
   });
 
-  describe('#beforeModel', function () {
-    it('should redirect to entry point when /prescrit is directly set in the url', async function () {
+  module('#beforeModel', function () {
+    test('should redirect to entry point when /prescrit is directly set in the url', async function (assert) {
       //when
       await route.beforeModel({ from: null });
 
       //then
+      assert.expect(0);
       sinon.assert.calledWith(route.router.replaceWith, 'campaigns.entry-point');
     });
 
-    it('should continue en entrance route when from is set', async function () {
+    test('should continue en entrance route when from is set', async function (assert) {
       //when
       await route.beforeModel({ from: 'campaigns.entry-point' });
 
       //then
+      assert.expect(0);
       sinon.assert.notCalled(route.router.replaceWith);
     });
   });
 
-  describe('#model', function () {
-    it('should load model', async function () {
+  module('#model', function () {
+    test('should load model', async function (assert) {
       //when
       await route.model();
 
       //then
+      assert.expect(0);
       sinon.assert.calledWith(route.modelFor, 'campaigns');
     });
   });
 
-  describe('#afterModel', function () {
-    it('should redirect to student sco invited page when association is needed', async function () {
+  module('#afterModel', function () {
+    test('should redirect to student sco invited page when association is needed', async function (assert) {
       //given
       campaign = EmberObject.create({
         isRestricted: true,
@@ -56,10 +59,11 @@ describe('Unit | Route | Invited', function () {
       await route.afterModel(campaign);
 
       //then
+      assert.expect(0);
       sinon.assert.calledWith(route.router.replaceWith, 'campaigns.invited.student-sco', campaign.code);
     });
 
-    it('should redirect to student sup invited page when association is needed', async function () {
+    test('should redirect to student sup invited page when association is needed', async function (assert) {
       //given
       campaign = EmberObject.create({
         isRestricted: true,
@@ -71,10 +75,11 @@ describe('Unit | Route | Invited', function () {
       await route.afterModel(campaign);
 
       //then
+      assert.expect(0);
       sinon.assert.calledWith(route.router.replaceWith, 'campaigns.invited.student-sup', campaign.code);
     });
 
-    it('should redirect to fill in participant external otherwise', async function () {
+    test('should redirect to fill in participant external otherwise', async function (assert) {
       //given
       campaign = EmberObject.create({
         isRestricted: false,
@@ -85,6 +90,7 @@ describe('Unit | Route | Invited', function () {
       await route.afterModel(campaign);
 
       //then
+      assert.expect(0);
       sinon.assert.calledWith(
         route.router.replaceWith,
         'campaigns.invited.fill-in-participant-external-id',

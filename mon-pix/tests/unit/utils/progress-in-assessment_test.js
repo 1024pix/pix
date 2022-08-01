@@ -1,31 +1,30 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
+import { module, test } from 'qunit';
 import EmberObject from '@ember/object';
 import ENV from 'mon-pix/config/environment';
 import progressInAssessment from 'mon-pix/utils/progress-in-assessment';
 
-describe('Unit | Utility | progress-in-assessment', function () {
-  describe('#getCurrentStepIndex', function () {
+module('Unit | Utility | progress-in-assessment', function () {
+  module('#getCurrentStepIndex', function (hooks) {
     let assessment;
 
-    beforeEach(function () {
+    hooks.beforeEach(function () {
       ENV.APP.NUMBER_OF_CHALLENGES_BETWEEN_TWO_CHECKPOINTS = 5;
       assessment = EmberObject.create({
         hasCheckpoints: true,
       });
     });
 
-    it('should return the current step index modulus maxStepsNumber', function () {
+    test('should return the current step index modulus maxStepsNumber', function (assert) {
       // given
       const currentChallengeNumber = 6;
       // when
       const currentStepIndex = progressInAssessment.getCurrentStepIndex(assessment, currentChallengeNumber);
 
       // then
-      expect(currentStepIndex).to.equal(1);
+      assert.equal(currentStepIndex, 1);
     });
 
-    it('should return 0 when the assessment is a preview', function () {
+    test('should return 0 when the assessment is a preview', function (assert) {
       // given
       assessment.isPreview = true;
       const currentChallengeNumber = 0;
@@ -34,12 +33,12 @@ describe('Unit | Utility | progress-in-assessment', function () {
       const currentStepIndex = progressInAssessment.getCurrentStepIndex(assessment, currentChallengeNumber);
 
       // then
-      expect(currentStepIndex).to.equal(0);
+      assert.equal(currentStepIndex, 0);
     });
   });
 
-  describe('#getMaxStepsNumber', function () {
-    it('when assessment has checkpoint, should return the number of challenges in checkpoint', function () {
+  module('#getMaxStepsNumber', function () {
+    test('when assessment has checkpoint, should return the number of challenges in checkpoint', function (assert) {
       // given
       const assessment = EmberObject.create({ hasCheckpoints: true });
 
@@ -47,11 +46,11 @@ describe('Unit | Utility | progress-in-assessment', function () {
       const maxStepNumber = progressInAssessment.getMaxStepsNumber(assessment);
 
       // then
-      expect(maxStepNumber).to.equal(ENV.APP.NUMBER_OF_CHALLENGES_BETWEEN_TWO_CHECKPOINTS);
+      assert.equal(maxStepNumber, ENV.APP.NUMBER_OF_CHALLENGES_BETWEEN_TWO_CHECKPOINTS);
     });
 
-    describe('when assessment has flash method', function () {
-      it('should return the maximum number of challenges', function () {
+    module('when assessment has flash method', function () {
+      test('should return the maximum number of challenges', function (assert) {
         // given
         const assessment = EmberObject.create({ isFlash: true });
 
@@ -59,10 +58,10 @@ describe('Unit | Utility | progress-in-assessment', function () {
         const maxStepNumber = progressInAssessment.getMaxStepsNumber(assessment);
 
         // then
-        expect(maxStepNumber).to.equal(ENV.APP.NUMBER_OF_CHALLENGES_FOR_FLASH_METHOD);
+        assert.equal(maxStepNumber, ENV.APP.NUMBER_OF_CHALLENGES_FOR_FLASH_METHOD);
       });
 
-      it('when assessment is certification, should return the maximum number of challenges', function () {
+      test('when assessment is certification, should return the maximum number of challenges', function (assert) {
         // given
         const assessment = EmberObject.create({ isFlash: true, isCertification: true });
 
@@ -70,11 +69,11 @@ describe('Unit | Utility | progress-in-assessment', function () {
         const maxStepNumber = progressInAssessment.getMaxStepsNumber(assessment);
 
         // then
-        expect(maxStepNumber).to.equal(ENV.APP.NUMBER_OF_CHALLENGES_FOR_FLASH_METHOD);
+        assert.equal(maxStepNumber, ENV.APP.NUMBER_OF_CHALLENGES_FOR_FLASH_METHOD);
       });
     });
 
-    it('when assessment is certification, should return the number of challenges in certification', function () {
+    test('when assessment is certification, should return the number of challenges in certification', function (assert) {
       // given
       const nbChallenges = 23;
       const assessment = EmberObject.create({
@@ -86,10 +85,10 @@ describe('Unit | Utility | progress-in-assessment', function () {
       const maxStepNumber = progressInAssessment.getMaxStepsNumber(assessment);
 
       // then
-      expect(maxStepNumber).to.equal(nbChallenges);
+      assert.equal(maxStepNumber, nbChallenges);
     });
 
-    it('should return the number of challenge in course', function () {
+    test('should return the number of challenge in course', function (assert) {
       // given
       const nbChallenges = 21;
       const assessment = EmberObject.create({ course: EmberObject.create({ nbChallenges }) });
@@ -98,10 +97,10 @@ describe('Unit | Utility | progress-in-assessment', function () {
       const maxStepNumber = progressInAssessment.getMaxStepsNumber(assessment);
 
       // then
-      expect(maxStepNumber).to.equal(nbChallenges);
+      assert.equal(maxStepNumber, nbChallenges);
     });
 
-    it('should return 1 when the assessment is a preview', function () {
+    test('should return 1 when the assessment is a preview', function (assert) {
       // given
       const assessment = EmberObject.create({ isPreview: true });
 
@@ -109,20 +108,20 @@ describe('Unit | Utility | progress-in-assessment', function () {
       const maxStepNumber = progressInAssessment.getMaxStepsNumber(assessment);
 
       // then
-      expect(maxStepNumber).to.equal(1);
+      assert.equal(maxStepNumber, 1);
     });
   });
 
-  describe('#getCurrentStepNumber', function () {
+  module('#getCurrentStepNumber', function (hooks) {
     let assessment;
-    beforeEach(function () {
+    hooks.beforeEach(function () {
       ENV.APP.NUMBER_OF_CHALLENGES_BETWEEN_TWO_CHECKPOINTS = 5;
       assessment = EmberObject.create({
         hasCheckpoints: true,
       });
     });
 
-    it('should return the current step number modulus maxStepsNumber', async function () {
+    test('should return the current step number modulus maxStepsNumber', async function (assert) {
       // given
       const currentChallengeNumber = 8;
 
@@ -130,7 +129,7 @@ describe('Unit | Utility | progress-in-assessment', function () {
       const currentStepIndex = progressInAssessment.getCurrentStepNumber(assessment, currentChallengeNumber);
 
       // then
-      expect(currentStepIndex).to.equal(4);
+      assert.equal(currentStepIndex, 4);
     });
   });
 });

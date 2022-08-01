@@ -1,5 +1,4 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
+import { module, test } from 'qunit';
 import Service from '@ember/service';
 import { render, triggerEvent } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
@@ -9,21 +8,25 @@ import sinon from 'sinon';
 import { fillInByLabel } from '../../../helpers/fill-in-by-label';
 import { clickByLabel } from '../../../helpers/click-by-label';
 
-describe('Integration | Component | student-information-form', function () {
-  setupIntlRenderingTest();
+module('Integration | Component | student-information-form', function (hooks) {
+  setupIntlRenderingTest(hooks);
 
-  it('should render a account recovery student information form', async function () {
+  test('should render a account recovery student information form', async function (assert) {
     // given / when
     await render(hbs`<AccountRecovery::StudentInformationForm />`);
 
     // then
-    expect(contains(this.intl.t('pages.account-recovery.find-sco-record.student-information.title'))).to.exist;
-    expect(contains(this.intl.t('pages.account-recovery.find-sco-record.student-information.subtitle.text'))).to.exist;
-    expect(contains(this.intl.t('pages.account-recovery.find-sco-record.student-information.subtitle.link'))).to.exist;
-    expect(contains(this.intl.t('common.form.mandatory-all-fields'))).to.exist;
+    assert.dom(contains(this.intl.t('pages.account-recovery.find-sco-record.student-information.title'))).exists();
+    assert
+      .dom(contains(this.intl.t('pages.account-recovery.find-sco-record.student-information.subtitle.text')))
+      .exists();
+    assert
+      .dom(contains(this.intl.t('pages.account-recovery.find-sco-record.student-information.subtitle.link')))
+      .exists();
+    assert.dom(contains(this.intl.t('common.form.mandatory-all-fields'))).exists();
   });
 
-  it('should enable submission on account recovery form', async function () {
+  test('should enable submission on account recovery form', async function (assert) {
     // given
     const ine = '0123456789A';
     const firstName = 'Manuela';
@@ -72,6 +75,7 @@ describe('Integration | Component | student-information-form', function () {
     await clickByLabel(this.intl.t('pages.account-recovery.find-sco-record.student-information.form.submit'));
 
     // then
+    assert.expect(0);
     sinon.assert.calledWithExactly(submitStudentInformation, {
       ineIna: ine,
       firstName,
@@ -80,9 +84,9 @@ describe('Integration | Component | student-information-form', function () {
     });
   });
 
-  context('ine field', function () {
-    context('when the user fill in ine field with valid ina or ine', function () {
-      it('should not display an error message on focus-out', async function () {
+  module('ine field', function () {
+    module('when the user fill in ine field with valid ina or ine', function () {
+      test('should not display an error message on focus-out', async function (assert) {
         // given
         const validIna = '1234567890A';
         await render(hbs`<AccountRecovery::StudentInformationForm />`);
@@ -95,14 +99,16 @@ describe('Integration | Component | student-information-form', function () {
         await triggerEvent('#ineIna', 'focusout');
 
         // then
-        expect(
-          contains(
-            this.intl.t('pages.account-recovery.find-sco-record.student-information.errors.invalid-ine-ina-format')
+        assert
+          .dom(
+            contains(
+              this.intl.t('pages.account-recovery.find-sco-record.student-information.errors.invalid-ine-ina-format')
+            )
           )
-        ).to.not.exist;
+          .doesNotExist();
       });
 
-      it('should not display an error message on focus-out even if there are leading or trailing spaces', async function () {
+      test('should not display an error message on focus-out even if there are leading or trailing spaces', async function (assert) {
         // given
         const validIna = '  1234567890A  ';
         await render(hbs`<AccountRecovery::StudentInformationForm />`);
@@ -115,16 +121,18 @@ describe('Integration | Component | student-information-form', function () {
         await triggerEvent('#ineIna', 'focusout');
 
         // then
-        expect(
-          contains(
-            this.intl.t('pages.account-recovery.find-sco-record.student-information.errors.invalid-ine-ina-format')
+        assert
+          .dom(
+            contains(
+              this.intl.t('pages.account-recovery.find-sco-record.student-information.errors.invalid-ine-ina-format')
+            )
           )
-        ).to.not.exist;
+          .doesNotExist();
       });
     });
 
-    context('when the user ine or ina is invalid', function () {
-      it('should display an invalid format error message on focus-out', async function () {
+    module('when the user ine or ina is invalid', function () {
+      test('should display an invalid format error message on focus-out', async function (assert) {
         // given
         const invalidIneIna = '123ABCDEF';
         await render(hbs`<AccountRecovery::StudentInformationForm />`);
@@ -137,14 +145,16 @@ describe('Integration | Component | student-information-form', function () {
         await triggerEvent('#ineIna', 'focusout');
 
         // then
-        expect(
-          contains(
-            this.intl.t('pages.account-recovery.find-sco-record.student-information.errors.invalid-ine-ina-format')
+        assert
+          .dom(
+            contains(
+              this.intl.t('pages.account-recovery.find-sco-record.student-information.errors.invalid-ine-ina-format')
+            )
           )
-        ).to.exist;
+          .exists();
       });
 
-      it('should display a required field error message on focus-out if ine field is empty', async function () {
+      test('should display a required field error message on focus-out if ine field is empty', async function (assert) {
         // given
         const emptyIneIna = '     ';
         await render(hbs`<AccountRecovery::StudentInformationForm />`);
@@ -157,15 +167,15 @@ describe('Integration | Component | student-information-form', function () {
         await triggerEvent('#ineIna', 'focusout');
 
         // then
-        expect(
-          contains(this.intl.t('pages.account-recovery.find-sco-record.student-information.errors.empty-ine-ina'))
-        ).to.exist;
+        assert
+          .dom(contains(this.intl.t('pages.account-recovery.find-sco-record.student-information.errors.empty-ine-ina')))
+          .exists();
       });
     });
   });
 
-  context('last name field', function () {
-    it('should display a required field error message on focus-out if last name field is empty', async function () {
+  module('last name field', function () {
+    test('should display a required field error message on focus-out if last name field is empty', async function (assert) {
       // given
       const emptyLastName = '     ';
       await render(hbs`<AccountRecovery::StudentInformationForm />`);
@@ -178,14 +188,14 @@ describe('Integration | Component | student-information-form', function () {
       await triggerEvent('#lastName', 'focusout');
 
       // then
-      expect(
-        contains(this.intl.t('pages.account-recovery.find-sco-record.student-information.errors.empty-last-name'))
-      ).to.exist;
+      assert
+        .dom(contains(this.intl.t('pages.account-recovery.find-sco-record.student-information.errors.empty-last-name')))
+        .exists();
     });
   });
 
-  context('first name field', function () {
-    it('should display a required field error message on focus-out if first name field is empty', async function () {
+  module('first name field', function () {
+    test('should display a required field error message on focus-out if first name field is empty', async function (assert) {
       // given
       const emptyFirstName = '     ';
       await render(hbs`<AccountRecovery::StudentInformationForm />`);
@@ -198,9 +208,11 @@ describe('Integration | Component | student-information-form', function () {
       await triggerEvent('#firstName', 'focusout');
 
       // then
-      expect(
-        contains(this.intl.t('pages.account-recovery.find-sco-record.student-information.errors.empty-first-name'))
-      ).to.exist;
+      assert
+        .dom(
+          contains(this.intl.t('pages.account-recovery.find-sco-record.student-information.errors.empty-first-name'))
+        )
+        .exists();
     });
   });
 });

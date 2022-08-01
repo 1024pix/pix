@@ -1,10 +1,9 @@
 /* eslint ember/no-classic-classes: 0 */
 
-import { beforeEach, describe, it } from 'mocha';
-import { expect } from 'chai';
+import { module, test } from 'qunit';
 
 import { click, fillIn, currentURL, find, visit } from '@ember/test-helpers';
-import { setupApplicationTest } from 'ember-mocha';
+import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { Response } from 'ember-cli-mirage';
 
@@ -21,14 +20,14 @@ import { t } from 'ember-intl/test-support';
 
 const AUTHENTICATED_SOURCE_FROM_MEDIACENTRE = ENV.APP.AUTHENTICATED_SOURCE_FROM_MEDIACENTRE;
 
-describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
-  setupApplicationTest();
-  setupMirage();
-  setupIntl();
+module('Acceptance | Campaigns | Start Campaigns workflow', function (hooks) {
+  setupApplicationTest(hooks);
+  setupMirage(hooks);
+  setupIntl(hooks);
 
   let campaign;
 
-  beforeEach(function () {
+  hooks.beforeEach(function () {
     this.server.schema.students.create({
       firstName: 'JeanPrescrit',
       lastName: 'Campagne',
@@ -43,32 +42,32 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
     });
   });
 
-  describe('Start a campaign', function () {
+  module('Start a campaign', function (hooks) {
     let prescritUser;
 
-    beforeEach(function () {
+    hooks.beforeEach(function () {
       prescritUser = server.create('user', 'withEmail', {
         mustValidateTermsOfService: false,
         lastTermsOfServiceValidatedAt: null,
       });
     });
 
-    context('When user is not logged in', function () {
-      context('When user has not given any campaign code', function () {
-        it('should access campaign form page', async function () {
+    module('When user is not logged in', function () {
+      module('When user has not given any campaign code', function () {
+        test('should access campaign form page', async function (assert) {
           // when
           await visit('/campagnes');
 
           // then
-          expect(find('.fill-in-campaign-code__start-button').textContent).to.contains(
-            t('pages.fill-in-campaign-code.start')
-          );
+          assert
+            .dom(find('.fill-in-campaign-code__start-button').textContent)
+            .hasText(t('pages.fill-in-campaign-code.start'));
         });
       });
 
-      context('When campaign code exists', function () {
-        context('When campaign is not restricted', function () {
-          it('should display landing page', async function () {
+      module('When campaign code exists', function () {
+        module('When campaign is not restricted', function () {
+          test('should display landing page', async function (assert) {
             // given
             const campaign = server.create('campaign', { isRestricted: false });
             await visit('/campagnes');
@@ -78,11 +77,11 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
             await click('.fill-in-campaign-code__start-button');
 
             // then
-            expect(currentURL()).to.equal(`/campagnes/${campaign.code}/presentation`);
+            assert.equal(currentURL(), `/campagnes/${campaign.code}/presentation`);
           });
 
-          context('When user create its account', function () {
-            it('should send campaignCode to API', async function () {
+          module('When user create its account', function () {
+            test('should send campaignCode to API', async function (assert) {
               let sentCampaignCode;
 
               const prescritUser = {
@@ -106,9 +105,9 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
               await visit('/campagnes');
               await fillIn('#campaign-code', campaign.code);
               await click('.fill-in-campaign-code__start-button');
-              expect(currentURL()).to.equal(`/campagnes/${campaign.code}/presentation`);
+              assert.dom(currentURL()).to.equal(`/campagnes/${campaign.code}/presentation`);
               await click('.campaign-landing-page__start-button');
-              expect(currentURL()).to.equal('/inscription');
+              assert.dom(currentURL()).to.equal('/inscription');
               await fillIn('#firstName', prescritUser.firstName);
               await fillIn('#lastName', prescritUser.lastName);
               await fillIn('#email', prescritUser.email);
@@ -119,18 +118,18 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
               await clickByLabel(this.intl.t('pages.sign-up.actions.submit'));
 
               // then
-              expect(sentCampaignCode).to.equal(campaign.code);
+              assert.equal(sentCampaignCode, campaign.code);
             });
           });
         });
 
-        context('When campaign is restricted and SCO', function () {
-          beforeEach(function () {
+        module('When campaign is restricted and SCO', function (hooks) {
+          hooks.beforeEach(function () {
             campaign = server.create('campaign', { isRestricted: true, organizationType: 'SCO' });
           });
 
-          context('When the student has an account but is not reconciled', function () {
-            it('should redirect to invited sco student page', async function () {
+          module('When the student has an account but is not reconciled', function () {
+            test('should redirect to invited sco student page', async function (assert) {
               // given
               await visit('/campagnes');
 
@@ -144,13 +143,13 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
               await click('#submit-connexion');
 
               // then
-              expect(currentURL()).to.equal(`/campagnes/${campaign.code}/prescrit/eleve`);
+              assert.equal(currentURL(), `/campagnes/${campaign.code}/prescrit/eleve`);
             });
 
-            context('When student is reconciled in another organization', function () {
-              it('should reconcile and begin campaign participation', async function () {
+            module('When student is reconciled in another organization', function () {
+              test('should reconcile and begin campaign participation', async function (assert) {
                 // given
-                server.get('schooling-registration-user-associations', () => {
+                server.get('schooling-registration-user-associations', function () {
                   return { data: null };
                 });
                 server.create('schooling-registration-user-association', {
@@ -168,13 +167,13 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
                 await click('#submit-connexion');
 
                 // then
-                expect(currentURL()).to.equal(`/campagnes/${campaign.code}/evaluation/didacticiel`);
+                assert.equal(currentURL(), `/campagnes/${campaign.code}/evaluation/didacticiel`);
               });
             });
           });
 
-          context('When user must accept Pix last terms of service', async function () {
-            it('should redirect to invited sco student page after accept terms of service', async function () {
+          module('When user must accept Pix last terms of service', async function () {
+            test('should redirect to invited sco student page after accept terms of service', async function (assert) {
               // given
               await visit('/campagnes');
               prescritUser.mustValidateTermsOfService = true;
@@ -191,19 +190,19 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
               await clickByLabel(this.intl.t('pages.terms-of-service-oidc.form.button'));
 
               // then
-              expect(currentURL()).to.equal(`/campagnes/${campaign.code}/prescrit/eleve`);
+              assert.equal(currentURL(), `/campagnes/${campaign.code}/prescrit/eleve`);
             });
           });
 
-          it('should redirect to landing-page page', async function () {
+          test('should redirect to landing-page page', async function (assert) {
             // when
             await visit(`/campagnes/${campaign.code}`);
 
             // then
-            expect(currentURL()).to.equal(`/campagnes/${campaign.code}/presentation`);
+            assert.equal(currentURL(), `/campagnes/${campaign.code}/presentation`);
           });
 
-          it('should redirect to login-or-register page when landing page has been seen', async function () {
+          test('should redirect to login-or-register page when landing page has been seen', async function (assert) {
             // given
             await visit(`/campagnes/${campaign.code}`);
 
@@ -211,12 +210,12 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
             await clickByLabel('Je commence');
 
             // then
-            expect(currentURL()).to.equal(`/campagnes/${campaign.code}/rejoindre/identification`);
+            assert.equal(currentURL(), `/campagnes/${campaign.code}/rejoindre/identification`);
           });
 
-          it('should not alter inputs(username,password,email) when email already exists', async function () {
+          test('should not alter inputs(username,password,email) when email already exists', async function (assert) {
             //given
-            this.server.put('schooling-registration-user-associations/possibilities', () => {
+            this.server.put('schooling-registration-user-associations/possibilities', function () {
               const studentFoundWithUsernameGenerated = {
                 data: {
                   attributes: {
@@ -233,7 +232,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
               return new Response(200, {}, studentFoundWithUsernameGenerated);
             });
 
-            this.server.post('schooling-registration-dependent-users', () => {
+            this.server.post('schooling-registration-dependent-users', function () {
               const emailAlreadyExistResponse = {
                 errors: [
                   {
@@ -266,22 +265,22 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
             await fillIn('#password', 'pix123');
             await click('#submit-registration');
             // then
-            expect(currentURL()).to.equal(`/campagnes/${campaign.code}/rejoindre/identification`);
-            expect(find('#firstName').value).to.equal(prescritUser.firstName);
-            expect(find('#email').value).to.equal(prescritUser.email);
-            expect(find('#password').value).to.equal('pix123');
+            assert.equal(currentURL(), `/campagnes/${campaign.code}/rejoindre/identification`);
+            assert.equal(find('#firstName').value, prescritUser.firstName);
+            assert.equal(find('#email').value, prescritUser.email);
+            assert.equal(find('#password').value, 'pix123');
 
             //go to username-based authentication window
             await click('.pix-toggle__off');
-            expect(find('span[data-test-username]').textContent).to.equal('first.last1010');
-            expect(find('#password').value).to.equal('pix123');
+            assert.equal(find('span[data-test-username]').textContent, 'first.last1010');
+            assert.equal(find('#password').value, 'pix123');
           });
 
-          it('should redirect to student sco invited page when connection is done', async function () {
+          test('should redirect to student sco invited page when connection is done', async function (assert) {
             // given
             await visit(`/campagnes/${campaign.code}`);
             await clickByLabel('Je commence');
-            expect(currentURL()).to.equal(`/campagnes/${campaign.code}/rejoindre/identification`);
+            assert.equal(currentURL(), `/campagnes/${campaign.code}/rejoindre/identification`);
 
             // when
             await click('#login-button');
@@ -290,21 +289,21 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
             await click('#submit-connexion');
 
             // then
-            expect(currentURL()).to.equal(`/campagnes/${campaign.code}/prescrit/eleve`);
+            assert.equal(currentURL(), `/campagnes/${campaign.code}/prescrit/eleve`);
           });
 
-          it('should begin campaign participation when fields are filled in and associate button is clicked', async function () {
+          test('should begin campaign participation when fields are filled in and associate button is clicked', async function (assert) {
             // given
             await visit(`/campagnes/${campaign.code}`);
             await clickByLabel('Je commence');
-            expect(currentURL()).to.equal(`/campagnes/${campaign.code}/rejoindre/identification`);
+            assert.equal(currentURL(), `/campagnes/${campaign.code}/rejoindre/identification`);
 
             await click('#login-button');
             await fillIn('#login', prescritUser.email);
             await fillIn('#password', prescritUser.password);
             await click('#submit-connexion');
 
-            expect(currentURL()).to.equal(`/campagnes/${campaign.code}/prescrit/eleve`);
+            assert.equal(currentURL(), `/campagnes/${campaign.code}/prescrit/eleve`);
 
             // when
             await fillIn('#firstName', 'Jane');
@@ -317,16 +316,16 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
             await clickByLabel(this.intl.t('pages.join.sco.associate'));
 
             //then
-            expect(currentURL()).to.equal(`/campagnes/${campaign.code}/evaluation/didacticiel`);
+            assert.equal(currentURL(), `/campagnes/${campaign.code}/evaluation/didacticiel`);
           });
         });
 
-        context('When campaign is restricted and SUP', function () {
-          beforeEach(function () {
+        module('When campaign is restricted and SUP', function (hooks) {
+          hooks.beforeEach(function () {
             campaign = server.create('campaign', { isRestricted: true, organizationType: 'SUP' });
           });
 
-          it('should redirect to landing page', async function () {
+          test('should redirect to landing page', async function (assert) {
             // given
             await visit('/campagnes');
 
@@ -335,10 +334,10 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
             await clickByLabel(t('pages.fill-in-campaign-code.start'));
 
             // then
-            expect(currentURL()).to.equal(`/campagnes/${campaign.code}/presentation`);
+            assert.equal(currentURL(), `/campagnes/${campaign.code}/presentation`);
           });
 
-          it('should redirect to simple login page when landing page has been seen', async function () {
+          test('should redirect to simple login page when landing page has been seen', async function (assert) {
             // given
             await visit(`/campagnes/${campaign.code}`);
 
@@ -346,10 +345,10 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
             await clickByLabel('Je commence');
 
             // then
-            expect(currentURL()).to.equal('/inscription');
+            assert.equal(currentURL(), '/inscription');
           });
 
-          it('should redirect to invited sup student page after login', async function () {
+          test('should redirect to invited sup student page after login', async function (assert) {
             // given
             await visit(`/campagnes/${campaign.code}`);
             await clickByLabel('Je commence');
@@ -362,24 +361,24 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
             await clickByLabel('Je me connecte');
 
             // then
-            expect(currentURL()).to.equal(`/campagnes/${campaign.code}/prescrit/etudiant`);
+            assert.equal(currentURL(), `/campagnes/${campaign.code}/prescrit/etudiant`);
           });
         });
 
-        context('When is a simplified access campaign', function () {
-          beforeEach(function () {
+        module('When is a simplified access campaign', function (hooks) {
+          hooks.beforeEach(function () {
             campaign = server.create('campaign', { isSimplifiedAccess: true, idPixLabel: 'Les anonymes' });
           });
 
-          it('should redirect to landing page', async function () {
+          test('should redirect to landing page', async function (assert) {
             // when
             await visit(`/campagnes/${campaign.code}`);
 
             // then
-            expect(currentURL()).to.equal(`/campagnes/${campaign.code}/presentation`);
+            assert.equal(currentURL(), `/campagnes/${campaign.code}/presentation`);
           });
 
-          it('should redirect to tutorial page after starting campaign', async function () {
+          test('should redirect to tutorial page after starting campaign', async function (assert) {
             // when
             await visit(`/campagnes/${campaign.code}`);
             await click('button[type="submit"]');
@@ -387,13 +386,13 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
             await click('button[type="submit"]');
 
             // then
-            expect(currentURL()).to.equal(`/campagnes/${campaign.code}/evaluation/didacticiel`);
+            assert.equal(currentURL(), `/campagnes/${campaign.code}/evaluation/didacticiel`);
           });
         });
       });
 
-      context('When campaign code does not exist', function () {
-        it('should display an error message on fill-in-campaign-code page', async function () {
+      module('When campaign code does not exist', function () {
+        test('should display an error message on fill-in-campaign-code page', async function (assert) {
           // given
           const campaignCode = 'NONEXISTENT';
           await visit('/campagnes');
@@ -403,15 +402,15 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
           await clickByLabel(t('pages.fill-in-campaign-code.start'));
 
           // then
-          expect(currentURL()).to.equal('/campagnes');
-          expect(find('.fill-in-campaign-code__error').textContent).to.contains(
-            'Votre code est erroné, veuillez vérifier ou contacter l’organisateur.'
-          );
+          assert.equal(currentURL(), '/campagnes');
+          assert
+            .dom(find('.fill-in-campaign-code__error').textContent)
+            .hasText('Votre code est erroné, veuillez vérifier ou contacter l’organisateur.');
         });
       });
 
-      context('When user validates with empty campaign code', function () {
-        it('should display an error', async function () {
+      module('When user validates with empty campaign code', function () {
+        test('should display an error', async function (assert) {
           // given
           await visit('/campagnes');
 
@@ -419,35 +418,35 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
           await clickByLabel(t('pages.fill-in-campaign-code.start'));
 
           // then
-          expect(currentURL()).to.equal('/campagnes');
-          expect(find('.fill-in-campaign-code__error').textContent).to.contains('Veuillez saisir un code.');
+          assert.equal(currentURL(), '/campagnes');
+          assert.dom(find('.fill-in-campaign-code__error').textContent).hasText('Veuillez saisir un code.');
         });
       });
 
-      context('When the user has already seen the landing page', function () {
-        beforeEach(async function () {
+      module('When the user has already seen the landing page', function (hooks) {
+        hooks.beforeEach(async function () {
           const campaign = server.create('campaign');
           await startCampaignByCode(campaign.code);
         });
 
-        it('should redirect to signin page', async function () {
+        test('should redirect to signin page', async function (assert) {
           // then
-          expect(currentURL()).to.equal('/inscription');
+          assert.equal(currentURL(), '/inscription');
         });
       });
 
-      context('When the user has not seen the landing page', function () {
-        it('should redirect to landing page', async function () {
+      module('When the user has not seen the landing page', function () {
+        test('should redirect to landing page', async function (assert) {
           // when
           const campaign = server.create('campaign');
           await visit(`/campagnes/${campaign.code}`);
 
           // then
-          expect(currentURL()).to.equal(`/campagnes/${campaign.code}/presentation`);
+          assert.equal(currentURL(), `/campagnes/${campaign.code}/presentation`);
         });
 
-        context('When campaign has custom text for the landing page', function () {
-          it('should show the custom text on the landing page', async function () {
+        module('When campaign has custom text for the landing page', function () {
+          test('should show the custom text on the landing page', async function (assert) {
             // given
             const campaign = server.create('campaign', { customLandingPageText: 'SomeText' });
 
@@ -455,33 +454,33 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
             await visit(`/campagnes/${campaign.code}`);
 
             // then
-            expect(find('.campaign-landing-page__start__custom-text')).to.exist;
-            expect(find('.campaign-landing-page__start__custom-text').textContent).to.contains(
-              campaign.customLandingPageText
-            );
+            assert.dom(find('.campaign-landing-page__start__custom-text')).exists();
+            assert
+              .dom(find('.campaign-landing-page__start__custom-text').textContent)
+              .hasText(campaign.customLandingPageText);
           });
         });
 
-        context('When campaign does not have custom text for the landing page', function () {
-          it('should show only the defaulted text on the landing page', async function () {
+        module('When campaign does not have custom text for the landing page', function () {
+          test('should show only the defaulted text on the landing page', async function (assert) {
             // when
             const campaign = server.create('campaign', { customLandingPageText: null });
             await visit(`/campagnes/${campaign.code}`);
 
             // then
-            expect(find('.campaign-landing-page__start__custom-text')).to.not.exist;
+            assert.dom(find('.campaign-landing-page__start__custom-text')).doesNotExist();
           });
         });
       });
     });
 
-    context('When user is logged in', function () {
-      beforeEach(async function () {
+    module('When user is logged in', function (hooks) {
+      hooks.beforeEach(async function () {
         await authenticateByEmail(prescritUser);
       });
 
-      context('When campaign is not restricted', function () {
-        it('should redirect to landing page', async function () {
+      module('When campaign is not restricted', function () {
+        test('should redirect to landing page', async function (assert) {
           // given
           campaign = server.create('campaign');
 
@@ -489,17 +488,17 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
           await visit(`/campagnes/${campaign.code}`);
 
           //then
-          expect(currentURL()).to.equal(`/campagnes/${campaign.code}/presentation`);
+          assert.equal(currentURL(), `/campagnes/${campaign.code}/presentation`);
         });
       });
 
-      context('When campaign is restricted and SCO', function () {
-        beforeEach(function () {
+      module('When campaign is restricted and SCO', function (hooks) {
+        hooks.beforeEach(function () {
           campaign = server.create('campaign', { isRestricted: true, organizationType: 'SCO' });
         });
 
-        context('When association is not already done', function () {
-          it('should redirect to landing page', async function () {
+        module('When association is not already done', function () {
+          test('should redirect to landing page', async function (assert) {
             // given
             await visit('/campagnes');
 
@@ -508,12 +507,12 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
             await clickByLabel(t('pages.fill-in-campaign-code.start'));
 
             //then
-            expect(currentURL()).to.equal(`/campagnes/${campaign.code}/presentation`);
+            assert.equal(currentURL(), `/campagnes/${campaign.code}/presentation`);
           });
 
-          it('should try to reconcile automatically before redirect to invited sco student page', async function () {
+          test('should try to reconcile automatically before redirect to invited sco student page', async function (assert) {
             // given
-            server.get('schooling-registration-user-associations', () => {
+            server.get('schooling-registration-user-associations', function () {
               return { data: null };
             });
             server.create('schooling-registration-user-association', {
@@ -525,10 +524,10 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
             await clickByLabel('Je commence');
 
             // then
-            expect(currentURL()).to.equal(`/campagnes/${campaign.code}/evaluation/didacticiel`);
+            assert.equal(currentURL(), `/campagnes/${campaign.code}/evaluation/didacticiel`);
           });
 
-          it('should redirect to invited sco student page when landing page has been seen', async function () {
+          test('should redirect to invited sco student page when landing page has been seen', async function (assert) {
             // given
             await visit(`/campagnes/${campaign.code}`);
 
@@ -536,20 +535,20 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
             await clickByLabel('Je commence');
 
             //then
-            expect(currentURL()).to.equal(`/campagnes/${campaign.code}/prescrit/eleve`);
+            assert.equal(currentURL(), `/campagnes/${campaign.code}/prescrit/eleve`);
           });
 
-          it('should not set any field by default', async function () {
+          test('should not set any field by default', async function (assert) {
             // when
             await visit(`/campagnes/${campaign.code}`);
             await clickByLabel('Je commence');
 
             //then
-            expect(find('#firstName').value).to.equal('');
-            expect(find('#lastName').value).to.equal('');
+            assert.equal(find('#firstName').value, '');
+            assert.equal(find('#lastName').value, '');
           });
 
-          it('should begin campaign participation when fields are filled in and associate button is clicked', async function () {
+          test('should begin campaign participation when fields are filled in and associate button is clicked', async function (assert) {
             // given
             await visit(`/campagnes/${campaign.code}`);
             await clickByLabel('Je commence');
@@ -564,26 +563,26 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
             await clickByLabel(this.intl.t('pages.join.sco.associate'));
 
             //then
-            expect(currentURL()).to.equal(`/campagnes/${campaign.code}/evaluation/didacticiel`);
+            assert.equal(currentURL(), `/campagnes/${campaign.code}/evaluation/didacticiel`);
           });
         });
 
-        context('When association is already done', function () {
-          beforeEach(function () {
+        module('When association is already done', function (hooks) {
+          hooks.beforeEach(function () {
             server.create('schooling-registration-user-association', {
               campaignCode: campaign.code,
             });
           });
 
-          it('should redirect to landing page', async function () {
+          test('should redirect to landing page', async function (assert) {
             // when
             await visit(`/campagnes/${campaign.code}`);
 
             //then
-            expect(currentURL()).to.equal(`/campagnes/${campaign.code}/presentation`);
+            assert.equal(currentURL(), `/campagnes/${campaign.code}/presentation`);
           });
 
-          it('should begin campaign participation when landing page has been seen', async function () {
+          test('should begin campaign participation when landing page has been seen', async function (assert) {
             // given
             await visit(`/campagnes/${campaign.code}`);
 
@@ -591,17 +590,17 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
             await clickByLabel('Je commence');
 
             //then
-            expect(currentURL()).to.equal(`/campagnes/${campaign.code}/evaluation/didacticiel`);
+            assert.equal(currentURL(), `/campagnes/${campaign.code}/evaluation/didacticiel`);
           });
         });
       });
 
-      context('When campaign is restricted and SUP', function () {
-        beforeEach(function () {
+      module('When campaign is restricted and SUP', function (hooks) {
+        hooks.beforeEach(function () {
           campaign = server.create('campaign', { isRestricted: true, organizationType: 'SUP' });
         });
 
-        it('should redirect to landing page', async function () {
+        test('should redirect to landing page', async function (assert) {
           // given
           await visit('/campagnes');
 
@@ -610,10 +609,10 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
           await clickByLabel(t('pages.fill-in-campaign-code.start'));
 
           //then
-          expect(currentURL()).to.equal(`/campagnes/${campaign.code}/presentation`);
+          assert.equal(currentURL(), `/campagnes/${campaign.code}/presentation`);
         });
 
-        it('should redirect to invited sup student page when landing page has been seen', async function () {
+        test('should redirect to invited sup student page when landing page has been seen', async function (assert) {
           // given
           await visit(`/campagnes/${campaign.code}`);
 
@@ -621,10 +620,10 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
           await clickByLabel('Je commence');
 
           // then
-          expect(currentURL()).to.equal(`/campagnes/${campaign.code}/prescrit/etudiant`);
+          assert.equal(currentURL(), `/campagnes/${campaign.code}/prescrit/etudiant`);
         });
 
-        it('should begin campaign participation when association is done', async function () {
+        test('should begin campaign participation when association is done', async function (assert) {
           // given
           await visit(`/campagnes/${campaign.code}`);
           await clickByLabel('Je commence');
@@ -639,105 +638,108 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
           await clickByLabel("C'est parti !");
 
           // then
-          expect(currentURL()).to.equal(`/campagnes/${campaign.code}/evaluation/didacticiel`);
+          assert.equal(currentURL(), `/campagnes/${campaign.code}/evaluation/didacticiel`);
         });
       });
 
-      context('When campaign has external id', function () {
-        context('When participant external id is not set in the url', function () {
-          beforeEach(async function () {
+      module('When campaign has external id', function () {
+        module('When participant external id is not set in the url', function (hooks) {
+          hooks.beforeEach(async function () {
             campaign = server.create('campaign', { idPixLabel: 'nom de naissance de maman' });
             await startCampaignByCode(campaign.code);
           });
 
-          it('should show the identifiant page after clicking on start button in landing page', function () {
-            expect(currentURL()).to.equal(`/campagnes/${campaign.code}/prescrit/identifiant`);
+          test('should show the identifiant page after clicking on start button in landing page', function (assert) {
+            assert.equal(currentURL(), `/campagnes/${campaign.code}/prescrit/identifiant`);
           });
         });
 
-        context('When participant external id is set in the url', function () {
-          beforeEach(async function () {
+        module('When participant external id is set in the url', function (hooks) {
+          hooks.beforeEach(async function () {
             campaign = server.create('campaign', { idPixLabel: 'nom de naissance de maman' });
             await startCampaignByCodeAndExternalId(campaign.code);
           });
 
-          it('should begin campaign participation', function () {
-            expect(currentURL()).to.equal(`/campagnes/${campaign.code}/evaluation/didacticiel`);
+          test('should begin campaign participation', function (assert) {
+            assert.equal(currentURL(), `/campagnes/${campaign.code}/evaluation/didacticiel`);
           });
         });
       });
 
-      context('When campaign does not have external id', function () {
-        beforeEach(async function () {
+      module('When campaign does not have external id', function (hooks) {
+        hooks.beforeEach(async function () {
           campaign = server.create('campaign', { idPixLabel: null });
           await startCampaignByCode(campaign.code);
         });
 
-        it('should begin campaign participation', function () {
-          expect(currentURL()).to.equal(`/campagnes/${campaign.code}/evaluation/didacticiel`);
+        test('should begin campaign participation', function (assert) {
+          assert.equal(currentURL(), `/campagnes/${campaign.code}/evaluation/didacticiel`);
         });
       });
 
-      context('When campaign does not have external id but a participant external id is set in the url', function () {
-        beforeEach(async function () {
-          campaign = server.create('campaign', { idPixLabel: null });
-          await startCampaignByCodeAndExternalId(campaign.code);
-        });
+      module(
+        'When campaign does not have external id but a participant external id is set in the url',
+        function (hooks) {
+          hooks.beforeEach(async function () {
+            campaign = server.create('campaign', { idPixLabel: null });
+            await startCampaignByCodeAndExternalId(campaign.code);
+          });
 
-        it('should begin campaign participation', function () {
-          expect(currentURL()).to.equal(`/campagnes/${campaign.code}/evaluation/didacticiel`);
-        });
-      });
+          test('should begin campaign participation', function (assert) {
+            assert.equal(currentURL(), `/campagnes/${campaign.code}/evaluation/didacticiel`);
+          });
+        }
+      );
 
-      context('When the campaign is restricted and schooling-registration is disabled', function () {
-        beforeEach(function () {
+      module('When the campaign is restricted and schooling-registration is disabled', function (hooks) {
+        hooks.beforeEach(function () {
           campaign = server.create('campaign', { code: 'FORBIDDEN', isRestricted: true });
         });
 
-        it('should redirect to landing page', async function () {
+        test('should redirect to landing page', async function (assert) {
           // when
           await visit(`/campagnes/${campaign.code}`);
 
           // then
-          expect(currentURL()).to.equal(`/campagnes/${campaign.code}/presentation`);
+          assert.equal(currentURL(), `/campagnes/${campaign.code}/presentation`);
         });
 
-        it('should show an error message when user starts the campaign', async function () {
+        test('should show an error message when user starts the campaign', async function (assert) {
           // when
           await visit(`/campagnes/${campaign.code}`);
           await clickByLabel('Je commence');
 
           // then
-          expect(contains('Oups, la page demandée n’est pas accessible.')).to.exist;
+          assert.dom(contains('Oups, la page demandée n’est pas accessible.')).exists();
         });
       });
 
-      context('When campaign does not exist', function () {
-        beforeEach(async function () {
+      module('When campaign does not exist', function (hooks) {
+        hooks.beforeEach(async function () {
           await visit('/campagnes/codefaux');
         });
 
-        it('should show an error message', async function () {
+        test('should show an error message', async function (assert) {
           // then
-          expect(currentURL()).to.equal('/campagnes/codefaux');
-          expect(find('.title').textContent).to.contains('Oups, la page demandée n’est pas accessible.');
+          assert.equal(currentURL(), '/campagnes/codefaux');
+          assert.dom(find('.title').textContent).hasText('Oups, la page demandée n’est pas accessible.');
         });
       });
 
-      context('When is a simplified access campaign', function () {
-        beforeEach(function () {
+      module('When is a simplified access campaign', function (hooks) {
+        hooks.beforeEach(function () {
           campaign = server.create('campaign', { isSimplifiedAccess: true, idPixLabel: 'Les anonymes' });
         });
 
-        it('should redirect to landing page', async function () {
+        test('should redirect to landing page', async function (assert) {
           // when
           await visit(`/campagnes/${campaign.code}`);
 
           // then
-          expect(currentURL()).to.equal(`/campagnes/${campaign.code}/presentation`);
+          assert.equal(currentURL(), `/campagnes/${campaign.code}/presentation`);
         });
 
-        it('should redirect to tutorial page after starting campaign', async function () {
+        test('should redirect to tutorial page after starting campaign', async function (assert) {
           // when
           await visit(`/campagnes/${campaign.code}`);
           await click('button[type="submit"]');
@@ -745,18 +747,18 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
           await click('button[type="submit"]');
 
           // then
-          expect(currentURL()).to.equal(`/campagnes/${campaign.code}/evaluation/didacticiel`);
+          assert.equal(currentURL(), `/campagnes/${campaign.code}/evaluation/didacticiel`);
         });
       });
     });
 
-    context('When user is logged as anonymous and campaign is simplified access', () => {
-      beforeEach(async () => {
+    module('When user is logged as anonymous and campaign is simplified access', function (hooks) {
+      hooks.beforeEach(async function () {
         campaign = server.create('campaign', { isSimplifiedAccess: true, idPixLabel: 'Les anonymes' });
         await currentSession().authenticate('authenticator:anonymous', { campaignCode: campaign.code });
       });
 
-      it('should replace previous connected anonymous user', async function () {
+      test('should replace previous connected anonymous user', async function (assert) {
         // given
         const session = currentSession();
         const previousUserId = session.data.authenticated['user_id'];
@@ -770,19 +772,19 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
         const currentUserId = session.data.authenticated['user_id'];
 
         // then
-        expect(currentUserId).to.be.finite;
-        expect(previousUserId).not.to.equal(currentUserId);
+        assert.dom(currentUserId).to.be.finite;
+        assert.notEqual(previousUserId, currentUserId);
       });
     });
 
-    context('When user is logged in an external platform', function () {
-      context('When campaign is restricted and SCO', function () {
-        beforeEach(function () {
+    module('When user is logged in an external platform', function () {
+      module('When campaign is restricted and SCO', function (hooks) {
+        hooks.beforeEach(function () {
           campaign = server.create('campaign', { isRestricted: true, organizationType: 'SCO' });
         });
 
-        context('When association is not already done and reconciliation token is provided', function () {
-          beforeEach(async function () {
+        module('When association is not already done and reconciliation token is provided', function (hooks) {
+          hooks.beforeEach(async function () {
             const externalUserToken =
               'aaa.' +
               btoa(
@@ -792,37 +794,37 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
             await visit(`/campagnes?externalUser=${externalUserToken}`);
           });
 
-          it('should redirect to landing page', async function () {
+          test('should redirect to landing page', async function (assert) {
             // when
             await fillIn('#campaign-code', campaign.code);
             await clickByLabel(t('pages.fill-in-campaign-code.start'));
 
             // then
-            expect(currentURL()).to.equal(`/campagnes/${campaign.code}/presentation`);
+            assert.equal(currentURL(), `/campagnes/${campaign.code}/presentation`);
           });
 
-          it('should redirect to reconciliation form when landing page has been seen', async function () {
+          test('should redirect to reconciliation form when landing page has been seen', async function (assert) {
             // when
             await fillIn('#campaign-code', campaign.code);
             await clickByLabel(t('pages.fill-in-campaign-code.start'));
             await clickByLabel('Je commence');
 
             // then
-            expect(currentURL()).to.equal(`/campagnes/${campaign.code}/rejoindre/mediacentre`);
+            assert.equal(currentURL(), `/campagnes/${campaign.code}/rejoindre/mediacentre`);
           });
 
-          it('should set by default firstName and lastName', async function () {
+          test('should set by default firstName and lastName', async function (assert) {
             // when
             await fillIn('#campaign-code', campaign.code);
             await clickByLabel(t('pages.fill-in-campaign-code.start'));
             await clickByLabel('Je commence');
 
             //then
-            expect(find('#firstName').value).to.equal('JeanPrescrit');
-            expect(find('#lastName').value).to.equal('Campagne');
+            assert.equal(find('#firstName').value, 'JeanPrescrit');
+            assert.equal(find('#lastName').value, 'Campagne');
           });
 
-          it('should begin campaign participation when reconciliation is done', async function () {
+          test('should begin campaign participation when reconciliation is done', async function (assert) {
             // given
             await fillIn('#campaign-code', campaign.code);
             await clickByLabel(t('pages.fill-in-campaign-code.start'));
@@ -835,14 +837,14 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
             await clickByLabel(this.intl.t('pages.join.button'));
 
             //then
-            expect(currentURL()).to.equal(`/campagnes/${campaign.code}/evaluation/didacticiel`);
+            assert.equal(currentURL(), `/campagnes/${campaign.code}/evaluation/didacticiel`);
           });
         });
 
-        context('When association is already done and user is created', function () {
+        module('When association is already done and user is created', function (hooks) {
           let garUser;
 
-          beforeEach(async function () {
+          hooks.beforeEach(async function () {
             garUser = server.create('user', AUTHENTICATED_SOURCE_FROM_MEDIACENTRE);
             await authenticateByGAR(garUser);
             server.create('schooling-registration-user-association', {
@@ -850,18 +852,18 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
             });
           });
 
-          it('should redirect to landing page', async function () {
+          test('should redirect to landing page', async function (assert) {
             // when
             await visit(`/campagnes/${campaign.code}`);
 
             //then
-            expect(currentURL()).to.equal(`/campagnes/${campaign.code}/presentation`);
+            assert.equal(currentURL(), `/campagnes/${campaign.code}/presentation`);
           });
 
-          context('When user is already reconciled in another organization', async function () {
-            it('should reconcile and redirect to landing-page', async function () {
+          module('When user is already reconciled in another organization', async function () {
+            test('should reconcile and redirect to landing-page', async function (assert) {
               // given
-              server.get('schooling-registration-user-associations', () => {
+              server.get('schooling-registration-user-associations', function () {
                 return { data: null };
               });
               server.create('schooling-registration-user-association', {
@@ -874,12 +876,12 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
               await clickByLabel(t('pages.fill-in-campaign-code.start'));
 
               // then
-              expect(currentURL()).to.equal(`/campagnes/${campaign.code}/presentation`);
+              assert.equal(currentURL(), `/campagnes/${campaign.code}/presentation`);
             });
           });
         });
 
-        context('When user is already reconciled and has no GAR authentication method yet', () => {
+        module('When user is already reconciled and has no GAR authentication method yet', function (hooks) {
           const externalUserToken =
             'aaa.' +
             btoa(
@@ -887,7 +889,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
             ) +
             '.bbb';
 
-          beforeEach(async function () {
+          hooks.beforeEach(async function () {
             server.post('/schooling-registration-dependent-users/external-user-token', async function () {
               return new Response(
                 409,
@@ -913,7 +915,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
             await visit(`/campagnes?externalUser=${externalUserToken}`);
           });
 
-          it('should begin campaign participation if GAR authentication method has been added', async function () {
+          test('should begin campaign participation if GAR authentication method has been added', async function (assert) {
             // given
             server.create('schooling-registration-user-association', {
               campaignCode: campaign.code,
@@ -934,13 +936,13 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
             await click('#submit-connexion');
 
             const session = currentSession();
-            expect(session.data.authenticated.source).to.equal(AUTHENTICATED_SOURCE_FROM_MEDIACENTRE);
+            assert.equal(session.data.authenticated.source, AUTHENTICATED_SOURCE_FROM_MEDIACENTRE);
 
             // then
-            expect(currentURL()).to.equal(`/campagnes/${campaign.code}/evaluation/didacticiel`);
+            assert.equal(currentURL(), `/campagnes/${campaign.code}/evaluation/didacticiel`);
           });
 
-          it('should display an specific error message if GAR authentication method adding has failed with http statusCode 4xx', async function () {
+          test('should display an specific error message if GAR authentication method adding has failed with http statusCode 4xx', async function (assert) {
             // given
             const expectedErrorMessage = 'Les données que vous avez soumises ne sont pas au bon format.';
             const errorsApi = new Response(
@@ -968,11 +970,11 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
             await click('#submit-connexion');
 
             // then
-            expect(currentURL()).to.contains(`/campagnes/${campaign.code}/rejoindre/identification`);
-            expect(find('#update-form-error-message').textContent).to.equal(expectedErrorMessage);
+            assert.dom(currentURL()).hasText(`/campagnes/${campaign.code}/rejoindre/identification`);
+            assert.equal(find('#update-form-error-message').textContent, expectedErrorMessage);
           });
 
-          it('should display an specific error message if GAR authentication method adding has failed due to wrong connected account', async function () {
+          test('should display an specific error message if GAR authentication method adding has failed due to wrong connected account', async function (assert) {
             // given
             const expectedErrorMessage =
               "L'adresse e-mail ou l'identifiant est incorrect. Pour continuer, vous devez vous connecter à votre compte qui est sous la forme : ";
@@ -1008,13 +1010,14 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
             await click('#submit-connexion');
 
             // then
-            expect(currentURL()).to.contains(`/campagnes/${campaign.code}/rejoindre/identification`);
-            expect(find('#update-form-error-message').textContent).to.equal(
+            assert.dom(currentURL()).hasText(`/campagnes/${campaign.code}/rejoindre/identification`);
+            assert.equal(
+              find('#update-form-error-message').textContent,
               expectedErrorMessage + expectedObfuscatedConnectionMethod
             );
           });
 
-          it('should display the default error message if GAR authentication method adding has failed with others http statusCode', async function () {
+          test('should display the default error message if GAR authentication method adding has failed with others http statusCode', async function (assert) {
             // given
             const expectedErrorMessage =
               'Une erreur interne est survenue, nos équipes sont en train de résoudre le problème. Veuillez réessayer ultérieurement.';
@@ -1036,12 +1039,12 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
             await click('#submit-connexion');
 
             // then
-            expect(currentURL()).to.contains(`/campagnes/${campaign.code}/rejoindre/identification`);
-            expect(find('#update-form-error-message').textContent).to.equal(expectedErrorMessage);
+            assert.dom(currentURL()).hasText(`/campagnes/${campaign.code}/rejoindre/identification`);
+            assert.equal(find('#update-form-error-message').textContent, expectedErrorMessage);
           });
 
-          context('When user should change password', () => {
-            it('should begin campaign participation after updating password expired', async function () {
+          module('When user should change password', function () {
+            test('should begin campaign participation after updating password expired', async function (assert) {
               // given
               const userShouldChangePassword = server.create('user', 'withUsername', 'shouldChangePassword');
 
@@ -1086,14 +1089,14 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
               await click('#submit-connexion');
 
               // then
-              expect(currentURL()).to.equal('/mise-a-jour-mot-de-passe-expire');
+              assert.equal(currentURL(), '/mise-a-jour-mot-de-passe-expire');
 
               // when
               await fillIn('#password', 'newPass12345!');
               await clickByLabel(this.intl.t('pages.update-expired-password.button'));
 
               // then
-              expect(currentURL()).to.equal(`/campagnes/${campaign.code}/evaluation/didacticiel`);
+              assert.equal(currentURL(), `/campagnes/${campaign.code}/evaluation/didacticiel`);
             });
           });
         });

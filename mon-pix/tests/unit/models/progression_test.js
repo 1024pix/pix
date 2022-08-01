@@ -1,24 +1,23 @@
 import { run } from '@ember/runloop';
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
-import { setupTest } from 'ember-mocha';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 
-describe('Unit | Model | Progression', function () {
-  setupTest();
+module('Unit | Model | Progression', function (hooks) {
+  setupTest(hooks);
 
   let store;
 
-  beforeEach(function () {
+  hooks.beforeEach(function () {
     store = this.owner.lookup('service:store');
   });
 
-  it('exists', function () {
+  test('exists', function (assert) {
     const model = store.createRecord('progression');
-    expect(model).to.be.ok;
+    assert.ok(model);
   });
 
-  describe('Computed property #completionPercentage', function () {
-    it('should compute a completionRate property in %', function () {
+  module('Computed property #completionPercentage', function () {
+    test('should compute a completionRate property in %', function (assert) {
       run(() => {
         // given
         const progression = store.createRecord('progression', { completionRate: 0.06815 });
@@ -27,7 +26,7 @@ describe('Unit | Model | Progression', function () {
         const completionPercentage = progression.completionPercentage;
 
         // then
-        expect(completionPercentage).to.equal(7);
+        assert.equal(completionPercentage, 7);
       });
     });
   });

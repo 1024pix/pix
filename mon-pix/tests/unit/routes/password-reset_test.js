@@ -1,17 +1,16 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
-import { setupTest } from 'ember-mocha';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 
-describe('Unit | Route | password reset', function () {
-  setupTest();
+module('Unit | Route | password reset', function (hooks) {
+  setupTest(hooks);
 
   let route;
 
-  beforeEach(function () {
+  hooks.beforeEach(function () {
     route = this.owner.lookup('route:password-reset-demand');
   });
 
-  it('exists', function () {
-    expect(route).to.be.ok;
+  test('exists', function (assert) {
+    assert.ok(route);
   });
 });

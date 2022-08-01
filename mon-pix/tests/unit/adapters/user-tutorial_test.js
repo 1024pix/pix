@@ -1,20 +1,19 @@
-import { describe, it } from 'mocha';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
-import { expect } from 'chai';
-import { setupTest } from 'ember-mocha';
 
-describe('Unit | Adapters | user-tutorial', function () {
-  setupTest();
+module('Unit | Adapters | user-tutorial', function (hooks) {
+  setupTest(hooks);
 
   let adapter;
 
-  beforeEach(function () {
+  hooks.beforeEach(function () {
     adapter = this.owner.lookup('adapter:user-tutorial');
     adapter.ajax = sinon.stub().resolves();
   });
 
-  describe('#createRecord', () => {
-    it('should call API to create a user-tutorial with skill-id from tutorial', async function () {
+  module('#createRecord', function () {
+    test('should call API to create a user-tutorial with skill-id from tutorial', async function (assert) {
       // given
       const tutorialId = 'tutorialId';
       const skillId = 'skillId';
@@ -38,6 +37,7 @@ describe('Unit | Adapters | user-tutorial', function () {
           },
         },
       };
+      assert.expect(0);
       sinon.assert.calledWith(
         adapter.ajax,
         'http://localhost:3000/api/users/tutorials/tutorialId',
@@ -47,8 +47,8 @@ describe('Unit | Adapters | user-tutorial', function () {
     });
   });
 
-  describe('#urlForDeleteRecord', () => {
-    it('should return API to delete a user-tutorial', async function () {
+  module('#urlForDeleteRecord', function () {
+    test('should return API to delete a user-tutorial', async function (assert) {
       // given
       const tutorialId = 'tutorialId';
       const tutorial = { id: tutorialId };
@@ -61,7 +61,7 @@ describe('Unit | Adapters | user-tutorial', function () {
       const url = adapter.urlForDeleteRecord(null, 'user-tutorial', snapshot);
 
       // then
-      expect(url).to.equal('http://localhost:3000/api/users/tutorials/tutorialId');
+      assert.equal(url, 'http://localhost:3000/api/users/tutorials/tutorialId');
     });
   });
 });

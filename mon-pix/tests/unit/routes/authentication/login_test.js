@@ -1,14 +1,14 @@
 import EmberObject from '@ember/object';
 import Service from '@ember/service';
-import { describe, it } from 'mocha';
-import { setupTest } from 'ember-mocha';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
 
-describe('Unit | Route | login page', function () {
-  setupTest();
+module('Unit | Route | login page', function (hooks) {
+  setupTest(hooks);
 
-  describe('#authenticate', function () {
-    context('when user is not authenticated', function () {
+  module('#authenticate', function (hooks) {
+    module('when user is not authenticated', function () {
       const authenticateStub = sinon.stub().resolves();
 
       let sessionStub;
@@ -20,7 +20,7 @@ describe('Unit | Route | login page', function () {
       const password = 'azerty';
       const scope = 'mon-pix';
 
-      beforeEach(async function () {
+      hooks.beforeEach(async function () {
         sessionStub = Service.create({
           authenticate: authenticateStub,
         });
@@ -36,7 +36,7 @@ describe('Unit | Route | login page', function () {
         await route.beforeModel({ to: {} });
       });
 
-      it('should authenticate the user given email and password', async function () {
+      test('should authenticate the user given email and password', async function (assert) {
         // given
         const login = 'email@example.net';
 
@@ -44,10 +44,11 @@ describe('Unit | Route | login page', function () {
         await route.actions.authenticate.call(route, login, password);
 
         // then
+        assert.expect(0);
         sinon.assert.calledWith(authenticateStub, expectedAuthenticator, { login, password, scope });
       });
 
-      it('should authenticate the user even if email contains spaces', async function () {
+      test('should authenticate the user even if email contains spaces', async function (assert) {
         // given
         const emailWithSpaces = '  email@example.net  ';
         const trimedEmail = emailWithSpaces.trim();
@@ -56,13 +57,14 @@ describe('Unit | Route | login page', function () {
         await route.actions.authenticate.call(route, emailWithSpaces, password);
 
         // then
+        assert.expect(0);
         sinon.assert.calledWith(authenticateStub, expectedAuthenticator, { login: trimedEmail, password, scope });
       });
     });
   });
 
-  describe('#updateExpiredPassword', function () {
-    it('should redirect to password update page with token', async function () {
+  module('#updateExpiredPassword', function () {
+    test('should redirect to password update page with token', async function (assert) {
       // given
       const passwordResetToken = 'PASSWORD_RESET_TOKEN';
       const route = this.owner.lookup('route:authentication/login');
@@ -76,6 +78,7 @@ describe('Unit | Route | login page', function () {
       await route.actions.updateExpiredPassword.call(route, passwordResetToken);
 
       // then
+      assert.expect(0);
       sinon.assert.calledWith(createRecordStub, 'reset-expired-password-demand', {
         passwordResetToken: 'PASSWORD_RESET_TOKEN',
       });

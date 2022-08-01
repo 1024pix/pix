@@ -1,19 +1,18 @@
-import { expect } from 'chai';
-import { beforeEach, describe, it } from 'mocha';
+import { module, test } from 'qunit';
 import sinon from 'sinon';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 import setupIntl from '../../helpers/setup-intl';
 
-describe('Unit | Controller | Fill in Campaign Code', function () {
-  setupIntlRenderingTest();
-  setupIntl();
+module('Unit | Controller | Fill in Campaign Code', function (hooks) {
+  setupIntlRenderingTest(hooks);
+  setupIntl(hooks);
 
   let controller;
   let sessionStub;
   let currentUserStub;
   let eventStub;
 
-  beforeEach(function () {
+  hooks.beforeEach(function () {
     controller = this.owner.lookup('controller:fill-in-campaign-code');
     const routerStub = { transitionTo: sinon.stub() };
     sessionStub = { invalidate: sinon.stub() };
@@ -26,8 +25,8 @@ describe('Unit | Controller | Fill in Campaign Code', function () {
     controller.set('campaignCode', null);
   });
 
-  describe('#startCampaign', () => {
-    it('should call entry-point', async () => {
+  module('#startCampaign', function () {
+    test('should call entry-point', async function (assert) {
       // given
       const campaignCode = 'azerty1';
       const campaign = Symbol('someCampaign');
@@ -44,10 +43,11 @@ describe('Unit | Controller | Fill in Campaign Code', function () {
       await controller.actions.startCampaign.call(controller, eventStub);
 
       // then
+      assert.expect(0);
       sinon.assert.calledWith(controller.router.transitionTo, 'campaigns.entry-point', campaign.code);
     });
 
-    it('should set error when campaign code is empty', async () => {
+    test('should set error when campaign code is empty', async function (assert) {
       // given
       controller.set('campaignCode', '');
 
@@ -55,10 +55,10 @@ describe('Unit | Controller | Fill in Campaign Code', function () {
       await controller.actions.startCampaign.call(controller, eventStub);
 
       // then
-      expect(controller.get('errorMessage')).to.equal('Veuillez saisir un code.');
+      assert.equal(controller.get('errorMessage'), 'Veuillez saisir un code.');
     });
 
-    it('should set error when no campaign found with code', async () => {
+    test('should set error when no campaign found with code', async function (assert) {
       // given
       const campaignCode = 'azerty1';
       controller.set('campaignCode', campaignCode);
@@ -74,12 +74,13 @@ describe('Unit | Controller | Fill in Campaign Code', function () {
       await controller.actions.startCampaign.call(controller, eventStub);
 
       // then
-      expect(controller.get('errorMessage')).to.equal(
+      assert.equal(
+        controller.get('errorMessage'),
         'Votre code est erroné, veuillez vérifier ou contacter l’organisateur.'
       );
     });
 
-    it('should set error when student is not authorized in campaign', async () => {
+    test('should set error when student is not authorized in campaign', async function (assert) {
       // given
       const campaignCode = 'azerty1';
       controller.set('campaignCode', campaignCode);
@@ -95,15 +96,16 @@ describe('Unit | Controller | Fill in Campaign Code', function () {
       await controller.actions.startCampaign.call(controller, eventStub);
 
       // then
-      expect(controller.get('errorMessage')).to.equal(
+      assert.equal(
+        controller.get('errorMessage'),
         'Oups ! nous ne parvenons pas à vous trouver. Vérifiez vos informations afin de continuer ou prévenez l’organisateur.'
       );
     });
   });
 
-  describe('get firstTitle', () => {
-    context('When user is not authenticated', () => {
-      it('should return the not connected first title', () => {
+  module('get firstTitle', function () {
+    module('When user is not authenticated', function () {
+      test('should return the not connected first title', function (assert) {
         // given
         sessionStub.isAuthenticated = false;
         const expectedFirstTitle = controller.intl.t('pages.fill-in-campaign-code.first-title-not-connected');
@@ -112,12 +114,12 @@ describe('Unit | Controller | Fill in Campaign Code', function () {
         const firstTitle = controller.firstTitle;
 
         // then
-        expect(firstTitle).to.equal(expectedFirstTitle);
+        assert.equal(firstTitle, expectedFirstTitle);
       });
     });
 
-    context('When user is authenticated', () => {
-      it('should return the connected first title with user firstName', () => {
+    module('When user is authenticated', function () {
+      test('should return the connected first title with user firstName', function (assert) {
         // given
         sessionStub.isAuthenticated = true;
         const expectedFirstTitle = controller.intl.t('pages.fill-in-campaign-code.first-title-connected', {
@@ -128,12 +130,12 @@ describe('Unit | Controller | Fill in Campaign Code', function () {
         const firstTitle = controller.firstTitle;
 
         // then
-        expect(firstTitle).to.equal(expectedFirstTitle);
+        assert.equal(firstTitle, expectedFirstTitle);
       });
     });
 
-    context('When user is anonymous', () => {
-      it('should return the not connected first title', () => {
+    module('When user is anonymous', function () {
+      test('should return the not connected first title', function (assert) {
         // given
         sessionStub.isAuthenticated = true;
         currentUserStub.user.isAnonymous = true;
@@ -143,13 +145,13 @@ describe('Unit | Controller | Fill in Campaign Code', function () {
         const firstTitle = controller.firstTitle;
 
         // then
-        expect(firstTitle).to.equal(expectedFirstTitle);
+        assert.equal(firstTitle, expectedFirstTitle);
       });
     });
   });
 
-  describe('get isUserAuthenticated', () => {
-    it('should return session.isAuthenticated', () => {
+  module('get isUserAuthenticated', function () {
+    test('should return session.isAuthenticated', function (assert) {
       // given
       sessionStub.isAuthenticated = true;
 
@@ -157,12 +159,12 @@ describe('Unit | Controller | Fill in Campaign Code', function () {
       const isUserAuthenticated = controller.isUserAuthenticated;
 
       // then
-      expect(isUserAuthenticated).to.equal(sessionStub.isAuthenticated);
+      assert.equal(isUserAuthenticated, sessionStub.isAuthenticated);
     });
   });
 
-  describe('get showWarningMessage', () => {
-    it('should return true if user is authenticated and not anonymous', () => {
+  module('get showWarningMessage', function () {
+    test('should return true if user is authenticated and not anonymous', function (assert) {
       // given
       sessionStub.isAuthenticated = true;
       currentUserStub.user.isAnonymous = false;
@@ -171,10 +173,10 @@ describe('Unit | Controller | Fill in Campaign Code', function () {
       const showWarningMessage = controller.showWarningMessage;
 
       // then
-      expect(showWarningMessage).to.be.true;
+      assert.true(showWarningMessage);
     });
 
-    it('should return false if user is not authenticated', () => {
+    test('should return false if user is not authenticated', function (assert) {
       // given
       sessionStub.isAuthenticated = false;
 
@@ -182,10 +184,10 @@ describe('Unit | Controller | Fill in Campaign Code', function () {
       const showWarningMessage = controller.showWarningMessage;
 
       // then
-      expect(showWarningMessage).to.be.false;
+      assert.false(showWarningMessage);
     });
 
-    it('should return false if user is authenticated and anonymous', () => {
+    test('should return false if user is authenticated and anonymous', function (assert) {
       // given
       sessionStub.isAuthenticated = true;
       currentUserStub.user.isAnonymous = true;
@@ -194,16 +196,17 @@ describe('Unit | Controller | Fill in Campaign Code', function () {
       const showWarningMessage = controller.showWarningMessage;
 
       // then
-      expect(showWarningMessage).to.be.false;
+      assert.false(showWarningMessage);
     });
   });
 
-  describe('#disconnect', () => {
-    it('should invalidate the session', () => {
+  module('#disconnect', function () {
+    test('should invalidate the session', function (assert) {
       // when
       controller.disconnect();
 
       // then
+      assert.expect(0);
       sinon.assert.calledOnce(sessionStub.invalidate);
     });
   });

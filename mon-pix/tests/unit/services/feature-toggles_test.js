@@ -1,28 +1,27 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
-import { setupTest } from 'ember-mocha';
 
 import Object from '@ember/object';
 import Service from '@ember/service';
 
-describe('Unit | Service | feature-toggles', function () {
-  setupTest();
+module('Unit | Service | feature-toggles', function (hooks) {
+  setupTest(hooks);
 
-  describe('feature toggles are loaded', function () {
+  module('feature toggles are loaded', function () {
     const featureToggles = Object.create({
       isSSOAccountReconciliationEnabled: false,
     });
 
     let storeStub;
 
-    beforeEach(function () {
+    hooks.beforeEach(function () {
       storeStub = Service.create({
         queryRecord: sinon.stub().resolves(featureToggles),
       });
     });
 
-    it('should load the feature toggles', async function () {
+    test('should load the feature toggles', async function (assert) {
       // given
       const featureToggleService = this.owner.lookup('service:featureToggles');
       featureToggleService.set('store', storeStub);
@@ -31,7 +30,7 @@ describe('Unit | Service | feature-toggles', function () {
       await featureToggleService.load();
 
       // then
-      expect(featureToggleService.featureToggles).to.deep.equal(featureToggles);
+      assert.deepEqual(featureToggleService.featureToggles, featureToggles);
     });
   });
 });

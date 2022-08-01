@@ -1,20 +1,19 @@
-import { describe, it } from 'mocha';
-import { expect } from 'chai';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
 
 import Service from '@ember/service';
-import { setupTest } from 'ember-mocha';
 import createGlimmerComponent from '../../helpers/create-glimmer-component';
 
-describe('Unit | Component | password-reset-demand-form', () => {
-  setupTest();
+module('Unit | Component | password-reset-demand-form', function (hooks) {
+  setupTest(hooks);
 
   let component;
   const sentEmail = 'dumb@people.com';
   let createRecordStub, saveStub;
 
-  describe('#savePasswordResetDemand', () => {
-    beforeEach(function () {
+  module('#savePasswordResetDemand', function (hooks) {
+    hooks.beforeEach(function () {
       saveStub = sinon.stub().resolves();
       createRecordStub = sinon.stub().resolves({
         save: saveStub,
@@ -27,25 +26,27 @@ describe('Unit | Component | password-reset-demand-form', () => {
       component.email = sentEmail;
     });
 
-    it('should not call api if the user did not enter any email', async () => {
+    test('should not call api if the user did not enter any email', async function (assert) {
       // when
       component.email = undefined;
       await component.savePasswordResetDemand();
 
       // then
+      assert.expect(0);
       sinon.assert.notCalled(createRecordStub);
     });
 
-    it('should create a passwordResetDemand Record', async () => {
+    test('should create a passwordResetDemand Record', async function (assert) {
       // when
       await component.savePasswordResetDemand();
 
       // then
+      assert.expect(0);
       sinon.assert.called(createRecordStub);
       sinon.assert.calledWith(createRecordStub, 'password-reset-demand', { email: sentEmail });
     });
 
-    it('should save email without spaces', async () => {
+    test('should save email without spaces', async function (assert) {
       // given
       const emailWithSpaces = '    user@example.net   ';
       component.email = emailWithSpaces;
@@ -55,24 +56,26 @@ describe('Unit | Component | password-reset-demand-form', () => {
       await component.savePasswordResetDemand();
 
       // then
+      assert.expect(0);
       sinon.assert.calledWith(createRecordStub, 'password-reset-demand', { email: expectedEmail });
     });
 
-    it('should save the password reset demand', async () => {
+    test('should save the password reset demand', async function (assert) {
       // when
       await component.savePasswordResetDemand();
 
       // then
+      assert.expect(0);
       sinon.assert.called(saveStub);
     });
 
-    it('should display success message when save resolves', async () => {
+    test('should display success message when save resolves', async function (assert) {
       // when
       await component.savePasswordResetDemand();
 
       // then
-      expect(component.hasSucceeded).to.be.true;
-      expect(component.hasFailed).to.be.false;
+      assert.true(component.hasSucceeded);
+      assert.false(component.hasFailed);
     });
   });
 });

@@ -1,5 +1,4 @@
-import { expect } from 'chai';
-import { describe, it, beforeEach } from 'mocha';
+import { module, test } from 'qunit';
 import { click, fillIn, find, render, triggerEvent } from '@ember/test-helpers';
 
 import Service from '@ember/service';
@@ -18,14 +17,14 @@ const EMPTY_EMAIL_ERROR_MESSAGE = 'Votre email n’est pas valide.';
 const INCORRECT_PASSWORD_FORMAT_ERROR_MESSAGE =
   'Votre mot de passe doit contenir 8 caractères au minimum et comporter au moins une majuscule, une minuscule et un chiffre.';
 
-describe('Integration | Component | routes/register-form', function () {
-  setupIntlRenderingTest();
+module('Integration | Component | routes/register-form', function (hooks) {
+  setupIntlRenderingTest(hooks);
 
   let authenticateStub;
   let saveUserAssociationStub;
   let saveDependentUserStub;
 
-  beforeEach(function () {
+  hooks.beforeEach(function () {
     authenticateStub = sinon.stub();
     class sessionStub extends Service {
       authenticate = authenticateStub;
@@ -56,16 +55,16 @@ describe('Integration | Component | routes/register-form', function () {
     this.owner.register('service:store', storeStub);
   });
 
-  it('renders', async function () {
+  test('renders', async function (assert) {
     // when
     await render(hbs`<Routes::RegisterForm/>`);
 
     //then
-    expect(find('.register-form')).to.exist;
+    assert.dom(find('.register-form')).exists();
   });
 
-  context('successful cases', function () {
-    it('should call authentication service by email with appropriate parameters, when all things are ok and form is submitted', async function () {
+  module('successful cases', function () {
+    test('should call authentication service by email with appropriate parameters, when all things are ok and form is submitted', async function (assert) {
       // given
       await render(hbs`<Routes::RegisterForm />`);
 
@@ -85,8 +84,8 @@ describe('Integration | Component | routes/register-form', function () {
       await clickByLabel(this.intl.t('pages.login-or-register.register-form.button-form'));
 
       // then
-      expect(find('.form-textfield__input--error')).to.not.exist;
-      expect(find('.join-restricted-campaign__error')).to.not.exist;
+      assert.dom(find('.form-textfield__input--error')).doesNotExist();
+      assert.dom(find('.join-restricted-campaign__error')).doesNotExist();
       sinon.assert.calledWith(authenticateStub, 'authenticator:oauth2', {
         login: 'shi@fu.me',
         password: 'Mypassword1',
@@ -94,7 +93,7 @@ describe('Integration | Component | routes/register-form', function () {
       });
     });
 
-    it('should call authentication service by username with appropriate parameters, when all things are ok and form is submitted', async function () {
+    test('should call authentication service by username with appropriate parameters, when all things are ok and form is submitted', async function (assert) {
       // given
       await render(hbs`<Routes::RegisterForm />`);
 
@@ -112,8 +111,8 @@ describe('Integration | Component | routes/register-form', function () {
       await clickByLabel(this.intl.t('pages.login-or-register.register-form.button-form'));
 
       // then
-      expect(find('.form-textfield__input--error')).to.not.exist;
-      expect(find('.join-restricted-campaign__error')).to.not.exist;
+      assert.dom(find('.form-textfield__input--error')).doesNotExist();
+      assert.dom(find('.join-restricted-campaign__error')).doesNotExist();
       sinon.assert.calledWith(authenticateStub, 'authenticator:oauth2', {
         login: 'pix.pix1010',
         password: 'Mypassword1',
@@ -122,9 +121,9 @@ describe('Integration | Component | routes/register-form', function () {
     });
   });
 
-  context('errors management', function () {
-    context('When authentication service fails', async function () {
-      it('Should display registerErrorMessage when authentication service fails with username error', async function () {
+  module('errors management', function () {
+    module('When authentication service fails', async function () {
+      test('Should display registerErrorMessage when authentication service fails with username error', async function (assert) {
         // given
         const expectedRegisterErrorMessage = this.intl.t('pages.login-or-register.register-form.error');
         saveDependentUserStub.rejects({ errors: [{ status: '400' }] });
@@ -142,13 +141,13 @@ describe('Integration | Component | routes/register-form', function () {
         await fillIn('#password', 'Mypassword1');
         await clickByLabel(this.intl.t('pages.login-or-register.register-form.button-form'));
         // then
-        expect(find('div[id="register-display-error-message"')).to.exist;
-        expect(find('div[id="register-display-error-message"').innerHTML).to.contains(expectedRegisterErrorMessage);
+        assert.dom(find('div[id="register-display-error-message"')).exists();
+        assert.dom(find('div[id="register-display-error-message"').innerHTML).hasText(expectedRegisterErrorMessage);
       });
     });
 
     [{ stringFilledIn: '' }, { stringFilledIn: ' ' }].forEach(function ({ stringFilledIn }) {
-      it(`should display an error message on firstName field, when '${stringFilledIn}' is typed and focused out`, async function () {
+      test(`should display an error message on firstName field, when '${stringFilledIn}' is typed and focused out`, async function (assert) {
         // given
         await render(hbs`<Routes::RegisterForm />`);
 
@@ -157,15 +156,16 @@ describe('Integration | Component | routes/register-form', function () {
         await triggerEvent('#firstName', 'focusout');
 
         // then
-        expect(find('#register-firstName-container #validationMessage-firstName').textContent).to.equal(
+        assert.equal(
+          find('#register-firstName-container #validationMessage-firstName').textContent,
           EMPTY_FIRSTNAME_ERROR_MESSAGE
         );
-        expect(find('#register-firstName-container .form-textfield__input-container--error')).to.exist;
+        assert.dom(find('#register-firstName-container .form-textfield__input-container--error')).exists();
       });
     });
 
     [{ stringFilledIn: '' }, { stringFilledIn: ' ' }].forEach(function ({ stringFilledIn }) {
-      it(`should display an error message on lastName field, when '${stringFilledIn}' is typed and focused out`, async function () {
+      test(`should display an error message on lastName field, when '${stringFilledIn}' is typed and focused out`, async function (assert) {
         // given
         await render(hbs`<Routes::RegisterForm />`);
 
@@ -174,15 +174,16 @@ describe('Integration | Component | routes/register-form', function () {
         await triggerEvent('#lastName', 'focusout');
 
         // then
-        expect(find('#register-lastName-container #validationMessage-lastName').textContent).to.equal(
+        assert.equal(
+          find('#register-lastName-container #validationMessage-lastName').textContent,
           EMPTY_LASTNAME_ERROR_MESSAGE
         );
-        expect(find('#register-lastName-container .form-textfield__input-container--error')).to.exist;
+        assert.dom(find('#register-lastName-container .form-textfield__input-container--error')).exists();
       });
     });
 
     [{ stringFilledIn: '' }, { stringFilledIn: 'a' }, { stringFilledIn: '32' }].forEach(function ({ stringFilledIn }) {
-      it(`should display an error message on dayOfBirth field, when '${stringFilledIn}' is typed and focused out`, async function () {
+      test(`should display an error message on dayOfBirth field, when '${stringFilledIn}' is typed and focused out`, async function (assert) {
         // given
         await render(hbs`<Routes::RegisterForm />`);
 
@@ -191,15 +192,16 @@ describe('Integration | Component | routes/register-form', function () {
         await triggerEvent('#dayOfBirth', 'focusout');
 
         // then
-        expect(find('#register-birthdate-container #dayValidationMessage').textContent).to.equal(
+        assert.equal(
+          find('#register-birthdate-container #dayValidationMessage').textContent,
           INVALID_DAY_OF_BIRTH_ERROR_MESSAGE
         );
-        expect(find('#register-birthdate-container .form-textfield__input-container--error')).to.exist;
+        assert.dom(find('#register-birthdate-container .form-textfield__input-container--error')).exists();
       });
     });
 
     [{ stringFilledIn: '' }, { stringFilledIn: 'a' }, { stringFilledIn: '13' }].forEach(function ({ stringFilledIn }) {
-      it(`should display an error message on monthOfBirth field, when '${stringFilledIn}' is typed and focused out`, async function () {
+      test(`should display an error message on monthOfBirth field, when '${stringFilledIn}' is typed and focused out`, async function (assert) {
         // given
         await render(hbs`<Routes::RegisterForm />`);
 
@@ -208,17 +210,18 @@ describe('Integration | Component | routes/register-form', function () {
         await triggerEvent('#monthOfBirth', 'focusout');
 
         // then
-        expect(find('#register-birthdate-container #monthValidationMessage').textContent).to.equal(
+        assert.equal(
+          find('#register-birthdate-container #monthValidationMessage').textContent,
           INVALID_MONTH_OF_BIRTH_ERROR_MESSAGE
         );
-        expect(find('#register-birthdate-container .form-textfield__input-container--error')).to.exist;
+        assert.dom(find('#register-birthdate-container .form-textfield__input-container--error')).exists();
       });
     });
 
     [{ stringFilledIn: '' }, { stringFilledIn: 'a' }, { stringFilledIn: '10000' }].forEach(function ({
       stringFilledIn,
     }) {
-      it(`should display an error message on yearOfBirth field, when '${stringFilledIn}' is typed and focused out`, async function () {
+      test(`should display an error message on yearOfBirth field, when '${stringFilledIn}' is typed and focused out`, async function (assert) {
         // given
         await render(hbs`<Routes::RegisterForm />`);
 
@@ -227,17 +230,18 @@ describe('Integration | Component | routes/register-form', function () {
         await triggerEvent('#yearOfBirth', 'focusout');
 
         // then
-        expect(find('#register-birthdate-container #yearValidationMessage').textContent).to.equal(
+        assert.equal(
+          find('#register-birthdate-container #yearValidationMessage').textContent,
           INVALID_YEAR_OF_BIRTH_ERROR_MESSAGE
         );
-        expect(find('#register-birthdate-container .form-textfield__input-container--error')).to.exist;
+        assert.dom(find('#register-birthdate-container .form-textfield__input-container--error')).exists();
       });
     });
 
     [{ stringFilledIn: ' ' }, { stringFilledIn: 'a' }, { stringFilledIn: 'shi.fu' }].forEach(function ({
       stringFilledIn,
     }) {
-      it(`should display an error message on email field, when '${stringFilledIn}' is typed and focused out`, async function () {
+      test(`should display an error message on email field, when '${stringFilledIn}' is typed and focused out`, async function (assert) {
         // given
         await render(hbs`<Routes::RegisterForm /> `);
 
@@ -254,14 +258,12 @@ describe('Integration | Component | routes/register-form', function () {
         await triggerEvent('#email', 'focusout');
 
         // then
-        expect(find('#register-email-container #validationMessage-email').textContent).to.equal(
-          EMPTY_EMAIL_ERROR_MESSAGE
-        );
-        expect(find('#register-email-container .form-textfield__input-container--error')).to.exist;
+        assert.equal(find('#register-email-container #validationMessage-email').textContent, EMPTY_EMAIL_ERROR_MESSAGE);
+        assert.dom(find('#register-email-container .form-textfield__input-container--error')).exists();
       });
     });
 
-    it('should not call api when email is invalid', async function () {
+    test('should not call api when email is invalid', async function (assert) {
       // given
       await render(hbs`<Routes::RegisterForm /> `);
 
@@ -279,10 +281,8 @@ describe('Integration | Component | routes/register-form', function () {
       await clickByLabel(this.intl.t('pages.login-or-register.register-form.button-form'));
 
       // then
-      expect(find('#register-email-container #validationMessage-email').textContent).to.equal(
-        EMPTY_EMAIL_ERROR_MESSAGE
-      );
-      expect(find('#register-email-container .form-textfield__input-container--error')).to.exist;
+      assert.equal(find('#register-email-container #validationMessage-email').textContent, EMPTY_EMAIL_ERROR_MESSAGE);
+      assert.dom(find('#register-email-container .form-textfield__input-container--error')).exists();
       sinon.assert.notCalled(saveDependentUserStub);
     });
 
@@ -292,7 +292,7 @@ describe('Integration | Component | routes/register-form', function () {
       { stringFilledIn: 'password1' },
       { stringFilledIn: 'Password' },
     ].forEach(function ({ stringFilledIn }) {
-      it(`should display an error message on password field, when '${stringFilledIn}' is typed and focused out`, async function () {
+      test(`should display an error message on password field, when '${stringFilledIn}' is typed and focused out`, async function (assert) {
         // given
         await render(hbs`<Routes::RegisterForm /> `);
 
@@ -308,14 +308,15 @@ describe('Integration | Component | routes/register-form', function () {
         await triggerEvent('#password', 'focusout');
 
         // then
-        expect(find('#register-password-container #validationMessage-password').textContent).to.equal(
+        assert.equal(
+          find('#register-password-container #validationMessage-password').textContent,
           INCORRECT_PASSWORD_FORMAT_ERROR_MESSAGE
         );
-        expect(find('#register-password-container .form-textfield__input-container--error')).to.exist;
+        assert.dom(find('#register-password-container .form-textfield__input-container--error')).exists();
       });
     });
 
-    it('should not call api when password is invalid', async function () {
+    test('should not call api when password is invalid', async function (assert) {
       // given
       await render(hbs`<Routes::RegisterForm /> `);
 
@@ -332,10 +333,11 @@ describe('Integration | Component | routes/register-form', function () {
       await clickByLabel(this.intl.t('pages.login-or-register.register-form.button-form'));
 
       // then
-      expect(find('#register-password-container #validationMessage-password').textContent).to.equal(
+      assert.equal(
+        find('#register-password-container #validationMessage-password').textContent,
         INCORRECT_PASSWORD_FORMAT_ERROR_MESSAGE
       );
-      expect(find('#register-password-container .form-textfield__input-container--error')).to.exist;
+      assert.dom(find('#register-password-container .form-textfield__input-container--error')).exists();
       sinon.assert.notCalled(saveDependentUserStub);
     });
 
@@ -350,7 +352,7 @@ describe('Integration | Component | routes/register-form', function () {
       },
       { status: '500', errorMessage: internalServerErrorMessage },
     ].forEach(({ status, errorMessage }) => {
-      it(`should display an error message if user saves with an error response status ${status}`, async function () {
+      test(`should display an error message if user saves with an error response status ${status}`, async function (assert) {
         saveUserAssociationStub.rejects({ errors: [{ status }] });
         await render(hbs`<Routes::RegisterForm />`);
 
@@ -364,13 +366,13 @@ describe('Integration | Component | routes/register-form', function () {
         await clickByLabel(this.intl.t('pages.login-or-register.register-form.button-form'));
 
         // then
-        expect(find('div[id="register-error-message"').innerHTML).to.equal(errorMessage);
+        assert.equal(find('div[id="register-error-message"').innerHTML, errorMessage);
       });
     });
 
-    context('When student is already reconciled in the same organization', async function () {
-      context('When student account is authenticated by email only', async function () {
-        it('should display the error message related to the short code S61)', async function () {
+    module('When student is already reconciled in the same organization', async function () {
+      module('When student account is authenticated by email only', async function () {
+        test('should display the error message related to the short code S61)', async function (assert) {
           // given
           const meta = { shortCode: 'S61', value: 'j***@example.net' };
           const expectedErrorMessage = this.intl.t('api-error-messages.register-error.s61', { value: meta.value });
@@ -392,12 +394,12 @@ describe('Integration | Component | routes/register-form', function () {
           await clickByLabel(this.intl.t('pages.login-or-register.register-form.button-form'));
 
           // then
-          expect(find('div[id="register-error-message"').innerHTML).to.equal(expectedErrorMessage);
+          assert.equal(find('div[id="register-error-message"').innerHTML, expectedErrorMessage);
         });
       });
 
-      context('When student account is authenticated by username only', async function () {
-        it('should display the error message related to the short code S62)', async function () {
+      module('When student account is authenticated by username only', async function () {
+        test('should display the error message related to the short code S62)', async function (assert) {
           // given
           const meta = { shortCode: 'S62', value: 'j***.h***2' };
           const expectedErrorMessage = this.intl.t('api-error-messages.register-error.s62', { value: meta.value });
@@ -419,12 +421,12 @@ describe('Integration | Component | routes/register-form', function () {
           await clickByLabel(this.intl.t('pages.login-or-register.register-form.button-form'));
 
           // then
-          expect(find('div[id="register-error-message"').innerHTML).to.equal(expectedErrorMessage);
+          assert.equal(find('div[id="register-error-message"').innerHTML, expectedErrorMessage);
         });
       });
 
-      context('When student account is authenticated by SamlId only', async function () {
-        it('should display the error message related to the short code S63)', async function () {
+      module('When student account is authenticated by SamlId only', async function () {
+        test('should display the error message related to the short code S63)', async function (assert) {
           // given
           const meta = { shortCode: 'S63', value: undefined };
           const expectedErrorMessage = this.intl.t('api-error-messages.register-error.s63', { value: meta.value });
@@ -446,12 +448,12 @@ describe('Integration | Component | routes/register-form', function () {
           await clickByLabel(this.intl.t('pages.login-or-register.register-form.button-form'));
 
           // then
-          expect(find('div[id="register-error-message"').innerHTML).to.equal(expectedErrorMessage);
+          assert.equal(find('div[id="register-error-message"').innerHTML, expectedErrorMessage);
         });
       });
 
-      context('When student account is authenticated by SamlId and username', async function () {
-        it('should display the error message related to the short code S63)', async function () {
+      module('When student account is authenticated by SamlId and username', async function () {
+        test('should display the error message related to the short code S63)', async function (assert) {
           // given
           const meta = { shortCode: 'S63', value: undefined };
           const expectedErrorMessage = this.intl.t('api-error-messages.register-error.s63', { value: meta.value });
@@ -473,12 +475,12 @@ describe('Integration | Component | routes/register-form', function () {
           await clickByLabel(this.intl.t('pages.login-or-register.register-form.button-form'));
 
           // then
-          expect(find('div[id="register-error-message"').innerHTML).to.equal(expectedErrorMessage);
+          assert.equal(find('div[id="register-error-message"').innerHTML, expectedErrorMessage);
         });
       });
 
-      context('When student account is authenticated by SamlId and email', async function () {
-        it('should display the error message related to the short code S63)', async function () {
+      module('When student account is authenticated by SamlId and email', async function () {
+        test('should display the error message related to the short code S63)', async function (assert) {
           // given
           const meta = { shortCode: 'S63', value: undefined };
           const expectedErrorMessage = this.intl.t('api-error-messages.register-error.s63', { value: meta.value });
@@ -500,12 +502,12 @@ describe('Integration | Component | routes/register-form', function () {
           await clickByLabel(this.intl.t('pages.login-or-register.register-form.button-form'));
 
           // then
-          expect(find('div[id="register-error-message"').innerHTML).to.equal(expectedErrorMessage);
+          assert.equal(find('div[id="register-error-message"').innerHTML, expectedErrorMessage);
         });
       });
 
-      context('When student account is authenticated by SamlId, email and username', async function () {
-        it('should display the error message related to the short code S63)', async function () {
+      module('When student account is authenticated by SamlId, email and username', async function () {
+        test('should display the error message related to the short code S63)', async function (assert) {
           // given
           const meta = { shortCode: 'S63', value: undefined };
           const expectedErrorMessage = this.intl.t('api-error-messages.register-error.s63', { value: meta.value });
@@ -527,12 +529,12 @@ describe('Integration | Component | routes/register-form', function () {
           await clickByLabel(this.intl.t('pages.login-or-register.register-form.button-form'));
 
           // then
-          expect(find('div[id="register-error-message"').innerHTML).to.equal(expectedErrorMessage);
+          assert.equal(find('div[id="register-error-message"').innerHTML, expectedErrorMessage);
         });
       });
 
-      context('When student account is authenticated by email and username', async function () {
-        it('should display the error message related to the short code S62)', async function () {
+      module('When student account is authenticated by email and username', async function () {
+        test('should display the error message related to the short code S62)', async function (assert) {
           // given
           const meta = { shortCode: 'S62', value: 'j***.h***2' };
           const expectedErrorMessage = this.intl.t('api-error-messages.register-error.s62', { value: meta.value });
@@ -554,14 +556,14 @@ describe('Integration | Component | routes/register-form', function () {
           await clickByLabel(this.intl.t('pages.login-or-register.register-form.button-form'));
 
           // then
-          expect(find('div[id="register-error-message"').innerHTML).to.equal(expectedErrorMessage);
+          assert.equal(find('div[id="register-error-message"').innerHTML, expectedErrorMessage);
         });
       });
     });
 
-    context('When student is already reconciled in others organization', async function () {
-      describe('When student account is authenticated by email only', async function () {
-        it('should display the error message related to the short code S51)', async function () {
+    module('When student is already reconciled in others organization', async function () {
+      module('When student account is authenticated by email only', async function () {
+        test('should display the error message related to the short code S51)', async function (assert) {
           // given
           const meta = { shortCode: 'S51', value: 'j***@example.net' };
           const expectedErrorMessage = this.intl.t('api-error-messages.register-error.s51', { value: meta.value });
@@ -583,12 +585,12 @@ describe('Integration | Component | routes/register-form', function () {
           await clickByLabel(this.intl.t('pages.login-or-register.register-form.button-form'));
 
           // then
-          expect(find('div[id="register-error-message"').innerHTML).to.equal(expectedErrorMessage);
+          assert.equal(find('div[id="register-error-message"').innerHTML, expectedErrorMessage);
         });
       });
 
-      describe('When student account is authenticated by username only', async function () {
-        it('should display the error message related to the short code S52)', async function () {
+      module('When student account is authenticated by username only', async function () {
+        test('should display the error message related to the short code S52)', async function (assert) {
           // given
           const meta = { shortCode: 'S52', value: 'j***.h***2' };
           const expectedErrorMessage = this.intl.t('api-error-messages.register-error.s52', { value: meta.value });
@@ -610,12 +612,12 @@ describe('Integration | Component | routes/register-form', function () {
           await clickByLabel(this.intl.t('pages.login-or-register.register-form.button-form'));
 
           // then
-          expect(find('div[id="register-error-message"').innerHTML).to.equal(expectedErrorMessage);
+          assert.equal(find('div[id="register-error-message"').innerHTML, expectedErrorMessage);
         });
       });
 
-      describe('When student account is authenticated by SamlId only', async function () {
-        it('should display the error message related to the short code S53)', async function () {
+      module('When student account is authenticated by SamlId only', async function () {
+        test('should display the error message related to the short code S53)', async function (assert) {
           // given
           const meta = { shortCode: 'S53', value: undefined };
           const expectedErrorMessage = this.intl.t('api-error-messages.register-error.s53', { value: meta.value });
@@ -637,12 +639,12 @@ describe('Integration | Component | routes/register-form', function () {
           await clickByLabel(this.intl.t('pages.login-or-register.register-form.button-form'));
 
           // then
-          expect(find('div[id="register-error-message"').innerHTML).to.equal(expectedErrorMessage);
+          assert.equal(find('div[id="register-error-message"').innerHTML, expectedErrorMessage);
         });
       });
 
-      describe('When student account is authenticated by SamlId and username', async function () {
-        it('should display the error message related to the short code S53)', async function () {
+      module('When student account is authenticated by SamlId and username', async function () {
+        test('should display the error message related to the short code S53)', async function (assert) {
           // given
           const meta = { shortCode: 'S53', value: undefined };
           const expectedErrorMessage = this.intl.t('api-error-messages.register-error.s53', { value: meta.value });
@@ -664,12 +666,12 @@ describe('Integration | Component | routes/register-form', function () {
           await clickByLabel(this.intl.t('pages.login-or-register.register-form.button-form'));
 
           // then
-          expect(find('div[id="register-error-message"').innerHTML).to.equal(expectedErrorMessage);
+          assert.equal(find('div[id="register-error-message"').innerHTML, expectedErrorMessage);
         });
       });
 
-      describe('When student account is authenticated by SamlId and email', async function () {
-        it('should display the error message related to the short code S53)', async function () {
+      module('When student account is authenticated by SamlId and email', async function () {
+        test('should display the error message related to the short code S53)', async function (assert) {
           // given
           const meta = { shortCode: 'S53', value: undefined };
           const expectedErrorMessage = this.intl.t('api-error-messages.register-error.s53', { value: meta.value });
@@ -691,12 +693,12 @@ describe('Integration | Component | routes/register-form', function () {
           await clickByLabel(this.intl.t('pages.login-or-register.register-form.button-form'));
 
           // then
-          expect(find('div[id="register-error-message"').innerHTML).to.equal(expectedErrorMessage);
+          assert.equal(find('div[id="register-error-message"').innerHTML, expectedErrorMessage);
         });
       });
 
-      describe('When student account is authenticated by SamlId, username and email', async function () {
-        it('should display the error message related to the short code S53)', async function () {
+      module('When student account is authenticated by SamlId, username and email', async function () {
+        test('should display the error message related to the short code S53)', async function (assert) {
           // given
           const meta = { shortCode: 'S53', value: undefined };
           const expectedErrorMessage = this.intl.t('api-error-messages.register-error.s53', { value: meta.value });
@@ -718,12 +720,12 @@ describe('Integration | Component | routes/register-form', function () {
           await clickByLabel(this.intl.t('pages.login-or-register.register-form.button-form'));
 
           // then
-          expect(find('div[id="register-error-message"').innerHTML).to.equal(expectedErrorMessage);
+          assert.equal(find('div[id="register-error-message"').innerHTML, expectedErrorMessage);
         });
       });
 
-      describe('When student account is authenticated by username and email', async function () {
-        it('should display the error message related to the short code S52)', async function () {
+      module('When student account is authenticated by username and email', async function () {
+        test('should display the error message related to the short code S52)', async function (assert) {
           // given
           const meta = { shortCode: 'S52', value: 'j***.h***2' };
           const expectedErrorMessage = this.intl.t('api-error-messages.register-error.s52', { value: meta.value });
@@ -744,7 +746,7 @@ describe('Integration | Component | routes/register-form', function () {
           // when
           await clickByLabel(this.intl.t('pages.login-or-register.register-form.button-form'));
           // then
-          expect(find('div[id="register-error-message"').innerHTML).to.equal(expectedErrorMessage);
+          assert.equal(find('div[id="register-error-message"').innerHTML, expectedErrorMessage);
         });
       });
     });

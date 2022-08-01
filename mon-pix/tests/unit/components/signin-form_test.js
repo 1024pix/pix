@@ -1,15 +1,15 @@
-import { describe, it } from 'mocha';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
 
-import { setupTest } from 'ember-mocha';
 import createGlimmerComponent from '../../helpers/create-glimmer-component';
 
-describe('Unit | Component | signin-form', function () {
-  setupTest();
+module('Unit | Component | signin-form', function (hooks) {
+  setupTest(hooks);
 
-  describe('#signin', () => {
-    context('when user should change password', () => {
-      it('should save reset password token and redirect to update-expired-password', async () => {
+  module('#signin', function () {
+    module('when user should change password', function () {
+      test('should save reset password token and redirect to update-expired-password', async function (assert) {
         // given
         const eventStub = { preventDefault: sinon.stub() };
         const component = createGlimmerComponent('component:signin-form');
@@ -29,6 +29,7 @@ describe('Unit | Component | signin-form', function () {
         await component.signin(eventStub);
 
         // then
+        assert.expect(0);
         sinon.assert.calledWith(component.args.updateExpiredPassword, 'PASSWORD_RESET_TOKEN');
       });
     });

@@ -1,90 +1,89 @@
-import { expect } from 'chai';
 import sinon from 'sinon';
-import { describe, it } from 'mocha';
-import { setupTest } from 'ember-mocha';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 import EmberObject from '@ember/object';
 import Service from '@ember/service';
 import createGlimmerComponent from '../../helpers/create-glimmer-component';
 
-describe('Unit | Component | scorecard-details ', function () {
-  setupTest();
+module('Unit | Component | scorecard-details ', function (hooks) {
+  setupTest(hooks);
 
-  describe('#level', function () {
-    it('returns null if the scorecard isNotStarted', function () {
+  module('#level', function () {
+    test('returns null if the scorecard isNotStarted', function (assert) {
       // when
       const component = createGlimmerComponent('component:scorecard-details', { scorecard: { isNotStarted: true } });
 
       // then
-      expect(component.level).to.equal(null);
+      assert.equal(component.level, null);
     });
 
-    it('returns the level if the scorecard is not isNotStarted', function () {
+    test('returns the level if the scorecard is not isNotStarted', function (assert) {
       // when
       const component = createGlimmerComponent('component:scorecard-details', { scorecard: { level: 1 } });
 
       // then
-      expect(component.level).to.equal(1);
+      assert.equal(component.level, 1);
     });
   });
 
-  describe('#isProgressable', function () {
-    it('returns false if isMaxLevel', function () {
+  module('#isProgressable', function () {
+    test('returns false if isMaxLevel', function (assert) {
       // when
       const component = createGlimmerComponent('component:scorecard-details', { scorecard: { isMaxLevel: true } });
 
       // then
-      expect(component.isProgressable).to.equal(false);
+      assert.false(component.isProgressable);
     });
 
-    it('returns false if isNotStarted', function () {
+    test('returns false if isNotStarted', function (assert) {
       // when
       const component = createGlimmerComponent('component:scorecard-details', { scorecard: { isNotStarted: true } });
 
       // then
-      expect(component.isProgressable).to.equal(false);
+      assert.false(component.isProgressable);
     });
 
-    it('returns false if isFinished', function () {
+    test('returns false if isFinished', function (assert) {
       // when
       const component = createGlimmerComponent('component:scorecard-details', { scorecard: { isFinished: true } });
 
       // then
-      expect(component.isProgressable).to.equal(false);
+      assert.false(component.isProgressable);
     });
 
-    it('returns true otherwise', function () {
+    test('returns true otherwise', function (assert) {
       // when
       const component = createGlimmerComponent('component:scorecard-details', { scorecard: {} });
 
       // then
-      expect(component.isProgressable).to.equal(true);
+      assert.true(component.isProgressable);
     });
   });
 
-  describe('#canImprove', function () {
-    it('returns true if maxlevel not reached', function () {
+  module('#canImprove', function () {
+    test('returns true if maxlevel not reached', function (assert) {
       // when
       const component = createGlimmerComponent('component:scorecard-details', {
         scorecard: { isFinishedWithMaxLevel: false },
       });
 
       // then
-      expect(component.canImprove).to.equal(true);
+      assert.true(component.canImprove);
     });
 
-    it('returns false if maxlevel reached', function () {
+    test('returns false if maxlevel reached', function (assert) {
       // when
       const component = createGlimmerComponent('component:scorecard-details', {
         scorecard: { isFinishedWithMaxLevel: true },
       });
 
       // then
-      expect(component.canImprove).to.equal(false);
+      assert.false(component.canImprove);
     });
   });
 
-  describe('#tutorialsGroupedByTubeName', function () {
-    it('returns an array of tubes with related tutorials', function () {
+  module('#tutorialsGroupedByTubeName', function () {
+    test('returns an array of tubes with related tutorials', function (assert) {
       // given
       const tutorial_1 = EmberObject.create({
         modelName: 'tutorial',
@@ -131,19 +130,19 @@ describe('Unit | Component | scorecard-details ', function () {
       const result = component.tutorialsGroupedByTubeName;
 
       // then
-      expect(result[0].name).to.deep.equal(expectedResult[0].name);
-      expect(result[0].practicalTitle).to.deep.equal(expectedResult[0].practicalTitle);
-      expect(result[0].tutorials).to.have.lengthOf(2);
-      expect(result[0].tutorials[0].id).to.deep.equal(expectedResult[0].tutorials[0].id);
-      expect(result[0].tutorials[1].id).to.deep.equal(expectedResult[0].tutorials[1].id);
+      assert.deepEqual(result[0].name, expectedResult[0].name);
+      assert.deepEqual(result[0].practicalTitle, expectedResult[0].practicalTitle);
+      assert.equal(result[0].tutorials.length, 2);
+      assert.deepEqual(result[0].tutorials[0].id, expectedResult[0].tutorials[0].id);
+      assert.deepEqual(result[0].tutorials[1].id, expectedResult[0].tutorials[1].id);
 
-      expect(result[1].name).to.deep.equal(expectedResult[1].name);
-      expect(result[1].practicalTitle).to.deep.equal(expectedResult[1].practicalTitle);
-      expect(result[1].tutorials).to.have.lengthOf(1);
-      expect(result[1].tutorials[0].id).to.deep.equal(expectedResult[1].tutorials[0].id);
+      assert.deepEqual(result[1].name, expectedResult[1].name);
+      assert.deepEqual(result[1].practicalTitle, expectedResult[1].practicalTitle);
+      assert.equal(result[1].tutorials.length, 1);
+      assert.deepEqual(result[1].tutorials[0].id, expectedResult[1].tutorials[0].id);
     });
 
-    it('returns an empty array when there is no tutorials', function () {
+    test('returns an empty array when there is no tutorials', function (assert) {
       // given
       const tutorials = [];
       const scorecard = EmberObject.create({ tutorials });
@@ -155,19 +154,19 @@ describe('Unit | Component | scorecard-details ', function () {
       const result = component.tutorialsGroupedByTubeName;
 
       // then
-      expect(result).to.deep.equal(expectedResult);
-      expect(result).to.have.lengthOf(0);
+      assert.deepEqual(result, expectedResult);
+      assert.equal(result.length, 0);
     });
   });
 
-  describe('#improveCompetenceEvaluation', function () {
+  module('#improveCompetenceEvaluation', function () {
     const competenceId = 'recCompetenceId';
     const userId = 'userId';
     const scorecardId = 'scorecardId';
     const scorecard = EmberObject.create({ competenceId, id: scorecardId });
     let competenceEvaluation, component;
 
-    it('calls competenceEvaluation service for improving', async function () {
+    test('calls competenceEvaluation service for improving', async function (assert) {
       // given
       component = createGlimmerComponent('component:scorecard-details', { scorecard });
       competenceEvaluation = Service.create({ improve: sinon.stub() });
@@ -178,20 +177,21 @@ describe('Unit | Component | scorecard-details ', function () {
       await component.improveCompetenceEvaluation();
 
       // then
+      assert.expect(0);
       sinon.assert.calledWith(competenceEvaluation.improve, { userId, competenceId, scorecardId });
     });
   });
 
-  describe('#shouldWaitBeforeImproving', function () {
+  module('#shouldWaitBeforeImproving', function () {
     let component, scorecard;
 
-    beforeEach(() => {
+    hooks.beforeEach(() => {
       const competenceId = 'recCompetenceId';
       scorecard = EmberObject.create({ competenceId });
       component = createGlimmerComponent('component:competence-card-default', { scorecard });
     });
 
-    it('should return true when remaining days before improving are different than 0', () => {
+    test('should return true when remaining days before improving are different than 0', function (assert) {
       // given
       scorecard.remainingDaysBeforeImproving = 3;
 
@@ -199,10 +199,10 @@ describe('Unit | Component | scorecard-details ', function () {
       const result = component.shouldWaitBeforeImproving;
 
       // then
-      expect(result).to.be.true;
+      assert.true(result);
     });
 
-    it('should return false when remaining days before improving are equal to 0', () => {
+    test('should return false when remaining days before improving are equal to 0', function (assert) {
       // given
       scorecard.remainingDaysBeforeImproving = 0;
 
@@ -210,7 +210,7 @@ describe('Unit | Component | scorecard-details ', function () {
       const result = component.shouldWaitBeforeImproving;
 
       // then
-      expect(result).to.be.false;
+      assert.false(result);
     });
   });
 });

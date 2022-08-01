@@ -1,6 +1,5 @@
-import { expect } from 'chai';
-import { describe, it, beforeEach } from 'mocha';
-import { setupTest } from 'ember-mocha';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 import ENV from 'mon-pix/config/environment';
 
 /* IMPORTANT NOTE :
@@ -8,16 +7,16 @@ The AjaxQueue service MUST be the same across all Pix applications. Thus, it see
 to just copy this test file in each application test suite. That's why this is the only copy
 of its unit test here in mon-pix test suite.
  */
-describe('Unit | Service | ajax-queue', function () {
-  setupTest();
+module('Unit | Service | ajax-queue', function (hooks) {
+  setupTest(hooks);
   let ajaxQueueService;
 
-  beforeEach(function () {
+  hooks.beforeEach(function () {
     ajaxQueueService = this.owner.lookup('service:ajax-queue');
   });
 
-  describe('add()', function () {
-    it('should execute the passed job', async function () {
+  module('add()', function () {
+    test('should execute the passed job', async function (assert) {
       // given
       const expectedValue = 1;
 
@@ -27,10 +26,10 @@ describe('Unit | Service | ajax-queue', function () {
       });
 
       // then
-      expect(actualValue).to.equal(expectedValue);
+      assert.equal(actualValue, expectedValue);
     });
 
-    it('should execute concurrently as many jobs as indicated in settings file', async function () {
+    test('should execute concurrently as many jobs as indicated in settings file', async function (assert) {
       // given
       let counter = 0,
         maxCounter = 0;
@@ -50,7 +49,7 @@ describe('Unit | Service | ajax-queue', function () {
       await ajaxQueueService.add(job);
 
       // then
-      expect(maxCounter).to.equal(maxJobsInQueue);
+      assert.equal(maxCounter, maxJobsInQueue);
     });
   });
 });

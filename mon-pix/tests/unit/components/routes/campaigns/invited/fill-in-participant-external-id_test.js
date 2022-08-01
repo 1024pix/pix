@@ -1,11 +1,10 @@
-import { expect } from 'chai';
-import { beforeEach, describe, it } from 'mocha';
+import { module, test } from 'qunit';
 import sinon from 'sinon';
 import createComponent from '../../../../../helpers/create-glimmer-component';
 import setupIntlRenderingTest from '../../../../../helpers/setup-intl-rendering';
 
-describe('Unit | Component | routes/campaigns/invited/fill-in-participant-external-id', function () {
-  setupIntlRenderingTest();
+module('Unit | Component | function rou/campaigns/invited/fill-in-participant-external-id', function (hooks) {
+  setupIntlRenderingTest(hooks);
 
   const campaign = {
     id: 1243,
@@ -19,7 +18,7 @@ describe('Unit | Component | routes/campaigns/invited/fill-in-participant-extern
   let onCancelStub;
   let eventStub;
 
-  beforeEach(function () {
+  hooks.beforeEach(function () {
     onSubmitStub = sinon.stub();
     onCancelStub = sinon.stub();
     eventStub = { preventDefault: sinon.stub() };
@@ -30,8 +29,8 @@ describe('Unit | Component | routes/campaigns/invited/fill-in-participant-extern
     });
   });
 
-  describe('#submit', () => {
-    it('should succeed when participantExternalId is correct', async () => {
+  module('#submit', function () {
+    test('should succeed when participantExternalId is correct', async function (assert) {
       // given
       component.participantExternalId = participantExternalId;
 
@@ -39,11 +38,12 @@ describe('Unit | Component | routes/campaigns/invited/fill-in-participant-extern
       await component.actions.submit.call(component, eventStub);
 
       // then
+      assert.expect(0);
       sinon.assert.calledWith(onSubmitStub, participantExternalId);
       sinon.assert.called(eventStub.preventDefault);
     });
 
-    it('should display error when participant external id is empty', async () => {
+    test('should display error when participant external id is empty', async function (assert) {
       // given
       component.participantExternalId = '';
 
@@ -51,10 +51,10 @@ describe('Unit | Component | routes/campaigns/invited/fill-in-participant-extern
       await component.actions.submit.call(component, eventStub);
 
       // then
-      expect(component.errorMessage).to.equal(`Merci de renseigner votre ${component.args.campaign.idPixLabel}.`);
+      assert.equal(component.errorMessage, `Merci de renseigner votre ${component.args.campaign.idPixLabel}.`);
     });
 
-    it('should display error when participant external id exceed 255 characters', async () => {
+    test('should display error when participant external id exceed 255 characters', async function (assert) {
       // given
       component.participantExternalId =
         '0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef';
@@ -63,18 +63,20 @@ describe('Unit | Component | routes/campaigns/invited/fill-in-participant-extern
       await component.actions.submit.call(component, eventStub);
 
       // then
-      expect(component.errorMessage).to.equal(
+      assert.equal(
+        component.errorMessage,
         `Votre ${component.args.campaign.idPixLabel} ne doit pas dépasser les 255 caractères.`
       );
     });
   });
 
-  describe('#cancel', () => {
-    it('should abort and call its parent method', async () => {
+  module('#cancel', function () {
+    test('should abort and call its parent method', async function (assert) {
       // when
       await component.actions.cancel.call(component);
 
       // then
+      assert.expect(0);
       sinon.assert.called(onCancelStub);
     });
   });

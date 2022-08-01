@@ -1,8 +1,7 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
+import { module, test } from 'qunit';
 import valueAsArrayOfBoolean from 'mon-pix/utils/value-as-array-of-boolean';
 
-describe('Unit | Utility | value as array of boolean', function () {
+module('Unit | Utility | value as array of boolean', function () {
   // Replace this with your real tests.
   const testData = [
     { when: 'Empty String', input: '', expected: [] },
@@ -24,8 +23,8 @@ describe('Unit | Utility | value as array of boolean', function () {
   ];
 
   testData.forEach(({ when, input, expected }) => {
-    it(`"${when}", example : "${JSON.stringify(input)}" retourne [${expected}]`, function () {
-      expect(valueAsArrayOfBoolean(input)).to.deep.equal(expected);
+    test(`"${when}", example : "${JSON.stringify(input)}" retourne [${expected}]`, function (assert) {
+      assert.deepEqual(valueAsArrayOfBoolean(input), expected);
     });
   });
 });

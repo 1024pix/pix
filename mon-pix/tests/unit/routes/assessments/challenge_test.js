@@ -1,11 +1,11 @@
-import { describe, it } from 'mocha';
-import { setupTest } from 'ember-mocha';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 import EmberObject from '@ember/object';
 import EmberService from '@ember/service';
 import sinon from 'sinon';
 
-describe('Unit | Route | Assessments | Challenge', function () {
-  setupTest();
+module('Unit | Route | Assessments | Challenge', function (hooks) {
+  setupTest(hooks);
 
   let route;
   let storeStub;
@@ -32,7 +32,7 @@ describe('Unit | Route | Assessments | Challenge', function () {
     },
   };
 
-  beforeEach(function () {
+  hooks.beforeEach(function () {
     createRecordStub = sinon.stub();
     queryRecordStub = sinon.stub().resolves(model.challenge);
     findRecordStub = sinon.stub();
@@ -50,16 +50,17 @@ describe('Unit | Route | Assessments | Challenge', function () {
     route.modelFor = sinon.stub().returns(assessment);
   });
 
-  describe('#model', function () {
-    it('should correctly call the store to find assessment and challenge', async function () {
+  module('#model', function () {
+    test('should correctly call the store to find assessment and challenge', async function (assert) {
       // when
       await route.model(params);
 
       // then
+      assert.expect(0);
       sinon.assert.calledWith(route.modelFor, 'assessments');
       sinon.assert.calledWith(queryRecordStub, 'challenge', { assessmentId: assessment.id });
     });
-    it('should call queryRecord to find answer', async function () {
+    test('should call queryRecord to find answer', async function (assert) {
       // given
       model.assessment.get.withArgs('isCertification').returns(false);
       model.assessment.get.withArgs('course').returns({ getProgress: sinon.stub().returns('course') });
@@ -68,13 +69,14 @@ describe('Unit | Route | Assessments | Challenge', function () {
       await route.model(params);
 
       // then
+      assert.expect(0);
       sinon.assert.calledWith(queryRecordStub, 'answer', {
         assessmentId: assessment.id,
         challengeId: model.challenge.id,
       });
     });
-    context('when the assessment is a Preview', async function () {
-      beforeEach(function () {
+    module('when the assessment is a Preview', async function (hooks) {
+      hooks.beforeEach(function () {
         const assessmentForPreview = {
           answers: [],
           type: 'PREVIEW',
@@ -83,7 +85,7 @@ describe('Unit | Route | Assessments | Challenge', function () {
         route.modelFor.returns(assessmentForPreview);
       });
 
-      it('should call findRecord to find the asked challenge', async function () {
+      test('should call findRecord to find the asked challenge', async function (assert) {
         // given
         const params = {
           challengeId: 'recId',
@@ -95,10 +97,11 @@ describe('Unit | Route | Assessments | Challenge', function () {
         await route.model(params);
 
         // then
+        assert.expect(0);
         sinon.assert.calledWith(findRecordStub, 'challenge', 'recId');
       });
 
-      it('should not call for next challenge', async function () {
+      test('should not call for next challenge', async function (assert) {
         // given
         const params = {
           challengeId: null,
@@ -109,12 +112,13 @@ describe('Unit | Route | Assessments | Challenge', function () {
         await route.model(params);
 
         // then
+        assert.expect(0);
         sinon.assert.notCalled(findRecordStub);
       });
     });
 
-    context('when the asked challenges is already answered', async function () {
-      beforeEach(function () {
+    module('when the asked challenges is already answered', async function (hooks) {
+      hooks.beforeEach(function () {
         const assessmentWithAnswers = {
           answers: [
             {
@@ -131,7 +135,7 @@ describe('Unit | Route | Assessments | Challenge', function () {
         storeStub.findRecord.resolves({ id: 'recId' });
       });
 
-      it('should call findRecord to find the asked challenge', async function () {
+      test('should call findRecord to find the asked challenge', async function (assert) {
         // given
         const params = {
           challengeId: 'recId',
@@ -142,12 +146,13 @@ describe('Unit | Route | Assessments | Challenge', function () {
         await route.model(params);
 
         // then
+        assert.expect(0);
         sinon.assert.calledWith(findRecordStub, 'challenge', 'oldRecId');
       });
     });
   });
 
-  describe('#saveAnswerAndNavigate', function () {
+  module('#saveAnswerAndNavigate', function (hooks) {
     let answerToChallengeOne, answerToChallengeOneWithLevelUp;
 
     let answerValue = 'example';
@@ -156,7 +161,7 @@ describe('Unit | Route | Assessments | Challenge', function () {
     const challengeOne = EmberObject.create({ id: 'recChallengeOne' });
     const nextChallenge = EmberObject.create({ id: 'recNextChallenge' });
 
-    beforeEach(function () {
+    hooks.beforeEach(function () {
       answerToChallengeOne = EmberObject.create({ challenge: challengeOne });
       answerToChallengeOne.save = sinon.stub().resolves();
       answerToChallengeOne.setProperties = sinon.stub();
@@ -171,8 +176,8 @@ describe('Unit | Route | Assessments | Challenge', function () {
       answerToChallengeOneWithLevelUp.rollbackAttributes = sinon.stub();
     });
 
-    context('when the answer is already known', function () {
-      it('should not create a new answer', function () {
+    module('when the answer is already known', function () {
+      test('should not create a new answer', function (assert) {
         // given
         const assessment = EmberObject.create({ answers: [answerToChallengeOne] });
         createRecordStub.returns(answerToChallengeOne);
@@ -182,12 +187,13 @@ describe('Unit | Route | Assessments | Challenge', function () {
         route.actions.saveAnswerAndNavigate.call(route, challengeOne, assessment, answerValue, answerTimeout);
 
         // then
+        assert.expect(0);
         sinon.assert.notCalled(createRecordStub);
       });
     });
 
-    context('when no answer was given', function () {
-      it('should create an answer', function () {
+    module('when no answer was given', function () {
+      test('should create an answer', function (assert) {
         // given
         const assessment = EmberObject.create({ answers: [] });
         createRecordStub.returns(answerToChallengeOne);
@@ -197,6 +203,7 @@ describe('Unit | Route | Assessments | Challenge', function () {
         route.actions.saveAnswerAndNavigate.call(route, challengeOne, assessment, answerValue, answerTimeout);
 
         // then
+        assert.expect(0);
         sinon.assert.calledWith(createRecordStub, 'answer', {
           assessment: assessment,
           challenge: challengeOne,
@@ -204,7 +211,7 @@ describe('Unit | Route | Assessments | Challenge', function () {
       });
     });
 
-    it('should update the answer with the timeout', function () {
+    test('should update the answer with the timeout', function (assert) {
       // given
       const assessment = EmberObject.create({ answers: [answerToChallengeOne] });
       createRecordStub.returns(answerToChallengeOne);
@@ -221,6 +228,7 @@ describe('Unit | Route | Assessments | Challenge', function () {
       );
 
       // then
+      assert.expect(0);
       sinon.assert.callOrder(answerToChallengeOne.setProperties, answerToChallengeOne.save);
       sinon.assert.calledOnce(answerToChallengeOne.save);
       sinon.assert.calledWith(answerToChallengeOne.setProperties, {
@@ -230,7 +238,7 @@ describe('Unit | Route | Assessments | Challenge', function () {
       });
     });
 
-    it('should trim the answer value to avoid useless char', function () {
+    test('should trim the answer value to avoid useless char', function (assert) {
       // given
       answerValue = '  exemple \n ';
       const answerValueWithoutUselessChar = 'exemple';
@@ -249,6 +257,7 @@ describe('Unit | Route | Assessments | Challenge', function () {
       );
 
       // then
+      assert.expect(0);
       sinon.assert.callOrder(answerToChallengeOne.setProperties, answerToChallengeOne.save);
       sinon.assert.calledOnce(answerToChallengeOne.save);
       sinon.assert.calledWith(answerToChallengeOne.setProperties, {
@@ -258,8 +267,8 @@ describe('Unit | Route | Assessments | Challenge', function () {
       });
     });
 
-    context('when saving succeeds', function () {
-      it('should redirect to assessment-resume route', async function () {
+    module('when saving succeeds', function () {
+      test('should redirect to assessment-resume route', async function (assert) {
         // given
         currentUserStub.isAnonymous = false;
         route.currentUser = currentUserStub;
@@ -276,20 +285,21 @@ describe('Unit | Route | Assessments | Challenge', function () {
         );
 
         // then
+        assert.expect(0);
         sinon.assert.calledWithExactly(route.router.transitionTo, 'assessments.resume', assessment.get('id'), {
           queryParams: {},
         });
       });
 
-      context('when user has reached a new level', function () {
+      module('when user has reached a new level', function (hooks) {
         let assessment;
-        beforeEach(function () {
+        hooks.beforeEach(function () {
           createRecordStub.returns(answerToChallengeOneWithLevelUp);
           queryRecordStub.resolves(nextChallenge);
           assessment = EmberObject.create({ answers: [answerToChallengeOneWithLevelUp] });
         });
 
-        it('should redirect to assessment-resume route with level up information', async function () {
+        test('should redirect to assessment-resume route with level up information', async function (assert) {
           //given
           currentUserStub.user.isAnonymous = false;
           route.currentUser = currentUserStub;
@@ -311,6 +321,7 @@ describe('Unit | Route | Assessments | Challenge', function () {
           );
 
           // then
+          assert.expect(0);
           sinon.assert.calledWithExactly(
             route.router.transitionTo,
             'assessments.resume',
@@ -319,7 +330,7 @@ describe('Unit | Route | Assessments | Challenge', function () {
           );
         });
 
-        it('should redirect to assessment-resume route without level up information when user is anonymous', async function () {
+        test('should redirect to assessment-resume route without level up information when user is anonymous', async function (assert) {
           //given
           currentUserStub.user.isAnonymous = true;
           route.currentUser = currentUserStub;
@@ -336,6 +347,7 @@ describe('Unit | Route | Assessments | Challenge', function () {
           );
 
           // then
+          assert.expect(0);
           sinon.assert.calledWithExactly(
             route.router.transitionTo,
             'assessments.resume',
@@ -344,7 +356,7 @@ describe('Unit | Route | Assessments | Challenge', function () {
           );
         });
 
-        it('should redirect to assessment-resume route without level up information when there is no currentUser', async function () {
+        test('should redirect to assessment-resume route without level up information when there is no currentUser', async function (assert) {
           //given
           route.currentUser = { user: undefined };
           const expectedQueryParams = { queryParams: {} };
@@ -360,6 +372,7 @@ describe('Unit | Route | Assessments | Challenge', function () {
           );
 
           // then
+          assert.expect(0);
           sinon.assert.calledWithExactly(
             route.router.transitionTo,
             'assessments.resume',
@@ -370,8 +383,8 @@ describe('Unit | Route | Assessments | Challenge', function () {
       });
     });
 
-    context('when saving fails', function () {
-      it('should remove temporary answer and send error', async function () {
+    module('when saving fails', function () {
+      test('should remove temporary answer and send error', async function (assert) {
         // given
         const error = { message: 'error' };
         answerToChallengeOne.save = sinon.stub().rejects(error);
@@ -385,14 +398,15 @@ describe('Unit | Route | Assessments | Challenge', function () {
             throw new Error('was supposed to fail');
           })
           .catch(function () {
+            assert.expect(0);
             sinon.assert.called(answerToChallengeOne.rollbackAttributes);
             sinon.assert.calledWith(route.intermediateTransitionTo, 'error', error);
           });
       });
     });
 
-    context('when assessmnt has been ended by supervisor', function () {
-      it('should redirect candidate to end test screen when trying to answer', async function () {
+    module('when assessmnt has been ended by supervisor', function () {
+      test('should redirect candidate to end test screen when trying to answer', async function (assert) {
         // given
         const error = {
           errors: [
@@ -416,6 +430,7 @@ describe('Unit | Route | Assessments | Challenge', function () {
         );
 
         // then
+        assert.expect(0);
         sinon.assert.calledWithExactly(
           route.router.transitionTo,
           'certifications.results',

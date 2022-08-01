@@ -1,27 +1,26 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
-import { setupTest } from 'ember-mocha';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 import { run } from '@ember/runloop';
 import ENV from 'mon-pix/config/environment';
 
-describe('Unit | Model | Scorecard model', function () {
+module('Unit | Model | Scorecard model', function (hooks) {
   const maxReachableLevel = ENV.APP.MAX_REACHABLE_LEVEL;
   let scorecard;
 
-  setupTest();
+  setupTest(hooks);
 
-  beforeEach(function () {
+  hooks.beforeEach(function () {
     scorecard = run(() => this.owner.lookup('service:store').createRecord('scorecard'));
   });
 
-  describe('percentageAheadOfNextLevel', function () {
+  module('percentageAheadOfNextLevel', function () {
     [
       { pixScoreAheadOfNextLevel: 0, expectedPercentageAheadOfNextLevel: 0 },
       { pixScoreAheadOfNextLevel: 4, expectedPercentageAheadOfNextLevel: 50 },
       { pixScoreAheadOfNextLevel: 3.33, expectedPercentageAheadOfNextLevel: 41.625 },
       { pixScoreAheadOfNextLevel: 7.8, expectedPercentageAheadOfNextLevel: 95 },
     ].forEach((data) => {
-      it(`should return ${data.expectedPercentageAheadOfNextLevel} when pixScoreAheadOfNextLevel is ${data.pixScoreAheadOfNextLevel}`, function () {
+      test(`should return ${data.expectedPercentageAheadOfNextLevel} when pixScoreAheadOfNextLevel is ${data.pixScoreAheadOfNextLevel}`, function (assert) {
         // given
         scorecard.pixScoreAheadOfNextLevel = data.pixScoreAheadOfNextLevel;
 
@@ -29,13 +28,13 @@ describe('Unit | Model | Scorecard model', function () {
         const percentageAheadOfNextLevel = scorecard.percentageAheadOfNextLevel;
 
         // then
-        expect(percentageAheadOfNextLevel).to.equal(data.expectedPercentageAheadOfNextLevel);
+        assert.equal(percentageAheadOfNextLevel, data.expectedPercentageAheadOfNextLevel);
       });
     });
   });
 
-  describe('remainingPixToNextLevel', function () {
-    it('should return 2 remaining Pix to next level', function () {
+  module('remainingPixToNextLevel', function () {
+    test('should return 2 remaining Pix to next level', function (assert) {
       // given
       scorecard.pixScoreAheadOfNextLevel = 3;
 
@@ -43,12 +42,12 @@ describe('Unit | Model | Scorecard model', function () {
       const remainingPixToNextLevel = scorecard.remainingPixToNextLevel;
 
       // then
-      expect(remainingPixToNextLevel).to.equal(5);
+      assert.equal(remainingPixToNextLevel, 5);
     });
   });
 
-  describe('isMaxLevel', function () {
-    it('should return true', function () {
+  module('isMaxLevel', function () {
+    test('should return true', function (assert) {
       // given
       scorecard.level = maxReachableLevel;
 
@@ -56,10 +55,10 @@ describe('Unit | Model | Scorecard model', function () {
       const isMaxLevel = scorecard.isMaxLevel;
 
       // then
-      expect(isMaxLevel).to.be.true;
+      assert.true(isMaxLevel);
     });
 
-    it('should return false', function () {
+    test('should return false', function (assert) {
       // given
       scorecard.level = 2;
 
@@ -67,13 +66,13 @@ describe('Unit | Model | Scorecard model', function () {
       const isMaxLevel = scorecard.isMaxLevel;
 
       // then
-      expect(isMaxLevel).to.be.false;
+      assert.false(isMaxLevel);
     });
   });
 
-  describe('isFinishedWithMaxLevel', function () {
-    context('when max level is reached', function () {
-      it('should return true', function () {
+  module('isFinishedWithMaxLevel', function () {
+    module('when max level is reached', function () {
+      test('should return true', function (assert) {
         // given
         scorecard.level = maxReachableLevel;
         scorecard.status = 'COMPLETED';
@@ -82,10 +81,10 @@ describe('Unit | Model | Scorecard model', function () {
         const isFinishedWithMaxLevel = scorecard.isFinishedWithMaxLevel;
 
         // then
-        expect(isFinishedWithMaxLevel).to.be.true;
+        assert.true(isFinishedWithMaxLevel);
       });
 
-      it('should return false', function () {
+      test('should return false', function (assert) {
         // given
         scorecard.level = maxReachableLevel;
         scorecard.status = 'STARTED';
@@ -94,12 +93,12 @@ describe('Unit | Model | Scorecard model', function () {
         const isFinishedWithMaxLevel = scorecard.isFinishedWithMaxLevel;
 
         // then
-        expect(isFinishedWithMaxLevel).to.be.false;
+        assert.false(isFinishedWithMaxLevel);
       });
     });
 
-    context('when max level is not reached', function () {
-      it('should return true', function () {
+    module('when max level is not reached', function () {
+      test('should return true', function (assert) {
         // given
         scorecard.level = 3;
         scorecard.status = 'COMPLETED';
@@ -108,10 +107,10 @@ describe('Unit | Model | Scorecard model', function () {
         const isFinishedWithMaxLevel = scorecard.isFinishedWithMaxLevel;
 
         // then
-        expect(isFinishedWithMaxLevel).to.be.false;
+        assert.false(isFinishedWithMaxLevel);
       });
 
-      it('should return false', function () {
+      test('should return false', function (assert) {
         // given
         scorecard.level = 3;
         scorecard.status = 'STARTED';
@@ -120,14 +119,14 @@ describe('Unit | Model | Scorecard model', function () {
         const isFinishedWithMaxLevel = scorecard.isFinishedWithMaxLevel;
 
         // then
-        expect(isFinishedWithMaxLevel).to.be.false;
+        assert.false(isFinishedWithMaxLevel);
       });
     });
   });
 
-  describe('isImprovable', function () {
-    context('when the competence is finished with max level', function () {
-      it('should return false', function () {
+  module('isImprovable', function () {
+    module('when the competence is finished with max level', function () {
+      test('should return false', function (assert) {
         // given
         scorecard.level = maxReachableLevel;
         scorecard.status = 'COMPLETED';
@@ -137,12 +136,12 @@ describe('Unit | Model | Scorecard model', function () {
         const isImprovable = scorecard.isImprovable;
 
         // then
-        expect(isImprovable).to.be.false;
+        assert.false(isImprovable);
       });
     });
 
-    context('when the competence is not finished', function () {
-      it('should return false', function () {
+    module('when the competence is not finished', function () {
+      test('should return false', function (assert) {
         // given
         scorecard.level = maxReachableLevel;
         scorecard.status = 'STARTED';
@@ -152,12 +151,12 @@ describe('Unit | Model | Scorecard model', function () {
         const isImprovable = scorecard.isImprovable;
 
         // then
-        expect(isImprovable).to.be.false;
+        assert.false(isImprovable);
       });
     });
 
-    context('when there are remaining days before improving', function () {
-      it('should return false', function () {
+    module('when there are remaining days before improving', function () {
+      test('should return false', function (assert) {
         // given
         scorecard.level = maxReachableLevel;
         scorecard.status = 'COMPLETED';
@@ -167,14 +166,14 @@ describe('Unit | Model | Scorecard model', function () {
         const isImprovable = scorecard.isImprovable;
 
         // then
-        expect(isImprovable).to.be.false;
+        assert.false(isImprovable);
       });
     });
 
-    context(
+    module(
       'when the competence is finished without reaching the max level and there are no remaining days before improving',
       function () {
-        it('should return true', function () {
+        test('should return true', function (assert) {
           // given
           scorecard.level = 3;
           scorecard.status = 'COMPLETED';
@@ -184,14 +183,14 @@ describe('Unit | Model | Scorecard model', function () {
           const isImprovable = scorecard.isImprovable;
 
           // then
-          expect(isImprovable).to.be.true;
+          assert.true(isImprovable);
         });
       }
     );
   });
 
-  describe('hasNotEarnAnything', function () {
-    it('should return true', function () {
+  module('hasNotEarnAnything', function () {
+    test('should return true', function (assert) {
       // given
       scorecard.earnedPix = 0;
 
@@ -199,10 +198,10 @@ describe('Unit | Model | Scorecard model', function () {
       const hasNotEarnAnything = scorecard.hasNotEarnAnything;
 
       // then
-      expect(hasNotEarnAnything).to.be.true;
+      assert.true(hasNotEarnAnything);
     });
 
-    it('should return false', function () {
+    test('should return false', function (assert) {
       // given
       scorecard.earnedPix = 2;
 
@@ -210,12 +209,12 @@ describe('Unit | Model | Scorecard model', function () {
       const hasNotEarnAnything = scorecard.hasNotEarnAnything;
 
       // then
-      expect(hasNotEarnAnything).to.be.false;
+      assert.false(hasNotEarnAnything);
     });
   });
 
-  describe('hasNotReachLevelOne', function () {
-    it('should return true', function () {
+  module('hasNotReachLevelOne', function () {
+    test('should return true', function (assert) {
       // given
       scorecard.level = 0;
 
@@ -223,10 +222,10 @@ describe('Unit | Model | Scorecard model', function () {
       const hasNotReachLevelOne = scorecard.hasNotReachLevelOne;
 
       // then
-      expect(hasNotReachLevelOne).to.be.true;
+      assert.true(hasNotReachLevelOne);
     });
 
-    it('should return false if level is 1', function () {
+    test('should return false if level is 1', function (assert) {
       // given
       scorecard.level = 1;
 
@@ -234,10 +233,10 @@ describe('Unit | Model | Scorecard model', function () {
       const hasNotReachLevelOne = scorecard.hasNotReachLevelOne;
 
       // then
-      expect(hasNotReachLevelOne).to.be.false;
+      assert.false(hasNotReachLevelOne);
     });
 
-    it('should return false if level > 1', function () {
+    test('should return false if level > 1', function (assert) {
       // given
       scorecard.level = 2;
 
@@ -245,12 +244,12 @@ describe('Unit | Model | Scorecard model', function () {
       const hasNotReachLevelOne = scorecard.hasNotReachLevelOne;
 
       // then
-      expect(hasNotReachLevelOne).to.be.false;
+      assert.false(hasNotReachLevelOne);
     });
   });
 
-  describe('hasReachAtLeastLevelOne', function () {
-    it('should return true if level is 1', function () {
+  module('hasReachAtLeastLevelOne', function () {
+    test('should return true if level is 1', function (assert) {
       // given
       scorecard.level = 1;
 
@@ -258,10 +257,10 @@ describe('Unit | Model | Scorecard model', function () {
       const hasReachAtLeastLevelOne = scorecard.hasReachAtLeastLevelOne;
 
       // then
-      expect(hasReachAtLeastLevelOne).to.be.true;
+      assert.true(hasReachAtLeastLevelOne);
     });
 
-    it('should return true if level is 4', function () {
+    test('should return true if level is 4', function (assert) {
       // given
       scorecard.level = 4;
 
@@ -269,10 +268,10 @@ describe('Unit | Model | Scorecard model', function () {
       const hasReachAtLeastLevelOne = scorecard.hasReachAtLeastLevelOne;
 
       // then
-      expect(hasReachAtLeastLevelOne).to.be.true;
+      assert.true(hasReachAtLeastLevelOne);
     });
 
-    it('should return false', function () {
+    test('should return false', function (assert) {
       // given
       scorecard.level = 0;
 
@@ -280,7 +279,7 @@ describe('Unit | Model | Scorecard model', function () {
       const hasReachAtLeastLevelOne = scorecard.hasReachAtLeastLevelOne;
 
       // then
-      expect(hasReachAtLeastLevelOne).to.be.false;
+      assert.false(hasReachAtLeastLevelOne);
     });
   });
 });

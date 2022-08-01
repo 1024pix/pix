@@ -1,21 +1,20 @@
-import { expect } from 'chai';
 import Service from '@ember/service';
-import { beforeEach, describe, it } from 'mocha';
-import { setupTest } from 'ember-mocha';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
 import * as fetch from 'fetch';
 
-describe('Unit | Route | login-oidc', function () {
-  setupTest();
+module('Unit | Route | login-oidc', function (hooks) {
+  setupTest(hooks);
 
-  describe('#beforeModel', function () {
-    context('when receives error from identity provider', function () {
-      it('should throw an error', function () {
+  module('#beforeModel', function () {
+    module('when receives error from identity provider', function () {
+      test('should throw an error', function (assert) {
         // given
         const route = this.owner.lookup('route:authentication/login-oidc');
 
         // when & then
-        expect(() => {
+        assert.throws(() => {
           route.beforeModel({
             to: {
               queryParams: {
@@ -24,15 +23,15 @@ describe('Unit | Route | login-oidc', function () {
               },
             },
           });
-        }).to.throw(Error, 'access_denied: Access was denied.');
+        }, 'access_denied: Access was denied.');
       });
     });
 
-    context('when no code exists in queryParams', function () {
+    module('when no code exists in queryParams', function (hooks) {
       const state = 'a8a3344f-6d7c-469d-9f84-bdd791e04fdf';
       const nonce = '555c86fe-ed0a-4a80-80f3-45b1f7c2df8c';
 
-      beforeEach(function () {
+      hooks.beforeEach(function () {
         sinon.stub(fetch, 'default').resolves({
           json: sinon.stub().resolves({
             redirectTarget: `https://oidc/connexion`,
@@ -42,12 +41,12 @@ describe('Unit | Route | login-oidc', function () {
         });
       });
 
-      afterEach(function () {
+      hooks.afterEach(function () {
         sinon.restore();
       });
 
-      context('when identity provider is not supported', function () {
-        it('should redirect the user to main login page', async function () {
+      module('when identity provider is not supported', function () {
+        test('should redirect the user to main login page', async function (assert) {
           // given
           const route = this.owner.lookup('route:authentication/login-oidc');
           route.router = { replaceWith: sinon.stub() };
@@ -56,12 +55,13 @@ describe('Unit | Route | login-oidc', function () {
           await route.beforeModel({ to: { queryParams: {}, params: { identity_provider_slug: 'oidc' } } });
 
           // then
+          assert.expect(0);
           sinon.assert.calledWith(route.router.replaceWith, 'authentication.login');
         });
       });
 
-      context('when attempting transition', function () {
-        it('should store the intent url in session data nextUrl', async function () {
+      module('when attempting transition', function () {
+        test('should store the intent url in session data nextUrl', async function (assert) {
           // given
           const authenticateStub = sinon.stub().resolves();
           const sessionStub = Service.create({
@@ -81,10 +81,10 @@ describe('Unit | Route | login-oidc', function () {
           await route.beforeModel({ to: { queryParams: {}, params: { identity_provider_slug: 'cnav' } } });
 
           // then
-          expect(sessionStub.data.nextURL).to.equal('/campagnes/PIXEMPLOI/acces');
+          assert.equal(sessionStub.data.nextURL, '/campagnes/PIXEMPLOI/acces');
         });
 
-        it('should build the url from the intent name and contexts in session data nextUrl', async function () {
+        test('should build the url from the intent name and contexts in session data nextUrl', async function (assert) {
           // given
           const authenticateStub = sinon.stub().resolves();
           const sessionStub = Service.create({
@@ -105,11 +105,11 @@ describe('Unit | Route | login-oidc', function () {
           await route.beforeModel({ to: { queryParams: {}, params: { identity_provider_slug: 'cnav' } } });
 
           // then
-          expect(sessionStub.data.nextURL).to.equal('/campagnes/PIXEMPLOI/acces');
+          assert.equal(sessionStub.data.nextURL, '/campagnes/PIXEMPLOI/acces');
         });
       });
 
-      it('should direct user to identity provider login page and set state and nonce', async function () {
+      test('should direct user to identity provider login page and set state and nonce', async function (assert) {
         // given
         const authenticateStub = sinon.stub().resolves();
         const sessionStub = Service.create({
@@ -130,14 +130,14 @@ describe('Unit | Route | login-oidc', function () {
 
         // then
         sinon.assert.calledWithMatch(route.location.replace, 'https://oidc/connexion');
-        expect(sessionStub.data).to.deep.equal({ nextURL: '/campagnes/PIXEMPLOI/acces', state, nonce });
+        assert.deepEqual(sessionStub.data, { nextURL: '/campagnes/PIXEMPLOI/acces', state, nonce });
       });
     });
   });
 
-  describe('#afterModel', function () {
-    describe('when user has no pix account', function () {
-      it("should redirect to cgu's oidc page", async function () {
+  module('#afterModel', function () {
+    module('when user has no pix account', function () {
+      test("should redirect to cgu's oidc page", async function (assert) {
         // given
         const route = this.owner.lookup('route:authentication/login-oidc');
         route.router = { replaceWith: sinon.stub() };
@@ -147,14 +147,15 @@ describe('Unit | Route | login-oidc', function () {
         await route.afterModel({ authenticationKey: '123', shouldValidateCgu: true, identityProviderSlug });
 
         // then
+        assert.expect(0);
         sinon.assert.calledWith(route.router.replaceWith, 'terms-of-service-oidc', {
           queryParams: { authenticationKey: '123', identityProviderSlug },
         });
       });
     });
 
-    describe('when user has a pix account', function () {
-      it("should not redirect to cgu's oidc page", async function () {
+    module('when user has a pix account', function () {
+      test("should not redirect to cgu's oidc page", async function (assert) {
         // given
         const route = this.owner.lookup('route:authentication/login-oidc');
         route.router = { replaceWith: sinon.stub() };
@@ -164,13 +165,14 @@ describe('Unit | Route | login-oidc', function () {
         await route.afterModel({ authenticationKey: null, shouldValidateCgu: false, identityProviderSlug });
 
         // then
+        assert.expect(0);
         sinon.assert.notCalled(route.router.replaceWith);
       });
     });
   });
 
-  describe('#model', function () {
-    it('should request to authenticate user with identity provider', async function () {
+  module('#model', function () {
+    test('should request to authenticate user with identity provider', async function (assert) {
       // given
       const authenticateStub = sinon.stub().resolves();
       const sessionStub = Service.create({
@@ -188,11 +190,11 @@ describe('Unit | Route | login-oidc', function () {
         code: 'test',
         state: undefined,
       });
-      expect(authenticateStub.getCall(0).args[1].redirectUri).to.contain('connexion-oidc');
-      expect(sessionStub.data).to.deep.equal({ state: undefined, nonce: undefined });
+      assert.equal(authenticateStub.getCall(0).args[1].redirectUri, 'connexion-oidc');
+      assert.deepEqual(sessionStub.data, { state: undefined, nonce: undefined });
     });
 
-    it('should return values to be received by after model to validate CGUs', async function () {
+    test('should return values to be received by after model to validate CGUs', async function (assert) {
       // given
       const authenticateStub = sinon
         .stub()
@@ -210,14 +212,14 @@ describe('Unit | Route | login-oidc', function () {
 
       // then
       sinon.assert.calledOnce(authenticateStub);
-      expect(response).to.deep.equal({
+      assert.deepEqual(response, {
         shouldValidateCgu: true,
         authenticationKey: 'key',
         identityProviderSlug: 'oidc',
       });
     });
 
-    it('should throw error if CGUs are already validated and authenticate fails', async function () {
+    test('should throw error if CGUs are already validated and authenticate fails', async function (assert) {
       // given
       const authenticateStub = sinon.stub().rejects({ errors: 'there was an error' });
       const sessionStub = Service.create({
@@ -234,7 +236,7 @@ describe('Unit | Route | login-oidc', function () {
       } catch (error) {
         // then
         sinon.assert.calledOnce(authenticateStub);
-        expect(error.message).to.equal('"there was an error"');
+        assert.equal(error.message, '"there was an error"');
       }
     });
   });

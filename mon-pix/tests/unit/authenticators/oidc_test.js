@@ -1,6 +1,5 @@
-import { expect } from 'chai';
-import { setupTest } from 'ember-mocha';
-import { beforeEach, describe, it } from 'mocha';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
 import Service from '@ember/service';
 import * as fetch from 'fetch';
@@ -9,10 +8,10 @@ import ENV from '../../../config/environment';
 
 const AUTHENTICATED_SOURCE_FROM_POLE_EMPLOI = ENV.APP.AUTHENTICATED_SOURCE_FROM_POLE_EMPLOI;
 
-describe('Unit | Authenticator | oidc', function () {
-  setupTest();
+module('Unit | Authenticator | oidc', function (hooks) {
+  setupTest(hooks);
 
-  describe('#authenticate', function () {
+  module('#authenticate', function () {
     const userId = 1;
     const source = 'source';
     const logoutUrlUuid = 'uuid';
@@ -35,18 +34,18 @@ describe('Unit | Authenticator | oidc', function () {
       }`) +
       '.bbb';
 
-    beforeEach(function () {
+    hooks.beforeEach(function () {
       sinon.stub(fetch, 'default').resolves({
         json: sinon.stub().resolves({ access_token: accessToken, logout_url_uuid: logoutUrlUuid }),
         ok: true,
       });
     });
 
-    afterEach(function () {
+    hooks.afterEach(function () {
       sinon.restore();
     });
 
-    it('should fetch token with authentication key', async function () {
+    test('should fetch token with authentication key', async function (assert) {
       // given
       const authenticator = this.owner.lookup('authenticator:oidc');
 
@@ -59,7 +58,7 @@ describe('Unit | Authenticator | oidc', function () {
         `http://localhost:3000/api/${identityProviderSlug}/users?authentication-key=key`,
         request
       );
-      expect(token).to.deep.equal({
+      assert.deepEqual(token, {
         access_token: accessToken,
         logout_url_uuid: logoutUrlUuid,
         source,
@@ -68,7 +67,7 @@ describe('Unit | Authenticator | oidc', function () {
       });
     });
 
-    it('should fetch token with code, redirectUri, and state in body', async function () {
+    test('should fetch token with code, redirectUri, and state in body', async function (assert) {
       // given
       const code = 'code';
       const redirectUri = 'redirectUri';
@@ -82,7 +81,7 @@ describe('Unit | Authenticator | oidc', function () {
       request.headers['Content-Type'] = 'application/x-www-form-urlencoded';
       request.body = `code=${code}&redirect_uri=${redirectUri}&state_sent=undefined&state_received=${state}`;
       sinon.assert.calledWith(fetch.default, `http://localhost:3000/api/${identityProviderSlug}/token`, request);
-      expect(token).to.deep.equal({
+      assert.deepEqual(token, {
         access_token: accessToken,
         logout_url_uuid: logoutUrlUuid,
         source,
@@ -91,7 +90,7 @@ describe('Unit | Authenticator | oidc', function () {
       });
     });
 
-    it('should pass the access token in the header authorization when user is authenticated', async function () {
+    test('should pass the access token in the header authorization when user is authenticated', async function (assert) {
       // given
       const code = 'code';
       const redirectUri = 'redirectUri';
@@ -121,7 +120,7 @@ describe('Unit | Authenticator | oidc', function () {
       request.body = `code=${code}&redirect_uri=${redirectUri}&state_sent=undefined&state_received=${state}`;
       sinon.assert.calledWith(fetch.default, `http://localhost:3000/api/${identityProviderSlug}/token`, request);
       sinon.assert.calledOnce(sessionStub.invalidate);
-      expect(token).to.deep.equal({
+      assert.deepEqual(token, {
         access_token: accessToken,
         logout_url_uuid: logoutUrlUuid,
         source,
@@ -131,9 +130,9 @@ describe('Unit | Authenticator | oidc', function () {
     });
   });
 
-  describe('#invalidate', function () {
-    context('when user still has an idToken in their session', function () {
-      it('should redirect to the correct url', async function () {
+  module('#invalidate', function () {
+    module('when user still has an idToken in their session', function () {
+      test('should redirect to the correct url', async function (assert) {
         // given
         const replaceLocationStub = sinon.stub().resolves();
         this.owner.register(
@@ -161,14 +160,19 @@ describe('Unit | Authenticator | oidc', function () {
         await authenticator.invalidate({ identity_provider_code: 'POLE_EMPLOI' });
 
         // then
-        expect(replaceLocationStub.getCall(0).args[0]).to.equal(
+        assert.equal(
+          replaceLocationStub.getCall(0).args[0],
           'https://authentification-candidat-r.pe-qvr.fr/compte/deconnexion?id_token_hint=ID_TOKEN'
         );
       });
     });
 
-    context('when user has logoutUrlUUID in their session', function () {
-      it('should redirect to the correct url', async function () {
+    module('when user has logoutUrlUUID in their session', function (hooks) {
+      hooks.beforeEach(function () {
+        sinon.restore();
+      });
+
+      test('should redirect to the correct url', async function (assert) {
         // given
         const replaceLocationStub = sinon.stub().resolves();
         this.owner.register(
@@ -199,7 +203,7 @@ describe('Unit | Authenticator | oidc', function () {
         await authenticator.invalidate({ identity_provider_code: 'POLE_EMPLOI' });
 
         // then
-        expect(replaceLocationStub.getCall(0).args[0]).to.equal(redirectLogoutUrl);
+        assert.equal(replaceLocationStub.getCall(0).args[0], redirectLogoutUrl);
       });
     });
   });

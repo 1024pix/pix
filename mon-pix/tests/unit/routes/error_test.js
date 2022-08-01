@@ -1,23 +1,22 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
-import { setupTest } from 'ember-mocha';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 
-describe('Unit | Route | error', function () {
-  setupTest();
+module('Unit | Route | error', function (hooks) {
+  setupTest(hooks);
 
-  it('exists', function () {
+  test('exists', function (assert) {
     const route = this.owner.lookup('route:error');
-    expect(route).to.be.ok;
+    assert.ok(route);
   });
 
-  describe('#hasUnauthorizedError', function () {
+  module('#hasUnauthorizedError', function (hooks) {
     let route;
 
-    beforeEach(function () {
+    hooks.beforeEach(function () {
       route = this.owner.lookup('route:error');
     });
 
-    it('finds an unauthorized code in the first error object', function () {
+    test('finds an unauthorized code in the first error object', function (assert) {
       // Given
       const errorEvent = { errors: [{ status: '401' }] };
 
@@ -25,10 +24,10 @@ describe('Unit | Route | error', function () {
       const result = route.hasUnauthorizedError(errorEvent);
 
       // Then
-      expect(result).to.be.true;
+      assert.true(result);
     });
 
-    it('returns false if there is no "errors" key', function () {
+    test('returns false if there is no "errors" key', function (assert) {
       // Given
       const errorEvent = {};
 
@@ -36,10 +35,10 @@ describe('Unit | Route | error', function () {
       const result = route.hasUnauthorizedError(errorEvent);
 
       // Then
-      expect(result).to.be.false;
+      assert.false(result);
     });
 
-    it('returns false if the "errors" key points to an empty array', function () {
+    test('returns false if the "errors" key points to an empty array', function (assert) {
       // Given
       const errorEvent = { errors: [] };
 
@@ -47,7 +46,7 @@ describe('Unit | Route | error', function () {
       const result = route.hasUnauthorizedError(errorEvent);
 
       // Then
-      expect(result).to.be.false;
+      assert.false(result);
     });
   });
 });

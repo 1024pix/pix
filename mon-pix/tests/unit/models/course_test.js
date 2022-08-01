@@ -1,18 +1,17 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
-import { setupTest } from 'ember-mocha';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 
-describe('Unit | Model | course', function () {
-  setupTest();
+module('Unit | Model | course', function (hooks) {
+  setupTest(hooks);
 
   let store;
 
-  beforeEach(function () {
+  hooks.beforeEach(function () {
     store = this.owner.lookup('service:store');
   });
 
-  it('exists', function () {
+  test('exists', function (assert) {
     const model = store.createRecord('course');
-    expect(model).to.be.ok;
+    assert.ok(model);
   });
 });

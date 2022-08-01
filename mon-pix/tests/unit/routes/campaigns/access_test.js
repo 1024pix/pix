@@ -1,14 +1,13 @@
-import { expect } from 'chai';
-import { describe, it, beforeEach } from 'mocha';
-import { setupTest } from 'ember-mocha';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
 
-describe('Unit | Route | Access', function () {
-  setupTest();
+module('Unit | Route | Access', function (hooks) {
+  setupTest(hooks);
 
   let route, campaign;
 
-  beforeEach(function () {
+  hooks.beforeEach(function () {
     campaign = {
       code: 'NEW_CODE',
       isRestrictedByIdentityProvider: sinon.stub(),
@@ -19,41 +18,44 @@ describe('Unit | Route | Access', function () {
     route.router = { replaceWith: sinon.stub(), transitionTo: sinon.stub() };
   });
 
-  describe('#beforeModel', function () {
-    it('should redirect to entry point when /access is directly set in the url', async function () {
+  module('#beforeModel', function () {
+    test('should redirect to entry point when /access is directly set in the url', async function (assert) {
       //when
       await route.beforeModel({ from: null });
 
       //then
+      assert.expect(0);
       sinon.assert.calledWith(route.router.replaceWith, 'campaigns.entry-point');
     });
 
-    it('should continue on access route when from is set', async function () {
+    test('should continue on access route when from is set', async function (assert) {
       //when
       await route.beforeModel({ from: 'campaigns.campaign-landing-page' });
 
       //then
+      assert.expect(0);
       sinon.assert.notCalled(route.router.replaceWith);
     });
 
-    it('should override authentication route', async function () {
+    test('should override authentication route', async function (assert) {
       // when
       await route.beforeModel({ from: 'campaigns.campaign-landing-page' });
 
       // then
-      expect(route.authenticationRoute).to.equal('inscription');
+      assert.equal(route.authenticationRoute, 'inscription');
     });
 
-    it('should call parent’s beforeModel and transition to authenticationRoute', async function () {
+    test('should call parent’s beforeModel and transition to authenticationRoute', async function (assert) {
       // when
       await route.beforeModel({ from: 'campaigns.campaign-landing-page' });
 
       // then
+      assert.expect(0);
       sinon.assert.calledWith(route.router.transitionTo, 'inscription');
     });
 
-    context('when campaign belongs to pole emploi and user is not connected with pole emploi', function () {
-      it('should override authentication route with login-pole-emploi', async function () {
+    module('when campaign belongs to pole emploi and user is not connected with pole emploi', function () {
+      test('should override authentication route with login-pole-emploi', async function (assert) {
         // given
         route.session.data.externalUser = 'some external user';
         campaign.isRestrictedByIdentityProvider.withArgs('POLE_EMPLOI').returns(true);
@@ -62,12 +64,13 @@ describe('Unit | Route | Access', function () {
         await route.beforeModel({ from: 'campaigns.campaign-landing-page' });
 
         // then
+        assert.expect(0);
         sinon.assert.calledWith(route.router.replaceWith, 'authentication.login-oidc', 'pole-emploi');
       });
     });
 
-    context('when campaign belongs to pole emploi and user is connected with pole emploi', function () {
-      it('should not override authentication route with login-pole-emploi', async function () {
+    module('when campaign belongs to pole emploi and user is connected with pole emploi', function () {
+      test('should not override authentication route with login-pole-emploi', async function (assert) {
         // given
         route.session.data.externalUser = 'some external user';
         const POLE_EMPLOI = 'POLE_EMPLOI';
@@ -78,12 +81,13 @@ describe('Unit | Route | Access', function () {
         await route.beforeModel({ from: 'campaigns.campaign-landing-page' });
 
         // then
+        assert.expect(0);
         sinon.assert.neverCalledWith(route.router.replaceWith, 'authentication.login-oidc', 'pole-emploi');
       });
     });
 
-    context('when campaign belongs to cnav and user is not connected with cnav', function () {
-      it('should override authentication route with login-cnav', async function () {
+    module('when campaign belongs to cnav and user is not connected with cnav', function () {
+      test('should override authentication route with login-cnav', async function (assert) {
         // given
         route.session.data.externalUser = 'some external user';
         campaign.isRestrictedByIdentityProvider.withArgs('CNAV').returns(true);
@@ -92,12 +96,13 @@ describe('Unit | Route | Access', function () {
         await route.beforeModel({ from: 'campaigns.campaign-landing-page' });
 
         // then
+        assert.expect(0);
         sinon.assert.calledWith(route.router.replaceWith, 'authentication.login-oidc', 'cnav');
       });
     });
 
-    context('when campaign belongs to cnav and user is connected with cnav', function () {
-      it('should not override authentication route with login-cnav', async function () {
+    module('when campaign belongs to cnav and user is connected with cnav', function () {
+      test('should not override authentication route with login-cnav', async function (assert) {
         // given
         route.session.data.externalUser = 'some external user';
         const CNAV = 'CNAV';
@@ -108,14 +113,15 @@ describe('Unit | Route | Access', function () {
         await route.beforeModel({ from: 'campaigns.campaign-landing-page' });
 
         // then
+        assert.expect(0);
         sinon.assert.neverCalledWith(route.router.replaceWith, 'authentication.login-oidc', 'cnav');
       });
     });
 
-    context(
+    module(
       'when campaign is SCO restricted and user is neither authenticated from Pix nor a user from an external platform',
       function () {
-        it('should override authentication route with student-sco', async function () {
+        test('should override authentication route with student-sco', async function (assert) {
           // given
           route.session.isAuthenticated = false;
           campaign.isRestricted = true;
@@ -126,13 +132,13 @@ describe('Unit | Route | Access', function () {
           await route.beforeModel({ from: 'campaigns.campaign-landing-page' });
 
           // then
-          expect(route.authenticationRoute).to.equal('campaigns.join.student-sco');
+          assert.equal(route.authenticationRoute, 'campaigns.join.student-sco');
         });
       }
     );
 
-    context('when campaign is SCO restricted and user has been disconnected from sco form', function () {
-      it('should override authentication route with student-sco', async function () {
+    module('when campaign is SCO restricted and user has been disconnected from sco form', function () {
+      test('should override authentication route with student-sco', async function (assert) {
         // given
         route.session.isAuthenticated = false;
         campaign.isRestricted = true;
@@ -144,12 +150,12 @@ describe('Unit | Route | Access', function () {
         await route.beforeModel({ from: 'campaigns.campaign-landing-page' });
 
         // then
-        expect(route.authenticationRoute).to.equal('campaigns.join.student-sco');
+        assert.equal(route.authenticationRoute, 'campaigns.join.student-sco');
       });
     });
 
-    context('when campaign is restricted and user is from an external platform', function () {
-      it('should override authentication route with sco-mediacentre', async function () {
+    module('when campaign is restricted and user is from an external platform', function () {
+      test('should override authentication route with sco-mediacentre', async function (assert) {
         // given
         campaign.isRestricted = true;
         route.session.data.externalUser = 'some external user';
@@ -158,12 +164,12 @@ describe('Unit | Route | Access', function () {
         await route.beforeModel({ from: 'campaigns.campaign-landing-page' });
 
         // then
-        expect(route.authenticationRoute).to.equal('campaigns.join.sco-mediacentre');
+        assert.equal(route.authenticationRoute, 'campaigns.join.sco-mediacentre');
       });
     });
 
-    context('when campaign is simplified access and user is not authenticated', function () {
-      it('should override authentication route with anonymous', async function () {
+    module('when campaign is simplified access and user is not authenticated', function () {
+      test('should override authentication route with anonymous', async function (assert) {
         // given
         campaign.isSimplifiedAccess = true;
         route.session.isAuthenticated = false;
@@ -172,7 +178,7 @@ describe('Unit | Route | Access', function () {
         await route.beforeModel({ from: 'campaigns.campaign-landing-page' });
 
         // then
-        expect(route.authenticationRoute).to.equal('campaigns.join.anonymous');
+        assert.equal(route.authenticationRoute, 'campaigns.join.anonymous');
       });
     });
   });

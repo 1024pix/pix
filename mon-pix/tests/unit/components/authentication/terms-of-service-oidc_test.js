@@ -1,17 +1,16 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 import createGlimmerComponent from '../../../helpers/create-glimmer-component';
-import { setupTest } from 'ember-mocha';
 import setupIntl from '../../../helpers/setup-intl';
 import sinon from 'sinon';
 import Service from '@ember/service';
 
-describe('Unit | Component | authentication::terms-of-service-oidc', function () {
-  setupTest();
-  setupIntl();
+module('Unit | Component | authentication::terms-of-service-oidc', function (hooks) {
+  setupTest(hooks);
+  setupIntl(hooks);
 
-  describe('when terms of service are not selected', function () {
-    it('should display error', function () {
+  module('when terms of service are not selected', function () {
+    test('should display error', function (assert) {
       // given
       const component = createGlimmerComponent('component:authentication/terms-of-service-oidc');
       component.isTermsOfServiceValidated = false;
@@ -21,12 +20,12 @@ describe('Unit | Component | authentication::terms-of-service-oidc', function ()
       component.submit();
 
       // then
-      expect(component.errorMessage).to.equal('Vous devez accepter les conditions d’utilisation de Pix.');
+      assert.equal(component.errorMessage, 'Vous devez accepter les conditions d’utilisation de Pix.');
     });
   });
 
-  describe('#submit', function () {
-    it('should create session', function () {
+  module('#submit', function () {
+    test('should create session', function (assert) {
       // given
       const component = createGlimmerComponent('component:authentication/terms-of-service-oidc');
       const authenticateStub = sinon.stub();
@@ -43,14 +42,15 @@ describe('Unit | Component | authentication::terms-of-service-oidc', function ()
       component.submit();
 
       // then
+      assert.expect(0);
       sinon.assert.calledWith(authenticateStub, 'authenticator:oidc', {
         authenticationKey: 'super-key',
         identityProviderSlug: 'super-idp',
       });
     });
 
-    describe('when authentication key has expired', function () {
-      it('should display error', async function () {
+    module('when authentication key has expired', function () {
+      test('should display error', async function (assert) {
         // given
         const component = createGlimmerComponent('component:authentication/terms-of-service-oidc');
         const authenticateStub = sinon.stub().rejects({ errors: [{ status: '401' }] });
@@ -68,14 +68,15 @@ describe('Unit | Component | authentication::terms-of-service-oidc', function ()
         await component.submit();
 
         // then
-        expect(component.errorMessage).to.equal(
+        assert.equal(
+          component.errorMessage,
           "Votre demande d'authentification a expiré, merci de renouveler votre connexion en cliquant sur le bouton retour."
         );
-        expect(component.isAuthenticationKeyExpired).to.be.true;
+        assert.true(component.isAuthenticationKeyExpired);
       });
     });
 
-    it('it should display detailed error', async function () {
+    test('it should display detailed error', async function (assert) {
       // given
       const component = createGlimmerComponent('component:authentication/terms-of-service-oidc');
       const authenticateStub = sinon.stub().rejects({ errors: [{ status: '500', detail: 'some detail' }] });
@@ -92,12 +93,13 @@ describe('Unit | Component | authentication::terms-of-service-oidc', function ()
       await component.submit();
 
       // then
-      expect(component.errorMessage).to.equal(
+      assert.equal(
+        component.errorMessage,
         'Une erreur est survenue. Veuillez recommencer ou contacter le support. (some detail)'
       );
     });
 
-    it('it should display generic error', async function () {
+    test('it should display generic error', async function (assert) {
       // given
       const component = createGlimmerComponent('component:authentication/terms-of-service-oidc');
       const authenticateStub = sinon.stub().rejects({ errors: [{ status: '500' }] });
@@ -114,7 +116,7 @@ describe('Unit | Component | authentication::terms-of-service-oidc', function ()
       await component.submit();
 
       // then
-      expect(component.errorMessage).to.equal('Une erreur est survenue. Veuillez recommencer ou contacter le support.');
+      assert.equal(component.errorMessage, 'Une erreur est survenue. Veuillez recommencer ou contacter le support.');
     });
   });
 });

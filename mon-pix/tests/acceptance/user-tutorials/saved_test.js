@@ -1,16 +1,15 @@
-import { describe, it } from 'mocha';
-import { expect } from 'chai';
-import { setupApplicationTest } from 'ember-mocha';
+import { module, test } from 'qunit';
+import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { visit, find, findAll, click } from '@ember/test-helpers';
 import { authenticateByEmail } from '../../helpers/authentication';
 
-describe('Acceptance | User-tutorials-v2 | Saved', function () {
-  setupApplicationTest();
-  setupMirage();
+module('Acceptance | User-tutorials-v2 | Saved', function (hooks) {
+  setupApplicationTest(hooks);
+  setupMirage(hooks);
   let user;
 
-  beforeEach(async function () {
+  hooks.beforeEach(async function () {
     const numberOfTutorials = 100;
     user = server.create('user', 'withEmail');
     await authenticateByEmail(user);
@@ -18,16 +17,16 @@ describe('Acceptance | User-tutorials-v2 | Saved', function () {
     server.createList('tutorial', numberOfTutorials, 'withUserTutorial');
   });
 
-  describe('When there are tutorials saved', function () {
-    it('should display paginated tutorial cards', async function () {
+  module('When there are tutorials saved', function () {
+    test('should display paginated tutorial cards', async function (assert) {
       await visit('/mes-tutos/enregistres');
-      expect(findAll('.tutorial-card-v2')).to.exist;
-      expect(findAll('.tutorial-card-v2')).to.be.lengthOf(10);
-      expect(find('.pix-pagination__navigation').textContent).to.contain('Page 1 / 10');
+      assert.dom(findAll('.tutorial-card-v2')).exists();
+      assert.equal(findAll('.tutorial-card-v2').length, 10);
+      assert.dom(find('.pix-pagination__navigation').textContent).hasText('Page 1 / 10');
     });
 
-    describe('when user clicking save again', function () {
-      it('should remove tutorial ', async function () {
+    module('when user clicking save again', function () {
+      test('should remove tutorial ', async function (assert) {
         // given
         const numberOfTutorials = 10;
         await server.db.tutorials.remove();
@@ -39,7 +38,7 @@ describe('Acceptance | User-tutorials-v2 | Saved', function () {
         await click('[aria-label="Retirer de ma liste de tutos"]');
 
         // then
-        expect(findAll('.tutorial-card-v2')).to.be.lengthOf(9);
+        assert.equal(findAll('.tutorial-card-v2').length, 9);
       });
     });
   });

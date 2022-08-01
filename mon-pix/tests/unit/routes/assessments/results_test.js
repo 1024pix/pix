@@ -1,19 +1,18 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
-import { setupTest } from 'ember-mocha';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
 import EmberObject from '@ember/object';
 
-describe('Unit | Route | Assessments | Results', function () {
-  setupTest();
+module('Unit | Route | Assessments | Results', function (hooks) {
+  setupTest(hooks);
 
-  it('exists', function () {
+  test('exists', function (assert) {
     const route = this.owner.lookup('route:assessments.results');
-    expect(route).to.be.ok;
+    assert.ok(route);
   });
 
-  describe('#afterModel', function () {
-    it('should redirect to homepage if assessment is a certification', function () {
+  module('#afterModel', function () {
+    test('should redirect to homepage if assessment is a certification', function (assert) {
       // given
       const route = this.owner.lookup('route:assessments.results');
       route.router = { transitionTo: sinon.spy() };
@@ -24,10 +23,11 @@ describe('Unit | Route | Assessments | Results', function () {
       route.afterModel(assessment);
 
       // then
+      assert.expect(0);
       sinon.assert.calledWith(route.router.transitionTo, 'index');
     });
 
-    it('should not redirect to homepage if assessment is not a certification', function () {
+    test('should not redirect to homepage if assessment is not a certification', function (assert) {
       // given
       const route = this.owner.lookup('route:assessments.results');
       route.router = { transitionTo: sinon.spy() };
@@ -38,6 +38,7 @@ describe('Unit | Route | Assessments | Results', function () {
       route.afterModel(assessment);
 
       // then
+      assert.expect(0);
       sinon.assert.notCalled(route.router.transitionTo);
     });
   });

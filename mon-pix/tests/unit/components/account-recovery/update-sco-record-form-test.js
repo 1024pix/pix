@@ -1,13 +1,12 @@
-import { describe, it } from 'mocha';
-import { expect } from 'chai';
-import { setupTest } from 'ember-mocha';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 import createGlimmerComponent from 'mon-pix/tests/helpers/create-glimmer-component';
 
-describe('Unit | Component | account-recovery | update-sco-record-form', function () {
-  setupTest();
+module('Unit | Component | account-recovery | update-sco-record-form', function (hooks) {
+  setupTest(hooks);
 
-  context('#isSubmitButtonEnabled', function () {
-    it('should return false if password is not valid and cgu are not accepted', function () {
+  module('#isSubmitButtonEnabled', function () {
+    test('should return false if password is not valid and cgu are not accepted', function (assert) {
       // given
       const component = createGlimmerComponent('component:account-recovery/update-sco-record-form');
       component.password = 'Pass';
@@ -17,10 +16,10 @@ describe('Unit | Component | account-recovery | update-sco-record-form', functio
       const result = component.isSubmitButtonEnabled;
 
       // then
-      expect(result).to.be.false;
+      assert.false(result);
     });
 
-    it('should return false if password is valid and cgu are not accepted', function () {
+    test('should return false if password is valid and cgu are not accepted', function (assert) {
       // given
       const component = createGlimmerComponent('component:account-recovery/update-sco-record-form');
       component.password = 'Password123';
@@ -30,10 +29,10 @@ describe('Unit | Component | account-recovery | update-sco-record-form', functio
       const result = component.isSubmitButtonEnabled;
 
       // then
-      expect(result).to.be.false;
+      assert.false(result);
     });
 
-    it('should return true if password is valid and cgu are accepted', function () {
+    test('should return true if password is valid and cgu are accepted', function (assert) {
       // given
       const component = createGlimmerComponent('component:account-recovery/update-sco-record-form');
       component.password = 'Password123';
@@ -43,7 +42,7 @@ describe('Unit | Component | account-recovery | update-sco-record-form', functio
       const result = component.isSubmitButtonEnabled;
 
       // then
-      expect(result).to.be.true;
+      assert.true(result);
     });
   });
 });

@@ -1,5 +1,4 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
+import { module, test } from 'qunit';
 import sinon from 'sinon';
 import { find, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
@@ -8,11 +7,11 @@ import { contains } from '../../helpers/contains';
 import { fillInByLabel } from '../../helpers/fill-in-by-label';
 import { clickByLabel } from '../../helpers/click-by-label';
 
-describe('Integration | Component | certification-joiner', function () {
-  setupIntlRenderingTest();
+module('Integration | Component | certification-joiner', function (hooks) {
+  setupIntlRenderingTest(hooks);
 
-  context('submit', function () {
-    it('should create certificate candidate with trimmed first and last name', async function () {
+  module('submit', function () {
+    test('should create certificate candidate with trimmed first and last name', async function (assert) {
       // given
       this.set('onStepChange', sinon.stub());
       await render(hbs`<CertificationJoiner @onStepChange={{this.onStepChange}}/>`);
@@ -31,6 +30,7 @@ describe('Integration | Component | certification-joiner', function () {
       await clickByLabel(this.intl.t('pages.certification-joiner.form.actions.submit'));
 
       // then
+      assert.expect(0);
       sinon.assert.calledWith(createRecordMock, 'certification-candidate', {
         sessionId: '123456',
         birthdate: '2000-01-02',
@@ -39,7 +39,7 @@ describe('Integration | Component | certification-joiner', function () {
       });
     });
 
-    it('should create certificate candidate with padded numbers in birthday', async function () {
+    test('should create certificate candidate with padded numbers in birthday', async function (assert) {
       // given
       this.set('onStepChange', sinon.stub());
       await render(hbs`<CertificationJoiner @onStepChange={{this.onStepChange}}/>`);
@@ -58,6 +58,7 @@ describe('Integration | Component | certification-joiner', function () {
       await clickByLabel(this.intl.t('pages.certification-joiner.form.actions.submit'));
 
       // then
+      assert.expect(0);
       sinon.assert.calledWith(createRecordMock, 'certification-candidate', {
         sessionId: '123456',
         birthdate: '2000-01-02',
@@ -66,7 +67,7 @@ describe('Integration | Component | certification-joiner', function () {
       });
     });
 
-    it('should call the stepChange action when certification candidate creation is successful', async function () {
+    test('should call the stepChange action when certification candidate creation is successful', async function (assert) {
       // given
       const stepChangeStub = sinon.stub();
       this.set('onStepChange', stepChangeStub);
@@ -89,10 +90,11 @@ describe('Integration | Component | certification-joiner', function () {
       await clickByLabel(this.intl.t('pages.certification-joiner.form.actions.submit'));
 
       // then
+      assert.expect(0);
       sinon.assert.calledWith(stepChangeStub, '112233');
     });
 
-    it('should display an error message if session id contains letters', async function () {
+    test('should display an error message if session id contains letters', async function (assert) {
       // given
       this.set('onStepChange', sinon.stub());
       await render(hbs`<CertificationJoiner @onStepChange={{this.onStepChange}}/>`);
@@ -111,10 +113,10 @@ describe('Integration | Component | certification-joiner', function () {
       await clickByLabel(this.intl.t('pages.certification-joiner.form.actions.submit'));
 
       // then
-      expect(contains('Le numéro de session est composé uniquement de chiffres.')).to.exist;
+      assert.dom(contains('Le numéro de session est composé uniquement de chiffres.')).exists();
     });
 
-    it('should display an error message on student mismatch error', async function () {
+    test('should display an error message on student mismatch error', async function (assert) {
       // given
       this.set('onStepChange', sinon.stub());
       await render(hbs`<CertificationJoiner @onStepChange={{this.onStepChange}}/>`);
@@ -142,15 +144,17 @@ describe('Integration | Component | certification-joiner', function () {
       await clickByLabel(this.intl.t('pages.certification-joiner.form.actions.submit'));
 
       // then
-      expect(
-        contains(
-          "Vous utilisez actuellement un compte qui n'est pas lié à votre établissement. Connectez vous au compte avec lequel vous avez effectué vos parcours ou demandez de l'aide au surveillant."
+      assert
+        .dom(
+          contains(
+            "Vous utilisez actuellement un compte qui n'est pas lié à votre établissement. Connectez vous au compte avec lequel vous avez effectué vos parcours ou demandez de l'aide au surveillant."
+          )
         )
-      ).to.exist;
-      expect(contains("Comment trouver le compte lié à l'établissement ?")).to.exist;
+        .exists();
+      assert.dom(contains("Comment trouver le compte lié à l'établissement ?")).exists();
     });
 
-    it('should display an error message on candidate not found', async function () {
+    test('should display an error message on candidate not found', async function (assert) {
       // given
       this.set('onStepChange', sinon.stub());
       await render(hbs`<CertificationJoiner @onStepChange={{this.onStepChange}}/>`);
@@ -173,12 +177,16 @@ describe('Integration | Component | certification-joiner', function () {
       await clickByLabel(this.intl.t('pages.certification-joiner.form.actions.submit'));
 
       // then
-      expect(contains(this.intl.t('pages.certification-joiner.error-messages.generic.disclaimer'))).to.exist;
-      expect(contains(this.intl.t('pages.certification-joiner.error-messages.generic.check-session-number'))).to.exist;
-      expect(contains(this.intl.t('pages.certification-joiner.error-messages.generic.check-personal-info'))).to.exist;
+      assert.dom(contains(this.intl.t('pages.certification-joiner.error-messages.generic.disclaimer'))).exists();
+      assert
+        .dom(contains(this.intl.t('pages.certification-joiner.error-messages.generic.check-session-number')))
+        .exists();
+      assert
+        .dom(contains(this.intl.t('pages.certification-joiner.error-messages.generic.check-personal-info')))
+        .exists();
     });
 
-    it('should display an error message on session not accessible', async function () {
+    test('should display an error message on session not accessible', async function (assert) {
       // given
       this.set('onStepChange', sinon.stub());
       await render(hbs`<CertificationJoiner @onStepChange={{this.onStepChange}}/>`);
@@ -201,11 +209,11 @@ describe('Integration | Component | certification-joiner', function () {
       await clickByLabel(this.intl.t('pages.certification-joiner.form.actions.submit'));
 
       // then
-      expect(contains("La session que vous tentez de rejoindre n'est plus accessible.")).to.exist;
+      assert.dom(contains("La session que vous tentez de rejoindre n'est plus accessible.")).exists();
     });
 
-    context('when candidate has already been linked to another user in the session', function () {
-      it('should display an error message', async function () {
+    module('when candidate has already been linked to another user in the session', function () {
+      test('should display an error message', async function (assert) {
         // given
         this.set('onStepChange', sinon.stub());
         await render(hbs`<CertificationJoiner @onStepChange={{this.onStepChange}}/>`);
@@ -228,25 +236,27 @@ describe('Integration | Component | certification-joiner', function () {
         await clickByLabel(this.intl.t('pages.certification-joiner.form.actions.submit'));
 
         // then
-        expect(contains(this.intl.t('pages.certification-joiner.error-messages.generic.disclaimer'))).to.exist;
-        expect(
-          contains(this.intl.t('pages.certification-joiner.error-messages.generic.check-session-number'))
-        ).to.exist;
-        expect(contains(this.intl.t('pages.certification-joiner.error-messages.generic.check-personal-info'))).to.exist;
+        assert.dom(contains(this.intl.t('pages.certification-joiner.error-messages.generic.disclaimer'))).exists();
+        assert
+          .dom(contains(this.intl.t('pages.certification-joiner.error-messages.generic.check-session-number')))
+          .exists();
+        assert
+          .dom(contains(this.intl.t('pages.certification-joiner.error-messages.generic.check-personal-info')))
+          .exists();
       });
     });
   });
 
-  it('should display hint on session number input', async function () {
+  test('should display hint on session number input', async function (assert) {
     await render(hbs`<CertificationJoiner @onStepChange={{this.onStepChange}}/>`);
     const foo = find(`.pix-input__information`);
 
-    expect(foo.innerText).to.contains(this.intl.t('pages.certification-joiner.form.fields.session-number-information'));
+    assert.dom(foo.innerText).hasText(this.intl.t('pages.certification-joiner.form.fields.session-number-information'));
   });
 
-  context('when filling form', function () {
-    context('should not allow filling letters in birth date', function () {
-      it('day', async function () {
+  module('when filling form', function () {
+    module('should not allow filling letters in birth date', function () {
+      test('day', async function (assert) {
         // given
         this.set('onStepChange', sinon.stub());
         await render(hbs`<CertificationJoiner @onStepChange={{this.onStepChange}}/>`);
@@ -256,10 +266,10 @@ describe('Integration | Component | certification-joiner', function () {
 
         // then
         const foo = find(`input[aria-label="${this.intl.t('pages.certification-joiner.form.fields.birth-day')}"]`);
-        expect(foo.value).not.to.contains('aa');
+        assert.notEqual(foo.value, ' aa');
       });
 
-      it('month', async function () {
+      test('month', async function (assert) {
         // given
         this.set('onStepChange', sinon.stub());
         await render(hbs`<CertificationJoiner @onStepChange={{this.onStepChange}}/>`);
@@ -269,10 +279,10 @@ describe('Integration | Component | certification-joiner', function () {
 
         // then
         const foo = find(`input[aria-label="${this.intl.t('pages.certification-joiner.form.fields.birth-month')}"]`);
-        expect(foo.value).not.to.contains('aa');
+        assert.notEqual(foo.value, 'aa');
       });
 
-      it('year', async function () {
+      test('year', async function (assert) {
         // given
         this.set('onStepChange', sinon.stub());
         await render(hbs`<CertificationJoiner @onStepChange={{this.onStepChange}}/>`);
@@ -282,7 +292,7 @@ describe('Integration | Component | certification-joiner', function () {
 
         // then
         const foo = find(`input[aria-label="${this.intl.t('pages.certification-joiner.form.fields.birth-year')}"]`);
-        expect(foo.value).not.to.contains('aa');
+        assert.notEqual(foo.value, 'aa');
       });
     });
   });

@@ -2,62 +2,61 @@
 /* eslint ember/require-tagless-components: 0 */
 
 import Service from '@ember/service';
-import { expect } from 'chai';
-import { beforeEach, describe, it } from 'mocha';
+import { module, test } from 'qunit';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 import { find, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import { setBreakpoint } from 'ember-responsive/test-support';
 
-describe('Integration | Component | navbar-mobile-header', function () {
-  setupIntlRenderingTest();
+module('Integration | Component | navbar-mobile-header', function (hooks) {
+  setupIntlRenderingTest(hooks);
 
-  context('when user is not logged', function () {
-    beforeEach(async function () {
+  module('when user is not logged', function (hooks) {
+    hooks.beforeEach(async function () {
       this.owner.register('service:session', Service.extend({ isAuthenticated: false }));
       setBreakpoint('tablet');
       await render(hbs`<NavbarMobileHeader />`);
     });
 
-    it('should be rendered', function () {
+    test('should be rendered', function (assert) {
       // then
-      expect(find('.navbar-mobile-header__container')).to.exist;
+      assert.dom(find('.navbar-mobile-header__container')).exists();
     });
 
-    it('should display the Pix logo', function () {
+    test('should display the Pix logo', function (assert) {
       // then
-      expect(find('.navbar-mobile-header-logo__pix')).to.exist;
+      assert.dom(find('.navbar-mobile-header-logo__pix')).exists();
     });
 
-    it('should not display the burger menu', function () {
+    test('should not display the burger menu', function (assert) {
       // then
-      expect(find('.navbar-mobile-header__burger-icon')).to.not.exist;
+      assert.dom(find('.navbar-mobile-header__burger-icon')).doesNotExist();
     });
   });
 
-  context('When user is logged', function () {
-    beforeEach(function () {
+  module('When user is logged', function () {
+    hooks.beforeEach(function () {
       this.owner.register('service:session', Service.extend({ isAuthenticated: true }));
       setBreakpoint('tablet');
     });
 
-    it('should be rendered', async function () {
+    test('should be rendered', async function (assert) {
       // when
       await render(hbs`<NavbarMobileHeader />`);
 
       // then
-      expect(find('.navbar-mobile-header')).to.exist;
+      assert.dom(find('.navbar-mobile-header')).exists();
     });
 
-    it('should display the Pix logo', async function () {
+    test('should display the Pix logo', async function (assert) {
       // when
       await render(hbs`<NavbarMobileHeader />`);
 
       // then
-      expect(find('.navbar-mobile-header-logo__pix')).to.exist;
+      assert.dom(find('.navbar-mobile-header-logo__pix')).exists();
     });
 
-    it('should display the burger icon', async function () {
+    test('should display the burger icon', async function (assert) {
       // given
       this.set('burger', {
         state: {
@@ -71,11 +70,11 @@ describe('Integration | Component | navbar-mobile-header', function () {
       await render(hbs`<NavbarMobileHeader @burger={{this.burger}} />`);
 
       // then
-      expect(find('.navbar-mobile-header__burger-icon')).to.exist;
+      assert.dom(find('.navbar-mobile-header__burger-icon')).exists();
     });
   });
 
-  it('should not display marianne logo when url does not have frenchDomainExtension', async function () {
+  test('should not display marianne logo when url does not have frenchDomainExtension', async function (assert) {
     // given
     this.set('isFrenchDomainUrl', false);
 
@@ -83,10 +82,10 @@ describe('Integration | Component | navbar-mobile-header', function () {
     await render(hbs`<NavbarMobileHeader @shouldShowTheMarianneLogo={{this.isFrenchDomainUrl}} />`);
 
     // then
-    expect(find('.navbar-mobile-header-logo__marianne')).to.not.exist;
+    assert.dom(find('.navbar-mobile-header-logo__marianne')).doesNotExist();
   });
 
-  it('should display marianne logo when url does have frenchDomainExtension', async function () {
+  test('should display marianne logo when url does have frenchDomainExtension', async function (assert) {
     // given
     this.set('isFrenchDomainUrl', true);
 
@@ -94,6 +93,6 @@ describe('Integration | Component | navbar-mobile-header', function () {
     await render(hbs`<NavbarMobileHeader @shouldShowTheMarianneLogo={{this.isFrenchDomainUrl}} />`);
 
     // then
-    expect(find('.navbar-mobile-header-logo__marianne')).to.exist;
+    assert.dom(find('.navbar-mobile-header-logo__marianne')).exists();
   });
 });

@@ -1,10 +1,9 @@
 /* eslint ember/no-classic-classes: 0 */
 
-import { beforeEach, describe, it } from 'mocha';
-import { expect } from 'chai';
+import { module, test } from 'qunit';
 
 import { fillIn, currentURL, find, visit } from '@ember/test-helpers';
-import { setupApplicationTest } from 'ember-mocha';
+import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { Response } from 'ember-cli-mirage';
 
@@ -17,20 +16,20 @@ import { currentSession } from 'ember-simple-auth/test-support';
 import setupIntl from '../../helpers/setup-intl';
 import { t } from 'ember-intl/test-support';
 
-describe('Acceptance | Campaigns | Start Campaigns workflow | Pôle Emploi', function () {
-  setupApplicationTest();
-  setupMirage();
-  setupIntl();
+module('Acceptance | Campaigns | Start Campaigns workflow | Pôle Emploi', function (hooks) {
+  setupApplicationTest(hooks);
+  setupMirage(hooks);
+  setupIntl(hooks);
 
   let campaign;
 
-  describe('Start a campaign', function () {
-    context('When user is not logged in', function () {
-      context('When campaign code exists', function () {
-        context('When campaign belongs to Pole Emploi organization', function () {
+  module('Start a campaign', function () {
+    module('When user is not logged in', function () {
+      module('When campaign code exists', function () {
+        module('When campaign belongs to Pole Emploi organization', function () {
           let replaceLocationStub;
 
-          beforeEach(function () {
+          hooks.beforeEach(function (hooks) {
             replaceLocationStub = sinon.stub().resolves();
             this.owner.register(
               'service:location',
@@ -41,7 +40,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow | Pôle Emploi', fun
             campaign = server.create('campaign', { identityProvider: 'POLE_EMPLOI' });
           });
 
-          it('should redirect to landing page', async function () {
+          test('should redirect to landing page', async function (assert) {
             // given
             await visit('/campagnes');
 
@@ -50,10 +49,10 @@ describe('Acceptance | Campaigns | Start Campaigns workflow | Pôle Emploi', fun
             await clickByLabel(t('pages.fill-in-campaign-code.start'));
 
             // then
-            expect(currentURL()).to.equal(`/campagnes/${campaign.code}/presentation`);
+            assert.equal(currentURL(), `/campagnes/${campaign.code}/presentation`);
           });
 
-          it('should redirect to Pole Emploi authentication form when landing page has been seen', async function () {
+          test('should redirect to Pole Emploi authentication form when landing page has been seen', async function (assert) {
             // given
             await visit(`/campagnes/${campaign.code}`);
 
@@ -62,15 +61,15 @@ describe('Acceptance | Campaigns | Start Campaigns workflow | Pôle Emploi', fun
 
             // then
             sinon.assert.called(replaceLocationStub);
-            expect(currentURL()).to.equal('/connexion/pole-emploi');
+            assert.equal(currentURL(), '/connexion/pole-emploi');
           });
 
-          it('should redirect to terms of service Pole Emploi page', async function () {
+          test('should redirect to terms of service Pole Emploi page', async function (assert) {
             // given
             const state = 'state';
             const session = currentSession();
             session.set('data.state', state);
-            this.server.post('pole-emploi/token', () => {
+            this.server.post('pole-emploi/token', function () {
               return new Response(
                 401,
                 {},
@@ -91,13 +90,13 @@ describe('Acceptance | Campaigns | Start Campaigns workflow | Pôle Emploi', fun
             await visit(`/connexion/pole-emploi?code=test&state=${state}`);
 
             // then
-            expect(currentURL()).to.equal(`/cgu-oidc?authenticationKey=key&identityProviderSlug=pole-emploi`);
-            expect(find('.terms-of-service-form__conditions').textContent).to.contains(
-              "J'accepte les conditions d'utilisation et la politique de confidentialité de Pix"
-            );
+            assert.equal(currentURL(), `/cgu-oidc?authenticationKey=key&identityProviderSlug=pole-emploi`);
+            assert
+              .dom(find('.terms-of-service-form__conditions').textContent)
+              .hasText("J'accepte les conditions d'utilisation et la politique de confidentialité de Pix");
           });
 
-          it('should begin campaign participation once user has accepted terms of service', async function () {
+          test('should begin campaign participation once user has accepted terms of service', async function (assert) {
             // given
             const state = 'state';
             const session = currentSession();
@@ -113,14 +112,14 @@ describe('Acceptance | Campaigns | Start Campaigns workflow | Pôle Emploi', fun
             await clickByLabel('Je continue');
 
             // then
-            expect(currentURL()).to.equal(`/campagnes/${campaign.code}/evaluation/didacticiel`);
+            assert.equal(currentURL(), `/campagnes/${campaign.code}/evaluation/didacticiel`);
           });
         });
       });
     });
 
-    context('When user is logged in', function () {
-      beforeEach(async function () {
+    module('When user is logged in', function (hooks) {
+      hooks.beforeEach(async function () {
         const prescritUser = server.create('user', 'withEmail', {
           mustValidateTermsOfService: false,
           lastTermsOfServiceValidatedAt: null,
@@ -128,10 +127,10 @@ describe('Acceptance | Campaigns | Start Campaigns workflow | Pôle Emploi', fun
         await authenticateByEmail(prescritUser);
       });
 
-      context('When campaign belongs to Pole Emploi organization', function () {
+      module('When campaign belongs to Pole Emploi organization', function (hooks) {
         let replaceLocationStub;
 
-        beforeEach(function () {
+        hooks.beforeEach(function () {
           replaceLocationStub = sinon.stub().resolves();
           this.owner.register(
             'service:location',
@@ -142,13 +141,13 @@ describe('Acceptance | Campaigns | Start Campaigns workflow | Pôle Emploi', fun
           campaign = server.create('campaign', { identityProvider: 'POLE_EMPLOI' });
         });
 
-        context('When user is logged in with Pole emploi', function () {
-          beforeEach(function () {
+        module('When user is logged in with Pole emploi', function (hooks) {
+          hooks.beforeEach(function () {
             const session = currentSession();
             session.set('data.authenticated.identity_provider_code', 'POLE_EMPLOI');
           });
 
-          it('should redirect to landing page', async function () {
+          test('should redirect to landing page', async function (assert) {
             // given
             await visit('/campagnes');
 
@@ -157,10 +156,10 @@ describe('Acceptance | Campaigns | Start Campaigns workflow | Pôle Emploi', fun
             await clickByLabel(t('pages.fill-in-campaign-code.start'));
 
             // then
-            expect(currentURL()).to.equal(`/campagnes/${campaign.code}/presentation`);
+            assert.equal(currentURL(), `/campagnes/${campaign.code}/presentation`);
           });
 
-          it('should begin campaign participation', async function () {
+          test('should begin campaign participation', async function (assert) {
             // given
             await visit('/campagnes');
             await fillIn('#campaign-code', campaign.code);
@@ -170,12 +169,12 @@ describe('Acceptance | Campaigns | Start Campaigns workflow | Pôle Emploi', fun
             await clickByLabel('Je commence');
 
             // then
-            expect(currentURL()).to.equal(`/campagnes/${campaign.code}/evaluation/didacticiel`);
+            assert.equal(currentURL(), `/campagnes/${campaign.code}/evaluation/didacticiel`);
           });
         });
 
-        context('When user is logged in with another authentication method', function () {
-          it('should redirect to landing page', async function () {
+        module('When user is logged in with another authentication method', function () {
+          test('should redirect to landing page', async function (assert) {
             // given
             await visit('/campagnes');
 
@@ -184,10 +183,10 @@ describe('Acceptance | Campaigns | Start Campaigns workflow | Pôle Emploi', fun
             await clickByLabel(t('pages.fill-in-campaign-code.start'));
 
             // then
-            expect(currentURL()).to.equal(`/campagnes/${campaign.code}/presentation`);
+            assert.equal(currentURL(), `/campagnes/${campaign.code}/presentation`);
           });
 
-          it('should redirect to Pole Emploi authentication form when landing page has been seen', async function () {
+          test('should redirect to Pole Emploi authentication form when landing page has been seen', async function (assert) {
             // given
             await visit(`/campagnes/${campaign.code}`);
 
@@ -196,10 +195,10 @@ describe('Acceptance | Campaigns | Start Campaigns workflow | Pôle Emploi', fun
 
             // then
             sinon.assert.called(replaceLocationStub);
-            expect(currentURL()).to.equal('/connexion/pole-emploi');
+            assert.equal(currentURL(), '/connexion/pole-emploi');
           });
 
-          it('should begin campaign participation once user is authenticated', async function () {
+          test('should begin campaign participation once user is authenticated', async function (assert) {
             // given
             const state = 'state';
 
@@ -216,7 +215,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow | Pôle Emploi', fun
 
             // then
             sinon.assert.notCalled(replaceLocationStub);
-            expect(currentURL()).to.equal(`/campagnes/${campaign.code}/evaluation/didacticiel`);
+            assert.equal(currentURL(), `/campagnes/${campaign.code}/evaluation/didacticiel`);
           });
         });
       });

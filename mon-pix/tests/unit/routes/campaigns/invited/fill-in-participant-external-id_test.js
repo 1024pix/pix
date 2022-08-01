@@ -1,32 +1,33 @@
 import EmberObject from '@ember/object';
-import { beforeEach, describe, it } from 'mocha';
-import { setupTest } from 'ember-mocha';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
 
-describe('Unit | Route | campaigns/invited/fill-in-participant-external-id', function () {
-  setupTest();
+module('Unit | Route | campaigns/invited/fill-in-participant-external-id', function (hooks) {
+  setupTest(hooks);
 
   let route, campaign;
 
-  beforeEach(function () {
+  hooks.beforeEach(function () {
     route = this.owner.lookup('route:campaigns.invited.fill-in-participant-external-id');
     route.campaignStorage = { get: sinon.stub(), set: sinon.stub() };
     route.modelFor = sinon.stub();
     route.router = { replaceWith: sinon.stub() };
   });
 
-  describe('#model', function () {
-    it('should load model', async function () {
+  module('#model', function () {
+    test('should load model', async function (assert) {
       //when
       await route.model();
 
       //then
+      assert.expect(0);
       sinon.assert.calledWith(route.modelFor, 'campaigns');
     });
   });
 
-  describe('#afterModel', function () {
-    it('should redirect to entrance page if an external id is already set', async function () {
+  module('#afterModel', function () {
+    test('should redirect to entrance page if an external id is already set', async function (assert) {
       //given
       campaign = EmberObject.create({
         idPixLabel: 'indentifiant externe',
@@ -37,10 +38,11 @@ describe('Unit | Route | campaigns/invited/fill-in-participant-external-id', fun
       await route.afterModel(campaign);
 
       //then
+      assert.expect(0);
       sinon.assert.calledWith(route.router.replaceWith, 'campaigns.entrance', campaign.code);
     });
 
-    it('should redirect to entrance page if an external id is not required', async function () {
+    test('should redirect to entrance page if an external id is not required', async function (assert) {
       //given
       campaign = EmberObject.create({
         idPixLabel: null,
@@ -51,10 +53,11 @@ describe('Unit | Route | campaigns/invited/fill-in-participant-external-id', fun
       await route.afterModel(campaign);
 
       //then
+      assert.expect(0);
       sinon.assert.calledWith(route.router.replaceWith, 'campaigns.entrance', campaign.code);
     });
 
-    it('should not redirect if an external id is required and not already set', async function () {
+    test('should not redirect if an external id is required and not already set', async function (assert) {
       //given
       campaign = EmberObject.create({
         idPixLabel: 'identifiant externe',
@@ -65,6 +68,7 @@ describe('Unit | Route | campaigns/invited/fill-in-participant-external-id', fun
       await route.afterModel(campaign);
 
       //then
+      assert.expect(0);
       sinon.assert.notCalled(route.router.replaceWith);
     });
   });

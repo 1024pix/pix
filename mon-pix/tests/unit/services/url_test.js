@@ -1,16 +1,15 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
-import { setupTest } from 'ember-mocha';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
 
 import ENV from 'mon-pix/config/environment';
 import setupIntl from 'mon-pix/tests/helpers/setup-intl';
 
-describe('Unit | Service | locale', function () {
-  setupTest();
-  setupIntl();
+module('Unit | Service | locale', function (hooks) {
+  setupTest(hooks);
+  setupIntl(hooks);
 
-  it('should have a frenchDomainExtension when the current domain contains pix.fr', function () {
+  test('should have a frenchDomainExtension when the current domain contains pix.fr', function (assert) {
     // given
     const service = this.owner.lookup('service:url');
     service.currentDomain = { getExtension: sinon.stub().returns('fr') };
@@ -19,10 +18,10 @@ describe('Unit | Service | locale', function () {
     const domainExtension = service.isFrenchDomainExtension;
 
     // then
-    expect(domainExtension).to.equal(true);
+    assert.true(domainExtension);
   });
 
-  it('should not have frenchDomainExtension when the current domain contains pix.org', function () {
+  test('should not have frenchDomainExtension when the current domain contains pix.org', function (assert) {
     // given
     const service = this.owner.lookup('service:url');
     service.currentDomain = { getExtension: sinon.stub().returns('org') };
@@ -31,22 +30,22 @@ describe('Unit | Service | locale', function () {
     const domainExtension = service.isFrenchDomainExtension;
 
     // then
-    expect(domainExtension).to.equal(false);
+    assert.false(domainExtension);
   });
 
-  describe('#homeUrl', function () {
-    context('when environnement not prod', function () {
+  module('#homeUrl', function () {
+    module('when environnement not prod', function (hooks) {
       const defaultIsProdEnv = ENV.APP.IS_PROD_ENVIRONMENT;
 
-      beforeEach(function () {
+      hooks.beforeEach(function () {
         ENV.APP.IS_PROD_ENVIRONMENT = false;
       });
 
-      afterEach(function () {
+      hooks.afterEach(function () {
         ENV.APP.IS_PROD_ENVIRONMENT = defaultIsProdEnv;
       });
 
-      it('should get default home url', function () {
+      test('should get default home url', function (assert) {
         // given
         const service = this.owner.lookup('service:url');
         service.definedHomeUrl = 'pix.test.fr';
@@ -56,20 +55,20 @@ describe('Unit | Service | locale', function () {
 
         // then
         const expectedDefinedHomeUrl = `${service.definedHomeUrl}?lang=${this.intl.t('current-lang')}`;
-        expect(homeUrl).to.equal(expectedDefinedHomeUrl);
+        assert.equal(homeUrl, expectedDefinedHomeUrl);
       });
     });
 
-    context('when it is not a Review App and environnement is ‘production‘', function () {
+    module('when it is not a Review App and environnement is ‘production‘', function (hooks) {
       const defaultIsProdEnv = ENV.APP.IS_PROD_ENVIRONMENT;
       let defaultLocale;
 
-      beforeEach(function () {
+      hooks.beforeEach(function () {
         ENV.APP.IS_PROD_ENVIRONMENT = true;
         defaultLocale = this.intl.t('current-lang');
       });
 
-      afterEach(function () {
+      hooks.afterEach(function () {
         ENV.APP.IS_PROD_ENVIRONMENT = defaultIsProdEnv;
         this.intl.setLocale(defaultLocale);
       });
@@ -80,7 +79,7 @@ describe('Unit | Service | locale', function () {
         { language: 'en', currentDomainExtension: 'fr', expectedHomeUrl: 'https://pix.fr/en-gb' },
         { language: 'en', currentDomainExtension: 'org', expectedHomeUrl: 'https://pix.org/en-gb' },
       ].forEach(function (testCase) {
-        it(`should get "${testCase.expectedHomeUrl}" when current domain="${testCase.currentDomainExtension}" and lang="${testCase.language}"`, function () {
+        test(`should get "${testCase.expectedHomeUrl}" when current domain="${testCase.currentDomainExtension}" and lang="${testCase.language}"`, function (assert) {
           // given
           const service = this.owner.lookup('service:url');
           service.definedHomeUrl = '/';
@@ -91,14 +90,14 @@ describe('Unit | Service | locale', function () {
           const homeUrl = service.homeUrl;
 
           // then
-          expect(homeUrl).to.equal(testCase.expectedHomeUrl);
+          assert.equal(homeUrl, testCase.expectedHomeUrl);
         });
       });
     });
   });
 
-  describe('#cguUrl', function () {
-    it('should get "pix.fr" url when current domain contains pix.fr', function () {
+  module('#cguUrl', function () {
+    test('should get "pix.fr" url when current domain contains pix.fr', function (assert) {
       // given
       const service = this.owner.lookup('service:url');
       const expectedCguUrl = 'https://pix.fr/conditions-generales-d-utilisation';
@@ -108,10 +107,10 @@ describe('Unit | Service | locale', function () {
       const cguUrl = service.cguUrl;
 
       // then
-      expect(cguUrl).to.equal(expectedCguUrl);
+      assert.equal(cguUrl, expectedCguUrl);
     });
 
-    it('should get "pix.org" english url when current language is en', function () {
+    test('should get "pix.org" english url when current language is en', function (assert) {
       // given
       const service = this.owner.lookup('service:url');
       const expectedCguUrl = 'https://pix.org/en-gb/terms-and-conditions';
@@ -122,10 +121,10 @@ describe('Unit | Service | locale', function () {
       const cguUrl = service.cguUrl;
 
       // then
-      expect(cguUrl).to.equal(expectedCguUrl);
+      assert.equal(cguUrl, expectedCguUrl);
     });
 
-    it('should get "pix.org" french url when current language is fr', function () {
+    test('should get "pix.org" french url when current language is fr', function (assert) {
       // given
       const service = this.owner.lookup('service:url');
       const expectedCguUrl = 'https://pix.org/conditions-generales-d-utilisation';
@@ -136,12 +135,12 @@ describe('Unit | Service | locale', function () {
       const cguUrl = service.cguUrl;
 
       // then
-      expect(cguUrl).to.equal(expectedCguUrl);
+      assert.equal(cguUrl, expectedCguUrl);
     });
   });
 
-  describe('#dataProtectionPolicyUrl', function () {
-    it('should get "pix.fr" url when current domain contains pix.fr', function () {
+  module('#dataProtectionPolicyUrl', function () {
+    test('should get "pix.fr" url when current domain contains pix.fr', function (assert) {
       // given
       const service = this.owner.lookup('service:url');
       const expectedCguUrl = 'https://pix.fr/politique-protection-donnees-personnelles-app';
@@ -151,10 +150,10 @@ describe('Unit | Service | locale', function () {
       const cguUrl = service.dataProtectionPolicyUrl;
 
       // then
-      expect(cguUrl).to.equal(expectedCguUrl);
+      assert.equal(cguUrl, expectedCguUrl);
     });
 
-    it('should get "pix.org" english url when current language is en', function () {
+    test('should get "pix.org" english url when current language is en', function (assert) {
       // given
       const service = this.owner.lookup('service:url');
       const expectedCguUrl = 'https://pix.org/en-gb/personal-data-protection-policy';
@@ -165,10 +164,10 @@ describe('Unit | Service | locale', function () {
       const cguUrl = service.dataProtectionPolicyUrl;
 
       // then
-      expect(cguUrl).to.equal(expectedCguUrl);
+      assert.equal(cguUrl, expectedCguUrl);
     });
 
-    it('should get "pix.org" french url when current language is fr', function () {
+    test('should get "pix.org" french url when current language is fr', function (assert) {
       // given
       const service = this.owner.lookup('service:url');
       const expectedCguUrl = 'https://pix.org/politique-protection-donnees-personnelles-app';
@@ -179,7 +178,7 @@ describe('Unit | Service | locale', function () {
       const cguUrl = service.dataProtectionPolicyUrl;
 
       // then
-      expect(cguUrl).to.equal(expectedCguUrl);
+      assert.equal(cguUrl, expectedCguUrl);
     });
   });
 });

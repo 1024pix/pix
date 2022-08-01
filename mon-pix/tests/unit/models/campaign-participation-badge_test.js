@@ -1,24 +1,23 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
-import { setupTest } from 'ember-mocha';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 
-describe('Unit | Model | CampaignParticipationBadge', function () {
-  setupTest();
+module('Unit | Model | CampaignParticipationBadge', function (hooks) {
+  setupTest(hooks);
 
   let store;
 
-  beforeEach(function () {
+  hooks.beforeEach(function () {
     store = this.owner.lookup('service:store');
   });
 
-  it('exists', function () {
+  test('exists', function (assert) {
     const badge = store.createRecord('campaign-participation-badge');
 
-    expect(badge).to.be.ok;
+    assert.ok(badge);
   });
 
-  describe('#maxTotalSkillsCountInSkillSets', function () {
-    it('should calculate max total skills', function () {
+  module('#maxTotalSkillsCountInSkillSets', function () {
+    test('should calculate max total skills', function (assert) {
       const skillSetResult1 = store.createRecord('skill-set-result', {
         totalSkillsCount: 2,
       });
@@ -33,7 +32,7 @@ describe('Unit | Model | CampaignParticipationBadge', function () {
       const maxTotalSkillsCountInSkillSets = model.maxTotalSkillsCountInSkillSets;
 
       // then
-      expect(maxTotalSkillsCountInSkillSets).to.equal(10);
+      assert.equal(maxTotalSkillsCountInSkillSets, 10);
     });
   });
 });

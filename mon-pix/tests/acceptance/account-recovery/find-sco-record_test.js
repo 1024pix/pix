@@ -1,6 +1,5 @@
-import { describe } from 'mocha';
-import { expect } from 'chai';
-import { setupApplicationTest } from 'ember-mocha';
+import { module, test } from 'qunit';
+import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { currentURL } from '@ember/test-helpers';
 import { visit } from '@1024pix/ember-testing-library';
@@ -10,10 +9,10 @@ import { clickByLabel } from '../../helpers/click-by-label';
 import { contains } from '../../helpers/contains';
 import { Response } from 'ember-cli-mirage';
 
-describe('Acceptance | account-recovery | FindScoRecordRoute', function () {
-  setupApplicationTest();
-  setupMirage();
-  setupIntl();
+module('Acceptance | account-recovery | FindScoRecordRoute', function (hooks) {
+  setupApplicationTest(hooks);
+  setupMirage(hooks);
+  setupIntl(hooks);
 
   const ineIna = '0123456789A';
   const lastName = 'Lecol';
@@ -59,21 +58,23 @@ describe('Acceptance | account-recovery | FindScoRecordRoute', function () {
     await clickByLabel(currentThis.intl.t('pages.account-recovery.find-sco-record.student-information.form.submit'));
   };
 
-  it('should display student information form', async function () {
+  test('should display student information form', async function (assert) {
     // given & when
     const screen = await visit('/recuperer-mon-compte');
 
     // then
-    expect(currentURL()).to.equal('/recuperer-mon-compte');
-    expect(
-      screen.getByRole('heading', {
-        name: this.intl.t('pages.account-recovery.find-sco-record.student-information.title'),
-      })
-    ).to.exist;
+    assert.equal(currentURL(), '/recuperer-mon-compte');
+    assert
+      .dom(
+        screen.getByRole('heading', {
+          name: this.intl.t('pages.account-recovery.find-sco-record.student-information.title'),
+        })
+      )
+      .exists();
   });
 
-  context('when submitting information form with valid data', () => {
-    it('should hide student information form and show recover account confirmation step', async function () {
+  module('when submitting information form with valid data', function () {
+    test('should hide student information form and show recover account confirmation step', async function (assert) {
       // given
       server.create('user', { id: 1, firstName, lastName, username });
       server.create('student-information', { id: 2, ineIna, firstName, lastName, birthdate });
@@ -83,12 +84,15 @@ describe('Acceptance | account-recovery | FindScoRecordRoute', function () {
       await fillStudentInformationFormAndSubmit(this);
 
       // then
-      expect(contains(this.intl.t('pages.account-recovery.find-sco-record.student-information.title'))).to.not.exist;
-      expect(contains(this.intl.t('pages.account-recovery.find-sco-record.confirmation-step.good-news', { firstName })))
-        .to.exist;
+      assert
+        .dom(contains(this.intl.t('pages.account-recovery.find-sco-record.student-information.title')))
+        .doesNotExist();
+      assert
+        .dom(contains(this.intl.t('pages.account-recovery.find-sco-record.confirmation-step.good-news', { firstName })))
+        .exists();
     });
 
-    it('should redirect to error page when user has already left SCO', async function () {
+    test('should redirect to error page when user has already left SCO', async function (assert) {
       // given
       const errorsApi = new Response(
         403,
@@ -108,13 +112,13 @@ describe('Acceptance | account-recovery | FindScoRecordRoute', function () {
       await fillStudentInformationFormAndSubmit(this);
 
       // then
-      expect(contains(this.intl.t('pages.account-recovery.errors.title'))).to.exist;
-      expect(contains(this.intl.t('pages.account-recovery.errors.key-used'))).to.exist;
-      expect(contains(this.intl.t('navigation.back-to-homepage'))).to.exist;
+      assert.dom(contains(this.intl.t('pages.account-recovery.errors.title'))).exists();
+      assert.dom(contains(this.intl.t('pages.account-recovery.errors.key-used'))).exists();
+      assert.dom(contains(this.intl.t('navigation.back-to-homepage'))).exists();
     });
 
-    context('click on "Cancel" button', () => {
-      it('should return to student information form', async function () {
+    module('click on "Cancel" button', function () {
+      test('should return to student information form', async function (assert) {
         // given
         server.create('user', { id: 1, firstName, lastName, username });
         server.create('student-information', { id: 2, ineIna, firstName, lastName, birthdate });
@@ -126,29 +130,32 @@ describe('Acceptance | account-recovery | FindScoRecordRoute', function () {
         await clickByLabel(this.intl.t('pages.account-recovery.find-sco-record.confirmation-step.buttons.cancel'));
 
         // then
-        expect(contains(this.intl.t('pages.account-recovery.find-sco-record.student-information.title'))).to.exist;
-        expect(
-          contains(this.intl.t('pages.account-recovery.find-sco-record.confirmation-step.good-news', { firstName }))
-        ).to.not.exist;
+        assert.dom(contains(this.intl.t('pages.account-recovery.find-sco-record.student-information.title'))).exists();
+        assert
+          .dom(
+            contains(this.intl.t('pages.account-recovery.find-sco-record.confirmation-step.good-news', { firstName }))
+          )
+          .doesNotExist();
       });
     });
   });
 
-  context('when submitting information form with invalid data', () => {
-    it('should show a not found error', async function () {
+  module('when submitting information form with invalid data', function () {
+    test('should show a not found error', async function (assert) {
       // given & when
       await visit('/recuperer-mon-compte');
       await fillStudentInformationFormAndSubmit(this);
 
       // then
-      expect(contains(this.intl.t('pages.account-recovery.find-sco-record.student-information.title'))).to.exist;
-      expect(contains(this.intl.t('pages.account-recovery.find-sco-record.student-information.errors.not-found'))).to
-        .exist;
+      assert.dom(contains(this.intl.t('pages.account-recovery.find-sco-record.student-information.title'))).exists();
+      assert
+        .dom(contains(this.intl.t('pages.account-recovery.find-sco-record.student-information.errors.not-found')))
+        .exists();
     });
   });
 
-  context('when two students used same account', function () {
-    it('should redirect to account recovery conflict page', async function () {
+  module('when two students used same account', function () {
+    test('should redirect to account recovery conflict page', async function (assert) {
       // given
       server.create('user', {
         id: 1,
@@ -169,16 +176,18 @@ describe('Acceptance | account-recovery | FindScoRecordRoute', function () {
       await fillStudentInformationFormAndSubmit(this);
 
       // then
-      expect(
-        contains(this.intl.t('pages.account-recovery.find-sco-record.conflict.found-you-but', { firstName }))
-      ).to.exist;
-      expect(contains(this.intl.t('pages.account-recovery.find-sco-record.student-information.title'))).to.not.exist;
+      assert
+        .dom(contains(this.intl.t('pages.account-recovery.find-sco-record.conflict.found-you-but', { firstName })))
+        .exists();
+      assert
+        .dom(contains(this.intl.t('pages.account-recovery.find-sco-record.student-information.title')))
+        .doesNotExist();
     });
   });
 
-  context('when confirming student information', () => {
-    context('click on "Confirm" button', () => {
-      it('should hide recover account confirmation step and show recover account backup email confirmation', async function () {
+  module('when confirming student information', function () {
+    module('click on "Confirm" button', function () {
+      test('should hide recover account confirmation step and show recover account backup email confirmation', async function (assert) {
         // given
         server.create('user', { id: 1, firstName, lastName, username });
         server.create('student-information', { id: 2, ineIna, firstName, lastName, birthdate });
@@ -191,19 +200,23 @@ describe('Acceptance | account-recovery | FindScoRecordRoute', function () {
         await clickByLabel(this.intl.t('pages.account-recovery.find-sco-record.confirmation-step.buttons.confirm'));
 
         // then
-        expect(
-          contains(
-            this.intl.t('pages.account-recovery.find-sco-record.backup-email-confirmation.email-is-needed-message', {
-              firstName,
-            })
+        assert
+          .dom(
+            contains(
+              this.intl.t('pages.account-recovery.find-sco-record.backup-email-confirmation.email-is-needed-message', {
+                firstName,
+              })
+            )
           )
-        ).to.exist;
-        expect(
-          contains(this.intl.t('pages.account-recovery.find-sco-record.confirmation-step.good-news', { firstName }))
-        ).to.not.exist;
+          .exists();
+        assert
+          .dom(
+            contains(this.intl.t('pages.account-recovery.find-sco-record.confirmation-step.good-news', { firstName }))
+          )
+          .doesNotExist();
       });
 
-      it('should show an error when email already exists', async function () {
+      test('should show an error when email already exists', async function (assert) {
         // given
         const email = 'john.doe@example.net';
 
@@ -225,16 +238,18 @@ describe('Acceptance | account-recovery | FindScoRecordRoute', function () {
         );
 
         // then
-        expect(
-          contains(
-            this.intl.t(
-              'pages.account-recovery.find-sco-record.backup-email-confirmation.form.error.new-email-already-exist'
+        assert
+          .dom(
+            contains(
+              this.intl.t(
+                'pages.account-recovery.find-sco-record.backup-email-confirmation.form.error.new-email-already-exist'
+              )
             )
           )
-        ).to.exist;
+          .exists();
       });
 
-      it('should show email sent confirmation when user has supplied an email and submitted', async function () {
+      test('should show email sent confirmation when user has supplied an email and submitted', async function (assert) {
         // given
         const newEmail = 'john.doe@example.net';
 
@@ -257,17 +272,21 @@ describe('Acceptance | account-recovery | FindScoRecordRoute', function () {
         );
 
         // then
-        expect(
-          contains(
-            this.intl.t('pages.account-recovery.find-sco-record.backup-email-confirmation.email-is-needed-message', {
-              firstName,
-            })
+        assert
+          .dom(
+            contains(
+              this.intl.t('pages.account-recovery.find-sco-record.backup-email-confirmation.email-is-needed-message', {
+                firstName,
+              })
+            )
           )
-        ).to.not.exist;
-        expect(contains(this.intl.t('pages.account-recovery.find-sco-record.send-email-confirmation.title'))).to.exist;
+          .doesNotExist();
+        assert
+          .dom(contains(this.intl.t('pages.account-recovery.find-sco-record.send-email-confirmation.title')))
+          .exists();
       });
 
-      it('should redirect to error page when user has already left SCO', async function () {
+      test('should redirect to error page when user has already left SCO', async function (assert) {
         // given
         const newEmail = 'john.doe@example.net';
 
@@ -303,12 +322,12 @@ describe('Acceptance | account-recovery | FindScoRecordRoute', function () {
         );
 
         // then
-        expect(contains(this.intl.t('pages.account-recovery.errors.title'))).to.exist;
-        expect(contains(this.intl.t('pages.account-recovery.errors.key-used'))).to.exist;
-        expect(contains(this.intl.t('navigation.back-to-homepage'))).to.exist;
+        assert.dom(contains(this.intl.t('pages.account-recovery.errors.title'))).exists();
+        assert.dom(contains(this.intl.t('pages.account-recovery.errors.key-used'))).exists();
+        assert.dom(contains(this.intl.t('navigation.back-to-homepage'))).exists();
       });
 
-      it("should redirect to error page when there's an internal error", async function () {
+      test("should redirect to error page when there's an internal error", async function () {
         // given
         const newEmail = 'john.doe@example.net';
 
@@ -344,14 +363,14 @@ describe('Acceptance | account-recovery | FindScoRecordRoute', function () {
         );
 
         // then
-        expect(contains(this.intl.t('pages.account-recovery.errors.title'))).to.exist;
-        expect(contains(this.intl.t('api-error-messages.internal-server-error'))).to.exist;
-        expect(contains(this.intl.t('navigation.back-to-homepage'))).to.exist;
+        assert.dom(contains(this.intl.t('pages.account-recovery.errors.title'))).exists();
+        assert.dom(contains(this.intl.t('api-error-messages.internal-server-error'))).exists();
+        assert.dom(contains(this.intl.t('navigation.back-to-homepage'))).exists();
       });
     });
 
-    context('click on "Cancel" button', () => {
-      it('should return to student information form', async function () {
+    module('click on "Cancel" button', function () {
+      test('should return to student information form', async function (assert) {
         // given
 
         server.create('user', { id: 1, firstName, lastName, username });
@@ -366,14 +385,16 @@ describe('Acceptance | account-recovery | FindScoRecordRoute', function () {
         );
 
         // then
-        expect(
-          contains(
-            this.intl.t('pages.account-recovery.find-sco-record.backup-email-confirmation.email-is-needed-message', {
-              firstName,
-            })
+        assert
+          .dom(
+            contains(
+              this.intl.t('pages.account-recovery.find-sco-record.backup-email-confirmation.email-is-needed-message', {
+                firstName,
+              })
+            )
           )
-        ).to.not.exist;
-        expect(contains(this.intl.t('pages.account-recovery.find-sco-record.student-information.title'))).to.exist;
+          .doesNotExist();
+        assert.dom(contains(this.intl.t('pages.account-recovery.find-sco-record.student-information.title'))).exists();
       });
     });
   });

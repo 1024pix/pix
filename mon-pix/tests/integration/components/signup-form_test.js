@@ -1,5 +1,4 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
+import { module, test } from 'qunit';
 import sinon from 'sinon';
 import { clickByLabel } from '../../helpers/click-by-label';
 
@@ -33,13 +32,13 @@ const userEmpty = EmberObject.create({});
 
 const ApiErrorMessages = ENV.APP.API_ERROR_MESSAGES;
 
-describe('Integration | Component | SignupForm', function () {
-  setupIntlRenderingTest();
+module('Integration | Component | SignupForm', function (hooks) {
+  setupIntlRenderingTest(hooks);
 
-  describe('Localization', function () {
+  module('Localization', function (hooks) {
     const originalLocale = ENV.APP.LOCALE;
 
-    afterEach(function () {
+    hooks.afterEach(function () {
       this.intl.setLocale(originalLocale);
     });
 
@@ -47,7 +46,7 @@ describe('Integration | Component | SignupForm', function () {
       { locale: 'fr', expectedFormTitle: 'Inscrivez-vous' },
       { locale: 'en', expectedFormTitle: 'Sign up' },
     ].forEach(function (testCase) {
-      it(`${testCase.locale}`, async function () {
+      test(`${testCase.locale}`, async function (assert) {
         const expectedTitle = testCase.expectedFormTitle;
         this.set('user', userEmpty);
         this.intl.setLocale(testCase.locale);
@@ -56,25 +55,25 @@ describe('Integration | Component | SignupForm', function () {
         await render(hbs`<SignupForm @user={{this.user}} />`);
 
         // then
-        expect(find(FORM_TITLE).textContent).to.equal(expectedTitle);
+        assert.equal(find(FORM_TITLE).textContent, expectedTitle);
       });
     });
   });
 
-  describe('Rendering', function () {
-    beforeEach(async function () {
+  module('Rendering', function (hooks) {
+    hooks.beforeEach(async function () {
       this.set('user', userEmpty);
       this.intl.setLocale(['en', 'fr']);
       await render(hbs`<SignupForm @user={{this.user}} />`);
     });
 
-    it('renders', function () {
-      expect(find('.sign-form__container')).to.exist;
+    test('renders', function (assert) {
+      assert.dom(find('.sign-form__container')).exists();
     });
 
-    it('should return correct form title', function () {
+    test('should return correct form title', function (assert) {
       const formTitle = this.intl.t('pages.sign-up.first-title');
-      expect(find(FORM_TITLE).textContent).to.equal(formTitle);
+      assert.equal(find(FORM_TITLE).textContent, formTitle);
     });
 
     [
@@ -87,28 +86,28 @@ describe('Integration | Component | SignupForm', function () {
       { expectedRendering: 'cgu label', input: CHECKBOX_CGU_LABEL, expected: 1 },
       { expectedRendering: 'submit button', input: SUBMIT_BUTTON_CONTAINER, expected: 1 },
     ].forEach(function ({ expectedRendering, input, expected }) {
-      it(`should render ${expectedRendering}`, function () {
-        expect(findAll(input)).to.have.length(expected);
+      test(`should render ${expectedRendering}`, function (assert) {
+        assert.equal(findAll(input).length, expected);
       });
     });
 
-    it("should have links to Pix's CGU and data protection policy ", function () {
+    test("should have links to Pix's CGU and data protection policy ", function (assert) {
       // given
       const cguText = this.intl.t('pages.sign-up.fields.cgu.accept', {
         cguUrl: 'https://pix.localhost/conditions-generales-d-utilisation',
       });
 
       // when & then
-      expect(find('.signup-form__cgu-label').innerHTML).to.contains(cguText);
-      expect(findAll(CGU_LINKS)).to.have.length(2);
+      assert.dom(find('.signup-form__cgu-label').innerHTML).hasText(cguText);
+      assert.equal(findAll(CGU_LINKS).length, 2);
     });
 
-    it('should render a submit button', async function () {
-      expect(contains(this.intl.t('pages.sign-up.actions.submit')));
+    test('should render a submit button', async function (assert) {
+      assert.dom(contains(this.intl.t('pages.sign-up.actions.submit'))).exists();
     });
   });
 
-  describe('When API returns errors', function () {
+  module('When API returns errors', function () {
     const userInputs = {
       email: 'toto@pix.fr',
       firstName: 'Marion',
@@ -117,7 +116,7 @@ describe('Integration | Component | SignupForm', function () {
       cgu: true,
     };
 
-    it('should display an error if api cannot be reached', async function () {
+    test('should display an error if api cannot be reached', async function (assert) {
       // given
       const expectedErrorMessage = ApiErrorMessages.INTERNAL_SERVER_ERROR.MESSAGE;
       const stubCatchedApiErrorInternetDisconnected = undefined;
@@ -136,11 +135,11 @@ describe('Integration | Component | SignupForm', function () {
       await clickByLabel(this.intl.t('pages.sign-up.actions.submit'));
 
       // then
-      expect(find('div[id="sign-up-error-message"]')).to.exist;
-      expect(find('div[id="sign-up-error-message"]').textContent.trim()).to.equal(this.intl.t(expectedErrorMessage));
+      assert.dom(find('div[id="sign-up-error-message"]')).exists();
+      assert.equal(find('div[id="sign-up-error-message"]').textContent.trim(), this.intl.t(expectedErrorMessage));
     });
 
-    it('should display related error message if internal server error', async function () {
+    test('should display related error message if internal server error', async function (assert) {
       // given
       const expectedErrorMessage = ApiErrorMessages.INTERNAL_SERVER_ERROR.MESSAGE;
       const apiReturn = {
@@ -167,11 +166,11 @@ describe('Integration | Component | SignupForm', function () {
       await clickByLabel(this.intl.t('pages.sign-up.actions.submit'));
 
       // then
-      expect(find('div[id="sign-up-error-message"]')).to.exist;
-      expect(find('div[id="sign-up-error-message"]').textContent.trim()).to.equal(this.intl.t(expectedErrorMessage));
+      assert.dom(find('div[id="sign-up-error-message"]')).exists();
+      assert.equal(find('div[id="sign-up-error-message"]').textContent.trim(), this.intl.t(expectedErrorMessage));
     });
 
-    it('should display related error message if bad gateway error', async function () {
+    test('should display related error message if bad gateway error', async function (assert) {
       // given
       const expectedErrorMessage = ApiErrorMessages.BAD_GATEWAY.MESSAGE;
       const apiReturn = {
@@ -197,11 +196,11 @@ describe('Integration | Component | SignupForm', function () {
       await clickByLabel(this.intl.t('pages.sign-up.actions.submit'));
 
       // then
-      expect(find('div[id="sign-up-error-message"]')).to.exist;
-      expect(find('div[id="sign-up-error-message"]').textContent.trim()).to.equal(this.intl.t(expectedErrorMessage));
+      assert.dom(find('div[id="sign-up-error-message"]')).exists();
+      assert.equal(find('div[id="sign-up-error-message"]').textContent.trim(), this.intl.t(expectedErrorMessage));
     });
 
-    it('should display related error message if gateway timeout error', async function () {
+    test('should display related error message if gateway timeout error', async function (assert) {
       // given
       const expectedErrorMessage = ApiErrorMessages.GATEWAY_TIMEOUT.MESSAGE;
       const apiReturn = {
@@ -227,11 +226,11 @@ describe('Integration | Component | SignupForm', function () {
       await clickByLabel(this.intl.t('pages.sign-up.actions.submit'));
 
       // then
-      expect(find('div[id="sign-up-error-message"]')).to.exist;
-      expect(find('div[id="sign-up-error-message"]').textContent.trim()).to.equal(this.intl.t(expectedErrorMessage));
+      assert.dom(find('div[id="sign-up-error-message"]')).exists();
+      assert.equal(find('div[id="sign-up-error-message"]').textContent.trim(), this.intl.t(expectedErrorMessage));
     });
 
-    it('should display related error message if not implemented error', async function () {
+    test('should display related error message if not implemented error', async function (assert) {
       // given
       const expectedErrorMessage = ApiErrorMessages.INTERNAL_SERVER_ERROR.MESSAGE;
       const apiReturn = {
@@ -257,14 +256,14 @@ describe('Integration | Component | SignupForm', function () {
       await clickByLabel(this.intl.t('pages.sign-up.actions.submit'));
 
       // then
-      expect(find('div[id="sign-up-error-message"]')).to.exist;
-      expect(find('div[id="sign-up-error-message"]').textContent.trim()).to.equal(this.intl.t(expectedErrorMessage));
+      assert.dom(find('div[id="sign-up-error-message"]')).exists();
+      assert.equal(find('div[id="sign-up-error-message"]').textContent.trim(), this.intl.t(expectedErrorMessage));
     });
   });
 
-  describe('Behaviors', function () {
-    describe('behavior when signup successful (test external calls)', function () {
-      it('should return true if action <Signup> is handled', async function () {
+  module('Behaviors', function () {
+    module('behavior when signup successful (test external calls)', function () {
+      test('should return true if action <Signup> is handled', async function (assert) {
         // given
         let isFormSubmitted = false;
         const user = EmberObject.create({
@@ -291,11 +290,11 @@ describe('Integration | Component | SignupForm', function () {
 
         // then
         return settled().then(() => {
-          expect(isFormSubmitted).to.be.true;
+          assert.true(isFormSubmitted);
         });
       });
 
-      it('should authenticate the user and empty the password', async function () {
+      test('should authenticate the user and empty the password', async function (assert) {
         // given
         const authenticateUserStub = sinon.stub();
 
@@ -323,13 +322,13 @@ describe('Integration | Component | SignupForm', function () {
         return settled().then(() => {
           sinon.assert.calledOnce(authenticateUserStub);
           sinon.assert.calledWith(authenticateUserStub, { login: 'toto@pix.fr', password: 'gipix2017' });
-          expect(user.password).to.be.null;
+          assert.equal(user.password, null);
         });
       });
     });
 
-    describe('Errors management', function () {
-      it('should display an error message on first name field, when field is empty and focus-out', async function () {
+    module('Errors management', function () {
+      test('should display an error message on first name field, when field is empty and focus-out', async function (assert) {
         // given
         const emptyFirstnameErrorMessage = this.intl.t('pages.sign-up.fields.firstname.error');
         this.set('user', userEmpty);
@@ -341,16 +340,16 @@ describe('Integration | Component | SignupForm', function () {
 
         // then
         return settled().then(() => {
-          expect(find('#validationMessage-firstName').getAttribute('class')).to.contain(
-            'form-textfield__message--error'
-          );
-          expect(find('.form-textfield__message--error').textContent.trim()).to.equal(emptyFirstnameErrorMessage);
-          expect(find('#firstName').getAttribute('class')).to.contain('form-textfield__input--error');
-          expect(find('.form-textfield-icon__state--error')).to.exist;
+          assert
+            .dom(find('#validationMessage-firstName').getAttribute('class'))
+            .hasValue('form-textfield__message--error');
+          assert.equal(find('.form-textfield__message--error').textContent.trim(), emptyFirstnameErrorMessage);
+          assert.dom(find('#firstName').getAttribute('class')).hasValue('form-textfield__input--error');
+          assert.dom(find('.form-textfield-icon__state--error')).exists();
         });
       });
 
-      it('should display an error message on last name field, when field is empty and focus-out', async function () {
+      test('should display an error message on last name field, when field is empty and focus-out', async function (assert) {
         // given
         const emptyLastnameErrorMessage = this.intl.t('pages.sign-up.fields.lastname.error');
         this.set('user', userEmpty);
@@ -362,16 +361,16 @@ describe('Integration | Component | SignupForm', function () {
 
         // then
         return settled().then(() => {
-          expect(find('#validationMessage-lastName').getAttribute('class')).to.contain(
-            'form-textfield__message--error'
-          );
-          expect(find('.form-textfield__message--error').textContent.trim()).to.equal(emptyLastnameErrorMessage);
-          expect(find('#lastName').getAttribute('class')).to.contain('form-textfield__input--error');
-          expect(find('.form-textfield-icon__state--error')).to.exist;
+          assert
+            .dom(find('#validationMessage-lastName').getAttribute('class'))
+            .hasValue('form-textfield__message--error');
+          assert.equal(find('.form-textfield__message--error').textContent.trim(), emptyLastnameErrorMessage);
+          assert.dom(find('#lastName').getAttribute('class')).hasValue('form-textfield__input--error');
+          assert.dom(find('.form-textfield-icon__state--error')).exists();
         });
       });
 
-      it('should display an error message on email field, when field is empty and focus-out', async function () {
+      test('should display an error message on email field, when field is empty and focus-out', async function (assert) {
         // given
         const emptyEmailErrorMessage = this.intl.t('pages.sign-up.fields.email.error');
         this.set('user', userEmpty);
@@ -383,16 +382,16 @@ describe('Integration | Component | SignupForm', function () {
 
         // then
         return settled().then(() => {
-          expect(find('.form-textfield__message-email').getAttribute('class')).to.contain(
-            'form-textfield__message--error'
-          );
-          expect(find('.form-textfield__message--error').textContent.trim()).to.equal(emptyEmailErrorMessage);
-          expect(find('#email').getAttribute('class')).to.contain('form-textfield__input--error');
-          expect(find('.form-textfield-icon__state--error')).to.exist;
+          assert
+            .dom(find('.form-textfield__message-email').getAttribute('class'))
+            .hasValue('form-textfield__message--error');
+          assert.equal(find('.form-textfield__message--error').textContent.trim(), emptyEmailErrorMessage);
+          assert.dom(find('#email').getAttribute('class')).hasValue('form-textfield__input--error');
+          assert.dom(find('.form-textfield-icon__state--error')).exists();
         });
       });
 
-      it('should display an error message on password field, when field is empty and focus-out', async function () {
+      test('should display an error message on password field, when field is empty and focus-out', async function (assert) {
         // given
         const incorrectPasswordErrorMessage = this.intl.t('pages.sign-up.fields.password.error');
         this.set('user', userEmpty);
@@ -404,16 +403,16 @@ describe('Integration | Component | SignupForm', function () {
 
         // then
         return settled().then(() => {
-          expect(find('.form-textfield__message-password').getAttribute('class')).to.contain(
-            'form-textfield__message--error'
-          );
-          expect(find('.form-textfield__message--error').textContent.trim()).to.equal(incorrectPasswordErrorMessage);
-          expect(find('#password').getAttribute('class')).to.contain('form-textfield__input--error');
-          expect(find('.form-textfield-icon__state--error')).to.exist;
+          assert
+            .dom(find('.form-textfield__message-password').getAttribute('class'))
+            .hasValue('form-textfield__message--error');
+          assert.equal(find('.form-textfield__message--error').textContent.trim(), incorrectPasswordErrorMessage);
+          assert.dom(find('#password').getAttribute('class')).hasValue('form-textfield__input--error');
+          assert.dom(find('.form-textfield-icon__state--error')).exists();
         });
       });
 
-      it("should display an error message on cgu field, when cgu isn't accepted and form is submitted", async function () {
+      test("should display an error message on cgu field, when cgu isn't accepted and form is submitted", async function (assert) {
         // given
         const uncheckedCheckboxCguErrorMessage = this.intl.t('pages.sign-up.fields.cgu.error');
         const userWithCguNotAccepted = EmberObject.create({
@@ -445,12 +444,12 @@ describe('Integration | Component | SignupForm', function () {
 
         // then
         return settled().then(() => {
-          expect(find('.sign-form__validation-error')).to.exist;
-          expect(find('.sign-form__validation-error').textContent.trim()).to.equal(uncheckedCheckboxCguErrorMessage);
+          assert.dom(find('.sign-form__validation-error')).exists();
+          assert.equal(find('.sign-form__validation-error').textContent.trim(), uncheckedCheckboxCguErrorMessage);
         });
       });
 
-      it('should display an error message on email field, when email above a maximum length of 255 and focus-out', async function () {
+      test('should display an error message on email field, when email above a maximum length of 255 and focus-out', async function (assert) {
         // given
         const expectedMaxLengthEmailError = 'Votre adresse e-mail ne doit pas dépasser les 255 caractères.';
         const errors = [
@@ -480,10 +479,10 @@ describe('Integration | Component | SignupForm', function () {
         await clickByLabel(this.intl.t('pages.sign-up.actions.submit'));
 
         // then
-        expect(find('#validationMessage-email').textContent).to.equal(expectedMaxLengthEmailError);
+        assert.equal(find('#validationMessage-email').textContent, expectedMaxLengthEmailError);
       });
 
-      it('should not display success notification message when an error occurred during the form submission', async function () {
+      test('should not display success notification message when an error occurred during the form submission', async function (assert) {
         const userThatThrowAnErrorDuringSaving = EmberObject.create({
           errors: ArrayProxy.create({
             content: [
@@ -506,13 +505,13 @@ describe('Integration | Component | SignupForm', function () {
 
         // then
         return settled().then(() => {
-          expect(find('.signup-form__notification-message')).to.not.exist;
+          assert.dom(find('.signup-form__notification-message')).doesNotExist();
         });
       });
     });
 
-    describe('Successfull cases', function () {
-      it('should display first name field as validated without error message, when field is filled and focus-out', async function () {
+    module('Successfull cases', function () {
+      test('should display first name field as validated without error message, when field is filled and focus-out', async function (assert) {
         // given
         this.set('user', userEmpty);
         await render(hbs`<SignupForm @user={{this.user}} />`);
@@ -523,16 +522,16 @@ describe('Integration | Component | SignupForm', function () {
 
         // then
         return settled().then(() => {
-          expect(find('#validationMessage-firstName').getAttribute('class')).to.contain(
-            'form-textfield__message--success'
-          );
-          expect(find('.form-textfield__message--error')).not.to.exist;
-          expect(find('#firstName').getAttribute('class')).to.contain('form-textfield__input--success');
-          expect(find('.form-textfield-icon__state--success')).to.exist;
+          assert
+            .dom(find('#validationMessage-firstName').getAttribute('class'))
+            .to.contain('form-textfield__message--success');
+          assert.dom(find('.form-textfield__message--error')).doesNotExist();
+          assert.dom(find('#firstName').getAttribute('class')).to.contain('form-textfield__input--success');
+          assert.dom(find('.form-textfield-icon__state--success')).exists();
         });
       });
 
-      it('should display last name field as validated without error message, when field is filled and focus-out', async function () {
+      test('should display last name field as validated without error message, when field is filled and focus-out', async function (assert) {
         // given
         this.set('user', userEmpty);
         await render(hbs`<SignupForm @user={{this.user}} />`);
@@ -543,16 +542,16 @@ describe('Integration | Component | SignupForm', function () {
 
         // then
         return settled().then(() => {
-          expect(find('#validationMessage-lastName').getAttribute('class')).to.contain(
-            'form-textfield__message--success'
-          );
-          expect(find('.form-textfield__message--error')).not.to.exist;
-          expect(find('#lastName').getAttribute('class')).to.contain('form-textfield__input--success');
-          expect(find('.form-textfield-icon__state--success')).to.exist;
+          assert
+            .dom(find('#validationMessage-lastName').getAttribute('class'))
+            .hasValue('form-textfield__message--success');
+          assert.dom(find('.form-textfield__message--error')).doesNotExist();
+          assert.dom(find('#lastName').getAttribute('class')).hasValue('form-textfield__input--success');
+          assert.dom(find('.form-textfield-icon__state--success')).exists();
         });
       });
 
-      it('should display email field as validated without error message, when field is filled and focus-out', async function () {
+      test('should display email field as validated without error message, when field is filled and focus-out', async function (assert) {
         // given
         this.set('user', userEmpty);
         await render(hbs`<SignupForm @user={{this.user}} />`);
@@ -563,16 +562,16 @@ describe('Integration | Component | SignupForm', function () {
 
         // then
         return settled().then(() => {
-          expect(find('.form-textfield__message-email').getAttribute('class')).to.contain(
-            'form-textfield__message--success'
-          );
-          expect(find('.form-textfield__message--error')).not.to.exist;
-          expect(find('#email').getAttribute('class')).to.contain('form-textfield__input--success');
-          expect(find('.form-textfield-icon__state--success')).to.exist;
+          assert
+            .dom(find('.form-textfield__message-email').getAttribute('class'))
+            .hasValue('form-textfield__message--success');
+          assert.dom(find('.form-textfield__message--error')).doesNotExist();
+          assert.dom(find('#email').getAttribute('class')).hasValue('form-textfield__input--success');
+          assert.dom(find('.form-textfield-icon__state--success')).exists();
         });
       });
 
-      it('should display password field as validated without error message, when field is filled and focus-out', async function () {
+      test('should display password field as validated without error message, when field is filled and focus-out', async function (assert) {
         // given
         this.set('user', userEmpty);
         await render(hbs`<SignupForm @user={{this.user}} />`);
@@ -583,16 +582,16 @@ describe('Integration | Component | SignupForm', function () {
 
         // then
         return settled().then(() => {
-          expect(find('.form-textfield__message-password').getAttribute('class')).to.contain(
-            'form-textfield__message--success'
-          );
-          expect(find('.form-textfield__message--error')).not.to.exist;
-          expect(find('#password').getAttribute('class')).to.contain('form-textfield__input--success');
-          expect(find('.form-textfield-icon__state--success')).to.exist;
+          assert
+            .dom(find('.form-textfield__message-password').getAttribute('class'))
+            .hasValue('form-textfield__message--success');
+          assert.dom(find('.form-textfield__message--error')).doesNotExist();
+          assert.dom(find('#password').getAttribute('class')).hasValue('form-textfield__input--success');
+          assert.dom(find('.form-textfield-icon__state--success')).exists();
         });
       });
 
-      it('should not display an error message on cgu field, when cgu is accepted and form is submitted', async function () {
+      test('should not display an error message on cgu field, when cgu is accepted and form is submitted', async function (assert) {
         // given
         const userWithCguAccepted = EmberObject.create({
           cgu: true,
@@ -610,11 +609,11 @@ describe('Integration | Component | SignupForm', function () {
 
         // then
         return settled().then(() => {
-          expect(find('.sign-form__validation-error')).to.not.exist;
+          assert.dom(find('.sign-form__validation-error')).doesNotExist();
         });
       });
 
-      it('should reset validation property, when all things are ok and form is submitted', async function () {
+      test('should reset validation property, when all things are ok and form is submitted', async function (assert) {
         // given
         const validUser = EmberObject.create({
           email: 'toto@pix.fr',
@@ -636,16 +635,16 @@ describe('Integration | Component | SignupForm', function () {
 
         // then
         return settled().then(() => {
-          expect(findAll('.form-textfield__input-field-container')[0].getAttribute('class')).contains(
-            INPUT_TEXT_FIELD_CLASS_DEFAULT
-          );
+          assert
+            .dom(findAll('.form-textfield__input-field-container')[0].getAttribute('class'))
+            .hasValue(INPUT_TEXT_FIELD_CLASS_DEFAULT);
         });
       });
     });
   });
 
-  describe('Loading management', () => {
-    it('should not display any loading spinner by default', async function () {
+  module('Loading management', () => {
+    test('should not display any loading spinner by default', async function (assert) {
       // given
       this.set('user', userEmpty);
 
@@ -653,10 +652,10 @@ describe('Integration | Component | SignupForm', function () {
       await render(hbs`<SignupForm @user={{this.user}} />`);
 
       // then
-      expect(find('.sign-form-body__bottom-button .loader-in-button')).to.not.exist;
+      assert.dom(find('.sign-form-body__bottom-button .loader-in-button')).doesNotExist();
     });
 
-    it('should display a loading spinner when user submit signup', async function () {
+    test('should display a loading spinner when user submit signup', async function (assert) {
       // given
       const validUser = EmberObject.create({
         email: 'toto@pix.fr',
@@ -676,6 +675,7 @@ describe('Integration | Component | SignupForm', function () {
       await clickByLabel("Je m'inscris");
 
       // then
+      assert.expect(0);
       await waitUntil(() => find('.loader-in-button'));
     });
   });

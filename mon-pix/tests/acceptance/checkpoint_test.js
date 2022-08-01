@@ -1,23 +1,22 @@
 import { find, findAll, visit } from '@ember/test-helpers';
-import { describe, it, beforeEach } from 'mocha';
-import { expect } from 'chai';
-import { setupApplicationTest } from 'ember-mocha';
+import { module, test } from 'qunit';
+import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { authenticateByEmail } from '../helpers/authentication';
 
-describe('Acceptance | Checkpoint', () => {
-  setupApplicationTest();
-  setupMirage();
+module('Acceptance | Checkpoint', function (hooks) {
+  setupApplicationTest(hooks);
+  setupMirage(hooks);
   let assessment;
 
-  beforeEach(function () {
+  hooks.beforeEach(function () {
     assessment = server.create('assessment', 'ofCompetenceEvaluationType');
   });
 
-  describe('With answers', () => {
+  module('With answers', function (hooks) {
     const NB_ANSWERS = 3;
 
-    beforeEach(function () {
+    hooks.beforeEach(function () {
       for (let i = 0; i < NB_ANSWERS; ++i) {
         const challenge = server.create('challenge', 'forCompetenceEvaluation');
         server.create('answer', {
@@ -29,39 +28,41 @@ describe('Acceptance | Checkpoint', () => {
       }
     });
 
-    it('should display questions and links to solutions', async () => {
+    test('should display questions and links to solutions', async function (assert) {
       // when
       await visit(`/assessments/${assessment.id}/checkpoint`);
 
       // then
-      expect(find('.checkpoint-progression-gauge-wrapper')).to.exist;
-      expect(find('.assessment-results__list')).to.exist;
-      expect(findAll('.result-item')).to.have.lengthOf(NB_ANSWERS);
-      expect(find('.checkpoint__continue').textContent).to.contain('Continuer');
-      expect(find('.checkpoint-no-answer')).to.not.exist;
+      assert.dom(find('.checkpoint-progression-gauge-wrapper')).exists();
+      assert.dom(find('.assessment-results__list')).exists();
+      assert.equal(findAll('.result-item').length, NB_ANSWERS);
+      assert.dom(find('.checkpoint__continue').textContent).hasText('Continuer');
+      assert.dom(find('.checkpoint-no-answer')).doesNotExist();
     });
   });
 
-  describe('Without answers', () => {
-    it('should display a message indicating that there is no answers to provide', async () => {
+  module('Without answers', function () {
+    test('should display a message indicating that there is no answers to provide', async function (assert) {
       // when
       await visit(`/assessments/${assessment.id}/checkpoint?finalCheckpoint=true`);
 
       // then
-      expect(find('.checkpoint-progression-gauge-wrapper')).to.not.exist;
-      expect(find('.assessment-results__list')).to.not.exist;
-      expect(find('.checkpoint-no-answer')).to.exist;
+      assert.dom(find('.checkpoint-progression-gauge-wrapper')).doesNotExist();
+      assert.dom(find('.assessment-results__list')).doesNotExist();
+      assert.dom(find('.checkpoint-no-answer')).exists();
 
-      expect(find('.checkpoint__continue')).to.exist;
-      expect(find('.checkpoint__continue').textContent).to.contain('Voir mes résultats');
-      expect(find('.checkpoint-no-answer__info').textContent).to.contain(
-        'Vous avez déjà répondu à ces questions lors de vos tests précédents : vous pouvez directement accéder à vos résultats.\n\nVous souhaitez améliorer votre score ? En cliquant sur  “Voir mes résultats”, vous aurez la possibilité de retenter le parcours.'
-      );
+      assert.dom(find('.checkpoint__continue')).exists();
+      assert.dom(find('.checkpoint__continue').textContent).hasText('Voir mes résultats');
+      assert
+        .dom(find('.checkpoint-no-answer__info').textContent)
+        .hasText(
+          'Vous avez déjà répondu à ces questions lors de vos tests précédents : vous pouvez directement accéder à vos résultats.\n\nVous souhaitez améliorer votre score ? En cliquant sur  “Voir mes résultats”, vous aurez la possibilité de retenter le parcours.'
+        );
     });
   });
 
-  describe('When user is anonymous', () => {
-    it('should not display home link', async () => {
+  module('When user is anonymous', function () {
+    test('should not display home link', async function (assert) {
       //given
       const user = server.create('user', 'withEmail', {
         isAnonymous: true,
@@ -72,7 +73,7 @@ describe('Acceptance | Checkpoint', () => {
       await visit(`/assessments/${assessment.id}/checkpoint?finalCheckpoint=true`);
 
       // then
-      expect(find('.assessment-banner__home-link')).to.not.exist;
+      assert.dom(find('.assessment-banner__home-link')).doesNotExist();
     });
   });
 });

@@ -1,10 +1,9 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
+import { module, test } from 'qunit';
 import labelsAsObject from 'mon-pix/utils/labels-as-object';
 
-describe('Unit | Utility | labels as object', function () {
-  describe('#labelsAsObject', function () {
-    it('should return an object with labels and key on the input 1', function () {
+module('Unit | Utility | labels as object', function () {
+  module('#labelsAsObject', function () {
+    test('should return an object with labels and key on the input 1', function (assert) {
       // given
       const challenge = {
         proposals:
@@ -24,10 +23,10 @@ describe('Unit | Utility | labels as object', function () {
       const result = labelsAsObject(challenge.proposals);
 
       //then
-      expect(result).to.be.deep.equal(expectedResult);
+      assert.deepEqual(result, expectedResult);
     });
 
-    it('should return an object with labels and key on the input 2', function () {
+    test('should return an object with labels and key on the input 2', function (assert) {
       // given
       const challenge = {
         proposals:
@@ -43,10 +42,10 @@ describe('Unit | Utility | labels as object', function () {
       const result = labelsAsObject(challenge.proposals);
 
       //then
-      expect(result).to.be.deep.equal(expectedResult);
+      assert.deepEqual(result, expectedResult);
     });
 
-    it('should return an object with labels and key on the input 3', function () {
+    test('should return an object with labels and key on the input 3', function (assert) {
       // given
       const challenge = {
         proposals:
@@ -70,10 +69,10 @@ describe('Unit | Utility | labels as object', function () {
       const result = labelsAsObject(challenge.proposals);
 
       //then
-      expect(result).to.be.deep.equal(expectedResult);
+      assert.deepEqual(result, expectedResult);
     });
 
-    it('should return object with labels and if the key of the input has a placeholder (after #), it does not keep the placeholder', function () {
+    test('should return object with labels and if the key of the input has a placeholder (after #), it does not keep the placeholder', function (assert) {
       // given
       const challenge = {
         proposals:
@@ -89,7 +88,7 @@ describe('Unit | Utility | labels as object', function () {
       const result = labelsAsObject(challenge.proposals);
 
       //then
-      expect(result).to.be.deep.equal(expectedResult);
+      assert.deepEqual(result, expectedResult);
     });
   });
 });

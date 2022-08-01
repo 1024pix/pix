@@ -1,84 +1,83 @@
 import { blur, click, fillIn, find } from '@ember/test-helpers';
-import { describe, it, beforeEach } from 'mocha';
-import { expect } from 'chai';
+import { assert, module, test } from 'qunit';
 import { visit } from '@ember/test-helpers';
-import { setupApplicationTest } from 'ember-mocha';
+import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 
 const TEXTAREA = 'textarea.feedback-panel__field--content';
 const DROPDOWN = '.feedback-panel__dropdown';
 
-describe('Acceptance | Giving feedback about a challenge', function () {
-  setupApplicationTest();
-  setupMirage();
+module('Acceptance | Giving feedback about a challenge', function (hooks) {
+  setupApplicationTest(hooks);
+  setupMirage(hooks);
   let assessment;
   let firstChallenge;
 
-  beforeEach(function () {
+  hooks.beforeEach(function () {
     assessment = server.create('assessment', 'ofCompetenceEvaluationType');
     firstChallenge = server.create('challenge', 'forCompetenceEvaluation');
     server.create('challenge', 'forCompetenceEvaluation');
   });
 
-  function assertThatFeedbackPanelExist() {
-    expect(find('.feedback-panel')).to.exist;
+  function assertThatFeedbackPanelExist(assert) {
+    assert.dom(find('.feedback-panel')).exists();
   }
 
-  function assertThatFeedbackFormIsClosed() {
-    expect(find('.feedback-panel__form')).to.not.exist;
+  function assertThatFeedbackFormIsClosed(assert) {
+    assert.dom(find('.feedback-panel__form')).doesNotExist();
   }
 
-  function assertThatFeedbackFormIsOpen() {
-    expect(find('.feedback-panel__form')).to.exist;
+  function assertThatFeedbackFormIsOpen(assert) {
+    assert.dom(find('.feedback-panel__form')).exists();
   }
 
-  context('From a challenge', function () {
-    beforeEach(async function () {
+  module('From a challenge', function (hooks) {
+    hooks.beforeEach(async function () {
       await visit(`/assessments/${assessment.id}/challenges/0`);
     });
 
-    it('should be able to directly send a feedback', async () => {
-      assertThatFeedbackPanelExist();
+    test('should be able to directly send a feedback', async (assert) => {
+      assertThatFeedbackPanelExist(assert);
     });
 
-    context('when the feedback-panel button is clicked', function () {
-      beforeEach(async function () {
-        assertThatFeedbackFormIsClosed();
+    module('when the feedback-panel button is clicked', function (hooks) {
+      hooks.beforeEach(async function (assert) {
+        assertThatFeedbackFormIsClosed(assert);
         await click('.feedback-panel__open-button');
       });
 
-      it('should open the feedback form', function () {
-        assertThatFeedbackFormIsOpen();
+      test('should open the feedback form', function (assert) {
+        assertThatFeedbackFormIsOpen(assert);
       });
 
-      context('and the form is filled but not sent', function () {
-        beforeEach(async function () {
+      module('and the form is filled but not sent', function (hooks) {
+        hooks.beforeEach(async function () {
           await fillIn(DROPDOWN, 'accessibility');
           await fillIn(TEXTAREA, 'TEST_CONTENT');
           await blur(TEXTAREA);
         });
 
-        context('and the challenge is skipped', function () {
-          beforeEach(async function () {
+        module('and the challenge is skipped', function (hooks) {
+          hooks.beforeEach(async function () {
             await click('.challenge-actions__action-skip');
           });
 
-          it('should not display the feedback form', function () {
-            assertThatFeedbackFormIsClosed();
+          test('should not display the feedback form', function (assert) {
+            assertThatFeedbackFormIsClosed(assert);
           });
 
-          it('should always reset the feedback form between two consecutive challenges', async function () {
+          test('should always reset the feedback form between two consecutive challenges', async function (assert) {
             await click('.feedback-panel__open-button');
             await fillIn(DROPDOWN, 'accessibility');
-            expect(find(TEXTAREA).value).to.equal('');
+            assert.equal(find(TEXTAREA).value, '');
           });
         });
       });
     });
   });
 
-  context('From the comparison modal at the end of the test', function () {
-    it('should be able to give feedback', async () => {
+  module('From the comparison modal at the end of the test', function () {
+    test('should be able to give feedback', async function () {
       // given
       server.create('answer', 'skipped', { assessment, challenge: firstChallenge });
       await visit(`/assessments/${assessment.id}/checkpoint`);

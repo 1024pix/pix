@@ -1,27 +1,26 @@
-import { afterEach, beforeEach, describe, it } from 'mocha';
-import { setupTest } from 'ember-mocha';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 import Service from '@ember/service';
 import sinon from 'sinon';
 import progressInAssessment from 'mon-pix/utils/progress-in-assessment';
-import { expect } from 'chai';
 
-describe('Unit | Controller | Assessments | Challenge', function () {
-  setupTest();
+module('Unit | Controller | Assessments | Challenge', function (hooks) {
+  setupTest(hooks);
 
   let controller;
   const intl = Service.create({ t: sinon.spy() });
 
-  beforeEach(function () {
+  hooks.beforeEach(function () {
     controller = this.owner.lookup('controller:assessments/challenge');
     controller.intl = intl;
   });
 
-  afterEach(function () {
+  hooks.afterEach(function () {
     sinon.restore();
   });
 
-  describe('#pageTitle', () => {
-    it('should return Épreuve 2 sur 5', function () {
+  module('#pageTitle', function () {
+    test('should return Épreuve 2 sur 5', function (assert) {
       // given
       controller.model = {
         assessment: {},
@@ -37,10 +36,11 @@ describe('Unit | Controller | Assessments | Challenge', function () {
       controller.pageTitle;
 
       // then
+      assert.expect(0);
       sinon.assert.calledWith(intl.t, 'pages.challenge.title.default', { stepNumber: 2, totalChallengeNumber: 5 });
     });
 
-    it('should return focused title when challenge is focused', function () {
+    test('should return focused title when challenge is focused', function (assert) {
       // given
       controller.model = {
         assessment: {},
@@ -56,62 +56,63 @@ describe('Unit | Controller | Assessments | Challenge', function () {
       controller.pageTitle;
 
       // then
+      assert.expect(0);
       sinon.assert.calledWith(intl.t, 'pages.challenge.title.focused', { stepNumber: 2, totalChallengeNumber: 5 });
     });
   });
 
-  describe('#displayHomeLink', () => {
-    it('should not display home link', function () {
+  module('#displayHomeLink', function () {
+    test('should not display home link', function (assert) {
       // given
       controller.currentUser = Service.create({ user: { isAnonymous: true } });
 
       // then
-      expect(controller.displayHomeLink).to.be.false;
+      assert.false(controller.displayHomeLink);
     });
 
-    it('should display home link', function () {
+    test('should display home link', function (assert) {
       // given
       controller.currentUser = Service.create({ user: { isAnonymous: false } });
 
       // then
-      expect(controller.displayHomeLink).to.be.true;
+      assert.true(controller.displayHomeLink);
     });
   });
 
-  describe('#showLevelup', () => {
-    it('should display level up pop-in', function () {
+  module('#showLevelup', function () {
+    test('should display level up pop-in', function (assert) {
       // given
       controller.newLevel = true;
       const model = { assessment: { showLevelup: true } };
       controller.model = model;
 
       // then
-      expect(controller.showLevelup).to.be.true;
+      assert.true(controller.showLevelup);
     });
 
-    it('should not display level up pop-in when user has not leveled up', function () {
+    test('should not display level up pop-in when user has not leveled up', function (assert) {
       // given
       controller.newLevel = false;
       const model = { assessment: { showLevelup: true } };
       controller.model = model;
 
       // then
-      expect(controller.showLevelup).to.be.false;
+      assert.false(controller.showLevelup);
     });
 
-    it('should not display level up pop-in when it is not in assessment with level up', function () {
+    test('should not display level up pop-in when it is not in assessment with level up', function (assert) {
       // given
       controller.newLevel = true;
       const model = { assessment: { showLevelup: false } };
       controller.model = model;
 
       // then
-      expect(controller.showLevelup).to.be.false;
+      assert.false(controller.showLevelup);
     });
   });
 
-  describe('#displayChallenge', function () {
-    context('when challenge is focused and assessment is of type certification', function () {
+  module('#displayChallenge', function () {
+    module('when challenge is focused and assessment is of type certification', function () {
       [
         {
           answer: undefined,
@@ -134,7 +135,7 @@ describe('Unit | Controller | Assessments | Challenge', function () {
           : 'user has not confirmed certification focus warning';
         const _hasAnswer = data.answer ? 'user has already answered' : 'user has not answered the question';
 
-        it(`should be ${data.expectedResult} when ${_hasUserConfirmedCertificationFocusWarning}, ${_hasAnswer}`, function () {
+        test(`should be ${data.expectedResult} when ${_hasUserConfirmedCertificationFocusWarning}, ${_hasAnswer}`, function (assert) {
           // given
           const focusedCertificationChallengeWarningManager = this.owner.lookup(
             'service:focused-certification-challenge-warning-manager'
@@ -158,11 +159,11 @@ describe('Unit | Controller | Assessments | Challenge', function () {
           const result = controller.displayChallenge;
 
           // then
-          expect(result).to.equal(data.expectedResult);
+          assert.equal(result, data.expectedResult);
         });
       });
     });
-    context('when challenge is not focused and has no timer', function () {
+    module('when challenge is not focused and has no timer', function () {
       [
         { answer: undefined, hasUserConfirmedTimedChallengeWarning: false, expectedResult: true },
         { answer: 'banana', hasUserConfirmedTimedChallengeWarning: false, expectedResult: true },
@@ -172,7 +173,7 @@ describe('Unit | Controller | Assessments | Challenge', function () {
           : 'user has not confirmed warning';
         const _hasAnswer = data.answer ? 'user has already answered' : 'user has not answered the question';
 
-        it(`should be ${data.expectedResult} when ${_hasUserConfirmedWarning}, ${_hasAnswer}`, function () {
+        test(`should be ${data.expectedResult} when ${_hasUserConfirmedWarning}, ${_hasAnswer}`, function (assert) {
           // given
           const challenge = {
             id: 'rec_123',
@@ -191,12 +192,12 @@ describe('Unit | Controller | Assessments | Challenge', function () {
           const result = controller.displayChallenge;
 
           // then
-          expect(result).to.equal(data.expectedResult);
+          assert.equal(result, data.expectedResult);
         });
       });
     });
 
-    context('when challenge has timer', function () {
+    module('when challenge has timer', function () {
       [
         { answer: undefined, hasUserConfirmedTimedChallengeWarning: true, expectedResult: true },
         { answer: 'banana', hasUserConfirmedTimedChallengeWarning: false, expectedResult: true },
@@ -207,7 +208,7 @@ describe('Unit | Controller | Assessments | Challenge', function () {
           : 'user has not confirmed warning';
         const _hasAnswer = data.answer ? 'user has already answered' : 'user has not answered the question';
 
-        it(`should be ${data.expectedResult} when ${_hasUserConfirmedWarning}, ${_hasAnswer}`, function () {
+        test(`should be ${data.expectedResult} when ${_hasUserConfirmedWarning}, ${_hasAnswer}`, function (assert) {
           // given
           const challenge = {
             id: 'rec_123',
@@ -224,7 +225,7 @@ describe('Unit | Controller | Assessments | Challenge', function () {
           const result = controller.displayChallenge;
 
           // then
-          expect(result).to.equal(data.expectedResult);
+          assert.equal(result, data.expectedResult);
         });
       });
     });

@@ -1,5 +1,4 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
+import { module, test } from 'qunit';
 import { render as renderScreen } from '@1024pix/ember-testing-library';
 import { click } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
@@ -7,14 +6,14 @@ import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 import Service from '@ember/service';
 import sinon from 'sinon';
 
-describe('Integration | Component | user certifications detail header', function () {
-  setupIntlRenderingTest();
+module('Integration | Component | user certifications detail header', function (hooks) {
+  setupIntlRenderingTest(hooks);
 
-  context('when certification is complete', function () {
+  module('when certification is complete', function (hooks) {
     let certification, screen;
     let store;
 
-    beforeEach(async function () {
+    hooks.beforeEach(async function () {
       // given
       store = this.owner.lookup('service:store');
       certification = store.createRecord('certification', {
@@ -38,33 +37,33 @@ describe('Integration | Component | user certifications detail header', function
       screen = await renderScreen(hbs`{{user-certifications-detail-header certification=certification}}`);
     });
 
-    it('should show the certification published date', function () {
-      expect(screen.getByText('Délivré le 17 février 2018')).to.exist;
+    test('should show the certification published date', function (assert) {
+      assert.dom(screen.getByText('Délivré le 17 février 2018')).exists();
     });
 
-    it('should show the certification exam date', function () {
-      expect(screen.getByText('Date de passage : 15 février 2018')).to.exist;
+    test('should show the certification exam date', function (assert) {
+      assert.dom(screen.getByText('Date de passage : 15 février 2018')).exists();
     });
 
-    it('should show the certification user full name', function () {
-      expect(screen.getByText('Jean Bon')).to.exist;
+    test('should show the certification user full name', function (assert) {
+      assert.dom(screen.getByText('Jean Bon')).exists();
     });
 
-    it('should show the certification user birthdate and birthplace', function () {
-      expect(screen.getByText('Né(e) le 22 janvier 2000 à Paris')).to.exist;
+    test('should show the certification user birthdate and birthplace', function (assert) {
+      assert.dom(screen.getByText('Né(e) le 22 janvier 2000 à Paris')).exists();
     });
 
-    it('should show the certification center', function () {
-      expect(screen.getByText('Centre de certification : Université de Lyon')).to.exist;
+    test('should show the certification center', function (assert) {
+      assert.dom(screen.getByText('Centre de certification : Université de Lyon')).exists();
     });
 
-    it('should show the pix score', function () {
-      expect(screen.getByText('654')).to.exist;
+    test('should show the pix score', function (assert) {
+      assert.dom(screen.getByText('654')).exists();
     });
   });
 
-  context('when certification is not complete', function () {
-    it('should not render the user-certifications-detail-header component', async function () {
+  module('when certification is not complete', function () {
+    test('should not render the user-certifications-detail-header component', async function (assert) {
       // given
       const store = this.owner.lookup('service:store');
       const certification = store.createRecord('certification', {
@@ -86,12 +85,12 @@ describe('Integration | Component | user certifications detail header', function
       const screen = await renderScreen(hbs`{{user-certifications-detail-header certification=certification}}`);
 
       // then
-      expect(screen.queryByText('Né(e) le 22 janvier 2000 à Paris')).to.not.exist;
+      assert.dom(screen.queryByText('Né(e) le 22 janvier 2000 à Paris')).doesNotExist();
     });
   });
 
-  context('when domain is french', function () {
-    beforeEach(function () {
+  module('when domain is french', function (hooks) {
+    hooks.beforeEach(function () {
       class UrlServiceStub extends Service {
         get isFrenchDomainExtension() {
           return true;
@@ -100,8 +99,8 @@ describe('Integration | Component | user certifications detail header', function
       this.owner.register('service:url', UrlServiceStub);
     });
 
-    context('when certification is delivered after 2022-01-01', function () {
-      it('should display the professionalizing warning', async function () {
+    module('when certification is delivered after 2022-01-01', function () {
+      test('should display the professionalizing warning', async function (assert) {
         // given
         const store = this.owner.lookup('service:store');
         const certification = store.createRecord('certification', {
@@ -125,16 +124,18 @@ describe('Integration | Component | user certifications detail header', function
         const screen = await renderScreen(hbs`{{user-certifications-detail-header certification=certification}}`);
 
         // then
-        expect(
-          screen.getByText(
-            'Le certificat Pix est reconnu comme professionnalisant par France compétences à compter d’un score minimal de 120 pix'
+        assert
+          .dom(
+            screen.getByText(
+              'Le certificat Pix est reconnu comme professionnalisant par France compétences à compter d’un score minimal de 120 pix'
+            )
           )
-        ).to.exist;
+          .exists();
       });
     });
 
-    context('when certification is delivered before 2022-01-01', function () {
-      it('should not display the professionalizing warning', async function () {
+    module('when certification is delivered before 2022-01-01', function () {
+      test('should not display the professionalizing warning', async function (assert) {
         // given
         const store = this.owner.lookup('service:store');
         const certification = store.createRecord('certification', {
@@ -158,15 +159,17 @@ describe('Integration | Component | user certifications detail header', function
         const screen = await renderScreen(hbs`{{user-certifications-detail-header certification=certification}}`);
 
         // then
-        expect(
-          screen.queryByText(
-            'Le certificat Pix est reconnu comme professionnalisant par France compétences à compter d’un score minimal de 120 pix'
+        assert
+          .dom(
+            screen.queryByText(
+              'Le certificat Pix est reconnu comme professionnalisant par France compétences à compter d’un score minimal de 120 pix'
+            )
           )
-        ).to.not.exist;
+          .doesNotExist();
       });
     });
 
-    it('should call file saver with isFrenchDomainExtension set to true in url', async function () {
+    test('should call file saver with isFrenchDomainExtension set to true in url', async function (assert) {
       // given
       const fileSaverSaveStub = sinon.stub();
       class FileSaverStub extends Service {
@@ -199,6 +202,7 @@ describe('Integration | Component | user certifications detail header', function
       await click(screen.getByRole('button', { name: 'Télécharger mon attestation' }));
 
       // then
+      assert.expect(0);
       sinon.assert.calledWith(fileSaverSaveStub, {
         url: '/api/attestation/1234?isFrenchDomainExtension=true',
         fileName: 'attestation_pix.pdf',
@@ -207,8 +211,8 @@ describe('Integration | Component | user certifications detail header', function
     });
   });
 
-  context('when domain is not french', function () {
-    it('should not display the professionalizing warning', async function () {
+  module('when domain is not french', function () {
+    test('should not display the professionalizing warning', async function (assert) {
       // given
       class UrlServiceStub extends Service {
         get isFrenchDomainExtension() {
@@ -238,14 +242,16 @@ describe('Integration | Component | user certifications detail header', function
       const screen = await renderScreen(hbs`{{user-certifications-detail-header certification=certification}}`);
 
       // then
-      expect(
-        screen.queryByText(
-          'Le certificat Pix est reconnu comme professionnalisant par France compétences à compter d’un score minimal de 120 pix'
+      assert
+        .dom(
+          screen.queryByText(
+            'Le certificat Pix est reconnu comme professionnalisant par France compétences à compter d’un score minimal de 120 pix'
+          )
         )
-      ).to.not.exist;
+        .doesNotExist();
     });
 
-    it('should call file saver with isFrenchDomainExtension set to false in url', async function () {
+    test('should call file saver with isFrenchDomainExtension set to false in url', async function (assert) {
       // given
       const fileSaverSaveStub = sinon.stub();
       class FileSaverStub extends Service {
@@ -278,6 +284,7 @@ describe('Integration | Component | user certifications detail header', function
       await click(screen.getByRole('button', { name: 'Télécharger mon attestation' }));
 
       // then
+      assert.expect(0);
       sinon.assert.calledWith(fileSaverSaveStub, {
         url: '/api/attestation/1234?isFrenchDomainExtension=false',
         fileName: 'attestation_pix.pdf',

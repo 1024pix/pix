@@ -1,11 +1,10 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
-import { setupTest } from 'ember-mocha';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 
-describe('Unit | Serializer | schooling-registration-user-association', function () {
-  setupTest();
+module('Unit | Serializer | schooling-registration-user-association', function (hooks) {
+  setupTest(hooks);
 
-  it('serializers test', function () {
+  test('serializers test', function (assert) {
     const store = this.owner.lookup('service:store');
     const record = store.createRecord('schooling-registration-user-association', {
       studentNumber: '2',
@@ -14,7 +13,7 @@ describe('Unit | Serializer | schooling-registration-user-association', function
 
     const recordSerialized = record.serialize();
 
-    expect(recordSerialized.data.attributes['student-number']).to.equal('2');
-    expect(recordSerialized.data.attributes['first-name']).to.be.undefined;
+    assert.equal(recordSerialized.data.attributes['student-number'], '2');
+    assert.equal(recordSerialized.data.attributes['first-name'], undefined);
   });
 });

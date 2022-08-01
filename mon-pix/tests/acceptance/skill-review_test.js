@@ -1,48 +1,47 @@
 import { findAll, currentURL, visit } from '@ember/test-helpers';
-import { beforeEach, describe, it } from 'mocha';
-import { expect } from 'chai';
+import { module, test } from 'qunit';
 import { authenticateByEmail } from '../helpers/authentication';
 import { contains } from '../helpers/contains';
 import setupIntl from '../helpers/setup-intl';
 import { clickByLabel } from '../helpers/click-by-label';
-import { setupApplicationTest } from 'ember-mocha';
+import { setupApplicationTest } from 'ember-qunit';
 import { currentSession } from 'ember-simple-auth/test-support';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 
-describe('Acceptance | Campaigns | Campaigns Result', function () {
-  setupApplicationTest();
-  setupMirage();
-  setupIntl();
+module('Acceptance | Campaigns | Campaigns Result', function (hooks) {
+  setupApplicationTest(hooks);
+  setupMirage(hooks);
+  setupIntl(hooks);
 
   let user;
   let campaign;
   let campaignParticipation;
   let campaignParticipationResult;
 
-  beforeEach(function () {
+  hooks.beforeEach(function () {
     user = server.create('user', 'withEmail');
     campaign = server.create('campaign', { isArchived: false });
     campaignParticipation = server.create('campaign-participation', { campaign });
   });
 
-  describe('Display campaign results', function () {
-    describe('When user is not logged in', function () {
-      beforeEach(async function () {
+  module('Display campaign results', function () {
+    module('When user is not logged in', function (hooks) {
+      hooks.beforeEach(async function () {
         // when
         await visit(`/campagnes/${campaign.code}/evaluation/resultats`);
       });
 
-      it('should be redirect to connexion page', async function () {
+      test('should be redirect to connexion page', async function () {
         // then
-        expect(currentURL()).to.equal('/connexion');
+        assert.equal(currentURL(), '/connexion');
       });
     });
 
-    describe('When user is logged in', async function () {
+    module('When user is logged in', async function (hooks) {
       const competenceResultName = 'Competence Nom';
       const skillSetResultName = 'badge skill set nom';
 
-      beforeEach(async function () {
+      hooks.beforeEach(async function () {
         // given
         await authenticateByEmail(user);
         const competenceResult = server.create('competence-result', {
@@ -56,15 +55,15 @@ describe('Acceptance | Campaigns | Campaigns Result', function () {
         });
       });
 
-      it('should access to the page', async function () {
+      test('should access to the page', async function () {
         // when
         await visit(`/campagnes/${campaign.code}/evaluation/resultats`);
 
         // then
-        expect(currentURL()).to.equal(`/campagnes/${campaign.code}/evaluation/resultats`);
+        assert.equal(currentURL(), `/campagnes/${campaign.code}/evaluation/resultats`);
       });
 
-      it('should display results', async function () {
+      test('should display results', async function () {
         // given
         const COMPETENCE_MASTERY_PERCENTAGE = '85%';
 
@@ -72,27 +71,27 @@ describe('Acceptance | Campaigns | Campaigns Result', function () {
         await visit(`/campagnes/${campaign.code}/evaluation/resultats`);
 
         // then
-        expect(contains(competenceResultName)).to.exist;
-        expect(contains(COMPETENCE_MASTERY_PERCENTAGE)).to.exist;
+        assert.dom(contains(competenceResultName)).exists();
+        assert.dom(contains(COMPETENCE_MASTERY_PERCENTAGE)).exists();
       });
 
-      context('When the campaign is restricted and schooling-registration is disabled', function () {
-        beforeEach(function () {
+      module('When the campaign is restricted and schooling-registration is disabled', function (hooks) {
+        hooks.beforeEach(function () {
           campaign = server.create('campaign', { code: 'FORBIDDEN', isRestricted: true, title: 'Parcours restreint' });
           campaignParticipation = server.create('campaign-participation', { campaign });
         });
 
-        it('should display results page', async function () {
+        test('should display results page', async function () {
           // when
           await visit(`/campagnes/${campaign.code}/evaluation/resultats`);
 
           // then
-          expect(currentURL()).to.equal(`/campagnes/${campaign.code}/evaluation/resultats`);
-          expect(contains('Parcours restreint')).to.exist;
+          assert.equal(currentURL(), `/campagnes/${campaign.code}/evaluation/resultats`);
+          assert.dom(contains('Parcours restreint')).exists();
         });
       });
 
-      it('should display different competences results when the badge key is PIX_EMPLOI_CLEA', async function () {
+      test('should display different competences results when the badge key is PIX_EMPLOI_CLEA', async function () {
         // given
         const BADGE_SKILL_SET_MASTERY_PERCENTAGE = '80%';
 
@@ -120,11 +119,11 @@ describe('Acceptance | Campaigns | Campaigns Result', function () {
         await visit(`/campagnes/${campaign.code}/evaluation/resultats`);
 
         // then
-        expect(contains(skillSetResultName)).to.exist;
-        expect(contains(BADGE_SKILL_SET_MASTERY_PERCENTAGE)).to.exist;
+        assert.dom(contains(skillSetResultName)).exists();
+        assert.dom(contains(BADGE_SKILL_SET_MASTERY_PERCENTAGE)).exists();
       });
 
-      it('should display the Pix emploi badge when badge is acquired', async function () {
+      test('should display the Pix emploi badge when badge is acquired', async function () {
         // given
         const badge = server.create('campaign-participation-badge', {
           altMessage: 'Yon won a Pix Emploi badge',
@@ -137,18 +136,18 @@ describe('Acceptance | Campaigns | Campaigns Result', function () {
         await visit(`/campagnes/${campaign.code}/evaluation/resultats`);
 
         // then
-        expect(contains('Congrats, you won a Pix Emploi badge')).to.exist;
+        assert.dom(contains('Congrats, you won a Pix Emploi badge')).exists();
       });
 
-      it('should not display the Pix emploi badge when badge is not acquired', async function () {
+      test('should not display the Pix emploi badge when badge is not acquired', async function () {
         // when
         await visit(`/campagnes/${campaign.code}/evaluation/resultats`);
 
         // then
-        expect(contains(this.intl.t('pages.skill-review.badges-title'))).to.not.exist;
+        assert.dom(contains(this.intl.t('pages.skill-review.badges-title'))).doesNotExist();
       });
 
-      it('should display acquired badges + non acquired but isAlwaysDisplayed badges', async function () {
+      test('should display acquired badges + non acquired but isAlwaysDisplayed badges', async function () {
         // given
         const acquiredBadge = server.create('campaign-participation-badge', {
           altMessage: 'Yon won a Yellow badge',
@@ -178,11 +177,11 @@ describe('Acceptance | Campaigns | Campaigns Result', function () {
         await visit(`/campagnes/${campaign.code}/evaluation/resultats`);
 
         // then
-        expect(findAll('.badge-card').length).to.equal(2);
+        assert.equal(findAll('.badge-card').length, 2);
       });
 
-      describe('when campaign has stages', async function () {
-        it('should display reached stage', async function () {
+      module('when campaign has stages', async function () {
+        test('should display reached stage', async function () {
           // given
           const reachedStage = server.create('reached-stage', {
             title: 'You reached Stage 1',
@@ -197,10 +196,10 @@ describe('Acceptance | Campaigns | Campaigns Result', function () {
           await visit(`/campagnes/${campaign.code}/evaluation/resultats`);
 
           // then
-          expect(contains('You reached Stage 1')).to.exist;
+          assert.dom(contains('You reached Stage 1')).exists();
         });
 
-        it('should not display reached stage when CLEA badge acquired', async function () {
+        test('should not display reached stage when CLEA badge acquired', async function () {
           // given
           const reachedStage = server.create('reached-stage', {
             title: 'You reached Stage 1',
@@ -227,12 +226,12 @@ describe('Acceptance | Campaigns | Campaigns Result', function () {
           await visit(`/campagnes/${campaign.code}/evaluation/resultats`);
 
           // then
-          expect(contains('You reached Stage 1')).to.not.exist;
-          expect(contains(cleaBadge.message)).to.exist;
+          assert.dom(contains('You reached Stage 1')).doesNotExist();
+          assert.dom(contains(cleaBadge.message)).exists();
         });
       });
 
-      it('should share the results', async function () {
+      test('should share the results', async function () {
         // when
         await visit(`/campagnes/${campaign.code}/evaluation/resultats`);
 
@@ -240,13 +239,13 @@ describe('Acceptance | Campaigns | Campaigns Result', function () {
         await clickByLabel(this.intl.t('pages.skill-review.actions.send'));
 
         // then
-        expect(contains(this.intl.t('pages.skill-review.already-shared'))).to.exist;
-        expect(contains(this.intl.t('pages.skill-review.actions.continue'))).to.exist;
-        expect(contains(this.intl.t('pages.skill-review.send-results'))).to.be.null;
-        expect(contains(this.intl.t('pages.skill-review.actions.improve'))).to.be.null;
+        assert.dom(contains(this.intl.t('pages.skill-review.already-shared'))).exists();
+        assert.dom(contains(this.intl.t('pages.skill-review.actions.continue'))).exists();
+        assert.dom(contains(this.intl.t('pages.skill-review.send-results'))).to.be.null;
+        assert.dom(contains(this.intl.t('pages.skill-review.actions.improve'))).to.be.null;
       });
 
-      it('should redirect to default page on click', async function () {
+      test('should redirect to default page on click', async function () {
         // given
         await visit(`/campagnes/${campaign.code}/evaluation/resultats`);
         await clickByLabel(this.intl.t('pages.skill-review.actions.send'));
@@ -255,21 +254,21 @@ describe('Acceptance | Campaigns | Campaigns Result', function () {
         await clickByLabel(this.intl.t('pages.skill-review.actions.continue'));
 
         // then
-        expect(currentURL()).to.equal('/accueil');
+        assert.equal(currentURL(), '/accueil');
       });
     });
   });
 
-  context('when campaign is for Novice and isSimplifiedAccess', async function () {
+  module('when campaign is for Novice and isSimplifiedAccess', async function (hooks) {
     let campaignForNovice;
 
-    beforeEach(function () {
+    hooks.beforeEach(function () {
       campaignForNovice = server.create('campaign', { isForAbsoluteNovice: true, isSimplifiedAccess: true });
       server.create('campaign-participation-result', { masteryRate: '1.0' });
       campaignParticipation = server.create('campaign-participation', { campaign: campaignForNovice });
     });
 
-    it('should redirect to default page on click when user is connected', async function () {
+    test('should redirect to default page on click when user is connected', async function () {
       // given
       await authenticateByEmail(user);
       await visit(`/campagnes/${campaignForNovice.code}`);
@@ -277,10 +276,10 @@ describe('Acceptance | Campaigns | Campaigns Result', function () {
       await clickByLabel(this.intl.t('pages.skill-review.actions.continue'));
 
       // then
-      expect(currentURL()).to.equal('/accueil');
+      assert.equal(currentURL(), '/accueil');
     });
 
-    it('should redirect to sign up page on click when user is anonymous', async function () {
+    test('should redirect to sign up page on click when user is anonymous', async function () {
       // given
       await currentSession().authenticate('authenticator:anonymous', { campaignCode: campaign.code });
 
@@ -291,7 +290,7 @@ describe('Acceptance | Campaigns | Campaigns Result', function () {
       await clickByLabel(this.intl.t('pages.skill-review.actions.continue'));
 
       // then
-      expect(currentURL()).to.equal('/inscription');
+      assert.equal(currentURL(), '/inscription');
     });
   });
 });

@@ -1,15 +1,15 @@
-import { describe, it } from 'mocha';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
-import { setupTest } from 'ember-mocha';
 
 import Service from '@ember/service';
 
-describe('Unit | Controller | account-recovery | update-sco-record', function () {
-  setupTest();
+module('Unit | Controller | account-recovery | update-sco-record', function (hooks) {
+  setupTest(hooks);
 
-  describe('#updateRecord', () => {
-    context('when user is already authenticated', function () {
-      it('should update account-recovery-demand, invalidate the session and authenticate user', async function () {
+  module('#updateRecord', function () {
+    module('when user is already authenticated', function () {
+      test('should update account-recovery-demand, invalidate the session and authenticate user', async function (assert) {
         // given
         const email = 'user@example.net';
         const password = 'Password123';
@@ -40,6 +40,7 @@ describe('Unit | Controller | account-recovery | update-sco-record', function ()
         await controller.updateRecord(password);
 
         // then
+        assert.expect(0);
         sinon.assert.called(updateDemand.update);
         sinon.assert.called(controller.session.invalidate);
         sinon.assert.calledWith(controller.session.authenticate, 'authenticator:oauth2', {
@@ -50,8 +51,8 @@ describe('Unit | Controller | account-recovery | update-sco-record', function ()
       });
     });
 
-    context('when user is not already authenticated', function () {
-      it('should update account-recovery-demand and authenticate user', async function () {
+    module('when user is not already authenticated', function () {
+      test('should update account-recovery-demand and authenticate user', async function (assert) {
         // given
         const email = 'user@example.net';
         const password = 'Password123';
@@ -82,6 +83,7 @@ describe('Unit | Controller | account-recovery | update-sco-record', function ()
         await controller.updateRecord(password);
 
         // then
+        assert.expect(0);
         sinon.assert.called(updateDemand.update);
         sinon.assert.notCalled(controller.session.invalidate);
         sinon.assert.calledWith(controller.session.authenticate, 'authenticator:oauth2', {

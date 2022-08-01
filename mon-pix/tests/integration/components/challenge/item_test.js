@@ -1,13 +1,12 @@
 import { find, render } from '@ember/test-helpers';
-import { describe, it } from 'mocha';
+import { module, test } from 'qunit';
 import hbs from 'htmlbars-inline-precompile';
-import { expect } from 'chai';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
-describe('Integration | Component | Challenge | Item', function () {
-  setupIntlRenderingTest();
+module('Integration | Component | Challenge | Item', function (hooks) {
+  setupIntlRenderingTest(hooks);
 
-  it('should render', async function () {
+  test('should render', async function (assert) {
     // given
     this.set('challenge', {
       type: 'QROC',
@@ -21,6 +20,6 @@ describe('Integration | Component | Challenge | Item', function () {
     await render(hbs`<Challenge::Item @challenge={{this.challenge}} @answer={{this.answer}} />`);
 
     // then
-    expect(find('.challenge-item')).to.exist;
+    assert.dom(find('.challenge-item')).exists();
   });
 });

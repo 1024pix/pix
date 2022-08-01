@@ -1,14 +1,13 @@
-import { expect } from 'chai';
-import { beforeEach, describe, it } from 'mocha';
-import { setupTest } from 'ember-mocha';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
 
 import createComponent from '../../../../../helpers/create-glimmer-component';
 import setupIntl from '../../../../../helpers/setup-intl';
 
-describe('Unit | Component | routes/campaigns/join/associate-sco-student-with-mediacentre-form', function () {
-  setupTest();
-  setupIntl();
+module('Unit | Component | routes/campaigns/join/associate-sco-student-with-mediacentre-form', function (hooks) {
+  setupTest(hooks);
+  setupIntl(hooks);
 
   let component;
   let storeStub;
@@ -16,7 +15,7 @@ describe('Unit | Component | routes/campaigns/join/associate-sco-student-with-me
   let sessionStub;
   let record;
 
-  beforeEach(function () {
+  hooks.beforeEach(function () {
     record = { unloadRecord: sinon.stub() };
     storeStub = { createRecord: sinon.stub().returns(record) };
     sessionStub = { data: {}, get: sinon.stub(), set: sinon.stub() };
@@ -30,11 +29,11 @@ describe('Unit | Component | routes/campaigns/join/associate-sco-student-with-me
     component.currentUser = { user: {} };
   });
 
-  describe('#submit', function () {
+  module('#submit', function (hooks) {
     const externalUserToken = 'external-user-token';
     let attributes;
 
-    beforeEach(function () {
+    hooks.beforeEach(function () {
       attributes = {
         birthdate: '2000-10-10',
       };
@@ -42,7 +41,7 @@ describe('Unit | Component | routes/campaigns/join/associate-sco-student-with-me
       sessionStub.get.withArgs('data.externalUser').returns(externalUserToken);
     });
 
-    it('should create an external-user', async function () {
+    test('should create an external-user', async function (assert) {
       // given
       storeStub.createRecord.returns({ unloadRecord: () => {} });
 
@@ -50,6 +49,7 @@ describe('Unit | Component | routes/campaigns/join/associate-sco-student-with-me
       await component.actions.submit.call(component, attributes);
 
       // then
+      assert.expect(0);
       sinon.assert.calledWith(storeStub.createRecord, 'external-user', {
         birthdate: attributes.birthdate,
         campaignCode: component.args.campaignCode,
@@ -57,7 +57,7 @@ describe('Unit | Component | routes/campaigns/join/associate-sco-student-with-me
       });
     });
 
-    it('should call createAndReconcile action', async function () {
+    test('should call createAndReconcile action', async function (assert) {
       // given
       const externalUser = {};
       storeStub.createRecord.returns(externalUser);
@@ -66,10 +66,11 @@ describe('Unit | Component | routes/campaigns/join/associate-sco-student-with-me
       await component.actions.submit.call(component, attributes);
 
       // then
+      assert.expect(0);
       sinon.assert.calledWith(onSubmitStub, externalUser);
     });
 
-    it('should reset error message when submit', async () => {
+    test('should reset error message when submit', async function (assert) {
       // given
       component.errorMessage =
         'Vous êtes un élève ? Vérifiez vos informations (prénom, nom et date de naissance) ou contactez un enseignant.';
@@ -78,19 +79,19 @@ describe('Unit | Component | routes/campaigns/join/associate-sco-student-with-me
       await component.actions.submit.call(component, attributes);
 
       // then
-      expect(component.errorMessage).to.equal(null);
+      assert.equal(component.errorMessage, null);
     });
 
-    describe('Errors', function () {
-      it('should display no error', async function () {
+    module('Errors', function () {
+      test('should display no error', async function (assert) {
         // when
         await component.actions.submit.call(component, attributes);
 
         // then
-        expect(component.errorMessage).to.be.null;
+        assert.equal(component.errorMessage, null);
       });
 
-      it('should display a not found error', async function () {
+      test('should display a not found error', async function (assert) {
         // given
         onSubmitStub.rejects({ errors: [{ status: '404' }] });
         const expectedErrorMessage = this.intl.t('pages.join.sco.error-not-found');
@@ -100,11 +101,11 @@ describe('Unit | Component | routes/campaigns/join/associate-sco-student-with-me
 
         // then
         sinon.assert.calledOnce(record.unloadRecord);
-        expect(component.errorMessage.string).to.equal(expectedErrorMessage);
+        assert.equal(component.errorMessage.string, expectedErrorMessage);
       });
 
-      describe('When student is already reconciled', () => {
-        it('should open information modal and set reconciliationError', async function () {
+      module('When student is already reconciled', function () {
+        test('should open information modal and set reconciliationError', async function (assert) {
           // given
           const error = { status: '409', meta: { userId: 1 } };
 
@@ -115,14 +116,14 @@ describe('Unit | Component | routes/campaigns/join/associate-sco-student-with-me
 
           // then
           sinon.assert.calledOnce(record.unloadRecord);
-          expect(component.displayInformationModal).to.be.true;
-          expect(component.reconciliationError).to.equal(error);
+          assert.true(component.displayInformationModal);
+          assert.equal(component.reconciliationError, error);
           sinon.assert.calledWith(sessionStub.set, 'data.expectedUserId', error.meta.userId);
         });
       });
 
-      describe('When another student is already reconciled on the same organization', async function () {
-        it('should return a conflict error and display the error message related to the short code R70)', async function () {
+      module('When another student is already reconciled on the same organization', async function (assert) {
+        test('should return a conflict error and display the error message related to the short code R70)', async function (assert) {
           // given
           const meta = { shortCode: 'R70' };
           const expectedErrorMessage = this.intl.t('api-error-messages.join-error.r70');
@@ -141,12 +142,12 @@ describe('Unit | Component | routes/campaigns/join/associate-sco-student-with-me
           await component.actions.submit.call(component, attributes);
 
           // then
-          expect(component.errorMessage).to.equal(expectedErrorMessage);
+          assert.equal(component.errorMessage, expectedErrorMessage);
         });
       });
 
-      describe('When student mistyped its information, has an error, and correct it', () => {
-        it('should reconcile', async function () {
+      module('When student mistyped its information, has an error, and correct it', function () {
+        test('should reconcile', async function (assert) {
           // given
           const error = { status: '409', meta: { userId: 1 } };
 
@@ -161,12 +162,12 @@ describe('Unit | Component | routes/campaigns/join/associate-sco-student-with-me
           await component.actions.submit.call(component, attributes);
 
           // then
-          expect(component.reconciliationError).to.be.null;
+          assert.equal(component.reconciliationError, null);
         });
       });
 
-      describe('When user has an invalid reconciliation', () => {
-        it('should return a bad request error and display the invalid reconciliation error message', async function () {
+      module('When user has an invalid reconciliation', function () {
+        test('should return a bad request error and display the invalid reconciliation error message', async function (assert) {
           // given
           const expectedErrorMessage = this.intl.t('pages.join.sco.invalid-reconciliation-error');
           const error = { status: '400' };
@@ -177,7 +178,7 @@ describe('Unit | Component | routes/campaigns/join/associate-sco-student-with-me
           await component.actions.submit.call(component, attributes);
 
           // then
-          expect(component.errorMessage.string).to.equal(expectedErrorMessage);
+          assert.equal(component.errorMessage.string, expectedErrorMessage);
         });
       });
     });

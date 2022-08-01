@@ -1,23 +1,22 @@
-import { describe, it } from 'mocha';
-import { expect } from 'chai';
-import { setupApplicationTest } from 'ember-mocha';
+import { module, test } from 'qunit';
+import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { visit, findAll, find, click } from '@ember/test-helpers';
 import { authenticateByEmail } from '../../helpers/authentication';
 
-describe('Acceptance | User-tutorials-v2 | Recommended', function () {
-  setupApplicationTest();
-  setupMirage();
+module('Acceptance | User-tutorials-v2 | Recommended', function (hooks) {
+  setupApplicationTest(hooks);
+  setupMirage(hooks);
   let user;
 
-  beforeEach(async function () {
+  hooks.beforeEach(async function () {
     user = server.create('user', 'withEmail');
     await authenticateByEmail(user);
     await server.db.tutorials.remove();
   });
 
-  describe('When there are recommended tutorials', () => {
-    it('should display paginated tutorial cards', async function () {
+  module('When there are recommended tutorials', function () {
+    test('should display paginated tutorial cards', async function (assert) {
       // given
       server.createList('tutorial', 100);
 
@@ -25,13 +24,13 @@ describe('Acceptance | User-tutorials-v2 | Recommended', function () {
       await visit('/mes-tutos/recommandes');
 
       //then
-      expect(findAll('.tutorial-card-v2')).to.exist;
-      expect(findAll('.tutorial-card-v2')).to.be.lengthOf(10);
-      expect(find('.pix-pagination__navigation').textContent).to.contain('Page 1 / 10');
+      assert.dom(findAll('.tutorial-card-v2')).exists();
+      assert.equal(findAll('.tutorial-card-v2').length, 10);
+      assert.dom(find('.pix-pagination__navigation').textContent).hasText('Page 1 / 10');
     });
 
-    describe('when a tutorial is saved', function () {
-      it('should not remove it from the list when clicking on the remove button', async function () {
+    module('when a tutorial is saved', function () {
+      test('should not remove it from the list when clicking on the remove button', async function (assert) {
         // given
         server.createList('tutorial', 1, 'withUserTutorial');
         await visit('/mes-tutos/recommandes');
@@ -40,12 +39,12 @@ describe('Acceptance | User-tutorials-v2 | Recommended', function () {
         await click(find('[aria-label="Marquer ce tuto comme utile"]'));
 
         // then
-        expect(findAll('.tutorial-card-v2')).to.be.lengthOf(1);
+        assert.equal(findAll('.tutorial-card-v2').length, 1);
       });
     });
 
-    describe('when a tutorial is liked', function () {
-      it('should retrieve the appropriate status when changing page', async function () {
+    module('when a tutorial is liked', function () {
+      test('should retrieve the appropriate status when changing page', async function (assert) {
         // given
         server.createList('tutorial', 1, 'withUserTutorial', 'withTutorialEvaluation');
         await visit('/mes-tutos/recommandes');
@@ -55,7 +54,7 @@ describe('Acceptance | User-tutorials-v2 | Recommended', function () {
         await visit('/mes-tutos/enregistres');
 
         // then
-        expect(find('[aria-label="Marquer ce tuto comme utile"]')).to.exist;
+        assert.dom(find('[aria-label="Marquer ce tuto comme utile"]')).exists();
       });
     });
   });

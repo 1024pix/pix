@@ -1,16 +1,15 @@
 import { find, visit } from '@ember/test-helpers';
-import { describe, it } from 'mocha';
-import { expect } from 'chai';
-import { setupApplicationTest } from 'ember-mocha';
+import { module, test } from 'qunit';
+import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 
-describe('Acceptance | Page | Inscription', function () {
-  setupApplicationTest();
-  setupMirage();
+module('Acceptance | Page | Inscription', function (hooks) {
+  setupApplicationTest(hooks);
+  setupMirage(hooks);
 
-  it('should contain a link to "Terms of service" page', async function () {
+  test('should contain a link to "Terms of service" page', async function (assert) {
     await visit('/inscription');
 
-    expect(find('.signup-form__cgu-label .link')).to.exist;
+    assert.dom(find('.signup-form__cgu-label .link')).exists();
   });
 });

@@ -1,8 +1,7 @@
-import { describe, it } from 'mocha';
-import { expect } from 'chai';
+import { module, test } from 'qunit';
 
 import { currentURL, fillIn } from '@ember/test-helpers';
-import { setupApplicationTest } from 'ember-mocha';
+import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { Response } from 'ember-cli-mirage';
 
@@ -11,17 +10,17 @@ import setupIntl from '../helpers/setup-intl';
 import { contains } from '../helpers/contains';
 import { clickByLabel } from '../helpers/click-by-label';
 
-describe('Acceptance | Update Expired Password', function () {
-  setupApplicationTest();
-  setupMirage();
-  setupIntl();
+module('Acceptance | Update Expired Password', function (hooks) {
+  setupApplicationTest(hooks);
+  setupMirage(hooks);
+  setupIntl(hooks);
 
-  beforeEach(async function () {
+  hooks.beforeEach(async function () {
     const userShouldChangePassword = server.create('user', 'withUsername', 'shouldChangePassword');
     await authenticateByUsername(userShouldChangePassword);
   });
 
-  it('should land on default page when password is successfully updated', async function () {
+  test('should land on default page when password is successfully updated', async function (assert) {
     // given
     await fillIn('#password', 'newPass12345!');
 
@@ -29,14 +28,14 @@ describe('Acceptance | Update Expired Password', function () {
     await clickByLabel(this.intl.t('pages.update-expired-password.button'));
 
     // then
-    expect(currentURL()).to.equal('/accueil');
+    assert.equal(currentURL(), '/accueil');
   });
 
-  it('should display validation error message when update password fails with http 400 error', async function () {
+  test('should display validation error message when update password fails with http 400 error', async function (assert) {
     // given
     const expectedValidationErrorMessage = this.intl.t('pages.update-expired-password.fields.error');
 
-    this.server.post('/expired-password-updates', () => {
+    this.server.post('/expired-password-updates', function () {
       return new Response(
         400,
         {},
@@ -52,15 +51,15 @@ describe('Acceptance | Update Expired Password', function () {
     await clickByLabel(this.intl.t('pages.update-expired-password.button'));
 
     // then
-    expect(currentURL()).to.equal('/mise-a-jour-mot-de-passe-expire');
-    expect(contains(expectedValidationErrorMessage)).to.exist;
+    assert.equal(currentURL(), '/mise-a-jour-mot-de-passe-expire');
+    assert.dom(contains(expectedValidationErrorMessage)).exists();
   });
 
-  it('should display error message when update password fails with http 401 error', async function () {
+  test('should display error message when update password fails with http 401 error', async function (assert) {
     // given
     const expectedErrorMessage = this.intl.t('api-error-messages.login-unauthorized-error');
 
-    this.server.post('/expired-password-updates', () => {
+    this.server.post('/expired-password-updates', function () {
       return new Response(
         401,
         {},
@@ -76,13 +75,13 @@ describe('Acceptance | Update Expired Password', function () {
     await clickByLabel(this.intl.t('pages.update-expired-password.button'));
 
     // then
-    expect(currentURL()).to.equal('/mise-a-jour-mot-de-passe-expire');
-    expect(contains(expectedErrorMessage)).to.exist;
+    assert.equal(currentURL(), '/mise-a-jour-mot-de-passe-expire');
+    assert.dom(contains(expectedErrorMessage)).exists();
   });
 
-  it('should display error message when update password fails with http 404 error', async function () {
+  test('should display error message when update password fails with http 404 error', async function (assert) {
     // given
-    this.server.post('/expired-password-updates', () => {
+    this.server.post('/expired-password-updates', function () {
       return new Response(
         401,
         {},
@@ -98,10 +97,10 @@ describe('Acceptance | Update Expired Password', function () {
     await clickByLabel(this.intl.t('pages.update-expired-password.button'));
 
     // then
-    expect(this.intl.t('common.error')).to.exist;
+    assert.dom(this.intl.t('common.error')).exists();
   });
 
-  it('should display error message when update password fails', async function () {
+  test('should display error message when update password fails', async function (assert) {
     // given
     const expectedErrorMessage = this.intl.t('api-error-messages.internal-server-error');
 
@@ -112,7 +111,7 @@ describe('Acceptance | Update Expired Password', function () {
     // when
     await clickByLabel(this.intl.t('pages.update-expired-password.button'));
     // then
-    expect(currentURL()).to.equal('/mise-a-jour-mot-de-passe-expire');
-    expect(contains(expectedErrorMessage)).to.exist;
+    assert.equal(currentURL(), '/mise-a-jour-mot-de-passe-expire');
+    assert.dom(contains(expectedErrorMessage)).exists();
   });
 });

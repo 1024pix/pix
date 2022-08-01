@@ -1,6 +1,5 @@
-import { expect } from 'chai';
 import Service from '@ember/service';
-import { describe, it } from 'mocha';
+import { module, test } from 'qunit';
 import { render, fillIn } from '@ember/test-helpers';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 import hbs from 'htmlbars-inline-precompile';
@@ -8,11 +7,11 @@ import sinon from 'sinon';
 import { contains } from '../../helpers/contains';
 import { clickByLabel } from '../../helpers/click-by-label';
 
-describe('Integration | Component | certification-starter', function () {
-  setupIntlRenderingTest();
+module('Integration | Component | certification-starter', function (hooks) {
+  setupIntlRenderingTest(hooks);
 
-  describe('when the candidate has no complementary certification subscriptions', function () {
-    it('should not display subscriptions panel', async function () {
+  module('when the candidate has no complementary certification subscriptions', function () {
+    test('should not display subscriptions panel', async function (assert) {
       // given
       const store = this.owner.lookup('service:store');
       this.set(
@@ -30,22 +29,26 @@ describe('Integration | Component | certification-starter', function () {
       );
 
       // expect
-      expect(
-        contains(
-          'Vous êtes inscrit aux certification(s) complémentaire(s) suivante(s) en plus de la certification Pix :'
+      assert
+        .dom(
+          contains(
+            'Vous êtes inscrit aux certification(s) complémentaire(s) suivante(s) en plus de la certification Pix :'
+          )
         )
-      ).to.not.exist;
-      expect(
-        contains(
-          "Vous avez été inscrit à/aux certification(s) complémentaire(s) suivantes : mais vous n'y êtes pas éligible.\n"
+        .doesNotExist();
+      assert
+        .dom(
+          contains(
+            "Vous avez été inscrit à/aux certification(s) complémentaire(s) suivantes : mais vous n'y êtes pas éligible.\n"
+          )
         )
-      ).to.not.exist;
+        .doesNotExist();
     });
   });
 
-  describe('when the candidate has complementary certification subscriptions', function () {
-    describe('when the candidate is eligible', function () {
-      it('should display subscription eligible panel', async function () {
+  module('when the candidate has complementary certification subscriptions', function () {
+    module('when the candidate is eligible', function () {
+      test('should display subscription eligible panel', async function (assert) {
         // given
         const store = this.owner.lookup('service:store');
         this.set(
@@ -62,15 +65,19 @@ describe('Integration | Component | certification-starter', function () {
         );
 
         // then
-        expect(
-          contains('Vous êtes inscrit aux certifications complémentaires suivantes en plus de la certification Pix :'),
-          'Vous êtes inscrit...'
-        ).to.exist;
-        expect(contains('Certif complémentaire 1'), 'Certif complémentaire 1').to.exist;
-        expect(contains('Certif complémentaire 2'), 'Certif complémentaire 2').to.exist;
+        assert
+          .dom(
+            contains(
+              'Vous êtes inscrit aux certifications complémentaires suivantes en plus de la certification Pix :'
+            ),
+            'Vous êtes inscrit...'
+          )
+          .exists();
+        assert.dom(contains('Certif complémentaire 1'), 'Certif complémentaire 1').exists();
+        assert.dom(contains('Certif complémentaire 2'), 'Certif complémentaire 2').exists();
       });
 
-      it('should not display subscription non eligible panel', async function () {
+      test('should not display subscription non eligible panel', async function (assert) {
         // given
         const store = this.owner.lookup('service:store');
         this.set(
@@ -87,16 +94,18 @@ describe('Integration | Component | certification-starter', function () {
         );
 
         // expect
-        expect(
-          contains(
-            "Vous avez été inscrit aux certifications complémentaires suivantes : mais vous n'y êtes pas éligible."
+        assert
+          .dom(
+            contains(
+              "Vous avez été inscrit aux certifications complémentaires suivantes : mais vous n'y êtes pas éligible."
+            )
           )
-        ).to.not.exist;
+          .doesNotExist();
       });
     });
 
-    describe('when the candidate is not eligible', function () {
-      it('should display subscription non eligible panel for 1 complementary certification', async function () {
+    module('when the candidate is not eligible', function () {
+      test('should display subscription non eligible panel for 1 complementary certification', async function (assert) {
         // given
         const store = this.owner.lookup('service:store');
         this.set(
@@ -113,14 +122,16 @@ describe('Integration | Component | certification-starter', function () {
         );
 
         // expect
-        expect(
-          contains(
-            'Vous n’êtes pas éligible à Certif complémentaire 1. Vous pouvez néanmoins passer votre certification Pix et Certif complémentaire 2'
+        assert
+          .dom(
+            contains(
+              'Vous n’êtes pas éligible à Certif complémentaire 1. Vous pouvez néanmoins passer votre certification Pix et Certif complémentaire 2'
+            )
           )
-        ).to.exist;
+          .exists();
       });
 
-      it('should display subscription non eligible panel for 2 complementary certifications', async function () {
+      test('should display subscription non eligible panel for 2 complementary certifications', async function (assert) {
         // given
         const store = this.owner.lookup('service:store');
         this.set(
@@ -137,14 +148,16 @@ describe('Integration | Component | certification-starter', function () {
         );
 
         // expect
-        expect(
-          contains(
-            'Vous n’êtes pas éligible à Certif complémentaire 1, Certif complémentaire 2. Vous pouvez néanmoins passer votre certification Pix'
+        assert
+          .dom(
+            contains(
+              'Vous n’êtes pas éligible à Certif complémentaire 1, Certif complémentaire 2. Vous pouvez néanmoins passer votre certification Pix'
+            )
           )
-        ).to.exist;
+          .exists();
       });
 
-      it('should display subscription panel', async function () {
+      test('should display subscription panel', async function (assert) {
         // given
         const store = this.owner.lookup('service:store');
         this.set(
@@ -161,16 +174,18 @@ describe('Integration | Component | certification-starter', function () {
         );
 
         // expect
-        expect(
-          contains('Vous êtes inscrit aux certifications complémentaires suivantes en plus de la certification Pix :')
-        ).to.exist;
+        assert
+          .dom(
+            contains('Vous êtes inscrit aux certifications complémentaires suivantes en plus de la certification Pix :')
+          )
+          .exists();
       });
     });
   });
 
-  describe('#submit', function () {
-    context('when no access code is provided', function () {
-      it('should display an appropriated error message', async function () {
+  module('#submit', function () {
+    module('when no access code is provided', function () {
+      test('should display an appropriated error message', async function (assert) {
         // given
         this.set('certificationCandidateSubscription', { sessionId: 123 });
         await render(
@@ -181,13 +196,13 @@ describe('Integration | Component | certification-starter', function () {
         await clickByLabel(this.intl.t('pages.certification-start.actions.submit'));
 
         // then
-        expect(contains('Merci de saisir un code d’accès valide.'));
+        assert.dom(contains('Merci de saisir un code d’accès valide.')).exists();
       });
     });
 
-    context('when access code is provided', function () {
-      context('when the creation of certification course is successful', function () {
-        it('should redirect to certifications.resume', async function () {
+    module('when access code is provided', function () {
+      module('when the creation of certification course is successful', function () {
+        test('should redirect to certifications.resume', async function (assert) {
           // given
 
           const certificationCourse = {
@@ -235,6 +250,7 @@ describe('Integration | Component | certification-starter', function () {
           await clickByLabel(this.intl.t('pages.certification-start.actions.submit'));
 
           // then
+          assert.expect(0);
           sinon.assert.calledWithExactly(createRecordStub, 'certification-course', {
             accessCode: 'ABC123',
             sessionId: 123,
@@ -245,8 +261,8 @@ describe('Integration | Component | certification-starter', function () {
         });
       });
 
-      context('when the creation of certification course is in error', function () {
-        it('should display the appropriate error message when error status is 404', async function () {
+      module('when the creation of certification course is in error', function () {
+        test('should display the appropriate error message when error status is 404', async function (assert) {
           // given
           const replaceWithStub = sinon.stub();
 
@@ -279,10 +295,10 @@ describe('Integration | Component | certification-starter', function () {
           await clickByLabel(this.intl.t('pages.certification-start.actions.submit'));
 
           // then
-          expect(contains('Ce code n’existe pas ou n’est plus valide.'));
+          assert.dom(contains('Ce code n’existe pas ou n’est plus valide.')).exists();
         });
 
-        it('should display the appropriate error message when error status is 412', async function () {
+        test('should display the appropriate error message when error status is 412', async function (assert) {
           // given
           const replaceWithStub = sinon.stub();
 
@@ -315,10 +331,10 @@ describe('Integration | Component | certification-starter', function () {
           await clickByLabel(this.intl.t('pages.certification-start.actions.submit'));
 
           // then
-          expect(contains("La session de certification n'est plus accessible."));
+          assert.dom(contains("La session de certification n'est plus accessible.")).exists();
         });
 
-        it('should display the appropriate error message when error status is 403', async function () {
+        test('should display the appropriate error message when error status is 403', async function (assert) {
           // given
           const replaceWithStub = sinon.stub();
 
@@ -353,10 +369,10 @@ describe('Integration | Component | certification-starter', function () {
           await clickByLabel(this.intl.t('pages.certification-start.actions.submit'));
 
           // then
-          expect(contains("'Message d'erreur envoyé par l'API'"));
+          assert.dom(contains("'Message d'erreur envoyé par l'API'")).exists();
         });
 
-        it('should display a generic error message when error status unknown', async function () {
+        test('should display a generic error message when error status unknown', async function (assert) {
           // given
           const replaceWithStub = sinon.stub();
 
@@ -389,7 +405,7 @@ describe('Integration | Component | certification-starter', function () {
           await clickByLabel(this.intl.t('pages.certification-start.actions.submit'));
 
           // then
-          expect(contains('Une erreur serveur inattendue vient de se produire.'));
+          assert.dom(contains('Une erreur serveur inattendue vient de se produire.')).exists();
         });
       });
     });

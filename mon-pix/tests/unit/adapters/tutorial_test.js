@@ -1,35 +1,34 @@
-import { describe, it } from 'mocha';
-import { expect } from 'chai';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
-import { setupTest } from 'ember-mocha';
 
-describe('Unit | Adapters | Tutorial', function () {
-  setupTest();
+module('Unit | Adapters | Tutorial', function (hooks) {
+  setupTest(hooks);
 
-  describe('#urlForQuery', () => {
+  module('#urlForQuery', function () {
     let adapter;
 
-    beforeEach(function () {
+    hooks.beforeEach(function () {
       adapter = this.owner.lookup('adapter:tutorial');
       adapter.ajax = sinon.stub().resolves();
     });
 
-    it('should build the tutorial url if no type in query', async function () {
+    test('should build the tutorial url if no type in query', async function (assert) {
       // when
       const query = {};
       const url = await adapter.urlForQuery(query, 'tutorial');
 
       // then
-      expect(url.endsWith('/tutorials')).to.be.true;
+      assert.true(url.endsWith('/tutorials'));
     });
 
-    it('should build the tutorial type url', async function () {
+    test('should build the tutorial type url', async function (assert) {
       // when
       const query = { type: 'recommended' };
       const url = await adapter.urlForQuery(query, 'tutorial');
 
       // then
-      expect(url.endsWith('users/tutorials/recommended')).to.be.true;
+      assert.true(url.endsWith('users/tutorials/recommended'));
     });
   });
 });

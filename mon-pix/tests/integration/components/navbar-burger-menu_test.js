@@ -1,15 +1,14 @@
 import Service from '@ember/service';
-import { expect } from 'chai';
-import { beforeEach, describe, it } from 'mocha';
+import { module, test } from 'qunit';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 import { find, findAll, render } from '@ember/test-helpers';
 import { contains } from '../../helpers/contains';
 import hbs from 'htmlbars-inline-precompile';
 
-describe('Integration | Component | navbar-burger-menu', function () {
-  setupIntlRenderingTest();
+module('Integration | Component | navbar-burger-menu', function (hooks) {
+  setupIntlRenderingTest(hooks);
 
-  beforeEach(async function () {
+  hooks.beforeEach(async function () {
     class currentUser extends Service {
       user = {
         fullName: 'Bobby Carotte',
@@ -18,52 +17,52 @@ describe('Integration | Component | navbar-burger-menu', function () {
     this.owner.register('service:currentUser', currentUser);
   });
 
-  it("should display the user's fullname", async function () {
+  test("should display the user's fullname", async function (assert) {
     // when
     await render(hbs`<NavbarBurgerMenu />`);
 
     // then
-    expect(contains('Bobby Carotte')).to.exist;
+    assert.dom(contains('Bobby Carotte')).exists();
   });
 
-  it('should display the closing button', async function () {
+  test('should display the closing button', async function (assert) {
     // when
     await render(hbs`<NavbarBurgerMenu />`);
 
     // then
-    expect(find('.navbar-burger-menu-navigation-header__close')).to.exist;
+    assert.dom(find('.navbar-burger-menu-navigation-header__close')).exists();
   });
 
-  it('should display the navigation menu with "Home", "Skills", "Certification", "My tutorials" and "I have a code" links', async function () {
+  test('should display the navigation menu with "Home", "Skills", "Certification", "My tutorials" and "I have a code" links', async function (assert) {
     // when
     await render(hbs`<NavbarBurgerMenu />`);
 
     // then
-    expect(find('.navbar-burger-menu__navigation')).to.exist;
+    assert.dom(find('.navbar-burger-menu__navigation')).exists();
 
-    expect(findAll('.navbar-burger-menu-navigation__item')).to.have.lengthOf(5);
-    expect(contains(this.intl.t('navigation.main.dashboard'))).to.exist;
-    expect(contains(this.intl.t('navigation.main.skills'))).to.exist;
-    expect(contains(this.intl.t('navigation.main.start-certification'))).to.exist;
-    expect(contains(this.intl.t('navigation.main.tutorials'))).to.exist;
-    expect(contains(this.intl.t('navigation.main.code'))).to.exist;
+    assert.equal(findAll('.navbar-burger-menu-navigation__item').length, 5);
+    assert.dom(contains(this.intl.t('navigation.main.dashboard'))).exists();
+    assert.dom(contains(this.intl.t('navigation.main.skills'))).exists();
+    assert.dom(contains(this.intl.t('navigation.main.start-certification'))).exists();
+    assert.dom(contains(this.intl.t('navigation.main.tutorials'))).exists();
+    assert.dom(contains(this.intl.t('navigation.main.code'))).exists();
   });
 
-  it('should display the user menu with "My account", "My certifications", "Help", "Log-out" links', async function () {
+  test('should display the user menu with "My account", "My certifications", "Help", "Log-out" links', async function (assert) {
     // when
     await render(hbs`<NavbarBurgerMenu />`);
 
     // then
-    expect(find('.navbar-burger-menu__user-info')).to.exist;
+    assert.dom(find('.navbar-burger-menu__user-info')).exists();
 
-    expect(contains(this.intl.t('navigation.user.account'))).to.exist;
-    expect(contains(this.intl.t('navigation.user.certifications'))).to.exist;
-    expect(contains(this.intl.t('navigation.main.help'))).to.exist;
-    expect(contains(this.intl.t('navigation.user.sign-out'))).to.exist;
+    assert.dom(contains(this.intl.t('navigation.user.account'))).exists();
+    assert.dom(contains(this.intl.t('navigation.user.certifications'))).exists();
+    assert.dom(contains(this.intl.t('navigation.main.help'))).exists();
+    assert.dom(contains(this.intl.t('navigation.user.sign-out'))).exists();
   });
 
-  context('when user has participations', function () {
-    beforeEach(async function () {
+  module('when user has participations', function (hooks) {
+    hooks.beforeEach(async function () {
       class currentUser extends Service {
         user = {
           hasAssessmentParticipations: true,
@@ -73,17 +72,17 @@ describe('Integration | Component | navbar-burger-menu', function () {
       this.owner.register('service:currentUser', currentUser);
     });
 
-    it('should display "My tests" link', async function () {
+    test('should display "My tests" link', async function (assert) {
       // when
       await render(hbs`<NavbarBurgerMenu />`);
 
       // then
-      expect(contains(this.intl.t('navigation.user.tests'))).to.exist;
+      assert.dom(contains(this.intl.t('navigation.user.tests'))).exists();
     });
   });
 
-  context('when user has no participations', function () {
-    beforeEach(async function () {
+  module('when user has no participations', function () {
+    hooks.beforeEach(async function () {
       class currentUser extends Service {
         user = {
           hasAssessmentParticipations: false,
@@ -93,12 +92,12 @@ describe('Integration | Component | navbar-burger-menu', function () {
       this.owner.register('service:currentUser', currentUser);
     });
 
-    it('should not display "My tests" link', async function () {
+    test('should not display "My tests" link', async function (assert) {
       // when
       await render(hbs`<NavbarBurgerMenu />`);
 
       // then
-      expect(contains(this.intl.t('navigation.user.tests'))).to.not.exist;
+      assert.dom(contains(this.intl.t('navigation.user.tests'))).doesNotExist();
     });
   });
 });

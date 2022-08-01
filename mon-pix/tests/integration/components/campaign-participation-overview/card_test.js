@@ -1,19 +1,19 @@
-import { describe, it } from 'mocha';
-import { expect } from 'chai';
+import { module, test } from 'qunit';
 import { render } from '@ember/test-helpers';
 import { contains } from '../../../helpers/contains';
 import hbs from 'htmlbars-inline-precompile';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
-describe('Integration | Component | CampaignParticipationOverview | Card', function () {
-  setupIntlRenderingTest();
+module('Integration | Component | CampaignParticipationOverview | Card', function (hooks) {
+  setupIntlRenderingTest(hooks);
   let store;
 
-  beforeEach(function () {
+  hooks.beforeEach(function () {
     store = this.owner.lookup('service:store');
   });
-  context('when the participation status is ONGOING', function () {
-    it('should display CardOngoing', async function () {
+
+  module('when the participation status is ONGOING', function () {
+    test('should display CardOngoing', async function (assert) {
       const campaignParticipationOverview = store.createRecord('campaign-participation-overview', {
         isShared: false,
         createdAt: '2020-12-10T15:16:20.109Z',
@@ -25,12 +25,12 @@ describe('Integration | Component | CampaignParticipationOverview | Card', funct
       this.set('campaignParticipationOverview', campaignParticipationOverview);
 
       await render(hbs`<CampaignParticipationOverview::Card @model={{this.campaignParticipationOverview}} />}`);
-      expect(contains('EN COURS')).to.exist;
+      assert.dom(contains('EN COURS')).exists();
     });
   });
 
-  context('when the participation status is TO_SHARE', function () {
-    it('should display CardToShare', async function () {
+  module('when the participation status is TO_SHARE', function () {
+    test('should display CardToShare', async function (assert) {
       const campaignParticipationOverview = store.createRecord('campaign-participation-overview', {
         isShared: false,
         createdAt: '2020-12-10T15:16:20.109Z',
@@ -42,12 +42,12 @@ describe('Integration | Component | CampaignParticipationOverview | Card', funct
       this.set('campaignParticipationOverview', campaignParticipationOverview);
 
       await render(hbs`<CampaignParticipationOverview::Card @model={{this.campaignParticipationOverview}} />}`);
-      expect(contains('À ENVOYER')).to.exist;
+      assert.dom(contains('À ENVOYER')).exists();
     });
   });
 
-  context('when the participation status is ENDED', function () {
-    it('should display CardEnded', async function () {
+  module('when the participation status is ENDED', function () {
+    test('should display CardEnded', async function (assert) {
       const campaignParticipationOverview = store.createRecord('campaign-participation-overview', {
         isShared: true,
         createdAt: '2020-12-10T15:16:20.109Z',
@@ -60,12 +60,12 @@ describe('Integration | Component | CampaignParticipationOverview | Card', funct
       this.set('campaignParticipationOverview', campaignParticipationOverview);
 
       await render(hbs`<CampaignParticipationOverview::Card @model={{this.campaignParticipationOverview}} />}`);
-      expect(contains('TERMINÉ')).to.exist;
+      assert.dom(contains('TERMINÉ')).exists();
     });
   });
 
-  context('when the participation status is DISABLED', function () {
-    it('should display CardDisabled', async function () {
+  module('when the participation status is DISABLED', function () {
+    test('should display CardDisabled', async function (assert) {
       const campaignParticipationOverview = store.createRecord('campaign-participation-overview', {
         isShared: false,
         createdAt: '2020-12-18T15:16:20.109Z',
@@ -77,7 +77,7 @@ describe('Integration | Component | CampaignParticipationOverview | Card', funct
       this.set('campaignParticipationOverview', campaignParticipationOverview);
 
       await render(hbs`<CampaignParticipationOverview::Card @model={{this.campaignParticipationOverview}} />}`);
-      expect(contains('INACTIF')).to.exist;
+      assert.dom(contains('INACTIF')).exists();
     });
   });
 });

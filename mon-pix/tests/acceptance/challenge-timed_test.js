@@ -1,18 +1,17 @@
 import { click, find, visit } from '@ember/test-helpers';
-import { describe, it, beforeEach } from 'mocha';
-import { expect } from 'chai';
+import { module, test } from 'qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
-import { setupApplicationTest } from 'ember-mocha';
+import { setupApplicationTest } from 'ember-qunit';
 
-describe('Acceptance | Timed challenge', () => {
-  setupApplicationTest();
-  setupMirage();
+module('Acceptance | Timed challenge', function (hooks) {
+  setupApplicationTest(hooks);
+  setupMirage(hooks);
   let assessment;
   let timedChallenge;
 
-  context('Timed Challenge', () => {
-    context('when asking for confirmation', function () {
-      beforeEach(async () => {
+  module('Timed Challenge', function () {
+    module('when asking for confirmation', function (hooks) {
+      hooks.beforeEach(async function () {
         // given
         assessment = server.create('assessment', 'ofCompetenceEvaluationType');
         timedChallenge = server.create('challenge', 'forCompetenceEvaluation', 'timed');
@@ -21,18 +20,18 @@ describe('Acceptance | Timed challenge', () => {
         await visit(`/assessments/${assessment.id}/challenges/0`);
       });
 
-      it('should hide the challenge statement', async () => {
-        expect(find('.challenge-statement')).to.not.exist;
+      test('should hide the challenge statement', async function (assert) {
+        assert.dom(find('.challenge-statement')).doesNotExist();
       });
 
-      it('should ensure the challenge does not automatically start', async () => {
-        expect(find('.timeout-gauge')).to.not.exist;
+      test('should ensure the challenge does not automatically start', async function (assert) {
+        assert.dom(find('.timeout-gauge')).doesNotExist();
       });
     });
 
-    context('when the confirmation button is clicked', () => {
-      context('and the challenge has not been already answered', function () {
-        beforeEach(async () => {
+    module('when the confirmation button is clicked', function () {
+      module('and the challenge has not been already answered', function (hooks) {
+        hooks.beforeEach(async function () {
           // given
           assessment = server.create('assessment', 'ofCompetenceEvaluationType');
           timedChallenge = server.create('challenge', 'forCompetenceEvaluation', 'timed');
@@ -42,22 +41,22 @@ describe('Acceptance | Timed challenge', () => {
           await click('.timed-challenge-instructions button');
         });
 
-        it('should hide the warning button', () => {
-          expect(find('.timed-challenge-instructions button')).to.not.exist;
+        test('should hide the warning button', function (assert) {
+          assert.dom(find('.timed-challenge-instructions button')).doesNotExist();
         });
 
-        it('should display the challenge statement and the feedback form', () => {
-          expect(find('.challenge-statement')).to.exist;
-          expect(find('.feedback-panel')).to.exist;
+        test('should display the challenge statement and the feedback form', function (assert) {
+          assert.dom(find('.challenge-statement')).exists();
+          assert.dom(find('.feedback-panel')).exists();
         });
 
-        it('should start the timer', () => {
-          expect(find('.timeout-gauge')).to.exist;
+        test('should start the timer', function (assert) {
+          assert.dom(find('.timeout-gauge')).exists();
         });
       });
 
-      context('and the challenge has already been skipped before', function () {
-        beforeEach(async () => {
+      module('and the challenge has already been skipped before', function (hooks) {
+        hooks.beforeEach(async function () {
           // given
           assessment = server.create('assessment', 'ofCompetenceEvaluationType');
           timedChallenge = server.create('challenge', 'forCompetenceEvaluation', 'timed');
@@ -70,23 +69,23 @@ describe('Acceptance | Timed challenge', () => {
           await visit(`/assessments/${assessment.id}/challenges/0`);
         });
 
-        it('should hide the warning button', () => {
-          expect(find('.timed-challenge-instructions button')).to.not.exist;
+        test('should hide the warning button', function (assert) {
+          assert.dom(find('.timed-challenge-instructions button')).doesNotExist();
         });
 
-        it('should display the challenge statement and the feedback form', () => {
-          expect(find('.challenge-statement')).to.exist;
-          expect(find('.feedback-panel')).to.exist;
+        test('should display the challenge statement and the feedback form', function (assert) {
+          assert.dom(find('.challenge-statement')).exists();
+          assert.dom(find('.feedback-panel')).exists();
         });
 
-        it('should not display the timer', () => {
-          expect(find('.timeout-gauge')).to.not.exist;
+        test('should not display the timer', function (assert) {
+          assert.dom(find('.timeout-gauge')).doesNotExist();
         });
       });
     });
 
-    context('when the challenge is already timeout', () => {
-      beforeEach(async () => {
+    module('when the challenge is already timeout', function (hooks) {
+      hooks.beforeEach(async function () {
         // given
         assessment = server.create('assessment', 'ofCompetenceEvaluationType', 'withCurrentChallengeTimeout');
         timedChallenge = server.create('challenge', 'forCompetenceEvaluation', 'timed');
@@ -95,28 +94,28 @@ describe('Acceptance | Timed challenge', () => {
         await visit(`/assessments/${assessment.id}/challenges/0`);
       });
 
-      it('should hide the warning button', () => {
-        expect(find('.timed-challenge-instructions button')).to.not.exist;
+      test('should hide the warning button', function (assert) {
+        assert.dom(find('.timed-challenge-instructions button')).doesNotExist();
       });
 
-      it('should display the challenge statement and the feedback form', () => {
-        expect(find('.challenge-statement')).to.exist;
-        expect(find('.feedback-panel')).to.exist;
+      test('should display the challenge statement and the feedback form', function (assert) {
+        assert.dom(find('.challenge-statement')).exists();
+        assert.dom(find('.feedback-panel')).exists();
       });
 
-      it('should display the timer without time remains', () => {
-        expect(find('[data-test="timeout-gauge-remaining"]').textContent).to.contains('0:00');
+      test('should display the timer without time remains', function (assert) {
+        assert.dom(find('[data-test="timeout-gauge-remaining"]').textContent).to.contains('0:00');
       });
 
-      it('should only display continue button', () => {
-        expect(find('.challenge-actions__action-skip')).to.not.exist;
-        expect(find('.challenge-actions__action-validate')).to.not.exist;
-        expect(find('.challenge-actions__action-continue')).to.exist;
+      test('should only display continue button', function (assert) {
+        assert.dom(find('.challenge-actions__action-skip')).doesNotExist();
+        assert.dom(find('.challenge-actions__action-validate')).doesNotExist();
+        assert.dom(find('.challenge-actions__action-continue')).exists();
       });
     });
   });
-  context('when user seen two timed challenge', function () {
-    beforeEach(async () => {
+  module('when user seen two timed challenge', function (hooks) {
+    hooks.beforeEach(async function () {
       // given
       assessment = server.create('assessment', 'ofCompetenceEvaluationType');
       timedChallenge = server.create('challenge', 'forCompetenceEvaluation', 'timed');
@@ -128,27 +127,27 @@ describe('Acceptance | Timed challenge', () => {
       await click('.challenge-actions__action-skip');
     });
 
-    it('should hide the challenge statement of the second challenge', async () => {
-      expect(find('.challenge-statement')).to.not.exist;
+    test('should hide the challenge statement of the second challenge', async function (assert) {
+      assert.dom(find('.challenge-statement')).doesNotExist();
     });
 
-    it('should ensure the challenge does not automatically start of the second challenge', async () => {
-      expect(find('.timeout-gauge')).to.not.exist;
+    test('should ensure the challenge does not automatically start of the second challenge', async function (assert) {
+      assert.dom(find('.timeout-gauge')).doesNotExist();
     });
   });
 
-  context('Not Timed Challenge', () => {
-    beforeEach(() => {
+  module('Not Timed Challenge', function (hooks) {
+    hooks.beforeEach(() => {
       assessment = server.create('assessment', 'ofCompetenceEvaluationType');
       server.create('challenge', 'forCompetenceEvaluation');
     });
 
-    it('should display the challenge statement', async () => {
+    test('should display the challenge statement', async function (assert) {
       // when
       await visit(`/assessments/${assessment.id}/challenges/0`);
 
       // then
-      expect(find('.challenge-statement')).to.exist;
+      assert.dom(find('.challenge-statement')).exists();
     });
   });
 });

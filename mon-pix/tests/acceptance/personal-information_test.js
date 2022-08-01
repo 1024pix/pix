@@ -1,17 +1,16 @@
-import { describe, it } from 'mocha';
-import { expect } from 'chai';
+import { module, test } from 'qunit';
 import { visit } from '@ember/test-helpers';
-import { setupApplicationTest } from 'ember-mocha';
+import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { contains } from '../helpers/contains';
 import { authenticateByEmail } from '../helpers/authentication';
 
-describe('Acceptance | personal-information', function () {
-  setupApplicationTest();
-  setupMirage();
+module('Acceptance | personal-information', function (hooks) {
+  setupApplicationTest(hooks);
+  setupMirage(hooks);
 
-  context('When user is connected', function () {
-    it('should display user personal information', async function () {
+  module('When user is connected', function () {
+    test('should display user personal information', async function (assert) {
       // given
       const user = server.create('user', {
         firstName: 'John',
@@ -27,8 +26,8 @@ describe('Acceptance | personal-information', function () {
       await visit('/mon-compte/informations-personnelles');
 
       // then
-      expect(contains(user.firstName)).to.exist;
-      expect(contains(user.lastName)).to.exist;
+      assert.dom(contains(user.firstName)).exists();
+      assert.dom(contains(user.lastName)).exists();
     });
   });
 });

@@ -1,4 +1,4 @@
-import { expect } from 'chai';
+import { module, test } from 'qunit';
 import { contains } from '../../../../../helpers/contains';
 import { clickByLabel } from '../../../../../helpers/click-by-label';
 import { find, render } from '@ember/test-helpers';
@@ -7,17 +7,17 @@ import hbs from 'htmlbars-inline-precompile';
 import setupIntlRenderingTest from '../../../../../helpers/setup-intl-rendering';
 import sinon from 'sinon';
 
-describe('Integration | Component | routes/campaigns/assessment/skill-review', function () {
+module('Integration | Component | routes/campaigns/assessment/skill-review', function (hooks) {
   let campaign;
-  setupIntlRenderingTest();
-  beforeEach(function () {
+  setupIntlRenderingTest(hooks);
+  hooks.beforeEach(function () {
     campaign = {
       organizationShowNPS: false,
     };
   });
 
-  context('When user want to share his/her results', function () {
-    it('should see the button to share', async function () {
+  module('When user want to share his/her results', function () {
+    test('should see the button to share', async function (assert) {
       // Given
       const campaignParticipationResult = { isShared: false, campaignParticipationBadges: [], isDisabled: false };
       this.set('model', { campaign, campaignParticipationResult });
@@ -26,11 +26,11 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
       await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{model}} />`);
 
       // Then
-      expect(contains(this.intl.t('pages.skill-review.actions.send'))).to.exist;
+      assert.dom(contains(this.intl.t('pages.skill-review.actions.send'))).exists();
     });
 
-    context('when a skill has been reset after campaign completion and before sending results', function () {
-      it('displays an error message and a resume button on share', async function () {
+    module('when a skill has been reset after campaign completion and before sending results', function () {
+      test('displays an error message and a resume button on share', async function (assert) {
         // Given
         const campaignParticipationResult = { isShared: false, campaignParticipationBadges: [], isDisabled: false };
         this.set('model', { campaign, campaignParticipationResult });
@@ -44,14 +44,14 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
         await clickByLabel(this.intl.t('pages.skill-review.actions.send'));
 
         // Then
-        expect(contains(this.intl.t('pages.skill-review.not-finished'))).to.exist;
-        expect(contains(this.intl.t('pages.profile.resume-campaign-banner.accessibility.resume'))).to.exist;
-        expect(contains(this.intl.t('pages.profile.resume-campaign-banner.actions.resume'))).to.exist;
+        assert.dom(contains(this.intl.t('pages.skill-review.not-finished'))).exists();
+        assert.dom(contains(this.intl.t('pages.profile.resume-campaign-banner.accessibility.resume'))).exists();
+        assert.dom(contains(this.intl.t('pages.profile.resume-campaign-banner.actions.resume'))).exists();
       });
     });
 
-    context('when an error occurred during share', function () {
-      it('displays an error message and a go home button', async function () {
+    module('when an error occurred during share', function () {
+      test('displays an error message and a go home button', async function (assert) {
         // Given
         const campaignParticipationResult = { isShared: false, campaignParticipationBadges: [], isDisabled: false };
         this.set('model', { campaign, campaignParticipationResult });
@@ -65,14 +65,14 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
         await clickByLabel(this.intl.t('pages.skill-review.actions.send'));
 
         // Then
-        expect(contains(this.intl.t('pages.skill-review.error'))).to.exist;
-        expect(contains(this.intl.t('navigation.back-to-homepage'))).to.exist;
+        assert.dom(contains(this.intl.t('pages.skill-review.error'))).exists();
+        assert.dom(contains(this.intl.t('navigation.back-to-homepage'))).exists();
       });
     });
   });
 
-  context('When campaign is for Absolute Novice', function () {
-    beforeEach(async function () {
+  module('When campaign is for Absolute Novice', function (hooks) {
+    hooks.beforeEach(async function () {
       // Given
       campaign = { isForAbsoluteNovice: true, organizationShowNPS: false };
       const campaignParticipationResult = { campaignParticipationBadges: [] };
@@ -82,22 +82,22 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
       await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{model}} />`);
     });
 
-    it('should show a link to main page instead of the shared button ', function () {
+    test('should show a link to main page instead of the shared button ', function (assert) {
       // Then
-      expect(contains(this.intl.t('pages.skill-review.actions.send'))).to.not.exist;
-      expect(contains(this.intl.t('pages.skill-review.actions.continue'))).to.exist;
+      assert.dom(contains(this.intl.t('pages.skill-review.actions.send'))).doesNotExist();
+      assert.dom(contains(this.intl.t('pages.skill-review.actions.continue'))).exists();
     });
 
-    it('should not show competence results ', function () {
+    test('should not show competence results ', function (assert) {
       // Then
-      expect(contains(this.intl.t('pages.skill-review.details.title'))).to.not.exist;
+      assert.dom(contains(this.intl.t('pages.skill-review.details.title'))).doesNotExist();
     });
   });
 
-  context('when campaign is FLASH', function () {
+  module('when campaign is FLASH', function (hooks) {
     const estimatedFlashLevel = -4.98279852;
 
-    beforeEach(async function () {
+    hooks.beforeEach(async function () {
       // Given
       campaign = { isFlash: true };
       const campaignParticipationResult = { estimatedFlashLevel, isDisabled: false };
@@ -107,24 +107,24 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
       await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{model}} />`);
     });
 
-    it('should congratulate the user', function () {
+    test('should congratulate the user', function (assert) {
       // Then
-      expect(contains(this.intl.t('pages.skill-review.flash.abstract'))).to.exist;
+      assert.dom(contains(this.intl.t('pages.skill-review.flash.abstract'))).exists();
     });
 
-    it("should display the user's flash estimated level", function () {
+    test("should display the user's flash estimated level", function () {
       const expectedPixCount = 257;
 
       // Then
-      expect(contains(this.intl.t('pages.skill-review.flash.pixCount', { count: expectedPixCount }))).to.exist;
+      assert.dom(contains(this.intl.t('pages.skill-review.flash.pixCount', { count: expectedPixCount }))).exists();
     });
   });
 
-  describe('The block of the organisation message', function () {
-    context('When the campaign is shared', function () {
-      context('when the organization has a message', function () {
-        context('when the organization has a logo', function () {
-          beforeEach(async function () {
+  module('The block of the organisation message', function () {
+    module('When the campaign is shared', function () {
+      module('when the organization has a message', function () {
+        module('when the organization has a logo', function (hooks) {
+          hooks.beforeEach(async function () {
             // Given
             campaign = {
               customResultPageText: 'Bravo !',
@@ -139,20 +139,20 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
             await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{model}} />`);
           });
 
-          it('should display the block for the message', function () {
+          test('should display the block for the message', function (assert) {
             // Then
-            expect(contains(this.intl.t('pages.skill-review.organization-message'))).to.exist;
-            expect(contains('Dragon & Co')).to.exist;
+            assert.dom(contains(this.intl.t('pages.skill-review.organization-message'))).exists();
+            assert.dom(contains('Dragon & Co')).exists();
           });
 
-          it('should show the logo of the organization ', function () {
+          test('should show the logo of the organization ', function (assert) {
             // Then
-            expect(find('[src="www.logo-example.com"]')).to.exist;
+            assert.dom(find('[src="www.logo-example.com"]')).exists();
           });
         });
 
-        context('when the organization has no logo', function () {
-          beforeEach(async function () {
+        module('when the organization has no logo', function (hooks) {
+          hooks.beforeEach(async function () {
             // Given
             campaign = {
               customResultPageText: 'Bravo !',
@@ -167,21 +167,21 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
             await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{model}} />`);
           });
 
-          it('should display the block for the message', function () {
+          test('should display the block for the message', function (assert) {
             // Then
-            expect(contains('Dragon & Co')).to.exist;
-            expect(contains(this.intl.t('pages.skill-review.organization-message'))).to.exist;
+            assert.dom(contains('Dragon & Co')).exists();
+            assert.dom(contains(this.intl.t('pages.skill-review.organization-message'))).exists();
           });
 
-          it('should not display the logo of the organization ', function () {
+          test('should not display the logo of the organization ', function (assert) {
             // Then
-            expect(find('[src="www.logo-example.com"]')).to.not.exist;
+            assert.dom(find('[src="www.logo-example.com"]')).doesNotExist();
           });
         });
       });
 
-      context('when the organization has a customResultPageText', function () {
-        beforeEach(async function () {
+      module('when the organization has a customResultPageText', function (hooks) {
+        hooks.beforeEach(async function () {
           campaign = {
             customResultPageText: 'some message',
             organizationName: 'Dragon & Co',
@@ -194,17 +194,17 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
           await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{model}} />`);
         });
 
-        it('should display customResultPageText', function () {
+        test('should display customResultPageText', function (assert) {
           // Then
-          expect(contains('some message')).to.exist;
+          assert.dom(contains('some message')).exists();
         });
       });
 
-      context('when the organization has a customResultPageButtonUrl and a customResultPageButtonText', function () {
-        context(
+      module('when the organization has a customResultPageButtonUrl and a customResultPageButtonText', function () {
+        module(
           'when the participant has finished a campaign with stages and has a masteryPercentage and a participantExternalId',
-          function () {
-            beforeEach(async function () {
+          function (hooks) {
+            hooks.beforeEach(async function () {
               const reachedStage = {
                 get: sinon.stub(),
               };
@@ -228,20 +228,21 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
               await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{model}} />`);
             });
 
-            it('should display the button with all params', function () {
+            test('should display the button with all params', function (assert) {
               // Then
-              expect(find('[href="http://www.my-url.net/resultats?masteryPercentage=50&externalId=1234G56&stage=75"]'))
-                .to.exist;
-              expect(find('[target="_blank"]')).to.exist;
-              expect(contains('Next step')).to.exist;
+              assert
+                .dom(find('[href="http://www.my-url.net/resultats?masteryPercentage=50&externalId=1234G56&stage=75"]'))
+                .exists();
+              assert.dom(find('[target="_blank"]')).exists();
+              assert.dom(contains('Next step')).exists();
             });
           }
         );
 
-        context(
+        module(
           'when the participant has finished a campaign with neither stages and he has neither masteryPercentage nor participantExternalId',
-          function () {
-            beforeEach(async function () {
+          function (hooks) {
+            hooks.beforeEach(async function () {
               campaign = {
                 customResultPageButtonUrl: 'http://www.my-url.net',
                 customResultPageButtonText: 'Next step',
@@ -261,18 +262,18 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
               await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{model}} />`);
             });
 
-            it('should display the button', function () {
+            test('should display the button', function (assert) {
               // Then
-              expect(find('[href="http://www.my-url.net/"]')).to.exist;
-              expect(find('[target="_blank"]')).to.exist;
-              expect(contains('Next step')).to.exist;
+              assert.dom(find('[href="http://www.my-url.net/"]')).exists();
+              assert.dom(find('[target="_blank"]')).exists();
+              assert.dom(contains('Next step')).exists();
             });
           }
         );
       });
 
-      context('when the organization only has a customResultPageButtonUrl', function () {
-        beforeEach(async function () {
+      module('when the organization only has a customResultPageButtonUrl', function (hooks) {
+        hooks.beforeEach(async function () {
           campaign = {
             customResultPageButtonUrl: 'www.my-url.net',
             customResultPageButtonText: null,
@@ -289,15 +290,15 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
           await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{model}} />`);
         });
 
-        it('should not display the button', function () {
+        test('should not display the button', function (assert) {
           // Then
-          expect(find('[href="www.my-url.net"]')).to.not.exist;
-          expect(contains('Next step')).to.not.exist;
+          assert.dom(find('[href="www.my-url.net"]')).doesNotExist();
+          assert.dom(contains('Next step')).doesNotExist();
         });
       });
 
-      context('when the organization has neither a message nor a button', function () {
-        beforeEach(async function () {
+      module('when the organization has neither a message nor a button', function (hooks) {
+        hooks.beforeEach(async function () {
           campaign = {
             customResultPageText: null,
             customResultPageButtonUrl: null,
@@ -315,14 +316,14 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
           await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{model}} />`);
         });
 
-        it('should not display the block for the message', function () {
+        test('should not display the block for the message', function (assert) {
           // Then
-          expect(contains(this.intl.t('pages.skill-review.organization-message'))).to.not.exist;
+          assert.dom(contains(this.intl.t('pages.skill-review.organization-message'))).doesNotExist();
         });
       });
     });
-    context('when the campaign is not shared', function () {
-      beforeEach(async function () {
+    module('when the campaign is not shared', function (hooks) {
+      hooks.beforeEach(async function () {
         campaign = {
           customResultPageButtonText: 'Bravo !',
           organizationName: 'Dragon & Co',
@@ -338,17 +339,17 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
         await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{model}} />`);
       });
 
-      it('should not display the block for the message', function () {
+      test('should not display the block for the message', function (assert) {
         // Then
-        expect(contains(this.intl.t('pages.skill-review.actions.send'))).to.exist;
-        expect(contains(this.intl.t('pages.skill-review.organization-message'))).to.not.exist;
+        assert.dom(contains(this.intl.t('pages.skill-review.actions.send'))).exists();
+        assert.dom(contains(this.intl.t('pages.skill-review.organization-message'))).doesNotExist();
       });
     });
   });
 
-  describe('The retry block', function () {
-    context('when user can retry', function () {
-      beforeEach(async function () {
+  module('The retry block', function () {
+    module('when user can retry', function (hooks) {
+      hooks.beforeEach(async function () {
         const campaignParticipationResult = {
           campaignParticipationBadges: [],
           canRetry: true,
@@ -359,14 +360,14 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
         await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{model}} />`);
       });
 
-      it('should display retry block', function () {
+      test('should display retry block', function (assert) {
         // Then
-        expect(contains(this.intl.t('pages.skill-review.retry.button'))).to.exist;
+        assert.dom(contains(this.intl.t('pages.skill-review.retry.button'))).exists();
       });
     });
 
-    context('when user cannot retry', function () {
-      beforeEach(async function () {
+    module('when user cannot retry', function (hooks) {
+      hooks.beforeEach(async function () {
         const campaignParticipationResult = {
           campaignParticipationBadges: [],
           canRetry: false,
@@ -377,16 +378,16 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
         await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{model}} />`);
       });
 
-      it('should not display retry block', function () {
+      test('should not display retry block', function (assert) {
         // Then
-        expect(contains(this.intl.t('pages.skill-review.retry.button'))).to.not.exist;
+        assert.dom(contains(this.intl.t('pages.skill-review.retry.button'))).doesNotExist();
       });
     });
   });
 
-  describe('The improve block', function () {
-    context('when user can improve', function () {
-      beforeEach(async function () {
+  module('The improve block', function () {
+    module('when user can improve', function (hooks) {
+      hooks.beforeEach(async function () {
         const campaignParticipationResult = {
           campaignParticipationBadges: [],
           canImprove: true,
@@ -397,14 +398,14 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
         await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{model}} />`);
       });
 
-      it('should display improve block', function () {
+      test('should display improve block', function (assert) {
         // Then
-        expect(contains(this.intl.t('pages.skill-review.improve.title'))).to.exist;
+        assert.dom(contains(this.intl.t('pages.skill-review.improve.title'))).exists();
       });
     });
 
-    context('when user cannot improve', function () {
-      beforeEach(async function () {
+    module('when user cannot improve', function (hooks) {
+      hooks.beforeEach(async function () {
         const campaignParticipationResult = {
           campaignParticipationBadges: [],
           canImprove: false,
@@ -415,14 +416,14 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
         await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{model}} />`);
       });
 
-      it('should not display improve block', function () {
+      test('should not display improve block', function (assert) {
         // Then
-        expect(contains(this.intl.t('pages.skill-review.improve.title'))).to.not.exist;
+        assert.dom(contains(this.intl.t('pages.skill-review.improve.title'))).doesNotExist();
       });
     });
 
-    context('when share button has been pressed but a skill has been reset', function () {
-      beforeEach(async function () {
+    module('when share button has been pressed but a skill has been reset', function (hooks) {
+      hooks.beforeEach(async function () {
         const campaignParticipationResult = {
           campaignParticipationBadges: [],
           canImprove: true,
@@ -438,14 +439,14 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
         await clickByLabel(this.intl.t('pages.skill-review.actions.send'));
       });
 
-      it('should not display improve block', function () {
+      test('should not display improve block', function (assert) {
         // Then
-        expect(contains(this.intl.t('pages.skill-review.improve.title'))).to.not.exist;
+        assert.dom(contains(this.intl.t('pages.skill-review.improve.title'))).doesNotExist();
       });
     });
 
-    context('when share button has been pressed but a global error occurred', function () {
-      beforeEach(async function () {
+    module('when share button has been pressed but a global error occurred', function (hooks) {
+      hooks.beforeEach(async function () {
         const campaignParticipationResult = {
           campaignParticipationBadges: [],
           canImprove: true,
@@ -461,16 +462,16 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
         await clickByLabel(this.intl.t('pages.skill-review.actions.send'));
       });
 
-      it('should not display improve block', function () {
+      test('should not display improve block', function (assert) {
         // Then
-        expect(contains(this.intl.t('pages.skill-review.improve.title'))).to.exist;
+        assert.dom(contains(this.intl.t('pages.skill-review.improve.title'))).exists();
       });
     });
   });
 
-  describe('The Net Promoter Score block', function () {
-    context('when organizationShowNPS is true', function () {
-      beforeEach(async function () {
+  module('The Net Promoter Score block', function () {
+    module('when organizationShowNPS is true', function (hooks) {
+      hooks.beforeEach(async function () {
         campaign = {
           organizationShowNPS: true,
           organizationFormNPSUrl: 'https://pix.fr',
@@ -485,18 +486,18 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
         await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{model}} />`);
       });
 
-      it('should display NPS Block', function () {
-        expect(contains(this.intl.t('pages.skill-review.net-promoter-score.title'))).to.exist;
+      test('should display NPS Block', function (assert) {
+        assert.dom(contains(this.intl.t('pages.skill-review.net-promoter-score.title'))).exists();
       });
-      it('should display the button to access the NPS form  ', function () {
-        expect(contains(this.intl.t('pages.skill-review.net-promoter-score.link.label'))).to.exist;
-        expect(find('[href="https://pix.fr"]')).to.exist;
-        expect(find('[target="_blank"]')).to.exist;
+      test('should display the button to access the NPS form  ', function (assert) {
+        assert.dom(contains(this.intl.t('pages.skill-review.net-promoter-score.link.label'))).exists();
+        assert.dom(find('[href="https://pix.fr"]')).exists();
+        assert.dom(find('[target="_blank"]')).exists();
       });
     });
 
-    context('when organizationShowNPS is false', function () {
-      beforeEach(async function () {
+    module('when organizationShowNPS is false', function (hooks) {
+      hooks.beforeEach(async function () {
         const campaignParticipationResult = {
           campaignParticipationBadges: [],
         };
@@ -506,15 +507,15 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
         await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{model}} />`);
       });
 
-      it('should not display NPS Block', function () {
-        expect(contains(this.intl.t('pages.skill-review.net-promoter-score.title'))).to.not.exist;
+      test('should not display NPS Block', function (assert) {
+        assert.dom(contains(this.intl.t('pages.skill-review.net-promoter-score.title'))).doesNotExist();
       });
     });
   });
 
-  describe('The disabled block', function () {
-    context('when participation is disabled and not shared', function () {
-      beforeEach(async function () {
+  module('The disabled block', function () {
+    module('when participation is disabled and not shared', function (hooks) {
+      hooks.beforeEach(async function () {
         const campaignParticipationResult = {
           campaignParticipationBadges: [],
           isDisabled: true,
@@ -526,14 +527,14 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
         await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{model}} />`);
       });
 
-      it('should display disabled block', function () {
+      test('should display disabled block', function (assert) {
         // Then
-        expect(contains("Ce parcours a été désactivé par l'organisateur.")).to.exist;
+        assert.dom(contains("Ce parcours a été désactivé par l'organisateur.")).exists();
       });
     });
 
-    context('when participation is disabled but already shared', function () {
-      beforeEach(async function () {
+    module('when participation is disabled but already shared', function (hooks) {
+      hooks.beforeEach(async function () {
         const campaignParticipationResult = {
           campaignParticipationBadges: [],
           isDisabled: true,
@@ -545,14 +546,14 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
         await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{model}} />`);
       });
 
-      it('should not display disabled block', function () {
+      test('should not display disabled block', function (assert) {
         // Then
-        expect(contains('Merci, vos résultats ont bien été envoyés !')).to.exist;
+        assert.dom(contains('Merci, vos résultats ont bien été envoyés !')).exists();
       });
     });
 
-    context('when participation is not disabled', function () {
-      beforeEach(async function () {
+    module('when participation is not disabled', function (hooks) {
+      hooks.beforeEach(async function () {
         const campaignParticipationResult = {
           campaignParticipationBadges: [],
           isDisabled: false,
@@ -564,9 +565,9 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
         await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{model}} />`);
       });
 
-      it('should not display disabled block', function () {
+      test('should not display disabled block', function (assert) {
         // Then
-        expect(contains("J'envoie mes résultats")).to.exist;
+        assert.dom(contains("J'envoie mes résultats")).exists();
       });
     });
   });

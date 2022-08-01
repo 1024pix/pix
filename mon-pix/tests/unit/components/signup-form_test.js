@@ -1,19 +1,18 @@
-import { beforeEach, describe, it } from 'mocha';
-import { expect } from 'chai';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
 import pick from 'lodash/pick';
 
-import { setupTest } from 'ember-mocha';
 import EmberObject from '@ember/object';
 import Service from '@ember/service';
 import createGlimmerComponent from '../../helpers/create-glimmer-component';
 
-describe('Unit | Component | signup-form', function () {
-  setupTest();
+module('Unit | Component | signup-form', function (hooks) {
+  setupTest(hooks);
 
   let component;
 
-  beforeEach(function () {
+  hooks.beforeEach(function () {
     class SessionStub extends Service {
       attemptedTransition = {
         from: {
@@ -27,8 +26,8 @@ describe('Unit | Component | signup-form', function () {
     component = createGlimmerComponent('component:signup-form');
   });
 
-  describe('#signup', () => {
-    it('should save user without spaces', () => {
+  module('#signup', function () {
+    test('should save user without spaces', function (assert) {
       // given
       const userWithSpaces = EmberObject.create({
         firstName: '  Chris  ',
@@ -50,10 +49,10 @@ describe('Unit | Component | signup-form', function () {
 
       // then
       const user = component.args.user;
-      expect(pick(user, ['firstName', 'lastName', 'email'])).to.deep.equal(expectedUser);
+      assert.deepEqual(pick(user, ['firstName', 'lastName', 'email']), expectedUser);
     });
 
-    it('should send campaignCode when is defined', () => {
+    test('should send campaignCode when is defined', function (assert) {
       // given
       const userWithSpaces = EmberObject.create({
         firstName: '  Chris  ',
@@ -71,6 +70,7 @@ describe('Unit | Component | signup-form', function () {
       component.signup();
 
       // then
+      assert.expect(0);
       sinon.assert.calledWith(userWithSpaces.save, { adapterOptions: { campaignCode } });
     });
   });

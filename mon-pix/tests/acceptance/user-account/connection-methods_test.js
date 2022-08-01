@@ -1,12 +1,11 @@
-import { describe, it } from 'mocha';
+import { module, test } from 'qunit';
 import {
   authenticateByEmail,
   authenticateByGAR,
   authenticateByUsername,
   authenticateByCnav,
 } from '../../helpers/authentication';
-import { expect } from 'chai';
-import { setupApplicationTest } from 'ember-mocha';
+import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { triggerEvent } from '@ember/test-helpers';
 import { visit } from '@1024pix/ember-testing-library';
@@ -15,13 +14,13 @@ import { clickByLabel } from '../../helpers/click-by-label';
 import { fillInByLabel } from '../../helpers/fill-in-by-label';
 import setupIntl from '../../helpers/setup-intl';
 
-describe('Acceptance | user-account | connection-methods', function () {
-  setupApplicationTest();
-  setupMirage();
-  setupIntl();
+module('Acceptance | user-account | connection-methods', function (hooks) {
+  setupApplicationTest(hooks);
+  setupMirage(hooks);
+  setupIntl(hooks);
 
-  context('connection method details', function () {
-    it("should display user's email and username", async function () {
+  module('connection method details', function () {
+    test("should display user's email and username", async function (assert) {
       // given
       const userDetails = {
         email: 'john.doe@example.net',
@@ -35,11 +34,11 @@ describe('Acceptance | user-account | connection-methods', function () {
       await visit('/mon-compte/methodes-de-connexion');
 
       // then
-      expect(contains(user.email)).to.exist;
-      expect(contains(user.username)).to.exist;
+      assert.dom(contains(user.email)).exists();
+      assert.dom(contains(user.username)).exists();
     });
 
-    it("should display user's GAR authentication method", async function () {
+    test("should display user's GAR authentication method", async function (assert) {
       // given
       const garUser = server.create('user', 'external');
       server.create('authentication-method', 'withGarIdentityProvider', { user: garUser });
@@ -49,11 +48,11 @@ describe('Acceptance | user-account | connection-methods', function () {
       await visit('/mon-compte/methodes-de-connexion');
 
       // then
-      expect(contains(this.intl.t('pages.user-account.connexion-methods.authentication-methods.label'))).to.exist;
-      expect(contains(this.intl.t('pages.user-account.connexion-methods.authentication-methods.gar'))).to.exist;
+      assert.dom(contains(this.intl.t('pages.user-account.connexion-methods.authentication-methods.label'))).exists();
+      assert.dom(contains(this.intl.t('pages.user-account.connexion-methods.authentication-methods.gar'))).exists();
     });
 
-    it("should display user's Pole Emploi authentication method", async function () {
+    test("should display user's Pole Emploi authentication method", async function (assert) {
       // given
       const userDetails = {
         email: 'john.doe@example.net',
@@ -66,11 +65,13 @@ describe('Acceptance | user-account | connection-methods', function () {
       await visit('/mon-compte/methodes-de-connexion');
 
       // then
-      expect(contains(this.intl.t('pages.user-account.connexion-methods.authentication-methods.label'))).to.exist;
-      expect(contains(this.intl.t('pages.user-account.connexion-methods.authentication-methods.pole-emploi'))).to.exist;
+      assert.dom(contains(this.intl.t('pages.user-account.connexion-methods.authentication-methods.label'))).exists();
+      assert
+        .dom(contains(this.intl.t('pages.user-account.connexion-methods.authentication-methods.pole-emploi')))
+        .exists();
     });
 
-    it("should display user's Cnav authentication method", async function () {
+    test("should display user's Cnav authentication method", async function (assert) {
       // given
       const garUser = server.create('user', 'external');
       server.create('authentication-method', 'withCnavIdentityProvider', { user: garUser });
@@ -80,17 +81,17 @@ describe('Acceptance | user-account | connection-methods', function () {
       const screen = await visit('/mon-compte/methodes-de-connexion');
 
       // then
-      expect(
-        screen.getByText(this.intl.t('pages.user-account.connexion-methods.authentication-methods.label'))
-      ).to.exist;
-      expect(
-        screen.getByText(this.intl.t('pages.user-account.connexion-methods.authentication-methods.cnav'))
-      ).to.exist;
+      assert
+        .dom(screen.getByText(this.intl.t('pages.user-account.connexion-methods.authentication-methods.label')))
+        .exists();
+      assert
+        .dom(screen.getByText(this.intl.t('pages.user-account.connexion-methods.authentication-methods.cnav')))
+        .exists();
     });
   });
 
-  context('when user does not have an email', function () {
-    it('should not display email', async function () {
+  module('when user does not have an email', function () {
+    test('should not display email', async function (assert) {
       // given
       const userDetails = {
         username: 'john.doe0101',
@@ -102,12 +103,12 @@ describe('Acceptance | user-account | connection-methods', function () {
       await visit('/mon-compte/methodes-de-connexion');
 
       // then
-      expect(contains(this.intl.t('pages.user-account.connexion-methods.email'))).to.not.exist;
+      assert.dom(contains(this.intl.t('pages.user-account.connexion-methods.email'))).doesNotExist();
     });
   });
 
-  context('when user does not have a username', function () {
-    it('should not display username', async function () {
+  module('when user does not have a username', function () {
+    test('should not display username', async function (assert) {
       // given
       const userDetails = {
         email: 'john.doe@example.net',
@@ -119,12 +120,12 @@ describe('Acceptance | user-account | connection-methods', function () {
       await visit('/mon-compte/methodes-de-connexion');
 
       // then
-      expect(contains(this.intl.t('pages.user-account.connexion-methods.username'))).to.not.exist;
+      assert.dom(contains(this.intl.t('pages.user-account.connexion-methods.username'))).doesNotExist();
     });
   });
 
-  context('email editing', function () {
-    it('should reset email editing process when changing page', async function () {
+  module('email editing', function () {
+    test('should reset email editing process when changing page', async function (assert) {
       // given
       const user = server.create('user', 'withEmail');
       server.create('authentication-method', 'withPixIdentityProvider', { user });
@@ -137,10 +138,10 @@ describe('Acceptance | user-account | connection-methods', function () {
       await visit('/mon-compte/methodes-de-connexion');
 
       // then
-      expect(contains(this.intl.t('pages.user-account.connexion-methods.email'))).to.exist;
+      assert.dom(contains(this.intl.t('pages.user-account.connexion-methods.email'))).exists();
     });
 
-    it('should be able to edit the email, enter the code received, and be successfully redirected to account page', async function () {
+    test('should be able to edit the email, enter the code received, and be successfully redirected to account page', async function (assert) {
       // given
       const user = server.create('user', 'withEmail');
       server.create('authentication-method', 'withPixIdentityProvider', { user });
@@ -162,9 +163,9 @@ describe('Acceptance | user-account | connection-methods', function () {
       await triggerEvent('#code-input-1', 'paste', { clipboardData: { getData: () => '123456' } });
 
       // then
-      expect(contains(this.intl.t('pages.user-account.connexion-methods.email'))).to.exist;
-      expect(contains(this.intl.t('pages.user-account.email-verification.update-successful'))).to.exist;
-      expect(contains(newEmail)).to.exist;
+      assert.dom(contains(this.intl.t('pages.user-account.connexion-methods.email'))).exists();
+      assert.dom(contains(this.intl.t('pages.user-account.email-verification.update-successful'))).exists();
+      assert.dom(contains(newEmail)).exists();
     });
   });
 });

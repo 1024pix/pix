@@ -1,21 +1,20 @@
-import { expect } from 'chai';
-import { it, describe } from 'mocha';
-import { setupTest } from 'ember-mocha';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
 
-describe('Unit | Adapters | ApplicationAdapter', function () {
-  setupTest();
+module('Unit | Adapters | ApplicationAdapter', function (hooks) {
+  setupTest(hooks);
 
-  it('should specify /api as the root url', function () {
+  test('should specify /api as the root url', function (assert) {
     // Given
     const applicationAdapter = this.owner.lookup('adapter:application');
 
     // Then
-    expect(applicationAdapter.namespace).to.equal('api');
+    assert.equal(applicationAdapter.namespace, 'api');
   });
 
-  describe('get headers()', function () {
-    it('should add header with authentication token when the session is authenticated', function () {
+  module('get headers()', function () {
+    test('should add header with authentication token when the session is authenticated', function (assert) {
       // Given
       const access_token = '23456789';
       const applicationAdapter = this.owner.lookup('adapter:application');
@@ -24,10 +23,10 @@ describe('Unit | Adapters | ApplicationAdapter', function () {
       applicationAdapter.set('session', { isAuthenticated: true, data: { authenticated: { access_token } } });
 
       // Then
-      expect(applicationAdapter.headers['Authorization']).to.equal(`Bearer ${access_token}`);
+      assert.equal(applicationAdapter.headers['Authorization'], `Bearer ${access_token}`);
     });
 
-    it('should not add header authentication token when the session is not authenticated', function () {
+    test('should not add header authentication token when the session is not authenticated', function (assert) {
       // Given
       const applicationAdapter = this.owner.lookup('adapter:application');
 
@@ -35,10 +34,10 @@ describe('Unit | Adapters | ApplicationAdapter', function () {
       applicationAdapter.set('session', {});
 
       // Then
-      expect(applicationAdapter.headers['Authorization']).to.be.undefined;
+      assert.equal(applicationAdapter.headers['Authorization'], undefined);
     });
 
-    it('should add Accept-Language header set to fr-fr when the current domain contains pix.fr and locale is "fr"', function () {
+    test('should add Accept-Language header set to fr-fr when the current domain contains pix.fr and locale is "fr"', function (assert) {
       // Given
       const applicationAdapter = this.owner.lookup('adapter:application');
       applicationAdapter.intl = { get: () => ['fr'] };
@@ -51,10 +50,10 @@ describe('Unit | Adapters | ApplicationAdapter', function () {
       });
 
       // Then
-      expect(applicationAdapter.headers['Accept-Language']).to.equal('fr-fr');
+      assert.equal(applicationAdapter.headers['Accept-Language'], 'fr-fr');
     });
 
-    it('should add Accept-Language header set to fr when the current domain contains pix.digital and locale is "fr"', function () {
+    test('should add Accept-Language header set to fr when the current domain contains pix.digital and locale is "fr"', function (assert) {
       // Given
       const applicationAdapter = this.owner.lookup('adapter:application');
       applicationAdapter.intl = { get: () => ['fr'] };
@@ -67,10 +66,10 @@ describe('Unit | Adapters | ApplicationAdapter', function () {
       });
 
       // Then
-      expect(applicationAdapter.headers['Accept-Language']).to.equal('fr');
+      assert.equal(applicationAdapter.headers['Accept-Language'], 'fr');
     });
 
-    it('should add Accept-Language header set to en when locale is "en"', function () {
+    test('should add Accept-Language header set to en when locale is "en"', function (assert) {
       // Given
       const applicationAdapter = this.owner.lookup('adapter:application');
 
@@ -78,12 +77,12 @@ describe('Unit | Adapters | ApplicationAdapter', function () {
       applicationAdapter.intl = { get: () => ['en'] };
 
       // Then
-      expect(applicationAdapter.headers['Accept-Language']).to.equal('en');
+      assert.equal(applicationAdapter.headers['Accept-Language'], 'en');
     });
   });
 
-  describe('ajax()', function () {
-    it('should queue ajax calls', function () {
+  module('ajax()', function () {
+    test('should queue ajax calls', function (assert) {
       // Given
       const applicationAdapter = this.owner.lookup('adapter:application');
       applicationAdapter.ajaxQueue = { add: sinon.stub().resolves() };
@@ -92,6 +91,7 @@ describe('Unit | Adapters | ApplicationAdapter', function () {
       applicationAdapter.findRecord(null, { modelName: 'user' }, 1);
 
       // Then
+      assert.expect(0);
       sinon.assert.calledOnce(applicationAdapter.ajaxQueue.add);
     });
   });

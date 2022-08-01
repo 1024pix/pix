@@ -1,25 +1,24 @@
-import { describe, it } from 'mocha';
+import { module, test } from 'qunit';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 import { render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
-import { expect } from 'chai';
 import { contains } from '../../../helpers/contains';
 import Service from '@ember/service';
 
-describe('Integration | Component | Certifications | CertificationEnder', function () {
-  setupIntlRenderingTest();
+module('Integration | Component | Certifications | CertificationEnder', function (hooks) {
+  setupIntlRenderingTest(hooks);
 
-  it('should display the translated labels', async function () {
+  test('should display the translated labels', async function (assert) {
     // when
     await render(hbs`
       <Certifications::CertificationEnder />
     `);
 
     // then
-    expect(contains(this.intl.t('pages.certification-ender.candidate.title'))).to.exist;
+    assert.dom(contains(this.intl.t('pages.certification-ender.candidate.title'))).exists();
   });
 
-  it('should display the certification number', async function () {
+  test('should display the certification number', async function (assert) {
     // given
     this.certificationNumber = 1234;
 
@@ -29,10 +28,10 @@ describe('Integration | Component | Certifications | CertificationEnder', functi
     `);
 
     // then
-    expect(contains(1234)).to.exist;
+    assert.dom(contains(1234)).exists();
   });
 
-  it('should display the current user name', async function () {
+  test('should display the current user name', async function (assert) {
     // given
     class currentUser extends Service {
       user = {
@@ -47,11 +46,11 @@ describe('Integration | Component | Certifications | CertificationEnder', functi
     `);
 
     // then
-    expect(contains('Jim Halpert')).to.exist;
+    assert.dom(contains('Jim Halpert')).exists();
   });
 
-  context('when the assessment status is not ended by supervisor', function () {
-    it('should not display the ended by supervisor text', async function () {
+  module('when the assessment status is not ended by supervisor', function () {
+    test('should not display the ended by supervisor text', async function (assert) {
       // given
       class currentUser extends Service {
         user = {
@@ -66,12 +65,12 @@ describe('Integration | Component | Certifications | CertificationEnder', functi
     `);
 
       // then
-      expect(contains(this.intl.t('pages.certification-ender.candidate.ended-by-supervisor'))).not.to.exist;
+      assert.dom(contains(this.intl.t('pages.certification-ender.candidate.ended-by-supervisor'))).doesNotExist();
     });
   });
 
-  context('when the assessment status is ended by supervisor', function () {
-    it('should display the ended by supervisor text', async function () {
+  module('when the assessment status is ended by supervisor', function () {
+    test('should display the ended by supervisor text', async function (assert) {
       // given
       class currentUser extends Service {
         user = {
@@ -86,12 +85,12 @@ describe('Integration | Component | Certifications | CertificationEnder', functi
     `);
 
       // then
-      expect(contains(this.intl.t('pages.certification-ender.candidate.ended-by-supervisor'))).to.exist;
+      assert.dom(contains(this.intl.t('pages.certification-ender.candidate.ended-by-supervisor'))).exists();
     });
   });
 
-  context('when the assessment status is ended by finalization', function () {
-    it('should display the ended by finalization text', async function () {
+  module('when the assessment status is ended by finalization', function () {
+    test('should display the ended by finalization text', async function (assert) {
       // given
       class currentUser extends Service {
         user = {
@@ -106,7 +105,7 @@ describe('Integration | Component | Certifications | CertificationEnder', functi
     `);
 
       // then
-      expect(contains(this.intl.t('pages.certification-ender.candidate.ended-due-to-finalization'))).to.exist;
+      assert.dom(contains(this.intl.t('pages.certification-ender.candidate.ended-due-to-finalization'))).exists();
     });
   });
 });

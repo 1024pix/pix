@@ -1,14 +1,14 @@
 import EmberObject from '@ember/object';
-import { describe, it, beforeEach } from 'mocha';
-import { setupTest } from 'ember-mocha';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
 
-describe('Unit | Route | Entry Point', function () {
-  setupTest();
+module('Unit | Route | Entry Point', function (hooks) {
+  setupTest(hooks);
 
   let route, campaign;
 
-  beforeEach(function () {
+  hooks.beforeEach(function () {
     campaign = EmberObject.create({
       id: 3,
       code: 'NEW_CODE',
@@ -23,8 +23,8 @@ describe('Unit | Route | Entry Point', function () {
     route.currentUser = { user: {} };
   });
 
-  describe('#beforeModel', function () {
-    it('should invalidate session when a user is connected and anonymous', async function () {
+  module('#beforeModel', function () {
+    test('should invalidate session when a user is connected and anonymous', async function (assert) {
       //given
       route.session.isAuthenticated = true;
       route.currentUser.user.isAnonymous = true;
@@ -33,10 +33,11 @@ describe('Unit | Route | Entry Point', function () {
       await route.beforeModel();
 
       //then
+      assert.expect(0);
       sinon.assert.called(route.session.invalidate);
     });
 
-    it('should not invalidate session when a user is connected but not anonymous', async function () {
+    test('should not invalidate session when a user is connected but not anonymous', async function (assert) {
       //given
       route.session.isAuthenticated = true;
       route.currentUser.user.isAnonymous = false;
@@ -45,89 +46,96 @@ describe('Unit | Route | Entry Point', function () {
       await route.beforeModel();
 
       //then
+      assert.expect(0);
       sinon.assert.notCalled(route.session.invalidate);
     });
   });
 
-  describe('#model', function () {
-    it('should load model', async function () {
+  module('#model', function () {
+    test('should load model', async function (assert) {
       //given/when
       await route.model();
 
       //then
+      assert.expect(0);
       sinon.assert.calledWith(route.modelFor, 'campaigns');
     });
   });
 
-  describe('#afterModel', function () {
+  module('#afterModel', function (hooks) {
     let transition;
-    beforeEach(function () {
+    hooks.beforeEach(function () {
       transition = { to: { queryParams: {} } };
     });
 
-    it('should erase campaign storage', async function () {
+    test('should erase campaign storage', async function (assert) {
       //given/when
       await route.afterModel({ code: 'CODE' }, transition);
 
       //then
+      assert.expect(0);
       sinon.assert.calledWith(route.campaignStorage.clear, 'CODE');
     });
 
-    describe('user not connected', function () {
-      beforeEach(function () {
+    module('user not connected', function (hooks) {
+      hooks.beforeEach(function () {
         route.session.isAuthenticated = false;
         route.currentUser = undefined;
       });
 
-      it('should not call queryRecord to retrieve campaignParticipation', async function () {
+      test('should not call queryRecord to retrieve campaignParticipation', async function (assert) {
         //when
         await route.afterModel(campaign, transition);
 
         //then
+        assert.expect(0);
         sinon.assert.notCalled(route.store.queryRecord);
       });
 
-      it('should redirect to landing page', async function () {
+      test('should redirect to landing page', async function (assert) {
         //when
         await route.afterModel(campaign, transition);
 
         //then
+        assert.expect(0);
         sinon.assert.calledWith(route.router.replaceWith, 'campaigns.campaign-landing-page');
       });
 
-      describe('archived campaign', function () {
-        beforeEach(function () {
+      module('archived campaign', function (hooks) {
+        hooks.beforeEach(function () {
           campaign.isArchived = true;
         });
 
-        it('should redirect to campaign archived error', async function () {
+        test('should redirect to campaign archived error', async function (assert) {
           //when
           await route.afterModel(campaign, transition);
 
           //then
+          assert.expect(0);
           sinon.assert.calledWith(route.router.replaceWith, 'campaigns.archived-error');
         });
       });
     });
 
-    describe('user connected', function () {
-      beforeEach(function () {
+    module('user connected', function (hooks) {
+      hooks.beforeEach(function () {
         route.currentUser = { user: { id: 12 } };
         route.session.isAuthenticated = true;
       });
 
-      it('should call queryRecord to retrieve campaignParticipation', async function () {
+      test('should call queryRecord to retrieve campaignParticipation', async function (assert) {
         //when
         await route.afterModel(campaign, transition);
 
         //then
+        assert.expect(0);
         sinon.assert.calledWith(route.store.queryRecord, 'campaignParticipation', {
           campaignId: 3,
           userId: 12,
         });
       });
 
-      it('should redirect to landing page when no ongoing campaign participation', async function () {
+      test('should redirect to landing page when no ongoing campaign participation', async function (assert) {
         //given
         route.store.queryRecord
           .withArgs('campaignParticipation', {
@@ -140,10 +148,11 @@ describe('Unit | Route | Entry Point', function () {
         await route.afterModel(campaign, transition);
 
         //then
+        assert.expect(0);
         sinon.assert.calledWith(route.router.replaceWith, 'campaigns.campaign-landing-page');
       });
 
-      it('should redirect to entrance when ongoing campaign participation is existing', async function () {
+      test('should redirect to entrance when ongoing campaign participation is existing', async function (assert) {
         //given
         route.store.queryRecord
           .withArgs('campaignParticipation', {
@@ -156,15 +165,16 @@ describe('Unit | Route | Entry Point', function () {
         await route.afterModel(campaign, transition);
 
         //then
+        assert.expect(0);
         sinon.assert.calledWith(route.router.replaceWith, 'campaigns.entrance');
       });
 
-      describe('archived campaign', function () {
-        beforeEach(function () {
+      module('archived campaign', function (hooks) {
+        hooks.beforeEach(function () {
           campaign.isArchived = true;
         });
 
-        it('should redirect to campaign archived error with no participation', async function () {
+        test('should redirect to campaign archived error with no participation', async function (assert) {
           //given
           route.store.queryRecord
             .withArgs('campaignParticipation', {
@@ -177,10 +187,11 @@ describe('Unit | Route | Entry Point', function () {
           await route.afterModel(campaign, transition);
 
           //then
+          assert.expect(0);
           sinon.assert.calledWith(route.router.replaceWith, 'campaigns.archived-error');
         });
 
-        it('should redirect to entrance with participation', async function () {
+        test('should redirect to entrance with participation', async function (assert) {
           //given
           route.store.queryRecord
             .withArgs('campaignParticipation', {
@@ -193,14 +204,15 @@ describe('Unit | Route | Entry Point', function () {
           await route.afterModel(campaign, transition);
 
           //then
+          assert.expect(0);
           sinon.assert.calledWith(route.router.replaceWith, 'campaigns.entrance');
         });
       });
     });
 
-    describe('participantExternalId', function () {
-      describe('when there are participantExternalId', function () {
-        it('sets the current participantExternalId', async function () {
+    module('participantExternalId', function () {
+      module('when there are participantExternalId', function () {
+        test('sets the current participantExternalId', async function (assert) {
           //given
           transition = { to: { queryParams: { participantExternalId: 'externalId' } } };
           route.currentUser = {
@@ -213,12 +225,13 @@ describe('Unit | Route | Entry Point', function () {
           await route.afterModel(campaign, transition);
 
           //then
+          assert.expect(0);
           sinon.assert.calledWith(route.campaignStorage.set, campaign.code, 'participantExternalId', 'externalId');
         });
       });
 
-      describe('when there is no participantExternalId', function () {
-        it('does not set the participantExternalId', async function () {
+      module('when there is no participantExternalId', function () {
+        test('does not set the participantExternalId', async function (assert) {
           //given
           const transition = { to: { queryParams: {} } };
           route.currentUser = {
@@ -231,14 +244,15 @@ describe('Unit | Route | Entry Point', function () {
           await route.afterModel(campaign, transition);
 
           //then
+          assert.expect(0);
           sinon.assert.notCalled(route.campaignStorage.set);
         });
       });
     });
 
-    describe('retry', function () {
-      describe('when there are retry', function () {
-        it('sets the current retry', async function () {
+    module('retry', function () {
+      module('when there are retry', function () {
+        test('sets the current retry', async function (assert) {
           //given
           const transition = { to: { queryParams: { retry: 'true' } } };
           route.currentUser = {
@@ -251,12 +265,13 @@ describe('Unit | Route | Entry Point', function () {
           await route.afterModel(campaign, transition);
 
           //then
+          assert.expect(0);
           sinon.assert.calledWith(route.campaignStorage.set, campaign.code, 'retry', 'true');
         });
       });
 
-      describe('when there is no retry', function () {
-        it('does not set the retry', async function () {
+      module('when there is no retry', function () {
+        test('does not set the retry', async function (assert) {
           //given
           const transition = { to: { queryParams: {} } };
           route.currentUser = {
@@ -269,6 +284,7 @@ describe('Unit | Route | Entry Point', function () {
           await route.afterModel(campaign, transition);
 
           //then
+          assert.expect(0);
           sinon.assert.notCalled(route.campaignStorage.set);
         });
       });

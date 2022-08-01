@@ -1,47 +1,46 @@
-import { expect } from 'chai';
-import { beforeEach, describe, it } from 'mocha';
-import { setupApplicationTest } from 'ember-mocha';
+import { module, test } from 'qunit';
+import { setupApplicationTest } from 'ember-qunit';
 import { fillIn, currentURL, visit } from '@ember/test-helpers';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { authenticateByEmail, authenticateByUsername } from '../helpers/authentication';
 import { clickByLabel } from '../helpers/click-by-label';
 import setupIntl from '../helpers/setup-intl';
 
-describe('Acceptance | Authentication', function () {
-  setupApplicationTest();
-  setupMirage();
-  setupIntl();
+module('Acceptance | Authentication', function (hooks) {
+  setupApplicationTest(hooks);
+  setupMirage(hooks);
+  setupIntl(hooks);
 
   let user;
 
-  beforeEach(function () {
+  hooks.beforeEach(function () {
     user = server.create('user', 'withEmail');
   });
 
-  describe('Success cases', function () {
-    describe('Accessing to the default page page while disconnected', async function () {
-      it('should redirect to the connexion page', async function () {
+  module('Success cases', function () {
+    module('Accessing to the default page page while disconnected', async function () {
+      test('should redirect to the connexion page', async function (assert) {
         // when
         await visit('/');
 
         // then
-        expect(currentURL()).to.equal('/connexion');
+        assert.equal(currentURL(), '/connexion');
       });
     });
 
-    describe('Log-in phase', function () {
-      it('should redirect to /accueil after connexion', async function () {
+    module('Log-in phase', function () {
+      test('should redirect to /accueil after connexion', async function (assert) {
         // when
         await authenticateByEmail(user);
 
         // then
-        expect(currentURL()).to.equal('/accueil');
+        assert.equal(currentURL(), '/accueil');
       });
     });
   });
 
-  describe('Error case', function () {
-    it('should stay in /connexion, when authentication failed', async function () {
+  module('Error case', function () {
+    test('should stay in /connexion, when authentication failed', async function (assert) {
       // given
       await visit('/connexion');
       await fillIn('#login', 'anyone@pix.world');
@@ -51,11 +50,11 @@ describe('Acceptance | Authentication', function () {
       await clickByLabel(this.intl.t('pages.sign-in.actions.submit'));
 
       // then
-      expect(currentURL()).to.equal('/connexion');
+      assert.equal(currentURL(), '/connexion');
     });
 
-    describe('when user should change password', function () {
-      it('should redirect to /update-expired-password', async function () {
+    module('when user should change password', function () {
+      test('should redirect to /update-expired-password', async function (assert) {
         // given
         user = server.create('user', 'withUsername', 'shouldChangePassword');
 
@@ -63,7 +62,7 @@ describe('Acceptance | Authentication', function () {
         await authenticateByUsername(user);
 
         // then
-        expect(currentURL()).to.equal('/mise-a-jour-mot-de-passe-expire');
+        assert.equal(currentURL(), '/mise-a-jour-mot-de-passe-expire');
       });
     });
   });

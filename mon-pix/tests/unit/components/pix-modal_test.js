@@ -1,12 +1,11 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
-import { setupTest } from 'ember-mocha';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 
-describe('Unit | Component | pix-modal', function () {
-  setupTest();
+module('Unit | Component | pix-modal', function (hooks) {
+  setupTest(hooks);
 
-  describe('#init', () => {
-    it('should set the overlay as translucent', function () {
+  module('#init', function () {
+    test('should set the overlay as translucent', function (assert) {
       // given
       const component = this.owner.lookup('component:pix-modal');
 
@@ -14,7 +13,7 @@ describe('Unit | Component | pix-modal', function () {
       const translucentOverlay = component.get('translucentOverlay');
 
       // then
-      expect(translucentOverlay).to.be.equal(true);
+      assert.true(translucentOverlay);
     });
   });
 });

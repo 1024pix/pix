@@ -1,12 +1,11 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
-import { setupTest } from 'ember-mocha';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 
-describe('Unit | Route | account-recovery | find-sco-record', function () {
-  setupTest();
+module('Unit | Route | account-recovery | find-sco-record', function (hooks) {
+  setupTest(hooks);
 
-  it('exists', function () {
+  test('exists', function (assert) {
     const route = this.owner.lookup('route:account-recovery/find-sco-record');
-    expect(route).to.be.ok;
+    assert.ok(route);
   });
 });

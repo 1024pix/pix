@@ -1,14 +1,13 @@
-import { expect } from 'chai';
-import { beforeEach, describe, it } from 'mocha';
-import { setupTest } from 'ember-mocha';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
 
 import createComponent from '../../../../../helpers/create-glimmer-component';
 import setupIntl from '../../../../../helpers/setup-intl';
 
-describe('Unit | Component | routes/campaigns/invited/associate-sco-student-form', function () {
-  setupTest();
-  setupIntl();
+module('Unit | Component | routes/campaigns/invited/associate-sco-student-form', function (hooks) {
+  setupTest(hooks);
+  setupIntl(hooks);
 
   let component;
   let storeStub;
@@ -17,7 +16,7 @@ describe('Unit | Component | routes/campaigns/invited/associate-sco-student-form
   let eventStub;
   let record;
 
-  beforeEach(function () {
+  hooks.beforeEach(function () {
     record = { unloadRecord: sinon.stub() };
     storeStub = { createRecord: sinon.stub().returns(record) };
     sessionStub = { set: sinon.stub() };
@@ -32,9 +31,9 @@ describe('Unit | Component | routes/campaigns/invited/associate-sco-student-form
     component.currentUser = { user: {} };
   });
 
-  describe('#submit', function () {
+  module('#submit', function (hooks) {
     let attributes;
-    beforeEach(function () {
+    hooks.beforeEach(function () {
       attributes = {
         firstName: 'Robert',
         lastName: 'Smith',
@@ -42,7 +41,7 @@ describe('Unit | Component | routes/campaigns/invited/associate-sco-student-form
       };
     });
 
-    it('should create a schooling-registration-user-association', async function () {
+    test('should create a schooling-registration-user-association', async function (assert) {
       // given
       storeStub.createRecord.returns({ unloadRecord: () => {} });
 
@@ -50,6 +49,7 @@ describe('Unit | Component | routes/campaigns/invited/associate-sco-student-form
       await component.actions.submit.call(component, attributes);
 
       // then
+      assert.expect(0);
       sinon.assert.calledWith(storeStub.createRecord, 'schooling-registration-user-association', {
         id: `${component.args.campaignCode}_${attributes.lastName}`,
         firstName: attributes.firstName,
@@ -59,7 +59,7 @@ describe('Unit | Component | routes/campaigns/invited/associate-sco-student-form
       });
     });
 
-    it('should call onSubmit with withReconciliation adapterOption to false', async function () {
+    test('should call onSubmit with withReconciliation adapterOption to false', async function (assert) {
       // given
       const schoolingRegistration = { unloadRecord: () => {} };
       storeStub.createRecord.returns(schoolingRegistration);
@@ -68,10 +68,11 @@ describe('Unit | Component | routes/campaigns/invited/associate-sco-student-form
       await component.actions.submit.call(component, attributes);
 
       // then
+      assert.expect(0);
       sinon.assert.calledWith(onSubmitStub, schoolingRegistration, { withReconciliation: false });
     });
 
-    it('should call unloadRecord on schooling-registration-user-association', async function () {
+    test('should call unloadRecord on schooling-registration-user-association', async function (assert) {
       // given
       const schoolingRegistration = { unloadRecord: sinon.stub() };
       storeStub.createRecord.returns(schoolingRegistration);
@@ -80,11 +81,12 @@ describe('Unit | Component | routes/campaigns/invited/associate-sco-student-form
       await component.actions.submit.call(component, attributes);
 
       // then
+      assert.expect(0);
       sinon.assert.calledOnce(schoolingRegistration.unloadRecord);
     });
 
-    context('When user is logged in with email', function () {
-      it('should open information modal and set reconciliationWarning', async function () {
+    module('When user is logged in with email', function () {
+      test('should open information modal and set reconciliationWarning', async function (assert) {
         // given
         const schoolingRegistration = { unloadRecord: () => {} };
         storeStub.createRecord.returns(schoolingRegistration);
@@ -100,13 +102,13 @@ describe('Unit | Component | routes/campaigns/invited/associate-sco-student-form
         await component.actions.submit.call(component, attributes);
 
         // then
-        expect(component.displayInformationModal).to.be.true;
-        expect(component.reconciliationWarning).to.deep.equal(expectedReconciliationWarning);
+        assert.true(component.displayInformationModal);
+        assert.deepEqual(component.reconciliationWarning, expectedReconciliationWarning);
       });
     });
 
-    context('When user is logged in with username', function () {
-      it('should open information modal and set reconciliationWarning', async function () {
+    module('When user is logged in with username', function () {
+      test('should open information modal and set reconciliationWarning', async function (assert) {
         // given
         const schoolingRegistration = { unloadRecord: () => {} };
         storeStub.createRecord.returns(schoolingRegistration);
@@ -122,22 +124,22 @@ describe('Unit | Component | routes/campaigns/invited/associate-sco-student-form
         await component.actions.submit.call(component, attributes);
 
         // then
-        expect(component.displayInformationModal).to.be.true;
-        expect(component.reconciliationWarning).to.deep.equal(expectedReconciliationWarning);
+        assert.true(component.displayInformationModal);
+        assert.deepEqual(component.reconciliationWarning, expectedReconciliationWarning);
       });
     });
 
-    describe('Errors', function () {
-      it('should display no error', async function () {
+    module('Errors', function () {
+      test('should display no error', async function (assert) {
         // when
         await component.actions.submit.call(component, attributes);
 
         // then
         sinon.assert.calledOnce(record.unloadRecord);
-        expect(component.errorMessage).to.be.null;
+        assert.equal(component.errorMessage, null);
       });
 
-      it('should display a not found error', async function () {
+      test('should display a not found error', async function (assert) {
         // given
         onSubmitStub.rejects({ errors: [{ status: '404' }] });
         const expectedErrorMessage = this.intl.t('pages.join.sco.error-not-found');
@@ -147,11 +149,11 @@ describe('Unit | Component | routes/campaigns/invited/associate-sco-student-form
 
         // then
         sinon.assert.calledOnce(record.unloadRecord);
-        expect(component.errorMessage.string).to.equal(expectedErrorMessage);
+        assert.equal(component.errorMessage.string, expectedErrorMessage);
       });
 
-      describe('When student is already reconciled', () => {
-        it('should open information modal and set reconciliationError', async function () {
+      module('When student is already reconciled', function () {
+        test('should open information modal and set reconciliationError', async function (assert) {
           // given
           const error = { status: '409', meta: { userId: 1 } };
 
@@ -162,13 +164,13 @@ describe('Unit | Component | routes/campaigns/invited/associate-sco-student-form
 
           // then
           sinon.assert.calledOnce(record.unloadRecord);
-          expect(component.displayInformationModal).to.be.true;
-          expect(component.reconciliationError).to.equal(error);
+          assert.true(component.displayInformationModal);
+          assert.equal(component.reconciliationError, error);
         });
       });
 
-      describe('When another student is already reconciled on the same organization', async function () {
-        it('should return a conflict error and display the error message related to the short code R70)', async function () {
+      module('When another student is already reconciled on the same organization', async function () {
+        test('should return a conflict error and display the error message related to the short code R70)', async function (assert) {
           // given
           const meta = { shortCode: 'R70' };
           const expectedErrorMessage = this.intl.t('api-error-messages.join-error.r70');
@@ -187,12 +189,12 @@ describe('Unit | Component | routes/campaigns/invited/associate-sco-student-form
           await component.actions.submit.call(component, attributes);
 
           // then
-          expect(component.errorMessage).to.equal(expectedErrorMessage);
+          assert.equal(component.errorMessage, expectedErrorMessage);
         });
       });
 
-      describe('When student mistyped its information, has an error, and correct it', () => {
-        it('should reconcile', async function () {
+      module('When student mistyped its information, has an error, and correct it', function () {
+        test('should reconcile', async function (assert) {
           // given
           const error = { status: '409', meta: { userId: 1 } };
 
@@ -207,13 +209,13 @@ describe('Unit | Component | routes/campaigns/invited/associate-sco-student-form
           await component.actions.submit.call(component, attributes);
 
           // then
-          expect(component.displayInformationModal).to.be.true;
-          expect(component.reconciliationError).to.be.null;
+          assert.true(component.displayInformationModal);
+          assert.equal(component.reconciliationError, null);
         });
       });
 
-      describe('When user has an invalid reconciliation', () => {
-        it('should return a bad request error and display the invalid reconciliation error message', async function () {
+      module('When user has an invalid reconciliation', function () {
+        test('should return a bad request error and display the invalid reconciliation error message', async function (assert) {
           // given
           const expectedErrorMessage = this.intl.t('pages.join.sco.invalid-reconciliation-error');
           const error = { status: '400' };
@@ -224,12 +226,12 @@ describe('Unit | Component | routes/campaigns/invited/associate-sco-student-form
           await component.actions.submit.call(component, attributes);
 
           // then
-          expect(component.errorMessage.string).to.equal(expectedErrorMessage);
+          assert.equal(component.errorMessage.string, expectedErrorMessage);
         });
       });
 
-      describe('When user is trying to reconcile on another account', () => {
-        it('should open information modal and set reconciliationError', async function () {
+      module('When user is trying to reconcile on another account', function () {
+        test('should open information modal and set reconciliationError', async function (assert) {
           // given
           const error = { status: '422', code: 'ACCOUNT_SEEMS_TO_BELONGS_TO_ANOTHER_USER' };
 
@@ -239,15 +241,15 @@ describe('Unit | Component | routes/campaigns/invited/associate-sco-student-form
           await component.actions.submit.call(component, attributes);
 
           // then
-          expect(component.displayInformationModal).to.be.true;
-          expect(component.reconciliationError).to.equal(error);
+          assert.true(component.displayInformationModal);
+          assert.equal(component.reconciliationError, error);
         });
       });
     });
   });
 
-  describe('#associate', function () {
-    beforeEach(function () {
+  module('#associate', function (hooks) {
+    hooks.beforeEach(function () {
       component.attributes = {
         firstName: 'Robert',
         lastName: 'Smith',
@@ -255,16 +257,17 @@ describe('Unit | Component | routes/campaigns/invited/associate-sco-student-form
       };
     });
 
-    it('should prevent default handling of event', async function () {
+    test('should prevent default handling of event', async function (assert) {
       // given
       // when
       await component.actions.associate.call(component, eventStub);
 
       // then
+      assert.expect(0);
       sinon.assert.called(eventStub.preventDefault);
     });
 
-    it('should create a schooling-registration-user-association', async function () {
+    test('should create a schooling-registration-user-association', async function (assert) {
       // given
       storeStub.createRecord.returns({ unloadRecord: () => {} });
 
@@ -272,6 +275,7 @@ describe('Unit | Component | routes/campaigns/invited/associate-sco-student-form
       await component.actions.associate.call(component, eventStub);
 
       // then
+      assert.expect(0);
       sinon.assert.calledWith(storeStub.createRecord, 'schooling-registration-user-association', {
         id: `${component.args.campaignCode}_${component.attributes.lastName}`,
         firstName: component.attributes.firstName,
@@ -281,7 +285,7 @@ describe('Unit | Component | routes/campaigns/invited/associate-sco-student-form
       });
     });
 
-    it('should call onSubmit with withReconciliation adapterOption to true', async function () {
+    test('should call onSubmit with withReconciliation adapterOption to true', async function (assert) {
       // given
       const schoolingRegistration = { unloadRecord: () => {} };
       storeStub.createRecord.returns(schoolingRegistration);
@@ -290,15 +294,16 @@ describe('Unit | Component | routes/campaigns/invited/associate-sco-student-form
       await component.actions.associate.call(component, eventStub);
 
       // then
+      assert.expect(0);
       sinon.assert.calledWith(onSubmitStub, schoolingRegistration, { withReconciliation: true });
     });
 
-    it('should close the modal', async function () {
+    test('should close the modal', async function (assert) {
       // when
       await component.actions.associate.call(component, eventStub);
 
       // then
-      expect(component.displayInformationModal).to.be.false;
+      assert.false(component.displayInformationModal);
     });
   });
 });

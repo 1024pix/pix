@@ -1,32 +1,31 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
+import { module, test } from 'qunit';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 import { find, findAll, render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 
-describe('Integration | Component | reached-stage', function () {
-  setupIntlRenderingTest();
+module('Integration | Component | reached-stage', function (hooks) {
+  setupIntlRenderingTest(hooks);
 
-  beforeEach(function () {
+  hooks.beforeEach(function () {
     // given
     this.set('reachedStageStarCount', 3);
     this.set('rate', 0.5);
     this.set('stageCount', 5);
   });
 
-  it('should render the reached stage', async function () {
+  test('should render the reached stage', async function (assert) {
     // when
     await render(
       hbs`<ReachedStage @starCount={{this.reachedStageStarCount}} @masteryRate={{this.rate}} @stageCount={{this.stageCount}} />`
     );
 
     // then
-    expect(find('.reached-stage-score__stars')).to.exist;
-    expect(find('.reached-stage-score__percentage-text').textContent.trim()).to.equal('50\u00A0% de réussite');
-    _expectStars(this.reachedStageStarCount, this.stageCount);
+    assert.dom(find('.reached-stage-score__stars')).exists();
+    assert.equal(find('.reached-stage-score__percentage-text').textContent.trim(), '50\u00A0% de réussite');
+    _expectStars(this.reachedStageStarCount, this.stageCount, assert);
   });
 
-  describe('stars rendering', function () {
+  module('stars rendering', function () {
     [
       { starCount: 0, stageCount: 1 },
       { starCount: 5, stageCount: 5 },
@@ -35,7 +34,7 @@ describe('Integration | Component | reached-stage', function () {
       { starCount: 2, stageCount: 3 },
       { starCount: 4, stageCount: 5 },
     ].map(({ starCount, stageCount }) => {
-      it(`displays ${starCount} plain stars out of ${stageCount} stars`, async function () {
+      test(`displays ${starCount} plain stars out of ${stageCount} stars`, async function (assert) {
         // given
         this.set('reachedStageStarCount', starCount);
         this.set('stageCount', stageCount);
@@ -46,17 +45,17 @@ describe('Integration | Component | reached-stage', function () {
         );
 
         // then
-        _expectStars(starCount, stageCount);
+        _expectStars(starCount, stageCount, assert);
       });
     });
   });
 });
 
-function _expectStars(starCount, stageCount) {
+function _expectStars(starCount, stageCount, assert) {
   const fullStarCount = starCount > 0 ? starCount - 1 : 0;
   const fullStarElement = findAll(".reached-stage-score__stars img[data-test-status='acquired']");
   const emptyStarElement = findAll(".reached-stage-score__stars img[data-test-status='unacquired']");
 
-  expect(fullStarElement.length).to.equal(fullStarCount);
-  expect(emptyStarElement.length).to.equal(stageCount - starCount);
+  assert.equal(fullStarElement.length, fullStarCount);
+  assert.equal(emptyStarElement.length, stageCount - starCount);
 }

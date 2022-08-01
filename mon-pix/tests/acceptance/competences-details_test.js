@@ -1,24 +1,23 @@
 import { find, click, currentURL, findAll, visit } from '@ember/test-helpers';
-import { beforeEach, describe, it } from 'mocha';
-import { expect } from 'chai';
+import { module, test } from 'qunit';
 import { authenticateByEmail } from '../helpers/authentication';
-import { setupApplicationTest } from 'ember-mocha';
+import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import setupIntl from '../helpers/setup-intl';
 
-describe("Acceptance | Competence details | Afficher la page de détails d'une compétence", () => {
-  setupApplicationTest();
-  setupMirage();
-  setupIntl();
+module("Acceptance | Competence details | Afficher la page de détails d'une compétence", function (hooks) {
+  setupApplicationTest(hooks);
+  setupMirage(hooks);
+  setupIntl(hooks);
   let user;
   let server;
 
-  beforeEach(function () {
+  hooks.beforeEach(function () {
     server = this.server;
     user = server.create('user', 'withEmail');
   });
 
-  describe('Authenticated cases as simple user', () => {
+  module('Authenticated cases as simple user', function (hooks) {
     let scorecardWithPoints;
     let scorecardWithRemainingDaysBeforeReset;
     let scorecardWithoutPoints;
@@ -26,7 +25,7 @@ describe("Acceptance | Competence details | Afficher la page de détails d'une 
     let scorecardWithRemainingDaysBeforeImproving;
     let scorecardWithoutRemainingDaysBeforeImproving;
 
-    beforeEach(async () => {
+    hooks.beforeEach(async function () {
       await authenticateByEmail(user);
       scorecardWithPoints = user.scorecards.models[0];
       scorecardWithRemainingDaysBeforeReset = user.scorecards.models[1];
@@ -36,30 +35,33 @@ describe("Acceptance | Competence details | Afficher la page de détails d'une 
       scorecardWithoutRemainingDaysBeforeImproving = user.scorecards.models[5];
     });
 
-    it('should be able to visit URL of competence details page', async () => {
+    test('should be able to visit URL of competence details page', async function (assert) {
       // when
       await visit(`/competences/${scorecardWithPoints.competenceId}/details`);
 
       // then
-      expect(currentURL()).to.equal(`/competences/${scorecardWithPoints.competenceId}/details`);
+      assert.equal(currentURL(), `/competences/${scorecardWithPoints.competenceId}/details`);
     });
 
-    it('should display the competence details', async () => {
+    test('should display the competence details', async function (assert) {
       // when
       await visit(`/competences/${scorecardWithPoints.competenceId}/details`);
 
       // then
-      expect(find('.scorecard-details-content-left__area').textContent).to.contain(scorecardWithPoints.area.title);
-      expect(find('.scorecard-details-content-left__area').getAttribute('class')).to.contain(
-        `scorecard-details-content-left__area--${scorecardWithPoints.area.color}`
+      assert.dom(find('.scorecard-details-content-left__area').textContent).hasText(scorecardWithPoints.area.title);
+      assert.dom(
+        find('.scorecard-details-content-left__area').hasAttribute(
+          'class',
+          `scorecard-details-content-left__area--${scorecardWithPoints.area.color}`
+        )
       );
-      expect(find('.scorecard-details-content-left__name').textContent).to.contain(scorecardWithPoints.name);
-      expect(find('.scorecard-details-content-left__description').textContent).to.contain(
-        scorecardWithPoints.description
-      );
+      assert.dom(find('.scorecard-details-content-left__name').textContent).hasText(scorecardWithPoints.name);
+      assert
+        .dom(find('.scorecard-details-content-left__description').textContent)
+        .hasText(scorecardWithPoints.description);
     });
 
-    it('should transition to /competences when the user clicks on return', async () => {
+    test('should transition to /competences when the user clicks on return', async function (assert) {
       // given
       await visit(`/competences/${scorecardWithPoints.description}/details`);
 
@@ -67,57 +69,58 @@ describe("Acceptance | Competence details | Afficher la page de détails d'une 
       await click('.pix-return-to');
 
       // then
-      expect(currentURL()).to.equal('/competences');
+      assert.equal(currentURL(), '/competences');
     });
 
-    context('when the scorecard has 0 points because it was not started yet', () => {
-      it('should not display level or score', async () => {
+    module('when the scorecard has 0 points because it was not started yet', function () {
+      test('should not display level or score', async function (assert) {
         // given
         // when
         await visit(`/competences/${scorecardWithoutPoints.competenceId}/details`);
 
         // then
-        expect(findAll('.competence-card__level .score-value')).to.have.lengthOf(0);
-        expect(findAll('.scorecard-details-content-right-score-container__pix-earned .score-value')).to.have.lengthOf(
-          0
-        );
-        expect(findAll('.scorecard-details-content-right__level-info')).to.have.lengthOf(0);
+        assert.equal(findAll('.competence-card__level .score-value').length, 0);
+        assert.equal(findAll('.scorecard-details-content-right-score-container__pix-earned .score-value'), 0);
+        assert.equal(findAll('.scorecard-details-content-right__level-info'), 0);
       });
 
-      it('should not display reset button nor reset sentence', async () => {
+      test('should not display reset button nor reset sentence', async function (assert) {
         // when
         await visit(`/competences/${scorecardWithoutPoints.competenceId}/details`);
 
         // then
-        expect(findAll('.scorecard-details__reset-button')).to.have.lengthOf(0);
-        expect(findAll('.scorecard-details-content-right__reset-message')).to.have.lengthOf(0);
+        assert.equal(findAll('.scorecard-details__reset-button'), 0);
+        assert.equal(findAll('.scorecard-details-content-right__reset-message'), 0);
       });
     });
 
-    context('when the scorecard has points', () => {
-      it('should display level and score', async () => {
+    module('when the scorecard has points', function () {
+      test('should display level and score', async function (assert) {
         // when
         await visit(`/competences/${scorecardWithPoints.competenceId}/details`);
 
         // then
-        expect(find('.competence-card__level .score-value').textContent).to.equal(scorecardWithPoints.level.toString());
-        expect(find('.scorecard-details-content-right-score-container__pix-earned .score-value').textContent).to.equal(
+        assert.equal(find('.competence-card__level .score-value').textContent, scorecardWithPoints.level.toString());
+        assert.equal(
+          find('.scorecard-details-content-right-score-container__pix-earned .score-value').textContent,
           scorecardWithPoints.earnedPix.toString()
         );
-        expect(find('.scorecard-details-content-right__level-info').textContent).to.contain(
-          `${8 - scorecardWithPoints.pixScoreAheadOfNextLevel} pix avant le niveau ${scorecardWithPoints.level + 1}`
-        );
+        assert
+          .dom(find('.scorecard-details-content-right__level-info').textContent)
+          .hasText(
+            `${8 - scorecardWithPoints.pixScoreAheadOfNextLevel} pix avant le niveau ${scorecardWithPoints.level + 1}`
+          );
       });
 
-      it('should not display pixScoreAheadOfNextLevel when next level is over the max level', async () => {
+      test('should not display pixScoreAheadOfNextLevel when next level is over the max level', async function (assert) {
         // when
         await visit(`/competences/${scorecardWithMaxLevel.competenceId}/details`);
 
         // then
-        expect(findAll('.scorecard-details-content-right__level-info')).to.have.lengthOf(0);
+        assert.equal(findAll('.scorecard-details-content-right__level-info').length, 0);
       });
 
-      it('should display tutorials if any', async () => {
+      test('should display tutorials if any', async function (assert) {
         // given
         const nbTutos = scorecardWithPoints.tutorials.models.length;
 
@@ -125,33 +128,35 @@ describe("Acceptance | Competence details | Afficher la page de détails d'une 
         await visit(`/competences/${scorecardWithPoints.competenceId}/details`);
 
         // then
-        expect(findAll('.tutorial-card-v2')).to.have.lengthOf(nbTutos);
+        assert.equal(findAll('.tutorial-card-v2').length, nbTutos);
       });
 
-      context('when it has remaining some days before reset', () => {
-        it('should display remaining days before reset', async () => {
+      module('when it has remaining some days before reset', function () {
+        test('should display remaining days before reset', async function (assert) {
           // when
           await visit(`/competences/${scorecardWithRemainingDaysBeforeReset.competenceId}/details`);
 
           // then
-          expect(find('.scorecard-details-content-right__reset-message').textContent).to.contain(
-            `Remise à zéro disponible dans ${scorecardWithRemainingDaysBeforeReset.remainingDaysBeforeReset} jours`
-          );
-          expect(findAll('.scorecard-details__reset-button')).to.have.lengthOf(0);
+          assert
+            .dom(find('.scorecard-details-content-right__reset-message').textContent)
+            .to.contain(
+              `Remise à zéro disponible dans ${scorecardWithRemainingDaysBeforeReset.remainingDaysBeforeReset} jours`
+            );
+          assert.equal(findAll('.scorecard-details__reset-button').length, 0);
         });
       });
 
-      context('when it has no remaining days before reset', () => {
-        it('should display reset button', async () => {
+      module('when it has no remaining days before reset', function () {
+        test('should display reset button', async function (assert) {
           // when
           await visit(`/competences/${scorecardWithPoints.competenceId}/details`);
 
           // then
-          expect(find('.scorecard-details__reset-button').textContent).to.contain('Remettre à zéro');
-          expect(findAll('.scorecard-details-content-right__reset-message')).to.have.lengthOf(0);
+          assert.dom(find('.scorecard-details__reset-button').textContent).hasText('Remettre à zéro');
+          assert.equal(findAll('.scorecard-details-content-right__reset-message').length, 0);
         });
 
-        it('should display popup to validate reset', async () => {
+        test('should display popup to validate reset', async function (assert) {
           // given
           await visit(`/competences/${scorecardWithPoints.competenceId}/details`);
 
@@ -159,12 +164,14 @@ describe("Acceptance | Competence details | Afficher la page de détails d'une 
           await click('.scorecard-details__reset-button');
 
           // then
-          expect(find('.scorecard-details-reset-modal__important-message').textContent).to.contain(
-            `Votre niveau ${scorecardWithPoints.level} et vos ${scorecardWithPoints.earnedPix} Pix vont être supprimés.`
-          );
+          assert
+            .dom(find('.scorecard-details-reset-modal__important-message').textContent)
+            .hasText(
+              `Votre niveau ${scorecardWithPoints.level} et vos ${scorecardWithPoints.earnedPix} Pix vont être supprimés.`
+            );
         });
 
-        it('should reset competence when user clicks on reset', async function () {
+        test('should reset competence when user clicks on reset', async function (assert) {
           // given
           await visit(`/competences/${scorecardWithPoints.competenceId}/details`);
           await click('.scorecard-details__reset-button');
@@ -173,14 +180,12 @@ describe("Acceptance | Competence details | Afficher la page de détails d'une 
           await click('#pix-mdoal-footer__button-reset');
 
           // then
-          expect(findAll('.competence-card__level .score-value')).to.have.lengthOf(0);
-          expect(findAll('.scorecard-details-content-right-score-container__pix-earned .score-value')).to.have.lengthOf(
-            0
-          );
-          expect(findAll('.scorecard-details-content-right__level-info')).to.have.lengthOf(0);
+          assert.equal(findAll('.competence-card__level .score-value').length, 0);
+          assert.equal(findAll('.scorecard-details-content-right-score-container__pix-earned .score-value').length, 0);
+          assert.equal(findAll('.scorecard-details-content-right__level-info').length, 0);
         });
 
-        it('should reset competence when user clicks on reset from results page', async function () {
+        test('should reset competence when user clicks on reset from results page', async function (assert) {
           // given
           await visit(`/competences/${scorecardWithPoints.competenceId}/details`);
           await click('.scorecard-details__reset-button');
@@ -189,46 +194,44 @@ describe("Acceptance | Competence details | Afficher la page de détails d'une 
           await click('#pix-mdoal-footer__button-reset');
 
           // then
-          expect(findAll('.competence-card__level .score-value')).to.have.lengthOf(0);
-          expect(findAll('.scorecard-details-content-right-score-container__pix-earned .score-value')).to.have.lengthOf(
-            0
-          );
-          expect(findAll('.scorecard-details-content-right__level-info')).to.have.lengthOf(0);
+          assert.equal(findAll('.competence-card__level .score-value').length, 0);
+          assert.equal(findAll('.scorecard-details-content-right-score-container__pix-earned .score-value').length, 0);
+          assert.equal(findAll('.scorecard-details-content-right__level-info').length, 0);
         });
       });
 
-      context('when it has remaining some days before improving', () => {
-        it('should display remaining days before improving', async () => {
+      module('when it has remaining some days before improving', function () {
+        test('should display remaining days before improving', async function (assert) {
           // when
           await visit(`/competences/${scorecardWithRemainingDaysBeforeImproving.competenceId}/details`);
 
           // then
-          expect(find('.scorecard-details__improvement-countdown').textContent).to.contain(
-            `${scorecardWithRemainingDaysBeforeImproving.remainingDaysBeforeImproving} jours`
-          );
-          expect(find('.scorecard-details__improve-button')).to.not.exist;
+          assert
+            .dom(find('.scorecard-details__improvement-countdown').textContent)
+            .hasText(`${scorecardWithRemainingDaysBeforeImproving.remainingDaysBeforeImproving} jours`);
+          assert.dom(find('.scorecard-details__improve-button')).doesNotExist();
         });
       });
 
-      context('when it has no remaining days before improving', () => {
-        it('should display improving button', async () => {
+      module('when it has no remaining days before improving', function () {
+        test('should display improving button', async function (assert) {
           // when
           await visit(`/competences/${scorecardWithoutRemainingDaysBeforeImproving.competenceId}/details`);
 
           // then
-          expect(findAll('.scorecard-details__improve-button')).to.exist;
+          assert.dom(findAll('.scorecard-details__improve-button')).exists();
         });
       });
     });
   });
 
-  describe('Not authenticated cases', () => {
-    it('should redirect to home, when user is not authenticated', async () => {
+  module('Not authenticated cases', function () {
+    test('should redirect to home, when user is not authenticated', async function (assert) {
       // when
       await visit('/competences/1/details');
 
       // then
-      expect(currentURL()).to.equal('/connexion');
+      assert.equal(currentURL(), '/connexion');
     });
   });
 });

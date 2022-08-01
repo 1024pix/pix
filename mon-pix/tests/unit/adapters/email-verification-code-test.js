@@ -1,14 +1,13 @@
-import { describe, it } from 'mocha';
-import { expect } from 'chai';
-import { setupTest } from 'ember-mocha';
-import Service from '@ember/service';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
+import Service from '@ember/service';
 
-describe('Unit | Adapter | Email-Verification-Code', function () {
-  setupTest();
+module('Unit | Adapter | Email-Verification-Code', function (hooks) {
+  setupTest(hooks);
 
-  describe('#buildURL', () => {
-    it('should call API to send email verification code', async function () {
+  module('#buildURL', () => {
+    test('should call API to send email verification code', async function (assert) {
       // given
       const adapter = this.owner.lookup('adapter:email-verification-code');
       const getStub = sinon.stub();
@@ -21,7 +20,7 @@ describe('Unit | Adapter | Email-Verification-Code', function () {
       const url = await adapter.buildURL();
 
       // then
-      expect(url.endsWith('users/123')).to.be.true;
+      assert.true(url.endsWith('users/123'));
     });
   });
 });

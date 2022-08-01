@@ -1,56 +1,55 @@
-import { describe, it } from 'mocha';
-import { expect } from 'chai';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
-import { setupTest } from 'ember-mocha';
 
-describe('Unit | Adapters | schooling-registration-user-association', function () {
-  setupTest();
+module('Unit | Adapters | schooling-registration-user-association', function (hooks) {
+  setupTest(hooks);
 
   let adapter;
 
-  beforeEach(function () {
+  hooks.beforeEach(function () {
     adapter = this.owner.lookup('adapter:schooling-registration-user-association');
     adapter.ajax = sinon.stub().resolves();
   });
 
-  describe('#urlForCreateRecord', () => {
-    context('when is for searchMatchingStudent', function () {
-      it('should redirect to /schooling-registrations-user-associations/possibilities ', async function () {
+  module('#urlForCreateRecord', function () {
+    module('when is for searchMatchingStudent', function () {
+      test('should redirect to /schooling-registrations-user-associations/possibilities ', async function (assert) {
         // when
         const snapshot = { adapterOptions: { searchForMatchingStudent: true } };
         const url = await adapter.urlForCreateRecord('schooling-registration-user-association', snapshot);
 
         // then
-        expect(url.endsWith('/schooling-registration-user-associations/possibilities')).to.be.true;
+        assert.true(url.endsWith('/schooling-registration-user-associations/possibilities'));
       });
     });
-    context('when is for tryReconciliation', function () {
-      it('should redirect to /schooling-registrations-user-associations/auto ', async function () {
+    module('when is for tryReconciliation', function () {
+      test('should redirect to /schooling-registrations-user-associations/auto ', async function (assert) {
         // when
         const snapshot = { adapterOptions: { tryReconciliation: true } };
         const url = await adapter.urlForCreateRecord('schooling-registration-user-association', snapshot);
 
         // then
-        expect(url.endsWith('/schooling-registration-user-associations/auto')).to.be.true;
+        assert.true(url.endsWith('/schooling-registration-user-associations/auto'));
       });
     });
-    context('when is for reconcileSup', function () {
-      it('should redirect to /schooling-registrations-user-associations/student ', async function () {
+    module('when is for reconcileSup', function () {
+      test('should redirect to /schooling-registrations-user-associations/student ', async function (assert) {
         // when
         const snapshot = { adapterOptions: { reconcileSup: true } };
         const url = await adapter.urlForCreateRecord('schooling-registration-user-association', snapshot);
 
         // then
-        expect(url.endsWith('/schooling-registration-user-associations/student')).to.be.true;
+        assert.true(url.endsWith('/schooling-registration-user-associations/student'));
       });
     });
   });
 
-  describe('#createRecord', () => {
-    context('when is for searchMatchingStudent', () => {
+  module('#createRecord', function () {
+    module('when is for searchMatchingStudent', function (hooks) {
       let expectedUrl, expectedMethod, expectedData, snapshot;
 
-      beforeEach(() => {
+      hooks.beforeEach(() => {
         expectedUrl = 'http://localhost:3000/api/schooling-registration-user-associations/possibilities';
         expectedMethod = 'PUT';
         expectedData = {
@@ -83,19 +82,20 @@ describe('Unit | Adapters | schooling-registration-user-association', function (
         };
       });
 
-      it('should change method to PUT', async () => {
+      test('should change method to PUT', async function (assert) {
         // when
         await adapter.createRecord(null, { modelName: 'schooling-registration-user-association' }, snapshot);
 
         // then
+        assert.expect(0);
         sinon.assert.calledWith(adapter.ajax, expectedUrl, expectedMethod, expectedData);
       });
     });
 
-    context('when tryReconciliation is true', () => {
+    module('when tryReconciliation is true', function (hooks) {
       let expectedUrl, expectedMethod, expectedData, snapshot;
 
-      beforeEach(() => {
+      hooks.beforeEach(() => {
         expectedUrl = 'http://localhost:3000/api/schooling-registration-user-associations/auto';
         expectedMethod = 'POST';
         expectedData = {
@@ -129,11 +129,12 @@ describe('Unit | Adapters | schooling-registration-user-association', function (
         };
       });
 
-      it('should remove user details', async () => {
+      test('should remove user details', async function (assert) {
         // when
         await adapter.createRecord(null, { modelName: 'schooling-registration-user-association' }, snapshot);
 
         // then
+        assert.expect(0);
         sinon.assert.calledWith(adapter.ajax, expectedUrl, expectedMethod, expectedData);
       });
     });

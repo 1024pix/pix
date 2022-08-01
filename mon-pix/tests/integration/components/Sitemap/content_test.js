@@ -1,16 +1,15 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
+import { module, test } from 'qunit';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 import { findAll, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import { contains } from '../../../helpers/contains';
 
-describe('Integration | Component | Content', function () {
-  setupIntlRenderingTest();
+module('Integration | Component | Content', function (hooks) {
+  setupIntlRenderingTest(hooks);
 
   let model;
 
-  beforeEach(() => {
+  hooks.beforeEach(() => {
     model = {
       scorecards: [
         {
@@ -25,31 +24,31 @@ describe('Integration | Component | Content', function () {
     };
   });
 
-  it('should display the sitemap menu with expected elements', async function () {
+  test('should display the sitemap menu with expected elements', async function (assert) {
     // when
     await render(hbs`<Sitemap::Content />`);
 
     // then
-    expect(findAll('.sitemap-content-items__link')).to.have.lengthOf(10);
-    expect(contains(this.intl.t('pages.sitemap.title'))).to.exist;
-    expect(contains(this.intl.t('navigation.main.dashboard'))).to.exist;
-    expect(contains(this.intl.t('navigation.main.skills'))).to.exist;
-    expect(contains(this.intl.t('navigation.main.start-certification'))).to.exist;
-    expect(contains(this.intl.t('navigation.main.tutorials'))).to.exist;
-    expect(contains(this.intl.t('navigation.main.code'))).to.exist;
-    expect(contains(this.intl.t('navigation.user.account'))).to.exist;
-    expect(contains(this.intl.t('navigation.user.tests'))).to.exist;
-    expect(contains(this.intl.t('navigation.user.certifications'))).to.exist;
-    expect(contains(this.intl.t('navigation.main.help'))).to.exist;
-    expect(contains(this.intl.t('pages.sitemap.resources'))).to.exist;
-    expect(contains(this.intl.t('pages.sitemap.accessibility.title'))).to.exist;
-    expect(contains(this.intl.t('pages.sitemap.accessibility.help'))).to.exist;
-    expect(contains(this.intl.t('navigation.footer.eula'))).to.exist;
-    expect(contains(this.intl.t('pages.sitemap.cgu.policy'))).to.exist;
-    expect(contains(this.intl.t('pages.sitemap.cgu.subcontractors'))).to.exist;
+    assert.equal(findAll('.sitemap-content-items__link').length, 10);
+    assert.dom(contains(this.intl.t('pages.sitemap.title'))).exists();
+    assert.dom(contains(this.intl.t('navigation.main.dashboard'))).exists();
+    assert.dom(contains(this.intl.t('navigation.main.skills'))).exists();
+    assert.dom(contains(this.intl.t('navigation.main.start-certification'))).exists();
+    assert.dom(contains(this.intl.t('navigation.main.tutorials'))).exists();
+    assert.dom(contains(this.intl.t('navigation.main.code'))).exists();
+    assert.dom(contains(this.intl.t('navigation.user.account'))).exists();
+    assert.dom(contains(this.intl.t('navigation.user.tests'))).exists();
+    assert.dom(contains(this.intl.t('navigation.user.certifications'))).exists();
+    assert.dom(contains(this.intl.t('navigation.main.help'))).exists();
+    assert.dom(contains(this.intl.t('pages.sitemap.resources'))).exists();
+    assert.dom(contains(this.intl.t('pages.sitemap.accessibility.title'))).exists();
+    assert.dom(contains(this.intl.t('pages.sitemap.accessibility.help'))).exists();
+    assert.dom(contains(this.intl.t('navigation.footer.eula'))).exists();
+    assert.dom(contains(this.intl.t('pages.sitemap.cgu.policy'))).exists();
+    assert.dom(contains(this.intl.t('pages.sitemap.cgu.subcontractors'))).exists();
   });
 
-  it('should display a sublist within skills containing a link to each skill', async function () {
+  test('should display a sublist within skills containing a link to each skill', async function (assert) {
     // given
     this.set('model', model);
 
@@ -57,6 +56,6 @@ describe('Integration | Component | Content', function () {
     await render(hbs`<Sitemap::Content @model={{this.model}}/>`);
 
     // then
-    expect(findAll('.sitemap-content-items-link-skills__skill')).to.have.lengthOf(2);
+    assert.equal(findAll('.sitemap-content-items-link-skills__skill').length, 2);
   });
 });

@@ -1,13 +1,12 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
-import { setupTest } from 'ember-mocha';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 import EmberObject from '@ember/object';
 
-describe('Unit | Controller | user-account | connection-methods', function () {
-  setupTest();
+module('Unit | Controller | user-account | connection-methods', function (hooks) {
+  setupTest(hooks);
 
-  context('#enableEmailEditionMode', function () {
-    it('should show email edition form', async function () {
+  module('#enableEmailEditionMode', function () {
+    test('should show email edition form', async function (assert) {
       // given
       const controller = this.owner.lookup('controller:user-account/connection-methods');
       controller.set('isEmailEditionMode', false);
@@ -16,12 +15,12 @@ describe('Unit | Controller | user-account | connection-methods', function () {
       await controller.enableEmailEditionMode();
 
       // then
-      expect(controller.isEmailEditionMode).to.be.true;
+      assert.true(controller.isEmailEditionMode);
     });
   });
 
-  context('#disableEmailEditionMode', function () {
-    it('should hide email edition form when cancelling process', async function () {
+  module('#disableEmailEditionMode', function () {
+    test('should hide email edition form when cancelling process', async function (assert) {
       // given
       const controller = this.owner.lookup('controller:user-account/connection-methods');
       controller.set('isEmailEditionMode', true);
@@ -30,12 +29,12 @@ describe('Unit | Controller | user-account | connection-methods', function () {
       await controller.disableEmailEditionMode();
 
       // then
-      expect(controller.isEmailEditionMode).to.be.false;
+      assert.false(controller.isEmailEditionMode);
     });
   });
 
-  context('#displayEmailUpdateMessage', function () {
-    it('should display email update message', function () {
+  module('#displayEmailUpdateMessage', function () {
+    test('should display email update message', function (assert) {
       // given
       const controller = this.owner.lookup('controller:user-account/connection-methods');
       controller.set('showEmailUpdatedMessage', false);
@@ -44,12 +43,12 @@ describe('Unit | Controller | user-account | connection-methods', function () {
       controller.displayEmailUpdateMessage();
 
       // then
-      expect(controller.showEmailUpdatedMessage).to.be.true;
+      assert.true(controller.showEmailUpdatedMessage);
     });
   });
 
-  context('#shouldShowPixAuthenticationMethod', function () {
-    it('should display pix authentication method', function () {
+  module('#shouldShowPixAuthenticationMethod', function () {
+    test('should display pix authentication method', function (assert) {
       // given & when
       const controller = this.owner.lookup('controller:user-account/connection-methods');
       const authenticationMethods = [
@@ -65,12 +64,12 @@ describe('Unit | Controller | user-account | connection-methods', function () {
       controller.set('model', model);
 
       // then
-      expect(controller.shouldShowPixAuthenticationMethod).to.be.true;
+      assert.true(controller.shouldShowPixAuthenticationMethod);
     });
   });
 
-  context('#shouldShowGarAuthenticationMethod', function () {
-    it('should display gar authentication method', function () {
+  module('#shouldShowGarAuthenticationMethod', function () {
+    test('should display gar authentication method', function (assert) {
       // given & when
       const controller = this.owner.lookup('controller:user-account/connection-methods');
       const authenticationMethods = [
@@ -86,12 +85,12 @@ describe('Unit | Controller | user-account | connection-methods', function () {
       controller.set('model', model);
 
       // then
-      expect(controller.shouldShowGarAuthenticationMethod).to.be.true;
+      assert.true(controller.shouldShowGarAuthenticationMethod);
     });
   });
 
-  context('#shouldShowPoleEmploiAuthenticationMethod', function () {
-    it('should display pole emploi authentication method', function () {
+  module('#shouldShowPoleEmploiAuthenticationMethod', function () {
+    test('should display pole emploi authentication method', function (assert) {
       // given & when
       const controller = this.owner.lookup('controller:user-account/connection-methods');
       const authenticationMethods = [
@@ -107,12 +106,12 @@ describe('Unit | Controller | user-account | connection-methods', function () {
       controller.set('model', model);
 
       // then
-      expect(controller.shouldShowPoleEmploiAuthenticationMethod).to.be.true;
+      assert.true(controller.shouldShowPoleEmploiAuthenticationMethod);
     });
   });
 
-  context('#shouldShowCnavAuthenticationMethod', function () {
-    it('should display cnav authentication method', function () {
+  module('#shouldShowCnavAuthenticationMethod', function () {
+    test('should display cnav authentication method', function (assert) {
       // given
       const controller = this.owner.lookup('controller:user-account/connection-methods');
       const authenticationMethods = [
@@ -131,7 +130,7 @@ describe('Unit | Controller | user-account | connection-methods', function () {
       const result = controller.shouldShowCnavAuthenticationMethod;
 
       // then
-      expect(result).to.be.true;
+      assert.true(result);
     });
   });
 });

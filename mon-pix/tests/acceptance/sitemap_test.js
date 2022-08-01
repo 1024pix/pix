@@ -1,47 +1,46 @@
 import { findAll, visit } from '@ember/test-helpers';
-import { beforeEach, describe, it } from 'mocha';
-import { expect } from 'chai';
+import { module, test } from 'qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
-import { setupApplicationTest } from 'ember-mocha';
+import { setupApplicationTest } from 'ember-qunit';
 import { authenticateByEmail } from '../helpers/authentication';
 
-describe('Acceptance | Sitemap', function () {
-  setupApplicationTest();
-  setupMirage();
+module('Acceptance | Sitemap', function (hooks) {
+  setupApplicationTest(hooks);
+  setupMirage(hooks);
   let user;
 
-  beforeEach(function () {
+  hooks.beforeEach(function () {
     user = server.create('user', 'withEmail');
   });
 
-  describe('When visiting /plan-du-site', function () {
-    beforeEach(async function () {
+  module('When visiting /plan-du-site', function (hooks) {
+    hooks.beforeEach(async function () {
       await authenticateByEmail(user);
       await visit('/plan-du-site');
     });
 
-    it('should contain a link to pix.fr/accessibilite', async function () {
+    test('should contain a link to pix.fr/accessibilite', async function (assert) {
       // then
       const accessibilityLink = findAll('.sitemap-content-items-link-resources__resource > a')[0];
-      expect(accessibilityLink.getAttribute('href')).to.contains('/accessibilite');
+      assert.dom(accessibilityLink.hasAttribute('href', '/accessibilite'));
     });
 
-    it('should contain a link to pix.fr/conditions-generales-d-utilisation', async function () {
+    test('should contain a link to pix.fr/conditions-generales-d-utilisation', async function (assert) {
       // then
       const cguLink = findAll('.sitemap-content-items-link-resources__resource > a')[1];
-      expect(cguLink.getAttribute('href')).to.contains('/conditions-generales-d-utilisation');
+      assert.dom(cguLink.hasAttribute('href', '/conditions-generales-d-utilisation'));
     });
 
-    it('should contain a link to pix.fr/aide-accessibilite', async function () {
+    test('should contain a link to pix.fr/aide-accessibilite', async function (assert) {
       // then
       const accessibilityHelpLink = findAll('a[data-test-resource-link]')[0];
-      expect(accessibilityHelpLink.getAttribute('href')).to.contains('/aide-accessibilite');
+      assert.dom(accessibilityHelpLink.hasAttribute('href', '/aide-accessibilite'));
     });
 
-    it('should contain a link to pix.fr/politique-protection-donnees-personnelles-app', async function () {
+    test('should contain a link to pix.fr/politique-protection-donnees-personnelles-app', async function (assert) {
       // then
       const cguPolicyLink = findAll('a[data-test-resource-link]')[1];
-      expect(cguPolicyLink.getAttribute('href')).to.contains('/politique-protection-donnees-personnelles-app');
+      assert.dom(cguPolicyLink.hasAttribute('href', '/politique-protection-donnees-personnelles-app'));
     });
   });
 });
