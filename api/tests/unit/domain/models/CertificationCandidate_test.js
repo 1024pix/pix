@@ -616,7 +616,7 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
     it('should return true when certification candidate has acquired PIX+ Droit complementary certification', function () {
       // given
       const certificationCandidate = domainBuilder.buildCertificationCandidate({
-        complementaryCertifications: [domainBuilder.buildComplementaryCertification({ name: PIX_PLUS_DROIT })],
+        complementaryCertifications: [domainBuilder.buildComplementaryCertification({ key: PIX_PLUS_DROIT })],
       });
 
       // then
@@ -626,7 +626,7 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
     it('should return false when certification candidate has not acquired PIX+ Droit complementary certification', function () {
       // given
       const certificationCandidate = domainBuilder.buildCertificationCandidate({
-        complementaryCertifications: [domainBuilder.buildComplementaryCertification({ name: 'toto' })],
+        complementaryCertifications: [domainBuilder.buildComplementaryCertification({ key: 'toto' })],
       });
 
       // then
@@ -638,7 +638,7 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
     it('should return true when certification candidate has acquired CleA complementary certification', function () {
       // given
       const certificationCandidate = domainBuilder.buildCertificationCandidate({
-        complementaryCertifications: [domainBuilder.buildComplementaryCertification({ name: CLEA })],
+        complementaryCertifications: [domainBuilder.buildComplementaryCertification({ key: CLEA })],
       });
 
       // then
@@ -648,7 +648,7 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
     it('should return false when certification candidate has not acquired CleA complementary certification', function () {
       // given
       const certificationCandidate = domainBuilder.buildCertificationCandidate({
-        complementaryCertifications: [domainBuilder.buildComplementaryCertification({ name: 'toto' })],
+        complementaryCertifications: [domainBuilder.buildComplementaryCertification({ key: 'toto' })],
       });
 
       // then
@@ -660,7 +660,7 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
     it('should return true when certification candidate has acquired Pix+ Edu 1er degre complementary certification', function () {
       // given
       const certificationCandidate = domainBuilder.buildCertificationCandidate({
-        complementaryCertifications: [domainBuilder.buildComplementaryCertification({ name: PIX_PLUS_EDU_1ER_DEGRE })],
+        complementaryCertifications: [domainBuilder.buildComplementaryCertification({ key: PIX_PLUS_EDU_1ER_DEGRE })],
       });
 
       // then
@@ -670,7 +670,7 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
     it('should return false when certification candidate has not acquired Pix+ Edu 1er degre complementary certification', function () {
       // given
       const certificationCandidate = domainBuilder.buildCertificationCandidate({
-        complementaryCertifications: [domainBuilder.buildComplementaryCertification({ name: 'toto' })],
+        complementaryCertifications: [domainBuilder.buildComplementaryCertification({ key: 'toto' })],
       });
 
       // then
@@ -682,7 +682,7 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
     it('should return true when certification candidate has acquired Pix+ Edu 2nd degre complementary certification', function () {
       // given
       const certificationCandidate = domainBuilder.buildCertificationCandidate({
-        complementaryCertifications: [domainBuilder.buildComplementaryCertification({ name: PIX_PLUS_EDU_2ND_DEGRE })],
+        complementaryCertifications: [domainBuilder.buildComplementaryCertification({ key: PIX_PLUS_EDU_2ND_DEGRE })],
       });
 
       // then
@@ -692,7 +692,7 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
     it('should return false when certification candidate has not acquired Pix+ Edu 2nd degre complementary certification', function () {
       // given
       const certificationCandidate = domainBuilder.buildCertificationCandidate({
-        complementaryCertifications: [domainBuilder.buildComplementaryCertification({ name: 'toto' })],
+        complementaryCertifications: [domainBuilder.buildComplementaryCertification({ key: 'toto' })],
       });
 
       // then
