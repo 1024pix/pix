@@ -42,7 +42,8 @@ const {
 
 function certificationCentersBuilder({ databaseBuilder }) {
   databaseBuilder.factory.buildComplementaryCertification({
-    name: 'CléA Numérique',
+    label: 'CléA Numérique',
+    key: 'CLEA',
     id: CLEA_COMPLEMENTARY_CERTIFICATION_ID,
   });
   databaseBuilder.factory.buildComplementaryCertificationBadge({
@@ -67,17 +68,20 @@ function certificationCentersBuilder({ databaseBuilder }) {
   });
 
   databaseBuilder.factory.buildComplementaryCertification({
-    name: 'Pix+ Droit',
+    label: 'Pix+ Droit',
+    key: 'DROIT',
     id: PIX_DROIT_COMPLEMENTARY_CERTIFICATION_ID,
   });
 
   databaseBuilder.factory.buildComplementaryCertification({
-    name: 'Pix+ Édu 2nd degré',
+    label: 'Pix+ Édu 2nd degré',
+    key: 'EDU_2ND_DEGRE',
     id: PIX_EDU_2ND_DEGRE_COMPLEMENTARY_CERTIFICATION_ID,
   });
 
   databaseBuilder.factory.buildComplementaryCertification({
-    name: 'Pix+ Édu 1er degré',
+    label: 'Pix+ Édu 1er degré',
+    key: 'EDU_1ER_DEGRE',
     id: PIX_EDU_1ER_DEGRE_COMPLEMENTARY_CERTIFICATION_ID,
   });
 
