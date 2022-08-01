@@ -189,13 +189,12 @@ exports.register = async (server) => {
                 'is-public': Joi.boolean().required(),
                 'owner-organization-id': Joi.string()
                   .pattern(/^[0-9]+$/, 'numbers')
-                  .empty('')
                   .allow(null)
-                  .optional(),
-                'image-url': Joi.string().uri().empty('').allow(null).optional(),
+                  .required(),
+                'image-url': Joi.string().uri().allow(null).required(),
                 'skill-ids': Joi.array().required(),
-                comment: Joi.string().optional().allow(null).max(500).empty(''),
-                description: Joi.string().optional().allow(null).max(500).empty(''),
+                comment: Joi.string().allow(null).max(500).required(),
+                description: Joi.string().allow(null).max(500).required(),
                 'tubes-selection': Joi.array().required(),
               },
             },
