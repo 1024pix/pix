@@ -7,6 +7,7 @@ const CAMPAIGN_CREATION_ERRORS = {
   EXTERNAL_USER_ID_IS_REQUIRED: 'api-errors-messages.campaign-creation.external-user-id-required',
   OWNER_NOT_IN_ORGANIZATION: 'api-errors-messages.campaign-creation.owner_not_in_organization',
   CAMPAIGN_TITLE_IS_TOO_LONG: 'api-errors-messages.campaign-creation.title_too_long',
+  CUSTOM_LANDING_PAGE_TEXT_IS_TOO_LONG: 'api-errors-messages.campaign-creation.custom-landing-page-text_too_long',
 };
 
 const CSV_IMPORT_ERRORS = {
