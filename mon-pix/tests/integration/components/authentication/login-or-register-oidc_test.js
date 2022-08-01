@@ -37,5 +37,10 @@ describe('Integration | Component | authentication::login-or-register-oidc', fun
     ).to.exist;
     expect(screen.getByRole('img', { name: this.intl.t('common.pix') })).to.exist;
     expect(screen.getByRole('link', { name: this.intl.t('common.pix') })).to.exist;
+    expect(screen.getByRole('checkbox', { name: this.intl.t('common.cgu.label') })).to.exist;
+    expect(screen.getByRole('link', { name: this.intl.t('common.cgu.cgu') })).to.exist;
+    expect(screen.getByRole('link', { name: this.intl.t('common.cgu.data-protection-policy') })).to.exist;
+    expect(screen.getByRole('button', { name: this.intl.t('pages.login-or-register-oidc.register-form.button') })).to
+      .exist;
   });
 });

@@ -933,7 +933,12 @@
       },
       "register-form": {
         "description": "Un compte va être créé à partir des éléments transmis par l'organisme : {identityProviderOrganizationName}",
-        "title": "Je n’ai pas de compte Pix"
+        "title": "Je n’ai pas de compte Pix",
+        "button": "Je créé mon compte"
+      },
+      "error": {
+        "error-message": "Please agree to the terms and conditions of use.",
+        "expired-authentication-key": "Your authentication demand has expired. Please click to back button to log in"
       }
     },
     "not-connected": {
