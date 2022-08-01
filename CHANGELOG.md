@@ -1,5 +1,19 @@
 # Pix Changelog
 
+## v3.239.0 (01/08/2022)
+
+
+### :rocket: Amélioration
+- [#4674](https://github.com/1024pix/pix/pull/4674) [FEATURE] Utiliser une tâche planifiée pour automatiser l'envoi des exports CPF sur l'espace de stockage OVH (PIX-5327)
+- [#4715](https://github.com/1024pix/pix/pull/4715) [FEATURE] Ajouter une tooltip sur la date de la dernière participation de l’onglet Étudiants (PIX-5174).
+
+### :building_construction: Tech
+- [#4709](https://github.com/1024pix/pix/pull/4709) [TECH] Appeler l'endpoint userinfo lorsqu'une information est manquante dans le token du partenaire (PIX-5393).
+- [#4685](https://github.com/1024pix/pix/pull/4685) [TECH] Utiliser le niveau du badge en BDD afin de déterminer le badge à certifier (PIX-5206).
+
+### :bug: Correction
+- [#4717](https://github.com/1024pix/pix/pull/4717) [BUGFIX] Rediriger l'utilisateur a la page de login quand le service de partenaire n'est pas reconnu.
+
 ## v3.238.0 (28/07/2022)
 
 
