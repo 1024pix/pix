@@ -54,7 +54,7 @@ describe('Unit | Domain | Services | pole-emploi-oidc-authentication-service', f
       const expectedAuthenticationMethod = new AuthenticationMethod({
         identityProvider: AuthenticationMethod.identityProviders.POLE_EMPLOI,
         externalIdentifier: externalIdentityId,
-        authenticationComplement: new AuthenticationMethod.PoleEmploiAuthenticationComplement({
+        authenticationComplement: new AuthenticationMethod.OidcAuthenticationComplement({
           accessToken: sessionContent.accessToken,
           refreshToken: sessionContent.refreshToken,
           expiredDate: moment().add(sessionContent.expiresIn, 's').toDate(),
@@ -162,7 +162,7 @@ describe('Unit | Domain | Services | pole-emploi-oidc-authentication-service', f
       const result = poleEmploiOidcAuthenticationService.createAuthenticationComplement({ sessionContent });
 
       // then
-      expect(result).to.be.instanceOf(AuthenticationMethod.PoleEmploiAuthenticationComplement);
+      expect(result).to.be.instanceOf(AuthenticationMethod.OidcAuthenticationComplement);
     });
   });
 });

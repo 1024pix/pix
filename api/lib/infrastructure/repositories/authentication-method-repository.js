@@ -26,7 +26,7 @@ function _toAuthenticationComplement(identityProvider, bookshelfAuthenticationCo
   }
 
   if (identityProvider === AuthenticationMethod.identityProviders.POLE_EMPLOI) {
-    return new AuthenticationMethod.PoleEmploiAuthenticationComplement(bookshelfAuthenticationComplement);
+    return new AuthenticationMethod.OidcAuthenticationComplement(bookshelfAuthenticationComplement);
   }
 
   if (identityProvider === AuthenticationMethod.identityProviders.GAR) {
