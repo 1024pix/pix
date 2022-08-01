@@ -88,6 +88,7 @@ export default class CertificationIssueReportModel extends Model {
   @attr('boolean') isImpactful;
   @attr() resolvedAt;
   @attr() resolution;
+  @attr('boolean') hasBeenAutomaticallyResolved;
 
   @belongsTo('certification') certification;
 
@@ -108,7 +109,7 @@ export default class CertificationIssueReportModel extends Model {
   }
 
   get canBeModified() {
-    return this.isResolved && this.isImpactful;
+    return this.isResolved && this.isImpactful && !this.hasBeenAutomaticallyResolved;
   }
 
   resolve = memberAction({
