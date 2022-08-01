@@ -9,7 +9,8 @@ function _toDomain(bookshelfCertificationCenter) {
   const habilitations = _.map(dbCertificationCenter.habilitations, (dbComplementaryCertification) => {
     return new ComplementaryCertification({
       id: dbComplementaryCertification.id,
-      name: dbComplementaryCertification.name,
+      key: dbComplementaryCertification.key,
+      label: dbComplementaryCertification.label,
     });
   });
   return new CertificationCenter({
