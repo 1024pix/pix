@@ -85,6 +85,8 @@ describe('Acceptance | Controller | target-profile-controller', function () {
               'owner-organization-id': null,
               'skill-ids': [skillId],
               comment: 'comment',
+              description: null,
+              'image-url': null,
               'tubes-selection': [
                 { id: 'tubeId1', level: 5 },
                 { id: 'tubeId2', level: 7 },

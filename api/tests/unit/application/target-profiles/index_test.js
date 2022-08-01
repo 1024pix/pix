@@ -514,6 +514,7 @@ describe('Unit | Application | Target Profiles | Routes', function () {
           'is-public': false,
           'skill-ids': ['skill1', 'skill2'],
           comment: 'comment',
+          description: 'description',
           'tubes-selection': [
             {
               id: 'tube1',
@@ -567,39 +568,7 @@ describe('Unit | Application | Target Profiles | Routes', function () {
               'is-public': false,
               'skill-ids': ['skill1', 'skill2'],
               comment: 'comment',
-              'tubes-selection': [
-                {
-                  id: 'tube1',
-                  level: 7,
-                },
-              ],
-            },
-          },
-        });
-
-        // then
-        expect(statusCode).to.equal(200);
-      });
-
-      it('should resolve with owner organization id to empty', async function () {
-        // given
-        sinon.stub(securityPreHandlers, 'adminMemberHasAtLeastOneAccessOf').returns(() => true);
-        sinon
-          .stub(targetProfileController, 'createTargetProfile')
-          .callsFake((request, h) => h.response('ok').code(200));
-        const httpTestServer = new HttpTestServer();
-        await httpTestServer.register(moduleUnderTest);
-
-        // when
-        const { statusCode } = await httpTestServer.request(method, url, {
-          data: {
-            attributes: {
-              name: 'MyTargetProfile',
-              'owner-organization-id': '',
-              'image-url': null,
-              'is-public': false,
-              'skill-ids': ['skill1', 'skill2'],
-              comment: 'comment',
+              description: 'description',
               'tubes-selection': [
                 {
                   id: 'tube1',
@@ -629,6 +598,7 @@ describe('Unit | Application | Target Profiles | Routes', function () {
               'is-public': false,
               'skill-ids': ['skill1', 'skill2'],
               comment: 'comment',
+              description: 'description',
               'tubes-selection': [
                 {
                   id: 'tube1',
