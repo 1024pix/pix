@@ -916,6 +916,17 @@
         }
       }
     },
+    "login-or-register-oidc": {
+      "title": "Créez votre compte Pix",
+      "login-form": {
+        "description": "Connectez-vous pour lier votre compte existant et récupérer vos compétences déjà évaluées",
+        "title": "Vous avez déjà un compte Pix ?"
+      },
+      "register-form": {
+        "description": "Un compte va être créé à partir des éléments transmis par l'organisme : {identityProviderOrganizationName}",
+        "title": "Je n’ai pas de compte Pix"
+      }
+    },
     "not-connected": {
       "title": "Logged out",
       "message": "You've been logged out.'<br>'Thanks! See you soon"
