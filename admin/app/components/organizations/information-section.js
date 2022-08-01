@@ -146,11 +146,11 @@ export default class OrganizationInformationSection extends Component {
       return;
     }
 
-    this.args.organization.set('name', this.form.name.trim());
-    this.args.organization.set('externalId', !this.form.externalId ? null : this.form.externalId.trim());
-    this.args.organization.set('provinceCode', !this.form.provinceCode ? null : this.form.provinceCode.trim());
-    this.args.organization.set('email', !this.form.email ? null : this.form.email.trim());
-    this.args.organization.set('credit', !this.form.credit ? null : this.form.credit);
+    this.args.organization.set('name', this.form.name);
+    this.args.organization.set('externalId', this.form.externalId);
+    this.args.organization.set('provinceCode', this.form.provinceCode);
+    this.args.organization.set('email', this.form.email);
+    this.args.organization.set('credit', this.form.credit);
     this.args.organization.set('isManagingStudents', this.form.isManagingStudents);
     this.args.organization.set('documentationUrl', this.form.documentationUrl);
     this.args.organization.set('showSkills', this.form.showSkills);
