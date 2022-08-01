@@ -41,19 +41,19 @@ class CertificationCenter {
   }
 
   get isHabilitatedPixPlusDroit() {
-    return this.habilitations.some((habilitation) => habilitation.name === PIX_PLUS_DROIT);
+    return this.habilitations.some((habilitation) => habilitation.key === PIX_PLUS_DROIT);
   }
 
   get isHabilitatedPixPlusEdu1erDegre() {
-    return this.habilitations.some((habilitation) => habilitation.name === PIX_PLUS_EDU_1ER_DEGRE);
+    return this.habilitations.some((habilitation) => habilitation.key === PIX_PLUS_EDU_1ER_DEGRE);
   }
 
   get isHabilitatedPixPlusEdu2ndDegre() {
-    return this.habilitations.some((habilitation) => habilitation.name === PIX_PLUS_EDU_2ND_DEGRE);
+    return this.habilitations.some((habilitation) => habilitation.key === PIX_PLUS_EDU_2ND_DEGRE);
   }
 
   get isHabilitatedClea() {
-    return this.habilitations.some((habilitation) => habilitation.name === CLEA);
+    return this.habilitations.some((habilitation) => habilitation.key === CLEA);
   }
 }
 
