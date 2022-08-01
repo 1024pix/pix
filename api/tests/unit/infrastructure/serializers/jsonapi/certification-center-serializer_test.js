@@ -7,7 +7,8 @@ describe('Unit | Serializer | JSONAPI | certification-center-serializer', functi
       // given
       const complementaryCertification = domainBuilder.buildComplementaryCertification({
         id: 1,
-        name: 'Pix+surf',
+        label: 'Pix+surf',
+        key: 'SURF',
       });
       const certificationCenter = domainBuilder.buildCertificationCenter({
         id: 12,
@@ -51,7 +52,8 @@ describe('Unit | Serializer | JSONAPI | certification-center-serializer', functi
             id: '1',
             type: 'habilitations',
             attributes: {
-              name: 'Pix+surf',
+              key: 'SURF',
+              label: 'Pix+surf',
             },
           },
         ],

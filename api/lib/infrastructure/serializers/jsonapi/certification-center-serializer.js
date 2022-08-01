@@ -27,7 +27,7 @@ module.exports = {
       habilitations: {
         include: true,
         ref: 'id',
-        attributes: ['name'],
+        attributes: ['key', 'label'],
       },
       meta,
     }).serialize(certificationCenters);
