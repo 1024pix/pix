@@ -26,8 +26,7 @@ function setEmberSimpleAuthSession(response) {
 }
 
 Cypress.Commands.add('login', (username, password) => {
-  cy.server();
-  cy.route('/api/users/me').as('getCurrentUser');
+  cy.intercept('/api/users/me').as('getCurrentUser');
   cy.request({
     url: `${Cypress.env('API_URL')}/api/token`,
     method: 'POST',
@@ -38,8 +37,7 @@ Cypress.Commands.add('login', (username, password) => {
 });
 
 Cypress.Commands.add('loginOrga', (username, password) => {
-  cy.server();
-  cy.route('/api/prescription/prescribers/**').as('getCurrentUser');
+  cy.intercept('/api/prescription/prescribers/**').as('getCurrentUser');
   cy.request({
     url: `${Cypress.env('API_URL')}/api/token`,
     method: 'POST',
@@ -50,8 +48,7 @@ Cypress.Commands.add('loginOrga', (username, password) => {
 });
 
 Cypress.Commands.add('loginAdmin', (username, password) => {
-  cy.server();
-  cy.route('/api/users/me').as('getCurrentUser');
+  cy.intercept('/api/users/me').as('getCurrentUser');
   cy.request({
     url: `${Cypress.env('API_URL')}/api/token`,
     method: 'POST',
@@ -74,7 +71,6 @@ Cypress.Commands.add('loginAdmin', (username, password) => {
 });
 
 Cypress.Commands.add('loginExternalPlatformForTheFirstTime', () => {
-  cy.server();
   const externalUserToken = jsonwebtoken.sign(
     {
       first_name: 'Daenerys',
@@ -90,8 +86,7 @@ Cypress.Commands.add('loginExternalPlatformForTheFirstTime', () => {
 });
 
 Cypress.Commands.add('loginExternalPlatformForTheSecondTime', () => {
-  cy.server();
-  cy.route('/api/users/me').as('getCurrentUser');
+  cy.intercept('/api/users/me').as('getCurrentUser');
   const token = jsonwebtoken.sign(
     {
       user_id: 1,
@@ -105,8 +100,7 @@ Cypress.Commands.add('loginExternalPlatformForTheSecondTime', () => {
 });
 
 Cypress.Commands.add('loginWithAlmostExpiredToken', () => {
-  cy.server();
-  cy.route('/api/users/me').as('getCurrentUser');
+  cy.intercept('/api/users/me').as('getCurrentUser');
   const token = jsonwebtoken.sign({ user_id: 1 }, Cypress.env('AUTH_SECRET'), {
     expiresIn: '2s',
   });
