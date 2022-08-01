@@ -13,6 +13,35 @@
             identityProviderOrganizationName=this.identityProviderOrganizationName
           }}
         </p>
+        <div class="login-or-register-oidc-form__cgu-container">
+          <Input
+            @type="checkbox"
+            class="login-or-register-oidc-form__cgu-check"
+            @checked={{this.isTermsOfServiceValidated}}
+            aria-label={{t "common.cgu.label"}}
+          />
+          <p class="login-or-register-oidc-form__cgu-label">
+            {{t "common.cgu.accept"}}
+            <a href={{this.cguUrl}} class="link" target="_blank" rel="noopener noreferrer">
+              {{t "common.cgu.cgu"}}
+            </a>
+            {{t "common.cgu.and"}}
+            <a href={{this.dataProtectionPolicyUrl}} class="link" target="_blank" rel="noopener noreferrer">
+              {{t "common.cgu.data-protection-policy"}}
+            </a>
+            {{t "common.cgu.pix"}}
+          </p>
+        </div>
+
+        {{#if this.errorMessage}}
+          <PixMessage @type="error" class="login-or-register-oidc-form__cgu-error">
+            {{this.errorMessage}}
+          </PixMessage>
+        {{/if}}
+
+        <PixButton @type="submit" @triggerAction={{this.submit}}>
+          {{t "pages.login-or-register-oidc.register-form.button"}}
+        </PixButton>
       </div>
 
       <div class="login-or-register-oidc-form__divider"></div>
