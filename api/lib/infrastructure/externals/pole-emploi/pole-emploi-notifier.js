@@ -47,7 +47,7 @@ module.exports = {
       }
 
       accessToken = tokenResponse.data['access_token'];
-      const authenticationComplement = new AuthenticationMethod.PoleEmploiAuthenticationComplement({
+      const authenticationComplement = new AuthenticationMethod.OidcAuthenticationComplement({
         accessToken,
         refreshToken: tokenResponse.data['refresh_token'],
         expiredDate: moment().add(tokenResponse.data['expires_in'], 's').toDate(),

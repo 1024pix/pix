@@ -207,7 +207,7 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', function () {
         });
 
         // then
-        const expectedAuthenticationComplement = new AuthenticationMethod.PoleEmploiAuthenticationComplement({
+        const expectedAuthenticationComplement = new AuthenticationMethod.OidcAuthenticationComplement({
           accessToken: poleEmploiAuthenticationSessionContent.accessToken,
           refreshToken: poleEmploiAuthenticationSessionContent.refreshToken,
           expiredDate: moment().add(poleEmploiAuthenticationSessionContent.expiresIn, 's').toDate(),
@@ -270,7 +270,7 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', function () {
           const expectedAuthenticationMethod = new AuthenticationMethod({
             identityProvider: AuthenticationMethod.identityProviders.POLE_EMPLOI,
             externalIdentifier: '094b83ac-2e20-4aa8-b438-0bc91748e4a6',
-            authenticationComplement: new AuthenticationMethod.PoleEmploiAuthenticationComplement({
+            authenticationComplement: new AuthenticationMethod.OidcAuthenticationComplement({
               accessToken: poleEmploiAuthenticationSessionContent.accessToken,
               refreshToken: poleEmploiAuthenticationSessionContent.refreshToken,
               expiredDate: moment().add(poleEmploiAuthenticationSessionContent.expiresIn, 's').toDate(),
@@ -308,7 +308,7 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', function () {
           });
 
           // then
-          const expectedAuthenticationComplement = new AuthenticationMethod.PoleEmploiAuthenticationComplement({
+          const expectedAuthenticationComplement = new AuthenticationMethod.OidcAuthenticationComplement({
             accessToken: poleEmploiAuthenticationSessionContent.accessToken,
             refreshToken: poleEmploiAuthenticationSessionContent.refreshToken,
             expiredDate: moment().add(poleEmploiAuthenticationSessionContent.expiresIn, 's').toDate(),
