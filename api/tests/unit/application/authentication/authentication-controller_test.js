@@ -74,7 +74,7 @@ describe('Unit | Application | Controller | Authentication', function () {
         },
       };
       const pixAccessToken = 'pixAccessToken';
-      sinon.stub(usecases, 'authenticateCnavUser').resolves({ pixAccessToken, isAuthenticationComplete: true });
+      sinon.stub(usecases, 'authenticateOidcUser').resolves({ pixAccessToken, isAuthenticationComplete: true });
       const oidcAuthenticationService = {};
       sinon
         .stub(authenticationServiceRegistry, 'lookupAuthenticationService')
@@ -85,7 +85,7 @@ describe('Unit | Application | Controller | Authentication', function () {
       await authenticationController.authenticateCnavUser(request, hFake);
 
       // then
-      expect(usecases.authenticateCnavUser).to.have.been.calledWith({
+      expect(usecases.authenticateOidcUser).to.have.been.calledWith({
         code: 'ABCD',
         redirectUri: 'http://redirectUri.fr',
         stateReceived: 'state',
@@ -106,7 +106,7 @@ describe('Unit | Application | Controller | Authentication', function () {
           },
         };
         const pixAccessToken = 'pixAccessToken';
-        sinon.stub(usecases, 'authenticateCnavUser').resolves({ pixAccessToken, isAuthenticationComplete: true });
+        sinon.stub(usecases, 'authenticateOidcUser').resolves({ pixAccessToken, isAuthenticationComplete: true });
 
         // when
         const response = await authenticationController.authenticateCnavUser(request, hFake);
@@ -128,7 +128,7 @@ describe('Unit | Application | Controller | Authentication', function () {
           },
         };
         const authenticationKey = 'aaa-bbb-ccc';
-        sinon.stub(usecases, 'authenticateCnavUser').resolves({ authenticationKey, isAuthenticationComplete: false });
+        sinon.stub(usecases, 'authenticateOidcUser').resolves({ authenticationKey, isAuthenticationComplete: false });
 
         // when
         const error = await catchErr(authenticationController.authenticateCnavUser)(request, hFake);
@@ -206,7 +206,7 @@ describe('Unit | Application | Controller | Authentication', function () {
         },
       };
 
-      sinon.stub(usecases, 'authenticatePoleEmploiUser');
+      sinon.stub(usecases, 'authenticateOidcUser');
     });
 
     it('should call usecase with payload parameters', async function () {
@@ -217,7 +217,7 @@ describe('Unit | Application | Controller | Authentication', function () {
         .withArgs('POLE_EMPLOI')
         .returns(oidcAuthenticationService);
 
-      usecases.authenticatePoleEmploiUser.resolves({
+      usecases.authenticateOidcUser.resolves({
         pixAccessToken,
         logoutUrlUUID: '0208f50b-f612-46aa-89a0-7cdb5fb0d312',
       });
@@ -234,12 +234,12 @@ describe('Unit | Application | Controller | Authentication', function () {
       await authenticationController.authenticatePoleEmploiUser(request, hFake);
 
       // then
-      expect(usecases.authenticatePoleEmploiUser).to.have.been.calledWith(expectedParameters);
+      expect(usecases.authenticateOidcUser).to.have.been.calledWith(expectedParameters);
     });
 
     it('should return PIX access token and Pole emploi ID token', async function () {
       // given
-      usecases.authenticatePoleEmploiUser.resolves({
+      usecases.authenticateOidcUser.resolves({
         pixAccessToken,
         logoutUrlUUID: '0208f50b-f612-46aa-89a0-7cdb5fb0d312',
       });
@@ -258,7 +258,7 @@ describe('Unit | Application | Controller | Authentication', function () {
     it('should return UnauthorizedError if pixAccessToken is not exist', async function () {
       // given
       const authenticationKey = 'aaa-bbb-ccc';
-      usecases.authenticatePoleEmploiUser.resolves({ authenticationKey });
+      usecases.authenticateOidcUser.resolves({ authenticationKey });
       const expectedErrorMessage = "L'utilisateur n'a pas de compte Pix";
       const expectedResponseCode = 'SHOULD_VALIDATE_CGU';
       const expectedMeta = { authenticationKey };
