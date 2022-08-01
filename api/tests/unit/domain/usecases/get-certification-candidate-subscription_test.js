@@ -24,10 +24,10 @@ describe('Unit | UseCase | get-certification-candidate-subscription', function (
       const sessionId = 789;
 
       const pixPlusDroitComplementaryCertification = domainBuilder.buildComplementaryCertification({
-        name: ComplementaryCertification.PIX_PLUS_DROIT,
+        key: ComplementaryCertification.PIX_PLUS_DROIT,
       });
       const cleaComplementaryCertifications = domainBuilder.buildComplementaryCertification({
-        name: ComplementaryCertification.CLEA,
+        key: ComplementaryCertification.CLEA,
       });
       const candidateWithComplementaryCertifications = domainBuilder.buildCertificationCandidate({
         id: certificationCandidateId,
@@ -76,10 +76,10 @@ describe('Unit | UseCase | get-certification-candidate-subscription', function (
       const sessionId = 789;
 
       const pixPlusDroitComplementaryCertification = domainBuilder.buildComplementaryCertification({
-        name: ComplementaryCertification.PIX_PLUS_DROIT,
+        key: ComplementaryCertification.PIX_PLUS_DROIT,
       });
       const cleaComplementaryCertifications = domainBuilder.buildComplementaryCertification({
-        name: ComplementaryCertification.CLEA,
+        key: ComplementaryCertification.CLEA,
       });
       const candidateWithComplementaryCertifications = domainBuilder.buildCertificationCandidate({
         id: certificationCandidateId,
@@ -156,10 +156,10 @@ describe('Unit | UseCase | get-certification-candidate-subscription', function (
       const sessionId = 789;
 
       const pixPlusDroitComplementaryCertification = domainBuilder.buildComplementaryCertification({
-        name: ComplementaryCertification.PIX_PLUS_DROIT,
+        key: ComplementaryCertification.PIX_PLUS_DROIT,
       });
       const cleaComplementaryCertifications = domainBuilder.buildComplementaryCertification({
-        name: ComplementaryCertification.CLEA,
+        key: ComplementaryCertification.CLEA,
       });
       const candidateWithComplementaryCertifications = domainBuilder.buildCertificationCandidate({
         id: certificationCandidateId,
@@ -203,7 +203,7 @@ describe('Unit | UseCase | get-certification-candidate-subscription', function (
       const sessionId = 789;
 
       const pixPlusEdu1erDegreComplementaryCertification = domainBuilder.buildComplementaryCertification({
-        name: ComplementaryCertification.PIX_PLUS_EDU_1ER_DEGRE,
+        key: ComplementaryCertification.PIX_PLUS_EDU_1ER_DEGRE,
       });
       const candidateWithComplementaryCertifications = domainBuilder.buildCertificationCandidate({
         id: certificationCandidateId,
@@ -249,7 +249,7 @@ describe('Unit | UseCase | get-certification-candidate-subscription', function (
       const sessionId = 789;
 
       const pixPlusEdu2ndDegreComplementaryCertification = domainBuilder.buildComplementaryCertification({
-        name: ComplementaryCertification.PIX_PLUS_EDU_2ND_DEGRE,
+        key: ComplementaryCertification.PIX_PLUS_EDU_2ND_DEGRE,
       });
       const candidateWithComplementaryCertifications = domainBuilder.buildCertificationCandidate({
         id: certificationCandidateId,
