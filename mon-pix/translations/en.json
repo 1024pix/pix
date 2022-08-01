@@ -45,6 +45,15 @@
       "quit": "Exit",
       "sign-out": "Sign out"
     },
+    "cgu": {
+      "accept": "I agree to the ",
+      "and": "and ",
+      "cgu": "Pix terms of use",
+      "data-protection-policy": "personal data protection policy",
+      "pix": "",
+      "error": "You must agree to the Pix terms of use and personal data protection policy to create an account.",
+      "label": "Agree Pix terms of use and personal data protection policy"
+    },
     "error": "An error has occured. Please try again or contact the support.",
     "form": {
       "error": "error",
@@ -1210,15 +1219,6 @@
         "submit": "Sign up"
       },
       "fields": {
-        "cgu": {
-          "accept": "I agree to the ",
-          "and": "and ",
-          "cgu": "Pix terms of use",
-          "data-protection-policy": "personal data protection policy",
-          "pix": "",
-          "error": "You must agree to the Pix terms of use and personal data protection policy to create an account.",
-          "label": "Agree Pix terms of use and personal data protection policy"
-        },
         "email": {
           "error": "Your email address is invalid.",
           "help": "(eg. name@example.org)",

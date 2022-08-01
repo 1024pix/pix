@@ -94,7 +94,7 @@ describe('Integration | Component | SignupForm', function () {
 
     it("should have links to Pix's CGU and data protection policy ", function () {
       // given
-      const cguText = this.intl.t('pages.sign-up.fields.cgu.accept', {
+      const cguText = this.intl.t('common.cgu.accept', {
         cguUrl: 'https://pix.localhost/conditions-generales-d-utilisation',
       });
 
@@ -415,7 +415,7 @@ describe('Integration | Component | SignupForm', function () {
 
       it("should display an error message on cgu field, when cgu isn't accepted and form is submitted", async function () {
         // given
-        const uncheckedCheckboxCguErrorMessage = this.intl.t('pages.sign-up.fields.cgu.error');
+        const uncheckedCheckboxCguErrorMessage = this.intl.t('common.cgu.error');
         const userWithCguNotAccepted = EmberObject.create({
           cgu: false,
           errors: ArrayProxy.create({
