@@ -21,7 +21,7 @@ const databaseBuilder = new DatabaseBuilder({ knex, emptyFirst: false });
 const cache = require('../../lib/infrastructure/caches/learning-content-cache');
 
 /**
- * LOG_LEVEL=info ./scripts/data-generation/generate-certif-cli.js 'SUP' 1 '[{"candidateNumber": 1, "name": "Pix+ Édu 2nd degré"}]' false
+ * LOG_LEVEL=info ./scripts/data-generation/generate-certif-cli.js 'SUP' 1 '[{"candidateNumber": 1, "name": "Pix+ Édu 2nd degré"}]'
  */
 
 const PIXCLEA = 'CléA Numérique';
@@ -54,12 +54,6 @@ const questions = [
     name: 'centerType',
     message: 'Quel type de centre ?',
     choices: ['SCO', 'SUP', 'PRO'],
-  },
-  {
-    type: 'confirm',
-    name: 'isSupervisorAccessEnabled',
-    message: "As tu besoin de l'espace surveillant ?",
-    default: true,
   },
   {
     type: 'input',
@@ -116,11 +110,11 @@ const questions = [
   },
 ];
 
-async function main({ centerType, candidateNumber, complementaryCertifications, isSupervisorAccessEnabled }) {
+async function main({ centerType, candidateNumber, complementaryCertifications }) {
   await _updateDatabaseBuilderSequenceNumber();
 
   const certificationCenterId = CERTIFICATION_CENTER_IDS_BY_TYPE[centerType];
-  await _updateCertificationCenterSupervisorPortalAccess(certificationCenterId, isSupervisorAccessEnabled);
+  await _updateCertificationCenterSupervisorPortalAccess(certificationCenterId);
 
   const sessionId = await _createSessionAndReturnId(certificationCenterId, databaseBuilder);
 
@@ -169,8 +163,8 @@ async function _getMaxSequenceId() {
   return max;
 }
 
-async function _updateCertificationCenterSupervisorPortalAccess(id, isSupervisorAccessEnabled) {
-  await knex('certification-centers').update({ isSupervisorAccessEnabled }).where({ id });
+async function _updateCertificationCenterSupervisorPortalAccess(id) {
+  await knex('certification-centers').update({ isSupervisorAccessEnabled: true }).where({ id });
 }
 
 async function _createComplementaryCertificationHabilitations(
@@ -400,13 +394,12 @@ async function _createUser({ firstName, lastName, birthdate, email }, databaseBu
 }
 
 if (process.argv.length > 2 && process.env.NODE_ENV !== 'test') {
-  const [centerType, candidateNumber, complementaryCertifications, isSupervisorAccessEnabled] = process.argv.slice(2);
+  const [centerType, candidateNumber, complementaryCertifications] = process.argv.slice(2);
 
   main({
     centerType,
     candidateNumber,
     complementaryCertifications: JSON.parse(complementaryCertifications),
-    isSupervisorAccessEnabled,
   })
     .catch((error) => {
       logger.error(error);

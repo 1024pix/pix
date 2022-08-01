@@ -45,7 +45,6 @@ describe('Integration | Scripts | generate-certif-cli.js', function () {
               centerType: type,
               candidateNumber: 2,
               complementaryCertifications: false,
-              isSupervisorAccessEnabled: false,
             });
 
             // then
@@ -102,7 +101,6 @@ describe('Integration | Scripts | generate-certif-cli.js', function () {
                   { candidateNumber: 1, name: 'Pix+ Édu 2nd degré' },
                   { candidateNumber: 1, name: 'Pix+ Édu 1er degré' },
                 ],
-                isSupervisorAccessEnabled: false,
               });
 
               // then
@@ -136,7 +134,6 @@ describe('Integration | Scripts | generate-certif-cli.js', function () {
             centerType: 'SCO',
             candidateNumber: 2,
             complementaryCertifications: false,
-            isSupervisorAccessEnabled: false,
           });
 
           // then
