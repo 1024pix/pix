@@ -471,7 +471,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                             userId: 2,
                             sessionId: 1,
                             authorizedToStart: true,
-                            complementaryCertifications: [{ name: PIX_PLUS_DROIT }],
+                            complementaryCertifications: [{ key: PIX_PLUS_DROIT }],
                           });
 
                           const { challenge1, challenge2, placementProfile, userCompetencesWithChallenges } =
@@ -485,7 +485,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                             .resolves(foundCertificationCandidate);
 
                           const complementaryCertificationPixPlusDroit = domainBuilder.buildComplementaryCertification({
-                            name: PIX_PLUS_DROIT,
+                            key: PIX_PLUS_DROIT,
                           });
                           const certificationCenter = domainBuilder.buildCertificationCenter({
                             habilitations: [complementaryCertificationPixPlusDroit],
@@ -587,7 +587,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                             userId: 2,
                             sessionId: 1,
                             authorizedToStart: true,
-                            complementaryCertifications: [{ name: PIX_PLUS_DROIT }],
+                            complementaryCertifications: [{ key: PIX_PLUS_DROIT }],
                           });
 
                           const { challenge1, challenge2, placementProfile, userCompetencesWithChallenges } =
@@ -601,7 +601,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                             .resolves(foundCertificationCandidate);
 
                           const complementaryCertificationPixPlusDroit = domainBuilder.buildComplementaryCertification({
-                            name: PIX_PLUS_DROIT,
+                            key: PIX_PLUS_DROIT,
                           });
                           const certificationCenter = domainBuilder.buildCertificationCenter({
                             habilitations: [complementaryCertificationPixPlusDroit],
@@ -701,7 +701,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                             userId: 2,
                             sessionId: 1,
                             authorizedToStart: true,
-                            complementaryCertifications: [{ name: PIX_PLUS_DROIT }],
+                            complementaryCertifications: [{ key: PIX_PLUS_DROIT }],
                           });
 
                           certificationCandidateRepository.getBySessionIdAndUserId
@@ -715,7 +715,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                             .resolves(_.flatMap(userCompetencesWithChallenges, 'challenges'));
 
                           const complementaryCertificationPixPlusDroit = domainBuilder.buildComplementaryCertification({
-                            name: PIX_PLUS_DROIT,
+                            key: PIX_PLUS_DROIT,
                           });
                           const certificationCenter = domainBuilder.buildCertificationCenter({
                             habilitations: [complementaryCertificationPixPlusDroit],
@@ -850,7 +850,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
 
                             const complementaryCertificationPixPlusDroit =
                               domainBuilder.buildComplementaryCertification({
-                                name: PIX_PLUS_DROIT,
+                                key: PIX_PLUS_DROIT,
                               });
                             const certificationCenter = domainBuilder.buildCertificationCenter({
                               habilitations: [complementaryCertificationPixPlusDroit],
@@ -946,7 +946,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                           userId: 2,
                           sessionId: 1,
                           authorizedToStart: true,
-                          complementaryCertifications: [{ name: PIX_PLUS_DROIT }],
+                          complementaryCertifications: [{ key: PIX_PLUS_DROIT }],
                         });
 
                         certificationCandidateRepository.getBySessionIdAndUserId
@@ -960,7 +960,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                           .resolves(_.flatMap(userCompetencesWithChallenges, 'challenges'));
 
                         const complementaryCertificationPixPlusDroit = domainBuilder.buildComplementaryCertification({
-                          name: PIX_PLUS_DROIT,
+                          key: PIX_PLUS_DROIT,
                         });
                         const certificationCenter = domainBuilder.buildCertificationCenter({
                           habilitations: [complementaryCertificationPixPlusDroit],
@@ -1038,7 +1038,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                           userId: 2,
                           sessionId: 1,
                           authorizedToStart: true,
-                          complementaryCertifications: [{ name: PIX_PLUS_DROIT }],
+                          complementaryCertifications: [{ key: PIX_PLUS_DROIT }],
                         });
 
                         certificationCandidateRepository.getBySessionIdAndUserId
@@ -1052,7 +1052,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                           .resolves(_.flatMap(userCompetencesWithChallenges, 'challenges'));
 
                         const complementaryCertificationPixPlusDroit = domainBuilder.buildComplementaryCertification({
-                          name: PIX_PLUS_DROIT,
+                          key: PIX_PLUS_DROIT,
                         });
                         const certificationCenter = domainBuilder.buildCertificationCenter({
                           habilitations: [complementaryCertificationPixPlusDroit],
@@ -1135,7 +1135,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                         .resolves(_.flatMap(userCompetencesWithChallenges, 'challenges'));
 
                       const complementaryCertificationPixPlusDroit = domainBuilder.buildComplementaryCertification({
-                        name: PIX_PLUS_DROIT,
+                        key: PIX_PLUS_DROIT,
                       });
                       const certificationCenter = domainBuilder.buildCertificationCenter({
                         habilitations: [complementaryCertificationPixPlusDroit],
@@ -1215,7 +1215,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                             userId: 2,
                             sessionId: 1,
                             authorizedToStart: true,
-                            complementaryCertifications: [{ name: CLEA }],
+                            complementaryCertifications: [{ key: CLEA }],
                           });
 
                           certificationCandidateRepository.getBySessionIdAndUserId
@@ -1229,7 +1229,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                             .resolves(_.flatMap(userCompetencesWithChallenges, 'challenges'));
 
                           const complementaryCertificationCleA = domainBuilder.buildComplementaryCertification({
-                            name: CLEA,
+                            key: CLEA,
                           });
                           const certificationCenter = domainBuilder.buildCertificationCenter({
                             habilitations: [complementaryCertificationCleA],
@@ -1307,7 +1307,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                           userId: 2,
                           sessionId: 1,
                           authorizedToStart: true,
-                          complementaryCertifications: [{ name: CLEA }],
+                          complementaryCertifications: [{ key: CLEA }],
                         });
 
                         certificationCandidateRepository.getBySessionIdAndUserId
@@ -1321,7 +1321,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                           .resolves(_.flatMap(userCompetencesWithChallenges, 'challenges'));
 
                         const complementaryCertificationCleA = domainBuilder.buildComplementaryCertification({
-                          name: CLEA,
+                          key: CLEA,
                         });
                         const certificationCenter = domainBuilder.buildCertificationCenter({
                           habilitations: [complementaryCertificationCleA],
@@ -1432,7 +1432,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                             .resolves(_.flatMap(userCompetencesWithChallenges, 'challenges'));
 
                           const complementaryCertificationCleA = domainBuilder.buildComplementaryCertification({
-                            name: CLEA,
+                            key: CLEA,
                           });
                           const certificationCenter = domainBuilder.buildCertificationCenter({
                             habilitations: [complementaryCertificationCleA],
@@ -1526,7 +1526,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                           .resolves(_.flatMap(userCompetencesWithChallenges, 'challenges'));
 
                         const complementaryCertificationCleA = domainBuilder.buildComplementaryCertification({
-                          name: CLEA,
+                          key: CLEA,
                         });
                         const certificationCenter = domainBuilder.buildCertificationCenter();
                         certificationCenterRepository.getBySessionId.resolves(certificationCenter);
@@ -1610,7 +1610,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                           userId: 2,
                           sessionId: 1,
                           authorizedToStart: true,
-                          complementaryCertifications: [{ name: PIX_PLUS_EDU_1ER_DEGRE }],
+                          complementaryCertifications: [{ key: PIX_PLUS_EDU_1ER_DEGRE }],
                         });
 
                         const { challenge1, challenge2, placementProfile, userCompetencesWithChallenges } =
@@ -1625,7 +1625,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
 
                         const complementaryCertificationPixPlusEdu1erDegre =
                           domainBuilder.buildComplementaryCertification({
-                            name: PIX_PLUS_EDU_1ER_DEGRE,
+                            key: PIX_PLUS_EDU_1ER_DEGRE,
                           });
                         const certificationCenter = domainBuilder.buildCertificationCenter({
                           habilitations: [complementaryCertificationPixPlusEdu1erDegre],
@@ -1728,7 +1728,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                           userId: 2,
                           sessionId: 1,
                           authorizedToStart: true,
-                          complementaryCertifications: [{ name: PIX_PLUS_EDU_1ER_DEGRE }],
+                          complementaryCertifications: [{ key: PIX_PLUS_EDU_1ER_DEGRE }],
                         });
 
                         const { challenge1, challenge2, placementProfile, userCompetencesWithChallenges } =
@@ -1743,7 +1743,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
 
                         const complementaryCertificationPixPlusEdu1erDegre =
                           domainBuilder.buildComplementaryCertification({
-                            name: PIX_PLUS_EDU_1ER_DEGRE,
+                            key: PIX_PLUS_EDU_1ER_DEGRE,
                           });
                         const certificationCenter = domainBuilder.buildCertificationCenter({
                           habilitations: [complementaryCertificationPixPlusEdu1erDegre],
@@ -1860,7 +1860,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
 
                       const complementaryCertificationPixPlusEdu1erDegre =
                         domainBuilder.buildComplementaryCertification({
-                          name: PIX_PLUS_EDU_1ER_DEGRE,
+                          key: PIX_PLUS_EDU_1ER_DEGRE,
                         });
                       const certificationCenter = domainBuilder.buildCertificationCenter({
                         habilitations: [],
@@ -1943,7 +1943,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                           userId: 2,
                           sessionId: 1,
                           authorizedToStart: true,
-                          complementaryCertifications: [{ name: PIX_PLUS_EDU_2ND_DEGRE }],
+                          complementaryCertifications: [{ key: PIX_PLUS_EDU_2ND_DEGRE }],
                         });
 
                         const { challenge1, challenge2, placementProfile, userCompetencesWithChallenges } =
@@ -1958,7 +1958,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
 
                         const complementaryCertificationPixPlusEdu2ndDegre =
                           domainBuilder.buildComplementaryCertification({
-                            name: PIX_PLUS_EDU_2ND_DEGRE,
+                            key: PIX_PLUS_EDU_2ND_DEGRE,
                           });
                         const certificationCenter = domainBuilder.buildCertificationCenter({
                           habilitations: [complementaryCertificationPixPlusEdu2ndDegre],
@@ -2061,7 +2061,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                           userId: 2,
                           sessionId: 1,
                           authorizedToStart: true,
-                          complementaryCertifications: [{ name: PIX_PLUS_EDU_2ND_DEGRE }],
+                          complementaryCertifications: [{ key: PIX_PLUS_EDU_2ND_DEGRE }],
                         });
 
                         const { challenge1, challenge2, placementProfile, userCompetencesWithChallenges } =
@@ -2076,7 +2076,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
 
                         const complementaryCertificationPixPlusEdu2ndDegre =
                           domainBuilder.buildComplementaryCertification({
-                            name: PIX_PLUS_EDU_2ND_DEGRE,
+                            key: PIX_PLUS_EDU_2ND_DEGRE,
                           });
                         const certificationCenter = domainBuilder.buildCertificationCenter({
                           habilitations: [complementaryCertificationPixPlusEdu2ndDegre],
@@ -2193,7 +2193,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
 
                       const complementaryCertificationPixPlusEdu2ndDegre =
                         domainBuilder.buildComplementaryCertification({
-                          name: PIX_PLUS_EDU_2ND_DEGRE,
+                          key: PIX_PLUS_EDU_2ND_DEGRE,
                         });
                       const certificationCenter = domainBuilder.buildCertificationCenter({
                         habilitations: [],
