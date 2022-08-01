@@ -50,7 +50,7 @@ module.exports = {
       AuthenticationMethod.identityProviders.CNAV
     );
 
-    const result = await usecases.authenticateCnavUser({
+    const result = await usecases.authenticateOidcUser({
       code,
       redirectUri,
       stateReceived,
@@ -101,7 +101,7 @@ module.exports = {
       AuthenticationMethod.identityProviders.POLE_EMPLOI
     );
 
-    const result = await usecases.authenticatePoleEmploiUser({
+    const result = await usecases.authenticateOidcUser({
       authenticatedUserId,
       code,
       redirectUri,

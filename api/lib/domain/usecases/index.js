@@ -178,8 +178,6 @@ module.exports = injectDependencies(
     assignCertificationOfficerToJurySession: require('./assign-certification-officer-to-jury-session'),
     authenticateAnonymousUser: require('./authenticate-anonymous-user'),
     authenticateOidcUser: require('./authentication/authenticate-oidc-user'),
-    authenticateCnavUser: require('./authentication/authenticate-cnav-user'),
-    authenticatePoleEmploiUser: require('./authentication/authenticate-pole-emploi-user'),
     authenticateUser: require('./authenticate-user'),
     authenticateExternalUser: require('./authenticate-external-user'),
     authenticateApplication: require('./authenticate-application'),
