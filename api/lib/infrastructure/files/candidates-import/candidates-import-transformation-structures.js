@@ -98,16 +98,16 @@ function getTransformationStructsForPixCertifCandidatesImport({ complementaryCer
 
 function _includeComplementaryCertificationColumns(complementaryCertifications, transformationStruct) {
   const containsClea = complementaryCertifications.some(
-    (complementaryCertification) => complementaryCertification.name === CLEA
+    (complementaryCertification) => complementaryCertification.key === CLEA
   );
   const containsPixPlusDroit = complementaryCertifications.some(
-    (complementaryCertification) => complementaryCertification.name === PIX_PLUS_DROIT
+    (complementaryCertification) => complementaryCertification.key === PIX_PLUS_DROIT
   );
   const containsPixPlusEdu1erDegre = complementaryCertifications.some(
-    (complementaryCertification) => complementaryCertification.name === PIX_PLUS_EDU_1ER_DEGRE
+    (complementaryCertification) => complementaryCertification.key === PIX_PLUS_EDU_1ER_DEGRE
   );
   const containsPixPlusEdu2ndDegre = complementaryCertifications.some(
-    (complementaryCertification) => complementaryCertification.name === PIX_PLUS_EDU_2ND_DEGRE
+    (complementaryCertification) => complementaryCertification.key === PIX_PLUS_EDU_2ND_DEGRE
   );
 
   if (containsClea) {
