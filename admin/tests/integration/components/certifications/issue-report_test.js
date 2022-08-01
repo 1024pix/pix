@@ -100,26 +100,55 @@ module('Integration | Component | certifications/issue-report', function (hooks)
       assert.dom(screen.queryByRole('button', { name: 'Résoudre le signalement' })).doesNotExist();
     });
 
-    test('it should display resolution modification button', async function (assert) {
-      // Given
-      const store = this.owner.lookup('service:store');
-      const issueReport = store.createRecord('certification-issue-report', {
-        isImpactful: true,
-        resolvedAt: new Date('2020-01-01'),
+    module('when the issue has been resolved manually', function () {
+      test('it should display enabled resolution modification button', async function (assert) {
+        // Given
+        const store = this.owner.lookup('service:store');
+        const issueReport = store.createRecord('certification-issue-report', {
+          isImpactful: true,
+          resolvedAt: new Date('2020-01-01'),
+          hasBeenAutomaticallyResolved: false,
+        });
+        this.set('issueReport', issueReport);
+
+        class AccessControlStub extends Service {
+          hasAccessToCertificationActionsScope = true;
+        }
+
+        this.owner.register('service:access-control', AccessControlStub);
+
+        // When
+        const screen = await renderScreen(hbs`<Certifications::IssueReport @issueReport={{this.issueReport}}/>`);
+
+        // Then
+
+        assert.dom(screen.getByRole('button', 'Modifier la résolution')).isEnabled();
       });
-      this.set('issueReport', issueReport);
+    });
 
-      class AccessControlStub extends Service {
-        hasAccessToCertificationActionsScope = true;
-      }
+    module('when the issue has been resolved automatically', function () {
+      test('it should not display resolution modification button', async function (assert) {
+        // Given
+        const store = this.owner.lookup('service:store');
+        const issueReport = store.createRecord('certification-issue-report', {
+          isImpactful: true,
+          resolvedAt: new Date('2020-01-01'),
+          hasBeenAutomaticallyResolved: true,
+        });
+        this.set('issueReport', issueReport);
 
-      this.owner.register('service:access-control', AccessControlStub);
+        class AccessControlStub extends Service {
+          hasAccessToCertificationActionsScope = true;
+        }
 
-      // When
-      const screen = await renderScreen(hbs`<Certifications::IssueReport @issueReport={{this.issueReport}}/>`);
+        this.owner.register('service:access-control', AccessControlStub);
 
-      // Then
-      assert.dom(screen.queryByRole('button', { name: 'Modifier la résolution' })).exists();
+        // When
+        const screen = await renderScreen(hbs`<Certifications::IssueReport @issueReport={{this.issueReport}}/>`);
+
+        // Then
+        assert.dom(screen.queryByRole('button', { name: 'Modifier la résolution' })).doesNotExist();
+      });
     });
   });
 
