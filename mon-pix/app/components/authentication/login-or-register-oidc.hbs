@@ -1,0 +1,28 @@
+<PixBackgroundHeader>
+  <PixBlock @shadow="light" class="login-or-register-oidc-form">
+    <a href={{this.homeUrl}} class="login-or-register-oidc-form__logo">
+      <img src="/images/pix-logo.svg" alt="{{t "common.pix"}}" />
+    </a>
+    <h1 class="login-or-register-oidc-form__title">{{t "pages.login-or-register-oidc.title"}}</h1>
+    <div class="login-or-register-oidc-form__container">
+      <div class="login-or-register-oidc-form__register-container">
+        <h2 class="login-or-register-oidc-form__subtitle">{{t "pages.login-or-register-oidc.register-form.title"}}</h2>
+        <p class="login-or-register-oidc-form__description">
+          {{t
+            "pages.login-or-register-oidc.register-form.description"
+            identityProviderOrganizationName=this.identityProviderOrganizationName
+          }}
+        </p>
+      </div>
+
+      <div class="login-or-register-oidc-form__divider"></div>
+
+      <div class="login-or-register-oidc-form__login-container">
+        <h2 class="login-or-register-oidc-form__subtitle">{{t "pages.login-or-register-oidc.login-form.title"}}</h2>
+        <p class="login-or-register-oidc-form__description">
+          {{t "pages.login-or-register-oidc.login-form.description"}}
+        </p>
+      </div>
+    </div>
+  </PixBlock>
+</PixBackgroundHeader>
