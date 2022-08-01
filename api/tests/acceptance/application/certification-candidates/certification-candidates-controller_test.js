@@ -184,10 +184,12 @@ describe('Acceptance | API | Certifications candidates', function () {
       });
 
       const cleaComplementaryCertification = databaseBuilder.factory.buildComplementaryCertification({
-        name: ComplementaryCertification.CLEA,
+        key: ComplementaryCertification.CLEA,
+        label: 'CléA Numérique',
       });
       const pixPlusDroitComplementaryCertification = databaseBuilder.factory.buildComplementaryCertification({
-        name: ComplementaryCertification.PIX_PLUS_DROIT,
+        key: ComplementaryCertification.PIX_PLUS_DROIT,
+        label: 'Pix+ Droit',
       });
       databaseBuilder.factory.buildComplementaryCertificationSubscription({
         certificationCandidateId: candidate.id,
@@ -219,11 +221,13 @@ describe('Acceptance | API | Certifications candidates', function () {
           'non-eligible-subscriptions': [
             {
               id: cleaComplementaryCertification.id,
-              name: 'CléA Numérique',
+              label: 'CléA Numérique',
+              key: ComplementaryCertification.CLEA,
             },
             {
               id: pixPlusDroitComplementaryCertification.id,
-              name: 'Pix+ Droit',
+              label: 'Pix+ Droit',
+              key: ComplementaryCertification.PIX_PLUS_DROIT,
             },
           ],
         },
