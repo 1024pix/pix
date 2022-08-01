@@ -1,4 +1,10 @@
 const { expect, databaseBuilder, catchErr, domainBuilder } = require('../../../../test-helper');
+const {
+  CLEA,
+  PIX_PLUS_DROIT,
+  PIX_PLUS_EDU_1ER_DEGRE,
+  PIX_PLUS_EDU_2ND_DEGRE,
+} = require('../../../../../lib/domain/models/ComplementaryCertification');
 const certificationCandidatesOdsService = require('../../../../../lib/domain/services/certification-candidates-ods-service');
 const certificationCpfService = require('../../../../../lib/domain/services/certification-cpf-service');
 const certificationCpfCountryRepository = require('../../../../../lib/infrastructure/repositories/certification-cpf-country-repository');
@@ -185,16 +191,20 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
     it('should return extracted and validated certification candidates with complementary certifications', async function () {
       // given
       const cleaComplementaryCertification = databaseBuilder.factory.buildComplementaryCertification({
-        name: 'CléA Numérique',
+        label: 'CléA Numérique',
+        key: CLEA,
       });
       const pixPlusDroitComplementaryCertification = databaseBuilder.factory.buildComplementaryCertification({
-        name: 'Pix+ Droit',
+        label: 'Pix+ Droit',
+        key: PIX_PLUS_DROIT,
       });
       const pixPlusEdu1erDegreComplementaryCertification = databaseBuilder.factory.buildComplementaryCertification({
-        name: 'Pix+ Édu 1er degré',
+        label: 'Pix+ Édu 1er degré',
+        key: PIX_PLUS_EDU_1ER_DEGRE,
       });
       const pixPlusEdu2ndDegreComplementaryCertification = databaseBuilder.factory.buildComplementaryCertification({
-        name: 'Pix+ Édu 2nd degré',
+        label: 'Pix+ Édu 2nd degré',
+        key: PIX_PLUS_EDU_2ND_DEGRE,
       });
 
       const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({}).id;
