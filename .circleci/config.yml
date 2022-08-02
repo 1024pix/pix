@@ -37,34 +37,15 @@ workflows:
                 - prod
                 - /release-.*/
 
-      - api_lint_and_test:
+      - api_install:
           requires:
             - checkout
-
-      - mon_pix_lint_and_test:
+      - api_lint:
           requires:
-            - checkout
-
-      - orga_lint_and_test:
+            - api_install
+      - api_test:
           requires:
-            - checkout
-
-      - certif_lint_and_test:
-          requires:
-            - checkout
-
-      - admin_lint_and_test:
-          requires:
-            - checkout
-
-      - e2e_test:
-          context: Pix
-          requires:
-            - checkout
-
-      - algo_test:
-          requires:
-            - checkout
+            - api_install
 
 jobs:
   checkout:
@@ -87,7 +68,7 @@ jobs:
           paths:
             - .
 
-  api_lint_and_test:
+  api_install:
     docker:
       - image: cimg/node:16.14.0
       - image: postgres:13.7-alpine
@@ -109,10 +90,51 @@ jobs:
           key: v7-api-npm-{{ checksum "cachekey" }}
           paths:
             - ~/.npm
+
+  api_lint:
+    docker:
+      - image: cimg/node:16.14.0
+      - image: postgres:13.7-alpine
+        environment:
+          POSTGRES_USER: circleci
+          POSTGRES_HOST_AUTH_METHOD: trust
+      - image: redis:6.2.7-alpine
+    resource_class: small
+    working_directory: ~/pix/api
+    steps:
+      - attach_workspace:
+          at: ~/pix
       - run:
-          name: Lint and test
+          name: Lint
           command: |
             npm run lint
+          environment:
+            TEST_DATABASE_URL: postgres://circleci@localhost:5432/circleci
+            TEST_REDIS_URL: redis://localhost:6379
+            MOCHA_FILE: /home/circleci/test-results/test-results.[hash].xml
+            MOCHA_REPORTER: mocha-junit-reporter
+          when: always
+      - store_test_results:
+          path: /home/circleci/test-results
+      - store_artifacts:
+          path: /home/circleci/test-results
+
+  api_test:
+    docker:
+      - image: cimg/node:16.14.0
+      - image: postgres:13.7-alpine
+        environment:
+          POSTGRES_USER: circleci
+          POSTGRES_HOST_AUTH_METHOD: trust
+      - image: redis:6.2.7-alpine
+    resource_class: small
+    working_directory: ~/pix/api
+    steps:
+      - attach_workspace:
+          at: ~/pix
+      - run:
+          name: Test
+          command: |
             npm run test:ci
           environment:
             TEST_DATABASE_URL: postgres://circleci@localhost:5432/circleci
