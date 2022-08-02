@@ -81,7 +81,7 @@ describe('Unit | Domain | Events | handle-pix-plus-edu-1er-degre-certifications-
         complementaryCertificationCourseRepository.getComplementaryCertificationCourseId
           .withArgs({
             certificationCourseId: 123,
-            complementaryCertificationName: PIX_PLUS_EDU_1ER_DEGRE,
+            complementaryCertificationKey: PIX_PLUS_EDU_1ER_DEGRE,
           })
           .resolves(999);
 
@@ -128,7 +128,7 @@ describe('Unit | Domain | Events | handle-pix-plus-edu-1er-degre-certifications-
       complementaryCertificationCourseRepository.getComplementaryCertificationCourseId
         .withArgs({
           certificationCourseId: 123,
-          complementaryCertificationName: PIX_PLUS_EDU_1ER_DEGRE,
+          complementaryCertificationKey: PIX_PLUS_EDU_1ER_DEGRE,
         })
         .resolves(999);
 
@@ -168,7 +168,7 @@ describe('Unit | Domain | Events | handle-pix-plus-edu-1er-degre-certifications-
       complementaryCertificationCourseRepository.getComplementaryCertificationCourseId
         .withArgs({
           certificationCourseId: 123,
-          complementaryCertificationName: PIX_PLUS_EDU_1ER_DEGRE,
+          complementaryCertificationKey: PIX_PLUS_EDU_1ER_DEGRE,
         })
         .resolves(999);
 
@@ -221,7 +221,7 @@ describe('Unit | Domain | Events | handle-pix-plus-edu-1er-degre-certifications-
       complementaryCertificationCourseRepository.getComplementaryCertificationCourseId
         .withArgs({
           certificationCourseId: 123,
-          complementaryCertificationName: PIX_PLUS_EDU_1ER_DEGRE,
+          complementaryCertificationKey: PIX_PLUS_EDU_1ER_DEGRE,
         })
         .resolves(999);
 
@@ -273,7 +273,7 @@ describe('Unit | Domain | Events | handle-pix-plus-edu-1er-degre-certifications-
       complementaryCertificationCourseRepository.getComplementaryCertificationCourseId
         .withArgs({
           certificationCourseId: 123,
-          complementaryCertificationName: PIX_PLUS_EDU_1ER_DEGRE,
+          complementaryCertificationKey: PIX_PLUS_EDU_1ER_DEGRE,
         })
         .resolves(999);
 

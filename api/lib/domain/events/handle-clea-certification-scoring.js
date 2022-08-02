@@ -15,7 +15,7 @@ async function handleCleaCertificationScoring({
   const complementaryCertificationCourseId =
     await complementaryCertificationCourseRepository.getComplementaryCertificationCourseId({
       certificationCourseId,
-      complementaryCertificationName: CLEA,
+      complementaryCertificationKey: CLEA,
     });
   if (!complementaryCertificationCourseId) {
     return;

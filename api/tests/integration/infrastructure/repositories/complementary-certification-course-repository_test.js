@@ -8,11 +8,13 @@ describe('Integration | Repository | complementary-certification-courses-reposit
         // given
         databaseBuilder.factory.buildComplementaryCertification({
           id: 1,
-          name: 'Pix+Edu',
+          label: 'Pix+ Edu 1er degré',
+          key: 'EDU_1ER_DEGRE',
         });
         databaseBuilder.factory.buildComplementaryCertification({
           id: 2,
-          name: 'Pix+Droit',
+          label: 'Pix+ Droit',
+          key: 'DROIT',
         });
         databaseBuilder.factory.buildCertificationCourse({ id: 99 });
         databaseBuilder.factory.buildComplementaryCertificationCourse({
@@ -26,7 +28,7 @@ describe('Integration | Repository | complementary-certification-courses-reposit
         // when
         const hasPixPlusDroit = await complementaryCertificationCourseRepository.getComplementaryCertificationCourseId({
           certificationCourseId: 99,
-          complementaryCertificationName: 'Pix+Droit',
+          complementaryCertificationKey: 'DROIT',
         });
 
         // then
@@ -39,11 +41,13 @@ describe('Integration | Repository | complementary-certification-courses-reposit
         // given
         databaseBuilder.factory.buildComplementaryCertification({
           id: 1,
-          name: 'Pix+Edu',
+          label: 'Pix+ Edu',
+          key: 'EDU_1ER_DEGRE',
         });
         databaseBuilder.factory.buildComplementaryCertification({
           id: 2,
-          name: 'Pix+Droit',
+          label: 'Pix+ Droit',
+          key: 'DROIT',
         });
         databaseBuilder.factory.buildCertificationCourse({ id: 99 });
         databaseBuilder.factory.buildComplementaryCertificationCourse({
@@ -56,7 +60,7 @@ describe('Integration | Repository | complementary-certification-courses-reposit
         // when
         const hasPixPlusDroit = await complementaryCertificationCourseRepository.getComplementaryCertificationCourseId({
           certificationCourseId: 99,
-          complementaryCertificationName: 'Pix+Droit',
+          complementaryCertificationKey: 'DROIT',
         });
 
         // then
@@ -69,7 +73,8 @@ describe('Integration | Repository | complementary-certification-courses-reposit
         // given
         databaseBuilder.factory.buildComplementaryCertification({
           id: 2,
-          name: 'Pix+Droit',
+          label: 'Pix+ Droit',
+          key: 'DROIT',
         });
         databaseBuilder.factory.buildCertificationCourse({ id: 99 });
         databaseBuilder.factory.buildCertificationCourse({ id: 98 });
@@ -83,7 +88,7 @@ describe('Integration | Repository | complementary-certification-courses-reposit
         // when
         const hasPixPlusDroit = await complementaryCertificationCourseRepository.getComplementaryCertificationCourseId({
           certificationCourseId: 99,
-          complementaryCertificationName: 'Pix+Droit',
+          complementaryCertificationKey: 'DROIT',
         });
 
         // then
