@@ -78,10 +78,7 @@ describe('Integration | Infrastructure | Repository | Private Certificate', func
         id: certificateId,
         ...privateCertificateData,
       });
-      expect(privateCertificate).to.be.instanceOf(PrivateCertificate);
-      expect(_.omit(privateCertificate, ['resultCompetenceTree'])).to.deep.equal(
-        _.omit(expectedPrivateCertificate, ['resultCompetenceTree'])
-      );
+      expect(privateCertificate).to.deepEqualInstanceOmitting(expectedPrivateCertificate, ['resultCompetenceTree']);
     });
 
     describe('when "locale" is french', function () {
@@ -412,9 +409,7 @@ describe('Integration | Infrastructure | Repository | Private Certificate', func
         id: certificateId,
         ...privateCertificateData,
       });
-      expect(_.omit(privateCertificate, ['resultCompetenceTree'])).to.deep.equal(
-        _.omit(expectedPrivateCertificate, ['resultCompetenceTree'])
-      );
+      expect(privateCertificate).to.deepEqualInstanceOmitting(expectedPrivateCertificate, ['resultCompetenceTree']);
     });
 
     it('should get the clea certification result if taken with badge V1', async function () {
@@ -475,9 +470,7 @@ describe('Integration | Infrastructure | Repository | Private Certificate', func
         id: certificateId,
         ...privateCertificateData,
       });
-      expect(_.omit(privateCertificate, ['resultCompetenceTree'])).to.deep.equal(
-        _.omit(expectedPrivateCertificate, ['resultCompetenceTree'])
-      );
+      expect(privateCertificate).to.deepEqualInstanceOmitting(expectedPrivateCertificate, ['resultCompetenceTree']);
     });
 
     it('should get the clea certification result if taken with badge V2', async function () {
@@ -521,9 +514,7 @@ describe('Integration | Infrastructure | Repository | Private Certificate', func
         id: certificateId,
         ...privateCertificateData,
       });
-      expect(_.omit(privateCertificate, ['resultCompetenceTree'])).to.deep.equal(
-        _.omit(expectedPrivateCertificate, ['resultCompetenceTree'])
-      );
+      expect(privateCertificate).to.deepEqualInstanceOmitting(expectedPrivateCertificate, ['resultCompetenceTree']);
     });
 
     it('should get the clea certification result if taken with badge V3', async function () {
@@ -567,9 +558,7 @@ describe('Integration | Infrastructure | Repository | Private Certificate', func
         id: certificateId,
         ...privateCertificateData,
       });
-      expect(_.omit(privateCertificate, ['resultCompetenceTree'])).to.deep.equal(
-        _.omit(expectedPrivateCertificate, ['resultCompetenceTree'])
-      );
+      expect(privateCertificate).to.deepEqualInstanceOmitting(expectedPrivateCertificate, ['resultCompetenceTree']);
     });
 
     context('acquired certifiable badges', function () {
@@ -616,9 +605,7 @@ describe('Integration | Infrastructure | Repository | Private Certificate', func
           ...privateCertificateData,
         });
 
-        expect(_.omit(privateCertificate, ['resultCompetenceTree'])).to.deep.equal(
-          _.omit(expectedPrivateCertificate, ['resultCompetenceTree'])
-        );
+        expect(privateCertificate).to.deepEqualInstanceOmitting(expectedPrivateCertificate, ['resultCompetenceTree']);
       });
 
       it('should only take into account acquired ones', async function () {
@@ -664,9 +651,7 @@ describe('Integration | Infrastructure | Repository | Private Certificate', func
           ...privateCertificateData,
         });
 
-        expect(_.omit(privateCertificate, ['resultCompetenceTree'])).to.deep.equal(
-          _.omit(expectedPrivateCertificate, ['resultCompetenceTree'])
-        );
+        expect(privateCertificate).to.deepEqualInstanceOmitting(expectedPrivateCertificate, ['resultCompetenceTree']);
       });
     });
 
@@ -769,9 +754,7 @@ describe('Integration | Infrastructure | Repository | Private Certificate', func
         ...privateCertificateData,
       });
 
-      expect(_.omit(privateCertificate, ['resultCompetenceTree'])).to.deep.equal(
-        _.omit(expectedPrivateCertificate, ['resultCompetenceTree'])
-      );
+      expect(privateCertificate).to.deepEqualInstanceOmitting(expectedPrivateCertificate, ['resultCompetenceTree']);
     });
 
     it('should get the certified badge image when there is temporary partner key and no partner key', async function () {
@@ -821,9 +804,7 @@ describe('Integration | Infrastructure | Repository | Private Certificate', func
         ...privateCertificateData,
       });
 
-      expect(_.omit(privateCertificate, ['resultCompetenceTree'])).to.deep.equal(
-        _.omit(expectedPrivateCertificate, ['resultCompetenceTree'])
-      );
+      expect(privateCertificate).to.deepEqualInstanceOmitting(expectedPrivateCertificate, ['resultCompetenceTree']);
     });
   });
 
@@ -984,9 +965,7 @@ describe('Integration | Infrastructure | Repository | Private Certificate', func
         id: certificateId,
         ...privateCertificateData,
       });
-      expect(_.omit(privateCertificates[0], ['resultCompetenceTree'])).to.deep.equal(
-        _.omit(expectedPrivateCertificate, ['resultCompetenceTree'])
-      );
+      expect(privateCertificates[0]).to.deepEqualInstanceOmitting(expectedPrivateCertificate, ['resultCompetenceTree']);
     });
 
     it('should get the clea certification result if taken', async function () {
