@@ -63,7 +63,6 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
     assessmentRepository.save = sinon.stub();
     competenceRepository.listPixCompetencesOnly = sinon.stub();
     certificationBadgesService.findStillValidBadgeAcquisitions = sinon.stub();
-    certificationBadgesService.hasStillValidCleaBadgeAcquisition = sinon.stub();
     certificationCandidateRepository.getBySessionIdAndUserId = sinon.stub();
     certificationCandidateRepository.update = sinon.stub();
     certificationChallengeRepository.save = sinon.stub();
@@ -401,7 +400,6 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                   certificationBadgesService.findStillValidBadgeAcquisitions
                     .withArgs({ userId: 2, domainTransaction })
                     .resolves([]);
-                  certificationBadgesService.hasStillValidCleaBadgeAcquisition.withArgs({ userId: 2 }).resolves(false);
 
                   // TODO: extraire jusqu'à la ligne 387 dans une fonction ?
                   const certificationCourseToSave = CertificationCourse.from({
@@ -1265,10 +1263,6 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                             .withArgs({ assessment: assessmentToSave, domainTransaction })
                             .resolves(savedAssessment);
 
-                          certificationBadgesService.hasStillValidCleaBadgeAcquisition
-                            .withArgs({ userId: 2 })
-                            .resolves(false);
-
                           certificationBadgesService.findStillValidBadgeAcquisitions
                             .withArgs({
                               userId: 2,
@@ -1335,13 +1329,11 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                         certificationCenterRepository.getBySessionId.resolves(certificationCenter);
                         complementaryCertificationRepository.findAll.resolves([complementaryCertificationCleA]);
 
-                        certificationBadgesService.hasStillValidCleaBadgeAcquisition
-                          .withArgs({ userId: 2 })
-                          .resolves(true);
+                        const cleaBadgeAcquisition = domainBuilder.buildBadgeAcquisition.forCleaV3();
 
                         certificationBadgesService.findStillValidBadgeAcquisitions
                           .withArgs({ userId: 2, domainTransaction })
-                          .resolves([]);
+                          .resolves([cleaBadgeAcquisition]);
 
                         certificationChallengesService.pickCertificationChallengesForPixPlus.resolves([]);
 
@@ -1382,10 +1374,6 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                         assessmentRepository.save
                           .withArgs({ assessment: assessmentToSave, domainTransaction })
                           .resolves(savedAssessment);
-
-                        certificationBadgesService.hasStillValidCleaBadgeAcquisition
-                          .withArgs({ userId: 2 })
-                          .resolves(true);
 
                         // when
                         const result = await retrieveLastOrCreateCertificationCourse({
@@ -1477,17 +1465,14 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                           assessmentRepository.save
                             .withArgs({ assessment: assessmentToSave, domainTransaction })
                             .resolves(savedAssessment);
-
-                          certificationBadgesService.hasStillValidCleaBadgeAcquisition
-                            .withArgs({ userId: 2 })
-                            .resolves(true);
+                          const cleaBadgeAcquisition = domainBuilder.buildBadgeAcquisition.forCleaV2();
 
                           certificationBadgesService.findStillValidBadgeAcquisitions
                             .withArgs({
                               userId: 2,
                               domainTransaction,
                             })
-                            .resolves([]);
+                            .resolves([cleaBadgeAcquisition]);
 
                           // when
                           const result = await retrieveLastOrCreateCertificationCourse({
@@ -1573,16 +1558,14 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
                           .withArgs({ assessment: assessmentToSave, domainTransaction })
                           .resolves(savedAssessment);
 
-                        certificationBadgesService.hasStillValidCleaBadgeAcquisition
-                          .withArgs({ userId: 2 })
-                          .resolves(true);
+                        const cleaBadgeAcquisition = domainBuilder.buildBadgeAcquisition.forCleaV1();
 
                         certificationBadgesService.findStillValidBadgeAcquisitions
                           .withArgs({
                             userId: 2,
                             domainTransaction,
                           })
-                          .resolves([]);
+                          .resolves([cleaBadgeAcquisition]);
 
                         // when
                         const result = await retrieveLastOrCreateCertificationCourse({

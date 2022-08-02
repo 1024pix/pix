@@ -1,5 +1,8 @@
 const { expect, domainBuilder } = require('../../../test-helper');
 const {
+  PIX_EMPLOI_CLEA_V1,
+  PIX_EMPLOI_CLEA_V2,
+  PIX_EMPLOI_CLEA_V3,
   PIX_DROIT_MAITRE_CERTIF,
   PIX_DROIT_EXPERT_CERTIF,
   PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
@@ -54,6 +57,10 @@ describe('Unit | Domain | Models | BadgeAcquisition', function () {
         PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
         PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
       ],
+    },
+    {
+      methodName: 'isCLeA',
+      keys: [PIX_EMPLOI_CLEA_V1, PIX_EMPLOI_CLEA_V2, PIX_EMPLOI_CLEA_V3],
     },
   ].forEach(({ methodName, keys }) => {
     describe(`#${methodName}`, function () {

@@ -11,6 +11,9 @@ const {
   PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_CONFIRME,
   PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE,
   PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT,
+  PIX_EMPLOI_CLEA_V1,
+  PIX_EMPLOI_CLEA_V2,
+  PIX_EMPLOI_CLEA_V3,
 } = require('./Badge').keys;
 
 class BadgeAcquisition {
@@ -24,6 +27,10 @@ class BadgeAcquisition {
 
   get badgeKey() {
     return this.badge.key;
+  }
+
+  isCleA() {
+    return [PIX_EMPLOI_CLEA_V1, PIX_EMPLOI_CLEA_V2, PIX_EMPLOI_CLEA_V3].includes(this.badgeKey);
   }
 
   isPixDroit() {
