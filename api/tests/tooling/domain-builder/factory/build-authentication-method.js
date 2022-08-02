@@ -107,7 +107,7 @@ buildAuthenticationMethod.withPoleEmploiAsIdentityProvider = function ({
   return new AuthenticationMethod({
     id,
     identityProvider: AuthenticationMethod.identityProviders.POLE_EMPLOI,
-    authenticationComplement: new AuthenticationMethod.PoleEmploiAuthenticationComplement({
+    authenticationComplement: new AuthenticationMethod.OidcAuthenticationComplement({
       accessToken,
       refreshToken,
       expiredDate,
@@ -131,6 +131,34 @@ buildAuthenticationMethod.withCnavAsIdentityProvider = function ({
   return new AuthenticationMethod({
     id,
     identityProvider: AuthenticationMethod.identityProviders.CNAV,
+    externalIdentifier,
+    userId,
+    createdAt,
+    updatedAt,
+  });
+};
+
+buildAuthenticationMethod.withIdentityProvider = function ({
+  id,
+  identityProvider,
+  externalIdentifier = `externalId${id}`,
+  accessToken = 'ABC456789',
+  refreshToken = 'ZFGEADZA789',
+  expiredDate = new Date('2022-01-01'),
+  userId,
+  createdAt = new Date('2020-01-01'),
+  updatedAt = new Date('2020-02-01'),
+} = {}) {
+  userId = isUndefined(userId) ? _buildUser().id : userId;
+
+  return new AuthenticationMethod({
+    id,
+    identityProvider,
+    authenticationComplement: new AuthenticationMethod.OidcAuthenticationComplement({
+      accessToken,
+      refreshToken,
+      expiredDate,
+    }),
     externalIdentifier,
     userId,
     createdAt,

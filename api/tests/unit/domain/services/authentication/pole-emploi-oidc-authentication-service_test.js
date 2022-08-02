@@ -54,7 +54,7 @@ describe('Unit | Domain | Services | pole-emploi-oidc-authentication-service', f
       const expectedAuthenticationMethod = new AuthenticationMethod({
         identityProvider: AuthenticationMethod.identityProviders.POLE_EMPLOI,
         externalIdentifier: externalIdentityId,
-        authenticationComplement: new AuthenticationMethod.PoleEmploiAuthenticationComplement({
+        authenticationComplement: new AuthenticationMethod.OidcAuthenticationComplement({
           accessToken: sessionContent.accessToken,
           refreshToken: sessionContent.refreshToken,
           expiredDate: moment().add(sessionContent.expiresIn, 's').toDate(),
@@ -144,6 +144,25 @@ describe('Unit | Domain | Services | pole-emploi-oidc-authentication-service', f
       expect(result).to.equal(
         'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c'
       );
+    });
+  });
+
+  describe('#createAuthenticationComplement', function () {
+    it('should create pole emploi authentication complement', function () {
+      // given
+      const sessionContent = {
+        accessToken: 'accessToken',
+        idToken: 'idToken',
+        expiresIn: 10,
+        refreshToken: 'refreshToken',
+      };
+      const poleEmploiOidcAuthenticationService = new PoleEmploiOidcAuthenticationService();
+
+      // when
+      const result = poleEmploiOidcAuthenticationService.createAuthenticationComplement({ sessionContent });
+
+      // then
+      expect(result).to.be.instanceOf(AuthenticationMethod.OidcAuthenticationComplement);
     });
   });
 });

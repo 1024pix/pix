@@ -44,6 +44,14 @@ class OidcAuthenticationService {
     );
   }
 
+  createAuthenticationComplement() {
+    return null;
+  }
+
+  saveIdToken() {
+    return null;
+  }
+
   async exchangeCodeForTokens({ code, redirectUri }) {
     const data = {
       client_secret: this.clientSecret,

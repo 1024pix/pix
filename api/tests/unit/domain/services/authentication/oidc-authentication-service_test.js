@@ -42,6 +42,32 @@ describe('Unit | Domain | Services | oidc-authentication-service', function () {
     });
   });
 
+  describe('#createAuthenticationComplement', function () {
+    it('should return null', function () {
+      // given
+      const oidcAuthenticationService = new OidcAuthenticationService({});
+
+      // when
+      const result = oidcAuthenticationService.createAuthenticationComplement();
+
+      // then
+      expect(result).to.be.null;
+    });
+  });
+
+  describe('#saveIdToken', function () {
+    it('should return null', async function () {
+      // given
+      const oidcAuthenticationService = new OidcAuthenticationService({});
+
+      // when
+      const result = await oidcAuthenticationService.saveIdToken();
+
+      // then
+      expect(result).to.be.null;
+    });
+  });
+
   describe('#exchangeCodeForTokens', function () {
     it('should return id token', async function () {
       // given
