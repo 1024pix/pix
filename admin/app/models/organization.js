@@ -10,16 +10,16 @@ export default class Organization extends Model {
   @attr('nullable-string') logoUrl;
   @attr('nullable-string') externalId;
   @attr('nullable-string') provinceCode;
-  @attr() isManagingStudents;
+  @attr('boolean') isManagingStudents;
   @attr('boolean') showNPS;
   @attr('string') formNPSUrl;
-  @attr() credit;
+  @attr('number') credit;
   @attr('nullable-string') email;
-  @attr() createdBy;
-  @attr('string') documentationUrl;
+  @attr('date') createdBy;
+  @attr('nullable-string') documentationUrl;
   @attr('boolean') showSkills;
   @attr('nullable-string') archivistFullName;
-  @attr() archivedAt;
+  @attr('date') archivedAt;
   @attr('nullable-string') creatorFullName;
 
   @equal('type', 'SCO') isOrganizationSCO;

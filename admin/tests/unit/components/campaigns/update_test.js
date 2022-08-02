@@ -40,50 +40,12 @@ module('Unit | Component | Campaigns | update', function (hooks) {
       // then
       assert.ok(event.preventDefault.called);
       assert.ok(component.args.campaign.save.called);
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(component.form.name, 'some name');
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(component.form.title, 'some title');
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(component.form.customLandingPageText, 'some text');
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(component.form.customResultPageText, 'some text again');
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(component.form.customResultPageButtonText, 'some button text');
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(component.form.customResultPageButtonUrl, 'google.com');
-    });
-
-    test('it should update campaign title even if it is empty', async function (assert) {
-      // given
-      const component = createGlimmerComponent('component:campaigns/update', {
-        campaign: {
-          name: 'some name',
-          title: '',
-          save: sinon.stub(),
-          rollbackAttributes: sinon.stub(),
-        },
-      });
-
-      const event = {
-        preventDefault: sinon.stub(),
-      };
-      component.form.title = '';
-
-      // when
-      await component.update(event);
-
-      // then
-      assert.ok(component.args.campaign.save.called);
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(component.args.campaign.title, null);
+      assert.strictEqual(component.form.name, 'some name');
+      assert.strictEqual(component.form.title, 'some title');
+      assert.strictEqual(component.form.customLandingPageText, 'some text');
+      assert.strictEqual(component.form.customResultPageText, 'some text again');
+      assert.strictEqual(component.form.customResultPageButtonText, 'some button text');
+      assert.strictEqual(component.form.customResultPageButtonUrl, 'google.com');
     });
 
     test('it should display a success notification when campaign has been saved', async function (assert) {
