@@ -356,7 +356,7 @@ describe('Integration | Repository | AuthenticationMethod', function () {
 
         // then
         expect(pixAuthenticationMethod.authenticationComplement).to.deep.equal(
-          new AuthenticationMethod.PoleEmploiAuthenticationComplement({
+          new AuthenticationMethod.OidcAuthenticationComplement({
             accessToken: 'AGENCENATIONALEPOURLEMPLOI',
             refreshToken: 'FRANCETRAVAIL',
             expiredDate: '2021-01-01T00:00:00.000Z',
@@ -783,23 +783,23 @@ describe('Integration | Repository | AuthenticationMethod', function () {
     });
   });
 
-  describe('#updatePoleEmploiAuthenticationComplementByUserId', function () {
+  describe('#updateAuthenticationComplementByUserIdAndIdentityProvider', function () {
     context('When authentication method exists', function () {
-      let poleEmploiAuthenticationMethod;
+      let authenticationMethod;
       let clock;
 
       beforeEach(function () {
         clock = sinon.useFakeTimers(new Date('2020-01-02'));
         const userId = databaseBuilder.factory.buildUser().id;
-        poleEmploiAuthenticationMethod =
-          databaseBuilder.factory.buildAuthenticationMethod.withPoleEmploiAsIdentityProvider({
-            id: 123,
-            externalIdentifier: 'identifier',
-            accessToken: 'to_be_updated',
-            refreshToken: 'to_be_updated',
-            expiredDate: Date.now(),
-            userId,
-          });
+        authenticationMethod = databaseBuilder.factory.buildAuthenticationMethod.withIdentityProvider({
+          id: 123,
+          identityProvider: 'POLE_EMPLOI',
+          externalIdentifier: 'identifier',
+          accessToken: 'to_be_updated',
+          refreshToken: 'to_be_updated',
+          expiredDate: Date.now(),
+          userId,
+        });
         return databaseBuilder.commit();
       });
 
@@ -807,20 +807,21 @@ describe('Integration | Repository | AuthenticationMethod', function () {
         clock.restore();
       });
 
-      it('should update the pole emploi authentication complement in database', async function () {
+      it('should update the authentication complement in database', async function () {
         // given
-        const userId = poleEmploiAuthenticationMethod.userId;
+        const userId = authenticationMethod.userId;
         const expiredDate = Date.now();
-        const authenticationComplement = new AuthenticationMethod.PoleEmploiAuthenticationComplement({
+        const authenticationComplement = new AuthenticationMethod.OidcAuthenticationComplement({
           accessToken: 'new_access_token',
           refreshToken: 'new_refresh_token',
           expiredDate,
         });
 
         // when
-        await authenticationMethodRepository.updatePoleEmploiAuthenticationComplementByUserId({
+        await authenticationMethodRepository.updateAuthenticationComplementByUserIdAndIdentityProvider({
           authenticationComplement,
           userId,
+          identityProvider: 'POLE_EMPLOI',
         });
 
         // then
@@ -834,9 +835,9 @@ describe('Integration | Repository | AuthenticationMethod', function () {
 
       it('should return the updated AuthenticationMethod', async function () {
         // given
-        const userId = poleEmploiAuthenticationMethod.userId;
+        const userId = authenticationMethod.userId;
         const expiredDate = Date.now();
-        const authenticationComplement = new AuthenticationMethod.PoleEmploiAuthenticationComplement({
+        const authenticationComplement = new AuthenticationMethod.OidcAuthenticationComplement({
           accessToken: 'new_access_token',
           refreshToken: 'new_refresh_token',
           expiredDate,
@@ -844,9 +845,10 @@ describe('Integration | Repository | AuthenticationMethod', function () {
 
         // when
         const updatedAuthenticationMethod =
-          await authenticationMethodRepository.updatePoleEmploiAuthenticationComplementByUserId({
+          await authenticationMethodRepository.updateAuthenticationComplementByUserIdAndIdentityProvider({
             authenticationComplement,
             userId,
+            identityProvider: 'POLE_EMPLOI',
           });
 
         // then
@@ -870,9 +872,12 @@ describe('Integration | Repository | AuthenticationMethod', function () {
         const authenticationComplement = {};
 
         // when
-        const error = await catchErr(authenticationMethodRepository.updatePoleEmploiAuthenticationComplementByUserId)({
+        const error = await catchErr(
+          authenticationMethodRepository.updateAuthenticationComplementByUserIdAndIdentityProvider
+        )({
           authenticationComplement,
           userId,
+          identityProvider: 'POLE_EMPLOI',
         });
 
         // then

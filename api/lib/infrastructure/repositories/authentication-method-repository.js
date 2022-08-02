@@ -26,7 +26,7 @@ function _toAuthenticationComplement(identityProvider, bookshelfAuthenticationCo
   }
 
   if (identityProvider === AuthenticationMethod.identityProviders.POLE_EMPLOI) {
-    return new AuthenticationMethod.PoleEmploiAuthenticationComplement(bookshelfAuthenticationComplement);
+    return new AuthenticationMethod.OidcAuthenticationComplement(bookshelfAuthenticationComplement);
   }
 
   if (identityProvider === AuthenticationMethod.identityProviders.GAR) {
@@ -249,15 +249,19 @@ module.exports = {
     return _toDomain(authenticationMethodDTO);
   },
 
-  async updatePoleEmploiAuthenticationComplementByUserId({ authenticationComplement, userId }) {
+  async updateAuthenticationComplementByUserIdAndIdentityProvider({
+    authenticationComplement,
+    userId,
+    identityProvider,
+  }) {
     const [authenticationMethodDTO] = await knex(AUTHENTICATION_METHODS_TABLE)
-      .where({ userId, identityProvider: AuthenticationMethod.identityProviders.POLE_EMPLOI })
+      .where({ userId, identityProvider })
       .update({ authenticationComplement, updatedAt: new Date() })
       .returning(COLUMNS);
 
     if (!authenticationMethodDTO) {
       throw new AuthenticationMethodNotFoundError(
-        `No rows updated for authentication method of type ${AuthenticationMethod.identityProviders.POLE_EMPLOI} for user ${userId}.`
+        `No rows updated for authentication method of type ${identityProvider} for user ${userId}.`
       );
     }
     return _toDomain(authenticationMethodDTO);

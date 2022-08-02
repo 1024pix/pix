@@ -113,7 +113,7 @@ buildAuthenticationMethod.withPoleEmploiAsIdentityProvider = function ({
   const values = {
     id,
     identityProvider: AuthenticationMethod.identityProviders.POLE_EMPLOI,
-    authenticationComplement: new AuthenticationMethod.PoleEmploiAuthenticationComplement({
+    authenticationComplement: new AuthenticationMethod.OidcAuthenticationComplement({
       accessToken,
       refreshToken,
       expiredDate,
@@ -145,6 +145,42 @@ buildAuthenticationMethod.withCnavAsIdentityProvider = function ({
   const values = {
     id,
     identityProvider: AuthenticationMethod.identityProviders.CNAV,
+    externalIdentifier: generatedIdentifier,
+    userId,
+    createdAt,
+    updatedAt,
+  };
+  return databaseBuffer.pushInsertable({
+    tableName: 'authentication-methods',
+    values,
+  });
+};
+
+buildAuthenticationMethod.withIdentityProvider = function ({
+  id = databaseBuffer.getNextId(),
+  identityProvider,
+  externalIdentifier,
+  accessToken = 'ABC789',
+  refreshToken = 'DEF753',
+  expiredDate = new Date('2022-01-01'),
+  userId,
+  createdAt = new Date('2020-01-01'),
+  updatedAt = new Date('2020-01-02'),
+} = {}) {
+  userId = isUndefined(userId) ? buildUser().id : userId;
+
+  let generatedIdentifier = externalIdentifier;
+  if (!generatedIdentifier) {
+    generatedIdentifier = `externalIdentifier-${id}`;
+  }
+  const values = {
+    id,
+    identityProvider,
+    authenticationComplement: new AuthenticationMethod.OidcAuthenticationComplement({
+      accessToken,
+      refreshToken,
+      expiredDate,
+    }),
     externalIdentifier: generatedIdentifier,
     userId,
     createdAt,
