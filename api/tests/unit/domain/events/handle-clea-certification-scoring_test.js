@@ -156,7 +156,7 @@ describe('Unit | Domain | Events | handle-clea-certification-scoring', function 
           complementaryCertificationCourseRepository.getComplementaryCertificationCourseId
             .withArgs({
               certificationCourseId,
-              complementaryCertificationName: CLEA,
+              complementaryCertificationKey: CLEA,
             })
             .resolves(complementaryCertificationCourseId);
 
@@ -187,7 +187,7 @@ describe('Unit | Domain | Events | handle-clea-certification-scoring', function 
           complementaryCertificationCourseRepository.getComplementaryCertificationCourseId
             .withArgs({
               certificationCourseId,
-              complementaryCertificationName: CLEA,
+              complementaryCertificationKey: CLEA,
             })
             .resolves(undefined);
 
@@ -268,7 +268,7 @@ describe('Unit | Domain | Events | handle-clea-certification-scoring', function 
           complementaryCertificationCourseRepository.getComplementaryCertificationCourseId
             .withArgs({
               certificationCourseId,
-              complementaryCertificationName: CLEA,
+              complementaryCertificationKey: CLEA,
             })
             .resolves(complementaryCertificationCourseId);
 
@@ -299,7 +299,7 @@ describe('Unit | Domain | Events | handle-clea-certification-scoring', function 
           complementaryCertificationCourseRepository.getComplementaryCertificationCourseId
             .withArgs({
               certificationCourseId,
-              complementaryCertificationName: CLEA,
+              complementaryCertificationKey: CLEA,
             })
             .resolves(undefined);
 

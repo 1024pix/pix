@@ -41,7 +41,7 @@ async function handlePixPlusEdu1erDegreCertificationsScoring({
   const complementaryCertificationCourseId =
     await complementaryCertificationCourseRepository.getComplementaryCertificationCourseId({
       certificationCourseId,
-      complementaryCertificationName: PIX_PLUS_EDU_1ER_DEGRE,
+      complementaryCertificationKey: PIX_PLUS_EDU_1ER_DEGRE,
     });
   if (!complementaryCertificationCourseId) {
     return;
