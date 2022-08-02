@@ -186,6 +186,15 @@ export default function () {
     return schema.organizationInvitations.create({ email, lang, role, updatedAt });
   });
 
+  this.delete('/admin/organizations/:id/invitations/:invitation-id', (schema, request) => {
+    const organizationInvitationId = request.params['invitation-id'];
+
+    const invitation = schema.organizationInvitations.find(organizationInvitationId);
+    invitation.status = 'cancelled';
+
+    return invitation;
+  });
+
   this.patch('/admin/memberships/:id', (schema, request) => {
     const membershipId = request.params.id;
     const params = JSON.parse(request.requestBody);
