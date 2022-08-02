@@ -108,7 +108,7 @@ async function _getLatestPixScoreByCertificationCourseId(certificationCourseId) 
 async function _getMinimumReproducibilityRateAndMinimumEarnedPix() {
   const { minimumReproducibilityRate, minimumEarnedPix } = await knex('complementary-certifications')
     .select('minimumReproducibilityRate', 'minimumEarnedPix')
-    .where({ name: ComplementaryCertification.CLEA })
+    .where({ key: ComplementaryCertification.CLEA })
     .first();
 
   return {
