@@ -63,11 +63,13 @@ describe('Integration | Repository | Certification Center', function () {
         });
         databaseBuilder.factory.buildComplementaryCertification({
           id: 12345,
-          name: 'Complementary certification test 1',
+          label: 'Complementary certification test 1',
+          key: 'COMP_1',
         });
         databaseBuilder.factory.buildComplementaryCertification({
           id: 6789,
-          name: 'Complementary certification test 2',
+          label: 'Complementary certification test 2',
+          key: 'COMP_2',
         });
         databaseBuilder.factory.buildComplementaryCertificationHabilitation({
           certificationCenterId: 1,
@@ -80,11 +82,13 @@ describe('Integration | Repository | Certification Center', function () {
 
         const expectedComplementaryCertification1 = domainBuilder.buildComplementaryCertification({
           id: 12345,
-          name: 'Complementary certification test 1',
+          label: 'Complementary certification test 1',
+          key: 'COMP_1',
         });
         const expectedComplementaryCertification2 = domainBuilder.buildComplementaryCertification({
           id: 6789,
-          name: 'Complementary certification test 2',
+          label: 'Complementary certification test 2',
+          key: 'COMP_2',
         });
         const expectedCertificationCenter = domainBuilder.buildCertificationCenter({
           id: 1,
@@ -161,7 +165,8 @@ describe('Integration | Repository | Certification Center', function () {
         }).id;
         databaseBuilder.factory.buildComplementaryCertification({
           id: 1234,
-          name: 'Complementary certification name',
+          label: 'Complementary certification name',
+          key: 'COMP',
         });
         databaseBuilder.factory.buildComplementaryCertificationHabilitation({
           certificationCenterId: 1,
@@ -170,7 +175,8 @@ describe('Integration | Repository | Certification Center', function () {
 
         const expectedComplementaryCertification = domainBuilder.buildComplementaryCertification({
           id: 1234,
-          name: 'Complementary certification name',
+          label: 'Complementary certification name',
+          key: 'COMP',
         });
         const expectedCertificationCenter = domainBuilder.buildCertificationCenter({
           id: 1,
@@ -260,7 +266,8 @@ describe('Integration | Repository | Certification Center', function () {
         }).id;
         databaseBuilder.factory.buildComplementaryCertification({
           id: 1234,
-          name: 'Complementary certification name',
+          label: 'Complementary certification name',
+          key: 'COMP',
         });
         databaseBuilder.factory.buildComplementaryCertificationHabilitation({
           certificationCenterId: 1,
@@ -269,7 +276,8 @@ describe('Integration | Repository | Certification Center', function () {
 
         const expectedComplementaryCertification = domainBuilder.buildComplementaryCertification({
           id: 1234,
-          name: 'Complementary certification name',
+          label: 'Complementary certification name',
+          key: 'COMP',
         });
         const expectedCertificationCenter = domainBuilder.buildCertificationCenter({
           id: 1,
@@ -441,7 +449,8 @@ describe('Integration | Repository | Certification Center', function () {
         });
         databaseBuilder.factory.buildComplementaryCertification({
           id: 11,
-          name: 'Complementary certification name',
+          label: 'Complementary certification name',
+          key: 'COMP',
         });
         databaseBuilder.factory.buildComplementaryCertificationHabilitation({
           certificationCenterId: 1,
@@ -449,7 +458,8 @@ describe('Integration | Repository | Certification Center', function () {
         });
         const expectedComplementaryCertification1 = domainBuilder.buildComplementaryCertification({
           id: 11,
-          name: 'Complementary certification name',
+          label: 'Complementary certification name',
+          key: 'COMP',
         });
         const expectedCertificationCenter1 = domainBuilder.buildCertificationCenter({
           id: 1,
@@ -470,7 +480,8 @@ describe('Integration | Repository | Certification Center', function () {
         });
         databaseBuilder.factory.buildComplementaryCertification({
           id: 22,
-          name: 'Complementary certification name',
+          label: 'Complementary certification name',
+          key: 'COMP',
         });
         databaseBuilder.factory.buildComplementaryCertificationHabilitation({
           certificationCenterId: 2,
@@ -478,7 +489,8 @@ describe('Integration | Repository | Certification Center', function () {
         });
         const expectedComplementaryCertification2 = domainBuilder.buildComplementaryCertification({
           id: 22,
-          name: 'Complementary certification name',
+          label: 'Complementary certification name',
+          key: 'COMP',
         });
         const expectedCertificationCenter2 = domainBuilder.buildCertificationCenter({
           id: 2,
@@ -499,7 +511,8 @@ describe('Integration | Repository | Certification Center', function () {
         });
         databaseBuilder.factory.buildComplementaryCertification({
           id: 33,
-          name: 'Complementary certification name',
+          label: 'Complementary certification name',
+          key: 'COMP',
         });
         databaseBuilder.factory.buildComplementaryCertificationHabilitation({
           certificationCenterId: 3,
@@ -507,7 +520,8 @@ describe('Integration | Repository | Certification Center', function () {
         });
         const expectedComplementaryCertification3 = domainBuilder.buildComplementaryCertification({
           id: 33,
-          name: 'Complementary certification name',
+          label: 'Complementary certification name',
+          key: 'COMP',
         });
         const expectedCertificationCenter3 = domainBuilder.buildCertificationCenter({
           id: 3,
@@ -721,7 +735,8 @@ describe('Integration | Repository | Certification Center', function () {
         });
         databaseBuilder.factory.buildComplementaryCertification({
           id: 123,
-          name: 'Complementary certification test',
+          label: 'Complementary certification name',
+          key: 'COMP',
         });
         databaseBuilder.factory.buildComplementaryCertificationHabilitation({
           certificationCenterId: 1,
@@ -729,7 +744,8 @@ describe('Integration | Repository | Certification Center', function () {
         });
         const expectedComplementaryCertification = domainBuilder.buildComplementaryCertification({
           id: 123,
-          name: 'Complementary certification test',
+          label: 'Complementary certification name',
+          key: 'COMP',
         });
         const expectedCertificationCenter = domainBuilder.buildCertificationCenter({
           id: 1,
