@@ -298,10 +298,12 @@ describe('Integration | Repository | CertificationCandidate', function () {
         // given
         const sessionId = databaseBuilder.factory.buildSession().id;
         const rockCertification = databaseBuilder.factory.buildComplementaryCertification({
-          name: 'Pix+Rock',
+          label: 'Pix+Rock',
+          key: 'ROCK',
         });
         const jazzCertification = databaseBuilder.factory.buildComplementaryCertification({
-          name: 'Pix+Jazz',
+          label: 'Pix+Jazz',
+          key: 'JAZZ',
         });
         const matthieuChedid = databaseBuilder.factory.buildCertificationCandidate({
           lastName: 'Chedid',
@@ -346,15 +348,15 @@ describe('Integration | Repository | CertificationCandidate', function () {
         expect(firstCandidate.firstName).to.equal('Louis');
         expect(firstCandidate.lastName).to.equal('Chedid');
         expect(firstCandidate.complementaryCertifications[0]).to.deepEqualInstance(
-          new ComplementaryCertification({ id: rockCertification.id, name: 'Pix+Rock' })
+          new ComplementaryCertification({ id: rockCertification.id, label: 'Pix+Rock', key: 'ROCK' })
         );
         expect(firstCandidate.complementaryCertifications[1]).to.deepEqualInstance(
-          new ComplementaryCertification({ id: jazzCertification.id, name: 'Pix+Jazz' })
+          new ComplementaryCertification({ id: jazzCertification.id, label: 'Pix+Jazz', key: 'JAZZ' })
         );
         expect(secondCandidate.firstName).to.equal('Matthieu');
         expect(secondCandidate.lastName).to.equal('Chedid');
         expect(secondCandidate.complementaryCertifications[0]).to.deepEqualInstance(
-          new ComplementaryCertification({ id: rockCertification.id, name: 'Pix+Rock' })
+          new ComplementaryCertification({ id: rockCertification.id, label: 'Pix+Rock', key: 'ROCK' })
         );
 
         expect(thirdCandidate.firstName).to.equal('Hancock');
