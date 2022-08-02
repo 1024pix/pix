@@ -193,7 +193,7 @@ describe('#answerTheChallenge', () => {
     ].forEach((testCase) => {
       it(`should return the list of answers with ${testCase.answerStatus} answers for ${testCase.userKE ? testCase.userKE.status : 'empty' } KE`, () => {
         // given
-        challenge.skills = [{ id: 'recPgkHUdzk0HPGt1' }];
+        challenge.skill = { id: 'recPgkHUdzk0HPGt1' };
 
         // when
         const result = answerTheChallenge({
