@@ -14,6 +14,10 @@ export default class OrganizationInvitation extends ApplicationAdapter {
     return `${this.host}/${this.namespace}/organizations/${organizationId}/invitations`;
   }
 
+  urlForDeleteRecord(id, modelName, { adapterOptions }) {
+    return `${this.host}/${this.namespace}/organizations/${adapterOptions.organizationId}/invitations/${adapterOptions.organizationInvitationId}`;
+  }
+
   createRecord() {
     return super.createRecord(...arguments).then((response) => {
       response.data = response.data[0];

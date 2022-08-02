@@ -1,5 +1,4 @@
 .organization-invitations {
-
   &__input {
     min-width: 320px;
   }
@@ -10,5 +9,11 @@
 
   &__message {
     text-align: center;
+  }
+
+  &-actions__button {
+    svg {
+      margin-right: 6px;
+    }
   }
 }

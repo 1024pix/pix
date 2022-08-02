@@ -11,14 +11,26 @@
               <th>Adresse e-mail</th>
               <th>Rôle</th>
               <th>Date de dernier envoi</th>
+              <th>Actions</th>
             </tr>
           </thead>
           <tbody>
             {{#each this.sortedInvitations as |invitation|}}
-              <tr aria-label="Invitation en attente">
+              <tr aria-label="Invitation en attente de {{invitation.email}}">
                 <td>{{invitation.email}}</td>
                 <td>{{invitation.roleInFrench}}</td>
                 <td>{{dayjs-format invitation.updatedAt "DD/MM/YYYY [-] HH:mm" locale="fr"}}</td>
+                <td>
+                  <PixButton
+                    @size="small"
+                    @backgroundColor="red"
+                    class="organization-invitations-actions__button"
+                    aria-label="Annuler l’invitation de {{invitation.email}}"
+                    @triggerAction={{fn @onCancelOrganizationInvitation invitation}}
+                  >
+                    <FaIcon @icon="trash" />Annuler l’invitation
+                  </PixButton>
+                </td>
               </tr>
             {{/each}}
           </tbody>
