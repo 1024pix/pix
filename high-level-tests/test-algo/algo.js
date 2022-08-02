@@ -48,7 +48,7 @@ function answerTheChallenge({ challenge, allAnswers, allKnowledgeElements, targe
       isFirstAnswer ? result = AnswerStatus.KO : result = AnswerStatus.OK;
       break;
     case 'KE': {
-      const ke = find(userKE, (ke) => find(challenge.skills, (skill) => skill.id === ke.skillId));
+      const ke = find(userKE, (ke) => challenge.skill.id === ke.skillId);
       const status = ke ? ke.status : KnowledgeElement.StatusType.INVALIDATED;
       result = status === KnowledgeElement.StatusType.VALIDATED ? AnswerStatus.OK : AnswerStatus.KO;
       break;
