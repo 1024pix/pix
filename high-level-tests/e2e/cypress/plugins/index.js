@@ -26,7 +26,12 @@ module.exports = (on, config) => {
           });
           return Promise.all(sequenceUpdatePromises);
         });
-    }
+    },
+    log(message) {
+      console.log(message)
+
+      return null
+    },
   });
   return config;
 };
