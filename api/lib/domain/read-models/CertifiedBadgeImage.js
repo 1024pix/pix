@@ -28,21 +28,17 @@ class CertifiedBadgeImage {
     });
   }
 
-  static fromPartnerKey(partnerKey, isTemporaryBadge) {
+  static fromPartnerKey(partnerKey, isTemporaryBadge, imageUrl) {
     const badgeKey = partnerKey;
 
-    if (badgeKey === PIX_DROIT_MAITRE_CERTIF) {
-      return CertifiedBadgeImage.finalFromPath('https://images.pix.fr/badges-certifies/pix-droit/maitre.svg');
-    }
-
-    if (badgeKey === PIX_DROIT_EXPERT_CERTIF) {
-      return CertifiedBadgeImage.finalFromPath('https://images.pix.fr/badges-certifies/pix-droit/expert.svg');
+    if (badgeKey === PIX_DROIT_MAITRE_CERTIF || badgeKey === PIX_DROIT_EXPERT_CERTIF) {
+      return CertifiedBadgeImage.finalFromPath(imageUrl);
     }
 
     if (badgeKey === PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE) {
       const levelName = 'Initié (entrée dans le métier)';
       return new CertifiedBadgeImage({
-        path: 'https://images.pix.fr/badges/Pix_plus_Edu-1-Initie-certif.svg',
+        path: imageUrl,
         message: _getBadgeMessage(isTemporaryBadge, levelName),
         isTemporaryBadge,
         levelName,
@@ -52,7 +48,7 @@ class CertifiedBadgeImage {
     if (badgeKey === PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_INITIE) {
       const levelName = 'Initié (entrée dans le métier)';
       return new CertifiedBadgeImage({
-        path: 'https://images.pix.fr/badges/Pix_plus_Edu-certif-Autonome_PREMIER-DEGRE.svg',
+        path: imageUrl,
         message: _getBadgeMessage(isTemporaryBadge, levelName),
         isTemporaryBadge,
         levelName,
@@ -64,7 +60,7 @@ class CertifiedBadgeImage {
     ) {
       const levelName = 'Confirmé';
       return new CertifiedBadgeImage({
-        path: 'https://images.pix.fr/badges/Pix_plus_Edu-2-Confirme-certif.svg',
+        path: imageUrl,
         message: _getBadgeMessage(isTemporaryBadge, levelName),
         isTemporaryBadge,
         levelName,
@@ -76,7 +72,7 @@ class CertifiedBadgeImage {
     ) {
       const levelName = 'Confirmé';
       return new CertifiedBadgeImage({
-        path: 'https://images.pix.fr/badges/Pix_plus_Edu-certif-confirme_PREMIER-DEGRE.svg',
+        path: imageUrl,
         message: _getBadgeMessage(isTemporaryBadge, levelName),
         isTemporaryBadge,
         levelName,
@@ -86,7 +82,7 @@ class CertifiedBadgeImage {
     if (badgeKey === PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE) {
       const levelName = 'Avancé';
       return new CertifiedBadgeImage({
-        path: 'https://images.pix.fr/badges/Pix_plus_Edu-3-Avance-certif.svg',
+        path: imageUrl,
         message: _getBadgeMessage(isTemporaryBadge, levelName),
         isTemporaryBadge,
         levelName,
@@ -96,7 +92,7 @@ class CertifiedBadgeImage {
     if (badgeKey === PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE) {
       const levelName = 'Avancé';
       return new CertifiedBadgeImage({
-        path: 'https://images.pix.fr/badges/Pix_plus_Edu-certif-avance_PREMIER-DEGRE.svg',
+        path: imageUrl,
         message: _getBadgeMessage(isTemporaryBadge, levelName),
         isTemporaryBadge,
         levelName,
@@ -106,7 +102,7 @@ class CertifiedBadgeImage {
     if (badgeKey === PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT) {
       const levelName = 'Expert';
       return new CertifiedBadgeImage({
-        path: 'https://images.pix.fr/badges/Pix_plus_Edu-4-Expert-certif.svg',
+        path: imageUrl,
         message: _getBadgeMessage(isTemporaryBadge, levelName),
         isTemporaryBadge,
         levelName,
@@ -116,7 +112,7 @@ class CertifiedBadgeImage {
     if (badgeKey === PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT) {
       const levelName = 'Expert';
       return new CertifiedBadgeImage({
-        path: 'https://images.pix.fr/badges/Pix_plus_Edu-certif-Expert_PREMIER-DEGRE.svg',
+        path: imageUrl,
         message: _getBadgeMessage(isTemporaryBadge, levelName),
         isTemporaryBadge,
         levelName,
