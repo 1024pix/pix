@@ -26,7 +26,7 @@ orbs:
 
 workflows:
   version: 2
-  build-and-test:
+  lint-and-test:
     jobs:
       - checkout:
           filters:
@@ -37,23 +37,23 @@ workflows:
                 - prod
                 - /release-.*/
 
-      - api_build_and_test:
+      - api_lint_and_test:
           requires:
             - checkout
 
-      - mon_pix_build_and_test:
+      - mon_pix_lint_and_test:
           requires:
             - checkout
 
-      - orga_build_and_test:
+      - orga_lint_and_test:
           requires:
             - checkout
 
-      - certif_build_and_test:
+      - certif_lint_and_test:
           requires:
             - checkout
 
-      - admin_build_and_test:
+      - admin_lint_and_test:
           requires:
             - checkout
 
@@ -87,7 +87,7 @@ jobs:
           paths:
             - .
 
-  api_build_and_test:
+  api_lint_and_test:
     docker:
       - image: cimg/node:16.14.0
       - image: postgres:13.7-alpine
@@ -125,7 +125,7 @@ jobs:
       - store_artifacts:
           path: /home/circleci/test-results
 
-  mon_pix_build_and_test:
+  mon_pix_lint_and_test:
     docker:
       - image: cimg/node:16.14.0-browsers
         environment:
@@ -153,7 +153,7 @@ jobs:
           name: Test
           command: npm run test:ci
 
-  orga_build_and_test:
+  orga_lint_and_test:
     docker:
       - image: cimg/node:16.14.0-browsers
         environment:
@@ -180,7 +180,7 @@ jobs:
           name: Test
           command: npm run test:ci
 
-  certif_build_and_test:
+  certif_lint_and_test:
     docker:
       - image: cimg/node:16.14.0-browsers
         environment:
@@ -207,7 +207,7 @@ jobs:
           name: Test
           command: npm run test:ci
 
-  admin_build_and_test:
+  admin_lint_and_test:
     docker:
       - image: cimg/node:16.14.0-browsers
         environment:
@@ -375,4 +375,3 @@ jobs:
       - run:
           name: Test
           command: npm run test:ci
-
