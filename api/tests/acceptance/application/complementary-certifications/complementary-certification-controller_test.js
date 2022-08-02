@@ -26,11 +26,13 @@ describe('Acceptance | API | complementary-certification-controller', function (
       };
       databaseBuilder.factory.buildComplementaryCertification({
         id: 1,
-        name: 'Pix+Edu',
+        label: 'Pix+ Edu 1er degré',
+        key: 'EDU_1ER_DEGRE',
       });
       databaseBuilder.factory.buildComplementaryCertification({
         id: 2,
-        name: 'Cléa Numérique',
+        label: 'Cléa Numérique',
+        key: 'CLEA',
       });
       await databaseBuilder.commit();
 
@@ -45,14 +47,16 @@ describe('Acceptance | API | complementary-certification-controller', function (
             type: 'habilitations',
             id: '1',
             attributes: {
-              name: 'Pix+Edu',
+              label: 'Pix+ Edu 1er degré',
+              key: 'EDU_1ER_DEGRE',
             },
           },
           {
             type: 'habilitations',
             id: '2',
             attributes: {
-              name: 'Cléa Numérique',
+              label: 'Cléa Numérique',
+              key: 'CLEA',
             },
           },
         ],
