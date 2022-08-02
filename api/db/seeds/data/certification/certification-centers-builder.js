@@ -49,18 +49,21 @@ function certificationCentersBuilder({ databaseBuilder }) {
     badgeId: PIX_EMPLOI_CLEA_BADGE_ID_V1,
     level: 1,
     complementaryCertificationId: CLEA_COMPLEMENTARY_CERTIFICATION_ID,
+    imageUrl: 'https://images.pix.fr/badges/Pix-emploi.svg',
   });
 
   databaseBuilder.factory.buildComplementaryCertificationBadge({
     badgeId: PIX_EMPLOI_CLEA_BADGE_ID_V2,
     level: 2,
     complementaryCertificationId: CLEA_COMPLEMENTARY_CERTIFICATION_ID,
+    imageUrl: 'https://images.pix.fr/badges/Pix-emploi.svg',
   });
 
   databaseBuilder.factory.buildComplementaryCertificationBadge({
     badgeId: PIX_EMPLOI_CLEA_BADGE_ID_V3,
     level: 3,
     complementaryCertificationId: CLEA_COMPLEMENTARY_CERTIFICATION_ID,
+    imageUrl: 'https://images.pix.fr/badges/Pix-emploi.svg',
   });
 
   databaseBuilder.factory.buildComplementaryCertification({
@@ -82,17 +85,20 @@ function certificationCentersBuilder({ databaseBuilder }) {
     badgeId: PIX_DROIT_MAITRE_BADGE_ID,
     level: 1,
     complementaryCertificationId: PIX_DROIT_COMPLEMENTARY_CERTIFICATION_ID,
+    imageUrl: 'https://images.pix.fr/badges-certifies/pix-droit/maitre.svg',
   });
   databaseBuilder.factory.buildComplementaryCertificationBadge({
     badgeId: PIX_DROIT_EXPERT_BADGE_ID,
     level: 2,
     complementaryCertificationId: PIX_DROIT_COMPLEMENTARY_CERTIFICATION_ID,
+    imageUrl: 'https://images.pix.fr/badges-certifies/pix-droit/expert.svg',
   });
 
   databaseBuilder.factory.buildComplementaryCertificationBadge({
     badgeId: PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_INITIE_BADGE_ID,
     level: 1,
     complementaryCertificationId: PIX_EDU_1ER_DEGRE_COMPLEMENTARY_CERTIFICATION_ID,
+    imageUrl: 'https://images.pix.fr/badges/Pix_plus_Edu-certif-Autonome_PREMIER-DEGRE.svg',
   });
   databaseBuilder.factory.buildComplementaryCertificationBadge({
     badgeId: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE_BADGE_ID,
@@ -104,6 +110,7 @@ function certificationCentersBuilder({ databaseBuilder }) {
     badgeId: PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_CONFIRME_BADGE_ID,
     level: 2,
     complementaryCertificationId: PIX_EDU_1ER_DEGRE_COMPLEMENTARY_CERTIFICATION_ID,
+    imageUrl: 'https://images.pix.fr/badges/Pix_plus_Edu-certif-confirme_PREMIER-DEGRE.svg',
   });
   databaseBuilder.factory.buildComplementaryCertificationBadge({
     badgeId: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME_BADGE_ID,
@@ -115,6 +122,7 @@ function certificationCentersBuilder({ databaseBuilder }) {
     badgeId: PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_CONFIRME_BADGE_ID,
     level: 3,
     complementaryCertificationId: PIX_EDU_1ER_DEGRE_COMPLEMENTARY_CERTIFICATION_ID,
+    imageUrl: 'https://images.pix.fr/badges/Pix_plus_Edu-certif-confirme_PREMIER-DEGRE.svg',
   });
   databaseBuilder.factory.buildComplementaryCertificationBadge({
     badgeId: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME_BADGE_ID,
@@ -126,6 +134,7 @@ function certificationCentersBuilder({ databaseBuilder }) {
     badgeId: PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE_BADGE_ID,
     level: 4,
     complementaryCertificationId: PIX_EDU_1ER_DEGRE_COMPLEMENTARY_CERTIFICATION_ID,
+    imageUrl: 'https://images.pix.fr/badges/Pix_plus_Edu-certif-avance_PREMIER-DEGRE.svg',
   });
   databaseBuilder.factory.buildComplementaryCertificationBadge({
     badgeId: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE_BADGE_ID,
@@ -137,6 +146,7 @@ function certificationCentersBuilder({ databaseBuilder }) {
     badgeId: PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT_BADGE_ID,
     level: 5,
     complementaryCertificationId: PIX_EDU_1ER_DEGRE_COMPLEMENTARY_CERTIFICATION_ID,
+    imageUrl: 'https://images.pix.fr/badges/Pix_plus_Edu-certif-Expert_PREMIER-DEGRE.svg',
   });
   databaseBuilder.factory.buildComplementaryCertificationBadge({
     badgeId: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT_BADGE_ID,
