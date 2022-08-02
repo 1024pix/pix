@@ -71,7 +71,7 @@ async function _findAllowedCertificationCenterAccesses(certificationCenterIds) {
       isSupervisorAccessEnabled: 'certification-centers.isSupervisorAccessEnabled',
       tags: knex.raw('array_agg(?? order by ??)', ['tags.name', 'tags.name']),
       habilitations: knex.raw(
-        `array_agg(json_build_object('id', "complementary-certifications".id, 'name', "complementary-certifications".name) order by "complementary-certifications".id)`
+        `array_agg(json_build_object('id', "complementary-certifications".id, 'label', "complementary-certifications".label, 'key', "complementary-certifications".key) order by "complementary-certifications".id)`
       ),
     })
     .from('certification-centers')
