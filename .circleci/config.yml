@@ -41,9 +41,12 @@ workflows:
           requires:
             - checkout
 
-      - mon_pix_build_and_test:
+      - mon_pix_install:
           requires:
             - checkout
+      - mon_pix_build_and_test:
+          requires:
+            - mon_pix_install
 
       - orga_build_and_test:
           requires:
@@ -114,11 +117,9 @@ jobs:
       - store_artifacts:
           path: /home/circleci/test-results
 
-  mon_pix_build_and_test:
+  mon_pix_install:
     executor: mon_pix
-    parallelism: 3
     steps:
-      - browser-tools/install-chrome
       - attach_workspace:
           at: ~/pix
       - run: cat package*.json > cachekey
@@ -130,6 +131,18 @@ jobs:
           key: v7-mon-pix-npm-{{ checksum "cachekey" }}
           paths:
             - ~/.npm
+      - persist_to_workspace:
+          root: ~/pix
+          paths:
+            - .
+
+  mon_pix_build_and_test:
+    executor: mon_pix
+    parallelism: 3
+    steps:
+      - browser-tools/install-chrome
+      - attach_workspace:
+          at: ~/pix
       - run:
           name: Lint
           command: npm run lint
