@@ -24,6 +24,18 @@ version: 2.1
 orbs:
   browser-tools: circleci/browser-tools@1.2.4
 
+executors:
+  node:
+    docker:
+      - image: cimg/node:16.14.0
+      - image: postgres:13.7-alpine
+        environment:
+          POSTGRES_USER: circleci
+          POSTGRES_HOST_AUTH_METHOD: trust
+      - image: redis:6.2.7-alpine
+    resource_class: small
+    working_directory: ~/pix
+
 workflows:
   version: 2
   lint-and-test:
@@ -49,19 +61,16 @@ workflows:
 
 jobs:
   checkout:
-    docker:
-      - image: cimg/node:16.14.0
-    resource_class: small
-    working_directory: ~/pix
+    executor: node
     steps:
       - checkout
       - run:
           name: Lint and test root
           command: |
             npm ci
-            npm run lint:scripts
-            npm run lint:yaml
-            npm run test:root
+            # npm run lint:scripts
+            # npm run lint:yaml
+            # npm run test:root
             rm -rf .git/
       - persist_to_workspace:
           root: ~/pix
@@ -69,18 +78,11 @@ jobs:
             - .
 
   api_install:
-    docker:
-      - image: cimg/node:16.14.0
-      - image: postgres:13.7-alpine
-        environment:
-          POSTGRES_USER: circleci
-          POSTGRES_HOST_AUTH_METHOD: trust
-      - image: redis:6.2.7-alpine
-    resource_class: small
-    working_directory: ~/pix/api
+    executor: node
+    working_directory: ~/pix/
     steps:
       - attach_workspace:
-          at: ~/pix
+          at: ~/pix/api
       - run: cat package*.json > cachekey
       - restore_cache:
           keys:
@@ -90,20 +92,17 @@ jobs:
           key: v7-api-npm-{{ checksum "cachekey" }}
           paths:
             - ~/.npm
+      - persist_to_workspace:
+          root: ~/pix/api
+          paths:
+            - .
 
   api_lint:
-    docker:
-      - image: cimg/node:16.14.0
-      - image: postgres:13.7-alpine
-        environment:
-          POSTGRES_USER: circleci
-          POSTGRES_HOST_AUTH_METHOD: trust
-      - image: redis:6.2.7-alpine
-    resource_class: small
+    executor: node
     working_directory: ~/pix/api
     steps:
       - attach_workspace:
-          at: ~/pix
+          at: ~/pix/api
       - run:
           name: Lint
           command: |
@@ -120,18 +119,11 @@ jobs:
           path: /home/circleci/test-results
 
   api_test:
-    docker:
-      - image: cimg/node:16.14.0
-      - image: postgres:13.7-alpine
-        environment:
-          POSTGRES_USER: circleci
-          POSTGRES_HOST_AUTH_METHOD: trust
-      - image: redis:6.2.7-alpine
-    resource_class: small
+    executor: node
     working_directory: ~/pix/api
     steps:
       - attach_workspace:
-          at: ~/pix
+          at: ~/pix/api
       - run:
           name: Test
           command: |
