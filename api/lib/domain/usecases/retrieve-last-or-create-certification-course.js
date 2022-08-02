@@ -137,19 +137,22 @@ async function _startNewCertification({
 
   const complementaryCertifications = await complementaryCertificationRepository.findAll();
 
+  const highestCertifiableBadgeAcquisitions = await certificationBadgesService.findStillValidBadgeAcquisitions({
+    userId,
+    domainTransaction,
+  });
+
   if (certificationCenter.isHabilitatedClea && certificationCandidate.isGrantedCleA()) {
-    if (await certificationBadgesService.hasStillValidCleaBadgeAcquisition({ userId })) {
+    const cleaBadgeAcquisition = highestCertifiableBadgeAcquisitions.find((badgeAcquisition) =>
+      badgeAcquisition.isCleA()
+    );
+    if (cleaBadgeAcquisition) {
       const cleAComplementaryCertification = complementaryCertifications.find((comp) => comp.isClea());
       if (cleAComplementaryCertification) {
         complementaryCertificationIds.push(cleAComplementaryCertification.id);
       }
     }
   }
-
-  const highestCertifiableBadgeAcquisitions = await certificationBadgesService.findStillValidBadgeAcquisitions({
-    userId,
-    domainTransaction,
-  });
 
   if (certificationCenter.isHabilitatedPixPlusDroit && certificationCandidate.isGrantedPixPlusDroit()) {
     const pixDroitBadgeAcquisition = highestCertifiableBadgeAcquisitions.find((badgeAcquisition) =>
