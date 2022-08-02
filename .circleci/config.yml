@@ -44,7 +44,10 @@ workflows:
       - mon_pix_install:
           requires:
             - checkout
-      - mon_pix_build_and_test:
+      - mon_pix_lint:
+          requires:
+            - mon_pix_install
+      - mon_pix_test:
           requires:
             - mon_pix_install
 
@@ -136,16 +139,22 @@ jobs:
           paths:
             - .
 
-  mon_pix_build_and_test:
+  mon_pix_lint:
+    executor: mon_pix
+    steps:
+      - attach_workspace:
+          at: ~/pix
+      - run:
+          name: Lint
+          command: npm run lint
+
+  mon_pix_test:
     executor: mon_pix
     parallelism: 3
     steps:
       - browser-tools/install-chrome
       - attach_workspace:
           at: ~/pix
-      - run:
-          name: Lint
-          command: npm run lint
       - run:
           name: Test
           command: npm run test:ci
