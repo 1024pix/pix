@@ -9,6 +9,7 @@ module.exports = function buildComplementaryCertificationBadge({
   complementaryCertificationId,
   badgeId,
   createdAt = new Date('2020-01-01'),
+  imageUrl = 'http://badge-image-url.fr',
 } = {}) {
   complementaryCertificationId = _.isNull(complementaryCertificationId)
     ? buildComplementaryCertification().id
@@ -21,6 +22,7 @@ module.exports = function buildComplementaryCertificationBadge({
     complementaryCertificationId,
     badgeId,
     createdAt,
+    imageUrl,
   };
   return databaseBuffer.pushInsertable({
     tableName: 'complementary-certification-badges',
