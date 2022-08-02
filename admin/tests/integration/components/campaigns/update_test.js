@@ -62,26 +62,6 @@ module('Integration | Component | Campaigns | Update', function (hooks) {
       // then
       assert.dom(screen.getByText('Ce champ doit être une URL complète et valide')).exists();
     });
-
-    test('it should trim extra spaces written by user from title attibute', async function (assert) {
-      // when
-      await render(hbs`<Campaigns::update @campaign={{this.campaign}} @onExit={{this.onExit}} />`);
-      await fillByLabel('Titre du parcours', ' text with space ');
-      await clickByName('Enregistrer');
-
-      // then
-      assert.deepEqual(this.campaign.title, 'text with space');
-    });
-
-    test("It should return 'null' when title is empty", async function (assert) {
-      // when
-      await render(hbs`<Campaigns::update @campaign={{this.campaign}} @onExit={{this.onExit}} />`);
-      await fillByLabel('Titre du parcours', '');
-      await clickByName('Enregistrer');
-
-      // then
-      assert.strictEqual(this.campaign.title, null);
-    });
   });
 
   module('when campaign is of type profiles collection', function (hooks) {
@@ -119,36 +99,6 @@ module('Integration | Component | Campaigns | Update', function (hooks) {
 
     // then
     assert.dom(screen.getByText('La longueur du nom ne doit pas excéder 255 caractères')).exists();
-  });
-
-  test('it should trim extra spaces written by user from custom landing page attibute', async function (assert) {
-    // when
-    await render(hbs`<Campaigns::update @campaign={{this.campaign}} @onExit={{this.onExit}} />`);
-    await fillByLabel("Texte de la page d'accueil", ' text with space ');
-    await clickByName('Enregistrer');
-
-    // then
-    assert.deepEqual(this.campaign.customLandingPageText, 'text with space');
-  });
-
-  test("It should return 'null' when custom landing page attribute is empty", async function (assert) {
-    // when
-    await render(hbs`<Campaigns::update @campaign={{this.campaign}} @onExit={{this.onExit}} />`);
-    await fillByLabel("Texte de la page d'accueil", '');
-    await clickByName('Enregistrer');
-
-    // then
-    assert.strictEqual(this.campaign.customLandingPageText, null);
-  });
-
-  test("It should return 'null' when custom landing page attribute has only white space", async function (assert) {
-    // when
-    await render(hbs`<Campaigns::update @campaign={{this.campaign}} @onExit={{this.onExit}} />`);
-    await fillByLabel("Texte de la page d'accueil", ' ');
-    await clickByName('Enregistrer');
-
-    // then
-    assert.strictEqual(this.campaign.customLandingPageText, null);
   });
 
   test('it should call update when form is valid', async function (assert) {
