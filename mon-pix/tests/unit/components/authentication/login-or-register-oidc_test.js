@@ -21,7 +21,7 @@ describe('Unit | Component | authentication::login-or-register-oidc', function (
       component.submit();
 
       // then
-      expect(component.errorMessage).to.equal('Vous devez accepter les conditions d’utilisation de Pix.');
+      expect(component.errorMessage).to.equal(this.intl.t('pages.login-or-register-oidc.error.error-message'));
     });
   });
 
@@ -69,7 +69,7 @@ describe('Unit | Component | authentication::login-or-register-oidc', function (
 
         // then
         expect(component.errorMessage).to.equal(
-          "Votre demande d'authentification a expiré, merci de renouveler votre connexion en cliquant sur le bouton retour."
+          this.intl.t('pages.login-or-register-oidc.error.expired-authentication-key')
         );
         expect(component.isAuthenticationKeyExpired).to.be.true;
       });
@@ -92,9 +92,7 @@ describe('Unit | Component | authentication::login-or-register-oidc', function (
       await component.submit();
 
       // then
-      expect(component.errorMessage).to.equal(
-        'Une erreur est survenue. Veuillez recommencer ou contacter le support. (some detail)'
-      );
+      expect(component.errorMessage).to.equal(`${this.intl.t('common.error')} (some detail)`);
     });
 
     it('it should display generic error', async function () {
@@ -114,7 +112,37 @@ describe('Unit | Component | authentication::login-or-register-oidc', function (
       await component.submit();
 
       // then
-      expect(component.errorMessage).to.equal('Une erreur est survenue. Veuillez recommencer ou contacter le support.');
+      expect(component.errorMessage).to.equal(this.intl.t('common.error'));
+    });
+  });
+
+  context('#validateEmail', function () {
+    it('should trim on email validation', function () {
+      // given
+      const emailWithSpaces = '   glace@aleau.net   ';
+      const component = createGlimmerComponent('component:authentication/login-or-register-oidc');
+
+      // when
+      component.validateEmail({ target: { value: emailWithSpaces } });
+
+      // then
+      expect(component.email).to.equal(emailWithSpaces.trim());
+    });
+
+    context('when email is invalid', function () {
+      it('should display error', function () {
+        // given
+        const invalidEmail = 'glace@aleau';
+        const component = createGlimmerComponent('component:authentication/login-or-register-oidc');
+
+        // when
+        component.validateEmail({ target: { value: invalidEmail } });
+
+        // then
+        expect(component.emailValidationMessage).to.equal(
+          this.intl.t('pages.login-or-register-oidc.error.invalid-email')
+        );
+      });
     });
   });
 });

@@ -4,11 +4,14 @@ import { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 import get from 'lodash/get';
 import IdentityProviders from 'mon-pix/identity-providers';
+import isEmailValid from '../../utils/email-validator';
+import isEmpty from 'lodash/isEmpty';
 
 const ERROR_INPUT_MESSAGE_MAP = {
   termsOfServiceNotSelected: 'pages.login-or-register-oidc.error.error-message',
   unknownError: 'common.error',
   expiredAuthenticationKey: 'pages.login-or-register-oidc.error.expired-authentication-key',
+  invalidEmail: 'pages.login-or-register-oidc.error.invalid-email',
 };
 
 export default class LoginOrRegisterOidcComponent extends Component {
@@ -20,6 +23,9 @@ export default class LoginOrRegisterOidcComponent extends Component {
   @tracked isTermsOfServiceValidated = false;
   @tracked isAuthenticationKeyExpired = false;
   @tracked errorMessage = null;
+  @tracked email = '';
+  @tracked password = '';
+  @tracked emailValidationMessage = null;
 
   get identityProviderOrganizationName() {
     return IdentityProviders[this.args.identityProviderSlug].organizationName;
@@ -67,6 +73,30 @@ export default class LoginOrRegisterOidcComponent extends Component {
       }
     } else {
       this.errorMessage = this.intl.t(ERROR_INPUT_MESSAGE_MAP['termsOfServiceNotSelected']);
+    }
+  }
+
+  @action
+  validateEmail(event) {
+    this.email = event.target.value;
+    this.email = this.email.trim();
+    const isInvalidInput = !isEmailValid(this.email);
+
+    this.emailValidationMessage = null;
+
+    if (isInvalidInput) {
+      this.emailValidationMessage = this.intl.t(ERROR_INPUT_MESSAGE_MAP['invalidEmail']);
+    }
+  }
+
+  get isFormValid() {
+    return isEmailValid(this.email) && !isEmpty(this.password);
+  }
+
+  @action
+  confirmReconciliation() {
+    if (this.isFormValid) {
+      // todo
     }
   }
 }

@@ -51,6 +51,40 @@
         <p class="login-or-register-oidc-form__description">
           {{t "pages.login-or-register-oidc.login-form.description"}}
         </p>
+        <form {{on "submit" this.confirmReconciliation}}>
+          <p class="login-or-register-oidc-form__mandatory-description">{{t "common.form.mandatory-all-fields"}}</p>
+
+          <PixInput
+            @id="email"
+            @label={{t "pages.login-or-register-oidc.login-form.email"}}
+            @errorMessage={{this.emailValidationMessage}}
+            @value={{this.email}}
+            type="email"
+            {{on "change" this.validateEmail}}
+            autocomplete="off"
+            required
+          />
+
+          <div class="login-or-register-oidc-form__password-container">
+            <PixInputPassword
+              @id="password"
+              @value={{this.password}}
+              @label={{t "pages.login-or-register-oidc.login-form.password"}}
+              autocomplete="off"
+              required
+            />
+            <LinkTo
+              @route="password-reset-demand"
+              class="login-or-register-oidc-form__forgotten-password-link"
+            >
+              {{t "pages.sign-in.forgotten-password"}}
+            </LinkTo>
+          </div>
+
+          <PixButton @type="submit" class="login-or-register-oidc-form__submit-button">
+            {{t "pages.login-or-register-oidc.login-form.button"}}
+          </PixButton>
+        </form>
       </div>
     </div>
   </PixBlock>
