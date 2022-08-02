@@ -207,6 +207,12 @@ describe('Unit | Application | Router | campaign-router ', function () {
           type: 'campaigns',
           attributes: {
             name: null,
+            title: null,
+            'custom-result-page-text': null,
+            'custom-result-page-button-text': null,
+            'custom-result-page-button-url': null,
+            'custom-landing-page-text': null,
+            'multiple-sendings': false,
           },
         },
       };
@@ -227,6 +233,12 @@ describe('Unit | Application | Router | campaign-router ', function () {
           type: 'campaigns',
           attributes: {
             name: '',
+            title: null,
+            'custom-result-page-text': null,
+            'custom-result-page-button-text': null,
+            'custom-result-page-button-url': null,
+            'custom-landing-page-text': null,
+            'multiple-sendings': false,
           },
         },
       };
@@ -248,6 +260,11 @@ describe('Unit | Application | Router | campaign-router ', function () {
           attributes: {
             name: 'name',
             title: '',
+            'custom-result-page-text': null,
+            'custom-result-page-button-text': null,
+            'custom-result-page-button-url': null,
+            'custom-landing-page-text': null,
+            'multiple-sendings': false,
           },
         },
       };
