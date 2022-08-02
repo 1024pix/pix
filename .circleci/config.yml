@@ -138,7 +138,8 @@ jobs:
           command: npm run test:ci
 
   orga_build_and_test:
-    executor: orga
+    executor: front
+    working_directory: ~/pix/orga
     steps:
       - browser-tools/install-chrome
       - attach_workspace:
@@ -160,7 +161,8 @@ jobs:
           command: npm run test:ci
 
   certif_build_and_test:
-    executor: certif
+    executor: front
+    working_directory: ~/pix/certif
     steps:
       - browser-tools/install-chrome
       - attach_workspace:
@@ -182,7 +184,8 @@ jobs:
           command: npm run test:ci
 
   admin_build_and_test:
-    executor: admin
+    executor: front
+    working_directory: ~/pix/admin
     steps:
       - browser-tools/install-chrome
       - attach_workspace:
@@ -350,6 +353,12 @@ executors:
       - image: redis:6.2.7-alpine
     resource_class: small
     working_directory: ~/pix/api
+  front:
+    docker:
+      - image: cimg/node:16.14.0-browsers
+        environment:
+          JOBS: 2
+    resource_class: small
   mon_pix:
     docker:
       - image: cimg/node:16.14.0-browsers
@@ -358,27 +367,6 @@ executors:
           JOBS: 2
     resource_class: medium
     working_directory: ~/pix/mon-pix
-  orga:
-    docker:
-      - image: cimg/node:16.14.0-browsers
-        environment:
-          JOBS: 2
-    resource_class: small
-    working_directory: ~/pix/orga
-  certif:
-    docker:
-      - image: cimg/node:16.14.0-browsers
-        environment:
-          JOBS: 2
-    resource_class: small
-    working_directory: ~/pix/certif
-  admin:
-    docker:
-      - image: cimg/node:16.14.0-browsers
-        environment:
-          JOBS: 2
-    resource_class: small
-    working_directory: ~/pix/admin
   e2e:
     docker:
       - image: cimg/node:16.14.0-browsers
