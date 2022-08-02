@@ -255,7 +255,7 @@ describe('Integration | Repository | Partner Certification Scoring', function ()
             createdAt: new Date('2020-01-01'),
           });
           databaseBuilder.factory.buildComplementaryCertification({
-            name: ComplementaryCertification.CLEA,
+            key: ComplementaryCertification.CLEA,
             minimumReproducibilityRate: 66.5,
             minimumEarnedPix: 33,
           });
