@@ -1,4 +1,5 @@
 const types = require('pg').types;
+const { get } = require('lodash');
 const logger = require('../lib/infrastructure/logger');
 const monitoringTools = require('../lib/infrastructure/monitoring-tools');
 const { logging } = require('../lib/config');
@@ -29,6 +30,7 @@ const { environment } = require('../lib/config');
 
 /* QueryBuilder Extension */
 const Knex = require('knex');
+const QueryBuilder = require('knex/lib/query/querybuilder');
 
 try {
   Knex.QueryBuilder.extend('whereInArray', function (column, values) {
@@ -43,6 +45,15 @@ try {
 
 const knexConfig = knexConfigs[environment];
 const knex = require('knex')(knexConfig);
+
+const originalToSQL = QueryBuilder.prototype.toSQL;
+QueryBuilder.prototype.toSQL = function () {
+  const ret = originalToSQL.apply(this);
+  const request = monitoringTools.getInContext('request');
+  const comments = [['path', get(request, 'route.path')]].map((comment) => comment.join(': ')).join(' ');
+  ret.sql = `/* ${comments} */ `.concat(ret.sql);
+  return ret;
+};
 
 knex.on('query', function (data) {
   if (logging.enableLogKnexQueries) {
