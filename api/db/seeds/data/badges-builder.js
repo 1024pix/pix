@@ -61,6 +61,7 @@ function _createPixEmploiCleaBadge({ databaseBuilder, id, key, targetProfileId, 
       'Bravo ! Vous maîtrisez les compétences indispensables pour utiliser le numérique en milieu professionnel. ' +
       'Pour valoriser vos compétences avec une double certification Pix-CléA numérique, renseignez-vous auprès de votre conseiller ou de votre formateur.',
     targetProfileId,
+    isCertifiable: true,
   });
 
   const skillSetsIds = _associateSkillSets(databaseBuilder, skillIdsForSkillSets, badge);
