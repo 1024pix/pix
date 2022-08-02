@@ -53,13 +53,13 @@ function certificationCentersBuilder({ databaseBuilder }) {
 
   databaseBuilder.factory.buildComplementaryCertificationBadge({
     badgeId: PIX_EMPLOI_CLEA_BADGE_ID_V2,
-    level: 1,
+    level: 2,
     complementaryCertificationId: CLEA_COMPLEMENTARY_CERTIFICATION_ID,
   });
 
   databaseBuilder.factory.buildComplementaryCertificationBadge({
     badgeId: PIX_EMPLOI_CLEA_BADGE_ID_V3,
-    level: 1,
+    level: 3,
     complementaryCertificationId: CLEA_COMPLEMENTARY_CERTIFICATION_ID,
   });
 
