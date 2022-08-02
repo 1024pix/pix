@@ -332,6 +332,51 @@ describe('Unit | UseCase | authenticate-oidc-user', function () {
       });
     });
   });
+
+  context('When user is logged with their pix account but also has a separate oidc account', function () {
+    it('should update the oidc authentication method', async function () {
+      // given
+      const sessionContent = _fakeOidcAPI({ oidcAuthenticationService, externalIdentityId });
+      userRepository.findByExternalIdentifier
+        .withArgs({ externalIdentityId, identityProvider: oidcAuthenticationService.identityProvider })
+        .resolves({ id: 10 });
+      const authenticationComplement = new AuthenticationMethod.OidcAuthenticationComplement({
+        accessToken: sessionContent.accessToken,
+        refreshToken: sessionContent.refreshToken,
+        expiredDate: moment().add(sessionContent.expiresIn, 's').toDate(),
+      });
+      oidcAuthenticationService.createAuthenticationComplement.returns(authenticationComplement);
+      authenticationMethodRepository.findOneByUserIdAndIdentityProvider.resolves(
+        domainBuilder.buildAuthenticationMethod.withPoleEmploiAsIdentityProvider({
+          externalIdentifier: externalIdentityId,
+        })
+      );
+
+      // when
+      await authenticateOidcUser({
+        authenticatedUserId: 1,
+        stateReceived: 'state',
+        stateSent: 'state',
+        oidcAuthenticationService,
+        authenticationSessionService,
+        authenticationMethodRepository,
+        userRepository,
+      });
+
+      // then
+      expect(authenticationMethodRepository.findOneByUserIdAndIdentityProvider).to.have.been.calledWith({
+        userId: 10,
+        identityProvider: oidcAuthenticationService.identityProvider,
+      });
+      expect(
+        authenticationMethodRepository.updateAuthenticationComplementByUserIdAndIdentityProvider
+      ).to.have.been.calledWith({
+        authenticationComplement,
+        userId: 10,
+        identityProvider: oidcAuthenticationService.identityProvider,
+      });
+    });
+  });
 });
 
 function _fakeOidcAPI({ oidcAuthenticationService, externalIdentityId }) {
