@@ -929,7 +929,10 @@
       "title": "Créez votre compte Pix",
       "login-form": {
         "description": "Connectez-vous pour lier votre compte existant et récupérer vos compétences déjà évaluées",
-        "title": "Vous avez déjà un compte Pix ?"
+        "title": "Vous avez déjà un compte Pix ?",
+        "email": "Email address",
+        "password": "Password",
+        "button": "Log in"
       },
       "register-form": {
         "description": "Un compte va être créé à partir des éléments transmis par l'organisme : {identityProviderOrganizationName}",
@@ -938,7 +941,8 @@
       },
       "error": {
         "error-message": "Please agree to the terms and conditions of use.",
-        "expired-authentication-key": "Your authentication demand has expired. Please click to back button to log in"
+        "expired-authentication-key": "Your authentication demand has expired. Please click to back button to log in",
+        "invalid-email": "Your email address is invalid."
       }
     },
     "not-connected": {
