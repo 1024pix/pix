@@ -7,6 +7,6 @@ export default class SupHeaderActions extends Component {
   @service session;
 
   get urlToDownloadCsvTemplate() {
-    return `${ENV.APP.API_HOST}/api/organizations/${this.currentUser.organization.id}/schooling-registrations/csv-template?accessToken=${this.session.data.authenticated.access_token}&lang=${this.currentUser.prescriber.lang}`;
+    return `${ENV.APP.API_HOST}/api/organizations/${this.currentUser.organization.id}/sup-organization-learners/csv-template?accessToken=${this.session.data.authenticated.access_token}&lang=${this.currentUser.prescriber.lang}`;
   }
 }
