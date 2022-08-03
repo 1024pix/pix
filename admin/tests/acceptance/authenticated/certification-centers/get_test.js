@@ -1,5 +1,5 @@
 import { module, test } from 'qunit';
-import { currentURL, triggerEvent } from '@ember/test-helpers';
+import { currentURL, triggerEvent, click } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { visit, fillByLabel, clickByName } from '@1024pix/ember-testing-library';
@@ -48,8 +48,9 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
   test('should display Certification center habilitations', async function (assert) {
     // given
     await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
-    const habilitation1 = server.create('habilitation', { name: 'Pix+Edu' });
-    const habilitation2 = server.create('habilitation', { name: 'Pix+Surf' });
+    const habilitation1 = server.create('habilitation', { key: 'E', label: 'Pix+Edu' });
+    const habilitation2 = server.create('habilitation', { key: 'S', label: 'Pix+Surf' });
+
     const certificationCenter = server.create('certification-center', {
       name: 'Center 1',
       externalId: 'ABCDEF',
@@ -68,8 +69,8 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
   test('should highlight the habilitations of the current certification center', async function (assert) {
     // given
     await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
-    const habilitation1 = server.create('habilitation', { name: 'Pix+Edu' });
-    const habilitation2 = server.create('habilitation', { name: 'Pix+Surf' });
+    const habilitation1 = server.create('habilitation', { key: 'E', label: 'Pix+Edu' });
+    const habilitation2 = server.create('habilitation', { key: 'S', label: 'Pix+Surf' });
     const certificationCenter = server.create('certification-center', {
       name: 'Center 1',
       externalId: 'ABCDEF',
@@ -77,7 +78,7 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
       habilitations: [habilitation1, habilitation2],
     });
 
-    server.create('habilitation', { name: 'Pix+Autre' });
+    server.create('habilitation', { key: 'S', label: 'Pix+Autre' });
 
     // when
     const screen = await visit(`/certification-centers/${certificationCenter.id}`);
@@ -293,8 +294,8 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
         externalId: 'ABCDEF',
         type: 'SCO',
       });
-      server.create('habilitation', { name: 'Pix+Surf' });
-      server.create('habilitation', { name: 'Pix+Autre' });
+      server.create('habilitation', { key: 'S', label: 'Pix+Surf' });
+      server.create('habilitation', { key: 'A', label: 'Pix+Autre' });
 
       const screen = await visit(`/certification-centers/${certificationCenter.id}`);
       await clickByName('Editer les informations');
@@ -302,7 +303,7 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
 
       // when
       await fillByLabel('Nom du centre', 'Centre des réussites');
-      await clickByName('Pix+Surf');
+      await click(screen.getByRole('checkbox', { name: 'Pix+Surf' }));
       await clickByName('Enregistrer');
 
       // then

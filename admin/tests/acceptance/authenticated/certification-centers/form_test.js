@@ -20,8 +20,8 @@ module('Acceptance | Certification Centers | Form', function (hooks) {
     });
     await createAuthenticateSession({ userId });
 
-    this.server.create('habilitation', { name: 'Pix+ Droit' });
-    this.server.create('habilitation', { name: 'CléA Numérique' });
+    server.create('habilitation', { key: 'S', label: 'Pix+Surf' });
+    server.create('habilitation', { key: 'A', label: 'Pix+Autre' });
 
     const name = 'name';
     const type = { label: 'Organisation professionnelle', value: 'PRO' };
@@ -38,7 +38,7 @@ module('Acceptance | Certification Centers | Form', function (hooks) {
     await fillIn(screen.getByRole('combobox', { name: "Type d'établissement" }), type.value);
     await fillIn(screen.getByRole('textbox', { name: 'Identifiant externe' }), externalId);
 
-    await click(screen.getByRole('checkbox', { name: 'Pix+ Droit' }));
+    await click(screen.getByRole('checkbox', { name: 'Pix+Surf' }));
     await click(screen.getByRole('button', { name: 'Ajouter' }));
 
     // then
@@ -48,7 +48,7 @@ module('Acceptance | Certification Centers | Form', function (hooks) {
     assert.dom(screen.getByText(externalId)).exists();
     assert.strictEqual(screen.getByLabelText('Espace surveillant').textContent, 'oui');
 
-    assert.dom(screen.getByRole('listitem', { name: 'Non-habilité pour CléA Numérique' })).exists();
-    assert.dom(screen.getByRole('listitem', { name: 'Habilité pour Pix+ Droit' })).exists();
+    assert.dom(screen.getByRole('listitem', { name: 'Non-habilité pour Pix+Autre' })).exists();
+    assert.dom(screen.getByRole('listitem', { name: 'Habilité pour Pix+Surf' })).exists();
   });
 });
