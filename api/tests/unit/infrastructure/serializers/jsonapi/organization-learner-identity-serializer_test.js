@@ -14,7 +14,7 @@ describe('Unit | Serializer | JSONAPI | organization-learner-identity-serializer
 
       const expectedSerializedOrganizationLearner = {
         data: {
-          type: 'schooling-registration-user-associations',
+          type: 'organization-learner-identities',
           id: '5',
           attributes: {
             'first-name': organizationLearner.firstName,

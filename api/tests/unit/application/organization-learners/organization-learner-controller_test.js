@@ -4,6 +4,7 @@ const usecases = require('../../../../lib/domain/usecases');
 
 const organizationLearnerController = require('../../../../lib/application/organization-learners/organization-learner-controller');
 const organizationLearnerIdentitySerializer = require('../../../../lib/infrastructure/serializers/jsonapi/organization-learner-identity-serializer');
+const organizationLearnerUserAssociationSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/organization-learner-user-association-serializer');
 
 describe('Unit | Application | Controller | organization-learner', function () {
   describe('#dissociate', function () {
@@ -55,6 +56,8 @@ describe('Unit | Application | Controller | organization-learner', function () {
       usecases.findAssociationBetweenUserAndOrganizationLearner.resolves();
       sinon.stub(organizationLearnerIdentitySerializer, 'serialize');
       organizationLearnerIdentitySerializer.serialize.resolves();
+      sinon.stub(organizationLearnerUserAssociationSerializer, 'serialize');
+      organizationLearnerUserAssociationSerializer.serialize.resolves();
     });
 
     it('should return information about deprecation when old route is used', async function () {
