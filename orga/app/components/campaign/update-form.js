@@ -38,20 +38,17 @@ export default class UpdateForm extends Component {
 
   @action
   onChangeCampaignName(event) {
-    const nameTrim = event.target.value.trim();
-    this.args.campaign.name = nameTrim || null;
+    this.args.campaign.name = event.target.value;
   }
 
   @action
   onChangeCampaignTitle(event) {
-    const titleTrim = event.target.value.trim();
-    this.args.campaign.title = titleTrim || null;
+    this.args.campaign.title = event.target.value;
   }
 
   @action
   onChangeCampaignCustomLandingPageText(event) {
-    const customLandingPageTextTrim = event.target.value.trim();
-    this.args.campaign.customLandingPageText = customLandingPageTextTrim || null;
+    this.args.campaign.customLandingPageText = event.target.value;
   }
 
   _handleErrors(errorResponse) {

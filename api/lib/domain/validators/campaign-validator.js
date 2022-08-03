@@ -31,34 +31,14 @@ const campaignValidationJoiSchema = Joi.object({
     'number.base': 'MISSING_ORGANIZATION',
   }),
 
-  targetProfileId: Joi.number()
-    .when('type', {
-      switch: [
-        {
-          is: Joi.string().required().valid(CampaignTypes.PROFILES_COLLECTION),
-          then: Joi.valid(null).optional(),
-        },
-        {
-          is: Joi.string().required().valid(CampaignTypes.ASSESSMENT),
-          then: Joi.required(),
-        },
-      ],
-      otherwise: Joi.number().allow(null).optional(),
-    })
-    .integer()
-    .messages({
-      'any.required': 'TARGET_PROFILE_IS_REQUIRED',
-      'number.base': 'TARGET_PROFILE_IS_REQUIRED',
-      'any.only': 'TARGET_PROFILE_NOT_ALLOWED_FOR_PROFILES_COLLECTION_CAMPAIGN',
-    }),
-
-  idPixLabel: Joi.string().allow(null).min(3).messages({
+  idPixLabel: Joi.string().allow(null).default(null).min(3).messages({
     'string.empty': 'EXTERNAL_USER_ID_IS_REQUIRED',
     'string.min': 'EXTERNAL_USER_ID_IS_REQUIRED',
   }),
 
   title: Joi.string()
     .allow(null)
+    .default(null)
     .max(50)
     .when('type', {
       is: Joi.string().required().valid(CampaignTypes.PROFILES_COLLECTION),
@@ -70,8 +50,13 @@ const campaignValidationJoiSchema = Joi.object({
       'string.max': 'CAMPAIGN_TITLE_IS_TOO_LONG',
     }),
 
+  customLandingPageText: Joi.string().allow(null).default(null).max(5000).messages({
+    'string.max': 'CUSTOM_LANDING_PAGE_TEXT_IS_TOO_LONG',
+  }),
+
   customResultPageText: Joi.string()
     .allow(null)
+    .default(null)
     .max(5000)
     .when('type', {
       is: Joi.string().required().valid(CampaignTypes.PROFILES_COLLECTION),
@@ -80,6 +65,7 @@ const campaignValidationJoiSchema = Joi.object({
     })
     .messages({
       'any.only': 'CUSTOM_RESULT_PAGE_TEXT_IS_NOT_ALLOWED_FOR_PROFILES_COLLECTION_CAMPAIGN',
+      'string.max': 'CUSTOM_RESULT_PAGE_TEXT_IS_TOO_LONG',
     }),
 
   customResultPageButtonText: Joi.when('type', {
@@ -87,7 +73,7 @@ const campaignValidationJoiSchema = Joi.object({
     then: Joi.valid(null),
     otherwise: Joi.when('customResultPageButtonUrl', {
       then: Joi.string().required(),
-      otherwise: Joi.string().empty().allow(null),
+      otherwise: Joi.string().allow(null).default(null),
     }),
   }).messages({
     'any.only': 'CUSTOM_RESULT_PAGE_BUTTON_TEXT_IS_NOT_ALLOWED_FOR_PROFILES_COLLECTION_CAMPAIGN',
@@ -101,7 +87,7 @@ const campaignValidationJoiSchema = Joi.object({
     then: Joi.valid(null),
     otherwise: Joi.when('customResultPageButtonText', {
       then: Joi.string().uri().required(),
-      otherwise: Joi.string().empty().allow(null),
+      otherwise: Joi.string().allow(null).default(null),
     }),
   }).messages({
     'any.only': 'CUSTOM_RESULT_PAGE_BUTTON_URL_IS_NOT_ALLOWED_FOR_PROFILES_COLLECTION_CAMPAIGN',

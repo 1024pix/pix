@@ -2,14 +2,17 @@ import { module, test } from 'qunit';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 import { fillByLabel, clickByName, render as renderScreen } from '@1024pix/ember-testing-library';
 import hbs from 'htmlbars-inline-precompile';
-import EmberObject from '@ember/object';
 import sinon from 'sinon';
 
 module('Integration | Component | Campaign::UpdateForm', function (hooks) {
   setupIntlRenderingTest(hooks);
+  let store;
 
-  hooks.beforeEach(function () {
-    this.campaign = EmberObject.create({ name: 'campaign', isTypeAssessment: true, ownerId: 666 });
+  hooks.beforeEach(async function () {
+    store = this.owner.lookup('service:store');
+
+    this.campaign = await store.createRecord('campaign', { name: 'campaign', type: 'ASSESSMENT', ownerId: 666 });
+
     this.set('cancelSpy', () => {});
     this.set('updateCampaignSpy', (event) => event.preventDefault());
   });
@@ -26,9 +29,6 @@ module('Integration | Component | Campaign::UpdateForm', function (hooks) {
 
   module('When campaign type is ASSESSMENT', function () {
     test('it should display campaign title input', async function (assert) {
-      // given
-      this.campaign = EmberObject.create({ isTypeAssessment: true, ownerId: 666 });
-
       // when
       const screen = await renderScreen(
         hbs`<Campaign::UpdateForm @campaign={{this.campaign}} @onSubmit={{this.updateCampaignSpy}} @onCancel={{this.cancelSpy}} />`
@@ -56,7 +56,14 @@ module('Integration | Component | Campaign::UpdateForm', function (hooks) {
 
     test('it should send campaign update action when submitted', async function (assert) {
       // given
-      this.campaign = EmberObject.create({ isTypeAssessment: true, ownerFullName: 'Jon Snow', ownerId: 666 });
+      this.campaign = await store.createRecord('campaign', {
+        name: 'campaign',
+        type: 'ASSESSMENT',
+        ownerFirstName: 'Jon',
+        ownerLastName: 'snow',
+        ownerId: 666,
+      });
+
       this.updateCampaignSpy = sinon.stub();
 
       await renderScreen(
@@ -83,10 +90,14 @@ module('Integration | Component | Campaign::UpdateForm', function (hooks) {
     });
   });
 
-  module('When campaign type is not ASSESSMENT', function () {
+  module('When campaign type is PROFILES_COLLECTION', function () {
     test('it should not display campaign title input', async function (assert) {
       // given
-      this.campaign = EmberObject.create({ isTypeAssessment: false, ownerId: 666 });
+      this.campaign = await store.createRecord('campaign', {
+        name: 'campaign',
+        type: 'PROFILES_COLLECTION',
+        ownerId: 666,
+      });
 
       // when
       await renderScreen(
@@ -95,59 +106,6 @@ module('Integration | Component | Campaign::UpdateForm', function (hooks) {
 
       // then
       assert.dom('input#campaign-title').doesNotExist();
-    });
-  });
-  module('Form validations', function () {
-    test('it should trim extra spaces written by user from title attibute', async function (assert) {
-      // when
-      await renderScreen(
-        hbs`<Campaign::UpdateForm @campaign={{this.campaign}} @onSubmit={{this.updateCampaignSpy}} @onCancel={{this.cancelSpy}} />`
-      );
-
-      await fillByLabel('Titre du parcours', ' text with space ');
-      await clickByName('Modifier');
-
-      // then
-      assert.deepEqual(this.campaign.title, 'text with space');
-    });
-
-    test("it should return 'null' when title attribute is empty", async function (assert) {
-      // when
-      await renderScreen(
-        hbs`<Campaign::UpdateForm @campaign={{this.campaign}} @onSubmit={{this.updateCampaignSpy}} @onCancel={{this.cancelSpy}} />`
-      );
-
-      await fillByLabel('Titre du parcours', '');
-      await clickByName('Modifier');
-
-      // then
-      assert.deepEqual(this.campaign.title, null);
-    });
-
-    test('it should trim extra spaces written by user from customLandingPageText attibute', async function (assert) {
-      // when
-      await renderScreen(
-        hbs`<Campaign::UpdateForm @campaign={{this.campaign}} @onSubmit={{this.updateCampaignSpy}} @onCancel={{this.cancelSpy}} />`
-      );
-
-      await fillByLabel("Texte de la page d'accueil", ' text with space ');
-      await clickByName('Modifier');
-
-      // then
-      assert.deepEqual(this.campaign.customLandingPageText, 'text with space');
-    });
-
-    test("it should return 'null' when customLandingPageText attribute is empty", async function (assert) {
-      // when
-      await renderScreen(
-        hbs`<Campaign::UpdateForm @campaign={{this.campaign}} @onSubmit={{this.updateCampaignSpy}} @onCancel={{this.cancelSpy}} />`
-      );
-
-      await fillByLabel("Texte de la page d'accueil", '');
-      await clickByName('Modifier');
-
-      // then
-      assert.deepEqual(this.campaign.customLandingPageText, null);
     });
   });
 });

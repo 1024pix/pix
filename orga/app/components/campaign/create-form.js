@@ -163,7 +163,7 @@ export default class CreateForm extends Component {
 
   @action
   onChangeCampaignName(event) {
-    this.campaign.name = event.target.value?.trim();
+    this.campaign.name = event.target.value;
   }
 
   @action
@@ -173,7 +173,7 @@ export default class CreateForm extends Component {
 
   @action
   onChangeCampaignTitle(event) {
-    this.campaign.title = event.target.value?.trim();
+    this.campaign.title = event.target.value;
   }
 
   @action
