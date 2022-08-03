@@ -5,14 +5,14 @@ const PROFILES_COLLECTION_TEXT = 'Collecte de profils';
 const ASSESSMENT_TEXT = 'Évaluation';
 
 export default class Campaign extends Model {
-  @attr('string') name;
+  @attr('nullable-string') name;
   @attr('string') code;
   @attr('string') type;
-  @attr('string') title;
+  @attr('nullable-string') title;
   @attr('boolean') isArchived;
   @attr('boolean') multipleSendings;
-  @attr('string') idPixLabel;
-  @attr('string') customLandingPageText;
+  @attr('nullable-string') idPixLabel;
+  @attr('nullable-text') customLandingPageText;
   @attr('string') tokenForCampaignResults;
   @attr('number') ownerId;
   @attr('string') ownerLastName;

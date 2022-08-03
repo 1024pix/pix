@@ -62,50 +62,78 @@ describe('Unit | Domain | Validators | campaign-validator', function () {
             ).to.not.throw;
           });
 
-          it('should resolve when title is null', function () {
-            // when/then
-            expect(
-              campaignValidator.validate({
-                ...campaign,
-                title: MISSING_VALUE,
-              })
-            ).to.not.throw;
+          context('#title', function () {
+            it('should resolve when is null', function () {
+              // when/then
+              expect(
+                campaignValidator.validate({
+                  ...campaign,
+                  title: MISSING_VALUE,
+                })
+              ).to.not.throw;
+            });
+
+            it('should resolve when is not provided', function () {
+              // when/then
+              expect(
+                campaignValidator.validate({
+                  ...campaign,
+                  title: UNDEFINED_VALUE,
+                })
+              ).to.not.throw;
+            });
           });
 
-          it('should resolve when title is not provided', function () {
-            // when/then
-            expect(
-              campaignValidator.validate({
-                ...campaign,
-                title: UNDEFINED_VALUE,
-              })
-            ).to.not.throw;
+          context('#customResultPageText', function () {
+            it('should resolve when is null', function () {
+              // when/then
+              expect(
+                campaignValidator.validate({
+                  ...campaign,
+                  customResultPageText: MISSING_VALUE,
+                })
+              ).to.not.throw;
+            });
           });
 
-          it('should resolve when customResultPageText is null', function () {
-            // when/then
-            expect(
-              campaignValidator.validate({
-                ...campaign,
-                customResultPageText: MISSING_VALUE,
-              })
-            ).to.not.throw;
+          context('#customResultPageButtonText and #customResultPageButtonUrl', function () {
+            it('should resolve when both are null', function () {
+              // when/then
+              expect(
+                campaignValidator.validate({
+                  ...campaign,
+                  customResultPageButtonText: MISSING_VALUE,
+                  customResultPageButtonUrl: MISSING_VALUE,
+                })
+              ).to.not.throw;
+            });
           });
 
-          it('should resolve when customResultPageButtonText and customResultPageButtonUrl are null', function () {
-            // when/then
-            expect(
-              campaignValidator.validate({
-                ...campaign,
-                customResultPageButtonText: MISSING_VALUE,
-                customResultPageButtonUrl: MISSING_VALUE,
-              })
-            ).to.not.throw;
+          context('#customLandingPageText', function () {
+            it('should reject with error customResultPageText has more than 5000 char', function () {
+              // given
+              const expectedError = {
+                attribute: 'customLandingPageText',
+                message: 'CUSTOM_LANDING_PAGE_TEXT_IS_TOO_LONG',
+              };
+
+              try {
+                // when
+                campaignValidator.validate({
+                  ...campaign,
+                  customLandingPageText: 'Gozilla vs Kong'.repeat(335),
+                });
+                expect.fail('should have thrown an error');
+              } catch (entityValidationErrors) {
+                // then
+                _assertErrorMatchesWithExpectedOne(entityValidationErrors, expectedError);
+              }
+            });
           });
         });
 
         context('when campaign data validation fails', function () {
-          context('on name attribute', function () {
+          context('#name', function () {
             // given
             const expectedError = {
               attribute: 'name',
@@ -141,7 +169,7 @@ describe('Unit | Domain | Validators | campaign-validator', function () {
             });
           });
 
-          context('on creatorId attribute', function () {
+          context('#creatorId', function () {
             // given
             const expectedError = {
               attribute: 'creatorId',
@@ -177,7 +205,7 @@ describe('Unit | Domain | Validators | campaign-validator', function () {
             });
           });
 
-          context('on organizationId attribute', function () {
+          context('#organizationId', function () {
             // given
             const expectedError = {
               attribute: 'organizationId',
@@ -213,7 +241,7 @@ describe('Unit | Domain | Validators | campaign-validator', function () {
             });
           });
 
-          context('on idPixLabel attribute', function () {
+          context('#idPixLabel', function () {
             it('should reject with error when idPixLabel is empty', function () {
               // given
               const expectedError = {
@@ -255,7 +283,7 @@ describe('Unit | Domain | Validators | campaign-validator', function () {
             });
           });
 
-          context('on type attribute', function () {
+          context('#type', function () {
             // given
             const expectedError = {
               attribute: 'type',
@@ -291,7 +319,7 @@ describe('Unit | Domain | Validators | campaign-validator', function () {
             });
           });
 
-          context('on multipleSendigs attribute', function () {
+          context('#multipleSendings', function () {
             // given
             const expectedRequiredError = {
               attribute: 'multipleSendings',
@@ -371,95 +399,7 @@ describe('Unit | Domain | Validators | campaign-validator', function () {
       });
     });
 
-    context('on targetProfileId attribute', function () {
-      context('when type is PROFILES_COLLECTION', function () {
-        it('should reject with error when targetProfileId is provide', function () {
-          // given
-          const expectedError = {
-            attribute: 'targetProfileId',
-            message: 'TARGET_PROFILE_NOT_ALLOWED_FOR_PROFILES_COLLECTION_CAMPAIGN',
-          };
-
-          try {
-            // when
-            campaignValidator.validate({
-              ...campaignOfTypeProfilesCollection,
-              targetProfileId: '1',
-            });
-            expect.fail('should have thrown an error');
-          } catch (entityValidationErrors) {
-            // then
-            _assertErrorMatchesWithExpectedOne(entityValidationErrors, expectedError);
-          }
-        });
-
-        it('should be valid with null as targetProfileId', function () {
-          try {
-            campaignValidator.validate({
-              ...campaignOfTypeProfilesCollection,
-              targetProfileId: MISSING_VALUE,
-            });
-          } catch (entityValidationErrors) {
-            expect.fail('should be valid when targetProfileId is null');
-          }
-        });
-
-        it('should be valid when targetProfileId is not provided', function () {
-          try {
-            campaignValidator.validate({
-              ...campaignOfTypeProfilesCollection,
-              targetProfileId: UNDEFINED_VALUE,
-            });
-          } catch (entityValidationErrors) {
-            expect.fail('should be valid when targetProfileId is undefined');
-          }
-        });
-      });
-
-      context('when type is ASSESSMENT', function () {
-        it('should reject with error when targetProfileId is missing', function () {
-          // given
-          const expectedError = {
-            attribute: 'targetProfileId',
-            message: 'TARGET_PROFILE_IS_REQUIRED',
-          };
-
-          try {
-            // when
-            campaignValidator.validate({
-              ...campaignOfTypeAssessment,
-              targetProfileId: MISSING_VALUE,
-            });
-            expect.fail('should have thrown an error');
-          } catch (entityValidationErrors) {
-            // then
-            _assertErrorMatchesWithExpectedOne(entityValidationErrors, expectedError);
-          }
-        });
-
-        it('should reject with error when targetProfileId is undefined', function () {
-          // given
-          const expectedError = {
-            attribute: 'targetProfileId',
-            message: 'TARGET_PROFILE_IS_REQUIRED',
-          };
-
-          try {
-            // when
-            campaignValidator.validate({
-              ...campaignOfTypeAssessment,
-              targetProfileId: UNDEFINED_VALUE,
-            });
-            expect.fail('should have thrown an error');
-          } catch (entityValidationErrors) {
-            // then
-            _assertErrorMatchesWithExpectedOne(entityValidationErrors, expectedError);
-          }
-        });
-      });
-    });
-
-    context('when a title is provided', function () {
+    context('#title', function () {
       it('should reject with error when campaign type is PROFILES_COLLECTION', function () {
         // given
         const expectedError = {
@@ -512,7 +452,27 @@ describe('Unit | Domain | Validators | campaign-validator', function () {
       });
     });
 
-    context('when a customResultPageText is provided', function () {
+    context('#customResultPageText', function () {
+      it('should reject with error campaign type is ASSESSMENT and customResultPageText has more than 5000 char', function () {
+        // given
+        const expectedError = {
+          attribute: 'customResultPageText',
+          message: 'CUSTOM_RESULT_PAGE_TEXT_IS_TOO_LONG',
+        };
+
+        try {
+          // when
+          campaignValidator.validate({
+            ...campaignOfTypeAssessment,
+            customResultPageText: 'Gozilla vs Kong'.repeat(335),
+          });
+          expect.fail('should have thrown an error');
+        } catch (entityValidationErrors) {
+          // then
+          _assertErrorMatchesWithExpectedOne(entityValidationErrors, expectedError);
+        }
+      });
+
       it('should reject with error when campaign type is PROFILES_COLLECTION', function () {
         // given
         const expectedError = {
@@ -545,7 +505,7 @@ describe('Unit | Domain | Validators | campaign-validator', function () {
       });
     });
 
-    context('when a customResultPageButtonText is provided', function () {
+    context('#customResultPageButtonText', function () {
       it('should reject with error when campaign type is PROFILES_COLLECTION', function () {
         // given
         const expectedError = {
@@ -621,7 +581,7 @@ describe('Unit | Domain | Validators | campaign-validator', function () {
       });
     });
 
-    context('when a customResultPageButtonUrl is provided', function () {
+    context('#customResultPageButtonUrl', function () {
       it('should reject with error when campaign type is PROFILES_COLLECTION', function () {
         // given
         const expectedError = {

@@ -8,7 +8,8 @@
       "owner_not_in_organization": "Le propriétaire ne fait pas parti de l'organisation.",
       "purpose-required": "Veuillez choisir l’objectif de votre campagne : Évaluation ou Collecte de profils.",
       "target-profile-required": "Veuillez sélectionner un profil cible pour votre campagne.",
-      "title_too_long": "Le titre de la campagne est trop long."
+      "title_too_long": "Le titre de la campagne est trop long.",
+      "custom-landing-page_too_long": "Le texte de présentation de la campagne est trop long."
     },
     "default": "Le service est momentanément indisponible. Veuillez réessayer ultérieurement.",
     "edit-student-number": {

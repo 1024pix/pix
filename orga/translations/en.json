@@ -8,7 +8,8 @@
       "owner_not_in_organization": "Please select a member of your organization.",
       "purpose-required": "Please select the purpose of your campaign: assess participants or collect their profiles.",
       "target-profile-required": "Please select a target profile for your campaign.",
-      "title_too_long": "Please choose a shorter title."
+      "title_too_long": "Please choose a shorter title.",
+      "custom-landing-page_too_long": "Please choose a shorter text to display on the starting page."
     },
     "default": "The service is temporarily unavailable. Please try again later.",
     "edit-student-number": {
