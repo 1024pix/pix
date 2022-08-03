@@ -13,6 +13,7 @@ module('Integration | Component | Campaign::Results::AssessmentList', function (
 
   hooks.beforeEach(function () {
     store = this.owner.lookup('service:store');
+    this.set('noop', sinon.stub());
   });
 
   test('it should display a link to access to result page', async function (assert) {
@@ -30,11 +31,10 @@ module('Integration | Component | Campaign::Results::AssessmentList', function (
 
     this.set('campaign', campaign);
     this.set('participations', participations);
-    this.set('goToAssessmentPage', () => {});
 
     // when
     await render(
-      hbs`<Campaign::Results::AssessmentList @campaign={{campaign}} @participations={{participations}} @onClickParticipant={{goToAssessmentPage}}/>`
+      hbs`<Campaign::Results::AssessmentList @campaign={{campaign}} @participations={{participations}} @onClickParticipant={{noop}} @onFilter={{noop}}/>`
     );
 
     // then
@@ -64,11 +64,10 @@ module('Integration | Component | Campaign::Results::AssessmentList', function (
 
       this.set('campaign', campaign);
       this.set('participations', participations);
-      this.set('goToAssessmentPage', () => {});
 
       // when
       await render(
-        hbs`<Campaign::Results::AssessmentList @campaign={{campaign}} @participations={{participations}} @onClickParticipant={{goToAssessmentPage}}/>`
+        hbs`<Campaign::Results::AssessmentList @campaign={{campaign}} @participations={{participations}} @onClickParticipant={{noop}} @onFilter={{noop}}/>`
       );
 
       // then
@@ -91,11 +90,11 @@ module('Integration | Component | Campaign::Results::AssessmentList', function (
 
       this.set('campaign', campaign);
       this.set('participations', participations);
-      this.set('goToAssessmentPage', () => {});
 
       // when
       await render(
-        hbs`<Campaign::Results::AssessmentList @campaign={{campaign}} @participations={{participations}} @onClickParticipant={{goToAssessmentPage}}/>`
+        hbs`<Campaign::Results::AssessmentList @campaign={{campaign}} @participations={{participations}} @onClickParticipant={{noop
+}} @onFilter={{noop}}/>`
       );
 
       // then
@@ -118,11 +117,10 @@ module('Integration | Component | Campaign::Results::AssessmentList', function (
 
       this.set('campaign', campaign);
       this.set('participations', participations);
-      this.set('goToAssessmentPage', () => {});
 
       // when
       await render(
-        hbs`<Campaign::Results::AssessmentList @campaign={{campaign}} @participations={{participations}} @onClickParticipant={{goToAssessmentPage}}/>`
+        hbs`<Campaign::Results::AssessmentList @campaign={{campaign}} @participations={{participations}} @onClickParticipant={{noop}} @onFilter={{noop}}/>`
       );
 
       // then
@@ -147,7 +145,9 @@ module('Integration | Component | Campaign::Results::AssessmentList', function (
       this.set('participations', participations);
 
       // when
-      await render(hbs`<Campaign::Results::AssessmentList @campaign={{campaign}} @participations={{participations}}/>`);
+      await render(
+        hbs`<Campaign::Results::AssessmentList @campaign={{campaign}} @participations={{participations}} @onFilter={{noop}}/>`
+      );
 
       // then
       assert.contains('Aucune participation');
@@ -167,11 +167,10 @@ module('Integration | Component | Campaign::Results::AssessmentList', function (
 
       this.set('campaign', campaign);
       this.set('participations', participations);
-      this.set('goToAssessmentPage', () => {});
 
       // when
       await render(
-        hbs`<Campaign::Results::AssessmentList @campaign={{campaign}} @participations={{participations}} @onClickParticipant={{goToAssessmentPage}}/>`
+        hbs`<Campaign::Results::AssessmentList @campaign={{campaign}} @participations={{participations}} @onClickParticipant={{noop}} @onFilter={{noop}}/>`
       );
 
       // then
@@ -193,11 +192,10 @@ module('Integration | Component | Campaign::Results::AssessmentList', function (
 
       this.set('campaign', campaign);
       this.set('participations', participations);
-      this.set('goToAssessmentPage', () => {});
 
       // when
       await render(
-        hbs`<Campaign::Results::AssessmentList @campaign={{campaign}} @participations={{participations}} @onClickParticipant={{goToAssessmentPage}}/>`
+        hbs`<Campaign::Results::AssessmentList @campaign={{campaign}} @participations={{participations}} @onClickParticipant={{noop}} @onFilter={{noop}}/>`
       );
 
       // then
@@ -218,17 +216,16 @@ module('Integration | Component | Campaign::Results::AssessmentList', function (
       const triggerFiltering = sinon.stub();
       this.set('campaign', campaign);
       this.set('participations', participations);
-      this.set('goToAssessmentPage', () => {});
       this.set('triggerFiltering', triggerFiltering);
 
       // when
       await render(
-        hbs`<Campaign::Results::AssessmentList @campaign={{campaign}} @participations={{participations}} @onClickParticipant={{goToAssessmentPage}} @onFilter={{triggerFiltering}}/>`
+        hbs`<Campaign::Results::AssessmentList @campaign={{campaign}} @participations={{participations}} @onClickParticipant={{noop}} @onFilter={{triggerFiltering}}/>`
       );
       await click('[for="badge-badge1"]');
 
       // then
-      assert.ok(triggerFiltering.calledWith({ badges: ['badge1'] }));
+      assert.ok(triggerFiltering.calledWith('badges', ['badge1']));
     });
   });
 
@@ -246,11 +243,10 @@ module('Integration | Component | Campaign::Results::AssessmentList', function (
 
       this.set('campaign', campaign);
       this.set('participations', participations);
-      this.set('goToAssessmentPage', () => {});
 
       // when
       await render(
-        hbs`<Campaign::Results::AssessmentList @campaign={{campaign}} @participations={{participations}} @onClickParticipant={{goToAssessmentPage}}/>`
+        hbs`<Campaign::Results::AssessmentList @campaign={{campaign}} @participations={{participations}} @onClickParticipant={{noop}} @onFilter={{noop}}/>`
       );
 
       // then
@@ -284,17 +280,16 @@ module('Integration | Component | Campaign::Results::AssessmentList', function (
       const triggerFiltering = sinon.stub();
       this.set('campaign', campaign);
       this.set('participations', participations);
-      this.set('goToAssessmentPage', () => {});
       this.set('triggerFiltering', triggerFiltering);
 
       // when
       await render(
-        hbs`<Campaign::Results::AssessmentList @campaign={{campaign}} @participations={{participations}} @onClickParticipant={{goToAssessmentPage}} @onFilter={{triggerFiltering}}/>`
+        hbs`<Campaign::Results::AssessmentList @campaign={{campaign}} @participations={{participations}} @onClickParticipant={{noop}} @onFilter={{triggerFiltering}}/>`
       );
       await click('[for="division-d1"]');
 
       // then
-      assert.ok(triggerFiltering.calledWith({ divisions: ['d1'] }));
+      assert.ok(triggerFiltering.calledWith('divisions', ['d1']));
     });
   });
 
@@ -323,13 +318,11 @@ module('Integration | Component | Campaign::Results::AssessmentList', function (
       const resetFilters = sinon.stub();
       this.set('campaign', campaign);
       this.set('participations', participations);
-      this.set('goToAssessmentPage', () => {});
-      this.set('triggerFiltering', () => {});
       this.set('resetFilters', resetFilters);
 
       // when
       await render(
-        hbs`<Campaign::Results::AssessmentList @campaign={{campaign}} @participations={{participations}} @onClickParticipant={{goToAssessmentPage}} @onFilter={{triggerFiltering}} @onResetFilter={{resetFilters}}/>`
+        hbs`<Campaign::Results::AssessmentList @campaign={{campaign}} @participations={{participations}} @onClickParticipant={{noop}} @onFilter={{noop}} @onResetFilter={{resetFilters}}/>`
       );
       await clickByName('Effacer les filtres');
 
@@ -347,7 +340,7 @@ module('Integration | Component | Campaign::Results::AssessmentList', function (
       this.set('campaign', campaign);
       this.set('searchFilter', 'chichi');
       const screen = await renderScreen(
-        hbs`<Campaign::Results::AssessmentList  @campaign={{campaign}} @searchFilter={{searchFilter}}/>`
+        hbs`<Campaign::Results::AssessmentList  @campaign={{campaign}} @searchFilter={{searchFilter}} @onFilter={{noop}}/>`
       );
 
       // then
@@ -367,7 +360,7 @@ module('Integration | Component | Campaign::Results::AssessmentList', function (
       );
       await fillByLabel('Recherche sur le nom et prénom', 'Chichi');
       // then
-      assert.ok(triggerFiltering.calledWith({ search: 'Chichi' }));
+      assert.ok(triggerFiltering.calledWith('search', 'Chichi'));
     });
   });
 });

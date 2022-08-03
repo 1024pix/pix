@@ -13,15 +13,43 @@ module('Unit | Controller | authenticated/campaigns/list/all-campaigns', functio
       // given
       controller.status = 'archived';
       controller.name = 'a name';
-      controller.ownerName = 'an owner bame';
+      controller.pageNumber = 4;
 
       // when
       await controller.clearFilters();
 
       // then
       assert.strictEqual(controller.status, null);
-      assert.strictEqual(controller.name, '');
-      assert.strictEqual(controller.ownerName, '');
+      assert.strictEqual(controller.name, null);
+      assert.strictEqual(controller.pageNumber, null);
+    });
+  });
+
+  module('#triggerFiltering', function () {
+    module('when the filters contain a valued field', function () {
+      test('updates the value', async function (assert) {
+        // given
+        controller.someField = 'old-value';
+
+        // when
+        controller.triggerFiltering('someField', 'new-value');
+
+        // then
+        assert.strictEqual(controller.someField, 'new-value');
+      });
+    });
+
+    module('when the filters contain an empty string', function () {
+      test('clear the searched value', async function (assert) {
+        // given
+        controller.someField = 'old-value';
+
+        // when
+        controller.triggerFiltering('someField', '');
+
+        // then
+        assert.strictEqual(controller.someField, undefined);
+      });
     });
   });
 

@@ -10,6 +10,10 @@ import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
 module('Integration | Component | Campaign::Activity::ParticipantsList', function (hooks) {
   setupIntlRenderingTest(hooks);
 
+  hooks.beforeEach(function () {
+    this.set('noop', sinon.stub());
+  });
+
   test('it should display participations details', async function (assert) {
     class CurrentUserStub extends Service {
       isAdminInOrganization = true;
@@ -26,12 +30,12 @@ module('Integration | Component | Campaign::Activity::ParticipantsList', functio
         participantExternalId: 'patate',
       },
     ]);
-    this.set('onClickParticipant', sinon.stub());
 
     await render(hbs`<Campaign::Activity::ParticipantsList
         @campaign={{this.campaign}}
         @participations={{this.participations}}
-        @onClickParticipant={{this.onClickParticipant}}
+        @onClickParticipant={{noop}}
+        @onFilter={{noop}}
       />`);
 
     assert.contains('Joe');
@@ -57,12 +61,12 @@ module('Integration | Component | Campaign::Activity::ParticipantsList', functio
             participantExternalId: 'patate',
           },
         ];
-        this.onClickParticipant = sinon.stub();
 
         await render(hbs`<Campaign::Activity::ParticipantsList
             @campaign={{this.campaign}}
             @participations={{this.participations}}
-            @onClickParticipant={{this.onClickParticipant}}
+            @onClickParticipant={{noop}}
+            @onFilter={{noop}}
           />`);
 
         assert.dom('[aria-label="Supprimer la participation"]').exists();
@@ -86,12 +90,12 @@ module('Integration | Component | Campaign::Activity::ParticipantsList', functio
             participantExternalId: 'patate',
           },
         ];
-        this.onClickParticipant = sinon.stub();
 
         await render(hbs`<Campaign::Activity::ParticipantsList
             @campaign={{this.campaign}}
             @participations={{this.participations}}
-            @onClickParticipant={{this.onClickParticipant}}
+            @onClickParticipant={{noop}}
+            @onFilter={{noop}}
           />`);
 
         assert.dom('[aria-label="Supprimer la participation"]').exists();
@@ -115,12 +119,12 @@ module('Integration | Component | Campaign::Activity::ParticipantsList', functio
             participantExternalId: 'patate',
           },
         ];
-        this.onClickParticipant = sinon.stub();
 
         await render(hbs`<Campaign::Activity::ParticipantsList
             @campaign={{this.campaign}}
             @participations={{this.participations}}
-            @onClickParticipant={{this.onClickParticipant}}
+            @onClickParticipant={{noop}}
+            @onFilter={{noop}}
           />`);
 
         assert.dom('[aria-label="Supprimer la participation"]').doesNotExist();
@@ -138,13 +142,13 @@ module('Integration | Component | Campaign::Activity::ParticipantsList', functio
       this.campaign = { type: 'ASSESSMENT' };
       this.participations = [];
       this.selectedStatus = 'TO_SHARE';
-      this.onClickParticipant = sinon.stub();
 
       await render(hbs`<Campaign::Activity::ParticipantsList
         @campaign={{this.campaign}}
         @participations={{this.participations}}
         @selectedStatus={{selectedStatus}}
-        @onClickParticipant={{this.onClickParticipant}}
+        @onClickParticipant={{noop}}
+        @onFilter={{noop}}
       />`);
 
       assert.strictEqual(find('[aria-label="Statut"]').selectedOptions[0].value, 'TO_SHARE');
@@ -158,19 +162,18 @@ module('Integration | Component | Campaign::Activity::ParticipantsList', functio
       this.owner.register('service:current-user', CurrentUserStub);
       this.campaign = { type: 'ASSESSMENT' };
       this.participations = [];
-      this.onClickParticipant = sinon.stub();
       this.onFilter = sinon.stub();
 
       await render(hbs`<Campaign::Activity::ParticipantsList
           @campaign={{this.campaign}}
           @participations={{this.participations}}
-          @onClickParticipant={{this.onClickParticipant}}
+          @onClickParticipant={{noop}}
           @onFilter={{onFilter}}
         />`);
 
       await fillByLabel('Statut', 'SHARED');
 
-      assert.ok(this.onFilter.calledWith({ status: 'SHARED' }));
+      assert.ok(this.onFilter.calledWith('status', 'SHARED'));
     });
   });
 
@@ -186,20 +189,19 @@ module('Integration | Component | Campaign::Activity::ParticipantsList', functio
 
       this.campaign = { idPixLabel: 'id', divisions: [{ name: '3B' }, { name: '3A' }] };
       this.participations = [];
-      this.onClickParticipant = sinon.stub();
       this.onFilter = sinon.stub();
 
       await render(hbs`<Campaign::Activity::ParticipantsList
           @campaign={{campaign}}
           @participations={{participations}}
-          @onClickParticipant={{onClickParticipant}}
+          @onClickParticipant={{noop}}
           @onFilter={{onFilter}}
         />`);
 
       await clickByText('Classes');
       await clickByText('3A');
 
-      assert.ok(this.onFilter.calledWith({ divisions: ['3A'] }));
+      assert.ok(this.onFilter.calledWith('divisions', ['3A']));
     });
   });
 
@@ -214,20 +216,19 @@ module('Integration | Component | Campaign::Activity::ParticipantsList', functio
 
       this.campaign = { idPixLabel: 'id', groups: [{ name: 'M1' }, { name: 'M2' }] };
       this.participations = [];
-      this.onClickParticipant = sinon.stub();
       this.onFilter = sinon.stub();
 
       await render(hbs`<Campaign::Activity::ParticipantsList
           @campaign={{campaign}}
           @participations={{participations}}
-          @onClickParticipant={{onClickParticipant}}
+          @onClickParticipant={{noop}}
           @onFilter={{onFilter}}
         />`);
 
       await clickByText('Groupes');
       await clickByText('M2');
 
-      assert.ok(this.onFilter.calledWith({ groups: ['M2'] }));
+      assert.ok(this.onFilter.calledWith('groups', ['M2']));
     });
   });
 
@@ -235,19 +236,18 @@ module('Integration | Component | Campaign::Activity::ParticipantsList', functio
     test('it should filter participants by names', async function (assert) {
       this.campaign = { idPixLabel: 'id' };
       this.participations = [];
-      this.onClickParticipant = sinon.stub();
       this.onFilter = sinon.stub();
 
       await render(hbs`<Campaign::Activity::ParticipantsList
           @campaign={{campaign}}
           @participations={{participations}}
-          @onClickParticipant={{onClickParticipant}}
+          @onClickParticipant={{noop}}
           @onFilter={{onFilter}}
         />`);
 
       await fillByLabel('Recherche sur le nom et prénom', 'Jean');
 
-      assert.ok(this.onFilter.calledWith({ search: 'Jean' }));
+      assert.ok(this.onFilter.calledWith('search', 'Jean'));
     });
   });
 });

@@ -10,14 +10,14 @@ module('Unit | Controller | authenticated/campaigns/campaign/activity', function
     controller = this.owner.lookup('controller:authenticated/campaigns/campaign/activity');
   });
 
-  module('#action goToParticipantPage', function () {
+  module('#goToParticipantPage', function () {
     test('it should call transitionTo with appropriate arguments for profiles collection', function (assert) {
       // given
       controller.router = { transitionTo: sinon.stub() };
       controller.model = { campaign: { isTypeAssessment: false } };
 
       // when
-      controller.send('goToParticipantPage', 123, 456);
+      controller.goToParticipantPage(123, 456);
 
       // then
       assert.true(controller.router.transitionTo.calledWith('authenticated.campaigns.participant-profile', 123, 456));
@@ -29,7 +29,7 @@ module('Unit | Controller | authenticated/campaigns/campaign/activity', function
       controller.model = { campaign: { isTypeAssessment: true } };
 
       // when
-      controller.send('goToParticipantPage', 123, 456);
+      controller.goToParticipantPage(123, 456);
 
       // then
       assert.true(
@@ -38,7 +38,7 @@ module('Unit | Controller | authenticated/campaigns/campaign/activity', function
     });
   });
 
-  module('#action resetFiltering', function (hooks) {
+  module('#resetFiltering', function (hooks) {
     hooks.beforeEach(function () {
       controller.model = { campaign: { isTypeAssessment: false } };
     });
@@ -52,7 +52,7 @@ module('Unit | Controller | authenticated/campaigns/campaign/activity', function
       controller.search = 'Jean';
 
       // when
-      controller.send('resetFiltering');
+      controller.resetFiltering();
 
       // then
       assert.strictEqual(controller.pageNumber, null);
@@ -63,136 +63,35 @@ module('Unit | Controller | authenticated/campaigns/campaign/activity', function
     });
   });
 
-  module('#action triggerFiltering', function (hooks) {
-    hooks.beforeEach(function () {
-      controller.model = { campaign: { isTypeAssessment: false } };
-    });
-
-    test('it updates all filters', function (assert) {
-      // given
-      controller.pageNumber = 5;
-      controller.divisions = ['A2'];
-      controller.status = 'SHARED';
-      controller.groups = ['L3'];
-      controller.search = 'Jean';
-
-      // when
-      controller.send('triggerFiltering', { divisions: ['A1'], status: 'STARTED', groups: ['L3'], search: 'Jean' });
-
-      // then
-      assert.strictEqual(controller.pageNumber, null);
-      assert.deepEqual(controller.divisions, ['A1']);
-      assert.strictEqual(controller.status, 'STARTED');
-      assert.deepEqual(controller.groups, ['L3']);
-      assert.strictEqual(controller.search, 'Jean');
-    });
-
-    module('when division filter does not change', function () {
-      test('it does not update divisions', function (assert) {
+  module('#triggerFiltering', function () {
+    module('when the filters contain a valued field', function () {
+      test('updates the value', async function (assert) {
         // given
-        controller.pageNumber = 5;
-        controller.divisions = ['A2'];
-        controller.status = 'SHARED';
-        controller.search = 'Jean';
+        controller.someField = 'old-value';
 
         // when
-        controller.send('triggerFiltering', { status: 'COMPLETED' });
+        controller.triggerFiltering('someField', 'new-value');
 
         // then
-        assert.strictEqual(controller.pageNumber, null);
-        assert.deepEqual(controller.divisions, ['A2']);
-        assert.strictEqual(controller.status, 'COMPLETED');
-        assert.strictEqual(controller.search, 'Jean');
+        assert.strictEqual(controller.someField, 'new-value');
       });
     });
 
-    module('when groups filter does not change', function () {
-      test('it does not update groups', function (assert) {
+    module('when the filters contain an empty string', function () {
+      test('clear the searched value', async function (assert) {
         // given
-        controller.pageNumber = 5;
-        controller.groups = ['A2'];
-        controller.status = 'SHARED';
-        controller.search = 'Jean';
+        controller.someField = 'old-value';
 
         // when
-        controller.send('triggerFiltering', { status: 'COMPLETED' });
+        controller.triggerFiltering('someField', '');
 
         // then
-        assert.strictEqual(controller.pageNumber, null);
-        assert.deepEqual(controller.groups, ['A2']);
-        assert.strictEqual(controller.status, 'COMPLETED');
-        assert.strictEqual(controller.search, 'Jean');
-      });
-    });
-
-    module('when status filter does not change', function () {
-      test('it does not update status', function (assert) {
-        // given
-        controller.pageNumber = 5;
-        controller.divisions = ['A2'];
-        controller.status = 'SHARED';
-        controller.search = 'Jean';
-
-        // when
-        controller.send('triggerFiltering', { divisions: ['A1'] });
-
-        // then
-        assert.strictEqual(controller.pageNumber, null);
-        assert.deepEqual(controller.divisions, ['A1']);
-        assert.strictEqual(controller.status, 'SHARED');
-        assert.strictEqual(controller.search, 'Jean');
-      });
-    });
-
-    module('when search filter does not change', function () {
-      test('it does not update search', function (assert) {
-        // given
-        controller.pageNumber = 5;
-        controller.divisions = ['A2'];
-        controller.status = 'SHARED';
-        controller.search = 'Jean';
-
-        // when
-        controller.send('triggerFiltering', { divisions: ['A1'] });
-
-        // then
-        assert.strictEqual(controller.pageNumber, null);
-        assert.deepEqual(controller.divisions, ['A1']);
-        assert.strictEqual(controller.status, 'SHARED');
-        assert.strictEqual(controller.search, 'Jean');
-      });
-    });
-
-    module('when status filter is reseted', function () {
-      test('it updates status', function (assert) {
-        // given
-        controller.pageNumber = 5;
-        controller.status = 'SHARED';
-
-        // when
-        controller.send('triggerFiltering', { status: '' });
-
-        // then
-        assert.strictEqual(controller.status, '');
-      });
-    });
-
-    module('when search filter is changed', function () {
-      test('it updates search', function (assert) {
-        // given
-        controller.pageNumber = 5;
-        controller.search = 'Jean';
-
-        // when
-        controller.send('triggerFiltering', { search: 'Paul' });
-
-        // then
-        assert.strictEqual(controller.search, 'Paul');
+        assert.strictEqual(controller.someField, undefined);
       });
     });
   });
 
-  module('#action deleteCampaignParticipant', function (hooks) {
+  module('#deleteCampaignParticipant', function (hooks) {
     hooks.beforeEach(function () {
       controller.model = { campaign: { isTypeAssessment: false, id: 7 } };
     });

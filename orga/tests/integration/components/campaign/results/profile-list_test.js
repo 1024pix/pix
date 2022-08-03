@@ -13,6 +13,7 @@ module('Integration | Component | Campaign::Results::ProfileList', function (hoo
 
   hooks.beforeEach(function () {
     store = this.owner.lookup('service:store');
+    this.set('noop', sinon.stub());
   });
 
   module('when there are profiles', function () {
@@ -38,13 +39,13 @@ module('Integration | Component | Campaign::Results::ProfileList', function (hoo
         },
       ];
       this.profiles.meta = { rowCount: 2 };
-      this.onClickParticipant = sinon.stub();
 
       // when
       await render(hbs`<Campaign::Results::ProfileList
         @campaign={{campaign}}
         @profiles={{profiles}}
-        @onClickParticipant={{onClickParticipant}}
+        @onClickParticipant={{noop}}
+        @onFilter={{noop}}
       />`);
 
       // then
@@ -65,13 +66,13 @@ module('Integration | Component | Campaign::Results::ProfileList', function (hoo
       });
       this.profiles = [{ participantExternalId: '123' }];
       this.profiles.meta = { rowCount: 1 };
-      this.onClickParticipant = sinon.stub();
 
       // when
       await render(hbs`<Campaign::Results::ProfileList
         @campaign={{campaign}}
         @profiles={{profiles}}
-        @onClickParticipant={{onClickParticipant}}
+        @onClickParticipant={{noop}}
+        @onFilter={{noop}}
       />`);
 
       // then
@@ -98,13 +99,13 @@ module('Integration | Component | Campaign::Results::ProfileList', function (hoo
         },
       ];
       this.profiles.meta = { rowCount: 1 };
-      this.onClickParticipant = sinon.stub();
 
       // when
       await render(hbs`<Campaign::Results::ProfileList
         @campaign={{campaign}}
         @profiles={{profiles}}
-        @onClickParticipant={{onClickParticipant}}
+        @onClickParticipant={{noop}}
+        @onFilter={{noop}}
       />`);
 
       // then
@@ -130,13 +131,13 @@ module('Integration | Component | Campaign::Results::ProfileList', function (hoo
           firstName: 'Shoto',
         },
       ];
-      this.onClickParticipant = sinon.stub();
 
       // when
       await render(hbs`<Campaign::Results::ProfileList
         @campaign={{campaign}}
         @profiles={{profiles}}
-        @onClickParticipant={{onClickParticipant}}
+        @onClickParticipant={{noop}}
+        @onFilter={{noop}}
       />`);
 
       // then
@@ -154,13 +155,13 @@ module('Integration | Component | Campaign::Results::ProfileList', function (hoo
       });
       this.profiles = [];
       this.profiles.meta = { rowCount: 0 };
-      this.onClickParticipant = sinon.stub();
 
       // when
       await render(hbs`<Campaign::Results::ProfileList
         @campaign={{campaign}}
         @profiles={{profiles}}
-        @onClickParticipant={{onClickParticipant}}
+        @onClickParticipant={{noop}}
+        @onFilter={{noop}}
       />`);
 
       // then
@@ -190,20 +191,19 @@ module('Integration | Component | Campaign::Results::ProfileList', function (hoo
       this.campaign.set('divisions', [division]);
       this.profiles = [{ firstName: 'John', lastName: 'Doe', isShared: true }];
       this.profiles.meta = { rowCount: 1 };
-      this.onClickParticipant = sinon.stub();
       this.onFilter = sinon.stub();
 
       // when
       await render(hbs`<Campaign::Results::ProfileList
         @campaign={{campaign}}
         @profiles={{profiles}}
-        @onClickParticipant={{onClickParticipant}}
+        @onClickParticipant={{noop}}
         @onFilter={{onFilter}}
       />`);
       await click('[for="division-d1"]');
 
       // then
-      assert.ok(this.onFilter.calledWith({ divisions: ['d1'] }));
+      assert.ok(this.onFilter.calledWith('divisions', ['d1']));
     });
 
     module('when user set a search filter', function () {
@@ -218,7 +218,7 @@ module('Integration | Component | Campaign::Results::ProfileList', function (hoo
         this.set('campaign', campaign);
         this.set('searchFilter', 'chichi');
         const screen = await renderScreen(
-          hbs`<Campaign::Results::ProfileList  @campaign={{campaign}} @searchFilter={{searchFilter}}/>`
+          hbs`<Campaign::Results::ProfileList  @campaign={{campaign}} @searchFilter={{searchFilter}} @onFilter={{noop}}/>`
         );
 
         // then
@@ -241,7 +241,7 @@ module('Integration | Component | Campaign::Results::ProfileList', function (hoo
         await fillByLabel('Recherche sur le nom et prénom', 'Chichi');
 
         // then
-        assert.ok(triggerFiltering.calledWith({ search: 'Chichi' }));
+        assert.ok(triggerFiltering.calledWith('search', 'Chichi'));
       });
     });
   });

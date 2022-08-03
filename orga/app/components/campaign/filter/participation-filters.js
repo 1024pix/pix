@@ -65,31 +65,26 @@ export default class ParticipationFilters extends Component {
 
   @action
   onSelectStage(stages) {
-    this.args.onFilter({ stages });
+    this.args.onFilter('stages', stages);
   }
 
   @action
   onSelectGroup(groups) {
-    this.args.onFilter({ groups });
+    this.args.onFilter('groups', groups);
   }
 
   @action
   onSelectStatus(e) {
-    this.args.onFilter({ status: e.target.value });
-  }
-
-  @action
-  onSearch(e) {
-    this.args.onFilter({ search: e.target.value });
+    this.args.onFilter('status', e.target.value);
   }
 
   @action
   onSelectBadge(badges) {
-    this.args.onFilter({ badges });
+    this.args.onFilter('badges', badges);
   }
 
   @action
   onSelectDivision(divisions) {
-    this.args.onFilter({ divisions });
+    this.args.onFilter('divisions', divisions);
   }
 }
