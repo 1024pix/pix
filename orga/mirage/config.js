@@ -447,13 +447,6 @@ export default function () {
     };
   });
 
-  this.delete('/schooling-registration-user-associations/:id', (schema, request) => {
-    const studentId = request.params.id;
-
-    const student = schema.students.find(studentId);
-    return student.update({ email: null, username: null, isAuthenticatedFromGAR: false });
-  });
-
   this.get('feature-toggles', (schema) => {
     return schema.featureToggles.findOrCreateBy({ id: 0 });
   });
