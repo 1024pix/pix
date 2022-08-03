@@ -11,7 +11,7 @@ export default class StudentImportsAdapter extends ApplicationAdapter {
   replaceStudentsCsv(organizationId, files) {
     if (!files || files.length === 0) return;
 
-    const url = `${this.host}/${this.namespace}/organizations/${organizationId}/schooling-registrations/replace-csv`;
+    const url = `${this.host}/${this.namespace}/organizations/${organizationId}/sup-organization-learners/replace-csv`;
     return this.ajax(url, 'POST', { data: files[0] });
   }
 
