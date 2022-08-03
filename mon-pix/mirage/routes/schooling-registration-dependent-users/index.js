@@ -24,7 +24,7 @@ export default function index(config) {
     return new Response(204);
   });
 
-  config.post('/schooling-registration-dependent-users/external-user-token', (schema, request) => {
+  config.post('/sco-organization-learners/external', (schema, request) => {
     const params = JSON.parse(request.requestBody);
 
     const campaignCode = params.data.attributes['campaign-code'];
