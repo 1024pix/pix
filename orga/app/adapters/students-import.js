@@ -18,7 +18,7 @@ export default class StudentImportsAdapter extends ApplicationAdapter {
   importStudentsSiecle(organizationId, files, format) {
     if (!files || files.length === 0) return;
 
-    const url = `${this.host}/${this.namespace}/organizations/${organizationId}/schooling-registrations/import-siecle?format=${format}`;
+    const url = `${this.host}/${this.namespace}/organizations/${organizationId}/sco-organization-learners/import-siecle?format=${format}`;
     return this.ajax(url, 'POST', { data: files[0] });
   }
 }
