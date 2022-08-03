@@ -253,7 +253,7 @@ export default function () {
 
   this.get('/organizations/:id/participants', findFilteredPaginatedOrganizationParticipants);
 
-  this.post('/organizations/:id/schooling-registrations/import-siecle', (schema, request) => {
+  this.post('/organizations/:id/sco-organization-learners/import-siecle', (schema, request) => {
     const type = request.requestBody.type;
 
     if (type === 'invalid-file') {
