@@ -25,6 +25,8 @@ module.exports = {
       req: logObjectSerializer,
     },
     instance: require('../logger'),
+    // Remove duplicated req property: https://github.com/pinojs/hapi-pino#optionsgetchildbindings-request---key-any-
+    getChildBindings: () => ({}),
     logQueryParams: true,
   },
 };
