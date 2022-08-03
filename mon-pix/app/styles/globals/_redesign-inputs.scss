@@ -34,37 +34,6 @@ fieldset {
   font-weight: $font-normal;
 }
 
-/**
- *
- * Configure Checkboxes of proposals
- *
- **/
-.input-checkbox-proposal {
-  opacity: 0;
-  display: none;
-}
-
-/* XXX Can't use BEM properly when using CSS state manipulation */
-.input-checkbox-proposal:checked ~ label svg.checkbox-off {
-  opacity: 0;
-  transition: opacity 0.2s linear;
-}
-
-.input-checkbox-proposal:not(:checked) ~ label svg.checkbox-off {
-  opacity: 1;
-  transition: opacity 0.2s linear;
-}
-
-.input-checkbox-proposal:checked ~ label svg.checkbox-on {
-  opacity: 1;
-  transition: opacity 0.2s linear;
-}
-
-.input-checkbox-proposal:not(:checked) ~ label svg.checkbox-on {
-  opacity: 0;
-  transition: opacity 0.2s linear;
-}
-
 input[type=checkbox]::before {
   position: relative;
   height: 18px;
