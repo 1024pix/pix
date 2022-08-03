@@ -151,13 +151,20 @@ async function _getCertifiedBadgeImages(certificationCourseId) {
     PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT,
   ];
   const results = await knex
-    .select('complementary-certification-course-results.*')
+    .select('complementary-certification-course-results.*', 'complementary-certification-badges.imageUrl')
     .from('complementary-certification-course-results')
     .innerJoin(
       'complementary-certification-courses',
       'complementary-certification-courses.id',
       'complementary-certification-course-results.complementaryCertificationCourseId'
     )
+    .innerJoin('badges', 'badges.key', 'complementary-certification-course-results.partnerKey')
+    .innerJoin('complementary-certification-badges', function () {
+      this.on('complementary-certification-badges.badgeId', 'badges.id').on(
+        'complementary-certification-badges.complementaryCertificationId',
+        'complementary-certification-courses.complementaryCertificationId'
+      );
+    })
     .where({ certificationCourseId })
     .where(function () {
       this.whereIn('partnerKey', handledBadgeKeys);
@@ -180,9 +187,11 @@ async function _getCertifiedBadgeImages(certificationCourseId) {
   }).getAcquiredCertifiedBadgesDTO();
 
   return _.compact(
-    _.map(certifiedBadgesDTO, ({ partnerKey, isTemporaryBadge }) =>
-      CertifiedBadgeImage.fromPartnerKey(partnerKey, isTemporaryBadge)
-    )
+    _.map(certifiedBadgesDTO, ({ partnerKey, isTemporaryBadge }) => {
+      const imageUrl = results.find((result) => result.partnerKey === partnerKey).imageUrl;
+
+      return CertifiedBadgeImage.fromPartnerKey(partnerKey, isTemporaryBadge, imageUrl);
+    })
   );
 }
 
