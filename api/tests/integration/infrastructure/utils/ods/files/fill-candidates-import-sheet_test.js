@@ -128,7 +128,10 @@ describe('Integration | Infrastructure | Utils | Ods | fillCandidatesImportSheet
       expectedOdsFilePath = `${__dirname}/1.5/candidates_import_template-with-one-complementary-certification-sco.ods`;
       actualOdsFilePath = `${__dirname}/1.5/candidates_import_template-with-one-complementary-certification-sco.tmp.ods`;
 
-      const cleaNumerique = databaseBuilder.factory.buildComplementaryCertification({ name: 'CléA Numérique' });
+      const cleaNumerique = databaseBuilder.factory.buildComplementaryCertification({
+        key: 'CLEA',
+        label: 'CléA Numérique',
+      });
 
       const certificationCenterName = 'Centre de certification';
       const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({
@@ -218,13 +221,21 @@ describe('Integration | Infrastructure | Utils | Ods | fillCandidatesImportSheet
       expectedOdsFilePath = `${__dirname}/1.5/candidates_import_template-with-all-complementary-certifications-sco.ods`;
       actualOdsFilePath = `${__dirname}/1.5/candidates_import_template-with-all-complementary-certifications-sco.tmp.ods`;
 
-      const cleaNumerique = databaseBuilder.factory.buildComplementaryCertification({ name: 'CléA Numérique' });
-      const pixPlusDroit = databaseBuilder.factory.buildComplementaryCertification({ name: 'Pix+ Droit' });
+      const cleaNumerique = databaseBuilder.factory.buildComplementaryCertification({
+        key: 'CLEA',
+        label: 'CléA Numérique',
+      });
+      const pixPlusDroit = databaseBuilder.factory.buildComplementaryCertification({
+        key: 'DROIT',
+        label: 'Pix+ Droit',
+      });
       const pixPlusEdu1erDegre = databaseBuilder.factory.buildComplementaryCertification({
-        name: 'Pix+ Édu 1er degré',
+        key: 'EDU_1ER_DEGRE',
+        label: 'Pix+ Édu 1er degré',
       });
       const pixPlusEdu2ndDegre = databaseBuilder.factory.buildComplementaryCertification({
-        name: 'Pix+ Édu 2nd degré',
+        key: 'EDU_2ND_DEGRE',
+        label: 'Pix+ Édu 2nd degré',
       });
 
       const certificationCenterName = 'Centre de certification';
@@ -452,7 +463,10 @@ describe('Integration | Infrastructure | Utils | Ods | fillCandidatesImportSheet
         expectedOdsFilePath = `${__dirname}/1.5/candidates_import_template-with-billing-columns-complementary.ods`;
         actualOdsFilePath = `${__dirname}/1.5/candidates_import_template-with-billing-columns-complementary.tmp.ods`;
 
-        const cleaNumerique = databaseBuilder.factory.buildComplementaryCertification({ name: 'CléA Numérique' });
+        const cleaNumerique = databaseBuilder.factory.buildComplementaryCertification({
+          key: 'CLEA',
+          label: 'CléA Numérique',
+        });
 
         const certificationCenterName = 'Centre de certification';
         const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({

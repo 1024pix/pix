@@ -52,21 +52,15 @@ module.exports = class CandidateData {
     this.organizationLearnerId = this._emptyStringIfNull(organizationLearnerId);
     this.billingMode = CertificationCandidate.translateBillingMode(billingMode);
     this.prepaymentCode = this._emptyStringIfNull(prepaymentCode);
-    this.cleaNumerique = this._displayYesIfCandidateHasComplementaryCertification(
-      complementaryCertifications,
-      'CléA Numérique'
-    );
-    this.pixPlusDroit = this._displayYesIfCandidateHasComplementaryCertification(
-      complementaryCertifications,
-      'Pix+ Droit'
-    );
+    this.cleaNumerique = this._displayYesIfCandidateHasComplementaryCertification(complementaryCertifications, 'CLEA');
+    this.pixPlusDroit = this._displayYesIfCandidateHasComplementaryCertification(complementaryCertifications, 'DROIT');
     this.pixPlusEdu1erDegre = this._displayYesIfCandidateHasComplementaryCertification(
       complementaryCertifications,
-      'Pix+ Édu 1er degré'
+      'EDU_1ER_DEGRE'
     );
     this.pixPlusEdu2ndDegre = this._displayYesIfCandidateHasComplementaryCertification(
       complementaryCertifications,
-      'Pix+ Édu 2nd degré'
+      'EDU_2ND_DEGRE'
     );
     this.count = number;
     this._clearBirthInformationDataForExport();
@@ -91,12 +85,12 @@ module.exports = class CandidateData {
     }
   }
 
-  _displayYesIfCandidateHasComplementaryCertification(complementaryCertifications, certificationLabel) {
+  _displayYesIfCandidateHasComplementaryCertification(complementaryCertifications, certificationKey) {
     if (!complementaryCertifications) {
       return '';
     }
     const hasComplementaryCertification = complementaryCertifications.some(
-      (complementaryCertification) => complementaryCertification.name === certificationLabel
+      (complementaryCertification) => complementaryCertification.key === certificationKey
     );
     return hasComplementaryCertification ? 'oui' : '';
   }

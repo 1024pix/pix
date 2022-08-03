@@ -97,19 +97,19 @@ const IMPORT_CANDIDATES_TEMPLATE_VALUES = [
     validator: 'val-prepayment-code',
   },
   {
-    placeholder: 'CléA Numérique',
+    placeholder: 'CLEA',
     propertyName: 'cleaNumerique',
   },
   {
-    placeholder: 'Pix+ Droit',
+    placeholder: 'DROIT',
     propertyName: 'pixPlusDroit',
   },
   {
-    placeholder: 'Pix+ Édu 1er degré',
+    placeholder: 'EDU_1ER_DEGRE',
     propertyName: 'pixPlusEdu1erDegre',
   },
   {
-    placeholder: 'Pix+ Édu 2nd degré',
+    placeholder: 'EDU_2ND_DEGRE',
     propertyName: 'pixPlusEdu2ndDegre',
   },
 ];
