@@ -295,7 +295,7 @@ export default function () {
     }
   });
 
-  this.patch('/organizations/:id/schooling-registration-user-associations/:studentId', (schema, request) => {
+  this.patch('/organizations/:id/sup-organization-learners/:studentId', (schema, request) => {
     const { studentId } = request.params;
     const {
       data: {
