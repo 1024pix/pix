@@ -1,5 +1,6 @@
 const usecases = require('../../domain/usecases');
 const organizationLearnerIdentitySerializer = require('../../infrastructure/serializers/jsonapi/organization-learner-identity-serializer');
+const organizationLearnerUserAssociationSerializer = require('../../infrastructure/serializers/jsonapi/organization-learner-user-association-serializer');
 
 module.exports = {
   async dissociate(request, h) {
@@ -26,10 +27,13 @@ module.exports = {
       campaignCode,
     });
 
-    const response = h.response(organizationLearnerIdentitySerializer.serialize(organizationLearner)).code(200);
     if (h.request.path === `/api/schooling-registration-user-associations`) {
-      response.header('Deprecation', 'true').header('Link', `/api/organization-learners; rel="successor-version"`);
+      return h
+        .response(organizationLearnerUserAssociationSerializer.serialize(organizationLearner))
+        .code(200)
+        .header('Deprecation', 'true')
+        .header('Link', `/api/organization-learners; rel="successor-version"`);
     }
-    return response;
+    return h.response(organizationLearnerIdentitySerializer.serialize(organizationLearner)).code(200);
   },
 };
