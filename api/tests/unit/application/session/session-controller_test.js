@@ -368,15 +368,17 @@ describe('Unit | Controller | sessionController', function () {
   });
 
   describe('#getJuryCertificationSummaries ', function () {
-    let request;
-    const sessionId = 1;
-    const juryCertificationSummaries = 'someSummaries';
-    const juryCertificationSummariesJSONAPI = 'someSummariesJSONApi';
-
-    beforeEach(function () {
+    it('should return jury certification summaries', async function () {
       // given
-      request = {
+      const sessionId = 1;
+      const juryCertificationSummaries = { juryCertificationSummaries: 'tactac', pagination: {} };
+      const juryCertificationSummariesJSONAPI = 'someSummariesJSONApi';
+      const page = { number: 3, size: 30 };
+      const pagination = Symbol('pagination');
+
+      const request = {
         params: { id: sessionId },
+        query: { 'page[size]': 30, 'page[number]': 3 },
         auth: {
           credentials: {
             userId,
@@ -384,16 +386,14 @@ describe('Unit | Controller | sessionController', function () {
         },
       };
       sinon
-        .stub(juryCertificationSummaryRepository, 'findBySessionId')
-        .withArgs(sessionId)
-        .resolves(juryCertificationSummaries);
+        .stub(juryCertificationSummaryRepository, 'findBySessionIdPaginated')
+        .withArgs({ sessionId, page })
+        .resolves({ juryCertificationSummaries, pagination });
       sinon
         .stub(juryCertificationSummarySerializer, 'serialize')
         .withArgs(juryCertificationSummaries)
         .returns(juryCertificationSummariesJSONAPI);
-    });
 
-    it('should return jury certification summaries', async function () {
       // when
       const response = await sessionController.getJuryCertificationSummaries(request, hFake);
 
