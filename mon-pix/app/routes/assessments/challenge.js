@@ -72,57 +72,6 @@ export default class ChallengeRoute extends Route {
     };
   }
 
-  _findOrCreateAnswer(challenge, assessment) {
-    let answer = assessment.get('answers').findBy('challenge.id', challenge.id);
-    if (!answer) {
-      answer = this.store.createRecord('answer', { assessment, challenge });
-    }
-    return answer;
-  }
-
-  @action
-  async saveAnswerAndNavigate(challenge, assessment, answerValue, answerTimeout, answerFocusedOut) {
-    const answer = this._findOrCreateAnswer(challenge, assessment);
-    answer.setProperties({
-      value: answerValue.trim(),
-      timeout: answerTimeout,
-      focusedOut: answerFocusedOut,
-    });
-
-    try {
-      await answer.save();
-
-      let queryParams = { queryParams: {} };
-      const levelup = await answer.get('levelup');
-
-      if (this.currentUser.user && !this.currentUser.user.isAnonymous && levelup) {
-        queryParams = {
-          queryParams: {
-            newLevel: levelup.level,
-            competenceLeveled: levelup.competenceName,
-          },
-        };
-      }
-
-      this.router.transitionTo('assessments.resume', assessment.get('id'), queryParams);
-    } catch (error) {
-      answer.rollbackAttributes();
-
-      if (this._isAssessmentEndedBySupervisorOrByFinalization(error)) {
-        this.router.transitionTo('authenticated.certifications.results', assessment.certificationCourse.get('id'));
-        return;
-      }
-
-      return this.intermediateTransitionTo('error', error);
-    }
-  }
-
-  @action
-  resumeAssessment(assessment) {
-    this.router.transitionTo('assessments.resume', assessment.get('id'));
-    return;
-  }
-
   @action
   error() {
     return true;
@@ -132,12 +81,5 @@ export default class ChallengeRoute extends Route {
     if (isExiting) {
       controller.set('hasFocusedOutOfChallenge', false);
     }
-  }
-
-  _isAssessmentEndedBySupervisorOrByFinalization(error) {
-    return (
-      error?.errors?.[0]?.detail === 'Le surveillant a mis fin à votre test de certification.' ||
-      error?.errors?.[0]?.detail === 'La session a été finalisée par votre centre de certification.'
-    );
   }
 }
