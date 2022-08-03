@@ -367,14 +367,14 @@ export default function () {
     return schema.campaignAnalyses.findBy({ ...request.params });
   });
 
-  this.post('/schooling-registration-dependent-users/password-update', (schema) => {
-    return schema.schoolingRegistrationDependentUsers.create({
+  this.post('/sco-organization-learners/password-update', (schema) => {
+    return schema.dependentUsers.create({
       generatedPassword: 'Passw0rd',
     });
   });
 
-  this.post('/schooling-registration-dependent-users/generate-username-password', (schema) => {
-    return schema.schoolingRegistrationDependentUsers.create({
+  this.post('/sco-organization-learners/username-password-generation', (schema) => {
+    return schema.dependentUsers.create({
       username: 'user.gar3112',
       generatedPassword: 'Passw0rd',
     });
