@@ -13,12 +13,12 @@ export default class StudentSupRoute extends Route.extend(SecuredRouteMixin) {
   }
 
   async afterModel(campaign) {
-    const schoolingRegistration = await this.store.queryRecord('schooling-registration-user-association', {
+    const organizationLearner = await this.store.queryRecord('organization-learner-identity', {
       userId: this.currentUser.user.id,
       campaignCode: campaign.code,
     });
 
-    if (schoolingRegistration) {
+    if (organizationLearner) {
       this.campaignStorage.set(campaign.code, 'associationDone', true);
       this.router.replaceWith('campaigns.invited.fill-in-participant-external-id', campaign.code);
     }

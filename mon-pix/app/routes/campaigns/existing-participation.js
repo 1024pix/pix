@@ -8,7 +8,7 @@ export default class ExistingParticipation extends Route.extend(SecuredRouteMixi
 
   model() {
     const { code } = this.paramsFor('campaigns');
-    return this.store.queryRecord('schooling-registration-user-association', {
+    return this.store.queryRecord('organization-learner-identity', {
       userId: this.currentUser.user.id,
       campaignCode: code,
     });
