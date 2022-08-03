@@ -888,7 +888,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
             '.bbb';
 
           beforeEach(async function () {
-            server.post('/schooling-registration-dependent-users/external-user-token', async function () {
+            server.post('/sco-organization-learners/external', async function () {
               return new Response(
                 409,
                 {},
@@ -1045,7 +1045,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
               // given
               const userShouldChangePassword = server.create('user', 'withUsername', 'shouldChangePassword');
 
-              server.post('/schooling-registration-dependent-users/external-user-token', async function () {
+              server.post('/sco-organization-learners/external', async function () {
                 return new Response(
                   409,
                   {},

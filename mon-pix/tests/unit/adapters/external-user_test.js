@@ -12,12 +12,12 @@ describe('Unit | Adapters | external-user', function () {
   });
 
   describe('#urlForCreateRecord', () => {
-    it('should redirect to /api/schooling-registration-dependent-users/external-user-token', async function () {
+    it('should redirect to /api/sco-organization-learners/external', async function () {
       // when
       const url = await adapter.urlForCreateRecord();
 
       // then
-      expect(url.endsWith('/schooling-registration-dependent-users/external-user-token')).to.be.true;
+      expect(url.endsWith('/sco-organization-learners/external')).to.be.true;
     });
   });
 });
