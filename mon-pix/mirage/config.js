@@ -20,7 +20,7 @@ import loadCertificationCourseRoutes from './routes/certification-courses/index'
 import loadCourseRoutes from './routes/courses/index';
 import loadPasswordResetDemandRoutes from './routes/password-reset-demands/index';
 import loadSchoolingRegistrationUserAssociationRoutes from './routes/schooling-registration-user-associations/index';
-import loadSchoolingRegistrationDependentUserRoutes from './routes/schooling-registration-dependent-users/index';
+import loadScoOrganizationLearnersRoutes from './routes/sco-organization-learners/index';
 import loadAccountRecoveryRoutes from './routes/account-recovery/index';
 import loadUserRoutes from './routes/users/index';
 import putSaveTutorial from './routes/put-save-tutorial';
@@ -47,7 +47,7 @@ export default function () {
   loadCourseRoutes(this);
   loadPasswordResetDemandRoutes(this);
   loadSchoolingRegistrationUserAssociationRoutes(this);
-  loadSchoolingRegistrationDependentUserRoutes(this);
+  loadScoOrganizationLearnersRoutes(this);
   loadUserRoutes(this);
   loadAccountRecoveryRoutes(this);
   loadUserTutorialsRoutes(this);

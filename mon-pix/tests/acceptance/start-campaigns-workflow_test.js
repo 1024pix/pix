@@ -233,7 +233,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
               return new Response(200, {}, studentFoundWithUsernameGenerated);
             });
 
-            this.server.post('schooling-registration-dependent-users', () => {
+            this.server.post('sco-organization-learners/dependent', () => {
               const emailAlreadyExistResponse = {
                 errors: [
                   {
