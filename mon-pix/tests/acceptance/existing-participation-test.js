@@ -16,10 +16,9 @@ describe('Acceptance | Existing Participation', function () {
     beforeEach(async function () {
       const user = server.create('user', 'withEmail');
       server.create('campaign', { code: '123' });
-      server.create('schooling-registration-user-association', {
+      server.create('organization-learner-identity', {
         firstName: 'First',
         lastName: 'Last',
-        campaignCode: '123',
       });
       await authenticateByEmail(user);
     });

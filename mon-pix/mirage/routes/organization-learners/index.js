@@ -1,9 +1,9 @@
 import { Response } from 'ember-cli-mirage';
 
 export default function index(config) {
-  config.get('/schooling-registration-user-associations', (schema, request) => {
+  config.get('/organization-learners', (schema, request) => {
     const campaignCode = request.queryParams.campaignCode;
-    const schooolingRegistration = schema.schoolingRegistrationUserAssociations.findBy({ campaignCode });
+    const organizationLearnerIdentity = schema.organizationLearnerIdentities.first();
     if (campaignCode === 'FORBIDDEN') {
       return new Response(
         412,
@@ -18,7 +18,7 @@ export default function index(config) {
         }
       );
     }
-    return schooolingRegistration ? schooolingRegistration : { data: null };
+    return organizationLearnerIdentity ? organizationLearnerIdentity : { data: null };
   });
 
   config.post('/schooling-registration-user-associations', (schema, request) => {

@@ -19,7 +19,7 @@ import loadCampaignParticipations from './routes/campaign-participations/index';
 import loadCertificationCourseRoutes from './routes/certification-courses/index';
 import loadCourseRoutes from './routes/courses/index';
 import loadPasswordResetDemandRoutes from './routes/password-reset-demands/index';
-import loadSchoolingRegistrationUserAssociationRoutes from './routes/schooling-registration-user-associations/index';
+import loadOrganizationLearnersRoutes from './routes/organization-learners/index';
 import loadScoOrganizationLearnersRoutes from './routes/sco-organization-learners/index';
 import loadSupOrganizationLearnersRoutes from './routes/sup-organization-learners/index';
 import loadAccountRecoveryRoutes from './routes/account-recovery/index';
@@ -47,7 +47,7 @@ export default function () {
   loadCertificationCourseRoutes(this);
   loadCourseRoutes(this);
   loadPasswordResetDemandRoutes(this);
-  loadSchoolingRegistrationUserAssociationRoutes(this);
+  loadOrganizationLearnersRoutes(this);
   loadScoOrganizationLearnersRoutes(this);
   loadSupOrganizationLearnersRoutes(this);
   loadUserRoutes(this);

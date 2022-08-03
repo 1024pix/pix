@@ -14,14 +14,14 @@ export default class StudentScoRoute extends Route.extend(SecuredRouteMixin) {
   }
 
   async afterModel(campaign) {
-    let schoolingRegistration = await this.store.queryRecord('schooling-registration-user-association', {
+    let organizationLearner = await this.store.queryRecord('organization-learner-identity', {
       userId: this.currentUser.user.id,
       campaignCode: campaign.code,
     });
 
-    if (!schoolingRegistration) {
+    if (!organizationLearner) {
       try {
-        schoolingRegistration = await this.store
+        organizationLearner = await this.store
           .createRecord('schooling-registration-user-association', {
             userId: this.currentUser.user.id,
             campaignCode: campaign.code,
@@ -34,7 +34,7 @@ export default class StudentScoRoute extends Route.extend(SecuredRouteMixin) {
       }
     }
 
-    if (schoolingRegistration) {
+    if (organizationLearner) {
       this.campaignStorage.set(campaign.code, 'associationDone', true);
       this.router.replaceWith('campaigns.invited.fill-in-participant-external-id', campaign.code);
     }
