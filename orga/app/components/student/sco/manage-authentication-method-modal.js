@@ -48,14 +48,14 @@ export default class ManageAuthenticationMethodModal extends Component {
   @action
   async resetPassword(event) {
     event.preventDefault();
-    const schoolingRegistrationDependentUser = this.store.createRecord('schooling-registration-dependent-user', {
+    const dependentUser = this.store.createRecord('dependent-user', {
       organizationId: this.args.organizationId,
-      schoolingRegistrationId: this.args.student.id,
+      organizationLearnerId: this.args.student.id,
     });
 
     try {
-      await schoolingRegistrationDependentUser.save();
-      this.generatedPassword = schoolingRegistrationDependentUser.generatedPassword;
+      await dependentUser.save();
+      this.generatedPassword = dependentUser.generatedPassword;
       this.isUniquePasswordVisible = !this.isUniquePasswordVisible;
     } catch (e) {
       this.notifications.sendError(this._t('error.unexpected'));
@@ -65,17 +65,17 @@ export default class ManageAuthenticationMethodModal extends Component {
   @action
   async generateUsernameWithTemporaryPassword(event) {
     event.preventDefault();
-    const schoolingRegistrationDependentUser = this.store.createRecord('schooling-registration-dependent-user', {
+    const dependentUser = this.store.createRecord('dependent-user', {
       organizationId: this.args.organizationId,
-      schoolingRegistrationId: this.args.student.id,
+      organizationLearnerId: this.args.student.id,
     });
 
     try {
-      await schoolingRegistrationDependentUser.save({ adapterOptions: { generateUsernameAndTemporaryPassword: true } });
-      this.args.student.username = schoolingRegistrationDependentUser.username;
+      await dependentUser.save({ adapterOptions: { generateUsernameAndTemporaryPassword: true } });
+      this.args.student.username = dependentUser.username;
 
       if (!this.args.student.email) {
-        this.generatedPassword = schoolingRegistrationDependentUser.generatedPassword;
+        this.generatedPassword = dependentUser.generatedPassword;
         this.isUniquePasswordVisible = !this.isUniquePasswordVisible;
       }
     } catch (response) {
