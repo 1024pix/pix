@@ -2,7 +2,7 @@ import Response from 'ember-cli-mirage/response';
 import { decodeToken } from 'mon-pix/helpers/jwt';
 
 export default function index(config) {
-  config.post('/schooling-registration-dependent-users', (schema, request) => {
+  config.post('/sco-organization-learners/dependent', (schema, request) => {
     const params = JSON.parse(request.requestBody);
 
     const campaignCode = params.data.attributes['campaign-code'];
