@@ -1,6 +1,3 @@
-/* eslint ember/no-classic-classes: 0 */
-/* eslint ember/require-tagless-components: 0 */
-
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { describe, it } from 'mocha';
@@ -64,8 +61,11 @@ describe('Integration | Component | signin form', function () {
       it('should display related error message if unauthorized error', async function () {
         // given
         const expectedErrorMessage = ApiErrorMessages.LOGIN_UNAUTHORIZED.MESSAGE;
-        this.set('authenticateUser', sinon.stub().rejects({ status: 401 }));
-        await render(hbs`<SigninForm @authenticateUser={{this.authenticateUser}} />`);
+        class sessionService extends Service {
+          authenticate = sinon.stub().rejects({ status: 401 });
+        }
+        this.owner.register('service:session', sessionService);
+        await render(hbs`<SigninForm />`);
 
         // when
         await fillIn('input#login', 'usernotexist@example.net');
@@ -79,8 +79,11 @@ describe('Integration | Component | signin form', function () {
       it('should display related error message if bad request error', async function () {
         // given
         const expectedErrorMessage = ApiErrorMessages.BAD_REQUEST.MESSAGE;
-        this.set('authenticateUser', sinon.stub().rejects({ status: 400 }));
-        await render(hbs`<SigninForm @authenticateUser={{this.authenticateUser}} />`);
+        class sessionService extends Service {
+          authenticate = sinon.stub().rejects({ status: 400 });
+        }
+        this.owner.register('service:session', sessionService);
+        await render(hbs`<SigninForm />`);
 
         // when
         await fillIn('input#login', 'usernotexist@example.net');
@@ -94,8 +97,11 @@ describe('Integration | Component | signin form', function () {
       it('should display an error if api cannot be reached', async function () {
         // given
         const stubCatchedApiErrorInternetDisconnected = undefined;
-        this.set('authenticateUser', sinon.stub().rejects(stubCatchedApiErrorInternetDisconnected));
-        await render(hbs`<SigninForm @authenticateUser={{this.authenticateUser}} />`);
+        class sessionService extends Service {
+          authenticate = sinon.stub().rejects({ status: stubCatchedApiErrorInternetDisconnected });
+        }
+        this.owner.register('service:session', sessionService);
+        await render(hbs`<SigninForm />`);
 
         // when
         await fillIn('input#login', 'johnharry@example.net');
@@ -154,33 +160,25 @@ describe('Integration | Component | signin form', function () {
 
   describe('Behaviours', function () {
     it('should authenticate user when she submitted sign-in form', async function () {
-      let actualEmail;
-      let actualPassword;
-
       // given
-      const expectedEmail = 'email@example.fr';
-      const expectedPassword = 'azerty';
+      class sessionService extends Service {
+        authenticate = sinon.stub().resolves();
+      }
+      this.owner.register('service:session', sessionService);
+      const session = this.owner.lookup('service:session', sessionService);
 
-      this.set('onSubmitAction', function (email, password) {
-        // then
-        actualEmail = email;
-        actualPassword = password;
-        return Promise.resolve();
-      });
+      await render(hbs`<SigninForm />`);
 
-      await render(hbs`<SigninForm @authenticateUser={{this.onSubmitAction}} />`);
-
-      await fillIn('input#login', expectedEmail);
+      await fillIn('input#login', 'email@example.fr');
       await triggerEvent('input#login', 'change');
-      await fillIn('input#password', expectedPassword);
+      await fillIn('input#password', 'azerty');
       await triggerEvent('input#password', 'change');
 
       // when
       await clickByLabel(this.intl.t('pages.sign-in.actions.submit'));
 
       // Then
-      expect(actualEmail).to.equal(expectedEmail);
-      expect(actualPassword).to.equal(expectedPassword);
+      sinon.assert.calledOnce(session.authenticate);
     });
   });
 });
