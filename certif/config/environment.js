@@ -64,11 +64,6 @@ module.exports = function (environment) {
       sessionSupervisingPollingRate: process.env.SESSION_SUPERVISING_POLLING_RATE ?? 5000,
     },
 
-    googleFonts: [
-      'Roboto:300,400,500,700,900', // main font
-      'Open+Sans:300,600',
-    ],
-
     moment: {
       // To cherry-pick specific locale support into your application.
       // Full list of locales: https://github.com/moment/moment/tree/2.10.3/locale
