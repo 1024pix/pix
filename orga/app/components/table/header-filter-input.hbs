@@ -1,10 +1,10 @@
 <Table::Header ...attributes>
-  <Ui::SearchInput
+  <Ui::SearchInputFilter
     class="table__input"
-    @inputName={{@field}}
+    @field={{@field}}
     @value={{@value}}
     @placeholder={{@placeholder}}
     @ariaLabel={{@ariaLabel}}
-    @onSearch={{this.onSearch}}
+    @triggerFiltering={{@triggerFiltering}}
   />
 </Table::Header>

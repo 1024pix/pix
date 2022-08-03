@@ -29,12 +29,12 @@
       <Ui::GroupsFilter @campaign={{@campaign}} @onSelect={{this.onSelectGroup}} @selectedGroups={{@selectedGroups}} />
     {{/if}}
     {{#if this.displaySearchFilter}}
-      <Ui::SearchInput
-        @inputName="search"
+      <Ui::SearchInputFilter
+        @field="search"
         @value={{@searchFilter}}
         @placeholder={{t "pages.campaign-results.filters.type.search.placeholder"}}
         @ariaLabel={{t "pages.campaign-results.filters.type.search.title"}}
-        @onSearch={{this.onSearch}}
+        @triggerFiltering={{@onFilter}}
       />
     {{/if}}
     {{#if this.displayStagesFilter}}

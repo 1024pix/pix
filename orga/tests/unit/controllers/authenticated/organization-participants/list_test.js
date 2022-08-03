@@ -13,7 +13,7 @@ module('Unit | Controller | authenticated/organization-participants', function (
         controller.fullName = 'old-value';
 
         // when
-        controller.triggerFiltering({ fullName: 'new-value' });
+        controller.triggerFiltering('fullName', 'new-value');
 
         // then
         assert.strictEqual(controller.fullName, 'new-value');
@@ -28,7 +28,7 @@ module('Unit | Controller | authenticated/organization-participants', function (
         controller.fullName = 'old-value';
 
         // when
-        controller.triggerFiltering({ fullName: '' });
+        controller.triggerFiltering('fullName', '');
 
         // then
         assert.strictEqual(controller.fullName, undefined);
@@ -48,8 +48,8 @@ module('Unit | Controller | authenticated/organization-participants', function (
       controller.resetFilters();
 
       // then
-      assert.strictEqual(controller.fullName, undefined);
-      assert.strictEqual(controller.pageNumber, undefined);
+      assert.strictEqual(controller.fullName, null);
+      assert.strictEqual(controller.pageNumber, null);
     });
   });
 });

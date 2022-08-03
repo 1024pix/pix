@@ -8,7 +8,6 @@ export default class ActivityController extends Controller {
   @service notifications;
   @service intl;
 
-  queryParams = ['pageNumber', 'pageSize'];
   @tracked pageNumber = 1;
   @tracked pageSize = 25;
   @tracked divisions = [];
@@ -28,16 +27,9 @@ export default class ActivityController extends Controller {
   }
 
   @action
-  triggerFiltering(filters) {
+  triggerFiltering(fieldName, value) {
+    this[fieldName] = value || undefined;
     this.pageNumber = null;
-    this.divisions = filters.divisions || this.divisions;
-    this.groups = filters.groups || this.groups;
-    if (filters.status !== undefined) {
-      this.status = filters.status;
-    }
-    if (filters.search !== undefined) {
-      this.search = filters.search;
-    }
   }
 
   @action

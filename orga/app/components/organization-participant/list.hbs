@@ -6,12 +6,12 @@
   @clearFiltersLabel={{t "pages.organization-participants.filters.actions.clear"}}
   @onClearFilters={{@onResetFilter}}
 >
-  <Campaign::Filter::SearchInputFilter
+  <Ui::SearchInputFilter
     @field="fullName"
     @value={{@fullName}}
     @placeholder={{t "pages.organization-participants.filters.type.fullName.placeholder"}}
     @ariaLabel={{t "pages.organization-participants.filters.type.fullName.title"}}
-    @triggerFiltering={{this.onSearch}}
+    @triggerFiltering={{@triggerFiltering}}
   />
 </PixFilterBanner>
 <div class="panel">

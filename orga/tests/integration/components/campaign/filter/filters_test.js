@@ -1,15 +1,15 @@
 import { module, test } from 'qunit';
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
 import hbs from 'htmlbars-inline-precompile';
-import { clickByName, render as renderScreen } from '@1024pix/ember-testing-library';
+import { clickByName, fillByLabel, render as renderScreen } from '@1024pix/ember-testing-library';
 import sinon from 'sinon';
+import { t } from 'ember-intl/test-support';
 
 module('Integration | Component | Campaign::Filter::Filters', function (hooks) {
   setupIntlRenderingTest(hooks);
 
   hooks.beforeEach(function () {
     this.set('triggerFilteringSpy', () => {});
-    this.set('onClickStatusFilterSpy', () => {});
     this.set('onClickClearFiltersSpy', sinon.stub());
   });
 
@@ -18,7 +18,6 @@ module('Integration | Component | Campaign::Filter::Filters', function (hooks) {
     const screen = await renderScreen(
       hbs`<Campaign::Filter::Filters
         @onFilter={{this.triggerFilteringSpy}}
-        @onClickStatusFilter={{this.onClickStatusFilterSpy}}
         @onClearFilters={{this.onClickClearFiltersSpy}}
         @numResults={{1}} />`
     );
@@ -38,7 +37,6 @@ module('Integration | Component | Campaign::Filter::Filters', function (hooks) {
       await renderScreen(
         hbs`<Campaign::Filter::Filters
         @onFilter={{this.triggerFilteringSpy}}
-        @onClickStatusFilter={{this.onClickStatusFilterSpy}}
         @onClearFilters={{this.onClickClearFiltersSpy}}
         @numResults={{1}} />`
       );
@@ -58,7 +56,6 @@ module('Integration | Component | Campaign::Filter::Filters', function (hooks) {
       const screen = await renderScreen(
         hbs`<Campaign::Filter::Filters
         @onFilter={{this.triggerFilteringSpy}}
-        @onClickStatusFilter={{this.onClickStatusFilterSpy}}
         @onClearFilters={{this.onClickClearFiltersSpy}}
         @numResults={{1}}
         @listOnlyCampaignsOfCurrentUser={{true}} />`
@@ -69,12 +66,49 @@ module('Integration | Component | Campaign::Filter::Filters', function (hooks) {
     });
   });
 
+  test('it triggers the filter when a text is searched for campaign name', async function (assert) {
+    // given
+    const triggerFiltering = sinon.stub();
+    this.set('triggerFiltering', triggerFiltering);
+
+    // when
+    await renderScreen(
+      hbs`<Campaign::Filter::Filters
+        @onFilter={{triggerFiltering}}
+        @onClearFilters={{this.onClickClearFiltersSpy}}
+        @numResults={{1}} />`
+    );
+
+    await fillByLabel(t('pages.campaigns-list.filter.by-name'), 'Sal');
+
+    // then
+    assert.ok(triggerFiltering.calledWith('name', 'Sal'));
+  });
+
+  test('it triggers the filter when a text is searched for owner', async function (assert) {
+    // given
+    const triggerFiltering = sinon.stub();
+    this.set('triggerFiltering', triggerFiltering);
+
+    // when
+    await renderScreen(
+      hbs`<Campaign::Filter::Filters
+        @onFilter={{triggerFiltering}}
+        @onClearFilters={{this.onClickClearFiltersSpy}}
+        @numResults={{1}} />`
+    );
+
+    await fillByLabel(t('pages.campaigns-list.filter.by-owner'), 'Sal');
+
+    // then
+    assert.ok(triggerFiltering.calledWith('ownerName', 'Sal'));
+  });
+
   test('[A11Y] it should make filters container accessible', async function (assert) {
     // when
     const screen = await renderScreen(
       hbs`<Campaign::Filter::Filters
         @onFilter={{this.triggerFilteringSpy}}
-        @onClickStatusFilter={{this.onClickStatusFilterSpy}}
         @onClearFilters={{this.onClickClearFiltersSpy}}
         @numResults={{1}} />`
     );

@@ -9,107 +9,58 @@ module('Unit | Controller | authenticated/campaigns/campaign/assessment-results'
     controller = this.owner.lookup('controller:authenticated/campaigns/campaign/assessment-results');
   });
 
-  module('triggerFiltering', function () {
-    module('division filter', function () {
-      test('update the division filter', function (assert) {
+  module('#triggerFiltering', function () {
+    module('when the filters contain a valued field', function () {
+      test('updates the value', async function (assert) {
         // given
-        controller.triggerFiltering({ divisions: ['6eme'] });
-        // then
-        assert.deepEqual(controller.divisions, ['6eme']);
-      });
+        controller.someField = 'old-value';
 
-      test('should keep other filters when division is updated', function (assert) {
         // when
-        controller.set('badges', ['badge1']);
-        // given
-        controller.triggerFiltering({ divisions: ['6eme'] });
+        controller.triggerFiltering('someField', 'new-value');
+
         // then
-        assert.deepEqual(controller.badges, ['badge1']);
+        assert.strictEqual(controller.someField, 'new-value');
       });
     });
 
-    module('badge filter', function () {
-      test('update the badge filter', function (assert) {
+    module('when the filters contain an empty string', function () {
+      test('clear the searched value', async function (assert) {
         // given
-        controller.triggerFiltering({ badges: ['badge1'] });
-        // then
-        assert.deepEqual(controller.badges, ['badge1']);
-      });
+        controller.someField = 'old-value';
 
-      test('should keep other filters when is badge updated', function (assert) {
         // when
-        controller.set('divisions', ['division1']);
-        // given
-        controller.triggerFiltering({ badges: ['badge1'] });
-        // then
-        assert.deepEqual(controller.divisions, ['division1']);
-      });
-    });
+        controller.triggerFiltering('someField', '');
 
-    module('search filter', function () {
-      test('update the search filter', function (assert) {
-        // given
-        controller.triggerFiltering({ search: 'Something' });
         // then
-        assert.deepEqual(controller.search, 'Something');
-      });
-
-      test('it removes the search filter', function (assert) {
-        // given
-        controller.triggerFiltering({ search: '' });
-        // then
-        assert.deepEqual(controller.search, '');
-      });
-
-      test('should keep other filters when is stage updated', function (assert) {
-        // when
-        controller.set('divisions', ['division1']);
-        // given
-        controller.triggerFiltering({ search: 'Something' });
-        // then
-        assert.deepEqual(controller.divisions, ['division1']);
-      });
-    });
-
-    module('stage filter', function () {
-      test('update the stage filter', function (assert) {
-        // given
-        controller.triggerFiltering({ stages: ['stage1'] });
-        // then
-        assert.deepEqual(controller.stages, ['stage1']);
-      });
-
-      test('should keep other filters when is stage updated', function (assert) {
-        // when
-        controller.set('divisions', ['division1']);
-        // given
-        controller.triggerFiltering({ stages: ['stage1'] });
-        // then
-        assert.deepEqual(controller.divisions, ['division1']);
+        assert.strictEqual(controller.someField, undefined);
       });
     });
   });
 
-  module('resetFiltering', function () {
+  module('#resetFiltering', function () {
     test('reset the filters', function (assert) {
       //given
       controller.set('pageNumber', 1);
       controller.set('divisions', ['3eme']);
+      controller.set('groups', ['L1']);
       controller.set('badges', ['badge1']);
       controller.set('stages', ['stage1']);
+      controller.set('search', 'dam');
 
       //when
       controller.resetFiltering();
 
       //then
       assert.deepEqual(controller.pageNumber, null);
+      assert.deepEqual(controller.search, null);
       assert.deepEqual(controller.divisions, []);
+      assert.deepEqual(controller.groups, []);
       assert.deepEqual(controller.badges, []);
       assert.deepEqual(controller.stages, []);
     });
   });
 
-  module('filterByStage', function () {
+  module('#filterByStage', function () {
     test('set the stage filter', function (assert) {
       // given
       controller.filterByStage(123);
@@ -118,7 +69,7 @@ module('Unit | Controller | authenticated/campaigns/campaign/assessment-results'
     });
   });
 
-  module('#action goToAssessmentPage', function () {
+  module('#goToAssessmentPage', function () {
     test('it should call transitionToRoute with appropriate arguments', function (assert) {
       // given
       const event = {
