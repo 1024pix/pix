@@ -3,7 +3,8 @@ import { describe, it } from 'mocha';
 import sinon from 'sinon';
 import { clickByLabel } from '../../helpers/click-by-label';
 
-import { fillIn, find, findAll, render, settled, triggerEvent, waitUntil } from '@ember/test-helpers';
+import { fillIn, find, findAll, settled, triggerEvent, waitUntil } from '@ember/test-helpers';
+import { render } from '@1024pix/ember-testing-library';
 
 import ArrayProxy from '@ember/array/proxy';
 import { resolve, reject } from 'rsvp';
@@ -12,22 +13,9 @@ import hbs from 'htmlbars-inline-precompile';
 
 import ENV from '../../../config/environment';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
-import { contains } from '../../helpers/contains';
 
-const FORM_CONTAINER = '.sign-form__container';
-const FORM_HEADER_CONTAINER = '.sign-form__header';
 const FORM_TITLE = '.sign-form-title';
-
-const INPUT_TEXT_FIELD = '.sign-form-body__input';
 const INPUT_TEXT_FIELD_CLASS_DEFAULT = 'form-textfield__input-container--default';
-
-const CHECKBOX_CGU_CONTAINER = '.signup-form__cgu-container';
-const CHECKBOX_CGU_INPUT = '.signup-form__cgu';
-const CHECKBOX_CGU_LABEL = '.signup-form__cgu-label';
-
-const CGU_LINKS = '.signup-form__cgu-label .link';
-
-const SUBMIT_BUTTON_CONTAINER = '.sign-form-body__bottom-button';
 
 const userEmpty = EmberObject.create({});
 
@@ -77,34 +65,40 @@ describe('Integration | Component | SignupForm', function () {
       expect(find(FORM_TITLE).textContent).to.equal(formTitle);
     });
 
-    [
-      { expectedRendering: 'form container', input: FORM_CONTAINER, expected: 1 },
-      { expectedRendering: 'div to wrap heading of form', input: FORM_HEADER_CONTAINER, expected: 1 },
-      { expectedRendering: 'form title (h1)', input: FORM_TITLE, expected: 1 },
-      { expectedRendering: '4 input fields in form', input: INPUT_TEXT_FIELD, expected: 4 },
-      { expectedRendering: 'cgu container', input: CHECKBOX_CGU_CONTAINER, expected: 1 },
-      { expectedRendering: 'cgu checkbox', input: CHECKBOX_CGU_INPUT, expected: 1 },
-      { expectedRendering: 'cgu label', input: CHECKBOX_CGU_LABEL, expected: 1 },
-      { expectedRendering: 'submit button', input: SUBMIT_BUTTON_CONTAINER, expected: 1 },
-    ].forEach(function ({ expectedRendering, input, expected }) {
-      it(`should render ${expectedRendering}`, function () {
-        expect(findAll(input)).to.have.length(expected);
-      });
+    it('should display form elements', async function () {
+      // given & when
+      const screen = await render(hbs`<SignupForm @user={{this.user}} />`);
+
+      // then
+      expect(screen.getByRole('link', { name: this.intl.t('navigation.homepage') })).to.exist;
+      expect(screen.getByRole('heading', { name: this.intl.t('pages.sign-up.first-title') })).to.exist;
+      expect(screen.getByRole('link', { name: this.intl.t('pages.sign-up.subtitle.link') })).to.exist;
+      expect(screen.getByRole('textbox', { name: this.intl.t('pages.sign-up.fields.firstname.label') })).to.exist;
+      expect(screen.getByRole('textbox', { name: this.intl.t('pages.sign-up.fields.lastname.label') })).to.exist;
+      expect(
+        screen.getByRole('textbox', {
+          name: `${this.intl.t('pages.sign-up.fields.email.label')} ${this.intl.t('pages.sign-up.fields.email.help')}`,
+        })
+      ).to.exist;
+      expect(screen.getByRole('button', { name: this.intl.t('common.form.visible-password') })).to.exist;
+      expect(screen.getByRole('checkbox', { name: this.intl.t('common.cgu.label') })).to.exist;
     });
 
-    it("should have links to Pix's CGU and data protection policy ", function () {
-      // given
-      const cguText = this.intl.t('common.cgu.accept', {
-        cguUrl: 'https://pix.localhost/conditions-generales-d-utilisation',
-      });
+    it("should have links to Pix's CGU and data protection policy ", async function () {
+      // given & when
+      const screen = await render(hbs`<SignupForm @user={{this.user}} />`);
 
-      // when & then
-      expect(find('.signup-form__cgu-label').innerHTML).to.contains(cguText);
-      expect(findAll(CGU_LINKS)).to.have.length(2);
+      // then
+      expect(screen.getByRole('link', { name: this.intl.t('common.cgu.cgu') })).to.exist;
+      expect(screen.getByRole('link', { name: this.intl.t('common.cgu.data-protection-policy') })).to.exist;
     });
 
     it('should render a submit button', async function () {
-      expect(contains(this.intl.t('pages.sign-up.actions.submit')));
+      // given & when
+      const screen = await render(hbs`<SignupForm @user={{this.user}} />`);
+
+      // then
+      expect(screen.getByRole('button', { name: this.intl.t('pages.sign-up.actions.submit') })).to.exist;
     });
   });
 

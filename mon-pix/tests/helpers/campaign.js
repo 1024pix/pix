@@ -1,14 +1,17 @@
-import { click, fillIn, visit } from '@ember/test-helpers';
+import { click, fillIn } from '@ember/test-helpers';
 import { clickByLabel } from './click-by-label';
+import { visit } from '@1024pix/ember-testing-library';
 
 export async function startCampaignByCode(campaignCode) {
-  await visit(`/campagnes/${campaignCode}`);
+  const screen = await visit(`/campagnes/${campaignCode}`);
   await click('.campaign-landing-page__start-button');
+  return screen;
 }
 
 export async function startCampaignByCodeAndExternalId(campaignCode, externalId = 'a73at01r3') {
-  await visit(`/campagnes/${campaignCode}?participantExternalId=${externalId}`);
+  const screen = await visit(`/campagnes/${campaignCode}?participantExternalId=${externalId}`);
   await click('.campaign-landing-page__start-button');
+  return screen;
 }
 
 export async function resumeCampaignOfTypeAssessmentByCode(campaignCode, hasExternalParticipantId) {

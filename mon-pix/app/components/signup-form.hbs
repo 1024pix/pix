@@ -105,20 +105,20 @@
             {{t "common.cgu.data-protection-policy"}}
           </a>
           {{t "common.cgu.pix"}}
-          {{#if @user.errors.cgu}}
-            <div class="sign-form__validation-error" aria-live="polite" id="sign-up-cgu-error-message">
-              {{t "common.cgu.error"}}
-            </div>
-          {{/if}}
         </p>
-        <Input
-          @type="checkbox"
-          class="signup-form__cgu"
-          @checked={{@user.cgu}}
-          aria-label={{t "common.cgu.label"}}
+        <PixCheckbox
+          @id="checkbox"
+          @label={{t "common.cgu.label"}}
+          @screenReaderOnly="true"
+          {{on "change" this.onChange}}
           aria-describedby="sign-up-cgu-error-message"
         />
       </div>
+      {{#if @user.errors.cgu}}
+        <div class="sign-form__validation-error" aria-live="polite" id="sign-up-cgu-error-message">
+          {{t "common.cgu.error"}}
+        </div>
+      {{/if}}
 
     </fieldset>
     <div class="sign-form-body__bottom-button">

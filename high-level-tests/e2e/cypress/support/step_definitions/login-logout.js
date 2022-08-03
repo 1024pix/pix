@@ -18,7 +18,7 @@ Given(
     cy.get('input[id="lastName"]').type(lastname);
     cy.get('input[id=email]').type(email);
     cy.get('input[id=password]').type(password);
-    cy.get('.signup-form__cgu').check();
+    cy.get('input[id=checkbox]').check();
     cy.get('button[type=submit]').click();
   }
 );

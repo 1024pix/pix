@@ -16,13 +16,6 @@
     }
   }
 
-  &__cgu {
-    margin-top: 5px;
-    font-size: 1rem;
-    font-weight: $font-medium;
-    width: 24px;
-  }
-
   &__cgu-label {
     margin: 3px 0 3px 15px;
   }
@@ -37,12 +30,4 @@
       padding: 10px 0;
     }
   }
-}
-
-input[type=checkbox].signup-form__cgu::before {
-  top: 9px;
-}
-
-input[type=checkbox].signup-form__cgu:checked::after {
-  top: -9px;
 }
