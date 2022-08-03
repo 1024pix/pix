@@ -94,9 +94,9 @@ function _addColumns({ odsBuilder, certificationCenterHabilitations, isScoCertif
 
 function _addComplementaryCertificationColumns({ odsBuilder, certificationCenterHabilitations }) {
   if (!_.isEmpty(certificationCenterHabilitations)) {
-    const habilitationColumns = certificationCenterHabilitations.map(({ name }) => ({
-      headerLabel: [name, '("oui" ou laisser vide)'],
-      placeholder: [name],
+    const habilitationColumns = certificationCenterHabilitations.map(({ key, label }) => ({
+      headerLabel: [label, '("oui" ou laisser vide)'],
+      placeholder: [key],
     }));
     odsBuilder.withColumnGroup({
       groupHeaderLabel: 'Certification(s) complémentaire(s)',
