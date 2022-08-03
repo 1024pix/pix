@@ -101,7 +101,7 @@ export default class AssociateSupStudentForm extends Component {
 
     if (!this.isValidForm) return;
 
-    const schoolingRegistration = this.store.createRecord('schooling-registration-user-association', {
+    const supOrganizationLearner = this.store.createRecord('sup-organization-learner', {
       id: `${this.args.campaignCode}_${this.lastName}`,
       studentNumber: this.studentNumber,
       firstName: this.firstName,
@@ -111,11 +111,11 @@ export default class AssociateSupStudentForm extends Component {
     });
 
     try {
-      await schoolingRegistration.save({ adapterOptions: { reconcileSup: true } });
+      await supOrganizationLearner.save();
       this.campaignStorage.set(this.args.campaignCode, 'associationDone', true);
       return this.router.transitionTo('campaigns.invited.fill-in-participant-external-id', this.args.campaignCode);
     } catch (errorResponse) {
-      schoolingRegistration.unloadRecord();
+      supOrganizationLearner.unloadRecord();
       this._setErrorMessage(errorResponse);
     }
   }

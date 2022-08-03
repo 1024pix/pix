@@ -14,9 +14,7 @@ describe('Unit | Component | routes/campaigns/invited/associate-sup-student-form
   let eventStub;
 
   beforeEach(function () {
-    const createSchoolingRegistrationUserAssociationStub = sinon.stub();
-
-    storeStub = { createRecord: createSchoolingRegistrationUserAssociationStub };
+    storeStub = { createRecord: sinon.stub() };
     eventStub = { preventDefault: sinon.stub() };
     component = createComponent('component:routes/campaigns/invited/associate-sup-student-form', {
       campaignCode: 123,
@@ -35,11 +33,11 @@ describe('Unit | Component | routes/campaigns/invited/associate-sup-student-form
         component.yearOfBirth = '2010';
       });
 
-      it('call reconciliation for the schooling registration', async function () {
+      it('call reconciliation for the sup organization learner', async function () {
         // given
-        const schoolingRegistration = { save: sinon.stub() };
+        const supOrganizationLearner = { save: sinon.stub() };
         storeStub.createRecord
-          .withArgs('schooling-registration-user-association', {
+          .withArgs('sup-organization-learner', {
             id: `${component.args.campaignCode}_${component.lastName}`,
             studentNumber: component.studentNumber,
             firstName: component.firstName,
@@ -47,13 +45,13 @@ describe('Unit | Component | routes/campaigns/invited/associate-sup-student-form
             birthdate: component.birthdate,
             campaignCode: component.args.campaignCode,
           })
-          .returns(schoolingRegistration);
+          .returns(supOrganizationLearner);
 
         // when
         await component.actions.submit.call(component, eventStub);
 
         // then
-        sinon.assert.calledOnce(schoolingRegistration.save);
+        sinon.assert.calledOnce(supOrganizationLearner.save);
       });
     });
 
