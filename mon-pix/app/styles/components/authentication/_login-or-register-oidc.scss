@@ -1,8 +1,12 @@
 .login-or-register-oidc-form {
-  padding: 50px 100px;
+  padding: 25px 50px;
   max-width: 1250px;
   display: flex;
   flex-direction: column;
+
+  @include device-is('desktop') {
+    padding: 50px 100px;
+  }
 
   &__logo {
     text-align: center;
@@ -16,25 +20,41 @@
     color: $pix-neutral-90;
     font-family: $font-open-sans;
     font-weight: 300;
-    font-size: 46px;
-    line-height: 60px;
+    font-size: 36px;
     text-align: center;
-    padding: 32px 0 48px 0;
+    padding: 22px 0 38px 0;
+
+    @include device-is('desktop') {
+      padding: 32px 0 48px 0;
+      font-size: 46px;
+      line-height: 60px;
+    }
   }
 
   &__container {
     display: flex;
     min-height: 500px;
-    justify-content: space-between;
+    flex-direction: column;
+    align-items: center;
+
+    @include device-is('desktop') {
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: normal;
+    }
   }
 
   &__subtitle {
     color: $pix-neutral-90;
     font-family: $font-open-sans;
     font-weight: 500;
-    font-size: 28px;
+    font-size: 22px;
     line-height: 40px;
     padding-bottom: 24px;
+
+    @include device-is('desktop') {
+      font-size: 28px;
+    }
   }
 
   &__description {
@@ -50,12 +70,32 @@
   &__login-container {
     display: flex;
     flex-direction: column;
-    width: 440px;
+    max-width: 440px;
+  }
+
+  &__register-container {
+    @include device-is('desktop') {
+      padding-right: 20px;
+    }
+  }
+
+  &__login-container {
+    @include device-is('desktop') {
+      padding-left: 20px;
+    }
   }
 
   &__divider {
-    margin-top: 30px;
-    border-left: 1px solid $pix-neutral-30;
+    border-bottom: 1px solid $pix-neutral-30;
+    width: 100%;
+    margin: 50px 0 30px 0;
+
+    @include device-is('desktop') {
+      width: 0;
+      border-left: 1px solid $pix-neutral-30;
+      border-bottom-style: none;
+      margin: 0 0;
+    }
   }
 
   &__cgu-container {
