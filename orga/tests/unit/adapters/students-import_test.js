@@ -18,7 +18,7 @@ module('Unit | Adapters | Students import', function (hooks) {
 
       // then
       assert.ok(
-        adapter.ajax.calledWith('http://localhost:3000/api/organizations/1/schooling-registrations/import-csv', 'POST')
+        adapter.ajax.calledWith('http://localhost:3000/api/organizations/1/sup-organization-learners/import-csv', 'POST')
       );
     });
   });

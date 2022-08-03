@@ -272,7 +272,7 @@ export default function () {
     }
   });
 
-  this.post('/organizations/:id/schooling-registrations/import-csv', async (schema, request) => {
+  this.post('/organizations/:id/sup-organization-learners/import-csv', async (schema, request) => {
     const type = request.requestBody.type;
 
     if (type === 'valid-file') {

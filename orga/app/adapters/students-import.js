@@ -4,7 +4,7 @@ export default class StudentImportsAdapter extends ApplicationAdapter {
   addStudentsCsv(organizationId, files) {
     if (!files || files.length === 0) return;
 
-    const url = `${this.host}/${this.namespace}/organizations/${organizationId}/schooling-registrations/import-csv`;
+    const url = `${this.host}/${this.namespace}/organizations/${organizationId}/sup-organization-learners/import-csv`;
     return this.ajax(url, 'POST', { data: files[0] });
   }
 
