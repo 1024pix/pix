@@ -40,12 +40,12 @@ describe('Acceptance | Campaigns | Start Campaigns with type Profiles Collectio
         context('When participant external id is not set in the url', function () {
           beforeEach(async function () {
             campaign = server.create('campaign', { type: PROFILES_COLLECTION, idPixLabel: 'email' });
-            await startCampaignByCode(campaign.code);
+            const screen = await startCampaignByCode(campaign.code);
             await fillIn('#firstName', campaignParticipant.firstName);
             await fillIn('#lastName', campaignParticipant.lastName);
             await fillIn('#email', campaignParticipant.email);
             await fillIn('#password', campaignParticipant.password);
-            await click('.signup-form__cgu');
+            await click(screen.getByRole('checkbox', { name: this.intl.t('common.cgu.label') }));
             await clickByLabel(this.intl.t('pages.sign-up.actions.submit'));
           });
 
@@ -67,12 +67,12 @@ describe('Acceptance | Campaigns | Start Campaigns with type Profiles Collectio
                 isRestricted: false,
                 idPixLabel: 'toto',
               });
-              await startCampaignByCodeAndExternalId(campaign.code);
+              const screen = await startCampaignByCodeAndExternalId(campaign.code);
               await fillIn('#firstName', campaignParticipant.firstName);
               await fillIn('#lastName', campaignParticipant.lastName);
               await fillIn('#email', campaignParticipant.email);
               await fillIn('#password', campaignParticipant.password);
-              await click('.signup-form__cgu');
+              await click(screen.getByRole('checkbox', { name: this.intl.t('common.cgu.label') }));
               await clickByLabel(this.intl.t('pages.sign-up.actions.submit'));
             });
 
@@ -120,12 +120,12 @@ describe('Acceptance | Campaigns | Start Campaigns with type Profiles Collectio
       context('When campaign does not have external id', function () {
         beforeEach(async function () {
           campaign = server.create('campaign', { type: PROFILES_COLLECTION, idPixLabel: null });
-          await startCampaignByCode(campaign.code);
+          const screen = await startCampaignByCode(campaign.code);
           await fillIn('#firstName', campaignParticipant.firstName);
           await fillIn('#lastName', campaignParticipant.lastName);
           await fillIn('#email', campaignParticipant.email);
           await fillIn('#password', campaignParticipant.password);
-          await click('.signup-form__cgu');
+          await click(screen.getByRole('checkbox', { name: this.intl.t('common.cgu.label') }));
           await clickByLabel(this.intl.t('pages.sign-up.actions.submit'));
         });
 
@@ -138,12 +138,12 @@ describe('Acceptance | Campaigns | Start Campaigns with type Profiles Collectio
       context('When campaign does not have external id but a participant external id is set in the url', function () {
         beforeEach(async function () {
           campaign = server.create('campaign', { type: PROFILES_COLLECTION });
-          await startCampaignByCodeAndExternalId(campaign.code);
+          const screen = await startCampaignByCodeAndExternalId(campaign.code);
           await fillIn('#firstName', campaignParticipant.firstName);
           await fillIn('#lastName', campaignParticipant.lastName);
           await fillIn('#email', campaignParticipant.email);
           await fillIn('#password', campaignParticipant.password);
-          await click('.signup-form__cgu');
+          await click(screen.getByRole('checkbox', { name: this.intl.t('common.cgu.label') }));
           await clickByLabel(this.intl.t('pages.sign-up.actions.submit'));
         });
 
