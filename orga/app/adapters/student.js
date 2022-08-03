@@ -13,7 +13,7 @@ export default class StudentAdapter extends ApplicationAdapter {
 
     if (adapterOptions.updateStudentNumber) {
       const { organizationId, studentNumber } = adapterOptions;
-      const url = `${this.host}/${this.namespace}/organizations/${organizationId}/schooling-registration-user-associations/${id}`;
+      const url = `${this.host}/${this.namespace}/organizations/${organizationId}/sup-organization-learners/${id}`;
       const data = {
         data: {
           attributes: {
