@@ -66,26 +66,6 @@ describe('Integration | Application | Organizations | Routes', function () {
     });
   });
 
-  describe('GET /api/organizations/:id/campaigns', function () {
-    it('should call the organization controller to get the campaigns', async function () {
-      // given
-      const method = 'GET';
-      const url = '/api/organizations/1/campaigns';
-
-      sinon.stub(securityPreHandlers, 'checkUserBelongsToOrganization').callsFake((request, h) => h.response(true));
-      sinon.stub(organizationController, 'findPaginatedFilteredCampaigns').returns('ok');
-      const httpTestServer = new HttpTestServer();
-      await httpTestServer.register(moduleUnderTest);
-
-      // when
-      const response = await httpTestServer.request(method, url);
-
-      // then
-      expect(response.statusCode).to.equal(200);
-      expect(organizationController.findPaginatedFilteredCampaigns).to.have.been.calledOnce;
-    });
-  });
-
   describe('POST /api/admin/organizations/:id/archive', function () {
     it('should call the controller to archive the organization', async function () {
       // given
@@ -128,6 +108,96 @@ describe('Integration | Application | Organizations | Routes', function () {
     });
   });
 
+  describe('GET /api/admin/organizations/:id/invitations', function () {
+    it('should exist', async function () {
+      // given
+      const method = 'GET';
+      const url = '/api/admin/organizations/1/invitations';
+
+      sinon.stub(securityPreHandlers, 'adminMemberHasAtLeastOneAccessOf').returns(() => true);
+      sinon.stub(organizationController, 'findPendingInvitations').returns('ok');
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      // when
+      const response = await httpTestServer.request(method, url);
+
+      // then
+      expect(response.statusCode).to.equal(200);
+      expect(organizationController.findPendingInvitations).to.have.been.calledOnce;
+    });
+  });
+
+  describe('DELETE /api/admin/organizations/:organizationId/invitations/:organizationInvitationId', function () {
+    it('should return an HTTP status code 204', async function () {
+      // given
+      const method = 'DELETE';
+      const url = '/api/admin/organizations/1/invitations/1';
+
+      sinon.stub(securityPreHandlers, 'adminMemberHasAtLeastOneAccessOf').returns(() => true);
+      sinon
+        .stub(organizationController, 'cancelOrganizationInvitation')
+        .returns((request, h) => h.response().code(204));
+
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      // when
+      const { statusCode } = await httpTestServer.request(method, url);
+
+      // then
+      expect(statusCode).to.equal(204);
+      expect(organizationController.cancelOrganizationInvitation).to.have.been.calledOnce;
+    });
+  });
+
+  describe('POST /api/admin/organizations/:id/target-profiles', function () {
+    it('should resolve with a 204 status code', async function () {
+      // given
+      const method = 'POST';
+      const url = '/api/admin/organizations/1/target-profiles';
+      const payload = {
+        data: {
+          type: 'target-profile-shares',
+          attributes: {
+            'target-profiles-to-attach': [1, 2],
+          },
+        },
+      };
+
+      sinon.stub(securityPreHandlers, 'adminMemberHasAtLeastOneAccessOf').returns(() => true);
+      sinon.stub(organizationController, 'attachTargetProfiles').callsFake((request, h) => h.response('ok').code(204));
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      // when
+      const response = await httpTestServer.request(method, url, payload);
+
+      // then
+      expect(response.statusCode).to.equal(204);
+    });
+  });
+
+  describe('GET /api/organizations/:id/campaigns', function () {
+    it('should call the organization controller to get the campaigns', async function () {
+      // given
+      const method = 'GET';
+      const url = '/api/organizations/1/campaigns';
+
+      sinon.stub(securityPreHandlers, 'checkUserBelongsToOrganization').callsFake((request, h) => h.response(true));
+      sinon.stub(organizationController, 'findPaginatedFilteredCampaigns').returns('ok');
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      // when
+      const response = await httpTestServer.request(method, url);
+
+      // then
+      expect(response.statusCode).to.equal(200);
+      expect(organizationController.findPaginatedFilteredCampaigns).to.have.been.calledOnce;
+    });
+  });
+
   describe('POST /api/organizations/:id/invitations', function () {
     it('should call the organization controller to send invitations', async function () {
       // given
@@ -163,26 +233,6 @@ describe('Integration | Application | Organizations | Routes', function () {
       const url = '/api/organizations/1/invitations';
 
       sinon.stub(securityPreHandlers, 'checkUserIsAdminInOrganization').callsFake((request, h) => h.response(true));
-      sinon.stub(organizationController, 'findPendingInvitations').returns('ok');
-      const httpTestServer = new HttpTestServer();
-      await httpTestServer.register(moduleUnderTest);
-
-      // when
-      const response = await httpTestServer.request(method, url);
-
-      // then
-      expect(response.statusCode).to.equal(200);
-      expect(organizationController.findPendingInvitations).to.have.been.calledOnce;
-    });
-  });
-
-  describe('GET /api/admin/organizations/:id/invitations', function () {
-    it('should exist', async function () {
-      // given
-      const method = 'GET';
-      const url = '/api/admin/organizations/1/invitations';
-
-      sinon.stub(securityPreHandlers, 'adminMemberHasAtLeastOneAccessOf').returns(() => true);
       sinon.stub(organizationController, 'findPendingInvitations').returns('ok');
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -264,33 +314,6 @@ describe('Integration | Application | Organizations | Routes', function () {
         // then
         expect(response.statusCode).to.equal(400);
       });
-    });
-  });
-
-  describe('POST /api/admin/organizations/:id/target-profiles', function () {
-    it('should resolve with a 204 status code', async function () {
-      // given
-      const method = 'POST';
-      const url = '/api/admin/organizations/1/target-profiles';
-      const payload = {
-        data: {
-          type: 'target-profile-shares',
-          attributes: {
-            'target-profiles-to-attach': [1, 2],
-          },
-        },
-      };
-
-      sinon.stub(securityPreHandlers, 'adminMemberHasAtLeastOneAccessOf').returns(() => true);
-      sinon.stub(organizationController, 'attachTargetProfiles').callsFake((request, h) => h.response('ok').code(204));
-      const httpTestServer = new HttpTestServer();
-      await httpTestServer.register(moduleUnderTest);
-
-      // when
-      const response = await httpTestServer.request(method, url, payload);
-
-      // then
-      expect(response.statusCode).to.equal(204);
     });
   });
 

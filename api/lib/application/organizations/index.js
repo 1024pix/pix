@@ -218,6 +218,35 @@ exports.register = async (server) => {
       },
     },
     {
+      method: 'DELETE',
+      path: '/api/admin/organizations/{id}/invitations/{organizationInvitationId}',
+      config: {
+        pre: [
+          {
+            method: (request, h) =>
+              securityPreHandlers.adminMemberHasAtLeastOneAccessOf([
+                securityPreHandlers.checkAdminMemberHasRoleSuperAdmin,
+                securityPreHandlers.checkAdminMemberHasRoleSupport,
+                securityPreHandlers.checkAdminMemberHasRoleMetier,
+              ])(request, h),
+            assign: 'hasAuthorizationToAccessAdminScope',
+          },
+        ],
+        validate: {
+          params: Joi.object({
+            id: identifiersType.organizationId,
+            organizationInvitationId: identifiersType.organizationInvitationId,
+          }),
+        },
+        handler: organizationController.cancelOrganizationInvitation,
+        tags: ['api', 'admin', 'invitations', 'cancel'],
+        notes: [
+          "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n" +
+            "- Elle permet d'annuler une invitation envoyée mais non acceptée encore.",
+        ],
+      },
+    },
+    {
       method: 'GET',
       path: '/api/admin/organizations/{id}/places',
       config: {

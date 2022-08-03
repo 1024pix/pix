@@ -56,4 +56,20 @@ export default class InvitationsController extends Controller {
   onChangeUserEmailToInvite(event) {
     this.userEmailToInvite = event.target.value;
   }
+
+  @action
+  async cancelOrganizationInvitation(organizationInvitation) {
+    try {
+      await organizationInvitation.destroyRecord({
+        adapterOptions: {
+          organizationInvitationId: organizationInvitation.id,
+          organizationId: this.model.organization.id,
+        },
+      });
+      this.notifications.success(`Cette invitation a bien été annulée.`);
+    } catch (error) {
+      console.error(error);
+      this.notifications.error('Une erreur s’est produite, veuillez réessayer.');
+    }
+  }
 }

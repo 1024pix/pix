@@ -7,4 +7,7 @@
     @createOrganizationInvitation={{this.createOrganizationInvitation}}
   />
 {{/if}}
-<Organizations::Invitations @invitations={{@model.organizationInvitations}} />
+<Organizations::Invitations
+  @invitations={{@model.organizationInvitations}}
+  @onCancelOrganizationInvitation={{this.cancelOrganizationInvitation}}
+/>

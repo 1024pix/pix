@@ -6,8 +6,8 @@ function getOrganizationPlaces(schema) {
 }
 
 function getOrganizationInvitations(schema, request) {
-  const ownerOrganizationId = request.params.id;
-  return schema.organizationInvitations.where({ ownerOrganizationId });
+  const organizationId = request.params.id;
+  return schema.organizationInvitations.where({ organizationId });
 }
 
 function findPaginatedOrganizationMemberships(schema, request) {

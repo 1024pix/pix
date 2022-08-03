@@ -987,7 +987,7 @@ describe('Unit | Application | Organizations | organization-controller', functio
   });
 
   describe('#cancelOrganizationInvitation', function () {
-    it('should call the usecase to cancel invitation with organizationInvitationId', async function () {
+    it('should call the use case to cancel invitation with organizationInvitationId', async function () {
       //given
       const organizationInvitationId = 123;
 
@@ -1017,7 +1017,7 @@ describe('Unit | Application | Organizations | organization-controller', functio
       const response = await organizationController.cancelOrganizationInvitation(request, hFake);
 
       // then
-      expect(response.source).to.equal(serializedResponse);
+      expect(response.statusCode).to.equal(204);
     });
   });
 
