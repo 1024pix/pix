@@ -57,7 +57,7 @@ module('Integration | Component | certifications/list', function (hooks) {
       );
 
       // then
-      assert.dom(screen.getByLabelText('Ecran de fin de test vu')).exists();
+      assert.dom(screen.getByText('Ecran de fin de test vu')).exists();
     });
   });
 
