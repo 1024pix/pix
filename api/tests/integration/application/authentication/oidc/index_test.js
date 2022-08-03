@@ -5,12 +5,12 @@ const oidcController = require('../../../../../lib/application/authentication/oi
 describe('Integration | Application | Route | OidcRouter', function () {
   let server;
 
-  beforeEach(async function () {
-    sinon.stub(oidcController, 'getRedirectLogoutUrl').callsFake((request, h) => h.response('ok').code(200));
-    server = await createServer();
-  });
-
   describe('GET /api/oidc/redirect-logout-url', function () {
+    beforeEach(async function () {
+      sinon.stub(oidcController, 'getRedirectLogoutUrl').callsFake((request, h) => h.response('ok').code(200));
+      server = await createServer();
+    });
+
     it('should return a response with HTTP status code 200', async function () {
       // given & when
       const { statusCode } = await server.inject({
