@@ -1,5 +1,18 @@
 # Pix Changelog
 
+## v3.240.0 (03/08/2022)
+
+
+### :rocket: Amélioration
+- [#4728](https://github.com/1024pix/pix/pull/4728) [FEATURE] Ramener les formations du cache dans l'API (PIX-5419).
+- [#4727](https://github.com/1024pix/pix/pull/4727) [FEATURE] Mutualiser les use cases d'authentification des partenaires (PIX-5445).
+- [#4719](https://github.com/1024pix/pix/pull/4719) [FEATURE]  Ne pas autoriser de modifier manuellement une resolution automatique (PIX-5368 )
+
+### :building_construction: Tech
+- [#4718](https://github.com/1024pix/pix/pull/4718) [TECH] Réparer le lancement des tests de l'algo avec des KE (PIX-5435).
+- [#4722](https://github.com/1024pix/pix/pull/4722) [TECH] Ajout de tests e2e sur l'accessibilité (PIX-5442).
+- [#4720](https://github.com/1024pix/pix/pull/4720) [TECH] Mettre à jour Cypress de la version 5.6.0 à la version 6.8.0 (PIX-5431).
+
 ## v3.239.0 (01/08/2022)
 
 
