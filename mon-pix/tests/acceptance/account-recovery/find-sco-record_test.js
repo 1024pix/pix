@@ -101,7 +101,7 @@ describe('Acceptance | account-recovery | FindScoRecordRoute', function () {
           ],
         }
       );
-      server.post('/schooling-registration-dependent-users/recover-account', () => errorsApi);
+      server.post('/sco-organization-learners/account-recovery', () => errorsApi);
 
       // when
       await visit('/recuperer-mon-compte');
