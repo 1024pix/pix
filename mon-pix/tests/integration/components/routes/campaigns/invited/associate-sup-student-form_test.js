@@ -50,7 +50,7 @@ describe('Integration | Component | routes/campaigns/invited/associate-sup-stude
       await clickByLabel("C'est parti !");
 
       // then
-      sinon.assert.calledWithExactly(saveStub, { adapterOptions: { reconcileSup: true } });
+      sinon.assert.calledWithExactly(saveStub);
     });
 
     it('should transition to fill-in-participant-external-id', async function () {
