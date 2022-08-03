@@ -9,7 +9,7 @@ export default class StudentInformation extends Model {
   @attr('date-only') birthdate;
 
   submitStudentInformation = memberAction({
-    path: 'recover-account',
+    path: 'account-recovery',
     type: 'post',
     urlType: 'account-recovery',
     before() {

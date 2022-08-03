@@ -55,7 +55,7 @@ export default function index(config) {
     });
   });
 
-  config.post('/schooling-registration-dependent-users/recover-account', (schema, request) => {
+  config.post('/sco-organization-learners/account-recovery', (schema, request) => {
     const params = JSON.parse(request.requestBody);
     const firstName = params.data.attributes['first-name'];
     const lastName = params.data.attributes['last-name'];
