@@ -4,12 +4,13 @@ const factory = require('./factory/index');
 const databaseBuffer = require('./database-buffer');
 
 module.exports = class DatabaseBuilder {
-  constructor({ knex }) {
+  constructor({ knex, emptyFirst = true }) {
     this.knex = knex;
     this.databaseBuffer = databaseBuffer;
     this.tablesOrderedByDependencyWithDirtinessMap = [];
     this.factory = factory;
     this.isFirstCommit = true;
+    this.emptyFirst = emptyFirst;
   }
 
   async commit() {
@@ -97,7 +98,9 @@ module.exports = class DatabaseBuilder {
   }
 
   async _init() {
-    await this._emptyDatabase();
+    if (this.emptyFirst) {
+      await this._emptyDatabase();
+    }
     await this._initTablesOrderedByDependencyWithDirtinessMap();
     this.isFirstCommit = false;
   }

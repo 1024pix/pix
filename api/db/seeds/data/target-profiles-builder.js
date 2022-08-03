@@ -7,8 +7,6 @@ const skillIdsForSkillSet1 = [
   'recPG9ftlGZLiF0O6',
   'recH1pcEWLBUCqXTm',
   'recIDXphXbneOrbux',
-  'recclxUSbi0fvIWpd',
-  'recLCYATl7TGrkZLh',
   'rectL2ZZeWPc7yezp',
   'recndXqXiv4pv2Ukp',
   'recVv1eoSLW7yFgXv',
@@ -22,8 +20,6 @@ const skillIdsForSkillSet1 = [
   'recAuRue2poqxgQG2',
   'recX7RyCsdNV2p168',
   'recxtb5aLs6OAAKIg',
-  'recfLjzQKBD8Umdcx',
-  'recetgnhc67yFnWbl',
   'recPrXhP0X07OdHXe',
   'reclDKLSXIsr4xoZp',
   'recmLZ0CypLpsxm96',
@@ -89,16 +85,12 @@ const skillIdsForSkillSet3 = [
   'recKbNbM8G7mKaloD',
   'recfktfO0ROu1OifX',
   'rec7WOXWi5ClE8BxH',
-  'recHo6D1spbDR9C2N',
-  'recpdpemRXuzV9r10',
   'recWXtN5cNP1JQUVx',
   'rec7EvARki1b9t574',
   'recI4zS51by3N7Ryi',
   'recrV8JAEsieJOAch',
-  'recHBMRraNImyqmDF',
   'recaTPKUCD6uAS0li',
   'recicaqEeoJUtXT6j',
-  'recDotNI5r7ApHfwa',
 ];
 const skillIdsForSkillSet3_V1_only = ['rec6IWrDOSaoX4aLn', 'recZnnTU4WUP6KwwX'];
 const skillIdsForSkillSet3_V2_only = ['recqSPZiRJYzfCDaS', 'recRAXPXVL2cMh5b5'];
@@ -108,7 +100,6 @@ const skillIdsForSkillSet4 = [
   'recTIddrkopID28Ep',
   'recBrDIfDDW2IPpZV',
   'recixKw4lXIiHue01',
-  'recLYUZrWeizc4G5d',
   'recgOc2OreHCosoRp',
   'recb0ZHKckwrnZeb8',
   'recF9oTiR8fMSnQoo',
@@ -126,22 +117,14 @@ const skillIdsForSkillSet4 = [
   'recUdMS2pRSF4sgnk',
   'recVgnoo6RjCxjCQp',
   'recLsem0KbElkpjvp',
-  'recSByLc0DNQ8F0D1',
   'recEAJG3c7SNoiUcj',
-  'reclCMZpPDx3eQ46q',
   'recQdr7rbPZ3Kh6Ef',
   'recLhYgOVFwOmQSLn',
   'recfuk3QLAOzBQzSU',
-  'recXZWPaaJ6jlcmtq',
-  'rec2Kg1bqEZVI8fBh',
-  'rec9IR04aOpn5aSCP',
-  'recJGN6S3MmTZVa5O',
-  'recUCuU7EMEHAysmp',
-  'rec2DvazCDkBnqOmK',
 ];
 const skillIdsForSkillSet4_V1_only = ['recAzV1ljhCdjrasn', 'recx7WnZJCXVgCvN4'];
-const skillIdsForSkillSet4_V2_only = ['rec1XTXVEkhBVKPLW', 'rec2gXP40kiwxd0Kc'];
-const skillIdsForSkillSet4_V3_only = ['rec1XTXVEkhBVKPLW', 'rec2gXP40kiwxd0Kc'];
+const skillIdsForSkillSet4_V2_only = ['rec1XTXVEkhBVKPLW'];
+const skillIdsForSkillSet4_V3_only = ['rec1XTXVEkhBVKPLW'];
 
 const targetProfileSkillIdsForCleaBadgeV1 = [
   skillIdsForSkillSet1,
@@ -225,7 +208,6 @@ function _buildTargetProfilePICDiagnosticInitial(databaseBuilder) {
     'recrvTvLTUXEcUIV1',
     'recX7RyCsdNV2p168',
     'recxtb5aLs6OAAKIg',
-    'receRbbt9Lb661wFB',
     'rec71e3PSct2zLEMj',
     'recFwJlpllhWzuLom',
     'rec0J9OXaAj5v7w3r',
@@ -440,7 +422,6 @@ function _buildTargetProfilePixDroit(databaseBuilder) {
     'recfQIxf8y4Nrs6M1',
     'recPgkHUdzk0HPGt1',
     'reclX9KELFBQeVKoC',
-    'recJLroTYxcfbczfW',
     'reczOCGv8pz976Acl',
     'recOrdJPMeAtA9Zse',
     'recdmDASRPMTzOmVc',
@@ -490,7 +471,6 @@ function _buildTargetProfilePixDroit(databaseBuilder) {
     'recL0AotZshb9quhR',
     'recrOwaV2PTt1N0i5',
     'recI4zS51by3N7Ryi',
-    'recrV8JAEsieJOAch',
     'receMEAc7Jf2hYll6',
     'rec5YCXgs5gMvQHAF',
     'recbZos82xPmwuIKC',

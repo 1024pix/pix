@@ -3,9 +3,14 @@ const bluebird = require('bluebird');
 const skillRepository = require('../../../../lib/infrastructure/repositories/skill-repository');
 const competenceRepository = require('../../../../lib/infrastructure/repositories/competence-repository');
 const challengeRepository = require('../../../../lib/infrastructure/repositories/challenge-repository');
+const badgeRepository = require('../../../../lib/infrastructure/repositories/badge-repository');
+const logger = require('../../../../lib/infrastructure/logger');
+const { keys } = require('../../../../lib/domain/models/Badge');
+
 let allChallenges = [];
 let allPixCompetences = [];
 let allDroitCompetences = [];
+let allEduCompetences = [];
 const skillsByCompetenceId = {};
 
 async function makeUserPixCertifiable({ userId, countCertifiableCompetences, levelOnEachCompetence, databaseBuilder }) {
@@ -25,6 +30,25 @@ async function makeUserPixDroitCertifiable({ userId, databaseBuilder }) {
   });
 }
 
+async function makeUserPixEduCertifiable({ userId, databaseBuilder }) {
+  await _cacheLearningContent();
+  const assessmentId = _createComplementeCompetenceEvaluationAssessment({ userId, databaseBuilder });
+  _.each(allEduCompetences, (competence) => {
+    _makePlusCompetenceCertifiable({ userId, databaseBuilder, competence, assessmentId });
+  });
+}
+
+async function makeUserCleaCertifiable({ userId, databaseBuilder }) {
+  await _cacheLearningContent();
+  const assessmentId = _createComplementeCompetenceEvaluationAssessment({ userId, databaseBuilder });
+  const { skillSets } = await badgeRepository.getByKey(keys.PIX_EMPLOI_CLEA_V3);
+  const skillIds = skillSets.flatMap(({ skillIds }) => skillIds);
+  return bluebird.mapSeries(skillIds, async (skillId) => {
+    const skill = await skillRepository.get(skillId);
+    return _addAnswerAndKnowledgeElementForSkill({ assessmentId, userId, skill, databaseBuilder });
+  });
+}
+
 function _createComplementeCompetenceEvaluationAssessment({ databaseBuilder, userId }) {
   return databaseBuilder.factory.buildAssessment({
     userId,
@@ -39,6 +63,7 @@ async function _cacheLearningContent() {
     allChallenges = await challengeRepository.list();
     allPixCompetences = _.filter(allCompetences, { origin: 'Pix' });
     allDroitCompetences = _.filter(allCompetences, { origin: 'Droit' });
+    allEduCompetences = _.filter(allCompetences, { origin: 'Edu' });
     await bluebird.mapSeries(allCompetences, async (competence) => {
       skillsByCompetenceId[competence.id] = await skillRepository.findActiveByCompetenceId(competence.id);
     });
@@ -85,6 +110,10 @@ function _findSkillsToValidateSpecificLevel(competence, expectedLevel) {
 
 function _addAnswerAndKnowledgeElementForSkill({ assessmentId, userId, skill, databaseBuilder }) {
   const challenge = _findFirstChallengeValidatedBySkillId(skill.id);
+  if (!challenge) {
+    logger.warn(`There is no challenge for skill ${skill.id}`);
+    return;
+  }
   const answerId = databaseBuilder.factory.buildAnswer({
     value: 'dummy value',
     result: 'ok',
@@ -112,4 +141,9 @@ function _findFirstChallengeValidatedBySkillId(skillId) {
   return _.find(allChallenges, { status: 'validé', skill: { id: skillId } });
 }
 
-module.exports = { makeUserPixCertifiable, makeUserPixDroitCertifiable };
+module.exports = {
+  makeUserPixCertifiable,
+  makeUserPixDroitCertifiable,
+  makeUserCleaCertifiable,
+  makeUserPixEduCertifiable,
+};
