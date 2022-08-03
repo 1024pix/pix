@@ -415,6 +415,7 @@ describe('Integration | Repository | Badge Acquisition', function () {
         });
         const badgeLevel2 = databaseBuilder.factory.buildBadge.certifiable({
           key: 'level-2',
+          imageUrl: 'badge-url-2.fr',
         });
         const badgeLevel3 = databaseBuilder.factory.buildBadge.certifiable({
           key: 'level-3',
@@ -428,6 +429,7 @@ describe('Integration | Repository | Badge Acquisition', function () {
           badgeId: badgeLevel2.id,
           complementaryCertificationId,
           level: 2,
+          imageUrl: 'complementary-certification-badge-url-2.fr',
         });
 
         databaseBuilder.factory.buildComplementaryCertificationBadge({
@@ -469,7 +471,9 @@ describe('Integration | Repository | Badge Acquisition', function () {
 
         // then
         expect(certifiableBadgesAcquiredByUser.length).to.equal(1);
-        expect(certifiableBadgesAcquiredByUser.map(({ badgeId }) => badgeId)).to.deep.equal([badgeLevel2.id]);
+        expect(
+          certifiableBadgesAcquiredByUser.map(({ badgeId, badge }) => ({ badgeId, imageUrl: badge.imageUrl }))
+        ).to.deep.equal([{ badgeId: badgeLevel2.id, imageUrl: badgeLevel2.imageUrl }]);
       });
     });
     describe('when the user has no certifiable acquired badge', function () {
