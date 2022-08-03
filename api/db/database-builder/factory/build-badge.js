@@ -1,5 +1,6 @@
 const databaseBuffer = require('../database-buffer');
 const buildTargetProfile = require('./build-target-profile');
+const _ = require('lodash');
 
 function buildBadge({
   id = databaseBuffer.getNextId(),
@@ -12,7 +13,7 @@ function buildBadge({
   targetProfileId,
   isAlwaysVisible = false,
 } = {}) {
-  targetProfileId = targetProfileId ? targetProfileId : buildTargetProfile().id;
+  targetProfileId = !_.isUndefined(targetProfileId) ? targetProfileId : buildTargetProfile().id;
 
   const values = {
     id,
