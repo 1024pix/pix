@@ -31,6 +31,6 @@ export default class CertificationCandidate extends Model {
   }
 
   get complementaryCertificationsList() {
-    return this.complementaryCertifications.map(({ name }) => name).join(', ');
+    return this.complementaryCertifications.map(({ label }) => label).join(', ');
   }
 }

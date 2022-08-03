@@ -13,7 +13,10 @@ module('Integration | Component | new-certification-candidate-modal', function (
     const store = this.owner.lookup('service:store');
     class CurrentUserStub extends Service {
       currentAllowedCertificationCenterAccess = store.createRecord('allowed-certification-center-access', {
-        habilitations: [{ name: 'Certif complémentaire 1' }, { name: 'Certif complémentaire 2' }],
+        habilitations: [
+          { id: 0, label: 'Certif complémentaire 1', key: 'COMP_1' },
+          { id: 1, label: 'Certif complémentaire 2', key: 'COMP_2' },
+        ],
       });
     }
     this.owner.register('service:current-user', CurrentUserStub);
@@ -461,13 +464,13 @@ module('Integration | Component | new-certification-candidate-modal', function (
           @saveCandidate={{this.saveCandidate}}
           />
       `);
-
       await fillIn(screen.getByLabelText('* Prénom'), 'Guybrush');
       await fillIn(screen.getByLabelText('* Nom de famille'), 'Threepwood');
       await fillIn(screen.getByLabelText('* Date de naissance'), '28/04/2019');
       await click(screen.getByRole('radio', { name: 'Homme' }));
       await fillIn(screen.getByLabelText('* Pays de naissance'), 99100);
       await click(screen.getByRole('radio', { name: 'Code INSEE' }));
+      await click(screen.getByRole('checkbox', { name: 'Certif complémentaire 1' }));
       await fillIn(screen.getByLabelText('Identifiant externe'), '44AA3355');
       await fillIn(screen.getByLabelText('* Code INSEE de naissance'), '75100');
       await fillIn(screen.getByLabelText('Temps majoré (%)'), '20');
@@ -482,7 +485,21 @@ module('Integration | Component | new-certification-candidate-modal', function (
       // then
       assert.strictEqual(updateCandidateFromValueStub.callCount, 7);
       assert.strictEqual(updateCandidateFromEventStub.callCount, 8);
-      sinon.assert.calledOnce(saveCandidateStub);
+      sinon.assert.calledOnceWithExactly(saveCandidateStub, {
+        firstName: 'Guybrush',
+        lastName: 'Threepwood',
+        birthdate: '',
+        birthCity: '',
+        birthCountry: '',
+        email: 'roooooar@example.net',
+        externalId: '44AA3355',
+        resultRecipientEmail: 'guybrush.threepwood@example.net',
+        birthPostalCode: '',
+        birthInseeCode: '75100',
+        sex: '',
+        extraTimePercentage: '20',
+        complementaryCertifications: [{ id: 0, label: 'Certif complémentaire 1', key: 'COMP_1' }],
+      });
     });
   });
 });
