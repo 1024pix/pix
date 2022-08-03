@@ -1,7 +1,7 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { find } from '@ember/test-helpers';
-import { clickByName, render, selectByLabelAndOption } from '@1024pix/ember-testing-library';
+import { click, find } from '@ember/test-helpers';
+import { render, selectByLabelAndOption } from '@1024pix/ember-testing-library';
 import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
 import { A as EmberArray } from '@ember/array';
@@ -49,18 +49,18 @@ module('Integration | Component | certification-centers/form', function (hooks) 
     test('should add habilitation to certification center on checked checkbox', async function (assert) {
       // given
       const store = this.owner.lookup('service:store');
-      const habilitation1 = store.createRecord('habilitation', { name: 'habilitation 1' });
-      const habilitation2 = store.createRecord('habilitation', { name: 'habilitation 2' });
+      const habilitation1 = store.createRecord('habilitation', { key: 'E', label: 'Pix+Edu' });
+      const habilitation2 = store.createRecord('habilitation', { key: 'S', label: 'Pix+Surf' });
       this.certificationCenter = store.createRecord('certification-center');
       this.habilitations = EmberArray([habilitation1, habilitation2]);
       this.stub = () => {};
 
-      await render(
+      const screen = await render(
         hbs`<CertificationCenters::Form @certificationCenter={{this.certificationCenter}} @habilitations={{this.habilitations}} @onSubmit={{this.stub}} @onCancel={{this.stub}} />`
       );
 
       // when
-      await clickByName('habilitation 2');
+      await click(screen.getByRole('checkbox', { name: 'Pix+Surf' }));
 
       // then
       assert.ok(this.certificationCenter.habilitations.includes(habilitation2));
@@ -69,20 +69,20 @@ module('Integration | Component | certification-centers/form', function (hooks) 
     test('should remove habilitation to certification center on unchecked checkbox', async function (assert) {
       // given
       const store = this.owner.lookup('service:store');
-      const habilitation1 = store.createRecord('habilitation', { name: 'habilitation 1' });
-      const habilitation2 = store.createRecord('habilitation', { name: 'habilitation 2' });
+      const habilitation1 = store.createRecord('habilitation', { key: 'E', label: 'Pix+Edu' });
+      const habilitation2 = store.createRecord('habilitation', { key: 'S', label: 'Pix+Surf' });
       this.certificationCenter = store.createRecord('certification-center', {
         habilitations: [habilitation2],
       });
       this.habilitations = EmberArray([habilitation1, habilitation2]);
       this.stub = () => {};
 
-      await render(
+      const screen = await render(
         hbs`<CertificationCenters::Form @certificationCenter={{this.certificationCenter}} @habilitations={{this.habilitations}} @onSubmit={{this.stub}} @onCancel={{this.stub}} />`
       );
 
       // when
-      await clickByName('habilitation 2');
+      await click(screen.getByRole('checkbox', { name: 'Pix+Surf' }));
 
       // then
       assert.notOk(this.certificationCenter.habilitations.includes(habilitation2));
