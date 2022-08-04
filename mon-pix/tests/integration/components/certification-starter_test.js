@@ -51,7 +51,7 @@ describe('Integration | Component | certification-starter', function () {
         this.set(
           'certificationCandidateSubscription',
           store.createRecord('certification-candidate-subscription', {
-            eligibleSubscriptions: [{ name: 'Certif complémentaire 1' }, { name: 'Certif complémentaire 2' }],
+            eligibleSubscriptions: [{ label: 'Certif complémentaire 1' }, { label: 'Certif complémentaire 2' }],
             nonEligibleSubscriptions: [],
           })
         );
@@ -76,7 +76,7 @@ describe('Integration | Component | certification-starter', function () {
         this.set(
           'certificationCandidateSubscription',
           store.createRecord('certification-candidate-subscription', {
-            eligibleSubscriptions: [{ name: 'Certif complémentaire 1' }, { name: 'Certif complémentaire 2' }],
+            eligibleSubscriptions: [{ label: 'Certif complémentaire 1' }, { label: 'Certif complémentaire 2' }],
             nonEligibleSubscriptions: [],
           })
         );
@@ -102,8 +102,8 @@ describe('Integration | Component | certification-starter', function () {
         this.set(
           'certificationCandidateSubscription',
           store.createRecord('certification-candidate-subscription', {
-            eligibleSubscriptions: [{ name: 'Certif complémentaire 2' }],
-            nonEligibleSubscriptions: [{ name: 'Certif complémentaire 1' }],
+            eligibleSubscriptions: [{ label: 'Certif complémentaire 2' }],
+            nonEligibleSubscriptions: [{ label: 'Certif complémentaire 1' }],
           })
         );
 
@@ -127,7 +127,7 @@ describe('Integration | Component | certification-starter', function () {
           'certificationCandidateSubscription',
           store.createRecord('certification-candidate-subscription', {
             eligibleSubscriptions: [],
-            nonEligibleSubscriptions: [{ name: 'Certif complémentaire 1' }, { name: 'Certif complémentaire 2' }],
+            nonEligibleSubscriptions: [{ label: 'Certif complémentaire 1' }, { label: 'Certif complémentaire 2' }],
           })
         );
 
@@ -151,7 +151,7 @@ describe('Integration | Component | certification-starter', function () {
           'certificationCandidateSubscription',
           store.createRecord('certification-candidate-subscription', {
             eligibleSubscriptions: [],
-            nonEligibleSubscriptions: [{ name: 'Certif complémentaire 1' }, { name: 'Certif complémentaire 2' }],
+            nonEligibleSubscriptions: [{ label: 'Certif complémentaire 1' }, { label: 'Certif complémentaire 2' }],
           })
         );
 

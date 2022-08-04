@@ -16,7 +16,7 @@
                   @icon="circle-check"
                   class="certification-starter-subscriptions-container-items__eligible-icon"
                 />
-                {{eligibleSubscription.name}}
+                {{eligibleSubscription.label}}
               </span>
             {{/each}}
             {{#each @certificationCandidateSubscription.nonEligibleSubscriptions as |nonEligibleSubscription|}}
@@ -25,21 +25,21 @@
                   @icon="circle-check"
                   class="certification-starter-subscriptions-container-items__non-eligible-icon"
                 />
-                {{nonEligibleSubscription.name}}
+                {{nonEligibleSubscription.label}}
               </span>
             {{/each}}
           </div>
         </div>
       {{/if}}
-      {{#if this.nonEligibleSubscriptionNames.length}}
+      {{#if this.nonEligibleSubscriptionLabels.length}}
         <div class="certification-starter-subscriptions-container__non-eligible">
           <FaIcon @icon="circle-exclamation" class="certification-starter-subscriptions-container__info-icon" />
           <span>
             {{t
               "pages.certification-start.non-eligible-subscriptions"
-              nonEligibleSubscription=this.nonEligibleSubscriptionNames
-              eligibleSubscription=this.eligibleSubscriptionNames
-              eligibleSubscriptionLength=this.eligibleSubscriptionNames.length
+              nonEligibleSubscription=this.nonEligibleSubscriptionLabels
+              eligibleSubscription=this.eligibleSubscriptionLabels
+              eligibleSubscriptionLength=this.eligibleSubscriptionLabels.length
               itemCount=@certificationCandidateSubscription.nonEligibleSubscriptions.length
             }}
           </span>
