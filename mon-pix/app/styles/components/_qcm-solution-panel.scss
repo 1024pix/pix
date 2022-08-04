@@ -1,14 +1,12 @@
-input.qcm-panel__proposal-checkbox {
-  display: inline-block;
-  margin-right: 10px;
-  margin-top: 4px;
-}
-
 .qcm-panel {
 
   &__proposals {
     margin: 0 0 15px;
     font-size: 1rem;
+
+    .rounded-panel__row label {
+      display: flex;
+    }
   }
 
   &__proposal-item {
@@ -16,6 +14,7 @@ input.qcm-panel__proposal-checkbox {
   }
 
   &__proposal-label {
+    align-items: center;
     font-weight: $font-normal;
     width: 100%;
 
@@ -45,5 +44,13 @@ input.qcm-panel__proposal-checkbox {
 
   &__answer-details[data-goodness='bad'][data-checked='no'] {
     display: inline;
+  }
+
+  .qcm-panel__proposal-checkbox {
+    margin: 4px 10px;
+    min-width: 18px;
+    min-height: 18px;
+    border: 1.2px solid $pix-neutral-90;
+    border-radius: 2px;
   }
 }
