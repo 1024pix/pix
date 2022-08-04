@@ -29,7 +29,7 @@ class BadgeAcquisition {
     return this.badge.key;
   }
 
-  isCleA() {
+  isClea() {
     return [PIX_EMPLOI_CLEA_V1, PIX_EMPLOI_CLEA_V2, PIX_EMPLOI_CLEA_V3].includes(this.badgeKey);
   }
 
