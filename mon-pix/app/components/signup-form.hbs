@@ -96,18 +96,18 @@
 
       <div class="signup-form__cgu-container">
         <p class="signup-form__cgu-label">
-          {{t "pages.sign-up.fields.cgu.accept"}}
+          {{t "common.cgu.accept"}}
           <a href={{this.cguUrl}} class="link" target="_blank" rel="noopener noreferrer">
-            {{t "pages.sign-up.fields.cgu.cgu"}}
+            {{t "common.cgu.cgu"}}
           </a>
-          {{t "pages.sign-up.fields.cgu.and"}}
+          {{t "common.cgu.and"}}
           <a href={{this.dataProtectionPolicyUrl}} class="link" target="_blank" rel="noopener noreferrer">
-            {{t "pages.sign-up.fields.cgu.data-protection-policy"}}
+            {{t "common.cgu.data-protection-policy"}}
           </a>
-          {{t "pages.sign-up.fields.cgu.pix"}}
+          {{t "common.cgu.pix"}}
           {{#if @user.errors.cgu}}
             <div class="sign-form__validation-error" aria-live="polite" id="sign-up-cgu-error-message">
-              {{t "pages.sign-up.fields.cgu.error"}}
+              {{t "common.cgu.error"}}
             </div>
           {{/if}}
         </p>
@@ -115,7 +115,7 @@
           @type="checkbox"
           class="signup-form__cgu"
           @checked={{@user.cgu}}
-          aria-label={{t "pages.sign-up.fields.cgu.label"}}
+          aria-label={{t "common.cgu.label"}}
           aria-describedby="sign-up-cgu-error-message"
         />
       </div>
