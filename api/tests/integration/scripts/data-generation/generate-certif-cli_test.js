@@ -96,10 +96,10 @@ describe('Integration | Scripts | generate-certif-cli.js', function () {
                 centerType: type,
                 candidateNumber: 2,
                 complementaryCertifications: [
-                  { candidateNumber: 1, name: 'CléA Numérique' },
-                  { candidateNumber: 1, name: 'Pix+ Droit' },
-                  { candidateNumber: 1, name: 'Pix+ Édu 2nd degré' },
-                  { candidateNumber: 1, name: 'Pix+ Édu 1er degré' },
+                  { candidateNumber: 1, key: 'CLEA' },
+                  { candidateNumber: 1, key: 'DROIT' },
+                  { candidateNumber: 1, key: 'EDU_1ER_DEGRE' },
+                  { candidateNumber: 1, key: 'EDU_2ND_DEGRE' },
                 ],
               });
 
@@ -185,10 +185,10 @@ describe('Integration | Scripts | generate-certif-cli.js', function () {
               centerType: 'SCO',
               candidateNumber: 2,
               complementaryCertifications: [
-                { candidateNumber: 1, name: 'CléA Numérique' },
-                { candidateNumber: 1, name: 'Pix+ Droit' },
-                { candidateNumber: 1, name: 'Pix+ Édu 2nd degré' },
-                { candidateNumber: 1, name: 'Pix+ Édu 1er degré' },
+                { candidateNumber: 1, key: 'CLEA' },
+                { candidateNumber: 1, key: 'DROIT' },
+                { candidateNumber: 1, key: 'EDU_1ER_DEGRE' },
+                { candidateNumber: 1, key: 'EDU_2ND_DEGRE' },
               ],
               isSupervisorAccessEnabled: false,
             });
@@ -219,9 +219,10 @@ describe('Integration | Scripts | generate-certif-cli.js', function () {
       key: 'PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME',
       targetProfileId: null,
     });
-    databaseBuilderCli.factory.buildComplementaryCertification({ id: 52, name: 'CléA Numérique' });
-    databaseBuilderCli.factory.buildComplementaryCertification({ id: 53, name: 'Pix+ Droit' });
-    databaseBuilderCli.factory.buildComplementaryCertification({ id: 54, name: 'Pix+ Édu 1er degré' });
-    databaseBuilderCli.factory.buildComplementaryCertification({ id: 55, name: 'Pix+ Édu 2nd degré' });
+
+    databaseBuilderCli.factory.buildComplementaryCertification({ id: 52, key: 'CLEA' });
+    databaseBuilderCli.factory.buildComplementaryCertification({ id: 53, key: 'DROIT' });
+    databaseBuilderCli.factory.buildComplementaryCertification({ id: 54, key: 'EDU_1ER_DEGRE' });
+    databaseBuilderCli.factory.buildComplementaryCertification({ id: 55, key: 'EDU_2ND_DEGRE' });
   }
 });
