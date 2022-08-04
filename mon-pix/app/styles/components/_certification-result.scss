@@ -64,7 +64,12 @@
 }
 
 .result-content__checked-supervisor {
+  display: flex;
   padding-bottom: 30px;
+
+  span {
+    padding: 0;
+  }
 }
 
 .result-content__button {

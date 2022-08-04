@@ -14,11 +14,11 @@
 
     <div class="result-content__warning-container">
       <div class="result-content__checked-supervisor">
-        <Input
-          @type="checkbox"
-          @id="validSupervisor"
-          @checked={{this.validSupervisor}}
-          @alt="Le surveillant doit cliquer ici."
+        <PixCheckbox
+          @id="checkbox"
+          @label={{t "pages.certification-results.not-finished.checkbox-label"}}
+          @screenReaderOnly="true"
+          {{on "change" this.onChange}}
         />
 
         <span class="result-content__warning-text">
