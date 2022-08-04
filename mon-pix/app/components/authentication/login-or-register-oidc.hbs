@@ -14,11 +14,11 @@
           }}
         </p>
         <div class="login-or-register-oidc-form__cgu-container">
-          <Input
-            @type="checkbox"
-            class="login-or-register-oidc-form__cgu-check"
-            @checked={{this.isTermsOfServiceValidated}}
-            aria-label={{t "common.cgu.label"}}
+          <PixCheckbox
+            @id="checkbox"
+            @label={{t "common.cgu.label"}}
+            @screenReaderOnly="true"
+            {{on "change" this.onChange}}
           />
           <p class="login-or-register-oidc-form__cgu-label">
             {{t "common.cgu.accept"}}
