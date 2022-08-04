@@ -363,4 +363,61 @@ describe('Acceptance | API | Campaign Participations', function () {
       expect(response.statusCode).to.equal(204);
     });
   });
+
+  describe('GET /api/campaign-participations/{id}/trainings', function () {
+    let targetProfileId;
+
+    beforeEach(function () {
+      targetProfileId = 1;
+
+      const learningContent = [
+        {
+          id: 'recArea1',
+          competences: [],
+          trainings: [
+            {
+              duration: { hours: 2 },
+              link: 'https://example.net',
+              locale: 'fr-fr',
+              title: 'Training 1',
+              type: 'webinaire',
+              targetProfileIds: [targetProfileId],
+            },
+          ],
+        },
+      ];
+      const learningObjects = learningContentBuilder.buildLearningContent(learningContent);
+      mockLearningContent(learningObjects);
+    });
+
+    it('should return the campaign-participation trainings', async function () {
+      // given
+      const targetProfile = databaseBuilder.factory.buildTargetProfile({ id: targetProfileId });
+      const campaign = databaseBuilder.factory.buildCampaign({ targetProfileId: targetProfile.id });
+      const campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
+        userId: user.id,
+        campaignId: campaign.id,
+      });
+      await databaseBuilder.commit();
+      const options = {
+        method: 'GET',
+        url: `/api/campaign-participations/${campaignParticipation.id}/trainings`,
+        headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
+      };
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(200);
+      expect(response.result.data[0].type).to.equal('trainings');
+      expect(response.result.data[0].attributes).to.deep.equal({
+        duration: { hours: 2 },
+        link: 'https://example.net',
+        locale: 'fr-fr',
+        title: 'Training 1',
+        type: 'webinaire',
+      });
+    });
+  });
 });

@@ -9,6 +9,7 @@ const buildLearningContent = function (learningContent) {
   const allCourses = [];
   const allTutorials = [];
   const allThematics = [];
+  const allTrainings = [];
 
   const areas = learningContent.map((area) => {
     const competences = area.competences.map((competence) => {
@@ -119,6 +120,7 @@ const buildLearningContent = function (learningContent) {
         };
       });
     allCourses.push(courses);
+    allTrainings.push(area.trainings);
     return {
       id: area.id,
       code: area.code,
@@ -138,6 +140,7 @@ const buildLearningContent = function (learningContent) {
     courses: _.compact(allCourses.flat()),
     tutorials: _.compact(allTutorials.flat()),
     thematics: allThematics.flat(),
+    trainings: allTrainings.flat(),
   };
 };
 

@@ -4,6 +4,7 @@ const campaignAnalysisSerializer = require('../../../../lib/infrastructure/seria
 const campaignAssessmentParticipationResultSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/campaign-assessment-participation-result-serializer');
 const campaignParticipationSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/campaign-participation-serializer');
 const campaignProfileSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/campaign-profile-serializer');
+const trainingSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/training-serializer');
 const requestResponseUtils = require('../../../../lib/infrastructure/utils/request-response-utils');
 const events = require('../../../../lib/domain/events');
 const usecases = require('../../../../lib/domain/usecases');
@@ -437,6 +438,38 @@ describe('Unit | Application | Controller | Campaign-Participation', function ()
         userId,
         domainTransaction,
       });
+    });
+  });
+
+  describe('#findTrainings', function () {
+    beforeEach(function () {
+      sinon.stub(usecases, 'findCampaignParticipationTrainings');
+      sinon.stub(trainingSerializer, 'serialize');
+    });
+
+    it('should call usecase and serializer with expected parameters', async function () {
+      // given
+      const campaignParticipationId = 123;
+      const userId = 456;
+      const locale = 'fr-fr';
+      const trainings = Symbol('trainings');
+      const expectedResults = Symbol('results');
+      usecases.findCampaignParticipationTrainings
+        .withArgs({ userId, campaignParticipationId, locale })
+        .resolves(trainings);
+      trainingSerializer.serialize.withArgs(trainings).returns(expectedResults);
+
+      const request = {
+        auth: { credentials: { userId } },
+        params: { id: campaignParticipationId },
+        headers: { 'accept-language': locale },
+      };
+
+      // when
+      const response = await campaignParticipationController.findTrainings(request);
+
+      // then
+      expect(response).to.equal(expectedResults);
     });
   });
 });
