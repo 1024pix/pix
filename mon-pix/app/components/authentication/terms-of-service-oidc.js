@@ -52,4 +52,9 @@ export default class TermsOfServiceOidcComponent extends Component {
       this.errorMessage = this.intl.t(ERROR_INPUT_MESSAGE_MAP['termsOfServiceNotSelected']);
     }
   }
+
+  @action
+  onChange(event) {
+    this.isTermsOfServiceValidated = !!event.target.checked;
+  }
 }
