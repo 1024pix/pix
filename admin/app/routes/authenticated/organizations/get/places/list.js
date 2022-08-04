@@ -9,7 +9,10 @@ export default class Places extends Route {
     const places = await this.store.query('organization-place', {
       organizationId: organization.id,
     });
+    const placesCapacity = await this.store.queryRecord('organization-places-capacity', {
+      organizationId: organization.id,
+    });
 
-    return { organization, places };
+    return { organization, places, placesCapacity };
   }
 }
