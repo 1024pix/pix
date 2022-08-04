@@ -3,6 +3,9 @@
     <h2 class="page-section__title">Places</h2>
   </header>
   <div class="places__resume">
+    <h3 class="page-section__title page-section__title--sub">Nombre de places actives</h3>
+    <Organizations::PlacesCapacity @placesCapacity={{@placesCapacity}} />
+
     {{#if this.accessControl.hasAccessToOrganizationPlacesActionsScope}}
       <PixButtonLink
         class="places__button"
