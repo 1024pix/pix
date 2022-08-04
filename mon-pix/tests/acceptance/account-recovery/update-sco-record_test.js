@@ -2,13 +2,13 @@ import { describe } from 'mocha';
 import { expect } from 'chai';
 
 import { setupApplicationTest } from 'ember-mocha';
-import { currentURL, visit } from '@ember/test-helpers';
+import { currentURL, click } from '@ember/test-helpers';
 import { Response } from 'ember-cli-mirage';
 import { setupMirage } from 'ember-cli-mirage/test-support';
+import { visit, fillByLabel } from '@1024pix/ember-testing-library';
 
 import setupIntl from '../../helpers/setup-intl';
 import { clickByLabel } from '../../helpers/click-by-label';
-import { fillInByLabel } from '../../helpers/fill-in-by-label';
 import { contains } from '../../helpers/contains';
 
 describe('Acceptance | account-recovery | UpdateScoRecordRoute', function () {
@@ -146,10 +146,10 @@ describe('Acceptance | account-recovery | UpdateScoRecordRoute', function () {
       const password = 'Password123';
       server.create('user', { id: 2, email, password });
 
-      await visit(`/recuperer-mon-compte/${temporaryKey}`);
+      const screen = await visit(`/recuperer-mon-compte/${temporaryKey}`);
 
-      await fillInByLabel(this.intl.t('pages.account-recovery.update-sco-record.form.password-label'), password);
-      await clickByLabel(this.intl.t('common.cgu.accept'));
+      await fillByLabel(this.intl.t('pages.account-recovery.update-sco-record.form.password-label'), password);
+      await click(screen.getByRole('checkbox', { name: this.intl.t('common.cgu.label') }));
 
       // when
       await clickByLabel(this.intl.t('pages.account-recovery.update-sco-record.form.login-button'));
@@ -177,9 +177,9 @@ describe('Acceptance | account-recovery | UpdateScoRecordRoute', function () {
       );
       server.patch('/account-recovery', () => errorsApi);
 
-      await visit(`/recuperer-mon-compte/${temporaryKey}`);
-      await fillInByLabel(this.intl.t('pages.account-recovery.update-sco-record.form.password-label'), newPassword);
-      await clickByLabel(this.intl.t('common.cgu.accept'));
+      const screen = await visit(`/recuperer-mon-compte/${temporaryKey}`);
+      await fillByLabel(this.intl.t('pages.account-recovery.update-sco-record.form.password-label'), newPassword);
+      await click(screen.getByRole('checkbox', { name: this.intl.t('common.cgu.label') }));
 
       // when
       await clickByLabel(this.intl.t('pages.account-recovery.update-sco-record.form.login-button'));
@@ -208,9 +208,9 @@ describe('Acceptance | account-recovery | UpdateScoRecordRoute', function () {
       );
       server.patch('/account-recovery', () => errorsApi);
 
-      await visit(`/recuperer-mon-compte/${temporaryKey}`);
-      await fillInByLabel(this.intl.t('pages.account-recovery.update-sco-record.form.password-label'), newPassword);
-      await clickByLabel(this.intl.t('common.cgu.accept'));
+      const screen = await visit(`/recuperer-mon-compte/${temporaryKey}`);
+      await fillByLabel(this.intl.t('pages.account-recovery.update-sco-record.form.password-label'), newPassword);
+      await click(screen.getByRole('checkbox', { name: this.intl.t('common.cgu.label') }));
 
       // when
       await clickByLabel(this.intl.t('pages.account-recovery.update-sco-record.form.login-button'));
@@ -239,9 +239,9 @@ describe('Acceptance | account-recovery | UpdateScoRecordRoute', function () {
       );
       server.patch('/account-recovery', () => errorsApi);
 
-      await visit(`/recuperer-mon-compte/${temporaryKey}`);
-      await fillInByLabel(this.intl.t('pages.account-recovery.update-sco-record.form.password-label'), newPassword);
-      await clickByLabel(this.intl.t('common.cgu.accept'));
+      const screen = await visit(`/recuperer-mon-compte/${temporaryKey}`);
+      await fillByLabel(this.intl.t('pages.account-recovery.update-sco-record.form.password-label'), newPassword);
+      await click(screen.getByRole('checkbox', { name: this.intl.t('common.cgu.label') }));
 
       // when
       await clickByLabel(this.intl.t('pages.account-recovery.update-sco-record.form.login-button'));
@@ -270,9 +270,9 @@ describe('Acceptance | account-recovery | UpdateScoRecordRoute', function () {
       );
       server.patch('/account-recovery', () => errorsApi);
 
-      await visit(`/recuperer-mon-compte/${temporaryKey}`);
-      await fillInByLabel(this.intl.t('pages.account-recovery.update-sco-record.form.password-label'), newPassword);
-      await clickByLabel(this.intl.t('common.cgu.accept'));
+      const screen = await visit(`/recuperer-mon-compte/${temporaryKey}`);
+      await fillByLabel(this.intl.t('pages.account-recovery.update-sco-record.form.password-label'), newPassword);
+      await click(screen.getByRole('checkbox', { name: this.intl.t('common.cgu.label') }));
 
       // when
       await clickByLabel(this.intl.t('pages.account-recovery.update-sco-record.form.login-button'));
@@ -301,9 +301,9 @@ describe('Acceptance | account-recovery | UpdateScoRecordRoute', function () {
       );
       server.patch('/account-recovery', () => errorsApi);
 
-      await visit(`/recuperer-mon-compte/${temporaryKey}`);
-      await fillInByLabel(this.intl.t('pages.account-recovery.update-sco-record.form.password-label'), newPassword);
-      await clickByLabel(this.intl.t('common.cgu.accept'));
+      const screen = await visit(`/recuperer-mon-compte/${temporaryKey}`);
+      await fillByLabel(this.intl.t('pages.account-recovery.update-sco-record.form.password-label'), newPassword);
+      await click(screen.getByRole('checkbox', { name: this.intl.t('common.cgu.label') }));
 
       // when
       await clickByLabel(this.intl.t('pages.account-recovery.update-sco-record.form.login-button'));
