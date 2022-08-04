@@ -176,7 +176,6 @@ describe('Integration | UseCases | create-pro-organization', function () {
           name: '',
           provinceCode: '',
           credit: '',
-          email: '',
           locale: '',
           tags: '',
           createdBy: '',
@@ -227,10 +226,6 @@ describe('Integration | UseCases | create-pro-organization', function () {
           message: "Le crédit n'est pas renseigné.",
         },
         {
-          attribute: 'email',
-          message: "L'email n’est pas renseigné.",
-        },
-        {
           attribute: 'organizationInvitationRole',
           message: "Le rôle fourni doit avoir l'une des valeurs suivantes : ADMIN ou MEMBER",
         },
@@ -245,7 +240,7 @@ describe('Integration | UseCases | create-pro-organization', function () {
       ]);
     });
 
-    it('should throw an error when first error found whend an externalId is missing and email is not valid', async function () {
+    it('should throw an error when first error found when an externalId is missing and email is not valid', async function () {
       //given
       const organizationsWithTagsWithOneMissingExternalId = [
         {
@@ -497,8 +492,17 @@ describe('Integration | UseCases | create-pro-organization', function () {
         const organizationInDB = await knex('organizations')
           .first('id', 'externalId', 'name', 'provinceCode', 'credit', 'email')
           .where({ externalId: organization.externalId });
-        expect(omit(organizationInDB, 'id')).to.be.deep.equal(
-          omit(organization, 'locale', 'tags', 'type', 'createdBy', 'documentationUrl', 'organizationInvitationRole')
+        expect(omit(organizationInDB, 'id', 'email')).to.be.deep.equal(
+          omit(
+            organization,
+            'locale',
+            'tags',
+            'type',
+            'createdBy',
+            'documentationUrl',
+            'organizationInvitationRole',
+            'email'
+          )
         );
 
         const organizationTagInDB = await knex('organization-tags')
