@@ -45,6 +45,15 @@
       "quit": "Exit",
       "sign-out": "Sign out"
     },
+    "cgu": {
+      "accept": "I agree to the ",
+      "and": "and ",
+      "cgu": "Pix terms of use",
+      "data-protection-policy": "personal data protection policy",
+      "pix": "",
+      "error": "You must agree to the Pix terms of use and personal data protection policy to create an account.",
+      "label": "Agree Pix terms of use and personal data protection policy"
+    },
     "error": "An error has occured. Please try again or contact the support.",
     "form": {
       "error": "error",
@@ -916,6 +925,26 @@
         }
       }
     },
+    "login-or-register-oidc": {
+      "title": "Créez votre compte Pix",
+      "login-form": {
+        "description": "Connectez-vous pour lier votre compte existant et récupérer vos compétences déjà évaluées",
+        "title": "Vous avez déjà un compte Pix ?",
+        "email": "Email address",
+        "password": "Password",
+        "button": "Log in"
+      },
+      "register-form": {
+        "description": "Un compte va être créé à partir des éléments transmis par l'organisme : {identityProviderOrganizationName}",
+        "title": "Je n’ai pas de compte Pix",
+        "button": "Je créé mon compte"
+      },
+      "error": {
+        "error-message": "Please agree to the terms and conditions of use.",
+        "expired-authentication-key": "Your authentication demand has expired. Please click to back button to log in",
+        "invalid-email": "Your email address is invalid."
+      }
+    },
     "not-connected": {
       "title": "Logged out",
       "message": "You've been logged out.'<br>'Thanks! See you soon"
@@ -1199,15 +1228,6 @@
         "submit": "Sign up"
       },
       "fields": {
-        "cgu": {
-          "accept": "I agree to the ",
-          "and": "and ",
-          "cgu": "Pix terms of use",
-          "data-protection-policy": "personal data protection policy",
-          "pix": "",
-          "error": "You must agree to the Pix terms of use and personal data protection policy to create an account.",
-          "label": "Agree Pix terms of use and personal data protection policy"
-        },
         "email": {
           "error": "Your email address is invalid.",
           "help": "(eg. name@example.org)",
@@ -1323,7 +1343,7 @@
         "error-message": "Please agree to the terms and conditions of use.",
         "expired-authentication-key": "Your authentication demand has expired. Please click to back button to log in"
       },
-      "message": ""
+      "message": "Your Pix account will be created using the information provided by: {identityProviderOrganizationName}."
     },
     "timed-challenge-instructions": {
       "action": "Start",

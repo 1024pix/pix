@@ -149,7 +149,7 @@ describe('Acceptance | account-recovery | UpdateScoRecordRoute', function () {
       await visit(`/recuperer-mon-compte/${temporaryKey}`);
 
       await fillInByLabel(this.intl.t('pages.account-recovery.update-sco-record.form.password-label'), password);
-      await clickByLabel(this.intl.t('pages.sign-up.fields.cgu.accept'));
+      await clickByLabel(this.intl.t('common.cgu.accept'));
 
       // when
       await clickByLabel(this.intl.t('pages.account-recovery.update-sco-record.form.login-button'));
@@ -179,7 +179,7 @@ describe('Acceptance | account-recovery | UpdateScoRecordRoute', function () {
 
       await visit(`/recuperer-mon-compte/${temporaryKey}`);
       await fillInByLabel(this.intl.t('pages.account-recovery.update-sco-record.form.password-label'), newPassword);
-      await clickByLabel(this.intl.t('pages.sign-up.fields.cgu.accept'));
+      await clickByLabel(this.intl.t('common.cgu.accept'));
 
       // when
       await clickByLabel(this.intl.t('pages.account-recovery.update-sco-record.form.login-button'));
@@ -210,7 +210,7 @@ describe('Acceptance | account-recovery | UpdateScoRecordRoute', function () {
 
       await visit(`/recuperer-mon-compte/${temporaryKey}`);
       await fillInByLabel(this.intl.t('pages.account-recovery.update-sco-record.form.password-label'), newPassword);
-      await clickByLabel(this.intl.t('pages.sign-up.fields.cgu.accept'));
+      await clickByLabel(this.intl.t('common.cgu.accept'));
 
       // when
       await clickByLabel(this.intl.t('pages.account-recovery.update-sco-record.form.login-button'));
@@ -241,7 +241,7 @@ describe('Acceptance | account-recovery | UpdateScoRecordRoute', function () {
 
       await visit(`/recuperer-mon-compte/${temporaryKey}`);
       await fillInByLabel(this.intl.t('pages.account-recovery.update-sco-record.form.password-label'), newPassword);
-      await clickByLabel(this.intl.t('pages.sign-up.fields.cgu.accept'));
+      await clickByLabel(this.intl.t('common.cgu.accept'));
 
       // when
       await clickByLabel(this.intl.t('pages.account-recovery.update-sco-record.form.login-button'));
@@ -272,7 +272,7 @@ describe('Acceptance | account-recovery | UpdateScoRecordRoute', function () {
 
       await visit(`/recuperer-mon-compte/${temporaryKey}`);
       await fillInByLabel(this.intl.t('pages.account-recovery.update-sco-record.form.password-label'), newPassword);
-      await clickByLabel(this.intl.t('pages.sign-up.fields.cgu.accept'));
+      await clickByLabel(this.intl.t('common.cgu.accept'));
 
       // when
       await clickByLabel(this.intl.t('pages.account-recovery.update-sco-record.form.login-button'));
@@ -303,7 +303,7 @@ describe('Acceptance | account-recovery | UpdateScoRecordRoute', function () {
 
       await visit(`/recuperer-mon-compte/${temporaryKey}`);
       await fillInByLabel(this.intl.t('pages.account-recovery.update-sco-record.form.password-label'), newPassword);
-      await clickByLabel(this.intl.t('pages.sign-up.fields.cgu.accept'));
+      await clickByLabel(this.intl.t('common.cgu.accept'));
 
       // when
       await clickByLabel(this.intl.t('pages.account-recovery.update-sco-record.form.login-button'));

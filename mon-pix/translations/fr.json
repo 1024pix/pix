@@ -45,6 +45,15 @@
       "quit": "Quitter",
       "sign-out": "Se déconnecter"
     },
+    "cgu": {
+      "accept": "J'accepte les ",
+      "and": "et la ",
+      "cgu": "conditions d'utilisation",
+      "data-protection-policy": "politique de confidentialité",
+      "pix": " de Pix",
+      "error": "Vous devez accepter les conditions d’utilisation de Pix et la politique de confidentialité pour créer un compte.",
+      "label": "Accepter les conditions d’utilisation de Pix et la politique de confidentialité"
+    },
     "error": "Une erreur est survenue. Veuillez recommencer ou contacter le support.",
     "form": {
       "error": "erreur",
@@ -916,6 +925,26 @@
         }
       }
     },
+    "login-or-register-oidc": {
+      "title": "Créez votre compte Pix",
+      "login-form": {
+        "description": "Connectez-vous pour lier votre compte existant et récupérer vos compétences déjà évaluées",
+        "title": "Vous avez déjà un compte Pix ?",
+        "email": "Adresse e-mail",
+        "password": "Mot de passe",
+        "button": "Je me connecte"
+      },
+      "register-form": {
+        "description": "Un compte va être créé à partir des éléments transmis par l'organisme : {identityProviderOrganizationName}",
+        "title": "Je n’ai pas de compte Pix",
+        "button": "Je créé mon compte"
+      },
+      "error": {
+        "error-message": "Vous devez accepter les conditions d’utilisation de Pix.",
+        "expired-authentication-key": "Votre demande d'authentification a expiré, merci de renouveler votre connexion en cliquant sur le bouton retour.",
+        "invalid-email": "Votre adresse e-mail n’est pas valide."
+      }
+    },
     "not-connected": {
       "title": "Déconnecté",
       "message": "Vous êtes bien déconnecté(e).'<br>'Merci, à bientôt."
@@ -1199,15 +1228,6 @@
         "submit": "Je m'inscris"
       },
       "fields": {
-        "cgu": {
-          "accept": "J'accepte les ",
-          "and": "et la ",
-          "cgu": "conditions d'utilisation",
-          "data-protection-policy": "politique de confidentialité",
-          "pix": " de Pix",
-          "error": "Vous devez accepter les conditions d’utilisation de Pix et la politique de confidentialité pour créer un compte.",
-          "label": "Accepter les conditions d’utilisation de Pix et la politique de confidentialité"
-        },
         "email": {
           "error": "Votre adresse e-mail n’est pas valide.",
           "help": "(ex: nom@exemple.fr)",

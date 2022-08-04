@@ -27,6 +27,7 @@
 @import 'globals/layout';
 
 /* components */
+@import 'components/authentication/login-or-register-oidc';
 @import 'components/assessment-banner';
 @import 'components/background-banner';
 @import 'components/badge-card';

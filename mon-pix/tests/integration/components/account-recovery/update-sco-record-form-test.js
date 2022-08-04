@@ -32,10 +32,10 @@ describe('Integration | Component | account-recovery | update-sco-record', funct
     expect(contains('philippe.example.net'));
 
     expect(find('input[type="checkbox"]')).to.exist;
-    expect(contains(this.intl.t('pages.sign-up.fields.cgu.accept'))).to.exist;
-    expect(contains(this.intl.t('pages.sign-up.fields.cgu.cgu'))).to.exist;
-    expect(contains(this.intl.t('pages.sign-up.fields.cgu.and'))).to.exist;
-    expect(contains(this.intl.t('pages.sign-up.fields.cgu.data-protection-policy'))).to.exist;
+    expect(contains(this.intl.t('common.cgu.accept'))).to.exist;
+    expect(contains(this.intl.t('common.cgu.cgu'))).to.exist;
+    expect(contains(this.intl.t('common.cgu.and'))).to.exist;
+    expect(contains(this.intl.t('common.cgu.data-protection-policy'))).to.exist;
   });
 
   context('Form submission', function () {
@@ -69,7 +69,7 @@ describe('Integration | Component | account-recovery | update-sco-record', funct
 
       // when
       await fillInByLabel(this.intl.t('pages.account-recovery.update-sco-record.form.password-label'), 'pix123A*');
-      await clickByLabel(this.intl.t('pages.sign-up.fields.cgu.accept'));
+      await clickByLabel(this.intl.t('common.cgu.accept'));
 
       // then
       const submitButton = findByLabel(this.intl.t('pages.account-recovery.update-sco-record.form.login-button'));
@@ -82,7 +82,7 @@ describe('Integration | Component | account-recovery | update-sco-record', funct
 
       // when
       await fillInByLabel(this.intl.t('pages.account-recovery.update-sco-record.form.password-label'), 'pix123A*');
-      await clickByLabel(this.intl.t('pages.sign-up.fields.cgu.accept'));
+      await clickByLabel(this.intl.t('common.cgu.accept'));
 
       // then
       const submitButton = findByLabel(this.intl.t('pages.account-recovery.update-sco-record.form.login-button'));
