@@ -101,4 +101,9 @@ export default class LoginOrRegisterOidcComponent extends Component {
       // todo
     }
   }
+
+  @action
+  onChange(event) {
+    this.isTermsOfServiceValidated = !!event.target.checked;
+  }
 }
