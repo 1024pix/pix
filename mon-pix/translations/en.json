@@ -1343,7 +1343,7 @@
         "error-message": "Please agree to the terms and conditions of use.",
         "expired-authentication-key": "Your authentication demand has expired. Please click to back button to log in"
       },
-      "message": ""
+      "message": "Your Pix account will be created using the information provided by: {identityProviderOrganizationName}."
     },
     "timed-challenge-instructions": {
       "action": "Start",
