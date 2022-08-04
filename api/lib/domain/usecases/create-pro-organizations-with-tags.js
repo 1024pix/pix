@@ -38,7 +38,11 @@ module.exports = async function createProOrganizationsWithTags({
   let createdOrganizations = null;
 
   await domainTransaction.execute(async (domainTransaction) => {
-    const organizationsToCreate = Array.from(organizationsData.values()).map((data) => data.organization);
+    const organizationsToCreate = Array.from(organizationsData.values()).map((data) => {
+      // eslint-disable-next-line no-unused-vars
+      const { email, ...organization } = data.organization;
+      return organization;
+    });
 
     createdOrganizations = await organizationRepository.batchCreateProOrganizations(
       organizationsToCreate,
@@ -59,7 +63,17 @@ module.exports = async function createProOrganizationsWithTags({
     await organizationTagRepository.batchCreate(organizationsTags, domainTransaction);
   });
 
-  const createdOrganizationsWithEmail = createdOrganizations.filter((organization) => !!organization.email);
+  const createdOrganizationsWithEmail = createdOrganizations
+    .map(({ id, externalId, name }) => {
+      const { organization } = organizationsData.get(externalId);
+      return {
+        email: organization?.email,
+        externalId,
+        id,
+        name,
+      };
+    })
+    .filter((organization) => !!organization.email);
 
   await bluebird.mapSeries(createdOrganizationsWithEmail, (organization) => {
     const { locale, organizationInvitationRole } = organizationsData.get(organization.externalId);

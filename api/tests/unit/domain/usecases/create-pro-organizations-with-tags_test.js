@@ -145,13 +145,15 @@ describe('Unit | UseCase | create-pro-organizations-with-tags', function () {
       externalId: 'externalId A',
       tags: 'Tag1_Tag2_Tag3',
       type: 'PRO',
-      email: 'fake@axample.net',
+      email: 'fake@example.net',
       createdBy: 4,
     };
+    // eslint-disable-next-line no-unused-vars
+    const { email, ...organizationWithoutEmail } = new Organization(organization);
 
-    const expectedProOrganizationToInsert = [new Organization({ ...organization })];
+    const expectedProOrganizationToInsert = [organizationWithoutEmail];
     tagRepositoryStub.findAll.resolves(allTags);
-    organizationRepositoryStub.batchCreateProOrganizations.resolves([organization]);
+    organizationRepositoryStub.batchCreateProOrganizations.resolves([organizationWithoutEmail]);
 
     // when
     await createProOrganizations({
