@@ -59,7 +59,7 @@ describe('Unit | Domain | Models | BadgeAcquisition', function () {
       ],
     },
     {
-      methodName: 'isCLeA',
+      methodName: 'isClea',
       keys: [PIX_EMPLOI_CLEA_V1, PIX_EMPLOI_CLEA_V2, PIX_EMPLOI_CLEA_V3],
     },
   ].forEach(({ methodName, keys }) => {

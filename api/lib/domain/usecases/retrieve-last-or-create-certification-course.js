@@ -144,7 +144,7 @@ async function _startNewCertification({
 
   if (certificationCenter.isHabilitatedClea && certificationCandidate.isGrantedCleA()) {
     const cleaBadgeAcquisition = highestCertifiableBadgeAcquisitions.find((badgeAcquisition) =>
-      badgeAcquisition.isCleA()
+      badgeAcquisition.isClea()
     );
     if (cleaBadgeAcquisition) {
       const cleAComplementaryCertification = complementaryCertifications.find((comp) => comp.isClea());
