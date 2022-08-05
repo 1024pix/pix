@@ -13,6 +13,7 @@ export default class AssessmentRoute extends Route.extend(SecuredRouteMixin) {
     });
     return {
       assessment: await campaignParticipation.assessment,
+      campaignParticipation,
       campaign,
     };
   }
