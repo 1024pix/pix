@@ -7,11 +7,24 @@
   }
 
   &__button {
+    margin-top: $spacing-s;
     display: inline-flex;
 
     &:hover {
       color: $pix-neutral-0;
       text-decoration: none;
+    }
+  }
+
+  &__capacity {
+    width: auto;
+
+    tr {
+      height: auto;
+    }
+
+    td:first-child {
+      padding: 0;
     }
   }
 

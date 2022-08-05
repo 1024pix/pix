@@ -14,6 +14,18 @@ module('Acceptance | Organizations | places', function (hooks) {
       await authenticateAdminMemberWithRole({ isSupport: true })(server);
     });
 
+    test('should display current organization places capacity', async function (assert) {
+      // given
+      const ownerOrganizationId = this.server.create('organization').id;
+
+      // when
+      const screen = await visit(`/organizations/${ownerOrganizationId}/places`);
+
+      // then
+      assert.dom(screen.getByText('Nombre de places actives')).exists();
+      assert.dom(screen.getByText('7777')).exists();
+    });
+
     test('should display organization places', async function (assert) {
       // given
       const ownerOrganizationId = this.server.create('organization').id;

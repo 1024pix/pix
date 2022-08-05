@@ -5,6 +5,24 @@ function getOrganizationPlaces(schema) {
   return schema.organizationPlaces.all();
 }
 
+function getOrganizationPlacesCapacity() {
+  return {
+    data: {
+      id: '1_places_capacity',
+      type: 'organization-places-capacities',
+      attributes: {
+        categories: [
+          { count: 7777, category: 'FREE_RATE' },
+          { count: 0, category: 'PUBLIC_RATE' },
+          { count: 0, category: 'REDUCE_RATE' },
+          { count: 0, category: 'SPECIAL_REDUCE_RATE' },
+          { count: 0, category: 'FULL_RATE' },
+        ],
+      },
+    },
+  };
+}
+
 function getOrganizationInvitations(schema, request) {
   const organizationId = request.params.id;
   return schema.organizationInvitations.where({ organizationId });
@@ -68,4 +86,10 @@ function _applyPagination(memberships, { page, pageSize }) {
   return slice(memberships, start, end);
 }
 
-export { archiveOrganization, getOrganizationInvitations, getOrganizationPlaces, findPaginatedOrganizationMemberships };
+export {
+  archiveOrganization,
+  getOrganizationInvitations,
+  getOrganizationPlaces,
+  getOrganizationPlacesCapacity,
+  findPaginatedOrganizationMemberships,
+};
