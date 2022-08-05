@@ -1,4 +1,4 @@
-import Model, { belongsTo, attr } from '@ember-data/model';
+import Model, { attr, belongsTo, hasMany } from '@ember-data/model';
 
 export default class CampaignParticipation extends Model {
   // attributes
@@ -15,4 +15,6 @@ export default class CampaignParticipation extends Model {
   @belongsTo('campaign') campaign;
   @belongsTo('campaignParticipationResult') campaignParticipationResult;
   @belongsTo('user') user;
+
+  @hasMany('training') trainings;
 }
