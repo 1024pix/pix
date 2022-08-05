@@ -23,4 +23,22 @@ module.exports = {
 
     await upload.done();
   },
+
+  getPreSignUrlsOfFilesModifiedAfter: async function ({ date }) {
+    const { accessKeyId, secretAccessKey, endpoint, region, bucket, preSignedExpiresIn: expiresIn } = cpf.storage;
+    const s3Client = s3Utils.getS3Client({
+      accessKeyId,
+      secretAccessKey,
+      endpoint,
+      region,
+    });
+
+    const filesInBucket = await s3Utils.listFiles({ client: s3Client, bucket });
+
+    const keysOfFilesModifiedAfter = filesInBucket?.Contents.filter(({ LastModified }) => LastModified >= date).map(
+      ({ Key }) => Key
+    );
+
+    return await s3Utils.preSignFiles({ client: s3Client, bucket, keys: keysOfFilesModifiedAfter, expiresIn });
+  },
 };
