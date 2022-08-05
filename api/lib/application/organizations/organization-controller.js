@@ -15,6 +15,7 @@ const TargetProfileForSpecifierSerializer = require('../../infrastructure/serial
 const organizationMemberIdentitySerializer = require('../../infrastructure/serializers/jsonapi/organization-member-identity-serializer');
 const organizationPlacesLotManagmentSerializer = require('../../infrastructure/serializers/jsonapi/organization/organization-places-lot-management-serializer');
 const organizationPlacesLotSerializer = require('../../infrastructure/serializers/jsonapi/organization/organization-places-lot-serializer');
+const organizationPlacesCapacitySerializer = require('../../infrastructure/serializers/jsonapi/organization-places-capacity-serializer');
 const organizationParticipantsSerializer = require('../../infrastructure/serializers/jsonapi/organization/organization-participants-serializer');
 
 const SupOrganizationLearnerParser = require('../../infrastructure/serializers/csv/sup-organization-learner-parser');
@@ -127,6 +128,12 @@ module.exports = {
     const organizationId = request.params.id;
     const members = await usecases.getOrganizationMemberIdentities({ organizationId });
     return organizationMemberIdentitySerializer.serialize(members);
+  },
+
+  async getOrganizationPlacesCapacity(request) {
+    const organizationId = request.params.id;
+    const organizationPlacesCapacity = await usecases.getOrganizationPlacesCapacity({ organizationId });
+    return organizationPlacesCapacitySerializer.serialize(organizationPlacesCapacity);
   },
 
   async findOrganizationPlacesLot(request) {
