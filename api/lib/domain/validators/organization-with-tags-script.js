@@ -23,8 +23,7 @@ const schema = Joi.object({
   credit: Joi.number().required().messages({
     'number.base': "Le crédit n'est pas renseigné.",
   }),
-  email: Joi.string().email().required().messages({
-    'string.empty': "L'email n’est pas renseigné.",
+  email: Joi.string().email().messages({
     'string.email': "L'email fourni n'est pas valide.",
   }),
   organizationInvitationRole: Joi.string().valid(Membership.roles.ADMIN, Membership.roles.MEMBER).required().messages({

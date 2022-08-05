@@ -26,6 +26,13 @@ const REQUIRED_FIELD_NAMES = [
   'documentationUrl',
 ];
 
+function cleanEmailPropertyFromOrganizations(organizationsToClean) {
+  return organizationsToClean.map(({ email, ...organization }) => ({
+    ...organization,
+    email: email?.trim().replaceAll(' ', '').toLowerCase(),
+  }));
+}
+
 async function createOrganizationWithTags(filePath) {
   await checkCsvHeader({
     filePath,
@@ -35,7 +42,8 @@ async function createOrganizationWithTags(filePath) {
   console.log('Reading and parsing csv data file... ');
   const options = { ...optionsWithHeader };
 
-  const organizations = await parseCsv(filePath, options);
+  const organizationsToClean = await parseCsv(filePath, options);
+  const organizations = cleanEmailPropertyFromOrganizations(organizationsToClean);
 
   console.log('Creating PRO organizations...');
   const createdOrganizations = await createProOrganizationsWithTags({
