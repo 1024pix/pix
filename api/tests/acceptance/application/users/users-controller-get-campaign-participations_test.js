@@ -115,6 +115,11 @@ describe('Acceptance | Controller | GET /user/id/campaign-participations', funct
                     related: `/api/assessments/${assessment2.id}`,
                   },
                 },
+                trainings: {
+                  links: {
+                    related: `/api/campaign-participations/${campaignParticipation2.id}/trainings`,
+                  },
+                },
               },
             },
             {
@@ -130,6 +135,11 @@ describe('Acceptance | Controller | GET /user/id/campaign-participations', funct
               relationships: {
                 campaign: {
                   data: { type: 'campaigns', id: `${campaign3.id}` },
+                },
+                trainings: {
+                  links: {
+                    related: `/api/campaign-participations/${campaignParticipation3.id}/trainings`,
+                  },
                 },
               },
             },
@@ -150,6 +160,11 @@ describe('Acceptance | Controller | GET /user/id/campaign-participations', funct
                 assessment: {
                   links: {
                     related: `/api/assessments/${assessment1.id}`,
+                  },
+                },
+                trainings: {
+                  links: {
+                    related: `/api/campaign-participations/${campaignParticipation1.id}/trainings`,
                   },
                 },
               },

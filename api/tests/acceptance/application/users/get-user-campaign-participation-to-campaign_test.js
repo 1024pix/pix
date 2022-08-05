@@ -52,6 +52,11 @@ describe('Acceptance | Route | GET /users/id/campaigns/id/campaign-participation
             campaign: {
               data: null,
             },
+            trainings: {
+              links: {
+                related: `/api/campaign-participations/${campaignParticipation.id}/trainings`,
+              },
+            },
           },
         },
       });
