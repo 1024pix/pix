@@ -17,15 +17,6 @@ describe('Acceptance | Campaigns | Start Campaigns with type Assessment', functi
   let campaign;
 
   beforeEach(function () {
-    this.server.schema.students.create({
-      firstName: 'JeanPrescrit',
-      lastName: 'Campagne',
-      username: '',
-      userId: null,
-      organizationId: null,
-      studentNumber: '123A',
-    });
-
     this.server.schema.users.create({
       mustValidateTermsOfService: true,
     });
