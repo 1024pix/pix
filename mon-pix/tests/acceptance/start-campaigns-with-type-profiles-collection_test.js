@@ -18,16 +18,6 @@ describe('Acceptance | Campaigns | Start Campaigns with type Profiles Collection
   setupIntl();
   let campaign;
 
-  beforeEach(function () {
-    this.server.schema.students.create({
-      firstName: 'JeanPrescrit',
-      lastName: 'Campagne',
-      username: '',
-      userId: null,
-      organizationId: null,
-    });
-  });
-
   describe('Start a campaign', function () {
     let campaignParticipant;
 

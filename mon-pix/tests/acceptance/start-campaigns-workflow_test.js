@@ -1,5 +1,3 @@
-/* eslint ember/no-classic-classes: 0 */
-
 import { beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
 
@@ -29,15 +27,6 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
   let campaign;
 
   beforeEach(function () {
-    this.server.schema.students.create({
-      firstName: 'JeanPrescrit',
-      lastName: 'Campagne',
-      username: '',
-      userId: null,
-      organizationId: null,
-      studentNumber: '123A',
-    });
-
     this.server.schema.users.create({
       mustValidateTermsOfService: true,
     });
