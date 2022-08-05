@@ -49,10 +49,12 @@ const schema = Joi.object({
   CPF_STORAGE_ENDPOINT: Joi.string().optional(),
   CPF_STORAGE_REGION: Joi.string().optional(),
   CPF_STORAGE_BUCKET_NAME: Joi.string().optional(),
+  CPF_STORAGE_PRE_SIGNED_EXPIRES_IN: Joi.number().optional(),
   CPF_PLANNER_JOB_CHUNK_SIZE: Joi.number().optional(),
   CPF_PLANNER_JOB_MONTHS_TO_PROCESS: Joi.number().optional(),
   CPF_PLANNER_JOB_MINIMUM_RELIABILITY_PERIOD: Joi.number().optional(),
   CPF_PLANNER_JOB_CRON: Joi.string().optional(),
+  CPF_SEND_EMAIL_JOB_RECIPIENT: Joi.string().optional(),
 }).options({ allowUnknown: true });
 
 const validateEnvironmentVariables = function () {
