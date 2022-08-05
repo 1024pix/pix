@@ -46,7 +46,7 @@ module('Unit | Adapters | student', function (hooks) {
           },
         },
       };
-      const url = `${ENV.APP.API_HOST}/api/organizations/${organizationId}/schooling-registration-user-associations/${studentId}`;
+      const url = `${ENV.APP.API_HOST}/api/organizations/${organizationId}/sup-organization-learners/${studentId}`;
 
       // when
       await adapter.updateRecord(null, { modelName: 'students' }, snapshot);

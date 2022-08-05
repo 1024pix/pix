@@ -253,7 +253,7 @@ export default function () {
 
   this.get('/organizations/:id/participants', findFilteredPaginatedOrganizationParticipants);
 
-  this.post('/organizations/:id/schooling-registrations/import-siecle', (schema, request) => {
+  this.post('/organizations/:id/sco-organization-learners/import-siecle', (schema, request) => {
     const type = request.requestBody.type;
 
     if (type === 'invalid-file') {
@@ -272,7 +272,7 @@ export default function () {
     }
   });
 
-  this.post('/organizations/:id/schooling-registrations/import-csv', async (schema, request) => {
+  this.post('/organizations/:id/sup-organization-learners/import-csv', async (schema, request) => {
     const type = request.requestBody.type;
 
     if (type === 'valid-file') {
@@ -295,7 +295,7 @@ export default function () {
     }
   });
 
-  this.patch('/organizations/:id/schooling-registration-user-associations/:studentId', (schema, request) => {
+  this.patch('/organizations/:id/sup-organization-learners/:studentId', (schema, request) => {
     const { studentId } = request.params;
     const {
       data: {
@@ -367,14 +367,14 @@ export default function () {
     return schema.campaignAnalyses.findBy({ ...request.params });
   });
 
-  this.post('/schooling-registration-dependent-users/password-update', (schema) => {
-    return schema.schoolingRegistrationDependentUsers.create({
+  this.post('/sco-organization-learners/password-update', (schema) => {
+    return schema.dependentUsers.create({
       generatedPassword: 'Passw0rd',
     });
   });
 
-  this.post('/schooling-registration-dependent-users/generate-username-password', (schema) => {
-    return schema.schoolingRegistrationDependentUsers.create({
+  this.post('/sco-organization-learners/username-password-generation', (schema) => {
+    return schema.dependentUsers.create({
       username: 'user.gar3112',
       generatedPassword: 'Passw0rd',
     });
@@ -445,13 +445,6 @@ export default function () {
         },
       },
     };
-  });
-
-  this.delete('/schooling-registration-user-associations/:id', (schema, request) => {
-    const studentId = request.params.id;
-
-    const student = schema.students.find(studentId);
-    return student.update({ email: null, username: null, isAuthenticatedFromGAR: false });
   });
 
   this.get('feature-toggles', (schema) => {
