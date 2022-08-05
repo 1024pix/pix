@@ -1,9 +1,6 @@
-const { sinon, expect, catchErr, hFake } = require('../../../test-helper');
+const { sinon, expect, hFake } = require('../../../test-helper');
 const tokenService = require('../../../../lib/domain/services/token-service');
 const usecases = require('../../../../lib/domain/usecases');
-const authenticationServiceRegistry = require('../../../../lib/domain/services/authentication/authentication-service-registry');
-
-const { UnauthorizedError } = require('../../../../lib/application/http-errors');
 
 const authenticationController = require('../../../../lib/application/authentication/authentication-controller');
 
@@ -62,86 +59,6 @@ describe('Unit | Application | Controller | Authentication', function () {
     });
   });
 
-  describe('#authenticateCnavUser', function () {
-    it('should call usecase with payload parameters', async function () {
-      // given
-      const request = {
-        payload: {
-          code: 'ABCD',
-          redirect_uri: 'http://redirectUri.fr',
-          state_sent: 'state',
-          state_received: 'state',
-        },
-      };
-      const pixAccessToken = 'pixAccessToken';
-      sinon.stub(usecases, 'authenticateOidcUser').resolves({ pixAccessToken, isAuthenticationComplete: true });
-      const oidcAuthenticationService = {};
-      sinon
-        .stub(authenticationServiceRegistry, 'lookupAuthenticationService')
-        .withArgs('CNAV')
-        .returns(oidcAuthenticationService);
-
-      // when
-      await authenticationController.authenticateCnavUser(request, hFake);
-
-      // then
-      expect(usecases.authenticateOidcUser).to.have.been.calledWith({
-        code: 'ABCD',
-        redirectUri: 'http://redirectUri.fr',
-        stateReceived: 'state',
-        stateSent: 'state',
-        oidcAuthenticationService,
-      });
-    });
-
-    describe('when user has a pix account', function () {
-      it('should return pix access token', async function () {
-        // given
-        const request = {
-          payload: {
-            code: 'ABCD',
-            redirect_uri: 'http://redirectUri.fr',
-            state_sent: 'state',
-            state_received: 'state',
-          },
-        };
-        const pixAccessToken = 'pixAccessToken';
-        sinon.stub(usecases, 'authenticateOidcUser').resolves({ pixAccessToken, isAuthenticationComplete: true });
-
-        // when
-        const response = await authenticationController.authenticateCnavUser(request, hFake);
-
-        // then
-        expect(response).to.deep.equal({ access_token: pixAccessToken });
-      });
-    });
-
-    describe('when user has no pix account', function () {
-      it('should return UnauthorizedError', async function () {
-        // given
-        const request = {
-          payload: {
-            code: 'ABCD',
-            redirect_uri: 'http://redirectUri.fr',
-            state_sent: 'state',
-            state_received: 'state',
-          },
-        };
-        const authenticationKey = 'aaa-bbb-ccc';
-        sinon.stub(usecases, 'authenticateOidcUser').resolves({ authenticationKey, isAuthenticationComplete: false });
-
-        // when
-        const error = await catchErr(authenticationController.authenticateCnavUser)(request, hFake);
-
-        // then
-        expect(error).to.be.an.instanceOf(UnauthorizedError);
-        expect(error.message).to.equal("L'utilisateur n'a pas de compte Pix");
-        expect(error.code).to.equal('SHOULD_VALIDATE_CGU');
-        expect(error.meta).to.deep.equal({ authenticationKey });
-      });
-    });
-  });
-
   describe('#authenticateExternalUser', function () {
     it('should return an access token', async function () {
       // given
@@ -183,94 +100,6 @@ describe('Unit | Application | Controller | Authentication', function () {
       // then
       expect(response.statusCode).to.equal(200);
       expect(response.source.data.attributes['access-token']).to.equal(accessToken);
-    });
-  });
-
-  describe('#authenticatePoleEmploiUser', function () {
-    const code = 'ABCD';
-    const redirect_uri = 'http://redirectUri.fr';
-    const state_sent = 'state';
-    const state_received = 'state';
-
-    const pixAccessToken = 'pixAccessToken';
-
-    let request;
-
-    beforeEach(function () {
-      request = {
-        payload: {
-          code,
-          redirect_uri,
-          state_sent,
-          state_received,
-        },
-      };
-
-      sinon.stub(usecases, 'authenticateOidcUser');
-    });
-
-    it('should call usecase with payload parameters', async function () {
-      // given
-      const oidcAuthenticationService = {};
-      sinon
-        .stub(authenticationServiceRegistry, 'lookupAuthenticationService')
-        .withArgs('POLE_EMPLOI')
-        .returns(oidcAuthenticationService);
-
-      usecases.authenticateOidcUser.resolves({
-        pixAccessToken,
-        logoutUrlUUID: '0208f50b-f612-46aa-89a0-7cdb5fb0d312',
-      });
-      const expectedParameters = {
-        authenticatedUserId: undefined,
-        code,
-        redirectUri: redirect_uri,
-        stateReceived: state_received,
-        stateSent: state_sent,
-        oidcAuthenticationService,
-      };
-
-      // when
-      await authenticationController.authenticatePoleEmploiUser(request, hFake);
-
-      // then
-      expect(usecases.authenticateOidcUser).to.have.been.calledWith(expectedParameters);
-    });
-
-    it('should return PIX access token and Pole emploi ID token', async function () {
-      // given
-      usecases.authenticateOidcUser.resolves({
-        pixAccessToken,
-        logoutUrlUUID: '0208f50b-f612-46aa-89a0-7cdb5fb0d312',
-      });
-      const expectedResult = {
-        access_token: pixAccessToken,
-        logout_url_uuid: '0208f50b-f612-46aa-89a0-7cdb5fb0d312',
-      };
-
-      // when
-      const response = await authenticationController.authenticatePoleEmploiUser(request, hFake);
-
-      // then
-      expect(response).to.deep.equal(expectedResult);
-    });
-
-    it('should return UnauthorizedError if pixAccessToken is not exist', async function () {
-      // given
-      const authenticationKey = 'aaa-bbb-ccc';
-      usecases.authenticateOidcUser.resolves({ authenticationKey });
-      const expectedErrorMessage = "L'utilisateur n'a pas de compte Pix";
-      const expectedResponseCode = 'SHOULD_VALIDATE_CGU';
-      const expectedMeta = { authenticationKey };
-
-      // when
-      const error = await catchErr(authenticationController.authenticatePoleEmploiUser)(request, hFake);
-
-      // then
-      expect(error).to.be.an.instanceOf(UnauthorizedError);
-      expect(error.message).to.equal(expectedErrorMessage);
-      expect(error.code).to.equal(expectedResponseCode);
-      expect(error.meta).to.deep.equal(expectedMeta);
     });
   });
 

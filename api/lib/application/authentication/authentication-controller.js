@@ -1,9 +1,6 @@
-const get = require('lodash/get');
-const { UnauthorizedError, BadRequestError } = require('../http-errors');
+const { BadRequestError } = require('../http-errors');
 const tokenService = require('../../domain/services/token-service');
 const usecases = require('../../domain/usecases');
-const authenticationRegistry = require('../../domain/services/authentication/authentication-service-registry');
-const AuthenticationMethod = require('../../domain/models/AuthenticationMethod');
 
 module.exports = {
   /**
@@ -44,30 +41,6 @@ module.exports = {
       .header('Pragma', 'no-cache');
   },
 
-  async authenticateCnavUser(request) {
-    const { code, redirect_uri: redirectUri, state_sent: stateSent, state_received: stateReceived } = request.payload;
-    const oidcAuthenticationService = authenticationRegistry.lookupAuthenticationService(
-      AuthenticationMethod.identityProviders.CNAV
-    );
-
-    const result = await usecases.authenticateOidcUser({
-      code,
-      redirectUri,
-      stateReceived,
-      stateSent,
-      oidcAuthenticationService,
-    });
-
-    if (result.isAuthenticationComplete) {
-      return { access_token: result.pixAccessToken };
-    } else {
-      const message = "L'utilisateur n'a pas de compte Pix";
-      const responseCode = 'SHOULD_VALIDATE_CGU';
-      const meta = { authenticationKey: result.authenticationKey };
-      throw new UnauthorizedError(message, responseCode, meta);
-    }
-  },
-
   async authenticateExternalUser(request, h) {
     const {
       username,
@@ -92,35 +65,6 @@ module.exports = {
       },
     };
     return h.response(response).code(200);
-  },
-
-  async authenticatePoleEmploiUser(request) {
-    const authenticatedUserId = get(request.auth, 'credentials.userId');
-    const { code, redirect_uri: redirectUri, state_sent: stateSent, state_received: stateReceived } = request.payload;
-    const oidcAuthenticationService = authenticationRegistry.lookupAuthenticationService(
-      AuthenticationMethod.identityProviders.POLE_EMPLOI
-    );
-
-    const result = await usecases.authenticateOidcUser({
-      authenticatedUserId,
-      code,
-      redirectUri,
-      stateReceived,
-      stateSent,
-      oidcAuthenticationService,
-    });
-
-    if (result.pixAccessToken && result.logoutUrlUUID) {
-      return {
-        access_token: result.pixAccessToken,
-        logout_url_uuid: result.logoutUrlUUID,
-      };
-    } else {
-      const message = "L'utilisateur n'a pas de compte Pix";
-      const responseCode = 'SHOULD_VALIDATE_CGU';
-      const meta = { authenticationKey: result.authenticationKey };
-      throw new UnauthorizedError(message, responseCode, meta);
-    }
   },
 
   async authenticateAnonymousUser(request, h) {
