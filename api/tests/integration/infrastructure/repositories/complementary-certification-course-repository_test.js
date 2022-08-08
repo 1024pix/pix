@@ -1,5 +1,6 @@
 const { expect, databaseBuilder } = require('../../../test-helper');
 const complementaryCertificationCourseRepository = require('../../../../lib/infrastructure/repositories/complementary-certification-course-repository');
+const { PIX_PLUS_DROIT, PIX_PLUS_EDU_1ER_DEGRE } = require('../../../../lib/domain/models/ComplementaryCertification');
 
 describe('Integration | Repository | complementary-certification-courses-repository', function () {
   describe('#getComplementaryCertificationCourseId', function () {
@@ -9,12 +10,12 @@ describe('Integration | Repository | complementary-certification-courses-reposit
         databaseBuilder.factory.buildComplementaryCertification({
           id: 1,
           label: 'Pix+ Edu 1er degré',
-          key: 'EDU_1ER_DEGRE',
+          key: PIX_PLUS_EDU_1ER_DEGRE,
         });
         databaseBuilder.factory.buildComplementaryCertification({
           id: 2,
           label: 'Pix+ Droit',
-          key: 'DROIT',
+          key: PIX_PLUS_DROIT,
         });
         databaseBuilder.factory.buildCertificationCourse({ id: 99 });
         databaseBuilder.factory.buildComplementaryCertificationCourse({
@@ -28,7 +29,7 @@ describe('Integration | Repository | complementary-certification-courses-reposit
         // when
         const hasPixPlusDroit = await complementaryCertificationCourseRepository.getComplementaryCertificationCourseId({
           certificationCourseId: 99,
-          complementaryCertificationKey: 'DROIT',
+          complementaryCertificationKey: PIX_PLUS_DROIT,
         });
 
         // then
@@ -42,12 +43,12 @@ describe('Integration | Repository | complementary-certification-courses-reposit
         databaseBuilder.factory.buildComplementaryCertification({
           id: 1,
           label: 'Pix+ Edu',
-          key: 'EDU_1ER_DEGRE',
+          key: PIX_PLUS_EDU_1ER_DEGRE,
         });
         databaseBuilder.factory.buildComplementaryCertification({
           id: 2,
           label: 'Pix+ Droit',
-          key: 'DROIT',
+          key: PIX_PLUS_DROIT,
         });
         databaseBuilder.factory.buildCertificationCourse({ id: 99 });
         databaseBuilder.factory.buildComplementaryCertificationCourse({
@@ -60,7 +61,7 @@ describe('Integration | Repository | complementary-certification-courses-reposit
         // when
         const hasPixPlusDroit = await complementaryCertificationCourseRepository.getComplementaryCertificationCourseId({
           certificationCourseId: 99,
-          complementaryCertificationKey: 'DROIT',
+          complementaryCertificationKey: PIX_PLUS_DROIT,
         });
 
         // then
@@ -74,7 +75,7 @@ describe('Integration | Repository | complementary-certification-courses-reposit
         databaseBuilder.factory.buildComplementaryCertification({
           id: 2,
           label: 'Pix+ Droit',
-          key: 'DROIT',
+          key: PIX_PLUS_DROIT,
         });
         databaseBuilder.factory.buildCertificationCourse({ id: 99 });
         databaseBuilder.factory.buildCertificationCourse({ id: 98 });
@@ -88,7 +89,7 @@ describe('Integration | Repository | complementary-certification-courses-reposit
         // when
         const hasPixPlusDroit = await complementaryCertificationCourseRepository.getComplementaryCertificationCourseId({
           certificationCourseId: 99,
-          complementaryCertificationKey: 'DROIT',
+          complementaryCertificationKey: PIX_PLUS_DROIT,
         });
 
         // then
