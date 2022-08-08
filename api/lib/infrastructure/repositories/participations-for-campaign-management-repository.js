@@ -37,9 +37,11 @@ module.exports = {
   },
 
   async updateParticipantExternalId({ campaignParticipationId, participantExternalId }) {
-    try {
-      await knex('campaign-participations').where('id', campaignParticipationId).update({ participantExternalId });
-    } catch (error) {
+    const updatedRows = await knex('campaign-participations')
+      .where('id', campaignParticipationId)
+      .update({ participantExternalId });
+
+    if (!updatedRows) {
       throw new NotFoundError(`La participation avec l'id ${campaignParticipationId} n'existe pas.`);
     }
   },

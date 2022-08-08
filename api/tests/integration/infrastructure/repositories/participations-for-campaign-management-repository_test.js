@@ -261,7 +261,7 @@ describe('Integration | Repository | Participations-For-Campaign-Management', fu
         const newParticipantExternalId = 'newExternal';
 
         const error = await catchErr(participationsForCampaignManagementRepository.updateParticipantExternalId)({
-          unexistingCampaignParticipationId,
+          campaignParticipationId: unexistingCampaignParticipationId,
           participantExternalId: newParticipantExternalId,
         });
 
