@@ -64,7 +64,7 @@ describe('Unit | Controller | pole-emploi-controller', function () {
       // given
       const request = { query: { 'authentication-key': 'abcde' } };
       const userId = 7;
-      sinon.stub(usecases, 'createUserFromExternalIdentityProvider').resolves({ userId, idToken: 1 });
+      sinon.stub(usecases, 'createOidcUser').resolves({ userId, idToken: 1 });
       sinon.stub(authenticationRegistry, 'lookupAuthenticationService').returns({
         createAccessToken: sinon.stub(),
         saveIdToken: sinon.stub(),
@@ -85,7 +85,7 @@ describe('Unit | Controller | pole-emploi-controller', function () {
       const idToken = 1;
       const accessToken = 'access.token';
       sinon
-        .stub(usecases, 'createUserFromExternalIdentityProvider')
+        .stub(usecases, 'createOidcUser')
         .withArgs({ authenticationKey: 'abcde', identityProvider: AuthenticationMethod.identityProviders.POLE_EMPLOI })
         .resolves({ userId, idToken });
       sinon.stub(userRepository, 'updateLastLoggedAt');

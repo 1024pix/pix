@@ -11,7 +11,7 @@ describe('Unit | Controller | cnav-controller', function () {
       // given
       const request = { query: { 'authentication-key': 'abcde' } };
       const userId = 7;
-      sinon.stub(usecases, 'createUserFromExternalIdentityProvider').resolves({ userId });
+      sinon.stub(usecases, 'createOidcUser').resolves({ userId });
       sinon.stub(authenticationRegistry, 'lookupAuthenticationService').returns({
         createAccessToken: sinon.stub(),
       });
@@ -30,7 +30,7 @@ describe('Unit | Controller | cnav-controller', function () {
       const userId = 7;
       const accessToken = 'access.token';
       sinon
-        .stub(usecases, 'createUserFromExternalIdentityProvider')
+        .stub(usecases, 'createOidcUser')
         .withArgs({ authenticationKey: 'abcde', identityProvider: AuthenticationMethod.identityProviders.CNAV })
         .resolves({ userId });
       sinon.stub(userRepository, 'updateLastLoggedAt');
