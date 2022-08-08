@@ -1,7 +1,7 @@
 const UserToCreate = require('../models/UserToCreate');
 const { AuthenticationKeyExpired, UserAlreadyExistsWithAuthenticationMethodError } = require('../errors');
 
-module.exports = async function createUserFromExternalIdentityProvider({
+module.exports = async function createOidcUser({
   identityProvider,
   authenticationKey,
   authenticationSessionService,

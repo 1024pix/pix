@@ -3,7 +3,7 @@ const {
   AuthenticationKeyExpired,
   UserAlreadyExistsWithAuthenticationMethodError,
 } = require('../../../../lib/domain/errors');
-const createUserFromExternalIdentityProvider = require('../../../../lib/domain/usecases/create-user-from-external-identity-provider');
+const createOidcUser = require('../../../../lib/domain/usecases/create-oidc-user');
 
 describe('Unit | UseCase | create-user-from-external-identity-provider', function () {
   let authenticationMethodRepository, userToCreateRepository;
@@ -44,7 +44,7 @@ describe('Unit | UseCase | create-user-from-external-identity-provider', functio
       authenticationSessionService.getByKey.withArgs(authenticationKey).resolves(null);
 
       // when
-      const error = await catchErr(createUserFromExternalIdentityProvider)({
+      const error = await catchErr(createOidcUser)({
         authenticationKey,
         authenticationMethodRepository,
         userToCreateRepository,
@@ -72,7 +72,7 @@ describe('Unit | UseCase | create-user-from-external-identity-provider', functio
         .resolves({ userId: 'FOUND_USER_ID' });
 
       // when
-      const error = await catchErr(createUserFromExternalIdentityProvider)({
+      const error = await catchErr(createOidcUser)({
         identityProvider: 'SOME_IDP',
         authenticationKey: 'AUTHENTICATION_KEY',
         authenticationServiceRegistry,
@@ -99,7 +99,7 @@ describe('Unit | UseCase | create-user-from-external-identity-provider', functio
       .resolves(null);
 
     // when
-    await createUserFromExternalIdentityProvider({
+    await createOidcUser({
       identityProvider: 'SOME_IDP',
       authenticationKey: 'AUTHENTICATION_KEY',
       authenticationServiceRegistry,

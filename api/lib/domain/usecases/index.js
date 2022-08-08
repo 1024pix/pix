@@ -220,7 +220,7 @@ module.exports = injectDependencies(
     createTargetProfile: require('./create-target-profile'),
     createUser: require('./create-user'),
     createUserAndReconcileToOrganizationLearnerFromExternalUser: require('./create-user-and-reconcile-to-organization-learner-from-external-user'),
-    createUserFromExternalIdentityProvider: require('./create-user-from-external-identity-provider'),
+    createOidcUser: require('./create-oidc-user'),
     deleteCampaignParticipation: require('./delete-campaign-participation'),
     deleteCampaignParticipationForAdmin: require('./delete-campaign-participation-for-admin'),
     deleteCertificationIssueReport: require('./delete-certification-issue-report'),
