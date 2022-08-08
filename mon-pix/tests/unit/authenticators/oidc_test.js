@@ -16,12 +16,26 @@ describe('Unit | Authenticator | oidc', function () {
     const userId = 1;
     const source = 'source';
     const logoutUrlUuid = 'uuid';
-    const identityProviderCode = 'OIDC';
-    const identityProviderSlug = 'oidc';
+    const identityProviderCode = 'CNAV';
+    const identityProviderSlug = 'cnav';
+    const code = 'code';
+    const redirectUri = 'redirectUri';
+    const state = 'state';
     const request = {
       method: 'POST',
       headers: {
         Accept: 'application/json',
+      },
+    };
+    const body = {
+      data: {
+        attributes: {
+          identity_provider: identityProviderCode,
+          code: code,
+          redirect_uri: redirectUri,
+          state_sent: undefined,
+          state_received: state,
+        },
       },
     };
     const accessToken =
@@ -29,7 +43,7 @@ describe('Unit | Authenticator | oidc', function () {
       btoa(`{
         "user_id": ${userId},
         "source": "${source}",
-        "identity_provider_code": "${identityProviderCode}",
+        "identity_provider": "${identityProviderCode}",
         "iat": 1545321469,
         "exp": 4702193958
       }`) +
@@ -70,18 +84,14 @@ describe('Unit | Authenticator | oidc', function () {
 
     it('should fetch token with code, redirectUri, and state in body', async function () {
       // given
-      const code = 'code';
-      const redirectUri = 'redirectUri';
-      const state = 'state';
       const authenticator = this.owner.lookup('authenticator:oidc');
 
       // when
       const token = await authenticator.authenticate({ code, redirectUri, state, identityProviderSlug });
 
       // then
-      request.headers['Content-Type'] = 'application/x-www-form-urlencoded';
-      request.body = `code=${code}&redirect_uri=${redirectUri}&state_sent=undefined&state_received=${state}`;
-      sinon.assert.calledWith(fetch.default, `http://localhost:3000/api/${identityProviderSlug}/token`, request);
+      request.body = body;
+      sinon.assert.calledWith(fetch.default, 'http://localhost:3000/api/oidc/token', request);
       expect(token).to.deep.equal({
         access_token: accessToken,
         logout_url_uuid: logoutUrlUuid,
@@ -93,10 +103,6 @@ describe('Unit | Authenticator | oidc', function () {
 
     it('should pass the access token in the header authorization when user is authenticated', async function () {
       // given
-      const code = 'code';
-      const redirectUri = 'redirectUri';
-      const state = 'state';
-
       const sessionStub = Service.create({
         isAuthenticated: true,
         invalidate: sinon.stub(),
@@ -116,10 +122,9 @@ describe('Unit | Authenticator | oidc', function () {
       const token = await authenticator.authenticate({ code, redirectUri, state, identityProviderSlug });
 
       // then
-      request.headers['Content-Type'] = 'application/x-www-form-urlencoded';
       request.headers['Authorization'] = `Bearer ${accessToken}`;
-      request.body = `code=${code}&redirect_uri=${redirectUri}&state_sent=undefined&state_received=${state}`;
-      sinon.assert.calledWith(fetch.default, `http://localhost:3000/api/${identityProviderSlug}/token`, request);
+      request.body = body;
+      sinon.assert.calledWith(fetch.default, `http://localhost:3000/api/oidc/token`, request);
       sinon.assert.calledOnce(sessionStub.invalidate);
       expect(token).to.deep.equal({
         access_token: accessToken,

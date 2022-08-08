@@ -71,7 +71,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow | Pôle Emploi', fun
             const state = 'state';
             const session = currentSession();
             session.set('data.state', state);
-            this.server.post('pole-emploi/token', () => {
+            this.server.post('oidc/token', () => {
               return new Response(
                 401,
                 {},
