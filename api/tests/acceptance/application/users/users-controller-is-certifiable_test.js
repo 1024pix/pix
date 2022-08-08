@@ -122,6 +122,7 @@ describe('Acceptance | users-controller-is-certifiable', function () {
 
     const cleaBadgeId = databaseBuilder.factory.buildBadge({
       key: PIX_EMPLOI_CLEA_V1,
+      isCertifiable: true,
       targetProfileId,
     }).id;
     const skillSetId = databaseBuilder.factory.buildSkillSet({
@@ -138,6 +139,15 @@ describe('Acceptance | users-controller-is-certifiable', function () {
     databaseBuilder.factory.buildBadgeAcquisition({
       userId: user.id,
       badgeId: cleaBadgeId,
+    });
+
+    const complementaryCertificationId = databaseBuilder.factory.buildComplementaryCertification({
+      name: 'Cléa Numérique',
+    }).id;
+
+    databaseBuilder.factory.buildComplementaryCertificationBadge({
+      badgeId: cleaBadgeId,
+      complementaryCertificationId,
     });
 
     options = {

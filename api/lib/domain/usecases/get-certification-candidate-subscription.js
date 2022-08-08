@@ -10,6 +10,15 @@ function _hasStillValidPixPlusDroit(badgeAcquisitions) {
   );
 }
 
+function _hasStillValidClea(badgeAcquisitions) {
+  return badgeAcquisitions.some(
+    (badgeAcquisition) =>
+      badgeAcquisition.badgeKey === Badge.keys.PIX_EMPLOI_CLEA_V1 ||
+      badgeAcquisition.badgeKey === Badge.keys.PIX_EMPLOI_CLEA_V2 ||
+      badgeAcquisition.badgeKey === Badge.keys.PIX_EMPLOI_CLEA_V3
+  );
+}
+
 function _hasStillValidPixPlusEdu1erDegre(badgeAcquisitions) {
   return badgeAcquisitions.some(
     (badgeAcquisition) =>
@@ -52,45 +61,39 @@ module.exports = async function getCertificationCandidateSubscription({
 
   const eligibleSubscriptions = [];
   const nonEligibleSubscriptions = [];
-  for (const complementaryCertification of certificationCandidate.complementaryCertifications) {
-    if (complementaryCertification.isPixPlusDroit()) {
-      const stillValidCertifiableBadgeAcquisitions = await certificationBadgesService.findStillValidBadgeAcquisitions({
-        userId: certificationCandidate.userId,
-      });
-      if (_hasStillValidPixPlusDroit(stillValidCertifiableBadgeAcquisitions)) {
-        eligibleSubscriptions.push(complementaryCertification);
-      } else {
-        nonEligibleSubscriptions.push(complementaryCertification);
+  if (certificationCandidate.complementaryCertifications.length) {
+    const stillValidCertifiableBadgeAcquisitions = await certificationBadgesService.findStillValidBadgeAcquisitions({
+      userId: certificationCandidate.userId,
+    });
+
+    for (const complementaryCertification of certificationCandidate.complementaryCertifications) {
+      if (complementaryCertification.isPixPlusDroit()) {
+        if (_hasStillValidPixPlusDroit(stillValidCertifiableBadgeAcquisitions)) {
+          eligibleSubscriptions.push(complementaryCertification);
+        } else {
+          nonEligibleSubscriptions.push(complementaryCertification);
+        }
       }
-    }
-    if (complementaryCertification.isClea()) {
-      const hasStillValidCleaBadge = await certificationBadgesService.hasStillValidCleaBadgeAcquisition({
-        userId: certificationCandidate.userId,
-      });
-      if (hasStillValidCleaBadge) {
-        eligibleSubscriptions.push(complementaryCertification);
-      } else {
-        nonEligibleSubscriptions.push(complementaryCertification);
+      if (complementaryCertification.isClea()) {
+        if (_hasStillValidClea(stillValidCertifiableBadgeAcquisitions)) {
+          eligibleSubscriptions.push(complementaryCertification);
+        } else {
+          nonEligibleSubscriptions.push(complementaryCertification);
+        }
       }
-    }
-    if (complementaryCertification.isPixPlusEdu1erDegre()) {
-      const stillValidCertifiableBadgeAcquisitions = await certificationBadgesService.findStillValidBadgeAcquisitions({
-        userId: certificationCandidate.userId,
-      });
-      if (_hasStillValidPixPlusEdu1erDegre(stillValidCertifiableBadgeAcquisitions)) {
-        eligibleSubscriptions.push(complementaryCertification);
-      } else {
-        nonEligibleSubscriptions.push(complementaryCertification);
+      if (complementaryCertification.isPixPlusEdu1erDegre()) {
+        if (_hasStillValidPixPlusEdu1erDegre(stillValidCertifiableBadgeAcquisitions)) {
+          eligibleSubscriptions.push(complementaryCertification);
+        } else {
+          nonEligibleSubscriptions.push(complementaryCertification);
+        }
       }
-    }
-    if (complementaryCertification.isPixPlusEdu2ndDegre()) {
-      const stillValidCertifiableBadgeAcquisitions = await certificationBadgesService.findStillValidBadgeAcquisitions({
-        userId: certificationCandidate.userId,
-      });
-      if (_hasStillValidPixPlusEdu2ndDegre(stillValidCertifiableBadgeAcquisitions)) {
-        eligibleSubscriptions.push(complementaryCertification);
-      } else {
-        nonEligibleSubscriptions.push(complementaryCertification);
+      if (complementaryCertification.isPixPlusEdu2ndDegre()) {
+        if (_hasStillValidPixPlusEdu2ndDegre(stillValidCertifiableBadgeAcquisitions)) {
+          eligibleSubscriptions.push(complementaryCertification);
+        } else {
+          nonEligibleSubscriptions.push(complementaryCertification);
+        }
       }
     }
   }

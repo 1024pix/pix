@@ -13,6 +13,8 @@ const {
   PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_CONFIRME,
   PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE,
   PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT,
+  PIX_EMPLOI_CLEA_V2,
+  PIX_EMPLOI_CLEA_V3,
 } = require('../../../../lib/domain/models/Badge').keys;
 
 describe('Unit | UseCase | get-user-certification-eligibility', function () {
@@ -24,14 +26,12 @@ describe('Unit | UseCase | get-user-certification-eligibility', function () {
   };
   const certificationBadgesService = {
     findStillValidBadgeAcquisitions: () => undefined,
-    hasStillValidCleaBadgeAcquisition: () => undefined,
   };
 
   beforeEach(function () {
     clock = sinon.useFakeTimers(now);
     placementProfileService.getPlacementProfile = sinon.stub();
     certificationBadgesService.findStillValidBadgeAcquisitions = sinon.stub();
-    certificationBadgesService.hasStillValidCleaBadgeAcquisition = sinon.stub();
   });
 
   afterEach(function () {
@@ -45,7 +45,6 @@ describe('Unit | UseCase | get-user-certification-eligibility', function () {
         isCertifiable: () => false,
       };
       placementProfileService.getPlacementProfile.withArgs({ userId: 2, limitDate: now }).resolves(placementProfile);
-      certificationBadgesService.hasStillValidCleaBadgeAcquisition.throws(new Error('I should not be called'));
       certificationBadgesService.findStillValidBadgeAcquisitions.throws(new Error('I should not be called'));
 
       // when
@@ -61,28 +60,6 @@ describe('Unit | UseCase | get-user-certification-eligibility', function () {
         pixCertificationEligible: false,
       });
       expect(certificationEligibility).to.deep.equal(expectedCertificationEligibility);
-    });
-  });
-
-  context('when clea badge is acquired and still valid', function () {
-    it('should return the user certification eligibility with eligible clea', async function () {
-      // given
-      const placementProfile = {
-        isCertifiable: () => true,
-      };
-      placementProfileService.getPlacementProfile.withArgs({ userId: 2, limitDate: now }).resolves(placementProfile);
-      certificationBadgesService.hasStillValidCleaBadgeAcquisition.resolves(true);
-      certificationBadgesService.findStillValidBadgeAcquisitions.resolves([]);
-
-      // when
-      const certificationEligibility = await getUserCertificationEligibility({
-        userId: 2,
-        placementProfileService,
-        certificationBadgesService,
-      });
-
-      // then
-      expect(certificationEligibility.eligibleComplementaryCertifications).contains('CléA Numérique');
     });
   });
 
@@ -130,6 +107,14 @@ describe('Unit | UseCase | get-user-certification-eligibility', function () {
       badgeKey: PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT,
       expectedCertifiableBadgeLabel: 'Pix+ Édu 1er degré Expert',
     },
+    {
+      badgeKey: PIX_EMPLOI_CLEA_V2,
+      expectedCertifiableBadgeLabel: 'CléA Numérique',
+    },
+    {
+      badgeKey: PIX_EMPLOI_CLEA_V3,
+      expectedCertifiableBadgeLabel: 'CléA Numérique',
+    },
   ].forEach(({ badgeKey, expectedCertifiableBadgeLabel }) => {
     context(`when ${badgeKey} badge is not acquired`, function () {
       it(`should return the user certification eligibility with not eligible ${badgeKey}`, async function () {
@@ -138,7 +123,6 @@ describe('Unit | UseCase | get-user-certification-eligibility', function () {
           isCertifiable: () => true,
         };
         placementProfileService.getPlacementProfile.withArgs({ userId: 2, limitDate: now }).resolves(placementProfile);
-        certificationBadgesService.hasStillValidCleaBadgeAcquisition.resolves(false);
         certificationBadgesService.findStillValidBadgeAcquisitions.resolves([]);
 
         // when
@@ -160,7 +144,6 @@ describe('Unit | UseCase | get-user-certification-eligibility', function () {
           isCertifiable: () => true,
         };
         placementProfileService.getPlacementProfile.withArgs({ userId: 2, limitDate: now }).resolves(placementProfile);
-        certificationBadgesService.hasStillValidCleaBadgeAcquisition.resolves(false);
         const badgeAcquisition = domainBuilder.buildBadgeAcquisition({
           badge: domainBuilder.buildBadge({
             key: badgeKey,
