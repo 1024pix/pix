@@ -19,6 +19,13 @@ module.exports = {
     return h.response({ redirectLogoutUrl }).code(200);
   },
 
+  async getAuthenticationUrl(request, h) {
+    const { identity_provider: identityProvider } = request.query;
+    const oidcAuthenticationService = authenticationRegistry.lookupAuthenticationService(identityProvider);
+    const result = oidcAuthenticationService.getAuthenticationUrl({ redirectUri: request.query['redirect_uri'] });
+    return h.response(result).code(200);
+  },
+
   async authenticateUser(request) {
     const { code, identityProvider, redirectUri, stateSent, stateReceived } = request.deserializedPayload;
     let authenticatedUserId;

@@ -41,6 +41,30 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
     });
   });
 
+  describe('#getAuthenticationUrl', function () {
+    it('should call oidc authentication service to generate url', async function () {
+      // given
+      const request = { query: { identity_provider: identityProvider, redirect_uri: 'http:/exemple.net/' } };
+      const getAuthenticationUrlStub = sinon.stub();
+      const oidcAuthenticationService = {
+        getAuthenticationUrl: getAuthenticationUrlStub,
+      };
+      sinon
+        .stub(authenticationServiceRegistry, 'lookupAuthenticationService')
+        .withArgs(identityProvider)
+        .returns(oidcAuthenticationService);
+      getAuthenticationUrlStub.returns('an authentication url');
+
+      // when
+      await oidcController.getAuthenticationUrl(request, hFake);
+
+      //then
+      expect(oidcAuthenticationService.getAuthenticationUrl).to.have.been.calledWith({
+        redirectUri: 'http:/exemple.net/',
+      });
+    });
+  });
+
   describe('#authenticateUser', function () {
     const code = 'ABCD';
     const redirectUri = 'http://redirectUri.fr';
