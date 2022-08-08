@@ -8,9 +8,9 @@ module.exports = {
     return temporaryStorage.get(key);
   },
 
-  save(sessionContent) {
+  save(authenticationContent) {
     return temporaryStorage.save({
-      value: sessionContent,
+      value: authenticationContent,
       expirationDelaySeconds: EXPIRATION_DELAY_SECONDS,
     });
   },

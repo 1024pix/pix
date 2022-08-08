@@ -6,13 +6,19 @@ describe('Unit | Domain | Services | authentication session', function () {
     it('should retrieve the sessionContentTokens if it exists', async function () {
       // given
       const idToken = 'idToken';
-      const key = await authenticationSessionService.save({ idToken });
+      const key = await authenticationSessionService.save({
+        sessionContent: { idToken },
+        userInfo: { firstName: 'Eva', lastName: 'Porée' },
+      });
 
       // when
       const result = await authenticationSessionService.getByKey(key);
 
       // then
-      expect(result).to.deep.equal({ idToken });
+      expect(result).to.deep.equal({
+        sessionContent: { idToken },
+        userInfo: { firstName: 'Eva', lastName: 'Porée' },
+      });
     });
 
     it('should return undefined if key not exists', async function () {
@@ -30,10 +36,10 @@ describe('Unit | Domain | Services | authentication session', function () {
   describe('#save', function () {
     it('should save sessionContentTokens and return a key', async function () {
       // given
-      const cnavIdToken = 'idToken';
+      const idToken = 'idToken';
 
       // when
-      const key = await authenticationSessionService.save({ cnavIdToken });
+      const key = await authenticationSessionService.save({ sessionContent: { idToken } });
 
       // then
       expect(key).to.exist;
