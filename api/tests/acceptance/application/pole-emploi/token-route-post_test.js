@@ -224,12 +224,20 @@ describe('Acceptance | Route | pole emploi token', function () {
 
           nock(settings.poleEmploi.tokenUrl).post('/').reply(200, getAccessTokenResponse);
 
-          const poleEmploiAuthenticationSessionContent = new AuthenticationSessionContent({
-            accessToken: 'access_token',
-            idToken: idToken,
-            expiresIn: 60,
-            refreshToken: 'refresh_token',
-          });
+          const poleEmploiAuthenticationSessionContent = {
+            sessionContent: new AuthenticationSessionContent({
+              accessToken: 'access_token',
+              idToken: idToken,
+              expiresIn: 60,
+              refreshToken: 'refresh_token',
+            }),
+            userInfo: {
+              externalIdentityId: 'sub',
+              firstName: 'John',
+              lastName: 'Doe',
+              nonce: 'nonce',
+            },
+          };
 
           // when
           const response = await server.inject({

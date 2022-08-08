@@ -28,7 +28,15 @@ describe('Acceptance | Route | cnav users', function () {
         },
         'secret'
       );
-      const userAuthenticationKey = await authenticationSessionService.save({ idToken });
+      const userAuthenticationKey = await authenticationSessionService.save({
+        sessionContent: { idToken },
+        userInfo: {
+          firstName: 'Brice',
+          lastName: 'Glace',
+          nonce: 'nonce',
+          externalIdentityId: 'some-user-unique-id',
+        },
+      });
 
       const request = {
         method: 'POST',

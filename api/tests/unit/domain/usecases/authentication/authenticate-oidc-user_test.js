@@ -86,7 +86,7 @@ describe('Unit | UseCase | authenticate-oidc-user', function () {
 
   it('should retrieve user info', async function () {
     // given
-    const sessionContent = _fakeOidcAPI({ oidcAuthenticationService, externalIdentityId });
+    const { sessionContent } = _fakeOidcAPI({ oidcAuthenticationService, externalIdentityId });
 
     // when
     await authenticateOidcUser({
@@ -200,7 +200,7 @@ describe('Unit | UseCase | authenticate-oidc-user', function () {
     context('When the user does not have an oidc authentication method', function () {
       it('should add oidc authentication method to user', async function () {
         // given
-        const sessionContent = _fakeOidcAPI({ oidcAuthenticationService, externalIdentityId });
+        const { sessionContent } = _fakeOidcAPI({ oidcAuthenticationService, externalIdentityId });
         const authenticationComplement = new AuthenticationMethod.OidcAuthenticationComplement({
           accessToken: sessionContent.accessToken,
           refreshToken: sessionContent.refreshToken,
@@ -235,7 +235,7 @@ describe('Unit | UseCase | authenticate-oidc-user', function () {
     context('When the user does have an oidc authentication method', function () {
       it('should throw an UnexpectedUserAccountError error if the external identifier does not match the one in the pole emploi id token', async function () {
         // given
-        const sessionContent = _fakeOidcAPI({ oidcAuthenticationService, externalIdentityId });
+        const { sessionContent } = _fakeOidcAPI({ oidcAuthenticationService, externalIdentityId });
         const authenticationComplement = new AuthenticationMethod.OidcAuthenticationComplement({
           accessToken: sessionContent.accessToken,
           refreshToken: sessionContent.refreshToken,
@@ -265,7 +265,7 @@ describe('Unit | UseCase | authenticate-oidc-user', function () {
 
       it('should update authentication method', async function () {
         // given
-        const sessionContent = _fakeOidcAPI({ oidcAuthenticationService, externalIdentityId });
+        const { sessionContent } = _fakeOidcAPI({ oidcAuthenticationService, externalIdentityId });
         const authenticationComplement = new AuthenticationMethod.OidcAuthenticationComplement({
           accessToken: sessionContent.accessToken,
           refreshToken: sessionContent.refreshToken,
@@ -302,7 +302,7 @@ describe('Unit | UseCase | authenticate-oidc-user', function () {
 
     it('should return an access token, the logout url uuid and update the last logged date with the existing external user id', async function () {
       // given
-      const sessionContent = _fakeOidcAPI({ oidcAuthenticationService, externalIdentityId });
+      const { sessionContent } = _fakeOidcAPI({ oidcAuthenticationService, externalIdentityId });
       userRepository.findByExternalIdentifier
         .withArgs({ externalIdentityId, identityProvider: oidcAuthenticationService.identityProvider })
         .resolves({ id: 10 });
@@ -336,7 +336,7 @@ describe('Unit | UseCase | authenticate-oidc-user', function () {
   context('When user is logged with their pix account but also has a separate oidc account', function () {
     it('should update the oidc authentication method', async function () {
       // given
-      const sessionContent = _fakeOidcAPI({ oidcAuthenticationService, externalIdentityId });
+      const { sessionContent } = _fakeOidcAPI({ oidcAuthenticationService, externalIdentityId });
       userRepository.findByExternalIdentifier
         .withArgs({ externalIdentityId, identityProvider: oidcAuthenticationService.identityProvider })
         .resolves({ id: 10 });
@@ -397,5 +397,5 @@ function _fakeOidcAPI({ oidcAuthenticationService, externalIdentityId }) {
     .withArgs({ idToken: sessionContent.idToken, accessToken: sessionContent.accessToken })
     .resolves(userInfo);
 
-  return sessionContent;
+  return { userInfo, sessionContent };
 }

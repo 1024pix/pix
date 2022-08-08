@@ -9,15 +9,12 @@ module.exports = async function createUserFromExternalIdentityProvider({
   authenticationMethodRepository,
   userToCreateRepository,
 }) {
-  const sessionContent = await authenticationSessionService.getByKey(authenticationKey);
-  if (!sessionContent) {
+  const sessionContentAndUserInfo = await authenticationSessionService.getByKey(authenticationKey);
+  if (!sessionContentAndUserInfo) {
     throw new AuthenticationKeyExpired();
   }
+  const { userInfo, sessionContent } = sessionContentAndUserInfo;
   const oidcAuthenticationService = await authenticationServiceRegistry.lookupAuthenticationService(identityProvider);
-  const userInfo = await oidcAuthenticationService.getUserInfo({
-    idToken: sessionContent.idToken,
-    accessToken: sessionContent.accessToken,
-  });
 
   const authenticationMethod = await authenticationMethodRepository.findOneByExternalIdentifierAndIdentityProvider({
     externalIdentifier: userInfo.externalIdentityId,

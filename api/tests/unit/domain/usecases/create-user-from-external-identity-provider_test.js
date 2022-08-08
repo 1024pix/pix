@@ -60,15 +60,13 @@ describe('Unit | UseCase | create-user-from-external-identity-provider', functio
   context('when there is already an authentication method for this external id', function () {
     it('should throw UserAlreadyExistsWithAuthenticationMethodError', async function () {
       // given
-      authenticationSessionService.getByKey
-        .withArgs('AUTHENTICATION_KEY')
-        .resolves({ idToken: 'idToken', accessToken: 'accessToken' });
+      authenticationSessionService.getByKey.withArgs('AUTHENTICATION_KEY').resolves({
+        sessionContent: { idToken: 'idToken', accessToken: 'accessToken' },
+        userInfo: { firstName: 'Jean', lastName: 'Heymar', externalIdentityId: 'duGAR' },
+      });
       authenticationServiceRegistry.lookupAuthenticationService
         .withArgs('SOME_IDP')
         .resolves(oidcAuthenticationService);
-      oidcAuthenticationService.getUserInfo
-        .withArgs({ idToken: 'idToken', accessToken: 'accessToken' })
-        .resolves({ firstName: 'Jean', lastName: 'Heymar', externalIdentityId: 'duGAR' });
       authenticationMethodRepository.findOneByExternalIdentifierAndIdentityProvider
         .withArgs({ externalIdentifier: 'duGAR', identityProvider: 'SOME_IDP' })
         .resolves({ userId: 'FOUND_USER_ID' });
@@ -91,13 +89,11 @@ describe('Unit | UseCase | create-user-from-external-identity-provider', functio
 
   it('should call createUserAccount method to return user id and id token', async function () {
     // given
-    authenticationSessionService.getByKey
-      .withArgs('AUTHENTICATION_KEY')
-      .resolves({ idToken: 'idToken', accessToken: 'accessToken' });
+    authenticationSessionService.getByKey.withArgs('AUTHENTICATION_KEY').resolves({
+      sessionContent: { idToken: 'idToken', accessToken: 'accessToken' },
+      userInfo: { firstName: 'Jean', lastName: 'Heymar', externalIdentityId: 'duGAR' },
+    });
     authenticationServiceRegistry.lookupAuthenticationService.withArgs('SOME_IDP').resolves(oidcAuthenticationService);
-    oidcAuthenticationService.getUserInfo
-      .withArgs({ idToken: 'idToken', accessToken: 'accessToken' })
-      .resolves({ firstName: 'Jean', lastName: 'Heymar', externalIdentityId: 'duGAR' });
     authenticationMethodRepository.findOneByExternalIdentifierAndIdentityProvider
       .withArgs({ externalIdentifier: 'duGAR', identityProvider: 'SOME_IDP' })
       .resolves(null);
