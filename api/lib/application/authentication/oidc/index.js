@@ -25,6 +25,25 @@ exports.register = async (server) => {
       },
     },
     {
+      method: 'GET',
+      path: '/api/oidc/authentication-url',
+      config: {
+        auth: false,
+        validate: {
+          query: Joi.object({
+            identity_provider: Joi.string().required(),
+            redirect_uri: Joi.string().required(),
+          }),
+        },
+        handler: oidcController.getAuthenticationUrl,
+        notes: [
+          "- Cette route permet de récupérer l'url d'authentification du partenaire.\n" +
+            '- Elle retournera également les valeurs state et nonce.',
+        ],
+        tags: ['api', 'oidc', 'authentication'],
+      },
+    },
+    {
       method: 'POST',
       path: '/api/oidc/token',
       config: {
