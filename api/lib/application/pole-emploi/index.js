@@ -6,15 +6,6 @@ const poleEmploiEnvoisDoc = require('../../infrastructure/open-api-doc/pole-empl
 exports.register = async function (server) {
   server.route([
     {
-      method: 'POST',
-      path: '/api/pole-emploi/users',
-      config: {
-        auth: false,
-        handler: poleEmploiController.createUser,
-        tags: ['api'],
-      },
-    },
-    {
       method: 'GET',
       path: '/api/pole-emploi/envois',
       config: {
