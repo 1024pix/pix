@@ -9,8 +9,6 @@ import IdentityProviders from 'mon-pix/identity-providers';
 import ENV from 'mon-pix/config/environment';
 import fetch from 'fetch';
 
-const { host, afterLogoutUri, endSessionEndpoint } = ENV.poleEmploi;
-
 export default class OidcAuthenticator extends BaseAuthenticator {
   @service session;
   @service location;
@@ -72,50 +70,22 @@ export default class OidcAuthenticator extends BaseAuthenticator {
     });
   }
 
-  /**
-   * @deprecated
-   * @param idToken
-   * @returns {string}
-   * @private
-   */
-  _generateRedirectLogoutUrl(idToken) {
-    if (!endSessionEndpoint) {
-      return;
-    }
-
-    const params = [];
-
-    if (afterLogoutUri) {
-      params.push(`redirect_uri=${afterLogoutUri}`);
-    }
-
-    if (idToken) {
-      params.push(`id_token_hint=${idToken}`);
-    }
-
-    return `${host}${endSessionEndpoint}?${params.join('&')}`;
-  }
-
   async invalidate(data) {
     if (data?.identity_provider_code !== 'POLE_EMPLOI') return;
 
     let url = '';
-    const { access_token, id_token, logout_url_uuid } = this.session.data.authenticated;
+    const { access_token, logout_url_uuid } = this.session.data.authenticated;
 
-    if (id_token) {
-      url = this._generateRedirectLogoutUrl(id_token);
-    } else {
-      const response = await fetch(
-        `${ENV.APP.API_HOST}/api/oidc/redirect-logout-url?identity_provider=POLE_EMPLOI&logout_url_uuid=${logout_url_uuid}`,
-        {
-          headers: {
-            Authorization: `Bearer ${access_token}`,
-          },
-        }
-      );
-      const { redirectLogoutUrl } = await response.json();
-      url = redirectLogoutUrl;
-    }
+    const response = await fetch(
+      `${ENV.APP.API_HOST}/api/oidc/redirect-logout-url?identity_provider=POLE_EMPLOI&logout_url_uuid=${logout_url_uuid}`,
+      {
+        headers: {
+          Authorization: `Bearer ${access_token}`,
+        },
+      }
+    );
+    const { redirectLogoutUrl } = await response.json();
+    url = redirectLogoutUrl;
 
     this.location.replace(url);
   }

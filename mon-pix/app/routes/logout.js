@@ -3,7 +3,6 @@ import Route from '@ember/routing/route';
 import ENV from 'mon-pix/config/environment';
 
 const AUTHENTICATED_SOURCE_FROM_MEDIACENTRE = ENV.APP.AUTHENTICATED_SOURCE_FROM_MEDIACENTRE;
-const AUTHENTICATED_SOURCE_FROM_POLE_EMPLOI = ENV.APP.AUTHENTICATED_SOURCE_FROM_POLE_EMPLOI;
 
 export default class LogoutRoute extends Route {
   @service session;
@@ -25,7 +24,7 @@ export default class LogoutRoute extends Route {
   afterModel() {
     if (this.source === AUTHENTICATED_SOURCE_FROM_MEDIACENTRE) {
       return this._redirectToDisconnectedPage();
-    } else if (this.source !== AUTHENTICATED_SOURCE_FROM_POLE_EMPLOI) {
+    } else if (this.source !== 'pole_emploi_connect') {
       return this._redirectToHome();
     }
   }
