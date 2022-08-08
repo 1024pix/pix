@@ -278,6 +278,7 @@ module.exports = injectDependencies(
     findTargetProfileStages: require('./find-target-profile-stages'),
     findTutorials: require('./find-tutorials'),
     findUserCampaignParticipationOverviews: require('./find-user-campaign-participation-overviews'),
+    findUserForOidcReconciliation: require('./find-user-for-oidc-reconciliation'),
     findUserPrivateCertificates: require('./find-user-private-certificates'),
     flagSessionResultsAsSentToPrescriber: require('./flag-session-results-as-sent-to-prescriber'),
     generateUsername: require('./generate-username'),
