@@ -64,11 +64,15 @@ describe('Unit | Authenticator | oidc', function () {
       const token = await authenticator.authenticate({ identityProviderSlug, authenticationKey: 'key' });
 
       // then
-      sinon.assert.calledWith(
-        fetch.default,
-        `http://localhost:3000/api/${identityProviderSlug}/users?authentication-key=key`,
-        request
-      );
+      request.body = {
+        data: {
+          attributes: {
+            identity_provider: identityProviderCode,
+            authentication_key: 'key',
+          },
+        },
+      };
+      sinon.assert.calledWith(fetch.default, `http://localhost:3000/api/oidc/users`, request);
       expect(token).to.deep.equal({
         access_token: accessToken,
         logout_url_uuid: logoutUrlUuid,
