@@ -18,23 +18,28 @@ export default class OidcAuthenticator extends BaseAuthenticator {
       method: 'POST',
       headers: {
         Accept: 'application/json',
+        'Content-Type': 'application/json',
       },
     };
-    let serverTokenEndpoint;
+    const host = `${ENV.APP.API_HOST}/api/oidc/`;
+    let hostSlug, body;
+    const identity_provider = IdentityProviders[identityProviderSlug]?.code;
 
     if (authenticationKey) {
-      serverTokenEndpoint = `${ENV.APP.API_HOST}/api/${identityProviderSlug}/users?authentication-key=${authenticationKey}`;
+      hostSlug = 'users';
+      body = {
+        identity_provider,
+        authentication_key: authenticationKey,
+      };
     } else {
-      serverTokenEndpoint = `${ENV.APP.API_HOST}/api/oidc/token`;
-      const body = {
-        identity_provider: IdentityProviders[identityProviderSlug]?.code,
+      hostSlug = 'token';
+      body = {
+        identity_provider,
         code,
         redirect_uri: redirectUri,
         state_sent: this.session.data.state,
         state_received: state,
       };
-
-      request.body = { data: { attributes: body } };
 
       if (this.session.isAuthenticated) {
         const accessToken = this.session.get('data.authenticated.access_token');
@@ -43,7 +48,8 @@ export default class OidcAuthenticator extends BaseAuthenticator {
       }
     }
 
-    const response = await fetch(serverTokenEndpoint, request);
+    request.body = JSON.stringify({ data: { attributes: body } });
+    const response = await fetch(host + hostSlug, request);
 
     const data = await response.json();
     if (!response.ok) {

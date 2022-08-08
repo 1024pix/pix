@@ -30,7 +30,7 @@ describe('Acceptance | OIDC | authentication flow', function () {
         screen.getByLabelText("J'accepte les conditions d'utilisation et la politique de confidentialité de Pix")
       );
       await click(screen.getByRole('button', { name: 'Je continue' }));
-      await click(screen.getByRole('button', { name: 'Paul Consulter mes informations' }));
+      await click(screen.getByRole('button', { name: 'Lloyd Consulter mes informations' }));
       await click(screen.getByRole('link', { name: 'Se déconnecter' }));
 
       // then

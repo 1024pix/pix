@@ -25,7 +25,6 @@ import loadUserRoutes from './routes/users/index';
 import putSaveTutorial from './routes/put-save-tutorial';
 import deleteUserTutorial from './routes/delete-user-tutorial';
 import putTutorialEvaluation from './routes/put-tutorial-evaluation';
-import postPoleEmploiUser from './routes/post-pole-emploi-user';
 import postSharedCertifications from './routes/post-shared-certifications';
 import loadUserTutorialsRoutes from './routes/get-user-tutorials';
 import loadSavedTutorialsRoutes from './routes/get-saved-tutorials';
@@ -77,8 +76,6 @@ export default function () {
   this.del('/users/tutorials/:tutorialId', deleteUserTutorial);
   this.put('/users/tutorials/:tutorialId/evaluate', putTutorialEvaluation);
 
-  this.post('/pole-emploi/users', postPoleEmploiUser);
-
   this.get('/feature-toggles', getFeatureToggles);
 
   this.post('/shared-certifications', postSharedCertifications);
@@ -93,6 +90,23 @@ export default function () {
       redirectTarget: `https://oidc/connexion/oauth2/authorize?redirect_uri=${redirectUri}`,
       state: 'a8a3344f-6d7c-469d-9f84-bdd791e04fdf',
       nonce: '555c86fe-ed0a-4a80-80f3-45b1f7c2df8c',
+    };
+  });
+
+  this.post('/oidc/users', (schema) => {
+    const createdUser = schema.users.create({
+      firstName: 'Lloyd',
+      lastName: 'Cé',
+    });
+
+    return {
+      access_token:
+        'aaa.' +
+        btoa(
+          `{"user_id":${createdUser.id},"source":"pole_emploi_connect","identity_provider":"POLE_EMPLOI","iat":1545321469,"exp":4702193958}`
+        ) +
+        '.bbb',
+      user_id: createdUser.id,
     };
   });
 
