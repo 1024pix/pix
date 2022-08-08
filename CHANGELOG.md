@@ -1,5 +1,35 @@
 # Pix Changelog
 
+## v3.241.0 (08/08/2022)
+
+
+### :rocket: Amélioration
+- [#4739](https://github.com/1024pix/pix/pull/4739) [FEATURE] Ajouter la colonne "imageUrl" à la table "complementary-certification-badges" (PIX-5208)
+- [#4743](https://github.com/1024pix/pix/pull/4743) [FEATURE] Utiliser le composant PixCheckbox dans Pix App (PIX-5460).
+- [#4748](https://github.com/1024pix/pix/pull/4748) [FEATURE] Rapporter les formations dans Pix App (PIX-5465).
+- [#4744](https://github.com/1024pix/pix/pull/4744) [FEATURE] Ramener les formations liées à une campagne participation (PIX-5458).
+- [#4708](https://github.com/1024pix/pix/pull/4708) [FEATURE] Migrer l'identifiant de la table answers en Bigint pour les environnements hors production et datawarehouse.
+- [#4703](https://github.com/1024pix/pix/pull/4703) [FEATURE] Affiche un message d'erreur aux utilisateurs lorsque le rate limit est déclenché
+- [#4742](https://github.com/1024pix/pix/pull/4742) [FEATURE] Ne pas prendre en compte l'adresse e-mail lors de l'exécution du script OGA (PIX-5434).
+- [#4705](https://github.com/1024pix/pix/pull/4705) [FEATURE] Affiche le nombre de places actives d'une organisation (PIX-55343)
+- [#4730](https://github.com/1024pix/pix/pull/4730) [FEATURE] Afficher la nouvelle double mire lors d'une connexion via un partenaire oidc (PIX-4988).
+- [#4734](https://github.com/1024pix/pix/pull/4734) [FEATURE] Permettre à un administrateur d'annuler une invitation à rejoindre une organisation (PIX-4692)
+
+### :building_construction: Tech
+- [#4726](https://github.com/1024pix/pix/pull/4726) [TECH] Ajouter les colonnes label et key aux certifications complémentaires (PIX-5329)
+- [#4729](https://github.com/1024pix/pix/pull/4729) [TECH] Division de la route /organizations/id/students en /organizations/id/sco-participants et /organizations/id/sup-participants (PIX-5439).
+- [#4751](https://github.com/1024pix/pix/pull/4751) [TECH] Stocker les informations de l'utilisateur reçu par le partenaire dans redis (PIX-5404)
+- [#4736](https://github.com/1024pix/pix/pull/4736) [TECH] Rendre le badge certifiable Cléa iso aux autres badges (PIX-5420)
+- [#4746](https://github.com/1024pix/pix/pull/4746) [TECH] Mise à jour GitHub Action notify-team-on-config-file-change
+- [#4745](https://github.com/1024pix/pix/pull/4745) [TECH] Utilise l'`automerge` 1024pix
+- [#4738](https://github.com/1024pix/pix/pull/4738) [TECH] Ne plus utiliser de routes dépréciées sur les prescrits dans Pix Orga (Pix-5462).
+- [#4594](https://github.com/1024pix/pix/pull/4594) [TECH] Générer des données de certification avec un CLI (PIX-5255)
+- [#4691](https://github.com/1024pix/pix/pull/4691) [TECH] Suppression de ember-cli-google-fonts sur Pix-Certif
+- [#4716](https://github.com/1024pix/pix/pull/4716) [TECH] Ne pas lancer une requête par lettre tapée dans les champs de recherche de Pix Orga (Pix-5377).
+
+### :bug: Correction
+- [#4723](https://github.com/1024pix/pix/pull/4723) [BUGFIX] Autoriser les champs vide lors de la modification d'une campagne (PIX-5406)
+
 ## v3.240.0 (03/08/2022)
 
 
