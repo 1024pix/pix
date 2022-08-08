@@ -58,4 +58,13 @@ module.exports = {
       throw new UnauthorizedError(message, responseCode, meta);
     }
   },
+
+  async createUser(request, h) {
+    const { identityProvider, authenticationKey } = request.deserializedPayload;
+
+    const { accessToken, logoutUrlUUID } = await usecases.createOidcUser({ authenticationKey, identityProvider });
+
+    const response = { access_token: accessToken, logout_url_uuid: logoutUrlUUID };
+    return h.response(response).code(200);
+  },
 };

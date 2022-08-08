@@ -228,4 +228,25 @@ describe('Unit | Application | Controller | Authentication | OIDC', function () 
       });
     });
   });
+
+  describe('#createUser', function () {
+    it('should create oidc user and return access token and logout url UUID', async function () {
+      // given
+      const request = {
+        deserializedPayload: { identityProvider, authenticationKey: 'abcde' },
+      };
+      const accessToken = 'access.token';
+      sinon
+        .stub(usecases, 'createOidcUser')
+        .withArgs({ authenticationKey: 'abcde', identityProvider })
+        .resolves({ accessToken, logoutUrlUUID: 'logoutUrlUUID' });
+
+      // when
+      const result = await oidcController.createUser(request, hFake);
+
+      //then
+      expect(result.source.access_token).to.equal(accessToken);
+      expect(result.source.logout_url_uuid).to.equal('logoutUrlUUID');
+    });
+  });
 });
