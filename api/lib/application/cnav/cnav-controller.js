@@ -21,14 +21,4 @@ module.exports = {
     const response = { access_token: accessToken };
     return h.response(response).code(200);
   },
-
-  async getAuthenticationUrl(request, h) {
-    const oidcAuthenticationService = authenticationRegistry.lookupAuthenticationService(
-      AuthenticationMethod.identityProviders.CNAV
-    );
-    const result = oidcAuthenticationService.getAuthenticationUrl({
-      redirectUri: request.query['redirect_uri'],
-    });
-    return h.response(result).code(200);
-  },
 };
