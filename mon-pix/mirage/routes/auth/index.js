@@ -29,7 +29,7 @@ export default function index(config) {
     return new Response(200, {}, response);
   });
 
-  config.post('/pole-emploi/token', (schema, request) => {
+  config.post('/oidc/token', (schema, request) => {
     if (!request.requestHeaders.Authorization) {
       return new Response(401, {}, { errors: [{ code: 'SHOULD_VALIDATE_CGU', meta: { authenticationKey: 'key' } }] });
     }
@@ -43,7 +43,7 @@ export default function index(config) {
       access_token:
         'aaa.' +
         btoa(
-          `{"user_id":${createdUser.id},"source":"pole_emploi_connect","iat":1545321469,"exp":4702193958,"identity_provider_code":"POLE_EMPLOI"}`
+          `{"user_id":${createdUser.id},"source":"pole_emploi_connect","iat":1545321469,"exp":4702193958,"identity_provider":"POLE_EMPLOI"}`
         ) +
         '.bbb',
       logout_url_uuid: '1f3dbb71-f399-4c1c-85ae-0a863c78aeea',
