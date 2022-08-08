@@ -246,9 +246,15 @@ describe('Integration | Repository | Session', function () {
     it('should return candidates complementary certifications', async function () {
       // given
       const session = databaseBuilder.factory.buildSession();
-      const pixPlusFoot = databaseBuilder.factory.buildComplementaryCertification({ name: 'Pix+Foot' });
-      const pixPlusRugby = databaseBuilder.factory.buildComplementaryCertification({ name: 'Pix+Rugby' });
-      const pixPlusTennis = databaseBuilder.factory.buildComplementaryCertification({ name: 'Pix+Tennis' });
+      const pixPlusFoot = databaseBuilder.factory.buildComplementaryCertification({ label: 'Pix+ Foot', key: 'FOOT' });
+      const pixPlusRugby = databaseBuilder.factory.buildComplementaryCertification({
+        label: 'Pix+ Rugby',
+        key: 'RUGBY',
+      });
+      const pixPlusTennis = databaseBuilder.factory.buildComplementaryCertification({
+        label: 'Pix+ Tennis',
+        key: 'TENNIS',
+      });
       const firstCandidate = databaseBuilder.factory.buildCertificationCandidate({
         lastName: 'Jackson',
         firstName: 'Michael',

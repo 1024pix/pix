@@ -7,8 +7,18 @@ describe('Unit | Serializer | JSONAPI | certification-candidate-subscription-ser
       const certificationCandidateSubscription = domainBuilder.buildCertificationCandidateSubscription({
         id: 123,
         sessionId: 456,
-        eligibleSubscriptions: [domainBuilder.buildComplementaryCertification({ name: 'Comp 1' })],
-        nonEligibleSubscriptions: [domainBuilder.buildComplementaryCertification({ name: 'Comp 2' })],
+        eligibleSubscriptions: [
+          domainBuilder.buildComplementaryCertification({
+            key: 'FIRST_COMPLEMENTARY',
+            label: 'First Complementary Certification',
+          }),
+        ],
+        nonEligibleSubscriptions: [
+          domainBuilder.buildComplementaryCertification({
+            key: 'SECOND_COMPLEMENTARY',
+            label: 'Second Complementary Certification',
+          }),
+        ],
       });
 
       const expectedSerializedResult = {
@@ -19,13 +29,15 @@ describe('Unit | Serializer | JSONAPI | certification-candidate-subscription-ser
             'eligible-subscriptions': [
               {
                 id: 1,
-                name: 'Comp 1',
+                key: 'FIRST_COMPLEMENTARY',
+                label: 'First Complementary Certification',
               },
             ],
             'non-eligible-subscriptions': [
               {
                 id: 1,
-                name: 'Comp 2',
+                key: 'SECOND_COMPLEMENTARY',
+                label: 'Second Complementary Certification',
               },
             ],
             'session-id': 456,

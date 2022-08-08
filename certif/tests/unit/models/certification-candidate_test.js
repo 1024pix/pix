@@ -78,20 +78,21 @@ module('Unit | Model | certification-candidate', function (hooks) {
         complementaryCertifications: [
           {
             id: 1,
-            name: 'Pix+Edu',
+            key: 'A',
+            label: 'Pix+Edu',
           },
           {
             id: 2,
-            name: 'Pix+Droit',
+            key: 'B',
+            label: 'Pix+Droit',
           },
         ],
       };
       // when
       const model = store.createRecord('certification-candidate', data);
+
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(model.complementaryCertificationsList, 'Pix+Edu, Pix+Droit');
+      assert.strictEqual(model.complementaryCertificationsList, 'Pix+Edu, Pix+Droit');
     });
   });
 

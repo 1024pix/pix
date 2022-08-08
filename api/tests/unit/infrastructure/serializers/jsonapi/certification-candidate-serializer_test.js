@@ -13,7 +13,8 @@ describe('Unit | Serializer | JSONAPI | certification-candidate-serializer', fun
       complementaryCertifications: [
         domainBuilder.buildComplementaryCertification({
           id: 2,
-          name: 'Pix+Patisserie',
+          label: 'Pix+Patisserie',
+          key: 'PATISSERIE',
         }),
       ],
     });
@@ -48,7 +49,8 @@ describe('Unit | Serializer | JSONAPI | certification-candidate-serializer', fun
             'complementary-certifications': [
               {
                 id: 2,
-                name: 'Pix+Patisserie',
+                label: 'Pix+Patisserie',
+                key: 'PATISSERIE',
               },
             ],
           },

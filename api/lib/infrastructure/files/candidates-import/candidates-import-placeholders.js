@@ -1,3 +1,10 @@
+const {
+  PIX_PLUS_DROIT,
+  CLEA,
+  PIX_PLUS_EDU_1ER_DEGRE,
+  PIX_PLUS_EDU_2ND_DEGRE,
+} = require('../../../domain/models/ComplementaryCertification');
+
 const IMPORT_CANDIDATES_SESSION_TEMPLATE_VALUES = [
   {
     placeholder: 'SESSION_ID',
@@ -97,19 +104,19 @@ const IMPORT_CANDIDATES_TEMPLATE_VALUES = [
     validator: 'val-prepayment-code',
   },
   {
-    placeholder: 'CléA Numérique',
+    placeholder: CLEA,
     propertyName: 'cleaNumerique',
   },
   {
-    placeholder: 'Pix+ Droit',
+    placeholder: PIX_PLUS_DROIT,
     propertyName: 'pixPlusDroit',
   },
   {
-    placeholder: 'Pix+ Édu 1er degré',
+    placeholder: PIX_PLUS_EDU_1ER_DEGRE,
     propertyName: 'pixPlusEdu1erDegre',
   },
   {
-    placeholder: 'Pix+ Édu 2nd degré',
+    placeholder: PIX_PLUS_EDU_2ND_DEGRE,
     propertyName: 'pixPlusEdu2ndDegre',
   },
 ];

@@ -24,10 +24,10 @@ const cache = require('../../lib/infrastructure/caches/learning-content-cache');
  * LOG_LEVEL=info ./scripts/data-generation/generate-certif-cli.js 'SUP' 1 '[{"candidateNumber": 1, "name": "Pix+ Édu 2nd degré"}]'
  */
 
-const PIXCLEA = 'CléA Numérique';
-const PIXDROIT = 'Pix+ Droit';
-const PIXEDU2NDDEGRE = 'Pix+ Édu 2nd degré';
-const PIXEDU1ERDEGRE = 'Pix+ Édu 1er degré';
+const PIXCLEA = 'CLEA';
+const PIXDROIT = 'DROIT';
+const PIXEDU2NDDEGRE = 'EDU_2ND_DEGRE';
+const PIXEDU1ERDEGRE = 'EDU_1ER_DEGRE';
 
 const CERTIFICATION_CENTER_IDS_BY_TYPE = {
   SCO: 1,
@@ -35,7 +35,7 @@ const CERTIFICATION_CENTER_IDS_BY_TYPE = {
   PRO: 2,
 };
 
-const COMPLEMENTARY_CERTIFICATION_IDS_BY_NAME = {
+const COMPLEMENTARY_CERTIFICATION_IDS_BY_KEY = {
   [PIXCLEA]: 52,
   [PIXDROIT]: 53,
   [PIXEDU1ERDEGRE]: 54,
@@ -89,19 +89,19 @@ const questions = [
           new inquirer.Separator(`----- Candidat ${i + 1} -----`),
           {
             name: 'Pix+ Édu 1er degré',
-            value: { candidateNumber: i + 1, name: 'Pix+ Édu 1er degré' },
+            value: { candidateNumber: i + 1, key: 'EDU_1ER_DEGRE' },
           },
           {
             name: 'Pix+ Édu 2nd degré',
-            value: { candidateNumber: i + 1, name: 'Pix+ Édu 2nd degré' },
+            value: { candidateNumber: i + 1, key: 'EDU_2ND_DEGRE' },
           },
           {
             name: 'Pix+ Droit',
-            value: { candidateNumber: i + 1, name: 'Pix+ Droit' },
+            value: { candidateNumber: i + 1, key: 'DROIT' },
           },
           {
             name: 'CléA Numérique',
-            value: { candidateNumber: i + 1, name: 'CléA Numérique' },
+            value: { candidateNumber: i + 1, key: 'CLEA' },
           }
         );
       }
@@ -123,8 +123,8 @@ async function main({ centerType, candidateNumber, complementaryCertifications }
   } else {
     let complementaryCertificationGroupedByCandidateIndex;
     if (complementaryCertifications?.length) {
-      const complementaryCertificationIds = complementaryCertifications.map((complementaryCertification) => {
-        return COMPLEMENTARY_CERTIFICATION_IDS_BY_NAME[complementaryCertification.name];
+      const complementaryCertificationIds = complementaryCertifications.map(({ key }) => {
+        return COMPLEMENTARY_CERTIFICATION_IDS_BY_KEY[key];
       });
 
       await _createComplementaryCertificationHabilitations(
@@ -289,8 +289,8 @@ async function _createComplementaryCertificationHability(
   userId,
   databaseBuilder
 ) {
-  return bluebird.mapSeries(complementaryCertifications, async (name) => {
-    const { id: complementaryCertificationId } = await knex('complementary-certifications').where({ name }).first();
+  return bluebird.mapSeries(complementaryCertifications, async (key) => {
+    const { id: complementaryCertificationId } = await knex('complementary-certifications').where({ key }).first();
 
     databaseBuilder.factory.buildComplementaryCertificationSubscription({
       complementaryCertificationId,
@@ -329,16 +329,16 @@ async function _createComplementaryCertificationHability(
 }
 
 function _isDroit(complementaryCertificationId) {
-  return complementaryCertificationId === COMPLEMENTARY_CERTIFICATION_IDS_BY_NAME[PIXDROIT];
+  return complementaryCertificationId === COMPLEMENTARY_CERTIFICATION_IDS_BY_KEY[PIXDROIT];
 }
 function _isClea(complementaryCertificationId) {
-  return complementaryCertificationId === COMPLEMENTARY_CERTIFICATION_IDS_BY_NAME[PIXCLEA];
+  return complementaryCertificationId === COMPLEMENTARY_CERTIFICATION_IDS_BY_KEY[PIXCLEA];
 }
 function _isEdu1erDegre(complementaryCertificationId) {
-  return complementaryCertificationId === COMPLEMENTARY_CERTIFICATION_IDS_BY_NAME[PIXEDU1ERDEGRE];
+  return complementaryCertificationId === COMPLEMENTARY_CERTIFICATION_IDS_BY_KEY[PIXEDU1ERDEGRE];
 }
 function _isEdu2ndDegre(complementaryCertificationId) {
-  return complementaryCertificationId === COMPLEMENTARY_CERTIFICATION_IDS_BY_NAME[PIXEDU2NDDEGRE];
+  return complementaryCertificationId === COMPLEMENTARY_CERTIFICATION_IDS_BY_KEY[PIXEDU2NDDEGRE];
 }
 
 async function _getResults(sessionId) {
@@ -350,7 +350,7 @@ async function _getResults(sessionId) {
       lastName: 'certification-candidates.lastName',
       email: 'certification-candidates.email',
       birthdate: 'certification-candidates.birthdate',
-      complementaryCertifications: knex.raw('json_agg("complementary-certifications"."name")'),
+      complementaryCertifications: knex.raw('json_agg("complementary-certifications"."label")'),
     })
     .join('certification-candidates', 'certification-candidates.sessionId', 'sessions.id')
     .leftJoin(
@@ -368,8 +368,8 @@ async function _getResults(sessionId) {
 }
 
 function _groupByCandidateIndex(complementaryCertifications) {
-  return complementaryCertifications.reduce((acc, { candidateNumber, name }) => {
-    acc[candidateNumber] = (acc[candidateNumber] || []).concat(name);
+  return complementaryCertifications.reduce((acc, { candidateNumber, key }) => {
+    acc[candidateNumber] = (acc[candidateNumber] || []).concat(key);
     return acc;
   }, {});
 }

@@ -289,11 +289,11 @@ function _buildCertificationCandidate({
   complementaryCertifications = [
     {
       id: 1,
-      name: 'Pix+Edu',
+      label: 'Pix+Edu',
     },
     {
       id: 2,
-      name: 'Pix+Droit',
+      label: 'Pix+Droit',
     },
   ],
   billingMode = '',

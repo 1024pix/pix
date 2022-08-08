@@ -4,14 +4,15 @@ const ComplementaryCertification = require('../../../domain/models/Complementary
 module.exports = {
   serialize(habilitation) {
     return new Serializer('habilitation', {
-      attributes: ['name'],
+      attributes: ['label', 'key'],
     }).serialize(habilitation);
   },
 
   deserialize(jsonAPI) {
     return new ComplementaryCertification({
       id: jsonAPI.data.id,
-      name: jsonAPI.data.attributes.name,
+      label: jsonAPI.data.attributes.label,
+      key: jsonAPI.data.attributes.key,
     });
   },
 };

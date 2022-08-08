@@ -2,14 +2,16 @@ const databaseBuffer = require('../database-buffer');
 
 module.exports = function buildComplementaryCertification({
   id = databaseBuffer.getNextId(),
-  name = 'UneSuperCertifComplémentaire',
+  label = 'UneSuperCertifComplémentaire',
+  key = 'SUPERCERTIF',
   createdAt = new Date('2020-01-01'),
   minimumReproducibilityRate,
   minimumEarnedPix,
 } = {}) {
   const values = {
     id,
-    name,
+    label,
+    key,
     createdAt,
     minimumReproducibilityRate,
     minimumEarnedPix,
