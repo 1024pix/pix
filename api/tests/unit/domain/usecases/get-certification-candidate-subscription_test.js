@@ -43,9 +43,8 @@ describe('Unit | UseCase | get-certification-candidate-subscription', function (
         badge: domainBuilder.buildBadge({ key: Badge.keys.PIX_DROIT_EXPERT_CERTIF }),
       });
 
-      const cleaBadgeAcquisition = domainBuilder.buildBadgeAcquisition({
-        badge: domainBuilder.buildBadge({ key: Badge.keys.PIX_EMPLOI_CLEA_V1 }),
-      });
+      const cleaBadgeAcquisition = domainBuilder.buildBadgeAcquisition.forCleaV1();
+
       certificationBadgesService.findStillValidBadgeAcquisitions
         .withArgs({ userId })
         .resolves([pixPlusDroitExpertBadgeAcquisition, cleaBadgeAcquisition]);
@@ -169,9 +168,7 @@ describe('Unit | UseCase | get-certification-candidate-subscription', function (
         complementaryCertifications: [pixPlusDroitComplementaryCertification, cleaComplementaryCertifications],
       });
 
-      const cleaBadgeAcquisition = domainBuilder.buildBadgeAcquisition({
-        badge: domainBuilder.buildBadge({ key: Badge.keys.PIX_EMPLOI_CLEA_V1 }),
-      });
+      const cleaBadgeAcquisition = domainBuilder.buildBadgeAcquisition.forCleaV1();
 
       certificationCandidateRepository.getWithComplementaryCertifications
         .withArgs(certificationCandidateId)
