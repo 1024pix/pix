@@ -120,6 +120,11 @@ export default class SignupForm extends Component {
   }
 
   @action
+  onChange(event) {
+    this.args.user.cgu = !!event.target.checked;
+  }
+
+  @action
   signup(event) {
     event && event.preventDefault();
     this.notificationMessage = null;

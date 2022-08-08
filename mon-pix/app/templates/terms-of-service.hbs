@@ -9,29 +9,18 @@
       </a>
     </div>
 
-    <h2 class="terms-of-service-form__title">{{t "pages.terms-of-service.title"}}</h2>
+    <h1 class="terms-of-service-form__title">{{t "pages.terms-of-service.title"}}</h1>
 
     <div class="terms-of-service-form__description">
       {{t "pages.terms-of-service.message"}}
     </div>
 
-    <div class="terms-of-service-form__conditions">
-      <label for="pix-cgu">
-        <Input
-          @type="checkbox"
-          @id="pix-cgu"
-          class="terms-of-service-form-conditions__check"
-          @checked={{this.isTermsOfServiceValidated}}
-        />
-        {{t "pages.terms-of-service.cgu" htmlSafe=true}}
-
-      </label>
-      {{#if this.showErrorTermsOfServiceNotSelected}}
-        <div class="terms-of-service-form-conditions__validation-error">
-          {{t "pages.terms-of-service.form.error-message"}}
-        </div>
-      {{/if}}
-    </div>
+    <PixCheckbox @id="pix-cgu" @label={{t "pages.terms-of-service.cgu" htmlSafe=true}} {{on "change" this.onChange}} />
+    {{#if this.showErrorTermsOfServiceNotSelected}}
+      <div class="terms-of-service-form-conditions__validation-error">
+        {{t "pages.terms-of-service.form.error-message"}}
+      </div>
+    {{/if}}
 
     <div class="terms-of-service-form__actions">
       <PixButtonLink @route="logout" @backgroundColor="grey">{{t "common.actions.back"}}</PixButtonLink>

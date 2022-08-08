@@ -1,12 +1,12 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
-import { find, render, triggerEvent } from '@ember/test-helpers';
+import { find, click, triggerEvent } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import { contains } from '../../../helpers/contains';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 import { fillInByLabel } from '../../../helpers/fill-in-by-label';
-import { clickByLabel } from '../../../helpers/click-by-label';
 import findByLabel from '../../../helpers/find-by-label';
+import { render } from '@1024pix/ember-testing-library';
 
 describe('Integration | Component | account-recovery | update-sco-record', function () {
   setupIntlRenderingTest();
@@ -65,11 +65,11 @@ describe('Integration | Component | account-recovery | update-sco-record', funct
 
     it('should disable submission on form when is loading', async function () {
       // given
-      await render(hbs`<AccountRecovery::UpdateScoRecordForm @isLoading={{true}} />`);
+      const screen = await render(hbs`<AccountRecovery::UpdateScoRecordForm @isLoading={{true}} />`);
 
       // when
       await fillInByLabel(this.intl.t('pages.account-recovery.update-sco-record.form.password-label'), 'pix123A*');
-      await clickByLabel(this.intl.t('common.cgu.accept'));
+      await click(screen.getByRole('checkbox', { name: this.intl.t('common.cgu.label') }));
 
       // then
       const submitButton = findByLabel(this.intl.t('pages.account-recovery.update-sco-record.form.login-button'));
@@ -78,11 +78,11 @@ describe('Integration | Component | account-recovery | update-sco-record', funct
 
     it('should enable submission if password is valid and cgu and data protection policy are accepted', async function () {
       // given
-      await render(hbs`<AccountRecovery::UpdateScoRecordForm />`);
+      const screen = await render(hbs`<AccountRecovery::UpdateScoRecordForm />`);
 
       // when
       await fillInByLabel(this.intl.t('pages.account-recovery.update-sco-record.form.password-label'), 'pix123A*');
-      await clickByLabel(this.intl.t('common.cgu.accept'));
+      await click(screen.getByRole('checkbox', { name: this.intl.t('common.cgu.label') }));
 
       // then
       const submitButton = findByLabel(this.intl.t('pages.account-recovery.update-sco-record.form.login-button'));

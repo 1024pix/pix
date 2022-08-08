@@ -109,22 +109,8 @@
     font-size: 14px;
   }
 
-  &__cgu-check {
-    font-size: 1rem;
-    font-weight: $font-medium;
-    width: 20px;
-  }
-
   &__cgu-error {
     margin-bottom: 20px;
-  }
-
-  input[type=checkbox].login-or-register-oidc-form__cgu-check::before {
-    top: 6px;
-  }
-
-  input[type=checkbox].login-or-register-oidc-form__cgu-check:checked::after {
-    top: -11px;
   }
 
   &__mandatory-description {

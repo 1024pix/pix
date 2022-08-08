@@ -46,6 +46,11 @@ export default class UpdateScoRecordFormComponent extends Component {
     );
   }
 
+  @action
+  onChange(event) {
+    this.cguAndProtectionPoliciesAccepted = !!event.target.checked;
+  }
+
   @action validatePassword() {
     if (isEmpty(this.password)) {
       this.passwordValidation.status = STATUS_MAP['errorStatus'];

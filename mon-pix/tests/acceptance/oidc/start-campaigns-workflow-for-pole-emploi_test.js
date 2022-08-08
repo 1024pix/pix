@@ -3,7 +3,8 @@
 import { beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
 
-import { fillIn, currentURL, find, visit } from '@ember/test-helpers';
+import { fillIn, currentURL, find } from '@ember/test-helpers';
+import { visit } from '@1024pix/ember-testing-library';
 import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { Response } from 'ember-cli-mirage';
@@ -88,13 +89,11 @@ describe('Acceptance | Campaigns | Start Campaigns workflow | Pôle Emploi', fun
             });
 
             // when
-            await visit(`/connexion/pole-emploi?code=test&state=${state}`);
+            const screen = await visit(`/connexion/pole-emploi?code=test&state=${state}`);
 
             // then
             expect(currentURL()).to.equal(`/cgu-oidc?authenticationKey=key&identityProviderSlug=pole-emploi`);
-            expect(find('.terms-of-service-form__conditions').textContent).to.contains(
-              "J'accepte les conditions d'utilisation et la politique de confidentialité de Pix"
-            );
+            expect(find(screen.getByRole('checkbox', { name: this.intl.t('common.cgu.label') })).textContent).to.exist;
           });
 
           it('should begin campaign participation once user has accepted terms of service', async function () {

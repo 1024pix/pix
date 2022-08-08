@@ -307,7 +307,8 @@
       "not-finished": {
         "title": "You’ve almost finished",
         "supervisor": "Call the invigilator: '<br>'They must see this screen to be able to finalise your certification.",
-        "warning-text": "The invigilator has seen this screen."
+        "warning-text": "The invigilator has seen this screen.",
+        "checkbox-label": "The invigilator must click here."
       }
     },
     "certification-ender": {

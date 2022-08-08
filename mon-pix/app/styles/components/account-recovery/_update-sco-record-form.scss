@@ -8,4 +8,13 @@
     margin-top: 30px;
     font-size: 0.75rem;
   }
+
+  &__cgu-container {
+    display: flex;
+    padding-top: 15px;
+
+    p {
+      margin: 0;
+    }
+  }
 }
