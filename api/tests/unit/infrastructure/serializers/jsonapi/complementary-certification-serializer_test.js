@@ -8,11 +8,13 @@ describe('Unit | Serializer | JSONAPI | complementary-certification-serializer',
       const complementaryCertifications = [
         domainBuilder.buildComplementaryCertification({
           id: 11,
-          name: 'Pix+Edu',
+          label: 'Pix+Edu',
+          key: 'EDU',
         }),
         domainBuilder.buildComplementaryCertification({
           id: 22,
-          name: 'Cléa Numérique',
+          label: 'Cléa Numérique',
+          key: 'CLEA',
         }),
       ];
 
@@ -26,14 +28,16 @@ describe('Unit | Serializer | JSONAPI | complementary-certification-serializer',
             id: '11',
             type: 'habilitations',
             attributes: {
-              name: 'Pix+Edu',
+              label: 'Pix+Edu',
+              key: 'EDU',
             },
           },
           {
             id: '22',
             type: 'habilitations',
             attributes: {
-              name: 'Cléa Numérique',
+              label: 'Cléa Numérique',
+              key: 'CLEA',
             },
           },
         ],

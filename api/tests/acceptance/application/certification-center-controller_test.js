@@ -51,7 +51,8 @@ describe('Acceptance | API | Certification Center', function () {
         });
         databaseBuilder.factory.buildComplementaryCertification({
           id: 12,
-          name: 'Pix+Edu',
+          label: 'Pix+Edu 1er degré',
+          key: 'EDU_1ER_DEGRE',
         });
         databaseBuilder.factory.buildComplementaryCertificationHabilitation({
           certificationCenterId: 1,
@@ -119,7 +120,8 @@ describe('Acceptance | API | Certification Center', function () {
               id: '12',
               type: 'habilitations',
               attributes: {
-                name: 'Pix+Edu',
+                label: 'Pix+Edu 1er degré',
+                key: 'EDU_1ER_DEGRE',
               },
             },
           ],

@@ -8,15 +8,23 @@ describe('Integration | Repository | complementary-certification-repository', fu
         // given
         databaseBuilder.factory.buildComplementaryCertification({
           id: 1,
-          name: 'Pix+Edu',
+          key: 'EDU_1ER_DEGRE',
+          label: 'Pix+ Édu 1er degré',
         });
         databaseBuilder.factory.buildComplementaryCertification({
           id: 2,
-          name: 'Pix+Droit',
+          key: 'EDU_2ND_DEGRE',
+          label: 'Pix+ Édu 2nd degré',
         });
         databaseBuilder.factory.buildComplementaryCertification({
           id: 3,
-          name: 'CléA Numérique',
+          key: 'DROIT',
+          label: 'Pix+ Droit',
+        });
+        databaseBuilder.factory.buildComplementaryCertification({
+          id: 4,
+          key: 'CLEA',
+          label: 'CléA Numérique',
         });
 
         await databaseBuilder.commit();
@@ -28,15 +36,23 @@ describe('Integration | Repository | complementary-certification-repository', fu
         const expectedComplementaryCertifications = [
           domainBuilder.buildComplementaryCertification({
             id: 1,
-            name: 'Pix+Edu',
+            key: 'EDU_1ER_DEGRE',
+            label: 'Pix+ Édu 1er degré',
           }),
           domainBuilder.buildComplementaryCertification({
             id: 2,
-            name: 'Pix+Droit',
+            key: 'EDU_2ND_DEGRE',
+            label: 'Pix+ Édu 2nd degré',
           }),
           domainBuilder.buildComplementaryCertification({
             id: 3,
-            name: 'CléA Numérique',
+            key: 'DROIT',
+            label: 'Pix+ Droit',
+          }),
+          domainBuilder.buildComplementaryCertification({
+            id: 4,
+            key: 'CLEA',
+            label: 'CléA Numérique',
           }),
         ];
 

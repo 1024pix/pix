@@ -63,7 +63,7 @@ describe('Unit | Domain | Events | handle-pix-plus-droit-certifications-scoring'
       complementaryCertificationCourseRepository.getComplementaryCertificationCourseId
         .withArgs({
           certificationCourseId: 123,
-          complementaryCertificationName: PIX_PLUS_DROIT,
+          complementaryCertificationKey: PIX_PLUS_DROIT,
         })
         .resolves(false);
 
@@ -102,7 +102,7 @@ describe('Unit | Domain | Events | handle-pix-plus-droit-certifications-scoring'
       complementaryCertificationCourseRepository.getComplementaryCertificationCourseId
         .withArgs({
           certificationCourseId: 123,
-          complementaryCertificationName: PIX_PLUS_DROIT,
+          complementaryCertificationKey: PIX_PLUS_DROIT,
         })
         .resolves(999);
 
@@ -188,7 +188,7 @@ describe('Unit | Domain | Events | handle-pix-plus-droit-certifications-scoring'
       complementaryCertificationCourseRepository.getComplementaryCertificationCourseId
         .withArgs({
           certificationCourseId: 123,
-          complementaryCertificationName: PIX_PLUS_DROIT,
+          complementaryCertificationKey: PIX_PLUS_DROIT,
         })
         .resolves(complementaryCertificationCourseId);
 
@@ -241,7 +241,7 @@ describe('Unit | Domain | Events | handle-pix-plus-droit-certifications-scoring'
       complementaryCertificationCourseRepository.getComplementaryCertificationCourseId
         .withArgs({
           certificationCourseId: 123,
-          complementaryCertificationName: PIX_PLUS_DROIT,
+          complementaryCertificationKey: PIX_PLUS_DROIT,
         })
         .resolves(999);
 
@@ -293,7 +293,7 @@ describe('Unit | Domain | Events | handle-pix-plus-droit-certifications-scoring'
       complementaryCertificationCourseRepository.getComplementaryCertificationCourseId
         .withArgs({
           certificationCourseId: 123,
-          complementaryCertificationName: PIX_PLUS_DROIT,
+          complementaryCertificationKey: PIX_PLUS_DROIT,
         })
         .resolves(999);
 

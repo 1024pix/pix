@@ -2,6 +2,12 @@ const moment = require('moment');
 const _ = require('lodash');
 const FRANCE_COUNTRY_CODE = '99100';
 const CertificationCandidate = require('../../../domain/models/CertificationCandidate');
+const {
+  PIX_PLUS_DROIT,
+  CLEA,
+  PIX_PLUS_EDU_1ER_DEGRE,
+  PIX_PLUS_EDU_2ND_DEGRE,
+} = require('../../../domain/models/ComplementaryCertification');
 
 module.exports = class CandidateData {
   constructor({
@@ -52,21 +58,18 @@ module.exports = class CandidateData {
     this.organizationLearnerId = this._emptyStringIfNull(organizationLearnerId);
     this.billingMode = CertificationCandidate.translateBillingMode(billingMode);
     this.prepaymentCode = this._emptyStringIfNull(prepaymentCode);
-    this.cleaNumerique = this._displayYesIfCandidateHasComplementaryCertification(
-      complementaryCertifications,
-      'CléA Numérique'
-    );
+    this.cleaNumerique = this._displayYesIfCandidateHasComplementaryCertification(complementaryCertifications, CLEA);
     this.pixPlusDroit = this._displayYesIfCandidateHasComplementaryCertification(
       complementaryCertifications,
-      'Pix+ Droit'
+      PIX_PLUS_DROIT
     );
     this.pixPlusEdu1erDegre = this._displayYesIfCandidateHasComplementaryCertification(
       complementaryCertifications,
-      'Pix+ Édu 1er degré'
+      PIX_PLUS_EDU_1ER_DEGRE
     );
     this.pixPlusEdu2ndDegre = this._displayYesIfCandidateHasComplementaryCertification(
       complementaryCertifications,
-      'Pix+ Édu 2nd degré'
+      PIX_PLUS_EDU_2ND_DEGRE
     );
     this.count = number;
     this._clearBirthInformationDataForExport();
@@ -91,12 +94,12 @@ module.exports = class CandidateData {
     }
   }
 
-  _displayYesIfCandidateHasComplementaryCertification(complementaryCertifications, certificationLabel) {
+  _displayYesIfCandidateHasComplementaryCertification(complementaryCertifications, certificationKey) {
     if (!complementaryCertifications) {
       return '';
     }
     const hasComplementaryCertification = complementaryCertifications.some(
-      (complementaryCertification) => complementaryCertification.name === certificationLabel
+      (complementaryCertification) => complementaryCertification.key === certificationKey
     );
     return hasComplementaryCertification ? 'oui' : '';
   }

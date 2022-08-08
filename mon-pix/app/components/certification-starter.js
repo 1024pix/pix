@@ -26,15 +26,15 @@ export default class CertificationJoiner extends Component {
     );
   }
 
-  get nonEligibleSubscriptionNames() {
+  get nonEligibleSubscriptionLabels() {
     return this.args.certificationCandidateSubscription.nonEligibleSubscriptions
-      .map((nonEligibleSubscription) => nonEligibleSubscription.name)
+      .map((nonEligibleSubscription) => nonEligibleSubscription.label)
       .join(', ');
   }
 
-  get eligibleSubscriptionNames() {
+  get eligibleSubscriptionLabels() {
     return this.args.certificationCandidateSubscription.eligibleSubscriptions
-      .map((eligibleSubscription) => eligibleSubscription.name)
+      .map((eligibleSubscription) => eligibleSubscription.label)
       .join(', ');
   }
 

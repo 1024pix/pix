@@ -10,8 +10,8 @@ import sinon from 'sinon';
 function _createEmberDataHabilitations(store) {
   return ArrayProxy.create({
     content: [
-      store.createRecord('habilitation', { id: 0, name: 'Pix+Droit' }),
-      store.createRecord('habilitation', { id: 1, name: 'Cléa' }),
+      store.createRecord('habilitation', { id: 0, key: 'DROIT', label: 'Pix+Droit' }),
+      store.createRecord('habilitation', { id: 1, key: 'CLEA', label: 'Cléa' }),
     ],
   });
 }

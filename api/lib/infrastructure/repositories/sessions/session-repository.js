@@ -53,7 +53,7 @@ module.exports = {
       .select('certification-candidates.*')
       .select({
         complementaryCertifications: knex.raw(`
-        json_agg(json_build_object('id', "complementary-certifications"."id", 'name', "complementary-certifications"."name"))
+        json_agg(json_build_object('id', "complementary-certifications"."id", 'label', "complementary-certifications"."label", 'key', "complementary-certifications"."key"))
         `),
       })
       .from('certification-candidates')

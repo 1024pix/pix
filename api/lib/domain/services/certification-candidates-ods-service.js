@@ -165,27 +165,27 @@ async function _buildComplementaryCertificationsForLine({
   const complementaryCertificationsInDB = await complementaryCertificationRepository.findAll();
   if (hasCleaNumerique) {
     complementaryCertifications.push(
-      complementaryCertificationsInDB.find((complementaryCertification) => complementaryCertification.name === CLEA)
+      complementaryCertificationsInDB.find((complementaryCertification) => complementaryCertification.key === CLEA)
     );
   }
   if (hasPixPlusDroit) {
     complementaryCertifications.push(
       complementaryCertificationsInDB.find(
-        (complementaryCertification) => complementaryCertification.name === PIX_PLUS_DROIT
+        (complementaryCertification) => complementaryCertification.key === PIX_PLUS_DROIT
       )
     );
   }
   if (hasPixPlusEdu1erDegre) {
     complementaryCertifications.push(
       complementaryCertificationsInDB.find(
-        (complementaryCertification) => complementaryCertification.name === PIX_PLUS_EDU_1ER_DEGRE
+        (complementaryCertification) => complementaryCertification.key === PIX_PLUS_EDU_1ER_DEGRE
       )
     );
   }
   if (hasPixPlusEdu2ndDegre) {
     complementaryCertifications.push(
       complementaryCertificationsInDB.find(
-        (complementaryCertification) => complementaryCertification.name === PIX_PLUS_EDU_2ND_DEGRE
+        (complementaryCertification) => complementaryCertification.key === PIX_PLUS_EDU_2ND_DEGRE
       )
     );
   }
