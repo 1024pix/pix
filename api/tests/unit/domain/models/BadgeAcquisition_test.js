@@ -1,5 +1,8 @@
 const { expect, domainBuilder } = require('../../../test-helper');
 const {
+  PIX_EMPLOI_CLEA_V1,
+  PIX_EMPLOI_CLEA_V2,
+  PIX_EMPLOI_CLEA_V3,
   PIX_DROIT_MAITRE_CERTIF,
   PIX_DROIT_EXPERT_CERTIF,
   PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
@@ -29,108 +32,66 @@ describe('Unit | Domain | Models | BadgeAcquisition', function () {
     });
   });
 
-  describe('#isPixDroit', function () {
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    [PIX_DROIT_MAITRE_CERTIF, PIX_DROIT_EXPERT_CERTIF].forEach((badgeKey) => {
-      it(`should return true for badge ${badgeKey}`, function () {
+  // eslint-disable-next-line mocha/no-setup-in-describe
+  [
+    {
+      methodName: 'isPixDroit',
+      keys: [PIX_DROIT_MAITRE_CERTIF, PIX_DROIT_EXPERT_CERTIF],
+    },
+    {
+      methodName: 'isPixEdu1erDegre',
+      keys: [
+        PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_INITIE,
+        PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_CONFIRME,
+        PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_CONFIRME,
+        PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE,
+        PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT,
+      ],
+    },
+    {
+      methodName: 'isPixEdu2ndDegre',
+      keys: [
+        PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
+        PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME,
+        PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME,
+        PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
+        PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
+      ],
+    },
+    {
+      methodName: 'isClea',
+      keys: [PIX_EMPLOI_CLEA_V1, PIX_EMPLOI_CLEA_V2, PIX_EMPLOI_CLEA_V3],
+    },
+  ].forEach(({ methodName, keys }) => {
+    describe(`#${methodName}`, function () {
+      // eslint-disable-next-line mocha/no-setup-in-describe
+      keys.forEach((badgeKey) => {
+        it(`should return true for badge ${badgeKey}`, function () {
+          // given
+          const badgeAcquisition = domainBuilder.buildBadgeAcquisition({
+            badge: domainBuilder.buildBadge({ key: badgeKey }),
+          });
+
+          // when
+          const isIt = badgeAcquisition[methodName]();
+
+          // then
+          expect(isIt).to.be.true;
+        });
+      });
+
+      it('should return false otherwise', function () {
         // given
         const badgeAcquisition = domainBuilder.buildBadgeAcquisition({
-          badge: domainBuilder.buildBadge({ key: badgeKey }),
+          badge: domainBuilder.buildBadge({ key: 'IT_S_NOT' }),
         });
 
         // when
-        const isPixDroit = badgeAcquisition.isPixDroit();
+        const isIt = badgeAcquisition[methodName]();
 
         // then
-        expect(isPixDroit).to.be.true;
+        expect(isIt).to.be.false;
       });
-    });
-
-    it('should return false otherwise', function () {
-      // given
-      const badgeAcquisition = domainBuilder.buildBadgeAcquisition({
-        badge: domainBuilder.buildBadge({ key: 'NOT_PIX_DROIT' }),
-      });
-
-      // when
-      const isPixDroit = badgeAcquisition.isPixDroit();
-
-      // then
-      expect(isPixDroit).to.be.false;
-    });
-  });
-
-  describe('#isPixEdu2ndDegre', function () {
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    [
-      PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
-      PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME,
-      PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME,
-      PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
-      PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
-    ].forEach((badgeKey) => {
-      it(`should return true for badge ${badgeKey}`, function () {
-        // given
-        const badgeAcquisition = domainBuilder.buildBadgeAcquisition({
-          badge: domainBuilder.buildBadge({ key: badgeKey }),
-        });
-
-        // when
-        const isPixEdu = badgeAcquisition.isPixEdu2ndDegre();
-
-        // then
-        expect(isPixEdu).to.be.true;
-      });
-    });
-
-    it('should return false otherwise', function () {
-      // given
-      const badgeAcquisition = domainBuilder.buildBadgeAcquisition({
-        badge: domainBuilder.buildBadge({ key: 'NOT_PIX_EDU' }),
-      });
-
-      // when
-      const isPixEdu = badgeAcquisition.isPixEdu2ndDegre();
-
-      // then
-      expect(isPixEdu).to.be.false;
-    });
-  });
-
-  describe('#isPixEdu1erDegre', function () {
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    [
-      PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_INITIE,
-      PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_CONFIRME,
-      PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_CONFIRME,
-      PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE,
-      PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT,
-    ].forEach((badgeKey) => {
-      it(`should return true for badge ${badgeKey}`, function () {
-        // given
-        const badgeAcquisition = domainBuilder.buildBadgeAcquisition({
-          badge: domainBuilder.buildBadge({ key: badgeKey }),
-        });
-
-        // when
-        const isPixEdu = badgeAcquisition.isPixEdu1erDegre();
-
-        // then
-        expect(isPixEdu).to.be.true;
-      });
-    });
-
-    it('should return false otherwise', function () {
-      // given
-      const badgeAcquisition = domainBuilder.buildBadgeAcquisition({
-        badge: domainBuilder.buildBadge({ key: 'NOT_PIX_EDU' }),
-      });
-
-      // when
-      const isPixEdu = badgeAcquisition.isPixEdu1erDegre();
-
-      // then
-      expect(isPixEdu).to.be.false;
     });
   });
 });

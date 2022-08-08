@@ -13,6 +13,9 @@ const {
   PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_CONFIRME,
   PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE,
   PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT,
+  PIX_EMPLOI_CLEA_V1,
+  PIX_EMPLOI_CLEA_V2,
+  PIX_EMPLOI_CLEA_V3,
 } = require('../../../../lib/domain/models/Badge').keys;
 
 const buildBadgeAcquisition = function buildBadgeAcquisition({
@@ -78,6 +81,18 @@ buildBadgeAcquisition.forPixDroitMaitre = function () {
 
 buildBadgeAcquisition.forPixDroitExpert = function () {
   return buildBadgeAcquisition({ badge: buildBadge({ key: PIX_DROIT_EXPERT_CERTIF }) });
+};
+
+buildBadgeAcquisition.forCleaV1 = function () {
+  return buildBadgeAcquisition({ badge: buildBadge({ key: PIX_EMPLOI_CLEA_V1 }) });
+};
+
+buildBadgeAcquisition.forCleaV2 = function () {
+  return buildBadgeAcquisition({ badge: buildBadge({ key: PIX_EMPLOI_CLEA_V2 }) });
+};
+
+buildBadgeAcquisition.forCleaV3 = function () {
+  return buildBadgeAcquisition({ badge: buildBadge({ key: PIX_EMPLOI_CLEA_V3 }) });
 };
 
 module.exports = buildBadgeAcquisition;

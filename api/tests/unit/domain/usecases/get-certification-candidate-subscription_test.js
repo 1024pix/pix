@@ -10,7 +10,6 @@ describe('Unit | UseCase | get-certification-candidate-subscription', function (
   beforeEach(function () {
     certificationBadgesService = {
       findStillValidBadgeAcquisitions: sinon.stub(),
-      hasStillValidCleaBadgeAcquisition: sinon.stub(),
     };
     certificationCandidateRepository = {
       getWithComplementaryCertifications: sinon.stub(),
@@ -43,11 +42,12 @@ describe('Unit | UseCase | get-certification-candidate-subscription', function (
       const pixPlusDroitExpertBadgeAcquisition = domainBuilder.buildBadgeAcquisition({
         badge: domainBuilder.buildBadge({ key: Badge.keys.PIX_DROIT_EXPERT_CERTIF }),
       });
+
+      const cleaBadgeAcquisition = domainBuilder.buildBadgeAcquisition.forCleaV1();
+
       certificationBadgesService.findStillValidBadgeAcquisitions
         .withArgs({ userId })
-        .resolves([pixPlusDroitExpertBadgeAcquisition]);
-
-      certificationBadgesService.hasStillValidCleaBadgeAcquisition.withArgs({ userId }).resolves(true);
+        .resolves([pixPlusDroitExpertBadgeAcquisition, cleaBadgeAcquisition]);
 
       // when
       const certificationCandidateSubscription = await getCertificationCandidateSubscription({
@@ -92,8 +92,6 @@ describe('Unit | UseCase | get-certification-candidate-subscription', function (
         .resolves(candidateWithComplementaryCertifications);
 
       certificationBadgesService.findStillValidBadgeAcquisitions.withArgs({ userId }).resolves([]);
-
-      certificationBadgesService.hasStillValidCleaBadgeAcquisition.withArgs({ userId }).resolves(false);
 
       // when
       const certificationCandidateSubscription = await getCertificationCandidateSubscription({
@@ -169,13 +167,14 @@ describe('Unit | UseCase | get-certification-candidate-subscription', function (
         sessionId,
         complementaryCertifications: [pixPlusDroitComplementaryCertification, cleaComplementaryCertifications],
       });
+
+      const cleaBadgeAcquisition = domainBuilder.buildBadgeAcquisition.forCleaV1();
+
       certificationCandidateRepository.getWithComplementaryCertifications
         .withArgs(certificationCandidateId)
         .resolves(candidateWithComplementaryCertifications);
 
-      certificationBadgesService.findStillValidBadgeAcquisitions.withArgs({ userId }).resolves([]);
-
-      certificationBadgesService.hasStillValidCleaBadgeAcquisition.withArgs({ userId }).resolves(true);
+      certificationBadgesService.findStillValidBadgeAcquisitions.withArgs({ userId }).resolves([cleaBadgeAcquisition]);
 
       // when
       const certificationCandidateSubscription = await getCertificationCandidateSubscription({
