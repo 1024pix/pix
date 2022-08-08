@@ -42,12 +42,6 @@ module.exports = function (environment) {
       disableInputsInitializer: true,
     },
 
-    poleEmploi: {
-      endSessionEndpoint: '/compte/deconnexion',
-      expiresIn: 60000, // Short expire time (60s) for testing purpose,
-      host: process.env.POLE_EMPLOI_AUTHENTICATION_BASE_URL,
-    },
-
     APP: {
       // Here you can pass flags/options to your application instance
       // when it is created
@@ -111,7 +105,6 @@ module.exports = function (environment) {
         },
       },
       AUTHENTICATED_SOURCE_FROM_MEDIACENTRE: 'external',
-      AUTHENTICATED_SOURCE_FROM_POLE_EMPLOI: 'pole_emploi_connect',
       NUMBER_OF_CHALLENGES_FOR_FLASH_METHOD: _getEnvironmentVariableAsNumber({
         environmentVariableName: 'NUMBER_OF_CHALLENGES_FOR_FLASH_METHOD',
         defaultValue: 48,
@@ -179,8 +172,6 @@ module.exports = function (environment) {
       ENV.matomo.url = process.env.WEB_ANALYTICS_URL;
       ENV.matomo.debug = true;
     }
-
-    ENV.poleEmploi.host = 'https://authentification-candidat-r.pe-qvr.fr';
   }
 
   if (environment === 'test') {
@@ -202,8 +193,6 @@ module.exports = function (environment) {
     ENV.APP.isMessageStatusTogglingEnabled = false;
     ENV.APP.LOAD_EXTERNAL_SCRIPT = false;
     ENV.APP.FT_FOCUS_CHALLENGE_ENABLED = true;
-
-    ENV.poleEmploi.host = 'https://authentification-candidat-r.pe-qvr.fr';
   }
 
   if (environment === 'production') {
