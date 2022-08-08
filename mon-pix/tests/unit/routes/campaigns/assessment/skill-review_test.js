@@ -7,6 +7,7 @@ describe('Unit | Route | Campaign | Assessment | Skill review', function () {
 
   let route;
   const campaign = { id: 123456, code: 'NEW_CODE' };
+  const campaignParticipation = { id: 1212, isShared: true, hasMany: sinon.stub() };
   const user = { id: 567890 };
   const storeStub = {
     queryRecord: sinon.stub(),
@@ -15,10 +16,11 @@ describe('Unit | Route | Campaign | Assessment | Skill review', function () {
 
   beforeEach(function () {
     route = this.owner.lookup('route:campaigns.assessment.skill-review');
-    route.modelFor = sinon.stub().returns(campaign);
+    route.modelFor = sinon.stub().returns({ campaign, campaignParticipation });
     route.router = { transitionTo: sinon.stub() };
     route.store = storeStub;
     route.currentUser = currentUserStub;
+    campaignParticipation.hasMany.returns({ reload: sinon.stub() });
   });
 
   describe('#model', function () {
