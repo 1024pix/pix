@@ -297,6 +297,7 @@ module.exports = (function () {
       },
       sendEmailJob: {
         recipient: process.env.CPF_SEND_EMAIL_JOB_RECIPIENT,
+        cron: process.env.CPF_SEND_EMAIL_JOB_CRON,
       },
     },
   };

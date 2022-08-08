@@ -55,6 +55,7 @@ const schema = Joi.object({
   CPF_PLANNER_JOB_MINIMUM_RELIABILITY_PERIOD: Joi.number().optional(),
   CPF_PLANNER_JOB_CRON: Joi.string().optional(),
   CPF_SEND_EMAIL_JOB_RECIPIENT: Joi.string().optional(),
+  CPF_SEND_EMAIL_JOB_CRON: Joi.string().optional(),
 }).options({ allowUnknown: true });
 
 const validateEnvironmentVariables = function () {
