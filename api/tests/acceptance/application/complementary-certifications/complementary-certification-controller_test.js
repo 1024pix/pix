@@ -5,6 +5,7 @@ const {
   generateValidRequestAuthorizationHeader,
 } = require('../../../test-helper');
 const createServer = require('../../../../server');
+const { CLEA, PIX_PLUS_EDU_1ER_DEGRE } = require('../../../../lib/domain/models/ComplementaryCertification');
 
 describe('Acceptance | API | complementary-certification-controller', function () {
   let server;
@@ -27,12 +28,12 @@ describe('Acceptance | API | complementary-certification-controller', function (
       databaseBuilder.factory.buildComplementaryCertification({
         id: 1,
         label: 'Pix+ Edu 1er degré',
-        key: 'EDU_1ER_DEGRE',
+        key: PIX_PLUS_EDU_1ER_DEGRE,
       });
       databaseBuilder.factory.buildComplementaryCertification({
         id: 2,
         label: 'Cléa Numérique',
-        key: 'CLEA',
+        key: CLEA,
       });
       await databaseBuilder.commit();
 
@@ -48,7 +49,7 @@ describe('Acceptance | API | complementary-certification-controller', function (
             id: '1',
             attributes: {
               label: 'Pix+ Edu 1er degré',
-              key: 'EDU_1ER_DEGRE',
+              key: PIX_PLUS_EDU_1ER_DEGRE,
             },
           },
           {
@@ -56,7 +57,7 @@ describe('Acceptance | API | complementary-certification-controller', function (
             id: '2',
             attributes: {
               label: 'Cléa Numérique',
-              key: 'CLEA',
+              key: CLEA,
             },
           },
         ],

@@ -1,4 +1,10 @@
 const { expect, domainBuilder } = require('../../../test-helper');
+const {
+  PIX_PLUS_DROIT,
+  CLEA,
+  PIX_PLUS_EDU_1ER_DEGRE,
+  PIX_PLUS_EDU_2ND_DEGRE,
+} = require('../../../../lib/domain/models/ComplementaryCertification');
 
 describe('Unit | Domain | Models | CertificationCenter', function () {
   describe('#isSco', function () {
@@ -31,7 +37,7 @@ describe('Unit | Domain | Models | CertificationCenter', function () {
     it('should return true when the certification center has Pix+ Droit complementary certification', function () {
       // given
       const pixPlusDroitComplementaryCertification = domainBuilder.buildComplementaryCertification({
-        key: 'DROIT',
+        key: PIX_PLUS_DROIT,
       });
       const certificationCenter = domainBuilder.buildCertificationCenter({
         habilitations: [pixPlusDroitComplementaryCertification],
@@ -54,7 +60,7 @@ describe('Unit | Domain | Models | CertificationCenter', function () {
     it('should return true when the certification center has Pix+ Edu 1er degre habilitation', function () {
       // given
       const pixPlusEdu1erDegreComplementaryCertification = domainBuilder.buildComplementaryCertification({
-        key: 'EDU_1ER_DEGRE',
+        key: PIX_PLUS_EDU_1ER_DEGRE,
       });
       const certificationCenter = domainBuilder.buildCertificationCenter({
         habilitations: [pixPlusEdu1erDegreComplementaryCertification],
@@ -77,7 +83,7 @@ describe('Unit | Domain | Models | CertificationCenter', function () {
     it('should return true when the certification center has Pix+ Edu 2nd degre habilitation', function () {
       // given
       const complementaryCertification = domainBuilder.buildComplementaryCertification({
-        key: 'EDU_2ND_DEGRE',
+        key: PIX_PLUS_EDU_2ND_DEGRE,
       });
       const certificationCenter = domainBuilder.buildCertificationCenter({
         habilitations: [complementaryCertification],
@@ -100,7 +106,7 @@ describe('Unit | Domain | Models | CertificationCenter', function () {
     it('should return true when the certification center has Cléa numérique complementary certification', function () {
       // given
       const cleaComplementaryCertification = domainBuilder.buildComplementaryCertification({
-        key: 'CLEA',
+        key: CLEA,
       });
       const certificationCenter = domainBuilder.buildCertificationCenter({
         habilitations: [cleaComplementaryCertification],
