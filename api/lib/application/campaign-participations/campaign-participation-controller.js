@@ -8,6 +8,7 @@ const campaignAssessmentParticipationSerializer = require('../../infrastructure/
 const campaignAssessmentParticipationResultSerializer = require('../../infrastructure/serializers/jsonapi/campaign-assessment-participation-result-serializer');
 const campaignProfileSerializer = require('../../infrastructure/serializers/jsonapi/campaign-profile-serializer');
 const campaignAssessmentResultMinimalSerializer = require('../../infrastructure/serializers/jsonapi/campaign-assessment-result-minimal-serializer');
+const trainingSerializer = require('../../infrastructure/serializers/jsonapi/training-serializer');
 const requestResponseUtils = require('../../infrastructure/utils/request-response-utils');
 const DomainTransaction = require('../../infrastructure/DomainTransaction');
 const { extractLocaleFromRequest } = require('../../infrastructure/utils/request-response-utils');
@@ -169,5 +170,14 @@ module.exports = {
       });
     });
     return h.response({}).code(204);
+  },
+
+  async findTrainings(request) {
+    const { userId } = request.auth.credentials;
+    const { id: campaignParticipationId } = request.params;
+    const locale = extractLocaleFromRequest(request);
+
+    const trainings = await usecases.findCampaignParticipationTrainings({ userId, campaignParticipationId, locale });
+    return trainingSerializer.serialize(trainings);
   },
 };
