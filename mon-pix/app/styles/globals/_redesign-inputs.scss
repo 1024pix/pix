@@ -36,78 +36,6 @@ fieldset {
 
 /**
  *
- * Configure Checkboxes of proposals
- *
- **/
-.input-checkbox-proposal {
-  opacity: 0;
-  display: none;
-}
-
-/* XXX Can't use BEM properly when using CSS state manipulation */
-.input-checkbox-proposal:checked ~ label svg.checkbox-off {
-  opacity: 0;
-  transition: opacity 0.2s linear;
-}
-
-.input-checkbox-proposal:not(:checked) ~ label svg.checkbox-off {
-  opacity: 1;
-  transition: opacity 0.2s linear;
-}
-
-.input-checkbox-proposal:checked ~ label svg.checkbox-on {
-  opacity: 1;
-  transition: opacity 0.2s linear;
-}
-
-.input-checkbox-proposal:not(:checked) ~ label svg.checkbox-on {
-  opacity: 0;
-  transition: opacity 0.2s linear;
-}
-
-input[type=checkbox]::before {
-  position: relative;
-  height: 18px;
-  width: 18px;
-  top: -3px;
-  border: 2px solid $pix-neutral-40;
-  content: ' ';
-  display: block;
-  background-color: $pix-neutral-0;
-  border-radius: 10%;
-  box-sizing: border-box;
-}
-
-input[type=checkbox]:checked::before {
-  border-color: $pix-primary;
-  background-color: $pix-primary;
-}
-
-input[type=checkbox]:checked::after {
-  height: 18px;
-  width: 18px;
-  position: relative;
-  top: -21px;
-  font-size: 0.875rem;
-  color: $pix-neutral-0;
-  font-weight: $font-bold;
-  content: '✓';
-  display: block;
-  text-align: center;
-}
-
-input[type=checkbox]:focus::before,
-input[type=checkbox]:hover::before {
-  box-shadow: 0 0 0 8px rgba($pix-primary, 0.1);
-  border-color: $pix-primary;
-}
-
-input[type=checkbox]:active::before {
-  box-shadow: 0 0 0 8px rgba($pix-primary, 0.3);
-}
-
-/**
- *
  * Configure Radios of proposals
  *
  **/
@@ -198,8 +126,4 @@ input[type=radio]:active::before {
   flex-direction: row;
   align-items: center;
   justify-content: flex-start;
-}
-
-.proposal-paragraph > input[type=checkbox] {
-  flex-shrink: 0;
 }

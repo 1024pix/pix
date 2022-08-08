@@ -307,7 +307,8 @@
       "not-finished": {
         "title": "Vous avez presque terminé",
         "supervisor": "Appelez le surveillant : '<br>'Il doit impérativement voir cet écran pour finaliser votre certification.",
-        "warning-text": "Le surveillant a bien vu cet écran."
+        "warning-text": "Le surveillant a bien vu cet écran.",
+        "checkbox-label": "Le surveillant doit cliquer ici."
       }
     },
     "certification-ender": {

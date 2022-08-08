@@ -18,17 +18,12 @@
       </p>
     </div>
 
-    <div class="terms-of-service-form__conditions">
-      <label for="pix-cgu">
-        <Input
-          @type="checkbox"
-          id="pix-cgu"
-          class="terms-of-service-form-conditions__check"
-          @checked={{this.isTermsOfServiceValidated}}
-        />
-        {{t "pages.terms-of-service-oidc.cgu" htmlSafe=true}}
-      </label>
-    </div>
+    <PixCheckbox
+      @id="pix-cgu"
+      @label={{t "pages.terms-of-service-oidc.cgu" htmlSafe=true}}
+      {{on "change" this.onChange}}
+      aria-label={{t "common.cgu.label"}}
+    />
 
     {{#if this.errorMessage}}
       <PixMessage @type="error">

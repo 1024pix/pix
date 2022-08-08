@@ -46,12 +46,12 @@ describe('Acceptance | Campaigns | Start Campaigns with type Assessment', funct
         context('When participant external id is not set in the url', function () {
           beforeEach(async function () {
             campaign = server.create('campaign', { idPixLabel: 'email', type: ASSESSMENT });
-            await startCampaignByCode(campaign.code);
+            const screen = await startCampaignByCode(campaign.code);
             await fillIn('#firstName', prescritUser.firstName);
             await fillIn('#lastName', prescritUser.lastName);
             await fillIn('#email', prescritUser.email);
             await fillIn('#password', prescritUser.password);
-            await click('.signup-form__cgu');
+            await click(screen.getByRole('checkbox', { name: this.intl.t('common.cgu.label') }));
             await clickByLabel(this.intl.t('pages.sign-up.actions.submit'));
           });
 
@@ -77,12 +77,12 @@ describe('Acceptance | Campaigns | Start Campaigns with type Assessment', funct
           context('When campaign is not restricted', function () {
             beforeEach(async function () {
               campaign = server.create('campaign', { isRestricted: false, idPixLabel: 'toto', type: ASSESSMENT });
-              await startCampaignByCodeAndExternalId(campaign.code);
+              const screen = await startCampaignByCodeAndExternalId(campaign.code);
               await fillIn('#firstName', prescritUser.firstName);
               await fillIn('#lastName', prescritUser.lastName);
               await fillIn('#email', prescritUser.email);
               await fillIn('#password', prescritUser.password);
-              await click('.signup-form__cgu');
+              await click(screen.getByRole('checkbox', { name: this.intl.t('common.cgu.label') }));
               await clickByLabel(this.intl.t('pages.sign-up.actions.submit'));
             });
 
@@ -129,12 +129,12 @@ describe('Acceptance | Campaigns | Start Campaigns with type Assessment', funct
       context('When campaign does not have external id', function () {
         beforeEach(async function () {
           campaign = server.create('campaign', { idPixLabel: null, type: ASSESSMENT });
-          await startCampaignByCode(campaign.code);
+          const screen = await startCampaignByCode(campaign.code);
           await fillIn('#firstName', prescritUser.firstName);
           await fillIn('#lastName', prescritUser.lastName);
           await fillIn('#email', prescritUser.email);
           await fillIn('#password', prescritUser.password);
-          await click('.signup-form__cgu');
+          await click(screen.getByRole('checkbox', { name: this.intl.t('common.cgu.label') }));
           await clickByLabel(this.intl.t('pages.sign-up.actions.submit'));
         });
 
@@ -147,12 +147,12 @@ describe('Acceptance | Campaigns | Start Campaigns with type Assessment', funct
       context('When campaign does not have external id but a participant external id is set in the url', function () {
         beforeEach(async function () {
           campaign = server.create('campaign', { type: ASSESSMENT });
-          await startCampaignByCodeAndExternalId(campaign.code);
+          const screen = await startCampaignByCodeAndExternalId(campaign.code);
           await fillIn('#firstName', prescritUser.firstName);
           await fillIn('#lastName', prescritUser.lastName);
           await fillIn('#email', prescritUser.email);
           await fillIn('#password', prescritUser.password);
-          await click('.signup-form__cgu');
+          await click(screen.getByRole('checkbox', { name: this.intl.t('common.cgu.label') }));
           await clickByLabel(this.intl.t('pages.sign-up.actions.submit'));
         });
 

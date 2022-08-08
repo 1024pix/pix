@@ -30,4 +30,9 @@ export default class TermsOfServiceController extends Controller {
       this.showErrorTermsOfServiceNotSelected = true;
     }
   }
+
+  @action
+  onChange(event) {
+    this.isTermsOfServiceValidated = !!event.target.checked;
+  }
 }

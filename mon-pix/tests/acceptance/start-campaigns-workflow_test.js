@@ -3,7 +3,7 @@
 import { beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
 
-import { click, fillIn, currentURL, find, visit } from '@ember/test-helpers';
+import { click, fillIn, currentURL, find } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { Response } from 'ember-cli-mirage';
@@ -11,7 +11,7 @@ import { Response } from 'ember-cli-mirage';
 import { contains } from '../helpers/contains';
 import { clickByLabel } from '../helpers/click-by-label';
 import { fillInByLabel } from '../helpers/fill-in-by-label';
-
+import { visit } from '@1024pix/ember-testing-library';
 import { authenticateByEmail, authenticateByGAR } from '../helpers/authentication';
 import { startCampaignByCode, startCampaignByCodeAndExternalId } from '../helpers/campaign';
 import { currentSession } from 'ember-simple-auth/test-support';
@@ -103,7 +103,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
 
               // given
               const campaign = server.create('campaign', { isRestricted: false });
-              await visit('/campagnes');
+              const screen = await visit('/campagnes');
               await fillIn('#campaign-code', campaign.code);
               await click('.fill-in-campaign-code__start-button');
               expect(currentURL()).to.equal(`/campagnes/${campaign.code}/presentation`);
@@ -113,7 +113,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
               await fillIn('#lastName', prescritUser.lastName);
               await fillIn('#email', prescritUser.email);
               await fillIn('#password', prescritUser.password);
-              await click('.signup-form__cgu');
+              await click(screen.getByRole('checkbox', { name: this.intl.t('common.cgu.label') }));
 
               // when
               await clickByLabel(this.intl.t('pages.sign-up.actions.submit'));

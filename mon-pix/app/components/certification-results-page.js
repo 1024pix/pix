@@ -12,4 +12,9 @@ export default class CertificationResultsPage extends Component {
       this.notFinishedYet = false;
     }
   }
+
+  @action
+  onChange(event) {
+    this.validSupervisor = !!event.target.checked;
+  }
 }
