@@ -106,28 +106,4 @@ describe('Unit | Controller | pole-emploi-controller', function () {
       expect(result.source.logout_url_uuid).to.equal('842213eb-d19b-45a1-9842-787276f34f6c');
     });
   });
-
-  describe('#getAuthenticationUrl', function () {
-    it('should call pole emploi authentication service to generate url', async function () {
-      // given
-      const request = { query: { redirect_uri: 'http:/exemple.net/' } };
-      const getAuthenticationUrlStub = sinon.stub();
-      const oidcAuthenticationService = {
-        getAuthenticationUrl: getAuthenticationUrlStub,
-      };
-      sinon
-        .stub(authenticationRegistry, 'lookupAuthenticationService')
-        .withArgs('POLE_EMPLOI')
-        .returns(oidcAuthenticationService);
-      getAuthenticationUrlStub.returns('an authentication url');
-
-      // when
-      await poleEmploiController.getAuthenticationUrl(request, hFake);
-
-      //then
-      expect(oidcAuthenticationService.getAuthenticationUrl).to.have.been.calledWith({
-        redirectUri: 'http:/exemple.net/',
-      });
-    });
-  });
 });

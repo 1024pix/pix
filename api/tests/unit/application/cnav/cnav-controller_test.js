@@ -46,28 +46,4 @@ describe('Unit | Controller | cnav-controller', function () {
       expect(result.source.access_token).to.equal(accessToken);
     });
   });
-
-  describe('#getAuthenticationUrl', function () {
-    it('should call cnav authentication service to generate url', async function () {
-      // given
-      const request = { query: { redirect_uri: 'http:/exemple.net/' } };
-      const getAuthenticationUrlStub = sinon.stub();
-      const oidcAuthenticationService = {
-        getAuthenticationUrl: getAuthenticationUrlStub,
-      };
-      sinon
-        .stub(authenticationRegistry, 'lookupAuthenticationService')
-        .withArgs('CNAV')
-        .returns(oidcAuthenticationService);
-      getAuthenticationUrlStub.returns('an authentication url');
-
-      // when
-      await cnavController.getAuthenticationUrl(request, hFake);
-
-      //then
-      expect(oidcAuthenticationService.getAuthenticationUrl).to.have.been.calledWith({
-        redirectUri: 'http:/exemple.net/',
-      });
-    });
-  });
 });

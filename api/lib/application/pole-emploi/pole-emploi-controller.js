@@ -32,16 +32,6 @@ module.exports = {
     const { sendings, link } = await usecases.getPoleEmploiSendings({ cursor, filters });
     return h.response(sendings).header('link', link).code(200);
   },
-
-  async getAuthenticationUrl(request, h) {
-    const oidcAuthenticationService = authenticationRegistry.lookupAuthenticationService(
-      AuthenticationMethod.identityProviders.POLE_EMPLOI
-    );
-    const result = oidcAuthenticationService.getAuthenticationUrl({
-      redirectUri: request.query['redirect_uri'],
-    });
-    return h.response(result).code(200);
-  },
 };
 
 function _extractFilters(request) {

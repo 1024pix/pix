@@ -61,19 +61,6 @@ exports.register = async function (server) {
         tags: ['api', 'pole-emploi'],
       },
     },
-    {
-      method: 'GET',
-      path: '/api/pole-emploi/auth-url',
-      config: {
-        auth: false,
-        handler: poleEmploiController.getAuthenticationUrl,
-        notes: [
-          "- Cette route permet de récupérer l'url d'authentification de Pole emploi.\n" +
-            '- Elle retournera également les valeurs state et nonce.',
-        ],
-        tags: ['api', 'Pôle emploi'],
-      },
-    },
   ]);
 };
 
