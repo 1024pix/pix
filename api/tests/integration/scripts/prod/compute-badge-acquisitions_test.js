@@ -10,7 +10,7 @@ const {
   normalizeRange,
   computeAllBadgeAcquisitions,
   computeBadgeAcquisition,
-  getCampaignParticipationsBetweenIds,
+  getFinishedCampaignParticipationsBetweenIds,
 } = require('../../../../scripts/prod/compute-badge-acquisitions');
 const _ = require('lodash');
 const CampaignParticipation = require('../../../../lib/domain/models/CampaignParticipation');
@@ -20,6 +20,7 @@ const badgeAcquisitionRepository = require('../../../../lib/infrastructure/repos
 const badgeRepository = require('../../../../lib/infrastructure/repositories/badge-repository');
 const knowledgeElementRepository = require('../../../../lib/infrastructure/repositories/knowledge-element-repository');
 const targetProfileRepository = require('../../../../lib/infrastructure/repositories/target-profile-repository');
+const CampaignParticipationStatuses = require('../../../../lib/domain/models/CampaignParticipationStatuses');
 
 describe('Script | Prod | Compute Badge Acquisitions', function () {
   describe('#validateRange', function () {
@@ -53,21 +54,27 @@ describe('Script | Prod | Compute Badge Acquisitions', function () {
     });
   });
 
-  describe('#getCampaignParticipationsBetweenIds', function () {
+  describe('#getFinishedCampaignParticipationsBetweenIds', function () {
     it('should return campaign participation between idMin and idMax', async function () {
       // given
       databaseBuilder.factory.buildCampaignParticipation();
-      const id2 = databaseBuilder.factory.buildCampaignParticipation().id;
-      const id3 = databaseBuilder.factory.buildCampaignParticipation().id;
-      const id4 = databaseBuilder.factory.buildCampaignParticipation().id;
+      const id2 = databaseBuilder.factory.buildCampaignParticipation({
+        status: CampaignParticipationStatuses.STARTED,
+      }).id;
+      const id3 = databaseBuilder.factory.buildCampaignParticipation({
+        status: CampaignParticipationStatuses.TO_SHARE,
+      }).id;
+      const id4 = databaseBuilder.factory.buildCampaignParticipation({
+        status: CampaignParticipationStatuses.SHARED,
+      }).id;
       await databaseBuilder.commit();
 
       // when
-      const campaignParticipations = await getCampaignParticipationsBetweenIds({ idMin: id2, idMax: id4 });
+      const campaignParticipations = await getFinishedCampaignParticipationsBetweenIds({ idMin: id2, idMax: id4 });
 
       // then
-      expect(campaignParticipations.length).to.equal(3);
-      expect(campaignParticipations.map(({ id }) => id)).to.deep.equal([id2, id3, id4]);
+      expect(campaignParticipations.length).to.equal(2);
+      expect(campaignParticipations.map(({ id }) => id)).to.deep.equal([id3, id4]);
       expect(campaignParticipations[0]).to.be.instanceOf(CampaignParticipation);
     });
   });
@@ -141,8 +148,16 @@ describe('Script | Prod | Compute Badge Acquisitions', function () {
       databaseBuilder.factory.buildKnowledgeElement({ userId: userId2, skillId: 'web4', status: 'invalidated' });
 
       const campaignId = databaseBuilder.factory.buildCampaign({ targetProfileId }).id;
-      campaignParticipation1 = databaseBuilder.factory.buildCampaignParticipation({ campaignId, userId: userId1 });
-      campaignParticipation2 = databaseBuilder.factory.buildCampaignParticipation({ campaignId, userId: userId2 });
+      campaignParticipation1 = databaseBuilder.factory.buildCampaignParticipation({
+        campaignId,
+        userId: userId1,
+        status: CampaignParticipationStatuses.SHARED,
+      });
+      campaignParticipation2 = databaseBuilder.factory.buildCampaignParticipation({
+        campaignId,
+        userId: userId2,
+        status: CampaignParticipationStatuses.TO_SHARE,
+      });
 
       badgeCompleted = databaseBuilder.factory.buildBadge({
         targetProfileId,

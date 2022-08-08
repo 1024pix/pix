@@ -13,6 +13,7 @@ const badgeRepository = require('../../lib/infrastructure/repositories/badge-rep
 const knowledgeElementRepository = require('../../lib/infrastructure/repositories/knowledge-element-repository');
 const targetProfileRepository = require('../../lib/infrastructure/repositories/target-profile-repository');
 const cache = require('../../lib/infrastructure/caches/learning-content-cache');
+const CampaignParticipationStatuses = require('../../lib/domain/models/CampaignParticipationStatuses');
 
 const MAX_RANGE_SIZE = 100_000;
 
@@ -58,7 +59,8 @@ function normalizeRange({ idMin, idMax }) {
 }
 
 async function computeAllBadgeAcquisitions({ idMin, idMax, dryRun }) {
-  const campaignParticipations = await getCampaignParticipationsBetweenIds({ idMin, idMax });
+  const campaignParticipations = await getFinishedCampaignParticipationsBetweenIds({ idMin, idMax });
+
   const numberOfBadgeCreatedByCampaignParticipation = await bluebird.mapSeries(
     campaignParticipations,
     async (campaignParticipation, index) => {
@@ -129,8 +131,10 @@ function _fetchPossibleCampaignAssociatedBadges(campaignParticipation, badgeRepo
   return badgeRepository.findByCampaignParticipationId(campaignParticipation.id);
 }
 
-async function getCampaignParticipationsBetweenIds({ idMin, idMax }) {
-  const campaignParticipations = await knex('campaign-participations').whereBetween('id', [idMin, idMax]);
+async function getFinishedCampaignParticipationsBetweenIds({ idMin, idMax }) {
+  const campaignParticipations = await knex('campaign-participations')
+    .whereBetween('id', [idMin, idMax])
+    .whereIn('status', [CampaignParticipationStatuses.TO_SHARE, CampaignParticipationStatuses.SHARED]);
   return campaignParticipations.map((campaignParticipation) => new CampaignParticipation(campaignParticipation));
 }
 
@@ -154,5 +158,5 @@ module.exports = {
   normalizeRange,
   computeAllBadgeAcquisitions,
   computeBadgeAcquisition,
-  getCampaignParticipationsBetweenIds,
+  getFinishedCampaignParticipationsBetweenIds,
 };
