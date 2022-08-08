@@ -622,6 +622,33 @@ exports.register = async (server) => {
     },
     {
       method: 'GET',
+      path: '/api/organizations/{id}/sup-participants',
+      config: {
+        pre: [
+          {
+            method: securityPreHandlers.checkUserBelongsToSupOrganizationAndManagesStudents,
+            assign: 'belongsToSupOrganizationAndManagesStudents',
+          },
+        ],
+        validate: {
+          params: Joi.object({
+            id: identifiersType.organizationId,
+          }),
+          query: Joi.object({
+            'page[size]': Joi.number().integer().empty(''),
+            'page[number]': Joi.number().integer().empty(''),
+          }).options({ allowUnknown: true }),
+        },
+        handler: organizationController.findPaginatedFilteredSupParticipants,
+        tags: ['api', 'organization', 'sup-participants'],
+        notes: [
+          "- **Cette route est restreinte aux utilisateurs authentifiés membres d'un espace Orga**\n" +
+            '- Récupération des étudiants liés à une organisation SUP\n',
+        ],
+      },
+    },
+    {
+      method: 'GET',
       path: '/api/organizations/{id}/students',
       config: {
         pre: [
@@ -645,6 +672,35 @@ exports.register = async (server) => {
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
             '- Récupération des élèves liés à une organisation\n',
+          "- L'usage de cette route est **dépréciée** en faveur de /api/organizations/{id}/sco-participants and /api/organizations/{id}/sup-participants",
+        ],
+      },
+    },
+    {
+      method: 'GET',
+      path: '/api/organizations/{id}/sco-participants',
+      config: {
+        pre: [
+          {
+            method: securityPreHandlers.checkUserBelongsToScoOrganizationAndManagesStudents,
+            assign: 'belongsToScoOrganizationAndManagesStudents',
+          },
+        ],
+        validate: {
+          params: Joi.object({
+            id: identifiersType.organizationId,
+          }),
+          query: Joi.object({
+            'page[size]': Joi.number().integer().empty(''),
+            'page[number]': Joi.number().integer().empty(''),
+            'filter[divisions][]': [Joi.string(), Joi.array().items(Joi.string())],
+          }).options({ allowUnknown: true }),
+        },
+        handler: organizationController.findPaginatedFilteredScoParticipants,
+        tags: ['api', 'organization', 'sco-participants'],
+        notes: [
+          "- **Cette route est restreinte aux utilisateurs authentifiés membres d'un espace Orga**\n" +
+            '- Récupération des élèves liés à une organisation SCO\n',
         ],
       },
     },
