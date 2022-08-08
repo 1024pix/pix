@@ -94,8 +94,13 @@ export default class LoginOidcRoute extends Route {
     }
 
     const redirectUri = this._getRedirectUri(identityProviderSlug);
+    const identityProvider = IdentityProviders[identityProviderSlug]?.code;
     const response = await fetch(
-      `${ENV.APP.API_HOST}/api/${identityProviderSlug}/auth-url?redirect_uri=${encodeURIComponent(redirectUri)}`
+      `${
+        ENV.APP.API_HOST
+      }/api/oidc/authentication-url?identity_provider=${identityProvider}&redirect_uri=${encodeURIComponent(
+        redirectUri
+      )}`
     );
     const { redirectTarget, state, nonce } = await response.json();
     this.session.set('data.state', state);
