@@ -236,6 +236,23 @@ exports.register = async function (server) {
         tags: ['api', 'campaign-participations'],
       },
     },
+    {
+      method: 'GET',
+      path: '/api/campaign-participations/{id}/trainings',
+      config: {
+        validate: {
+          params: Joi.object({
+            id: identifiersType.campaignParticipationId,
+          }),
+        },
+        handler: campaignParticipationController.findTrainings,
+        notes: [
+          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
+            '- Récupération des formations de la campagne d‘un utilisateur',
+        ],
+        tags: ['api', 'campaign-participations', 'trainings'],
+      },
+    },
   ]);
 };
 

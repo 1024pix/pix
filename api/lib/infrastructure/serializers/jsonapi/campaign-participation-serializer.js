@@ -11,10 +11,20 @@ module.exports = {
         if (campaignParticipation.lastAssessment) {
           campaignParticipationForSerialization.assessment = { id: campaignParticipation.lastAssessment.id };
         }
+        campaignParticipationForSerialization.trainings = null;
         return campaignParticipationForSerialization;
       },
 
-      attributes: ['isShared', 'sharedAt', 'createdAt', 'participantExternalId', 'campaign', 'assessment', 'deletedAt'],
+      attributes: [
+        'isShared',
+        'sharedAt',
+        'createdAt',
+        'participantExternalId',
+        'campaign',
+        'assessment',
+        'deletedAt',
+        'trainings',
+      ],
       campaign: {
         ref: 'id',
         attributes: ['code', 'title', 'type'],
@@ -25,6 +35,15 @@ module.exports = {
         relationshipLinks: {
           related(record) {
             return `/api/assessments/${record.assessment.id}`;
+          },
+        },
+      },
+      trainings: {
+        ref: 'id',
+        ignoreRelationshipData: true,
+        relationshipLinks: {
+          related(record, current, parent) {
+            return `/api/campaign-participations/${parent.id}/trainings`;
           },
         },
       },
