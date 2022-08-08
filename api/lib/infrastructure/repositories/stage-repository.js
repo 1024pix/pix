@@ -1,55 +1,51 @@
-const BookshelfStage = require('../orm-models/Stage');
-const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
+const { knex } = require('../../../db/knex-database-connection');
+const Stage = require('../../domain/models/Stage');
 const _ = require('lodash');
-const { NotFoundError, ObjectValidationError } = require('../../domain/errors');
+const { NotFoundError } = require('../../domain/errors');
+
+const TABLE_NAME = 'stages';
 
 module.exports = {
   async findByCampaignId(campaignId) {
-    const results = await BookshelfStage.query((qb) => {
-      qb.join('campaigns', 'campaigns.targetProfileId', 'stages.targetProfileId');
-      qb.where('campaigns.id', '=', campaignId);
-      qb.orderBy('stages.threshold');
-    }).fetchAll({ require: false });
+    const results = await knex(TABLE_NAME)
+      .select('stages.*')
+      .join('campaigns', 'campaigns.targetProfileId', 'stages.targetProfileId')
+      .where('campaigns.id', campaignId)
+      .orderBy('stages.threshold', 'asc');
 
-    return bookshelfToDomainConverter.buildDomainObjects(BookshelfStage, results);
+    return results.map(_toDomain);
   },
 
-  findByTargetProfileId(targetProfileId) {
-    return BookshelfStage.where({ targetProfileId })
-      .orderBy('threshold')
-      .fetchAll({ require: false })
-      .then((results) => bookshelfToDomainConverter.buildDomainObjects(BookshelfStage, results));
+  async findByTargetProfileId(targetProfileId) {
+    const stages = await knex(TABLE_NAME).where({ targetProfileId }).orderBy('threshold');
+    return stages.map(_toDomain);
   },
 
   async create(stage) {
     const stageAttributes = _.pick(stage, ['title', 'message', 'threshold', 'targetProfileId']);
-    const createdStage = await new BookshelfStage(stageAttributes).save();
-    return bookshelfToDomainConverter.buildDomainObject(BookshelfStage, createdStage);
+    const [createdStage] = await knex(TABLE_NAME).insert(stageAttributes).returning('*');
+    return _toDomain(createdStage);
   },
 
   async updateStage({ id, title, message, threshold, prescriberTitle, prescriberDescription }) {
-    try {
-      await new BookshelfStage({ id }).save(
-        { title, message, threshold, prescriberTitle, prescriberDescription },
-        { patch: true }
-      );
-    } catch (error) {
-      if (error instanceof BookshelfStage.NoRowsUpdatedError) {
-        throw new NotFoundError(`Le palier avec l'id ${id} n'existe pas`);
-      }
-      throw new ObjectValidationError();
+    const updatedRows = await knex(TABLE_NAME)
+      .where('id', id)
+      .update({ title, message, threshold, prescriberTitle, prescriberDescription, updatedAt: new Date() });
+
+    if (!updatedRows) {
+      throw new NotFoundError(`Le palier avec l'id ${id} n'existe pas`);
     }
   },
 
   async get(id) {
-    const bookshelfStage = await BookshelfStage.where('id', id)
-      .fetch()
-      .catch((err) => {
-        if (err instanceof BookshelfStage.NotFoundError) {
-          throw new NotFoundError(`Not found stage for ID ${id}`);
-        }
-        throw err;
-      });
-    return bookshelfToDomainConverter.buildDomainObject(BookshelfStage, bookshelfStage);
+    const stage = await knex(TABLE_NAME).where({ id }).first();
+    if (!stage) {
+      throw new NotFoundError(`Not found stage for ID ${id}`);
+    }
+    return _toDomain(stage);
   },
 };
+
+function _toDomain(stage) {
+  return new Stage(stage);
+}
