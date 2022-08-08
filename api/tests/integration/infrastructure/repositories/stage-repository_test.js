@@ -155,14 +155,18 @@ describe('Integration | Repository | StageRepository', function () {
     });
 
     it('should not update the stage when the id is unknown and throw an error', async function () {
+      // given
+      const id = 999999;
+
       // when
       const error = await catchErr(stageRepository.updateStage)({
-        id: 999999,
+        id,
         prescriberTitle: 'palier bof',
       });
 
       // then
       expect(error).to.be.instanceOf(NotFoundError);
+      expect(error.message).to.equal(`Le palier avec l'id ${id} n'existe pas`);
     });
   });
 
@@ -198,6 +202,7 @@ describe('Integration | Repository | StageRepository', function () {
 
       // then
       expect(error).to.be.instanceOf(NotFoundError);
+      expect(error.message).to.equal(`Not found stage for ID ${unknownId}`);
     });
   });
 });
