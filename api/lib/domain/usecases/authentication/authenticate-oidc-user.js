@@ -31,7 +31,7 @@ module.exports = async function authenticateOidcUser({
   const userId = user?.id || authenticatedUserId;
 
   if (!userId) {
-    const authenticationKey = await authenticationSessionService.save(sessionContent);
+    const authenticationKey = await authenticationSessionService.save({ userInfo, sessionContent });
     return { authenticationKey, isAuthenticationComplete: false };
   }
 
