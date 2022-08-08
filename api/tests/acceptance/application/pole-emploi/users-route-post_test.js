@@ -40,7 +40,15 @@ describe('Acceptance | Route | pole emploi users', function () {
         idToken,
         refreshToken: 'refreshToken',
       });
-      const userAuthenticationKey = await authenticationSessionService.save(poleEmploiAuthenticationSessionContent);
+      const userAuthenticationKey = await authenticationSessionService.save({
+        sessionContent: poleEmploiAuthenticationSessionContent,
+        userInfo: {
+          firstName,
+          lastName,
+          nonce: 'nonce',
+          externalIdentityId: externalIdentifier,
+        },
+      });
 
       const request = {
         method: 'POST',

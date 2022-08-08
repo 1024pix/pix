@@ -7,7 +7,7 @@ module.exports = {
   async createUser(request, h) {
     const authenticationKey = request.query['authentication-key'];
 
-    const { userId } = await usecases.createUserFromExternalIdentityProvider({
+    const { userId } = await usecases.createOidcUser({
       authenticationKey,
       identityProvider: AuthenticationMethod.identityProviders.CNAV,
     });
