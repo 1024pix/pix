@@ -33,6 +33,22 @@ describe('Integration | Infrastructure | Repository | Shareable Certificate', fu
     },
   ];
 
+  let pixCleaComplementaryCertificationId, pixDroitComplementaryCertificationId, pixEduComplementaryCertificationId;
+
+  beforeEach(async function () {
+    pixDroitComplementaryCertificationId = databaseBuilder.factory.buildComplementaryCertification({
+      name: 'PIX+ Droit',
+    }).id;
+    pixEduComplementaryCertificationId = databaseBuilder.factory.buildComplementaryCertification({
+      name: 'PIX+ Edu',
+    }).id;
+    pixCleaComplementaryCertificationId = databaseBuilder.factory.buildComplementaryCertification({
+      name: 'CLEA',
+    }).id;
+
+    await databaseBuilder.commit();
+  });
+
   describe('#getByVerificationCode', function () {
     it('should throw a NotFoundError when shareable certificate does not exist', async function () {
       // when
@@ -510,7 +526,13 @@ describe('Integration | Infrastructure | Repository | Shareable Certificate', fu
 
       const { certificateId } = await _buildValidShareableCertificateWithAcquiredAndNotAcquiredBadges({
         shareableCertificateData,
-        acquiredBadges: [PIX_EMPLOI_CLEA_V1],
+        acquiredBadges: [
+          {
+            key: PIX_EMPLOI_CLEA_V1,
+            complementaryCertificationId: pixCleaComplementaryCertificationId,
+            imageUrl: 'https://images.pix.fr/badges-certifies/clea.svg',
+          },
+        ],
         notAcquiredBadges: [],
       });
 
@@ -550,7 +572,13 @@ describe('Integration | Infrastructure | Repository | Shareable Certificate', fu
 
       const { certificateId } = await _buildValidShareableCertificateWithAcquiredAndNotAcquiredBadges({
         shareableCertificateData,
-        acquiredBadges: [PIX_EMPLOI_CLEA_V2],
+        acquiredBadges: [
+          {
+            key: PIX_EMPLOI_CLEA_V2,
+            complementaryCertificationId: pixCleaComplementaryCertificationId,
+            imageUrl: 'https://images.pix.fr/badges-certifies/clea.svg',
+          },
+        ],
         notAcquiredBadges: [],
       });
 
@@ -590,7 +618,13 @@ describe('Integration | Infrastructure | Repository | Shareable Certificate', fu
 
       const { certificateId } = await _buildValidShareableCertificateWithAcquiredAndNotAcquiredBadges({
         shareableCertificateData,
-        acquiredBadges: [PIX_EMPLOI_CLEA_V3],
+        acquiredBadges: [
+          {
+            key: PIX_EMPLOI_CLEA_V3,
+            complementaryCertificationId: pixCleaComplementaryCertificationId,
+            imageUrl: 'https://images.pix.fr/badges-certifies/clea.svg',
+          },
+        ],
         notAcquiredBadges: [],
       });
 
@@ -638,7 +672,18 @@ describe('Integration | Infrastructure | Repository | Shareable Certificate', fu
 
         const { certificateId } = await _buildValidShareableCertificateWithAcquiredAndNotAcquiredBadges({
           shareableCertificateData,
-          acquiredBadges: [PIX_DROIT_EXPERT_CERTIF, PIX_DROIT_MAITRE_CERTIF],
+          acquiredBadges: [
+            {
+              key: PIX_DROIT_EXPERT_CERTIF,
+              imageUrl: 'https://images.pix.fr/badges-certifies/pix-droit/expert.svg',
+              complementaryCertificationId: pixDroitComplementaryCertificationId,
+            },
+            {
+              key: PIX_DROIT_MAITRE_CERTIF,
+              imageUrl: 'https://images.pix.fr/badges-certifies/pix-droit/maitre.svg',
+              complementaryCertificationId: pixDroitComplementaryCertificationId,
+            },
+          ],
           notAcquiredBadges: [],
         });
 
@@ -688,7 +733,13 @@ describe('Integration | Infrastructure | Repository | Shareable Certificate', fu
 
         const { certificateId } = await _buildValidShareableCertificateWithAcquiredAndNotAcquiredBadges({
           shareableCertificateData,
-          temporaryAcquiredBadges: [PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE],
+          temporaryAcquiredBadges: [
+            {
+              key: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
+              imageUrl: 'https://images.pix.fr/badges/Pix_plus_Edu-1-Initie-certif.svg',
+              complementaryCertificationId: pixEduComplementaryCertificationId,
+            },
+          ],
           acquiredBadges: [],
           notAcquiredBadges: [],
         });
@@ -738,7 +789,13 @@ describe('Integration | Infrastructure | Repository | Shareable Certificate', fu
 
         const { certificateId } = await _buildValidShareableCertificateWithAcquiredAndNotAcquiredBadges({
           shareableCertificateData,
-          acquiredBadges: [PIX_DROIT_EXPERT_CERTIF],
+          acquiredBadges: [
+            {
+              key: PIX_DROIT_EXPERT_CERTIF,
+              imageUrl: 'https://images.pix.fr/badges-certifies/pix-droit/expert.svg',
+              complementaryCertificationId: pixDroitComplementaryCertificationId,
+            },
+          ],
           notAcquiredBadges: [],
         });
 
@@ -844,46 +901,65 @@ async function _buildValidShareableCertificateWithAcquiredAndNotAcquiredBadges({
     status: 'validated',
   }).id;
 
-  [...acquiredBadges, 'should_be_ignored'].forEach((badgeKey) => {
-    databaseBuilder.factory.buildBadge({ key: badgeKey });
+  acquiredBadges?.forEach(({ key, imageUrl, complementaryCertificationId }) => {
+    const badgeId = databaseBuilder.factory.buildBadge({ key }).id;
     const { id: complementaryCertificationCourseId } = databaseBuilder.factory.buildComplementaryCertificationCourse({
       certificationCourseId: certificateId,
+      complementaryCertificationId,
     });
     databaseBuilder.factory.buildComplementaryCertificationCourseResult({
       complementaryCertificationCourseId,
-      partnerKey: badgeKey,
+      partnerKey: key,
       acquired: true,
     });
+
+    databaseBuilder.factory.buildComplementaryCertificationBadge({
+      badgeId,
+      complementaryCertificationId,
+      imageUrl,
+    });
   });
-  temporaryAcquiredBadges?.forEach((badgeKey) => {
-    databaseBuilder.factory.buildBadge({ key: badgeKey });
+  temporaryAcquiredBadges?.forEach(({ key, imageUrl, complementaryCertificationId }) => {
+    const badgeId = databaseBuilder.factory.buildBadge({ key }).id;
     const { id: complementaryCertificationCourseId } = databaseBuilder.factory.buildComplementaryCertificationCourse({
       certificationCourseId: certificateId,
+      complementaryCertificationId,
     });
     databaseBuilder.factory.buildComplementaryCertificationCourseResult({
       complementaryCertificationCourseId,
-      partnerKey: badgeKey,
+      partnerKey: key,
       acquired: true,
       source: ComplementaryCertificationCourseResult.sources.PIX,
     });
+    databaseBuilder.factory.buildComplementaryCertificationBadge({
+      badgeId,
+      complementaryCertificationId,
+      imageUrl,
+    });
   });
 
-  notAcquiredBadges.forEach((badgeKey) => {
-    databaseBuilder.factory.buildBadge({ key: badgeKey });
+  notAcquiredBadges.forEach(({ key, imageUrl, complementaryCertificationId }) => {
+    const badgeId = databaseBuilder.factory.buildBadge({ key }).id;
     const { id: complementaryCertificationCourseId } = databaseBuilder.factory.buildComplementaryCertificationCourse({
       certificationCourseId: certificateId,
+      complementaryCertificationId,
     });
     databaseBuilder.factory.buildComplementaryCertificationCourseResult({
       complementaryCertificationCourseId,
-      partnerKey: badgeKey,
+      partnerKey: key,
       acquired: false,
+    });
+
+    databaseBuilder.factory.buildComplementaryCertificationBadge({
+      badgeId,
+      complementaryCertificationId,
+      imageUrl,
     });
   });
 
   databaseBuilder.factory.buildCompetenceMark({
     assessmentResultId,
   });
-
   await databaseBuilder.commit();
   return { certificateId };
 }

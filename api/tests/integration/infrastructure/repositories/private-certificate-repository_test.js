@@ -35,6 +35,19 @@ describe('Integration | Infrastructure | Repository | Private Certificate', func
     },
   ];
 
+  let pixDroitComplementaryCertificationId, pixEduComplementaryCertificationId;
+
+  beforeEach(async function () {
+    pixDroitComplementaryCertificationId = databaseBuilder.factory.buildComplementaryCertification({
+      name: 'PIX+ Droit',
+    }).id;
+    pixEduComplementaryCertificationId = databaseBuilder.factory.buildComplementaryCertification({
+      name: 'PIX+ Edu',
+    }).id;
+
+    await databaseBuilder.commit();
+  });
+
   describe('#get', function () {
     it('should throw a NotFoundError when private certificate does not exist', async function () {
       // when
@@ -78,10 +91,7 @@ describe('Integration | Infrastructure | Repository | Private Certificate', func
         id: certificateId,
         ...privateCertificateData,
       });
-      expect(privateCertificate).to.be.instanceOf(PrivateCertificate);
-      expect(_.omit(privateCertificate, ['resultCompetenceTree'])).to.deep.equal(
-        _.omit(expectedPrivateCertificate, ['resultCompetenceTree'])
-      );
+      expect(privateCertificate).to.deepEqualInstanceOmitting(expectedPrivateCertificate, ['resultCompetenceTree']);
     });
 
     describe('when "locale" is french', function () {
@@ -412,9 +422,7 @@ describe('Integration | Infrastructure | Repository | Private Certificate', func
         id: certificateId,
         ...privateCertificateData,
       });
-      expect(_.omit(privateCertificate, ['resultCompetenceTree'])).to.deep.equal(
-        _.omit(expectedPrivateCertificate, ['resultCompetenceTree'])
-      );
+      expect(privateCertificate).to.deepEqualInstanceOmitting(expectedPrivateCertificate, ['resultCompetenceTree']);
     });
 
     it('should get the clea certification result if taken with badge V1', async function () {
@@ -475,9 +483,7 @@ describe('Integration | Infrastructure | Repository | Private Certificate', func
         id: certificateId,
         ...privateCertificateData,
       });
-      expect(_.omit(privateCertificate, ['resultCompetenceTree'])).to.deep.equal(
-        _.omit(expectedPrivateCertificate, ['resultCompetenceTree'])
-      );
+      expect(privateCertificate).to.deepEqualInstanceOmitting(expectedPrivateCertificate, ['resultCompetenceTree']);
     });
 
     it('should get the clea certification result if taken with badge V2', async function () {
@@ -521,9 +527,7 @@ describe('Integration | Infrastructure | Repository | Private Certificate', func
         id: certificateId,
         ...privateCertificateData,
       });
-      expect(_.omit(privateCertificate, ['resultCompetenceTree'])).to.deep.equal(
-        _.omit(expectedPrivateCertificate, ['resultCompetenceTree'])
-      );
+      expect(privateCertificate).to.deepEqualInstanceOmitting(expectedPrivateCertificate, ['resultCompetenceTree']);
     });
 
     it('should get the clea certification result if taken with badge V3', async function () {
@@ -567,9 +571,7 @@ describe('Integration | Infrastructure | Repository | Private Certificate', func
         id: certificateId,
         ...privateCertificateData,
       });
-      expect(_.omit(privateCertificate, ['resultCompetenceTree'])).to.deep.equal(
-        _.omit(expectedPrivateCertificate, ['resultCompetenceTree'])
-      );
+      expect(privateCertificate).to.deepEqualInstanceOmitting(expectedPrivateCertificate, ['resultCompetenceTree']);
     });
 
     context('acquired certifiable badges', function () {
@@ -603,8 +605,20 @@ describe('Integration | Infrastructure | Repository | Private Certificate', func
 
         const { certificateId } = await _buildValidPrivateCertificateWithAcquiredAndNotAcquiredBadges({
           privateCertificateData,
-          acquiredBadges: [PIX_DROIT_EXPERT_CERTIF, 'should_be_ignored'],
-          notAcquiredBadges: [PIX_DROIT_MAITRE_CERTIF],
+          acquiredBadges: [
+            {
+              key: PIX_DROIT_EXPERT_CERTIF,
+              imageUrl: 'https://images.pix.fr/badges-certifies/pix-droit/expert.svg',
+              complementaryCertificationId: pixDroitComplementaryCertificationId,
+            },
+          ],
+          notAcquiredBadges: [
+            {
+              key: PIX_DROIT_MAITRE_CERTIF,
+              imageUrl: 'https://images.pix.fr/badges-certifies/pix-droit/maitre.svg',
+              complementaryCertificationId: pixDroitComplementaryCertificationId,
+            },
+          ],
         });
 
         // when
@@ -616,9 +630,7 @@ describe('Integration | Infrastructure | Repository | Private Certificate', func
           ...privateCertificateData,
         });
 
-        expect(_.omit(privateCertificate, ['resultCompetenceTree'])).to.deep.equal(
-          _.omit(expectedPrivateCertificate, ['resultCompetenceTree'])
-        );
+        expect(privateCertificate).to.deepEqualInstanceOmitting(expectedPrivateCertificate, ['resultCompetenceTree']);
       });
 
       it('should only take into account acquired ones', async function () {
@@ -651,8 +663,20 @@ describe('Integration | Infrastructure | Repository | Private Certificate', func
 
         const { certificateId } = await _buildValidPrivateCertificateWithAcquiredAndNotAcquiredBadges({
           privateCertificateData,
-          acquiredBadges: [PIX_DROIT_EXPERT_CERTIF],
-          notAcquiredBadges: [PIX_DROIT_MAITRE_CERTIF],
+          acquiredBadges: [
+            {
+              key: PIX_DROIT_EXPERT_CERTIF,
+              imageUrl: 'https://images.pix.fr/badges-certifies/pix-droit/expert.svg',
+              complementaryCertificationId: pixDroitComplementaryCertificationId,
+            },
+          ],
+          notAcquiredBadges: [
+            {
+              key: PIX_DROIT_MAITRE_CERTIF,
+              imageUrl: 'https://images.pix.fr/badges-certifies/pix-droit/maitre.svg',
+              complementaryCertificationId: pixDroitComplementaryCertificationId,
+            },
+          ],
         });
 
         // when
@@ -664,9 +688,7 @@ describe('Integration | Infrastructure | Repository | Private Certificate', func
           ...privateCertificateData,
         });
 
-        expect(_.omit(privateCertificate, ['resultCompetenceTree'])).to.deep.equal(
-          _.omit(expectedPrivateCertificate, ['resultCompetenceTree'])
-        );
+        expect(privateCertificate).to.deepEqualInstanceOmitting(expectedPrivateCertificate, ['resultCompetenceTree']);
       });
     });
 
@@ -700,15 +722,33 @@ describe('Integration | Infrastructure | Repository | Private Certificate', func
 
       const { certificateId } = await _buildValidPrivateCertificateWithAcquiredAndNotAcquiredBadges({
         privateCertificateData,
-        acquiredBadges: [PIX_DROIT_MAITRE_CERTIF, 'should_be_ignored'],
-        notAcquiredBadges: [PIX_DROIT_EXPERT_CERTIF],
+        acquiredBadges: [
+          {
+            key: PIX_DROIT_MAITRE_CERTIF,
+            imageUrl: 'https://images.pix.fr/badges-certifies/pix-droit/maitre.svg',
+            complementaryCertificationId: pixDroitComplementaryCertificationId,
+          },
+        ],
+        notAcquiredBadges: [
+          {
+            key: PIX_DROIT_EXPERT_CERTIF,
+            imageUrl: 'https://images.pix.fr/badges-certifies/pix-droit/expert.svg',
+            complementaryCertificationId: pixDroitComplementaryCertificationId,
+          },
+        ],
       });
 
       await _buildValidPrivateCertificateWithAcquiredAndNotAcquiredBadges({
         privateCertificateData: {},
         acquiredBadges: [],
         notAcquiredBadges: [],
-        temporaryAcquiredBadges: [PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE],
+        temporaryAcquiredBadges: [
+          {
+            key: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
+            imageUrl: 'https://images.pix.fr/badges-certifies/pix-droit/maitre.svg',
+            complementaryCertificationId: pixDroitComplementaryCertificationId,
+          },
+        ],
       });
 
       // when
@@ -756,7 +796,18 @@ describe('Integration | Infrastructure | Repository | Private Certificate', func
 
       const { certificateId } = await _buildValidPrivateCertificateWithAcquiredAndNotAcquiredBadges({
         privateCertificateData,
-        acquiredBadges: [PIX_DROIT_EXPERT_CERTIF, PIX_DROIT_MAITRE_CERTIF, 'should_be_ignored'],
+        acquiredBadges: [
+          {
+            key: PIX_DROIT_EXPERT_CERTIF,
+            imageUrl: 'https://images.pix.fr/badges-certifies/pix-droit/expert.svg',
+            complementaryCertificationId: pixDroitComplementaryCertificationId,
+          },
+          {
+            key: PIX_DROIT_MAITRE_CERTIF,
+            imageUrl: 'https://images.pix.fr/badges-certifies/pix-droit/maitre.svg',
+            complementaryCertificationId: pixDroitComplementaryCertificationId,
+          },
+        ],
         notAcquiredBadges: [],
       });
 
@@ -769,9 +820,7 @@ describe('Integration | Infrastructure | Repository | Private Certificate', func
         ...privateCertificateData,
       });
 
-      expect(_.omit(privateCertificate, ['resultCompetenceTree'])).to.deep.equal(
-        _.omit(expectedPrivateCertificate, ['resultCompetenceTree'])
-      );
+      expect(privateCertificate).to.deepEqualInstanceOmitting(expectedPrivateCertificate, ['resultCompetenceTree']);
     });
 
     it('should get the certified badge image when there is temporary partner key and no partner key', async function () {
@@ -807,8 +856,14 @@ describe('Integration | Infrastructure | Repository | Private Certificate', func
 
       const { certificateId } = await _buildValidPrivateCertificateWithAcquiredAndNotAcquiredBadges({
         privateCertificateData,
-        temporaryAcquiredBadges: [PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE],
-        acquiredBadges: ['should_be_ignored'],
+        temporaryAcquiredBadges: [
+          {
+            key: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
+            imageUrl: 'https://images.pix.fr/badges/Pix_plus_Edu-1-Initie-certif.svg',
+            complementaryCertificationId: pixEduComplementaryCertificationId,
+          },
+        ],
+        acquiredBadges: [],
         notAcquiredBadges: [],
       });
 
@@ -821,9 +876,7 @@ describe('Integration | Infrastructure | Repository | Private Certificate', func
         ...privateCertificateData,
       });
 
-      expect(_.omit(privateCertificate, ['resultCompetenceTree'])).to.deep.equal(
-        _.omit(expectedPrivateCertificate, ['resultCompetenceTree'])
-      );
+      expect(privateCertificate).to.deepEqualInstanceOmitting(expectedPrivateCertificate, ['resultCompetenceTree']);
     });
   });
 
@@ -984,9 +1037,7 @@ describe('Integration | Infrastructure | Repository | Private Certificate', func
         id: certificateId,
         ...privateCertificateData,
       });
-      expect(_.omit(privateCertificates[0], ['resultCompetenceTree'])).to.deep.equal(
-        _.omit(expectedPrivateCertificate, ['resultCompetenceTree'])
-      );
+      expect(privateCertificates[0]).to.deepEqualInstanceOmitting(expectedPrivateCertificate, ['resultCompetenceTree']);
     });
 
     it('should get the clea certification result if taken', async function () {
@@ -1124,39 +1175,59 @@ async function _buildValidPrivateCertificateWithAcquiredAndNotAcquiredBadges({
     createdAt: new Date('2021-01-01'),
   });
 
-  acquiredBadges?.forEach((badgeKey) => {
-    databaseBuilder.factory.buildBadge({ key: badgeKey });
+  acquiredBadges?.forEach(({ key, imageUrl, complementaryCertificationId }) => {
+    const badgeId = databaseBuilder.factory.buildBadge({ key }).id;
     const { id: complementaryCertificationCourseId } = databaseBuilder.factory.buildComplementaryCertificationCourse({
       certificationCourseId: certificateId,
+      complementaryCertificationId,
     });
     databaseBuilder.factory.buildComplementaryCertificationCourseResult({
       complementaryCertificationCourseId,
-      partnerKey: badgeKey,
+      partnerKey: key,
       acquired: true,
     });
+
+    databaseBuilder.factory.buildComplementaryCertificationBadge({
+      badgeId,
+      complementaryCertificationId,
+      imageUrl,
+    });
   });
-  temporaryAcquiredBadges?.forEach((badgeKey) => {
-    databaseBuilder.factory.buildBadge({ key: badgeKey });
+  temporaryAcquiredBadges?.forEach(({ key, imageUrl, complementaryCertificationId }) => {
+    const badgeId = databaseBuilder.factory.buildBadge({ key }).id;
     const { id: complementaryCertificationCourseId } = databaseBuilder.factory.buildComplementaryCertificationCourse({
       certificationCourseId: certificateId,
+      complementaryCertificationId,
     });
     databaseBuilder.factory.buildComplementaryCertificationCourseResult({
       complementaryCertificationCourseId,
-      partnerKey: badgeKey,
+      partnerKey: key,
       acquired: true,
       source: ComplementaryCertificationCourseResult.sources.PIX,
     });
+    databaseBuilder.factory.buildComplementaryCertificationBadge({
+      badgeId,
+      complementaryCertificationId,
+      imageUrl,
+    });
   });
 
-  notAcquiredBadges.forEach((badgeKey) => {
-    databaseBuilder.factory.buildBadge({ key: badgeKey });
+  notAcquiredBadges.forEach(({ key, imageUrl, complementaryCertificationId }) => {
+    const badgeId = databaseBuilder.factory.buildBadge({ key }).id;
     const { id: complementaryCertificationCourseId } = databaseBuilder.factory.buildComplementaryCertificationCourse({
       certificationCourseId: certificateId,
+      complementaryCertificationId,
     });
     databaseBuilder.factory.buildComplementaryCertificationCourseResult({
       complementaryCertificationCourseId,
-      partnerKey: badgeKey,
+      partnerKey: key,
       acquired: false,
+    });
+
+    databaseBuilder.factory.buildComplementaryCertificationBadge({
+      badgeId,
+      complementaryCertificationId,
+      imageUrl,
     });
   });
   await databaseBuilder.commit();
