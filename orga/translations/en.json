@@ -302,14 +302,13 @@
       "delete-participation-modal": {
         "actions": {
           "cancel": "No",
-        "confirmation": "Yes, delete"
+          "confirmation": "Yes, delete"
         },
         "error": "An error occurred while removing this participation.",
         "success": "The participation has been successfully deleted",
         "title": "Delete this participation ?",
         "text": "You are about to delete the participation of <strong>{firstName} {lastName}</strong>, it will no longer be visible nor included in the statistics of the campaign.",
         "warning": "The participant will be able to complete their customised test but will no longer be able to submit their results. They will also not be able to participate in the campaign again."
-
       }
     },
     "campaign-creation": {
@@ -667,9 +666,12 @@
             "placeholder": "Lastname, firstname"
           }
         }
-
       },
-      "title": "Participants",
+      "empty-state": {
+        "message": "No participants yet!",
+        "call-to-action": "Share with them a link to join an existing campaign or create a new campaign.",
+        "action": "See my campaigns"
+      },
       "table": {
         "column": {
           "first-name": "First name",
@@ -679,7 +681,8 @@
         },
         "empty": "No participants",
         "row-title": "Participant"
-      }
+      },
+      "title": "Participants"
     },
     "participants-list": {
       "latest-participation-information-tooltip": {
