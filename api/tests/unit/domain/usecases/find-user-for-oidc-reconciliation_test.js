@@ -1,6 +1,6 @@
-const { expect, sinon, catchErr } = require('../../../test-helper');
+const { expect, sinon, catchErr, domainBuilder } = require('../../../test-helper');
 const findUserForOidcReconciliation = require('../../../../lib/domain/usecases/find-user-for-oidc-reconciliation');
-const { AuthenticationKeyExpired } = require('../../../../lib/domain/errors');
+const { AuthenticationKeyExpired, DifferentExternalIdentifierError } = require('../../../../lib/domain/errors');
 
 describe('Unit | UseCase | find-user-for-oidc-reconciliation', function () {
   let authenticationMethodRepository, userRepository;
@@ -115,6 +115,38 @@ describe('Unit | UseCase | find-user-for-oidc-reconciliation', function () {
 
       // then
       expect(authenticationSessionService.update).to.be.calledOnceWith('authenticationKey', sessionContentAndUserInfo);
+    });
+  });
+
+  context('when user has an oidc authentication method', function () {
+    context('when externalIdentifier and externalIdentityId are different', function () {
+      it('should throw an DifferentExternalIdentifierError', async function () {
+        // given
+        const oidcAuthenticationMethod = domainBuilder.buildAuthenticationMethod.withPoleEmploiAsIdentityProvider({
+          externalIdentifier: '789fge',
+        });
+        pixAuthenticationService.getUserByUsernameAndPassword.resolves({ id: 2 });
+        authenticationMethodRepository.findOneByUserIdAndIdentityProvider.resolves(oidcAuthenticationMethod);
+        authenticationSessionService.getByKey.resolves({
+          sessionContent: {},
+          userInfo: { externalIdentityId: '123abc' },
+        });
+
+        // when
+        const error = await catchErr(findUserForOidcReconciliation)({
+          authenticationKey: 'authenticationKey',
+          email: 'ane.trotro@example.net',
+          password: 'pix123',
+          identityProvider: 'POLE_EMPLOI',
+          authenticationSessionService,
+          pixAuthenticationService,
+          authenticationMethodRepository,
+          userRepository,
+        });
+
+        // then
+        expect(error).to.be.instanceOf(DifferentExternalIdentifierError);
+      });
     });
   });
 });
