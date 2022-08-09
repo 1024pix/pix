@@ -94,7 +94,7 @@ describe('Integration | Repository | JuryCertificationSummary', function () {
               resolution: null,
             }),
           ],
-          complementaryCertificationCourseResults: [],
+          complementaryCertificationTakenLabels: [],
         });
         expect(juryCertificationSummaries).to.have.length(3);
         expect(juryCertificationSummaries[0]).to.deepEqualInstance(expectedJuryCertificationSummary);
@@ -267,12 +267,17 @@ describe('Integration | Repository | JuryCertificationSummary', function () {
           const dbf = databaseBuilder.factory;
           const sessionId = dbf.buildSession().id;
           const certificationCourseId = dbf.buildCertificationCourse({ sessionId }).id;
-          dbf.buildBadge({ key: partnerKey });
+          const badgeId = dbf.buildBadge({ key: partnerKey }).id;
           dbf.buildComplementaryCertificationCourse({ id: 998, certificationCourseId });
           dbf.buildComplementaryCertificationCourseResult({
             complementaryCertificationCourseId: 998,
             partnerKey,
             acquired: true,
+          });
+          databaseBuilder.factory.buildComplementaryCertificationBadge({
+            label,
+            badgeId,
+            complementaryCertificationId: databaseBuilder.factory.buildComplementaryCertification().id,
           });
           await databaseBuilder.commit();
 
