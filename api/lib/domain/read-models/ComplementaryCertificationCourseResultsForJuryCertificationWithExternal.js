@@ -33,13 +33,19 @@ class ComplementaryCertificationCourseResultsForJuryCertificationWithExternal {
   constructor({
     complementaryCertificationCourseId,
     pixPartnerKey,
+    pixLabel,
     pixAcquired,
     externalPartnerKey,
+    externalLabel,
     externalAcquired,
   }) {
     this.complementaryCertificationCourseId = complementaryCertificationCourseId;
-    this.pixSection = new PixEduSection({ partnerKey: pixPartnerKey, acquired: pixAcquired });
-    this.externalSection = new PixEduSection({ partnerKey: externalPartnerKey, acquired: externalAcquired });
+    this.pixSection = new PixEduSection({ partnerKey: pixPartnerKey, label: pixLabel, acquired: pixAcquired });
+    this.externalSection = new PixEduSection({
+      partnerKey: externalPartnerKey,
+      label: externalLabel,
+      acquired: externalAcquired,
+    });
   }
 
   static from(complementaryCertificationCourseResultsWithExternal) {
@@ -57,8 +63,10 @@ class ComplementaryCertificationCourseResultsForJuryCertificationWithExternal {
       complementaryCertificationCourseId:
         complementaryCertificationCourseResultsWithExternal[0].complementaryCertificationCourseId,
       pixPartnerKey: pixComplementaryCertificationCourseResult?.partnerKey,
+      pixLabel: pixComplementaryCertificationCourseResult?.label,
       pixAcquired: pixComplementaryCertificationCourseResult?.acquired,
       externalPartnerKey: externalComplementaryCertificationCourseResult?.partnerKey,
+      externalLabel: externalComplementaryCertificationCourseResult?.label,
       externalAcquired: externalComplementaryCertificationCourseResult?.acquired,
     });
   }
@@ -66,14 +74,14 @@ class ComplementaryCertificationCourseResultsForJuryCertificationWithExternal {
   get pixResult() {
     if (!this.pixSection.isEvaluated) return null;
     if (!this.pixSection.acquired) return 'Rejetée';
-    return getLabelByBadgeKey(this.pixSection.partnerKey);
+    return this.pixSection.label;
   }
 
   get externalResult() {
     if (!this.pixSection.acquired) return '-';
     if (!this.externalSection.isEvaluated) return 'En attente';
     if (!this.externalSection.acquired) return 'Rejetée';
-    return getLabelByBadgeKey(this.externalSection.partnerKey);
+    return this.externalSection.label;
   }
 
   get finalResult() {
@@ -132,24 +140,21 @@ class ComplementaryCertificationCourseResultsForJuryCertificationWithExternal {
     const firstIndexOf = pixEdu2ndDegreeBadges.indexOf(this.pixSection.partnerKey);
     const secondIndexOf = pixEdu2ndDegreeBadges.indexOf(this.externalSection.partnerKey);
 
-    return firstIndexOf <= secondIndexOf
-      ? getLabelByBadgeKey(this.pixSection.partnerKey)
-      : getLabelByBadgeKey(this.externalSection.partnerKey);
+    return firstIndexOf <= secondIndexOf ? this.pixSection.label : this.externalSection.label;
   }
 
   _getLowestPartnerKeyLabelForPixEdu1erDegreBadge() {
     const firstIndexOf = pixEdu1stDegreeBadges.indexOf(this.pixSection.partnerKey);
     const secondIndexOf = pixEdu1stDegreeBadges.indexOf(this.externalSection.partnerKey);
 
-    return firstIndexOf <= secondIndexOf
-      ? getLabelByBadgeKey(this.pixSection.partnerKey)
-      : getLabelByBadgeKey(this.externalSection.partnerKey);
+    return firstIndexOf <= secondIndexOf ? this.pixSection.label : this.externalSection.label;
   }
 }
 
 class PixEduSection {
-  constructor({ partnerKey, acquired }) {
+  constructor({ partnerKey, label, acquired }) {
     this.partnerKey = partnerKey;
+    this.label = label;
     this.acquired = acquired ?? false;
   }
 
