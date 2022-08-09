@@ -7,6 +7,7 @@ module.exports = async function findUserForOidcReconciliation({
   identityProvider,
   authenticationSessionService,
   pixAuthenticationService,
+  oidcAuthenticationService,
   authenticationMethodRepository,
   userRepository,
 }) {
@@ -38,4 +39,8 @@ module.exports = async function findUserForOidcReconciliation({
   if (!isSameExternalIdentifier) {
     throw new DifferentExternalIdentifierError();
   }
+
+  const pixAccessToken = await oidcAuthenticationService.createAccessToken(foundUser.id);
+
+  return { pixAccessToken };
 };

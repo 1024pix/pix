@@ -4,13 +4,14 @@ const { AuthenticationKeyExpired, DifferentExternalIdentifierError } = require('
 
 describe('Unit | UseCase | find-user-for-oidc-reconciliation', function () {
   let authenticationMethodRepository, userRepository;
-  let pixAuthenticationService, authenticationSessionService;
+  let pixAuthenticationService, authenticationSessionService, oidcAuthenticationService;
 
   beforeEach(function () {
     authenticationMethodRepository = { findOneByUserIdAndIdentityProvider: sinon.stub() };
     userRepository = {};
     pixAuthenticationService = { getUserByUsernameAndPassword: sinon.stub() };
     authenticationSessionService = { getByKey: sinon.stub(), update: sinon.stub() };
+    oidcAuthenticationService = { createAccessToken: sinon.stub() };
   });
 
   it('should find pix user and their oidc authentication method', async function () {
@@ -146,6 +147,39 @@ describe('Unit | UseCase | find-user-for-oidc-reconciliation', function () {
 
         // then
         expect(error).to.be.instanceOf(DifferentExternalIdentifierError);
+      });
+    });
+
+    context('when externalIdentifier and externalIdentityId are the same', function () {
+      it('should return access token', async function () {
+        // given
+        const oidcAuthenticationMethod = domainBuilder.buildAuthenticationMethod.withPoleEmploiAsIdentityProvider({
+          externalIdentifier: '123abc',
+        });
+        pixAuthenticationService.getUserByUsernameAndPassword.resolves({ id: 2 });
+        authenticationMethodRepository.findOneByUserIdAndIdentityProvider.resolves(oidcAuthenticationMethod);
+        authenticationSessionService.getByKey.resolves({
+          sessionContent: {},
+          userInfo: { externalIdentityId: '123abc' },
+        });
+        oidcAuthenticationService.createAccessToken.resolves('accessToken');
+
+        // when
+        const result = await findUserForOidcReconciliation({
+          authenticationKey: 'authenticationKey',
+          email: 'ane.trotro@example.net',
+          password: 'pix123',
+          identityProvider: 'POLE_EMPLOI',
+          authenticationSessionService,
+          pixAuthenticationService,
+          oidcAuthenticationService,
+          authenticationMethodRepository,
+          userRepository,
+        });
+
+        // then
+        expect(oidcAuthenticationService.createAccessToken).to.be.calledOnceWith(2);
+        expect(result).to.deep.equal({ pixAccessToken: 'accessToken' });
       });
     });
   });
