@@ -25,6 +25,7 @@ module.exports = class RedisClient {
       { retryCount: 0 }
     );
 
+    this.ttl = promisify(this._wrapWithPrefix(this._client.ttl)).bind(this._client);
     this.get = promisify(this._wrapWithPrefix(this._client.get)).bind(this._client);
     this.set = promisify(this._wrapWithPrefix(this._client.set)).bind(this._client);
     this.del = promisify(this._wrapWithPrefix(this._client.del)).bind(this._client);

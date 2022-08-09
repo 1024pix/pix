@@ -14,6 +14,11 @@ class InMemoryTemporaryStorage extends TemporaryStorage {
     return storageKey;
   }
 
+  update(key, value) {
+    const storageKey = trim(key);
+    this._client.set(storageKey, value);
+  }
+
   get(key) {
     return this._client.get(key);
   }
