@@ -23,6 +23,11 @@ module.exports = {
       .orderBy('competence_code', 'asc');
 
     const complementaryCertificationCourseResultDTOs = await knex('complementary-certification-course-results')
+      .select(
+        'complementary-certification-course-results.*',
+        'complementary-certification-courses.id',
+        'complementary-certification-badges.label'
+      )
       .leftJoin(
         'complementary-certification-courses',
         'complementary-certification-course-results.complementaryCertificationCourseId',
@@ -137,8 +142,8 @@ function _toComplementaryCertificationCourseResultForJuryCertification(complemen
 
   const commonComplementaryCertificationCourseResultsForJuryCertification =
     commonComplementaryCertificationCourseResults.map(
-      ({ id, partnerKey, acquired }) =>
-        new ComplementaryCertificationCourseResultsForJuryCertification({ id, partnerKey, acquired })
+      ({ id, partnerKey, acquired, label }) =>
+        new ComplementaryCertificationCourseResultsForJuryCertification({ id, partnerKey, acquired, label })
     );
 
   return [

@@ -26,7 +26,7 @@ describe('Integration | Infrastructure | Repository | Jury Certification', funct
       const pixEduBadgeId = databaseBuilder.factory.buildBadge({
         key: Badge.keys.PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE,
       }).id;
-      databaseBuilder.factory.buildBadge({ key: Badge.keys.PIX_DROIT_EXPERT_CERTIF });
+      const pixDroitBadgeId = databaseBuilder.factory.buildBadge({ key: Badge.keys.PIX_DROIT_EXPERT_CERTIF }).id;
 
       databaseBuilder.factory.buildCertificationCourse({ id: 2, sessionId: 456 });
       databaseBuilder.factory.buildAssessment({ certificationCourseId: 2 });
@@ -47,11 +47,11 @@ describe('Integration | Infrastructure | Repository | Jury Certification', funct
         isPublished: false,
         isCancelled: false,
       });
-      databaseBuilder.factory.buildComplementaryCertification({
+      const complementaryDroitCertificationId = databaseBuilder.factory.buildComplementaryCertification({
         id: 23,
         name: 'Pix+ Droit',
-      });
-      const complementaryCertificationId = databaseBuilder.factory.buildComplementaryCertification({
+      }).id;
+      const complementaryEduCertificationId = databaseBuilder.factory.buildComplementaryCertification({
         id: 24,
         name: 'Pix+ Édu',
       }).id;
@@ -81,9 +81,15 @@ describe('Integration | Infrastructure | Repository | Jury Certification', funct
       });
 
       databaseBuilder.factory.buildComplementaryCertificationBadge({
-        complementaryCertificationId,
+        complementaryCertificationId: complementaryEduCertificationId,
         badgeId: pixEduBadgeId,
         label: 'Pix+ Edu label',
+      });
+
+      databaseBuilder.factory.buildComplementaryCertificationBadge({
+        complementaryCertificationId: complementaryDroitCertificationId,
+        badgeId: pixDroitBadgeId,
+        label: 'Pix+ Droit label',
       });
 
       databaseBuilder.factory.buildAssessment({ id: 159, certificationCourseId: 1 });
@@ -150,6 +156,7 @@ describe('Integration | Infrastructure | Repository | Jury Certification', funct
             acquired: true,
             id: 123,
             partnerKey: 'PIX_DROIT_EXPERT_CERTIF',
+            label: 'Pix+ Droit label',
           },
         ],
         complementaryCertificationCourseResultsWithExternal: {
@@ -157,10 +164,12 @@ describe('Integration | Infrastructure | Repository | Jury Certification', funct
           externalSection: {
             acquired: false,
             partnerKey: undefined,
+            label: undefined,
           },
           pixSection: {
             acquired: true,
             partnerKey: 'PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE',
+            label: 'Pix+ Edu label',
           },
         },
       });
