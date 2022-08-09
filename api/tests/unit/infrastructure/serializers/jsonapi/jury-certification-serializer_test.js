@@ -44,19 +44,23 @@ describe('Unit | Serializer | JSONAPI | jury-certification-serializer', function
             id: 12,
             partnerKey: Badge.keys.PIX_DROIT_EXPERT_CERTIF,
             acquired: true,
+            label: 'Pix+ Droit Expert',
           }),
           domainBuilder.buildComplementaryCertificationCourseResultForJuryCertification({
             id: 14,
             partnerKey: Badge.keys.PIX_EMPLOI_CLEA_V3,
             acquired: true,
+            label: 'CléA Numérique',
           }),
         ],
         complementaryCertificationCourseResultsWithExternal:
           domainBuilder.buildComplementaryCertificationCourseResultForJuryCertificationWithExternal({
             complementaryCertificationCourseId: 1234,
             pixPartnerKey: Badge.keys.PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE,
+            pixLabel: 'Pix+ Édu 1er degré Avancé',
             pixAcquired: true,
             externalPartnerKey: Badge.keys.PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE,
+            externalLabel: 'Pix+ Édu 1er degré Avancé',
             externalAcquired: true,
           }),
       });
