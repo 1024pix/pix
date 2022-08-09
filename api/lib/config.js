@@ -293,11 +293,11 @@ module.exports = (function () {
         chunkSize: process.env.CPF_PLANNER_JOB_CHUNK_SIZE || 50000,
         monthsToProcess: process.env.CPF_PLANNER_JOB_MONTHS_TO_PROCESS || 1,
         minimumReliabilityPeriod: process.env.CPF_PLANNER_JOB_MINIMUM_RELIABILITY_PERIOD || 3,
-        cron: process.env.CPF_PLANNER_JOB_CRON,
+        cron: process.env.CPF_PLANNER_JOB_CRON || '0 0 1 1 *',
       },
       sendEmailJob: {
         recipient: process.env.CPF_SEND_EMAIL_JOB_RECIPIENT,
-        cron: process.env.CPF_SEND_EMAIL_JOB_CRON,
+        cron: process.env.CPF_SEND_EMAIL_JOB_CRON || '0 0 1 1 *',
       },
     },
   };
