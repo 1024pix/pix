@@ -55,13 +55,23 @@ describe('Acceptance | Controller | session-controller-get-jury-certification-su
         superAdminId = dbf.buildUser.withRole().id;
         sessionId = dbf.buildSession().id;
         const badge = dbf.buildBadge({ key: Badge.keys.PIX_EMPLOI_CLEA_V3 });
+        const complementaryCertificationId = dbf.buildComplementaryCertification({ name: 'CléA Numérique' }).id;
 
         certif1 = dbf.buildCertificationCourse({ sessionId, lastName: 'AAA' });
-        const { id } = dbf.buildComplementaryCertificationCourse({ certificationCourseId: certif1.id, name: CLEA });
+        const { id } = dbf.buildComplementaryCertificationCourse({
+          certificationCourseId: certif1.id,
+          name: CLEA,
+          complementaryCertificationId,
+        });
         dbf.buildComplementaryCertificationCourseResult({
           complementaryCertificationCourseId: id,
           partnerKey: badge.key,
           acquired: true,
+        });
+        dbf.buildComplementaryCertificationBadge({
+          badgeId: badge.id,
+          complementaryCertificationId,
+          label: 'CléA Numérique',
         });
         const assessmentId1 = dbf.buildAssessment({ certificationCourseId: certif1.id }).id;
         asr1 = dbf.buildAssessmentResult({ assessmentId: assessmentId1, createdAt: new Date('2018-04-15T00:00:00Z') });
