@@ -72,102 +72,140 @@ describe('Unit | Domain | Models | ComplementaryCertificationCourseResultsForJur
       [
         {
           pixPartnerKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
+          pixLabel: 'Pix+ Édu 2nd degré Initié (entrée dans le métier)',
           externalPartnerKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
-          expectedFinalResult: getLabelByBadgeKey(PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE),
+          externalLabel: 'Pix+ Édu 2nd degré Initié (entrée dans le métier)',
+          expectedFinalResult: 'Pix+ Édu 2nd degré Initié (entrée dans le métier)',
         },
         {
           pixPartnerKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
+          pixLabel: 'Pix+ Édu 2nd degré Initié (entrée dans le métier)',
           externalPartnerKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME,
-          expectedFinalResult: getLabelByBadgeKey(PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE),
+          externalLabel: 'Pix+ Édu 2nd degré Confirme',
+          expectedFinalResult: 'Pix+ Édu 2nd degré Initié (entrée dans le métier)',
         },
         {
           pixPartnerKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME,
+          pixLabel: 'Pix+ Édu 2nd degré Confirmé',
           externalPartnerKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME,
-          expectedFinalResult: getLabelByBadgeKey(PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME),
+          externalLabel: 'Pix+ Édu 2nd degré Confirmé',
+          expectedFinalResult: 'Pix+ Édu 2nd degré Confirmé',
         },
         {
           pixPartnerKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME,
+          pixLabel: 'Pix+ Édu 2nd degré Confirmé',
           externalPartnerKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME,
-          expectedFinalResult: getLabelByBadgeKey(PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME),
+          externalLabel: 'Pix+ Édu 2nd degré Confirmé',
+          expectedFinalResult: 'Pix+ Édu 2nd degré Confirmé',
         },
         {
           pixPartnerKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME,
+          pixLabel: 'Pix+ Édu 2nd degré Confirmé',
           externalPartnerKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
-          expectedFinalResult: getLabelByBadgeKey(PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME),
+          externalLabel: 'Pix+ Édu 2nd degré Avancé',
+          expectedFinalResult: 'Pix+ Édu 2nd degré Confirmé',
         },
         {
           pixPartnerKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME,
+          pixLabel: 'Pix+ Édu 2nd degré Confirmé',
           externalPartnerKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
-          expectedFinalResult: getLabelByBadgeKey(PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME),
+          externalLabel: 'Pix+ Édu 2nd degré Expert',
+          expectedFinalResult: 'Pix+ Édu 2nd degré Confirmé',
         },
         {
           pixPartnerKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
+          pixLabel: 'Pix+ Édu 2nd degré Avancé',
           externalPartnerKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
-          expectedFinalResult: getLabelByBadgeKey(PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE),
+          externalLabel: 'Pix+ Édu 2nd degré Avancé',
+          expectedFinalResult: 'Pix+ Édu 2nd degré Avancé',
         },
         {
           pixPartnerKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
+          pixLabel: 'Pix+ Édu 2nd degré Avancé',
           externalPartnerKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
-          expectedFinalResult: getLabelByBadgeKey(PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE),
+          externalLabel: 'Pix+ Édu 2nd degré Expert',
+          expectedFinalResult: 'Pix+ Édu 2nd degré Avancé',
         },
         {
           pixPartnerKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
+          pixLabel: 'Pix+ Édu 2nd degré Expert',
           externalPartnerKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
-          expectedFinalResult: getLabelByBadgeKey(PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT),
+          externalLabel: 'Pix+ Édu 2nd degré Expert',
+          expectedFinalResult: 'Pix+ Édu 2nd degré Expert',
         },
         {
           pixPartnerKey: PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_INITIE,
+          pixLabel: 'Pix+ Édu 1er degré Initié (entrée dans le métier)',
           externalPartnerKey: PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_INITIE,
-          expectedFinalResult: getLabelByBadgeKey(PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_INITIE),
+          externalLabel: 'Pix+ Édu 1er degré Initié (entrée dans le métier)',
+          expectedFinalResult: 'Pix+ Édu 1er degré Initié (entrée dans le métier)',
         },
         {
           pixPartnerKey: PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_INITIE,
+          pixLabel: 'Pix+ Édu 1er degré Initié (entrée dans le métier)',
           externalPartnerKey: PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_CONFIRME,
-          expectedFinalResult: getLabelByBadgeKey(PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_INITIE),
+          externalLabel: 'Pix+ Édu 1er degré Confirme',
+          expectedFinalResult: 'Pix+ Édu 1er degré Initié (entrée dans le métier)',
         },
         {
           pixPartnerKey: PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_CONFIRME,
+          pixLabel: 'Pix+ Édu 1er degré Confirmé',
           externalPartnerKey: PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_CONFIRME,
-          expectedFinalResult: getLabelByBadgeKey(PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_CONFIRME),
+          externalLabel: 'Pix+ Édu 1er degré Confirmé',
+          expectedFinalResult: 'Pix+ Édu 1er degré Confirmé',
         },
         {
           pixPartnerKey: PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_CONFIRME,
+          pixLabel: 'Pix+ Édu 1er degré Confirmé',
           externalPartnerKey: PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_CONFIRME,
-          expectedFinalResult: getLabelByBadgeKey(PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_CONFIRME),
+          externalLabel: 'Pix+ Édu 1er degré Confirmé',
+          expectedFinalResult: 'Pix+ Édu 1er degré Confirmé',
         },
         {
           pixPartnerKey: PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_CONFIRME,
+          pixLabel: 'Pix+ Édu 1er degré Confirmé',
           externalPartnerKey: PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE,
-          expectedFinalResult: getLabelByBadgeKey(PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_CONFIRME),
+          externalLabel: 'Pix+ Édu 1er degré Avancé',
+          expectedFinalResult: 'Pix+ Édu 1er degré Confirmé',
         },
         {
           pixPartnerKey: PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_CONFIRME,
+          pixLabel: 'Pix+ Édu 1er degré Confirmé',
           externalPartnerKey: PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT,
-          expectedFinalResult: getLabelByBadgeKey(PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_CONFIRME),
+          externalLabel: 'Pix+ Édu 1er degré Expert',
+          expectedFinalResult: 'Pix+ Édu 1er degré Confirmé',
         },
         {
           pixPartnerKey: PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE,
+          pixLabel: 'Pix+ Édu 1er degré Avancé',
           externalPartnerKey: PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE,
-          expectedFinalResult: getLabelByBadgeKey(PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE),
+          externalLabel: 'Pix+ Édu 1er degré Avancé',
+          expectedFinalResult: 'Pix+ Édu 1er degré Avancé',
         },
         {
           pixPartnerKey: PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE,
+          pixLabel: 'Pix+ Édu 1er degré Avancé',
           externalPartnerKey: PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT,
-          expectedFinalResult: getLabelByBadgeKey(PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE),
+          externalLabel: 'Pix+ Édu 1er degré Expert',
+          expectedFinalResult: 'Pix+ Édu 1er degré Avancé',
         },
         {
           pixPartnerKey: PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT,
+          pixLabel: 'Pix+ Édu 1er degré Expert',
           externalPartnerKey: PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT,
-          expectedFinalResult: getLabelByBadgeKey(PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT),
+          externalLabel: 'Pix+ Édu 1er degré Expert',
+          expectedFinalResult: 'Pix+ Édu 1er degré Expert',
         },
-      ].forEach(({ pixPartnerKey, externalPartnerKey, expectedFinalResult }) => {
+      ].forEach(({ pixPartnerKey, pixLabel, externalPartnerKey, externalLabel, expectedFinalResult }) => {
         it(`should return ${expectedFinalResult} when the 'PIX' source level is ${pixPartnerKey} and the 'EXTERNAL' source level is ${externalPartnerKey}`, function () {
           // given
           const complementaryCertificationCourseResultForJuryCertificationWithExternal =
             domainBuilder.buildComplementaryCertificationCourseResultForJuryCertificationWithExternal({
               pixPartnerKey,
+              pixLabel,
               pixAcquired: true,
               externalPartnerKey,
+              externalLabel,
               externalAcquired: true,
             });
 
@@ -257,60 +295,61 @@ describe('Unit | Domain | Models | ComplementaryCertificationCourseResultsForJur
         {
           partnerKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
           acquired: true,
-          expectedResult: 'Pix+ Édu 2nd degré Initié (entrée dans le métier)',
+          label: 'Pix+ Édu 2nd degré Initié (entrée dans le métier)',
         },
         {
           partnerKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME,
           acquired: true,
-          expectedResult: 'Pix+ Édu 2nd degré Confirmé',
+          label: 'Pix+ Édu 2nd degré Confirmé',
         },
         {
           partnerKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME,
           acquired: true,
-          expectedResult: 'Pix+ Édu 2nd degré Confirmé',
+          label: 'Pix+ Édu 2nd degré Confirmé',
         },
         {
           partnerKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
           acquired: true,
-          expectedResult: 'Pix+ Édu 2nd degré Avancé',
+          label: 'Pix+ Édu 2nd degré Avancé',
         },
         {
           partnerKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
           acquired: true,
-          expectedResult: 'Pix+ Édu 2nd degré Expert',
+          label: 'Pix+ Édu 2nd degré Expert',
         },
         {
           partnerKey: PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_INITIE,
           acquired: true,
-          expectedResult: 'Pix+ Édu 1er degré Initié (entrée dans le métier)',
+          label: 'Pix+ Édu 1er degré Initié (entrée dans le métier)',
         },
         {
           partnerKey: PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_CONFIRME,
           acquired: true,
-          expectedResult: 'Pix+ Édu 1er degré Confirmé',
+          label: 'Pix+ Édu 1er degré Confirmé',
         },
         {
           partnerKey: PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_CONFIRME,
           acquired: true,
-          expectedResult: 'Pix+ Édu 1er degré Confirmé',
+          label: 'Pix+ Édu 1er degré Confirmé',
         },
         {
           partnerKey: PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE,
           acquired: true,
-          expectedResult: 'Pix+ Édu 1er degré Avancé',
+          label: 'Pix+ Édu 1er degré Avancé',
         },
         {
           partnerKey: PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT,
           acquired: true,
-          expectedResult: 'Pix+ Édu 1er degré Expert',
+          label: 'Pix+ Édu 1er degré Expert',
         },
-        { partnerKey: PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT, acquired: false, expectedResult: 'Rejetée' },
-      ].forEach(({ partnerKey, acquired, expectedResult }) => {
-        it(`should return ${expectedResult} when pix section partner key is ${partnerKey} and acquired is ${acquired}`, function () {
+        { partnerKey: PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT, acquired: false, label: 'Rejetée' },
+      ].forEach(({ partnerKey, acquired, label }) => {
+        it(`should return ${label} when pix section partner key is ${partnerKey} and acquired is ${acquired}`, function () {
           // given
           const complementaryCertificationCourseResultsForJuryCertificationWithExternal =
             new ComplementaryCertificationCourseResultsForJuryCertificationWithExternal({
               pixPartnerKey: partnerKey,
+              pixLabel: label,
               pixAcquired: acquired,
             });
 
@@ -318,7 +357,7 @@ describe('Unit | Domain | Models | ComplementaryCertificationCourseResultsForJur
           const pixResult = complementaryCertificationCourseResultsForJuryCertificationWithExternal.pixResult;
 
           // then
-          expect(pixResult).to.equal(expectedResult);
+          expect(pixResult).to.equal(label);
         });
       });
     });
@@ -364,40 +403,41 @@ describe('Unit | Domain | Models | ComplementaryCertificationCourseResultsForJur
         [
           {
             partnerKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
-            expectedResult: 'Pix+ Édu 2nd degré Initié (entrée dans le métier)',
+            label: 'Pix+ Édu 2nd degré Initié (entrée dans le métier)',
           },
           {
             partnerKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME,
-            expectedResult: 'Pix+ Édu 2nd degré Confirmé',
+            label: 'Pix+ Édu 2nd degré Confirmé',
           },
           {
             partnerKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME,
-            expectedResult: 'Pix+ Édu 2nd degré Confirmé',
+            label: 'Pix+ Édu 2nd degré Confirmé',
           },
-          { partnerKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE, expectedResult: 'Pix+ Édu 2nd degré Avancé' },
-          { partnerKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT, expectedResult: 'Pix+ Édu 2nd degré Expert' },
+          { partnerKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE, label: 'Pix+ Édu 2nd degré Avancé' },
+          { partnerKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT, label: 'Pix+ Édu 2nd degré Expert' },
           {
             partnerKey: PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_INITIE,
-            expectedResult: 'Pix+ Édu 1er degré Initié (entrée dans le métier)',
+            label: 'Pix+ Édu 1er degré Initié (entrée dans le métier)',
           },
           {
             partnerKey: PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_CONFIRME,
-            expectedResult: 'Pix+ Édu 1er degré Confirmé',
+            label: 'Pix+ Édu 1er degré Confirmé',
           },
           {
             partnerKey: PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_CONFIRME,
-            expectedResult: 'Pix+ Édu 1er degré Confirmé',
+            label: 'Pix+ Édu 1er degré Confirmé',
           },
-          { partnerKey: PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE, expectedResult: 'Pix+ Édu 1er degré Avancé' },
-          { partnerKey: PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT, expectedResult: 'Pix+ Édu 1er degré Expert' },
-        ].forEach(({ partnerKey, expectedResult }) => {
-          it(`should return ${expectedResult} when external section partner key is ${partnerKey}`, function () {
+          { partnerKey: PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE, label: 'Pix+ Édu 1er degré Avancé' },
+          { partnerKey: PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT, label: 'Pix+ Édu 1er degré Expert' },
+        ].forEach(({ partnerKey, label }) => {
+          it(`should return ${label} when external section partner key is ${partnerKey}`, function () {
             // given
             const complementaryCertificationCourseResultsForJuryCertificationWithExternal =
               new ComplementaryCertificationCourseResultsForJuryCertificationWithExternal({
                 pixPartnerKey: PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE,
                 pixAcquired: true,
                 externalPartnerKey: partnerKey,
+                externalLabel: label,
                 externalAcquired: true,
               });
 
@@ -406,7 +446,7 @@ describe('Unit | Domain | Models | ComplementaryCertificationCourseResultsForJur
               complementaryCertificationCourseResultsForJuryCertificationWithExternal.externalResult;
 
             // then
-            expect(externalResult).to.equal(expectedResult);
+            expect(externalResult).to.equal(label);
           });
         });
       });
