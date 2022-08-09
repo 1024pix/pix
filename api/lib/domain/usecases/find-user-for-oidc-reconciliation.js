@@ -46,5 +46,7 @@ module.exports = async function findUserForOidcReconciliation({
     userId: foundUser.id,
   });
 
+  userRepository.updateLastLoggedAt({ userId: foundUser.id });
+
   return { pixAccessToken, logoutUrlUUID };
 };
