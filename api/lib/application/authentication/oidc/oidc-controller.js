@@ -5,6 +5,7 @@ const AuthenticationMethod = require('../../../domain/models/AuthenticationMetho
 const usecases = require('../../../domain/usecases');
 const { UnauthorizedError } = require('../../http-errors');
 const config = require('../../../config');
+const oidcSerializer = require('../../../infrastructure/serializers/jsonapi/oidc-serializer');
 
 module.exports = {
   async getRedirectLogoutUrl(request, h) {
@@ -17,6 +18,24 @@ module.exports = {
     });
 
     return h.response({ redirectLogoutUrl }).code(200);
+  },
+
+  async findUserForReconciliation(request, h) {
+    const { email, password, identityProvider, authenticationKey } = request.deserializedPayload;
+    const oidcAuthenticationService = authenticationRegistry.lookupAuthenticationService(identityProvider);
+
+    const result = await usecases.findUserForOidcReconciliation({
+      email,
+      password,
+      identityProvider,
+      authenticationKey,
+      oidcAuthenticationService,
+    });
+
+    if (result.isAuthenticationComplete) {
+      return h.response(oidcSerializer.serialize(result)).code(200);
+    }
+    return h.response().code(204);
   },
 
   async getAuthenticationUrl(request, h) {
