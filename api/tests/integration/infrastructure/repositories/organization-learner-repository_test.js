@@ -1,6 +1,6 @@
 const _ = require('lodash');
 
-const { expect, domainBuilder, databaseBuilder, knex, catchErr } = require('../../../test-helper');
+const { expect, domainBuilder, databaseBuilder, knex, catchErr, sinon } = require('../../../test-helper');
 
 const CampaignParticipationStatuses = require('../../../../lib/domain/models/CampaignParticipationStatuses');
 const CampaignTypes = require('../../../../lib/domain/models/CampaignTypes');
@@ -169,7 +169,16 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
   });
 
   describe('#findByOrganizationIdAndUpdatedAtOrderByDivision', function () {
-    const AFTER_BEGINNING_OF_THE_2020_SCHOOL_YEAR = '2020-10-15';
+    const afterBeginningOfThe2020SchoolYear = new Date('2020-10-15');
+    let clock;
+
+    beforeEach(function () {
+      clock = sinon.useFakeTimers(afterBeginningOfThe2020SchoolYear);
+    });
+
+    afterEach(function () {
+      clock.restore();
+    });
 
     it('should return instances of OrganizationLearner', async function () {
       // given
@@ -178,7 +187,7 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
         organizationId: organization.id,
         userId: null,
         division: '3A',
-        updatedAt: new Date(AFTER_BEGINNING_OF_THE_2020_SCHOOL_YEAR),
+        updatedAt: new Date(),
       });
 
       await databaseBuilder.commit();
@@ -212,13 +221,13 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
       const firstOrganizationLearner = databaseBuilder.factory.buildOrganizationLearner({
         organizationId: organization_1.id,
         division: '3A',
-        updatedAt: new Date(AFTER_BEGINNING_OF_THE_2020_SCHOOL_YEAR),
+        updatedAt: new Date(),
       });
       const secondOrganizationLearner = databaseBuilder.factory.buildOrganizationLearner({
         organizationId: organization_1.id,
         userId: user.id,
         division: '3A',
-        updatedAt: new Date(AFTER_BEGINNING_OF_THE_2020_SCHOOL_YEAR),
+        updatedAt: new Date(),
       });
       databaseBuilder.factory.buildOrganizationLearner({ organizationId: organization_2.id });
 
@@ -257,14 +266,14 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
         isDisabled: false,
         organizationId: organization.id,
         division: '3A',
-        updatedAt: new Date(AFTER_BEGINNING_OF_THE_2020_SCHOOL_YEAR),
+        updatedAt: new Date(),
       });
       databaseBuilder.factory.buildOrganizationLearner({
         isDisabled: true,
         organizationId: organization.id,
         userId: user.id,
         division: '3A',
-        updatedAt: new Date(AFTER_BEGINNING_OF_THE_2020_SCHOOL_YEAR),
+        updatedAt: new Date(),
       });
 
       await databaseBuilder.commit();
@@ -294,40 +303,40 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
       const organizationLearner3B = databaseBuilder.factory.buildOrganizationLearner({
         organizationId: organization.id,
         division: '3b',
-        updatedAt: new Date(AFTER_BEGINNING_OF_THE_2020_SCHOOL_YEAR),
+        updatedAt: new Date(),
       });
       const organizationLearner3ABA = databaseBuilder.factory.buildOrganizationLearner({
         organizationId: organization.id,
         division: '3A',
         lastName: 'B',
         firstName: 'A',
-        updatedAt: new Date(AFTER_BEGINNING_OF_THE_2020_SCHOOL_YEAR),
+        updatedAt: new Date(),
       });
       const organizationLearner3ABB = databaseBuilder.factory.buildOrganizationLearner({
         organizationId: organization.id,
         division: '3A',
         lastName: 'B',
         firstName: 'B',
-        updatedAt: new Date(AFTER_BEGINNING_OF_THE_2020_SCHOOL_YEAR),
+        updatedAt: new Date(),
       });
       const organizationLearnerT2 = databaseBuilder.factory.buildOrganizationLearner({
         organizationId: organization.id,
         division: 'T2',
-        updatedAt: new Date(AFTER_BEGINNING_OF_THE_2020_SCHOOL_YEAR),
+        updatedAt: new Date(),
       });
       const organizationLearnerT1CB = databaseBuilder.factory.buildOrganizationLearner({
         organizationId: organization.id,
         division: 't1',
         lastName: 'C',
         firstName: 'B',
-        updatedAt: new Date(AFTER_BEGINNING_OF_THE_2020_SCHOOL_YEAR),
+        updatedAt: new Date(),
       });
       const organizationLearnerT1CA = databaseBuilder.factory.buildOrganizationLearner({
         organizationId: organization.id,
         division: 't1',
         lastName: 'C',
         firstName: 'A',
-        updatedAt: new Date(AFTER_BEGINNING_OF_THE_2020_SCHOOL_YEAR),
+        updatedAt: new Date(),
       });
 
       await databaseBuilder.commit();
@@ -384,7 +393,7 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
       const organizationLearner3B = databaseBuilder.factory.buildOrganizationLearner({
         organizationId: organization.id,
         division: '3b',
-        updatedAt: new Date(AFTER_BEGINNING_OF_THE_2020_SCHOOL_YEAR),
+        updatedAt: new Date(),
       });
 
       databaseBuilder.factory.buildOrganizationLearner({
@@ -392,7 +401,7 @@ describe('Integration | Infrastructure | Repository | organization-learner-repos
         division: '3A',
         lastName: 'B',
         firstName: 'A',
-        updatedAt: new Date(AFTER_BEGINNING_OF_THE_2020_SCHOOL_YEAR),
+        updatedAt: new Date(),
       });
 
       await databaseBuilder.commit();
