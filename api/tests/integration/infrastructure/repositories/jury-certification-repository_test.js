@@ -23,7 +23,9 @@ describe('Integration | Infrastructure | Repository | Jury Certification', funct
       // given
       databaseBuilder.factory.buildUser({ id: 789 });
       databaseBuilder.factory.buildSession({ id: 456 });
-      databaseBuilder.factory.buildBadge({ key: Badge.keys.PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE });
+      const pixEduBadgeId = databaseBuilder.factory.buildBadge({
+        key: Badge.keys.PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE,
+      }).id;
       databaseBuilder.factory.buildBadge({ key: Badge.keys.PIX_DROIT_EXPERT_CERTIF });
 
       databaseBuilder.factory.buildCertificationCourse({ id: 2, sessionId: 456 });
@@ -49,10 +51,10 @@ describe('Integration | Infrastructure | Repository | Jury Certification', funct
         id: 23,
         name: 'Pix+ Droit',
       });
-      databaseBuilder.factory.buildComplementaryCertification({
+      const complementaryCertificationId = databaseBuilder.factory.buildComplementaryCertification({
         id: 24,
         name: 'Pix+ Édu',
-      });
+      }).id;
       databaseBuilder.factory.buildComplementaryCertificationCourse({
         id: 123,
         complementaryCertificationId: 23,
@@ -77,6 +79,13 @@ describe('Integration | Infrastructure | Repository | Jury Certification', funct
         partnerKey: Badge.keys.PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE,
         acquired: true,
       });
+
+      databaseBuilder.factory.buildComplementaryCertificationBadge({
+        complementaryCertificationId,
+        badgeId: pixEduBadgeId,
+        label: 'Pix+ Edu label',
+      });
+
       databaseBuilder.factory.buildAssessment({ id: 159, certificationCourseId: 1 });
       databaseBuilder.factory.buildUser({ id: 22 });
       const assessmentResultId = databaseBuilder.factory.buildAssessmentResult({

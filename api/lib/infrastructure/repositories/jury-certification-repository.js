@@ -28,6 +28,8 @@ module.exports = {
         'complementary-certification-course-results.complementaryCertificationCourseId',
         'complementary-certification-courses.id'
       )
+      .leftJoin('badges', 'badges.key', 'complementary-certification-course-results.partnerKey')
+      .leftJoin('complementary-certification-badges', 'complementary-certification-badges.badgeId', 'badges.id')
       .where({
         certificationCourseId: juryCertificationDTO.certificationCourseId,
       });
