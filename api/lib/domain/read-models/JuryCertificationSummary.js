@@ -1,5 +1,4 @@
 const { status: assessmentResultStatuses } = require('../models/AssessmentResult');
-const { getLabelByBadgeKey } = require('./CertifiableBadgeLabels');
 const STARTED = 'started';
 const CANCELLED = 'cancelled';
 const ENDED_BY_SUPERVISOR = 'endedBySupervisor';
@@ -18,7 +17,7 @@ class JuryCertificationSummary {
     isCourseCancelled,
     isEndedBySupervisor,
     hasSeenEndTestScreen,
-    complementaryCertificationCourseResults,
+    complementaryCertificationTakenLabels,
     certificationIssueReports,
   } = {}) {
     this.id = id;
@@ -27,7 +26,7 @@ class JuryCertificationSummary {
     this.status = _getStatus(status, isCourseCancelled, isEndedBySupervisor);
     this.pixScore = pixScore;
     this.isFlaggedAborted = Boolean(abortReason) && !completedAt;
-    this.complementaryCertificationTakenLabels = this._buildLabels(complementaryCertificationCourseResults);
+    this.complementaryCertificationTakenLabels = complementaryCertificationTakenLabels;
     this.createdAt = createdAt;
     this.completedAt = completedAt;
     this.isPublished = isPublished;
@@ -45,12 +44,6 @@ class JuryCertificationSummary {
 
   hasCompletedAssessment() {
     return this.status !== JuryCertificationSummary.statuses.STARTED;
-  }
-
-  _buildLabels(complementaryCertificationCourseResults) {
-    return complementaryCertificationCourseResults
-      ?.filter((complementaryCertificationCourseResult) => complementaryCertificationCourseResult.isFromPixSource())
-      .map(({ partnerKey }) => getLabelByBadgeKey(partnerKey));
   }
 }
 
