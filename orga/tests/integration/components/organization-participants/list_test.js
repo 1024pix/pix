@@ -7,9 +7,11 @@ import sinon from 'sinon';
 
 module('Integration | Component | OrganizationParticipant::List', function (hooks) {
   setupIntlRenderingTest(hooks);
+
   hooks.beforeEach(function () {
     const store = this.owner.lookup('service:store');
     const organization = store.createRecord('organization');
+
     class CurrentUserStub extends Service {
       organization = organization;
     }
@@ -132,5 +134,22 @@ module('Integration | Component | OrganizationParticipant::List', function (hook
     // then
     sinon.assert.calledWith(this.triggerFiltering, 'fullName', 'Karam');
     assert.ok(true);
+  });
+
+  test('it should display the empty state when no participants', async function (assert) {
+    // given
+    const participants = [];
+    this.set('participants', participants);
+
+    this.triggerFiltering = sinon.stub();
+
+    // when
+    await render(
+      hbs`<OrganizationParticipant::List @participants={{participants}}  @triggerFiltering={{triggerFiltering}}/>`
+    );
+    await fillByLabel('Recherche sur le nom et prénom', 'Karam');
+
+    // then
+    assert.contains(this.intl.t('pages.organization-participants.table.empty'));
   });
 });
