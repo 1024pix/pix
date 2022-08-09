@@ -41,6 +41,10 @@ module.exports = async function findUserForOidcReconciliation({
   }
 
   const pixAccessToken = await oidcAuthenticationService.createAccessToken(foundUser.id);
+  const logoutUrlUUID = await oidcAuthenticationService.saveIdToken({
+    idToken: sessionContentAndUserInfo.sessionContent.idToken,
+    userId: foundUser.id,
+  });
 
-  return { pixAccessToken };
+  return { pixAccessToken, logoutUrlUUID };
 };
