@@ -9,6 +9,10 @@ class TemporaryStorage {
     throw new Error('Method #save({ key, value, expirationDelaySeconds }) must be overridden');
   }
 
+  async update(/* key, value */) {
+    throw new Error('Method #update(key, value) must be overridden');
+  }
+
   async get(/* key */) {
     throw new Error('Method #get(key) must be overridden');
   }
@@ -28,6 +32,10 @@ class TemporaryStorage {
         key = key ?? TemporaryStorage.generateKey();
         await storage.save({ key: prefix + key, ...args });
         return key;
+      },
+
+      update(key, value) {
+        return storage.update(prefix + key, value);
       },
 
       get(key) {

@@ -4,6 +4,7 @@ const TemporaryStorage = require('./TemporaryStorage');
 const RedisClient = require('../utils/RedisClient');
 
 const EXPIRATION_PARAMETER = 'ex';
+const KEEPTTL_PARAMETER = 'keepttl';
 
 class RedisTemporaryStorage extends TemporaryStorage {
   constructor(redisUrl) {
@@ -21,6 +22,13 @@ class RedisTemporaryStorage extends TemporaryStorage {
     const objectAsString = JSON.stringify(value);
     await this._client.set(storageKey, objectAsString, EXPIRATION_PARAMETER, expirationDelaySeconds);
     return storageKey;
+  }
+
+  async update(key, value) {
+    const storageKey = trim(key);
+
+    const objectAsString = JSON.stringify(value);
+    await this._client.set(storageKey, objectAsString, KEEPTTL_PARAMETER);
   }
 
   async get(key) {

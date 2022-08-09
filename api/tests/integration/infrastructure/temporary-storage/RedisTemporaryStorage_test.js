@@ -23,5 +23,24 @@ describe('Integration | Infrastructure | TemporaryStorage | RedisTemporaryStorag
         expect(await storage.get('456:c')).to.exist;
       });
     });
+
+    describe('#set', function () {
+      it('should set new value', async function () {
+        // given
+        const TWO_MINUTES_IN_SECONDS = 2 * 60;
+        const value = { url: 'url' };
+        const storage = new RedisTemporaryStorage(process.env.REDIS_TEST_URL);
+        const key = await storage.save({ value: 'c', expirationDelaySeconds: TWO_MINUTES_IN_SECONDS });
+
+        // when
+        await storage.update(key, value);
+
+        // then
+        const result = await storage.get(key);
+        const expirationDelaySeconds = await storage._client.ttl(key);
+        expect(result).to.deep.equal({ url: 'url' });
+        expect(expirationDelaySeconds).to.equal(TWO_MINUTES_IN_SECONDS);
+      });
+    });
   }
 });
