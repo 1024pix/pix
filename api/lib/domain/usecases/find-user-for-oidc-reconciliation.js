@@ -30,7 +30,7 @@ module.exports = async function findUserForOidcReconciliation({
   if (!oidcAuthenticationMethod) {
     sessionContentAndUserInfo.userInfo.userId = foundUser.id;
     await authenticationSessionService.update(authenticationKey, sessionContentAndUserInfo);
-    return authenticationKey;
+    return { isAuthenticationComplete: false };
   }
 
   const isSameExternalIdentifier =
@@ -48,5 +48,5 @@ module.exports = async function findUserForOidcReconciliation({
 
   userRepository.updateLastLoggedAt({ userId: foundUser.id });
 
-  return { pixAccessToken, logoutUrlUUID };
+  return { pixAccessToken, logoutUrlUUID, isAuthenticationComplete: true };
 };

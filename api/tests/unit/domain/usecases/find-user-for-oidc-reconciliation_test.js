@@ -103,7 +103,7 @@ describe('Unit | UseCase | find-user-for-oidc-reconciliation', function () {
       authenticationSessionService.getByKey.resolves(sessionContentAndUserInfo);
 
       // when
-      await findUserForOidcReconciliation({
+      const result = await findUserForOidcReconciliation({
         authenticationKey: 'authenticationKey',
         email: 'ane.trotro@example.net',
         password: 'pix123',
@@ -116,6 +116,7 @@ describe('Unit | UseCase | find-user-for-oidc-reconciliation', function () {
 
       // then
       expect(authenticationSessionService.update).to.be.calledOnceWith('authenticationKey', sessionContentAndUserInfo);
+      expect(result).to.deep.equal({ isAuthenticationComplete: false });
     });
   });
 
@@ -182,7 +183,11 @@ describe('Unit | UseCase | find-user-for-oidc-reconciliation', function () {
         expect(oidcAuthenticationService.createAccessToken).to.be.calledOnceWith(2);
         expect(oidcAuthenticationService.saveIdToken).to.be.calledOnceWith({ idToken: 'idToken', userId: 2 });
         expect(userRepository.updateLastLoggedAt).to.be.calledOnceWith({ userId: 2 });
-        expect(result).to.deep.equal({ pixAccessToken: 'accessToken', logoutUrlUUID: 'logoutUrl' });
+        expect(result).to.deep.equal({
+          pixAccessToken: 'accessToken',
+          logoutUrlUUID: 'logoutUrl',
+          isAuthenticationComplete: true,
+        });
       });
     });
   });
