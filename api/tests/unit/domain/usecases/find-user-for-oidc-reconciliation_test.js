@@ -11,7 +11,7 @@ describe('Unit | UseCase | find-user-for-oidc-reconciliation', function () {
     userRepository = {};
     pixAuthenticationService = { getUserByUsernameAndPassword: sinon.stub() };
     authenticationSessionService = { getByKey: sinon.stub(), update: sinon.stub() };
-    oidcAuthenticationService = { createAccessToken: sinon.stub() };
+    oidcAuthenticationService = { createAccessToken: sinon.stub(), saveIdToken: sinon.stub() };
   });
 
   it('should find pix user and their oidc authentication method', async function () {
@@ -151,7 +151,7 @@ describe('Unit | UseCase | find-user-for-oidc-reconciliation', function () {
     });
 
     context('when externalIdentifier and externalIdentityId are the same', function () {
-      it('should return access token', async function () {
+      it('should return access token and logout url uuid', async function () {
         // given
         const oidcAuthenticationMethod = domainBuilder.buildAuthenticationMethod.withPoleEmploiAsIdentityProvider({
           externalIdentifier: '123abc',
@@ -159,10 +159,11 @@ describe('Unit | UseCase | find-user-for-oidc-reconciliation', function () {
         pixAuthenticationService.getUserByUsernameAndPassword.resolves({ id: 2 });
         authenticationMethodRepository.findOneByUserIdAndIdentityProvider.resolves(oidcAuthenticationMethod);
         authenticationSessionService.getByKey.resolves({
-          sessionContent: {},
+          sessionContent: { idToken: 'idToken' },
           userInfo: { externalIdentityId: '123abc' },
         });
         oidcAuthenticationService.createAccessToken.resolves('accessToken');
+        oidcAuthenticationService.saveIdToken.resolves('logoutUrl');
 
         // when
         const result = await findUserForOidcReconciliation({
@@ -179,7 +180,8 @@ describe('Unit | UseCase | find-user-for-oidc-reconciliation', function () {
 
         // then
         expect(oidcAuthenticationService.createAccessToken).to.be.calledOnceWith(2);
-        expect(result).to.deep.equal({ pixAccessToken: 'accessToken' });
+        expect(oidcAuthenticationService.saveIdToken).to.be.calledOnceWith({ idToken: 'idToken', userId: 2 });
+        expect(result).to.deep.equal({ pixAccessToken: 'accessToken', logoutUrlUUID: 'logoutUrl' });
       });
     });
   });
