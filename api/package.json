@@ -18,6 +18,7 @@
   "dependencies": {
     "@aws-sdk/client-s3": "^3.121.0",
     "@aws-sdk/lib-storage": "^3.121.0",
+    "@aws-sdk/s3-request-presigner": "^3.145.0",
     "@hapi/accept": "^6.0.0",
     "@hapi/hapi": "^20.2.2",
     "@hapi/inert": "^6.0.5",
