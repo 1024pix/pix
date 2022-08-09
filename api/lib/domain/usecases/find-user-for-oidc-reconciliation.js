@@ -1,4 +1,4 @@
-const { AuthenticationKeyExpired } = require('../errors');
+const { AuthenticationKeyExpired, DifferentExternalIdentifierError } = require('../errors');
 
 module.exports = async function findUserForOidcReconciliation({
   authenticationKey,
@@ -30,5 +30,12 @@ module.exports = async function findUserForOidcReconciliation({
     sessionContentAndUserInfo.userInfo.userId = foundUser.id;
     await authenticationSessionService.update(authenticationKey, sessionContentAndUserInfo);
     return authenticationKey;
+  }
+
+  const isSameExternalIdentifier =
+    oidcAuthenticationMethod.externalIdentifier === sessionContentAndUserInfo.userInfo.externalIdentityId;
+
+  if (!isSameExternalIdentifier) {
+    throw new DifferentExternalIdentifierError();
   }
 };
