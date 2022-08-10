@@ -100,9 +100,10 @@ describe('Unit | UseCase | complete-assessment', function () {
           });
 
           // then
-          expect(result).to.be.an.instanceof(AssessmentCompleted);
-          expect(result.userId).to.equal(assessment.userId);
-          expect(result.assessmentId).to.equal(assessment.id);
+          expect(result.event).to.be.an.instanceof(AssessmentCompleted);
+          expect(result.event.userId).to.equal(assessment.userId);
+          expect(result.event.assessmentId).to.equal(assessment.id);
+          expect(result.assessment).to.equal(assessment);
         });
       });
     });
@@ -124,7 +125,7 @@ describe('Unit | UseCase | complete-assessment', function () {
         });
 
         // then
-        expect(result.campaignParticipationId).to.equal(assessment.campaignParticipationId);
+        expect(result.event.campaignParticipationId).to.equal(assessment.campaignParticipationId);
       });
 
       it('should call update campaign participation status', async function () {
@@ -169,7 +170,7 @@ describe('Unit | UseCase | complete-assessment', function () {
 
         // then
         expect(campaignParticipationRepository.update).to.not.have.been.called;
-        expect(result.isCertificationType).to.equal(true);
+        expect(result.event.isCertificationType).to.equal(true);
       });
     });
   });
