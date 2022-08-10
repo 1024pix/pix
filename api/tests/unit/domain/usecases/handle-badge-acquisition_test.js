@@ -36,9 +36,14 @@ describe('Unit | Usecase | handle-badge-acquisition', function () {
     });
 
     context('when the assessment belongs to a campaign', function () {
-      const assessment = new Assessment({
-        userId: 'userId',
-        campaignParticipationId: 'campaignParticipationId',
+      let assessment;
+
+      beforeEach(function () {
+        assessment = new Assessment({
+          userId: 'userId',
+          campaignParticipationId: 'campaignParticipationId',
+          type: Assessment.types.CAMPAIGN,
+        });
       });
 
       context('when the campaign is associated to one badge', function () {
