@@ -265,7 +265,14 @@ class CertificationResult {
   }
 
   getUniqComplementaryCertificationCourseResultHeaders() {
-    return [...new Set(this.complementaryCertificationCourseResults.map(({ label }) => `Certification ${label}`))];
+    return [
+      ...new Set(
+        _(this.complementaryCertificationCourseResults)
+          .orderBy('id')
+          .map(({ label }) => `Certification ${label}`)
+          .value()
+      ),
+    ];
   }
 
   _getCertificationCourseResultByPartnerKeys(partnerKeys) {

@@ -93,8 +93,9 @@ function _selectComplementaryCertificationCourseResultsBySessionId({ sessionId }
         'partnerKey', "complementary-certification-course-results"."partnerKey",
         'acquired', "complementary-certification-course-results"."acquired",
         'source', "complementary-certification-course-results"."source",
-        'label', "complementary-certification-badges"."label"
-        )) as "complementaryCertificationCourseResults"
+        'label', "complementary-certification-badges"."label",
+        'order', "complementary-certifications".id
+        ) order by "complementary-certifications".id, "complementary-certification-badges".level) as "complementaryCertificationCourseResults"
         `)
     )
     .join(
@@ -104,6 +105,11 @@ function _selectComplementaryCertificationCourseResultsBySessionId({ sessionId }
     )
     .join('badges', 'badges.key', 'complementary-certification-course-results.partnerKey')
     .join('complementary-certification-badges', 'complementary-certification-badges.badgeId', 'badges.id')
+    .join(
+      'complementary-certifications',
+      'complementary-certifications.id',
+      'complementary-certification-badges.complementaryCertificationId'
+    )
     .join(
       'certification-courses',
       'certification-courses.id',

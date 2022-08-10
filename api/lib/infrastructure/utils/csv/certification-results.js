@@ -70,67 +70,13 @@ function _buildFileData({ session, certificationResults }) {
 }
 
 function _buildFileHeaders(certificationResults) {
-  const shouldIncludeCleaHeader = certificationResults.some((certificationResult) =>
-    certificationResult.hasTakenClea()
-  );
-  const shouldIncludePixPlusDroitMaitreHeader = certificationResults.some((certificationResult) =>
-    certificationResult.hasTakenPixPlusDroitMaitre()
-  );
-  const shouldIncludePixPlusDroitExpertHeader = certificationResults.some((certificationResult) =>
-    certificationResult.hasTakenPixPlusDroitExpert()
-  );
-  const shouldIncludePixPlusEdu2ndDegreInitieHeader = certificationResults.some((certificationResult) =>
-    certificationResult.hasTakenPixPlusEdu2ndDegreInitie()
-  );
-  const shouldIncludePixPlusEdu2ndDegreConfirmeHeader = certificationResults.some((certificationResult) =>
-    certificationResult.hasTakenPixPlusEdu2ndDegreConfirme()
-  );
-  const shouldIncludePixPlusEdu2ndDegreAvanceHeader = certificationResults.some((certificationResult) =>
-    certificationResult.hasTakenPixPlusEdu2ndDegreAvance()
-  );
-  const shouldIncludePixPlusEdu2ndDegreExpertHeader = certificationResults.some((certificationResult) =>
-    certificationResult.hasTakenPixPlusEdu2ndDegreExpert()
-  );
-  const shouldIncludePixPlusEdu1erDegreInitieHeader = certificationResults.some((certificationResult) =>
-    certificationResult.hasTakenPixPlusEdu1erDegreInitie()
-  );
-  const shouldIncludePixPlusEdu1erDegreConfirmeHeader = certificationResults.some((certificationResult) =>
-    certificationResult.hasTakenPixPlusEdu1erDegreConfirme()
-  );
-  const shouldIncludePixPlusEdu1erDegreAvanceHeader = certificationResults.some((certificationResult) =>
-    certificationResult.hasTakenPixPlusEdu1erDegreAvance()
-  );
-  const shouldIncludePixPlusEdu1erDegreExpertHeader = certificationResults.some((certificationResult) =>
-    certificationResult.hasTakenPixPlusEdu1erDegreExpert()
-  );
-
-  const cleaHeader = shouldIncludeCleaHeader ? [_headers.CLEA_STATUS] : [];
-  const pixPlusDroitMaitreHeader = shouldIncludePixPlusDroitMaitreHeader ? [_headers.PIX_PLUS_DROIT_MAITRE_STATUS] : [];
-  const pixPlusDroitExpertHeader = shouldIncludePixPlusDroitExpertHeader ? [_headers.PIX_PLUS_DROIT_EXPERT_STATUS] : [];
-  const pixPlusEdu2ndDegreInitieHeader = shouldIncludePixPlusEdu2ndDegreInitieHeader
-    ? [_headers.PIX_PLUS_EDU_2ND_DEGRE_INITIE_HEADER]
-    : [];
-  const pixPlusEdu2ndDegreConfirmeHeader = shouldIncludePixPlusEdu2ndDegreConfirmeHeader
-    ? [_headers.PIX_PLUS_EDU_2ND_DEGRE_CONFIRME_HEADER]
-    : [];
-  const pixPlusEdu2ndDegreAvanceHeader = shouldIncludePixPlusEdu2ndDegreAvanceHeader
-    ? [_headers.PIX_PLUS_EDU_2ND_DEGRE_AVANCE_HEADER]
-    : [];
-  const pixPlusEdu2ndDegreExpertHeader = shouldIncludePixPlusEdu2ndDegreExpertHeader
-    ? [_headers.PIX_PLUS_EDU_2ND_DEGRE_EXPERT_HEADER]
-    : [];
-  const pixPlusEdu1erDegreInitieHeader = shouldIncludePixPlusEdu1erDegreInitieHeader
-    ? [_headers.PIX_PLUS_EDU_1ER_DEGRE_INITIE_HEADER]
-    : [];
-  const pixPlusEdu1erDegreConfirmeHeader = shouldIncludePixPlusEdu1erDegreConfirmeHeader
-    ? [_headers.PIX_PLUS_EDU_1ER_DEGRE_CONFIRME_HEADER]
-    : [];
-  const pixPlusEdu1erDegreAvanceHeader = shouldIncludePixPlusEdu1erDegreAvanceHeader
-    ? [_headers.PIX_PLUS_EDU_1ER_DEGRE_AVANCE_HEADER]
-    : [];
-  const pixPlusEdu1erDegreExpertHeader = shouldIncludePixPlusEdu1erDegreExpertHeader
-    ? [_headers.PIX_PLUS_EDU_1ER_DEGRE_EXPERT_HEADER]
-    : [];
+  const complementaryCertificationResultsHeaders = [
+    ...new Set(
+      certificationResults.flatMap((certificationResult) =>
+        certificationResult.getUniqComplementaryCertificationCourseResultHeaders()
+      )
+    ),
+  ];
 
   return _.concat(
     [
@@ -142,17 +88,7 @@ function _buildFileHeaders(certificationResults) {
       _headers.EXTERNAL_ID,
       _headers.STATUS,
     ],
-    pixPlusDroitMaitreHeader,
-    pixPlusDroitExpertHeader,
-    cleaHeader,
-    pixPlusEdu2ndDegreInitieHeader,
-    pixPlusEdu2ndDegreConfirmeHeader,
-    pixPlusEdu2ndDegreAvanceHeader,
-    pixPlusEdu2ndDegreExpertHeader,
-    pixPlusEdu1erDegreInitieHeader,
-    pixPlusEdu1erDegreConfirmeHeader,
-    pixPlusEdu1erDegreAvanceHeader,
-    pixPlusEdu1erDegreExpertHeader,
+    complementaryCertificationResultsHeaders,
     [_headers.PIX_SCORE],
     _competenceIndexes,
     [
@@ -334,7 +270,7 @@ const _headers = {
   BIRTHPLACE: 'Lieu de naissance',
   EXTERNAL_ID: 'Identifiant Externe',
   STATUS: 'Statut',
-  CLEA_STATUS: 'Certification CléA numérique',
+  CLEA_STATUS: 'Certification CléA Numérique',
   PIX_PLUS_DROIT_MAITRE_STATUS: 'Certification Pix+ Droit Maître',
   PIX_PLUS_DROIT_EXPERT_STATUS: 'Certification Pix+ Droit Expert',
   PIX_PLUS_EDU_2ND_DEGRE_INITIE_HEADER: 'Certification Pix+ Édu 2nd degré Initié (entrée dans le métier)',
