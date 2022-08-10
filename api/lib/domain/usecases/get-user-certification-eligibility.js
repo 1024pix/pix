@@ -1,5 +1,4 @@
 const CertificationEligibility = require('../read-models/CertificationEligibility');
-const { getLabelByBadgeKey } = require('../read-models/CertifiableBadgeLabels');
 
 module.exports = async function getUserCertificationEligibility({
   userId,
@@ -18,8 +17,8 @@ module.exports = async function getUserCertificationEligibility({
     userId,
   });
 
-  const eligibleComplementaryCertifications = stillValidBadgeAcquisitions.map(({ badgeKey }) =>
-    getLabelByBadgeKey(badgeKey)
+  const eligibleComplementaryCertifications = stillValidBadgeAcquisitions.map(
+    ({ badge }) => badge.complementaryCertificationBadge.label
   );
 
   return new CertificationEligibility({

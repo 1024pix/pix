@@ -147,6 +147,9 @@ describe('Unit | UseCase | get-user-certification-eligibility', function () {
         const badgeAcquisition = domainBuilder.buildBadgeAcquisition({
           badge: domainBuilder.buildBadge({
             key: badgeKey,
+            complementaryCertificationBadge: domainBuilder.buildComplementaryCertificationBadge({
+              label: expectedCertifiableBadgeLabel,
+            }),
           }),
         });
         certificationBadgesService.findStillValidBadgeAcquisitions.resolves([badgeAcquisition]);
