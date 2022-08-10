@@ -5,11 +5,13 @@ module.exports = function buildComplementaryCertificationCourseResult({
   partnerKey = 'PARTNER_KEY',
   acquired = false,
   source = ComplementaryCertificationCourseResult.sources.PIX,
+  label,
 } = {}) {
   return new ComplementaryCertificationCourseResult({
     complementaryCertificationCourseId,
     partnerKey,
     acquired,
     source,
+    label,
   });
 };
