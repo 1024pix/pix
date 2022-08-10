@@ -317,6 +317,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', function () {
                 },
               ],
               isAlwaysVisible: false,
+              complementaryCertificationBadge: null,
             },
           ],
           reachedStage: null,
@@ -461,6 +462,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', function () {
               ],
               targetProfileId: 1,
               isAlwaysVisible: false,
+              complementaryCertificationBadge: null,
             },
             {
               id: 2,
@@ -484,6 +486,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', function () {
               skillSetResults: [],
               targetProfileId: 1,
               isAlwaysVisible: false,
+              complementaryCertificationBadge: null,
             },
           ],
           reachedStage: null,
@@ -634,6 +637,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', function () {
               ],
               targetProfileId: 1,
               isAlwaysVisible: false,
+              complementaryCertificationBadge: null,
             },
             {
               id: 2,
@@ -674,6 +678,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', function () {
               ],
               targetProfileId: targetProfile.id,
               isAlwaysVisible: false,
+              complementaryCertificationBadge: null,
             },
           ],
           competenceResults: [
@@ -788,6 +793,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', function () {
               skillSetResults: [],
               targetProfileId: 1,
               isAlwaysVisible: false,
+              complementaryCertificationBadge: null,
             },
             {
               id: 2,
@@ -811,6 +817,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', function () {
               skillSetResults: [],
               targetProfileId: 1,
               isAlwaysVisible: false,
+              complementaryCertificationBadge: null,
             },
           ],
           competenceResults: [

@@ -14,6 +14,7 @@ module.exports = function buildBadge({
   badgeCriteria = [buildBadgeCriterion(), buildBadgeCriterion({ id: 2, skillSetIds: [1, 2] })],
   skillSets = [buildSkillSet(), buildSkillSet({ id: 2 })],
   isAlwaysVisible = false,
+  complementaryCertificationBadge = null,
 } = {}) {
   return new Badge({
     id,
@@ -27,5 +28,6 @@ module.exports = function buildBadge({
     badgeCriteria,
     skillSets,
     isAlwaysVisible,
+    complementaryCertificationBadge,
   });
 };
