@@ -2,28 +2,36 @@ const _ = require('lodash');
 
 const handleBadgeAcquisition = async function ({
   assessment,
-  // domainTransaction,
+  domainTransaction,
   badgeCriteriaService,
   badgeAcquisitionRepository,
   badgeRepository,
   knowledgeElementRepository,
   targetProfileRepository,
 }) {
-  if (assessment.campaignParticipationId !== null) {
-    const associatedBadges = await _fetchPossibleCampaignAssociatedBadges(assessment, badgeRepository);
+  if (assessment.isForCampaign()) {
+    const associatedBadges = await _fetchPossibleCampaignAssociatedBadges(
+      assessment.campaignParticipationId,
+      badgeRepository,
+      domainTransaction
+    );
     if (_.isEmpty(associatedBadges)) {
       return;
     }
-    const targetProfile = await targetProfileRepository.getByCampaignParticipationId(
-      assessment.campaignParticipationId
-    );
-    const knowledgeElements = await knowledgeElementRepository.findUniqByUserId({ userId: assessment.userId });
+    const targetProfile = await targetProfileRepository.getByCampaignParticipationId({
+      campaignParticipationId: assessment.campaignParticipationId,
+      domainTransaction,
+    });
+    const knowledgeElements = await knowledgeElementRepository.findUniqByUserId({
+      userId: assessment.userId,
+      domainTransaction,
+    });
 
     const validatedBadgesByUser = associatedBadges.filter((badge) =>
       badgeCriteriaService.areBadgeCriteriaFulfilled({ knowledgeElements, targetProfile, badge })
     );
 
-    const badgesAcquisitionToCreate = validatedBadgesByUser.map((badge) => {
+    const badgeAcquisitionsToCreate = validatedBadgesByUser.map((badge) => {
       return {
         badgeId: badge.id,
         userId: assessment.userId,
@@ -31,14 +39,14 @@ const handleBadgeAcquisition = async function ({
       };
     });
 
-    if (!_.isEmpty(badgesAcquisitionToCreate)) {
-      await badgeAcquisitionRepository.createOrUpdate(badgesAcquisitionToCreate);
+    if (!_.isEmpty(badgeAcquisitionsToCreate)) {
+      await badgeAcquisitionRepository.createOrUpdate({ badgeAcquisitionsToCreate, domainTransaction });
     }
   }
 };
 
-function _fetchPossibleCampaignAssociatedBadges(assessment, badgeRepository) {
-  return badgeRepository.findByCampaignParticipationId(assessment.campaignParticipationId);
+function _fetchPossibleCampaignAssociatedBadges(campaignParticipationId, badgeRepository, domainTransaction) {
+  return badgeRepository.findByCampaignParticipationId({ campaignParticipationId, domainTransaction });
 }
 
 module.exports = handleBadgeAcquisition;
