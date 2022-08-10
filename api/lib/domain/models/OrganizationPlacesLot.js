@@ -13,7 +13,7 @@ class OrganizationPlacesLot {
     this.organizationId = organizationId;
     this.count = count || null;
     this.activationDate = activationDate;
-    this.expirationDate = expirationDate;
+    this.expirationDate = expirationDate || null;
     this.reference = reference;
     this.category = codeByCategories[category];
     this.createdBy = createdBy;
