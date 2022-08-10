@@ -360,6 +360,7 @@ module.exports = injectDependencies(
     getUserProfile: require('./get-user-profile'),
     getUserProfileSharedForCampaign: require('./get-user-profile-shared-for-campaign'),
     getUserWithMemberships: require('./get-user-with-memberships'),
+    handleBadgeAcquisition: require('./handle-badge-acquisition'),
     importCertificationCandidatesFromCandidatesImportSheet: require('./import-certification-candidates-from-candidates-import-sheet'),
     importSupOrganizationLearners: require('./import-sup-organization-learners'),
     importOrganizationLearnersFromSIECLEFormat: require('./import-organization-learners-from-siecle'),

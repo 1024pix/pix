@@ -42,19 +42,24 @@ describe('Unit | Controller | assessment-controller', function () {
   });
 
   describe('#completeAssessment', function () {
-    let domainTransaction;
-    const assessmentId = 2;
-    const assessmentCompletedEvent = new AssessmentCompleted();
+    let domainTransaction, assessmentId, assessment, assessmentCompletedEvent;
 
     beforeEach(function () {
       domainTransaction = Symbol('domainTransaction');
-
+      assessmentId = 2;
+      assessmentCompletedEvent = new AssessmentCompleted();
+      assessment = Symbol('completed-assessment');
       DomainTransaction.execute = (lambda) => {
         return lambda(domainTransaction);
       };
 
       sinon.stub(usecases, 'completeAssessment');
-      usecases.completeAssessment.resolves(assessmentCompletedEvent);
+      sinon.stub(usecases, 'handleBadgeAcquisition');
+      usecases.completeAssessment.resolves({
+        event: assessmentCompletedEvent,
+        assessment,
+      });
+      usecases.handleBadgeAcquisition.resolves();
       sinon.stub(events.eventDispatcher, 'dispatch');
     });
 
@@ -64,6 +69,14 @@ describe('Unit | Controller | assessment-controller', function () {
 
       // then
       expect(usecases.completeAssessment).to.have.been.calledWithExactly({ assessmentId, domainTransaction });
+    });
+
+    it('should call the handleBadgeAcquisition use case', async function () {
+      // when
+      await assessmentController.completeAssessment({ params: { id: assessmentId } });
+
+      // then
+      expect(usecases.handleBadgeAcquisition).to.have.been.calledWithExactly({ assessment, domainTransaction });
     });
 
     it('should dispatch the assessment completed event', async function () {
