@@ -6,6 +6,7 @@ const badgeRepository = require('../../../../lib/infrastructure/repositories/bad
 const knowledgeElementRepository = require('../../../../lib/infrastructure/repositories/knowledge-element-repository');
 const targetProfileRepository = require('../../../../lib/infrastructure/repositories/target-profile-repository');
 const Assessment = require('../../../../lib/domain/models/Assessment');
+const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
 
 describe('Integration | Usecase | Handle Badge Acquisition', function () {
   let userId, assessment, badgeCompleted;
@@ -97,9 +98,11 @@ describe('Integration | Usecase | Handle Badge Acquisition', function () {
         key: 'Badge3',
       });
 
-      assessment = new Assessment();
-      assessment.userId = userId;
-      assessment.campaignParticipationId = campaignParticipationId;
+      assessment = new Assessment({
+        userId,
+        campaignParticipationId,
+        type: Assessment.types.CAMPAIGN,
+      });
 
       const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
       mockLearningContent(learningContentObjects);
@@ -111,22 +114,31 @@ describe('Integration | Usecase | Handle Badge Acquisition', function () {
       await knex('badge-acquisitions').delete();
     });
 
-    it('should save only the validated badges', async function () {
-      // when
-      await handleBadgeAcquisition({
-        assessment,
-        badgeCriteriaService,
-        badgeAcquisitionRepository,
-        badgeRepository,
-        knowledgeElementRepository,
-        targetProfileRepository,
-      });
+    context('when domain transaction is not committed yet', function () {
+      it('should not affect the database', async function () {
+        await DomainTransaction.execute(async (domainTransaction) => {
+          // when
+          await handleBadgeAcquisition({
+            assessment,
+            domainTransaction,
+            badgeCriteriaService,
+            badgeAcquisitionRepository,
+            badgeRepository,
+            knowledgeElementRepository,
+            targetProfileRepository,
+          });
 
-      // then
-      const badgeAcquisitions = await knex('badge-acquisitions').where({ userId: userId });
-      expect(badgeAcquisitions.length).to.equal(1);
-      expect(badgeAcquisitions[0].userId).to.equal(userId);
-      expect(badgeAcquisitions[0].badgeId).to.equal(badgeCompleted.id);
+          // then
+          const transactionBadgeAcquisitions = await domainTransaction
+            .knexTransaction('badge-acquisitions')
+            .select('userId', 'badgeId')
+            .where({ userId });
+          expect(transactionBadgeAcquisitions).to.deep.equal([{ userId, badgeId: badgeCompleted.id }]);
+
+          const realBadgeAcquisitions = await knex('badge-acquisitions').where({ userId });
+          expect(realBadgeAcquisitions.length).to.equal(0);
+        });
+      });
     });
   });
 });
