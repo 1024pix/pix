@@ -171,42 +171,58 @@ describe('Integration | Infrastructure | Utils | csv | certification-results', f
 
     // eslint-disable-next-line mocha/no-setup-in-describe
     [
-      { partnerKey: PIX_EMPLOI_CLEA_V3, expectedHeader: 'Certification CléA numérique' },
-      { partnerKey: PIX_DROIT_MAITRE_CERTIF, expectedHeader: 'Certification Pix+ Droit Maître' },
-      { partnerKey: PIX_DROIT_EXPERT_CERTIF, expectedHeader: 'Certification Pix+ Droit Expert' },
+      { partnerKey: PIX_EMPLOI_CLEA_V3, expectedHeader: 'Certification CléA Numérique', label: 'CléA Numérique' },
+      {
+        partnerKey: PIX_DROIT_MAITRE_CERTIF,
+        expectedHeader: 'Certification Pix+ Droit Maître',
+        label: 'Pix+ Droit Maître',
+      },
+      {
+        partnerKey: PIX_DROIT_EXPERT_CERTIF,
+        expectedHeader: 'Certification Pix+ Droit Expert',
+        label: 'Pix+ Droit Expert',
+      },
       {
         partnerKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
         expectedHeader: 'Certification Pix+ Édu 2nd degré Initié (entrée dans le métier)',
+        label: 'Pix+ Édu 2nd degré Initié (entrée dans le métier)',
       },
       {
         partnerKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME,
         expectedHeader: 'Certification Pix+ Édu 2nd degré Confirmé',
+        label: 'Pix+ Édu 2nd degré Confirmé',
       },
       {
         partnerKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
         expectedHeader: 'Certification Pix+ Édu 2nd degré Avancé',
+        label: 'Pix+ Édu 2nd degré Avancé',
       },
       {
         partnerKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
         expectedHeader: 'Certification Pix+ Édu 2nd degré Expert',
+        label: 'Pix+ Édu 2nd degré Expert',
       },
       {
         partnerKey: PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_INITIE,
         expectedHeader: 'Certification Pix+ Édu 1er degré Initié (entrée dans le métier)',
+        label: 'Pix+ Édu 1er degré Initié (entrée dans le métier)',
       },
       {
         partnerKey: PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_CONFIRME,
         expectedHeader: 'Certification Pix+ Édu 1er degré Confirmé',
+        label: 'Pix+ Édu 1er degré Confirmé',
       },
       {
         partnerKey: PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE,
         expectedHeader: 'Certification Pix+ Édu 1er degré Avancé',
+        label: 'Pix+ Édu 1er degré Avancé',
       },
       {
         partnerKey: PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT,
         expectedHeader: 'Certification Pix+ Édu 1er degré Expert',
+        label: 'Pix+ Édu 1er degré Expert',
       },
-    ].forEach(({ partnerKey, expectedHeader }) => {
+    ].forEach(({ partnerKey, expectedHeader, label }) => {
       context(`when at least one candidate has passed ${partnerKey} certification`, function () {
         it(`should return correct csvContent with the ${partnerKey} information`, async function () {
           // given
@@ -227,7 +243,7 @@ describe('Integration | Infrastructure | Utils | csv | certification-results', f
             commentForOrganization: 'RAS',
             competencesWithMark: competencesWithMark,
             complementaryCertificationCourseResults: [
-              domainBuilder.buildComplementaryCertificationCourseResult({ partnerKey, acquired: true }),
+              domainBuilder.buildComplementaryCertificationCourseResult({ partnerKey, acquired: true, label }),
             ],
           });
 
@@ -263,7 +279,7 @@ describe('Integration | Infrastructure | Utils | csv | certification-results', f
             commentForOrganization: 'RAS',
             competencesWithMark: competencesWithMark,
             complementaryCertificationCourseResults: [
-              domainBuilder.buildComplementaryCertificationCourseResult({ partnerKey, acquired: true }),
+              domainBuilder.buildComplementaryCertificationCourseResult({ partnerKey, acquired: true, label }),
             ],
           });
 
@@ -303,48 +319,70 @@ describe('Integration | Infrastructure | Utils | csv | certification-results', f
           competencesWithMark: competencesWithMark,
           complementaryCertificationCourseResults: [
             domainBuilder.buildComplementaryCertificationCourseResult({
-              partnerKey: PIX_EMPLOI_CLEA_V3,
-              acquired: true,
-            }),
-            domainBuilder.buildComplementaryCertificationCourseResult({
+              id: 1,
               partnerKey: PIX_DROIT_MAITRE_CERTIF,
               acquired: false,
+              label: 'Pix+ Droit Maître',
             }),
             domainBuilder.buildComplementaryCertificationCourseResult({
+              id: 2,
               partnerKey: PIX_DROIT_EXPERT_CERTIF,
               acquired: true,
+              label: 'Pix+ Droit Expert',
             }),
             domainBuilder.buildComplementaryCertificationCourseResult({
+              id: 3,
+              partnerKey: PIX_EMPLOI_CLEA_V3,
+              acquired: true,
+              label: 'CléA Numérique',
+            }),
+            domainBuilder.buildComplementaryCertificationCourseResult({
+              id: 1,
               partnerKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
               acquired: true,
+              label: 'Pix+ Édu 2nd degré Initié (entrée dans le métier)',
             }),
             domainBuilder.buildComplementaryCertificationCourseResult({
+              id: 1,
               partnerKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME,
               acquired: false,
+              label: 'Pix+ Édu 2nd degré Confirmé',
             }),
             domainBuilder.buildComplementaryCertificationCourseResult({
+              id: 1,
               partnerKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
               acquired: true,
+              label: 'Pix+ Édu 2nd degré Avancé',
             }),
             domainBuilder.buildComplementaryCertificationCourseResult({
+              id: 1,
               partnerKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
               acquired: false,
+              label: 'Pix+ Édu 2nd degré Expert',
             }),
             domainBuilder.buildComplementaryCertificationCourseResult({
+              id: 1,
               partnerKey: PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_INITIE,
               acquired: true,
+              label: 'Pix+ Édu 1er degré Initié (entrée dans le métier)',
             }),
             domainBuilder.buildComplementaryCertificationCourseResult({
+              id: 1,
               partnerKey: PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_CONFIRME,
               acquired: false,
+              label: 'Pix+ Édu 1er degré Confirmé',
             }),
             domainBuilder.buildComplementaryCertificationCourseResult({
+              id: 1,
               partnerKey: PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE,
               acquired: true,
+              label: 'Pix+ Édu 1er degré Avancé',
             }),
             domainBuilder.buildComplementaryCertificationCourseResult({
+              id: 1,
               partnerKey: PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT,
               acquired: false,
+              label: 'Pix+ Édu 1er degré Expert',
             }),
           ],
         });
@@ -357,7 +395,7 @@ describe('Integration | Infrastructure | Utils | csv | certification-results', f
         // then
         const expectedResult =
           '\uFEFF' +
-          '"Numéro de certification";"Prénom";"Nom";"Date de naissance";"Lieu de naissance";"Identifiant Externe";"Statut";"Certification Pix+ Droit Maître";"Certification Pix+ Droit Expert";"Certification CléA numérique";"Certification Pix+ Édu 2nd degré Initié (entrée dans le métier)";"Certification Pix+ Édu 2nd degré Confirmé";"Certification Pix+ Édu 2nd degré Avancé";"Certification Pix+ Édu 2nd degré Expert";"Certification Pix+ Édu 1er degré Initié (entrée dans le métier)";"Certification Pix+ Édu 1er degré Confirmé";"Certification Pix+ Édu 1er degré Avancé";"Certification Pix+ Édu 1er degré Expert";"Nombre de Pix";"1.1";"1.2";"1.3";"2.1";"2.2";"2.3";"2.4";"3.1";"3.2";"3.3";"3.4";"4.1";"4.2";"4.3";"5.1";"5.2";"Commentaire jury pour l’organisation";"Session";"Centre de certification";"Date de passage de la certification"\n' +
+          '"Numéro de certification";"Prénom";"Nom";"Date de naissance";"Lieu de naissance";"Identifiant Externe";"Statut";"Certification Pix+ Droit Maître";"Certification Pix+ Droit Expert";"Certification CléA Numérique";"Certification Pix+ Édu 2nd degré Initié (entrée dans le métier)";"Certification Pix+ Édu 2nd degré Confirmé";"Certification Pix+ Édu 2nd degré Avancé";"Certification Pix+ Édu 2nd degré Expert";"Certification Pix+ Édu 1er degré Initié (entrée dans le métier)";"Certification Pix+ Édu 1er degré Confirmé";"Certification Pix+ Édu 1er degré Avancé";"Certification Pix+ Édu 1er degré Expert";"Nombre de Pix";"1.1";"1.2";"1.3";"2.1";"2.2";"2.3";"2.4";"3.1";"3.2";"3.3";"3.4";"4.1";"4.2";"4.3";"5.1";"5.2";"Commentaire jury pour l’organisation";"Session";"Centre de certification";"Date de passage de la certification"\n' +
           '123;"Lili";"Oxford";"04/01/1990";"Torreilles";"LOLORD";"Validée";"Rejetée";"Validée";"Validée";"Validée";"Rejetée";"Validée";"Rejetée";"Validée";"Rejetée";"Validée";"Rejetée";55;"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";3;0;"RAS";777;"CentreCertif";"01/01/2020"';
         expect(result).to.equal(expectedResult);
       });
