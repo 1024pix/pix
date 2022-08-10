@@ -264,6 +264,10 @@ class CertificationResult {
     return Boolean(result?.acquired);
   }
 
+  getUniqComplementaryCertificationCourseResultHeaders() {
+    return [...new Set(this.complementaryCertificationCourseResults.map(({ label }) => `Certification ${label}`))];
+  }
+
   _getCertificationCourseResultByPartnerKeys(partnerKeys) {
     return this.complementaryCertificationCourseResults.find(({ partnerKey }) => partnerKeys.includes(partnerKey));
   }
