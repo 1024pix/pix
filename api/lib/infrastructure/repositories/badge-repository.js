@@ -112,5 +112,5 @@ module.exports = {
 };
 
 function _adaptModelToDb(badge) {
-  return omit(badge, ['id', 'badgeCriteria', 'skillSets']);
+  return omit(badge, ['id', 'badgeCriteria', 'skillSets', 'complementaryCertificationBadge']);
 }
