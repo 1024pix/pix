@@ -292,13 +292,15 @@ describe('Script | Prod | Compute Badge Acquisitions', function () {
         const numberOfCreatedBadges = await computeBadgeAcquisition({ campaignParticipation, ...dependencies });
 
         // then
-        expect(badgeAcquisitionRepository.createOrUpdate).to.have.been.calledWithExactly([
-          {
-            badgeId,
-            userId: campaignParticipation.userId,
-            campaignParticipationId: campaignParticipation.id,
-          },
-        ]);
+        expect(badgeAcquisitionRepository.createOrUpdate).to.have.been.calledWithExactly({
+          badgeAcquisitionsToCreate: [
+            {
+              badgeId,
+              userId: campaignParticipation.userId,
+              campaignParticipationId: campaignParticipation.id,
+            },
+          ],
+        });
         expect(numberOfCreatedBadges).to.equal(1);
       });
 
@@ -373,13 +375,15 @@ describe('Script | Prod | Compute Badge Acquisitions', function () {
           const numberOfCreatedBadges = await computeBadgeAcquisition({ campaignParticipation, ...dependencies });
 
           // then
-          expect(badgeAcquisitionRepository.createOrUpdate).to.have.been.calledWithExactly([
-            {
-              badgeId: badge1.id,
-              userId: campaignParticipation.userId,
-              campaignParticipationId: campaignParticipation.id,
-            },
-          ]);
+          expect(badgeAcquisitionRepository.createOrUpdate).to.have.been.calledWithExactly({
+            badgeAcquisitionsToCreate: [
+              {
+                badgeId: badge1.id,
+                userId: campaignParticipation.userId,
+                campaignParticipationId: campaignParticipation.id,
+              },
+            ],
+          });
           expect(numberOfCreatedBadges).to.equal(1);
         });
       });
@@ -405,18 +409,20 @@ describe('Script | Prod | Compute Badge Acquisitions', function () {
             const numberOfCreatedBadges = await computeBadgeAcquisition({ campaignParticipation, ...dependencies });
 
             // then
-            expect(badgeAcquisitionRepository.createOrUpdate).to.have.been.calledWithExactly([
-              {
-                badgeId: badge1.id,
-                userId: campaignParticipation.userId,
-                campaignParticipationId: campaignParticipation.id,
-              },
-              {
-                badgeId: badge2.id,
-                userId: campaignParticipation.userId,
-                campaignParticipationId: campaignParticipation.id,
-              },
-            ]);
+            expect(badgeAcquisitionRepository.createOrUpdate).to.have.been.calledWithExactly({
+              badgeAcquisitionsToCreate: [
+                {
+                  badgeId: badge1.id,
+                  userId: campaignParticipation.userId,
+                  campaignParticipationId: campaignParticipation.id,
+                },
+                {
+                  badgeId: badge2.id,
+                  userId: campaignParticipation.userId,
+                  campaignParticipationId: campaignParticipation.id,
+                },
+              ],
+            });
             expect(numberOfCreatedBadges).to.equal(2);
           });
         });
@@ -441,13 +447,15 @@ describe('Script | Prod | Compute Badge Acquisitions', function () {
             const numberOfCreatedBadges = await computeBadgeAcquisition({ campaignParticipation, ...dependencies });
 
             // then
-            expect(badgeAcquisitionRepository.createOrUpdate).to.have.been.calledWithExactly([
-              {
-                badgeId: badge2.id,
-                userId: campaignParticipation.userId,
-                campaignParticipationId: campaignParticipation.id,
-              },
-            ]);
+            expect(badgeAcquisitionRepository.createOrUpdate).to.have.been.calledWithExactly({
+              badgeAcquisitionsToCreate: [
+                {
+                  badgeId: badge2.id,
+                  userId: campaignParticipation.userId,
+                  campaignParticipationId: campaignParticipation.id,
+                },
+              ],
+            });
             expect(numberOfCreatedBadges).to.equal(1);
           });
         });
