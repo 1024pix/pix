@@ -1,41 +1,40 @@
-const Bookshelf = require('../bookshelf');
-const { knex } = require('../../../db/knex-database-connection');
-const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
-const BookshelfBadgeAcquisition = require('../orm-models/BadgeAcquisition');
-const DomainTransaction = require('../DomainTransaction');
 const bluebird = require('bluebird');
 const BadgeAcquisition = require('../../domain/models/BadgeAcquisition');
 const Badge = require('../../domain/models/Badge');
 const BadgeCriterion = require('../../domain/models/BadgeCriterion');
 const SkillSet = require('../../domain/models/SkillSet');
 const ComplementaryCertificationBadge = require('../../domain/models/ComplementaryCertificationBadge');
+const { knex } = require('../../../db/knex-database-connection');
+const DomainTransaction = require('../DomainTransaction');
 
 module.exports = {
-  async createOrUpdate(badgeAcquisitionsToCreate = [], domainTransaction = DomainTransaction.emptyTransaction()) {
-    const knexConn = domainTransaction.knexTransaction || Bookshelf.knex;
-    return bluebird.mapSeries(badgeAcquisitionsToCreate, async (badgeAcquisitionToCreate) => {
+  async createOrUpdate({ badgeAcquisitionsToCreate = [], domainTransaction = DomainTransaction.emptyTransaction() }) {
+    const knexConn = domainTransaction.knexTransaction || knex;
+    return bluebird.mapSeries(badgeAcquisitionsToCreate, async ({ badgeId, userId, campaignParticipationId }) => {
       const alreadyCreatedBadgeAcquisition = await knexConn('badge-acquisitions')
         .select('id')
-        .where(badgeAcquisitionToCreate);
+        .where({ badgeId, userId, campaignParticipationId });
       if (alreadyCreatedBadgeAcquisition.length === 0) {
         return knexConn('badge-acquisitions').insert(badgeAcquisitionsToCreate);
       } else {
         return knexConn('badge-acquisitions')
-          .update({ updatedAt: Bookshelf.knex.raw('CURRENT_TIMESTAMP') })
-          .where(badgeAcquisitionToCreate);
+          .update({ updatedAt: knex.raw('CURRENT_TIMESTAMP') })
+          .where({ userId, badgeId, campaignParticipationId });
       }
     });
   },
 
-  async getAcquiredBadgeIds({ badgeIds, userId }) {
-    const collectionResult = await BookshelfBadgeAcquisition.where({ userId })
-      .where('badgeId', 'in', badgeIds)
-      .fetchAll({ columns: ['badge-acquisitions.badgeId'], require: false });
-    return collectionResult.map((obj) => obj.attributes.badgeId);
+  async getAcquiredBadgeIds({ badgeIds, userId, domainTransaction = DomainTransaction.emptyTransaction() }) {
+    const knexConn = domainTransaction.knexTransaction || knex;
+    return knexConn('badge-acquisitions').pluck('badgeId').where({ userId }).whereIn('badgeId', badgeIds);
   },
 
-  async getAcquiredBadgesByCampaignParticipations({ campaignParticipationsIds }) {
-    const badges = await Bookshelf.knex('badges')
+  async getAcquiredBadgesByCampaignParticipations({
+    campaignParticipationsIds,
+    domainTransaction = DomainTransaction.emptyTransaction(),
+  }) {
+    const knexConn = domainTransaction.knexTransaction || knex;
+    const badges = await knexConn('badges')
       .distinct('badges.id')
       .select('badge-acquisitions.campaignParticipationId AS campaignParticipationId', 'badges.*')
       .from('badges')
@@ -80,13 +79,13 @@ module.exports = {
       (certifiableBadgeAcquisition) => certifiableBadgeAcquisition.badgeId
     );
 
-    const badgeCriteria = await knex('badge-criteria').whereIn('badgeId', certifiableBadgeAcquisitionBadgeIds);
+    const badgeCriteria = await knexConn('badge-criteria').whereIn('badgeId', certifiableBadgeAcquisitionBadgeIds);
 
     const skillSetIds = badgeCriteria.flatMap((badgeCriterion) => badgeCriterion.skillSetIds);
 
     const uniqueSkillSetIds = [...new Set(skillSetIds)];
 
-    const skillSets = await knex('skill-sets').whereIn('id', uniqueSkillSetIds);
+    const skillSets = await knexConn('skill-sets').whereIn('id', uniqueSkillSetIds);
 
     return _toDomain(certifiableBadgeAcquisitions, badgeCriteria, skillSets);
   },

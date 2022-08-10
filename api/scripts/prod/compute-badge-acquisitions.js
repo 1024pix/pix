@@ -104,7 +104,7 @@ async function computeBadgeAcquisition({
     userId,
   });
 
-  const badgesAcquisitionToCreate = validatedBadgesByUser
+  const badgeAcquisitionsToCreate = validatedBadgesByUser
     .filter((badge) => !acquiredBadgeIds.includes(badge.id))
     .map((badge) => {
       return {
@@ -114,15 +114,15 @@ async function computeBadgeAcquisition({
       };
     });
 
-  if (_.isEmpty(badgesAcquisitionToCreate)) {
+  if (_.isEmpty(badgeAcquisitionsToCreate)) {
     return 0;
   }
 
   if (!dryRun) {
-    await badgeAcquisitionRepository.createOrUpdate(badgesAcquisitionToCreate);
+    await badgeAcquisitionRepository.createOrUpdate({ badgeAcquisitionsToCreate });
   }
 
-  return badgesAcquisitionToCreate.length;
+  return badgeAcquisitionsToCreate.length;
 }
 
 function _fetchPossibleCampaignAssociatedBadges(campaignParticipation, badgeRepository) {
