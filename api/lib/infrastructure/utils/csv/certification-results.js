@@ -66,11 +66,11 @@ function _buildFileHeadersWithoutCertificationCenterName() {
 }
 
 function _buildFileData({ session, certificationResults }) {
-  const sessionComplementaryCertificationsLabels = getComplementaryCertificationResultsLabels(certificationResults);
+  const sessionComplementaryCertificationsLabels = _getComplementaryCertificationResultsLabels(certificationResults);
   return certificationResults.map(_getRowItemsFromSessionAndResults(session, sessionComplementaryCertificationsLabels));
 }
 
-function getComplementaryCertificationResultsHeaders(certificationResults) {
+function _getComplementaryCertificationResultsHeaders(certificationResults) {
   return [
     ...new Set(
       certificationResults.flatMap((certificationResult) =>
@@ -80,7 +80,7 @@ function getComplementaryCertificationResultsHeaders(certificationResults) {
   ];
 }
 
-function getComplementaryCertificationResultsLabels(certificationResults) {
+function _getComplementaryCertificationResultsLabels(certificationResults) {
   return [
     ...new Set(
       certificationResults.flatMap((certificationResult) =>
@@ -91,7 +91,7 @@ function getComplementaryCertificationResultsLabels(certificationResults) {
 }
 
 function _buildFileHeaders(certificationResults) {
-  const complementaryCertificationResultsHeaders = getComplementaryCertificationResultsHeaders(certificationResults);
+  const complementaryCertificationResultsHeaders = _getComplementaryCertificationResultsHeaders(certificationResults);
 
   return _.concat(
     [
