@@ -5,11 +5,9 @@ import { inject as service } from '@ember/service';
 import BaseAuthenticator from 'ember-simple-auth/authenticators/base';
 
 import { decodeToken } from 'mon-pix/helpers/jwt';
-
+import IdentityProviders from 'mon-pix/identity-providers';
 import ENV from 'mon-pix/config/environment';
 import fetch from 'fetch';
-
-const { host, afterLogoutUri, endSessionEndpoint } = ENV.poleEmploi;
 
 export default class OidcAuthenticator extends BaseAuthenticator {
   @service session;
@@ -20,25 +18,28 @@ export default class OidcAuthenticator extends BaseAuthenticator {
       method: 'POST',
       headers: {
         Accept: 'application/json',
+        'Content-Type': 'application/json',
       },
     };
-    let serverTokenEndpoint;
+    const host = `${ENV.APP.API_HOST}/api/oidc/`;
+    let hostSlug, body;
+    const identity_provider = IdentityProviders[identityProviderSlug]?.code;
 
     if (authenticationKey) {
-      serverTokenEndpoint = `${ENV.APP.API_HOST}/api/${identityProviderSlug}/users?authentication-key=${authenticationKey}`;
+      hostSlug = 'users';
+      body = {
+        identity_provider,
+        authentication_key: authenticationKey,
+      };
     } else {
-      serverTokenEndpoint = `${ENV.APP.API_HOST}/api/${identityProviderSlug}/token`;
-      const bodyObject = {
+      hostSlug = 'token';
+      body = {
+        identity_provider,
         code,
         redirect_uri: redirectUri,
         state_sent: this.session.data.state,
         state_received: state,
       };
-
-      request.headers['Content-Type'] = 'application/x-www-form-urlencoded';
-      request.body = Object.keys(bodyObject)
-        .map((k) => `${k}=${encodeURIComponent(bodyObject[k])}`)
-        .join('&');
 
       if (this.session.isAuthenticated) {
         const accessToken = this.session.get('data.authenticated.access_token');
@@ -47,7 +48,8 @@ export default class OidcAuthenticator extends BaseAuthenticator {
       }
     }
 
-    const response = await fetch(serverTokenEndpoint, request);
+    request.body = JSON.stringify({ data: { attributes: body } });
+    const response = await fetch(host + hostSlug, request);
 
     const data = await response.json();
     if (!response.ok) {
@@ -61,8 +63,7 @@ export default class OidcAuthenticator extends BaseAuthenticator {
       logout_url_uuid: data.logout_url_uuid,
       source: decodedAccessToken.source,
       user_id: decodedAccessToken.user_id,
-      // for backwards compatibility TODO remove after a couple days in production
-      identity_provider_code: decodedAccessToken.identity_provider || decodedAccessToken.identity_provider_code,
+      identity_provider_code: decodedAccessToken.identity_provider,
     };
   }
 
@@ -75,50 +76,22 @@ export default class OidcAuthenticator extends BaseAuthenticator {
     });
   }
 
-  /**
-   * @deprecated
-   * @param idToken
-   * @returns {string}
-   * @private
-   */
-  _generateRedirectLogoutUrl(idToken) {
-    if (!endSessionEndpoint) {
-      return;
-    }
-
-    const params = [];
-
-    if (afterLogoutUri) {
-      params.push(`redirect_uri=${afterLogoutUri}`);
-    }
-
-    if (idToken) {
-      params.push(`id_token_hint=${idToken}`);
-    }
-
-    return `${host}${endSessionEndpoint}?${params.join('&')}`;
-  }
-
   async invalidate(data) {
     if (data?.identity_provider_code !== 'POLE_EMPLOI') return;
 
     let url = '';
-    const { access_token, id_token, logout_url_uuid } = this.session.data.authenticated;
+    const { access_token, logout_url_uuid } = this.session.data.authenticated;
 
-    if (id_token) {
-      url = this._generateRedirectLogoutUrl(id_token);
-    } else {
-      const response = await fetch(
-        `${ENV.APP.API_HOST}/api/oidc/redirect-logout-url?identity_provider=POLE_EMPLOI&logout_url_uuid=${logout_url_uuid}`,
-        {
-          headers: {
-            Authorization: `Bearer ${access_token}`,
-          },
-        }
-      );
-      const { redirectLogoutUrl } = await response.json();
-      url = redirectLogoutUrl;
-    }
+    const response = await fetch(
+      `${ENV.APP.API_HOST}/api/oidc/redirect-logout-url?identity_provider=POLE_EMPLOI&logout_url_uuid=${logout_url_uuid}`,
+      {
+        headers: {
+          Authorization: `Bearer ${access_token}`,
+        },
+      }
+    );
+    const { redirectLogoutUrl } = await response.json();
+    url = redirectLogoutUrl;
 
     this.location.replace(url);
   }

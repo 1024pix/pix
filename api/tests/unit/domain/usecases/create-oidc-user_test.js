@@ -6,7 +6,7 @@ const {
 const createOidcUser = require('../../../../lib/domain/usecases/create-oidc-user');
 
 describe('Unit | UseCase | create-user-from-external-identity-provider', function () {
-  let authenticationMethodRepository, userToCreateRepository;
+  let authenticationMethodRepository, userToCreateRepository, userRepository;
   let authenticationSessionService, oidcAuthenticationService;
   let authenticationServiceRegistry;
   let clock;
@@ -26,10 +26,16 @@ describe('Unit | UseCase | create-user-from-external-identity-provider', functio
     oidcAuthenticationService = {
       getUserInfo: sinon.stub(),
       createUserAccount: sinon.stub(),
+      createAccessToken: sinon.stub(),
+      saveIdToken: sinon.stub(),
     };
 
     authenticationServiceRegistry = {
       lookupAuthenticationService: sinon.stub(),
+    };
+
+    userRepository = {
+      updateLastLoggedAt: sinon.stub(),
     };
   });
 
@@ -87,40 +93,52 @@ describe('Unit | UseCase | create-user-from-external-identity-provider', functio
     });
   });
 
-  it('should call createUserAccount method to return user id and id token', async function () {
+  it('should create user account and return an access token, the logout url uuid and update the last logged date with the existing external user id', async function () {
     // given
-    authenticationSessionService.getByKey.withArgs('AUTHENTICATION_KEY').resolves({
-      sessionContent: { idToken: 'idToken', accessToken: 'accessToken' },
-      userInfo: { firstName: 'Jean', lastName: 'Heymar', externalIdentityId: 'duGAR' },
-    });
-    authenticationServiceRegistry.lookupAuthenticationService.withArgs('SOME_IDP').resolves(oidcAuthenticationService);
-    authenticationMethodRepository.findOneByExternalIdentifierAndIdentityProvider
-      .withArgs({ externalIdentifier: 'duGAR', identityProvider: 'SOME_IDP' })
-      .resolves(null);
-
-    // when
-    await createOidcUser({
-      identityProvider: 'SOME_IDP',
-      authenticationKey: 'AUTHENTICATION_KEY',
-      authenticationServiceRegistry,
-      authenticationSessionService,
-      authenticationMethodRepository,
-      userToCreateRepository,
-    });
-
-    // then
+    const idToken = 'idToken';
     const expectedUser = {
       firstName: 'Jean',
       lastName: 'Heymar',
       cgu: true,
       lastTermsOfServiceValidatedAt: now,
     };
-    expect(oidcAuthenticationService.createUserAccount).to.have.been.calledWithMatch({
-      user: expectedUser,
-      sessionContent: { idToken: 'idToken', accessToken: 'accessToken' },
-      externalIdentityId: 'duGAR',
+    authenticationSessionService.getByKey.withArgs('AUTHENTICATION_KEY').resolves({
+      sessionContent: { idToken, accessToken: 'accessToken' },
+      userInfo: { firstName: 'Jean', lastName: 'Heymar', externalIdentityId: 'externalId' },
+    });
+    authenticationServiceRegistry.lookupAuthenticationService.withArgs('SOME_IDP').resolves(oidcAuthenticationService);
+    authenticationMethodRepository.findOneByExternalIdentifierAndIdentityProvider
+      .withArgs({ externalIdentifier: 'externalId', identityProvider: 'SOME_IDP' })
+      .resolves(null);
+    oidcAuthenticationService.createUserAccount.resolves({ userId: 10, idToken });
+    oidcAuthenticationService.createAccessToken.withArgs(10).returns('accessTokenForExistingExternalUser');
+    oidcAuthenticationService.saveIdToken.withArgs({ idToken, userId: 10 }).resolves('logoutUrlUUID');
+
+    // when
+    const result = await createOidcUser({
+      identityProvider: 'SOME_IDP',
+      authenticationKey: 'AUTHENTICATION_KEY',
+      authenticationServiceRegistry,
+      authenticationSessionService,
       authenticationMethodRepository,
       userToCreateRepository,
+      userRepository,
+    });
+
+    // then
+    expect(oidcAuthenticationService.createUserAccount).to.have.been.calledWithMatch({
+      user: expectedUser,
+      sessionContent: { idToken, accessToken: 'accessToken' },
+      externalIdentityId: 'externalId',
+      userToCreateRepository,
+      authenticationMethodRepository,
+    });
+    sinon.assert.calledOnce(oidcAuthenticationService.createAccessToken);
+    sinon.assert.calledOnce(oidcAuthenticationService.saveIdToken);
+    sinon.assert.calledOnceWithExactly(userRepository.updateLastLoggedAt, { userId: 10 });
+    expect(result).to.deep.equal({
+      accessToken: 'accessTokenForExistingExternalUser',
+      logoutUrlUUID: 'logoutUrlUUID',
     });
   });
 });
