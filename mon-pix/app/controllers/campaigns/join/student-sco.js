@@ -32,7 +32,7 @@ export default class StudentScoController extends Controller {
 
   _reconcileUser() {
     return this.store
-      .createRecord('schooling-registration-user-association', {
+      .createRecord('sco-organization-learner', {
         userId: this.currentUser.user.id,
         campaignCode: this.model.code,
       })

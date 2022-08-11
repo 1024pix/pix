@@ -2,6 +2,39 @@ import Response from 'ember-cli-mirage/response';
 import { decodeToken } from 'mon-pix/helpers/jwt';
 
 export default function index(config) {
+  config.post('/sco-organization-learners/association', (schema, request) => {
+    const params = JSON.parse(request.requestBody);
+    const campaignCode = params.data.attributes['campaign-code'];
+    const birthdate = params.data.attributes.birthdate;
+    return schema.scoOrganizationLearners.create({ campaignCode, birthdate });
+  });
+
+  config.post('/sco-organization-learners/association/auto', (schema, request) => {
+    const params = JSON.parse(request.requestBody);
+    const campaignCode = params.data.attributes['campaign-code'];
+
+    const scoOrganizationLearner = schema.scoOrganizationLearners.findBy({ campaignCode });
+    return scoOrganizationLearner
+      ? scoOrganizationLearner
+      : new Response(
+          422,
+          {},
+          {
+            errors: [
+              {
+                status: '422',
+                title: 'Unprocessable entity',
+                detail: "Cet utilisateur n'a pas pu être rattaché à une organisation.",
+              },
+            ],
+          }
+        );
+  });
+
+  config.put('/sco-organization-learners/possibilities', () => {
+    return new Response(204);
+  });
+
   config.post('/sco-organization-learners/dependent', (schema, request) => {
     const params = JSON.parse(request.requestBody);
 
@@ -20,7 +53,7 @@ export default function index(config) {
     const student = schema.students.findBy({ firstName, lastName });
     const userId = schema.users.create(newUser).id;
     student.update({ userId, organizationId });
-    schema.schoolingRegistrationUserAssociations.create({ campaignCode });
+    schema.scoOrganizationLearners.create({ campaignCode });
     return new Response(204);
   });
 

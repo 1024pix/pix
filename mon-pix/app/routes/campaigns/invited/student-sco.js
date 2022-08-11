@@ -22,7 +22,7 @@ export default class StudentScoRoute extends Route.extend(SecuredRouteMixin) {
     if (!organizationLearner) {
       try {
         organizationLearner = await this.store
-          .createRecord('schooling-registration-user-association', {
+          .createRecord('sco-organization-learner', {
             userId: this.currentUser.user.id,
             campaignCode: campaign.code,
           })

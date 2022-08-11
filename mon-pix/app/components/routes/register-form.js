@@ -68,7 +68,7 @@ export default class RegisterForm extends Component {
   @tracked loginWithUsername = true;
 
   dependentUser = null;
-  schoolingRegistrationUserAssociation = null;
+  scoOrganizationLearner = null;
   validation = new FormValidation();
 
   username = '';
@@ -81,7 +81,7 @@ export default class RegisterForm extends Component {
   yearOfBirth = '';
 
   willDestroy() {
-    if (this.schoolingRegistrationUserAssociation) this.schoolingRegistrationUserAssociation.unloadRecord();
+    if (this.scoOrganizationLearner) this.scoOrganizationLearner.unloadRecord();
     if (this.dependentUser) this.dependentUser.unloadRecord();
     super.willDestroy(...arguments);
   }
@@ -128,7 +128,7 @@ export default class RegisterForm extends Component {
       return (this.isLoading = false);
     }
 
-    this.schoolingRegistrationUserAssociation = this.store.createRecord('schooling-registration-user-association', {
+    this.scoOrganizationLearner = this.store.createRecord('sco-organization-learner', {
       id: this.args.campaignCode + '_' + this.lastName,
       firstName: this.firstName,
       lastName: this.lastName,
@@ -136,7 +136,7 @@ export default class RegisterForm extends Component {
       campaignCode: this.args.campaignCode,
     });
 
-    return this.schoolingRegistrationUserAssociation.save({ adapterOptions: { searchForMatchingStudent: true } }).then(
+    return this.scoOrganizationLearner.save({ adapterOptions: { searchForMatchingStudent: true } }).then(
       (response) => {
         this.matchingStudentFound = true;
         this.isLoading = false;
@@ -153,7 +153,7 @@ export default class RegisterForm extends Component {
         }));
       },
       (errorResponse) => {
-        this.schoolingRegistrationUserAssociation.unloadRecord();
+        this.scoOrganizationLearner.unloadRecord();
         this.isLoading = false;
         errorResponse.errors.forEach((error) => {
           if (error.status === '404') {
