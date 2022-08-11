@@ -1,4 +1,4 @@
-const { PassThrough } = require('stream');
+const { PassThrough } = require('node:stream');
 const { expect, sinon, domainBuilder, streamToPromise, catchErr } = require('../../../test-helper');
 const startWritingCampaignAssessmentResultsToStream = require('../../../../lib/domain/usecases/start-writing-campaign-assessment-results-to-stream');
 const { UserNotAuthorizedToGetCampaignResultsError } = require('../../../../lib/domain/errors');

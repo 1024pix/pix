@@ -1,8 +1,8 @@
 'use strict';
 require('dotenv').config();
-const path = require('path');
-const fs = require('fs');
-const { access } = require('fs').promises;
+const path = require('node:path');
+const fs = require('node:fs');
+const { access } = require('node:fs').promises;
 const request = require('request-promise-native');
 const papa = require('papaparse');
 

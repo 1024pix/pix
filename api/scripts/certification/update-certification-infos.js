@@ -1,7 +1,7 @@
 require('dotenv').config({ path: `${__dirname}/../.env` });
 
 const bluebird = require('bluebird');
-const { readFile } = require('fs/promises');
+const { readFile } = require('node:fs/promises');
 const logger = require('../../lib/infrastructure/logger');
 // Usage: node scripts/update-certifications-infos path/data.csv path/sessionsId.csv
 // data.csv

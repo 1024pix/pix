@@ -1,5 +1,5 @@
 const JSZip = require('jszip');
-const fs = require('fs').promises;
+const fs = require('node:fs').promises;
 
 async function loadOdsZip(odsFilePath) {
   const odsFileData = await _openOdsFile(odsFilePath);

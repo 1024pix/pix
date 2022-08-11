@@ -1,7 +1,7 @@
 const jsonwebtoken = require('jsonwebtoken');
 const settings = require('../../../config');
 const httpAgent = require('../../../infrastructure/http/http-agent');
-const querystring = require('querystring');
+const querystring = require('node:querystring');
 const { AuthenticationTokenRetrievalError, InvalidExternalAPIResponseError } = require('../../errors');
 const AuthenticationSessionContent = require('../../models/AuthenticationSessionContent');
 const { v4: uuidv4 } = require('uuid');

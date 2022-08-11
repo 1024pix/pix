@@ -1,4 +1,4 @@
-const querystring = require('querystring');
+const querystring = require('node:querystring');
 const moment = require('moment');
 const { expect, sinon, catchErr, domainBuilder } = require('../../../../test-helper');
 const settings = require('../../../../../lib/config');

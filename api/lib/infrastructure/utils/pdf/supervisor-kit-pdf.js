@@ -1,5 +1,5 @@
 const { PDFDocument, rgb } = require('pdf-lib');
-const { readFile } = require('fs/promises');
+const { readFile } = require('node:fs/promises');
 const pdfLibFontkit = require('@pdf-lib/fontkit');
 const MAX_SESSION_DETAIL_WIDTH = 155;
 const SESSION_DETAIL_FONT_SIZE = 7;

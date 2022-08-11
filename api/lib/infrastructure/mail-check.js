@@ -1,5 +1,5 @@
-const { promisify } = require('util');
-const resolveMx = promisify(require('dns').resolveMx);
+const { promisify } = require('node:util');
+const resolveMx = promisify(require('node:dns').resolveMx);
 
 module.exports = {
   checkMail(address) {

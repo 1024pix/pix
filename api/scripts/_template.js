@@ -1,5 +1,5 @@
 require('dotenv').config();
-const { performance } = require('perf_hooks');
+const { performance } = require('node:perf_hooks');
 const logger = require('../lib/infrastructure/logger');
 const cache = require('../lib/infrastructure/caches/learning-content-cache');
 const { knex, disconnect } = require('../db/knex-database-connection');

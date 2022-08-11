@@ -1,5 +1,5 @@
 const _ = require('lodash');
-const { PassThrough } = require('stream');
+const { PassThrough } = require('node:stream');
 
 const { MissingQueryParamError } = require('../http-errors');
 const usecases = require('../../domain/usecases');

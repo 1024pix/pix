@@ -40,3 +40,11 @@ rules:
   # Refer to scripts/_template.js for reliable alternatives to process.exit()
   node/no-process-exit: error
   unicorn/no-empty-file: error
+  unicorn/prefer-module: off
+  unicorn/no-null: off
+  unicorn/catch-error-name: error
+  unicorn/prevent-abbreviations: off
+  # filename are linted separately by ls-lint
+  unicorn/filename-cases: off
+  unicorn/explicit-length-check: error
+  unicorn/prefer-node-protocol: error

@@ -1,5 +1,5 @@
-const { writeFile, stat, unlink } = require('fs').promises;
-const fs = require('fs');
+const { writeFile, stat, unlink } = require('node:fs').promises;
+const fs = require('node:fs');
 const FormData = require('form-data');
 const streamToPromise = require('stream-to-promise');
 const { NotFoundError } = require('../../../../lib/application/http-errors');

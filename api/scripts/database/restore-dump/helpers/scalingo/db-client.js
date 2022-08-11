@@ -1,7 +1,7 @@
 const axios = require('axios');
-const util = require('util');
-const fs = require('fs');
-const streamPipeline = util.promisify(require('stream').pipeline);
+const util = require('node:util');
+const fs = require('node:fs');
+const streamPipeline = util.promisify(require('node:stream').pipeline);
 
 class ScalingoDBClient {
   constructor(dbId, client) {

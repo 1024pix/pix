@@ -1,7 +1,7 @@
 require('dotenv').config();
 const _ = require('lodash');
 const bluebird = require('bluebird');
-const { performance } = require('perf_hooks');
+const { performance } = require('node:perf_hooks');
 const yargs = require('yargs/yargs');
 const { hideBin } = require('yargs/helpers');
 const { knex, disconnect } = require('../../db/knex-database-connection');

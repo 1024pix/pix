@@ -1,5 +1,5 @@
-const { readFile } = require('fs/promises');
-const { createHash } = require('crypto');
+const { readFile } = require('node:fs/promises');
+const { createHash } = require('node:crypto');
 
 function _hash(buffer) {
   const h = createHash('sha1');

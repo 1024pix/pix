@@ -1,7 +1,7 @@
-const path = require('path');
+const path = require('node:path');
 
 /* eslint-disable-next-line no-sync */
-require('fs')
+require('node:fs')
   .readdirSync(__dirname)
   .forEach(function (file) {
     if (file === 'index.js') return;

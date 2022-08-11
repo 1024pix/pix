@@ -1,5 +1,5 @@
 const redis = require('redis');
-const { promisify } = require('util');
+const { promisify } = require('node:util');
 const logger = require('../logger');
 
 module.exports = function createRedisRateLimit(redisUrl) {

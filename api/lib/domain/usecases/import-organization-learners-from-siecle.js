@@ -1,5 +1,5 @@
 const { FileValidationError, SiecleXmlImportError } = require('../errors');
-const fs = require('fs').promises;
+const fs = require('node:fs').promises;
 const bluebird = require('bluebird');
 const { ORGANIZATION_LEARNER_CHUNK_SIZE } = require('../../infrastructure/constants');
 const { isEmpty, chunk } = require('lodash');

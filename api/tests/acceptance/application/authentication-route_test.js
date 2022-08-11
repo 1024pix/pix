@@ -1,4 +1,4 @@
-const querystring = require('querystring');
+const querystring = require('node:querystring');
 const { expect, databaseBuilder, knex } = require('../../test-helper');
 const tokenService = require('../../../lib/domain/services/token-service');
 const AuthenticationMethod = require('../../../lib/domain/models/AuthenticationMethod');

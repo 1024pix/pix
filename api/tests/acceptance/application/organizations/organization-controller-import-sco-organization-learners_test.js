@@ -3,7 +3,7 @@ const iconv = require('iconv-lite');
 const { expect, knex, databaseBuilder, generateValidRequestAuthorizationHeader } = require('../../../test-helper');
 
 const createServer = require('../../../../server');
-require('events').EventEmitter.defaultMaxListeners = 60;
+require('node:events').EventEmitter.defaultMaxListeners = 60;
 
 const Membership = require('../../../../lib/domain/models/Membership');
 const OrganizationLearnerColumns = require('../../../../lib/infrastructure/serializers/csv/organization-learner-columns');

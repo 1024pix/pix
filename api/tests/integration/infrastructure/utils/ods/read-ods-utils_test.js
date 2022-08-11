@@ -1,4 +1,4 @@
-const { readFile } = require('fs').promises;
+const { readFile } = require('node:fs').promises;
 const _ = require('lodash');
 const moment = require('moment');
 moment.suppressDeprecationWarnings = true;

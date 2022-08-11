@@ -1,4 +1,4 @@
-const { PassThrough } = require('stream');
+const { PassThrough } = require('node:stream');
 const {
   expect,
   mockLearningContent,

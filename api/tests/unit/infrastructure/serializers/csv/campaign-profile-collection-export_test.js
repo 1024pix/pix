@@ -1,4 +1,4 @@
-const { PassThrough } = require('stream');
+const { PassThrough } = require('node:stream');
 const { domainBuilder, expect, sinon, streamToPromise } = require('../../../../test-helper');
 
 const CampaignProfilesCollectionExport = require('../../../../../lib/infrastructure/serializers/csv/campaign-profiles-collection-export');

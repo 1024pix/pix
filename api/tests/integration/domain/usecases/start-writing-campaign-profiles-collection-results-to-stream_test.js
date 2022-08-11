@@ -1,4 +1,4 @@
-const { PassThrough } = require('stream');
+const { PassThrough } = require('node:stream');
 const { expect, mockLearningContent, databaseBuilder, streamToPromise } = require('../../../test-helper');
 
 const startWritingCampaignProfilesCollectionResultsToStream = require('../../../../lib/domain/usecases/start-writing-campaign-profiles-collection-results-to-stream');

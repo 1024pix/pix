@@ -177,7 +177,7 @@ describe('Integration | Infrastructure | Utils | Pdf | Certification Attestation
 async function _writeFile(buffer, outputFilename, dryRun = true) {
   // Note: to update the reference pdf, set dryRun to false.
   if (!dryRun) {
-    const { writeFile } = require('fs/promises');
+    const { writeFile } = require('node:fs/promises');
     await writeFile(`${__dirname}/${outputFilename}`, buffer);
   }
 }

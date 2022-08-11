@@ -1,5 +1,5 @@
 const Joi = require('joi');
-const crypto = require('crypto');
+const crypto = require('node:crypto');
 const config = require('../../config');
 const { sendJsonApiError, BadRequestError } = require('../http-errors');
 const AuthenticationController = require('./authentication-controller');

@@ -1,6 +1,6 @@
 require('dotenv').config({ path: '../../../.env' });
 
-const fs = require('fs');
+const fs = require('node:fs');
 const Joi = require('joi');
 const ScalingoClient = require('./helpers/scalingo/scalingo-client');
 const logger = require('../../../lib/infrastructure/logger');

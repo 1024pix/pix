@@ -5,7 +5,7 @@ const DomainTransaction = require('../../../../lib/infrastructure/DomainTransact
 
 const OrganizationLearner = require('../../../../lib/domain/models/OrganizationLearner');
 
-const fs = require('fs').promises;
+const fs = require('node:fs').promises;
 
 const { getI18n } = require('../../../tooling/i18n/i18n');
 const i18n = getI18n();

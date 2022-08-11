@@ -1,6 +1,6 @@
 #! /usr/bin/env node
 
-const fileSystem = require('fs');
+const fileSystem = require('node:fs');
 
 const request = require('request-promise-native');
 const json2csv = require('json2csv');

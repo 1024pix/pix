@@ -13,7 +13,7 @@ const certificationCenterRepository = require('../../../../../lib/infrastructure
 const complementaryCertificationRepository = require('../../../../../lib/infrastructure/repositories/complementary-certification-repository');
 const CertificationCandidate = require('../../../../../lib/domain/models/CertificationCandidate');
 const { CertificationCandidatesImportError } = require('../../../../../lib/domain/errors');
-const { readFile } = require('fs').promises;
+const { readFile } = require('node:fs').promises;
 const _ = require('lodash');
 
 describe('Integration | Services | extractCertificationCandidatesFromCandidatesImportSheet', function () {

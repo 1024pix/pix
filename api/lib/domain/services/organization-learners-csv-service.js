@@ -1,4 +1,4 @@
-const fs = require('fs').promises;
+const fs = require('node:fs').promises;
 const OrganizationLearnerParser = require('../../infrastructure/serializers/csv/organization-learner-parser');
 
 module.exports = {

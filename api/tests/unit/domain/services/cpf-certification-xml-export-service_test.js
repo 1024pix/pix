@@ -1,5 +1,5 @@
 const { expect, domainBuilder, sinon, streamToPromise } = require('../../../test-helper');
-const { PassThrough } = require('stream');
+const { PassThrough } = require('node:stream');
 const proxyquire = require('proxyquire');
 const moment = require('moment');
 const cpfCertificationXmlExportService = proxyquire(

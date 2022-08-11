@@ -1,5 +1,5 @@
 const { expect, databaseBuilder, knex, sinon } = require('../../../test-helper');
-const { writeFile, rm } = require('fs/promises');
+const { writeFile, rm } = require('node:fs/promises');
 const values = require('lodash/values');
 const logger = require('../../../../lib/infrastructure/logger');
 const { updateCertificationInfos, headers } = require('../../../../scripts/certification/update-certification-infos');

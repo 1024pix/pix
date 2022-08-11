@@ -3,7 +3,7 @@ const { get } = require('lodash');
 const logger = require('../lib/infrastructure/logger');
 const monitoringTools = require('../lib/infrastructure/monitoring-tools');
 const { logging } = require('../lib/config');
-const { performance } = require('perf_hooks');
+const { performance } = require('node:perf_hooks');
 /*
 By default, node-postgres casts a DATE value (PostgreSQL type) as a Date Object (JS type).
 But, when dealing with dates with no time (such as birthdate for example), we want to

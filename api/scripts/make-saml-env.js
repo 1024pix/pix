@@ -158,7 +158,7 @@ Le mode d'utilisation est le suivant :
 
 */
 
-const { readFile } = require('fs').promises;
+const { readFile } = require('node:fs').promises;
 
 function readXml(filename) {
   return readFile(filename, 'utf-8').replace(/^\s+|\s+$|\n/gm, '');

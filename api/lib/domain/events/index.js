@@ -4,7 +4,7 @@ const EventDispatcherLogger = require('../../infrastructure/events/EventDispatch
 const MonitoringTools = require('../../infrastructure/monitoring-tools');
 const settings = require('../../config');
 const _ = require('lodash');
-const { performance } = require('perf_hooks');
+const { performance } = require('node:perf_hooks');
 const eventBusBuilder = require('../../infrastructure/events/EventBusBuilder');
 
 const dependencies = {

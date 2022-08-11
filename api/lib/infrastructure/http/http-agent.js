@@ -1,6 +1,6 @@
 // eslint-disable-next-line no-restricted-modules
 const axios = require('axios');
-const { performance } = require('perf_hooks');
+const { performance } = require('node:perf_hooks');
 const { logInfoWithCorrelationIds, logErrorWithCorrelationIds } = require('../monitoring-tools');
 
 class HttpResponse {

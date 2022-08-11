@@ -1,4 +1,4 @@
-const { unlink, writeFile } = require('fs').promises;
+const { unlink, writeFile } = require('node:fs').promises;
 const _ = require('lodash');
 const { expect, databaseBuilder } = require('../../../../test-helper');
 const readOdsUtils = require('../../../../../lib/infrastructure/utils/ods/read-ods-utils');

@@ -1,10 +1,10 @@
 const { isObject, values } = require('lodash');
 const { FileValidationError, SiecleXmlImportError } = require('../../../domain/errors');
-const fs = require('fs');
+const fs = require('node:fs');
 const fsPromises = fs.promises;
-const Path = require('path');
-const os = require('os');
-const { Buffer } = require('buffer');
+const Path = require('node:path');
+const os = require('node:os');
+const { Buffer } = require('node:buffer');
 const StreamZip = require('node-stream-zip');
 const FileType = require('file-type');
 const iconv = require('iconv-lite');

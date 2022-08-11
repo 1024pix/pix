@@ -1,4 +1,4 @@
-const crypto = require('crypto');
+const crypto = require('node:crypto');
 const AccountRecoveryDemand = require('../../models/AccountRecoveryDemand');
 
 module.exports = async function sendEmailForAccountRecovery({

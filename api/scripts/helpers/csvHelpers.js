@@ -1,6 +1,6 @@
-const fs = require('fs');
-const { readFile, access } = require('fs').promises;
-const path = require('path');
+const fs = require('node:fs');
+const { readFile, access } = require('node:fs').promises;
+const path = require('node:path');
 const { difference, isEmpty, isNumber } = require('lodash');
 const papa = require('papaparse');
 

@@ -3,7 +3,7 @@ const { get, set, update } = require('lodash');
 const logger = require('../infrastructure/logger');
 const requestUtils = require('../infrastructure/utils/request-response-utils');
 
-const { AsyncLocalStorage } = require('async_hooks');
+const { AsyncLocalStorage } = require('node:async_hooks');
 const asyncLocalStorage = new AsyncLocalStorage();
 
 function logInfoWithCorrelationIds(data) {

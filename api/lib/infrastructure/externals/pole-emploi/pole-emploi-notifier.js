@@ -1,6 +1,6 @@
 const get = require('lodash/get');
 const moment = require('moment');
-const querystring = require('querystring');
+const querystring = require('node:querystring');
 const monitoringTools = require('../../monitoring-tools');
 const authenticationMethodRepository = require('../../repositories/authentication-method-repository');
 const AuthenticationMethod = require('../../../domain/models/AuthenticationMethod');

@@ -1,5 +1,5 @@
 const { PDFDocument, rgb } = require('pdf-lib');
-const { readFile } = require('fs/promises');
+const { readFile } = require('node:fs/promises');
 const pdfLibFontkit = require('@pdf-lib/fontkit');
 const moment = require('moment');
 const _ = require('lodash');

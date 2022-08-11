@@ -1,4 +1,4 @@
-const path = require('path');
+const path = require('node:path');
 const i18n = require('i18n');
 
 function getI18n() {

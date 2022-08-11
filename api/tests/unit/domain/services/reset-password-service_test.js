@@ -1,5 +1,5 @@
 const jsonwebtoken = require('jsonwebtoken');
-const crypto = require('crypto');
+const crypto = require('node:crypto');
 const { sinon, expect } = require('../../../test-helper');
 const settings = require('../../../../lib/config');
 const resetPasswordService = require('../../../../lib/domain/services/reset-password-service');
