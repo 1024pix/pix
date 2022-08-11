@@ -10,7 +10,7 @@ import setupIntl from '../helpers/setup-intl';
 
 const ASSESSMENT = 'ASSESSMENT';
 
-describe('Acceptance | Campaigns | Start Campaigns with type Assessment', function () {
+describe('Acceptance | Campaigns | Start Campaigns with type Assessment', function () {
   setupApplicationTest();
   setupMirage();
   setupIntl();

@@ -88,7 +88,7 @@ describe('Acceptance | Campaigns | Resume Campaigns with type Assessment', funct
       });
     });
 
-    context('When the campaign is restricted and schooling-registration is disabled', function () {
+    context('When the campaign is restricted and organization learner is disabled', function () {
       beforeEach(async function () {
         campaign = server.create('campaign', { code: 'FORBIDDEN', isRestricted: true, type: ASSESSMENT });
         server.create('campaign-participation', { campaign });

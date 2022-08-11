@@ -7,9 +7,9 @@ export default class StudentScoController extends Controller {
   @service router;
 
   @action
-  async reconcile(schoolingRegistration, adapterOptions) {
+  async reconcile(scoOrganizationLearner, adapterOptions) {
     const mustNotRedirectAfterSave = adapterOptions.withReconciliation === false;
-    await schoolingRegistration.save({ adapterOptions });
+    await scoOrganizationLearner.save({ adapterOptions });
 
     if (mustNotRedirectAfterSave) {
       return;

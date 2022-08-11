@@ -76,7 +76,7 @@ describe('Acceptance | Campaigns | Campaigns Result', function () {
         expect(contains(COMPETENCE_MASTERY_PERCENTAGE)).to.exist;
       });
 
-      context('When the campaign is restricted and schooling-registration is disabled', function () {
+      context('When the campaign is restricted and organization learner is disabled', function () {
         beforeEach(function () {
           campaign = server.create('campaign', { code: 'FORBIDDEN', isRestricted: true, title: 'Parcours restreint' });
           campaignParticipation = server.create('campaign-participation', { campaign });

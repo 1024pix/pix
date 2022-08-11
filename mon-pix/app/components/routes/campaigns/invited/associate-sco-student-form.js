@@ -30,13 +30,13 @@ export default class AssociateScoStudentForm extends Component {
     this.reconciliationWarning = null;
     this.attributes = attributes;
 
-    const schoolingRegistrationUserAssociationRecord = this._createSchoolingRegistrationUserAssociationRecord();
+    const scoOrganizationLearnerRecord = this._createScoOrganizationLearnerRecord();
     try {
-      await this.args.onSubmit(schoolingRegistrationUserAssociationRecord, { withReconciliation: false });
-      schoolingRegistrationUserAssociationRecord.unloadRecord();
+      await this.args.onSubmit(scoOrganizationLearnerRecord, { withReconciliation: false });
+      scoOrganizationLearnerRecord.unloadRecord();
       this._displayWarningMessage();
     } catch (errorResponse) {
-      schoolingRegistrationUserAssociationRecord.unloadRecord();
+      scoOrganizationLearnerRecord.unloadRecord();
       this._setErrorMessageForAttemptNextAction(errorResponse);
     }
   }
@@ -46,7 +46,7 @@ export default class AssociateScoStudentForm extends Component {
     event.preventDefault();
     this.errorMessage = null;
 
-    const reconciliationRecord = this._createSchoolingRegistrationUserAssociationRecord();
+    const reconciliationRecord = this._createScoOrganizationLearnerRecord();
     try {
       await this.args.onSubmit(reconciliationRecord, { withReconciliation: true });
       this.closeModal();
@@ -56,9 +56,9 @@ export default class AssociateScoStudentForm extends Component {
     }
   }
 
-  _createSchoolingRegistrationUserAssociationRecord() {
+  _createScoOrganizationLearnerRecord() {
     const { firstName, lastName, birthdate } = this.attributes;
-    return this.store.createRecord('schooling-registration-user-association', {
+    return this.store.createRecord('sco-organization-learner', {
       id: this.args.campaignCode + '_' + lastName,
       firstName,
       lastName,

@@ -1,6 +1,6 @@
 import ApplicationAdapter from './application';
 
-export default class SchoolingRegistrationUserAssociation extends ApplicationAdapter {
+export default class ScoOrganizationLearner extends ApplicationAdapter {
   urlForCreateRecord(modelName, { adapterOptions }) {
     const url = super.urlForCreateRecord(...arguments);
 
@@ -9,10 +9,10 @@ export default class SchoolingRegistrationUserAssociation extends ApplicationAda
     }
 
     if (adapterOptions && adapterOptions.tryReconciliation) {
-      return url + '/auto';
+      return url + '/association/auto';
     }
 
-    return url;
+    return url + '/association';
   }
 
   createRecord(store, type, snapshot) {
