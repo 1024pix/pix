@@ -16,6 +16,8 @@ const {
 const DomainTransaction = require('../../infrastructure/DomainTransaction');
 const TargetProfile = require('../../domain/models/TargetProfile');
 const { PGSQL_FOREIGN_KEY_VIOLATION_ERROR } = require('../../../db/pgsql-errors');
+const Stage = require('../../domain/models/Stage');
+const Skill = require('../../domain/models/Skill');
 
 module.exports = {
   async create(targetProfileForCreation) {
@@ -94,25 +96,34 @@ module.exports = {
     return _getWithLearningContentSkills(targetProfileBookshelf);
   },
 
-  async getByCampaignParticipationId(campaignParticipationId) {
-    const targetProfileBookshelf = await BookshelfTargetProfile.query((qb) => {
-      qb.innerJoin('campaigns', 'campaigns.targetProfileId', 'target-profiles.id');
-      qb.innerJoin('campaign-participations', 'campaign-participations.campaignId', 'campaigns.id');
-      qb.innerJoin('target-profiles_skills', 'target-profiles_skills.targetProfileId', 'target-profiles.id');
-    })
+  async getByCampaignParticipationId({ campaignParticipationId, domainTransaction }) {
+    const knexConn = domainTransaction?.knexConnection || knex;
+
+    const targetProfileDTO = await knexConn('target-profiles')
+      .select('target-profiles.*')
+      .innerJoin('campaigns', 'campaigns.targetProfileId', 'target-profiles.id')
+      .innerJoin('campaign-participations', 'campaign-participations.campaignId', 'campaigns.id')
+      .innerJoin('target-profiles_skills', 'target-profiles_skills.targetProfileId', 'target-profiles.id')
       .where({ 'campaign-participations.id': campaignParticipationId })
-      .fetch({
-        withRelated: [
-          'skillIds',
-          {
-            stages: function (query) {
-              query.orderBy('threshold', 'ASC');
-            },
-          },
-        ],
+      .first();
+
+    const targetProfileSkillIds = await knexConn('target-profiles_skills')
+      .distinct('skillId', 'targetProfileId')
+      .where({
+        targetProfileId: targetProfileDTO.id,
       });
 
-    return _getWithLearningContentSkills(targetProfileBookshelf);
+    const skillIds = targetProfileSkillIds.map(({ skillId }) => skillId);
+
+    const targetProfileStages = await knexConn('stages')
+      .where({
+        targetProfileId: targetProfileDTO.id,
+      })
+      .orderBy('threshold', 'ASC');
+
+    const skills = await skillDatasource.findOperativeByRecordIds(skillIds);
+
+    return _toDomain({ targetProfileDTO, targetProfileSkillIds, targetProfileStages, skills });
   },
 
   async findAllTargetProfilesOrganizationCanUse(ownerOrganizationId) {
@@ -199,4 +210,21 @@ function _getLearningContentDataObjectsSkills(bookshelfTargetProfile) {
     .related('skillIds')
     .map((BookshelfSkillId) => BookshelfSkillId.get('skillId'));
   return skillDatasource.findOperativeByRecordIds(skillRecordIds);
+}
+
+function _toDomain({ targetProfileDTO, targetProfileSkillIds, targetProfileStages, skills }) {
+  return new TargetProfile({
+    ...targetProfileDTO,
+    skills: targetProfileSkillIds
+      .filter(({ targetProfileId }) => targetProfileId === targetProfileDTO.id)
+      .map(({ skillId }) => _skillsToDomain({ skillId, skills }))
+      .filter(({ id }) => id !== undefined),
+    stages: targetProfileStages
+      .filter(({ targetProfileId }) => targetProfileId === targetProfileDTO.id)
+      .map((s) => new Stage(s)),
+  });
+}
+
+function _skillsToDomain({ skillId, skills }) {
+  return new Skill(skills.find((skill) => skill.id === skillId));
 }

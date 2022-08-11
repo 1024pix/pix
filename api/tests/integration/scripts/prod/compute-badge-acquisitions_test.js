@@ -273,7 +273,9 @@ describe('Script | Prod | Compute Badge Acquisitions', function () {
           .resolves([badge]);
 
         sinon.stub(targetProfileRepository, 'getByCampaignParticipationId');
-        targetProfileRepository.getByCampaignParticipationId.withArgs(campaignParticipation.id).resolves(targetProfile);
+        targetProfileRepository.getByCampaignParticipationId
+          .withArgs({ campaignParticipationId: campaignParticipation.id })
+          .resolves(targetProfile);
 
         sinon.stub(knowledgeElementRepository, 'findUniqByUserId');
         knowledgeElementRepository.findUniqByUserId
@@ -348,7 +350,9 @@ describe('Script | Prod | Compute Badge Acquisitions', function () {
           .resolves([badge1, badge2]);
 
         sinon.stub(targetProfileRepository, 'getByCampaignParticipationId');
-        targetProfileRepository.getByCampaignParticipationId.withArgs(campaignParticipation.id).resolves(targetProfile);
+        targetProfileRepository.getByCampaignParticipationId
+          .withArgs({ campaignParticipationId: campaignParticipation.id })
+          .resolves(targetProfile);
 
         sinon.stub(knowledgeElementRepository, 'findUniqByUserId');
         knowledgeElementRepository.findUniqByUserId
@@ -507,7 +511,9 @@ describe('Script | Prod | Compute Badge Acquisitions', function () {
           .resolves([badge]);
 
         sinon.stub(targetProfileRepository, 'getByCampaignParticipationId');
-        targetProfileRepository.getByCampaignParticipationId.withArgs(campaignParticipation.id).resolves(targetProfile);
+        targetProfileRepository.getByCampaignParticipationId
+          .withArgs({ campaignParticipationId: campaignParticipation.id })
+          .resolves(targetProfile);
 
         sinon.stub(knowledgeElementRepository, 'findUniqByUserId');
         knowledgeElementRepository.findUniqByUserId

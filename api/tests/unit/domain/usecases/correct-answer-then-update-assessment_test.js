@@ -371,7 +371,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
         });
 
         // then
-        const expectedArgument = assessment.campaignParticipationId;
+        const expectedArgument = { campaignParticipationId: assessment.campaignParticipationId };
         expect(targetProfileRepository.getByCampaignParticipationId).to.have.been.calledWith(expectedArgument);
       });
 
