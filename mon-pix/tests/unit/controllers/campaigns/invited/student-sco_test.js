@@ -14,23 +14,23 @@ describe('Unit | Controller | campaigns/invited/student-sco', function () {
   });
 
   describe('#reconcile', function () {
-    let schoolingRegistration;
+    let scoOrganizationLearner;
 
     beforeEach(function () {
-      schoolingRegistration = { save: sinon.stub() };
+      scoOrganizationLearner = { save: sinon.stub() };
     });
 
     context('When withReconciliation is false', function () {
       it('should run reconciliation checks and not redirect', async function () {
         // given
-        schoolingRegistration.save.resolves();
+        scoOrganizationLearner.save.resolves();
         const adapterOptions = { withReconciliation: false };
 
         // when
-        await controller.actions.reconcile.call(controller, schoolingRegistration, adapterOptions);
+        await controller.actions.reconcile.call(controller, scoOrganizationLearner, adapterOptions);
 
         // then
-        sinon.assert.calledOnce(schoolingRegistration.save);
+        sinon.assert.calledOnce(scoOrganizationLearner.save);
         sinon.assert.notCalled(controller.router.transitionTo);
       });
     });
@@ -38,14 +38,14 @@ describe('Unit | Controller | campaigns/invited/student-sco', function () {
     context('When withReconciliation is true', function () {
       it('should associate user with student and redirect to campaigns.invited.fill-in-participant-external-id', async function () {
         // given
-        schoolingRegistration.save.resolves();
+        scoOrganizationLearner.save.resolves();
         const adapterOptions = { withReconciliation: true };
 
         // when
-        await controller.actions.reconcile.call(controller, schoolingRegistration, adapterOptions);
+        await controller.actions.reconcile.call(controller, scoOrganizationLearner, adapterOptions);
 
         // then
-        sinon.assert.calledOnce(schoolingRegistration.save);
+        sinon.assert.calledOnce(scoOrganizationLearner.save);
         sinon.assert.calledWith(
           controller.router.transitionTo,
           'campaigns.invited.fill-in-participant-external-id',

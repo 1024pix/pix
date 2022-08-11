@@ -123,6 +123,7 @@ describe('Acceptance | Controller | organization-learner', function () {
 
         // then
         expect(response.statusCode).to.equal(200);
+        expect(response.result.data.type).to.equal('schooling-registration-user-associations');
         expect(response.result.data.attributes['first-name']).to.deep.equal(organizationLearner.firstName);
         expect(response.result.data.attributes['last-name']).to.deep.equal(organizationLearner.lastName);
       });
@@ -218,6 +219,7 @@ describe('Acceptance | Controller | organization-learner', function () {
 
         // then
         expect(response.statusCode).to.equal(200);
+        expect(response.result.data.type).to.equal('organization-learner-identities');
         expect(response.result.data.attributes['first-name']).to.deep.equal(organizationLearner.firstName);
         expect(response.result.data.attributes['last-name']).to.deep.equal(organizationLearner.lastName);
       });

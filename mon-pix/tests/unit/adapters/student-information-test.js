@@ -12,7 +12,7 @@ describe('Unit | Adapter | student information', function () {
       const url = adapter.buildURL(123, 'student-information', null, 'account-recovery');
 
       // then
-      expect(url.endsWith('/schooling-registration-dependent-users/')).to.be.true;
+      expect(url.endsWith('/sco-organization-learners/')).to.be.true;
     });
   });
 });

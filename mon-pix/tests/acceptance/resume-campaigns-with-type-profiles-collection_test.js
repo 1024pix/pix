@@ -89,7 +89,7 @@ describe('Acceptance | Campaigns | Resume Campaigns with type Profiles Collectio
       });
     });
 
-    context('When the campaign is restricted and schooling-registration is disabled', function () {
+    context('When the campaign is restricted and organization learner is disabled', function () {
       beforeEach(async function () {
         campaign = server.create('campaign', { code: 'FORBIDDEN', isRestricted: true, type: PROFILES_COLLECTION });
         server.create('campaign-participation', { campaign });

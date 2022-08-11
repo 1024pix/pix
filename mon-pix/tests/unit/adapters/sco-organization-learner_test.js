@@ -3,46 +3,44 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { setupTest } from 'ember-mocha';
 
-describe('Unit | Adapters | schooling-registration-user-association', function () {
+describe('Unit | Adapters | sco-organization-learner', function () {
   setupTest();
 
   let adapter;
 
   beforeEach(function () {
-    adapter = this.owner.lookup('adapter:schooling-registration-user-association');
+    adapter = this.owner.lookup('adapter:sco-organization-learner');
     adapter.ajax = sinon.stub().resolves();
   });
 
   describe('#urlForCreateRecord', () => {
     context('when is for searchMatchingStudent', function () {
-      it('should redirect to /schooling-registrations-user-associations/possibilities ', async function () {
+      it('should redirect to /sco-organization-learners/possibilities ', async function () {
         // when
         const snapshot = { adapterOptions: { searchForMatchingStudent: true } };
-        const url = await adapter.urlForCreateRecord('schooling-registration-user-association', snapshot);
+        const url = await adapter.urlForCreateRecord('sco-organization-learner', snapshot);
 
         // then
-        expect(url.endsWith('/schooling-registration-user-associations/possibilities')).to.be.true;
+        expect(url.endsWith('/sco-organization-learners/possibilities')).to.be.true;
       });
     });
     context('when is for tryReconciliation', function () {
-      it('should redirect to /schooling-registrations-user-associations/auto ', async function () {
+      it('should redirect to /sco-organization-learners/association/auto', async function () {
         // when
         const snapshot = { adapterOptions: { tryReconciliation: true } };
-        const url = await adapter.urlForCreateRecord('schooling-registration-user-association', snapshot);
+        const url = await adapter.urlForCreateRecord('sco-organization-learner', snapshot);
 
         // then
-        expect(url.endsWith('/schooling-registration-user-associations/auto')).to.be.true;
+        expect(url.endsWith('/sco-organization-learners/association/auto')).to.be.true;
       });
     });
-    context('when is for reconcileSup', function () {
-      it('should redirect to /schooling-registrations-user-associations/student ', async function () {
-        // when
-        const snapshot = { adapterOptions: { reconcileSup: true } };
-        const url = await adapter.urlForCreateRecord('schooling-registration-user-association', snapshot);
 
-        // then
-        expect(url.endsWith('/schooling-registration-user-associations/student')).to.be.true;
-      });
+    it('should redirect to /sco-organization-learners/association', async function () {
+      // when
+      const url = await adapter.urlForCreateRecord('sco-organization-learner', {});
+
+      // then
+      expect(url.endsWith('/sco-organization-learners/association')).to.be.true;
     });
   });
 
@@ -51,7 +49,7 @@ describe('Unit | Adapters | schooling-registration-user-association', function (
       let expectedUrl, expectedMethod, expectedData, snapshot;
 
       beforeEach(() => {
-        expectedUrl = 'http://localhost:3000/api/schooling-registration-user-associations/possibilities';
+        expectedUrl = 'http://localhost:3000/api/sco-organization-learners/possibilities';
         expectedMethod = 'PUT';
         expectedData = {
           data: {
@@ -85,7 +83,7 @@ describe('Unit | Adapters | schooling-registration-user-association', function (
 
       it('should change method to PUT', async () => {
         // when
-        await adapter.createRecord(null, { modelName: 'schooling-registration-user-association' }, snapshot);
+        await adapter.createRecord(null, { modelName: 'sco-organization-learner' }, snapshot);
 
         // then
         sinon.assert.calledWith(adapter.ajax, expectedUrl, expectedMethod, expectedData);
@@ -96,7 +94,7 @@ describe('Unit | Adapters | schooling-registration-user-association', function (
       let expectedUrl, expectedMethod, expectedData, snapshot;
 
       beforeEach(() => {
-        expectedUrl = 'http://localhost:3000/api/schooling-registration-user-associations/auto';
+        expectedUrl = 'http://localhost:3000/api/sco-organization-learners/association/auto';
         expectedMethod = 'POST';
         expectedData = {
           data: {
@@ -131,7 +129,7 @@ describe('Unit | Adapters | schooling-registration-user-association', function (
 
       it('should remove user details', async () => {
         // when
-        await adapter.createRecord(null, { modelName: 'schooling-registration-user-association' }, snapshot);
+        await adapter.createRecord(null, { modelName: 'sco-organization-learner' }, snapshot);
 
         // then
         sinon.assert.calledWith(adapter.ajax, expectedUrl, expectedMethod, expectedData);

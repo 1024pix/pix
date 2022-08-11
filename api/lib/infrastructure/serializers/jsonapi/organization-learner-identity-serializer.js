@@ -2,7 +2,7 @@ const { Serializer } = require('jsonapi-serializer');
 
 module.exports = {
   serialize(organizationLearnerIdentity) {
-    return new Serializer('schooling-registration-user-association', {
+    return new Serializer('organization-learner-identity', {
       attributes: ['lastName', 'firstName'],
     }).serialize(organizationLearnerIdentity);
   },

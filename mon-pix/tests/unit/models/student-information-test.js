@@ -47,7 +47,7 @@ describe('Unit | Model | Student-information', function () {
         latestOrganizationName: 'Collège Louise Michelle',
       };
 
-      const url = `${ENV.APP.API_HOST}/api/schooling-registration-dependent-users/recover-account`;
+      const url = `${ENV.APP.API_HOST}/api/sco-organization-learners/account-recovery`;
       const payload = {
         data: {
           data: {

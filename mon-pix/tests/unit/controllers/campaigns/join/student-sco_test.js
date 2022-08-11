@@ -69,7 +69,7 @@ describe('Unit | Controller | campaigns | join | student-sco', () => {
       const expectedCampaignCode = campaignCode;
 
       const expectedStoreOptions = {
-        arg1: 'schooling-registration-user-association',
+        arg1: 'sco-organization-learner',
         arg2: { userId: expectedUserId, campaignCode: expectedCampaignCode },
       };
       const expectedSaveOptions = { adapterOptions: { tryReconciliation: true } };
