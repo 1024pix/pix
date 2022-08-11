@@ -66,6 +66,7 @@
       "visible-password": "afficher le mot de passe"
     },
     "french-republic": "République française",
+    "french-education-ministry": "Ministère de l'éducation nationale et de la jeunesse",
     "level": "niveau",
     "loading": {
       "default": "Chargement en cours",
@@ -1326,6 +1327,10 @@
         "abstract": "Bravo, vous êtes allé·e jusqu'au bout !",
         "pixCount": "Vous avez obtenu {count, number, ::.} Pix",
         "nonDefinitive": "(calcul non définitif)"
+      },
+      "trainings": {
+        "title": "Vous souhaitez en apprendre plus ?",
+        "description": "Découvrez des formations nationales ou académiques pour progresser sur ce domaine !"
       }
     },
     "terms-of-service": {

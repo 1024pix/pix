@@ -31,6 +31,6 @@ module.exports = function () {
       'user',
       'xmark',
     ],
-    'free-regular-svg-icons': ['bookmark', 'copy', 'thumbs-up'],
+    'free-regular-svg-icons': ['bookmark', 'clock', 'copy', 'thumbs-up'],
   };
 };
