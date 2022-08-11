@@ -51,8 +51,8 @@
       "message": "Don't forget to create your back-to-school campaigns and share the codes with your students before November. More info for '<'a href={middleSchoolDocumentationLink} class={externalLinkClasses} target=\"_blank\" rel=\"noopener noreferrer\"'>'middle schools {faIcon}'</a>' and '<'a href={highSchoolDocumentationLink} class={externalLinkClasses} target=\"_blank\" rel=\"noopener noreferrer\"'>'high schools {faIcon}'</a>'"
     },
     "import": {
-      "link-to": "import or reimport the students database",
-      "message": "Start of school year: the '<strong>'admin'</strong>' must {linkTo} to start using Pix Orga. Learn more on '<'a href={middleSchoolDocumentationLink} class={externalLinkClasses} target=\"_blank\" rel=\"noopener noreferrer\"'>'middle schools {faIcon}'</a>' and '<'a href={highSchoolDocumentationLink} class={externalLinkClasses} target=\"_blank\" rel=\"noopener noreferrer\"'>'high schools {faIcon}'</a>'"
+      "link-to": "import the students database",
+      "message": "'<strong>'Start of school year:'</strong>' the admin must {linkTo} to start using Pix Orga. '<'a href={documentationLink} class={externalLinkClasses} target=\"_blank\" rel=\"noopener noreferrer\"'>'Learn more {faIcon}'</a>"
     }
   },
   "cards": {
