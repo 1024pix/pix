@@ -28,9 +28,7 @@ function _toPrescriberDomain(bookshelfUser) {
 }
 
 async function _areNewYearOrganizationLearnersImportedForPrescriber(prescriber) {
-  const currentOrganizationId = prescriber.userOrgaSettings.id
-    ? prescriber.userOrgaSettings.currentOrganization.id
-    : prescriber.memberships[0].organization.id;
+  const currentOrganizationId = prescriber.userOrgaSettings.currentOrganization.id;
   const atLeastOneOrganizationLearner = await knex('organizations')
     .select('organizations.id')
     .join('organization-learners', 'organization-learners.organizationId', 'organizations.id')
