@@ -12,7 +12,7 @@ function lookupAuthenticationService(identityProvider) {
     case AuthenticationMethod.identityProviders.CNAV:
       return cnavOidcAuthenticationService;
     default:
-      throw new Error();
+      throw new Error(`Identity provider ${identityProvider} is not supported`);
   }
 }
 

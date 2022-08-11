@@ -13,7 +13,8 @@ import postSessionParticipation from './routes/post-session-participation';
 import postExpiredPasswordUpdates from './routes/post-expired-password-updates';
 import loadAnswerRoutes from './routes/answers/index';
 import loadAssessmentRoutes from './routes/assessments/index';
-import loadAuthRoutes from './routes/auth/index';
+import loadAuthenticationRoutes from './routes/authentication';
+import loadOidcAuthenticationRoutes from './routes/authentication/oidc';
 import loadCampaignParticipations from './routes/campaign-participations/index';
 import loadCertificationCourseRoutes from './routes/certification-courses/index';
 import loadCourseRoutes from './routes/courses/index';
@@ -25,7 +26,6 @@ import loadUserRoutes from './routes/users/index';
 import putSaveTutorial from './routes/put-save-tutorial';
 import deleteUserTutorial from './routes/delete-user-tutorial';
 import putTutorialEvaluation from './routes/put-tutorial-evaluation';
-import postPoleEmploiUser from './routes/post-pole-emploi-user';
 import postSharedCertifications from './routes/post-shared-certifications';
 import loadUserTutorialsRoutes from './routes/get-user-tutorials';
 import loadSavedTutorialsRoutes from './routes/get-saved-tutorials';
@@ -40,7 +40,8 @@ export default function () {
 
   loadAnswerRoutes(this);
   loadAssessmentRoutes(this);
-  loadAuthRoutes(this);
+  loadAuthenticationRoutes(this);
+  loadOidcAuthenticationRoutes(this);
   loadCampaignParticipations(this);
   loadCertificationCourseRoutes(this);
   loadCourseRoutes(this);
@@ -77,8 +78,6 @@ export default function () {
   this.del('/users/tutorials/:tutorialId', deleteUserTutorial);
   this.put('/users/tutorials/:tutorialId/evaluate', putTutorialEvaluation);
 
-  this.post('/pole-emploi/users', postPoleEmploiUser);
-
   this.get('/feature-toggles', getFeatureToggles);
 
   this.post('/shared-certifications', postSharedCertifications);
@@ -86,29 +85,4 @@ export default function () {
   this.get('/certification-candidates/:id/subscriptions', getCertificationCandidatesSubscriptions);
 
   this.get('/certification-courses/:id');
-
-  this.get('/pole-emploi/auth-url', (schema, request) => {
-    const redirectUri = request.queryParams.redirect_uri;
-    return {
-      redirectTarget: `https://pole-emploi/connexion/oauth2/authorize?redirect_uri=${redirectUri}`,
-      state: 'a8a3344f-6d7c-469d-9f84-bdd791e04fdf',
-      nonce: '555c86fe-ed0a-4a80-80f3-45b1f7c2df8c',
-    };
-  });
-
-  this.get('/oidc/auth-url', (schema, request) => {
-    const redirectUri = request.queryParams.redirect_uri;
-    return {
-      redirectTarget: `https://oidc/connexion/oauth2/authorize?redirect_uri=${redirectUri}`,
-      state: 'a8a3344f-6d7c-469d-9f84-bdd791e04fdf',
-      nonce: '555c86fe-ed0a-4a80-80f3-45b1f7c2df8c',
-    };
-  });
-
-  this.get('/oidc/redirect-logout-url', () => {
-    return {
-      redirectLogoutUrl:
-        'http://identity_provider_base_url/deconnexion?id_token_hint=ID_TOKEN&redirect_uri=http%3A%2F%2Flocalhost.fr%3A4200%2Fconnexion',
-    };
-  });
 }

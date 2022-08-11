@@ -8,11 +8,13 @@ module.exports = async function createOidcUser({
   authenticationServiceRegistry,
   authenticationMethodRepository,
   userToCreateRepository,
+  userRepository,
 }) {
   const sessionContentAndUserInfo = await authenticationSessionService.getByKey(authenticationKey);
   if (!sessionContentAndUserInfo) {
     throw new AuthenticationKeyExpired();
   }
+
   const { userInfo, sessionContent } = sessionContentAndUserInfo;
   const oidcAuthenticationService = await authenticationServiceRegistry.lookupAuthenticationService(identityProvider);
 
@@ -32,11 +34,17 @@ module.exports = async function createOidcUser({
     lastName: userInfo.lastName,
   });
 
-  return await oidcAuthenticationService.createUserAccount({
+  const { userId, idToken } = await oidcAuthenticationService.createUserAccount({
     user,
     sessionContent,
     externalIdentityId: userInfo.externalIdentityId,
     userToCreateRepository,
     authenticationMethodRepository,
   });
+
+  const accessToken = oidcAuthenticationService.createAccessToken(userId);
+  const logoutUrlUUID = await oidcAuthenticationService.saveIdToken({ idToken, userId });
+  await userRepository.updateLastLoggedAt({ userId });
+
+  return { accessToken, logoutUrlUUID };
 };

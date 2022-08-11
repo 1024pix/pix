@@ -6,24 +6,6 @@ const poleEmploiEnvoisDoc = require('../../infrastructure/open-api-doc/pole-empl
 exports.register = async function (server) {
   server.route([
     {
-      method: 'POST',
-      path: '/api/pole-emploi/users',
-      config: {
-        auth: false,
-        handler: poleEmploiController.createUser,
-        tags: ['api'],
-      },
-    },
-    {
-      method: 'POST',
-      path: '/api/pole-emplois/users',
-      config: {
-        auth: false,
-        handler: poleEmploiController.createUser,
-        tags: ['api'],
-      },
-    },
-    {
       method: 'GET',
       path: '/api/pole-emploi/envois',
       config: {
@@ -68,19 +50,6 @@ exports.register = async function (server) {
           }).options({ allowUnknown: true }),
         },
         tags: ['api', 'pole-emploi'],
-      },
-    },
-    {
-      method: 'GET',
-      path: '/api/pole-emploi/auth-url',
-      config: {
-        auth: false,
-        handler: poleEmploiController.getAuthenticationUrl,
-        notes: [
-          "- Cette route permet de récupérer l'url d'authentification de Pole emploi.\n" +
-            '- Elle retournera également les valeurs state et nonce.',
-        ],
-        tags: ['api', 'Pôle emploi'],
       },
     },
   ]);

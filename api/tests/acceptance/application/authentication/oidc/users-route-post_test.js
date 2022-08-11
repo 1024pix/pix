@@ -1,29 +1,27 @@
 const jsonwebtoken = require('jsonwebtoken');
-const { expect, knex } = require('../../../test-helper');
-const authenticationSessionService = require('../../../../lib/domain/services/authentication/authentication-session-service');
+const { expect, knex } = require('../../../../test-helper');
+const authenticationSessionService = require('../../../../../lib/domain/services/authentication/authentication-session-service');
+const createServer = require('../../../../../server');
+const AuthenticationSessionContent = require('../../../../../lib/domain/models/AuthenticationSessionContent');
 
-const createServer = require('../../../../server');
-const AuthenticationSessionContent = require('../../../../lib/domain/models/AuthenticationSessionContent');
-
-describe('Acceptance | Route | pole emploi users', function () {
+describe('Acceptance | Route | oidc users', function () {
   let server;
 
   beforeEach(async function () {
     server = await createServer();
   });
 
-  describe('POST /api/pole-emploi/users?authentication-key=key', function () {
-    const firstName = 'firstName';
-    const lastName = 'lastName';
-    const externalIdentifier = 'sub';
-
+  describe('POST /api/oidc/users', function () {
     afterEach(async function () {
       await knex('authentication-methods').delete();
       await knex('users').delete();
     });
 
-    it('should return 200 HTTP status', async function () {
+    it('should return 200 HTTP status for oidc', async function () {
       // given
+      const firstName = 'Brice';
+      const lastName = 'Glace';
+      const externalIdentifier = 'sub';
       const idToken = jsonwebtoken.sign(
         {
           given_name: firstName,
@@ -34,14 +32,11 @@ describe('Acceptance | Route | pole emploi users', function () {
         'secret'
       );
 
-      const poleEmploiAuthenticationSessionContent = new AuthenticationSessionContent({
-        accessToken: 'accessToken',
-        expiresIn: 10,
+      const sessionContent = new AuthenticationSessionContent({
         idToken,
-        refreshToken: 'refreshToken',
       });
       const userAuthenticationKey = await authenticationSessionService.save({
-        sessionContent: poleEmploiAuthenticationSessionContent,
+        sessionContent,
         userInfo: {
           firstName,
           lastName,
@@ -52,7 +47,15 @@ describe('Acceptance | Route | pole emploi users', function () {
 
       const request = {
         method: 'POST',
-        url: `/api/pole-emploi/users?authentication-key=${userAuthenticationKey}`,
+        url: '/api/oidc/users',
+        payload: {
+          data: {
+            attributes: {
+              identity_provider: 'CNAV',
+              authentication_key: userAuthenticationKey,
+            },
+          },
+        },
       };
 
       // when
@@ -60,13 +63,14 @@ describe('Acceptance | Route | pole emploi users', function () {
 
       // then
       expect(response.statusCode).to.equal(200);
+      expect(response.result['access_token']).to.exist;
 
       const createdUser = await knex('users').first();
-      expect(createdUser.firstName).to.equal(firstName);
-      expect(createdUser.lastName).to.equal(lastName);
+      expect(createdUser.firstName).to.equal('Brice');
+      expect(createdUser.lastName).to.equal('Glace');
 
       const createdAuthenticationMethod = await knex('authentication-methods').first();
-      expect(createdAuthenticationMethod.externalIdentifier).to.equal(externalIdentifier);
+      expect(createdAuthenticationMethod.externalIdentifier).to.equal('sub');
     });
 
     context('when authentication key has expired', function () {
@@ -76,7 +80,15 @@ describe('Acceptance | Route | pole emploi users', function () {
 
         const request = {
           method: 'POST',
-          url: `/api/pole-emploi/users?authentication-key=${userAuthenticationKey}`,
+          url: '/api/oidc/users',
+          payload: {
+            data: {
+              attributes: {
+                identity_provider: 'CNAV',
+                authentication_key: userAuthenticationKey,
+              },
+            },
+          },
         };
 
         // when
