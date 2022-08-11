@@ -49,3 +49,4 @@ rules:
   unicorn/filename-cases: off
   unicorn/explicit-length-check: error
   unicorn/prefer-node-protocol: error
+  unicorn/prefer-ternary: off
