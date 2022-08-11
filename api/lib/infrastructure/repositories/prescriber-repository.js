@@ -43,6 +43,20 @@ async function _areNewYearOrganizationLearnersImportedForPrescriber(prescriber) 
   prescriber.areNewYearOrganizationLearnersImported = Boolean(atLeastOneOrganizationLearner);
 }
 
+async function _getParticipantCount(prescriber) {
+  const currentOrganizationId = prescriber.userOrgaSettings.currentOrganization.id;
+
+  const { count: allCounts } = await knex('organization-learners')
+    .count('organization-learners.id')
+    .leftJoin('users', 'users.id', 'organization-learners.userId')
+    .where('isAnonymous', false)
+    .where('organizationId', currentOrganizationId)
+    .where('isDisabled', false)
+    .first();
+
+  prescriber.participantCount = allCounts;
+}
+
 module.exports = {
   async getPrescriber(userId) {
     try {
@@ -63,6 +77,7 @@ module.exports = {
       }
 
       await _areNewYearOrganizationLearnersImportedForPrescriber(prescriber);
+      await _getParticipantCount(prescriber);
 
       return prescriber;
     } catch (err) {
