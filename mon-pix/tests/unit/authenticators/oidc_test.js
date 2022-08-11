@@ -21,9 +21,10 @@ describe('Unit | Authenticator | oidc', function () {
       method: 'POST',
       headers: {
         Accept: 'application/json',
+        'Content-Type': 'application/json',
       },
     };
-    const body = {
+    const body = JSON.stringify({
       data: {
         attributes: {
           identity_provider: identityProviderCode,
@@ -33,7 +34,7 @@ describe('Unit | Authenticator | oidc', function () {
           state_received: state,
         },
       },
-    };
+    });
     const accessToken =
       'aaa.' +
       btoa(`{
@@ -64,14 +65,14 @@ describe('Unit | Authenticator | oidc', function () {
       const token = await authenticator.authenticate({ identityProviderSlug, authenticationKey: 'key' });
 
       // then
-      request.body = {
+      request.body = JSON.stringify({
         data: {
           attributes: {
             identity_provider: identityProviderCode,
             authentication_key: 'key',
           },
         },
-      };
+      });
       sinon.assert.calledWith(fetch.default, `http://localhost:3000/api/oidc/users`, request);
       expect(token).to.deep.equal({
         access_token: accessToken,
