@@ -103,6 +103,7 @@ describe('Integration | Infrastructure | Utils | csv | certification-results', f
         const session = domainBuilder.buildSession({ id: 777, certificationCenter: 'CentreCertif' });
         const competencesWithMark = [
           domainBuilder.buildCompetenceMark({ competence_code: '5.1', level: 3 }),
+          domainBuilder.buildCompetenceMark({ competence_code: '5.1', level: 3 }),
           domainBuilder.buildCompetenceMark({ competence_code: '5.2', level: -1 }),
         ];
         const certifResult = domainBuilder.buildCertificationResult.cancelled({
@@ -169,132 +170,82 @@ describe('Integration | Infrastructure | Utils | csv | certification-results', f
       });
     });
 
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    [
-      { partnerKey: PIX_EMPLOI_CLEA_V3, expectedHeader: 'Certification CléA Numérique', label: 'CléA Numérique' },
-      {
-        partnerKey: PIX_DROIT_MAITRE_CERTIF,
-        expectedHeader: 'Certification Pix+ Droit Maître',
-        label: 'Pix+ Droit Maître',
-      },
-      {
-        partnerKey: PIX_DROIT_EXPERT_CERTIF,
-        expectedHeader: 'Certification Pix+ Droit Expert',
-        label: 'Pix+ Droit Expert',
-      },
-      {
-        partnerKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
-        expectedHeader: 'Certification Pix+ Édu 2nd degré Initié (entrée dans le métier)',
-        label: 'Pix+ Édu 2nd degré Initié (entrée dans le métier)',
-      },
-      {
-        partnerKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME,
-        expectedHeader: 'Certification Pix+ Édu 2nd degré Confirmé',
-        label: 'Pix+ Édu 2nd degré Confirmé',
-      },
-      {
-        partnerKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
-        expectedHeader: 'Certification Pix+ Édu 2nd degré Avancé',
-        label: 'Pix+ Édu 2nd degré Avancé',
-      },
-      {
-        partnerKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
-        expectedHeader: 'Certification Pix+ Édu 2nd degré Expert',
-        label: 'Pix+ Édu 2nd degré Expert',
-      },
-      {
-        partnerKey: PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_INITIE,
-        expectedHeader: 'Certification Pix+ Édu 1er degré Initié (entrée dans le métier)',
-        label: 'Pix+ Édu 1er degré Initié (entrée dans le métier)',
-      },
-      {
-        partnerKey: PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_CONFIRME,
-        expectedHeader: 'Certification Pix+ Édu 1er degré Confirmé',
-        label: 'Pix+ Édu 1er degré Confirmé',
-      },
-      {
-        partnerKey: PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE,
-        expectedHeader: 'Certification Pix+ Édu 1er degré Avancé',
-        label: 'Pix+ Édu 1er degré Avancé',
-      },
-      {
-        partnerKey: PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT,
-        expectedHeader: 'Certification Pix+ Édu 1er degré Expert',
-        label: 'Pix+ Édu 1er degré Expert',
-      },
-    ].forEach(({ partnerKey, expectedHeader, label }) => {
-      context(`when at least one candidate has passed ${partnerKey} certification`, function () {
-        it(`should return correct csvContent with the ${partnerKey} information`, async function () {
-          // given
-          const session = domainBuilder.buildSession({ id: 777, certificationCenter: 'CentreCertif' });
-          const competencesWithMark = [
-            domainBuilder.buildCompetenceMark({ competence_code: '5.1', level: 3 }),
-            domainBuilder.buildCompetenceMark({ competence_code: '5.2', level: -1 }),
-          ];
-          const certifResult = domainBuilder.buildCertificationResult.validated({
-            id: 123,
-            lastName: 'Oxford',
-            firstName: 'Lili',
-            birthdate: '1990-01-04',
-            birthplace: 'Torreilles',
-            externalId: 'LOLORD',
-            createdAt: new Date('2020-01-01'),
-            pixScore: 55,
-            commentForOrganization: 'RAS',
-            competencesWithMark: competencesWithMark,
-            complementaryCertificationCourseResults: [
-              domainBuilder.buildComplementaryCertificationCourseResult({ partnerKey, acquired: true, label }),
-            ],
-          });
-
-          const certificationResults = [certifResult];
-
-          // when
-          const result = await getSessionCertificationResultsCsv({ session, certificationResults });
-
-          // then
-          const expectedResult =
-            '\uFEFF' +
-            `"Numéro de certification";"Prénom";"Nom";"Date de naissance";"Lieu de naissance";"Identifiant Externe";"Statut";"${expectedHeader}";"Nombre de Pix";"1.1";"1.2";"1.3";"2.1";"2.2";"2.3";"2.4";"3.1";"3.2";"3.3";"3.4";"4.1";"4.2";"4.3";"5.1";"5.2";"Commentaire jury pour l’organisation";"Session";"Centre de certification";"Date de passage de la certification"\n` +
-            '123;"Lili";"Oxford";"04/01/1990";"Torreilles";"LOLORD";"Validée";"Validée";55;"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";3;0;"RAS";777;"CentreCertif";"01/01/2020"';
-          expect(result).to.equal(expectedResult);
+    context(`when at least one candidate has passed PIX_EMPLOI_CLEA_V3 certification`, function () {
+      it(`should return correct csvContent with the PIX_EMPLOI_CLEA_V3 information`, async function () {
+        // given
+        const partnerKey = PIX_EMPLOI_CLEA_V3;
+        const expectedHeader = 'Certification CléA Numérique';
+        const label = 'CléA Numérique';
+        const session = domainBuilder.buildSession({ id: 777, certificationCenter: 'CentreCertif' });
+        const competencesWithMark = [
+          domainBuilder.buildCompetenceMark({ competence_code: '5.1', level: 3 }),
+          domainBuilder.buildCompetenceMark({ competence_code: '5.2', level: -1 }),
+        ];
+        const certifResult = domainBuilder.buildCertificationResult.validated({
+          id: 123,
+          lastName: 'Oxford',
+          firstName: 'Lili',
+          birthdate: '1990-01-04',
+          birthplace: 'Torreilles',
+          externalId: 'LOLORD',
+          createdAt: new Date('2020-01-01'),
+          pixScore: 55,
+          commentForOrganization: 'RAS',
+          competencesWithMark: competencesWithMark,
+          complementaryCertificationCourseResults: [
+            domainBuilder.buildComplementaryCertificationCourseResult({ partnerKey, acquired: true, label }),
+          ],
         });
 
-        it(`should return a cancelled ${partnerKey} certification when certification pix is cancelled`, async function () {
-          // given
-          const session = domainBuilder.buildSession({ id: 777, certificationCenter: 'CentreCertif' });
-          const competencesWithMark = [
-            domainBuilder.buildCompetenceMark({ competence_code: '5.1', level: 3 }),
-            domainBuilder.buildCompetenceMark({ competence_code: '5.2', level: -1 }),
-          ];
-          const certifResult = domainBuilder.buildCertificationResult.cancelled({
-            id: 123,
-            lastName: 'Oxford',
-            firstName: 'Lili',
-            birthdate: '1990-01-04',
-            birthplace: 'Torreilles',
-            externalId: 'LOLORD',
-            createdAt: new Date('2020-01-01'),
-            pixScore: 55,
-            commentForOrganization: 'RAS',
-            competencesWithMark: competencesWithMark,
-            complementaryCertificationCourseResults: [
-              domainBuilder.buildComplementaryCertificationCourseResult({ partnerKey, acquired: true, label }),
-            ],
-          });
+        const certificationResults = [certifResult];
 
-          const certificationResults = [certifResult];
+        // when
+        const result = await getSessionCertificationResultsCsv({ session, certificationResults });
 
-          // when
-          const result = await getSessionCertificationResultsCsv({ session, certificationResults });
-
-          // then
-          const expectedResult =
-            '\uFEFF' +
-            `"Numéro de certification";"Prénom";"Nom";"Date de naissance";"Lieu de naissance";"Identifiant Externe";"Statut";"${expectedHeader}";"Nombre de Pix";"1.1";"1.2";"1.3";"2.1";"2.2";"2.3";"2.4";"3.1";"3.2";"3.3";"3.4";"4.1";"4.2";"4.3";"5.1";"5.2";"Commentaire jury pour l’organisation";"Session";"Centre de certification";"Date de passage de la certification"\n` +
-            '123;"Lili";"Oxford";"04/01/1990";"Torreilles";"LOLORD";"Annulée";"Annulée";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"RAS";777;"CentreCertif";"01/01/2020"';
-          expect(result).to.equal(expectedResult);
+        // then
+        const expectedResult =
+          '\uFEFF' +
+          `"Numéro de certification";"Prénom";"Nom";"Date de naissance";"Lieu de naissance";"Identifiant Externe";"Statut";"${expectedHeader}";"Nombre de Pix";"1.1";"1.2";"1.3";"2.1";"2.2";"2.3";"2.4";"3.1";"3.2";"3.3";"3.4";"4.1";"4.2";"4.3";"5.1";"5.2";"Commentaire jury pour l’organisation";"Session";"Centre de certification";"Date de passage de la certification"\n` +
+          '123;"Lili";"Oxford";"04/01/1990";"Torreilles";"LOLORD";"Validée";"Validée";55;"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";3;0;"RAS";777;"CentreCertif";"01/01/2020"';
+        expect(result).to.equal(expectedResult);
+      });
+      it(`should return a cancelled PIX_EMPLOI_CLEA_V3 certification when certification pix is cancelled`, async function () {
+        // given
+        const partnerKey = PIX_EMPLOI_CLEA_V3;
+        const expectedHeader = 'Certification CléA Numérique';
+        const label = 'CléA Numérique';
+        const session = domainBuilder.buildSession({ id: 777, certificationCenter: 'CentreCertif' });
+        const competencesWithMark = [
+          domainBuilder.buildCompetenceMark({ competence_code: '5.1', level: 3 }),
+          domainBuilder.buildCompetenceMark({ competence_code: '5.2', level: -1 }),
+        ];
+        const certifResult = domainBuilder.buildCertificationResult.cancelled({
+          id: 123,
+          lastName: 'Oxford',
+          firstName: 'Lili',
+          birthdate: '1990-01-04',
+          birthplace: 'Torreilles',
+          externalId: 'LOLORD',
+          createdAt: new Date('2020-01-01'),
+          pixScore: 55,
+          commentForOrganization: 'RAS',
+          competencesWithMark: competencesWithMark,
+          complementaryCertificationCourseResults: [
+            domainBuilder.buildComplementaryCertificationCourseResult({ partnerKey, acquired: true, label }),
+          ],
         });
+
+        const certificationResults = [certifResult];
+
+        // when
+        const result = await getSessionCertificationResultsCsv({ session, certificationResults });
+
+        // then
+        const expectedResult =
+          '\uFEFF' +
+          `"Numéro de certification";"Prénom";"Nom";"Date de naissance";"Lieu de naissance";"Identifiant Externe";"Statut";"${expectedHeader}";"Nombre de Pix";"1.1";"1.2";"1.3";"2.1";"2.2";"2.3";"2.4";"3.1";"3.2";"3.3";"3.4";"4.1";"4.2";"4.3";"5.1";"5.2";"Commentaire jury pour l’organisation";"Session";"Centre de certification";"Date de passage de la certification"\n` +
+          '123;"Lili";"Oxford";"04/01/1990";"Torreilles";"LOLORD";"Annulée";"Annulée";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"RAS";777;"CentreCertif";"01/01/2020"';
+        expect(result).to.equal(expectedResult);
       });
     });
 
@@ -401,7 +352,6 @@ describe('Integration | Infrastructure | Utils | csv | certification-results', f
       });
     });
   });
-
   context('#getDivisionCertificationResultsCsv', function () {
     context('when at least one candidate has passed a certification', function () {
       it('returns a csv without session informations', async function () {
@@ -442,7 +392,6 @@ describe('Integration | Infrastructure | Utils | csv | certification-results', f
         expect(result).to.equal(expectedResult);
       });
     });
-
     context('when certification has been rejected automatically', function () {
       it('should return correct csvContent with automatically rejected comment for organization', async function () {
         // given
@@ -479,7 +428,6 @@ describe('Integration | Infrastructure | Utils | csv | certification-results', f
         expect(result).to.equal(expectedResult);
       });
     });
-
     context('when at least one certification course is cancelled', function () {
       it('should return correct csvContent with cancelled status and dashes as Pix scores', async function () {
         // given
