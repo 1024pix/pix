@@ -42,7 +42,7 @@ describe('Unit | Component | routes/campaigns/invited/associate-sco-student-form
       };
     });
 
-    it('should create a schooling-registration-user-association', async function () {
+    it('should create a sco-organization-learner', async function () {
       // given
       storeStub.createRecord.returns({ unloadRecord: () => {} });
 
@@ -50,7 +50,7 @@ describe('Unit | Component | routes/campaigns/invited/associate-sco-student-form
       await component.actions.submit.call(component, attributes);
 
       // then
-      sinon.assert.calledWith(storeStub.createRecord, 'schooling-registration-user-association', {
+      sinon.assert.calledWith(storeStub.createRecord, 'sco-organization-learner', {
         id: `${component.args.campaignCode}_${attributes.lastName}`,
         firstName: attributes.firstName,
         lastName: attributes.lastName,
@@ -61,33 +61,33 @@ describe('Unit | Component | routes/campaigns/invited/associate-sco-student-form
 
     it('should call onSubmit with withReconciliation adapterOption to false', async function () {
       // given
-      const schoolingRegistration = { unloadRecord: () => {} };
-      storeStub.createRecord.returns(schoolingRegistration);
+      const scoOrganizationLearner = { unloadRecord: () => {} };
+      storeStub.createRecord.returns(scoOrganizationLearner);
 
       // when
       await component.actions.submit.call(component, attributes);
 
       // then
-      sinon.assert.calledWith(onSubmitStub, schoolingRegistration, { withReconciliation: false });
+      sinon.assert.calledWith(onSubmitStub, scoOrganizationLearner, { withReconciliation: false });
     });
 
-    it('should call unloadRecord on schooling-registration-user-association', async function () {
+    it('should call unloadRecord on sco-organization-learner', async function () {
       // given
-      const schoolingRegistration = { unloadRecord: sinon.stub() };
-      storeStub.createRecord.returns(schoolingRegistration);
+      const scoOrganizationLearner = { unloadRecord: sinon.stub() };
+      storeStub.createRecord.returns(scoOrganizationLearner);
 
       // when
       await component.actions.submit.call(component, attributes);
 
       // then
-      sinon.assert.calledOnce(schoolingRegistration.unloadRecord);
+      sinon.assert.calledOnce(scoOrganizationLearner.unloadRecord);
     });
 
     context('When user is logged in with email', function () {
       it('should open information modal and set reconciliationWarning', async function () {
         // given
-        const schoolingRegistration = { unloadRecord: () => {} };
-        storeStub.createRecord.returns(schoolingRegistration);
+        const scoOrganizationLearner = { unloadRecord: () => {} };
+        storeStub.createRecord.returns(scoOrganizationLearner);
         const connectionMethod = 'test@example.net';
         component.currentUser.user.email = connectionMethod;
         const expectedReconciliationWarning = {
@@ -108,8 +108,8 @@ describe('Unit | Component | routes/campaigns/invited/associate-sco-student-form
     context('When user is logged in with username', function () {
       it('should open information modal and set reconciliationWarning', async function () {
         // given
-        const schoolingRegistration = { unloadRecord: () => {} };
-        storeStub.createRecord.returns(schoolingRegistration);
+        const scoOrganizationLearner = { unloadRecord: () => {} };
+        storeStub.createRecord.returns(scoOrganizationLearner);
         const connectionMethod = 'john.doe3001';
         component.currentUser.user.username = connectionMethod;
         const expectedReconciliationWarning = {
@@ -264,7 +264,7 @@ describe('Unit | Component | routes/campaigns/invited/associate-sco-student-form
       sinon.assert.called(eventStub.preventDefault);
     });
 
-    it('should create a schooling-registration-user-association', async function () {
+    it('should create a sco-organization-learner', async function () {
       // given
       storeStub.createRecord.returns({ unloadRecord: () => {} });
 
@@ -272,7 +272,7 @@ describe('Unit | Component | routes/campaigns/invited/associate-sco-student-form
       await component.actions.associate.call(component, eventStub);
 
       // then
-      sinon.assert.calledWith(storeStub.createRecord, 'schooling-registration-user-association', {
+      sinon.assert.calledWith(storeStub.createRecord, 'sco-organization-learner', {
         id: `${component.args.campaignCode}_${component.attributes.lastName}`,
         firstName: component.attributes.firstName,
         lastName: component.attributes.lastName,
@@ -283,14 +283,14 @@ describe('Unit | Component | routes/campaigns/invited/associate-sco-student-form
 
     it('should call onSubmit with withReconciliation adapterOption to true', async function () {
       // given
-      const schoolingRegistration = { unloadRecord: () => {} };
-      storeStub.createRecord.returns(schoolingRegistration);
+      const scoOrganizationLearner = { unloadRecord: () => {} };
+      storeStub.createRecord.returns(scoOrganizationLearner);
 
       // when
       await component.actions.associate.call(component, eventStub);
 
       // then
-      sinon.assert.calledWith(onSubmitStub, schoolingRegistration, { withReconciliation: true });
+      sinon.assert.calledWith(onSubmitStub, scoOrganizationLearner, { withReconciliation: true });
     });
 
     it('should close the modal', async function () {

@@ -12,21 +12,11 @@ import setupIntl from '../helpers/setup-intl';
 
 const PROFILES_COLLECTION = 'PROFILES_COLLECTION';
 
-describe('Acceptance | Campaigns | Start Campaigns with type Profiles Collection', function () {
+describe('Acceptance | Campaigns | Start Campaigns with type Profiles Collection', function () {
   setupApplicationTest();
   setupMirage();
   setupIntl();
   let campaign;
-
-  beforeEach(function () {
-    this.server.schema.students.create({
-      firstName: 'JeanPrescrit',
-      lastName: 'Campagne',
-      username: '',
-      userId: null,
-      organizationId: null,
-    });
-  });
 
   describe('Start a campaign', function () {
     let campaignParticipant;
@@ -202,7 +192,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Profiles Collectio
 
           context('When user has already a reconciled account', function () {
             beforeEach(function () {
-              server.post('/schooling-registration-user-associations', () => {
+              server.post('/sco-organization-learners/association', () => {
                 return new Response(409, {}, { errors: [{ status: '409', meta: { shortCode: 'R11' } }] });
               });
             });

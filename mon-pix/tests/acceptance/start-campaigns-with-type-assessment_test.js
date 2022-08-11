@@ -10,22 +10,13 @@ import setupIntl from '../helpers/setup-intl';
 
 const ASSESSMENT = 'ASSESSMENT';
 
-describe('Acceptance | Campaigns | Start Campaigns with type Assessment', function () {
+describe('Acceptance | Campaigns | Start Campaigns with type Assessment', function () {
   setupApplicationTest();
   setupMirage();
   setupIntl();
   let campaign;
 
   beforeEach(function () {
-    this.server.schema.students.create({
-      firstName: 'JeanPrescrit',
-      lastName: 'Campagne',
-      username: '',
-      userId: null,
-      organizationId: null,
-      studentNumber: '123A',
-    });
-
     this.server.schema.users.create({
       mustValidateTermsOfService: true,
     });

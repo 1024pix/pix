@@ -1,5 +1,3 @@
-/* eslint ember/no-classic-classes: 0 */
-
 import { beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
 
@@ -29,15 +27,6 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
   let campaign;
 
   beforeEach(function () {
-    this.server.schema.students.create({
-      firstName: 'JeanPrescrit',
-      lastName: 'Campagne',
-      username: '',
-      userId: null,
-      organizationId: null,
-      studentNumber: '123A',
-    });
-
     this.server.schema.users.create({
       mustValidateTermsOfService: true,
     });
@@ -150,10 +139,10 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
             context('When student is reconciled in another organization', function () {
               it('should reconcile and begin campaign participation', async function () {
                 // given
-                server.get('schooling-registration-user-associations', () => {
+                server.get('sco-organization-learners', () => {
                   return { data: null };
                 });
-                server.create('schooling-registration-user-association', {
+                server.create('sco-organization-learner', {
                   campaignCode: campaign.code,
                 });
                 await visit('/campagnes');
@@ -216,7 +205,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
 
           it('should not alter inputs(username,password,email) when email already exists', async function () {
             //given
-            this.server.put('schooling-registration-user-associations/possibilities', () => {
+            this.server.put('sco-organization-learners/possibilities', () => {
               const studentFoundWithUsernameGenerated = {
                 data: {
                   attributes: {
@@ -226,14 +215,14 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
                     'campaign-code': 'RESTRICTD',
                     username: 'first.last1010',
                   },
-                  type: 'schooling-registration-user-associations',
+                  type: 'sco-organization-learners',
                 },
               };
 
               return new Response(200, {}, studentFoundWithUsernameGenerated);
             });
 
-            this.server.post('schooling-registration-dependent-users', () => {
+            this.server.post('sco-organization-learners/dependent', () => {
               const emailAlreadyExistResponse = {
                 errors: [
                   {
@@ -513,10 +502,10 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
 
           it('should try to reconcile automatically before redirect to invited sco student page', async function () {
             // given
-            server.get('schooling-registration-user-associations', () => {
+            server.get('sco-organization-learners', () => {
               return { data: null };
             });
-            server.create('schooling-registration-user-association', {
+            server.create('sco-organization-learner', {
               campaignCode: campaign.code,
             });
 
@@ -570,7 +559,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
 
         context('When association is already done', function () {
           beforeEach(function () {
-            server.create('schooling-registration-user-association', {
+            server.create('sco-organization-learner', {
               campaignCode: campaign.code,
             });
           });
@@ -689,7 +678,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
         });
       });
 
-      context('When the campaign is restricted and schooling-registration is disabled', function () {
+      context('When the campaign is restricted and organization learner is disabled', function () {
         beforeEach(function () {
           campaign = server.create('campaign', { code: 'FORBIDDEN', isRestricted: true });
         });
@@ -845,7 +834,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
           beforeEach(async function () {
             garUser = server.create('user', AUTHENTICATED_SOURCE_FROM_MEDIACENTRE);
             await authenticateByGAR(garUser);
-            server.create('schooling-registration-user-association', {
+            server.create('sco-organization-learner', {
               campaignCode: campaign.code,
             });
           });
@@ -861,10 +850,10 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
           context('When user is already reconciled in another organization', async function () {
             it('should reconcile and redirect to landing-page', async function () {
               // given
-              server.get('schooling-registration-user-associations', () => {
+              server.get('sco-organization-learners', () => {
                 return { data: null };
               });
-              server.create('schooling-registration-user-association', {
+              server.create('sco-organization-learner', {
                 campaignCode: campaign.code,
               });
               await visit('/campagnes');
@@ -888,7 +877,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
             '.bbb';
 
           beforeEach(async function () {
-            server.post('/schooling-registration-dependent-users/external-user-token', async function () {
+            server.post('/sco-organization-learners/external', async function () {
               return new Response(
                 409,
                 {},
@@ -915,7 +904,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
 
           it('should begin campaign participation if GAR authentication method has been added', async function () {
             // given
-            server.create('schooling-registration-user-association', {
+            server.create('sco-organization-learner', {
               campaignCode: campaign.code,
             });
             await fillIn('#campaign-code', campaign.code);
@@ -1045,7 +1034,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
               // given
               const userShouldChangePassword = server.create('user', 'withUsername', 'shouldChangePassword');
 
-              server.post('/schooling-registration-dependent-users/external-user-token', async function () {
+              server.post('/sco-organization-learners/external', async function () {
                 return new Response(
                   409,
                   {},
@@ -1067,7 +1056,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
                 );
               });
 
-              server.create('schooling-registration-user-association', {
+              server.create('sco-organization-learner', {
                 campaignCode: campaign.code,
               });
 
