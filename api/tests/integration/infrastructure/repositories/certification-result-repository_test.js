@@ -198,9 +198,7 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
         competenceMarkId: cleaCompetenceMarkId,
       } = await _buildCertificationResultInSession(sessionId);
       const cleaBadgeId = databaseBuilder.factory.buildBadge({ key: PIX_EMPLOI_CLEA_V1 }).id;
-      const cleaComplementaryCertificationId = databaseBuilder.factory.buildComplementaryCertification({
-        name: 'CléA Numérique',
-      }).id;
+      const cleaComplementaryCertificationId = databaseBuilder.factory.buildComplementaryCertification({}).id;
       databaseBuilder.factory.buildComplementaryCertificationCourse({
         id: 998,
         certificationCourseId: cleaCertificationCourseId,
