@@ -40,7 +40,16 @@ module.exports = async function findUserForOidcReconciliation({
     throw new DifferentExternalIdentifierError();
   }
 
-  const pixAccessToken = await oidcAuthenticationService.createAccessToken(foundUser.id);
+  await _updateAuthenticationComplement({
+    identityProvider,
+    userId: foundUser.id,
+    sessionContent: sessionContentAndUserInfo.sessionContent,
+    oidcAuthenticationService,
+    authenticationMethodRepository,
+  });
+
+  const accessToken = await oidcAuthenticationService.createAccessToken(foundUser.id);
+
   const logoutUrlUUID = await oidcAuthenticationService.saveIdToken({
     idToken: sessionContentAndUserInfo.sessionContent.idToken,
     userId: foundUser.id,
@@ -48,5 +57,22 @@ module.exports = async function findUserForOidcReconciliation({
 
   userRepository.updateLastLoggedAt({ userId: foundUser.id });
 
-  return { pixAccessToken, logoutUrlUUID, isAuthenticationComplete: true };
+  return { accessToken, logoutUrlUUID, isAuthenticationComplete: true };
 };
+
+async function _updateAuthenticationComplement({
+  identityProvider,
+  userId,
+  sessionContent,
+  oidcAuthenticationService,
+  authenticationMethodRepository,
+}) {
+  const authenticationComplement = oidcAuthenticationService.createAuthenticationComplement({ sessionContent });
+  if (!authenticationComplement) return;
+
+  await authenticationMethodRepository.updateAuthenticationComplementByUserIdAndIdentityProvider({
+    authenticationComplement,
+    userId,
+    identityProvider,
+  });
+}
