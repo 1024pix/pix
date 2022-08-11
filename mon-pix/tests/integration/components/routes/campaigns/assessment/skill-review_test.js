@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { contains } from '../../../../../helpers/contains';
 import { clickByLabel } from '../../../../../helpers/click-by-label';
-import { find, render } from '@ember/test-helpers';
+import { find, findAll, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
 import setupIntlRenderingTest from '../../../../../helpers/setup-intl-rendering';
@@ -117,6 +117,79 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
 
       // Then
       expect(contains(this.intl.t('pages.skill-review.flash.pixCount', { count: expectedPixCount }))).to.exist;
+    });
+  });
+
+  describe('The trainings block', function () {
+    context('When they does not have trainings', function () {
+      it('should not display the block', async function () {
+        const trainings = [];
+        const campaign = {
+          customResultPageText: 'Bravo !',
+          organizationLogoUrl: 'www.logo-example.com',
+          organizationName: 'Dragon & Co',
+        };
+        const campaignParticipationResult = { isShared: true, campaignParticipationBadges: [] };
+        this.set('model', { campaign, campaignParticipationResult, trainings });
+
+        // when
+        await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{model}} />`);
+
+        // then
+        expect(contains(this.intl.t('pages.skill-review.trainings.title'))).to.not.exist;
+      });
+    });
+
+    context('When they have trainings', function () {
+      it('should display the block', async function () {
+        const trainings = [{ title: 'Training 1' }];
+        const campaign = {
+          customResultPageText: 'Bravo !',
+          organizationLogoUrl: 'www.logo-example.com',
+          organizationName: 'Dragon & Co',
+        };
+        const campaignParticipationResult = { isShared: true, campaignParticipationBadges: [] };
+        this.set('model', { campaign, campaignParticipationResult, trainings });
+
+        // when
+        await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{model}} />`);
+
+        // then
+        expect(contains(this.intl.t('pages.skill-review.trainings.title'))).to.exist;
+        expect(contains(this.intl.t('pages.skill-review.trainings.description'))).to.exist;
+      });
+
+      it('should display trainings', async function () {
+        const trainings = [
+          {
+            duration: { hours: 6 },
+            link: 'https://magistere.education.fr/ac-normandie/enrol/index.php?id=5924',
+            locale: 'fr-fr',
+            title: '(tp 8, 9) Travail de groupe et collaboration entre les personnels',
+            type: 'autoformation',
+          },
+          {
+            duration: { hours: 6 },
+            link: 'https://magistere.education.fr/ac-normandie/enrol/index.php?id=5924',
+            locale: 'fr-fr',
+            title: '(tp 8, 9) Travail de groupe et collaboration entre les personnels',
+            type: 'autoformation',
+          },
+        ];
+        const campaign = {
+          customResultPageText: 'Bravo !',
+          organizationLogoUrl: 'www.logo-example.com',
+          organizationName: 'Dragon & Co',
+        };
+        const campaignParticipationResult = { isShared: true, campaignParticipationBadges: [] };
+        this.set('model', { campaign, campaignParticipationResult, trainings });
+
+        // when
+        await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{model}} />`);
+
+        // then
+        expect(findAll('.training-card')).to.have.lengthOf(2);
+      });
     });
   });
 

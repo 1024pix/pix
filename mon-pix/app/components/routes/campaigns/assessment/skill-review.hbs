@@ -129,6 +129,16 @@
         >{{t "pages.skill-review.retry.button"}}</LinkTo>
       </div>
     {{/if}}
+
+    {{#if @model.trainings}}
+      <section class="skill-review__trainings">
+        <h2 class="skill-review-trainings__title">{{t "pages.skill-review.trainings.title"}}</h2>
+        <p class="skill-review-trainings__description">{{t "pages.skill-review.trainings.description"}}</p>
+        {{#each @model.trainings as |training|}}
+          <Training::Card @training={{training}} />
+        {{/each}}
+      </section>
+    {{/if}}
   </PixBlock>
 {{/if}}
 
