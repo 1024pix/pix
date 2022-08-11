@@ -96,9 +96,9 @@ function saveCertifications(options) {
 
   const promises = options.certifications.map((certification) => {
     const requestConfig = _buildRequestObject(options.baseUrl, options.accessToken, certification);
-    return request(requestConfig).catch((err) => {
+    return request(requestConfig).catch((error) => {
       errorObjects.push({
-        errorMessage: err.message,
+        errorMessage: error.message,
         certification: certification,
       });
     });
@@ -135,8 +135,8 @@ function main() {
       console.log('\nTéléversement des certifications sur le serveur...');
       readMyData(data, baseUrl, accessToken);
     });
-  } catch (err) {
-    console.error(err.message);
+  } catch (error) {
+    console.error(error.message);
     process.exit(1);
   }
 }

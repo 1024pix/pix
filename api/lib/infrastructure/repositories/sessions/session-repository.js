@@ -34,11 +34,11 @@ module.exports = {
     try {
       const session = await BookshelfSession.where({ id: sessionId }).fetch();
       return bookshelfToDomainConverter.buildDomainObject(BookshelfSession, session);
-    } catch (err) {
-      if (err instanceof BookshelfSession.NotFoundError) {
+    } catch (error) {
+      if (error instanceof BookshelfSession.NotFoundError) {
         throw new NotFoundError("La session n'existe pas ou son accès est restreint");
       }
-      throw err;
+      throw error;
     }
   },
 

@@ -36,9 +36,9 @@ describe('Unit | Domain | Validators | organization-validator', function () {
             // when
             organizationCreationValidator.validate(organizationCreationParams);
             expect.fail('should have thrown an error');
-          } catch (errors) {
+          } catch (error) {
             // then
-            _assertErrorMatchesWithExpectedOne(errors, expectedError);
+            _assertErrorMatchesWithExpectedOne(error, expectedError);
           }
         });
       });
@@ -63,10 +63,10 @@ describe('Unit | Domain | Validators | organization-validator', function () {
             // when
             organizationCreationValidator.validate(organizationCreationParams);
             expect.fail('should have thrown an error');
-          } catch (errors) {
+          } catch (error) {
             // then
-            expect(errors.invalidAttributes).to.have.length(2);
-            expect(errors.invalidAttributes).to.have.deep.equal(expectedError);
+            expect(error.invalidAttributes).to.have.length(2);
+            expect(error.invalidAttributes).to.have.deep.equal(expectedError);
           }
         });
 
@@ -82,9 +82,9 @@ describe('Unit | Domain | Validators | organization-validator', function () {
             // when
             organizationCreationValidator.validate(organizationCreationParams);
             expect.fail('should have thrown an error');
-          } catch (errors) {
+          } catch (error) {
             // then
-            _assertErrorMatchesWithExpectedOne(errors, expectedError);
+            _assertErrorMatchesWithExpectedOne(error, expectedError);
           }
         });
 
@@ -120,9 +120,9 @@ describe('Unit | Domain | Validators | organization-validator', function () {
           // when
           organizationCreationValidator.validate(organizationCreationParams);
           expect.fail('should have thrown an error');
-        } catch (errors) {
+        } catch (error) {
           // then
-          expect(errors.invalidAttributes).to.have.lengthOf(3);
+          expect(error.invalidAttributes).to.have.lengthOf(3);
         }
       });
     });

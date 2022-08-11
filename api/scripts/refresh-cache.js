@@ -11,5 +11,5 @@ learningContentDatasource
   .then(() => {
     logger.info('Learning Content refreshed');
   })
-  .catch((e) => logger.error('Error while reloading cache', e))
+  .catch((error) => logger.error('Error while reloading cache', error))
   .finally(() => cache.quit());

@@ -34,7 +34,7 @@ module.exports = async function sendVerificationCode({
       password,
       passwordHash,
     });
-  } catch (e) {
+  } catch (error) {
     throw new InvalidPasswordForUpdateEmailError();
   }
 

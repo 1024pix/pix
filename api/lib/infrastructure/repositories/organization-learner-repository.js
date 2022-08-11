@@ -176,7 +176,7 @@ module.exports = {
         .insert(organizationLearnersToSave)
         .onConflict(['organizationId', 'nationalStudentId'])
         .merge();
-    } catch (err) {
+    } catch (error) {
       throw new OrganizationLearnersCouldNotBeSavedError();
     }
   },
@@ -308,11 +308,11 @@ module.exports = {
       .then((organizationLearner) =>
         bookshelfToDomainConverter.buildDomainObject(BookshelfOrganizationLearner, organizationLearner)
       )
-      .catch((err) => {
-        if (err instanceof BookshelfOrganizationLearner.NotFoundError) {
+      .catch((error) => {
+        if (error instanceof BookshelfOrganizationLearner.NotFoundError) {
           throw new NotFoundError(`Student not found for ID ${organizationLearnerId}`);
         }
-        throw err;
+        throw error;
       });
   },
 
@@ -420,13 +420,13 @@ module.exports = {
       .then((organizationLearner) =>
         bookshelfToDomainConverter.buildDomainObject(BookshelfOrganizationLearner, organizationLearner)
       )
-      .catch((err) => {
-        if (err instanceof BookshelfOrganizationLearner.NoRowsUpdatedError) {
+      .catch((error) => {
+        if (error instanceof BookshelfOrganizationLearner.NoRowsUpdatedError) {
           throw new OrganizationLearnerNotFound(
             `OrganizationLearner not found for ID ${organizationLearnerId} and user ID null.`
           );
         }
-        throw err;
+        throw error;
       });
   },
 

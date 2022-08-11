@@ -31,8 +31,8 @@ async function main() {
 
     .then(() => client.query_and_log('COMMIT'))
     .then(() => console.log('FINISHED'))
-    .catch((err) => {
-      console.log(`ERROR: ${err}\nRollback...`);
+    .catch((error) => {
+      console.log(`ERROR: ${error}\nRollback...`);
       return client.query_and_log('ROLLBACK').then(() => console.log('Rollback finished'));
     })
     // finally

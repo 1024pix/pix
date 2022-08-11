@@ -44,11 +44,11 @@ module.exports = {
   async get(id) {
     const bookshelfStage = await BookshelfStage.where('id', id)
       .fetch()
-      .catch((err) => {
-        if (err instanceof BookshelfStage.NotFoundError) {
+      .catch((error) => {
+        if (error instanceof BookshelfStage.NotFoundError) {
           throw new NotFoundError(`Not found stage for ID ${id}`);
         }
-        throw err;
+        throw error;
       });
     return bookshelfToDomainConverter.buildDomainObject(BookshelfStage, bookshelfStage);
   },

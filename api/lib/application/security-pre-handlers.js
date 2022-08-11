@@ -48,7 +48,7 @@ async function checkAdminMemberHasRoleSuperAdmin(request, h) {
       throw new ForbiddenAccess(apps.PIX_ADMIN.NOT_ALLOWED_MSG);
     }
     return h.response(true);
-  } catch (e) {
+  } catch (error) {
     return _replyForbiddenError(h);
   }
 }
@@ -66,7 +66,7 @@ async function checkAdminMemberHasRoleCertif(request, h) {
       throw new ForbiddenAccess(apps.PIX_ADMIN.NOT_ALLOWED_MSG);
     }
     return h.response(true);
-  } catch (e) {
+  } catch (error) {
     return _replyForbiddenError(h);
   }
 }
@@ -84,7 +84,7 @@ async function checkAdminMemberHasRoleSupport(request, h) {
       throw new ForbiddenAccess(apps.PIX_ADMIN.NOT_ALLOWED_MSG);
     }
     return h.response(true);
-  } catch (e) {
+  } catch (error) {
     return _replyForbiddenError(h);
   }
 }
@@ -102,7 +102,7 @@ async function checkAdminMemberHasRoleMetier(request, h) {
       throw new ForbiddenAccess(apps.PIX_ADMIN.NOT_ALLOWED_MSG);
     }
     return h.response(true);
-  } catch (e) {
+  } catch (error) {
     return _replyForbiddenError(h);
   }
 }
@@ -176,7 +176,7 @@ async function checkUserIsMemberOfCertificationCenterSessionFromCertificationIss
       certificationCourseId: certificationIssueReport.certificationCourseId,
     });
     return isMemberOfSession ? h.response(true) : _replyForbiddenError(h);
-  } catch (e) {
+  } catch (error) {
     return _replyForbiddenError(h);
   }
 }
@@ -195,7 +195,7 @@ async function checkUserIsMemberOfCertificationCenterSessionFromCertificationCou
       certificationCourseId,
     });
     return isMemberOfSession ? h.response(true) : _replyForbiddenError(h);
-  } catch (e) {
+  } catch (error) {
     return _replyForbiddenError(h);
   }
 }
@@ -212,7 +212,7 @@ async function checkUserBelongsToOrganizationManagingStudents(request, h) {
     if (await checkUserBelongsToOrganizationManagingStudentsUseCase.execute(userId, organizationId)) {
       return h.response(true);
     }
-  } catch (err) {
+  } catch (error) {
     return _replyForbiddenError(h);
   }
   return _replyForbiddenError(h);
@@ -230,7 +230,7 @@ async function checkUserBelongsToScoOrganizationAndManagesStudents(request, h) {
   try {
     belongsToScoOrganizationAndManageStudents =
       await checkUserBelongsToScoOrganizationAndManagesStudentsUseCase.execute(userId, organizationId);
-  } catch (err) {
+  } catch (error) {
     return _replyForbiddenError(h);
   }
 
@@ -253,7 +253,7 @@ async function checkUserBelongsToSupOrganizationAndManagesStudents(request, h) {
   try {
     belongsToSupOrganizationAndManageStudents =
       await checkUserBelongsToSupOrganizationAndManagesStudentsUseCase.execute(userId, organizationId);
-  } catch (err) {
+  } catch (error) {
     return _replyForbiddenError(h);
   }
 
@@ -314,7 +314,7 @@ async function checkUserIsMemberOfAnOrganization(request, h) {
   let isMemberOfAnOrganization;
   try {
     isMemberOfAnOrganization = await checkUserIsMemberOfAnOrganizationUseCase.execute(userId);
-  } catch (err) {
+  } catch (error) {
     return _replyForbiddenError(h);
   }
 
@@ -358,7 +358,7 @@ async function checkUserOwnsCertificationCourse(request, h) {
       certificationCourseId,
     });
     return ownsCertificationCourse ? h.response(true) : _replyForbiddenError(h);
-  } catch (e) {
+  } catch (error) {
     return _replyForbiddenError(h);
   }
 }

@@ -30,16 +30,16 @@ module.exports = {
         data: httpResponse.data,
         isSuccessful: true,
       });
-    } catch (httpErr) {
+    } catch (error) {
       responseTime = performance.now() - startTime;
       let code = null;
       let data;
 
-      if (httpErr.response) {
-        code = httpErr.response.status;
-        data = httpErr.response.data;
+      if (error.response) {
+        code = error.response.status;
+        data = error.response.data;
       } else {
-        data = httpErr.message;
+        data = error.message;
       }
 
       logErrorWithCorrelationIds({
@@ -71,16 +71,16 @@ module.exports = {
         data: httpResponse.data,
         isSuccessful: true,
       });
-    } catch (httpErr) {
+    } catch (error) {
       responseTime = performance.now() - startTime;
       const isSuccessful = false;
 
       let code;
       let data;
 
-      if (httpErr.response) {
-        code = httpErr.response.status;
-        data = httpErr.response.data;
+      if (error.response) {
+        code = error.response.status;
+        data = error.response.data;
       } else {
         code = '500';
         data = null;

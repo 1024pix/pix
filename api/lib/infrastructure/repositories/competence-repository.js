@@ -58,11 +58,11 @@ module.exports = {
     try {
       const [competenceData, areaDatas] = await Promise.all([competenceDatasource.get(id), areaDatasource.list()]);
       return _toDomain({ competenceData, areaDatas, locale });
-    } catch (err) {
-      if (err instanceof LearningContentResourceNotFound) {
+    } catch (error) {
+      if (error instanceof LearningContentResourceNotFound) {
         throw new NotFoundError('La compétence demandée n’existe pas');
       }
-      throw err;
+      throw error;
     }
   },
 
@@ -70,11 +70,11 @@ module.exports = {
     try {
       const competence = await competenceDatasource.get(id);
       return getTranslatedText(locale, { frenchText: competence.nameFrFr, englishText: competence.nameEnUs });
-    } catch (err) {
-      if (err instanceof LearningContentResourceNotFound) {
+    } catch (error) {
+      if (error instanceof LearningContentResourceNotFound) {
         throw new NotFoundError('La compétence demandée n’existe pas');
       }
-      throw err;
+      throw error;
     }
   },
 

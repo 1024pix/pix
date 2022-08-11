@@ -36,7 +36,7 @@ module.exports = {
     return BookshelfOrganizationInvitation.where({ id })
       .fetch()
       .then(_toDomain)
-      .catch((err) => _checkNotFoundError(err, id));
+      .catch((error) => _checkNotFoundError(error, id));
   },
 
   getByIdAndCode({ id, code }) {
@@ -53,7 +53,7 @@ module.exports = {
       .save({ status }, { patch: true, require: true })
       .then((model) => model.refresh())
       .then(_toDomain)
-      .catch((err) => _checkNotFoundError(err, id));
+      .catch((error) => _checkNotFoundError(error, id));
   },
 
   async markAsCancelled({ id }) {

@@ -7,7 +7,7 @@ module.exports = {
   refreshCacheEntries(request, h) {
     learningContentDatasource
       .refreshLearningContentCacheRecords()
-      .catch((e) => logger.error('Error while reloading cache', e));
+      .catch((error) => logger.error('Error while reloading cache', error));
     return h.response({}).code(202);
   },
 

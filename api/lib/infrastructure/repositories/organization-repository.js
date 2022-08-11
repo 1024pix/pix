@@ -120,11 +120,11 @@ module.exports = {
       })
       .then((model) => model.toJSON())
       .then(_toDomain)
-      .catch((err) => {
-        if (err instanceof BookshelfOrganization.NotFoundError) {
+      .catch((error) => {
+        if (error instanceof BookshelfOrganization.NotFoundError) {
           throw new NotFoundError(`Not found organization for ID ${id}`);
         }
-        throw err;
+        throw error;
       });
   },
 

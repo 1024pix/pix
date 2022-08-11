@@ -43,7 +43,7 @@ async function _computeScore(assessmentIds) {
         });
 
         return certificationAssessmentScore;
-      } catch (err) {
+      } catch (error) {
         const message = `Erreur de génération pour l'assessment : ${assessmentId}`;
         console.error(message);
         return { message };
@@ -72,8 +72,8 @@ async function main() {
 if (require.main === module) {
   main().then(
     () => process.exit(0),
-    (err) => {
-      console.error(err);
+    (error) => {
+      console.error(error);
       process.exit(1);
     }
   );

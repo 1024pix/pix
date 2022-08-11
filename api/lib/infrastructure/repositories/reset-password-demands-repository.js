@@ -19,11 +19,11 @@ module.exports = {
   findByTemporaryKey(temporaryKey) {
     return ResetPasswordDemand.where({ temporaryKey, used: false })
       .fetch()
-      .catch((err) => {
-        if (err instanceof ResetPasswordDemand.NotFoundError) {
+      .catch((error) => {
+        if (error instanceof ResetPasswordDemand.NotFoundError) {
           throw new PasswordResetDemandNotFoundError();
         }
-        throw err;
+        throw error;
       });
   },
 
@@ -34,11 +34,11 @@ module.exports = {
       qb.where({ temporaryKey });
     })
       .fetch()
-      .catch((err) => {
-        if (err instanceof ResetPasswordDemand.NotFoundError) {
+      .catch((error) => {
+        if (error instanceof ResetPasswordDemand.NotFoundError) {
           throw new PasswordResetDemandNotFoundError();
         }
-        throw err;
+        throw error;
       });
   },
 };

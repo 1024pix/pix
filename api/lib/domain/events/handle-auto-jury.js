@@ -114,8 +114,8 @@ async function _autoResolveCertificationIssueReport({
   const resolutionAttempts = await bluebird.mapSeries(certificationIssueReports, async (certificationIssueReport) => {
     try {
       return await resolutionStrategies.resolve({ certificationIssueReport, certificationAssessment });
-    } catch (e) {
-      logger.error(e);
+    } catch (error) {
+      logger.error(error);
       return CertificationIssueReportResolutionAttempt.unresolved();
     }
   });

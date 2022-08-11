@@ -215,11 +215,11 @@ module.exports = {
 
     try {
       await usecases.importCertificationCandidatesFromCandidatesImportSheet({ sessionId, odsBuffer });
-    } catch (err) {
-      if (err instanceof CertificationCandidateAlreadyLinkedToUserError) {
-        throw new BadRequestError(err.message);
+    } catch (error) {
+      if (error instanceof CertificationCandidateAlreadyLinkedToUserError) {
+        throw new BadRequestError(error.message);
       }
-      throw err;
+      throw error;
     }
 
     return null;

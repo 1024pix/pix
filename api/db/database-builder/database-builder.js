@@ -24,11 +24,11 @@ module.exports = class DatabaseBuilder {
         this._setTableAsDirty(objectToInsert.tableName);
       }
       await trx.commit();
-    } catch (err) {
+    } catch (error) {
       // eslint-disable-next-line no-console
-      console.error(`Erreur dans databaseBuilder.commit() : ${err}`);
+      console.error(`Erreur dans databaseBuilder.commit() : ${error}`);
       this._purgeDirtiness();
-      throw err;
+      throw error;
     } finally {
       this.databaseBuffer.objectsToInsert = [];
     }

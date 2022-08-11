@@ -57,8 +57,8 @@ describe('Unit | Domain | Models | OrganizationPlaces', function () {
           let error;
           try {
             new OrganizationPlacesLot(attributes);
-          } catch (e) {
-            error = e;
+          } catch (error_) {
+            error = error_;
           }
           //then
           expect(error).to.be.instanceOf(EntityValidationError);
@@ -81,8 +81,8 @@ describe('Unit | Domain | Models | OrganizationPlaces', function () {
           let error;
           try {
             new OrganizationPlacesLot(attributes);
-          } catch (e) {
-            error = e;
+          } catch (error_) {
+            error = error_;
           }
           //then
           expect(error).to.be.instanceOf(EntityValidationError);
@@ -107,8 +107,8 @@ describe('Unit | Domain | Models | OrganizationPlaces', function () {
           let error;
           try {
             new OrganizationPlacesLot(attributes);
-          } catch (e) {
-            error = e;
+          } catch (error_) {
+            error = error_;
           }
           //then
           expect(error).to.be.instanceOf(EntityValidationError);
@@ -131,8 +131,8 @@ describe('Unit | Domain | Models | OrganizationPlaces', function () {
           let error;
           try {
             new OrganizationPlacesLot(attributes);
-          } catch (e) {
-            error = e;
+          } catch (error_) {
+            error = error_;
           }
           //then
           expect(error).to.be.instanceOf(EntityValidationError);
@@ -155,8 +155,8 @@ describe('Unit | Domain | Models | OrganizationPlaces', function () {
           let error;
           try {
             new OrganizationPlacesLot(attributes);
-          } catch (e) {
-            error = e;
+          } catch (error_) {
+            error = error_;
           }
           //then
           expect(error).to.be.instanceOf(EntityValidationError);
@@ -179,8 +179,8 @@ describe('Unit | Domain | Models | OrganizationPlaces', function () {
           let error;
           try {
             new OrganizationPlacesLot(attributes);
-          } catch (e) {
-            error = e;
+          } catch (error_) {
+            error = error_;
           }
           //then
           expect(error).to.be.instanceOf(EntityValidationError);
@@ -205,8 +205,8 @@ describe('Unit | Domain | Models | OrganizationPlaces', function () {
           let error;
           try {
             new OrganizationPlacesLot(attributes);
-          } catch (e) {
-            error = e;
+          } catch (error_) {
+            error = error_;
           }
 
           //then
@@ -231,8 +231,8 @@ describe('Unit | Domain | Models | OrganizationPlaces', function () {
           let error;
           try {
             new OrganizationPlacesLot(attributes);
-          } catch (e) {
-            error = e;
+          } catch (error_) {
+            error = error_;
           }
 
           //then
@@ -259,8 +259,8 @@ describe('Unit | Domain | Models | OrganizationPlaces', function () {
           let error;
           try {
             new OrganizationPlacesLot(attributes);
-          } catch (e) {
-            error = e;
+          } catch (error_) {
+            error = error_;
           }
 
           //then
@@ -285,8 +285,8 @@ describe('Unit | Domain | Models | OrganizationPlaces', function () {
           let error;
           try {
             new OrganizationPlacesLot(attributes);
-          } catch (e) {
-            error = e;
+          } catch (error_) {
+            error = error_;
           }
           //then
           expect(error).to.be.instanceOf(EntityValidationError);
@@ -310,8 +310,8 @@ describe('Unit | Domain | Models | OrganizationPlaces', function () {
           let error;
           try {
             new OrganizationPlacesLot(attributes);
-          } catch (e) {
-            error = e;
+          } catch (error_) {
+            error = error_;
           }
           //then
           expect(error).to.be.instanceOf(EntityValidationError);
@@ -336,8 +336,8 @@ describe('Unit | Domain | Models | OrganizationPlaces', function () {
           let error;
           try {
             new OrganizationPlacesLot(attributes);
-          } catch (e) {
-            error = e;
+          } catch (error_) {
+            error = error_;
           }
           //then
           expect(error).to.be.instanceOf(EntityValidationError);
@@ -360,8 +360,8 @@ describe('Unit | Domain | Models | OrganizationPlaces', function () {
           let error;
           try {
             new OrganizationPlacesLot(attributes);
-          } catch (e) {
-            error = e;
+          } catch (error_) {
+            error = error_;
           }
           //then
           expect(error).to.be.instanceOf(EntityValidationError);
@@ -384,8 +384,8 @@ describe('Unit | Domain | Models | OrganizationPlaces', function () {
           let error;
           try {
             new OrganizationPlacesLot(attributes);
-          } catch (e) {
-            error = e;
+          } catch (error_) {
+            error = error_;
           }
           //then
           expect(error).to.be.instanceOf(EntityValidationError);
@@ -410,8 +410,8 @@ describe('Unit | Domain | Models | OrganizationPlaces', function () {
           let error;
           try {
             new OrganizationPlacesLot(attributes);
-          } catch (e) {
-            error = e;
+          } catch (error_) {
+            error = error_;
           }
 
           //then
@@ -456,8 +456,8 @@ describe('Unit | Domain | Models | OrganizationPlaces', function () {
           let error;
           try {
             new OrganizationPlacesLot(attributes);
-          } catch (e) {
-            error = e;
+          } catch (error_) {
+            error = error_;
           }
 
           //then
@@ -480,8 +480,8 @@ describe('Unit | Domain | Models | OrganizationPlaces', function () {
           let error;
           try {
             new OrganizationPlacesLot(attributes);
-          } catch (e) {
-            error = e;
+          } catch (error_) {
+            error = error_;
           }
 
           //then

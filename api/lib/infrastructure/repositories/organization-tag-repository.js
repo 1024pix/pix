@@ -13,20 +13,20 @@ module.exports = {
       const organizationTagToCreate = omit(organizationTag, 'id');
       const bookshelfOrganizationTag = await new BookshelfOrganizationTag(organizationTagToCreate).save();
       return bookshelfToDomainConverter.buildDomainObject(BookshelfOrganizationTag, bookshelfOrganizationTag);
-    } catch (err) {
-      if (bookshelfUtils.isUniqConstraintViolated(err)) {
+    } catch (error) {
+      if (bookshelfUtils.isUniqConstraintViolated(error)) {
         throw new AlreadyExistingEntityError(
           `The tag ${organizationTag.tagId} already exists for the organization ${organizationTag.organizationId}.`
         );
       }
-      throw err;
+      throw error;
     }
   },
 
   async delete({ organizationTagId }) {
     try {
       await BookshelfOrganizationTag.where({ id: organizationTagId }).destroy({ require: true });
-    } catch (err) {
+    } catch (error) {
       throw new OrganizationTagNotFound('An error occurred while deleting the organization tag');
     }
   },

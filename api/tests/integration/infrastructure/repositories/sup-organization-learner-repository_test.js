@@ -500,7 +500,7 @@ describe('Integration | Infrastructure | Repository | sup-organization-learner-r
 
         try {
           await supOrganizationLearnerRepository.replaceStudents(organization.id, [1]);
-        } catch (err) {} // eslint-disable-line no-empty
+        } catch (error) {} // eslint-disable-line no-empty
 
         const result = await knex('organization-learners').select('isDisabled').where({ studentNumber: '4' }).first();
 

@@ -92,11 +92,11 @@ async function _do({ count, concurrency }) {
     async (certificationId) => {
       try {
         await _generateVerificationCode(certificationId);
-      } catch (err) {
-        if (err?.code === uniqueConstraintViolationCode) {
+      } catch (error) {
+        if (error?.code === uniqueConstraintViolationCode) {
           ++failedGenerations;
         } else {
-          throw err;
+          throw error;
         }
       }
       _logProgression(count);
@@ -118,8 +118,8 @@ async function _generateVerificationCode(certificationId) {
 if (require.main === module) {
   main().then(
     () => process.exit(0),
-    (err) => {
-      console.error(err);
+    (error) => {
+      console.error(error);
       process.exit(1);
     }
   );

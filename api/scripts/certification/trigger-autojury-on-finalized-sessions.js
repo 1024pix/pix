@@ -52,8 +52,8 @@ async function _triggerAutoJuryFromEvents(events) {
         }
         await _done(event.sessionId);
         process.stderr.write('😻');
-      } catch (err) {
-        await _toRetry(event.sessionId, err);
+      } catch (error) {
+        await _toRetry(event.sessionId, error);
         process.stderr.write('👹');
       }
     },
@@ -165,8 +165,8 @@ async function _toRetry(sessionId, error) {
 if (require.main === module) {
   main().then(
     () => process.exit(0),
-    (err) => {
-      console.error(err);
+    (error) => {
+      console.error(error);
       process.exit(1);
     }
   );

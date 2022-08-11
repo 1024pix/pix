@@ -150,8 +150,8 @@ function catchErr(promiseFn, ctx) {
     try {
       await promiseFn.call(ctx, ...args);
       return 'should have thrown an error';
-    } catch (err) {
-      return err;
+    } catch (error) {
+      return error;
     }
   };
 }
@@ -189,17 +189,17 @@ global.chaiErr = function globalErr(fn, val) {
 
   try {
     fn();
-  } catch (err) {
+  } catch (error) {
     switch (chai.util.type(val).toLowerCase()) {
       case 'undefined':
         return;
       case 'string':
-        return chai.expect(err.message).to.equal(val);
+        return chai.expect(error.message).to.equal(val);
       case 'regexp':
-        return chai.expect(err.message).to.match(val);
+        return chai.expect(error.message).to.match(val);
       case 'object':
         return Object.keys(val).forEach(function (key) {
-          chai.expect(err).to.have.property(key).and.to.deep.equal(val[key]);
+          chai.expect(error).to.have.property(key).and.to.deep.equal(val[key]);
         });
     }
 

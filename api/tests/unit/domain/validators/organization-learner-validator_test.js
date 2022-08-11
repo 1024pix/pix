@@ -25,7 +25,7 @@ describe('Unit | Domain | Organization Learner validator', function () {
       it('is valid', async function () {
         try {
           checkValidation(validAttributes);
-        } catch (e) {
+        } catch (error) {
           expect.fail('OrganizationLearner is valid when all required fields are present');
         }
       });
@@ -98,7 +98,7 @@ describe('Unit | Domain | Organization Learner validator', function () {
         it('respects INSEE Code, only number', async function () {
           try {
             checkValidation({ ...validAttributes, birthCountryCode: '99123' });
-          } catch (e) {
+          } catch (error) {
             expect.fail('OrganizationLearner is valid birthCountryCode respect INSEE code');
           }
         });
@@ -156,7 +156,7 @@ describe('Unit | Domain | Organization Learner validator', function () {
       it("is valid when status is 'ST'", async function () {
         try {
           checkValidation({ ...validAttributes, status: 'ST' });
-        } catch (e) {
+        } catch (error) {
           expect.fail("OrganizationLearner is valid when status is 'ST'");
         }
       });
@@ -164,7 +164,7 @@ describe('Unit | Domain | Organization Learner validator', function () {
       it("is valid when status is 'AP'", async function () {
         try {
           checkValidation({ ...validAttributes, nationalIdentifier: '0123456789F', status: 'AP' });
-        } catch (e) {
+        } catch (error) {
           expect.fail("OrganizationLearner is valid when status is 'AP'");
         }
       });
@@ -219,7 +219,7 @@ describe('Unit | Domain | Organization Learner validator', function () {
             birthCityCode: '51430',
             birthCity: undefined,
           });
-        } catch (e) {
+        } catch (error) {
           expect.fail('OrganizationLearner is valid when birthCity is undefined and birthCountry is France');
         }
       });
@@ -231,7 +231,7 @@ describe('Unit | Domain | Organization Learner validator', function () {
           it('respects INSEE Code, with one letter', async function () {
             try {
               checkValidation({ ...validAttributes, birthCountryCode: FRANCE_COUNTRY_CODE, birthCityCode: '2B125' });
-            } catch (e) {
+            } catch (error) {
               expect.fail('OrganizationLearner is valid birthCityCode respect INSEE code, like Corsica');
             }
           });
@@ -239,7 +239,7 @@ describe('Unit | Domain | Organization Learner validator', function () {
           it('respects INSEE Code, only number', async function () {
             try {
               checkValidation({ ...validAttributes, birthCountryCode: FRANCE_COUNTRY_CODE, birthCityCode: '13125' });
-            } catch (e) {
+            } catch (error) {
               expect.fail('OrganizationLearner is valid birthCityCode respect INSEE code, like Corsica');
             }
           });
@@ -249,7 +249,7 @@ describe('Unit | Domain | Organization Learner validator', function () {
           it('is valid with birthCityCode undefined', async function () {
             try {
               checkValidation({ ...validAttributes, birthCountryCode: '99125', birthCityCode: undefined });
-            } catch (e) {
+            } catch (error) {
               expect.fail('OrganizationLearner is valid when birthCity is undefined and birthCountry is not France');
             }
           });

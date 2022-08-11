@@ -124,9 +124,9 @@ describe('Unit | Domain | Validators | campaign-validator', function () {
                   customLandingPageText: 'Gozilla vs Kong'.repeat(335),
                 });
                 expect.fail('should have thrown an error');
-              } catch (entityValidationErrors) {
+              } catch (error) {
                 // then
-                _assertErrorMatchesWithExpectedOne(entityValidationErrors, expectedError);
+                _assertErrorMatchesWithExpectedOne(error, expectedError);
               }
             });
           });
@@ -148,9 +148,9 @@ describe('Unit | Domain | Validators | campaign-validator', function () {
                   name: MISSING_VALUE,
                 });
                 expect.fail('should have thrown an error');
-              } catch (entityValidationErrors) {
+              } catch (error) {
                 // then
-                _assertErrorMatchesWithExpectedOne(entityValidationErrors, expectedError);
+                _assertErrorMatchesWithExpectedOne(error, expectedError);
               }
             });
 
@@ -162,9 +162,9 @@ describe('Unit | Domain | Validators | campaign-validator', function () {
                   name: EMPTY_VALUE,
                 });
                 expect.fail('should have thrown an error');
-              } catch (entityValidationErrors) {
+              } catch (error) {
                 // then
-                _assertErrorMatchesWithExpectedOne(entityValidationErrors, expectedError);
+                _assertErrorMatchesWithExpectedOne(error, expectedError);
               }
             });
           });
@@ -184,9 +184,9 @@ describe('Unit | Domain | Validators | campaign-validator', function () {
                   creatorId: MISSING_VALUE,
                 });
                 expect.fail('should have thrown an error');
-              } catch (entityValidationErrors) {
+              } catch (error) {
                 // then
-                _assertErrorMatchesWithExpectedOne(entityValidationErrors, expectedError);
+                _assertErrorMatchesWithExpectedOne(error, expectedError);
               }
             });
 
@@ -198,9 +198,9 @@ describe('Unit | Domain | Validators | campaign-validator', function () {
                   creatorId: UNDEFINED_VALUE,
                 });
                 expect.fail('should have thrown an error');
-              } catch (entityValidationErrors) {
+              } catch (error) {
                 // then
-                _assertErrorMatchesWithExpectedOne(entityValidationErrors, expectedError);
+                _assertErrorMatchesWithExpectedOne(error, expectedError);
               }
             });
           });
@@ -220,9 +220,9 @@ describe('Unit | Domain | Validators | campaign-validator', function () {
                   organizationId: MISSING_VALUE,
                 });
                 expect.fail('should have thrown an error');
-              } catch (entityValidationErrors) {
+              } catch (error) {
                 // then
-                _assertErrorMatchesWithExpectedOne(entityValidationErrors, expectedError);
+                _assertErrorMatchesWithExpectedOne(error, expectedError);
               }
             });
 
@@ -234,9 +234,9 @@ describe('Unit | Domain | Validators | campaign-validator', function () {
                   organizationId: UNDEFINED_VALUE,
                 });
                 expect.fail('should have thrown an error');
-              } catch (entityValidationErrors) {
+              } catch (error) {
                 // then
-                _assertErrorMatchesWithExpectedOne(entityValidationErrors, expectedError);
+                _assertErrorMatchesWithExpectedOne(error, expectedError);
               }
             });
           });
@@ -256,9 +256,9 @@ describe('Unit | Domain | Validators | campaign-validator', function () {
                   idPixLabel: EMPTY_VALUE,
                 });
                 expect.fail('should have thrown an error');
-              } catch (entityValidationErrors) {
+              } catch (error) {
                 // then
-                _assertErrorMatchesWithExpectedOne(entityValidationErrors, expectedError);
+                _assertErrorMatchesWithExpectedOne(error, expectedError);
               }
             });
 
@@ -276,9 +276,9 @@ describe('Unit | Domain | Validators | campaign-validator', function () {
                   idPixLabel: 'AZ',
                 });
                 expect.fail('should have thrown an error');
-              } catch (entityValidationErrors) {
+              } catch (error) {
                 // then
-                _assertErrorMatchesWithExpectedOne(entityValidationErrors, expectedError);
+                _assertErrorMatchesWithExpectedOne(error, expectedError);
               }
             });
           });
@@ -298,9 +298,9 @@ describe('Unit | Domain | Validators | campaign-validator', function () {
                   type: 'WRONG_TYPE',
                 });
                 expect.fail('should have thrown an error');
-              } catch (entityValidationErrors) {
+              } catch (error) {
                 // then
-                _assertErrorMatchesWithExpectedOne(entityValidationErrors, expectedError);
+                _assertErrorMatchesWithExpectedOne(error, expectedError);
               }
             });
 
@@ -312,9 +312,9 @@ describe('Unit | Domain | Validators | campaign-validator', function () {
                   type: UNDEFINED_VALUE,
                 });
                 expect.fail('should have thrown an error');
-              } catch (entityValidationErrors) {
+              } catch (error) {
                 // then
-                _assertErrorMatchesWithExpectedOne(entityValidationErrors, expectedError);
+                _assertErrorMatchesWithExpectedOne(error, expectedError);
               }
             });
           });
@@ -334,9 +334,9 @@ describe('Unit | Domain | Validators | campaign-validator', function () {
                   multipleSendings: NOT_BOOLEAN_VALUE,
                 });
                 expect.fail('should have thrown an error');
-              } catch (entityValidationErrors) {
+              } catch (error) {
                 // then
-                _assertErrorMatchesWithExpectedOne(entityValidationErrors, expectedRequiredError);
+                _assertErrorMatchesWithExpectedOne(error, expectedRequiredError);
               }
             });
 
@@ -348,9 +348,9 @@ describe('Unit | Domain | Validators | campaign-validator', function () {
                   multipleSendings: UNDEFINED_VALUE,
                 });
                 expect.fail('should have thrown an error');
-              } catch (entityValidationErrors) {
+              } catch (error) {
                 // then
-                _assertErrorMatchesWithExpectedOne(entityValidationErrors, expectedRequiredError);
+                _assertErrorMatchesWithExpectedOne(error, expectedRequiredError);
               }
             });
           });
@@ -366,9 +366,9 @@ describe('Unit | Domain | Validators | campaign-validator', function () {
                 multipleSendings: MISSING_VALUE,
               });
               expect.fail('should have thrown an error');
-            } catch (entityValidationErrors) {
+            } catch (error) {
               // then
-              expect(entityValidationErrors.invalidAttributes).to.have.lengthOf(4);
+              expect(error.invalidAttributes).to.have.lengthOf(4);
             }
           });
 
@@ -389,9 +389,9 @@ describe('Unit | Domain | Validators | campaign-validator', function () {
                 // when
                 campaignValidator.validate(campaign);
                 expect.fail('should have thrown an error');
-              } catch (entityValidationErrors) {
+              } catch (error) {
                 // then
-                expect(entityValidationErrors.invalidAttributes).to.have.lengthOf(4);
+                expect(error.invalidAttributes).to.have.lengthOf(4);
               }
             });
           });
@@ -414,9 +414,9 @@ describe('Unit | Domain | Validators | campaign-validator', function () {
             title: 'Titre du parcours',
           });
           expect.fail('should have thrown an error');
-        } catch (entityValidationErrors) {
+        } catch (error) {
           // then
-          _assertErrorMatchesWithExpectedOne(entityValidationErrors, expectedError);
+          _assertErrorMatchesWithExpectedOne(error, expectedError);
         }
       });
 
@@ -445,9 +445,9 @@ describe('Unit | Domain | Validators | campaign-validator', function () {
             title: 'Karam'.repeat(50),
           });
           expect.fail('should have thrown an error');
-        } catch (entityValidationErrors) {
+        } catch (error) {
           // then
-          _assertErrorMatchesWithExpectedOne(entityValidationErrors, expectedError);
+          _assertErrorMatchesWithExpectedOne(error, expectedError);
         }
       });
     });
@@ -467,9 +467,9 @@ describe('Unit | Domain | Validators | campaign-validator', function () {
             customResultPageText: 'Gozilla vs Kong'.repeat(335),
           });
           expect.fail('should have thrown an error');
-        } catch (entityValidationErrors) {
+        } catch (error) {
           // then
-          _assertErrorMatchesWithExpectedOne(entityValidationErrors, expectedError);
+          _assertErrorMatchesWithExpectedOne(error, expectedError);
         }
       });
 
@@ -487,9 +487,9 @@ describe('Unit | Domain | Validators | campaign-validator', function () {
             customResultPageText: 'some text',
           });
           expect.fail('should have thrown an error');
-        } catch (entityValidationErrors) {
+        } catch (error) {
           // then
-          _assertErrorMatchesWithExpectedOne(entityValidationErrors, expectedError);
+          _assertErrorMatchesWithExpectedOne(error, expectedError);
         }
       });
 
@@ -520,9 +520,9 @@ describe('Unit | Domain | Validators | campaign-validator', function () {
             customResultPageButtonText: 'some text',
           });
           expect.fail('should have thrown an error');
-        } catch (entityValidationErrors) {
+        } catch (error) {
           // then
-          _assertErrorMatchesWithExpectedOne(entityValidationErrors, expectedError);
+          _assertErrorMatchesWithExpectedOne(error, expectedError);
         }
       });
 
@@ -553,9 +553,9 @@ describe('Unit | Domain | Validators | campaign-validator', function () {
             customResultPageButtonText: EMPTY_VALUE,
           });
           expect.fail('should have thrown an error');
-        } catch (entityValidationErrors) {
+        } catch (error) {
           // then
-          _assertErrorMatchesWithExpectedOne(entityValidationErrors, expectedError);
+          _assertErrorMatchesWithExpectedOne(error, expectedError);
         }
       });
 
@@ -574,9 +574,9 @@ describe('Unit | Domain | Validators | campaign-validator', function () {
             customResultPageButtonText: MISSING_VALUE,
           });
           expect.fail('should have thrown an error');
-        } catch (entityValidationErrors) {
+        } catch (error) {
           // then
-          _assertErrorMatchesWithExpectedOne(entityValidationErrors, expectedError);
+          _assertErrorMatchesWithExpectedOne(error, expectedError);
         }
       });
     });
@@ -596,9 +596,9 @@ describe('Unit | Domain | Validators | campaign-validator', function () {
             customResultPageButtonUrl: 'https://www.url.com',
           });
           expect.fail('should have thrown an error');
-        } catch (entityValidationErrors) {
+        } catch (error) {
           // then
-          _assertErrorMatchesWithExpectedOne(entityValidationErrors, expectedError);
+          _assertErrorMatchesWithExpectedOne(error, expectedError);
         }
       });
 
@@ -629,9 +629,9 @@ describe('Unit | Domain | Validators | campaign-validator', function () {
             customResultPageButtonUrl: 'some text',
           });
           expect.fail('should have thrown an error');
-        } catch (entityValidationErrors) {
+        } catch (error) {
           // then
-          _assertErrorMatchesWithExpectedOne(entityValidationErrors, expectedError);
+          _assertErrorMatchesWithExpectedOne(error, expectedError);
         }
       });
 
@@ -650,9 +650,9 @@ describe('Unit | Domain | Validators | campaign-validator', function () {
             customResultPageButtonText: 'some text',
           });
           expect.fail('should have thrown an error');
-        } catch (entityValidationErrors) {
+        } catch (error) {
           // then
-          _assertErrorMatchesWithExpectedOne(entityValidationErrors, expectedError);
+          _assertErrorMatchesWithExpectedOne(error, expectedError);
         }
       });
 
@@ -671,9 +671,9 @@ describe('Unit | Domain | Validators | campaign-validator', function () {
             customResultPageButtonText: 'some text',
           });
           expect.fail('should have thrown an error');
-        } catch (entityValidationErrors) {
+        } catch (error) {
           // then
-          _assertErrorMatchesWithExpectedOne(entityValidationErrors, expectedError);
+          _assertErrorMatchesWithExpectedOne(error, expectedError);
         }
       });
     });

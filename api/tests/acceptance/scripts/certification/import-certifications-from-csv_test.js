@@ -14,8 +14,8 @@ describe('Acceptance | Scripts | import-certifications-from-csv.js', function ()
 
         // then
         expect.fail('Expected error to have been thrown');
-      } catch (err) {
-        expect(err.message).to.equal('File not found inexistant.file');
+      } catch (error) {
+        expect(error.message).to.equal('File not found inexistant.file');
       }
     });
 
@@ -30,8 +30,8 @@ describe('Acceptance | Scripts | import-certifications-from-csv.js', function ()
 
         // then
         expect.fail('Expected error to have been thrown');
-      } catch (err) {
-        expect(err.message).to.equal('File extension not supported .html');
+      } catch (error) {
+        expect(error.message).to.equal('File extension not supported .html');
       }
     });
 

@@ -45,9 +45,9 @@ describe('Unit | Domain | Validators | user-validator', function () {
           try {
             userValidator.validate({ user: undefined });
             expect.fail('should have thrown an error');
-          } catch (errors) {
+          } catch (error) {
             // then
-            _assertErrorMatchesWithExpectedOne(errors, expectedError);
+            _assertErrorMatchesWithExpectedOne(error, expectedError);
           }
         });
 
@@ -63,9 +63,9 @@ describe('Unit | Domain | Validators | user-validator', function () {
           try {
             userValidator.validate({ user });
             expect.fail('should have thrown an error');
-          } catch (errors) {
+          } catch (error) {
             // then
-            _assertErrorMatchesWithExpectedOne(errors, expectedError);
+            _assertErrorMatchesWithExpectedOne(error, expectedError);
           }
         });
 
@@ -81,9 +81,9 @@ describe('Unit | Domain | Validators | user-validator', function () {
           try {
             userValidator.validate({ user });
             expect.fail('should have thrown an error');
-          } catch (errors) {
+          } catch (error) {
             // then
-            _assertErrorMatchesWithExpectedOne(errors, expectedError);
+            _assertErrorMatchesWithExpectedOne(error, expectedError);
           }
         });
 
@@ -99,9 +99,9 @@ describe('Unit | Domain | Validators | user-validator', function () {
           try {
             userValidator.validate({ user });
             expect.fail('should have thrown an error');
-          } catch (errors) {
+          } catch (error) {
             // then
-            _assertErrorMatchesWithExpectedOne(errors, expectedError);
+            _assertErrorMatchesWithExpectedOne(error, expectedError);
           }
         });
 
@@ -117,9 +117,9 @@ describe('Unit | Domain | Validators | user-validator', function () {
           try {
             userValidator.validate({ user });
             expect.fail('should have thrown an error');
-          } catch (errors) {
+          } catch (error) {
             // then
-            _assertErrorMatchesWithExpectedOne(errors, expectedError);
+            _assertErrorMatchesWithExpectedOne(error, expectedError);
           }
         });
 
@@ -135,9 +135,9 @@ describe('Unit | Domain | Validators | user-validator', function () {
           try {
             userValidator.validate({ user });
             expect.fail('should have thrown an error');
-          } catch (errors) {
+          } catch (error) {
             // then
-            _assertErrorMatchesWithExpectedOne(errors, expectedError);
+            _assertErrorMatchesWithExpectedOne(error, expectedError);
           }
         });
 
@@ -269,9 +269,9 @@ describe('Unit | Domain | Validators | user-validator', function () {
           try {
             userValidator.validate({ user: undefined, cguRequired });
             expect.fail('should have thrown an error');
-          } catch (errors) {
+          } catch (error) {
             // then
-            _assertErrorMatchesWithExpectedOne(errors, expectedError);
+            _assertErrorMatchesWithExpectedOne(error, expectedError);
           }
         });
 
@@ -287,9 +287,9 @@ describe('Unit | Domain | Validators | user-validator', function () {
           try {
             userValidator.validate({ user, cguRequired });
             expect.fail('should have thrown an error');
-          } catch (errors) {
+          } catch (error) {
             // then
-            _assertErrorMatchesWithExpectedOne(errors, expectedError);
+            _assertErrorMatchesWithExpectedOne(error, expectedError);
           }
         });
 
@@ -305,9 +305,9 @@ describe('Unit | Domain | Validators | user-validator', function () {
           try {
             userValidator.validate({ user, cguRequired });
             expect.fail('should have thrown an error');
-          } catch (errors) {
+          } catch (error) {
             // then
-            _assertErrorMatchesWithExpectedOne(errors, expectedError);
+            _assertErrorMatchesWithExpectedOne(error, expectedError);
           }
         });
 
@@ -323,9 +323,9 @@ describe('Unit | Domain | Validators | user-validator', function () {
           try {
             userValidator.validate({ user, cguRequired });
             expect.fail('should have thrown an error');
-          } catch (errors) {
+          } catch (error) {
             // then
-            _assertErrorMatchesWithExpectedOne(errors, expectedError);
+            _assertErrorMatchesWithExpectedOne(error, expectedError);
           }
         });
 

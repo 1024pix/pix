@@ -30,11 +30,11 @@ module.exports = {
       .then((bookshelfUser) => {
         return _toDomain(bookshelfUser);
       })
-      .catch((err) => {
-        if (err instanceof BookshelfUser.NotFoundError) {
+      .catch((error) => {
+        if (error instanceof BookshelfUser.NotFoundError) {
           throw new UserNotFoundError(`User not found for email ${email}`);
         }
-        throw err;
+        throw error;
       });
   },
 
@@ -65,11 +65,11 @@ module.exports = {
     return BookshelfUser.where({ id: userId })
       .fetch()
       .then((user) => bookshelfToDomainConverter.buildDomainObject(BookshelfUser, user))
-      .catch((err) => {
-        if (err instanceof BookshelfUser.NotFoundError) {
+      .catch((error) => {
+        if (error instanceof BookshelfUser.NotFoundError) {
           throw new UserNotFoundError(`User not found for ID ${userId}`);
         }
-        throw err;
+        throw error;
       });
   },
 
@@ -85,11 +85,11 @@ module.exports = {
     return BookshelfUser.where({ id: userId })
       .fetch({ columns: ['id', 'email', 'username'] })
       .then((userAuthenticationMethods) => _toUserAuthenticationMethods(userAuthenticationMethods))
-      .catch((err) => {
-        if (err instanceof BookshelfUser.NotFoundError) {
+      .catch((error) => {
+        if (error instanceof BookshelfUser.NotFoundError) {
           throw new UserNotFoundError(`User not found for ID ${userId}`);
         }
-        throw err;
+        throw error;
       });
   },
 
@@ -124,11 +124,11 @@ module.exports = {
         ],
       })
       .then((userDetailsForAdmin) => _toUserDetailsForAdminDomain(userDetailsForAdmin))
-      .catch((err) => {
-        if (err instanceof BookshelfUser.NotFoundError) {
+      .catch((error) => {
+        if (error instanceof BookshelfUser.NotFoundError) {
           throw new UserNotFoundError(`User not found for ID ${userId}`);
         }
-        throw err;
+        throw error;
       });
   },
 
@@ -167,11 +167,11 @@ module.exports = {
         ],
       })
       .then(_toDomain)
-      .catch((err) => {
-        if (err instanceof BookshelfUser.NotFoundError) {
+      .catch((error) => {
+        if (error instanceof BookshelfUser.NotFoundError) {
           throw new UserNotFoundError(`User not found for ID ${userId}`);
         }
-        throw err;
+        throw error;
       });
   },
 
@@ -221,11 +221,11 @@ module.exports = {
     return BookshelfUser.where({ id })
       .save({ password: hashedPassword }, { patch: true, method: 'update' })
       .then((bookshelfUser) => _toDomain(bookshelfUser))
-      .catch((err) => {
-        if (err instanceof BookshelfUser.NoRowsUpdatedError) {
+      .catch((error) => {
+        if (error instanceof BookshelfUser.NoRowsUpdatedError) {
           throw new UserNotFoundError(`User not found for ID ${id}`);
         }
-        throw err;
+        throw error;
       });
   },
 
@@ -233,11 +233,11 @@ module.exports = {
     return BookshelfUser.where({ id })
       .save({ email }, { patch: true, method: 'update' })
       .then((bookshelfUser) => _toDomain(bookshelfUser))
-      .catch((err) => {
-        if (err instanceof BookshelfUser.NoRowsUpdatedError) {
+      .catch((error) => {
+        if (error instanceof BookshelfUser.NoRowsUpdatedError) {
           throw new UserNotFoundError(`User not found for ID ${id}`);
         }
-        throw err;
+        throw error;
       });
   },
 
@@ -246,14 +246,14 @@ module.exports = {
       const updatedUser = await BookshelfUser.where({ id }).save(userAttributes, { patch: true, method: 'update' });
       await updatedUser.related('authenticationMethods').fetch({ require: false });
       return _toUserDetailsForAdminDomain(updatedUser);
-    } catch (err) {
-      if (err instanceof BookshelfUser.NoRowsUpdatedError) {
+    } catch (error) {
+      if (error instanceof BookshelfUser.NoRowsUpdatedError) {
         throw new UserNotFoundError(`User not found for ID ${id}`);
       }
-      if (isUniqConstraintViolated(err)) {
+      if (isUniqConstraintViolated(error)) {
         throw new AlreadyExistingEntityError('Cette adresse e-mail ou cet identifiant est déjà utilisé(e).');
       }
-      throw err;
+      throw error;
     }
   },
 
@@ -333,11 +333,11 @@ module.exports = {
         }
       )
       .then((bookshelfUser) => _toDomain(bookshelfUser))
-      .catch((err) => {
-        if (err instanceof BookshelfUser.NoRowsUpdatedError) {
+      .catch((error) => {
+        if (error instanceof BookshelfUser.NoRowsUpdatedError) {
           throw new UserNotFoundError(`User not found for ID ${id}`);
         }
-        throw err;
+        throw error;
       });
   },
 
@@ -345,11 +345,11 @@ module.exports = {
     return BookshelfUser.where({ id })
       .save({ username }, { patch: true, method: 'update' })
       .then((bookshelfUser) => _toDomain(bookshelfUser))
-      .catch((err) => {
-        if (err instanceof BookshelfUser.NoRowsUpdatedError) {
+      .catch((error) => {
+        if (error instanceof BookshelfUser.NoRowsUpdatedError) {
           throw new UserNotFoundError(`User not found for ID ${id}`);
         }
-        throw err;
+        throw error;
       });
   },
 
@@ -357,11 +357,11 @@ module.exports = {
     try {
       const bookshelfUser = await BookshelfUser.where({ id }).save(userAttributes, { patch: true, method: 'update' });
       return _toDomain(bookshelfUser);
-    } catch (err) {
-      if (err instanceof BookshelfUser.NoRowsUpdatedError) {
+    } catch (error) {
+      if (error instanceof BookshelfUser.NoRowsUpdatedError) {
         throw new UserNotFoundError(`User not found for ID ${id}`);
       }
-      throw err;
+      throw error;
     }
   },
 

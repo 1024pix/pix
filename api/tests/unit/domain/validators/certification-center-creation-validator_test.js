@@ -40,9 +40,9 @@ describe('Unit | Domain | Validators | certification-center-validator', function
             // when
             certificationCenterCreationValidator.validate(certificationCenterCreationParams);
             expect.fail('should have thrown an error');
-          } catch (errors) {
+          } catch (error) {
             // then
-            _assertErrorMatchesWithExpectedOne(errors, expectedError);
+            _assertErrorMatchesWithExpectedOne(error, expectedError);
           }
         });
 
@@ -62,9 +62,9 @@ describe('Unit | Domain | Validators | certification-center-validator', function
             // when
             certificationCenterCreationValidator.validate(certificationCenterCreationParams);
             expect.fail('should have thrown an error');
-          } catch (errors) {
+          } catch (error) {
             // then
-            _assertErrorMatchesWithExpectedOne(errors, expectedError);
+            _assertErrorMatchesWithExpectedOne(error, expectedError);
           }
         });
       });
@@ -93,10 +93,10 @@ describe('Unit | Domain | Validators | certification-center-validator', function
             // when
             certificationCenterCreationValidator.validate(certificationCenterCreationParams);
             expect.fail('should have thrown an error');
-          } catch (errors) {
+          } catch (error) {
             // then
-            expect(errors.invalidAttributes).to.have.length(2);
-            expect(errors.invalidAttributes).to.have.deep.equal(expectedError);
+            expect(error.invalidAttributes).to.have.length(2);
+            expect(error.invalidAttributes).to.have.deep.equal(expectedError);
           }
         });
 
@@ -112,9 +112,9 @@ describe('Unit | Domain | Validators | certification-center-validator', function
             // when
             certificationCenterCreationValidator.validate(certificationCenterCreationParams);
             expect.fail('should have thrown an error');
-          } catch (errors) {
+          } catch (error) {
             // then
-            _assertErrorMatchesWithExpectedOne(errors, expectedError);
+            _assertErrorMatchesWithExpectedOne(error, expectedError);
           }
         });
 
@@ -152,10 +152,10 @@ describe('Unit | Domain | Validators | certification-center-validator', function
             // when
             certificationCenterCreationValidator.validate(certificationCenterCreationParams);
             expect.fail('should have thrown an error');
-          } catch (errors) {
+          } catch (error) {
             // then
-            expect(errors.invalidAttributes).to.have.length(1);
-            expect(errors.invalidAttributes).to.have.deep.equal(expectedError);
+            expect(error.invalidAttributes).to.have.length(1);
+            expect(error.invalidAttributes).to.have.deep.equal(expectedError);
           }
         });
       });
@@ -180,10 +180,10 @@ describe('Unit | Domain | Validators | certification-center-validator', function
             // when
             certificationCenterCreationValidator.validate(certificationCenterCreationParams);
             expect.fail('should have thrown an error');
-          } catch (errors) {
+          } catch (error) {
             // then
-            expect(errors.invalidAttributes).to.have.length(1);
-            expect(errors.invalidAttributes).to.have.deep.equal(expectedError);
+            expect(error.invalidAttributes).to.have.length(1);
+            expect(error.invalidAttributes).to.have.deep.equal(expectedError);
           }
         });
 
@@ -206,10 +206,10 @@ describe('Unit | Domain | Validators | certification-center-validator', function
             // when
             certificationCenterCreationValidator.validate(certificationCenterCreationParams);
             expect.fail('should have thrown an error');
-          } catch (errors) {
+          } catch (error) {
             // then
-            expect(errors.invalidAttributes).to.have.length(1);
-            expect(errors.invalidAttributes).to.have.deep.equal(expectedError);
+            expect(error.invalidAttributes).to.have.length(1);
+            expect(error.invalidAttributes).to.have.deep.equal(expectedError);
           }
         });
       });
@@ -226,9 +226,9 @@ describe('Unit | Domain | Validators | certification-center-validator', function
           // when
           certificationCenterCreationValidator.validate(certificationCenterCreationParams);
           expect.fail('should have thrown an error');
-        } catch (errors) {
+        } catch (error) {
           // then
-          expect(errors.invalidAttributes).to.have.lengthOf(4);
+          expect(error.invalidAttributes).to.have.lengthOf(4);
         }
       });
     });

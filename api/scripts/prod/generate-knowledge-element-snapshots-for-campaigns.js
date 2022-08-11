@@ -68,9 +68,9 @@ async function generateKnowledgeElementSnapshots(campaignParticipationData, conc
       const knowledgeElements = await knowledgeElementRepository.findUniqByUserId({ userId, limitDate: sharedAt });
       try {
         await knowledgeElementSnapshotRepository.save({ userId, snappedAt: sharedAt, knowledgeElements });
-      } catch (err) {
-        if (!(err instanceof AlreadyExistingEntityError)) {
-          throw err;
+      } catch (error) {
+        if (!(error instanceof AlreadyExistingEntityError)) {
+          throw error;
         }
       }
     },
@@ -107,8 +107,8 @@ async function main() {
 if (require.main === module) {
   main().then(
     () => process.exit(0),
-    (err) => {
-      console.error(err);
+    (error) => {
+      console.error(error);
       process.exit(1);
     }
   );

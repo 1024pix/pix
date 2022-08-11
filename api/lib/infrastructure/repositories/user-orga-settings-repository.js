@@ -12,11 +12,11 @@ module.exports = {
       .then((userOrgaSettings) =>
         bookshelfToDomainConverter.buildDomainObject(BookshelfUserOrgaSettings, userOrgaSettings)
       )
-      .catch((err) => {
-        if (err instanceof BookshelfUserOrgaSettings.NotFoundError) {
+      .catch((error) => {
+        if (error instanceof BookshelfUserOrgaSettings.NotFoundError) {
           return {};
         }
-        throw err;
+        throw error;
       });
   },
 
@@ -27,11 +27,11 @@ module.exports = {
       .then((userOrgaSettings) =>
         bookshelfToDomainConverter.buildDomainObject(BookshelfUserOrgaSettings, userOrgaSettings)
       )
-      .catch((err) => {
-        if (bookshelfUtils.isUniqConstraintViolated(err)) {
-          throw new UserOrgaSettingsCreationError(err.message);
+      .catch((error) => {
+        if (bookshelfUtils.isUniqConstraintViolated(error)) {
+          throw new UserOrgaSettingsCreationError(error.message);
         }
-        throw err;
+        throw error;
       });
   },
 

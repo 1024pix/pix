@@ -67,11 +67,11 @@ module.exports = {
       await _areNewYearOrganizationLearnersImportedForPrescriber(prescriber);
 
       return prescriber;
-    } catch (err) {
-      if (err instanceof BookshelfUser.NotFoundError) {
+    } catch (error) {
+      if (error instanceof BookshelfUser.NotFoundError) {
         throw new UserNotFoundError(`User not found for ID ${userId}`);
       }
-      throw err;
+      throw error;
     }
   },
 };

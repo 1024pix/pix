@@ -78,8 +78,8 @@ class SiecleParser {
             } else if (_isNodeImportableStructures(nodeData, this.organizationLearnersSet)) {
               this.organizationLearnersSet.updateDivision(nodeData);
             }
-          } catch (err) {
-            reject(err);
+          } catch (error) {
+            reject(error);
           }
         });
       }

@@ -42,8 +42,8 @@ describe('Unit | Serializer | JSONAPI | validation-error-serializer', function (
       const promise = invalidObject.save();
 
       // then
-      return promise.catch((validationErrors) => {
-        const formattedJSON = serializer.serialize(validationErrors);
+      return promise.catch((error) => {
+        const formattedJSON = serializer.serialize(error);
 
         expect(formattedJSON).to.deep.equal(expectedFormattedJSON);
       });
@@ -157,8 +157,8 @@ describe('Unit | Serializer | JSONAPI | validation-error-serializer', function (
       const promise = invalidObject.save();
 
       // then
-      return promise.catch((validationErrors) => {
-        const formattedJSON = serializer.serialize(validationErrors);
+      return promise.catch((error) => {
+        const formattedJSON = serializer.serialize(error);
 
         expect(formattedJSON).to.deep.equal(expectedFormattedJSON);
       });

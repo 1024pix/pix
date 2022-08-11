@@ -37,8 +37,8 @@ async function main() {
 if (require.main === module) {
   main().then(
     () => process.exit(0),
-    (err) => {
-      console.error(err);
+    (error) => {
+      console.error(error);
       console.log(
         '\n\n Pour que ce script fonctionne pré-requis :' +
           '- Une organisation SCO isManagingStudents contenant des organization learners' +
@@ -146,9 +146,9 @@ async function _do({ organizationId, certificationCenterId }) {
     console.log('\tOK');
     console.log('OK');
     await transaction.commit();
-  } catch (err) {
+  } catch (error) {
     await transaction.rollback();
-    throw err;
+    throw error;
   }
 }
 

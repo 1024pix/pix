@@ -29,11 +29,11 @@ module.exports = {
       .fetch({
         withRelated: ['creator', 'organization', 'targetProfile'],
       })
-      .catch((err) => {
-        if (err instanceof BookshelfCampaign.NotFoundError) {
+      .catch((error) => {
+        if (error instanceof BookshelfCampaign.NotFoundError) {
           throw new NotFoundError(`Not found campaign for ID ${id}`);
         }
-        throw err;
+        throw error;
       });
     return bookshelfToDomainConverter.buildDomainObject(BookshelfCampaign, bookshelfCampaign);
   },
@@ -71,7 +71,7 @@ module.exports = {
         qb.innerJoin('memberships', 'memberships.organizationId', 'campaigns.organizationId');
         qb.innerJoin('organizations', 'organizations.id', 'campaigns.organizationId');
       }).fetch();
-    } catch (e) {
+    } catch (error) {
       return false;
     }
     return true;

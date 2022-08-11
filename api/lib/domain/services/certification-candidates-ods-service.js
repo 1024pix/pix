@@ -37,7 +37,7 @@ async function extractCertificationCandidatesFromCandidatesImportSheet({
       odsBuffer,
       headers: candidateImportStructs.headers,
     });
-  } catch (err) {
+  } catch (error) {
     _handleVersionError();
   }
   const tableHeaderTargetPropertyMap = candidateImportStructs.transformStruct;
@@ -104,8 +104,8 @@ async function extractCertificationCandidatesFromCandidatesImportSheet({
 
       try {
         certificationCandidate.validate(isSco);
-      } catch (err) {
-        _handleFieldValidationError(err, tableHeaderTargetPropertyMap, line);
+      } catch (error) {
+        _handleFieldValidationError(error, tableHeaderTargetPropertyMap, line);
       }
 
       return certificationCandidate;

@@ -35,7 +35,7 @@ module.exports = {
     try {
       const course = await _get(id);
       return course.name;
-    } catch (err) {
+    } catch (error) {
       throw new NotFoundError("Le test demandé n'existe pas");
     }
   },

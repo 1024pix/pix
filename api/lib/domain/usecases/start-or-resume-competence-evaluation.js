@@ -18,8 +18,8 @@ module.exports = async function startOrResumeCompetenceEvaluation({
       assessmentRepository,
       competenceEvaluationRepository,
     });
-  } catch (err) {
-    if (err instanceof NotFoundError) {
+  } catch (error) {
+    if (error instanceof NotFoundError) {
       return await _startCompetenceEvaluation({
         userId,
         competenceId,
@@ -27,7 +27,7 @@ module.exports = async function startOrResumeCompetenceEvaluation({
         competenceEvaluationRepository,
       });
     } else {
-      throw err;
+      throw error;
     }
   }
 };

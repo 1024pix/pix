@@ -120,8 +120,8 @@ async function copySkillSets({ skillSetIds, newBadgeId }) {
 if (require.main === module) {
   main().then(
     () => process.exit(0),
-    (err) => {
-      console.error(err);
+    (error) => {
+      console.error(error);
       process.exit(1);
     }
   );

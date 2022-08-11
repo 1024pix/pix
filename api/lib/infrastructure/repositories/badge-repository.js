@@ -80,11 +80,11 @@ module.exports = {
     try {
       const [savedBadge] = await (knexTransaction ?? knex)(TABLE_NAME).insert(_adaptModelToDb(badge)).returning('*');
       return new Badge(savedBadge);
-    } catch (err) {
-      if (bookshelfUtils.isUniqConstraintViolated(err)) {
+    } catch (error) {
+      if (bookshelfUtils.isUniqConstraintViolated(error)) {
         throw new AlreadyExistingEntityError(`The badge key ${badge.key} already exists`);
       }
-      throw err;
+      throw error;
     }
   },
 

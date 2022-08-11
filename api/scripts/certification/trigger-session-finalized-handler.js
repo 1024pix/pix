@@ -59,8 +59,8 @@ async function _dispatch(events) {
     async (event) => {
       try {
         await eventDispatcher.dispatch(event);
-      } catch (err) {
-        logger.info(`\t\tErreur sur event : ${event}\n\t\t${err}`);
+      } catch (error) {
+        logger.info(`\t\tErreur sur event : ${event}\n\t\t${error}`);
       }
     },
     { concurrency: ~~process.env.CONCURRENCY || 5 }
@@ -71,8 +71,8 @@ async function _dispatch(events) {
 if (require.main === module) {
   main().then(
     () => process.exit(0),
-    (err) => {
-      logger.error(err);
+    (error) => {
+      logger.error(error);
       process.exit(1);
     }
   );

@@ -25,8 +25,8 @@ describe('Integration | Infrastructure | Jobs | JobQueue', function () {
         handle: (params) => {
           try {
             expect(params).to.deep.equal(expectedParams);
-          } catch (err) {
-            reject(err);
+          } catch (error) {
+            reject(error);
           }
           resolve();
         },

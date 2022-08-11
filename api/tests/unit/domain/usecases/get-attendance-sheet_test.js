@@ -378,8 +378,8 @@ describe('Unit | UseCase | get-attendance-sheet-in-ods-format', function () {
         sessionRepository.doesUserHaveCertificationCenterMembershipForSession.resolves(false);
         try {
           result = await getAttendanceSheet({ userId, sessionId, sessionRepository });
-        } catch (err) {
-          result = err;
+        } catch (error) {
+          result = error;
         }
       });
 

@@ -108,8 +108,8 @@ async function _readFirstLine(path) {
     const file = await fsPromises.open(path);
     await file.read(buffer, 0, 128, 0);
     file.close();
-  } catch (err) {
-    logger.error(err);
+  } catch (error) {
+    logger.error(error);
     throw new FileValidationError(ERRORS.INVALID_FILE);
   }
 
@@ -147,8 +147,8 @@ function _getSaxStream(path, encoding, reject) {
 function getDecodingStream(encoding) {
   try {
     return iconv.decodeStream(encoding);
-  } catch (err) {
-    logger.error(err);
+  } catch (error) {
+    logger.error(error);
     throw new SiecleXmlImportError(ERRORS.ENCODING_NOT_SUPPORTED);
   }
 }

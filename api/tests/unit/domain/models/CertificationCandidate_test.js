@@ -68,7 +68,7 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
         try {
           const certificationCandidate = buildCertificationCandidate(validAttributes);
           certificationCandidate.validate();
-        } catch (e) {
+        } catch (error) {
           expect.fail('certificationCandidate is valid when all required fields are present');
         }
       });
@@ -330,9 +330,9 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
       try {
         certificationCandidate.validateParticipation();
         expect.fail('Expected error to have been thrown');
-      } catch (err) {
+      } catch (error) {
         // then
-        expect(err).to.be.instanceOf(CertificationCandidatePersonalInfoFieldMissingError);
+        expect(error).to.be.instanceOf(CertificationCandidatePersonalInfoFieldMissingError);
       }
     });
 
@@ -344,9 +344,9 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
       try {
         certificationCandidate.validateParticipation();
         expect.fail('Expected error to have been thrown');
-      } catch (err) {
+      } catch (error) {
         // then
-        expect(err).to.be.instanceOf(CertificationCandidatePersonalInfoWrongFormat);
+        expect(error).to.be.instanceOf(CertificationCandidatePersonalInfoWrongFormat);
       }
     });
 
@@ -359,9 +359,9 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
       try {
         certificationCandidate.validateParticipation();
         expect.fail('Expected error to have been thrown');
-      } catch (err) {
+      } catch (error) {
         // then
-        expect(err).to.be.instanceOf(CertificationCandidatePersonalInfoFieldMissingError);
+        expect(error).to.be.instanceOf(CertificationCandidatePersonalInfoFieldMissingError);
       }
     });
 
@@ -373,9 +373,9 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
       try {
         certificationCandidate.validateParticipation();
         expect.fail('Expected error to have been thrown');
-      } catch (err) {
+      } catch (error) {
         // then
-        expect(err).to.be.instanceOf(CertificationCandidatePersonalInfoWrongFormat);
+        expect(error).to.be.instanceOf(CertificationCandidatePersonalInfoWrongFormat);
       }
     });
 
@@ -388,9 +388,9 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
       try {
         certificationCandidate.validateParticipation();
         expect.fail('Expected error to have been thrown');
-      } catch (err) {
+      } catch (error) {
         // then
-        expect(err).to.be.instanceOf(CertificationCandidatePersonalInfoFieldMissingError);
+        expect(error).to.be.instanceOf(CertificationCandidatePersonalInfoFieldMissingError);
       }
     });
 
@@ -402,9 +402,9 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
       try {
         certificationCandidate.validateParticipation();
         expect.fail('Expected error to have been thrown');
-      } catch (err) {
+      } catch (error) {
         // then
-        expect(err).to.be.instanceOf(CertificationCandidatePersonalInfoWrongFormat);
+        expect(error).to.be.instanceOf(CertificationCandidatePersonalInfoWrongFormat);
       }
     });
 
@@ -416,9 +416,9 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
       try {
         certificationCandidate.validateParticipation();
         expect.fail('Expected error to have been thrown');
-      } catch (err) {
+      } catch (error) {
         // then
-        expect(err).to.be.instanceOf(CertificationCandidatePersonalInfoWrongFormat);
+        expect(error).to.be.instanceOf(CertificationCandidatePersonalInfoWrongFormat);
       }
     });
 
@@ -430,9 +430,9 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
       try {
         certificationCandidate.validateParticipation();
         expect.fail('Expected error to have been thrown');
-      } catch (err) {
+      } catch (error) {
         // then
-        expect(err).to.be.instanceOf(CertificationCandidatePersonalInfoWrongFormat);
+        expect(error).to.be.instanceOf(CertificationCandidatePersonalInfoWrongFormat);
       }
     });
 
@@ -445,9 +445,9 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
       try {
         certificationCandidate.validateParticipation();
         expect.fail('Expected error to have been thrown');
-      } catch (err) {
+      } catch (error) {
         // then
-        expect(err).to.be.instanceOf(CertificationCandidatePersonalInfoFieldMissingError);
+        expect(error).to.be.instanceOf(CertificationCandidatePersonalInfoFieldMissingError);
       }
     });
 
@@ -459,9 +459,9 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
       try {
         certificationCandidate.validateParticipation();
         expect.fail('Expected error to have been thrown');
-      } catch (err) {
+      } catch (error) {
         // then
-        expect(err).to.be.instanceOf(CertificationCandidatePersonalInfoWrongFormat);
+        expect(error).to.be.instanceOf(CertificationCandidatePersonalInfoWrongFormat);
       }
     });
 
@@ -492,9 +492,9 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
       try {
         certificationCandidate.validateParticipation();
         expect.fail('Expected error to have been thrown');
-      } catch (err) {
+      } catch (error) {
         // then
-        expect(err).to.be.instanceOf(CertificationCandidatePersonalInfoWrongFormat);
+        expect(error).to.be.instanceOf(CertificationCandidatePersonalInfoWrongFormat);
       }
     });
 
@@ -506,9 +506,9 @@ describe('Unit | Domain | Models | Certification Candidate', function () {
       try {
         certificationCandidate.validateParticipation();
         expect.fail('Expected error to have been thrown');
-      } catch (err) {
+      } catch (error) {
         // then
-        expect(err).to.be.instanceOf(CertificationCandidatePersonalInfoFieldMissingError);
+        expect(error).to.be.instanceOf(CertificationCandidatePersonalInfoFieldMissingError);
       }
     });
   });

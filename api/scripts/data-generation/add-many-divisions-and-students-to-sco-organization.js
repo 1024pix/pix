@@ -43,7 +43,7 @@ async function addManyDivisionsAndStudentsToScoCertificationCenter(numberOfDivis
 
   try {
     await knex.batchInsert('organization-learners', manyStudents);
-  } catch (err) {
+  } catch (error) {
     throw new OrganizationLearnersCouldNotBeSavedError();
   }
 }
@@ -62,8 +62,8 @@ async function main() {
 if (require.main === module) {
   main().then(
     () => process.exit(0),
-    (err) => {
-      console.error(err);
+    (error) => {
+      console.error(error);
       process.exit(1);
     }
   );

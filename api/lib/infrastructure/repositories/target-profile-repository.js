@@ -51,8 +51,8 @@ module.exports = {
 
         return targetProfileId;
       });
-    } catch (e) {
-      if (e.code === PGSQL_FOREIGN_KEY_VIOLATION_ERROR) {
+    } catch (error) {
+      if (error.code === PGSQL_FOREIGN_KEY_VIOLATION_ERROR) {
         throw new OrganizationNotFoundError();
       }
 

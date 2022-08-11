@@ -18,11 +18,11 @@ async function getOrganizationByExternalId(externalId) {
   return BookshelfOrganization.where({ externalId })
     .fetch()
     .then((organization) => bookshelfToDomainConverter.buildDomainObject(BookshelfOrganization, organization))
-    .catch((err) => {
-      if (err instanceof BookshelfOrganization.NotFoundError) {
+    .catch((error) => {
+      if (error instanceof BookshelfOrganization.NotFoundError) {
         throw new NotFoundError(`Organization not found for External ID ${externalId}`);
       }
-      throw err;
+      throw error;
     });
 }
 
@@ -81,8 +81,8 @@ async function main() {
 if (require.main === module) {
   main().then(
     () => process.exit(0),
-    (err) => {
-      console.error(err);
+    (error) => {
+      console.error(error);
       process.exit(1);
     }
   );

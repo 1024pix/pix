@@ -7,12 +7,12 @@ const BookshelfOrganization = require('../lib/infrastructure/orm-models/Organiza
 async function updateOrganizationEmailByExternalId(externalId, email) {
   return BookshelfOrganization.where({ externalId })
     .save({ email }, { patch: true })
-    .catch((err) => {
-      if (err instanceof BookshelfOrganization.NoRowsUpdatedError) {
+    .catch((error) => {
+      if (error instanceof BookshelfOrganization.NoRowsUpdatedError) {
         console.error(`Organization not found for External ID ${externalId}`);
         return;
       }
-      throw err;
+      throw error;
     });
 }
 
@@ -49,8 +49,8 @@ async function main() {
 if (require.main === module) {
   main().then(
     () => process.exit(0),
-    (err) => {
-      console.error(err);
+    (error) => {
+      console.error(error);
       process.exit(1);
     }
   );

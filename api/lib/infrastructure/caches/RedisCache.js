@@ -38,14 +38,14 @@ class RedisCache extends Cache {
       const locker = this._client.lockDisposer(keyToLock, settings.caching.redisCacheKeyLockTTL, unlockErrorHandler);
       const value = await using(locker, retrieveAndSetValue);
       return value;
-    } catch (err) {
-      if (err instanceof Redlock.LockError) {
+    } catch (error) {
+      if (error instanceof Redlock.LockError) {
         logger.trace({ keyToLock }, 'Could not lock Redis key, waiting');
         await new Promise((resolve) => setTimeout(resolve, settings.caching.redisCacheLockedWaitBeforeRetry));
         return this.get(key, generator);
       }
-      logger.error({ err }, 'Error while trying to update value in Redis cache');
-      throw err;
+      logger.error({ err: error }, 'Error while trying to update value in Redis cache');
+      throw error;
     }
   }
 

@@ -9,10 +9,10 @@ function batch(knex, elementsToUpdate, treatment) {
 
     const assessments = remainingElementsToUpdate.splice(0, BATCH_SIZE);
     const promises = assessments.map((assessment) => {
-      return treatment(assessment).catch((err) => {
+      return treatment(assessment).catch((error) => {
         logger.error('Treatment failed for :', assessment);
 
-        throw err;
+        throw error;
       });
     });
 

@@ -112,8 +112,8 @@ if (require.main === module) {
   const sessionIdsFilePath = process.argv[3];
   updateCertificationInfos(dataFilePath, sessionIdsFilePath).then(
     () => process.exit(0),
-    (err) => {
-      logger.error(err);
+    (error) => {
+      logger.error(error);
       process.exit(1);
     }
   );

@@ -10,11 +10,11 @@ module.exports = {
       const tagToCreate = omit(tag, 'id');
       const bookshelfTag = await new BookshelfTag(tagToCreate).save();
       return bookshelfToDomainConverter.buildDomainObject(BookshelfTag, bookshelfTag);
-    } catch (err) {
-      if (bookshelfUtils.isUniqConstraintViolated(err)) {
+    } catch (error) {
+      if (bookshelfUtils.isUniqConstraintViolated(error)) {
         throw new AlreadyExistingEntityError(`A tag with name ${tag.name} already exists.`);
       }
-      throw err;
+      throw error;
     }
   },
 
@@ -33,11 +33,11 @@ module.exports = {
     try {
       const tag = await BookshelfTag.where({ id }).fetch();
       return bookshelfToDomainConverter.buildDomainObject(BookshelfTag, tag);
-    } catch (err) {
-      if (err instanceof BookshelfTag.NotFoundError) {
+    } catch (error) {
+      if (error instanceof BookshelfTag.NotFoundError) {
         throw new NotFoundError("Le tag n'existe pas");
       }
-      throw err;
+      throw error;
     }
   },
 };

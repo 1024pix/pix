@@ -36,9 +36,9 @@ try {
   Knex.QueryBuilder.extend('whereInArray', function (column, values) {
     return this.where(column, knex.raw('any(?)', [values]));
   });
-} catch (e) {
-  if (e.message !== "Can't extend QueryBuilder with existing method ('whereInArray').") {
-    logger.error(e);
+} catch (error) {
+  if (error.message !== "Can't extend QueryBuilder with existing method ('whereInArray').") {
+    logger.error(error);
   }
 }
 /* -------------------- */

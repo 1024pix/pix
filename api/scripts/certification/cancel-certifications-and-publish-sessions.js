@@ -57,9 +57,9 @@ async function _do({ file }) {
     }
     await _cancelCertifications(certificationIdsToCancel, trx);
     await trx.commit();
-  } catch (err) {
+  } catch (error) {
     await trx.rollback();
-    throw err;
+    throw error;
   }
 
   const sessionIdsToPublish = _.map(Object.keys(certificationsToCancelBySession), (sessionIdStr) =>
@@ -165,9 +165,9 @@ async function _publishSessions(sessionIdsToPublish) {
         sessionRepository,
         sessionPublicationService,
       });
-    } catch (err) {
+    } catch (error) {
       console.log(`\nError when trying to publish session ${sessionId}`);
-      throw err;
+      throw error;
     }
     _logProgression(sessionIdsToPublish.length);
   }
@@ -188,8 +188,8 @@ async function _findAlreadyPublishedSessions(sessionIdsToPublish) {
 if (require.main === module) {
   main().then(
     () => process.exit(0),
-    (err) => {
-      console.error(err);
+    (error) => {
+      console.error(error);
       process.exit(1);
     }
   );

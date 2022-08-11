@@ -147,9 +147,9 @@ function main() {
         return certification.id;
       });
     })
-    .catch((err) => {
-      if (err.statusCode === 404) {
-        console.error(err);
+    .catch((error) => {
+      if (error.statusCode === 404) {
+        console.error(error);
         throw new Error("L'id session n'existe pas");
       }
     })
@@ -176,8 +176,8 @@ function main() {
           return csv;
         });
     })
-    .catch((err) => {
-      console.log(err.message);
+    .catch((error) => {
+      console.log(error.message);
     });
 }
 

@@ -112,8 +112,8 @@ if (require.main === module) {
   const filePath = process.argv[2];
   main(filePath).then(
     () => process.exit(0),
-    (err) => {
-      console.error(err);
+    (error) => {
+      console.error(error);
       process.exit(1);
     }
   );

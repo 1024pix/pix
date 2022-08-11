@@ -17,7 +17,7 @@ describe('Unit | Domain | Models | SupOrganizationLearner', function () {
       it('is valid', async function () {
         try {
           new SupOrganizationLearner(validAttributes);
-        } catch (e) {
+        } catch (error) {
           expect.fail('supOrganizationLearner is valid when all required fields are present');
         }
       });
@@ -142,7 +142,7 @@ describe('Unit | Domain | Models | SupOrganizationLearner', function () {
           it(`throw an error when student number is ${value}`, async function () {
             try {
               await buildOrganizationLearner({ ...validAttributes, studentNumber: value });
-            } catch (e) {
+            } catch (error) {
               expect.fail('supOrganizationLearner is valid when student number is correctly formed');
             }
           });

@@ -113,16 +113,16 @@ module.exports = {
         BookshelfCertificationCenterMembership,
         newCertificationCenterMembership
       );
-    } catch (err) {
-      if (bookshelfUtils.isUniqConstraintViolated(err)) {
+    } catch (error) {
+      if (bookshelfUtils.isUniqConstraintViolated(error)) {
         throw new AlreadyExistingMembershipError(
           `User is already member of certification center ${certificationCenterId}`
         );
       }
-      if (bookshelfUtils.foreignKeyConstraintViolated(err)) {
+      if (bookshelfUtils.foreignKeyConstraintViolated(error)) {
         throw new CertificationCenterMembershipCreationError();
       }
-      throw err;
+      throw error;
     }
   },
 
@@ -150,7 +150,7 @@ module.exports = {
       if (result.length === 0) {
         throw new CertificationCenterMembershipDisableError();
       }
-    } catch (e) {
+    } catch (error) {
       throw new CertificationCenterMembershipDisableError();
     }
   },

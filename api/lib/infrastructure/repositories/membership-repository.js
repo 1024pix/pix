@@ -45,11 +45,11 @@ module.exports = {
       .save()
       .then((bookshelfMembership) => bookshelfMembership.load(['user']))
       .then(_toDomain)
-      .catch((err) => {
-        if (bookshelfUtils.isUniqConstraintViolated(err)) {
-          throw new MembershipCreationError(err.message);
+      .catch((error) => {
+        if (bookshelfUtils.isUniqConstraintViolated(error)) {
+          throw new MembershipCreationError(error.message);
         }
-        throw err;
+        throw error;
       });
   },
 
@@ -118,8 +118,8 @@ module.exports = {
         method: 'update',
         require: true,
       });
-    } catch (err) {
-      throw new MembershipUpdateError(err.message);
+    } catch (error) {
+      throw new MembershipUpdateError(error.message);
     }
 
     const updatedMembershipWithUserAndOrganization = await updatedMembership.refresh({

@@ -29,7 +29,7 @@ module.exports = {
         const finalizeReport = (certificationReport) => _finalize({ certificationReport, transaction: trx });
         return bluebird.mapSeries(certificationReports, finalizeReport);
       });
-    } catch (err) {
+    } catch (error) {
       throw new CertificationCourseUpdateError('An error occurred while finalizing the session');
     }
   },

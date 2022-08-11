@@ -51,8 +51,8 @@ async function main() {
 if (require.main === module) {
   main().then(
     () => process.exit(0),
-    (err) => {
-      logger.error(err);
+    (error) => {
+      logger.error(error);
       process.exit(1);
     }
   );

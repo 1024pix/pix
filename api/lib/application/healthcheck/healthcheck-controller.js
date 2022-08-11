@@ -23,7 +23,7 @@ module.exports = {
     try {
       await knex.raw('SELECT 1 FROM knex_migrations_lock');
       return { message: 'Connection to database ok' };
-    } catch (err) {
+    } catch (error) {
       throw Boom.serverUnavailable('Connection to database failed');
     }
   },
@@ -32,7 +32,7 @@ module.exports = {
     try {
       await redisMonitor.ping();
       return { message: 'Connection to Redis ok' };
-    } catch (err) {
+    } catch (error) {
       throw Boom.serverUnavailable('Connection to Redis failed');
     }
   },

@@ -11,8 +11,8 @@ module.exports = {
 if (require.main === module) {
   hideSkills()
     .then(() => process.exit(0))
-    .catch((err) => {
-      console.error(err);
+    .catch((error) => {
+      console.error(error);
       process.exit(1);
     });
 }

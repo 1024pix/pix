@@ -131,11 +131,11 @@ module.exports = {
         { lastQuestionDate },
         { require: true, patch: true, method: 'update' }
       );
-    } catch (err) {
-      if (err instanceof BookshelfAssessment.NoRowsUpdatedError) {
+    } catch (error) {
+      if (error instanceof BookshelfAssessment.NoRowsUpdatedError) {
         return null;
       }
-      throw err;
+      throw error;
     }
   },
 
@@ -145,11 +145,11 @@ module.exports = {
         { lastChallengeId, lastQuestionState: Assessment.statesOfLastQuestion.ASKED },
         { require: true, patch: true, method: 'update' }
       );
-    } catch (err) {
-      if (err instanceof BookshelfAssessment.NoRowsUpdatedError) {
+    } catch (error) {
+      if (error instanceof BookshelfAssessment.NoRowsUpdatedError) {
         return null;
       }
-      throw err;
+      throw error;
     }
   },
 
@@ -159,11 +159,11 @@ module.exports = {
         { lastQuestionState },
         { require: true, patch: true, method: 'update', transacting: domainTransaction.knexTransaction }
       );
-    } catch (err) {
-      if (err instanceof BookshelfAssessment.NoRowsUpdatedError) {
+    } catch (error) {
+      if (error instanceof BookshelfAssessment.NoRowsUpdatedError) {
         return null;
       }
-      throw err;
+      throw error;
     }
   },
 };

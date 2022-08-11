@@ -60,8 +60,8 @@ class CsvOrganizationLearnerParser {
       const learnerAttributes = this._lineToOrganizationLearnerAttributes(line);
       try {
         this.learnerSet.addLearner(learnerAttributes);
-      } catch (err) {
-        this._handleError(err, index);
+      } catch (error) {
+        this._handleError(error, index);
       }
     });
     return this.learnerSet;

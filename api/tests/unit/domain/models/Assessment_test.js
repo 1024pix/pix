@@ -122,7 +122,7 @@ describe('Unit | Domain | Models | Assessment', function () {
       // when
       try {
         assessment.validate();
-      } catch (e) {
+      } catch (error) {
         expect.fail('ObjectValidationError');
       }
     });
@@ -134,7 +134,7 @@ describe('Unit | Domain | Models | Assessment', function () {
       // when
       try {
         assessment.validate();
-      } catch (e) {
+      } catch (error) {
         expect.fail('ObjectValidationError');
       }
     });
@@ -146,7 +146,7 @@ describe('Unit | Domain | Models | Assessment', function () {
       // when
       try {
         assessment.validate();
-      } catch (e) {
+      } catch (error) {
         expect.fail('ObjectValidationError');
       }
     });

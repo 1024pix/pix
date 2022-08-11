@@ -14,9 +14,9 @@ function _getServiceProvider() {
     try {
       _serviceProvider = samlify.ServiceProvider(samlSettings.spConfig);
       logger.info('Initialized SAML service provider');
-    } catch (err) {
-      err.message = 'Error initializing SAML service provider: ' + err.message;
-      throw err;
+    } catch (error) {
+      error.message = 'Error initializing SAML service provider: ' + error.message;
+      throw error;
     }
   }
   return _serviceProvider;
@@ -27,9 +27,9 @@ function _getIdentityProvider() {
     try {
       _identityProvider = samlify.IdentityProvider(samlSettings.idpConfig);
       logger.info('Initialized SAML identity provider');
-    } catch (err) {
-      err.message = 'Error initializing SAML identity provider: ' + err.message;
-      throw err;
+    } catch (error) {
+      error.message = 'Error initializing SAML identity provider: ' + error.message;
+      throw error;
     }
   }
   return _identityProvider;

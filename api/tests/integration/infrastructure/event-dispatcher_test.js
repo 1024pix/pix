@@ -170,8 +170,8 @@ describe('Integration | Infrastructure | EventHandler', function () {
     let error;
     try {
       await eventDispatcher.dispatch(event, domainTransaction);
-    } catch (e) {
-      error = e;
+    } catch (error_) {
+      error = error_;
     }
     expect(error).to.equal(anError);
     expect(logger.onEventDispatchFailure).to.have.been.calledWith(event, 'handler 1', anError);

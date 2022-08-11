@@ -41,9 +41,9 @@ describe('Unit | Domain | Validators | session-validator', function () {
             // when
             sessionValidator.validate(session);
             expect.fail('should have thrown an error');
-          } catch (entityValidationErrors) {
+          } catch (error) {
             // then
-            expect(entityValidationErrors).with.deep.property('invalidAttributes', expectedErrors);
+            expect(error).with.deep.property('invalidAttributes', expectedErrors);
           }
         });
       });
@@ -63,9 +63,9 @@ describe('Unit | Domain | Validators | session-validator', function () {
             // when
             sessionValidator.validate(session);
             expect.fail('should have thrown an error');
-          } catch (entityValidationErrors) {
+          } catch (error) {
             // then
-            expect(entityValidationErrors).with.deep.property('invalidAttributes', expectedErrors);
+            expect(error).with.deep.property('invalidAttributes', expectedErrors);
           }
         });
       });
@@ -85,9 +85,9 @@ describe('Unit | Domain | Validators | session-validator', function () {
             // when
             sessionValidator.validate(session);
             expect.fail('should have thrown an error');
-          } catch (entityValidationErrors) {
+          } catch (error) {
             // then
-            expect(entityValidationErrors).with.deep.property('invalidAttributes', expectedErrors);
+            expect(error).with.deep.property('invalidAttributes', expectedErrors);
           }
         });
       });
@@ -107,9 +107,9 @@ describe('Unit | Domain | Validators | session-validator', function () {
             // when
             sessionValidator.validate(session);
             expect.fail('should have thrown an error');
-          } catch (entityValidationErrors) {
+          } catch (error) {
             // then
-            expect(entityValidationErrors).with.deep.property('invalidAttributes', expectedErrors);
+            expect(error).with.deep.property('invalidAttributes', expectedErrors);
           }
         });
 
@@ -127,9 +127,9 @@ describe('Unit | Domain | Validators | session-validator', function () {
             // when
             sessionValidator.validate(session);
             expect.fail('should have thrown an error');
-          } catch (entityValidationErrors) {
+          } catch (error) {
             // then
-            expect(entityValidationErrors).with.deep.property('invalidAttributes', expectedErrors);
+            expect(error).with.deep.property('invalidAttributes', expectedErrors);
           }
         });
       });
@@ -149,9 +149,9 @@ describe('Unit | Domain | Validators | session-validator', function () {
             // when
             sessionValidator.validate(session);
             expect.fail('should have thrown an error');
-          } catch (entityValidationErrors) {
+          } catch (error) {
             // then
-            expect(entityValidationErrors).with.deep.property('invalidAttributes', expectedErrors);
+            expect(error).with.deep.property('invalidAttributes', expectedErrors);
           }
         });
       });

@@ -70,8 +70,8 @@ function _validatePassword(password) {
   let result;
   try {
     passwordValidator.validate(password);
-  } catch (err) {
-    result = err;
+  } catch (error) {
+    result = error;
   }
   return result;
 }
@@ -81,8 +81,8 @@ async function _validateData({ isUsernameMode, password, userAttributes, userRep
 
   try {
     userValidator.validate({ user: userAttributes, cguRequired: false });
-  } catch (err) {
-    validationErrors.push(err);
+  } catch (error) {
+    validationErrors.push(error);
   }
 
   validationErrors.push(_validatePassword(password));
@@ -90,14 +90,14 @@ async function _validateData({ isUsernameMode, password, userAttributes, userRep
   if (isUsernameMode) {
     try {
       await userRepository.isUsernameAvailable(userAttributes.username);
-    } catch (err) {
-      validationErrors.push(_manageUsernameAvailabilityError(err));
+    } catch (error) {
+      validationErrors.push(_manageUsernameAvailabilityError(error));
     }
   } else {
     try {
       await userRepository.checkIfEmailIsAvailable(userAttributes.email);
-    } catch (err) {
-      validationErrors.push(_manageEmailAvailabilityError(err));
+    } catch (error) {
+      validationErrors.push(_manageEmailAvailabilityError(error));
     }
   }
 

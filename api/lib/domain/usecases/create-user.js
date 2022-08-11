@@ -22,8 +22,8 @@ function _validatePassword(password) {
   let result;
   try {
     passwordValidator.validate(password);
-  } catch (err) {
-    result = err;
+  } catch (error) {
+    result = error;
   }
   return result;
 }
@@ -32,8 +32,8 @@ async function _validateData({ password, user, userRepository }) {
   let userValidatorError;
   try {
     userValidator.validate({ user });
-  } catch (err) {
-    userValidatorError = err;
+  } catch (error) {
+    userValidatorError = error;
   }
 
   const passwordValidatorError = _validatePassword(password);

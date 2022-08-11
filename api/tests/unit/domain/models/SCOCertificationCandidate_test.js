@@ -19,7 +19,7 @@ describe('Unit | Domain | Models | SCO Certification Candidate', function () {
       it('should be ok when object is valid', function () {
         try {
           buildSCOCertificationCandidate(validAttributes);
-        } catch (e) {
+        } catch (error) {
           expect.fail('scoCertificationCandidate is valid when all required fields are present');
         }
       });
@@ -96,7 +96,7 @@ describe('Unit | Domain | Models | SCO Certification Candidate', function () {
           ...validAttributes,
           birthCity: '',
         });
-      } catch (e) {
+      } catch (error) {
         expect.fail('scoCertificationCandidate is valid when all required fields are present');
       }
     });

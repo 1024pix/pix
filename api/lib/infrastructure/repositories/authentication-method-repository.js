@@ -66,14 +66,14 @@ module.exports = {
         .insert(authenticationMethodForDB)
         .returning(COLUMNS);
       return _toDomain(authenticationMethodDTO);
-    } catch (err) {
-      if (bookshelfUtils.isUniqConstraintViolated(err)) {
+    } catch (error) {
+      if (bookshelfUtils.isUniqConstraintViolated(error)) {
         throw new AlreadyExistingEntityError(
           `An authentication method already exists for the user ID ${authenticationMethod.userId} and the externalIdentifier ${authenticationMethod.externalIdentifier}.`
         );
       }
 
-      throw err;
+      throw error;
     }
   },
 
@@ -103,8 +103,8 @@ module.exports = {
         .insert(authenticationMethodForDB)
         .returning(COLUMNS);
       return _toDomain(authenticationMethodDTO);
-    } catch (err) {
-      if (bookshelfUtils.isUniqConstraintViolated(err)) {
+    } catch (error) {
+      if (bookshelfUtils.isUniqConstraintViolated(error)) {
         throw new AlreadyExistingEntityError(`Authentication method PIX already exists for the user ID ${userId}.`);
       }
     }

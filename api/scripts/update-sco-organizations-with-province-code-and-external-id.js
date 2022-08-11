@@ -14,7 +14,7 @@ const CSV_HEADERS = {
 async function assertFileValidity(filePath) {
   try {
     await access(filePath, fs.constants.F_OK);
-  } catch (err) {
+  } catch (error) {
     const errorMessage = `File not found ${filePath}`;
     throw new Error(errorMessage);
   }
@@ -85,9 +85,9 @@ function saveOrganizations(options) {
 
   const promises = options.organizations.map((organization) => {
     const requestConfig = _buildRequestObject(options.accessToken, organization);
-    return request(requestConfig).catch((err) => {
+    return request(requestConfig).catch((error) => {
       errorObjects.push({
-        errorMessage: err.message,
+        errorMessage: error.message,
         organization,
       });
     });
@@ -137,8 +137,8 @@ async function main() {
 
       console.log('\nFin du script');
     });
-  } catch (err) {
-    console.error(err.message);
+  } catch (error) {
+    console.error(error.message);
     process.exit(1);
   }
 }

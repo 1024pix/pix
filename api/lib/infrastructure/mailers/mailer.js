@@ -24,15 +24,15 @@ class Mailer {
 
     try {
       await mailCheck.checkMail(options.to);
-    } catch (err) {
-      logger.warn({ err }, `Email is not valid '${options.to}'`);
+    } catch (error) {
+      logger.warn({ err: error }, `Email is not valid '${options.to}'`);
       return EmailingAttempt.failure(options.to);
     }
 
     try {
       await this._provider.sendEmail(options);
-    } catch (err) {
-      logger.warn({ err }, `Could not send email to '${options.to}'`);
+    } catch (error) {
+      logger.warn({ err: error }, `Could not send email to '${options.to}'`);
       return EmailingAttempt.failure(options.to);
     }
 

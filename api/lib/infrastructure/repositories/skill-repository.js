@@ -20,7 +20,7 @@ module.exports = {
   async get(id) {
     try {
       return _toDomain(await skillDatasource.get(id));
-    } catch (e) {
+    } catch (error) {
       throw new NotFoundError('Erreur, compétence introuvable');
     }
   },
