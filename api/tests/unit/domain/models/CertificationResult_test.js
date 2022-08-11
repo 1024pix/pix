@@ -533,7 +533,7 @@ describe('Unit | Domain | Models | CertificationResult', function () {
   });
 
   context('#getUniqComplementaryCertificationCourseResultHeaders', function () {
-    it('should return an array of unique labels', function () {
+    it('should return an array of unique headers', function () {
       // given
       const complementaryCertificationCourseResults = [
         domainBuilder.buildComplementaryCertificationCourseResult({ label: 'CléA Numérique' }),
@@ -543,14 +543,14 @@ describe('Unit | Domain | Models | CertificationResult', function () {
         domainBuilder.buildComplementaryCertificationCourseResult({ label: 'Pix+ Edu 2nd degré' }),
       ];
       const certificationResult = domainBuilder.buildCertificationResult({
-        complementaryCertificationCourseResults
+        complementaryCertificationCourseResults,
       });
 
       const expectedComplementaryCertificationCourseLabels = [
         'Certification CléA Numérique',
         'Certification Pix+ Droit',
         'Certification Pix+ Edu 1er degré',
-        'Certification Pix+ Edu 2nd degré'
+        'Certification Pix+ Edu 2nd degré',
       ];
 
       // when
@@ -561,4 +561,32 @@ describe('Unit | Domain | Models | CertificationResult', function () {
     });
   });
 
+  context('#getUniqComplementaryCertificationCourseResultLabels', function () {
+    it('should return an array of unique labels', function () {
+      // given
+      const complementaryCertificationCourseResults = [
+        domainBuilder.buildComplementaryCertificationCourseResult({ label: 'CléA Numérique' }),
+        domainBuilder.buildComplementaryCertificationCourseResult({ label: 'Pix+ Droit' }),
+        domainBuilder.buildComplementaryCertificationCourseResult({ label: 'CléA Numérique' }),
+        domainBuilder.buildComplementaryCertificationCourseResult({ label: 'Pix+ Edu 1er degré' }),
+        domainBuilder.buildComplementaryCertificationCourseResult({ label: 'Pix+ Edu 2nd degré' }),
+      ];
+      const certificationResult = domainBuilder.buildCertificationResult({
+        complementaryCertificationCourseResults,
+      });
+
+      const expectedComplementaryCertificationCourseLabels = [
+        'CléA Numérique',
+        'Pix+ Droit',
+        'Pix+ Edu 1er degré',
+        'Pix+ Edu 2nd degré',
+      ];
+
+      // when
+      const result = certificationResult.getUniqComplementaryCertificationCourseResultLabels();
+
+      // then
+      expect(result).to.deep.equal(expectedComplementaryCertificationCourseLabels);
+    });
+  });
 });

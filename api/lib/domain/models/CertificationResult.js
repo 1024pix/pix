@@ -264,15 +264,19 @@ class CertificationResult {
     return Boolean(result?.acquired);
   }
 
-  getUniqComplementaryCertificationCourseResultHeaders() {
+  getUniqComplementaryCertificationCourseResultLabels() {
     return [
       ...new Set(
         _(this.complementaryCertificationCourseResults)
           .orderBy('id')
-          .map(({ label }) => `Certification ${label}`)
+          .map(({ label }) => label)
           .value()
       ),
     ];
+  }
+
+  getUniqComplementaryCertificationCourseResultHeaders() {
+    return this.getUniqComplementaryCertificationCourseResultLabels().map((label) => `Certification ${label}`);
   }
 
   _getCertificationCourseResultByPartnerKeys(partnerKeys) {
