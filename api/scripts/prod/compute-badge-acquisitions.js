@@ -92,7 +92,9 @@ async function computeBadgeAcquisition({
   }
 
   const userId = campaignParticipation.userId;
-  const targetProfile = await targetProfileRepository.getByCampaignParticipationId(campaignParticipation.id);
+  const targetProfile = await targetProfileRepository.getByCampaignParticipationId({
+    campaignParticipationId: campaignParticipation.id,
+  });
   const knowledgeElements = await knowledgeElementRepository.findUniqByUserId({ userId });
 
   const validatedBadgesByUser = associatedBadges.filter((badge) =>

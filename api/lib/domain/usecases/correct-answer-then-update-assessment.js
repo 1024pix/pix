@@ -143,9 +143,9 @@ async function _getKnowledgeElements({
     targetSkills = await skillRepository.findActiveByCompetenceId(assessment.competenceId);
   }
   if (assessment.isForCampaign()) {
-    const targetProfile = await targetProfileRepository.getByCampaignParticipationId(
-      assessment.campaignParticipationId
-    );
+    const targetProfile = await targetProfileRepository.getByCampaignParticipationId({
+      campaignParticipationId: assessment.campaignParticipationId,
+    });
     targetSkills = targetProfile.skills;
   }
   return KnowledgeElement.createKnowledgeElementsForAnswer({
