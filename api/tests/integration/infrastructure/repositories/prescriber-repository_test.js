@@ -168,7 +168,7 @@ describe('Integration | Infrastructure | Repository | Prescriber', function () {
         });
       });
 
-      describe('#areNewYearOrganizationLearnersImported', function() {
+      describe('#areNewYearOrganizationLearnersImported', function () {
         context('when newYearOrganizationLearnersImportDate is defined in the env.', function () {
           let originalEnvValue;
           beforeEach(function () {
@@ -225,32 +225,104 @@ describe('Integration | Infrastructure | Repository | Prescriber', function () {
           });
         });
 
-        context('when there is no organization-learners created for the organization of the user-orga-settings', function () {
-          let originalEnvValue;
-          beforeEach(function () {
-            originalEnvValue = settings.features.newYearOrganizationLearnersImportDate;
-            settings.features.newYearOrganizationLearnersImportDate = '2020-08-15T00:00:00Z';
+        context(
+          'when there is no organization-learners created for the organization of the user-orga-settings',
+          function () {
+            let originalEnvValue;
+            beforeEach(function () {
+              originalEnvValue = settings.features.newYearOrganizationLearnersImportDate;
+              settings.features.newYearOrganizationLearnersImportDate = '2020-08-15T00:00:00Z';
+            });
+
+            afterEach(function () {
+              settings.features.newYearOrganizationLearnersImportDate = originalEnvValue;
+            });
+
+            it('should return areNewYearOrganizationLearnersImported as false', async function () {
+              // given
+              const userId = databaseBuilder.factory.buildUser().id;
+              const organizationId = databaseBuilder.factory.buildOrganization().id;
+              databaseBuilder.factory.buildMembership({ userId, organizationId });
+              databaseBuilder.factory.buildUserOrgaSettings({ userId, currentOrganizationId: organizationId });
+              databaseBuilder.factory.buildOrganizationLearner({ organizationId, createdAt: new Date('2020-07-17') });
+              await databaseBuilder.commit();
+
+              // when
+              const foundPrescriber = await prescriberRepository.getPrescriber(userId);
+
+              // then
+              expect(foundPrescriber.areNewYearOrganizationLearnersImported).to.be.false;
+            });
+          }
+        );
+      });
+
+      describe('#participantCount', function () {
+        it('should only count learners in currentOrganization', async function () {
+          // given
+          expectedPrescriber.userOrgaSettings = userOrgaSettings;
+          databaseBuilder.factory.buildOrganizationLearner({
+            organizationId: organization.id,
           });
-  
-          afterEach(function () {
-            settings.features.newYearOrganizationLearnersImportDate = originalEnvValue;
+          databaseBuilder.factory.buildOrganizationLearner();
+          await databaseBuilder.commit();
+
+          // when
+          const foundPrescriber = await prescriberRepository.getPrescriber(user.id);
+
+          // then
+          expect(foundPrescriber.participantCount).to.equal(1);
+        });
+
+        it('should not count anonymous users', async function () {
+          // given
+          const userId = databaseBuilder.factory.buildUser({ isAnonymous: true }).id;
+          expectedPrescriber.userOrgaSettings = userOrgaSettings;
+          databaseBuilder.factory.buildOrganizationLearner({
+            userId,
+            organizationId: organization.id,
           });
-  
-          it('should return areNewYearOrganizationLearnersImported as false', async function () {
-            // given
-            const userId = databaseBuilder.factory.buildUser().id;
-            const organizationId = databaseBuilder.factory.buildOrganization().id;
-            databaseBuilder.factory.buildMembership({ userId, organizationId });
-            databaseBuilder.factory.buildUserOrgaSettings({ userId, currentOrganizationId: organizationId });
-            databaseBuilder.factory.buildOrganizationLearner({ organizationId, createdAt: new Date('2020-07-17') });
-            await databaseBuilder.commit();
-  
-            // when
-            const foundPrescriber = await prescriberRepository.getPrescriber(userId);
-  
-            // then
-            expect(foundPrescriber.areNewYearOrganizationLearnersImported).to.be.false;
+          await databaseBuilder.commit();
+
+          // when
+          const foundPrescriber = await prescriberRepository.getPrescriber(user.id);
+
+          // then
+          expect(foundPrescriber.participantCount).to.equal(0);
+        });
+
+        it('should not count disabled organization learners', async function () {
+          // given
+          expectedPrescriber.userOrgaSettings = userOrgaSettings;
+          databaseBuilder.factory.buildOrganizationLearner({
+            organizationId: organization.id,
+            isDisabled: true,
           });
+          await databaseBuilder.commit();
+
+          // when
+          const foundPrescriber = await prescriberRepository.getPrescriber(user.id);
+
+          // then
+          expect(foundPrescriber.participantCount).to.equal(0);
+        });
+
+        it('should count all organization learners when several exists', async function () {
+          // given
+          expectedPrescriber.userOrgaSettings = userOrgaSettings;
+          databaseBuilder.factory.buildOrganizationLearner({
+            organizationId: organization.id,
+          });
+          databaseBuilder.factory.buildOrganizationLearner({
+            organizationId: organization.id,
+          });
+          await databaseBuilder.commit();
+
+          // when
+          const foundPrescriber = await prescriberRepository.getPrescriber(user.id);
+
+          // then
+          expect(foundPrescriber.participantCount).to.equal(2);
         });
       });
     });
