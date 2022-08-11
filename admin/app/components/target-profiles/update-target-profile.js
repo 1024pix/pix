@@ -79,9 +79,9 @@ export default class UpdateTargetProfile extends Component {
 
   async _updateTargetProfile() {
     const model = this.args.model;
-    model.name = this.form.name.trim();
-    model.description = this.form.description ? this.form.description.trim() : null;
-    model.comment = this.form.comment ? this.form.comment.trim() : null;
+    model.name = this.form.name;
+    model.description = this.form.description;
+    model.comment = this.form.comment;
     model.category = this.form.category;
 
     try {
