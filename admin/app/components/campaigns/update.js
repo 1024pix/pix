@@ -98,18 +98,12 @@ export default class Update extends Component {
 
   async _update() {
     const campaign = this.args.campaign;
-    campaign.name = this.form.name.trim();
-    const titleTrim = this.form.title?.trim();
-    const customLandingPageTextTrim = this.form.customLandingPageText?.trim();
-    const customResultPageTextTrim = this.form.customResultPageText?.trim();
-    const customResultPageButtonTextTrim = this.form.customResultPageButtonText?.trim();
-    const customResultPageButtonUrlTrim = this.form.customResultPageButtonUrl?.trim();
-
-    campaign.title = titleTrim || null;
-    campaign.customLandingPageText = customLandingPageTextTrim || null;
-    campaign.customResultPageText = customResultPageTextTrim || null;
-    campaign.customResultPageButtonText = customResultPageButtonTextTrim || null;
-    campaign.customResultPageButtonUrl = customResultPageButtonUrlTrim || null;
+    campaign.name = this.form.name;
+    campaign.title = this.form.title;
+    campaign.customLandingPageText = this.form.customLandingPageText;
+    campaign.customResultPageText = this.form.customResultPageText;
+    campaign.customResultPageButtonText = this.form.customResultPageButtonText;
+    campaign.customResultPageButtonUrl = this.form.customResultPageButtonUrl;
     campaign.multipleSendings = this.form.multipleSendings;
 
     try {

@@ -5,22 +5,22 @@ import { equal } from '@ember/object/computed';
 import dayjs from 'dayjs';
 
 export default class Organization extends Model {
-  @attr() name;
-  @attr() type;
-  @attr() logoUrl;
-  @attr() externalId;
-  @attr() provinceCode;
-  @attr() isManagingStudents;
+  @attr('nullable-string') name;
+  @attr('nullable-string') type;
+  @attr('nullable-string') logoUrl;
+  @attr('nullable-string') externalId;
+  @attr('nullable-string') provinceCode;
+  @attr('boolean') isManagingStudents;
   @attr('boolean') showNPS;
   @attr('string') formNPSUrl;
-  @attr() credit;
-  @attr() email;
-  @attr() createdBy;
-  @attr('string') documentationUrl;
+  @attr('number') credit;
+  @attr('nullable-string') email;
+  @attr('date') createdBy;
+  @attr('nullable-string') documentationUrl;
   @attr('boolean') showSkills;
-  @attr() archivistFullName;
-  @attr() archivedAt;
-  @attr() creatorFullName;
+  @attr('nullable-string') archivistFullName;
+  @attr('date') archivedAt;
+  @attr('nullable-string') creatorFullName;
 
   @equal('type', 'SCO') isOrganizationSCO;
   @equal('type', 'SUP') isOrganizationSUP;
