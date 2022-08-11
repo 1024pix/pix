@@ -118,19 +118,10 @@ function _buildFileHeaders(certificationResults) {
 const _getRowItemsFromSessionAndResults =
   (session, sessionComplementaryCertificationsLabels) => (certificationResult) => {
     const complementaryCertificationsHeadersWithData = sessionComplementaryCertificationsLabels
-      .map((sessionComplementaryCertificationsLabel) => {
-        let status = 'Non passée';
-        if (certificationResult.isCancelled()) {
-          return { [`Certification ${sessionComplementaryCertificationsLabel}`]: 'Annulée' };
-        }
-        const complementaryCertificationCourseResult = certificationResult.complementaryCertificationCourseResults.find(
-          ({ label }) => label === sessionComplementaryCertificationsLabel
-        );
-        if (complementaryCertificationCourseResult) {
-          status = complementaryCertificationCourseResult.acquired ? 'Validée' : 'Rejetée';
-        }
-        return { [`Certification ${sessionComplementaryCertificationsLabel}`]: status };
-      })
+      .map((sessionComplementaryCertificationsLabel) => ({
+        [`Certification ${sessionComplementaryCertificationsLabel}`]:
+          certificationResult.getComplementaryCertificationStatus(sessionComplementaryCertificationsLabel),
+      }))
       .reduce((result, value) => {
         return Object.assign(result, value);
       }, {});
