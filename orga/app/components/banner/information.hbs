@@ -1,4 +1,4 @@
-{{#if this.displayNewYearSchoolingRegistrationsImportBanner}}
+{{#if this.displayNewYearOrganizationLearnersImportBanner}}
   <PixBanner @type="information">
     <Ui::TranslateExtended
       @key="banners.import.message"
@@ -10,8 +10,7 @@
           "authenticated.sco-students"
           class="link link--banner link--bold link--underlined"
         )
-        middleSchoolDocumentationLink=this.importMiddleSchoolDocumentationLink
-        highSchoolDocumentationLink=this.importHighSchoolDocumentationLink
+        documentationLink=this.importDocumentationLink
         externalLinkClasses='"link link--banner link--bold link--underlined"'
       }}
     />
