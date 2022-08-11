@@ -70,7 +70,7 @@ class CampaignParticipationResult {
       competenceResults: targetedCompetenceResults,
       campaignParticipationBadges,
       reachedStage: _computeReachedStage({ stages, totalSkillsCount, validatedSkillsCount }),
-      stageCount: stages && stages.length,
+      stageCount: stages && stages.length > 0,
     });
   }
 

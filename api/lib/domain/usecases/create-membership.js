@@ -14,7 +14,7 @@ module.exports = async function createMembership({
   }
 
   const memberships = await membershipRepository.findByOrganizationId({ organizationId });
-  const organizationRole = memberships.length ? roles.MEMBER : roles.ADMIN;
+  const organizationRole = memberships.length > 0 ? roles.MEMBER : roles.ADMIN;
 
   return membershipRepository.create(userId, organizationId, organizationRole);
 };

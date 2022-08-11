@@ -95,7 +95,7 @@ module.exports = {
 
   async isKeyAvailable(key, { knexTransaction } = DomainTransaction.emptyTransaction()) {
     const result = await (knexTransaction ?? knex)(TABLE_NAME).select('key').where('key', key);
-    if (result.length) {
+    if (result.length > 0) {
       throw new AlreadyExistingEntityError(`The badge key ${key} already exists`);
     }
     return true;

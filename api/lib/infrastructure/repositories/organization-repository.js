@@ -171,6 +171,7 @@ module.exports = {
   },
 
   findPaginatedFiltered({ filter, page }) {
+    // eslint-disable-next-line unicorn/explicit-length-check
     const pageSize = page.size ? page.size : DEFAULT_PAGE_SIZE;
     const pageNumber = page.number ? page.number : DEFAULT_PAGE_NUMBER;
     return BookshelfOrganization.query((qb) => _setSearchFiltersForQueryBuilder(filter, qb))
@@ -185,6 +186,7 @@ module.exports = {
   },
 
   async findPaginatedFilteredByTargetProfile({ targetProfileId, filter, page }) {
+    // eslint-disable-next-line unicorn/explicit-length-check
     const pageSize = page.size ? page.size : DEFAULT_PAGE_SIZE;
     const pageNumber = page.number ? page.number : DEFAULT_PAGE_NUMBER;
     const { models, pagination } = await BookshelfOrganization.query((qb) => {

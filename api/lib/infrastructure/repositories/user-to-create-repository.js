@@ -29,7 +29,7 @@ async function _createWithUsername({ knexConnection, user }) {
     )
     .returning('*');
 
-  if (result.length < 1) {
+  if (result.length === 0) {
     throw new AlreadyRegisteredUsernameError();
   }
   return _toUserDomain(result[0]);

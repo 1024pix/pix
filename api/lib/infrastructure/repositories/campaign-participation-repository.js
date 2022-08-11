@@ -145,7 +145,7 @@ module.exports = {
       .where('campaign-participations.deletedAt', 'is', null)
       .limit(1);
 
-    if (!result.length) return {};
+    if (result.length === 0) return {};
 
     return result[0];
   },

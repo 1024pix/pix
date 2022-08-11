@@ -77,6 +77,7 @@ module.exports = {
   },
 
   async findPaginatedFiltered({ organizationId, filter, page }) {
+    // eslint-disable-next-line unicorn/explicit-length-check
     const pageSize = page.size ? page.size : DEFAULT_PAGE_SIZE;
     const pageNumber = page.number ? page.number : DEFAULT_PAGE_NUMBER;
     const { models, pagination } = await BookshelfMembership.query((qb) => {

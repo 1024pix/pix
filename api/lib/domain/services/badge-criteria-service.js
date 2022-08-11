@@ -34,7 +34,7 @@ function getMasteryPercentageForAllSkillSets({ targetedKnowledgeElements, target
 }
 
 function verifyCriteriaFulfilment({ masteryPercentage, skillSetResults, badge }) {
-  if (!badge.badgeCriteria.length) {
+  if (badge.badgeCriteria.length === 0) {
     logger.warn(`No criteria for badge ${badge.id}`);
     return false;
   }

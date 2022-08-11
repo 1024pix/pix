@@ -23,7 +23,7 @@ const PARSING_OPTIONS = {
   transform: (value) => {
     if (typeof value === 'string') {
       value = value.trim();
-      return value.length ? value : undefined;
+      return value.length > 0 ? value : undefined;
     }
     return value;
   },
@@ -102,7 +102,7 @@ class CsvOrganizationLearnerParser {
       errors,
     } = papa.parse(decodedInput, PARSING_OPTIONS);
 
-    if (errors.length) {
+    if (errors.length > 0) {
       const hasDelimiterError = errors.some((error) => error.type === 'Delimiter');
       if (hasDelimiterError) {
         throw new CsvImportError(ERRORS.BAD_CSV_FORMAT);

@@ -100,7 +100,7 @@ module.exports = {
 
 function _includeCourse(assessments) {
   if (Array.isArray(assessments)) {
-    return assessments.length && assessments[0].course;
+    return assessments.length > 0 && assessments[0].course;
   }
 
   return assessments.course ? true : false;

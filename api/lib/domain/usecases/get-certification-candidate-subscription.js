@@ -61,7 +61,7 @@ module.exports = async function getCertificationCandidateSubscription({
 
   const eligibleSubscriptions = [];
   const nonEligibleSubscriptions = [];
-  if (certificationCandidate.complementaryCertifications.length) {
+  if (certificationCandidate.complementaryCertifications.length > 0) {
     const stillValidCertifiableBadgeAcquisitions = await certificationBadgesService.findStillValidBadgeAcquisitions({
       userId: certificationCandidate.userId,
     });

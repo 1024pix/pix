@@ -163,7 +163,7 @@ module.exports = {
       throw new ObjectValidationError();
     }
 
-    if (!results.length) {
+    if (results.length === 0) {
       throw new NotFoundError(`Le profil cible avec l'id ${targetProfile.id} n'existe pas`);
     }
 
@@ -189,7 +189,7 @@ module.exports = {
       .andWhere('targetProfileId', targetProfileId);
 
     const unknownSkillIds = _.difference(skillIds, _.map(result, 'skillId'));
-    if (unknownSkillIds.length) {
+    if (unknownSkillIds.length > 0) {
       throw new InvalidSkillSetError(`Unknown skillIds : ${unknownSkillIds}`);
     }
 

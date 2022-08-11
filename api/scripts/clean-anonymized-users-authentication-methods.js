@@ -32,7 +32,7 @@ async function main() {
       .filter((userId) => !_.isNil(userId))
       .value();
 
-    if (arrayOfAnonymizedUsersIds.length < 1) {
+    if (arrayOfAnonymizedUsersIds.length === 0) {
       throw new Error('ID column must be present in CSV');
     }
     const anonymizedUserIdsWithAllAuthenticationMethodsDeleted = await cleanAnonymizedAuthenticationMethods({

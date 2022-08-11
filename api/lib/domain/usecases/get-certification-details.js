@@ -13,7 +13,7 @@ module.exports = async function getCertificationDetails({
 
   const competenceMarks = await competenceMarkRepository.findByCertificationCourseId(certificationCourseId);
 
-  if (competenceMarks.length) {
+  if (competenceMarks.length > 0) {
     return _retrievePersistedCertificationDetails(competenceMarks, certificationAssessment, placementProfileService);
   } else {
     return _computeCertificationDetailsOnTheFly(

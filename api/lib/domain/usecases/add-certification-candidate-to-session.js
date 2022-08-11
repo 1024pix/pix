@@ -37,7 +37,7 @@ module.exports = async function addCertificationCandidateToSession({
     birthdate: certificationCandidate.birthdate,
   });
 
-  if (duplicateCandidates.length !== 0) {
+  if (duplicateCandidates.length > 0) {
     throw new CertificationCandidateByPersonalInfoTooManyMatchesError(
       'A candidate with the same personal info is already in the session.'
     );

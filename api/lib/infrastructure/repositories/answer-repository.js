@@ -112,7 +112,7 @@ module.exports = {
       const alreadySavedAnswer = await trx('answers')
         .select('id')
         .where({ challengeId: answer.challengeId, assessmentId: answer.assessmentId });
-      if (alreadySavedAnswer.length !== 0) {
+      if (alreadySavedAnswer.length > 0) {
         throw new ChallengeAlreadyAnsweredError();
       }
       const [savedAnswerDTO] = await trx('answers').insert(answerForDB).returning(COLUMNS);

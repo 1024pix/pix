@@ -212,7 +212,7 @@ module.exports = {
       })
       .orderBy('createdAt', 'desc');
 
-    if (!invalidatedKnowledgeElements.length) {
+    if (invalidatedKnowledgeElements.length === 0) {
       return [];
     }
 

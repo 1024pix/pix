@@ -186,7 +186,7 @@ async function _startNewCertification({
           locale
         );
       challengesForCertification.push(...certificationChallengesForPixEdu);
-      if (certificationChallengesForPixEdu.length) {
+      if (certificationChallengesForPixEdu.length > 0) {
         const pixEduComplementaryCertification = complementaryCertifications.find((comp) =>
           comp.isPixPlusEdu2ndDegre()
         );
@@ -209,7 +209,7 @@ async function _startNewCertification({
           locale
         );
       challengesForCertification.push(...certificationChallengesForPixEdu);
-      if (certificationChallengesForPixEdu.length) {
+      if (certificationChallengesForPixEdu.length > 0) {
         const pixEduComplementaryCertification = complementaryCertifications.find((comp) =>
           comp.isPixPlusEdu1erDegre()
         );

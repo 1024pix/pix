@@ -43,7 +43,7 @@ class ComplementaryCertificationCourseResultsForJuryCertificationWithExternal {
   }
 
   static from(complementaryCertificationCourseResultsWithExternal) {
-    if (!complementaryCertificationCourseResultsWithExternal.length) {
+    if (complementaryCertificationCourseResultsWithExternal.length === 0) {
       return;
     }
     const pixComplementaryCertificationCourseResult = complementaryCertificationCourseResultsWithExternal.find(
@@ -103,7 +103,7 @@ class ComplementaryCertificationCourseResultsForJuryCertificationWithExternal {
       filteredBadges = pixEdu2ndDegreeBadges.filter(this._isContinue2ndDegree);
     }
 
-    if (!filteredBadges.length) {
+    if (filteredBadges.length === 0) {
       throw new Error('Unknown pix level');
     }
 

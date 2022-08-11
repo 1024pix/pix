@@ -8,7 +8,7 @@ module.exports = async function getPoleEmploiSendings({ cursor, poleEmploiSendin
 };
 
 function _generateLink(sendings, filters) {
-  if (!sendings.length) return null;
+  if (sendings.length === 0) return null;
 
   const lastSending = sendings[sendings.length - 1];
   const link = poleEmploiService.generateLink(lastSending, filters);

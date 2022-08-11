@@ -154,7 +154,7 @@ module.exports = {
         await trx('supervisor-accesses').whereIn('id', supervisorAccessIds).del();
       }
 
-      if (certificationCandidateIdsInSession.length) {
+      if (certificationCandidateIdsInSession.length > 0) {
         await trx('complementary-certification-subscriptions')
           .whereIn('certificationCandidateId', certificationCandidateIdsInSession)
           .del();

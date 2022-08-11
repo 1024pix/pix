@@ -5,7 +5,7 @@ class SessionPublicationBatchResult {
   }
 
   hasPublicationErrors() {
-    return Boolean(Object.keys(this.publicationErrors).length);
+    return Object.keys(this.publicationErrors).length > 0;
   }
 
   addPublicationError(sessionId, error) {

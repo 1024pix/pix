@@ -6,7 +6,7 @@ const TABLE_NAME = 'user-saved-tutorials';
 module.exports = {
   async addTutorial({ userId, tutorialId, skillId }) {
     const userSavedTutorials = await knex(TABLE_NAME).where({ userId, tutorialId });
-    if (userSavedTutorials.length) {
+    if (userSavedTutorials.length > 0) {
       return _toDomain(userSavedTutorials[0]);
     }
     const savedUserSavedTutorials = await knex(TABLE_NAME).insert({ userId, tutorialId, skillId }).returning('*');
