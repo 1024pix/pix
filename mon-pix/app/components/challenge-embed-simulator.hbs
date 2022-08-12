@@ -1,12 +1,12 @@
 {{! template-lint-disable style-concatenation no-inline-styles }}
 <div class="challenge-embed-simulator" style="{{this.embedDocumentHeightStyle}}">
   {{#if this.isLoadingEmbed}}
-    <div class="embed placeholder blurred" aria-label="{{t "pages.challenge.embed-simulator.placeholder"}}">
+    <div class="embed placeholder blurred" aria-label="{{t 'pages.challenge.embed-simulator.placeholder'}}">
       <FaIcon @icon="image" />
     </div>
   {{/if}}
 
-  <div class="embed rounded-panel {{if this.isLoadingEmbed "hidden-visibility" ""}}">
+  <div class="embed rounded-panel {{if this.isLoadingEmbed 'hidden-visibility' ''}}">
     {{#unless this.isSimulatorLaunched}}
       <div class="embed__acknowledgment-overlay">
         <PixButton @triggerAction={{this.launchSimulator}}>
@@ -15,7 +15,7 @@
       </div>
     {{/unless}}
 
-    <div class="embed__simulator {{unless this.isSimulatorLaunched "blurred"}}">
+    <div class="embed__simulator {{unless this.isSimulatorLaunched 'blurred'}}">
       <iframe
         class="embed__iframe"
         src="{{@embedDocument.url}}"

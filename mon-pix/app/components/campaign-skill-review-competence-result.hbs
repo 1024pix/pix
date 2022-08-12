@@ -9,7 +9,7 @@
   <tbody>
     {{#if @showCleaCompetences}}
       {{#each @skillSetResults as |skillSet|}}
-        <tr aria-label="{{t "pages.skill-review.details.result-by-skill"}}">
+        <tr aria-label="{{t 'pages.skill-review.details.result-by-skill'}}">
           <th scope="row">
             <span class="skill-review-competence__border" aria-hidden="true"></span>
             <span>{{skillSet.name}}</span>
@@ -21,7 +21,7 @@
       {{/each}}
     {{else}}
       {{#each @competenceResults as |competence|}}
-        <tr aria-label="{{t "pages.skill-review.details.result-by-skill"}}">
+        <tr aria-label="{{t 'pages.skill-review.details.result-by-skill'}}">
           <th scope="row">
             <span
               class="skill-review-competence__border skill-review-competence__border--{{competence.areaColor}}"
