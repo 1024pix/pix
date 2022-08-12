@@ -26,7 +26,6 @@ module('Acceptance | Information Banner', function (hooks) {
       server.create('prescriber', {
         id: user.id,
         pixOrgaTermsOfServiceAccepted: user.pixOrgaTermsOfServiceAccepted,
-        areNewYearSchoolingRegistrationsImported: false,
         memberships: user.memberships,
         userOrgaSettings: user.userOrgaSettings,
       });
@@ -37,9 +36,7 @@ module('Acceptance | Information Banner', function (hooks) {
       await clickByName(this.intl.t('banners.import.link-to'));
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(currentURL(), '/eleves');
+      assert.strictEqual(currentURL(), '/eleves');
     });
   });
 });
