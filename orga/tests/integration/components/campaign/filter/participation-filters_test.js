@@ -360,9 +360,7 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
         );
 
         // then
-        // TODO: Fix this the next time the file is edited.
-        // eslint-disable-next-line qunit/no-assert-equal
-        assert.equal(find('[aria-label="Statut"]').selectedOptions[0].value, 'STARTED');
+        assert.strictEqual(find('[aria-label="Statut"]').selectedOptions[0].value, 'STARTED');
       });
 
       test('it should display 3 statuses for assessment campaign', async function (assert) {
@@ -435,7 +433,6 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
 
   module('when user works for a SCO organization which manages students', function () {
     class CurrentUserStub extends Service {
-      prescriber = { areNewYearSchoolingRegistrationsImported: false };
       isSCOManagingStudents = true;
     }
 
@@ -481,7 +478,6 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
 
   module('when user works for a SUP organization which manages students', function () {
     class CurrentUserStub extends Service {
-      prescriber = { areNewYearSchoolingRegistrationsImported: false };
       isSUPManagingStudents = true;
     }
 
