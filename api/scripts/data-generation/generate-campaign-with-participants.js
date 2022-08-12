@@ -21,6 +21,7 @@ const baseDate = new Date('2020-05-03');
 let lowRAMMode = false;
 let createOrganizationLearner = false;
 let progression = 0;
+
 function _logProgression(totalCount) {
   ++progression;
   process.stdout.cursorTo(0);
@@ -70,8 +71,8 @@ function _validateAndNormalizeOrganizationId(commandLineArgs) {
   if (organizationIdIndicatorIndex === -1 || organizationIdIndicatorIndex + 1 >= commandLineArgsLength) {
     throw new Error("ID de l'organisation obligatoire.");
   }
-  const organizationId = parseInt(commandLineArgs[organizationIdIndicatorIndex + 1]);
-  if (isNaN(organizationId)) {
+  const organizationId = Number.parseInt(commandLineArgs[organizationIdIndicatorIndex + 1]);
+  if (Number.isNaN(organizationId)) {
     throw new Error(
       `ID de l'organisation fourni ${commandLineArgs[organizationIdIndicatorIndex + 1]} n'est pas un entier.`
     );
@@ -87,8 +88,8 @@ function _validateAndNormalizeTargetProfileId(commandLineArgs) {
   if (targetProfileIdIndicatorIndex === -1 || targetProfileIdIndicatorIndex + 1 >= commandLineArgsLength) {
     return null;
   }
-  const targetProfileId = parseInt(commandLineArgs[targetProfileIdIndicatorIndex + 1]);
-  if (isNaN(targetProfileId)) {
+  const targetProfileId = Number.parseInt(commandLineArgs[targetProfileIdIndicatorIndex + 1]);
+  if (Number.isNaN(targetProfileId)) {
     throw new Error(
       `ID du profil cible fourni ${commandLineArgs[targetProfileIdIndicatorIndex + 1]} n'est pas un entier.`
     );
@@ -104,8 +105,8 @@ function _validateAndNormalizeParticipantCount(commandLineArgs) {
   if (participantCountIndicatorIndex === -1 || participantCountIndicatorIndex + 1 >= commandLineArgsLength) {
     throw new Error('Nombre de participants obligatoire.');
   }
-  const participantCount = parseInt(commandLineArgs[participantCountIndicatorIndex + 1]);
-  if (isNaN(participantCount)) {
+  const participantCount = Number.parseInt(commandLineArgs[participantCountIndicatorIndex + 1]);
+  if (Number.isNaN(participantCount)) {
     throw new Error(
       `Nombre de participations fourni ${commandLineArgs[participantCountIndicatorIndex + 1]} n'est pas un entier.`
     );

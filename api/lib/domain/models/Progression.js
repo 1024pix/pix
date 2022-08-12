@@ -37,7 +37,7 @@ class Progression {
   }
 
   static getAssessmentIdFromId(progressionId) {
-    return parseInt(progressionId.replace(PROGRESSION_ID_PREFIX, ''), 10);
+    return Number.parseInt(progressionId.replace(PROGRESSION_ID_PREFIX, ''), 10);
   }
 }
 

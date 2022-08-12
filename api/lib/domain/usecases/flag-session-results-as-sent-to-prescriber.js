@@ -1,7 +1,7 @@
 const { NotFoundError } = require('../../domain/errors');
 
 module.exports = async function flagSessionResultsAsSentToPrescriber({ sessionId, sessionRepository }) {
-  const integerSessionId = parseInt(sessionId);
+  const integerSessionId = Number.parseInt(sessionId);
   const NOT_FOUND_SESSION = `La session ${sessionId} n'existe pas ou son accès est restreint lors du marquage d'envoi des résultats au prescripteur`;
 
   if (!Number.isFinite(integerSessionId)) {

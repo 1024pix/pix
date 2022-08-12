@@ -11,12 +11,12 @@ function isNumeric(string) {
   }
   const stringWithoutComma = string.replace(',', '.').trim();
   const stringWithoutCommaAndSpace = stringWithoutComma.replace(' ', '');
-  return !isNaN(stringWithoutCommaAndSpace) && !isNaN(parseFloat(stringWithoutCommaAndSpace));
+  return !Number.isNaN(stringWithoutCommaAndSpace) && !Number.isNaN(Number.parseFloat(stringWithoutCommaAndSpace));
 }
 
 function cleanStringAndParseFloat(string) {
   const stringWithoutSpace = string.replace(' ', '');
-  return parseFloat(stringWithoutSpace.replace(',', '.'));
+  return Number.parseFloat(stringWithoutSpace.replace(',', '.'));
 }
 
 function splitIntoWordsAndRemoveBackspaces(string) {

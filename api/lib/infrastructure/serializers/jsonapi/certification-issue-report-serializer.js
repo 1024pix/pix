@@ -11,7 +11,7 @@ module.exports = {
   },
 
   deserialize(request) {
-    const certificationCourseId = parseInt(request.params.id);
+    const certificationCourseId = Number.parseInt(request.params.id);
     const attributes = request.payload.data.attributes;
 
     return {

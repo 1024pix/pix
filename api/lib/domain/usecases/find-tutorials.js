@@ -14,7 +14,7 @@ module.exports = async function findTutorials({
 }) {
   const { userId, competenceId } = Scorecard.parseId(scorecardId);
 
-  if (parseInt(authenticatedUserId) !== parseInt(userId)) {
+  if (Number.parseInt(authenticatedUserId) !== Number.parseInt(userId)) {
     throw new UserNotAuthorizedToAccessEntityError();
   }
 

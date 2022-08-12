@@ -33,7 +33,7 @@ describe('Integration | Infrastructure | Repository | membership-repository', fu
 
       // then
       const afterNbMemberships = await knex('memberships').count('id as count');
-      expect(parseInt(afterNbMemberships[0].count)).to.equal(parseInt(beforeNbMemberships[0].count + 1));
+      expect(Number.parseInt(afterNbMemberships[0].count)).to.equal(Number.parseInt(beforeNbMemberships[0].count + 1));
     });
 
     it('should return a Membership domain model object', async function () {

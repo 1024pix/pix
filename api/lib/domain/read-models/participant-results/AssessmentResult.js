@@ -54,7 +54,7 @@ class AssessmentResult {
       return masteryRate;
     } else if (totalSkillsCount > 0) {
       const rate = (validatedSkillsCount / totalSkillsCount).toPrecision(2);
-      return parseFloat(rate);
+      return Number.parseFloat(rate);
     } else {
       return 0;
     }

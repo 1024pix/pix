@@ -15,7 +15,7 @@ module.exports = async function updateCertificationCenter({
   if (complementaryCertificationIds) {
     await bluebird.mapSeries(complementaryCertificationIds, (complementaryCertificationId) => {
       const complementaryCertificationHabilitation = new ComplementaryCertificationHabilitation({
-        complementaryCertificationId: parseInt(complementaryCertificationId),
+        complementaryCertificationId: Number.parseInt(complementaryCertificationId),
         certificationCenterId: certificationCenter.id,
       });
       return complementaryCertificationHabilitationRepository.save(complementaryCertificationHabilitation);

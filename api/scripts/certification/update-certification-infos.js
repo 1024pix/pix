@@ -26,7 +26,7 @@ const headers = {
 
 async function _getSessionIds(sessionIdsFilePath) {
   const csvData = await readFile(sessionIdsFilePath, 'utf8');
-  return csvData.split(',').map((id) => parseInt(id, 10));
+  return csvData.split(',').map((id) => Number.parseInt(id, 10));
 }
 
 async function updateCertificationInfos(dataFilePath, sessionIdsFilePath) {

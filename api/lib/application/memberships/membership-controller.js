@@ -18,8 +18,8 @@ module.exports = {
     const membershipId = request.params.id;
     const userId = requestResponseUtils.extractUserIdFromRequest(request);
     const membership = membershipSerializer.deserialize(request.payload);
-    // eslint-disable-next-line no-restricted-syntax
-    const membershipIdFromPayload = parseInt(membership.id);
+
+    const membershipIdFromPayload = Number.parseInt(membership.id);
     if (membershipId !== membershipIdFromPayload) {
       throw new BadRequestError();
     }

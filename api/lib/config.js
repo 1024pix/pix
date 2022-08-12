@@ -21,8 +21,8 @@ function isBooleanFeatureEnabledElseDefault(environmentVariable, defaultValue) {
 }
 
 function _getNumber(numberAsString, defaultIntNumber) {
-  const number = parseInt(numberAsString, 10);
-  return isNaN(number) ? defaultIntNumber : number;
+  const number = Number.parseInt(numberAsString, 10);
+  return Number.isNaN(number) ? defaultIntNumber : number;
 }
 
 function _getDate(dateAsString) {
@@ -51,7 +51,7 @@ module.exports = (function () {
   const config = {
     rootPath: path.normalize(__dirname + '/..'),
 
-    port: parseInt(process.env.PORT, 10) || 3000,
+    port: Number.parseInt(process.env.PORT, 10) || 3000,
 
     environment: process.env.NODE_ENV || 'development',
 
@@ -166,11 +166,11 @@ module.exports = (function () {
 
     caching: {
       redisUrl: process.env.REDIS_URL,
-      redisCacheKeyLockTTL: parseInt(process.env.REDIS_CACHE_KEY_LOCK_TTL, 10) || 60000,
-      redisCacheLockedWaitBeforeRetry: parseInt(process.env.REDIS_CACHE_LOCKED_WAIT_BEFORE_RETRY, 10) || 1000,
+      redisCacheKeyLockTTL: Number.parseInt(process.env.REDIS_CACHE_KEY_LOCK_TTL, 10) || 60000,
+      redisCacheLockedWaitBeforeRetry: Number.parseInt(process.env.REDIS_CACHE_LOCKED_WAIT_BEFORE_RETRY, 10) || 1000,
     },
     pgBoss: {
-      connexionPoolMaxSize: parseInt(process.env.PGBOSS_CONNECTION_POOL_MAX_SIZE, 10) || 2,
+      connexionPoolMaxSize: Number.parseInt(process.env.PGBOSS_CONNECTION_POOL_MAX_SIZE, 10) || 2,
     },
     features: {
       dayBeforeImproving: _getNumber(process.env.DAY_BEFORE_IMPROVING, 4),
@@ -220,7 +220,7 @@ module.exports = (function () {
       afterLogoutUrl: process.env.POLE_EMPLOI_OIDC_AFTER_LOGOUT_URL,
       temporaryStorage: {
         expirationDelaySeconds:
-          parseInt(process.env.POLE_EMPLOI_TEMPORARY_STORAGE_EXPIRATION_DELAY_SECONDS, 10) || 1140,
+          Number.parseInt(process.env.POLE_EMPLOI_TEMPORARY_STORAGE_EXPIRATION_DELAY_SECONDS, 10) || 1140,
         redisUrl: process.env.REDIS_URL,
         idTokenLifespanMs: ms(process.env.POLE_EMPLOI_ID_TOKEN_LIFESPAN || '7d'),
       },
@@ -241,12 +241,12 @@ module.exports = (function () {
     authenticationSession: {
       temporaryStorage: {
         expirationDelaySeconds:
-          parseInt(process.env.AUTHENTICATION_SESSION_TEMPORARY_STORAGE_EXP_DELAY_SECONDS, 10) || 1140,
+          Number.parseInt(process.env.AUTHENTICATION_SESSION_TEMPORARY_STORAGE_EXP_DELAY_SECONDS, 10) || 1140,
       },
     },
 
     temporaryStorage: {
-      expirationDelaySeconds: parseInt(process.env.TEMPORARY_STORAGE_EXPIRATION_DELAY_SECONDS, 10) || 600,
+      expirationDelaySeconds: Number.parseInt(process.env.TEMPORARY_STORAGE_EXPIRATION_DELAY_SECONDS, 10) || 600,
       redisUrl: process.env.REDIS_URL,
     },
 

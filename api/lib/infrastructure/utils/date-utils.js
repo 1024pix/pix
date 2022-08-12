@@ -1,7 +1,7 @@
 const moment = require('moment-timezone');
 
 moment.parseTwoDigitYear = function (yearString) {
-  const year = parseInt(yearString);
+  const year = Number.parseInt(yearString);
   const currentYear = new Date().getFullYear();
   return 2000 + year < currentYear ? 2000 + year : 1900 + year;
 };

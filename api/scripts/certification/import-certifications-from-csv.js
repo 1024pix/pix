@@ -50,7 +50,7 @@ function convertCSVDataIntoCertifications(csvParsingResult) {
   const dataRows = csvParsingResult.data;
   return dataRows.reduce((certifications, dataRow) => {
     const certification = {
-      id: parseInt(dataRow[CSV_HEADERS.ID]),
+      id: Number.parseInt(dataRow[CSV_HEADERS.ID]),
       firstName: dataRow[CSV_HEADERS.FIRST_NAME],
       lastName: dataRow[CSV_HEADERS.LAST_NAME],
       birthdate: dataRow[CSV_HEADERS.BIRTHDATE],

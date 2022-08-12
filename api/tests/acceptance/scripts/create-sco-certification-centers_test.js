@@ -7,7 +7,7 @@ const { createScoCertificationCenters } = require('../../../scripts/create-sco-c
 describe('Acceptance | Scripts | create-sco-certification-centers.js', function () {
   describe('#createScoCertificationCenters', function () {
     const getNumberOfCertificationCenters = () => {
-      return BookshelfCertificationCenter.count().then((number) => parseInt(number, 10));
+      return BookshelfCertificationCenter.count().then((number) => Number.parseInt(number, 10));
     };
 
     it('should insert 2 sco certification centers', async function () {

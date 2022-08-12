@@ -63,7 +63,7 @@ async function _do({ file }) {
   }
 
   const sessionIdsToPublish = _.map(Object.keys(certificationsToCancelBySession), (sessionIdStr) =>
-    parseInt(sessionIdStr)
+    Number.parseInt(sessionIdStr)
   );
   await _publishSessions(sessionIdsToPublish);
 }
@@ -111,10 +111,10 @@ async function _parseCertifications(line, sessionId, trx) {
   const certificationIdValues = certificationsValue.split(', ');
   const certificationIds = [];
   for (const certificationIdValue of certificationIdValues) {
-    if (!_.isInteger(parseInt(certificationIdValue))) {
+    if (!_.isInteger(Number.parseInt(certificationIdValue))) {
       throw new Error(`Invalid certification ID ${certificationIdValue} for session ${sessionId}`);
     }
-    certificationIds.push(parseInt(certificationIdValue));
+    certificationIds.push(Number.parseInt(certificationIdValue));
   }
   return certificationIds;
 }

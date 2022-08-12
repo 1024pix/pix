@@ -103,7 +103,7 @@ class OdsUtilsBuilder {
       if (element) {
         element.setAttribute(
           'table:number-columns-spanned',
-          parseInt(element.getAttribute('table:number-columns-spanned')) + increment
+          Number.parseInt(element.getAttribute('table:number-columns-spanned')) + increment
         );
       }
     }
@@ -261,7 +261,7 @@ function incrementRowsColumnSpan({ stringifiedXml, startLine, endLine, increment
     if (element) {
       element.setAttribute(
         'table:number-columns-spanned',
-        parseInt(element.getAttribute('table:number-columns-spanned')) + increment
+        Number.parseInt(element.getAttribute('table:number-columns-spanned')) + increment
       );
     }
   }

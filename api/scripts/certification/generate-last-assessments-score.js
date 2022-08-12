@@ -1,7 +1,7 @@
 const { knex } = require('../../db/knex-database-connection');
 const _ = require('lodash');
-const ASSESSMENT_COUNT = parseInt(process.env.ASSESSMENT_COUNT) || 100;
-const ASSESSMENT_ID = parseInt(process.env.ASSESSMENT_ID) || null;
+const ASSESSMENT_COUNT = Number.parseInt(process.env.ASSESSMENT_COUNT) || 100;
+const ASSESSMENT_ID = Number.parseInt(process.env.ASSESSMENT_ID) || null;
 const bluebird = require('bluebird');
 const scoringCertificationService = require('../../lib/domain/services/scoring/scoring-certification-service');
 const certificationAssessmentRepository = require('../../lib/infrastructure/repositories/certification-assessment-repository');

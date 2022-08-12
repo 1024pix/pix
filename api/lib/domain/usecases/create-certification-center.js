@@ -12,7 +12,7 @@ module.exports = async function createCertificationCenter({
 
   for (const complementaryCertificationId of complementaryCertificationIds) {
     const complementaryCertificationHabilitation = new ComplementaryCertificationHabilitation({
-      complementaryCertificationId: parseInt(complementaryCertificationId),
+      complementaryCertificationId: Number.parseInt(complementaryCertificationId),
       certificationCenterId: createdCertificationCenter.id,
     });
 

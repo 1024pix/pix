@@ -30,10 +30,11 @@ module.exports = {
       'custom-landing-page-text': customLandingPageText,
       'owner-id': ownerId,
     } = request.payload.data.attributes;
-    // eslint-disable-next-line no-restricted-syntax
-    const targetProfileId = parseInt(_.get(request, 'payload.data.relationships.target-profile.data.id')) || null;
-    // eslint-disable-next-line no-restricted-syntax
-    const organizationId = parseInt(_.get(request, 'payload.data.relationships.organization.data.id')) || null;
+
+    const targetProfileId =
+      Number.parseInt(_.get(request, 'payload.data.relationships.target-profile.data.id')) || null;
+
+    const organizationId = Number.parseInt(_.get(request, 'payload.data.relationships.organization.data.id')) || null;
 
     const campaign = {
       name,

@@ -8,7 +8,7 @@ module.exports = async function getCorrectionForAnswer({
   userId,
   locale,
 } = {}) {
-  const integerAnswerId = parseInt(answerId);
+  const integerAnswerId = Number.parseInt(answerId);
 
   const answer = await answerRepository.get(integerAnswerId);
   const assessment = await assessmentRepository.get(answer.assessmentId);

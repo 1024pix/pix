@@ -5,8 +5,8 @@ const { extractUserIdFromRequest } = require('../../infrastructure/utils/request
 module.exports = {
   verify(request, h) {
     const userId = extractUserIdFromRequest(request);
-    // eslint-disable-next-line no-restricted-syntax
-    const assessmentId = parseInt(request.params.id);
+
+    const assessmentId = Number.parseInt(request.params.id);
 
     return assessmentRepository.getByAssessmentIdAndUserId(assessmentId, userId).catch(() => {
       const buildError = _handleWhenInvalidAuthorization('Vous n’êtes pas autorisé à accéder à cette évaluation');

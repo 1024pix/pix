@@ -126,4 +126,4 @@ module.exports = {
   getTubeByIds,
 };
 
-main(parseInt(process.argv[2]));
+main(Number.parseInt(process.argv[2]));

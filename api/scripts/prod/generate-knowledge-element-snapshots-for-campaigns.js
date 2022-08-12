@@ -9,7 +9,7 @@ const DEFAULT_MAX_SNAPSHOT_COUNT = 5000;
 const DEFAULT_CONCURRENCY = 3;
 
 function _validateAndNormalizeMaxSnapshotCount(maxSnapshotCount) {
-  if (isNaN(maxSnapshotCount)) {
+  if (Number.isNaN(maxSnapshotCount)) {
     maxSnapshotCount = DEFAULT_MAX_SNAPSHOT_COUNT;
   }
   if (maxSnapshotCount <= 0 || maxSnapshotCount > 50000) {
@@ -20,7 +20,7 @@ function _validateAndNormalizeMaxSnapshotCount(maxSnapshotCount) {
 }
 
 function _validateAndNormalizeConcurrency(concurrency) {
-  if (isNaN(concurrency)) {
+  if (Number.isNaN(concurrency)) {
     concurrency = DEFAULT_CONCURRENCY;
   }
   if (concurrency <= 0 || concurrency > 10) {

@@ -115,7 +115,7 @@ module.exports = computeParticipantResultsShared;
 let exitCode;
 const SUCCESS = 0;
 const FAILURE = 1;
-const concurrency = parseInt(process.argv[2]);
+const concurrency = Number.parseInt(process.argv[2]);
 
 if (require.main === module) {
   computeParticipantResultsShared(concurrency).then(handleSuccess).catch(handleError).finally(exit);

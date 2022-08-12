@@ -61,7 +61,7 @@ function _getMaxRewardingSkills({ availableSkills, predictedLevel, tubes, knowle
       }
       return acc;
     },
-    { maxRewardingSkills: [], maxReward: -Infinity }
+    { maxRewardingSkills: [], maxReward: Number.NEGATIVE_INFINITY }
   ).maxRewardingSkills;
 }
 

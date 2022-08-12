@@ -60,7 +60,7 @@ const questions = [
     name: 'candidateNumber',
     message: 'Combien de candidats ?',
     validate(value) {
-      const valid = !isNaN(parseInt(value));
+      const valid = !Number.isNaN(Number.parseInt(value));
       return valid || 'Renseigner un nombre';
     },
     filter: Number,
@@ -331,12 +331,15 @@ async function _createComplementaryCertificationHability(
 function _isDroit(complementaryCertificationId) {
   return complementaryCertificationId === COMPLEMENTARY_CERTIFICATION_IDS_BY_KEY[PIXDROIT];
 }
+
 function _isClea(complementaryCertificationId) {
   return complementaryCertificationId === COMPLEMENTARY_CERTIFICATION_IDS_BY_KEY[PIXCLEA];
 }
+
 function _isEdu1erDegre(complementaryCertificationId) {
   return complementaryCertificationId === COMPLEMENTARY_CERTIFICATION_IDS_BY_KEY[PIXEDU1ERDEGRE];
 }
+
 function _isEdu2ndDegre(complementaryCertificationId) {
   return complementaryCertificationId === COMPLEMENTARY_CERTIFICATION_IDS_BY_KEY[PIXEDU2NDDEGRE];
 }

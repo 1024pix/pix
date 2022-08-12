@@ -87,7 +87,7 @@ function _focusOnDefaultLevel(targetSkills) {
   const [, potentialFirstSkills] = _(targetSkills)
     .groupBy('difficulty')
     .entries()
-    .minBy(([difficulty, _targetSkills]) => remapDifficulty(parseFloat(difficulty)));
+    .minBy(([difficulty, _targetSkills]) => remapDifficulty(Number.parseFloat(difficulty)));
 
   return potentialFirstSkills;
 }

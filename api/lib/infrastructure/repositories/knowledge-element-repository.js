@@ -71,7 +71,7 @@ async function _findSnapshotsForUsers(userIdsAndDates) {
   );
 
   for (const [userIdStr, knowledgeElementsFromSnapshot] of Object.entries(knowledgeElementsGroupedByUser)) {
-    const userId = parseInt(userIdStr);
+    const userId = Number.parseInt(userIdStr);
     let knowledgeElements = knowledgeElementsFromSnapshot;
     if (!knowledgeElements) {
       knowledgeElements = await _findAssessedByUserIdAndLimitDateQuery({

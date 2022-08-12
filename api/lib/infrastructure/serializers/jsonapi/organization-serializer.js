@@ -68,11 +68,11 @@ module.exports = {
 
     let tags = [];
     if (relationships && relationships.tags) {
-      tags = relationships.tags.data.map((tag) => new Tag({ id: parseInt(tag.id) }));
+      tags = relationships.tags.data.map((tag) => new Tag({ id: Number.parseInt(tag.id) }));
     }
 
     const organization = new Organization({
-      id: parseInt(json.data.id),
+      id: Number.parseInt(json.data.id),
       name: attributes.name,
       type: attributes.type,
       email: attributes.email,

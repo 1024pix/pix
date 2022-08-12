@@ -135,7 +135,7 @@ async function getPlacementProfilesWithSnapshotting({ userIdsAndDates, competenc
 
   const placementProfilesList = [];
   for (const [strUserId, knowledgeElementsByCompetence] of Object.entries(knowledgeElementsByUserIdAndCompetenceId)) {
-    const userId = parseInt(strUserId);
+    const userId = Number.parseInt(strUserId);
     const placementProfile = new PlacementProfile({
       userId,
       profileDate: userIdsAndDates[userId],

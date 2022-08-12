@@ -17,8 +17,8 @@ module.exports = {
 
   async findAssociation(request, h) {
     const authenticatedUserId = request.auth.credentials.userId;
-    // eslint-disable-next-line no-restricted-syntax
-    const requestedUserId = parseInt(request.query.userId);
+
+    const requestedUserId = Number.parseInt(request.query.userId);
     const campaignCode = request.query.campaignCode;
 
     const organizationLearner = await usecases.findAssociationBetweenUserAndOrganizationLearner({

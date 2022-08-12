@@ -21,7 +21,7 @@ Links :
 - problem: https://github.com/bookshelf/bookshelf/issues/1275
 - solution: https://github.com/brianc/node-pg-types
  */
-types.setTypeParser(types.builtins.INT8, (value) => parseInt(value));
+types.setTypeParser(types.builtins.INT8, (value) => Number.parseInt(value));
 
 const _ = require('lodash');
 

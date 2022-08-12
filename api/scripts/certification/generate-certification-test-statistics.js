@@ -10,8 +10,8 @@ const placementProfileService = require('../../lib/domain/services/placement-pro
 const certificationChallengeService = require('../../lib/domain/services/certification-challenges-service');
 const { FRENCH_FRANCE } = require('../../lib/domain/constants').LOCALE;
 
-const USER_COUNT = parseInt(process.env.USER_COUNT) || 100;
-const USER_ID = parseInt(process.env.USER_ID) || null;
+const USER_COUNT = Number.parseInt(process.env.USER_COUNT) || 100;
+const USER_ID = Number.parseInt(process.env.USER_ID) || null;
 
 // Exemple d'utilisation :
 // $ LOG_ENABLED=FALSE PGSSLMODE=require NODE_TLS_REJECT_UNAUTHORIZED='0' USER_COUNT=1000 node scripts/generate-certification-test-statistics.js > branch.log

@@ -29,7 +29,7 @@ module.exports = {
     connection: process.env.DATABASE_URL,
     pool: {
       min: 1,
-      max: parseInt(process.env.DATABASE_CONNECTION_POOL_MAX_SIZE, 10) || 4,
+      max: Number.parseInt(process.env.DATABASE_CONNECTION_POOL_MAX_SIZE, 10) || 4,
     },
     migrations: {
       tableName: 'knex_migrations',

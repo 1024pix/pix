@@ -134,12 +134,12 @@ function _handleFieldValidationError(err, tableHeaderTargetPropertyMap, line) {
     acc[obj.property] = obj.header;
     return acc;
   }, {});
-  line = parseInt(line) + 1;
+  line = Number.parseInt(line) + 1;
   throw CertificationCandidatesImportError.fromInvalidCertificationCandidateError(err, keyLabelMap, line);
 }
 
 function _handleBirthInformationValidationError(cpfBirthInformation, line) {
-  line = parseInt(line) + 1;
+  line = Number.parseInt(line) + 1;
   throw new CertificationCandidatesImportError({ message: `Ligne ${line} : ${cpfBirthInformation.message}` });
 }
 

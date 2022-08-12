@@ -7,7 +7,9 @@ class CertificationCandidateForAttendanceSheet {
     this.birthdate = birthdate;
     this.externalId = externalId;
     this.division = division;
-    this.extraTimePercentage = !isNil(extraTimePercentage) ? parseFloat(extraTimePercentage) : extraTimePercentage;
+    this.extraTimePercentage = !isNil(extraTimePercentage)
+      ? Number.parseFloat(extraTimePercentage)
+      : extraTimePercentage;
   }
 }
 

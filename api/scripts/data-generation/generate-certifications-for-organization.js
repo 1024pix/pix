@@ -60,7 +60,7 @@ function _validateAndNormalizeArgs({ organizationId, certificationCenterId }) {
 }
 
 function _validateAndNormalizeOrganizationId(organizationId) {
-  if (isNaN(organizationId)) {
+  if (Number.isNaN(organizationId)) {
     throw new Error(`organizationId doit être un nombre : valeur fournie ${organizationId}`);
   }
 
@@ -68,7 +68,7 @@ function _validateAndNormalizeOrganizationId(organizationId) {
 }
 
 function _validateAndNormalizeCertificationCenterId(certificationCenterId) {
-  if (isNaN(certificationCenterId)) {
+  if (Number.isNaN(certificationCenterId)) {
     throw new Error(`certificationCenterId doit être un nombre : valeur fournie ${certificationCenterId}`);
   }
 
@@ -109,7 +109,7 @@ async function _do({ organizationId, certificationCenterId }) {
     }
 
     console.log(`Création de ${allAssessmentIds.length} résultats de certification...`);
-    const errorCount = parseInt(allAssessmentIds.length * CERTIF_ERROR_RATE);
+    const errorCount = Number.parseInt(allAssessmentIds.length * CERTIF_ERROR_RATE);
     const errorAssessmentIds = _.sampleSize(allAssessmentIds, errorCount);
     console.log(
       `\tCréation des résultats de certification pour les ${errorAssessmentIds.length} certifications en erreur...`
@@ -120,7 +120,7 @@ async function _do({ organizationId, certificationCenterId }) {
 
     const competences = await competenceDatasource.list();
     const pixCompetences = competences.filter((competence) => competence.origin === 'Pix');
-    const rejectedCount = parseInt(allAssessmentIds.length * CERTIF_REJECTED_RATE);
+    const rejectedCount = Number.parseInt(allAssessmentIds.length * CERTIF_REJECTED_RATE);
     const rejectedAssessmentIds = _.sampleSize(allAssessmentIds, rejectedCount);
     console.log(
       `\tCréation des résultats de certification pour les ${rejectedAssessmentIds.length} certifications rejetées...`
@@ -309,7 +309,7 @@ async function _createCertificationResultsWithMarks({ assessmentIds, status, pix
 
 async function _createCompetenceMarksForCompetence({ competence, assessmentResultIds, transaction }) {
   const chosenRate = _.sample(COMPETENCE_MARK_PARTICIPATION_RATES);
-  const chosenCount = parseInt(assessmentResultIds.length * chosenRate);
+  const chosenCount = Number.parseInt(assessmentResultIds.length * chosenRate);
   const chosenAssessmentResultIds = _.sampleSize(assessmentResultIds, chosenCount);
   const competenceMarksData = [];
   const possibleScoresAndLevels = [

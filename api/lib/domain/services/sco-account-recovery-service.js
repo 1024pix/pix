@@ -64,7 +64,7 @@ async function retrieveAndValidateAccountRecoveryDemand({
 
 function _demandHasExpired(demandCreationDate) {
   const minutesInADay = 60 * 24;
-  const lifetimeInMinutes = parseInt(features.scoAccountRecoveryKeyLifetimeMinutes) || minutesInADay;
+  const lifetimeInMinutes = Number.parseInt(features.scoAccountRecoveryKeyLifetimeMinutes) || minutesInADay;
   const millisecondsInAMinute = 60 * 1000;
   const lifetimeInMilliseconds = lifetimeInMinutes * millisecondsInAMinute;
 

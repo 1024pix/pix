@@ -255,7 +255,7 @@ describe('Integration | Scripts | create-certification-center-memberships-from-o
 
   describe('#createCertificationCenterMemberships', function () {
     const getNumberOfCertificationCenterMemberships = () => {
-      return BookshelfCertificationCenterMembership.count().then((number) => parseInt(number, 10));
+      return BookshelfCertificationCenterMembership.count().then((number) => Number.parseInt(number, 10));
     };
 
     context('when the certification center does not have any membership', function () {

@@ -22,7 +22,7 @@ class Skill {
   }
 
   get difficulty() {
-    return parseInt(this.name.slice(-1));
+    return Number.parseInt(this.name.slice(-1));
   }
 
   get tubeName() {

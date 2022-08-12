@@ -174,7 +174,7 @@ let exitCode;
 const SUCCESS = 0;
 const FAILURE = 1;
 const campaignCode = process.argv[2];
-const concurrency = parseInt(process.argv[3]);
+const concurrency = Number.parseInt(process.argv[3]);
 
 if (require.main === module) {
   computePoleEmploiSendings(campaignCode, concurrency).then(handleSuccess).catch(handleError).finally(exit);

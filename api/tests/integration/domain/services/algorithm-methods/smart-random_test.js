@@ -15,7 +15,7 @@ function turnIntoTimedChallenge(challenge) {
 }
 
 function duplicateChallengeOfSameDifficulty(challenge) {
-  const challengeId = parseInt(challenge.id[0]) + 1;
+  const challengeId = Number.parseInt(challenge.id[0]) + 1;
   return _.assign(_.cloneDeep(challenge), { id: 'rec' + challengeId });
 }
 

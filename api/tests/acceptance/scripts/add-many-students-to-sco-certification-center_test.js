@@ -40,5 +40,5 @@ describe('Acceptance | Scripts | add-many-students-to-sco-certification-centers.
 });
 
 function _getNumberOfOrganizationLearners() {
-  return BookshelfOrganizationLearner.count().then((number) => parseInt(number, 10));
+  return BookshelfOrganizationLearner.count().then((number) => Number.parseInt(number, 10));
 }

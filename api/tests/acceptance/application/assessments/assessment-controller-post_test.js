@@ -98,7 +98,7 @@ describe('Acceptance | API | Assessments POST', function () {
             return new BookshelfAssessment({ id: response.result.data.id }).fetch();
           })
           .then((model) => {
-            expect(parseInt(model.get('userId'))).to.deep.equal(userId);
+            expect(Number.parseInt(model.get('userId'))).to.deep.equal(userId);
           });
       });
 
@@ -109,7 +109,7 @@ describe('Acceptance | API | Assessments POST', function () {
         // then
         return promise.then(() => {
           return BookshelfAssessment.count().then((afterAssessmentsNumber) => {
-            expect(parseInt(afterAssessmentsNumber, 10)).to.equal(1);
+            expect(Number.parseInt(afterAssessmentsNumber, 10)).to.equal(1);
           });
         });
       });

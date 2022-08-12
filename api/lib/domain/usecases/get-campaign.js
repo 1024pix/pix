@@ -8,7 +8,7 @@ module.exports = async function getCampaign({
   campaignReportRepository,
   stageRepository,
 }) {
-  const integerCampaignId = parseInt(campaignId);
+  const integerCampaignId = Number.parseInt(campaignId);
   if (!Number.isFinite(integerCampaignId)) {
     throw new NotFoundError(`Campaign not found for ID ${campaignId}`);
   }

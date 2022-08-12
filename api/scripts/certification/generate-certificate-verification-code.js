@@ -12,6 +12,7 @@ const DEFAULT_COUNT = 20000;
 const DEFAULT_CONCURRENCY = 1;
 
 let progression = 0;
+
 function _logProgression(totalCount) {
   ++progression;
   process.stdout.cursorTo(0);
@@ -59,7 +60,7 @@ function _validateAndNormalizeArgs({ count, concurrency }) {
 }
 
 function _validateAndNormalizeCount(count) {
-  if (isNaN(count)) {
+  if (Number.isNaN(count)) {
     count = DEFAULT_COUNT;
   }
   if (count <= 0 || count > 100000) {
@@ -70,7 +71,7 @@ function _validateAndNormalizeCount(count) {
 }
 
 function _validateAndNormalizeConcurrency(concurrency) {
-  if (isNaN(concurrency)) {
+  if (Number.isNaN(concurrency)) {
     concurrency = DEFAULT_CONCURRENCY;
   }
   if (concurrency <= 0 || concurrency > 10) {

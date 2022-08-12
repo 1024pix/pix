@@ -100,7 +100,7 @@ class Challenge {
   }
 
   isTimed() {
-    return Number.isFinite(parseFloat(this.timer));
+    return Number.isFinite(Number.parseFloat(this.timer));
   }
 
   hasIllustration() {

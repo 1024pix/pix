@@ -114,7 +114,7 @@ describe('Acceptance | Application | organization-controller', function () {
           return knex('users')
             .count('id as id')
             .then((count) => {
-              expect(parseInt(count[0].id, 10)).to.equal(1);
+              expect(Number.parseInt(count[0].id, 10)).to.equal(1);
             });
         });
       });
@@ -206,7 +206,7 @@ describe('Acceptance | Application | organization-controller', function () {
       expect(response.result.data.attributes['credit']).to.equal(50);
       expect(response.result.data.attributes['logo-url']).to.equal(newLogo);
       expect(response.result.data.relationships.tags.data[0]).to.deep.equal({ type: 'tags', id: tag1.id.toString() });
-      expect(parseInt(response.result.data.id)).to.equal(organization.id);
+      expect(Number.parseInt(response.result.data.id)).to.equal(organization.id);
     });
 
     describe('Resource access management', function () {

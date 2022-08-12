@@ -1,5 +1,5 @@
 const { knex } = require('../../db/knex-database-connection');
-const ASSESSMENT_COUNT = parseInt(process.env.ASSESSMENT_COUNT) || 100;
+const ASSESSMENT_COUNT = Number.parseInt(process.env.ASSESSMENT_COUNT) || 100;
 const bluebird = require('bluebird');
 const scoringCertificationService = require('../../lib/domain/services/scoring/scoring-certification-service');
 const certificationAssessmentRepository = require('../../lib/infrastructure/repositories/certification-assessment-repository');

@@ -8,7 +8,7 @@ const INITIAL_ID = 300000;
 function _buildMembership(iteration) {
   const organizationId = process.argv[3];
   const memberRole = process.argv[4];
-  const initialIdStart = parseInt(process.argv[5]) || INITIAL_ID;
+  const initialIdStart = Number.parseInt(process.argv[5]) || INITIAL_ID;
 
   return {
     organizationRole: memberRole,
@@ -19,7 +19,7 @@ function _buildMembership(iteration) {
 }
 
 function _buildUser(iteration) {
-  const initialIdStart = parseInt(process.argv[5]) || INITIAL_ID;
+  const initialIdStart = Number.parseInt(process.argv[5]) || INITIAL_ID;
   return {
     firstName: `firstName${initialIdStart + iteration}`,
     lastName: `lastName${initialIdStart + iteration}`,
@@ -64,7 +64,7 @@ async function main() {
   const numberOfUsers = process.argv[2];
   const organizationId = process.argv[3];
   const memberRole = process.argv[4];
-  const initialIdStart = parseInt(process.argv[5]) || INITIAL_ID;
+  const initialIdStart = Number.parseInt(process.argv[5]) || INITIAL_ID;
   console.log(
     `Starting adding ${numberOfUsers} users with ${memberRole} role to organization with id ${organizationId}`
   );

@@ -139,7 +139,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
         // then
         expect(assessment).to.be.an.instanceOf(Assessment);
         expect(assessment.id).to.equal(assessmentId);
-        expect(parseInt(assessment.userId)).to.equal(userId);
+        expect(Number.parseInt(assessment.userId)).to.equal(userId);
       });
     });
 
@@ -369,7 +369,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
 
       // then
       const assessmentsInDb = await knex('assessments').where('id', assessmentReturned.id).first('id', 'userId');
-      expect(parseInt(assessmentsInDb.userId)).to.equal(userId);
+      expect(Number.parseInt(assessmentsInDb.userId)).to.equal(userId);
     });
   });
 

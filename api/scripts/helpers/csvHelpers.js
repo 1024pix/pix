@@ -23,7 +23,7 @@ const optionsWithHeader = {
       value = value.toUpperCase();
     }
     if (columnName === 'createdBy') {
-      value = !isEmpty(value) && parseInt(value, 10);
+      value = !isEmpty(value) && Number.parseInt(value, 10);
     }
     return value;
   },

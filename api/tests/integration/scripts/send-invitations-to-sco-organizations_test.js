@@ -96,7 +96,7 @@ describe('Integration | Scripts | send-invitations-to-sco-organizations.js', fun
 
   describe('#sendJoinOrganizationInvitations', function () {
     const getNumberOfOrganizationInvitations = () => {
-      return BookshelfOrganizationInvitation.count().then((number) => parseInt(number, 10));
+      return BookshelfOrganizationInvitation.count().then((number) => Number.parseInt(number, 10));
     };
 
     afterEach(async function () {

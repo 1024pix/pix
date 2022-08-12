@@ -5,7 +5,7 @@ module.exports = async function findAnswerByChallengeAndAssessment({
   answerRepository,
   assessmentRepository,
 } = {}) {
-  const integerAssessmentId = parseInt(assessmentId);
+  const integerAssessmentId = Number.parseInt(assessmentId);
   if (!Number.isFinite(integerAssessmentId)) {
     return null;
   }

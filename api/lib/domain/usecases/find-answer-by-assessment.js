@@ -6,7 +6,7 @@ module.exports = async function findAnswerByAssessment({
   answerRepository,
   assessmentRepository,
 } = {}) {
-  const integerAssessmentId = parseInt(assessmentId);
+  const integerAssessmentId = Number.parseInt(assessmentId);
   if (!Number.isFinite(integerAssessmentId)) {
     throw new EntityValidationError({
       invalidAttributes: [{ attribute: 'assessmentId', message: 'This assessment ID is not valid.' }],

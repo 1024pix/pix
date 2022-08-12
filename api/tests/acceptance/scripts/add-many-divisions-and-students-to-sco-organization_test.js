@@ -46,7 +46,7 @@ describe('Acceptance | Scripts | add-many-divisions-and-students-to-sco-organiza
 });
 
 function _getNumberOfOrganizationLearners() {
-  return BookshelfOrganizationLearner.count().then((number) => parseInt(number, 10));
+  return BookshelfOrganizationLearner.count().then((number) => Number.parseInt(number, 10));
 }
 
 function _getDistinctDivisions() {

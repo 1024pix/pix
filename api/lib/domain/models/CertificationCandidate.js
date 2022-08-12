@@ -111,7 +111,9 @@ class CertificationCandidate {
     this.resultRecipientEmail = resultRecipientEmail;
     this.externalId = externalId;
     this.birthdate = birthdate;
-    this.extraTimePercentage = !isNil(extraTimePercentage) ? parseFloat(extraTimePercentage) : extraTimePercentage;
+    this.extraTimePercentage = !isNil(extraTimePercentage)
+      ? Number.parseFloat(extraTimePercentage)
+      : extraTimePercentage;
     this.createdAt = createdAt;
     this.authorizedToStart = authorizedToStart;
     this.sessionId = sessionId;

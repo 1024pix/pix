@@ -31,7 +31,7 @@ function convertCSVDataIntoOrganizations(csvParsingResult) {
   return dataRows.reduce((organizations, dataRow) => {
     const externalId = dataRow[CSV_HEADERS.EXTERNAL_ID].toUpperCase();
     const organization = {
-      id: parseInt(dataRow[CSV_HEADERS.ID]),
+      id: Number.parseInt(dataRow[CSV_HEADERS.ID]),
       externalId,
       provinceCode: externalId.substring(0, 3),
     };

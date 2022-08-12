@@ -204,9 +204,9 @@ module.exports = {
 
   async attachTargetProfiles(request, h) {
     const organizationId = request.params.id;
-    const targetProfileIdsToAttach = request.payload.data.attributes['target-profiles-to-attach']
-      // eslint-disable-next-line no-restricted-syntax
-      .map((targetProfileToAttach) => parseInt(targetProfileToAttach));
+    const targetProfileIdsToAttach = request.payload.data.attributes['target-profiles-to-attach'].map(
+      (targetProfileToAttach) => Number.parseInt(targetProfileToAttach)
+    );
     const results = await usecases.attachTargetProfilesToOrganization({
       organizationId,
       targetProfileIdsToAttach,

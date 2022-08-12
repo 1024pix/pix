@@ -16,7 +16,7 @@ function _formatPayload({ to, fromName, from, subject, template, variables, tags
       email: from,
     },
     subject,
-    templateId: parseInt(template),
+    templateId: Number.parseInt(template),
     headers: {
       'content-type': 'application/json',
       accept: 'application/json',

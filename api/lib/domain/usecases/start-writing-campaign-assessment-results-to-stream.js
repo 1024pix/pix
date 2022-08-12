@@ -78,7 +78,7 @@ module.exports = async function startWritingCampaignAssessmentResultsToStream({
         for (const [strParticipantId, participantKnowledgeElementsByCompetenceId] of Object.entries(
           knowledgeElementsByUserIdAndCompetenceId
         )) {
-          const participantId = parseInt(strParticipantId);
+          const participantId = Number.parseInt(strParticipantId);
           const campaignParticipationInfo = campaignParticipationInfoChunk.find(
             (campaignParticipationInfo) => campaignParticipationInfo.userId === participantId
           );

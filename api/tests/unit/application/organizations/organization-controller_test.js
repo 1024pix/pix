@@ -653,7 +653,7 @@ describe('Unit | Application | Organizations | organization-controller', functio
     beforeEach(function () {
       targetProfile = domainBuilder.buildTargetProfile();
       organizationId = targetProfile.ownerOrganizationId;
-      targetProfileId = parseInt(targetProfile.id);
+      targetProfileId = Number.parseInt(targetProfile.id);
       targetProfilesToAttachAsArray = [targetProfileId];
       request = {
         auth: { credentials: { userId } },

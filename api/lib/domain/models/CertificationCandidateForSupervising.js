@@ -6,7 +6,9 @@ class CertificationCandidateForSupervising {
     this.firstName = firstName;
     this.lastName = lastName;
     this.birthdate = birthdate;
-    this.extraTimePercentage = !isNil(extraTimePercentage) ? parseFloat(extraTimePercentage) : extraTimePercentage;
+    this.extraTimePercentage = !isNil(extraTimePercentage)
+      ? Number.parseFloat(extraTimePercentage)
+      : extraTimePercentage;
     this.authorizedToStart = authorizedToStart;
     this.assessmentStatus = assessmentStatus;
   }
