@@ -33,6 +33,7 @@ describe('Unit | Domain | Models | ResultCompetence', function () {
               name: '1. Information et données',
               title: 'Information et données',
               color: 'jaffa',
+              frameworkId: 'recAi12kj43h23jrh3',
               resultCompetences: [
                 {
                   id: 'recsvLz0W2ShyfD63',

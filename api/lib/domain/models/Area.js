@@ -6,6 +6,7 @@ class Area {
     title,
     color,
     competences = [], // list of Competence domain objects
+    frameworkId,
   } = {}) {
     this.id = id;
     this.code = code;
@@ -13,6 +14,7 @@ class Area {
     this.title = title;
     this.color = color;
     this.competences = competences;
+    this.frameworkId = frameworkId;
   }
 }
 

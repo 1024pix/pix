@@ -265,6 +265,9 @@ module('Acceptance | Target Profiles | Target Profile | Details', function (hook
             name: 'Profil Cible avec Gabarit',
             ownerOrganizationId: 123,
             tubesSelection: [{ id: 'tubeId1', level: 7 }],
+            tubes: [server.create('tube', { id: 'tubeId1', competenceId: 'compId1' })],
+            competences: [server.create('competence', { id: 'compId1', areaId: 'areaId1' })],
+            areas: [server.create('area', { id: 'areaId1', areaId: 'fmkId1' })],
           });
 
           // when
