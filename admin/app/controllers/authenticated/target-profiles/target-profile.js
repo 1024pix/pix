@@ -105,4 +105,8 @@ export default class TargetProfileController extends Controller {
       }
     });
   }
+
+  reset() {
+    this.isEditMode = false;
+  }
 }

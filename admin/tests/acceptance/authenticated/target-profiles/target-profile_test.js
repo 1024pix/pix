@@ -1,4 +1,4 @@
-import { visit } from '@1024pix/ember-testing-library';
+import { clickByName, visit } from '@1024pix/ember-testing-library';
 import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { module, test } from 'qunit';
@@ -20,17 +20,35 @@ module('Acceptance | Target Profiles | Target Profile', function (hooks) {
   });
 
   module('When admin member is logged in', function () {
-    module('when admin member has role "SUPER_ADMIN", "SUPPORT" or "METIER"', function () {
-      test('it should be accessible for an authenticated user', async function (assert) {
-        // given
+    module('when admin member has role "SUPER_ADMIN", "SUPPORT" or "METIER"', function (hooks) {
+      hooks.beforeEach(async function () {
         await authenticateAdminMemberWithRole({ isSuperAdmin: true })(server);
-        server.create('target-profile', { id: 1 });
+        server.create('target-profile', { id: 1, name: 'Mon super profil cible' });
+      });
 
+      test('it should be accessible for an authenticated user', async function (assert) {
         // when
         await visit('/target-profiles/1');
 
         // then
         assert.strictEqual(currentURL(), '/target-profiles/1');
+      });
+
+      module('when user clicks on the edit button', function () {
+        module('when user goes to another page then comes back to a target profile details page', function () {
+          test('it should have ended edit mode', async function (assert) {
+            // given
+            const screen = await visit('/target-profiles/1');
+            await clickByName('Éditer');
+            await clickByName('Tous les profils cibles');
+
+            // when
+            await clickByName('Mon super profil cible');
+
+            // then
+            assert.dom(screen.getByText('Éditer')).exists();
+          });
+        });
       });
     });
 
