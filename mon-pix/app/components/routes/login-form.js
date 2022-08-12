@@ -71,7 +71,8 @@ export default class LoginForm extends Component {
       if (shouldChangePassword) {
         const passwordResetToken = response.errors[0].meta;
         this.store.createRecord('reset-expired-password-demand', { passwordResetToken });
-        return this.router.replaceWith('update-expired-password');
+        this.router.replaceWith('update-expired-password');
+        return;
       }
 
       this._manageErrorsApi(response);

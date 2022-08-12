@@ -36,7 +36,8 @@ export default class FillInCertificateVerificationCode extends Controller {
       const certification = await this.store.queryRecord('certification', {
         verificationCode: this.certificateVerificationCode.toUpperCase(),
       });
-      return this.transitionToRoute('shared-certification', certification);
+      this.transitionToRoute('shared-certification', certification);
+      return;
     } catch (error) {
       this.onVerificateCertificationCodeError(error);
     }

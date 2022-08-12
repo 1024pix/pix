@@ -16,6 +16,7 @@ export default class StudentScoController extends Controller {
     }
 
     this.campaignStorage.set(this.model.code, 'associationDone', true);
-    return this.router.transitionTo('campaigns.invited.fill-in-participant-external-id', this.model.code);
+    this.router.transitionTo('campaigns.invited.fill-in-participant-external-id', this.model.code);
+    return;
   }
 }
