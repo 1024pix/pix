@@ -218,7 +218,6 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function () {
                   type: 'sco-organization-learners',
                 },
               };
-
               return new Response(200, {}, studentFoundWithUsernameGenerated);
             });
 
