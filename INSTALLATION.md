@@ -165,7 +165,7 @@ plutôt que `localhost:port` :
 Pour configurer les domaines locaux, exécuter le script :
 
 ```bash
-npm run domains:install
+sudo npm run domains:install
 ```
 
 Démarrer le conteneur docker :
