@@ -40,6 +40,7 @@ module.exports = function (environment) {
 
     emberKeyboard: {
       disableInputsInitializer: true,
+      propagation: true,
     },
 
     APP: {
