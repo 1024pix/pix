@@ -19,6 +19,8 @@ const { PGSQL_FOREIGN_KEY_VIOLATION_ERROR } = require('../../../db/pgsql-errors'
 const Stage = require('../../domain/models/Stage');
 const Skill = require('../../domain/models/Skill');
 
+const TARGET_PROFILE_TABLE = 'target-profiles';
+
 module.exports = {
   async create(targetProfileForCreation) {
     try {
@@ -34,7 +36,7 @@ module.exports = {
           'targetProfileTemplateId',
         ]);
 
-        const [{ id: targetProfileId }] = await trx('target-profiles').insert(targetProfileRawData).returning('id');
+        const [{ id: targetProfileId }] = await trx(TARGET_PROFILE_TABLE).insert(targetProfileRawData).returning('id');
 
         const skillsIdList = _.uniq(targetProfileForCreation.skillIds);
 
@@ -99,7 +101,7 @@ module.exports = {
   async getByCampaignParticipationId({ campaignParticipationId, domainTransaction }) {
     const knexConn = domainTransaction?.knexConnection || knex;
 
-    const targetProfileDTO = await knexConn('target-profiles')
+    const targetProfileDTO = await knexConn(TARGET_PROFILE_TABLE)
       .select('target-profiles.*')
       .innerJoin('campaigns', 'campaigns.targetProfileId', 'target-profiles.id')
       .innerJoin('campaign-participations', 'campaign-participations.campaignId', 'campaigns.id')
@@ -154,7 +156,7 @@ module.exports = {
     ]);
 
     try {
-      results = await knex('target-profiles')
+      results = await knex(TARGET_PROFILE_TABLE)
         .where({ id: targetProfile.id })
         .update(editedAttributes)
         .returning(['id', 'isSimplifiedAccess']);
@@ -170,7 +172,7 @@ module.exports = {
   },
 
   async findOrganizationIds(targetProfileId) {
-    const targetProfile = await knex('target-profiles').select('id').where({ id: targetProfileId }).first();
+    const targetProfile = await knex(TARGET_PROFILE_TABLE).select('id').where({ id: targetProfileId }).first();
     if (!targetProfile) {
       throw new NotFoundError(`No target profile for ID ${targetProfileId}`);
     }
