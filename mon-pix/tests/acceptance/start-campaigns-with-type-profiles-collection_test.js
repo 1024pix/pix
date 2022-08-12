@@ -5,7 +5,7 @@ import { authenticateByEmail } from '../helpers/authentication';
 import { startCampaignByCode, startCampaignByCodeAndExternalId } from '../helpers/campaign';
 import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
-import { Response } from 'ember-cli-mirage';
+import { Response } from 'miragejs';
 import { clickByLabel } from '../helpers/click-by-label';
 import findByLabel from '../helpers/find-by-label';
 import setupIntl from '../helpers/setup-intl';

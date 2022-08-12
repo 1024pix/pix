@@ -1,4 +1,4 @@
-import Response from 'ember-cli-mirage/response';
+import { Response } from 'miragejs';
 
 export default function (schema, request) {
   const params = JSON.parse(request.requestBody);

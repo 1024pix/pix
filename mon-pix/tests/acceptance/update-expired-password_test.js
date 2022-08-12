@@ -4,7 +4,7 @@ import { expect } from 'chai';
 import { currentURL, fillIn } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
-import { Response } from 'ember-cli-mirage';
+import { Response } from 'miragejs';
 
 import { authenticateByUsername } from '../helpers/authentication';
 import setupIntl from '../helpers/setup-intl';
