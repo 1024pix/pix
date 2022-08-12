@@ -28,7 +28,7 @@ export default class ErrorRoute extends Route {
     }
 
     if (this.hasUnauthorizedError(error)) {
-      return this.router.transitionTo('logout');
+      this.router.transitionTo('logout');
     }
   }
 }

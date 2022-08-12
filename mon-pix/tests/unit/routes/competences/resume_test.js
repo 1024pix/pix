@@ -11,6 +11,7 @@ describe('Unit | Route | Competence | Resume', function () {
   let route;
   const competenceId = 'competenceId';
   let storeStub;
+  let routerStub;
   let queryRecordStub;
   let competenceEvaluation;
 
@@ -21,10 +22,13 @@ describe('Unit | Route | Competence | Resume', function () {
     storeStub = Service.create({
       queryRecord: queryRecordStub,
     });
+    routerStub = Service.create({
+      replaceWith: sinon.stub(),
+    });
 
     route = this.owner.lookup('route:competences.resume');
     route.set('store', storeStub);
-    route.router = { replaceWith: sinon.stub() };
+    route.set('router', routerStub);
   });
 
   describe('#model', function () {
@@ -43,17 +47,15 @@ describe('Unit | Route | Competence | Resume', function () {
   describe('#afterModel', function () {
     it('should transition to assessments.resume', function () {
       // given
-      route.router.replaceWith.resolves();
+      route.router.replaceWith.returns();
       const competenceEvaluation = EmberObject.create({ competenceId, assessment: { id: 'assessmentId' } });
 
       // when
-      const promise = route.afterModel(competenceEvaluation);
+      route.afterModel(competenceEvaluation);
 
       // then
-      return promise.then(() => {
-        sinon.assert.calledOnce(route.router.replaceWith);
-        sinon.assert.calledWith(route.router.replaceWith, 'assessments.resume', 'assessmentId');
-      });
+      sinon.assert.calledOnce(route.router.replaceWith);
+      sinon.assert.calledWith(route.router.replaceWith, 'assessments.resume', 'assessmentId');
     });
   });
 });

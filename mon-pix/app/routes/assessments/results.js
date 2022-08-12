@@ -10,7 +10,8 @@ export default class ResultsRoute extends Route {
 
   async afterModel(assessment) {
     if (assessment.isCertification) {
-      return this.router.transitionTo('index');
+      this.router.transitionTo('index');
+      return;
     }
   }
 }
