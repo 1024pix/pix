@@ -16,7 +16,7 @@
     <p class="badge-card-text__title">{{@title}}</p>
     <p class="badge-card-text__message"><MarkdownToHtml @markdown={{@message}} /></p>
   </div>
-  <div class="badge-card__image {{unless @isAcquired "badge-card__image--not-acquired"}}"><img
+  <div class="badge-card__image {{unless @isAcquired 'badge-card__image--not-acquired'}}"><img
       src="{{@imageUrl}}"
       alt="{{@altMessage}}"
     /></div>

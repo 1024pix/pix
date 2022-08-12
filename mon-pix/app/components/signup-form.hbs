@@ -1,6 +1,6 @@
 <main class="sign-form__container" role="main">
   <a href={{this.homeUrl}} class="pix-logo__link">
-    <img class="pix-logo__image" src="{{@rootURL}}/images/pix-logo.svg" alt="{{t "navigation.homepage"}}" />
+    <img class="pix-logo__image" src="{{@rootURL}}/images/pix-logo.svg" alt="{{t 'navigation.homepage'}}" />
   </a>
 
   <div class="sign-form__header">
@@ -34,7 +34,7 @@
       <legend class="sr-only">{{t "pages.sign-up.fields.legend"}}</legend>
       <div class="sign-form-body__input">
         <FormTextfield
-          @label="{{t "pages.sign-up.fields.firstname.label"}}"
+          @label="{{t 'pages.sign-up.fields.firstname.label'}}"
           @textfieldName="firstName"
           @inputBindingValue={{@user.firstName}}
           @onValidate={{this.validateInput}}
@@ -49,7 +49,7 @@
 
       <div class="sign-form-body__input">
         <FormTextfield
-          @label="{{t "pages.sign-up.fields.lastname.label"}}"
+          @label="{{t 'pages.sign-up.fields.lastname.label'}}"
           @textfieldName="lastName"
           @inputBindingValue={{@user.lastName}}
           @onValidate={{this.validateInput}}
@@ -64,8 +64,8 @@
 
       <div class="sign-form-body__input">
         <FormTextfield
-          @label="{{t "pages.sign-up.fields.email.label"}}"
-          @help="{{t "pages.sign-up.fields.email.help"}}"
+          @label="{{t 'pages.sign-up.fields.email.label'}}"
+          @help="{{t 'pages.sign-up.fields.email.help'}}"
           @textfieldName="email"
           @validationStatus={{this.validation.email.status}}
           @onValidate={{this.validateInputEmail}}
@@ -80,8 +80,8 @@
 
       <div class="sign-form-body__input">
         <FormTextfield
-          @label="{{t "pages.sign-up.fields.password.label"}}"
-          @help="{{t "pages.sign-up.fields.password.help"}}"
+          @label="{{t 'pages.sign-up.fields.password.label'}}"
+          @help="{{t 'pages.sign-up.fields.password.help'}}"
           @textfieldName="password"
           @validationStatus={{this.validation.password.status}}
           @onValidate={{this.validateInputPassword}}
