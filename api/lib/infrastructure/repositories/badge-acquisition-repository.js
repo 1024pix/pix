@@ -7,17 +7,19 @@ const ComplementaryCertificationBadge = require('../../domain/models/Complementa
 const { knex } = require('../../../db/knex-database-connection');
 const DomainTransaction = require('../DomainTransaction');
 
+const BADGE_ACQUISITIONS_TABLE = 'badge-acquisitions';
+
 module.exports = {
   async createOrUpdate({ badgeAcquisitionsToCreate = [], domainTransaction = DomainTransaction.emptyTransaction() }) {
     const knexConn = domainTransaction.knexTransaction || knex;
     return bluebird.mapSeries(badgeAcquisitionsToCreate, async ({ badgeId, userId, campaignParticipationId }) => {
-      const alreadyCreatedBadgeAcquisition = await knexConn('badge-acquisitions')
+      const alreadyCreatedBadgeAcquisition = await knexConn(BADGE_ACQUISITIONS_TABLE)
         .select('id')
         .where({ badgeId, userId, campaignParticipationId });
       if (alreadyCreatedBadgeAcquisition.length === 0) {
-        return knexConn('badge-acquisitions').insert(badgeAcquisitionsToCreate);
+        return knexConn(BADGE_ACQUISITIONS_TABLE).insert(badgeAcquisitionsToCreate);
       } else {
-        return knexConn('badge-acquisitions')
+        return knexConn(BADGE_ACQUISITIONS_TABLE)
           .update({ updatedAt: knex.raw('CURRENT_TIMESTAMP') })
           .where({ userId, badgeId, campaignParticipationId });
       }
@@ -26,7 +28,7 @@ module.exports = {
 
   async getAcquiredBadgeIds({ badgeIds, userId, domainTransaction = DomainTransaction.emptyTransaction() }) {
     const knexConn = domainTransaction.knexTransaction || knex;
-    return knexConn('badge-acquisitions').pluck('badgeId').where({ userId }).whereIn('badgeId', badgeIds);
+    return knexConn(BADGE_ACQUISITIONS_TABLE).pluck('badgeId').where({ userId }).whereIn('badgeId', badgeIds);
   },
 
   async getAcquiredBadgesByCampaignParticipations({
@@ -38,7 +40,7 @@ module.exports = {
       .distinct('badges.id')
       .select('badge-acquisitions.campaignParticipationId AS campaignParticipationId', 'badges.*')
       .from('badges')
-      .join('badge-acquisitions', 'badges.id', 'badge-acquisitions.badgeId')
+      .join(BADGE_ACQUISITIONS_TABLE, 'badges.id', 'badge-acquisitions.badgeId')
       .where('badge-acquisitions.campaignParticipationId', 'IN', campaignParticipationsIds)
       .orderBy('badges.id');
 
@@ -55,7 +57,7 @@ module.exports = {
 
   async findHighestCertifiable({ userId, domainTransaction = DomainTransaction.emptyTransaction() }) {
     const knexConn = domainTransaction.knexTransaction || knex;
-    const certifiableBadgeAcquisitions = await knexConn('badge-acquisitions')
+    const certifiableBadgeAcquisitions = await knexConn(BADGE_ACQUISITIONS_TABLE)
       .select(
         'badges.*',
         'badge-acquisitions.*',
