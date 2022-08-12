@@ -1,7 +1,7 @@
 import map from 'lodash/map';
 import first from 'lodash/first';
 import difference from 'lodash/difference';
-import Response from 'ember-cli-mirage/response';
+import { Response } from 'miragejs';
 
 export default function (schema, request) {
   const assessmentId = request.params.id;

@@ -8,7 +8,7 @@ import setupIntl from '../../helpers/setup-intl';
 import { fillInByLabel } from '../../helpers/fill-in-by-label';
 import { clickByLabel } from '../../helpers/click-by-label';
 import { contains } from '../../helpers/contains';
-import { Response } from 'ember-cli-mirage';
+import { Response } from 'miragejs';
 
 describe('Acceptance | account-recovery | FindScoRecordRoute', function () {
   setupApplicationTest();

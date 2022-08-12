@@ -1,4 +1,4 @@
-import Response from 'ember-cli-mirage/response';
+import { Response } from 'miragejs';
 
 function parseQueryString(queryString) {
   const result = Object.create(null);

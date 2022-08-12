@@ -1,4 +1,4 @@
-import Response from 'ember-cli-mirage/response';
+import { Response } from 'miragejs';
 
 export default function (schema, request) {
   const code = request.queryParams['filter[code]'];

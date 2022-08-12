@@ -3,7 +3,7 @@ import { expect } from 'chai';
 
 import { setupApplicationTest } from 'ember-mocha';
 import { currentURL, click } from '@ember/test-helpers';
-import { Response } from 'ember-cli-mirage';
+import { Response } from 'miragejs';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { visit, fillByLabel } from '@1024pix/ember-testing-library';
 

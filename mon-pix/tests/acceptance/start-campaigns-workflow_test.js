@@ -4,7 +4,7 @@ import { expect } from 'chai';
 import { click, fillIn, currentURL, find } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
-import { Response } from 'ember-cli-mirage';
+import { Response } from 'miragejs';
 
 import { contains } from '../helpers/contains';
 import { clickByLabel } from '../helpers/click-by-label';

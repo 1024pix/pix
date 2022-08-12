@@ -1,4 +1,4 @@
-import { Response } from 'ember-cli-mirage';
+import { Response } from 'miragejs';
 import getAuthenticatedUser from './get-authenticated-user';
 import getCampaignParticipationResult from './get-campaign-participation-result';
 import getScorecards from './get-scorecards';

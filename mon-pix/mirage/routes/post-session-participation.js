@@ -1,4 +1,4 @@
-import Response from 'ember-cli-mirage/response';
+import { Response } from 'miragejs';
 import every from 'lodash/every';
 
 export default function (schema, request) {

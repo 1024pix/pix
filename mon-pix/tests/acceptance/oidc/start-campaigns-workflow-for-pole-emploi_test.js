@@ -7,7 +7,7 @@ import { fillIn, currentURL, find } from '@ember/test-helpers';
 import { visit } from '@1024pix/ember-testing-library';
 import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
-import { Response } from 'ember-cli-mirage';
+import { Response } from 'miragejs';
 
 import { clickByLabel } from '../../helpers/click-by-label';
 import sinon from 'sinon';
