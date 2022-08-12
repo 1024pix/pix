@@ -126,7 +126,7 @@ async function computeBadgeAcquisition({
 }
 
 function _fetchPossibleCampaignAssociatedBadges(campaignParticipation, badgeRepository) {
-  return badgeRepository.findByCampaignParticipationId(campaignParticipation.id);
+  return badgeRepository.findByCampaignParticipationId({ campaignParticipationId: campaignParticipation.id });
 }
 
 async function getCampaignParticipationsBetweenIds({ idMin, idMax }) {

@@ -20,6 +20,7 @@ const badgeAcquisitionRepository = require('../../../../lib/infrastructure/repos
 const badgeRepository = require('../../../../lib/infrastructure/repositories/badge-repository');
 const knowledgeElementRepository = require('../../../../lib/infrastructure/repositories/knowledge-element-repository');
 const targetProfileRepository = require('../../../../lib/infrastructure/repositories/target-profile-repository');
+const Badge = require('../../../../lib/domain/models/Badge');
 
 describe('Script | Prod | Compute Badge Acquisitions', function () {
   describe('#validateRange', function () {
@@ -263,11 +264,13 @@ describe('Script | Prod | Compute Badge Acquisitions', function () {
         knowledgeElements = Symbol('knowledgeElements');
 
         sinon.stub(badgeRepository, 'findByCampaignParticipationId');
-        badge = {
+        badge = new Badge({
           id: badgeId,
           badgeCriteria: Symbol('badgeCriteria'),
-        };
-        badgeRepository.findByCampaignParticipationId.withArgs(campaignParticipation.id).resolves([badge]);
+        });
+        badgeRepository.findByCampaignParticipationId
+          .withArgs({ campaignParticipationId: campaignParticipation.id })
+          .resolves([badge]);
 
         sinon.stub(targetProfileRepository, 'getByCampaignParticipationId');
         targetProfileRepository.getByCampaignParticipationId.withArgs(campaignParticipation.id).resolves(targetProfile);
@@ -332,15 +335,17 @@ describe('Script | Prod | Compute Badge Acquisitions', function () {
         knowledgeElements = Symbol('knowledgeElements');
 
         sinon.stub(badgeRepository, 'findByCampaignParticipationId');
-        badge1 = {
+        badge1 = new Badge({
           id: badgeId_1,
           badgeCriteria: Symbol('badgeCriteria'),
-        };
-        badge2 = {
+        });
+        badge2 = new Badge({
           id: badgeId_2,
           badgeCriteria: Symbol('badgeCriteria'),
-        };
-        badgeRepository.findByCampaignParticipationId.withArgs(campaignParticipation.id).resolves([badge1, badge2]);
+        });
+        badgeRepository.findByCampaignParticipationId
+          .withArgs({ campaignParticipationId: campaignParticipation.id })
+          .resolves([badge1, badge2]);
 
         sinon.stub(targetProfileRepository, 'getByCampaignParticipationId');
         targetProfileRepository.getByCampaignParticipationId.withArgs(campaignParticipation.id).resolves(targetProfile);
@@ -466,7 +471,9 @@ describe('Script | Prod | Compute Badge Acquisitions', function () {
       it('should not create a badge', async function () {
         // given
         sinon.stub(badgeRepository, 'findByCampaignParticipationId');
-        badgeRepository.findByCampaignParticipationId.withArgs(campaignParticipation.id).resolves([]);
+        badgeRepository.findByCampaignParticipationId
+          .withArgs({ campaignParticipationId: campaignParticipation.id })
+          .resolves([]);
 
         sinon.stub(badgeAcquisitionRepository, 'createOrUpdate');
 
@@ -491,11 +498,13 @@ describe('Script | Prod | Compute Badge Acquisitions', function () {
         knowledgeElements = Symbol('knowledgeElements');
 
         sinon.stub(badgeRepository, 'findByCampaignParticipationId');
-        badge = {
+        badge = new Badge({
           id: badgeId,
           badgeCriteria: Symbol('badgeCriteria'),
-        };
-        badgeRepository.findByCampaignParticipationId.withArgs(campaignParticipation.id).resolves([badge]);
+        });
+        badgeRepository.findByCampaignParticipationId
+          .withArgs({ campaignParticipationId: campaignParticipation.id })
+          .resolves([badge]);
 
         sinon.stub(targetProfileRepository, 'getByCampaignParticipationId');
         targetProfileRepository.getByCampaignParticipationId.withArgs(campaignParticipation.id).resolves(targetProfile);
