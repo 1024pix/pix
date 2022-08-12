@@ -263,44 +263,6 @@ describe('Integration | Repository | Badge Acquisition', function () {
     });
   });
 
-  describe('#getCampaignAcquiredBadgesByUsers', function () {
-    let campaign;
-    let user1;
-    let user2;
-    let user3;
-    let badge1;
-    let badge2;
-
-    beforeEach(async function () {
-      const targetProfile = databaseBuilder.factory.buildTargetProfile();
-      campaign = databaseBuilder.factory.buildCampaign({ targetProfileId: targetProfile.id });
-      badge1 = databaseBuilder.factory.buildBadge({ key: 'badge1', targetProfileId: targetProfile.id });
-      badge2 = databaseBuilder.factory.buildBadge({ key: 'badge2', targetProfileId: targetProfile.id });
-      user1 = databaseBuilder.factory.buildUser();
-      user2 = databaseBuilder.factory.buildUser();
-      user3 = databaseBuilder.factory.buildUser();
-      databaseBuilder.factory.buildBadgeAcquisition({ badgeId: badge1.id, userId: user1.id });
-      databaseBuilder.factory.buildBadgeAcquisition({ badgeId: badge1.id, userId: user2.id });
-      databaseBuilder.factory.buildBadgeAcquisition({ badgeId: badge2.id, userId: user2.id });
-      databaseBuilder.factory.buildBadgeAcquisition({ badgeId: badge2.id, userId: user3.id });
-
-      await databaseBuilder.commit();
-    });
-
-    it('should return badge ids acquired by user for a campaign', async function () {
-      // when
-      const acquiredBadgeIdsByUsers = await badgeAcquisitionRepository.getCampaignAcquiredBadgesByUsers({
-        campaignId: campaign.id,
-        userIds: [user1.id, user2.id],
-      });
-
-      // then
-      expect(acquiredBadgeIdsByUsers[user1.id][0]).to.includes(badge1);
-      expect(acquiredBadgeIdsByUsers[user2.id][0]).to.includes(badge1);
-      expect(acquiredBadgeIdsByUsers[user2.id][1]).to.includes(badge2);
-    });
-  });
-
   describe('#findHighestCertifiable', function () {
     describe('when the user has a certifiable acquired badge', function () {
       it('should return the highest level certifiable acquired badge', async function () {

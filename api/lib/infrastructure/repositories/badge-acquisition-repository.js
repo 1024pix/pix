@@ -54,33 +54,6 @@ module.exports = {
     return acquiredBadgesByCampaignParticipations;
   },
 
-  async getCampaignAcquiredBadgesByUsers({ campaignId, userIds }) {
-    const results = await BookshelfBadgeAcquisition.query((qb) => {
-      qb.join('badges', 'badges.id', 'badge-acquisitions.badgeId');
-      qb.join('campaigns', 'campaigns.targetProfileId', 'badges.targetProfileId');
-      qb.where('campaigns.id', '=', campaignId);
-      qb.where('badge-acquisitions.userId', 'IN', userIds);
-    }).fetchAll({
-      withRelated: ['badge'],
-      require: false,
-    });
-
-    const badgeAcquisitions = results.map((result) =>
-      bookshelfToDomainConverter.buildDomainObject(BookshelfBadgeAcquisition, result)
-    );
-
-    const acquiredBadgesByUsers = {};
-    for (const badgeAcquisition of badgeAcquisitions) {
-      const { userId, badge } = badgeAcquisition;
-      if (acquiredBadgesByUsers[userId]) {
-        acquiredBadgesByUsers[userId].push(badge);
-      } else {
-        acquiredBadgesByUsers[userId] = [badge];
-      }
-    }
-    return acquiredBadgesByUsers;
-  },
-
   async findHighestCertifiable({ userId, domainTransaction = DomainTransaction.emptyTransaction() }) {
     const knexConn = domainTransaction.knexTransaction || knex;
     const certifiableBadgeAcquisitions = await knexConn('badge-acquisitions')
