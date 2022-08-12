@@ -27,15 +27,6 @@ module.exports = {
     });
   },
 
-  async hasAcquiredBadge({ badgeKey, userId }) {
-    const badgeAcquisition = await Bookshelf.knex('badge-acquisitions')
-      .select('badge-acquisitions.id')
-      .innerJoin('badges', 'badges.id', 'badgeId')
-      .where({ userId, key: badgeKey })
-      .first();
-    return Boolean(badgeAcquisition);
-  },
-
   async getAcquiredBadgeIds({ badgeIds, userId }) {
     const collectionResult = await BookshelfBadgeAcquisition.where({ userId })
       .where('badgeId', 'in', badgeIds)
