@@ -127,6 +127,6 @@
     "stylelint": "^13.13.1",
     "stylelint-config-standard": "^22.0.0",
     "uuid": "^8.3.2",
-    "xss": "^1.0.9"
+    "xss": "^1.0.13"
   }
 }
