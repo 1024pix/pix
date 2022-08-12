@@ -24,14 +24,27 @@ module('Unit | Controller | authenticated/target-profiles/target-profile', funct
           store.createRecord('skill', { id: 'skillId2', tubeId: 'tubeId1' }),
           store.createRecord('skill', { id: 'skillId3', tubeId: 'tubeId2' }),
         ],
+        tubes: [
+          store.createRecord('tube', { id: 'tubeId1', competenceId: 'compId1' }),
+          store.createRecord('tube', { id: 'tubeId2', competenceId: 'compId1' }),
+          store.createRecord('tube', { id: 'tubeId3', competenceId: 'compId2' }),
+        ],
+        competences: [
+          store.createRecord('competence', { id: 'compId1', areaId: 'areaId1' }),
+          store.createRecord('competence', { id: 'compId2', areaId: 'areaId2' }),
+        ],
+        areas: [
+          store.createRecord('area', { id: 'areaId1', frameworkId: 'fmkId1' }),
+          store.createRecord('area', { id: 'areaId2', frameworkId: 'fmkId2' }),
+        ],
       });
 
       const result = controller.targetProfileContent;
 
       assert.deepEqual(result, [
-        { id: 'tubeId1', level: 5, skills: ['skillId1', 'skillId2'] },
-        { id: 'tubeId2', level: 8, skills: ['skillId3'] },
-        { id: 'tubeId3', level: 7, skills: [] },
+        { id: 'tubeId1', level: 5, frameworkId: 'fmkId1', skills: ['skillId1', 'skillId2'] },
+        { id: 'tubeId2', level: 8, frameworkId: 'fmkId1', skills: ['skillId3'] },
+        { id: 'tubeId3', level: 7, frameworkId: 'fmkId2', skills: [] },
       ]);
     });
   });

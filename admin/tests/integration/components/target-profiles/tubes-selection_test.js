@@ -161,10 +161,10 @@ module('Integration | Component | TargetProfiles::TubesSelection', function (hoo
     assert.dom(screen.getByLabelText('@tubeName3 : Tube 3')).isChecked();
   });
 
-  module('#import tubes preselection', function () {
-    test('it should display a button to import tubes preselection', function (assert) {
+  module('#import tubes preselection or target profile export', function () {
+    test('it should display a button to import JSON file', function (assert) {
       // then
-      assert.dom(screen.getByText('Importer une présélection de sujets')).exists();
+      assert.dom(screen.getByText('Importer un fichier JSON')).exists();
     });
   });
 

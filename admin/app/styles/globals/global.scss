@@ -50,3 +50,11 @@ a {
     text-decoration: underline;
   }
 }
+
+a.pix-button {
+
+  &:hover {
+    color: #FFFFFF;
+    text-decoration: none;
+  }
+}

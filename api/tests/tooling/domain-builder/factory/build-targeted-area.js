@@ -6,6 +6,7 @@ const buildTargetedArea = function buildTargetedArea({
   title = 'someTitle',
   color = 'someColor',
   code = 'someCode',
+  frameworkId = 'someFmkId',
   competences = [buildTargetedCompetence()],
 } = {}) {
   return new TargetedArea({
@@ -13,6 +14,7 @@ const buildTargetedArea = function buildTargetedArea({
     title,
     color,
     code,
+    frameworkId,
     competences,
   });
 };

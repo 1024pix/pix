@@ -4,6 +4,7 @@ export default class Area extends Model {
   @attr('string') code;
   @attr('string') title;
   @attr('string') color;
+  @attr('string') frameworkId;
 
   @hasMany('competence') competences;
 

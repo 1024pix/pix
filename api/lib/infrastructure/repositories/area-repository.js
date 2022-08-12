@@ -15,6 +15,7 @@ function _toDomain({ areaData, locale }) {
     name: areaData.name,
     title: translatedTitle,
     color: areaData.color,
+    frameworkId: areaData.frameworkId,
   });
 }
 
