@@ -52,6 +52,18 @@ function findPaginatedTargetProfileOrganizations(schema, request) {
   return json;
 }
 
+function findPaginatedFilteredTargetProfileSummaries(schema) {
+  const summaries = schema.targetProfileSummaries.all().models;
+  const json = this.serialize({ modelName: 'target-profile-summary', models: summaries }, 'target-profile-summary');
+  json.meta = {
+    page: 1,
+    pageSize: 5,
+    rowCount: 5,
+    pageCount: 1,
+  };
+  return json;
+}
+
 function findTargetProfileBadges(schema) {
   return schema.badges.all();
 }
@@ -115,6 +127,7 @@ export {
   createBadgeCriterion,
   getOrganizationTargetProfiles,
   findPaginatedTargetProfileOrganizations,
+  findPaginatedFilteredTargetProfileSummaries,
   findTargetProfileBadges,
   findTargetProfileStages,
   updateTargetProfile,
