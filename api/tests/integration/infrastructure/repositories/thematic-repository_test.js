@@ -76,6 +76,7 @@ describe('Integration | Repository | thematic-repository', function () {
         name: 'thematic0',
         index: 1,
         tubeIds: ['recTube0'],
+        competenceId: 'competence0',
       });
       expect(foundThematics[0]).to.be.instanceOf(Thematic);
       expect(foundThematics[1]).to.deep.equal({
@@ -83,6 +84,7 @@ describe('Integration | Repository | thematic-repository', function () {
         name: 'thematic1',
         index: 1,
         tubeIds: ['recTube1'],
+        competenceId: 'competence0',
       });
       expect(foundThematics[1]).to.be.instanceOf(Thematic);
     });
@@ -100,6 +102,7 @@ describe('Integration | Repository | thematic-repository', function () {
           name: 'thematic0EnUs',
           index: 1,
           tubeIds: ['recTube0'],
+          competenceId: 'competence0',
         });
         expect(foundThematics[0]).to.be.instanceOf(Thematic);
         expect(foundThematics[1]).to.deep.equal({
@@ -107,9 +110,90 @@ describe('Integration | Repository | thematic-repository', function () {
           name: 'thematic1EnUs',
           index: 1,
           tubeIds: ['recTube1'],
+          competenceId: 'competence0',
         });
         expect(foundThematics[1]).to.be.instanceOf(Thematic);
       });
+    });
+  });
+
+  describe('#findByRecordIds', function () {
+    beforeEach(function () {
+      const learningContentThematic0 = {
+        id: 'recThematic0',
+        name: 'nameThemaFR0',
+        nameEnUs: 'nameThemaEN0',
+        index: 'indexThema0',
+        description: 'tubeDescription0',
+        competenceId: 'recComp0',
+      };
+      const learningContentThematic1 = {
+        id: 'recThematic1',
+        name: 'nameThemaFR1',
+        nameEnUs: 'nameThemaEN1',
+        index: 'indexThema1',
+        description: 'tubeDescription1',
+        competenceId: 'recComp1',
+      };
+      const learningContentThematic2 = {
+        id: 'recThematic2',
+        name: 'nameThemaFR2',
+        nameEnUs: 'nameThemaEN2',
+        index: 'indexThema2',
+        description: 'tubeDescription2',
+        competenceId: 'recComp2',
+      };
+      mockLearningContent({
+        thematics: [learningContentThematic0, learningContentThematic1, learningContentThematic2],
+      });
+    });
+
+    it('should return a list of thematics (locale FR - default)', async function () {
+      // given
+      const thematic1 = new Thematic({
+        id: 'recThematic1',
+        name: 'nameThemaFR1',
+        index: 'indexThema1',
+        competenceId: 'recComp1',
+        tubeIds: [],
+      });
+      const thematic2 = new Thematic({
+        id: 'recThematic2',
+        name: 'nameThemaFR2',
+        index: 'indexThema2',
+        competenceId: 'recComp2',
+        tubeIds: [],
+      });
+
+      // when
+      const thematics = await thematicRepository.findByRecordIds(['recThematic2', 'recThematic1']);
+
+      // then
+      expect(thematics).to.deepEqualArray([thematic1, thematic2]);
+    });
+
+    it('should return a list of thematics with locale EN', async function () {
+      // given
+      const thematic1 = new Thematic({
+        id: 'recThematic1',
+        name: 'nameThemaEN1',
+        index: 'indexThema1',
+        competenceId: 'recComp1',
+        tubeIds: [],
+      });
+      const thematic2 = new Thematic({
+        id: 'recThematic2',
+        name: 'nameThemaEN2',
+        index: 'indexThema2',
+        competenceId: 'recComp2',
+        tubeIds: [],
+      });
+
+      // when
+      const thematics = await thematicRepository.findByRecordIds(['recThematic2', 'recThematic1'], 'en');
+
+      // then
+      expect(thematics).to.deepEqualArray([thematic1, thematic2]);
     });
   });
 });
