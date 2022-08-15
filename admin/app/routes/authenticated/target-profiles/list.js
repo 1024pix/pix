@@ -19,9 +19,9 @@ export default class ListRoute extends Route {
   }
 
   async model(params) {
-    let targetProfiles;
+    let targetProfileSummaries;
     try {
-      targetProfiles = await this.store.query('target-profile', {
+      targetProfileSummaries = await this.store.query('target-profile-summary', {
         filter: {
           id: params.id ? params.id.trim() : '',
           name: params.name ? params.name.trim() : '',
@@ -32,12 +32,13 @@ export default class ListRoute extends Route {
         },
       });
     } catch (errorResponse) {
+      console.log('error');
       if (!isEmpty(errorResponse)) {
         errorResponse.errors.forEach((error) => this.notifications.error(error.detail));
       }
       return [];
     }
-    return targetProfiles;
+    return targetProfileSummaries;
   }
 
   resetController(controller, isExiting) {

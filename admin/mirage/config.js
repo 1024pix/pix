@@ -3,6 +3,7 @@ import {
   attachTargetProfiles,
   attachTargetProfileToOrganizations,
   findPaginatedTargetProfileOrganizations,
+  findPaginatedFilteredTargetProfileSummaries,
   findTargetProfileBadges,
   findTargetProfileStages,
   getOrganizationTargetProfiles,
@@ -144,7 +145,7 @@ export default function () {
   this.get('/admin/badges/:id', getBadge);
   this.post('/admin/badges/:id/badge-criteria', createBadgeCriterion);
   this.post('/admin/target-profiles');
-  this.get('/admin/target-profiles');
+  this.get('/admin/target-profile-summaries', findPaginatedFilteredTargetProfileSummaries);
   this.get('/admin/target-profiles/:id');
   this.get('/admin/target-profiles/:id/organizations', findPaginatedTargetProfileOrganizations);
   this.post('/admin/target-profiles/:id/attach-organizations', attachTargetProfileToOrganizations);

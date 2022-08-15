@@ -30,18 +30,18 @@
         </tr>
       </thead>
 
-      {{#if @targetProfiles}}
+      {{#if @summaries}}
         <tbody>
-          {{#each @targetProfiles as |targetProfile|}}
+          {{#each @summaries as |summary|}}
             <tr aria-label="Profil cible">
-              <td headers="target-profile-id" class="table__column table__column--id">{{targetProfile.id}}</td>
+              <td headers="target-profile-id" class="table__column table__column--id">{{summary.id}}</td>
               <td headers="target-profile-name">
-                <LinkTo @route="authenticated.target-profiles.target-profile" @model={{targetProfile.id}}>
-                  {{targetProfile.name}}
+                <LinkTo @route="authenticated.target-profiles.target-profile" @model={{summary.id}}>
+                  {{summary.name}}
                 </LinkTo>
               </td>
               <td headers="target-profile-status" class="target-profile-table-column__status">
-                {{if targetProfile.outdated "Obsolète" "Actif"}}
+                {{if summary.outdated "Obsolète" "Actif"}}
               </td>
             </tr>
           {{/each}}
@@ -49,12 +49,12 @@
       {{/if}}
     </table>
 
-    {{#unless @targetProfiles}}
+    {{#unless @summaries}}
       <div class="table__empty">Aucun résultat</div>
     {{/unless}}
   </div>
 </div>
 
-{{#if @targetProfiles}}
-  <PaginationControl @pagination={{@targetProfiles.meta}} />
+{{#if @summaries}}
+  <PaginationControl @pagination={{@summaries.meta}} />
 {{/if}}
