@@ -63,7 +63,7 @@
     "ember-cli-mirage": "^2.4.0",
     "ember-cli-moment-shim": "^3.7.1",
     "ember-cli-notifications": "^8.0.0",
-    "ember-cli-sass": "^10.0.1",
+    "ember-cli-sass": "^11.0.1",
     "ember-cli-sri": "^2.1.1",
     "ember-cli-terser": "^4.0.2",
     "ember-composable-helpers": "^4.3.0",
