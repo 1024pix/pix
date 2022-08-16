@@ -71,7 +71,7 @@
     "ember-cli-showdown": "^6.0.1",
     "ember-cli-sri": "^2.1.1",
     "ember-cli-terser": "^4.0.2",
-    "ember-click-outside": "^2.0.0",
+    "ember-click-outside": "^5.0.1",
     "ember-data": "~3.23.0",
     "ember-export-application-global": "^2.0.1",
     "ember-fetch": "^8.1.1",
