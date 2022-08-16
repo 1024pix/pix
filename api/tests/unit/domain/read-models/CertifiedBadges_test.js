@@ -45,19 +45,20 @@ describe('Unit | Domain | Read-models | CertifiedBadges', function () {
       context('when badge is acquired', function () {
         // eslint-disable-next-line mocha/no-setup-in-describe
         [
-          PIX_DROIT_EXPERT_CERTIF,
-          PIX_DROIT_MAITRE_CERTIF,
-          PIX_EMPLOI_CLEA_V1,
-          PIX_EMPLOI_CLEA_V2,
-          PIX_EMPLOI_CLEA_V3,
-        ].forEach((partnerKey) => {
-          it(`returns a non temporary acquired badge for ${partnerKey}`, function () {
+          { partnerKey: PIX_DROIT_EXPERT_CERTIF, label: 'Pix+ Droit Expert' },
+          { partnerKey: PIX_DROIT_MAITRE_CERTIF, label: 'Pix+ Droit Maître' },
+          { partnerKey: PIX_EMPLOI_CLEA_V1, label: 'CléA Numérique' },
+          { partnerKey: PIX_EMPLOI_CLEA_V2, label: 'CléA Numérique' },
+          { partnerKey: PIX_EMPLOI_CLEA_V3, label: 'CléA Numérique' },
+        ].forEach(({ partnerKey, label }) => {
+          it(`returns a non temporary acquired badge for ${partnerKey} with label ${label}`, function () {
             // given
             const complementaryCertificationCourseResults = [
               domainBuilder.buildComplementaryCertificationCourseResult({
                 complementaryCertificationCourseId: 456,
                 partnerKey,
                 acquired: true,
+                label,
               }),
             ];
 
@@ -71,6 +72,7 @@ describe('Unit | Domain | Read-models | CertifiedBadges', function () {
               {
                 partnerKey,
                 isTemporaryBadge: false,
+                label,
               },
             ]);
           });
@@ -80,25 +82,32 @@ describe('Unit | Domain | Read-models | CertifiedBadges', function () {
     context('when badge is "PIX_EDU', function () {
       // eslint-disable-next-line mocha/no-setup-in-describe
       [
-        PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
-        PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME,
-        PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME,
-        PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
-        PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
-        PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_INITIE,
-        PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_CONFIRME,
-        PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_CONFIRME,
-        PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE,
-        PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT,
-      ].forEach((partnerKey) => {
+        {
+          partnerKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
+          label: 'Pix+ Édu 2nd degré Initié (entrée dans le métier)',
+        },
+        { partnerKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME, label: 'Pix+ Édu 2nd degré Confirmé' },
+        { partnerKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME, label: 'Pix+ Édu 2nd degré Confirmé' },
+        { partnerKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE, label: 'Pix+ Édu 2nd degré Avancé' },
+        { partnerKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT, label: 'Pix+ Édu 2nd degré Expert' },
+        {
+          partnerKey: PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_INITIE,
+          label: 'Pix+ Édu 1er degré Initié (entrée dans le métier)',
+        },
+        { partnerKey: PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_CONFIRME, label: 'Pix+ Édu 1er degré Confirmé' },
+        { partnerKey: PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_CONFIRME, label: 'Pix+ Édu 1er degré Confirmé' },
+        { partnerKey: PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE, label: 'Pix+ Édu 1er degré Avancé' },
+        { partnerKey: PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT, label: 'Pix+ Édu 1er degré Expert' },
+      ].forEach(({ partnerKey, label }) => {
         context('when there is only one complementaryCertificationCourseResult', function () {
-          it(`returns a temporary badge for acquired ${partnerKey}`, function () {
+          it(`returns a temporary badge for acquired ${partnerKey} with label ${label}`, function () {
             // given
             const complementaryCertificationCourseResults = [
               domainBuilder.buildComplementaryCertificationCourseResult({
                 complementaryCertificationCourseId: 456,
                 partnerKey,
                 acquired: true,
+                label,
               }),
             ];
 
@@ -112,6 +121,7 @@ describe('Unit | Domain | Read-models | CertifiedBadges', function () {
               {
                 partnerKey,
                 isTemporaryBadge: true,
+                label,
               },
             ]);
           });
@@ -138,19 +148,21 @@ describe('Unit | Domain | Read-models | CertifiedBadges', function () {
 
         context('when there is more than one complementaryCertificationCourseResult', function () {
           describe('when there is an "EXTERNAL" and acquired badge', function () {
-            it(`returns a non temporary badge for ${partnerKey}`, function () {
+            it(`returns a non temporary badge for ${partnerKey} with label ${label}`, function () {
               // given
               const complementaryCertificationCourseResults = [
                 domainBuilder.buildComplementaryCertificationCourseResult({
                   complementaryCertificationCourseId: 456,
                   partnerKey,
                   source: ComplementaryCertificationCourseResult.sources.PIX,
+                  label,
                 }),
                 domainBuilder.buildComplementaryCertificationCourseResult({
                   partnerKey,
                   complementaryCertificationCourseId: 456,
                   source: ComplementaryCertificationCourseResult.sources.EXTERNAL,
                   acquired: true,
+                  label,
                 }),
               ];
 
@@ -164,6 +176,7 @@ describe('Unit | Domain | Read-models | CertifiedBadges', function () {
                 {
                   partnerKey,
                   isTemporaryBadge: false,
+                  label,
                 },
               ]);
             });
@@ -317,6 +330,7 @@ describe('Unit | Domain | Read-models | CertifiedBadges', function () {
             {
               partnerKey: expectedLowestBadge,
               isTemporaryBadge: false,
+              label: undefined,
             },
           ]);
         });
