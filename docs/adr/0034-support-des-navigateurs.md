@@ -22,7 +22,7 @@ Il faut donc pouvoir continuer à mettre à jour nos frameworks, supporter les n
 ## Décision
 
 Pour être au clair sur les navigateurs supportés, le fichier `/config/target.js` doit indiquer :
-- la version minimum à supporter pour les navigateurs les plus communs :
+- la version minimale à supporter pour les navigateurs les plus communs :
   - Chrome
   - Firefox
   - Safari
@@ -39,5 +39,5 @@ Par conséquent, la liste des navigateurs est du type :
 ]
 ```
 
-Les versions minimums sont mise à jour régulièrement suite à une analyse des utilisateurs de Pix (environ tous les 6 mois).
+Les versions minimales sont mise à jour régulièrement suite à une analyse des utilisateurs de Pix (environ tous les 6 mois).
 Les versions supportées sont les mêmes pour toutes les applications du repository.
