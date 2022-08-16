@@ -1,8 +1,6 @@
 const { expect, domainBuilder } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/jury-certification-summary-serializer');
 const JuryCertificationSummary = require('../../../../../lib/domain/read-models/JuryCertificationSummary');
-const { PIX_EMPLOI_CLEA_V3, PIX_DROIT_MAITRE_CERTIF, PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE } =
-  require('../../../../../lib/domain/models/Badge').keys;
 
 describe('Unit | Serializer | JSONAPI | jury-certification-summary-serializer', function () {
   describe('#serialize()', function () {
@@ -27,17 +25,7 @@ describe('Unit | Serializer | JSONAPI | jury-certification-summary-serializer', 
         certificationIssueReports: [issueReport],
         hasSeenEndTestScreen: false,
         isFlaggedAborted: false,
-        complementaryCertificationCourseResults: [
-          domainBuilder.buildComplementaryCertificationCourseResult({ partnerKey: PIX_EMPLOI_CLEA_V3, source: 'PIX' }),
-          domainBuilder.buildComplementaryCertificationCourseResult({
-            partnerKey: PIX_DROIT_MAITRE_CERTIF,
-            source: 'PIX',
-          }),
-          domainBuilder.buildComplementaryCertificationCourseResult({
-            partnerKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
-            source: 'PIX',
-          }),
-        ],
+        complementaryCertificationTakenLabels: ['CléA Numérique', 'Pix+ Droit Maître', 'Pix+ Édu 2nd degré Avancé'],
       });
 
       expectedJsonApi = {

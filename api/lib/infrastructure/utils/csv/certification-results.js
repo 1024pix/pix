@@ -66,71 +66,32 @@ function _buildFileHeadersWithoutCertificationCenterName() {
 }
 
 function _buildFileData({ session, certificationResults }) {
-  return certificationResults.map(_getRowItemsFromSessionAndResults(session));
+  const sessionComplementaryCertificationsLabels = _getComplementaryCertificationResultsLabels(certificationResults);
+  return certificationResults.map(_getRowItemsFromSessionAndResults(session, sessionComplementaryCertificationsLabels));
+}
+
+function _getComplementaryCertificationResultsHeaders(certificationResults) {
+  return [
+    ...new Set(
+      certificationResults.flatMap((certificationResult) =>
+        certificationResult.getUniqComplementaryCertificationCourseResultHeaders()
+      )
+    ),
+  ];
+}
+
+function _getComplementaryCertificationResultsLabels(certificationResults) {
+  return [
+    ...new Set(
+      certificationResults.flatMap((certificationResult) =>
+        certificationResult.getUniqComplementaryCertificationCourseResultLabels()
+      )
+    ),
+  ];
 }
 
 function _buildFileHeaders(certificationResults) {
-  const shouldIncludeCleaHeader = certificationResults.some((certificationResult) =>
-    certificationResult.hasTakenClea()
-  );
-  const shouldIncludePixPlusDroitMaitreHeader = certificationResults.some((certificationResult) =>
-    certificationResult.hasTakenPixPlusDroitMaitre()
-  );
-  const shouldIncludePixPlusDroitExpertHeader = certificationResults.some((certificationResult) =>
-    certificationResult.hasTakenPixPlusDroitExpert()
-  );
-  const shouldIncludePixPlusEdu2ndDegreInitieHeader = certificationResults.some((certificationResult) =>
-    certificationResult.hasTakenPixPlusEdu2ndDegreInitie()
-  );
-  const shouldIncludePixPlusEdu2ndDegreConfirmeHeader = certificationResults.some((certificationResult) =>
-    certificationResult.hasTakenPixPlusEdu2ndDegreConfirme()
-  );
-  const shouldIncludePixPlusEdu2ndDegreAvanceHeader = certificationResults.some((certificationResult) =>
-    certificationResult.hasTakenPixPlusEdu2ndDegreAvance()
-  );
-  const shouldIncludePixPlusEdu2ndDegreExpertHeader = certificationResults.some((certificationResult) =>
-    certificationResult.hasTakenPixPlusEdu2ndDegreExpert()
-  );
-  const shouldIncludePixPlusEdu1erDegreInitieHeader = certificationResults.some((certificationResult) =>
-    certificationResult.hasTakenPixPlusEdu1erDegreInitie()
-  );
-  const shouldIncludePixPlusEdu1erDegreConfirmeHeader = certificationResults.some((certificationResult) =>
-    certificationResult.hasTakenPixPlusEdu1erDegreConfirme()
-  );
-  const shouldIncludePixPlusEdu1erDegreAvanceHeader = certificationResults.some((certificationResult) =>
-    certificationResult.hasTakenPixPlusEdu1erDegreAvance()
-  );
-  const shouldIncludePixPlusEdu1erDegreExpertHeader = certificationResults.some((certificationResult) =>
-    certificationResult.hasTakenPixPlusEdu1erDegreExpert()
-  );
-
-  const cleaHeader = shouldIncludeCleaHeader ? [_headers.CLEA_STATUS] : [];
-  const pixPlusDroitMaitreHeader = shouldIncludePixPlusDroitMaitreHeader ? [_headers.PIX_PLUS_DROIT_MAITRE_STATUS] : [];
-  const pixPlusDroitExpertHeader = shouldIncludePixPlusDroitExpertHeader ? [_headers.PIX_PLUS_DROIT_EXPERT_STATUS] : [];
-  const pixPlusEdu2ndDegreInitieHeader = shouldIncludePixPlusEdu2ndDegreInitieHeader
-    ? [_headers.PIX_PLUS_EDU_2ND_DEGRE_INITIE_HEADER]
-    : [];
-  const pixPlusEdu2ndDegreConfirmeHeader = shouldIncludePixPlusEdu2ndDegreConfirmeHeader
-    ? [_headers.PIX_PLUS_EDU_2ND_DEGRE_CONFIRME_HEADER]
-    : [];
-  const pixPlusEdu2ndDegreAvanceHeader = shouldIncludePixPlusEdu2ndDegreAvanceHeader
-    ? [_headers.PIX_PLUS_EDU_2ND_DEGRE_AVANCE_HEADER]
-    : [];
-  const pixPlusEdu2ndDegreExpertHeader = shouldIncludePixPlusEdu2ndDegreExpertHeader
-    ? [_headers.PIX_PLUS_EDU_2ND_DEGRE_EXPERT_HEADER]
-    : [];
-  const pixPlusEdu1erDegreInitieHeader = shouldIncludePixPlusEdu1erDegreInitieHeader
-    ? [_headers.PIX_PLUS_EDU_1ER_DEGRE_INITIE_HEADER]
-    : [];
-  const pixPlusEdu1erDegreConfirmeHeader = shouldIncludePixPlusEdu1erDegreConfirmeHeader
-    ? [_headers.PIX_PLUS_EDU_1ER_DEGRE_CONFIRME_HEADER]
-    : [];
-  const pixPlusEdu1erDegreAvanceHeader = shouldIncludePixPlusEdu1erDegreAvanceHeader
-    ? [_headers.PIX_PLUS_EDU_1ER_DEGRE_AVANCE_HEADER]
-    : [];
-  const pixPlusEdu1erDegreExpertHeader = shouldIncludePixPlusEdu1erDegreExpertHeader
-    ? [_headers.PIX_PLUS_EDU_1ER_DEGRE_EXPERT_HEADER]
-    : [];
+  const complementaryCertificationResultsHeaders = _getComplementaryCertificationResultsHeaders(certificationResults);
 
   return _.concat(
     [
@@ -142,17 +103,7 @@ function _buildFileHeaders(certificationResults) {
       _headers.EXTERNAL_ID,
       _headers.STATUS,
     ],
-    pixPlusDroitMaitreHeader,
-    pixPlusDroitExpertHeader,
-    cleaHeader,
-    pixPlusEdu2ndDegreInitieHeader,
-    pixPlusEdu2ndDegreConfirmeHeader,
-    pixPlusEdu2ndDegreAvanceHeader,
-    pixPlusEdu2ndDegreExpertHeader,
-    pixPlusEdu1erDegreInitieHeader,
-    pixPlusEdu1erDegreConfirmeHeader,
-    pixPlusEdu1erDegreAvanceHeader,
-    pixPlusEdu1erDegreExpertHeader,
+    complementaryCertificationResultsHeaders,
     [_headers.PIX_SCORE],
     _competenceIndexes,
     [
@@ -164,86 +115,35 @@ function _buildFileHeaders(certificationResults) {
   );
 }
 
-const _getRowItemsFromSessionAndResults = (session) => (certificationResult) => {
-  const rowWithoutCompetences = {
-    [_headers.CERTIFICATION_NUMBER]: certificationResult.id,
-    [_headers.FIRSTNAME]: certificationResult.firstName,
-    [_headers.LASTNAME]: certificationResult.lastName,
-    [_headers.BIRTHDATE]: _formatDate(certificationResult.birthdate),
-    [_headers.BIRTHPLACE]: certificationResult.birthplace,
-    [_headers.EXTERNAL_ID]: certificationResult.externalId,
-    [_headers.STATUS]: _formatStatus(certificationResult),
-    [_headers.CLEA_STATUS]: _getComplementaryCertificationStatus(
-      certificationResult,
-      'hasTakenClea',
-      'hasAcquiredClea'
-    ),
-    [_headers.PIX_PLUS_DROIT_MAITRE_STATUS]: _getComplementaryCertificationStatus(
-      certificationResult,
-      'hasTakenPixPlusDroitMaitre',
-      'hasAcquiredPixPlusDroitMaitre'
-    ),
-    [_headers.PIX_PLUS_DROIT_EXPERT_STATUS]: _getComplementaryCertificationStatus(
-      certificationResult,
-      'hasTakenPixPlusDroitExpert',
-      'hasAcquiredPixPlusDroitExpert'
-    ),
-    [_headers.PIX_PLUS_EDU_2ND_DEGRE_INITIE_HEADER]: _getComplementaryCertificationStatus(
-      certificationResult,
-      'hasTakenPixPlusEdu2ndDegreInitie',
-      'hasAcquiredPixPlusEdu2ndDegreInitie'
-    ),
-    [_headers.PIX_PLUS_EDU_2ND_DEGRE_CONFIRME_HEADER]: _getComplementaryCertificationStatus(
-      certificationResult,
-      'hasTakenPixPlusEdu2ndDegreConfirme',
-      'hasAcquiredPixPlusEdu2ndDegreConfirme'
-    ),
-    [_headers.PIX_PLUS_EDU_2ND_DEGRE_AVANCE_HEADER]: _getComplementaryCertificationStatus(
-      certificationResult,
-      'hasTakenPixPlusEdu2ndDegreAvance',
-      'hasAcquiredPixPlusEdu2ndDegreAvance'
-    ),
-    [_headers.PIX_PLUS_EDU_2ND_DEGRE_EXPERT_HEADER]: _getComplementaryCertificationStatus(
-      certificationResult,
-      'hasTakenPixPlusEdu2ndDegreExpert',
-      'hasAcquiredPixPlusEdu2ndDegreExpert'
-    ),
-    [_headers.PIX_PLUS_EDU_1ER_DEGRE_INITIE_HEADER]: _getComplementaryCertificationStatus(
-      certificationResult,
-      'hasTakenPixPlusEdu1erDegreInitie',
-      'hasAcquiredPixPlusEdu1erDegreInitie'
-    ),
-    [_headers.PIX_PLUS_EDU_1ER_DEGRE_CONFIRME_HEADER]: _getComplementaryCertificationStatus(
-      certificationResult,
-      'hasTakenPixPlusEdu1erDegreConfirme',
-      'hasAcquiredPixPlusEdu1erDegreConfirme'
-    ),
-    [_headers.PIX_PLUS_EDU_1ER_DEGRE_AVANCE_HEADER]: _getComplementaryCertificationStatus(
-      certificationResult,
-      'hasTakenPixPlusEdu1erDegreAvance',
-      'hasAcquiredPixPlusEdu1erDegreAvance'
-    ),
-    [_headers.PIX_PLUS_EDU_1ER_DEGRE_EXPERT_HEADER]: _getComplementaryCertificationStatus(
-      certificationResult,
-      'hasTakenPixPlusEdu1erDegreExpert',
-      'hasAcquiredPixPlusEdu1erDegreExpert'
-    ),
-    [_headers.PIX_SCORE]: _formatPixScore(certificationResult),
-    [_headers.JURY_COMMENT_FOR_ORGANIZATION]: _getCommentForOrganization(certificationResult),
-    [_headers.SESSION_ID]: session.id,
-    [_headers.CERTIFICATION_CENTER]: session.certificationCenter,
-    [_headers.CERTIFICATION_DATE]: _formatDate(certificationResult.createdAt),
+const _getRowItemsFromSessionAndResults =
+  (session, sessionComplementaryCertificationsLabels) => (certificationResult) => {
+    const complementaryCertificationsHeadersWithData = sessionComplementaryCertificationsLabels
+      .map((sessionComplementaryCertificationsLabel) => ({
+        [`Certification ${sessionComplementaryCertificationsLabel}`]:
+          certificationResult.getComplementaryCertificationStatus(sessionComplementaryCertificationsLabel),
+      }))
+      .reduce((result, value) => {
+        return Object.assign(result, value);
+      }, {});
+    const rowWithoutCompetences = {
+      [_headers.CERTIFICATION_NUMBER]: certificationResult.id,
+      [_headers.FIRSTNAME]: certificationResult.firstName,
+      [_headers.LASTNAME]: certificationResult.lastName,
+      [_headers.BIRTHDATE]: _formatDate(certificationResult.birthdate),
+      [_headers.BIRTHPLACE]: certificationResult.birthplace,
+      [_headers.EXTERNAL_ID]: certificationResult.externalId,
+      [_headers.STATUS]: _formatStatus(certificationResult),
+      ...complementaryCertificationsHeadersWithData,
+      [_headers.PIX_SCORE]: _formatPixScore(certificationResult),
+      [_headers.JURY_COMMENT_FOR_ORGANIZATION]: _getCommentForOrganization(certificationResult),
+      [_headers.SESSION_ID]: session.id,
+      [_headers.CERTIFICATION_CENTER]: session.certificationCenter,
+      [_headers.CERTIFICATION_DATE]: _formatDate(certificationResult.createdAt),
+    };
+
+    const competencesCells = _getCompetenceCells(certificationResult);
+    return { ...rowWithoutCompetences, ...competencesCells };
   };
-
-  const competencesCells = _getCompetenceCells(certificationResult);
-  return { ...rowWithoutCompetences, ...competencesCells };
-};
-
-function _getComplementaryCertificationStatus(certificationResult, hasTakenFunction, hasAcquiredFunction) {
-  if (!certificationResult[hasTakenFunction]()) return 'Non passée';
-  if (certificationResult.isCancelled()) return 'Annulée';
-  return certificationResult[hasAcquiredFunction]() ? 'Validée' : 'Rejetée';
-}
 
 function _formatPixScore(certificationResult) {
   if (certificationResult.isCancelled() || certificationResult.isInError()) return '-';
@@ -334,17 +234,6 @@ const _headers = {
   BIRTHPLACE: 'Lieu de naissance',
   EXTERNAL_ID: 'Identifiant Externe',
   STATUS: 'Statut',
-  CLEA_STATUS: 'Certification CléA numérique',
-  PIX_PLUS_DROIT_MAITRE_STATUS: 'Certification Pix+ Droit Maître',
-  PIX_PLUS_DROIT_EXPERT_STATUS: 'Certification Pix+ Droit Expert',
-  PIX_PLUS_EDU_2ND_DEGRE_INITIE_HEADER: 'Certification Pix+ Édu 2nd degré Initié (entrée dans le métier)',
-  PIX_PLUS_EDU_2ND_DEGRE_CONFIRME_HEADER: 'Certification Pix+ Édu 2nd degré Confirmé',
-  PIX_PLUS_EDU_2ND_DEGRE_AVANCE_HEADER: 'Certification Pix+ Édu 2nd degré Avancé',
-  PIX_PLUS_EDU_2ND_DEGRE_EXPERT_HEADER: 'Certification Pix+ Édu 2nd degré Expert',
-  PIX_PLUS_EDU_1ER_DEGRE_INITIE_HEADER: 'Certification Pix+ Édu 1er degré Initié (entrée dans le métier)',
-  PIX_PLUS_EDU_1ER_DEGRE_CONFIRME_HEADER: 'Certification Pix+ Édu 1er degré Confirmé',
-  PIX_PLUS_EDU_1ER_DEGRE_AVANCE_HEADER: 'Certification Pix+ Édu 1er degré Avancé',
-  PIX_PLUS_EDU_1ER_DEGRE_EXPERT_HEADER: 'Certification Pix+ Édu 1er degré Expert',
   PIX_SCORE: 'Nombre de Pix',
   SESSION_ID: 'Session',
   CERTIFICATION_CENTER: 'Centre de certification',

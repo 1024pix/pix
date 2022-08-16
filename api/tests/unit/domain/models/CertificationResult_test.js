@@ -1,22 +1,5 @@
 const CertificationResult = require('../../../../lib/domain/models/CertificationResult');
 const { expect, domainBuilder } = require('../../../test-helper');
-const {
-  PIX_EMPLOI_CLEA_V1,
-  PIX_EMPLOI_CLEA_V2,
-  PIX_EMPLOI_CLEA_V3,
-  PIX_DROIT_MAITRE_CERTIF,
-  PIX_DROIT_EXPERT_CERTIF,
-  PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
-  PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME,
-  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME,
-  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
-  PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
-  PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_INITIE,
-  PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_CONFIRME,
-  PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_CONFIRME,
-  PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE,
-  PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT,
-} = require('../../../../lib/domain/models/Badge').keys;
 
 describe('Unit | Domain | Models | CertificationResult', function () {
   context('#static from', function () {
@@ -361,115 +344,6 @@ describe('Unit | Domain | Models | CertificationResult', function () {
     });
   });
 
-  // eslint-disable-next-line mocha/no-setup-in-describe
-  [
-    { method: 'hasTakenClea', partnerKeys: [PIX_EMPLOI_CLEA_V1, PIX_EMPLOI_CLEA_V2, PIX_EMPLOI_CLEA_V3] },
-    { method: 'hasTakenPixPlusDroitMaitre', partnerKeys: [PIX_DROIT_MAITRE_CERTIF] },
-    { method: 'hasTakenPixPlusDroitExpert', partnerKeys: [PIX_DROIT_EXPERT_CERTIF] },
-    { method: 'hasTakenPixPlusEdu2ndDegreInitie', partnerKeys: [PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE] },
-    {
-      method: 'hasTakenPixPlusEdu2ndDegreConfirme',
-      partnerKeys: [PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME, PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME],
-    },
-    { method: 'hasTakenPixPlusEdu2ndDegreAvance', partnerKeys: [PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE] },
-    { method: 'hasTakenPixPlusEdu2ndDegreExpert', partnerKeys: [PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT] },
-    { method: 'hasTakenPixPlusEdu1erDegreInitie', partnerKeys: [PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_INITIE] },
-    {
-      method: 'hasTakenPixPlusEdu1erDegreConfirme',
-      partnerKeys: [PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_CONFIRME, PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_CONFIRME],
-    },
-    { method: 'hasTakenPixPlusEdu1erDegreAvance', partnerKeys: [PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE] },
-    { method: 'hasTakenPixPlusEdu1erDegreExpert', partnerKeys: [PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT] },
-  ].forEach(({ method, partnerKeys }) => {
-    context(`#${method}`, function () {
-      // eslint-disable-next-line mocha/no-setup-in-describe
-      partnerKeys.forEach((partnerKey) => {
-        it(`returns true when ${partnerKey} certification has been taken in the certification`, async function () {
-          // given
-          const certificationResult = domainBuilder.buildCertificationResult({
-            complementaryCertificationCourseResults: [
-              domainBuilder.buildComplementaryCertificationCourseResult({ partnerKey }),
-            ],
-          });
-
-          // when
-          const hasTaken = certificationResult[method]();
-
-          // then
-          expect(hasTaken).to.be.true;
-        });
-
-        it(`returns false when ${partnerKey} certification has not been taken in the certification`, async function () {
-          // given
-          const certificationResult = domainBuilder.buildCertificationResult({
-            complementaryCertificationCourseResults: [],
-          });
-
-          // when
-          const hasTaken = certificationResult[method]();
-
-          // then
-          expect(hasTaken).to.be.false;
-        });
-      });
-    });
-  });
-
-  // eslint-disable-next-line mocha/no-setup-in-describe
-  [
-    { method: 'hasAcquiredClea', partnerKeys: [PIX_EMPLOI_CLEA_V1, PIX_EMPLOI_CLEA_V2, PIX_EMPLOI_CLEA_V3] },
-    { method: 'hasAcquiredPixPlusDroitMaitre', partnerKeys: [PIX_DROIT_MAITRE_CERTIF] },
-    { method: 'hasAcquiredPixPlusDroitExpert', partnerKeys: [PIX_DROIT_EXPERT_CERTIF] },
-    { method: 'hasAcquiredPixPlusEdu2ndDegreInitie', partnerKeys: [PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE] },
-    {
-      method: 'hasAcquiredPixPlusEdu2ndDegreConfirme',
-      partnerKeys: [PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME, PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME],
-    },
-    { method: 'hasAcquiredPixPlusEdu2ndDegreAvance', partnerKeys: [PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE] },
-    { method: 'hasAcquiredPixPlusEdu2ndDegreExpert', partnerKeys: [PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT] },
-    { method: 'hasAcquiredPixPlusEdu1erDegreInitie', partnerKeys: [PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_INITIE] },
-    {
-      method: 'hasAcquiredPixPlusEdu1erDegreConfirme',
-      partnerKeys: [PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_CONFIRME, PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_CONFIRME],
-    },
-    { method: 'hasAcquiredPixPlusEdu1erDegreAvance', partnerKeys: [PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE] },
-    { method: 'hasAcquiredPixPlusEdu1erDegreExpert', partnerKeys: [PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT] },
-  ].forEach(({ method, partnerKeys }) => {
-    context(`#${method}`, function () {
-      // eslint-disable-next-line mocha/no-setup-in-describe
-      partnerKeys.forEach((partnerKey) => {
-        it(`returns true when ${partnerKey} certification has been acquired`, async function () {
-          // given
-          const certificationResult = domainBuilder.buildCertificationResult({
-            complementaryCertificationCourseResults: [
-              domainBuilder.buildComplementaryCertificationCourseResult({ partnerKey, acquired: true }),
-            ],
-          });
-
-          // when
-          const hasAcquired = certificationResult[method]();
-
-          // then
-          expect(hasAcquired).to.be.true;
-        });
-
-        it(`returns false when ${partnerKey} certification has not been acquired`, async function () {
-          // given
-          const certificationResult = domainBuilder.buildCertificationResult({
-            complementaryCertificationCourseResults: [
-              domainBuilder.buildComplementaryCertificationCourseResult({ partnerKey, acquired: false }),
-            ],
-          });
-          // when
-          const hasAcquired = certificationResult[method]();
-
-          // then
-          expect(hasAcquired).to.be.false;
-        });
-      });
-    });
-  });
-
   context('#hasBeenRejectedAutomatically', function () {
     // eslint-disable-next-line mocha/no-setup-in-describe
     [
@@ -528,6 +402,140 @@ describe('Unit | Domain | Models | CertificationResult', function () {
 
         // then
         expect(hasBeenRejectedAutomatically).to.equal(expectedResult);
+      });
+    });
+  });
+
+  context('#getUniqComplementaryCertificationCourseResultHeaders', function () {
+    it('should return an array of unique headers', function () {
+      // given
+      const complementaryCertificationCourseResults = [
+        domainBuilder.buildComplementaryCertificationCourseResult({ label: 'CléA Numérique' }),
+        domainBuilder.buildComplementaryCertificationCourseResult({ label: 'Pix+ Droit' }),
+        domainBuilder.buildComplementaryCertificationCourseResult({ label: 'CléA Numérique' }),
+        domainBuilder.buildComplementaryCertificationCourseResult({ label: 'Pix+ Edu 1er degré' }),
+        domainBuilder.buildComplementaryCertificationCourseResult({ label: 'Pix+ Edu 2nd degré' }),
+      ];
+      const certificationResult = domainBuilder.buildCertificationResult({
+        complementaryCertificationCourseResults,
+      });
+
+      const expectedComplementaryCertificationCourseLabels = [
+        'Certification CléA Numérique',
+        'Certification Pix+ Droit',
+        'Certification Pix+ Edu 1er degré',
+        'Certification Pix+ Edu 2nd degré',
+      ];
+
+      // when
+      const result = certificationResult.getUniqComplementaryCertificationCourseResultHeaders();
+
+      // then
+      expect(result).to.deep.equal(expectedComplementaryCertificationCourseLabels);
+    });
+  });
+
+  context('#getUniqComplementaryCertificationCourseResultLabels', function () {
+    it('should return an array of unique labels', function () {
+      // given
+      const complementaryCertificationCourseResults = [
+        domainBuilder.buildComplementaryCertificationCourseResult({ label: 'CléA Numérique' }),
+        domainBuilder.buildComplementaryCertificationCourseResult({ label: 'Pix+ Droit' }),
+        domainBuilder.buildComplementaryCertificationCourseResult({ label: 'CléA Numérique' }),
+        domainBuilder.buildComplementaryCertificationCourseResult({ label: 'Pix+ Edu 1er degré' }),
+        domainBuilder.buildComplementaryCertificationCourseResult({ label: 'Pix+ Edu 2nd degré' }),
+      ];
+      const certificationResult = domainBuilder.buildCertificationResult({
+        complementaryCertificationCourseResults,
+      });
+
+      const expectedComplementaryCertificationCourseLabels = [
+        'CléA Numérique',
+        'Pix+ Droit',
+        'Pix+ Edu 1er degré',
+        'Pix+ Edu 2nd degré',
+      ];
+
+      // when
+      const result = certificationResult.getUniqComplementaryCertificationCourseResultLabels();
+
+      // then
+      expect(result).to.deep.equal(expectedComplementaryCertificationCourseLabels);
+    });
+  });
+
+  context('#getComplementaryCertificationStatus', function () {
+    context('when complementary certification is acquired', function () {
+      it('should return "Validée"', function () {
+        // given
+        const label = 'default label';
+        const complementaryResult = domainBuilder.buildCertificationResult({
+          complementaryCertificationCourseResults: [
+            domainBuilder.buildComplementaryCertificationCourseResult({
+              acquired: true,
+              label,
+            }),
+          ],
+        });
+
+        // when
+        const result = complementaryResult.getComplementaryCertificationStatus(label);
+
+        // then
+        expect(result).to.deep.equal('Validée');
+      });
+    });
+
+    context('when complementary certification is not acquired', function () {
+      it('should return "Rejetée"', function () {
+        // given
+        const label = 'default label';
+        const complementaryResult = domainBuilder.buildCertificationResult({
+          complementaryCertificationCourseResults: [
+            domainBuilder.buildComplementaryCertificationCourseResult({
+              acquired: false,
+              label,
+            }),
+          ],
+        });
+
+        // when
+        const result = complementaryResult.getComplementaryCertificationStatus(label);
+
+        // then
+        expect(result).to.deep.equal('Rejetée');
+      });
+    });
+
+    context('when complementary certification is not taken', function () {
+      it('should return "Non passée"', function () {
+        // given
+        const label = 'default label';
+        const complementaryResult = domainBuilder.buildCertificationResult({
+          complementaryCertificationCourseResults: [],
+        });
+
+        // when
+        const result = complementaryResult.getComplementaryCertificationStatus(label);
+
+        // then
+        expect(result).to.deep.equal('Non passée');
+      });
+    });
+
+    context('when certification result is cancelled', function () {
+      it('should return "Annulée"', function () {
+        // given
+        const label = 'default label';
+        const complementaryResult = domainBuilder.buildCertificationResult({
+          status: CertificationResult.status.CANCELLED,
+        });
+
+        // when
+        const result = complementaryResult.getComplementaryCertificationStatus(label);
+
+        // then
+        expect(result).to.deep.equal('Annulée');
       });
     });
   });

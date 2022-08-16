@@ -2,7 +2,6 @@ const sortBy = require('lodash/sortBy');
 const moment = require('moment');
 const getImagePathByBadgeKey = require('./get-image-path-by-badge-key');
 const { toArrayOfFixedLengthStringsConservingWords } = require('../string-utils');
-const CertifiedBadgeImage = require('../../../domain/read-models/CertifiedBadgeImage');
 
 const PROFESSIONALIZING_VALIDITY_START_DATE = new Date('2022-01-01');
 
@@ -124,10 +123,13 @@ class AttestationViewModel {
     let pixPlusEduBadgeMessage;
     if (certificate.getAcquiredPixPlusEduCertification()) {
       hasAcquiredPixPlusEduCertification = true;
-      const { partnerKey, isTemporaryBadge } = certificate.getAcquiredPixPlusEduCertification();
-      const certifiedBadgeImage = CertifiedBadgeImage.fromPartnerKey(partnerKey, isTemporaryBadge);
+      const { partnerKey, isTemporaryBadge, label } = certificate.getAcquiredPixPlusEduCertification();
+      const levelName = label.replace(/Pix\+ Édu (1er|2nd) degré /, '');
+      const message = isTemporaryBadge
+        ? `Vous avez obtenu le niveau “${levelName}” dans le cadre du volet 1 de la certification Pix+Édu. Votre niveau final sera déterminé à l’issue du volet 2`
+        : `Vous avez obtenu la certification Pix+Edu niveau "${levelName}"`;
       pixPlusEduCertificationImagePath = getImagePathByBadgeKey(partnerKey);
-      pixPlusEduBadgeMessage = toArrayOfFixedLengthStringsConservingWords(certifiedBadgeImage.message, 45);
+      pixPlusEduBadgeMessage = toArrayOfFixedLengthStringsConservingWords(message, 45);
     }
 
     const sortedCompetenceTree = sortBy(certificate.resultCompetenceTree.areas, 'code');

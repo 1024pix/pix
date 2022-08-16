@@ -139,6 +139,7 @@ describe('Integration | Repository | Badge', function () {
             ...badgeWithSameTargetProfile_1,
             badgeCriteria: [badgeCriterionForBadgeWithSameTargetProfile_1],
             skillSets: [],
+            complementaryCertificationBadge: null,
           },
           'id'
         )
@@ -151,6 +152,7 @@ describe('Integration | Repository | Badge', function () {
             ...badgeWithSameTargetProfile_2,
             badgeCriteria: [badgeCriterionForBadgeWithSameTargetProfile_2],
             skillSets: [],
+            complementaryCertificationBadge: null,
           },
           'id'
         )
@@ -173,6 +175,7 @@ describe('Integration | Repository | Badge', function () {
         ...badgeWithSkillSets,
         badgeCriteria: [badgeCriterionForBadgeWithSkillSets],
         skillSets: [skillSet_1, skillSet_2],
+        complementaryCertificationBadge: null,
       });
     });
 
@@ -206,6 +209,7 @@ describe('Integration | Repository | Badge', function () {
         ...badgeWithSameTargetProfile_1,
         badgeCriteria: [badgeCriterionForBadgeWithSameTargetProfile_1],
         skillSets: [],
+        complementaryCertificationBadge: null,
       });
 
       const secondBadge = badges.find(({ id }) => id === badgeWithSameTargetProfile_2.id);
@@ -213,6 +217,7 @@ describe('Integration | Repository | Badge', function () {
         ...badgeWithSameTargetProfile_2,
         badgeCriteria: [badgeCriterionForBadgeWithSameTargetProfile_2],
         skillSets: [],
+        complementaryCertificationBadge: null,
       });
     });
 
@@ -234,6 +239,7 @@ describe('Integration | Repository | Badge', function () {
         ...badgeWithSkillSets,
         badgeCriteria: [badgeCriterionForBadgeWithSkillSets],
         skillSets: [skillSet_1, skillSet_2],
+        complementaryCertificationBadge: null,
       });
     });
 
@@ -291,6 +297,7 @@ describe('Integration | Repository | Badge', function () {
         ...badgeWithSameTargetProfile_1,
         badgeCriteria: [badgeCriterionForBadgeWithSameTargetProfile_1],
         skillSets: [],
+        complementaryCertificationBadge: null,
       });
 
       const secondBadge = badges.find(({ id }) => id === badgeWithSameTargetProfile_2.id);
@@ -298,6 +305,7 @@ describe('Integration | Repository | Badge', function () {
         ...badgeWithSameTargetProfile_2,
         badgeCriteria: [badgeCriterionForBadgeWithSameTargetProfile_2],
         skillSets: [],
+        complementaryCertificationBadge: null,
       });
     });
 
@@ -320,6 +328,7 @@ describe('Integration | Repository | Badge', function () {
         ...badgeWithSkillSets,
         badgeCriteria: [badgeCriterionForBadgeWithSkillSets],
         skillSets: [skillSet_1, skillSet_2],
+        complementaryCertificationBadge: null,
       });
     });
 
@@ -415,6 +424,7 @@ describe('Integration | Repository | Badge', function () {
         key: 'TOTO230',
         badgeCriteria: [],
         skillSets: [],
+        complementaryCertificationBadge: null,
         targetProfileId: null,
         isCertifiable: false,
         isAlwaysVisible: false,
@@ -493,6 +503,7 @@ describe('Integration | Repository | Badge', function () {
         isCertifiable: true,
         badgeCriteria: [],
         skillSets: [],
+        complementaryCertificationBadge: null,
         targetProfileId,
         isAlwaysVisible: false,
       };

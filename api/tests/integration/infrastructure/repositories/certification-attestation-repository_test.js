@@ -324,22 +324,62 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
     context('acquired certifiable badges', function () {
       // eslint-disable-next-line mocha/no-setup-in-describe
       [
-        { partnerKey: PIX_EMPLOI_CLEA_V1, isTemporaryBadge: false },
-        { partnerKey: PIX_EMPLOI_CLEA_V2, isTemporaryBadge: false },
-        { partnerKey: PIX_EMPLOI_CLEA_V3, isTemporaryBadge: false },
-        { partnerKey: PIX_DROIT_EXPERT_CERTIF, isTemporaryBadge: false },
-        { partnerKey: PIX_DROIT_MAITRE_CERTIF, isTemporaryBadge: false },
-        { partnerKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE, isTemporaryBadge: true },
-        { partnerKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME, isTemporaryBadge: true },
-        { partnerKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME, isTemporaryBadge: true },
-        { partnerKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE, isTemporaryBadge: true },
-        { partnerKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT, isTemporaryBadge: true },
-        { partnerKey: PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_INITIE, isTemporaryBadge: true },
-        { partnerKey: PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_CONFIRME, isTemporaryBadge: true },
-        { partnerKey: PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_CONFIRME, isTemporaryBadge: true },
-        { partnerKey: PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE, isTemporaryBadge: true },
-        { partnerKey: PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT, isTemporaryBadge: true },
-      ].forEach(({ partnerKey, isTemporaryBadge }) => {
+        { partnerKey: PIX_EMPLOI_CLEA_V1, isTemporaryBadge: false, label: 'CléA Numérique' },
+        { partnerKey: PIX_EMPLOI_CLEA_V2, isTemporaryBadge: false, label: 'CléA Numérique' },
+        { partnerKey: PIX_EMPLOI_CLEA_V3, isTemporaryBadge: false, label: 'CléA Numérique' },
+        { partnerKey: PIX_DROIT_EXPERT_CERTIF, isTemporaryBadge: false, label: 'Pix+ Droit Expert' },
+        { partnerKey: PIX_DROIT_MAITRE_CERTIF, isTemporaryBadge: false, label: 'Pix+ Droit Maître' },
+        {
+          partnerKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
+          isTemporaryBadge: true,
+          label: 'Pix+ Édu 2nd degré Initié (entrée dans le métier)',
+        },
+        {
+          partnerKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME,
+          isTemporaryBadge: true,
+          label: 'Pix+ Édu 2nd degré Confirmé',
+        },
+        {
+          partnerKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME,
+          isTemporaryBadge: true,
+          label: 'Pix+ Édu 2nd degré Confirmé',
+        },
+        {
+          partnerKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE,
+          isTemporaryBadge: true,
+          label: 'Pix+ Édu 2nd degré Avancé',
+        },
+        {
+          partnerKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
+          isTemporaryBadge: true,
+          label: 'Pix+ Édu 2nd degré Expert',
+        },
+        {
+          partnerKey: PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_INITIE,
+          isTemporaryBadge: true,
+          label: 'Pix+ Édu 1er degré Initié (entrée dans le métier)',
+        },
+        {
+          partnerKey: PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_CONFIRME,
+          isTemporaryBadge: true,
+          label: 'Pix+ Édu 1er degré Confirmé',
+        },
+        {
+          partnerKey: PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_CONFIRME,
+          isTemporaryBadge: true,
+          label: 'Pix+ Édu 1er degré Confirmé',
+        },
+        {
+          partnerKey: PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE,
+          isTemporaryBadge: true,
+          label: 'Pix+ Édu 1er degré Avancé',
+        },
+        {
+          partnerKey: PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT,
+          isTemporaryBadge: true,
+          label: 'Pix+ Édu 1er degré Expert',
+        },
+      ].forEach(({ partnerKey, isTemporaryBadge, label }) => {
         it(`should get the certified badge ${partnerKey} when acquired`, async function () {
           // given
           const learningContentObjects = learningContentBuilder.buildLearningContent(minimalLearningContent);
@@ -358,12 +398,17 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
             deliveredAt: new Date('2021-05-05'),
             certificationCenter: 'Centre des poules bien dodues',
             pixScore: 51,
-            certifiedBadges: [{ partnerKey, isTemporaryBadge }],
+            certifiedBadges: [{ partnerKey, isTemporaryBadge, label }],
             sessionId: 789,
           };
           await _buildValidCertificationAttestation(certificationAttestationData);
-          databaseBuilder.factory.buildBadge({ key: partnerKey });
+          const badgeId = databaseBuilder.factory.buildBadge({ key: partnerKey }).id;
           databaseBuilder.factory.buildBadge({ key: 'some-other-badge-e' });
+          databaseBuilder.factory.buildComplementaryCertificationBadge({
+            label,
+            badgeId,
+            complementaryCertificationId: databaseBuilder.factory.buildComplementaryCertification().id,
+          });
           databaseBuilder.factory.buildComplementaryCertificationCourse({
             id: 998,
             certificationCourseId: 123,
@@ -403,14 +448,32 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
         mockLearningContent(learningContentObjects);
         const certificationAttestationData = {
           id: 123,
-          certifiedBadges: [{ partnerKey: PIX_DROIT_EXPERT_CERTIF, isTemporaryBadge: false }],
+          certifiedBadges: [
+            { partnerKey: PIX_DROIT_EXPERT_CERTIF, isTemporaryBadge: false, label: 'Pix+ Droit Expert' },
+          ],
         };
         const certificationAttestationData2 = {
           id: 124,
-          certifiedBadges: [{ partnerKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE, isTemporaryBadge: false }],
+          certifiedBadges: [
+            {
+              partnerKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
+              isTemporaryBadge: false,
+              label: 'Pix+ Édu 2nd degré Initié (entrée dans le métier)',
+            },
+          ],
         };
-        databaseBuilder.factory.buildBadge({ key: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE });
-        databaseBuilder.factory.buildBadge({ key: PIX_DROIT_EXPERT_CERTIF });
+        const badgeIdEdu = databaseBuilder.factory.buildBadge({ key: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE }).id;
+        const badgeIdDroit = databaseBuilder.factory.buildBadge({ key: PIX_DROIT_EXPERT_CERTIF }).id;
+        databaseBuilder.factory.buildComplementaryCertificationBadge({
+          badgeId: badgeIdEdu,
+          complementaryCertificationId: databaseBuilder.factory.buildComplementaryCertification().id,
+          label: 'Pix+ Édu 2nd degré Initié (entrée dans le métier)',
+        });
+        databaseBuilder.factory.buildComplementaryCertificationBadge({
+          badgeId: badgeIdDroit,
+          complementaryCertificationId: databaseBuilder.factory.buildComplementaryCertification().id,
+          label: 'Pix+ Droit Expert',
+        });
         await _buildValidCertificationAttestation(certificationAttestationData);
         await _buildValidCertificationAttestation(certificationAttestationData2);
 
@@ -442,7 +505,7 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
 
         // then
         expect(certificationAttestation.certifiedBadges).to.deep.equals([
-          { partnerKey: PIX_DROIT_EXPERT_CERTIF, isTemporaryBadge: false },
+          { partnerKey: PIX_DROIT_EXPERT_CERTIF, isTemporaryBadge: false, label: 'Pix+ Droit Expert' },
         ]);
       });
     });
@@ -465,7 +528,7 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
         deliveredAt: new Date('2021-05-05'),
         certificationCenter: 'Centre des poules bien dodues',
         pixScore: 51,
-        certifiedBadges: [{ partnerKey: PIX_DROIT_MAITRE_CERTIF, isTemporaryBadge: false }],
+        certifiedBadges: [{ partnerKey: PIX_DROIT_MAITRE_CERTIF, isTemporaryBadge: false, label: 'Pix+ Droit Maître' }],
         sessionId: 789,
       };
       await _buildValidCertificationAttestation(certificationAttestationData);
@@ -1333,7 +1396,12 @@ async function _buildPixPlusDroitMaitreResult({ certificationCourseId, acquired 
   const complementaryCertificationCourseId = databaseBuilder.factory.buildComplementaryCertificationCourse({
     certificationCourseId,
   }).id;
-  databaseBuilder.factory.buildBadge({ key: PIX_DROIT_MAITRE_CERTIF });
+  const badgeId = databaseBuilder.factory.buildBadge({ key: PIX_DROIT_MAITRE_CERTIF }).id;
+  databaseBuilder.factory.buildComplementaryCertificationBadge({
+    badgeId,
+    complementaryCertificationId: databaseBuilder.factory.buildComplementaryCertification().id,
+    label: 'Pix+ Droit Maître',
+  });
   databaseBuilder.factory.buildComplementaryCertificationCourseResult({
     complementaryCertificationCourseId,
     partnerKey: PIX_DROIT_MAITRE_CERTIF,

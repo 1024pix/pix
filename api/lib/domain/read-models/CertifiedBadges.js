@@ -26,12 +26,13 @@ class CertifiedBadges {
     return Object.values(complementaryCertificationCourseResultsByPartnerKey)
       .map((complementaryCertificationCourseResults) => {
         const partnerKey = complementaryCertificationCourseResults[0].partnerKey;
+        const label = complementaryCertificationCourseResults[0].label;
         if (complementaryCertificationCourseResults[0].isPixEdu()) {
           if (complementaryCertificationCourseResults.length === 1) {
             if (!complementaryCertificationCourseResults[0].isAcquired()) {
               return;
             }
-            return { partnerKey, isTemporaryBadge: true };
+            return { partnerKey, isTemporaryBadge: true, label };
           }
 
           if (complementaryCertificationCourseResults.length > 1) {
@@ -39,14 +40,14 @@ class CertifiedBadges {
               return;
             }
 
-            const lowestPartnerKey = this._getLowestPartnerKey(complementaryCertificationCourseResults);
+            const { partnerKey, label } = this._getLowestPartnerKey(complementaryCertificationCourseResults);
 
-            return { partnerKey: lowestPartnerKey, isTemporaryBadge: false };
+            return { partnerKey, isTemporaryBadge: false, label };
           }
         }
 
         if (complementaryCertificationCourseResults[0].isAcquired()) {
-          return { partnerKey, isTemporaryBadge: false };
+          return { partnerKey, isTemporaryBadge: false, label };
         }
       })
       .filter(Boolean);
@@ -78,9 +79,12 @@ class CertifiedBadges {
       PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT,
     ].indexOf(complementaryCertificationCourseResults[1].partnerKey);
 
-    return firstIndexOf <= secondIndexOf
-      ? complementaryCertificationCourseResults[0].partnerKey
-      : complementaryCertificationCourseResults[1].partnerKey;
+    const lowestResult =
+      firstIndexOf <= secondIndexOf
+        ? complementaryCertificationCourseResults[0]
+        : complementaryCertificationCourseResults[1];
+
+    return { partnerKey: lowestResult.partnerKey, label: lowestResult.label };
   }
 
   _getLowestPartnerKeyForPixEdu1erDegreBadge(complementaryCertificationCourseResults) {
@@ -100,9 +104,12 @@ class CertifiedBadges {
       PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT,
     ].indexOf(complementaryCertificationCourseResults[1].partnerKey);
 
-    return firstIndexOf <= secondIndexOf
-      ? complementaryCertificationCourseResults[0].partnerKey
-      : complementaryCertificationCourseResults[1].partnerKey;
+    const lowestResult =
+      firstIndexOf <= secondIndexOf
+        ? complementaryCertificationCourseResults[0]
+        : complementaryCertificationCourseResults[1];
+
+    return { partnerKey: lowestResult.partnerKey, label: lowestResult.label };
   }
 
   _hasRejectedJuryCertifiedBadge(complementaryCertificationCourseResults) {

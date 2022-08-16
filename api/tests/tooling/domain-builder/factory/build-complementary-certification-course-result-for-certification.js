@@ -5,10 +5,12 @@ module.exports = function buildComplementaryCertificationCourseResultForJuryCert
   id = 1234,
   partnerKey = PIX_EMPLOI_CLEA_V2,
   acquired = true,
+  label = 'label par défaut',
 } = {}) {
   return new ComplementaryCertificationCourseResultForJuryCertification({
     id,
     partnerKey,
     acquired,
+    label,
   });
 };
