@@ -9,11 +9,13 @@ export default class FillInParticipantExternalId extends Controller {
   @action
   onSubmitParticipantExternalId(participantExternalId) {
     this.campaignStorage.set(this.model.code, 'participantExternalId', participantExternalId);
-    return this.router.transitionTo('campaigns.entrance', this.model);
+    this.router.transitionTo('campaigns.entrance', this.model);
+    return;
   }
 
   @action
   onCancel() {
-    return this.router.transitionTo('campaigns.campaign-landing-page', this.model.code);
+    this.router.transitionTo('campaigns.campaign-landing-page', this.model.code);
+    return;
   }
 }
