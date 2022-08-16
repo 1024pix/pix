@@ -13,6 +13,7 @@ class Campaign {
     createdAt,
     customLandingPageText,
     archivedAt,
+    archivedBy,
     type,
     isForAbsoluteNovice,
     targetProfile,
@@ -35,6 +36,7 @@ class Campaign {
     this.createdAt = createdAt;
     this.customLandingPageText = customLandingPageText;
     this.archivedAt = archivedAt;
+    this.archivedBy = archivedBy;
     this.type = type;
     this.isForAbsoluteNovice = isForAbsoluteNovice;
     this.targetProfile = targetProfile;
