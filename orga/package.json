@@ -44,7 +44,7 @@
     "@formatjs/intl-getcanonicallocales": "^2.0.2",
     "@formatjs/intl-locale": "^3.0.3",
     "@formatjs/intl-pluralrules": "^5.0.3",
-    "@fortawesome/ember-fontawesome": "^0.2.3",
+    "@fortawesome/ember-fontawesome": "^0.4.0",
     "@fortawesome/free-regular-svg-icons": "^5.15.3",
     "@fortawesome/free-solid-svg-icons": "^5.15.3",
     "@glimmer/component": "^1.0.4",
