@@ -82,7 +82,6 @@ export default class OidcAuthenticator extends BaseAuthenticator {
   async invalidate(data) {
     if (data?.identity_provider_code !== 'POLE_EMPLOI') return;
 
-    let url = '';
     const { access_token, logout_url_uuid } = this.session.data.authenticated;
 
     const response = await fetch(
@@ -94,8 +93,7 @@ export default class OidcAuthenticator extends BaseAuthenticator {
       }
     );
     const { redirectLogoutUrl } = await response.json();
-    url = redirectLogoutUrl;
 
-    this.location.replace(url);
+    this.session.alternativeRootURL = redirectLogoutUrl;
   }
 }
