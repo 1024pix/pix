@@ -1,4 +1,5 @@
 const { knex } = require('../../../db/knex-database-connection');
+const ComplementaryCertificationCourseResult = require('../../domain/models/ComplementaryCertificationCourseResult');
 const CertificationResult = require('../../domain/models/CertificationResult');
 const isEmpty = require('lodash/isEmpty');
 
@@ -116,6 +117,7 @@ function _selectComplementaryCertificationCourseResultsBySessionId({ sessionId }
       'complementary-certification-courses.certificationCourseId'
     )
     .where({ sessionId })
+    .where('complementary-certification-course-results.source', ComplementaryCertificationCourseResult.sources.PIX)
     .groupBy('certification-courses.id');
 }
 
