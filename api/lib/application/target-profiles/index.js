@@ -65,7 +65,7 @@ exports.register = async (server) => {
             id: identifiersType.targetProfileId,
           }),
         },
-        handler: targetProfileController.getTargetProfileDetails,
+        handler: targetProfileController.getTargetProfileForAdmin,
         tags: ['api', 'admin', 'target-profiles'],
         notes: [
           "- **Cette route est restreinte aux utilisateurs authentifiés ayant les droits d'accès**\n" +

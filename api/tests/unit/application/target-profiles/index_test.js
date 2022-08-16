@@ -160,7 +160,7 @@ describe('Unit | Application | Target Profiles | Routes', function () {
           ])
           .callsFake(() => (request, h) => h.response(true));
         sinon
-          .stub(targetProfileController, 'getTargetProfileDetails')
+          .stub(targetProfileController, 'getTargetProfileForAdmin')
           .callsFake((request, h) => h.response('ok').code(200));
         const httpTestServer = new HttpTestServer();
         await httpTestServer.register(moduleUnderTest);
