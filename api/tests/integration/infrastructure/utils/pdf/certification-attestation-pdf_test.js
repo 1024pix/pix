@@ -57,7 +57,13 @@ describe('Integration | Infrastructure | Utils | Pdf | Certification Attestation
       firstName: 'Jean',
       lastName: 'Bon',
       resultCompetenceTree,
-      certifiedBadges: [{ partnerKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE, isTemporaryBadge: true }],
+      certifiedBadges: [
+        {
+          partnerKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
+          isTemporaryBadge: true,
+          label: 'Pix+ Édu 2nd degré Initié (entrée dans le métier)',
+        },
+      ],
     });
     const referencePdfPath = 'certification-attestation-pdf_test_full_edu_temporary.pdf';
 
@@ -84,7 +90,13 @@ describe('Integration | Infrastructure | Utils | Pdf | Certification Attestation
       firstName: 'Jean',
       lastName: 'Bon',
       resultCompetenceTree,
-      certifiedBadges: [{ partnerKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE, isTemporaryBadge: false }],
+      certifiedBadges: [
+        {
+          partnerKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
+          isTemporaryBadge: false,
+          label: 'Pix+ Édu 2nd degré Initié (entrée dans le métier)',
+        },
+      ],
     });
     const referencePdfPath = 'certification-attestation-pdf_test_full_edu.pdf';
 
