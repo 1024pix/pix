@@ -32,7 +32,7 @@
     "manual-lint:json": "eslint --fix --ext .json translations/",
     "preinstall": "npx check-engine",
     "start": "ember serve --proxy http://localhost:3000",
-    "test": "ember test --reporter dot",
+    "test": "npm run lint && ember test --reporter dot",
     "test:ci": "npm run test",
     "test:lint": "npm test && npm run lint",
     "test:watch": "ember exam --serve --reporter dot"
