@@ -3,6 +3,7 @@ const usecases = require('../../../../lib/domain/usecases');
 const securityPreHandlers = require('../../../../lib/application/security-pre-handlers');
 const targetProfilesRouter = require('../../../../lib/application/target-profiles');
 const { NotFoundError } = require('../../../../lib/domain/errors');
+const TargetProfileForAdminNewFormat = require('../../../../lib/domain/models/TargetProfileForAdminNewFormat');
 
 describe('Integration | Application | Route | target-profile-router', function () {
   let httpTestServer;
@@ -15,53 +16,182 @@ describe('Integration | Application | Route | target-profile-router', function (
   describe('GET api/admin/target-profiles/{id}', function () {
     it('should return a target profile', async function () {
       // given
-      const targetProfile = domainBuilder.buildTargetProfileWithLearningContent({
-        id: 1,
-        name: 'target-profile',
-        createdAt: '2021-04-30',
-        outdated: '2024-05-23',
-        isPublic: false,
-        ownerOrganizationId: 2,
-        description: 'description',
-        comment: 'comment',
-        imageUrl: 'imageUrl',
-        skills: [],
-        tubes: [],
-        competences: [],
-        areas: [],
-        isSimplifiedAccess: false,
+      const area = domainBuilder.buildArea({
+        id: 'recArea1',
+        title: 'Super domaine',
+        color: 'blue',
+        code: 'lyoko',
+      });
+      const targetProfileForAdminNewFormat = new TargetProfileForAdminNewFormat({
+        id: 132,
+        name: 'Mon Super profil cible',
+        outdated: true,
+        isPublic: true,
+        createdAt: new Date('2021-03-02'),
+        ownerOrganizationId: 12,
+        description: 'Un super profil cible',
+        comment: 'commentaire',
+        imageUrl: 'some/image/url',
+        category: 'OTHER',
+        isSimplifiedAccess: true,
+        areas: [area],
+        competences: [
+          domainBuilder.buildCompetence({
+            id: 'recComp1',
+            area,
+            name: 'Super compétence',
+            index: '1.1',
+          }),
+        ],
+        thematics: [
+          domainBuilder.buildThematic({
+            id: 'recThem1',
+            competenceId: 'recComp1',
+            name: 'Super thématique',
+            index: '5',
+          }),
+        ],
+        tubes: [
+          {
+            ...domainBuilder.buildTube({
+              id: 'recTube1',
+              name: '@nomTube',
+              practicalTitle: 'Super tube',
+            }),
+            thematicId: 'recThem1',
+            level: 8,
+            mobile: true,
+            tablet: false,
+          },
+        ],
       });
 
       sinon
-        .stub(usecases, 'getTargetProfileDetails')
-        .withArgs({ targetProfileId: targetProfile.id })
-        .resolves(targetProfile);
+        .stub(usecases, 'getTargetProfileForAdmin')
+        .withArgs({ targetProfileId: 123 })
+        .resolves(targetProfileForAdminNewFormat);
 
       // when
-      const response = await httpTestServer.request('GET', `/api/admin/target-profiles/${targetProfile.id}`);
+      const response = await httpTestServer.request('GET', `/api/admin/target-profiles/123`);
 
       // then
       expect(response.statusCode).to.equal(200);
-      expect(response.result.data.id).to.equal('1');
-      expect(response.result.data.attributes).to.deep.equal({
-        name: 'target-profile',
-        'created-at': '2021-04-30',
-        outdated: '2024-05-23',
-        'is-public': false,
-        'owner-organization-id': 2,
-        description: 'description',
-        category: 'OTHER',
-        comment: 'comment',
-        'image-url': 'imageUrl',
-        'is-simplified-access': false,
-        'tubes-selection': [],
+      expect(response.result).to.deep.equal({
+        data: {
+          type: 'target-profiles',
+          id: '132',
+          attributes: {
+            'is-new-format': true,
+            name: 'Mon Super profil cible',
+            outdated: true,
+            'is-public': true,
+            'created-at': new Date('2021-03-02'),
+            'owner-organization-id': 12,
+            description: 'Un super profil cible',
+            comment: 'commentaire',
+            'image-url': 'some/image/url',
+            category: 'OTHER',
+            'is-simplified-access': true,
+          },
+          relationships: {
+            badges: {
+              links: {
+                related: '/api/admin/target-profiles/132/badges',
+              },
+            },
+            stages: {
+              links: {
+                related: '/api/admin/target-profiles/132/stages',
+              },
+            },
+            'new-areas': {
+              data: [
+                {
+                  type: 'newAreas',
+                  id: 'recArea1',
+                },
+              ],
+            },
+          },
+        },
+        included: [
+          {
+            type: 'new-tubes',
+            id: 'recTube1',
+            attributes: {
+              name: '@nomTube',
+              'practical-title': 'Super tube',
+              level: 8,
+              mobile: true,
+              tablet: false,
+            },
+          },
+          {
+            type: 'new-thematics',
+            id: 'recThem1',
+            attributes: {
+              name: 'Super thématique',
+              index: '5',
+            },
+            relationships: {
+              tubes: {
+                data: [
+                  {
+                    type: 'new-tubes',
+                    id: 'recTube1',
+                  },
+                ],
+              },
+            },
+          },
+          {
+            type: 'new-competences',
+            id: 'recComp1',
+            attributes: {
+              name: 'Super compétence',
+              index: '1.1',
+            },
+            relationships: {
+              thematics: {
+                data: [
+                  {
+                    type: 'new-thematics',
+                    id: 'recThem1',
+                  },
+                ],
+              },
+            },
+          },
+          {
+            type: 'newAreas',
+            id: 'recArea1',
+            attributes: {
+              title: 'Super domaine',
+              color: 'blue',
+              code: 'lyoko',
+            },
+            relationships: {
+              competences: {
+                data: [
+                  {
+                    type: 'new-competences',
+                    id: 'recComp1',
+                  },
+                ],
+              },
+            },
+          },
+        ],
       });
     });
 
     describe('when target profile id is not found', function () {
       it('should return 404 status code', async function () {
         // given
-        sinon.stub(usecases, 'getTargetProfileDetails').withArgs({ targetProfileId: 666 }).rejects(new NotFoundError());
+        sinon
+          .stub(usecases, 'getTargetProfileForAdmin')
+          .withArgs({ targetProfileId: 666 })
+          .rejects(new NotFoundError());
 
         // when
         const response = await httpTestServer.request('GET', `/api/admin/target-profiles/666`);

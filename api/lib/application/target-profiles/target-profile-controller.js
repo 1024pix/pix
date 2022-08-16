@@ -2,6 +2,8 @@ const usecases = require('../../domain/usecases');
 const targetProfileSerializer = require('../../infrastructure/serializers/jsonapi/target-profile-serializer');
 const targetProfileSummaryForAdminSerializer = require('../../infrastructure/serializers/jsonapi/target-profile-summary-for-admin-serializer');
 const targetProfileWithLearningContentSerializer = require('../../infrastructure/serializers/jsonapi/target-profile-with-learning-content-serializer');
+const targetProfileForAdminOldSerializer = require('../../infrastructure/serializers/jsonapi/target-profile-for-admin-old-format-serializer');
+const targetProfileForAdminNewSerializer = require('../../infrastructure/serializers/jsonapi/target-profile-for-admin-new-format-serializer');
 const queryParamsUtils = require('../../infrastructure/utils/query-params-utils');
 const organizationSerializer = require('../../infrastructure/serializers/jsonapi/organization-serializer');
 const badgeSerializer = require('../../infrastructure/serializers/jsonapi/badge-serializer');
@@ -22,10 +24,11 @@ module.exports = {
     return targetProfileSummaryForAdminSerializer.serialize(targetProfileSummaries, meta);
   },
 
-  async getTargetProfileDetails(request) {
+  async getTargetProfileForAdmin(request) {
     const targetProfileId = request.params.id;
-    const targetProfilesDetails = await usecases.getTargetProfileDetails({ targetProfileId });
-    return targetProfileWithLearningContentSerializer.serialize(targetProfilesDetails);
+    const targetProfileForAdmin = await usecases.getTargetProfileForAdmin({ targetProfileId });
+    if (targetProfileForAdmin.isNewFormat) return targetProfileForAdminNewSerializer.serialize(targetProfileForAdmin);
+    return targetProfileForAdminOldSerializer.serialize(targetProfileForAdmin);
   },
 
   async findPaginatedFilteredTargetProfileOrganizations(request) {
