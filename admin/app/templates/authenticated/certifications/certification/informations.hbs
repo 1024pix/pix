@@ -123,7 +123,7 @@
               <div class="certification-informations__card certification-informations__card--pix-edu">
                 <p>VOLET JURY</p>
                 {{#if this.displayJuryLevelSelect}}
-                  <div class="certification-informations__complementary-certification__pix-edu__row__jury-level-editor">
+                  <div class="certification-informations__pix-edu__row__jury-level-editor">
                     <section>
                       <PixSelect
                         aria-label="Sélectionner un niveau"
@@ -155,8 +155,10 @@
                     </section>
                   </div>
                 {{else}}
-                  <div class="certification-informations__complementary-certification__pix-edu__row__jury-level">
-                    <p>{{this.certification.complementaryCertificationCourseResultsWithExternal.externalResult}}</p>
+                  <div class="certification-informations__pix-edu__row__jury-level">
+                    <p class="certification-informations__card__score">
+                      {{this.certification.complementaryCertificationCourseResultsWithExternal.externalResult}}
+                    </p>
                     {{#if this.shouldDisplayJuryLevelEditButton}}
                       <button
                         type="button"
