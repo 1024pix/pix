@@ -25,21 +25,10 @@ export default class InformationBanner extends Component {
     return this.currentUser.organization.isSco && !this._isOnCertificationsPage;
   }
 
-  get campaignMiddleSchoolDocumentationLink() {
-    if (this.currentUser.isSCOManagingStudents && this.currentUser.isAgriculture) {
-      return 'https://view.genial.ly/5f687a0451337070914e54f9?idSlide=cf788556-ff93-4aba-a5c2-312c450c7553';
-    } else if (this.currentUser.isSCOManagingStudents) {
-      return 'https://view.genial.ly/5f295b80302a810d2ff9fa60/?idSlide=e11f61b2-3047-4be3-9a4d-dd9e7cc698ba';
+  get campaignDocumentationLink() {
+    if (this.currentUser.isSCOManagingStudents) {
+      return 'https://view.genial.ly/62cd67b161c1e3001759e818?idSlide=e11f61b2-3047-4be3-9a4d-dd9e7cc698ba';
     }
-    return 'https://kutt.it/prefe';
-  }
-
-  get campaignHighSchoolDocumentationLink() {
-    if (this.currentUser.isSCOManagingStudents && this.currentUser.isAgriculture) {
-      return 'https://view.genial.ly/5f687a0451337070914e54f9?idSlide=cf788556-ff93-4aba-a5c2-312c450c7553';
-    } else if (this.currentUser.isSCOManagingStudents) {
-      return 'https://view.genial.ly/5f46390591252c0d5246bb63/?idSlide=e11f61b2-3047-4be3-9a4d-dd9e7cc698ba';
-    }
-    return 'https://kutt.it/prefe';
+    return 'https://view.genial.ly/5fea2c3d6157fe0d69196ed9?idSlide=16cedb0c-3c1c-4cd3-a00b-49c01b0afcc2';
   }
 }
