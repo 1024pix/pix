@@ -7,6 +7,7 @@ async function findByOrganizationId(organizationId) {
     .select('category', 'count')
     .where({ organizationId })
     .where('activationDate', '<', now)
+    .whereNull('deletedAt')
     .where(function () {
       this.where('expirationDate', '>', now).orWhereNull('expirationDate');
     });
