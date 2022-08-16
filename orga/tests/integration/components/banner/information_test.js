@@ -96,34 +96,11 @@ module('Integration | Component | Banner::Information', function (hooks) {
         assert
           .dom('.pix-banner')
           .includesText(
-            'Parcours de rentrée 2021 : N’oubliez pas de créer les campagnes de rentrée et de diffuser les codes aux élèves avant la Toussaint. Plus d’info collège et lycée (GT et Pro)'
+            'Parcours de rentrée 2022 : N’oubliez pas de créer les campagnes de rentrée et de diffuser les codes aux élèves avant la Toussaint. Plus d’info'
           );
       });
 
-      module('when prescriber’s organization is managing students and is AGRICULTURE', function () {
-        test('should display AGRICULTURE links', async function (assert) {
-          // given
-          class CurrentUserStub extends Service {
-            prescriber = { areNewYearOrganizationLearnersImported: true };
-            organization = { isSco: true };
-            isSCOManagingStudents = true;
-            isAgriculture = true;
-          }
-          this.owner.register('service:current-user', CurrentUserStub);
-
-          // when
-          await render(hbs`<Banner::Information />`);
-
-          // then
-          assert
-            .dom(
-              'a[href="https://view.genial.ly/5f687a0451337070914e54f9?idSlide=cf788556-ff93-4aba-a5c2-312c450c7553"'
-            )
-            .exists();
-        });
-      });
-
-      module('when prescriber’s organization is managing students but is not AGRICULTURE', function () {
+      module('when prescriber’s organization is managing students', function () {
         test('should display links', async function (assert) {
           // given
           class CurrentUserStub extends Service {
@@ -140,12 +117,7 @@ module('Integration | Component | Banner::Information', function (hooks) {
           // then
           assert
             .dom(
-              'a[href="https://view.genial.ly/5f46390591252c0d5246bb63/?idSlide=e11f61b2-3047-4be3-9a4d-dd9e7cc698ba"'
-            )
-            .exists();
-          assert
-            .dom(
-              'a[href="https://view.genial.ly/5f295b80302a810d2ff9fa60/?idSlide=e11f61b2-3047-4be3-9a4d-dd9e7cc698ba"'
+              'a[href="https://view.genial.ly/62cd67b161c1e3001759e818?idSlide=e11f61b2-3047-4be3-9a4d-dd9e7cc698ba"'
             )
             .exists();
         });
@@ -166,7 +138,11 @@ module('Integration | Component | Banner::Information', function (hooks) {
           await render(hbs`<Banner::Information />`);
 
           // then
-          assert.dom('a[href="https://kutt.it/prefe"').exists();
+          assert
+            .dom(
+              'a[href="https://view.genial.ly/5fea2c3d6157fe0d69196ed9?idSlide=16cedb0c-3c1c-4cd3-a00b-49c01b0afcc2"'
+            )
+            .exists();
         });
       });
     });

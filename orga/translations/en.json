@@ -48,7 +48,7 @@
   },
   "banners": {
     "campaigns": {
-      "message": "Don't forget to create your back-to-school campaigns and share the codes with your students before November. More info for '<'a href={middleSchoolDocumentationLink} class={externalLinkClasses} target=\"_blank\" rel=\"noopener noreferrer\"'>'middle schools {faIcon}'</a>' and '<'a href={highSchoolDocumentationLink} class={externalLinkClasses} target=\"_blank\" rel=\"noopener noreferrer\"'>'high schools {faIcon}'</a>'"
+      "message": "Don't forget to create your back-to-school campaigns and share the codes with your students before November. '<'a href={documentationLink} class={externalLinkClasses} target=\"_blank\" rel=\"noopener noreferrer\"'>'More info {faIcon}'</a>'"
     },
     "import": {
       "link-to": "import the students database",
