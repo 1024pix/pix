@@ -257,7 +257,6 @@ module('Integration | Component | Campaign::Results::AssessmentList', function (
 
   module('when user works for a SCO organization which manages students', function () {
     class CurrentUserStub extends Service {
-      prescriber = { areNewYearSchoolingRegistrationsImported: false };
       isSCOManagingStudents = true;
     }
 
@@ -295,7 +294,6 @@ module('Integration | Component | Campaign::Results::AssessmentList', function (
 
   module('when user reset current filters', function () {
     class CurrentUserStub extends Service {
-      prescriber = { areNewYearSchoolingRegistrationsImported: false };
       isSCOManagingStudents = true;
     }
 
