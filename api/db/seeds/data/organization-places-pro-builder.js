@@ -5,6 +5,20 @@ function organizationPlacesProBuilder({ databaseBuilder }) {
   const expirationDate = new Date();
   const createdDate = new Date();
 
+  // Deleted
+  databaseBuilder.factory.buildOrganizationPlace({
+    organizationId: PRO_COMPANY_ID,
+    count: 40,
+    activationDate: new Date(activationDate.setMonth(activationDate.getMonth() - 1)),
+    expirationDate: new Date(expirationDate.setMonth(expirationDate.getMonth() + 8)),
+    reference: 'TheOfficeDeleted',
+    category: 'T1',
+    createdBy: PIX_SUPER_ADMIN_ID,
+    createdAt: new Date('2019-12-01'),
+    deletedBy: PIX_SUPER_ADMIN_ID,
+    deletedAt: new Date('2020-01-12'),
+  });
+
   // Expired
   databaseBuilder.factory.buildOrganizationPlace({
     organizationId: PRO_COMPANY_ID,
