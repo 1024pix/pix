@@ -1,5 +1,5 @@
 <Modal::Dialog
-  @title="{{t "pages.sco-organization-participants.manage-authentication-method-modal.title"}}"
+  @title="{{t 'pages.sco-organization-participants.manage-authentication-method-modal.title'}}"
   @display={{@display}}
   @close={{this.closeModal}}
 >
@@ -49,7 +49,7 @@
                   <:triggerElement>
                     <CopyButton
                       @aria-label="{{t
-                        "pages.sco-organization-participants.manage-authentication-method-modal.section.email.copy"
+                        'pages.sco-organization-participants.manage-authentication-method-modal.section.email.copy'
                       }}"
                       @clipboardText={{@student.email}}
                       @success={{this.clipboardSuccessEmail}}

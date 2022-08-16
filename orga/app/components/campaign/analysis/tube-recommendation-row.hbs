@@ -1,14 +1,14 @@
-<tr aria-label="{{t "pages.campaign-review.table.analysis.row-title"}}">
+<tr aria-label="{{t 'pages.campaign-review.table.analysis.row-title'}}">
   <td class="competences-col__name">
     <div class="competences-col-name-wrapper">
       <span
         class="competences-col__border
-          {{if this.isOpen " competences-col__border--top"}}
+          {{if this.isOpen ' competences-col__border--top'}}
           competences-col__border--{{@tubeRecommendation.areaColor}}"
       ></span>
-      <span class="tube-recommendation-title {{if this.isOpen " tube-recommendation-title--open"}}">
+      <span class="tube-recommendation-title {{if this.isOpen ' tube-recommendation-title--open'}}">
         {{@tubeRecommendation.tubePracticalTitle}}<br />
-        <sub class="tube-recommendation-subtitle {{if this.isOpen " tube-recommendation-subtitle--open"}}">
+        <sub class="tube-recommendation-subtitle {{if this.isOpen ' tube-recommendation-subtitle--open'}}">
           {{@tubeRecommendation.competenceName}}
         </sub>
       </span>
@@ -31,14 +31,14 @@
   </td>
 </tr>
 <tr
-  class="tube-recommendation-tutorial {{if this.isOpen " tube-recommendation-tutorial--open"}}"
+  class="tube-recommendation-tutorial {{if this.isOpen ' tube-recommendation-tutorial--open'}}"
   aria-hidden="{{not this.isOpen}}"
 >
   <td colspan="4" class="tube-recommendation-tutorial__column">
-    <div class="tube-recommendation-tutorial-wrapper {{if this.isOpen " tube-recommendation-tutorial-wrapper--open"}}">
+    <div class="tube-recommendation-tutorial-wrapper {{if this.isOpen ' tube-recommendation-tutorial-wrapper--open'}}">
       <span
         class="competences-col__border competences-col__border--bottom
-          {{if this.isOpen " competences-col__border--open"}}
+          {{if this.isOpen ' competences-col__border--open'}}
           competences-col__border--{{@tubeRecommendation.areaColor}}"
       ></span>
       <div class="tube-recommendation-tutorial__description">
@@ -57,7 +57,7 @@
                   class="link"
                   target="_blank"
                   rel="noopener noreferrer"
-                  tabindex="{{if this.isOpen "0" "-1"}}"
+                  tabindex="{{if this.isOpen '0' '-1'}}"
                 >{{tutorial.title}}</a>
                 <span class="tube-recommendation-tutorial-table__details">
                   <strong>·</strong>

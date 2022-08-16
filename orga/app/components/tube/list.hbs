@@ -94,11 +94,11 @@
                       <div
                         aria-label="{{if
                           tube.mobile
-                          (t "pages.preselect-target-profile.table.is-responsive")
-                          (t "pages.preselect-target-profile.table.not-responsive")
+                          (t 'pages.preselect-target-profile.table.is-responsive')
+                          (t 'pages.preselect-target-profile.table.not-responsive')
                         }}"
                       >
-                        <FaIcon @icon="mobile-alt" class="fa-2x {{if tube.mobile "is-responsive"}}" />
+                        <FaIcon @icon="mobile-alt" class="fa-2x {{if tube.mobile 'is-responsive'}}" />
                         {{#unless tube.mobile}}
                           <FaIcon @icon="slash" class="fa-2x not-responsive" />
                         {{/unless}}
@@ -108,11 +108,11 @@
                       <div
                         aria-label="{{if
                           tube.tablet
-                          (t "pages.preselect-target-profile.table.is-responsive")
-                          (t "pages.preselect-target-profile.table.not-responsive")
+                          (t 'pages.preselect-target-profile.table.is-responsive')
+                          (t 'pages.preselect-target-profile.table.not-responsive')
                         }}"
                       >
-                        <FaIcon @icon="tablet-alt" class="fa-2x {{if tube.tablet "is-responsive"}}" />
+                        <FaIcon @icon="tablet-alt" class="fa-2x {{if tube.tablet 'is-responsive'}}" />
                         {{#unless tube.tablet}}
                           <FaIcon @icon="slash" class="fa-2x not-responsive" />
                         {{/unless}}

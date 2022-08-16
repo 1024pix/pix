@@ -1,4 +1,4 @@
-<tr aria-label="{{t "pages.team-members.table.row-title"}}">
+<tr aria-label="{{t 'pages.team-members.table.row-title'}}">
   <td>{{@membership.user.lastName}}</td>
   <td>{{@membership.user.firstName}}</td>
 
@@ -32,8 +32,8 @@
       <div id="selectOrganizationRole">
         <PixSelect
           class="table__input"
-          aria-label="{{t "pages.team-members.actions.select-role.label"}}"
-          placeholder="{{t "pages.team-members.actions.select-role.label"}}"
+          aria-label="{{t 'pages.team-members.actions.select-role.label'}}"
+          placeholder="{{t 'pages.team-members.actions.select-role.label'}}"
           @onChange={{this.setRoleSelection}}
           @options={{this.organizationRoles}}
           @selectedOption={{@membership.organizationRole}}
@@ -53,7 +53,7 @@
         <PixIconButton
           @icon="times"
           id="cancel-update-organization-role"
-          aria-label="{{t "common.actions.cancel"}}"
+          aria-label="{{t 'common.actions.cancel'}}"
           @triggerAction={{this.cancelUpdateRoleOfMember}}
           @withBackground={{false}}
           @color="dark-grey"

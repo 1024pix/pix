@@ -3,7 +3,7 @@
     {{yield}}
     {{#unless @isDisabled}}
       <PixIconButton
-        @icon="{{if (eq this.order "asc") "arrow-up" "arrow-down"}}"
+        @icon="{{if (eq this.order 'asc') 'arrow-up' 'arrow-down'}}"
         @triggerAction={{this.toggleSort}}
         @withBackground={{false}}
         @size="small"

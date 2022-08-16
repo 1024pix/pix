@@ -26,6 +26,7 @@ module.exports = {
   },
   rules: {
     'no-restricted-imports': ['error', { paths: ['lodash'] }],
+    'ember/no-array-prototype-extensions': 'off',
     'i18n-json/sorted-keys': [
       'warn',
       {

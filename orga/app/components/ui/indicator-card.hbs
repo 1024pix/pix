@@ -4,7 +4,7 @@
     <div class="indicator-card__icon" aria-hidden="true"></div>
     <div class="indicator-card__content" aria-hidden="true"></div>
   {{else}}
-    <div class="indicator-card__icon {{if @color (concat "indicator-card__icon--" @color)}}" aria-hidden="true">
+    <div class="indicator-card__icon {{if @color (concat 'indicator-card__icon--' @color)}}" aria-hidden="true">
       <FaIcon @icon={{@icon}} />
     </div>
     <dl class="indicator-card__content">

@@ -6,5 +6,6 @@ module.exports = {
   rules: {
     'no-duplicate-landmark-elements': false,
     'no-invalid-interactive': false,
+    'require-presentational-children': false,
   },
 };
