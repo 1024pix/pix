@@ -31,6 +31,7 @@ describe('Unit | UseCase | archive-campaign', function () {
       expect(campaignRepository.update).to.have.been.calledWithExactly({
         id: campaignId,
         archivedAt: sinon.match.instanceOf(Date),
+        archivedBy: userId,
       });
     });
   });
