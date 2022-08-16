@@ -11,6 +11,7 @@ class Badge {
     skillSets = [],
     targetProfileId,
     isAlwaysVisible = false,
+    complementaryCertificationBadge = null,
   } = {}) {
     this.id = id;
     this.altMessage = altMessage;
@@ -23,6 +24,7 @@ class Badge {
     this.skillSets = skillSets;
     this.targetProfileId = targetProfileId;
     this.isAlwaysVisible = isAlwaysVisible;
+    this.complementaryCertificationBadge = complementaryCertificationBadge;
   }
 }
 

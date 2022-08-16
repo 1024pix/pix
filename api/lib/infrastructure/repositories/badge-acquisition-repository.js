@@ -8,6 +8,7 @@ const BadgeAcquisition = require('../../domain/models/BadgeAcquisition');
 const Badge = require('../../domain/models/Badge');
 const BadgeCriterion = require('../../domain/models/BadgeCriterion');
 const SkillSet = require('../../domain/models/SkillSet');
+const ComplementaryCertificationBadge = require('../../domain/models/ComplementaryCertificationBadge');
 
 module.exports = {
   async createOrUpdate(badgeAcquisitionsToCreate = [], domainTransaction = DomainTransaction.emptyTransaction()) {
@@ -92,7 +93,14 @@ module.exports = {
   async findHighestCertifiable({ userId, domainTransaction = DomainTransaction.emptyTransaction() }) {
     const knexConn = domainTransaction.knexTransaction || knex;
     const certifiableBadgeAcquisitions = await knexConn('badge-acquisitions')
-      .select('badges.*', 'badge-acquisitions.*')
+      .select(
+        'badges.*',
+        'badge-acquisitions.*',
+        'complementary-certification-badges.id as complementaryCertificationBadgeId',
+        'complementary-certification-badges.level as complementaryCertificationBadgeLevel',
+        'complementary-certification-badges.imageUrl as complementaryCertificationBadgeImageUrl',
+        'complementary-certification-badges.label as complementaryCertificationBadgeLabel'
+      )
       .join('badges', 'badges.id', 'badge-acquisitions.badgeId')
       .join('complementary-certification-badges', 'badges.id', 'complementary-certification-badges.badgeId')
       .where({
@@ -134,6 +142,12 @@ function _toDomain(certifiableBadgeAcquisitionsDto, badgeCriteriaDto, skillSetsD
       id: certifiableBadgeAcquisitionDto.badgeId,
       badgeCriteria,
       skillSets,
+      complementaryCertificationBadge: new ComplementaryCertificationBadge({
+        id: certifiableBadgeAcquisitionDto.complementaryCertificationBadgeId,
+        level: certifiableBadgeAcquisitionDto.complementaryCertificationBadgeLevel,
+        label: certifiableBadgeAcquisitionDto.complementaryCertificationBadgeLabel,
+        imageUrl: certifiableBadgeAcquisitionDto.complementaryCertificationBadgeImageUrl,
+      }),
     });
 
     return new BadgeAcquisition({

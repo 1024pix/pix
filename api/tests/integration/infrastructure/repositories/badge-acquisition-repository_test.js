@@ -2,6 +2,7 @@ const { expect, databaseBuilder, knex, domainBuilder } = require('../../../test-
 const _ = require('lodash');
 const badgeAcquisitionRepository = require('../../../../lib/infrastructure/repositories/badge-acquisition-repository');
 const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
+const Badge = require('../../../../lib/domain/models/Badge');
 
 describe('Integration | Repository | Badge Acquisition', function () {
   describe('#createOrUpdate', function () {
@@ -349,10 +350,11 @@ describe('Integration | Repository | Badge Acquisition', function () {
         databaseBuilder.factory.buildBadgeAcquisition({ badgeId: acquiredBadge.id, userId: user.id });
 
         const { id: complementaryCertificationId } = databaseBuilder.factory.buildComplementaryCertification();
-        databaseBuilder.factory.buildComplementaryCertificationBadge({
+        const complementaryCertificationBadge = databaseBuilder.factory.buildComplementaryCertificationBadge({
           badgeId: acquiredBadge.id,
           complementaryCertificationId,
           level: 2,
+          label: 'Label Certif Complémentaire',
         });
 
         const skillSet = databaseBuilder.factory.buildSkillSet({ badgeId: acquiredBadge.id });
@@ -389,16 +391,22 @@ describe('Integration | Repository | Badge Acquisition', function () {
           },
         ];
 
+        const expectedBadge = new Badge({
+          ...acquiredBadge,
+          complementaryCertificationBadge: domainBuilder.buildComplementaryCertificationBadge({
+            ...complementaryCertificationBadge,
+          }),
+        });
         expect(certifiableBadgesAcquiredByUser.length).to.equal(1);
         expect(certifiableBadgesAcquiredByUser[0]).to.deepEqualInstanceOmitting(
           domainBuilder.buildBadgeAcquisition({
             badge: domainBuilder.buildBadge({
-              ...acquiredBadge,
+              ...expectedBadge,
               skillSets: expectedSkillSetsForCertifiableBadge,
               badgeCriteria: expectedBadgeCriteria,
             }),
             userId: user.id,
-            badgeId: acquiredBadge.id,
+            badgeId: expectedBadge.id,
             campaignParticipationId: null,
           }),
           ['id']

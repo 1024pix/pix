@@ -87,12 +87,28 @@ function _selectComplementaryCertificationCourseResultsBySessionId({ sessionId }
     .select({ certificationCourseId: 'certification-courses.id' })
     .select(
       knex.raw(`
-        json_agg("complementary-certification-course-results".*) as "complementaryCertificationCourseResults"`)
+        array_agg(json_build_object(
+        'complementaryCertificationCourseId', "complementary-certification-course-results"."complementaryCertificationCourseId",
+        'id', "complementary-certification-course-results"."id",
+        'partnerKey', "complementary-certification-course-results"."partnerKey",
+        'acquired', "complementary-certification-course-results"."acquired",
+        'source', "complementary-certification-course-results"."source",
+        'label', "complementary-certification-badges"."label",
+        'order', "complementary-certifications".id
+        ) order by "complementary-certifications".id, "complementary-certification-badges".level) as "complementaryCertificationCourseResults"
+        `)
     )
     .join(
       'complementary-certification-courses',
       'complementary-certification-courses.id',
       'complementary-certification-course-results.complementaryCertificationCourseId'
+    )
+    .join('badges', 'badges.key', 'complementary-certification-course-results.partnerKey')
+    .join('complementary-certification-badges', 'complementary-certification-badges.badgeId', 'badges.id')
+    .join(
+      'complementary-certifications',
+      'complementary-certifications.id',
+      'complementary-certification-badges.complementaryCertificationId'
     )
     .join(
       'certification-courses',

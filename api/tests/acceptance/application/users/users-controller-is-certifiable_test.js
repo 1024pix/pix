@@ -148,6 +148,7 @@ describe('Acceptance | users-controller-is-certifiable', function () {
     databaseBuilder.factory.buildComplementaryCertificationBadge({
       badgeId: cleaBadgeId,
       complementaryCertificationId,
+      label: 'CléA Numérique',
     });
 
     options = {
