@@ -161,13 +161,15 @@ async function _getPartnerCertification(certificationCourseId) {
     PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT,
   ];
   const complementaryCertificationCourseResults = await knex
-    .select('complementary-certification-course-results.*')
+    .select('complementary-certification-course-results.*', 'complementary-certification-badges.label')
     .from('complementary-certification-course-results')
     .innerJoin(
       'complementary-certification-courses',
       'complementary-certification-courses.id',
       'complementary-certification-course-results.complementaryCertificationCourseId'
     )
+    .innerJoin('badges', 'badges.key', 'complementary-certification-course-results.partnerKey')
+    .innerJoin('complementary-certification-badges', 'complementary-certification-badges.badgeId', 'badges.id')
     .where({ certificationCourseId })
     .where(function () {
       this.whereIn('partnerKey', handledBadgeKeys);
