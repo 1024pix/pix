@@ -182,6 +182,7 @@ __Plus d'infos :)__
     assessmentMethod: 'SMART_RANDOM',
     idPixLabel: 'identifiant entreprise',
     archivedAt: new Date('2020-01-02T15:00:34Z'),
+    archivedBy: 3,
     createdAt: new Date('2020-01-15'),
   });
 
@@ -200,6 +201,7 @@ __Plus d'infos :)__
     idPixLabel: 'identifiant entreprise',
     createdAt: new Date('2019-01-01'),
     archivedAt: new Date('2020-01-01T15:00:34Z'),
+    archivedBy: 2,
   });
 
   databaseBuilder.factory.buildCampaign({
@@ -217,6 +219,7 @@ __Plus d'infos :)__
     idPixLabel: 'identifiant entreprise',
     createdAt: new Date('2019-01-02'),
     archivedAt: new Date('2020-01-01T15:00:34Z'),
+    archivedBy: 2,
   });
 
   databaseBuilder.factory.buildCampaign({
