@@ -30,7 +30,8 @@ export default class LogoutRoute extends Route {
   }
 
   _redirectToDisconnectedPage() {
-    return this.router.transitionTo('not-connected');
+    this.router.transitionTo('not-connected');
+    return;
   }
 
   _redirectToHome() {

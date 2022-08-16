@@ -18,7 +18,8 @@ export default class SkillReviewRoute extends Route.extend(SecuredRouteMixin) {
       return { campaign, campaignParticipationResult, trainings };
     } catch (error) {
       if (error.errors?.[0]?.status === '412') {
-        return this.router.transitionTo('campaigns.entry-point', campaign.code);
+        this.router.transitionTo('campaigns.entry-point', campaign.code);
+        return;
       } else throw error;
     }
   }
