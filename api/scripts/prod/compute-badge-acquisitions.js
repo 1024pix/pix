@@ -130,7 +130,9 @@ function _fetchPossibleCampaignAssociatedBadges(campaignParticipation, badgeRepo
 }
 
 async function getCampaignParticipationsBetweenIds({ idMin, idMax }) {
-  const campaignParticipations = await knex('campaign-participations').whereBetween('id', [idMin, idMax]);
+  const campaignParticipations = await knex('campaign-participations')
+    .whereBetween('id', [idMin, idMax])
+    .orderBy('id', 'asc');
   return campaignParticipations.map((campaignParticipation) => new CampaignParticipation(campaignParticipation));
 }
 
