@@ -53,6 +53,7 @@ describe('a11y', () => {
       { url: '/mon-profil', skipFailures: true },
       { url: '/mes-tutos/recommandes',skipFailures: true },
       { url: '/mes-certifications', skipFailures: true },
+      { url: '/campagnes/NERA/evaluation/resultats' },
     ];
 
     authenticatedPages.forEach(({ url, skipFailures = false }) => {

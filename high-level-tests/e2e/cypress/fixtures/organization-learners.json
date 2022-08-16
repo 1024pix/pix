@@ -54,5 +54,12 @@
     "lastName": "Lannister",
     "organizationId": 1,
     "userId": 6
+  },
+  {
+    "id": 8,
+    "firstName": "John",
+    "lastName": "Snow",
+    "organizationId": 1,
+    "userId": 3
   }
 ]

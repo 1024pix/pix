@@ -13,7 +13,7 @@ Fonctionnalité: Gestion des Campagnes
     Lorsque je clique sur "Campagne de la Néra"
     Alors je vois le détail de la campagne "Campagne de la Néra"
     Lorsque je clique sur "Activité"
-    Alors je vois 3 participants
+    Alors je vois 4 participants
     Lorsque je clique sur "Cersei"
     Alors je vois "50 %" comme "Avancement"
     Alors je vois 0 résultats par compétence
