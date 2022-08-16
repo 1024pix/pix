@@ -98,7 +98,7 @@
     "p-queue": "^6.3.0",
     "prettier": "^2.5.1",
     "qunit": "^2.19.1",
-    "qunit-dom": "^1.6.0",
+    "qunit-dom": "^2.0.0",
     "sass": "^1.32.8",
     "sinon": "^13.0.1",
     "stylelint": "^13.12.0",
