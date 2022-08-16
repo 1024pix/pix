@@ -28,7 +28,11 @@ describe('Unit | UseCase | unarchive-campaign', function () {
     });
 
     it('should update the campaign', function () {
-      expect(campaignRepository.update).to.have.been.calledWithExactly({ id: campaignId, archivedAt: null });
+      expect(campaignRepository.update).to.have.been.calledWithExactly({
+        id: campaignId,
+        archivedAt: null,
+        archivedBy: null,
+      });
     });
   });
 
