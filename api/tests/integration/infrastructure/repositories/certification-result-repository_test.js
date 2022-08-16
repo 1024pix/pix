@@ -1,6 +1,7 @@
 const { expect, databaseBuilder, domainBuilder } = require('../../../test-helper');
 const certificationResultRepository = require('../../../../lib/infrastructure/repositories/certification-result-repository');
 const CertificationResult = require('../../../../lib/domain/models/CertificationResult');
+const ComplementaryCertificationCourseResult = require('../../../../lib/domain/models/ComplementaryCertificationCourseResult');
 const {
   PIX_EMPLOI_CLEA_V1,
   PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME,
@@ -375,6 +376,84 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
       expect(certificationResults).to.deepEqualArray(expectedResult);
     });
 
+    it(`should return only complementary certifications of Pix source`, async function () {
+      // given
+      const sessionId = databaseBuilder.factory.buildSession().id;
+      const {
+        certificationCourseId: pixEdu1erDegreCertificationCourseId,
+        assessmentResultId: pixEdu1erDegreAssessmentResultId,
+        competenceMarkId: pixEdu1erDegreCompetenceMarkId,
+      } = await _buildCertificationResultInSession(sessionId);
+      const edu1erDegreComplementaryCertificationId = databaseBuilder.factory.buildComplementaryCertification({
+        name: 'Pix+ Edu 1er degre',
+      }).id;
+      databaseBuilder.factory.buildBadge({ id: 12345, key: PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT });
+      databaseBuilder.factory.buildComplementaryCertificationCourse({
+        id: 997,
+        certificationCourseId: pixEdu1erDegreCertificationCourseId,
+      });
+      databaseBuilder.factory.buildComplementaryCertificationCourseResult({
+        complementaryCertificationCourseId: 997,
+        partnerKey: PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT,
+        acquired: true,
+        source: ComplementaryCertificationCourseResult.sources.PIX,
+      });
+      databaseBuilder.factory.buildComplementaryCertificationCourseResult({
+        complementaryCertificationCourseId: 997,
+        partnerKey: PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT,
+        acquired: true,
+        source: ComplementaryCertificationCourseResult.sources.EXTERNAL,
+      });
+      databaseBuilder.factory.buildComplementaryCertificationBadge({
+        badgeId: 12345,
+        complementaryCertificationId: edu1erDegreComplementaryCertificationId,
+        label: 'Pix+ Édu 1er degré Expert',
+      });
+
+      await databaseBuilder.commit();
+
+      // when
+      const certificationResults = await certificationResultRepository.findBySessionId({ sessionId });
+
+      // then
+      const expectedResult = [
+        domainBuilder.buildCertificationResult({
+          id: pixEdu1erDegreCertificationCourseId,
+          firstName: 'first-name',
+          lastName: 'last-name',
+          externalId: 'externalId',
+          pixScore: 456,
+          sessionId,
+          status: 'validated',
+          birthdate: '2001-05-21',
+          birthplace: 'Paris',
+          createdAt: new Date('2020-01-01T00:00:00Z'),
+          commentForOrganization: 'Some comment for organization',
+          competencesWithMark: [
+            domainBuilder.buildCompetenceMark({
+              id: pixEdu1erDegreCompetenceMarkId,
+              score: 42,
+              level: 5,
+              competence_code: '1.1',
+              area_code: '1',
+              competenceId: 'recABC123',
+              assessmentResultId: pixEdu1erDegreAssessmentResultId,
+            }),
+          ],
+          complementaryCertificationCourseResults: [
+            domainBuilder.buildComplementaryCertificationCourseResult({
+              acquired: true,
+              complementaryCertificationCourseId: 997,
+              partnerKey: PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT,
+              source: 'PIX',
+              label: 'Pix+ Édu 1er degré Expert',
+            }),
+          ],
+        }),
+      ];
+      expect(certificationResults).to.deepEqualArray(expectedResult);
+    });
+
     it(`should return complementary certification results ordered by complementaryCertificationId and level`, async function () {
       // given
       const sessionId = databaseBuilder.factory.buildSession().id;
@@ -710,6 +789,112 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
 
       // then
       expect(certificationResults).to.be.empty;
+    });
+
+    it(`should return only complementary certifications of Pix source`, async function () {
+      // given
+      const sessionId = databaseBuilder.factory.buildSession().id;
+      const userId = databaseBuilder.factory.buildUser().id;
+      const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({
+        firstName: 'Buffy',
+        lastName: 'Summers',
+        birthdate: '1981-01-19',
+        birthplace: 'Torreilles',
+        isPublished: true,
+        isCancelled: false,
+        externalId: 'VAMPIRES_SUCK',
+        createdAt: new Date('2020-01-01'),
+        sessionId,
+        userId,
+      }).id;
+      const assessmentId = databaseBuilder.factory.buildAssessment({
+        certificationCourseId,
+      }).id;
+      const assessmentResultId = databaseBuilder.factory.buildAssessmentResult({
+        assessmentId,
+        pixScore: 123,
+        status: CertificationResult.status.VALIDATED,
+        commentForOrganization: 'Un commentaire orga 1',
+      }).id;
+      databaseBuilder.factory.buildCompetenceMark({
+        id: 123,
+        score: 10,
+        level: 4,
+        competence_code: '2.3',
+        area_code: '2',
+        competenceId: 'recComp23',
+        assessmentResultId,
+      });
+      const edu1erDegreComplementaryCertificationId = databaseBuilder.factory.buildComplementaryCertification({
+        label: 'Pix+ Edu 1er degre',
+      }).id;
+      databaseBuilder.factory.buildBadge({ id: 12345, key: PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT });
+      databaseBuilder.factory.buildComplementaryCertificationCourse({
+        id: 997,
+        certificationCourseId,
+      });
+      databaseBuilder.factory.buildComplementaryCertificationCourseResult({
+        complementaryCertificationCourseId: 997,
+        partnerKey: PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT,
+        acquired: true,
+        source: ComplementaryCertificationCourseResult.sources.PIX,
+      });
+      databaseBuilder.factory.buildComplementaryCertificationCourseResult({
+        complementaryCertificationCourseId: 997,
+        partnerKey: PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT,
+        acquired: true,
+        source: ComplementaryCertificationCourseResult.sources.EXTERNAL,
+      });
+      databaseBuilder.factory.buildComplementaryCertificationBadge({
+        badgeId: 12345,
+        complementaryCertificationId: edu1erDegreComplementaryCertificationId,
+        label: 'Pix+ Édu 1er degré Expert',
+      });
+      const certificationCandidateId = databaseBuilder.factory.buildCertificationCandidate({ userId, sessionId }).id;
+      await databaseBuilder.commit();
+
+      // when
+      const certificationResults = await certificationResultRepository.findByCertificationCandidateIds({
+        certificationCandidateIds: [certificationCandidateId],
+      });
+
+      // then
+      const expectedResult = [
+        domainBuilder.buildCertificationResult({
+          id: certificationCourseId,
+          firstName: 'Buffy',
+          lastName: 'Summers',
+          externalId: 'VAMPIRES_SUCK',
+          pixScore: 123,
+          sessionId,
+          status: 'validated',
+          birthdate: '1981-01-19',
+          birthplace: 'Torreilles',
+          createdAt: new Date('2020-01-01T00:00:00Z'),
+          commentForOrganization: 'Un commentaire orga 1',
+          competencesWithMark: [
+            domainBuilder.buildCompetenceMark({
+              id: 123,
+              score: 10,
+              level: 4,
+              competence_code: '2.3',
+              area_code: '2',
+              competenceId: 'recComp23',
+              assessmentResultId,
+            }),
+          ],
+          complementaryCertificationCourseResults: [
+            domainBuilder.buildComplementaryCertificationCourseResult({
+              acquired: true,
+              complementaryCertificationCourseId: 997,
+              partnerKey: PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT,
+              source: 'PIX',
+              label: 'Pix+ Édu 1er degré Expert',
+            }),
+          ],
+        }),
+      ];
+      expect(certificationResults).to.deepEqualArray(expectedResult);
     });
 
     it(`should return complementary certifications linked to the candidates`, async function () {
