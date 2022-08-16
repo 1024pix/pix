@@ -32,6 +32,28 @@ describe('Integration | Infrastructure | Repository | OrganizationPlacesCapacity
       ]);
     });
 
+    it('should not take into acccount deleted places', async function () {
+      databaseBuilder.factory.buildOrganizationPlace({
+        category: categories.T0,
+        count: 10,
+        deletedAt: new Date('2020-01-01'),
+        organizationId,
+      });
+      await databaseBuilder.commit();
+
+      const organizationPlacesCapacity = await organizationPlacesCapacityRepository.findByOrganizationId(
+        organizationId
+      );
+
+      expect(organizationPlacesCapacity.categories).to.have.deep.members([
+        { category: categories.FREE_RATE, count: 0 },
+        { category: categories.PUBLIC_RATE, count: 0 },
+        { category: categories.REDUCE_RATE, count: 0 },
+        { category: categories.SPECIAL_REDUCE_RATE, count: 0 },
+        { category: categories.FULL_RATE, count: 0 },
+      ]);
+    });
+
     it('should return count if there are places', async function () {
       databaseBuilder.factory.buildOrganizationPlace({ category: categories.T0, count: 10, organizationId });
       databaseBuilder.factory.buildOrganizationPlace({ category: categories.T1, count: 5, organizationId });
