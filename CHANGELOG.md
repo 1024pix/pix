@@ -1,5 +1,31 @@
 # Pix Changelog
 
+## v3.242.0 (16/08/2022)
+
+
+### :rocket: Amélioration
+- [#4771](https://github.com/1024pix/pix/pull/4771) [FEATURE] Uniformiser la bannière d'incitation à créer des campagnes pour les Organisations SCO (PIX-5469)
+- [#4761](https://github.com/1024pix/pix/pull/4761) [FEATURE] Uniformiser le bandeau d'informations de rentrée 2022 des organisations SCO avec import (PIX-5468) 
+- [#4758](https://github.com/1024pix/pix/pull/4758) [FEATURE] Création d'un script pour l'ajout des lots de places déjà existants pour une organisation à partir d'un fichier (PIX-5066).
+- [#4721](https://github.com/1024pix/pix/pull/4721) [FEATURE] Pouvoir charger un fichier JSON de profil cible dans PixAdmin (PIX-5438)
+- [#4731](https://github.com/1024pix/pix/pull/4731) [FEATURE] Enlever les espaces en trop quand on crée un profil cible(PIX-5405)
+- [#4735](https://github.com/1024pix/pix/pull/4735) [FEATURE] Ajout des informations de route sur les requêtes SQL
+
+### :building_construction: Tech
+- [#4763](https://github.com/1024pix/pix/pull/4763) [TECH] Ajouter la colonne archivedBy à la table des campagnes  (PIX-5488)
+- [#4770](https://github.com/1024pix/pix/pull/4770) [TECH] Mettre à jour Cypress en 7.7.0 (PIX-5495).
+- [#4768](https://github.com/1024pix/pix/pull/4768) [TECH] Résoudre un test flaky.
+- [#4750](https://github.com/1024pix/pix/pull/4750) [TECH] Ne plus utiliser de routes dépréciées sur les prescrits dans Pix App (Pix-5463).
+- [#4759](https://github.com/1024pix/pix/pull/4759) [TECH] Empêcher la présence non intentionelle de fichiers vides.
+- [#4747](https://github.com/1024pix/pix/pull/4747) [TECH] Mutualiser les controllers des routes oidc (PIX-5459).
+
+### :bug: Correction
+- [#4765](https://github.com/1024pix/pix/pull/4765) [BUGFIX] Le mode édition ne se fermait pas lorsque l'utilisateur sortait de la page de détails de profil cible sur PixAdmin (PIX-5493)
+- [#4741](https://github.com/1024pix/pix/pull/4741) [BUGFIX] Corrige le log des routes et des métriques
+
+### :coffee: Autre
+- [#4754](https://github.com/1024pix/pix/pull/4754) [CLEANUP] Supprime les scripts non utilisés de migration de int a bigint de la table answers
+
 ## v3.241.0 (08/08/2022)
 
 
