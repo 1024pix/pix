@@ -84,6 +84,25 @@ describe('Integration | Repository | Organization Place', function () {
       expect(foundOrganizationPlace.length).to.equal(0);
     });
 
+    it('should not take into account deleted places', async function () {
+      // given
+      const organizationId = databaseBuilder.factory.buildOrganization().id;
+
+      databaseBuilder.factory.buildOrganizationPlace({
+        organizationId,
+        reference: 'Stargate SG-1',
+        deletedAt: new Date('2020-01-10'),
+      });
+
+      await databaseBuilder.commit();
+
+      // when
+      const foundOrganizationPlace = await organizationPlacesLotRepository.findByOrganizationId(organizationId);
+
+      // then
+      expect(foundOrganizationPlace.length).to.equal(0);
+    });
+
     it("should return creator place's name for given id", async function () {
       // given
       const user = databaseBuilder.factory.buildUser({ firstName: 'Jack', lastName: "O'Neill" });

@@ -16,6 +16,7 @@ async function findByOrganizationId(organizationId) {
     )
     .join('users', 'users.id', 'createdBy')
     .where({ organizationId })
+    .whereNull('deletedAt')
     .orderBy('activationDate', 'desc')
     .orderBy('expirationDate', 'desc')
     .orderBy('organization-places.createdAt', 'desc');

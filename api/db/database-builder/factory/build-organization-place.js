@@ -12,6 +12,8 @@ const buildOrganizationPlace = function buildOrganizationPlace({
   category = 'T0',
   createdBy,
   createdAt = new Date('1997-07-01'),
+  deletedBy,
+  deletedAt,
 } = {}) {
   organizationId = organizationId || buildOrganization().id;
   createdBy = createdBy || buildUser.withRole({ firstName: 'Gareth', lastName: 'Edwards' }).id;
@@ -26,6 +28,8 @@ const buildOrganizationPlace = function buildOrganizationPlace({
     category,
     createdBy,
     createdAt,
+    deletedBy,
+    deletedAt,
   };
 
   return databaseBuffer.pushInsertable({
