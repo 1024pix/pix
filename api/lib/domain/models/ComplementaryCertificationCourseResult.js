@@ -25,12 +25,13 @@ class ComplementaryCertificationCourseResult {
     this.label = label;
   }
 
-  static from({ complementaryCertificationCourseId, partnerKey, acquired, source }) {
+  static from({ complementaryCertificationCourseId, partnerKey, acquired, source, label }) {
     return new ComplementaryCertificationCourseResult({
       complementaryCertificationCourseId,
       partnerKey,
       acquired,
       source,
+      label,
     });
   }
 
