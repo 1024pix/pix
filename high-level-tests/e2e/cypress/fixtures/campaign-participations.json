@@ -48,5 +48,13 @@
     "status": "TO_SHARE",
     "userId": 5,
     "organizationLearnerId": 6
+  },
+  {
+    "id": 7,
+    "campaignId": 1,
+    "status": "TO_SHARE",
+    "participantExternalId": "a11y vérif",
+    "userId": 3,
+    "organizationLearnerId": 8
   }
 ]
