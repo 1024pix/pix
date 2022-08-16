@@ -12,5 +12,5 @@ module.exports = async function archiveCampaign({
     throw new UserNotAuthorizedToUpdateCampaignError();
   }
 
-  return campaignRepository.update({ id: campaignId, archivedAt: new Date() });
+  return campaignRepository.update({ id: campaignId, archivedAt: new Date(), archivedBy: userId });
 };
