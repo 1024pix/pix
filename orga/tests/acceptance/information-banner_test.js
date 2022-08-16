@@ -5,9 +5,12 @@ import { clickByName } from '@1024pix/ember-testing-library';
 import authenticateSession from '../helpers/authenticate-session';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
+import setupIntl from '../helpers/setup-intl';
+
 module('Acceptance | Information Banner', function (hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
+  setupIntl(hooks);
 
   module('ImportStudents banner', function () {
     test('should redirect to /eleves when clicking on banner button', async function (assert) {
@@ -23,7 +26,6 @@ module('Acceptance | Information Banner', function (hooks) {
       server.create('prescriber', {
         id: user.id,
         pixOrgaTermsOfServiceAccepted: user.pixOrgaTermsOfServiceAccepted,
-        areNewYearSchoolingRegistrationsImported: false,
         memberships: user.memberships,
         userOrgaSettings: user.userOrgaSettings,
       });
@@ -31,12 +33,10 @@ module('Acceptance | Information Banner', function (hooks) {
 
       // when
       await visit('/');
-      await clickByName('importer ou ré-importer la base élèves');
+      await clickByName(this.intl.t('banners.import.link-to'));
 
       // then
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line qunit/no-assert-equal
-      assert.equal(currentURL(), '/eleves');
+      assert.strictEqual(currentURL(), '/eleves');
     });
   });
 });

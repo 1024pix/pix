@@ -11,7 +11,7 @@ module('Integration | Component | Banner::Information', function (hooks) {
     module('when prescriber’s organization is of type SCO that manages students', function () {
       module('when prescriber has not imported student yet', function () {
         class CurrentUserStub extends Service {
-          prescriber = { areNewYearSchoolingRegistrationsImported: false };
+          prescriber = { areNewYearOrganizationLearnersImported: false };
           organization = { isSco: true };
           isSCOManagingStudents = true;
         }
@@ -26,63 +26,23 @@ module('Integration | Component | Banner::Information', function (hooks) {
           // then
           assert
             .dom(
-              'a[href="https://view.genial.ly/5f295b80302a810d2ff9fa60/?idSlide=cd748a12-ef8e-4683-8139-eb851bd0eb23"]'
-            )
-            .exists();
-          assert
-            .dom(
-              'a[href="https://view.genial.ly/5f46390591252c0d5246bb63/?idSlide=cd748a12-ef8e-4683-8139-eb851bd0eb23"]'
+              'a[href="https://view.genial.ly/62cd67b161c1e3001759e818?idSlide=cd748a12-ef8e-4683-8139-eb851bd0eb23"]'
             )
             .exists();
           assert
             .dom('.pix-banner')
             .includesText(
-              'Rentrée 2021 : l’administrateur doit importer ou ré-importer la base élèves pour initialiser Pix Orga. Plus d’info collège et lycée (GT et Pro)'
-            );
-        });
-      });
-    });
-
-    module('when prescriber’s organization is of type SCO that manages AGRI students', function () {
-      module('when prescriber has not imported student yet', function () {
-        class CurrentUserStub extends Service {
-          prescriber = { areNewYearSchoolingRegistrationsImported: false };
-          isSCOManagingStudents = true;
-          isAgriculture = true;
-        }
-
-        test('should  render the banner', async function (assert) {
-          // given
-          this.owner.register('service:current-user', CurrentUserStub);
-
-          // when
-          await render(hbs`<Banner::Information />`);
-
-          // then
-          assert
-            .dom(
-              'a[href="https://view.genial.ly/5f295b80302a810d2ff9fa60/?idSlide=cd748a12-ef8e-4683-8139-eb851bd0eb23"]'
-            )
-            .doesNotExist();
-          assert
-            .dom(
-              'a[href="https://view.genial.ly/5f46390591252c0d5246bb63/?idSlide=cd748a12-ef8e-4683-8139-eb851bd0eb23"]'
-            )
-            .doesNotExist();
-          assert
-            .dom('.pix-banner')
-            .includesText(
-              'Rentrée 2021 : l’administrateur doit importer ou ré-importer la base élèves pour initialiser Pix Orga. Plus d’info collège et lycée (GT et Pro)'
+              'Rentrée 2022 : l’administrateur doit importer la base élèves 2022 pour initialiser Pix Orga. Plus d’info'
             );
         });
       });
     });
 
     module('when prescriber has already imported students', function () {
-      test('should not render the banner', async function (assert) {
+      test('should not display import informations', async function (assert) {
         // given
         class CurrentUserStub extends Service {
-          prescriber = { areNewYearSchoolingRegistrationsImported: true };
+          prescriber = { areNewYearOrganizationLearnersImported: true };
           organization = { isSco: true };
           isSCOManagingStudents = true;
         }
@@ -95,7 +55,7 @@ module('Integration | Component | Banner::Information', function (hooks) {
         assert
           .dom('.pix-banner')
           .doesNotIncludeText(
-            'Rentrée 2021 : l’administrateur doit importer ou ré-importer la base élèves pour initialiser Pix Orga. Plus d’info collège et lycée (GT et Pro)'
+            'Rentrée 2022 : l’administrateur doit importer la base élèves 2022 pour initialiser Pix Orga. Plus d’info'
           );
       });
     });
@@ -104,7 +64,7 @@ module('Integration | Component | Banner::Information', function (hooks) {
       test('should not render the banner regardless of whether students have been imported or not', async function (assert) {
         // given
         class CurrentUserStub extends Service {
-          prescriber = { areNewYearSchoolingRegistrationsImported: false };
+          prescriber = { areNewYearOrganizationLearnersImported: false };
           organization = { isSco: false };
           isSCOManagingStudents = false;
         }
@@ -124,7 +84,7 @@ module('Integration | Component | Banner::Information', function (hooks) {
       test('should render the campaign banner', async function (assert) {
         // given
         class CurrentUserStub extends Service {
-          prescriber = { areNewYearSchoolingRegistrationsImported: true };
+          prescriber = { areNewYearOrganizationLearnersImported: true };
           organization = { isSco: true };
         }
         this.owner.register('service:current-user', CurrentUserStub);
@@ -144,7 +104,7 @@ module('Integration | Component | Banner::Information', function (hooks) {
         test('should display AGRICULTURE links', async function (assert) {
           // given
           class CurrentUserStub extends Service {
-            prescriber = { areNewYearSchoolingRegistrationsImported: true };
+            prescriber = { areNewYearOrganizationLearnersImported: true };
             organization = { isSco: true };
             isSCOManagingStudents = true;
             isAgriculture = true;
@@ -167,7 +127,7 @@ module('Integration | Component | Banner::Information', function (hooks) {
         test('should display links', async function (assert) {
           // given
           class CurrentUserStub extends Service {
-            prescriber = { areNewYearSchoolingRegistrationsImported: true };
+            prescriber = { areNewYearOrganizationLearnersImported: true };
             organization = { isSco: true };
             isSCOManagingStudents = true;
             isAgriculture = false;
@@ -195,7 +155,7 @@ module('Integration | Component | Banner::Information', function (hooks) {
         test('should display default links', async function (assert) {
           // given
           class CurrentUserStub extends Service {
-            prescriber = { areNewYearSchoolingRegistrationsImported: true };
+            prescriber = { areNewYearOrganizationLearnersImported: true };
             organization = { isSco: true };
             isSCOManagingStudents = false;
             isAgriculture = false;
@@ -215,7 +175,7 @@ module('Integration | Component | Banner::Information', function (hooks) {
       test('should not display the campaign banner', async function (assert) {
         // given
         class CurrentUserStub extends Service {
-          prescriber = { areNewYearSchoolingRegistrationsImported: true };
+          prescriber = { areNewYearOrganizationLearnersImported: true };
           organization = { isSco: false };
         }
         this.owner.register('service:current-user', CurrentUserStub);
