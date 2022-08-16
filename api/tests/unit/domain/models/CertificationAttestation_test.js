@@ -176,38 +176,6 @@ describe('Unit | Domain | Models | CertificationAttestation', function () {
     });
   });
 
-  context('#getPixPlusEduBadgeDisplayName', function () {
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    [
-      {
-        badgeKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE,
-        expectedDisplayName: 'Initié (entrée dans le métier)',
-      },
-      { badgeKey: PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME, expectedDisplayName: 'Confirmé' },
-      { badgeKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME, expectedDisplayName: 'Confirmé' },
-      { badgeKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE, expectedDisplayName: 'Avancé' },
-      { badgeKey: PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT, expectedDisplayName: 'Expert' },
-      { badgeKey: PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_INITIE, expectedDisplayName: 'Initié (entrée dans le métier)' },
-      { badgeKey: PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_CONFIRME, expectedDisplayName: 'Confirmé' },
-      { badgeKey: PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_CONFIRME, expectedDisplayName: 'Confirmé' },
-      { badgeKey: PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE, expectedDisplayName: 'Avancé' },
-      { badgeKey: PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT, expectedDisplayName: 'Expert' },
-    ].forEach(({ badgeKey, expectedDisplayName }) => {
-      it(`should return ${expectedDisplayName} for badge key ${badgeKey}`, function () {
-        // given
-        const certificationAttestation = domainBuilder.buildCertificationAttestation({
-          certifiedBadges: [{ partnerKey: badgeKey }],
-        });
-
-        // when
-        const result = certificationAttestation.getPixPlusEduBadgeDisplayName();
-
-        // then
-        expect(result).to.equal(expectedDisplayName);
-      });
-    });
-  });
-
   context('#hasAcquiredAnyComplementaryCertifications', function () {
     // eslint-disable-next-line mocha/no-setup-in-describe
     [

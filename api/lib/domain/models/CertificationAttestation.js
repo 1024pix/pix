@@ -87,40 +87,6 @@ class CertificationAttestation {
     );
   }
 
-  getPixPlusEduBadgeDisplayName() {
-    const acquiredPixPlusEduCertification = this.getAcquiredPixPlusEduCertification();
-    if (!acquiredPixPlusEduCertification) {
-      return null;
-    }
-
-    const { partnerKey } = acquiredPixPlusEduCertification;
-    if (
-      [PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_INITIE, PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_INITIE].includes(partnerKey)
-    ) {
-      return 'Initié (entrée dans le métier)';
-    }
-    if (
-      [
-        PIX_EDU_FORMATION_INITIALE_1ER_DEGRE_CONFIRME,
-        PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_CONFIRME,
-        PIX_EDU_FORMATION_INITIALE_2ND_DEGRE_CONFIRME,
-        PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_CONFIRME,
-      ].includes(partnerKey)
-    ) {
-      return 'Confirmé';
-    }
-    if (
-      [PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_AVANCE, PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_AVANCE].includes(partnerKey)
-    ) {
-      return 'Avancé';
-    }
-    if (
-      [PIX_EDU_FORMATION_CONTINUE_1ER_DEGRE_EXPERT, PIX_EDU_FORMATION_CONTINUE_2ND_DEGRE_EXPERT].includes(partnerKey)
-    ) {
-      return 'Expert';
-    }
-  }
-
   hasAcquiredAnyComplementaryCertifications() {
     return this.certifiedBadges.length > 0;
   }
