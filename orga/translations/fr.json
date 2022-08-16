@@ -48,7 +48,7 @@
   },
   "banners": {
     "campaigns": {
-      "message": "'<strong>'Parcours de rentrée 2021'</strong>' : N’oubliez pas de créer les campagnes de rentrée et de diffuser les codes aux élèves avant la Toussaint. Plus d’info '<'a href={middleSchoolDocumentationLink} class={externalLinkClasses} target=\"_blank\" rel=\"noopener noreferrer\"'>'collège {faIcon}'</a>' et '<'a href={highSchoolDocumentationLink} class={externalLinkClasses} target=\"_blank\" rel=\"noopener noreferrer\"'>'lycée (GT et Pro) {faIcon}'</a>'"
+      "message": "'<strong>'Parcours de rentrée 2022 :'</strong>' N’oubliez pas de créer les campagnes de rentrée et de diffuser les codes aux élèves avant la Toussaint. '<'a href={documentationLink} class={externalLinkClasses} target=\"_blank\" rel=\"noopener noreferrer\"'>'Plus d’info {faIcon}'</a>'"
     },
     "import": {
       "link-to": "importer la base élèves",
