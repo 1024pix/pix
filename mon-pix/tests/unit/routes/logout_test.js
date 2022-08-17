@@ -78,10 +78,9 @@ describe('Unit | Route | logout', () => {
     const route = this.owner.lookup('route:logout');
     route.set('session', sessionStub);
     route.set('campaignStorage', campaignStorageStub);
-    route._redirectToHome = sinon.stub();
 
     // when
-    route.afterModel();
+    route.beforeModel();
 
     // then
     expect(route.session.alternativeRootURL).to.equal(null);
@@ -104,10 +103,9 @@ describe('Unit | Route | logout', () => {
     const route = this.owner.lookup('route:logout');
     route.set('session', sessionStub);
     route.set('campaignStorage', campaignStorageStub);
-    route._redirectToDisconnectedPage = sinon.stub();
 
     // when
-    route.afterModel();
+    route.beforeModel();
 
     // then
     expect(route.session.alternativeRootURL).to.equal('/nonconnecte');

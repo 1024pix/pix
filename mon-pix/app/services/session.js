@@ -20,16 +20,23 @@ export default class CurrentSessionService extends SessionService {
     const isFromIdentityProviderLoginPage = Object.keys(IdentityProviders).some((key) =>
       this._isFromIdentityProviderLoginPage(nextURL, IdentityProviders[key].code)
     );
+
     if (isFromIdentityProviderLoginPage) {
       // eslint-disable-next-line ember/classic-decorator-no-classic-methods
       this.set('data.nextURL', undefined);
       this.router.replaceWith(nextURL);
+      return;
     }
 
     super.handleAuthentication(this.routeAfterAuthentication);
   }
 
   handleInvalidation() {
+    if (this.skipRedirectAfterSessionInvalidation) {
+      delete this.skipRedirectAfterSessionInvalidation;
+      return;
+    }
+
     const routeAfterInvalidation = this._getRouteAfterInvalidation();
     super.handleInvalidation(routeAfterInvalidation);
   }
