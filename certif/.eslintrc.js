@@ -25,6 +25,7 @@ module.exports = {
   rules: {
     'no-restricted-imports': ['error', { paths: ['lodash'] }],
     'no-console': 'error',
+    'ember/no-array-prototype-extensions': 0,
   },
   overrides: [
     // node files

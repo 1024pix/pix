@@ -1,7 +1,7 @@
 .add-student-list {
   font-size: 0.875rem;
   position: relative;
-  box-shadow: 0 1px 1px 0 rgba(12, 22, 58, 0.1), 0 2px 5px 0 rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 1px 0 rgb(12 22 58 / 10%), 0 2px 5px 0 rgb(0 0 0 / 10%);
 
   &__filters {
     background-color: $pix-neutral-0;
@@ -89,7 +89,7 @@
     height: 68px;
     left: 0;
     bottom: 0;
-    box-shadow: -2px 2px 9px 0 rgba(0, 0, 0, 0.22);
+    box-shadow: -2px 2px 9px 0 rgb(0 0 0 / 22%);
     background-color: $pix-neutral-0;
     color: $pix-neutral-60;
     font-family: $font-roboto;

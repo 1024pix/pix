@@ -8,6 +8,7 @@
     "color-hex-length": "long",
     "indentation": [2, { "indentInsideParens": "once-at-root-twice-in-block" }],
     "rule-empty-line-before": ["always-multi-line", { "ignore": ["after-comment"] }],
-    "value-keyword-case": ["lower", { "ignoreKeywords": ["Arial"] }]
+    "value-keyword-case": ["lower", { "ignoreKeywords": ["Arial"] }],
+    "selector-class-pattern": null
   }
 }
