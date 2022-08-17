@@ -1,13 +1,13 @@
 import { module, test } from 'qunit';
 import { click } from '@ember/test-helpers';
-import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
+import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 import { fillByLabel, clickByName } from '@1024pix/ember-testing-library';
 import { render } from '@1024pix/ember-testing-library';
 import Service from '@ember/service';
 import sinon from 'sinon';
 import hbs from 'htmlbars-inline-precompile';
 
-module('Integration | Component | Student::Sco::List', function (hooks) {
+module('Integration | Component | ScoOrganizationParticipant::List', function (hooks) {
   setupIntlRenderingTest(hooks);
   let store;
 
@@ -33,7 +33,7 @@ module('Integration | Component | Student::Sco::List', function (hooks) {
     this.set('students', []);
 
     // when
-    await render(hbs`<Student::Sco::List @students={{students}} @onFilter={{noop}}/>`);
+    await render(hbs`<ScoOrganizationParticipant::List @students={{students}} @onFilter={{noop}}/>`);
 
     // then
     assert.contains('Nom');
@@ -53,7 +53,7 @@ module('Integration | Component | Student::Sco::List', function (hooks) {
     this.set('students', students);
 
     // when
-    await render(hbs`<Student::Sco::List @students={{students}} @onFilter={{noop}}/>`);
+    await render(hbs`<ScoOrganizationParticipant::List @students={{students}} @onFilter={{noop}}/>`);
 
     // then
     assert.dom('[aria-label="Élève"]').exists({ count: 2 });
@@ -74,7 +74,7 @@ module('Integration | Component | Student::Sco::List', function (hooks) {
     this.set('students', students);
 
     // when
-    const screen = await render(hbs`<Student::Sco::List @students={{students}} @onFilter={{noop}}/>`);
+    const screen = await render(hbs`<ScoOrganizationParticipant::List @students={{students}} @onFilter={{noop}}/>`);
 
     // then
     assert.contains('La Terreur');
@@ -99,7 +99,7 @@ module('Integration | Component | Student::Sco::List', function (hooks) {
       this.set('triggerFiltering', triggerFiltering);
       this.set('students', []);
 
-      await render(hbs`<Student::Sco::List @students={{students}} @onFilter={{triggerFiltering}}/>`);
+      await render(hbs`<ScoOrganizationParticipant::List @students={{students}} @onFilter={{triggerFiltering}}/>`);
 
       // when
       await fillByLabel('Entrer un nom', 'bob');
@@ -115,7 +115,7 @@ module('Integration | Component | Student::Sco::List', function (hooks) {
       this.set('triggerFiltering', triggerFiltering);
       this.set('students', []);
 
-      await render(hbs`<Student::Sco::List @students={{students}} @onFilter={{triggerFiltering}}/>`);
+      await render(hbs`<ScoOrganizationParticipant::List @students={{students}} @onFilter={{triggerFiltering}}/>`);
 
       // when
       await fillByLabel('Entrer un prénom', 'bob');
@@ -131,7 +131,7 @@ module('Integration | Component | Student::Sco::List', function (hooks) {
       this.set('triggerFiltering', triggerFiltering);
       this.set('students', []);
 
-      const { getByPlaceholderText } = await render(hbs`<Student::Sco::List
+      const { getByPlaceholderText } = await render(hbs`<ScoOrganizationParticipant::List
         @students={{students}}
         @onFilter={{triggerFiltering}}
       />`);
@@ -154,7 +154,7 @@ module('Integration | Component | Student::Sco::List', function (hooks) {
       this.set('connectionTypesOptions', [{ value: 'email', label: 'email' }]);
 
       await render(
-        hbs`<Student::Sco::List @students={{students}} @onFilter={{triggerFiltering}} @connectionTypesOptions={{connectionTypesOptions}} />`
+        hbs`<ScoOrganizationParticipant::List @students={{students}} @onFilter={{triggerFiltering}} @connectionTypesOptions={{connectionTypesOptions}} />`
       );
 
       // when
@@ -176,7 +176,7 @@ module('Integration | Component | Student::Sco::List', function (hooks) {
           birthdate: '2010-01-01',
         }),
       ]);
-      return render(hbs`<Student::Sco::List @students={{students}} @onFilter={{noop}}/>`);
+      return render(hbs`<ScoOrganizationParticipant::List @students={{students}} @onFilter={{noop}}/>`);
     });
 
     test('it should display dash for authentication method', async function (assert) {
@@ -202,11 +202,11 @@ module('Integration | Component | Student::Sco::List', function (hooks) {
           isAuthenticatedFromGar: false,
         }),
       ]);
-      return render(hbs`<Student::Sco::List @students={{students}} @onFilter={{noop}}/>`);
+      return render(hbs`<ScoOrganizationParticipant::List @students={{students}} @onFilter={{noop}}/>`);
     });
     test('it should display the manage account entry menu', async function (assert) {
       // given
-      await render(hbs`<Student::Sco::List @students={{students}} @onFilter={{noop}}/>`);
+      await render(hbs`<ScoOrganizationParticipant::List @students={{students}} @onFilter={{noop}}/>`);
 
       // when
       await clickByName('Afficher les actions');
@@ -228,7 +228,7 @@ module('Integration | Component | Student::Sco::List', function (hooks) {
           isAuthenticatedFromGar: false,
         }),
       ]);
-      return render(hbs`<Student::Sco::List @students={{students}} @onFilter={{noop}}/>`);
+      return render(hbs`<ScoOrganizationParticipant::List @students={{students}} @onFilter={{noop}}/>`);
     });
 
     test('it should display "Identifiant" as authentication method', async function (assert) {
@@ -252,7 +252,7 @@ module('Integration | Component | Student::Sco::List', function (hooks) {
           isAuthenticatedFromGar: false,
         }),
       ]);
-      return render(hbs`<Student::Sco::List @students={{students}} @onFilter={{noop}}/>`);
+      return render(hbs`<ScoOrganizationParticipant::List @students={{students}} @onFilter={{noop}}/>`);
     });
 
     test('it should display "Adresse email" as authentication method', async function (assert) {
@@ -281,7 +281,7 @@ module('Integration | Component | Student::Sco::List', function (hooks) {
 
     test('it should display "Mediacentre" as authentication method', async function (assert) {
       // when
-      await render(hbs`<Student::Sco::List @students={{students}} @onFilter={{noop}}/>`);
+      await render(hbs`<ScoOrganizationParticipant::List @students={{students}} @onFilter={{noop}}/>`);
 
       // then
       assert.dom('[aria-label="Élève"]').containsText('Mediacentre');
@@ -289,7 +289,7 @@ module('Integration | Component | Student::Sco::List', function (hooks) {
 
     test('it should display the action menu', async function (assert) {
       // when
-      await render(hbs`<Student::Sco::List @students={{students}} @onFilter={{noop}}/>`);
+      await render(hbs`<ScoOrganizationParticipant::List @students={{students}} @onFilter={{noop}}/>`);
 
       // then
       assert.dom('[aria-label="Afficher les actions"]').exists();

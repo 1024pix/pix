@@ -1,9 +1,9 @@
-{{page-title (t "pages.students-sco.title")}}
+{{page-title (t "pages.sco-organization-participants.title")}}
 
 <div class="list-students-page">
-  <Student::Sco::HeaderActions @onImportStudents={{this.importStudents}} />
+  <ScoOrganizationParticipant::HeaderActions @onImportStudents={{this.importStudents}} />
 
-  <Student::Sco::List
+  <ScoOrganizationParticipant::List
     @students={{@model}}
     @connectionTypesOptions={{this.connectionTypesOptions}}
     @lastNameFilter={{this.lastName}}

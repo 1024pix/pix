@@ -1,15 +1,15 @@
 import { module, test } from 'qunit';
 import { render } from '@ember/test-helpers';
-import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
+import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 import Service from '@ember/service';
 import hbs from 'htmlbars-inline-precompile';
 
-module('Integration | Component | Student::Sco::HeaderActions', function (hooks) {
+module('Integration | Component | ScoOrganizationParticipant::HeaderActions', function (hooks) {
   setupIntlRenderingTest(hooks);
 
   test('it should show title', async function (assert) {
     // when
-    await render(hbs`<Student::Sco::HeaderActions />`);
+    await render(hbs`<ScoOrganizationParticipant::HeaderActions />`);
 
     // then
     assert.contains('Élèves');
@@ -24,7 +24,7 @@ module('Integration | Component | Student::Sco::HeaderActions', function (hooks)
           }
           this.owner.register('service:current-user', CurrentUserStub);
           this.set('importStudentsSpy', () => {});
-          return render(hbs`<Student::Sco::HeaderActions @onImportStudents={{importStudentsSpy}} />`);
+          return render(hbs`<ScoOrganizationParticipant::HeaderActions @onImportStudents={{importStudentsSpy}} />`);
         });
 
         test('it should display import XML file button', async function (assert) {
@@ -45,7 +45,7 @@ module('Integration | Component | Student::Sco::HeaderActions', function (hooks)
 
           this.set('importStudentsSpy', () => {});
           this.owner.register('service:current-user', CurrentUserStub);
-          return render(hbs`<Student::Sco::HeaderActions @onImportStudents={{importStudentsSpy}} />`);
+          return render(hbs`<ScoOrganizationParticipant::HeaderActions @onImportStudents={{importStudentsSpy}} />`);
         });
 
         test('it should still display import CSV file button', async function (assert) {
@@ -60,7 +60,7 @@ module('Integration | Component | Student::Sco::HeaderActions', function (hooks)
           isAdminInOrganization = false;
         }
         this.owner.register('service:current-user', CurrentUserStub);
-        return render(hbs`<Student::Sco::HeaderActions />`);
+        return render(hbs`<ScoOrganizationParticipant::HeaderActions />`);
       });
 
       test('it should not display import button', async function (assert) {

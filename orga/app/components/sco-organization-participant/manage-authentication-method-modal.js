@@ -91,6 +91,6 @@ export default class ManageAuthenticationMethodModal extends Component {
   }
 
   _t(key) {
-    return this.intl.t(`pages.students-sco.manage-authentication-method-modal.${key}`);
+    return this.intl.t(`pages.sco-organization-participants.manage-authentication-method-modal.${key}`);
   }
 }

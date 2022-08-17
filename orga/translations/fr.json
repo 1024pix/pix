@@ -200,7 +200,7 @@
       "certifications": "Certifications",
       "documentation": "Documentation",
       "organization-participants": "Participants",
-      "students-sco": "Élèves",
+      "sco-organization-participants": "Élèves",
       "students-sup": "Étudiants",
       "team": "Équipe",
       "aria-label": "Navigation principale"
@@ -755,7 +755,7 @@
         "title": "Liste des profils reçus"
       }
     },
-    "students-sco": {
+    "sco-organization-participants": {
       "title": "Élèves",
       "actions": {
         "import-file": {

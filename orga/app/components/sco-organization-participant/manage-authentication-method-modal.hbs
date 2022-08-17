@@ -1,19 +1,21 @@
 <Modal::Dialog
-  @title="{{t "pages.students-sco.manage-authentication-method-modal.title"}}"
+  @title="{{t "pages.sco-organization-participants.manage-authentication-method-modal.title"}}"
   @display={{@display}}
   @close={{this.closeModal}}
 >
   <form class="manage-authentication-window">
     <h6>
       <FaIcon @icon="link" />
-      {{t "pages.students-sco.manage-authentication-method-modal.authentication-methods"}}
+      {{t "pages.sco-organization-participants.manage-authentication-method-modal.authentication-methods"}}
     </h6>
 
     <div>
       {{#if @student.isAuthenticatedFromGar}}
         <div class="manage-authentication-window__box">
           <div class="manage-authentication-window__subTitle">
-            <span>{{t "pages.students-sco.manage-authentication-method-modal.section.mediacentre.label"}}</span>
+            <span>
+              {{t "pages.sco-organization-participants.manage-authentication-method-modal.section.mediacentre.label"}}
+            </span>
             <FaIcon @icon="check-circle" @prefix="far" class="green-icon" />
           </div>
         </div>
@@ -22,7 +24,9 @@
       {{#if @student.hasEmail}}
         <div class="manage-authentication-window__box">
           <div class="manage-authentication-window__subTitle">
-            <span>{{t "pages.students-sco.manage-authentication-method-modal.section.email.label"}}</span>
+            <span>
+              {{t "pages.sco-organization-participants.manage-authentication-method-modal.section.email.label"}}
+            </span>
             <FaIcon @icon="check-circle" @prefix="far" class="green-icon" />
           </div>
           <div class="input-container">
@@ -44,7 +48,9 @@
                 >
                   <:triggerElement>
                     <CopyButton
-                      @aria-label="{{t "pages.students-sco.manage-authentication-method-modal.section.email.copy"}}"
+                      @aria-label="{{t
+                        "pages.sco-organization-participants.manage-authentication-method-modal.section.email.copy"
+                      }}"
                       @clipboardText={{@student.email}}
                       @success={{this.clipboardSuccessEmail}}
                       {{on "mouseout" this.clipboardOutEmail}}
@@ -67,16 +73,20 @@
       <div class="manage-authentication-window__box">
         {{#if @student.displayAddUsernameAuthentication}}
           <div class="manage-authentication-window__subTitle">
-            <span>{{t "pages.students-sco.manage-authentication-method-modal.section.add-username.label"}}</span>
+            <span>
+              {{t "pages.sco-organization-participants.manage-authentication-method-modal.section.add-username.label"}}
+            </span>
             <FaIcon @icon="check-circle" @prefix="far" class="grey-icon" />
           </div>
           <PixButton @triggerAction={{this.generateUsernameWithTemporaryPassword}}>
-            {{t "pages.students-sco.manage-authentication-method-modal.section.add-username.button"}}
+            {{t "pages.sco-organization-participants.manage-authentication-method-modal.section.add-username.button"}}
           </PixButton>
         {{else}}
           {{#if @student.hasUsername}}
             <div class="manage-authentication-window__subTitle">
-              <span>{{t "pages.students-sco.manage-authentication-method-modal.section.username.label"}}</span>
+              <span>
+                {{t "pages.sco-organization-participants.manage-authentication-method-modal.section.username.label"}}
+              </span>
               <FaIcon @icon="check-circle" @prefix="far" class="green-icon" />
             </div>
             <div class="input-container">
@@ -98,7 +108,9 @@
                   >
                     <:triggerElement>
                       <CopyButton
-                        @aria-label={{t "pages.students-sco.manage-authentication-method-modal.section.username.copy"}}
+                        @aria-label={{t
+                          "pages.sco-organization-participants.manage-authentication-method-modal.section.username.copy"
+                        }}
                         @clipboardText={{@student.username}}
                         @success={{this.clipboardSuccessUsername}}
                         {{on "mouseout" this.clipboardOutUsername}}
@@ -125,9 +137,9 @@
         {{#if this.isUniquePasswordVisible}}
           <div>
             <div class="input-container">
-              <label for="generated-password">{{t
-                  "pages.students-sco.manage-authentication-method-modal.section.password.label"
-                }}</label>
+              <label for="generated-password">
+                {{t "pages.sco-organization-participants.manage-authentication-method-modal.section.password.label"}}
+              </label>
               <div class="manage-authentication-window__clipboard">
                 <Input
                   id="generated-password"
@@ -146,7 +158,9 @@
                   >
                     <:triggerElement>
                       <CopyButton
-                        @aria-label={{t "pages.students-sco.manage-authentication-method-modal.section.password.copy"}}
+                        @aria-label={{t
+                          "pages.sco-organization-participants.manage-authentication-method-modal.section.password.copy"
+                        }}
                         @clipboardText={{this.generatedPassword}}
                         @success={{this.clipboardSuccessGeneratedPassword}}
                         {{on "mouseout" this.clipboardOutGeneratedPassword}}
@@ -165,20 +179,36 @@
             </div>
 
             <ol class="manage-authentication-window__informations">
-              <li>{{t "pages.students-sco.manage-authentication-method-modal.section.password.warning-1"}}</li>
-              <li>{{t "pages.students-sco.manage-authentication-method-modal.section.password.warning-2"}}</li>
-              <li>{{t "pages.students-sco.manage-authentication-method-modal.section.password.warning-3"}}</li>
+              <li>
+                {{t
+                  "pages.sco-organization-participants.manage-authentication-method-modal.section.password.warning-1"
+                }}
+              </li>
+              <li>
+                {{t
+                  "pages.sco-organization-participants.manage-authentication-method-modal.section.password.warning-2"
+                }}
+              </li>
+              <li>
+                {{t
+                  "pages.sco-organization-participants.manage-authentication-method-modal.section.password.warning-3"
+                }}
+              </li>
             </ol>
           </div>
         {{else}}
           <div>
             <PixButton id="generate-password" @triggerAction={{this.resetPassword}}>
-              {{t "pages.students-sco.manage-authentication-method-modal.section.reset-password.button"}}
+              {{t
+                "pages.sco-organization-participants.manage-authentication-method-modal.section.reset-password.button"
+              }}
             </PixButton>
 
             <div class="manage-authentication-window__warning">
               <FaIcon @icon="exclamation-triangle" class="icon--warning" />
-              <span>{{t "pages.students-sco.manage-authentication-method-modal.section.reset-password.warning"}}</span>
+              <span>{{t
+                  "pages.sco-organization-participants.manage-authentication-method-modal.section.reset-password.warning"
+                }}</span>
             </div>
           </div>
         {{/if}}

@@ -1,7 +1,7 @@
 import { inject as service } from '@ember/service';
 import Route from '@ember/routing/route';
 
-export default class ScoStudentsRoute extends Route {
+export default class ScoOrganizationParticipantsRoute extends Route {
   @service currentUser;
 
   beforeModel() {
