@@ -2,7 +2,6 @@ const { expect, domainBuilder, databaseBuilder, knex } = require('../../../test-
 const campaignRepository = require('../../../../lib/infrastructure/repositories/campaign-repository');
 const Campaign = require('../../../../lib/domain/models/Campaign');
 const CampaignTypes = require('../../../../lib/domain/models/CampaignTypes');
-const BookshelfCampaign = require('../../../../lib/infrastructure/orm-models/Campaign');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 const _ = require('lodash');
 
@@ -203,20 +202,14 @@ describe('Integration | Repository | Campaign', function () {
     let campaign;
 
     beforeEach(function () {
-      const bookshelfCampaign = databaseBuilder.factory.buildCampaign({
-        id: 1,
-        title: 'Title',
-        customLandingPageText: 'Text',
-        archivedAt: new Date('2019-03-01T23:04:05Z'),
-        ownerId: databaseBuilder.factory.buildUser({ id: 1 }).id,
-      });
-      campaign = domainBuilder.buildCampaign(bookshelfCampaign);
+      campaign = databaseBuilder.factory.buildCampaign();
+
       return databaseBuilder.commit();
     });
 
     it('should return a Campaign domain object', async function () {
       // when
-      const campaignSaved = await campaignRepository.update(campaign);
+      const campaignSaved = await campaignRepository.update({ id: campaign.id, title: 'Title' });
 
       // then
       expect(campaignSaved).to.be.an.instanceof(Campaign);
@@ -224,28 +217,31 @@ describe('Integration | Repository | Campaign', function () {
 
     it('should not add row in table "campaigns"', async function () {
       // given
-      const rowCount = await BookshelfCampaign.count();
-
+      const rowsCountBeforeUpdate = await knex.select('id').from('campaigns');
       // when
-      await campaignRepository.update(campaign);
+      await campaignRepository.update({ id: campaign.id, title: 'Title' });
 
       // then
-      const rowCountAfterUpdate = await BookshelfCampaign.count();
-      expect(rowCountAfterUpdate).to.equal(rowCount);
+      const rowCountAfterUpdate = await knex.select('id').from('campaigns');
+      expect(rowCountAfterUpdate.length).to.equal(rowsCountBeforeUpdate.length);
     });
 
     it('should update model in database', async function () {
       // given
-      campaign.name = 'New name';
-      campaign.title = 'New title';
-      campaign.customLandingPageText = 'New text';
-      campaign.archivedAt = new Date('2020-12-12T06:07:08Z');
-      campaign.archivedBy = databaseBuilder.factory.buildUser({ id: 3 }).id;
-      campaign.ownerId = databaseBuilder.factory.buildUser({ id: 2 }).id;
+      const archivedBy = databaseBuilder.factory.buildUser().id;
+      const ownerId = databaseBuilder.factory.buildUser().id;
       await databaseBuilder.commit();
 
       // when
-      const campaignSaved = await campaignRepository.update(campaign);
+      const campaignSaved = await campaignRepository.update({
+        id: campaign.id,
+        title: 'New title',
+        name: 'New name',
+        customLandingPageText: 'New text',
+        archivedAt: new Date('2020-12-12T06:07:08Z'),
+        archivedBy,
+        ownerId,
+      });
 
       // then
       expect(campaignSaved.id).to.equal(campaign.id);
@@ -253,8 +249,8 @@ describe('Integration | Repository | Campaign', function () {
       expect(campaignSaved.title).to.equal('New title');
       expect(campaignSaved.customLandingPageText).to.equal('New text');
       expect(campaignSaved.archivedAt).to.deep.equal(new Date('2020-12-12T06:07:08Z'));
-      expect(campaignSaved.archivedBy).to.equal(3);
-      expect(campaignSaved.ownerId).to.equal(2);
+      expect(campaignSaved.archivedBy).to.equal(archivedBy);
+      expect(campaignSaved.ownerId).to.equal(ownerId);
     });
   });
 
