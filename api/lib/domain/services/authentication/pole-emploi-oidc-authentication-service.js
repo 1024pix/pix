@@ -1,5 +1,4 @@
 const settings = require('../../../config');
-const constants = require('../../constants');
 const OidcAuthenticationService = require('./oidc-authentication-service');
 const DomainTransaction = require('../../../infrastructure/DomainTransaction');
 const AuthenticationMethod = require('../../models/AuthenticationMethod');
@@ -10,7 +9,7 @@ const logoutUrlTemporaryStorage = require('../../../infrastructure/temporary-sto
 class PoleEmploiOidcAuthenticationService extends OidcAuthenticationService {
   constructor() {
     const source = 'pole_emploi_connect';
-    const identityProvider = constants.IDENTITY_PROVIDER.POLE_EMPLOI;
+    const identityProvider = 'POLE_EMPLOI';
     const expirationDelaySeconds = settings.poleEmploi.accessTokenLifespanMs / 1000;
     const jwtOptions = { expiresIn: expirationDelaySeconds };
     const clientSecret = settings.poleEmploi.clientSecret;
@@ -44,7 +43,7 @@ class PoleEmploiOidcAuthenticationService extends OidcAuthenticationService {
   }
 
   // Override because we need idToken to send results after a campaign
-  // Sending campaign results is specific for Pole Emploi
+  // Sending campaign results is specific to Pole Emploi
   async createUserAccount({
     user,
     sessionContent,
