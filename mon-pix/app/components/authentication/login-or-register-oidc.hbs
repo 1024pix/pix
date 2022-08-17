@@ -72,6 +72,7 @@
               @label={{t "pages.login-or-register-oidc.login-form.password"}}
               autocomplete="off"
               required
+              {{on "change" this.setPassword}}
             />
             <LinkTo @route="password-reset-demand" class="login-or-register-oidc-form__forgotten-password-link">
               {{t "pages.sign-in.forgotten-password"}}
