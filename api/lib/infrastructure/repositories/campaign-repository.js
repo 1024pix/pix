@@ -3,6 +3,7 @@ const BookshelfCampaign = require('../orm-models/Campaign');
 const { NotFoundError } = require('../../domain/errors');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
 const { knex } = require('../../../db/knex-database-connection');
+const Campaign = require('../../domain/models/Campaign');
 
 module.exports = {
   isCodeAvailable(code) {
@@ -58,10 +59,18 @@ module.exports = {
   },
 
   async update(campaign) {
-    const editedAttributes = _.pick(campaign, ['name', 'title', 'customLandingPageText', 'archivedAt', 'ownerId']);
-    const bookshelfCampaign = await BookshelfCampaign.where({ id: campaign.id }).fetch();
-    await bookshelfCampaign.save(editedAttributes, { method: 'update', patch: true });
-    return bookshelfToDomainConverter.buildDomainObject(BookshelfCampaign, bookshelfCampaign);
+    const editedAttributes = _.pick(campaign, [
+      'name',
+      'title',
+      'customLandingPageText',
+      'archivedAt',
+      'archivedBy',
+      'ownerId',
+    ]);
+
+    const [editedCampaign] = await knex('campaigns').update(editedAttributes).where({ id: campaign.id }).returning('*');
+
+    return new Campaign(editedCampaign);
   },
 
   async checkIfUserOrganizationHasAccessToCampaign(campaignId, userId) {
