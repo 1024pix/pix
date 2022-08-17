@@ -1,7 +1,7 @@
 import Response from 'ember-cli-mirage/response';
 import { findPaginatedCampaignProfilesCollectionParticipationSummaries } from './handlers/find-paginated-campaign-participation-summaries';
 import { findPaginatedOrganizationMemberships } from './handlers/find-paginated-organization-memberships';
-import { findFilteredPaginatedStudents } from './handlers/find-filtered-paginated-students';
+import { findFilteredPaginatedScoOrganizationParticipants } from './handlers/find-filtered-paginated-sco-organization-participants';
 import { findPaginatedAssessmentResults } from './handlers/find-paginated-assessment-results';
 import { findFilteredPaginatedOrganizationParticipants } from './handlers/find-filtered-paginated-organization-participants';
 
@@ -249,7 +249,7 @@ export default function () {
     return invitation;
   });
 
-  this.get('/organizations/:id/students', findFilteredPaginatedStudents);
+  this.get('/organizations/:id/sco-participants', findFilteredPaginatedScoOrganizationParticipants);
 
   this.get('/organizations/:id/participants', findFilteredPaginatedOrganizationParticipants);
 
@@ -268,7 +268,7 @@ export default function () {
       });
     } else if (type === 'valid-file') {
       const organizationId = request.params.id;
-      return schema.students.create({ organizationId: organizationId, firstName: 'Harry', lastName: 'Cover' });
+      return schema.scoOrganizationParticipants.create({ organizationId, firstName: 'Harry', lastName: 'Cover' });
     }
   });
 

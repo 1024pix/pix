@@ -118,8 +118,18 @@ module('Acceptance | Sco Student List', function (hooks) {
       module('when prescriber is looking for students', function (hooks) {
         hooks.beforeEach(async function () {
           organizationId = user.memberships.models.firstObject.organizationId;
-          server.create('student', { organizationId, firstName: 'Chuck', lastName: 'Norris', hasEmail: false });
-          server.create('student', { organizationId, firstName: 'John', lastName: 'Rambo', hasEmail: true });
+          server.create('sco-organization-participant', {
+            organizationId,
+            firstName: 'Chuck',
+            lastName: 'Norris',
+            hasEmail: false,
+          });
+          server.create('sco-organization-participant', {
+            organizationId,
+            firstName: 'John',
+            lastName: 'Rambo',
+            hasEmail: true,
+          });
         });
 
         test('it should display the students list filtered by lastname', async function (assert) {
@@ -174,7 +184,7 @@ module('Acceptance | Sco Student List', function (hooks) {
         hooks.beforeEach(async function () {
           organizationId = user.memberships.models.firstObject.organizationId;
 
-          server.createList('student', 5, { organizationId });
+          server.createList('sco-organization-participant', 5, { organizationId });
         });
 
         module('when student authenticated by username and email', function (hooks) {
@@ -182,7 +192,7 @@ module('Acceptance | Sco Student List', function (hooks) {
           const email = 'firstname.lastname0112@example.net';
 
           hooks.beforeEach(function () {
-            server.create('student', {
+            server.create('sco-organization-participant', {
               organizationId,
               firstName: 'FirstName',
               lastName: 'LastName',
@@ -233,7 +243,7 @@ module('Acceptance | Sco Student List', function (hooks) {
 
         module('when student authenticated by GAR', function (hooks) {
           hooks.beforeEach(function () {
-            server.create('student', {
+            server.create('sco-organization-participant', {
               organizationId,
               isAuthenticatedFromGar: true,
             });
@@ -272,7 +282,7 @@ module('Acceptance | Sco Student List', function (hooks) {
 
         module('when student authenticated by GAR and username', function (hooks) {
           hooks.beforeEach(function () {
-            server.create('student', {
+            server.create('sco-organization-participant', {
               organizationId,
               isAuthenticatedFromGar: true,
               username: 'user.gar3011',

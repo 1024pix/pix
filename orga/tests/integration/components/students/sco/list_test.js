@@ -170,7 +170,7 @@ module('Integration | Component | Student::Sco::List', function (hooks) {
     beforeEach(function () {
       store = this.owner.lookup('service:store');
       this.set('students', [
-        store.createRecord('student', {
+        store.createRecord('sco-organization-participant', {
           lastName: 'La Terreur',
           firstName: 'Gigi',
           birthdate: '2010-01-01',
@@ -194,7 +194,7 @@ module('Integration | Component | Student::Sco::List', function (hooks) {
     beforeEach(function () {
       const store = this.owner.lookup('service:store');
       this.set('students', [
-        store.createRecord('student', {
+        store.createRecord('sco-organization-participant', {
           lastName: 'La Terreur',
           firstName: 'Gigi',
           birthdate: '2010-01-01',
@@ -220,7 +220,7 @@ module('Integration | Component | Student::Sco::List', function (hooks) {
     beforeEach(function () {
       const store = this.owner.lookup('service:store');
       this.set('students', [
-        store.createRecord('student', {
+        store.createRecord('sco-organization-participant', {
           lastName: 'La Terreur',
           firstName: 'Gigi',
           birthdate: '2010-01-01',
@@ -244,7 +244,7 @@ module('Integration | Component | Student::Sco::List', function (hooks) {
     beforeEach(function () {
       const store = this.owner.lookup('service:store');
       this.set('students', [
-        store.createRecord('student', {
+        store.createRecord('sco-organization-participant', {
           lastName: 'La Terreur',
           firstName: 'Gigi',
           birthdate: '2010-01-01',
@@ -268,7 +268,7 @@ module('Integration | Component | Student::Sco::List', function (hooks) {
     beforeEach(function () {
       const store = this.owner.lookup('service:store');
       this.set('students', [
-        store.createRecord('student', {
+        store.createRecord('sco-organization-participant', {
           lastName: 'La Terreur',
           firstName: 'Gigi',
           birthdate: '2010-01-01',

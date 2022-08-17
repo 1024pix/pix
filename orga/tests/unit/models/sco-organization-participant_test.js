@@ -1,16 +1,16 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 
-module('Unit | Model | student', function (hooks) {
+module('Unit | Model | sco-organization-participant', function (hooks) {
   setupTest(hooks);
   module('#authenticationMethods', function () {
     module('when not reconciled', function () {
       test('it should return empty message', function (assert) {
         // given
         const store = this.owner.lookup('service:store');
-        const student = { lastName: 'Last', firstName: 'First', birthdate: '2010-10-10' };
+        const organizationScoParticipant = { lastName: 'Last', firstName: 'First', birthdate: '2010-10-10' };
         // when
-        const model = store.createRecord('student', student);
+        const model = store.createRecord('sco-organization-participant', organizationScoParticipant);
         // then
         assert.deepEqual(model.authenticationMethods, ['pages.students-sco.connection-types.empty']);
       });
@@ -21,42 +21,42 @@ module('Unit | Model | student', function (hooks) {
         test('it should return Identifiant message key when identified by username', function (assert) {
           // given
           const store = this.owner.lookup('service:store');
-          const student = {
+          const organizationScoParticipant = {
             lastName: 'Carter',
             firstName: 'Blue Ivy',
             birthdate: '2012-01-07',
             username: 'blueivy.carter0701',
           };
           // when
-          const model = store.createRecord('student', student);
+          const model = store.createRecord('sco-organization-participant', organizationScoParticipant);
           // then
           assert.deepEqual(model.authenticationMethods, ['pages.students-sco.connection-types.identifiant']);
         });
         test('it should return Adresse e-mail message key when identified by email', function (assert) {
           // given
           const store = this.owner.lookup('service:store');
-          const student = {
+          const organizationScoParticipant = {
             lastName: 'De Cambridge',
             firstName: 'George',
             birthdate: '2013-07-22',
             email: 'georges.decambridge@example.net',
           };
           // when
-          const model = store.createRecord('student', student);
+          const model = store.createRecord('sco-organization-participant', organizationScoParticipant);
           // then
           assert.deepEqual(model.authenticationMethods, ['pages.students-sco.connection-types.email']);
         });
         test('it should return Mediacentre message key when identified from GAR', function (assert) {
           // given
           const store = this.owner.lookup('service:store');
-          const student = {
+          const organizationScoParticipant = {
             lastName: 'De Cambridge',
             firstName: 'George',
             birthdate: '2013-07-22',
             isAuthenticatedFromGar: true,
           };
           // when
-          const model = store.createRecord('student', student);
+          const model = store.createRecord('sco-organization-participant', organizationScoParticipant);
           // then
           assert.deepEqual(model.authenticationMethods, ['pages.students-sco.connection-types.mediacentre']);
         });
@@ -66,7 +66,7 @@ module('Unit | Model | student', function (hooks) {
         test('it should return 2 message keys, excluding GAR', function (assert) {
           // given
           const store = this.owner.lookup('service:store');
-          const student = {
+          const organizationScoParticipant = {
             lastName: 'Carter',
             firstName: 'Blue Ivy',
             birthdate: '2012-01-07',
@@ -75,7 +75,7 @@ module('Unit | Model | student', function (hooks) {
             isAuthenticatedFromGar: false,
           };
           // when
-          const model = store.createRecord('student', student);
+          const model = store.createRecord('sco-organization-participant', organizationScoParticipant);
           // then
           assert.deepEqual(model.authenticationMethods, [
             'pages.students-sco.connection-types.email',
@@ -86,42 +86,50 @@ module('Unit | Model | student', function (hooks) {
     });
   });
 
-  module('#isStudentAssociated', function (hooks) {
+  module('#isAssociated', function (hooks) {
     let store;
     hooks.beforeEach(function () {
       store = this.owner.lookup('service:store');
     });
 
-    test('it returns false when the student has no email, no username or is not authenticated from GAR', function (assert) {
-      const student = store.createRecord('student', { email: null, username: null, isAuthenticatedFromGar: false });
+    test('it returns false when the organizationScoParticipant has no email, no username or is not authenticated from GAR', function (assert) {
+      const organizationScoParticipant = store.createRecord('sco-organization-participant', {
+        email: null,
+        username: null,
+        isAuthenticatedFromGar: false,
+      });
 
-      assert.false(student.isStudentAssociated);
+      assert.false(organizationScoParticipant.isAssociated);
     });
 
-    test('it returns true when the student has an email', function (assert) {
-      const student = store.createRecord('student', {
+    test('it returns true when the organizationScoParticipant has an email', function (assert) {
+      const organizationScoParticipant = store.createRecord('sco-organization-participant', {
         email: 'martin.riggs@example.net',
         username: null,
         isAuthenticatedFromGar: false,
       });
 
-      assert.true(student.isStudentAssociated);
+      assert.true(organizationScoParticipant.isAssociated);
     });
 
-    test('it returns true when the student has an username', function (assert) {
-      const student = store.createRecord('student', {
+    test('it returns true when the organizationScoParticipant has an username', function (assert) {
+      const organizationScoParticipant = store.createRecord('sco-organization-participant', {
         email: null,
         username: 'RogerMurtaugh',
         isAuthenticatedFromGar: false,
       });
 
-      assert.true(student.isStudentAssociated);
+      assert.true(organizationScoParticipant.isAssociated);
     });
 
-    test('it returns true when the student is authenticated from GAR', function (assert) {
-      const student = store.createRecord('student', { email: null, username: null, isAuthenticatedFromGar: true });
+    test('it returns true when the organizationScoParticipant is authenticated from GAR', function (assert) {
+      const organizationScoParticipant = store.createRecord('sco-organization-participant', {
+        email: null,
+        username: null,
+        isAuthenticatedFromGar: true,
+      });
 
-      assert.true(student.isStudentAssociated);
+      assert.true(organizationScoParticipant.isAssociated);
     });
   });
 
@@ -131,20 +139,24 @@ module('Unit | Model | student', function (hooks) {
       store = this.owner.lookup('service:store');
     });
 
-    test('it returns true if the student is authenticated by email only', function (assert) {
-      const student = store.createRecord('student', {
+    test('it returns true if the organizationScoParticipant is authenticated by email only', function (assert) {
+      const organizationScoParticipant = store.createRecord('sco-organization-participant', {
         email: 'john.harry@example.net',
         username: null,
         isAuthenticatedFromGar: false,
       });
 
-      assert.true(student.displayAddUsernameAuthentication);
+      assert.true(organizationScoParticipant.displayAddUsernameAuthentication);
     });
 
-    test('it returns true if the student is authenticated from mediacenter only', function (assert) {
-      const student = store.createRecord('student', { email: null, username: null, isAuthenticatedFromGar: true });
+    test('it returns true if the organizationScoParticipant is authenticated from mediacenter only', function (assert) {
+      const organizationScoParticipant = store.createRecord('sco-organization-participant', {
+        email: null,
+        username: null,
+        isAuthenticatedFromGar: true,
+      });
 
-      assert.true(student.displayAddUsernameAuthentication);
+      assert.true(organizationScoParticipant.displayAddUsernameAuthentication);
     });
   });
 });
