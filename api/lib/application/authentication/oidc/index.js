@@ -3,6 +3,8 @@ const OidcIdentityProviders = require('../../../domain/constants/oidc-identity-p
 const oidcController = require('./oidc-controller');
 const featureToggles = require('../../preHandlers/feature-toggles');
 
+const validProviders = Object.values(OidcIdentityProviders).map((provider) => provider.code);
+
 exports.register = async (server) => {
   server.route([
     {
@@ -32,7 +34,9 @@ exports.register = async (server) => {
         auth: false,
         validate: {
           query: Joi.object({
-            identity_provider: Joi.string().required(),
+            identity_provider: Joi.string()
+              .required()
+              .valid(...validProviders),
             redirect_uri: Joi.string().required(),
           }),
         },
@@ -53,7 +57,9 @@ exports.register = async (server) => {
           payload: Joi.object({
             data: {
               attributes: {
-                identity_provider: Joi.string().required(),
+                identity_provider: Joi.string()
+                  .required()
+                  .valid(...validProviders),
                 code: Joi.string().required(),
                 redirect_uri: Joi.string().required(),
                 state_sent: Joi.string().required(),
@@ -79,7 +85,9 @@ exports.register = async (server) => {
           payload: Joi.object({
             data: {
               attributes: {
-                identity_provider: Joi.string().required(),
+                identity_provider: Joi.string()
+                  .required()
+                  .valid(...validProviders),
                 authentication_key: Joi.string().required(),
               },
             },
@@ -110,7 +118,9 @@ exports.register = async (server) => {
               attributes: Joi.object({
                 email: Joi.string().email().required(),
                 password: Joi.string().required(),
-                'identity-provider': Joi.string().required().valid('POLE_EMPLOI', 'CNAV'),
+                'identity-provider': Joi.string()
+                  .required()
+                  .valid(...validProviders),
                 'authentication-key': Joi.string().required(),
               }),
               type: Joi.string(),
