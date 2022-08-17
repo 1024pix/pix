@@ -14,6 +14,28 @@ module.exports = {
     const targetProfileSummaries = results.map((attributes) => new TargetProfileSummaryForAdmin(attributes));
     return { models: targetProfileSummaries, meta: { ...pagination } };
   },
+
+  async findByOrganization({ organizationId }) {
+    const results = await knex('target-profiles')
+      .select({
+        id: 'target-profiles.id',
+        name: 'target-profiles.name',
+        outdated: 'target-profiles.outdated',
+      })
+      .leftJoin('target-profile-shares', 'target-profile-shares.targetProfileId', 'target-profiles.id')
+      .where({ outdated: false })
+      .where((qb) => {
+        qb.orWhere({ isPublic: true });
+        qb.orWhere({ ownerOrganizationId: organizationId });
+        qb.orWhere((subQb) => {
+          subQb.whereNotNull('target-profile-shares.id');
+          subQb.where('target-profile-shares.organizationId', organizationId);
+        });
+      })
+      .orderBy('id', 'ASC');
+
+    return results.map((attributes) => new TargetProfileSummaryForAdmin(attributes));
+  },
 };
 
 function _applyFilters(qb, filter) {

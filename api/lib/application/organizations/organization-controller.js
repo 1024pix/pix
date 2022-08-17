@@ -18,6 +18,7 @@ const organizationPlacesCapacitySerializer = require('../../infrastructure/seria
 const organizationParticipantsSerializer = require('../../infrastructure/serializers/jsonapi/organization/organization-participants-serializer');
 const scoOrganizationParticipantsSerializer = require('../../infrastructure/serializers/jsonapi/organization/sco-organization-participants-serializer');
 const supOrganizationParticipantsSerializer = require('../../infrastructure/serializers/jsonapi/organization/sup-organization-participants-serializer');
+const targetProfileSummaryForAdminSerializer = require('../../infrastructure/serializers/jsonapi/target-profile-summary-for-admin-serializer');
 
 const SupOrganizationLearnerParser = require('../../infrastructure/serializers/csv/sup-organization-learner-parser');
 const queryParamsUtils = require('../../infrastructure/utils/query-params-utils');
@@ -419,5 +420,13 @@ module.exports = {
       filters: options.filter,
     });
     return organizationParticipantsSerializer.serialize(results);
+  },
+
+  async findTargetProfileSummariesForAdmin(request) {
+    const organizationId = request.params.id;
+    const targetProfileSummaries = await usecases.findOrganizationTargetProfileSummariesForAdmin({
+      organizationId,
+    });
+    return targetProfileSummaryForAdminSerializer.serialize(targetProfileSummaries);
   },
 };
