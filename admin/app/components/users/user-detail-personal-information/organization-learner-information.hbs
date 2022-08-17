@@ -2,7 +2,7 @@
   <h2 class="page-section__title">Informations prescrit</h2>
 </header>
 
-<div class="schooling-registrations-table content-text content-text--small">
+<div class="organization-learners-table content-text content-text--small">
   <table class="table-admin">
     <thead>
       <tr>
@@ -34,17 +34,17 @@
           </td>
           <td>{{format-date organizationLearner.createdAt}}</td>
           <td>{{format-date organizationLearner.updatedAt}}</td>
-          <td class="table-admin-schooling-registrations-status">
+          <td class="table-admin-organization-learners-status">
             {{#if organizationLearner.isDisabled}}
               <FaIcon
                 @icon="times-circle"
-                class="schooling-registrations-table__status--isDisabled"
+                class="organization-learners-table__status--isDisabled"
                 aria-label="Inscription désactivée"
               />
             {{else}}
               <FaIcon
                 @icon="check-circle"
-                class="schooling-registrations-table__status--isEnabled"
+                class="organization-learners-table__status--isEnabled"
                 aria-label="Inscription activée"
               />
             {{/if}}
