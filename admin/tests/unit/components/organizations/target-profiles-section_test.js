@@ -15,7 +15,7 @@ module('Unit | Component | organizations/target-profiles-section', function (hoo
     });
 
     module('when attaching target profiles works correctly', () => {
-      test('it displays a success message notifications without duplicated ids', async function (assert) {
+      test('it displays a success message', async function (assert) {
         const component = createComponent('component:organizations/target-profiles-section');
         component.notifications = { success: sinon.stub() };
         component.args = {
@@ -23,89 +23,16 @@ module('Unit | Component | organizations/target-profiles-section', function (hoo
             attachTargetProfiles: sinon.stub(),
           },
         };
-        component.args.organization.attachTargetProfiles.resolves({
-          data: {
-            attributes: {
-              'duplicated-ids': [],
-              'attached-ids': [1, 2],
-            },
-          },
-        });
+        component.args.organization.attachTargetProfiles.resolves();
         component.targetProfilesToAttach = '1,2';
 
         await component.attachTargetProfiles(event);
 
-        assert.ok(
-          component.args.organization.attachTargetProfiles.calledWith({ 'target-profiles-to-attach': ['1', '2'] })
-        );
+        assert.ok(component.args.organization.attachTargetProfiles.calledWith({ 'target-profile-ids': ['1', '2'] }));
         // TODO: Fix this the next time the file is edited.
         // eslint-disable-next-line qunit/no-assert-equal
         assert.equal(component.organizationsToAttach, null);
-        assert.ok(
-          component.notifications.success.calledWith('Profil(s) cible(s) rattaché(s) avec succès.', {
-            htmlContent: true,
-          })
-        );
-      });
-
-      test('it displays a success message notifications with duplicated ids', async function (assert) {
-        const component = createComponent('component:organizations/target-profiles-section');
-        component.notifications = { success: sinon.stub() };
-        component.args = {
-          organization: {
-            attachTargetProfiles: sinon.stub(),
-          },
-        };
-        component.args.organization.attachTargetProfiles.resolves({
-          data: {
-            attributes: {
-              'duplicated-ids': [3, 4],
-              'attached-ids': [1, 2],
-            },
-          },
-        });
-        component.targetProfilesToAttach = '1,2,3,4';
-
-        await component.attachTargetProfiles(event);
-
-        assert.ok(
-          component.notifications.success.calledWith(
-            'Profil(s) cible(s) rattaché(s) avec succès.<br/>Le(s) profil(s) cible(s) suivant(s) étai(en)t déjà rattaché(s) à cette organisation : 3, 4.',
-            {
-              htmlContent: true,
-            }
-          )
-        );
-      });
-
-      test('it displays a message with duplicated ids', async function (assert) {
-        const component = createComponent('component:organizations/target-profiles-section');
-        component.notifications = { success: sinon.stub() };
-        component.args = {
-          organization: {
-            attachTargetProfiles: sinon.stub(),
-          },
-        };
-        component.args.organization.attachTargetProfiles.resolves({
-          data: {
-            attributes: {
-              'duplicated-ids': [1, 2],
-              'attached-ids': [],
-            },
-          },
-        });
-        component.targetProfilesToAttach = '1,2';
-
-        await component.attachTargetProfiles(event);
-
-        assert.ok(
-          component.notifications.success.calledWith(
-            'Le(s) profil(s) cible(s) suivant(s) étai(en)t déjà rattaché(s) à cette organisation : 1, 2.',
-            {
-              htmlContent: true,
-            }
-          )
-        );
+        assert.ok(component.notifications.success.calledWith('Profil(s) cible(s) rattaché(s) avec succès.'));
       });
     });
 

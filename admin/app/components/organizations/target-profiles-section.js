@@ -23,33 +23,11 @@ export default class OrganizationTargetProfilesSectionComponent extends Componen
     const organization = this.args.organization;
 
     try {
-      const response = await organization.attachTargetProfiles({
-        'target-profiles-to-attach': this._getUniqueTargetProfiles(),
+      await organization.attachTargetProfiles({
+        'target-profile-ids': this._getUniqueTargetProfiles(),
       });
-      const { 'attached-ids': attachedIds, 'duplicated-ids': duplicatedIds } = response.data.attributes;
-
-      const hasInserted = attachedIds.length > 0;
-      const hasDuplicated = duplicatedIds.length > 0;
-      const message = [];
-
-      if (hasInserted) {
-        message.push('Profil(s) cible(s) rattaché(s) avec succès.');
-      }
-
-      if (hasInserted && hasDuplicated) {
-        message.push('<br/>');
-      }
-
-      if (hasDuplicated) {
-        message.push(
-          `Le(s) profil(s) cible(s) suivant(s) étai(en)t déjà rattaché(s) à cette organisation : ${duplicatedIds.join(
-            ', '
-          )}.`
-        );
-      }
-
       this.targetProfilesToAttach = '';
-      return this.notifications.success(message.join(''), { htmlContent: true });
+      return this.notifications.success('Profil(s) cible(s) rattaché(s) avec succès.');
     } catch (responseError) {
       this._handleResponseError(responseError);
     }

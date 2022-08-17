@@ -5,11 +5,11 @@ import _slice from 'lodash/slice';
 function attachTargetProfiles(schema, request) {
   const ownerOrganizationId = request.params.id;
   const params = JSON.parse(request.requestBody);
-  const targetProfilesToAttach = params.data.attributes['target-profiles-to-attach'];
+  const targetProfilesToAttach = params['target-profile-ids'];
   targetProfilesToAttach.forEach((targetProfileId) =>
     schema.targetProfiles.create({ ownerOrganizationId, name: `Profil ${targetProfileId}` })
   );
-  return { data: { attributes: { 'duplicated-ids': [], 'attached-ids': targetProfilesToAttach } } };
+  return new Response(204);
 }
 
 function attachTargetProfileToOrganizations(schema, request) {
