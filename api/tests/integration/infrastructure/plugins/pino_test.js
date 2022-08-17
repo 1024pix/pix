@@ -54,7 +54,7 @@ describe('Integration | Infrastructure | plugins | pino', function () {
       monitoringTools.installHapiHook();
     });
 
-    it('should log version', async function () {
+    it('should log the datadog filtered message and version', async function () {
       // given
       let finish;
 
@@ -77,6 +77,7 @@ describe('Integration | Infrastructure | plugins | pino', function () {
       // then
       expect(response.statusCode).to.equal(200);
       expect(messages).to.have.lengthOf(1);
+      expect(messages[0].msg).to.equal('request completed');
       expect(messages[0].req.version).to.equal('development');
       expect(messages[0].req.user_id).to.be.undefined;
       expect(messages[0].req.route).to.be.undefined;
@@ -90,7 +91,7 @@ describe('Integration | Infrastructure | plugins | pino', function () {
       monitoringTools.installHapiHook();
     });
 
-    it('should log version, user id, route and metrics', async function () {
+    it('should log the datadog filtered message, version, user id, route and metrics', async function () {
       // given
       let finish;
 
@@ -112,10 +113,10 @@ describe('Integration | Infrastructure | plugins | pino', function () {
       // when
       const response = await httpTestServer.request(method, url, null, null, headers);
       await done;
-
       // then
       expect(response.statusCode).to.equal(200);
       expect(messages).to.have.lengthOf(1);
+      expect(messages[0].msg).to.equal('request completed');
       expect(messages[0].req.version).to.equal('development');
       expect(messages[0].req.user_id).to.equal(1234);
       expect(messages[0].req.route).to.equal('/');
