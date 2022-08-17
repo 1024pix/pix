@@ -20,7 +20,7 @@ export default class ResumeRoute extends Route {
     this.assessmentHasNoMoreQuestions = transition.to.queryParams.assessmentHasNoMoreQuestions == 'true';
   }
 
-  async redirect(assessment) {
+  async afterModel(assessment) {
     if (assessment.isCompleted) {
       return this._routeToResults(assessment);
     }

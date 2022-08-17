@@ -4,7 +4,7 @@ import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 import sinon from 'sinon';
 
-describe('Unit | Route | Assessments | Resume', function () {
+describe.only('Unit | Route | Assessments | Resume', function () {
   setupTest();
 
   let route;
@@ -26,7 +26,7 @@ describe('Unit | Route | Assessments | Resume', function () {
     route.router = { replaceWith: sinon.stub() };
   });
 
-  describe('#redirect', function () {
+  describe('#afterModel', function () {
     let assessment;
 
     beforeEach(function () {
@@ -65,7 +65,7 @@ describe('Unit | Route | Assessments | Resume', function () {
 
             it('should redirect to the challenge view', function () {
               // when
-              const promise = route.redirect(assessment);
+              const promise = route.afterModel(assessment);
 
               // then
               return promise.then(() => {
@@ -82,7 +82,7 @@ describe('Unit | Route | Assessments | Resume', function () {
 
             it('should redirect to assessment checkpoint page', function () {
               // when
-              const promise = route.redirect(assessment);
+              const promise = route.afterModel(assessment);
 
               // then
               return promise.then(() => {
@@ -96,7 +96,7 @@ describe('Unit | Route | Assessments | Resume', function () {
         context('when checkpoint is not reached', function () {
           it('should redirect to the challenge view', function () {
             // when
-            const promise = route.redirect(assessment);
+            const promise = route.afterModel(assessment);
 
             // then
             return promise.then(() => {
@@ -113,7 +113,7 @@ describe('Unit | Route | Assessments | Resume', function () {
         });
         it('should redirect to the challenge view', function () {
           // when
-          const promise = route.redirect(assessment);
+          const promise = route.afterModel(assessment);
 
           // then
           return promise.then(() => {
@@ -151,7 +151,7 @@ describe('Unit | Route | Assessments | Resume', function () {
 
             it('should redirect to campaigns.assessment.skill-review page', function () {
               // when
-              const promise = route.redirect(assessment);
+              const promise = route.afterModel(assessment);
 
               // then
               return promise.then(() => {
@@ -167,7 +167,7 @@ describe('Unit | Route | Assessments | Resume', function () {
 
             it('should redirect to assessment last checkpoint page', function () {
               // when
-              const promise = route.redirect(assessment);
+              const promise = route.afterModel(assessment);
 
               // then
               return promise.then(() => {
@@ -188,7 +188,7 @@ describe('Unit | Route | Assessments | Resume', function () {
 
           it('should redirect to campaigns.assessment.skill-review page', function () {
             // when
-            route.redirect(assessment);
+            route.afterModel(assessment);
 
             // then
             sinon.assert.calledWith(route.router.replaceWith, 'campaigns.assessment.skill-review', 'konami');
@@ -204,7 +204,7 @@ describe('Unit | Route | Assessments | Resume', function () {
 
         it('should redirect to certifications.results page', function () {
           // when
-          const promise = route.redirect(assessment);
+          const promise = route.afterModel(assessment);
 
           // then
           return promise.then(() => {
@@ -221,7 +221,7 @@ describe('Unit | Route | Assessments | Resume', function () {
         it('should redirect to competences.results page', function () {
           // when
           const competenceId = 'recCompetenceId';
-          const promise = route.redirect(assessment);
+          const promise = route.afterModel(assessment);
 
           // then
           return promise.then(() => {
@@ -233,7 +233,7 @@ describe('Unit | Route | Assessments | Resume', function () {
       context('when assessment is a DEMO', function () {
         it('should redirect to assessments.results page', function () {
           // when
-          const promise = route.redirect(assessment);
+          const promise = route.afterModel(assessment);
 
           // then
           return promise.then(() => {
