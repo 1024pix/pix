@@ -18,7 +18,7 @@ export default class ListRoute extends Route {
 
   async model(params) {
     const organizationId = this.currentUser.organization.id;
-    return this.store.query('student', {
+    return this.store.query('sup-organization-participant', {
       filter: {
         organizationId,
         lastName: params.lastName,
