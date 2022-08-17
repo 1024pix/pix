@@ -8,15 +8,13 @@ export const CONNECTION_TYPES = {
   mediacentre: 'pages.students-sco.connection-types.mediacentre',
 };
 
-export default class Student extends Model {
+export default class ScoOrganizationParticipant extends Model {
   @attr('string') lastName;
   @attr('string') firstName;
   @attr('date-only') birthdate;
   @attr('string') username;
   @attr('string') email;
-  @attr('string') studentNumber;
   @attr('string') division;
-  @attr('string') group;
   @attr('number') participationCount;
   @attr('date') lastParticipationDate;
   @attr('boolean') isAuthenticatedFromGar;
@@ -36,7 +34,7 @@ export default class Student extends Model {
   get authenticationMethods() {
     const messages = [];
 
-    if (!this.isStudentAssociated) messages.push(CONNECTION_TYPES['empty']);
+    if (!this.isAssociated) messages.push(CONNECTION_TYPES['empty']);
     if (this.hasEmail) messages.push(CONNECTION_TYPES['email']);
     if (this.hasUsername) messages.push(CONNECTION_TYPES['identifiant']);
     if (this.isAuthenticatedFromGar) messages.push(CONNECTION_TYPES['mediacentre']);
@@ -44,7 +42,7 @@ export default class Student extends Model {
     return messages;
   }
 
-  get isStudentAssociated() {
+  get isAssociated() {
     return Boolean(this.hasEmail || this.hasUsername || this.isAuthenticatedFromGar);
   }
 

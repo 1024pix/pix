@@ -16,7 +16,7 @@ export default class ListRoute extends Route {
   @service currentUser;
 
   model(params) {
-    return this.store.query('student', {
+    return this.store.query('sco-organization-participant', {
       filter: {
         organizationId: this.currentUser.organization.id,
         lastName: params.lastName,
