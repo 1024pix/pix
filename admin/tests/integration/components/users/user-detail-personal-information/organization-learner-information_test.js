@@ -6,7 +6,7 @@ import sinon from 'sinon';
 import Service from '@ember/service';
 
 module(
-  'Integration | Component | users | user-detail-personal-information/schooling-registration-information',
+  'Integration | Component | users | user-detail-personal-information/organization-learner-information',
   function (hooks) {
     setupRenderingTest(hooks);
 
@@ -15,8 +15,8 @@ module(
         hasAccessToUsersActionsScope = true;
       }
 
-      module('When user has no schoolingRegistrations', function () {
-        test('should display no result in schooling registrations table', async function (assert) {
+      module('When user has no organizationLearners', function () {
+        test('should display no result in organization learners table', async function (assert) {
           // given
           this.toggleDisplayDissociateModal = sinon.spy();
           this.set('user', { organizationLearners: [] });
@@ -24,7 +24,7 @@ module(
 
           // when
           const screen = await render(
-            hbs`<Users::UserDetailPersonalInformation::SchoolingRegistrationInformation @user={{this.user}} @toggleDisplayDissociateModal={{this.toggleDisplayDissociateModal}}/>`
+            hbs`<Users::UserDetailPersonalInformation::OrganizationLearnerInformation @user={{this.user}} @toggleDisplayDissociateModal={{this.toggleDisplayDissociateModal}}/>`
           );
 
           // then
@@ -32,7 +32,7 @@ module(
         });
       });
 
-      test('should display schooling registrations in table', async function (assert) {
+      test('should display organization learners in table', async function (assert) {
         // given
         this.toggleDisplayDissociateModal = sinon.spy();
         this.set('user', { organizationLearners: [{ id: 1 }, { id: 2 }] });
@@ -40,14 +40,14 @@ module(
 
         // when
         const screen = await render(
-          hbs`<Users::UserDetailPersonalInformation::SchoolingRegistrationInformation @user={{this.user}} @toggleDisplayDissociateModal={{this.toggleDisplayDissociateModal}}/>`
+          hbs`<Users::UserDetailPersonalInformation::OrganizationLearnerInformation @user={{this.user}} @toggleDisplayDissociateModal={{this.toggleDisplayDissociateModal}}/>`
         );
 
         // then
         assert.strictEqual(screen.getAllByLabelText('Inscription').length, 2);
       });
 
-      test('should display schooling registration’s info', async function (assert) {
+      test('should display organization learner’s info', async function (assert) {
         // given
         this.toggleDisplayDissociateModal = sinon.spy();
         this.set('user', {
@@ -57,7 +57,7 @@ module(
 
         // when
         const screen = await render(
-          hbs`<Users::UserDetailPersonalInformation::SchoolingRegistrationInformation @user={{this.user}} @toggleDisplayDissociateModal={{this.toggleDisplayDissociateModal}} />`
+          hbs`<Users::UserDetailPersonalInformation::OrganizationLearnerInformation @user={{this.user}} @toggleDisplayDissociateModal={{this.toggleDisplayDissociateModal}} />`
         );
 
         // then
@@ -66,7 +66,7 @@ module(
         assert.dom(screen.getByText('02/10/2020')).exists();
       });
 
-      test('should display schooling registration’s division', async function (assert) {
+      test('should display organization learner’s division', async function (assert) {
         // given
         this.toggleDisplayDissociateModal = sinon.spy();
         this.set('user', {
@@ -76,14 +76,14 @@ module(
 
         // when
         const screen = await render(
-          hbs`<Users::UserDetailPersonalInformation::SchoolingRegistrationInformation @user={{this.user}} @toggleDisplayDissociateModal={{this.toggleDisplayDissociateModal}} />`
+          hbs`<Users::UserDetailPersonalInformation::OrganizationLearnerInformation @user={{this.user}} @toggleDisplayDissociateModal={{this.toggleDisplayDissociateModal}} />`
         );
 
         // then
         assert.dom(screen.getByText('3A')).exists();
       });
 
-      test('should display schooling registration’s group', async function (assert) {
+      test('should display organization learner’s group', async function (assert) {
         // given
         this.toggleDisplayDissociateModal = sinon.spy();
         this.set('user', {
@@ -93,14 +93,14 @@ module(
 
         // when
         const screen = await render(
-          hbs`<Users::UserDetailPersonalInformation::SchoolingRegistrationInformation @user={{this.user}} @toggleDisplayDissociateModal={{this.toggleDisplayDissociateModal}} />`
+          hbs`<Users::UserDetailPersonalInformation::OrganizationLearnerInformation @user={{this.user}} @toggleDisplayDissociateModal={{this.toggleDisplayDissociateModal}} />`
         );
 
         // then
         assert.dom(screen.getByText('groupe 2')).exists();
       });
 
-      test('should display schooling registration’s organization info', async function (assert) {
+      test('should display organization learner’s organization info', async function (assert) {
         // given
         this.toggleDisplayDissociateModal = sinon.spy();
         this.set('user', {
@@ -110,7 +110,7 @@ module(
 
         // when
         const screen = await render(
-          hbs`<Users::UserDetailPersonalInformation::SchoolingRegistrationInformation @user={{this.user}} @toggleDisplayDissociateModal={{this.toggleDisplayDissociateModal}} />`
+          hbs`<Users::UserDetailPersonalInformation::OrganizationLearnerInformation @user={{this.user}} @toggleDisplayDissociateModal={{this.toggleDisplayDissociateModal}} />`
         );
 
         // then
@@ -118,7 +118,7 @@ module(
         assert.dom('[href="/organizations/42"]').exists();
       });
 
-      test('should display schooling registration’s import date and re-import date', async function (assert) {
+      test('should display organization learner’s import date and re-import date', async function (assert) {
         // given
         this.toggleDisplayDissociateModal = sinon.spy();
         this.set('user', {
@@ -128,7 +128,7 @@ module(
 
         // when
         const screen = await render(
-          hbs`<Users::UserDetailPersonalInformation::SchoolingRegistrationInformation @user={{this.user}} @toggleDisplayDissociateModal={{this.toggleDisplayDissociateModal}} />`
+          hbs`<Users::UserDetailPersonalInformation::OrganizationLearnerInformation @user={{this.user}} @toggleDisplayDissociateModal={{this.toggleDisplayDissociateModal}} />`
         );
 
         // then
@@ -136,7 +136,7 @@ module(
         assert.dom(screen.getByText('02/01/2020')).exists();
       });
 
-      test('should display schooling registration as active', async function (assert) {
+      test('should display organization learner as active', async function (assert) {
         // given
         this.toggleDisplayDissociateModal = sinon.spy();
         this.set('user', {
@@ -146,14 +146,14 @@ module(
 
         // when
         const screen = await render(
-          hbs`<Users::UserDetailPersonalInformation::SchoolingRegistrationInformation @user={{this.user}} @toggleDisplayDissociateModal={{this.toggleDisplayDissociateModal}} />`
+          hbs`<Users::UserDetailPersonalInformation::OrganizationLearnerInformation @user={{this.user}} @toggleDisplayDissociateModal={{this.toggleDisplayDissociateModal}} />`
         );
 
         // then
         assert.dom(screen.getByLabelText('Inscription activée')).exists();
       });
 
-      test('should display schooling registration as inactive', async function (assert) {
+      test('should display organization learner as inactive', async function (assert) {
         // given
         this.toggleDisplayDissociateModal = sinon.spy();
         this.set('user', {
@@ -163,7 +163,7 @@ module(
 
         // when
         const screen = await render(
-          hbs`<Users::UserDetailPersonalInformation::SchoolingRegistrationInformation @user={{this.user}} @toggleDisplayDissociateModal={{this.toggleDisplayDissociateModal}} />`
+          hbs`<Users::UserDetailPersonalInformation::OrganizationLearnerInformation @user={{this.user}} @toggleDisplayDissociateModal={{this.toggleDisplayDissociateModal}} />`
         );
 
         // then
@@ -181,7 +181,7 @@ module(
 
         // when
         await render(
-          hbs`<Users::UserDetailPersonalInformation::SchoolingRegistrationInformation @user={{this.user}} @toggleDisplayDissociateModal={{this.toggleDisplayDissociateModal}} />`
+          hbs`<Users::UserDetailPersonalInformation::OrganizationLearnerInformation @user={{this.user}} @toggleDisplayDissociateModal={{this.toggleDisplayDissociateModal}} />`
         );
         await clickByName('Dissocier');
 
@@ -201,7 +201,7 @@ module(
 
         // when
         const screen = await render(
-          hbs`<Users::UserDetailPersonalInformation::SchoolingRegistrationInformation @user={{this.user}} @toggleDisplayDissociateModal={{this.toggleDisplayDissociateModal}} />`
+          hbs`<Users::UserDetailPersonalInformation::OrganizationLearnerInformation @user={{this.user}} @toggleDisplayDissociateModal={{this.toggleDisplayDissociateModal}} />`
         );
 
         // then
@@ -222,7 +222,7 @@ module(
 
         // When
         const screen = await render(
-          hbs`<Users::UserDetailPersonalInformation::SchoolingRegistrationInformation @user={{this.user}}/>`
+          hbs`<Users::UserDetailPersonalInformation::OrganizationLearnerInformation @user={{this.user}}/>`
         );
 
         // Then
