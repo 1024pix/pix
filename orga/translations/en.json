@@ -201,7 +201,7 @@
       "documentation": "Documentation",
       "organization-participants": "Participants",
       "sco-organization-participants": "Students",
-      "students-sup": "Students",
+      "sup-organization-participants": "Students",
       "team": "Team",
       "aria-label": "Main navigation"
     },
@@ -847,7 +847,7 @@
         "row-title": "Student"
       }
     },
-    "students-sup": {
+    "sup-organization-participants": {
       "title": "Students",
       "actions": {
         "download-template": "Download the template",
@@ -900,7 +900,7 @@
         "row-title": "Student"
       }
     },
-    "students-sup-import": {
+    "sup-organization-participants-import": {
       "title": "Import students",
       "description": "What type of import would you like to use?",
       "actions": {

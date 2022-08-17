@@ -1,5 +1,5 @@
 <div class="list-students-page__header">
-  <div class="page__title page-title">{{t "pages.students-sup.title"}}</div>
+  <div class="page__title page-title">{{t "pages.sup-organization-participants.title"}}</div>
   {{#if this.currentUser.isAdminInOrganization}}
     <div class="list-students-page__import-students-button hide-on-mobile">
       <PixButtonLink
@@ -9,10 +9,10 @@
         rel="noopener noreferrer"
         download
       >
-        {{t "pages.students-sup.actions.download-template"}}
+        {{t "pages.sup-organization-participants.actions.download-template"}}
       </PixButtonLink>
-      <PixButtonLink @route="authenticated.sup-students.import">
-        {{t "pages.students-sup.actions.import-file"}}
+      <PixButtonLink @route="authenticated.sup-organization-participants.import">
+        {{t "pages.sup-organization-participants.actions.import-file"}}
       </PixButtonLink>
     </div>
   {{/if}}

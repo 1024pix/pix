@@ -1,15 +1,15 @@
 import { module, test } from 'qunit';
-import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
+import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 import { render } from '@ember/test-helpers';
 import Service from '@ember/service';
 import hbs from 'htmlbars-inline-precompile';
 
-module('Integration | Component | Student::Sup::HeaderActions', function (hooks) {
+module('Integration | Component | SupOrganizationParticipant::HeaderActions', function (hooks) {
   setupIntlRenderingTest(hooks);
 
   test('it should show title', async function (assert) {
     // when
-    await render(hbs`<Student::Sup::HeaderActions/>`);
+    await render(hbs`<SupOrganizationParticipant::HeaderActions/>`);
 
     // then
     assert.contains('Étudiants');
@@ -29,7 +29,7 @@ module('Integration | Component | Student::Sup::HeaderActions', function (hooks)
 
     test('it should display download template button', async function (assert) {
       // when
-      await render(hbs`<Student::Sup::HeaderActions/>`);
+      await render(hbs`<SupOrganizationParticipant::HeaderActions/>`);
 
       // then
       assert.contains('Télécharger le modèle');
@@ -37,7 +37,7 @@ module('Integration | Component | Student::Sup::HeaderActions', function (hooks)
 
     test('it displays the import button', async function (assert) {
       // when
-      await render(hbs`<Student::Sup::HeaderActions/>`);
+      await render(hbs`<SupOrganizationParticipant::HeaderActions/>`);
 
       // then
       assert.contains('Importer');
@@ -54,7 +54,7 @@ module('Integration | Component | Student::Sup::HeaderActions', function (hooks)
 
     test('it should not display download template button', async function (assert) {
       // when
-      await render(hbs`<Student::Sup::HeaderActions/>`);
+      await render(hbs`<SupOrganizationParticipant::HeaderActions/>`);
 
       // then
       assert.notContains('Télécharger le modèle');
@@ -62,7 +62,7 @@ module('Integration | Component | Student::Sup::HeaderActions', function (hooks)
 
     test('it should not display import button', async function (assert) {
       // when
-      await render(hbs`<Student::Sup::HeaderActions/>`);
+      await render(hbs`<SupOrganizationParticipant::HeaderActions/>`);
 
       // then
       assert.notContains('Importer (.csv)');
