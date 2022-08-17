@@ -17,7 +17,7 @@ module('Integration | Component | users | user-detail-personal-information', fun
     test('should display dissociate confirm modal', async function (assert) {
       // given
       const destroyRecordStub = sinon.stub();
-      const schoolingRegistration = EmberObject.create({
+      const organizationLearner = EmberObject.create({
         id: 1,
         firstName: 'John',
         lastName: 'Harry',
@@ -29,7 +29,7 @@ module('Integration | Component | users | user-detail-personal-information', fun
         lastName: 'Harry',
         username: 'user.name0112',
         isAuthenticatedFromGAR: false,
-        schoolingRegistrations: [schoolingRegistration],
+        organizationLearners: [organizationLearner],
       });
       this.set('user', user);
       this.owner.register('service:access-control', AccessControlStub);
@@ -46,7 +46,7 @@ module('Integration | Component | users | user-detail-personal-information', fun
     test('should close the modal on click on cancel button', async function (assert) {
       // given
       const destroyRecordStub = sinon.stub();
-      const schoolingRegistration = EmberObject.create({
+      const organizationLearner = EmberObject.create({
         id: 1,
         firstName: 'John',
         lastName: 'Harry',
@@ -58,7 +58,7 @@ module('Integration | Component | users | user-detail-personal-information', fun
         lastName: 'Harry',
         username: 'user.name0112',
         isAuthenticatedFromGAR: false,
-        schoolingRegistrations: [schoolingRegistration],
+        organizationLearners: [organizationLearner],
       });
       this.set('user', user);
       this.owner.register('service:access-control', AccessControlStub);
@@ -77,7 +77,7 @@ module('Integration | Component | users | user-detail-personal-information', fun
     test('should call destroyRecord on click on confirm button', async function (assert) {
       // given
       const destroyRecordStub = sinon.stub();
-      const schoolingRegistration = EmberObject.create({
+      const organizationLearner = EmberObject.create({
         id: 1,
         firstName: 'John',
         lastName: 'Harry',
@@ -89,7 +89,7 @@ module('Integration | Component | users | user-detail-personal-information', fun
         lastName: 'Harry',
         username: 'user.name0112',
         isAuthenticatedFromGAR: false,
-        schoolingRegistrations: [schoolingRegistration],
+        organizationLearners: [organizationLearner],
       });
       this.set('user', user);
       this.owner.register('service:access-control', AccessControlStub);

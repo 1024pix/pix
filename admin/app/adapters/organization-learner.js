@@ -1,6 +1,6 @@
 import ApplicationAdapter from './application';
 
-export default class SchoolingRegistrationAdapter extends ApplicationAdapter {
+export default class OrganizationLearnerAdapter extends ApplicationAdapter {
   namespace = 'api/admin';
 
   urlForDeleteRecord(id) {
