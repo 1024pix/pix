@@ -1,1 +1,5 @@
-<TargetProfiles::Details @targetProfile={{@model}} @tubesSelectionAreas={{this.tubesSelectionAreas}} />
+{{#if @model.isNewFormat}}
+  <TargetProfiles::Details @targetProfile={{@model}} />
+{{else}}
+  <TargetProfiles::OldDetails @targetProfile={{@model}} />
+{{/if}}

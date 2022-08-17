@@ -1,5 +1,5 @@
 <div class="competence-container">
-  <PixCollapsible @title="{{@title}}">
+  <PixCollapsible @title="{{@name}}">
     <div class="panel">
       <table class="table content-text content-text--small select-tube-table">
         <caption class="sr-only">Sélection des sujets</caption>
@@ -22,7 +22,7 @@
 
         <tbody>
           {{#each @thematics as |thematic|}}
-            {{#each thematic.tubes as |tube index|}}
+            {{#each thematic.sortedTubes as |tube index|}}
               <tr class="row-tube" aria-label="Sujet">
                 {{#if (eq index 0)}}
                   <TargetProfiles::TubesDetails::Thematic @name={{thematic.name}} @nbTubes={{thematic.tubes.length}} />

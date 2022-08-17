@@ -31,11 +31,18 @@ export default class TargetProfile extends Model {
 
   @hasMany('badge') badges;
   @hasMany('stage') stages;
-  @hasMany('skill') skills;
-  @hasMany('tube') tubes;
-  @hasMany('competence') competences;
-  @hasMany('area') areas;
-  @hasMany('area') tubesSelectionAreas;
+
+  @attr() isNewFormat;
+  @hasMany('old-area') oldAreas;
+  @hasMany('new-area') newAreas;
+
+  get sortedOldAreas() {
+    return this.oldAreas.sortBy('code');
+  }
+
+  get sortedNewAreas() {
+    return this.newAreas.sortBy('code');
+  }
 
   attachOrganizations = memberAction({
     path: 'attach-organizations',

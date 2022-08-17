@@ -1,14 +1,15 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render } from '@1024pix/ember-testing-library';
+import { render, clickByName } from '@1024pix/ember-testing-library';
 import hbs from 'htmlbars-inline-precompile';
 
 module('Integration | Component | routes/authenticated/target-profiles/target-profile | details', function (hooks) {
   setupRenderingTest(hooks);
 
-  test('it should display target profile with areas and competences', async function (assert) {
+  test('it should display specific text when profile has no content', async function (assert) {
     // given
-    this.targetProfile = { areas: [] };
+    const store = this.owner.lookup('service:store');
+    this.targetProfile = store.createRecord('target-profile', { newAreas: [] });
 
     // when
     const screen = await render(hbs`<TargetProfiles::Details @targetProfile={{this.targetProfile}}/>`);
@@ -17,78 +18,120 @@ module('Integration | Component | routes/authenticated/target-profiles/target-pr
     assert.dom(screen.getByText('Profil cible vide.')).exists();
   });
 
-  test('it should display competences of areas', async function (assert) {
-    // given
-    const area1 = { id: 'area1', title: 'Area 1' };
-    const competence1 = { id: 'competence1', name: 'Competence 1', areaId: 'area1' };
-    const tube1 = { id: 'tube1', practicalTitle: 'Tube 1', competenceId: 'competence1' };
-    const skill1 = { id: 'skill1', name: '@Skill 1', difficulty: 1, tubeId: 'tube1' };
+  module('when target profile has content', function (hooks) {
+    let targetProfile;
 
-    const area2 = { id: 'area2', title: 'Area 2' };
-    const competence2 = { id: 'competence2', name: 'Competence 2', areaId: 'area2' };
-    const tube2 = { id: 'tube2', practicalTitle: 'Tube 2', competenceId: 'competence2' };
-    const skill2 = { id: 'skill2', name: 'Skill 2', difficulty: 1, tubeId: 'tube2' };
+    hooks.beforeEach(async function () {
+      const store = this.owner.lookup('service:store');
+      const tube1 = store.createRecord('new-tube', {
+        id: 'tube1',
+        name: 'nTube1',
+        practicalTitle: 'Tube 1',
+        level: 5,
+        mobile: true,
+        tablet: false,
+      });
+      const tube2 = store.createRecord('new-tube', {
+        id: 'tube2',
+        name: 'nTube2',
+        practicalTitle: 'Tube 2',
+        level: 2,
+        mobile: false,
+        tablet: true,
+      });
+      const thematic1 = store.createRecord('new-thematic', {
+        id: 'them1',
+        name: 'Them 1',
+        index: '1',
+        tubes: [tube1],
+      });
+      const thematic2 = store.createRecord('new-thematic', {
+        id: 'them2',
+        name: 'Them 2',
+        index: '2',
+        tubes: [tube2],
+      });
+      const competence1 = store.createRecord('new-competence', {
+        id: 'comp1',
+        name: 'Competence 1',
+        index: '1.1',
+        thematics: [thematic1],
+      });
+      const competence2 = store.createRecord('new-competence', {
+        id: 'comp2',
+        name: 'Competence 2',
+        index: '2.1',
+        thematics: [thematic2],
+      });
+      const area1 = store.createRecord('new-area', {
+        id: 'area1',
+        title: 'Area 1',
+        code: '1',
+        competences: [competence1],
+      });
+      const area2 = store.createRecord('new-area', {
+        id: 'area2',
+        title: 'Area 2',
+        code: '2',
+        competences: [competence2],
+      });
+      targetProfile = store.createRecord('target-profile', { newAreas: [area1, area2] });
+    });
 
-    this.targetProfile = {
-      areas: [area1, area2],
-      competences: [competence1, competence2],
-      tubes: [tube1, tube2],
-      skills: [skill1, skill2],
-    };
+    test('it should display areas', async function (assert) {
+      // given
+      this.targetProfile = targetProfile;
 
-    // when
-    const screen = await render(hbs`<TargetProfiles::Details @targetProfile={{this.targetProfile}} />`);
+      // when
+      const screen = await render(hbs`<TargetProfiles::Details @targetProfile={{this.targetProfile}} />`);
 
-    // then
-    assert.dom(screen.getByText('Competence 1')).exists();
-    assert.dom(screen.getByText('Competence 2')).exists();
-  });
+      // then
+      assert.dom(screen.queryByText('1 · Area 1')).exists();
+      assert.dom(screen.queryByText('2 · Area 2')).exists();
+    });
 
-  test('it should display tubes of competences', async function (assert) {
-    // given
-    const area1 = { id: 'area1', title: 'Area 1' };
-    const competence1 = { id: 'competence1', name: 'Competence 1', areaId: 'area1' };
-    const tube1 = { id: 'tube1', practicalTitle: 'Tube 1', competenceId: 'competence1' };
-    const skill1 = { id: 'skill1', name: '@Skill 1', difficulty: 1, tubeId: 'tube1' };
-    const tube2 = { id: 'tube2', practicalTitle: 'Tube 2', competenceId: 'competence1' };
-    const skill2 = { id: 'skill2', name: '@Skill 2', difficulty: 1, tubeId: 'tube2' };
+    test('it should display competences when clicking on area', async function (assert) {
+      // given
+      this.targetProfile = targetProfile;
+      const screen = await render(hbs`<TargetProfiles::Details @targetProfile={{this.targetProfile}} />`);
 
-    this.targetProfile = {
-      areas: [area1],
-      competences: [competence1],
-      tubes: [tube1, tube2],
-      skills: [skill1, skill2],
-    };
+      // when
+      await clickByName('1 · Area 1');
 
-    // when
-    const screen = await render(hbs`<TargetProfiles::Details @targetProfile={{this.targetProfile}} />`);
+      // then
+      assert.dom(screen.queryByText('1.1 Competence 1')).exists();
+      assert.dom(screen.queryByText('2.1 Competence 2')).doesNotExist();
+    });
 
-    // then
-    assert.dom(screen.getByText('Area 1')).exists();
-    assert.dom(screen.getByText('Tube 1')).exists();
-    assert.dom(screen.getByText('Tube 2')).exists();
-  });
+    test('it should display thematics when clicking on competence', async function (assert) {
+      // given
+      this.targetProfile = targetProfile;
+      const screen = await render(hbs`<TargetProfiles::Details @targetProfile={{this.targetProfile}} />`);
 
-  test('it should display skills of tubes', async function (assert) {
-    // given
-    const area1 = { id: 'area1', title: 'Area 1' };
-    const competence1 = { id: 'competence1', name: 'Competence 1', areaId: 'area1' };
-    const tube1 = { id: 'tube1', practicalTitle: 'Tube 1', competenceId: 'competence1' };
-    const skill1 = { id: 'skill1', name: '@Skill 1', difficulty: 1, tubeId: 'tube1' };
-    const skill2 = { id: 'skill2', name: '@Skill 2', difficulty: 2, tubeId: 'tube1' };
+      // when
+      await clickByName('1 · Area 1');
+      await clickByName('1.1 Competence 1');
 
-    this.targetProfile = {
-      areas: [area1],
-      competences: [competence1],
-      tubes: [tube1],
-      skills: [skill1, skill2],
-    };
+      // then
+      assert.dom(screen.queryByText('Them 1')).exists();
+      assert.dom(screen.queryByText('Them 2')).doesNotExist();
+    });
 
-    // when
-    await render(hbs`<TargetProfiles::Details @targetProfile={{this.targetProfile}} />`);
+    test('it should display tube details when clicking on competence', async function (assert) {
+      // given
+      this.targetProfile = targetProfile;
+      const screen = await render(hbs`<TargetProfiles::Details @targetProfile={{this.targetProfile}} />`);
 
-    // then
-    assert.dom('[data-icon="check"]').exists({ count: 2 });
-    assert.dom('[data-icon="times"]').exists({ count: 6 });
+      // when
+      await clickByName('1 · Area 1');
+      await clickByName('1.1 Competence 1');
+
+      // then
+      assert.dom(screen.queryByText('nTube1 : Tube 1')).exists();
+      assert.dom(screen.queryByText('nTube2 : Tube 2')).doesNotExist();
+      assert.dom(screen.queryByText('5')).exists();
+      assert.dom('[aria-label="incompatible tablette"]').exists();
+      assert.dom('[aria-label="compatible mobile"]').exists();
+    });
   });
 });
